@@ -1,0 +1,66 @@
+﻿@page "/chart/legend/template"
+@using Syncfusion.Blazor.Toolkit.Charts
+@layout MainLayout
+
+<h3>Chart – Legend Template</h3>
+
+<div id="chart-host" style="width:900px;height:500px">
+    <SfChart Title="Olympic Medals">
+
+        <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Toolkit.ValueType.Category" />
+
+        <ChartSeriesCollection>
+            <ChartSeries DataSource="@MedalDetails" Name="Gold" XName="Country" YName="Gold" Type="ChartSeriesType.Column">
+                <LegendItemTemplate>
+                    <div class="legend-template gold">Gold Medals</div>
+                </LegendItemTemplate>
+            </ChartSeries>
+
+            <ChartSeries DataSource="@MedalDetails" Name="Silver" XName="Country" YName="Silver" Type="ChartSeriesType.Column">
+                <LegendItemTemplate>
+                    <div class="legend-template silver">Silver Medals</div>
+                </LegendItemTemplate>
+            </ChartSeries>
+
+            <ChartSeries DataSource="@MedalDetails" Name="Bronze" XName="Country" YName="Bronze" Type="ChartSeriesType.Column">
+                <LegendItemTemplate>
+                    <div class="legend-template bronze">Bronze Medals</div>
+                </LegendItemTemplate>
+            </ChartSeries>
+        </ChartSeriesCollection>
+
+        <ChartLegendSettings Visible="true"
+                             Width="400px"
+                             Height="50px"
+                             Background="gray"
+                             Reverse="@Reverse"
+                             Alignment="@Alignment"
+                             Position="@Position">
+            <ChartLegendBorder Color="red" Width="2" />
+        </ChartLegendSettings>
+    </SfChart>
+</div>
+
+<button id="reverse" @onclick="() => Reverse = !Reverse">Reverse</button>
+<button id="align-near" @onclick="() => Alignment = Alignment.Near">Near</button>
+<button id="align-far" @onclick="() => Alignment = Alignment.Far">Far</button>
+
+@code {
+    bool Reverse;
+    Alignment Alignment = Alignment.Center;
+    LegendPosition Position = LegendPosition.Top;
+
+    public class ChartData
+    {
+        public string Country { get; set; }
+        public double Gold { get; set; }
+        public double Silver { get; set; }
+        public double Bronze { get; set; }
+    }
+
+    public List<ChartData> MedalDetails = new()
+    {
+        new() { Country="USA", Gold=50, Silver=70, Bronze=45 },
+        new() { Country="China", Gold=40, Silver=60, Bronze=55 }
+    };
+}

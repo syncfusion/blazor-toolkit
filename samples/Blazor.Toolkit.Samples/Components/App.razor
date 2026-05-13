@@ -1,0 +1,66 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <base href="/" />
+    <ResourcePreloader />
+    <link rel="stylesheet" href="@Assets["lib/bootstrap/dist/css/bootstrap.min.css"]" />
+    <link rel="stylesheet" href="@Assets["app.css"]" />
+    <link rel="stylesheet" href="@Assets["Blazor.Toolkit.Samples.styles.css"]" />
+    <link rel="stylesheet" href="@Assets["sb-icons.css"]" />
+    <link rel="stylesheet" href="@Assets["highlight.css"]" />
+    <link rel="stylesheet" href="@Assets["global-fonts.css"]" />
+    <ImportMap />
+    @* Add syncfusion blazor toolkit style refernce *@    
+    <link id="syncfusion-theme" href="_content/Syncfusion.Blazor.Toolkit/styles/fluent.min.css" rel="stylesheet" />
+
+    @inject Blazor.Toolkit.Samples.Client.Services.RenderModeService ModeService
+    @inject Microsoft.AspNetCore.Http.IHttpContextAccessor HttpContextAccessor
+    @{
+        Microsoft.AspNetCore.Components.IComponentRenderMode? rm = InteractiveAuto;
+
+        // Prefer cookie value (written by client JS) for initial server prerender
+        var selected = ModeService.CurrentMode;
+        try
+        {
+            var cookie = HttpContextAccessor.HttpContext?.Request?.Cookies["renderMode"];
+            if (!string.IsNullOrEmpty(cookie) && Enum.TryParse<Blazor.Toolkit.Samples.Client.Services.RenderMode>(cookie, out var parsed))
+            {
+                selected = parsed;
+            }
+        }
+        catch { }
+
+        switch (selected)
+        {
+            case Blazor.Toolkit.Samples.Client.Services.RenderMode.InteractiveServer:
+                rm = InteractiveServer;
+                break;
+            case Blazor.Toolkit.Samples.Client.Services.RenderMode.InteractiveWebAssembly:
+                rm = InteractiveWebAssembly;
+                break;
+            case Blazor.Toolkit.Samples.Client.Services.RenderMode.InteractiveAuto:
+            default:
+                rm = InteractiveAuto;
+                break;
+        }
+    }
+    <HeadOutlet @rendermode="rm" />
+</head>
+
+<body>
+    <Routes @rendermode="InteractiveAuto" />
+    <ReconnectModal />
+    <script src="@Assets["virtualizeSection.js"]"></script>
+    <script src="@Assets["_framework/blazor.web.js"]"></script>
+    <script src="@Assets["highlight.min.js"]"></script>
+    <script src="@Assets["mainlayout.js"]"></script>
+    <script src="@Assets["renderMode.js"]"></script>
+    <script src="@Assets["toc.js"]"></script>
+    <script src="@Assets["scroll-effects.js"]"></script>
+    <script src="@Assets["culture.js"]"></script>
+</body>
+
+</html>

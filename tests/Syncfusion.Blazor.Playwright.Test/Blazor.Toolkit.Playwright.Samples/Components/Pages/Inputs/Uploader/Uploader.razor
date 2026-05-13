@@ -1,0 +1,141 @@
+@page "/inputs/uploader"
+
+@using Syncfusion.Blazor.Toolkit.Inputs
+
+<PageTitle>Syncfusion Blazor Inputs Uploader</PageTitle>
+
+<h2>File Upload Component Examples</h2>
+
+<!-- BASIC FILE SELECTION -->
+<h3>Single File Selection via Browse Button</h3>
+<SfUploader Id="basicUploader" AutoUpload="false" ShowFileList="true">
+    <UploaderAsyncSettings SaveUrl="api/SampleData/Save" RemoveUrl="api/SampleData/Remove" />
+</SfUploader>
+
+<h3>Multiple Files Selection</h3>
+<SfUploader Id="multipleFilesUploader" AllowMultiple="true" AutoUpload="false" ShowFileList="true">
+    <UploaderAsyncSettings SaveUrl="api/SampleData/Save" RemoveUrl="api/SampleData/Remove" />
+</SfUploader>
+
+<h3>Single File Only</h3>
+<SfUploader Id="singleFileUploader" AllowMultiple="false" AutoUpload="false" ShowFileList="true">
+    <UploaderAsyncSettings SaveUrl="api/SampleData/Save" RemoveUrl="api/SampleData/Remove" />
+</SfUploader>
+
+<!-- FILE VALIDATION -->
+<h3>File Extension Validation</h3>
+<SfUploader Id="extensionValidationUploader" AllowedExtensions=".jpg, .png, .pdf" AutoUpload="false" ShowFileList="true">
+    <UploaderAsyncSettings SaveUrl="api/SampleData/Save" RemoveUrl="api/SampleData/Remove" />
+</SfUploader>
+
+<h3>File Size Validation</h3>
+<SfUploader Id="sizeValidationUploader" MaxFileSize="5242880" MinFileSize="1024" AutoUpload="false" ShowFileList="true">
+    <UploaderAsyncSettings SaveUrl="api/SampleData/Save" RemoveUrl="api/SampleData/Remove" />
+</SfUploader>
+
+<!-- AUTO UPLOAD -->
+<h3>Auto Upload Enabled</h3>
+<SfUploader Id="autoUploadUploader" AutoUpload="true" ShowFileList="true">
+    <UploaderAsyncSettings SaveUrl="api/SampleData/Save" RemoveUrl="api/SampleData/Remove" />
+</SfUploader>
+
+<h3>Auto Upload Disabled - Manual Upload</h3>
+<SfUploader Id="manualUploadUploader" AutoUpload="false" ShowFileList="true">
+    <UploaderAsyncSettings SaveUrl="api/SampleData/Save" RemoveUrl="api/SampleData/Remove" />
+</SfUploader>
+
+<!-- PROGRESS TRACKING -->
+<h3>With Progress Bar</h3>
+<SfUploader Id="progressBarUploader" ShowProgressBar="true" AutoUpload="false" ShowFileList="true">
+    <UploaderAsyncSettings SaveUrl="api/SampleData/Save" RemoveUrl="api/SampleData/Remove" />
+</SfUploader>
+
+<h3>Without Progress Bar</h3>
+<SfUploader Id="noProgressBarUploader" ShowProgressBar="false" AutoUpload="false" ShowFileList="true">
+    <UploaderAsyncSettings SaveUrl="api/SampleData/Save" RemoveUrl="api/SampleData/Remove" />
+</SfUploader>
+
+<!-- FILE LIST DISPLAY -->
+<h3>With File List</h3>
+<SfUploader Id="withFileListUploader" ShowFileList="true" AutoUpload="false">
+    <UploaderAsyncSettings SaveUrl="api/SampleData/Save" RemoveUrl="api/SampleData/Remove" />
+</SfUploader>
+
+<h3>Without File List</h3>
+<SfUploader Id="withoutFileListUploader" ShowFileList="false" AutoUpload="false">
+    <UploaderAsyncSettings SaveUrl="api/SampleData/Save" RemoveUrl="api/SampleData/Remove" />
+</SfUploader>
+
+<!-- HTML SANITIZER -->
+<h3>HTML Sanitizer Enabled</h3>
+<SfUploader Id="sanitizerEnabledUploader" EnableHtmlSanitizer="true" AutoUpload="false" ShowFileList="true">
+    <UploaderAsyncSettings SaveUrl="api/SampleData/Save" RemoveUrl="api/SampleData/Remove" />
+</SfUploader>
+
+<h3>HTML Sanitizer Disabled</h3>
+<SfUploader Id="sanitizerDisabledUploader" EnableHtmlSanitizer="false" AutoUpload="false" ShowFileList="true">
+    <UploaderAsyncSettings SaveUrl="api/SampleData/Save" RemoveUrl="api/SampleData/Remove" />
+</SfUploader>
+
+<!-- DRAG AND DROP -->
+<h3>Drag and Drop Enabled</h3>
+<SfUploader Id="dragDropUploader" AllowMultiple="true" AutoUpload="false" ShowFileList="true">
+    <UploaderAsyncSettings SaveUrl="api/SampleData/Save" RemoveUrl="api/SampleData/Remove" />
+</SfUploader>
+
+<!-- CUSTOM CSS CLASS -->
+<h3>Custom CSS Class</h3>
+<SfUploader Id="customClassUploader" CssClass="custom-uploader" AutoUpload="false" ShowFileList="true">
+    <UploaderAsyncSettings SaveUrl="api/SampleData/Save" RemoveUrl="api/SampleData/Remove" />
+</SfUploader>
+
+<!-- DISABLED STATE -->
+<h3>Disabled Uploader</h3>
+<SfUploader Id="disabledUploader" Disabled="true" AutoUpload="false" ShowFileList="true">
+    <UploaderAsyncSettings SaveUrl="api/SampleData/Save" RemoveUrl="api/SampleData/Remove" />
+</SfUploader>
+
+<!-- EVENTS -->
+<h3>With Events</h3>
+<SfUploader Id="eventUploader"
+            AutoUpload="false"
+            ShowFileList="true"
+            Success="HandleSuccess"
+            OnFailure="HandleFailure"
+            OnClear="HandleClear">
+    <UploaderAsyncSettings SaveUrl="api/SampleData/Save" RemoveUrl="api/SampleData/Remove" />
+</SfUploader>
+<div class="mt-3">
+    <p><b>Last Event:</b> @LastEventMessage</p>
+</div>
+
+<!-- SEQUENTIAL UPLOAD -->
+<h3>Sequential Upload</h3>
+<SfUploader Id="sequentialUploader" SequentialUpload="true" AllowMultiple="true" AutoUpload="false" ShowFileList="true">
+    <UploaderAsyncSettings SaveUrl="api/SampleData/Save" RemoveUrl="api/SampleData/Remove" />
+</SfUploader>
+
+<!-- FOLDER UPLOAD -->
+<h3>Folder Upload Support</h3>
+<SfUploader Id="folderUploader" AllowFolder="true" AutoUpload="false" ShowFileList="true">
+    <UploaderAsyncSettings SaveUrl="api/SampleData/Save" RemoveUrl="api/SampleData/Remove" />
+</SfUploader>
+
+@code {
+    private string LastEventMessage { get; set; } = "—";
+
+    private void HandleSuccess(SuccessEventArgs args)
+    {
+        LastEventMessage = $"Upload Success: {args.File.Name}";
+    }
+
+    private void HandleFailure(FailureEventArgs args)
+    {
+        LastEventMessage = $"Upload Failed: {args.File.Name}";
+    }
+
+    private void HandleClear(ClearingEventArgs args)
+    {
+        LastEventMessage = "Files Cleared";
+    }
+}

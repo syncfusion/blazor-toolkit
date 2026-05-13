@@ -1,0 +1,56 @@
+@page "/switch/rtl-support"
+@using Syncfusion.Blazor.Toolkit.Inputs
+@layout MainLayout
+
+<h1>Switch - RTL Support</h1>
+
+<div class="test-container">
+    <h2>RTL Basic Switch</h2>
+    <SfSwitch Id="switch-rtl"
+              Label="خيار مفعل"
+              @bind-Checked="rtlBasic" />
+    <p>Value: <strong>@rtlBasic</strong></p>
+</div>
+
+<div class="test-container">
+    <h2>RTL with ON/OFF Labels</h2>
+    <SfSwitch Id="switch-rtl-labels"
+              OnLabel="مفعل"
+              OffLabel="معطل"
+              @bind-Checked="rtlLabels" />
+    <p>Value: <strong>@rtlLabels</strong></p>
+</div>
+
+<div class="test-container">
+    <h2>RTL Large Switch</h2>
+    <SfSwitch Id="switch-rtl-big"
+              CssClass="e-bigger"
+              @bind-Checked="rtlBig" />
+    <p>Value: <strong>@rtlBig</strong></p>
+</div>
+
+<div class="test-container">
+    <h2>RTL Disabled Switch</h2>
+    <SfSwitch Id="switch-rtl-disabled"
+              Disabled="true"
+              Label="غير مفعل"
+              @bind-Checked="rtlDisabled" />
+    <p>Value: <strong>@rtlDisabled</strong></p>
+</div>
+
+<style>
+    .test-container {
+        padding: 20px;
+        border: 1px solid #ddd;
+        margin: 10px 0;
+        border-radius: 4px;
+        background-color: #f9f9f9;
+    }
+</style>
+
+@code {
+    bool rtlBasic;
+    bool rtlLabels;
+    bool rtlBig;
+    bool rtlDisabled;
+}

@@ -1,0 +1,144 @@
+@using Microsoft.AspNetCore.Components;
+@using Syncfusion.Blazor.Toolkit.Calendars.Internal
+@using Syncfusion.Blazor.Toolkit.Inputs;
+@using Syncfusion.Blazor.Toolkit.Buttons;
+@using Syncfusion.Blazor.Toolkit.Internal;
+@namespace Syncfusion.Blazor.Toolkit.Calendars
+@typeparam TValue
+@inherits SfDatePicker<TValue>
+
+<SfInputBase>
+    <CascadingValue Value="this">
+        @if (this.FloatLabelType == FloatLabelType.Auto || this.FloatLabelType == FloatLabelType.Always)
+        {
+            <div @ref="@ContainerElement" class="@ContainerClass?.Trim()" @attributes="ContainerHtmlAttributes">
+                <input @ref="@InputElement" id="@ID" @attributes="InputHtmlAttributes" aria-label="datetimepicker" value="@( CalendarMode == CalendarType.Islamic ? IslamicValueAsString : this.CurrentValueAsString)" @onchange="@OnChangeHandlerAsync" @onkeydown="@KeyActionHandlerAsync" @onfocus="@OnFocusHandlerAsync" @oninput="@OnInputHandlerAsync" @onblur="@OnBlurHandlerAsync" />
+                <span class="e-float-line"></span>
+                <label class="@FloatLabel?.Trim()" id="label_@(ID)" for="@(ID)">@this.Placeholder</label>
+                @if (this.ShowClearButton && !this.Readonly)
+                {
+                    <span class="@(ClearIconClass)" aria-label="@Localizer["Close"]" role="button" @onclick="@WireClearBtnEventsAsync" @onmousedown="@InvokeClearBtnEventAsync" @ontouchstart="@InvokeClearBtnEventAsync" @onmousedown:preventDefault="@ClickStopPropagation" @ontouchstart:preventDefault="@ClickStopPropagation"></span>
+                }
+                <span class="@(GROUPICON + SPACE + DateIcon)" @onmousedown="@((args) => MouseIconHandlerAsync(args, DATEICONCLASS))" @onmousedown:preventDefault=@(!IsDevice)></span>
+                <span class="@(GROUPICON + SPACE + TimeIcon)" @onmousedown="@((args) => MouseIconHandlerAsync(args, TIME_ICON))" @onmousedown:preventDefault=@(!IsDevice)></span>
+            </div>
+        }
+        else
+        {
+            <span @ref="@ContainerElement" class="@ContainerClass?.Trim()" @attributes="ContainerHtmlAttributes" >
+                <input @ref="@InputElement" id="@ID" @attributes="InputHtmlAttributes" aria-label="datetimepicker" value="@( CalendarMode == CalendarType.Islamic ? IslamicValueAsString : this.CurrentValueAsString)" @onchange="@OnChangeHandlerAsync" @onkeydown="@KeyActionHandlerAsync" @onfocus="@OnFocusHandlerAsync" @oninput="@OnInputHandlerAsync" @onblur="@OnBlurHandlerAsync" />
+                @if (this.ShowClearButton && !this.Readonly)
+                {
+                    <span class="@(ClearIconClass)" aria-label="@Localizer["Close"]" role="button" @onclick="@WireClearBtnEventsAsync" @onmousedown="@InvokeClearBtnEventAsync" @ontouchstart="@InvokeClearBtnEventAsync" @onmousedown:preventDefault="@ClickStopPropagation" @ontouchstart:preventDefault="@ClickStopPropagation"></span>
+                }
+                <span class="@(GROUPICON + SPACE + DateIcon)" @onmousedown="@((args) => MouseIconHandlerAsync(args, DATEICONCLASS))" @onmousedown:preventDefault=@(!IsDevice)></span>
+                <span class="@(GROUPICON + SPACE + TimeIcon)" @onmousedown="@((args) => MouseIconHandlerAsync(args, TIME_ICON))" @onmousedown:preventDefault=@(!IsDevice)></span>
+            </span>
+        } 
+        @ChildContent
+        @if (this.ShowPopupCalendar)
+        {
+            @if (this.IsExtendedDevicePopup())
+            {
+                RootClass = SfBaseUtils.RemoveClass(RootClass ?? default!, "e-datetimepicker") ?? default!;
+            }
+            <div @ref="@PopupHolderEle" class="e-datetimepicker e-popup-holder">
+                <div @ref="@PopupElement" class="@RootClass @PopupContainer @POPUP" id="@(ID)_popup" role="dialog" aria-label="datetimepicker">
+                    <div class="@CalendarClass">
+                        @if (this.IsDevice)
+                        {
+                            <div class="@MODELHEADER">
+                                @if (this.IsExtendedDevicePopup())
+                                {
+                                    <SfButton CssClass="e-popup-close e-flat" aria-label="@Localizer["Close"]" @onclick="@PopupCloseHandlerAsync"></SfButton>
+                                    <div class="e-day-wrapper">
+                                        <span class="@MODELDAYCLASS">@this.ModelDay </span>
+                                        <span class="@MODELMONTHCLASS">@this.ModelMonth</span>
+                                    </div>
+                                }
+                                else 
+                                {
+                                    <h1 class="@MODELYEARCLASS">@this.ModelYear</h1>
+                                    <div>
+                                        <span class="@MODELDAYCLASS">@this.ModelDay </span>
+                                        <span class="@MODELMONTHCLASS">@this.ModelMonth</span>
+                                    </div>
+                                }
+                            </div>
+                        }
+                        @if (this.IsExtendedDevicePopup())
+                        {
+                            <div class="@CALENDARCELLCONTAINER">
+                                <CascadingValue Value="@this" Name="ParentComponent">
+                                    <CalendarBaseRender @ref="CalendarBaseInstance" TValue="TValue" MultiSelection="false"></CalendarBaseRender>
+                                </CascadingValue>
+                            </div>
+                        }
+                        else
+                        {
+                            <CascadingValue Value="@this" Name="ParentComponent">
+                                <CalendarBaseRender @ref="CalendarBaseInstance" TValue="TValue" MultiSelection="false" CalendarMode="this.CalendarMode"></CalendarBaseRender>
+                            </CascadingValue>
+                        }
+                    </div>
+                </div>
+            </div>
+        }
+        @if (this.ShowPopupList)
+        {
+            @if (this.IsDevice && this.IsExtendedDevicePopup())
+            {
+                PopupContainer = PopupContainer is not null ? SfBaseUtils.RemoveClass(PopupContainer, "e-datepicker") : PopupContainer;
+                RootClass = RootClass is not null ? SfBaseUtils.AddClass(RootClass, "e-datetimepicker") : RootClass;
+
+                <div @ref="@PopupHolderEle" class="e-datetimepicker e-popup-holder" id="@(ID)_popupholder">
+                    <div @ref="@PopupElement" class="@RootClass @PopupContainer @POPUP e-timepicker" id="@(ID)_popup" aria-label="timepicker" role="dialog">
+                        <div class="e-datetime-mob-popup-wrap">
+                            <div class="@MODELHEADER">
+                                <SfButton CssClass="e-popup-close e-flat" aria-label="@Localizer["Close"]" @onclick="@PopupCloseHandlerAsync"></SfButton>
+                                <span class="e-model-title">Select time</span>
+                            </div>
+                        <div class="e-content">
+                            @if (this.ListData is not null && this.ListData.Count > 0)
+                            {
+                                <ul class="e-list-parent e-ul" role="listbox" aria-label="popup" tabindex="@TAB_INDEX">
+                                    @for (int i = 0; i < ListData.Count; i++)
+                                    {
+                                        var item = ListData[i];
+                                        var itemId = $"{ID}_{i}";
+                                        <li class="@item.ListClass" @key="@item" role="option" id="@itemId" data-value="@item.ItemData" @onclick="@((e)=>OnMouseClickAsync(item, e))">
+                                            @item.ItemData
+                                        </li>
+                                    }
+                                </ul>
+                            }
+                        </div>
+                    </div>
+                </div>
+                </div>
+            }
+            else
+            {
+                <div @ref="@PopupHolderEle" class="e-datetimepicker e-popup-holder" id="@(ID)_popupholder">
+                    <div @ref="@PopupElement" class="@RootClass @PopupContainer @POPUP e-timepicker" id="@(ID)_popup" aria-label="timepicker" role="dialog">
+                        <div class="e-content">
+                            @if (this.ListData is not null && this.ListData.Count > 0)
+                            {
+                                <ul class="e-list-parent e-ul" role="listbox" aria-label="popup" tabindex="@TAB_INDEX">
+                                    @for (int i = 0; i < ListData.Count; i++)
+                                    {
+                                        var item = ListData[i];
+                                        var itemId = $"{ID}_{i}";
+                                        <li class="@item.ListClass" @key="@item" role="option" id="@itemId" data-value="@item.ItemData" @onclick="@((e)=>OnMouseClickAsync(item, e))">
+                                            @item.ItemData
+                                        </li>
+                                    }
+                                </ul>
+                            }
+                        </div>
+                    </div>
+                </div>
+            }
+        }
+    </CascadingValue>
+</SfInputBase>

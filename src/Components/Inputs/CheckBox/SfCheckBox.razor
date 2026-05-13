@@ -1,0 +1,65 @@
+@namespace Syncfusion.Blazor.Toolkit.Inputs
+@using Syncfusion.Blazor.Toolkit.Buttons
+
+@inherits SfSelectionBase<TChecked>
+@typeparam TChecked
+
+@{
+    // Build container attributes with safe defaults and accessibility fallbacks
+    Dictionary<string, object> containerAttributes = new Dictionary<string, object>();
+    
+    // Handle title attribute
+    if (_inputAttributes != null && _inputAttributes.ContainsKey(TitleAttribute))
+    {
+        containerAttributes = GetAttributes(_inputAttributes[TitleAttribute]);
+    }
+    
+    // Handle readonly attribute
+    if (_inputAttributes != null && _inputAttributes.ContainsKey(ReadOnlyAttribute))
+    {
+        containerAttributes.Add(ReadOnlyAttribute, _inputAttributes[ReadOnlyAttribute]);
+    }
+}
+
+<div @ref="_container" 
+     class="@_checkboxClass"
+     @attributes="@containerAttributes">
+    <label for="@_idValue" @attributes="@_labelAttributes" >
+        <input @ref="_input"
+               id="@_idValue"
+               class="@RootClass"
+               type="@CheckboxType"
+               name="@Name"
+               value="@Value"
+               disabled="@Disabled"
+               checked="@GetIsChecked()"
+               aria-readonly="@GetAriaReadOnly()"
+               indeterminate="@Indeterminate"
+               @onclick="@HandleClickAsync"
+               @attributes="@_inputAttributes" />
+        @if (LabelPosition == LabelPosition.Before)
+        {
+            @if (!string.IsNullOrEmpty(Label))
+            {
+                <span class="@LabelClass">@Label</span>
+            }
+            else
+            {
+                <span class="@LabelClass">@ChildContent</span>
+            }
+            <span class="@_frameClass"></span>
+        }
+        else
+        {
+            <span class="@_frameClass"></span>
+            @if (!string.IsNullOrEmpty(Label))
+            {
+                <span class="@LabelClass">@Label</span>
+            }
+            else
+            {
+                <span class="@LabelClass">@ChildContent</span>
+            }
+        }
+    </label>
+</div>

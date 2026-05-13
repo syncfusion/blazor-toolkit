@@ -1,0 +1,54 @@
+@using Syncfusion.Blazor.Toolkit.Buttons
+
+@namespace Syncfusion.Blazor.Toolkit.Tests.Buttons
+@* Group 0 — Mode=Default: three plain SfButton children *@
+<SfButtonGroup>
+    <ButtonGroupButton>View</ButtonGroupButton>
+    <ButtonGroupButton>Edit</ButtonGroupButton>
+    <ButtonGroupButton>Delete</ButtonGroupButton>
+</SfButtonGroup>
+
+@* Group 1 — Mode=Default with Content property (no ChildContent) *@
+<SfButtonGroup>
+    <ButtonGroupButton Content="Left"></ButtonGroupButton>
+    <ButtonGroupButton Content="Center"></ButtonGroupButton>
+    <ButtonGroupButton Content="Right"></ButtonGroupButton>
+</SfButtonGroup>
+
+@* Group 2 — Mode=Default with ChildContent present (ChildContent takes priority) *@
+<SfButtonGroup>
+    <ButtonGroupButton Content="Fallback"><span>Child</span></ButtonGroupButton>
+    <ButtonGroupButton Content="Fallback"><span>Child</span></ButtonGroupButton>
+    <ButtonGroupButton Content="Fallback"><span>Child</span></ButtonGroupButton>
+</SfButtonGroup>
+
+@* Group 3 — Mode=Default, empty ChildContent + empty Content = renders an empty button *@
+<SfButtonGroup>
+    <ButtonGroupButton></ButtonGroupButton>
+    <ButtonGroupButton></ButtonGroupButton>
+    <ButtonGroupButton></ButtonGroupButton>
+</SfButtonGroup>
+
+@* Group 4 — Mode=Default with IsToggle=true *@
+<SfButtonGroup>
+    <ButtonGroupButton IsToggle="true">Toggle</ButtonGroupButton>
+    <ButtonGroupButton IsToggle="false">Normal</ButtonGroupButton>
+</SfButtonGroup>
+
+@* Group 5 — Mode=Single with Value override *@
+<SfButtonGroup Mode="SelectionMode.Single">
+    <ButtonGroupButton Value="val-a">A</ButtonGroupButton>
+    <ButtonGroupButton Value="val-b">B</ButtonGroupButton>
+    <ButtonGroupButton Value="val-c">C</ButtonGroupButton>
+</SfButtonGroup>
+
+@* Group 6 — Mode=Multiple with HtmlAttributes (title) applied *@
+<SfButtonGroup Mode="SelectionMode.Multiple">
+    <ButtonGroupButton title="Button One">One</ButtonGroupButton>
+    <ButtonGroupButton title="Button Two">Two</ButtonGroupButton>
+</SfButtonGroup>
+
+@* Group 7 — Mode=Default with HtmlAttributes (data-testid) applied to SfButton *@
+<SfButtonGroup>
+    <ButtonGroupButton data-testid="btn-attr-test">Attribute</ButtonGroupButton>
+</SfButtonGroup>

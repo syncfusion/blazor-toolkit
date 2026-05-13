@@ -1,0 +1,206 @@
+﻿@page "/chart-smart-axis-labels"
+
+@using Syncfusion.Blazor.Toolkit
+@using Syncfusion.Blazor.Toolkit.Charts
+@using Syncfusion.Blazor.Toolkit.Buttons
+@using Syncfusion.Blazor.Toolkit.Inputs
+
+@inject NavigationManager NavigationManager
+
+<div class="col-md-7 control-section">
+    <SfChart @ref="ChartRef" Title="Internet Users in Millions">
+        <ChartTitleStyle TextOverflow="TextOverflow.Wrap" />
+
+        <ChartArea>
+            <ChartAreaBorder Width="0" />
+        </ChartArea>
+        <ChartPrimaryXAxis EdgeLabelPlacement="@LabelPlacement" LabelPosition="@LabelPosition" MaximumLabelWidth="@LabelWidth" EnableTrim="@EnableTrim" ValueType="Syncfusion.Blazor.Toolkit.ValueType.Category" Interval="1" LabelIntersectAction="@IntersectAction">
+            <ChartAxisMajorGridLines Width="0"></ChartAxisMajorGridLines>
+            <ChartAxisLabelStyle Color="@AxisLabelColor"></ChartAxisLabelStyle>
+            <ChartAxisMajorTickLines Width="0"></ChartAxisMajorTickLines>
+        </ChartPrimaryXAxis>
+        <ChartPrimaryYAxis>
+            <ChartAxisLineStyle Width="0"></ChartAxisLineStyle>
+            <ChartAxisMajorTickLines Width="0"></ChartAxisMajorTickLines>
+            <ChartAxisMajorGridLines Width="0"></ChartAxisMajorGridLines>
+            <ChartAxisLabelStyle Size="0px"></ChartAxisLabelStyle>
+        </ChartPrimaryYAxis>
+        <ChartTooltipSettings
+            Enable="true"
+            Header=""
+            Format="<b>${point.x}</b><br/>Internet Users : <b>${point.y}M</b>" />
+
+        <ChartSeriesCollection>
+            <ChartSeries DataSource="@ChartPoints"
+                         XName="Country"
+                         YName="User"
+                         Name="Users"
+                         Width="2"
+                         Type="ChartSeriesType.Column">
+                <ChartCornerRadius TopLeft="4" TopRight="4" />
+                <ChartMarker>
+                    <ChartDataLabel Visible="true"
+                                    EnableRotation="@Rotation"
+                                    Angle="@AngleRotate"
+                                    Name="DataLabelMappingName"
+                                    Position="ChartLabelPosition.Top">
+                        <ChartDataLabelFont Color="#ffffff" FontWeight="600" />
+                    </ChartDataLabel>
+                </ChartMarker>
+            </ChartSeries>
+        </ChartSeriesCollection>
+
+        <ChartLegendSettings Visible="false" />
+    </SfChart>
+</div>
+
+<PropertyPanel ControlSecClass="col-md-7"
+               CollapseChanged="HandlePanelCollapseChangedAsync"
+               InitialRefresh="HandlePanelCollapseChangedAsync">
+
+    <table style="width:100%">
+
+        <tr>
+            <td>Intersect Action</td>
+            <td>
+                <SfButtonGroup>
+                    @foreach (var action in Enum.GetValues<LabelIntersectAction>())
+                    {
+                        <SfButton IsPrimary="@(IntersectAction == action)"
+                                  OnClick="@(() => SetIntersectAction(action))">
+                            @action
+                        </SfButton>
+                    }
+                </SfButtonGroup>
+            </td>
+        </tr>
+
+        <tr>
+            <td>Edge Label Placement</td>
+            <td>
+                <SfButtonGroup>
+                    @foreach (var placement in Enum.GetValues<EdgeLabelPlacement>())
+                    {
+                        <SfButton IsPrimary="@(LabelPlacement == placement)"
+                                  OnClick="@(() => SetLabelPlacement(placement))">
+                            @placement
+                        </SfButton>
+                    }
+                </SfButtonGroup>
+            </td>
+        </tr>
+
+        <tr>
+            <td>Label Position</td>
+            <td>
+                <SfButtonGroup>
+                    @foreach (var pos in Enum.GetValues<AxisPosition>())
+                    {
+                        <SfButton IsPrimary="@(LabelPosition == pos)"
+                                  OnClick="@(() => SetLabelPosition(pos))">
+                            @pos
+                        </SfButton>
+                    }
+                </SfButtonGroup>
+            </td>
+        </tr>
+
+        <tr>
+            <td>Enable Trim</td>
+            <td>
+                <SfCheckBox TChecked="bool"
+                            Checked="@IsTrim"
+                            CheckedChanged="OnTrimChanged" />
+            </td>
+        </tr>
+
+        <tr>
+            <td>Maximum Label Width</td>
+            <td>
+                <SfNumericTextBox TValue="int?"
+                                  Value="@Width"
+                                  Min="1"
+                                  Max="120"
+                                  Step="1">
+                    <NumericTextBoxEvents TValue="int?" ValueChange="OnLabelWidthChanged" />
+                </SfNumericTextBox>
+            </td>
+        </tr>
+
+    </table>
+</PropertyPanel>
+
+<style>
+    text[id*="_AxisLabel_"] {
+        @CSSStyle
+    }
+</style>
+
+@code {
+
+    private SfChart? ChartRef;
+
+    private bool EnableTrim;
+    private bool IsTrim;
+
+    private int LabelWidth = 34;
+    private int Width = 34;
+
+    private LabelIntersectAction IntersectAction = LabelIntersectAction.Hide;
+    private EdgeLabelPlacement LabelPlacement = EdgeLabelPlacement.Shift;
+    private AxisPosition LabelPosition = AxisPosition.Outside;
+
+    private bool Rotation;
+    private double AngleRotate;
+
+    private string AxisLabelColor = "black";
+    private string CSSStyle = "text-shadow: 0 0 3px white !important;";
+
+    private void SetIntersectAction(LabelIntersectAction value)
+        => IntersectAction = value;
+
+    private void SetLabelPlacement(EdgeLabelPlacement value)
+        => LabelPlacement = value;
+
+    private void SetLabelPosition(AxisPosition value)
+        => LabelPosition = value;
+
+    private void OnTrimChanged(bool value)
+        => IsTrim = EnableTrim = value;
+
+    private void OnLabelWidthChanged(
+        Syncfusion.Blazor.Toolkit.Inputs.ChangeEventArgs<int?> args)
+    {
+        if (args.Value.HasValue)
+            LabelWidth = Width = args.Value.Value;
+    }
+
+    private List<CategoryData> ChartPoints = new()
+    {
+        new() { Country="South Korea", User=39, DataLabelMappingName="39M" },
+        new() { Country="India", User=61, DataLabelMappingName="61M" },
+        new() { Country="Pakistan", User=20, DataLabelMappingName="20M" },
+        new() { Country="Germany", User=65, DataLabelMappingName="65M" },
+        new() { Country="Australia", User=16, DataLabelMappingName="16M" },
+        new() { Country="Italy", User=29, DataLabelMappingName="29M" },
+        new() { Country="France", User=45, DataLabelMappingName="45M" },
+        new() { Country="UAE", User=10, DataLabelMappingName="10M" },
+        new() { Country="Russia", User=41, DataLabelMappingName="41M" },
+        new() { Country="Mexico", User=31, DataLabelMappingName="31M" },
+        new() { Country="Brazil", User=76, DataLabelMappingName="76M" },
+        new() { Country="China", User=51, DataLabelMappingName="51M" }
+    };
+
+    public class CategoryData
+    {
+        public string? Country { get; set; }
+        public double User { get; set; }
+        public string? DataLabelMappingName { get; set; }
+    }
+
+    public async Task HandlePanelCollapseChangedAsync()
+    {
+        if (ChartRef != null)
+            await ChartRef.RefreshAsync(false);
+    }
+}

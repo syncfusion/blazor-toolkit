@@ -1,0 +1,1657 @@
+@page "/charts/trendline"
+
+@using Syncfusion.Blazor.Toolkit.Charts
+@using ValueType = Syncfusion.Blazor.Toolkit.ValueType
+
+<Description>
+    <Header>
+        <h5><b>Overview</b></h5>
+    </Header>
+    <Content>
+        Trendlines help visualize the overall direction and pattern of a dataset.
+        This example demonstrates adding a trendline to the S&amp;P 500 index data
+        to highlight long-term market growth using the <code>ChartTrendlines</code> and <code>ChartTrendline</code> components.
+    </Content>
+</Description>
+
+<VirtualizeSection MinHeightPx="600px">
+    <CodePreview IsFullWidth="true" CodeSection="@TrendlineOverviewCode">
+    <PreviewSection>
+        <SfChart @key="@_currentTheme" Title="S&P 500 Index - Global Market Benchmark Growth" SubTitle="S&P 500 Index - Global Market Benchmark Growth" Theme="@_currentTheme">
+            <ChartPrimaryXAxis ValueType="ValueType.Double"  Interval="1" Title="Year" >
+                <ChartAxisMajorGridLines Width="0"/>
+                <ChartAxisMajorTickLines Width="0"/>
+            </ChartPrimaryXAxis>
+
+            <ChartPrimaryYAxis Interval="2000" Title="S&P 500 Index (Points)" LabelFormat="{value}">
+                <ChartAxisMajorTickLines Width="0" />
+                <ChartAxisLineStyle Width="0" />
+            </ChartPrimaryYAxis>
+
+            <ChartTooltipSettings Enable="true"
+                          ShowNearestTooltip="true"
+                          Format="S&P 500: <b>${point.y} Points</b>">
+            </ChartTooltipSettings>
+
+            <ChartLegendSettings Visible="true"
+                                 ShapeHeight="15"
+                                 ShapeWidth="15">
+            </ChartLegendSettings>
+
+            
+                <ChartSeries DataSource="@Sp500Data"
+                             XName="Year"
+                             YName="Value"
+                             Name="S&P 500"
+                             Type="ChartSeriesType.Column"
+                             ColumnWidth="0.6"
+                             Fill="#7bd5d1"
+                             Animation="new ChartSeriesAnimation { Enable = false }">
+
+                    <ChartTrendlines>
+                        <ChartTrendline Type="TrendlineTypes.Exponential"
+                                        Name="Trend"
+                                        Width="3"
+                                        Fill="#ff6961"
+                                        EnableTooltip="false"
+                                        Animation="new ChartTrendlineAnimation { Enable = false }">
+                        </ChartTrendline>
+                    </ChartTrendlines>
+
+                </ChartSeries>
+            
+        </SfChart>
+    </PreviewSection>
+</CodePreview>
+</VirtualizeSection>
+
+@code {
+
+    private string TrendlineOverviewCode => @"@using Syncfusion.Blazor.Toolkit.Charts
+   <SfChart @key=""@_currentTheme"" Title=""S&P 500 Index - Global Market Benchmark Growth"" SubTitle=""S&P 500 Index - Global Market Benchmark Growth"" Theme=""@_currentTheme"">
+            <ChartPrimaryXAxis ValueType=""ValueType.Double""  Interval=""1"" Title=""Year"" >
+                <ChartAxisMajorGridLines Width=""0""/>
+                <ChartAxisMajorTickLines Width=""0""/>
+            </ChartPrimaryXAxis>
+
+            <ChartPrimaryYAxis Interval=""2000"" Title=""S&P 500 Index (Points)"" LabelFormat=""{value}"">
+                <ChartAxisMajorTickLines Width=""0"" />
+                <ChartAxisLineStyle Width=""0"" />
+            </ChartPrimaryYAxis>
+
+            <ChartTooltipSettings Enable=""true""
+                          ShowNearestTooltip=""true""
+                          Format=""S&P 500: <b>${point.y} Points</b>"">
+            </ChartTooltipSettings>
+
+            <ChartLegendSettings Visible=""true""
+                                 ShapeHeight=""15""
+                                 ShapeWidth=""15"">
+            </ChartLegendSettings>
+            <ChartSeriesCollection>
+                <ChartSeries DataSource=""@Sp500Data""
+                             XName=""Year""
+                             YName=""Value""
+                             Name=""S&P 500""
+                             Type=""ChartSeriesType.Column""
+                             ColumnWidth=""0.6""
+                             Fill=""#7bd5d1""
+                             Animation=""new ChartSeriesAnimation { Enable = false }"">
+
+                    <ChartTrendlines>
+                        <ChartTrendline Type=""TrendlineTypes.Exponential""
+                                        Name=""Trend""
+                                        Width=""3""
+                                        Fill=""#ff6961""
+                                        EnableTooltip=""false""
+                                        Animation=""new ChartTrendlineAnimation { Enable = false }"">
+                        </ChartTrendline>
+                    </ChartTrendlines>
+
+                </ChartSeries>
+            </ChartSeriesCollection>
+        </SfChart>
+@code {
+    private Theme _currentTheme = Theme.Fluent;
+    public class Sp500Point
+        {
+            public int Year { get; set; }
+            public double Value { get; set; }
+        }
+    public List<Sp500Point> Sp500Data = new()
+        {
+            new() { Year = 2015, Value = 2043 },
+            new() { Year = 2016, Value = 2239 },
+            new() { Year = 2017, Value = 2674 },
+            new() { Year = 2018, Value = 2507 },
+            new() { Year = 2019, Value = 3231 },
+            new() { Year = 2020, Value = 3756 },
+            new() { Year = 2021, Value = 4766 },
+            new() { Year = 2022, Value = 3839 },
+            new() { Year = 2023, Value = 4769 },
+            new() { Year = 2024, Value = 5967 },
+            new() { Year = 2025, Value = 6845 },
+            new() { Year = 2026, Value = 6881 }
+        };
+}";
+
+    public class Sp500Point
+    {
+        public int Year { get; set; }
+        public double Value { get; set; }
+    }
+
+    public List<Sp500Point> Sp500Data = new()
+    {
+        new() { Year = 2015, Value = 2043 },
+        new() { Year = 2016, Value = 2239 },
+        new() { Year = 2017, Value = 2674 },
+        new() { Year = 2018, Value = 2507 },
+        new() { Year = 2019, Value = 3231 },
+        new() { Year = 2020, Value = 3756 },
+        new() { Year = 2021, Value = 4766 },
+        new() { Year = 2022, Value = 3839 },
+        new() { Year = 2023, Value = 4769 },
+        new() { Year = 2024, Value = 5967 },
+        new() { Year = 2025, Value = 6845 },
+        new() { Year = 2026, Value = 6881 }
+    };
+}
+<Description>
+    <Header>
+        <h4><b>TrendLine Types</b></h4>
+    </Header>
+    <Content>
+        Choose from multiple regression types to best fit your data pattern. The <code>Type</code> property determines which mathematical model is applied to calculate the trend line.
+    </Content>
+</Description>
+
+<Description>
+    <Header>
+        <h5><b>Linear</b></h5>
+    </Header>
+    <Content>
+        A linear trendline is a straight, best‑fit line that shows a constant
+        rate of increase or decrease. This example demonstrates adding a
+        linear trendline by setting the <code>Type</code> property to <code>TrendlineTypes.Linear</code> to S&amp;P 500 index data to visualize the overall
+        market direction.
+    </Content>
+</Description>
+
+<VirtualizeSection MinHeightPx="600px">
+    <CodePreview IsFullWidth="true" CodeSection="@TrendlineLinearCode">
+    <PreviewSection>
+        <SfChart @key="@_currentTheme" Title="S&P 500 Index Performance (2014–2023)" SubTitle="Source: S&P Dow Jones Indices" Theme="@_currentTheme">
+
+            <ChartPrimaryXAxis ValueType="ValueType.Category" Title="Year">
+                <ChartAxisMajorGridLines Width="0" />
+                <ChartAxisMajorTickLines Width="0" />
+            </ChartPrimaryXAxis>
+
+            <ChartPrimaryYAxis Minimum="2000"
+                               Maximum="5000"
+                               Interval="500"
+                               Title="Index Value">
+                <ChartAxisMajorTickLines Width="0" />
+                <ChartAxisLineStyle Width="0" />
+            </ChartPrimaryYAxis>
+
+            <ChartTooltipSettings Enable="true"
+                          Shared="true"
+                          ShowNearestTooltip="true"
+                          Format="Index Value: <b>${point.y}</b>">
+            </ChartTooltipSettings>
+
+            <ChartLegendSettings Visible="true"
+                                 ShapeHeight="15"
+                                 ShapeWidth="15">
+            </ChartLegendSettings>
+
+            
+                <ChartSeries DataSource="@TrendlineLinearData"
+                             XName="Year"
+                             YName="Value"
+                             Name="S&P 500"
+                             Type="ChartSeriesType.Line"
+                             Width="2"
+                             Fill="#2E7D32"
+                             Animation="new ChartSeriesAnimation { Enable = false }">
+
+                    <ChartMarker Visible="true"
+                                 Width="8"
+                                 Height="8"
+                                 Shape="ChartShape.Diamond">
+                    </ChartMarker>
+
+                    <ChartTrendlines>
+                        <ChartTrendline Type="TrendlineTypes.Linear"
+                                        Name="Market Trend"
+                                        Width="3"
+                                        DashArray="5,5"
+                                        Fill="#FF6F00"
+                                        EnableTooltip="false"
+                                        Animation="new ChartTrendlineAnimation { Enable = false }">
+                        </ChartTrendline>
+                    </ChartTrendlines>
+
+                </ChartSeries>
+            
+        </SfChart>
+    </PreviewSection>
+</CodePreview>
+</VirtualizeSection>
+
+@code {
+
+    private string TrendlineLinearCode => @"@using Syncfusion.Blazor.Toolkit.Charts
+   <SfChart @key=""@_currentTheme"" Title=""S&P 500 Index Performance (2014–2023)"" SubTitle=""Source: S&P Dow Jones Indices"" Theme=""@_currentTheme"">
+
+            <ChartPrimaryXAxis ValueType=""ValueType.Category"" Title=""Year"">
+                <ChartAxisMajorGridLines Width=""0"" />
+                <ChartAxisMajorTickLines Width=""0"" />
+            </ChartPrimaryXAxis>
+
+            <ChartPrimaryYAxis Minimum=""2000""
+                               Maximum=""5000""
+                               Interval=""500""
+                               Title=""Index Value"">
+                <ChartAxisMajorTickLines Width=""0"" />
+                <ChartAxisLineStyle Width=""0"" />
+            </ChartPrimaryYAxis>
+            <ChartTooltipSettings Enable=""true""
+                          Shared=""true""
+                          ShowNearestTooltip=""true""
+                          Format=""Index Value: <b>${point.y}</b>"">
+            </ChartTooltipSettings>
+            <ChartLegendSettings Visible=""true""
+                                 ShapeHeight=""15""
+                                 ShapeWidth=""15"">
+            </ChartLegendSettings>
+
+            <ChartSeriesCollection>
+                <ChartSeries DataSource=""@TrendlineLinearData""
+                             XName=""Year""
+                             YName=""Value""
+                             Name=""S&P 500""
+                             Type=""ChartSeriesType.Line""
+                             Width=""2""
+                             Fill=""#2E7D32""
+                             Animation=""new ChartSeriesAnimation { Enable = false }"">
+                    <ChartMarker Visible=""true""
+                                 Width=""8""
+                                 Height=""8""
+                                 Shape=""ChartShape.Diamond"">
+                    </ChartMarker>
+                    <ChartTrendlines>
+                        <ChartTrendline Type=""TrendlineTypes.Linear""
+                                        Name=""Market Trend""
+                                        Width=""3""
+                                        DashArray=""5,5""
+                                        Fill=""#FF6F00""
+                                        EnableTooltip=""false""
+                                        Animation=""new ChartTrendlineAnimation { Enable = false }"">
+                        </ChartTrendline>
+                    </ChartTrendlines>
+
+                </ChartSeries>
+            </ChartSeriesCollection>
+        </SfChart>
+@code {
+    private Theme _currentTheme = Theme.Fluent;
+    public class TrendlinePoint
+        {
+            public string Year { get; set; }
+            public double Value { get; set; }
+        }
+    public List<TrendlinePoint> TrendlineLinearData = new()
+        {
+            new() { Year = ""2014"", Value = 2059 },
+            new() { Year = ""2015"", Value = 2044 },
+            new() { Year = ""2016"", Value = 2239 },
+            new() { Year = ""2017"", Value = 2674 },
+            new() { Year = ""2018"", Value = 2507 },
+            new() { Year = ""2019"", Value = 3231 },
+            new() { Year = ""2020"", Value = 3756 },
+            new() { Year = ""2021"", Value = 4766 },
+            new() { Year = ""2022"", Value = 3840 },
+            new() { Year = ""2023"", Value = 4770 }
+        };
+}";
+
+    public class TrendlinePoint
+    {
+        public string Year { get; set; }
+        public double Value { get; set; }
+    }
+
+    public List<TrendlinePoint> TrendlineLinearData = new()
+    {
+        new() { Year = "2014", Value = 2059 },
+        new() { Year = "2015", Value = 2044 },
+        new() { Year = "2016", Value = 2239 },
+        new() { Year = "2017", Value = 2674 },
+        new() { Year = "2018", Value = 2507 },
+        new() { Year = "2019", Value = 3231 },
+        new() { Year = "2020", Value = 3756 },
+        new() { Year = "2021", Value = 4766 },
+        new() { Year = "2022", Value = 3840 },
+        new() { Year = "2023", Value = 4770 }
+    };
+}
+
+<Description>
+    <Header>
+        <h5><b>Exponential</b></h5>
+    </Header>
+    <Content>
+        An exponential trendline is best suited for datasets that grow at an
+        accelerating rate. This example demonstrates an exponential trendline by setting the <code>Type</code> property to <code>TrendlineTypes.Exponential</code>
+        applied to global internet users data to highlight long-term adoption
+        growth patterns.
+    </Content>
+</Description>
+
+<VirtualizeSection MinHeightPx="600px">
+    <CodePreview IsFullWidth="true" CodeSection="@TrendlineExponentialCode">
+    <PreviewSection>
+        <SfChart @key="@_currentTheme" Title="Global Internet Users Growth (1995–2023)"
+                 SubTitle="Source: International Telecommunication Union (ITU)" Theme="@_currentTheme">
+
+            <ChartPrimaryXAxis ValueType="ValueType.Category"
+                               Title="Year">
+                <ChartAxisMajorGridLines Width="0" />
+                <ChartAxisMajorTickLines Width="0" />
+            </ChartPrimaryXAxis>
+
+            <ChartPrimaryYAxis Minimum="0"
+                               Maximum="6000"
+                               Interval="1000"
+                               Title="Users (Millions)">
+                <ChartAxisMajorTickLines Width="0" />
+                <ChartAxisLineStyle Width="0" />
+            </ChartPrimaryYAxis>
+
+            <ChartTooltipSettings Enable="true"
+                                  Shared="true"
+                                  ShowNearestTooltip="true"
+                                  Format="Internet Users: <b>${point.y}M</b>">
+            </ChartTooltipSettings>
+
+            <ChartLegendSettings Visible="true"
+                                 ShapeHeight="15"
+                                 ShapeWidth="15">
+            </ChartLegendSettings>
+
+            
+                <ChartSeries DataSource="@TrendlineExponentialData"
+                             XName="Year"
+                             YName="Users"
+                             Name="Internet Users"
+                             Type="ChartSeriesType.Spline"
+                             Width="2.5"
+                             Fill="#1976D2">
+
+                    <ChartSeriesAnimation Enable="false"></ChartSeriesAnimation>
+
+                    <ChartMarker Visible="true"
+                                 Width="7"
+                                 Height="7"
+                                 Shape="ChartShape.Circle">
+                    </ChartMarker>
+
+                    <ChartTrendlines>
+                        <ChartTrendline Type="TrendlineTypes.Exponential"
+                                        Name="Exponential Trend"
+                                        Width="3"
+                                        DashArray="5,5"
+                                        Fill="#D32F2F"
+                                        EnableTooltip="false">
+                            <ChartTrendlineAnimation Enable="false"></ChartTrendlineAnimation>
+                        </ChartTrendline>
+                    </ChartTrendlines>
+
+                </ChartSeries>
+            
+        </SfChart>
+    </PreviewSection>
+</CodePreview>
+</VirtualizeSection>
+
+@code {
+
+    [CascadingParameter]
+    private Theme CurrentTheme { get; set; } = Theme.Fluent;
+
+    private Theme _currentTheme = Theme.Fluent;
+
+    protected override void OnInitialized()
+    {
+        _currentTheme = CurrentTheme;
+    }
+
+    protected override void OnParametersSet()
+    {
+        _currentTheme = CurrentTheme;
+    }
+
+    private bool IsDarkTheme => _currentTheme.ToString().Contains("Dark") || _currentTheme.ToString().Contains("HighContrast");
+    private string TextColor => IsDarkTheme ? "#E6EEF8" : "#0B1F3B";
+    private string TrendlineExponentialCode => @"@using Syncfusion.Blazor.Toolkit.Charts
+     <SfChart @key=""@_currentTheme"" Title=""Global Internet Users Growth (1995–2023)""
+                 SubTitle=""Source: International Telecommunication Union (ITU)"" Theme=""@_currentTheme"">
+
+            <ChartPrimaryXAxis ValueType=""ValueType.Category""
+                               Title=""Year"">
+                <ChartAxisMajorGridLines Width=""0"" />
+                <ChartAxisMajorTickLines Width=""0"" />
+            </ChartPrimaryXAxis>
+
+            <ChartPrimaryYAxis Minimum=""0""
+                               Maximum=""6000""
+                               Interval=""1000""
+                               Title=""Users (Millions)"">
+                <ChartAxisMajorTickLines Width=""0"" />
+                <ChartAxisLineStyle Width=""0"" />
+            </ChartPrimaryYAxis>
+            <ChartTooltipSettings Enable=""true""
+                                  Shared=""true""
+                                  ShowNearestTooltip=""true""
+                                  Format=""Internet Users: <b>${point.y}M</b>"">
+            </ChartTooltipSettings>
+            <ChartLegendSettings Visible=""true""
+                                 ShapeHeight=""15""
+                                 ShapeWidth=""15"">
+            </ChartLegendSettings>
+
+            <ChartSeriesCollection>
+                <ChartSeries DataSource=""@TrendlineExponentialData""
+                             XName=""Year""
+                             YName=""Users""
+                             Name=""Internet Users""
+                             Type=""ChartSeriesType.Spline""
+                             Width=""2.5""
+                             Fill=""#1976D2"">
+
+                    <ChartSeriesAnimation Enable=""false""></ChartSeriesAnimation>
+
+                    <ChartMarker Visible=""true""
+                                 Width=""7""
+                                 Height=""7""
+                                 Shape=""ChartShape.Circle"">
+                    </ChartMarker>
+
+                    <ChartTrendlines>
+                        <ChartTrendline Type=""TrendlineTypes.Exponential""
+                                        Name=""Exponential Trend""
+                                        Width=""3""
+                                        DashArray=""5,5""
+                                        Fill=""#D32F2F""
+                                        EnableTooltip=""false"">
+                            <ChartTrendlineAnimation Enable=""false""></ChartTrendlineAnimation>
+                        </ChartTrendline>
+                    </ChartTrendlines>
+
+                </ChartSeries>
+            </ChartSeriesCollection>
+        </SfChart>
+@code {
+    private Theme _currentTheme = Theme.Fluent;
+    public class InternetUserPoint
+        {
+            public string Year { get; set; }
+            public double Users { get; set; }
+        }
+    public List<InternetUserPoint> TrendlineExponentialData = new()
+        {
+            new() { Year = ""1995"", Users = 16 },
+            new() { Year = ""1996"", Users = 36 },
+            new() { Year = ""1997"", Users = 70 },
+            new() { Year = ""1998"", Users = 147 },
+            new() { Year = ""1999"", Users = 248 },
+            new() { Year = ""2000"", Users = 361 },
+            new() { Year = ""2001"", Users = 495 },
+            new() { Year = ""2002"", Users = 665 },
+            new() { Year = ""2003"", Users = 778 },
+            new() { Year = ""2004"", Users = 910 },
+            new() { Year = ""2005"", Users = 1024 },
+            new() { Year = ""2006"", Users = 1162 },
+            new() { Year = ""2007"", Users = 1373 },
+            new() { Year = ""2008"", Users = 1575 },
+            new() { Year = ""2009"", Users = 1802 },
+            new() { Year = ""2010"", Users = 2023 },
+            new() { Year = ""2011"", Users = 2267 },
+            new() { Year = ""2012"", Users = 2497 },
+            new() { Year = ""2013"", Users = 2712 },
+            new() { Year = ""2014"", Users = 2956 },
+            new() { Year = ""2015"", Users = 3185 },
+            new() { Year = ""2016"", Users = 3424 },
+            new() { Year = ""2017"", Users = 3696 },
+            new() { Year = ""2018"", Users = 3923 },
+            new() { Year = ""2019"", Users = 4130 },
+            new() { Year = ""2020"", Users = 4540 },
+            new() { Year = ""2021"", Users = 4900 },
+            new() { Year = ""2022"", Users = 5160 },
+            new() { Year = ""2023"", Users = 5350 }
+        };
+}";
+
+    public class InternetUserPoint
+    {
+        public string Year { get; set; }
+        public double Users { get; set; }
+    }
+
+    public List<InternetUserPoint> TrendlineExponentialData = new()
+    {
+        new() { Year = "1995", Users = 16 },
+        new() { Year = "1996", Users = 36 },
+        new() { Year = "1997", Users = 70 },
+        new() { Year = "1998", Users = 147 },
+        new() { Year = "1999", Users = 248 },
+        new() { Year = "2000", Users = 361 },
+        new() { Year = "2001", Users = 495 },
+        new() { Year = "2002", Users = 665 },
+        new() { Year = "2003", Users = 778 },
+        new() { Year = "2004", Users = 910 },
+        new() { Year = "2005", Users = 1024 },
+        new() { Year = "2006", Users = 1162 },
+        new() { Year = "2007", Users = 1373 },
+        new() { Year = "2008", Users = 1575 },
+        new() { Year = "2009", Users = 1802 },
+        new() { Year = "2010", Users = 2023 },
+        new() { Year = "2011", Users = 2267 },
+        new() { Year = "2012", Users = 2497 },
+        new() { Year = "2013", Users = 2712 },
+        new() { Year = "2014", Users = 2956 },
+        new() { Year = "2015", Users = 3185 },
+        new() { Year = "2016", Users = 3424 },
+        new() { Year = "2017", Users = 3696 },
+        new() { Year = "2018", Users = 3923 },
+        new() { Year = "2019", Users = 4130 },
+        new() { Year = "2020", Users = 4540 },
+        new() { Year = "2021", Users = 4900 },
+        new() { Year = "2022", Users = 5160 },
+        new() { Year = "2023", Users = 5350 }
+    };
+}
+
+<Description>
+    <Header>
+        <h5><b>Logarithmic</b></h5>
+    </Header>
+    <Content>
+        A logarithmic trendline is used when data increases rapidly at the beginning
+        and then gradually slows down. This example demonstrates a logarithmic trendline
+        by setting the <code>Type</code> property to <code>TrendlineTypes.Logarithmic</code> applied to global mobile subscription growth data.
+    </Content>
+</Description>
+
+<VirtualizeSection MinHeightPx="600px">
+    <CodePreview IsFullWidth="true" CodeSection="@TrendlineLogarithmicCode">
+    <PreviewSection>
+        <SfChart Title="Global Mobile Subscriptions per 100 People (1995–2023)"
+                     SubTitle="Source: International Telecommunication Union (ITU)" Theme="@_currentTheme">
+
+            <ChartPrimaryXAxis ValueType="ValueType.Double"
+                               Minimum="1995"
+                               Maximum="2023"
+                               Interval="2"
+                               Title="Year">
+                <ChartAxisMajorGridLines Width="0" />
+                <ChartAxisMajorTickLines Width="0" />
+            </ChartPrimaryXAxis>
+
+            <ChartPrimaryYAxis Minimum="0"
+                               Maximum="120"
+                               Interval="20"
+                               Title="Subscriptions per 100 People">
+                <ChartAxisMajorTickLines Width="0" />
+                <ChartAxisLineStyle Width="0" />
+            </ChartPrimaryYAxis>
+
+            <ChartTooltipSettings Enable="true"
+                                  Shared="true"
+                                  ShowNearestTooltip="true"
+                                  Format="Subscriptions: <b>${point.y}</b>" />
+
+            <ChartLegendSettings Visible="true"
+                                 ShapeHeight="15"
+                                 ShapeWidth="15" />
+
+            
+                <ChartSeries DataSource="@TrendlineLogarithmicData"
+                             XName="Year"
+                             YName="Value"
+                             Name="Mobile Subscriptions"
+                             Type="ChartSeriesType.Line"
+                             Width="2"
+                             Fill="#00796B">
+
+                    <ChartSeriesAnimation Enable="false" />
+
+                    <ChartMarker Visible="true"
+                                 Width="8"
+                                 Height="8"
+                                 Shape="ChartShape.Circle" />
+
+                    <ChartTrendlines>
+                        <ChartTrendline Type="TrendlineTypes.Logarithmic"
+                                        Name="Logarithmic Trend"
+                                        Width="3"
+                                        DashArray="5,5"
+                                        Fill="#8E24AA"
+                                        EnableTooltip="false">
+                            <ChartTrendlineAnimation Enable="false" />
+                        </ChartTrendline>
+                    </ChartTrendlines>
+
+                </ChartSeries>
+            
+        </SfChart>
+    </PreviewSection>
+</CodePreview>
+</VirtualizeSection>
+
+@code {
+    private string TrendlineLogarithmicCode => @"@using Syncfusion.Blazor.Toolkit.Charts
+ <SfChart Title=""Global Mobile Subscriptions per 100 People (1995–2023)""
+                     SubTitle=""Source: International Telecommunication Union (ITU)"" Theme=""@_currentTheme"">
+
+            <ChartPrimaryXAxis ValueType=""ValueType.Double""
+                               Minimum=""1995""
+                               Maximum=""2023""
+                               Interval=""2""
+                               Title=""Year"">
+                <ChartAxisMajorGridLines Width=""0"" />
+                <ChartAxisMajorTickLines Width=""0"" />
+            </ChartPrimaryXAxis>
+
+            <ChartPrimaryYAxis Minimum=""0""
+                               Maximum=""120""
+                               Interval=""20""
+                               Title=""Subscriptions per 100 People"">
+                <ChartAxisMajorTickLines Width=""0"" />
+                <ChartAxisLineStyle Width=""0"" />
+            </ChartPrimaryYAxis>
+
+            <ChartTooltipSettings Enable=""true""
+                                  Shared=""true""
+                                  ShowNearestTooltip=""true""
+                                  Format=""Subscriptions: <b>${point.y}</b>"" />
+
+            <ChartLegendSettings Visible=""true""
+                                 ShapeHeight=""15""
+                                 ShapeWidth=""15"" />
+
+            <ChartSeriesCollection>
+                <ChartSeries DataSource=""@TrendlineLogarithmicData""
+                             XName=""Year""
+                             YName=""Value""
+                             Name=""Mobile Subscriptions""
+                             Type=""ChartSeriesType.Line""
+                             Width=""2""
+                             Fill=""#00796B"">
+                    <ChartSeriesAnimation Enable=""false"" />
+
+                    <ChartMarker Visible=""true""
+                                 Width=""8""
+                                 Height=""8""
+                                 Shape=""ChartShape.Circle"" />
+                    <ChartTrendlines>
+                        <ChartTrendline Type=""TrendlineTypes.Logarithmic""
+                                        Name=""Logarithmic Trend""
+                                        Width=""3""
+                                        DashArray=""5,5""
+                                        Fill=""#8E24AA""
+                                        EnableTooltip=""false"">
+                            <ChartTrendlineAnimation Enable=""false"" />
+                        </ChartTrendline>
+                    </ChartTrendlines>
+
+                </ChartSeries>
+            </ChartSeriesCollection>
+        </SfChart>
+@code {
+    private Theme _currentTheme = Theme.Fluent;
+    public class LogarithmicPoint
+        {
+            public int Year { get; set; }
+            public double Value { get; set; }
+        }
+    public List<LogarithmicPoint> TrendlineLogarithmicData = new()
+        {
+            new() { Year = 1995, Value = 1.3 },
+            new() { Year = 1997, Value =22.8 },        new() { Year = 1997, Value = 4.1 },
+            new() { Year = 1999, Value = 12.5 },
+            new() { Year = 2003, Value = 34.8 },
+            new() { Year = 2005, Value = 49.1 },
+            new() { Year = 2007, Value = 60.5 },
+            new() { Year = 2009, Value = 68.7 },
+            new() { Year = 2011, Value = 84.3 },
+            new() { Year = 2013, Value = 96.0 },
+            new() { Year = 2015, Value = 101.5 },
+            new() { Year = 2017, Value = 104.5 },
+            new() { Year = 2019, Value = 107.0 },
+            new() { Year = 2021, Value = 109.2 },
+            new() { Year = 2023, Value = 110.0 }
+        };
+}";
+
+    public class LogarithmicPoint
+    {
+        public int Year { get; set; }
+        public double Value { get; set; }
+    }
+
+    public List<LogarithmicPoint> TrendlineLogarithmicData = new()
+    {
+        new() { Year = 1995, Value = 1.3 },
+        new() { Year = 1997, Value =22.8 },        new() { Year = 1997, Value = 4.1 },
+        new() { Year = 1999, Value = 12.5 },
+        new() { Year = 2003, Value = 34.8 },
+        new() { Year = 2005, Value = 49.1 },
+        new() { Year = 2007, Value = 60.5 },
+        new() { Year = 2009, Value = 68.7 },
+        new() { Year = 2011, Value = 84.3 },
+        new() { Year = 2013, Value = 96.0 },
+        new() { Year = 2015, Value = 101.5 },
+        new() { Year = 2017, Value = 104.5 },
+        new() { Year = 2019, Value = 107.0 },
+        new() { Year = 2021, Value = 109.2 },
+        new() { Year = 2023, Value = 110.0 }
+    };
+}
+ 
+<Description>
+    <Header>
+        <h5><b>Polynomial</b></h5>
+    </Header>
+    <Content>
+        A polynomial trendline fits a curved line through the data points based
+        on a polynomial equation. This example demonstrates a third‑order polynomial trendline
+        by setting the <code>Type</code> property to <code>TrendlineTypes.Polynomial</code> and defining the <code>PolynomialOrder</code> property applied to global life expectancy data to reveal
+        long‑term nonlinear trends.
+    </Content>
+</Description>
+
+<VirtualizeSection MinHeightPx="600px">
+    <CodePreview IsFullWidth="true" CodeSection="@TrendlinePolynomialCode">
+    <PreviewSection>
+    <SfChart Title="Global Life Expectancy at Birth (1960–2020)"
+                 SubTitle="Source: World Bank & Our World in Data" Theme="@_currentTheme">
+
+            <ChartPrimaryXAxis ValueType="ValueType.Category"
+                               Title="Year">
+                <ChartAxisMajorGridLines Width="0" />
+                <ChartAxisMajorTickLines Width="0" />
+            </ChartPrimaryXAxis>
+
+            <ChartPrimaryYAxis Minimum="45"
+                               Maximum="75"
+                               Interval="5"
+                               Title="Life Expectancy (Years)">
+                <ChartAxisMajorTickLines Width="0" />
+                <ChartAxisLineStyle Width="0" />
+            </ChartPrimaryYAxis>
+
+            <ChartTooltipSettings Enable="true"
+                                  Shared="true"
+                                  ShowNearestTooltip="true"
+                                  Format="Life Expectancy: <b>${point.y} yrs</b>" />
+
+            <ChartLegendSettings Visible="true"
+                                 ShapeHeight="15"
+                                 ShapeWidth="15" />
+
+            
+                <ChartSeries DataSource="@TrendlinePolynomialData"
+                             XName="Year"
+                             YName="Value"
+                             Name="Life Expectancy"
+                             Type="ChartSeriesType.Column"
+                             Fill="#6A1B9A">
+
+                    <ChartSeriesAnimation Enable="false" />
+
+                    <ChartTrendlines>
+                        <ChartTrendline Type="TrendlineTypes.Polynomial"
+                                        Name="Polynomial Trend"
+                                        Width="3"
+                                        PolynomialOrder="3"
+                                        Fill="#FFD700"
+                                        EnableTooltip="false">
+                            <ChartTrendlineAnimation Enable="false" />
+                        </ChartTrendline>
+                    </ChartTrendlines>
+
+                </ChartSeries>
+            
+        </SfChart>
+    </PreviewSection>
+</CodePreview>
+</VirtualizeSection>
+
+@code {
+    private string TrendlinePolynomialCode => @"@using Syncfusion.Blazor.Toolkit.Charts
+    SfChart Title=""Global Life Expectancy at Birth (1960–2020)""
+                 SubTitle=""Source: World Bank & Our World in Data"" Theme=""@_currentTheme"">
+
+            <ChartPrimaryXAxis ValueType=""ValueType.Category""
+                               Title=""Year"">
+                <ChartAxisMajorGridLines Width=""0"" />
+                <ChartAxisMajorTickLines Width=""0"" />
+            </ChartPrimaryXAxis>
+
+            <ChartPrimaryYAxis Minimum=""45""
+                               Maximum=""75""
+                               Interval=""5""
+                               Title=""Life Expectancy (Years)"">
+                <ChartAxisMajorTickLines Width=""0"" />
+                <ChartAxisLineStyle Width=""0"" />
+            </ChartPrimaryYAxis>
+
+            <ChartTooltipSettings Enable=""true""
+                                  Shared=""true""
+                                  ShowNearestTooltip=""true""
+                                  Format=""Life Expectancy: <b>${point.y} yrs</b>"" />
+            <ChartLegendSettings Visible=""true""
+                                 ShapeHeight=""15""
+                                 ShapeWidth=""15"" />
+            <ChartSeriesCollection>
+                <ChartSeries DataSource=""@TrendlinePolynomialData""
+                             XName=""Year""
+                             YName=""Value""
+                             Name=""Life Expectancy""
+                             Type=""ChartSeriesType.Column""
+                             Fill=""#6A1B9A"">
+
+                    <ChartSeriesAnimation Enable=""false"" />
+
+                    <ChartTrendlines>
+                        <ChartTrendline Type=""TrendlineTypes.Polynomial""
+                                        Name=""Polynomial Trend""
+                                        Width=""3""
+                                        PolynomialOrder=""3""
+                                        Fill=""#FFD700""
+                                        EnableTooltip=""false"">
+                            <ChartTrendlineAnimation Enable=""false"" />
+                        </ChartTrendline>
+                    </ChartTrendlines>
+
+                </ChartSeries>
+            </ChartSeriesCollection>
+        </SfChart>
+@code {
+    private Theme _currentTheme = Theme.Fluent;
+    public class LifeExpectancyPoint
+        {
+            public string Year { get; set; }
+            public double Value { get; set; }
+        }
+    public List<LifeExpectancyPoint> TrendlinePolynomialData = new()
+        {
+        new() { Year = ""1960"", Value = 52.6 },
+        new() { Year = ""1965"", Value = 55.2 },
+        new() { Year = ""1970"", Value = 58.4 },
+        new() { Year = ""1975"", Value = 60.8 },
+        new() { Year = ""1980"", Value = 62.5 },
+        new() { Year = ""1985"", Value = 63.9 },
+        new() { Year = ""1990"", Value = 64.8 },
+        new() { Year = ""1995"", Value = 65.2 },
+        new() { Year = ""2000"", Value = 66.8 },
+        new() { Year = ""2005"", Value = 68.5 },
+        new() { Year = ""2010"", Value = 70.2 },
+        new() { Year = ""2015"", Value = 71.8 },
+        new() { Year = ""2020"", Value = 72.8 }
+        };
+}";
+
+    public class LifeExpectancyPoint
+    {
+        public string Year { get; set; }
+        public double Value { get; set; }
+    }
+
+    public List<LifeExpectancyPoint> TrendlinePolynomialData = new()
+    {
+    new() { Year = "1960", Value = 52.6 },
+    new() { Year = "1965", Value = 55.2 },
+    new() { Year = "1970", Value = 58.4 },
+    new() { Year = "1975", Value = 60.8 },
+    new() { Year = "1980", Value = 62.5 },
+    new() { Year = "1985", Value = 63.9 },
+    new() { Year = "1990", Value = 64.8 },
+    new() { Year = "1995", Value = 65.2 },
+    new() { Year = "2000", Value = 66.8 },
+    new() { Year = "2005", Value = 68.5 },
+    new() { Year = "2010", Value = 70.2 },
+    new() { Year = "2015", Value = 71.8 },
+    new() { Year = "2020", Value = 72.8 }
+    };
+}
+
+<Description>
+    <Header>
+        <h5><b>Power</b></h5>
+    </Header>
+    <Content>
+        A power trendline models data that follows a power-law relationship,
+        where the rate of change is proportional to the magnitude of the values.
+        This example demonstrates a power trendline by setting the <code>Type</code> property to <code>TrendlineTypes.Power</code> applied to the historical
+        decline in solar panel costs.
+    </Content>
+</Description>
+
+<VirtualizeSection MinHeightPx="600px">
+    <CodePreview IsFullWidth="true" CodeSection="@TrendlinePowerCode">
+    <PreviewSection>
+        <SfChart Title="Solar Panel Cost Decline (1980–2022)"
+                     SubTitle="Source: Our World in Data" Theme="@_currentTheme">
+
+            <ChartPrimaryXAxis ValueType="ValueType.Category"
+                               Title="Year">
+                <ChartAxisMajorGridLines Width="0" />
+                <ChartAxisMajorTickLines Width="0" />
+            </ChartPrimaryXAxis>
+
+            <ChartPrimaryYAxis Minimum="0"
+                               Maximum="100"
+                               Interval="20"
+                               Title="Cost per Watt (USD)">
+                <ChartAxisMajorTickLines Width="0" />
+                <ChartAxisLineStyle Width="0" />
+            </ChartPrimaryYAxis>
+
+            <ChartTooltipSettings Enable="true"
+                                  Shared="true"
+                                  ShowNearestTooltip="true"
+                                  Format="Cost per Watt: <b>$${point.y}</b>" />
+
+            <ChartLegendSettings Visible="true"
+                                 ShapeHeight="15"
+                                 ShapeWidth="15" />
+
+            
+                <ChartSeries DataSource="@TrendlinePowerData"
+                             XName="Year"
+                             YName="Value"
+                             Name="Solar Cost"
+                             Type="ChartSeriesType.Scatter"
+                             Fill="#FF9800">
+
+                    <ChartSeriesAnimation Enable="false" />
+
+                    <ChartMarker Visible="true"
+                                 Width="10"
+                                 Height="10"
+                                 Shape="ChartShape.Circle"
+                                 Fill="#FF9800">
+                    </ChartMarker>
+
+                    <ChartTrendlines>
+                        <ChartTrendline Type="TrendlineTypes.Power"
+                                        Name="Power Law Trend"
+                                        Width="2"
+                                        Fill="#1565C0"
+                                        EnableTooltip="false">
+                            <ChartTrendlineAnimation Enable="false" />
+                        </ChartTrendline>
+                    </ChartTrendlines>
+
+                </ChartSeries>
+            
+        </SfChart>
+    </PreviewSection>
+</CodePreview>
+</VirtualizeSection>
+
+@code {
+    private string TrendlinePowerCode => @"@using Syncfusion.Blazor.Toolkit.Charts
+   <SfChart Title=""Solar Panel Cost Decline (1980–2022)""
+                     SubTitle=""Source: Our World in Data"" Theme=""@_currentTheme"">
+
+            <ChartPrimaryXAxis ValueType=""ValueType.Category""
+                               Title=""Year"">
+                <ChartAxisMajorGridLines Width=""0"" />
+                <ChartAxisMajorTickLines Width=""0"" />
+            </ChartPrimaryXAxis>
+
+            <ChartPrimaryYAxis Minimum=""0""
+                               Maximum=""100""
+                               Interval=""20""
+                               Title=""Cost per Watt (USD)"">
+                <ChartAxisMajorTickLines Width=""0"" />
+                <ChartAxisLineStyle Width=""0"" />
+            </ChartPrimaryYAxis>
+
+            <ChartTooltipSettings Enable=""true""
+                                  Shared=""true""
+                                  ShowNearestTooltip=""true""
+                                  Format=""Cost per Watt: <b>$${point.y}</b>"" />
+            <ChartLegendSettings Visible=""true""
+                                 ShapeHeight=""15""
+                                 ShapeWidth=""15"" />
+            <ChartSeriesCollection>
+                <ChartSeries DataSource=""@TrendlinePowerData""
+                             XName=""Year""
+                             YName=""Value""
+                             Name=""Solar Cost""
+                             Type=""ChartSeriesType.Scatter""
+                             Fill=""#FF9800"">
+
+                    <ChartSeriesAnimation Enable=""false"" />
+                    <ChartMarker Visible=""true""
+                                 Width=""10""
+                                 Height=""10""
+                                 Shape=""ChartShape.Circle""
+                                 Fill=""#FF9800"">
+                    </ChartMarker>
+
+                    <ChartTrendlines>
+                        <ChartTrendline Type=""TrendlineTypes.Power""
+                                        Name=""Power Law Trend""
+                                        Width=""2""
+                                        Fill=""#1565C0""
+                                        EnableTooltip=""false"">
+                            <ChartTrendlineAnimation Enable=""false"" />
+                        </ChartTrendline>
+                    </ChartTrendlines>
+
+                </ChartSeries>
+            </ChartSeriesCollection>
+        </SfChart>
+@code {
+    private Theme _currentTheme = Theme.Fluent;
+    public class PowerTrendPoint
+        {
+            public string Year { get; set; }
+            public double Value { get; set; }
+        }
+    public List<PowerTrendPoint> TrendlinePowerData = new()
+        {
+            new() { Year = ""1980"", Value = 38.5 },
+            new() { Year = ""1985"", Value = 12.8 },
+            new() { Year = ""1990"", Value = 8.5 },
+            new() { Year = ""1995"", Value = 5.2 },
+            new() { Year = ""2000"", Value = 4.8 },
+            new() { Year = ""2005"", Value = 3.6 },
+            new() { Year = ""2010"", Value = 1.8 },
+            new() { Year = ""2015"", Value = 0.65 },
+            new() { Year = ""2020"", Value = 0.28 },
+            new() { Year = ""2022"", Value = 0.26 }
+        };
+}";
+
+    public class PowerTrendPoint
+    {
+        public string Year { get; set; }
+        public double Value { get; set; }
+    }
+
+    public List<PowerTrendPoint> TrendlinePowerData = new()
+    {
+        new() { Year = "1980", Value = 38.5 },
+        new() { Year = "1985", Value = 12.8 },
+        new() { Year = "1990", Value = 8.5 },
+        new() { Year = "1995", Value = 5.2 },
+        new() { Year = "2000", Value = 4.8 },
+        new() { Year = "2005", Value = 3.6 },
+        new() { Year = "2010", Value = 1.8 },
+        new() { Year = "2015", Value = 0.65 },
+        new() { Year = "2020", Value = 0.28 },
+        new() { Year = "2022", Value = 0.26 }
+    };
+}
+
+<Description>
+    <Header>
+        <h5><b>Moving Average</b></h5>
+    </Header>
+    <Content>
+        A moving average trendline smooths out short-term fluctuations in data
+        by averaging values over a specified period. This example demonstrates a 3-month moving average
+        by setting the <code>Type</code> property to <code>TrendlineTypes.MovingAverage</code> and specifying the <code>Period</code> property applied to Bitcoin price data to better visualize
+        overall market trends.
+    </Content>
+</Description>
+
+<VirtualizeSection MinHeightPx="600px">
+    <CodePreview IsFullWidth="true" CodeSection="@TrendlineMovingAverageCode">
+    <PreviewSection>
+        <SfChart Title="Bitcoin Price Volatility (2023)"
+                     SubTitle="Source: Cryptocurrency Market Data" Theme="@_currentTheme">
+
+            <ChartPrimaryXAxis ValueType="ValueType.Category"
+                               Title="Month">
+                <ChartAxisMajorGridLines Width="0" />
+                <ChartAxisMajorTickLines Width="0" />
+            </ChartPrimaryXAxis>
+
+            <ChartPrimaryYAxis Minimum="15000"
+                               Maximum="45000"
+                               Interval="5000"
+                               Title="Price (USD)">
+                <ChartAxisMajorTickLines Width="0" />
+                <ChartAxisLineStyle Width="0" />
+            </ChartPrimaryYAxis>
+
+            <ChartTooltipSettings Enable="true"
+                                  Shared="true"
+                                  ShowNearestTooltip="true"
+                                  Format="Price: <b>$${point.y}</b>" />
+
+            <ChartLegendSettings Visible="true"
+                                 ShapeHeight="15"
+                                 ShapeWidth="15" />
+
+            
+                <ChartSeries DataSource="@TrendlineMovingAverageData"
+                             XName="Month"
+                             YName="Price"
+                             Name="Bitcoin Price"
+                             Type="ChartSeriesType.Line"
+                             Width="2"
+                             Fill="#F7931A">
+
+                    <ChartSeriesAnimation Enable="false" />
+
+                    <ChartMarker Visible="true"
+                                 Width="7"
+                                 Height="7"
+                                 Shape="ChartShape.Circle"
+                                 Fill="#F7931A" />
+
+                    <ChartTrendlines>
+                        <ChartTrendline Type="TrendlineTypes.MovingAverage"
+                                        Name="3-Month Moving Average"
+                                        Width="3"
+                                        Period="3"
+                                        Fill="#00ACC1"
+                                        EnableTooltip="false">
+                            <ChartTrendlineAnimation Enable="false" />
+                        </ChartTrendline>
+                    </ChartTrendlines>
+
+                </ChartSeries>
+            
+        </SfChart>
+    </PreviewSection>
+</CodePreview>
+</VirtualizeSection>
+
+@code {
+
+    private string TrendlineMovingAverageCode => @"@using Syncfusion.Blazor.Toolkit.Charts
+    <SfChart Title=""Bitcoin Price Volatility (2023)""
+                     SubTitle=""Source: Cryptocurrency Market Data"" Theme=""@_currentTheme"">
+
+            <ChartPrimaryXAxis ValueType=""ValueType.Category""
+                               Title=""Month"">
+                <ChartAxisMajorGridLines Width=""0"" />
+                <ChartAxisMajorTickLines Width=""0"" />
+            </ChartPrimaryXAxis>
+
+            <ChartPrimaryYAxis Minimum=""15000""
+                               Maximum=""45000""
+                               Interval=""5000""
+                               Title=""Price (USD)"">
+                <ChartAxisMajorTickLines Width=""0"" />
+                <ChartAxisLineStyle Width=""0"" />
+            </ChartPrimaryYAxis>
+
+            <ChartTooltipSettings Enable=""true""
+                                  Shared=""true""
+                                  ShowNearestTooltip=""true""
+                                  Format=""Price: <b>$${point.y}</b>"" />
+            <ChartLegendSettings Visible=""true""
+                                 ShapeHeight=""15""
+                                 ShapeWidth=""15"" />
+            <ChartSeriesCollection>
+                <ChartSeries DataSource=""@TrendlineMovingAverageData""
+                             XName=""Month""
+                             YName=""Price""
+                             Name=""Bitcoin Price""
+                             Type=""ChartSeriesType.Line""
+                             Width=""2""
+                             Fill=""#F7931A"">
+
+                    <ChartSeriesAnimation Enable=""false"" />
+                    <ChartMarker Visible=""true""
+                                 Width=""7""
+                                 Height=""7""
+                                 Shape=""ChartShape.Circle""
+                                 Fill=""#F7931A"" />
+
+                    <ChartTrendlines>
+                        <ChartTrendline Type=""TrendlineTypes.MovingAverage""
+                                        Name=""3-Month Moving Average""
+                                        Width=""3""
+                                        Period=""3""
+                                        Fill=""#00ACC1""
+                                        EnableTooltip=""false"">
+                            <ChartTrendlineAnimation Enable=""false"" />
+                        </ChartTrendline>
+                    </ChartTrendlines>
+
+                </ChartSeries>
+            </ChartSeriesCollection>
+        </SfChart>
+@code {
+    private Theme _currentTheme = Theme.Fluent;
+    public class MovingAveragePoint
+        {
+            public string Month { get; set; }
+            public double Price { get; set; }
+        }
+    public List<MovingAveragePoint> TrendlineMovingAverageData = new()
+        {
+            new() { Month = ""Jan"", Price = 16547 },
+            new() { Month = ""Feb"", Price = 23145 },
+            new() { Month = ""Mar"", Price = 28470 },
+            new() { Month = ""Apr"", Price = 29235 },
+            new() { Month = ""May"", Price = 27180 },
+            new() { Month = ""Jun"", Price = 30468 },
+            new() { Month = ""Jul"", Price = 29856 },
+            new() { Month = ""Aug"", Price = 26123 },
+            new() { Month = ""Sep"", Price = 26945 },
+            new() { Month = ""Oct"", Price = 34580 },
+            new() { Month = ""Nov"", Price = 37245 },
+            new() { Month = ""Dec"", Price = 42158 }
+        };
+}";
+
+    public class MovingAveragePoint
+    {
+        public string Month { get; set; }
+        public double Price { get; set; }
+    }
+
+    public List<MovingAveragePoint> TrendlineMovingAverageData = new()
+    {
+        new() { Month = "Jan", Price = 16547 },
+        new() { Month = "Feb", Price = 23145 },
+        new() { Month = "Mar", Price = 28470 },
+        new() { Month = "Apr", Price = 29235 },
+        new() { Month = "May", Price = 27180 },
+        new() { Month = "Jun", Price = 30468 },
+        new() { Month = "Jul", Price = 29856 },
+        new() { Month = "Aug", Price = 26123 },
+        new() { Month = "Sep", Price = 26945 },
+        new() { Month = "Oct", Price = 34580 },
+        new() { Month = "Nov", Price = 37245 },
+        new() { Month = "Dec", Price = 42158 }
+    };
+}
+
+<Description>
+    <Header>
+        <h5><b>Data Labels</b></h5>
+    </Header>
+    <Content>
+        Data labels for trendlines allow you to display predicted or calculated
+        values directly on the trendline. This example demonstrates enabling data labels
+        using the <code>ChartDataLabel</code> component inside <code>ChartTrendlineMarker</code> for an exponential trendline used to visualize the rapid
+        growth of global electric vehicle sales.
+    </Content>
+</Description>
+
+<VirtualizeSection MinHeightPx="600px">
+    <CodePreview IsFullWidth="true" CodeSection="@TrendlineDataLabelCode">
+    <PreviewSection>
+        <SfChart Title="Global Electric Vehicle Sales (2015–2023)"
+                 SubTitle="Source: International Energy Agency (IEA)" Theme="@_currentTheme">
+
+            <ChartPrimaryXAxis ValueType="ValueType.Category"
+                               Title="Year">
+                <ChartAxisMajorGridLines Width="0" />
+                <ChartAxisMajorTickLines Width="0" />
+            </ChartPrimaryXAxis>
+
+            <ChartPrimaryYAxis Minimum="0"
+                               Maximum="15"
+                               Interval="3"
+                               Title="Sales (Million Units)">
+                <ChartAxisMajorTickLines Width="0" />
+                <ChartAxisLineStyle Width="0" />
+            </ChartPrimaryYAxis>
+
+            <ChartTooltipSettings Enable="true"
+                                  Shared="true"
+                                  ShowNearestTooltip="true"
+                                  Format="EV Sales: <b>${point.y}M</b>" />
+
+            <ChartLegendSettings Visible="true"
+                                 ShapeHeight="15"
+                                 ShapeWidth="15" />
+
+            
+                <ChartSeries DataSource="@DataLabelData"
+                             XName="Year"
+                             YName="Sales"
+                             Name="EV Sales"
+                             Type="ChartSeriesType.Area"
+                             Fill="rgba(124, 77, 255, 0.6)"
+                             Border="@(new ChartSeriesBorder { Width = 2, Color = "#7C4DFF" })">
+                        <ChartSeriesAnimation Enable="false" />
+
+                        <ChartMarker Visible="true"
+                                     Width="7"
+                                     Height="7"
+                                     Shape="ChartShape.Circle"
+                                     Fill="#7C4DFF">
+                            <ChartDataLabel Visible="true"></ChartDataLabel>
+                        </ChartMarker>
+
+                        <ChartTrendlines>
+                            <ChartTrendline Type="TrendlineTypes.Exponential"
+                                            Name="Exponential Growth"
+                                            Width="2"
+                                            Fill="#00E676"
+                                            EnableTooltip="false" >
+
+                                <ChartTrendlineAnimation Enable="false" />
+                                <ChartTrendlineMarker Visible="true" Height="10" Width="10" Shape="ChartShape.Triangle" Fill="#00E676"></ChartTrendlineMarker>
+
+                   
+              
+
+                            </ChartTrendline>
+                        </ChartTrendlines>
+                </ChartSeries>
+            
+        </SfChart>
+    </PreviewSection>
+</CodePreview>
+</VirtualizeSection>
+
+@code {
+    public ChartDataLabel chartDataLabel = new()
+        {
+            Format = @"<b>${point.x}</b><br/>Predicted Sales: <b>${point.y}M</b>",
+            Visible = true,
+        };
+    private string TrendlineDataLabelCode => @"@using Syncfusion.Blazor.Toolkit.Charts
+    <SfChart Title=""Global Electric Vehicle Sales (2015–2023)""
+                 SubTitle=""Source: International Energy Agency (IEA)"" Theme=""@_currentTheme"">
+
+            <ChartPrimaryXAxis ValueType=""ValueType.Category""
+                               Title=""Year"">
+                <ChartAxisMajorGridLines Width=""0"" />
+                <ChartAxisMajorTickLines Width=""0"" />
+            </ChartPrimaryXAxis>
+
+            <ChartPrimaryYAxis Minimum=""0""
+                               Maximum=""15""
+                               Interval=""3""
+                               Title=""Sales (Million Units)"">
+                <ChartAxisMajorTickLines Width=""0"" />
+                <ChartAxisLineStyle Width=""0"" />
+            </ChartPrimaryYAxis>
+
+            <ChartTooltipSettings Enable=""true""
+                                  Shared=""true""
+                                  ShowNearestTooltip=""true""
+                                  Format=""EV Sales: <b>${point.y}M</b>"" />
+
+            <ChartLegendSettings Visible=""true""
+                                 ShapeHeight=""15""
+                                 ShapeWidth=""15"" />
+            <ChartSeriesCollection>
+                <ChartSeries DataSource=""@DataLabelData""
+                             XName=""Year""
+                             YName=""Sales""
+                             Name=""EV Sales""
+                             Type=""ChartSeriesType.Area""
+                             Fill=""rgba(124, 77, 255, 0.6)""
+                             Border=""@(new ChartSeriesBorder { Width = 2, Color = ""#7C4DFF"" })"">
+                        <ChartSeriesAnimation Enable=""false"" />
+                        <ChartMarker Visible=""true""
+                                     Width=""7""
+                                     Height=""7""
+                                     Shape=""ChartShape.Circle""
+                                     Fill=""#7C4DFF"">
+                            <ChartDataLabel Visible=""true""></ChartDataLabel>
+                        </ChartMarker>
+                        <ChartTrendlines>
+                            <ChartTrendline Type=""TrendlineTypes.Exponential""
+                                            Name=""Exponential Growth""
+                                            Width=""2""
+                                            Fill=""#00E676""
+                                            EnableTooltip=""false"" >
+
+                                <ChartTrendlineAnimation Enable=""false"" />
+                                <ChartTrendlineMarker Visible=""true"" Height=""10"" Width=""10"" Shape=""ChartShape.Triangle"" Fill=""#00E676""></ChartTrendlineMarker>
+                           </ChartTrendline>
+                        </ChartTrendlines>
+                </ChartSeries>
+            </ChartSeriesCollection>
+        </SfChart>
+@code {
+    private Theme _currentTheme = Theme.Fluent;
+    public List<EvSalesPoint>DataLabelData = new ()
+    {
+        new () { Year = ""2015"", Sales = 0.55 },
+        new () { Year = ""2016"", Sales = 0.78 },
+        new() { Year = ""2017"", Sales = 1.22 },
+        new() { Year = ""2018"", Sales = 2.11 },
+        new() { Year = ""2019"", Sales = 2.26 },
+        new() { Year = ""2020"", Sales = 3.24 },
+        new() { Year = ""2021"", Sales = 6.75 },
+        new() { Year = ""2022"", Sales = 10.5 },
+        new() { Year = ""2023"", Sales = 13.9 }
+    };
+
+    public class EvSalesPoint
+    {
+        public string Year { get; set; }
+        public double Sales { get; set; }
+    }
+}";
+
+    public List<EvSalesPoint>DataLabelData = new ()
+    {
+        new () { Year = "2015", Sales = 0.55 },
+        new () { Year = "2016", Sales = 0.78 },
+        new() { Year = "2017", Sales = 1.22 },
+        new() { Year = "2018", Sales = 2.11 },
+        new() { Year = "2019", Sales = 2.26 },
+        new() { Year = "2020", Sales = 3.24 },
+        new() { Year = "2021", Sales = 6.75 },
+        new() { Year = "2022", Sales = 10.5 },
+        new() { Year = "2023", Sales = 13.9 }
+    };
+
+    public class EvSalesPoint
+    {
+        public string Year { get; set; }
+        public double Sales { get; set; }
+    }
+}
+
+<Description>
+    <Header>
+        <h5><b>Customization</b></h5>
+    </Header>
+    <Content>
+        Trendline customization options allow you to control visual aspects such
+        as line width, dash patterns, colors, and intercept values. This example demonstrates a customized linear trendline
+        using properties like <code>DashArray</code>, <code>Width</code>, <code>Fill</code>, and <code>Intercept</code> applied to global forest area
+        data to emphasize long-term deforestation trends.
+    </Content>
+</Description>
+
+<VirtualizeSection MinHeightPx="600px">
+    <CodePreview IsFullWidth="true" CodeSection="@TrendlineCustomizationCode">
+    <PreviewSection>
+        <SfChart Title="Global Forest Area Decline (1990–2020)"
+                 SubTitle="Source: FAO (Food and Agriculture Organization)" Theme="@_currentTheme">
+
+            <ChartPrimaryXAxis ValueType="ValueType.Category"
+                               Title="Year">
+                <ChartAxisMajorGridLines Width="0" />
+                <ChartAxisMajorTickLines Width="0" />
+            </ChartPrimaryXAxis>
+
+            <ChartPrimaryYAxis Minimum="3900"
+                               Maximum="4200"
+                               Interval="50"
+                               Title="Forest Area (Million Hectares)">
+                <ChartAxisMajorTickLines Width="0" />
+                <ChartAxisLineStyle Width="0" />
+            </ChartPrimaryYAxis>
+
+            <ChartTooltipSettings Enable="true"
+                                  Shared="true"
+                                  ShowNearestTooltip="true"
+                                  Format="Forest Area: <b>${point.y} MH</b>" />
+
+            <ChartLegendSettings Visible="true"
+                                 ShapeHeight="15"
+                                 ShapeWidth="15" />
+
+            
+                <ChartSeries DataSource="@TrendlineCustomizationData"
+                             XName="Year"
+                             YName="Area"
+                             Name="Forest Coverage"
+                             Type="ChartSeriesType.Line"
+                             Width="2.5"
+                             Fill="#2E7D32">
+
+                    <ChartSeriesAnimation Enable="false" />
+
+                    <ChartMarker Visible="true"
+                                 Width="8"
+                                 Height="8"
+                                 Shape="ChartShape.Diamond"
+                                 Fill="#2E7D32">
+                    </ChartMarker>
+
+                    <ChartTrendlines>
+                        <ChartTrendline Type="TrendlineTypes.Linear"
+                                        Name="Deforestation Trend"
+                                        Width="6"
+                                        DashArray="8,4,2,4"
+                                        Intercept="4150"
+                                        Fill="#FFB300"
+                                        EnableTooltip="false">
+                            <ChartTrendlineAnimation Enable="false" />
+                        </ChartTrendline>
+                    </ChartTrendlines>
+
+                </ChartSeries>
+            
+        </SfChart>
+    </PreviewSection>
+</CodePreview>
+</VirtualizeSection>
+
+@code {
+    private string TrendlineCustomizationCode => @"@using Syncfusion.Blazor.Toolkit.Charts
+    <SfChart Title=""Global Forest Area Decline (1990–2020)""
+                 SubTitle=""Source: FAO (Food and Agriculture Organization)"" Theme=""@_currentTheme"">
+
+            <ChartPrimaryXAxis ValueType=""ValueType.Category""
+                               Title=""Year"">
+                <ChartAxisMajorGridLines Width=""0"" />
+                <ChartAxisMajorTickLines Width=""0"" />
+            </ChartPrimaryXAxis>
+
+            <ChartPrimaryYAxis Minimum=""3900""
+                               Maximum=""4200""
+                               Interval=""50""
+                               Title=""Forest Area (Million Hectares)"">
+                <ChartAxisMajorTickLines Width=""0"" />
+                <ChartAxisLineStyle Width=""0"" />
+            </ChartPrimaryYAxis>
+            <ChartTooltipSettings Enable=""true""
+                                  Shared=""true""
+                                  ShowNearestTooltip=""true""
+                                  Format=""Forest Area: <b>${point.y} MH</b>"" />
+
+            <ChartLegendSettings Visible=""true""
+                                 ShapeHeight=""15""
+                                 ShapeWidth=""15"" />
+            <ChartSeriesCollection>
+                <ChartSeries DataSource=""@TrendlineCustomizationData""
+                             XName=""Year""
+                             YName=""Area""
+                             Name=""Forest Coverage""
+                             Type=""ChartSeriesType.Line""
+                             Width=""2.5""
+                             Fill=""#2E7D32"">
+                    <ChartSeriesAnimation Enable=""false"" />
+                    <ChartMarker Visible=""true""
+                                 Width=""8""
+                                 Height=""8""
+                                 Shape=""ChartShape.Diamond""
+                                 Fill=""#2E7D32"">
+                    </ChartMarker>
+                    <ChartTrendlines>
+                        <ChartTrendline Type=""TrendlineTypes.Linear""
+                                        Name=""Deforestation Trend""
+                                        Width=""6""
+                                        DashArray=""8,4,2,4""
+                                        Intercept=""4150""
+                                        Fill=""#FFB300""
+                                        EnableTooltip=""false"">
+                            <ChartTrendlineAnimation Enable=""false"" />
+                        </ChartTrendline>
+                    </ChartTrendlines>
+                </ChartSeries>
+            </ChartSeriesCollection>
+        </SfChart>
+@code {
+    private Theme _currentTheme = Theme.Fluent;
+    public class ForestAreaPoint
+        {
+            public string Year { get; set; }
+            public double Area { get; set; }
+          
+        }
+    public List<ForestAreaPoint> TrendlineCustomizationData = new()
+        {  
+            new() { Year = ""1990"", Area = 4128 },
+            new() { Year = ""1992"", Area = 4113 },
+            new() { Year = ""1994"", Area = 4098 },
+            new() { Year = ""1996"", Area = 4084 },
+            new() { Year = ""1998"", Area = 4069 },
+            new() { Year = ""2000"", Area = 4055 },
+            new() { Year = ""2002"", Area = 4041 },
+            new() { Year = ""2004"", Area = 4028 },
+            new() { Year = ""2006"", Area = 4015 },
+            new() { Year = ""2008"", Area = 4003 },
+            new() { Year = ""2012"", Area = 3989 },
+            new() { Year = ""2014"", Area = 3978 },
+            new() { Year = ""2016"", Area = 3968 },
+            new() { Year = ""2018"", Area = 3958 },
+            new() { Year = ""2020"", Area = 3952 },
+        };
+}";
+
+    public class ForestAreaPoint
+    {
+        public string Year { get; set; }
+        public double Area { get; set; }
+      
+    }
+    public List<ForestAreaPoint> TrendlineCustomizationData = new()
+    {  
+        new() { Year = "1990", Area = 4128 },
+        new() { Year = "1992", Area = 4113 },
+        new() { Year = "1994", Area = 4098 },
+        new() { Year = "1996", Area = 4084 },
+        new() { Year = "1998", Area = 4069 },
+        new() { Year = "2000", Area = 4055 },
+        new() { Year = "2002", Area = 4041 },
+        new() { Year = "2004", Area = 4028 },
+        new() { Year = "2006", Area = 4015 },
+        new() { Year = "2008", Area = 4003 },
+        new() { Year = "2012", Area = 3989 },
+        new() { Year = "2014", Area = 3978 },
+        new() { Year = "2016", Area = 3968 },
+        new() { Year = "2018", Area = 3958 },
+        new() { Year = "2020", Area = 3952 },
+    };
+    }
+ 

@@ -1,0 +1,398 @@
+﻿@page "/charts/overview"
+@using Syncfusion.Blazor.Toolkit.Charts
+
+<PageTitle>Blazor Chart Overview</PageTitle>
+
+<div class="container" >
+    <h4>Blazor Chart Overview</h4>
+    <p>
+        The <strong><a href="https://www.syncfusion.com/blazor-components/blazor-charts" target="_blank">Syncfusion Blazor Toolkit Chart</a></strong> is a high-performance data visualization component designed
+        for modern <strong>Blazor applications</strong>. It enables developers to represent complex data using
+        interactive and customizable Charts. The component works seamlessly with both
+        <strong>Blazor Server</strong> and <strong>Blazor WebAssembly</strong>, supporting data binding from
+        local collections as well as remote data services.
+    </p>
+
+    <p>
+        The Blazor Chart component provides smooth rendering, built-in interactivity, and extensive configuration
+        options, helping developers build responsive and visually rich data-driven applications using the power
+        of .NET and Blazor.
+    </p>
+</div>
+<style>
+    .right-panel{
+        display:none;
+    }
+
+    p {
+        margin-bottom: 16px;
+    }
+
+</style>
+
+<VirtualizeSection MinHeightPx="600px"></VirtualizeSection>
+<CodePreview IsFullWidth="true" CodeSection="@OverviewCode">
+    <PreviewSection>
+        <div class="row">
+            <div class="col-md-6">
+                <SfChart Height="300px" Title="Monthly Sales Growth" Theme="@_currentTheme">
+                    <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Toolkit.ValueType.Category" />
+                    <ChartPrimaryYAxis Title="Sales in Percentage">
+                    </ChartPrimaryYAxis>
+                    
+                        <ChartSeries DataSource="OverviewData.overviewLineData"
+                                     XName="Month"
+                                     YName="Growth"
+                                     Type="ChartSeriesType.Spline"
+                                     Fill="#FF74B0"
+                                     Width="2">
+                            <ChartMarker Visible="true"></ChartMarker>
+                        </ChartSeries>
+                    
+
+                    <ChartTooltipSettings Enable="true" Format="Sales : <b>${point.y}</b>%" />
+                </SfChart>
+            </div>
+
+            <div class="col-md-6">
+                <SfChart Height="300px" Title="Total Sales by Product" Theme="@_currentTheme">
+                    <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Toolkit.ValueType.Category" />
+                    <ChartPrimaryYAxis Title="Units Sold">
+                    </ChartPrimaryYAxis>
+
+                    
+                        <ChartSeries DataSource="OverviewData.overviewColumnData"
+                                     XName="X"
+                                     YName="Y"
+                                     Type="ChartSeriesType.Column"
+                                     Fill="#C08DFF"
+                                     ColumnWidth="0.6" />
+                    
+
+                    <ChartTooltipSettings Enable="true"
+                                          Format="Sales : <b>${point.y} Units</b>" />
+                </SfChart>
+            </div>
+        </div>
+
+        <br />
+
+        <div class="row">
+            <div class="col-md-6">
+                <SfChart Height="300px" Title="Online vs Retails" Theme="@_currentTheme">
+                    <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Toolkit.ValueType.Category" />
+                    <ChartPrimaryYAxis Title="Sales in Units">
+                    </ChartPrimaryYAxis>
+
+                    
+                        <ChartSeries DataSource="OverviewData.overviewSplineAreaData"
+                                     XName="X"
+                                     YName="Y"
+                                     Type="ChartSeriesType.SplineArea"
+                                     Name="Online"
+                                     Fill="#00BFFF"
+                                     Opacity="0.5" />
+                        <ChartSeries DataSource="OverviewData.overviewSplineAreaData"
+                                     XName="X"
+                                     YName="Y1"
+                                     Type="ChartSeriesType.SplineArea"
+                                     Name="Retails"
+                                     Fill="#FF00CC80"
+                                     Opacity="0.5" />
+                    
+                    <ChartLegendSettings Visible="false"></ChartLegendSettings>
+                    <ChartTooltipSettings Enable="true"
+                                          Header="${series.name}"
+                                          Format="${point.x} : <b>${point.y} Units</b>" />
+                </SfChart>
+            </div>
+
+            <div class="col-md-6">
+                <SfChart Height="300px" Title="Product Performance" Theme="@_currentTheme">
+                    <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Toolkit.ValueType.Category" />
+                    <ChartPrimaryYAxis Minimum="1" Maximum="5" Title="Performance Rating">
+                    </ChartPrimaryYAxis>
+
+                    
+                        <ChartSeries DataSource="OverviewData.overviewBubbleData"
+                                     XName="X"
+                                     YName="Rating"
+                                     Size="Size"
+                                     Type="ChartSeriesType.Bubble"
+                                     TooltipMappingName="ReviewCount"
+                                     PointColorMapping="Color"
+                                     MinRadius="2"
+                                     MaxRadius="6"
+                                     Width="2" />
+                    
+                    <ChartTooltipSettings Enable="true"
+                                          Format="Rating : <b>${point.y}</b><br/>Reviews : <b>${point.tooltip}</b>" />
+                </SfChart>
+            </div>
+        </div>
+    </PreviewSection>
+</CodePreview>
+
+@code {
+    [CascadingParameter]
+    private Theme CurrentTheme { get; set; } = Theme.Fluent;
+
+    private Theme _currentTheme = Theme.Fluent;
+
+    protected override void OnInitialized()
+    {
+        _currentTheme = CurrentTheme;
+    }
+
+    protected override void OnParametersSet()
+    {
+        _currentTheme = CurrentTheme;
+    }
+
+    public string OverviewCode = @"<div class=""row"">
+    <div class=""col-md-6"">
+        <SfChart Height=""300px"" Title=""Monthly Sales Growth"">
+            <ChartPrimaryXAxis ValueType=""Syncfusion.Blazor.Toolkit.ValueType.Category"" />
+            <ChartPrimaryYAxis Title=""Sales in Percentage"">
+            </ChartPrimaryYAxis>
+            
+                <ChartSeries DataSource=""OverviewData.overviewLineData""
+                             XName=""Month""
+                             YName=""Growth""
+                             Type=""ChartSeriesType.Spline""
+                             Fill=""#FF74B0""
+                             Width=""2"">
+                    <ChartMarker Visible=""true""></ChartMarker>
+                </ChartSeries>
+            
+
+            <ChartTooltipSettings Enable=""true"" Format=""Sales : <b>${point.y}</b>%"" />
+        </SfChart>
+    </div>
+
+    <div class=""col-md-6"">
+        <SfChart Height=""300px"" Title=""Total Sales by Product"">
+            <ChartPrimaryXAxis ValueType=""Syncfusion.Blazor.Toolkit.ValueType.Category"" />
+            <ChartPrimaryYAxis Title=""Units Sold"">
+            </ChartPrimaryYAxis>
+
+            
+                <ChartSeries DataSource=""OverviewData.overviewColumnData""
+                             XName=""X""
+                             YName=""Y""
+                             Type=""ChartSeriesType.Column""
+                             Fill=""#C08DFF""
+                             ColumnWidth=""0.6"" />
+            
+
+            <ChartTooltipSettings Enable=""true""
+                                  Format=""Sales : <b>${point.y} Units</b>"" />
+        </SfChart>
+    </div>
+</div>
+
+<br />
+
+<div class=""row"">
+    <div class=""col-md-6"">
+        <SfChart Height=""300px"" Title=""Online vs Retails"">
+            <ChartPrimaryXAxis ValueType=""Syncfusion.Blazor.Toolkit.ValueType.Category"" />
+            <ChartPrimaryYAxis Title=""Sales in Units"">
+            </ChartPrimaryYAxis>
+
+            
+                <ChartSeries DataSource=""OverviewData.overviewSplineAreaData""
+                             XName=""X""
+                             YName=""Y""
+                             Type=""ChartSeriesType.SplineArea""
+                             Name=""Online""
+                             Fill=""#00BFFF""
+                             Opacity=""0.5"" />
+                <ChartSeries DataSource=""OverviewData.overviewSplineAreaData""
+                             XName=""X""
+                             YName=""Y1""
+                             Type=""ChartSeriesType.SplineArea""
+                             Name=""Retails""
+                             Fill=""#FF00CC80""
+                             Opacity=""0.5"" />
+            
+            <ChartLegendSettings Visible=""true""></ChartLegendSettings>
+            <ChartTooltipSettings Enable=""true""
+                                  Format=""${point.x} : <b>${point.y} Units</b>"" />
+        </SfChart>
+    </div>
+
+    <div class=""col-md-6"">
+        <SfChart Height=""300px"" Title=""Product Performance"">
+            <ChartPrimaryXAxis ValueType=""Syncfusion.Blazor.Toolkit.ValueType.Category"" />
+            <ChartPrimaryYAxis Minimum=""1"" Maximum=""5"" Title=""Performance Rating"">
+            </ChartPrimaryYAxis>
+
+            
+                <ChartSeries DataSource=""OverviewData.overviewBubbleData""
+                             XName=""X""
+                             YName=""Rating""
+                             Size=""Size""
+                             Type=""ChartSeriesType.Bubble""
+                             TooltipMappingName=""ReviewCount""
+                             PointColorMapping=""Color""
+                             MinRadius=""2""
+                             MaxRadius=""6""
+                             Width=""2"" />
+            
+
+            <ChartTooltipSettings Enable=""true""
+                                  Format=""Rating : <b>${point.y}</b><br/>Reviews : <b>${point.tooltip}</b>"" />
+        </SfChart>
+    </div>
+</div>
+
+@code {
+    public static class OverviewData
+    {
+        public static List<LineData> overviewLineData = new()
+        {
+            new LineData { Month = ""January"", Growth = 5 },
+            new LineData { Month = ""February"", Growth = 8 },
+            new LineData { Month = ""March"", Growth = -2 },
+            new LineData { Month = ""April"", Growth = 10 },
+            new LineData { Month = ""May"", Growth = 6 },
+            new LineData { Month = ""June"", Growth = 12 }
+        };
+
+        public static List<SplineAreaData> overviewSplineAreaData = new()
+        {
+            new SplineAreaData { X = ""Laptop"", Y = 350, Y1 = 250 },
+            new SplineAreaData { X = ""Tablet"", Y = 100, Y1 = 300 },
+            new SplineAreaData { X = ""Mobile"", Y = 150, Y1 = 250 },
+            new SplineAreaData { X = ""Screen"", Y = 370, Y1 = 270 },
+            new SplineAreaData { X = ""Router"", Y = 250, Y1 = 150 },
+            new SplineAreaData { X = ""Camera"", Y = 300, Y1 = 400 }
+        };
+
+        public static List<ColumnData> overviewColumnData = new()
+        {
+            new ColumnData { X = ""Laptop"", Y = 250 },
+            new ColumnData { X = ""Tablet"", Y = 200 },
+            new ColumnData { X = ""Mobile"", Y = 150 },
+            new ColumnData { X = ""Screen"", Y = 270 },
+            new ColumnData { X = ""Router"", Y = 150 },
+            new ColumnData { X = ""Camera"", Y = 300 }
+        };
+
+        public static List<BubbleData> overviewBubbleData = new()
+        {
+            new BubbleData { X = ""Laptop"", Rating = 3.5, ReviewCount = 340, Size = 1.3, Color = ""#97C7FF"" },
+            new BubbleData { X = ""Tablet"", Rating = 4.0, ReviewCount = 250, Size = 1.4, Color = ""#97FFDE"" },
+            new BubbleData { X = ""Mobile"", Rating = 4.3, ReviewCount = 200, Size = 1.7, Color = ""#FFB397"" },
+            new BubbleData { X = ""Screen"", Rating = 3.0, ReviewCount = 130, Size = 1.0, Color = ""#FF97D9"" },
+            new BubbleData { X = ""Router"", Rating = 2.5, ReviewCount = 263, Size = 0.8, Color = ""#FFDE97"" },
+            new BubbleData { X = ""Camera"", Rating = 3.8, ReviewCount = 289, Size = 1.3, Color = ""#A3FF97"" }
+        };
+    }
+
+    public class LineData
+    {
+        public string Month { get; set; }
+        public double Growth { get; set; }
+    }
+
+    public class SplineAreaData
+    {
+        public string X { get; set; }
+        public double Y { get; set; }
+        public double Y1 { get; set; }
+    }
+
+    public class ColumnData
+    {
+        public string X { get; set; }
+        public double Y { get; set; }
+    }
+
+    public class BubbleData
+    {
+        public string X { get; set; }
+        public double Rating { get; set; }
+        public int ReviewCount { get; set; }
+        public double Size { get; set; }
+        public string Color { get; set; }
+    }
+
+    protected override void OnInitialized()
+    {
+    }
+}";
+
+    public static class OverviewData
+    {
+        public static List<LineData> overviewLineData = new()
+    {
+        new LineData { Month = "January", Growth = 5 },
+        new LineData { Month = "February", Growth = 8 },
+        new LineData { Month = "March", Growth = -2 },
+        new LineData { Month = "April", Growth = 10 },
+        new LineData { Month = "May", Growth = 6 },
+        new LineData { Month = "June", Growth = 12 }
+    };
+
+        public static List<SplineAreaData> overviewSplineAreaData = new()
+    {
+        new SplineAreaData { X = "Laptop", Y = 350, Y1 = 250 },
+        new SplineAreaData { X = "Tablet", Y = 100, Y1 = 300 },
+        new SplineAreaData { X = "Mobile", Y = 150, Y1 = 250 },
+        new SplineAreaData { X = "Screen", Y = 370, Y1 = 270 },
+        new SplineAreaData { X = "Router", Y = 250, Y1 = 150 },
+        new SplineAreaData { X = "Camera", Y = 300, Y1 = 400 }
+    };
+
+        public static List<ColumnData> overviewColumnData = new()
+    {
+        new ColumnData { X = "Laptop", Y = 250 },
+        new ColumnData { X = "Tablet", Y = 200 },
+        new ColumnData { X = "Mobile", Y = 150 },
+        new ColumnData { X = "Screen", Y = 270 },
+        new ColumnData { X = "Router", Y = 150 },
+        new ColumnData { X = "Camera", Y = 300 }
+    };
+
+        public static List<BubbleData> overviewBubbleData = new()
+    {
+        new BubbleData { X = "Laptop", Rating = 3.5, ReviewCount = 340, Size = 1.3, Color = "#97C7FF" },
+        new BubbleData { X = "Tablet", Rating = 4.0, ReviewCount = 250, Size = 1.4, Color = "#97FFDE" },
+        new BubbleData { X = "Mobile", Rating = 4.3, ReviewCount = 200, Size = 1.7, Color = "#FFB397" },
+        new BubbleData { X = "Screen", Rating = 3.0, ReviewCount = 130, Size = 1.0, Color = "#FF97D9" },
+        new BubbleData { X = "Router", Rating = 2.5, ReviewCount = 263, Size = 0.8, Color = "#FFDE97" },
+        new BubbleData { X = "Camera", Rating = 3.8, ReviewCount = 289, Size = 1.3, Color = "#A3FF97" }
+    };
+    }
+
+    public class LineData
+    {
+        public string Month { get; set; }
+        public double Growth { get; set; }
+    }
+
+    public class SplineAreaData
+    {
+        public string X { get; set; }
+        public double Y { get; set; }
+        public double Y1 { get; set; }
+    }
+
+    public class ColumnData
+    {
+        public string X { get; set; }
+        public double Y { get; set; }
+    }
+
+    public class BubbleData
+    {
+        public string X { get; set; }
+        public double Rating { get; set; }
+        public int ReviewCount { get; set; }
+        public double Size { get; set; }
+        public string Color { get; set; }
+    }
+
+}

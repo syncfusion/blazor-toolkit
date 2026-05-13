@@ -1,0 +1,90 @@
+@page "/chart/axes"
+@using Syncfusion.Blazor.Toolkit.Charts
+
+<h1>Chart - Axes</h1>
+
+<div class="test-container">
+    <h2>Row Definitions</h2>
+    <SfChart ID="container">
+        <ChartRows>
+            <ChartRow Height="300"></ChartRow>
+            <ChartRow Height="100"></ChartRow>
+        </ChartRows>
+    </SfChart>
+
+    <h2>Adding Column Definition To Axis</h2>
+    <SfChart ID="container" Width="400" Height="300">
+        <ChartRows>
+            <ChartRow Height="300"></ChartRow>
+            <ChartRow Height="100"></ChartRow>
+        </ChartRows>
+        <ChartColumns>
+            <ChartColumn Width="350"></ChartColumn>
+            <ChartColumn Width="100"></ChartColumn>
+        </ChartColumns>
+    </SfChart>
+
+    <h2>Checking the Empty Definition</h2>
+    <SfChart ID="container" Width="400" Height="300">
+        <ChartRows>
+            <ChartRow></ChartRow>
+            <ChartRow></ChartRow>
+        </ChartRows>
+        <ChartColumns>
+            <ChartColumn></ChartColumn>
+            <ChartColumn></ChartColumn>
+        </ChartColumns>
+    </SfChart>
+
+    <h2>Checking Row Definition With HighValue</h2>
+    <SfChart ID="container" Width="400" Height="300">
+        <ChartRows>
+            <ChartRow Height="100%"></ChartRow>
+        </ChartRows>
+        <ChartColumns>
+            <ChartColumn Width="100%"></ChartColumn>
+        </ChartColumns>
+        <ChartPrimaryXAxis RowIndex="2" Minimum="2"></ChartPrimaryXAxis>
+        <ChartPrimaryYAxis ColumnIndex="2" Minimum="2"></ChartPrimaryYAxis>
+    </SfChart>
+
+    <h2>Checking Definition With Negative Value</h2>
+    <SfChart ID="container" Width="400" Height="300">
+        <ChartRows>
+            <ChartRow Height="100%"></ChartRow>
+        </ChartRows>
+        <ChartColumns>
+            <ChartColumn Width="100%"></ChartColumn>
+        </ChartColumns>
+        <ChartPrimaryXAxis RowIndex="-1" Minimum="2"></ChartPrimaryXAxis>
+        <ChartPrimaryYAxis ColumnIndex="-1" Minimum="2"></ChartPrimaryYAxis>
+    </SfChart>
+
+    <h2>Checking AxisLine</h2>
+    <SfChart ID="container" Width="400" Height="300">
+        <ChartRows>
+            <ChartRow Height="100%"></ChartRow>
+        </ChartRows>
+        <ChartColumns>
+            <ChartColumn Width="100%"></ChartColumn>
+        </ChartColumns>
+        <ChartPrimaryXAxis RowIndex="-1" Minimum="2">
+            <ChartAxisLineStyle Color="#FBAF4F" Width="3" DashArray="5,1"></ChartAxisLineStyle>
+        </ChartPrimaryXAxis>
+        <ChartPrimaryYAxis ColumnIndex="-1" Minimum="2">
+            <ChartAxisLineStyle Color="#0D97D4" Width="3" DashArray="3,2"></ChartAxisLineStyle>
+        </ChartPrimaryYAxis>
+    </SfChart>
+</div>
+
+<style>
+    .test-container {
+        padding: 20px;
+        border: 1px solid #ddd;
+        margin: 10px 0;
+        border-radius: 4px;
+        background-color: #f9f9f9;
+    }
+    h2 { margin-top: 20px; font-size: 18px; font-weight: 600; }
+</style>
+

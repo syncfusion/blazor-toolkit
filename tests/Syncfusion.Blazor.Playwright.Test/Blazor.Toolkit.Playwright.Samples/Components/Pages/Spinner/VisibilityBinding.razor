@@ -1,0 +1,18 @@
+@page "/spinner-visible-binding"
+@using Syncfusion.Blazor.Toolkit.Spinner
+
+<h3 id="visible-binding-ready">Spinner Visible Binding Ready</h3>
+
+<SfSpinner @bind-Visible="IsVisible" />
+
+<button id="btn-toggle" @onclick="Toggle">Toggle</button>
+<pre id="state">@IsVisible</pre>
+
+@code {
+    private bool IsVisible = false;
+
+    private void Toggle()
+    {
+        IsVisible = !IsVisible;
+    }
+}

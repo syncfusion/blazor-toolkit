@@ -1,0 +1,83 @@
+﻿@using Syncfusion.Blazor.Toolkit
+@using Syncfusion.Blazor.Toolkit.Inputs
+@using Microsoft.AspNetCore.Components.Web
+
+@namespace Syncfusion.Blazor.Toolkit.Tests.Inputs
+
+<div class="sample">
+    <div>
+        <SfRadioButton TChecked="bool"></SfRadioButton>
+        <SfRadioButton Label="US" Checked="@("India")" Name=@name Value=@value1></SfRadioButton>
+        <SfRadioButton Label="India" Checked="@("India")" Name="country" Value=@value2></SfRadioButton>
+    </div>
+    <div>
+        <SfRadioButton Checked="gender" Name="gender" Value="male"></SfRadioButton>
+        <SfRadioButton Checked="gender" Name="gender" Value="female"></SfRadioButton>
+        <div class="e-prop-value">
+           @gender
+        </div>
+        <button @onclick="OnClickHandler">Update property</button>
+    </div>
+    <div>
+        <SfRadioButton @bind-Checked="isChecked" Name="major" Value="true"></SfRadioButton>
+        <SfRadioButton @bind-Checked="isChecked" Name="major" Value="false"></SfRadioButton>
+        <input type="radio" checked="@(isChecked == true)" name="major1" value="true" @onchange="@(() => isChecked = true)"/>
+        <input type="radio" checked="@(isChecked == false)" name="major1" value="false" @onchange="@(() => isChecked = false)"/>
+        <div class="e-prop-value">
+            @isChecked
+        </div>
+    </div>
+    <div>
+        <SfRadioButton @bind-Checked="isNullChecked" Name="test" Value="null"></SfRadioButton>
+        <SfRadioButton @bind-Checked="isNullChecked" Name="test" Value="true"></SfRadioButton>
+        <SfRadioButton @bind-Checked="isNullChecked" Name="test" Value="false"></SfRadioButton>
+        <div class="e-prop-value">
+            @isNullChecked
+        </div>
+    </div>
+    <div>
+        <SfRadioButton @bind-Checked="stringChecked" Name="payment" Value="cash"></SfRadioButton>
+        <SfRadioButton @bind-Checked="stringChecked" Name="payment" Value="card"></SfRadioButton>
+        <div class="e-prop-value">
+            @stringChecked
+        </div>
+    </div>
+    <div>
+        <SfRadioButton @bind-Checked="intChecked" Name="childs" Value="0"></SfRadioButton>
+        <SfRadioButton @bind-Checked="intChecked" Name="childs" Value="1"></SfRadioButton>
+        <SfRadioButton @bind-Checked="intChecked" Name="childs" Value="2"></SfRadioButton>
+        <div class="e-prop-value">
+            @intChecked
+        </div>
+    </div>
+    <div>
+        <SfRadioButton @bind-Checked="doubleChecked" Name="age" Value="1.1"></SfRadioButton>
+        <SfRadioButton @bind-Checked="doubleChecked" Name="age" Value="1.2"></SfRadioButton>
+        <SfRadioButton @bind-Checked="doubleChecked" Name="age" Value="1.3"></SfRadioButton>
+        <div class="e-prop-value">
+            @doubleChecked
+        </div>
+    </div>
+</div>
+
+@code {    
+    [Parameter]
+    public string value1 {get;set;}="US";
+    [Parameter]
+    public string value2 {get;set;}="India";
+     [Parameter]
+    public string name {get;set;}="Country";
+
+    private bool isChecked;
+    private int intChecked = 1;
+    private bool? isNullChecked;
+    [Parameter]
+    public string gender{get;set;} = "female";
+    private double doubleChecked = 1.3;
+    private string stringChecked = "cash";
+
+    private void OnClickHandler()
+    {
+        gender = gender == "male" ? "female" : "male";
+    }
+}

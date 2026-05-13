@@ -1,0 +1,22 @@
+@page "/numerictextbox/default-functionality"
+@using Syncfusion.Blazor.Toolkit.Inputs
+
+<h1>NumericTextBox — Default Functionality</h1>
+
+<div style="max-width:480px">
+    <SfNumericTextBox Id="defaultNumeric" TValue="double?" @bind-Value="Value" Placeholder="Type number" Decimals="3" ShowClearButton="true" ShowSpinButton="true"></SfNumericTextBox>
+    <div style="margin-top:12px">
+        <button @onclick="SetProgrammatic">Set value programmatically</button>
+        <span id="value-log" style="margin-left:12px">@DisplayValue</span>
+    </div>
+</div>
+
+@code {
+    private double? Value { get; set; }
+    private string DisplayValue => Value?.ToString() ?? "(empty)";
+
+    private void SetProgrammatic()
+    {
+        Value = 1234.5;
+    }
+}

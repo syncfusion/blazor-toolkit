@@ -1,0 +1,22 @@
+﻿@namespace Syncfusion.Blazor.Toolkit.Charts.Internal
+
+<pattern id="@Id" height="@Height" width="@Width" patternUnits="@PatternUnits">
+    @foreach (object shape in ShapeOptions)
+    {
+        if (shape is RectOptions)
+        {
+            RectOptions rectOption = (RectOptions)shape;
+            <SvgRect X="@rectOption.X" Y="@rectOption.Y" Height="@rectOption.Height" Width="@rectOption.Width" Opacity="@rectOption.Opacity" Fill="@rectOption.Fill" />
+        }
+        else if (shape is PathOptions)
+        {
+            PathOptions pathOption = (PathOptions)shape;
+            <SvgPath Direction="@pathOption.Direction" Opacity="@pathOption.Opacity" Stroke="@pathOption.Stroke" StrokeWidth="@pathOption.StrokeWidth" Fill="@pathOption.Fill" />
+        }
+        else if (shape is EllipseOptions)
+        {
+            EllipseOptions ellipse = (EllipseOptions)shape;
+            <SvgEllipse Cx="@ellipse.Cx" Cy="@ellipse.Cy" Opacity="@ellipse.Opacity" Fill="@ellipse.Fill" Stroke="@ellipse.Stroke" StrokeWidth="@ellipse.StrokeWidth" Rx="@ellipse.Rx" Ry="@ellipse.Ry" />
+        }
+    }
+</pattern>

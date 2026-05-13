@@ -1,0 +1,12 @@
+@page "/switch/disabled-state"
+@using Syncfusion.Blazor.Toolkit.Inputs
+
+<SfSwitch Id="switch-disabled"
+          Disabled="true"
+          @bind-Checked="value" />
+
+<button id="enable-btn" @onclick="() => value = false">Enable</button>
+
+@code {
+    bool value = true;
+}

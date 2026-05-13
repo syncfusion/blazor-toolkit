@@ -1,0 +1,8 @@
+﻿@using Syncfusion.Blazor.Toolkit
+@using Syncfusion.Blazor.Toolkit.Inputs
+@namespace Syncfusion.Blazor.Toolkit.Tests.Inputs
+
+@{
+    var attrs = new Dictionary<string, object> { ["id"] = "custom-id-radio" };
+}
+<SfRadioButton TChecked="bool" Label="Attr ID" @attributes="attrs" />

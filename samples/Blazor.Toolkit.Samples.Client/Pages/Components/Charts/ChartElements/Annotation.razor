@@ -1,0 +1,1266 @@
+@page "/charts/annotation"
+
+@using Syncfusion.Blazor.Toolkit.Charts
+@using ValueType = Syncfusion.Blazor.Toolkit.ValueType
+
+<Description>
+    <Header>
+        <h5><b>Overview</b></h5>
+    </Header>
+    <Content>
+        Annotations allow you to place custom content such as text, HTML, or SVG
+        elements at specific data points or pixel coordinates in a Chart.
+        elements at specific data points or pixel coordinates in a Chart using the <code>ChartAnnotation</code> component.
+        This example demonstrates adding tooltip-style annotations to highlight
+        important regions in a speed data plot.
+        important regions in a speed data plot by configuring the <code>X</code> and <code>Y</code> properties.
+    </Content>
+</Description>
+
+<VirtualizeSection MinHeightPx="600px">
+    <CodePreview IsFullWidth="true" CodeSection="@AnnotationOverviewCode">
+    <PreviewSection>
+        <SfChart @key="@_currentTheme" Height="420px"
+         Width="100%"
+         Title="Speed Data Plot for Interlagos Circuit"
+         Theme="@_currentTheme">
+
+    <!-- Hide legend (React parity) -->
+    <ChartLegendSettings Visible="false" />
+
+    <!-- X Axis -->
+            <ChartPrimaryXAxis ValueType="ValueType.Double" Title="Distance"
+                       LabelFormat="{value:0.00} KM">
+                <ChartAxisMajorGridLines Width="0" />
+                <ChartAxisMajorTickLines Width="0" />
+    </ChartPrimaryXAxis>
+
+    <!-- Y Axis -->
+    <ChartPrimaryYAxis Minimum="50" Title="Speed (KM/H)"
+                       Maximum="400">
+        <ChartAxisLineStyle Width="0" />
+        <ChartAxisMajorTickLines Width="0" />
+    </ChartPrimaryYAxis>
+
+    <!-- ✅ Annotations -->
+    <ChartAnnotations>
+
+        <ChartAnnotation CoordinateUnits="Units.Point" X="0.36" Y="80">
+            <ContentTemplate>
+                @((MarkupString)SpeedCallout("Senna S", "Top", false))
+            </ContentTemplate>
+        </ChartAnnotation>
+
+        <ChartAnnotation CoordinateUnits="Units.Point" X="0.90" Y="158">
+            <ContentTemplate>
+                @((MarkupString)SpeedCallout("Curva do Sol", "Left", false))
+            </ContentTemplate>
+        </ChartAnnotation>
+
+        <ChartAnnotation CoordinateUnits="Units.Point" X="1.40" Y="120">
+            <ContentTemplate>
+                @((MarkupString)SpeedCallout("Descida do Lago", "Top", false))
+            </ContentTemplate>
+        </ChartAnnotation>
+
+        <ChartAnnotation CoordinateUnits="Units.Point" X="2.10" Y="200">
+            <ContentTemplate>
+                @((MarkupString)SpeedCallout("Ferradura", "Top", false))
+            </ContentTemplate>
+        </ChartAnnotation>
+
+        <ChartAnnotation CoordinateUnits="Units.Point" X="2.72" Y="80">
+            <ContentTemplate>
+                @((MarkupString)SpeedCallout("Bico de Pato", "Top", false))
+            </ContentTemplate>
+        </ChartAnnotation>
+
+        <ChartAnnotation CoordinateUnits="Units.Point" X="3.27" Y="98">
+            <ContentTemplate>
+                @((MarkupString)SpeedCallout("Juncao", "Top", false))
+            </ContentTemplate>
+        </ChartAnnotation>
+
+        <ChartAnnotation CoordinateUnits="Units.Point" X="0.70" Y="304">
+            <ContentTemplate>
+                @((MarkupString)SpeedCallout("Reta Oposta", "Bottom", true))
+            </ContentTemplate>
+        </ChartAnnotation>
+
+        <ChartAnnotation CoordinateUnits="Units.Point" X="3.136" Y="288">
+            <ContentTemplate>
+                @((MarkupString)SpeedCallout("Mergulho", "Bottom", true))
+            </ContentTemplate>
+        </ChartAnnotation>
+
+        <ChartAnnotation CoordinateUnits="Units.Point" X="3.82" Y="312">
+            <ContentTemplate>
+                @((MarkupString)SpeedCallout("Subida dos Boxes", "Bottom", true))
+            </ContentTemplate>
+        </ChartAnnotation>
+
+        <!-- Plain HTML annotation -->
+        <ChartAnnotation CoordinateUnits="Units.Point" X="1.65" Y="330">
+            <ContentTemplate>
+                <div style="font-family:Inter;font-weight:600;color:@TextColor">
+                    Max, acceleration<br />5.00 g at 5th gear
+                </div>
+            </ContentTemplate>
+        </ChartAnnotation>
+
+        <ChartAnnotation CoordinateUnits="Units.Point" X="2.50" Y="260">
+            <ContentTemplate>
+                <div style="font-family:Inter;font-weight:600;color:@TextColor">
+                    Max, acceleration<br />4.58 g at 5th gear
+                </div>
+            </ContentTemplate>
+        </ChartAnnotation>
+
+    </ChartAnnotations>
+
+    <!-- ✅ Series -->
+    
+        <ChartSeries DataSource="@AnnotateData"
+                     XName="Distance"
+                     YName="Speed"
+                     Name="Speed"
+                     Type="ChartSeriesType.Area"
+                     Fill="#6200EE"
+                     Border="@(new ChartSeriesBorder { Width = 2.5, Color = "#6200EE" })">
+        </ChartSeries>
+    
+
+</SfChart>
+
+    </PreviewSection>
+</CodePreview>
+</VirtualizeSection>
+
+<Description>
+    <Header>
+        <h5><b>Points</b></h5>
+    </Header>
+    <Content>
+        Point annotations allow you to place custom content at specific
+        data points in the Chart. This example demonstrates callout-style
+        data points in the Chart by setting the <code>CoordinateUnits</code> property to <code>Units.Point</code>. 
+        This example demonstrates callout-style
+        annotations positioned at known peak and transition months in
+        all-India monthly rainfall data.
+    </Content>
+</Description>
+
+<VirtualizeSection MinHeightPx="600px">
+    <CodePreview IsFullWidth="true" CodeSection="@AnnotationPointCode">
+    <PreviewSection>
+        <SfChart @key="@_currentTheme" Height="440px" Title="All-India Monthly Rainfall (mm, 1901-2000 normals)"
+                 SubTitle="Source: India Meteorological Department" Theme="@_currentTheme">
+
+            <ChartLegendSettings Visible="false"></ChartLegendSettings>
+
+            <ChartPrimaryXAxis ValueType="ValueType.Category" Interval="1">
+                <ChartAxisMajorGridLines Width="0" />
+                <ChartAxisMajorTickLines Width="0" />
+            </ChartPrimaryXAxis>
+
+            <ChartPrimaryYAxis Minimum="0" Maximum="340" Title="Precipitation (mm)" Interval="100">
+                <ChartAxisLineStyle Width="0" />
+                <ChartAxisMajorTickLines Width="0" />
+            </ChartPrimaryYAxis>
+
+            <ChartAnnotations>
+                <ChartAnnotation X="@((object)"Jun")" Y="195"
+                                 CoordinateUnits="Units.Point">
+                    <ContentTemplate>
+                        @((MarkupString)RainfallCallout("SW monsoon onset month nationally (~167 mm)", "#0f766e", "#eafff6"))
+                    </ContentTemplate>
+                </ChartAnnotation>
+
+                <ChartAnnotation X="@((object)"Jul")" Y="317"
+                                 CoordinateUnits="Units.Point">
+                    <ContentTemplate>
+                        @((MarkupString)RainfallCallout("Peak monsoon — July averages ~289 mm", "#1e3a8a", "#ffffff"))
+                    </ContentTemplate>
+                </ChartAnnotation>
+
+                <ChartAnnotation X="@((object)"Oct")" Y="115"
+                                 CoordinateUnits="Units.Point">
+                    <ContentTemplate>
+                        @((MarkupString)RainfallCallout("Retreating monsoon - October (~85 mm)", "#7c2d12", "#fff7ed"))
+                    </ContentTemplate>
+                </ChartAnnotation>
+            </ChartAnnotations>
+
+            
+                <ChartSeries DataSource="@RainfallIndia"
+                             XName="Month"
+                             YName="Rainfall"
+                             Type="ChartSeriesType.Column"
+                             Fill="#3b82f6"
+                             Width="2">
+                </ChartSeries>
+            
+        </SfChart>
+    </PreviewSection>
+</CodePreview>
+</VirtualizeSection>
+
+<Description>
+    <Header>
+        <h5><b>Pixel</b></h5>
+    </Header>
+    <Content>
+        Pixel-based annotations allow you to position custom content at fixed
+        locations within the Chart area using pixel or percentage values.
+        locations within the Chart area using pixel or percentage values by setting the <code>CoordinateUnits</code> property to <code>Units.Pixel</code>.
+        This example demonstrates adding a watermark-style annotation
+        positioned at the center of the Chart using pixel coordinates.
+    </Content>
+</Description>
+
+<VirtualizeSection MinHeightPx="600px">
+    <CodePreview IsFullWidth="true" CodeSection="@AnnotationPixelCode">
+    <PreviewSection>
+        <SfChart @key="@_currentTheme" Height="420px" Width="100%" Title="Brent Crude Oil Price Trends (2015-2023)" 
+                 SubTitle="Source: U.S. EIA-Europe Brent Spot Price FOB (Annual Averages)" Theme="@_currentTheme">
+            <ChartLegendSettings Visible="false"></ChartLegendSettings>
+
+            <ChartPrimaryXAxis ValueType="ValueType.DateTime" Format="yyyy">
+                <ChartAxisMajorGridLines Width="0" />
+                <ChartAxisMajorTickLines Width="0"/>
+            </ChartPrimaryXAxis>
+
+            <ChartPrimaryYAxis Interval="20" Title="Price (USD per Barrel)">
+                <ChartAxisLineStyle Width="0" />
+                <ChartAxisMajorTickLines Width="0" />
+            </ChartPrimaryYAxis>
+
+            <ChartAnnotations>
+                <ChartAnnotation X="@((object)"60%")" Y="@((string)"60%".ToString())"
+                                 CoordinateUnits="Units.Pixel">
+                    <ContentTemplate>
+                        @((MarkupString)WatermarkHtml("Annual Averages (2015-2023)"))
+                    </ContentTemplate>
+                </ChartAnnotation>
+            </ChartAnnotations>
+
+            
+                <ChartSeries DataSource="@BrentAnnual"
+                             XName="Year"
+                             YName="Price"
+                             Name="Price"
+                             Type="ChartSeriesType.Spline"
+                             Width="3"
+                             Fill="#82C100">
+                </ChartSeries>
+            
+
+            <ChartTooltipSettings Enable="true" EnableHighlight="true"
+                                  EnableMarker="true" ShowNearestPoint="true"
+                                  Format="${point.x}<br/>${series.name}: <b>${point.y}</b>" />
+        </SfChart>
+    </PreviewSection>
+</CodePreview>
+</VirtualizeSection>
+
+<Description>
+    <Header>
+        <h5><b>Alignment</b></h5>
+    </Header>
+    <Content>
+        Alignment properties allow you to control how annotation content is positioned
+        relative to its anchor point. This example demonstrates horizontal and vertical
+        alignment options applied to annotations highlighting maximum, minimum, and
+        relative to its anchor point using the <code>HorizontalAlignment</code> and <code>VerticalAlignment</code> properties. 
+        This example demonstrates horizontal and vertical alignment options applied to annotations highlighting maximum, minimum, and
+        average values in a time series.
+    </Content>
+</Description>
+
+<VirtualizeSection MinHeightPx="600px">
+    <CodePreview IsFullWidth="true" CodeSection="@AnnotationAlignmentCode">
+    <PreviewSection>
+        <SfChart Title="Bitcoin (BTC) vs USD — Monthly Close (Jun 2022–Oct 2024)" Theme="@_currentTheme">
+
+            <ChartPrimaryXAxis ValueType="ValueType.DateTime"
+                               IntervalType="IntervalType.Months" LabelFormat="MMM yy"
+                               Interval="4">
+                <ChartAxisMajorGridLines Width="0" />
+                <ChartAxisMajorTickLines Width="0" />
+            </ChartPrimaryXAxis>
+
+            <ChartPrimaryYAxis Interval="20000" Title="Price in USD">
+                <ChartAxisLineStyle Width="0" />
+                <ChartAxisMajorTickLines Width="0" />
+            </ChartPrimaryYAxis>
+
+            <ChartAnnotations>
+                <ChartAnnotation X="@Stats.MaxPoint.X"
+                                 Y="@(Stats.MaxPoint.Y.ToString())"
+                                 CoordinateUnits="Units.Point">
+                    <ContentTemplate>
+                        @((MarkupString)GlassBox($"📈 Max ${FmtUSD(Stats.MaxVal)}"))
+                    </ContentTemplate>
+                </ChartAnnotation>
+
+                <ChartAnnotation X="@Stats.MinPoint.X"
+                                 Y="@(Stats.MinPoint.Y.ToString())"
+                                 CoordinateUnits="Units.Point">
+                    <ContentTemplate>
+                        @((MarkupString)GlassBox($"📉 Min ${FmtUSD(Stats.MinVal)}"))
+                    </ContentTemplate>
+                </ChartAnnotation>
+
+                <ChartAnnotation X="@Stats.MidPoint.X"
+                                 Y="@(Stats.AvgVal.ToString())"
+                                 CoordinateUnits="Units.Point">
+                    <ContentTemplate>
+                        @((MarkupString)GlassBox($"⚖ Avg ${FmtUSD(Stats.AvgVal)}"))
+                    </ContentTemplate>
+                </ChartAnnotation>
+            </ChartAnnotations>
+
+            
+                <ChartSeries DataSource="@Data"
+                             XName="X"
+                             YName="Y"
+                             Type="ChartSeriesType.Area"
+                             Fill="rgba(250, 8, 8, 0.26)"
+                             Border="@(new ChartSeriesBorder { Color = "red", Width = 2 })">
+                </ChartSeries>
+
+            
+
+            <ChartLegendSettings Visible="false"></ChartLegendSettings>
+        </SfChart>
+    </PreviewSection>
+</CodePreview>
+</VirtualizeSection>
+
+@code {
+    [CascadingParameter]
+    private Theme _currentTheme { get; set; } = Theme.Fluent;
+
+    private bool IsDarkTheme => _currentTheme.ToString().Contains("Dark") || _currentTheme.ToString().Contains("HighContrast");
+    private string TextColor => IsDarkTheme ? "#E6EEF8" : "#0B1F3B";
+
+    // Helper methods for annotations
+    string SpeedCallout(string text, string direction, bool dark = false)
+    {
+        var bg = dark ? "#000000" : "#1e3a8a";
+        var fg = "#ffffff";
+        return $@"
+        <div style='
+            padding:8px 10px;
+            border-radius:10px;
+            background:{bg};
+            color:{fg};
+            font-family:Inter, system-ui;
+            font-weight:800;
+            font-size:12px;'>
+            {text}
+        </div>";
+    }
+
+    string RainfallCallout(string text, string bg, string fg = "")
+    {
+        return $@"
+        <div style='
+            padding:8px 10px;
+            border-radius:10px;
+            background:{bg};
+            color:{fg};
+            font-family:Inter, system-ui;
+            font-weight:800;
+            font-size:12px;'>
+            {text}
+        </div>";
+    }
+
+    string WatermarkHtml(string text)
+    {
+        return $@"
+        <div style='
+            font-size:40px;
+            font-weight:500;
+            opacity:0.08;
+            transform:rotate(-20deg);
+            white-space:nowrap;
+            user-select:none;
+            pointer-events:none;
+            font-family:Inter, system-ui;'>
+            {text}
+        </div>";
+    }
+
+    string GlassBox(string text) => $@"
+    <div style='
+        padding:4px 8px;
+        border-radius:8px;
+        background:rgba(30,143,255,0.26);
+        border:1px solid rgba(30,144,255,0.45);
+        color:#0b64c0;
+        font-size:12px;
+        font-weight:600;'>
+        {text}
+    </div>";
+
+    string FmtUSD(double v) => v.ToString("N0");
+
+    // Data Models
+    public class SpeedInfo
+    {
+        public double Distance { get; set; }
+        public double Speed { get; set; }
+    }
+
+    public class RainfallInfo
+    {
+        public string Month { get; set; }
+        public double Rainfall { get; set; }
+    }
+
+    public class BrentInfo
+    {
+        public DateTime Year { get; set; }
+        public double Price { get; set; }
+    }
+
+    public class PricePoint
+    {
+        public DateTime X { get; set; }
+        public double Y { get; set; }
+    }
+
+    public record StatsInfo(
+        double MaxVal, double MinVal, PricePoint MaxPoint, PricePoint MinPoint, double AvgVal, PricePoint MidPoint
+    );
+
+    // Data Sources
+    public List<SpeedInfo> AnnotateData = new()
+    {
+        new() { Distance = 0.003580952, Speed = 287.5714286 },
+        new() { Distance = 0.056952381, Speed = 288.8571429 },
+        new() { Distance = 0.094285714, Speed = 288.8571429 },
+        new() { Distance = 0.137066667, Speed = 292.7142857 },
+        new() { Distance = 0.169066667, Speed = 292.7142857 },
+        new() { Distance = 0.195771429, Speed = 294 },
+        new() { Distance = 0.249066667, Speed = 292.7142857 },
+        new() { Distance = 0.259066667, Speed = 280.7142857 },
+        new() { Distance = 0.269066667, Speed = 278.7142857 },
+        new() { Distance = 0.253752381, Speed = 270.8571429 },
+        new() { Distance = 0.253752381, Speed = 265.8571429 },
+        new() { Distance = 0.263752381, Speed = 260.8571429 },
+        new() { Distance = 0.258104762, Speed = 249 },
+        new() { Distance = 0.270104762, Speed = 246 },
+        new() { Distance = 0.271104762, Speed = 242 },
+        new() { Distance = 0.253752381, Speed = 234.8571429 },
+        new() { Distance = 0.273790476, Speed = 227.1428571 },
+        new() { Distance = 0.274019048, Speed = 214.8571429 },
+        new() { Distance = 0.270384762, Speed = 206.5714286 },
+        new() { Distance = 0.265847619, Speed = 202.5714286 },
+        new() { Distance = 0.269847619, Speed = 198.5714286 },
+        new() { Distance = 0.290847619, Speed = 188.5714286 },
+        new() { Distance = 0.29367619, Speed = 188.2857143 },
+        new() { Distance = 0.29767619, Speed = 188.2857143 },
+        new() { Distance = 0.303657143, Speed = 175.1428571 },
+        new() { Distance = 0.308657143, Speed = 165.1428571 },
+        new() { Distance = 0.314057143, Speed = 146.1428571 },
+        new() { Distance = 0.324533333, Speed = 139.7142857 },
+        new() { Distance = 0.3296, Speed = 130.7142857 },
+        new() { Distance = 0.334666667, Speed = 121.7142857 },
+        new() { Distance = 0.355771429, Speed = 114 },
+        new() { Distance = 0.366247619, Speed = 107.5714286 },
+        new() { Distance = 0.382361905, Speed = 111.4285714 },
+        new() { Distance = 0.387847619, Speed = 116.5714286 },
+        new() { Distance = 0.393295238, Speed = 120.4285714 },
+        new() { Distance = 0.404152381, Speed = 126.8571429 },
+        new() { Distance = 0.409638095, Speed = 132 },
+        new() { Distance = 0.409866667, Speed = 139.7142857 },
+        new() { Distance = 0.4312, Speed = 139.7142857 },
+        new() { Distance = 0.441980952, Speed = 143.5714286 },
+        new() { Distance = 0.452838095, Speed = 150 },
+        new() { Distance = 0.47447619, Speed = 160.2857143 },
+        new() { Distance = 0.485371429, Speed = 168 },
+        new() { Distance = 0.496304762, Speed = 177 },
+        new() { Distance = 0.501866667, Speed = 184.7142857 },
+        new() { Distance = 0.512761905, Speed = 192.4285714 },
+        new() { Distance = 0.528952381, Speed = 198.8571429 },
+        new() { Distance = 0.539809524, Speed = 205.2857143 },
+        new() { Distance = 0.556, Speed = 211.7142857 },
+        new() { Distance = 0.572190476, Speed = 218.1428571 },
+        new() { Distance = 0.59367619, Speed = 223.2857143 },
+        new() { Distance = 0.604457143, Speed = 227.1428571 },
+        new() { Distance = 0.61527619, Speed = 232.2857143 },
+        new() { Distance = 0.63672381, Speed = 236.1428571 },
+        new() { Distance = 0.652914286, Speed = 242.5714286 },
+        new() { Distance = 0.668990476, Speed = 245.1428571 },
+        new() { Distance = 0.679733333, Speed = 247.7142857 },
+        new() { Distance = 0.695847619, Speed = 251.5714286 },
+        new() { Distance = 0.711885714, Speed = 252.8571429 },
+        new() { Distance = 0.722628571, Speed = 255.4285714 },
+        new() { Distance = 0.733295238, Speed = 255.4285714 },
+        new() { Distance = 0.749447619, Speed = 260.5714286 },
+        new() { Distance = 0.76552381, Speed = 263.1428571 },
+        new() { Distance = 0.792152381, Speed = 261.8571429 },
+        new() { Distance = 0.808266667, Speed = 265.7142857 },
+        new() { Distance = 0.819047619, Speed = 269.5714286 },
+        new() { Distance = 0.845752381, Speed = 270.8571429 },
+        new() { Distance = 0.861828571, Speed = 273.4285714 },
+        new() { Distance = 0.877866667, Speed = 274.7142857 },
+        new() { Distance = 0.893904762, Speed = 276 },
+        new() { Distance = 0.904609524, Speed = 277.2857143 },
+        new() { Distance = 0.931352381, Speed = 279.8571429 },
+        new() { Distance = 0.958133333, Speed = 283.7142857 },
+        new() { Distance = 0.984761905, Speed = 282.4285714 },
+        new() { Distance = 1.000838095, Speed = 285 },
+        new() { Distance = 1.022209524, Speed = 286.2857143 },
+        new() { Distance = 1.054285714, Speed = 288.8571429 },
+        new() { Distance = 1.091619048, Speed = 288.8571429 },
+        new() { Distance = 1.112990476, Speed = 290.1428571 },
+        new() { Distance = 1.129028571, Speed = 291.4285714 },
+        new() { Distance = 1.155733333, Speed = 292.7142857 },
+        new() { Distance = 1.187733333, Speed = 292.7142857 },
+        new() { Distance = 1.225104762, Speed = 294 },
+        new() { Distance = 1.241104762, Speed = 294 },
+        new() { Distance = 1.262438095, Speed = 294 },
+        new() { Distance = 1.289142857, Speed = 295.2857143 },
+        new() { Distance = 1.310285714, Speed = 288.8571429 },
+        new() { Distance = 1.31527619, Speed = 277.2857143 },
+        new() { Distance = 1.319961905, Speed = 255.4285714 },
+        new() { Distance = 1.320190476, Speed = 263.1428571 },
+        new() { Distance = 1.330209524, Speed = 241.2857143 },
+        new() { Distance = 1.33032381, Speed = 245.1428571 },
+        new() { Distance = 1.330514286, Speed = 251.5714286 },
+        new() { Distance = 1.334933333, Speed = 220.7142857 },
+        new() { Distance = 1.335161905, Speed = 228.4285714 },
+        new() { Distance = 1.33527619, Speed = 232.2857143 },
+        new() { Distance = 1.34007619, Speed = 214.2857143 },
+        new() { Distance = 1.345104762, Speed = 204 },
+        new() { Distance = 1.350209524, Speed = 196.2857143 },
+        new() { Distance = 1.354628571, Speed = 165.4285714 },
+        new() { Distance = 1.375885714, Speed = 162.8571429 },
+        new() { Distance = 1.386361905, Speed = 156.4285714 },
+        new() { Distance = 1.40247619, Speed = 160.2857143 },
+        new() { Distance = 1.413371429, Speed = 168 },
+        new() { Distance = 1.434780952, Speed = 170.5714286 },
+        new() { Distance = 1.440304762, Speed = 177 },
+        new() { Distance = 1.456342857, Speed = 178.2857143 },
+        new() { Distance = 1.461904762, Speed = 186 },
+        new() { Distance = 1.467314286, Speed = 188.5714286 },
+        new() { Distance = 1.472761905, Speed = 192.4285714 },
+        new() { Distance = 1.478285714, Speed = 198.8571429 },
+        new() { Distance = 1.499695238, Speed = 201.4285714 },
+        new() { Distance = 1.510666667, Speed = 211.7142857 },
+        new() { Distance = 1.521485714, Speed = 216.8571429 },
+        new() { Distance = 1.532342857, Speed = 223.2857143 },
+        new() { Distance = 1.543047619, Speed = 224.5714286 },
+        new() { Distance = 1.559238095, Speed = 231 },
+        new() { Distance = 1.575390476, Speed = 236.1428571 },
+        new() { Distance = 1.591466667, Speed = 238.7142857 },
+        new() { Distance = 1.607504762, Speed = 240 },
+        new() { Distance = 1.628990476, Speed = 245.1428571 },
+        new() { Distance = 1.645104762, Speed = 249 },
+        new() { Distance = 1.671885714, Speed = 252.8571429 },
+        new() { Distance = 1.693219048, Speed = 252.8571429 },
+        new() { Distance = 1.704038095, Speed = 258 },
+        new() { Distance = 1.725485714, Speed = 261.8571429 },
+        new() { Distance = 1.746933333, Speed = 265.7142857 },
+        new() { Distance = 1.768266667, Speed = 265.7142857 },
+        new() { Distance = 1.800419048, Speed = 270.8571429 },
+        new() { Distance = 1.821752381, Speed = 270.8571429 },
+        new() { Distance = 1.848495238, Speed = 273.4285714 },
+        new() { Distance = 1.875238095, Speed = 276 },
+        new() { Distance = 1.896609524, Speed = 277.2857143 },
+        new() { Distance = 1.917980952, Speed = 278.5714286 },
+        new() { Distance = 1.939428571, Speed = 282.4285714 },
+        new() { Distance = 1.960685714, Speed = 279.8571429 },
+        new() { Distance = 1.976190476, Speed = 263.1428571 },
+        new() { Distance = 1.976342857, Speed = 268.2857143 },
+        new() { Distance = 1.986552381, Speed = 252.8571429 },
+        new() { Distance = 2.007733333, Speed = 247.7142857 },
+        new() { Distance = 2.028990476, Speed = 245.1428571 },
+        new() { Distance = 2.034171429, Speed = 240 },
+        new() { Distance = 2.055238095, Speed = 231 },
+        new() { Distance = 2.076495238, Speed = 228.4285714 },
+        new() { Distance = 2.097714286, Speed = 224.5714286 },
+        new() { Distance = 2.12967619, Speed = 223.2857143 },
+        new() { Distance = 2.151085714, Speed = 225.8571429 },
+        new() { Distance = 2.172647619, Speed = 233.5714286 },
+        new() { Distance = 2.204647619, Speed = 233.5714286 },
+        new() { Distance = 2.215352381, Speed = 234.8571429 },
+        new() { Distance = 2.242019048, Speed = 234.8571429 },
+        new() { Distance = 2.247085714, Speed = 225.8571429 },
+        new() { Distance = 2.2472, Speed = 229.7142857 },
+        new() { Distance = 2.262552381, Speed = 207.8571429 },
+        new() { Distance = 2.266971429, Speed = 177 },
+        new() { Distance = 2.267085714, Speed = 180.8571429 },
+        new() { Distance = 2.2672, Speed = 184.7142857 },
+        new() { Distance = 2.267390476, Speed = 191.1428571 },
+        new() { Distance = 2.267542857, Speed = 196.2857143 },
+        new() { Distance = 2.267695238, Speed = 201.4285714 },
+        new() { Distance = 2.271885714, Speed = 162.8571429 },
+        new() { Distance = 2.27207619, Speed = 169.2857143 },
+        new() { Distance = 2.276228571, Speed = 129.4285714 },
+        new() { Distance = 2.286438095, Speed = 114 },
+        new() { Distance = 2.296952381, Speed = 108.8571429 },
+        new() { Distance = 2.302019048, Speed = 99.85714286 },
+        new() { Distance = 2.323161905, Speed = 93.42857143 },
+        new() { Distance = 2.32327619, Speed = 97.28571429 },
+        new() { Distance = 2.339580952, Speed = 107.5714286 },
+        new() { Distance = 2.3504, Speed = 112.7142857 },
+        new() { Distance = 2.366742857, Speed = 124.2857143 },
+        new() { Distance = 2.377638095, Speed = 132 },
+        new() { Distance = 2.393295238, Speed = 120.4285714 },
+        new() { Distance = 2.409409524, Speed = 124.2857143 },
+        new() { Distance = 2.4256, Speed = 130.7142857 },
+        new() { Distance = 2.44712381, Speed = 137.1428571 },
+        new() { Distance = 2.473904762, Speed = 141 },
+        new() { Distance = 2.490057143, Speed = 146.1428571 },
+        new() { Distance = 2.500914286, Speed = 152.5714286 },
+        new() { Distance = 2.517066667, Speed = 157.7142857 },
+        new() { Distance = 2.527961905, Speed = 165.4285714 },
+        new() { Distance = 2.53352381, Speed = 173.1428571 },
+        new() { Distance = 2.544380952, Speed = 179.5714286 },
+        new() { Distance = 2.544571429, Speed = 186 },
+        new() { Distance = 2.566057143, Speed = 191.1428571 },
+        new() { Distance = 2.576914286, Speed = 197.5714286 },
+        new() { Distance = 2.577028571, Speed = 201.4285714 },
+        new() { Distance = 2.587847619, Speed = 206.5714286 },
+        new() { Distance = 2.598590476, Speed = 209.1428571 },
+        new() { Distance = 2.609447619, Speed = 215.5714286 },
+        new() { Distance = 2.620228571, Speed = 219.4285714 },
+        new() { Distance = 2.647047619, Speed = 224.5714286 },
+        new() { Distance = 2.662209524, Speed = 196.2857143 },
+        new() { Distance = 2.67272381, Speed = 191.1428571 },
+        new() { Distance = 2.6776, Speed = 175.7142857 },
+        new() { Distance = 2.677828571, Speed = 183.4285714 },
+        new() { Distance = 2.682361905, Speed = 156.4285714 },
+        new() { Distance = 2.682552381, Speed = 162.8571429 },
+        new() { Distance = 2.686819048, Speed = 126.8571429 },
+        new() { Distance = 2.702552381, Speed = 117.8571429 },
+        new() { Distance = 2.723695238, Speed = 111.4285714 },
+        new() { Distance = 2.72887619, Speed = 106.2857143 },
+        new() { Distance = 2.755542857, Speed = 106.2857143 },
+        new() { Distance = 2.761180952, Speed = 116.5714286 },
+        new() { Distance = 2.777257143, Speed = 119.1428571 },
+        new() { Distance = 2.777409524, Speed = 124.2857143 },
+        new() { Distance = 2.788380952, Speed = 134.5714286 },
+        new() { Distance = 2.79927619, Speed = 142.2857143 },
+        new() { Distance = 2.804952381, Speed = 153.8571429 },
+        new() { Distance = 2.810590476, Speed = 164.1428571 },
+        new() { Distance = 2.821409524, Speed = 169.2857143 },
+        new() { Distance = 2.827009524, Speed = 178.2857143 },
+        new() { Distance = 2.843238095, Speed = 186 },
+        new() { Distance = 2.854019048, Speed = 189.8571429 },
+        new() { Distance = 2.864914286, Speed = 197.5714286 },
+        new() { Distance = 2.87032381, Speed = 200.1428571 },
+        new() { Distance = 2.875809524, Speed = 205.2857143 },
+        new() { Distance = 2.891961905, Speed = 210.4285714 },
+        new() { Distance = 2.918819048, Speed = 216.8571429 },
+        new() { Distance = 2.951047619, Speed = 224.5714286 },
+        new() { Distance = 2.972533333, Speed = 229.7142857 },
+        new() { Distance = 2.988647619, Speed = 233.5714286 },
+        new() { Distance = 3.00472381, Speed = 236.1428571 },
+        new() { Distance = 3.026171429, Speed = 240 },
+        new() { Distance = 3.036990476, Speed = 245.1428571 },
+        new() { Distance = 3.047809524, Speed = 250.2857143 },
+        new() { Distance = 3.079847619, Speed = 251.5714286 },
+        new() { Distance = 3.085371429, Speed = 258 },
+        new() { Distance = 3.112152381, Speed = 261.8571429 },
+        new() { Distance = 3.13352381, Speed = 263.1428571 },
+        new() { Distance = 3.144152381, Speed = 261.8571429 },
+        new() { Distance = 3.154552381, Speed = 252.8571429 },
+        new() { Distance = 3.164647619, Speed = 233.5714286 },
+        new() { Distance = 3.175009524, Speed = 223.2857143 },
+        new() { Distance = 3.179085714, Speed = 180.8571429 },
+        new() { Distance = 3.179238095, Speed = 186 },
+        new() { Distance = 3.18407619, Speed = 169.2857143 },
+        new() { Distance = 3.184228571, Speed = 174.4285714 },
+        new() { Distance = 3.188838095, Speed = 150 },
+        new() { Distance = 3.188914286, Speed = 152.5714286 },
+        new() { Distance = 3.204761905, Speed = 147.4285714 },
+        new() { Distance = 3.209638095, Speed = 132 },
+        new() { Distance = 3.209866667, Speed = 139.7142857 },
+        new() { Distance = 3.225638095, Speed = 132 },
+        new() { Distance = 3.246895238, Speed = 129.4285714 },
+        new() { Distance = 3.26807619, Speed = 124.2857143 },
+        new() { Distance = 3.273714286, Speed = 134.5714286 },
+        new() { Distance = 3.284609524, Speed = 142.2857143 },
+        new() { Distance = 3.300952381, Speed = 153.8571429 },
+        new() { Distance = 3.301104762, Speed = 159 },
+        new() { Distance = 3.312152381, Speed = 171.8571429 },
+        new() { Distance = 3.323009524, Speed = 178.2857143 },
+        new() { Distance = 3.333904762, Speed = 186 },
+        new() { Distance = 3.339466667, Speed = 193.7142857 },
+        new() { Distance = 3.355657143, Speed = 200.1428571 },
+        new() { Distance = 3.377295238, Speed = 210.4285714 },
+        new() { Distance = 3.393409524, Speed = 214.2857143 },
+        new() { Distance = 3.414895238, Speed = 219.4285714 },
+        new() { Distance = 3.425714286, Speed = 224.5714286 },
+        new() { Distance = 3.452533333, Speed = 229.7142857 },
+        new() { Distance = 3.479352381, Speed = 234.8571429 },
+        new() { Distance = 3.490209524, Speed = 241.2857143 },
+        new() { Distance = 3.50632381, Speed = 245.1428571 },
+        new() { Distance = 3.533066667, Speed = 247.7142857 },
+        new() { Distance = 3.559847619, Speed = 251.5714286 },
+        new() { Distance = 3.581333333, Speed = 256.7142857 },
+        new() { Distance = 3.597333333, Speed = 256.7142857 },
+        new() { Distance = 3.624152381, Speed = 261.8571429 },
+        new() { Distance = 3.634857143, Speed = 263.1428571 },
+        new() { Distance = 3.661638095, Speed = 267 },
+        new() { Distance = 3.699047619, Speed = 269.5714286 },
+        new() { Distance = 3.71512381, Speed = 272.1428571 },
+        new() { Distance = 3.763161905, Speed = 273.4285714 },
+        new() { Distance = 3.79527619, Speed = 277.2857143 },
+        new() { Distance = 3.83272381, Speed = 281.1428571 },
+        new() { Distance = 3.875504762, Speed = 285 },
+        new() { Distance = 3.923542857, Speed = 286.2857143 },
+        new() { Distance = 3.950247619, Speed = 287.5714286 },
+        new() { Distance = 3.976952381, Speed = 288.8571429 },
+        new() { Distance = 4.003466667, Speed = 283.7142857 },
+        new() { Distance = 4.0408, Speed = 283.7142857 },
+        new() { Distance = 4.062133333, Speed = 283.7142857 },
+        new() { Distance = 4.094133333, Speed = 283.7142857 },
+        new() { Distance = 4.126171429, Speed = 285 },
+        new() { Distance = 4.147542857, Speed = 286.2857143 },
+        new() { Distance = 4.174209524, Speed = 286.2857143 },
+        new() { Distance = 4.200952381, Speed = 288.8571429 },
+        new() { Distance = 4.222285714, Speed = 288.8571429 },
+        new() { Distance = 4.243619048, Speed = 288.8571429 },
+        new() { Distance = 4.254285714, Speed = 288.8571429 },
+        new() { Distance = 4.275619048, Speed = 288.8571429 }
+    };
+
+    public List<RainfallInfo> RainfallIndia = new()
+    {
+        new() { Month = "Jan", Rainfall = 13 },
+        new() { Month = "Feb", Rainfall = 16 },
+        new() { Month = "Mar", Rainfall = 30 },
+        new() { Month = "Apr", Rainfall = 41 },
+        new() { Month = "May", Rainfall = 61 },
+        new() { Month = "Jun", Rainfall = 167 },
+        new() { Month = "Jul", Rainfall = 289 },
+        new() { Month = "Aug", Rainfall = 262 },
+        new() { Month = "Sep", Rainfall = 173 },
+        new() { Month = "Oct", Rainfall = 85 },
+        new() { Month = "Nov", Rainfall = 31 },
+        new() { Month = "Dec", Rainfall = 14 }
+    };
+
+    public List<BrentInfo> BrentAnnual = new()
+    {
+        new() { Year = new DateTime(2015, 1, 1), Price = 52.32 },
+        new() { Year = new DateTime(2016, 1, 1), Price = 43.64 },
+        new() { Year = new DateTime(2017, 1, 1), Price = 54.25 },
+        new() { Year = new DateTime(2018, 1, 1), Price = 71.19 },
+        new() { Year = new DateTime(2019, 1, 1), Price = 64.21 },
+        new() { Year = new DateTime(2020, 1, 1), Price = 41.69 },
+        new() { Year = new DateTime(2021, 1, 1), Price = 70.68 },
+        new() { Year = new DateTime(2022, 1, 1), Price = 100.94 },
+        new() { Year = new DateTime(2023, 1, 1), Price = 82.49 }
+    };
+
+    public List<PricePoint> Data = new()
+    {
+        new() { X = new DateTime(2022, 6, 1),  Y = 21000 },
+        new() { X = new DateTime(2022, 7, 1),  Y = 23000 },
+        new() { X = new DateTime(2022, 8, 1),  Y = 20000 },
+        new() { X = new DateTime(2022, 9, 1),  Y = 19500 },
+        new() { X = new DateTime(2022,10, 1),  Y = 20500 },
+        new() { X = new DateTime(2022,11, 1),  Y = 18000 },
+        new() { X = new DateTime(2022,12, 1),  Y = 16500 },
+        new() { X = new DateTime(2023, 1, 1),  Y = 23000 },
+        new() { X = new DateTime(2023, 2, 1),  Y = 23500 },
+        new() { X = new DateTime(2023, 3, 1),  Y = 28000 },
+        new() { X = new DateTime(2023, 4, 1),  Y = 29000 },
+        new() { X = new DateTime(2023, 5, 1),  Y = 27000 },
+        new() { X = new DateTime(2023, 6, 1),  Y = 30000 },
+        new() { X = new DateTime(2023, 7, 1),  Y = 30500 },
+        new() { X = new DateTime(2023, 8, 1),  Y = 29000 },
+        new() { X = new DateTime(2023, 9, 1),  Y = 26000 },
+        new() { X = new DateTime(2023,10, 1),  Y = 34000 },
+        new() { X = new DateTime(2023,11, 1),  Y = 37000 },
+        new() { X = new DateTime(2023,12, 1),  Y = 42000 },
+        new() { X = new DateTime(2024, 1, 1),  Y = 44000 },
+        new() { X = new DateTime(2024, 2, 1),  Y = 43000 },
+        new() { X = new DateTime(2024, 3, 1),  Y = 62000 },
+        new() { X = new DateTime(2024, 4, 1),  Y = 70000 },
+        new() { X = new DateTime(2024, 5, 1),  Y = 57000 },
+        new() { X = new DateTime(2024, 6, 1),  Y = 68000 },
+        new() { X = new DateTime(2024, 7, 1),  Y = 63000 },
+        new() { X = new DateTime(2024, 8, 1),  Y = 61000 },
+        new() { X = new DateTime(2024, 9, 1),  Y = 59000 },
+        new() { X = new DateTime(2024,10, 1),  Y = 61000 }
+    };
+
+    public StatsInfo Stats => ComputeStats(Data);
+
+    StatsInfo ComputeStats(List<PricePoint> ds)
+    {
+        var values = ds.Select(d => d.Y).ToList();
+        var maxVal = values.Max();
+        var minVal = values.Min();
+        var maxPoint = ds[values.IndexOf(maxVal)];
+        var minPoint = ds[values.IndexOf(minVal)];
+        var avgVal = Math.Round(values.Average());
+        var midPoint = ds[ds.Count / 2];
+        return new StatsInfo(maxVal, minVal, maxPoint, minPoint, avgVal, midPoint);
+    }
+
+    // Preview Code Sections
+    private string AnnotationOverviewCode => @"@using Syncfusion.Blazor.Toolkit.Charts
+    <SfChart @key=""@_currentTheme"" Height=""420px""
+         Width=""100%""
+         Title=""Speed Data Plot for Interlagos Circuit""
+         Theme=""@_currentTheme"">
+
+    <!-- Hide legend (React parity) -->
+    <ChartLegendSettings Visible=""false"" />
+
+    <!-- X Axis -->
+            <ChartPrimaryXAxis ValueType=""ValueType.Double"" Title=""Distance""
+                       LabelFormat=""{value:0.00} KM"">
+                <ChartAxisMajorGridLines Width=""0"" />
+                <ChartAxisMajorTickLines Width=""0"" />
+    </ChartPrimaryXAxis>
+
+    <!-- Y Axis -->
+    <ChartPrimaryYAxis Minimum=""50"" Title=""Speed (KM/H)""
+                       Maximum=""400"">
+        <ChartAxisLineStyle Width=""0"" />
+        <ChartAxisMajorTickLines Width=""0"" />
+    </ChartPrimaryYAxis>
+
+    <!-- ✅ Annotations -->
+    <ChartAnnotations>
+
+        <ChartAnnotation CoordinateUnits=""Units.Point"" X=""0.36"" Y=""80"">
+            <ContentTemplate>
+                @((MarkupString)SpeedCallout(""Senna S"", ""Top"", false))
+            </ContentTemplate>
+        </ChartAnnotation>
+
+        <ChartAnnotation CoordinateUnits=""Units.Point"" X=""0.90"" Y=""158"">
+            <ContentTemplate>
+                @((MarkupString)SpeedCallout(""Curva do Sol"", ""Left"", false))
+            </ContentTemplate>
+        </ChartAnnotation>
+
+        <ChartAnnotation CoordinateUnits=""Units.Point"" X=""1.40"" Y=""120"">
+            <ContentTemplate>
+                @((MarkupString)SpeedCallout(""Descida do Lago"", ""Top"", false))
+            </ContentTemplate>
+        </ChartAnnotation>
+
+        <ChartAnnotation CoordinateUnits=""Units.Point"" X=""2.10"" Y=""200"">
+            <ContentTemplate>
+                @((MarkupString)SpeedCallout(""Ferradura"", ""Top"", false))
+            </ContentTemplate>
+        </ChartAnnotation>
+
+        <ChartAnnotation CoordinateUnits=""Units.Point"" X=""2.72"" Y=""80"">
+            <ContentTemplate>
+                @((MarkupString)SpeedCallout(""Bico de Pato"", ""Top"", false))
+            </ContentTemplate>
+        </ChartAnnotation>
+
+        <ChartAnnotation CoordinateUnits=""Units.Point"" X=""3.27"" Y=""98"">
+            <ContentTemplate>
+                @((MarkupString)SpeedCallout(""Juncao"", ""Top"", false))
+            </ContentTemplate>
+        </ChartAnnotation>
+
+        <ChartAnnotation CoordinateUnits=""Units.Point"" X=""0.70"" Y=""304"">
+            <ContentTemplate>
+                @((MarkupString)SpeedCallout(""Reta Oposta"", ""Bottom"", true))
+            </ContentTemplate>
+        </ChartAnnotation>
+
+        <ChartAnnotation CoordinateUnits=""Units.Point"" X=""3.136"" Y=""288"">
+            <ContentTemplate>
+                @((MarkupString)SpeedCallout(""Mergulho"", ""Bottom"", true))
+            </ContentTemplate>
+        </ChartAnnotation>
+
+        <ChartAnnotation CoordinateUnits=""Units.Point"" X=""3.82"" Y=""312"">
+            <ContentTemplate>
+                @((MarkupString)SpeedCallout(""Subida dos Boxes"", ""Bottom"", true))
+            </ContentTemplate>
+        </ChartAnnotation>
+
+        <!-- Plain HTML annotation -->
+        <ChartAnnotation CoordinateUnits=""Units.Point"" X=""1.65"" Y=""330"">
+            <ContentTemplate>
+                <div style=""font-family:Inter;font-weight:600;color:@TextColor"">
+                    Max, acceleration<br />5.00 g at 5th gear
+                </div>
+            </ContentTemplate>
+        </ChartAnnotation>
+
+        <ChartAnnotation CoordinateUnits=""Units.Point"" X=""2.50"" Y=""260"">
+            <ContentTemplate>
+                <div style=""font-family:Inter;font-weight:600;color:@TextColor"">
+                    Max, acceleration<br />4.58 g at 5th gear
+                </div>
+            </ContentTemplate>
+        </ChartAnnotation>
+    </ChartAnnotations>
+    <ChartSeriesCollection>
+        <ChartSeries DataSource=""@AnnotateData""
+                     XName=""Distance""
+                     YName=""Speed""
+                     Name=""Speed""
+                     Type=""ChartSeriesType.Area""
+                     Fill=""#6200EE""
+                     Border=""@(new ChartSeriesBorder { Width = 2.5, Color = ""#6200EE"" })"">
+        </ChartSeries>
+    </ChartSeriesCollection>
+</SfChart>
+@code {
+
+    [CascadingParameter]
+    private Theme _currentTheme { get; set; } = Theme.Fluent;
+
+    private bool IsDarkTheme => _currentTheme.ToString().Contains(""Dark"") || _currentTheme.ToString().Contains(""HighContrast"");
+    private string TextColor => IsDarkTheme ? ""#E6EEF8"" : ""#0B1F3B"";
+
+    string SpeedCallout(string text, string direction, bool dark = false)
+    {
+        var bg = dark ? ""#000000"" : ""#1e3a8a"";
+        var fg = ""#ffffff"";
+        return $@""
+        <div style='
+            padding:8px 10px;
+            border-radius:10px;
+            background:{bg};
+            color:{fg};
+            font-family:Inter, system-ui;
+            font-weight:800;
+            font-size:12px;'>
+            {text}
+        </div>"";
+    }
+    public class SpeedInfo
+    {
+        public double Distance { get; set; }
+        public double Speed { get; set; }
+    }
+
+    List<SpeedInfo> AnnotateData = new()
+    {
+        new() { Distance = 0.003580952, Speed = 287.5714286 },
+        new() { Distance = 0.056952381, Speed = 288.8571429 },
+        new() { Distance = 0.094285714, Speed = 288.8571429 },
+        new() { Distance = 0.137066667, Speed = 292.7142857 },
+        new() { Distance = 0.169066667, Speed = 292.7142857 },
+        new() { Distance = 0.195771429, Speed = 294 },
+        new() { Distance = 0.249066667, Speed = 292.7142857 },
+        new() { Distance = 0.259066667, Speed = 280.7142857 },
+        new() { Distance = 0.269066667, Speed = 278.7142857 },
+        new() { Distance = 0.253752381, Speed = 270.8571429 },
+        new() { Distance = 0.253752381, Speed = 265.8571429 },
+        new() { Distance = 0.263752381, Speed = 260.8571429 },
+        new() { Distance = 0.258104762, Speed = 249 },
+        new() { Distance = 0.270104762, Speed = 246 },
+        new() { Distance = 0.271104762, Speed = 242 }
+    };
+}";
+
+    private string AnnotationPointCode => @"@using Syncfusion.Blazor.Toolkit.Charts
+    <SfChart @key=""@_currentTheme"" Height=""440px"" Title=""All-India Monthly Rainfall (mm, 1901-2000 normals)""
+                 SubTitle=""Source: India Meteorological Department"" Theme=""@_currentTheme"">
+
+            <ChartLegendSettings Visible=""false""></ChartLegendSettings>
+
+            <ChartPrimaryXAxis ValueType=""ValueType.Category"" Interval=""1"">
+                <ChartAxisMajorGridLines Width=""0"" />
+                <ChartAxisMajorTickLines Width=""0"" />
+            </ChartPrimaryXAxis>
+
+            <ChartPrimaryYAxis Minimum=""0"" Maximum=""340"" Title=""Precipitation (mm)"" Interval=""100"">
+                <ChartAxisLineStyle Width=""0"" />
+                <ChartAxisMajorTickLines Width=""0"" />
+            </ChartPrimaryYAxis>
+
+            <ChartAnnotations>
+                <ChartAnnotation X=""@((object)""Jun"")"" Y=""195""
+                                 CoordinateUnits=""Units.Point"">
+                    <ContentTemplate>
+                        @((MarkupString)RainfallCallout(""SW monsoon onset month nationally (~167 mm)"", ""#0f766e"", ""#eafff6""))
+                    </ContentTemplate>
+                </ChartAnnotation>
+
+                <ChartAnnotation X=""@((object)""Jul"")"" Y=""317""
+                                 CoordinateUnits=""Units.Point"">
+                    <ContentTemplate>
+                        @((MarkupString)RainfallCallout(""Peak monsoon — July averages ~289 mm"", ""#1e3a8a"", ""#ffffff""))
+                    </ContentTemplate>
+                </ChartAnnotation>
+
+                <ChartAnnotation X=""@((object)""Oct"")"" Y=""115""
+                                 CoordinateUnits=""Units.Point"">
+                    <ContentTemplate>
+                        @((MarkupString)RainfallCallout(""Retreating monsoon - October (~85 mm)"", ""#7c2d12"", ""#fff7ed""))
+                    </ContentTemplate>
+                </ChartAnnotation>
+            </ChartAnnotations>
+
+            <ChartSeriesCollection>
+                <ChartSeries DataSource=""@RainfallIndia""
+                             XName=""Month""
+                             YName=""Rainfall""
+                             Type=""ChartSeriesType.Column""
+                             Fill=""#3b82f6""
+                             Width=""2"">
+                </ChartSeries>
+            </ChartSeriesCollection>
+        </SfChart>
+@code {
+    [CascadingParameter]
+    private Theme _currentTheme { get; set; } = Theme.Fluent;
+    string RainfallCallout(string text, string bg, string fg = """")
+    {
+        return $@""
+        <div style='
+            padding:8px 10px;
+            border-radius:10px;
+            background:{bg};
+            color:{fg};
+            font-family:Inter, system-ui;
+            font-weight:800;
+            font-size:12px;'>
+            {text}
+        </div>"";
+    }
+    public class RainfallInfo
+    {
+        public string Month { get; set; }
+        public double Rainfall { get; set; }
+    }
+
+    public List<RainfallInfo> RainfallIndia = new()
+    {
+        new() { Month = ""Jan"", Rainfall = 13 },
+        new() { Month = ""Feb"", Rainfall = 16 },
+        new() { Month = ""Mar"", Rainfall = 30 },
+        new() { Month = ""Apr"", Rainfall = 41 },
+        new() { Month = ""May"", Rainfall = 61 },
+        new() { Month = ""Jun"", Rainfall = 167 },
+        new() { Month = ""Jul"", Rainfall = 289 },
+        new() { Month = ""Aug"", Rainfall = 262 },
+        new() { Month = ""Sep"", Rainfall = 173 },
+        new() { Month = ""Oct"", Rainfall = 85 },
+        new() { Month = ""Nov"", Rainfall = 31 },
+        new() { Month = ""Dec"", Rainfall = 14 }
+    };
+}";
+
+    private string AnnotationPixelCode => @"@using Syncfusion.Blazor.Toolkit.Charts
+    <SfChart @key=""@_currentTheme"" Height=""420px"" Width=""100%"" Title=""Brent Crude Oil Price Trends (2015-2023)"" 
+                 SubTitle=""Source: U.S. EIA-Europe Brent Spot Price FOB (Annual Averages)"" Theme=""@_currentTheme"">
+            <ChartLegendSettings Visible=""false""></ChartLegendSettings>
+
+            <ChartPrimaryXAxis ValueType=""ValueType.DateTime"" Format=""yyyy"">
+                <ChartAxisMajorGridLines Width=""0"" />
+                <ChartAxisMajorTickLines Width=""0""/>
+            </ChartPrimaryXAxis>
+
+            <ChartPrimaryYAxis Interval=""20"" Title=""Price (USD per Barrel)"">
+                <ChartAxisLineStyle Width=""0"" />
+                <ChartAxisMajorTickLines Width=""0"" />
+            </ChartPrimaryYAxis>
+
+            <ChartAnnotations>
+                <ChartAnnotation X=""@((object)""60%"")"" Y=""@((string)""60%"".ToString())""
+                                 CoordinateUnits=""Units.Pixel"">
+                    <ContentTemplate>
+                        @((MarkupString)WatermarkHtml(""Annual Averages (2015-2023)""))
+                    </ContentTemplate>
+                </ChartAnnotation>
+            </ChartAnnotations>
+
+            <ChartSeriesCollection>
+                <ChartSeries DataSource=""@BrentAnnual""
+                             XName=""Year""
+                             YName=""Price""
+                             Name=""Price""
+                             Type=""ChartSeriesType.Spline""
+                             Width=""3""
+                             Fill=""#82C100"">
+                </ChartSeries>
+            </ChartSeriesCollection>
+
+            <ChartTooltipSettings Enable=""true"" EnableHighlight=""true""
+                                  EnableMarker=""true"" ShowNearestPoint=""true""
+                                  Format=""${point.x}<br/>${series.name}: <b>${point.y}</b>"" />
+        </SfChart>
+
+@code {
+        [CascadingParameter]
+    private Theme _currentTheme { get; set; } = Theme.Fluent;
+    string WatermarkHtml(string text)
+    {
+        return $@""
+        <div style='
+            font-size:40px;
+            font-weight:500;
+            opacity:0.08;
+            transform:rotate(-20deg);
+            white-space:nowrap;
+            user-select:none;
+            pointer-events:none;
+            font-family:Inter, system-ui;'>
+            {text}
+        </div>"";
+    }
+    public class BrentInfo
+    {
+        public DateTime Year { get; set; }
+        public double Price { get; set; }
+    }
+
+    public List<BrentInfo> BrentAnnual = new()
+    {
+        new() { Year = new DateTime(2015, 1, 1), Price = 52.32 },
+        new() { Year = new DateTime(2016, 1, 1), Price = 43.64 },
+        new() { Year = new DateTime(2017, 1, 1), Price = 54.25 },
+        new() { Year = new DateTime(2018, 1, 1), Price = 71.19 },
+        new() { Year = new DateTime(2019, 1, 1), Price = 64.21 },
+        new() { Year = new DateTime(2020, 1, 1), Price = 41.69 },
+        new() { Year = new DateTime(2021, 1, 1), Price = 70.68 },
+        new() { Year = new DateTime(2022, 1, 1), Price = 100.94 },
+        new() { Year = new DateTime(2023, 1, 1), Price = 82.49 }
+    };
+}";
+
+    private string AnnotationAlignmentCode => @"@using Syncfusion.Blazor.Toolkit.Charts
+    <SfChart Title=""Bitcoin (BTC) vs USD — Monthly Close (Jun 2022–Oct 2024)"" Theme=""@_currentTheme"">
+
+            <ChartPrimaryXAxis ValueType=""ValueType.DateTime""
+                               IntervalType=""IntervalType.Months"" LabelFormat=""MMM yy""
+                               Interval=""4"">
+                <ChartAxisMajorGridLines Width=""0"" />
+                <ChartAxisMajorTickLines Width=""0"" />
+            </ChartPrimaryXAxis>
+
+            <ChartPrimaryYAxis Interval=""20000"" Title=""Price in USD"">
+                <ChartAxisLineStyle Width=""0"" />
+                <ChartAxisMajorTickLines Width=""0"" />
+            </ChartPrimaryYAxis>
+
+            <ChartAnnotations>
+                <ChartAnnotation X=""@Stats.MaxPoint.X""
+                                 Y=""@(Stats.MaxPoint.Y.ToString())""
+                                 CoordinateUnits=""Units.Point"">
+                    <ContentTemplate>
+                        @((MarkupString)GlassBox($""📈 Max ${FmtUSD(Stats.MaxVal)}""))
+                    </ContentTemplate>
+                </ChartAnnotation>
+
+                <ChartAnnotation X=""@Stats.MinPoint.X""
+                                 Y=""@(Stats.MinPoint.Y.ToString())""
+                                 CoordinateUnits=""Units.Point"">
+                    <ContentTemplate>
+                        @((MarkupString)GlassBox($""📉 Min ${FmtUSD(Stats.MinVal)}""))
+                    </ContentTemplate>
+                </ChartAnnotation>
+
+                <ChartAnnotation X=""@Stats.MidPoint.X""
+                                 Y=""@(Stats.AvgVal.ToString())""
+                                 CoordinateUnits=""Units.Point"">
+                    <ContentTemplate>
+                        @((MarkupString)GlassBox($""⚖ Avg ${FmtUSD(Stats.AvgVal)}""))
+                    </ContentTemplate>
+                </ChartAnnotation>
+            </ChartAnnotations>
+
+            <ChartSeriesCollection>
+                <ChartSeries DataSource=""@Data""
+                             XName=""X""
+                             YName=""Y""
+                             Type=""ChartSeriesType.Area""
+                             Fill=""rgba(250, 8, 8, 0.26)""
+                             Border=""@(new ChartSeriesBorder { Color = ""red"", Width = 2 })"">
+                </ChartSeries>
+
+            </ChartSeriesCollection>
+
+            <ChartLegendSettings Visible=""false""></ChartLegendSettings>
+        </SfChart>
+
+@code {
+    [CascadingParameter]
+    private Theme _currentTheme { get; set; } = Theme.Fluent;
+    public class PricePoint
+    {
+        public DateTime X { get; set; }
+        public double Y { get; set; }
+    }
+
+    public record StatsInfo(
+        double MaxVal, double MinVal, PricePoint MaxPoint, PricePoint MinPoint, double AvgVal, PricePoint MidPoint
+    );
+
+    public List<PricePoint> Data = new()
+    {
+        new() { X = new DateTime(2022, 6, 1),  Y = 21000 },
+        new() { X = new DateTime(2022, 7, 1),  Y = 23000 },
+        new() { X = new DateTime(2022, 8, 1),  Y = 20000 },
+        new() { X = new DateTime(2022, 9, 1),  Y = 19500 },
+        new() { X = new DateTime(2022,10, 1),  Y = 20500 },
+        new() { X = new DateTime(2022,11, 1),  Y = 18000 },
+        new() { X = new DateTime(2022,12, 1),  Y = 16500 },
+        new() { X = new DateTime(2023, 1, 1),  Y = 23000 },
+        new() { X = new DateTime(2023, 2, 1),  Y = 23500 },
+        new() { X = new DateTime(2023, 3, 1),  Y = 28000 },
+        new() { X = new DateTime(2023, 4, 1),  Y = 29000 },
+        new() { X = new DateTime(2023, 5, 1),  Y = 27000 },
+        new() { X = new DateTime(2023, 6, 1),  Y = 30000 },
+        new() { X = new DateTime(2023, 7, 1),  Y = 30500 },
+        new() { X = new DateTime(2023, 8, 1),  Y = 29000 },
+        new() { X = new DateTime(2023, 9, 1),  Y = 26000 },
+        new() { X = new DateTime(2023,10, 1),  Y = 34000 },
+        new() { X = new DateTime(2023,11, 1),  Y = 37000 },
+        new() { X = new DateTime(2023,12, 1),  Y = 42000 },
+        new() { X = new DateTime(2024, 1, 1),  Y = 44000 },
+        new() { X = new DateTime(2024, 2, 1),  Y = 43000 },
+        new() { X = new DateTime(2024, 3, 1),  Y = 62000 },
+        new() { X = new DateTime(2024, 4, 1),  Y = 70000 },
+        new() { X = new DateTime(2024, 5, 1),  Y = 57000 },
+        new() { X = new DateTime(2024, 6, 1),  Y = 68000 },
+        new() { X = new DateTime(2024, 7, 1),  Y = 63000 },
+        new() { X = new DateTime(2024, 8, 1),  Y = 61000 },
+        new() { X = new DateTime(2024, 9, 1),  Y = 59000 },
+        new() { X = new DateTime(2024,10, 1),  Y = 61000 }
+    };
+
+    public StatsInfo Stats => ComputeStats(Data);
+
+    StatsInfo ComputeStats(List<PricePoint> ds)
+    {
+        var values = ds.Select(d => d.Y).ToList();
+        var maxVal = values.Max();
+        var minVal = values.Min();
+        var maxPoint = ds[values.IndexOf(maxVal)];
+        var minPoint = ds[values.IndexOf(minVal)];
+        var avgVal = Math.Round(values.Average());
+        var midPoint = ds[ds.Count / 2];
+        return new StatsInfo(maxVal, minVal, maxPoint, minPoint, avgVal, midPoint);
+    }
+
+    string FmtUSD(double v) => v.ToString(""N0"");
+
+    string GlassBox(string text) => $@""
+    <div style='
+        padding:4px 8px;
+        border-radius:8px;
+        background:rgba(30,143,255,0.26);
+        border:1px solid rgba(30,144,255,0.45);
+        color:#0b64c0;
+        font-size:12px;
+        font-weight:600;'>
+        {text}
+    </div>"";
+}";
+}

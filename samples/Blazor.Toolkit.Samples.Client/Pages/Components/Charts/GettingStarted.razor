@@ -1,0 +1,275 @@
+﻿@page "/charts/getting-started"
+@using Syncfusion.Blazor.Toolkit.Charts
+
+<PageTitle>Syncfusion Blazor Toolkit Chart Getting Started</PageTitle>
+
+<Description>
+    <Header>
+        <h3>Getting Started with Chart</h3>
+    </Header>
+    <Content>
+        The Syncfusion Blazor Chart component is a powerful, lightweight solution for visualizing data with interactive and responsive charts. This guide provides a quick setup and minimal usage example to get you creating charts quickly.
+    </Content>
+</Description>
+
+<Description>
+    <Header>
+        <h5>Prerequisites</h5>
+    </Header>
+    <Content>
+        <ul>
+            <li>.NET 9.0 or later</li>
+            <li>Blazor Server or WebAssembly project</li>
+            <li>Developer tooling such as Visual Studio or Visual Studio Code</li>
+        </ul>
+    </Content>
+</Description>
+
+<Description>
+    <Header>
+        <h5>Install</h5>
+    </Header>
+    <Content>
+        <p>Install the NuGet package into your Blazor project:</p>
+        <CodePreview FileName="terminal" IsCodeAlone="true" CodeSection="dotnet add package Syncfusion.Blazor.Toolkit"></CodePreview>
+    </Content>
+</Description>
+
+<Description>
+    <Header>
+        <h5>Register Services (Program.cs)</h5>
+    </Header>
+    <Content>
+        <p>Add the toolkit services to your application's startup. Example for a Server-hosted app:</p>
+        <CodePreview FileName="Program.cs" IsCodeAlone="true" CodeSection="@ProgramCode"></CodePreview>
+        <p>For WebAssembly projects, register the corresponding interactive/webassembly services in the client project's Program.cs.</p>
+    </Content>
+</Description>
+
+<Description>
+    <Header>
+        <h5>Include Assets</h5>
+    </Header>
+    <Content>
+        <p>Include the Syncfusion theme CSS in your layout file (App.razor or _Host.cshtml). Add the following link in the <code>&lt;head&gt;</code> section:</p>
+        <CodePreview FileName="HTML" IsCodeAlone="true" CodeSection="@CssAssets"></CodePreview>
+        <p>Choose a theme that suits your application. Available themes include <code>bootstrap5</code>, <code>fluent</code>, <code>material</code>, and more.</p>
+    </Content>
+</Description>
+
+<Description>
+    <Header>
+        <h5>Basic Chart Example</h5>
+    </Header>
+    <Content>
+        <p>Create a basic Column Chart with sample data:</p>
+        <CodePreview FileName="Chart.razor" IsCodeAlone="true" CodeSection="@BasicChartExample"></CodePreview>
+    </Content>
+</Description>
+
+<Description>
+    <Header>
+        <h5>Adding Chart Title</h5>
+    </Header>
+    <Content>
+        <p>Display a meaningful title to provide context about the data:</p>
+        <CodePreview FileName="Chart.razor" IsCodeAlone="true" CodeSection="@ChartTitleExample"></CodePreview>
+    </Content>
+</Description>
+
+<Description>
+    <Header>
+        <h5>Adding Data Labels</h5>
+    </Header>
+    <Content>
+        <p>Enable data labels to display values on each data point:</p>
+        <CodePreview FileName="Chart.razor" IsCodeAlone="true" CodeSection="@DataLabelExample"></CodePreview>
+    </Content>
+</Description>
+
+<Description>
+    <Header>
+        <h5>Adding Tooltip</h5>
+    </Header>
+    <Content>
+        <p>Enable tooltips to show data point information on hover:</p>
+        <CodePreview FileName="Chart.razor" IsCodeAlone="true" CodeSection="@TooltipExample"></CodePreview>
+    </Content>
+</Description>
+
+<Description>
+    <Header>
+        <h5>Complete Chart Example</h5>
+    </Header>
+    <Content>
+        <p>Here's a complete, fully-featured Chart combining all the features:</p>
+        <VirtualizeSection MinHeightPx="600px">
+        <CodePreview IsFullWidth="true" CodeSection="@CompleteChartExample">
+            <PreviewSection>
+                    <SfChart Title="Sales Analysis" Theme="@_currentTheme" Background="transparent">
+                        <ChartTitleStyle Color="@TextColor" />
+                        <ChartPrimaryXAxis Title="Month" ValueType="Syncfusion.Blazor.Toolkit.ValueType.Category">
+                            <ChartAxisLabelStyle Color="@TextColor" />
+                            <ChartAxisTitleStyle Color="@TextColor" />
+                        </ChartPrimaryXAxis>
+                        <ChartPrimaryYAxis Title="Sales in Dollar">
+                            <ChartAxisLabelStyle Color="@TextColor" />
+                            <ChartAxisTitleStyle Color="@TextColor" />
+                        </ChartPrimaryYAxis>
+                        <ChartLegendSettings Visible=true>
+                        <ChartLegendTextStyle Color="@TextColor" />
+                        </ChartLegendSettings>
+                    
+                        <ChartSeries DataSource="@Sales" Name="Sales" XName="Month" YName="SalesValue" Type="ChartSeriesType.Column">
+                        <ChartMarker>
+                            <ChartDataLabel Visible="true">
+                                <ChartDataLabelFont Color="@TextColor" />
+                            </ChartDataLabel>
+                        </ChartMarker>
+                        </ChartSeries>
+                    
+                    <ChartTooltipSettings Enable="true"></ChartTooltipSettings>
+                </SfChart>
+            </PreviewSection>
+        </CodePreview>
+        </VirtualizeSection>
+    </Content>
+</Description>
+
+@code {
+   [CascadingParameter]
+    private Theme CurrentTheme { get; set; } = Theme.Fluent;
+
+    private Theme _currentTheme = Theme.Fluent;
+
+    protected override void OnParametersSet()
+    {
+        _currentTheme = CurrentTheme;
+    }
+
+    private bool IsDarkTheme => _currentTheme.ToString().Contains("Dark") || _currentTheme.ToString().Contains("HighContrast");
+    private string TextColor => IsDarkTheme ? "#ffffff" : "#0B1F3B";
+   
+    public class SalesInfo
+    {
+        public string Month { get; set; }
+        public double SalesValue { get; set; }
+    }
+
+    public List<SalesInfo> Sales = new List<SalesInfo>
+    {
+        new SalesInfo { Month = "Jan", SalesValue = 35 },
+        new SalesInfo { Month = "Feb", SalesValue = 28 },
+        new SalesInfo { Month = "Mar", SalesValue = 34 },
+        new SalesInfo { Month = "Apr", SalesValue = 32 },
+        new SalesInfo { Month = "May", SalesValue = 40 },
+        new SalesInfo { Month = "Jun", SalesValue = 32 },
+        new SalesInfo { Month = "Jul", SalesValue = 35 }
+    };
+
+    private string ProgramCode = @"@using Syncfusion.Blazor.Toolkit;
+
+var builder = WebApplication.CreateBuilder(args);
+builder.Services.AddRazorComponents().AddInteractiveServerComponents();
+
+// Register Syncfusion Toolkit services
+builder.Services.AddSyncfusionBlazorToolkit();
+var app = builder.Build(); ";
+
+    private string CssAssets = @"<link id=""syncfusion-theme"" href=""_content/Syncfusion.Blazor.Toolkit/styles/fluent.min.css"" rel=""stylesheet"" />";
+
+    private string BasicChartExample = @"@using Syncfusion.Blazor.Toolkit.Charts
+
+<SfChart>
+    
+        <ChartSeries DataSource=""@Sales"" XName=""Month"" YName=""SalesValue"" Type=""ChartSeriesType.Column"">
+        </ChartSeries>
+    
+</SfChart>
+
+@code {
+    public class SalesInfo
+    {
+        public string Month { get; set; }
+        public double SalesValue { get; set; }
+    }
+
+    public List<SalesInfo> Sales = new List<SalesInfo>
+    {
+        new SalesInfo { Month = ""Jan"", SalesValue = 35 },
+        new SalesInfo { Month = ""Feb"", SalesValue = 28 },
+        new SalesInfo { Month = ""Mar"", SalesValue = 34 },
+        new SalesInfo { Month = ""Apr"", SalesValue = 32 },
+        new SalesInfo { Month = ""May"", SalesValue = 40 },
+        new SalesInfo { Month = ""Jun"", SalesValue = 32 },
+        new SalesInfo { Month = ""Jul"", SalesValue = 35 }
+    };
+}";
+
+    private string ChartTitleExample = @"@using Syncfusion.Blazor.Toolkit.Charts
+
+<SfChart Title=""Sales Analysis"">
+    <ChartPrimaryXAxis Title=""Month"" ValueType=""Syncfusion.Blazor.Toolkit.ValueType.Category""></ChartPrimaryXAxis>
+    <ChartPrimaryYAxis Title=""Sales in Dollar""></ChartPrimaryYAxis>
+    
+        <ChartSeries DataSource=""@Sales"" XName=""Month"" YName=""SalesValue"" Type=""ChartSeriesType.Column"">
+        </ChartSeries>
+    
+</SfChart>";
+
+    private string DataLabelExample = @"@using Syncfusion.Blazor.Toolkit.Charts
+
+<SfChart Title=""Sales Analysis"">
+    <ChartPrimaryXAxis Title=""Month"" ValueType=""Syncfusion.Blazor.Toolkit.ValueType.Category""></ChartPrimaryXAxis>
+    <ChartPrimaryYAxis Title=""Sales in Dollar""></ChartPrimaryYAxis>
+    
+        <ChartSeries DataSource=""@Sales"" XName=""Month"" YName=""SalesValue"" Type=""ChartSeriesType.Column"">
+            <ChartMarker>
+                <ChartDataLabel Visible=""true""></ChartDataLabel>
+            </ChartMarker>
+        </ChartSeries>
+    
+</SfChart>";
+
+    private string TooltipExample = @"@using Syncfusion.Blazor.Toolkit.Charts
+
+<SfChart Title=""Sales Analysis"">
+    <ChartPrimaryXAxis Title=""Month"" ValueType=""Syncfusion.Blazor.Toolkit.ValueType.Category""></ChartPrimaryXAxis>
+    <ChartPrimaryYAxis Title=""Sales in Dollar""></ChartPrimaryYAxis>
+    <ChartTooltipSettings Enable=""true""></ChartTooltipSettings>
+    
+        <ChartSeries DataSource=""@Sales"" XName=""Month"" YName=""SalesValue"" Type=""ChartSeriesType.Column"">
+        </ChartSeries>
+    
+</SfChart>";
+
+    private string CompleteChartExample = @"@using Syncfusion.Blazor.Toolkit.Charts
+
+<SfChart Title=""Sales Analysis"" Theme=""@_currentTheme"" Background=""transparent"">
+    <ChartPrimaryXAxis Title=""Month"" ValueType=""Syncfusion.Blazor.Toolkit.ValueType.Category""></ChartPrimaryXAxis>
+    <ChartPrimaryYAxis Title=""Sales in Dollar""></ChartPrimaryYAxis>
+    <ChartLegendSettings Visible=""true""></ChartLegendSettings>
+    
+        <ChartSeries DataSource=""@Sales"" Name=""Sales"" XName=""Month"" YName=""SalesValue"" Type=""ChartSeriesType.Column"">
+        </ChartSeries>
+    
+</SfChart>
+@code {
+    public class SalesInfo
+    {
+        public string Month { get; set; }
+        public double SalesValue { get; set; }
+    }
+
+    public List<SalesInfo> Sales = new List<SalesInfo>
+    {
+        new SalesInfo { Month = ""Jan"", SalesValue = 35 },
+        new SalesInfo { Month = ""Feb"", SalesValue = 28 },
+        new SalesInfo { Month = ""Mar"", SalesValue = 34 },
+        new SalesInfo { Month = ""Apr"", SalesValue = 32 },
+        new SalesInfo { Month = ""May"", SalesValue = 40 },
+        new SalesInfo { Month = ""Jun"", SalesValue = 32 },
+        new SalesInfo { Month = ""Jul"", SalesValue = 35 }
+    };
+}";
+}

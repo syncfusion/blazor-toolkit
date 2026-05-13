@@ -1,0 +1,509 @@
+@use 'sass:color';
+
+@use './base.scss' as *;
+
+$switch-wrapper-width: 40px !default;
+$switch-wrapper-height: 20px !default;
+$switch-inner-width: 100% !default;
+$switch-inner-height: 100% !default;
+$switch-handle-top: 3px !default;
+$switch-handle-left: 3px !default;
+$switch-handle-margin: auto 0 !default;
+$switch-inner-top: 0 !default;
+$switch-inner-left: 0 !default;
+$switch-off-text-indent: 18px !default;
+$switch-on-text-indent: -16px !default;
+$switch-handle-active: 100% !default;
+$switch-handle-margin-left: -18px !default;
+$switch-active-on-opacity: 1 !default;
+$switch-off-opacity: 1 !default;
+$switch-handle-height: 14px !default;
+$switch-handle-width: 14px !default;
+$switch-transition: all .2s ease-in-out .1s !default;
+$switch-inner-transition: all .2s ease-in-out !default;
+$switch-handle-transition: all .2s linear !default;
+$switch-active-on-position-left: 0 !default;
+$switch-off-active-left: 100% !default;
+$switch-on-position-left: -100% !default;
+$switch-on-position-left-rtl: 0 !default;
+$switch-off-position-left: 0 !default;
+$switch-off-position-left-rtl: -100% !default;
+$switch-on-rtl: 100% !default;
+$switch-off-rtl: 0 !default;
+$switch-handle-radius: $radius-full !default;
+$switch-handle-bottom: 3px !default;
+$switch-border-radius: $radius-20 !default;
+$switch-on-off-disabled-bg-color-opacity: 1 !default;
+$switch-inner-border-style: 1px solid $border-alt !default;
+$switch-inner-active: $primary !default;
+$switch-inner-active-bg: $primary !default;
+$switch-focus-inner-box-shadow: none !default;
+$switch-inner-active-border-color: $primary !default;
+$switch-active-background: transparent !default;
+$switch-handle-shadow: $shadow-sm !default;
+$switch-handle-shadow-disabled: none !default;
+$switch-off-bg-color: $chip-secondary-active-bg-color !default;
+$switch-active-handle-bg: $primary-text-color !default;
+$switch-inner-bg: transparent !default;
+$switch-handle-bg-color: $border-alt !default;
+$switch-hover-bg-color: $content-bg-color !default;
+$switch-font-family: $font-family !default;
+$switch-font-size: $text-xs !default;
+$switch-inner-hover-bg-color: $primary !default;
+$switch-inner-hover-border-color: $primary-bg-color-hover !default;
+$switch-inner-on-font-color: $primary-text-color !default;
+$switch-inner-off-font-color: $content-text-color !default;
+$switch-inner-focus-border: $border-alt !default;
+$switch-on-hover-bg-color: $primary-bg-color-hover !default;
+$switch-on-off-disabled-bg-color: $content-bg-color !default;
+$switch-handle-disabled-bg-color: $border-disabled !default;
+$switch-handle-on-disabled-bg-color: $content-text-color-disabled !default;
+$switch-border-disabled-bg-color: $border-disabled !default;
+$switch-disabled-font-color: $content-text-color-disabled !default;
+$switch-on-off-hover-bg-color: transparent !default;
+$switch-inner-focus-bg-color: $primary !default;
+$switch-inner-focus-off-bg: $content-bg-color !default;
+$switch-focus-border-color-active: $primary !default;
+$switch-hover-border: $border-hover !default;
+$switch-hover-active-border: $primary !default;
+$switch-handle-hover-bg-color: $primary-text-color !default;
+$switch-small-disabled-rtl-active-bg-color: transparent !default;
+$switch-on-bg-color: $primary !default;
+$switch-on-disabled-bg-color: transparent !default;
+$switch-inner-hover-on-font-color: $primary-text-color !default;
+$switch-handle-off-hover-bg-color: $border-hover !default;
+$switch-ripple-border-radius: $radius-full !default;
+$switch-height: 1px !default;
+$switch-width: 1px !default;
+$switch-bgr-small-wrapper-margin: 8px !default;
+$switch-bgr-wrapper-margin: 10px !default;
+$switch-nrml-focus-border-radius: $radius-1 !default;
+$switch-box-shadow: $shadow-focus !default;
+$toggle-switch-border-disabled: $border-disabled !default;
+$switch-focused-outline: none !default;
+$switch-focused-outline-active: none !default;
+$switch-focused-outline-offset: none !default;
+
+@include export-module('switch-layout') {
+  .e-switch-wrapper,
+  .e-css.e-switch-wrapper {
+    cursor: pointer;
+    display: inline-block;
+    height: $switch-wrapper-height;
+    position: relative;
+    user-select: none;
+    width: $switch-wrapper-width;
+    margin: $switch-bgr-small-wrapper-margin;
+
+    &:focus,
+    &.e-focus {
+      box-shadow: $switch-box-shadow !important; /* stylelint-disable-line declaration-no-important */
+      border-radius: $switch-nrml-focus-border-radius;
+    }
+
+    @at-root {
+      & .e-switch {
+        appearance: none;
+        -moz-appearance: none;
+        height: $switch-height;
+        opacity: 0;
+        position: absolute;
+        width: $switch-width;
+      }
+
+      & .e-switch-inner {
+        -ms-transition: $switch-inner-transition;
+        -webkit-transition: $switch-inner-transition;
+        border: $switch-inner-border-style;
+        border-radius: $switch-border-radius;
+        box-sizing: border-box;
+        height: $switch-inner-height;
+        left: $switch-inner-left;
+        overflow: hidden;
+        position: absolute;
+        top: $switch-inner-top;
+        transition: $switch-inner-transition;
+        width: $switch-inner-width;
+      }
+
+      & .e-switch-on,
+      & .e-switch-off {
+        -ms-transition: $switch-transition;
+        -webkit-transition: $switch-transition;
+        align-items: center;
+        border-radius: inherit;
+        display: flex;
+        font-family: $switch-font-family;
+        font-size: $switch-font-size;
+        height: $switch-inner-height;
+        justify-content: center;
+        left: $switch-inner-left;
+        position: absolute;
+        transition: $switch-transition;
+        width: $switch-inner-width;
+      }
+
+      & .e-switch-on {
+        left: $switch-on-position-left;
+        text-indent: $switch-on-text-indent;
+      }
+
+      & .e-switch-off {
+        left: $switch-off-position-left;
+        opacity: $switch-off-opacity;
+        text-indent: $switch-off-text-indent;
+      }
+
+      & .e-switch-handle {
+        -ms-transition: $switch-handle-transition;
+        -webkit-transition: $switch-handle-transition;
+        border-radius: $switch-handle-radius;
+        bottom: $switch-handle-bottom;
+        height: $switch-handle-height;
+        left: $switch-handle-left;
+        margin: $switch-handle-margin;
+        position: absolute;
+        top: $switch-handle-top;
+        transition: $switch-handle-transition;
+        width: $switch-handle-width;
+      }
+
+      & .e-switch-inner.e-switch-active .e-switch-on {
+        left: $switch-active-on-position-left;
+        opacity: $switch-active-on-opacity;
+      }
+
+      & .e-switch-inner.e-switch-active .e-switch-off {
+        left: $switch-off-active-left;
+      }
+
+      & .e-switch-handle.e-switch-active {
+        left: $switch-handle-active;
+        margin-left: $switch-handle-margin-left;
+      }
+
+      &.e-switch-disabled {
+        cursor: default;
+        pointer-events: none;
+      }
+
+      &.e-rtl {
+        & .e-switch-handle {
+          left: $switch-handle-active;
+          margin-left: $switch-handle-margin-left;
+        }
+
+        & .e-switch-inner.e-switch-active .e-switch-on {
+          left: $switch-on-position-left-rtl;
+        }
+
+        & .e-switch-inner.e-switch-active .e-switch-off {
+          left: $switch-off-position-left-rtl;
+        }
+
+        & .e-switch-on {
+          left: $switch-on-rtl;
+        }
+
+        & .e-switch-off {
+          left: $switch-off-rtl;
+        }
+
+        & .e-switch-handle.e-switch-active {
+          border-radius: $switch-handle-radius;
+          height: $switch-handle-height;
+          left: $switch-handle-left;
+          margin: $switch-handle-margin;
+          position: absolute;
+          top: $switch-handle-top;
+          transition: $switch-handle-transition;
+          width: $switch-handle-width;
+        }
+      }
+    }
+  }
+}
+
+@include export-module('switch-theme') {
+  .e-switch-wrapper,
+  .e-css.e-switch-wrapper {
+    /* stylelint-disable property-no-vendor-prefix */
+    -webkit-tap-highlight-color: transparent;
+
+    & .e-switch-off {
+      background-color: $switch-off-bg-color;
+      color: $switch-inner-off-font-color;
+    }
+
+    & .e-switch-handle {
+      background-color: $switch-handle-bg-color;
+      box-shadow: $switch-handle-shadow;
+    }
+
+    & .e-switch-on {
+      background-color: $switch-on-bg-color;
+      color: $switch-inner-on-font-color;
+    }
+
+    & .e-switch-handle.e-switch-active {
+      background-color: $switch-active-handle-bg;
+    }
+
+    & .e-switch-inner.e-switch-active {
+      background-color: $switch-inner-active-bg;
+      border-color: $switch-inner-active-border-color;
+    }
+
+    & .e-switch-inner {
+      background-color: $switch-inner-bg;
+    }
+
+    &.e-switch-disabled {
+      & .e-switch-handle.e-switch-active {
+        box-shadow: $switch-handle-shadow-disabled;
+      }
+
+      & .e-switch-handle {
+        background-color: $switch-handle-disabled-bg-color;
+        box-shadow: $switch-handle-shadow-disabled;
+      }
+
+      & .e-switch-inner.e-switch-active {
+        border-color: $switch-border-disabled-bg-color;
+      }
+
+      & .e-switch-inner .e-switch-off {
+        opacity: $switch-on-off-disabled-bg-color-opacity;
+        background-color: $switch-on-off-disabled-bg-color;
+        border-color: $switch-handle-disabled-bg-color;
+        color: $switch-disabled-font-color;
+      }
+
+      & .e-switch-inner .e-switch-on {
+        color: $switch-disabled-font-color;
+        opacity: $switch-on-off-disabled-bg-color-opacity;
+        background-color: $switch-on-disabled-bg-color;
+        border-color: $toggle-switch-border-disabled !important; /* stylelint-disable-line declaration-no-important */
+      }
+
+      & .e-switch-inner {
+        background-color: transparent;
+        opacity: $switch-on-off-disabled-bg-color-opacity;
+        border-color: $switch-border-disabled-bg-color;
+      }
+
+      &:hover {
+        & .e-switch-inner.e-switch-active {
+          border-color: $switch-border-disabled-bg-color;
+        }
+
+        & .e-switch-inner {
+          border-color: $switch-border-disabled-bg-color;
+          color: $switch-disabled-font-color;
+        }
+
+        & .e-switch-inner.e-switch-active .e-switch-on {
+          color: $switch-disabled-font-color;
+          background-color: $switch-on-disabled-bg-color;
+        }
+
+        & .e-switch-handle {
+          background-color: $switch-handle-disabled-bg-color;
+        }
+
+        & .e-switch-handle.e-switch-active {
+          background-color: $switch-handle-disabled-bg-color;
+        }
+      }
+    }
+
+    &:hover {
+      & .e-switch-inner.e-switch-active {
+        background-color: $switch-inner-hover-border-color;
+        border-color: $switch-inner-hover-border-color;
+      }
+
+      & .e-switch-inner {
+        background-color: $switch-hover-bg-color;
+        border-color: $switch-hover-border;
+      }
+
+      & .e-switch-inner.e-switch-active .e-switch-on {
+        background-color: $switch-on-hover-bg-color;
+        color: $switch-inner-hover-on-font-color;
+      }
+
+      & .e-switch-handle.e-switch-active {
+        background-color: $switch-handle-hover-bg-color;
+      }
+    }
+
+    &:not(.e-switch-disabled):hover {
+      & .e-switch-handle:not(.e-switch-active) {
+        background-color: $switch-handle-off-hover-bg-color;
+      }
+    }
+
+    &.e-focus,
+    &:focus {
+      & .e-switch-inner {
+        background-color: $switch-inner-focus-off-bg;
+        border-color: $switch-inner-focus-border;
+        box-shadow: $switch-focus-inner-box-shadow;
+        outline: $switch-focused-outline;
+        outline-offset: $switch-focused-outline-offset;
+      }
+
+      & .e-switch-inner.e-switch-active {
+        background-color: $switch-inner-focus-bg-color;
+        border-color: $switch-focus-border-color-active;
+        outline: $switch-focused-outline-active;
+      }
+    }
+
+    &.e-active,
+    &:active {
+      & .e-switch-inner {
+        background-color: $content-bg-color;
+        border-color: $border-pressed;
+        box-shadow: $switch-focus-inner-box-shadow;
+        outline: $switch-focused-outline;
+        outline-offset: $switch-focused-outline-offset;
+
+        &.e-switch-active {
+          background-color: $primary-border-color-selected;
+          border-color: $primary-border-color-selected;
+        }
+      }
+
+      & .e-switch-inner.e-switch-active {
+        background-color: $switch-inner-focus-bg-color;
+        border-color: $switch-focus-border-color-active;
+        outline: $switch-focused-outline-active;
+      }
+    }
+
+    &.e-rtl {
+      &.e-focus {
+        & .e-switch-on {
+          background-color: $switch-on-off-hover-bg-color;
+        }
+
+        & .e-switch-off {
+          background-color: $switch-on-off-hover-bg-color;
+        }
+
+        & .e-switch-inner.e-switch-active {
+          background-color: $switch-inner-focus-bg-color;
+          border-color: $switch-focus-border-color-active;
+          color: $switch-inner-on-font-color;
+          outline: $switch-focused-outline-active;
+        }
+      }
+
+      & .e-switch-on {
+        background-color: $switch-inner-active;
+      }
+
+      & .e-switch-handle {
+        background-color: $switch-handle-bg-color;
+        box-shadow: $switch-handle-shadow;
+      }
+
+      & .e-switch-inner.e-switch-active .e-switch-off {
+        background-color: $switch-off-bg-color;
+      }
+
+      & .e-switch-handle.e-switch-active {
+        background-color: $switch-active-handle-bg;
+      }
+
+      & .e-switch-inner.e-switch-active {
+        background-color: $switch-inner-active-bg;
+        border-color: $switch-inner-active-border-color;
+      }
+
+      &:hover {
+        & .e-switch-inner.e-switch-active {
+          background-color: $switch-inner-hover-bg-color;
+          border-color: $switch-inner-hover-border-color;
+        }
+
+        & .e-switch-inner {
+          border-color: $switch-hover-border;
+        }
+
+        & .e-switch-inner.e-switch-active .e-switch-on {
+          background-color: $switch-on-hover-bg-color;
+        }
+
+        & .e-switch-handle.e-switch-active {
+          background-color: $switch-handle-hover-bg-color;
+        }
+      }
+
+      &.e-switch-disabled {
+        & .e-switch-inner .e-switch-on {
+          color: $switch-disabled-font-color;
+          opacity: $switch-on-off-disabled-bg-color-opacity;
+          background-color: $switch-on-disabled-bg-color;
+          border-color: $toggle-switch-border-disabled;
+        }
+
+
+        & .e-switch-inner .e-switch-off {
+          opacity: $switch-on-off-disabled-bg-color-opacity;
+          background-color: $switch-on-off-disabled-bg-color;
+          color: $switch-disabled-font-color;
+        }
+
+        & .e-switch-handle {
+          background-color: $switch-handle-disabled-bg-color;
+          box-shadow: $switch-handle-shadow-disabled;
+        }
+
+        & .e-switch-handle.e-switch-active {
+          background-color: $switch-handle-on-disabled-bg-color;
+          box-shadow: $switch-handle-shadow-disabled;
+        }
+
+        & .e-switch-inner {
+          background-color: $switch-on-off-disabled-bg-color;
+          border-color: $switch-border-disabled-bg-color;
+          opacity: $switch-on-off-disabled-bg-color-opacity;
+        }
+
+        &:hover {
+          & .e-switch-inner.e-switch-active .e-switch-on {
+            color: $switch-disabled-font-color;
+            background-color: $switch-on-disabled-bg-color;
+          }
+
+          & .e-switch-inner.e-switch-active {
+            background-color: $switch-on-off-disabled-bg-color;
+            border-color: $switch-border-disabled-bg-color;
+          }
+
+          & .e-switch-inner {
+            border-color: $switch-border-disabled-bg-color;
+            color: $switch-disabled-font-color;
+          }
+
+          & .e-switch-handle.e-switch-active {
+            background-color: $switch-handle-on-disabled-bg-color;
+          }
+
+          & .e-switch-handle {
+            background-color: $switch-handle-disabled-bg-color;
+          }
+        }
+      }
+    }
+
+    & .e-switch {
+      &:focus {
+        box-shadow: $switch-focus-inner-box-shadow;
+      }
+    }
+  }
+}

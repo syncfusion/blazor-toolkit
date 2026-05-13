@@ -1,0 +1,52 @@
+﻿@using Syncfusion.Blazor.Toolkit.Inputs
+
+@namespace Syncfusion.Blazor.Toolkit.Tests.Inputs
+
+@using Microsoft.AspNetCore.Components.Web
+<div class="sample">
+    <SfSwitch @bind-Checked="isChecked" Created="CreatedHandler" TChecked="bool" ValueChange="CheckedChangeHandler"></SfSwitch>
+    <div class="e-s-value">@createdText</div>
+    <div class="e-s-value">@changed</div>
+    <SfSwitch @onclick="OnClickHandler" @bind-Checked="isNativeChecked"></SfSwitch>
+    <div class="e-s-value">@clickedValue</div>
+    <SfSwitch @bind-Checked="isLambdaChecked" @onchange="@((e) => OnChangeHandler(e, "Value is"))"></SfSwitch>
+    <div class="e-s-value">@changedText</div>
+</div>
+
+@code {
+    private bool isChecked;
+    private bool changed;
+    private bool changedValue;
+    private string createdText;
+    private string changedText;
+    private string clickedValue;
+    private int i = 0;
+    private bool isNativeChecked = true;
+    private bool isLambdaChecked = true;
+
+    private void OnClickHandler(Microsoft.AspNetCore.Components.Web.MouseEventArgs args)
+    {
+        i++;
+        clickedValue = "Clicked " + i;
+    }
+
+    private void CreatedHandler()
+    {
+        createdText = "created";
+    }
+
+    private void CheckedChangeHandler(CheckedChangeEventArgs<bool> args)
+    {
+        changed = (bool)args.Checked;
+    }
+
+    private void OnChangeHandler(Microsoft.AspNetCore.Components.ChangeEventArgs args)
+    {
+        changedValue = (bool)args.Value;
+    }
+
+    private void OnChangeHandler(Microsoft.AspNetCore.Components.ChangeEventArgs args, string text)
+    {
+        changedText = text + args.Value;
+    }
+}

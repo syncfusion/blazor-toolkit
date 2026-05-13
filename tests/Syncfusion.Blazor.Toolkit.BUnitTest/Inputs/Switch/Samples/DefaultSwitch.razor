@@ -1,0 +1,49 @@
+﻿@using Syncfusion.Blazor.Toolkit.Inputs
+
+@namespace Syncfusion.Blazor.Toolkit.Tests.Inputs
+
+<div class="sample">
+    <SfSwitch TChecked="bool" ></SfSwitch>
+    <SfSwitch TChecked="bool" Value="Bluetooth"></SfSwitch>
+    <SfSwitch Checked="true" ></SfSwitch>
+    <SfSwitch Checked="value"></SfSwitch>
+    <div class="e-prop-value">
+        @value
+    </div>
+    <button @onclick="OnClickHandler">Change State</button>
+    <SfSwitch Checked="nullValue"></SfSwitch>
+    <div class="e-prop-value">
+        @nullValue
+    </div>
+    <button @onclick="OnNullClickHandler">Change State</button>
+    <SfSwitch @bind-Checked="twoWayValue"></SfSwitch>
+    <input type="checkbox" @bind="twoWayValue" id="bool-bind" />
+    <div class="e-prop-value">
+        @twoWayValue
+    </div>
+    <SfSwitch @bind-Checked="nullTwoWayValue"></SfSwitch>
+    <input type="checkbox" @bind="nullTwoWayValue" id="null-bind" />
+    <div class="e-prop-value">
+        @nullTwoWayValue
+    </div>
+</div>
+
+@code {
+    private bool value;
+    private bool? nullValue;
+    private bool twoWayValue;
+    private bool? nullTwoWayValue;
+
+    private void OnClickHandler()
+    {
+        value = !value;
+    }
+        
+    private void OnNullClickHandler()
+    {
+        if (nullValue == null)
+            nullValue = true;
+        else
+            nullValue = null;
+    }
+}

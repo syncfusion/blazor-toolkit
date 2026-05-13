@@ -1,0 +1,90 @@
+﻿@using Syncfusion.Blazor.Toolkit.Charts
+@using Syncfusion.Blazor.Toolkit.Tests
+@using Bunit
+@using Xunit
+
+@inherits TestComponentBase
+
+<SfFixture @ref="fixture" TestAsync="CheckingAxisLastLabel" Description="CheckingAxisLastLabel">
+    <ComponentUnderTest>
+        <SfChart ID="Container" @ref="Chart" Title="Efficiency of oil-fired power production" Width="70%">
+            <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Toolkit.ValueType.Category" Title="Year"></ChartPrimaryXAxis>
+            <ChartPrimaryYAxis Title="Efficiency" LabelFormat="{value}%"></ChartPrimaryYAxis>
+            <ChartTooltipSettings Enable="true"></ChartTooltipSettings>
+            <ChartSeriesCollection>
+                <ChartSeries DataSource="@ProductionDetails" XName="X" YName="Y" Type="ChartSeriesType.Column">
+                    <ChartLastDataLabel ShowLabel="@showLabel" Background="yellow" LineColor="black" LineWidth="2" DashArray="5,5" Rx="5" Ry="5">
+                        <ChartLastDataLabelBorder Color="red" Width="2"></ChartLastDataLabelBorder>
+                        <ChartLastDataLabelFont Color="#F0E68C" FontFamily="Arial" FontStyle="Italic" FontWeight="bold" Size="12px"></ChartLastDataLabelFont>
+                    </ChartLastDataLabel>
+                    <ChartMarker>
+                        <ChartDataLabel Visible="true"></ChartDataLabel>
+                    </ChartMarker>
+                </ChartSeries>
+            </ChartSeriesCollection>
+        </SfChart>
+    </ComponentUnderTest>
+</SfFixture>
+
+@code {
+    SfFixture fixture { get; set; }
+    SfChart Chart;
+    bool showLabel = true;
+
+    async Task CheckingAxisLastLabel(Fixture fixture)
+    {
+        var cut = fixture.GetComponentUnderTest<SfChart>();
+        await Task.Delay(200);
+        var lastLabel = cut.Find("#Container_LastDataLabel_0");
+        Assert.True(lastLabel.GetAttribute("font-size") == "12px");
+        Assert.True(lastLabel.TextContent.Contains("40%"));
+        Assert.True(lastLabel.GetAttribute("fill") == "#F0E68C");
+        Assert.True(lastLabel.GetAttribute("font-style") == "Italic");
+        Assert.True(lastLabel.GetAttribute("font-weight") == "bold");
+
+        var background = cut.Find("#Container_LastDataLabel_Background_0");
+        Assert.True(background.GetAttribute("fill") == "yellow");
+        Assert.True(background.GetAttribute("rx") == "5");
+        Assert.True(background.GetAttribute("ry") == "5");
+        Assert.True(background.GetAttribute("stroke") == "red");
+
+        var lastLabelLine = cut.Find("#Container_LastDataLabelLine_0");
+        Assert.True(lastLabelLine.GetAttribute("stroke-dasharray") == "5,5");
+        Assert.True(lastLabelLine.GetAttribute("stroke") == "black");
+        Assert.True(lastLabelLine.GetAttribute("stroke-width") == "2");
+
+        var lastItem = ProductionDetails.Last();
+        lastItem.Y = 45;
+        Chart.RefreshAsync();
+        await Task.Delay(200);
+        lastLabel = cut.Find("#Container_LastDataLabel_0");
+        Assert.True(lastLabel.TextContent.Contains("45%"));
+
+        showLabel = false;
+        cut.SetParametersAndRender();
+        await Task.Delay(200);
+        Assert.Empty(cut.FindAll("Container_LastDataLabel_0"));
+        showLabel = true;
+        cut.SetParametersAndRender();
+        await Task.Delay(200);
+        lastLabel = cut.Find("#Container_LastDataLabel_0");
+        Assert.True(lastLabel.TextContent.Contains("45%"));
+    }
+
+    public class ProductDetailData
+    {
+        public string X { get; set; }
+        public double Y { get; set; }
+    }
+
+    public List<ProductDetailData> ProductionDetails = new List<ProductDetailData>
+    {
+        new ProductDetailData { X = "2005", Y = 28 },
+        new ProductDetailData { X = "2006", Y = 25 },
+        new ProductDetailData { X = "2007", Y = 26 },
+        new ProductDetailData { X = "2008", Y = 27 },
+        new ProductDetailData { X = "2009", Y = 32 },
+        new ProductDetailData { X = "2010", Y = 35 },
+        new ProductDetailData { X = "2011", Y = 40 }
+    };
+}

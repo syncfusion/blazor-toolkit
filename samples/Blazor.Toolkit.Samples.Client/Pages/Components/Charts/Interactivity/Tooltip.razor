@@ -1,0 +1,1593 @@
+﻿@page "/charts/interactivity/tooltip"
+
+@using Syncfusion.Blazor.Toolkit.Charts;
+
+<PageTitle>Tooltip Chart</PageTitle>
+<Description>
+    <Header>
+        <h5>Default Tooltip</h5>
+    </Header>
+    <Content>
+        <p>
+            By default, tooltips are disabled in the Chart. To enable them and display data details when hovering over data points, set the <code>Enable</code> property to <code>true</code> in the <code>ChartTooltipSettings</code> component. Once enabled, the tooltip displays the X and Y values of the corresponding data point.
+        </p>
+    </Content>
+</Description>
+
+<VirtualizeSection MinHeightPx="600px">
+    <CodePreview IsFullWidth="true" CodeSection="@DefaultCode">
+        <PreviewSection>
+            
+            <SfChart Theme="@_currentTheme" Background="Transparent" >
+                <!-- Primary X Axis -->
+                <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Toolkit.ValueType.Category">
+                    <ChartAxisLineStyle Width="1" Color="black"></ChartAxisLineStyle>
+                </ChartPrimaryXAxis>
+                <!-- Primary Y Axis -->
+                <ChartPrimaryYAxis Title="kW of public charging per electric LDV" Minimum="0" Maximum="5.4" Interval="0.9">
+                    <ChartAxisLineStyle Width="0"></ChartAxisLineStyle>
+                </ChartPrimaryYAxis>
+                <!-- Secondary Y Axis -->
+                <ChartAxes >
+                    <ChartAxis Title="Number of Electric LDVs per charging point" Name="secondaryAxis"
+                               OpposedPosition="true"
+                               Minimum="0"
+                               Maximum="90"
+                               Interval="15">
+                        <ChartAxisLineStyle Width="0"></ChartAxisLineStyle>
+                    </ChartAxis>
+                </ChartAxes>
+                <!-- Series -->
+                
+                    <!-- Bar Series -->
+                    <ChartSeries DataSource="@evChargingData"
+                                 Type="ChartSeriesType.Bar"
+                                 XName="Country"
+                                 YName="PublicChargingPerEV"
+                                 Fill="#799EFF">
+                    </ChartSeries>
+                    <!-- Scatter Series -->
+                    <ChartSeries DataSource="@evChargingData"
+                                 Type="ChartSeriesType.Scatter"
+                                 XName="Country"
+                                 YName="EvPerChargingPoint"
+                                 YAxisName="secondaryAxis"
+                                 Fill="#FF5850">
+                        <ChartMarker Visible="true"
+                                     Shape="ChartShape.Circle"
+                                     Width="10"
+                                     Height="10">
+                        </ChartMarker>
+                    </ChartSeries>
+                
+                <!-- Tooltip -->
+                <ChartTooltipSettings Enable="true"></ChartTooltipSettings>
+            </SfChart>
+        </PreviewSection>
+    </CodePreview>
+</VirtualizeSection>
+
+<Description>
+    <Header>
+        <h5>Shared Tooltip</h5>
+    </Header>
+    <Content>
+        <p>
+            The shared tooltip displays information from all visible series at a single X‑value. To enable this behavior, set the <code>Shared</code> property to <code>true</code> in the <code>ChartTooltipSettings</code> component. This is useful when comparing values across multiple series in the same category.
+        </p>
+    </Content>
+</Description>
+
+<VirtualizeSection MinHeightPx="600px">
+    <CodePreview IsFullWidth="true" CodeSection="@SharedToolTipCode">
+        <PreviewSection>
+
+            <SfChart Theme="@_currentTheme" Background="Transparent" Title="Population Distribution of the Top 5 Most Populous Countries (2024)" EnableSideBySidePlacement="false" >
+                <ChartPrimaryXAxis LabelRotation="0" ValueType="Syncfusion.Blazor.Toolkit.ValueType.Category">
+                </ChartPrimaryXAxis>
+                <ChartPrimaryYAxis Format="{value}M" Title="Inhabitants (Millions)" Interval="300">
+                    <ChartAxisLineStyle Width="0"/>
+                </ChartPrimaryYAxis>
+                
+                    <ChartSeries DataSource="populationData"
+                                 XName="Country"
+                                 YName="Population"
+                                 Name="Total"
+                                 Type="ChartSeriesType.Column"
+                                 Fill="#7A4BFD"
+                                 Width="0.4"
+                                 ColumnSpacing="0.4">
+                        <ChartCornerRadius TopLeft="4" TopRight="4"/>
+                    </ChartSeries>
+                    <ChartSeries DataSource="populationData"
+                                 XName="Country"
+                                 YName="Male"
+                                 Name="Male"
+                                 Type="ChartSeriesType.Column"
+                                 Fill="#FE825C"
+                                 Width="0.3"
+                                 ColumnSpacing="0.4">
+                        <ChartCornerRadius TopLeft="4" TopRight="4"/>
+                    </ChartSeries>
+                    <ChartSeries DataSource="populationData"
+                                 XName="Country"
+                                 YName="Female"
+                                 Name="Female"
+                                 Type="ChartSeriesType.Column"
+                                 Fill="#FFDE63"
+                                 Width="0.2"
+                                 ColumnSpacing="0.4">
+                        <ChartCornerRadius TopLeft="4" TopRight="4"/>
+                    </ChartSeries>
+                
+                <ChartTooltipSettings Enable="true" Shared="true"/>
+            </SfChart>
+        </PreviewSection>
+    </CodePreview>
+</VirtualizeSection>
+
+<Description>
+    <Header>
+        <h5>Custom Tooltip Content</h5>
+    </Header>
+    <Content>
+        <p>
+            Custom tooltip content allows you to define your own layout and text using a tooltip format. By using the <code>Format</code> property in <code>ChartTooltipSettings</code>, additional data fields and custom labels can be included inside the tooltip, providing more meaningful information to users.
+        </p>
+    </Content>
+</Description>
+
+<VirtualizeSection MinHeightPx="600px">
+    <CodePreview IsFullWidth="true" CodeSection="@CustomToolTipCode">
+        <PreviewSection>
+
+            <SfChart Theme="@_currentTheme" Background="Transparent" Title="World Countries Details">
+
+                <!-- Chart Area -->
+                <ChartArea>
+                    <ChartAreaBorder Width="1" Color="#E7E3F0"></ChartAreaBorder>
+                </ChartArea>
+
+                <ChartPrimaryXAxis Title="Literacy Rate" Minimum="65" Maximum="102" Interval="5">
+                    <ChartStripline Visible="true"
+                                    Start="70"
+                                    End="70.1"
+                                    Color="Gray"
+                                    DashArray="3,10"
+                                    Opacity="0.8">
+                    </ChartStripline>
+                </ChartPrimaryXAxis>
+                <ChartPrimaryYAxis Format="n1" Title="GDP Annual Growth Rate" Minimum="-1" Maximum="10" Interval="2.5">
+                    <ChartStriplines>
+                        <ChartStripline Visible="true"
+                                        Start="1.5"
+                                        End="1.6"
+                                        Color="Gray"
+                                        DashArray="3,10"
+                                        Opacity="0.8">
+                        </ChartStripline>
+                    </ChartStriplines>
+                </ChartPrimaryYAxis>
+
+                <!-- Bubble Series -->
+                
+                    <ChartSeries DataSource="bubbleData"
+                                 Type="ChartSeriesType.Bubble"
+                                 XName="X"
+                                 YName="Y"
+                                 Size="Size"
+                                 MinRadius="3"
+                                 MaxRadius="6"
+                                 Opacity="0.6"
+                                 PointColorMapping="TooltipColor"
+                                 TooltipMappingName="ToolTipMappingName">
+
+                        <ChartMarker>
+                            <ChartDataLabel Visible="true"
+                                            Name="Text"
+                                            Position="ChartLabelPosition.Middle">
+                            </ChartDataLabel>
+                        </ChartMarker>
+
+                    </ChartSeries>
+                
+
+                <!-- Tooltip -->
+                <ChartTooltipSettings Enable="true"
+                                      Format="Literacy Rate : <b>${point.x}%</b><br/>
+                GDP Growth Rate : <b>${point.y}</b><br/>
+                Population : <b>${point.size} Billion</b>">
+                </ChartTooltipSettings>
+
+            </SfChart>
+
+        </PreviewSection>  
+    </CodePreview>
+</VirtualizeSection>
+
+<Description>
+    <Header>
+        <h5>Format The Tooltip</h5>
+    </Header>
+    <Content>
+        <p>
+            The tooltip content can be formatted using predefined placeholder values in the <code>Format</code> property. These placeholders help customize how data values are displayed without using a full template, making it easier to control the tooltip text format.
+        </p>
+    </Content>
+</Description>
+
+<VirtualizeSection MinHeightPx="600px">
+    <CodePreview IsFullWidth="true" CodeSection="@FormatTooltipCode">
+        <PreviewSection>
+
+            <SfChart Theme="@_currentTheme" Background="Transparent" Title="U.S. Agricultural Trade"  >
+
+                <ChartArea Border="@(new ChartAreaBorder { Width = 0 })"></ChartArea>
+
+                <ChartTooltipSettings Enable="true"
+                                      EnableMarker="false"
+                                      Format="Trade Type : <b>${series.name}</b><br/>
+                                  Calendar Year : <b>${point.x}</b><br/>
+                                  Amount : <b>$${point.y}</b>">
+                </ChartTooltipSettings>
+
+                <ChartPrimaryXAxis Minimum="1990" Maximum="2020"></ChartPrimaryXAxis>
+
+                <ChartPrimaryYAxis Title="USD" Format="{value}B" Minimum="0" Maximum="180" Interval="30">
+                </ChartPrimaryYAxis>
+
+                
+
+                    <ChartSeries DataSource="@ExportData"
+                                 XName="X"
+                                 YName="Y"
+                                 Type="ChartSeriesType.Line"
+                                 Width="3"
+                                 Fill="#FF8225"
+                                 Name="Exports">
+                    </ChartSeries>
+
+                    <ChartSeries DataSource="@ImportData"
+                                 XName="X"
+                                 YName="Y"
+                                 Type="ChartSeriesType.Line"
+                                 Width="3"
+                                 Fill="#0A97B080"
+                                 Name="Imports">
+                    </ChartSeries>
+
+                
+
+            </SfChart>
+
+        </PreviewSection>
+    </CodePreview>
+</VirtualizeSection>
+
+<Description>
+    <Header>
+        <h5>Tooltip Header</h5>
+    </Header>
+    <Content>
+        <p>
+            The tooltip header allows you to display a title above the tooltip content. By enabling <code>ShowHeaderLine</code> in <code>ChartTooltipSettings</code>, you can show a separating line for the header. This is commonly used to show the X‑axis value, providing better context for the displayed data points and improving readability.
+        </p>
+    </Content>
+</Description>
+
+<VirtualizeSection MinHeightPx="600px">
+    <CodePreview IsFullWidth="true" CodeSection="@TooltipHeaderCode">
+        <PreviewSection>
+
+            <SfChart Theme="@_currentTheme" Background="Transparent" Title="Household Consumption Expenditure Per Capita"  >
+
+                <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Toolkit.ValueType.DateTime"
+                                   Interval="5">
+                </ChartPrimaryXAxis>
+
+                <ChartPrimaryYAxis LineStyle="new ChartAxisLineStyle { Width = 0 }"
+                                   Maximum="15">
+                </ChartPrimaryYAxis>
+
+                
+
+                    <ChartSeries DataSource="@tooltipHeaderData"
+                                 XName="X"
+                                 YName="UnitedStates"
+                                 Type="ChartSeriesType.Spline"
+                                 Name="United States"
+                                 Fill="#99CC00">
+                    </ChartSeries>
+
+                    <ChartSeries DataSource="@tooltipHeaderData"
+                                 XName="X"
+                                 YName="Italy"
+                                 Type="ChartSeriesType.Spline"
+                                 Name="Italy"
+                                 Fill="#66CCFF">
+                    </ChartSeries>
+
+                
+
+                <ChartTooltipSettings Enable="true"
+                                      ShowHeaderLine="true"
+                                      Format="${point.x} : <b>${point.y}%</b>">
+                </ChartTooltipSettings>
+
+            </SfChart>
+
+        </PreviewSection>
+    </CodePreview>
+</VirtualizeSection>
+
+<Description>
+    <Header>
+        <h5>Render Custom Visuals</h5>
+    </Header>
+    <Content>
+        <p>
+            Custom visuals such as icons, images, or styled elements can be rendered inside the tooltip using the <code>Template</code> property in <code>ChartTooltipSettings</code>. This enables visually rich tooltips and helps in presenting data more effectively in dashboards and reports.
+        </p>
+    </Content>
+</Description>
+<VirtualizeSection MinHeightPx="600px">
+    <CodePreview IsFullWidth="true" CodeSection="@customRenderCode">
+        <PreviewSection>
+            <SfChart Theme="@_currentTheme" Background="Transparent" Title="Top 5 Countries by Population in 2025"  >
+                <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Toolkit.ValueType.Category"/>
+                <ChartPrimaryYAxis LabelFormat="{value}M"
+                                   Title="Population (Millions)"/>
+                <ChartTooltipSettings Enable="true">
+                    <Template>
+                        @{
+                            var data = context as ChartTooltipInfo;
+                            CountryMap.TryGetValue(data?.X?.ToString(), out var country);
+
+                            if (country != null)
+                            {
+                                <div style="
+                                width:260px;
+                                padding:12px;
+                                border-radius:12px;
+                                background:linear-gradient(135deg,#ff9ad5,#e8ddff);
+                                box-shadow:0 4px 8px rgba(0,0,0,0.2);">
+
+                                    <div style="font-size:18px;font-weight:bold;margin-bottom:8px;">
+                                        @country.Country
+                                    </div>
+
+                                    <table style="width:100%;font-size:14px;">
+                                        <tr>
+                                            <td>
+                                                <b>Capital</b>
+                                            </td>
+                                            <td>: @country.Capital</td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <b>Population</b>
+                                            </td>
+                                            <td>: @country.Population.ToString("N0")</td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <b>Area</b>
+                                            </td>
+                                            <td>: @country.Area</td>
+                                        </tr>
+                                    </table>
+                                </div>
+                            }
+                        }
+                    </Template>
+                </ChartTooltipSettings>
+
+                <!-- Series -->
+                
+                    <ChartSeries DataSource="@Countries"
+                                 XName="Country"
+                                 YName="Population"
+                                 Type="ChartSeriesType.Column">
+                    </ChartSeries>
+                
+
+            </SfChart>
+            <style>
+                .custom-tooltip {
+                    background: linear-gradient(135deg, #ff80cf, #e6d8ff);
+                    color: #000;
+                    padding: 12px;
+                    border-radius: 12px;
+                    width: 260px;
+                }
+            
+                .tooltip-header {
+                    display: flex;
+                    align-items: center;
+                    gap: 10px;
+                    font-size: 16px;
+                    margin-bottom: 8px;
+                }
+            
+                .tooltip-body p {
+                    margin: 2px 0;
+                    font-size: 14px;
+                }
+            </style>
+        </PreviewSection>
+    </CodePreview>
+</VirtualizeSection>
+
+<Description>
+    <Header>
+        <h5>Customize Tooltip Appearance</h5>
+    </Header>
+    <Content>
+        <p>
+            The appearance of the tooltip can be customized using available styling properties. You can control background color, text style, border, and opacity using properties like <code>Fill</code>, <code>ChartTooltipTextStyle</code>, and <code>ChartTooltipBorder</code> in <code>ChartTooltipSettings</code> to match the application theme and enhance the overall user experience.
+        </p>
+    </Content>
+</Description>
+
+<VirtualizeSection MinHeightPx="600px">
+    <CodePreview IsFullWidth="true" CodeSection="@customTooltipRenderCode">
+        <PreviewSection>
+
+            <SfChart Theme="@_currentTheme" Background="Transparent" Title="Sales - Yearly Performance"  >
+                <!-- Tooltip -->
+                <ChartTooltipSettings Enable="true"
+                                      Fill="white"
+                                      Format="${point.x} : <b>${point.y}</b>">
+                    <ChartTooltipBorder Width="3" Color="#1E88E5"></ChartTooltipBorder>
+                    <ChartTooltipTextStyle Color="black"
+                                           FontFamily="Arial, Helvetica, sans-serif"
+                                           FontWeight="Bold"
+                                           Opacity="0.7">
+                    </ChartTooltipTextStyle>
+                </ChartTooltipSettings>
+
+                <!-- X Axis -->
+                <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Toolkit.ValueType.Category">
+                    <ChartAxisLabelStyle Size="11px"></ChartAxisLabelStyle>
+                </ChartPrimaryXAxis>
+
+                <!-- Y Axis -->
+                <ChartPrimaryYAxis Format="{value}%" Minimum="0" Maximum="100">
+                    <ChartAxisLineStyle Width="0"></ChartAxisLineStyle>
+                    <ChartAxisLabelStyle Size="11px"></ChartAxisLabelStyle>
+                </ChartPrimaryYAxis>
+
+                <!-- Series -->
+                
+
+                    <!-- Online -->
+                    <ChartSeries DataSource="@appearanceTooltipData"
+                                 XName="Period"
+                                 YName="Percentage1"
+                                 Type="ChartSeriesType.Column"
+                                 Name="Online"
+                                 Fill="#799EFF"
+                                 ColumnWidth="0.45"
+                                 ColumnSpacing="0.1">
+                        <ChartCornerRadius TopLeft="4" TopRight="4"></ChartCornerRadius>
+                    </ChartSeries>
+
+                    <!-- Retail -->
+                    <ChartSeries DataSource="@appearanceTooltipData"
+                                 XName="Period"
+                                 YName="Percentage2"
+                                 Type="ChartSeriesType.Column"
+                                 Name="Retail"
+                                 Fill="#FF79C3"
+                                 ColumnWidth="0.45"
+                                 ColumnSpacing="0.1">
+                        <ChartCornerRadius TopLeft="4" TopRight="4"></ChartCornerRadius>
+                    </ChartSeries>
+
+                
+
+            </SfChart>
+
+        </PreviewSection>
+    </CodePreview>
+</VirtualizeSection>
+
+@code{
+    [CascadingParameter]
+    private Theme CurrentTheme { get; set; } = Theme.Fluent;
+
+    private Theme _currentTheme = Theme.Fluent;
+    private string _prevThemeName = string.Empty;
+
+
+    protected override void OnParametersSet()
+    {
+        var name = CurrentTheme.ToString() ?? string.Empty;
+        if (name != _prevThemeName)
+        {
+            _prevThemeName = name;
+            _currentTheme = CurrentTheme;
+            InvokeAsync(StateHasChanged);
+        }
+        else
+        {
+            _currentTheme = CurrentTheme;
+        }
+    }
+    public string customTooltipRenderCode = @"@using Syncfusion.Blazor.Toolkit.Charts
+
+<SfChart Theme=""@_currentTheme"" Title=""Sales - Yearly Performance"">
+    <!-- Tooltip -->
+    <ChartTooltipSettings Enable=""true""
+                          Fill=""white""
+                          Format=""${point.x} : <b>${point.y}</b>"">
+        <ChartTooltipBorder Width=""3"" Color=""#1E88E5""></ChartTooltipBorder>
+        <ChartTooltipTextStyle Color=""black""
+                               FontFamily=""Arial, Helvetica, sans-serif""
+                               FontWeight=""Bold""
+                               Opacity=""0.7"">
+        </ChartTooltipTextStyle>
+    </ChartTooltipSettings>
+
+    <!-- X Axis -->
+    <ChartPrimaryXAxis ValueType=""Syncfusion.Blazor.Toolkit.ValueType.Category"">
+        <ChartAxisLabelStyle Size=""11px""></ChartAxisLabelStyle>
+    </ChartPrimaryXAxis>
+
+    <!-- Y Axis -->
+    <ChartPrimaryYAxis Format=""{value}%"" Minimum=""0"" Maximum=""100"">
+        <ChartAxisLineStyle Width=""0""></ChartAxisLineStyle>
+        <ChartAxisLabelStyle Size=""11px""></ChartAxisLabelStyle>
+    </ChartPrimaryYAxis>
+
+    <!-- Series -->
+    
+
+        <!-- Online -->
+        <ChartSeries DataSource=""@appearanceTooltipData""
+                     XName=""Period""
+                     YName=""Percentage1""
+                     Type=""ChartSeriesType.Column""
+                     Name=""Online""
+                     Fill=""#799EFF""
+                     ColumnWidth=""0.45""
+                     ColumnSpacing=""0.1"">
+            <ChartCornerRadius TopLeft=""4"" TopRight=""4""></ChartCornerRadius>
+        </ChartSeries>
+
+        <!-- Retail -->
+        <ChartSeries DataSource=""@appearanceTooltipData""
+                     XName=""Period""
+                     YName=""Percentage2""
+                     Type=""ChartSeriesType.Column""
+                     Name=""Retail""
+                     Fill=""#FF79C3""
+                     ColumnWidth=""0.45""
+                     ColumnSpacing=""0.1"">
+            <ChartCornerRadius TopLeft=""4"" TopRight=""4""></ChartCornerRadius>
+        </ChartSeries>
+
+    
+
+</SfChart>
+
+@code {
+    private Theme _currentTheme = Theme.Fluent;
+
+    public class SalesData
+    {
+        public string Period { get; set; } = string.Empty;
+        public double Percentage1 { get; set; }
+        public double Percentage2 { get; set; }
+    }
+
+    public List<SalesData> appearanceTooltipData = new()
+    {
+        new SalesData { Period = ""2020"", Percentage1 = 60, Percentage2 = 40 },
+        new SalesData { Period = ""2021"", Percentage1 = 56, Percentage2 = 44 },
+        new SalesData { Period = ""2022"", Percentage1 = 71, Percentage2 = 29 },
+        new SalesData { Period = ""2023"", Percentage1 = 85, Percentage2 = 15 },
+        new SalesData { Period = ""2024"", Percentage1 = 73, Percentage2 = 27 }
+    };
+}";
+    public string customRenderCode = @"@using Syncfusion.Blazor.Toolkit.Charts
+
+<SfChart Theme=""@_currentTheme"" Title=""Top 5 Countries by Population in 2025"">
+    <ChartPrimaryXAxis ValueType=""Syncfusion.Blazor.Toolkit.ValueType.Category""/>
+    <ChartPrimaryYAxis LabelFormat=""{value}M""
+                       Title=""Population (Millions)""/>
+    <ChartTooltipSettings Enable=""true"">
+        <Template>
+            @{
+                var data = context as ChartTooltipInfo;
+                CountryMap.TryGetValue(data?.X?.ToString() ?? string.Empty, out var country);
+
+                if (country != null)
+                {
+                    <div style=""
+                    width:260px;
+                    padding:12px;
+                    border-radius:12px;
+                    background:linear-gradient(135deg,#ff9ad5,#e8ddff);
+                    box-shadow:0 4px 8px rgba(0,0,0,0.2);"">
+
+                        <div style=""font-size:18px;font-weight:bold;margin-bottom:8px;"">
+                            @country.Country
+                        </div>
+
+                        <table style=""width:100%;font-size:14px;"">
+                            <tr>
+                                <td>
+                                    <b>Capital</b>
+                                </td>
+                                <td>: @country.Capital</td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <b>Population</b>
+                                </td>
+                                <td>: @country.Population.ToString(""N0"")</td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <b>Area</b>
+                                </td>
+                                <td>: @country.Area</td>
+                            </tr>
+                        </table>
+                    </div>
+                }
+            }
+        </Template>
+    </ChartTooltipSettings>
+
+    <!-- Series -->
+    
+        <ChartSeries DataSource=""@Countries""
+                     XName=""Country""
+                     YName=""Population""
+                     Type=""ChartSeriesType.Column"">
+        </ChartSeries>
+    
+
+</SfChart>
+<style>
+    .custom-tooltip {
+        background: linear-gradient(135deg, #ff80cf, #e6d8ff);
+        color: #000;
+        padding: 12px;
+        border-radius: 12px;
+        width: 260px;
+    }
+
+    .tooltip-header {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        font-size: 16px;
+        margin-bottom: 8px;
+    }
+
+    .tooltip-body p {
+        margin: 2px 0;
+        font-size: 14px;
+    }
+</style>
+
+@code {
+    private Theme _currentTheme = Theme.Fluent;
+
+    public class CountryPopulation
+    {
+        public string Country { get; set; } = string.Empty;
+        public double Population { get; set; }
+        public string Capital { get; set; } = string.Empty;
+        public string Area { get; set; } = string.Empty;
+    }
+
+    public List<CountryPopulation> Countries = new()
+    {
+        new CountryPopulation
+        {
+            Country = ""India"",
+            Population = 1429,
+            Capital = ""New Delhi"",
+            Area = ""3,287,263 km²""
+        },
+        new CountryPopulation
+        {
+            Country = ""China"",
+            Population = 1416,
+            Capital = ""Beijing"",
+            Area = ""9,596,961 km²""
+        },
+        new CountryPopulation
+        {
+            Country = ""United States"",
+            Population = 339,
+            Capital = ""Washington, D.C."",
+            Area = ""9,525,067 km²""
+        },
+        new CountryPopulation
+        {
+            Country = ""Indonesia"",
+            Population = 277,
+            Capital = ""Jakarta"",
+            Area = ""1,904,569 km²""
+        },
+        new CountryPopulation
+        {
+            Country = ""Pakistan"",
+            Population = 241,
+            Capital = ""Islamabad"",
+            Area = ""881,913 km²""
+        }
+    };
+
+    Dictionary<string, CountryPopulation> CountryMap = new()
+    {
+        {
+            ""India"", new CountryPopulation
+            {
+                Country = ""India"",
+                Capital = ""New Delhi"",
+                Population = 1429000000,
+                Area = ""3,287,263 km²""
+            }
+        },
+        {
+            ""China"", new CountryPopulation
+            {
+                Country = ""China"",
+                Capital = ""Beijing"",
+                Population = 1416000000,
+                Area = ""9,596,961 km²""
+            }
+        },
+        {
+            ""United States"", new CountryPopulation
+            {
+                Country = ""United States"",
+                Capital = ""Washington, D.C."",
+                Population = 339000000,
+                Area = ""9,525,067 km²""
+            }
+        },
+        {
+            ""Indonesia"", new CountryPopulation
+            {
+                Country = ""Indonesia"",
+                Capital = ""Jakarta"",
+                Population = 277000000,
+                Area = ""1,904,569 km²""
+            }
+        },
+        {
+            ""Pakistan"", new CountryPopulation
+            {
+                Country = ""Pakistan"",
+                Capital = ""Islamabad"",
+                Population = 241000000,
+                Area = ""881,913 km²""
+            }
+        }
+    };
+}";
+    public string TooltipHeaderCode = @"@using Syncfusion.Blazor.Toolkit.Charts
+
+<SfChart Theme=""@_currentTheme"" Title=""Household Consumption Expenditure Per Capita"">
+
+    <ChartPrimaryXAxis ValueType=""Syncfusion.Blazor.Toolkit.ValueType.DateTime""
+                       Interval=""5"">
+    </ChartPrimaryXAxis>
+
+    <ChartPrimaryYAxis LineStyle=""new ChartAxisLineStyle { Width = 0 }""
+                       Maximum=""15"">
+    </ChartPrimaryYAxis>
+
+    
+
+        <ChartSeries DataSource=""@tooltipHeaderData""
+                     XName=""X""
+                     YName=""UnitedStates""
+                     Type=""ChartSeriesType.Spline""
+                     Name=""United States""
+                     Fill=""#99CC00"">
+        </ChartSeries>
+
+        <ChartSeries DataSource=""@tooltipHeaderData""
+                     XName=""X""
+                     YName=""Italy""
+                     Type=""ChartSeriesType.Spline""
+                     Name=""Italy""
+                     Fill=""#66CCFF"">
+        </ChartSeries>
+
+    
+
+    <ChartTooltipSettings Enable=""true""
+                          ShowHeaderLine=""true""
+                          Format=""${point.x} : <b>${point.y}%</b>"">
+    </ChartTooltipSettings>
+
+</SfChart>
+
+@code {
+    private Theme _currentTheme = Theme.Fluent;
+
+    public class TooltipHeaderData
+    {
+        public DateTime X { get; set; }
+        public double UnitedStates { get; set; }
+        public double Italy { get; set; }
+    }
+
+    public List<TooltipHeaderData> tooltipHeaderData = new()
+    {
+        new TooltipHeaderData { X = new DateTime(2007, 3, 1), UnitedStates = 0.04, Italy = 0.39 },
+        new TooltipHeaderData { X = new DateTime(2007, 6, 1), UnitedStates = 0.41, Italy = -0.47 },
+        new TooltipHeaderData { X = new DateTime(2007, 9, 1), UnitedStates = 0.14, Italy = -0.34 },
+        new TooltipHeaderData { X = new DateTime(2008, 3, 1), UnitedStates = -0.36, Italy = -0.23 },
+        new TooltipHeaderData { X = new DateTime(2008, 3, 1), UnitedStates = 0.06, Italy = -0.69 },
+        new TooltipHeaderData { X = new DateTime(2008, 6, 1), UnitedStates = -1.01, Italy = -0.99 },
+        new TooltipHeaderData { X = new DateTime(2008, 9, 1), UnitedStates = -1.13, Italy = -0.82 },
+        new TooltipHeaderData { X = new DateTime(2009, 3, 1), UnitedStates = -0.46, Italy = -0.49 },
+        new TooltipHeaderData { X = new DateTime(2009, 3, 1), UnitedStates = -0.7, Italy = -0.44 },
+        new TooltipHeaderData { X = new DateTime(2009, 6, 1), UnitedStates = 0.44, Italy = 0.09 },
+        new TooltipHeaderData { X = new DateTime(2009, 9, 1), UnitedStates = -0.34, Italy = 0.09 },
+        new TooltipHeaderData { X = new DateTime(2010, 5, 1), UnitedStates = 0.38, Italy = 0.28 },
+        new TooltipHeaderData { X = new DateTime(2010, 3, 1), UnitedStates = 0.71, Italy = -0.17 },
+        new TooltipHeaderData { X = new DateTime(2010, 6, 1), UnitedStates = 0.5, Italy = 0.66 },
+        new TooltipHeaderData { X = new DateTime(2010, 9, 1), UnitedStates = 0.4, Italy = 0.37 },
+        new TooltipHeaderData { X = new DateTime(2011, 6, 1), UnitedStates = 0.2, Italy = -0.09 },
+        new TooltipHeaderData { X = new DateTime(2011, 3, 1), UnitedStates = -0.08, Italy = -0.18 },
+        new TooltipHeaderData { X = new DateTime(2011, 6, 1), UnitedStates = 0.09, Italy = -0.37 },
+        new TooltipHeaderData { X = new DateTime(2011, 9, 1), UnitedStates = -0.04, Italy = -1.34 },
+        new TooltipHeaderData { X = new DateTime(2012, 7, 1), UnitedStates = 0.54, Italy = -1.61 },
+        new TooltipHeaderData { X = new DateTime(2012, 3, 1), UnitedStates = 0.0, Italy = -0.78 },
+        new TooltipHeaderData { X = new DateTime(2012, 6, 1), UnitedStates = -0.01, Italy = -0.71 },
+        new TooltipHeaderData { X = new DateTime(2012, 9, 1), UnitedStates = 0.19, Italy = -0.63 },
+        new TooltipHeaderData { X = new DateTime(2013, 8, 1), UnitedStates = 0.49, Italy = -1.4 },
+        new TooltipHeaderData { X = new DateTime(2013, 3, 1), UnitedStates = 0.12, Italy = -0.29 },
+        new TooltipHeaderData { X = new DateTime(2013, 6, 1), UnitedStates = 0.2, Italy = 0.26 },
+        new TooltipHeaderData { X = new DateTime(2013, 9, 1), UnitedStates = 0.67, Italy = 0.17 },
+        new TooltipHeaderData { X = new DateTime(2014, 9, 1), UnitedStates = 0.18, Italy = -0.39 },
+        new TooltipHeaderData { X = new DateTime(2014, 3, 1), UnitedStates = 0.78, Italy = 0.19 },
+        new TooltipHeaderData { X = new DateTime(2014, 6, 1), UnitedStates = 0.77, Italy = 0.43 },
+        new TooltipHeaderData { X = new DateTime(2014, 9, 1), UnitedStates = 0.93, Italy = 0.41 },
+        new TooltipHeaderData { X = new DateTime(2015, 1, 1), UnitedStates = 0.59, Italy = 0.84 },
+        new TooltipHeaderData { X = new DateTime(2015, 3, 1), UnitedStates = 0.51, Italy = 0.86 },
+        new TooltipHeaderData { X = new DateTime(2015, 6, 1), UnitedStates = 0.49, Italy = -0.16 },
+        new TooltipHeaderData { X = new DateTime(2015, 9, 1), UnitedStates = 0.19, Italy = 0.12 },
+        new TooltipHeaderData { X = new DateTime(2016, 4, 1), UnitedStates = 0.57, Italy = 0.35 },
+        new TooltipHeaderData { X = new DateTime(2016, 3, 1), UnitedStates = 0.32, Italy = 0.1 },
+        new TooltipHeaderData { X = new DateTime(2016, 6, 1), UnitedStates = 0.49, Italy = 0.35 },
+        new TooltipHeaderData { X = new DateTime(2016, 9, 1), UnitedStates = 0.32, Italy = 0.43 },
+        new TooltipHeaderData { X = new DateTime(2017, 5, 1), UnitedStates = 0.62, Italy = 0.56 },
+        new TooltipHeaderData { X = new DateTime(2017, 3, 1), UnitedStates = 0.34, Italy = 0.24 },
+        new TooltipHeaderData { X = new DateTime(2017, 6, 1), UnitedStates = 0.5, Italy = 0.07 },
+        new TooltipHeaderData { X = new DateTime(2017, 9, 1), UnitedStates = 0.92, Italy = 0.33 },
+        new TooltipHeaderData { X = new DateTime(2018, 6, 1), UnitedStates = 0.6, Italy = 0.21 },
+        new TooltipHeaderData { X = new DateTime(2018, 3, 1), UnitedStates = 0.4, Italy = 0.16 },
+        new TooltipHeaderData { X = new DateTime(2018, 6, 1), UnitedStates = 0.3, Italy = 0.09 },
+        new TooltipHeaderData { X = new DateTime(2018, 9, 1), UnitedStates = 0.17, Italy = 0.15 },
+        new TooltipHeaderData { X = new DateTime(2019, 7, 1), UnitedStates = 0.05, Italy = 0.05 },
+        new TooltipHeaderData { X = new DateTime(2019, 3, 1), UnitedStates = 0.74, Italy = 0.33 },
+        new TooltipHeaderData { X = new DateTime(2019, 6, 1), UnitedStates = 0.99, Italy = -0.33 },
+        new TooltipHeaderData { X = new DateTime(2019, 9, 1), UnitedStates = 0.51, Italy = -0.36 },
+        new TooltipHeaderData { X = new DateTime(2020, 7, 1), UnitedStates = -1.79, Italy = -7.27 },
+        new TooltipHeaderData { X = new DateTime(2020, 3, 1), UnitedStates = -8.8, Italy = -10.69 },
+        new TooltipHeaderData { X = new DateTime(2020, 6, 1), UnitedStates = 8.95, Italy = 14.1 },
+        new TooltipHeaderData { X = new DateTime(2020, 9, 1), UnitedStates = 1.36, Italy = -4.11 },
+        new TooltipHeaderData { X = new DateTime(2021, 7, 1), UnitedStates = 2.31, Italy = -0.8 },
+        new TooltipHeaderData { X = new DateTime(2021, 3, 1), UnitedStates = 3.3, Italy = 7.03 },
+        new TooltipHeaderData { X = new DateTime(2021, 6, 1), UnitedStates = 0.65, Italy = 2.55 },
+        new TooltipHeaderData { X = new DateTime(2021, 9, 1), UnitedStates = 0.94, Italy = 0.31 },
+        new TooltipHeaderData { X = new DateTime(2022, 4, 1), UnitedStates = 0.13, Italy = 0.74 },
+        new TooltipHeaderData { X = new DateTime(2022, 3, 1), UnitedStates = 0.49, Italy = 2.08 },
+        new TooltipHeaderData { X = new DateTime(2022, 6, 1), UnitedStates = 0.18, Italy = 0.54 },
+        new TooltipHeaderData { X = new DateTime(2022, 9, 1), UnitedStates = 0.09, Italy = -1.37 },
+        new TooltipHeaderData { X = new DateTime(2023, 3, 1), UnitedStates = 1.02, Italy = 1.41 },
+        new TooltipHeaderData { X = new DateTime(2023, 3, 1), UnitedStates = 0.05, Italy = -0.54 },
+        new TooltipHeaderData { X = new DateTime(2023, 6, 1), UnitedStates = 0.39, Italy = -0.28 },
+        new TooltipHeaderData { X = new DateTime(2023, 9, 1), UnitedStates = 0.6, Italy = -0.69 },
+        new TooltipHeaderData { X = new DateTime(2024, 2, 1), UnitedStates = 0.25, Italy = 1.18 },
+        new TooltipHeaderData { X = new DateTime(2024, 3, 1), UnitedStates = 0.46, Italy = -0.2 },
+        new TooltipHeaderData { X = new DateTime(2024, 6, 1), UnitedStates = 0.7, Italy = 0.35 },
+        new TooltipHeaderData { X = new DateTime(2024, 9, 1), UnitedStates = 0.84, Italy = 0.14 },
+        new TooltipHeaderData { X = new DateTime(2025, 5, 1), UnitedStates = -0.01, Italy = 0.3 }
+    };
+}";
+    public string FormatTooltipCode = @"@using Syncfusion.Blazor.Toolkit.Charts
+
+<SfChart Theme=""@_currentTheme"" Title=""U.S. Agricultural Trade"">
+
+    <ChartArea Border=""@(new ChartAreaBorder { Width = 0 })""></ChartArea>
+
+    <ChartTooltipSettings Enable=""true""
+                          EnableMarker=""false""
+                          Format=""Trade Type : <b>${series.name}</b><br/>
+                      Calendar Year : <b>${point.x}</b><br/>
+                      Amount : <b>$${point.y}</b>"">
+    </ChartTooltipSettings>
+
+    <ChartPrimaryXAxis Minimum=""1990"" Maximum=""2020""></ChartPrimaryXAxis>
+
+    <ChartPrimaryYAxis Title=""USD"" Format=""{value}B"" Minimum=""0"" Maximum=""180"" Interval=""30"">
+    </ChartPrimaryYAxis>
+
+    
+
+        <ChartSeries DataSource=""@ExportData""
+                     XName=""X""
+                     YName=""Y""
+                     Type=""ChartSeriesType.Line""
+                     Width=""3""
+                     Fill=""#FF8225""
+                     Name=""Exports"">
+        </ChartSeries>
+
+        <ChartSeries DataSource=""@ImportData""
+                     XName=""X""
+                     YName=""Y""
+                     Type=""ChartSeriesType.Line""
+                     Width=""3""
+                     Fill=""#0A97B080""
+                     Name=""Imports"">
+        </ChartSeries>
+
+    
+
+</SfChart>
+
+@code {
+    private Theme _currentTheme = Theme.Fluent;
+
+    public class TradeData
+    {
+        public int X { get; set; }
+        public double Y { get; set; }
+    }
+
+    public List<TradeData> ExportData = new()
+    {
+        new() { X = 1990, Y = 45.06 }, new() { X = 1991, Y = 44.43 },
+        new() { X = 1992, Y = 48.16 }, new() { X = 1993, Y = 47.71 },
+        new() { X = 1994, Y = 52.25 }, new() { X = 1995, Y = 62.31 },
+        new() { X = 1996, Y = 66.45 }, new() { X = 1997, Y = 62.85 },
+        new() { X = 1998, Y = 57.30 }, new() { X = 1999, Y = 52.92 },
+        new() { X = 2000, Y = 55.92 }, new() { X = 2001, Y = 57.08 },
+        new() { X = 2002, Y = 55.78 }, new() { X = 2003, Y = 62.02 },
+        new() { X = 2004, Y = 63.89 }, new() { X = 2005, Y = 65.55 },
+        new() { X = 2006, Y = 73.62 }, new() { X = 2007, Y = 93.10 },
+        new() { X = 2008, Y = 117.71 }, new() { X = 2009, Y = 100.76 },
+        new() { X = 2010, Y = 118.72 }, new() { X = 2011, Y = 142.13 },
+        new() { X = 2012, Y = 145.92 }, new() { X = 2013, Y = 148.48 },
+        new() { X = 2014, Y = 154.54 }, new() { X = 2015, Y = 137.22 },
+        new() { X = 2016, Y = 138.90 }, new() { X = 2017, Y = 142.87 },
+        new() { X = 2018, Y = 144.73 }, new() { X = 2019, Y = 141.09 },
+        new() { X = 2020, Y = 149.73 }, new() { X = 2021, Y = 177.04 }
+    };
+
+    public List<TradeData> ImportData = new()
+    {
+        new() { X = 1990, Y = 24.05 }, new() { X = 1991, Y = 23.97 },
+        new() { X = 1992, Y = 26.13 }, new() { X = 1993, Y = 26.51 },
+        new() { X = 1994, Y = 28.27 }, new() { X = 1995, Y = 30.84 },
+        new() { X = 1996, Y = 34.60 }, new() { X = 1997, Y = 37.87 },
+        new() { X = 1998, Y = 38.99 }, new() { X = 1999, Y = 40.28 },
+        new() { X = 2000, Y = 41.88 }, new() { X = 2001, Y = 42.61 },
+        new() { X = 2002, Y = 45.35 }, new() { X = 2003, Y = 50.91 },
+        new() { X = 2004, Y = 57.51 }, new() { X = 2005, Y = 63.27 },
+        new() { X = 2006, Y = 70.45 }, new() { X = 2007, Y = 76.93 },
+        new() { X = 2008, Y = 85.19 }, new() { X = 2009, Y = 76.72 },
+        new() { X = 2010, Y = 85.58 }, new() { X = 2011, Y = 102.03 },
+        new() { X = 2012, Y = 108.76 }, new() { X = 2013, Y = 111.00 },
+        new() { X = 2014, Y = 118.73 }, new() { X = 2015, Y = 121.12 },
+        new() { X = 2016, Y = 122.57 }, new() { X = 2017, Y = 129.21 },
+        new() { X = 2018, Y = 137.99 }, new() { X = 2019, Y = 141.57 },
+        new() { X = 2020, Y = 146.28 }, new() { X = 2021, Y = 170.55 }
+    };
+}";
+    public string CustomToolTipCode = @"@using Syncfusion.Blazor.Toolkit.Charts
+
+<SfChart Theme=""@_currentTheme"" Title=""World Countries Details"">
+
+    <!-- Chart Area -->
+    <ChartArea>
+        <ChartAreaBorder Width=""1"" Color=""#E7E3F0""></ChartAreaBorder>
+    </ChartArea>
+
+    <ChartPrimaryXAxis Title=""Literacy Rate"" Minimum=""65"" Maximum=""102"" Interval=""5"">
+        <ChartStripline Visible=""true""
+                        Start=""70""
+                        End=""70.1""
+                        Color=""Gray""
+                        DashArray=""3,10""
+                        Opacity=""0.8"">
+        </ChartStripline>
+    </ChartPrimaryXAxis>
+    <ChartPrimaryYAxis Format=""n1"" Title=""GDP Annual Growth Rate"" Minimum=""-1"" Maximum=""10"" Interval=""2.5"">
+        <ChartStriplines>
+            <ChartStripline Visible=""true""
+                            Start=""1.5""
+                            End=""1.6""
+                            Color=""Gray""
+                            DashArray=""3,10""
+                            Opacity=""0.8"">
+            </ChartStripline>
+        </ChartStriplines>
+    </ChartPrimaryYAxis>
+
+    <!-- Bubble Series -->
+    
+        <ChartSeries DataSource=""bubbleData""
+                     Type=""ChartSeriesType.Bubble""
+                     XName=""X""
+                     YName=""Y""
+                     Size=""Size""
+                     MinRadius=""3""
+                     MaxRadius=""6""
+                     Opacity=""0.6""
+                     PointColorMapping=""TooltipColor""
+                     TooltipMappingName=""ToolTipMappingName"">
+
+            <ChartMarker>
+                <ChartDataLabel Visible=""true""
+                                Name=""Text""
+                                Position=""ChartLabelPosition.Middle"">
+                </ChartDataLabel>
+            </ChartMarker>
+
+        </ChartSeries>
+    
+
+    <!-- Tooltip -->
+    <ChartTooltipSettings Enable=""true""
+                          Format=""Literacy Rate : <b>${point.x}%</b><br/>
+    GDP Growth Rate : <b>${point.y}</b><br/>
+    Population : <b>${point.size} Billion</b>"">
+    </ChartTooltipSettings>
+
+</SfChart>
+
+@code {
+    private Theme _currentTheme = Theme.Fluent;
+
+    public class BubbleData
+    {
+        public double X { get; set; } // Literacy Rate
+        public double Y { get; set; } // GDP Growth
+        public double Size { get; set; } // Population
+        public string ToolTipMappingName { get; set; } = string.Empty;
+        public string Text { get; set; } = string.Empty;
+        public string TooltipColor { get; set; } = string.Empty;
+    }
+
+    private List<BubbleData> bubbleData = new()
+    {
+        new BubbleData { X = 92.2, Y = 7.8, Size = 1.347, ToolTipMappingName = ""China"", Text = ""China"", TooltipColor = ""#5FFFF280"" },
+        new BubbleData { X = 74, Y = 6.5, Size = 1.241, ToolTipMappingName = ""India"", Text = ""India"", TooltipColor = ""#FFE83D80"" },
+        new BubbleData { X = 90.4, Y = 6.0, Size = 0.238, ToolTipMappingName = ""Indonesia"", Text = ""Indonesia"", TooltipColor = ""#F9F87180"" },
+        new BubbleData { X = 99.4, Y = 2.2, Size = 0.312, ToolTipMappingName = ""United States"", Text = ""US"", TooltipColor = ""#11F75E80"" },
+        new BubbleData { X = 88.6, Y = 1.3, Size = 0.197, ToolTipMappingName = ""Brazil"", Text = ""Brazil"", TooltipColor = ""#B95EFF80"" },
+        new BubbleData { X = 99, Y = 0.7, Size = 0.0818, ToolTipMappingName = ""Germany"", Text = ""Germany"", TooltipColor = ""#E7A0D880"" },
+        new BubbleData { X = 72, Y = 2.0, Size = 0.0826, ToolTipMappingName = ""Egypt"", Text = ""Egypt"" },
+        new BubbleData { X = 99.6, Y = 3.4, Size = 0.143, ToolTipMappingName = ""Russia"", Text = ""Russia"", TooltipColor = ""#2C48D280"" },
+        new BubbleData { X = 96.5, Y = 0.2, Size = 0.128, ToolTipMappingName = ""Japan"", Text = ""Japan"", TooltipColor = ""#B7B2FF80"" },
+        new BubbleData { X = 78.4, Y = 2.9, Size = 0.231, ToolTipMappingName = ""Taiwan"", Text = ""Taiwan"", TooltipColor = ""#89FF7180"" }
+    };
+}";
+    public string SharedToolTipCode = @"@using Syncfusion.Blazor.Toolkit.Charts
+
+<SfChart Theme=""@_currentTheme"" Title=""Population Distribution of the Top 5 Most Populous Countries (2024)"" EnableSideBySidePlacement=""false"">
+    <ChartPrimaryXAxis LabelRotation=""0"" ValueType=""Syncfusion.Blazor.Toolkit.ValueType.Category"">
+    </ChartPrimaryXAxis>
+    <ChartPrimaryYAxis Format=""{value}M"" Title=""Inhabitants (Millions)"" Interval=""300"">
+        <ChartAxisLineStyle Width=""0""/>
+    </ChartPrimaryYAxis>
+    
+        <ChartSeries DataSource=""populationData""
+                     XName=""Country""
+                     YName=""Population""
+                     Name=""Total""
+                     Type=""ChartSeriesType.Column""
+                     Fill=""#7A4BFD""
+                     Width=""0.4""
+                     ColumnSpacing=""0.4"">
+            <ChartCornerRadius TopLeft=""4"" TopRight=""4""/>
+        </ChartSeries>
+        <ChartSeries DataSource=""populationData""
+                     XName=""Country""
+                     YName=""Male""
+                     Name=""Male""
+                     Type=""ChartSeriesType.Column""
+                     Fill=""#FE825C""
+                     Width=""0.3""
+                     ColumnSpacing=""0.4"">
+            <ChartCornerRadius TopLeft=""4"" TopRight=""4""/>
+        </ChartSeries>
+        <ChartSeries DataSource=""populationData""
+                     XName=""Country""
+                     YName=""Female""
+                     Name=""Female""
+                     Type=""ChartSeriesType.Column""
+                     Fill=""#FFDE63""
+                     Width=""0.2""
+                     ColumnSpacing=""0.4"">
+            <ChartCornerRadius TopLeft=""4"" TopRight=""4""/>
+        </ChartSeries>
+    
+    <ChartTooltipSettings Enable=""true"" Shared=""true""/>
+</SfChart>
+
+@code {
+    private Theme _currentTheme = Theme.Fluent;
+
+    public class PopulationData
+    {
+        public string Country { get; set; } = string.Empty;
+        public double Population { get; set; }
+        public double Male { get; set; }
+        public double Female { get; set; }
+    }
+
+    public List<PopulationData> populationData = new()
+    {
+        new PopulationData { Country = ""India"", Population = 1450.935791, Male = 748.323427, Female = 702.612364 },
+        new PopulationData { Country = ""China"", Population = 1419.321278, Male = 723.023723, Female = 696.297555 },
+        new PopulationData { Country = ""USA"", Population = 345.426571, Male = 173.551527, Female = 171.875044 },
+        new PopulationData { Country = ""Indonesia"", Population = 283.487931, Male = 142.407931, Female = 141.080014 },
+        new PopulationData { Country = ""Pakistan"", Population = 251.269164, Male = 127.433405, Female = 123.835758 }
+    };
+}";
+    public string DefaultCode = @"@using Syncfusion.Blazor.Toolkit.Charts
+
+<SfChart Theme=""@_currentTheme"">
+    <!-- Primary X Axis -->
+    <ChartPrimaryXAxis ValueType=""Syncfusion.Blazor.Toolkit.ValueType.Category"">
+        <ChartAxisLineStyle Width=""1"" Color=""black""></ChartAxisLineStyle>
+    </ChartPrimaryXAxis>
+    <!-- Primary Y Axis -->
+    <ChartPrimaryYAxis Title=""kW of public charging per electric LDV"" Minimum=""0"" Maximum=""5.4"" Interval=""0.9"">
+        <ChartAxisLineStyle Width=""0""></ChartAxisLineStyle>
+    </ChartPrimaryYAxis>
+    <!-- Secondary Y Axis -->
+    <ChartAxes >
+        <ChartAxis Title=""Number of Electric LDVs per charging point"" Name=""secondaryAxis""
+                   OpposedPosition=""true""
+                   Minimum=""0""
+                   Maximum=""90""
+                   Interval=""15"">
+            <ChartAxisLineStyle Width=""0""></ChartAxisLineStyle>
+        </ChartAxis>
+    </ChartAxes>
+    <!-- Series -->
+    
+        <!-- Bar Series -->
+        <ChartSeries DataSource=""@evChargingData""
+                     Type=""ChartSeriesType.Bar""
+                     XName=""Country""
+                     YName=""PublicChargingPerEV""
+                     Fill=""#799EFF"">
+        </ChartSeries>
+        <!-- Scatter Series -->
+        <ChartSeries DataSource=""@evChargingData""
+                     Type=""ChartSeriesType.Scatter""
+                     XName=""Country""
+                     YName=""EvPerChargingPoint""
+                     YAxisName=""secondaryAxis""
+                     Fill=""#FF5850"">
+            <ChartMarker Visible=""true""
+                         Shape=""ChartShape.Circle""
+                         Width=""10""
+                         Height=""10"">
+            </ChartMarker>
+        </ChartSeries>
+    
+    <!-- Tooltip -->
+    <ChartTooltipSettings Enable=""true""></ChartTooltipSettings>
+</SfChart>
+
+@code {
+    private Theme _currentTheme = Theme.Fluent;
+
+    public class EvChargingData
+    {
+        public string Country { get; set; } = string.Empty;
+        public double EvPerChargingPoint { get; set; }
+        public double PublicChargingPerEV { get; set; }
+        public double KwPerElectricLDV { get; set; }
+        public double KwPerEV { get; set; }
+    }
+
+    List<EvChargingData> evChargingData = new()
+    {
+        new() { Country = ""New Zealand"", EvPerChargingPoint = 81.9, PublicChargingPerEV = 0.7 },
+        new() { Country = ""Australia"", EvPerChargingPoint = 45.0, PublicChargingPerEV = 1.1 },
+        new() { Country = ""Mexico"", EvPerChargingPoint = 40.6, PublicChargingPerEV = 0.6 },
+        new() { Country = ""United States"", EvPerChargingPoint = 32.6, PublicChargingPerEV = 1.3 },
+        new() { Country = ""Norway"", EvPerChargingPoint = 32.1, PublicChargingPerEV = 2.0 },
+        new() { Country = ""China"", EvPerChargingPoint = 8.0, PublicChargingPerEV = 3.0 },
+        new() { Country = ""Netherlands"", EvPerChargingPoint = 12.0, PublicChargingPerEV = 4.8 },
+        new() { Country = ""Germany"", EvPerChargingPoint = 20.0, PublicChargingPerEV = 2.5 },
+        new() { Country = ""France"", EvPerChargingPoint = 18.0, PublicChargingPerEV = 2.0 },
+        new() { Country = ""Japan"", EvPerChargingPoint = 25.0, PublicChargingPerEV = 1.5 },
+        new() { Country = ""United Kingdom"", EvPerChargingPoint = 28.0, PublicChargingPerEV = 1.8 },
+        new() { Country = ""Spain"", EvPerChargingPoint = 22.0, PublicChargingPerEV = 1.2 },
+        new() { Country = ""India"", EvPerChargingPoint = 55.0, PublicChargingPerEV = 0.8 }
+    };
+}";
+}
+
+@code{
+
+    Dictionary<string, CountryPopulation> CountryMap =
+        new()
+        {
+            {
+                "India", new CountryPopulation
+                {
+                    Country = "India",
+                    Capital = "New Delhi",
+                    Population = 1429000000,
+                    Area = "3,287,263 km²"
+                }
+            },
+            {
+                "China", new CountryPopulation
+                {
+                    Country = "China",
+                    Capital = "Beijing",
+                    Population = 1416000000,
+                    Area = "9,596,961 km²"
+                }
+            },
+            {
+                "United States", new CountryPopulation
+                {
+                    Country = "United States",
+                    Capital = "Washington, D.C.",
+                    Population = 339000000,
+                    Area = "9,525,067 km²"
+                }
+            },
+            {
+                "Indonesia", new CountryPopulation
+                {
+                    Country = "Indonesia",
+                    Capital = "Jakarta",
+                    Population = 277000000,
+                    Area = "1,904,569 km²"
+                }
+            },
+            {
+                "Pakistan", new CountryPopulation
+                {
+                    Country = "Pakistan",
+                    Capital = "Islamabad",
+                    Population = 241000000,
+                    Area = "881,913 km²"
+                }
+            }
+        };
+
+    public class CountryPopulation
+    {
+        public string Country { get; set; }
+        public double Population { get; set; }
+        public string Capital { get; set; }
+        public string Area { get; set; }
+        public string FlagUrl { get; set; }
+    }
+
+    public List<CountryPopulation> Countries = new()
+    {
+        new CountryPopulation
+        {
+            Country = "India",
+            Population = 1429,
+            Capital = "New Delhi",
+            Area = "3,287,263 km²",
+            FlagUrl = "https://flagcdn.com/in.svg"
+        },
+        new CountryPopulation
+        {
+            Country = "China",
+            Population = 1416,
+            Capital = "Beijing",
+            Area = "9,596,961 km²",
+            FlagUrl = "https://flagcdn.com/cn.svg"
+        },
+        new CountryPopulation
+        {
+            Country = "United States",
+            Population = 339,
+            Capital = "Washington, D.C.",
+            Area = "9,525,067 km²",
+            FlagUrl = "https://flagcdn.com/us.svg"
+        },
+        new CountryPopulation
+        {
+            Country = "Indonesia",
+            Population = 277,
+            Capital = "Jakarta",
+            Area = "1,904,569 km²",
+            FlagUrl = "https://flagcdn.com/id.svg"
+        },
+        new CountryPopulation
+        {
+            Country = "Pakistan",
+            Population = 241,
+            Capital = "Islamabad",
+            Area = "881,913 km²",
+            FlagUrl = "https://flagcdn.com/pk.svg"
+        }
+    };
+
+    // Custommize the tooltip appearance.
+
+    public class SalesData
+    {
+        public string Period { get; set; }
+        public double Percentage1 { get; set; }
+        public double Percentage2 { get; set; }
+    }
+
+    // ✅ Data
+    public List<SalesData> appearanceTooltipData = new()
+    {
+        new SalesData { Period = "2020", Percentage1 = 60, Percentage2 = 40 },
+        new SalesData { Period = "2021", Percentage1 = 56, Percentage2 = 44 },
+        new SalesData { Period = "2022", Percentage1 = 71, Percentage2 = 29 },
+        new SalesData { Period = "2023", Percentage1 = 85, Percentage2 = 15 },
+        new SalesData { Period = "2024", Percentage1 = 73, Percentage2 = 27 }
+    };
+
+    // Render custom Visuals
+
+    public class CountryData
+    {
+        public string Country { get; set; }
+        public long Population { get; set; }
+        public string Capital { get; set; }
+        public double Area { get; set; }
+        public string Color { get; set; }
+    }
+
+    // Data Source
+    List<CountryData> customTooltipData = new()
+    {
+        new CountryData { Country = "India", Population = 1463865525, Capital = "New Delhi", Area = 3287263, Color = "#EDA9ED" },
+        new CountryData { Country = "China", Population = 1416096094, Capital = "Beijing", Area = 9596961, Color = "#D0ABEB" },
+        new CountryData { Country = "United States", Population = 347275807, Capital = "Washington, D.C.", Area = 9833517, Color = "#B39EF2" },
+        new CountryData { Country = "Indonesia", Population = 285721236, Capital = "Jakarta", Area = 1904569, Color = "#98A1EA" },
+        new CountryData { Country = "Pakistan", Population = 255219554, Capital = "Islamabad", Area = 881912, Color = "#81C6F2" }
+    };
+
+    // Formatters
+    string FormatNumber(double value)
+        => value.ToString("N0");
+
+    string YAxisFormatter(object value)
+        => $"{(Convert.ToDouble(value) / 1_000_000):N0}M";
+
+    string GetImagePath(string country)
+        => $"https://react.syncfusion.com/react-ui/images/Chart/{Uri.EscapeDataString(country)}.png";
+
+    //Tooltip header
+
+    public class TooltipHeaderData
+    {
+        public DateTime X { get; set; }
+        public double UnitedStates { get; set; }
+        public double Italy { get; set; }
+    }
+
+    public string ChartTheme { get; set; } = "Material";
+
+    public List<TooltipHeaderData> tooltipHeaderData { get; set; }
+
+    protected override void OnInitialized()
+    {
+        _currentTheme = CurrentTheme;
+        tooltipHeaderData = new List<TooltipHeaderData>
+        {
+            new TooltipHeaderData { X = new DateTime(2007, 3, 1), UnitedStates = 0.04, Italy = 0.39 },
+            new TooltipHeaderData { X = new DateTime(2007, 6, 1), UnitedStates = 0.41, Italy = -0.47 },
+            new TooltipHeaderData { X = new DateTime(2007, 9, 1), UnitedStates = 0.14, Italy = -0.34 },
+            new TooltipHeaderData { X = new DateTime(2008, 3, 1), UnitedStates = -0.36, Italy = -0.23 },
+            new TooltipHeaderData { X = new DateTime(2008, 3, 1), UnitedStates = 0.06, Italy = -0.69 },
+            new TooltipHeaderData { X = new DateTime(2008, 6, 1), UnitedStates = -1.01, Italy = -0.99 },
+            new TooltipHeaderData { X = new DateTime(2008, 9, 1), UnitedStates = -1.13, Italy = -0.82 },
+            new TooltipHeaderData { X = new DateTime(2009, 3, 1), UnitedStates = -0.46, Italy = -0.49 },
+            new TooltipHeaderData { X = new DateTime(2009, 3, 1), UnitedStates = -0.7, Italy = -0.44 },
+            new TooltipHeaderData { X = new DateTime(2009, 6, 1), UnitedStates = 0.44, Italy = 0.09 },
+            new TooltipHeaderData { X = new DateTime(2009, 9, 1), UnitedStates = -0.34, Italy = 0.09 },
+            new TooltipHeaderData { X = new DateTime(2010, 5, 1), UnitedStates = 0.38, Italy = 0.28 },
+            new TooltipHeaderData { X = new DateTime(2010, 3, 1), UnitedStates = 0.71, Italy = -0.17 },
+            new TooltipHeaderData { X = new DateTime(2010, 6, 1), UnitedStates = 0.5, Italy = 0.66 },
+            new TooltipHeaderData { X = new DateTime(2010, 9, 1), UnitedStates = 0.4, Italy = 0.37 },
+            new TooltipHeaderData { X = new DateTime(2011, 6, 1), UnitedStates = 0.2, Italy = -0.09 },
+            new TooltipHeaderData { X = new DateTime(2011, 3, 1), UnitedStates = -0.08, Italy = -0.18 },
+            new TooltipHeaderData { X = new DateTime(2011, 6, 1), UnitedStates = 0.09, Italy = -0.37 },
+            new TooltipHeaderData { X = new DateTime(2011, 9, 1), UnitedStates = -0.04, Italy = -1.34 },
+            new TooltipHeaderData { X = new DateTime(2012, 7, 1), UnitedStates = 0.54, Italy = -1.61 },
+            new TooltipHeaderData { X = new DateTime(2012, 3, 1), UnitedStates = 0.0, Italy = -0.78 },
+            new TooltipHeaderData { X = new DateTime(2012, 6, 1), UnitedStates = -0.01, Italy = -0.71 },
+            new TooltipHeaderData { X = new DateTime(2012, 9, 1), UnitedStates = 0.19, Italy = -0.63 },
+            new TooltipHeaderData { X = new DateTime(2013, 8, 1), UnitedStates = 0.49, Italy = -1.4 },
+            new TooltipHeaderData { X = new DateTime(2013, 3, 1), UnitedStates = 0.12, Italy = -0.29 },
+            new TooltipHeaderData { X = new DateTime(2013, 6, 1), UnitedStates = 0.2, Italy = 0.26 },
+            new TooltipHeaderData { X = new DateTime(2013, 9, 1), UnitedStates = 0.67, Italy = 0.17 },
+            new TooltipHeaderData { X = new DateTime(2014, 9, 1), UnitedStates = 0.18, Italy = -0.39 },
+            new TooltipHeaderData { X = new DateTime(2014, 3, 1), UnitedStates = 0.78, Italy = 0.19 },
+            new TooltipHeaderData { X = new DateTime(2014, 6, 1), UnitedStates = 0.77, Italy = 0.43 },
+            new TooltipHeaderData { X = new DateTime(2014, 9, 1), UnitedStates = 0.93, Italy = 0.41 },
+            new TooltipHeaderData { X = new DateTime(2015, 1, 1), UnitedStates = 0.59, Italy = 0.84 },
+            new TooltipHeaderData { X = new DateTime(2015, 3, 1), UnitedStates = 0.51, Italy = 0.86 },
+            new TooltipHeaderData { X = new DateTime(2015, 6, 1), UnitedStates = 0.49, Italy = -0.16 },
+            new TooltipHeaderData { X = new DateTime(2015, 9, 1), UnitedStates = 0.19, Italy = 0.12 },
+            new TooltipHeaderData { X = new DateTime(2016, 4, 1), UnitedStates = 0.57, Italy = 0.35 },
+            new TooltipHeaderData { X = new DateTime(2016, 3, 1), UnitedStates = 0.32, Italy = 0.1 },
+            new TooltipHeaderData { X = new DateTime(2016, 6, 1), UnitedStates = 0.49, Italy = 0.35 },
+            new TooltipHeaderData { X = new DateTime(2016, 9, 1), UnitedStates = 0.32, Italy = 0.43 },
+            new TooltipHeaderData { X = new DateTime(2017, 5, 1), UnitedStates = 0.62, Italy = 0.56 },
+            new TooltipHeaderData { X = new DateTime(2017, 3, 1), UnitedStates = 0.34, Italy = 0.24 },
+            new TooltipHeaderData { X = new DateTime(2017, 6, 1), UnitedStates = 0.5, Italy = 0.07 },
+            new TooltipHeaderData { X = new DateTime(2017, 9, 1), UnitedStates = 0.92, Italy = 0.33 },
+            new TooltipHeaderData { X = new DateTime(2018, 6, 1), UnitedStates = 0.6, Italy = 0.21 },
+            new TooltipHeaderData { X = new DateTime(2018, 3, 1), UnitedStates = 0.4, Italy = 0.16 },
+            new TooltipHeaderData { X = new DateTime(2018, 6, 1), UnitedStates = 0.3, Italy = 0.09 },
+            new TooltipHeaderData { X = new DateTime(2018, 9, 1), UnitedStates = 0.17, Italy = 0.15 },
+            new TooltipHeaderData { X = new DateTime(2019, 7, 1), UnitedStates = 0.05, Italy = 0.05 },
+            new TooltipHeaderData { X = new DateTime(2019, 3, 1), UnitedStates = 0.74, Italy = 0.33 },
+            new TooltipHeaderData { X = new DateTime(2019, 6, 1), UnitedStates = 0.99, Italy = -0.33 },
+            new TooltipHeaderData { X = new DateTime(2019, 9, 1), UnitedStates = 0.51, Italy = -0.36 },
+            new TooltipHeaderData { X = new DateTime(2020, 7, 1), UnitedStates = -1.79, Italy = -7.27 },
+            new TooltipHeaderData { X = new DateTime(2020, 3, 1), UnitedStates = -8.8, Italy = -10.69 },
+            new TooltipHeaderData { X = new DateTime(2020, 6, 1), UnitedStates = 8.95, Italy = 14.1 },
+            new TooltipHeaderData { X = new DateTime(2020, 9, 1), UnitedStates = 1.36, Italy = -4.11 },
+            new TooltipHeaderData { X = new DateTime(2021, 7, 1), UnitedStates = 2.31, Italy = -0.8 },
+            new TooltipHeaderData { X = new DateTime(2021, 3, 1), UnitedStates = 3.3, Italy = 7.03 },
+            new TooltipHeaderData { X = new DateTime(2021, 6, 1), UnitedStates = 0.65, Italy = 2.55 },
+            new TooltipHeaderData { X = new DateTime(2021, 9, 1), UnitedStates = 0.94, Italy = 0.31 },
+            new TooltipHeaderData { X = new DateTime(2022, 4, 1), UnitedStates = 0.13, Italy = 0.74 },
+            new TooltipHeaderData { X = new DateTime(2022, 3, 1), UnitedStates = 0.49, Italy = 2.08 },
+            new TooltipHeaderData { X = new DateTime(2022, 6, 1), UnitedStates = 0.18, Italy = 0.54 },
+            new TooltipHeaderData { X = new DateTime(2022, 9, 1), UnitedStates = 0.09, Italy = -1.37 },
+            new TooltipHeaderData { X = new DateTime(2023, 3, 1), UnitedStates = 1.02, Italy = 1.41 },
+            new TooltipHeaderData { X = new DateTime(2023, 3, 1), UnitedStates = 0.05, Italy = -0.54 },
+            new TooltipHeaderData { X = new DateTime(2023, 6, 1), UnitedStates = 0.39, Italy = -0.28 },
+            new TooltipHeaderData { X = new DateTime(2023, 9, 1), UnitedStates = 0.6, Italy = -0.69 },
+            new TooltipHeaderData { X = new DateTime(2024, 2, 1), UnitedStates = 0.25, Italy = 1.18 },
+            new TooltipHeaderData { X = new DateTime(2024, 3, 1), UnitedStates = 0.46, Italy = -0.2 },
+            new TooltipHeaderData { X = new DateTime(2024, 6, 1), UnitedStates = 0.7, Italy = 0.35 },
+            new TooltipHeaderData { X = new DateTime(2024, 9, 1), UnitedStates = 0.84, Italy = 0.14 },
+            new TooltipHeaderData { X = new DateTime(2025, 5, 1), UnitedStates = -0.01, Italy = 0.3 }
+        };
+    }
+
+    // Format the Tooltip
+
+    public class TradeData
+    {
+        public int X { get; set; }
+        public double Y { get; set; }
+    }
+
+    public List<TradeData> ExportData = new()
+    {
+        new() { X = 1990, Y = 45.06 }, new() { X = 1991, Y = 44.43 },
+        new() { X = 1992, Y = 48.16 }, new() { X = 1993, Y = 47.71 },
+        new() { X = 1994, Y = 52.25 }, new() { X = 1995, Y = 62.31 },
+        new() { X = 1996, Y = 66.45 }, new() { X = 1997, Y = 62.85 },
+        new() { X = 1998, Y = 57.30 }, new() { X = 1999, Y = 52.92 },
+        new() { X = 2000, Y = 55.92 }, new() { X = 2001, Y = 57.08 },
+        new() { X = 2002, Y = 55.78 }, new() { X = 2003, Y = 62.02 },
+        new() { X = 2004, Y = 63.89 }, new() { X = 2005, Y = 65.55 },
+        new() { X = 2006, Y = 73.62 }, new() { X = 2007, Y = 93.10 },
+        new() { X = 2008, Y = 117.71 }, new() { X = 2009, Y = 100.76 },
+        new() { X = 2010, Y = 118.72 }, new() { X = 2011, Y = 142.13 },
+        new() { X = 2012, Y = 145.92 }, new() { X = 2013, Y = 148.48 },
+        new() { X = 2014, Y = 154.54 }, new() { X = 2015, Y = 137.22 },
+        new() { X = 2016, Y = 138.90 }, new() { X = 2017, Y = 142.87 },
+        new() { X = 2018, Y = 144.73 }, new() { X = 2019, Y = 141.09 },
+        new() { X = 2020, Y = 149.73 }, new() { X = 2021, Y = 177.04 }
+    };
+
+    public List<TradeData> ImportData = new()
+    {
+        new() { X = 1990, Y = 24.05 }, new() { X = 1991, Y = 23.97 },
+        new() { X = 1992, Y = 26.13 }, new() { X = 1993, Y = 26.51 },
+        new() { X = 1994, Y = 28.27 }, new() { X = 1995, Y = 30.84 },
+        new() { X = 1996, Y = 34.60 }, new() { X = 1997, Y = 37.87 },
+        new() { X = 1998, Y = 38.99 }, new() { X = 1999, Y = 40.28 },
+        new() { X = 2000, Y = 41.88 }, new() { X = 2001, Y = 42.61 },
+        new() { X = 2002, Y = 45.35 }, new() { X = 2003, Y = 50.91 },
+        new() { X = 2004, Y = 57.51 }, new() { X = 2005, Y = 63.27 },
+        new() { X = 2006, Y = 70.45 }, new() { X = 2007, Y = 76.93 },
+        new() { X = 2008, Y = 85.19 }, new() { X = 2009, Y = 76.72 },
+        new() { X = 2010, Y = 85.58 }, new() { X = 2011, Y = 102.03 },
+        new() { X = 2012, Y = 108.76 }, new() { X = 2013, Y = 111.00 },
+        new() { X = 2014, Y = 118.73 }, new() { X = 2015, Y = 121.12 },
+        new() { X = 2016, Y = 122.57 }, new() { X = 2017, Y = 129.21 },
+        new() { X = 2018, Y = 137.99 }, new() { X = 2019, Y = 141.57 },
+        new() { X = 2020, Y = 146.28 }, new() { X = 2021, Y = 170.55 }
+    };
+    // Custom tooltip content
+
+    public class BubbleData
+    {
+        public double X { get; set; } // Literacy Rate
+        public double Y { get; set; } // GDP Growth
+        public double Size { get; set; } // Population
+        public string ToolTipMappingName { get; set; }
+        public string Text { get; set; }
+        public string TooltipColor { get; set; }
+    }
+
+
+    private List<BubbleData> bubbleData = new()
+    {
+        new BubbleData { X = 92.2, Y = 7.8, Size = 1.347, ToolTipMappingName = "China", Text = "China", TooltipColor = "#5FFFF280" },
+        new BubbleData { X = 74, Y = 6.5, Size = 1.241, ToolTipMappingName = "India", Text = "India", TooltipColor = "#FFE83D80" },
+        new BubbleData { X = 90.4, Y = 6.0, Size = 0.238, ToolTipMappingName = "Indonesia", Text = "Indonesia", TooltipColor = "#F9F87180" },
+        new BubbleData { X = 99.4, Y = 2.2, Size = 0.312, ToolTipMappingName = "United States", Text = "US", TooltipColor = "#11F75E80" },
+        new BubbleData { X = 88.6, Y = 1.3, Size = 0.197, ToolTipMappingName = "Brazil", Text = "Brazil", TooltipColor = "#B95EFF80" },
+        new BubbleData { X = 99, Y = 0.7, Size = 0.0818, ToolTipMappingName = "Germany", Text = "Germany", TooltipColor = "#E7A0D880" },
+        new BubbleData { X = 72, Y = 2.0, Size = 0.0826, ToolTipMappingName = "Egypt", Text = "Egypt" },
+        new BubbleData { X = 99.6, Y = 3.4, Size = 0.143, ToolTipMappingName = "Russia", Text = "Russia", TooltipColor = "#2C48D280" },
+        new BubbleData { X = 96.5, Y = 0.2, Size = 0.128, ToolTipMappingName = "Japan", Text = "Japan", TooltipColor = "#B7B2FF80" },
+        new BubbleData { X = 78.4, Y = 2.9, Size = 0.231, ToolTipMappingName = "Taiwan", Text = "Taiwan", TooltipColor = "#89FF7180" }
+    };
+
+    // Shared Tooltip
+
+    public List<PopulationData> populationData = new()
+    {
+        new PopulationData { Country = "India", Population = 1450.935791, Male = 748.323427, Female = 702.612364 },
+        new PopulationData { Country = "China", Population = 1419.321278, Male = 723.023723, Female = 696.297555 },
+        new PopulationData { Country = "USA", Population = 345.426571, Male = 173.551527, Female = 171.875044 },
+        new PopulationData { Country = "Indonesia", Population = 283.487931, Male = 142.407931, Female = 141.080014 },
+        new PopulationData { Country = "Pakistan", Population = 251.269164, Male = 127.433405, Female = 123.835758 }
+    };
+
+
+    public class PopulationData
+    {
+        public string Country { get; set; }
+        public double Population { get; set; }
+        public double Male { get; set; }
+        public double Female { get; set; }
+    }
+
+    //Default Tooltip
+
+    public class EvChargingData
+    {
+        public string Country { get; set; }
+        public double EvPerChargingPoint { get; set; }
+        public double PublicChargingPerEV { get; set; }
+        public double KwPerElectricLDV { get; set; }
+        public double KwPerEV { get; set; }
+    }
+
+    List<EvChargingData> evChargingData = new()
+    {
+        new() { Country = "New Zealand", EvPerChargingPoint = 81.9, PublicChargingPerEV = 0.7 },
+        new() { Country = "Australia", EvPerChargingPoint = 45.0, PublicChargingPerEV = 1.1 },
+        new() { Country = "Mexico", EvPerChargingPoint = 40.6, PublicChargingPerEV = 0.6 },
+        new() { Country = "United States", EvPerChargingPoint = 32.6, PublicChargingPerEV = 1.3 },
+        new() { Country = "Norway", EvPerChargingPoint = 32.1, PublicChargingPerEV = 2.0 },
+        new() { Country = "China", EvPerChargingPoint = 8.0, PublicChargingPerEV = 3.0 },
+        new() { Country = "Netherlands", EvPerChargingPoint = 12.0, PublicChargingPerEV = 4.8 },
+        new() { Country = "Germany", EvPerChargingPoint = 20.0, PublicChargingPerEV = 2.5 },
+        new() { Country = "France", EvPerChargingPoint = 18.0, PublicChargingPerEV = 2.0 },
+        new() { Country = "Japan", EvPerChargingPoint = 25.0, PublicChargingPerEV = 1.5 },
+        new() { Country = "United Kingdom", EvPerChargingPoint = 28.0, PublicChargingPerEV = 1.8 },
+        new() { Country = "Spain", EvPerChargingPoint = 22.0, PublicChargingPerEV = 1.2 },
+        new() { Country = "India", EvPerChargingPoint = 55.0, PublicChargingPerEV = 0.8 }
+    };
+
+}

@@ -1,0 +1,1222 @@
+﻿@page "/popups/tooltip"
+
+<PageTitle>Tooltip | ASP.NET Core Blazor OSS Components</PageTitle>
+
+@using Syncfusion.Blazor.Toolkit.Buttons
+@using Syncfusion.Blazor.Toolkit.Inputs
+@using Syncfusion.Blazor.Toolkit.Popups
+
+<Description>
+    <Header>
+        <h4>Blazor Toolkit Tooltip Component</h4>
+    </Header>
+    <Content>
+        The Blazor Tooltip component is a lightweight, contextual information display that appears on hover or interaction. It provides users with additional information or guidance about UI elements without cluttering the interface. Tooltips are ideal for explaining icons, buttons, or complex functionality with minimal visual intrusion.
+    </Content>
+</Description>
+<Description>
+    <Header>
+        <h5>Default Tooltip</h5>
+    </Header>
+    <Content>
+        The simplest way to use the Tooltip component is to wrap any element with <code>SfTooltip</code> and provide <code>Content</code>. The tooltip appears on hover by default. This basic pattern works with any element - buttons, text, icons, or custom content. The <code>Position</code> property controls where the tooltip displays relative to the target element.
+    </Content>
+</Description>
+<CodePreview CodeSection="@DefaultTooltipCode">
+    <PreviewSection>
+        <div style="text-align:center;padding:40px;">
+            <SfTooltip Content="Welcome to Syncfusion Blazor Tooltip!">
+                <SfButton Content="Hover me"></SfButton>
+            </SfTooltip>
+        </div>
+    </PreviewSection>
+</CodePreview>
+
+<Description>
+    <Header>
+        <h5>Position</h5>
+    </Header>
+    <Content>
+        The Tooltip component supports various positioning options to control where the tooltip appears relative to the target element. You can set the <code>Position</code> property to one of the predefined values, such as <code>TopLeft</code>, <code>TopCenter</code>, <code>TopRight</code>, <code>BottomLeft</code>, <code>BottomCenter</code>, <code>BottomRight</code>, <code>LeftTop</code>, <code>LeftCenter</code>, <code>LeftBottom</code>, <code>RightTop</code>, <code>RightCenter</code>, or <code>RightBottom</code>.
+    </Content>
+</Description>
+<CodePreview CodeSection="@PositionCode">
+    <PreviewSection>
+            <div class="toolbarContainer" style="display:flex;align-items:center;width:100%;gap:200px;justify-content:space-around">
+                <div class="col-lg-8 control-section" style="flex:0;text-align:center;min-width:220px;">
+                    <SfTooltip class="tooltip_style" Position="@Position" Content="@_content">
+                        <SfButton Content="Show Tooltip"></SfButton>
+                    </SfTooltip>
+                </div>
+                <div style="flex:0 0 auto;min-width:50px;">
+                    <label style="display:block;font-weight:600;">Tooltip Position</label>
+                    <select class="tooltip-select" value="@index" @onchange="OnPositionChanged">
+                        @for (int i = 0; i < PositionData.Count; i++)
+                        {
+                            <option value="@i" selected="@(i == index)">@PositionData[i].Text</option>
+                        }
+                    </select>
+                </div>
+            </div>
+            <style>
+    /* Sample specific styles */
+    /* Avoid absolute positioning on the tooltip wrapper to prevent layout issues.
+       Use inline-block so the wrapped button flows with the document layout. */
+    .tooltip_style {
+        position: static;
+        left: calc( 50% - 60px);
+        top: 45%;
+        display: inline-block;
+        margin: 0 auto;
+    }
+
+    .tooltip-select {
+        width: 130px;
+        padding: 3px;
+        max-height: 250px;
+        overflow-y: scroll;
+        border: 1px solid var(--bs-border-color, lightgrey);
+        background-color: var(--bs-body-bg);
+        color: var(--bs-body-color);
+        color-scheme: light dark;
+    }
+</style>
+@code {
+    // Specifies the tooltip's position.
+    private Position Position = Position.TopCenter;
+    private string _content = "This is a tooltip";
+    // Specifies index value of TopCenter position in the Dropdown List.
+    private int? index { get; set; } = 1;
+    public class DropDownModel
+    {
+        public string? Text { get; set; }
+        public string? Value { get; set; }
+    }
+    // Specifies the event handler for changing the tooltip position.
+    private void OnPositionChanged(ChangeEventArgs e)
+    {
+        if (e?.Value == null) return;
+        if (int.TryParse(e.Value.ToString(), out var i) && i >= 0 && i < PositionData.Count)
+        {
+            index = i;
+            // Parse the enum from the selected Value string
+            if (System.Enum.TryParse<Position>(PositionData[i].Value, out var pos))
+            {
+                Position = pos;
+            }
+        }
+    }
+    // Specifies the Tooltip position.
+    private List<DropDownModel> PositionData = new List<DropDownModel>()
+    {
+        new DropDownModel { Text = "Top Left", Value = "TopLeft" },
+        new DropDownModel { Text = "Top Center", Value = "TopCenter" },
+        new DropDownModel { Text = "Top Right", Value = "TopRight" },
+        new DropDownModel { Text = "Bottom Left", Value = "BottomLeft" },
+        new DropDownModel { Text = "Bottom Center", Value = "BottomCenter" },
+        new DropDownModel { Text = "Bottom Right", Value = "BottomRight" },
+        new DropDownModel { Text = "Left Top", Value = "LeftTop" },
+        new DropDownModel { Text = "Left Center", Value = "LeftCenter" },
+        new DropDownModel { Text = "Left Bottom", Value = "LeftBottom" },
+        new DropDownModel { Text = "Right Top", Value = "RightTop" },
+        new DropDownModel { Text = "Right Center", Value = "RightCenter" },
+        new DropDownModel { Text = "Right Bottom", Value = "RightBottom" }
+    };
+    // Properties tooltip state
+    private bool _propIsSticky = false;
+
+    
+}
+    </PreviewSection>
+</CodePreview>
+
+<Description>
+    <Header>
+        <h5>HTML Template</h5>
+    </Header>
+    <Content>
+        The Tooltip component supports rich HTML content through the <code>ContentTemplate</code> property. This allows you to display formatted text, images, links, and other HTML elements inside the tooltip. The example demonstrates displaying an image with descriptive text and hyperlinks within the tooltip using a custom template.
+    </Content>
+</Description>
+<CodePreview CodeSection="@HtmlTemplateCode">
+        <PreviewSection>
+        <div id="custom" class="col-lg-12 control-section customization" style="width:100%;max-width:740px;height:260px;position:relative;overflow:hidden;">
+            @* Initializes the Button component *@
+            <SfButton CssClass="e-outline" IsPrimary="true" Content="HTML Template" id="btn" aria-label="Open HTML Template Tooltip"></SfButton>
+        </div>
+        @* Initializes the Tooltip component *@
+        <SfTooltip Position="Position.BottomCenter" Target="#btn" WindowCollision=true TargetContainer="#custom">
+            <ContentTemplate>
+                <div class='content'>
+                    <h3 style='margin-top: 10px;'>Eastern Bluebird</h3><hr>
+                    <div>
+                        <div style='float: left; width: 58%'>
+                            The <a href='https://en.wikipedia.org/wiki/Eastern_bluebird' target='blank'>Eastern Bluebird</a>
+                            can be easily found in open fields and sparse woodland areas, including along woodland edges.
+                        </div>
+                        <div style='float: right; padding-top: 4px;'><img src='https://cdn.syncfusion.com/blazor/images/tooltip/bird.png' width='125' height='125' alt='Eastern Bluebird' /></div>
+                    </div>
+                </div>
+            </ContentTemplate>
+        </SfTooltip>
+        <style>
+            /* Specifies styles for the HTML content */
+            .customization {
+                position: static;
+                margin: 24px auto 0;
+                text-align: left;
+            }
+
+            @@media only screen and (max-width: 500px) {
+                .customization {
+                    display: table;
+                    margin: 0 auto;
+                }
+            }
+
+            .content {
+                padding: 0 10px;
+            }
+
+            .content hr {
+                margin: 10px 0;
+                border-color: grey;
+            }
+
+            .content a {
+                color: #2FA1E3;
+            }
+        </style>
+    </PreviewSection>
+</CodePreview>
+<Description>
+    <Header>
+        <h5>Target-based Tooltip</h5>
+    </Header>
+    <Content>
+        The Tooltip component can be attached to multiple elements using CSS selectors via the <code>Target</code> property. This example demonstrates a toolbar where each button automatically displays a tooltip when hovered. The <code>ShowTipPointer</code> property displays an arrow pointer, and <code>Width</code> controls the tooltip size. This approach is efficient for applying tooltips to multiple similar elements.
+    </Content>
+</Description>
+<CodePreview CodeSection="@TemplateCode">
+    <PreviewSection>
+        <div id="targetContainer" class="col-lg-12 control-section">
+            @* Native toolbar with SfTooltip targeting buttons *@
+            <SfTooltip Width="200px" ID="Tooltip" ShowTipPointer="true" Position="Position.TopCenter" Target="#nativeToolbar button">
+                <ChildContent>
+                    <div id="nativeToolbar" class="toolbarContainer">
+                        <div class="native-toolbar">
+                            <button class="toolbar-btn" aria-label="Cut" title="Cut - Remove the selection (Ctrl+X)">✂</button>
+                            <button class="toolbar-btn" aria-label="Copy" title="Copy - Copy selection (Ctrl+C)">📋</button>
+                            <button class="toolbar-btn" aria-label="Paste" title="Paste - Paste from clipboard (Ctrl+V)">📥</button>
+                            <span class="toolbar-separator" aria-hidden="true"></span>
+                            <button class="toolbar-btn" aria-label="Bold" title="Bold - Make text bold (Ctrl+B)"><strong>B</strong></button>
+                            <button class="toolbar-btn" aria-label="Underline" title="Underline - Underline text (Ctrl+U)"><u>U</u></button>
+                            <button class="toolbar-btn" aria-label="Italic" title="Italic - Italicize text (Ctrl+I)"><em>I</em></button>
+                        </div>
+                    </div>
+                </ChildContent>
+            </SfTooltip>
+        </div>
+
+        <style type="text/css">
+            /* Sample specific styles for native toolbar */
+            .toolbarContainer {
+                margin: 18px auto;
+                text-align: center;
+                padding-top: 50px;
+                padding-bottom: 50px;
+            }
+            .native-toolbar { display: inline-flex; gap: 8px; align-items: center; padding-top: 8px; }
+            .toolbar-btn { min-width:34px; height:34px; border-radius:4px; border:1px solid #ccc; cursor:pointer;}
+            .toolbar-separator { width:1px; height:24px; background:#ddd; display:inline-block; margin:0 8px; }
+            .e-tooltip-wrap p { margin: 0; }
+            .e-tooltip-wrap h6 { margin: 3px 0 6px 0; font-size:12px; font-weight:500; }
+            @@media screen and (max-width: 420px) {
+                .native-toolbar { gap:6px; }
+                .toolbar-btn { min-width:30px; height:30px; }
+            }
+        </style>
+    </PreviewSection>
+</CodePreview>
+
+<Description>
+<Header>
+<h5>API</h5>
+</Header>
+<Content>
+    The Tooltip component exposes several key properties for customization: <code>Position</code> controls where the tooltip appears, <code>OpensOn</code> determines the trigger event (Hover, Focus, Click, Auto) <code>IsSticky</code> keeps the tooltip visible until manually dismissed, and <code>Content</code> sets the tooltip text. This example provides interactive controls to dynamically change these properties and see real-time updates.
+</Content>
+</Description>
+<CodePreview CodeSection="@ApiCode">
+    <PreviewSection>
+        <div style="display:flex;align-items:center;width:100%;gap:200px;justify-content:space-around">
+            <div class="col-lg-8 control-section" style="flex:0;text-align:center;min-width:220px;">
+                     <SfTooltip Position="Position.TopCenter" IsSticky="@_propIsSticky" OpensOn="@_propOpensOn" Content="@_tooltipContent">
+                        <SfButton Content="Show Tooltip"></SfButton>
+                    </SfTooltip>
+                </div>
+                <div style="flex:0 0 auto;min-width:50px;">
+                    <label style="display:block;font-weight:600;">Open Mode</label>
+                    <select @bind="_propOpensOn" class="tooltip-select">
+                        @foreach (var val in OpensOnOptions)
+                        {
+                            <option value="@val">@val</option>
+                        }
+                    </select>
+                    
+                    <label style="display:block;font-weight:600;padding:3px;">Tooltip Text</label>
+                     <SfTextBox @bind-Value="_tooltipContent" Width="130px" Placeholder="Enter tooltip text" />
+
+                    <label style="display:block;align-items:center;gap:8px;margin-top:8px;">
+                        <input type="checkbox" @bind="_propIsSticky" /> Sticky Mode
+                    </label> 
+                </div>
+        </div>
+     
+        @code{
+            private string _tooltipContent = "This is a tooltip";
+            private string _propOpensOn = "Auto";
+            private static readonly string[] OpensOnOptions = { "Auto", "Hover", "Click", "Focus" };
+
+        }
+    </PreviewSection>
+</CodePreview>
+<Description>
+    <Header>
+        <h5>Keyboard Navigation and Focus Management</h5>
+    </Header>
+    <Content>
+        This example demonstrates tooltip integration with form validation using keyboard navigation. The tooltip appears when form fields receive focus, providing validation hints. The <code>OpensOn</code> property is set to <code>Focus</code>, which triggers tooltips on keyboard focus, and the <code>Created</code> event handler uses component references to manage focus programmatically without requiring JavaScript interop.
+    </Content>
+</Description>
+<CodePreview CodeSection="@KeyboardNavigationCode">
+    <PreviewSection>
+        <div class="control-section">
+            <div class="control_wrapper">
+                @*Form Elements Initialization*@
+                <form id="details" role="form">
+                    <table class="demotable">
+                        <tr>
+                            <th colspan="2" class="custom-align">
+                                <h3><b>Sign in to continue</b></h3>
+                            </th>
+                        </tr>
+                        <tr>
+                            <td class="info">User Name</td>
+                            <td>
+                                @*Initialize user name Textbox component*@
+                                <SfTextBox @ref="_userNameTextBox" ID="@InputId" Type="InputType.Text" @bind-Value="@UserName"
+                                           title="Please enter your name"></SfTextBox>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="info">Password</td>
+                            <td>
+                                @*Initialize password Textbox component*@
+                                <SfTextBox @ref="_passwordTextBox" ID=@PassId Type="InputType.Password" @bind-Value="@Password"
+                                           title="Password must contain at least 8 or more characters"></SfTextBox>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td></td>
+                            <td class="custom-align">
+                                @*Initialize submit Button component*@
+                                <SfTooltip Target="#details .e-textbox" OpensOn="Focus" TargetContainer="#details">
+                                    <SfButton Content="Submit" Type="ButtonType.Button" OnClick="@OnClick"></SfButton>
+                                </SfTooltip>
+                            </td>
+                        </tr>
+                    </table>
+                </form>
+                @*Initialize Tooltip component*@
+            </div>
+        </div>
+                @code {
+            //Specifies the Id of the user name Textbox.
+            private string InputId = "userName";
+            //Specifies the Id of the password Textbox.
+            private string PassId = "passwordId";
+            //Specifies the value of user name Textbox.
+            private string UserName = "";
+            //Specifies the value of password Textbox.
+            private string Password = "";
+                    // Component references for focusing without JS interop
+                    private SfTextBox? _userNameTextBox;
+                    private SfTextBox? _passwordTextBox;
+            // Specifies the click event handler for the submit button to showcase the Tooltip.
+            public async Task OnClick()
+            {
+                        if (string.IsNullOrEmpty(UserName))
+                        {
+                            if (_userNameTextBox is not null)
+                                await _userNameTextBox.FocusAsync();
+                        }
+                        else if (Password?.Length < 8)
+                        {
+                            if (_passwordTextBox is not null)
+                                await _passwordTextBox.FocusAsync();
+                        }
+            }
+        }
+        <style>
+            /* Sample specific styles */
+            .control_wrapper {
+                max-width: 500px;
+                border: 1px solid #dddddd;
+                border-radius: 3px;
+            }
+
+            .demotable,
+            .control_wrapper {
+                margin: auto;
+            }
+
+            #details table th,
+            #details table td {
+                padding: 20px 10px;
+            }
+
+            #details .info {
+                font-size: 14px;
+                text-align: left;
+                font-weight: 500;
+            }
+
+            .custom-align .e-btn {
+                float: right;
+            }
+
+            #details .custom-align {
+                text-align: center;
+            }
+
+            .key-class {
+                display: inline-block;
+                width: 70px;
+            }
+        </style>
+    </PreviewSection>
+</CodePreview>
+<Description>
+    <Header>
+    <h5>Dynamic Content and Context Menu</h5>
+    </Header>
+    <Content>
+        This advanced example demonstrates a dynamic tooltip that displays different menu content based on which button is clicked. The tooltip acts as a context menu showing wireless, device, or personal settings. The <code>OnRender</code> event refreshes the tooltip position, When <code>OpensOn</code> is set to <code>Click</code>, the tooltip triggers on button click, and the content updates dynamically based on user selection through event handlers.
+    </Content>
+    </Description>
+
+<CodePreview CodeSection="@ToolbarMenuCode">
+    <PreviewSection>
+            <div class="control-section">
+    <div class="toolbarContainer1">
+        @*Initialize the Tooltip component*@
+        <SfTooltip @ref="tooltipInstance" IsSticky="true" Width="130px" ID="tooltip-menu" Target=".custom" OnRender="OnTooltipRender" OpensOn="Click" CssClass="e-tooltip-menu-settings">
+            <ContentTemplate>
+                @if (DynamicContent == "Wireless")
+                {
+                    <div class="tooltipMenu-list">
+                        @foreach (var item in ConnectionData)
+                        {
+                            <div class="e-list-item" role="listitem" @onclick="() => CloseTooltipItem(item.Id)">
+                                <span class="e-list-icon @item.IconCss" aria-hidden="true"></span>
+                                <span class="e-list-text">@item.Text</span>
+                            </div>
+                        }
+                    </div>
+                }
+                else if (DynamicContent == "Device")
+                {
+                    <div class="tooltipMenu-list">
+                        @foreach (var item in SettingsData)
+                        {
+                            <div class="e-list-item" role="listitem" @onclick="() => CloseTooltipItem(item.Id)">
+                                <span class="e-list-icon @item.IconCss" aria-hidden="true"></span>
+                                <span class="e-list-text">@item.Text</span>
+                            </div>
+                        }
+                    </div>
+                }
+                else if (DynamicContent == "Personal")
+                {
+                    <div class="tooltipMenu-list">
+                        @foreach (var item in PesonalData)
+                        {
+                            <div class="e-list-item" role="listitem" @onclick="() => CloseTooltipItem(item.Id)">
+                                <span class="e-list-icon @item.IconCss" aria-hidden="true"></span>
+                                <span class="e-list-text">@item.Text</span>
+                            </div>
+                        }
+                    </div>
+                }
+            </ContentTemplate>
+            @*Initialize the Toolbar component*@
+            <ChildContent>
+                    <SfButton class="toolbar-btn custom" id="Wireless" Type="ButtonType.Button" @onmousedown="@(() => DynamicContent = "Wireless")">Wireless</SfButton>
+                    <SfButton class="toolbar-btn custom" id="Device" Type="ButtonType.Button" @onmousedown="@(() => DynamicContent = "Device")">Device</SfButton>
+                    <SfButton class="toolbar-btn custom" id="Personal" Type="ButtonType.Button" @onmousedown="@(() => DynamicContent = "Personal")">Personal</SfButton>
+            </ChildContent>
+        </SfTooltip>
+    </div>
+</div>
+@code {
+    // Specifies the instance of Tooltip component.
+    public SfTooltip? tooltipInstance;
+    // Specifies the current Toolbar item.
+    public string DynamicContent = "Wireless";
+
+
+    public class DataModel
+    {
+        public string? Text { get; set; }
+        public string? IconCss { get; set; }
+        public string? Id { get; set; }
+    }
+    // Specifies the wireless data of the ListView component.
+    public DataModel[] ConnectionData =
+    {
+        new DataModel { Text = "WI-FI", IconCss = "wifi", Id = "1" },
+        new DataModel { Text = "Bluetooth", IconCss = "bluetooth", Id = "2" },
+        new DataModel { Text = "SIM cards", IconCss = "sim", Id = "3" }
+    };
+    // Specifies the device data of the ListView component.
+    public DataModel[] SettingsData =
+    {
+        new DataModel { Text = "Display", IconCss = "display", Id = "11" },
+        new DataModel { Text = "Sound", IconCss = "sound", Id = "12" },
+        new DataModel { Text = "Battery", IconCss = "battery", Id = "13" },
+        new DataModel { Text = "Users", IconCss = "user", Id = "4" }
+    };
+    // Specifies the personal data of the ListView component.
+    public DataModel[] PesonalData =
+    {
+        new DataModel { Text = "Location", IconCss = "location", Id = "111" },
+        new DataModel { Text = "Security", IconCss = "security", Id = "112" },
+        new DataModel { Text = "Language", IconCss = "language", Id = "113" }
+    };
+    protected override void OnInitialized()
+    {
+        // No JS interop required; native list items will call CloseTooltipItem
+    }
+    // Specifies the event handler for before rendering the Tooltip component.
+    public void OnTooltipRender(TooltipEventArgs args)
+    {
+        if (tooltipInstance != null)
+        {
+            tooltipInstance.RefreshPositionAsync().ConfigureAwait(true);         
+        }
+    }
+    // Specifies the event handler to close the tooltip when selecting a native item.
+    public void CloseTooltipItem(string? id)
+    {
+        if (tooltipInstance != null)
+        {
+            tooltipInstance.CloseAsync().ConfigureAwait(true);
+        }
+    }
+}
+<style type="text/css">
+    /* Icon specific styles for toolbar and menu items */
+    @@font-face {
+        font-family: 'e-tooltip-menu-icons';
+        src: url(data:application/x-font-ttf;charset=utf-8;base64,AAEAAAAKAIAAAwAgT1MvMj1tSgQAAAEoAAAAVmNtYXC1bLXaAAABtAAAAFxnbHlmlflhUAAAAiwAABQUaGVhZA8uqKkAAADQAAAANmhoZWEIUQQOAAAArAAAACRobXR4NAAAAAAAAYAAAAA0bG9jYR/WJdwAAAIQAAAAHG1heHABIQH3AAABCAAAACBuYW1lz2x4zAAAFkAAAAIxcG9zdBdlF/AAABh0AAAAuwABAAAEAAAAAFwEAAAAAAAD9AABAAAAAAAAAAAAAAAAAAAADQABAAAAAQAA7WDN918PPPUACwQAAAAAANYOMdwAAAAA1g4x3AAAAAAD9AP0AAAACAACAAAAAAAAAAEAAAANAesACgAAAAAAAgAAAAoACgAAAP8AAAAAAAAAAQQAAZAABQAAAokCzAAAAI8CiQLMAAAB6wAyAQgAAAIABQMAAAAAAAAAAAAAAAAAAAAAAAAAAAAAUGZFZABA5wDnEgQAAAAAXAQAAAAAAAABAAAAAAAABAAAAAQAAAAEAAAABAAAAAQAAAAEAAAABAAAAAQAAAAEAAAABAAAAAQAAAAEAAAABAAAAAAAAAIAAAADAAAAFAADAAEAAAAUAAQASAAAAAgACAACAADnBecJ5xL//wAA5wDnB+cQ//8AAAAAAAAAAQAIABIAFgAAAAEAAgADAAQABQAGAAcACAAJAAoACwAMAAAAAAEuA1gDgAQqBOwFDAW2BmgHRgjcCUAKCgAEAAAAAAP0A+QAPwCBAMMBFQAAJR8PPw8vDisBDw0nDw8zNT8eNSMPDQEzPx81Dx8zPyo1Iw8iAugBAgMFBQcICAoKCwwMDQ0ODg0NDAwLCgoICAcFBQMCAQECAwUFBwgICgoLDAwNDQ4ODQ0MDAsKCggIBwUFAwJfEA8ODQ0LCgkJBwYFBAICAT8CAgQEBQYHCAkKCwsMDg4PDxEQEhISExMTFBMVFBQVGBcYFxcWFhYWFRQUFBIS/mM/AQIEBggJCwwNDxASEhQVFxcYGhobHR0dHx8gICEiIiMmJSUkJCIjISAgHx4cHBsZGRcWFBMSEA8NDAoIBgUD9D4BAgMGBwkLDQ8QEhQWFxobHB8gIiQmExQUFRUWFhYXFxgYGRkZGhobGxwcGhozMjEwMC0tLCopKCYkJCEgHh0bGRcVExEPDAsEBAMDAgIBog4NDQwMCwoKCAgHBQUDAgEBAgMEBgcICAoKCwwMDQ0ODQ4MDQsLCwkJCAYGBAQCAgQEBgYICQkLCwsNDA7FERISExQUFRUVFhcWFxgXGBUUFRQTFBMTEhIREREPEA8ODQ0MCwoJCQcHBQUDAwEBPgIDBAUHBwkJCwwMDg4Q/qAiIiEhIR8fHx0dHBsaGRkXFhUUEhIQDw0MCgkIBgQDAT4BAwQHCAoLDQ8QEhMUFhcYGRscHB4eICAhIiMjJCUlJRUqKSopKSkoJycmJSQjIiEgHh0bGhgLCwsJCgkICAgHBgYFBQQDAwMBAQE+AQQGCAoNDhETFBcYGxwdICEiJCYnKCkrLC0uMBgYGBkZGRoACAAAAAAD8wPrACEAQgBjAIsBCwGgAccB6gAAAR0BHwY/Bj0CLwUrAQ8FNxUfBTsCPwU9AS8FKwEPBQUVHwU7Aj8FPQEvBSsBDwUlFQ8EHwc/CDUvBisBDwUFDx8vHz8fHx4FHw8PAhUfBjM/BR8IPwcfBjM/BjUvAT8PLx8PHgEPAhc/CTUvDisBDwUFDwcVHwc3LwcrAQ8FAfcBAgIDBAMDBAMDAwMCAQECAwMDAwQEBAMDAgEB1AIBAwMDAwQrBAMDAwMCAQECAwMDAwQvAwMDAwEC/hkCAQMDAwMEKwQDAwMDAQICAQMDAwMEMAQDAgICAQEGlgQDAQEBAQMEBQYFBgYGBQWfBAMCAQECAgQFBQYHBgYGBAQDAQFaAQECAwQEBQYHBwgICQoKCwsMDA0NDg4ODw8PEBAQEBEREBAQEA8PDw4ODg0NDAwLCwoKCQgIBwcGBQQEAwIBAQEBAgMEBAUGBwcICAkKCgsLDAwNDQ4ODg8PDxAQEBARERAQEBAPDw8ODg4NDQwMCwsKCgkICAcHBgUEBAMCAf0mAQIDBAUHBwkJCwsNDQ4QFjgEAgIEBQYHCQgICQcHBgYyCRQWFRcWFxgXFxcWFRYUFRovBAYHBAgJCAkMBgUCAgEDNBERDw8ODAwLCggIBgUDAgEBAQMDBQUHBwkJCQsMDA0NDg8QEBASERITExMUFBQVFRUVFBQUExMTEhERERAPDw4ODQwLCwkJCAgGBQUDAgICmQUIAscFBQkJCAcFBAMCAQMDBQYICAoLCwsMDAwMDQ4ODg0NDAz9KgoICAYFAwMBAgMEBQcICRPIEAsMDA0NDg4ODQ0MDQsLCwEnLAQDAwMCAgEBAQECAgMDAwQsAwQDAwICAQECAgMDBMQDAwQCAwIBAQIDAgQDAwQDAwMDAgEBAQIDAwQFAwMEAgMCAQECAwIEAwMEAwMDAwIBAQECAwME39eWBQUGBgYFBgUEAwEBAQEDBKAEBQYG5AYGBQUEAwICAgQFBQbhERAQEBAPDw8ODg4NDQwMCwsKCgkJBwgGBgUFAwMCAQEBAQIDAwUFBgYIBwkJCgoLCwwMDQ0ODg4PDw8QEBAQERAREBAQDw8PDg4ODQ0MDAsLCgoJCAgHBwYFBAQDAgEBAQECAwQEBQYGBwgICQoKCwsMDA0NDg4ODw8PEBAREA4XFhYWFhUUFBQTEhEREBAUawgICQgHBwcFBAECAwUGCGEDCQgHBgUDAgEBAQMEBgYIDFsIBgUCAgEDBwUHBAgJCQhlDw8RERISFBQVFRYXFxgYGBUVFBQUExMTEhESEBAQDw4NDQwMCgoJCQcGBgUDAwEBAQEDAwUGBgcJCQoKDAwNDQ4PEBAQEhESExMTFBQUFQGwBQkFuwMDCQsMDAwNDQ0ODQ0NDQwMCwoJBwcFBAMCAgQFBggIBAoMCwwNDQ0NDg0NDQwMDAsPuxMKCAgGBQMDAgMEBQcHAAMAAAAAAy8D8wACAAUAEQAAAQc1Ewc1BycHFwcXNxEBJzcBAql3d3dbwUXt7UXCAVfn5P6rATtn0QEmZ9HOqT/Ryz+p/m0BLMvLASYAAAAABAAAAAAD9APMADsAQwCFAI4AAAEfDR0BDwkXPw49AS8OASc5ASMRMzclHw4dAQ8OFz8PLw8lMQcjETMXMxECcAkIEAcHBgUFBAQDAgIBAQEDAgQICwwPEDYLCgoJCQgHBgYFBQMDAgICAgMEBQUGBwgICQoKCwz+5sZtbcYBjBAPDw0NDAsKCAgHBQUDAgIDBAUHBwkJCgwMDQ4PDzYSEREPDg0MCwoICAYFAwIBAQIEBQYICAsLDA4PEBASE/4+5pqb5U0CywoLFwwMDA0NDQ4ODg4ODw4ODg0NDRoYFxYVNg0NDg4PDw8QEBAREREREhITEhISERIREBAQDw8PDg0N/Z/GATPHExMUFBUWFhYYFxkYGhkaGhsaGhkZGRgXGBYXFRUVFBMTNxYWFxgYGRkbGhwbHRwdHh4fHh4dHRwcGxsaGRkYFxcVJOf+NOcDmgAAAAkAAAAAA/QD9AADAAcACwAPABMAkwCXAJsAnwAAJTM1IyUXNycFFzcnJTM1IwUzNSMFHx8/Hy8fDx4DFzcnBRc3JwUzNSMB8SAg/qMWbBYB62wWbP0LmZkDT5mZ/XsBAQICBAQEBgYGBwgICQoJCwsLDAwMDQ0ODQ8ODw4QDw8PDw8ODg4ODQ0MDAwLCwoKCggJBwgGBgYEBAQCAgEBAQECAgQEBAYGBggHCQgKCgoLCwwMDA0NDg4ODg8PDw8PEA4PDg8NDg0NDAwMCwsLCQoJCAgHBgYGBAQEAgIBRGwWbAJBFmwW/pkgIAyZBBZsFhVsFmzZIB4gEQ8PDw8ODw0ODQ0MDAwLCwoKCgkICAcGBgYEBAQCAgEBAQECAgQEBAYGBgcICAkKCgoLCwwMDA0NDg0PDg8PDw8PDw8PDg8NDg0NDAwMCwsKCgoJCAgHBgYGBAQEAgIBAQEBAgIEBAQGBgYHCAgJCgoKCwsMDAwNDQ4NDw4PDw8BR2wWbGsWbBYSmQAEAAAAAAP0A3MAAwAHAAsADwAANzM1IwUzESMBMxEjATMRIwyfnwEZoKABGZ2dARefn4zCwgFo/pgCIP3gAugAAgAAAAAD9AO/AFIAkwAAASMvDg8PHwczPwkvDw8OAxcVHw4/Dy8PDw4B/A4ODg0NDAwMCwoLCQkICAcbGxoZGBcWFRQTERAPDgwLXlZMRDYnJykqKywsLi4vLzAwMAsMDhAQEhMVFRcXGRkbGxwHBwkJCQoLCwwMDQ0NDg7XAQQFBgkKDA0PEBERExQUFRUUFBMSEQ8PDQwKCQcFAwEBAwUHCQoMDQ8PERITFBQVFRQUExIQEA8NDAoJBgUEAbICAgMEBQYGBwgICQoKCwsNDxASFBUXGBkbGx0eICAhHhUPCQYDAgECAwQGBwkLDQ8RIiAgHh4cGxkYFxUUEhAPDQwLCgoJCQgHBwUFBQMCAgFBCwoUFBMSEBAPDQwKCQYGAwEBAwYGCQoMDQ8QEBITFBQVFRQUExIQEA8NDAoJBwUDAQEDBQcJCgwNDxAQEhMUFAAAAAIAAAAAA04D9AA/AJ4AAAEVDw0rAS8NPQE/Dh8OBRUfDj8ONS8dKwEPHQJnAgMDBAYGBggICAkKCQsKCgsJCgkICAgGBgYEAwMCAgMDBAYGBggICAkKCQsKCwsKCgkJCAcHBgUEAwIB/ksCAwYLCAsLDA0cHx8uOUBOOi8fHRsMCwsICAYFAgEBAgMEBQUGBwcICQkKCwsLDA0NDg4ODw8QEBAQEREREREREBAQEA8PDg4ODQ0MCwsLCgkJCAcHBgUFBAMCAQK4CwsLCwkKCAgIBgYEBAMCAgMEBAYGCAgICgkLCwsLDAsLCgoJCQgHBwUFBAMBAQEBAwQFBQcHCAkJCgoLCzcKFBUXIxkZGhobNTU0SVNZbFhLNDY1GhoZGRgXFRUUEhISEhERERAQDw8PDg4NDAwLCwoKCAgIBgYFBAMCAgICAwQFBgYICAgKCgsLDAwNDg4PDw8QEBERERISEgAAAwAAAAADQgPzADAAWADAAAABDwcVIzUvBj0BPws7AR8MFRMdAQ8BIS8BNT8PHw4FHQEPDxEfDyE/DxEvDzUvDysBDw4CSAECAwQGBgcINggHBgYEBAIBAgIDAwQFCgsGBgYHBgYGBgYFBQUEBAMDAgFbAQL+wwECAQMEBQcICQoMDA0ODw8QEBEQEA8ODgwMCgkJBgYEAv6GCwsKCgkJCAgHBgUFAwMBAQECBAQGBwgJCgsMDA0HDg4Bcw4ODg0MDAsKCQgHBgQEAgEBAQMDBAUGBwcJCAoKCgsMAQMGBwkLDA4QEBITFBUVCwsLCxYUFBMSEBAODAsJBwYDAVgJCQkICAYGBFtbBAYGCAgJCQkHBwYGBgYFBAgGAgIBAQICAwMDBQQFBgYGBgcBml4JEAkJEGcSEhEQDw8NDAwKCQcGBAMBAQMEBgcJCgwMDg4PEBESAn4VBAUGBwcICQoKCwsMDA0NDf7EEA8PDg0NDAsJCQcHBAIDAQECBAUHBwkKCwwNDQ4PDxABOQ0ODA0MCwsKCgkICAYGBASTGBcWFhQUEhEPDQwKCAYEAQEEBggKDA0PERIUFBYWFwAACgAAAAAD9APzABgAMwBNAGIAcgCIAKcAxQDfAWEAAAEPDz8HIw8NLwsjHwgvDwEfBBUPBiM/AjUvASMfAg8DIS8DNT8BIw8CHwQjLwY1PwMlIy8NHw4FIz8PDwsFIT8LHwsDDx8fHzM/Hi8gA4gLCw0NDg8QERESEhMUFBUVDw8PDw0NCws9BAULCwwMDQ0NEhIVCQ0NEgsXEhQMDQwMDAo9BgYODhAQEBAQFhYWFRQUEhMRERAODg4MCwMyBAMEAwEBAgMEBAUFqgcEAQICOwMBAQECBAb+iAUIBQMCAzsCAgECAwYEBakFBQQEAwIBAQMEBwNBoAQFBQYHBgcICAgICBIRFxYWFRUTExIREQ8ODQ0L/XaaCwwNDhAQEhMTFRUWFxgZGRUVFQoKCQoICAgHBwG0/oIJCwwMDg4PDxYVGRsaDBMUDg4NDg0LCwq7GhkYGRgXFxYWFRUUExMSERAQDg4NDAoKCQgHBQQEAQEBAgMEBgYICQoLDAwODw8RERITExQVFRYXFxcYGBkZGiIaGBkYFxcXFhUVFBQSEhIQEA4ODQwLCgkIBgYEAwIBAQIDBAYGCAkKCwwNDQ8QEBESExQUFRUWFhcYGBgZGRoHATYUEhISERAPDg4NDAsKCQgHEhQXGR0gIicREB4aGBYSEQ4SDQ0EBgcMBxUTGBMVFxocHxQTJCAdGhgUEgcHCQoLDA0ODw8RERITFBQBOQ4NHBwdEhMSEhIREhEwNCUvKxwbHB4zJCMwGyouJiMiIREjJCYjKhoaERIREhISExIdHBwbOhcWFBQSEhEPDw4ODBcTCAkKDAwODhAQEhITFBQWFhgWFhUUExIREA8NDQsKCAcUGBsPDxASEhIUFRUXHx0bGRcUExEXEhMRDAYNEg4QEhYXGx4hASUBAwMFBQcICgoLDA0ODw8RERITExQVFhUXFxcYGRgZGhkZGRkYFxcXFhUVFBMTEhEREA4ODQwMCgkIBwUFAwIBAgQEBgcICQoLDA0ODw8RERITFBQVFRYXFxcYGRkZGRoZGRgYGBcWFhYUFRMTEhERDw8ODQwLCgkIBwYFAwIBAgAHAAAAAAMZA/QAAwAHAAsADwATAEMARwAAJSE1ITUhNSE1ITUhNSE1ISURIREjERUfCDMhMz8INRE1LwgjISMPCDczNSMBZAE4/sgBOP7IATj+yAE4/sgBd/5KPgECBAcJCQwGBgYBtgYGBgwJCQcEAgEBAgQHCQkMBgYG/koGBgYMCQkHBAIBu7y8qD8+Pz4/Pj/6/PIDDvzyBgYGCwoJBgUCAQECBQYJCgsGBgYDDgYGBgwKCAcEAgEBAgQHCAoMBgZYPgAAAAIAAAAAA+sD8wBGALEAAAEzHxMPDy8ONT8QJw8RFR8bPwQBNwE/CDUvHQ8KAZUMGBgLDAsLCgsKCQkJCQ0LCQcEAwECBAUICQwNEBETExUVFRUWFRYUFRMTEhAPDQsJBwUDAQQGBwoLDg8REBAQERESERLmEA4NDQwLCgkJBwcGBQUDAwEBAQEDBAQFBwcICQkLDAoLCwwMDA0NGhwdHR4eHx4eHx0eASag/tkJCAgNDAkGBAIDAgMEBAQGBgYIBwkJCg4PEBEREhMTExQUFRQVFRUfHx4eDw4PDg4ODQNnAwUEBAUFBQcHBwgIChERExMTFBMUExMSEhEQDw0MCwgGBAIBAQQFBwgLDA4QERETExMUExQTExISERAPDgoICAYFAwIBQwsMDA0ODQ4PDw8PEBAQEBEQERAREBEQEBAQEA8QDg8ODAsKCgkJCQcPDAkIBgMBAQMFCAr+rXMBVAwLDBkaGhobHBsbDg0NDg0NDQ0MDQwMDA8PDg0LCwoJBwcGBQMDAQEBBAUIBQYGBggHCQAAAAASAN4AAQAAAAAAAAABAAAAAQAAAAAAAQAIAAEAAQAAAAAAAgAHAAkAAQAAAAAAAwAIABAAAQAAAAAABAAIABgAAQAAAAAABQALACAAAQAAAAAABgAIACsAAQAAAAAACgAsADMAAQAAAAAACwASAF8AAwABBAkAAAACAHEAAwABBAkAAQAQAHMAAwABBAkAAgAOAIMAAwABBAkAAwAQAJEAAwABBAkABAAQAKEAAwABBAkABQAWALEAAwABBAkABgAQAMcAAwABBAkACgBYANcAAwABBAkACwAkAS8gbGlzdHZpZXdSZWd1bGFybGlzdHZpZXdsaXN0dmlld1ZlcnNpb24gMS4wbGlzdHZpZXdGb250IGdlbmVyYXRlZCB1c2luZyBTeW5jZnVzaW9uIE1ldHJvIFN0dWRpb3d3dy5zeW5jZnVzaW9uLmNvbQAgAGwAaQBzAHQAdgBpAGUAdwBSAGUAZwB1AGwAYQByAGwAaQBzAHQAdgBpAGUAdwBsAGkAcwB0AHYAaQBlAHcAVgBlAHIAcwBpAG8AbgAgADEALgAwAGwAaQBzAHQAdgBpAGUAdwBGAG8AbgB0ACAAZwBlAG4AZQByAGEAdABlAGQAIAB1AHMAaQBuAGcAIABTAHkAbgBjAGYAdQBzAGkAbwBuACAATQBlAHQAcgBvACAAUwB0AHUAZABpAG8AdwB3AHcALgBzAHkAbgBjAGYAdQBzAGkAbwBuAC4AYwBvAG0AAAAAAgAAAAAAAAAKAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAANAQIBAwEEAQUBBgEHAQgBCQEKAQsBDAENAQ4AB3dpZmktd2YLYWxhcm0tY2xvY2sJYmx1ZXRvb3RoCnNwZWFrZXItd2YKd2VhdGhlci0wMg1zaWduYWwtYmFycy0xBHVzZXIMbG9jYXRpb24tLTA1BGxvY2sIZ2xvYmUtd2YNYmF0dGVyeS0wMy13ZgtzZWFyY2gtZmluZAAAAA==) format('truetype');
+        font-weight: normal;
+        font-style: normal;
+    }
+    .e-rtl .tooltipMenu-list{
+        margin-right: 0px;      
+    }
+    .tooltipMenu-list .e-list-icon {
+        float: right;
+        height: inherit;
+        width: inherit;
+        font-family: 'e-tooltip-menu-icons';
+    }
+    .e-toolbar .e-toolbar-items .e-toolbar-item .e-tbar-btn.e-btn.e-tbtn-txt .e-btn-icon {
+        font-family: 'e-tooltip-menu-icons';
+    }
+    .tooltipMenu-list .wifi:before,
+    #toolbar-menu .e-wifi:before {
+        content: "\e700";
+    }
+    .tooltipMenu-list .bluetooth:before {
+        content: "\e702";
+    }
+    .tooltipMenu-list .sim:before {
+        content: "\e705";
+    }
+    .tooltipMenu-list .display:before {
+        content: "\e704";
+    }
+    .tooltipMenu-list .sound:before {
+        content: "\e703";
+    }
+    .tooltipMenu-list .battery:before,
+    #toolbar-menu .e-battery:before {
+        content: "\e711";
+    }
+    .tooltipMenu-list .user:before {
+        content: "\e707";
+    }
+    .tooltipMenu-list .location:before {
+        content: "\e708";
+    }
+    .tooltipMenu-list .security:before,
+    #toolbar-menu .e-security:before {
+        content: "\e709";
+    }
+    .tooltipMenu-list .language:before {
+        content: "\e710";
+    }
+    .e-rtl .tooltipMenu-list .e-list-item,
+    [dir="rtl"] .tooltipMenu-list .e-list-item {
+        flex-direction: row-reverse;
+        text-align:  inherit;
+        margin-right: 0px;
+        text-wrap : nowrap;
+    }
+
+  .toolbarContainer1 {
+        text-align: center;
+        padding-top: 30px;
+        padding-bottom: 130px;
+    }
+    #tooltip-menu, #toolbar-menu {
+        display: inline-block;
+    }
+    .e-tooltip-menu-settings .e-listview {
+        border-radius: 0;
+    }
+    .tooltipMenu-list .e-list-item:last-child {
+        border-bottom: 0;
+    }
+</style>
+</PreviewSection>
+</CodePreview>
+
+
+<Description>
+    <Header>
+        <h5>Delay & Animation</h5>
+    </Header>
+    <Content>
+        Control tooltip visibility timing using <code>ShowDelay</code> and <code>HideDelay</code> properties (in milliseconds). The <code>Animation</code> property with <code>Effect</code> defines entrance/exit animations. Common effects include <code>FadeIn</code>, <code>FadeOut</code>, <code>ZoomIn</code>, <code>ZoomOut</code>, and <code>None</code>. This example demonstrates configurable delays and smooth animations for better UX.
+    </Content>
+</Description>
+<CodePreview CodeSection="@DelayAnimationCode">
+    <PreviewSection>
+        <div style="display:flex;justify-content:center;gap:40px;align-items:center;flex-wrap:wrap;padding:40px;">
+            <div>
+                <p style="text-align:center;margin-bottom:16px;"> <strong>Fast</strong></p>
+                <SfTooltip Content="Shows quickly" OpenDelay="100" CloseDelay="100"Animation="@Animation">
+                    <SfButton Content="Fast Tooltip"></SfButton>
+                </SfTooltip>
+            </div>
+            <div>
+                <p style="text-align:center;margin-bottom:16px;"> <strong>Medium</strong></p>
+                <SfTooltip Content="Shows with slight delay" OpenDelay="500" CloseDelay="300" Animation="@Animation">
+                    <SfButton Content="Medium Tooltip"></SfButton>
+                </SfTooltip>
+            </div>
+            <div>
+                <p style="text-align:center;margin-bottom:16px;"> <strong>Slow</strong></p>
+                <SfTooltip Content="Shows after delay" OpenDelay="1000" CloseDelay="500" Animation="@Animation">
+                    <SfButton Content="Slow Tooltip"></SfButton>
+                </SfTooltip>
+            </div>
+        </div>
+@code{
+    public AnimationModel Animation { get; set; } = new AnimationModel
+    {
+        Open = new TooltipAnimationSettings {Delay = 0, Duration = 1000, Effect = Effect.ZoomIn },
+        Close = new TooltipAnimationSettings{Delay=0,Duration=500,Effect=Effect.ZoomOut}
+    };
+ }
+    </PreviewSection>
+</CodePreview>
+
+<Description>
+    <Header>
+        <h5>Tooltip on Disabled Elements</h5>
+    </Header>
+    <Content>
+        Tooltips are useful for explaining why an action is disabled or unavailable. Wrap a disabled button with <code>SfTooltip</code> to show helpful information when users attempt to interact with the disabled control, providing clear feedback about its disabled state.
+    </Content>
+</Description>
+<CodePreview CodeSection="@DisabledElementsCode">
+    <PreviewSection>
+        <div style="display:flex;justify-content:center;gap:30px;flex-wrap:wrap;padding:40px;">
+            <div style="text-align:center;">
+                <SfTooltip Content="This feature is available in the Pro version" Position="Position.TopCenter">
+                    <SfButton Content="Pro Feature" Disabled="true"></SfButton>
+                </SfTooltip>
+            </div>
+            <div style="text-align:center;">
+                <SfTooltip Content="Complete your profile first" Position="Position.TopCenter">
+                    <SfButton Content="Unavailable" Disabled="true"></SfButton>
+                </SfTooltip>
+            </div>
+            <div style="text-align:center;">
+                <SfTooltip Content="Loading..." Position="Position.TopCenter">
+                    <SfButton Content="Loading" Disabled="true"></SfButton>
+                </SfTooltip>
+            </div>
+        </div>
+    </PreviewSection>
+</CodePreview>
+
+<Description>
+    <Header>
+        <h5>Follow Cursor Behavior</h5>
+    </Header>
+    <Content>
+        When <code>MouseTrail</code> is set to <code>true</code>, the tooltip follows the mouse cursor within the target element. This creates an interactive experience, with the tooltip's position updating dynamically as the user moves the mouse. When <code>OpensOn</code> is set to <code>Hover</code>, the tooltip appears on hover and follows the pointer, providing contextual information.
+    </Content>
+</Description>
+<CodePreview CodeSection="@FollowCursorCode">
+    <PreviewSection>
+        <div style="width:100%;max-width:600px;margin:20px auto;text-align:center;">
+            <SfTooltip Content="Move your mouse around this element" MouseTrail="true" OpensOn="Hover">
+                <div style="background:linear-gradient(135deg, #667eea 0%, #764ba2 100%);color:white;padding:60px 40px;border-radius:8px;cursor:pointer;">
+                    <p><strong>Hover and Move Your Mouse</strong></p>
+                    <p style="margin:12px 0 0 0;">Tooltip follows your cursor position</p>
+                </div>
+            </SfTooltip>
+        </div>
+    </PreviewSection>
+</CodePreview>
+
+@code {
+    private string PositionCode => @"
+    <div class=""toolbarContainer"" style=""display:flex;align-items:center;width:100%;gap:200px;justify-content:space-around;"">
+        <div  class=""col-lg-8 control-section"" style=""flex:0;text-align:center;min-width:220px;""></div>
+            <div class=""tooltip_style"">
+                <SfTooltip Position=""@Position"" IsSticky=""@_propIsSticky"">
+                    <SfButton Content=""Show Tooltip""></SfButton>
+                </SfTooltip>
+            </div>
+
+            <div style=""flex:0 0 auto;min-width:50px;"">
+                <label style=""display:block;font-weight:600;"">Tooltip Position</label>
+                <select value=""@index"" @onchange=""OnPositionChanged"" style=""width:130px;padding:3px;max-height:250px;overflow-y:scroll;border-color:lightgrey;"">
+                    @for (int i = 0; i < PositionData.Count; i++)
+                    {
+                        <option value=""@i"" selected=""@(i == index)"">@PositionData[i].Text</option>
+                    }
+                </select>
+            </div>
+        </div>
+    </div>
+
+<style>
+    /* Sample specific styles */
+    /* Avoid absolute positioning on the tooltip wrapper to prevent layout issues.
+       Use inline-block so the wrapped button flows with the document layout. */
+    .tooltip_style {
+        position: static;
+        left: calc( 50% - 60px);
+        top: 45%;
+        display: inline-block;
+        margin: 0 auto;
+    }
+
+@code {
+    // Specifies the tooltip's position.
+    private Position Position = Position.TopCenter;
+    // Specifies index value of TopCenter position in the Dropdown List.
+    private int? index { get; set; } = 1;
+    public class DropDownModel
+    {
+        public string? Text { get; set; }
+        public string? Value { get; set; }
+    }
+    // Specifies the event handler for changing the tooltip position.
+    private void OnPositionChanged(ChangeEventArgs e)
+    {
+        if (e?.Value == null) return;
+        if (int.TryParse(e.Value.ToString(), out var i) && i >= 0 && i < PositionData.Count)
+        {
+            index = i;
+            // Parse the enum from the selected Value string
+            if (System.Enum.TryParse<Position>(PositionData[i].Value, out var pos))
+            {
+                Position = pos;
+            }
+        }
+    }
+    // Specifies the Tooltip position.
+    private List<DropDownModel> PositionData = new List<DropDownModel>()
+    {
+        new DropDownModel { Text = ""Top Left"", Value = ""TopLeft"" },
+        new DropDownModel { Text = ""Top Center"", Value = ""TopCenter"" },
+        new DropDownModel { Text = ""Top Right"", Value = ""TopRight"" },
+        new DropDownModel { Text = ""Bottom Left"", Value = ""BottomLeft"" },
+        new DropDownModel { Text = ""Bottom Center"", Value = ""BottomCenter"" },
+        new DropDownModel { Text = ""Bottom Right"", Value = ""BottomRight"" },
+        new DropDownModel { Text = ""Left Top"", Value = ""LeftTop"" },
+        new DropDownModel { Text = ""Left Center"", Value = ""LeftCenter"" },
+        new DropDownModel { Text = ""Left Bottom"", Value = ""LeftBottom"" },
+        new DropDownModel { Text = ""Right Top"", Value = ""RightTop"" },
+        new DropDownModel { Text = ""Right Center"", Value = ""RightCenter"" },
+        new DropDownModel { Text = ""Right Bottom"", Value = ""RightBottom"" }
+    };
+    // Properties tooltip state
+    private bool _propIsSticky = false;
+}";
+
+    private string HtmlTemplateCode => @"<div id=""custom"" class=""col-lg-12 control-section customization"" style=""width:100%;max-width:740px;height:260px;position:relative;overflow:hidden;"">
+    @* Initializes the Button component *@
+    <SfButton CssClass=""e-outline"" IsPrimary=""true"" Content=""HTML Template"" id=""btn"" aria-label=""Open HTML Template Tooltip""></SfButton>
+</div>
+@* Initializes the Tooltip component *@
+<SfTooltip Position=""Position.BottomCenter"" Target=""#btn"" WindowCollision=true TargetContainer=""#custom"">
+    <ContentTemplate>
+        <div class='content'>
+            <h3 style='margin-top: 10px;'>Eastern Bluebird</h3><hr>
+            <div>
+                <div style='float: left; width: 58%'>
+                    The <a href='https://en.wikipedia.org/wiki/Eastern_bluebird' target='blank'>Eastern Bluebird</a>
+                    can be easily found in open fields and sparse woodland areas, including along woodland edges.
+                </div>
+                <div style='float: right; padding-top: 4px;'><img src='https://cdn.syncfusion.com/blazor/images/tooltip/bird.png' width='125' height='125' alt='Eastern Bluebird' /></div>
+            </div>
+        </div>
+    </ContentTemplate>
+</SfTooltip>
+
+<style>
+    /* Specifies styles for the HTML content */
+    .customization {
+        position: static;
+        margin: 24px auto 0;
+        text-align: left;
+    }
+
+    @@media only screen and (max-width: 500px) {
+        .customization {
+            display: table;
+            margin: 0 auto;
+        }
+    }
+
+    .content {
+        padding: 0 10px;
+    }
+
+    .content hr {
+        margin: 10px 0;
+        border-color: grey;
+    }
+
+    .content a {
+        color: #2FA1E3;
+    }
+</style>";
+
+    private string TemplateCode => @"<div id=""targetContainer"" Position=""Position.TopCenter"" class=""col-lg-12 control-section"">
+    @* Native toolbar with SfTooltip targeting buttons *@
+    <SfTooltip Width=""200px"" ID=""Tooltip"" ShowTipPointer=""true"" Target=""#nativeToolbar button"">
+        <ChildContent>
+            <div id=""nativeToolbar"" class=""toolbarContainer"">
+                <div class=""native-toolbar"">
+                    <button class=""toolbar-btn"" aria-label=""Cut"" title=""Cut - Remove the selection (Ctrl+X)"">✂</button>
+                    <button class=""toolbar-btn"" aria-label=""Copy"" title=""Copy - Copy selection (Ctrl+C)"">📋</button>
+                    <button class=""toolbar-btn"" aria-label=""Paste"" title=""Paste - Paste from clipboard (Ctrl+V)"">📥</button>
+                    <span class=""toolbar-separator"" aria-hidden=""true""></span>
+                    <button class=""toolbar-btn"" aria-label=""Bold"" title=""Bold - Make text bold (Ctrl+B)""><strong>B</strong></button>
+                    <button class=""toolbar-btn"" aria-label=""Underline"" title=""Underline - Underline text (Ctrl+U)""><u>U</u></button>
+                    <button class=""toolbar-btn"" aria-label=""Italic"" title=""Italic - Italicize text (Ctrl+I)""><em>I</em></button>
+                </div>
+            </div>
+        </ChildContent>
+    </SfTooltip>
+</div>
+
+<style type=""text/css"">
+    /* Sample specific styles for native toolbar */
+    .toolbarContainer {
+         margin: 18px auto;
+         text-align: center;
+         padding-top: 50px;
+         padding-bottom: 50px;
+    }
+    .native-toolbar { display: inline-flex; gap: 8px; align-items: center; padding-top: 8px; }
+    .toolbar-btn { min-width:34px; height:34px; border-radius:4px; border:1px solid #ccc; cursor:pointer; }
+    .toolbar-separator { width:1px; height:24px; background:#ddd; display:inline-block; margin:0 8px; }
+    .e-tooltip-wrap p { margin: 0; }
+    .e-tooltip-wrap h6 { margin: 3px 0 6px 0; font-size:12px; font-weight:500; }
+    @@media screen and (max-width: 420px) {
+        .native-toolbar { gap:6px; }
+        .toolbar-btn { min-width:30px; height:30px; }
+    }
+</style>";
+
+    private string ApiCode => @"
+ <div style=""display:flex;align-items:center;width:100%;gap:200px;justify-content:space-around"">
+            <div class=""col-lg-8 control-section"" style=""flex:0;text-align:center;min-width:220px;"">
+                     <SfTooltip Position=""Position.TopCenter"" IsSticky=""@_propIsSticky"" OpensOn=""@_propOpensOn"" Content=""@_tooltipContent"">
+            <SfButton Content=""Show Tooltip""></SfButton>
+        </SfTooltip>
+    </div>
+
+     <div style=""flex:0 0 auto;min-width:50px;"">
+           <label style=""display:block;font-weight:600;"">Open Mode</label>
+           <select @bind=""_propOpensOn"" style=""width:130px;padding:3px;max-height:250px;overflow-y:scroll;border-color:lightgrey"">
+            @foreach (var val in OpensOnOptions)
+            {
+                <option value=""@val"">@val</option>
+            }
+        </select>
+
+        <label style=""display:block;font-weight:600;padding:3px;"">Tooltip Text</label>
+        <SfTextBox @bind-Value=""_tooltipContent"" Width=""130px"" Placeholder=""Enter tooltip text"" />
+
+            <label style=""display:block;align-items:center;gap:8px;margin-top:8px;"">
+            <input type=""checkbox"" @bind=""_propIsSticky"" /> Sticky Mode
+        </label> 
+    </div>
+</div>
+
+@code{
+    private string _tooltipContent = ""This is a tooltip"";
+    private string _propOpensOn = ""Auto"";
+    private static readonly string[] OpensOnOptions = { ""Auto"", ""Hover"", ""Click"", ""Focus"", ""Custom"" };
+
+}";
+
+    private string KeyboardNavigationCode => @"<div class=""control-section"">
+    <div class=""control_wrapper"">
+        @*Form Elements Initialization*@
+        <form id=""details"" role=""form"">
+            <table class=""demotable"">
+                <tr>
+                    <th colspan=""2"" class=""custom-align"">
+                        <h3><b>Sign in to continue</b></h3>
+                    </th>
+                </tr>
+                <tr>
+                    <td class=""info"">User Name</td>
+                    <td>
+                        @*Initialize user name Textbox component*@
+                        <SfTextBox @ref=""_userNameTextBox"" ID=""@InputId"" Type=""InputType.Text"" @bind-Value=""@UserName""
+                                   title=""Please enter your name""></SfTextBox>
+                    </td>
+                </tr>
+                <tr>
+                    <td class=""info"">Password</td>
+                    <td>
+                        @*Initialize password Textbox component*@
+                        <SfTextBox @ref=""_passwordTextBox"" ID=""@PassId"" Type=""InputType.Password"" @bind-Value=""@Password""
+                                   title=""Password must contain at least 8 or more characters""></SfTextBox>
+                    </td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td class=""custom-align"">
+                        @*Initialize submit Button component*@
+                        <SfTooltip Target=""#details .e-textbox"" OpensOn=""Focus"" TargetContainer=""#details"">
+                            <SfButton Content=""Submit"" type=""button"" OnClick=""@OnClick""></SfButton>
+                        </SfTooltip>
+                    </td>
+                </tr>
+            </table>
+        </form>
+        @*Initialize Tooltip component*@
+    </div>
+</div>
+
+@code {
+    //Specifies the Id of the user name Textbox.
+    private string InputId = ""userName"";
+    //Specifies the Id of the password Textbox.
+    private string PassId = ""passwordId"";
+    //Specifies the value of user name Textbox.
+    private string UserName = """";
+    //Specifies the value of password Textbox.
+    private string Password = """";
+    // Component references for focusing without JS interop
+    private SfTextBox? _userNameTextBox;
+    private SfTextBox? _passwordTextBox;
+    // Specifies the click event handler for the submit button to showcase the Tooltip.
+    public async Task OnClick()
+    {
+        if (string.IsNullOrEmpty(UserName))
+        {
+            if (_userNameTextBox is not null)
+                await _userNameTextBox.FocusAsync();
+        }
+        else if (Password?.Length < 8)
+        {
+            if (_passwordTextBox is not null)
+                await _passwordTextBox.FocusAsync();
+        }
+    }
+}"; 
+
+    private string ToolbarMenuCode => @"<div class=""control-section"">
+    <div class=""toolbarContainer1"">
+        @*Initialize the Tooltip component*@
+        <SfTooltip @ref=""tooltipInstance"" IsSticky=""true"" Width=""170px"" ID=""tooltip-menu"" Target="".custom"" OnRender=""OnTooltipRender"" OpensOn=""Click"" CssClass=""e-tooltip-menu-settings"">
+            <ContentTemplate>
+                @if (DynamicContent == ""Wireless"")
+                {
+                    <div class=""tooltipMenu-list"">
+                        @foreach (var item in ConnectionData)
+                        {
+                            <div class=""e-list-item"" role=""listitem"" @onclick=""() => CloseTooltipItem(item.Id)"">
+                                <span class=""e-list-icon @item.IconCss"" aria-hidden=""true""></span>
+                                <span class=""e-list-text"">@item.Text</span>
+                            </div>
+                        }
+                    </div>
+                }
+                else if (DynamicContent == ""Device"")
+                {
+                    <div class=""tooltipMenu-list"">
+                        @foreach (var item in SettingsData)
+                        {
+                            <div class=""e-list-item"" role=""listitem"" @onclick=""() => CloseTooltipItem(item.Id)"">
+                                <span class=""e-list-icon @item.IconCss"" aria-hidden=""true""></span>
+                                <span class=""e-list-text"">@item.Text</span>
+                            </div>
+                        }
+                    </div>
+                }
+                else if (DynamicContent == ""Personal"")
+                {
+                    <div class=""tooltipMenu-list"">
+                        @foreach (var item in PesonalData)
+                        {
+                            <div class=""e-list-item"" role=""listitem"" @onclick=""() => CloseTooltipItem(item.Id)"">
+                                <span class=""e-list-icon @item.IconCss"" aria-hidden=""true""></span>
+                                <span class=""e-list-text"">@item.Text</span>
+                            </div>
+                        }
+                    </div>
+                }
+            </ContentTemplate>
+            @*Initialize the Toolbar component*@
+            <ChildContent>
+                <SfButton class=""toolbar-btn custom"" id=""Wireless"" Type=""ButtonType.Button"" @onmousedown=""@(() => DynamicContent = ""Wireless"")"">Wireless</SfButton>
+                <SfButton class=""toolbar-btn custom"" id=""Device"" Type=""ButtonType.Button"" @onmousedown=""@(() => DynamicContent = ""Device"")"">Device</SfButton>
+                <SfButton class=""toolbar-btn custom"" id=""Personal"" Type=""ButtonType.Button"" @onmousedown=""@(() => DynamicContent = ""Personal"")"">Personal</SfButton>
+            </ChildContent>
+        </SfTooltip>
+    </div>
+</div>
+
+<styletype=""text/css"">
+    /* Icon specific styles for toolbar and menu items */
+    @@font-face {
+        font-family: 'e-tooltip-menu-icons';
+        src: url(data:application/x-font-ttf;charset=utf-8;base64,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) format('truetype');
+        font-weight: normal;
+        font-style: normal;
+    }
+     .e-rtl .tooltipMenu-list{
+        margin-right: 0px;      
+    }
+    .tooltipMenu-list .e-list-icon {
+        float: right;
+        height: inherit;
+        width: inherit;
+        font-family: 'e-tooltip-menu-icons';
+    }
+    .e-toolbar .e-toolbar-items .e-toolbar-item .e-tbar-btn.e-btn.e-tbtn-txt .e-btn-icon {
+        font-family: 'e-tooltip-menu-icons';
+    }
+    .tooltipMenu-list .wifi:before,
+    #toolbar-menu .e-wifi:before {
+        content: ""\e700"";
+    }
+    .tooltipMenu-list .bluetooth:before {
+        content: ""\e702"";
+    }
+    .tooltipMenu-list .sim:before {
+        content: ""\e705"";
+    }
+    .tooltipMenu-list .display:before {
+        content: ""\e704"";
+    }
+    .tooltipMenu-list .sound:before {
+        content: ""\e703"";
+    }
+    .tooltipMenu-list .battery:before,
+    #toolbar-menu .e-battery:before {
+        content: ""\e711"";
+    }
+    .tooltipMenu-list .user:before {
+        content: ""\e707"";
+    }
+    .tooltipMenu-list .location:before {
+        content: ""\e708"";
+    }
+    .tooltipMenu-list .security:before,
+    #toolbar-menu .e-security:before {
+        content: ""\e709"";
+    }
+    .tooltipMenu-list .language:before {
+        content: ""\e710"";
+    }
+    .e-rtl .tooltipMenu-list .e-list-item,
+    [dir=""rtl""] .tooltipMenu-list .e-list-item {
+        flex-direction: row-reverse;
+        text-align:  inherit;
+        margin-right: 0px;
+        text-wrap : nowrap;
+    }
+    /* Sample specific styles for toolbar menu */
+    .toolbarContainer1 {
+        text-align: center;
+        padding-top: 30px;
+        padding-bottom: 130px;
+    }
+    #tooltip-menu, #toolbar-menu {
+        display: inline-block;
+    }
+    .e-tooltip-menu-settings .e-listview {
+        border-radius: 0;
+    }
+    .tooltipMenu-list .e-list-item:last-child {
+        border-bottom: 0;
+    }
+     .tooltipMenu-list .e-list-item {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        padding: 8px 12px;
+        cursor: pointer;
+    }
+     .tooltipMenu-list .e-list-item:hover {
+        background-color: #f0f0f0;
+    }
+
+@code {
+    // Specifies the instance of Tooltip component.
+    public SfTooltip? tooltipInstance;
+    // Specifies the current Toolbar item.
+    public string DynamicContent = ""Wireless"";
+    public string DynamicContent1 = ""Device"";
+    public string DynamicContent2 = ""Personal"";
+
+    public class DataModel
+    {
+        public string? Text { get; set; }
+        public string? IconCss { get; set; }
+        public string? Id { get; set; }
+    }
+    // Specifies the wireless data of the ListView component.
+    public DataModel[] ConnectionData =
+    {
+        new DataModel { Text = ""WI-FI"", IconCss = ""wifi"", Id = ""1"" },
+        new DataModel { Text = ""Bluetooth"", IconCss = ""bluetooth"", Id = ""2"" },
+        new DataModel { Text = ""SIM cards"", IconCss = ""sim"", Id = ""3"" }
+    };
+    // Specifies the device data of the ListView component.
+    public DataModel[] SettingsData =
+    {
+        new DataModel { Text = ""Display"", IconCss = ""display"", Id = ""11"" },
+        new DataModel { Text = ""Sound"", IconCss = ""sound"", Id = ""12"" },
+        new DataModel { Text = ""Battery"", IconCss = ""battery"", Id = ""13"" },
+        new DataModel { Text = ""Users"", IconCss = ""user"", Id = ""4"" }
+    };
+    // Specifies the personal data of the ListView component.
+    public DataModel[] PesonalData =
+    {
+        new DataModel { Text = ""Location"", IconCss = ""location"", Id = ""111"" },
+        new DataModel { Text = ""Security"", IconCss = ""security"", Id = ""112"" },
+        new DataModel { Text = ""Language"", IconCss = ""language"", Id = ""113"" }
+    };
+    protected override void OnInitialized()
+    {
+        // No JS interop required; native list items will call CloseTooltipItem
+    }
+    // Specifies the event handler for before rendering the Tooltip component.
+    public void OnTooltipRender(TooltipEventArgs args)
+    {
+        if (tooltipInstance != null)
+        {
+            tooltipInstance.RefreshPositionAsync();         
+        }
+    }
+    // Specifies the event handler to close the tooltip when selecting a native item.
+    public void CloseTooltipItem(string? id)
+    {
+        DynamicContent = id ?? string.Empty;
+        if (tooltipInstance != null)
+        {
+            tooltipInstance.CloseAsync();
+        }
+    }
+    // Toolbar button click - set content before tooltip opens
+    public void OnToolbarClick(string id)
+    {
+        DynamicContent = id ?? string.Empty;
+    }
+}
+";
+
+    private string DefaultTooltipCode => @"<div style=""text-align:center;padding:40px;"">
+    <SfTooltip Content=""Welcome to Syncfusion Blazor Tooltip!"">
+        <SfButton Content=""Hover me""></SfButton>
+    </SfTooltip>
+</div>"
+
+;
+
+    private string DelayAnimationCode => @"<div style=""display:flex;justify-content:center;gap:40px;align-items:center;flex-wrap:wrap;padding:40px;"">
+    <div>
+        <h6 style=""text-align:center;margin-bottom:16px;"">Fast</h6>
+        <SfTooltip Content=""Shows quickly"" ShowDelay=""100"" HideDelay=""100"" Animation=""@Animation"">
+            <SfButton Content=""Fast Tooltip""></SfButton>
+        </SfTooltip>
+    </div>
+    <div>
+        <h6 style=""text-align:center;margin-bottom:16px;"" >Medium</h6>
+        <SfTooltip Content=""Shows with slight delay"" ShowDelay=""500"" HideDelay=""300"" Animation=""@Animation"">
+            <SfButton Content=""Medium Tooltip""></SfButton>
+        </SfTooltip>
+    </div>
+    <div>
+        <h6 style=""text-align:center;margin-bottom:16px;"" >Slow</h6>
+        <SfTooltip Content=""Shows after delay"" ShowDelay=""1000"" HideDelay=""500"" Animation=""@Animation"">
+            <SfButton Content=""Slow Tooltip""></SfButton>
+        </SfTooltip>
+    </div>
+</div>
+
+@code{
+    public AnimationModel Animation { get; set; } = new AnimationModel
+    {
+        Open = new TooltipAnimationSettings {Delay = 0, Duration = 1000, Effect = Effect.ZoomIn },
+        Close = new TooltipAnimationSettings{Delay=0,Duration=500,Effect=Effect.ZoomOut}
+    };
+ }";
+
+    private string DisabledElementsCode => @"<div style=""display:flex;justify-content:center;gap:30px;flex-wrap:wrap;padding:40px;"">
+    <div style=""text-align:center;"">
+        <SfTooltip Content=""This feature is available in the Pro version"" Position=""Position.TopCenter"">
+            <SfButton Content=""Pro Feature"" Disabled=""true""></SfButton>
+        </SfTooltip>
+    </div>
+    <div style=""text-align:center;"">
+        <SfTooltip Content=""Complete your profile first"" Position=""Position.TopCenter"">
+            <SfButton Content=""Unavailable"" Disabled=""true""></SfButton>
+        </SfTooltip>
+    </div>
+    <div style=""text-align:center;"">
+        <SfTooltip Content=""Loading..."" Position=""Position.TopCenter"">
+            <SfButton Content=""Loading"" Disabled=""true""></SfButton>
+        </SfTooltip>
+    </div>
+</div>";
+
+    private string FollowCursorCode => @"<div style=""width:100%;max-width:600px;margin:20px auto;text-align:center;"">
+    <SfTooltip Content=""Move your mouse around this element"" MouseTrail=""true"" OpensOn=""Hover"">
+        <div style=""background:linear-gradient(135deg, #667eea 0%, #764ba2 100%);color:white;padding:60px 40px;border-radius:8px;cursor:pointer;"">
+           <p><strong>Hover and Move Your Mouse</strong></p>
+            <p style=""margin:12px 0 0 0;"">Tooltip follows your cursor position</p>
+        </div>
+    </SfTooltip>
+</div>";
+}

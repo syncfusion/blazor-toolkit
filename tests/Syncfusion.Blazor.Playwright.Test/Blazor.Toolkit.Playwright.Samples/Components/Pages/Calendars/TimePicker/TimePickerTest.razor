@@ -1,0 +1,184 @@
+@page "/timepicker-test"
+
+@using Syncfusion.Blazor.Toolkit.Calendars
+@using Microsoft.AspNetCore.Components.Forms
+
+<h3>TimePicker Test Page</h3>
+
+<div id="wrapper-tp-basic">
+  <label>Basic</label>
+  <SfTimePicker TValue="DateTime?" Id="tp-basic" Placeholder="Select a time" ShowClearButton="true" Format="HH:mm" />
+</div>
+
+<div id="wrapper-tp-initial">
+  <label>Initial Value</label>
+  <SfTimePicker TValue="DateTime?" Id="tp-initial" @bind-Value="initialValue" ShowClearButton="true" Format="HH:mm" />
+</div>
+
+<div id="wrapper-tp-strict">
+  <label>Strict Mode</label>
+    <SfTimePicker TValue="DateTime ?" Id="tp-strict" @bind-Value="initialValue" StrictMode="true" Placeholder="HH:mm" ShowClearButton="true" Format="HH:mm" />
+</div>
+
+<div id="wrapper-tp-minmax">
+  <label>Min/Max</label>
+  <SfTimePicker TValue="DateTime?" Id="tp-minmax" Min="@minTime" Max="@maxTime" Placeholder="Select time (09:00-18:00)" Format="HH:mm" />
+</div>
+
+<div id="wrapper-tp-step">
+  <label>Step 15 Minutes</label>
+  <SfTimePicker TValue="DateTime?" Id="tp-step" Step="15" Placeholder="15-minute intervals" Format="HH:mm" />
+</div>
+
+<div id="wrapper-tp-disabled">
+  <label>Disabled</label>
+  <SfTimePicker TValue="DateTime?" Id="tp-disabled" Disabled="true" Placeholder="Disabled" />
+</div>
+
+<div id="wrapper-tp-readonly">
+  <label>Read-Only</label>
+  <SfTimePicker TValue="DateTime?" Id="tp-readonly" Readonly="true" @bind-Value="readonlyValue" Placeholder="Read-only" Format="HH:mm" />
+</div>
+
+<div id="wrapper-tp-mask">
+  <label>Mask</label>
+  <SfTimePicker TValue="DateTime?" Id="tp-mask" EnableMask="true" Placeholder="HH:mm" Format="HH:mm" />
+</div>
+
+<div id="wrapper-tp-allowedit">
+  <label>AllowEdit False</label>
+  <SfTimePicker TValue="DateTime?" Id="tp-allowedit" AllowEdit="false" Placeholder="Popup only" Format="HH:mm" />
+</div>
+
+<div id="wrapper-tp-onfocus">
+  <label>OpenOnFocus</label>
+  <SfTimePicker TValue="DateTime?" Id="tp-onfocus" OpenOnFocus="true" Placeholder="Opens on focus" Format="HH:mm" />
+</div>
+
+<div id="wrapper-tp-formats">
+  <label>Multiple Input Formats</label>
+  <SfTimePicker TValue="DateTime?" Id="tp-formats" InputFormats="@inputFormats" Placeholder="Try HH:mm or hh:mm tt" Format="HH:mm" />
+</div>
+
+<div id="wrapper-tp-ampm">
+  <label>12-Hour Format with AM/PM</label>
+  <SfTimePicker TValue="DateTime?" Id="tp-ampm" Placeholder="Select time" Format="hh:mm tt" />
+</div>
+
+<div id="wrapper-tp-width">
+  <label>Width</label>
+  <SfTimePicker TValue="DateTime?" Id="tp-width" Width="280px" Placeholder="Width example" Format="HH:mm" />
+</div>
+
+<div id="wrapper-tp-float">
+  <label>Float Label Auto</label>
+    <SfTimePicker TValue="DateTime?" Id="tp-float" FloatLabelType="FloatLabelType.Auto" Placeholder="Select time" Format="HH:mm" />
+</div>
+
+<div id="wrapper-tp-css">
+  <label>Custom CSS Class</label>
+  <SfTimePicker TValue="DateTime?" Id="tp-css" CssClass="custom-timepicker-class" Placeholder="Custom styling" Format="HH:mm" />
+</div>
+
+<div id="wrapper-tp-events">
+  <label>Events (ValueChange, Selected, etc.)</label>
+  <SfTimePicker TValue="DateTime?" Id="tp-events" 
+                @bind-Value="eventValue"
+                ValueChange="@OnValueChange"
+                Selected="@OnSelected"
+                OnFocus="@OnFocus"
+                OnBlur="@OnBlur"
+                OnOpen="@OnOpen"
+                OnClose="@OnClose"
+                Cleared="@OnCleared"
+                Format="HH:mm" />
+  <div id="events-log">@eventLog</div>
+</div>
+
+<div id="wrapper-tp-form">
+  <label>Form Integration</label>
+  <EditForm Model="formModel" OnValidSubmit="OnSubmit">
+    <SfTimePicker TValue="DateTime?" Id="tp-form" @bind-Value="formModel.Time" Placeholder="Pick and submit" Format="HH:mm" />
+    <button type="submit">Submit</button>
+  </EditForm>
+  <div id="form-result">@formResult</div>
+</div>
+
+<div id="wrapper-tp-timeonly">
+  <label>TimeOnly Type</label>
+  <SfTimePicker TValue="TimeOnly?" Id="tp-timeonly" Placeholder="TimeOnly value" Format="HH:mm" />
+</div>
+
+<div id="wrapper-tp-datetimeoffset">
+  <label>DateTimeOffset Type</label>
+  <SfTimePicker TValue="DateTimeOffset?" Id="tp-datetimeoffset" Placeholder="DateTimeOffset value" Format="HH:mm" />
+</div>
+
+<div id="wrapper-tp-many">
+  <label>Many pickers</label>
+  @for (int i = 1; i <= 10; i++)
+  {
+    string id = $"tp-many-{i}";
+    <div class="many-item" id="many-@i">
+      <SfTimePicker TValue="DateTime?" Id="@id" Placeholder="Many" Format="HH:mm" />
+    </div>
+  }
+</div>
+
+@code {
+    private DateTime? initialValue = new DateTime(2026, 4, 9, 14, 30, 0);
+    private DateTime minTime = new DateTime(2026, 4, 9, 9, 0, 0);
+    private DateTime maxTime = new DateTime(2026, 4, 9, 18, 0, 0);
+    private DateTime? readonlyValue = new DateTime(2026, 4, 9, 15, 45, 0);
+    private DateTime? eventValue = new DateTime(2026, 4, 9, 12, 0, 0);
+    private TimeSpan? timeSpanValue = new TimeSpan(14, 30, 0);
+    private string[] inputFormats = new[] { "HH:mm", "hh:mm tt" };
+    private string eventLog = string.Empty;
+    private FormModel formModel = new FormModel();
+    private string formResult = string.Empty;
+
+    private void OnValueChange(Syncfusion.Blazor.Toolkit.Calendars.ChangeEventArgs<DateTime?> args)
+    {
+        eventLog += $"ValueChange: {args.Value:HH:mm}\n";
+    }
+
+    private void OnSelected(SelectedEventArgs<DateTime?> args)
+    {
+        eventLog += $"Selected: {args.Value:HH:mm}\n";
+    }
+
+    private void OnFocus(Syncfusion.Blazor.Toolkit.Calendars.FocusEventArgs args)
+    {
+        eventLog += "Focus event fired\n";
+    }
+
+    private void OnBlur(BlurEventArgs args)
+    {
+        eventLog += "Blur event fired\n";
+    }
+
+    private void OnOpen(PopupEventArgs args)
+    {
+        eventLog += "Popup opened\n";
+    }
+
+    private void OnClose(PopupEventArgs args)
+    {
+        eventLog += "Popup closed\n";
+    }
+
+    private void OnCleared(ClearedEventArgs args)
+    {
+        eventLog += "Value cleared\n";
+    }
+
+    private void OnSubmit()
+    {
+        formResult = formModel.Time?.ToString("HH:mm") ?? "No time selected";
+    }
+
+    private class FormModel
+    {
+        public DateTime? Time { get; set; }
+    }
+}

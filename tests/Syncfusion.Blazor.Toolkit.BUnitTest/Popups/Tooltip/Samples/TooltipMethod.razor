@@ -1,0 +1,225 @@
+﻿@page "/TooltipMethod"
+@using System.Text.Json;
+@using System.Text.Json.Serialization;
+@using Bunit
+@using Syncfusion.Blazor.Toolkit.Popups
+@using Syncfusion.Blazor.Toolkit.Buttons
+@using Xunit
+
+
+        <div class="row">
+            <div class="@colOneClass">
+                <SfButton ID="ChangeSizeButton" Content="Change Size" OnClick="ChangeSize"></SfButton>
+            </div>
+            <div class="col-lg-7 control-section">
+                <SfTooltip @ref="tooltip" Content="Sample ToolTip" Target="#MyButton" OpensOn="Click">
+                    <SfButton ID="MyButton" Content="Show Tooltip"></SfButton>
+                </SfTooltip>
+            </div>
+        </div>
+
+
+        <SfTooltip ID="tooltip1" IsSticky="true" Target="#target" Content="@Content">
+            <div id='container'>
+                <p>
+                    A green home is a type of house designed to be
+                    <a id="target">
+                        <u>environmentally friendly</u>
+                    </a> and sustainable. And also focuses on the efficient use of "energy, water, and building materials." As green homes
+                    have become more prevalent we have also seen the emergence of green affordable housing.
+                </p>
+            </div>
+        </SfTooltip>
+   
+
+
+        <SfTooltip @ref="tooltip" Content="Sample ToolTip" Target="#MyButton" OpensOn="Click" Container="ContainerClass">
+            <div class="container1">
+                <div class="@colOneClass">
+                    <SfButton ID="containerbutton" Content="Change Container" OnClick="ChangeContainer"></SfButton>
+                </div>
+                <div class="col-lg-7 control-section">
+
+                    <SfButton ID="MyButton" Content="Show Tooltip"></SfButton>
+
+                </div>
+            </div>
+            <div class="container2"></div>
+        </SfTooltip>
+    
+        <SfTooltip @ref="tooltip" Content="Sample ToolTip" Target="#MyButton" OpensOn="Click">
+            <div class="container1">
+                <div class="@colOneClass">
+                    <SfButton ID="containerbutton" Content="Change Container" OnClick="ChangeContainer"></SfButton>
+                </div>
+                <div class="col-lg-7 control-section">
+
+                    <SfButton ID="MyButton" Content="Show Tooltip"></SfButton>
+
+                </div>
+            </div>
+            <div class="container2"></div>
+        </SfTooltip>
+    
+
+
+@code
+{
+    SfTooltip tooltip;
+    SfTooltip tooltip1;
+   
+    private string target { get; set; }
+    private int cols = 5;
+    private string colOneClass => $"col-lg-{cols}";
+    private string ContainerClass = ".container1";
+    string Content = "<div class='democontent'><b>Environmentally friendly</b> or environment-friendly, (also referred to as eco-friendly, nature-friendly, and green) are marketing and sustainability terms referring to goods and services, laws, guidelines and policies that inflict reduced, minimal, or no harm upon ecosystems or the environment.</div>";
+
+    void ChangeSize()
+    {
+        cols = cols == 5 ? 2 : 5;
+    }
+
+    protected void OnInitialized()
+    {
+        target = "#" + "btn";
+    }
+
+    void ChangeContainer()
+    {
+        ContainerClass = ContainerClass == ".container1" ? ".container2" : "body";
+    }
+
+    async Task tooltipRefreshPosition(Fixture fixture)
+    {
+        var tooltip = fixture.GetComponentUnderTest<SfTooltip>();
+        var rootEle = tooltip.Find(".e-tooltip");
+        await tooltip.InvokeAsync(async () =>
+        {
+            tooltip.Instance.CreateTooltipAsync(true);
+            await tooltip.Instance.OpenAsync();
+        }).ContinueWith(
+            async (t) =>
+            {
+                Assert.True(tooltip.Find(".e-tooltip-wrap").ClassList.Contains(".e-popup-open") != null);
+            });
+        var buttonElem = rootEle.QuerySelector("button");
+        buttonElem.Click();
+        await Task.Delay(200);
+        await tooltip.InvokeAsync(async () =>
+        {
+            await tooltip.Instance.RefreshPositionAsync();
+        }).ContinueWith(
+            async (t) =>
+            {
+                Assert.True(tooltip.Find(".e-tooltip-wrap").ClassList.Contains(".e-popup-open") != null);
+                await tooltip.Instance.CreateTooltipAsync(false);
+            });
+    }
+
+
+    async Task ContentTemplate(Fixture fixture1)
+    {
+        var tooltip = fixture1.GetComponentUnderTest<SfTooltip>();
+        var rootEle = tooltip.Find(".e-tooltip");
+        await tooltip.InvokeAsync(async () =>
+        {
+            await tooltip.Instance.OpenAsync();
+        }).ContinueWith(
+            async (t) =>
+            {
+                Assert.True(tooltip.Find(".e-tooltip-wrap").QuerySelector(".democontent") != null);
+            });
+    }
+
+
+    async Task Container(Fixture fixture2)
+    {
+        var tooltip = fixture2.GetComponentUnderTest<SfTooltip>();
+        var rootEle = tooltip.Find(".e-tooltip");
+        await tooltip.InvokeAsync(async () =>
+        {
+            await tooltip.Instance.OpenAsync();
+        }).ContinueWith(
+            async (t) =>
+            {
+                Assert.True(tooltip.Find(".e-tooltip-wrap").ParentElement.ClassList.Contains("container1"));
+                Assert.True(tooltip.Find(".e-tooltip-popup-container").ClassList.Contains("container1"));
+            });
+        var buttonElem = rootEle.QuerySelector("#containerbutton");
+        buttonElem.Click();
+        await Task.Delay(200);
+        await tooltip.InvokeAsync(async () =>
+        {
+            await tooltip.Instance.OpenAsync();
+        }).ContinueWith(
+            async (t) =>
+            {
+                Assert.False(tooltip.Find(".e-tooltip-wrap").ParentElement.ClassList.Contains("container1"));
+                Assert.True(tooltip.Find(".e-tooltip-wrap").ParentElement.ClassList.Contains("container2"));
+                Assert.False(tooltip.Find(".e-tooltip-popup-container").ClassList.Contains("container1"));
+                Assert.True(tooltip.Find(".e-tooltip-popup-container").ClassList.Contains("container2"));
+            });
+        buttonElem.Click();
+        await Task.Delay(200);
+        await tooltip.InvokeAsync(async () =>
+        {
+            await tooltip.Instance.OpenAsync();
+        }).ContinueWith(
+            async (t) =>
+            {
+                Assert.False(tooltip.Find(".e-tooltip-wrap").ParentElement.ClassList.Contains("container1"));
+                Assert.False(tooltip.Find(".e-tooltip-wrap").ParentElement.ClassList.Contains("container2"));
+                Assert.False(tooltip.Find(".e-tooltip-popup-container").ClassList.Contains("container1"));
+                Assert.False(tooltip.Find(".e-tooltip-popup-container").ClassList.Contains("container2"));
+                Assert.True(tooltip.Find(".e-tooltip-wrap").ParentElement.ClassList.Contains("body"));
+            });
+    }
+
+
+    async Task ContainerDynamic(Fixture fixture3)
+    {
+        var tooltip = fixture3.GetComponentUnderTest<SfTooltip>();
+        var rootEle = tooltip.Find(".e-tooltip");
+        tooltip.Instance.Container = ContainerClass;
+        await tooltip.InvokeAsync(async () =>
+        {
+            await tooltip.Instance.OpenAsync();
+        }).ContinueWith(
+        async (t) =>
+        {
+            Assert.True(tooltip.Find(".e-tooltip-wrap").ParentElement.ClassList.Contains("container1"));
+            Assert.True(tooltip.Find(".e-tooltip-popup-container").ClassList.Contains("container1"));
+        });
+        var buttonElem = rootEle.QuerySelector("#containerbutton");
+        buttonElem.Click();
+        await Task.Delay(200);
+        await tooltip.InvokeAsync(async () =>
+        {
+            await tooltip.Instance.OpenAsync();
+        }).ContinueWith(
+            async (t) =>
+            {
+                Assert.False(tooltip.Find(".e-tooltip-wrap").ParentElement.ClassList.Contains("container1"));
+                Assert.True(tooltip.Find(".e-tooltip-wrap").ParentElement.ClassList.Contains("container2"));
+                Assert.False(tooltip.Find(".e-tooltip-popup-container").ClassList.Contains("container1"));
+                Assert.True(tooltip.Find(".e-tooltip-popup-container").ClassList.Contains("container2"));
+            });
+        buttonElem.Click();
+        await Task.Delay(200);
+        await tooltip.InvokeAsync(async () =>
+        {
+            await tooltip.Instance.OpenAsync();
+        }).ContinueWith(
+            async (t) =>
+            {
+                Assert.False(tooltip.Find(".e-tooltip-wrap").ParentElement.ClassList.Contains("container1"));
+                Assert.False(tooltip.Find(".e-tooltip-wrap").ParentElement.ClassList.Contains("container2"));
+                Assert.False(tooltip.Find(".e-tooltip-popup-container").ClassList.Contains("container1"));
+                Assert.False(tooltip.Find(".e-tooltip-popup-container").ClassList.Contains("container2"));
+                Assert.True(tooltip.Find(".e-tooltip-wrap").ParentElement.ClassList.Contains("body"));
+            });
+    }
+
+ }
+
+

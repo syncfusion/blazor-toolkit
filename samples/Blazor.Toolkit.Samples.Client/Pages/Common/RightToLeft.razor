@@ -1,0 +1,45 @@
+@page "/common/right-to-left"
+
+<PageTitle>Right-to-left Support | ASP.NET Core Blazor OSS Components</PageTitle>
+
+<Description>
+    <Header>
+        <h4>Right-to-left (RTL) support</h4>
+    </Header>
+    <Content>
+        <p>Right-to-left (RTL) layout can be enabled for Syncfusion<sup style="font-size:70%">&reg;</sup> Blazor Toolkit components by setting the <strong>EnableRtl</strong> option to <code>true</code> when configuring Syncfusion services in <code>Program.cs</code>. This sets the default RTL behavior for all Toolkit components.</p>
+    </Content>
+</Description>
+
+<Description>
+    <Header>
+        <h5>Enable RTL For All Components</h5>
+    </Header>
+    <Content>
+        <p>For a Blazor Server or Server-Side Blazor app, configure RTL globally in <code>Program.cs</code> as shown below:</p>
+        <CodePreview FileName="Program.cs" IsCodeAlone="true" CodeSection="@serverRTL"></CodePreview>
+
+        <p>For a Blazor WebAssembly standalone app, enable RTL during host builder setup in <code>Program.cs</code> as shown below:</p>
+        <CodePreview FileName="Program.cs" IsCodeAlone="true" CodeSection="@wasmRTL"></CodePreview>
+    </Content>
+</Description>
+
+@code {
+    private const string serverRTL = @"
+using Syncfusion.Blazor.Toolkit;
+
+builder.Services.AddSyncfusionBlazorToolkit(options =>
+{
+	options.EnableRtl = true;
+});";
+
+    private const string wasmRTL = @"
+var builder = WebAssemblyHostBuilder.CreateDefault(args);
+// register Toolkit services with RTL enabled
+builder.Services.AddSyncfusionBlazorToolkit(options =>
+{
+	options.EnableRtl = true;
+});
+await builder.Build().RunAsync();";
+
+}

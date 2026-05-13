@@ -1,0 +1,101 @@
+@page "/switch/form-integration"
+@using Microsoft.AspNetCore.Components.Forms
+@using Syncfusion.Blazor.Toolkit.Inputs
+@layout MainLayout
+
+<h1>Switch - Form Integration</h1>
+
+<EditForm Model="@model" OnSubmit="@HandleSubmit">
+    <div class="test-container">
+        <h2>Settings Form with Switches</h2>
+        
+        <div style="margin: 15px 0;">
+            <SfSwitch Id="switch-newsletter"
+                      Name="newsletter"
+                      Value="enabled"
+                      Label="Subscribe to newsletter"
+                      @bind-Checked="model.Newsletter" />
+        </div>
+
+        <div style="margin: 15px 0;">
+            <SfSwitch Id="switch-terms"
+                      Name="terms"
+                      Value="accepted"
+                      Label="I accept the terms"
+                      @bind-Checked="model.AcceptTerms" />
+        </div>
+
+        <div style="margin: 15px 0;">
+            <SfSwitch Id="switch-notifications"
+                      Name="notifications"
+                      Value="enabled"
+                      Label="Push notifications"
+                      @bind-Checked="model.Notifications" />
+        </div>
+
+        <div style="margin: 15px 0;">
+            <SfSwitch Id="switch-disabled-form"
+                      Name="promotions"
+                      Value="enabled"
+                      Disabled="true"
+                      Label="Promotions (Disabled)"
+                      @bind-Checked="model.Promotions" />
+        </div>
+
+        <button type="submit" id="form-submit">Submit Form</button>
+    </div>
+</EditForm>
+
+<div class="test-container" style="margin-top: 20px;">
+    <h2>Form Result</h2>
+    @if (!string.IsNullOrEmpty(submitResult))
+    {
+        <p id="submit-result">@submitResult</p>
+    }
+    else
+    {
+        <p style="color: #999;">Submit the form to see results</p>
+    }
+</div>
+
+<style>
+    .test-container {
+        padding: 20px;
+        border: 1px solid #ddd;
+        margin: 10px 0;
+        border-radius: 4px;
+        background-color: #f9f9f9;
+    }
+
+    button {
+        padding: 10px 20px;
+        background-color: #2196F3;
+        color: white;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+        font-size: 14px;
+    }
+
+    button:hover {
+        background-color: #1976D2;
+    }
+</style>
+
+@code {
+    private FormModel model = new();
+    private string submitResult = string.Empty;
+
+    private void HandleSubmit()
+    {
+        submitResult = $"Submitted: Newsletter={model.Newsletter}, Terms={model.AcceptTerms}, Notifications={model.Notifications}, Promotions={model.Promotions}";
+    }
+
+    private class FormModel
+    {
+        public bool Newsletter { get; set; }
+        public bool AcceptTerms { get; set; }
+        public bool Notifications { get; set; }
+        public bool Promotions { get; set; }
+    }
+}

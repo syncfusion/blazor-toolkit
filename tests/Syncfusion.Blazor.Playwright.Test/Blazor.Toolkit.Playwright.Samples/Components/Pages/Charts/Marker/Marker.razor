@@ -1,0 +1,68 @@
+﻿@page "/chart/marker/api"
+@using Syncfusion.Blazor.Toolkit.Charts
+@layout MainLayout
+
+<h3>Chart – Marker API</h3>
+
+<div id="chart-host" style="width:800px;height:450px">
+    <SfChart>
+
+        <ChartSeriesCollection>
+            <ChartSeries DataSource="@ConsumerReports"
+                         XName="X"
+                         YName="Y"
+                         Type="ChartSeriesType.Line">
+
+                <ChartMarker Visible="true"
+                             Height="@MarkerHeight"
+                             Width="@MarkerWidth"
+                             Fill="@MarkerFill"
+                             Opacity="@MarkerOpacity">
+
+                    <ChartDataLabel Visible="true" />
+                    <ChartMarkerBorder Width="@MarkerBorderWidth"
+                                       Color="@MarkerBorderColor" />
+                </ChartMarker>
+
+            </ChartSeries>
+        </ChartSeriesCollection>
+    </SfChart>
+</div>
+
+<button id="update-marker" @onclick="UpdateMarker">Update Marker</button>
+
+@code {
+    double MarkerHeight = 5;
+    double MarkerWidth  = 5;
+    string MarkerFill   = "blue";
+    double MarkerOpacity = 0.5;
+    double MarkerBorderWidth = 3;
+    string MarkerBorderColor = "red";
+
+    void UpdateMarker()
+    {
+        MarkerHeight = 3;
+        MarkerWidth  = 3;
+        MarkerFill   = "purple";
+        MarkerOpacity = 0.8;
+        MarkerBorderWidth = 2;
+        MarkerBorderColor = "yellow";
+    }
+
+    public class ChartData
+    {
+        public double X { get; set; }
+        public double Y { get; set; }
+    }
+
+    public List<ChartData> ConsumerReports = new()
+    {
+        new() { X = 2005, Y = 28 },
+        new() { X = 2006, Y = 25 },
+        new() { X = 2007, Y = 26 },
+        new() { X = 2008, Y = 27 },
+        new() { X = 2009, Y = 32 },
+        new() { X = 2010, Y = 35 },
+        new() { X = 2011, Y = 30 }
+    };
+}

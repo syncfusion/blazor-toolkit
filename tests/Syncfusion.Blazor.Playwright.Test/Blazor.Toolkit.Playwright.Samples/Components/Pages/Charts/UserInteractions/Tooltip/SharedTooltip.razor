@@ -1,0 +1,104 @@
+﻿@page "/chart/shared-tooltip-events"
+@using Syncfusion.Blazor.Toolkit.Charts
+@layout MainLayout
+
+<h3>Chart – Shared Tooltip & Events</h3>
+
+<!-- Line Chart with Shared Tooltip -->
+<SfChart ID="linechart"
+         Title="Average Sales per Person"
+         Width="900px"
+         Height="450px"
+         SharedTooltipRender="OnSharedTooltip">
+    <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Toolkit.ValueType.DateTime"
+                       LabelFormat="yyyy"
+                       IntervalType="IntervalType.Years" />
+    <ChartPrimaryYAxis LabelFormat="{value}M"
+                       Minimum="10"
+                       Maximum="80" />
+
+    <ChartTooltipSettings Enable="true" Shared="true" />
+    <ChartCrosshairSettings Enable="true" LineType="LineType.Vertical" />
+
+    <ChartSeriesCollection>
+        <ChartSeries DataSource="@ChartPoints"
+                     Name="John"
+                     XName="Period"
+                     YName="JohnRevenue"
+                     Type="ChartSeriesType.Line" />
+        <ChartSeries DataSource="@ChartPoints"
+                     Name="Andrew"
+                     XName="Period"
+                     YName="AndrewRevenue"
+                     Type="ChartSeriesType.Line" />
+        <ChartSeries DataSource="@ChartPoints"
+                     Name="Thomas"
+                     XName="Period"
+                     YName="ThamosRevenue"
+                     Type="ChartSeriesType.Line" />
+    </ChartSeriesCollection>
+</SfChart>
+
+<!-- Column Chart with Point Click -->
+<SfChart ID="columnchart"
+         Title="Column Chart – Point Click"
+         Width="900px"
+         Height="450px"
+         OnPointClick="OnPointClick">
+    <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Toolkit.ValueType.DateTime" />
+
+    <ChartTooltipSettings Enable="true" Shared="true" />
+
+    <ChartSeriesCollection>
+        <ChartSeries DataSource="@ChartPoints"
+                     Name="John"
+                     XName="Period"
+                     YName="JohnRevenue"
+                     Type="ChartSeriesType.Column" />
+        <ChartSeries DataSource="@ChartPoints"
+                     Name="Andrew"
+                     XName="Period"
+                     YName="AndrewRevenue"
+                     Type="ChartSeriesType.Column" />
+        <ChartSeries DataSource="@ChartPoints"
+                     Name="Thomas"
+                     XName="Period"
+                     YName="ThamosRevenue"
+                     Type="ChartSeriesType.Column" />
+    </ChartSeriesCollection>
+</SfChart>
+
+@code {
+
+    bool sharedTooltipFired;
+    bool pointClicked;
+
+    void OnSharedTooltip(SharedTooltipRenderEventArgs args)
+    {
+        sharedTooltipFired = true;
+        Console.WriteLine("SharedTooltip fired");
+    }
+
+    void OnPointClick(PointEventArgs args)
+    {
+        pointClicked = true;
+        Console.WriteLine($"Point clicked → Series:{args.SeriesIndex}, Point:{args.PointIndex}");
+    }
+
+    public List<TrackballChartData> ChartPoints = new()
+    {
+        new() { Period = new DateTime(2000, 2, 11), JohnRevenue = 14, AndrewRevenue = 39, ThamosRevenue = 60 },
+        new() { Period = new DateTime(2001, 2, 11), JohnRevenue = 25, AndrewRevenue = 28, ThamosRevenue = 48 },
+        new() { Period = new DateTime(2002, 2, 7),  JohnRevenue = 13, AndrewRevenue = 39, ThamosRevenue = 62 },
+        new() { Period = new DateTime(2003, 2, 11), JohnRevenue = 24, AndrewRevenue = 45, ThamosRevenue = 57 },
+        new() { Period = new DateTime(2004, 2, 6),  JohnRevenue = 19, AndrewRevenue = 54, ThamosRevenue = 63 },
+    };
+
+    public class TrackballChartData
+    {
+        public DateTime Period { get; set; }
+        public double JohnRevenue { get; set; }
+        public double AndrewRevenue { get; set; }
+        public double ThamosRevenue { get; set; }
+    }
+}

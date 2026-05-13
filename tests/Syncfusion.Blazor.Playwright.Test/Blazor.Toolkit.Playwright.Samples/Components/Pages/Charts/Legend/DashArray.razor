@@ -1,0 +1,55 @@
+﻿@page "/chart/dasharray/line"
+@using Syncfusion.Blazor.Toolkit.Charts
+@layout MainLayout
+
+<h3>Chart – DashArray (Line Variants)</h3>
+
+<div id="chart-host" style="width:900px;height:500px">
+    <SfChart Title="Fruits Production Statistics">
+
+        <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Toolkit.ValueType.Category" />
+        <ChartPrimaryYAxis Minimum="0" Maximum="300" Interval="50" />
+
+        <ChartSeriesCollection>
+            <ChartSeries DataSource="@Data1" XName="Period" YName="Value"
+                         Type="ChartSeriesType.Line" DashArray="5" />
+
+            <ChartSeries DataSource="@Data2" XName="Period" YName="Value"
+                         Type="ChartSeriesType.StackingLine" DashArray="5" />
+
+            <ChartSeries DataSource="@Data3" XName="Period" YName="Value"
+                         Type="ChartSeriesType.StackingLine100" DashArray="5" />
+        </ChartSeriesCollection>
+        <ChartLegendSettings Visible="true"
+                        Width="400px"
+                        Height="50px"
+                        Background="gray"
+                        Opacity="0.8"
+                        ItemPadding="35"
+                        ShapeWidth="15"
+                        ShapeHeight="15"
+                        ShapePadding="9"
+                        ToggleVisibility="false"
+                        TabIndex="1" />
+
+    </SfChart>
+</div>
+
+@code {
+    public record ChartData(string Period, double Value);
+
+    List<ChartData> Data1 = new()
+    {
+        new("Jan", 150), new("Feb", 150), new("Mar", 150)
+    };
+
+    List<ChartData> Data2 = new()
+    {
+        new("Jan", 50), new("Feb", 100), new("Mar", 50)
+    };
+
+    List<ChartData> Data3 = new()
+    {
+        new("Jan", 150), new("Feb", 200), new("Mar", 150)
+    };
+}

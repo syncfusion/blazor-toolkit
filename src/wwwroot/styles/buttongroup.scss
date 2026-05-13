@@ -1,0 +1,637 @@
+@use 'sass:color';
+@use './base.scss' as *;
+@use './button.scss' as *;
+
+//layout variables
+$btn-grp-margin: -1px !default;
+$btn-grp-margin-left: -1px !default;
+$btn-grp-wrapper-border: 4px !default;
+$btn-grp-round-radius: $radius-20 !default;
+$btn-grp-icon-font-size: $text-sm !default;
+
+$btn-group-input-margin: 0 0 0 -1px !default;
+$btn-zero-radius: $radius-0 !default;
+$btn-vertical-grp-margin: -1px 0 0 !default;
+$btn-top-radius: $radius-2 !default;
+$btn-group-zero-margin-padding: 0 !default;
+$btn-group-input-height: 1px !default;
+$btn-group-input-width: 1px !default;
+
+//Normal Outline GroupButton
+$btn-grp-outline-focus-border-color: $secondary-border-color !default;
+$btn-grp-outline-focus-color: inherit !default;
+
+//Outline Primary
+$btn-grp-outline-primary-focus-border-color: $primary !default;
+$btn-grp-outline-focus-primary-color: inherit !default;
+
+//Outline Success
+$btn-grp-outline-success-focus-border-color: $btn-success-focus-border-color !default;
+$btn-grp-outline-focus-success-color: inherit !default;
+
+//Outline Info
+$btn-grp-outline-info-focus-border-color: $btn-info-focus-border-color !default;
+$btn-grp-outline-focus-info-color: inherit !default;
+
+//Outline warning
+$btn-grp-outline-warning-focus-border-color: $btn-warning-focus-border-color !default;
+$btn-grp-outline-focus-warning-color: inherit !default;
+
+//Outline danger
+$btn-grp-outline-danger-focus-border-color: $btn-danger-focus-border-color !default;
+$btn-grp-outline-focus-danger-color: inherit !default;
+
+@mixin apply-border {
+  &:not(:first-of-type):not(:last-of-type) {
+    border-left: transparent;
+    border-right: transparent;
+  }
+
+  &:first-of-type {
+    border-right: transparent;
+  }
+
+  &:last-of-type {
+    border-left: transparent;
+  }
+}
+
+// Horizontal outline separators – RTL
+@mixin apply-border-rtl {
+    &:not(:first-of-type):not(:last-of-type) {
+        border-left: transparent;
+        border-right: transparent;
+    }
+    // First button (right-most in RTL)
+    &:first-of-type {
+        border-left: transparent;
+    }
+    // Last button (left-most in RTL)
+    &:last-of-type {
+        border-right: transparent;
+    }
+}
+
+@mixin apply-border-vertical {
+  &:not(:first-of-type):not(:last-of-type) {
+    border-bottom: transparent;
+    border-top: transparent;
+  }
+
+  &:first-of-type {
+    border-bottom: transparent;
+  }
+
+  &:last-of-type {
+    border-top: transparent;
+  }
+}
+
+@mixin different-states {
+  // Outline focus
+  .e-btn:focus,
+  input:focus + label.e-btn {
+    &.e-outline {
+      border-color: $btn-grp-outline-focus-border-color;
+      outline-color: $btn-grp-outline-focus-color;
+
+      &.e-primary {
+        border-color: $btn-grp-outline-primary-focus-border-color;
+        outline-color: $btn-grp-outline-focus-primary-color;
+      }
+
+      &.e-success {
+        border-color: $btn-grp-outline-success-focus-border-color;
+        outline-color: $btn-grp-outline-focus-success-color;
+      }
+
+      &.e-info {
+        border-color: $btn-grp-outline-info-focus-border-color;
+        outline-color: $btn-grp-outline-focus-info-color;
+      }
+
+      &.e-warning {
+        border-color: $btn-grp-outline-warning-focus-border-color;
+        outline-color: $btn-grp-outline-focus-warning-color;
+      }
+
+      &.e-danger {
+        border-color: $btn-grp-outline-danger-focus-border-color;
+        outline-color: $btn-grp-outline-focus-danger-color;
+      }
+    }
+  }
+}
+
+@mixin disabled {
+  background-color: $btn-disabled-bgcolor;
+  border-color: $btn-disabled-border-color;
+  box-shadow: $btn-flat-box-shadow;
+  color: $btn-disabled-color;
+}
+
+@mixin box-shadow-theme {
+    box-shadow: none;
+}
+
+@mixin outline-box-shadow-theme {
+    box-shadow: none;
+}
+
+@include export-module('button-group-layout') {
+    /* stylelint-disable */
+    #{if(&, '&', '*')}.e-btn-group,
+    #{if(&, '&', '*')}.e-css.e-btn-group {
+        display: -webkit-inline-flex;
+        display: inline-flex;
+        border-radius: $btn-grp-wrapper-border;
+        -webkit-flex-direction: row;
+        flex-direction: row;
+        position: relative;
+
+        input + label.e-btn {
+            margin-bottom: $btn-group-zero-margin-padding;
+        }
+
+        input {
+            -moz-appearance: none;
+            height: $btn-group-input-height;
+            margin: $btn-group-input-margin;
+            opacity: 0;
+            position: absolute;
+            width: $btn-group-input-width;
+        }
+            // Disabled
+            input:disabled + label.e-btn,
+            :disabled {
+                cursor: default;
+                pointer-events: none;
+            }
+
+        .e-btn-icon {
+            font-size: $btn-grp-icon-font-size;
+        }
+        // Sharp corner for sides individual Button and SplitButton
+        &:not(.e-rtl):not(.e-vertical) {
+            .e-btn {
+                &:not(:first-of-type):not(:last-of-type) {
+                    border-radius: $btn-zero-radius;
+                }
+
+                &:first-of-type,
+                &:last-of-type:not(:last-child) {
+                    border-bottom-right-radius: $btn-zero-radius;
+                    border-top-right-radius: $btn-zero-radius;
+                }
+
+                &:last-of-type {
+                    border-bottom-left-radius: $btn-zero-radius;
+                    border-top-left-radius: $btn-zero-radius;
+                }
+            }
+
+            .e-split-btn-wrapper {
+                + .e-btn {
+                    border-bottom-left-radius: $btn-zero-radius;
+                    border-top-left-radius: $btn-zero-radius;
+                }
+
+                &:not(:first-child):not(:last-child) {
+                    .e-btn:last-child {
+                        border-bottom-right-radius: $btn-zero-radius;
+                        border-top-right-radius: $btn-zero-radius;
+                    }
+
+                    .e-btn:first-child {
+                        border-bottom-left-radius: $btn-zero-radius;
+                        border-top-left-radius: $btn-zero-radius;
+                    }
+                }
+
+                &:first-child {
+                    .e-btn:last-child {
+                        border-bottom-right-radius: $btn-zero-radius;
+                        border-top-right-radius: $btn-zero-radius;
+                    }
+                }
+
+                &:last-child {
+                    .e-btn:first-child {
+                        border-bottom-left-radius: $btn-zero-radius;
+                        border-top-left-radius: $btn-zero-radius;
+                    }
+                }
+            }
+        }
+        // RTL with Sharp corner combinations
+        &.e-rtl {
+            .e-btn {
+                margin-left: $btn-grp-margin-left;
+
+                &:not(:first-of-type):not(:last-of-type) {
+                    border-radius: $btn-zero-radius;
+                }
+
+                &:first-of-type,
+                &:last-of-type:not(:last-child) {
+                    border-bottom-left-radius: $btn-zero-radius;
+                    border-top-left-radius: $btn-zero-radius;
+                }
+
+                &:last-of-type {
+                    border-bottom-right-radius: $btn-zero-radius;
+                    border-top-right-radius: $btn-zero-radius;
+                }
+            }
+
+            .e-split-btn-wrapper {
+                + .e-btn {
+                    border-bottom-right-radius: $btn-zero-radius;
+                    border-top-right-radius: $btn-zero-radius;
+                }
+
+                &:not(:first-child):not(:last-child) {
+                    .e-btn:last-child {
+                        border-bottom-left-radius: $btn-zero-radius;
+                        border-top-left-radius: $btn-zero-radius;
+                    }
+
+                    .e-btn:first-child {
+                        border-bottom-right-radius: $btn-zero-radius;
+                        border-top-right-radius: $btn-zero-radius;
+                    }
+                }
+
+                &:first-child {
+                    .e-btn:last-child {
+                        border-bottom-left-radius: $btn-zero-radius;
+                        border-top-left-radius: $btn-zero-radius;
+                    }
+                }
+
+                &:last-child {
+                    .e-btn:first-child {
+                        border-bottom-right-radius: $btn-zero-radius;
+                        border-top-right-radius: $btn-zero-radius;
+                    }
+                }
+            }
+        }
+        // Vertical Orientation
+        &.e-vertical {
+            -webkit-flex-direction: column;
+            flex-direction: column;
+
+            input {
+                margin: $btn-vertical-grp-margin;
+            }
+            // Round corner
+            .e-btn {
+                &:not(.e-outline) {
+                    margin-top: $btn-grp-margin;
+                }
+
+                &:not(:first-of-type):not(:last-of-type) {
+                    border-radius: $btn-zero-radius;
+                }
+
+                &:first-of-type {
+                    border-bottom-left-radius: $btn-zero-radius;
+                    border-bottom-right-radius: $btn-zero-radius;
+                    border-top-left-radius: $btn-top-radius;
+                    border-top-right-radius: $btn-top-radius;
+                }
+
+                &:last-of-type {
+                    border-bottom-left-radius: $btn-top-radius;
+                    border-bottom-right-radius: $btn-top-radius;
+                    border-top-left-radius: $btn-zero-radius;
+                    border-top-right-radius: $btn-zero-radius;
+                }
+            }
+        }
+        // Rounded Corner
+        &.e-round-corner:not(.e-vertical) {
+            &:not(.e-rtl) {
+                border-radius: $btn-grp-round-radius;
+
+                .e-btn {
+                    &:first-of-type {
+                        border-bottom-left-radius: $btn-grp-round-radius;
+                        border-top-left-radius: $btn-grp-round-radius;
+                    }
+
+                    &:last-of-type {
+                        border-bottom-right-radius: $btn-grp-round-radius;
+                        border-top-right-radius: $btn-grp-round-radius;
+                    }
+
+                    &:last-of-type:not(:last-child) {
+                        border-bottom-right-radius: $btn-zero-radius;
+                        border-top-right-radius: $btn-zero-radius;
+                    }
+                }
+
+                .e-split-btn-wrapper {
+                    + .e-btn {
+                        border-bottom-left-radius: $btn-zero-radius;
+                        border-top-left-radius: $btn-zero-radius;
+                    }
+
+                    &:first-child {
+                        .e-btn:first-child {
+                            border-bottom-left-radius: $btn-grp-round-radius;
+                            border-top-left-radius: $btn-grp-round-radius;
+                        }
+
+                        .e-btn:last-child {
+                            border-bottom-right-radius: $btn-zero-radius;
+                            border-top-right-radius: $btn-zero-radius;
+                        }
+                    }
+
+                    &:last-child {
+                        .e-btn:first-child {
+                            border-bottom-left-radius: $btn-zero-radius;
+                            border-top-left-radius: $btn-zero-radius;
+                        }
+
+                        .e-btn:last-child {
+                            border-bottom-right-radius: $btn-grp-round-radius;
+                            border-top-right-radius: $btn-grp-round-radius;
+                        }
+                    }
+                }
+            }
+            // Rounded corner with RTL
+            &.e-rtl {
+                border-radius: $btn-grp-round-radius;
+
+                .e-btn {
+                    &:first-of-type {
+                        border-bottom-right-radius: $btn-grp-round-radius;
+                        border-top-right-radius: $btn-grp-round-radius;
+                    }
+
+                    &:last-of-type {
+                        border-bottom-left-radius: $btn-grp-round-radius;
+                        border-top-left-radius: $btn-grp-round-radius;
+                    }
+
+                        &:last-of-type:not(:last-child) {
+                            border-bottom-left-radius: $btn-zero-radius;
+                            border-top-left-radius: $btn-zero-radius;
+                        }
+
+                    &:first-of-type:not(:first-child) {
+                        border-bottom-right-radius: $btn-zero-radius;
+                        border-top-right-radius: $btn-zero-radius;
+                    }
+                }
+            }
+        }
+    }
+}
+
+
+@include export-module('button-group-theme') {
+/* stylelint-disable */
+  .e-btn-group,
+  .e-css.e-btn-group {
+    &:not(.e-outline) {
+        box-shadow: $btn-box-shadow;
+    }
+
+    .e-btn:hover {
+      box-shadow: none;
+    }
+
+    .e-btn:focus-visible,
+    input:focus-visible+label.e-btn { // only for keybord
+      box-shadow: $btn-keyboard-focus-box-shadow !important;
+    }
+
+    .e-outline.e-btn:active,
+    .e-outline.e-btn:focus,
+    input:focus+label.e-btn.e-outline {
+      background: transparent !important;
+    }
+
+    //Focus state for Normal and Outline GroupButton
+    .e-btn:focus,
+    input:focus-visible+label.e-btn,
+    input:focus+label.e-btn {
+      @include button-focus;
+      box-shadow: none;
+      outline-color: $btn-grp-outline-focus-color;
+      &.e-primary {
+        @include primary-focus;
+        @include box-shadow-theme;
+        
+        outline-color: $btn-grp-outline-focus-primary-color;
+      }
+
+      &.e-success {
+        @include success-focus;
+        @include box-shadow-theme;
+     
+        outline-color: $btn-grp-outline-focus-success-color;
+        
+      }
+
+      &.e-info {
+        @include info-focus;
+        @include box-shadow-theme;
+
+        outline-color: $btn-grp-outline-focus-info-color;
+      }
+
+      &.e-warning {
+        @include warning-focus;
+        @include box-shadow-theme;
+        
+        outline-color: $btn-grp-outline-focus-warning-color;
+      }
+
+      &.e-danger {
+        @include danger-focus;
+        @include box-shadow-theme;
+       
+        outline-color: $btn-grp-outline-focus-danger-color;
+      }
+
+      &.e-link {
+        @include link-focus;
+        background-color: transparent;
+        border-color: transparent;
+        box-shadow: none;
+        outline: none;
+      }
+
+      &.e-outline {
+        @include outline-focus;
+        @include outline-box-shadow-theme;
+
+        &.e-primary {
+          @include outline-box-shadow-theme;
+        }
+
+        &.e-success {
+          @include outline-box-shadow-theme;
+        }
+
+        &.e-info {
+          @include outline-box-shadow-theme;
+        }
+
+        &.e-warning {
+          @include outline-box-shadow-theme;
+        }
+
+        &.e-danger {
+          @include outline-box-shadow-theme;
+        }
+      }
+    }
+
+    //Active/Checked state for Normal and Outline GroupButton
+    .e-btn:active,
+    input:active+label.e-btn,
+    input:checked+label.e-btn {
+      @include button-active;
+
+      &.e-primary {
+        @include primary-active;
+      }
+
+      &.e-success {
+        @include success-active;
+      }
+
+      &.e-info {
+        @include info-active;
+      }
+
+      &.e-warning {
+        @include warning-active;
+      }
+
+      &.e-danger {
+        @include danger-active;
+      }
+
+      &.e-outline {
+        @include outline-active;
+
+        &.e-primary {
+          @include outline-primary-active;
+        }
+
+        &.e-success {
+          @include outline-success-active;
+        }
+
+        &.e-info {
+          @include outline-info-active;
+        }
+
+        &.e-warning {
+          @include outline-warning-active;
+        }
+
+        &.e-danger {
+          @include outline-danger-active;
+        }
+      }
+    }
+
+    //Disabled state for Normal and Outline GroupButton
+    .e-btn:disabled,
+    input:disabled+label.e-btn {
+      @include disabled;
+      border-color: $btn-border-color;
+
+      &.e-primary {
+        @include primary-disabled;
+        border-color: $btn-primary-border-color;
+      }
+
+      &.e-success {
+        @include success-disabled;
+        border-color: $btn-success-border-color;
+      }
+
+      &.e-info {
+        @include info-disabled;
+        border-color: $btn-info-border-color;
+      }
+
+      &.e-warning {
+        @include warning-disabled;
+        border-color: $btn-warning-border-color;
+      }
+
+      &.e-danger {
+        @include danger-disabled;
+        border-color: $btn-danger-border-color;
+      }
+
+      &.e-link {
+        @include link-disabled;
+        border-color: $btn-link-border-color;
+      }
+
+      &.e-outline {
+        @include outline-disabled;
+        border-color: $btn-outline-border-color;
+
+        &.e-primary {
+          @include outline-primary-disabled;
+          border-color: $btn-primary-bgcolor;
+        }
+
+        &.e-success {
+          @include outline-success-disabled;
+          border-color: $btn-success-bgcolor;
+        }
+
+        &.e-info {
+          @include outline-info-disabled;
+          border-color: $btn-info-bgcolor;
+        }
+
+        &.e-warning {
+          @include outline-warning-disabled;
+          border-color: $btn-warning-bgcolor;
+        }
+
+        &.e-danger {
+          @include outline-danger-disabled;
+          border-color: $btn-danger-bgcolor;
+        }
+      }
+    }
+
+    &:not(.e-vertical):not(.e-rtl) {// Outline GroupButton - Horizontal orientation
+      .e-outline {
+          @include apply-border;
+      }
+      @include different-states;
+    }
+
+    &:not(.e-vertical).e-rtl {
+      .e-outline {
+        @include apply-border-rtl;
+      }
+      @include different-states;
+    }
+
+    &.e-vertical {// Outline GroupButton - Vertical Orientation
+      .e-outline {
+        @include apply-border-vertical;
+      }
+      @include different-states;
+    }
+  }
+}
+

@@ -1,0 +1,82 @@
+﻿@page "/chart/last-datalabel"
+@using Syncfusion.Blazor.Toolkit.Charts
+@layout MainLayout
+
+<h3>Chart – Axis Last Data Label</h3>
+
+<div id="chart-host" style="width:800px;height:500px">
+    <SfChart Title="Efficiency of oil-fired power production" Width="70%">
+
+        <ChartPrimaryXAxis Title="Year"
+                           ValueType="Syncfusion.Blazor.Toolkit.ValueType.Category" />
+
+        <ChartPrimaryYAxis Title="Efficiency"
+                           LabelFormat="{value}%" />
+
+        <ChartTooltipSettings Enable="true" />
+
+        <ChartSeriesCollection>
+            <ChartSeries DataSource="@ProductionDetails"
+                         XName="X"
+                         YName="Y"
+                         Type="ChartSeriesType.Column">
+
+                <ChartLastDataLabel ShowLabel="@ShowLabel"
+                                    Background="yellow"
+                                    LineColor="black"
+                                    LineWidth="2"
+                                    DashArray="5,5"
+                                    Rx="5"
+                                    Ry="5">
+
+                    <ChartLastDataLabelBorder Color="red" Width="2" />
+
+                    <ChartLastDataLabelFont Color="#F0E68C"
+                                            FontFamily="Arial"
+                                            FontStyle="Italic"
+                                            FontWeight="Bold"
+                                            Size="12px" />
+                </ChartLastDataLabel>
+
+                <ChartMarker>
+                    <ChartDataLabel Visible="true" />
+                </ChartMarker>
+
+            </ChartSeries>
+        </ChartSeriesCollection>
+    </SfChart>
+</div>
+
+<button id="update-value" @onclick="UpdateValue">Update Value</button>
+<button id="toggle-label" @onclick="ToggleLabel">Toggle Label</button>
+
+@code {
+    bool ShowLabel = true;
+
+    void UpdateValue()
+    {
+        ProductionDetails[^1].Y = 45;
+    }
+
+    void ToggleLabel()
+    {
+        ShowLabel = !ShowLabel;
+    }
+
+    public class ProductDetailData
+    {
+        public string X { get; set; }
+        public double Y { get; set; }
+    }
+
+    public List<ProductDetailData> ProductionDetails = new()
+    {
+        new() { X = "2005", Y = 28 },
+        new() { X = "2006", Y = 25 },
+        new() { X = "2007", Y = 26 },
+        new() { X = "2008", Y = 27 },
+        new() { X = "2009", Y = 32 },
+        new() { X = "2010", Y = 35 },
+        new() { X = "2011", Y = 40 }
+    };
+}

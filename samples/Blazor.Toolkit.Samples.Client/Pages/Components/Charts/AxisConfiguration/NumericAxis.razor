@@ -1,0 +1,908 @@
+﻿@page "/charts/numeric-axis"
+@using Syncfusion.Blazor.Toolkit.Buttons
+@using Syncfusion.Blazor.Toolkit.Charts
+
+<PageTitle>Syncfusion Blazor Toolkit Numeric Axis Demo</PageTitle>
+
+<!-- ─────────────────────────────────────────────
+     NUMERIC AXIS
+     ───────────────────────────────────────────── -->
+<Description>
+    <Header>
+        <h5><b>Numeric Axis</b></h5>
+    </Header>
+    <Content>
+        A numeric axis is used when plotting quantitative values where equal
+        intervals between numbers are required. It is commonly applied to
+        year‑based, measurement‑based, or statistical datasets.
+
+        In the Syncfusion Blazor Toolkit, numeric axes are enabled by setting the
+        <code>ValueType</code> property of an axis to
+        <code>ValueType.Double</code>. You can control the scale using
+        <code>Minimum</code>, <code>Maximum</code>, and <code>Interval</code>
+        properties, ensuring precise visualization of numeric trends.
+    </Content>
+</Description>
+
+<VirtualizeSection MinHeightPx="600px">
+    <CodePreview CodeSection="@NumericAxisCode" IsFullWidth="true"> 
+    <PreviewSection>
+        
+        <SfChart @key="@_currentTheme" Title="World Population Growth (2016–2025)" Theme="@_currentTheme">
+            <ChartArea>
+                <ChartAreaBorder Width="0"></ChartAreaBorder>
+            </ChartArea>
+
+            <!-- X Axis -->
+            <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Toolkit.ValueType.Double"
+                               Interval="1">
+                <ChartAxisMajorGridLines Width="0" />
+                <ChartAxisMajorTickLines Width="0" />
+                <ChartAxisMinorTickLines Width="0" />
+            </ChartPrimaryXAxis>
+
+            <!-- Y Axis -->
+            <ChartPrimaryYAxis Title="Population in Billions" Minimum="7"
+                               Maximum="8.2"
+                               Interval="0.2">
+                <ChartAxisLineStyle Width="0" />
+                <ChartAxisMajorTickLines Width="0" />
+            </ChartPrimaryYAxis>
+
+            <!-- SERIES -->
+            
+                <ChartSeries DataSource="@NumericAxisData"
+                             XName="X"
+                             YName="Y1"
+                             Type="ChartSeriesType.Column"
+                             PointColorMapping="Color"
+                             ColumnWidth="0.5">
+                    <ChartCornerRadius TopLeft="5" TopRight="5"></ChartCornerRadius>
+                </ChartSeries>
+            
+
+            <!-- TOOLTIP -->
+            <ChartTooltipSettings Enable="true"
+                                  Header="${point.x}"
+                                  Format="Population : <b>${point.y}B</b>"
+                                  EnableHighlight="true">
+            </ChartTooltipSettings>
+        </SfChart>
+    </PreviewSection>
+</CodePreview>
+</VirtualizeSection>
+
+<!-- ─────────────────────────────────────────────
+     RANGE (SPLINE AREA)
+     ───────────────────────────────────────────── -->
+<Description>
+    <Header>
+        <h5><b>Range</b></h5>
+    </Header>
+    <Content>
+        Range charts highlight value progression within a defined numeric axis,
+        making subtle variations easier to interpret across a limited scale.
+
+        In the Syncfusion Blazor Toolkit, this visualization is achieved using a
+        <code>SplineArea</code> series with explicit axis ranges.
+        Gradient fills can be applied using SVG definitions and referenced through
+        the <code>Fill</code> property for enhanced visual emphasis.
+    </Content>
+</Description>
+
+<VirtualizeSection MinHeightPx="600px">
+    <CodePreview CodeSection="@RangeCode" IsFullWidth="true">
+    <PreviewSection>
+        <!-- SVG GRADIENT -->
+        <svg style="height:0">
+            <defs>
+                <linearGradient id="gradient-fill-range"
+                                x1="0" y1="0"
+                                x2="0" y2="1">
+                    <stop offset="10%" stop-color="#5433FF40" />
+                    <stop offset="100%" stop-color="#5433FF" />
+                </linearGradient>
+            </defs>
+        </svg>
+        <!-- CHART -->
+        <SfChart @key="@_currentTheme" Title="World Population by Year" Width="100%" Theme="@_currentTheme">
+            <ChartArea>
+                <ChartAreaBorder Width="0"></ChartAreaBorder>
+            </ChartArea>
+            <!-- X AXIS -->
+            <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Toolkit.ValueType.Double"
+                               Minimum="2018"
+                               Maximum="2023"
+                               Interval="1">
+                <ChartAxisMajorGridLines Width="0" />
+                <ChartAxisMajorTickLines Width="0" />
+                <ChartAxisMinorTickLines Width="0" />
+            </ChartPrimaryXAxis>
+
+            <!-- Y AXIS -->
+            <ChartPrimaryYAxis Title="Population in Billions" Minimum="7.6"
+                               Maximum="8.1"
+                               Interval="0.1">
+                <ChartAxisLineStyle Width="0" />
+                <ChartAxisMajorTickLines Width="0" />
+            </ChartPrimaryYAxis>
+
+            <!-- SERIES -->
+            
+                <ChartSeries DataSource="@NumericRangeData"
+                             XName="X"
+                             YName="Y1"
+                             Type="ChartSeriesType.SplineArea"
+                             Width="2"
+                             Opacity="0.6"
+                             Fill="url(#gradient-fill-range)">
+                    <ChartSeriesBorder Width="2" Color="#0066cc"></ChartSeriesBorder>
+                    <ChartMarker Visible="true" IsFilled="true"></ChartMarker>
+                </ChartSeries>
+            
+
+            <!-- TOOLTIP -->
+            <ChartTooltipSettings Enable="true"
+                                  Header="${point.x}"
+                                  Format="Population : <b>${point.y}B</b>"
+                                  EnableHighlight="true">
+            </ChartTooltipSettings>
+        </SfChart>
+    </PreviewSection>
+</CodePreview>
+</VirtualizeSection>
+
+<!-- ─────────────────────────────────────────────
+     RANGE PADDING
+     ───────────────────────────────────────────── -->
+<Description>
+    <Header>
+        <h5><b>Range Padding</b></h5>
+    </Header>
+    <Content>
+        Range padding controls the spacing added before the minimum and after the
+        maximum values of an axis, helping prevent data points from rendering too
+        close to the Chart boundaries.
+
+        In the Syncfusion Blazor Toolkit, range padding is configured using the
+        <code>RangePadding</code> property of an axis. Supported options include
+        <code>None</code>, <code>Normal</code>, <code>Round</code>,
+        <code>Additional</code>, and <code>Auto</code>.
+    </Content>
+</Description>
+
+<VirtualizeSection MinHeightPx="600px">
+    <CodePreview CodeSection="@RangePaddingCode" IsFullWidth="true">
+    <PreviewSection>
+        <!-- PROPERTY PANEL -->
+        <div class="mb-3">
+            <label class="fw-bold d-block mb-2">Range Padding</label>
+
+            <SfButtonGroup Mode="SelectionMode.Single">
+                <ButtonGroupButton Selected="@IsSelected(ChartRangePadding.None)"
+                                   SelectedChanged="@(v => OnPaddingChanged(v, ChartRangePadding.None))">
+                    None
+                </ButtonGroupButton>
+
+                <ButtonGroupButton Selected="@IsSelected(ChartRangePadding.Normal)"
+                                   SelectedChanged="@(v => OnPaddingChanged(v, ChartRangePadding.Normal))">
+                    Normal
+                </ButtonGroupButton>
+
+                <ButtonGroupButton Selected="@IsSelected(ChartRangePadding.Round)"
+                                   SelectedChanged="@(v => OnPaddingChanged(v, ChartRangePadding.Round))">
+                    Round
+                </ButtonGroupButton>
+
+                <ButtonGroupButton Selected="@IsSelected(ChartRangePadding.Additional)"
+                                   SelectedChanged="@(v => OnPaddingChanged(v, ChartRangePadding.Additional))">
+                    Additional
+                </ButtonGroupButton>
+
+                <ButtonGroupButton Selected="@IsSelected(ChartRangePadding.Auto)"
+                                   SelectedChanged="@(v => OnPaddingChanged(v, ChartRangePadding.Auto))">
+                    Auto
+                </ButtonGroupButton>
+            </SfButtonGroup>
+        </div>
+
+        <!-- SVG GRADIENT -->
+        <svg style="height:0">
+            <defs>
+                <linearGradient id="gradient-fill-range"
+                                x1="0" y1="0"
+                                x2="0" y2="1">
+                    <stop offset="10%" stop-color="#5433FF40" />
+                    <stop offset="100%" stop-color="#5433FF" />
+                </linearGradient>
+            </defs>
+        </svg>
+
+        <!-- CHART -->
+        <SfChart @key="@_currentTheme" Title="World Population by Year" Theme="@_currentTheme">
+            <ChartArea>
+                <ChartAreaBorder Width="0"></ChartAreaBorder>
+            </ChartArea>
+
+            <!-- X AXIS -->
+            <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Toolkit.ValueType.Double"
+                               RangePadding="@RangePadding">
+                <ChartAxisMajorGridLines Width="0" />
+                <ChartAxisMajorTickLines Width="0" />
+                <ChartAxisMinorTickLines Width="0" />
+            </ChartPrimaryXAxis>
+
+            <!-- Y AXIS -->
+            <ChartPrimaryYAxis Title="Population in Billions" Minimum="7.2"
+                               Maximum="8.1"
+                               Interval="0.2">
+                <ChartAxisLineStyle Width="0" />
+                <ChartAxisMajorTickLines Width="0" />
+            </ChartPrimaryYAxis>
+
+            <!-- SERIES -->
+            
+                <ChartSeries DataSource="@NumericRangeData"
+                             XName="X"
+                             YName="Y1"
+                             Type="ChartSeriesType.SplineArea"
+                             Width="2"
+                             Fill="url(#gradient-fill-range)">
+                    <ChartSeriesBorder Width="2" Color="#0066cc"></ChartSeriesBorder>
+                    <ChartMarker Visible="true" IsFilled="true"></ChartMarker>
+                </ChartSeries>
+            
+
+            <!-- TOOLTIP -->
+            <ChartTooltipSettings Enable="true"
+                                  Header="${point.x}"
+                                  Format="Population : <b>${point.y}B</b>"
+                                  EnableHighlight="true" />
+        </SfChart>
+    </PreviewSection>
+</CodePreview>
+</VirtualizeSection>
+
+<!-- ─────────────────────────────────────────────
+     LABEL FORMAT
+     ───────────────────────────────────────────── -->
+<Description>
+    <Header>
+        <h5><b>Label Format</b></h5>
+    </Header>
+    <Content>
+        Axis label formatting improves readability by displaying numeric values
+        in meaningful representations such as currency, percentages, or compact
+        notation.
+
+        In the Syncfusion Blazor Toolkit, label formatting is applied using the
+        <code>LabelFormat</code> property of an axis. This allows values to be
+        rendered using predefined or custom format strings, ensuring consistency
+        with business‑friendly data presentation standards.
+    </Content>
+</Description>
+
+<VirtualizeSection MinHeightPx="600px">
+    <CodePreview CodeSection="@LabelFormatCode" IsFullWidth="true">
+    <PreviewSection>
+        <!-- CHART -->
+        <SfChart @key="@_currentTheme" Title="Annual Sales Revenue (in Billions USD)" Theme="@_currentTheme">
+            <ChartArea>
+                <ChartAreaBorder Width="0"></ChartAreaBorder>
+            </ChartArea>
+            <!-- Y AXIS -->
+            <ChartPrimaryYAxis Title="Sales in Dollars" Minimum="7"
+                               Maximum="8.2"
+                               Interval="0.2"
+                               LabelFormat="${value}">
+                <ChartAxisLineStyle Width="0" />
+                <ChartAxisMajorTickLines Width="0" />
+            </ChartPrimaryYAxis>
+
+            <!-- X AXIS -->
+            <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Toolkit.ValueType.Double"
+                               Interval="1">
+                <ChartAxisMajorGridLines Width="0" />
+                <ChartAxisMajorTickLines Width="0" />
+                <ChartAxisMinorTickLines Width="0" />
+            </ChartPrimaryXAxis>
+
+            <!-- SERIES -->
+            
+                <ChartSeries DataSource="@NumericLabelData"
+                             XName="X"
+                             YName="Y1"
+                             Type="ChartSeriesType.Column"
+                             PointColorMapping="Color"
+                             ColumnWidth="0.5">
+                    <ChartCornerRadius TopLeft="5" TopRight="5"></ChartCornerRadius>
+                </ChartSeries>
+            
+
+            <!-- TOOLTIP -->
+            <ChartTooltipSettings Enable="true"
+                                  Header="${point.x}"
+                                  Format="Sales : <b>${point.y}B</b>"
+                                  EnableHighlight="true">
+            </ChartTooltipSettings>
+        </SfChart>
+
+    </PreviewSection>
+</CodePreview>
+</VirtualizeSection>
+
+<!-- ─────────────────────────────────────────────
+     CUSTOM LABEL FORMAT
+     ───────────────────────────────────────────── -->
+<Description>
+    <Header>
+        <h5><b>Custom Label Format</b></h5>
+    </Header>
+    <Content>
+        Custom label formats allow numeric axis values to be displayed with
+        domain‑specific units or symbols, improving clarity and context.
+
+        In the Syncfusion Blazor Toolkit, this is achieved using the
+        <code>LabelFormat</code> property of an axis. You can embed tokens such as
+        <code>{value}</code> along with custom text (for example, units like °F)
+        to create precise, readable labels without altering the underlying data.
+    </Content>
+</Description>
+
+<VirtualizeSection MinHeightPx="600px">
+    <CodePreview CodeSection="@CustomLabelFormatCode" IsFullWidth="true">
+    <PreviewSection>
+
+        <!-- CHART -->
+        <SfChart @key="@_currentTheme" Title="Yearly Temperature Readings (°F)" Theme="@_currentTheme">
+            <ChartArea>
+                <ChartAreaBorder Width="0"></ChartAreaBorder>
+            </ChartArea>
+
+            <!-- Y AXIS -->
+            <ChartPrimaryYAxis Minimum="50"
+                               Maximum="57"
+                               LabelFormat="{value}°F">
+                <ChartAxisLineStyle Width="0" />
+                <ChartAxisMajorTickLines Width="0" />
+            </ChartPrimaryYAxis>
+
+            <!-- X AXIS -->
+            <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Toolkit.ValueType.Double"
+                               Interval="1">
+                <ChartAxisMajorGridLines Width="0" />
+                <ChartAxisMajorTickLines Width="0" />
+                <ChartAxisMinorTickLines Width="0" />
+            </ChartPrimaryXAxis>
+
+            <!-- SERIES -->
+            
+                <ChartSeries DataSource="@NumericFormatData"
+                             XName="X"
+                             YName="Y"
+                             Type="ChartSeriesType.Column"
+                             Fill="#7D8D86"
+                             ColumnWidth="0.5">
+                    <ChartCornerRadius TopLeft="5" TopRight="5"></ChartCornerRadius>
+                </ChartSeries>
+            
+
+            <!-- TOOLTIP -->
+            <ChartTooltipSettings Enable="true"
+                                  Header="${point.x}"
+                                  Format="Temperature : <b>${point.y}</b>"
+                                  EnableHighlight="true">
+            </ChartTooltipSettings>
+
+        </SfChart>
+    </PreviewSection>
+</CodePreview>
+</VirtualizeSection>
+
+@code {
+    [CascadingParameter]
+    private Theme CurrentTheme { get; set; } = Theme.Fluent;
+
+    private Theme _currentTheme = Theme.Fluent;
+
+    protected override void OnInitialized()
+    {
+        _currentTheme = CurrentTheme;
+    }
+
+    protected override void OnParametersSet()
+    {
+        _currentTheme = CurrentTheme;
+    }
+
+    private bool IsDarkTheme => _currentTheme.ToString().Contains("Dark") || _currentTheme.ToString().Contains("HighContrast");
+    private string TextColor => IsDarkTheme ? "#E6EEF8" : "#0B1F3B";
+    public class NumericAxisPoint
+    {
+        public double X { get; set; }
+        public double Y1 { get; set; }
+        public string Color { get; set; } = string.Empty;
+    }
+
+    private List<NumericAxisPoint> NumericAxisData = new()
+    {
+        new() { X = 2016, Y1 = 7.5,  Color = "#E433F6" },
+        new() { X = 2017, Y1 = 7.6,  Color = "#D833F3" },
+        new() { X = 2018, Y1 = 7.7,  Color = "#C931EE" },
+        new() { X = 2019, Y1 = 7.81, Color = "#BB30EA" },
+        new() { X = 2020, Y1 = 7.88, Color = "#B030E7" },
+        new() { X = 2021, Y1 = 7.95, Color = "#A92FE5" },
+        new() { X = 2022, Y1 = 8.02, Color = "#972DDE" },
+        new() { X = 2023, Y1 = 8.09, Color = "#8D2CDC" },
+        new() { X = 2024, Y1 = 8.1,  Color = "#7F2BD7" },
+        new() { X = 2025, Y1 = 8.2,  Color = "#6829D0" }
+    };
+    
+    public class NumericRangePoint
+    {
+        public double X { get; set; }
+        public double Y1 { get; set; }
+    }
+
+    private List<NumericRangePoint> NumericRangeData = new()
+    {
+        new() { X = 2016, Y1 = 7.5 },
+        new() { X = 2017, Y1 = 7.6 },
+        new() { X = 2018, Y1 = 7.7 },
+        new() { X = 2019, Y1 = 7.81 },
+        new() { X = 2020, Y1 = 7.88 },
+        new() { X = 2021, Y1 = 7.95 },
+        new() { X = 2022, Y1 = 8.02 },
+        new() { X = 2023, Y1 = 8.09 },
+        new() { X = 2024, Y1 = 8.1 },
+        new() { X = 2025, Y1 = 8.2 }
+    };
+    
+    public class NumericLabelPoint
+    {
+        public double X { get; set; }
+        public double Y1 { get; set; }
+        public string Color { get; set; } = string.Empty;
+    }
+
+    private List<NumericLabelPoint> NumericLabelData = new()
+    {
+        new() { X = 2016, Y1 = 7.5,  Color = "#E433F6" },
+        new() { X = 2017, Y1 = 7.6,  Color = "#D833F3" },
+        new() { X = 2018, Y1 = 7.7,  Color = "#C931EE" },
+        new() { X = 2019, Y1 = 7.81, Color = "#BB30EA" },
+        new() { X = 2020, Y1 = 7.88, Color = "#B030E7" },
+        new() { X = 2021, Y1 = 7.95, Color = "#A92FE5" },
+        new() { X = 2022, Y1 = 8.02, Color = "#972DDE" },
+        new() { X = 2023, Y1 = 8.09, Color = "#8D2CDC" },
+        new() { X = 2024, Y1 = 8.1,  Color = "#7F2BD7" },
+        new() { X = 2025, Y1 = 8.2,  Color = "#6829D0" }
+    };
+    
+    public class NumericFormatPoint
+    {
+        public double X { get; set; }
+        public double Y { get; set; }
+    }
+
+    private List<NumericFormatPoint> NumericFormatData = new()
+    {
+        new() { X = 2010, Y = 52.7 },
+        new() { X = 2011, Y = 51.8 },
+        new() { X = 2012, Y = 56.6 },
+        new() { X = 2013, Y = 53.3 },
+        new() { X = 2014, Y = 55.6 },
+        new() { X = 2015, Y = 54.3 },
+        new() { X = 2016, Y = 53.2 },
+        new() { X = 2017, Y = 52.1 },
+        new() { X = 2018, Y = 55.2 }
+    };
+
+    
+    // ─────────────────────────────────────────
+    // RANGE PADDING STATE
+    // ─────────────────────────────────────────
+    private ChartRangePadding RangePadding { get; set; }
+        = ChartRangePadding.None;
+
+    private bool IsSelected(ChartRangePadding padding)
+        => RangePadding == padding;
+
+    private void OnPaddingChanged(bool selected, ChartRangePadding padding)
+    {
+        if (selected)
+        {
+            RangePadding = padding;
+        }
+    }
+
+    // CODE SNIPPETS
+        private string NumericAxisCode => @"@using Syncfusion.Blazor.Toolkit.Charts
+        <SfChart Title=""World Population Growth (2016–2025)"">
+            <ChartArea>
+                <ChartAreaBorder Width=""0""></ChartAreaBorder>
+            </ChartArea>
+
+            <!-- X Axis -->
+            <ChartPrimaryXAxis ValueType=""Syncfusion.Blazor.Toolkit.ValueType.Double""
+                               Interval=""1"">
+                <ChartAxisMajorGridLines Width=""0"" />
+                <ChartAxisMajorTickLines Width=""0"" />
+                <ChartAxisMinorTickLines Width=""0"" />
+            </ChartPrimaryXAxis>
+
+            <!-- Y Axis -->
+            <ChartPrimaryYAxis Title=""Population in Billions"" Minimum=""7""
+                               Maximum=""8.2""
+                               Interval=""0.2"">
+                <ChartAxisLineStyle Width=""0"" />
+                <ChartAxisMajorTickLines Width=""0"" />
+            </ChartPrimaryYAxis>
+
+            <!-- SERIES -->
+            
+                <ChartSeries DataSource=""@NumericAxisData""
+                             XName=""X""
+                             YName=""Y1""
+                             Type=""ChartSeriesType.Column""
+                             PointColorMapping=""Color""
+                             ColumnWidth=""0.5"">
+                    <ChartCornerRadius TopLeft=""5"" TopRight=""5""></ChartCornerRadius>
+                </ChartSeries>
+            
+
+            <!-- TOOLTIP -->
+            <ChartTooltipSettings Enable=""true""
+                                  Header=""${point.x}""
+                                  Format=""Population : <b>${point.y}B</b>""
+                                  EnableHighlight=""true"">
+            </ChartTooltipSettings>
+        </SfChart>
+
+
+
+@code {
+    public class NumericAxisPoint
+        {
+            public double X { get; set; }
+            public double Y1 { get; set; }
+            public string Color { get; set; } = string.Empty;
+        }
+    private List<NumericAxisPoint> NumericAxisData = new()
+        {
+            new() { X = 2016, Y1 = 7.5,  Color = ""#E433F6"" },
+            new() { X = 2017, Y1 = 7.6,  Color = ""#D833F3"" },
+            new() { X = 2018, Y1 = 7.7,  Color = ""#C931EE"" },
+            new() { X = 2019, Y1 = 7.81, Color = ""#BB30EA"" },
+            new() { X = 2020, Y1 = 7.88, Color = ""#B030E7"" },
+            new() { X = 2021, Y1 = 7.95, Color = ""#A92FE5"" },
+            new() { X = 2022, Y1 = 8.02, Color = ""#972DDE"" },
+            new() { X = 2023, Y1 = 8.09, Color = ""#8D2CDC"" },
+            new() { X = 2024, Y1 = 8.1,  Color = ""#7F2BD7"" },
+            new() { X = 2025, Y1 = 8.2,  Color = ""#6829D0"" }
+        };
+}";
+
+    private string RangeCode => @"@using Syncfusion.Blazor.Toolkit.Charts
+            <svg style=""height:0"">
+            <defs>
+                <linearGradient id=""gradient-fill-range""
+                                x1=""0"" y1=""0""
+                                x2=""0"" y2=""1"">
+                    <stop offset=""10%"" stop-color=""#5433FF40"" />
+                    <stop offset=""100%"" stop-color=""#5433FF"" />
+                </linearGradient>
+            </defs>
+        </svg>
+        <!-- CHART -->
+        <SfChart @key=""@_currentTheme"" Title=""World Population by Year"" Width=""100%"" Theme=""@_currentTheme"">
+            <ChartArea>
+                <ChartAreaBorder Width=""0""></ChartAreaBorder>
+            </ChartArea>
+            <!-- X AXIS -->
+            <ChartPrimaryXAxis ValueType=""Syncfusion.Blazor.Toolkit.ValueType.Double""
+                               Minimum=""2018""
+                               Maximum=""2023""
+                               Interval=""1"">
+                <ChartAxisMajorGridLines Width=""0"" />
+                <ChartAxisMajorTickLines Width=""0"" />
+                <ChartAxisMinorTickLines Width=""0"" />
+            </ChartPrimaryXAxis>
+
+            <!-- Y AXIS -->
+            <ChartPrimaryYAxis Title=""Population in Billions"" Minimum=""7.6""
+                               Maximum=""8.1""
+                               Interval=""0.1"">
+                <ChartAxisLineStyle Width=""0"" />
+                <ChartAxisMajorTickLines Width=""0"" />
+            </ChartPrimaryYAxis>
+
+            <!-- SERIES -->
+            
+                <ChartSeries DataSource=""@NumericRangeData""
+                             XName=""X""
+                             YName=""Y1""
+                             Type=""ChartSeriesType.SplineArea""
+                             Width=""2""
+                             Opacity=""0.6""
+                             Fill=""url(#gradient-fill-range)"">
+                    <ChartSeriesBorder Width=""2"" Color=""#0066cc""></ChartSeriesBorder>
+                    <ChartMarker Visible=""true"" IsFilled=""true""></ChartMarker>
+                </ChartSeries>
+            
+
+            <!-- TOOLTIP -->
+            <ChartTooltipSettings Enable=""true""
+                                  Header=""${point.x}""
+                                  Format=""Population : <b>${point.y}B</b>""
+                                  EnableHighlight=""true"">
+            </ChartTooltipSettings>
+        </SfChart>
+
+@code {
+    public class NumericRangePoint
+        {
+            public double X { get; set; }
+            public double Y1 { get; set; }
+        }
+    private List<NumericRangePoint> NumericRangeData = new()
+        {
+            new() { X = 2016, Y1 = 7.5 },
+            new() { X = 2017, Y1 = 7.6 },
+            new() { X = 2018, Y1 = 7.7 },
+            new() { X = 2019, Y1 = 7.81 },
+            new() { X = 2020, Y1 = 7.88 },
+            new() { X = 2021, Y1 = 7.95 },
+            new() { X = 2022, Y1 = 8.02 },
+            new() { X = 2023, Y1 = 8.09 },
+            new() { X = 2024, Y1 = 8.1 },
+            new() { X = 2025, Y1 = 8.2 }
+        };
+}";
+
+
+    private string RangePaddingCode => @"@using Syncfusion.Blazor.Toolkit.Charts
+    <div class=""mb-3"">
+            <label class=""fw-bold d-block mb-2"">Range Padding</label>
+
+            <SfButtonGroup Mode=""SelectionMode.Single"">
+                <ButtonGroupButton Selected=""@IsSelected(ChartRangePadding.None)""
+                                   SelectedChanged=""@(v => OnPaddingChanged(v, ChartRangePadding.None))"">
+                    None
+                </ButtonGroupButton>
+
+                <ButtonGroupButton Selected=""@IsSelected(ChartRangePadding.Normal)""
+                                   SelectedChanged=""@(v => OnPaddingChanged(v, ChartRangePadding.Normal))"">
+                    Normal
+                </ButtonGroupButton>
+
+                <ButtonGroupButton Selected=""@IsSelected(ChartRangePadding.Round)""
+                                   SelectedChanged=""@(v => OnPaddingChanged(v, ChartRangePadding.Round))"">
+                    Round
+                </ButtonGroupButton>
+
+                <ButtonGroupButton Selected=""@IsSelected(ChartRangePadding.Additional)""
+                                   SelectedChanged=""@(v => OnPaddingChanged(v, ChartRangePadding.Additional))"">
+                    Additional
+                </ButtonGroupButton>
+
+                <ButtonGroupButton Selected=""@IsSelected(ChartRangePadding.Auto)""
+                                   SelectedChanged=""@(v => OnPaddingChanged(v, ChartRangePadding.Auto))"">
+                    Auto
+                </ButtonGroupButton>
+            </SfButtonGroup>
+        </div>
+
+        <!-- SVG GRADIENT -->
+        <svg style=""height:0"">
+            <defs>
+                <linearGradient id=""gradient-fill-range""
+                                x1=""0"" y1=""0""
+                                x2=""0"" y2=""1"">
+                    <stop offset=""10%"" stop-color=""#5433FF40"" />
+                    <stop offset=""100%"" stop-color=""#5433FF"" />
+                </linearGradient>
+            </defs>
+        </svg>
+
+        <!-- CHART -->
+        <SfChart @key=""@_currentTheme"" Title=""World Population by Year"" Theme=""@_currentTheme"">
+            <ChartArea>
+                <ChartAreaBorder Width=""0""></ChartAreaBorder>
+            </ChartArea>
+
+            <!-- X AXIS -->
+            <ChartPrimaryXAxis ValueType=""Syncfusion.Blazor.Toolkit.ValueType.Double""
+                               RangePadding=""@RangePadding"">
+                <ChartAxisMajorGridLines Width=""0"" />
+                <ChartAxisMajorTickLines Width=""0"" />
+                <ChartAxisMinorTickLines Width=""0"" />
+            </ChartPrimaryXAxis>
+
+            <!-- Y AXIS -->
+            <ChartPrimaryYAxis Title=""Population in Billions"" Minimum=""7.2""
+                               Maximum=""8.1""
+                               Interval=""0.2"">
+                <ChartAxisLineStyle Width=""0"" />
+                <ChartAxisMajorTickLines Width=""0"" />
+            </ChartPrimaryYAxis>
+
+            <!-- SERIES -->
+            
+                <ChartSeries DataSource=""@NumericRangeData""
+                             XName=""X""
+                             YName=""Y1""
+                             Type=""ChartSeriesType.SplineArea""
+                             Width=""2""
+                             Fill=""url(#gradient-fill-range)"">
+                    <ChartSeriesBorder Width=""2"" Color=""#0066cc""></ChartSeriesBorder>
+                    <ChartMarker Visible=""true"" IsFilled=""true""></ChartMarker>
+                </ChartSeries>
+            
+
+            <!-- TOOLTIP -->
+            <ChartTooltipSettings Enable=""true""
+                                  Header=""${point.x}""
+                                  Format=""Population : <b>${point.y}B</b>""
+                                  EnableHighlight=""true"" />
+        </SfChart>
+@code {
+     private List<NumericRangePoint> NumericRangeData = new()
+    {
+        new() { X = 2016, Y1 = 7.5 },
+        new() { X = 2017, Y1 = 7.6 },
+        new() { X = 2018, Y1 = 7.7 },
+        new() { X = 2019, Y1 = 7.81 },
+        new() { X = 2020, Y1 = 7.88 },
+        new() { X = 2021, Y1 = 7.95 },
+        new() { X = 2022, Y1 = 8.02 },
+        new() { X = 2023, Y1 = 8.09 },
+        new() { X = 2024, Y1 = 8.1 },
+        new() { X = 2025, Y1 = 8.2 }
+    };
+    
+    public class NumericLabelPoint
+    {
+        public double X { get; set; }
+        public double Y1 { get; set; }
+        public string Color { get; set; } = string.Empty;
+    }
+   private ChartRangePadding RangePadding { get; set; }
+        = ChartRangePadding.None;
+
+    private bool IsSelected(ChartRangePadding padding)
+        => RangePadding == padding;
+
+    private void OnPaddingChanged(bool selected, ChartRangePadding padding)
+    {
+        if (selected)
+        {
+            RangePadding = padding;
+        }
+    }
+}";
+
+    private string LabelFormatCode => @"@using Syncfusion.Blazor.Toolkit.Charts
+
+
+<SfChart Title=""Annual Sales Revenue (in Billions USD)"">
+    <ChartArea>
+        <ChartAreaBorder Width=""0"" />
+    </ChartArea>
+
+    <ChartPrimaryYAxis Minimum=""7"" Maximum=""8.2"" Interval=""0.2""
+                       LabelFormat=""${value}"">
+        <ChartAxisLineStyle Width=""0"" />
+        <ChartAxisMajorTickLines Width=""0"" />
+        <ChartAxisTitle Text=""Sales in Dollars"" />
+    </ChartPrimaryYAxis>
+
+    <ChartPrimaryXAxis ValueType=""Syncfusion.Blazor.Toolkit.ValueType.Double""
+                       Interval=""1"">
+        <ChartAxisLabel RotationAngle=""0"" />
+        <ChartAxisMajorGridLines Width=""0"" />
+        <ChartAxisMajorTickLines Width=""0"" />
+    </ChartPrimaryXAxis>
+
+    
+        <ChartSeries DataSource=""NumericLabelData""
+                     XName=""X"" YName=""Y1""
+                     Type=""ChartSeriesType.Column""
+                     PointColorMapping=""Color""
+                     ColumnWidth=""0.5"">
+            <ChartCornerRadius TopLeft=""5"" TopRight=""5"" />
+        </ChartSeries>
+    
+
+    <ChartTooltipSettings Enable=""true""
+                          Header=""${point.x}""
+                          Format=""Sales : <b>${point.y}B</b>""
+                          EnableHighlight=""true"" />
+</SfChart>
+
+@code {
+    public class NumericLabelPoint
+        {
+            public double X { get; set; }
+            public double Y1 { get; set; }
+            public string Color { get; set; } = string.Empty;
+        }
+    private List<NumericLabelPoint> NumericLabelData = new()
+        {
+            new() { X = 2016, Y1 = 7.5,  Color = ""#E433F6"" },
+            new() { X = 2017, Y1 = 7.6,  Color = ""#D833F3"" },
+            new() { X = 2018, Y1 = 7.7,  Color = ""#C931EE"" },
+            new() { X = 2019, Y1 = 7.81, Color = ""#BB30EA"" },
+            new() { X = 2020, Y1 = 7.88, Color = ""#B030E7"" },
+            new() { X = 2021, Y1 = 7.95, Color = ""#A92FE5"" },
+            new() { X = 2022, Y1 = 8.02, Color = ""#972DDE"" },
+            new() { X = 2023, Y1 = 8.09, Color = ""#8D2CDC"" },
+            new() { X = 2024, Y1 = 8.1,  Color = ""#7F2BD7"" },
+            new() { X = 2025, Y1 = 8.2,  Color = ""#6829D0"" }
+        };
+}";
+
+
+    private string CustomLabelFormatCode => @"@using Syncfusion.Blazor.Toolkit.Charts
+    <SfChart Title=""Yearly Temperature Readings (°F)"">
+            <ChartArea>
+                <ChartAreaBorder Width=""0""></ChartAreaBorder>
+            </ChartArea>
+
+            <!-- Y AXIS -->
+            <ChartPrimaryYAxis Minimum=""50""
+                               Maximum=""57""
+                               LabelFormat=""{value}°F"">
+                <ChartAxisLineStyle Width=""0"" />
+                <ChartAxisMajorTickLines Width=""0"" />
+            </ChartPrimaryYAxis>
+
+            <!-- X AXIS -->
+            <ChartPrimaryXAxis ValueType=""Syncfusion.Blazor.Toolkit.ValueType.Double""
+                               Interval=""1"">
+                <ChartAxisMajorGridLines Width=""0"" />
+                <ChartAxisMajorTickLines Width=""0"" />
+                <ChartAxisMinorTickLines Width=""0"" />
+            </ChartPrimaryXAxis>
+
+            <!-- SERIES -->
+            
+                <ChartSeries DataSource=""@NumericFormatData""
+                             XName=""X""
+                             YName=""Y""
+                             Type=""ChartSeriesType.Column""
+                             Fill=""#7D8D86""
+                             ColumnWidth=""0.5"">
+                    <ChartCornerRadius TopLeft=""5"" TopRight=""5""></ChartCornerRadius>
+                </ChartSeries>
+            
+
+            <!-- TOOLTIP -->
+            <ChartTooltipSettings Enable=""true""
+                                  Header=""${point.x}""
+                                  Format=""Temperature : <b>${point.y}</b>""
+                                  EnableHighlight=""true"">
+            </ChartTooltipSettings>
+
+        </SfChart>
+
+@code {
+    public class NumericFormatPoint
+        {
+            public double X { get; set; }
+            public double Y { get; set; }
+        }
+    private List<NumericFormatPoint> NumericFormatData = new()
+        {
+            new() { X = 2010, Y = 52.7 },
+            new() { X = 2011, Y = 51.8 },
+            new() { X = 2012, Y = 56.6 },
+            new() { X = 2013, Y = 53.3 },
+            new() { X = 2014, Y = 55.6 },
+            new() { X = 2015, Y = 54.3 },
+            new() { X = 2016, Y = 53.2 },
+            new() { X = 2017, Y = 52.1 },
+            new() { X = 2018, Y = 55.2 }
+        };
+}";
+}

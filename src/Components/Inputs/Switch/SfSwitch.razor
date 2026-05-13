@@ -1,0 +1,42 @@
+@namespace Syncfusion.Blazor.Toolkit.Inputs
+@using Syncfusion.Blazor.Toolkit.Buttons
+@inherits SfSelectionBase<TChecked>
+@typeparam TChecked
+
+<div @ref="_container"
+     class="@_rootClass"
+     @onmousedown="OnMouseDownHandler"
+     @onclick="OnClickHandlerAsync"
+     @ontouchstart="OnTouchHandlerAsync"
+     @ontouchmove="OnTouchHandlerAsync"
+     @ontouchend="OnTouchHandlerAsync"
+     @ontouchend:preventDefault="@_preventDefault">
+
+    <input @ref="_input"
+           id="@_idValue"
+           class="e-control e-switch e-lib"
+           type="checkbox"
+           role="switch"
+           aria-checked="@GetAriaPressed()"
+           aria-disabled="@Disabled.ToString().ToLower()"
+           aria-labelledby="@(!string.IsNullOrWhiteSpace(Label) ? $"{_idValue}-label" : null)"
+           aria-label="@(string.IsNullOrWhiteSpace(Label) ? (!string.IsNullOrWhiteSpace(AriaLabel) ? AriaLabel : "Switch") : null)"
+           name="@Name"
+           value="@Value"
+           checked="@Checked"
+           disabled="@Disabled"
+           tabindex="0"
+           @attributes="@_inputAttributes" />
+
+    <span class="@_innerClass">
+        <span class="e-switch-on">@OnLabel</span>
+        <span class="e-switch-off">@OffLabel</span>
+    </span>
+
+    <span class="@_handleClass"></span>
+
+    @if (!string.IsNullOrWhiteSpace(Label))
+    {
+        <label id="@($"{_idValue}-label")" class="e-switch-label" for="@_idValue">@Label</label>
+    }
+</div>

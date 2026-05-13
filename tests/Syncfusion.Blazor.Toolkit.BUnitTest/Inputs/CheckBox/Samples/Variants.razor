@@ -1,0 +1,35 @@
+﻿@using Syncfusion.Blazor.Toolkit.Inputs
+
+@namespace Syncfusion.Blazor.Toolkit.Tests.Inputs
+
+<div class="sample">
+    <SfCheckBox Checked="true" CssClass=@cssClass></SfCheckBox>
+    <SfCheckBox Checked="true" EnableRtl=@rtl Label="RTL"></SfCheckBox>
+    <SfCheckBox Checked="true" Disabled=@disabled></SfCheckBox>
+    <SfCheckBox CssClass="e-small" Checked="true"></SfCheckBox>
+    <SfCheckBox CssClass="e-bigger" Checked="true"></SfCheckBox>
+    <SfCheckBox CssClass="e-bigger e-small" Checked="true"></SfCheckBox>
+    <SfCheckBox Checked="true" id="checkbox1" EnablePersistence="true"></SfCheckBox>
+    <SfCheckBox Checked="true" HtmlAttributes="@htmlAttributes"></SfCheckBox>
+</div>
+
+@code{
+
+    [Parameter]
+    public string cssClass { get; set; }="e-custom1 e-custom2";
+    [Parameter]
+    public bool rtl {get; set;}=true;
+
+    [Parameter]
+    public bool disabled {get;set;}=true;
+
+    private Dictionary<string, object> htmlAttributes;
+
+    protected override Task OnInitializedAsync()
+    {
+        htmlAttributes = new Dictionary<string, object>();
+        htmlAttributes.Add("title", "Checkbox tooltip");
+        htmlAttributes.Add("aria-label", "Checkbox");
+        return base.OnInitializedAsync();
+    }
+}

@@ -1,0 +1,113 @@
+@using Syncfusion.Blazor.Toolkit;
+@namespace Syncfusion.Blazor.Toolkit.Inputs
+@inherits SfBaseComponent
+@using Syncfusion.Blazor.Toolkit.Internal;
+@using Microsoft.AspNetCore.Components.Forms;
+
+<CascadingValue Value="@this">
+
+@ChildContent
+</CascadingValue>
+    <div class="@ContainerClass" @attributes="@_containerAttr">
+        <div class="@DROP_CONTAINER">
+            <button class="e-css e-btn e-upload-browse-btn" type="button" @attributes="@_browseBtnAttr">@this.BrowseBtnContent</button>
+            <span class="@InputContainer">
+                <InputFile id="@ID" @ref="FileElement" aria-label="uploader" @attributes="@_inputAttr" OnChange="@OnChange"></InputFile>
+                <CascadingValue Value="@this">
+                    @ChildContent
+                </CascadingValue>
+            </span>
+            <span class="@DROP_AREA"
+                role="region"
+                aria-label="@(Localizer[DROP_FILE_KEY])"
+                aria-live="polite"
+                aria-dropeffect="copy">@FileDropAreaContent</span>
+        </div>
+        @if (this.ShouldRenderFileList)
+        {
+            this._isActionButtonsHidden = false;
+            var listIndex = 0;
+            <ul class="@LIST_PARENT" @ref="@UlElementRef">
+                @foreach (var filedata in this.FileData)
+                {
+                    @if (this.Template == null)
+                    {
+                        listIndex++;
+                        this.FileListStatusName = filedata.Status;
+                        <li class="@this.FileListClass" data-file-name="@filedata.Name" data-files-count="1">
+                            <span class="e-file-container">
+                                @if (SyncfusionService is null || !SyncfusionService._options.EnableRtl)
+                                {
+                                    <span class="e-file-name" title="@filedata.Name">@GetFileName(filedata.Name)</span>
+                                    <span class="e-file-type">@("." + @GetFileType(filedata.Name))</span>
+                                }
+                                else
+                                {
+                                    <span class="@RTL_CONTAINER">
+                                        <span class="e-file-type">@("." + @GetFileType(filedata.Name))</span>
+                                        <span class="e-file-name" title="@filedata.Name">@GetFileName(filedata.Name)</span>
+                                    </span>
+                                }
+                                <span class="e-file-size">@GetFileSize(filedata.Size)</span>
+                                @if (filedata.ChunkSize == 0 && filedata.TotalChunkSize == 0 && filedata.StatusCode != "2")
+                                {
+                                    this.ValidatedFileSize(filedata);
+                                    <span class="@(this.FileListStatus + " " + this.UploadStatus)">@this.FileListStatusName</span>
+                                }
+                                else if ((this.FileIndex - 1 == listIndex - 1) && filedata.TotalChunkSize != filedata.ChunkSize)
+                                {
+                                    this.UploadStatus = UPLOAD_INPROGRESS;
+                                    <span class="@(this.FileListStatus + " " + this.UploadStatus)"></span>
+                                }
+                                else if ((string.IsNullOrEmpty(filedata.ValidationMessages.MinSize) && string.IsNullOrEmpty(filedata.ValidationMessages.MaxSize)) && filedata.StatusCode == "2")
+                                {
+                                    this.UploadStatus = UPLOAD_SUCCESS;
+                                this.FileListStatusName = Localizer[UPLOAD_SUCCESS_KEY];
+                                    <span class="@(this.FileListStatus + " " + this.UploadStatus)">@filedata.Status</span>
+                                }
+                                @if (this.IsShowProgressBar && filedata.Status == "Uploading")
+                                {
+                                    <span class="e-upload-progress-wrap">
+                                    <span class="e-progress-inner-wrap">
+                                        <progressbar class="@("e-upload-progress-bar" + " " + this.UploadStatus)" value="0" max="100" @attributes="@_progressBarAttr"></progressbar>
+                                    </span>
+                                        <span class="e-progress-bar-text">@(this.ProgressValue.ToString() + "%")</span>
+                                    </span>
+                                }
+                            </span>
+                        @if (filedata.Status == (Localizer[UPLOAD_SUCCESS_KEY]))
+                            {
+                            <span class="e-toolkit-icons e-trash @this.RemoveIconDisable" tabindex="@this.TabIndex" role="button" aria-label="@(Localizer[DELETE_KEY])" title="@(Localizer[DELETE_KEY])" @onkeydown="@((e) => KeyHandlerAsync(e, "remove", filedata))" @onclick="@((e) => RemoveHandlerAsync(filedata, e))"></span>
+                            }
+                            else
+                            {
+                            <span class="e-toolkit-icons e-close @this.RemoveIconDisable" tabindex="@this.TabIndex" role="button" aria-label="@(Localizer[REMOVE_KEY])" title="@(Localizer[REMOVE_KEY])" @onkeydown="@((e) => KeyHandlerAsync(e, "remove", filedata))" @onclick="@((e) => RemoveHandlerAsync(filedata, e))"></span>
+                            }
+                        </li>
+                    }
+                    else
+                    {
+                        <li class="@this.FileListClass" data-file-name="@filedata.Name" data-files-count="1">
+                            @this.Template(filedata)
+                        </li>
+                    }
+                }
+            </ul>
+        }
+        else
+        {
+            this._isActionButtonsHidden = true;
+        }
+        @if (!this.AutoUpload && !this.IsForm)
+        {
+            var actionbuttonclass = this._isActionButtonsHidden ? ACTION_BUTTONS + SPACE + HIDDEN : ACTION_BUTTONS;
+        var clearLocaleVal = Localizer[CLEAR_KEY];
+        var uploadLocaleVal = Localizer[UPLOAD_KEY];
+            var clearBtnContent = (this.UploadButtons?.Clear == "Clear") ? clearLocaleVal : this.UploadButtons?.Clear;
+            var uploadBtnContent = (this.UploadButtons?.Upload == "Upload") ? uploadLocaleVal : this.UploadButtons?.Upload;
+            <div class="@actionbuttonclass" @ref="@ActionButtonRef">
+            <button class="@CLEAR_BUTTONS" type="button" tabindex="@this.TabIndex" title="@clearBtnContent" @onkeydown="@((e)=>KeyHandlerAsync(e,"clear"))" @onclick="@ClearAllHandlerAsync">@clearBtnContent</button>
+            <button class="@UPLOAD_BUTTONS" @ref="@ButtonElement" @attributes="@_actionBtnAttr" type="button" tabindex="@this.TabIndex" title="@uploadBtnContent" @onkeydown="@((e)=>KeyHandlerAsync(e,"upload"))" @onclick="@UploadHandlerAsync">@uploadBtnContent</button>
+            </div>
+        }
+    </div> 

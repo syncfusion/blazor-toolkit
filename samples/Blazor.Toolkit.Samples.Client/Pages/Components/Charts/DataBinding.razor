@@ -1,0 +1,245 @@
+@page "/charts/databinding"
+@using Syncfusion.Blazor.Toolkit
+@using Syncfusion.Blazor.Toolkit.Charts
+@using System.Net.Http.Json
+@inject HttpClient Http
+
+<PageTitle>Data Binding — Chart</PageTitle>
+
+<Description>
+    <Header>
+        <h4><b>Chart Data Binding</b></h4>
+    </Header>
+    <Content>
+        Charts can render data‑driven visualizations from list data collections or from remote endpoints. This sample demonstrates two common binding patterns: direct local data binding and asynchronous remote data retrieval. Each example includes the Chart configuration and the minimal code required to reproduce it.
+    </Content>
+</Description>
+
+<Description>
+    <Header>
+        <h5><b>Local Data Binding</b></h5>
+    </Header>
+    <Content>
+       To bind data for the Chart component, you can assign an <code>IEnumerable</code> object to the <code>DataSource</code> property. 
+ </Content>
+</Description>
+<VirtualizeSection MinHeightPx="600px">
+    <CodePreview IsFullWidth="true" CodeSection="@LocalDirectCode">
+     <PreviewSection>
+       
+         <SfChart @key="@_currentTheme" Title="Employee Performance" Width="100%" Height="420px" Theme="@_currentTheme">
+            
+            <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Toolkit.ValueType.Category"></ChartPrimaryXAxis>
+            <ChartPrimaryYAxis Title="Performance" Minimum="0" Maximum="100" Interval="20"></ChartPrimaryYAxis>
+            
+                <ChartSeries Type="ChartSeriesType.Column" DataSource="@employeeDetails" XName="FirstName" YName="PerformanceScore" ColumnWidth="0.4" Name="Employees">
+                </ChartSeries>
+            
+            <ChartTooltipSettings Enable="true"></ChartTooltipSettings>
+        </SfChart>
+    </PreviewSection>
+</CodePreview>
+</VirtualizeSection>
+
+<Description>
+    <Header>
+        <h5><b>Remote Data Binding</b></h5>
+    </Header>
+    <Content>
+   Fetch remote JSON using <code>HttpClient.GetFromJsonAsync</code> (or any async fetch), map the payload to the Chart model, then assign it to <code>DataSource</code> so the Chart displays server-driven data.
+    </Content>
+</Description>
+<VirtualizeSection MinHeightPx="600px">
+    <CodePreview IsFullWidth="true" CodeSection="@RemoteAsyncCode">
+     <PreviewSection>
+       
+        @if (salesData.Any())
+        {
+            <SfChart @key="@_currentTheme" Theme="@_currentTheme">
+                <ChartPrimaryXAxis Title="Orders" ValueType="Syncfusion.Blazor.Toolkit.ValueType.Category"></ChartPrimaryXAxis>
+                
+                    <ChartSeries DataSource="@salesData" XName="OrderID" YName="Freight" Type="ChartSeriesType.Column">
+                    </ChartSeries>
+                
+            </SfChart>
+        }
+        else
+        {
+            <p>Loading...</p>
+        }
+    </PreviewSection>
+</CodePreview>
+</VirtualizeSection>
+@code {
+    [CascadingParameter]
+    private Theme CurrentTheme { get; set; } = Theme.Fluent;
+
+    private Theme _currentTheme = Theme.Fluent;
+
+    protected override void OnParametersSet()
+    {
+        _currentTheme = CurrentTheme;
+    }
+
+    private bool IsDarkTheme => _currentTheme.ToString().Contains("Dark") || _currentTheme.ToString().Contains("HighContrast");
+    private string TextColor => IsDarkTheme ? "#E6EEF8" : "#0B1F3B";
+    public class EmployeeDetail
+    {
+        public string FirstName { get; set; } = string.Empty;
+        public string LastName { get; set; } = string.Empty;
+        public string Email { get; set; } = string.Empty;
+        public string Phone { get; set; } = string.Empty;
+        public string Department { get; set; } = string.Empty;
+        public string Role { get; set; } = string.Empty;
+        public string Location { get; set; } = string.Empty;
+        public DateTime HireDate { get; set; }
+        public bool IsActive { get; set; }
+        public string ProfileImage { get; set; } = string.Empty;
+        public List<string> Skills { get; set; } = new List<string>();
+        public int PerformanceScore { get; set; }
+        public DateTime LastReviewDate { get; set; }
+        public string ManagerId { get; set; } = string.Empty;
+        public string LinkedIn { get; set; } = string.Empty;
+        public double Experience { get; set; }
+        public int EmployeeID { get; set; }
+    }
+
+    private List<EmployeeDetail> employeeDetails = new List<EmployeeDetail>
+    {
+        new EmployeeDetail {
+            FirstName = "David", LastName = "Jones", Email = "david.jones@company.com", Phone = "+1-334-902-3993", Department = "Marketing", Role = "Manager", Location = "San Francisco, USA", HireDate = DateTimeOffset.FromUnixTimeMilliseconds(1449889901523).DateTime, IsActive = false, ProfileImage = "https://company.com/images/emp10000.jpg", Skills = new List<string> { "Communication", "Leadership", "SEO" }, PerformanceScore = 86, LastReviewDate = DateTimeOffset.FromUnixTimeMilliseconds(1723950701523).DateTime, ManagerId = "EMP191", LinkedIn = "linkedin.com/in/david0", Experience = 9.6, EmployeeID = 10000
+        },
+        new EmployeeDetail {
+            FirstName = "Emma", LastName = "Brown", Email = "emma.brown@company.com", Phone = "+1-742-204-5269", Department = "Sales", Role = "QA Analyst", Location = "Chicago, USA", HireDate = DateTimeOffset.FromUnixTimeMilliseconds(1521169901523).DateTime, IsActive = true, ProfileImage = "https://company.com/images/emp10001.jpg", Skills = new List<string> { "Node.js", "Python", "React" }, PerformanceScore = 82, LastReviewDate = DateTimeOffset.FromUnixTimeMilliseconds(1744168301523).DateTime, ManagerId = "EMP180", LinkedIn = "linkedin.com/in/emma1", Experience = 7.4, EmployeeID = 10001
+        },
+        new EmployeeDetail {
+            FirstName = "Emily", LastName = "Brown", Email = "emily.brown@company.com", Phone = "+1-179-707-9780", Department = "Finance", Role = "DevOps Engineer", Location = "Chicago, USA", HireDate = DateTimeOffset.FromUnixTimeMilliseconds(1524453101523).DateTime, IsActive = false, ProfileImage = "https://company.com/images/emp10003.jpg", Skills = new List<string> { "SEO", "Java", "Leadership" }, PerformanceScore = 91, LastReviewDate = DateTimeOffset.FromUnixTimeMilliseconds(1734318701523).DateTime, ManagerId = "EMP145", LinkedIn = "linkedin.com/in/emily3", Experience = 7.3, EmployeeID = 10003
+        },
+        new EmployeeDetail {
+            FirstName = "Michael", LastName = "Martinez", Email = "michael.martinez@company.com", Phone = "+1-512-334-6660", Department = "Sales", Role = "Developer", Location = "Chicago, USA", HireDate = DateTimeOffset.FromUnixTimeMilliseconds(1439694701523).DateTime, IsActive = true, ProfileImage = "https://company.com/images/emp10004.jpg", Skills = new List<string> { "React", "Node.js", "Communication" }, PerformanceScore = 52, LastReviewDate = DateTimeOffset.FromUnixTimeMilliseconds(1727147501523).DateTime, ManagerId = "EMP146", LinkedIn = "linkedin.com/in/michael4", Experience = 9.9, EmployeeID = 10004
+        },
+        new EmployeeDetail {
+            FirstName = "James", LastName = "Williams", Email = "james.williams@company.com", Phone = "+1-745-257-1661", Department = "Sales", Role = "Recruiter", Location = "San Francisco, USA", HireDate = DateTimeOffset.FromUnixTimeMilliseconds(1693192301524).DateTime, IsActive = true, ProfileImage = "https://company.com/images/emp10006.jpg", Skills = new List<string> { "Node.js", "React", "Java" }, PerformanceScore = 78, LastReviewDate = DateTimeOffset.FromUnixTimeMilliseconds(1739934701524).DateTime, ManagerId = "EMP127", LinkedIn = "linkedin.com/in/james6", Experience = 1.9, EmployeeID = 10006
+        },
+        new EmployeeDetail {
+            FirstName = "Sarah", LastName = "Smith", Email = "sarah.smith@company.com", Phone = "+1-384-933-1262", Department = "Sales", Role = "Accountant", Location = "New York, USA", HireDate = DateTimeOffset.FromUnixTimeMilliseconds(1490411501524).DateTime, IsActive = true, ProfileImage = "https://company.com/images/emp10007.jpg", Skills = new List<string> { "Python", "React", "Java" }, PerformanceScore = 88, LastReviewDate = DateTimeOffset.FromUnixTimeMilliseconds(1736219501524).DateTime, ManagerId = "EMP129", LinkedIn = "linkedin.com/in/sarah7", Experience = 8.3, EmployeeID = 10007
+        }
+    };
+
+    private List<ChartData> salesData = new List<ChartData>();
+
+    protected override async Task OnInitializedAsync()
+    {
+        _currentTheme = CurrentTheme;
+        salesData = await Http.GetFromJsonAsync<List<ChartData>>("https://blazor.syncfusion.com/services/production/api/Orders") ?? new List<ChartData>();
+    }
+
+    public class ChartData
+    {
+        public int OrderID { get; set; }
+        public double Freight { get; set; }
+    }
+
+    // Code snippets for display in sample (keeps preview + source in sync)
+    private string LocalDirectCode => @"@using Syncfusion.Blazor.Toolkit.Charts
+
+<SfChart @key=""@_currentTheme"" Title=""Employee Performance"" Width=""100%"" Height=""420px"" Theme=""@_currentTheme"">
+    <ChartPrimaryXAxis ValueType=""Syncfusion.Blazor.Toolkit.ValueType.Category""></ChartPrimaryXAxis>
+    <ChartPrimaryYAxis Title=""Performance"" Minimum=""0"" Maximum=""100"" Interval=""20""></ChartPrimaryYAxis>
+    
+        <ChartSeries Type=""ChartSeriesType.Column"" DataSource=""@employeeDetails"" XName=""FirstName"" YName=""PerformanceScore"" ColumnWidth=""0.4"" Name=""Employees""></ChartSeries>
+    
+    <ChartTooltipSettings Enable=""true""></ChartTooltipSettings>
+</SfChart>
+
+@code {
+    private Theme _currentTheme = Theme.Fluent;
+    public class EmployeeDetail
+        {
+            public string FirstName { get; set; } = string.Empty;
+            public string LastName { get; set; } = string.Empty;
+            public string Email { get; set; } = string.Empty;
+            public string Phone { get; set; } = string.Empty;
+            public string Department { get; set; } = string.Empty;
+            public string Role { get; set; } = string.Empty;
+            public string Location { get; set; } = string.Empty;
+            public DateTime HireDate { get; set; }
+            public bool IsActive { get; set; }
+            public string ProfileImage { get; set; } = string.Empty;
+            public List<string> Skills { get; set; } = new List<string>();
+            public int PerformanceScore { get; set; }
+            public DateTime LastReviewDate { get; set; }
+            public string ManagerId { get; set; } = string.Empty;
+            public string LinkedIn { get; set; } = string.Empty;
+            public double Experience { get; set; }
+            public int EmployeeID { get; set; }
+        }
+    private List<EmployeeDetail> employeeDetails = new List<EmployeeDetail>
+        {
+            new EmployeeDetail {
+                FirstName = ""David"", LastName = ""Jones"", Email = ""david.jones@company.com"", Phone = ""+1-334-902-3993"", Department = ""Marketing"", Role = ""Manager"", Location = ""San Francisco, USA"", HireDate = DateTimeOffset.FromUnixTimeMilliseconds(1449889901523).DateTime, IsActive = false, ProfileImage = ""https://company.com/images/emp10000.jpg"", Skills = new List<string> { ""Communication"", ""Leadership"", ""SEO"" }, PerformanceScore = 86, LastReviewDate = DateTimeOffset.FromUnixTimeMilliseconds(1723950701523).DateTime, ManagerId = ""EMP191"", LinkedIn = ""linkedin.com/in/david0"", Experience = 9.6, EmployeeID = 10000
+            },
+            new EmployeeDetail {
+                FirstName = ""Emma"", LastName = ""Brown"", Email = ""emma.brown@company.com"", Phone = ""+1-742-204-5269"", Department = ""Sales"", Role = ""QA Analyst"", Location = ""Chicago, USA"", HireDate = DateTimeOffset.FromUnixTimeMilliseconds(1521169901523).DateTime, IsActive = true, ProfileImage = ""https://company.com/images/emp10001.jpg"", Skills = new List<string> { ""Node.js"", ""Python"", ""React"" }, PerformanceScore = 82, LastReviewDate = DateTimeOffset.FromUnixTimeMilliseconds(1744168301523).DateTime, ManagerId = ""EMP180"", LinkedIn = ""linkedin.com/in/emma1"", Experience = 7.4, EmployeeID = 10001
+            },
+            new EmployeeDetail {
+                FirstName = ""Emily"", LastName = ""Brown"", Email = ""emily.brown@company.com"", Phone = ""+1-179-707-9780"", Department = ""Finance"", Role = ""DevOps Engineer"", Location = ""Chicago, USA"", HireDate = DateTimeOffset.FromUnixTimeMilliseconds(1524453101523).DateTime, IsActive = false, ProfileImage = ""https://company.com/images/emp10003.jpg"", Skills = new List<string> { ""SEO"", ""Java"", ""Leadership"" }, PerformanceScore = 91, LastReviewDate = DateTimeOffset.FromUnixTimeMilliseconds(1734318701523).DateTime, ManagerId = ""EMP145"", LinkedIn = ""linkedin.com/in/emily3"", Experience = 7.3, EmployeeID = 10003
+            },
+            new EmployeeDetail {
+                FirstName = ""Michael"", LastName = ""Martinez"", Email = ""michael.martinez@company.com"", Phone = ""+1-512-334-6660"", Department = ""Sales"", Role = ""Developer"", Location = ""Chicago, USA"", HireDate = DateTimeOffset.FromUnixTimeMilliseconds(1439694701523).DateTime, IsActive = true, ProfileImage = ""https://company.com/images/emp10004.jpg"", Skills = new List<string> { ""React"", ""Node.js"", ""Communication"" }, PerformanceScore = 52, LastReviewDate = DateTimeOffset.FromUnixTimeMilliseconds(1727147501523).DateTime, ManagerId = ""EMP146"", LinkedIn = ""linkedin.com/in/michael4"", Experience = 9.9, EmployeeID = 10004
+            },
+            new EmployeeDetail {
+                FirstName = ""James"", LastName = ""Williams"", Email = ""james.williams@company.com"", Phone = ""+1-745-257-1661"", Department = ""Sales"", Role = ""Recruiter"", Location = ""San Francisco, USA"", HireDate = DateTimeOffset.FromUnixTimeMilliseconds(1693192301524).DateTime, IsActive = true, ProfileImage = ""https://company.com/images/emp10006.jpg"", Skills = new List<string> { ""Node.js"", ""React"", ""Java"" }, PerformanceScore = 78, LastReviewDate = DateTimeOffset.FromUnixTimeMilliseconds(1739934701524).DateTime, ManagerId = ""EMP127"", LinkedIn = ""linkedin.com/in/james6"", Experience = 1.9, EmployeeID = 10006
+            },
+            new EmployeeDetail {
+                FirstName = ""Sarah"", LastName = ""Smith"", Email = ""sarah.smith@company.com"", Phone = ""+1-384-933-1262"", Department = ""Sales"", Role = ""Accountant"", Location = ""New York, USA"", HireDate = DateTimeOffset.FromUnixTimeMilliseconds(1490411501524).DateTime, IsActive = true, ProfileImage = ""https://company.com/images/emp10007.jpg"", Skills = new List<string> { ""Python"", ""React"", ""Java"" }, PerformanceScore = 88, LastReviewDate = DateTimeOffset.FromUnixTimeMilliseconds(1736219501524).DateTime, ManagerId = ""EMP129"", LinkedIn = ""linkedin.com/in/sarah7"", Experience = 8.3, EmployeeID = 10007
+            }
+        };
+}";
+
+    private string RemoteAsyncCode => @"@using Syncfusion.Blazor.Charts
+@using System.Net.Http.Json
+
+@if (salesData.Any())
+{
+    <SfChart @key=""@_currentTheme"" Theme=""@_currentTheme"">
+        <ChartPrimaryXAxis Title=""Orders"" ValueType=""Syncfusion.Blazor.Charts.ValueType.Category""></ChartPrimaryXAxis>
+        
+            <ChartSeries DataSource=""@salesData"" XName=""OrderID"" YName=""Freight"" Type=""Syncfusion.Blazor.Charts.ChartSeriesType.Column""></ChartSeries>
+        
+    </SfChart>
+}
+else
+{
+    <p>Loading...</p>
+}
+
+@code {
+    private List<ChartData> salesData = new List<ChartData>();
+
+    [Inject]
+    private HttpClient Http { get; set; }
+    
+    [CascadingParameter]
+    private Theme CurrentTheme { get; set; } = Theme.Fluent;
+
+    private Theme _currentTheme = Theme.Fluent;
+
+    protected override void OnParametersSet()
+    {
+        _currentTheme = CurrentTheme;
+    }
+    protected override async Task OnInitializedAsync()
+    {
+        _currentTheme = CurrentTheme;
+        // Fetch and deserialize the remote data (direct JSON array)
+        salesData = await Http.GetFromJsonAsync<List<ChartData>>(""https://blazor.syncfusion.com/services/production/api/Orders"") ?? new List<ChartData>();
+    }
+
+    public class ChartData
+    {
+        public int OrderID { get; set; }
+        public double Freight { get; set; }
+    }
+}";
+}

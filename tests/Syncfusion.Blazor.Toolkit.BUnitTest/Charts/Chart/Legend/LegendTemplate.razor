@@ -1,0 +1,475 @@
+﻿@using Syncfusion.Blazor.Toolkit.Charts
+@using Syncfusion.Blazor.Toolkit.Tests
+@using Syncfusion.Blazor.Toolkit.Charts
+@using Syncfusion.Blazor.Toolkit.Charts.Internal
+@using Bunit
+@using Xunit
+
+@inherits TestComponentBase
+
+<SfFixture @ref="fixture" TestAsync="CheckingChartLegendTemplateAuto" Description="CheckingChartLegendTemplateAuto">
+    <ComponentUnderTest>
+        <SfChart ID="container" Title="Olympic Medals">
+            <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Toolkit.ValueType.Category" />
+            <ChartSeriesCollection>
+                <ChartSeries DataSource="@MedalDetails" Name="Gold" XName="Country" Width="2" Opacity="1" YName="Gold" Type="ChartSeriesType.Column">
+                    <LegendItemTemplate>
+                        <div>
+                            Gold Medals
+                        </div>
+                    </LegendItemTemplate>
+                </ChartSeries>
+                <ChartSeries DataSource="@MedalDetails" Name="Silver" XName="Country" Width="2" Opacity="1" YName="Silver" Type="ChartSeriesType.Column">
+                    <LegendItemTemplate>
+                        <div>
+                            Silver Medals
+                        </div>
+                    </LegendItemTemplate>
+                </ChartSeries>
+                <ChartSeries DataSource="@MedalDetails" Name="Bronze" XName="Country" Width="2" Opacity="1" YName="Bronze" Type="ChartSeriesType.Column">
+                    <LegendItemTemplate>
+                        <div>
+                            Bronze Medals
+                        </div>
+                    </LegendItemTemplate>
+                </ChartSeries>
+            </ChartSeriesCollection>
+            <ChartLegendSettings Visible="true" Width="400px" Height="50px" IsInversed="true" ItemPadding="35" Padding="10" ShapeHeight="15" ShapeWidth="15" ShapePadding="9" Background="gray" Opacity="0.8" ToggleVisibility="false" AccessibilityDescriptionFormat="chart legend template" TabIndex="1">
+                <ChartLegendBorder Width="2" Color="red"></ChartLegendBorder>
+            </ChartLegendSettings>
+        </SfChart>
+    </ComponentUnderTest>
+</SfFixture>
+
+@code {
+    SfFixture fixture { get; set; }
+    async Task CheckingChartLegendTemplateAuto(Fixture fixture)
+    {
+        var cut = fixture.GetComponentUnderTest<SfChart>();
+        await Task.Delay(200);
+        var elements = cut.Find("#container_Secondary_Element");
+        Assert.True(elements.ChildElementCount == 6);
+        Assert.True(elements.Children[4].Id == "container_ChartSeries_LegendTemplateCollection");
+        var templateCollection = cut.Find("#container_ChartSeries_LegendTemplateCollection");
+        Assert.True(templateCollection.ChildElementCount == 3);
+        var legendElement = cut.Find("#container_chart_legend_element");
+        Assert.True(legendElement.GetAttribute("height") == "50");
+        Assert.True(legendElement.GetAttribute("width") == "400");
+        Assert.True(legendElement.GetAttribute("stroke") == "red");
+        Assert.True(legendElement.GetAttribute("stroke-width") == "2");
+        Assert.True(legendElement.GetAttribute("fill") == "gray");
+        var legend0 = cut.Find("#container_chart_legend_g_0");
+        Assert.True(legend0.ChildElementCount == 0);
+        var legend1 = cut.Find("#container_chart_legend_g_1");
+        Assert.True(legend1.ChildElementCount == 0);
+        var legend2 = cut.Find("#container_chart_legend_g_2");
+        Assert.True(legend2.ChildElementCount == 0);
+        var legendTemplate0 = cut.Find("#container_chart_legend_template_0");
+        // Note: Values may vary slightly depending on screen resolution.
+        Assert.True(legendTemplate0.GetAttribute("style") == "position: absolute; visibility: hidden; left: 216.625px; top: 399.75px; pointer-events: bounding-box; cursor: default; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;");
+        var legendTemplate1 = cut.Find("#container_chart_legend_template_1");
+        Assert.True(legendTemplate1.GetAttribute("style") == "position: absolute; visibility: hidden; left: 280px; top: 399.75px; pointer-events: bounding-box; cursor: default; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;");
+        var legendTemplate2 = cut.Find("#container_chart_legend_template_2");
+        Assert.True(legendTemplate2.GetAttribute("style") == "position: absolute; visibility: hidden; left: 349.5px; top: 399.75px; pointer-events: bounding-box; cursor: default; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;");
+        cut.SetParametersAndRender();
+    }
+
+    public class ChartData
+    {
+        public string Country { get; set; }
+        public double Gold { get; set; }
+        public double Silver { get; set; }
+        public double Bronze { get; set; }
+    }
+
+    public List<ChartData> MedalDetails = new List<ChartData>
+    {
+        new ChartData{ Country= "USA", Gold=50, Silver=70, Bronze=45 },
+        new ChartData{ Country="China", Gold=40, Silver= 60, Bronze=55 },
+        new ChartData{ Country= "Japan", Gold=70, Silver= 60, Bronze=50 },
+        new ChartData{ Country= "Australia", Gold=60, Silver= 56, Bronze=40 },
+        new ChartData{ Country= "France", Gold=50, Silver= 45, Bronze=35 },
+        new ChartData{ Country= "Germany", Gold=40, Silver=30, Bronze=22 },
+        new ChartData{ Country= "Italy", Gold=40, Silver=35, Bronze=37 },
+        new ChartData{ Country= "Sweden", Gold=30, Silver=25, Bronze=27 }
+    };
+}
+
+<SfFixture @ref="sfFixture1" TestAsync="CheckingChartLegendTemplatePositionRight" Description="CheckingChartLegendTemplatePositionRight">
+    <ComponentUnderTest>
+        <SfChart ID="container" Title="Olympic Medals">
+            <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Toolkit.ValueType.Category" />
+            <ChartSeriesCollection>
+                <ChartSeries DataSource="@MedalDetails" Name="Gold" XName="Country" Width="2" Opacity="1" YName="Gold" Type="ChartSeriesType.Column">
+                    <LegendItemTemplate>
+                        <div style="border: 2px solid #4CAF50; background-color: #E8F5E9; padding: 5px; border-radius: 4px;">
+                            Gold Medals
+                        </div>
+                    </LegendItemTemplate>
+                </ChartSeries>
+                <ChartSeries DataSource="@MedalDetails" Name="Silver" XName="Country" Width="2" Opacity="1" YName="Silver" Type="ChartSeriesType.Column">
+                    <LegendItemTemplate>
+                        <div style="border: 2px solid #4CAF50; background-color: #E8F5E9; padding: 5px; border-radius: 4px;">
+                            Silver Medals
+                        </div>
+                    </LegendItemTemplate>
+                </ChartSeries>
+                <ChartSeries DataSource="@MedalDetails" Name="Bronze" XName="Country" Width="2" Opacity="1" YName="Bronze" Type="ChartSeriesType.Column">
+                    <LegendItemTemplate>
+                        <div style="border: 2px solid #4CAF50; background-color: #E8F5E9; padding: 5px; border-radius: 4px;">
+                            Bronze Medals
+                        </div>
+                    </LegendItemTemplate>
+                </ChartSeries>
+            </ChartSeriesCollection>
+            <ChartLegendSettings Visible="true" Position="LegendPosition.Right" />
+        </SfChart>
+    </ComponentUnderTest>
+</SfFixture>
+@code {
+    SfFixture sfFixture1 { get; set; }
+    async Task CheckingChartLegendTemplatePositionRight(Fixture sfFixture1)
+    {
+        var cut = sfFixture1.GetComponentUnderTest<SfChart>();
+        await Task.Delay(200);
+        var legendTemplate0 = cut.Find("#container_chart_legend_template_0");
+        // Note: Values may vary slightly depending on screen resolution.
+        Assert.True(legendTemplate0.GetAttribute("style") == "position: absolute; visibility: hidden; left: 539.125px; top: 207.60000000000002px; pointer-events: bounding-box; cursor: pointer; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;");
+        var legendTemplate1 = cut.Find("#container_chart_legend_template_1");
+        Assert.True(legendTemplate1.GetAttribute("style") == "position: absolute; visibility: hidden; left: 539.125px; top: 233.8px; pointer-events: bounding-box; cursor: pointer; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;");
+        var legendTemplate2 = cut.Find("#container_chart_legend_template_2");
+        Assert.True(legendTemplate2.GetAttribute("style") == "position: absolute; visibility: hidden; left: 539.125px; top: 260px; pointer-events: bounding-box; cursor: pointer; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;");
+        cut.SetParametersAndRender();
+    }
+}
+
+<SfFixture @ref="sfFixture2" TestAsync="CheckingChartLegendTemplatePositionLeft" Description="CheckingChartLegendTemplatePositionLeft">
+    <ComponentUnderTest>
+        <SfChart ID="container" Title="Olympic Medals">
+            <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Toolkit.ValueType.Category" />
+            <ChartSeriesCollection>
+                <ChartSeries DataSource="@MedalDetails" Name="Gold" XName="Country" Width="2" Opacity="1" YName="Gold" Type="ChartSeriesType.Column">
+                    <LegendItemTemplate>
+                        <div style="border: 2px solid #4CAF50; background-color: #E8F5E9; padding: 5px; border-radius: 4px;">
+                            Gold Medals
+                        </div>
+                    </LegendItemTemplate>
+                </ChartSeries>
+                <ChartSeries DataSource="@MedalDetails" Name="Silver" XName="Country" Width="2" Opacity="1" YName="Silver" Type="ChartSeriesType.Column">
+                    <LegendItemTemplate>
+                        <div style="border: 2px solid #4CAF50; background-color: #E8F5E9; padding: 5px; border-radius: 4px;">
+                            Silver Medals
+                        </div>
+                    </LegendItemTemplate>
+                </ChartSeries>
+                <ChartSeries DataSource="@MedalDetails" Name="Bronze" XName="Country" Width="2" Opacity="1" YName="Bronze" Type="ChartSeriesType.Column">
+                    <LegendItemTemplate>
+                        <div style="border: 2px solid #4CAF50; background-color: #E8F5E9; padding: 5px; border-radius: 4px;">
+                            Bronze Medals
+                        </div>
+                    </LegendItemTemplate>
+                </ChartSeries>
+            </ChartSeriesCollection>
+            <ChartLegendSettings Visible="true" Position="LegendPosition.Left" />
+        </SfChart>
+    </ComponentUnderTest>
+</SfFixture>
+@code {
+    SfFixture sfFixture2 { get; set; }
+    async Task CheckingChartLegendTemplatePositionLeft(Fixture sfFixture2)
+    {
+        var cut = sfFixture2.GetComponentUnderTest<SfChart>();
+        await Task.Delay(200);
+        var legendTemplate0 = cut.Find("#container_chart_legend_template_0");
+        // Note: Values may vary slightly depending on screen resolution.
+        Assert.True(legendTemplate0.GetAttribute("style") == "position: absolute; visibility: hidden; left: 18px; top: 207.60000000000002px; pointer-events: bounding-box; cursor: pointer; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;");
+        var legendTemplate1 = cut.Find("#container_chart_legend_template_1");
+        Assert.True(legendTemplate1.GetAttribute("style") == "position: absolute; visibility: hidden; left: 18px; top: 233.8px; pointer-events: bounding-box; cursor: pointer; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;");
+        var legendTemplate2 = cut.Find("#container_chart_legend_template_2");
+        Assert.True(legendTemplate2.GetAttribute("style") == "position: absolute; visibility: hidden; left: 18px; top: 260px; pointer-events: bounding-box; cursor: pointer; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;");
+        cut.SetParametersAndRender();
+    }
+}
+
+<SfFixture @ref="sfFixture3" TestAsync="CheckingChartLegendTemplatePositionTop" Description="CheckingChartLegendTemplatePositionTop">
+    <ComponentUnderTest>
+        <SfChart ID="container" Title="Olympic Medals">
+            <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Toolkit.ValueType.Category" />
+            <ChartSeriesCollection>
+                <ChartSeries DataSource="@MedalDetails" Name="Gold" XName="Country" Width="2" Opacity="1" YName="Gold" Type="ChartSeriesType.Column">
+                    <LegendItemTemplate>
+                        <div style="border: 2px solid #4CAF50; background-color: #E8F5E9; padding: 5px; border-radius: 4px;">
+                            Gold Medals
+                        </div>
+                    </LegendItemTemplate>
+                </ChartSeries>
+                <ChartSeries DataSource="@MedalDetails" Name="Silver" XName="Country" Width="2" Opacity="1" YName="Silver" Type="ChartSeriesType.Column">
+                    <LegendItemTemplate>
+                        <div style="border: 2px solid #4CAF50; background-color: #E8F5E9; padding: 5px; border-radius: 4px;">
+                            Silver Medals
+                        </div>
+                    </LegendItemTemplate>
+                </ChartSeries>
+                <ChartSeries DataSource="@MedalDetails" Name="Bronze" XName="Country" Width="2" Opacity="1" YName="Bronze" Type="ChartSeriesType.Column">
+                    <LegendItemTemplate>
+                        <div style="border: 2px solid #4CAF50; background-color: #E8F5E9; padding: 5px; border-radius: 4px;">
+                            Bronze Medals
+                        </div>
+                    </LegendItemTemplate>
+                </ChartSeries>
+            </ChartSeriesCollection>
+            <ChartLegendSettings Visible="true" Position="LegendPosition.Top" />
+        </SfChart>
+    </ComponentUnderTest>
+</SfFixture>
+@code {
+    SfFixture sfFixture3 { get; set; }
+    async Task CheckingChartLegendTemplatePositionTop(Fixture sfFixture3)
+    {
+        var cut = sfFixture3.GetComponentUnderTest<SfChart>();
+        await Task.Delay(200);
+        var legendTemplate0 = cut.Find("#container_chart_legend_template_0");
+        // Note: Values may vary slightly depending on screen resolution.
+        Assert.True(legendTemplate0.GetAttribute("style") == "position: absolute; visibility: hidden; left: 226.625px; top: 54.3px; pointer-events: bounding-box; cursor: pointer; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;");
+        var legendTemplate1 = cut.Find("#container_chart_legend_template_1");
+        Assert.True(legendTemplate1.GetAttribute("style") == "position: absolute; visibility: hidden; left: 275px; top: 54.3px; pointer-events: bounding-box; cursor: pointer; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;");
+        var legendTemplate2 = cut.Find("#container_chart_legend_template_2");
+        Assert.True(legendTemplate2.GetAttribute("style") == "position: absolute; visibility: hidden; left: 329.5px; top: 54.3px; pointer-events: bounding-box; cursor: pointer; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;");
+        cut.SetParametersAndRender();
+    }
+}
+
+<SfFixture @ref="sfFixture4" TestAsync="CheckingChartLegendTemplatePositionCustom" Description="CheckingChartLegendTemplatePositionCustom">
+    <ComponentUnderTest>
+        <SfChart ID="container" Title="Olympic Medals">
+            <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Toolkit.ValueType.Category" />
+            <ChartSeriesCollection>
+                <ChartSeries DataSource="@MedalDetails" Name="Gold" XName="Country" Width="2" Opacity="1" YName="Gold" Type="ChartSeriesType.Column">
+                    <LegendItemTemplate>
+                        <div style="border: 2px solid #4CAF50; background-color: #E8F5E9; padding: 5px; border-radius: 4px;">
+                            Gold Medals
+                        </div>
+                    </LegendItemTemplate>
+                </ChartSeries>
+                <ChartSeries DataSource="@MedalDetails" Name="Silver" XName="Country" Width="2" Opacity="1" YName="Silver" Type="ChartSeriesType.Column">
+                    <LegendItemTemplate>
+                        <div style="border: 2px solid #4CAF50; background-color: #E8F5E9; padding: 5px; border-radius: 4px;">
+                            Silver Medals
+                        </div>
+                    </LegendItemTemplate>
+                </ChartSeries>
+                <ChartSeries DataSource="@MedalDetails" Name="Bronze" XName="Country" Width="2" Opacity="1" YName="Bronze" Type="ChartSeriesType.Column">
+                    <LegendItemTemplate>
+                        <div style="border: 2px solid #4CAF50; background-color: #E8F5E9; padding: 5px; border-radius: 4px;">
+                            Bronze Medals
+                        </div>
+                    </LegendItemTemplate>
+                </ChartSeries>
+            </ChartSeriesCollection>
+            <ChartLegendSettings Visible="true" Position="LegendPosition.Custom">
+                <ChartLocation X="500" Y="20"></ChartLocation>
+            </ChartLegendSettings>
+        </SfChart>
+    </ComponentUnderTest>
+</SfFixture>
+@code {
+    SfFixture sfFixture4 { get; set; }
+    async Task CheckingChartLegendTemplatePositionCustom(Fixture sfFixture4)
+    {
+        var cut = sfFixture4.GetComponentUnderTest<SfChart>();
+        await Task.Delay(200);
+        var legendTemplate0 = cut.Find("#container_chart_legend_template_0");
+        // Note: Values may vary slightly depending on screen resolution.
+        Assert.True(legendTemplate0.GetAttribute("style") == "position: absolute; visibility: hidden; left: 508px; top: 28px; pointer-events: bounding-box; cursor: pointer; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;");
+        var legendTemplate1 = cut.Find("#container_chart_legend_template_1");
+        Assert.True(legendTemplate1.GetAttribute("style") == "position: absolute; visibility: hidden; left: 556.375px; top: 28px; pointer-events: bounding-box; cursor: pointer; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;");
+        var legendTemplate2 = cut.Find("#container_chart_legend_template_2");
+        Assert.True(legendTemplate2.GetAttribute("style") == "position: absolute; visibility: hidden; left: 508px; top: 62.199999999999996px; pointer-events: bounding-box; cursor: pointer; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;");
+        cut.SetParametersAndRender();
+    }
+}
+
+<SfFixture @ref="sfFixture5" TestAsync="CheckingChartReversedLegendTemplate" Description="CheckingChartReversedLegendTemplate">
+    <ComponentUnderTest>
+        <SfChart ID="container" Title="Olympic Medals">
+            <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Toolkit.ValueType.Category" />
+            <ChartSeriesCollection>
+                <ChartSeries DataSource="@MedalDetails" Name="Gold" XName="Country" Width="2" Opacity="1" YName="Gold" Type="ChartSeriesType.Column">
+                    <LegendItemTemplate>
+                        <div style="border: 2px solid #4CAF50; background-color: #E8F5E9; padding: 5px; border-radius: 4px;">
+                            Gold Medals
+                        </div>
+                    </LegendItemTemplate>
+                </ChartSeries>
+                <ChartSeries DataSource="@MedalDetails" Name="Silver" XName="Country" Width="2" Opacity="1" YName="Silver" Type="ChartSeriesType.Column">
+                    <LegendItemTemplate>
+                        <div style="border: 2px solid #4CAF50; background-color: #E8F5E9; padding: 5px; border-radius: 4px;">
+                            Silver Medals
+                        </div>
+                    </LegendItemTemplate>
+                </ChartSeries>
+                <ChartSeries DataSource="@MedalDetails" Name="Bronze" XName="Country" Width="2" Opacity="1" YName="Bronze" Type="ChartSeriesType.Column">
+                    <LegendItemTemplate>
+                        <div style="border: 2px solid #4CAF50; background-color: #E8F5E9; padding: 5px; border-radius: 4px;">
+                            Bronze Medals
+                        </div>
+                    </LegendItemTemplate>
+                </ChartSeries>
+            </ChartSeriesCollection>
+            <ChartLegendSettings Visible="true" Reverse="true"/>
+        </SfChart>
+    </ComponentUnderTest>
+</SfFixture>
+@code {
+    SfFixture sfFixture5 { get; set; }
+    async Task CheckingChartReversedLegendTemplate(Fixture sfFixture5)
+    {
+        var cut = sfFixture5.GetComponentUnderTest<SfChart>();
+        await Task.Delay(200);
+        var templateCollection = cut.Find("#container_ChartSeries_LegendTemplateCollection");
+        Assert.True(templateCollection.ChildElementCount == 3);
+        Assert.True(templateCollection.Children[0].Id == "container_chart_legend_template_2");
+        Assert.True(templateCollection.Children[1].Id == "container_chart_legend_template_1");
+        Assert.True(templateCollection.Children[2].Id == "container_chart_legend_template_0");
+        cut.SetParametersAndRender();
+    }
+}
+
+<SfFixture @ref="sfFixture6" TestAsync="CheckingChartLegendTemplateAlignmentNear" Description="CheckingChartLegendTemplateAlignmentNear">
+    <ComponentUnderTest>
+        <SfChart ID="container" Title="Olympic Medals">
+            <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Toolkit.ValueType.Category" />
+            <ChartSeriesCollection>
+                <ChartSeries DataSource="@MedalDetails" Name="Gold" XName="Country" Width="2" Opacity="1" YName="Gold" Type="ChartSeriesType.Column">
+                    <LegendItemTemplate>
+                        <div style="border: 2px solid #4CAF50; background-color: #E8F5E9; padding: 5px; border-radius: 4px;">
+                            Gold Medals
+                        </div>
+                    </LegendItemTemplate>
+                </ChartSeries>
+                <ChartSeries DataSource="@MedalDetails" Name="Silver" XName="Country" Width="2" Opacity="1" YName="Silver" Type="ChartSeriesType.Column">
+                    <LegendItemTemplate>
+                        <div style="border: 2px solid #4CAF50; background-color: #E8F5E9; padding: 5px; border-radius: 4px;">
+                            Silver Medals
+                        </div>
+                    </LegendItemTemplate>
+                </ChartSeries>
+                <ChartSeries DataSource="@MedalDetails" Name="Bronze" XName="Country" Width="2" Opacity="1" YName="Bronze" Type="ChartSeriesType.Column">
+                    <LegendItemTemplate>
+                        <div style="border: 2px solid #4CAF50; background-color: #E8F5E9; padding: 5px; border-radius: 4px;">
+                            Bronze Medals
+                        </div>
+                    </LegendItemTemplate>
+                </ChartSeries>
+            </ChartSeriesCollection>
+            <ChartLegendSettings Visible="true" Alignment="Alignment.Near" />
+        </SfChart>
+    </ComponentUnderTest>
+</SfFixture>
+@code {
+    SfFixture sfFixture6 { get; set; }
+    async Task CheckingChartLegendTemplateAlignmentNear(Fixture sfFixture6)
+    {
+        var cut = sfFixture6.GetComponentUnderTest<SfChart>();
+        await Task.Delay(200);
+        var legendTemplate0 = cut.Find("#container_chart_legend_template_0");
+        // Note: Values may vary slightly depending on screen resolution.
+        Assert.True(legendTemplate0.GetAttribute("style") == "position: absolute; visibility: hidden; left: 18px; top: 413.55px; pointer-events: bounding-box; cursor: pointer; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;");
+        var legendTemplate1 = cut.Find("#container_chart_legend_template_1");
+        Assert.True(legendTemplate1.GetAttribute("style") == "position: absolute; visibility: hidden; left: 66.375px; top: 413.55px; pointer-events: bounding-box; cursor: pointer; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;");
+        var legendTemplate2 = cut.Find("#container_chart_legend_template_2");
+        Assert.True(legendTemplate2.GetAttribute("style") == "position: absolute; visibility: hidden; left: 120.875px; top: 413.55px; pointer-events: bounding-box; cursor: pointer; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;");
+        cut.SetParametersAndRender();
+    }
+}
+
+<SfFixture @ref="sfFixture7" TestAsync="CheckingChartLegendTemplateAlignmentFar" Description="CheckingChartLegendTemplateAlignmentFar">
+    <ComponentUnderTest>
+        <SfChart ID="container" Title="Olympic Medals">
+            <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Toolkit.ValueType.Category" />
+            <ChartSeriesCollection>
+                <ChartSeries DataSource="@MedalDetails" Name="Gold" XName="Country" Width="2" Opacity="1" YName="Gold" Type="ChartSeriesType.Column">
+                    <LegendItemTemplate>
+                        <div style="border: 2px solid #4CAF50; background-color: #E8F5E9; padding: 5px; border-radius: 4px;">
+                            Gold Medals
+                        </div>
+                    </LegendItemTemplate>
+                </ChartSeries>
+                <ChartSeries DataSource="@MedalDetails" Name="Silver" XName="Country" Width="2" Opacity="1" YName="Silver" Type="ChartSeriesType.Column">
+                    <LegendItemTemplate>
+                        <div style="border: 2px solid #4CAF50; background-color: #E8F5E9; padding: 5px; border-radius: 4px;">
+                            Silver Medals
+                        </div>
+                    </LegendItemTemplate>
+                </ChartSeries>
+                <ChartSeries DataSource="@MedalDetails" Name="Bronze" XName="Country" Width="2" Opacity="1" YName="Bronze" Type="ChartSeriesType.Column">
+                    <LegendItemTemplate>
+                        <div style="border: 2px solid #4CAF50; background-color: #E8F5E9; padding: 5px; border-radius: 4px;">
+                            Bronze Medals
+                        </div>
+                    </LegendItemTemplate>
+                </ChartSeries>
+            </ChartSeriesCollection>
+            <ChartLegendSettings Visible="true" Alignment="Alignment.Far" />
+        </SfChart>
+    </ComponentUnderTest>
+</SfFixture>
+@code {
+    SfFixture sfFixture7 { get; set; }
+    async Task CheckingChartLegendTemplateAlignmentFar(Fixture sfFixture7)
+    {
+        var cut = sfFixture7.GetComponentUnderTest<SfChart>();
+        await Task.Delay(200);
+        var legendTemplate0 = cut.Find("#container_chart_legend_template_0");
+        // Note: Values may vary slightly depending on screen resolution.
+        Assert.True(legendTemplate0.GetAttribute("style") == "position: absolute; visibility: hidden; left: 435.25px; top: 413.55px; pointer-events: bounding-box; cursor: pointer; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;");
+        var legendTemplate1 = cut.Find("#container_chart_legend_template_1");
+        Assert.True(legendTemplate1.GetAttribute("style") == "position: absolute; visibility: hidden; left: 483.625px; top: 413.55px; pointer-events: bounding-box; cursor: pointer; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;");
+        var legendTemplate2 = cut.Find("#container_chart_legend_template_2");
+        Assert.True(legendTemplate2.GetAttribute("style") == "position: absolute; visibility: hidden; left: 538.125px; top: 413.55px; pointer-events: bounding-box; cursor: pointer; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;");
+        cut.SetParametersAndRender();
+    }
+}
+
+<SfFixture @ref="sfFixture8" TestAsync="CheckingChartLegendTemplateBackground" Description="CheckingChartLegendTemplateBackground">
+    <ComponentUnderTest>
+        <SfChart ID="container" Title="Olympic Medals">
+            <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Toolkit.ValueType.Category" />
+            <ChartSeriesCollection>
+                <ChartSeries DataSource="@MedalDetails" Name="Gold" XName="Country" Width="2" Opacity="1" YName="Gold" Type="ChartSeriesType.Column">
+                    <LegendItemTemplate>
+                        <div style="border: 2px solid #4CAF50; background-color: #E8F5E9; padding: 5px; border-radius: 4px;">
+                            Gold Medals
+                        </div>
+                    </LegendItemTemplate>
+                </ChartSeries>
+                <ChartSeries DataSource="@MedalDetails" Name="Silver" XName="Country" Width="2" Opacity="1" YName="Silver" Type="ChartSeriesType.Column">
+                    <LegendItemTemplate>
+                        <div style="border: 2px solid #4CAF50; background-color: #E8F5E9; padding: 5px; border-radius: 4px;">
+                            Silver Medals
+                        </div>
+                    </LegendItemTemplate>
+                </ChartSeries>
+                <ChartSeries DataSource="@MedalDetails" Name="Bronze" XName="Country" Width="2" Opacity="1" YName="Bronze" Type="ChartSeriesType.Column">
+                    <LegendItemTemplate>
+                        <div style="border: 2px solid #4CAF50; background-color: #E8F5E9; padding: 5px; border-radius: 4px;">
+                            Bronze Medals
+                        </div>
+                    </LegendItemTemplate>
+                </ChartSeries>
+            </ChartSeriesCollection>
+            <ChartLegendSettings Visible="true" Width="100px" Background="red"/>
+        </SfChart>
+    </ComponentUnderTest>
+</SfFixture>
+@code {
+    SfFixture sfFixture8 { get; set; }
+    async Task CheckingChartLegendTemplateBackground(Fixture sfFixture7)
+    {
+        var cut = sfFixture7.GetComponentUnderTest<SfChart>();
+        await Task.Delay(200);
+        var element = cut.Find("#container_chart_legend_element");
+        Assert.True(element.GetAttribute("fill") == "red");
+        cut.SetParametersAndRender();
+    }
+}

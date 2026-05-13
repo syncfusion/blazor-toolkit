@@ -1,0 +1,65 @@
+@page "/chart/data-editing-drag"
+@using Syncfusion.Blazor.Toolkit.Charts
+@layout MainLayout
+
+<h3>Chart – Data Editing (Drag)</h3>
+
+<div id="chart-host" style="width:800px;height:400px">
+
+    <SfChart ID="container"
+             Title="Data Edit Test"
+             Height="400px"
+             Width="800px"
+             OnDataEdit="OnDataEditTrigger"
+             OnDataEditCompleted="OnDataEditCompletedTrigger">
+
+        <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Toolkit.ValueType.Category" />
+        <ChartPrimaryYAxis />
+
+        <ChartSeriesCollection>
+            <ChartSeries DataSource="@Sales"
+                         XName="Month"
+                         YName="SalesValue"
+                         Name="Series1"
+                         Type="ChartSeriesType.Column"
+                         Fill="blue">
+                <ChartSeriesAnimation Enable="false" />
+                <ChartDataEditSettings Enable="true"
+                                       Fill="green"
+                                       MinY="0"
+                                       MaxY="100" />
+            </ChartSeries>
+        </ChartSeriesCollection>
+
+    </SfChart>
+
+</div>
+
+@code {
+
+    public class SalesInfo
+    {
+        public string Month { get; set; }
+        public double SalesValue { get; set; }
+    }
+
+    public List<SalesInfo> Sales = new()
+    {
+        new() { Month = "Jan", SalesValue = 35 },
+        new() { Month = "Feb", SalesValue = 28 },
+        new() { Month = "Mar", SalesValue = 34 }
+    };
+
+    public void OnDataEditTrigger(DataEditingEventArgs args)
+    {
+        Console.WriteLine("OnDataEdit fired → " +
+            $"SeriesIndex:{args.SeriesIndex}, " +
+            $"PointIndex:{args.PointIndex}, " +
+            $"Old:{args.OldValue}, New:{args.NewValue}");
+    }
+
+    public void OnDataEditCompletedTrigger(DataEditingEventArgs args)
+    {
+        Console.WriteLine("OnDataEditCompleted fired");
+    }
+}

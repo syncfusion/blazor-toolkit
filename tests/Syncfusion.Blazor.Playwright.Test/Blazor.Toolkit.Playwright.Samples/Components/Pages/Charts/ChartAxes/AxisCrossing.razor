@@ -1,0 +1,235 @@
+﻿@page "/chart-axis-crossing"
+
+@using Syncfusion.Blazor.Toolkit
+@using Syncfusion.Blazor.Toolkit.Charts
+@using Syncfusion.Blazor.Toolkit.Buttons
+@using Syncfusion.Blazor.Toolkit.Inputs
+
+@inject NavigationManager NavigationManager
+
+<div class="col-lg-8 control-section">
+    <SfChart @ref="ChartRef" Title="Blazor Toolkit">
+        <ChartTitleStyle TextOverflow="TextOverflow.Wrap" />
+        <ChartArea>
+            <ChartAreaBorder Width="0" />
+        </ChartArea>
+        <ChartMargin Bottom="12" />
+
+        <ChartPrimaryXAxis Minimum="-8"
+                           Maximum="8"
+                           Interval="2"
+                           CrossesAt="@XCrossesAt"
+                           MinorTicksPerInterval="3"
+                           PlaceNextToAxisLine="@PlaceX">
+            <ChartAxisMajorGridLines Width="0" />
+        </ChartPrimaryXAxis>
+
+        <ChartPrimaryYAxis Minimum="-8"
+                           Maximum="8"
+                           Interval="2"
+                           CrossesAt="@YCrossesAt"
+                           MinorTicksPerInterval="3"
+                           PlaceNextToAxisLine="@PlaceY">
+            <ChartAxisMajorTickLines Width="0" />
+        </ChartPrimaryYAxis>
+
+        <ChartTooltipSettings Enable="true" EnableHighlight="true" />
+
+        <ChartSeriesCollection>
+            <ChartSeries DataSource="@LinePoints"
+                         Name="Line Interpolation"
+                         XName="XValue"
+                         YName="YValue"
+                         Width="2"
+                         Type="ChartSeriesType.Line"
+                         Fill="Blue" />
+
+            <ChartSeries DataSource="@SplinePoints"
+                         Name="Cubic Spline Interpolation"
+                         XName="XValue"
+                         YName="YValue"
+                         Width="2"
+                         Type="ChartSeriesType.Spline"
+                         Fill="Green" />
+
+            <ChartSeries DataSource="@ScatterPoints"
+                         Name="Data points"
+                         XName="XValue"
+                         YName="YValue"
+                         Type="ChartSeriesType.Scatter"
+                         Fill="Red">
+                <ChartMarker Visible="true" Width="7" Height="7" />
+            </ChartSeries>
+        </ChartSeriesCollection>
+
+        <ChartLegendSettings EnableHighlight="true" ToggleVisibility="false" />
+    </SfChart>
+</div>
+
+<PropertyPanel ControlSecClass="col-lg-8"
+               CollapseChanged="HandlePanelCollapseChangedAsync"
+               InitialRefresh="HandlePanelCollapseChangedAsync">
+
+    <table style="width: 100%">
+
+        <!-- Axis selection -->
+        <tr style="height:50px">
+            <td style="font-size:14px">Axis:</td>
+            <td>
+                <SfButtonGroup>
+                    <SfButton IsPrimary="@(axis == AxisType.X)"
+                              OnClick="@(() => SetAxis(AxisType.X))">
+                        X
+                    </SfButton>
+                    <SfButton IsPrimary="@(axis == AxisType.Y)"
+                              OnClick="@(() => SetAxis(AxisType.Y))">
+                        Y
+                    </SfButton>
+                </SfButtonGroup>
+            </td>
+        </tr>
+
+        <!-- Cross value -->
+        <tr style="height:50px">
+            <td>Crosses Value:</td>
+            <td>
+                <SfNumericTextBox TValue="int?"
+                                  Value="@CrossValue"
+                                  Min="-8"
+                                  Max="8"
+                                  Step="2"
+                                  ValueChange="ChangeCrossValue">                    
+                </SfNumericTextBox>
+            </td>
+        </tr>
+
+        <!-- Place next to axis -->
+        <tr style="height:50px">
+            <td>Label Near to Axis Line:</td>
+            <td>
+                <SfCheckBox TChecked="bool"
+                            Checked="@IsChecked"
+                            CheckedChanged="OnPlaceChanged" />
+            </td>
+        </tr>
+
+    </table>
+</PropertyPanel>
+
+@code {
+
+    /* ---------------- Chart reference ---------------- */
+
+    public SfChart? ChartRef { get; set; }
+
+    /* ---------------- Axis state ---------------- */
+
+    private AxisType axis = AxisType.X;
+
+    private bool PlaceX = true;
+    private bool PlaceY = true;
+    private bool IsChecked = true;
+
+    private int CrossValue = 0;
+    private int XCrossesAt = 0;
+    private int YCrossesAt = 0;
+
+    private enum AxisType
+    {
+        X,
+        Y
+    }
+
+    /* ---------------- ButtonGroup handlers ---------------- */
+
+    private void SetAxis(AxisType selected)
+    {
+        axis = selected;
+
+        if (axis == AxisType.X)
+        {
+            IsChecked = PlaceX;
+            CrossValue = XCrossesAt;
+        }
+        else
+        {
+            IsChecked = PlaceY;
+            CrossValue = YCrossesAt;
+        }
+    }
+
+    private void OnPlaceChanged(bool value)
+    {
+        IsChecked = value;
+
+        if (axis == AxisType.X)
+            PlaceX = value;
+        else
+            PlaceY = value;
+    }
+
+    private void ChangeCrossValue(
+        Syncfusion.Blazor.Toolkit.Inputs.ChangeEventArgs<int?> args)
+    {
+        if (args.Value == null)
+            return;
+
+        CrossValue = args.Value.Value;
+
+        if (axis == AxisType.X)
+            XCrossesAt = CrossValue;
+        else
+            YCrossesAt = CrossValue;
+    }
+
+    /* ---------------- Data ---------------- */
+
+    public List<AxisData> ScatterPoints { get; set; } = new()
+    {
+        new() { XValue = -6, YValue = 2 },
+        new() { XValue = -3, YValue = -4 },
+        new() { XValue = 1.5, YValue = 3.5 },
+        new() { XValue = 6, YValue = 4.5 }
+    };
+
+    public List<AxisData> SplinePoints { get; set; } = new()
+    {
+        new() { XValue = -6, YValue = 2 },
+        new() { XValue = -5.291, YValue = 0 },
+        new() { XValue = -5, YValue = -0.774 },
+        new() { XValue = -3, YValue = -4 },
+        new() { XValue = -0.6, YValue = -0.965 },
+        new() { XValue = -0.175, YValue = 0.1 },
+        new() { XValue = 0, YValue = 0.404 },
+        new() { XValue = 1.5, YValue = 3.5 },
+        new() { XValue = 3.863, YValue = 5.163 },
+        new() { XValue = 6, YValue = 4.5 }
+    };
+
+    public List<AxisData> LinePoints { get; set; } = new()
+    {
+        new() { XValue = -6, YValue = 2 },
+        new() { XValue = -5, YValue = 0 },
+        new() { XValue = -4.511, YValue = -0.977 },
+        new() { XValue = -3, YValue = -4 },
+        new() { XValue = -1.348, YValue = -1.247 },
+        new() { XValue = -0.6, YValue = 0 },
+        new() { XValue = 0, YValue = 1 },
+        new() { XValue = 1.5, YValue = 3.5 },
+        new() { XValue = 6, YValue = 4.5 }
+    };
+
+    public class AxisData
+    {
+        public double XValue { get; set; }
+        public double YValue { get; set; }
+    }
+
+    /* ---------------- PropertyPanel callback ---------------- */
+
+    public async Task HandlePanelCollapseChangedAsync()
+    {
+        if (ChartRef != null)
+            await ChartRef.RefreshAsync(false);
+    }
+}

@@ -1,0 +1,12 @@
+﻿@using Syncfusion.Blazor.Toolkit
+@using Syncfusion.Blazor.Toolkit.Inputs
+
+@namespace Syncfusion.Blazor.Toolkit.Tests.Inputs
+
+<SfRadioButton Label="Option 1" Name="default" Value="Checked" @bind-Checked="stringChecked"></SfRadioButton><br />
+<SfRadioButton Label="Option 2" Name="default" Value="Disable" @bind-Checked="stringChecked" Disabled="true"></SfRadioButton><br />
+<SfRadioButton Label="Option 3" Name="default" Value="None" @bind-Checked="stringChecked"></SfRadioButton>
+
+@code {
+    private string stringChecked = "Checked";
+}

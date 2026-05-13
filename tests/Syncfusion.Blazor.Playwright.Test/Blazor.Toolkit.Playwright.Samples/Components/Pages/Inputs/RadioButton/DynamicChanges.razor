@@ -1,0 +1,107 @@
+@page "/radio-button/dynamic-changes"
+@using Syncfusion.Blazor.Toolkit.Inputs
+@layout MainLayout
+
+<h1>Radio Button - Dynamic Changes</h1>
+
+<div class="test-container">
+    <h2>Dynamic Option Addition</h2>
+    <div class="e-radio-group">
+        @foreach (var option in radioOptions)
+        {
+            <SfRadioButton TChecked="string" Name="dynamic-options" Value="@option.Value" Label="@option.Label" @bind-Checked="selectedDynamic"></SfRadioButton>
+        }
+    </div>
+    <button @onclick="AddOption">Add Option</button>
+    <p>Selected: <strong>@selectedDynamic</strong></p>
+</div>
+
+<div class="test-container">
+    <h2>Dynamic Value Changes</h2>
+    <div class="e-radio-group">
+        <SfRadioButton TChecked="string" Name="value-change" Value="opt1" Label="Option 1" @bind-Checked="dynamicOptionValue"></SfRadioButton>
+        <SfRadioButton TChecked="string" Name="value-change" Value="opt2" Label="Option 2" @bind-Checked="dynamicOptionValue"></SfRadioButton>
+        <SfRadioButton TChecked="string" Name="value-change" Value="opt3" Label="Option 3" @bind-Checked="dynamicOptionValue"></SfRadioButton>
+    </div>
+    <button @onclick="ChangeSelection">Change to Option 2</button>
+    <button @onclick="ClearSelection">Clear Selection</button>
+    <p>Current Selection: <strong>@dynamicOptionValue</strong></p>
+</div>
+
+<style>
+    .test-container {
+        padding: 20px;
+        border: 1px solid #ddd;
+        margin: 10px 0;
+        border-radius: 4px;
+        background-color: #f9f9f9;
+    }
+    
+    .e-radio-group {
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+        margin-bottom: 15px;
+    }
+    
+    button {
+        padding: 8px 16px;
+        margin-right: 10px;
+        margin-top: 10px;
+        cursor: pointer;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        background-color: #f0f0f0;
+    }
+    
+    button:hover {
+        background-color: #e0e0e0;
+    }
+    
+    h2 {
+        margin-top: 20px;
+        font-size: 18px;
+        font-weight: 600;
+    }
+</style>
+
+@code {
+    private class RadioOption
+    {
+        public string Label { get; set; }
+        public string Value { get; set; }
+    }
+    
+    private List<RadioOption> radioOptions = new() 
+    { 
+        new RadioOption { Label = "Option A", Value = "opt-a" },
+        new RadioOption { Label = "Option B", Value = "opt-b" },
+        new RadioOption { Label = "Option C", Value = "opt-c" }
+    };
+    
+    private string selectedDynamic = "opt-a";
+    private string dynamicOptionValue = "opt1";
+    private int optionCounter = 4;
+    
+    private void AddOption()
+    {
+        radioOptions.Add(new RadioOption 
+        { 
+            Label = $"Option {(char)('A' + optionCounter - 1)}", 
+            Value = $"opt-{(char)('a' + optionCounter - 1)}"
+        });
+        optionCounter++;
+    }
+    
+    private void ChangeSelection()
+    {
+        dynamicOptionValue = "opt2";
+    }
+    
+    private void ClearSelection()
+    {
+        dynamicOptionValue = "";
+    }
+}
+
+

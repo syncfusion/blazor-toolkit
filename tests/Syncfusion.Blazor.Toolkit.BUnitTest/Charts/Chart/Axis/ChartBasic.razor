@@ -1,0 +1,342 @@
+﻿@using Syncfusion.Blazor.Toolkit.Charts
+@using Syncfusion.Blazor.Toolkit.Tests
+@using Syncfusion.Blazor.Toolkit.Data
+@using System.Dynamic
+@using System.Text.Json
+@using Bunit
+@using Xunit
+
+@inherits TestComponentBase
+
+
+<SfFixture @ref="fixture" TestAsync="ChartBasicRendering" Description="Chart Basic Rendering with Datasource">
+    <ComponentUnderTest> 
+        <SfChart ID="Chart" Title="Month wise Sales Report" Height="400" Width="900">
+            <ChartMargin Top="5" Bottom="5" Left="5" Right="5"></ChartMargin>
+            <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Toolkit.ValueType.Category" RangePadding="ChartRangePadding.Normal"></ChartPrimaryXAxis>
+            <ChartPrimaryYAxis Title="PrimaryYaxis"></ChartPrimaryYAxis>
+            <ChartSeriesCollection>
+                <ChartSeries DataSource="@Sales" XName="Month" YName="SalesValue" Type="ChartSeriesType.Column" Name="Gold" Fill="Red">
+                    <ChartSeriesAnimation Enable="false"></ChartSeriesAnimation>
+                </ChartSeries>
+            </ChartSeriesCollection>
+        </SfChart>
+    </ComponentUnderTest>
+</SfFixture>
+
+
+@code {
+
+    SfFixture fixture { get; set; }
+    bool _canAssert = false;
+    async Task ChartBasicRendering(Fixture fixture)
+    {
+        var cut = fixture.GetComponentUnderTest<SfChart>();
+        await Task.Delay(200);
+        var chartMargin = cut.FindComponent<ChartMargin>();
+        var rootEle = cut.Find(".e-chart");
+        var innHTML = cut.Find("#Chart_ChartTitle").InnerHtml.Trim();
+        var ff = cut.Find("#Chart_ChartTitle").GetAttribute("font-family");
+        var innerHTML1 = cut.Find("#Chart0_AxisLabel_3").InnerHtml;
+        Assert.True(innerHTML1 == "Apr\n    ");
+        //Assert.True(cut.Find("#Chart_AxisTitle_1").GetAttribute("aria-label") == "PrimaryYaxis");
+        Assert.True(cut.Find("#Chart_Series_0_Point_2").GetAttribute("aria-label") == "Mar:34, Gold");
+        Assert.True(chartMargin.Instance.Top == 5);
+        Assert.True(chartMargin.Instance.Bottom == 5);
+        Assert.True(chartMargin.Instance.Left == 5);
+        Assert.True(chartMargin.Instance.Right == 5);
+        await chartMargin.Instance.DisposeAsync();
+        cut.SetParametersAndRender();
+    }
+    public class SalesInfo
+    {
+        public string Month { get; set; }
+        public double SalesValue { get; set; }
+    }
+
+    public List<SalesInfo> Sales = new List<SalesInfo>
+{
+        new SalesInfo { Month = "Jan", SalesValue = 35 },
+        new SalesInfo { Month = "Feb", SalesValue = 28 },
+        new SalesInfo { Month = "Mar", SalesValue = 34 },
+        new SalesInfo { Month = "Apr", SalesValue = 32 },
+        new SalesInfo { Month = "May", SalesValue = 40 },
+        new SalesInfo { Month = "Jun", SalesValue = 32 },
+        new SalesInfo { Month = "Jul", SalesValue = 35 }
+    };
+}
+
+
+@{
+    var InitialGroup1 = (new string[] { "CustomerID", "OrderID" });
+}
+
+<SfFixture @ref="fixture1" TestAsync="CheckingTitleRendering" Description="CheckingTitleRendering">
+    <ComponentUnderTest>
+        <SfChart ID="container" Title="Olympic Medals" SubTitle="Medals">
+            <ChartArea Background="skyblue" Width="80%" BackgroundImage="@imageLocation" Border="@border" Opacity="0.8" />
+            <ChartSubTitleStyle FontFamily="Arial" FontStyle="italic" FontWeight="regular" Size="18px" Color="red" AccessibilityDescription="Olympic Medals" AccessibilityRole="Count" Focusable=false></ChartSubTitleStyle>
+            <ChartTitleStyle FontFamily="Arial" FontStyle="italic" FontWeight="regular" Size="23px" Color="red"></ChartTitleStyle>
+            <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Toolkit.ValueType.Category">
+            </ChartPrimaryXAxis>
+            <ChartSeriesCollection>
+                <ChartSeries DataSource="@MedalDetails" XName="Country" YName="Gold" Type="ChartSeriesType.Column">
+                </ChartSeries>
+            </ChartSeriesCollection>
+        </SfChart>
+    </ComponentUnderTest>
+</SfFixture>
+
+
+@code {
+    SfFixture fixture1 { get; set; }
+    string imageLocation = "../Images/cloud.png";
+    ChartAreaBorder border = new ChartAreaBorder { Color = "gray", Width = 2 };
+    async Task CheckingTitleRendering(Fixture fixture1)
+    {
+        var cut = fixture1.GetComponentUnderTest<SfChart>();
+        await Task.Delay(200);
+        var title = cut.Find("#container_ChartTitle");
+        var subTitle = cut.Find("#container_ChartSubTitle");
+        Assert.True(title.GetAttribute("font-family") == "Arial");
+        Assert.True(title.GetAttribute("font-size") == "23px");
+        Assert.True(subTitle.GetAttribute("font-family") == "Arial");
+        Assert.True(subTitle.GetAttribute("font-size") == "18px");
+        var area = cut.FindComponent<ChartArea>();
+        cut.SetParametersAndRender();
+        await area.Instance.DisposeAsync();
+    }
+
+    public class ChartData2
+    {
+        public string Country { get; set; }
+        public double Gold { get; set; }
+    }
+
+    public List<ChartData2> MedalDetails = new List<ChartData2>
+    {
+        new ChartData2{ Country= "USA", Gold=50  },
+        new ChartData2{ Country="China", Gold=40 },
+        new ChartData2{ Country= "Japan", Gold=70 },
+        new ChartData2{ Country= "Australia", Gold=60},
+        new ChartData2{ Country= "France", Gold=50 },
+        new ChartData2{ Country= "Germany", Gold=40 },
+        new ChartData2{ Country= "Italy", Gold=40 },
+        new ChartData2{ Country= "Sweden", Gold=30 }
+    };
+}
+
+
+@{
+    var InitialGroup2 = (new string[] { "CustomerID", "OrderID" });
+}
+
+<SfFixture @ref="fixture2" TestAsync="CheckingChartPropertiesAndMethods" Description="CheckingChartPropertiesAndMethods">
+    <ComponentUnderTest>
+        <SfChart ID="container" @ref="chartObj" Title="Medal Details" Height="400" Width="900" EnableAnimation="false" DataSource="@dataSource"
+                 HighlightMode="HighlightMode.Point" Palettes="@palettes" SelectionPattern="SelectionPattern.Dots" HighlightPattern="SelectionPattern.Dots" AllowMultiSelection="true"
+                 Background="blue" EnableRtl="true" BackgroundImage="@backgroundImage" UseGroupingSeparator="true" AccessibilityDescription="Medal details with line Chart" TabIndex="0" CustomClass="@customClass">
+
+            <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Toolkit.ValueType.Category" RangePadding="ChartRangePadding.Normal"></ChartPrimaryXAxis>
+            <ChartPrimaryYAxis Title="PrimaryYaxis">
+                <ChartStriplines>
+                    <ChartStripline Start="35" End="45" Color="red" />
+                    <ChartStripline Start="45" End="65" Color="blue" />
+                </ChartStriplines>
+            </ChartPrimaryYAxis>
+            <ChartSeriesCollection>
+                <ChartSeries DataSource="@MedalDetails" Name="Gold" XName="Country" Width="2" Opacity="1" YName="Gold" Type="ChartSeriesType.Line">
+                </ChartSeries>
+                <ChartSeries DataSource="@MedalDetails" Name="Silver" XName="Country" Width="2" Opacity="1" YName="Silver" Type="ChartSeriesType.Spline">
+                </ChartSeries>
+                <ChartSeries DataSource="@MedalDetails" Name="bronze" XName="Country" Width="2" Opacity="1" YName="Bronze" Type="ChartSeriesType.Column">
+                </ChartSeries>
+            </ChartSeriesCollection>
+            <ChartCrosshairSettings Enable="true"></ChartCrosshairSettings>
+            <ChartLegendSettings Visible="true"></ChartLegendSettings>
+            <ChartZoomSettings EnableMouseWheelZooming="true" EnableSelectionZooming="true"></ChartZoomSettings>
+        </SfChart>
+    </ComponentUnderTest>
+</SfFixture>
+
+
+@code {
+    SfFixture fixture2 { get; set; }
+    SfChart chartObj;
+    string customClass = "custom_chart";
+    string backgroundImage = "../Images/cloud.png";
+    public Query ChartQuery { get; set; }
+    public IEnumerable<object> dataSource;
+    string[] palettes = new string[] { "green", "red", "blue" };
+
+    async Task CheckingChartPropertiesAndMethods(Fixture fixture2)
+    {
+        var cut = fixture2.GetComponentUnderTest<SfChart>();
+        await Task.Delay(200);
+        var svg = cut.Find("#container_svg");
+        Assert.True(svg.GetAttribute("height") == "400px");
+        Assert.True(svg.GetAttribute("width") == "900px");
+        cut.SetParametersAndRender(parameters =>
+        {
+            parameters.Add(p => p.Title, "Chart Title");
+            parameters.Add(p => p.IsTransposed, true);
+        });
+        Assert.True(chartObj._chartRender == null);
+        Assert.True(chartObj._isDoubleTap == false);
+        Assert.True(chartObj._delayRedraw == false);
+        Assert.True(chartObj._startMove == false);
+        Assert.True(chartObj._mouseDownX == 0);
+        Assert.True(chartObj._mouseDownY == 0);
+        Assert.True(chartObj._previousMouseMoveX == 0);
+        Assert.True(chartObj._previousMouseMoveY == 0);
+        ChartSeries series1 = new ChartSeries { DataSource = MedalDetails, Name = "Gold2", XName = "Country", Width = 2, Opacity = 1, YName = "Gold", Type = ChartSeriesType.Column };
+        chartObj.AddSeries(series1);
+        List<ChartSeries> seriescollection = new List<ChartSeries>
+        {
+            series1,
+            new ChartSeries{DataSource = MedalDetails, Name ="Silver2", XName="Country", Width=2, Opacity=1, YName="Silver", Type=ChartSeriesType.StepLine}
+        };
+        await chartObj.AddSeriesAsync(seriescollection);
+        chartObj.RemoveSeries(chartObj._visibleSeriesRenderers[1].Series);
+        chartObj.RemoveSeries(1);
+        chartObj.RemoveStripline((ChartStripline)chartObj._striplineBehindContainer.Elements[0], ZIndex.Behind);
+        chartObj.OnChartLongPress();
+        List<PointXY> pointList = new List<PointXY> { new PointXY { PointIndex = 2, SeriesIndex = 0 } };
+        chartObj.OnSelectionChange(pointList);
+        chartObj.RemoveTemplateTooltip();
+        chartObj.RefreshLiveData();
+        await chartObj.ShowTooltipAsync("USA", 50);
+        await chartObj.HideTooltipAsync();
+        await chartObj.ShowCrosshairAsync(100, 40);
+        await chartObj.HideCrosshairAsync();
+        chartObj.Sort("Gold", ListSortDirection.Descending);
+        chartObj.ClearSort();
+        SfChart.AddAxes(null);
+        await chartObj.GetBooleanValuesAsync();
+        await chartObj.PerformRedrawAnimationAsync();
+        VisibleRangeModel axisRange = new VisibleRangeModel()
+        {
+            Min = chartObj._axisContainer.Axes["PrimaryXAxis"].Renderer.VisibleRange.Start,
+            Max = chartObj._axisContainer.Axes["PrimaryXAxis"].Renderer.VisibleRange.End,
+            Delta = chartObj._axisContainer.Axes["PrimaryXAxis"].Renderer.VisibleRange.Delta,
+            Interval = chartObj._axisContainer.Axes["PrimaryXAxis"].Renderer.VisibleInterval
+        };
+        List<AxisData> axisCollection = new List<AxisData>
+        {
+            new AxisData{ AxisName = "PrimaryXAxis", AxisRange = axisRange, ZoomFactor = 1, ZoomPosition = 1 }
+        };
+        chartObj.UpdateAxisZoomValues(axisCollection);
+        ZoomingEventArgs zoomArgs = new ZoomingEventArgs { AxisCollection = axisCollection };
+        chartObj.InvokeZoomingEvents(zoomArgs);
+        await chartObj.DelayLayoutChangeAsync();
+        chartObj.ClearSeries();
+        await chartObj.RefreshAsync();
+        await chartObj.DisposeAsync();
+    }
+
+    protected void OnInitialized()
+    {
+        ChartQuery = new Query().Take(10).Where("SalesValue", "GreaterThan", 30, false);
+    }
+
+    public class ChartData3
+    {
+        public string Country { get; set; }
+        public double Gold { get; set; }
+        public double Silver { get; set; }
+        public double Bronze { get; set; }
+    }
+
+    public List<ChartData3> MedalDetails2 = new List<ChartData3>
+    {
+        new ChartData3{ Country= "USA", Gold=50, Silver=70, Bronze=45 },
+        new ChartData3{ Country="China", Gold=40, Silver= 60, Bronze=55 },
+        new ChartData3{ Country= "Japan", Gold=70, Silver= 60, Bronze=50 },
+        new ChartData3{ Country= "Australia", Gold=60, Silver= 56, Bronze=40 },
+        new ChartData3{ Country= "France", Gold=50, Silver= 45, Bronze=35 },
+        new ChartData3{ Country= "Germany", Gold=40, Silver=30, Bronze=22 },
+        new ChartData3{ Country= "Italy", Gold=40, Silver=35, Bronze=37 },
+        new ChartData3{ Country= "Sweden", Gold=30, Silver=25, Bronze=27 }
+    };
+}
+
+@{
+    var InitialGroup3 = (new string[] { "CustomerID", "OrderID" });
+}
+<SfFixture @ref="fixture3" TestAsync="CheckingDyanmicUpdateProperties_Area" Description="CheckingDyanmicUpdateProperties_Area">
+    <ComponentUnderTest>
+        <SfChart ID="container" Title="Sales Report over the year 2025" Width="800">
+            <ChartSeriesCollection>
+                <ChartSeries DataSource="@SalesDetails" XName="X" YName="Y" Type="ChartSeriesType.Area" Name="India" Fill="@SeriesFill" Opacity="@SeriesOpacity" Width="@SeriesWidth" DashArray="@SeriesDashArray">
+                    <ChartSeriesAnimation Enable="false"></ChartSeriesAnimation>
+                    <ChartSeriesBorder Width="@SeriesBorderWidth" Color="@SeriesBorderColor"></ChartSeriesBorder>
+                </ChartSeries>
+            </ChartSeriesCollection>
+        </SfChart>
+    </ComponentUnderTest>
+</SfFixture>
+
+@code {
+    SfFixture fixture3;
+    string SeriesFill = "blue";
+    double SeriesOpacity = 1;
+    double SeriesWidth = 2;
+    string SeriesBorderColor = "red";
+    double SeriesBorderWidth = 5;
+    string SeriesDashArray = "3, 2";
+    async Task CheckingDyanmicUpdateProperties_Area(Fixture fixture3)
+    {
+        var cut = fixture3.GetComponentUnderTest<SfChart>();
+        await Task.Delay(200);
+
+        var point = cut.Find("#container_Series_0");
+        Assert.NotNull(point);
+
+        Assert.Equal("blue", point.GetAttribute("fill"));
+        Assert.Equal("1", point.GetAttribute("opacity"));
+
+        Assert.Equal("blue", cut.Instance._visibleSeriesRenderers[0].Series.Fill);
+        Assert.Equal(1, cut.Instance._visibleSeriesRenderers[0].Series.Opacity);
+        Assert.Equal(2, cut.Instance._visibleSeriesRenderers[0].Series.Width);
+        Assert.Equal("red", cut.Instance._visibleSeriesRenderers[0].Series.Border.Color);
+        Assert.Equal(5, cut.Instance._visibleSeriesRenderers[0].Series.Border.Width);
+        Assert.Equal("3, 2", cut.Instance._visibleSeriesRenderers[0].Series.DashArray);
+
+        SeriesFill = "purple";
+        SeriesOpacity = 0.5;
+        SeriesWidth = 3;
+        SeriesBorderColor = "green";
+        SeriesBorderWidth = 3;
+        SeriesDashArray = "5, 5";
+
+        cut.SetParametersAndRender();
+        await Task.Delay(250);
+
+        var updatedPoint = cut.Find("#container_Series_0");
+        Assert.NotNull(updatedPoint);
+        var seriesRenderer = cut.Instance._visibleSeriesRenderers[0];
+        Assert.Equal("purple", seriesRenderer.Series.Fill);
+        Assert.Equal(0.5, seriesRenderer.Series.Opacity);
+        Assert.Equal(3, seriesRenderer.Series.Width);
+        Assert.Equal("green", seriesRenderer.Series.Border.Color);
+        Assert.Equal(3, seriesRenderer.Series.Border.Width);
+        Assert.Equal("5, 5", seriesRenderer.Series.DashArray);
+
+        cut.SetParametersAndRender();
+    }
+
+    public class ChartData
+    {
+        public double X { get; set; }
+        public double Y { get; set; }
+    }
+    
+    public List<ChartData> SalesDetails = new List<ChartData>
+    {
+        new ChartData { X= 1900, Y= 4 },
+        new ChartData { X= 1920, Y= 3.0 },
+        new ChartData { X= 1940, Y= 3.8 },
+        new ChartData { X= 1960, Y= 3.4 },
+        new ChartData { X= 2000, Y= 3.9 }
+    };
+}

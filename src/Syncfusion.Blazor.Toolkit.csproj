@@ -1,0 +1,70 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.Razor">
+
+  <PropertyGroup>
+	<!-- NuGet / strong-name signing (commented out).
+		To enable signing, un-comment the two lines below, provide a
+		secure strong-name key file (for example: sf.snk). -->
+	<!--<SignAssembly>true</SignAssembly>
+	<AssemblyOriginatorKeyFile>sf.snk</AssemblyOriginatorKeyFile>-->
+	<!-- NuGet package metadata and assembly (DLL) properties -->
+	<Version>1.0.0</Version>
+	<PackageId>Syncfusion.Blazor.Toolkit</PackageId>
+	<Product>Syncfusion Blazor Toolkit Components</Product>
+	<TargetFrameworks>net8.0;net9.0;net10.0</TargetFrameworks>
+	<Copyright>Copyright 2001 - 2026 Syncfusion® Inc.</Copyright>
+	<Title>Syncfusion Blazor Toolkit Components</Title>
+	<PackageDescription>The Syncfusion® Toolkit for Blazor is a high-performance, open-source collection of lightweight UI components designed to accelerate Blazor application development (Server and WebAssembly). These controls help developers build modern, responsive, and feature-rich web applications faster, with clean code and excellent performance.</PackageDescription>
+	<PackageIcon>syncfusion_logo.png</PackageIcon>
+	<PackageLicenseFile>LICENSE.txt</PackageLicenseFile>
+	<PackageReadmeFile>README.md</PackageReadmeFile>
+	<!-- Release notes (uncomment when available) -->
+	<!--<PackageReleaseNotes></PackageReleaseNotes>-->
+	<!-- Project documentation URL (uncomment when available) -->
+	<!--<PackageProjectUrl></PackageProjectUrl>-->
+	<PackageTags>
+		syncfusion;blazor;toolkit
+	</PackageTags>
+	<IncludeSourceRevisionInInformationalVersion>false</IncludeSourceRevisionInInformationalVersion>
+	<!-- Generates XML documentation file from code comments at compile time -->
+	<GenerateDocumentationFile>true</GenerateDocumentationFile>	
+	<!-- IL Linker may break reflection; uncomment if trimming issues occur -->
+	<!--<BlazorWebAssemblyEnableLinking>false</BlazorWebAssemblyEnableLinking>-->
+
+    <!-- Compiler and code analysis configuration -->
+	<Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <AnalysisLevel>latest-All</AnalysisLevel>
+	<EnforceCodeStyleInBuild>true</EnforceCodeStyleInBuild>
+  </PropertyGroup>
+
+  <ItemGroup>
+	<None Include="syncfusion_logo.png" Pack="true" PackagePath="\" />
+  </ItemGroup>
+  <ItemGroup>
+	<None Include="LICENSE.txt" Pack="true" PackagePath="\" />
+  </ItemGroup>
+  <ItemGroup>
+	<None Include="../README.md" Pack="true" PackagePath="\" />
+  </ItemGroup>
+	
+  <ItemGroup>
+    <SupportedPlatform Include="browser" />
+  </ItemGroup>
+
+	<PropertyGroup>
+		<ComponentsPackageVersion Condition="'$(TargetFramework)'=='net8.0'">8.0.23</ComponentsPackageVersion>
+		<ComponentsPackageVersion Condition="'$(TargetFramework)'=='net9.0'">9.0.12</ComponentsPackageVersion>
+		<ComponentsPackageVersion Condition="'$(TargetFramework)'=='net10.0'">10.0.2</ComponentsPackageVersion>
+	</PropertyGroup>
+
+	<ItemGroup>
+		<PackageReference Include="Microsoft.AspNetCore.Components.Web" Version="$(ComponentsPackageVersion)" />
+		<PackageReference Include="Microsoft.Extensions.Localization" Version="$(ComponentsPackageVersion)" />
+	</ItemGroup>
+
+  <Target Name="RunGulpOnceBeforeBuild" BeforeTargets="BeforeBuild" Condition="$(TargetFramework) == $(TargetFrameworks.Split(';')[0]) AND !Exists('wwwroot/styles/fluent.min.css')">
+	<Message Importance="high" Text="Installing npm packages and running blazor-toolkit-themes gulp task for the first time..." />
+	<Exec Command="npm install" />
+	<Exec Command="gulp blazor-toolkit-themes" />
+  </Target>
+</Project>

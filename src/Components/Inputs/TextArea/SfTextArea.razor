@@ -1,0 +1,25 @@
+﻿@using Syncfusion.Blazor.Toolkit.Internal;
+@namespace Syncfusion.Blazor.Toolkit.Inputs
+@inherits SfInputBase<string>
+
+<SfInputBase>
+	<div @ref="@ContainerElement" class="@ContainerClass?.Trim()" @attributes="@ContainerAttribute">
+		<textarea @ref="@InputElement" id="@ID" value="@(FormatValueAsString(InputTextValue))"
+				  @attributes="InputHtmlAttributes" @onchange="@OnChangeHandlerAsync" @onblur="OnBlurHandlerAsync"
+				  @onfocus="@OnFocusHandlerAsync" @oninput="@OnInputHandlerAsync"></textarea>
+
+		@if (this.BaseFloatLabelType == FloatLabelType.Auto || this.BaseFloatLabelType == FloatLabelType.Always)
+		{
+			<span class="e-float-line"></span>
+			<label class="@FloatLabel?.Trim()" id="label_@(ID)" for="@(ID)">@this.Placeholder</label>
+		}
+
+		@if (this.ShowClearButton)
+		{
+			<span class="@(ClearIconClass)" aria-label="close" role="button" @onclick="@WireClearBtnEventsAsync"
+				  @onmousedown="@BindClearBtnEventsAsync" @ontouchstart="@BindClearBtnTouchEventsAsync"
+				  @onmousedown:preventDefault="@ClickStopPropagation"
+				  @ontouchstart:preventDefault="@ClickStopPropagation"></span>
+		}
+	</div>
+</SfInputBase>

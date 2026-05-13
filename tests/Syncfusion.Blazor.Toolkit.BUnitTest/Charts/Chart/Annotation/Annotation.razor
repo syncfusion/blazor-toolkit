@@ -1,0 +1,106 @@
+﻿@using Syncfusion.Blazor.Toolkit.Charts
+@using Syncfusion.Blazor.Toolkit.Tests
+@using Syncfusion.Blazor.Toolkit
+@using Syncfusion.Blazor.Toolkit.Charts
+@using Syncfusion.Blazor.Toolkit.Charts.Internal
+@using Syncfusion.Blazor.Toolkit.BUnitTest
+@using Bunit
+@using Xunit
+
+@inherits TestComponentBase
+
+<SfFixture @ref="fixture" TestAsync="CheckingChartAnnotation" Description="CheckingChartAnnotation">
+    <ComponentUnderTest>
+        <SfChart ID="container" Title="Olympic Medals">
+            <ChartPrimaryXAxis ValueType="Toolkit.ValueType.Category">
+            </ChartPrimaryXAxis>
+	
+            <ChartAnnotations AccessibilityDescription="Medal count" AccessibilityRole="count" Focusable=false>
+                <ChartAnnotation X="@data" Y="65" CoordinateUnits="Units.Point" Description="chart annotation" XAxisName="PrimaryXAxis" YAxisName="PrimaryYAxis" Region="Regions.Series">
+                    <ContentTemplate>
+                        <div style="color: firebrick; font-size: medium; font-style: italic">Highest Medal Count</div>
+                    </ContentTemplate>
+                </ChartAnnotation>
+            </ChartAnnotations>
+
+            <ChartSeriesCollection>
+                <ChartSeries DataSource="@MedalDetails" XName="Country" YName="Gold" Type="ChartSeriesType.Column">
+                </ChartSeries>
+            </ChartSeriesCollection>
+        </SfChart>
+    </ComponentUnderTest>
+</SfFixture>
+
+@code {
+    string data = "France";
+    SfFixture fixture { get; set; }
+
+    async Task CheckingChartAnnotation(Fixture fixture)
+    {
+        var cut = fixture.GetComponentUnderTest<SfChart>();
+        await Task.Delay(200);
+        var annotation = cut.FindComponent<ChartAnnotation>();
+        Assert.True(annotation.Instance.ContentTemplate != null);
+        Assert.True(annotation.Instance.Description == "chart annotation");
+        Assert.True(annotation.Instance.Region == Regions.Series);
+        Assert.Equal("Medal count", cut.Instance.AccessibilityDescription);
+        Assert.Equal("count", cut.Instance.AccessibilityRole);
+        Assert.False(cut.Instance.Focusable);
+        cut.SetParametersAndRender();
+        await annotation.Instance.DisposeAsync();
+    }
+	
+    public class ChartData
+    {
+        public string Country { get; set; }
+        public double Gold { get; set; }
+    }
+	
+    public List<ChartData> MedalDetails = new List<ChartData>
+	{
+		new ChartData{ Country= "USA", Gold=50  },
+		new ChartData{ Country= "China", Gold=40 },
+		new ChartData{ Country= "Japan", Gold=70 },
+		new ChartData{ Country= "Australia", Gold=60},
+		new ChartData{ Country= "France", Gold=50 },
+		new ChartData{ Country= "Germany", Gold=40 },
+		new ChartData{ Country= "Italy", Gold=40 },
+		new ChartData{ Country= "Sweden", Gold=30 }
+    };
+}
+
+<SfFixture @ref="fixture1" TestAsync="CheckingCoordinateUnitPixel" Description="CheckingCoordinateUnitPixel">
+    <ComponentUnderTest>
+        <SfChart ID="container" Title="Olympic Medals">
+            <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Toolkit.ValueType.Category">
+            </ChartPrimaryXAxis>
+
+            <ChartAnnotations>
+                <ChartAnnotation X="250" Y="100" CoordinateUnits="Units.Pixel">
+                    <ContentTemplate>
+                        <div>Annotation in Pixel</div>
+                    </ContentTemplate>
+                </ChartAnnotation>
+            </ChartAnnotations>
+
+            <ChartSeriesCollection>
+                <ChartSeries DataSource="@MedalDetails" XName="Country" YName="Gold" Type="ChartSeriesType.Column">
+                </ChartSeries>
+            </ChartSeriesCollection>
+        </SfChart>
+    </ComponentUnderTest>
+</SfFixture>
+
+@code{
+    SfFixture fixture1;
+    async Task CheckingCoordinateUnitPixel(Fixture fixture1)
+    {
+        var cut = fixture1.GetComponentUnderTest<SfChart>();
+        await Task.Delay(200);
+        var annotation = cut.FindComponent<ChartAnnotation>().Instance;
+        Assert.True(annotation.CoordinateUnits == Units.Pixel);
+        Assert.Equal(250, annotation.X);
+        Assert.Equal("100", annotation.Y);
+        Assert.NotNull(cut.Find("#container_Annotation_0"));
+    }
+}

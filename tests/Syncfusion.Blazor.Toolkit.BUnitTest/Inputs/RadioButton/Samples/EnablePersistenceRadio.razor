@@ -1,0 +1,17 @@
+﻿@using Syncfusion.Blazor.Toolkit
+@using Syncfusion.Blazor.Toolkit.Inputs
+
+@namespace Syncfusion.Blazor.Toolkit.Tests.Inputs
+
+<div class="sample">
+    <SfRadioButton EnablePersistence="true" id="radio1" Label="Custom date range" Name="dateRangeOption" Value="custom" @bind-Checked="dateRangeChecked"></SfRadioButton>
+    <SfRadioButton EnablePersistence="true" id="radio2" Label="Today" Name="dateRangeOption" Value="today" @bind-Checked="dateRangeChecked"></SfRadioButton>
+    <SfRadioButton EnablePersistence="true" id="radio3" Label="Last 3 Days" Name="dateRangeOption" Value="3Days" @bind-Checked="dateRangeChecked"></SfRadioButton>
+    <SfRadioButton EnablePersistence="true" id="radio4" Label="Last 7 Days" Name="dateRangeOption" Value="7Days" @bind-Checked="dateRangeChecked"></SfRadioButton>
+    <SfRadioButton EnablePersistence="true" id="radio5" Label="Last 28 Days" Name="dateRangeOption" Value="28Days" @bind-Checked="dateRangeChecked"></SfRadioButton>
+    <SfRadioButton EnablePersistence="true" id="radio6" Label="YTD" Name="dateRangeOption" Value="ytd" @bind-Checked="dateRangeChecked"></SfRadioButton>
+</div>
+
+@code {
+    string dateRangeChecked { get; set; } = "3Days";
+}

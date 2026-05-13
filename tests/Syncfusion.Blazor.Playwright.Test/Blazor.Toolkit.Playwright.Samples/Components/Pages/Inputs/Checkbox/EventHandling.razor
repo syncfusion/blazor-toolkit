@@ -1,0 +1,110 @@
+@page "/checkbox/event-handling"
+@using Syncfusion.Blazor.Toolkit.Inputs
+@layout MainLayout
+
+<h1>Checkbox - Event Handling</h1>
+
+<div class="test-container">
+    <h2>Value Change Event</h2>
+    <SfCheckBox TChecked="bool" Label="Change Event Checkbox" @bind-Checked="eventCheckboxValue" ValueChange="OnValueChanged"></SfCheckBox>
+    <p>Current State: <strong>@eventCheckboxValue</strong></p>
+    <p>Last Change: <strong>@lastChangeTime</strong></p>
+    <p>Change Count: <strong>@changeCount</strong></p>
+</div>
+
+<div class="test-container">
+    <h2>Multiple Checkbox Interaction</h2>
+    <SfCheckBox TChecked="bool" Label="Option 1" @bind-Checked="option1Value" ValueChange="OnOptionChanged"></SfCheckBox>
+    <SfCheckBox TChecked="bool" Label="Option 2" @bind-Checked="option2Value" ValueChange="OnOptionChanged"></SfCheckBox>
+    <SfCheckBox TChecked="bool" Label="Option 3" @bind-Checked="option3Value" ValueChange="OnOptionChanged"></SfCheckBox>
+    <p>Selected Count: <strong>@SelectionCount()</strong></p>
+    <p>Last Changed Option: <strong>@lastChangedOption</strong></p>
+</div>
+
+<div class="test-container">
+    <h2>Logging</h2>
+    <button @onclick="ClearLog">Clear Log</button>
+    <div style="border: 1px solid #ccc; padding: 10px; height: 150px; overflow-y: auto; margin-top: 10px;">
+        @foreach (var log in eventLog)
+        {
+            <div style="font-size: 12px; font-family: monospace;">@log</div>
+        }
+    </div>
+</div>
+
+<style>
+    .test-container {
+        padding: 20px;
+        border: 1px solid #ddd;
+        margin: 10px 0;
+        border-radius: 4px;
+        background-color: #f9f9f9;
+    }
+    
+    h2 {
+        margin-top: 20px;
+        font-size: 18px;
+        font-weight: 600;
+    }
+    
+    button {
+        padding: 8px 16px;
+        margin-top: 10px;
+        cursor: pointer;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        background-color: #f0f0f0;
+    }
+    
+    button:hover {
+        background-color: #e0e0e0;
+    }
+    
+    p {
+        margin-top: 10px;
+        font-size: 14px;
+    }
+</style>
+
+@code {
+    private bool eventCheckboxValue = false;
+    private bool option1Value = false;
+    private bool option2Value = false;
+    private bool option3Value = false;
+    private string lastChangeTime = "None";
+    private int changeCount = 0;
+    private string lastChangedOption = "None";
+    private List<string> eventLog = new();
+    
+    private void OnValueChanged(CheckedChangeEventArgs<bool> args)
+    {
+        eventCheckboxValue = args.Checked;
+        lastChangeTime = DateTime.Now.ToString("HH:mm:ss.fff");
+        changeCount++;
+        AddLog($"Value changed to: {args.Checked}");
+    }
+    
+    private void OnOptionChanged(CheckedChangeEventArgs<bool> args)
+    {
+        AddLog($"Option changed to: {args.Checked}");
+    }
+    
+    private int SelectionCount()
+    {
+        return (option1Value ? 1 : 0) + (option2Value ? 1 : 0) + (option3Value ? 1 : 0);
+    }
+    
+    private void AddLog(string message)
+    {
+        eventLog.Insert(0, $"[{DateTime.Now:HH:mm:ss.fff}] {message}");
+        if (eventLog.Count > 50)
+        {
+            eventLog = eventLog.Take(50).ToList();
+        }
+    }
+    
+    private void ClearLog()
+    {
+        eventLog.Clear();
+    }
+}

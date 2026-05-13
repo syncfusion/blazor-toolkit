@@ -1,0 +1,69 @@
+﻿@page "/column-cross-marker"
+@using Syncfusion.Blazor.Toolkit.Charts
+@using Syncfusion.Blazor.Toolkit.Data
+@layout MainLayout
+
+<h3>Chart With Cross Marker Shape</h3>
+
+<SfChart ID="container" Width="700">
+    <ChartPrimaryXAxis Title="PrimaryXAxis"
+                       ValueType="Syncfusion.Blazor.Toolkit.ValueType.DateTimeCategory">
+    </ChartPrimaryXAxis>
+
+    <ChartPrimaryYAxis Title="PrimaryYAxis">
+    </ChartPrimaryYAxis>
+
+    <ChartSeriesCollection>
+        <ChartSeries DataSource="@columns"
+                     Type="ChartSeriesType.Column"
+                     XName="x"
+                     YName="y"
+                     Name="Column Series">
+
+            <ChartSeriesAnimation Enable="false" />
+
+            <ChartMarker Visible="true"
+                         Width="20"
+                         Height="20"
+                         Fill="Green"
+                         Opacity="0.1"
+                         Shape="ChartShape.Cross">
+
+                <ChartDataLabel Visible="true"
+                                Position="ChartLabelPosition.Top"
+                                Fill="#404041">
+                </ChartDataLabel>
+
+                <ChartMarkerBorder Width="4" Color="Red" />
+
+                <ChartMarkerOffset X="0" Y="0" />
+            </ChartMarker>
+
+        </ChartSeries>
+    </ChartSeriesCollection>
+</SfChart>
+
+@code {
+
+    // =========================
+    // Data Model (UNCHANGED)
+    // =========================
+    public class ColumnData
+    {
+        public DateTime x { get; set; }
+        public double y { get; set; }
+    }
+
+    // =========================
+    // Data Source (VERBATIM)
+    // =========================
+    public List<ColumnData> columns = new()
+    {
+        new ColumnData{ x = new DateTime(2000, 06, 11), y = 10 },
+        new ColumnData{ x = new DateTime(2002, 03, 07), y = -30 },
+        new ColumnData{ x = new DateTime(2004, 03, 06), y = 15 },
+        new ColumnData{ x = new DateTime(2006, 03, 30), y = -65 },
+        new ColumnData{ x = new DateTime(2008, 03, 08), y = 0 },
+        new ColumnData{ x = new DateTime(2010, 03, 08), y = 85 }
+    };
+}

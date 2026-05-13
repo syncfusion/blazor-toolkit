@@ -1,0 +1,754 @@
+﻿@inherits LayoutComponentBase
+@implements IAsyncDisposable
+
+@using Microsoft.AspNetCore.Components.Web
+@using Syncfusion.Blazor.Toolkit.Buttons
+@using Syncfusion.Blazor.Toolkit.Popups
+@using Syncfusion.Blazor.Toolkit.Inputs
+
+@inject Syncfusion.Blazor.Toolkit.SyncfusionBlazorService SyncfusionService
+@inject NavigationManager Urihelper
+
+<div class="page">
+    <header class="top-layout-custom">
+        @if (IsMobile)
+        {
+            <div class="top-layout-title">
+                <div class="brand-icon">
+                    <div class="syncfusion-logo"></div>
+                </div>
+                <div class="brand-name">Blazor Toolkit</div>
+            </div>
+        }
+        <div class="top-layout-inner">
+            @{
+                string topClass = IsTablet ? "top-left tablet" : "top-left";
+            }
+            <div class="@topClass">
+                @* Top-left of the top-right area: render a hamburger button on tablet/mobile to open the nav overlay. *@
+                @if (IsMobile || IsTablet)
+                {
+                    <SfButton CssClass="e-outline icon-button hamburger-button" IconCss="sb-icons e-menu" aria-label="Open menu" aria-controls="leftSidebar" aria-expanded="@OverlayLeftIsOpen.ToString().ToLower()" OnClick="@ToggleLeftOverlay" @onkeydown="@OnHamburgerKeyDown">
+                    </SfButton>
+                }
+                <div class="brand-section">
+                    @if (!IsMobile)
+                    {
+                        <div class="brand-icon">
+                            <div class="syncfusion-logo"></div>
+                        </div>
+                        <div class="brand-name">Blazor Toolkit</div>
+                    }
+                </div>
+            </div>
+            <div class="top-right">
+                <div class="action-buttons">
+                    @if (!IsMobile && !IsTablet)
+                    {
+                        <SfTextBox @ref="@TextBoxSearchObj" Width="300px" Placeholder="Search a component or features" @onclick="@ToggleSearchPopup" Created="@OnCreateSearch"></SfTextBox>
+                    }
+                    else
+                    {
+                        <SfButton CssClass="e-outline search icon-button theme-toggle" IconCss="sb-icons e-search" aria-label="Search Components" OnClick="@ToggleSearchPopup">
+                        </SfButton>
+                    }
+                </div>
+                
+                <SfDialog @ref="@DialogObj" Width="750px" IsModal="true" @bind-Visible="@isSearchVisible" CssClass="search-popup" OnOverlayModalClick="@OnOverlayClick" OnClose="OnDialogClose">
+                    <DialogTemplates>
+                        <Content>
+                            <SfTextBox Width="100%" Placeholder="Search" ShowClearButton="true" OnInput="@OnInput"></SfTextBox>
+                            <hr/>
+                            <div>
+                                <h6><b>Search docs</b></h6>
+                                <div class="search-list-wrapper">
+                                    @if (isPredefinedList)
+                                    {
+                                        @foreach (var item in PredefinedPages)
+                                        {
+                                            <div class="result-item" @onclick="() => Navigate(item.Url)">
+                                                <span class="sb-icons e-file-format"></span>@item.Title
+                                            </div>
+                                        }
+                                    } 
+                                    else
+                                    {
+                                        @foreach (var item in FilteredPages)
+                                        {
+                                            <div class="result-item" @onclick="() => Navigate(item.Url)">
+                                                <span class="sb-icons e-file-format"></span>@item.Title
+                                            </div>
+                                        }
+                                    }
+                                </div>
+                            </div>
+                        </Content>
+                    </DialogTemplates>
+                    <DialogPositionData X="center" Y="top"></DialogPositionData>
+                </SfDialog>
+
+                <div class="action-buttons preferences-wrapper">
+                    <button type="button" class="icon-button theme-toggle preferences-button" aria-label="Preferences" aria-haspopup="dialog" aria-expanded="@PreferencesPopupOpen" aria-controls="preferences-popup" @onclick="TogglePreferencesPopup">
+                        <span class="sb-icons e-settings" aria-hidden="true"></span>
+                    </button>
+
+                    @if (PreferencesPopupOpen)
+                    {
+                        <div class="preferences-popup-backdrop" @onclick="ClosePreferencesPopup"></div>
+                        <div id="preferences-popup" class="preferences-popup" role="dialog" aria-label="Preferences" @onclick:stopPropagation="true">
+                            <div class="preferences-container">
+                                <div>
+                                    <div class="preferences-header">Preferences</div>
+                                    <hr />
+                                    <div>
+                                        <div class="preferences-label">Mode Selection</div>
+                                        <div class="btn-group mode-toggle-group">
+                                            <SfButtonGroup Mode="SelectionMode.Single">
+                                                <ButtonGroupButton IconCss="sb-icons e-align-left" Selected="@(!IsRtl)" @onclick="@(() => SetRTL(false))">LTR</ButtonGroupButton>
+                                                <ButtonGroupButton IconCss="sb-icons e-align-right" Selected="@(IsRtl)" @onclick="@(() => SetRTL(true))">RTL</ButtonGroupButton>
+                                            </SfButtonGroup>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="render-mode-section">
+                                    <ModeSwitcher isRenderModeSwitcher="true"/>
+                                </div>
+                                <div class="render-mode-section">
+                                    <ModeSwitcher isRenderModeSwitcher="false" />
+                                </div>
+                            </div>
+                        </div>
+                    }
+                </div>
+
+                @if (!IsMobile && !IsTablet)
+                {
+                    <div class="action-buttons github">
+                        <NavLink class="icon-button theme-toggle source-icon-button" href="https://gitea.syncfusion.com/essential-studio/blazor-toolkit" target="_blank">
+                            <svg width="23" height="23" aria-hidden="true" viewBox="0 0 24 24" fill="currentColor"><path d="M12 1C5.923 1 1 5.923 1 12c0 4.867 3.149 8.979 7.521 10.436.55.096.756-.233.756-.522 0-.262-.013-1.128-.013-2.049-2.764.509-3.479-.674-3.699-1.292-.124-.317-.66-1.293-1.127-1.554-.385-.207-.936-.715-.014-.729.866-.014 1.485.797 1.691 1.128.99 1.663 2.571 1.196 3.204.907.096-.715.385-1.196.701-1.471-2.448-.275-5.005-1.224-5.005-5.432 0-1.196.426-2.186 1.128-2.956-.111-.275-.496-1.402.11-2.915 0 0 .921-.288 3.024 1.128a10.193 10.193 0 0 1 2.75-.371c.936 0 1.871.123 2.75.371 2.104-1.43 3.025-1.128 3.025-1.128.605 1.513.221 2.64.111 2.915.701.77 1.127 1.747 1.127 2.956 0 4.222-2.571 5.157-5.019 5.432.399.344.743 1.004.743 2.035 0 1.471-.014 2.654-.014 3.025 0 .289.206.632.756.522C19.851 20.979 23 16.854 23 12c0-6.077-4.922-11-11-11Z"></path></svg>
+                        </NavLink>
+                    </div>
+                    <div class="action-buttons">
+                        <SfButton CssClass="e-outline" class="icon-button theme-toggle" aria-label="Toggle theme" OnClick="@ToggleTheme">
+                            @if (IsDarkTheme)
+                            {
+                                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" role="presentation"><circle cx="12" cy="12" r="4"></circle><line x1="12" y1="2" x2="12" y2="6"></line><line x1="12" y1="18" x2="12" y2="22"></line><line x1="4.93" y1="4.93" x2="7.76" y2="7.76"></line><line x1="16.24" y1="16.24" x2="19.07" y2="19.07"></line><line x1="2" y1="12" x2="6" y2="12"></line><line x1="18" y1="12" x2="22" y2="12"></line><line x1="4.93" y1="19.07" x2="7.76" y2="16.24"></line><line x1="16.24" y1="7.76" x2="19.07" y2="4.93"></line></svg>
+                            }
+                            else
+                            {
+                                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" role="presentation"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg>
+                            }
+                        </SfButton>
+                    </div>
+                }
+            </div>
+        </div>
+    </header>
+    <div class="content-row">
+        <div class="loader-class">
+            <div class="overlay"></div>
+            <div class="brand-loader">
+                <div class="syncfusion-logo-large" aria-hidden="true"></div>
+            </div>
+        </div>
+        @if (!IsMobile && !IsTablet)
+        {
+            <aside class="sidebar">
+                <NavMenu />
+            </aside>
+        }
+
+        <main class="main-area">
+            <article class="page-content">
+                <CascadingValue Value="CurrentChartTheme">
+                    @Body
+                </CascadingValue>
+            </article>
+        </main>
+
+        @* Right panel is visible only on desktop. On tablet/mobile it's hidden for better space usage. *@
+        @if (!IsMobile && !IsTablet)
+        {
+            <aside class="right-panel">
+                <RightToc />
+            </aside>
+        }
+    </div>
+</div>
+
+@if (IsMobile || IsTablet)
+{
+    <div class="mobile-sidebar-backdrop @(OverlayLeftIsOpen ? "open" : string.Empty)" @onclick="OnLeftSidebarClose"></div>
+    <aside id="leftSidebar" class="mobile-sidebar @(OverlayLeftIsOpen ? "open" : string.Empty) @(IsRtl ? "rtl" : string.Empty)" aria-hidden="@(!OverlayLeftIsOpen).ToString().ToLower()">
+        <div class="e-top-sidebar">
+            <div style="display: flex;">
+                <div class="action-buttons github">
+                    <NavLink class="icon-button theme-toggle source-icon-button" href="https://gitea.syncfusion.com/essential-studio/blazor-toolkit" target="_blank">
+                        <svg width="23" height="23" aria-hidden="true" viewBox="0 0 24 24" fill="currentColor"><path d="M12 1C5.923 1 1 5.923 1 12c0 4.867 3.149 8.979 7.521 10.436.55.096.756-.233.756-.522 0-.262-.013-1.128-.013-2.049-2.764.509-3.479-.674-3.699-1.292-.124-.317-.66-1.293-1.127-1.554-.385-.207-.936-.715-.014-.729.866-.014 1.485.797 1.691 1.128.99 1.663 2.571 1.196 3.204.907.096-.715.385-1.196.701-1.471-2.448-.275-5.005-1.224-5.005-5.432 0-1.196.426-2.186 1.128-2.956-.111-.275-.496-1.402.11-2.915 0 0 .921-.288 3.024 1.128a10.193 10.193 0 0 1 2.75-.371c.936 0 1.871.123 2.75.371 2.104-1.43 3.025-1.128 3.025-1.128.605 1.513.221 2.64.111 2.915.701.77 1.127 1.747 1.127 2.956 0 4.222-2.571 5.157-5.019 5.432.399.344.743 1.004.743 2.035 0 1.471-.014 2.654-.014 3.025 0 .289.206.632.756.522C19.851 20.979 23 16.854 23 12c0-6.077-4.922-11-11-11Z"></path></svg>
+                    </NavLink>
+                </div>
+                <div class="action-buttons">
+                    <SfButton CssClass="e-outline" class="icon-button theme-toggle" aria-label="Toggle theme" OnClick="@ToggleTheme">
+                        @if (IsDarkTheme)
+                        {
+                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" role="presentation"><circle cx="12" cy="12" r="4"></circle><line x1="12" y1="2" x2="12" y2="6"></line><line x1="12" y1="18" x2="12" y2="22"></line><line x1="4.93" y1="4.93" x2="7.76" y2="7.76"></line><line x1="16.24" y1="16.24" x2="19.07" y2="19.07"></line><line x1="2" y1="12" x2="6" y2="12"></line><line x1="18" y1="12" x2="22" y2="12"></line><line x1="4.93" y1="19.07" x2="7.76" y2="16.24"></line><line x1="16.24" y1="7.76" x2="19.07" y2="4.93"></line></svg>
+                        }
+                        else
+                        {
+                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" role="presentation"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg>
+                        }
+                    </SfButton>
+                </div>
+            </div>
+            <SfButton IconCss="e-toolkit-icons e-close" CssClass="close-btn" aria-label="Close navigation" @onclick="OnLeftSidebarClose"></SfButton>
+        </div>
+        <div class="mobile-nav-wrapper" tabindex="0" @onkeydown="@OnSidebarKeyDown">
+            <NavMenu />
+        </div>
+    </aside>
+}
+
+<Syncfusion.Blazor.Toolkit.Popups.SfDialogProvider/>
+
+@code {
+    // Injected services
+    [Inject] NavigationManager Nav { get; set; } = default!;
+    [Inject] IJSRuntime JS { get; set; } = default!;
+
+    // Theme support
+    private bool IsDarkTheme = false;
+    private bool IsRtl = false;
+
+    // Search dialog state (existing)
+    private SfDialog DialogObj = default!;
+    private bool isSearchVisible = false;
+    private bool isPredefinedList = true;
+
+    private SfTextBox TextBoxSearchObj = default!;
+
+    private bool PreferencesPopupOpen = false;
+
+    // Responsive state: overlay left nav open and current screen size
+    private bool OverlayLeftIsOpen = false; // controls the mobile overlay sidebar
+
+    // Define breakpoints consistent with many responsive patterns: mobile <=640, tablet <=1024
+    private enum ScreenSize { Mobile, Tablet, Desktop }
+    private ScreenSize CurrentScreen { get; set; } = ScreenSize.Desktop;
+
+    // Distinguish mobile vs tablet for layout differences
+    private bool IsMobile => CurrentScreen == ScreenSize.Mobile;
+    private bool IsTablet => CurrentScreen == ScreenSize.Tablet;
+
+    // Compute the current Chart theme based on dark/light mode
+    private Theme CurrentChartTheme => IsDarkTheme ? Theme.FluentDark : Theme.Fluent;
+
+    // Keep a DotNetObjectReference for JS callbacks and ensure we dispose it
+    private DotNetObjectReference<MainLayout>? _dotNetRef;
+
+    // Search page lists
+    public List<SearchItem> PredefinedPages { get; set; } = new()
+    {
+        new("Getting Started", "getting-started"),
+        new("Button", "buttons/button"),
+        new("Calendar", "calendars/calendar")
+    };
+
+    public List<SearchItem> FilteredPages { get; set; } = new();
+
+    // Lifecycle: register resize callback once after first render and initialize theme
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+            // Create a DotNetObjectReference so JS can call back into this instance
+            _dotNetRef = DotNetObjectReference.Create(this);
+
+            // Ensure mainlayout.js is loaded and the responsive helper is available
+            await JS.InvokeVoidAsync("mainLayout.ensureResponsive");
+
+            // Register this instance with the helper
+            await JS.InvokeVoidAsync("responsiveBlazor.register", _dotNetRef);
+            try
+            {
+                var currentTheme = await JS.InvokeAsync<string>("mainLayout.initTheme");
+                IsDarkTheme = currentTheme == "dark";
+                await InvokeAsync(StateHasChanged);
+            }
+            catch { }
+
+            try
+            {
+                var currentDir = await JS.InvokeAsync<string>("mainLayout.initDir");
+                // Ensure the Syncfusion service is configured to match persisted direction on initial load
+                IsRtl = string.Equals(currentDir, "rtl", StringComparison.OrdinalIgnoreCase);
+                SyncfusionService.EnableRtl(IsRtl);
+                await InvokeAsync(StateHasChanged);
+            }
+            catch { }
+        }
+    }
+
+    // JSInvokable: receives width and updates internal screen size state.
+    [JSInvokable]
+    public Task NotifyResize(int width)
+    {
+        // Determine new logical screen size
+        var newSize = width <= 640 ? ScreenSize.Mobile : (width <= 1024 ? ScreenSize.Tablet : ScreenSize.Desktop);
+        // Only trigger a render when the logical size changes to minimize re-renders
+        if (newSize != CurrentScreen)
+        {
+            CurrentScreen = newSize;
+            // When moving to desktop, ensure overlays are closed
+            if (CurrentScreen == ScreenSize.Desktop)
+            {
+                OverlayLeftIsOpen = false;
+            }
+            // Request a render on the UI thread
+            InvokeAsync(StateHasChanged);
+        }
+        return Task.CompletedTask;
+    }
+
+    // Toggle overlay left nav (called from hamburger button)
+    private void ToggleLeftOverlay()
+    {
+        OverlayLeftIsOpen = !OverlayLeftIsOpen;
+    }
+
+    // Close handler for SfSidebar
+    private void OnLeftSidebarClose()
+    {
+        OverlayLeftIsOpen = false;
+    }
+
+    // Handle keydown events inside the overlay sidebar (Escape to close)
+    private void OnSidebarKeyDown(KeyboardEventArgs e)
+    {
+        if (e.Key == "Escape")
+        {
+            OverlayLeftIsOpen = false;
+        }
+    }
+
+    // Keyboard support for hamburger: Enter/Space toggle, Escape closes
+    private void OnHamburgerKeyDown(KeyboardEventArgs e)
+    {
+        if (e.Key == "Enter" || e.Key == " ")
+        {
+            ToggleLeftOverlay();
+        }
+        else if (e.Key == "Escape")
+        {
+            OverlayLeftIsOpen = false;
+        }
+    }
+
+    // Existing search helpers (unchanged semantics)
+    private void ToggleSearchPopup()
+    {
+        isSearchVisible = true;
+    }
+
+    private void OnOverlayClick()
+    {
+        isSearchVisible = false;
+        isPredefinedList = true;
+    }
+
+    private void OnInput(InputEventArgs args)
+    {
+        isPredefinedList = args.Value is null ? true : false;
+        if (!string.IsNullOrEmpty(args.Value))
+        {
+            FilteredPages = SearchIndex.Items.Where(item => item.Title.Contains(args.Value, StringComparison.OrdinalIgnoreCase)).ToList();
+        }
+        else
+        {
+            FilteredPages = new();
+        }
+    }
+
+    private async Task Navigate(string url)
+    {
+        Nav.NavigateTo(url);
+        await Task.Delay(200);
+        isSearchVisible = false;
+        isPredefinedList = true;
+    }
+
+    private void TogglePreferencesPopup()
+    {
+        PreferencesPopupOpen = !PreferencesPopupOpen;
+    }
+
+    private void ClosePreferencesPopup()
+    {
+        PreferencesPopupOpen = false;
+    }
+
+    private async Task SetRTL(bool rtl)
+    {
+        IsRtl = rtl;
+        PreferencesPopupOpen = false;
+        // Update Syncfusion RTL mode immediately so components will be configured
+        SyncfusionService.EnableRtl(IsRtl);
+        var dir = IsRtl ? "rtl" : "ltr";
+        try
+        {
+            await JS.InvokeVoidAsync("mainLayout.setDir", dir);
+        }
+        catch { }
+        await InvokeAsync(StateHasChanged);
+        try
+        {
+            Nav.NavigateTo(Urihelper.BaseUri, forceLoad: true);
+        }
+        catch { }
+    }
+
+    // Toggle dark/light theme: update localStorage, document class and Syncfusion theme link
+    private async Task ToggleTheme()
+    {
+        IsDarkTheme = !IsDarkTheme;
+        var theme = IsDarkTheme ? "dark" : "light";
+        try
+        {
+            await JS.InvokeVoidAsync("mainLayout.setTheme", theme);
+        }
+        catch { }
+        await InvokeAsync(StateHasChanged);
+    }
+
+    private async Task OnCreateSearch()
+    {
+        await TextBoxSearchObj.AddIconAsync("append", "sb-icons e-search");
+    }
+
+    private void OnDialogClose(BeforeCloseEventArgs args)
+    {
+        args.PreventFocus = true;
+    }
+
+    // Ensure we clean up the JS listeners and DotNetObjectReference
+    public async ValueTask DisposeAsync()
+    {
+        try
+        {
+            await JS.InvokeVoidAsync("responsiveBlazor.dispose");
+        }
+        catch
+        {
+            // ignore errors during dispose
+        }
+
+        _dotNetRef?.Dispose();
+    }
+}
+
+<style>
+    :root {
+        --bg-color: #ffffff;
+        --text-color: #111827;
+        --top-bg: #ffffff;
+        --top-text: #111827;
+        --sidebar-bg: #ffffff;
+        --panel-bg: #f7f7fa;
+        --scroll-bg: #ffffff;
+        --accent: #6750a4;
+        --accent-foreground: #ffffff;
+        --li-hover: #f1f5f9;
+        --topsidebar-color: rgba(245,245,245,1);
+    }
+    .dark {
+        --bg-color: #0b1020;
+        --text-color: #e5e7eb;
+        --top-bg: #071028;
+        --top-text: #e5e7eb;
+        --sidebar-bg: #071028;
+        --panel-bg: #071028;
+        --scroll-bg: #071028;
+        --accent: #8b5cf6;
+        --accent-foreground: #001223;
+        --li-hover: #082037;
+        --topsidebar-color: rgba(21,21,33,1);
+    }
+
+    /* RTL helper: document root will receive `dir=rtl` and `.rtl` class */
+    .rtl {
+        direction: rtl;
+    }
+
+    /* Page-level colors */
+    .page {
+        background-color: var(--bg-color);
+        color: var(--text-color);
+        min-height: 100vh;
+        transition: background-color .2s ease, color .2s ease;
+    }
+
+    /* Top layout */
+    .top-layout-custom {
+        background-color: var(--top-bg);
+        color: var(--top-text);
+        transition: background-color .2s ease, color .2s ease;
+    }
+    .top-layout-custom .brand-name,
+    .top-layout-custom .github a,
+    .e-sidebar .github a,
+    .e-top-sidebar .github a {
+        color: var(--top-text);
+        font-weight: bold;
+        margin-top: 7px;
+    }
+    /* Ensure brand-icon SVG follows the current color (light/dark) */
+    .brand-icon svg,
+    .brand-icon svg rect,
+    .brand-icon svg path,
+    .brand-icon svg circle,
+    .brand-icon svg polyline,
+    .brand-icon svg line {
+        fill: currentColor;
+    }
+
+    /* Sidebars */
+    .sidebar,
+    .mobile-sidebar {
+        background-color: var(--sidebar-bg);
+        color: var(--text-color);
+        transition: background-color .2s ease, color .2s ease;
+    }
+    .mobile-sidebar-backdrop {
+        position: fixed;
+        inset: 0;
+        z-index: 998;
+        background: rgba(0, 0, 0, 0.28);
+        opacity: 0;
+        pointer-events: none;
+        transition: opacity .2s ease;
+    }
+    .dark .mobile-sidebar-backdrop {
+        background: rgba(0, 0, 0, 0.45);
+    }
+    .mobile-sidebar-backdrop.open {
+        opacity: 1;
+        pointer-events: auto;
+    }
+    .mobile-sidebar {
+        position: fixed;
+        top: 0;
+        bottom: 0;
+        left: 0;
+        width: 260px;
+        z-index: 999;
+        transform: translateX(-100%);
+        box-shadow: 0 12px 30px rgba(0, 0, 0, 0.2);
+        overflow-y: auto;
+        border-inline-end: 1px solid rgba(0, 0, 0, 0.08);
+    }
+    .mobile-sidebar.open {
+        transform: translateX(0);
+    }
+    .mobile-sidebar.rtl {
+        left: auto;
+        right: 0;
+        transform: translateX(100%);
+        border-inline-end: 0;
+        border-inline-start: 1px solid rgba(0, 0, 0, 0.08);
+    }
+    .mobile-sidebar.rtl.open {
+        transform: translateX(0);
+    }
+    .right-panel,
+    .right-toc {
+        background-color: var(--panel-bg);
+        color: var(--text-color);
+    }
+
+    /* Navigation links */
+    .sidebar .nav-link,
+    .sidebar .menu-summary {
+        color: var(--text-color);
+    }
+
+    /* Accent for hover states */
+    .toc-item:hover {
+        border-left-color: color-mix(in srgb, var(--accent) 28%, transparent) !important;
+    }
+
+    /* Existing UI rules */
+    .search-popup.e-dialog.e-popup {
+        margin-top: 100px !important;
+    }
+    .search-popup.e-dialog .e-dlg-header {
+        width: 100%;
+    }
+    .result-item {
+        padding: 5px 0;
+        cursor: pointer;
+    }
+    .result-item:hover {
+        background-color: rgba(28, 27, 31, .05);
+    }
+    .search-list-wrapper {
+        max-height: 400px;
+        overflow-y: auto;
+        scrollbar-width: thin;
+    }
+    /* Scrollable area background follows theme */
+    .nav-scrollable,
+    .main-area,
+    .search-list-wrapper {
+        scrollbar-color: #a5a7ab var(--scroll-bg);
+    }
+    .top-layout-title .brand-name {
+        padding-top: 5px;
+        font-size: 1em;
+        line-height: 20px;
+        font-weight: bold;
+    }
+    .top-layout-title {
+        display: flex;
+        padding: 10px 10px 0px 10px;
+        justify-content: center;
+    }
+    .top-layout-inner .top-left.tablet {
+        display: contents;
+    }
+    .top-layout-inner .hamburger-button {
+        margin-right: 10px;
+    }
+    /* Ensure Bootstrap's utility class combos like `bg-light p-3` follow theme variables */
+    .bg-light.p-3 {
+        background-color: var(--panel-bg) !important;
+        color: var(--text-color) !important;
+        transition: background-color .18s ease, color .18s ease;
+    }
+    .bg-light.p-3 code,
+    .bg-light.p-3 pre {
+        color: inherit;
+        background: transparent;
+    }
+    .e-top-sidebar {
+        padding: 10px;
+        background-color: var(--topsidebar-color);
+        display: flex;
+        justify-content: space-between;
+    }
+    .syncfusion-logo {
+        background: url(https://cdn.syncfusion.com/blazor/images/demos/syncfusion-logo.svg);
+        background-size: contain;
+        transform-box: view-box;
+        width: 165px;
+        height: 35px;
+        background-repeat: no-repeat;
+    }
+    .brand-icon {
+        padding: 0 5px;
+    }
+    .page-rtl .right-panel,
+    .page-rtl .top-left  {
+        direction: ltr;
+    }
+    .top-layout-title .syncfusion-logo {
+        width: 155px;
+    }
+    .preferences-wrapper {
+        position: relative;
+        display: inline-flex;
+        align-items: center;
+        z-index: 1001;
+    }
+    .preferences-button {
+        appearance: none;
+        -webkit-appearance: none;
+        background: transparent;
+        border: 1px solid #e7e0ec;
+        border-radius: 4px;
+        color: var(--top-text);
+        cursor: pointer;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        height: 100%;
+        width: 40px;
+        padding: 0;
+    }
+    .preferences-button:hover {
+        background: rgba(127, 127, 127, 0.12);
+    }
+    .preferences-button:focus-visible {
+        outline: 2px solid var(--accent);
+        outline-offset: 2px;
+    }
+    .preferences-button .e-settings {
+        font-size: 17px;
+        line-height: 1;
+    }
+    .preferences-popup-backdrop {
+        position: fixed;
+        inset: 0;
+        z-index: 999;
+        background: transparent;
+    }
+    .preferences-popup {
+        position: absolute;
+        inset-block-start: calc(100% + 10px);
+        inset-inline-end: 0;
+        z-index: 1000;
+        background-color: var(--panel-bg);
+        color: var(--text-color);
+        border: 1px solid rgba(0, 0, 0, 0.1);
+        border-radius: 10px;
+        box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.1);
+        overflow: hidden;
+    }
+    .dark .preferences-popup {
+        border-color: rgba(255, 255, 255, 0.1);
+        box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.4), 0 10px 10px -5px rgba(0, 0, 0, 0.3);
+    }
+    .mode-toggle-group {
+        display: flex;
+        gap: 8px;
+    }
+    .preferences-container {
+        min-width: 250px;
+        padding: 12px 16px;
+    }
+    .preferences-header {
+        font-weight: 600;
+        font-size: 16px;
+        margin-bottom: 10px;
+    }
+    .preferences-label {
+        font-size: 14px;
+        margin-bottom: 6px;
+    }
+    .render-mode-section {
+        padding-top: 10px;
+    }
+    .mode-toggle-group .e-btn-group label.e-btn {
+        width: 105px;
+    }
+    .mode-toggle-group .e-btn-group .e-btn-icon {
+        margin: 0 5px;
+    }
+    .mode-toggle-group .align-icon {
+        color: var(--top-text);
+        margin-right: 8px;
+        display: inline-flex;
+        vertical-align: middle;
+        width: 16px;
+        height: 16px;
+    }
+    .sb-icons.e-file-format {
+        margin: 0 5px;
+    }
+    .search.icon-button,
+    .icon-button.hamburger-button {
+        line-height: 17px;
+    }
+    .search.icon-button .e-search,
+    .icon-button.hamburger-button .e-menu {
+        font-size: 20px;
+    }
+</style>

@@ -1,0 +1,60 @@
+﻿@using Microsoft.AspNetCore.Components.Forms
+@using Syncfusion.Blazor.Toolkit.Inputs
+@using Xunit.Sdk
+@using System.ComponentModel.DataAnnotations
+
+@namespace Syncfusion.Blazor.Toolkit.Tests.Inputs
+
+<div class="sample">
+    <form>
+    <SfSwitch Checked="true" Name="status" Value="test"></SfSwitch>
+        <button>Submit</button>
+    </form>
+
+    <EditForm Model="validationMessage">
+        <DataAnnotationsValidator />
+        <ValidationMessage For="@(() => validationMessage.IsChecked)" />
+        <SfSwitch @bind-Checked="validationMessage.IsChecked"></SfSwitch>
+    </EditForm>
+
+    <EditForm Model="validationSummary">
+        <DataAnnotationsValidator />
+        <ValidationSummary />
+        <SfSwitch @bind-Checked="validationSummary.IsChecked"></SfSwitch>
+    </EditForm>
+
+    <EditForm EditContext="valiationMessageContext">
+        <DataAnnotationsValidator />
+        <ValidationMessage For="@(() => valiationMessageModel.IsChecked)" />
+        <SfSwitch @bind-Checked="valiationMessageModel.IsChecked"></SfSwitch>
+    </EditForm>
+
+    <EditForm EditContext="validationSummaryContext">
+        <DataAnnotationsValidator />
+        <ValidationSummary />
+        <SfSwitch @bind-Checked="validationSummaryModel.IsChecked"></SfSwitch>
+    </EditForm>
+</div>
+
+@code {
+    private EditContext valiationMessageContext;
+    private EditContext validationSummaryContext;
+    private SwitchModel validationSummary = new SwitchModel();
+    private SwitchModel validationMessage = new SwitchModel();
+    private SwitchModel valiationMessageModel = new SwitchModel();
+    private SwitchModel validationSummaryModel = new SwitchModel();
+
+    protected override Task OnInitializedAsync()
+    {
+        valiationMessageContext = new EditContext(valiationMessageModel);
+        validationSummaryContext = new EditContext(validationSummaryModel);
+        return base.OnInitializedAsync();
+    }
+
+    public class SwitchModel
+    {
+        [Required]
+        [Range(typeof(bool), "true", "true", ErrorMessage = "This form disallows unapproved ships.")]
+        public bool? IsChecked { get; set; }
+    }
+}

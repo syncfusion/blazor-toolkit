@@ -1,0 +1,16 @@
+@page "/numerictextbox/states"
+@using Syncfusion.Blazor.Toolkit.Inputs
+
+<h1>NumericTextBox — States</h1>
+
+<div style="max-width:480px">
+    <h3>Readonly</h3>
+    <SfNumericTextBox Id="readonlyNumeric" TValue="double?" Value="42" Readonly="true"></SfNumericTextBox>
+
+    <h3 style="margin-top:12px">Editable</h3>
+    <SfNumericTextBox Id="editableNumeric" TValue="double?" @bind-Value="EditableValue"></SfNumericTextBox>
+</div>
+
+@code {
+    private double? EditableValue { get; set; }
+}

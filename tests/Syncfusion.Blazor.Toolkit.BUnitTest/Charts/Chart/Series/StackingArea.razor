@@ -1,0 +1,1836 @@
+﻿@using Syncfusion.Blazor.Toolkit.Charts
+@using Syncfusion.Blazor.Toolkit.Tests
+@using Bunit
+@using Xunit
+
+@inherits TestComponentBase
+
+<SfFixture @ref="fixture" TestAsync="CheckingDefaultPoints" Description="CheckingDefaultPoints">
+    <ComponentUnderTest>
+        <SfChart ID="container" Title="Chart Ts Title" Width="900">
+            <ChartPrimaryXAxis Title="PrimaryXAxis"></ChartPrimaryXAxis>
+            <ChartPrimaryYAxis Title="PrimaryYAxis" RangePadding="ChartRangePadding.Normal"></ChartPrimaryYAxis>
+            <ChartSeriesCollection>
+                <ChartSeries DataSource="@Sales" XName="x" YName="y" Type="ChartSeriesType.StackingArea" Name="Gold" Fill="rgba(135,206,235,1)">
+                    <ChartSeriesAnimation Enable="false"></ChartSeriesAnimation>
+                </ChartSeries>
+                <ChartSeries DataSource="@Sales" XName="x" YName="y1" Type="ChartSeriesType.StackingArea" Name="Diamond" Fill="Blue">
+                    <ChartSeriesAnimation Enable="false"></ChartSeriesAnimation>
+                </ChartSeries>
+            </ChartSeriesCollection>
+        </SfChart>
+    </ComponentUnderTest>
+</SfFixture>
+
+
+@code {
+
+    SfFixture fixture { get; set; }
+    async Task CheckingDefaultPoints(Fixture fixture)
+    {
+        var cut = fixture.GetComponentUnderTest<SfChart>();
+        await Task.Delay(200);
+        var series1 = cut.Find("#container_Series_0");
+        Assert.True(series1.GetAttribute("fill") == "rgba(135,206,235,1)");
+        var series2 = cut.Find("#container_Series_1");
+        Assert.True(series2.GetAttribute("fill") == "Blue");
+        cut.SetParametersAndRender();
+    }
+    public class AreaData
+    {
+        public double x { get; set; }
+        public double y { get; set; }
+        public double y1 { get; set; }
+    }
+
+    public List<AreaData> Sales = new List<AreaData>
+{
+        new AreaData { x = 1000, y = 70, y1 = 73 },
+        new AreaData { x = 2000, y = 40, y1 = 40 },
+        new AreaData { x = 3000, y = 70, y1 = 75 },
+        new AreaData { x = 4000, y = 60, y1 = 30 },
+        new AreaData { x = 5000, y = 50, y1 = 56 },
+        new AreaData { x = 6000, y = 40, y1 = 60 },
+        new AreaData { x = 7000, y = 40, y1 = 41 },
+        new AreaData { x = 8000, y = 70, y1 = 45 }
+    };
+}
+
+
+@{
+    var InitialGroup1 = (new string[] { "CustomerID", "OrderID" });
+}
+<SfFixture @ref="fixture1" TestAsync="CheckingWithNullPoints" Description="CheckingWithNullPoints">
+    <ComponentUnderTest>
+        <SfChart ID="container" Title="Chart Ts Title" Width="900">
+            <ChartPrimaryXAxis Title="PrimaryXAxis"></ChartPrimaryXAxis>
+            <ChartPrimaryYAxis Title="PrimaryYAxis" RangePadding="ChartRangePadding.Normal"></ChartPrimaryYAxis>
+            <ChartSeriesCollection>
+                <ChartSeries DataSource="@Sales1" XName="x" YName="y" Type="ChartSeriesType.StackingArea" Name="Gold" Fill="rgba(135,206,235,1)">
+                    <ChartSeriesAnimation Enable="false"></ChartSeriesAnimation>
+                </ChartSeries>
+                <ChartSeries DataSource="@Sales1" XName="x" YName="y1" Type="ChartSeriesType.StackingArea" Name="Diamond" Fill="Blue">
+                    <ChartSeriesAnimation Enable="false"></ChartSeriesAnimation>
+                </ChartSeries>
+            </ChartSeriesCollection>
+        </SfChart>
+    </ComponentUnderTest>
+</SfFixture>
+
+@code {
+
+    SfFixture fixture1 { get; set; }
+    async Task CheckingWithNullPoints(Fixture fixture1)
+    {
+        var cut = fixture1.GetComponentUnderTest<SfChart>();
+        await Task.Delay(200);
+        var series1 = cut.Find("#containerAxisLabels0");
+        Assert.True(series1.ChildNodes.Length == 8);
+        var series2 = cut.Find("#containerAxisLabels1");
+        Assert.True(series2.ChildNodes.Length == 9);
+        cut.SetParametersAndRender();
+    }
+    public class AreaData1
+    {
+        public double x { get; set; }
+        public double? y { get; set; }
+        public double? y1 { get; set; }
+    }
+    public List<AreaData1> Sales1 = new List<AreaData1>
+{
+        new AreaData1 { x = 1000, y = 70, y1 = 73 },
+        new AreaData1 { x = 2000, y = 40, y1 = 40 },
+        new AreaData1 { x = 3000, y = 70, y1 = 75 },
+        new AreaData1 { x = 4000, y = null, y1 = 30 },
+        new AreaData1 { x = 5000, y = 50, y1 = 56 },
+        new AreaData1 { x = 6000, y = 40, y1 = null },
+        new AreaData1 { x = 7000, y = 40, y1 = 41 },
+        new AreaData1 { x = 8000, y = 70, y1 = 45 }
+    };
+}
+
+
+@{
+    var InitialGroup2 = (new string[] { "CustomerID", "OrderID" });
+}
+<SfFixture @ref="fixture2" TestAsync="CheckingWithNegativeDataPoint" Description="CheckingWithNegativeDataPoint">
+    <ComponentUnderTest>
+        <SfChart ID="container" Title="Chart Ts Title" Width="900">
+            <ChartPrimaryXAxis Title="PrimaryXAxis"></ChartPrimaryXAxis>
+            <ChartPrimaryYAxis Title="PrimaryYAxis" RangePadding="ChartRangePadding.Normal"></ChartPrimaryYAxis>
+            <ChartSeriesCollection>
+                <ChartSeries DataSource="@Sales2" XName="x" YName="y" Type="ChartSeriesType.StackingArea" Name="Gold" Fill="rgba(135,206,235,1)">
+                    <ChartSeriesAnimation Enable="false"></ChartSeriesAnimation>
+                </ChartSeries>
+                <ChartSeries DataSource="@Sales2" XName="x" YName="y1" Type="ChartSeriesType.StackingArea" Name="Diamond" Fill="Blue">
+                    <ChartSeriesAnimation Enable="false"></ChartSeriesAnimation>
+                </ChartSeries>
+            </ChartSeriesCollection>
+        </SfChart>
+    </ComponentUnderTest>
+</SfFixture>
+
+@code {
+
+    SfFixture fixture2 { get; set; }
+    async Task CheckingWithNegativeDataPoint(Fixture fixture2)
+    {
+        var cut = fixture2.GetComponentUnderTest<SfChart>();
+        await Task.Delay(200);
+        var series1 = cut.Find("#container_Series_0");
+        Assert.True(series1.GetAttribute("fill") == "rgba(135,206,235,1)");
+        var series2 = cut.Find("#container_Series_1");
+        Assert.True(series2.GetAttribute("fill") == "Blue");
+        cut.SetParametersAndRender();
+    }
+    public class AreaData2
+    {
+        public double x { get; set; }
+        public double y { get; set; }
+        public double y1 { get; set; }
+    }
+    public List<AreaData2> Sales2 = new List<AreaData2>
+{
+        new AreaData2 { x = 1000, y = 70, y1 = 70 },
+        new AreaData2 { x = 2000, y = -40, y1 = -40 },
+        new AreaData2 { x = 3000, y = 70, y1 = 20 },
+        new AreaData2 { x = 4000, y = 60, y1 = 60 },
+        new AreaData2 { x = 5000, y = -50, y1 = -50 },
+        new AreaData2 { x = 6000, y = -40, y1 = -40 },
+        new AreaData2 { x = 7000, y = 40, y1 = 40 },
+        new AreaData2 { x = 8000, y = 70, y1 = 70 }
+    };
+}
+
+
+@{
+    var InitialGroup3 = (new string[] { "CustomerID", "OrderID" });
+}
+<SfFixture @ref="fixture3" TestAsync="CheckingMarkerVisibleFalse" Description="CheckingMarkerVisibleFalse">
+    <ComponentUnderTest>
+        <SfChart ID="container" Title="Chart Ts Title" Width="900">
+            <ChartPrimaryXAxis Title="PrimaryXAxis" ValueType="Syncfusion.Blazor.Toolkit.ValueType.Double"></ChartPrimaryXAxis>
+            <ChartPrimaryYAxis Title="PrimaryYAxis" RangePadding="ChartRangePadding.Normal"></ChartPrimaryYAxis>
+            <ChartSeriesCollection>
+                <ChartSeries DataSource="@Sales3" XName="x" YName="y" Type="ChartSeriesType.StackingArea" Name="Gold" Fill="rgba(135,206,235,1)">
+                    <ChartSeriesAnimation Enable="false"></ChartSeriesAnimation>
+                    <ChartMarker Visible="false"></ChartMarker>
+                </ChartSeries>
+                <ChartSeries DataSource="@Sales3" XName="x" YName="y1" Type="ChartSeriesType.StackingArea" Name="Diamond" Fill="Blue">
+                    <ChartSeriesAnimation Enable="false"></ChartSeriesAnimation>
+                    <ChartMarker Visible="false"></ChartMarker>
+                </ChartSeries>
+            </ChartSeriesCollection>
+        </SfChart>
+    </ComponentUnderTest>
+</SfFixture>
+
+@code {
+
+    SfFixture fixture3 { get; set; }
+    async Task CheckingMarkerVisibleFalse(Fixture fixture3)
+    {
+        var cut = fixture3.GetComponentUnderTest<SfChart>();
+        await Task.Delay(200);
+        var series1 = cut.Find("#container_Series_0");
+        Assert.True(series1.GetAttribute("fill") == "rgba(135,206,235,1)");
+        var series2 = cut.Find("#container_Series_1");
+        Assert.True(series2.GetAttribute("fill") == "Blue");
+        cut.SetParametersAndRender();
+    }
+    public class AreaData3
+    {
+        public double x { get; set; }
+        public double y { get; set; }
+        public double y1 { get; set; }
+    }
+
+    public List<AreaData3> Sales3 = new List<AreaData3>
+{
+        new AreaData3 { x = 1000, y = 70, y1 = 73 },
+        new AreaData3 { x = 2000, y = 40, y1 = 40 },
+        new AreaData3 { x = 3000, y = 70, y1 = 75 },
+        new AreaData3 { x = 4000, y = 60, y1 = 30 },
+        new AreaData3 { x = 5000, y = 50, y1 = 56 },
+        new AreaData3 { x = 6000, y = 40, y1 = 60 },
+        new AreaData3 { x = 7000, y = 40, y1 = 41 },
+        new AreaData3 { x = 8000, y = 70, y1 = 45 }
+    };
+}
+
+
+@{
+    var InitialGroup4 = (new string[] { "CustomerID", "OrderID" });
+}
+<SfFixture @ref="fixture4" TestAsync="CheckingMarkerSize" Description="CheckingMarkerSize">
+    <ComponentUnderTest>
+        <SfChart ID="container" @ref="chartobj" Title="Chart Ts Title" Width="900">
+            <ChartPrimaryXAxis Title="PrimaryXAxis" ValueType="Syncfusion.Blazor.Toolkit.ValueType.Double"></ChartPrimaryXAxis>
+            <ChartPrimaryYAxis Title="PrimaryYAxis" RangePadding="ChartRangePadding.Normal"></ChartPrimaryYAxis>
+            <ChartSeriesCollection>
+                <ChartSeries DataSource="@Sales4" XName="x" YName="y" Type="ChartSeriesType.StackingArea" Name="Gold" Fill="rgba(135,206,235,1)">
+                    <ChartSeriesAnimation Enable="false"></ChartSeriesAnimation>
+                    <ChartMarker Visible="true" Width="10" Height="10">
+                        <ChartMarkerOffset X="10"></ChartMarkerOffset>
+                    </ChartMarker>
+                </ChartSeries>
+                <ChartSeries DataSource="@Sales4" XName="x" YName="y1" Type="ChartSeriesType.StackingArea" Name="Diamond" Fill="Blue">
+                    <ChartSeriesAnimation Enable="false"></ChartSeriesAnimation>
+                    <ChartMarker Visible="true" Width="10" Height="10">
+                        <ChartMarkerOffset Y="10"></ChartMarkerOffset>
+                    </ChartMarker>
+                </ChartSeries>
+            </ChartSeriesCollection>
+        </SfChart>
+    </ComponentUnderTest>
+</SfFixture>
+
+@code {
+    SfChart chartobj;
+    SfFixture fixture4 { get; set; }
+    async Task CheckingMarkerSize(Fixture fixture4)
+    {
+     
+    }
+    public class AreaData4
+    {
+        public double x { get; set; }
+        public double y { get; set; }
+        public double y1 { get; set; }
+    }
+
+    public List<AreaData4> Sales4 = new List<AreaData4>
+{
+        new AreaData4 { x = 1000, y = 70, y1 = 73 },
+        new AreaData4 { x = 2000, y = 40, y1 = 40 },
+        new AreaData4 { x = 3000, y = 70, y1 = 75 },
+        new AreaData4 { x = 4000, y = 60, y1 = 30 },
+        new AreaData4 { x = 5000, y = 50, y1 = 56 },
+        new AreaData4 { x = 6000, y = 40, y1 = 60 },
+        new AreaData4 { x = 7000, y = 40, y1 = 41 },
+        new AreaData4 { x = 8000, y = 70, y1 = 45 }
+    };
+}
+
+
+@{
+    var InitialGroup5 = (new string[] { "CustomerID", "OrderID" });
+}
+<SfFixture @ref="fixture5" TestAsync="CheckingMarkerShape" Description="CheckingMarkerShape">
+    <ComponentUnderTest>
+        <SfChart ID="container" Title="Chart Ts Title" Width="900">
+            <ChartPrimaryXAxis Title="PrimaryXAxis" ValueType="Syncfusion.Blazor.Toolkit.ValueType.Double"></ChartPrimaryXAxis>
+            <ChartPrimaryYAxis Title="PrimaryYAxis" RangePadding="ChartRangePadding.Normal"></ChartPrimaryYAxis>
+            <ChartSeriesCollection>
+                <ChartSeries DataSource="@Sales5" XName="x" YName="y" Type="ChartSeriesType.StackingArea" Name="Gold" Fill="rgba(135,206,235,1)">
+                    <ChartSeriesAnimation Enable="false"></ChartSeriesAnimation>
+                    <ChartMarker Visible="true" Width="10" Height="10" Fill="Red" Shape="ChartShape.Rectangle">
+                        <ChartMarkerOffset X="0"></ChartMarkerOffset>
+                    </ChartMarker>
+                </ChartSeries>
+                <ChartSeries DataSource="@Sales5" XName="x" YName="y1" Type="ChartSeriesType.StackingArea" Name="Diamond" Fill="Blue">
+                    <ChartSeriesAnimation Enable="false"></ChartSeriesAnimation>
+                    <ChartMarker Visible="true" Width="10" Height="10" Fill="Black" Shape="ChartShape.Diamond">
+                        <ChartMarkerOffset Y="0"></ChartMarkerOffset>
+                    </ChartMarker>
+                </ChartSeries>
+            </ChartSeriesCollection>
+        </SfChart>
+    </ComponentUnderTest>
+</SfFixture>
+
+@code {
+
+    SfFixture fixture5 { get; set; }
+    async Task CheckingMarkerShape(Fixture fixture5)
+    {
+        var cut = fixture5.GetComponentUnderTest<SfChart>();
+        await Task.Delay(200);
+        var marker = cut.Find("#container_Series_0_Point_0_Symbol");
+        Assert.True(marker.GetAttribute("fill") == "Red");
+        var marker1 = cut.Find("#container_Series_1_Point_0_Symbol");
+        Assert.True(marker1.GetAttribute("fill") == "Black");
+        cut.SetParametersAndRender();
+    }
+    public class AreaData5
+    {
+        public double x { get; set; }
+        public double y { get; set; }
+        public double y1 { get; set; }
+    }
+
+    public List<AreaData5> Sales5 = new List<AreaData5>
+{
+        new AreaData5 { x = 1000, y = 70, y1 = 73 },
+        new AreaData5 { x = 2000, y = 40, y1 = 40 },
+        new AreaData5 { x = 3000, y = 70, y1 = 75 },
+        new AreaData5 { x = 4000, y = 60, y1 = 30 },
+        new AreaData5 { x = 5000, y = 50, y1 = 56 },
+        new AreaData5 { x = 6000, y = 40, y1 = 60 },
+        new AreaData5 { x = 7000, y = 40, y1 = 41 },
+        new AreaData5 { x = 8000, y = 70, y1 = 45 }
+    };
+}
+
+
+@{
+    var InitialGroup6 = (new string[] { "CustomerID", "OrderID" });
+}
+<SfFixture @ref="fixture6" TestAsync="CheckingMarkerShapeStackingArea" Description="CheckingMarkerShapeStackingArea">
+    <ComponentUnderTest>
+        <SfChart ID="container" Title="Chart Ts Title" Width="900">
+            <ChartPrimaryXAxis Title="PrimaryXAxis" ValueType="Syncfusion.Blazor.Toolkit.ValueType.Double"></ChartPrimaryXAxis>
+            <ChartPrimaryYAxis Title="PrimaryYAxis" RangePadding="ChartRangePadding.Normal"></ChartPrimaryYAxis>
+            <ChartSeriesCollection>
+                <ChartSeries DataSource="@Sales6" XName="x" YName="y" Type="ChartSeriesType.StackingArea100" Name="Gold" Fill="rgba(135,206,235,1)">
+                    <ChartSeriesAnimation Enable="false"></ChartSeriesAnimation>
+                    <ChartMarker Visible="true" Width="10" Height="10" Fill="Red" Shape="ChartShape.Rectangle">
+                        <ChartMarkerOffset X="0"></ChartMarkerOffset>
+                    </ChartMarker>
+                </ChartSeries>
+                <ChartSeries DataSource="@Sales6" XName="x" YName="y1" Type="ChartSeriesType.StackingArea100" Name="Diamond" Fill="Blue">
+                    <ChartSeriesAnimation Enable="false"></ChartSeriesAnimation>
+                    <ChartMarker Visible="true" Width="10" Height="10" Fill="Black" Shape="ChartShape.Diamond">
+                        <ChartMarkerOffset Y="0"></ChartMarkerOffset>
+                    </ChartMarker>
+                </ChartSeries>
+            </ChartSeriesCollection>
+        </SfChart>
+    </ComponentUnderTest>
+</SfFixture>
+
+@code {
+
+    SfFixture fixture6 { get; set; }
+    async Task CheckingMarkerShapeStackingArea(Fixture fixture6)
+    {
+        var cut = fixture6.GetComponentUnderTest<SfChart>();
+        await Task.Delay(200);
+        var marker = cut.Find("#container_Series_0_Point_0_Symbol");
+        Assert.True(marker.GetAttribute("fill") == "Red");
+        var marker1 = cut.Find("#container_Series_1_Point_0_Symbol");
+        Assert.True(marker1.GetAttribute("fill") == "Black");
+        cut.SetParametersAndRender();
+    }
+    public class AreaData6
+    {
+        public double x { get; set; }
+        public double y { get; set; }
+        public double y1 { get; set; }
+    }
+
+    public List<AreaData6> Sales6 = new List<AreaData6>
+{
+        new AreaData6 { x = 1000, y = 70, y1 = 73 },
+        new AreaData6 { x = 2000, y = 40, y1 = 40 },
+        new AreaData6 { x = 3000, y = 70, y1 = 75 },
+        new AreaData6 { x = 4000, y = 60, y1 = 30 },
+        new AreaData6 { x = 5000, y = 50, y1 = 56 },
+        new AreaData6 { x = 6000, y = 40, y1 = 60 },
+        new AreaData6 { x = 7000, y = 40, y1 = 41 },
+        new AreaData6 { x = 8000, y = 70, y1 = 45 }
+    };
+}
+
+
+@{
+    var InitialGroup7 = (new string[] { "CustomerID", "OrderID" });
+}
+<SfFixture @ref="fixture7" TestAsync="CheckingMarkerImage" Description="CheckingMarkerImage">
+    <ComponentUnderTest>
+        <SfChart ID="container" Title="Chart Ts Title" Width="900">
+            <ChartPrimaryXAxis Title="PrimaryXAxis" ValueType="Syncfusion.Blazor.Toolkit.ValueType.Double"></ChartPrimaryXAxis>
+            <ChartPrimaryYAxis Title="PrimaryYAxis" RangePadding="ChartRangePadding.Normal"></ChartPrimaryYAxis>
+            <ChartSeriesCollection>
+                <ChartSeries DataSource="@Sales7" XName="x" YName="y" Type="ChartSeriesType.StackingArea" Name="Gold" Fill="rgba(135,206,235,1)">
+                    <ChartSeriesAnimation Enable="false"></ChartSeriesAnimation>
+                    <ChartMarker Visible="true" Width="10" Height="10" Fill="Red" Shape="ChartShape.Image" ImageUrl="@(new Uri("base/spec/img/img1.jpg", UriKind.Relative))">
+                        <ChartMarkerOffset X="0"></ChartMarkerOffset>
+                    </ChartMarker>
+                </ChartSeries>
+                <ChartSeries DataSource="@Sales7" XName="x" YName="y1" Type="ChartSeriesType.StackingArea" Name="Diamond" Fill="Blue">
+                    <ChartSeriesAnimation Enable="false"></ChartSeriesAnimation>
+                    <ChartMarker Visible="true" Width="10" Height="10" Fill="Black" Shape="ChartShape.Diamond">
+                        <ChartMarkerOffset Y="0"></ChartMarkerOffset>
+                    </ChartMarker>
+                </ChartSeries>
+            </ChartSeriesCollection>
+        </SfChart>
+    </ComponentUnderTest>
+</SfFixture>
+
+@code {
+
+    SfFixture fixture7 { get; set; }
+    async Task CheckingMarkerImage(Fixture fixture7)
+    {
+        var cut = fixture7.GetComponentUnderTest<SfChart>();
+        await Task.Delay(200);
+        var marker = cut.Find("#container_Series_0_Point_0_Symbol");
+        Assert.True(marker.GetAttribute("href") == "base/spec/img/img1.jpg");
+        var marker1 = cut.Find("#container_Series_1_Point_0_Symbol");
+        Assert.True(marker1.GetAttribute("fill") == "Black");
+        cut.SetParametersAndRender();
+    }
+    public class AreaData7
+    {
+        public double x { get; set; }
+        public double y { get; set; }
+        public double y1 { get; set; }
+    }
+
+    public List<AreaData7> Sales7 = new List<AreaData7>
+{
+        new AreaData7 { x = 1000, y = 70, y1 = 73 },
+        new AreaData7 { x = 2000, y = 40, y1 = 40 },
+        new AreaData7 { x = 3000, y = 70, y1 = 75 },
+        new AreaData7 { x = 4000, y = 60, y1 = 30 },
+        new AreaData7 { x = 5000, y = 50, y1 = 56 },
+        new AreaData7 { x = 6000, y = 40, y1 = 60 },
+        new AreaData7 { x = 7000, y = 40, y1 = 41 },
+        new AreaData7 { x = 8000, y = 70, y1 = 45 }
+    };
+}
+
+
+@{
+    var InitialGroup8 = (new string[] { "CustomerID", "OrderID" });
+}
+<SfFixture @ref="fixture8" TestAsync="CheckingMarkerWithNullPoint" Description="CheckingMarkerWithNullPoint">
+    <ComponentUnderTest>
+        <SfChart ID="container" Title="Chart Ts Title" Width="900">
+            <ChartPrimaryXAxis Title="PrimaryXAxis" ValueType="Syncfusion.Blazor.Toolkit.ValueType.Double"></ChartPrimaryXAxis>
+            <ChartPrimaryYAxis Title="PrimaryYAxis" RangePadding="ChartRangePadding.Normal"></ChartPrimaryYAxis>
+            <ChartSeriesCollection>
+                <ChartSeries DataSource="@Sales8" XName="x" YName="y" Type="ChartSeriesType.StackingArea" Name="Gold" Fill="rgba(135,206,235,1)">
+                    <ChartSeriesAnimation Enable="false"></ChartSeriesAnimation>
+                    <ChartMarker Visible="true" Width="10" Height="10" Fill="Red" Shape="ChartShape.Rectangle">
+                        <ChartMarkerOffset X="0"></ChartMarkerOffset>
+                    </ChartMarker>
+                </ChartSeries>
+                <ChartSeries DataSource="@Sales8" XName="x" YName="y1" Type="ChartSeriesType.StackingArea" Name="Diamond" Fill="Blue">
+                    <ChartSeriesAnimation Enable="false"></ChartSeriesAnimation>
+                    <ChartMarker Visible="true" Width="10" Height="10" Fill="Black" Shape="ChartShape.Diamond">
+                        <ChartMarkerOffset Y="0"></ChartMarkerOffset>
+                    </ChartMarker>
+                </ChartSeries>
+            </ChartSeriesCollection>
+        </SfChart>
+    </ComponentUnderTest>
+</SfFixture>
+
+@code {
+
+    SfFixture fixture8 { get; set; }
+    async Task CheckingMarkerWithNullPoint(Fixture fixture8)
+    {
+        var cut = fixture8.GetComponentUnderTest<SfChart>();
+        await Task.Delay(200);
+        var marker = cut.Find("#container_Series_0_Point_0_Symbol");
+        Assert.True(marker.GetAttribute("fill") == "Red");
+        var marker1 = cut.Find("#container_Series_1_Point_0_Symbol");
+        Assert.True(marker1.GetAttribute("fill") == "Black");
+        cut.SetParametersAndRender();
+    }
+    public class AreaData8
+    {
+        public double x { get; set; }
+        public double? y { get; set; }
+        public double y1 { get; set; }
+    }
+
+    public List<AreaData8> Sales8 = new List<AreaData8>
+{
+        new AreaData8 { x = 1000, y = 70, y1 = 73 },
+        new AreaData8 { x = 2000, y = 40, y1 = 40 },
+        new AreaData8 { x = 3000, y = null, y1 = 75 },
+        new AreaData8 { x = 4000, y = 60, y1 = 30 },
+        new AreaData8 { x = 5000, y = 50, y1 = 56 },
+        new AreaData8 { x = 6000, y = 40, y1 = 60 },
+        new AreaData8 { x = 7000, y = 40, y1 = 41 },
+        new AreaData8 { x = 8000, y = 70, y1 = 45 }
+    };
+}
+
+
+@{
+    var InitialGroup9 = (new string[] { "CustomerID", "OrderID" });
+}
+<SfFixture @ref="fixture9" TestAsync="CheckingMarkerWithNullPointStackingArea100" Description="CheckingMarkerWithNullPointStackingArea100">
+    <ComponentUnderTest>
+        <SfChart ID="container" Title="Chart Ts Title" Width="900">
+            <ChartPrimaryXAxis Title="PrimaryXAxis" ValueType="Syncfusion.Blazor.Toolkit.ValueType.Double"></ChartPrimaryXAxis>
+            <ChartPrimaryYAxis Title="PrimaryYAxis" RangePadding="ChartRangePadding.Normal"></ChartPrimaryYAxis>
+            <ChartSeriesCollection>
+                <ChartSeries DataSource="@Sales9" XName="x" YName="y" Type="ChartSeriesType.StackingArea100" Name="Gold" Fill="rgba(135,206,235,1)">
+                    <ChartSeriesAnimation Enable="false"></ChartSeriesAnimation>
+                    <ChartMarker Visible="true" Width="10" Height="10" Fill="Red" Shape="ChartShape.Rectangle">
+                        <ChartMarkerOffset X="0"></ChartMarkerOffset>
+                    </ChartMarker>
+                </ChartSeries>
+                <ChartSeries DataSource="@Sales9" XName="x" YName="y1" Type="ChartSeriesType.StackingArea100" Name="Diamond" Fill="Blue">
+                    <ChartSeriesAnimation Enable="false"></ChartSeriesAnimation>
+                    <ChartMarker Visible="true" Width="10" Height="10" Fill="Black" Shape="ChartShape.Diamond">
+                        <ChartMarkerOffset Y="0"></ChartMarkerOffset>
+                    </ChartMarker>
+                </ChartSeries>
+            </ChartSeriesCollection>
+        </SfChart>
+    </ComponentUnderTest>
+</SfFixture>
+
+@code {
+
+    SfFixture fixture9 { get; set; }
+    async Task CheckingMarkerWithNullPointStackingArea100(Fixture fixture9)
+    {
+        var cut = fixture9.GetComponentUnderTest<SfChart>();
+        await Task.Delay(200);
+        var marker = cut.Find("#container_Series_0_Point_0_Symbol");
+        Assert.True(marker.GetAttribute("fill") == "Red");
+        var marker1 = cut.Find("#container_Series_1_Point_0_Symbol");
+        Assert.True(marker1.GetAttribute("fill") == "Black");
+        cut.SetParametersAndRender();
+    }
+    public class AreaData9
+    {
+        public double x { get; set; }
+        public double? y { get; set; }
+        public double y1 { get; set; }
+    }
+
+    public List<AreaData9> Sales9 = new List<AreaData9>
+{
+        new AreaData9 { x = 1000, y = 70, y1 = 73 },
+        new AreaData9 { x = 2000, y = 40, y1 = 40 },
+        new AreaData9 { x = 3000, y = null, y1 = 75 },
+        new AreaData9 { x = 4000, y = 60, y1 = 30 },
+        new AreaData9 { x = 5000, y = 50, y1 = 56 },
+        new AreaData9 { x = 6000, y = 40, y1 = 60 },
+        new AreaData9 { x = 7000, y = 40, y1 = 41 },
+        new AreaData9 { x = 8000, y = 70, y1 = 45 }
+    };
+}
+
+
+@{
+    var InitialGroup10 = (new string[] { "CustomerID", "OrderID" });
+}
+<SfFixture @ref="fixture10" TestAsync="CheckingwithSingleData" Description="CheckingwithSingleData">
+    <ComponentUnderTest>
+        <SfChart ID="container" Title="Chart Ts Title" Width="900">
+            <ChartPrimaryXAxis Title="PrimaryXAxis" ValueType="Syncfusion.Blazor.Toolkit.ValueType.Double" RangePadding="ChartRangePadding.Additional"></ChartPrimaryXAxis>
+            <ChartPrimaryYAxis Title="PrimaryYAxis" RangePadding="ChartRangePadding.Normal"></ChartPrimaryYAxis>
+            <ChartSeriesCollection>
+                <ChartSeries DataSource="@Sales10" XName="x" YName="y" Type="ChartSeriesType.StackingArea" Name="Gold" Fill="rgba(135,206,235,1)">
+                    <ChartSeriesAnimation Enable="false"></ChartSeriesAnimation>
+                    <ChartMarker Visible="true" Width="10" Height="10" Fill="Red" Shape="ChartShape.Rectangle">
+                        <ChartMarkerOffset X="0"></ChartMarkerOffset>
+                    </ChartMarker>
+                </ChartSeries>
+                <ChartSeries DataSource="@Sales10" XName="x" YName="y1" Type="ChartSeriesType.StackingArea" Name="Diamond" Fill="Blue">
+                    <ChartSeriesAnimation Enable="false"></ChartSeriesAnimation>
+                    <ChartMarker Visible="true" Width="10" Height="10" Fill="Black" Shape="ChartShape.Diamond">
+                        <ChartMarkerOffset Y="0"></ChartMarkerOffset>
+                    </ChartMarker>
+                </ChartSeries>
+            </ChartSeriesCollection>
+        </SfChart>
+    </ComponentUnderTest>
+</SfFixture>
+
+@code {
+
+    SfFixture fixture10 { get; set; }
+    async Task CheckingwithSingleData(Fixture fixture10)
+    {
+        var cut = fixture10.GetComponentUnderTest<SfChart>();
+        await Task.Delay(200);
+        var marker = cut.Find("#container_Series_0_Point_0_Symbol");
+        Assert.True(marker.GetAttribute("fill") == "Red");
+        var marker1 = cut.Find("#container_Series_1_Point_0_Symbol");
+        Assert.True(marker1.GetAttribute("fill") == "Black");
+        cut.SetParametersAndRender();
+    }
+    public class AreaData10
+    {
+        public double x { get; set; }
+        public double y { get; set; }
+        public double y1 { get; set; }
+    }
+
+    public List<AreaData10> Sales10 = new List<AreaData10>
+{
+        new AreaData10 { x = 4, y = 30, y1 = 30 }
+    };
+}
+
+
+@{
+    var InitialGroup11 = (new string[] { "CustomerID", "OrderID" });
+}
+<SfFixture @ref="fixture11" TestAsync="CheckingwithSingleDataStackingArea100" Description="CheckingwithSingleDataStackingArea100">
+    <ComponentUnderTest>
+        <SfChart ID="container" Title="Chart Ts Title" Width="900">
+            <ChartPrimaryXAxis Title="PrimaryXAxis" ValueType="Syncfusion.Blazor.Toolkit.ValueType.Double" RangePadding="ChartRangePadding.Additional"></ChartPrimaryXAxis>
+            <ChartPrimaryYAxis Title="PrimaryYAxis" RangePadding="ChartRangePadding.Normal"></ChartPrimaryYAxis>
+            <ChartSeriesCollection>
+                <ChartSeries DataSource="@Sales11" XName="x" YName="y" Type="ChartSeriesType.StackingArea100" Name="Gold" Fill="rgba(135,206,235,1)">
+                    <ChartSeriesAnimation Enable="false"></ChartSeriesAnimation>
+                    <ChartMarker Visible="true" Width="10" Height="10" Fill="Red" Shape="ChartShape.Rectangle">
+                        <ChartMarkerOffset X="0"></ChartMarkerOffset>
+                    </ChartMarker>
+                </ChartSeries>
+                <ChartSeries DataSource="@Sales11" XName="x" YName="y1" Type="ChartSeriesType.StackingArea100" Name="Diamond" Fill="Blue">
+                    <ChartSeriesAnimation Enable="false"></ChartSeriesAnimation>
+                    <ChartMarker Visible="true" Width="10" Height="10" Fill="Black" Shape="ChartShape.Diamond">
+                        <ChartMarkerOffset Y="0"></ChartMarkerOffset>
+                    </ChartMarker>
+                </ChartSeries>
+            </ChartSeriesCollection>
+        </SfChart>
+    </ComponentUnderTest>
+</SfFixture>
+
+@code {
+
+    SfFixture fixture11 { get; set; }
+    async Task CheckingwithSingleDataStackingArea100(Fixture fixture11)
+    {
+        var cut = fixture11.GetComponentUnderTest<SfChart>();
+        await Task.Delay(200);
+        var marker = cut.Find("#container_Series_0_Point_0_Symbol");
+        Assert.True(marker.GetAttribute("fill") == "Red");
+        var marker1 = cut.Find("#container_Series_1_Point_0_Symbol");
+        Assert.True(marker1.GetAttribute("fill") == "Black");
+        cut.SetParametersAndRender();
+    }
+    public class AreaData11
+    {
+        public double x { get; set; }
+        public double y { get; set; }
+        public double y1 { get; set; }
+    }
+
+    public List<AreaData11> Sales11 = new List<AreaData11>
+{
+        new AreaData11 { x = 4, y = 30, y1 = 30 }
+    };
+}
+
+
+@{
+    var InitialGroup12 = (new string[] { "CustomerID", "OrderID" });
+}
+<SfFixture @ref="fixture12" TestAsync="CheckingMarkerSingleDataStackingArea" Description="CheckingMarkerSingleDataStackingArea">
+    <ComponentUnderTest>
+        <SfChart ID="container" Title="Chart Ts Title" Width="900">
+            <ChartPrimaryXAxis Title="PrimaryXAxis" ValueType="Syncfusion.Blazor.Toolkit.ValueType.Double" RangePadding="ChartRangePadding.Additional"></ChartPrimaryXAxis>
+            <ChartPrimaryYAxis Title="PrimaryYAxis" RangePadding="ChartRangePadding.Normal"></ChartPrimaryYAxis>
+            <ChartSeriesCollection>
+                <ChartSeries DataSource="@Sales12" XName="x" YName="y" Type="ChartSeriesType.StackingArea" Name="Gold" Fill="rgba(135,206,235,1)">
+                    <ChartSeriesAnimation Enable="false"></ChartSeriesAnimation>
+                    <ChartMarker Visible="true" Width="10" Height="10" Fill="Red" Shape="ChartShape.Rectangle">
+                        <ChartMarkerOffset X="0"></ChartMarkerOffset>
+                    </ChartMarker>
+                </ChartSeries>
+                <ChartSeries DataSource="@Sales12" XName="x" YName="y1" Type="ChartSeriesType.StackingArea" Name="Diamond" Fill="Blue">
+                    <ChartSeriesAnimation Enable="false"></ChartSeriesAnimation>
+                    <ChartMarker Visible="true" Width="10" Height="10" Fill="Black" Shape="ChartShape.Diamond">
+                        <ChartMarkerOffset Y="0"></ChartMarkerOffset>
+                    </ChartMarker>
+                </ChartSeries>
+            </ChartSeriesCollection>
+        </SfChart>
+    </ComponentUnderTest>
+</SfFixture>
+
+@code {
+
+    SfFixture fixture12 { get; set; }
+    async Task CheckingMarkerSingleDataStackingArea(Fixture fixture12)
+    {
+        var cut = fixture12.GetComponentUnderTest<SfChart>();
+        await Task.Delay(200);
+        var marker = cut.Find("#container_Series_0");
+        Assert.True(marker.GetAttribute("fill") == "rgba(135,206,235,1)");
+        var marker1 = cut.Find("#container_Series_1");
+        Assert.True(marker1.GetAttribute("fill") == "Blue");
+        cut.SetParametersAndRender();
+    }
+    public class AreaData12
+    {
+        public double x { get; set; }
+        public double y { get; set; }
+        public double y1 { get; set; }
+    }
+
+    public List<AreaData12> Sales12 = new List<AreaData12>
+{
+        new AreaData12 { x = 1000, y = 70, y1 = 73 },
+        new AreaData12 { x = 2000, y = 40, y1 = 40 },
+        new AreaData12 { x = 3000, y = 70, y1 = 75 },
+        new AreaData12 { x = 4000, y = 60, y1 = 30 },
+        new AreaData12 { x = 5000, y = 50, y1 = 56 },
+        new AreaData12 { x = 6000, y = 40, y1 = 60 },
+        new AreaData12 { x = 7000, y = 40, y1 = 41 },
+        new AreaData12 { x = 8000, y = 70, y1 = 45 }
+    };
+}
+
+
+@{
+    var InitialGroup13 = (new string[] { "CustomerID", "OrderID" });
+}
+<SfFixture @ref="fixture13" TestAsync="CheckingWithCategoryAxis" Description="CheckingWithCategoryAxis">
+    <ComponentUnderTest>
+        <SfChart ID="container" Title="Chart Ts Title" Width="900">
+            <ChartPrimaryXAxis Title="PrimaryXAxis" ValueType="Syncfusion.Blazor.Toolkit.ValueType.Category" RangePadding="ChartRangePadding.Additional"></ChartPrimaryXAxis>
+            <ChartPrimaryYAxis Title="PrimaryYAxis" RangePadding="ChartRangePadding.Normal"></ChartPrimaryYAxis>
+            <ChartSeriesCollection>
+                <ChartSeries DataSource="@Sales13" XName="x" YName="y" Type="ChartSeriesType.StackingArea" Name="Gold" Fill="rgba(135,206,235,1)">
+                    <ChartSeriesAnimation Enable="false"></ChartSeriesAnimation>
+                    <ChartMarker Visible="true" Width="10" Height="10" Fill="Red" Shape="ChartShape.Rectangle">
+                        <ChartMarkerOffset X="0"></ChartMarkerOffset>
+                    </ChartMarker>
+                </ChartSeries>
+                <ChartSeries DataSource="@Sales13" XName="x" YName="y1" Type="ChartSeriesType.StackingArea" Name="Diamond" Fill="Blue">
+                    <ChartSeriesAnimation Enable="false"></ChartSeriesAnimation>
+                    <ChartMarker Visible="true" Width="10" Height="10" Fill="Black" Shape="ChartShape.Diamond">
+                        <ChartMarkerOffset Y="0"></ChartMarkerOffset>
+                    </ChartMarker>
+                </ChartSeries>
+            </ChartSeriesCollection>
+        </SfChart>
+    </ComponentUnderTest>
+</SfFixture>
+
+@code {
+
+    SfFixture fixture13 { get; set; }
+    async Task CheckingWithCategoryAxis(Fixture fixture13)
+    {
+        var cut = fixture13.GetComponentUnderTest<SfChart>();
+        await Task.Delay(200);
+        var marker = cut.Find("#container_Series_0_Point_0_Symbol");
+        Assert.True(marker != null);
+        cut.SetParametersAndRender();
+    }
+    public class AreaData13
+    {
+        public string x { get; set; }
+        public double? y { get; set; }
+        public double? y1 { get; set; }
+    }
+
+    public List<AreaData13> Sales13 = new List<AreaData13>
+{
+        new AreaData13 { x = "USA", y = 50, y1 = 50 },
+        new AreaData13 { x = "China", y = 40, y1 = 40 },
+        new AreaData13 { x = "Japan", y = 70, y1 = 70 },
+        new AreaData13 { x = "Australia", y = 60, y1 = 60 },
+        new AreaData13 { x = "France", y = 50, y1 = 50 },
+        new AreaData13 { x = "Germany", y = null, y1 = null },
+        new AreaData13 { x = "Italy", y = 40, y1 = 40 },
+        new AreaData13 { x = "Sweden", y = 30, y1 = 30 }
+    };
+}
+
+
+@{
+    var InitialGroup14 = (new string[] { "CustomerID", "OrderID" });
+}
+<SfFixture @ref="fixture14" TestAsync="CheckingFillandStroke" Description="CheckingFillandStroke">
+    <ComponentUnderTest>
+        <SfChart ID="container" Title="Chart Ts Title" Width="900">
+            <ChartPrimaryXAxis Title="PrimaryXAxis" ValueType="Syncfusion.Blazor.Toolkit.ValueType.Double"></ChartPrimaryXAxis>
+            <ChartPrimaryYAxis Title="PrimaryYAxis" RangePadding="ChartRangePadding.Normal"></ChartPrimaryYAxis>
+            <ChartSeriesCollection>
+                <ChartSeries DataSource="@Sales14" XName="x" YName="y" Type="ChartSeriesType.StackingArea" Name="Gold" Fill="Red">
+                    <ChartSeriesBorder Color="Green" Width="4"></ChartSeriesBorder>
+                    <ChartSeriesAnimation Enable="false"></ChartSeriesAnimation>
+                    <ChartMarker Visible="true" Width="10" Height="10">
+                        <ChartMarkerOffset X="0"></ChartMarkerOffset>
+                    </ChartMarker>
+                </ChartSeries>
+                <ChartSeries DataSource="@Sales14" XName="x" YName="y1" Type="ChartSeriesType.StackingArea" Name="Diamond" Fill="Blue">
+                    <ChartSeriesAnimation Enable="false"></ChartSeriesAnimation>
+                    <ChartMarker Visible="true" Width="10" Height="10">
+                        <ChartMarkerOffset Y="0"></ChartMarkerOffset>
+                    </ChartMarker>
+                </ChartSeries>
+            </ChartSeriesCollection>
+        </SfChart>
+    </ComponentUnderTest>
+</SfFixture>
+
+@code {
+
+    SfFixture fixture14 { get; set; }
+    async Task CheckingFillandStroke(Fixture fixture14)
+    {
+        var cut = fixture14.GetComponentUnderTest<SfChart>();
+        await Task.Delay(200);
+        var svg = cut.Find("#container_Series_0");
+        Assert.True(svg.GetAttribute("fill") == "Red");
+        Assert.True(svg.GetAttribute("stroke") == "transparent");
+        Assert.True(svg.GetAttribute("stroke-width") == "0");
+        cut.SetParametersAndRender();
+    }
+    public class AreaData14
+    {
+        public double x { get; set; }
+        public double y { get; set; }
+        public double y1 { get; set; }
+    }
+
+    public List<AreaData14> Sales14 = new List<AreaData14>
+{
+        new AreaData14 { x = 1000, y = 70, y1 = 73 },
+        new AreaData14 { x = 2000, y = 40, y1 = 40 },
+        new AreaData14 { x = 3000, y = 70, y1 = 75 },
+        new AreaData14 { x = 4000, y = 60, y1 = 30 },
+        new AreaData14 { x = 5000, y = 50, y1 = 56 },
+        new AreaData14 { x = 6000, y = 40, y1 = 60 },
+        new AreaData14 { x = 7000, y = 40, y1 = 41 },
+        new AreaData14 { x = 8000, y = 70, y1 = 45 }
+    };
+}
+
+
+@{
+    var InitialGroup15 = (new string[] { "CustomerID", "OrderID" });
+}
+<SfFixture @ref="fixture15" TestAsync="CheckingFillandStrokeStackingArea100" Description="CheckingFillandStrokeStackingArea100">
+    <ComponentUnderTest>
+        <SfChart ID="container" Title="Chart Ts Title" Width="900">
+            <ChartPrimaryXAxis Title="PrimaryXAxis" ValueType="Syncfusion.Blazor.Toolkit.ValueType.Double"></ChartPrimaryXAxis>
+            <ChartPrimaryYAxis Title="PrimaryYAxis" RangePadding="ChartRangePadding.Normal"></ChartPrimaryYAxis>
+            <ChartSeriesCollection>
+                <ChartSeries DataSource="@Sales15" XName="x" YName="y" Type="ChartSeriesType.StackingArea100" Name="Gold" Fill="Red">
+                    <ChartSeriesBorder Color="Green" Width="4"></ChartSeriesBorder>
+                    <ChartSeriesAnimation Enable="false"></ChartSeriesAnimation>
+                    <ChartMarker Visible="true" Width="10" Height="10">
+                        <ChartMarkerOffset X="0"></ChartMarkerOffset>
+                    </ChartMarker>
+                </ChartSeries>
+                <ChartSeries DataSource="@Sales15" XName="x" YName="y1" Type="ChartSeriesType.StackingArea100" Name="Diamond" Fill="Blue">
+                    <ChartSeriesAnimation Enable="false"></ChartSeriesAnimation>
+                    <ChartMarker Visible="true" Width="10" Height="10">
+                        <ChartMarkerOffset Y="0"></ChartMarkerOffset>
+                    </ChartMarker>
+                </ChartSeries>
+            </ChartSeriesCollection>
+        </SfChart>
+    </ComponentUnderTest>
+</SfFixture>
+
+@code {
+
+    SfFixture fixture15 { get; set; }
+    async Task CheckingFillandStrokeStackingArea100(Fixture fixture15)
+    {
+        var cut = fixture15.GetComponentUnderTest<SfChart>();
+        await Task.Delay(200);
+        var svg = cut.Find("#container_Series_0");
+        Assert.True(svg.GetAttribute("fill") == "Red");
+        Assert.True(svg.GetAttribute("stroke") == "transparent");
+        Assert.True(svg.GetAttribute("stroke-width") == "0");
+        cut.SetParametersAndRender();
+    }
+    public class AreaData15
+    {
+        public double x { get; set; }
+        public double y { get; set; }
+        public double y1 { get; set; }
+    }
+
+    public List<AreaData15> Sales15 = new List<AreaData15>
+{
+        new AreaData15 { x = 1000, y = 70, y1 = 73 },
+        new AreaData15 { x = 2000, y = 40, y1 = 40 },
+        new AreaData15 { x = 3000, y = 70, y1 = 75 },
+        new AreaData15 { x = 4000, y = 60, y1 = 30 },
+        new AreaData15 { x = 5000, y = 50, y1 = 56 },
+        new AreaData15 { x = 6000, y = 40, y1 = 60 },
+        new AreaData15 { x = 7000, y = 40, y1 = 41 },
+        new AreaData15 { x = 8000, y = 70, y1 = 45 }
+    };
+}
+
+
+@{
+    var InitialGroup16 = (new string[] { "CustomerID", "OrderID" });
+}
+<SfFixture @ref="fixture16" TestAsync="CheckingWithCategoryAxisOnTicks" Description="CheckingWithCategoryAxisOnTicks">
+    <ComponentUnderTest>
+        <SfChart ID="container" Title="Chart Ts Title" Width="900">
+            <ChartPrimaryXAxis Title="PrimaryXAxis" ValueType="Syncfusion.Blazor.Toolkit.ValueType.Category" RangePadding="ChartRangePadding.Additional" LabelPlacement="LabelPlacement.OnTicks"></ChartPrimaryXAxis>
+            <ChartPrimaryYAxis Title="PrimaryYAxis" RangePadding="ChartRangePadding.Normal"></ChartPrimaryYAxis>
+            <ChartSeriesCollection>
+                <ChartSeries DataSource="@Sales16" XName="x" YName="y" Type="ChartSeriesType.StackingArea" Name="Gold" Fill="rgba(135,206,235,1)">
+                    <ChartSeriesAnimation Enable="false"></ChartSeriesAnimation>
+                    <ChartMarker Visible="true" Width="10" Height="10" Fill="Red" Shape="ChartShape.Rectangle">
+                        <ChartMarkerOffset X="0"></ChartMarkerOffset>
+                    </ChartMarker>
+                </ChartSeries>
+                <ChartSeries DataSource="@Sales16" XName="x" YName="y1" Type="ChartSeriesType.StackingArea" Name="Diamond" Fill="Blue">
+                    <ChartSeriesAnimation Enable="false"></ChartSeriesAnimation>
+                    <ChartMarker Visible="true" Width="10" Height="10" Fill="Black" Shape="ChartShape.Diamond">
+                        <ChartMarkerOffset Y="0"></ChartMarkerOffset>
+                    </ChartMarker>
+                </ChartSeries>
+            </ChartSeriesCollection>
+        </SfChart>
+    </ComponentUnderTest>
+</SfFixture>
+
+@code {
+
+    SfFixture fixture16 { get; set; }
+    async Task CheckingWithCategoryAxisOnTicks(Fixture fixture16)
+    {
+        var cut = fixture16.GetComponentUnderTest<SfChart>();
+        await Task.Delay(200);
+        var marker = cut.Find("#container_Series_0_Point_0_Symbol");
+        Assert.True(marker != null);
+        cut.SetParametersAndRender();
+    }
+    public class AreaData16
+    {
+        public string x { get; set; }
+        public double? y { get; set; }
+        public double? y1 { get; set; }
+    }
+
+    public List<AreaData16> Sales16 = new List<AreaData16>
+{
+        new AreaData16 { x = "USA", y = 50, y1 = 50 },
+        new AreaData16 { x = "China", y = 40, y1 = 40 },
+        new AreaData16 { x = "Japan", y = 70, y1 = 70 },
+        new AreaData16 { x = "Australia", y = 60, y1 = 60 },
+        new AreaData16 { x = "France", y = 50, y1 = 50 },
+        new AreaData16 { x = "Germany", y = null, y1 = null },
+        new AreaData16 { x = "Italy", y = 40, y1 = 40 },
+        new AreaData16 { x = "Sweden", y = 30, y1 = 30 }
+    };
+}
+
+
+@{
+    var InitialGroup17 = (new string[] { "CustomerID", "OrderID" });
+}
+<SfFixture @ref="fixture17" TestAsync="CheckingWithMultipleSeries" Description="CheckingWithMultipleSeries">
+    <ComponentUnderTest>
+        <SfChart ID="container" Title="Chart Ts Title" Width="900">
+            <ChartPrimaryXAxis Title="PrimaryXAxis" ValueType="Syncfusion.Blazor.Toolkit.ValueType.Category" RangePadding="ChartRangePadding.Additional"></ChartPrimaryXAxis>
+            <ChartPrimaryYAxis Title="PrimaryYAxis" RangePadding="ChartRangePadding.Normal"></ChartPrimaryYAxis>
+            <ChartSeriesCollection>
+                <ChartSeries DataSource="@Sales17" XName="x" YName="y" Type="ChartSeriesType.StackingArea" Name="Gold" Fill="rgba(135,206,235,1)">
+                    <ChartSeriesAnimation Enable="false"></ChartSeriesAnimation>
+                    <ChartMarker Visible="true" Width="10" Height="10" Fill="Red" Shape="ChartShape.Rectangle">
+                        <ChartMarkerOffset X="0"></ChartMarkerOffset>
+                    </ChartMarker>
+                </ChartSeries>
+                <ChartSeries DataSource="@Sales17" XName="x" YName="y1" Type="ChartSeriesType.StackingArea" Name="Silver" Fill="Red">
+                    <ChartSeriesAnimation Enable="false"></ChartSeriesAnimation>
+                    <ChartMarker Visible="true" Width="10" Height="10" Fill="Black" Shape="ChartShape.Diamond">
+                        <ChartMarkerOffset Y="0"></ChartMarkerOffset>
+                    </ChartMarker>
+                </ChartSeries>
+                <ChartSeries DataSource="@Sales17" XName="x" YName="y" Type="ChartSeriesType.StackingArea" Name="Diamond" Fill="Green">
+                    <ChartSeriesAnimation Enable="false"></ChartSeriesAnimation>
+                    <ChartMarker Visible="true" Width="10" Height="10" Fill="Red" Shape="ChartShape.Rectangle">
+                        <ChartMarkerOffset X="0"></ChartMarkerOffset>
+                    </ChartMarker>
+                </ChartSeries>
+                <ChartSeries DataSource="@Sales17" XName="x" YName="y1" Type="ChartSeriesType.StackingArea" Name="Silver" Fill="Blue">
+                    <ChartSeriesAnimation Enable="false"></ChartSeriesAnimation>
+                    <ChartMarker Visible="true" Width="10" Height="10" Fill="Black" Shape="ChartShape.Diamond">
+                        <ChartMarkerOffset Y="0"></ChartMarkerOffset>
+                    </ChartMarker>
+                </ChartSeries>
+            </ChartSeriesCollection>
+        </SfChart>
+    </ComponentUnderTest>
+</SfFixture>
+
+@code {
+
+    SfFixture fixture17 { get; set; }
+    async Task CheckingWithMultipleSeries(Fixture fixture17)
+    {
+        var cut = fixture17.GetComponentUnderTest<SfChart>();
+        await Task.Delay(200);
+        var marker = cut.Find("#container_Series_0");
+        Assert.True(marker.GetAttribute("fill") == "rgba(135,206,235,1)");
+        var marker1 = cut.Find("#container_Series_1");
+        Assert.True(marker1.GetAttribute("fill") == "Red");
+        var marker2 = cut.Find("#container_Series_2");
+        Assert.True(marker2.GetAttribute("fill") == "Green");
+        var marker3 = cut.Find("#container_Series_3");
+        Assert.True(marker3.GetAttribute("fill") == "Blue");
+        cut.SetParametersAndRender();
+    }
+    public class AreaData17
+    {
+        public double x { get; set; }
+        public double y { get; set; }
+        public double y1 { get; set; }
+    }
+
+    public List<AreaData17> Sales17 = new List<AreaData17>
+{
+        new AreaData17 { x = 1000, y = 70, y1 = 73 },
+        new AreaData17 { x = 2000, y = 40, y1 = 40 },
+        new AreaData17 { x = 3000, y = 70, y1 = 75 },
+        new AreaData17 { x = 4000, y = 60, y1 = 30 },
+        new AreaData17 { x = 5000, y = 50, y1 = 56 },
+        new AreaData17 { x = 6000, y = 40, y1 = 60 },
+        new AreaData17 { x = 7000, y = 40, y1 = 41 },
+        new AreaData17 { x = 8000, y = 70, y1 = 45 }
+    };
+}
+
+
+@{
+    var InitialGroup18 = (new string[] { "CustomerID", "OrderID" });
+}
+<SfFixture @ref="fixture18" TestAsync="CheckingWithMultipleAxis" Description="CheckingWithMultipleAxis">
+    <ComponentUnderTest>
+        <SfChart ID="container" Title="Chart Ts Title" Width="900" Height="600">
+            <ChartAxes>
+                <ChartAxis RowIndex="1" Name="yAxis1" Minimum="0">
+                    <ChartAxisTitleStyle Size="14px" FontWeight="Regular" Color="#282828" FontStyle="Normal" FontFamily="Segoe UI"></ChartAxisTitleStyle>
+                    <ChartAxisLabelStyle Size="12px" FontWeight="Regular" Color="#282828" FontStyle="Normal" FontFamily="Segoe UI"></ChartAxisLabelStyle>
+                </ChartAxis>
+            </ChartAxes>
+            <ChartRows>
+                <ChartRow Height="300"></ChartRow>
+                <ChartRow Height="300"></ChartRow>
+            </ChartRows>
+            <ChartPrimaryXAxis Title="PrimaryXAxis" ValueType="Syncfusion.Blazor.Toolkit.ValueType.Category" RangePadding="ChartRangePadding.Additional"></ChartPrimaryXAxis>
+            <ChartPrimaryYAxis Title="PrimaryYAxis" RangePadding="ChartRangePadding.Normal"></ChartPrimaryYAxis>
+            <ChartSeriesCollection>
+                <ChartSeries DataSource="@Sales18" XName="x" YName="y" Type="ChartSeriesType.StackingArea" Name="Gold" Fill="rgba(135,206,235,1)">
+                    <ChartSeriesAnimation Enable="false"></ChartSeriesAnimation>
+                    <ChartMarker Visible="true" Width="10" Height="10" Fill="Red" Shape="ChartShape.Rectangle">
+                        <ChartMarkerOffset X="0"></ChartMarkerOffset>
+                    </ChartMarker>
+                </ChartSeries>
+                <ChartSeries DataSource="@Sales18" XName="x" YName="y1" Type="ChartSeriesType.StackingArea" Name="Silver" Fill="Red">
+                    <ChartSeriesAnimation Enable="false"></ChartSeriesAnimation>
+                    <ChartMarker Visible="true" Width="10" Height="10" Fill="Black" Shape="ChartShape.Diamond">
+                        <ChartMarkerOffset Y="0"></ChartMarkerOffset>
+                    </ChartMarker>
+                </ChartSeries>
+                <ChartSeries DataSource="@Sales18" YAxisName="yAxis1" XName="x" YName="y" Type="ChartSeriesType.StackingArea" Name="Diamond" Fill="Green">
+                    <ChartSeriesAnimation Enable="false"></ChartSeriesAnimation>
+                    <ChartMarker Visible="true" Width="10" Height="10" Fill="Red" Shape="ChartShape.Rectangle">
+                        <ChartMarkerOffset X="0"></ChartMarkerOffset>
+                    </ChartMarker>
+                </ChartSeries>
+                <ChartSeries DataSource="@Sales18" XName="x" YName="y1" Type="ChartSeriesType.StackingArea" Name="Silver" Fill="Blue">
+                    <ChartSeriesAnimation Enable="false"></ChartSeriesAnimation>
+                    <ChartMarker Visible="true" Width="10" Height="10" Fill="Black" Shape="ChartShape.Diamond">
+                        <ChartMarkerOffset Y="0"></ChartMarkerOffset>
+                    </ChartMarker>
+                </ChartSeries>
+            </ChartSeriesCollection>
+        </SfChart>
+    </ComponentUnderTest>
+</SfFixture>
+
+@code {
+
+    SfFixture fixture18 { get; set; }
+    async Task CheckingWithMultipleAxis(Fixture fixture18)
+    {
+        var cut = fixture18.GetComponentUnderTest<SfChart>();
+        await Task.Delay(200);
+        var marker = cut.Find("#container_Series_0");
+        Assert.True(marker.GetAttribute("fill") == "rgba(135,206,235,1)");
+        var marker1 = cut.Find("#container_Series_1");
+        Assert.True(marker1.GetAttribute("fill") == "Red");
+        var marker2 = cut.Find("#container_Series_2");
+        Assert.True(marker2.GetAttribute("fill") == "Green");
+        var marker3 = cut.Find("#container_Series_3");
+        Assert.True(marker3.GetAttribute("fill") == "Blue");
+        cut.SetParametersAndRender();
+    }
+    public class AreaData18
+    {
+        public double x { get; set; }
+        public double y { get; set; }
+        public double y1 { get; set; }
+    }
+
+    public List<AreaData18> Sales18 = new List<AreaData18>
+{
+        new AreaData18 { x = 1000, y = 70, y1 = 73 },
+        new AreaData18 { x = 2000, y = 40, y1 = 40 },
+        new AreaData18 { x = 3000, y = 70, y1 = 75 },
+        new AreaData18 { x = 4000, y = 60, y1 = 30 },
+        new AreaData18 { x = 5000, y = 50, y1 = 56 },
+        new AreaData18 { x = 6000, y = 40, y1 = 60 },
+        new AreaData18 { x = 7000, y = 40, y1 = 41 },
+        new AreaData18 { x = 8000, y = 70, y1 = 45 }
+    };
+}
+
+
+@{
+    var InitialGroup19 = (new string[] { "CustomerID", "OrderID" });
+}
+<SfFixture @ref="fixture19" TestAsync="CheckingWithInversedAxisDatalabelAuto" Description="CheckingWithInversedAxisDatalabelAuto">
+    <ComponentUnderTest>
+        <SfChart ID="container" @ref="chartobj1" Title="Chart Ts Title" Width="800">
+            <ChartPrimaryXAxis Title="PrimaryXAxis"></ChartPrimaryXAxis>
+            <ChartPrimaryYAxis Title="PrimaryYAxis" IsInversed="true"></ChartPrimaryYAxis>
+            <ChartSeriesCollection>
+                <ChartSeries DataSource="@Sales19" XName="x" YName="y" Type="ChartSeriesType.StackingArea" Name="Gold">
+                    <ChartSeriesAnimation Enable="false"></ChartSeriesAnimation>
+                    <ChartMarker Visible="true">
+                        <ChartDataLabel Visible="true" Fill="Violet"></ChartDataLabel>
+                    </ChartMarker>
+                </ChartSeries>
+                <ChartSeries DataSource="@Sales19" XName="x" YName="y" Type="ChartSeriesType.StackingArea" Name="Silver">
+                    <ChartSeriesAnimation Enable="false"></ChartSeriesAnimation>
+                    <ChartMarker Visible="true">
+                        <ChartDataLabel Visible="true" Fill="Violet"></ChartDataLabel>
+                    </ChartMarker>
+                </ChartSeries>
+            </ChartSeriesCollection>
+        </SfChart>
+    </ComponentUnderTest>
+</SfFixture>
+
+@code {
+    SfChart chartobj1;
+    SfFixture fixture19 { get; set; }
+    async Task CheckingWithInversedAxisDatalabelAuto(Fixture fixture19)
+    {
+        var cut = fixture19.GetComponentUnderTest<SfChart>();
+        await Task.Delay(200);
+        var datalabelY = Convert.ToDouble(cut.Find("#container_Series_0_Point_2_TextShape_2").GetAttribute("y"));
+        var pointY = chartobj1._visibleSeriesRenderers[0].Points[2].SymbolLocations[0].Y;
+        Assert.True(datalabelY < pointY);
+        var datalabelY1 = Convert.ToDouble(cut.Find("#container_Series_1_Point_2_TextShape_2").GetAttribute("y"));
+        var pointY1 = chartobj1._visibleSeriesRenderers[1].Points[2].SymbolLocations[0].Y;
+        Assert.True(datalabelY1 < pointY1);
+        cut.SetParametersAndRender();
+    }
+    public class AreaData19
+    {
+        public double x { get; set; }
+        public double y { get; set; }
+    }
+
+    public List<AreaData19> Sales19 = new List<AreaData19>
+{
+        new AreaData19 { x = 1, y = 18 },
+        new AreaData19 { x = 2, y = 29 },
+        new AreaData19 { x = 3, y = 30 },
+        new AreaData19 { x = 4, y = 41 },
+        new AreaData19 { x = 5, y = 52 },
+        new AreaData19 { x = 6, y = 62 },
+        new AreaData19 { x = 7, y = 74 },
+        new AreaData19 { x = 8, y = 85 },
+        new AreaData19 { x = 9, y = 96 },
+        new AreaData19 { x = 10, y = 102 }
+    };
+}
+
+
+@{
+    var InitialGroup20 = (new string[] { "CustomerID", "OrderID" });
+}
+<SfFixture @ref="fixture20" TestAsync="CheckingWithInversedAxisDatalabelTop" Description="CheckingWithInversedAxisDatalabelTop">
+    <ComponentUnderTest>
+        <SfChart ID="container" @ref="chartobj2" Title="Chart Ts Title" Width="800">
+            <ChartPrimaryXAxis Title="PrimaryXAxis"></ChartPrimaryXAxis>
+            <ChartPrimaryYAxis Title="PrimaryYAxis" IsInversed="true"></ChartPrimaryYAxis>
+            <ChartSeriesCollection>
+                <ChartSeries DataSource="@Sales20" XName="x" YName="y" Type="ChartSeriesType.StackingArea" Name="Gold">
+                    <ChartSeriesAnimation Enable="false"></ChartSeriesAnimation>
+                    <ChartMarker Visible="true">
+                        <ChartDataLabel Visible="true" Fill="Violet" Position="ChartLabelPosition.Top"></ChartDataLabel>
+                    </ChartMarker>
+                </ChartSeries>
+                <ChartSeries DataSource="@Sales20" XName="x" YName="y" Type="ChartSeriesType.StackingArea" Name="Silver">
+                    <ChartSeriesAnimation Enable="false"></ChartSeriesAnimation>
+                    <ChartMarker Visible="true">
+                        <ChartDataLabel Visible="true" Fill="Violet"></ChartDataLabel>
+                    </ChartMarker>
+                </ChartSeries>
+            </ChartSeriesCollection>
+        </SfChart>
+    </ComponentUnderTest>
+</SfFixture>
+
+@code {
+    SfChart chartobj2;
+    SfFixture fixture20 { get; set; }
+    async Task CheckingWithInversedAxisDatalabelTop(Fixture fixture20)
+    {
+        var cut = fixture20.GetComponentUnderTest<SfChart>();
+        await Task.Delay(200);
+        var datalabelY = Convert.ToDouble(cut.Find("#container_Series_0_Point_2_TextShape_2").GetAttribute("y"));
+        var pointY = chartobj2._visibleSeriesRenderers[0].Points[2].SymbolLocations[0].Y;
+        Assert.True(datalabelY > pointY);
+        var datalabelY1 = Convert.ToDouble(cut.Find("#container_Series_0_Point_6_TextShape_6").GetAttribute("y"));
+        var pointY1 = chartobj2._visibleSeriesRenderers[0].Points[6].SymbolLocations[0].Y;
+        Assert.True(datalabelY1 > pointY1);
+        cut.SetParametersAndRender();
+    }
+    public class AreaData20
+    {
+        public double x { get; set; }
+        public double y { get; set; }
+    }
+
+    public List<AreaData20> Sales20 = new List<AreaData20>
+{
+        new AreaData20 { x = 1, y = 18 },
+        new AreaData20 { x = 2, y = 29 },
+        new AreaData20 { x = 3, y = 30 },
+        new AreaData20 { x = 4, y = 41 },
+        new AreaData20 { x = 5, y = 52 },
+        new AreaData20 { x = 6, y = 62 },
+        new AreaData20 { x = 7, y = 74 },
+        new AreaData20 { x = 8, y = 85 },
+        new AreaData20 { x = 9, y = 96 },
+        new AreaData20 { x = 10, y = 102 }
+    };
+}
+
+
+
+@{
+    var InitialGroup21 = (new string[] { "CustomerID", "OrderID" });
+}
+<SfFixture @ref="fixture21" TestAsync="CheckingWithInversedAxisDatalabelBottom" Description="CheckingWithInversedAxisDatalabelBottom">
+    <ComponentUnderTest>
+        <SfChart ID="container" @ref="chartobj3" Title="Chart Ts Title" Width="800">
+            <ChartPrimaryXAxis Title="PrimaryXAxis"></ChartPrimaryXAxis>
+            <ChartPrimaryYAxis Title="PrimaryYAxis" IsInversed="true"></ChartPrimaryYAxis>
+            <ChartSeriesCollection>
+                <ChartSeries DataSource="@Sales21" XName="x" YName="y" Type="ChartSeriesType.StackingArea" Name="Gold">
+                    <ChartSeriesAnimation Enable="false"></ChartSeriesAnimation>
+                    <ChartMarker Visible="true">
+                        <ChartDataLabel Visible="true" Fill="Violet" Position="ChartLabelPosition.Bottom"></ChartDataLabel>
+                    </ChartMarker>
+                </ChartSeries>
+                <ChartSeries DataSource="@Sales21" XName="x" YName="y" Type="ChartSeriesType.StackingArea" Name="Silver">
+                    <ChartSeriesAnimation Enable="false"></ChartSeriesAnimation>
+                    <ChartMarker Visible="true">
+                        <ChartDataLabel Visible="true" Fill="Violet"></ChartDataLabel>
+                    </ChartMarker>
+                </ChartSeries>
+            </ChartSeriesCollection>
+        </SfChart>
+    </ComponentUnderTest>
+</SfFixture>
+
+@code {
+    SfChart chartobj3;
+    SfFixture fixture21 { get; set; }
+    async Task CheckingWithInversedAxisDatalabelBottom(Fixture fixture21)
+    {
+        var cut = fixture21.GetComponentUnderTest<SfChart>();
+        await Task.Delay(200);
+        var datalabelY = Convert.ToDouble(cut.Find("#container_Series_0_Point_2_TextShape_2").GetAttribute("y"));
+        var pointY = chartobj3._visibleSeriesRenderers[0].Points[2].SymbolLocations[0].Y;
+        Assert.True(datalabelY < pointY);
+        var datalabelY1 = Convert.ToDouble(cut.Find("#container_Series_0_Point_6_TextShape_6").GetAttribute("y"));
+        var pointY1 = chartobj3._visibleSeriesRenderers[0].Points[6].SymbolLocations[0].Y;
+        Assert.True(datalabelY1 < pointY1);
+        cut.SetParametersAndRender();
+    }
+    public class AreaData21
+    {
+        public double x { get; set; }
+        public double y { get; set; }
+    }
+
+    public List<AreaData21> Sales21 = new List<AreaData21>
+{
+        new AreaData21 { x = 1, y = 18 },
+        new AreaData21 { x = 2, y = 29 },
+        new AreaData21 { x = 3, y = 30 },
+        new AreaData21 { x = 4, y = 41 },
+        new AreaData21 { x = 5, y = 52 },
+        new AreaData21 { x = 6, y = 62 },
+        new AreaData21 { x = 7, y = 74 },
+        new AreaData21 { x = 8, y = 85 },
+        new AreaData21 { x = 9, y = 96 },
+        new AreaData21 { x = 10, y = 102 }
+    };
+}
+
+
+@{
+    var InitialGroup22 = (new string[] { "CustomerID", "OrderID" });
+}
+<SfFixture @ref="fixture22" TestAsync="CheckingWithInversedAxisDatalabelOuter" Description="CheckingWithInversedAxisDatalabelOuter">
+    <ComponentUnderTest>
+        <SfChart ID="container" @ref="chartobj4" Title="Chart Ts Title" Width="800">
+            <ChartPrimaryXAxis Title="PrimaryXAxis"></ChartPrimaryXAxis>
+            <ChartPrimaryYAxis Title="PrimaryYAxis" IsInversed="true"></ChartPrimaryYAxis>
+            <ChartSeriesCollection>
+                <ChartSeries DataSource="@Sales22" XName="x" YName="y" Type="ChartSeriesType.StackingArea" Name="Gold">
+                    <ChartSeriesAnimation Enable="false"></ChartSeriesAnimation>
+                    <ChartMarker Visible="true">
+                        <ChartDataLabel Visible="true" Fill="Violet" Position="ChartLabelPosition.Outer"></ChartDataLabel>
+                    </ChartMarker>
+                </ChartSeries>
+                <ChartSeries DataSource="@Sales22" XName="x" YName="y" Type="ChartSeriesType.StackingArea" Name="Silver">
+                    <ChartSeriesAnimation Enable="false"></ChartSeriesAnimation>
+                    <ChartMarker Visible="true">
+                        <ChartDataLabel Visible="true" Fill="Violet"></ChartDataLabel>
+                    </ChartMarker>
+                </ChartSeries>
+            </ChartSeriesCollection>
+        </SfChart>
+    </ComponentUnderTest>
+</SfFixture>
+
+@code {
+    SfChart chartobj4;
+    SfFixture fixture22 { get; set; }
+    async Task CheckingWithInversedAxisDatalabelOuter(Fixture fixture22)
+    {
+        var cut = fixture22.GetComponentUnderTest<SfChart>();
+        await Task.Delay(200);
+        var datalabelY = Convert.ToDouble(cut.Find("#container_Series_0_Point_2_TextShape_2").GetAttribute("y"));
+        var pointY = chartobj4._visibleSeriesRenderers[0].Points[2].SymbolLocations[0].Y;
+        Assert.True(datalabelY < pointY);
+        var datalabelY1 = Convert.ToDouble(cut.Find("#container_Series_0_Point_6_TextShape_6").GetAttribute("y"));
+        var pointY1 = chartobj4._visibleSeriesRenderers[0].Points[6].SymbolLocations[0].Y;
+        Assert.True(datalabelY1 < pointY1);
+        cut.SetParametersAndRender();
+    }
+    public class AreaData22
+    {
+        public double x { get; set; }
+        public double y { get; set; }
+    }
+
+    public List<AreaData22> Sales22 = new List<AreaData22>
+{
+        new AreaData22 { x = 1, y = 18 },
+        new AreaData22 { x = 2, y = 29 },
+        new AreaData22 { x = 3, y = 30 },
+        new AreaData22 { x = 4, y = 41 },
+        new AreaData22 { x = 5, y = 52 },
+        new AreaData22 { x = 6, y = 62 },
+        new AreaData22 { x = 7, y = 74 },
+        new AreaData22 { x = 8, y = 85 },
+        new AreaData22 { x = 9, y = 96 },
+        new AreaData22 { x = 10, y = 102 }
+    };
+}
+
+
+@{
+    var InitialGroup23 = (new string[] { "CustomerID", "OrderID" });
+}
+<SfFixture @ref="fixture23" TestAsync="CheckingWithInversedAxisDatalabelMiddle" Description="CheckingWithInversedAxisDatalabelMiddle">
+    <ComponentUnderTest>
+        <SfChart ID="container" @ref="chartobj5" Title="Chart Ts Title" Width="800">
+            <ChartPrimaryXAxis Title="PrimaryXAxis"></ChartPrimaryXAxis>
+            <ChartPrimaryYAxis Title="PrimaryYAxis" IsInversed="true"></ChartPrimaryYAxis>
+            <ChartSeriesCollection>
+                <ChartSeries DataSource="@Sales23" XName="x" YName="y" Type="ChartSeriesType.StackingArea" Name="Gold">
+                    <ChartSeriesAnimation Enable="false"></ChartSeriesAnimation>
+                    <ChartMarker Visible="true">
+                        <ChartDataLabel Visible="true" Fill="Violet" Position="ChartLabelPosition.Middle"></ChartDataLabel>
+                    </ChartMarker>
+                </ChartSeries>
+                <ChartSeries DataSource="@Sales23" XName="x" YName="y" Type="ChartSeriesType.StackingArea" Name="Silver">
+                    <ChartSeriesAnimation Enable="false"></ChartSeriesAnimation>
+                    <ChartMarker Visible="true">
+                        <ChartDataLabel Visible="true" Fill="Violet"></ChartDataLabel>
+                    </ChartMarker>
+                </ChartSeries>
+            </ChartSeriesCollection>
+        </SfChart>
+    </ComponentUnderTest>
+</SfFixture>
+
+@code {
+    SfChart chartobj5;
+    SfFixture fixture23 { get; set; }
+    async Task CheckingWithInversedAxisDatalabelMiddle(Fixture fixture23)
+    {
+        var cut = fixture23.GetComponentUnderTest<SfChart>();
+        await Task.Delay(200);
+        var datalabelY = Convert.ToDouble(cut.Find("#container_Series_0_Point_1_TextShape_1").GetAttribute("y"));
+        var datalabelheight = Convert.ToDouble(cut.Find("#container_Series_0_Point_1_TextShape_1").GetAttribute("height"));
+        var pointY = chartobj5._visibleSeriesRenderers[0].Points[1].Regions[0];
+        Assert.True((datalabelY + datalabelheight / 2) == (pointY.Y + pointY.Height / 2));
+        cut.SetParametersAndRender();
+    }
+    public class AreaData23
+    {
+        public double x { get; set; }
+        public double y { get; set; }
+    }
+
+    public List<AreaData23> Sales23 = new List<AreaData23>
+{
+        new AreaData23 { x = 1, y = 18 },
+        new AreaData23 { x = 2, y = 29 },
+        new AreaData23 { x = 3, y = 30 },
+        new AreaData23 { x = 4, y = 41 },
+        new AreaData23 { x = 5, y = 52 },
+        new AreaData23 { x = 6, y = 62 },
+        new AreaData23 { x = 7, y = 74 },
+        new AreaData23 { x = 8, y = 85 },
+        new AreaData23 { x = 9, y = 96 },
+        new AreaData23 { x = 10, y = 102 }
+    };
+}
+
+
+@{
+    var InitialGroup24 = (new string[] { "CustomerID", "OrderID" });
+}
+<SfFixture @ref="fixture24" TestAsync="CheckingWithoutRotated" Description="CheckingWithoutRotated">
+    <ComponentUnderTest>
+        <SfChart ID="container" @ref="chartobj6" Title="Chart TS Title" Width="800">
+            <ChartPrimaryXAxis Title="PrimaryXAxis" ValueType="Syncfusion.Blazor.Toolkit.ValueType.DateTime"></ChartPrimaryXAxis>
+            <ChartPrimaryYAxis Title="PrimaryYaxis"></ChartPrimaryYAxis>
+            <ChartSeriesCollection>
+                <ChartSeries DataSource="@Sales24" XName="x" YName="y" Type="ChartSeriesType.StackingArea" Name="Gold">
+                    <ChartSeriesAnimation Enable="false"></ChartSeriesAnimation>
+                    <ChartMarker Visible="true">
+                    </ChartMarker>
+                </ChartSeries>
+                <ChartSeries DataSource="@Sales24" XName="x" YName="y1" Type="ChartSeriesType.StackingArea" Name="Gold">
+                    <ChartSeriesAnimation Enable="false"></ChartSeriesAnimation>
+                    <ChartMarker Visible="true">
+                    </ChartMarker>
+                </ChartSeries>
+            </ChartSeriesCollection>
+        </SfChart>
+    </ComponentUnderTest>
+</SfFixture>
+
+@code {
+    SfChart chartobj6;
+    SfFixture fixture24 { get; set; }
+    async Task CheckingWithoutRotated(Fixture fixture24)
+    {
+        var cut = fixture24.GetComponentUnderTest<SfChart>();
+        await Task.Delay(200);
+        Assert.True(chartobj6._axisContainer.Axes[Constants.PrimaryXAxis].Renderer.Orientation.ToString() == "Horizontal");
+        Assert.True(chartobj6._axisContainer.Axes[Constants.PrimaryYAxis].Renderer.Orientation.ToString() == "Vertical");
+        cut.SetParametersAndRender();
+    }
+    public class SplineData24
+    {
+        public DateTime x { get; set; }
+        public double y { get; set; }
+        public double y1 { get; set; }
+    }
+    public List<SplineData24> Sales24 = new List<SplineData24>
+{
+        new SplineData24 { x = new DateTime(2000, 06, 11), y = 10, y1 = -30 },
+        new SplineData24 { x = new DateTime(2002, 03, 07), y = -30, y1 = 10  },
+        new SplineData24 { x = new DateTime(2004, 03, 06), y = 15, y1 = 0  },
+        new SplineData24 { x = new DateTime(2006, 03, 30), y = -65, y1 = 75  },
+        new SplineData24 { x = new DateTime(2008, 03, 08), y = 0 , y1 = 45 },
+        new SplineData24 { x = new DateTime(2010, 03, 08), y = 85 , y1 = 32 }
+      };
+}
+
+
+
+@{
+    var InitialGroup25 = (new string[] { "CustomerID", "OrderID" });
+}
+<SfFixture @ref="fixture25" TestAsync="CheckingWithRotated" Description="CheckingWithRotated">
+    <ComponentUnderTest>
+        <SfChart ID="container" @ref="chartobj7" Title="Chart TS Title" Width="800" IsTransposed="true">
+            <ChartPrimaryXAxis Title="PrimaryXAxis" ValueType="Syncfusion.Blazor.Toolkit.ValueType.DateTime"></ChartPrimaryXAxis>
+            <ChartPrimaryYAxis Title="PrimaryYaxis"></ChartPrimaryYAxis>
+            <ChartSeriesCollection>
+                <ChartSeries DataSource="@Sales25" XName="x" YName="y" Type="ChartSeriesType.StackingArea" Name="Gold">
+                    <ChartSeriesAnimation Enable="false"></ChartSeriesAnimation>
+                    <ChartMarker Visible="true">
+                    </ChartMarker>
+                </ChartSeries>
+                <ChartSeries DataSource="@Sales25" XName="x" YName="y1" Type="ChartSeriesType.StackingArea" Name="Gold">
+                    <ChartSeriesAnimation Enable="false"></ChartSeriesAnimation>
+                    <ChartMarker Visible="true">
+                    </ChartMarker>
+                </ChartSeries>
+            </ChartSeriesCollection>
+        </SfChart>
+    </ComponentUnderTest>
+</SfFixture>
+
+@code {
+    SfChart chartobj7;
+    SfFixture fixture25 { get; set; }
+    async Task CheckingWithRotated(Fixture fixture25)
+    {
+        var cut = fixture25.GetComponentUnderTest<SfChart>();
+        await Task.Delay(200);
+        Assert.True(chartobj7._axisContainer.Axes[Constants.PrimaryYAxis].Renderer.Orientation.ToString() == "Horizontal");
+        Assert.True(chartobj7._axisContainer.Axes[Constants.PrimaryXAxis].Renderer.Orientation.ToString() == "Vertical");
+        cut.SetParametersAndRender();
+    }
+    public class SplineData25
+    {
+        public DateTime x { get; set; }
+        public double y { get; set; }
+        public double y1 { get; set; }
+    }
+    public List<SplineData25> Sales25 = new List<SplineData25>
+{
+        new SplineData25 { x = new DateTime(2000, 06, 11), y = 10, y1 = -30 },
+        new SplineData25 { x = new DateTime(2002, 03, 07), y = -30, y1 = 10  },
+        new SplineData25 { x = new DateTime(2004, 03, 06), y = 15, y1 = 0  },
+        new SplineData25 { x = new DateTime(2006, 03, 30), y = -65, y1 = 75  },
+        new SplineData25 { x = new DateTime(2008, 03, 08), y = 0 , y1 = 45 },
+        new SplineData25 { x = new DateTime(2010, 03, 08), y = 85 , y1 = 32 }
+      };
+}
+
+
+@{
+    var InitialGroup26 = (new string[] { "CustomerID", "OrderID" });
+}
+<SfFixture @ref="fixture26" TestAsync="CheckingWithRotatedDatalabelAuto" Description="CheckingWithRotatedDatalabelAuto">
+    <ComponentUnderTest>
+        <SfChart ID="container" @ref="chartobj8" Title="Chart TS Title" Width="800" IsTransposed="true">
+            <ChartPrimaryXAxis Title="PrimaryXAxis" ValueType="Syncfusion.Blazor.Toolkit.ValueType.DateTime"></ChartPrimaryXAxis>
+            <ChartPrimaryYAxis Title="PrimaryYaxis"></ChartPrimaryYAxis>
+            <ChartSeriesCollection>
+                <ChartSeries DataSource="@Sales26" XName="x" YName="y" Type="ChartSeriesType.StackingArea" Name="Gold">
+                    <ChartSeriesAnimation Enable="false"></ChartSeriesAnimation>
+                    <ChartMarker Visible="true">
+                        <ChartDataLabel Visible="true" Position="ChartLabelPosition.Auto"></ChartDataLabel>
+                    </ChartMarker>
+                </ChartSeries>
+                <ChartSeries DataSource="@Sales26" XName="x" YName="y1" Type="ChartSeriesType.StackingArea" Name="Gold">
+                    <ChartSeriesAnimation Enable="false"></ChartSeriesAnimation>
+                    <ChartMarker Visible="true">
+                    </ChartMarker>
+                </ChartSeries>
+            </ChartSeriesCollection>
+        </SfChart>
+    </ComponentUnderTest>
+</SfFixture>
+
+@code {
+    SfChart chartobj8;
+    SfFixture fixture26 { get; set; }
+    async Task CheckingWithRotatedDatalabelAuto(Fixture fixture26)
+    {
+        var cut = fixture26.GetComponentUnderTest<SfChart>();
+        await Task.Delay(200);
+        var datalabelY = Convert.ToDouble(cut.Find("#container_Series_0_Point_2_Text_0").GetAttribute("y"));
+        var pointy = chartobj8._visibleSeriesRenderers[0].Points[2].SymbolLocations[0].Y;
+        Assert.True(datalabelY < pointy);
+        cut.SetParametersAndRender();
+    }
+    public class SplineData26
+    {
+        public DateTime x { get; set; }
+        public double y { get; set; }
+        public double y1 { get; set; }
+    }
+    public List<SplineData26> Sales26 = new List<SplineData26>
+{
+        new SplineData26 { x = new DateTime(2000, 06, 11), y = 10, y1 = -30 },
+        new SplineData26 { x = new DateTime(2002, 03, 07), y = -30, y1 = 10  },
+        new SplineData26 { x = new DateTime(2004, 03, 06), y = 15, y1 = 0  },
+        new SplineData26 { x = new DateTime(2006, 03, 30), y = -65, y1 = 75  },
+        new SplineData26 { x = new DateTime(2008, 03, 08), y = 0 , y1 = 45 },
+        new SplineData26 { x = new DateTime(2010, 03, 08), y = 85 , y1 = 32 }
+      };
+}
+
+
+@{
+    var InitialGroup27 = (new string[] { "CustomerID", "OrderID" });
+}
+<SfFixture @ref="fixture27" TestAsync="CheckingWithRotatedDatalabelTop" Description="CheckingWithRotatedDatalabelTop">
+    <ComponentUnderTest>
+        <SfChart ID="container" @ref="chartobj9" Title="Chart TS Title" Width="800" IsTransposed="true">
+            <ChartPrimaryXAxis Title="PrimaryXAxis" ValueType="Syncfusion.Blazor.Toolkit.ValueType.DateTime"></ChartPrimaryXAxis>
+            <ChartPrimaryYAxis Title="PrimaryYaxis"></ChartPrimaryYAxis>
+            <ChartSeriesCollection>
+                <ChartSeries DataSource="@Sales27" XName="x" YName="y" Type="ChartSeriesType.StackingArea" Name="Gold">
+                    <ChartSeriesAnimation Enable="false"></ChartSeriesAnimation>
+                    <ChartMarker Visible="true">
+                        <ChartDataLabel Visible="true" Position="ChartLabelPosition.Top"></ChartDataLabel>
+                    </ChartMarker>
+                </ChartSeries>
+                <ChartSeries DataSource="@Sales27" XName="x" YName="y1" Type="ChartSeriesType.StackingArea" Name="Gold">
+                    <ChartSeriesAnimation Enable="false"></ChartSeriesAnimation>
+                    <ChartMarker Visible="true">
+                    </ChartMarker>
+                </ChartSeries>
+            </ChartSeriesCollection>
+        </SfChart>
+    </ComponentUnderTest>
+</SfFixture>
+
+@code {
+    SfChart chartobj9;
+    SfFixture fixture27 { get; set; }
+    async Task CheckingWithRotatedDatalabelTop(Fixture fixture27)
+    {
+        var cut = fixture27.GetComponentUnderTest<SfChart>();
+        await Task.Delay(200);
+        var datalabelY = Convert.ToDouble(cut.Find("#container_Series_0_Point_2_Text_0").GetAttribute("y"));
+        var pointy = chartobj9._visibleSeriesRenderers[0].Points[2].SymbolLocations[0].Y;
+        Assert.True(datalabelY < pointy);
+        cut.SetParametersAndRender();
+    }
+    public class SplineData27
+    {
+        public DateTime x { get; set; }
+        public double y { get; set; }
+        public double y1 { get; set; }
+    }
+    public List<SplineData27> Sales27 = new List<SplineData27>
+{
+        new SplineData27 { x = new DateTime(2000, 06, 11), y = 10, y1 = -30 },
+        new SplineData27 { x = new DateTime(2002, 03, 07), y = -30, y1 = 10  },
+        new SplineData27 { x = new DateTime(2004, 03, 06), y = 15, y1 = 0  },
+        new SplineData27 { x = new DateTime(2006, 03, 30), y = -65, y1 = 75  },
+        new SplineData27 { x = new DateTime(2008, 03, 08), y = 0 , y1 = 45 },
+        new SplineData27 { x = new DateTime(2010, 03, 08), y = 85 , y1 = 32 }
+      };
+}
+
+
+@{
+    var InitialGroup28 = (new string[] { "CustomerID", "OrderID" });
+}
+<SfFixture @ref="fixture28" TestAsync="CheckingWithRotatedDatalabelOuter" Description="CheckingWithRotatedDatalabelOuter">
+    <ComponentUnderTest>
+        <SfChart ID="container" @ref="chartobj10" Title="Chart TS Title" Width="800" IsTransposed="true">
+            <ChartPrimaryXAxis Title="PrimaryXAxis" ValueType="Syncfusion.Blazor.Toolkit.ValueType.DateTime"></ChartPrimaryXAxis>
+            <ChartPrimaryYAxis Title="PrimaryYaxis"></ChartPrimaryYAxis>
+            <ChartSeriesCollection>
+                <ChartSeries DataSource="@Sales28" XName="x" YName="y" Type="ChartSeriesType.StackingArea" Name="Gold">
+                    <ChartSeriesAnimation Enable="false"></ChartSeriesAnimation>
+                    <ChartMarker Visible="true">
+                        <ChartDataLabel Visible="true" Position="ChartLabelPosition.Outer"></ChartDataLabel>
+                    </ChartMarker>
+                </ChartSeries>
+                <ChartSeries DataSource="@Sales28" XName="x" YName="y1" Type="ChartSeriesType.StackingArea" Name="Gold">
+                    <ChartSeriesAnimation Enable="false"></ChartSeriesAnimation>
+                    <ChartMarker Visible="true">
+                    </ChartMarker>
+                </ChartSeries>
+            </ChartSeriesCollection>
+        </SfChart>
+    </ComponentUnderTest>
+</SfFixture>
+
+@code {
+    SfChart chartobj10;
+    SfFixture fixture28 { get; set; }
+    async Task CheckingWithRotatedDatalabelOuter(Fixture fixture28)
+    {
+        var cut = fixture28.GetComponentUnderTest<SfChart>();
+        await Task.Delay(200);
+        var datalabelY = Convert.ToDouble(cut.Find("#container_Series_0_Point_2_Text_0").GetAttribute("y"));
+        var pointy = chartobj10._visibleSeriesRenderers[0].Points[2].SymbolLocations[0].Y;
+        Assert.True(datalabelY < pointy);
+        cut.SetParametersAndRender();
+    }
+    public class SplineData28
+    {
+        public DateTime x { get; set; }
+        public double y { get; set; }
+        public double y1 { get; set; }
+    }
+    public List<SplineData28> Sales28 = new List<SplineData28>
+{
+        new SplineData28 { x = new DateTime(2000, 06, 11), y = 10, y1 = -30 },
+        new SplineData28 { x = new DateTime(2002, 03, 07), y = -30, y1 = 10  },
+        new SplineData28 { x = new DateTime(2004, 03, 06), y = 15, y1 = 0  },
+        new SplineData28 { x = new DateTime(2006, 03, 30), y = -65, y1 = 75  },
+        new SplineData28 { x = new DateTime(2008, 03, 08), y = 0 , y1 = 45 },
+        new SplineData28 { x = new DateTime(2010, 03, 08), y = 85 , y1 = 32 }
+      };
+}
+
+
+@{
+    var InitialGroup29 = (new string[] { "CustomerID", "OrderID" });
+}
+<SfFixture @ref="fixture29" TestAsync="CheckingWithRotatedDatalabelBottom" Description="CheckingWithRotatedDatalabelBottom">
+    <ComponentUnderTest>
+        <SfChart ID="container" @ref="chartobj11" Title="Chart TS Title" Width="800" IsTransposed="true">
+            <ChartPrimaryXAxis Title="PrimaryXAxis" ValueType="Syncfusion.Blazor.Toolkit.ValueType.DateTime"></ChartPrimaryXAxis>
+            <ChartPrimaryYAxis Title="PrimaryYaxis"></ChartPrimaryYAxis>
+            <ChartSeriesCollection>
+                <ChartSeries DataSource="@Sales29" XName="x" YName="y" Type="ChartSeriesType.StackingArea" Name="Gold">
+                    <ChartSeriesAnimation Enable="false"></ChartSeriesAnimation>
+                    <ChartMarker Visible="true">
+                        <ChartDataLabel Visible="true" Position="ChartLabelPosition.Bottom"></ChartDataLabel>
+                    </ChartMarker>
+                </ChartSeries>
+                <ChartSeries DataSource="@Sales29" XName="x" YName="y1" Type="ChartSeriesType.StackingArea" Name="Gold">
+                    <ChartSeriesAnimation Enable="false"></ChartSeriesAnimation>
+                    <ChartMarker Visible="true">
+                    </ChartMarker>
+                </ChartSeries>
+            </ChartSeriesCollection>
+        </SfChart>
+    </ComponentUnderTest>
+</SfFixture>
+
+@code {
+    SfChart chartobj11;
+    SfFixture fixture29 { get; set; }
+    async Task CheckingWithRotatedDatalabelBottom(Fixture fixture29)
+    {
+        var cut = fixture29.GetComponentUnderTest<SfChart>();
+        await Task.Delay(200);
+        var datalabelY = Convert.ToDouble(cut.Find("#container_Series_0_Point_2_Text_0").GetAttribute("y"));
+        var pointy = chartobj11._visibleSeriesRenderers[0].Points[2].SymbolLocations[0].Y;
+        Assert.True(datalabelY > pointy);
+        cut.SetParametersAndRender();
+    }
+    public class SplineData29
+    {
+        public DateTime x { get; set; }
+        public double y { get; set; }
+        public double y1 { get; set; }
+    }
+    public List<SplineData29> Sales29 = new List<SplineData29>
+{
+        new SplineData29 { x = new DateTime(2000, 06, 11), y = 10, y1 = -30 },
+        new SplineData29 { x = new DateTime(2002, 03, 07), y = -30, y1 = 10  },
+        new SplineData29 { x = new DateTime(2004, 03, 06), y = 15, y1 = 0  },
+        new SplineData29 { x = new DateTime(2006, 03, 30), y = -65, y1 = 75  },
+        new SplineData29 { x = new DateTime(2008, 03, 08), y = 0 , y1 = 45 },
+        new SplineData29 { x = new DateTime(2010, 03, 08), y = 85 , y1 = 32 }
+      };
+}
+
+
+
+@{
+    var InitialGroup30 = (new string[] { "CustomerID", "OrderID" });
+}
+<SfFixture @ref="fixture30" TestAsync="CheckingWithRotatedDatalabelMiddle" Description="CheckingWithRotatedDatalabelMiddle">
+    <ComponentUnderTest>
+        <SfChart ID="container" @ref="chartobj12" Title="Chart TS Title" Width="800" IsTransposed="true">
+            <ChartPrimaryXAxis Title="PrimaryXAxis" ValueType="Syncfusion.Blazor.Toolkit.ValueType.DateTime"></ChartPrimaryXAxis>
+            <ChartPrimaryYAxis Title="PrimaryYaxis"></ChartPrimaryYAxis>
+            <ChartSeriesCollection>
+                <ChartSeries DataSource="@Sales30" XName="x" YName="y" Type="ChartSeriesType.StackingArea" Name="Gold">
+                    <ChartSeriesAnimation Enable="false"></ChartSeriesAnimation>
+                    <ChartMarker Visible="true">
+                        <ChartDataLabel Visible="true" Position="ChartLabelPosition.Middle"></ChartDataLabel>
+                    </ChartMarker>
+                </ChartSeries>
+                <ChartSeries DataSource="@Sales30" XName="x" YName="y1" Type="ChartSeriesType.StackingArea" Name="Gold">
+                    <ChartSeriesAnimation Enable="false"></ChartSeriesAnimation>
+                    <ChartMarker Visible="true">
+                    </ChartMarker>
+                </ChartSeries>
+            </ChartSeriesCollection>
+        </SfChart>
+    </ComponentUnderTest>
+</SfFixture>
+
+@code {
+    SfChart chartobj12;
+    SfFixture fixture30 { get; set; }
+    async Task CheckingWithRotatedDatalabelMiddle(Fixture fixture30)
+    {
+        var cut = fixture30.GetComponentUnderTest<SfChart>();
+        await Task.Delay(200);
+        var datalabelY = Convert.ToDouble(cut.Find("#container_Series_0_Point_2_Text_0").GetAttribute("y"));
+        var pointy = chartobj12._visibleSeriesRenderers[0].Points[2];
+        Assert.True(datalabelY > (pointy.SymbolLocations[0].Y - pointy.Regions[0].Height / 2));
+        cut.SetParametersAndRender();
+    }
+    public class SplineData30
+    {
+        public DateTime x { get; set; }
+        public double y { get; set; }
+        public double y1 { get; set; }
+    }
+    public List<SplineData30> Sales30 = new List<SplineData30>
+{
+        new SplineData30 { x = new DateTime(2000, 06, 11), y = 10, y1 = -30 },
+        new SplineData30 { x = new DateTime(2002, 03, 07), y = -30, y1 = 10  },
+        new SplineData30 { x = new DateTime(2004, 03, 06), y = 15, y1 = 0  },
+        new SplineData30 { x = new DateTime(2006, 03, 30), y = -65, y1 = 75  },
+        new SplineData30 { x = new DateTime(2008, 03, 08), y = 0 , y1 = 45 },
+        new SplineData30 { x = new DateTime(2010, 03, 08), y = 85 , y1 = 32 }
+      };
+}

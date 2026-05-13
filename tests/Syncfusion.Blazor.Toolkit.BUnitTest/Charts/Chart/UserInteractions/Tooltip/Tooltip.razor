@@ -1,0 +1,258 @@
+﻿@using Syncfusion.Blazor.Toolkit.Charts
+@using Syncfusion.Blazor.Toolkit.Tests
+@using Syncfusion.Blazor.Toolkit.Charts
+@using Syncfusion.Blazor.Toolkit.Charts.Internal
+@using Bunit
+@using Xunit
+
+@inherits TestComponentBase
+
+<SfFixture @ref="fixture" TestAsync="CheckingTooltipTextStyle" Description="CheckingTooltipTextStyle">
+    <ComponentUnderTest>
+        <SfChart ID="container" Title="Product Sales" HighlightColor="red">
+            <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Toolkit.ValueType.Category" />
+            <ChartPrimaryYAxis LabelFormat="{value}M"></ChartPrimaryYAxis>
+
+            <ChartTooltipSettings Enable="true" Fill="gray">
+                <ChartTooltipTextStyle Color="Black" Size="12px" FontFamily="Aerial" FontWeight="600"></ChartTooltipTextStyle>
+            </ChartTooltipSettings>
+
+            <ChartSeriesCollection>
+                <ChartSeries DataSource="@SalesReports" XName="X" YName="Y" Type="ChartSeriesType.Column">
+                </ChartSeries>
+            </ChartSeriesCollection>
+        </SfChart>
+    </ComponentUnderTest>
+</SfFixture>
+
+@code {
+
+    SfFixture fixture { get; set; }
+    async Task CheckingTooltipTextStyle(Fixture fixture)
+    {
+        var cut = fixture.GetComponentUnderTest<SfChart>();
+        await Task.Delay(200);
+        var tooltipTextStyle = cut.FindComponent<ChartTooltipTextStyle>();
+        Assert.True(tooltipTextStyle.Instance.GetFontSize(cut.Instance._chartThemeStyle) == "12px");
+        Assert.True(tooltipTextStyle.Instance.GetFontFamily(cut.Instance._chartThemeStyle) == "Aerial");
+        Assert.True(tooltipTextStyle.Instance.GetFontWeight(cut.Instance._chartThemeStyle) == "600");
+        Assert.True(tooltipTextStyle.Instance.Color == "Black");
+        cut.SetParametersAndRender();
+        await tooltipTextStyle.Instance.DisposeAsync();
+    }
+    public class Data
+    {
+        public string X { get; set; }
+        public double Y { get; set; }
+        public string Text { get; set; }
+    }
+
+    public List<Data> SalesReports = new List<Data>
+    {
+       new Data{ X= "Jan", Y= 3, Text= "January" },
+       new Data{ X= "Feb", Y= 3.5, Text= "February" },
+       new Data{ X= "Mar", Y= 7, Text= "March" },
+       new Data{ X= "Apr", Y= 13.5, Text= "April" }
+    };
+}
+
+@{
+    var InitialGroup1 = (new string[] { "CustomerID", "OrderID" });
+}
+
+<SfFixture @ref="fixture2" TestAsync="CheckingTooltipDefaultApi" Description="CheckingTooltipDefaultApi">
+    <ComponentUnderTest>
+        <SfChart ID="container" Title="Product Sales" HighlightColor="red">
+            <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Toolkit.ValueType.Category" />
+            <ChartPrimaryYAxis LabelFormat="{value}M"></ChartPrimaryYAxis>
+
+            <ChartTooltipSettings Enable="true" ShowNearestPoint="false" Opacity="0.75" EnableTextWrap="false" TextStyle="@textStyle" Border="@border"></ChartTooltipSettings>
+
+            <ChartSeriesCollection>
+                <ChartSeries DataSource="@SalesReports2" XName="X" YName="Y" Type="ChartSeriesType.Column">
+                </ChartSeries>
+            </ChartSeriesCollection>
+        </SfChart>
+    </ComponentUnderTest>
+</SfFixture>
+
+@code {
+    SfFixture fixture2 { get; set; }
+    public ChartTooltipTextStyle textStyle = new ChartTooltipTextStyle { Color = "Gray", FontFamily = "Aerial", FontWeight = "600" };
+    ChartTooltipBorder border = new ChartTooltipBorder { Color = "red", Width = 3 };
+    async Task CheckingTooltipDefaultApi(Fixture fixture2)
+    {
+        var cut = fixture2.GetComponentUnderTest<SfChart>();
+        await Task.Delay(200);
+        var tooltip = cut.FindComponent<ChartTooltipSettings>();
+        Assert.True(tooltip.Instance.TextStyle == textStyle);
+        Assert.True(tooltip.Instance.Shared == false);
+        Assert.True(tooltip.Instance.Opacity == 0.75);
+        Assert.True(tooltip.Instance.Header == null);
+        Assert.True(tooltip.Instance.Fill == string.Empty);
+        Assert.True(tooltip.Instance.FadeOutDuration == 1000);
+        Assert.True(tooltip.Instance.EnableAnimation == true);
+        Assert.True(tooltip.Instance.Duration == 300);
+        Assert.True(tooltip.Instance.Border == border);
+        Assert.True(tooltip.Instance.ShowNearestPoint == false);
+        Assert.True(tooltip.Instance.EnableTextWrap == false);
+        cut.SetParametersAndRender();
+        await tooltip.Instance.DisposeAsync();
+    }
+    public class Data2
+    {
+        public string X { get; set; }
+        public double Y { get; set; }
+        public string Text { get; set; }
+    }
+
+    public List<Data2> SalesReports2 = new List<Data2>
+    {
+       new Data2{ X= "Jan", Y= 3, Text= "January" },
+       new Data2{ X= "Feb", Y= 3.5, Text= "February" },
+       new Data2{ X= "Mar", Y= 7, Text= "March" },
+       new Data2{ X= "Apr", Y= 13.5, Text= "April" }
+    };
+}
+
+<SfFixture @ref="fixture5" TestAsync="CheckingTooltipRenderWithStackingType" Description="CheckingTooltipRenderWithStackingType">
+    <ComponentUnderTest>
+            <SfChart @ref="chartRef" TooltipRender="TooltipEventTrigger">
+            <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Toolkit.ValueType.Category"></ChartPrimaryXAxis>
+
+            <ChartSeriesCollection>
+                <ChartSeries DataSource="@StackedDataList" XName="X" YName="Y" Type="ChartSeriesType.StackingColumn">
+                </ChartSeries>
+                <ChartSeries DataSource="@StackedDataList" XName="X" YName="Y1" Type="ChartSeriesType.StackingColumn">
+                </ChartSeries>
+                <ChartSeries DataSource="@StackedDataList" XName="X" YName="Y2" Type="ChartSeriesType.StackingColumn">
+                </ChartSeries>
+                <ChartSeries DataSource="@StackedDataList" XName="X" YName="Y3" Type="ChartSeriesType.StackingColumn">
+                </ChartSeries>
+            </ChartSeriesCollection>
+            <ChartTooltipSettings Enable="true">
+            </ChartTooltipSettings>
+        </SfChart>
+    </ComponentUnderTest>
+</SfFixture>
+
+@code {
+    SfFixture fixture5;
+    SfChart chartRef;
+    string eventName;
+    async Task CheckingTooltipRenderWithStackingType(Fixture fixture5)
+    {
+        var cut = fixture5.GetComponentUnderTest<SfChart>();
+        await Task.Delay(200);
+        IPointInfo pointInfo = new IPointInfo() { PointIndex = 0, SeriesIndex = 0, PointText = "2024: 111.1", PointX  = "2014", PointY = "111.1" };
+        ITooltipRenderEventArgs eventArgs = new ITooltipRenderEventArgs() { Data = pointInfo, Point = new object(), Series = new object(), HeaderText = "Header", Text = "Tooltip Text" };
+        await cut.InvokeAsync(() => chartRef.TooltipEventTriggeredAsync(eventArgs));
+        Assert.Equal("TooltipRender", eventName);
+        cut.SetParametersAndRender();
+    }
+    public void TooltipEventTrigger(TooltipRenderEventArgs args)
+    {
+        eventName = args.Name;
+    }
+    public class StackedData
+    {
+        public string X { get; set; }
+        public double Y { get; set; }
+        public double Y1 { get; set; }
+        public double Y2 { get; set; }
+        public double Y3 { get; set; }
+    }
+
+    public List<StackedData> StackedDataList = new List<StackedData>
+    {
+        new StackedData { X = "2014", Y = 111.1, Y1 = 76.9, Y2 = 66.1, Y3 = 34.1 },
+        new StackedData { X = "2015", Y = 127.3, Y1 = 99.5, Y2 = 79.3, Y3 = 38.2 },
+        new StackedData { X = "2016", Y = 143.4, Y1 = 121.7, Y2 = 91.3, Y3 = 44.0 },
+        new StackedData { X = "2017", Y = 159.9, Y1 = 142.5, Y2 = 102.4, Y3 = 51.6 },
+        new StackedData { X = "2018", Y = 175.4, Y1 = 166.7, Y2 = 112.9, Y3 = 61.9 },
+        new StackedData { X = "2019", Y = 189.0, Y1 = 182.9, Y2 = 122.4, Y3 = 71.5 },
+        new StackedData { X = "2020", Y = 202.7, Y1 = 197.3, Y2 = 120.9, Y3 = 82.0 }
+    };
+}
+
+<SfFixture @ref="fixture6" TestAsync="CheckingTitleTooltip" Description="CheckingTitleTooltip">
+    <ComponentUnderTest>
+        <SfChart @ref="chartRefTitle" ID="container" Title="Inflation - Consumer Price For the year 2025-2026" Width="350px">
+            <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Toolkit.ValueType.Category"></ChartPrimaryXAxis>
+
+            <ChartSeriesCollection>
+                <ChartSeries DataSource="@ConsumerDetails" XName="X" YName="YValue" Type="ChartSeriesType.Column">
+                </ChartSeries>
+            </ChartSeriesCollection>
+            <ChartTooltipSettings Enable="true" />
+        </SfChart>
+    </ComponentUnderTest>
+</SfFixture>
+
+@code{
+    SfFixture fixture6;
+    SfChart chartRefTitle;
+    async Task CheckingTitleTooltip(Fixture fixture6)
+    {
+        var cut = fixture6.GetComponentUnderTest<SfChart>();
+        await Task.Delay(200);
+        var title = cut.Find("#container_ChartTitle");
+        Assert.True(title != null);
+        await cut.InvokeAsync(() => chartRefTitle.OnZoomingMouseDown(new ChartInternalMouseEventArgs() { Type="touch", MouseX = 150, MouseY = 50, Target="container_ChartTitle", ClientX=150, ClientY=50 }, false));
+        Assert.Equal("Inflation - Consumer Price For the year 2025-2026", cut.Find("#container_ChartTitle").InnerHtml.Trim());
+    }
+    public class ChartData
+    {
+        public string X { get; set; }
+        public double YValue { get; set; }
+    }
+    public List<ChartData> ConsumerDetails = new List<ChartData>
+	{
+        new ChartData { X= "USA", YValue= 46 },
+        new ChartData { X= "GBR", YValue= 27 },
+        new ChartData { X= "CHN", YValue= 26 },
+        new ChartData { X= "UK", YValue= 36 },
+        new ChartData { X= "AUS", YValue= 15 },
+        new ChartData { X= "IND", YValue= 55 },
+        new ChartData { X= "DEN", YValue= 40 },
+        new ChartData { X= "MEX", YValue= 30 }
+    };
+}
+
+<SfFixture @ref="fixture7" TestAsync="CheckingAxisLabelTooltip" Description="CheckingAxisLabelTooltip">
+    <ComponentUnderTest>
+        <SfChart @ref="chartRefAxisLabel" ID="container" Title="Inflation - Consumer Price For the year 2025-2026" Width="350px">
+            <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Toolkit.ValueType.Category"></ChartPrimaryXAxis>
+
+            <ChartSeriesCollection>
+                <ChartSeries DataSource="@ConsumerDetails1" XName="X" YName="YValue" Type="ChartSeriesType.Column">
+                </ChartSeries>
+            </ChartSeriesCollection>
+            <ChartTooltipSettings Enable="true" />
+        </SfChart>
+    </ComponentUnderTest>
+</SfFixture>
+
+@code{
+    SfFixture fixture7;
+    SfChart chartRefAxisLabel;
+    async Task CheckingAxisLabelTooltip(Fixture fixture7)
+    {
+        var cut = fixture7.GetComponentUnderTest<SfChart>();
+        await Task.Delay(200);
+        Assert.NotNull(cut.Find("#container1_AxisLabel_0"));
+        await cut.InvokeAsync(() => chartRefAxisLabel.OnZoomingMouseDown(new ChartInternalMouseEventArgs() { Type="touch",MouseX = 42, MouseY = 435, Target="container1_AxisLabel_0", ClientX=42, ClientY=435 }, false));
+        Assert.Equal("United States of America", cut.Find("#container_EJ2_AxisLabel_Tooltip").InnerHtml.Trim());
+    }
+    public List<ChartData> ConsumerDetails1 = new List<ChartData>
+	{
+        new ChartData { X = "United States of America", YValue = 46 },
+        new ChartData { X = "Great Britain", YValue = 27 },
+        new ChartData { X = "China", YValue = 26 },
+        new ChartData { X = "United Kingdom", YValue = 36 },
+        new ChartData { X = "Australia", YValue = 15 },
+        new ChartData { X = "India", YValue = 55 },
+        new ChartData { X = "Denmark", YValue = 40 },
+        new ChartData { X = "Mexico", YValue = 30 }
+    };
+}

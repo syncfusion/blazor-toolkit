@@ -1,0 +1,72 @@
+@page "/radio-button/event-handling"
+@using Syncfusion.Blazor.Toolkit.Inputs
+@layout MainLayout
+
+<h1>Radio Button - Event Handling</h1>
+
+<div class="test-container">
+    <h2>Change Events</h2>
+    <div class="e-radio-group">
+        <SfRadioButton TChecked="string" Name="event-group" Label="Event Option 1" @bind-Value="eventValue"></SfRadioButton>
+        <SfRadioButton TChecked="string" Name="event-group" Label="Event Option 2" @bind-Value="eventValue"></SfRadioButton>
+        <SfRadioButton TChecked="string" Name="event-group" Label="Event Option 3" @bind-Value="eventValue"></SfRadioButton>
+    </div>
+    <p>Current Selection: @eventValue</p>
+    <p>Last Change: @lastChange</p>
+</div>
+
+<div class="test-container">
+    <h2>Click Events</h2>
+    <div class="e-radio-group">
+        <SfRadioButton TChecked="string" Name="click-group" Label="Clickable Option 1" @bind-Value="clickValue"></SfRadioButton>
+        <SfRadioButton TChecked="string" Name="click-group" Label="Clickable Option 2" @bind-Value="clickValue"></SfRadioButton>
+    </div>
+    <p>Click Count: @clickCount</p>
+    <button @onclick="ResetClickCount">Reset Count</button>
+</div>
+
+<style>
+    .test-container {
+        padding: 20px;
+        border: 1px solid #ddd;
+        margin: 10px 0;
+    }
+    
+    .e-radio-group {
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+        margin-bottom: 15px;
+    }
+    
+    button {
+        padding: 8px 16px;
+        margin-top: 10px;
+        cursor: pointer;
+    }
+    
+    h2 {
+        margin-top: 20px;
+        font-size: 18px;
+    }
+</style>
+
+@code {
+    private string eventValue = "evt1";
+    private string clickValue = "click1";
+    private string lastChange = "None";
+    private int clickCount = 0;
+    
+    protected override void OnInitialized()
+    {
+        base.OnInitialized();
+        lastChange = DateTime.Now.ToString("HH:mm:ss");
+    }
+    
+    private void ResetClickCount()
+    {
+        clickCount = 0;
+    }
+}
+
+

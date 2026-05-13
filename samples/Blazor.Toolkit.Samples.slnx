@@ -1,0 +1,5 @@
+<Solution>
+  <Project Path="../src/Syncfusion.Blazor.Toolkit.csproj" />
+  <Project Path="Blazor.Toolkit.Samples.Client/Blazor.Toolkit.Samples.Client.csproj" />
+  <Project Path="Blazor.Toolkit.Samples/Blazor.Toolkit.Samples.csproj" />
+</Solution>

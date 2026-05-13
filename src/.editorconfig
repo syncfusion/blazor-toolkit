@@ -1,0 +1,86 @@
+[*.{cs}]
+
+# Enable all Style rules as warnings(Languages and unnecessary code rules, Formatting rules and naming rules)
+dotnet_analyzer_diagnostic.category-Style.severity = warning
+
+# Rules Disabling section:
+# Disable "Prefer namespace naming to match folder structure".
+dotnet_diagnostic.IDE0130.severity = none
+
+# Code-style custom naming rules section:
+
+# Symbol group → Which code elements are targeted:
+# Define the 'private_internal_protected_fields' symbol group:
+dotnet_naming_symbols.private_internal_protected_fields.applicable_kinds = field
+dotnet_naming_symbols.private_internal_protected_fields.applicable_accessibilities = private, internal, protected
+
+# Define the 'private_internal_protected_const_fields' symbol group
+dotnet_naming_symbols.private_internal_protected_const_fields.applicable_kinds = field
+dotnet_naming_symbols.private_internal_protected_const_fields.applicable_accessibilities = private, internal, protected
+dotnet_naming_symbols.private_internal_protected_const_fields.required_modifiers = const
+
+# Define the 'public_fields' symbol group
+dotnet_naming_symbols.public_fields.applicable_kinds = field
+dotnet_naming_symbols.public_fields.applicable_accessibilities = public
+
+# Default: types and members → PascalCase
+dotnet_naming_symbols.types_and_members.applicable_kinds = class, struct, enum, property, method, event
+dotnet_naming_symbols.types_and_members.applicable_accessibilities = *
+
+# Default: interfaces → IPascalCase
+dotnet_naming_symbols.interfaces.applicable_kinds = interface
+dotnet_naming_symbols.interfaces.applicable_accessibilities = *
+
+# Define async methods
+dotnet_naming_symbols.async_methods.applicable_kinds = method
+dotnet_naming_symbols.async_methods.applicable_accessibilities = *
+dotnet_naming_symbols.async_methods.required_modifiers = async
+
+
+# Naming style → What their names must look like:
+# Define the 'underscored' naming style
+dotnet_naming_style.underscored.capitalization = camel_case
+dotnet_naming_style.underscored.required_prefix = _
+
+# Define the 'PascalCase' naming style
+dotnet_naming_style.pascalcase.capitalization = pascal_case
+
+# Interface naming style
+dotnet_naming_style.interface_pascal.capitalization = pascal_case
+dotnet_naming_style.interface_pascal.required_prefix = I
+
+# Naming style: Async suffix
+dotnet_naming_style.async_suffix.capitalization = pascal_case
+dotnet_naming_style.async_suffix.required_suffix = Async
+
+
+# Naming rule → Connects Symbol group + style + severity:
+# Define the 'private_internal_protected_fields_underscored' naming rule
+dotnet_naming_rule.private_internal_protected_fields_underscored.symbols = private_internal_protected_fields
+dotnet_naming_rule.private_internal_protected_fields_underscored.style = underscored
+dotnet_naming_rule.private_internal_protected_fields_underscored.severity = warning
+
+# Define the 'private_internal_protected_const_fields_pascalcase' naming rule
+dotnet_naming_rule.private_internal_protected_const_fields_pascalcase.symbols = private_internal_protected_const_fields
+dotnet_naming_rule.private_internal_protected_const_fields_pascalcase.style = pascalcase
+dotnet_naming_rule.private_internal_protected_const_fields_pascalcase.severity = warning
+
+# Define the 'public_fields_pascalcase' naming rule
+dotnet_naming_rule.public_fields_pascalcase.symbols = public_fields
+dotnet_naming_rule.public_fields_pascalcase.style = pascalcase
+dotnet_naming_rule.public_fields_pascalcase.severity = warning
+
+# Define the 'types_and_members_pascalcase' naming rule
+dotnet_naming_rule.types_and_members_pascalcase.symbols = types_and_members
+dotnet_naming_rule.types_and_members_pascalcase.style = pascalcase
+dotnet_naming_rule.types_and_members_pascalcase.severity = warning
+
+# Define the 'interfaces_ipascal' naming rule
+dotnet_naming_rule.interfaces_ipascal.symbols = interfaces
+dotnet_naming_rule.interfaces_ipascal.style = interface_pascal
+dotnet_naming_rule.interfaces_ipascal.severity = warning
+
+# Async methods must end with Async
+dotnet_naming_rule.async_methods_end_with_async.symbols = async_methods
+dotnet_naming_rule.async_methods_end_with_async.style = async_suffix
+dotnet_naming_rule.async_methods_end_with_async.severity = warning

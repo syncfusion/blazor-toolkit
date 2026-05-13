@@ -1,0 +1,1630 @@
+@use 'sass:color';
+
+@use './base.scss' as *;
+
+//layout variables
+$btn-font-size: $text-sm !default;
+$btn-border: 1px solid !default;
+$btn-icon-margin-top: -2px !default;
+$btn-icon-btn-width: 1em !default;
+$btn-icon-top-bottom-padding: 8px !default;
+$btn-top-icon-padding: 12px 12px !default;
+$btn-focus-outline-offset: 0 !default;
+$btn-active-outline-offset: 0 !default;
+$btn-font-weight: $font-weight-semibold !default;
+$btn-font-size: $text-sm !default;
+$btn-border-radius: $radius-4 !default;
+$btn-text-transform: none !default;
+$btn-icon-font-size: $text-sm !default;
+$btn-round-height: 32px !default;
+$btn-round-width: 32px !default;
+$btn-round-font-size: $text-sm !default;
+$btn-icon-margin: -.5em !default;
+$btn-icon-width: 2em !default;
+$btn-round-icon-line-height: 14px !default;
+$btn-text-line-height: 20px !default;
+$btn-padding: 5px 12px !default;
+$btn-icon-padding: 8px !default;
+$btn-small-font-size: $text-xs !default;
+$btn-small-text-line-height: 16px !default;
+$btn-small-padding: 3.2px 8px !default;
+
+//normal
+$btn-color: $secondary-text-color !default;
+$btn-bgcolor: $secondary-bg-color !default;
+$btn-border-color: $secondary-border-color !default;
+$btn-hover-bgcolor: $secondary-bg-color-hover !default;
+$btn-hover-border-color: $secondary-border-color-hover !default;
+$btn-hover-color: $secondary-text-color-hover !default;
+$btn-focus-bgcolor: $secondary-bg-color-selected !default;
+$btn-focus-border-color: $secondary-border-color-selected !default;
+$btn-focus-color: $secondary-text-color-selected !default;
+$btn-active-outline: $btn-bgcolor 0 solid !default;
+$btn-focus-outline: $btn-bgcolor 0 solid !default;
+$btn-focus-outline-round: $white 0 solid !default;
+$btn-active-border-color: $secondary-border-color-pressed !default;
+$btn-active-bgcolor: $secondary-bg-color-pressed !default;
+$btn-active-color: $secondary-text-color-pressed !default;
+$btn-disabled-color: $primary-text-disabled !default;
+$btn-disabled-bgcolor: $secondary-bg-color-disabled !default;
+$btn-disabled-border-color: $secondary-border-color-disabled !default;
+$btn-active-box-shadow: none !default;
+$btn-link-bgcolor: transparent !default;
+$btn-link-border-color: transparent !default;
+$btn-link-color: $link-button !default;
+$btn-link-hover-color: $primary-bg-color-hover !default;
+$btn-link-disabled-bgcolor: transparent !default;
+$btn-link-focus-underline-color: $content-text-color !default;
+
+//primary
+$btn-primary-outline: $btn-bgcolor 0 solid !default;
+$btn-primary-color: $primary-text-color !default;
+$btn-primary-hover-color: $primary-text-hover !default;
+$btn-primary-focus-color: $primary-text-selected !default;
+$btn-primary-active-color: $primary-text-pressed !default;
+$btn-primary-bgcolor: $primary-bg-color !default;
+$btn-primary-hover-bgcolor: $primary-bg-color-hover !default;
+$btn-primary-active-bgcolor: $primary-bg-color-pressed !default;
+$btn-primary-border-color:  $primary-border-color !default;
+$btn-primary-hover-border-color: $primary-border-color-hover !default;
+$btn-primary-focus-border-color: $primary-border-color-selected !default;
+$btn-primary-active-border-color: $primary-border-color-pressed !default;
+$btn-primary-focus-bgcolor: $primary-bg-color-selected !default;
+$btn-primary-disabled-bgcolor: $primary-bg-color-disabled !default;
+$btn-primary-disabled-color: $primary-text-disabled !default;
+$btn-primary-disabled-border-color: $primary-border-color-disabled !default;
+
+//outline
+$btn-outline-color: $btn-color !default;
+$btn-outline-bgcolor: transparent !default;
+$btn-outline-hover-bgcolor: transparent !default;
+$btn-outline-hover-color: $secondary-outline-button-text-color-hover !default;
+$btn-outline-focus-bgcolor: $btn-focus-bgcolor !default;
+$btn-outline-focus-color: $btn-focus-color !default;
+$btn-outline-active-color: $btn-active-color !default;
+$btn-outline-active-bgcolor: $btn-active-bgcolor !default;
+$btn-outline-border-color: $btn-border-color !default;
+$btn-outline-hover-border-color: $btn-hover-border-color !default;
+$btn-outline-focus-border-color: $secondary-border-color-selected !default;
+$btn-outline-default-focus-border-color: $btn-outline-border-color !default;
+$btn-outline-active-border-color: $secondary-border-color-pressed !default;
+$btn-outline-active-box-shadow: $btn-active-box-shadow !default;
+$btn-outline-disabled-bgcolor: $secondary-bg-color-disabled !default;
+$btn-outline-disabled-border-color: $secondary-border-color-disabled !default;
+$btn-outline-disabled-color: $secondary-text-color-disabled !default;
+$btn-outline-primary-color: $btn-primary-bgcolor !default;
+$btn-outline-primary-focus-bgcolor: $btn-primary-bgcolor !default;
+$btn-outline-primary-focus-color: $white !default;
+$btn-outline-success-color: $success-bg-color !default;
+$btn-outline-warning-color: $warning-bg-color !default;
+$btn-outline-danger-color: $danger-bg-color !default;
+$btn-outline-info-color: $info-bg-color !default;
+
+//flat
+$btn-flat-color: $btn-color !default;
+$btn-flat-border: $btn-border !default;
+$btn-flat-border-color: $transparent !default;
+$btn-flat-hover-color: $btn-hover-color !default;
+$btn-flat-focus-color: $btn-focus-color !default;
+$btn-flat-active-color: $btn-active-color !default;
+$btn-flat-box-shadow: none !default;
+$btn-flat-active-bgcolor: $btn-active-bgcolor !default;
+$btn-flat-bgcolor: $transparent !default;
+$btn-flat-hover-bgcolor: $btn-hover-bgcolor !default;
+$btn-flat-focus-bgcolor: $secondary-bg-color-selected !default;
+$btn-flat-hover-border-color: $btn-hover-border-color !default;
+$btn-flat-active-border-color: $btn-active-border-color !default;
+$btn-flat-focus-border-color: $secondary-border-color-selected !default;
+$btn-flat-active-box-shadow: $btn-active-box-shadow !default;
+$btn-flat-disabled-border-color: transparent !default;
+$btn-flat-disabled-bgcolor: transparent !default;
+$btn-flat-disabled-color: $secondary-text-color-disabled !default;
+
+//success
+$btn-success-color: $success-text !default;
+$btn-success-bgcolor: $success-bg-color !default;
+$btn-success-hover-bgcolor: $success-bg-color-hover !default;
+$btn-success-focus-bgcolor: $success-bg-color-selected !default;
+$btn-success-active-bgcolor: $success-bg-color-pressed !default;
+$btn-success-border-color: $success-border-color !default;
+$btn-success-hover-border-color: $success-border-color-hover !default;
+$btn-success-focus-border-color: $success-border-color-selected !default;
+$btn-success-active-border-color: $success-border-color-pressed !default;
+$btn-success-disabled-bgcolor: $success-bg-color-disabled !default;
+$btn-success-disabled-color: $success-text-disabled !default;
+$btn-success-disabled-border-color: $success-border-color-disabled !default;
+$btn-success-hover-color: $success-text-hover !default;
+$btn-success-focus-color: $success-text-hover !default;
+$btn-success-active-color: $btn-success-color !default;
+
+//warning
+$btn-warning-bgcolor: $warning-bg-color !default;
+$btn-warning-color: $warning-text !default;
+$btn-warning-hover-color: $warning-text-hover !default;
+$btn-warning-hover-bgcolor: $warning-bg-color-hover !default;
+$btn-warning-focus-bgcolor: $warning-bg-color-selected !default;
+$btn-warning-active-bgcolor: $warning-bg-color-pressed !default;
+$btn-warning-border-color: $warning-border-color !default;
+$btn-warning-hover-border-color: $warning-border-color-hover !default;
+$btn-warning-focus-border-color: $warning-border-color-selected !default;
+$btn-warning-focus-color: $warning-text-selected !default;
+$btn-warning-active-color: $warning-text-pressed !default;
+$btn-warning-active-border-color: $warning-border-color-pressed !default;
+$btn-warning-disabled-bgcolor: $warning-bg-color-disabled !default;
+$btn-warning-disabled-color: $warning-text-disabled !default;
+$btn-warning-disabled-border-color: $warning-border-color-disabled !default;
+
+//danger
+$btn-danger-color: $danger-text !default;
+$btn-danger-bgcolor: $danger-bg-color !default;
+$btn-danger-hover-bgcolor: $danger-bg-color-hover !default;
+$btn-danger-focus-bgcolor: $danger-bg-color-selected !default;
+$btn-danger-active-bgcolor: $danger-bg-color-pressed !default;
+$btn-danger-active-color: $danger-text-pressed !default;
+$btn-danger-border-color: $danger-border-color !default;
+$btn-danger-hover-border-color: $danger-border-color-hover !default;
+$btn-danger-focus-border-color: $success-border-color-selected !default;
+$btn-danger-active-border-color: $danger-border-color-pressed !default;
+$btn-danger-disabled-bgcolor: $danger-bg-color-disabled !default;
+$btn-danger-disabled-color: $warning-text-disabled !default;
+$btn-danger-disabled-border-color: $danger-border-color-disabled !default;
+$btn-danger-hover-color: $danger-text-hover !default;
+
+//info
+$btn-info-bgcolor: $info-bg-color !default;
+$btn-info-color: $info-text !default;
+$btn-info-hover-bgcolor: $info-bg-color-hover !default;
+$btn-info-focus-bgcolor: $info-bg-color-selected !default;
+$btn-info-active-bgcolor: $info-bg-color-pressed !default;
+$btn-info-border-color: $info-border-color !default;
+$btn-info-hover-border-color: $info-border-color-hover !default;
+$btn-info-focus-border-color: $info-border-color-selected !default;
+$btn-info-active-border-color: $info-border-color-pressed !default;
+$btn-info-disabled-bgcolor: $info-bg-color-disabled !default;
+$btn-info-disabled-color: $info-text-disabled !default;
+$btn-info-disabled-border-color: $info-border-color-disabled !default;
+$btn-info-active-color: $info-text-pressed !default;
+$btn-info-hover-color: $info-text-hover !default;
+
+//round
+$btn-round-focus-color: $secondary-text-color-selected !default;
+$btn-round-active-color: $secondary-text-color-pressed !default;
+$btn-round-bgcolor: $btn-bgcolor !default;
+$btn-round-border-color: $btn-border-color !default;
+$btn-round-color: $btn-color !default;
+$btn-round-hover-bgcolor: $btn-hover-bgcolor !default;
+$btn-round-hover-border-color: $btn-hover-border-color !default;
+$btn-round-hover-color: $btn-hover-color !default;
+
+//flatprimary
+$btn-flat-primary-hover-bgcolor: $btn-primary-hover-bgcolor !default;
+$btn-flat-primary-border-color: $btn-flat-border-color !default;
+$btn-flat-primary-hover-border-color: $btn-primary-hover-border-color !default;
+$btn-flat-primary-active-border-color: $btn-primary-active-border-color !default;
+$btn-flat-primary-focus-border-color: $btn-flat-primary-hover-border-color !default;
+$btn-flat-primary-disabled-border-color: transparent !default;
+$btn-flat-primary-focus-bgcolor: $btn-flat-primary-hover-bgcolor !default;
+$btn-flat-disabled-color: $secondary-text-color-disabled !default;
+$btn-flat-primary-disabled-color: $primary-text-disabled !default;
+$btn-flat-primary-bgcolor: $btn-flat-bgcolor !default;
+$btn-flat-primary-color: $btn-primary-bgcolor !default;
+$btn-flat-primary-hover-color: $btn-primary-color !default;
+$btn-flat-primary-focus-color: $btn-primary-focus-color !default;
+$btn-flat-primary-active-color: $btn-primary-color !default;
+$btn-flat-primary-active-bgcolor: $btn-primary-active-bgcolor !default;
+
+//flatsuccess
+$btn-flat-success-color: $btn-success-bgcolor !default;
+$btn-flat-success-hover-color: $success-text-hover !default;
+$btn-flat-success-focus-color: $success-text-selected !default;
+$btn-flat-success-active-color: $btn-success-color !default;
+$btn-flat-success-active-bgcolor: $btn-success-active-bgcolor !default;
+$btn-flat-success-disabled-color: $success-text-disabled !default;
+$btn-flat-success-bgcolor: $btn-flat-bgcolor !default;
+$btn-flat-success-hover-bgcolor: $btn-success-hover-bgcolor !default;
+$btn-flat-success-border-color: $btn-flat-border-color !default;
+$btn-flat-success-hover-border-color: $btn-success-hover-border-color !default;
+$btn-flat-success-active-border-color: $btn-success-active-border-color !default;
+$btn-flat-success-focus-border-color: $btn-flat-success-hover-border-color !default;
+$btn-flat-success-disabled-border-color: transparent !default;
+$btn-flat-success-focus-bgcolor: $success-bg-color-hover !default;
+
+//flatinfo
+$btn-flat-info-bgcolor: $btn-flat-bgcolor !default;
+$btn-flat-info-hover-bgcolor: $btn-info-hover-bgcolor !default;
+$btn-flat-info-border-color: $btn-flat-border-color !default;
+$btn-flat-info-hover-border-color: $btn-info-hover-border-color !default;
+$btn-flat-info-active-border-color: $btn-info-active-border-color !default;
+$btn-flat-info-focus-border-color: $btn-flat-info-hover-border-color !default;
+$btn-flat-info-disabled-border-color: transparent !default;
+$btn-flat-info-focus-bgcolor: $btn-info-hover-bgcolor !default;
+$btn-flat-info-color: $btn-info-bgcolor !default;
+$btn-flat-info-disabled-color: $info-text-disabled !default;
+$btn-flat-info-hover-color: $info-text-hover !default;
+$btn-flat-info-focus-color: $info-text-selected !default;
+$btn-flat-info-active-color: $info-text-pressed !default;
+$btn-flat-info-active-bgcolor: $btn-info-active-bgcolor !default;
+
+//flatwarning
+$btn-flat-warning-bgcolor: $btn-flat-bgcolor !default;
+$btn-flat-warning-hover-bgcolor: $btn-warning-hover-bgcolor !default;
+$btn-flat-warning-border-color: $btn-flat-border-color !default;
+$btn-flat-warning-hover-border-color: $btn-warning-hover-border-color !default;
+$btn-flat-warning-active-border-color: $btn-warning-active-border-color !default;
+$btn-flat-warning-focus-border-color: $btn-flat-warning-hover-border-color !default;
+$btn-flat-warning-disabled-border-color: transparent !default;
+$btn-flat-warning-focus-bgcolor: $btn-warning-hover-bgcolor !default;
+$btn-flat-warning-color: $btn-warning-bgcolor !default;
+$btn-flat-warning-disabled-color: $warning-text-disabled !default;
+$btn-flat-warning-hover-color: $warning-text-hover !default;
+$btn-flat-warning-focus-color: $warning-text-selected !default;
+$btn-flat-warning-active-color: $warning-text-pressed !default;
+$btn-flat-warning-active-bgcolor: $btn-warning-active-bgcolor !default;
+
+//flatdanger
+$btn-flat-danger-bgcolor: $btn-flat-bgcolor !default;
+$btn-flat-danger-hover-bgcolor: $btn-danger-hover-bgcolor !default;
+$btn-flat-danger-border-color: $btn-flat-border-color !default;
+$btn-flat-danger-hover-border-color: $btn-danger-hover-border-color !default;
+$btn-flat-danger-active-border-color: $btn-danger-active-border-color !default;
+$btn-flat-danger-focus-border-color: $btn-flat-danger-hover-border-color !default;
+$btn-flat-danger-disabled-border-color: transparent !default;
+$btn-flat-danger-focus-bgcolor: $btn-danger-hover-bgcolor !default;
+$btn-flat-danger-color: $btn-danger-bgcolor !default;
+$btn-flat-danger-hover-color: $danger-text-hover !default;
+$btn-flat-danger-focus-color: $danger-text-selected !default;
+$btn-flat-danger-active-color: $danger-text-pressed !default;
+$btn-flat-danger-active-bgcolor: $btn-danger-active-bgcolor !default;
+$btn-flat-danger-disabled-color: $danger-text-disabled !default;
+
+//outlineprimary
+$btn-outline-primary-disabled-color: rgba($primary, .65) !default;
+$btn-outline-primary-disabled-border-color: rgba($primary, .65) !default;
+$btn-outline-primary-hover-border-color: $primary-border-color-hover !default;
+$btn-outline-primary-hover-bgcolor: transparent !default;
+$btn-outline-primary-focus-border-color: $primary !default;
+$btn-outline-primary-active-border-color: $primary-border-color-pressed !default;
+
+//outlinesuccess
+$btn-outline-success-disabled-color: rgba($success, .65) !default;
+$btn-outline-success-disabled-border-color: rgba($btn-success-bgcolor, .65) !default;
+$btn-outline-success-hover-bgcolor: transparent !default;
+
+//outlineinfo
+$btn-outline-info-disabled-color: rgba($info, .65) !default;
+$btn-outline-info-disabled-border-color: rgba($btn-info-bgcolor, .65) !default;
+$btn-outline-info-hover-bgcolor: transparent !default;
+
+//outlinewarning
+$btn-outline-warning-disabled-color: rgba($warning, .65) !default;
+$btn-outline-warning-disabled-border-color: rgba($btn-warning-bgcolor, .65) !default;
+$btn-outline-warning-hover-bgcolor: transparent !default;
+
+//outlinedanger
+$btn-outline-danger-disabled-color: rgba($danger, .65) !default;
+$btn-outline-danger-disabled-border-color: rgba($btn-danger-bgcolor, .65) !default;
+$btn-outline-danger-hover-bgcolor: transparent !default;
+
+//size
+$btn-box-shadow: none !default;
+$btn-hover-focus-box-shadow: none !default;
+$btn-flat-primary-disabled-bgcolor: transparent !default;
+$btn-flat-success-disabled-bgcolor: transparent !default;
+$btn-flat-info-disabled-bgcolor: transparent !default;
+$btn-flat-warning-disabled-bgcolor: transparent !default;
+$btn-flat-danger-disabled-bgcolor: transparent !default;
+$btn-focus-box-shadow: $secondary-shadow-focus !default;
+
+//Fluent
+$btn-keyboard-focus-box-shadow: $shadow-focus-ring1 !default;
+$btn-keyboard-focus-border-color: $shadow-color !default;
+$btn-zero-padding: 0 !default;
+$btn-top-bottom-icon-line-height: 1 !default;
+$btn-round-line-height: 1 !default;
+$btn-round-border-radius: $radius-full !default;
+$btn-auto-width: auto !default;
+$btn-width-full: 100% !default;
+$btn-bgr-icon-line-height: 16px !default;
+$btn-icon-bgr-line-height: 1.352em !default;
+$btn-bgr-icon-font-size: 16px !default;
+$btn-icon-btn-line-height: 14px !default;
+$btn-zero-border: 0 !default;
+$btn-zero-line-height: 0 !default;
+$btn-primary-focus-box-shadow: $primary-shadow-focus !default;
+$btn-success-focus-box-shadow: $success-shadow-focus !default;
+$btn-info-focus-box-shadow: $info-shadow-focus !default;
+$btn-warning-focus-box-shadow: $warning-shadow-focus !default;
+$btn-danger-focus-box-shadow: $danger-shadow-focus !default;
+
+@mixin icon-top-bottom {
+  display: block;
+  margin-top: $btn-zero-padding;
+  width: $btn-auto-width;
+}
+
+@mixin top-bottom-icon-btn {
+  line-height: $btn-top-bottom-icon-line-height;
+}
+
+@include export-module('button-layout') {
+  .e-btn,
+  .e-css.e-btn {
+    /* stylelint-disable property-no-vendor-prefix */
+    -webkit-font-smoothing: antialiased;
+    border: $btn-border;
+    border-radius: $btn-border-radius;
+    box-sizing: border-box;
+    cursor: pointer;
+    display: inline-block;
+    font-family: $font-family;
+    font-size: $btn-font-size;
+    font-weight: $btn-font-weight;
+    justify-content: center;
+    line-height: $btn-text-line-height;
+    outline: none;
+    padding: $btn-padding;
+    text-align: center;
+    text-decoration: none;
+    text-transform: $btn-text-transform;
+    user-select: none;
+    vertical-align: middle;
+    white-space: nowrap;
+    @at-root {
+      &:disabled {
+        cursor: default;
+      }
+
+      &:hover,
+      &:focus {
+        text-decoration: none;
+      }
+
+      &::-moz-focus-inner {
+        border: $btn-zero-border;
+        padding: $btn-zero-padding;
+      }
+
+      & .e-btn-icon {
+        display: inline-block;
+        font-size: $btn-icon-font-size;
+        margin-top: $btn-icon-margin-top;
+        vertical-align: middle;
+        width: $btn-icon-btn-width;
+
+        &.e-icon-left {
+          margin-left: $btn-icon-margin;
+          width: $btn-icon-width;
+        }
+
+        &.e-icon-right {
+          width: $btn-icon-width;
+          margin-right: $btn-icon-margin;
+        }
+
+        &.e-icon-top {
+          padding-bottom: $btn-icon-top-bottom-padding;
+          @include icon-top-bottom;
+        }
+
+        &.e-icon-bottom {
+          padding-top: $btn-icon-top-bottom-padding;
+          @include icon-top-bottom;
+        }
+      }
+
+      &.e-icon-btn {
+        line-height: $btn-icon-btn-line-height;
+        
+      }
+
+      &.e-top-icon-btn,
+      &.e-bottom-icon-btn {
+        @include top-bottom-icon-btn;
+        padding: $btn-top-icon-padding;
+      }
+
+      &.e-round {
+        border-radius: $btn-round-border-radius;
+        height: $btn-round-height;
+        line-height: $btn-round-line-height;
+        padding: $btn-zero-padding;
+        width: $btn-round-width;
+
+        & .e-btn-icon {
+          font-size: $btn-round-font-size;
+          line-height: $btn-round-icon-line-height;
+          margin-top: $btn-zero-padding;
+          width: $btn-auto-width;
+        }
+      }
+
+      &.e-flat {
+        border: $btn-flat-border;
+      }
+      
+      &.e-small {
+        font-size: $btn-small-font-size;
+        line-height: $btn-small-text-line-height;
+        padding: $btn-small-padding;
+      }
+
+      &.e-block {
+        display: block;
+        width: $btn-width-full;
+      }
+    }
+  }
+}
+
+@mixin button-focus {
+  background: $btn-focus-bgcolor;
+  border-color: $btn-focus-border-color;
+  color: $btn-focus-color;
+  outline: $btn-focus-outline;
+  outline-offset: $btn-focus-outline-offset;
+  box-shadow: $btn-hover-focus-box-shadow;
+}
+
+@mixin button-active {
+  background: $btn-active-bgcolor;
+  border-color: $btn-active-border-color;
+  
+  color: $btn-active-color;
+  outline: $btn-active-outline;
+  outline-offset: $btn-active-outline-offset;
+}
+
+@mixin primary-focus {
+  background: $btn-primary-focus-bgcolor;
+  border-color: $btn-primary-focus-border-color;
+  color: $btn-primary-focus-color;
+  outline: $btn-primary-outline;
+  box-shadow: $btn-hover-focus-box-shadow;
+}
+
+@mixin primary-active {
+  background: $btn-primary-active-bgcolor;
+  border-color: $btn-primary-active-border-color;
+  color: $btn-primary-active-color;
+  outline: $btn-active-outline;
+  box-shadow: $btn-active-box-shadow;
+}
+
+@mixin primary-disabled {
+  background: $btn-primary-disabled-bgcolor;
+  border-color: $btn-primary-disabled-border-color;
+  box-shadow: $btn-flat-box-shadow;
+  color: $btn-primary-disabled-color;
+}
+
+@mixin outline-focus {
+   color: $secondary-outline-button-text-color-hover;
+}
+
+@mixin outline-active {
+  background: $btn-outline-active-bgcolor;
+  border-color: $btn-outline-active-border-color;
+  box-shadow: $btn-outline-active-box-shadow;
+  color: $btn-outline-active-color;
+}
+
+@mixin outline-primary-active {
+
+  background: $btn-primary-active-bgcolor;
+  border-color: $btn-outline-primary-active-border-color;
+  box-shadow: $btn-outline-active-box-shadow;
+  color: $btn-primary-active-color;
+}
+
+@mixin outline-success-active {
+  background: $btn-success-active-bgcolor;
+  border-color: $btn-success-active-border-color;
+  box-shadow: $btn-outline-active-box-shadow;
+  color: $btn-success-active-color;
+}
+
+@mixin outline-info-active {
+  background: $btn-info-active-bgcolor;
+  border-color: $btn-info-active-border-color;
+  box-shadow: $btn-outline-active-box-shadow;
+  color: $btn-info-active-color;
+}
+
+@mixin outline-warning-active {
+  background: $btn-warning-active-bgcolor;
+  border-color: $btn-warning-active-border-color;
+  box-shadow: $btn-outline-active-box-shadow;
+  color: $btn-warning-active-color;
+}
+
+@mixin outline-danger-active {
+  background: $btn-danger-active-bgcolor;
+  border-color: $btn-danger-active-border-color;
+  box-shadow: $btn-outline-active-box-shadow;
+  color: $btn-danger-active-color;
+}
+
+@mixin outline-disabled {
+  background: $btn-outline-bgcolor;
+  border-color: $btn-outline-disabled-border-color;
+  color: $btn-outline-disabled-color;
+  background: $btn-outline-disabled-bgcolor !important; /* stylelint-disable-line declaration-no-important */
+}
+
+@mixin outline-primary-disabled {
+  background: $btn-outline-bgcolor;
+  border-color: $btn-outline-primary-disabled-border-color;
+  box-shadow: $btn-flat-box-shadow;
+  color: $btn-outline-primary-disabled-color;
+}
+
+@mixin outline-success-disabled {
+  background: $btn-outline-bgcolor;
+  border-color: $btn-outline-success-disabled-border-color;
+  box-shadow: $btn-flat-box-shadow;
+  color: $btn-outline-success-disabled-color;
+}
+
+@mixin outline-info-disabled {
+  background: $btn-outline-bgcolor;
+  border-color: $btn-outline-info-disabled-border-color;
+  box-shadow: $btn-flat-box-shadow;
+  color: $btn-outline-info-disabled-color;
+}
+
+@mixin outline-warning-disabled {
+  background: $btn-outline-bgcolor;
+  border-color: $btn-outline-warning-disabled-border-color;
+  box-shadow: $btn-flat-box-shadow;
+  color: $btn-outline-warning-disabled-color;
+}
+
+@mixin outline-danger-disabled {
+  background: $btn-outline-bgcolor;
+  border-color: $btn-outline-danger-disabled-border-color;
+  box-shadow: $btn-flat-box-shadow;
+  color: $btn-outline-danger-disabled-color;
+}
+
+@mixin success-focus {
+  background: $btn-success-focus-bgcolor;
+  border-color: $btn-success-focus-border-color;
+  color: $btn-success-hover-color;
+  box-shadow: $btn-hover-focus-box-shadow;
+}
+
+@mixin success-active {
+  background: $btn-success-active-bgcolor;
+  border-color: $btn-success-active-border-color;
+  color: $btn-success-active-color;
+  box-shadow: $btn-active-box-shadow;
+}
+
+@mixin info-focus {
+  background: $btn-info-focus-bgcolor;
+  border-color: $btn-info-focus-border-color;
+  color: $btn-info-hover-color;
+  box-shadow: $btn-hover-focus-box-shadow;
+}
+
+@mixin info-active {
+  background: $btn-info-active-bgcolor;
+  border-color: $btn-info-active-border-color;
+  color: $btn-info-active-color;
+  box-shadow: $btn-active-box-shadow;
+}
+
+@mixin warning-focus {
+  background: $btn-warning-focus-bgcolor;
+  border-color: $btn-warning-focus-border-color;
+  color: $btn-warning-hover-color;
+  box-shadow: $btn-hover-focus-box-shadow;
+}
+
+@mixin warning-active {
+  background: $btn-warning-active-bgcolor;
+  border-color: $btn-warning-active-border-color;
+  color: $btn-warning-active-color;
+  box-shadow: $btn-active-box-shadow;
+}
+
+@mixin danger-focus {
+  background: $btn-danger-focus-bgcolor;
+  border-color: $btn-danger-focus-border-color;
+  color: $btn-danger-hover-color;
+  box-shadow: $btn-hover-focus-box-shadow;
+}
+
+@mixin danger-active {
+  background: $btn-danger-active-bgcolor;
+  border-color: $btn-danger-active-border-color;
+  color: $btn-danger-active-color;
+  box-shadow: $btn-active-box-shadow;
+}
+
+@mixin link-focus {
+  border-radius: 0;
+  text-decoration: underline;
+  color: $btn-link-hover-color;
+}
+
+@mixin link-hover {
+  border-radius: 0;
+  color: $btn-link-hover-color;
+  text-decoration: underline;
+}
+
+@mixin success-disabled {
+  background: $btn-success-disabled-bgcolor;
+  border-color: $btn-disabled-border-color;
+  box-shadow: $btn-flat-box-shadow;
+  color: $btn-success-disabled-color;
+}
+
+@mixin info-disabled {
+  background: $btn-info-disabled-bgcolor;
+  border-color: $btn-disabled-border-color;
+  box-shadow: $btn-flat-box-shadow;
+  color: $btn-info-disabled-color;
+}
+
+@mixin warning-disabled {
+  background: $btn-warning-disabled-bgcolor;
+  border-color: $btn-disabled-border-color;
+  box-shadow: $btn-flat-box-shadow;
+  color: $btn-warning-disabled-color;
+}
+
+@mixin danger-disabled {
+  background: $btn-danger-disabled-bgcolor;
+  border-color: $btn-disabled-border-color;
+  box-shadow: $btn-flat-box-shadow;
+  color: $btn-danger-disabled-color;
+}
+
+@mixin link-disabled {
+  color: $btn-disabled-color;
+  background: $btn-link-disabled-bgcolor;
+  box-shadow: $btn-flat-box-shadow;
+  text-decoration: none;
+}
+
+@include export-module('button-theme') {
+    /* stylelint-disable property-no-vendor-prefix */
+    .e-btn,
+    .e-css.e-btn {
+        -webkit-tap-highlight-color: transparent;
+        background: $btn-bgcolor;
+        border-color: $btn-border-color;
+        box-shadow: $btn-box-shadow;
+        color: $btn-color;
+        transition: box-shadow 280ms cubic-bezier(.4, 0, .2, 1);
+
+        @at-root {
+            &:hover {
+                background: $btn-hover-bgcolor;
+                border-color: $btn-hover-border-color;
+                box-shadow: $btn-hover-focus-box-shadow;
+                color: $btn-hover-color;
+            }
+
+            &:focus { // both keyboard and focus
+                @include button-focus;
+            }
+
+            &:focus-visible { // only for keybord
+                border-color: $btn-keyboard-focus-border-color;
+                box-shadow: $btn-keyboard-focus-box-shadow;
+            }
+
+            &:active {
+                @include button-active;
+            }
+
+            &.e-active {
+                background: $btn-active-bgcolor;
+                border-color: $btn-active-border-color;
+                box-shadow: $btn-active-box-shadow;
+                color: $btn-active-color;
+                background: $secondary-bg-color-selected; /* stylelint-disable-line declaration-no-important */
+                border-color: $secondary-border-color-selected; /* stylelint-disable-line declaration-no-important */
+                color: $secondary-text-color-selected; /* stylelint-disable-line declaration-no-important */
+            }
+
+            &:disabled,
+            &.e-disabled {
+                background: $btn-disabled-bgcolor;
+                border-color: $btn-disabled-border-color;
+                box-shadow: $btn-flat-box-shadow;
+                color: $btn-disabled-color;
+            }
+
+            &.e-disabled {
+                opacity: 1;
+            }
+
+            &.e-round,
+            &.e-round-edge {
+                background: $btn-round-bgcolor;
+                border-color: $btn-round-border-color;
+                color: $btn-round-color;
+
+                &:hover {
+                    background: $btn-round-hover-bgcolor;
+                    border-color: $btn-round-hover-border-color;
+                    color: $btn-round-hover-color;
+                }
+
+                &:focus {
+                    background: $btn-focus-bgcolor;
+                    border-color: $btn-focus-border-color;
+                    box-shadow: $btn-box-shadow;
+                    color: $btn-round-focus-color;
+                    outline: $btn-focus-outline-round;
+                    outline-offset: $btn-focus-outline-offset;
+                }
+
+
+
+                &:focus-visible { // only for keybord
+                    border-color: $btn-keyboard-focus-border-color;
+                    box-shadow: $btn-keyboard-focus-box-shadow;
+                }
+
+                &:active {
+                    background: $btn-active-bgcolor;
+                    border-color: $btn-active-border-color;
+                    box-shadow: $btn-active-box-shadow;
+                    color: $btn-round-active-color;
+                    outline: $btn-active-outline;
+                    outline-offset: $btn-active-outline-offset;
+                }
+
+                &:disabled,
+                &.e-disabled {
+                    background: $btn-disabled-bgcolor;
+                    border-color: $btn-disabled-border-color;
+                    box-shadow: $btn-flat-box-shadow;
+                    color: $btn-disabled-color;
+                }
+
+                &.e-primary {
+
+                    &:focus {
+                        outline: $btn-focus-outline-round;
+                    }
+
+                    &:focus-visible { // only for keybord
+                        border-color: $btn-keyboard-focus-border-color;
+                        box-shadow: $btn-primary-focus-box-shadow;
+                    }
+                }
+
+                &.e-success {
+
+                    &:focus {
+                        outline: $btn-focus-outline-round;
+                    }
+
+                    &:focus-visible { // only for keybord
+                        border-color: $btn-keyboard-focus-border-color;
+                        box-shadow: $btn-success-focus-box-shadow;
+                    }
+                }
+
+                &.e-info {
+                    &:focus {
+                        outline: $btn-focus-outline-round;
+                    }
+
+                    &:focus-visible { // only for keybord
+                        border-color: $btn-keyboard-focus-border-color;
+                        box-shadow: $btn-info-focus-box-shadow;
+                    }
+                }
+            }
+
+            &.e-warning {
+
+                &:focus {
+                    outline: $btn-focus-outline-round;
+                }
+
+                    &:focus:not(:focus-visible) { //mouse click
+                    }
+
+                &:focus-visible { // only for keybord
+                    border-color: $btn-keyboard-focus-border-color;
+                    box-shadow: $btn-warning-focus-box-shadow;
+                }
+            }
+
+            &.e-danger {
+                &:focus {
+                    outline: $btn-focus-outline-round;
+                }
+
+                &:focus-visible { // only for keybord
+                    border-color: $btn-keyboard-focus-border-color;
+                    box-shadow: $btn-danger-focus-box-shadow;
+                }
+            }
+        }
+
+        &.e-primary {
+            background: $btn-primary-bgcolor;
+            border-color: $btn-primary-border-color;
+            color: $btn-primary-color;
+
+            &:hover {
+                background: $btn-primary-hover-bgcolor;
+                border-color: $btn-primary-hover-border-color;
+                box-shadow: $btn-hover-focus-box-shadow;
+                color: $btn-primary-hover-color;
+            }
+
+            &:focus {
+                @include primary-focus;
+            }
+
+                &:focus:not(:focus-visible) { //mouse click
+                }
+
+            &:focus-visible { // only for keybord
+                box-shadow: $btn-primary-focus-box-shadow;
+                border-color: $btn-keyboard-focus-border-color;
+                background-color: $primary-bg-color-focus;
+            }
+
+            &:active {
+                @include primary-active;
+            }
+
+            &.e-active {
+                background: $primary-bg-color-selected;
+                border-color: $primary-border-color-selected;
+                box-shadow: $btn-active-box-shadow;
+                color: $primary-text-selected;
+            }
+
+            &:disabled,
+            &.e-disabled {
+                @include primary-disabled;
+            }
+        }
+
+        &.e-success {
+            background: $btn-success-bgcolor;
+            border-color: $btn-success-border-color;
+            color: $btn-success-color;
+
+            &:hover {
+                background: $btn-success-hover-bgcolor;
+                border-color: $btn-success-hover-border-color;
+                box-shadow: $btn-hover-focus-box-shadow;
+                color: $btn-success-hover-color;
+            }
+
+            &:focus {
+                @include success-focus;
+            }
+
+                &:focus:not(:focus-visible) { //mouse click
+                }
+
+            &:focus-visible { // only for keybord
+                border-color: $btn-keyboard-focus-border-color;
+                box-shadow: $btn-success-focus-box-shadow;
+                background-color: $success-bg-color-focus;
+                color: $success-text-focus;
+            }
+
+            &:active,
+            &.e-active {
+                @include success-active;
+            }
+
+            &.e-active {
+                background: $success-bg-color-selected;
+                border-color: $success-border-color-selected;
+                color: $success-text-pressed;
+            }
+
+            &:disabled,
+            &.e-disabled {
+                @include success-disabled;
+            }
+        }
+
+        &.e-info {
+            background: $btn-info-bgcolor;
+            border-color: $btn-info-border-color;
+            color: $btn-info-color;
+
+            &:hover {
+                background: $btn-info-hover-bgcolor;
+                border-color: $btn-info-hover-border-color;
+                box-shadow: $btn-hover-focus-box-shadow;
+                color: $btn-info-hover-color;
+            }
+
+            &:focus {
+                @include info-focus;
+            }
+
+            &:focus-visible { // only for keybord
+                border-color: $btn-keyboard-focus-border-color;
+                box-shadow: $btn-info-focus-box-shadow;
+                background-color: $info-bg-color-focus;
+            }
+
+            &:active,
+            &.e-active {
+                @include info-active;
+            }
+
+            &.e-active {
+                background: $info-bg-color-selected !important; /* stylelint-disable-line declaration-no-important */
+                border-color: $info-border-color-selected !important; /* stylelint-disable-line declaration-no-important */
+                color: $btn-info-active-color !important; /* stylelint-disable-line declaration-no-important */
+            }
+
+            &:disabled,
+            &.e-disabled {
+                @include info-disabled;
+            }
+        }
+
+        &.e-warning {
+            background: $btn-warning-bgcolor;
+            border-color: $btn-warning-border-color;
+            color: $btn-warning-color;
+
+            &:hover {
+                background: $btn-warning-hover-bgcolor;
+                border-color: $btn-warning-hover-border-color;
+                box-shadow: $btn-hover-focus-box-shadow;
+                color: $btn-warning-hover-color;
+            }
+
+            &:focus {
+                @include warning-focus;
+            }
+
+            &:focus-visible { // only for keybord
+                border-color: $btn-keyboard-focus-border-color;
+                box-shadow: $btn-warning-focus-box-shadow;
+                background-color: $warning-bg-color-focus;
+            }
+
+            &:active,
+            &.e-active {
+                @include warning-active;
+            }
+
+            &.e-active {
+                background: $warning-bg-color-selected !important; /* stylelint-disable-line declaration-no-important */
+                border-color: $warning-border-color-selected !important; /* stylelint-disable-line declaration-no-important */
+                color: $btn-warning-active-color !important; /* stylelint-disable-line declaration-no-important */
+            }
+
+            &:disabled,
+            &.e-disabled {
+                @include warning-disabled;
+            }
+        }
+
+        &.e-danger {
+            background: $btn-danger-bgcolor;
+            border-color: $btn-danger-border-color;
+            color: $btn-danger-color;
+
+            &:hover {
+                background: $btn-danger-hover-bgcolor;
+                border-color: $btn-danger-hover-border-color;
+                box-shadow: $btn-hover-focus-box-shadow;
+                color: $btn-danger-hover-color;
+            }
+
+            &:focus {
+                @include danger-focus;
+            }
+
+            &:focus-visible { // only for keybord
+                border-color: $btn-keyboard-focus-border-color;
+                box-shadow: $btn-danger-focus-box-shadow;
+                background-color: $danger-bg-color-focus;
+                color: $danger-text-focus;
+            }
+
+            &:active {
+                @include danger-active;
+            }
+
+            &.e-active {
+                background: $btn-danger-active-bgcolor;
+                border-color: $btn-danger-active-border-color;
+                box-shadow: $btn-active-box-shadow;
+                color: $btn-danger-active-color;
+                background: $danger-bg-color-selected !important; /* stylelint-disable-line declaration-no-important */
+                border-color: $danger-border-color-selected !important; /* stylelint-disable-line declaration-no-important */
+                color: $danger-text-pressed !important; /* stylelint-disable-line declaration-no-important */
+            }
+
+            &:disabled,
+            &.e-disabled {
+                @include danger-disabled;
+            }
+        }
+
+        &.e-flat {
+            background: $btn-flat-bgcolor;
+            border-color: $btn-flat-border-color;
+            box-shadow: $btn-flat-box-shadow;
+            color: $btn-flat-color;
+
+            &:hover {
+                background: $btn-flat-hover-bgcolor;
+                border-color: $btn-flat-hover-border-color;
+                box-shadow: $btn-flat-box-shadow;
+                color: $btn-flat-hover-color;
+            }
+
+            &:focus {
+                background: $btn-flat-focus-bgcolor;
+                border-color: $btn-flat-focus-border-color;
+                color: $btn-flat-focus-color;
+                box-shadow: $btn-flat-box-shadow;
+            }
+
+            &:focus-visible { // only for keybord
+                border-color: $btn-keyboard-focus-border-color;
+                box-shadow: $btn-keyboard-focus-box-shadow;
+            }
+
+            &:active,
+            &.e-active {
+                background: $btn-flat-active-bgcolor;
+                border-color: $btn-flat-active-border-color;
+                color: $btn-flat-active-color;
+                box-shadow: $btn-flat-active-box-shadow;
+            }
+
+            &:disabled,
+            &.e-disabled {
+                background: $btn-flat-disabled-bgcolor;
+                border-color: $btn-flat-disabled-border-color;
+                box-shadow: $btn-flat-box-shadow;
+                color: $btn-flat-disabled-color;
+            }
+
+            &.e-primary {
+                background: $btn-flat-primary-bgcolor;
+                border-color: $btn-flat-primary-border-color;
+                color: $btn-flat-primary-color;
+
+                &:hover {
+                    background: $btn-flat-primary-hover-bgcolor;
+                    border-color: $btn-flat-primary-hover-border-color;
+                    color: $btn-flat-primary-hover-color;
+                }
+
+                &:focus {
+                    background: $btn-flat-primary-focus-bgcolor;
+                    border-color: $btn-flat-primary-focus-border-color;
+                    color: $btn-flat-primary-focus-color;
+                }
+
+                &:focus-visible { // only for keybord
+                    border-color: $btn-keyboard-focus-border-color;
+                    box-shadow: $btn-primary-focus-box-shadow;
+                    background-color: $primary-bg-color-focus;
+                }
+
+                &:active,
+                &.e-active {
+                    background: $btn-flat-primary-active-bgcolor;
+                    border-color: $btn-flat-primary-active-border-color;
+                    color: $btn-flat-primary-active-color;
+                }
+
+                &:disabled,
+                &.e-disabled {
+                    background: $btn-flat-primary-disabled-bgcolor;
+                    border-color: $btn-flat-primary-disabled-border-color;
+                    box-shadow: $btn-flat-box-shadow;
+                    color: $btn-flat-primary-disabled-color;
+                }
+            }
+
+            &.e-success {
+                background: $btn-flat-success-bgcolor;
+                border-color: $btn-flat-success-border-color;
+                color: $btn-flat-success-color;
+
+                &:hover {
+                    background: $btn-flat-success-hover-bgcolor;
+                    border-color: $btn-flat-success-hover-border-color;
+                    box-shadow: $btn-flat-box-shadow;
+                    color: $btn-flat-success-hover-color;
+                }
+
+                &:focus {
+                    background: $btn-flat-success-focus-bgcolor;
+                    border-color: $btn-flat-success-focus-border-color;
+                    color: $btn-flat-success-focus-color;
+                    box-shadow: $btn-flat-box-shadow;
+                }
+
+                &:focus-visible { // only for keybord
+                    border-color: $btn-keyboard-focus-border-color;
+                    box-shadow: $btn-success-focus-box-shadow;
+                    background-color: $success-bg-color-focus;
+                    color: $success-text-focus;
+                }
+
+                &:active,
+                &.e-active {
+                    background: $btn-flat-success-active-bgcolor;
+                    border-color: $btn-flat-success-active-border-color;
+                    color: $btn-flat-success-active-color;
+                    box-shadow: $btn-flat-active-box-shadow;
+                }
+
+                &:disabled,
+                &.e-disabled {
+                    background: $btn-flat-success-disabled-bgcolor;
+                    border-color: $btn-flat-success-disabled-border-color;
+                    color: $btn-flat-success-disabled-color;
+                }
+            }
+
+            &.e-info {
+                background: $btn-flat-info-bgcolor;
+                border-color: $btn-flat-info-border-color;
+                color: $btn-flat-info-color;
+
+                &:hover {
+                    background: $btn-flat-info-hover-bgcolor;
+                    border-color: $btn-flat-info-hover-border-color;
+                    box-shadow: $btn-flat-box-shadow;
+                    color: $btn-flat-info-hover-color;
+                }
+
+                &:focus {
+                    background: $btn-flat-info-focus-bgcolor;
+                    border-color: $btn-flat-info-focus-border-color;
+                    box-shadow: $btn-flat-box-shadow;
+                    color: $btn-flat-info-focus-color;
+                }
+
+                &:focus-visible { // only for keybord
+                    border-color: $btn-keyboard-focus-border-color;
+                    box-shadow: $btn-info-focus-box-shadow;
+                    background-color: $info-bg-color-focus;
+                    color: $btn-flat-info-focus-color;
+                }
+
+                &:active,
+                &.e-active {
+                    background: $btn-flat-info-active-bgcolor;
+                    border-color: $btn-flat-info-active-border-color;
+                    color: $btn-flat-info-active-color;
+                    box-shadow: $btn-flat-active-box-shadow;
+                }
+
+                &:disabled,
+                &.e-disabled {
+                    background: $btn-flat-info-disabled-bgcolor;
+                    border-color: $btn-flat-info-disabled-border-color;
+                    color: $btn-flat-info-disabled-color;
+                }
+            }
+
+            &.e-warning {
+                background: $btn-flat-warning-bgcolor;
+                border-color: $btn-flat-warning-border-color;
+                color: $btn-flat-warning-color;
+
+                &:hover {
+                    background: $btn-flat-warning-hover-bgcolor;
+                    border-color: $btn-flat-warning-hover-border-color;
+                    box-shadow: $btn-flat-box-shadow;
+                    color: $btn-flat-warning-hover-color;
+                }
+
+                &:focus {
+                    background: $btn-flat-warning-focus-bgcolor;
+                    border-color: $btn-flat-warning-focus-border-color;
+                    color: $btn-flat-warning-focus-color;
+                    box-shadow: $btn-flat-box-shadow;
+                }
+
+                &:focus-visible { // only for keybord
+                    border-color: $btn-keyboard-focus-border-color;
+                    box-shadow: $btn-warning-focus-box-shadow;
+                    background-color: $warning-bg-color-focus;
+                }
+
+                &:active,
+                &.e-active {
+                    background: $btn-flat-warning-active-bgcolor;
+                    border-color: $btn-flat-warning-active-border-color;
+                    color: $btn-flat-warning-active-color;
+                    box-shadow: $btn-flat-active-box-shadow;
+                }
+
+                &:disabled,
+                &.e-disabled {
+                    background: $btn-flat-warning-disabled-bgcolor;
+                    border-color: $btn-flat-warning-disabled-border-color;
+                    color: $btn-flat-warning-disabled-color;
+                }
+            }
+
+            &.e-danger {
+                background: $btn-flat-danger-bgcolor;
+                border-color: $btn-flat-danger-border-color;
+                color: $btn-flat-danger-color;
+
+                &:hover {
+                    background: $btn-flat-danger-hover-bgcolor;
+                    border-color: $btn-flat-danger-hover-border-color;
+                    box-shadow: $btn-flat-box-shadow;
+                    color: $btn-flat-danger-hover-color;
+                }
+
+                &:focus {
+                    background: $btn-flat-danger-focus-bgcolor;
+                    border-color: $btn-flat-danger-focus-border-color;
+                    color: $btn-flat-danger-focus-color;
+                    box-shadow: $btn-flat-box-shadow;
+                }
+
+                &:focus-visible { // only for keybord
+                    border-color: $btn-keyboard-focus-border-color;
+                    box-shadow: $btn-danger-focus-box-shadow;
+                    background-color: $danger-bg-color-focus;
+                    color: $danger-text-focus;
+                }
+
+                &:active,
+                &.e-active {
+                    background: $btn-flat-danger-active-bgcolor;
+                    border-color: $btn-flat-danger-active-border-color;
+                    color: $btn-flat-danger-active-color;
+                    box-shadow: $btn-flat-active-box-shadow;
+                }
+
+                &:disabled,
+                &.e-disabled {
+                    background: $btn-flat-danger-disabled-bgcolor;
+                    border-color: $btn-flat-danger-disabled-border-color;
+                    color: $btn-flat-danger-disabled-color;
+                }
+            }
+        }
+
+        &.e-outline {
+            background: $btn-outline-bgcolor;
+            border-color: $btn-outline-border-color;
+            box-shadow: $btn-flat-box-shadow;
+            color: $btn-outline-color;
+
+            &:hover {
+                background: $btn-outline-hover-bgcolor;
+                border-color: $btn-outline-hover-border-color;
+                box-shadow: $btn-flat-box-shadow;
+                color: $btn-outline-hover-color;
+            }
+
+            &:focus {
+                @include outline-focus;
+            }
+
+                &:focus:not(:focus-visible) { //mouse click
+                    background: transparent;
+                    border-color: $secondary-border-color-hover;
+                    color: $secondary-outline-button-text-color-pressed;
+                }
+
+            &:focus-visible { // only for keybord
+                border-color: $btn-keyboard-focus-border-color;
+                box-shadow: $btn-keyboard-focus-box-shadow;
+            }
+
+            &:active,
+            &.e-active {
+                @include outline-active;
+                background: transparent;
+                color: $secondary-outline-button-text-color-pressed !important; /* stylelint-disable-line declaration-no-important */
+                border-color: $btn-outline-active-border-color !important; /* stylelint-disable-line declaration-no-important */
+                outline: 2px solid $secondary-outline-button-text-color-pressed;
+            }
+
+            &.e-active {
+                background: transparent !important; /* stylelint-disable-line declaration-no-important */
+                border-color: $btn-outline-active-border-color !important; /* stylelint-disable-line declaration-no-important */
+                outline: 2px solid $secondary-outline-button-text-color-pressed;
+            }
+
+            &:disabled,
+            &.e-disabled {
+                @include outline-disabled;
+            }
+
+            &.e-primary {
+                background: $btn-outline-bgcolor;
+                border-color: $btn-outline-primary-color;
+                color: $btn-outline-primary-color;
+
+                &:hover {
+                    background: $btn-outline-success-hover-bgcolor;
+                    border-color: $btn-outline-primary-hover-border-color;
+                    color: $btn-primary-hover-bgcolor;
+                }
+
+                &:focus:not(:focus-visible) { //mouse click
+                    background: transparent;
+                    border-color: $primary-border-color-hover;
+                    color: $primary-border-color-hover;
+                }
+
+                &:focus-visible { // only for keybord
+                    border-color: $btn-keyboard-focus-border-color;
+                    box-shadow: $btn-primary-focus-box-shadow;
+                }
+
+                &:active,
+                &.e-active {
+                    @include outline-primary-active;
+                    background: transparent;
+                    color: $primary-bg-color-pressed !important; /* stylelint-disable-line declaration-no-important */
+                    border-color: $btn-outline-primary-active-border-color !important; /* stylelint-disable-line declaration-no-important */
+                    outline: 2px solid $primary-bg-color-pressed;
+                }
+
+                &.e-active {
+                    background: transparent !important; /* stylelint-disable-line declaration-no-important */
+                    color: $primary-bg-color-pressed !important; /* stylelint-disable-line declaration-no-important */
+                    border-color: $btn-outline-primary-active-border-color !important; /* stylelint-disable-line declaration-no-important */
+                }
+
+                &:disabled,
+                &.e-disabled {
+                    @include outline-primary-disabled;
+                }
+            }
+
+            &.e-success {
+                background: $btn-outline-bgcolor;
+                border-color: $btn-success-bgcolor;
+                color: $btn-success-bgcolor;
+
+                &:hover {
+                    background: $btn-outline-success-hover-bgcolor;
+                    border-color: $btn-success-hover-border-color;
+                    color: $btn-success-hover-bgcolor;
+                }
+
+                &:focus:not(:focus-visible) { //mouse click
+                    background: transparent;
+                    border-color: $success-border-color-hover;
+                    color: $success-border-color-hover;
+                }
+
+                &:focus-visible { // only for keybord
+                    border-color: $btn-keyboard-focus-border-color;
+                    box-shadow: $btn-success-focus-box-shadow;
+                }
+
+                &:active,
+                &.e-active {
+                    @include outline-success-active;
+                    background: transparent;
+                    color: $success-bg-color-pressed !important; /* stylelint-disable-line declaration-no-important */
+                    border-color: $btn-success-active-border-color !important; /* stylelint-disable-line declaration-no-important */
+                    outline: 2px solid $success-bg-color-pressed;
+                }
+
+                &.e-active {
+                    background: transparent !important; /* stylelint-disable-line declaration-no-important */
+                    border-color: $success-border-color-selected !important; /* stylelint-disable-line declaration-no-important */
+                }
+
+                &:disabled,
+                &.e-disabled {
+                    @include outline-success-disabled;
+                }
+            }
+
+            &.e-info {
+                background: $btn-outline-bgcolor;
+                border-color: $btn-info-bgcolor;
+                color: $btn-info-bgcolor;
+
+
+                &:hover {
+                    background: $btn-outline-info-hover-bgcolor;
+                    border-color: $btn-info-hover-border-color;
+                    color: $btn-info-hover-bgcolor;
+                }
+
+                &:focus:not(:focus-visible) { //mouse click
+                    background: transparent;
+                    border-color: $info-bg-color-hover;
+                    color: $info-bg-color-hover;
+                }
+
+                &:focus-visible { // only for keybord
+                    border-color: $btn-keyboard-focus-border-color;
+                    box-shadow: $btn-info-focus-box-shadow;
+                }
+
+                &:active,
+                &.e-active {
+                    @include outline-info-active;
+                    background: transparent;
+                    color: $info-bg-color-pressed !important; /* stylelint-disable-line declaration-no-important */
+                    border-color: $btn-info-active-border-color !important; /* stylelint-disable-line declaration-no-important */
+                    outline: 2px solid $info-bg-color-pressed;
+                }
+
+                &.e-active {
+                    background: transparent !important; /* stylelint-disable-line declaration-no-important */
+                    border-color: $info-border-color-selected !important; /* stylelint-disable-line declaration-no-important */
+                }
+
+                &:disabled,
+                &.e-disabled {
+                    @include outline-info-disabled;
+                }
+            }
+
+            &.e-warning {
+                background: $btn-outline-bgcolor;
+                border-color: $btn-warning-bgcolor;
+                color: $btn-warning-bgcolor;
+
+                &:hover {
+                    background: $btn-outline-warning-hover-bgcolor;
+                    border-color: $btn-warning-hover-border-color;
+                    color: $btn-warning-hover-bgcolor;
+                }
+                /* &:focus {
+                        @include outline-warning-focus;
+                    }*/
+
+                &:focus:not(:focus-visible) { //mouse click
+                    background: transparent;
+                    border-color: $warning-border-color-hover;
+                    color: $warning-border-color-hover;
+                }
+
+                &:focus-visible { // only for keybord
+                    border-color: $btn-keyboard-focus-border-color;
+                    box-shadow: $btn-warning-focus-box-shadow;
+                }
+
+                &:active,
+                &.e-active {
+                    @include outline-warning-active;
+                    background: transparent;
+                    color: $warning-bg-color-pressed !important; /* stylelint-disable-line declaration-no-important */
+                    border-color: $btn-warning-active-border-color !important; /* stylelint-disable-line declaration-no-important */
+                    outline: 2px solid $warning-bg-color-pressed;
+                }
+
+                &.e-active {
+                    background: transparent !important; /* stylelint-disable-line declaration-no-important */
+                    border-color: $warning-border-color-selected !important; /* stylelint-disable-line declaration-no-important */
+                }
+
+                &:disabled,
+                &.e-disabled {
+                    @include outline-warning-disabled;
+                }
+            }
+
+            &.e-danger {
+                background: $btn-outline-bgcolor;
+                border-color: $btn-danger-bgcolor;
+                color: $btn-danger-bgcolor;
+
+                &:hover {
+                    background: $btn-outline-danger-hover-bgcolor;
+                    border-color: $btn-danger-hover-border-color;
+                    color: $btn-danger-hover-bgcolor;
+                }
+
+                &:focus:not(:focus-visible) { //mouse click
+                    background: transparent;
+                    border-color: $danger-border-color-hover;
+                    color: $danger-border-color-hover;
+                }
+
+                &:focus-visible { // only for keybord
+                    border-color: $btn-keyboard-focus-border-color;
+                    box-shadow: $btn-danger-focus-box-shadow;
+                }
+
+                &:active,
+                &.e-active {
+                    @include outline-danger-active;
+                    background: transparent;
+                    color: $danger-bg-color-pressed !important; /* stylelint-disable-line declaration-no-important */
+                    border-color: $btn-danger-active-border-color !important; /* stylelint-disable-line declaration-no-important */
+                    outline: 2px solid $danger-bg-color-pressed;
+                }
+
+                &.e-active {
+                    background: transparent !important; /* stylelint-disable-line declaration-no-important */
+                    border-color: $danger-border-color-selected !important; /* stylelint-disable-line declaration-no-important */
+                }
+
+                &:disabled,
+                &.e-disabled {
+                    @include outline-danger-disabled;
+                }
+            }
+        }
+
+        &.e-link {
+            background: $btn-link-bgcolor;
+            border-color: $btn-link-border-color;
+            border-radius: 0;
+            box-shadow: none;
+            color: $btn-link-color;
+
+            &:hover {
+                @include link-hover;
+            }
+
+            &:focus {
+                @include link-focus;
+            }
+
+                &:focus:not(:focus-visible) {
+                    outline: none !important; /* stylelint-disable-line declaration-no-important */
+                }
+
+            &:focus-visible { // only for keybord
+                text-decoration-color: $btn-link-focus-underline-color !important; /* stylelint-disable-line declaration-no-important */
+                text-decoration: underline;
+                text-decoration-style: double;
+            }
+
+            &:active,
+            &:disabled {
+                @include link-disabled;
+            }
+        }
+
+        &.e-inherit {
+            color: inherit;
+            background: inherit;
+            border-color: transparent;
+            box-shadow: none;
+
+            &:hover,
+            &:focus,
+            &:active,
+            &.e-active {
+                background: rgba(transparent, .056);
+                border-color: transparent;
+                box-shadow: none;
+                color: inherit;
+                outline: none;
+            }
+
+            &:disabled {
+                background: inherit;
+                color: inherit;
+                border-color: transparent;
+                box-shadow: none;
+                opacity: .5;
+            }
+        }
+    }
+}
+

@@ -1,0 +1,4023 @@
+﻿@using AngleSharp.Dom
+@using Syncfusion.Blazor.Toolkit.Charts
+@using Syncfusion.Blazor.Toolkit.Tests
+@using Bunit
+@using Xunit
+
+@inherits TestComponentBase
+
+<SfFixture @ref="fixture" TestAsync="CheckingRowDefinition" Description="Checking RowDefinition">
+    <ComponentUnderTest>
+        <SfChart ID="container">
+            <ChartRows>
+                <ChartRow Height="300"></ChartRow>
+                <ChartRow Height="100"></ChartRow>
+            </ChartRows>
+        </SfChart>
+    </ComponentUnderTest>
+</SfFixture>
+
+
+@code {
+
+    SfFixture fixture { get; set; }
+    bool _canAssert = false;
+    async Task CheckingRowDefinition(Fixture fixture)
+    {
+        var cut = fixture.GetComponentUnderTest<SfChart>();
+        await Task.Delay(200);
+        var axis = cut.Find("#containerAxisInsideCollection");
+        Assert.True(axis.ChildNodes.Length == 2);
+        var axis1 = cut.Find("#containerAxisLine_1");
+        Assert.True(Convert.ToDouble(axis1.GetAttribute("d").Split(" ")[5]) - (Convert.ToDouble(axis1.GetAttribute("d").Split(" ")[2])) == 300);
+        cut.SetParametersAndRender();
+    }
+}
+
+
+@{
+    var InitialGroup1 = (new string[] { "CustomerID", "OrderID" });
+}
+
+<SfFixture @ref="fixture1" TestAsync="AddingColumnDefinitionToAxis" Description="AddingColumnDefinitionToAxis">
+    <ComponentUnderTest>
+        <SfChart ID="container" Width="400" Height="300">
+            <ChartRows>
+                <ChartRow Height="300"></ChartRow>
+                <ChartRow Height="100"></ChartRow>
+            </ChartRows>
+            <ChartColumns>
+                <ChartColumn Width="350"></ChartColumn>
+                <ChartColumn Width="100"></ChartColumn>
+            </ChartColumns>
+        </SfChart>
+    </ComponentUnderTest>
+</SfFixture>
+
+
+@code {
+
+    SfFixture fixture1 { get; set; }
+    async Task AddingColumnDefinitionToAxis(Fixture fixture)
+    {
+        var cut = fixture1.GetComponentUnderTest<SfChart>();
+        await Task.Delay(200);
+        var axis = cut.Find("#containerAxisInsideCollection");
+        Assert.True(axis.ChildNodes.Length == 2);
+        var axis1 = cut.Find("#containerAxisLine_0");
+        //Assert.True(Convert.ToDouble(axis1.GetAttribute("d").Split(" ")[4]) - (Convert.ToDouble(axis1.GetAttribute("d").Split(" ")[1])) == 350);
+        cut.SetParametersAndRender();
+    }
+}
+
+
+
+@{
+    var InitialGroup2 = (new string[] { "CustomerID", "OrderID" });
+}
+
+<SfFixture @ref="fixture2" TestAsync="CheckingtheEmptyDefinition" Description="CheckingtheEmptyDefinition">
+    <ComponentUnderTest>
+        <SfChart ID="container" Width="400" Height="300">
+            <ChartRows>
+                <ChartRow></ChartRow>
+                <ChartRow></ChartRow>
+            </ChartRows>
+            <ChartColumns>
+                <ChartColumn></ChartColumn>
+                <ChartColumn></ChartColumn>
+            </ChartColumns>
+        </SfChart>
+    </ComponentUnderTest>
+</SfFixture>
+
+
+@code {
+
+    SfFixture fixture2 { get; set; }
+    async Task CheckingtheEmptyDefinition(Fixture fixture2)
+    {
+        var cut = fixture2.GetComponentUnderTest<SfChart>();
+        await Task.Delay(200);
+        var axis = cut.Find("#container_ChartAreaBorder");
+        Assert.True(axis.GetAttribute("y") == "10");
+        Assert.True(axis.GetAttribute("x") == "26.5");
+        cut.SetParametersAndRender();
+    }
+}
+
+
+@{
+    var InitialGroup3 = (new string[] { "CustomerID", "OrderID" });
+}
+
+<SfFixture @ref="fixture3" TestAsync="CheckingRowDefinitionWithHighValue" Description="CheckingRowDefinitionWithHighValue">
+    <ComponentUnderTest>
+        <SfChart ID="container" Width="400" Height="300">
+            <ChartRows>
+                <ChartRow Height="100%"></ChartRow>
+            </ChartRows>
+            <ChartColumns>
+                <ChartColumn Width="100%"></ChartColumn>
+            </ChartColumns>
+            <ChartPrimaryXAxis RowIndex="2" Minimum="2"></ChartPrimaryXAxis>
+            <ChartPrimaryYAxis ColumnIndex="2" Minimum="2"></ChartPrimaryYAxis>
+        </SfChart>
+    </ComponentUnderTest>
+</SfFixture>
+
+
+@code {
+
+    SfFixture fixture3 { get; set; }
+    async Task CheckingRowDefinitionWithHighValue(Fixture fixture3)
+    {
+        var cut = fixture3.GetComponentUnderTest<SfChart>();
+        await Task.Delay(200);
+        var area = cut.Find("#container_ChartAreaBorder");
+        var axisLine = cut.Find("#containerAxisLine_1");
+        Assert.True(area.GetAttribute("x") == cut.Find("#containerAxisLine_0").GetAttribute("d").Split(" ")[1]);
+        Assert.True(Convert.ToDouble(area.GetAttribute("height")) == (Convert.ToDouble(axisLine.GetAttribute("d").Split(" ")[5]) - Convert.ToDouble(axisLine.GetAttribute("d").Split(" ")[2])));
+        cut.SetParametersAndRender();
+    }
+}
+
+
+@{
+    var InitialGroup4 = (new string[] { "CustomerID", "OrderID" });
+}
+
+<SfFixture @ref="fixture4" TestAsync="CheckingDefinitionWithNegativeValue" Description="CheckingDefinitionWithNegativeValue">
+    <ComponentUnderTest>
+        <SfChart ID="container" Width="400" Height="300">
+            <ChartRows>
+                <ChartRow Height="100%"></ChartRow>
+            </ChartRows>
+            <ChartColumns>
+                <ChartColumn Width="100%"></ChartColumn>
+            </ChartColumns>
+            <ChartPrimaryXAxis RowIndex="-1" Minimum="2"></ChartPrimaryXAxis>
+            <ChartPrimaryYAxis ColumnIndex="-1" Minimum="2"></ChartPrimaryYAxis>
+        </SfChart>
+    </ComponentUnderTest>
+</SfFixture>
+
+
+@code {
+
+    SfFixture fixture4 { get; set; }
+    async Task CheckingDefinitionWithNegativeValue(Fixture fixture4)
+    {
+        var cut = fixture4.GetComponentUnderTest<SfChart>();
+        await Task.Delay(200);
+        var area = cut.Find("#container_ChartAreaBorder");
+        var axisLine = cut.Find("#containerAxisLine_1");
+        Assert.True(area.GetAttribute("x") == cut.Find("#containerAxisLine_0").GetAttribute("d").Split(" ")[1]);
+        Assert.True(Convert.ToDouble(area.GetAttribute("height")) == (Convert.ToDouble(axisLine.GetAttribute("d").Split(" ")[5]) - Convert.ToDouble(axisLine.GetAttribute("d").Split(" ")[2])));
+        cut.SetParametersAndRender();
+    }
+}
+
+
+@{
+    var InitialGroup5 = (new string[] { "CustomerID", "OrderID" });
+}
+
+<SfFixture @ref="fixture5" TestAsync="CheckingAxisLine" Description="CheckingAxisLine">
+    <ComponentUnderTest>
+        <SfChart ID="container" Width="400" Height="300">
+            <ChartRows>
+                <ChartRow Height="100%"></ChartRow>
+            </ChartRows>
+            <ChartColumns>
+                <ChartColumn Width="100%"></ChartColumn>
+            </ChartColumns>
+            <ChartPrimaryXAxis RowIndex="-1" Minimum="2">
+                <ChartAxisLineStyle Color="#FBAF4F" Width="3" DashArray="5,1"></ChartAxisLineStyle>
+            </ChartPrimaryXAxis>
+            <ChartPrimaryYAxis ColumnIndex="-1" Minimum="2">
+                <ChartAxisLineStyle Color="#0D97D4" Width="3" DashArray="3,2"></ChartAxisLineStyle>
+            </ChartPrimaryYAxis>
+        </SfChart>
+    </ComponentUnderTest>
+</SfFixture>
+
+
+@code {
+
+    SfFixture fixture5 { get; set; }
+    async Task CheckingAxisLine(Fixture fixture5)
+    {
+        var cut = fixture5.GetComponentUnderTest<SfChart>();
+        await Task.Delay(200);
+        var svg = cut.Find("#containerAxisLine_0");
+        Assert.True(svg.GetAttribute("stroke") == "#FBAF4F");
+        Assert.True(svg.GetAttribute("stroke-width") == "3");
+        Assert.True(svg.GetAttribute("stroke-dasharray") == "5,1"); 
+        var svg1 = cut.Find("#containerAxisLine_1");
+        Assert.True(svg1.GetAttribute("stroke") == "#0D97D4");
+        Assert.True(svg1.GetAttribute("stroke-width") == "3");
+        Assert.True(svg1.GetAttribute("stroke-dasharray") == "3,2");
+        cut.SetParametersAndRender();
+    }
+}
+
+
+@{
+    var InitialGroup6 = (new string[] { "CustomerID", "OrderID" });
+}
+
+<SfFixture @ref="fixture6" TestAsync="CheckingGridLine" Description="CheckingGridLine">
+    <ComponentUnderTest>
+        <SfChart ID="container" Width="400" Height="300">
+            <ChartRows>
+                <ChartRow Height="100%"></ChartRow>
+            </ChartRows>
+            <ChartColumns>
+                <ChartColumn Width="100%"></ChartColumn>
+            </ChartColumns>
+            <ChartPrimaryXAxis RowIndex="-1" Minimum="2">
+                <ChartAxisMajorGridLines Color="#C2C924" Width="2"></ChartAxisMajorGridLines>
+                <ChartAxisMajorTickLines Color="#0AA368" Width="1.5" Height="20"></ChartAxisMajorTickLines>
+                <ChartAxisLineStyle Color="#FBAF4F" Width="3"></ChartAxisLineStyle>
+            </ChartPrimaryXAxis>
+            <ChartPrimaryYAxis ColumnIndex="-1" Minimum="2">
+                <ChartAxisMajorGridLines Color="#B4D072" Width="2"></ChartAxisMajorGridLines>
+                <ChartAxisMajorTickLines Color="#C2C924" Width="1.5" Height="20"></ChartAxisMajorTickLines>
+                <ChartAxisLineStyle Color="#0D97D4" Width="3"></ChartAxisLineStyle>
+            </ChartPrimaryYAxis>
+        </SfChart>
+    </ComponentUnderTest>
+</SfFixture>
+
+
+@code {
+
+    SfFixture fixture6 { get; set; }
+    async Task CheckingGridLine(Fixture fixture6)
+    {
+        var cut = fixture6.GetComponentUnderTest<SfChart>();
+        await Task.Delay(200);
+        var svg = cut.Find("#container_MajorGridLine_0_1");
+        Assert.True(svg.GetAttribute("stroke") == "#C2C924");
+        Assert.True(svg.GetAttribute("stroke-width") == "2");
+        var svg1 = cut.Find("#container_MajorTickLine_0_0");
+        Assert.True(svg1.GetAttribute("stroke") == "#0AA368");
+        Assert.True(svg1.GetAttribute("stroke-width") == "1.5");
+        var svg2 = cut.Find("#container_MajorGridLine_1_1");
+        Assert.True(svg2.GetAttribute("stroke") == "#B4D072");
+        Assert.True(svg2.GetAttribute("stroke-width") == "2");
+        var svg3 = cut.Find("#container_MajorTickLine_1_0");
+        Assert.True(svg3.GetAttribute("stroke") == "#C2C924");
+        Assert.True(svg3.GetAttribute("stroke-width") == "1.5");
+        cut.SetParametersAndRender();
+    }
+}
+
+
+
+@{
+    var InitialGroup7 = (new string[] { "CustomerID", "OrderID" });
+}
+
+<SfFixture @ref="fixture7" TestAsync="CheckingBothAxisMajorTickLinesInsidePosition" Description="CheckingBothAxisMajorTickLinesInsidePosition">
+    <ComponentUnderTest>
+        <SfChart ID="container" Width="400" Height="300">
+            <ChartRows>
+                <ChartRow Height="100%"></ChartRow>
+            </ChartRows>
+            <ChartColumns>
+                <ChartColumn Width="100%"></ChartColumn>
+            </ChartColumns>
+            <ChartPrimaryXAxis RowIndex="-1" Minimum="2" TickPosition="AxisPosition.Inside">
+                <ChartAxisMajorGridLines Color="#C2C924" Width="2"></ChartAxisMajorGridLines>
+                <ChartAxisMajorTickLines Color="#0AA368" Width="1.5" Height="20"></ChartAxisMajorTickLines>
+                <ChartAxisLineStyle Color="#FBAF4F" Width="3"></ChartAxisLineStyle>
+            </ChartPrimaryXAxis>
+            <ChartPrimaryYAxis ColumnIndex="-1" Minimum="2" TickPosition="AxisPosition.Inside">
+                <ChartAxisMajorGridLines Color="#B4D072" Width="2"></ChartAxisMajorGridLines>
+                <ChartAxisMajorTickLines Color="#C2C924" Width="1.5" Height="20"></ChartAxisMajorTickLines>
+                <ChartAxisLineStyle Color="#0D97D4" Width="3"></ChartAxisLineStyle>
+            </ChartPrimaryYAxis>
+        </SfChart>
+    </ComponentUnderTest>
+</SfFixture>
+
+
+@code {
+
+    SfFixture fixture7 { get; set; }
+    async Task CheckingBothAxisMajorTickLinesInsidePosition(Fixture fixture7)
+    {
+        var cut = fixture7.GetComponentUnderTest<SfChart>();
+        await Task.Delay(200);
+        var svg = cut.Find("#container_MajorTickLine_0_0");
+        var position = svg.GetAttribute("d").Split(" ");
+        var value1 = position[1];
+        var value2 = position[4];
+        Assert.True(svg.GetAttribute("value1") == svg.GetAttribute("value2"));
+
+        var svg1 = cut.Find("#container_MajorTickLine_1_0");
+        var position1 = svg.GetAttribute("d").Split(" ");
+        var value3 = position[1];
+        var value4 = position[4];
+        Assert.True(svg1.GetAttribute("value3") == svg1.GetAttribute("value4"));
+    }
+}
+
+
+@{
+    var InitialGroup8 = (new string[] { "CustomerID", "OrderID" });
+}
+
+<SfFixture @ref="fixture8" TestAsync="CheckingLaelXAxisLabelPositionInside" Description="CheckingLabelXAxisLabelPositionInside">
+    <ComponentUnderTest>
+        <SfChart ID="container" Width="400" Height="300">
+            <ChartRows>
+                <ChartRow Height="100%"></ChartRow>
+            </ChartRows>
+            <ChartColumns>
+                <ChartColumn Width="100%"></ChartColumn>
+            </ChartColumns>
+            <ChartPrimaryXAxis Title="PrimaryXAxis" RangePadding="ChartRangePadding.Additional" RowIndex="-1" Minimum="2" TickPosition="AxisPosition.Inside" LabelPosition="AxisPosition.Inside">
+                <ChartAxisMajorGridLines Color="#C2C924" Width="2"></ChartAxisMajorGridLines>
+                <ChartAxisMajorTickLines Color="#0AA368" Width="1.5" Height="20"></ChartAxisMajorTickLines>
+                <ChartAxisLineStyle Color="#FBAF4F" Width="3"></ChartAxisLineStyle>
+            </ChartPrimaryXAxis>
+            <ChartPrimaryYAxis Title="PrimaryYAxis" RangePadding="ChartRangePadding.Normal" ColumnIndex="-1" Minimum="2" TickPosition="AxisPosition.Inside">
+                <ChartAxisMajorGridLines Color="#B4D072" Width="2"></ChartAxisMajorGridLines>
+                <ChartAxisMajorTickLines Color="#C2C924" Width="1.5" Height="20"></ChartAxisMajorTickLines>
+                <ChartAxisLineStyle Color="#0D97D4" Width="3"></ChartAxisLineStyle>
+            </ChartPrimaryYAxis>
+        </SfChart>
+    </ComponentUnderTest>
+</SfFixture>
+
+
+@code {
+
+    SfFixture fixture8 { get; set; }
+    async Task CheckingLaelXAxisLabelPositionInside(Fixture fixture8)
+    {
+        var cut = fixture8.GetComponentUnderTest<SfChart>();
+        await Task.Delay(200);
+        var text = cut.Find("#container0_AxisLabel_3");
+        Assert.True(text.TextContent == "5\n    ");
+        var text1 = cut.Find("#container1_AxisLabel_4");
+        Assert.True(text1.TextContent == "4\n    ");
+    }
+}
+
+
+@{
+    var InitialGroup9 = (new string[] { "CustomerID", "OrderID" });
+}
+
+<SfFixture @ref="fixture9" TestAsync="CheckingLaelYAxisLabelPositionInside" Description="CheckingLabelYAxisLabelPositionInside">
+    <ComponentUnderTest>
+        <SfChart ID="container" Width="400" Height="300">
+            <ChartRows>
+                <ChartRow Height="100%"></ChartRow>
+            </ChartRows>
+            <ChartColumns>
+                <ChartColumn Width="100%"></ChartColumn>
+            </ChartColumns>
+            <ChartPrimaryXAxis Title="PrimaryXAxis" RangePadding="ChartRangePadding.Additional" RowIndex="-1" Minimum="2" TickPosition="AxisPosition.Inside" LabelPosition="AxisPosition.Inside">
+                <ChartAxisMajorGridLines Color="#C2C924" Width="2"></ChartAxisMajorGridLines>
+                <ChartAxisMajorTickLines Color="#0AA368" Width="1.5" Height="20"></ChartAxisMajorTickLines>
+                <ChartAxisLineStyle Color="#FBAF4F" Width="3"></ChartAxisLineStyle>
+            </ChartPrimaryXAxis>
+            <ChartPrimaryYAxis Title="PrimaryYAxis" RangePadding="ChartRangePadding.Normal" ColumnIndex="-1" Minimum="2" TickPosition="AxisPosition.Inside" LabelPosition="AxisPosition.Inside">
+                <ChartAxisMajorGridLines Color="#B4D072" Width="2"></ChartAxisMajorGridLines>
+                <ChartAxisMajorTickLines Color="#C2C924" Width="1.5" Height="20"></ChartAxisMajorTickLines>
+                <ChartAxisLineStyle Color="#0D97D4" Width="3"></ChartAxisLineStyle>
+            </ChartPrimaryYAxis>
+        </SfChart>
+    </ComponentUnderTest>
+</SfFixture>
+
+
+@code {
+
+    SfFixture fixture9 { get; set; }
+    async Task CheckingLaelYAxisLabelPositionInside(Fixture fixture9)
+    {
+        var cut = fixture9.GetComponentUnderTest<SfChart>();
+        await Task.Delay(200);
+        var text = cut.Find("#container1_AxisLabel_0");
+        Assert.True(text.TextContent == "2\n    ");
+        var text1 = cut.Find("#container1_AxisLabel_4");
+        Assert.True(text1.TextContent == "4\n    ");
+        var text2 = cut.Find("#container0_AxisLabel_0");
+        Assert.True(text2.TextContent != "\n    1\n    \n");
+    }
+}
+
+
+
+@{
+    var InitialGroup10 = (new string[] { "CustomerID", "OrderID" });
+}
+
+<SfFixture @ref="fixture10" TestAsync="CheckingAxisTitle" Description="CheckingAxisTitle">
+    <ComponentUnderTest>
+        <SfChart ID="container" Width="400" Height="300">
+            <ChartRows>
+                <ChartRow Height="100%"></ChartRow>
+            </ChartRows>
+            <ChartColumns>
+                <ChartColumn Width="100%"></ChartColumn>
+            </ChartColumns>
+            <ChartPrimaryXAxis Title="Change the Text" RangePadding="ChartRangePadding.Additional" RowIndex="-1" Minimum="2" TickPosition="AxisPosition.Inside" LabelPosition="AxisPosition.Inside">
+                <ChartAxisMajorGridLines Color="#C2C924" Width="2"></ChartAxisMajorGridLines>
+                <ChartAxisMajorTickLines Color="#0AA368" Width="1.5" Height="20"></ChartAxisMajorTickLines>
+                <ChartAxisLineStyle Color="#FBAF4F" Width="3"></ChartAxisLineStyle>
+            </ChartPrimaryXAxis>
+            <ChartPrimaryYAxis Title="Population" RangePadding="ChartRangePadding.Normal" ColumnIndex="-1" Minimum="2" TickPosition="AxisPosition.Inside" LabelPosition="AxisPosition.Inside">
+                <ChartAxisMajorGridLines Color="#B4D072" Width="2"></ChartAxisMajorGridLines>
+                <ChartAxisMajorTickLines Color="#C2C924" Width="1.5" Height="20"></ChartAxisMajorTickLines>
+                <ChartAxisLineStyle Color="#0D97D4" Width="3"></ChartAxisLineStyle>
+            </ChartPrimaryYAxis>
+        </SfChart>
+    </ComponentUnderTest>
+</SfFixture>
+
+
+@code {
+
+    SfFixture fixture10 { get; set; }
+    async Task CheckingAxisTitle(Fixture fixture10)
+    {
+        var cut = fixture10.GetComponentUnderTest<SfChart>();
+        await Task.Delay(200);
+        var text = cut.Find("#container_AxisTitle_0");
+        Assert.True(text.TextContent == "Change the Text\n    ");
+        var text1 = cut.Find("#container_AxisTitle_1");
+        Assert.True(text1.TextContent == "Population\n    ");
+    }
+}
+
+
+@{
+    var InitialGroup11 = (new string[] { "CustomerID", "OrderID" });
+}
+
+<SfFixture @ref="fixture11" TestAsync="CheckingAxisRange" Description="CheckingAxisRange">
+    <ComponentUnderTest>
+        <SfChart ID="container" Width="400" Height="300">
+            <ChartRows>
+                <ChartRow Height="100%"></ChartRow>
+            </ChartRows>
+            <ChartColumns>
+                <ChartColumn Width="100%"></ChartColumn>
+            </ChartColumns>
+            <ChartPrimaryXAxis Title="Change the Text" RangePadding="ChartRangePadding.Additional" RowIndex="-1" Minimum="12" Maximum="2" Interval="2" TickPosition="AxisPosition.Inside" LabelPosition="AxisPosition.Inside">
+                <ChartAxisMajorGridLines Color="#C2C924" Width="2"></ChartAxisMajorGridLines>
+                <ChartAxisMajorTickLines Color="#0AA368" Width="1.5" Height="20"></ChartAxisMajorTickLines>
+                <ChartAxisLineStyle Color="#FBAF4F" Width="3"></ChartAxisLineStyle>
+            </ChartPrimaryXAxis>
+            <ChartPrimaryYAxis Title="Population" RangePadding="ChartRangePadding.Normal" ColumnIndex="-1" Minimum="2" TickPosition="AxisPosition.Inside" LabelPosition="AxisPosition.Inside">
+                <ChartAxisMajorGridLines Color="#B4D072" Width="2"></ChartAxisMajorGridLines>
+                <ChartAxisMajorTickLines Color="#C2C924" Width="1.5" Height="20"></ChartAxisMajorTickLines>
+                <ChartAxisLineStyle Color="#0D97D4" Width="3"></ChartAxisLineStyle>
+            </ChartPrimaryYAxis>
+        </SfChart>
+    </ComponentUnderTest>
+</SfFixture>
+
+
+@code {
+
+    SfFixture fixture11 { get; set; }
+    async Task CheckingAxisRange(Fixture fixture11)
+    {
+        var cut = fixture11.GetComponentUnderTest<SfChart>();
+        await Task.Delay(200);
+        var text = cut.Find("#container0_AxisLabel_5");
+        Assert.True(text.TextContent == "12\n    ");
+        var text1 = cut.Find("#container0_AxisLabel_0");
+        Assert.True(text1.TextContent == "2\n    ");
+    }
+}
+
+
+@{
+    var InitialGroup12 = (new string[] { "CustomerID", "OrderID" });
+}
+
+<SfFixture @ref="fixture12" TestAsync="CheckingRangePadding" Description="CheckingRangePadding">
+    <ComponentUnderTest>
+        <SfChart ID="container" Width="400" Height="300">
+            <ChartRows>
+                <ChartRow Height="100%"></ChartRow>
+            </ChartRows>
+            <ChartColumns>
+                <ChartColumn Width="100%"></ChartColumn>
+            </ChartColumns>
+            <ChartPrimaryXAxis Title="Change the Text" RangePadding="ChartRangePadding.Additional" RowIndex="-1" Minimum="12" Maximum="2" Interval="2" TickPosition="AxisPosition.Inside" LabelPosition="AxisPosition.Inside">
+                <ChartAxisMajorGridLines Color="#C2C924" Width="2"></ChartAxisMajorGridLines>
+                <ChartAxisMajorTickLines Color="#0AA368" Width="1.5" Height="20"></ChartAxisMajorTickLines>
+                <ChartAxisLineStyle Color="#FBAF4F" Width="3"></ChartAxisLineStyle>
+            </ChartPrimaryXAxis>
+            <ChartPrimaryYAxis Title="Population" RangePadding="ChartRangePadding.Normal" ColumnIndex="-1" Minimum="2" TickPosition="AxisPosition.Inside" LabelPosition="AxisPosition.Inside">
+                <ChartAxisMajorGridLines Color="#B4D072" Width="2"></ChartAxisMajorGridLines>
+                <ChartAxisMajorTickLines Color="#C2C924" Width="1.5" Height="20"></ChartAxisMajorTickLines>
+                <ChartAxisLineStyle Color="#0D97D4" Width="3"></ChartAxisLineStyle>
+            </ChartPrimaryYAxis>
+        </SfChart>
+    </ComponentUnderTest>
+</SfFixture>
+
+
+@code {
+
+    SfFixture fixture12 { get; set; }
+    async Task CheckingRangePadding(Fixture fixture12)
+    {
+        var cut = fixture12.GetComponentUnderTest<SfChart>();
+        await Task.Delay(200);
+        var text = cut.Find("#container1_AxisLabel_0");
+        Assert.True(text.TextContent == "2\n    ");
+        var text1 = cut.Find("#container1_AxisLabel_4");
+        Assert.True(text1.TextContent == "4\n    ");
+        var text2 = cut.Find("#container0_AxisLabel_0");
+        Assert.True(text2.TextContent != "\n    1\n    \n");
+    }
+}
+
+
+@{
+    var InitialGroup13 = (new string[] { "CustomerID", "OrderID" });
+}
+
+<SfFixture @ref="fixture13" TestAsync="CheckingZoomFactorZoomPosition" Description="CheckingZoomFactorZoomPosition">
+    <ComponentUnderTest>
+        <SfChart ID="container" Width="400" Height="300">
+            <ChartRows>
+                <ChartRow Height="100%"></ChartRow>
+            </ChartRows>
+            <ChartColumns>
+                <ChartColumn Width="100%"></ChartColumn>
+            </ChartColumns>
+            <ChartPrimaryXAxis Title="Change the Text" RangePadding="ChartRangePadding.Additional" RowIndex="-1" Minimum="10000" Maximum="1000" Interval="1000" ZoomFactor="0.5" ZoomPosition="0.3" TickPosition="AxisPosition.Inside" LabelPosition="AxisPosition.Inside">
+                <ChartAxisMajorGridLines Color="#C2C924" Width="2"></ChartAxisMajorGridLines>
+                <ChartAxisMajorTickLines Color="#0AA368" Width="1.5" Height="20"></ChartAxisMajorTickLines>
+                <ChartAxisLineStyle Color="#FBAF4F" Width="3"></ChartAxisLineStyle>
+            </ChartPrimaryXAxis>
+            <ChartPrimaryYAxis Title="Population" RangePadding="ChartRangePadding.Normal" ColumnIndex="-1" Minimum="0" Maximum="50" EnableAutoIntervalOnZooming="false" ZoomFactor="0.3" ZoomPosition="0.6" TickPosition="AxisPosition.Inside" LabelPosition="AxisPosition.Inside">
+                <ChartAxisMajorGridLines Color="#B4D072" Width="2"></ChartAxisMajorGridLines>
+                <ChartAxisMajorTickLines Color="#C2C924" Width="1.5" Height="20"></ChartAxisMajorTickLines>
+                <ChartAxisLineStyle Color="#0D97D4" Width="3"></ChartAxisLineStyle>
+            </ChartPrimaryYAxis>
+        </SfChart>
+    </ComponentUnderTest>
+</SfFixture>
+
+
+@code {
+
+    SfFixture fixture13 { get; set; }
+    async Task CheckingZoomFactorZoomPosition(Fixture fixture13)
+    {
+        var cut = fixture13.GetComponentUnderTest<SfChart>();
+        await Task.Delay(200);
+        var text = cut.Find("#container0_AxisLabel_0");
+        Assert.True(text.TextContent == "4000\n    ");
+        var text1 = cut.Find("#container1_AxisLabel_0");
+        Assert.True(text1.TextContent == "30\n    ");
+    }
+}
+
+
+
+@{
+    var InitialGroup14 = (new string[] { "CustomerID", "OrderID" });
+}
+
+<SfFixture @ref="fixture14" TestAsync="CheckingAxisLabelRotation" Description="CheckingAxisLabelRotation">
+    <ComponentUnderTest>
+        <SfChart ID="container" Width="400" Height="300">
+            <ChartRows>
+                <ChartRow Height="100%"></ChartRow>
+            </ChartRows>
+            <ChartColumns>
+                <ChartColumn Width="100%"></ChartColumn>
+            </ChartColumns>
+            <ChartPrimaryXAxis Title="Change the Text" RangePadding="ChartRangePadding.Additional" RowIndex="-1" Minimum="10000" Maximum="1000" Interval="1000" LabelRotation="45" ZoomFactor="1" ZoomPosition="0" TickPosition="AxisPosition.Inside" LabelPosition="AxisPosition.Inside">
+                <ChartAxisMajorGridLines Color="#C2C924" Width="2"></ChartAxisMajorGridLines>
+                <ChartAxisMajorTickLines Color="#0AA368" Width="1.5" Height="20"></ChartAxisMajorTickLines>
+                <ChartAxisLineStyle Color="#FBAF4F" Width="3"></ChartAxisLineStyle>
+            </ChartPrimaryXAxis>
+            <ChartPrimaryYAxis Title="Population" RangePadding="ChartRangePadding.Normal" ColumnIndex="-1" Minimum="0" Maximum="50" EnableAutoIntervalOnZooming="false" ZoomFactor="1" ZoomPosition="0" TickPosition="AxisPosition.Inside" LabelPosition="AxisPosition.Inside">
+                <ChartAxisMajorGridLines Color="#B4D072" Width="2"></ChartAxisMajorGridLines>
+                <ChartAxisMajorTickLines Color="#C2C924" Width="1.5" Height="20"></ChartAxisMajorTickLines>
+                <ChartAxisLineStyle Color="#0D97D4" Width="3"></ChartAxisLineStyle>
+            </ChartPrimaryYAxis>
+        </SfChart>
+    </ComponentUnderTest>
+</SfFixture>
+
+
+@code {
+
+    SfFixture fixture14 { get; set; }
+    async Task CheckingAxisLabelRotation(Fixture fixture14)
+    {
+        var cut = fixture14.GetComponentUnderTest<SfChart>();
+        await Task.Delay(200);
+        var svg = cut.Find("#container_ChartAreaBorder");
+        var text = cut.Find("#container0_AxisLabel_0");
+        Assert.True(text.GetAttribute("transform").IndexOf("rotate(45") < 1);
+    }
+}
+
+
+@{
+    var InitialGroup15 = (new string[] { "CustomerID", "OrderID" });
+}
+
+<SfFixture @ref="fixture15" TestAsync="CheckingMinorGridLine" Description="CheckingMinorGridLine">
+    <ComponentUnderTest>
+        <SfChart ID="container" Width="400" Height="300">
+            <ChartRows>
+                <ChartRow Height="100%"></ChartRow>
+            </ChartRows>
+            <ChartColumns>
+                <ChartColumn Width="100%"></ChartColumn>
+            </ChartColumns>
+            <ChartPrimaryXAxis Title="Change the Text" RangePadding="ChartRangePadding.Additional" RowIndex="-1" Minimum="10000" Maximum="1000" Interval="1000" LabelRotation="45" ZoomFactor="1" ZoomPosition="0" TickPosition="AxisPosition.Inside" LabelPosition="AxisPosition.Inside" MinorTicksPerInterval="4">
+                <ChartAxisMajorGridLines Color="#C2C924" Width="2"></ChartAxisMajorGridLines>
+                <ChartAxisMajorTickLines Color="#0AA368" Width="1.5" Height="20"></ChartAxisMajorTickLines>
+                <ChartAxisMinorGridLines Color="#C2C924" Width="1"></ChartAxisMinorGridLines>
+                <ChartAxisMinorTickLines Color="#0AA368" Width="1" Height="3"></ChartAxisMinorTickLines>
+                <ChartAxisLineStyle Color="#FBAF4F" Width="3"></ChartAxisLineStyle>
+            </ChartPrimaryXAxis>
+            <ChartPrimaryYAxis Title="Population" RangePadding="ChartRangePadding.Normal" ColumnIndex="-1" Minimum="0" Maximum="50" EnableAutoIntervalOnZooming="false" ZoomFactor="1" ZoomPosition="0" TickPosition="AxisPosition.Inside" LabelPosition="AxisPosition.Inside" MinorTicksPerInterval="4">
+                <ChartAxisMajorGridLines Color="#B4D072" Width="2"></ChartAxisMajorGridLines>
+                <ChartAxisMajorTickLines Color="#C2C924" Width="1.5" Height="20"></ChartAxisMajorTickLines>
+                <ChartAxisMinorGridLines Color="#B4D072" Width="1"></ChartAxisMinorGridLines>
+                <ChartAxisMinorTickLines Color="#C2C924" Width="1" Height="3"></ChartAxisMinorTickLines>
+                <ChartAxisLineStyle Color="#0D97D4" Width="3"></ChartAxisLineStyle>
+            </ChartPrimaryYAxis>
+        </SfChart>
+    </ComponentUnderTest>
+</SfFixture>
+
+
+@code {
+
+    SfFixture fixture15 { get; set; }
+    async Task CheckingMinorGridLine(Fixture fixture15)
+    {
+        var cut = fixture15.GetComponentUnderTest<SfChart>();
+        await Task.Delay(200);
+        var svg = cut.Find("#container_MinorGridLine_0_0");
+        Assert.True(svg.GetAttribute("stroke") == "#C2C924");
+        Assert.True(svg.GetAttribute("stroke-width") == "1");
+
+        var svg1 = cut.Find("#container_MinorTickLine_0_0");
+        Assert.True(svg1.GetAttribute("stroke") == "#0AA368");
+        Assert.True(svg1.GetAttribute("stroke-width") == "1");
+
+        var svg2 = cut.Find("#container_MinorGridLine_1_0");
+        Assert.True(svg2.GetAttribute("stroke") == "#B4D072");
+        Assert.True(svg2.GetAttribute("stroke-width") == "1");
+
+        var svg3 = cut.Find("#container_MinorTickLine_1_0");
+        Assert.True(svg3.GetAttribute("stroke") == "#C2C924");
+        Assert.True(svg3.GetAttribute("stroke-width") == "1");
+    }
+}
+
+
+@{
+    var InitialGroup16 = (new string[] { "CustomerID", "OrderID" });
+}
+
+<SfFixture @ref="fixture16" TestAsync="CheckingMinorGridLineWithOpposedPosition" Description="CheckingMinorGridLineWithOpposedPosition">
+    <ComponentUnderTest>
+        <SfChart ID="container" Width="400" Height="300">
+            <ChartRows>
+                <ChartRow Height="100%"></ChartRow>
+            </ChartRows>
+            <ChartColumns>
+                <ChartColumn Width="100%"></ChartColumn>
+            </ChartColumns>
+            <ChartPrimaryXAxis Title="Change the Text" RangePadding="ChartRangePadding.Additional" RowIndex="-1" Minimum="10000" Maximum="1000" Interval="1000" LabelRotation="45" ZoomFactor="1" ZoomPosition="0" TickPosition="AxisPosition.Inside" LabelPosition="AxisPosition.Inside" MinorTicksPerInterval="4" OpposedPosition="true">
+                <ChartAxisMajorGridLines Color="#C2C924" Width="2"></ChartAxisMajorGridLines>
+                <ChartAxisMajorTickLines Color="#0AA368" Width="1.5" Height="20"></ChartAxisMajorTickLines>
+                <ChartAxisMinorGridLines Color="#C2C924" Width="1"></ChartAxisMinorGridLines>
+                <ChartAxisMinorTickLines Color="#0AA368" Width="1" Height="3"></ChartAxisMinorTickLines>
+                <ChartAxisLineStyle Color="#FBAF4F" Width="3"></ChartAxisLineStyle>
+            </ChartPrimaryXAxis>
+            <ChartPrimaryYAxis Title="Population" RangePadding="ChartRangePadding.Normal" ColumnIndex="-1" Minimum="0" Maximum="50" EnableAutoIntervalOnZooming="false" ZoomFactor="1" ZoomPosition="0" TickPosition="AxisPosition.Inside" LabelPosition="AxisPosition.Inside" MinorTicksPerInterval="4" OpposedPosition="true">
+                <ChartAxisMajorGridLines Color="#B4D072" Width="2"></ChartAxisMajorGridLines>
+                <ChartAxisMajorTickLines Color="#C2C924" Width="1.5" Height="20"></ChartAxisMajorTickLines>
+                <ChartAxisMinorGridLines Color="#B4D072" Width="1"></ChartAxisMinorGridLines>
+                <ChartAxisMinorTickLines Color="#C2C924" Width="1" Height="3"></ChartAxisMinorTickLines>
+                <ChartAxisLineStyle Color="#0D97D4" Width="3"></ChartAxisLineStyle>
+            </ChartPrimaryYAxis>
+        </SfChart>
+    </ComponentUnderTest>
+</SfFixture>
+
+
+@code {
+
+    SfFixture fixture16 { get; set; }
+    async Task CheckingMinorGridLineWithOpposedPosition(Fixture fixture16)
+    {
+        var cut = fixture16.GetComponentUnderTest<SfChart>();
+        await Task.Delay(200);
+        var svg = cut.Find("#container_MinorGridLine_0_0");
+        Assert.True(svg.GetAttribute("stroke") == "#C2C924");
+        Assert.True(svg.GetAttribute("stroke-width") == "1");
+
+        var svg1 = cut.Find("#container_MinorTickLine_0_0");
+        Assert.True(svg1.GetAttribute("stroke") == "#0AA368");
+        Assert.True(svg1.GetAttribute("stroke-width") == "1");
+
+        var svg2 = cut.Find("#container_MinorGridLine_1_0");
+        Assert.True(svg2.GetAttribute("stroke") == "#B4D072");
+        Assert.True(svg2.GetAttribute("stroke-width") == "1");
+
+        var svg3 = cut.Find("#container_MinorTickLine_1_0");
+        Assert.True(svg3.GetAttribute("stroke") == "#C2C924");
+        Assert.True(svg3.GetAttribute("stroke-width") == "1");
+    }
+}
+
+
+
+@{
+    var InitialGroup17 = (new string[] { "CustomerID", "OrderID" });
+}
+
+<SfFixture @ref="fixture17" TestAsync="CheckingLabelFormat" Description="CheckingLabelFormat">
+    <ComponentUnderTest>
+        <SfChart ID="container" Width="400" Height="300">
+            <ChartRows>
+                <ChartRow Height="100%"></ChartRow>
+            </ChartRows>
+            <ChartColumns>
+                <ChartColumn Width="100%"></ChartColumn>
+            </ChartColumns>
+            <ChartPrimaryXAxis Title="Change the Text" RangePadding="ChartRangePadding.Additional" RowIndex="-1" Minimum="10000" Maximum="1000" LabelFormat="C" Interval="1000" LabelRotation="45" ZoomFactor="1" ZoomPosition="0" TickPosition="AxisPosition.Inside" LabelPosition="AxisPosition.Inside" MinorTicksPerInterval="4" OpposedPosition="true">
+                <ChartAxisMajorGridLines Color="#C2C924" Width="2"></ChartAxisMajorGridLines>
+                <ChartAxisMajorTickLines Color="#0AA368" Width="1.5" Height="20"></ChartAxisMajorTickLines>
+                <ChartAxisMinorGridLines Color="#C2C924" Width="1"></ChartAxisMinorGridLines>
+                <ChartAxisMinorTickLines Color="#0AA368" Width="1" Height="3"></ChartAxisMinorTickLines>
+                <ChartAxisLineStyle Color="#FBAF4F" Width="3"></ChartAxisLineStyle>
+            </ChartPrimaryXAxis>
+            <ChartPrimaryYAxis Title="Population" RangePadding="ChartRangePadding.Normal" ColumnIndex="-1" Minimum="1000" Maximum="10000" LabelFormat="C" EnableAutoIntervalOnZooming="false" ZoomFactor="1" ZoomPosition="0" TickPosition="AxisPosition.Inside" LabelPosition="AxisPosition.Inside" MinorTicksPerInterval="4" OpposedPosition="false">
+                <ChartAxisMajorGridLines Color="#B4D072" Width="2"></ChartAxisMajorGridLines>
+                <ChartAxisMajorTickLines Color="#C2C924" Width="1.5" Height="20"></ChartAxisMajorTickLines>
+                <ChartAxisMinorGridLines Color="#B4D072" Width="1"></ChartAxisMinorGridLines>
+                <ChartAxisMinorTickLines Color="#C2C924" Width="1" Height="3"></ChartAxisMinorTickLines>
+                <ChartAxisLineStyle Color="#0D97D4" Width="3"></ChartAxisLineStyle>
+            </ChartPrimaryYAxis>
+        </SfChart>
+    </ComponentUnderTest>
+</SfFixture>
+
+
+@code {
+
+    SfFixture fixture17 { get; set; }
+    async Task CheckingLabelFormat(Fixture fixture17)
+    {
+        var cut = fixture17.GetComponentUnderTest<SfChart>();
+        await Task.Delay(200);
+        var svg = cut.Find("#container1_AxisLabel_1");
+        Assert.True(svg.TextContent == "$3,000.00\n    ");
+        var ele = cut.Find("#container0_AxisLabel_1");
+        Assert.True(ele.GetAttribute("transform").IndexOf("rotate(45") > -1);
+    }
+}
+
+
+@{
+    var InitialGroup18 = (new string[] { "CustomerID", "OrderID" });
+}
+
+<SfFixture @ref="fixture18" TestAsync="CheckingRotationgreaterThan360" Description="CheckingRotationgreaterThan360">
+    <ComponentUnderTest>
+        <SfChart ID="container" Width="400" Height="300">
+            <ChartRows>
+                <ChartRow Height="100%"></ChartRow>
+            </ChartRows>
+            <ChartColumns>
+                <ChartColumn Width="100%"></ChartColumn>
+            </ChartColumns>
+            <ChartPrimaryXAxis Title="Change the Text" RangePadding="ChartRangePadding.Additional" RowIndex="-1" Minimum="10000" Maximum="1000" LabelFormat="C" Interval="1000" LabelRotation="387" ZoomFactor="1" ZoomPosition="0" TickPosition="AxisPosition.Inside" LabelPosition="AxisPosition.Inside" MinorTicksPerInterval="4" OpposedPosition="false">
+                <ChartAxisMajorGridLines Color="#C2C924" Width="2"></ChartAxisMajorGridLines>
+                <ChartAxisMajorTickLines Color="#0AA368" Width="1.5" Height="20"></ChartAxisMajorTickLines>
+                <ChartAxisMinorGridLines Color="#C2C924" Width="1"></ChartAxisMinorGridLines>
+                <ChartAxisMinorTickLines Color="#0AA368" Width="1" Height="3"></ChartAxisMinorTickLines>
+                <ChartAxisLineStyle Color="#FBAF4F" Width="3"></ChartAxisLineStyle>
+            </ChartPrimaryXAxis>
+            <ChartPrimaryYAxis Title="Population" RangePadding="ChartRangePadding.Normal" ColumnIndex="-1" Minimum="1000" Maximum="10000" LabelFormat="C" EnableAutoIntervalOnZooming="false" ZoomFactor="1" ZoomPosition="0" TickPosition="AxisPosition.Inside" LabelPosition="AxisPosition.Inside" MinorTicksPerInterval="4" OpposedPosition="false">
+                <ChartAxisMajorGridLines Color="#B4D072" Width="2"></ChartAxisMajorGridLines>
+                <ChartAxisMajorTickLines Color="#C2C924" Width="1.5" Height="20"></ChartAxisMajorTickLines>
+                <ChartAxisMinorGridLines Color="#B4D072" Width="1"></ChartAxisMinorGridLines>
+                <ChartAxisMinorTickLines Color="#C2C924" Width="1" Height="3"></ChartAxisMinorTickLines>
+                <ChartAxisLineStyle Color="#0D97D4" Width="3"></ChartAxisLineStyle>
+            </ChartPrimaryYAxis>
+        </SfChart>
+    </ComponentUnderTest>
+</SfFixture>
+
+
+@code {
+
+    SfFixture fixture18 { get; set; }
+    async Task CheckingRotationgreaterThan360(Fixture fixture18)
+    {
+        var cut = fixture18.GetComponentUnderTest<SfChart>();
+        await Task.Delay(200);
+        var svg = cut.Find("#container1_AxisLabel_1");
+        Assert.True(svg.TextContent == "$3,000.00\n    ");
+    }
+}
+
+
+@{
+    var InitialGroup19 = (new string[] { "CustomerID", "OrderID" });
+}
+
+<SfFixture @ref="fixture19" TestAsync="CheckingZoomFactorZoomPositionInversed" Description="CheckingZoomFactorZoomPositionInversed">
+    <ComponentUnderTest>
+        <SfChart ID="container" Width="400" Height="300">
+            <ChartRows>
+                <ChartRow Height="100%"></ChartRow>
+            </ChartRows>
+            <ChartColumns>
+                <ChartColumn Width="100%"></ChartColumn>
+            </ChartColumns>
+            <ChartPrimaryXAxis Minimum="10000" Maximum="1000" Interval="1000" ZoomFactor="0.5" ZoomPosition="0.3" IsInversed="true">
+                <ChartAxisMajorGridLines Color="#C2C924" Width="2"></ChartAxisMajorGridLines>
+                <ChartAxisMajorTickLines Color="#0AA368" Width="1.5" Height="20"></ChartAxisMajorTickLines>
+                <ChartAxisMinorGridLines Color="#C2C924" Width="1"></ChartAxisMinorGridLines>
+                <ChartAxisMinorTickLines Color="#0AA368" Width="1" Height="3"></ChartAxisMinorTickLines>
+                <ChartAxisLineStyle Color="#FBAF4F" Width="3"></ChartAxisLineStyle>
+            </ChartPrimaryXAxis>
+            <ChartPrimaryYAxis Minimum="0" Maximum="50" EnableAutoIntervalOnZooming="false" ZoomFactor="0.3" ZoomPosition="0.6">
+                <ChartAxisMajorGridLines Color="#B4D072" Width="2"></ChartAxisMajorGridLines>
+                <ChartAxisMajorTickLines Color="#C2C924" Width="1.5" Height="20"></ChartAxisMajorTickLines>
+                <ChartAxisMinorGridLines Color="#B4D072" Width="1"></ChartAxisMinorGridLines>
+                <ChartAxisMinorTickLines Color="#C2C924" Width="1" Height="3"></ChartAxisMinorTickLines>
+                <ChartAxisLineStyle Color="#0D97D4" Width="3"></ChartAxisLineStyle>
+            </ChartPrimaryYAxis>
+        </SfChart>
+    </ComponentUnderTest>
+</SfFixture>
+
+
+@code {
+
+    SfFixture fixture19 { get; set; }
+    async Task CheckingZoomFactorZoomPositionInversed(Fixture fixture19)
+    {
+        var cut = fixture19.GetComponentUnderTest<SfChart>();
+        await Task.Delay(200);
+        var svg = cut.Find("#container0_AxisLabel_0");
+        Assert.True(svg.TextContent == "3000\n    ");
+        var svg1 = cut.Find("#container0_AxisLabel_4");
+        Assert.True(svg1.TextContent == "7000\n    ");
+    }
+}
+
+
+@{
+    var InitialGroup20 = (new string[] { "CustomerID", "OrderID" });
+}
+
+<SfFixture @ref="fixture20" TestAsync="CheckingNegativeValueInAxis" Description="CheckingNegativeValueInAxis">
+    <ComponentUnderTest>
+        <SfChart ID="container" OnAxisLabelRender="axislabels">
+            <ChartPrimaryXAxis DesiredIntervals="2" LabelIntersectAction="LabelIntersectAction.Hide">
+            </ChartPrimaryXAxis>
+            <ChartPrimaryYAxis RangePadding="ChartRangePadding.Normal">
+            </ChartPrimaryYAxis>
+            <ChartSeriesCollection>
+                <ChartSeries DataSource="@chartdata" XName="x" YName="y" Fill="Pink">
+                    <ChartSeriesAnimation Enable="false"></ChartSeriesAnimation>
+                </ChartSeries>
+            </ChartSeriesCollection>
+        </SfChart>
+    </ComponentUnderTest>
+</SfFixture>
+
+
+@code {
+
+    SfFixture fixture20 { get; set; }
+    async Task CheckingNegativeValueInAxis(Fixture fixture20)
+    {
+        var cut = fixture20.GetComponentUnderTest<SfChart>();
+        await Task.Delay(200);
+        var svg = cut.Find("#containerAxisLabels0");
+        Assert.True(svg.ChildNodes.Length == 3);
+        Assert.True(svg.ChildNodes[0].TextContent.IndexOf("custom") > -1);
+    }
+
+
+    public class SalesInfo
+    {
+        public double x { get; set; }
+        public double y { get; set; }
+    }
+
+    public List<SalesInfo> chartdata = new List<SalesInfo>
+{
+        new SalesInfo { x = 10, y = -10 },
+
+    };
+
+    public void axislabels(AxisLabelRenderEventArgs args)
+    {
+        args.Text = args.Text + "custom";
+
+    }
+}
+
+
+
+@{
+    var InitialGroup21 = (new string[] { "CustomerID", "OrderID" });
+}
+
+<SfFixture @ref="fixture21" TestAsync="ChangintheValueType" Description="ChangintheValueType">
+    <ComponentUnderTest>
+        <SfChart ID="container" OnAxisLabelRender="axislabels1">
+            <ChartPrimaryXAxis DesiredIntervals="2" LabelIntersectAction="LabelIntersectAction.Hide" ValueType="Syncfusion.Blazor.Toolkit.ValueType.Category">
+            </ChartPrimaryXAxis>
+            <ChartPrimaryYAxis RangePadding="ChartRangePadding.Normal">
+            </ChartPrimaryYAxis>
+            <ChartSeriesCollection>
+                <ChartSeries DataSource="@chartdata1" XName="x" YName="y" Fill="Pink">
+                    <ChartSeriesAnimation Enable="false"></ChartSeriesAnimation>
+                </ChartSeries>
+            </ChartSeriesCollection>
+        </SfChart>
+    </ComponentUnderTest>
+</SfFixture>
+
+
+@code {
+
+    SfFixture fixture21 { get; set; }
+    async Task ChangintheValueType(Fixture fixture21)
+    {
+        var cut = fixture21.GetComponentUnderTest<SfChart>();
+        await Task.Delay(200);
+        var svg = cut.Find("#containerAxisLabels0");
+        Assert.True(svg.ChildNodes.Length == 1);
+    }
+    public class SalesInfo1
+    {
+        public double x { get; set; }
+        public double y { get; set; }
+    }
+    public List<SalesInfo1> chartdata1 = new List<SalesInfo1>
+{
+        new SalesInfo1 { x = 10, y = -10 },
+
+    };
+
+    public void axislabels1(AxisLabelRenderEventArgs args)
+    {
+        args.Text = args.Text + "custom";
+    }
+}
+
+
+@{
+    var InitialGroup22 = (new string[] { "CustomerID", "OrderID" });
+}
+
+<SfFixture @ref="fixture22" TestAsync="CheckingMinorGridlines" Description="CheckingMinorGridlines">
+    <ComponentUnderTest>
+        <SfChart ID="container" OnAxisLabelRender="axislabels2">
+            <ChartPrimaryXAxis DesiredIntervals="2" LabelIntersectAction="LabelIntersectAction.Hide" ValueType="Syncfusion.Blazor.Toolkit.ValueType.Category" MinorTicksPerInterval="1">
+                <ChartAxisMinorGridLines Width="8"></ChartAxisMinorGridLines>
+                <ChartAxisMinorTickLines Width="8"></ChartAxisMinorTickLines>
+            </ChartPrimaryXAxis>
+            <ChartPrimaryYAxis RangePadding="ChartRangePadding.Normal">
+            </ChartPrimaryYAxis>
+            <ChartSeriesCollection>
+                <ChartSeries DataSource="@chartdata2" XName="x" YName="y" Fill="Pink">
+                    <ChartSeriesAnimation Enable="false"></ChartSeriesAnimation>
+                </ChartSeries>
+            </ChartSeriesCollection>
+        </SfChart>
+    </ComponentUnderTest>
+</SfFixture>
+
+
+@code {
+
+    SfFixture fixture22 { get; set; }
+    async Task CheckingMinorGridlines(Fixture fixture22)
+    {
+        var cut = fixture22.GetComponentUnderTest<SfChart>();
+        await Task.Delay(200);
+        var tick = cut.Find("#container_MinorGridLine_0_0");
+        var border = cut.Find("#container_ChartAreaBorder");
+        //Assert.True(tick)
+    }
+    public class SalesInfo2
+    {
+        public double x { get; set; }
+        public double y { get; set; }
+    }
+    public List<SalesInfo2> chartdata2 = new List<SalesInfo2>
+{
+        new SalesInfo2 { x = 10, y = -10 },
+
+    };
+
+    public void axislabels2(AxisLabelRenderEventArgs args)
+    {
+        args.Text = args.Text + "custom";
+    }
+}
+
+
+
+@{
+    var InitialGroup23 = (new string[] { "CustomerID", "OrderID" });
+}
+
+<SfFixture @ref="fixture23" TestAsync="CheckingyAxisasInversedAxis" Description="CheckingyAxisasInversedAxis">
+    <ComponentUnderTest>
+        <SfChart ID="container">
+            <ChartPrimaryXAxis DesiredIntervals="2" LabelIntersectAction="LabelIntersectAction.Hide" ValueType="Syncfusion.Blazor.Toolkit.ValueType.Category" MinorTicksPerInterval="1">
+                <ChartAxisMinorGridLines Width="8"></ChartAxisMinorGridLines>
+                <ChartAxisMinorTickLines Width="8"></ChartAxisMinorTickLines>
+            </ChartPrimaryXAxis>
+            <ChartPrimaryYAxis RangePadding="ChartRangePadding.Normal" ValueType="Syncfusion.Blazor.Toolkit.ValueType.Double" IsInversed="true">
+            </ChartPrimaryYAxis>
+            <ChartSeriesCollection>
+                <ChartSeries DataSource="@chartdata3" XName="x" YName="y" Fill="Pink">
+                    <ChartSeriesAnimation Enable="false"></ChartSeriesAnimation>
+                </ChartSeries>
+            </ChartSeriesCollection>
+        </SfChart>
+    </ComponentUnderTest>
+</SfFixture>
+
+
+@code {
+
+    SfFixture fixture23 { get; set; }
+    async Task CheckingyAxisasInversedAxis(Fixture fixture23)
+    {
+        var cut = fixture23.GetComponentUnderTest<SfChart>();
+        await Task.Delay(200);
+        var firstlabel = cut.Find("#container1_AxisLabel_0");
+        Assert.True(firstlabel.TextContent == "0\n    ");
+        var lastlabel = cut.Find("#container1_AxisLabel_11");
+        Assert.True(lastlabel.TextContent == "5.5\n    ");
+        Assert.True(Convert.ToDouble(firstlabel.GetAttribute("y")) < (Convert.ToDouble(lastlabel.GetAttribute("y"))));
+    }
+    public class SalesInfo3
+    {
+        public double x { get; set; }
+        public double y { get; set; }
+    }
+    public List<SalesInfo3> chartdata3 = new List<SalesInfo3>
+    { };
+}
+
+
+
+@{
+    var InitialGroup24 = (new string[] { "CustomerID", "OrderID" });
+}
+
+<SfFixture @ref="fixture24" TestAsync="CheckingXAxisasInversedAxis" Description="CheckingXAxisasInversedAxis">
+    <ComponentUnderTest>
+        <SfChart ID="container">
+            <ChartPrimaryXAxis IsInversed="true" LabelIntersectAction="LabelIntersectAction.Hide" ValueType="Syncfusion.Blazor.Toolkit.ValueType.Double" MinorTicksPerInterval="1">
+                <ChartAxisMinorGridLines Width="8"></ChartAxisMinorGridLines>
+                <ChartAxisMinorTickLines Width="8"></ChartAxisMinorTickLines>
+            </ChartPrimaryXAxis>
+            <ChartPrimaryYAxis RangePadding="ChartRangePadding.Normal" ValueType="Syncfusion.Blazor.Toolkit.ValueType.Double" IsInversed="true">
+            </ChartPrimaryYAxis>
+            <ChartSeriesCollection>
+                <ChartSeries DataSource="@chartdata4" XName="x" YName="y" Fill="Pink">
+                    <ChartSeriesAnimation Enable="false"></ChartSeriesAnimation>
+                </ChartSeries>
+            </ChartSeriesCollection>
+        </SfChart>
+    </ComponentUnderTest>
+</SfFixture>
+
+
+@code {
+
+    SfFixture fixture24 { get; set; }
+    async Task CheckingXAxisasInversedAxis(Fixture fixture24)
+    {
+        var cut = fixture24.GetComponentUnderTest<SfChart>();
+        await Task.Delay(200);
+        var firstlabel = cut.Find("#container0_AxisLabel_0");
+        Assert.True(firstlabel.TextContent == "0\n    ");
+        var lastlabel = cut.Find("#container0_AxisLabel_5");
+        Assert.True(lastlabel.TextContent == "5\n    ");
+        Assert.True(Convert.ToDouble(firstlabel.GetAttribute("x")) > (Convert.ToDouble(lastlabel.GetAttribute("x"))));
+    }
+    public class SalesInfo4
+    {
+        public double x { get; set; }
+        public double y { get; set; }
+    }
+    public List<SalesInfo4> chartdata4 = new List<SalesInfo4>
+    { };
+}
+
+
+
+@{
+    var InitialGroup25 = (new string[] { "CustomerID", "OrderID" });
+}
+
+<SfFixture @ref="fixture25" TestAsync="CheckingInversedAxisWithLabelIntersectAction" Description="CheckingInversedAxisWithLabelIntersectAction">
+    <ComponentUnderTest>
+        <SfChart ID="container" Width="400" OnAxisLabelRender="axislabels4">
+            <ChartPrimaryXAxis IsInversed="true" LabelIntersectAction="LabelIntersectAction.Hide" ValueType="Syncfusion.Blazor.Toolkit.ValueType.Double" MinorTicksPerInterval="1" Minimum="1" Maximum="5" Interval="1">
+                <ChartAxisMinorGridLines Width="8"></ChartAxisMinorGridLines>
+                <ChartAxisMinorTickLines Width="8"></ChartAxisMinorTickLines>
+            </ChartPrimaryXAxis>
+            <ChartPrimaryYAxis RangePadding="ChartRangePadding.Normal" ValueType="Syncfusion.Blazor.Toolkit.ValueType.Double" IsInversed="true">
+            </ChartPrimaryYAxis>
+            <ChartSeriesCollection>
+                <ChartSeries DataSource="@chartdata5" XName="x" YName="y" Fill="Pink">
+                    <ChartSeriesAnimation Enable="false"></ChartSeriesAnimation>
+                </ChartSeries>
+            </ChartSeriesCollection>
+        </SfChart>
+    </ComponentUnderTest>
+</SfFixture>
+
+
+@code {
+
+    SfFixture fixture25 { get; set; }
+    async Task CheckingInversedAxisWithLabelIntersectAction(Fixture fixture25)
+    {
+        var cut = fixture25.GetComponentUnderTest<SfChart>();
+        await Task.Delay(200);
+        var firstlabel = cut.Find("#container0_AxisLabel_0");
+        Assert.True(firstlabel.TextContent == "1customLabels\n    ");
+    }
+    public class SalesInfo5
+    {
+        public double x { get; set; }
+        public double y { get; set; }
+    }
+    public List<SalesInfo5> chartdata5 = new List<SalesInfo5>
+    { };
+    public void axislabels4(AxisLabelRenderEventArgs args)
+    {
+        args.Text = args.Text + "customLabels";
+    }
+}
+
+
+@{
+    var InitialGroup26 = (new string[] { "CustomerID", "OrderID" });
+}
+
+<SfFixture @ref="fixture26" TestAsync="CheckingInversedAxisWithLabelIntersectActionNone" Description="CheckingInversedAxisWithLabelIntersectActionNone">
+    <ComponentUnderTest>
+        <SfChart ID="container" Width="400" OnAxisLabelRender="axislabels5">
+            <ChartPrimaryXAxis IsInversed="true" LabelIntersectAction="LabelIntersectAction.None" ValueType="Syncfusion.Blazor.Toolkit.ValueType.Double" MinorTicksPerInterval="1" Minimum="1" Maximum="5" Interval="1">
+                <ChartAxisMinorGridLines Width="8"></ChartAxisMinorGridLines>
+                <ChartAxisMinorTickLines Width="8"></ChartAxisMinorTickLines>
+            </ChartPrimaryXAxis>
+            <ChartPrimaryYAxis RangePadding="ChartRangePadding.Normal" ValueType="Syncfusion.Blazor.Toolkit.ValueType.Double" IsInversed="true">
+            </ChartPrimaryYAxis>
+            <ChartSeriesCollection>
+                <ChartSeries DataSource="@chartdata6" XName="x" YName="y" Fill="Pink">
+                    <ChartSeriesAnimation Enable="false"></ChartSeriesAnimation>
+                </ChartSeries>
+            </ChartSeriesCollection>
+        </SfChart>
+    </ComponentUnderTest>
+</SfFixture>
+
+
+@code {
+
+    SfFixture fixture26 { get; set; }
+    async Task CheckingInversedAxisWithLabelIntersectActionNone(Fixture fixture26)
+    {
+        var cut = fixture26.GetComponentUnderTest<SfChart>();
+        await Task.Delay(200);
+        var firstlabel = cut.Find("#container0_AxisLabel_0");
+        Assert.True(firstlabel.TextContent == "1customLabels\n    ");
+        var secondlabel = cut.Find("#container0_AxisLabel_1");
+        Assert.True(secondlabel.TextContent == "2customLabels\n    ");
+        var thirdlabel = cut.Find("#container0_AxisLabel_3");
+        Assert.True(thirdlabel.TextContent == "4customLabels\n    ");
+        //Assert.True(Convert.ToDouble(firstlabel.GetAttribute("x")) > (Convert.ToDouble(secondlabel.GetAttribute("x")) + secondlabel.l));
+    }
+    public class SalesInfo6
+    {
+        public double x { get; set; }
+        public double y { get; set; }
+    }
+    public List<SalesInfo6> chartdata6 = new List<SalesInfo6>
+    { };
+    public void axislabels5(AxisLabelRenderEventArgs args)
+    {
+        args.Text = args.Text + "customLabels";
+    }
+}
+
+
+
+@{
+    var InitialGroup27 = (new string[] { "CustomerID", "OrderID" });
+}
+
+<SfFixture @ref="fixture27" TestAsync="CheckingLabelIntersectActionRotate45InsidePosition" Description="CheckingLabelIntersectActionRotate45InsidePosition">
+    <ComponentUnderTest>
+        <SfChart ID="container" Width="400" OnAxisLabelRender="axislabels6">
+            <ChartPrimaryXAxis IsInversed="true" LabelIntersectAction="LabelIntersectAction.Rotate45" LabelPosition="AxisPosition.Inside" ValueType="Syncfusion.Blazor.Toolkit.ValueType.Double" MinorTicksPerInterval="1" Minimum="1" Maximum="5" Interval="1" LabelRotation="90">
+                <ChartAxisMinorGridLines Width="8"></ChartAxisMinorGridLines>
+                <ChartAxisMinorTickLines Width="8"></ChartAxisMinorTickLines>
+            </ChartPrimaryXAxis>
+            <ChartPrimaryYAxis RangePadding="ChartRangePadding.Normal" ValueType="Syncfusion.Blazor.Toolkit.ValueType.Double" IsInversed="true">
+            </ChartPrimaryYAxis>
+            <ChartSeriesCollection>
+                <ChartSeries DataSource="@chartdata7" XName="x" YName="y" Fill="Pink">
+                    <ChartSeriesAnimation Enable="false"></ChartSeriesAnimation>
+                </ChartSeries>
+            </ChartSeriesCollection>
+        </SfChart>
+    </ComponentUnderTest>
+</SfFixture>
+
+
+@code {
+
+    SfFixture fixture27 { get; set; }
+    async Task CheckingLabelIntersectActionRotate45InsidePosition(Fixture fixture27)
+    {
+        var cut = fixture27.GetComponentUnderTest<SfChart>();
+        await Task.Delay(200);
+        var firstlabel = cut.Find("#container0_AxisLabel_0");
+        Assert.True(firstlabel.TextContent == "1customLabels\n    ");
+        Assert.True(firstlabel.GetAttribute("transform").IndexOf("rotate(45") > -1);
+    }
+    public class SalesInfo7
+    {
+        public double x { get; set; }
+        public double y { get; set; }
+    }
+    public List<SalesInfo7> chartdata7 = new List<SalesInfo7>
+    { };
+    public void axislabels6(AxisLabelRenderEventArgs args)
+    {
+        args.Text = args.Text + "customLabels";
+    }
+}
+
+
+@{
+    var InitialGroup28 = (new string[] { "CustomerID", "OrderID" });
+}
+
+<SfFixture @ref="fixture28" TestAsync="CheckingInversedAxisWithLabelIntersectactionasRotate90" Description="CheckingInversedAxisWithLabelIntersectactionasRotate90">
+    <ComponentUnderTest>
+        <SfChart ID="container" Width="400" OnAxisLabelRender="axislabels7">
+            <ChartPrimaryXAxis IsInversed="true" LabelIntersectAction="LabelIntersectAction.Rotate90" LabelPosition="AxisPosition.Outside" ValueType="Syncfusion.Blazor.Toolkit.ValueType.Double" MinorTicksPerInterval="1" Minimum="1" Maximum="5" Interval="1" LabelRotation="0">
+                <ChartAxisMinorGridLines Width="8"></ChartAxisMinorGridLines>
+                <ChartAxisMinorTickLines Width="8"></ChartAxisMinorTickLines>
+            </ChartPrimaryXAxis>
+            <ChartPrimaryYAxis RangePadding="ChartRangePadding.Normal" ValueType="Syncfusion.Blazor.Toolkit.ValueType.Double" IsInversed="true">
+            </ChartPrimaryYAxis>
+            <ChartSeriesCollection>
+                <ChartSeries DataSource="@chartdata8" XName="x" YName="y" Fill="Pink">
+                    <ChartSeriesAnimation Enable="false"></ChartSeriesAnimation>
+                </ChartSeries>
+            </ChartSeriesCollection>
+        </SfChart>
+    </ComponentUnderTest>
+</SfFixture>
+
+
+@code {
+
+    SfFixture fixture28 { get; set; }
+    async Task CheckingInversedAxisWithLabelIntersectactionasRotate90(Fixture fixture28)
+    {
+        var cut = fixture28.GetComponentUnderTest<SfChart>();
+        await Task.Delay(200);
+        var firstlabel = cut.Find("#container0_AxisLabel_0");
+        Assert.True(firstlabel.TextContent == "1customLabels\n    ");
+        Assert.True(firstlabel.GetAttribute("transform").IndexOf("rotate(90") > -1);
+    }
+    public class SalesInfo8
+    {
+        public double x { get; set; }
+        public double y { get; set; }
+    }
+    public List<SalesInfo8> chartdata8 = new List<SalesInfo8>
+    { };
+    public void axislabels7(AxisLabelRenderEventArgs args)
+    {
+        args.Text = args.Text + "customLabels";
+    }
+}
+
+
+
+@{
+    var InitialGroup29 = (new string[] { "CustomerID", "OrderID" });
+}
+
+<SfFixture @ref="fixture29" TestAsync="CheckingabelIntersectactionRotate90InsidePosition" Description="CheckingabelIntersectactionRotate90InsidePosition">
+    <ComponentUnderTest>
+            <SfChart ID="container" Width="400" OnAxisLabelRender="axislabels8">
+            <ChartPrimaryXAxis IsInversed="true" LabelIntersectAction="LabelIntersectAction.Rotate90" LabelPosition="AxisPosition.Inside" ValueType="Syncfusion.Blazor.Toolkit.ValueType.Double" MinorTicksPerInterval="1" Minimum="1" Maximum="5" Interval="1" LabelRotation="0">
+                <ChartAxisMinorGridLines Width="8"></ChartAxisMinorGridLines>
+                <ChartAxisMinorTickLines Width="8"></ChartAxisMinorTickLines>
+            </ChartPrimaryXAxis>
+            <ChartPrimaryYAxis RangePadding="ChartRangePadding.Normal" ValueType="Syncfusion.Blazor.Toolkit.ValueType.Double" IsInversed="true">
+            </ChartPrimaryYAxis>
+            <ChartSeriesCollection>
+                <ChartSeries DataSource="@chartdata9" XName="x" YName="y" Fill="Pink">
+                    <ChartSeriesAnimation Enable="false"></ChartSeriesAnimation>
+                </ChartSeries>
+            </ChartSeriesCollection>
+        </SfChart>
+    </ComponentUnderTest>
+</SfFixture>
+
+
+@code {
+
+    SfFixture fixture29 { get; set; }
+    async Task CheckingabelIntersectactionRotate90InsidePosition(Fixture fixture29)
+    {
+        var cut = fixture29.GetComponentUnderTest<SfChart>();
+        await Task.Delay(200);
+        var firstlabel = cut.Find("#container0_AxisLabel_0");
+        Assert.True(firstlabel.TextContent == "1customLabels\n    ");
+        Assert.True(firstlabel.GetAttribute("transform").IndexOf("rotate(90") > -1);
+    }
+    public class SalesInfo9
+    {
+        public double x { get; set; }
+        public double y { get; set; }
+    }
+    public List<SalesInfo9> chartdata9 = new List<SalesInfo9>
+    { };
+    public void axislabels8(AxisLabelRenderEventArgs args)
+    {
+        args.Text = args.Text + "customLabels";
+    }
+}
+
+
+
+@{
+    var InitialGroup30 = (new string[] { "CustomerID", "OrderID" });
+}
+
+<SfFixture @ref="fixture30" TestAsync="CheckingOpposedPositionlabelIntersectactionRotate90InsidePosition" Description="CheckingOpposedPositionlabelIntersectactionRotate90InsidePosition">
+    <ComponentUnderTest>
+        <SfChart ID="container" Width="400" OnAxisLabelRender="axislabels9">
+            <ChartPrimaryXAxis IsInversed="true" OpposedPosition="true" LabelIntersectAction="LabelIntersectAction.Rotate90" LabelPosition="AxisPosition.Inside" ValueType="Syncfusion.Blazor.Toolkit.ValueType.Double" MinorTicksPerInterval="1" Minimum="1" Maximum="5" Interval="1" LabelRotation="0">
+                <ChartAxisMinorGridLines Width="8"></ChartAxisMinorGridLines>
+                <ChartAxisMinorTickLines Width="8"></ChartAxisMinorTickLines>
+            </ChartPrimaryXAxis>
+            <ChartPrimaryYAxis RangePadding="ChartRangePadding.Normal" ValueType="Syncfusion.Blazor.Toolkit.ValueType.Double" IsInversed="true">
+            </ChartPrimaryYAxis>
+            <ChartSeriesCollection>
+                <ChartSeries DataSource="@chartdata10" XName="x" YName="y" Fill="Pink">
+                    <ChartSeriesAnimation Enable="false"></ChartSeriesAnimation>
+                </ChartSeries>
+            </ChartSeriesCollection>
+        </SfChart>
+    </ComponentUnderTest>
+</SfFixture>
+
+
+@code {
+
+    SfFixture fixture30 { get; set; }
+    async Task CheckingOpposedPositionlabelIntersectactionRotate90InsidePosition(Fixture fixture30)
+    {
+        var cut = fixture30.GetComponentUnderTest<SfChart>();
+        await Task.Delay(200);
+        var firstlabel = cut.Find("#container0_AxisLabel_0");
+        Assert.True(firstlabel.TextContent == "1customLabels\n    ");
+        Assert.True(firstlabel.GetAttribute("transform").IndexOf("rotate(90") > -1);
+    }
+    public class SalesInfo10
+    {
+        public double x { get; set; }
+        public double y { get; set; }
+    }
+    public List<SalesInfo10> chartdata10 = new List<SalesInfo10>
+    { };
+    public void axislabels9(AxisLabelRenderEventArgs args)
+    {
+        args.Text = args.Text + "customLabels";
+    }
+}
+
+
+@{
+    var InitialGroup31 = (new string[] { "CustomerID", "OrderID" });
+}
+
+<SfFixture @ref="fixture31" TestAsync="CheckingWithMultipleAxis" Description="CheckingWithMultipleAxis">
+    <ComponentUnderTest>
+        <SfChart ID="container" Width="400">
+            <ChartAxes>
+                <ChartAxis RowIndex="0" OpposedPosition="true" Minimum="24" Maximum="36" Interval="2" IsInversed="true" Name="yAxis" Title="Temperature (Celsius)"></ChartAxis>
+            </ChartAxes>
+            <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Toolkit.ValueType.Category" Title="pyXAxis">
+                <ChartAxisMinorGridLines Width="8"></ChartAxisMinorGridLines>
+                <ChartAxisMinorTickLines Width="8"></ChartAxisMinorTickLines>
+            </ChartPrimaryXAxis>
+            <ChartPrimaryYAxis RangePadding="ChartRangePadding.Normal" ValueType="Syncfusion.Blazor.Toolkit.ValueType.Double" IsInversed="true">
+            </ChartPrimaryYAxis>
+            <ChartSeriesCollection>
+                <ChartSeries DataSource="@chartdata11" XName="x" YName="y" Name="Germany">
+                    <ChartSeriesAnimation Enable="false"></ChartSeriesAnimation>
+                    <ChartMarker Visible="true"></ChartMarker>
+                </ChartSeries>
+                <ChartSeries DataSource="@chartdata11" XName="x" YName="y1" Name="Japan" YAxisName="yAxis">
+                    <ChartSeriesAnimation Enable="false"></ChartSeriesAnimation>
+                    <ChartMarker Visible="true"></ChartMarker>
+                </ChartSeries>
+            </ChartSeriesCollection>
+        </SfChart>
+    </ComponentUnderTest>
+</SfFixture>
+
+
+@code {
+
+    SfFixture fixture31 { get; set; }
+    async Task CheckingWithMultipleAxis(Fixture fixture31)
+    {
+        var cut = fixture31.GetComponentUnderTest<SfChart>();
+        await Task.Delay(200);
+        var firstlabel = cut.Find("#container2_AxisLabel_0");
+        Assert.True(firstlabel.TextContent == "24\n    ");
+        var secondlabel = cut.Find("#container2_AxisLabel_1");
+        Assert.True(secondlabel.TextContent == "26\n    ");
+        Assert.True(Convert.ToDouble(firstlabel.GetAttribute("y")) < (Convert.ToDouble(secondlabel.GetAttribute("y"))));
+    }
+    public class SalesInfo11
+    {
+        public string x { get; set; }
+        public double y { get; set; }
+        public double y1 { get; set; }
+    }
+    public List<SalesInfo11> chartdata11 = new List<SalesInfo11>
+{
+        new SalesInfo11{x = "Jan", y = 15, y1 = 33}
+    };
+}
+
+
+@{
+    var InitialGroup32 = (new string[] { "CustomerID", "OrderID" });
+}
+
+<SfFixture @ref="fixture32" TestAsync="CheckingWithMultiplePanes" Description="CheckingWithMultiplePanes">
+    <ComponentUnderTest>
+        <SfChart ID="container" Width="400">
+            <ChartRows>
+                <ChartRow Height="50%"></ChartRow>
+                <ChartRow Height="50%"></ChartRow>
+            </ChartRows>
+            <ChartAxes>
+                <ChartAxis RowIndex="1" OpposedPosition="true" Minimum="24" Maximum="36" Interval="2" IsInversed="true" Name="yAxis" Title="Temperature (Celsius)"></ChartAxis>
+            </ChartAxes>
+            <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Toolkit.ValueType.Category" Title="pyXAxis">
+                <ChartAxisMinorGridLines Width="8"></ChartAxisMinorGridLines>
+                <ChartAxisMinorTickLines Width="8"></ChartAxisMinorTickLines>
+            </ChartPrimaryXAxis>
+            <ChartPrimaryYAxis RangePadding="ChartRangePadding.Normal" ValueType="Syncfusion.Blazor.Toolkit.ValueType.Double" IsInversed="true">
+            </ChartPrimaryYAxis>
+            <ChartSeriesCollection>
+                <ChartSeries DataSource="@chartdata12" XName="x" YName="y" Name="Germany">
+                    <ChartSeriesAnimation Enable="false"></ChartSeriesAnimation>
+                    <ChartMarker Visible="true"></ChartMarker>
+                </ChartSeries>
+                <ChartSeries DataSource="@chartdata12" XName="x" YName="y1" Name="Japan" YAxisName="yAxis">
+                    <ChartSeriesAnimation Enable="false"></ChartSeriesAnimation>
+                    <ChartMarker Visible="true"></ChartMarker>
+                </ChartSeries>
+            </ChartSeriesCollection>
+        </SfChart>
+    </ComponentUnderTest>
+</SfFixture>
+
+
+@code {
+
+    SfFixture fixture32 { get; set; }
+    async Task CheckingWithMultiplePanes(Fixture fixture32)
+    {
+        var cut = fixture32.GetComponentUnderTest<SfChart>();
+        await Task.Delay(200);
+        var firstlabel = cut.Find("#container2_AxisLabel_0");
+        Assert.True(firstlabel.TextContent == "24\n    ");
+        var secondlabel = cut.Find("#container2_AxisLabel_1");
+        Assert.True(secondlabel.TextContent == "26\n    ");
+        Assert.True(Convert.ToDouble(firstlabel.GetAttribute("y")) < (Convert.ToDouble(secondlabel.GetAttribute("y"))));
+    }
+    public class SalesInfo12
+    {
+        public string x { get; set; }
+        public double y { get; set; }
+        public double y1 { get; set; }
+    }
+    public List<SalesInfo12> chartdata12 = new List<SalesInfo12>
+{
+        new SalesInfo12{x = "Jan", y = 15, y1 = 33}
+    };
+}
+
+
+
+@{
+    var InitialGroup33 = (new string[] { "CustomerID", "OrderID" });
+}
+
+<SfFixture @ref="fixture33" TestAsync="CheckingWithTrimandTooltip" Description="CheckingWithTrimandTooltip">
+    <ComponentUnderTest>
+        <SfChart ID="container" Width="300" Height="350">
+            <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Toolkit.ValueType.Category" LabelIntersectAction="LabelIntersectAction.Trim" LabelPlacement="LabelPlacement.BetweenTicks">
+            </ChartPrimaryXAxis>
+            <ChartSeriesCollection>
+                <ChartSeries DataSource="@chartdata13" XName="x" YName="y" Name="Series1" Type="ChartSeriesType.Scatter">
+                    <ChartSeriesAnimation Enable="false"></ChartSeriesAnimation>
+                    <ChartMarker Visible="true"></ChartMarker>
+                    <ChartSeriesBorder Width="1" Color="White"></ChartSeriesBorder>
+                </ChartSeries>
+            </ChartSeriesCollection>
+        </SfChart>
+    </ComponentUnderTest>
+</SfFixture>
+
+
+@code {
+
+    SfFixture fixture33 { get; set; }
+    async Task CheckingWithTrimandTooltip(Fixture fixture33)
+    {
+        var cut = fixture33.GetComponentUnderTest<SfChart>();
+        await Task.Delay(200);
+        var firstlabel = cut.Find("#container1_AxisLabel_0");
+        Assert.True(firstlabel.TextContent == "USA...\n    ");
+
+    }
+    public class SalesInfo13
+    {
+        public string x { get; set; }
+        public double y { get; set; }
+
+    }
+    public List<SalesInfo13> chartdata13 = new List<SalesInfo13>
+{
+        new SalesInfo13{x = "USAfas dqwasd saasdf", y = 50},
+        new SalesInfo13{x = "Chin afsdfssa", y = 40},
+        new SalesInfo13{x = "Japan safds afds", y = 70},
+        new SalesInfo13{x = "Aust rali af dsasfas fasdfasd", y = 60},
+        new SalesInfo13{x = "Fra nce fasf sdfds", y = 50},
+        new SalesInfo13{x = "Germ any asdas s", y = 40},
+        new SalesInfo13{x = "Ita ly fs adfsad", y = 40},
+        new SalesInfo13{x = "Swed en", y = 30}
+    };
+}
+
+
+
+@{
+    var InitialGroup34 = (new string[] { "CustomerID", "OrderID" });
+}
+
+<SfFixture @ref="fixture34" TestAsync="CheckingWithMultipleRows" Description="CheckingWithMultipleRows">
+    <ComponentUnderTest>
+        <SfChart ID="container" Width="300" Height="350">
+            <ChartPrimaryXAxis EnableTrim="false" ValueType="Syncfusion.Blazor.Toolkit.ValueType.Category" LabelIntersectAction="LabelIntersectAction.MultipleRows" MaximumLabelWidth="34" LabelPlacement="LabelPlacement.BetweenTicks">
+            </ChartPrimaryXAxis>
+            <ChartSeriesCollection>
+                <ChartSeries DataSource="@chartdata14" XName="x" YName="y" Name="Series1" Type="ChartSeriesType.Scatter">
+                    <ChartSeriesAnimation Enable="false"></ChartSeriesAnimation>
+                    <ChartMarker Visible="true"></ChartMarker>
+                    <ChartSeriesBorder Width="1" Color="White"></ChartSeriesBorder>
+                </ChartSeries>
+            </ChartSeriesCollection>
+        </SfChart>
+    </ComponentUnderTest>
+</SfFixture>
+
+
+@code {
+
+    SfFixture fixture34 { get; set; }
+    async Task CheckingWithMultipleRows(Fixture fixture34)
+    {
+        var cut = fixture34.GetComponentUnderTest<SfChart>();
+        await Task.Delay(200);
+        var text = cut.Find("#container0_AxisLabel_0");
+        var text1 = cut.Find("#container0_AxisLabel_1");
+        Assert.True(Convert.ToDouble(text1.GetAttribute("y")) < (Convert.ToDouble(text.GetAttribute("y"))));
+        var text4 = cut.Find("#container0_AxisLabel_4");
+        var height = cut.Find("#container_ChartAreaBorder");
+        Assert.True(Convert.ToDouble(height.GetAttribute("height")) < 250);
+    }
+    public class SalesInfo14
+    {
+        public string x { get; set; }
+        public double y { get; set; }
+
+    }
+    public List<SalesInfo14> chartdata14 = new List<SalesInfo14>
+{
+        new SalesInfo14{x = "USAfas dqwasd saasdf", y = 50},
+        new SalesInfo14{x = "Chin afsdfssa", y = 40},
+        new SalesInfo14{x = "Japan safds afds", y = 70},
+        new SalesInfo14{x = "Aust rali af dsasfas fasdfasd", y = 60},
+        new SalesInfo14{x = "Fra nce fasf sdfds", y = 50},
+        new SalesInfo14{x = "Germ any asdas s", y = 40},
+        new SalesInfo14{x = "Ita ly fs adfsad", y = 40},
+        new SalesInfo14{x = "Swed en", y = 30}
+    };
+}
+
+
+@{
+    var InitialGroup35 = (new string[] { "CustomerID", "OrderID" });
+}
+
+<SfFixture @ref="fixture35" TestAsync="CheckingWithMultipleRowsWithLabelPositionInside" Description="CheckingWithMultipleRowsWithLabelPositionInside">
+    <ComponentUnderTest>
+        <SfChart ID="container" Width="300" Height="350">
+            <ChartPrimaryXAxis EnableTrim="false" ValueType="Syncfusion.Blazor.Toolkit.ValueType.Category" LabelIntersectAction="LabelIntersectAction.MultipleRows" MaximumLabelWidth="34" LabelPlacement="LabelPlacement.BetweenTicks" LabelPosition="AxisPosition.Inside">
+            </ChartPrimaryXAxis>
+            <ChartSeriesCollection>
+                <ChartSeries DataSource="@chartdata15" XName="x" YName="y" Name="Series1" Type="ChartSeriesType.Scatter">
+                    <ChartSeriesAnimation Enable="false"></ChartSeriesAnimation>
+                    <ChartMarker Visible="true"></ChartMarker>
+                    <ChartSeriesBorder Width="1" Color="White"></ChartSeriesBorder>
+                </ChartSeries>
+            </ChartSeriesCollection>
+        </SfChart>
+    </ComponentUnderTest>
+</SfFixture>
+
+
+@code {
+
+    SfFixture fixture35 { get; set; }
+    async Task CheckingWithMultipleRowsWithLabelPositionInside(Fixture fixture35)
+    {
+        var cut = fixture35.GetComponentUnderTest<SfChart>();
+        await Task.Delay(200);
+        var text = cut.Find("#container0_AxisLabel_0");
+        var text1 = cut.Find("#container0_AxisLabel_1");
+        Assert.True(Convert.ToDouble(text1.GetAttribute("y")) < (Convert.ToDouble(text.GetAttribute("y"))));
+        var text4 = cut.Find("#container0_AxisLabel_4");
+        var height = cut.Find("#container_ChartAreaBorder");
+        Assert.True(Convert.ToDouble(height.GetAttribute("height")) > 250);
+    }
+    public class SalesInfo15
+    {
+        public string x { get; set; }
+        public double y { get; set; }
+
+    }
+    public List<SalesInfo15> chartdata15 = new List<SalesInfo15>
+{
+        new SalesInfo15{x = "USAfas dqwasd saasdf", y = 50},
+        new SalesInfo15{x = "Chin afsdfssa", y = 40},
+        new SalesInfo15{x = "Japan safds afds", y = 70},
+        new SalesInfo15{x = "Aust rali af dsasfas fasdfasd", y = 60},
+        new SalesInfo15{x = "Fra nce fasf sdfds", y = 50},
+        new SalesInfo15{x = "Germ any asdas s", y = 40},
+        new SalesInfo15{x = "Ita ly fs adfsad", y = 40},
+        new SalesInfo15{x = "Swed en", y = 30}
+    };
+}
+
+
+
+@{
+    var InitialGroup36 = (new string[] { "CustomerID", "OrderID" });
+}
+
+<SfFixture @ref="fixture36" TestAsync="CheckingWithMultipleRowsWithOpposed" Description="CheckingWithMultipleRowsWithOpposed">
+    <ComponentUnderTest>
+        <SfChart ID="container" Width="300" Height="350">
+            <ChartPrimaryXAxis EnableTrim="false" ValueType="Syncfusion.Blazor.Toolkit.ValueType.Category" LabelIntersectAction="LabelIntersectAction.MultipleRows" MaximumLabelWidth="34" OpposedPosition="true" LabelPlacement="LabelPlacement.BetweenTicks" LabelPosition="AxisPosition.Outside">
+            </ChartPrimaryXAxis>
+            <ChartSeriesCollection>
+                <ChartSeries DataSource="@chartdata16" XName="x" YName="y" Name="Series1" Type="ChartSeriesType.Scatter">
+                    <ChartSeriesAnimation Enable="false"></ChartSeriesAnimation>
+                    <ChartMarker Visible="true"></ChartMarker>
+                    <ChartSeriesBorder Width="1" Color="White"></ChartSeriesBorder>
+                </ChartSeries>
+            </ChartSeriesCollection>
+        </SfChart>
+    </ComponentUnderTest>
+</SfFixture>
+
+
+@code {
+
+    SfFixture fixture36 { get; set; }
+    async Task CheckingWithMultipleRowsWithOpposed(Fixture fixture36)
+    {
+        var cut = fixture36.GetComponentUnderTest<SfChart>();
+        await Task.Delay(200);
+        var text = cut.Find("#container0_AxisLabel_0");
+        var text1 = cut.Find("#container0_AxisLabel_1");
+        Assert.True(Convert.ToDouble(text1.GetAttribute("y")) < (Convert.ToDouble(text.GetAttribute("y"))));
+        var border = cut.Find("#container_ChartAreaBorder");
+        Assert.True(Convert.ToDouble(border.GetAttribute("y")) > 50);
+    }
+    public class SalesInfo16
+    {
+        public string x { get; set; }
+        public double y { get; set; }
+
+    }
+    public List<SalesInfo16> chartdata16 = new List<SalesInfo16>
+{
+        new SalesInfo16{x = "USAfas dqwasd saasdf", y = 50},
+        new SalesInfo16{x = "Chin afsdfssa", y = 40},
+        new SalesInfo16{x = "Japan safds afds", y = 70},
+        new SalesInfo16{x = "Aust rali af dsasfas fasdfasd", y = 60},
+        new SalesInfo16{x = "Fra nce fasf sdfds", y = 50},
+        new SalesInfo16{x = "Germ any asdas s", y = 40},
+        new SalesInfo16{x = "Ita ly fs adfsad", y = 40},
+        new SalesInfo16{x = "Swed en", y = 30}
+    };
+}
+
+
+
+@{
+    var InitialGroup37 = (new string[] { "CustomerID", "OrderID" });
+}
+
+<SfFixture @ref="fixture37" TestAsync="CheckingWithWraps" Description="CheckingWithWraps">
+    <ComponentUnderTest>
+        <SfChart ID="container" Width="300" Height="350">
+            <ChartPrimaryXAxis EnableTrim="false" ValueType="Syncfusion.Blazor.Toolkit.ValueType.Category" LabelIntersectAction="LabelIntersectAction.Wrap" MaximumLabelWidth="34" OpposedPosition="false" LabelPlacement="LabelPlacement.BetweenTicks" LabelPosition="AxisPosition.Outside">
+            </ChartPrimaryXAxis>
+            <ChartSeriesCollection>
+                <ChartSeries DataSource="@chartdata17" XName="x" YName="y" Name="Series1" Type="ChartSeriesType.Scatter">
+                    <ChartSeriesAnimation Enable="false"></ChartSeriesAnimation>
+                    <ChartMarker Visible="true"></ChartMarker>
+                    <ChartSeriesBorder Width="1" Color="White"></ChartSeriesBorder>
+                </ChartSeries>
+            </ChartSeriesCollection>
+        </SfChart>
+    </ComponentUnderTest>
+</SfFixture>
+
+
+@code {
+
+    SfFixture fixture37 { get; set; }
+    async Task CheckingWithWraps(Fixture fixture37)
+    {
+        var cut = fixture37.GetComponentUnderTest<SfChart>();
+        await Task.Delay(200);
+        var text = cut.Find("#container0_AxisLabel_0");
+        Assert.True(text.ChildNodes.Length == 1);
+        var text1 = cut.Find("#container0_AxisLabel_4");
+        Assert.True(text1.ChildNodes.Length == 1);
+    }
+    public class SalesInfo17
+    {
+        public string x { get; set; }
+        public double y { get; set; }
+
+    }
+    public List<SalesInfo17> chartdata17 = new List<SalesInfo17>
+{
+        new SalesInfo17{x = "USAfas dqwasd saasdf", y = 50},
+        new SalesInfo17{x = "Chin afsdfssa", y = 40},
+        new SalesInfo17{x = "Japan safds afds", y = 70},
+        new SalesInfo17{x = "Aust rali af dsasfas fasdfasd", y = 60},
+        new SalesInfo17{x = "Fra nce fasf sdfds", y = 50},
+        new SalesInfo17{x = "Germ any asdas s", y = 40},
+        new SalesInfo17{x = "Ita ly fs adfsad", y = 40},
+        new SalesInfo17{x = "Swed en", y = 30}
+    };
+}
+
+
+
+@{
+    var InitialGroup38 = (new string[] { "CustomerID", "OrderID" });
+}
+
+<SfFixture @ref="fixture38" TestAsync="CheckingWithWrapsWithLabelInside" Description="CheckingWithWrapsWithLabelInside">
+    <ComponentUnderTest>
+        <SfChart ID="container" Width="300" Height="350">
+            <ChartPrimaryXAxis EnableTrim="false" ValueType="Syncfusion.Blazor.Toolkit.ValueType.Category" LabelIntersectAction="LabelIntersectAction.Wrap" MaximumLabelWidth="34" OpposedPosition="false" LabelPlacement="LabelPlacement.BetweenTicks" LabelPosition="AxisPosition.Inside">
+            </ChartPrimaryXAxis>
+            <ChartSeriesCollection>
+                <ChartSeries DataSource="@chartdata18" XName="x" YName="y" Name="Series1" Type="ChartSeriesType.Scatter">
+                    <ChartSeriesAnimation Enable="false"></ChartSeriesAnimation>
+                    <ChartMarker Visible="true"></ChartMarker>
+                    <ChartSeriesBorder Width="1" Color="White"></ChartSeriesBorder>
+                </ChartSeries>
+            </ChartSeriesCollection>
+        </SfChart>
+    </ComponentUnderTest>
+</SfFixture>
+
+
+@code {
+
+    SfFixture fixture38 { get; set; }
+    async Task CheckingWithWrapsWithLabelInside(Fixture fixture38)
+    {
+        var cut = fixture38.GetComponentUnderTest<SfChart>();
+        await Task.Delay(200);
+        var text = cut.Find("#container0_AxisLabel_0");
+        Assert.True(text.ChildNodes.Length == 1);
+        var text1 = cut.Find("#container0_AxisLabel_4");
+        Assert.True(text1.ChildNodes.Length == 1);
+        var axis = cut.Find("#containerAxisLine_0");
+    }
+    public class SalesInfo18
+    {
+        public string x { get; set; }
+        public double y { get; set; }
+
+    }
+    public List<SalesInfo18> chartdata18 = new List<SalesInfo18>
+{
+        new SalesInfo18{x = "USAfas dqwasd saasdf", y = 50},
+        new SalesInfo18{x = "Chin afsdfssa", y = 40},
+        new SalesInfo18{x = "Japan safds afds", y = 70},
+        new SalesInfo18{x = "Aust rali af dsasfas fasdfasd", y = 60},
+        new SalesInfo18{x = "Fra nce fasf sdfds", y = 50},
+        new SalesInfo18{x = "Germ any asdas s", y = 40},
+        new SalesInfo18{x = "Ita ly fs adfsad", y = 40},
+        new SalesInfo18{x = "Swed en", y = 30}
+    };
+}
+
+
+
+@{
+    var InitialGroup39 = (new string[] { "CustomerID", "OrderID" });
+}
+
+<SfFixture @ref="fixture39" TestAsync="CheckingWrapsWithOpposed" Description="CheckingWrapsWithOpposed">
+    <ComponentUnderTest>
+        <SfChart ID="container" Width="300" Height="350">
+            <ChartPrimaryXAxis EnableTrim="false" ValueType="Syncfusion.Blazor.Toolkit.ValueType.Category" LabelIntersectAction="LabelIntersectAction.Wrap" MaximumLabelWidth="34" OpposedPosition="true" LabelPlacement="LabelPlacement.BetweenTicks" LabelPosition="AxisPosition.Outside">
+            </ChartPrimaryXAxis>
+            <ChartSeriesCollection>
+                <ChartSeries DataSource="@chartdata19" XName="x" YName="y" Name="Series1" Type="ChartSeriesType.Scatter">
+                    <ChartSeriesAnimation Enable="false"></ChartSeriesAnimation>
+                    <ChartMarker Visible="true"></ChartMarker>
+                    <ChartSeriesBorder Width="1" Color="White"></ChartSeriesBorder>
+                </ChartSeries>
+            </ChartSeriesCollection>
+        </SfChart>
+    </ComponentUnderTest>
+</SfFixture>
+
+
+@code {
+
+    SfFixture fixture39 { get; set; }
+    async Task CheckingWrapsWithOpposed(Fixture fixture39)
+    {
+        var cut = fixture39.GetComponentUnderTest<SfChart>();
+        await Task.Delay(200);
+        var text = cut.Find("#container0_AxisLabel_0");
+        Assert.True(text.ChildNodes.Length == 1);
+        var text1 = cut.Find("#container0_AxisLabel_4");
+        Assert.True(text1.ChildNodes.Length == 1);
+    }
+    public class SalesInfo19
+    {
+        public string x { get; set; }
+        public double y { get; set; }
+
+    }
+    public List<SalesInfo19> chartdata19 = new List<SalesInfo19>
+{
+        new SalesInfo19{x = "USAfas dqwasd saasdf", y = 50},
+        new SalesInfo19{x = "Chin afsdfssa", y = 40},
+        new SalesInfo19{x = "Japan safds afds", y = 70},
+        new SalesInfo19{x = "Aust rali af dsasfas fasdfasd", y = 60},
+        new SalesInfo19{x = "Fra nce fasf sdfds", y = 50},
+        new SalesInfo19{x = "Germ any asdas s", y = 40},
+        new SalesInfo19{x = "Ita ly fs adfsad", y = 40},
+        new SalesInfo19{x = "Swed en", y = 30}
+    };
+}
+
+
+
+@{
+    var InitialGroup40 = (new string[] { "CustomerID", "OrderID" });
+}
+
+<SfFixture @ref="fixture40" TestAsync="CheckingMultipleRowsWithInversed" Description="CheckingMultipleRowsWithInversed">
+    <ComponentUnderTest>
+        <SfChart ID="container" Width="300" Height="350">
+            <ChartPrimaryXAxis EnableTrim="false" ValueType="Syncfusion.Blazor.Toolkit.ValueType.Category" LabelIntersectAction="LabelIntersectAction.MultipleRows" IsInversed="true" MaximumLabelWidth="34" OpposedPosition="true" LabelPlacement="LabelPlacement.BetweenTicks" LabelPosition="AxisPosition.Outside">
+            </ChartPrimaryXAxis>
+            <ChartSeriesCollection>
+                <ChartSeries DataSource="@chartdata20" XName="x" YName="y" Name="Series1" Type="ChartSeriesType.Scatter">
+                    <ChartSeriesAnimation Enable="false"></ChartSeriesAnimation>
+                    <ChartMarker Visible="true"></ChartMarker>
+                    <ChartSeriesBorder Width="1" Color="White"></ChartSeriesBorder>
+                </ChartSeries>
+            </ChartSeriesCollection>
+        </SfChart>
+    </ComponentUnderTest>
+</SfFixture>
+
+
+@code {
+
+    SfFixture fixture40 { get; set; }
+    async Task CheckingMultipleRowsWithInversed(Fixture fixture40)
+    {
+        var cut = fixture40.GetComponentUnderTest<SfChart>();
+        await Task.Delay(200);
+        var text = cut.Find("#container0_AxisLabel_0");
+        var text1 = cut.Find("#container0_AxisLabel_1");
+        Assert.True(Convert.ToDouble(text1.GetAttribute("y")) < (Convert.ToDouble(text.GetAttribute("y"))));
+        var text4 = cut.Find("#container0_AxisLabel_4");
+        var height = cut.Find("#container_ChartAreaBorder");
+        Assert.True(Convert.ToDouble(height.GetAttribute("height")) < 250);
+        cut.SetParametersAndRender();
+    }
+    public class SalesInfo20
+    {
+        public string x { get; set; }
+        public double y { get; set; }
+
+    }
+    public List<SalesInfo20> chartdata20 = new List<SalesInfo20>
+{
+        new SalesInfo20{x = "USAfas dqwasd saasdf", y = 50},
+        new SalesInfo20{x = "Chin afsdfssa", y = 40},
+        new SalesInfo20{x = "Japan safds afds", y = 70},
+        new SalesInfo20{x = "Aust rali af dsasfas fasdfasd", y = 60},
+        new SalesInfo20{x = "Fra nce fasf sdfds", y = 50},
+        new SalesInfo20{x = "Germ any asdas s", y = 40},
+        new SalesInfo20{x = "Ita ly fs adfsad", y = 40},
+        new SalesInfo20{x = "Swed en", y = 30}
+    };
+}
+
+
+
+@{
+    var InitialGroup41 = (new string[] { "CustomerID", "OrderID" });
+}
+
+<SfFixture @ref="fixture41" TestAsync="CheckingWithTrimAndTooltip1" Description="CheckingWithTrimAndTooltip1">
+    <ComponentUnderTest>
+        <SfChart ID="container" Width="400">
+            <ChartPrimaryXAxis EnableTrim="false" ValueType="Syncfusion.Blazor.Toolkit.ValueType.Category" LabelIntersectAction="LabelIntersectAction.Trim" IsInversed="true" MaximumLabelWidth="34" OpposedPosition="false" LabelPlacement="LabelPlacement.BetweenTicks" LabelPosition="AxisPosition.Outside">
+            </ChartPrimaryXAxis>
+            <ChartSeriesCollection>
+                <ChartSeries DataSource="@chartdata21" XName="x" YName="y" Name="Series1" Type="ChartSeriesType.Scatter">
+                    <ChartSeriesAnimation Enable="false"></ChartSeriesAnimation>
+                    <ChartMarker Visible="true"></ChartMarker>
+                    <ChartSeriesBorder Width="1" Color="White"></ChartSeriesBorder>
+                </ChartSeries>
+            </ChartSeriesCollection>
+        </SfChart>
+    </ComponentUnderTest>
+</SfFixture>
+
+
+@code {
+
+    SfFixture fixture41 { get; set; }
+    async Task CheckingWithTrimAndTooltip1(Fixture fixture41)
+    {
+        var cut = fixture41.GetComponentUnderTest<SfChart>();
+        await Task.Delay(200);
+        var text = cut.Find("#container0_AxisLabel_0");
+        Assert.True(Convert.ToDouble(text.GetAttribute("height")) < 250);
+        cut.SetParametersAndRender();
+    }
+    public class SalesInfo21
+    {
+        public string x { get; set; }
+        public double y { get; set; }
+
+    }
+    public List<SalesInfo21> chartdata21 = new List<SalesInfo21>
+{
+        new SalesInfo21{x = "USAfas dqwasd saasdf", y = 50},
+        new SalesInfo21{x = "Chin afsdfssa", y = 40},
+        new SalesInfo21{x = "Japan safds afds", y = 70},
+        new SalesInfo21{x = "Aust rali af dsasfas fasdfasd", y = 60},
+        new SalesInfo21{x = "Fra nce fasf sdfds", y = 50},
+        new SalesInfo21{x = "Germ any asdas s", y = 40},
+        new SalesInfo21{x = "Ita ly fs adfsad", y = 40},
+        new SalesInfo21{x = "Swed en", y = 30},
+        new SalesInfo21{x = "Italyians", y = 40},
+        new SalesInfo21{x = "Sweden", y = 30},
+        new SalesInfo21{x = "South Africa", y = 40},
+        new SalesInfo21{x = "Sweden1", y = 30}
+    };
+}
+
+
+
+@{
+    var InitialGroup42 = (new string[] { "CustomerID", "OrderID" });
+}
+
+<SfFixture @ref="fixture42" TestAsync="CheckingWithTrimToBeTrue" Description="CheckingWithTrimToBeTrue">
+    <ComponentUnderTest>
+        <SfChart ID="container" Width="400">
+            <ChartPrimaryXAxis EnableTrim="true" ValueType="Syncfusion.Blazor.Toolkit.ValueType.Category" LabelIntersectAction="LabelIntersectAction.Trim" IsInversed="true" MaximumLabelWidth="34" OpposedPosition="false" LabelPlacement="LabelPlacement.BetweenTicks" LabelPosition="AxisPosition.Outside">
+            </ChartPrimaryXAxis>
+            <ChartSeriesCollection>
+                <ChartSeries DataSource="@chartdata22" XName="x" YName="y" Name="Series1" Type="ChartSeriesType.Scatter">
+                    <ChartSeriesAnimation Enable="false"></ChartSeriesAnimation>
+                    <ChartMarker Visible="true"></ChartMarker>
+                    <ChartSeriesBorder Width="1" Color="White"></ChartSeriesBorder>
+                </ChartSeries>
+            </ChartSeriesCollection>
+        </SfChart>
+    </ComponentUnderTest>
+</SfFixture>
+
+
+@code {
+
+    SfFixture fixture42 { get; set; }
+    async Task CheckingWithTrimToBeTrue(Fixture fixture42)
+    {
+        var cut = fixture42.GetComponentUnderTest<SfChart>();
+        await Task.Delay(200);
+        var text = cut.Find("#container0_AxisLabel_0");
+        Assert.True(text.TextContent.IndexOf("...") < 1);
+        Assert.True(text.TextContent.Split("...").Length == 1);
+        cut.SetParametersAndRender();
+    }
+    public class SalesInfo22
+    {
+        public string x { get; set; }
+        public double y { get; set; }
+
+    }
+    public List<SalesInfo22> chartdata22 = new List<SalesInfo22>
+{
+        new SalesInfo22{x = "USAfas dqwasd saasdf", y = 50},
+        new SalesInfo22{x = "Chin afsdfssa", y = 40},
+        new SalesInfo22{x = "Japan safds afds", y = 70},
+        new SalesInfo22{x = "Aust rali af dsasfas fasdfasd", y = 60},
+        new SalesInfo22{x = "Fra nce fasf sdfds", y = 50},
+        new SalesInfo22{x = "Germ any asdas s", y = 40},
+        new SalesInfo22{x = "Ita ly fs adfsad", y = 40},
+        new SalesInfo22{x = "Swed en", y = 30},
+        new SalesInfo22{x = "Italyians", y = 40},
+        new SalesInfo22{x = "Sweden", y = 30},
+        new SalesInfo22{x = "South Africa", y = 40},
+        new SalesInfo22{x = "Sweden1", y = 30}
+    };
+}
+
+
+
+@{
+    var InitialGroup43 = (new string[] { "CustomerID", "OrderID" });
+}
+
+<SfFixture @ref="fixture43" TestAsync="CheckingTheLabelRotation" Description="CheckingTheLabelRotation">
+    <ComponentUnderTest>
+        <SfChart ID="container" Width="400">
+            <ChartPrimaryXAxis EnableTrim="true" ValueType="Syncfusion.Blazor.Toolkit.ValueType.Category" LabelRotation="45" LabelIntersectAction="LabelIntersectAction.Trim" IsInversed="true" MaximumLabelWidth="34" OpposedPosition="false" LabelPlacement="LabelPlacement.BetweenTicks" LabelPosition="AxisPosition.Outside">
+            </ChartPrimaryXAxis>
+            <ChartSeriesCollection>
+                <ChartSeries DataSource="@chartdata23" XName="x" YName="y" Name="Series1" Type="ChartSeriesType.Scatter">
+                    <ChartSeriesAnimation Enable="false"></ChartSeriesAnimation>
+                    <ChartMarker Visible="true"></ChartMarker>
+                    <ChartSeriesBorder Width="1" Color="White"></ChartSeriesBorder>
+                </ChartSeries>
+            </ChartSeriesCollection>
+        </SfChart>
+    </ComponentUnderTest>
+</SfFixture>
+
+
+@code {
+
+    SfFixture fixture43 { get; set; }
+    async Task CheckingTheLabelRotation(Fixture fixture43)
+    {
+        var cut = fixture43.GetComponentUnderTest<SfChart>();
+        await Task.Delay(200);
+        var text = cut.Find("#container0_AxisLabel_0");
+        Assert.True(text.GetAttribute("transform") == "");
+        cut.SetParametersAndRender();
+    }
+    public class SalesInfo23
+    {
+        public string x { get; set; }
+        public double y { get; set; }
+
+    }
+    public List<SalesInfo23> chartdata23 = new List<SalesInfo23>
+{
+        new SalesInfo23{x = "USAfas dqwasd saasdf", y = 50},
+        new SalesInfo23{x = "Chin afsdfssa", y = 40},
+        new SalesInfo23{x = "Japan safds afds", y = 70},
+        new SalesInfo23{x = "Aust rali af dsasfas fasdfasd", y = 60},
+        new SalesInfo23{x = "Fra nce fasf sdfds", y = 50},
+        new SalesInfo23{x = "Germ any asdas s", y = 40},
+        new SalesInfo23{x = "Ita ly fs adfsad", y = 40},
+        new SalesInfo23{x = "Swed en", y = 30},
+        new SalesInfo23{x = "Italyians", y = 40},
+        new SalesInfo23{x = "Sweden", y = 30},
+        new SalesInfo23{x = "South Africa", y = 40},
+        new SalesInfo23{x = "Sweden1", y = 30}
+    };
+}
+
+
+@{
+    var InitialGroup44 = (new string[] { "CustomerID", "OrderID" });
+}
+
+<SfFixture @ref="fixture44" TestAsync="CheckingEnableTrimWithLabelRotation" Description="CheckingEnableTrimWithLabelRotation">
+    <ComponentUnderTest>
+        <SfChart ID="container" Width="400">
+            <ChartPrimaryXAxis EnableTrim="true" ValueType="Syncfusion.Blazor.Toolkit.ValueType.Category" LabelRotation="45" LabelIntersectAction="LabelIntersectAction.Trim" IsInversed="true" MaximumLabelWidth="34" OpposedPosition="false" LabelPlacement="LabelPlacement.BetweenTicks" LabelPosition="AxisPosition.Outside">
+            </ChartPrimaryXAxis>
+            <ChartSeriesCollection>
+                <ChartSeries DataSource="@chartdata24" XName="x" YName="y" Name="Series1" Type="ChartSeriesType.Scatter">
+                    <ChartSeriesAnimation Enable="false"></ChartSeriesAnimation>
+                    <ChartMarker Visible="true"></ChartMarker>
+                    <ChartSeriesBorder Width="1" Color="White"></ChartSeriesBorder>
+                </ChartSeries>
+            </ChartSeriesCollection>
+        </SfChart>
+    </ComponentUnderTest>
+</SfFixture>
+
+
+@code {
+
+    SfFixture fixture44 { get; set; }
+    async Task CheckingEnableTrimWithLabelRotation(Fixture fixture44)
+    {
+        var cut = fixture44.GetComponentUnderTest<SfChart>();
+        await Task.Delay(200);
+        var text = cut.Find("#container0_AxisLabel_0");
+        Assert.True(text.GetAttribute("transform") == "");
+        cut.SetParametersAndRender();
+    }
+    public class SalesInfo24
+    {
+        public string x { get; set; }
+        public double y { get; set; }
+
+    }
+    public List<SalesInfo24> chartdata24 = new List<SalesInfo24>
+{
+        new SalesInfo24{x = "USAfas dqwasd saasdf", y = 50},
+        new SalesInfo24{x = "Chin afsdfssa", y = 40},
+        new SalesInfo24{x = "Japan safds afds", y = 70},
+        new SalesInfo24{x = "Aust rali af dsasfas fasdfasd", y = 60},
+        new SalesInfo24{x = "Fra nce fasf sdfds", y = 50},
+        new SalesInfo24{x = "Germ any asdas s", y = 40},
+        new SalesInfo24{x = "Ita ly fs adfsad", y = 40},
+        new SalesInfo24{x = "Swed en", y = 30},
+        new SalesInfo24{x = "Italyians", y = 40},
+        new SalesInfo24{x = "Sweden", y = 30},
+        new SalesInfo24{x = "South Africa", y = 40},
+        new SalesInfo24{x = "Sweden1", y = 30}
+    };
+}
+
+
+
+@{
+    var InitialGroup45 = (new string[] { "CustomerID", "OrderID" });
+}
+
+<SfFixture @ref="fixture45" TestAsync="CheckingEnableTrimWithLabelPositionInside" Description="CheckingEnableTrimWithLabelPositionInside">
+    <ComponentUnderTest>
+        <SfChart ID="container" Width="400">
+            <ChartPrimaryXAxis Title="PrimaryXAxis" EnableTrim="true" ValueType="Syncfusion.Blazor.Toolkit.ValueType.Category" LabelRotation="0" LabelIntersectAction="LabelIntersectAction.Trim" IsInversed="true" MaximumLabelWidth="34" OpposedPosition="false" LabelPlacement="LabelPlacement.BetweenTicks" RangePadding="ChartRangePadding.Additional" LabelPosition="AxisPosition.Inside">
+            </ChartPrimaryXAxis>
+            <ChartSeriesCollection>
+                <ChartSeries DataSource="@chartdata25" XName="x" YName="y" Name="Series1" Type="ChartSeriesType.Scatter">
+                    <ChartSeriesAnimation Enable="false"></ChartSeriesAnimation>
+                    <ChartMarker Visible="true"></ChartMarker>
+                    <ChartSeriesBorder Width="1" Color="White"></ChartSeriesBorder>
+                </ChartSeries>
+            </ChartSeriesCollection>
+        </SfChart>
+    </ComponentUnderTest>
+</SfFixture>
+
+
+@code {
+
+    SfFixture fixture45 { get; set; }
+    async Task CheckingEnableTrimWithLabelPositionInside(Fixture fixture45)
+    {
+        var cut = fixture45.GetComponentUnderTest<SfChart>();
+        await Task.Delay(200);
+        var text = cut.Find("#container0_AxisLabel_0");
+        Assert.True(text.TextContent.IndexOf("...") < 1);
+        Assert.True(text.TextContent.Split("...").Length == 1);
+        cut.SetParametersAndRender();
+    }
+    public class SalesInfo25
+    {
+        public string x { get; set; }
+        public double y { get; set; }
+
+    }
+    public List<SalesInfo25> chartdata25 = new List<SalesInfo25>
+{
+        new SalesInfo25{x = "USAfas dqwasd saasdf", y = 50},
+        new SalesInfo25{x = "Chin afsdfssa", y = 40},
+        new SalesInfo25{x = "Japan safds afds", y = 70},
+        new SalesInfo25{x = "Aust rali af dsasfas fasdfasd", y = 60},
+        new SalesInfo25{x = "Fra nce fasf sdfds", y = 50},
+        new SalesInfo25{x = "Germ any asdas s", y = 40},
+        new SalesInfo25{x = "Ita ly fs adfsad", y = 40},
+        new SalesInfo25{x = "Swed en", y = 30},
+        new SalesInfo25{x = "Italyians", y = 40},
+        new SalesInfo25{x = "Sweden", y = 30},
+        new SalesInfo25{x = "South Africa", y = 40},
+        new SalesInfo25{x = "Sweden1", y = 30}
+    };
+}
+
+
+
+@{
+    var InitialGroup46 = (new string[] { "CustomerID", "OrderID" });
+}
+
+<SfFixture @ref="fixture46" TestAsync="CheckingEnableTrimWithLabelPositionOutside" Description="CheckingEnableTrimWithLabelPositionOutside">
+    <ComponentUnderTest>
+        <SfChart ID="container" Width="400">
+            <ChartPrimaryXAxis Title="PrimaryXAxis" EnableTrim="true" ValueType="Syncfusion.Blazor.Toolkit.ValueType.Category" LabelRotation="0" LabelIntersectAction="LabelIntersectAction.Trim" IsInversed="true" MaximumLabelWidth="34" OpposedPosition="false" LabelPlacement="LabelPlacement.BetweenTicks" RangePadding="ChartRangePadding.Additional" LabelPosition="AxisPosition.Outside">
+            </ChartPrimaryXAxis>
+            <ChartSeriesCollection>
+                <ChartSeries DataSource="@chartdata26" XName="x" YName="y" Name="Series1" Type="ChartSeriesType.Scatter">
+                    <ChartSeriesAnimation Enable="false"></ChartSeriesAnimation>
+                    <ChartMarker Visible="true"></ChartMarker>
+                    <ChartSeriesBorder Width="1" Color="White"></ChartSeriesBorder>
+                </ChartSeries>
+            </ChartSeriesCollection>
+        </SfChart>
+    </ComponentUnderTest>
+</SfFixture>
+
+
+@code {
+
+    SfFixture fixture46 { get; set; }
+    async Task CheckingEnableTrimWithLabelPositionOutside(Fixture fixture46)
+    {
+        var cut = fixture46.GetComponentUnderTest<SfChart>();
+        await Task.Delay(200);
+        var text = cut.Find("#container0_AxisLabel_0");
+        Assert.True(text.TextContent.IndexOf("...") < 1);
+        Assert.True(text.TextContent.Split("...").Length == 1);
+        cut.SetParametersAndRender();
+    }
+    public class SalesInfo26
+    {
+        public string x { get; set; }
+        public double y { get; set; }
+
+    }
+    public List<SalesInfo26> chartdata26 = new List<SalesInfo26>
+{
+        new SalesInfo26{x = "USAfas dqwasd saasdf", y = 50},
+        new SalesInfo26{x = "Chin afsdfssa", y = 40},
+        new SalesInfo26{x = "Japan safds afds", y = 70},
+        new SalesInfo26{x = "Aust rali af dsasfas fasdfasd", y = 60},
+        new SalesInfo26{x = "Fra nce fasf sdfds", y = 50},
+        new SalesInfo26{x = "Germ any asdas s", y = 40},
+        new SalesInfo26{x = "Ita ly fs adfsad", y = 40},
+        new SalesInfo26{x = "Swed en", y = 30},
+        new SalesInfo26{x = "Italyians", y = 40},
+        new SalesInfo26{x = "Sweden", y = 30},
+        new SalesInfo26{x = "South Africa", y = 40},
+        new SalesInfo26{x = "Sweden1", y = 30}
+    };
+}
+
+
+
+@{
+    var InitialGroup47 = (new string[] { "CustomerID", "OrderID" });
+}
+
+<SfFixture @ref="fixture47" TestAsync="CheckingEnableTrimForLabelIntersectWrap" Description="CheckingEnableTrimForLabelIntersectWrap">
+    <ComponentUnderTest>
+        <SfChart ID="container" Width="400">
+            <ChartPrimaryXAxis Title="PrimaryXAxis" EnableTrim="true" ValueType="Syncfusion.Blazor.Toolkit.ValueType.Category" LabelRotation="0" LabelIntersectAction="LabelIntersectAction.Wrap" IsInversed="true" MaximumLabelWidth="34" OpposedPosition="false" LabelPlacement="LabelPlacement.BetweenTicks" RangePadding="ChartRangePadding.Additional" LabelPosition="AxisPosition.Outside">
+            </ChartPrimaryXAxis>
+            <ChartSeriesCollection>
+                <ChartSeries DataSource="@chartdata27" XName="x" YName="y" Name="Series1" Type="ChartSeriesType.Scatter">
+                    <ChartSeriesAnimation Enable="false"></ChartSeriesAnimation>
+                    <ChartMarker Visible="true"></ChartMarker>
+                    <ChartSeriesBorder Width="1" Color="White"></ChartSeriesBorder>
+                </ChartSeries>
+            </ChartSeriesCollection>
+        </SfChart>
+    </ComponentUnderTest>
+</SfFixture>
+
+
+@code {
+
+    SfFixture fixture47 { get; set; }
+    async Task CheckingEnableTrimForLabelIntersectWrap(Fixture fixture47)
+    {
+        var cut = fixture47.GetComponentUnderTest<SfChart>();
+        await Task.Delay(200);
+        var text = cut.Find("#container0_AxisLabel_0");
+        Assert.True(text.TextContent.IndexOf("...") < 1);
+        Assert.True(text.TextContent.Split("...").Length == 1);
+        cut.SetParametersAndRender();
+    }
+    public class SalesInfo27
+    {
+        public string x { get; set; }
+        public double y { get; set; }
+
+    }
+    public List<SalesInfo27> chartdata27 = new List<SalesInfo27>
+{
+        new SalesInfo27{x = "USAfas dqwasd saasdf", y = 50},
+        new SalesInfo27{x = "Chin afsdfssa", y = 40},
+        new SalesInfo27{x = "Japan safds afds", y = 70},
+        new SalesInfo27{x = "Aust rali af dsasfas fasdfasd", y = 60},
+        new SalesInfo27{x = "Fra nce fasf sdfds", y = 50},
+        new SalesInfo27{x = "Germ any asdas s", y = 40},
+        new SalesInfo27{x = "Ita ly fs adfsad", y = 40},
+        new SalesInfo27{x = "Swed en", y = 30},
+        new SalesInfo27{x = "Italyians", y = 40},
+        new SalesInfo27{x = "Sweden", y = 30},
+        new SalesInfo27{x = "South Africa", y = 40},
+        new SalesInfo27{x = "Sweden1", y = 30}
+    };
+}
+
+
+
+@{
+    var InitialGroup48 = (new string[] { "CustomerID", "OrderID" });
+}
+
+<SfFixture @ref="fixture48" TestAsync="CheckingEnableTrimForLabelIntersectMultipleRows" Description="CheckingEnableTrimForLabelIntersectMultipleRows">
+    <ComponentUnderTest>
+        <SfChart ID="container" Width="400">
+            <ChartPrimaryXAxis Title="PrimaryXAxis" EnableTrim="true" ValueType="Syncfusion.Blazor.Toolkit.ValueType.Category" LabelRotation="0" LabelIntersectAction="LabelIntersectAction.Wrap" IsInversed="true" MaximumLabelWidth="34" OpposedPosition="false" LabelPlacement="LabelPlacement.BetweenTicks" RangePadding="ChartRangePadding.Additional" LabelPosition="AxisPosition.Outside">
+            </ChartPrimaryXAxis>
+            <ChartSeriesCollection>
+                <ChartSeries DataSource="@chartdata28" XName="x" YName="y" Name="Series1" Type="ChartSeriesType.Scatter">
+                    <ChartSeriesAnimation Enable="false"></ChartSeriesAnimation>
+                    <ChartMarker Visible="true"></ChartMarker>
+                    <ChartSeriesBorder Width="1" Color="White"></ChartSeriesBorder>
+                </ChartSeries>
+            </ChartSeriesCollection>
+        </SfChart>
+    </ComponentUnderTest>
+</SfFixture>
+
+
+@code {
+
+    SfFixture fixture48 { get; set; }
+    async Task CheckingEnableTrimForLabelIntersectMultipleRows(Fixture fixture48)
+    {
+        var cut = fixture48.GetComponentUnderTest<SfChart>();
+        await Task.Delay(200);
+        var text = cut.Find("#container0_AxisLabel_0");
+        Assert.True(text.TextContent.IndexOf("...") < 1);
+        Assert.True(text.TextContent.Split("...").Length == 1);
+        cut.SetParametersAndRender();
+    }
+    public class SalesInfo28
+    {
+        public string x { get; set; }
+        public double y { get; set; }
+
+    }
+    public List<SalesInfo28> chartdata28 = new List<SalesInfo28>
+{
+        new SalesInfo28{x = "USAfas dqwasd saasdf", y = 50},
+        new SalesInfo28{x = "Chin afsdfssa", y = 40},
+        new SalesInfo28{x = "Japan safds afds", y = 70},
+        new SalesInfo28{x = "Aust rali af dsasfas fasdfasd", y = 60},
+        new SalesInfo28{x = "Fra nce fasf sdfds", y = 50},
+        new SalesInfo28{x = "Germ any asdas s", y = 40},
+        new SalesInfo28{x = "Ita ly fs adfsad", y = 40},
+        new SalesInfo28{x = "Swed en", y = 30},
+        new SalesInfo28{x = "Italyians", y = 40},
+        new SalesInfo28{x = "Sweden", y = 30},
+        new SalesInfo28{x = "South Africa", y = 40},
+        new SalesInfo28{x = "Sweden1", y = 30}
+    };
+}
+
+
+
+@{
+    var InitialGroup49 = (new string[] { "CustomerID", "OrderID" });
+}
+
+<SfFixture @ref="fixture49" TestAsync="CheckingMaximumLabelWidthProperty" Description="CheckingMaximumLabelWidthProperty">
+    <ComponentUnderTest>
+        <SfChart ID="container" Width="400">
+            <ChartPrimaryXAxis Title="PrimaryXAxis" EnableTrim="true" ValueType="Syncfusion.Blazor.Toolkit.ValueType.Category" LabelRotation="0" LabelIntersectAction="LabelIntersectAction.Wrap" IsInversed="true" MaximumLabelWidth="15" OpposedPosition="false" LabelPlacement="LabelPlacement.BetweenTicks" RangePadding="ChartRangePadding.Additional" LabelPosition="AxisPosition.Outside">
+            </ChartPrimaryXAxis>
+            <ChartSeriesCollection>
+                <ChartSeries DataSource="@chartdata29" XName="x" YName="y" Name="Series1" Type="ChartSeriesType.Scatter">
+                    <ChartSeriesAnimation Enable="false"></ChartSeriesAnimation>
+                    <ChartMarker Visible="true"></ChartMarker>
+                    <ChartSeriesBorder Width="1" Color="White"></ChartSeriesBorder>
+                </ChartSeries>
+            </ChartSeriesCollection>
+        </SfChart>
+    </ComponentUnderTest>
+</SfFixture>
+
+@code {
+
+    SfFixture fixture49 { get; set; }
+    async Task CheckingMaximumLabelWidthProperty(Fixture fixture49)
+    {
+        var cut = fixture49.GetComponentUnderTest<SfChart>();
+        await Task.Delay(200);
+        var text = cut.Find("#container0_AxisLabel_0");
+        Assert.True(text.TextContent.IndexOf("...") < 1);
+        Assert.True(text.TextContent.Split("...").Length == 1);
+        cut.SetParametersAndRender();
+    }
+    public class SalesInfo29
+    {
+        public string x { get; set; }
+        public double y { get; set; }
+
+    }
+    public List<SalesInfo29> chartdata29 = new List<SalesInfo29>
+{
+        new SalesInfo29{x = "USAfas dqwasd saasdf", y = 50},
+        new SalesInfo29{x = "Chin afsdfssa", y = 40},
+        new SalesInfo29{x = "Japan safds afds", y = 70},
+        new SalesInfo29{x = "Aust rali af dsasfas fasdfasd", y = 60},
+        new SalesInfo29{x = "Fra nce fasf sdfds", y = 50},
+        new SalesInfo29{x = "Germ any asdas s", y = 40},
+        new SalesInfo29{x = "Ita ly fs adfsad", y = 40},
+        new SalesInfo29{x = "Swed en", y = 30},
+        new SalesInfo29{x = "Italyians", y = 40},
+        new SalesInfo29{x = "Sweden", y = 30},
+        new SalesInfo29{x = "South Africa", y = 40},
+        new SalesInfo29{x = "Sweden1", y = 30}
+    };
+}
+
+
+
+@{
+    var InitialGroup50 = (new string[] { "CustomerID", "OrderID" });
+}
+
+<SfFixture @ref="fixture50" TestAsync="CheckingWithLabelWidth" Description="CheckingWithLabelWidth">
+    <ComponentUnderTest>
+        <SfChart ID="container" Width="400">
+            <ChartPrimaryXAxis Title="PrimaryXAxis" EnableTrim="false" ValueType="Syncfusion.Blazor.Toolkit.ValueType.Category" LabelRotation="0" LabelIntersectAction="LabelIntersectAction.Trim" IsInversed="true" MaximumLabelWidth="34" OpposedPosition="false" LabelPlacement="LabelPlacement.BetweenTicks" RangePadding="ChartRangePadding.Additional" LabelPosition="AxisPosition.Outside">
+            </ChartPrimaryXAxis>
+            <ChartSeriesCollection>
+                <ChartSeries DataSource="@chartdata30" XName="x" YName="y" Name="Series1" Type="ChartSeriesType.Scatter">
+                    <ChartSeriesAnimation Enable="false"></ChartSeriesAnimation>
+                    <ChartMarker Visible="true"></ChartMarker>
+                    <ChartSeriesBorder Width="1" Color="White"></ChartSeriesBorder>
+                </ChartSeries>
+            </ChartSeriesCollection>
+        </SfChart>
+    </ComponentUnderTest>
+</SfFixture>
+
+
+@code {
+
+    SfFixture fixture50 { get; set; }
+    async Task CheckingWithLabelWidth(Fixture fixture50)
+    {
+        var cut = fixture50.GetComponentUnderTest<SfChart>();
+        await Task.Delay(200);
+        var text = cut.Find("#container0_AxisLabel_0");
+        Assert.True(text.TextContent.IndexOf("...") < 1);
+        Assert.True(text.TextContent.Split("...").Length == 1);
+        cut.SetParametersAndRender();
+    }
+    public class SalesInfo30
+    {
+        public string x { get; set; }
+        public double y { get; set; }
+
+    }
+    public List<SalesInfo30> chartdata30 = new List<SalesInfo30>
+{
+        new SalesInfo30{x = "USAfas dqwasd saasdf", y = 50},
+        new SalesInfo30{x = "Chin afsdfssa", y = 40},
+        new SalesInfo30{x = "Japan safds afds", y = 70},
+        new SalesInfo30{x = "Aust rali af dsasfas fasdfasd", y = 60},
+        new SalesInfo30{x = "Fra nce fasf sdfds", y = 50},
+        new SalesInfo30{x = "Germ any asdas s", y = 40},
+        new SalesInfo30{x = "Ita ly fs adfsad", y = 40},
+        new SalesInfo30{x = "Swed en", y = 30},
+        new SalesInfo30{x = "Italyians", y = 40},
+        new SalesInfo30{x = "Sweden", y = 30},
+        new SalesInfo30{x = "South Africa", y = 40},
+        new SalesInfo30{x = "Sweden1", y = 30}
+    };
+}
+
+
+
+@{
+    var InitialGroup51 = (new string[] { "CustomerID", "OrderID" });
+}
+
+<SfFixture @ref="fixture51" TestAsync="CheckingVisibleTrue" Description="CheckingVisibleTrue">
+    <ComponentUnderTest>
+        <SfChart ID="container" Width="800px">
+            <ChartAxes>
+                <ChartAxis Title="Cumulative Frequency" OpposedPosition="true" Name="Secondary" LabelFormat="{value}%"></ChartAxis>
+            </ChartAxes>
+            <ChartPrimaryXAxis Title="Defects" ValueType="Syncfusion.Blazor.Toolkit.ValueType.Category" Interval="1" Visible="true">
+            </ChartPrimaryXAxis>
+            <ChartPrimaryYAxis Title="Frequency" Visible="true"></ChartPrimaryYAxis>
+            <ChartSeriesCollection>
+                <ChartSeries DataSource="@chartdata31" XName="x" YName="y" Name="Defect" Type="ChartSeriesType.Column">
+                    <ChartSeriesAnimation Enable="false"></ChartSeriesAnimation>
+                </ChartSeries>
+                <ChartSeries DataSource="@chartdata31" XName="x" YName="y1" Name="Cumulative" YAxisName="Secondary" Width="2" Type="ChartSeriesType.Column">
+                    <ChartSeriesAnimation Enable="false"></ChartSeriesAnimation>
+                </ChartSeries>
+            </ChartSeriesCollection>
+        </SfChart>
+    </ComponentUnderTest>
+</SfFixture>
+
+
+@code {
+
+    SfFixture fixture51 { get; set; }
+    async Task CheckingVisibleTrue(Fixture fixture51)
+    {
+        var cut = fixture51.GetComponentUnderTest<SfChart>();
+        await Task.Delay(200);
+        var labelY = cut.Find("#containerAxisLabels1");
+        Assert.True(labelY.ChildNodes.Length == 8);
+        var labelX = cut.Find("#containerAxisLabels0");
+        Assert.True(labelX.ChildNodes.Length == 5);
+        var border = cut.Find("#container_ChartAreaBorder");
+        var temp = Convert.ToDouble(border.GetAttribute("x"));
+        // Note: Values may vary slightly depending on screen resolution.
+        Assert.True(temp == 65.7 || temp == 53);
+        var temp1 = Convert.ToInt32(border.GetAttribute("y"), 10);
+        Assert.True(temp1 == 10);
+        var temp2 = Convert.ToDouble(border.GetAttribute("width"));
+        Assert.True(temp2 == 652.1 || temp2 == 677);
+        var temp3 = Convert.ToDouble(border.GetAttribute("height"));
+        Assert.True(temp3 == 345.25 || temp3 == 350);
+        cut.SetParametersAndRender();
+    }
+    public class SalesInfo31
+    {
+        public string x { get; set; }
+        public double y { get; set; }
+        public double y1 { get; set; }
+    }
+    public List<SalesInfo31> chartdata31 = new List<SalesInfo31>
+{
+        new SalesInfo31{x = "Traffic", y = 56, y1 = 33.8},
+       new SalesInfo31{x = "Child Care", y = 44.8, y1 = 60.9},
+       new SalesInfo31{x = "Transport", y = 27.2, y1 = 77.3},
+       new SalesInfo31{x = "Weather", y = 19.6, y1 = 89.1},
+       new SalesInfo31{x = "Emergency", y = 6.6, y1 = 100}
+    };
+}
+
+
+
+@{
+    var InitialGroup52 = (new string[] { "CustomerID", "OrderID" });
+}
+
+<SfFixture @ref="fixture52" TestAsync="CheckingVisibleFalseYAxis" Description="CheckingVisibleFalseYAxis">
+    <ComponentUnderTest>
+        <SfChart ID="container" Width="800px">
+            <ChartAxes>
+                <ChartAxis Title="Cumulative Frequency" OpposedPosition="true" Name="Secondary" LabelFormat="{value}%"></ChartAxis>
+            </ChartAxes>
+            <ChartPrimaryXAxis Title="Defects" ValueType="Syncfusion.Blazor.Toolkit.ValueType.Category" Interval="1" Visible="true">
+            </ChartPrimaryXAxis>
+            <ChartPrimaryYAxis Title="Frequency" Visible="false"></ChartPrimaryYAxis>
+            <ChartSeriesCollection>
+                <ChartSeries DataSource="@chartdata32" XName="x" YName="y" Name="Defect" Type="ChartSeriesType.Column">
+                    <ChartSeriesAnimation Enable="false"></ChartSeriesAnimation>
+                </ChartSeries>
+                <ChartSeries DataSource="@chartdata32" XName="x" YName="y1" Name="Cumulative" YAxisName="Secondary" Width="2" Type="ChartSeriesType.Column">
+                    <ChartSeriesAnimation Enable="false"></ChartSeriesAnimation>
+                </ChartSeries>
+            </ChartSeriesCollection>
+        </SfChart>
+    </ComponentUnderTest>
+</SfFixture>
+
+
+@code {
+
+    SfFixture fixture52 { get; set; }
+    async Task CheckingVisibleFalseYAxis(Fixture fixture52)
+    {
+        var cut = fixture52.GetComponentUnderTest<SfChart>();
+        await Task.Delay(200);
+        var labelY = cut.Find("#containerAxisLabels1");
+        Assert.True(labelY != null);
+        var labelX = cut.Find("#containerAxisLabels0");
+        Assert.True(labelX.ChildNodes.Length == 5);
+        var border = cut.Find("#container_ChartAreaBorder");
+        var temp = Convert.ToInt32(border.GetAttribute("x"), 10);
+        Assert.True(temp == 10);
+        var temp1 = Convert.ToInt32(border.GetAttribute("y"), 10);
+        Assert.True(temp1 == 10);
+        var temp2 = Convert.ToDouble(border.GetAttribute("width"));
+        // Note: Values may vary slightly depending on screen resolution.
+        Assert.True(temp2 == 707.8 || temp2 == 720);
+        var temp3 = Convert.ToDouble(border.GetAttribute("height"));
+        Assert.True(temp3 == 345.25 || temp3 == 350);
+        cut.SetParametersAndRender();
+    }
+    public class SalesInfo32
+    {
+        public string x { get; set; }
+        public double y { get; set; }
+        public double y1 { get; set; }
+    }
+    public List<SalesInfo32> chartdata32 = new List<SalesInfo32>
+{
+        new SalesInfo32{x = "Traffic", y = 56, y1 = 33.8},
+       new SalesInfo32{x = "Child Care", y = 44.8, y1 = 60.9},
+       new SalesInfo32{x = "Transport", y = 27.2, y1 = 77.3},
+       new SalesInfo32{x = "Weather", y = 19.6, y1 = 89.1},
+       new SalesInfo32{x = "Emergency", y = 6.6, y1 = 100}
+    };
+}
+
+
+
+@{
+    var InitialGroup53 = (new string[] { "CustomerID", "OrderID" });
+}
+
+<SfFixture @ref="fixture53" TestAsync="CheckingVisibleFalseXAxis" Description="CheckingVisibleFalseXAxis">
+    <ComponentUnderTest>
+        <SfChart ID="container" Width="800px">
+            <ChartAxes>
+                <ChartAxis Title="Cumulative Frequency" OpposedPosition="true" Name="Secondary" LabelFormat="{value}%"></ChartAxis>
+            </ChartAxes>
+            <ChartPrimaryXAxis Title="Defects" ValueType="Syncfusion.Blazor.Toolkit.ValueType.Category" Interval="1" Visible="false">
+            </ChartPrimaryXAxis>
+            <ChartPrimaryYAxis Title="Frequency" Visible="true"></ChartPrimaryYAxis>
+            <ChartSeriesCollection>
+                <ChartSeries DataSource="@chartdata33" XName="x" YName="y" Name="Defect" Type="ChartSeriesType.Column">
+                    <ChartSeriesAnimation Enable="false"></ChartSeriesAnimation>
+                </ChartSeries>
+                <ChartSeries DataSource="@chartdata33" XName="x" YName="y1" Name="Cumulative" YAxisName="Secondary" Width="2" Type="ChartSeriesType.Column">
+                    <ChartSeriesAnimation Enable="false"></ChartSeriesAnimation>
+                </ChartSeries>
+            </ChartSeriesCollection>
+        </SfChart>
+    </ComponentUnderTest>
+</SfFixture>
+
+
+@code {
+
+    SfFixture fixture53 { get; set; }
+    async Task CheckingVisibleFalseXAxis(Fixture fixture53)
+    {
+        var cut = fixture53.GetComponentUnderTest<SfChart>();
+        await Task.Delay(200);
+        var labelX = cut.Find("#containerAxisLabels1");
+        Assert.True(labelX != null);
+        var labelY = cut.Find("#containerAxisLabels1");
+        Assert.True(labelY.ChildNodes.Length == 8);
+        var border = cut.Find("#container_ChartAreaBorder");
+        var temp1 = Convert.ToInt32(border.GetAttribute("y"), 10);
+        Assert.True(temp1 == 10);
+        var temp2 = Convert.ToDouble(border.GetAttribute("width"));
+        // Note: Values may vary slightly depending on screen resolution.
+        Assert.True(temp2 == 652.1 || temp2 == 677);
+        var temp3 = Convert.ToDouble(border.GetAttribute("height"));
+        Assert.True(temp3 == 394.55 || temp3 == 396);
+        cut.SetParametersAndRender();
+    }
+    public class SalesInfo33
+    {
+        public string x { get; set; }
+        public double y { get; set; }
+        public double y1 { get; set; }
+    }
+    public List<SalesInfo33> chartdata33 = new List<SalesInfo33>
+{
+        new SalesInfo33{x = "Traffic", y = 56, y1 = 33.8},
+       new SalesInfo33{x = "Child Care", y = 44.8, y1 = 60.9},
+       new SalesInfo33{x = "Transport", y = 27.2, y1 = 77.3},
+       new SalesInfo33{x = "Weather", y = 19.6, y1 = 89.1},
+       new SalesInfo33{x = "Emergency", y = 6.6, y1 = 100}
+    };
+}
+
+
+
+@{
+    var InitialGroup54 = (new string[] { "CustomerID", "OrderID" });
+}
+
+<SfFixture @ref="fixture54" TestAsync="CheckingXAxisOpposedANdCrossingValueLessthanVisibleRange" Description="CheckingXAxisOpposedANdCrossingValueLessthanVisibleRange">
+    <ComponentUnderTest>
+        <SfChart ID="container" Width="800" Height="450">
+            <ChartPrimaryXAxis CrossesAt="-1" OpposedPosition="true" PlaceNextToAxisLine="false" ValueType="Syncfusion.Blazor.Toolkit.ValueType.Double">
+            </ChartPrimaryXAxis>
+            <ChartSeriesCollection>
+                <ChartSeries DataSource="@chartdata34" XName="x" YName="y" Width="2" Name="Defect" Type="ChartSeriesType.Line">
+                    <ChartSeriesAnimation Enable="false"></ChartSeriesAnimation>
+                </ChartSeries>
+            </ChartSeriesCollection>
+        </SfChart>
+    </ComponentUnderTest>
+</SfFixture>
+
+
+@code {
+
+    SfFixture fixture54 { get; set; }
+    async Task CheckingXAxisOpposedANdCrossingValueLessthanVisibleRange(Fixture fixture54)
+    {
+        var cut = fixture54.GetComponentUnderTest<SfChart>();
+        await Task.Delay(200);
+        var insideGroup = cut.Find("#containerAxisInsideCollection");
+        var outsideGroup = cut.Find("#containerAxisOutsideCollection");
+        var chartarea = cut.Find("#container_ChartAreaBorder");
+        var xAxisInside = outsideGroup.Children[0];
+        Assert.True(insideGroup.ChildElementCount == 2);
+        Assert.True(outsideGroup.ChildElementCount == 2);
+        Assert.True(xAxisInside.ChildElementCount == 0);
+        cut.SetParametersAndRender();
+    }
+    public class SalesInfo34
+    {
+        public double x { get; set; }
+        public double y { get; set; }
+    }
+    public List<SalesInfo34> chartdata34 = new List<SalesInfo34>
+{
+        new SalesInfo34{x = 1, y = 46},
+        new SalesInfo34{x = 2, y = 27},
+        new SalesInfo34{x = 3, y = 26},
+        new SalesInfo34{x = 4, y = 16},
+        new SalesInfo34{x = 5, y = 31}
+    };
+}
+
+
+
+@{
+    var InitialGroup55 = (new string[] { "CustomerID", "OrderID" });
+}
+
+<SfFixture @ref="fixture55" TestAsync="CheckingYAxisOpposedANdCrossingValueLessthanVisibleRange" Description="CheckingYAxisOpposedANdCrossingValueLessthanVisibleRange">
+    <ComponentUnderTest>
+        <SfChart ID="container" Width="800" Height="450">
+            <ChartPrimaryXAxis CrossesAt="-1" OpposedPosition="true" PlaceNextToAxisLine="false" ValueType="Syncfusion.Blazor.Toolkit.ValueType.Double">
+            </ChartPrimaryXAxis>
+            <ChartPrimaryYAxis Minimum="5" CrossesAt="0" OpposedPosition="true" PlaceNextToAxisLine="false"></ChartPrimaryYAxis>
+            <ChartSeriesCollection>
+                <ChartSeries DataSource="@chartdata35" XName="x" YName="y" Width="2" Name="Defect" Type="ChartSeriesType.Line">
+                    <ChartSeriesAnimation Enable="false"></ChartSeriesAnimation>
+                </ChartSeries>
+            </ChartSeriesCollection>
+        </SfChart>
+    </ComponentUnderTest>
+</SfFixture>
+
+
+@code {
+
+    SfFixture fixture55 { get; set; }
+    async Task CheckingYAxisOpposedANdCrossingValueLessthanVisibleRange(Fixture fixture55)
+    {
+        var cut = fixture55.GetComponentUnderTest<SfChart>();
+        await Task.Delay(200);
+        var insideGroup = cut.Find("#containerAxisInsideCollection");
+        var outsideGroup = cut.Find("#containerAxisOutsideCollection");
+        var chartarea = cut.Find("#container_ChartAreaBorder");
+        var yAxisInside = outsideGroup.Children[1];
+        var yLine = yAxisInside.Children[0];
+
+        Assert.True(insideGroup.ChildElementCount == 2);
+        Assert.True(outsideGroup.ChildElementCount == 2);
+        Assert.True(yAxisInside.ChildElementCount == 12);
+        Assert.True(Convert.ToInt32(yLine.GetAttribute("d").Split(" ")[1]) == (Convert.ToInt32(chartarea.GetAttribute("x"))));
+        cut.SetParametersAndRender();
+    }
+    public class SalesInfo35
+    {
+        public double x { get; set; }
+        public double y { get; set; }
+    }
+    public List<SalesInfo35> chartdata35 = new List<SalesInfo35>
+{
+        new SalesInfo35{x = 1, y = 46},
+        new SalesInfo35{x = 2, y = 27},
+        new SalesInfo35{x = 3, y = 26},
+        new SalesInfo35{x = 4, y = 16},
+        new SalesInfo35{x = 5, y = 31}
+    };
+}
+
+
+
+@{
+    var InitialGroup56 = (new string[] { "CustomerID", "OrderID" });
+}
+
+<SfFixture @ref="fixture56" TestAsync="CheckingWithXYAxisInnversed" Description="CheckingWithXYAxisInnversed">
+    <ComponentUnderTest>
+        <SfChart ID="container" Width="800" Height="450">
+            <ChartPrimaryXAxis CrossesAt="30" OpposedPosition="true" IsInversed="true" PlaceNextToAxisLine="true" ValueType="Syncfusion.Blazor.Toolkit.ValueType.Double">
+            </ChartPrimaryXAxis>
+            <ChartPrimaryYAxis Minimum="5" CrossesAt="3" OpposedPosition="true" IsInversed="true" PlaceNextToAxisLine="true"></ChartPrimaryYAxis>
+            <ChartSeriesCollection>
+                <ChartSeries DataSource="@chartdata36" XName="x" YName="y" Width="2" Name="Defect" Type="ChartSeriesType.Line">
+                    <ChartSeriesAnimation Enable="false"></ChartSeriesAnimation>
+                </ChartSeries>
+            </ChartSeriesCollection>
+        </SfChart>
+    </ComponentUnderTest>
+</SfFixture>
+
+
+@code {
+
+    SfFixture fixture56 { get; set; }
+    async Task CheckingWithXYAxisInnversed(Fixture fixture56)
+    {
+        var cut = fixture56.GetComponentUnderTest<SfChart>();
+        await Task.Delay(200);
+        var outsideGroup = cut.Find("#containerAxisOutsideCollection");
+        var xAxisInside = outsideGroup.Children[0];
+        var xLine = xAxisInside.Children[0];
+        var yAxisInside = outsideGroup.Children[1];
+        var yLine = yAxisInside.Children[0];
+        // Note: Values may vary slightly depending on screen resolution.
+        Assert.True(outsideGroup.ChildElementCount == 2);
+        Assert.True(yAxisInside.ChildElementCount == 12);
+        Assert.True(xAxisInside.ChildElementCount == 11);
+        Assert.True((xLine.GetAttribute("d").Split(" ")[2] == "240.79444444444448") && (xLine.GetAttribute("d").Split(" ")[5] == "240.79444444444448"));
+        Assert.True((yLine.GetAttribute("d").Split(" ")[1] == "388.75") && (yLine.GetAttribute("d").Split(" ")[4] == "388.75"));
+    cut.SetParametersAndRender();
+    }
+    public class SalesInfo36
+    {
+        public double x { get; set; }
+        public double y { get; set; }
+    }
+    public List<SalesInfo36> chartdata36 = new List<SalesInfo36>
+{
+        new SalesInfo36{x = 1, y = 46},
+        new SalesInfo36{x = 2, y = 27},
+        new SalesInfo36{x = 3, y = 26},
+        new SalesInfo36{x = 4, y = 16},
+        new SalesInfo36{x = 5, y = 31}
+    };
+}
+
+
+@{
+    var InitialGroup57 = (new string[] { "CustomerID", "OrderID" });
+}
+
+<SfFixture @ref="fixture57" TestAsync="CheckingWithXAxisVisibilityFalse" Description="CheckingWithXAxisVisibilityFalse">
+    <ComponentUnderTest>
+        <SfChart ID="container" Width="800" Height="450">
+            <ChartPrimaryXAxis Visible="false" CrossesAt="30" OpposedPosition="true" IsInversed="true" PlaceNextToAxisLine="true" ValueType="Syncfusion.Blazor.Toolkit.ValueType.Double">
+            </ChartPrimaryXAxis>
+            <ChartPrimaryYAxis Minimum="5" CrossesAt="3" OpposedPosition="true" IsInversed="true" PlaceNextToAxisLine="true"></ChartPrimaryYAxis>
+            <ChartSeriesCollection>
+                <ChartSeries DataSource="@chartdata37" XName="x" YName="y" Width="2" Name="Defect" Type="ChartSeriesType.Line">
+                    <ChartSeriesAnimation Enable="false"></ChartSeriesAnimation>
+                </ChartSeries>
+            </ChartSeriesCollection>
+        </SfChart>
+    </ComponentUnderTest>
+</SfFixture>
+
+
+@code {
+
+    SfFixture fixture57 { get; set; }
+    async Task CheckingWithXAxisVisibilityFalse(Fixture fixture57)
+    {
+        var cut = fixture57.GetComponentUnderTest<SfChart>();
+        await Task.Delay(200);
+        IElement xline = null;
+        try
+        {
+            xline = cut.Find("#containerAxisLine_0");
+        }
+        catch{}
+        Assert.True(xline == null);
+        cut.SetParametersAndRender();
+    }
+    public class SalesInfo37
+    {
+        public double x { get; set; }
+        public double y { get; set; }
+    }
+    public List<SalesInfo37> chartdata37 = new List<SalesInfo37>
+{
+        new SalesInfo37{x = 1, y = 46},
+        new SalesInfo37{x = 2, y = 27},
+        new SalesInfo37{x = 3, y = 26},
+        new SalesInfo37{x = 4, y = 16},
+        new SalesInfo37{x = 5, y = 31}
+    };
+}
+
+
+
+@{
+    var InitialGroup58 = (new string[] { "CustomerID", "OrderID" });
+}
+
+<SfFixture @ref="fixture58" TestAsync="CheckingWithYAxisVisibilityFalse" Description="CheckingWithYAxisVisibilityFalse">
+    <ComponentUnderTest>
+        <SfChart ID="container" Width="800" Height="450">
+            <ChartPrimaryXAxis Visible="false" CrossesAt="30" OpposedPosition="true" IsInversed="true" PlaceNextToAxisLine="true" ValueType="Syncfusion.Blazor.Toolkit.ValueType.Double">
+            </ChartPrimaryXAxis>
+            <ChartPrimaryYAxis Visible="false" Minimum="5" CrossesAt="3" OpposedPosition="true" IsInversed="true" PlaceNextToAxisLine="true"></ChartPrimaryYAxis>
+            <ChartSeriesCollection>
+                <ChartSeries DataSource="@chartdata38" XName="x" YName="y" Width="2" Name="Defect" Type="ChartSeriesType.Line">
+                    <ChartSeriesAnimation Enable="false"></ChartSeriesAnimation>
+                </ChartSeries>
+            </ChartSeriesCollection>
+        </SfChart>
+    </ComponentUnderTest>
+</SfFixture>
+
+
+@code {
+
+    SfFixture fixture58 { get; set; }
+    async Task CheckingWithYAxisVisibilityFalse(Fixture fixture58)
+    {
+        var cut = fixture58.GetComponentUnderTest<SfChart>();
+        await Task.Delay(200);
+        IElement yline = null;
+        try
+        {
+            yline = cut.Find("#containerAxisLine_1");
+        }
+        catch{}
+        Assert.True(yline == null);
+        cut.SetParametersAndRender();
+    }
+    public class SalesInfo38
+    {
+        public double x { get; set; }
+        public double y { get; set; }
+    }
+    public List<SalesInfo38> chartdata38 = new List<SalesInfo38>
+{
+        new SalesInfo38{x = 1, y = 46},
+        new SalesInfo38{x = 2, y = 27},
+        new SalesInfo38{x = 3, y = 26},
+        new SalesInfo38{x = 4, y = 16},
+        new SalesInfo38{x = 5, y = 31}
+    };
+}
+
+
+
+@{
+    var InitialGroup59 = (new string[] { "CustomerID", "OrderID" });
+}
+
+<SfFixture @ref="fixture59" TestAsync="BySpecifyingCrosvalueinNumeric" Description="BySpecifyingCrosvalueinNumeric">
+    <ComponentUnderTest>
+        <SfChart ID="container" Width="800" Height="450">
+            <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Toolkit.ValueType.Category">
+            </ChartPrimaryXAxis>
+            <ChartPrimaryYAxis CrossesAt="2"></ChartPrimaryYAxis>
+            <ChartSeriesCollection>
+                <ChartSeries DataSource="@chartdata39" XName="x" YName="y" Width="2" Name="Defect" Type="ChartSeriesType.Line">
+                    <ChartSeriesAnimation Enable="false"></ChartSeriesAnimation>
+                </ChartSeries>
+            </ChartSeriesCollection>
+        </SfChart>
+    </ComponentUnderTest>
+</SfFixture>
+
+
+@code {
+
+    SfFixture fixture59 { get; set; }
+    async Task BySpecifyingCrosvalueinNumeric(Fixture fixture59)
+    {
+        var cut = fixture59.GetComponentUnderTest<SfChart>();
+        await Task.Delay(200);
+        var yline = cut.Find("#containerAxisLine_1");
+        Assert.True((yline.GetAttribute("d").Split(" ")[1] == "411.25" || yline.GetAttribute("d").Split(" ")[1] == "400") &&
+            (yline.GetAttribute("d").Split(" ")[4] == "411.25" || yline.GetAttribute("d").Split(" ")[4] == "400"));
+        cut.SetParametersAndRender();
+        }
+    public class SalesInfo39
+    {
+        public string x { get; set; }
+        public double y { get; set; }
+    }
+    public List<SalesInfo39> chartdata39 = new List<SalesInfo39>
+{
+        new SalesInfo39{x = "Jan", y = 46},
+        new SalesInfo39{x = "Feb", y = 27},
+        new SalesInfo39{x = "March", y = 26},
+        new SalesInfo39{x = "April", y = 16},
+        new SalesInfo39{x = "May", y = 31}
+        };
+}
+
+
+
+@{
+    var InitialGroup60 = (new string[] { "CustomerID", "OrderID" });
+}
+
+<SfFixture @ref="fixture60" TestAsync="BySpecifyingCrosvalueinStringNotinDatasource" Description="BySpecifyingCrosvalueinStringNotinDatasource">
+    <ComponentUnderTest>
+        <SfChart ID="container" Width="800" Height="450">
+            <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Toolkit.ValueType.Category">
+            </ChartPrimaryXAxis>
+            <ChartPrimaryYAxis CrossesAt="2"></ChartPrimaryYAxis>
+            <ChartSeriesCollection>
+                <ChartSeries DataSource="@chartdata40" XName="x" YName="y" Width="2" Name="Defect" Type="ChartSeriesType.Line">
+                    <ChartSeriesAnimation Enable="false"></ChartSeriesAnimation>
+                </ChartSeries>
+            </ChartSeriesCollection>
+        </SfChart>
+    </ComponentUnderTest>
+</SfFixture>
+
+
+@code {
+
+    SfFixture fixture60 { get; set; }
+    async Task BySpecifyingCrosvalueinStringNotinDatasource(Fixture fixture60)
+    {
+        var cut = fixture60.GetComponentUnderTest<SfChart>();
+        await Task.Delay(200);
+        var yline = cut.Find("#containerAxisLine_1");
+        Assert.True((yline.GetAttribute("d").Split(" ")[1] == "411.25" || yline.GetAttribute("d").Split(" ")[1] == "400") &&
+           (yline.GetAttribute("d").Split(" ")[4] == "411.25" || yline.GetAttribute("d").Split(" ")[4] == "400"));
+    cut.SetParametersAndRender();
+       }
+    public class SalesInfo40
+    {
+        public string x { get; set; }
+        public double y { get; set; }
+    }
+    public List<SalesInfo40> chartdata40 = new List<SalesInfo40>
+{
+        new SalesInfo40{x = "Jan", y = 46},
+        new SalesInfo40{x = "Feb", y = 27},
+        new SalesInfo40{x = "March", y = 26},
+        new SalesInfo40{x = "April", y = 16},
+        new SalesInfo40{x = "May", y = 31}
+        };
+}
+
+
+@{
+    var InitialGroup61 = (new string[] { "CustomerID", "OrderID" });
+}
+
+<SfFixture @ref="fixture61" TestAsync="AxisCrossinngWithDatetime" Description="AxisCrossinngWithDatetime">
+    <ComponentUnderTest>
+        <SfChart ID="container" Width="800" Height="450">
+            <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Toolkit.ValueType.DateTime">
+            </ChartPrimaryXAxis>
+            <ChartPrimaryYAxis CrossesAt="new DateTime(2016, 12, 01, 18, 24, 00)"></ChartPrimaryYAxis>
+            <ChartSeriesCollection>
+                <ChartSeries DataSource="@chartdata41" XName="x" YName="y" Width="2" Name="Defect" Type="ChartSeriesType.Line">
+                    <ChartSeriesAnimation Enable="false"></ChartSeriesAnimation>
+                </ChartSeries>
+            </ChartSeriesCollection>
+        </SfChart>
+    </ComponentUnderTest>
+</SfFixture>
+
+
+@code {
+
+    SfFixture fixture61 { get; set; }
+    async Task AxisCrossinngWithDatetime(Fixture fixture61)
+    {
+        var cut = fixture61.GetComponentUnderTest<SfChart>();
+        await Task.Delay(200);
+        var yline = cut.Find("#containerAxisLine_1");
+        Assert.True(yline.GetAttribute("d").Split(" ")[1] == "411.25" && yline.GetAttribute("d").Split(" ")[4] == "411.25");
+        cut.SetParametersAndRender();
+    }
+    public class SalesInfo41
+    {
+        public DateTime x { get; set; }
+        public double y { get; set; }
+    }
+    public List<SalesInfo41> chartdata41 = new List<SalesInfo41>
+{
+        new SalesInfo41{x = new DateTime(2016, 12, 01, 18, 22, 00), y = 46},
+       new SalesInfo41{x = new DateTime(2016, 12, 01, 18, 23, 00), y = 27},
+       new SalesInfo41{x = new DateTime(2016, 12, 01, 18, 24, 00), y = 26},
+       new SalesInfo41{x = new DateTime(2016, 12, 01, 18, 25, 00), y = 16},
+       new SalesInfo41{x = new DateTime(2016, 12, 01, 18, 26, 00), y = 31},
+        };
+}
+
+
+
+@{
+    var InitialGroup62 = (new string[] { "CustomerID", "OrderID" });
+}
+
+<SfFixture @ref="fixture62" TestAsync="AxisCrossinngWithLogValues" Description="AxisCrossinngWithLogValues">
+    <ComponentUnderTest>
+        <SfChart ID="container" Width="800" Height="450">
+            <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Toolkit.ValueType.Logarithmic" Minimum="0" Interval="1" Maximum="1000">
+            </ChartPrimaryXAxis>
+            <ChartPrimaryYAxis CrossesAt="30"></ChartPrimaryYAxis>
+            <ChartSeriesCollection>
+                <ChartSeries DataSource="@chartdata42" XName="x" YName="y" Width="2" Name="Defect" Type="ChartSeriesType.Line">
+                    <ChartSeriesAnimation Enable="false"></ChartSeriesAnimation>
+                    <ChartMarker Visible="true"></ChartMarker>
+                </ChartSeries>
+            </ChartSeriesCollection>
+        </SfChart>
+    </ComponentUnderTest>
+</SfFixture>
+
+
+@code {
+
+    SfFixture fixture62 { get; set; }
+    async Task AxisCrossinngWithLogValues(Fixture fixture62)
+    {
+        var cut = fixture62.GetComponentUnderTest<SfChart>();
+        await Task.Delay(200);
+        var yline = cut.Find("#containerAxisLine_1");
+        Assert.True(yline.GetAttribute("d").Split(" ")[1] == "405.47311681671476" && yline.GetAttribute("d").Split(" ")[4] == "405.47311681671476");
+        cut.SetParametersAndRender();
+    }
+    public class SalesInfo42
+    {
+        public double x { get; set; }
+        public double y { get; set; }
+    }
+    public List<SalesInfo42> chartdata42 = new List<SalesInfo42>
+{
+        new SalesInfo42{x = 10, y = 46},
+      new SalesInfo42{x = 20, y = 27},
+      new SalesInfo42{x = 30, y = 26},
+      new SalesInfo42{x = 40, y = 16},
+      new SalesInfo42{x = 50, y = 31},
+        };
+}
+
+
+@{
+    var InitialGroup63 = (new string[] { "CustomerID", "OrderID" });
+}
+
+<SfFixture @ref="fixture63" TestAsync="AxisCrossinngWithMinorTicklinesforXAxis" Description="AxisCrossinngWithMinorTicklinesforXAxis">
+    <ComponentUnderTest>
+        <SfChart ID="container" Width="800" Height="450">
+            <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Toolkit.ValueType.Logarithmic" CrossesAt="15" MinorTicksPerInterval="8" Minimum="0" Interval="1" Maximum="1000">
+            </ChartPrimaryXAxis>
+            <ChartPrimaryYAxis CrossesAt="30"></ChartPrimaryYAxis>
+            <ChartSeriesCollection>
+                <ChartSeries DataSource="@chartdata43" XName="x" YName="y" Width="2" Name="Defect" Type="ChartSeriesType.Line">
+                    <ChartSeriesAnimation Enable="false"></ChartSeriesAnimation>
+                    <ChartMarker Visible="true"></ChartMarker>
+                </ChartSeries>
+            </ChartSeriesCollection>
+        </SfChart>
+    </ComponentUnderTest>
+</SfFixture>
+
+
+@code {
+
+    SfFixture fixture63 { get; set; }
+    async Task AxisCrossinngWithMinorTicklinesforXAxis(Fixture fixture63)
+    {
+        var cut = fixture63.GetComponentUnderTest<SfChart>();
+        await Task.Delay(200);
+        var xline = cut.Find("#containerAxisLine_0");
+        Console.WriteLine(xline.GetAttribute("d").Split(" ")[2]);
+        // Note: Values may vary slightly depending on screen resolution.
+        Assert.True(xline.GetAttribute("d").Split(" ")[2] == "269.23100000000005" && xline.GetAttribute("d").Split(" ")[5] == "269.23100000000005");
+        cut.SetParametersAndRender();
+    }
+    public class SalesInfo43
+    {
+        public double x { get; set; }
+        public double y { get; set; }
+    }
+    public List<SalesInfo43> chartdata43 = new List<SalesInfo43>
+{
+        new SalesInfo43{x = 10, y = 46},
+      new SalesInfo43{x = 20, y = 27},
+      new SalesInfo43{x = 30, y = 26},
+      new SalesInfo43{x = 40, y = 16},
+      new SalesInfo43{x = 50, y = 31},
+        };
+}
+
+
+
+@{
+    var InitialGroup64 = (new string[] { "CustomerID", "OrderID" });
+}
+
+<SfFixture @ref="fixture64" TestAsync="AxisCrossinngWithMinorTicklinesforYAxis" Description="AxisCrossinngWithMinorTicklinesforYAxis">
+    <ComponentUnderTest>
+        <SfChart ID="container" Width="800" Height="450">
+            <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Toolkit.ValueType.Logarithmic" CrossesAt="15" MinorTicksPerInterval="8" Minimum="0" Interval="1" Maximum="1000">
+            </ChartPrimaryXAxis>
+            <ChartPrimaryYAxis CrossesAt="30" MinorTicksPerInterval="4"></ChartPrimaryYAxis>
+            <ChartSeriesCollection>
+                <ChartSeries DataSource="@chartdata44" XName="x" YName="y" Width="2" Name="Defect" Type="ChartSeriesType.Line">
+                    <ChartSeriesAnimation Enable="false"></ChartSeriesAnimation>
+                    <ChartMarker Visible="true"></ChartMarker>
+                </ChartSeries>
+            </ChartSeriesCollection>
+        </SfChart>
+    </ComponentUnderTest>
+</SfFixture>
+
+
+@code {
+
+    SfFixture fixture64 { get; set; }
+    async Task AxisCrossinngWithMinorTicklinesforYAxis(Fixture fixture64)
+    {
+        var cut = fixture64.GetComponentUnderTest<SfChart>();
+        await Task.Delay(200);
+        var yline = cut.Find("#containerAxisLine_1");
+        Assert.True(yline.GetAttribute("d").Split(" ")[1] == "405.47311681671476" && yline.GetAttribute("d").Split(" ")[4] == "405.47311681671476");
+        cut.SetParametersAndRender();
+    }
+    public class SalesInfo44
+    {
+        public double x { get; set; }
+        public double y { get; set; }
+    }
+    public List<SalesInfo44> chartdata44 = new List<SalesInfo44>
+{
+        new SalesInfo44{x = 10, y = 46},
+      new SalesInfo44{x = 20, y = 27},
+      new SalesInfo44{x = 30, y = 26},
+      new SalesInfo44{x = 40, y = 16},
+      new SalesInfo44{x = 50, y = 31},
+        };
+}
+
+
+
+@{
+    var InitialGroup65 = (new string[] { "CustomerID", "OrderID" });
+}
+
+<SfFixture @ref="fixture65" TestAsync="AxisCrossinngWithMinorTickWithOpposeedforYXAxis" Description="AxisCrossinngWithMinorTickWithOpposeedforYXAxis">
+    <ComponentUnderTest>
+        <SfChart ID="container" Width="800" Height="450">
+            <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Toolkit.ValueType.Logarithmic" CrossesAt="30" OpposedPosition="true" MinorTicksPerInterval="8" Minimum="0" Interval="1" Maximum="1000">
+            </ChartPrimaryXAxis>
+            <ChartPrimaryYAxis CrossesAt="30" MinorTicksPerInterval="4" OpposedPosition="true"></ChartPrimaryYAxis>
+            <ChartSeriesCollection>
+                <ChartSeries DataSource="@chartdata45" XName="x" YName="y" Width="2" Name="Defect" Type="ChartSeriesType.Line">
+                    <ChartSeriesAnimation Enable="false"></ChartSeriesAnimation>
+                    <ChartMarker Visible="true"></ChartMarker>
+                </ChartSeries>
+            </ChartSeriesCollection>
+        </SfChart>
+    </ComponentUnderTest>
+</SfFixture>
+
+
+@code {
+
+    SfFixture fixture65 { get; set; }
+    async Task AxisCrossinngWithMinorTickWithOpposeedforYXAxis(Fixture fixture65)
+    {
+        var cut = fixture65.GetComponentUnderTest<SfChart>();
+        await Task.Delay(200);
+        var xline = cut.Find("#containerAxisLine_0");
+        var majortickX = cut.Find("#container_MajorTickLine_0_0");
+        var minortickX = cut.Find("#container_MinorTickLine_0_1");
+        // Note: Values may vary slightly depending on screen resolution.
+        Assert.True(xline.GetAttribute("d").Split(" ")[1] == "10" && xline.GetAttribute("d").Split(" ")[2] == "183.48000000000002");
+        Assert.True(majortickX.GetAttribute("d").Split(" ")[1] == "10" && majortickX.GetAttribute("d").Split(" ")[2] == "182.98000000000002");
+        Assert.True(minortickX.GetAttribute("d").Split(" ")[1] == "87" && minortickX.GetAttribute("d").Split(" ")[2] == "183.48000000000002L");
+
+
+        var yline = cut.Find("#containerAxisLine_1");
+        var majortickY = cut.Find("#container_MajorTickLine_1_0");
+        var minortickY = cut.Find("#container_MinorTickLine_1_0");
+        Assert.True(yline.GetAttribute("d").Split(" ")[1] == "382.97311681671476" && xline.GetAttribute("d").Split(" ")[4] == "767.5");
+        Assert.True(majortickY.GetAttribute("d").Split(" ")[1] == "383.47311681671476" && majortickY.GetAttribute("d").Split(" ")[2] == "404.55");
+        Assert.True(minortickY.GetAttribute("d").Split(" ")[1] == "382.97311681671476" && minortickX.GetAttribute("d").Split(" ")[2] == "183.48000000000002L");
+        cut.SetParametersAndRender();
+    }
+    public class SalesInfo45
+    {
+        public double x { get; set; }
+        public double y { get; set; }
+    }
+    public List<SalesInfo45> chartdata45 = new List<SalesInfo45>
+{
+        new SalesInfo45{x = 10, y = 46},
+      new SalesInfo45{x = 20, y = 27},
+      new SalesInfo45{x = 30, y = 26},
+      new SalesInfo45{x = 40, y = 16},
+      new SalesInfo45{x = 50, y = 31},
+        };
+}
+
+
+@{
+    var InitialGroup66 = (new string[] { "CustomerID", "OrderID" });
+}
+
+<SfFixture @ref="fixture66" TestAsync="AxisCrossingWithMultipleYAxisAllAxisMoved" Description="AxisCrossingWithMultipleYAxisAllAxisMoved">
+    <ComponentUnderTest>
+        <SfChart ID="container" Width="800" Height="450">
+            <ChartAxes>
+                <ChartAxis RowIndex="0" OpposedPosition="true" Name="yAxis" CrossesAt="0"></ChartAxis>
+            </ChartAxes>
+            <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Toolkit.ValueType.Double" CrossesInAxis="yAxis">
+            </ChartPrimaryXAxis>
+            <ChartPrimaryYAxis CrossesAt="30"></ChartPrimaryYAxis>
+            <ChartSeriesCollection>
+                <ChartSeries DataSource="@chartdata46" XName="x" YName="y" Name="Defect" Type="ChartSeriesType.Line">
+                    <ChartSeriesAnimation Enable="false"></ChartSeriesAnimation>
+                    <ChartMarker Visible="true"></ChartMarker>
+                </ChartSeries>
+                <ChartSeries DataSource="@chartdata46" XName="x" YName="y1" YAxisName="yAxis" Name="Japan" Type="ChartSeriesType.Line">
+                    <ChartSeriesAnimation Enable="false"></ChartSeriesAnimation>
+                    <ChartMarker Visible="true"></ChartMarker>
+                </ChartSeries>
+            </ChartSeriesCollection>
+        </SfChart>
+    </ComponentUnderTest>
+</SfFixture>
+
+
+@code {
+
+    SfFixture fixture66 { get; set; }
+    async Task AxisCrossingWithMultipleYAxisAllAxisMoved(Fixture fixture66)
+    {
+        var cut = fixture66.GetComponentUnderTest<SfChart>();
+        await Task.Delay(200);
+        var xline = cut.Find("#containerAxisLine_0");
+
+        var yline1 = cut.Find("#containerAxisLine_1");
+        var yline2 = cut.Find("#containerAxisLine_2");
+        var chartarea = cut.Find("#container_ChartAreaBorder");
+
+        // Note: Values may vary slightly depending on screen resolution.
+        Assert.True((Convert.ToDouble(yline1.GetAttribute("d").Split(" ")[1]) == (Convert.ToDouble(chartarea.GetAttribute("x")) + Convert.ToInt32(chartarea.GetAttribute("width")))));
+        Assert.True((xline.GetAttribute("d").Split(" ")[2] == "378.45"));
+        cut.SetParametersAndRender();
+    }
+    public class SalesInfo46
+    {
+        public double x { get; set; }
+        public double y { get; set; }
+        public double y1 { get; set; }
+    }
+    public List<SalesInfo46> chartdata46 = new List<SalesInfo46>
+{
+        new SalesInfo46{x = 1, y = 46, y1 = 33},
+     new SalesInfo46{x = 2, y = 27, y1 = 31},
+     new SalesInfo46{x = 3, y = 26, y1 = 30},
+     new SalesInfo46{x = 4, y = 16, y1 = 28},
+     new SalesInfo46{x = 5, y = 31, y1 = 29},
+        };
+}
+
+
+@{
+    var InitialGroup67 = (new string[] { "CustomerID", "OrderID" });
+}
+
+<SfFixture @ref="fixture67" TestAsync="AxisCrossingWithMultipleXAxisAllAxisMoved" Description="AxisCrossingWithMultipleXAxisAllAxisMoved">
+    <ComponentUnderTest>
+        <SfChart ID="container" Width="800" Height="450">
+            <ChartAxes>
+                <ChartAxis ColumnIndex="0" Name="xAxis" CrossesAt="11" Title="Secondary Axis" PlaceNextToAxisLine="false"></ChartAxis>
+            </ChartAxes>
+            <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Toolkit.ValueType.Double" CrossesInAxis="yAxis">
+            </ChartPrimaryXAxis>
+            <ChartPrimaryYAxis CrossesAt="3"></ChartPrimaryYAxis>
+            <ChartSeriesCollection>
+                <ChartSeries DataSource="@chartdata47" XName="x" YName="y" Name="Defect" Type="ChartSeriesType.Line">
+                    <ChartSeriesAnimation Enable="false"></ChartSeriesAnimation>
+                    <ChartMarker Visible="true"></ChartMarker>
+                </ChartSeries>
+                <ChartSeries DataSource="@chartdata47" XName="x" YName="y1" Name="Japan" XAxisName="xAxis" Type="ChartSeriesType.Line">
+                    <ChartSeriesAnimation Enable="false"></ChartSeriesAnimation>
+                    <ChartMarker Visible="true"></ChartMarker>
+                </ChartSeries>
+            </ChartSeriesCollection>
+        </SfChart>
+    </ComponentUnderTest>
+</SfFixture>
+
+
+@code {
+
+    SfFixture fixture67 { get; set; }
+    async Task AxisCrossingWithMultipleXAxisAllAxisMoved(Fixture fixture67)
+    {
+        var cut = fixture67.GetComponentUnderTest<SfChart>();
+        await Task.Delay(200);
+        var line0 = cut.Find("#containerAxisLine_0");
+
+        var line1 = cut.Find("#containerAxisLine_1");
+        var line2 = cut.Find("#containerAxisLine_2");
+        var chartarea = cut.Find("#container_ChartAreaBorder");
+
+        string[] path = line0.GetAttribute("d").Split(" ");
+        string y = chartarea.GetAttribute("y");
+        string height = chartarea.GetAttribute("height");
+        Assert.True((Convert.ToDouble(line0.GetAttribute("d").Split(" ")[2]) - 1 < (Convert.ToDouble(chartarea.GetAttribute("y")) + Convert.ToDouble(chartarea.GetAttribute("height")))));
+        // Note: Values may vary slightly depending on screen resolution.
+        Assert.True((line1.GetAttribute("d").Split(" ")[1] == "411.25" && line1.GetAttribute("d").Split(" ")[4] == "411.25"));
+        Assert.True(line2.GetAttribute("d").Split(" ")[2] == "251.137");
+        cut.SetParametersAndRender();
+    }
+    public class SalesInfo47
+    {
+        public double x { get; set; }
+        public double y { get; set; }
+        public double y1 { get; set; }
+    }
+    public List<SalesInfo47> chartdata47 = new List<SalesInfo47>
+    {
+        new SalesInfo47{x = 1, y = 46, y1 = 33},
+         new SalesInfo47{x = 2, y = 27, y1 = 31},
+         new SalesInfo47{x = 3, y = 26, y1 = 30},
+         new SalesInfo47{x = 4, y = 16, y1 = 28},
+         new SalesInfo47{x = 5, y = 31, y1 = 29},
+    };
+}
+
+@{
+    var InitialGroup68 = (new string[] { "CustomerID", "OrderID" });
+}
+
+<SfFixture @ref="fixture68" TestAsync="CheckingAxisinZoommodeX" Description="CheckingAxisinZoommodeX">
+    <ComponentUnderTest>
+        <SfChart ID="container" Width="800" Height="450" EnableAutoIntervalOnBothAxis="true">
+            <ChartPrimaryXAxis ZoomFactor="0.12" ZoomPosition="0.5" ValueType="Syncfusion.Blazor.Toolkit.ValueType.Double">
+            </ChartPrimaryXAxis>
+            <ChartSeriesCollection>
+                <ChartSeries DataSource="@chartdata48" XName="x" YName="y" Name="Product x" Type="ChartSeriesType.Line">
+                    <ChartSeriesAnimation Enable="false"></ChartSeriesAnimation>
+                    <ChartMarker Visible="true"></ChartMarker>
+                    <ChartSeriesBorder Width="0.5" Color="#00bdae"></ChartSeriesBorder>
+                </ChartSeries>
+            </ChartSeriesCollection>
+            <ChartZoomSettings EnableMouseWheelZooming="false" Mode="ZoomMode.X" EnablePinchZooming="true" EnableSelectionZooming="true" EnableScrollbar="true"></ChartZoomSettings>
+        </SfChart>
+    </ComponentUnderTest>
+</SfFixture>
+
+
+@code {
+
+    SfFixture fixture68 { get; set; }
+    async Task CheckingAxisinZoommodeX(Fixture fixture68)
+    {
+        var cut = fixture68.GetComponentUnderTest<SfChart>();
+        await Task.Delay(200);
+        var text = cut.Find("#container0_AxisLabel_0");
+        Assert.True(text.TextContent == "0\n    ");
+        var text1 = cut.Find("#container1_AxisLabel_1");
+        Assert.True(text1.TextContent == "4.6\n    ");
+        var zoom = cut.FindComponent<ChartZoomSettings>();
+        cut.SetParametersAndRender();
+        await zoom.Instance.DisposeAsync();
+    }
+    public class SalesInfo48
+    {
+        public double x { get; set; }
+        public double y { get; set; }
+    }
+    public List<SalesInfo48> chartdata48 = new List<SalesInfo48>
+{
+        new SalesInfo48{x = 1, y = 7},
+     new SalesInfo48{x = 2, y = 1},
+     new SalesInfo48{x = 3, y = 1},
+     new SalesInfo48{x = 4, y = 14},
+     new SalesInfo48{x = 5, y = 1},
+     new SalesInfo48{x = 6, y = 10},
+     new SalesInfo48{x = 7, y = 8},
+     new SalesInfo48{x = 8, y = 6}
+        };
+}
+
+
+
+@{
+    var InitialGroup69 = (new string[] { "CustomerID", "OrderID" });
+}
+
+<SfFixture @ref="fixture69" TestAsync="CheckingAxisinZoommodeY" Description="CheckingAxisinZoommodeY">
+    <ComponentUnderTest>
+        <SfChart ID="container" Width="800" Height="450" EnableAutoIntervalOnBothAxis="true">
+            <ChartPrimaryXAxis ZoomFactor="0.12" ZoomPosition="0.5" ValueType="Syncfusion.Blazor.Toolkit.ValueType.Double">
+            </ChartPrimaryXAxis>
+            <ChartPrimaryYAxis ZoomFactor="0.22" ZoomPosition="0.54"></ChartPrimaryYAxis>
+            <ChartSeriesCollection>
+                <ChartSeries DataSource="@chartdata49" XName="x" YName="y" Name="Product x" Type="ChartSeriesType.Line">
+                    <ChartSeriesAnimation Enable="false"></ChartSeriesAnimation>
+                    <ChartMarker Visible="true"></ChartMarker>
+                    <ChartSeriesBorder Width="0.5" Color="#00bdae"></ChartSeriesBorder>
+                </ChartSeries>
+            </ChartSeriesCollection>
+            <ChartZoomSettings EnableMouseWheelZooming="false" Mode="ZoomMode.Y" EnablePinchZooming="true" EnableSelectionZooming="true" EnableScrollbar="true"></ChartZoomSettings>
+        </SfChart>
+    </ComponentUnderTest>
+</SfFixture>
+
+
+@code {
+
+    SfFixture fixture69 { get; set; }
+    async Task CheckingAxisinZoommodeY(Fixture fixture69)
+    {
+        var cut = fixture69.GetComponentUnderTest<SfChart>();
+        await Task.Delay(200);
+        var text = cut.Find("#container0_AxisLabel_0");
+        Assert.True(text.TextContent == "4.5\n    ");
+        var text1 = cut.Find("#container1_AxisLabel_1");
+        Assert.True(text1.TextContent == "9.5\n    ");
+        cut.SetParametersAndRender();
+    }
+    public class SalesInfo49
+    {
+        public double x { get; set; }
+        public double y { get; set; }
+    }
+    public List<SalesInfo49> chartdata49 = new List<SalesInfo49>
+{
+        new SalesInfo49{x = 1, y = 7},
+     new SalesInfo49{x = 2, y = 1},
+     new SalesInfo49{x = 3, y = 1},
+     new SalesInfo49{x = 4, y = 14},
+     new SalesInfo49{x = 5, y = 1},
+     new SalesInfo49{x = 6, y = 10},
+     new SalesInfo49{x = 7, y = 8},
+     new SalesInfo49{x = 8, y = 6}
+        };
+}
+
+
+
+@{
+    var InitialGroup70 = (new string[] { "CustomerID", "OrderID" });
+}
+
+<SfFixture @ref="fixture70" TestAsync="CheckingFirsttAndLastMinorGridLine" Description="CheckingFirsttAndLastMinorGridLine">
+    <ComponentUnderTest>
+        <SfChart ID="container" Width="500px" Height="400px" Title="Inflation - Consumer Price">
+            <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Toolkit.ValueType.DateTime" LabelFormat="y" IntervalType="IntervalType.Years" EdgeLabelPlacement="EdgeLabelPlacement.Shift">
+            </ChartPrimaryXAxis>
+            <ChartPrimaryYAxis LabelFormat="{value}%" RangePadding="ChartRangePadding.None" MinorTicksPerInterval="2" IsInversed="true">
+                <ChartAxisMajorGridLines Width="0.75" DashArray="5,5" Color="#606060"></ChartAxisMajorGridLines>
+                <ChartAxisMinorGridLines Width="0.75" DashArray="5,5" Color="Blue"></ChartAxisMinorGridLines>
+            </ChartPrimaryYAxis>
+            <ChartSeriesCollection>
+                <ChartSeries DataSource="@chartdata50" XName="x" YName="y" Name="Germany" Width="2" Type="ChartSeriesType.Line">
+                    <ChartSeriesAnimation Enable="false"></ChartSeriesAnimation>
+                    <ChartMarker Visible="true"></ChartMarker>
+                    <ChartSeriesBorder Width="0.5" Color="#00bdae"></ChartSeriesBorder>
+                </ChartSeries>
+            </ChartSeriesCollection>
+
+        </SfChart>
+    </ComponentUnderTest>
+</SfFixture>
+
+
+@code {
+
+    SfFixture fixture70 { get; set; }
+    async Task CheckingFirsttAndLastMinorGridLine(Fixture fixture70)
+    {
+        var cut = fixture70.GetComponentUnderTest<SfChart>();
+        await Task.Delay(200);
+        var gridLineElement = cut.Find("#container_MinorGridLine_1_0");
+        // Note: Values may vary slightly depending on screen resolution.
+        Assert.True(gridLineElement.GetAttribute("d") == "M 43 308L 490 308 M 43 289L 490 289 " || gridLineElement.GetAttribute("d") == "M 42 61L 490 61 M 42 81L 490 81 ");
+        var gridLineElement1 = cut.Find("#container_MinorGridLine_1_4");
+        Assert.True(gridLineElement1.GetAttribute("d") == "M 43 78L 490 78 M 43 58L 490 58 " || gridLineElement1.GetAttribute("d") == "M 42 297L 490 297 M 42 317L 490 317 ");
+        cut.SetParametersAndRender();
+    }
+    public class SalesInfo50
+    {
+        public DateTime x { get; set; }
+        public double y { get; set; }
+    }
+    public List<SalesInfo50> chartdata50 = new List<SalesInfo50>
+{
+     new SalesInfo50{x = new DateTime(2005, 12, 01), y = 21},
+     new SalesInfo50{x = new DateTime(2006, 12, 01), y = 24},
+     new SalesInfo50{x = new DateTime(2007, 12, 01), y = 36},
+     new SalesInfo50{x = new DateTime(2008, 12, 01), y = 38},
+     new SalesInfo50{x = new DateTime(2009, 12, 01), y = 54},
+     new SalesInfo50{x = new DateTime(2010, 12, 01), y = 57},
+     new SalesInfo50{x = new DateTime(2011, 12, 01), y = 70},
+        };
+}
+
+
+
+@{
+    var InitialGroup71 = (new string[] { "CustomerID", "OrderID" });
+}
+
+<SfFixture @ref="fixture71" TestAsync="CheckingInversedAxisWithZoominng" Description="CheckingInversedAxisWithZoominng">
+    <ComponentUnderTest>
+        <SfChart ID="container" Width="500px" Height="400px" Title="Inflation - Consumer Price">
+           <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Toolkit.ValueType.Category" Interval="1" EnableAutoIntervalOnZooming="false">
+            </ChartPrimaryXAxis>
+            <ChartPrimaryYAxis LabelFormat="{value}%" RangePadding="ChartRangePadding.None" Minimum="0" Maximum="100" Interval="20" IsInversed="true" EnableAutoIntervalOnZooming="false" ZoomFactor="0.5">
+                <ChartAxisMajorGridLines Width="0.75" DashArray="5,5" Color="#606060"></ChartAxisMajorGridLines>
+                <ChartAxisMinorGridLines Width="0.75" DashArray="5,5" Color="Blue"></ChartAxisMinorGridLines>
+            </ChartPrimaryYAxis>
+            <ChartSeriesCollection>
+                <ChartSeries DataSource="@chartdata51" XName="x" YName="y" Name="Germany" Width="2" Type="ChartSeriesType.Line">
+                    <ChartSeriesAnimation Enable="false"></ChartSeriesAnimation>
+                    <ChartMarker Visible="true"></ChartMarker>                    
+                </ChartSeries>
+                <ChartZoomSettings EnableMouseWheelZooming="true" EnablePinchZooming="true" EnableScrollbar="true" EnableSelectionZooming="true" Mode="ZoomMode.Y"></ChartZoomSettings>
+            </ChartSeriesCollection>
+
+        </SfChart>
+    </ComponentUnderTest>
+</SfFixture>
+
+
+@code {
+
+    SfFixture fixture71 { get; set; }
+    async Task CheckingInversedAxisWithZoominng(Fixture fixture71)
+    {
+        var cut = fixture71.GetComponentUnderTest<SfChart>();
+        await Task.Delay(200);
+        var textElements = cut.Find("#containerAxisLabels1");
+        Assert.True(textElements.ChildElementCount == 3);
+        var text = cut.Find("#container1_AxisLabel_0");
+        Assert.True(text.InnerHtml == "60%\n    ");
+        var text1 = cut.Find("#container1_AxisLabel_2");
+        Assert.True(text1.InnerHtml == "100%\n    ");
+        cut.SetParametersAndRender();
+    }
+    public class SalesInfo51
+    {
+        public double x { get; set; }
+        public double y { get; set; }
+    }
+    public List<SalesInfo51> chartdata51 = new List<SalesInfo51>
+{
+     new SalesInfo51{x = 1, y = 21},
+     new SalesInfo51{x = 2, y = 24},
+     new SalesInfo51{x = 3, y = 36},
+     new SalesInfo51{x = 4, y = 38},
+     new SalesInfo51{x = 5, y = 54},
+     new SalesInfo51{x = 6, y = 57},
+     new SalesInfo51{x = 7, y = 70}
+        };
+}
+
+
+@{
+    var InitialGroup72 = (new string[] { "CustomerID", "OrderID" });
+}
+
+<SfFixture @ref="fixture72" TestAsync="CheckingVerticalAxisLabelWithHigherFontSize" Description="CheckingVerticalAxisLabelWithHigherFontSize">
+    <ComponentUnderTest>
+        <SfChart ID="container" Title="Weather Reports">
+            <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Toolkit.ValueType.Category"/>
+            <ChartPrimaryYAxis LabelIntersectAction="LabelIntersectAction.Hide">
+                <ChartAxisLabelStyle Size="32px"></ChartAxisLabelStyle>
+            </ChartPrimaryYAxis>
+            <ChartSeriesCollection>
+                <ChartSeries DataSource="@chartdata52" XName="X" YName="Y" Type="ChartSeriesType.Line" />
+            </ChartSeriesCollection>
+        </SfChart>
+    </ComponentUnderTest>
+</SfFixture>
+
+@code {
+
+    SfFixture fixture72 { get; set; }
+    async Task CheckingVerticalAxisLabelWithHigherFontSize(Fixture fixture72)
+    {
+        var cut = fixture72.GetComponentUnderTest<SfChart>();
+        await Task.Delay(200);
+        var firstlabel = cut.Find("#container1_AxisLabel_0");
+        Assert.True(firstlabel.GetAttribute("y") == "423.4");
+        var secondlabel = cut.Find("#container1_AxisLabel_2");
+        Assert.True(secondlabel.GetAttribute("y") == "341.4");
+    }
+
+    public class SalesInfo52
+    {
+        public string X { get; set; }
+        public double Y { get; set; }
+    }
+
+    public List<SalesInfo52> chartdata52 = new List<SalesInfo52>
+    {
+        new SalesInfo52 { X = "USA", Y = 35 },
+        new SalesInfo52 { X = "China", Y = 40 },
+        new SalesInfo52 { X = "Japan", Y = 80 },
+        new SalesInfo52 { X = "Australia", Y = 70 },
+        new SalesInfo52 { X = "France", Y = 65 },
+        new SalesInfo52 { X = "Germany", Y = 55 },
+        new SalesInfo52 { X = "Italy", Y = 50 },
+        new SalesInfo52 { X = "Sweden", Y = 35 },
+        new SalesInfo52 { X = "Korea", Y = 40 },
+        new SalesInfo52 { X = "Netherlands", Y = 80},
+        new SalesInfo52 { X = "Hungary", Y = 70 },
+        new SalesInfo52 { X = "Brazil", Y = 65 },
+        new SalesInfo52 { X = "Spain", Y = 55 },
+        new SalesInfo52 { X = "Kenya", Y = 50 }
+    };
+}
+
+
+@{
+    var InitialGroup73 = (new string[] { "CustomerID", "OrderID" });
+}
+
+<SfFixture @ref="fixture73" TestAsync="CheckingHigherFontSizeVerticalAxisLabelWithTransposedChart" Description="CheckingHigherFontSizeVerticalAxisLabelWithTransposedChart">
+    <ComponentUnderTest> 
+        <SfChart ID="container" Title="Weather Reports" IsTransposed="true">
+            <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Toolkit.ValueType.Category" LabelIntersectAction="LabelIntersectAction.Hide">
+                <ChartAxisLabelStyle Size="20px"></ChartAxisLabelStyle>
+            </ChartPrimaryXAxis>
+            <ChartSeriesCollection>
+                <ChartSeries DataSource="@chartdata53" XName="X" YName="Y" Type="ChartSeriesType.Line" />
+            </ChartSeriesCollection>
+        </SfChart>
+    </ComponentUnderTest>
+</SfFixture>
+
+@code {
+
+    SfFixture fixture73 { get; set; }
+    async Task CheckingHigherFontSizeVerticalAxisLabelWithTransposedChart(Fixture fixture73)
+    {
+        var cut = fixture73.GetComponentUnderTest<SfChart>();
+        await Task.Delay(200);
+        var firstlabel = cut.Find("#container1_AxisLabel_0");
+        Assert.True(firstlabel.GetAttribute("y") == "406.5");
+    }
+
+    public class SalesInfo53
+    {
+        public string X { get; set; }
+        public double Y { get; set; }
+    }
+
+    public List<SalesInfo53> chartdata53 = new List<SalesInfo53>
+    {
+        new SalesInfo53 { X = "USA", Y = 35 },
+        new SalesInfo53 { X = "China", Y = 40 },
+        new SalesInfo53 { X = "Japan", Y = 80 },
+        new SalesInfo53 { X = "Australia", Y = 70 },
+        new SalesInfo53 { X = "France", Y = 65 },
+        new SalesInfo53 { X = "Germany", Y = 55 },
+        new SalesInfo53 { X = "Italy", Y = 50 },
+        new SalesInfo53 { X = "Sweden", Y = 35 },
+        new SalesInfo53 { X = "Korea", Y = 40 },
+        new SalesInfo53 { X = "Netherlands", Y = 80},
+        new SalesInfo53 { X = "Hungary", Y = 70 },
+        new SalesInfo53 { X = "Brazil", Y = 65 },
+        new SalesInfo53 { X = "Spain", Y = 55 },
+        new SalesInfo53 { X = "Kenya", Y = 50 }
+    };
+}
+
+
+@{
+    var InitialGroup74 = (new string[] { "CustomerID", "OrderID" });
+}
+
+<SfFixture @ref="fixture74" TestAsync="CheckingAxisApiDynamicUpdate" Description="CheckingAxisApiDynamicUpdate">
+    <ComponentUnderTest> 
+        <SfChart ID="container" Title="Olympic Medals">
+            <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Toolkit.ValueType.Category" CrossesAt="15" />
+            <ChartAxes>
+                <ChartAxis CrossesAt="5" Name="YAxis"></ChartAxis>
+            </ChartAxes>
+
+            <ChartSeriesCollection>
+                <ChartSeries DataSource="@MedalDetails" XName="X" YName="YValue" YAxisName="YAxis" Type="ChartSeriesType.Column" />
+            </ChartSeriesCollection>
+        </SfChart>
+    </ComponentUnderTest>
+</SfFixture>
+
+@code {
+
+    SfFixture fixture74 { get; set; }
+    async Task CheckingAxisApiDynamicUpdate(Fixture fixture74)
+    {
+        var cut = fixture74.GetComponentUnderTest<SfChart>();
+        await Task.Delay(200);
+        var axis = cut.FindComponent<ChartAxis>();
+        axis.Instance.IsIndexed = true;
+        axis.Instance.SetIsInversed(true);
+        axis.Instance.IsInversed = true;
+        axis.Instance.Name = "Indexed Category Axis";
+        axis.Instance.OpposedPosition = true;
+        axis.Instance.Title = "Countries";
+        axis.Instance.ValueType = Syncfusion.Blazor.Toolkit.ValueType.Double;
+        axis.Instance.SetAxisVisibility(false);
+        axis.Instance.Visible = false;
+        axis.Instance.Coefficient = 120;
+        axis.Instance.CrossesAt = 6;
+        axis.Instance.DesiredIntervals = 2;
+        axis.Instance.EdgeLabelPlacement = EdgeLabelPlacement.Shift;
+        axis.Instance.EnableScrollbarOnZooming = false;
+        axis.Instance.EnableTrim = true;
+        axis.Instance.Interval = 2;
+        axis.Instance.Minimum = 20;
+        axis.Instance.Maximum = 60;
+        axis.Instance.UpdateZoomValues(0.8, 0.9);
+        axis.Instance.LabelFormat = "c";
+        axis.Instance.LabelIntersectAction = LabelIntersectAction.Wrap;
+        axis.Instance.LabelPadding = 6;
+        axis.Instance.LabelRotation = 30;
+        axis.Instance.MaximumLabelWidth = 32;
+        axis.Instance.PlaceNextToAxisLine = false;
+        axis.Instance.PlotOffsetBottom = 5;
+        axis.Instance.RangePadding = ChartRangePadding.Additional;
+        axis.Instance.StartFromZero = false;
+        axis.Instance.TabIndex = 1;
+        Assert.True(axis.Instance != null);
+        cut.SetParametersAndRender();
+        // await axis.Instance.DisposeAsync();
+    }
+
+    public class ChartData
+    {
+        public string X { get; set; }
+        public double YValue { get; set; }
+    }
+
+    public List<ChartData> MedalDetails = new List<ChartData>
+    {
+         new ChartData { X= "USA", YValue= 46 },
+         new ChartData { X= "GBR", YValue= 27 },
+         new ChartData { X= "CHN", YValue= 26 },
+         new ChartData { X= "UK", YValue= 26 },
+         new ChartData { X= "AUS", YValue= 26 },
+         new ChartData { X= "IND", YValue= 26 },
+         new ChartData { X= "DEN", YValue= 26 },
+         new ChartData { X= "MEX", YValue= 26 },
+    };
+}
+
+@{
+    var InitialGroup75 = (new string[] { "CustomerID", "OrderID" });
+}
+
+<SfFixture @ref="fixture75" TestAsync="CheckingAxisLabelStyleDynamicUpdate" Description="CheckingAxisLabelStyleDynamicUpdate">
+    <ComponentUnderTest>
+        <SfChart ID="container" Title="Weather Reports">
+            <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Toolkit.ValueType.Category" Title="Countries">
+                @{
+                    if(axisLabelChange)
+                    {
+                        <ChartAxisLabelStyle Size="32px" FontFamily="Roboto" FontStyle="Normal" FontWeight="400"></ChartAxisLabelStyle>
+                    }
+                    else{
+                        <ChartAxisLabelStyle Size="36px" FontFamily="Arial" FontStyle="Normal" FontWeight="400"></ChartAxisLabelStyle>
+                    }
+
+                    if(axisTitleChange)
+                    {
+                        <ChartAxisTitleStyle Size="14px" />
+                    }
+                    else{
+                        <ChartAxisTitleStyle Size="16px" />
+                    }
+                }
+            </ChartPrimaryXAxis>>
+            <ChartPrimaryYAxis LabelIntersectAction="LabelIntersectAction.Hide">
+                @{
+                    if(majorGridLinesChange)
+                    {
+                        <ChartAxisMajorGridLines Width="5" Color="blue"/>
+                    }
+                    else{
+                        <ChartAxisMajorGridLines Width="0.5" Color="red"/>
+                    }
+                }
+            </ChartPrimaryYAxis>
+            <ChartSeriesCollection>
+                <ChartSeries DataSource="@chartdata52" XName="X" YName="Y" Type="ChartSeriesType.Line" />
+            </ChartSeriesCollection>
+        </SfChart>
+    </ComponentUnderTest>
+</SfFixture>
+
+@code {
+
+    SfFixture fixture75 { get; set; }
+    public bool axisLabelChange = true;
+    public bool majorGridLinesChange = true;
+    public bool axisTitleChange = true;
+    async Task CheckingAxisLabelStyleDynamicUpdate(Fixture fixture75)
+    {
+        var cut = fixture75.GetComponentUnderTest<SfChart>();
+        await Task.Delay(200);
+        var text = cut.Find("#container0_AxisLabel_0");
+        Assert.Equal("32px", text.GetAttribute("font-size"));
+        Assert.Equal("Roboto", text.GetAttribute("font-family"));
+        Assert.Equal("Normal", text.GetAttribute("font-style"));
+        Assert.Equal("400", text.GetAttribute("font-weight"));
+        var majorGridline = cut.Find("#container_MajorGridLine_1_3");
+        Assert.Equal("blue", majorGridline.GetAttribute("stroke"));
+        Assert.Equal("5", majorGridline.GetAttribute("stroke-width"));
+        var axisTitle = cut.Find("#container_AxisTitle_0");
+        Assert.Equal("14px", axisTitle.GetAttribute("font-size"));
+        axisLabelChange = false;
+        majorGridLinesChange = false;
+        axisTitleChange = false;
+        cut.SetParametersAndRender();
+        await Task.Delay(200);
+        text = cut.Find("#container0_AxisLabel_0");
+        Assert.Equal("36px", text.GetAttribute("font-size"));
+        Assert.Equal("Arial", text.GetAttribute("font-family"));
+        Assert.Equal("Normal", text.GetAttribute("font-style"));
+        Assert.Equal("400", text.GetAttribute("font-weight"));
+        majorGridline = cut.Find("#container_MajorGridLine_1_3");
+        Assert.Equal("red", majorGridline.GetAttribute("stroke"));
+        Assert.Equal("0.5", majorGridline.GetAttribute("stroke-width"));
+        axisTitle = cut.Find("#container_AxisTitle_0");
+        Assert.Equal("16px", axisTitle.GetAttribute("font-size"));
+    }
+}

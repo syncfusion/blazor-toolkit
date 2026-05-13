@@ -1,0 +1,28 @@
+@page "/switch/size-variations"
+@using Syncfusion.Blazor.Toolkit.Inputs
+
+<h1>Switch - Size Variations</h1>
+
+<div class="test-container">
+    <h2>Small Size</h2>
+    <SfSwitch Id="switch-small" CssClass="e-small" @bind-Checked="smallValue" />
+    <p>Value: @smallValue</p>
+</div>
+
+<div class="test-container">
+    <h2>Default Size</h2>
+    <SfSwitch Id="switch-default" @bind-Checked="defaultValue" />
+    <p>Value: @defaultValue</p>
+</div>
+
+<div class="test-container">
+    <h2>Bigger Size</h2>
+    <SfSwitch Id="switch-big" CssClass="e-bigger" @bind-Checked="bigValue" />
+    <p>Value: @bigValue</p>
+</div>
+
+@code {
+    bool smallValue;
+    bool defaultValue;
+    bool bigValue;
+}

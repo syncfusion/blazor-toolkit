@@ -1,0 +1,17 @@
+﻿@using Syncfusion.Blazor.Toolkit.Popups
+
+@namespace Syncfusion.Blazor.Toolkit.Tests.Dialog
+
+<SfDialog ShowCloseIcon="true">
+    <DialogTemplates>
+        <Header> @headerText </Header>
+        <Content> @contentText </Content>
+        <FooterTemplate> @footerTemplateText </FooterTemplate>
+    </DialogTemplates>
+</SfDialog>
+
+@code{
+    private string headerText = "This is dialog header";
+    private string contentText = "This is dialog content";
+    private string footerTemplateText = "This is dialog footer template";
+}

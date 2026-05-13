@@ -1,0 +1,90 @@
+@page "/checkbox/indeterminate-state"
+@using Syncfusion.Blazor.Toolkit.Inputs
+@layout MainLayout
+
+<h1>Checkbox - Indeterminate State</h1>
+
+<div class="test-container">
+    <h2>Indeterminate State (Two-State)</h2>
+    <SfCheckBox TChecked="bool"
+                Label="Indeterminate Checkbox"
+                Indeterminate="true"
+                @bind-Checked="twoStateChecked">
+    </SfCheckBox>
+    <p>Checked: <strong>@twoStateChecked</strong></p>
+    <p>Indeterminate: <strong>true</strong></p>
+</div>
+
+<div class="test-container">
+    <h2>Tri-State Checkbox (Nullable Bool)</h2>
+    <SfCheckBox TChecked="bool?"
+                Label="Select All"
+                EnableTriState="true"
+                @bind-Checked="triStateValue">
+    </SfCheckBox>
+    <p>Tri-State Value:
+        <strong>@(triStateValue?.ToString() ?? "null (indeterminate)")</strong>
+    </p>
+</div>
+
+<div class="test-container">
+    <h2>Tri-State with Initial Checked</h2>
+    <SfCheckBox TChecked="bool?"
+                Label="Initial Checked"
+                EnableTriState="true"
+                @bind-Checked="triStateChecked">
+    </SfCheckBox>
+    <p>Value: <strong>@triStateChecked?.ToString()</strong></p>
+</div>
+
+<div class="test-container">
+    <h2>Tri-State with Initial Unchecked</h2>
+    <SfCheckBox TChecked="bool?"
+                Label="Initial Unchecked"
+                EnableTriState="true"
+                @bind-Checked="triStateUnchecked">
+    </SfCheckBox>
+    <p>Value: <strong>@triStateUnchecked?.ToString()</strong></p>
+</div>
+
+<div class="test-container">
+    <h2>Tri-State with Initial Null</h2>
+    <SfCheckBox TChecked="bool?"
+                Label="Initial Null"
+                EnableTriState="true"
+                @bind-Checked="triStateNull">
+    </SfCheckBox>
+    <p>Value:
+        <strong>@(triStateNull?.ToString() ?? "null (indeterminate)")</strong>
+    </p>
+</div>
+
+<style>
+    .test-container {
+        padding: 20px;
+        border: 1px solid #ddd;
+        margin: 10px 0;
+        border-radius: 4px;
+        background-color: #f9f9f9;
+    }
+
+    h2 {
+        margin-top: 20px;
+        font-size: 18px;
+        font-weight: 600;
+    }
+
+    p {
+        margin-top: 10px;
+        font-size: 14px;
+    }
+</style>
+
+@code {
+    private bool twoStateChecked = false;
+
+    private bool? triStateValue = null;
+    private bool? triStateChecked = true;     // ✅ initial checked
+    private bool? triStateUnchecked = false;  // ✅ initial unchecked
+    private bool? triStateNull = null;         // ✅ initial indeterminate
+}

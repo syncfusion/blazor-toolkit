@@ -1,0 +1,125 @@
+@page "/calendar-test"
+@using Syncfusion.Blazor
+@using Syncfusion.Blazor.Toolkit.Calendars
+
+<h3>SfCalendar Playwright Test Page</h3>
+
+<div>
+    <button id="toggle-weeknumber" @onclick="ToggleWeekNumber">Toggle WeekNumber</button>
+    <button id="toggle-multiselect" @onclick="ToggleMultiSelect">Toggle MultiSelect</button>
+    <button id="toggle-persistence" @onclick="TogglePersistence">Toggle Persistence</button>
+    <button id="set-minmax" @onclick="SetBadMinMax">Set Min&gt;Max</button>
+    <button id="add-dates" @onclick="AddSampleDates">Add Dates</button>
+    <button id="remove-dates" @onclick="RemoveSampleDates">Remove Dates</button>
+    <button id="navigate-year" @onclick="NavigateYear">Navigate Year View</button>
+    <div id="event-log" style="margin-top:10px;border:1px solid #ccc;padding:6px;min-height:40px;">@((MarkupString)EventLog)</div>
+</div>
+
+<SfCalendar TValue="DateTime" ID="calendar-test" @ref="CalendarRef" IsMultiSelection="@IsMulti" EnablePersistence="@EnablePersist" WeekNumber="@ShowWeekNumber" Min="@MinDate" Max="@MaxDate" DayCellRendering="OnRenderDayCell" Created="OnCreated" ValuesChanged="OnValuesChanged" Navigated="OnNavigated"></SfCalendar>
+
+<h4>Hijri Variant (for Hijri tests)</h4>
+<SfCalendar TValue="DateTime" ID="calendar-hijri" CalendarMode="CalendarType.Islamic" EnablePersistence="false"></SfCalendar>
+
+@code {
+    private SfCalendar<DateTime>? CalendarRef;
+    private bool IsMulti = false;
+    private bool EnablePersist = false;
+    private bool ShowWeekNumber = false;
+    private DateTime MinDate = DateTime.MinValue;
+    private DateTime MaxDate = DateTime.MaxValue;
+    private string EventLog = string.Empty;
+
+    private void ToggleWeekNumber()
+    {
+        ShowWeekNumber = !ShowWeekNumber;
+    }
+
+    private void ToggleMultiSelect()
+    {
+        IsMulti = !IsMulti;
+    }
+
+    private void TogglePersistence()
+    {
+        EnablePersist = !EnablePersist;
+    }
+
+    private void SetBadMinMax()
+    {
+        MinDate = DateTime.Today.AddDays(1);
+        MaxDate = DateTime.Today;
+    }
+
+    private async Task OnNavigated(NavigatedEventArgs args)
+    {
+        await AppendLog($"Navigated:{args.View}");
+    }
+
+    private async Task OnRenderDayCell(RenderDayCellEventArgs args)
+    {
+        // Add a custom class to each rendered day cell for Playwright tests to assert
+        try
+        {
+            args.CellData.ClassList += " e-custom-day-cell";
+        }
+        catch
+        {
+            // ignore if CellData is not available
+        }
+        await Task.CompletedTask;
+    }
+
+    private async Task OnCreated()
+    {
+        await AppendLog("Created");
+    }
+
+    private async Task OnValueChanged(ChangedEventArgs<DateTime> args)
+    {
+        await AppendLog($"ValueChanged:{args.Value}");
+    }
+
+    private async Task OnValuesChanged(DateTime[] vals)
+    {
+        await AppendLog($"ValuesChanged:{string.Join(',', vals)}");
+    }
+
+    private async Task AppendLog(string text)
+    {
+        await InvokeAsync(() =>
+        {
+            if (string.IsNullOrEmpty(EventLog))
+            {
+                EventLog = text;
+            }
+            else
+            {
+                EventLog += "<br/>" + text;
+            }
+            StateHasChanged();
+        });
+    }
+
+    private async Task AddSampleDates()
+    {
+        if (CalendarRef is null) return;
+        // Ensure multi-selection is enabled so AddDatesAsync applies
+        IsMulti = true;
+        var d1 = DateTime.Today.AddDays(2);
+        var d2 = DateTime.Today.AddDays(4);
+        await CalendarRef.AddDatesAsync(new DateTime[] { d1, d2 });
+    }
+
+    private async Task RemoveSampleDates()
+    {
+        if (CalendarRef is null) return;
+        var d1 = DateTime.Today.AddDays(2);
+        await CalendarRef.RemoveDatesAsync(new DateTime[] { d1 });
+    }
+
+    private async Task NavigateYear()
+    {
+        if (CalendarRef is null) return;
+        await CalendarRef.NavigateAsync(CalendarView.Year, DateTime.Now);
+    }
+}

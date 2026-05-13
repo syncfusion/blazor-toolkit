@@ -1,0 +1,40 @@
+@use './input.scss' as *;
+
+.e-input-group.e-multi-line-input.e-auto-width {
+    width: auto;
+}
+
+.e-input-group.e-multi-line-input {
+    textarea.e-resize-x {
+        resize: horizontal !important;
+    }
+
+    textarea.e-resize-y {
+        resize: vertical !important;
+    }
+
+    textarea.e-resize-xy {
+        resize: both !important;
+    }
+
+    textarea.e-textarea.e-resize-none {
+        resize: none !important;
+    }
+}
+
+.e-float-input .e-clear-icon:hover,
+.e-float-input.e-control-wrapper .e-clear-icon:hover,
+.e-input-group .e-clear-icon:hover,
+.e-input-group.e-control-wrapper .e-clear-icon:hover {
+    background: none;
+    border: none;
+}
+
+.e-float-input:not(.e-disabled) .e-clear-icon:hover,
+.e-float-input.e-control-wrapper:not(.e-disabled) .e-clear-icon:hover,
+.e-input-group:not(.e-disabled) .e-clear-icon:hover,
+.e-input-group.e-control-wrapper:not(.e-disabled) .e-clear-icon:hover {
+    background: none;
+}
+
+/* stylelint-disable-line no-empty-source */

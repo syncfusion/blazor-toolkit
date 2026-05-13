@@ -1,0 +1,61 @@
+@page "/button-group/disabled-state"
+@using Syncfusion.Blazor.Toolkit.Buttons
+@layout MainLayout
+
+<h1>Button Group - Disabled State</h1>
+
+<div class="test-container">
+    <h2>Disabled Buttons</h2>
+    <SfButtonGroup id="bg-disabled-mixed" Mode="SelectionMode.Single">
+        <ButtonGroupButton Content="Enabled" id="btn-en" Value="enabled"></ButtonGroupButton>
+        <ButtonGroupButton Content="Disabled" id="btn-dis" Disabled="true" Value="disabled"></ButtonGroupButton>
+        <ButtonGroupButton Content="Enabled" id="btn-en2" Value="enabled2"></ButtonGroupButton>
+    </SfButtonGroup>
+</div>
+
+<div class="test-container">
+    <h2>All Disabled Buttons</h2>
+    <SfButtonGroup id="bg-all-disabled" Mode="SelectionMode.Single">
+        <ButtonGroupButton Content="Option 1" id="opt-d1" Disabled="true"></ButtonGroupButton>
+        <ButtonGroupButton Content="Option 2" id="opt-d2" Disabled="true"></ButtonGroupButton>
+        <ButtonGroupButton Content="Option 3" id="opt-d3" Disabled="true"></ButtonGroupButton>
+    </SfButtonGroup>
+</div>
+
+<div class="test-container">
+    <h2>Dynamic Disable State</h2>
+    <SfButtonGroup id="bg-dynamic-disable" Mode="SelectionMode.Single">
+        <ButtonGroupButton Content="Toggle" id="toggle-btn" Value="toggle"></ButtonGroupButton>
+        <ButtonGroupButton Content="Test" id="test-btn" Value="test"></ButtonGroupButton>
+    </SfButtonGroup>
+    <button id="toggle-disable" @onclick="ToggleDisable">Toggle Disable</button>
+</div>
+
+<style>
+    .test-container {
+        padding: 20px;
+        border: 1px solid #ddd;
+        margin: 10px 0;
+        border-radius: 4px;
+        background-color: #f9f9f9;
+    }
+    
+    h2 {
+        margin-top: 20px;
+        font-size: 18px;
+        font-weight: 600;
+    }
+    
+    button {
+        padding: 8px 16px;
+        margin-top: 10px;
+        cursor: pointer;
+    }
+</style>
+
+@code {
+    private void ToggleDisable()
+    {
+        // This would toggle the disabled state (implementation handles Blazor two-way binding)
+    }
+}

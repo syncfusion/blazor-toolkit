@@ -1,0 +1,18 @@
+﻿@using Syncfusion.Blazor.Toolkit.Inputs
+
+@namespace Syncfusion.Blazor.Toolkit.Tests.Inputs
+
+<div class="sample">
+    <label for="switch">Custom label</label>
+    <SfSwitch TChecked="bool" id="switch"></SfSwitch>
+    <SfSwitch TChecked="bool" OnLabel="ON" OffLabel="OFF"></SfSwitch>
+</div>
+
+@code {
+    private bool value;
+
+    private void OnClickHandler()
+    {
+        value = !value;
+    }
+}

@@ -1,0 +1,1056 @@
+﻿@page "/charts/datalabel"
+
+@using Syncfusion.Blazor.Toolkit.Charts
+@using ValueType = Syncfusion.Blazor.Toolkit.ValueType
+
+<Description>
+    <Header>
+        <h5><b>Overview</b></h5>
+    </Header>
+    <Content>
+        Data labels are used to display values directly on data points,
+        improving readability and Chart interpretation. This example
+        demonstrates enabling data labels for multiple column series
+        by setting the <code>Visible</code> property to <code>true</code> in the <code>ChartDataLabel</code> component.
+        It also shows rotation, formatting, and tooltips.
+    </Content>
+</Description>
+
+<VirtualizeSection MinHeightPx="600px">
+    <CodePreview IsFullWidth="true" CodeSection="@DataLabelOverviewCode">
+        <PreviewSection>
+            <SfChart @key="@_currentTheme" Title="Real Household Income Per Capita and Real GDP Per Capita" Theme="@_currentTheme">
+
+                <!-- Primary X Axis -->
+                <ChartPrimaryXAxis ValueType="ValueType.Category">
+                    <ChartAxisMajorGridLines Width="0" />
+                    <ChartAxisMajorTickLines Width="0" />
+                </ChartPrimaryXAxis>
+
+                <!-- Primary Y Axis -->
+                <ChartPrimaryYAxis Format="n1">
+                    <ChartAxisLineStyle Width="0" />
+                    <ChartAxisMajorTickLines Width="0" />
+                </ChartPrimaryYAxis>
+
+                <!-- Series -->
+                
+
+                    <!-- Household Income -->
+                    <ChartSeries DataSource="@DataLabelOverviewData"
+                                 XName="X"
+                                 YName="Y1"
+                                 Type="ChartSeriesType.Column"
+                                 Name="Household Income - Q1 2025"
+                                 Fill="#BA7DDA"
+                                 ColumnSpacing="0.2"
+                                 CornerRadius="@(new ChartCornerRadius { TopLeft = 5, TopRight = 5 })">
+
+                        <ChartMarker>
+                       
+                            <ChartDataLabel Visible="true"
+                                            Format="n1"
+                                            Position="ChartLabelPosition.Outer"
+                                            Font="@(new ChartDataLabelFont { Color = DataLabelTextColor })" />
+                        </ChartMarker>
+                    </ChartSeries>
+
+                    <!-- GDP -->
+                    <ChartSeries DataSource="@DataLabelOverviewData"
+                                 XName="X"
+                                 YName="Y2"
+                                 Type="ChartSeriesType.Column"
+                                 Name="GDP - Q1 2025"
+                                 Fill="#00C5BC"
+                                 ColumnSpacing="0.2"
+                                 CornerRadius="@(new ChartCornerRadius { TopLeft = 5, TopRight = 5 })">
+
+                        <ChartMarker>
+                            <ChartDataLabel Visible="true"
+                                            Format="n1"
+                                            Position="ChartLabelPosition.Outer"
+                                            LabelIntersectAction="None"
+                                            Font="@(new ChartDataLabelFont { Color = DataLabelTextColor })" />
+                        </ChartMarker>
+                    </ChartSeries>
+                
+
+                <!-- Tooltip -->
+                <ChartTooltipSettings Enable="true"
+                                      Header="${point.x}"
+                                      Format="${series.name} : <b>${point.y}%</b>" />
+
+            </SfChart>
+        </PreviewSection>
+    </CodePreview>
+</VirtualizeSection>
+
+@code {
+    [CascadingParameter]
+    private Theme CurrentTheme { get; set; } = Theme.Fluent;
+
+    private Theme _currentTheme = Theme.Fluent;
+
+    private string _prevThemeName = string.Empty;
+
+    protected override void OnInitialized()
+    {
+        _currentTheme = CurrentTheme;
+    }
+
+    protected override void OnParametersSet()
+    {
+        var name = CurrentTheme.ToString() ?? string.Empty;
+        if (name != _prevThemeName)
+        {
+            _prevThemeName = name;
+            _currentTheme = CurrentTheme;
+            InvokeAsync(StateHasChanged);
+        }
+        else
+        {
+            _currentTheme = CurrentTheme;
+        }
+    }
+
+    private bool IsDarkTheme => _currentTheme.ToString().Contains("Dark") || _currentTheme.ToString().Contains("HighContrast");
+    private string DataLabelTextColor => IsDarkTheme ? "#FFFFFF" : "#000000";
+    private string DataLabelOverviewCode => @"@using Syncfusion.Blazor.Toolkit.Charts
+    <SfChart Title=""Real Household Income Per Capita and Real GDP Per Capita"">
+
+            <!-- Primary X Axis -->
+            <ChartPrimaryXAxis ValueType=""ValueType.Category"">
+                <ChartAxisMajorGridLines Width=""0"" />
+                <ChartAxisMajorTickLines Width=""0"" />
+            </ChartPrimaryXAxis>
+            <!-- Primary Y Axis -->
+            <ChartPrimaryYAxis Format=""n1"">
+                <ChartAxisLineStyle Width=""0"" />
+                <ChartAxisMajorTickLines Width=""0"" />
+            </ChartPrimaryYAxis>
+            <!-- Series -->
+            <ChartSeriesCollection>
+                <!-- Household Income -->
+                <ChartSeries DataSource=""@DataLabelOverviewData""
+                             XName=""X""
+                             YName=""Y1""
+                             Type=""ChartSeriesType.Column""
+                             Name=""Household Income - Q1 2025""
+                             Fill=""#BA7DDA""
+                             ColumnSpacing=""0.2""
+                             CornerRadius=""@(new ChartCornerRadius { TopLeft = 5, TopRight = 5 })"">
+
+                    <ChartMarker>
+                       
+                        <ChartDataLabel Visible=""true""
+                                        Format=""n2""
+                                        EnableRotation=""true""
+                                        Angle=""-90""
+                                        Font=""@(new ChartDataLabelFont { Color = DataLabelTextColor })"" />
+                    </ChartMarker>
+                </ChartSeries>
+
+                <!-- GDP -->
+                <ChartSeries DataSource=""@DataLabelOverviewData""
+                             XName=""X""
+                             YName=""Y2""
+                             Type=""ChartSeriesType.Column""
+                             Name=""GDP - Q1 2025""
+                             Fill=""#00C5BC""
+                             ColumnSpacing=""0.2""
+                             CornerRadius=""@(new ChartCornerRadius { TopLeft = 5, TopRight = 5 })"">
+                    <ChartMarker>
+                        <ChartDataLabel Visible=""true""
+                                        Format=""{value}k""
+                                            Position=""ChartLabelPosition.Top""
+                                        EnableRotation=""true""
+                                        Angle=""270""
+                                        LabelIntersectAction=""None""
+                                        Font=""@(new ChartDataLabelFont { Color = DataLabelTextColor })"" />
+                    </ChartMarker>
+                </ChartSeries>
+            </ChartSeriesCollection>
+            <!-- Tooltip -->
+            <ChartTooltipSettings Enable=""true""
+                                  Header=""${point.x}""
+                                  Format=""${series.name} : <b>${point.y}%</b>"" />
+
+        </SfChart>
+
+@code {
+      [CascadingParameter]
+    private Theme CurrentTheme { get; set; } = Theme.Fluent;
+
+    private bool IsDarkTheme => CurrentTheme.ToString().Contains(""Dark"") || CurrentTheme.ToString().Contains(""HighContrast"");
+    private string DataLabelTextColor => IsDarkTheme ? ""#FFFFFF"" : ""#000000"";
+    public class IncomeData
+    {
+        public string X { get; set; }
+        public double Y1 { get; set; }
+        public double Y2 { get; set; }
+    }
+
+    public List<IncomeData> DataLabelOverviewData = new()
+    {
+        new() { X = ""Italy"",   Y1 = 1.0,  Y2 = 0.4 },
+        new() { X = ""USA"",     Y1 = 0.5,  Y2 = -0.3 },
+        new() { X = ""G7"",      Y1 = 0.3,  Y2 = 0.0 },
+        new() { X = ""France"",  Y1 = 0.2,  Y2 = 0.1 },
+        new() { X = ""Canada"",  Y1 = 0.1,  Y2 = 0.4 },
+        new() { X = ""Germany"", Y1 = -0.4, Y2 = 0.3 },
+        new() { X = ""UK"",      Y1 = -1.3, Y2 = 0.5 }
+    };
+}";
+
+
+    public class IncomeData
+    {
+        public string X { get; set; }
+        public double Y1 { get; set; }
+        public double Y2 { get; set; }
+    }
+
+    public List<IncomeData> DataLabelOverviewData = new()
+    {
+        new() { X = "Italy",   Y1 = 1.0,  Y2 = 0.4 },
+        new() { X = "USA",     Y1 = 0.5,  Y2 = -0.3 },
+        new() { X = "G7",      Y1 = 0.3,  Y2 = 0.0 },
+        new() { X = "France",  Y1 = 0.2,  Y2 = 0.1 },
+        new() { X = "Canada",  Y1 = 0.1,  Y2 = 0.4 },
+        new() { X = "Germany", Y1 = -0.4, Y2 = 0.3 },
+        new() { X = "UK",      Y1 = -1.3, Y2 = 0.5 }
+    };
+}
+
+<Description>
+    <Header>
+        <h5><b>Text Mapping</b></h5>
+    </Header>
+    <Content>
+        Text mapping allows custom text to be displayed as data labels by
+        binding a specific field from the data source. This example demonstrates
+        mapping energy consumption text values to data labels in a Bar Chart 
+        by specifying the mapping field in the <code>Name</code> property of the <code>ChartDataLabel</code> component.
+    </Content>
+</Description>
+
+<VirtualizeSection MinHeightPx="600px">
+    <CodePreview IsFullWidth="true" CodeSection="@DataLabelTextMappingCode">
+        <PreviewSection>
+            <SfChart @key="@_currentTheme" Title="Coal Production Per Capita, 2024" Theme="@_currentTheme">
+
+                <!-- Primary X Axis -->
+                <ChartPrimaryXAxis ValueType="ValueType.Category">
+                    <ChartAxisMajorGridLines Width="0" />
+                    <ChartAxisMajorTickLines Width="0" />
+                </ChartPrimaryXAxis>
+
+                <!-- Primary Y Axis -->
+                <ChartPrimaryYAxis Visible="false"
+                                   Maximum="160000">
+                    <ChartAxisLineStyle Width="0" />
+                    <ChartAxisMajorTickLines Width="0" />
+                </ChartPrimaryYAxis>
+
+                
+                    <ChartSeries DataSource="@DataLabelTextMappingData"
+                                 XName="X"
+                                 YName="Y"
+                                 Type="ChartSeriesType.Bar"
+                                 Fill="#A0D683"
+                                 CornerRadius="@(new ChartCornerRadius { TopRight = 5, BottomRight = 5 })">
+
+                        <ChartMarker>
+                            <ChartDataLabel Visible="true" Context="Text" Font="@(new ChartDataLabelFont { Color = DataLabelTextColor })" Format="{value} kWh" />
+                        </ChartMarker>
+
+                    </ChartSeries>
+                
+
+                <ChartTooltipSettings Enable="true"
+                                      Header="Coal Production"
+                                      Format="${point.x} : <b>${point.y} kWh</b>" />
+
+            </SfChart>
+        </PreviewSection>
+    </CodePreview>
+</VirtualizeSection>
+
+@code {
+    private string DataLabelTextMappingCode => @"@using Syncfusion.Blazor.Toolkit.Charts
+    <SfChart Title=""Coal Production Per Capita, 2024"">
+
+            <!-- Primary X Axis -->
+            <ChartPrimaryXAxis ValueType=""ValueType.Category"">
+                <ChartAxisMajorGridLines Width=""0"" />
+                <ChartAxisMajorTickLines Width=""0"" />
+            </ChartPrimaryXAxis>
+            <!-- Primary Y Axis -->
+            <ChartPrimaryYAxis Visible=""false""
+                               Maximum=""160000"">
+                <ChartAxisLineStyle Width=""0"" />
+                <ChartAxisMajorTickLines Width=""0"" />
+            </ChartPrimaryYAxis>
+            <ChartSeriesCollection>
+                <ChartSeries DataSource=""@DataLabelTextMappingData""
+                             XName=""X""
+                             YName=""Y""
+                             Type=""ChartSeriesType.Bar""
+                             Fill=""#A0D683""
+                             CornerRadius=""@(new ChartCornerRadius { TopRight = 5, BottomRight = 5 })""
+                >
+                    <ChartMarker>
+                        <ChartDataLabel Visible=""true"" Context=""Text"" Font=""@(new ChartDataLabelFont { Color = DataLabelTextColor })"" Format=""{value} kWh"" />
+                    </ChartMarker>
+
+                </ChartSeries>
+            </ChartSeriesCollection>
+            <ChartTooltipSettings Enable=""true""
+                                  Header=""Coal Production""
+                                      Format=""${point.x} : <b>${point.y} kWh</b>"" />
+
+        </SfChart>
+@code {
+    public class EnergyData
+    {
+        public string X { get; set; }
+        public double Y { get; set; }
+        public string Text { get; set; }
+    }
+
+    public List<EnergyData> DataLabelTextMappingData = new()
+    {
+        new() { X = ""India"",         Y = 3456,   Text = ""3,456 kWh"" },
+        new() { X = ""United States"", Y = 8534,   Text = ""8,534 kWh"" },
+        new() { X = ""China"",         Y = 18491,  Text = ""18,491 kWh"" },
+        new() { X = ""South Africa"",  Y = 24141,  Text = ""24,141 kWh"" },
+        new() { X = ""Australia"",     Y = 122882, Text = ""122,882 kWh"" }
+    };
+}";
+
+    public class EnergyData
+    {
+        public string X { get; set; }
+        public double Y { get; set; }
+        public string Text { get; set; }
+    }
+
+    public List<EnergyData> DataLabelTextMappingData = new()
+    {
+        new() { X = "India",         Y = 3456,   Text = "3,456 kWh" },
+        new() { X = "United States", Y = 8534,   Text = "8,534 kWh" },
+        new() { X = "China",         Y = 18491,  Text = "18,491 kWh" },
+        new() { X = "South Africa",  Y = 24141,  Text = "24,141 kWh" },
+        new() { X = "Australia",     Y = 122882, Text = "122,882 kWh" }
+    };
+}
+
+<Description>
+    <Header>
+        <h5><b>Format</b></h5>
+    </Header>
+    <Content>
+        Data label formatting controls how values are displayed on data points.
+        This example demonstrates applying numeric formatting to data labels
+        using the <code>Format</code> property in the <code>ChartDataLabel</code> component, 
+        displaying day‑wise units sold in a Column Chart.
+    </Content>
+</Description>
+
+<VirtualizeSection MinHeightPx="600px">
+    <CodePreview IsFullWidth="true" CodeSection="@DataLabelFormatCode">
+        <PreviewSection>
+            <SfChart @key="@_currentTheme" Title="Day-wise Units Sold" Theme="@_currentTheme">
+
+                <ChartTooltipSettings Enable="true"
+                                      Header="${point.x}"
+                                      Format="Sales: <b>${point.y} Units</b>" />
+
+                <!-- Primary X Axis -->
+                <ChartPrimaryXAxis ValueType="ValueType.Category">
+                    <ChartAxisMajorGridLines Width="0" />
+                    <ChartAxisMajorTickLines Width="0" />
+                </ChartPrimaryXAxis>
+
+                <!-- Primary Y Axis -->
+                <ChartPrimaryYAxis Interval="20" Title="Units Sold">
+                    <ChartAxisLineStyle Width="0" />
+                    <ChartAxisMajorTickLines Width="0" />
+                </ChartPrimaryYAxis>
+
+                
+                    <ChartSeries DataSource="@LabelCustomData"
+                                 XName="Country"
+                                 YName="Gold"
+                                 Type="ChartSeriesType.Column"
+                                 Fill="#A0D683"
+                                 ColumnWidth="0.4"
+                                 CornerRadius="@(new ChartCornerRadius { TopLeft = 5, TopRight = 5 })">
+
+                        <ChartMarker>
+                            <ChartDataLabel Visible="true"
+                                            Format="n2"
+                                            EnableRotation="true"
+                                            Angle="-90"
+                                            Font="@(new ChartDataLabelFont { Color = DataLabelTextColor })" />
+                        </ChartMarker>
+
+                    </ChartSeries>
+                
+
+            </SfChart>
+        </PreviewSection>
+    </CodePreview>
+</VirtualizeSection>
+
+@code {
+    public class SalesData
+    {
+        public string Country { get; set; }
+        public double Gold { get; set; }
+        public string Text { get; set; }
+    }
+
+    public List<SalesData> LabelCustomData = new()
+    {
+        new() { Country = "Monday",    Gold = 50, Text = "Monday: 50" },
+        new() { Country = "Tuesday",   Gold = 40, Text = "Tuesday: 40" },
+        new() { Country = "Wednesday", Gold = 70, Text = "Wednesday: 70" },
+        new() { Country = "Thursday",  Gold = 60, Text = "Thursday: 60" },
+        new() { Country = "Friday",    Gold = 50, Text = "Friday: 50" },
+        new() { Country = "Saturday",  Gold = 40, Text = "Saturday: 40" },
+        new() { Country = "Sunday",    Gold = 40, Text = "Sunday: 40" }
+    };
+    private string DataLabelFormatCode => @"@using Syncfusion.Blazor.Toolkit.Charts
+    <SfChart Title=""Day-wise Units Sold"">
+
+            <ChartTooltipSettings Enable=""true""
+                                  Header=""${point.x}""
+                                  Format=""Sales: <b>${point.y} Units</b>"" />
+            <!-- Primary X Axis -->
+            <ChartPrimaryXAxis ValueType=""ValueType.Category"">
+                <ChartAxisMajorGridLines Width=""0"" />
+                <ChartAxisMajorTickLines Width=""0"" />
+            </ChartPrimaryXAxis>
+
+            <!-- Primary Y Axis -->
+            <ChartPrimaryYAxis Interval=""20"" Title=""Units Sold"">
+                <ChartAxisLineStyle Width=""0"" />
+                <ChartAxisMajorTickLines Width=""0"" />
+            </ChartPrimaryYAxis>
+            <ChartSeriesCollection>
+                <ChartSeries DataSource=""@LabelCustomData""
+                             XName=""Country""
+                             YName=""Gold""
+                             Type=""ChartSeriesType.Column""
+                             Fill=""#A0D683""
+                             ColumnWidth=""0.4""
+                             CornerRadius=""@(new ChartCornerRadius { TopLeft = 5, TopRight = 5 })"">
+                    <ChartMarker>
+                        <ChartDataLabel Visible=""true""
+                                        Format=""n2""
+                                        EnableRotation=""true""
+                                        Angle=""-90""
+                                        Font=""@(new ChartDataLabelFont { Color = DataLabelTextColor })"" />
+                    </ChartMarker>
+                </ChartSeries>
+            </ChartSeriesCollection>
+        </SfChart>
+
+@code {
+    public class SalesData
+        {
+            public string Country { get; set; }
+            public double Gold { get; set; }    
+            public string Text { get; set; }
+        }
+    public List<SalesData> LabelCustomData = new()
+        {
+            new() { Country = ""Monday"",    Gold = 50, Text = ""Monday: 50"" },
+            new() { Country = ""Tuesday"",   Gold = 40, Text = ""Tuesday: 40"" },
+            new() { Country = ""Wednesday"", Gold = 70, Text = ""Wednesday: 70"" },
+            new() { Country = ""Thursday"",  Gold = 60, Text = ""Thursday: 60"" },
+            new() { Country = ""Friday"",    Gold = 50, Text = ""Friday: 50"" },
+            new() { Country = ""Saturday"",  Gold = 40, Text = ""Saturday: 40"" },
+            new() { Country = ""Sunday"",    Gold = 40, Text = ""Sunday: 40"" }
+        };
+}";
+
+}
+
+<Description>
+    <Header>
+        <h5><b>Margin</b></h5>
+    </Header>
+    <Content>
+        Data label margins control the spacing around labels to prevent
+        overlap and improve readability. This example demonstrates applying
+        margins using the <code>Margin</code> property and avoiding label intersection 
+        by setting the <code>LabelIntersectAction</code> property to <code>None</code> in the <code>ChartDataLabel</code> component.
+    </Content>
+</Description>
+
+<VirtualizeSection MinHeightPx="600px">
+    <CodePreview IsFullWidth="true" CodeSection="@DataLabelMarginCode">
+        <PreviewSection>
+            <SfChart @key="@_currentTheme" Title="Day-wise Units Sold" Theme="@_currentTheme">
+
+                <ChartTooltipSettings Enable="true"
+                                      Header="${point.x}"
+                                      Format="Sales: <b>${point.y} Units</b>" />
+
+                <ChartPrimaryXAxis ValueType="ValueType.Category"
+                                   LabelRotation="-45">
+                    <ChartAxisMajorGridLines Width="0" />
+                    <ChartAxisMajorTickLines Width="0" />
+                </ChartPrimaryXAxis>
+
+                <ChartPrimaryYAxis Interval="20"
+                                   Title="Units Sold">
+                    <ChartAxisLineStyle Width="0" />
+                    <ChartAxisMajorTickLines Width="0" />
+                </ChartPrimaryYAxis>
+
+                
+                    <ChartSeries DataSource="@LabelCustomData"
+                                 XName="Country"
+                                 YName="Gold"
+                                 Type="ChartSeriesType.Column"
+                                 Fill="#A0D683"
+                                 ColumnWidth="0.4"
+                                 CornerRadius="@(new ChartCornerRadius { TopLeft = 5, TopRight = 5 })">
+                        <ChartMarker>
+                            <ChartDataLabel Visible="true"
+                                            LabelIntersectAction="None"
+                                            Margin="@(new ChartDataLabelMargin { Left = 30, Right = 30, Top = 30, Bottom = 30})"
+                                            Font="@(new ChartDataLabelFont { Color = DataLabelTextColor })" />
+                        </ChartMarker>
+                    </ChartSeries>
+                
+            </SfChart>
+        </PreviewSection>
+    </CodePreview>
+</VirtualizeSection>
+@code{
+    private string DataLabelMarginCode => @"@using Syncfusion.Blazor.Toolkit.Charts
+     <SfChart Title=""Day-wise Units Sold"">
+
+            <ChartTooltipSettings Enable=""true""
+                                  Header=""${point.x}""
+                                  Format=""Sales: <b>${point.y} Units</b>"" />
+            <ChartPrimaryXAxis ValueType=""ValueType.Category""
+                               LabelRotation=""-45"">
+                <ChartAxisMajorGridLines Width=""0"" />
+                <ChartAxisMajorTickLines Width=""0"" />
+            </ChartPrimaryXAxis>
+            <ChartPrimaryYAxis Interval=""20""
+                               Title=""Units Sold"">
+                <ChartAxisLineStyle Width=""0"" />
+                <ChartAxisMajorTickLines Width=""0"" />
+            </ChartPrimaryYAxis>
+            <ChartSeriesCollection>
+                <ChartSeries DataSource=""@LabelCustomData""
+                             XName=""Country""
+                             YName=""Gold""
+                             Type=""ChartSeriesType.Column""
+                             Fill=""#A0D683""
+                             ColumnWidth=""0.4""
+                             CornerRadius=""@(new ChartCornerRadius { TopLeft = 5, TopRight = 5 })"">
+                    <ChartMarker>
+                        <ChartDataLabel Visible=""true""
+                                        LabelIntersectAction=""None""
+                                        Margin=""@(new ChartDataLabelMargin { Left = 30, Right = 30, Top = 30, Bottom = 30})""
+ 										Font=""@(new ChartDataLabelFont { Color = DataLabelTextColor })""/>
+                    </ChartMarker>
+                </ChartSeries>
+            </ChartSeriesCollection>
+        </SfChart>
+ 
+@code {
+    public class SalesData
+        {
+            public string Country { get; set; }
+            public double Gold { get; set; }    
+            public string Text { get; set; }
+        }
+    public List<SalesData> LabelCustomData = new()
+        {
+            new() { Country = ""Monday"",    Gold = 50, Text = ""Monday: 50"" },
+            new() { Country = ""Tuesday"",   Gold = 40, Text = ""Tuesday: 40"" },
+            new() { Country = ""Wednesday"", Gold = 70, Text = ""Wednesday: 70"" },
+            new() { Country = ""Thursday"",  Gold = 60, Text = ""Thursday: 60"" },
+            new() { Country = ""Friday"",    Gold = 50, Text = ""Friday: 50"" },
+            new() { Country = ""Saturday"",  Gold = 40, Text = ""Saturday: 40"" },
+            new() { Country = ""Sunday"",    Gold = 40, Text = ""Sunday: 40"" }
+        };
+}";
+}
+
+<Description>
+    <Header>
+        <h5><b>Label Rotation</b></h5>
+    </Header>
+    <Content>
+        Data label rotation allows labels to be displayed at different angles
+        to improve readability when space is constrained. This example shows
+        rotating data labels by setting the <code>EnableRotation</code> property to <code>true</code> and specifying the <code>Angle</code> 
+        in the <code>ChartDataLabel</code> component.
+    </Content>
+</Description>
+
+<VirtualizeSection MinHeightPx="600px">
+    <CodePreview IsFullWidth="true" CodeSection="@DataLabelRotationCode">
+        <PreviewSection>
+            <SfChart @key="@_currentTheme" Title="Total Renewable Surface Water" Theme="@_currentTheme">
+
+                <ChartPrimaryXAxis ValueType="ValueType.Category"
+                                   LabelRotation="-45">
+                    <ChartAxisMajorGridLines Width="0" />
+                    <ChartAxisMajorTickLines Width="0" />
+                </ChartPrimaryXAxis>
+
+                <ChartPrimaryYAxis>
+                    <ChartAxisLineStyle Width="0" />
+                    <ChartAxisMajorTickLines Width="0" />
+                </ChartPrimaryYAxis>
+
+                
+                    <ChartSeries DataSource="@DataLabelRotationData"
+                                 XName="X"
+                                 YName="Y"
+                                 Type="ChartSeriesType.Column"
+                                 Fill="#A0D683"
+                                 CornerRadius="@(new ChartCornerRadius { TopLeft = 5, TopRight = 5 })">
+
+                        <ChartMarker>
+                            <ChartDataLabel Visible="true"
+                                            Format="{value}k"
+                                            Position="ChartLabelPosition.Top"
+                                            EnableRotation="true"
+                                            Angle="270"
+                                            LabelIntersectAction="None"
+                                            Font="@(new ChartDataLabelFont { Color = DataLabelTextColor })" />
+                        </ChartMarker>
+                        <ChartDataLabel Visible="true" Format="<b>${point.y}k</b> Billion cubic meter per year"></ChartDataLabel>
+                    </ChartSeries>
+                
+                <ChartTooltipSettings Enable="true" ShowHeaderLine="true"
+                                      Format="<b>${point.y}k</b> Billion cubic meter per year" />
+            </SfChart>
+        </PreviewSection>
+    </CodePreview>
+</VirtualizeSection>
+
+@code {
+    private string DataLabelRotationCode => @"<SfChart @key=""@_currentTheme"" Title=""Total Renewable Surface Water"" Theme=""@_currentTheme"">
+
+            <ChartPrimaryXAxis ValueType=""ValueType.Category""
+                               LabelRotation=""-45"">
+                <ChartAxisMajorGridLines Width=""0"" />
+                <ChartAxisMajorTickLines Width=""0"" />
+            </ChartPrimaryXAxis>
+
+            <ChartPrimaryYAxis>
+                <ChartAxisLineStyle Width=""0"" />
+                <ChartAxisMajorTickLines Width=""0"" />
+            </ChartPrimaryYAxis>
+            <ChartSeriesCollection>
+                <ChartSeries DataSource=""@DataLabelRotationData""
+                             XName=""X""
+                             YName=""Y""
+                             Type=""ChartSeriesType.Column""
+                             Fill=""#A0D683""
+                             CornerRadius=""@(new ChartCornerRadius { TopLeft = 5, TopRight = 5 })"">
+                    <ChartMarker>
+                        <ChartDataLabel Visible=""true""
+                                        Format=""{value}k""
+                                        Position=""ChartLabelPosition.Top""
+                                        EnableRotation=""true""
+                                        Angle=""270""
+                                        LabelIntersectAction=""None""
+                                        Font=""@(new ChartDataLabelFont { Color = DataLabelTextColor })"" />
+                    </ChartMarker>
+                    <ChartDataLabel Visible=""true"" Format=""<b>${point.y}k</b> Billion cubic meter per year""></ChartDataLabel>
+                </ChartSeries>
+            </ChartSeriesCollection>
+                <ChartTooltipSettings Enable=""true"" ShowHeaderLine =""true""
+                                      Format=""<b>${point.y}k</b> Billion cubic meter per year"" />
+        </SfChart>
+
+@code {
+    public class WaterData
+        {
+            public string X { get; set; }
+            public double Y { get; set; }
+        }
+    public List<WaterData> DataLabelRotationData = new()
+        {
+            new() { X = ""Brazil"",             Y = 8.6 },
+            new() { X = ""Russian Federation"", Y = 4.2 },
+            new() { X = ""United States"",      Y = 2.9 },
+            new() { X = ""Canada"",             Y = 2.9 },
+            new() { X = ""China"",              Y = 2.7 },
+            new() { X = ""Columbia"",           Y = 2.4 },
+            new() { X = ""Indonesia"",          Y = 2.0 },
+            new() { X = ""Peru"",               Y = 1.9 },
+            new() { X = ""India"",              Y = 1.9 },
+            new() { X = ""Venezuela"",          Y = 1.3 },
+            new() { X = ""Congo"",              Y = 1.3 }
+        };
+}";
+
+    public class WaterData
+    {
+        public string X { get; set; }
+        public double Y { get; set; }
+    }
+
+    public List<WaterData> DataLabelRotationData = new()
+    {
+        new() { X = "Brazil",             Y = 8.6 },
+        new() { X = "Russian Federation", Y = 4.2 },
+        new() { X = "United States",      Y = 2.9 },
+        new() { X = "Canada",             Y = 2.9 },
+        new() { X = "China",              Y = 2.7 },
+        new() { X = "Columbia",           Y = 2.4 },
+        new() { X = "Indonesia",          Y = 2.0 },
+        new() { X = "Peru",               Y = 1.9 },
+        new() { X = "India",              Y = 1.9 },
+        new() { X = "Venezuela",          Y = 1.3 },
+        new() { X = "Congo",              Y = 1.3 }
+    };
+}
+
+<Description>
+    <Header>
+        <h5><b>Render Custom Visuals</b></h5>
+    </Header>
+    <Content>
+        Data label templates allow rendering custom visuals such as icons,
+        styled containers, and formatted text. This example demonstrates
+        using custom templates by setting the <code>Template</code> property in the 
+        <code>ChartDataLabel</code> component to display the number of boys and girls
+        participating in different sports.
+    </Content>
+</Description>
+
+<VirtualizeSection MinHeightPx="600px">
+    <CodePreview IsFullWidth="true" CodeSection="@DataLabelTemplateCode">
+        <PreviewSection>
+            <SfChart @key="@_currentTheme" Title="Number of Boys and Girls Participating in Different Sports" Theme="@_currentTheme">
+
+                <ChartPrimaryXAxis ValueType="ValueType.Category"
+                                   LabelRotation="45">
+                    <ChartAxisMajorGridLines Width="0" />
+                    <ChartAxisMajorTickLines Width="0" />
+                </ChartPrimaryXAxis>
+
+                <ChartPrimaryYAxis Minimum="0"
+                                   Maximum="70">
+                    <ChartAxisLineStyle Width="0" />
+                    <ChartAxisMajorTickLines Width="0" />
+                </ChartPrimaryYAxis>
+
+                
+                    <ChartSeries DataSource="@LabelTemplateData"
+                                 XName="Sports"
+                                 YName="Boys"
+                                 Name="Boys"
+                                 Type="ChartSeriesType.Column"
+                                 Fill="#05B3DA"
+                                 ColumnSpacing="0.5"
+                                 ColumnWidth="0.75"
+                                 CornerRadius="@(new ChartCornerRadius { TopLeft = 5, TopRight = 5 })">
+                        <ChartMarker>
+                            <ChartDataLabel Visible="true"
+                                            Position="ChartLabelPosition.Outer"
+                                            Template="@BoysTemplate" />
+                        </ChartMarker>
+                    </ChartSeries>
+
+                    <ChartSeries DataSource="@LabelTemplateData"
+                                 XName="Sports"
+                                 YName="Girls"
+                                 Name="Girls"
+                                 Type="ChartSeriesType.Column"
+                                 Fill="#E77A16"
+                                 ColumnSpacing="0.5"
+                                 ColumnWidth="0.75"
+                                 CornerRadius="@(new ChartCornerRadius { TopLeft = 5, TopRight = 5 })">
+                        <ChartMarker>
+                            <ChartDataLabel Visible="true"
+                                            Position="ChartLabelPosition.Outer"
+                                            Template="@GirlsTemplate" />
+                        </ChartMarker>
+                    </ChartSeries>
+                    <ChartTooltipSettings Enable="true" Format="<b>Price : ${point.y}</b>"></ChartTooltipSettings>
+                
+
+            </SfChart>
+        </PreviewSection>
+    </CodePreview>
+</VirtualizeSection>
+
+@code {
+    private string DataLabelTemplateCode => @"@using Syncfusion.Blazor.Toolkit.Charts
+   <SfChart Title=""Number of Boys and Girls Participating in Different Sports"">
+
+            <ChartPrimaryXAxis ValueType=""ValueType.Category""
+                               LabelRotation=""45"">
+                <ChartAxisMajorGridLines Width=""0"" />
+                <ChartAxisMajorTickLines Width=""0"" />
+            </ChartPrimaryXAxis>
+            <ChartPrimaryYAxis Minimum=""0""
+                               Maximum=""70"">
+                <ChartAxisLineStyle Width=""0"" />
+                <ChartAxisMajorTickLines Width=""0"" />
+            </ChartPrimaryYAxis>
+            <ChartSeriesCollection>
+                <ChartSeries DataSource=""@LabelTemplateData""
+                             XName=""Sports""
+                             YName=""Boys""
+                             Name=""Boys""
+                             Type=""ChartSeriesType.Column""
+                             Fill=""#05B3DA""
+                             ColumnSpacing=""0.5""
+                             ColumnWidth=""0.75""
+                             CornerRadius=""@(new ChartCornerRadius { TopLeft = 5, TopRight = 5 })"">
+                    <ChartMarker>
+                        <ChartDataLabel Visible=""true""
+                                        Position=""ChartLabelPosition.Outer""
+                                        Template=""@BoysTemplate"" />
+                    </ChartMarker>
+                </ChartSeries>
+                <ChartSeries DataSource=""@LabelTemplateData""
+                             XName=""Sports""
+                             YName=""Girls""
+                             Name=""Girls""
+                             Type=""ChartSeriesType.Column""
+                             Fill=""#E77A16""
+                             ColumnSpacing=""0.5""
+                             ColumnWidth=""0.75""
+                             CornerRadius=""@(new ChartCornerRadius { TopLeft = 5, TopRight = 5 })"">
+                    <ChartMarker>
+                        <ChartDataLabel Visible=""true""
+                                        Position=""ChartLabelPosition.Outer""
+                                        Template=""@GirlsTemplate"" />
+                    </ChartMarker>
+                </ChartSeries>
+                  <ChartTooltipSettings Enable=""true"" Format=""<b>Price : ${point.y}</b>""></ChartTooltipSettings>
+            </ChartSeriesCollection>
+        </SfChart>
+
+@code {
+    public class SportsData
+        {
+            public string Sports { get; set; }
+            public double Boys { get; set; }
+            public double Girls { get; set; }
+        }
+    public List<SportsData> LabelTemplateData = new()
+        {
+            new() { Sports = ""Tennis"",     Boys = 50, Girls = 38 },
+            new() { Sports = ""Badminton"",  Boys = 30, Girls = 40 },
+            new() { Sports = ""Cycling"",    Boys = 37, Girls = 20 },
+            new() { Sports = ""Football"",   Boys = 60, Girls = 21 },
+            new() { Sports = ""Hockey"",     Boys = 15, Girls = 8 }
+        };
+
+ RenderFragment<ChartDataPointInfo> BoysTemplate => context => @<div style=""
+            display:inline-flex;
+            padding:4px 8px;
+            background:#05B3DA;
+            border-radius:4px;
+            color:@DataLabelTextColor;
+            font-size:12px;
+            align-items:center;"">
+        <img src=""https://react.syncfusion.com/react-ui/images/chart/male.png""
+             style=""width:16px;height:16px;margin-right:4px"" />
+        <span>@context.Y</span>
+    </div>;
+
+        RenderFragment<ChartDataPointInfo> GirlsTemplate => context => @<div style=""
+            display:inline-flex;
+            padding:4px 8px;
+            background:#E77A16;
+            border-radius:4px;
+            color:@DataLabelTextColor;
+            font-size:12px;
+            align-items:center;"">
+        <img src=""https://react.syncfusion.com/react-ui/images/chart/female.png""
+             style=""width:16px;height:16px;margin-right:4px"" />
+        <span>@context.Y</span>
+    </div>;
+}";
+
+    RenderFragment<ChartDataPointInfo> BoysTemplate => context => @<div style="
+        display:inline-flex;
+        padding:4px 8px;
+        background:#05B3DA;
+        border-radius:4px;
+        color:@DataLabelTextColor;
+        font-size:12px;
+        align-items:center;">
+        <img src="https://react.syncfusion.com/react-ui/images/Chart/male.png"
+             style="width:16px;height:16px;margin-right:4px" />
+        <span>@context.Y</span>
+    </div>;
+
+    RenderFragment<ChartDataPointInfo> GirlsTemplate => context => @<div style="
+        display:inline-flex;
+        padding:4px 8px;
+        background:#E77A16;
+        border-radius:4px;
+        color:@DataLabelTextColor;
+        font-size:12px;
+        align-items:center;">
+        <img src="https://react.syncfusion.com/react-ui/images/Chart/female.png"
+             style="width:16px;height:16px;margin-right:4px" />
+        <span>@context.Y</span>
+    </div>;
+}
+
+@code {
+    public class SportsData
+    {
+        public string Sports { get; set; }
+        public double Boys { get; set; }
+        public double Girls { get; set; }
+    }
+
+    public List<SportsData> LabelTemplateData = new()
+    {
+        new() { Sports = "Tennis",     Boys = 50, Girls = 38 },
+        new() { Sports = "Badminton",  Boys = 30, Girls = 40 },
+        new() { Sports = "Cycling",    Boys = 37, Girls = 20 },
+        new() { Sports = "Football",   Boys = 60, Girls = 21 },
+        new() { Sports = "Hockey",     Boys = 15, Girls = 8 }
+    };
+}
+
+<Description>
+    <Header>
+        <h5><b>Customization</b></h5>
+    </Header>
+    <Content>
+        The <code>ChartDataLabel</code> component provides extensive customization
+        options. You can style the background using the <code>Fill</code> and <code>Border</code> properties,
+        and customize text appearance using font settings such as <code>Color</code>, <code>FontFamily</code>, 
+        <code>FontWeight</code>, and <code>Size</code> in the <code>ChartDataLabelFont</code> component.
+    </Content>
+</Description>
+
+<VirtualizeSection MinHeightPx="600px">
+    <CodePreview IsFullWidth="true" CodeSection="@DataLabelCustomizationCode">
+        <PreviewSection>
+            <SfChart @key="@_currentTheme" Title="Average Monthly Egg Prices in 2022" Theme="@_currentTheme">
+
+                <ChartPrimaryXAxis ValueType="ValueType.Category"
+                                   LabelRotation="45">
+                    <ChartAxisMajorGridLines Width="0" />
+                    <ChartAxisMajorTickLines Width="0" />
+                </ChartPrimaryXAxis>
+
+                <ChartPrimaryYAxis Minimum="1.5">
+                    <ChartAxisLineStyle Width="0" />
+                    <ChartAxisMajorTickLines Width="0" />
+                </ChartPrimaryYAxis>
+
+                
+                    <ChartSeries DataSource="@LineLabelData"
+                                 XName="X"
+                                 YName="Y"
+                                 Type="ChartSeriesType.Line"
+                                 Fill="#0A97B0">
+                        <ChartMarker Visible="true" IsFilled="false">
+                            <ChartDataLabel Visible="true"
+                                            Fill="#0A97B0"
+                                            Border="@(new ChartDataLabelBorder { Width = 2, Color = "#005F6A", })"
+                                            Font="@(new ChartDataLabelFont { Color = DataLabelTextColor, FontFamily = "Roboto", FontWeight = "600", Size = "12px" })" />
+                        </ChartMarker>
+                    </ChartSeries>
+                
+                <!-- Tooltip -->
+                <ChartTooltipSettings Enable="true" Header="${point.x}"
+                                      Format="<b>Price : ${point.y}</b>" />
+            </SfChart>
+        </PreviewSection>
+    </CodePreview>
+</VirtualizeSection>
+
+@code {
+
+    private string DataLabelCustomizationCode => @"@using Syncfusion.Blazor.Toolkit.Charts
+    <SfChart Title=""Average Monthly Egg Prices in 2022"">
+
+            <ChartPrimaryXAxis ValueType=""ValueType.Category""
+                               LabelRotation=""45"">
+                <ChartAxisMajorGridLines Width=""0"" />
+                <ChartAxisMajorTickLines Width=""0"" />
+            </ChartPrimaryXAxis>
+            <ChartPrimaryYAxis Minimum=""1.5"">
+                <ChartAxisLineStyle Width=""0"" />
+                <ChartAxisMajorTickLines Width=""0"" />
+            </ChartPrimaryYAxis>
+           <ChartSeriesCollection>
+                <ChartSeries DataSource=""@LineLabelData""
+                             XName=""X""
+                             YName=""Y""
+                             Type=""ChartSeriesType.Line""
+                             Fill=""#0A97B0"">
+                    <ChartMarker Visible=""true"" IsFilled=""false"">
+                        <ChartDataLabel Visible=""true""
+                                        Fill=""#0A97B0""
+                                        Border=""@(new ChartDataLabelBorder { Width = 2, Color = ""#005F6A"", })""
+                                        Font=""@(new ChartDataLabelFont { Color = DataLabelTextColor, FontFamily = ""Roboto"", FontWeight = ""600"", Size = ""12px"" })"" />
+                    </ChartMarker>
+                </ChartSeries>
+            </ChartSeriesCollection>
+                <!-- Tooltip -->
+                <ChartTooltipSettings Enable=""true"" Header=""${point.x}""
+                                      Format=""<b>Price : ${point.y}</b>"" />
+        </SfChart>
+@code {
+    public class EggPriceData
+        {
+            public string X { get; set; }
+            public double Y { get; set; }
+        }
+    public List<EggPriceData> LineLabelData = new()
+        {
+            new() { X = ""Jan"",   Y = 1.93 },
+            new() { X = ""Feb"",   Y = 2.01 },
+            new() { X = ""Mar"",   Y = 2.05 },
+            new() { X = ""April"", Y = 2.52 },
+            new() { X = ""May"",   Y = 2.86 },
+            new() { X = ""Jun"",   Y = 2.71 },
+            new() { X = ""Jul"",   Y = 2.94 },
+            new() { X = ""Aug"",   Y = 3.12 },
+            new() { X = ""Sep"",   Y = 2.90 },
+            new() { X = ""Oct"",   Y = 3.42 },
+            new() { X = ""Nov"",   Y = 3.59 },
+            new() { X = ""Dec"",   Y = 4.25 }
+        };
+}";
+    public class EggPriceData
+    {
+        public string X { get; set; }
+        public double Y { get; set; }
+    }
+
+    public List<EggPriceData> LineLabelData = new()
+    {
+        new() { X = "Jan",   Y = 1.93 },
+        new() { X = "Feb",   Y = 2.01 },
+        new() { X = "Mar",   Y = 2.05 },
+        new() { X = "April", Y = 2.52 },
+        new() { X = "May",   Y = 2.86 },
+        new() { X = "Jun",   Y = 2.71 },
+        new() { X = "Jul",   Y = 2.94 },
+        new() { X = "Aug",   Y = 3.12 },
+        new() { X = "Sep",   Y = 2.90 },
+        new() { X = "Oct",   Y = 3.42 },
+        new() { X = "Nov",   Y = 3.59 },
+        new() { X = "Dec",   Y = 4.25 }
+    };
+}

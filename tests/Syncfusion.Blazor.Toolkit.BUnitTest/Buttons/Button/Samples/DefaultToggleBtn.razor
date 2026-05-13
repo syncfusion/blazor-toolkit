@@ -1,0 +1,14 @@
+﻿@using Syncfusion.Blazor.Toolkit.Buttons
+
+@namespace Syncfusion.Blazor.Toolkit.Tests.Buttons
+
+<div class="sample">
+    <SfButton IsToggle="true" CssClass="e-active">Button</SfButton>
+    <SfButton CssClass="e-success e-active" IsToggle="@toggle">Button</SfButton>
+</div>
+@code {
+  
+    [Parameter]
+    public bool toggle { get; set; }
+
+}

@@ -1,0 +1,193 @@
+﻿@page "/polynomial-trendline-playwright"
+@using Syncfusion.Blazor.Toolkit.Charts
+@layout MainLayout
+
+<h2>Polynomial Trendline – Playwright Sample</h2>
+
+<div style="display:flex; flex-direction:column; gap:45px;">
+
+    <!-- 1️⃣ Empty series – no trendline -->
+    <SfChart ID="polyEmptyNoTrend" Title="Online trading" Width="850px" Height="600px">
+        <ChartPrimaryXAxis Title="Months" />
+        <ChartPrimaryYAxis Interval="5" />
+        <ChartSeriesCollection>
+            <ChartSeries XName="x" YName="y" Type="ChartSeriesType.Scatter" />
+        </ChartSeriesCollection>
+    </SfChart>
+
+    <!-- 2️⃣ Empty series – polynomial trendline -->
+    <SfChart ID="polyEmptyWithTrend" Title="Online trading" Width="850px" Height="600px">
+        <ChartPrimaryXAxis Title="Months" />
+        <ChartPrimaryYAxis Interval="5" />
+        <ChartSeriesCollection>
+            <ChartSeries XName="x" YName="y" Type="ChartSeriesType.Scatter">
+                <ChartTrendlines>
+                    <ChartTrendline Type="TrendlineTypes.Polynomial" />
+                </ChartTrendlines>
+            </ChartSeries>
+        </ChartSeriesCollection>
+    </SfChart>
+
+    <!-- 3️⃣ Data – no trendline -->
+    <SfChart ID="polyDataNoTrend" Title="Online trading" Width="850px" Height="600px">
+        <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Toolkit.ValueType.DateTime" />
+        <ChartPrimaryYAxis Interval="5" />
+        <ChartSeriesCollection>
+            <ChartSeries DataSource="@TrendData"
+                         XName="x"
+                         YName="y"
+                         Type="ChartSeriesType.Scatter" />
+        </ChartSeriesCollection>
+    </SfChart>
+
+    <!-- 4️⃣ Data – polynomial trendline -->
+    <SfChart ID="polyDataWithTrend" Title="Online trading" Width="850px" Height="600px">
+        <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Toolkit.ValueType.DateTime" />
+        <ChartPrimaryYAxis Interval="5" />
+        <ChartSeriesCollection>
+            <ChartSeries DataSource="@TrendData"
+                         XName="x"
+                         YName="y"
+                         Type="ChartSeriesType.Scatter">
+                <ChartTrendlines>
+                    <ChartTrendline Type="TrendlineTypes.Polynomial">
+                        <ChartTrendlineAnimation Enable="false" />
+                    </ChartTrendline>
+                </ChartTrendlines>
+            </ChartSeries>
+        </ChartSeriesCollection>
+    </SfChart>
+
+    <!-- 5️⃣ Default appearance -->
+    <SfChart ID="polyDefaultAppearance" Title="Online trading" Width="850px" Height="600px">
+        <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Toolkit.ValueType.DateTime" />
+        <ChartPrimaryYAxis Interval="5" />
+        <ChartSeriesCollection>
+            <ChartSeries DataSource="@TrendData"
+                         XName="x"
+                         YName="y"
+                         Type="ChartSeriesType.Scatter">
+                <ChartTrendlines>
+                    <ChartTrendline Type="TrendlineTypes.Polynomial" />
+                </ChartTrendlines>
+            </ChartSeries>
+        </ChartSeriesCollection>
+    </SfChart>
+
+    <!-- 6️⃣ Custom appearance -->
+    <SfChart ID="polyCustomColor" Title="Online trading" Width="850px" Height="600px">
+        <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Toolkit.ValueType.DateTime" />
+        <ChartPrimaryYAxis Interval="5" />
+        <ChartSeriesCollection>
+            <ChartSeries DataSource="@TrendData"
+                         XName="x"
+                         YName="y"
+                         Type="ChartSeriesType.Scatter">
+                <ChartTrendlines>
+                    <ChartTrendline Type="TrendlineTypes.Polynomial" Fill="Orange" />
+                </ChartTrendlines>
+            </ChartSeries>
+        </ChartSeriesCollection>
+    </SfChart>
+
+    <!-- 7️⃣ Marker -->
+    <SfChart ID="polyWithMarker" Title="Online trading" Width="850px" Height="600px">
+        <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Toolkit.ValueType.DateTime" />
+        <ChartPrimaryYAxis Interval="5" />
+        <ChartSeriesCollection>
+            <ChartSeries DataSource="@TrendData"
+                         XName="x"
+                         YName="y"
+                         Type="ChartSeriesType.Scatter">
+                <ChartTrendlines>
+                    <ChartTrendline Type="TrendlineTypes.Polynomial" Fill="Orange">
+                        <ChartTrendlineMarker Visible="true" Fill="Red" />
+                    </ChartTrendline>
+                </ChartTrendlines>
+            </ChartSeries>
+        </ChartSeriesCollection>
+    </SfChart>
+
+    <!-- 8️⃣ Forecast + intercept -->
+    <SfChart ID="polyForecastIntercept" Title="Online trading" Width="850px" Height="600px">
+        <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Toolkit.ValueType.DateTime" />
+        <ChartPrimaryYAxis Interval="5" />
+        <ChartSeriesCollection>
+            <ChartSeries DataSource="@TrendData"
+                         XName="x"
+                         YName="y"
+                         Type="ChartSeriesType.Scatter">
+                <ChartTrendlines>
+                    <ChartTrendline Type="TrendlineTypes.Polynomial"
+                                    Fill="Orange"
+                                    ForwardForecast="5"
+                                    BackwardForecast="-4"
+                                    Intercept="3">
+                        <ChartTrendlineMarker Visible="true" Fill="Red" />
+                    </ChartTrendline>
+                </ChartTrendlines>
+            </ChartSeries>
+        </ChartSeriesCollection>
+    </SfChart>
+
+    <!-- 9️⃣ Category axis -->
+    <SfChart ID="polyCategoryAxis" Title="Online trading" Width="850px" Height="600px">
+        <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Toolkit.ValueType.Category" />
+        <ChartPrimaryYAxis Interval="5" />
+        <ChartSeriesCollection>
+            <ChartSeries DataSource="@CategoryData"
+                         XName="x"
+                         YName="y"
+                         Type="ChartSeriesType.Line">
+                <ChartTrendlines>
+                    <ChartTrendline Type="TrendlineTypes.Polynomial"
+                                    Fill="Red"
+                                    Name="Polynomial_trend" />
+                </ChartTrendlines>
+            </ChartSeries>
+        </ChartSeriesCollection>
+    </SfChart>
+
+</div>
+
+@code {
+
+    public class TrendPoint
+    {
+        public DateTime x { get; set; }
+        public double y { get; set; }
+    }
+
+    public List<TrendPoint> TrendData = new()
+    {
+        new() { x = new DateTime(2000, 2, 11), y = 14 },
+        new() { x = new DateTime(2001, 9, 4), y = 20 },
+        new() { x = new DateTime(2002, 2, 11), y = 25 },
+        new() { x = new DateTime(2003, 9, 16), y = 21 },
+        new() { x = new DateTime(2004, 2, 7), y = 13 },
+        new() { x = new DateTime(2005, 9, 7), y = 18 },
+        new() { x = new DateTime(2006, 2, 11), y = 24 },
+        new() { x = new DateTime(2007, 9, 14), y = 23 },
+        new() { x = new DateTime(2008, 2, 6), y = 19 },
+        new() { x = new DateTime(2009, 9, 6), y = 31 },
+        new() { x = new DateTime(2010, 2, 11), y = 39 },
+        new() { x = new DateTime(2011, 9, 11), y = 50 },
+        new() { x = new DateTime(2012, 2, 11), y = 24 }
+    };
+
+    public class CategoryPoint
+    {
+        public string x { get; set; }
+        public double y { get; set; }
+    }
+
+    public List<CategoryPoint> CategoryData = new()
+    {
+        new() { x = "FEB 2018", y = 12 },
+        new() { x = "MAR 2018", y = 12 },
+        new() { x = "APR 2018", y = 12 },
+        new() { x = "MAG 2018", y = 12 },
+        new() { x = "GIU 2018", y = 12 },
+        new() { x = "LUG 2018", y = 12 }
+    };
+}

@@ -1,0 +1,203 @@
+﻿@page "/TooltipEvent"
+@using System.Text.Json;
+@using System.Text.Json.Serialization;
+@using Bunit
+@using Syncfusion.Blazor.Toolkit.Popups
+@using Syncfusion.Blazor.Toolkit.Buttons
+
+
+@* BeforeRender event*@
+
+<SfTooltip @ref="tooltip" Content="Sample ToolTip" Target="#MyButton" OpensOn="Click" Colliding="BeforeCollision">
+            <SfButton ID="MyButton" Content="Show Tooltip"></SfButton>
+        </SfTooltip>
+  
+@* BeforeCollision event*@
+
+        <SfTooltip @ref="tooltip" Content="Sample ToolTip" Target="#MyButton" OpensOn="Click" Colliding="BeforeCollision">
+            <SfButton ID="MyButton" Content="Show Tooltip"></SfButton>
+        </SfTooltip>
+
+
+@* BeforeOpen event*@
+
+        <SfTooltip @ref="tooltip" Content="Sample ToolTip" Target="#MyButton" OpensOn="Click" OnOpen="OnBeforeOpen">
+            <SfButton ID="MyButton" Content="Show Tooltip"></SfButton>
+        </SfTooltip>
+
+@* AfterOpen event*@
+
+
+        <SfTooltip @ref="tooltip" Content="Sample ToolTip" Target="#MyButton" OpensOn="Click" Opened="OnAfterOpen">
+            <SfButton ID="MyButton" Content="Show Tooltip"></SfButton>
+        </SfTooltip>
+   
+
+@* BeforeClose event*@
+
+        <SfTooltip @ref="tooltip" Content="Sample ToolTip" Target="#MyButton" OpensOn="Click" OnClose="OnBeforeClose">
+            <SfButton ID="MyButton" Content="Show Tooltip"></SfButton>
+        </SfTooltip>
+
+
+@* AfterClose event*@
+
+
+        <SfTooltip @ref="tooltip" Content="Sample ToolTip" Target="#MyButton" OpensOn="Click" Closed="OnAfterClose">
+            <SfButton ID="MyButton" Content="Show Tooltip"></SfButton>
+        </SfTooltip>
+
+
+@code
+{
+    SfTooltip tooltip;
+  
+
+    void BeforeRender(TooltipEventArgs args)
+    {
+        var cancel = args.Cancel;
+        var position = args.CollidedPosition;
+        var hasText = args.HasText;
+        var interacted = args.IsInteracted;
+    }
+
+    void BeforeCollision(TooltipEventArgs args)
+    {
+        var cancel = args.Cancel;
+        var position = args.CollidedPosition;
+        var hasText = args.HasText;
+        var interacted = args.IsInteracted;
+    }
+
+    void OnBeforeOpen(TooltipEventArgs args)
+    {
+        var cancel = args.Cancel;
+        var position = args.CollidedPosition;
+        var hasText = args.HasText;
+        var interacted = args.IsInteracted;
+    }
+
+    void OnAfterOpen(TooltipEventArgs args)
+    {
+        var cancel = args.Cancel;
+        var position = args.CollidedPosition;
+        var hasText = args.HasText;
+        var interacted = args.IsInteracted;
+    }
+
+    void OnBeforeClose(TooltipEventArgs args)
+    {
+        var cancel = args.Cancel;
+        var position = args.CollidedPosition;
+        var hasText = args.HasText;
+        var interacted = args.IsInteracted;
+    }
+
+    void OnAfterClose(TooltipEventArgs args)
+    {
+        var cancel = args.Cancel;
+        var position = args.CollidedPosition;
+        var hasText = args.HasText;
+        var interacted = args.IsInteracted;
+    }
+
+    async Task RenderEvent(Fixture fixture)
+    {
+        TooltipEventArgs args = new TooltipEventArgs();
+        args.Cancel = false;
+        args.IsInteracted = true;
+        args.CollidedPosition = null;
+        args.HasText = false;
+        args.Left = 688;
+        args.Top = 147;
+        var tooltip = fixture.GetComponentUnderTest<SfTooltip>();
+        await Task.Delay(200);
+        var rootEle = tooltip.Find(".e-tooltip");
+        await tooltip.Instance.TriggerBeforeRenderEventAsync(args);
+    }
+
+    async Task CollisionEvent(Fixture fixture1)
+    {
+        TooltipEventArgs args = new TooltipEventArgs();
+        args.Cancel = false;
+        args.IsInteracted = true;
+        args.CollidedPosition = "TopCenter";
+        args.Event = null;
+        args.HasText = true;
+        args.Left = null;
+        args.Top = null;
+        var tooltip = fixture1.GetComponentUnderTest<SfTooltip>();
+        await Task.Delay(200);
+        var rootEle = tooltip.Find(".e-tooltip");
+        await tooltip.Instance.TriggerBeforeCollisionEventAsync(args);
+    }
+
+    async Task BeforeOpen(Fixture fixture2)
+    {
+        TooltipEventArgs args = new TooltipEventArgs();
+        args.Cancel = false;
+        args.IsInteracted = true;
+        args.CollidedPosition = null;
+        args.Event = null;
+        args.HasText = true;
+        args.Left = 595;
+        args.Top = 294;
+        args.Type = "mouseover";
+        var tooltip = fixture2.GetComponentUnderTest<SfTooltip>();
+        await Task.Delay(200);
+        var rootEle = tooltip.Find(".e-tooltip");
+        await tooltip.Instance.TriggerBeforeOpenEventAsync(args);
+    }
+
+    async Task AfterOpen(Fixture fixture3)
+    {
+        TooltipEventArgs args = new TooltipEventArgs();
+        args.Cancel = false;
+        args.IsInteracted = false;
+        args.CollidedPosition = "BottomCenter";
+        args.Event = null;
+        args.HasText = true;
+        args.Left = null;
+        args.Top = null;
+        args.Type = null;
+        var tooltip = fixture3.GetComponentUnderTest<SfTooltip>();
+        await Task.Delay(200);
+        var rootEle = tooltip.Find(".e-tooltip");
+        await tooltip.Instance.TriggerOpenedEventAsync(args);
+    }
+
+    async Task BeforeClose(Fixture fixture4)
+    {
+        TooltipEventArgs args = new TooltipEventArgs();
+        args.Cancel = false;
+        args.IsInteracted = true;
+        args.CollidedPosition = null;
+        args.HasText = true;
+        args.Left = 595;
+        args.Top = 294;
+        args.Type = "mouseleave";
+        var tooltip = fixture4.GetComponentUnderTest<SfTooltip>();
+        await Task.Delay(200);
+        var rootEle = tooltip.Find(".e-tooltip");
+        await tooltip.Instance.TriggerBeforeCloseEventAsync(args);
+    }
+
+    async Task AfterClose(Fixture fixture5)
+    {
+        TooltipEventArgs args = new TooltipEventArgs();
+        args.Cancel = false;
+        args.IsInteracted = false;
+        args.CollidedPosition = null;
+        args.Event = null;
+        args.HasText = true;
+        args.Left = null;
+        args.Top = null;
+        args.Type = null;
+        var tooltip = fixture5.GetComponentUnderTest<SfTooltip>();
+        await Task.Delay(200);
+        var rootEle = tooltip.Find(".e-tooltip");
+        await tooltip.Instance.TriggerClosedEventAsync(args);
+    }
+}
+
+

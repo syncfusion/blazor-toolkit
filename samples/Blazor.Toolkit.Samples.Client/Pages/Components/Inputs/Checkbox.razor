@@ -1,0 +1,648 @@
+﻿@page "/inputs/checkbox"
+@using Syncfusion.Blazor.Toolkit.Buttons
+@using Microsoft.AspNetCore.Components.Forms
+@using System.ComponentModel.DataAnnotations
+@using Syncfusion.Blazor.Toolkit.Inputs
+@using Buttons = Syncfusion.Blazor.Toolkit.Buttons
+
+<PageTitle>CheckBox | ASP.NET Core Blazor OSS Components</PageTitle>
+
+<!-- ─────────────────────────────────────────────────────────────
+     INTRO / DEFAULT
+     ───────────────────────────────────────────────────────────── -->
+<Description>
+    <Header>
+        <h4><b>Blazor Toolkit CheckBox Component</b></h4>
+    </Header>
+    <Content>
+        The CheckBox component enables users to make toggled selections for single items or groups of options.
+        This sample demonstrates key features of the CheckBox component, including binding, label placement,
+        size customization, tri‑state behavior, disabled states, form validation integration, and grouping in
+        real-world selection scenarios such as notification preferences.
+    </Content>
+</Description>
+
+<CodePreview CodeSection="@DefaultCheckBoxCode">
+    <PreviewSection>
+        <SfCheckBox TChecked="bool" Checked="true" Label="Checkbox" />
+    </PreviewSection>
+</CodePreview>
+
+<!-- ─────────────────────────────────────────────────────────────
+     TYPES (Checked / Unchecked / Disabled / Indeterminate)
+     ───────────────────────────────────────────────────────────── -->
+<Description>
+    <Header>
+        <h5><b>Types</b></h5>
+    </Header>
+    <Content>
+        Common CheckBox states include <b>Checked</b>, <b>Unchecked</b>, <b>Disabled</b>, and <b>Indeterminate</b>.
+        Use <code>Disabled</code> to prevent interaction, and enable tri‑state using <code>EnableTriState</code> to support the <b>Indeterminate</b> state.
+    </Content>
+</Description>
+
+<CodePreview CodeSection="@TypesCode">
+    <PreviewSection>
+        <div class="d-flex gap-4 align-items-center flex-wrap">
+            <SfCheckBox TChecked="bool" Checked="true" Label="Checked" />
+            <SfCheckBox TChecked="bool" Label="Unchecked" />
+            <SfCheckBox TChecked="bool" Checked="true" Label="Disabled" Disabled="true" />
+            <SfCheckBox TChecked="bool?" @bind-Checked="tIndeterminate" EnableTriState="true" Label="Indeterminate" />
+        </div>
+    </PreviewSection>
+</CodePreview>
+
+<!-- ─────────────────────────────────────────────────────────────
+     BINDING VALUE
+     ───────────────────────────────────────────────────────────── -->
+<Description>
+    <Header>
+        <h5><b>Binding Value</b></h5>
+    </Header>
+    <Content>
+        Bind the checked state using Blazor’s <code>bind-Checked</code> for two‑way binding. When you need custom logic during updates,
+        use the explicit pattern with <code>Checked</code> and <code>CheckedChanged</code>.
+    </Content>
+</Description>
+
+<CodePreview CodeSection="@BindingCode">
+    <PreviewSection>
+        <div class="d-flex gap-4 align-items-center flex-wrap">
+            <!-- Two‑way binding -->
+            <SfCheckBox TChecked="bool" @bind-Checked="agreed" Label="I agree" />
+            <span>Agreed: <b>@agreed</b></span>
+
+            <!-- Explicit Checked + CheckedChanged -->
+            <SfCheckBox TChecked="bool"
+                        Checked="@explicitBind"
+                        CheckedChanged="(bool v) => explicitBind = v"
+                        Label="Explicit bind" />
+            <span>Explicit: <b>@explicitBind</b></span>
+        </div>
+    </PreviewSection>
+</CodePreview>
+
+<!-- ─────────────────────────────────────────────────────────────
+     LABEL & PLACEMENT
+     ───────────────────────────────────────────────────────────── -->
+<Description>
+    <Header>
+        <h5><b>Label & Placement</b></h5>
+    </Header>
+    <Content>
+        Provide context using the <code>Label</code> property and choose its position with <code>LabelPosition</code> (<code>Before</code> or <code>After</code>).
+        The positioning adapts to RTL when enabled.
+    </Content>
+</Description>
+
+<CodePreview CodeSection="@LabelCode">
+    <PreviewSection>
+        <div class="d-flex gap-4 align-items-center flex-wrap">
+            <SfCheckBox TChecked="bool" Checked="true" Label="Wi‑Fi" />
+            <SfCheckBox TChecked="bool" Label="Auto‑sync" LabelPosition="LabelPosition.Before" />
+        </div>
+    </PreviewSection>
+</CodePreview>
+
+<!-- ─────────────────────────────────────────────────────────────
+     CUSTOMIZATION
+     ───────────────────────────────────────────────────────────── -->
+<Description>
+    <Header>
+        <h5><b>Customization</b></h5>
+    </Header>
+    <Content>
+        Customize the appearance of the CheckBox using built‑in theme color classes or fully custom
+        CSS. The <b>Color</b> examples use predefined visual styles such as
+        <code>e-primary</code>, <code>e-success</code>, <code>e-info</code>,
+        <code>e-warning</code>, and <code>e-danger</code> to match the application theme.
+        <br /><br />
+        The <b>Frame</b> example demonstrates deeper styling using a custom CSS class (e.g.,
+        <code>e-custom</code>) to modify the shape, border, or overall frame appearance.
+        <br /><br />
+        documentation.
+    </Content>
+</Description>
+
+<CodePreview CodeSection="@CustomizationCode">
+    <PreviewSection>
+        <div class="mb-3">
+            <p class="fw-bold mb-2">Color</p>
+            <div class="d-flex gap-2 flex-wrap">
+                <SfCheckBox TChecked="bool" Checked="true" Label="Primary" CssClass="e-primary"></SfCheckBox>
+                <SfCheckBox TChecked="bool" Checked="true" Label="Success" CssClass="e-success"></SfCheckBox>
+                <SfCheckBox TChecked="bool" Checked="true" Label="Info" CssClass="e-info"></SfCheckBox>
+                <SfCheckBox TChecked="bool" Checked="true" Label="Warning" CssClass="e-warning"></SfCheckBox>
+                <SfCheckBox TChecked="bool" Checked="true" Label="Danger" CssClass="e-danger"></SfCheckBox>
+            </div>
+        </div>
+
+        <div class="mb-3">
+            <p class="fw-bold mb-2">Frame</p>
+            <div class="d-flex gap-2 flex-wrap">
+                <SfCheckBox TChecked="bool" Checked="true" Label="Default" />
+                <SfCheckBox TChecked="bool" Checked="true" Label="Custom" CssClass="e-custom"></SfCheckBox>
+            </div>
+        </div>
+    </PreviewSection>
+</CodePreview>
+
+<!-- Styling for the "Color" customization -->
+<style>
+    
+    .e-checkbox-wrapper.e-primary .e-frame.e-check,
+    .e-checkbox-wrapper.e-primary:hover .e-frame.e-check,
+    .e-checkbox-wrapper.e-primary .e-checkbox:focus + .e-frame.e-check {
+        background-color: #e03872;
+    }
+
+    .e-checkbox-wrapper.e-success .e-frame.e-check,
+    .e-checkbox-wrapper.e-success .e-checkbox:focus + .e-frame.e-check {
+        background-color: #689f38;
+    }
+
+    .e-checkbox-wrapper.e-success:hover .e-frame.e-check {
+        background-color: #449d44;
+    }
+
+    .e-checkbox-wrapper.e-info .e-frame.e-check,
+    .e-checkbox-wrapper.e-info .e-checkbox:focus + .e-frame.e-check {
+        background-color: #2196f3;
+    }
+
+    .e-checkbox-wrapper.e-info:hover .e-frame.e-check {
+        background-color: #0b7dda;
+    }
+
+    .e-checkbox-wrapper.e-warning .e-frame.e-check,
+    .e-checkbox-wrapper.e-warning .e-checkbox:focus + .e-frame.e-check {
+        background-color: #ef6c00;
+    }
+
+    .e-checkbox-wrapper.e-warning:hover .e-frame.e-check {
+        background-color: #cc5c00;
+    }
+
+    .e-checkbox-wrapper.e-danger .e-frame.e-check,
+    .e-checkbox-wrapper.e-danger .e-checkbox:focus + .e-frame.e-check {
+        background-color: #d84315;
+    }
+
+    .e-checkbox-wrapper.e-danger:hover .e-frame.e-check {
+        background-color: #ba3912;
+    }
+</style>
+
+<!-- Styling for the "Frame" customization -->
+<style>
+    .e-checkbox-wrapper.e-custom .e-frame {
+        border-radius: 100%;
+    }
+</style>
+
+<!-- ─────────────────────────────────────────────────────────────
+     STATES (NORMAL / DISABLED)
+     ───────────────────────────────────────────────────────────── -->
+<Description>
+    <Header>
+        <h5><b>States</b></h5>
+    </Header>
+    <Content>
+        Disable interaction when needed using <code>Disabled</code>. Disabled CheckBoxes remain visible but cannot be toggled by users.
+    </Content>
+</Description>
+
+<CodePreview CodeSection="@StatesCode">
+    <PreviewSection>
+        <div class="d-flex gap-4 align-items-center flex-wrap">
+            <SfCheckBox TChecked="bool" Checked="true" Label="Normal" />
+            <SfCheckBox TChecked="bool" Label="Disabled" Disabled="true" />
+        </div>
+    </PreviewSection>
+</CodePreview>
+
+<!-- ─────────────────────────────────────────────────────────────
+     FORM SUPPORT & VALIDATION
+     ───────────────────────────────────────────────────────────── -->
+<Description>
+    <Header>
+        <h5><b>Form Support & Validation</b></h5>
+    </Header>
+    <Content>
+        The CheckBox component works seamlessly inside Blazor’s <code>EditForm</code>, supporting model binding and
+        standard <code>DataAnnotations</code> validation. The sample also shows a simple <b>submitted</b> message after successful submit,
+        which clears when you uncheck the box.
+    </Content>
+</Description>
+
+<CodePreview CodeSection="@FormCode">
+    <PreviewSection>
+        <EditForm Model="formModel" OnValidSubmit="OnSubmit">
+            <DataAnnotationsValidator />
+            <div class="mb-2">
+                <!-- Explicit pattern so we can clear the submitted message when unchecked -->
+                <SfCheckBox TChecked="bool"
+                            Checked="@formModel.Accept"
+                            CheckedChanged="OnAcceptChanged"
+                            Label="I accept the terms" />
+                <ValidationMessage For="() => formModel.Accept" />
+            </div>
+            <SfButton CssClass="e-primary" Disabled="@(!formModel.Accept)">Submit</SfButton>
+
+            @if (formSubmitted)
+            {
+                <p class="text-success mt-2">Form submitted successfully.</p>
+            }
+        </EditForm>
+    </PreviewSection>
+</CodePreview>
+
+<!-- ─────────────────────────────────────────────────────────────
+     GROUPING
+     ───────────────────────────────────────────────────────────── -->
+<Description>
+    <Header>
+        <h5><b>Grouping</b></h5>
+    </Header>
+    <Content>
+        The parent checkbox reflects group status:
+        <b>Checked</b> (all), <b>Unchecked</b> (none), and <b>Indeterminate</b> (some). Clicking the parent only performs
+        two states (check all / uncheck all); the <b>Indeterminate</b> state is shown programmatically based on child selections.
+    </Content>
+</Description>
+
+<CodePreview CodeSection="@GroupingCode">
+    <PreviewSection>
+        <div class="mb-2">
+            <!-- Parent: tri-state visual, but click behavior coerced to two-state -->
+            <SfCheckBox TChecked="bool?"
+                        Checked="@notifParentState"
+                        CheckedChanged="OnNotifParentClicked"
+                        EnableTriState="true"
+                        Label="All notifications" />
+        </div>
+
+        <!-- Children -->
+        <ul class="list-unstyled ms-3">
+            @for (int i = 0; i < notifItems.Count; i++)
+            {
+                var idx = i;
+                <li class="mb-1" @key="notifItems[idx]">
+                    <SfCheckBox TChecked="bool"
+                                Checked="@notifItems[idx].Selected"
+                                CheckedChanged="@((bool v) => { notifItems[idx].Selected = v; OnNotifChildChanged(); })"
+                                Label="@notifItems[idx].Name" />
+                </li>
+            }
+        </ul>
+
+        <!-- Summary -->
+        <p class="mt-2">
+            <small>
+                Selected: <b>@notifSelectedCount</b> of <b>@notifItems.Count</b>
+            </small>
+        </p>
+    </PreviewSection>
+</CodePreview>
+
+@code {
+    // ─────────────────────────────────────────────────────────
+    // STATE
+    // ─────────────────────────────────────────────────────────
+
+    private bool? tIndeterminate = null;
+
+    // 1) Binding
+    private bool agreed = true;
+    private bool explicitBind;
+
+    // 6) Forms
+    private FormModel formModel = new();
+    private bool formSubmitted = false;
+
+    private void OnAcceptChanged(bool v)
+    {
+        formModel.Accept = v;
+        if (!v)
+        {
+            // Clear the submitted banner when user unchecks the consent
+            formSubmitted = false;
+        }
+    }
+
+    private void OnSubmit()
+    {
+        formSubmitted = true;
+    }
+
+    // 7) Grouping — Notifications use case
+    private bool indeterminateWhenAllSelected = false; // set true to show Indeterminate even when all are selected
+    private bool? notifParentState = false;
+
+    private class Pick { public string Name { get; set; } = ""; public bool Selected { get; set; } }
+
+    private List<Pick> notifItems = new()
+    {
+        new Pick { Name = "Product updates", Selected = true },
+        new Pick { Name = "Security alerts", Selected = true },
+        new Pick { Name = "Promotions",      Selected = false },
+        new Pick { Name = "Surveys",         Selected = false },
+    };
+
+    private int notifSelectedCount => notifItems.Count(i => i.Selected);
+
+    protected override void OnInitialized()
+    {
+        // Ensure the parent reflects initial children (2 of 4 selected -> Indeterminate)
+        UpdateNotifParentState();
+    }
+
+    private void UpdateNotifParentState()
+    {
+        int total = notifItems.Count;
+        int selected = notifItems.Count(i => i.Selected);
+
+        if (selected == 0)
+        {
+            notifParentState = false;
+        }
+        else if (selected == total)
+        {
+            notifParentState = indeterminateWhenAllSelected ? null : true;
+        }
+        else
+        {
+            notifParentState = null; // some selected => Indeterminate
+        }
+    }
+
+    private void OnNotifChildChanged()
+    {
+        // Called after a child changes; recompute parent's tri-state
+        UpdateNotifParentState();
+    }
+
+    private void OnNotifParentClicked(bool? valueFromUI)
+    {
+        // Coerce parent click into a 2-state action: check all / uncheck all
+        bool target = notifItems.Any(i => !i.Selected); // if any unchecked -> check all; else uncheck all
+
+        if (valueFromUI == true) target = true;
+        else if (valueFromUI == false) target = false;
+        // if null: keep computed target
+
+        foreach (var it in notifItems)
+            it.Selected = target;
+
+        // Recompute parent state to honor the indeterminateWhenAllSelected switch
+        UpdateNotifParentState();
+    }
+
+    // ─────────────────────────────────────────────────────────
+    // CODE SNIPPETS (kept in sync with the live preview)
+    // ─────────────────────────────────────────────────────────
+
+    private string DefaultCheckBoxCode => @"<SfCheckBox TChecked=""bool"" Checked=""true"" Label=""Checkbox"" />";
+
+    private string TypesCode => @"<div class=""d-flex gap-4 align-items-center flex-wrap"">
+<SfCheckBox TChecked=""bool"" Checked=""true"" Label=""Checked"" />
+<SfCheckBox TChecked=""bool"" Label=""Unchecked"" />
+<SfCheckBox TChecked=""bool"" Checked=""true"" Label=""Disabled"" Disabled=""true"" />
+<SfCheckBox TChecked=""bool?"" @bind-Checked=""tIndeterminate"" EnableTriState=""true"" Label=""Indeterminate"" />
+</div>
+@code
+{
+   private bool? tIndeterminate = null;
+}";
+
+    private string BindingCode => @"<div class=""d-flex gap-4 align-items-center flex-wrap"">
+    <!-- Two‑way binding -->
+    <SfCheckBox TChecked=""bool"" @bind-Checked=""agreed"" Label=""I agree"" />
+    <span>Agreed: <b>@agreed</b></span>
+
+    <!-- Explicit Checked + CheckedChanged -->
+    <SfCheckBox TChecked=""bool""
+                Checked=""@explicitBind""
+                CheckedChanged=""(bool v) => explicitBind = v""
+                Label=""Explicit bind"" />
+    <span>Explicit: <b>@explicitBind</b></span>
+</div>
+@code
+{
+  private bool agreed = true;
+  private bool explicitBind;
+}";
+
+    private string LabelCode => @"<div class=""d-flex gap-4 align-items-center flex-wrap"">
+    <SfCheckBox TChecked=""bool"" Checked=""true"" Label=""Wi‑Fi"" />
+    <SfCheckBox TChecked=""bool"" Label=""Auto‑sync"" LabelPosition=""LabelPosition.Before"" />
+</div>";
+
+    private string CustomizationCode => @"<div class=""mb-3"">
+    <p class=""fw-bold mb-2"">Color</p>
+    <div class=""d-flex gap-2 flex-wrap"">
+        <SfCheckBox TChecked=""bool"" Checked=""true"" Label=""Primary"" CssClass=""e-primary""></SfCheckBox>
+        <SfCheckBox TChecked=""bool"" Checked=""true"" Label=""Success"" CssClass=""e-success""></SfCheckBox>
+        <SfCheckBox TChecked=""bool"" Checked=""true"" Label=""Info"" CssClass=""e-info""></SfCheckBox>
+        <SfCheckBox TChecked=""bool"" Checked=""true"" Label=""Warning"" CssClass=""e-warning""></SfCheckBox>
+        <SfCheckBox TChecked=""bool"" Checked=""true"" Label=""Danger"" CssClass=""e-danger""></SfCheckBox>
+    </div>
+</div>
+
+<div class=""mb-3"">
+    <p class=""fw-bold mb-2"">Frame</p>
+    <div class=""d-flex gap-2 flex-wrap"">
+        <SfCheckBox TChecked=""bool"" Checked=""true"" Label=""Default"" />
+        <SfCheckBox TChecked=""bool"" Checked=""true"" Label=""Custom"" CssClass=""e-custom""></SfCheckBox>
+    </div>
+</div>
+
+<style>
+.e-checkbox-wrapper.e-primary .e-frame.e-check,
+.e-checkbox-wrapper.e-primary:hover .e-frame.e-check,
+.e-checkbox-wrapper.e-primary .e-checkbox:focus + .e-frame.e-check {
+    background-color: #e03872;
+}
+
+.e-checkbox-wrapper.e-success .e-frame.e-check,
+.e-checkbox-wrapper.e-success .e-checkbox:focus + .e-frame.e-check {
+    background-color: #689f38;
+}
+
+.e-checkbox-wrapper.e-success:hover .e-frame.e-check {
+    background-color: #449d44;
+}
+
+.e-checkbox-wrapper.e-info .e-frame.e-check,
+.e-checkbox-wrapper.e-info .e-checkbox:focus + .e-frame.e-check {
+    background-color: #2196f3;
+}
+
+.e-checkbox-wrapper.e-info:hover .e-frame.e-check {
+    background-color: #0b7dda;
+}
+
+.e-checkbox-wrapper.e-warning .e-frame.e-check,
+.e-checkbox-wrapper.e-warning .e-checkbox:focus + .e-frame.e-check {
+    background-color: #ef6c00;
+}
+
+.e-checkbox-wrapper.e-warning:hover .e-frame.e-check {
+    background-color: #cc5c00;
+}
+
+.e-checkbox-wrapper.e-danger .e-frame.e-check,
+.e-checkbox-wrapper.e-danger .e-checkbox:focus + .e-frame.e-check {
+    background-color: #d84315;
+}
+
+.e-checkbox-wrapper.e-danger:hover .e-frame.e-check {
+    background-color: #ba3912;
+}
+
+.e-checkbox-wrapper.e-custom .e-frame {
+    border-radius: 100%;
+}
+</style>";
+
+    private string StatesCode => @"<div class=""d-flex gap-2 align-items-center flex-wrap"">
+    <SfCheckBox TChecked=""bool"" Checked=""true"" Label=""Normal"" />
+    <SfCheckBox TChecked=""bool"" Label=""Disabled"" Disabled=""true"" />
+</div>";
+
+    private string FormCode => @"@using System.ComponentModel.DataAnnotations
+<EditForm Model=""formModel"" OnValidSubmit=""OnSubmit"">
+    <DataAnnotationsValidator />
+    <div class=""mb-2"">
+        <!-- Explicit pattern so we can clear the submitted message when unchecked -->
+        <SfCheckBox TChecked=""bool""
+                    Checked=""@formModel.Accept""
+                    CheckedChanged=""OnAcceptChanged""
+                    Label=""I accept the terms"" />
+        <ValidationMessage For=""() => formModel.Accept"" />
+    </div>
+    <SfButton CssClass=""e-primary"" Disabled=""@(!formModel.Accept)"">Submit</SfButton>
+
+    @if (formSubmitted)
+    {
+        <p class=""text-success mt-2"">Form submitted successfully.</p>
+    }
+</EditForm>
+
+@code {
+    class FormModel {
+        [Range(typeof(bool), ""true"", ""true"", ErrorMessage = ""You must accept the terms"")]
+        public bool Accept { get; set; }
+    }
+
+    private FormModel formModel = new();
+    bool formSubmitted;
+    void OnAcceptChanged(bool v)
+    {
+        formModel.Accept = v;
+        if (!v) formSubmitted = false;
+    }
+    void OnSubmit() => formSubmitted = true;
+}";
+
+    private string GroupingCode => @"<div class=""mb-2"">
+    <!-- Parent: tri-state visual, but click behavior coerced to two-state -->
+    <SfCheckBox TChecked=""bool?""
+        Checked=""@notifParentState""
+        CheckedChanged=""OnNotifParentClicked""
+        EnableTriState=""true""
+        Label=""All notifications"" />
+</div>
+
+<!-- Children -->
+<ul class=""list-unstyled ms-3"">
+@for (int i = 0; i < notifItems.Count; i++)
+{
+    var idx = i;
+    <li class=""mb-1"" @key=""notifItems[idx]"">
+        <SfCheckBox TChecked=""bool""
+                    Checked=""@notifItems[idx].Selected""
+                    CheckedChanged=""@((bool v) => { notifItems[idx].Selected = v; OnNotifChildChanged(); })""
+                    Label=""@notifItems[idx].Name"" />
+    </li>
+}
+</ul>
+
+<!-- Summary -->
+<p class=""mt-2"">
+    <small>
+        Selected: <b>@notifSelectedCount</b> of <b>@notifItems.Count</b>
+    </small>
+</p>
+ @code
+{
+private bool indeterminateWhenAllSelected = false; // set true to show Indeterminate even when all are selected
+    private bool? notifParentState = false;
+
+    private class Pick { public string Name { get; set; } = """"; public bool Selected { get; set; } }
+
+    private List<Pick> notifItems = new()
+    {
+        new Pick { Name = ""Product updates"", Selected = true },
+        new Pick { Name = ""Security alerts"", Selected = true },
+        new Pick { Name = ""Promotions"",      Selected = false },
+        new Pick { Name = ""Surveys"",         Selected = false },
+    };
+
+    private int notifSelectedCount => notifItems.Count(i => i.Selected);
+
+    protected override void OnInitialized()
+    {
+        // Ensure the parent reflects initial children (2 of 4 selected -> Indeterminate)
+        UpdateNotifParentState();
+    }
+
+    private void UpdateNotifParentState()
+    {
+        int total = notifItems.Count;
+        int selected = notifItems.Count(i => i.Selected);
+
+        if (selected == 0)
+        {
+            notifParentState = false;
+        }
+        else if (selected == total)
+        {
+            notifParentState = indeterminateWhenAllSelected ? null : true;
+        }
+        else
+        {
+            notifParentState = null; // some selected => Indeterminate
+        }
+    }
+
+    private void OnNotifChildChanged()
+    {
+        // Called after a child changes; recompute parent's tri-state
+        UpdateNotifParentState();
+    }
+
+    private void OnNotifParentClicked(bool? valueFromUI)
+    {
+        // Coerce parent click into a 2-state action: check all / uncheck all
+        bool target = notifItems.Any(i => !i.Selected); // if any unchecked -> check all; else uncheck all
+
+        if (valueFromUI == true) target = true;
+        else if (valueFromUI == false) target = false;
+        // if null: keep computed target
+
+        foreach (var it in notifItems)
+            it.Selected = target;
+
+        // Recompute parent state to honor the indeterminateWhenAllSelected switch
+        UpdateNotifParentState();
+    }
+}";
+
+    // Backing type used by the live Form preview
+    private class FormModel
+    {
+        [Range(typeof(bool), "true", "true", ErrorMessage = "You must accept the terms")]
+        public bool Accept { get; set; }
+    }
+}

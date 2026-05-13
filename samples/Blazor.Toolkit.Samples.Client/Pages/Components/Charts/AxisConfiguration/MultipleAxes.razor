@@ -1,0 +1,228 @@
+@page "/charts/multiple-axes"
+@using Syncfusion.Blazor.Toolkit.Charts
+
+<PageTitle>Syncfusion Blazor Toolkit Multiple Axes Demo</PageTitle>
+
+<Description>
+    <Header>
+        <h5><b>Multiple Axes</b></h5>
+    </Header>
+    <Content>
+        Multiple axes allow different datasets to be visualized within a single Chart
+        using independent value ranges and units. Add multiple axes to the Chart by defining them within the <code>ChartAxes</code> collection using the <code>ChartAxis</code> component.
+
+        In this sample, temperature readings are displayed in both Fahrenheit and
+        Celsius. The primary Y-axis represents Fahrenheit values, while a secondary
+        opposed Y-axis displays Celsius values (configured by setting <code>OpposedPosition="true"</code>). Each series is explicitly bound to its
+        corresponding axis using the <code>YAxisName</code> property to ensure accurate scaling and clarity.
+    </Content>
+</Description>
+
+<VirtualizeSection MinHeightPx="600px">
+    <CodePreview CodeSection="@MultipleAxesCode" IsFullWidth="true">
+    <PreviewSection>
+        <SfChart @key="@_currentTheme" Title="C & F Temperature Overview Across Cities" Theme="@_currentTheme">
+            <ChartArea>
+                <ChartAreaBorder Width="0" />
+            </ChartArea>
+
+            <!-- X AXIS -->
+            <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Toolkit.ValueType.Category"
+                               Interval="1"
+                               LabelIntersectAction="LabelIntersectAction.Rotate90">
+                <ChartAxisMajorGridLines Width="0" />
+                <ChartAxisMajorTickLines Width="0" />
+                <ChartAxisMinorTickLines Width="0" />
+            </ChartPrimaryXAxis>
+
+            <!-- PRIMARY Y AXIS (°F) -->
+            <ChartPrimaryYAxis Minimum="0"
+                               Maximum="100"
+                               Interval="20"
+                               LabelFormat="{value}°F">
+                <ChartAxisLineStyle Width="0" />
+                <ChartAxisMajorTickLines Width="0" />
+            </ChartPrimaryYAxis>
+
+            <!-- SECONDARY Y AXIS (°C) -->
+            <ChartAxes>
+                <ChartAxis Name="yAxis2"
+                           Minimum="24"
+                           Maximum="36"
+                           Interval="2"
+                           OpposedPosition="true"
+                           RowIndex="0"
+                           LabelFormat="{value}°C">
+                    <ChartAxisMajorGridLines Width="0" />
+                    <ChartAxisLineStyle Width="0" />
+                    <ChartAxisMajorTickLines Width="0" />
+                </ChartAxis>
+            </ChartAxes>
+
+            <!-- SERIES -->
+            
+                <ChartSeries DataSource="@MultipleAxisData"
+                             XName="X"
+                             YName="Y1"
+                             Type="ChartSeriesType.Column"
+                             Name="Temperature in °F"
+                             Fill="#856EEBE5"
+                             ColumnWidth="0.4">
+                    <ChartCornerRadius TopLeft="6"
+                                       TopRight="6" />
+                </ChartSeries>
+
+                <ChartSeries DataSource="@MultipleAxisData"
+                             XName="X"
+                             YName="Y2"
+                             YAxisName="yAxis2"
+                             Type="ChartSeriesType.Spline"
+                             Name="Temperature in °C"
+                             Width="2"
+                             Fill="#DF4E6D">
+                    <ChartMarker Visible="true" IsFilled="true"/>
+                </ChartSeries>
+            
+
+            <!-- TOOLTIP -->
+            <ChartTooltipSettings Enable="true"
+                                  Header="${point.x}"
+                                  Format="Temperature : <b>${point.y}</b>"
+                                  EnableHighlight="true"/>
+        </SfChart>
+    </PreviewSection>
+</CodePreview>
+</VirtualizeSection>
+
+@code {
+    [CascadingParameter]
+    private Theme CurrentTheme { get; set; } = Theme.Fluent;
+
+    private Theme _currentTheme = Theme.Fluent;
+
+    protected override void OnInitialized()
+    {
+        _currentTheme = CurrentTheme;
+    }
+
+    protected override void OnParametersSet()
+    {
+        _currentTheme = CurrentTheme;
+    }
+
+    private bool IsDarkTheme => _currentTheme.ToString().Contains("Dark") || _currentTheme.ToString().Contains("HighContrast");
+    private string TextColor => IsDarkTheme ? "#E6EEF8" : "#0B1F3B";
+
+   // DATA MODEL
+    public class TemperatureAxisPoint
+    {
+        public string X { get; set; } = string.Empty;
+        public double Y1 { get; set; }   // Fahrenheit
+        public double Y2 { get; set; }   // Celsius
+    }
+
+    // DATASOURCE (1:1 WITH REACT)
+    private readonly List<TemperatureAxisPoint> MultipleAxisData = new()
+    {
+        new() { X = "Sun", Y1 = 35, Y2 = 30 },
+        new() { X = "Mon", Y1 = 40, Y2 = 28 },
+        new() { X = "Tue", Y1 = 80, Y2 = 29 },
+        new() { X = "Wed", Y1 = 70, Y2 = 30 },
+        new() { X = "Thu", Y1 = 65, Y2 = 33 },
+        new() { X = "Fri", Y1 = 55, Y2 = 32 },
+        new() { X = "Sat", Y1 = 50, Y2 = 34 }
+    };
+
+    // CODE SNIPPET (MATCHES PREVIEW EXACTLY)
+    private string MultipleAxesCode => @"@using Syncfusion.Blazor.Toolkit.Charts
+     <SfChart Title=""C & F Temperature Overview Across Cities"">
+            <ChartArea>
+                <ChartAreaBorder Width=""0"" />
+            </ChartArea>
+
+            <!-- X AXIS -->
+            <ChartPrimaryXAxis ValueType=""Syncfusion.Blazor.Toolkit.ValueType.Category""
+                               Interval=""1""
+                               LabelIntersectAction=""LabelIntersectAction.Rotate90"">
+                <ChartAxisMajorGridLines Width=""0"" />
+                <ChartAxisMajorTickLines Width=""0"" />
+                <ChartAxisMinorTickLines Width=""0"" />
+            </ChartPrimaryXAxis>
+
+            <!-- PRIMARY Y AXIS (°F) -->
+            <ChartPrimaryYAxis Minimum=""0""
+                               Maximum=""100""
+                               Interval=""20""
+                               LabelFormat=""{value}°F"">
+                <ChartAxisLineStyle Width=""0"" />
+                <ChartAxisMajorTickLines Width=""0"" />
+            </ChartPrimaryYAxis>
+
+            <!-- SECONDARY Y AXIS (°C) -->
+            <ChartAxes>
+                <ChartAxis Name=""yAxis2""
+                           Minimum=""24""
+                           Maximum=""36""
+                           Interval=""2""
+                           OpposedPosition=""true""
+                           RowIndex=""0""
+                           LabelFormat=""{value}°C"">
+                    <ChartAxisMajorGridLines Width=""0"" />
+                    <ChartAxisLineStyle Width=""0"" />
+                    <ChartAxisMajorTickLines Width=""0"" />
+                </ChartAxis>
+            </ChartAxes>
+
+            <!-- SERIES -->
+            
+                <ChartSeries DataSource=""@MultipleAxisData""
+                             XName=""X""
+                             YName=""Y1""
+                             Type=""ChartSeriesType.Column""
+                             Name=""Temperature in °F""
+                             Fill=""#856EEBE5""
+                             ColumnWidth=""0.4"">
+                    <ChartCornerRadius TopLeft=""6""
+                                       TopRight=""6"" />
+                </ChartSeries>
+
+                <ChartSeries DataSource=""@MultipleAxisData""
+                             XName=""X""
+                             YName=""Y2""
+                             YAxisName=""yAxis2""
+                             Type=""ChartSeriesType.Spline""
+                             Name=""Temperature in °C""
+                             Width=""2""
+                             Fill=""#DF4E6D"">
+                    <ChartMarker Visible=""true"" IsFilled=""true""/>
+                </ChartSeries>
+            
+
+            <!-- TOOLTIP -->
+            <ChartTooltipSettings Enable=""true""
+                                  Header=""${point.x}""
+                                  Format=""Temperature : <b>${point.y}</b>""
+                                  EnableHighlight=""true""/>
+        </SfChart>
+
+
+
+@code {
+    public class TemperatureAxisPoint
+        {
+            public string X { get; set; } = string.Empty;
+            public double Y1 { get; set; }   // Fahrenheit
+            public double Y2 { get; set; }   // Celsius
+        }
+     List<TemperatureAxisPoint> MultipleAxisData = new()
+        {
+            new() { X = ""Sun"", Y1 = 35, Y2 = 30 },
+            new() { X = ""Mon"", Y1 = 40, Y2 = 28 },
+            new() { X = ""Tue"", Y1 = 80, Y2 = 29 },
+            new() { X = ""Wed"", Y1 = 70, Y2 = 30 },
+            new() { X = ""Thu"", Y1 = 65, Y2 = 33 },
+            new() { X = ""Fri"", Y1 = 55, Y2 = 32 },
+            new() { X = ""Sat"", Y1 = 50, Y2 = 34 }
+        };
+}";
+}

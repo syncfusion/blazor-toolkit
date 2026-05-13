@@ -1,0 +1,80 @@
+@page "/datepicker-test"
+
+@using Syncfusion.Blazor.Toolkit.Calendars
+@using Microsoft.AspNetCore.Components.Forms
+
+<h3>DatePicker Test Page</h3>
+
+<div id="wrapper-dp-basic">
+  <label>Basic</label>
+  <SfDatePicker TValue="DateTime?" Id="dp-basic" Placeholder="Select a date" ShowClearButton="true" Format="MM/dd/yyyy" />
+</div>
+
+<div id="wrapper-dp-initial">
+  <label>Initial Value</label>
+  <SfDatePicker TValue="DateTime?" Id="dp-initial" @bind-Value="initialValue" ShowClearButton="true" Format="MM/dd/yyyy" />
+</div>
+
+<div id="wrapper-dp-strict">
+  <label>Strict Mode</label>
+  <SfDatePicker TValue="DateTime?" Id="dp-strict" StrictMode="true" Placeholder="MM/dd/yyyy" ShowClearButton="true" Format="MM/dd/yyyy" />
+</div>
+
+<div id="wrapper-dp-minmax">
+  <label>Min/Max</label>
+  <SfDatePicker TValue="DateTime?" Id="dp-minmax" Min="@minDate" Max="@maxDate" Placeholder="Select date (2022-2026)" Format="MM/dd/yyyy" />
+</div>
+
+<div id="wrapper-dp-disabled">
+  <label>Disabled</label>
+  <SfDatePicker TValue="DateTime?" Id="dp-disabled" Disabled="true" Placeholder="Disabled" />
+</div>
+
+<div id="wrapper-dp-mask">
+  <label>Mask</label>
+  <SfDatePicker TValue="DateTime?" Id="dp-mask" EnableMask="true" Placeholder="MM/dd/yyyy" Format="MM/dd/yyyy" />
+</div>
+
+<div id="wrapper-dp-width">
+  <label>Width</label>
+  <SfDatePicker TValue="DateTime?" Id="dp-width" Width="280px" Placeholder="Width example" />
+</div>
+
+<div id="wrapper-dp-form">
+  <label>Form Integration</label>
+  <EditForm Model="formModel" OnValidSubmit="OnSubmit">
+    <SfDatePicker TValue="DateTime?" Id="dp-form" @bind-Value="formModel.Date" Placeholder="Pick and submit" Format="MM/dd/yyyy" />
+    <button type="submit">Submit</button>
+  </EditForm>
+  <div id="form-result">@formResult</div>
+</div>
+
+<div id="wrapper-dp-many">
+  <label>Many pickers</label>
+  @for (int i = 1; i <= 10; i++)
+  {
+    string id = $"dp-many-{i}";
+    <div class="many-item" id="many-@i">
+      <SfDatePicker TValue="DateTime?" Id="@id" Placeholder="Many" />
+    </div>
+  }
+</div>
+
+@code {
+    private DateTime? initialValue = new DateTime(2025, 5, 15);
+    private DateTime minDate = new DateTime(2022, 1, 1);
+    private DateTime maxDate = new DateTime(2026, 12, 31);
+
+    private FormModel formModel = new FormModel();
+    private string formResult = string.Empty;
+
+    private void OnSubmit()
+    {
+        formResult = formModel.Date?.ToString("MM/dd/yyyy") ?? string.Empty;
+    }
+
+    private class FormModel
+    {
+        public DateTime? Date { get; set; }
+    }
+}

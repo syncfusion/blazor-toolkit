@@ -1,0 +1,52 @@
+﻿@using Syncfusion.Blazor.Toolkit.Charts
+@using Syncfusion.Blazor.Toolkit.Tests
+@using Bunit
+@using Xunit
+
+@inherits TestComponentBase
+
+
+<SfFixture @ref="fixture" TestAsync="CheckingToolbarDisplayMode" Description="Rendering Chart With Inital Zooming Toolbar">
+    <ComponentUnderTest>
+        <SfChart ID="container">
+            <ChartPrimaryXAxis Title="PrimaryXAxis" ValueType="Syncfusion.Blazor.Toolkit.ValueType.Category"></ChartPrimaryXAxis>
+            <ChartPrimaryYAxis Title="PrimaryYaxis" RangePadding="ChartRangePadding.None"></ChartPrimaryYAxis>
+            <ChartSeriesCollection>
+                <ChartSeries DataSource="@Sales" XName="Month" YName="SalesValue" Type="ChartSeriesType.Column" Name="Gold">
+                    <ChartSeriesAnimation Enable="false"></ChartSeriesAnimation>
+                </ChartSeries>
+            </ChartSeriesCollection>
+            <ChartZoomSettings ToolbarDisplayMode="ToolbarMode.Always"></ChartZoomSettings>
+        </SfChart>
+    </ComponentUnderTest>
+</SfFixture>
+
+
+@code {
+
+    SfFixture fixture { get; set; }
+    async Task CheckingToolbarDisplayMode(Fixture fixture)
+    {
+        var cut = fixture.GetComponentUnderTest<SfChart>();
+        await Task.Delay(200);
+        Assert.True(cut.Find("#container_Zooming_Rect").GetAttribute("id") == "container_Zooming_Rect");
+        Assert.True(cut.Find("#container_Zooming_Rect").GetAttribute("stroke") == "transparent");
+        cut.SetParametersAndRender();
+    }
+    public class SalesInfo
+    {
+        public string Month { get; set; }
+        public double SalesValue { get; set; }
+    }
+
+    public List<SalesInfo> Sales = new List<SalesInfo>
+{
+        new SalesInfo { Month = "Jan", SalesValue = 35 },
+        new SalesInfo { Month = "Feb", SalesValue = 28 },
+        new SalesInfo { Month = "Mar", SalesValue = 34 },
+        new SalesInfo { Month = "Apr", SalesValue = 32 },
+        new SalesInfo { Month = "May", SalesValue = 40 },
+        new SalesInfo { Month = "Jun", SalesValue = 32 },
+        new SalesInfo { Month = "Jul", SalesValue = 35 }
+    };
+}

@@ -1,0 +1,207 @@
+@page "/stripline-tooltip-playwright"
+@using Syncfusion.Blazor.Toolkit.Charts
+@layout MainLayout
+
+<h2>Stripline Tooltip – Playwright Converted Sample</h2>
+
+<div style="display:flex; flex-direction:column; gap:50px;">
+
+<!-- 1️⃣ Default tooltip (Enable=true, default styles) -->
+<SfChart ID="striplineDefault"
+         Title="Weather Report"
+         Height="450px"
+         Width="900px">
+        <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Toolkit.ValueType.Category" />
+    <ChartPrimaryYAxis>
+        <ChartStriplines>
+            <ChartStripline Start="20" End="30" Color="red">
+                <ChartStriplineTooltip Enable="true" />
+            </ChartStripline>
+        </ChartStriplines>
+    </ChartPrimaryYAxis>
+    <ChartSeriesCollection>
+        <ChartSeries DataSource="@WeatherReports"
+                     XName="X"
+                     YName="Y"
+                     Type="ChartSeriesType.Column" />
+    </ChartSeriesCollection>
+</SfChart>
+
+<!-- 2️⃣ Tooltip with text style -->
+<SfChart ID="striplineTextStyle"
+         Title="Weather Report"
+         Height="450px"
+         Width="900px">
+        <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Toolkit.ValueType.Category" />
+    <ChartPrimaryYAxis>
+        <ChartStriplines>
+            <ChartStripline Start="20" End="30" Color="red">
+                <ChartStriplineTooltip Enable="true">
+                    <ChartStriplineTooltipTextStyle
+                        Color="Black"
+                        FontFamily="Aerial"
+                        Size="12px"
+                        FontWeight="600" />
+                </ChartStriplineTooltip>
+            </ChartStripline>
+        </ChartStriplines>
+    </ChartPrimaryYAxis>
+    <ChartSeriesCollection>
+        <ChartSeries DataSource="@WeatherReports"
+                     XName="X"
+                     YName="Y"
+                     Type="ChartSeriesType.Column" />
+    </ChartSeriesCollection>
+</SfChart>
+
+<!-- 3️⃣ Tooltip with border -->
+<SfChart ID="striplineBorder"
+         Title="Weather Report"
+         Height="450px"
+         Width="900px">
+        <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Toolkit.ValueType.Category" />
+    <ChartPrimaryYAxis>
+        <ChartStriplines>
+            <ChartStripline Start="20" End="30" Color="red">
+                <ChartStriplineTooltip Enable="true">
+                    <ChartStriplineTooltipBorder Color="green" Width="3" />
+                </ChartStriplineTooltip>
+            </ChartStripline>
+        </ChartStriplines>
+    </ChartPrimaryYAxis>
+    <ChartSeriesCollection>
+        <ChartSeries DataSource="@WeatherReports"
+                     XName="X"
+                     YName="Y"
+                     Type="ChartSeriesType.Column" />
+    </ChartSeriesCollection>
+</SfChart>
+
+<!-- 4️⃣ Tooltip header disabled -->
+<SfChart ID="striplineNoHeaderLine"
+         Title="Weather Report"
+         Height="450px"
+         Width="900px">
+        <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Toolkit.ValueType.Category" />
+    <ChartPrimaryYAxis>
+        <ChartStriplines>
+            <ChartStripline Start="20" End="30" Color="red">
+                <ChartStriplineTooltip Enable="true" ShowHeaderLine="false" />
+            </ChartStripline>
+        </ChartStriplines>
+    </ChartPrimaryYAxis>
+    <ChartSeriesCollection>
+        <ChartSeries DataSource="@WeatherReports"
+                     XName="X"
+                     YName="Y"
+                     Type="ChartSeriesType.Column" />
+    </ChartSeriesCollection>
+</SfChart>
+
+<!-- 5️⃣ Tooltip opacity -->
+<SfChart ID="striplineOpacity"
+         Title="Weather Report"
+         Height="450px"
+         Width="900px">
+        <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Toolkit.ValueType.Category" />
+    <ChartPrimaryYAxis>
+        <ChartStriplines>
+            <ChartStripline Start="20" End="30" Color="red">
+                <ChartStriplineTooltip Enable="true" Opacity="1" />
+            </ChartStripline>
+        </ChartStriplines>
+    </ChartPrimaryYAxis>
+    <ChartSeriesCollection>
+        <ChartSeries DataSource="@WeatherReports"
+                     XName="X"
+                     YName="Y"
+                     Type="ChartSeriesType.Column" />
+    </ChartSeriesCollection>
+</SfChart>
+
+<!-- 6️⃣ Tooltip fill -->
+<SfChart ID="striplineFill"
+         Title="Weather Report"
+         Height="450px"
+         Width="900px">
+        <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Toolkit.ValueType.Category" />
+    <ChartPrimaryYAxis>
+        <ChartStriplines>
+            <ChartStripline Start="20" End="30" Color="red">
+                <ChartStriplineTooltip Enable="true" Fill="blue" />
+            </ChartStripline>
+        </ChartStriplines>
+    </ChartPrimaryYAxis>
+    <ChartSeriesCollection>
+        <ChartSeries DataSource="@WeatherReports"
+                     XName="X"
+                     YName="Y"
+                     Type="ChartSeriesType.Column" />
+    </ChartSeriesCollection>
+</SfChart>
+
+<!-- 7️⃣ Tooltip header & content -->
+<SfChart ID="striplineHeaderContent"
+         Title="Weather Report"
+         Height="450px"
+         Width="900px">
+        <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Toolkit.ValueType.Category" />
+    <ChartPrimaryYAxis>
+        <ChartStriplines>
+            <ChartStripline Start="20" End="30" Color="red">
+                <ChartStriplineTooltip Enable="true"
+                                       Header="Temperature Range"
+                                       Content="20-30°C" />
+            </ChartStripline>
+        </ChartStriplines>
+    </ChartPrimaryYAxis>
+    <ChartSeriesCollection>
+        <ChartSeries DataSource="@WeatherReports"
+                     XName="X"
+                     YName="Y"
+                     Type="ChartSeriesType.Column" />
+    </ChartSeriesCollection>
+</SfChart>
+
+<!-- 8️⃣ Tooltip disabled -->
+<SfChart ID="striplineDisabled"
+         Title="Weather Report"
+         Height="450px"
+         Width="900px">
+        <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Toolkit.ValueType.Category" />
+    <ChartPrimaryYAxis>
+        <ChartStriplines>
+            <ChartStripline Start="20" End="30" Color="red">
+                <ChartStriplineTooltip />
+            </ChartStripline>
+        </ChartStriplines>
+    </ChartPrimaryYAxis>
+    <ChartSeriesCollection>
+        <ChartSeries DataSource="@WeatherReports"
+                     XName="X"
+                     YName="Y"
+                     Type="ChartSeriesType.Column" />
+    </ChartSeriesCollection>
+</SfChart>
+
+</div>
+
+@code {
+
+    public class ChartData
+    {
+        public string X { get; set; }
+        public double Y { get; set; }
+    }
+
+    public List<ChartData> WeatherReports = new()
+    {
+        new() { X = "Sun", Y = 28 },
+        new() { X = "Mon", Y = 27 },
+        new() { X = "Tue", Y = 33 },
+        new() { X = "Wed", Y = 36 },
+        new() { X = "Thu", Y = 28 },
+        new() { X = "Fri", Y = 30 },
+        new() { X = "Sat", Y = 31 }
+    };
+}

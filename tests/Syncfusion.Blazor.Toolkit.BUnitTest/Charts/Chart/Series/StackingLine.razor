@@ -1,0 +1,161 @@
+﻿@using Syncfusion.Blazor.Toolkit.Charts
+@using Syncfusion.Blazor.Toolkit.Tests
+@using Bunit
+@using Xunit
+
+@inherits TestComponentBase
+
+<SfFixture @ref="fixture" TestAsync="CheckingStackingLineDefaultPoints" Description="CheckingStackingLineDefaultPoints">
+    <ComponentUnderTest>
+        <SfChart ID="container" Title="Chart Ts Title">
+            <ChartPrimaryXAxis Title="PrimaryXAxis"></ChartPrimaryXAxis>
+            <ChartPrimaryYAxis Title="PrimaryYAxis"></ChartPrimaryYAxis>
+            <ChartSeriesCollection>
+                <ChartSeries DataSource="@Sales" XName="x" YName="y" Type="ChartSeriesType.StackingLine">
+                    <ChartEmptyPointSettings Mode="EmptyPointMode.Average"></ChartEmptyPointSettings>
+                    <ChartSeriesAnimation Enable="false"></ChartSeriesAnimation>
+                    <ChartMarker Visible="true">
+                        <ChartDataLabel Visible="true"></ChartDataLabel>
+                    </ChartMarker>
+                </ChartSeries>
+                <ChartSeries DataSource="@Sales" XName="x" YName="y1" Type="ChartSeriesType.StackingLine">
+                    <ChartEmptyPointSettings Mode="EmptyPointMode.Drop"></ChartEmptyPointSettings>
+                    <ChartSeriesAnimation Enable="false"></ChartSeriesAnimation>
+                    <ChartMarker Visible="true">
+                        <ChartDataLabel Visible="true"></ChartDataLabel>
+                    </ChartMarker>
+                </ChartSeries>
+                <ChartSeries DataSource="@Sales" XName="x" YName="y2" Type="ChartSeriesType.StackingLine">
+                    <ChartEmptyPointSettings Mode="EmptyPointMode.Gap"></ChartEmptyPointSettings>
+                    <ChartSeriesAnimation Enable="false"></ChartSeriesAnimation>
+                    <ChartMarker Visible="true">
+                        <ChartDataLabel Visible="true"></ChartDataLabel>
+                    </ChartMarker>
+                </ChartSeries>
+                <ChartSeries DataSource="@Sales" XName="x" YName="y3" Type="ChartSeriesType.StackingLine">
+                    <ChartEmptyPointSettings Mode="EmptyPointMode.Zero"></ChartEmptyPointSettings>
+                    <ChartSeriesAnimation Enable="false"></ChartSeriesAnimation>
+                    <ChartMarker Visible="true">
+                        <ChartDataLabel Visible="true"></ChartDataLabel>
+                    </ChartMarker>
+                </ChartSeries>
+            </ChartSeriesCollection>
+        </SfChart>
+    </ComponentUnderTest>
+</SfFixture>
+
+@code {
+
+    SfFixture fixture { get; set; }
+    async Task CheckingStackingLineDefaultPoints(Fixture fixture)
+    {
+        var cut = fixture.GetComponentUnderTest<SfChart>();
+        await Task.Delay(200);
+        var series1 = cut.Find("#container_Series_0").GetAttribute("d").Split("L").Length;
+        Assert.True(series1 == 6);
+        var series2 = cut.Find("#container_Series_1").GetAttribute("d").Split("L").Length;
+        Assert.True(series2 == 5);
+        var series3 = cut.Find("#container_Series_2").GetAttribute("d").Split("L").Length;
+        Assert.True(series3 == 5);
+        var series4 = cut.Find("#container_Series_3").GetAttribute("d").Split("L").Length;
+        Assert.True(series4 == 6);
+        cut.SetParametersAndRender();
+    }
+    public class SalesInfo
+    {
+        public double x { get; set; }
+        public double? y { get; set; }
+        public double? y1 { get; set; }
+        public double? y2 { get; set; }
+        public double? y3 { get; set; }
+    }
+
+    public List<SalesInfo> Sales = new List<SalesInfo>
+{
+        new SalesInfo { x = 1, y = 10, y1 = 10, y2 = 10, y3 = null },
+        new SalesInfo { x = 2, y = null, y1 = 30, y2 = 30, y3 = 30 },
+        new SalesInfo { x = 3, y = 15, y1 = 15, y2 = 15, y3 = 15},
+        new SalesInfo { x = 4, y = 25, y1 = 25, y2 = null, y3 = 25 },
+        new SalesInfo { x = 5, y = 30, y1 = 30, y2 = 30, y3 = 30 },
+        new SalesInfo { x = 6, y = 20, y1 = null, y2 = 20,y3 = 20 }
+    };
+}
+
+
+@{
+    var InitialGroup1 = (new string[] { "CustomerID", "OrderID" });
+}
+<SfFixture @ref="fixture1" TestAsync="CheckingStackingLine100DefaultPoints" Description="CheckingStackingLine100DefaultPoints">
+    <ComponentUnderTest>
+        <SfChart ID="container" Title="Chart Ts Title">
+            <ChartPrimaryXAxis Title="PrimaryXAxis"></ChartPrimaryXAxis>
+            <ChartPrimaryYAxis Title="PrimaryYAxis"></ChartPrimaryYAxis>
+            <ChartSeriesCollection>
+                <ChartSeries DataSource="@Sales1" XName="x" YName="y" Type="ChartSeriesType.StackingLine100">
+                    <ChartEmptyPointSettings Mode="EmptyPointMode.Average"></ChartEmptyPointSettings>
+                    <ChartSeriesAnimation Enable="false"></ChartSeriesAnimation>
+                    <ChartMarker Visible="true">
+                        <ChartDataLabel Visible="true"></ChartDataLabel>
+                    </ChartMarker>
+                </ChartSeries>
+                <ChartSeries DataSource="@Sales1" XName="x" YName="y1" Type="ChartSeriesType.StackingLine100">
+                    <ChartEmptyPointSettings Mode="EmptyPointMode.Drop"></ChartEmptyPointSettings>
+                    <ChartSeriesAnimation Enable="false"></ChartSeriesAnimation>
+                    <ChartMarker Visible="true">
+                        <ChartDataLabel Visible="true"></ChartDataLabel>
+                    </ChartMarker>
+                </ChartSeries>
+                <ChartSeries DataSource="@Sales1" XName="x" YName="y2" Type="ChartSeriesType.StackingLine100">
+                    <ChartEmptyPointSettings Mode="EmptyPointMode.Gap"></ChartEmptyPointSettings>
+                    <ChartSeriesAnimation Enable="false"></ChartSeriesAnimation>
+                    <ChartMarker Visible="true">
+                        <ChartDataLabel Visible="true"></ChartDataLabel>
+                    </ChartMarker>
+                </ChartSeries>
+                <ChartSeries DataSource="@Sales1" XName="x" YName="y3" Type="ChartSeriesType.StackingLine100">
+                    <ChartEmptyPointSettings Mode="EmptyPointMode.Zero"></ChartEmptyPointSettings>
+                    <ChartSeriesAnimation Enable="false"></ChartSeriesAnimation>
+                    <ChartMarker Visible="true">
+                        <ChartDataLabel Visible="true"></ChartDataLabel>
+                    </ChartMarker>
+                </ChartSeries>
+            </ChartSeriesCollection>
+        </SfChart>
+    </ComponentUnderTest>
+</SfFixture>
+
+@code {
+
+    SfFixture fixture1 { get; set; }
+    async Task CheckingStackingLine100DefaultPoints(Fixture fixture1)
+    {
+        var cut = fixture1.GetComponentUnderTest<SfChart>();
+        await Task.Delay(200);
+        var series1 = cut.Find("#container_Series_0").GetAttribute("d").Split("L").Length;
+        Assert.True(series1 == 6);
+        var series2 = cut.Find("#container_Series_1").GetAttribute("d").Split("L").Length;
+        Assert.True(series2 == 5);
+        var series3 = cut.Find("#container_Series_2").GetAttribute("d").Split("L").Length;
+        Assert.True(series3 == 5);
+        var series4 = cut.Find("#container_Series_3").GetAttribute("d").Split("L").Length;
+        Assert.True(series4 == 6);
+        cut.SetParametersAndRender();
+    }
+    public class SalesInfo1
+    {
+        public double x { get; set; }
+        public double? y { get; set; }
+        public double? y1 { get; set; }
+        public double? y2 { get; set; }
+        public double? y3 { get; set; }
+    }
+    public List<SalesInfo1> Sales1 = new List<SalesInfo1>
+{
+        new SalesInfo1 { x = 1, y = 10, y1 = 10, y2 = 10, y3 = null },
+        new SalesInfo1 { x = 2, y = null, y1 = 30, y2 = 30, y3 = 30 },
+        new SalesInfo1 { x = 3, y = 15, y1 = 15, y2 = 15, y3 = 15},
+        new SalesInfo1 { x = 4, y = 25, y1 = 25, y2 = null, y3 = 25 },
+        new SalesInfo1 { x = 5, y = 30, y1 = 30, y2 = 30, y3 = 30 },
+        new SalesInfo1 { x = 6, y = 20, y1 = null, y2 = 20,y3 = 20 }
+    };
+}

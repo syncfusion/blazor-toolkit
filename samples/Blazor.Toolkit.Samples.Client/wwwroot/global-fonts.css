@@ -1,0 +1,214 @@
+﻿body {
+}
+/* ============================================================
+   GLOBAL FONT STACK AND TYPOGRAPHY STANDARDS
+   ============================================================
+   This file defines the unified font family and typography
+   standards across all pages in the Blazor Toolkit Samples.
+   Reference standard: Explore.razor
+   ============================================================ */
+
+:root {
+    /* Font Family Stack - Inter as primary, with system fallbacks */
+    --font-family: "Inter", system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+    /* Font Sizes - Standardized across all pages */
+    --font-small: 13px; /* Sidebar/meta text, small labels */
+    --font-base: 15px; /* Body text, tile labels, general content */
+    --font-subheading: 16px; /* Section subheadings (h5) */
+    --font-heading: 20px; /* Main page headings (h4) */
+    /* Line Heights - for consistent vertical rhythm */
+    --line-height-tight: 1.4;
+    --line-height-normal: 1.6;
+    --line-height-relaxed: 1.8;
+    /* Letter Spacing */
+    --letter-spacing-normal: 0;
+    --letter-spacing-wide: 0.5px;
+}
+
+/* ============================================================
+   BODY AND BASE ELEMENTS
+   ============================================================ */
+
+body, html {
+    font-family: var(--font-family);
+    font-size: var(--font-base);
+    line-height: var(--line-height-normal);
+    letter-spacing: var(--letter-spacing-normal);
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+/* ============================================================
+   HEADING HIERARCHY
+   ============================================================ */
+
+h1 {
+    font-size: calc(var(--font-heading) + 4px); /* 24px */
+    font-weight: 700;
+    line-height: var(--line-height-tight);
+    margin-bottom: 0.5rem;
+}
+
+h2 {
+    font-size: calc(var(--font-heading) + 2px); /* 22px */
+    font-weight: 700;
+    line-height: var(--line-height-tight);
+    margin-bottom: 0.5rem;
+}
+
+h3 {
+    font-size: calc(var(--font-heading) + 1px); /* 21px */
+    font-weight: 600;
+    line-height: var(--line-height-tight);
+    margin-bottom: 0.5rem;
+}
+
+h4 {
+    font-size: var(--font-heading); /* 20px */
+    font-weight: 600;
+    line-height: var(--line-height-tight);
+    margin-bottom: 0.5rem;
+}
+
+h5 {
+    font-size: var(--font-subheading); /* 16px */
+    font-weight: 600;
+    line-height: var(--line-height-normal);
+    margin-bottom: 0.5rem;
+}
+
+h6 {
+    font-size: var(--font-base); /* 15px */
+    font-weight: 600;
+    line-height: var(--line-height-normal);
+    margin-bottom: 0.5rem;
+}
+
+/* ============================================================
+   PARAGRAPH AND TEXT ELEMENTS
+   ============================================================ */
+
+p {
+    font-size: var(--font-base);
+    line-height: var(--line-height-normal);
+    margin-bottom: 1rem;
+}
+
+    p.small {
+        font-size: var(--font-small);
+        line-height: var(--line-height-normal);
+    }
+
+.text-muted {
+    font-size: var(--font-small);
+    opacity: 0.7;
+}
+
+/* ============================================================
+   CODE AND MONOSPACE
+   ============================================================ */
+
+code, pre {
+    font-family: "Fira Code", "Courier New", monospace;
+    font-size: 14px;
+    line-height: var(--line-height-relaxed);
+}
+
+code {
+    padding: 2px 6px;
+    border-radius: 4px;
+    background-color: rgba(0, 0, 0, 0.05);
+}
+
+pre {
+    padding: 1rem;
+    border-radius: 6px;
+    overflow-x: auto;
+}
+
+.dark code {
+    background-color: rgba(255, 255, 255, 0.08);
+}
+
+/* ============================================================
+   UTILITY CLASSES FOR CONSISTENT TEXT STYLING
+   ============================================================ */
+
+.font-base {
+    font-size: var(--font-base);
+}
+
+.font-small {
+    font-size: var(--font-small);
+}
+
+.font-heading {
+    font-size: var(--font-heading);
+}
+
+.font-subheading {
+    font-size: var(--font-subheading);
+}
+
+.font-weight-normal {
+    font-weight: 400;
+}
+
+.font-weight-medium {
+    font-weight: 500;
+}
+
+.font-weight-semibold {
+    font-weight: 600;
+}
+
+.font-weight-bold {
+    font-weight: 700;
+}
+
+.line-height-tight {
+    line-height: var(--line-height-tight);
+}
+
+.line-height-normal {
+    line-height: var(--line-height-normal);
+}
+
+.line-height-relaxed {
+    line-height: var(--line-height-relaxed);
+}
+
+/* ============================================================
+   DARK MODE ADJUSTMENTS
+   ============================================================ */
+
+.dark {
+    /* Dark mode color adjustments inherit from main theme */
+    /* Font stack remains the same */
+}
+
+/* ============================================================
+   RESPONSIVE TYPOGRAPHY (Optional)
+   ============================================================ */
+
+@media (max-width: 768px) {
+    h1 {
+        font-size: calc(var(--font-heading) + 2px);
+    }
+
+    h2 {
+        font-size: var(--font-heading);
+    }
+
+    h3 {
+        font-size: var(--font-subheading);
+    }
+
+    h4 {
+        font-size: var(--font-subheading);
+    }
+
+    h5 {
+        font-size: var(--font-base);
+    }
+}

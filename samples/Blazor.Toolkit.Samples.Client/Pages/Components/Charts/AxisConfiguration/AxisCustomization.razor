@@ -1,0 +1,844 @@
+@page "/charts/axis-customization"
+@using Syncfusion.Blazor.Toolkit.Charts
+
+<PageTitle>Syncfusion Blazor Toolkit Axis Customization Demo</PageTitle>
+
+<!-- ─────────────────────────────────────────────
+     AXIS TITLE
+     ───────────────────────────────────────────── -->
+<Description>
+    <Header>
+        <h5><b>Axis Title</b></h5>
+    </Header>
+    <Content>
+        Axis titles provide contextual information about the data represented along
+        an axis. They help users understand the unit, scale, or meaning of the values
+        being plotted.
+
+        In this sample, the primary Y-axis includes a styled title using the <code>Title</code> property of <code>ChartPrimaryYAxis</code>. 
+        The title supports customization options using the <code>ChartAxisTitleStyle</code> component, allowing you to configure properties such
+        as <code>Size</code>, <code>Color</code>, <code>FontFamily</code>, and <code>FontWeight</code> for improved visual emphasis and
+        readability within analytical dashboards.
+    </Content>
+</Description>
+
+<VirtualizeSection MinHeightPx="600px">
+    <CodePreview IsFullWidth="true" CodeSection="@AxisTitleCode">
+    <PreviewSection>
+        <SfChart @key="@_currentTheme" Title="Population by Country 2024" Theme="@_currentTheme">
+            <ChartArea>
+                <ChartAreaBorder Width="0" />
+            </ChartArea>
+
+            <!-- TOOLTIP -->
+            <ChartTooltipSettings Enable="true"
+                                  Header="${point.x}"
+                                  Format="Population : <b>${point.y}</b>"
+                                  EnableHighlight="true" />
+
+            <!-- X AXIS -->
+            <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Toolkit.ValueType.Category">
+                <ChartAxisMajorGridLines Width="0" />
+                <ChartAxisMajorTickLines Width="0" />
+                <ChartAxisMinorTickLines Width="0" />
+            </ChartPrimaryXAxis>
+
+            <!-- Y AXIS WITH TITLE -->
+            <ChartPrimaryYAxis Title="Population in Million" Interval="0.3" LabelFormat="{value}B">
+                <ChartAxisLineStyle Width="0" />
+                <ChartAxisMajorTickLines Width="0" />
+                    <ChartAxisTitleStyle Size="16px"
+                                         Color="#7142FF"
+                                         FontFamily="Segoe UI"
+                                         FontWeight="bold" />                
+            </ChartPrimaryYAxis>
+
+            <!-- SERIES -->
+            
+                <ChartSeries DataSource="@PopulationData"
+                             XName="X"
+                             YName="Y"
+                             Type="ChartSeriesType.Column"
+                             Fill="#FF9FC7"
+                             ColumnWidth="0.4">
+                    <ChartCornerRadius TopLeft="5"
+                                       TopRight="5" />
+                </ChartSeries>
+            
+        </SfChart>
+
+    </PreviewSection>
+</CodePreview>
+</VirtualizeSection>
+
+<!-- ─────────────────────────────────────────────
+     AXIS TITLE POSITION
+     ───────────────────────────────────────────── -->
+<Description>
+    <Header>
+        <h5><b>Axis Title Position</b></h5>
+    </Header>
+    <Content>
+        Axis title positioning controls how the title is aligned relative to the axis,
+        helping improve readability and visual balance in different Chart layouts.
+
+        In this sample, the primary Y-axis title is aligned near the start of the axis
+        using the <code>TextAlignment</code> property of <code>ChartAxisTitleStyle</code>. This is useful when you want the axis
+        title to appear closer to the Chart origin or aligned consistently with other
+        visual elements, without applying any rotation. Set it to <code>Alignment.Near</code>, <code>Alignment.Center</code>, or <code>Alignment.Far</code>.
+    </Content>
+</Description>
+
+<VirtualizeSection MinHeightPx="600px">
+    <CodePreview IsFullWidth="true" CodeSection="@AxisTitleRotationCode">
+    <PreviewSection>
+        <SfChart @key="@_currentTheme" Title="Population by Country 2024" Theme="@_currentTheme">
+            <ChartArea>
+                <ChartAreaBorder Width="0" />
+            </ChartArea>
+
+            <!-- TOOLTIP -->
+            <ChartTooltipSettings Enable="true"
+                                  Header="${point.x}"
+                                  Format="Population : <b>${point.y}</b>"
+                                  EnableHighlight="true" />
+
+            <!-- X AXIS -->
+            <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Toolkit.ValueType.Category">
+                <ChartAxisMajorGridLines Width="0" />
+                <ChartAxisMajorTickLines Width="0" />
+                <ChartAxisMinorTickLines Width="0" />
+            </ChartPrimaryXAxis>
+
+            <!-- Y AXIS WITH ROTATED TITLE -->
+            <ChartPrimaryYAxis Title="Population in Billion" LabelFormat="{value}B">
+                <ChartAxisLineStyle Width="0" />
+                <ChartAxisMajorTickLines Width="0" />
+                <ChartAxisTitleStyle TextAlignment="Alignment.Near"
+                                         Color="#7142FF"
+                                         FontFamily="Segoe UI"
+                                         FontWeight="bold" />
+            </ChartPrimaryYAxis>
+
+            <!-- SERIES -->
+            
+                <ChartSeries DataSource="@PopulationData"
+                             XName="X"
+                             YName="Y"
+                             Type="ChartSeriesType.Column"
+                             Fill="#009B77"
+                             ColumnWidth="0.4">
+                    <ChartCornerRadius TopLeft="5"
+                                       TopRight="5" />
+                </ChartSeries>
+            
+        </SfChart>
+    </PreviewSection>
+</CodePreview>
+</VirtualizeSection>
+
+<!-- ─────────────────────────────────────────────
+     TICK LINES
+     ───────────────────────────────────────────── -->
+<Description>
+    <Header>
+        <h5><b>Tick Lines</b></h5>
+    </Header>
+    <Content>
+        Tick lines help users visually associate axis labels with their corresponding
+        data points. Major tick lines indicate primary intervals, while minor tick
+        lines provide additional reference points between major intervals.
+
+        This sample demonstrates configuring both major and minor tick lines on the
+        primary X-axis and Y-axis using the <code>ChartAxisMajorTickLines</code> and <code>ChartAxisMinorTickLines</code> components. 
+        Tick <code>Height</code>, <code>Width</code>, and <code>Color</code> can be customized. The frequency of minor ticks is controlled by the <code>MinorTicksPerInterval</code> property on the axis to improve readability for datasets with dense or proportional values.
+    </Content>
+</Description>
+
+<VirtualizeSection MinHeightPx="600px">
+    <CodePreview IsFullWidth="true" CodeSection="@TickLinesCode">
+    <PreviewSection>
+
+        <SfChart @key="@_currentTheme" Title="Population by Country 2024" Theme="@_currentTheme">
+            <!-- TOOLTIP -->
+            <ChartTooltipSettings Enable="true"
+                                  Header="${point.x}"
+                                  Format="Population : <b>${point.y}</b>"
+                                  EnableHighlight="true" />
+
+            <!-- X AXIS -->
+            <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Toolkit.ValueType.Category"
+                               MinorTicksPerInterval="2">
+                <ChartAxisMajorGridLines Width="0" />
+                <ChartAxisMajorTickLines Width="3" Height="20" />
+                <ChartAxisMinorTickLines Color="gray" Width="2" Height="10" />
+            </ChartPrimaryXAxis>
+
+            <!-- Y AXIS -->
+            <ChartPrimaryYAxis Interval="0.3"
+                               LabelFormat="{value}B"
+                               MinorTicksPerInterval="2">
+                <ChartAxisLineStyle Width="0" />
+                <ChartAxisMajorTickLines Width="3" Height="20" />
+                <ChartAxisMinorTickLines Color="gray" Width="2" Height="10" />
+            </ChartPrimaryYAxis>
+
+            <!-- SERIES -->
+            
+                <ChartSeries DataSource="@PopulationData"
+                             XName="X"
+                             YName="Y"
+                             Type="ChartSeriesType.Column"
+                             Fill="#88B04B"
+                             ColumnWidth="0.4">
+                    <ChartCornerRadius TopLeft="5"
+                                       TopRight="5" />
+                </ChartSeries>
+            
+        </SfChart>
+    </PreviewSection>
+</CodePreview>
+</VirtualizeSection>
+
+<!-- ─────────────────────────────────────────────
+     GRID LINES
+     ───────────────────────────────────────────── -->
+<Description>
+    <Header>
+        <h5><b>Grid Lines</b></h5>
+    </Header>
+    <Content>
+        Grid lines provide visual guides that help users estimate values and compare
+        data points across the Chart area. Major grid lines represent primary axis
+        intervals, while minor grid lines add additional reference points between them.
+
+        This sample demonstrates configuring both major and minor grid lines on the
+        primary X-axis and Y-axis using the <code>ChartAxisMajorGridLines</code> and <code>ChartAxisMinorGridLines</code> components. 
+        Properties such as <code>Width</code> and <code>DashArray</code> can be configured for improved readability in categorical and proportional datasets.
+    </Content>
+</Description>
+
+<VirtualizeSection MinHeightPx="600px">
+    <CodePreview IsFullWidth="true" CodeSection="@GridLinesCode">
+    <PreviewSection>
+        <SfChart @key="@_currentTheme" Title="Population by Country 2024" Theme="@_currentTheme">
+            <ChartArea><ChartAreaBorder Width="0"></ChartAreaBorder></ChartArea>
+            <!-- TOOLTIP -->
+            <ChartTooltipSettings Enable="true"
+                                  Header="${point.x}"
+                                  Format="Population : <b>${point.y}</b>"
+                                  EnableHighlight="true" />
+
+            <!-- X AXIS -->
+            <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Toolkit.ValueType.Category"
+                               MinorTicksPerInterval="3">
+                <ChartAxisMajorGridLines Width="2"
+                                         DashArray="5,3" />
+                <ChartAxisMinorGridLines Width="2"
+                                         DashArray="5,3" />                                         
+                <ChartAxisMajorTickLines Width="0" />
+                <ChartAxisMinorTickLines Width="0" />
+            </ChartPrimaryXAxis>
+
+            <!-- Y AXIS -->
+            <ChartPrimaryYAxis Interval="0.3"
+                               MinorTicksPerInterval="3"
+                               LabelFormat="{value}B">
+                <ChartAxisLineStyle Width="0" />
+                <ChartAxisMajorGridLines Width="2"
+                                         DashArray="5,3" />
+                <ChartAxisMinorGridLines Width="2"
+                                         DashArray="5,3" />
+                <ChartAxisMajorTickLines Width="0" />
+            </ChartPrimaryYAxis>
+
+            <!-- SERIES -->
+            
+                <ChartSeries DataSource="@PopulationData"
+                             XName="X"
+                             YName="Y"
+                             Type="ChartSeriesType.Column"
+                             Fill="#57A8EB"
+                             ColumnWidth="0.4">
+                    <ChartCornerRadius TopLeft="5"
+                                       TopRight="5" />
+                </ChartSeries>
+            
+        </SfChart>
+    </PreviewSection>
+</CodePreview>
+</VirtualizeSection>
+<!-- ─────────────────────────────────────────────
+     AXIS TITLE
+     ───────────────────────────────────────────── -->
+<Description>
+    <Header>
+        <h5><b>Inversed Axis</b></h5>
+    </Header>
+    <Content>
+        The inverted axis feature reverses the rendering direction of an axis.
+        Instead of progressing from left to right or bottom to top, values are
+        displayed in the opposite direction.
+
+        This sample demonstrates inverting both the primary X-axis and Y-axis by setting the <code>IsInversed</code> property to <code>true</code>.
+        Axis inversion is useful for ranking scenarios, descending comparisons,
+        or when aligning Charts with specific visual narratives.
+    </Content>
+</Description>
+
+<VirtualizeSection MinHeightPx="600px">
+    <CodePreview IsFullWidth="true" CodeSection="@InversedAxisCode">
+    <PreviewSection>
+        <SfChart @key="@_currentTheme" Title="Population by Country 2024" Theme="@_currentTheme">
+            <ChartArea>
+                <ChartAreaBorder Width="0" />
+            </ChartArea>
+
+            <!-- TOOLTIP -->
+            <ChartTooltipSettings Enable="true"
+                                  Header="${point.x}"
+                                  Format="Population : <b>${point.y}</b>"
+                                  EnableHighlight="true" />
+
+            <!-- INVERSED X AXIS -->
+            <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Toolkit.ValueType.Category"
+                               IsInversed="true">
+                <ChartAxisMajorGridLines Width="0" />
+                <ChartAxisMajorTickLines Width="0" />
+                <ChartAxisMinorTickLines Width="0" />
+            </ChartPrimaryXAxis>
+
+            <!-- INVERSED Y AXIS -->
+            <ChartPrimaryYAxis LabelFormat="{value}B" Interval="0.3"
+                               IsInversed="true">
+                <ChartAxisLineStyle Width="0" />
+                <ChartAxisMajorTickLines Width="0" />
+            </ChartPrimaryYAxis>
+
+            <!-- SERIES -->
+            
+                <ChartSeries DataSource="@PopulationData"
+                             XName="X"
+                             YName="Y"
+                             Type="ChartSeriesType.Column"
+                             Fill="#6DD7AC"
+                             ColumnWidth="0.4">
+                    <ChartCornerRadius BottomLeft="5"
+                                       BottomRight="5" />
+                </ChartSeries>
+            
+        </SfChart>
+    </PreviewSection>
+</CodePreview>
+</VirtualizeSection>
+<!-- ─────────────────────────────────────────────
+     MULTIPLE AXIS
+     ───────────────────────────────────────────── -->
+<Description>
+    <Header>
+        <h5><b>Multiple Axis</b></h5>
+    </Header>
+    <Content>
+        Multiple axes allow different datasets to be visualized within a single Chart
+        using independent value ranges and units. Add multiple axes to the Chart by defining them within the <code>ChartAxes</code> collection using the <code>ChartAxis</code> component.
+
+        In this sample, temperature readings are displayed in both Fahrenheit and
+        Celsius. The primary Y-axis represents Fahrenheit values, while a secondary
+        opposed Y-axis displays Celsius values (configured by setting <code>OpposedPosition="true"</code>). Each series is explicitly bound to its
+        corresponding axis using the <code>YAxisName</code> property to ensure accurate scaling and clarity.
+    </Content>
+</Description>
+
+<VirtualizeSection MinHeightPx="600px">
+    <CodePreview IsFullWidth="true" CodeSection="@MultipleAxisCode">
+    <PreviewSection>
+
+        <SfChart @key="@_currentTheme" Title="C & F Temperature Overview Across Cities" Theme="@_currentTheme">
+            <ChartArea>
+                <ChartAreaBorder Width="0" />
+            </ChartArea>
+
+            <!-- X AXIS -->
+            <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Toolkit.ValueType.Category"
+                               Interval="1" LabelIntersectAction="LabelIntersectAction.Rotate90">
+                <ChartAxisMajorGridLines Width="0" />
+                <ChartAxisMajorTickLines Width="0" />
+                <ChartAxisMinorTickLines Width="0" />
+            </ChartPrimaryXAxis>
+
+            <!-- PRIMARY Y AXIS (°F) -->
+            <ChartPrimaryYAxis LabelFormat="{value}°F"
+                               Minimum="0"
+                               Maximum="100"
+                               Interval="20">
+                <ChartAxisMajorGridLines Width="0" />
+                <ChartAxisLineStyle Width="0" />
+                <ChartAxisMajorTickLines Width="0" />
+            </ChartPrimaryYAxis>
+
+            <!-- SECONDARY Y AXIS (°C) -->
+            <ChartAxes>
+                <ChartAxis Name="yAxis2"
+                           Minimum="24"
+                           Maximum="36"
+                           Interval="2"
+                           OpposedPosition="true"
+                           LabelFormat="{value}°C"
+                           RowIndex="0">
+                    <ChartAxisLineStyle Width="0" />
+                    <ChartAxisMajorTickLines Width="0" />
+                </ChartAxis>
+            </ChartAxes>
+
+            <!-- SERIES -->
+            
+
+                <!-- FAHRENHEIT SERIES -->
+                <ChartSeries DataSource="@TemperatureData"
+                             XName="X"
+                             YName="Y1"
+                             Type="ChartSeriesType.Column"
+                             Name="Temperature in °F"
+                             Fill="#856EEBE5"
+                             ColumnWidth="0.4">
+                    <ChartCornerRadius TopLeft="6"
+                                       TopRight="6" />
+                </ChartSeries>
+
+                <!-- CELSIUS SERIES -->
+                <ChartSeries DataSource="@TemperatureData"
+                             XName="X"
+                             YName="Y2"
+                             YAxisName="yAxis2"
+                             Type="ChartSeriesType.Spline"
+                             Name="Temperature in °C"
+                             Width="2"
+                             Fill="#DF4E6D">
+                    <ChartMarker Visible="true" IsFilled="true" />
+                </ChartSeries>
+
+            
+
+            <!-- TOOLTIP -->
+            <ChartTooltipSettings Enable="true"
+                                  Header="${point.x}"
+                                  Format="Temperature : <b>${point.y}</b>"
+                                  EnableHighlight="true" />
+        </SfChart>
+    </PreviewSection>
+</CodePreview>
+</VirtualizeSection>
+@code {
+        [CascadingParameter]
+        private Theme CurrentTheme { get; set; } = Theme.Fluent;
+
+    private Theme _currentTheme = Theme.Fluent;
+
+    protected override void OnInitialized()
+    {
+        _currentTheme = CurrentTheme;
+    }
+
+    protected override void OnParametersSet()
+    {
+        _currentTheme = CurrentTheme;
+    }
+
+    private bool IsDarkTheme => _currentTheme.ToString().Contains("Dark") || _currentTheme.ToString().Contains("HighContrast");
+    private string TextColor => IsDarkTheme ? "#E6EEF8" : "#0B1F3B";
+    // DATA MODEL
+    public class PopulationPoint
+    {
+        public string X { get; set; } = string.Empty;
+        public double Y { get; set; }
+    }
+
+    // DATASOURCE (1:1 WITH REACT)
+    private readonly List<PopulationPoint> PopulationData = new()
+    {
+        new() { X = "India",       Y = 1.42 },
+        new() { X = "China",       Y = 1.41 },
+        new() { X = "USA",         Y = 0.33 },
+        new() { X = "Indonesia",   Y = 0.27 },
+        new() { X = "Pakistan",    Y = 0.24 },
+        new() { X = "Nigeria",     Y = 0.22 },
+        new() { X = "Brazil",      Y = 0.21 },
+        new() { X = "Bangladesh",  Y = 0.17 }
+    };
+
+    public class TemperaturePoint
+    {
+        public string X { get; set; } = string.Empty;
+        public double Y1 { get; set; } // °F
+        public double Y2 { get; set; } // °C
+    }
+
+    // DATASOURCE (1:1 WITH REACT)
+    private readonly List<TemperaturePoint> TemperatureData = new()
+    {
+        new() { X = "Sun", Y1 = 35, Y2 = 30 },
+        new() { X = "Mon", Y1 = 40, Y2 = 28 },
+        new() { X = "Tue", Y1 = 80, Y2 = 29 },
+        new() { X = "Wed", Y1 = 70, Y2 = 30 },
+        new() { X = "Thu", Y1 = 65, Y2 = 33 },
+        new() { X = "Fri", Y1 = 55, Y2 = 32 },
+        new() { X = "Sat", Y1 = 50, Y2 = 34 }
+    };
+
+    private string AxisTitleRotationCode => @"<SfChart Title=""Population by Country 2024"">
+    <ChartArea>
+        <ChartAreaBorder Width=""0"" />
+    </ChartArea>
+    <ChartTooltipSettings Enable=""true""
+                          Header=""${point.x}""
+                          Format=""Population : <b>${point.y}</b>""
+                          EnableHighlight=""true"" />
+    <ChartPrimaryXAxis ValueType=""Syncfusion.Blazor.Toolkit.ValueType.Category"">
+        <ChartAxisMajorGridLines Width=""0"" />
+        <ChartAxisMajorTickLines Width=""0"" />
+        <ChartAxisMinorTickLines Width=""0"" />
+    </ChartPrimaryXAxis>
+    <ChartPrimaryYAxis Title=""Population in Billion"" LabelFormat=""{value}B"">
+        <ChartAxisLineStyle Width=""0"" />
+        <ChartAxisMajorTickLines Width=""0"" />
+        <ChartAxisTitleStyle TextAlignment=""Alignment.Near""
+                             Color=""#7142FF""
+                             FontFamily=""Segoe UI""
+                             FontWeight=""bold"" />
+    </ChartPrimaryYAxis>
+    
+        <ChartSeries DataSource=""@PopulationData""
+                     XName=""X""
+                     YName=""Y""
+                     Type=""ChartSeriesType.Column""
+                     Fill=""#009B77""
+                     ColumnWidth=""0.4"">
+            <ChartCornerRadius TopLeft=""5"" TopRight=""5"" />
+        </ChartSeries>
+    
+</SfChart>
+
+@code {
+    public class PopulationPoint
+    {
+        public string X { get; set; } = string.Empty;
+        public double Y { get; set; }
+    }
+
+    private readonly List<PopulationPoint> PopulationData = new()
+    {
+        new() { X = ""India"", Y = 1.42 },
+        new() { X = ""China"", Y = 1.41 },
+        new() { X = ""USA"", Y = 0.33 },
+        new() { X = ""Indonesia"", Y = 0.27 },
+        new() { X = ""Pakistan"", Y = 0.24 },
+        new() { X = ""Nigeria"", Y = 0.22 },
+        new() { X = ""Brazil"", Y = 0.21 },
+        new() { X = ""Bangladesh"", Y = 0.17 }
+    };
+}";
+    private string AxisTitleCode => @"<SfChart Title=""Population by Country 2024"">
+    <ChartArea>
+        <ChartAreaBorder Width=""0"" />
+    </ChartArea>
+    <ChartTooltipSettings Enable=""true""
+                          Header=""${point.x}""
+                          Format=""Population : <b>${point.y}</b>""
+                          EnableHighlight=""true"" />
+    <ChartPrimaryXAxis ValueType=""Syncfusion.Blazor.Toolkit.ValueType.Category"">
+        <ChartAxisMajorGridLines Width=""0"" />
+        <ChartAxisMajorTickLines Width=""0"" />
+        <ChartAxisMinorTickLines Width=""0"" />
+    </ChartPrimaryXAxis>
+    <ChartPrimaryYAxis Title=""Population in Million"" Interval=""0.3"" LabelFormat=""{value}B"">
+        <ChartAxisLineStyle Width=""0"" />
+        <ChartAxisMajorTickLines Width=""0"" />
+        <ChartAxisTitleStyle Size=""16px""
+                             Color=""#7142FF""
+                             FontFamily=""Segoe UI""
+                             FontWeight=""bold"" />
+    </ChartPrimaryYAxis>
+    
+        <ChartSeries DataSource=""@PopulationData""
+                     XName=""X""
+                     YName=""Y""
+                     Type=""ChartSeriesType.Column""
+                     Fill=""#FF9FC7""
+                     ColumnWidth=""0.4"">
+            <ChartCornerRadius TopLeft=""5"" TopRight=""5"" />
+        </ChartSeries>
+    
+</SfChart>
+
+@code {
+    public class PopulationPoint
+    {
+        public string X { get; set; } = string.Empty;
+        public double Y { get; set; }
+    }
+
+    private readonly List<PopulationPoint> PopulationData = new()
+    {
+        new() { X = ""India"", Y = 1.42 },
+        new() { X = ""China"", Y = 1.41 },
+        new() { X = ""USA"", Y = 0.33 },
+        new() { X = ""Indonesia"", Y = 0.27 },
+        new() { X = ""Pakistan"", Y = 0.24 },
+        new() { X = ""Nigeria"", Y = 0.22 },
+        new() { X = ""Brazil"", Y = 0.21 },
+        new() { X = ""Bangladesh"", Y = 0.17 }
+    };
+}";
+
+    private string AxisTitlePositionCode => @"@using Syncfusion.Blazor.Toolkit.Charts
+
+<SfChart @key=""@_currentTheme"" Title=""Axis Title Position"" Theme=""@_currentTheme"">
+    <ChartPrimaryYAxis Title=""Population in Billion"">
+        <ChartAxisTitleStyle TextAlignment=""Alignment.Near"" Color=""#7142FF"" FontWeight=""bold"" />
+    </ChartPrimaryYAxis>
+    
+        <ChartSeries DataSource=""@PopulationData"" XName=""X"" YName=""Y"" Type=""ChartSeriesType.Column"" />
+    
+</SfChart>
+
+@code {
+    private Theme _currentTheme = Theme.Fluent;
+    public class PopulationPoint { public string X { get; set; } = """"; public double Y { get; set; } }
+    public List<PopulationPoint> PopulationData = new() { new() { X = ""India"", Y = 1.42 } };
+}";
+
+    private string TickLinesCode => @"<SfChart Title=""Population by Country 2024"">
+    <ChartTooltipSettings Enable=""true""
+                          Header=""${point.x}""
+                          Format=""Population : <b>${point.y}</b>""
+                          EnableHighlight=""true"" />
+    <ChartPrimaryXAxis ValueType=""Syncfusion.Blazor.Toolkit.ValueType.Category""
+                       MinorTicksPerInterval=""2"">
+        <ChartAxisMajorGridLines Width=""0"" />
+        <ChartAxisMajorTickLines Width=""3"" Height=""20"" />
+        <ChartAxisMinorTickLines Color=""gray"" Width=""2"" Height=""10"" />
+    </ChartPrimaryXAxis>
+    <ChartPrimaryYAxis Interval=""0.3""
+                       LabelFormat=""{value}B""
+                       MinorTicksPerInterval=""2"">
+        <ChartAxisLineStyle Width=""0"" />
+        <ChartAxisMajorTickLines Width=""3"" Height=""20"" />
+        <ChartAxisMinorTickLines Color=""gray"" Width=""2"" Height=""10"" />
+    </ChartPrimaryYAxis>
+    
+        <ChartSeries DataSource=""@PopulationData""
+                     XName=""X""
+                     YName=""Y""
+                     Type=""ChartSeriesType.Column""
+                     Fill=""#88B04B""
+                     ColumnWidth=""0.4"">
+            <ChartCornerRadius TopLeft=""5"" TopRight=""5"" />
+        </ChartSeries>
+    
+</SfChart>
+
+@code {
+    public class PopulationPoint
+    {
+        public string X { get; set; } = string.Empty;
+        public double Y { get; set; }
+    }
+
+    private readonly List<PopulationPoint> PopulationData = new()
+    {
+        new() { X = ""India"", Y = 1.42 },
+        new() { X = ""China"", Y = 1.41 },
+        new() { X = ""USA"", Y = 0.33 },
+        new() { X = ""Indonesia"", Y = 0.27 },
+        new() { X = ""Pakistan"", Y = 0.24 },
+        new() { X = ""Nigeria"", Y = 0.22 },
+        new() { X = ""Brazil"", Y = 0.21 },
+        new() { X = ""Bangladesh"", Y = 0.17 }
+    };
+}";
+
+    private string GridLinesCode => @"<SfChart Title=""Population by Country 2024"">
+    <ChartArea><ChartAreaBorder Width=""0""></ChartAreaBorder></ChartArea>
+    <ChartTooltipSettings Enable=""true""
+                          Header=""${point.x}""
+                          Format=""Population : <b>${point.y}</b>""
+                          EnableHighlight=""true"" />
+    <ChartPrimaryXAxis ValueType=""Syncfusion.Blazor.Toolkit.ValueType.Category""
+                       MinorTicksPerInterval=""3"">
+        <ChartAxisMajorGridLines Width=""2""
+                                 DashArray=""5,3"" />
+        <ChartAxisMinorGridLines Width=""2""
+                                 DashArray=""5,3"" />
+        <ChartAxisMajorTickLines Width=""0"" />
+        <ChartAxisMinorTickLines Width=""0"" />
+    </ChartPrimaryXAxis>
+    <ChartPrimaryYAxis Interval=""0.3""
+                       MinorTicksPerInterval=""3""
+                       LabelFormat=""{value}B"">
+        <ChartAxisLineStyle Width=""0"" />
+        <ChartAxisMajorGridLines Width=""2""
+                                 DashArray=""5,3"" />
+        <ChartAxisMinorGridLines Width=""2""
+                                 DashArray=""5,3"" />
+        <ChartAxisMajorTickLines Width=""0"" />
+    </ChartPrimaryYAxis>
+    
+        <ChartSeries DataSource=""@PopulationData""
+                     XName=""X""
+                     YName=""Y""
+                     Type=""ChartSeriesType.Column""
+                     Fill=""#57A8EB""
+                     ColumnWidth=""0.4"">
+            <ChartCornerRadius TopLeft=""5"" TopRight=""5"" />
+        </ChartSeries>
+    
+</SfChart>
+
+@code {
+    public class PopulationPoint
+    {
+        public string X { get; set; } = string.Empty;
+        public double Y { get; set; }
+    }
+
+    private readonly List<PopulationPoint> PopulationData = new()
+    {
+        new() { X = ""India"", Y = 1.42 },
+        new() { X = ""China"", Y = 1.41 },
+        new() { X = ""USA"", Y = 0.33 },
+        new() { X = ""Indonesia"", Y = 0.27 },
+        new() { X = ""Pakistan"", Y = 0.24 },
+        new() { X = ""Nigeria"", Y = 0.22 },
+        new() { X = ""Brazil"", Y = 0.21 },
+        new() { X = ""Bangladesh"", Y = 0.17 }
+    };
+}";
+
+    private string InversedAxisCode => @"<SfChart Title=""Population by Country 2024"">
+    <ChartArea>
+        <ChartAreaBorder Width=""0"" />
+    </ChartArea>
+    <ChartTooltipSettings Enable=""true""
+                          Header=""${point.x}""
+                          Format=""Population : <b>${point.y}</b>""
+                          EnableHighlight=""true"" />
+    <ChartPrimaryXAxis ValueType=""Syncfusion.Blazor.Toolkit.ValueType.Category""
+                       IsInversed=""true"">
+        <ChartAxisMajorGridLines Width=""0"" />
+        <ChartAxisMajorTickLines Width=""0"" />
+        <ChartAxisMinorTickLines Width=""0"" />
+    </ChartPrimaryXAxis>
+    <ChartPrimaryYAxis LabelFormat=""{value}B"" Interval=""0.3""
+                       IsInversed=""true"">
+        <ChartAxisLineStyle Width=""0"" />
+        <ChartAxisMajorTickLines Width=""0"" />
+    </ChartPrimaryYAxis>
+    
+        <ChartSeries DataSource=""@PopulationData""
+                     XName=""X""
+                     YName=""Y""
+                     Type=""ChartSeriesType.Column""
+                     Fill=""#6DD7AC""
+                     ColumnWidth=""0.4"">
+            <ChartCornerRadius BottomLeft=""5"" BottomRight=""5"" />
+        </ChartSeries>
+    
+</SfChart>
+
+@code {
+    public class PopulationPoint
+    {
+        public string X { get; set; } = string.Empty;
+        public double Y { get; set; }
+    }
+
+    private readonly List<PopulationPoint> PopulationData = new()
+    {
+        new() { X = ""India"", Y = 1.42 },
+        new() { X = ""China"", Y = 1.41 },
+        new() { X = ""USA"", Y = 0.33 },
+        new() { X = ""Indonesia"", Y = 0.27 },
+        new() { X = ""Pakistan"", Y = 0.24 },
+        new() { X = ""Nigeria"", Y = 0.22 },
+        new() { X = ""Brazil"", Y = 0.21 },
+        new() { X = ""Bangladesh"", Y = 0.17 }
+    };
+}";
+
+    private string MultipleAxisCode => @"<SfChart Title=""C & F Temperature Overview Across Cities"">
+    <ChartArea>
+        <ChartAreaBorder Width=""0"" />
+    </ChartArea>
+    <ChartPrimaryXAxis ValueType=""Syncfusion.Blazor.Toolkit.ValueType.Category""
+                       Interval=""1"" LabelIntersectAction=""LabelIntersectAction.Rotate90"">
+        <ChartAxisMajorGridLines Width=""0"" />
+        <ChartAxisMajorTickLines Width=""0"" />
+        <ChartAxisMinorTickLines Width=""0"" />
+    </ChartPrimaryXAxis>
+    <ChartPrimaryYAxis LabelFormat=""{value}°F""
+                       Minimum=""0""
+                       Maximum=""100""
+                       Interval=""20"">
+        <ChartAxisMajorGridLines Width=""0"" />
+        <ChartAxisLineStyle Width=""0"" />
+        <ChartAxisMajorTickLines Width=""0"" />
+    </ChartPrimaryYAxis>
+    <ChartAxes>
+        <ChartAxis Name=""yAxis2""
+                   Minimum=""24""
+                   Maximum=""36""
+                   Interval=""2""
+                   OpposedPosition=""true""
+                   LabelFormat=""{value}°C""
+                   RowIndex=""0"">
+            <ChartAxisLineStyle Width=""0"" />
+            <ChartAxisMajorTickLines Width=""0"" />
+        </ChartAxis>
+    </ChartAxes>
+    
+        <ChartSeries DataSource=""@TemperatureData""
+                     XName=""X""
+                     YName=""Y1""
+                     Type=""ChartSeriesType.Column""
+                     Name=""Temperature in °F""
+                     Fill=""#856EEBE5""
+                     ColumnWidth=""0.4"">
+            <ChartCornerRadius TopLeft=""6"" TopRight=""6"" />
+        </ChartSeries>
+        <ChartSeries DataSource=""@TemperatureData""
+                     XName=""X""
+                     YName=""Y2""
+                     YAxisName=""yAxis2""
+                     Type=""ChartSeriesType.Spline""
+                     Name=""Temperature in °C""
+                     Width=""2""
+                     Fill=""#DF4E6D"">
+            <ChartMarker Visible=""true"" IsFilled=""true"" />
+        </ChartSeries>
+    
+    <ChartTooltipSettings Enable=""true""
+                          Header=""${point.x}""
+                          Format=""Temperature : <b>${point.y}</b>""
+                          EnableHighlight=""true"" />
+</SfChart>
+
+@code {
+    public class TemperaturePoint
+    {
+        public string X { get; set; } = string.Empty;
+        public double Y1 { get; set; }
+        public double Y2 { get; set; }
+    }
+
+    private readonly List<TemperaturePoint> TemperatureData = new()
+    {
+        new() { X = ""Sun"", Y1 = 35, Y2 = 30 },
+        new() { X = ""Mon"", Y1 = 40, Y2 = 28 },
+        new() { X = ""Tue"", Y1 = 80, Y2 = 29 },
+        new() { X = ""Wed"", Y1 = 70, Y2 = 30 },
+        new() { X = ""Thu"", Y1 = 65, Y2 = 33 },
+        new() { X = ""Fri"", Y1 = 55, Y2 = 32 },
+        new() { X = ""Sat"", Y1 = 50, Y2 = 34 }
+    };
+}";
+}

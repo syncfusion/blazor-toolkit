@@ -1,0 +1,1940 @@
+﻿@using AngleSharp.Dom
+@using Syncfusion.Blazor.Toolkit.Charts
+@using Syncfusion.Blazor.Toolkit.Tests
+@using Bunit
+@using Xunit
+
+@inherits TestComponentBase
+
+<SfFixture @ref="fixture" TestAsync="LogChecklabelsForPrimaryXAxis" Description="Log CheckLabelFor PrimaryXAxis">
+    <ComponentUnderTest>
+        <SfChart ID="container" Width="800" Title="Chart Ts Title">
+            <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Toolkit.ValueType.Logarithmic" Title="PrimaryXAxis"></ChartPrimaryXAxis>
+            <ChartPrimaryYAxis Title="PrimaryYaxis" RangePadding="ChartRangePadding.None"></ChartPrimaryYAxis>
+            <ChartSeriesCollection>
+                <ChartSeries DataSource="@log" XName="X" YName="Y" Type="ChartSeriesType.Column" Name="ChartSeriesNameGold" Fill="Green">
+                    <ChartSeriesAnimation Enable="false"></ChartSeriesAnimation>
+                </ChartSeries>
+            </ChartSeriesCollection>
+            <ChartLegendSettings Visible="false"></ChartLegendSettings>
+        </SfChart>
+    </ComponentUnderTest>
+</SfFixture>
+
+
+@code {
+
+    SfFixture fixture { get; set; }
+    bool _canAssert = false;
+    async Task LogChecklabelsForPrimaryXAxis(Fixture fixture)
+    {
+        var cut = fixture.GetComponentUnderTest<SfChart>();
+        await Task.Delay(200);
+        var svg = cut.Find("#containerAxisLabels0");
+        Assert.True(svg.ChildNodes.Length == 2);
+
+        cut.SetParametersAndRender();
+    }
+    public class ChartData
+    {
+        public double X { get; set; }
+        public double Y { get; set; }
+    }
+
+    public List<ChartData> log = new List<ChartData>
+{
+        new ChartData { X = 1, Y = 18 },
+        new ChartData { X = 2, Y = 29 },
+        new ChartData { X = 3, Y = 30 },
+        new ChartData { X = 4, Y = 41 },
+        new ChartData { X = 5, Y = 52 },
+        new ChartData { X = 6, Y = 62 },
+        new ChartData { X = 7, Y = 74 },
+        new ChartData { X = 8, Y = 85 },
+        new ChartData { X = 9, Y = 96 },
+        new ChartData { X = 10, Y = 102 },
+    };
+}
+
+@{
+    var InitialGroup1 = (new string[] { "CustomerID", "OrderID" });
+}
+
+<SfFixture @ref="fixture1" TestAsync="LogChecklabelsForPrimaryXAxisLogbase2" Description="Log CheckLabelFor PrimaryXAxisLogBase2">
+    <ComponentUnderTest>
+        <SfChart ID="container" Width="800" Title="Chart Ts Title">
+            <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Toolkit.ValueType.Logarithmic" Title="PrimaryXAxis" LogBase="2"></ChartPrimaryXAxis>
+            <ChartPrimaryYAxis Title="PrimaryYaxis" RangePadding="ChartRangePadding.None"></ChartPrimaryYAxis>
+            <ChartSeriesCollection>
+                <ChartSeries DataSource="@log1" XName="X" YName="Y" Type="ChartSeriesType.Column" Name="ChartSeriesNameGold" Fill="Green">
+                    <ChartSeriesAnimation Enable="false"></ChartSeriesAnimation>
+                </ChartSeries>
+            </ChartSeriesCollection>
+            <ChartLegendSettings Visible="false"></ChartLegendSettings>
+        </SfChart>
+    </ComponentUnderTest>
+</SfFixture>
+
+
+@code {
+
+    SfFixture fixture1 { get; set; }
+
+    async Task LogChecklabelsForPrimaryXAxisLogbase2(Fixture fixture1)
+    {
+        var cut = fixture1.GetComponentUnderTest<SfChart>();
+        await Task.Delay(200);
+        var svg = cut.Find("#containerAxisLabels0");
+        Assert.True(svg.ChildNodes.Length == 5);
+
+        cut.SetParametersAndRender();
+    }
+    public class ChartData1
+    {
+        public double X { get; set; }
+        public double Y { get; set; }
+    }
+
+    public List<ChartData1> log1 = new List<ChartData1>
+{
+        new ChartData1 { X = 1, Y = 18 },
+        new ChartData1 { X = 2, Y = 29 },
+        new ChartData1 { X = 3, Y = 30 },
+        new ChartData1 { X = 4, Y = 41 },
+        new ChartData1 { X = 5, Y = 52 },
+        new ChartData1 { X = 6, Y = 62 },
+        new ChartData1 { X = 7, Y = 74 },
+        new ChartData1 { X = 8, Y = 85 },
+        new ChartData1 { X = 9, Y = 96 },
+        new ChartData1 { X = 10, Y = 102 },
+    };
+}
+
+
+@{
+    var InitialGroup2 = (new string[] { "CustomerID", "OrderID" });
+}
+
+<SfFixture @ref="fixture2" TestAsync="LogChecklabelsForPrimaryXAxisWithRange" Description="Log CheckLabelFor PrimaryXAxisRange">
+    <ComponentUnderTest>
+        <SfChart ID="container" Width="800" Title="Chart Ts Title">
+            <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Toolkit.ValueType.Logarithmic" Title="PrimaryXAxis" LogBase="2" Minimum="1" Maximum="20"></ChartPrimaryXAxis>
+            <ChartPrimaryYAxis Title="PrimaryYaxis" RangePadding="ChartRangePadding.None"></ChartPrimaryYAxis>
+            <ChartSeriesCollection>
+                <ChartSeries DataSource="@log2" XName="X" YName="Y" Type="ChartSeriesType.Column" Name="ChartSeriesNameGold" Fill="Green">
+                    <ChartSeriesAnimation Enable="false"></ChartSeriesAnimation>
+                </ChartSeries>
+            </ChartSeriesCollection>
+            <ChartLegendSettings Visible="false"></ChartLegendSettings>
+        </SfChart>
+    </ComponentUnderTest>
+</SfFixture>
+
+
+@code {
+
+    SfFixture fixture2 { get; set; }
+
+    async Task LogChecklabelsForPrimaryXAxisWithRange(Fixture fixture2)
+    {
+        var cut = fixture2.GetComponentUnderTest<SfChart>();
+        await Task.Delay(200);
+        var svg = cut.Find("#containerAxisLabels0");
+        Assert.True(svg.ChildNodes.Length == 6);
+
+        cut.SetParametersAndRender();
+    }
+    public class ChartData2
+    {
+        public double X { get; set; }
+        public double Y { get; set; }
+    }
+
+    public List<ChartData2> log2 = new List<ChartData2>
+{
+        new ChartData2 { X = 1, Y = 18 },
+        new ChartData2 { X = 2, Y = 29 },
+        new ChartData2 { X = 3, Y = 30 },
+        new ChartData2 { X = 4, Y = 41 },
+        new ChartData2 { X = 5, Y = 52 },
+        new ChartData2 { X = 6, Y = 62 },
+        new ChartData2 { X = 7, Y = 74 },
+        new ChartData2 { X = 8, Y = 85 },
+        new ChartData2 { X = 9, Y = 96 },
+        new ChartData2 { X = 10, Y = 102 },
+    };
+}
+
+
+@{
+    var InitialGroup3 = (new string[] { "CustomerID", "OrderID" });
+}
+
+<SfFixture @ref="fixture3" TestAsync="LogChecklabelsForPrimaryXAxisWithLogBase10" Description="Log CheckLabelFor LogBase10">
+    <ComponentUnderTest>
+        <SfChart ID="container" Width="800" Title="Chart Ts Title">
+            <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Toolkit.ValueType.Logarithmic" Title="PrimaryXAxis" LogBase="10" Minimum="1" Maximum="20"></ChartPrimaryXAxis>
+            <ChartPrimaryYAxis Title="PrimaryYaxis" RangePadding="ChartRangePadding.None"></ChartPrimaryYAxis>
+            <ChartSeriesCollection>
+                <ChartSeries DataSource="@log3" XName="X" YName="Y" Type="ChartSeriesType.Column" Name="ChartSeriesNameGold" Fill="Green">
+                    <ChartSeriesAnimation Enable="false"></ChartSeriesAnimation>
+                </ChartSeries>
+            </ChartSeriesCollection>
+            <ChartLegendSettings Visible="false"></ChartLegendSettings>
+        </SfChart>
+    </ComponentUnderTest>
+</SfFixture>
+
+
+@code {
+
+    SfFixture fixture3 { get; set; }
+
+    async Task LogChecklabelsForPrimaryXAxisWithLogBase10(Fixture fixture3)
+    {
+        var cut = fixture3.GetComponentUnderTest<SfChart>();
+        await Task.Delay(200);
+        var svg = cut.Find("#containerAxisLabels0");
+        Assert.True(svg.ChildNodes.Length == 3);
+        var text = cut.Find("#container0_AxisLabel_0");
+        Assert.True(text.TextContent == "1\n    ");
+        var text1 = cut.Find("#container0_AxisLabel_1");
+        Assert.True(text1.TextContent == "10\n    ");
+        cut.SetParametersAndRender();
+    }
+    public class ChartData3
+    {
+        public double X { get; set; }
+        public double Y { get; set; }
+    }
+
+    public List<ChartData3> log3 = new List<ChartData3>
+{
+        new ChartData3 { X = 1, Y = 18 },
+        new ChartData3 { X = 2, Y = 29 },
+        new ChartData3 { X = 3, Y = 30 },
+        new ChartData3 { X = 4, Y = 41 },
+        new ChartData3 { X = 5, Y = 52 },
+        new ChartData3 { X = 6, Y = 62 },
+        new ChartData3 { X = 7, Y = 74 },
+        new ChartData3 { X = 8, Y = 85 },
+        new ChartData3 { X = 9, Y = 96 },
+        new ChartData3 { X = 10, Y = 102 },
+    };
+}
+
+
+@{
+    var InitialGroup4 = (new string[] { "CustomerID", "OrderID" });
+}
+
+<SfFixture @ref="fixture4" TestAsync="LogChecklabelsForPrimaryXAxisWithMinorGridline" Description="Log CheckLabelFor PrimaryXAxisMinorGridLine">
+    <ComponentUnderTest>
+        <SfChart ID="container" Width="800" Title="Chart Ts Title">
+            <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Toolkit.ValueType.Logarithmic" Title="PrimaryXAxis" LogBase="10" MinorTicksPerInterval="3" Minimum="1" Maximum="20">
+                <ChartAxisMinorGridLines Width="2"></ChartAxisMinorGridLines>
+            </ChartPrimaryXAxis>
+            <ChartPrimaryYAxis Title="PrimaryYaxis" RangePadding="ChartRangePadding.None"></ChartPrimaryYAxis>
+            <ChartSeriesCollection>
+                <ChartSeries DataSource="@log4" XName="X" YName="Y" Type="ChartSeriesType.Column" Name="ChartSeriesNameGold" Fill="Green">
+                    <ChartSeriesAnimation Enable="false"></ChartSeriesAnimation>
+                </ChartSeries>
+            </ChartSeriesCollection>
+            <ChartLegendSettings Visible="false"></ChartLegendSettings>
+        </SfChart>
+    </ComponentUnderTest>
+</SfFixture>
+
+
+@code {
+
+    SfFixture fixture4 { get; set; }
+
+    async Task LogChecklabelsForPrimaryXAxisWithMinorGridline(Fixture fixture4)
+    {
+        var cut = fixture4.GetComponentUnderTest<SfChart>();
+        await Task.Delay(200);
+        var svg = cut.Find("#container_MinorGridLine_0_1");
+        Assert.True(svg.GetAttribute("stroke") == "#EDEBE9");
+        Assert.True(svg.GetAttribute("stroke-width") == "2");
+        cut.SetParametersAndRender();
+    }
+    public class ChartData4
+    {
+        public double X { get; set; }
+        public double Y { get; set; }
+    }
+
+    public List<ChartData4> log4 = new List<ChartData4>
+{
+        new ChartData4 { X = 1, Y = 18 },
+        new ChartData4 { X = 2, Y = 29 },
+        new ChartData4 { X = 3, Y = 30 },
+        new ChartData4 { X = 4, Y = 41 },
+        new ChartData4 { X = 5, Y = 52 },
+        new ChartData4 { X = 6, Y = 62 },
+        new ChartData4 { X = 7, Y = 74 },
+        new ChartData4 { X = 8, Y = 85 },
+        new ChartData4 { X = 9, Y = 96 },
+        new ChartData4 { X = 10, Y = 102 },
+    };
+}
+
+
+@{
+    var InitialGroup5 = (new string[] { "CustomerID", "OrderID" });
+}
+
+<SfFixture @ref="fixture5" TestAsync="LogChecklabelsForPrimaryXAxisWithMinorWithInterval" Description="Log CheckLabelFor PrimaryXAxisWithInterval">
+    <ComponentUnderTest>
+        <SfChart ID="container" Width="800" Title="Chart Ts Title">
+            <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Toolkit.ValueType.Logarithmic" Title="PrimaryXAxis" LogBase="10" MinorTicksPerInterval="3" Minimum="1" Maximum="20" Interval="2">
+                <ChartAxisMinorGridLines Width="2"></ChartAxisMinorGridLines>
+            </ChartPrimaryXAxis>
+            <ChartPrimaryYAxis Title="PrimaryYaxis" RangePadding="ChartRangePadding.None"></ChartPrimaryYAxis>
+            <ChartSeriesCollection>
+                <ChartSeries DataSource="@log5" XName="X" YName="Y" Type="ChartSeriesType.Column" Name="ChartSeriesNameGold" Fill="Green">
+                    <ChartSeriesAnimation Enable="false"></ChartSeriesAnimation>
+                </ChartSeries>
+            </ChartSeriesCollection>
+            <ChartLegendSettings Visible="false"></ChartLegendSettings>
+        </SfChart>
+    </ComponentUnderTest>
+</SfFixture>
+
+
+@code {
+
+    SfFixture fixture5 { get; set; }
+
+    async Task LogChecklabelsForPrimaryXAxisWithMinorWithInterval(Fixture fixture5)
+    {
+        var cut = fixture5.GetComponentUnderTest<SfChart>();
+        await Task.Delay(200);
+        var svg = cut.Find("#containerAxisLabels0");
+        Assert.True(svg.ChildNodes.Length == 2);
+        var text = cut.Find("#container0_AxisLabel_0");
+        Assert.True(text.TextContent == "1\n    ");
+        var text1 = cut.Find("#container0_AxisLabel_1");
+        Assert.True(text1.TextContent == "100\n    ");
+        cut.SetParametersAndRender();
+    }
+    public class ChartData5
+    {
+        public double X { get; set; }
+        public double Y { get; set; }
+    }
+
+    public List<ChartData5> log5 = new List<ChartData5>
+{
+        new ChartData5 { X = 1, Y = 18 },
+        new ChartData5 { X = 2, Y = 29 },
+        new ChartData5 { X = 3, Y = 30 },
+        new ChartData5 { X = 4, Y = 41 },
+        new ChartData5 { X = 5, Y = 52 },
+        new ChartData5 { X = 6, Y = 62 },
+        new ChartData5 { X = 7, Y = 74 },
+        new ChartData5 { X = 8, Y = 85 },
+        new ChartData5 { X = 9, Y = 96 },
+        new ChartData5 { X = 10, Y = 102 },
+    };
+}
+
+
+@{
+    var InitialGroup6 = (new string[] { "CustomerID", "OrderID" });
+}
+
+<SfFixture @ref="fixture6" TestAsync="LogChecklabelsForPimaryYAxis" Description="Log CheckLabelFor PrimaryYAxis">
+    <ComponentUnderTest>
+        <SfChart ID="container" Width="800" Title="Chart Ts Title">
+            <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Toolkit.ValueType.Logarithmic" Title="PrimaryXAxis" LogBase="10" MinorTicksPerInterval="3" Minimum="1" Maximum="20" Interval="2">
+                <ChartAxisMinorGridLines Width="2"></ChartAxisMinorGridLines>
+            </ChartPrimaryXAxis>
+            <ChartPrimaryYAxis Title="PrimaryYaxis" ValueType="Syncfusion.Blazor.Toolkit.ValueType.Logarithmic" RangePadding="ChartRangePadding.None"></ChartPrimaryYAxis>
+            <ChartSeriesCollection>
+                <ChartSeries DataSource="@log6" XName="X" YName="Y" Type="ChartSeriesType.Column" Name="ChartSeriesNameGold" Fill="Green">
+                    <ChartSeriesAnimation Enable="false"></ChartSeriesAnimation>
+                </ChartSeries>
+            </ChartSeriesCollection>
+            <ChartLegendSettings Visible="false"></ChartLegendSettings>
+        </SfChart>
+    </ComponentUnderTest>
+</SfFixture>
+
+
+@code {
+
+    SfFixture fixture6 { get; set; }
+
+    async Task LogChecklabelsForPimaryYAxis(Fixture fixture6)
+    {
+        var cut = fixture6.GetComponentUnderTest<SfChart>();
+        await Task.Delay(200);
+        var svg = cut.Find("#containerAxisLabels1");
+        Assert.True(svg.ChildNodes.Length == 4);
+        var text = cut.Find("#container1_AxisLabel_0");
+        Assert.True(text.TextContent == "1\n    ");
+        var text1 = cut.Find("#container1_AxisLabel_3");
+        Assert.True(text1.TextContent == "1000\n    ");
+        cut.SetParametersAndRender();
+    }
+    public class ChartData6
+    {
+        public double X { get; set; }
+        public double Y { get; set; }
+    }
+
+    public List<ChartData6> log6 = new List<ChartData6>
+{
+        new ChartData6 { X = 1, Y = 18 },
+        new ChartData6 { X = 2, Y = 29 },
+        new ChartData6 { X = 3, Y = 30 },
+        new ChartData6 { X = 4, Y = 41 },
+        new ChartData6 { X = 5, Y = 52 },
+        new ChartData6 { X = 6, Y = 62 },
+        new ChartData6 { X = 7, Y = 74 },
+        new ChartData6 { X = 8, Y = 85 },
+        new ChartData6 { X = 9, Y = 96 },
+        new ChartData6 { X = 10, Y = 102 },
+    };
+}
+
+
+@{
+    var InitialGroup7 = (new string[] { "CustomerID", "OrderID" });
+}
+
+<SfFixture @ref="fixture7" TestAsync="LogChecklabelsForPrimaryYAxisNegativePoint" Description="Log CheckLabelFor PrimaryYAxisNegativePoint">
+    <ComponentUnderTest>
+        <SfChart ID="container" Width="800" Title="Chart Ts Title">
+            <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Toolkit.ValueType.Logarithmic" Title="PrimaryXAxis" LogBase="10" MinorTicksPerInterval="3" Minimum="1" Maximum="20" Interval="2">
+                <ChartAxisMinorGridLines Width="2"></ChartAxisMinorGridLines>
+            </ChartPrimaryXAxis>
+            <ChartPrimaryYAxis Title="PrimaryYaxis" ValueType="Syncfusion.Blazor.Toolkit.ValueType.Logarithmic" RangePadding="ChartRangePadding.None"></ChartPrimaryYAxis>
+            <ChartSeriesCollection>
+                <ChartSeries DataSource="@log7" XName="X" YName="Y" Type="ChartSeriesType.Column" Name="ChartSeriesNameGold" Fill="Green">
+                    <ChartSeriesAnimation Enable="false"></ChartSeriesAnimation>
+                </ChartSeries>
+            </ChartSeriesCollection>
+            <ChartLegendSettings Visible="false"></ChartLegendSettings>
+        </SfChart>
+    </ComponentUnderTest>
+</SfFixture>
+
+
+@code {
+
+    SfFixture fixture7 { get; set; }
+
+    async Task LogChecklabelsForPrimaryYAxisNegativePoint(Fixture fixture7)
+    {
+        var cut = fixture7.GetComponentUnderTest<SfChart>();
+        await Task.Delay(200);
+        var svg = cut.Find("#containerAxisLabels1");
+        Assert.True(svg.ChildNodes.Length == 4);
+        var text = cut.Find("#container1_AxisLabel_0");
+        Assert.True(text.TextContent == "1\n    ");
+        var text1 = cut.Find("#container1_AxisLabel_3");
+        Assert.True(text1.TextContent == "1000\n    ");
+        cut.SetParametersAndRender();
+    }
+    public class ChartData7
+    {
+        public double X { get; set; }
+        public double Y { get; set; }
+    }
+
+    public List<ChartData7> log7 = new List<ChartData7>
+{
+        new ChartData7 { X = 1, Y = -20 },
+        new ChartData7 { X = 2, Y = 29 },
+        new ChartData7 { X = 3, Y = 30 },
+        new ChartData7 { X = 4, Y = 41 },
+        new ChartData7 { X = 5, Y = 52 },
+        new ChartData7 { X = 6, Y = 62 },
+        new ChartData7 { X = 7, Y = 74 },
+        new ChartData7 { X = 8, Y = 85 },
+        new ChartData7 { X = 9, Y = 96 },
+        new ChartData7 { X = 10, Y = 102 },
+    };
+}
+
+
+@{
+    var InitialGroup8 = (new string[] { "CustomerID", "OrderID" });
+}
+
+<SfFixture @ref="fixture8" TestAsync="LogChecklabelsForPrimaryYAxisLogBase2" Description="Log CheckLabelFor PrimaryYAxisLogBase2">
+    <ComponentUnderTest>
+        <SfChart ID="container" Width="800" Title="Chart Ts Title">
+            <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Toolkit.ValueType.Logarithmic" Title="PrimaryXAxis" LogBase="10" MinorTicksPerInterval="3" Minimum="1" Maximum="20" Interval="2">
+                <ChartAxisMinorGridLines Width="2"></ChartAxisMinorGridLines>
+            </ChartPrimaryXAxis>
+            <ChartPrimaryYAxis Title="PrimaryYaxis" LogBase="2" ValueType="Syncfusion.Blazor.Toolkit.ValueType.Logarithmic" RangePadding="ChartRangePadding.None"></ChartPrimaryYAxis>
+            <ChartSeriesCollection>
+                <ChartSeries DataSource="@log8" XName="X" YName="Y" Type="ChartSeriesType.Column" Name="ChartSeriesNameGold" Fill="Green">
+                    <ChartSeriesAnimation Enable="false"></ChartSeriesAnimation>
+                </ChartSeries>
+            </ChartSeriesCollection>
+            <ChartLegendSettings Visible="false"></ChartLegendSettings>
+        </SfChart>
+    </ComponentUnderTest>
+</SfFixture>
+
+
+@code {
+
+    SfFixture fixture8 { get; set; }
+
+    async Task LogChecklabelsForPrimaryYAxisLogBase2(Fixture fixture8)
+    {
+        var cut = fixture8.GetComponentUnderTest<SfChart>();
+        await Task.Delay(200);
+        var svg = cut.Find("#containerAxisLabels1");
+        Assert.True(svg.ChildNodes.Length == 8);
+        var text = cut.Find("#container_Series_0_Point_0");
+        Assert.True(text != null);
+        cut.SetParametersAndRender();
+    }
+    public class ChartData8
+    {
+        public double X { get; set; }
+        public double Y { get; set; }
+    }
+
+    public List<ChartData8> log8 = new List<ChartData8>
+{
+        new ChartData8 { X = 1, Y = 18 },
+        new ChartData8 { X = 2, Y = 29 },
+        new ChartData8 { X = 3, Y = 30 },
+        new ChartData8 { X = 4, Y = 41 },
+        new ChartData8 { X = 5, Y = 52 },
+        new ChartData8 { X = 6, Y = 62 },
+        new ChartData8 { X = 7, Y = 74 },
+        new ChartData8 { X = 8, Y = 85 },
+        new ChartData8 { X = 9, Y = 96 },
+        new ChartData8 { X = 10, Y = 102 },
+    };
+}
+
+
+@{
+    var InitialGroup9 = (new string[] { "CustomerID", "OrderID" });
+}
+
+<SfFixture @ref="fixture9" TestAsync="LogChecklabelsForPrimaryYAxisWithRange" Description="Log CheckLabelFor PrimaryYAxisWithRange">
+    <ComponentUnderTest>
+        <SfChart ID="container" Width="800" Title="Chart Ts Title">
+            <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Toolkit.ValueType.Logarithmic" Title="PrimaryXAxis" LogBase="10" MinorTicksPerInterval="3" Minimum="1" Maximum="20" Interval="2">
+                <ChartAxisMinorGridLines Width="2"></ChartAxisMinorGridLines>
+            </ChartPrimaryXAxis>
+            <ChartPrimaryYAxis Title="PrimaryYaxis" LogBase="2" Minimum="1" Maximum="260" ValueType="Syncfusion.Blazor.Toolkit.ValueType.Logarithmic" RangePadding="ChartRangePadding.None"></ChartPrimaryYAxis>
+            <ChartSeriesCollection>
+                <ChartSeries DataSource="@log9" XName="X" YName="Y" Type="ChartSeriesType.Column" Name="ChartSeriesNameGold" Fill="Green">
+                    <ChartSeriesAnimation Enable="false"></ChartSeriesAnimation>
+                </ChartSeries>
+            </ChartSeriesCollection>
+            <ChartLegendSettings Visible="false"></ChartLegendSettings>
+        </SfChart>
+    </ComponentUnderTest>
+</SfFixture>
+
+
+@code {
+
+    SfFixture fixture9 { get; set; }
+
+    async Task LogChecklabelsForPrimaryYAxisWithRange(Fixture fixture9)
+    {
+        var cut = fixture9.GetComponentUnderTest<SfChart>();
+        await Task.Delay(200);
+        var svg = cut.Find("#container1_AxisLabel_0");
+        Assert.True(svg.TextContent == "1\n    ");
+        var text = cut.Find("#container1_AxisLabel_1");
+        Assert.True(text.TextContent == "2\n    ");
+
+        cut.SetParametersAndRender();
+    }
+    public class ChartData9
+    {
+        public double X { get; set; }
+        public double Y { get; set; }
+    }
+
+    public List<ChartData9> log9 = new List<ChartData9>
+{
+        new ChartData9 { X = 1, Y = 18 },
+        new ChartData9 { X = 2, Y = 29 },
+        new ChartData9 { X = 3, Y = 30 },
+        new ChartData9 { X = 4, Y = 41 },
+        new ChartData9 { X = 5, Y = 52 },
+        new ChartData9 { X = 6, Y = 62 },
+        new ChartData9 { X = 7, Y = 74 },
+        new ChartData9 { X = 8, Y = 85 },
+        new ChartData9 { X = 9, Y = 96 },
+        new ChartData9 { X = 10, Y = 102 },
+    };
+}
+
+
+
+@{
+    var InitialGroup10 = (new string[] { "CustomerID", "OrderID" });
+}
+
+<SfFixture @ref="fixture10" TestAsync="LogChecklabelsForPrimaryYAxisWithLabel" Description="Log CheckLabelFor PrimaryYAxisWithLabel">
+    <ComponentUnderTest>
+        <SfChart ID="container" Width="800" Title="Chart Ts Title">
+            <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Toolkit.ValueType.Logarithmic" Title="PrimaryXAxis" LogBase="10" MinorTicksPerInterval="3" Minimum="1" Maximum="20" Interval="2">
+                <ChartAxisMinorGridLines Width="2"></ChartAxisMinorGridLines>
+            </ChartPrimaryXAxis>
+            <ChartPrimaryYAxis Title="PrimaryYaxis" LogBase="10" Minimum="1" Maximum="260" ValueType="Syncfusion.Blazor.Toolkit.ValueType.Logarithmic" RangePadding="ChartRangePadding.None"></ChartPrimaryYAxis>
+            <ChartSeriesCollection>
+                <ChartSeries DataSource="@log10" XName="X" YName="Y" Type="ChartSeriesType.Column" Name="ChartSeriesNameGold" Fill="Green">
+                    <ChartSeriesAnimation Enable="false"></ChartSeriesAnimation>
+                </ChartSeries>
+            </ChartSeriesCollection>
+            <ChartLegendSettings Visible="false"></ChartLegendSettings>
+        </SfChart>
+    </ComponentUnderTest>
+</SfFixture>
+
+
+@code {
+
+    SfFixture fixture10 { get; set; }
+
+    async Task LogChecklabelsForPrimaryYAxisWithLabel(Fixture fixture10)
+    {
+        var cut = fixture10.GetComponentUnderTest<SfChart>();
+        await Task.Delay(200);
+        var svg = cut.Find("#container1_AxisLabel_0");
+        Assert.True(svg.TextContent == "1\n    ");
+        var text = cut.Find("#container1_AxisLabel_1");
+        Assert.True(text.TextContent == "10\n    ");
+
+        cut.SetParametersAndRender();
+    }
+    public class ChartData10
+    {
+        public double X { get; set; }
+        public double Y { get; set; }
+    }
+
+    public List<ChartData10> log10 = new List<ChartData10>
+{
+        new ChartData10 { X = 1, Y = 18 },
+        new ChartData10 { X = 2, Y = 29 },
+        new ChartData10 { X = 3, Y = 30 },
+        new ChartData10 { X = 4, Y = 41 },
+        new ChartData10 { X = 5, Y = 52 },
+        new ChartData10 { X = 6, Y = 62 },
+        new ChartData10 { X = 7, Y = 74 },
+        new ChartData10 { X = 8, Y = 85 },
+        new ChartData10 { X = 9, Y = 96 },
+        new ChartData10 { X = 10, Y = 102},
+    };
+}
+
+
+@{
+    var InitialGroup11 = (new string[] { "CustomerID", "OrderID" });
+}
+
+<SfFixture @ref="fixture11" TestAsync="LogChecklabelsForPrimaryYAxisWithMinorGridLine" Description="Log CheckLabelFor PrimaryYAxisWithMinorGridLine">
+    <ComponentUnderTest>
+        <SfChart ID="container" Width="800" Title="Chart Ts Title">
+            <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Toolkit.ValueType.Logarithmic" Title="PrimaryXAxis" LogBase="10" MinorTicksPerInterval="3" Minimum="1" Maximum="20" Interval="2">
+                <ChartAxisMinorGridLines Width="2"></ChartAxisMinorGridLines>
+            </ChartPrimaryXAxis>
+            <ChartPrimaryYAxis Title="PrimaryYaxis" MinorTicksPerInterval="3" LogBase="10" Minimum="1" Maximum="260" ValueType="Syncfusion.Blazor.Toolkit.ValueType.Logarithmic" RangePadding="ChartRangePadding.None">
+                <ChartAxisMinorGridLines Width="2"></ChartAxisMinorGridLines>
+            </ChartPrimaryYAxis>
+            <ChartSeriesCollection>
+                <ChartSeries DataSource="@log11" XName="X" YName="Y" Type="ChartSeriesType.Column" Name="ChartSeriesNameGold" Fill="Green">
+                    <ChartSeriesAnimation Enable="false"></ChartSeriesAnimation>
+                </ChartSeries>
+            </ChartSeriesCollection>
+            <ChartLegendSettings Visible="false"></ChartLegendSettings>
+        </SfChart>
+    </ComponentUnderTest>
+</SfFixture>
+
+
+@code {
+
+    SfFixture fixture11 { get; set; }
+
+    async Task LogChecklabelsForPrimaryYAxisWithMinorGridLine(Fixture fixture11)
+    {
+        var cut = fixture11.GetComponentUnderTest<SfChart>();
+        await Task.Delay(200);
+        var svg = cut.Find("#container_MinorGridLine_1_1");
+        Assert.True(svg.GetAttribute("stroke") == "#EDEBE9");
+        Assert.True(svg.GetAttribute("stroke-width") == "2");
+
+        cut.SetParametersAndRender();
+    }
+    public class ChartData11
+    {
+        public double X { get; set; }
+        public double Y { get; set; }
+    }
+
+    public List<ChartData11> log11 = new List<ChartData11>
+{
+        new ChartData11 { X = 1, Y = 18 },
+        new ChartData11 { X = 2, Y = 29 },
+        new ChartData11 { X = 3, Y = 30 },
+        new ChartData11 { X = 4, Y = 41 },
+        new ChartData11 { X = 5, Y = 52 },
+        new ChartData11 { X = 6, Y = 62 },
+        new ChartData11 { X = 7, Y = 74 },
+        new ChartData11 { X = 8, Y = 85 },
+        new ChartData11 { X = 9, Y = 96 },
+        new ChartData11 { X = 10, Y = 102},
+    };
+}
+
+
+@{
+    var InitialGroup12 = (new string[] { "CustomerID", "OrderID" });
+}
+
+<SfFixture @ref="fixture12" TestAsync="LogChecklabelsForPrimaryYAxisWithInterval" Description="Log CheckLabelFor PrimaryYAxisWithInterval">
+    <ComponentUnderTest>
+        <SfChart ID="container" Width="800" Title="Chart Ts Title">
+            <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Toolkit.ValueType.Logarithmic" Title="PrimaryXAxis" LogBase="10" MinorTicksPerInterval="3" Minimum="1" Maximum="20" Interval="2">
+                <ChartAxisMinorGridLines Width="2"></ChartAxisMinorGridLines>
+            </ChartPrimaryXAxis>
+            <ChartPrimaryYAxis Title="PrimaryYaxis" MinorTicksPerInterval="3" LogBase="2" Minimum="1" Maximum="260" Interval="2" ValueType="Syncfusion.Blazor.Toolkit.ValueType.Logarithmic" RangePadding="ChartRangePadding.None">
+                <ChartAxisMinorGridLines Width="2"></ChartAxisMinorGridLines>
+            </ChartPrimaryYAxis>
+            <ChartSeriesCollection>
+                <ChartSeries DataSource="@log12" XName="X" YName="Y" Type="ChartSeriesType.Column" Name="ChartSeriesNameGold" Fill="Green">
+                    <ChartSeriesAnimation Enable="false"></ChartSeriesAnimation>
+                </ChartSeries>
+            </ChartSeriesCollection>
+            <ChartLegendSettings Visible="false"></ChartLegendSettings>
+        </SfChart>
+    </ComponentUnderTest>
+</SfFixture>
+
+
+@code {
+
+    SfFixture fixture12 { get; set; }
+
+    async Task LogChecklabelsForPrimaryYAxisWithInterval(Fixture fixture12)
+    {
+        var cut = fixture12.GetComponentUnderTest<SfChart>();
+        await Task.Delay(200);
+        var svg = cut.Find("#container1_AxisLabel_0");
+        Assert.True(svg.TextContent == "1\n    ");
+        var text = cut.Find("#container1_AxisLabel_1");
+        Assert.True(text.TextContent == "4\n    ");
+        var svg1 = cut.Find("#containerAxisLabels1");
+        Assert.True(svg1.ChildNodes.Length == 5);
+
+        cut.SetParametersAndRender();
+    }
+    public class ChartData12
+    {
+        public double X { get; set; }
+        public double Y { get; set; }
+    }
+
+    public List<ChartData12> log12 = new List<ChartData12>
+{
+        new ChartData12 { X = 1, Y = 18 },
+        new ChartData12 { X = 2, Y = 29 },
+        new ChartData12 { X = 3, Y = 30 },
+        new ChartData12 { X = 4, Y = 41 },
+        new ChartData12 { X = 5, Y = 52 },
+        new ChartData12 { X = 6, Y = 62 },
+        new ChartData12 { X = 7, Y = 74 },
+        new ChartData12 { X = 8, Y = 85 },
+        new ChartData12 { X = 9, Y = 96 },
+        new ChartData12 { X = 10, Y = 102},
+    };
+}
+
+
+@{
+    var InitialGroup13 = (new string[] { "CustomerID", "OrderID" });
+}
+
+<SfFixture @ref="fixture13" TestAsync="LogChecklabelsWithBarSeries" Description="Log CheckLabelFor BarSeries">
+    <ComponentUnderTest>
+        <SfChart ID="container" Width="800" Title="Chart Ts Title">
+            <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Toolkit.ValueType.Logarithmic" Title="PrimaryXAxis" LogBase="10" MinorTicksPerInterval="3" Minimum="1" Maximum="20" Interval="2">
+                <ChartAxisMinorGridLines Width="2"></ChartAxisMinorGridLines>
+            </ChartPrimaryXAxis>
+            <ChartPrimaryYAxis Title="PrimaryYaxis" MinorTicksPerInterval="3" LogBase="2" Minimum="1" Maximum="260" Interval="2" ValueType="Syncfusion.Blazor.Toolkit.ValueType.Logarithmic" RangePadding="ChartRangePadding.None">
+                <ChartAxisMinorGridLines Width="2"></ChartAxisMinorGridLines>
+            </ChartPrimaryYAxis>
+            <ChartSeriesCollection>
+                <ChartSeries DataSource="@log13" XName="X" YName="Y" Type="ChartSeriesType.Bar" Name="ChartSeriesNameGold" Fill="Green">
+                    <ChartSeriesAnimation Enable="false"></ChartSeriesAnimation>
+                </ChartSeries>
+            </ChartSeriesCollection>
+            <ChartLegendSettings Visible="false"></ChartLegendSettings>
+        </SfChart>
+    </ComponentUnderTest>
+</SfFixture>
+
+
+@code {
+
+    SfFixture fixture13 { get; set; }
+
+    async Task LogChecklabelsWithBarSeries(Fixture fixture13)
+    {
+        var cut = fixture13.GetComponentUnderTest<SfChart>();
+        await Task.Delay(200);
+        var svg = cut.Find("#containerSeriesGroup0");
+        Assert.True(svg.ChildElementCount - 1 == 10);
+
+        cut.SetParametersAndRender();
+    }
+    public class ChartData13
+    {
+        public double X { get; set; }
+        public double Y { get; set; }
+    }
+
+    public List<ChartData13> log13 = new List<ChartData13>
+{
+        new ChartData13 { X = 1, Y = 18 },
+        new ChartData13 { X = 2, Y = 29 },
+        new ChartData13 { X = 3, Y = 30 },
+        new ChartData13 { X = 4, Y = 41 },
+        new ChartData13 { X = 5, Y = 52 },
+        new ChartData13 { X = 6, Y = 62 },
+        new ChartData13 { X = 7, Y = 74 },
+        new ChartData13 { X = 8, Y = 85 },
+        new ChartData13 { X = 9, Y = 96 },
+        new ChartData13 { X = 10, Y = 102},
+    };
+}
+
+
+@{
+    var InitialGroup14 = (new string[] { "CustomerID", "OrderID" });
+}
+
+<SfFixture @ref="fixture14" TestAsync="LogChecklabelBarSeriesWithDatetimeandLog" Description="Log CheckLabelFor BarSeriesWithDateTimeandLog">
+    <ComponentUnderTest>
+        <SfChart ID="container" Width="800" Title="Chart Ts Title">
+            <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Toolkit.ValueType.DateTime" Title="PrimaryXAxis" LogBase="10" MinorTicksPerInterval="3">
+                <ChartAxisMinorGridLines Width="2"></ChartAxisMinorGridLines>
+            </ChartPrimaryXAxis>
+            <ChartPrimaryYAxis Title="PrimaryYaxis" MinorTicksPerInterval="3" LogBase="10" Minimum="1" Maximum="260" Interval="1" ValueType="Syncfusion.Blazor.Toolkit.ValueType.Logarithmic" RangePadding="ChartRangePadding.None">
+                <ChartAxisMinorGridLines Width="2"></ChartAxisMinorGridLines>
+            </ChartPrimaryYAxis>
+            <ChartSeriesCollection>
+                <ChartSeries DataSource="@log14" XName="X" YName="Y" Type="ChartSeriesType.Bar" Name="ChartSeriesNameGold" Fill="Green">
+                    <ChartSeriesAnimation Enable="false"></ChartSeriesAnimation>
+                </ChartSeries>
+            </ChartSeriesCollection>
+            <ChartLegendSettings Visible="false"></ChartLegendSettings>
+        </SfChart>
+    </ComponentUnderTest>
+</SfFixture>
+
+
+@code {
+
+    SfFixture fixture14 { get; set; }
+
+    async Task LogChecklabelBarSeriesWithDatetimeandLog(Fixture fixture14)
+    {
+        var cut = fixture14.GetComponentUnderTest<SfChart>();
+        await Task.Delay(200);
+        var svg = cut.Find("#containerSeriesGroup0");
+        //Assert.True(svg.ChildElementCount - 1 == 10);
+
+        cut.SetParametersAndRender();
+    }
+    public class ChartData14
+    {
+        public DateTime X { get; set; }
+        public double Y { get; set; }
+    }
+
+    public List<ChartData14> log14 = new List<ChartData14>
+{
+        new ChartData14 { X = new DateTime(2000, 06, 11), Y = 10 },
+        new ChartData14 { X = new DateTime(2002, 03, 07), Y = 30 },
+        new ChartData14 { X = new DateTime(2004, 03, 06), Y = 15 },
+        new ChartData14 { X = new DateTime(2006, 03, 30), Y = 65 },
+        new ChartData14 { X = new DateTime(2008, 03, 08), Y = 90 },
+        new ChartData14 { X = new DateTime(2010, 03, 08), Y = 85 }
+    };
+}
+
+
+@{
+    var InitialGroup15 = (new string[] { "CustomerID", "OrderID" });
+}
+
+<SfFixture @ref="fixture15" TestAsync="LogChecklabelsWithColumnSeries" Description="Log CheckLabelFor ColumnSeries">
+    <ComponentUnderTest>
+        <SfChart ID="container" Width="800" Title="Chart Ts Title">
+            <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Toolkit.ValueType.Logarithmic" Title="PrimaryXAxis" LogBase="10" MinorTicksPerInterval="3" Minimum="1" Maximum="20" Interval="2">
+                <ChartAxisMinorGridLines Width="2"></ChartAxisMinorGridLines>
+            </ChartPrimaryXAxis>
+            <ChartPrimaryYAxis Title="PrimaryYaxis" MinorTicksPerInterval="3" LogBase="2" Minimum="1" Maximum="260" Interval="2" ValueType="Syncfusion.Blazor.Toolkit.ValueType.Logarithmic" RangePadding="ChartRangePadding.None">
+                <ChartAxisMinorGridLines Width="2"></ChartAxisMinorGridLines>
+            </ChartPrimaryYAxis>
+            <ChartSeriesCollection>
+                <ChartSeries DataSource="@log15" XName="X" YName="Y" Type="ChartSeriesType.Column" Name="ChartSeriesNameGold" Fill="Green">
+                    <ChartSeriesAnimation Enable="false"></ChartSeriesAnimation>
+                </ChartSeries>
+            </ChartSeriesCollection>
+            <ChartLegendSettings Visible="false"></ChartLegendSettings>
+        </SfChart>
+    </ComponentUnderTest>
+</SfFixture>
+
+
+@code {
+
+    SfFixture fixture15 { get; set; }
+
+    async Task LogChecklabelsWithColumnSeries(Fixture fixture15)
+    {
+        var cut = fixture15.GetComponentUnderTest<SfChart>();
+        await Task.Delay(200);
+        var svg = cut.Find("#containerSeriesGroup0");
+        Assert.True(svg.ChildElementCount - 1 == 10);
+
+        cut.SetParametersAndRender();
+    }
+    public class ChartData15
+    {
+        public double X { get; set; }
+        public double Y { get; set; }
+    }
+
+    public List<ChartData15> log15 = new List<ChartData15>
+{
+        new ChartData15 { X = 1, Y = 18 },
+        new ChartData15 { X = 2, Y = 29 },
+        new ChartData15 { X = 3, Y = 30 },
+        new ChartData15 { X = 4, Y = 41 },
+        new ChartData15 { X = 5, Y = 52 },
+        new ChartData15 { X = 6, Y = 62 },
+        new ChartData15 { X = 7, Y = 74 },
+        new ChartData15 { X = 8, Y = 85 },
+        new ChartData15 { X = 9, Y = 96 },
+        new ChartData15 { X = 10, Y = 102},
+    };
+}
+
+
+@{
+    var InitialGroup16 = (new string[] { "CustomerID", "OrderID" });
+}
+
+<SfFixture @ref="fixture16" TestAsync="LogChecklabelsWithAreaSeries" Description="Log CheckLabelFor AreaSeries">
+    <ComponentUnderTest>
+        <SfChart ID="container" Width="800" Title="Chart Ts Title">
+            <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Toolkit.ValueType.Logarithmic" Title="PrimaryXAxis" LogBase="10" MinorTicksPerInterval="3" Minimum="1" Maximum="20" Interval="2">
+                <ChartAxisMinorGridLines Width="2"></ChartAxisMinorGridLines>
+            </ChartPrimaryXAxis>
+            <ChartPrimaryYAxis Title="PrimaryYaxis" MinorTicksPerInterval="3" LogBase="2" Minimum="1" Maximum="260" Interval="2" ValueType="Syncfusion.Blazor.Toolkit.ValueType.Logarithmic" RangePadding="ChartRangePadding.None">
+                <ChartAxisMinorGridLines Width="2"></ChartAxisMinorGridLines>
+            </ChartPrimaryYAxis>
+            <ChartSeriesCollection>
+                <ChartSeries DataSource="@log16" XName="X" YName="Y" Type="ChartSeriesType.Area" Name="ChartSeriesNameGold" Fill="Green">
+                    <ChartSeriesAnimation Enable="false"></ChartSeriesAnimation>
+                </ChartSeries>
+            </ChartSeriesCollection>
+            <ChartLegendSettings Visible="false"></ChartLegendSettings>
+        </SfChart>
+    </ComponentUnderTest>
+</SfFixture>
+
+
+@code {
+
+    SfFixture fixture16 { get; set; }
+
+    async Task LogChecklabelsWithAreaSeries(Fixture fixture16)
+    {
+        var cut = fixture16.GetComponentUnderTest<SfChart>();
+        await Task.Delay(200);
+        var svg = cut.Find("#containerSeriesGroup0");
+        Assert.True(svg != null);
+
+        cut.SetParametersAndRender();
+    }
+    public class ChartData16
+    {
+        public double X { get; set; }
+        public double Y { get; set; }
+    }
+
+    public List<ChartData16> log16 = new List<ChartData16>
+{
+        new ChartData16 { X = 1, Y = 18 },
+        new ChartData16 { X = 2, Y = 29 },
+        new ChartData16 { X = 3, Y = 30 },
+        new ChartData16 { X = 4, Y = 41 },
+        new ChartData16 { X = 5, Y = 52 },
+        new ChartData16 { X = 6, Y = 62 },
+        new ChartData16 { X = 7, Y = 74 },
+        new ChartData16 { X = 8, Y = 85 },
+        new ChartData16 { X = 9, Y = 96 },
+        new ChartData16 { X = 10, Y = 102},
+    };
+}
+
+
+@{
+    var InitialGroup17 = (new string[] { "CustomerID", "OrderID" });
+}
+
+<SfFixture @ref="fixture17" TestAsync="LogChecklabelsWithLineRange" Description="Log CheckLabelFor LineRange">
+    <ComponentUnderTest>
+        <SfChart ID="container" Width="800" Title="Chart Ts Title">
+            <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Toolkit.ValueType.Logarithmic" Title="PrimaryXAxis" LogBase="10" MinorTicksPerInterval="3" Minimum="0.2" Maximum="20" Interval="2">
+                <ChartAxisMinorGridLines Width="2"></ChartAxisMinorGridLines>
+            </ChartPrimaryXAxis>
+            <ChartPrimaryYAxis Title="PrimaryYaxis" MinorTicksPerInterval="3" LogBase="2" Minimum="1" Maximum="260" Interval="2" ValueType="Syncfusion.Blazor.Toolkit.ValueType.Logarithmic" RangePadding="ChartRangePadding.None">
+                <ChartAxisMinorGridLines Width="2"></ChartAxisMinorGridLines>
+            </ChartPrimaryYAxis>
+            <ChartSeriesCollection>
+                <ChartSeries DataSource="@log17" XName="X" YName="Y" Type="ChartSeriesType.Line" Name="ChartSeriesNameGold" Fill="Green">
+                    <ChartSeriesAnimation Enable="false"></ChartSeriesAnimation>
+                </ChartSeries>
+            </ChartSeriesCollection>
+            <ChartLegendSettings Visible="false"></ChartLegendSettings>
+        </SfChart>
+    </ComponentUnderTest>
+</SfFixture>
+
+
+@code {
+
+    SfFixture fixture17 { get; set; }
+
+    async Task LogChecklabelsWithLineRange(Fixture fixture17)
+    {
+        var cut = fixture17.GetComponentUnderTest<SfChart>();
+        await Task.Delay(200);
+        var svg = cut.Find("#container0_AxisLabel_0");
+        Assert.True(svg.TextContent == "0.1\n    ");
+        var svg1 = cut.Find("#container0_AxisLabel_1");
+        Assert.True(svg1.TextContent == "10\n    ");
+        cut.SetParametersAndRender();
+    }
+    public class ChartData17
+    {
+        public double X { get; set; }
+        public double Y { get; set; }
+    }
+
+    public List<ChartData17> log17 = new List<ChartData17>
+{
+        new ChartData17 { X = 1, Y = 18 },
+        new ChartData17 { X = 2, Y = 29 },
+        new ChartData17 { X = 3, Y = 30 },
+        new ChartData17 { X = 4, Y = 41 },
+        new ChartData17 { X = 5, Y = 52 },
+        new ChartData17 { X = 6, Y = 62 },
+        new ChartData17 { X = 7, Y = 74 },
+        new ChartData17 { X = 8, Y = 85 },
+        new ChartData17 { X = 9, Y = 96 },
+        new ChartData17 { X = 10, Y = 102},
+    };
+}
+
+
+@{
+    var InitialGroup18 = (new string[] { "CustomerID", "OrderID" });
+}
+
+<SfFixture @ref="fixture18" TestAsync="LogChecklabelsWithLargeData" Description="Log CheckLabelWith LargeData">
+    <ComponentUnderTest>
+        <SfChart ID="container" Width="800" Title="Chart Ts Title">
+            <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Toolkit.ValueType.Double" Title="PrimaryXAxis" LogBase="10" MinorTicksPerInterval="3" Minimum="1" Maximum="20" Interval="1">
+                <ChartAxisMinorGridLines Width="0"></ChartAxisMinorGridLines>
+                <ChartAxisMinorTickLines Width="0"></ChartAxisMinorTickLines>
+            </ChartPrimaryXAxis>
+            <ChartPrimaryYAxis Title="PrimaryYaxis" MinorTicksPerInterval="3" LogBase="10" Minimum="1" Interval="2" ValueType="Syncfusion.Blazor.Toolkit.ValueType.Logarithmic" RangePadding="ChartRangePadding.None">
+                <ChartAxisMinorGridLines Width="0"></ChartAxisMinorGridLines>
+                <ChartAxisMinorTickLines Width="0"></ChartAxisMinorTickLines>
+            </ChartPrimaryYAxis>
+            <ChartSeriesCollection>
+                <ChartSeries DataSource="@log18" XName="X" YName="Y" Type="ChartSeriesType.Line" Name="Gold" Fill="rgba(135,206,235,1)">
+                    <ChartSeriesAnimation Enable="false"></ChartSeriesAnimation>
+                </ChartSeries>
+            </ChartSeriesCollection>
+            <ChartLegendSettings Visible="false"></ChartLegendSettings>
+        </SfChart>
+    </ComponentUnderTest>
+</SfFixture>
+
+
+@code {
+
+    SfFixture fixture18 { get; set; }
+
+    async Task LogChecklabelsWithLargeData(Fixture fixture18)
+    {
+        var cut = fixture18.GetComponentUnderTest<SfChart>();
+        await Task.Delay(200);
+        var svg = cut.Find("#containerSeriesGroup0");
+        Assert.True(svg != null);
+        cut.SetParametersAndRender();
+    }
+    public class ChartData18
+    {
+        public double X { get; set; }
+        public double Y { get; set; }
+    }
+
+    public List<ChartData18> log18 = new List<ChartData18>
+{
+        new ChartData18 { X = 1, Y = 8 },
+        new ChartData18 { X = 2, Y = 10000  },
+        new ChartData18 { X = 3, Y = 400 },
+        new ChartData18 { X = 4, Y = 600 },
+        new ChartData18 { X = 5, Y = 900 },
+        new ChartData18 { X = 6, Y = 1400 },
+        new ChartData18 { X = 7, Y = 2000 },
+        new ChartData18 { X = 8, Y = 4000 },
+        new ChartData18 { X = 9, Y = 6000 },
+        new ChartData18 { X = 10, Y = 8000},
+        new ChartData18 { X = 10, Y = 9000}
+    };
+}
+
+
+@{
+    var InitialGroup19 = (new string[] { "CustomerID", "OrderID" });
+}
+
+<SfFixture @ref="fixture19" TestAsync="LogChecklabelsWithEdgeLabelPlacement" Description="Log CheckLabelWith EdgeLabelPlacement">
+    <ComponentUnderTest>
+        <SfChart ID="container" Width="800" Title="Chart Ts Title">
+            <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Toolkit.ValueType.Double" Title="PrimaryXAxis" LogBase="10" MinorTicksPerInterval="3" Minimum="1" Maximum="20" EdgeLabelPlacement="EdgeLabelPlacement.Hide">
+                <ChartAxisMinorGridLines Width="0"></ChartAxisMinorGridLines>
+                <ChartAxisMinorTickLines Width="0"></ChartAxisMinorTickLines>
+            </ChartPrimaryXAxis>
+            <ChartPrimaryYAxis Title="PrimaryYaxis" MinorTicksPerInterval="3" LogBase="10" Minimum="1" Interval="2" ValueType="Syncfusion.Blazor.Toolkit.ValueType.Logarithmic" RangePadding="ChartRangePadding.None" EdgeLabelPlacement="EdgeLabelPlacement.Shift">
+                <ChartAxisMinorGridLines Width="0"></ChartAxisMinorGridLines>
+                <ChartAxisMinorTickLines Width="0"></ChartAxisMinorTickLines>
+            </ChartPrimaryYAxis>
+            <ChartSeriesCollection>
+                <ChartSeries DataSource="@log19" XName="X" YName="Y" Type="ChartSeriesType.Line" Name="Gold" Fill="rgba(135,206,235,1)">
+                    <ChartSeriesAnimation Enable="false"></ChartSeriesAnimation>
+                </ChartSeries>
+            </ChartSeriesCollection>
+            <ChartLegendSettings Visible="false"></ChartLegendSettings>
+        </SfChart>
+    </ComponentUnderTest>
+</SfFixture>
+
+
+@code {
+
+    SfFixture fixture19 { get; set; }
+
+    async Task LogChecklabelsWithEdgeLabelPlacement(Fixture fixture19)
+    {
+        var cut = fixture19.GetComponentUnderTest<SfChart>();
+        await Task.Delay(200);
+        IElement svg = null;
+        try
+        {
+            svg = cut.Find("#container0_AxisLabel_0");
+        }
+        catch{}
+        Assert.True(svg == null);
+        var chartarea = cut.Find("#container_ChartAreaBorder");
+        var text = cut.Find("#container1_AxisLabel_0");
+        Assert.True(Convert.ToDouble(text.GetAttribute("y")) > (Convert.ToDouble(chartarea.GetAttribute("y")) + (Convert.ToDouble(chartarea.GetAttribute("height")))));
+        cut.SetParametersAndRender();
+    }
+    public class ChartData19
+    {
+        public double X { get; set; }
+        public double Y { get; set; }
+    }
+
+    public List<ChartData19> log19 = new List<ChartData19>
+{
+        new ChartData19 { X = 1, Y = 8 },
+        new ChartData19 { X = 2, Y = 10000 },
+        new ChartData19 { X = 3, Y = 400 },
+        new ChartData19 { X = 4, Y = 600 },
+        new ChartData19 { X = 5, Y = 900 },
+        new ChartData19 { X = 6, Y = 1400 },
+        new ChartData19 { X = 7, Y = 2000 },
+        new ChartData19 { X = 8, Y = 4000 },
+        new ChartData19 { X = 9, Y = 6000 },
+        new ChartData19 { X = 10, Y = 8000},
+        new ChartData19 { X = 10, Y = 9000}
+    };
+}
+
+
+@{
+    var InitialGroup20 = (new string[] { "CustomerID", "OrderID" });
+}
+
+<SfFixture @ref="fixture20" TestAsync="LogChecklabelsWithEdgeLabelPlacementHide" Description="Log CheckLabelWith EdgeLabelPlacementHide">
+    <ComponentUnderTest>
+        <SfChart ID="container" Width="800" Title="Chart Ts Title">
+            <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Toolkit.ValueType.Double" Title="PrimaryXAxis" LogBase="10" MinorTicksPerInterval="3" Minimum="1" Maximum="20" EdgeLabelPlacement="EdgeLabelPlacement.Hide">
+                <ChartAxisMinorGridLines Width="0"></ChartAxisMinorGridLines>
+                <ChartAxisMinorTickLines Width="0"></ChartAxisMinorTickLines>
+            </ChartPrimaryXAxis>
+            <ChartPrimaryYAxis Title="PrimaryYaxis" MinorTicksPerInterval="3" LogBase="10" Minimum="1" Interval="2" ValueType="Syncfusion.Blazor.Toolkit.ValueType.Logarithmic" RangePadding="ChartRangePadding.None" EdgeLabelPlacement="EdgeLabelPlacement.Hide">
+                <ChartAxisMinorGridLines Width="0"></ChartAxisMinorGridLines>
+                <ChartAxisMinorTickLines Width="0"></ChartAxisMinorTickLines>
+            </ChartPrimaryYAxis>
+            <ChartSeriesCollection>
+                <ChartSeries DataSource="@log20" XName="X" YName="Y" Type="ChartSeriesType.Line" Name="Gold" Fill="rgba(135,206,235,1)">
+                    <ChartSeriesAnimation Enable="false"></ChartSeriesAnimation>
+                </ChartSeries>
+            </ChartSeriesCollection>
+            <ChartLegendSettings Visible="false"></ChartLegendSettings>
+        </SfChart>
+    </ComponentUnderTest>
+</SfFixture>
+
+
+@code {
+
+    SfFixture fixture20 { get; set; }
+
+    async Task LogChecklabelsWithEdgeLabelPlacementHide(Fixture fixture20)
+    {
+        var cut = fixture20.GetComponentUnderTest<SfChart>();
+        await Task.Delay(200);
+        IElement svg = null;
+        try
+        {
+            svg = cut.Find("#container0_AxisLabel_0");            
+        }
+        catch{}
+        Assert.True(svg == null);
+        var chartarea = cut.Find("#container_ChartAreaBorder");
+        var text = cut.Find("#container1_AxisLabel_0");
+        Assert.True(text.TextContent == "\n    ");
+        cut.SetParametersAndRender();
+    }
+    public class ChartData20
+    {
+        public double X { get; set; }
+        public double Y { get; set; }
+    }
+
+    public List<ChartData20> log20 = new List<ChartData20>
+{
+        new ChartData20 { X = 1, Y = 8 },
+        new ChartData20 { X = 2, Y = 10000 },
+        new ChartData20 { X = 3, Y = 400 },
+        new ChartData20 { X = 4, Y = 600 },
+        new ChartData20 { X = 5, Y = 900 },
+        new ChartData20 { X = 6, Y = 1400 },
+        new ChartData20 { X = 7, Y = 2000 },
+        new ChartData20 { X = 8, Y = 4000 },
+        new ChartData20 { X = 9, Y = 6000 },
+        new ChartData20 { X = 10, Y = 8000},
+        new ChartData20 { X = 10, Y = 9000}
+    };
+}
+
+
+@{
+    var InitialGroup21 = (new string[] { "CustomerID", "OrderID" });
+}
+
+<SfFixture @ref="fixture21" TestAsync="LogChecklabelsWithLabelFormat" Description="Log CheckLabelWith LabelFormat">
+    <ComponentUnderTest>
+        <SfChart ID="container" Width="800" Title="Chart Ts Title">
+            <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Toolkit.ValueType.Logarithmic" LabelFormat="C" Title="PrimaryXAxis" LogBase="10" MinorTicksPerInterval="3" Minimum="1" Maximum="20" EdgeLabelPlacement="EdgeLabelPlacement.None">
+                <ChartAxisMinorGridLines Width="0"></ChartAxisMinorGridLines>
+                <ChartAxisMinorTickLines Width="0"></ChartAxisMinorTickLines>
+            </ChartPrimaryXAxis>
+            <ChartPrimaryYAxis Title="PrimaryYaxis" MinorTicksPerInterval="3" LogBase="10" Minimum="1" Interval="2" ValueType="Syncfusion.Blazor.Toolkit.ValueType.Logarithmic" RangePadding="ChartRangePadding.None" EdgeLabelPlacement="EdgeLabelPlacement.None">
+                <ChartAxisMinorGridLines Width="0"></ChartAxisMinorGridLines>
+                <ChartAxisMinorTickLines Width="0"></ChartAxisMinorTickLines>
+            </ChartPrimaryYAxis>
+            <ChartSeriesCollection>
+                <ChartSeries DataSource="@log21" XName="X" YName="Y" Type="ChartSeriesType.Line" Name="Gold" Fill="rgba(135,206,235,1)">
+                    <ChartSeriesAnimation Enable="false"></ChartSeriesAnimation>
+                </ChartSeries>
+            </ChartSeriesCollection>
+            <ChartLegendSettings Visible="false"></ChartLegendSettings>
+        </SfChart>
+    </ComponentUnderTest>
+</SfFixture>
+
+
+@code {
+
+    SfFixture fixture21 { get; set; }
+
+    async Task LogChecklabelsWithLabelFormat(Fixture fixture21)
+    {
+        var cut = fixture21.GetComponentUnderTest<SfChart>();
+        await Task.Delay(200);
+        var svg = cut.Find("#container0_AxisLabel_0");
+        Assert.True(svg.TextContent == "$1.00\n    ");
+        cut.SetParametersAndRender();
+    }
+    public class ChartData21
+    {
+        public double X { get; set; }
+        public double Y { get; set; }
+    }
+
+    public List<ChartData21> log21 = new List<ChartData21>
+{
+        new ChartData21 { X = 1, Y = 18 },
+        new ChartData21 { X = 2, Y = 29 },
+        new ChartData21 { X = 3, Y = 30 },
+        new ChartData21 { X = 4, Y = 41 },
+        new ChartData21 { X = 5, Y = 52 },
+        new ChartData21 { X = 6, Y = 62 },
+        new ChartData21 { X = 7, Y = 74 },
+        new ChartData21 { X = 8, Y = 85 },
+        new ChartData21 { X = 9, Y = 96 },
+        new ChartData21 { X = 10, Y = 102}
+    };
+}
+
+
+
+@{
+    var InitialGroup22 = (new string[] { "CustomerID", "OrderID" });
+}
+
+<SfFixture @ref="fixture22" TestAsync="LogCheckZoomFactorAndZoomPosition" Description="Log CheckLabelZoomFactor AndZoomPosition">
+    <ComponentUnderTest>
+        <SfChart ID="container" Width="800" Title="Chart Ts Title">
+            <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Toolkit.ValueType.Logarithmic" LabelFormat="" ZoomFactor="0.5" ZoomPosition="0.5" Title="PrimaryXAxis" LogBase="10" MinorTicksPerInterval="3" Minimum="1" Maximum="20" EdgeLabelPlacement="EdgeLabelPlacement.None">
+                <ChartAxisMinorGridLines Width="0"></ChartAxisMinorGridLines>
+                <ChartAxisMinorTickLines Width="0"></ChartAxisMinorTickLines>
+            </ChartPrimaryXAxis>
+            <ChartPrimaryYAxis Title="PrimaryYaxis" MinorTicksPerInterval="3" LogBase="10" Minimum="1" Interval="2" ValueType="Syncfusion.Blazor.Toolkit.ValueType.Logarithmic" RangePadding="ChartRangePadding.None" EdgeLabelPlacement="EdgeLabelPlacement.None">
+                <ChartAxisMinorGridLines Width="0"></ChartAxisMinorGridLines>
+                <ChartAxisMinorTickLines Width="0"></ChartAxisMinorTickLines>
+            </ChartPrimaryYAxis>
+            <ChartSeriesCollection>
+                <ChartSeries DataSource="@log22" XName="X" YName="Y" Type="ChartSeriesType.Line" Name="Gold" Fill="rgba(135,206,235,1)">
+                    <ChartSeriesAnimation Enable="false"></ChartSeriesAnimation>
+                </ChartSeries>
+            </ChartSeriesCollection>
+            <ChartLegendSettings Visible="false"></ChartLegendSettings>
+        </SfChart>
+    </ComponentUnderTest>
+</SfFixture>
+
+
+@code {
+
+    SfFixture fixture22 { get; set; }
+
+    async Task LogCheckZoomFactorAndZoomPosition(Fixture fixture22)
+    {
+        var cut = fixture22.GetComponentUnderTest<SfChart>();
+        await Task.Delay(200);
+        var svg = cut.Find("#container0_AxisLabel_0");
+        Assert.True(svg != null);
+        var svg1 = cut.Find("#container1_AxisLabel_1");
+        Assert.True(svg1 != null);
+        cut.SetParametersAndRender();
+    }
+    public class ChartData22
+    {
+        public double X { get; set; }
+        public double Y { get; set; }
+    }
+
+    public List<ChartData22> log22 = new List<ChartData22>
+{
+        new ChartData22 { X = 1, Y = 18 },
+        new ChartData22 { X = 2, Y = 29 },
+        new ChartData22 { X = 3, Y = 30 },
+        new ChartData22 { X = 4, Y = 41 },
+        new ChartData22 { X = 5, Y = 52 },
+        new ChartData22 { X = 6, Y = 62 },
+        new ChartData22 { X = 7, Y = 74 },
+        new ChartData22 { X = 8, Y = 85 },
+        new ChartData22 { X = 9, Y = 96 },
+        new ChartData22 { X = 10, Y = 102}
+    };
+}
+
+
+@{
+    var InitialGroup23 = (new string[] { "CustomerID", "OrderID" });
+}
+
+<SfFixture @ref="fixture23" TestAsync="LogCheckEnableAutoIntervalOnZoomingFalse" Description="Log CheckEnableAutoIntervalOnZooming False">
+    <ComponentUnderTest>
+        <SfChart ID="container" Width="800" Title="Chart Ts Title">
+            <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Toolkit.ValueType.Logarithmic" LabelFormat="" EnableAutoIntervalOnZooming="false" ZoomFactor="0.5" ZoomPosition="0.5" Title="PrimaryXAxis" LogBase="10" MinorTicksPerInterval="3" Minimum="1" Maximum="20" EdgeLabelPlacement="EdgeLabelPlacement.None">
+                <ChartAxisMinorGridLines Width="0"></ChartAxisMinorGridLines>
+                <ChartAxisMinorTickLines Width="0"></ChartAxisMinorTickLines>
+            </ChartPrimaryXAxis>
+            <ChartPrimaryYAxis Title="PrimaryYaxis" MinorTicksPerInterval="3" LogBase="10" Minimum="1" Interval="2" ValueType="Syncfusion.Blazor.Toolkit.ValueType.Logarithmic" RangePadding="ChartRangePadding.None" EdgeLabelPlacement="EdgeLabelPlacement.None">
+                <ChartAxisMinorGridLines Width="0"></ChartAxisMinorGridLines>
+                <ChartAxisMinorTickLines Width="0"></ChartAxisMinorTickLines>
+            </ChartPrimaryYAxis>
+            <ChartSeriesCollection>
+                <ChartSeries DataSource="@log23" XName="X" YName="Y" Type="ChartSeriesType.Line" Name="Gold" Fill="rgba(135,206,235,1)">
+                    <ChartSeriesAnimation Enable="false"></ChartSeriesAnimation>
+                </ChartSeries>
+            </ChartSeriesCollection>
+            <ChartLegendSettings Visible="false"></ChartLegendSettings>
+        </SfChart>
+    </ComponentUnderTest>
+</SfFixture>
+
+
+@code {
+
+    SfFixture fixture23 { get; set; }
+
+    async Task LogCheckEnableAutoIntervalOnZoomingFalse(Fixture fixture23)
+    {
+        var cut = fixture23.GetComponentUnderTest<SfChart>();
+        await Task.Delay(200);
+        var svg = cut.Find("#container0_AxisLabel_0");
+        Assert.True(svg != null);
+        var svg1 = cut.Find("#container1_AxisLabel_1");
+        Assert.True(svg1 != null);
+        cut.SetParametersAndRender();
+    }
+    public class ChartData23
+    {
+        public double X { get; set; }
+        public double Y { get; set; }
+    }
+
+    public List<ChartData23> log23 = new List<ChartData23>
+{
+        new ChartData23 { X = 1, Y = 18 },
+        new ChartData23 { X = 2, Y = 29 },
+        new ChartData23 { X = 3, Y = 30 },
+        new ChartData23 { X = 4, Y = 41 },
+        new ChartData23 { X = 5, Y = 52 },
+        new ChartData23 { X = 6, Y = 62 },
+        new ChartData23 { X = 7, Y = 74 },
+        new ChartData23 { X = 8, Y = 85 },
+        new ChartData23 { X = 9, Y = 96 },
+        new ChartData23 { X = 10, Y = 102}
+    };
+}
+
+
+@{
+    var InitialGroup24 = (new string[] { "CustomerID", "OrderID" });
+}
+
+<SfFixture @ref="fixture24" TestAsync="LogCheckWithMultipleAxis" Description="Log CheckWithMultipleAxis">
+    <ComponentUnderTest>
+        <SfChart ID="container" Width="800" Title="Chart Ts Title">
+            <ChartAxes>
+                <ChartAxis RowIndex="1" Name="yAxis1" ValueType="Syncfusion.Blazor.Toolkit.ValueType.Logarithmic" LabelFormat="{value}#">
+                    <ChartAxisTitleStyle Size="14px" FontWeight="Regular" Color="#282828" FontStyle="Normal" FontFamily="Segoe UI"></ChartAxisTitleStyle>
+                    <ChartAxisLabelStyle Size="12px" FontWeight="Regular" Color="#282828" FontStyle="Normal" FontFamily="Segoe UI"></ChartAxisLabelStyle>
+                </ChartAxis>
+            </ChartAxes>
+            <ChartRows>
+                <ChartRow Height="300">
+                    <ChartBorder Width="4" Color="Red"></ChartBorder>
+                </ChartRow>
+                <ChartRow>
+                    <ChartBorder Width="4" Color="Blue"></ChartBorder>
+                </ChartRow>
+            </ChartRows>
+            <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Toolkit.ValueType.Logarithmic" LabelFormat="" EnableAutoIntervalOnZooming="true" ZoomFactor="1" ZoomPosition="0" Title="PrimaryXAxis" LogBase="10" MinorTicksPerInterval="3" Minimum="1" Maximum="20" EdgeLabelPlacement="EdgeLabelPlacement.None">
+                <ChartAxisMinorGridLines Width="0"></ChartAxisMinorGridLines>
+                <ChartAxisMinorTickLines Width="0"></ChartAxisMinorTickLines>
+            </ChartPrimaryXAxis>
+            <ChartPrimaryYAxis Title="PrimaryYaxis" MinorTicksPerInterval="3" LogBase="10" Minimum="1" Interval="2" ValueType="Syncfusion.Blazor.Toolkit.ValueType.Logarithmic" RangePadding="ChartRangePadding.None" EdgeLabelPlacement="EdgeLabelPlacement.None">
+                <ChartAxisMinorGridLines Width="0"></ChartAxisMinorGridLines>
+                <ChartAxisMinorTickLines Width="0"></ChartAxisMinorTickLines>
+            </ChartPrimaryYAxis>
+            <ChartSeriesCollection>
+                <ChartSeries DataSource="@log24" XName="X" YName="Y" YAxisName="yAxis1" Type="ChartSeriesType.Line" Name="Gold" Fill="Red">
+                    <ChartSeriesAnimation Enable="false"></ChartSeriesAnimation>
+                </ChartSeries>
+                <ChartSeries DataSource="@log24" XName="X" YName="Y" Type="ChartSeriesType.Line" Name="Gold" Fill="rgba(135,206,235,1)">
+                    <ChartSeriesAnimation Enable="false"></ChartSeriesAnimation>
+                </ChartSeries>
+            </ChartSeriesCollection>
+            <ChartLegendSettings Visible="false"></ChartLegendSettings>
+        </SfChart>
+    </ComponentUnderTest>
+</SfFixture>
+
+
+@code {
+
+    SfFixture fixture24 { get; set; }
+
+    async Task LogCheckWithMultipleAxis(Fixture fixture24)
+    {
+        var cut = fixture24.GetComponentUnderTest<SfChart>();
+        await Task.Delay(200);
+        var svg = cut.Find("#container2_AxisLabel_0");
+        Assert.True(svg.TextContent == "10#\n    ");
+
+        cut.SetParametersAndRender();
+    }
+    public class ChartData24
+    {
+        public double X { get; set; }
+        public double Y { get; set; }
+    }
+
+    public List<ChartData24> log24 = new List<ChartData24>
+{
+        new ChartData24 { X = 1, Y = 18 },
+        new ChartData24 { X = 2, Y = 29 },
+        new ChartData24 { X = 3, Y = 30 },
+        new ChartData24 { X = 4, Y = 41 },
+        new ChartData24 { X = 5, Y = 52 },
+        new ChartData24 { X = 6, Y = 62 },
+        new ChartData24 { X = 7, Y = 74 },
+        new ChartData24 { X = 8, Y = 85 },
+        new ChartData24 { X = 9, Y = 96 },
+        new ChartData24 { X = 10, Y = 102}
+    };
+}
+
+
+@{
+    var InitialGroup25 = (new string[] { "CustomerID", "OrderID" });
+}
+
+<SfFixture @ref="fixture25" TestAsync="LogCheckLabelsWithEmptyData" Description="Log CheckLabelWithEmptyData">
+    <ComponentUnderTest>
+        <SfChart ID="container" Width="800" Title="Chart Ts Title" OnAxisLabelRender="@LabelRender">
+            <ChartAxes>
+                <ChartAxis RowIndex="1" Name="yAxis1" ValueType="Syncfusion.Blazor.Toolkit.ValueType.Logarithmic" LabelFormat="{value}#">
+                    <ChartAxisTitleStyle Size="14px" FontWeight="Regular" Color="#282828" FontStyle="Normal" FontFamily="Segoe UI"></ChartAxisTitleStyle>
+                    <ChartAxisLabelStyle Size="12px" FontWeight="Regular" Color="#282828" FontStyle="Normal" FontFamily="Segoe UI"></ChartAxisLabelStyle>
+                </ChartAxis>
+            </ChartAxes>
+            <ChartRows>
+                <ChartRow Height="300">
+                    <ChartBorder Width="4" Color="Red"></ChartBorder>
+                </ChartRow>
+                <ChartRow>
+                    <ChartBorder Width="4" Color="Blue"></ChartBorder>
+                </ChartRow>
+            </ChartRows>
+            <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Toolkit.ValueType.Logarithmic" LabelFormat="" EnableAutoIntervalOnZooming="true" ZoomFactor="0.7" ZoomPosition="0.2" Title="PrimaryXAxis" LogBase="10" MinorTicksPerInterval="3" Minimum="1" Maximum="20" EdgeLabelPlacement="EdgeLabelPlacement.None">
+                <ChartAxisMinorGridLines Width="0"></ChartAxisMinorGridLines>
+                <ChartAxisMinorTickLines Width="0"></ChartAxisMinorTickLines>
+            </ChartPrimaryXAxis>
+            <ChartPrimaryYAxis Title="PrimaryYaxis" MinorTicksPerInterval="3" LogBase="10" Minimum="1" Interval="2" ValueType="Syncfusion.Blazor.Toolkit.ValueType.Logarithmic" RangePadding="ChartRangePadding.None" EdgeLabelPlacement="EdgeLabelPlacement.None">
+                <ChartAxisMinorGridLines Width="0"></ChartAxisMinorGridLines>
+                <ChartAxisMinorTickLines Width="0"></ChartAxisMinorTickLines>
+            </ChartPrimaryYAxis>
+            <ChartSeriesCollection>
+                <ChartSeries DataSource="@log25" XName="X" YName="Y" YAxisName="yAxis1" Type="ChartSeriesType.Line" Name="Gold" Fill="Red">
+                    <ChartSeriesAnimation Enable="false"></ChartSeriesAnimation>
+                </ChartSeries>
+                <ChartSeries DataSource="@log25" XName="X" YName="Y" Type="ChartSeriesType.Line" Name="Gold" Fill="rgba(135,206,235,1)">
+                    <ChartSeriesAnimation Enable="false"></ChartSeriesAnimation>
+                </ChartSeries>
+            </ChartSeriesCollection>
+            <ChartLegendSettings Visible="false"></ChartLegendSettings>
+        </SfChart>
+    </ComponentUnderTest>
+</SfFixture>
+
+
+@code {
+
+    SfFixture fixture25 { get; set; }
+
+    async Task LogCheckLabelsWithEmptyData(Fixture fixture25)
+    {
+        var cut = fixture25.GetComponentUnderTest<SfChart>();
+        await Task.Delay(200);
+        var svg = cut.Find("#containerAxisLabels0");
+        Assert.True(svg.ChildNodes.Length == 1);
+        Assert.True(svg.ChildNodes[0].TextContent.IndexOf("cus") > -1);
+
+        cut.SetParametersAndRender();
+    }
+    public class ChartData25
+    {
+        public double X { get; set; }
+        public double Y { get; set; }
+    }
+
+    public List<ChartData25> log25 = new List<ChartData25>
+{
+        new ChartData25 { X = 1, Y = 18 },
+        new ChartData25 { X = 2, Y = 29 },
+        new ChartData25 { X = 3, Y = 30 },
+        new ChartData25 { X = 4, Y = 41 },
+        new ChartData25 { X = 5, Y = 52 },
+        new ChartData25 { X = 6, Y = 62 },
+        new ChartData25 { X = 7, Y = 74 },
+        new ChartData25 { X = 8, Y = 85 },
+        new ChartData25 { X = 9, Y = 96 },
+        new ChartData25 { X = 10, Y = 102}
+    };
+
+    public void LabelRender(AxisLabelRenderEventArgs args)
+    {
+        args.Text = args.Text + "cus";
+    }
+}
+
+
+@{
+    var InitialGroup26 = (new string[] { "CustomerID", "OrderID" });
+}
+
+<SfFixture @ref="fixture26" TestAsync="LogCheckLabelsXAxisInversedAxis" Description="Log CheckXAxisasInversedAxis">
+    <ComponentUnderTest>
+        <SfChart ID="container" Width="800" Title="Chart Ts Title">
+            <ChartAxes>
+                <ChartAxis RowIndex="1" Name="yAxis1" ValueType="Syncfusion.Blazor.Toolkit.ValueType.Logarithmic" LabelFormat="{value}#">
+                    <ChartAxisTitleStyle Size="14px" FontWeight="Regular" Color="#282828" FontStyle="Normal" FontFamily="Segoe UI"></ChartAxisTitleStyle>
+                    <ChartAxisLabelStyle Size="12px" FontWeight="Regular" Color="#282828" FontStyle="Normal" FontFamily="Segoe UI"></ChartAxisLabelStyle>
+                </ChartAxis>
+            </ChartAxes>
+            <ChartRows>
+                <ChartRow Height="300">
+                    <ChartBorder Width="4" Color="Red"></ChartBorder>
+                </ChartRow>
+                <ChartRow>
+                    <ChartBorder Width="4" Color="Blue"></ChartBorder>
+                </ChartRow>
+            </ChartRows>
+            <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Toolkit.ValueType.Logarithmic" LabelFormat="" EnableAutoIntervalOnZooming="true" IsInversed="true" ZoomFactor="1" ZoomPosition="0" Title="PrimaryXAxis" LogBase="10" MinorTicksPerInterval="3" Minimum="1" Maximum="20" EdgeLabelPlacement="EdgeLabelPlacement.None">
+                <ChartAxisMinorGridLines Width="0"></ChartAxisMinorGridLines>
+                <ChartAxisMinorTickLines Width="0"></ChartAxisMinorTickLines>
+            </ChartPrimaryXAxis>
+            <ChartPrimaryYAxis Title="PrimaryYaxis" MinorTicksPerInterval="3" LogBase="10" Minimum="1" Interval="2" ValueType="Syncfusion.Blazor.Toolkit.ValueType.Logarithmic" RangePadding="ChartRangePadding.None" EdgeLabelPlacement="EdgeLabelPlacement.None">
+                <ChartAxisMinorGridLines Width="0"></ChartAxisMinorGridLines>
+                <ChartAxisMinorTickLines Width="0"></ChartAxisMinorTickLines>
+            </ChartPrimaryYAxis>
+            <ChartSeriesCollection>
+                <ChartSeries DataSource="@log26" XName="X" YName="Y" YAxisName="yAxis1" Type="ChartSeriesType.Line" Name="Gold" Fill="Red">
+                    <ChartSeriesAnimation Enable="false"></ChartSeriesAnimation>
+                </ChartSeries>
+                <ChartSeries DataSource="@log26" XName="X" YName="Y" Type="ChartSeriesType.Line" Name="Gold" Fill="rgba(135,206,235,1)">
+                    <ChartSeriesAnimation Enable="false"></ChartSeriesAnimation>
+                </ChartSeries>
+            </ChartSeriesCollection>
+            <ChartLegendSettings Visible="false"></ChartLegendSettings>
+        </SfChart>
+    </ComponentUnderTest>
+</SfFixture>
+
+
+@code {
+
+    SfFixture fixture26 { get; set; }
+
+    async Task LogCheckLabelsXAxisInversedAxis(Fixture fixture26)
+    {
+        var cut = fixture26.GetComponentUnderTest<SfChart>();
+        await Task.Delay(200);
+        var firstlabel = cut.Find("#container0_AxisLabel_0");
+        Assert.True(firstlabel.TextContent == "1\n    ");
+        var lastlabel = cut.Find("#container0_AxisLabel_2");
+        Assert.True(lastlabel.TextContent == "100\n    ");
+        Assert.True(Convert.ToDouble(firstlabel.GetAttribute("x")) > (Convert.ToDouble(lastlabel.GetAttribute("x"))));
+        cut.SetParametersAndRender();
+    }
+    public class ChartData26
+    {
+        public double X { get; set; }
+        public double Y { get; set; }
+    }
+
+    public List<ChartData26> log26 = new List<ChartData26>
+{
+        new ChartData26 { X = 1, Y = 18 },
+        new ChartData26 { X = 2, Y = 29 },
+        new ChartData26 { X = 3, Y = 30 },
+        new ChartData26 { X = 4, Y = 41 },
+        new ChartData26 { X = 5, Y = 52 },
+        new ChartData26 { X = 6, Y = 62 },
+        new ChartData26 { X = 7, Y = 74 },
+        new ChartData26 { X = 8, Y = 85 },
+        new ChartData26 { X = 9, Y = 96 },
+        new ChartData26 { X = 10, Y = 102}
+    };
+
+}
+
+
+@{
+    var InitialGroup27 = (new string[] { "CustomerID", "OrderID" });
+}
+
+<SfFixture @ref="fixture27" TestAsync="LogCheckLabelsDefaultLineBreak" Description="Log CheckDefaultLineBreak">
+    <ComponentUnderTest>
+        <SfChart ID="container">
+            <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Toolkit.ValueType.Logarithmic" LabelFormat="{value}<br>text">
+            </ChartPrimaryXAxis>
+            <ChartSeriesCollection>
+                <ChartSeries DataSource="@log27" XName="X" YName="Y" Type="ChartSeriesType.Line">
+                    <ChartSeriesAnimation Enable="false"></ChartSeriesAnimation>
+                </ChartSeries>
+            </ChartSeriesCollection>
+            <ChartLegendSettings Visible="false"></ChartLegendSettings>
+        </SfChart>
+    </ComponentUnderTest>
+</SfFixture>
+
+
+@code {
+
+    SfFixture fixture27 { get; set; }
+
+    async Task LogCheckLabelsDefaultLineBreak(Fixture fixture27)
+    {
+        var cut = fixture27.GetComponentUnderTest<SfChart>();
+        await Task.Delay(200);
+        var label = cut.Find("#container0_AxisLabel_1");
+        //Assert.True(label.ChildNodes[0].TextContent == "\n    100\n    \n");
+        //Assert.True(label.ChildNodes[1].TextContent == "\n    text\n    \n");
+        cut.SetParametersAndRender();
+    }
+    public class ChartData27
+    {
+        public double X { get; set; }
+        public double Y { get; set; }
+    }
+
+    public List<ChartData27> log27 = new List<ChartData27>
+{
+        new ChartData27 { X = 10, Y = 7 },
+        new ChartData27 { X = 100, Y = 1 },
+        new ChartData27 { X = 1000, Y = 1 },
+        new ChartData27 { X = 10000, Y = 14 },
+        new ChartData27 { X = 100000, Y = 1 },
+        new ChartData27 { X = 1000000, Y = 10 }
+    };
+
+}
+
+
+@{
+    var InitialGroup28 = (new string[] { "CustomerID", "OrderID" });
+}
+
+<SfFixture @ref="fixture28" TestAsync="LogCheckLabelsDefaultLineBreakInveresed" Description="Log CheckDefaultLineBreakInversed">
+    <ComponentUnderTest>
+        <SfChart ID="container">
+            <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Toolkit.ValueType.Logarithmic" LabelFormat="{value}<br>text" IsInversed="true">
+            </ChartPrimaryXAxis>
+            <ChartSeriesCollection>
+                <ChartSeries DataSource="@log28" XName="X" YName="Y" Type="ChartSeriesType.Line">
+                    <ChartSeriesAnimation Enable="false"></ChartSeriesAnimation>
+                </ChartSeries>
+            </ChartSeriesCollection>
+            <ChartLegendSettings Visible="false"></ChartLegendSettings>
+        </SfChart>
+    </ComponentUnderTest>
+</SfFixture>
+
+
+@code {
+
+    SfFixture fixture28 { get; set; }
+
+    async Task LogCheckLabelsDefaultLineBreakInveresed(Fixture fixture28)
+    {
+        var cut = fixture28.GetComponentUnderTest<SfChart>();
+        await Task.Delay(200);
+        var label = cut.Find("#container0_AxisLabel_1");
+        Assert.True(label.ChildNodes[0].TextContent == "2\n    ");
+        cut.SetParametersAndRender();
+    }
+    public class ChartData28
+    {
+        public double X { get; set; }
+        public double Y { get; set; }
+    }
+
+    public List<ChartData28> log28 = new List<ChartData28>
+{
+        new ChartData28 { X = 10, Y = 7 },
+        new ChartData28 { X = 100, Y = 1 },
+        new ChartData28 { X = 1000, Y = 1 },
+        new ChartData28 { X = 10000, Y = 14 },
+        new ChartData28 { X = 100000, Y = 1 },
+        new ChartData28 { X = 1000000, Y = 10 }
+    };
+}
+
+
+@{
+    var InitialGroup29 = (new string[] { "CustomerID", "OrderID" });
+}
+
+<SfFixture @ref="fixture29" TestAsync="LogCheckLabelsDefaultLineBreakOpposed" Description="Log CheckDefaultLineBreakOpposed">
+    <ComponentUnderTest>
+        <SfChart ID="container">
+            <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Toolkit.ValueType.Logarithmic" LabelFormat="{value}<br>text" IsInversed="false" OpposedPosition="true">
+            </ChartPrimaryXAxis>
+            <ChartSeriesCollection>
+                <ChartSeries DataSource="@log29" XName="X" YName="Y" Type="ChartSeriesType.Line">
+                    <ChartSeriesAnimation Enable="false"></ChartSeriesAnimation>
+                </ChartSeries>
+            </ChartSeriesCollection>
+            <ChartLegendSettings Visible="false"></ChartLegendSettings>
+        </SfChart>
+    </ComponentUnderTest>
+</SfFixture>
+
+
+@code {
+
+    SfFixture fixture29 { get; set; }
+
+    async Task LogCheckLabelsDefaultLineBreakOpposed(Fixture fixture29)
+    {
+        var cut = fixture29.GetComponentUnderTest<SfChart>();
+        await Task.Delay(200);
+        var label = cut.Find("#container0_AxisLabel_1");
+        Assert.True(label.ChildNodes[0].TextContent == "2\n    ");
+        cut.SetParametersAndRender();
+    }
+    public class ChartData29
+    {
+        public double X { get; set; }
+        public double Y { get; set; }
+    }
+
+    public List<ChartData29> log29 = new List<ChartData29>
+{
+        new ChartData29 { X = 10, Y = 7 },
+        new ChartData29 { X = 100, Y = 1 },
+        new ChartData29 { X = 1000, Y = 1 },
+        new ChartData29 { X = 10000, Y = 14 },
+        new ChartData29 { X = 100000, Y = 1 },
+        new ChartData29 { X = 1000000, Y = 10 }
+    };
+}
+}
+
+<SfFixture @ref="fixture30" TestAsync="CheckingAxisWithScientificValues" Description="CheckingAxisWithScientificValues">
+    <ComponentUnderTest>
+        <SfChart ID="container" Title="Scientific Range">
+            <ChartPrimaryXAxis
+                ValueType="Syncfusion.Blazor.Toolkit.ValueType.Double"
+                Minimum="0"
+                Maximum="0.00001"
+                Interval="@SmallInterval"
+                LabelFormat="e0"
+                RangePadding="ChartRangePadding.Auto">
+            </ChartPrimaryXAxis>
+
+            <ChartPrimaryYAxis
+                ValueType="Syncfusion.Blazor.Toolkit.ValueType.Double"
+                Minimum="0"
+                Maximum="0.00001"
+                Interval="@SmallInterval"
+                LabelFormat="e0"
+                RangePadding="ChartRangePadding.Auto">
+            </ChartPrimaryYAxis>
+
+            <ChartSeriesCollection>
+                <ChartSeries DataSource="@Data1"
+                            XName="XValue"
+                            YName="YValue"
+                            Type="ChartSeriesType.Column">
+                </ChartSeries>
+            </ChartSeriesCollection>
+
+            <ChartTooltipSettings Enable="true"></ChartTooltipSettings>
+        </SfChart>
+    </ComponentUnderTest>
+</SfFixture>
+
+@code {
+    SfFixture fixture30 { get; set; }
+
+    async Task CheckingAxisWithScientificValues(Fixture fixture30)
+    {
+        var cut = fixture30.GetComponentUnderTest<SfChart>();
+        await Task.Delay(200);
+        Assert.Equal(1e-6, cut.Instance._axisContainer.Axes["PrimaryXAxis"].Interval);
+        Assert.Equal(1e-6, cut.Instance._axisContainer.Axes["PrimaryYAxis"].Interval);
+        cut.SetParametersAndRender();
+    }
+    private double SmallInterval = 1e-6;
+
+    public class Chart2DData
+    {
+        public double XValue { get; set; }
+        public double YValue { get; set; }
+    }
+
+    public List<Chart2DData> Data1 = new()
+    {
+        new() { XValue = 1e-6,  YValue = 2e-6 },
+        new() { XValue = 3e-6,  YValue = 5e-6 },
+        new() { XValue = 6e-6,  YValue = 7e-6 },
+        new() { XValue = 9e-6,  YValue = 1e-5 }
+    };
+}
+
+<SfFixture @ref="fixture31" TestAsync="CheckingLabelsWithAdaptiveRendering" Description="CheckingLabelsWithAdaptiveRendering">
+    <ComponentUnderTest>
+        <SfChart ID="container" Width="400" Title="Chart Ts Title" EnableAdaptiveRendering="true">
+            <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Toolkit.ValueType.DateTime"></ChartPrimaryXAxis>
+            <ChartPrimaryYAxis ValueType="Syncfusion.Blazor.Toolkit.ValueType.Logarithmic"></ChartPrimaryYAxis>
+            <ChartSeriesCollection>
+                <ChartSeries DataSource="@Data" XName="XValue" YName="YValue" Type="ChartSeriesType.Column" Name="Series1">
+                    <ChartSeriesAnimation Enable="false"></ChartSeriesAnimation>
+                </ChartSeries>
+            </ChartSeriesCollection>
+        </SfChart>
+    </ComponentUnderTest>
+</SfFixture>
+
+
+@code {
+    SfFixture fixture31 { get; set; }
+
+    async Task CheckingLabelsWithAdaptiveRendering(Fixture fixture)
+    {
+        var cut = fixture.GetComponentUnderTest<SfChart>();
+        await Task.Delay(200);
+        Assert.True(cut.Instance.EnableAdaptiveRendering);
+        var svg = cut.Find("#containerAxisLabels0");
+        Assert.True(svg.ChildElementCount > 0);
+        cut.SetParametersAndRender();
+    }    
+    public class ChartLogData
+    {
+        public DateTime XValue { get; set; }
+        public double YValue { get; set; }
+    }
+
+    public List<ChartLogData> Data = new List<ChartLogData> 
+	{
+		new ChartLogData { XValue = new DateTime(2005, 01, 01), YValue = 100   },
+		new ChartLogData { XValue = new DateTime(2006, 01, 01), YValue = 200   },
+		new ChartLogData { XValue = new DateTime(2007, 01, 01), YValue = 500   },
+		new ChartLogData { XValue = new DateTime(2008, 01, 01), YValue = 1000  },
+		new ChartLogData { XValue = new DateTime(2009, 01, 01), YValue = 8000  },
+		new ChartLogData { XValue = new DateTime(2010, 01, 01), YValue = 90000 },
+		new ChartLogData { XValue = new DateTime(2011, 01, 01), YValue = 99000 },
+	};
+}

@@ -1,0 +1,58 @@
+﻿@page "/chart-category-axis"
+@using Syncfusion.Blazor.Toolkit
+@using Syncfusion.Blazor.Toolkit.Charts
+@inject NavigationManager NavigationManager
+<div class="control-section" align='center'>
+    <SfChart Title="Internet Users – 2021" SubTitle="Source: ourworldindata.org" Width="@Width">
+        <ChartTitleStyle TextOverflow="TextOverflow.Wrap"></ChartTitleStyle>
+        <ChartArea>
+            <ChartAreaBorder Width="0"></ChartAreaBorder>
+        </ChartArea>
+        <ChartPrimaryXAxis EnableTrim="false" ValueType="Syncfusion.Blazor.Toolkit.ValueType.Category">
+            <ChartAxisMajorGridLines Width="0"></ChartAxisMajorGridLines>
+            <ChartAxisMajorTickLines Width="0"></ChartAxisMajorTickLines>
+        </ChartPrimaryXAxis>
+        <ChartPrimaryYAxis LabelFormat="{value}B" EdgeLabelPlacement="EdgeLabelPlacement.Shift">
+            <ChartAxisMajorGridLines Width="0"></ChartAxisMajorGridLines>
+            <ChartAxisMajorTickLines Width="0"></ChartAxisMajorTickLines>
+            <ChartAxisLineStyle Width="0"></ChartAxisLineStyle>
+            <ChartAxisLabelStyle Color="transparent"></ChartAxisLabelStyle>
+        </ChartPrimaryYAxis>
+        <ChartLegendSettings Visible="false"></ChartLegendSettings>
+        <ChartSeriesCollection>
+            <ChartSeries DataSource="@ChartPoints" TooltipMappingName="TooltipMappingName" Name="Users" XName="Country" YName="Users" Width="2" Type="ChartSeriesType.Bar">
+                <ChartCornerRadius BottomRight="4" TopRight="4"></ChartCornerRadius><ChartMarker>
+                    <ChartDataLabel Visible="true" Position="ChartLabelPosition.Top">
+                        <ChartDataLabelFont Size="@Size" FontWeight="600" Color="#ffffff"></ChartDataLabelFont>
+                    </ChartDataLabel>
+                </ChartMarker>
+            </ChartSeries>
+        </ChartSeriesCollection>
+    </SfChart>
+</div>
+<style>
+    [id*="_Text_0"] {
+        text-shadow: 1px 1px black;
+    }
+</style>
+@code{
+    public string Width { get; set; } = "90%";
+    public string Size { get; set; } = "11px";
+    public List<CategoryData> ChartPoints { get; set; } = new List<CategoryData>
+    {
+        new CategoryData { Country = "Germany", Users = 0.076, TooltipMappingName = "GER: 0.076" },
+        new CategoryData { Country = "Russia", Users = 0.128, TooltipMappingName = "RUS: 0.128" },
+        new CategoryData { Country = "Brazil", Users = 0.169, TooltipMappingName = "BRZ: 0.169" },
+        new CategoryData { Country = "India", Users = 0.654, TooltipMappingName = "IND: 0.654" },
+        new CategoryData { Country = "China", Users = 1.04, TooltipMappingName = "CHN: 1.04" },
+        new CategoryData { Country = "United States", Users = 0.312, TooltipMappingName = "USA: 0.312" },
+        new CategoryData { Country = "Europe", Users = 0.654, TooltipMappingName = "EUR: 0.654" },
+        new CategoryData { Country = "Africa", Users = 0.553, TooltipMappingName = "AFR: 0.553" }
+     };
+    public class CategoryData
+    {
+        public string? Country { get; set; }
+        public double Users { get; set; }
+        public string? TooltipMappingName { get; set; }
+    }
+}

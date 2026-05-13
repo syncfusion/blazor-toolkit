@@ -1,0 +1,91 @@
+﻿@using Syncfusion.Blazor.Toolkit.Charts
+@using Syncfusion.Blazor.Toolkit.Charts.Internal
+@using Syncfusion.Blazor.Toolkit.Charts
+@using Syncfusion.Blazor.Toolkit.Tests
+@using Bunit
+@using Xunit
+
+@inherits TestComponentBase
+
+<SfFixture @ref="sfFixture" TestAsync="Blaz991180DataLabelTemplateIssue" Description="Blaz991180DataLabelTemplateIssue">
+    <ComponentUnderTest>
+        <SfChart ID="container" Width="100%" Height="60%">
+            <ChartArea Background="#FFFFFF">
+                <ChildContent>
+                    <ChartAreaBorder Width="1" />
+                </ChildContent>
+            </ChartArea>
+            <ChartPrimaryYAxis Minimum="0" Interval="10" Coefficient="10" LabelPosition="AxisPosition.Outside" EdgeLabelPlacement="EdgeLabelPlacement.None" LabelPlacement="LabelPlacement.OnTicks">
+                <ChildContent>
+                    <ChartAxisLineStyle Width="0" />
+                    <ChartAxisLabelStyle Color="#000000" FontFamily="Comfortaa" />
+                    <ChartAxisLabelBorder Width="0" />
+                    <ChartAxisMajorGridLines DashArray="5,5" />
+                    <ChartAxisMinorGridLines DashArray="5,5" />
+                </ChildContent>
+            </ChartPrimaryYAxis>
+            <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Toolkit.ValueType.Category" LabelPosition="AxisPosition.Outside" EdgeLabelPlacement="EdgeLabelPlacement.None" LabelRotation="0" LabelIntersectAction="LabelIntersectAction.Wrap">
+                <ChildContent>
+                    <ChartAxisLineStyle Width="0" />
+                    <ChartAxisLabelStyle Color="#000000" FontFamily="Comfortaa" />
+                    <ChartAxisLabelBorder Width="0" />
+                    <ChartAxisMajorGridLines DashArray="5,5" />
+                    <ChartAxisMinorGridLines DashArray="5,5" />
+                </ChildContent>
+            </ChartPrimaryXAxis>
+            <ChartSeriesCollection>
+                <ChartSeries Opacity=0.5 EnableTooltip="true" Fill="#0000FF" DataSource=@Data XName="Label" YName="Actual" Type="ChartSeriesType.Column">
+                    <ChartSeriesAnimation Enable=true />
+                    <ChartMarker Visible=false Fill="#0000FF" Opacity="1" Height="5" Width="5" AllowHighlight="true" IsFilled="false">
+                        <ChartMarkerBorder Width="1" Color="#0000FF" />
+                        <ChartDataLabel Position="ChartLabelPosition.Top" Visible=true Name="Text" Alignment="Alignment.Center">
+                            <ChildContent>
+                                <ChartDataLabelFont FontFamily="Comfortaa" />
+                            </ChildContent>
+                            <Template>
+                                @{
+                                    var row = (context as ChartDataPointInfo);
+                                    @row.Text
+                                }
+                            </Template>
+                        </ChartDataLabel>
+                    </ChartMarker>
+                </ChartSeries>
+            </ChartSeriesCollection>
+        </SfChart>
+    </ComponentUnderTest>
+</SfFixture>
+@code {
+
+    SfFixture sfFixture { get; set; }
+
+    async Task Blaz991180DataLabelTemplateIssue(Fixture sfFixture)
+    {
+        var cut = sfFixture.GetComponentUnderTest<SfChart>();
+        await Task.Delay(200);
+        var elements = cut.Find("#container_Series_0_DataLabelCollections");
+        Assert.True(elements.ChildElementCount == 8);
+        var lastLabel = cut.Find("#container_Series_0_DataLabelPoint_7_Label_0");
+        Assert.True(lastLabel.TextContent.Contains("N/S", StringComparison.OrdinalIgnoreCase));
+        cut.SetParametersAndRender();
+    }
+
+    public class StPrVision_Dashboard_BarChartData
+    {
+        public double Actual { get; set; }
+        public string Label { get; set; }
+        public string Text { get; set; }
+    }
+    
+    private List<StPrVision_Dashboard_BarChartData> Data = new()
+    {
+        new StPrVision_Dashboard_BarChartData { Actual = 91.4, Text = "91.4", Label = "Value0" },
+        new StPrVision_Dashboard_BarChartData { Actual = 88.2, Text = "88.2", Label = "Value1" },
+        new StPrVision_Dashboard_BarChartData { Actual = 88.8, Text = "88.8", Label = "Value2" },
+        new StPrVision_Dashboard_BarChartData { Actual = 100, Text = "100", Label = "Value3" },
+        new StPrVision_Dashboard_BarChartData { Actual = 95, Text = "95", Label = "Value4" },
+        new StPrVision_Dashboard_BarChartData { Actual = 90, Text = "90", Label = "Value5" },
+        new StPrVision_Dashboard_BarChartData { Actual = 80, Text = "80", Label = "Value6" },
+        new StPrVision_Dashboard_BarChartData { Actual = 0, Text = "N/S", Label = "Value7" }
+    };
+}

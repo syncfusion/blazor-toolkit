@@ -1,0 +1,145 @@
+@page "/common/globalization"
+
+<PageTitle>Globalization | ASP.NET Core Blazor OSS Components</PageTitle>
+
+<Description>
+    <Header>
+        <h4>Globalization</h4>
+    </Header>
+    <Content>
+        <p>
+            Globalization combines internationalization (i18n)—parsing and formatting dates, times, numbers, and currencies—and localization (l10n)—adding culture-specific customizations and translating UI text.
+        </p>
+        <p>
+            The Blazor UI components in this toolkit use American English (<code>en-US</code>) by default. Blazor relies on .NET globalization to parse and format numbers and dates based on the active culture. In Blazor WebAssembly, ensure globalization data is available when using non-en cultures.
+        </p>
+        <p>
+            Blazor uses built-in .NET types from the <code>System.Globalization</code> namespace, such as the <code>CultureInfo</code> class and its culture properties:
+        </p>
+        <ul>
+            <li>
+                <strong>Culture (<a href="https://learn.microsoft.com/en-us/dotnet/api/system.globalization.cultureinfo.currentculture?view=net-8.0#system-globalization-cultureinfo-currentculture" target="_blank" rel="noreferrer noopener">CultureInfo.CurrentCulture</a>)</strong>: Determines the formatting of numbers, dates, and times.
+            </li>
+            <li>
+                <strong>UI culture (<a href="https://learn.microsoft.com/en-us/dotnet/api/system.globalization.cultureinfo.currentuiculture?view=net-8.0#system-globalization-cultureinfo-currentuiculture" target="_blank" rel="noreferrer noopener">CultureInfo.CurrentUICulture</a>)</strong>: Determines the language of the user interface and which <code>.resx</code> resources are used.
+            </li>
+        </ul>
+    </Content>
+</Description>
+
+<Description>
+    <Header>
+        <h5>Browser-Native Input Types</h5>
+    </Header>
+    <Content>
+        <p>When working with HTML form fields, browser-native input types affect culture behavior. The following input types are well-supported and reliable:</p>
+        <ul>
+            <li><code>date</code></li>
+            <li><code>number</code></li>
+        </ul>
+        <p>Blazor relies on the browser's handling of these input types, which ensures that user input is parsed and rendered according to their specific culture settings.</p>
+        <p>The following input types are inconsistently supported across browsers and may be less reliable:</p>
+        <ul>
+            <li><code>datetime-local</code></li>
+            <li><code>month</code></li>
+            <li><code>week</code></li>
+        </ul>
+    </Content>
+</Description>
+
+<Description>
+    <Header>
+        <h5>Example</h5>
+    </Header>
+    <Content>
+        <p>The following example shows how globalization affects rendered values by formatting dates and numbers according to the current culture.</p>
+        <CodePreview FileName="Example.razor" IsCodeAlone="true" CodeSection="@globalizationExample"></CodePreview>
+    </Content>
+</Description>
+
+<Description>
+    <Header>
+        <h5>Localization</h5>
+    </Header>
+    <Content>
+        <p>
+            To change to a specific culture, add the corresponding <code>.resx</code> resource files and configure localization in your application.
+        </p>
+    </Content>
+</Description>
+
+<Description>
+    <Header>
+        <h5>Setting The Culture In Code</h5>
+    </Header>
+    <Content>
+        <p>
+            To set the active culture for a Blazor app, configure <code>CultureInfo</code> early in the application program file.
+            The following examples show how to do this for Blazor Server and Blazor WebAssembly.
+        </p>
+        <CodePreview FileName="Program.cs" IsCodeAlone="true" CodeSection="@cultureExample"></CodePreview>
+        <p class="mt-3">
+            <strong>Blazor WebAssembly — additional requirement:</strong> By default, the WebAssembly host does not include
+            globalization ICU (International Components for Unicode) data to keep the application payload size small. To use non-en-US cultures, you must include the ICU data file.
+        </p>
+        <p>
+            Add the following to your Blazor WebAssembly project file (.csproj):
+        </p>
+        <CodePreview FileName=".csproj" IsCodeAlone="true" CodeSection="@icuDataExample"></CodePreview>
+        <p class="mt-3">
+            Without ICU data, <code>CultureInfo</code> defaults to <code>en-US</code> regardless of the configured culture.
+        </p>
+    </Content>
+</Description>
+
+<Description>
+    <Header>
+        <h5>See Also</h5>
+    </Header>
+    <Content>
+        <ul>
+            <li><a href="https://learn.microsoft.com/en-us/aspnet/core/blazor/globalization-localization?view=aspnetcore-8.0" target="_blank" rel="noreferrer noopener">ASP.NET Core Blazor globalization and localization</a></li>
+            <li><a href="https://learn.microsoft.com/en-us/dotnet/core/extensions/globalization" target="_blank" rel="noreferrer noopener">.NET fundamentals: Globalization</a></li>
+            <li><a href="https://learn.microsoft.com/en-us/dotnet/core/extensions/localization" target="_blank" rel="noreferrer noopener">.NET fundamentals: Localization</a></li>
+        </ul>
+    </Content>
+</Description>
+
+@code {
+    private const string globalizationExample = @"@page ""/""
+@using System.Globalization
+
+<ul>
+    <li><b>CurrentCulture</b>: @CultureInfo.CurrentCulture</li>
+    <li><b>CurrentUICulture</b>: @CultureInfo.CurrentUICulture</li>
+</ul>
+
+<h2>Rendered values</h2>
+<ul>
+    <li><b>Date</b>: @dt.ToLongDateString()</li>
+    <li><b>Number</b>: @number.ToString(""N2"")</li>
+</ul>
+
+@code {
+    private DateTime dt = DateTime.Now;
+    private double number = 1999.69;
+}";
+
+    private const string cultureExample = @"// Blazor Server — Program.cs (top of file)
+using System.Globalization;
+// Recommended: set defaults for the whole application thread
+CultureInfo.DefaultThreadCurrentCulture   = CultureInfo.GetCultureInfo(""en-GB"");
+CultureInfo.DefaultThreadCurrentUICulture = CultureInfo.GetCultureInfo(""en-GB"");
+
+// Blazor WebAssembly — Program.cs
+using System.Globalization;
+var builder = WebAssemblyHostBuilder.CreateDefault(args);
+builder.Services.AddCultureLocalization(
+    options => options.ResourcesPath = ""Resources"");
+await builder.Build().RunAsync();";
+
+    private const string icuDataExample = @"<!-- In your .csproj file -->
+<PropertyGroup>
+    <BlazorWebAssemblyLoadAllGlobalizationData>true</BlazorWebAssemblyLoadAllGlobalizationData>
+</PropertyGroup>";
+}

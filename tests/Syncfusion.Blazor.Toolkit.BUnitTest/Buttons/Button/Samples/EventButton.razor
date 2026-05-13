@@ -1,0 +1,43 @@
+﻿@using Microsoft.AspNetCore.Components.Web
+@using Syncfusion.Blazor.Toolkit.Buttons
+
+@namespace Syncfusion.Blazor.Toolkit.Tests.Buttons
+
+<div class="sample">
+    <SfButton Content="@CreateBtnContent" Created="OnCreatedHandler"></SfButton>
+    @CreateBtnContent
+    <SfButton Content="@ClickBtnContent" @onclick="OnClickHandler"></SfButton>
+    @cnt
+    <SfButton Content="@KeyDownBtnContent" @onkeydown="OnKeyDownHandler"></SfButton>
+</div>
+ 
+@code {
+    private int cnt;
+    private string CreateBtnContent = "Create";
+    private string ClickBtnContent = "Click";
+    private string KeyDownBtnContent = "KeyDown";
+    private int displayCnt;
+    private string displayText;
+
+SfButton buttonObj;
+
+    private void OnCreatedHandler ()
+    {
+        CreateBtnContent = "Created";
+    }
+
+    private void OnClickHandler(MouseEventArgs args)
+    {
+        ClickBtnContent = "Clicked " + ++cnt;
+    }
+
+    private void OnClickHandler(MouseEventArgs args, string text)
+    {
+        displayText = text + displayCnt++;
+    }
+
+    private void OnKeyDownHandler(KeyboardEventArgs args)
+    {
+        KeyDownBtnContent = "KeyDown: " + args.Key;
+    }
+}

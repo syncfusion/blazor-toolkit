@@ -1,0 +1,93 @@
+@page "/radio-button/edge-cases"
+@using Syncfusion.Blazor.Toolkit.Inputs
+@layout MainLayout
+
+<h1>Radio Button - Edge Cases</h1>
+
+<div class="test-container">
+    <h2>Empty and Null Values</h2>
+    <div class="e-radio-group">
+        <SfRadioButton TChecked="string" Name="edge-group" Label="Option A" @bind-Value="edgeValue1"></SfRadioButton>
+        <SfRadioButton TChecked="string" Name="edge-group" Label="Option B (Empty)" @bind-Value="edgeValue1"></SfRadioButton>
+        <SfRadioButton TChecked="string" Name="edge-group" Label="Option C" @bind-Value="edgeValue1"></SfRadioButton>
+    </div>
+    <p>Selected Value: '@edgeValue1' (Length: @edgeValue1.Length)</p>
+</div>
+
+<div class="test-container">
+    <h2>Multiple Radio Groups</h2>
+    <div style="display: flex; gap: 20px;">
+        <div>
+            <h3>Group 1</h3>
+            <div class="e-radio-group">
+                <SfRadioButton TChecked="string" Name="group1" Label="G1 Option 1" @bind-Value="group1Value"></SfRadioButton>
+                <SfRadioButton TChecked="string" Name="group1" Label="G1 Option 2" @bind-Value="group1Value"></SfRadioButton>
+            </div>
+            <p>G1 Selected: @group1Value</p>
+        </div>
+        <div>
+            <h3>Group 2</h3>
+            <div class="e-radio-group">
+                <SfRadioButton TChecked="string" Name="group2" Label="G2 Option A" @bind-Value="group2Value"></SfRadioButton>
+                <SfRadioButton TChecked="string" Name="group2" Label="G2 Option B" @bind-Value="group2Value"></SfRadioButton>
+            </div>
+            <p>G2 Selected: @group2Value</p>
+        </div>
+    </div>
+</div>
+
+<div class="test-container">
+    <h2>Focus Management</h2>
+    <div class="e-radio-group">
+        <SfRadioButton TChecked="string" Name="focus-group" Label="Focusable Option 1" @bind-Checked="focusValue"></SfRadioButton>
+        <SfRadioButton TChecked="string" Name="focus-group" Label="Focusable Option 2" @bind-Checked="focusValue"></SfRadioButton>
+        <SfRadioButton TChecked="string" Name="focus-group" Label="Focusable Option 3" @bind-Checked="focusValue"></SfRadioButton>
+    </div>
+    <p>Selected: @focusValue</p>
+    <button @onclick="FocusFirstButton">Focus First Button</button>
+</div>
+
+<style>
+    .test-container {
+        padding: 20px;
+        border: 1px solid #ddd;
+        margin: 10px 0;
+    }
+    
+    .e-radio-group {
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+        margin-bottom: 15px;
+    }
+    
+    h3 {
+        margin-top: 0;
+        font-size: 16px;
+    }
+    
+    button {
+        padding: 8px 16px;
+        margin-top: 10px;
+        cursor: pointer;
+    }
+    
+    h2 {
+        margin-top: 20px;
+        font-size: 18px;
+    }
+</style>
+
+@code {
+    private string edgeValue1 = "a";
+    private string group1Value = "g1opt1";
+    private string group2Value = "g2opt1";
+    private string focusValue = "f1";
+    
+    private void FocusFirstButton()
+    {
+        // Playwright can focus on elements via locators
+    }
+}
+
+

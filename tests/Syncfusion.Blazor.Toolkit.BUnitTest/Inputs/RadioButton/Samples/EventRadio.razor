@@ -1,0 +1,55 @@
+﻿@using Syncfusion.Blazor.Toolkit
+@using Syncfusion.Blazor.Toolkit.Buttons
+@using Syncfusion.Blazor.Toolkit.Inputs
+@using Microsoft.AspNetCore.Components.Web
+
+@namespace Syncfusion.Blazor.Toolkit.Tests.Inputs
+
+<div class="sample">
+    <SfRadioButton Created="CreatedHandler" TChecked="bool"></SfRadioButton>
+    <label>@created</label>          
+    <SfRadioButton @bind-Checked="value" Name="count" Value="0" TChecked="int" ValueChange="OnChangeHandler"></SfRadioButton>
+    <SfRadioButton @bind-Checked="value" Name="count" Value="2" TChecked="int" ValueChange="OnChangeHandler"></SfRadioButton>
+    <SfRadioButton @bind-Checked="value" Name="count" Value="3" TChecked="int" ValueChange="OnChangeHandler"></SfRadioButton>
+    <div class="e-r-value">@label</div>
+    <div>
+        <SfRadioButton Label="Credit/Debit Card" Name="payment" Value="credit/debit" @onclick="onClick" @bind-Checked="stringChecked"></SfRadioButton><br />
+        <SfRadioButton Label="Net Banking" Name="payment" Value="netbanking" @onclick="onClick" @bind-Checked="stringChecked"></SfRadioButton>
+        <div class="e-r-value">@nativelabel</div>
+    </div>
+    <div>
+        <SfRadioButton Label="Credit/Debit Card" Name="payment" Value="credit/debit" @onchange="@((e) => OnChangeHandler(e, "Value is: "))" @bind-Checked="lambdaChecked"></SfRadioButton><br />
+        <SfRadioButton Label="Net Banking" Name="payment" Value="netbanking" @onchange="@((e) => OnChangeHandler(e, "Value is: "))" @bind-Checked="lambdaChecked"></SfRadioButton>
+        <div class="e-r-value">@labelText</div>
+    </div>
+</div>
+
+@code {
+    private string created;
+    private int value = 1;
+    private string label = "Selected state is:";
+    private string nativelabel = "Cliked: 0";
+    private string stringChecked = "netbanking";
+    private string lambdaChecked = "netbanking";
+    private int i = 0;
+    private string labelText;
+    private void onClick(Microsoft.AspNetCore.Components.Web.MouseEventArgs args)
+    {
+        i++;
+        nativelabel = "Clicked " + i;
+    }
+    private void CreatedHandler()
+    {
+        created = "Created";
+    }
+
+    private void OnChangeHandler(ChangeArgs<int> args)
+    {
+        label = "Selected state is: " + args.Value;
+    }
+
+    private void OnChangeHandler(Microsoft.AspNetCore.Components.ChangeEventArgs args, string text)
+    {
+        labelText = text + args.Value;
+    }
+}

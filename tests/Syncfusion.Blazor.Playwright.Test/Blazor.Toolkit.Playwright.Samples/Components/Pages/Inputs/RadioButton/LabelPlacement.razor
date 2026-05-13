@@ -1,0 +1,52 @@
+@page "/radio-button/label-placement"
+@using Syncfusion.Blazor.Toolkit.Inputs
+@layout MainLayout
+
+<h1>Radio Button - Label Placement</h1>
+
+<div class="test-container">
+    <h2>Label Positioning</h2>
+    <div class="e-radio-group">
+        <SfRadioButton TChecked="string" Name="label-pos-group" Label="Label After (Default)" LabelPosition="LabelPosition.After" @bind-Value="labelPosValue"></SfRadioButton>
+        <SfRadioButton TChecked="string" Name="label-pos-group" Label="Label Before" LabelPosition="LabelPosition.Before" @bind-Value="labelPosValue"></SfRadioButton>
+    </div>
+    <p>Selected Position: @labelPosValue</p>
+</div>
+
+<div class="test-container">
+    <h2>Label Customization</h2>
+    <div class="e-radio-group">
+        <SfRadioButton TChecked="string" Name="custom-label" Label="Short" @bind-Value="customLabelValue"></SfRadioButton>
+        <SfRadioButton TChecked="string" Name="custom-label" Label="This is a much longer label text to test label wrapping" @bind-Value="customLabelValue"></SfRadioButton>
+        <SfRadioButton TChecked="string" Name="custom-label" Label="@specialLabel" @bind-Value="customLabelValue"></SfRadioButton>
+    </div>
+    <p>Selected: @customLabelValue</p>
+</div>
+
+<style>
+    .test-container {
+        padding: 20px;
+        border: 1px solid #ddd;
+        margin: 10px 0;
+    }
+    
+    .e-radio-group {
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+        margin-bottom: 15px;
+    }
+    
+    h2 {
+        margin-top: 20px;
+        font-size: 18px;
+    }
+</style>
+
+@code {
+    private string labelPosValue = "after";
+    private string customLabelValue = "short";
+    private string specialLabel = "Multi-line label with special characters: @#$%";
+}
+
+

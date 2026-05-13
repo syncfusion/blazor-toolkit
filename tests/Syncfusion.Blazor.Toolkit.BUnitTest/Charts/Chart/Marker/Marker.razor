@@ -1,0 +1,126 @@
+﻿@using Syncfusion.Blazor.Toolkit.Charts
+@using Syncfusion.Blazor.Toolkit.Tests
+@using Syncfusion.Blazor.Toolkit.Charts
+@using Syncfusion.Blazor.Toolkit.Charts.Internal
+@using Bunit
+@using Xunit
+
+@inherits TestComponentBase
+
+<SfFixture @ref="fixture" TestAsync="CheckingMarkerApi" Description="CheckingMarkerApi">
+    <ComponentUnderTest>
+        <SfChart ID="conatiner" @ref="chartObj">
+            <ChartSeriesCollection>
+                <ChartSeries DataSource="@ConsumerReports" XName="X" YName="Y" Type="ChartSeriesType.Line">
+                    <ChartMarker Visible="true" Height="10" Width="10" Fill="red">
+                        <ChartDataLabel Visible="true"></ChartDataLabel>
+                        <ChartMarkerBorder Width="2" Color="blue"></ChartMarkerBorder>
+                    </ChartMarker>
+                </ChartSeries>
+            </ChartSeriesCollection>
+        </SfChart>
+    </ComponentUnderTest>
+</SfFixture>
+
+@code {
+    SfFixture fixture { get; set; }
+    SfChart chartObj;
+    async Task CheckingMarkerApi(Fixture fixture)
+    {
+        var cut = fixture.GetComponentUnderTest<SfChart>();
+        await Task.Delay(200);
+        var marker = cut.Find("#conatiner_Series_0_Point_1_Symbol");
+        Assert.True(marker.GetAttribute("stroke") == "blue");
+        Assert.True(marker.GetAttribute("stroke-width") == "2");
+        var markerModel = chartObj._visibleSeriesRenderers[0].Points[0].Marker;
+        Assert.True(markerModel.Visible == true);
+        var shape = markerModel.Shape;
+        Assert.True(markerModel.Shape == ChartShape.Circle);
+        Assert.True(markerModel.Height == 10);
+        Assert.True(markerModel.Width == 10);
+        Assert.True(markerModel.Fill == "red");
+        var markerBorder = cut.FindComponent<ChartMarkerBorder>();
+        Assert.True(markerBorder.Instance.Width == 2);
+        Assert.True(markerBorder.Instance.Color == "blue");
+        cut.SetParametersAndRender();
+        await (markerBorder.Instance).DisposeAsync();
+    }
+
+    public class ChartData
+    {
+        public double X { get; set; }
+        public double Y { get; set; }
+    }
+
+    public List<ChartData> ConsumerReports = new List<ChartData>
+    {
+        new ChartData{ X= 2005, Y= 28 },
+        new ChartData{ X= 2006, Y= 25 },
+        new ChartData{ X= 2007, Y= 26 },
+        new ChartData{ X= 2008, Y= 27 },
+        new ChartData{ X= 2009, Y= 32 },
+        new ChartData{ X= 2010, Y= 35 },
+        new ChartData{ X= 2011, Y= 30 }
+    };
+}
+
+<SfFixture @ref="fixture1" TestAsync="CheckingMarkerApiDynamicUpdate" Description="CheckingMarkerApiDynamicUpdate">
+    <ComponentUnderTest>
+        <SfChart ID="conatiner">
+            <ChartSeriesCollection>
+                <ChartSeries DataSource="@ConsumerReports" XName="X" YName="Y" Type="ChartSeriesType.Line">
+                    <ChartMarker Visible="true" Height="@MarkerHeight" Width="@MarkerWidth" Fill="@MarkerFill" Opacity="@MarkerOpacity">
+                        <ChartDataLabel Visible="true"></ChartDataLabel>
+                        <ChartMarkerBorder Width="@MarkerBorderWidth" Color="@MarkerBorderColor"></ChartMarkerBorder>
+                    </ChartMarker>
+                </ChartSeries>
+            </ChartSeriesCollection>
+        </SfChart>
+    </ComponentUnderTest>
+</SfFixture>
+
+@code {
+    SfFixture fixture1;
+    public double MarkerHeight = 5;
+    public double MarkerWidth = 5;
+    public string MarkerFill = "blue";
+    public double MarkerOpacity = 0.5;
+    public double MarkerBorderWidth = 3;
+    public string MarkerBorderColor = "red";
+    async Task CheckingMarkerApiDynamicUpdate(Fixture fixture1)
+    {
+        var cut = fixture1.GetComponentUnderTest<SfChart>();
+        await Task.Delay(200);
+        var markerElement = cut.Find("#conatiner_Series_0_Point_1_Symbol");
+        Assert.Equal("blue", cut.Instance._visibleSeriesRenderers[0].Series.Marker.Fill);
+        Assert.Equal(5, cut.Instance._visibleSeriesRenderers[0].Series.Marker.Width);
+        Assert.Equal(5, cut.Instance._visibleSeriesRenderers[0].Series.Marker.Height);
+        Assert.Equal(0.5, cut.Instance._visibleSeriesRenderers[0].Series.Marker.Opacity);
+        Assert.Equal(3, cut.Instance._visibleSeriesRenderers[0].Series.Marker.Border.Width);
+        Assert.Equal("red", cut.Instance._visibleSeriesRenderers[0].Series.Marker.Border.Color);
+
+        Assert.Equal("blue", markerElement.GetAttribute("fill"));
+        Assert.Equal("red", markerElement.GetAttribute("stroke"));
+        Assert.Equal("0.5", markerElement.GetAttribute("opacity"));
+
+        MarkerHeight = 3;
+        MarkerWidth = 3;
+        MarkerFill = "purple";
+        MarkerOpacity = 0.8;
+        MarkerBorderColor = "yellow";
+        MarkerBorderWidth = 2;
+
+        cut.SetParametersAndRender();
+        await Task.Delay(200);
+        Assert.Equal("purple", cut.Instance._visibleSeriesRenderers[0].Series.Marker.Fill);
+        Assert.Equal(3, cut.Instance._visibleSeriesRenderers[0].Series.Marker.Width);
+        Assert.Equal(3, cut.Instance._visibleSeriesRenderers[0].Series.Marker.Height);
+        Assert.Equal(0.8, cut.Instance._visibleSeriesRenderers[0].Series.Marker.Opacity);
+        Assert.Equal(2, cut.Instance._visibleSeriesRenderers[0].Series.Marker.Border.Width);
+        Assert.Equal("yellow", cut.Instance._visibleSeriesRenderers[0].Series.Marker.Border.Color);
+
+        Assert.Equal("purple", markerElement.GetAttribute("fill"));
+        Assert.Equal("yellow", markerElement.GetAttribute("stroke"));
+        Assert.Equal("0.8", markerElement.GetAttribute("opacity"));
+    }
+}

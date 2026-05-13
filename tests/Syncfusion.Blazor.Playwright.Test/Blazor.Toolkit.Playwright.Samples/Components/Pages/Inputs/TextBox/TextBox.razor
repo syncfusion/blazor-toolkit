@@ -1,0 +1,713 @@
+@page "/inputs/textbox"
+
+@using Syncfusion.Blazor.Toolkit.Inputs
+@using System.ComponentModel.DataAnnotations
+@using Microsoft.AspNetCore.Components.Forms
+
+<PageTitle>Syncfusion Blazor TextBox Playwright Tests</PageTitle>
+
+<h2>TextBox Component Test Examples</h2>
+
+<!-- ================ INPUT TYPES ================ -->
+<h3>Input Types</h3>
+<div class="input-types-section">
+    <div>
+        <label>Text Type (Default)</label>
+        <SfTextBox id="textTypeInput" Type="InputType.Text" Placeholder="Enter text" @bind-Value="TextTypeValue" />
+        <div class="mt-2"><b>Value:</b> @TextTypeValue</div>
+    </div>
+
+    <div>
+        <label>Email Type</label>
+        <SfTextBox id="emailTypeInput" Type="InputType.Email" Placeholder="Enter email" @bind-Value="EmailTypeValue" />
+        <div class="mt-2"><b>Value:</b> @EmailTypeValue</div>
+    </div>
+
+    <div>
+        <label>Password Type</label>
+        <SfTextBox id="passwordTypeInput" Type="InputType.Password" Placeholder="Enter password" @bind-Value="PasswordTypeValue" />
+        <div class="mt-2"><b>Value:</b> @PasswordTypeValue</div>
+    </div>
+
+    <div>
+        <label>Tel Type</label>
+        <SfTextBox id="telTypeInput" Type="InputType.Tel" Placeholder="+1 234 567 8900" @bind-Value="TelTypeValue" />
+        <div class="mt-2"><b>Value:</b> @TelTypeValue</div>
+    </div>
+
+    <div>
+        <label>URL Type</label>
+        <SfTextBox id="urlTypeInput" Type="InputType.URL" Placeholder="https://example.com" @bind-Value="UrlTypeValue" />
+        <div class="mt-2"><b>Value:</b> @UrlTypeValue</div>
+    </div>
+
+    <div>
+        <label>Search Type</label>
+        <SfTextBox id="searchTypeInput" Type="InputType.Search" Placeholder="Search..." @bind-Value="SearchTypeValue" />
+        <div class="mt-2"><b>Value:</b> @SearchTypeValue</div>
+    </div>
+</div>
+
+<!-- ================ FLOAT LABEL TYPES ================ -->
+<h3>Float Label Types</h3>
+<div class="float-label-section">
+    <div>
+        <label>FloatLabelType.Never</label>
+        <SfTextBox id="floatLabelNever" FloatLabelType="FloatLabelType.Never" Placeholder="Never floats" @bind-Value="FloatLabelNeverValue" />
+        <div class="mt-2"><b>Value:</b> @FloatLabelNeverValue</div>
+    </div>
+
+    <div>
+        <label>FloatLabelType.Auto</label>
+        <SfTextBox id="floatLabelAuto" FloatLabelType="FloatLabelType.Auto" Placeholder="Floats on focus/value" @bind-Value="FloatLabelAutoValue" />
+        <div class="mt-2"><b>Value:</b> @FloatLabelAutoValue</div>
+    </div>
+
+    <div>
+        <label>FloatLabelType.Always</label>
+        <SfTextBox id="floatLabelAlways" FloatLabelType="FloatLabelType.Always" Placeholder="Always floats" @bind-Value="FloatLabelAlwaysValue" />
+        <div class="mt-2"><b>Value:</b> @FloatLabelAlwaysValue</div>
+    </div>
+</div>
+
+<!-- ================ CLEAR BUTTON ================ -->
+<h3>Clear Button Feature</h3>
+<div class="clear-button-section">
+    <div>
+        <label>With Clear Button</label>
+        <SfTextBox id="clearButtonInput" ShowClearButton="true" FloatLabelType="FloatLabelType.Auto" Placeholder="Type to see clear button" @bind-Value="ClearButtonValue" />
+        <div class="mt-2"><b>Value:</b> @ClearButtonValue</div>
+    </div>
+
+    <div>
+        <label>Without Clear Button</label>
+        <SfTextBox id="noClearButtonInput" ShowClearButton="false" FloatLabelType="FloatLabelType.Auto" Placeholder="No clear button" @bind-Value="NoClearButtonValue" />
+        <div class="mt-2"><b>Value:</b> @NoClearButtonValue</div>
+    </div>
+</div>
+
+<!-- ================ DISABLED & READONLY ================ -->
+<h3>Disabled and ReadOnly States</h3>
+<div class="states-section">
+    <div>
+        <label>Disabled TextBox</label>
+        <SfTextBox id="disabledInput" Disabled="true" FloatLabelType="FloatLabelType.Auto" Placeholder="Disabled" Value="Cannot edit" />
+    </div>
+
+    <div>
+        <label>ReadOnly TextBox</label>
+        <SfTextBox id="readonlyInput" ReadOnly="true" FloatLabelType="FloatLabelType.Auto" Placeholder="ReadOnly" Value="Can view but not edit" />
+    </div>
+
+    <div>
+        <label>Enabled TextBox</label>
+        <SfTextBox id="enabledInput" Disabled="false" FloatLabelType="FloatLabelType.Auto" Placeholder="Enabled and editable" @bind-Value="EnabledValue" />
+        <div class="mt-2"><b>Value:</b> @EnabledValue</div>
+    </div>
+</div>
+
+<!-- ================ STYLING VARIANTS ================ -->
+<h3>Styling Variants</h3>
+<div class="variants-section">
+    <div>
+        <label>Default Variant</label>
+        <SfTextBox id="defaultVariant" FloatLabelType="FloatLabelType.Auto" Placeholder="Default style" @bind-Value="DefaultVariantValue" />
+        <div class="mt-2"><b>Value:</b> @DefaultVariantValue</div>
+    </div>
+
+    <div>
+        <label>Filled Variant</label>
+        <SfTextBox id="filledVariant" CssClass="e-filled" FloatLabelType="FloatLabelType.Auto" Placeholder="Filled style" @bind-Value="FilledVariantValue" />
+        <div class="mt-2"><b>Value:</b> @FilledVariantValue</div>
+    </div>
+
+    <div>
+        <label>Outlined Variant</label>
+        <SfTextBox id="outlinedVariant" CssClass="e-outlined" FloatLabelType="FloatLabelType.Auto" Placeholder="Outlined style" @bind-Value="OutlinedVariantValue" />
+        <div class="mt-2"><b>Value:</b> @OutlinedVariantValue</div>
+    </div>
+
+    <div>
+        <label>Small Size</label>
+        <SfTextBox id="smallVariant" CssClass="e-small" FloatLabelType="FloatLabelType.Auto" Placeholder="Small size" @bind-Value="SmallVariantValue" />
+        <div class="mt-2"><b>Value:</b> @SmallVariantValue</div>
+    </div>
+</div>
+
+<!-- ================ COLOR VARIANTS ================ -->
+<h3>Color and Validation States</h3>
+<div class="color-section">
+    <div>
+        <label>Success State</label>
+        <SfTextBox id="successColorInput" CssClass="e-success" FloatLabelType="FloatLabelType.Auto" Placeholder="Success" @bind-Value="SuccessColorValue" />
+        <div class="mt-2"><b>Value:</b> @SuccessColorValue</div>
+    </div>
+
+    <div>
+        <label>Error State</label>
+        <SfTextBox id="errorColorInput" CssClass="e-error" FloatLabelType="FloatLabelType.Auto" Placeholder="Error" @bind-Value="ErrorColorValue" />
+        <div class="mt-2"><b>Value:</b> @ErrorColorValue</div>
+    </div>
+
+    <div>
+        <label>Warning State</label>
+        <SfTextBox id="warningColorInput" CssClass="e-warning" FloatLabelType="FloatLabelType.Auto" Placeholder="Warning" @bind-Value="WarningColorValue" />
+        <div class="mt-2"><b>Value:</b> @WarningColorValue</div>
+    </div>
+</div>
+
+<!-- ================ MULTILINE ================ -->
+<h3>Multiline TextArea</h3>
+<div class="multiline-section">
+    <div>
+        <label>Multiline TextBox</label>
+        <SfTextBox id="multilineInput" Multiline="true" FloatLabelType="FloatLabelType.Auto" Placeholder="Enter multiple lines" @bind-Value="MultilineValue" />
+        <div class="mt-2"><b>Value:</b> @MultilineValue</div>
+    </div>
+
+    <div>
+        <label>Single Line TextBox</label>
+        <SfTextBox id="singleLineInput" Multiline="false" FloatLabelType="FloatLabelType.Auto" Placeholder="Single line only" @bind-Value="SingleLineValue" />
+        <div class="mt-2"><b>Value:</b> @SingleLineValue</div>
+    </div>
+</div>
+
+<!-- ================ WIDTH CONTROL ================ -->
+<h3>Width Control</h3>
+<div class="width-section">
+    <div>
+        <label>Default Width (100%)</label>
+        <SfTextBox id="defaultWidthInput" FloatLabelType="FloatLabelType.Auto" Placeholder="Default width" @bind-Value="DefaultWidthValue" />
+        <div class="mt-2"><b>Value:</b> @DefaultWidthValue</div>
+    </div>
+
+    <div>
+        <label>Width 300px</label>
+        <SfTextBox id="fixedWidthInput" Width="300px" FloatLabelType="FloatLabelType.Auto" Placeholder="300px width" @bind-Value="FixedWidthValue" />
+        <div class="mt-2"><b>Value:</b> @FixedWidthValue</div>
+    </div>
+
+    <div>
+        <label>Width 50%</label>
+        <SfTextBox id="percentWidthInput" Width="50%" FloatLabelType="FloatLabelType.Auto" Placeholder="50% width" @bind-Value="PercentWidthValue" />
+        <div class="mt-2"><b>Value:</b> @PercentWidthValue</div>
+    </div>
+</div>
+
+<!-- ================ ICONS ================ -->
+<h3>Icon Integration</h3>
+<div class="icons-section">
+    <div>
+        <label>With Search Icon</label>
+        <SfTextBox @ref="AppendIconTextBox" id="appendIconInput" FloatLabelType="FloatLabelType.Auto" Placeholder="Select date" Created="@OnCreateAppendIcon" @bind-Value="AppendIconValue" />
+        <div class="mt-2"><b>Value:</b> @AppendIconValue</div>
+    </div>
+
+    <div>
+        <label>With Calendar Icon</label>
+        <SfTextBox @ref="PrependIconTextBox" id="prependIconInput" FloatLabelType="FloatLabelType.Auto" Placeholder="Select date" Created="@OnCreatePrependIcon" @bind-Value="PrependIconValue" />
+        <div class="mt-2"><b>Value:</b> @PrependIconValue</div>
+    </div>
+</div>
+
+<!-- ================ EVENTS ================ -->
+<h3>Events Demonstration</h3>
+<div class="events-section">
+    <div>
+        <label>Event Listener TextBox</label>
+        <SfTextBox id="eventTextBox"
+                   FloatLabelType="FloatLabelType.Auto"
+                   Placeholder="Type here to trigger events"
+                   @bind-Value="EventValue"
+                   OnInput="@OnInput"
+                   ValueChange="@OnValueChange"
+                   OnFocus="@OnFocus"
+                   OnBlur="@OnBlur" />
+        <div class="mt-2"><b>Value:</b> @EventValue</div>
+        <div class="mt-2"><b>Event Message:</b> @EventMessage</div>
+    </div>
+</div>
+
+<!-- ================ INPUT ATTRIBUTES ================ -->
+<h3>Input Attributes</h3>
+<div class="attributes-section">
+    <div>
+        <label>With MaxLength (10 chars)</label>
+        <SfTextBox id="maxLengthInput" FloatLabelType="FloatLabelType.Auto" Placeholder="Max 10 chars" @bind-Value="MaxLengthValue" InputAttributes="@MaxLengthAttrs" />
+        <div class="mt-2"><b>Value:</b> @MaxLengthValue</div>
+    </div>
+
+    <div>
+        <label>With Pattern (numbers only)</label>
+        <SfTextBox id="patternInput" FloatLabelType="FloatLabelType.Auto" Placeholder="Numbers only" @bind-Value="PatternValue" InputAttributes="@PatternAttrs" />
+        <div class="mt-2"><b>Value:</b> @PatternValue</div>
+    </div>
+
+    <div>
+        <label>With Data Attributes</label>
+        <SfTextBox id="dataAttrInput" FloatLabelType="FloatLabelType.Auto" Placeholder="Custom data attrs" @bind-Value="DataAttrValue" InputAttributes="@CustomDataAttrs" />
+        <div class="mt-2"><b>Value:</b> @DataAttrValue</div>
+    </div>
+</div>
+
+<!-- ================ TAB INDEX ================ -->
+<h3>Tab Index Order</h3>
+<div class="tabindex-section">
+    <div>
+        <label>TabIndex=1 (First)</label>
+        <SfTextBox id="tabIndex1Input" TabIndex="1" FloatLabelType="FloatLabelType.Auto" Placeholder="First in tab order" @bind-Value="TabIndex1Value" />
+        <div class="mt-2"><b>Value:</b> @TabIndex1Value</div>
+    </div>
+
+    <div>
+        <label>TabIndex=2 (Second)</label>
+        <SfTextBox id="tabIndex2Input" TabIndex="2" FloatLabelType="FloatLabelType.Auto" Placeholder="Second in tab order" @bind-Value="TabIndex2Value" />
+        <div class="mt-2"><b>Value:</b> @TabIndex2Value</div>
+    </div>
+
+    <div>
+        <label>TabIndex=3 (Third)</label>
+        <SfTextBox id="tabIndex3Input" TabIndex="3" FloatLabelType="FloatLabelType.Auto" Placeholder="Third in tab order" @bind-Value="TabIndex3Value" />
+        <div class="mt-2"><b>Value:</b> @TabIndex3Value</div>
+    </div>
+</div>
+
+<!-- ================ AUTOCOMPLETE ================ -->
+<h3>Autocomplete Behavior</h3>
+<div class="autocomplete-section">
+    <div>
+        <label>Autocomplete On (Default)</label>
+        <SfTextBox id="autocompleteOnInput" Autocomplete="AutoComplete.On" FloatLabelType="FloatLabelType.Auto" Placeholder="Browser autocomplete enabled" @bind-Value="AutocompleteOnValue" />
+        <div class="mt-2"><b>Value:</b> @AutocompleteOnValue</div>
+    </div>
+
+    <div>
+        <label>Autocomplete Off</label>
+        <SfTextBox id="autocompleteOffInput" Autocomplete="AutoComplete.Off" FloatLabelType="FloatLabelType.Auto" Placeholder="Browser autocomplete disabled" @bind-Value="AutocompleteOffValue" />
+        <div class="mt-2"><b>Value:</b> @AutocompleteOffValue</div>
+    </div>
+</div>
+
+<!-- ================ COMPONENT REFERENCE METHODS ================ -->
+<h3>Component Reference Methods</h3>
+<div class="methods-section">
+    <div>
+        <label>FocusAsync & FocusOutAsync Methods</label>
+        <SfTextBox @ref="MethodRefTextBox" id="methodRefInput" FloatLabelType="FloatLabelType.Auto" Placeholder="Test focus methods" @bind-Value="MethodRefValue" />
+        <div class="mt-2">
+            <button class="btn btn-primary me-2" @onclick="FocusMethod">Focus</button>
+            <button class="btn btn-secondary me-2" @onclick="FocusOutMethod">Focus Out</button>
+        </div>
+        <div class="mt-2"><b>Value:</b> @MethodRefValue</div>
+    </div>
+</div>
+
+<!-- ================ CUSTOM ATTRIBUTES ================ -->
+<h3>Custom Attributes</h3>
+<div class="custom-attrs-section">
+    <div>
+        <label>Custom CSS Class</label>
+        <SfTextBox id="customCssInput" CssClass="custom-textbox-style" FloatLabelType="FloatLabelType.Auto" Placeholder="Custom styled" @bind-Value="CustomCssValue" />
+        <div class="mt-2"><b>Value:</b> @CustomCssValue</div>
+    </div>
+
+    <div>
+        <label>Custom HTML Attributes</label>
+        <SfTextBox id="customHtmlInput" FloatLabelType="FloatLabelType.Auto" Placeholder="Custom HTML attrs" @bind-Value="CustomHtmlValue" HtmlAttributes="@CustomHtmlAttrs" />
+        <div class="mt-2"><b>Value:</b> @CustomHtmlValue</div>
+    </div>
+</div>
+
+<!-- ================ VALUE BINDING ================ -->
+<h3>Value Binding</h3>
+<div class="value-binding-section">
+    <div>
+        <label>Programmatic Value Update</label>
+        <SfTextBox id="programmaticInput" FloatLabelType="FloatLabelType.Auto" Placeholder="Value updated from code" @bind-Value="ProgrammaticValue" />
+        <div class="mt-2">
+            <button class="btn btn-primary me-2" @onclick="SetProgrammaticValue">Set Value</button>
+            <button class="btn btn-secondary me-2" @onclick="ClearProgrammaticValue">Clear Value</button>
+        </div>
+        <div class="mt-2"><b>Value:</b> @ProgrammaticValue</div>
+    </div>
+
+    <div>
+        <label>Initial Value</label>
+        <SfTextBox id="initialValueInput" FloatLabelType="FloatLabelType.Auto" Placeholder="Initial value" Value="Syncfusion TextBox" />
+    </div>
+
+    <div>
+        <label>Null/Empty Value</label>
+        <SfTextBox id="emptyValueInput" FloatLabelType="FloatLabelType.Auto" Placeholder="Initially empty" @bind-Value="EmptyValue" />
+        <div class="mt-2"><b>Value:</b> @EmptyValue</div>
+    </div>
+</div>
+
+<!-- ================ FORM VALIDATION ================ -->
+<h3>Form Integration and Validation</h3>
+<div class="form-validation-section">
+    <EditForm Model="@FormModel" OnValidSubmit="@HandleFormSubmit">
+        <DataAnnotationsValidator />
+
+        <div class="form-group">
+            <label>Required Field</label>
+            <SfTextBox @bind-Value="@FormModel.RequiredField"
+                       id="formRequiredInput"
+                       FloatLabelType="FloatLabelType.Auto"
+                       Placeholder="This field is required" />
+            <ValidationMessage For="@(() => FormModel.RequiredField)" />
+        </div>
+
+        <div class="form-group">
+            <label>Email Field</label>
+            <SfTextBox @bind-Value="@FormModel.Email"
+                       id="formEmailInput"
+                       Type="InputType.Email"
+                       FloatLabelType="FloatLabelType.Auto"
+                       Placeholder="Valid email required" />
+            <ValidationMessage For="@(() => FormModel.Email)" />
+        </div>
+
+        <div class="form-group">
+            <label>String Length (5-20 chars)</label>
+            <SfTextBox @bind-Value="@FormModel.PhoneNumber"
+                       id="formPhoneInput"
+                       FloatLabelType="FloatLabelType.Auto"
+                       Placeholder="Phone number" />
+            <ValidationMessage For="@(() => FormModel.PhoneNumber)" />
+        </div>
+
+        <div class="form-group">
+            <label>Comments (Multiline)</label>
+            <SfTextBox @bind-Value="@FormModel.Comments"
+                       id="formCommentsInput"
+                       Multiline="true"
+                       FloatLabelType="FloatLabelType.Auto"
+                       Placeholder="Enter your comments"
+                       InputAttributes="@FormMultilineAttrs" />
+            <ValidationMessage For="@(() => FormModel.Comments)" />
+        </div>
+
+        <div class="form-buttons">
+            <button type="submit" class="btn btn-success me-2">Submit</button>
+            <button type="button" class="btn btn-warning" @onclick="ResetForm">Reset</button>
+        </div>
+    </EditForm>
+
+    @if (!string.IsNullOrEmpty(FormSubmitMessage))
+    {
+        <div class="alert alert-success mt-3">@FormSubmitMessage</div>
+    }
+</div>
+
+<style>
+    .input-types-section,
+    .float-label-section,
+    .clear-button-section,
+    .states-section,
+    .variants-section,
+    .color-section,
+    .multiline-section,
+    .width-section,
+    .icons-section,
+    .events-section,
+    .attributes-section,
+    .tabindex-section,
+    .autocomplete-section,
+    .methods-section,
+    .custom-attrs-section,
+    .value-binding-section,
+    .form-validation-section {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        gap: 20px;
+        margin-bottom: 30px;
+        padding: 15px;
+        border: 1px solid #e0e0e0;
+        border-radius: 8px;
+    }
+
+    .input-types-section > div,
+    .float-label-section > div,
+    .clear-button-section > div,
+    .states-section > div,
+    .variants-section > div,
+    .color-section > div,
+    .multiline-section > div,
+    .width-section > div,
+    .icons-section > div,
+    .events-section > div,
+    .attributes-section > div,
+    .tabindex-section > div,
+    .autocomplete-section > div,
+    .methods-section > div,
+    .custom-attrs-section > div,
+    .value-binding-section > div,
+    .form-validation-section {
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+    }
+
+    label {
+        font-weight: 600;
+        color: #333;
+        margin-bottom: 4px;
+    }
+
+    .mt-2 {
+        margin-top: 8px;
+        font-size: 14px;
+        color: #666;
+    }
+
+    .mt-3 {
+        margin-top: 12px;
+    }
+
+    .btn {
+        padding: 8px 16px;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+        font-size: 14px;
+        font-weight: 500;
+    }
+
+    .btn-primary {
+        background-color: #2196F3;
+        color: white;
+    }
+
+    .btn-primary:hover {
+        background-color: #1976D2;
+    }
+
+    .btn-secondary {
+        background-color: #757575;
+        color: white;
+    }
+
+    .btn-secondary:hover {
+        background-color: #616161;
+    }
+
+    .btn-success {
+        background-color: #4CAF50;
+        color: white;
+    }
+
+    .btn-success:hover {
+        background-color: #388E3C;
+    }
+
+    .btn-warning {
+        background-color: #FF9800;
+        color: white;
+    }
+
+    .btn-warning:hover {
+        background-color: #F57C00;
+    }
+
+    .me-2 {
+        margin-right: 8px;
+    }
+
+    .form-buttons {
+        display: flex;
+        gap: 8px;
+        margin-top: 16px;
+    }
+
+    .alert {
+        padding: 12px 16px;
+        border-radius: 4px;
+        font-weight: 500;
+    }
+
+    .alert-success {
+        background-color: #C8E6C9;
+        color: #2E7D32;
+        border: 1px solid #4CAF50;
+    }
+
+    .custom-textbox-style {
+        border-radius: 20px !important;
+    }
+</style>
+
+@code {
+    /* ================ INPUT TYPES ================ */
+    private string TextTypeValue { get; set; } = "";
+    private string EmailTypeValue { get; set; } = "";
+    private string PasswordTypeValue { get; set; } = "";
+    private string TelTypeValue { get; set; } = "";
+    private string UrlTypeValue { get; set; } = "";
+    private string SearchTypeValue { get; set; } = "";
+
+    /* ================ FLOAT LABEL TYPES ================ */
+    private string FloatLabelNeverValue { get; set; } = "";
+    private string FloatLabelAutoValue { get; set; } = "";
+    private string FloatLabelAlwaysValue { get; set; } = "";
+
+    /* ================ CLEAR BUTTON ================ */
+    private string ClearButtonValue { get; set; } = "";
+    private string NoClearButtonValue { get; set; } = "";
+
+    /* ================ DISABLED & READONLY ================ */
+    private string EnabledValue { get; set; } = "";
+
+    /* ================ STYLING VARIANTS ================ */
+    private string DefaultVariantValue { get; set; } = "";
+    private string FilledVariantValue { get; set; } = "";
+    private string OutlinedVariantValue { get; set; } = "";
+    private string SmallVariantValue { get; set; } = "";
+
+    /* ================ COLOR VARIANTS ================ */
+    private string SuccessColorValue { get; set; } = "";
+    private string ErrorColorValue { get; set; } = "";
+    private string WarningColorValue { get; set; } = "";
+
+    /* ================ MULTILINE ================ */
+    private string MultilineValue { get; set; } = "";
+    private string SingleLineValue { get; set; } = "";
+
+    /* ================ WIDTH CONTROL ================ */
+    private string DefaultWidthValue { get; set; } = "";
+    private string FixedWidthValue { get; set; } = "";
+    private string PercentWidthValue { get; set; } = "";
+
+    /* ================ ICONS ================ */
+    private SfTextBox? AppendIconTextBox;
+    private SfTextBox? PrependIconTextBox;
+    private string AppendIconValue { get; set; } = "";
+    private string PrependIconValue { get; set; } = "";
+
+    private async Task OnCreateAppendIcon()
+    {
+        if (AppendIconTextBox != null)
+            await AppendIconTextBox.AddIconAsync("append", "e-toolkit-icons e-timeline-today");
+    }
+
+    private async Task OnCreatePrependIcon()
+    {
+        if (PrependIconTextBox != null)
+            await PrependIconTextBox.AddIconAsync("prepend", "e-toolkit-icons e-timeline-today");
+    }
+
+    /* ================ EVENTS ================ */
+    private string EventValue { get; set; } = "";
+    private string EventMessage { get; set; } = "—";
+
+    private void OnInput(InputEventArgs args)
+    {
+        EventMessage = $"Input event - Value: {args.Value}";
+    }
+
+    private void OnValueChange(ChangedEventArgs args)
+    {
+        EventMessage = $"ValueChange event - New: {args.Value}, Previous: {args.PreviousValue}";
+    }
+
+    private void OnFocus(FocusInEventArgs args)
+    {
+        EventMessage = $"Focus event - Value: {args.Value}";
+    }
+
+    private void OnBlur(FocusOutEventArgs args)
+    {
+        EventMessage = $"Blur event - Value: {args.Value}";
+    }
+
+    /* ================ INPUT ATTRIBUTES ================ */
+    private string MaxLengthValue { get; set; } = "";
+    private string PatternValue { get; set; } = "";
+    private string DataAttrValue { get; set; } = "";
+
+    private Dictionary<string, object> MaxLengthAttrs => new() { { "maxlength", "10" } };
+    private Dictionary<string, object> PatternAttrs => new() { { "pattern", "[0-9]*" } };
+    private Dictionary<string, object> CustomDataAttrs => new() { { "data-testid", "custom-input" }, { "data-field", "custom" } };
+
+    /* ================ TAB INDEX ================ */
+    private string TabIndex1Value { get; set; } = "";
+    private string TabIndex2Value { get; set; } = "";
+    private string TabIndex3Value { get; set; } = "";
+
+    /* ================ AUTOCOMPLETE ================ */
+    private string AutocompleteOnValue { get; set; } = "";
+    private string AutocompleteOffValue { get; set; } = "";
+
+    /* ================ COMPONENT REFERENCE METHODS ================ */
+    private SfTextBox? MethodRefTextBox;
+    private string MethodRefValue { get; set; } = "";
+
+    private async Task FocusMethod()
+    {
+        if (MethodRefTextBox != null)
+            await MethodRefTextBox.FocusAsync();
+    }
+
+    private async Task FocusOutMethod()
+    {
+        if (MethodRefTextBox != null)
+            await MethodRefTextBox.FocusOutAsync();
+    }
+
+    /* ================ CUSTOM ATTRIBUTES ================ */
+    private string CustomCssValue { get; set; } = "";
+    private string CustomHtmlValue { get; set; } = "";
+
+    private Dictionary<string, object> CustomHtmlAttrs => new()
+    {
+        { "data-testid", "custom-html-input" },
+        { "title", "Custom HTML attributes example" }
+    };
+
+    /* ================ VALUE BINDING ================ */
+    private string ProgrammaticValue { get; set; } = "";
+    private string EmptyValue { get; set; } = "";
+
+    private void SetProgrammaticValue()
+    {
+        ProgrammaticValue = "Updated value from code";
+    }
+
+    private void ClearProgrammaticValue()
+    {
+        ProgrammaticValue = "";
+    }
+
+    /* ================ FORM VALIDATION ================ */
+    private TextBoxValidationModel FormModel = new();
+    private string FormSubmitMessage = "";
+    private Dictionary<string, object> FormMultilineAttrs => new() { { "rows", "3" }, { "maxlength", "200" } };
+
+    private async Task HandleFormSubmit(EditContext context)
+    {
+        FormSubmitMessage = "Form submitted successfully!";
+        await Task.Delay(0);
+    }
+
+    private void ResetForm()
+    {
+        FormModel = new();
+        FormSubmitMessage = "";
+    }
+
+    /* ================ VALIDATION MODEL ================ */
+    public class TextBoxValidationModel
+    {
+        [Required(ErrorMessage = "This field is required")]
+        public string RequiredField { get; set; } = "";
+
+        [EmailAddress(ErrorMessage = "Invalid email address")]
+        public string Email { get; set; } = "";
+
+        [StringLength(20, MinimumLength = 5, ErrorMessage = "Length must be between 5 and 20 characters")]
+        public string PhoneNumber { get; set; } = "";
+
+        [StringLength(200, ErrorMessage = "Comments cannot exceed 200 characters")]
+        public string Comments { get; set; } = "";
+    }
+}

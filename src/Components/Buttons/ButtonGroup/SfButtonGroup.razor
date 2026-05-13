@@ -1,0 +1,8 @@
+@namespace Syncfusion.Blazor.Toolkit.Buttons
+@inherits SfBaseComponent
+
+<div class="@BuildCssClass()" role="group" @attributes="@GetMergedAttributes()">
+    <CascadingValue Value="@this">
+        @ChildContent
+    </CascadingValue>
+</div>

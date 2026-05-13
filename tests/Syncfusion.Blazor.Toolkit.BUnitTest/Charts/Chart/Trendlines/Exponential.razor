@@ -1,0 +1,898 @@
+﻿@using Syncfusion.Blazor.Toolkit.Charts
+@using Syncfusion.Blazor.Toolkit.Tests
+@using Bunit
+@using Xunit
+
+@inherits TestComponentBase
+
+<SfFixture @ref="fixture" TestAsync="ExponentialWithoutSeriesPointsWithTrendlineEmptyCollection" Description="ExponentialWithoutSeriesPointsWithTrendlineEmptyCollection">
+    <ComponentUnderTest>
+        <SfChart ID="container" Title="Online trading" Height="600px" Width="850px">
+            <ChartPrimaryXAxis Title="Months"></ChartPrimaryXAxis>
+            <ChartPrimaryYAxis Title="Rupees against Dollars" Interval="5"></ChartPrimaryYAxis>
+            <ChartSeriesCollection>
+                <ChartSeries XName="x" YName="y" Type="ChartSeriesType.Scatter" Name="trend" Fill="#0066FF">
+                    <ChartSeriesAnimation Enable="false"></ChartSeriesAnimation>
+                </ChartSeries>
+            </ChartSeriesCollection>
+        </SfChart>
+    </ComponentUnderTest>
+</SfFixture>
+
+
+@code {
+
+    SfFixture fixture { get; set; }
+    async Task ExponentialWithoutSeriesPointsWithTrendlineEmptyCollection(Fixture fixture)
+    {
+        var cut = fixture.GetComponentUnderTest<SfChart>();
+        await Task.Delay(200);
+        var svg = cut.Find("#containerSeriesGroup0").ChildNodes.Length;
+        Assert.True(svg == 1);
+        var xAxisLabelCollection = cut.Find("#containerAxisLabels0").ChildNodes.Length;
+        Assert.True(xAxisLabelCollection == 11);
+        var yAxisLabelCollection = cut.Find("#containerAxisLabels1").ChildNodes.Length;
+        Assert.True(yAxisLabelCollection == 3);
+        cut.SetParametersAndRender();
+    }
+}
+
+
+@{
+    var InitialGroup1 = (new string[] { "CustomerID", "OrderID" });
+}
+<SfFixture @ref="fixture1" TestAsync="ExponentialWithoutSeriesPointsWithTrendlineValidCollection" Description="ExponentialWithoutSeriesPointsWithTrendlineValidCollection">
+    <ComponentUnderTest>
+        <SfChart ID="container" Title="Online trading" Height="600px" Width="850px">
+            <ChartPrimaryXAxis Title="Months"></ChartPrimaryXAxis>
+            <ChartPrimaryYAxis Title="Rupees against Dollars" Interval="5"></ChartPrimaryYAxis>
+            <ChartSeriesCollection>
+                <ChartSeries XName="x" YName="y" Type="ChartSeriesType.Scatter" Name="trend" Fill="#0066FF">
+                    <ChartTrendlines>
+                        <ChartTrendline Type="TrendlineTypes.Exponential"></ChartTrendline>
+                    </ChartTrendlines>
+                    <ChartSeriesAnimation Enable="false"></ChartSeriesAnimation>
+                </ChartSeries>
+            </ChartSeriesCollection>
+        </SfChart>
+    </ComponentUnderTest>
+</SfFixture>
+
+@code {
+
+    SfFixture fixture1 { get; set; }
+    async Task ExponentialWithoutSeriesPointsWithTrendlineValidCollection(Fixture fixture1)
+    {
+        var cut = fixture1.GetComponentUnderTest<SfChart>();
+        await Task.Delay(200);
+        var svg = cut.Find("#containerSeriesGroup0").ChildNodes.Length;
+        Assert.True(svg == 1);
+        var xAxisLabelCollection = cut.Find("#containerAxisLabels0").ChildNodes.Length;
+        Assert.True(xAxisLabelCollection == 11);
+        var yAxisLabelCollection = cut.Find("#containerAxisLabels1").ChildNodes.Length;
+        Assert.True(yAxisLabelCollection == 3);
+        cut.SetParametersAndRender();
+    }
+}
+
+
+@{
+    var InitialGroup2 = (new string[] { "CustomerID", "OrderID" });
+}
+<SfFixture @ref="fixture2" TestAsync="ExponentialWithSeriesPointsWithTrendlineEmptyCollection" Description="ExponentialWithSeriesPointsWithTrendlineEmptyCollection">
+    <ComponentUnderTest>
+        <SfChart ID="container" Title="Online trading" Height="600px" Width="850px">
+            <ChartPrimaryXAxis Title="Months" ValueType="Syncfusion.Blazor.Toolkit.ValueType.DateTime"></ChartPrimaryXAxis>
+            <ChartPrimaryYAxis Title="Rupees against Dollars" Interval="5"></ChartPrimaryYAxis>
+            <ChartSeriesCollection>
+                <ChartSeries DataSource="@Trends2" XName="x" YName="y" Type="ChartSeriesType.Scatter" Name="trend" Fill="#0066FF">
+
+                    <ChartSeriesAnimation Enable="false"></ChartSeriesAnimation>
+                </ChartSeries>
+            </ChartSeriesCollection>
+        </SfChart>
+    </ComponentUnderTest>
+</SfFixture>
+
+@code {
+
+    SfFixture fixture2 { get; set; }
+    async Task ExponentialWithSeriesPointsWithTrendlineEmptyCollection(Fixture fixture2)
+    {
+        var cut = fixture2.GetComponentUnderTest<SfChart>();
+        await Task.Delay(200);
+        var svg = cut.Find("#containerSeriesGroup0").ChildNodes.Length;
+        Assert.True(svg == 14);
+        var xAxisLabelCollection = cut.Find("#containerAxisLabels0").ChildNodes.Length;
+        Assert.True(xAxisLabelCollection == 13);
+        var yAxisLabelCollection = cut.Find("#containerAxisLabels1").ChildNodes.Length;
+        Assert.True(yAxisLabelCollection == 12);
+        cut.SetParametersAndRender();
+    }
+    public class TrendData
+    {
+        public DateTime x { get; set; }
+        public double y { get; set; }
+    }
+    public List<TrendData> Trends2 = new List<TrendData>
+{
+        new TrendData { x = new DateTime(2000, 2, 11), y = 14 },
+        new TrendData { x = new DateTime(2001, 9, 4), y = 20 },
+        new TrendData { x = new DateTime(2002, 2, 11), y = 25 },
+        new TrendData { x = new DateTime(2003, 9, 16), y = 21 },
+        new TrendData { x = new DateTime(2004, 2, 7), y = 13},
+        new TrendData { x = new DateTime(2005, 9, 7), y = 18 },
+        new TrendData { x = new DateTime(2006, 2, 11), y = 24 },
+        new TrendData { x = new DateTime(2007, 9, 14), y = 23 },
+        new TrendData { x = new DateTime(2008, 2, 6), y = 19 },
+        new TrendData { x = new DateTime(2009, 9, 6), y = 31 },
+        new TrendData { x = new DateTime(2010, 2, 11), y = 39},
+        new TrendData { x = new DateTime(2011, 9, 11), y = 50 },
+        new TrendData { x = new DateTime(2012, 2, 11), y = 24 },
+    };
+}
+
+
+
+@{
+    var InitialGroup3 = (new string[] { "CustomerID", "OrderID" });
+}
+<SfFixture @ref="fixture3" TestAsync="ExponentialWithSeriesPointsWithTrendlineValidCollection" Description="ExponentialWithSeriesPointsWithTrendlineValidCollection">
+    <ComponentUnderTest>
+        <SfChart ID="container" Title="Online trading" Height="600px" Width="850px">
+            <ChartPrimaryXAxis Title="Months" ValueType="Syncfusion.Blazor.Toolkit.ValueType.DateTime"></ChartPrimaryXAxis>
+            <ChartPrimaryYAxis Title="Rupees against Dollars" Interval="5"></ChartPrimaryYAxis>
+            <ChartSeriesCollection>
+                <ChartSeries DataSource="@Trends3" XName="x" YName="y" Type="ChartSeriesType.Scatter" Name="trend" Fill="#0066FF">
+                    <ChartTrendlines>
+                        <ChartTrendline Type="TrendlineTypes.Exponential">
+                            <ChartTrendlineAnimation Enable="false"></ChartTrendlineAnimation>
+                        </ChartTrendline>
+                    </ChartTrendlines>
+                    <ChartSeriesAnimation Enable="false"></ChartSeriesAnimation>
+                </ChartSeries>
+            </ChartSeriesCollection>
+        </SfChart>
+    </ComponentUnderTest>
+</SfFixture>
+
+@code {
+
+    SfFixture fixture3 { get; set; }
+    async Task ExponentialWithSeriesPointsWithTrendlineValidCollection(Fixture fixture3)
+    {
+        var cut = fixture3.GetComponentUnderTest<SfChart>();
+        await Task.Delay(200);
+        var svg = cut.Find("#container_Series_0_TrendLine_0").GetAttribute("d");
+        Assert.True(svg != null);
+        Assert.True(cut.Find("#container0_AxisLabel_2").TextContent == "2002\n    ");
+        cut.SetParametersAndRender();
+    }
+    public class TrendData3
+    {
+        public DateTime x { get; set; }
+        public double y { get; set; }
+    }
+    public List<TrendData3> Trends3 = new List<TrendData3>
+{
+        new TrendData3 { x = new DateTime(2000, 2, 11), y = 14 },
+        new TrendData3 { x = new DateTime(2001, 9, 4), y = 20 },
+        new TrendData3 { x = new DateTime(2002, 2, 11), y = 25 },
+        new TrendData3 { x = new DateTime(2003, 9, 16), y = 21 },
+        new TrendData3 { x = new DateTime(2004, 2, 7), y = 13},
+        new TrendData3 { x = new DateTime(2005, 9, 7), y = 18 },
+        new TrendData3 { x = new DateTime(2006, 2, 11), y = 24 },
+        new TrendData3 { x = new DateTime(2007, 9, 14), y = 23 },
+        new TrendData3 { x = new DateTime(2008, 2, 6), y = 19 },
+        new TrendData3 { x = new DateTime(2009, 9, 6), y = 31 },
+        new TrendData3 { x = new DateTime(2010, 2, 11), y = 39},
+        new TrendData3 { x = new DateTime(2011, 9, 11), y = 50 },
+        new TrendData3 { x = new DateTime(2012, 2, 11), y = 24 },
+    };
+}
+
+
+@{
+    var InitialGroup4 = (new string[] { "CustomerID", "OrderID" });
+}
+<SfFixture @ref="fixture4" TestAsync="ExponentialTrendlineWithDefaultAppearance" Description="ExponentialTrendlineWithDefaultAppearance">
+    <ComponentUnderTest>
+        <SfChart ID="container" Title="Online trading" Height="600px" Width="850px">
+            <ChartPrimaryXAxis Title="Months" ValueType="Syncfusion.Blazor.Toolkit.ValueType.DateTime"></ChartPrimaryXAxis>
+            <ChartPrimaryYAxis Title="Rupees against Dollars" Interval="5"></ChartPrimaryYAxis>
+            <ChartSeriesCollection>
+                <ChartSeries DataSource="@Trends4" XName="x" YName="y" Type="ChartSeriesType.Scatter" Name="trend" Fill="#0066FF">
+                    <ChartTrendlines>
+                        <ChartTrendline Type="TrendlineTypes.Exponential">
+                            <ChartTrendlineAnimation Enable="false"></ChartTrendlineAnimation>
+                        </ChartTrendline>
+                    </ChartTrendlines>
+                    <ChartSeriesAnimation Enable="false"></ChartSeriesAnimation>
+                </ChartSeries>
+            </ChartSeriesCollection>
+        </SfChart>
+    </ComponentUnderTest>
+</SfFixture>
+
+@code {
+
+    SfFixture fixture4 { get; set; }
+    async Task ExponentialTrendlineWithDefaultAppearance(Fixture fixture4)
+    {
+        var cut = fixture4.GetComponentUnderTest<SfChart>();
+        await Task.Delay(200);
+        var svg = cut.Find("#container_Series_0_TrendLine_0").GetAttribute("stroke");
+        Assert.True(svg == "blue");
+        cut.SetParametersAndRender();
+    }
+    public class TrendData4
+    {
+        public DateTime x { get; set; }
+        public double y { get; set; }
+    }
+    public List<TrendData4> Trends4 = new List<TrendData4>
+{
+        new TrendData4 { x = new DateTime(2000, 2, 11), y = 14 },
+        new TrendData4 { x = new DateTime(2001, 9, 4), y = 20 },
+        new TrendData4 { x = new DateTime(2002, 2, 11), y = 25 },
+        new TrendData4 { x = new DateTime(2003, 9, 16), y = 21 },
+        new TrendData4 { x = new DateTime(2004, 2, 7), y = 13},
+        new TrendData4 { x = new DateTime(2005, 9, 7), y = 18 },
+        new TrendData4 { x = new DateTime(2006, 2, 11), y = 24 },
+        new TrendData4 { x = new DateTime(2007, 9, 14), y = 23 },
+        new TrendData4 { x = new DateTime(2008, 2, 6), y = 19 },
+        new TrendData4 { x = new DateTime(2009, 9, 6), y = 31 },
+        new TrendData4 { x = new DateTime(2010, 2, 11), y = 39},
+        new TrendData4 { x = new DateTime(2011, 9, 11), y = 50 },
+        new TrendData4 { x = new DateTime(2012, 2, 11), y = 24 },
+    };
+}
+
+
+@{
+    var InitialGroup5 = (new string[] { "CustomerID", "OrderID" });
+}
+<SfFixture @ref="fixture5" TestAsync="ExponentialTrendlineWithCustomAppearance" Description="ExponentialTrendlineWithCustomAppearance">
+    <ComponentUnderTest>
+        <SfChart ID="container" Title="Online trading" Height="600px" Width="850px">
+            <ChartPrimaryXAxis Title="Months" ValueType="Syncfusion.Blazor.Toolkit.ValueType.DateTime"></ChartPrimaryXAxis>
+            <ChartPrimaryYAxis Title="Rupees against Dollars" Interval="5"></ChartPrimaryYAxis>
+            <ChartSeriesCollection>
+                <ChartSeries DataSource="@Trends5" XName="x" YName="y" Type="ChartSeriesType.Scatter" Name="trend" Fill="#0066FF">
+                    <ChartTrendlines>
+                        <ChartTrendline Type="TrendlineTypes.Exponential" Fill="Orange">
+                            <ChartTrendlineAnimation Enable="false"></ChartTrendlineAnimation>
+                        </ChartTrendline>
+                    </ChartTrendlines>
+                    <ChartSeriesAnimation Enable="false"></ChartSeriesAnimation>
+                </ChartSeries>
+            </ChartSeriesCollection>
+        </SfChart>
+    </ComponentUnderTest>
+</SfFixture>
+
+@code {
+
+    SfFixture fixture5 { get; set; }
+    async Task ExponentialTrendlineWithCustomAppearance(Fixture fixture5)
+    {
+        var cut = fixture5.GetComponentUnderTest<SfChart>();
+        await Task.Delay(200);
+        var svg = cut.Find("#container_Series_0_TrendLine_0").GetAttribute("stroke");
+        Assert.True(svg == "Orange");
+        cut.SetParametersAndRender();
+    }
+    public class TrendData5
+    {
+        public DateTime x { get; set; }
+        public double y { get; set; }
+    }
+    public List<TrendData5> Trends5 = new List<TrendData5>
+{
+        new TrendData5 { x = new DateTime(2000, 2, 11), y = 14 },
+        new TrendData5 { x = new DateTime(2001, 9, 4), y = 20 },
+        new TrendData5 { x = new DateTime(2002, 2, 11), y = 25 },
+        new TrendData5 { x = new DateTime(2003, 9, 16), y = 21 },
+        new TrendData5 { x = new DateTime(2004, 2, 7), y = 13},
+        new TrendData5 { x = new DateTime(2005, 9, 7), y = 18 },
+        new TrendData5 { x = new DateTime(2006, 2, 11), y = 24 },
+        new TrendData5 { x = new DateTime(2007, 9, 14), y = 23 },
+        new TrendData5 { x = new DateTime(2008, 2, 6), y = 19 },
+        new TrendData5 { x = new DateTime(2009, 9, 6), y = 31 },
+        new TrendData5 { x = new DateTime(2010, 2, 11), y = 39},
+        new TrendData5 { x = new DateTime(2011, 9, 11), y = 50 },
+        new TrendData5 { x = new DateTime(2012, 2, 11), y = 24 },
+    };
+}
+
+
+@{
+    var InitialGroup6 = (new string[] { "CustomerID", "OrderID" });
+}
+<SfFixture @ref="fixture6" TestAsync="ExponentialTrendlineWithMarker" Description="ExponentialTrendlineWithMarker">
+    <ComponentUnderTest>
+        <SfChart ID="container" Title="Online trading" Height="600px" Width="850px">
+            <ChartPrimaryXAxis Title="Months" ValueType="Syncfusion.Blazor.Toolkit.ValueType.DateTime"></ChartPrimaryXAxis>
+            <ChartPrimaryYAxis Title="Rupees against Dollars" Interval="5"></ChartPrimaryYAxis>
+            <ChartSeriesCollection>
+                <ChartSeries DataSource="@Trends6" XName="x" YName="y" Type="ChartSeriesType.Scatter" Name="trend" Fill="#0066FF">
+                    <ChartTrendlines>
+                        <ChartTrendline Type="TrendlineTypes.Exponential" Fill="Orange">
+                            <ChartTrendlineAnimation Enable="false"></ChartTrendlineAnimation>
+                            <ChartTrendlineMarker Visible="true" Fill="Red"></ChartTrendlineMarker>
+                        </ChartTrendline>
+                    </ChartTrendlines>
+                    <ChartSeriesAnimation Enable="false"></ChartSeriesAnimation>
+                </ChartSeries>
+            </ChartSeriesCollection>
+        </SfChart>
+    </ComponentUnderTest>
+</SfFixture>
+
+@code {
+
+    SfFixture fixture6 { get; set; }
+    async Task ExponentialTrendlineWithMarker(Fixture fixture6)
+    {
+        var cut = fixture6.GetComponentUnderTest<SfChart>();
+        await Task.Delay(200);
+        var svg = cut.Find("#container_Series_0_TrendLine_0_Point_0_Symbol").GetAttribute("fill");
+        Assert.True(svg == "Red");
+        cut.SetParametersAndRender();
+    }
+    public class TrendData6
+    {
+        public DateTime x { get; set; }
+        public double y { get; set; }
+    }
+    public List<TrendData6> Trends6 = new List<TrendData6>
+{
+        new TrendData6 { x = new DateTime(2000, 2, 11), y = 14 },
+        new TrendData6 { x = new DateTime(2001, 9, 4), y = 20 },
+        new TrendData6 { x = new DateTime(2002, 2, 11), y = 25 },
+        new TrendData6 { x = new DateTime(2003, 9, 16), y = 21 },
+        new TrendData6 { x = new DateTime(2004, 2, 7), y = 13},
+        new TrendData6 { x = new DateTime(2005, 9, 7), y = 18 },
+        new TrendData6 { x = new DateTime(2006, 2, 11), y = 24 },
+        new TrendData6 { x = new DateTime(2007, 9, 14), y = 23 },
+        new TrendData6 { x = new DateTime(2008, 2, 6), y = 19 },
+        new TrendData6 { x = new DateTime(2009, 9, 6), y = 31 },
+        new TrendData6 { x = new DateTime(2010, 2, 11), y = 39},
+        new TrendData6 { x = new DateTime(2011, 9, 11), y = 50 },
+        new TrendData6 { x = new DateTime(2012, 2, 11), y = 24 },
+    };
+}
+
+
+@{
+    var InitialGroup7 = (new string[] { "CustomerID", "OrderID" });
+}
+<SfFixture @ref="fixture7" TestAsync="ExponentialTrendlineWithDefaultForecastvalue" Description="ExponentialTrendlineWithDefaultForecastvalue">
+    <ComponentUnderTest>
+        <SfChart ID="container" Title="Online trading" Height="600px" Width="850px">
+            <ChartPrimaryXAxis Title="Months" ValueType="Syncfusion.Blazor.Toolkit.ValueType.DateTime"></ChartPrimaryXAxis>
+            <ChartPrimaryYAxis Title="Rupees against Dollars" Interval="5"></ChartPrimaryYAxis>
+            <ChartSeriesCollection>
+                <ChartSeries DataSource="@Trends7" XName="x" YName="y" Type="ChartSeriesType.Scatter" Name="trend" Fill="#0066FF">
+                    <ChartTrendlines>
+                        <ChartTrendline Type="TrendlineTypes.Exponential" Fill="Orange">
+                            <ChartTrendlineAnimation Enable="false"></ChartTrendlineAnimation>
+                            <ChartTrendlineMarker Visible="true" Fill="Red"></ChartTrendlineMarker>
+                        </ChartTrendline>
+                    </ChartTrendlines>
+                    <ChartSeriesAnimation Enable="false"></ChartSeriesAnimation>
+                </ChartSeries>
+            </ChartSeriesCollection>
+        </SfChart>
+    </ComponentUnderTest>
+</SfFixture>
+
+@code {
+
+    SfFixture fixture7 { get; set; }
+    async Task ExponentialTrendlineWithDefaultForecastvalue(Fixture fixture7)
+    {
+        var cut = fixture7.GetComponentUnderTest<SfChart>();
+        await Task.Delay(200);
+        var svg = cut.Find("#container_Series_0_TrendLine_0").GetAttribute("d");
+        Assert.True(svg != null);
+        Assert.True(cut.Find("#container0_AxisLabel_2").TextContent == "2002\n    ");
+        cut.SetParametersAndRender();
+    }
+    public class TrendData7
+    {
+        public DateTime x { get; set; }
+        public double y { get; set; }
+    }
+    public List<TrendData7> Trends7 = new List<TrendData7>
+{
+        new TrendData7 { x = new DateTime(2000, 2, 11), y = 14 },
+        new TrendData7 { x = new DateTime(2001, 9, 4), y = 20 },
+        new TrendData7 { x = new DateTime(2002, 2, 11), y = 25 },
+        new TrendData7 { x = new DateTime(2003, 9, 16), y = 21 },
+        new TrendData7 { x = new DateTime(2004, 2, 7), y = 13},
+        new TrendData7 { x = new DateTime(2005, 9, 7), y = 18 },
+        new TrendData7 { x = new DateTime(2006, 2, 11), y = 24 },
+        new TrendData7 { x = new DateTime(2007, 9, 14), y = 23 },
+        new TrendData7 { x = new DateTime(2008, 2, 6), y = 19 },
+        new TrendData7 { x = new DateTime(2009, 9, 6), y = 31 },
+        new TrendData7 { x = new DateTime(2010, 2, 11), y = 39},
+        new TrendData7 { x = new DateTime(2011, 9, 11), y = 50 },
+        new TrendData7 { x = new DateTime(2012, 2, 11), y = 24 },
+    };
+}
+
+
+@{
+    var InitialGroup8 = (new string[] { "CustomerID", "OrderID" });
+}
+<SfFixture @ref="fixture8" TestAsync="ExponentialTrendlineWithPositiveForwardForecastvalue" Description="ExponentialTrendlineWithPositiveForwardForecastvalue">
+    <ComponentUnderTest>
+        <SfChart ID="container" Title="Online trading" Height="600px" Width="850px">
+            <ChartPrimaryXAxis Title="Months" ValueType="Syncfusion.Blazor.Toolkit.ValueType.DateTime"></ChartPrimaryXAxis>
+            <ChartPrimaryYAxis Title="Rupees against Dollars" Interval="5"></ChartPrimaryYAxis>
+            <ChartSeriesCollection>
+                <ChartSeries DataSource="@Trends8" XName="x" YName="y" Type="ChartSeriesType.Scatter" Name="trend" Fill="#0066FF">
+                    <ChartTrendlines>
+                        <ChartTrendline Type="TrendlineTypes.Exponential" Fill="Orange" ForwardForecast="5">
+                            <ChartTrendlineAnimation Enable="false"></ChartTrendlineAnimation>
+                            <ChartTrendlineMarker Visible="true" Fill="Red"></ChartTrendlineMarker>
+                        </ChartTrendline>
+                    </ChartTrendlines>
+                    <ChartSeriesAnimation Enable="false"></ChartSeriesAnimation>
+                </ChartSeries>
+            </ChartSeriesCollection>
+        </SfChart>
+    </ComponentUnderTest>
+</SfFixture>
+
+@code {
+
+    SfFixture fixture8 { get; set; }
+    async Task ExponentialTrendlineWithPositiveForwardForecastvalue(Fixture fixture8)
+    {
+        var cut = fixture8.GetComponentUnderTest<SfChart>();
+        await Task.Delay(200);
+        var svg = cut.Find("#container_Series_0_TrendLine_0").GetAttribute("d");
+        Assert.True(svg != null);
+        Assert.True(cut.Find("#container0_AxisLabel_2").TextContent == "2002\n    ");
+        cut.SetParametersAndRender();
+    }
+    public class TrendData8
+    {
+        public DateTime x { get; set; }
+        public double y { get; set; }
+    }
+    public List<TrendData8> Trends8 = new List<TrendData8>
+{
+        new TrendData8 { x = new DateTime(2000, 2, 11), y = 14 },
+        new TrendData8 { x = new DateTime(2001, 9, 4), y = 20 },
+        new TrendData8 { x = new DateTime(2002, 2, 11), y = 25 },
+        new TrendData8 { x = new DateTime(2003, 9, 16), y = 21 },
+        new TrendData8 { x = new DateTime(2004, 2, 7), y = 13},
+        new TrendData8 { x = new DateTime(2005, 9, 7), y = 18 },
+        new TrendData8 { x = new DateTime(2006, 2, 11), y = 24 },
+        new TrendData8 { x = new DateTime(2007, 9, 14), y = 23 },
+        new TrendData8 { x = new DateTime(2008, 2, 6), y = 19 },
+        new TrendData8 { x = new DateTime(2009, 9, 6), y = 31 },
+        new TrendData8 { x = new DateTime(2010, 2, 11), y = 39},
+        new TrendData8 { x = new DateTime(2011, 9, 11), y = 50 },
+        new TrendData8 { x = new DateTime(2012, 2, 11), y = 24 },
+    };
+}
+
+
+@{
+    var InitialGroup9 = (new string[] { "CustomerID", "OrderID" });
+}
+<SfFixture @ref="fixture9" TestAsync="ExponentialTrendlineWithNegativeForwardForecastvalue" Description="ExponentialTrendlineWithNegativeForwardForecastvalue">
+    <ComponentUnderTest>
+        <SfChart ID="container" Title="Online trading" Height="600px" Width="850px">
+            <ChartPrimaryXAxis Title="Months" ValueType="Syncfusion.Blazor.Toolkit.ValueType.DateTime"></ChartPrimaryXAxis>
+            <ChartPrimaryYAxis Title="Rupees against Dollars" Interval="5"></ChartPrimaryYAxis>
+            <ChartSeriesCollection>
+                <ChartSeries DataSource="@Trends9" XName="x" YName="y" Type="ChartSeriesType.Scatter" Name="trend" Fill="#0066FF">
+                    <ChartTrendlines>
+                        <ChartTrendline Type="TrendlineTypes.Exponential" Fill="Orange" ForwardForecast="-5">
+                            <ChartTrendlineAnimation Enable="false"></ChartTrendlineAnimation>
+                            <ChartTrendlineMarker Visible="true" Fill="Red"></ChartTrendlineMarker>
+                        </ChartTrendline>
+                    </ChartTrendlines>
+                    <ChartSeriesAnimation Enable="false"></ChartSeriesAnimation>
+                </ChartSeries>
+            </ChartSeriesCollection>
+        </SfChart>
+    </ComponentUnderTest>
+</SfFixture>
+
+@code {
+
+    SfFixture fixture9 { get; set; }
+    async Task ExponentialTrendlineWithNegativeForwardForecastvalue(Fixture fixture9)
+    {
+        var cut = fixture9.GetComponentUnderTest<SfChart>();
+        await Task.Delay(200);
+        var svg = cut.Find("#container_Series_0_TrendLine_0").GetAttribute("d");
+        Assert.True(svg != null);
+        Assert.True(cut.Find("#container0_AxisLabel_2").TextContent == "2002\n    ");
+        cut.SetParametersAndRender();
+    }
+    public class TrendData9
+    {
+        public DateTime x { get; set; }
+        public double y { get; set; }
+    }
+    public List<TrendData9> Trends9 = new List<TrendData9>
+{
+        new TrendData9 { x = new DateTime(2000, 2, 11), y = 14 },
+        new TrendData9 { x = new DateTime(2001, 9, 4), y = 20 },
+        new TrendData9 { x = new DateTime(2002, 2, 11), y = 25 },
+        new TrendData9 { x = new DateTime(2003, 9, 16), y = 21 },
+        new TrendData9 { x = new DateTime(2004, 2, 7), y = 13},
+        new TrendData9 { x = new DateTime(2005, 9, 7), y = 18 },
+        new TrendData9 { x = new DateTime(2006, 2, 11), y = 24 },
+        new TrendData9 { x = new DateTime(2007, 9, 14), y = 23 },
+        new TrendData9 { x = new DateTime(2008, 2, 6), y = 19 },
+        new TrendData9 { x = new DateTime(2009, 9, 6), y = 31 },
+        new TrendData9 { x = new DateTime(2010, 2, 11), y = 39},
+        new TrendData9 { x = new DateTime(2011, 9, 11), y = 50 },
+        new TrendData9 { x = new DateTime(2012, 2, 11), y = 24 },
+    };
+}
+
+
+@{
+    var InitialGroup10 = (new string[] { "CustomerID", "OrderID" });
+}
+<SfFixture @ref="fixture10" TestAsync="ExponentialTrendlineWithPositiveBackwardForecastvalue" Description="ExponentialTrendlineWithPositiveBackwardForecastvalue">
+    <ComponentUnderTest>
+        <SfChart ID="container" Title="Online trading" Height="600px" Width="850px">
+            <ChartPrimaryXAxis Title="Months" ValueType="Syncfusion.Blazor.Toolkit.ValueType.DateTime"></ChartPrimaryXAxis>
+            <ChartPrimaryYAxis Title="Rupees against Dollars" Interval="5"></ChartPrimaryYAxis>
+            <ChartSeriesCollection>
+                <ChartSeries DataSource="@Trends10" XName="x" YName="y" Type="ChartSeriesType.Scatter" Name="trend" Fill="#0066FF">
+                    <ChartTrendlines>
+                        <ChartTrendline Type="TrendlineTypes.Exponential" Fill="Orange" ForwardForecast="-5" BackwardForecast="4">
+                            <ChartTrendlineAnimation Enable="false"></ChartTrendlineAnimation>
+                            <ChartTrendlineMarker Visible="true" Fill="Red"></ChartTrendlineMarker>
+                        </ChartTrendline>
+                    </ChartTrendlines>
+                    <ChartSeriesAnimation Enable="false"></ChartSeriesAnimation>
+                </ChartSeries>
+            </ChartSeriesCollection>
+        </SfChart>
+    </ComponentUnderTest>
+</SfFixture>
+
+@code {
+
+    SfFixture fixture10 { get; set; }
+    async Task ExponentialTrendlineWithPositiveBackwardForecastvalue(Fixture fixture10)
+    {
+        var cut = fixture10.GetComponentUnderTest<SfChart>();
+        await Task.Delay(200);
+        var svg = cut.Find("#container_Series_0_TrendLine_0").GetAttribute("d");
+        Assert.True(svg != null);
+        Assert.True(cut.Find("#container0_AxisLabel_1").TextContent == "2002\n    ");
+        cut.SetParametersAndRender();
+    }
+    public class TrendData10
+    {
+        public DateTime x { get; set; }
+        public double y { get; set; }
+    }
+    public List<TrendData10> Trends10 = new List<TrendData10>
+{
+        new TrendData10 { x = new DateTime(2000, 2, 11), y = 14 },
+        new TrendData10 { x = new DateTime(2001, 9, 4), y = 20 },
+        new TrendData10 { x = new DateTime(2002, 2, 11), y = 25 },
+        new TrendData10 { x = new DateTime(2003, 9, 16), y = 21 },
+        new TrendData10 { x = new DateTime(2004, 2, 7), y = 13},
+        new TrendData10 { x = new DateTime(2005, 9, 7), y = 18 },
+        new TrendData10 { x = new DateTime(2006, 2, 11), y = 24 },
+        new TrendData10 { x = new DateTime(2007, 9, 14), y = 23 },
+        new TrendData10 { x = new DateTime(2008, 2, 6), y = 19 },
+        new TrendData10 { x = new DateTime(2009, 9, 6), y = 31 },
+        new TrendData10 { x = new DateTime(2010, 2, 11), y = 39},
+        new TrendData10 { x = new DateTime(2011, 9, 11), y = 50 },
+        new TrendData10 { x = new DateTime(2012, 2, 11), y = 24 },
+    };
+}
+
+
+
+@{
+    var InitialGroup11 = (new string[] { "CustomerID", "OrderID" });
+}
+<SfFixture @ref="fixture11" TestAsync="ExponentialTrendlineWithNegativeBackwardForecastvalue" Description="ExponentialTrendlineWithNegativeBackwardForecastvalue">
+    <ComponentUnderTest>
+        <SfChart ID="container" Title="Online trading" Height="600px" Width="850px">
+            <ChartPrimaryXAxis Title="Months" ValueType="Syncfusion.Blazor.Toolkit.ValueType.DateTime"></ChartPrimaryXAxis>
+            <ChartPrimaryYAxis Title="Rupees against Dollars" Interval="5"></ChartPrimaryYAxis>
+            <ChartSeriesCollection>
+                <ChartSeries DataSource="@Trends11" XName="x" YName="y" Type="ChartSeriesType.Scatter" Name="trend" Fill="#0066FF">
+                    <ChartTrendlines>
+                        <ChartTrendline Type="TrendlineTypes.Exponential" Fill="Orange" ForwardForecast="-5" BackwardForecast="-4">
+                            <ChartTrendlineAnimation Enable="false"></ChartTrendlineAnimation>
+                            <ChartTrendlineMarker Visible="true" Fill="Red"></ChartTrendlineMarker>
+                        </ChartTrendline>
+                    </ChartTrendlines>
+                    <ChartSeriesAnimation Enable="false"></ChartSeriesAnimation>
+                </ChartSeries>
+            </ChartSeriesCollection>
+        </SfChart>
+    </ComponentUnderTest>
+</SfFixture>
+
+@code {
+
+    SfFixture fixture11 { get; set; }
+    async Task ExponentialTrendlineWithNegativeBackwardForecastvalue(Fixture fixture11)
+    {
+        var cut = fixture11.GetComponentUnderTest<SfChart>();
+        await Task.Delay(200);
+        var svg = cut.Find("#container_Series_0_TrendLine_0").GetAttribute("d");
+        Assert.True(svg != null);
+        Assert.True(cut.Find("#container0_AxisLabel_5").TextContent == "2005\n    ");
+        cut.SetParametersAndRender();
+    }
+    public class TrendData11
+    {
+        public DateTime x { get; set; }
+        public double y { get; set; }
+    }
+    public List<TrendData11> Trends11 = new List<TrendData11>
+{
+        new TrendData11 { x = new DateTime(2000, 2, 11), y = 14 },
+        new TrendData11 { x = new DateTime(2001, 9, 4), y = 20 },
+        new TrendData11 { x = new DateTime(2002, 2, 11), y = 25 },
+        new TrendData11 { x = new DateTime(2003, 9, 16), y = 21 },
+        new TrendData11 { x = new DateTime(2004, 2, 7), y = 13},
+        new TrendData11 { x = new DateTime(2005, 9, 7), y = 18 },
+        new TrendData11 { x = new DateTime(2006, 2, 11), y = 24 },
+        new TrendData11 { x = new DateTime(2007, 9, 14), y = 23 },
+        new TrendData11 { x = new DateTime(2008, 2, 6), y = 19 },
+        new TrendData11 { x = new DateTime(2009, 9, 6), y = 31 },
+        new TrendData11 { x = new DateTime(2010, 2, 11), y = 39},
+        new TrendData11 { x = new DateTime(2011, 9, 11), y = 50 },
+        new TrendData11 { x = new DateTime(2012, 2, 11), y = 24 },
+    };
+}
+
+
+@{
+    var InitialGroup12 = (new string[] { "CustomerID", "OrderID" });
+}
+<SfFixture @ref="fixture12" TestAsync="ExponentialTrendlineWithIntercept" Description="ExponentialTrendlineWithIntercept">
+    <ComponentUnderTest>
+        <SfChart ID="container" Title="Online trading" Height="600px" Width="850px">
+            <ChartPrimaryXAxis Title="Months" ValueType="Syncfusion.Blazor.Toolkit.ValueType.DateTime"></ChartPrimaryXAxis>
+            <ChartPrimaryYAxis Title="Rupees against Dollars" Interval="5"></ChartPrimaryYAxis>
+            <ChartSeriesCollection>
+                <ChartSeries DataSource="@Trends12" XName="x" YName="y" Type="ChartSeriesType.Scatter" Name="trend" Fill="#0066FF">
+                    <ChartTrendlines>
+                        <ChartTrendline Type="TrendlineTypes.Exponential" Fill="Orange" ForwardForecast="-5" BackwardForecast="-4" Intercept="3">
+                            <ChartTrendlineAnimation Enable="false"></ChartTrendlineAnimation>
+                            <ChartTrendlineMarker Visible="true" Fill="Red"></ChartTrendlineMarker>
+                        </ChartTrendline>
+                    </ChartTrendlines>
+                    <ChartSeriesAnimation Enable="false"></ChartSeriesAnimation>
+                </ChartSeries>
+            </ChartSeriesCollection>
+        </SfChart>
+    </ComponentUnderTest>
+</SfFixture>
+
+@code {
+
+    SfFixture fixture12 { get; set; }
+    async Task ExponentialTrendlineWithIntercept(Fixture fixture12)
+    {
+        var cut = fixture12.GetComponentUnderTest<SfChart>();
+        await Task.Delay(200);
+        var svg = cut.Find("#container_Series_0_TrendLine_0").GetAttribute("d");
+        Assert.True(svg != null);
+        Assert.True(cut.Find("#container0_AxisLabel_5").TextContent == "2005\n    ");
+        cut.SetParametersAndRender();
+    }
+    public class TrendData12
+    {
+        public DateTime x { get; set; }
+        public double y { get; set; }
+    }
+    public List<TrendData12> Trends12 = new List<TrendData12>
+{
+        new TrendData12 { x = new DateTime(2000, 2, 11), y = 14 },
+        new TrendData12 { x = new DateTime(2001, 9, 4), y = 20 },
+        new TrendData12 { x = new DateTime(2002, 2, 11), y = 25 },
+        new TrendData12 { x = new DateTime(2003, 9, 16), y = 21 },
+        new TrendData12 { x = new DateTime(2004, 2, 7), y = 13},
+        new TrendData12 { x = new DateTime(2005, 9, 7), y = 18 },
+        new TrendData12 { x = new DateTime(2006, 2, 11), y = 24 },
+        new TrendData12 { x = new DateTime(2007, 9, 14), y = 23 },
+        new TrendData12 { x = new DateTime(2008, 2, 6), y = 19 },
+        new TrendData12 { x = new DateTime(2009, 9, 6), y = 31 },
+        new TrendData12 { x = new DateTime(2010, 2, 11), y = 39},
+        new TrendData12 { x = new DateTime(2011, 9, 11), y = 50 },
+        new TrendData12 { x = new DateTime(2012, 2, 11), y = 24 },
+    };
+}
+
+
+@{
+    var InitialGroup13 = (new string[] { "CustomerID", "OrderID" });
+}
+<SfFixture @ref="fixture13" TestAsync="ExponentialTrendlineWithlegend" Description="ExponentialTrendlineWithlegend">
+    <ComponentUnderTest>
+        <SfChart ID="container" Title="Online trading" Height="600px" Width="850px">
+            <ChartPrimaryXAxis Title="Months" ValueType="Syncfusion.Blazor.Toolkit.ValueType.DateTime"></ChartPrimaryXAxis>
+            <ChartPrimaryYAxis Title="Rupees against Dollars" Interval="5"></ChartPrimaryYAxis>
+            <ChartSeriesCollection>
+                <ChartSeries DataSource="@Trends13" XName="x" YName="y" Type="ChartSeriesType.Scatter" Name="trend" Fill="#0066FF">
+                    <ChartTrendlines>
+                        <ChartTrendline Type="TrendlineTypes.Exponential" Fill="Orange" ForwardForecast="-5" BackwardForecast="-4" Intercept="3">
+                            <ChartTrendlineAnimation Enable="false"></ChartTrendlineAnimation>
+                            <ChartTrendlineMarker Visible="true" Fill="Red"></ChartTrendlineMarker>
+                        </ChartTrendline>
+                    </ChartTrendlines>
+                    <ChartSeriesAnimation Enable="false"></ChartSeriesAnimation>
+                </ChartSeries>
+            </ChartSeriesCollection>
+        </SfChart>
+    </ComponentUnderTest>
+</SfFixture>
+
+@code {
+
+    SfFixture fixture13 { get; set; }
+    async Task ExponentialTrendlineWithlegend(Fixture fixture13)
+    {
+        var cut = fixture13.GetComponentUnderTest<SfChart>();
+        await Task.Delay(200);
+        var svg = cut.Find("#container_chart_legend_shape_0").GetAttribute("rx");
+        Assert.True(svg == "5");
+        var svg1 = cut.Find("#container_chart_legend_shape_0").GetAttribute("ry");
+        Assert.True(svg1 == "5");
+        cut.SetParametersAndRender();
+    }
+    public class TrendData13
+    {
+        public DateTime x { get; set; }
+        public double y { get; set; }
+    }
+    public List<TrendData13> Trends13 = new List<TrendData13>
+{
+        new TrendData13 { x = new DateTime(2000, 2, 11), y = 14 },
+        new TrendData13 { x = new DateTime(2001, 9, 4), y = 20 },
+        new TrendData13 { x = new DateTime(2002, 2, 11), y = 25 },
+        new TrendData13 { x = new DateTime(2003, 9, 16), y = 21 },
+        new TrendData13 { x = new DateTime(2004, 2, 7), y = 13},
+        new TrendData13 { x = new DateTime(2005, 9, 7), y = 18 },
+        new TrendData13 { x = new DateTime(2006, 2, 11), y = 24 },
+        new TrendData13 { x = new DateTime(2007, 9, 14), y = 23 },
+        new TrendData13 { x = new DateTime(2008, 2, 6), y = 19 },
+        new TrendData13 { x = new DateTime(2009, 9, 6), y = 31 },
+        new TrendData13 { x = new DateTime(2010, 2, 11), y = 39},
+        new TrendData13 { x = new DateTime(2011, 9, 11), y = 50 },
+        new TrendData13 { x = new DateTime(2012, 2, 11), y = 24 },
+    };
+}
+
+
+@{
+    var InitialGroup14 = (new string[] { "CustomerID", "OrderID" });
+}
+<SfFixture @ref="fixture14" TestAsync="ExponentialTrendlineWithCategoryValues" Description="ExponentialTrendlineWithCategoryValues">
+    <ComponentUnderTest>
+        <SfChart ID="container" Title="Online trading" Height="600px" Width="850px">
+            <ChartPrimaryXAxis Title="Months" ValueType="Syncfusion.Blazor.Toolkit.ValueType.Category"></ChartPrimaryXAxis>
+            <ChartPrimaryYAxis Title="Rupees against Dollars" Interval="5"></ChartPrimaryYAxis>
+            <ChartSeriesCollection>
+                <ChartSeries DataSource="@Trends14" XName="x" YName="y" Type="ChartSeriesType.Line" Name="trend" Fill="#0066FF">
+                    <ChartTrendlines>
+                        <ChartTrendline Type="TrendlineTypes.Exponential" Fill="Red" Name="Exponential_trend">
+                            <ChartTrendlineAnimation Enable="false"></ChartTrendlineAnimation>
+                            <ChartTrendlineMarker Visible="true"></ChartTrendlineMarker>
+                        </ChartTrendline>
+                    </ChartTrendlines>
+                    <ChartSeriesAnimation Enable="false"></ChartSeriesAnimation>
+                </ChartSeries>
+                <ChartSeries DataSource="@Trends14" XName="x" YName="y1" Type="ChartSeriesType.Line" Width="2" Name="MTBV">
+                    <ChartTrendlines>
+                        <ChartTrendline Type="TrendlineTypes.Exponential" Fill="Red" Name="Exponential_trend2">
+                            <ChartTrendlineAnimation Enable="false"></ChartTrendlineAnimation>
+                            <ChartTrendlineMarker Visible="true"></ChartTrendlineMarker>
+                        </ChartTrendline>
+                    </ChartTrendlines>
+                    <ChartMarker Visible="true" Width="10" Height="10"></ChartMarker>
+                    <ChartSeriesAnimation Enable="false"></ChartSeriesAnimation>
+                </ChartSeries>
+            </ChartSeriesCollection>
+        </SfChart>
+    </ComponentUnderTest>
+</SfFixture>
+
+@code {
+
+    SfFixture fixture14 { get; set; }
+    async Task ExponentialTrendlineWithCategoryValues(Fixture fixture14)
+    {
+        var cut = fixture14.GetComponentUnderTest<SfChart>();
+        await Task.Delay(200);
+        var svg = cut.Find("#containerSeriesGroup0").ChildNodes.Length;
+        Assert.True(svg == 2);
+        var xAxisLabelCollection = cut.Find("#containerAxisLabels0");
+        Assert.True(xAxisLabelCollection.ChildNodes.Length == 6);
+        var yAxisLabelCollection = cut.Find("#containerAxisLabels1");
+        Assert.True(yAxisLabelCollection.ChildNodes.Length == 4);
+        cut.SetParametersAndRender();
+    }
+    public class TrendData14
+    {
+        public string x { get; set; }
+        public double y { get; set; }
+        public double y1 { get; set; }
+    }
+    public List<TrendData14> Trends14 = new List<TrendData14>
+{
+        new TrendData14{ x = "FEB 2018", y = 12, y1 = 0},
+        new TrendData14{ x = "MAR 2018", y = 12, y1 = 0},
+        new TrendData14{ x = "APR 2018", y = 12, y1 = 0},
+        new TrendData14{ x = "MAG 2018", y = 12, y1 = 0},
+        new TrendData14{ x = "GIU 2018", y = 12, y1 = 0},
+        new TrendData14{ x = "LUG 2018", y = 12, y1 = 0}
+    };
+}
+
+
+@{
+    var InitialGroup15 = (new string[] { "CustomerID", "OrderID" });
+}
+<SfFixture @ref="fixture15" TestAsync="ExponentialMultiplePanesWithoutSeries" Description="ExponentialMultiplePanesWithoutSeries">
+    <ComponentUnderTest>
+        <SfChart ID="container" Title="Online trading" Height="600px" Width="850px">
+            <ChartPrimaryXAxis Title="Months"></ChartPrimaryXAxis>
+            <ChartPrimaryYAxis Title="Rupees against Dollars" Interval="5"></ChartPrimaryYAxis>
+            <ChartColumns>
+                <ChartColumn Width="50%"></ChartColumn>
+                <ChartColumn Width="50%"></ChartColumn>
+            </ChartColumns>
+            <ChartAxes>
+                <ChartAxis Name="horizontalAxis2" ColumnIndex="1"></ChartAxis>
+            </ChartAxes>
+            <ChartSeriesCollection>
+                <ChartSeries XName="x" YName="y" Type="ChartSeriesType.Scatter" Name="trend" Fill="#0066FF">
+                    <ChartTrendlines>
+                        <ChartTrendline Type="TrendlineTypes.Exponential">
+                            <ChartTrendlineAnimation Enable="false"></ChartTrendlineAnimation>
+                          </ChartTrendline>
+                    </ChartTrendlines>
+                    <ChartSeriesAnimation Enable="false"></ChartSeriesAnimation>
+                </ChartSeries>
+                <ChartSeries XName="x" YName="y" Type="ChartSeriesType.Scatter" Name="trend" Fill="#0066FF" XAxisName="horizontalAxis2">
+                    <ChartTrendlines>
+                        <ChartTrendline Type="TrendlineTypes.Exponential">
+                            <ChartTrendlineAnimation Enable="false"></ChartTrendlineAnimation>
+                        </ChartTrendline>
+                    </ChartTrendlines>
+                    <ChartSeriesAnimation Enable="false"></ChartSeriesAnimation>
+                </ChartSeries>
+            </ChartSeriesCollection>
+        </SfChart>
+    </ComponentUnderTest>
+</SfFixture>
+
+@code {
+
+    SfFixture fixture15 { get; set; }
+    async Task ExponentialMultiplePanesWithoutSeries(Fixture fixture15)
+    {
+        var cut = fixture15.GetComponentUnderTest<SfChart>();
+        await Task.Delay(200);
+        var svg = cut.Find("#containerAxisLabels1").ChildNodes.Length;
+        Assert.True(svg == 3);
+        var svg1 = cut.Find("#containerAxisLabels0").ChildNodes.Length;
+        Assert.True(svg1 == 5);
+        cut.SetParametersAndRender();
+    }
+ }

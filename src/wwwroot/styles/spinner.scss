@@ -1,0 +1,167 @@
+@use 'sass:color';
+
+@use './base.scss' as *;
+
+//Layout Variables Start
+$spin-padding: 10px;
+$spin-label-margin-top: 10px;
+$spin-label-font-size: $text-sm;
+
+//Layout Variables End
+
+//Normal Variables Start
+$spin-label-color: $primary;
+$spin-overlay-background: $overlay-bg-color;
+$spin-label-font-family: $font-family;
+$spin-overlay-stroke-color: $primary;
+$spin-overlay-font-color: $white;
+
+//Normal Variables End
+
+$spin-stroke-color: $primary-lighter;
+$spin-stroke-width: 1.5;
+$spin-arc-color: $primary;
+$spin-tail-margin: 0 auto !default;
+$spinner-zero-space: 0 !default;
+$spinner-full-width: 100% !default;
+$spinner-half-width: 50% !default;
+$spinner-full-height: 100% !default;
+
+@mixin spinner-rotate {
+    animation: fluent-spinner-rotate 1.3s infinite cubic-bezier(.53, .21, .29, .67);
+}
+
+@keyframes fluent-spinner-rotate {
+    0% {
+        -webkit-transform: rotate(0);
+        transform: rotate(0);
+    }
+
+    100% {
+        -webkit-transform: rotate(360deg);
+        transform: rotate(360deg);
+    }
+}
+
+//Theme based other styles end
+
+@include export-module('spinner-layout') {
+    .e-spinner-pane {
+        align-items: center;
+        display: inline-flex;
+        height: $spinner-full-height;
+        justify-content: center;
+        left: $spinner-zero-space;
+        position: absolute;
+        text-align: center;
+        top: $spinner-zero-space;
+        user-select: none;
+        vertical-align: middle;
+        width: $spinner-full-width;
+        z-index: 1000;
+
+        &::after {
+            display: none;
+        }
+
+        &.e-spin-left {
+            /* stylelint-disable property-no-vendor-prefix */
+            .e-spinner-inner {
+                -webkit-transform: translateX(0%) translateY(-50%);
+                left: $spinner-zero-space;
+                padding-left: $spin-padding;
+                transform: translateX(0%) translateY(-50%);
+            }
+        }
+
+        &.e-spin-right {
+            .e-spinner-inner {
+                -webkit-transform: translateX(-100%) translateY(-50%);
+                left: $spinner-full-width;
+                padding-right: $spin-padding;
+                transform: translateX(-100%) translateY(-50%);
+            }
+        }
+
+        &.e-spin-center {
+            .e-spinner-inner {
+                -webkit-transform: translateX(-50%) translateY(-50%);
+                left: $spinner-half-width;
+                transform: translateX(-50%) translateY(-50%);
+            }
+        }
+
+        &.e-spin-hide {
+            display: none;
+        }
+
+        &.e-spin-show {
+            display: inline-flex;
+        }
+
+        .e-spinner-inner {
+            -webkit-transform: translateX(-50%) translateY(-50%);
+            left: $spinner-half-width;
+            margin: $spinner-zero-space;
+            position: absolute;
+            text-align: center;
+            top: $spinner-half-width;
+            transform: translateX(-50%) translateY(-50%);
+            z-index: 1000;
+
+            .e-spin-label {
+                font-family: $spin-label-font-family;
+                font-size: $spin-label-font-size;
+                margin-top: $spin-label-margin-top;
+                text-align: center;
+            }
+
+            .e-spin-fluent {
+                @include spinner-rotate;
+                display: block;
+                margin: $spin-tail-margin;
+                overflow: visible;
+
+                .e-path-arc,
+                .e-path-circle {
+                    fill: none;
+                    stroke-width: $spin-stroke-width;
+                }
+            }
+        }
+    }
+}
+
+@include export-module('spinner-theme') {
+    .e-spinner-pane {
+        background-color: transparent;
+
+        &.e-spin-overlay {
+            background-color: $spin-overlay-background;
+
+            .e-spinner-inner {
+
+                .e-spin-label {
+                    color: $spin-overlay-font-color;
+                }
+            }
+        }
+
+        .e-spinner-inner {
+            .e-spin-label {
+                color: $spin-label-color;
+            }
+
+            .e-spin-fluent {
+
+                .e-path-circle {
+                    stroke: $spin-stroke-color;
+                }
+
+                .e-path-arc {
+                    stroke: $spin-arc-color;
+                }
+            }
+        }
+    }
+}

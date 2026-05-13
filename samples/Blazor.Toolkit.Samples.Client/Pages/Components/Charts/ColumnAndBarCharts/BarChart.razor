@@ -1,0 +1,1791 @@
+@page "/charts/bar-chart"
+@using Syncfusion.Blazor.Toolkit.Charts
+@using Syncfusion.Blazor.Toolkit.Inputs.Internal
+@namespace Blazor.Toolkit.Samples.Client.Pages.Components.Charts.column_and_bar_charts
+
+<PageTitle>Syncfusion Blazor Toolkit Scatter Chart Demo</PageTitle>
+
+
+<Description>
+    <Header>
+        <h5>Overview</h5>
+    </Header>
+    <Content>
+        <p>
+            A Bar Chart represents data using rectangular bars to compare values across categories and series, making it easy to visualize differences, trends, and performance at a glance. To render a bar chart, set the <code>Type</code> property in <code>ChartSeries</code> to <code>ChartSeriesType.Bar</code>.
+        </p>
+    </Content>
+</Description>
+<VirtualizeSection MinHeightPx="600px">
+    <CodePreview IsFullWidth="true" CodeSection="@overViewCode">
+    <PreviewSection>
+        <SfChart Title="Global Smartphone Sales Trends by Brand (2021-2023)" Theme="@_currentTheme">
+            <!-- X Axis -->
+            <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Toolkit.ValueType.Category" />
+
+            <!-- Y Axis -->
+            <ChartPrimaryYAxis Format="{value}M" Title="Units Sold (in Millions)" Maximum="300">
+                <ChartAxisLineStyle Width="0"></ChartAxisLineStyle>
+            </ChartPrimaryYAxis>
+
+            <!-- Tooltip -->
+            <ChartTooltipSettings Enable="true"
+                                  Header="<b>${series.name}</b>"
+                                  Format="${point.x} : <b>${point.y}</b>">
+            </ChartTooltipSettings>
+
+            <!-- Series -->
+            
+                <ChartSeries DataSource="@SmartPhoneService.AppleData"
+                             XName="Year"
+                             YName="Count"
+                             Type="ChartSeriesType.Bar"
+                             Fill="#8AA624"
+                             Name="Apple"
+                             ColumnSpacing="0.3"
+                             CornerRadius="@(new ChartCornerRadius { TopRight = 8, BottomRight = 8 })">
+                </ChartSeries>
+
+                <ChartSeries DataSource="@SmartPhoneService.XiaomiData"
+                             XName="Year"
+                             YName="Count"
+                             Type="ChartSeriesType.Bar"
+                             Fill="#D25D5D"
+                             Name="Xiaomi"
+                             ColumnSpacing="0.3"
+                             CornerRadius="@(new ChartCornerRadius { TopRight = 8, BottomRight = 8 })">
+                </ChartSeries>
+
+                <ChartSeries DataSource="@SmartPhoneService.OppoData"
+                             XName="Year"
+                             YName="Count"
+                             Type="ChartSeriesType.Bar"
+                             Fill="#239BA7"
+                             Name="Oppo"
+                             ColumnSpacing="0.3"
+                             CornerRadius="@(new ChartCornerRadius { TopRight = 8, BottomRight = 8 })">
+                </ChartSeries>
+            
+        </SfChart>
+    </PreviewSection>
+</CodePreview>
+</VirtualizeSection>
+
+<Description>
+    <Header>
+        <h5>Data Label</h5>
+    </Header>
+    <Content>
+        <p>
+            Data labels display the actual values directly on bars, improving readability and reducing the need to refer to axes while allowing customization of position, format, and visibility. Set the <code>Visible</code> property in <code>ChartDataLabel</code> to <code>true</code> to enable data labels.
+        </p>
+    </Content>
+</Description>
+
+<VirtualizeSection MinHeightPx="600px">
+    <CodePreview IsFullWidth="true" CodeSection="@dataLabelCode">
+    <PreviewSection>
+        <SfChart Title="Global Smartphone Sales Trends by Brand (2021–2023)" Theme="@_currentTheme">
+            <!-- X Axis -->
+            <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Toolkit.ValueType.Category">
+            </ChartPrimaryXAxis>
+
+            <!-- Y Axis -->
+            <ChartPrimaryYAxis Format="{value}M" Title="Units Sold (in Millions)" Maximum="300">
+                <ChartAxisLineStyle Width="0" />
+            </ChartPrimaryYAxis>
+
+            <!-- Series Collection -->
+            
+                <!-- Apple -->
+                <ChartSeries DataSource="PaletteData"
+                             XName="Year"
+                             YName="Apple"
+                             Type="ChartSeriesType.Bar"
+                             Name="Apple"
+                             Fill="#8AA624"
+                             ColumnSpacing="0.3">
+                    <ChartMarker>
+                            <ChartDataLabel Visible="true" Format="{value}M" />
+                    </ChartMarker>
+                    <ChartCornerRadius BottomRight="8" TopRight="8" />
+                </ChartSeries>
+
+                <!-- Xiaomi -->
+                <ChartSeries DataSource="PaletteData"
+                             XName="Year"
+                             YName="Xiaomi"
+                             Type="ChartSeriesType.Bar"
+                             Name="Xiaomi"
+                             Fill="#D25D5D"
+                             ColumnSpacing="0.3">
+                    <ChartMarker>
+                        <ChartDataLabel Visible="true" Format="{value}M" />
+                    </ChartMarker>
+                    <ChartCornerRadius BottomRight="8" TopRight="8" />
+                </ChartSeries>
+
+                <!-- Oppo -->
+                <ChartSeries DataSource="PaletteData"
+                             XName="Year"
+                             YName="Oppo"
+                             Type="ChartSeriesType.Bar"
+                             Name="Oppo"
+                             Fill="#239BA7"
+                             ColumnSpacing="0.3">
+                    <ChartMarker>
+                            <ChartDataLabel Visible="true" Format="{value}M" />
+                    </ChartMarker>
+                    <ChartCornerRadius BottomRight="8" TopRight="8" />
+                </ChartSeries>
+            
+
+            <!-- Tooltip -->
+            <ChartTooltipSettings Enable="true"
+                                  Header="${series.name}"
+                                  Format="${point.x} : <b>${point.y}</b>" />
+        </SfChart>
+    </PreviewSection>
+</CodePreview>
+</VirtualizeSection>
+<Description>
+    <Header>
+        <h5>Stacking Bar</h5>
+    </Header>
+    <Content>
+        <p>
+            A stacking Bar Chart displays multiple data series as segments within one bar, where each segment represents a part of the total and uses different colors for clarity. To render a stacking bar chart, set the <code>Type</code> property in <code>ChartSeries</code> to <code>ChartSeriesType.StackingBar</code>.
+        </p>
+    </Content>
+</Description>
+
+<VirtualizeSection MinHeightPx="600px">
+    <CodePreview IsFullWidth="true" CodeSection="@stackingBar">
+    <PreviewSection>
+        <SfChart Title="Annual Renewable Energy Generation in China (2020–2023) by Source" Theme="@_currentTheme">
+            <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Toolkit.ValueType.Category" />
+
+            <ChartPrimaryYAxis Interval="1000" Format="{value}TWh">
+            </ChartPrimaryYAxis>
+
+            
+                <!-- Wind -->
+                <ChartSeries DataSource="@StackingBarData"
+                             XName="X"
+                             YName="Y1"
+                             Type="ChartSeriesType.StackingBar"
+                             Name="Wind"
+                             Fill="#689B8A"
+                             Width="0.6">
+                </ChartSeries>
+
+                <!-- Solar -->
+                <ChartSeries DataSource="@StackingBarData"
+                             XName="X"
+                             YName="Y2"
+                             Type="ChartSeriesType.StackingBar"
+                             Name="Solar"
+                             Fill="#B2CD9C"
+                             Width="0.6">
+                </ChartSeries>
+
+                <!-- Hydro -->
+                <ChartSeries DataSource="@StackingBarData"
+                             XName="X"
+                             YName="Y3"
+                             Type="ChartSeriesType.StackingBar"
+                             Name="Hydro"
+                             Fill="#8D8D87"
+                             Width="0.6">
+                </ChartSeries>
+            
+
+            <ChartTooltipSettings Enable="true"
+                                  Header="Renewable Energy Generation" Format="${point.x}: ${point.y}TWh" />
+        </SfChart>
+    </PreviewSection>
+</CodePreview>
+</VirtualizeSection>
+
+<Description>
+    <Header>
+        <h5>Stacking Labels</h5>
+    </Header>
+    <Content>
+        <p>
+            Stacking labels show values for individual stacked segments or the total bar, making it easier to understand contributions without interaction or tooltips. To enable stacking labels, set the <code>Visible</code> property in <code>ChartStackLabelSettings</code> to <code>true</code>.
+        </p>
+    </Content>
+</Description>
+
+<VirtualizeSection MinHeightPx="600px">
+    <CodePreview IsFullWidth="true" CodeSection="@stackLabel">
+    <PreviewSection>
+        <SfChart Title="Annual Renewable Energy Generation in China (2020–2023) by Source" Theme="@_currentTheme">
+            <!-- X Axis -->
+            <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Toolkit.ValueType.Category" />
+
+            <!-- Y Axis -->
+            <ChartPrimaryYAxis Interval="1000" Format="{value}TWh">
+            </ChartPrimaryYAxis>
+
+            <!-- Stack Labels -->
+            <ChartStackLabelSettings Visible="true" Format="{value}TWh" />
+            <!-- Tooltip -->
+            <ChartTooltipSettings Enable="true" />
+
+            <!-- Series Collection -->
+            
+                <!-- Wind -->
+                <ChartSeries DataSource="StackingBarDataLabel"
+                             XName="X"
+                             YName="Y1"
+                             Name="Wind"
+                             Type="ChartSeriesType.StackingBar"
+                             Fill="#689B8A"
+                             Width="0.6">
+                </ChartSeries>
+
+                <!-- Solar -->
+                <ChartSeries DataSource="StackingBarDataLabel"
+                             XName="X"
+                             YName="Y2"
+                             Name="Solar"
+                             Type="ChartSeriesType.StackingBar"
+                             Fill="#B2CD9C"
+                             Width="0.6">
+                </ChartSeries>
+
+                <!-- Hydro -->
+                <ChartSeries DataSource="StackingBarDataLabel"
+                             XName="X"
+                             YName="Y3"
+                             Name="Hydro"
+                             Type="ChartSeriesType.StackingBar"
+                             Fill="#8D8D87"
+                             Width="0.6"
+                             CornerRadius="@(new ChartCornerRadius { BottomRight = 4, TopRight = 4 })">
+                </ChartSeries>
+            
+        </SfChart>
+    </PreviewSection>
+</CodePreview>
+</VirtualizeSection>
+
+<Description>
+    <Header>
+        <h5>Stacking Group</h5>
+    </Header>
+    <Content>
+        <p>
+            A stacking group allows multiple independent stacks within the same category by grouping series together, enabling side‑by‑side comparison of different stacked datasets. You can group stacked bars by using the <code>StackingGroup</code> property in <code>ChartSeries</code>.
+        </p>
+    </Content>
+</Description>
+
+<VirtualizeSection MinHeightPx="600px">
+    <CodePreview IsFullWidth="true" CodeSection="@stackingGroup">
+    <PreviewSection>
+        <SfChart Title="Steel Production by Countries, Grouped by Continent" Theme="@_currentTheme">
+            <!-- X Axis -->
+            <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Toolkit.ValueType.Category" Interval="1" />
+
+            <!-- Y Axis -->
+            <ChartPrimaryYAxis Maximum="60" Interval="10" Format="{value} Mmt">
+            </ChartPrimaryYAxis>
+
+            <!-- Legend & Tooltip -->
+            <ChartLegendSettings Visible="true" />
+            <ChartTooltipSettings Enable="true" />
+
+            <!-- Series -->
+            
+                <!-- Asia Group -->
+                <ChartSeries DataSource="@ChartData.StackingColumnGroupData"
+                             XName="X" YName="Y1"
+                             Name="Iran"
+                             Type="ChartSeriesType.StackingBar"
+                             StackingGroup="Asia"
+                             Fill="#E195AB"
+                             ColumnSpacing="0.2"
+                             TooltipMappingName="Total">
+                    <ChartSeriesBorder Width="1" Color="White" />
+                </ChartSeries>
+
+                <ChartSeries DataSource="@ChartData.StackingColumnGroupData"
+                             XName="X" YName="Y2"
+                             Name="Indonesia"
+                             Type="ChartSeriesType.StackingBar"
+                             StackingGroup="Asia"
+                             Fill="#7E99A3"
+                             ColumnSpacing="0.2"
+                             TooltipMappingName="Total"
+                             CornerRadius="@(new ChartCornerRadius { BottomRight = 10, TopRight = 10 })">
+                    <ChartSeriesBorder Width="1" Color="White" />
+                </ChartSeries>
+
+                <!-- Europe Group -->
+                <ChartSeries DataSource="@ChartData.StackingColumnGroupData"
+                             XName="X" YName="Y3"
+                             Name="Italy"
+                             Type="ChartSeriesType.StackingBar"
+                             StackingGroup="Europe"
+                             Fill="#67BFA2"
+                             ColumnSpacing="0.2"
+                             TooltipMappingName="Total">
+                    <ChartSeriesBorder Width="1" Color="White" />
+                </ChartSeries>
+
+                <ChartSeries DataSource="@ChartData.StackingColumnGroupData"
+                             XName="X" YName="Y4"
+                             Name="France"
+                             Type="ChartSeriesType.StackingBar"
+                             StackingGroup="Europe"
+                             Fill="#B2CD9C"
+                             ColumnSpacing="0.2"
+                             TooltipMappingName="Total"
+                             CornerRadius="@(new ChartCornerRadius { BottomRight = 10, TopRight = 10 })">
+                    <ChartSeriesBorder Width="1" Color="White" />
+                </ChartSeries>
+            
+        </SfChart>
+    </PreviewSection>
+</CodePreview>
+</VirtualizeSection>
+
+<Description>
+    <Header>
+        <h5>100% Stacking Bar</h5>
+    </Header>
+    <Content>
+        <p>
+            A 100% stacking Bar Chart scales each bar to 100%, focusing on percentage contribution rather than absolute values, which is useful for comparing composition across categories. To render a 100% stacking bar chart, set the <code>Type</code> property in <code>ChartSeries</code> to <code>ChartSeriesType.StackingBar100</code>.
+        </p>
+    </Content>
+</Description>
+
+<VirtualizeSection MinHeightPx="600px">
+    <CodePreview IsFullWidth="true" CodeSection="@percentStackBar">
+    <PreviewSection>
+        <SfChart Title="Annual Renewable Energy Generation in China (2020–2023) by Source" Theme="@_currentTheme">
+            <ChartArea>
+                <ChartAreaBorder Width="0" />
+                <ChartDefaultMargin Bottom="12"></ChartDefaultMargin>
+            </ChartArea>
+
+            <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Toolkit.ValueType.Category" />
+
+            <ChartPrimaryYAxis Format="{value}%" Minimum="0" Maximum="100" Interval="20">
+            </ChartPrimaryYAxis>
+
+            
+                <ChartSeries DataSource="@EnergyDataService.Wind"
+                             XName="X"
+                             YName="Y"
+                             Name="Wind"
+                             Type="ChartSeriesType.StackingBar100"
+                             Fill="#689B8A"
+                             ColumnWidth="0.6"
+                             LegendShape="LegendShape.Rectangle">
+                    <ChartMarker Shape="ChartShape.Rectangle" />
+                </ChartSeries>
+
+                <ChartSeries DataSource="@EnergyDataService.Solar"
+                             XName="X"
+                             YName="Y"
+                             Name="Solar"
+                             Type="ChartSeriesType.StackingBar100"
+                             Fill="#B2CD9C"
+                             ColumnWidth="0.6"
+                             LegendShape="LegendShape.Rectangle">
+                    <ChartMarker Shape="ChartShape.Rectangle" />
+                </ChartSeries>
+
+                <ChartSeries DataSource="@EnergyDataService.Hydro"
+                             XName="X"
+                             YName="Y"
+                             Name="Hydro"
+                             Type="ChartSeriesType.StackingBar100"
+                             Fill="#8D8D87"
+                             ColumnWidth="0.6"
+                             LegendShape="LegendShape.Rectangle">
+                    <ChartMarker Shape="ChartShape.Rectangle" />
+                </ChartSeries>
+            
+
+            <ChartLegendSettings ShapePadding="9" ShapeHeight="9"></ChartLegendSettings>
+            <ChartTooltipSettings Enable="true" Header="<b>Renewable Energy Generation</b>" Format="${series.name}: <b>${point.y} TWh</b>"></ChartTooltipSettings>
+        </SfChart>
+    </PreviewSection>
+</CodePreview>
+</VirtualizeSection>
+
+<Description>
+    <Header>
+        <h5>Grouped Bar</h5>
+    </Header>
+    <Content>
+        <p>A grouped Bar Chart places bars next to each other for each category, making it easy to compare multiple series values directly without stacking. You can group series by using the <code>GroupName</code> property in <code>ChartSeries</code>.</p>
+    </Content>
+</Description>
+<VirtualizeSection MinHeightPx="600px">
+    <CodePreview IsFullWidth="true" CodeSection="@groupedBar">
+    <PreviewSection>
+        <SfChart Title="Olympic Medal Trends by Country and Year" Theme="@_currentTheme">
+            <!-- Tooltip -->
+            <ChartTooltipSettings Enable="true"
+                                  Header="${point.x}"
+                                      Format="${series.name} : <b>${point.y} Gold</b>">
+            </ChartTooltipSettings>
+
+            <!-- X Axis -->
+            <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Toolkit.ValueType.Category"
+                               Interval="1">
+            </ChartPrimaryXAxis>
+
+            <!-- Y Axis -->
+            <ChartPrimaryYAxis Title="Number of Medals Won">
+                <ChartAxisLineStyle Width="0"></ChartAxisLineStyle>
+            </ChartPrimaryYAxis>
+
+            <!-- Series -->
+            
+                <!-- 🇺🇸 USA -->
+                <ChartSeries DataSource="CombinedData" XName="X" YName="Y1"
+                             Name="USA Total Medals"
+                             Type="ChartSeriesType.Bar"
+                             GroupName="USA"
+                             Fill="#748DAE"
+                             Width="0.7"
+                             ColumnSpacing="0.2">
+                    <ChartMarker>
+                        <ChartDataLabel Visible="true" Position="ChartLabelPosition.Top" />
+                    </ChartMarker>
+                </ChartSeries>
+
+                <ChartSeries DataSource="CombinedData" XName="X" YName="Y2"
+                             Name="USA Gold Medals"
+                             Type="ChartSeriesType.Bar"
+                             GroupName="USA"
+                             Fill="#8DB6ED"
+                             Width="0.5"
+                             ColumnSpacing="0.2">
+                    <ChartMarker>
+                        <ChartDataLabel Visible="true" Position="ChartLabelPosition.Top"></ChartDataLabel>
+                    </ChartMarker>
+                </ChartSeries>
+
+                <!-- 🇬🇧 UK -->
+                <ChartSeries DataSource="CombinedData" XName="X" YName="Y3"
+                             Name="UK Total Medals"
+                             Type="ChartSeriesType.Bar"
+                             GroupName="UK"
+                             Fill="#8D8D87"
+                             Width="0.7"
+                             ColumnSpacing="0.2">
+                    <ChartMarker>
+                        <ChartDataLabel Visible="true" Position="ChartLabelPosition.Top" />
+                    </ChartMarker>
+                </ChartSeries>
+
+                <ChartSeries DataSource="CombinedData" XName="X" YName="Y4"
+                             Name="UK Gold Medals"
+                             Type="ChartSeriesType.Bar"
+                             GroupName="UK"
+                             Fill="#DDDAD0"
+                             Width="0.5"
+                             ColumnSpacing="0.2">
+                    <ChartMarker>
+                        <ChartDataLabel Visible="true" Position="ChartLabelPosition.Top" />
+                    </ChartMarker>
+                </ChartSeries>
+
+                <!-- 🇨🇳 China -->
+                <ChartSeries DataSource="CombinedData" XName="X" YName="Y5"
+                             Name="China Total Medals"
+                             Type="ChartSeriesType.Bar"
+                             GroupName="China"
+                             Fill="#689B8A"
+                             Width="0.7"
+                             ColumnSpacing="0.2">
+                    <ChartMarker>
+                        <ChartDataLabel Visible="true" Position="ChartLabelPosition.Top" />
+                    </ChartMarker>
+                </ChartSeries>
+
+                <ChartSeries DataSource="CombinedData" XName="X" YName="Y6"
+                             Name="China Gold Medals"
+                             Type="ChartSeriesType.Bar"
+                             GroupName="China"
+                             Fill="#B2CD9C"
+                             Width="0.5"
+                             ColumnSpacing="0.2">
+                    <ChartMarker>
+                        <ChartDataLabel Visible="true" Position="ChartLabelPosition.Top" />
+                    </ChartMarker>
+                </ChartSeries>
+            
+        </SfChart>
+    </PreviewSection>
+</CodePreview>
+</VirtualizeSection>
+<Description>
+    <Header>
+        <h5>Negative Data</h5>
+    </Header>
+    <Content>
+        <p>Negative data values are represented by bars extending in the opposite direction of the baseline, clearly visualizing losses, reductions, or below‑zero performance. The <code>SfChart</code> will automatically plot negative values based on the data provided.</p>
+    </Content>
+</Description>
+
+<VirtualizeSection MinHeightPx="600px">
+    <CodePreview IsFullWidth="true" CodeSection="@negativeDataCode">
+    <PreviewSection>
+        <SfChart Title="Global Ocean Temperature Anomalies" Theme="@_currentTheme">
+            <!-- X Axis -->
+            <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Toolkit.ValueType.Double"
+                               Minimum="1880"
+                               Maximum="2022"
+                               Interval="20" Title="Year" LabelIntersectAction="LabelIntersectAction.Trim">
+            </ChartPrimaryXAxis>
+
+            <!-- Y Axis -->
+            <ChartPrimaryYAxis Minimum="-0.5"
+                               Maximum="0.8"
+                               Interval="0.2" Title="Temperature Anomaly (°C)" Format="{value}°C">
+            </ChartPrimaryYAxis>
+
+            <!-- Series -->
+            
+                <ChartSeries DataSource="rectSeriesNegativeData"
+                             XName="Year"
+                             YName="Anomaly"
+                             Type="ChartSeriesType.Bar"
+                             PointColorMapping="Color">
+                    <ChartCornerRadius BottomRight="5" TopRight="5" />
+                </ChartSeries>
+            
+
+            <!-- Tooltip -->
+            <ChartTooltipSettings Enable="true"
+                                  Header="${point.x}"
+                                  Format="Anomaly: <b>${point.y}</b>" />
+        </SfChart>
+    </PreviewSection>
+</CodePreview>
+</VirtualizeSection>
+
+<Description>
+    <Header>
+       
+        <h5>Bar With Track</h5>
+    </Header>
+    <Content>
+        <p>A bar with track includes a background bar indicating the total or target value, while the foreground bar shows the actual progress or achievement. To enable the track, set the <code>EnableSideBySidePlacement</code> property in <code>SfChart</code> to <code>false</code>.</p>
+    </Content>
+</Description>
+
+<VirtualizeSection MinHeightPx="600px">
+    <CodePreview IsFullWidth="true" CodeSection="@barWithTrackCode">
+    <PreviewSection>
+        <SfChart Height="450px" Title="Gross Revenue by Region" Width="100%" EnableSideBySidePlacement="false" Theme="@_currentTheme">
+            <!-- X Axis -->
+            <ChartPrimaryXAxis Title="Region" ValueType="Syncfusion.Blazor.Toolkit.ValueType.Category">
+                <ChartAxisMajorTickLines Width="1"></ChartAxisMajorTickLines>
+            </ChartPrimaryXAxis>
+
+            <!-- Y Axis -->
+            <ChartPrimaryYAxis Format="$ {value}" Minimum="0" Maximum="12000000" Interval="2000000">
+            </ChartPrimaryYAxis>
+
+            <!-- Series -->
+            
+                <!-- Track / Target Revenue -->
+                <ChartSeries DataSource="@BarWithTrackData"
+                             XName="Region"
+                             YName="TargetRevenue"
+                             Type="ChartSeriesType.Bar"
+                             Fill="#B2CD9C"
+                             Opacity="0.9"
+                             ColumnWidth="0.4">
+                    <ChartSeriesBorder Width="1" Color="#689B8A"></ChartSeriesBorder>
+                    <ChartCornerRadius TopRight="20" BottomRight="20"></ChartCornerRadius>
+                </ChartSeries>
+
+                <!-- Actual Revenue -->
+                <ChartSeries DataSource="@BarWithTrackData"
+                             XName="Region"
+                             YName="Revenue"
+                             Type="ChartSeriesType.Bar"
+                             Fill="#689B8A"
+                             ColumnWidth="0.4">
+                    <ChartSeriesBorder Width="1" Color="#B2CD9C"></ChartSeriesBorder>
+
+                    <!-- Data Labels -->
+                    <ChartMarker>
+                        <ChartDataLabel Visible="true"
+                                        Position="ChartLabelPosition.Bottom"
+                                        Format="{value}%">
+                            <ChartDataLabelFont Color="#ffffff"></ChartDataLabelFont>
+                        </ChartDataLabel>
+                    </ChartMarker>
+                </ChartSeries>
+            
+
+            <!-- Tooltip -->
+            <ChartTooltipSettings Enable="true"
+                                  Header="${point.x}"
+                                  Format="Revenue: <b>${point.y}</b>">
+            </ChartTooltipSettings>
+        </SfChart>
+    </PreviewSection>
+</CodePreview>
+</VirtualizeSection>
+<Description>
+    <Header>
+        
+        <h5>Customizing Bar Spacing And Width</h5>
+    </Header>
+    <Content>
+        <p>Customizing bar spacing and width controls the gap and thickness of bars, improving readability and optimizing the visual balance of the chart layout. You can customize the bar spacing and width using the <code>ColumnSpacing</code> and <code>ColumnWidth</code> properties in <code>ChartSeries</code>.</p>
+    </Content>
+</Description>
+<VirtualizeSection MinHeightPx="600px">
+    <CodePreview IsFullWidth="true" CodeSection="@customizeBarCode">
+    <PreviewSection>
+        <div style="padding:15px; display:flex; gap:25px; margin-bottom:20px;">
+            <!-- Column Spacing -->
+            <div>
+                <label>
+                    <b>Column Spacing:</b> @ColumnSpacing.ToString("0.00")
+                </label><br />
+                <input type="range"
+                       min="0.1"
+                       max="1"
+                       step="0.01"
+                       @bind="ColumnSpacing" />
+            </div>
+
+            <!-- Column Width -->
+            <div>
+                <label>
+                    <b>Column Width:</b> @ColumnWidth.ToString("0.00")
+                </label><br />
+                <input type="range"
+                       min="0.1"
+                       max="1"
+                       step="0.01"
+                       @bind="ColumnWidth" />
+            </div>
+        </div>
+
+        <SfChart Width="600px" Title="Global Smartphone Sales Trends by Brand (2021–2023)" Theme="@_currentTheme">
+            <!-- Tooltip -->
+            <ChartTooltipSettings Enable="true"
+                                  Format="${point.x} : <b>${point.y}M</b>" />
+
+            <!-- X Axis -->
+            <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Toolkit.ValueType.Category">
+            </ChartPrimaryXAxis>
+
+            <!-- Y Axis -->
+            <ChartPrimaryYAxis Maximum="300" Title="Units Sold (in Millions)" Format="{value}M">
+            </ChartPrimaryYAxis>
+
+            <!-- Series -->
+            
+                <ChartSeries DataSource="PaletteData"
+                             XName="Year"
+                             YName="Apple"
+                             Type="ChartSeriesType.Bar"
+                             Fill="#8AA624"
+                             ColumnSpacing="ColumnSpacing"
+                             ColumnWidth="ColumnWidth"
+                             Name="Apple">
+                </ChartSeries>
+
+                <ChartSeries DataSource="PaletteData"
+                             XName="Year"
+                             YName="Xiaomi"
+                             Type="ChartSeriesType.Bar"
+                             Fill="#D25D5D"
+                             ColumnSpacing="ColumnSpacing"
+                             ColumnWidth="ColumnWidth"
+                             Name="Xiaomi">
+                </ChartSeries>
+
+                <ChartSeries DataSource="PaletteData"
+                             XName="Year"
+                             YName="Oppo"
+                             Type="ChartSeriesType.Bar"
+                             Fill="#239BA7"
+                             ColumnSpacing="ColumnSpacing"
+                             ColumnWidth="ColumnWidth"
+                             Name="Oppo">
+                </ChartSeries>
+            
+        </SfChart>
+    </PreviewSection>
+</CodePreview>
+</VirtualizeSection>
+
+<Description>
+    <Header>
+        <h5>Bar Width In Pixels</h5>
+    </Header>
+    <Content>
+        <p>Bar width in pixels allows precise control over the thickness of bars, ensuring consistent appearance across different screens and layouts. You can set the bar width in pixels using the <code>ColumnWidthInPixel</code> property in <code>ChartSeries</code>.</p>
+    </Content>
+</Description>
+
+<VirtualizeSection MinHeightPx="600px">
+    <CodePreview IsFullWidth="true" CodeSection="@BarWidth">
+    <PreviewSection>
+        <div class="property-pane">
+            <div style="display:flex; align-items:center; gap:20px; padding:15px; border-radius:8px; margin-bottom:20px">
+                <div style="min-width:160px">
+                    <label style="display:block; margin-bottom:5px; font-weight:500">
+                        Column Width (Pixels): @ColumnWidthInPixel
+                    </label>
+
+                    <input type="range"
+                           min="5"
+                           max="100"
+                           step="1"
+                           value="@ColumnWidthInPixel"
+                           @oninput="OnColumnWidthChange"
+                           style="width:150px; height:6px" />
+                </div>
+            </div>
+        </div>
+
+        <SfChart Width="600px" Title="Global Smartphone Sales Trends by Apple (2021-2023)" Theme="@_currentTheme">
+            <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Toolkit.ValueType.Category" />
+            <ChartPrimaryYAxis Maximum="300" Title="Units Sold (in Millions)" Format="{value}M">
+            </ChartPrimaryYAxis>
+
+            
+                <ChartSeries DataSource="@PaletteData"
+                             XName="Year"
+                             YName="Apple"
+                             Type="ChartSeriesType.Bar"
+                             Fill="#239BA7"
+                             ColumnWidthInPixel="@ColumnWidthInPixel"
+                             CornerRadius="@(new ChartCornerRadius { BottomRight = 4, TopRight = 4 })">
+                </ChartSeries>
+            
+
+            <ChartTooltipSettings Enable="true"
+                                  Header="Apple"
+                                  Format="${point.x} : <b>${point.y}M</b>" />
+        </SfChart>
+    </PreviewSection>
+</CodePreview>
+</VirtualizeSection>
+
+<Description>
+    <Header>
+        <h5>Series Customization</h5>
+    </Header>
+    <Content>
+        <p>Series customization allows control over each data series appearance and behavior, including color, labels, stacking, and visibility for better emphasis and clarity. You can customize the series using properties like <code>Fill</code>, <code>Opacity</code>, and <code>CornerRadius</code>.</p>
+    </Content>
+</Description>
+
+<VirtualizeSection MinHeightPx="600px">
+    <CodePreview IsFullWidth="true" CodeSection="@seriesCode">
+    <PreviewSection>
+        <svg style="height:0">
+            <defs>
+                <linearGradient id="appleGradient" x1="0" y1="0" x2="1" y2="0">
+                    <stop offset="0%" stop-color="#8C3BC8" />
+                    <stop offset="100%" stop-color="#CE59FF" />
+                </linearGradient>
+
+                <linearGradient id="xiaomiGradient" x1="0" y1="0" x2="1" y2="0">
+                    <stop offset="0%" stop-color="#45AF20" />
+                    <stop offset="100%" stop-color="#80C76D" />
+                </linearGradient>
+
+                <linearGradient id="oppoGradient" x1="1" y1="0" x2="0" y2="0">
+                    <stop offset="0%" stop-color="#8F94FB" />
+                    <stop offset="100%" stop-color="#4E54C8" />
+                </linearGradient>
+            </defs>
+        </svg>
+
+        <SfChart Width="600px" Title="Global Smartphone Sales Trends by Brand (2021–2023)" Theme="@_currentTheme">
+            <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Toolkit.ValueType.Category" />
+
+            <ChartPrimaryYAxis Title="Units Sold (in Millions)" Maximum="300" Format="{value}M">
+                <ChartAxisLineStyle Width="0" />
+            </ChartPrimaryYAxis>
+
+            <ChartTooltipSettings Enable="true"
+                                  Header="${series.name}"
+                                      Format="${point.x} : <b>${point.y}M</b>" />
+
+            
+                <ChartSeries DataSource="salesReport"
+                             XName="Year"
+                             YName="AppleSales"
+                             Type="ChartSeriesType.Bar"
+                             Fill="url(#appleGradient)"
+                             Opacity="0.8"
+                             Name="Apple"
+                             ColumnSpacing="0.3">
+                    <ChartCornerRadius TopRight="10" BottomRight="10" />
+                </ChartSeries>
+
+                <ChartSeries DataSource="salesReport"
+                             XName="Year"
+                             YName="XiaomiSales"
+                             Type="ChartSeriesType.Bar"
+                             Fill="url(#xiaomiGradient)"
+                             Opacity="0.8"
+                             Name="Xiaomi"
+                             ColumnSpacing="0.3">
+                    <ChartCornerRadius TopRight="10" BottomRight="10" />
+                </ChartSeries>
+
+                <ChartSeries DataSource="salesReport"
+                             XName="Year"
+                             YName="OppoSales"
+                             Type="ChartSeriesType.Bar"
+                             Fill="url(#oppoGradient)"
+                             Opacity="0.8"
+                             Name="Oppo"
+                             ColumnSpacing="0.3">
+                    <ChartCornerRadius TopRight="10" BottomRight="10" />
+                </ChartSeries>
+            
+        </SfChart>
+    </PreviewSection>
+</CodePreview>
+</VirtualizeSection>
+
+<Description>
+    <Header>
+        <h5>Customizing Data Point Colors</h5>
+    </Header>
+    <Content>
+        <p>Customizing data point colors enables individual bars or segments to have specific colors, helping highlight important values, exceptions, or conditions. You can customize the data point colors by mapping a data field to the <code>PointColorMapping</code> property in <code>ChartSeries</code>.</p>
+    </Content>
+</Description>
+
+<VirtualizeSection MinHeightPx="600px">
+    <CodePreview IsFullWidth="true" CodeSection="@colorCode">
+    <PreviewSection>
+        <SfChart Palettes="color" Title="U.S Trade with India in 2024" Theme="@_currentTheme">
+            <!-- X Axis -->
+            <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Toolkit.ValueType.Category">
+            </ChartPrimaryXAxis>
+
+            <!-- Y Axis -->
+            <ChartPrimaryYAxis Interval="0.3" Format="{value}B" Title="Billion USD">
+                <ChartAxisLineStyle Width="0"></ChartAxisLineStyle>
+            </ChartPrimaryYAxis>
+
+            <!-- Series -->
+            
+                <ChartSeries DataSource="@TradeDataSource"
+                             XName="X"
+                             YName="Y"
+                             Type="ChartSeriesType.Bar"
+                             PointColorMapping="BarColor"
+                             ColumnSpacing="0.2"
+                             CornerRadius="new ChartCornerRadius { BottomRight = 8, TopRight = 8 }">
+                </ChartSeries>
+            
+
+            <!-- Tooltip -->
+            <ChartTooltipSettings Enable="true"
+                                  Header="Export to India"
+                                  Format="${point.x} : <b>${point.y}</b>">
+            </ChartTooltipSettings>
+        </SfChart>
+    </PreviewSection>
+</CodePreview>
+</VirtualizeSection>
+
+@code {
+    [CascadingParameter]
+    private Theme CurrentTheme { get; set; } = Theme.Fluent;
+
+    private Theme _currentTheme = Theme.Fluent;
+
+    protected override void OnInitialized()
+    {
+        _currentTheme = CurrentTheme;
+    }
+
+    protected override void OnParametersSet()
+    {
+        _currentTheme = CurrentTheme;
+    }
+    public string overViewCode = @"<SfChart @key=""@_currentTheme"" Title=""Global Smartphone Sales Trends by Brand (2021-2023)"" Theme=""@_currentTheme"" Background=""transparent"">
+    <ChartPrimaryXAxis ValueType=""Syncfusion.Blazor.Toolkit.ValueType.Category""/>
+    <ChartPrimaryYAxis Format=""{value}M"" Title=""Units Sold (in Millions)"" Maximum=""300"">
+        <ChartAxisLineStyle Width=""0""></ChartAxisLineStyle>
+    </ChartPrimaryYAxis>
+    <ChartTooltipSettings Enable=""true"" Header=""<b>${series.name}</b>"" Format=""${point.x} : <b>${point.y}</b>""></ChartTooltipSettings>
+    
+        <ChartSeries DataSource=""@AppleData"" XName=""Year"" YName=""Count"" Type=""ChartSeriesType.Bar"" Fill=""#8AA624"" Name=""Apple"" ColumnSpacing=""0.3"" CornerRadius=""@(new ChartCornerRadius { TopRight = 8, BottomRight = 8 })""></ChartSeries>
+        <ChartSeries DataSource=""@XiaomiData"" XName=""Year"" YName=""Count"" Type=""ChartSeriesType.Bar"" Fill=""#D25D5D"" Name=""Xiaomi"" ColumnSpacing=""0.3"" CornerRadius=""@(new ChartCornerRadius { TopRight = 8, BottomRight = 8 })""></ChartSeries>
+        <ChartSeries DataSource=""@OppoData"" XName=""Year"" YName=""Count"" Type=""ChartSeriesType.Bar"" Fill=""#239BA7"" Name=""Oppo"" ColumnSpacing=""0.3"" CornerRadius=""@(new ChartCornerRadius { TopRight = 8, BottomRight = 8 })""></ChartSeries>
+    
+</SfChart>
+
+@code {
+    private Theme _currentTheme = Theme.Fluent;
+
+    public class SmartPhoneData
+    {
+        public string Year { get; set; }
+        public double Count { get; set; }
+    }
+
+    public List<SmartPhoneData> AppleData = new()
+    {
+        new SmartPhoneData { Year = ""2021"", Count = 237 },
+        new SmartPhoneData { Year = ""2022"", Count = 226.4 },
+        new SmartPhoneData { Year = ""2023"", Count = 234.6 }
+    };
+
+    public List<SmartPhoneData> XiaomiData = new()
+    {
+        new SmartPhoneData { Year = ""2021"", Count = 190 },
+        new SmartPhoneData { Year = ""2022"", Count = 153.1 },
+        new SmartPhoneData { Year = ""2023"", Count = 145.9 }
+    };
+
+    public List<SmartPhoneData> OppoData = new()
+    {
+        new SmartPhoneData { Year = ""2021"", Count = 143 },
+        new SmartPhoneData { Year = ""2022"", Count = 103.3 },
+        new SmartPhoneData { Year = ""2023"", Count = 103.1 }
+    };
+}";
+
+
+    public string dataLabelCode = @"<SfChart @key=""@_currentTheme"" Title=""Global Smartphone Sales Trends by Brand (2021–2023)"" Theme=""@_currentTheme"" Background=""transparent"">
+    <ChartPrimaryXAxis ValueType=""Syncfusion.Blazor.Toolkit.ValueType.Category""></ChartPrimaryXAxis>
+    <ChartPrimaryYAxis Format=""{value}M"" Title=""Units Sold (in Millions)"" Maximum=""300"">
+        <ChartAxisLineStyle Width=""0""/>
+    </ChartPrimaryYAxis>
+    
+        <ChartSeries DataSource=""@PaletteData"" XName=""Year"" YName=""Apple"" Type=""ChartSeriesType.Bar"" Name=""Apple"" Fill=""#8AA624"" ColumnSpacing=""0.3"">
+            <ChartMarker><ChartDataLabel Visible=""true""/></ChartMarker>
+            <ChartCornerRadius BottomRight=""8"" TopRight=""8""/>
+        </ChartSeries>
+        <ChartSeries DataSource=""@PaletteData"" XName=""Year"" YName=""Xiaomi"" Type=""ChartSeriesType.Bar"" Name=""Xiaomi"" Fill=""#D25D5D"" ColumnSpacing=""0.3"">
+            <ChartMarker><ChartDataLabel Visible=""true""/></ChartMarker>
+            <ChartCornerRadius BottomRight=""8"" TopRight=""8""/>
+        </ChartSeries>
+        <ChartSeries DataSource=""@PaletteData"" XName=""Year"" YName=""Oppo"" Type=""ChartSeriesType.Bar"" Name=""Oppo"" Fill=""#239BA7"" ColumnSpacing=""0.3"">
+            <ChartMarker><ChartDataLabel Visible=""true""/></ChartMarker>
+            <ChartCornerRadius BottomRight=""8"" TopRight=""8""/>
+        </ChartSeries>
+    
+    <ChartTooltipSettings Enable=""true"" Header=""${series.name}"" Format=""${point.x} : <b>${point.y}</b>""/>
+</SfChart>
+
+@code {
+    private Theme _currentTheme = Theme.Fluent;
+
+    public class PhonePalette
+    {
+        public string Year { get; set; }
+        public double Apple { get; set; }
+        public double Xiaomi { get; set; }
+        public double Oppo { get; set; }
+    }
+
+    private List<PhonePalette> PaletteData = new()
+    {
+        new PhonePalette { Year = ""2021"", Apple = 237, Xiaomi = 190, Oppo = 143 },
+        new PhonePalette { Year = ""2022"", Apple = 226.4, Xiaomi = 153.1, Oppo = 103.3 },
+        new PhonePalette { Year = ""2023"", Apple = 234.6, Xiaomi = 145.9, Oppo = 103.1 }
+    };
+}";
+    public string stackingBar = @"<SfChart @key=""@_currentTheme"" Title=""Annual Renewable Energy Generation in China (2020–2023) by Source"" Theme=""@_currentTheme"" Background=""transparent"">
+    <ChartPrimaryXAxis ValueType=""Syncfusion.Blazor.Toolkit.ValueType.Category""/>
+    <ChartPrimaryYAxis Interval=""1000"" Format=""{value}TWh""></ChartPrimaryYAxis>
+    
+        <ChartSeries DataSource=""@StackingBarData"" XName=""X"" YName=""Y1"" Type=""ChartSeriesType.StackingBar"" Name=""Wind"" Fill=""#689B8A"" Width=""0.6""></ChartSeries>
+        <ChartSeries DataSource=""@StackingBarData"" XName=""X"" YName=""Y2"" Type=""ChartSeriesType.StackingBar"" Name=""Solar"" Fill=""#B2CD9C"" Width=""0.6""></ChartSeries>
+        <ChartSeries DataSource=""@StackingBarData"" XName=""X"" YName=""Y3"" Type=""ChartSeriesType.StackingBar"" Name=""Hydro"" Fill=""#8D8D87"" Width=""0.6""></ChartSeries>
+    
+    <ChartTooltipSettings Enable=""true"" Header=""Renewable Energy Generation""/>
+</SfChart>
+
+@code {
+    private Theme _currentTheme = Theme.Fluent;
+
+    public class AnnualEnergyData
+    {
+        public string X { get; set; }
+        public double Y1 { get; set; }
+        public double Y2 { get; set; }
+        public double Y3 { get; set; }
+    }
+
+    public List<AnnualEnergyData> StackingBarData = new()
+    {
+        new AnnualEnergyData { X = ""2020"", Y1 = 466, Y2 = 261, Y3 = 1355 },
+        new AnnualEnergyData { X = ""2021"", Y1 = 656, Y2 = 327, Y3 = 1340 },
+        new AnnualEnergyData { X = ""2022"", Y1 = 763, Y2 = 427, Y3 = 1352 },
+        new AnnualEnergyData { X = ""2023"", Y1 = 886, Y2 = 584, Y3 = 1286 }
+    };
+}";
+
+    public string stackLabel = @"<SfChart @key=""@_currentTheme"" Title=""Annual Renewable Energy Generation in China (2020–2023) by Source"" Theme=""@_currentTheme"" Background=""transparent"">
+    <ChartPrimaryXAxis ValueType=""Syncfusion.Blazor.Toolkit.ValueType.Category""/>
+    <ChartPrimaryYAxis Interval=""1000"" Format=""{value}TWh""></ChartPrimaryYAxis>
+    <ChartStackLabelSettings Visible=""true"" Format=""{value}TWh""/>
+    <ChartTooltipSettings Enable=""true""/>
+    
+        <ChartSeries DataSource=""@StackingBarDataLabel"" XName=""X"" YName=""Y1"" Name=""Wind"" Type=""ChartSeriesType.StackingBar"" Fill=""#689B8A"" Width=""0.6""></ChartSeries>
+        <ChartSeries DataSource=""@StackingBarDataLabel"" XName=""X"" YName=""Y2"" Name=""Solar"" Type=""ChartSeriesType.StackingBar"" Fill=""#B2CD9C"" Width=""0.6""></ChartSeries>
+        <ChartSeries DataSource=""@StackingBarDataLabel"" XName=""X"" YName=""Y3"" Name=""Hydro"" Type=""ChartSeriesType.StackingBar"" Fill=""#8D8D87"" Width=""0.6"" CornerRadius=""@(new ChartCornerRadius { BottomRight = 4, TopRight = 4 })""></ChartSeries>
+    
+</SfChart>
+
+@code {
+    private Theme _currentTheme = Theme.Fluent;
+
+    public class AnnualEnergyDataLabel
+    {
+        public string X { get; set; }
+        public double Y1 { get; set; }
+        public double Y2 { get; set; }
+        public double Y3 { get; set; }
+    }
+
+    public List<AnnualEnergyDataLabel> StackingBarDataLabel = new()
+    {
+        new AnnualEnergyDataLabel { X = ""2020"", Y1 = 466, Y2 = 261, Y3 = 1355 },
+        new AnnualEnergyDataLabel { X = ""2021"", Y1 = 656, Y2 = 327, Y3 = 1340 },
+        new AnnualEnergyDataLabel { X = ""2022"", Y1 = 763, Y2 = 427, Y3 = 1352 },
+        new AnnualEnergyDataLabel { X = ""2023"", Y1 = 886, Y2 = 584, Y3 = 1286 }
+    };
+}";
+    public string stackingGroup = @"<SfChart @key=""@_currentTheme"" Title=""Steel Production by Countries, Grouped by Continent"" Theme=""@_currentTheme"" Background=""transparent"">
+    <ChartPrimaryXAxis ValueType=""Syncfusion.Blazor.Toolkit.ValueType.Category"" Interval=""1""/>
+    <ChartPrimaryYAxis Maximum=""60"" Interval=""10"" Format=""{value} Mmt""></ChartPrimaryYAxis>
+    <ChartLegendSettings Visible=""true""/>
+    <ChartTooltipSettings Enable=""true""/>
+    
+        <ChartSeries DataSource=""@StackingColumnGroupData"" XName=""X"" YName=""Y1"" Name=""Iran"" Type=""ChartSeriesType.StackingBar"" StackingGroup=""Asia"" Fill=""#E195AB"" ColumnSpacing=""0.2"">
+            <ChartSeriesBorder Width=""1"" Color=""White""/>
+        </ChartSeries>
+        <ChartSeries DataSource=""@StackingColumnGroupData"" XName=""X"" YName=""Y2"" Name=""Indonesia"" Type=""ChartSeriesType.StackingBar"" StackingGroup=""Asia"" Fill=""#7E99A3"" ColumnSpacing=""0.2"" CornerRadius=""@(new ChartCornerRadius { BottomRight = 10, TopRight = 10 })"">
+            <ChartSeriesBorder Width=""1"" Color=""White""/>
+        </ChartSeries>
+        <ChartSeries DataSource=""@StackingColumnGroupData"" XName=""X"" YName=""Y3"" Name=""Italy"" Type=""ChartSeriesType.StackingBar"" StackingGroup=""Europe"" Fill=""#67BFA2"" ColumnSpacing=""0.2"">
+            <ChartSeriesBorder Width=""1"" Color=""White""/>
+        </ChartSeries>
+        <ChartSeries DataSource=""@StackingColumnGroupData"" XName=""X"" YName=""Y4"" Name=""France"" Type=""ChartSeriesType.StackingBar"" StackingGroup=""Europe"" Fill=""#B2CD9C"" ColumnSpacing=""0.2"" CornerRadius=""@(new ChartCornerRadius { BottomRight = 10, TopRight = 10 })"">
+            <ChartSeriesBorder Width=""1"" Color=""White""/>
+        </ChartSeries>
+    
+</SfChart>
+
+@code {
+    private Theme _currentTheme = Theme.Fluent;
+
+    public class StackingColumnGroupDataModel
+    {
+        public string X { get; set; }
+        public double Y1 { get; set; }
+        public double Y2 { get; set; }
+        public double Y3 { get; set; }
+        public double Y4 { get; set; }
+    }
+
+    public List<StackingColumnGroupDataModel> StackingColumnGroupData = new()
+    {
+        new() { X = ""2018"", Y1 = 24.5, Y2 = 6.2, Y3 = 24.5, Y4 = 15.4 },
+        new() { X = ""2019"", Y1 = 25.6, Y2 = 15.6, Y3 = 23.2, Y4 = 21.1 },
+        new() { X = ""2020"", Y1 = 29, Y2 = 14.3, Y3 = 20.4, Y4 = 13.9 },
+        new() { X = ""2021"", Y1 = 28.5, Y2 = 9.3, Y3 = 23.2, Y4 = 11.6 },
+        new() { X = ""2022"", Y1 = 30.6, Y2 = 7.8, Y3 = 24.5, Y4 = 14.4 }
+    };
+}";
+    public string percentStackBar = @"<SfChart @key=""@_currentTheme"" Title=""Annual Renewable Energy Generation in China (2020–2023) by Source"" Theme=""@_currentTheme"" Background=""transparent"">
+    <ChartArea><ChartAreaBorder Width=""0""/><ChartDefaultMargin Bottom=""12""></ChartDefaultMargin></ChartArea>
+    <ChartPrimaryXAxis ValueType=""Syncfusion.Blazor.Toolkit.ValueType.Category""/>
+    <ChartPrimaryYAxis Format=""{value}%"" Minimum=""0"" Maximum=""100"" Interval=""20""></ChartPrimaryYAxis>
+    
+        <ChartSeries DataSource=""@Wind"" XName=""X"" YName=""Y"" Name=""Wind"" Type=""ChartSeriesType.StackingBar100"" Fill=""#689B8A"" ColumnWidth=""0.6"" LegendShape=""LegendShape.Rectangle"">
+            <ChartMarker Shape=""ChartShape.Rectangle"" />
+        </ChartSeries>
+        <ChartSeries DataSource=""@Solar"" XName=""X"" YName=""Y"" Name=""Solar"" Type=""ChartSeriesType.StackingBar100"" Fill=""#B2CD9C"" ColumnWidth=""0.6"" LegendShape=""LegendShape.Rectangle"">
+            <ChartMarker Shape=""ChartShape.Rectangle"" />
+        </ChartSeries>
+        <ChartSeries DataSource=""@Hydro"" XName=""X"" YName=""Y"" Name=""Hydro"" Type=""ChartSeriesType.StackingBar100"" Fill=""#8D8D87"" ColumnWidth=""0.6"" LegendShape=""LegendShape.Rectangle"">
+            <ChartMarker Shape=""ChartShape.Rectangle"" />
+        </ChartSeries>
+    
+    <ChartLegendSettings ShapePadding=""9"" ShapeHeight=""9""></ChartLegendSettings>
+    <ChartTooltipSettings Enable=""true"" Header=""<b>Renewable Energy Generation</b>"" Format=""${series.name}: <b>${point.y} TWh</b>""></ChartTooltipSettings>
+</SfChart>
+
+@code {
+    private Theme _currentTheme = Theme.Fluent;
+
+    public class EnergyData
+    {
+        public string X { get; set; }
+        public double Y { get; set; }
+    }
+
+    public List<EnergyData> Wind = new()
+    {
+        new() { X = ""2020"", Y = 35 },
+        new() { X = ""2021"", Y = 38 },
+        new() { X = ""2022"", Y = 40 },
+        new() { X = ""2023"", Y = 42 }
+    };
+
+    public List<EnergyData> Solar = new()
+    {
+        new() { X = ""2020"", Y = 25 },
+        new() { X = ""2021"", Y = 28 },
+        new() { X = ""2022"", Y = 30 },
+        new() { X = ""2023"", Y = 33 }
+    };
+
+    public List<EnergyData> Hydro = new()
+    {
+        new() { X = ""2020"", Y = 40 },
+        new() { X = ""2021"", Y = 34 },
+        new() { X = ""2022"", Y = 30 },
+        new() { X = ""2023"", Y = 25 }
+    };
+}";
+    public string groupedBar = @"<SfChart @key=""@_currentTheme"" Title=""Olympic Medal Trends by Country and Year"" Theme=""@_currentTheme"" Background=""transparent"">
+    <ChartTooltipSettings Enable=""true"" Header=""${point.x}"" Format=""${series.name} : <b>${point.y} Gold</b>""></ChartTooltipSettings>
+    <ChartPrimaryXAxis ValueType=""Syncfusion.Blazor.Toolkit.ValueType.Category"" Interval=""1""></ChartPrimaryXAxis>
+    <ChartPrimaryYAxis Title=""Number of Medals Won""><ChartAxisLineStyle Width=""0""></ChartAxisLineStyle></ChartPrimaryYAxis>
+    
+        <ChartSeries DataSource=""@CombinedData"" XName=""X"" YName=""Y1"" Name=""USA Total Medals"" Type=""ChartSeriesType.Bar"" GroupName=""USA"" Fill=""#748DAE"" Width=""0.7"" ColumnSpacing=""0.2"">
+            <ChartMarker><ChartDataLabel Visible=""true"" Position=""ChartLabelPosition.Top""/></ChartMarker>
+        </ChartSeries>
+        <ChartSeries DataSource=""@CombinedData"" XName=""X"" YName=""Y2"" Name=""USA Gold Medals"" Type=""ChartSeriesType.Bar"" GroupName=""USA"" Fill=""#8DB6ED"" Width=""0.5"" ColumnSpacing=""0.2"">
+            <ChartMarker><ChartDataLabel Visible=""true"" Position=""ChartLabelPosition.Top""></ChartDataLabel></ChartMarker>
+        </ChartSeries>
+        <ChartSeries DataSource=""@CombinedData"" XName=""X"" YName=""Y3"" Name=""UK Total Medals"" Type=""ChartSeriesType.Bar"" GroupName=""UK"" Fill=""#8D8D87"" Width=""0.7"" ColumnSpacing=""0.2"">
+            <ChartMarker><ChartDataLabel Visible=""true"" Position=""ChartLabelPosition.Top""/></ChartMarker>
+        </ChartSeries>
+        <ChartSeries DataSource=""@CombinedData"" XName=""X"" YName=""Y4"" Name=""UK Gold Medals"" Type=""ChartSeriesType.Bar"" GroupName=""UK"" Fill=""#DDDAD0"" Width=""0.5"" ColumnSpacing=""0.2"">
+            <ChartMarker><ChartDataLabel Visible=""true"" Position=""ChartLabelPosition.Top""/></ChartMarker>
+        </ChartSeries>
+        <ChartSeries DataSource=""@CombinedData"" XName=""X"" YName=""Y5"" Name=""China Total Medals"" Type=""ChartSeriesType.Bar"" GroupName=""China"" Fill=""#689B8A"" Width=""0.7"" ColumnSpacing=""0.2"">
+            <ChartMarker><ChartDataLabel Visible=""true"" Position=""ChartLabelPosition.Top""/></ChartMarker>
+        </ChartSeries>
+        <ChartSeries DataSource=""@CombinedData"" XName=""X"" YName=""Y6"" Name=""China Gold Medals"" Type=""ChartSeriesType.Bar"" GroupName=""China"" Fill=""#B2CD9C"" Width=""0.5"" ColumnSpacing=""0.2"">
+            <ChartMarker><ChartDataLabel Visible=""true"" Position=""ChartLabelPosition.Top""/></ChartMarker>
+        </ChartSeries>
+    
+</SfChart>
+
+@code {
+    private Theme _currentTheme = Theme.Fluent;
+
+    public class OlympicData
+    {
+        public string X { get; set; }
+        public double Y1 { get; set; }
+        public double Y2 { get; set; }
+        public double Y3 { get; set; }
+        public double Y4 { get; set; }
+        public double Y5 { get; set; }
+        public double Y6 { get; set; }
+    }
+
+    public List<OlympicData> CombinedData = new()
+    {
+        new OlympicData { X = ""2016"", Y1 = 104, Y2 = 46, Y3 = 65, Y4 = 29, Y5 = 91, Y6 = 38 },
+        new OlympicData { X = ""2020"", Y1 = 121, Y2 = 46, Y3 = 67, Y4 = 27, Y5 = 70, Y6 = 26 },
+        new OlympicData { X = ""2024"", Y1 = 113, Y2 = 39, Y3 = 65, Y4 = 22, Y5 = 88, Y6 = 38 }
+    };
+}";
+
+    public string negativeDataCode = @"<SfChart @key=""@_currentTheme"" Title=""Global Ocean Temperature Anomalies"" Theme=""@_currentTheme"" Background=""transparent"">
+    <ChartPrimaryXAxis ValueType=""Syncfusion.Blazor.Toolkit.ValueType.Double"" Minimum=""1880"" Maximum=""2022"" Interval=""20"" Title=""Year"" LabelIntersectAction=""LabelIntersectAction.Trim""></ChartPrimaryXAxis>
+    <ChartPrimaryYAxis Minimum=""-0.5"" Maximum=""0.8"" Interval=""0.2"" Title=""Temperature Anomaly (°C)"" Format=""{value}°C""></ChartPrimaryYAxis>
+    
+        <ChartSeries DataSource=""@rectSeriesNegativeData"" XName=""Year"" YName=""Anomaly"" Type=""ChartSeriesType.Bar"" PointColorMapping=""Color"">
+            <ChartCornerRadius BottomRight=""5"" TopRight=""5""/>
+        </ChartSeries>
+    
+    <ChartTooltipSettings Enable=""true"" Header=""${point.x}"" Format=""Anomaly: <b>${point.y}</b>""/>
+</SfChart>
+
+@code {
+    private Theme _currentTheme = Theme.Fluent;
+
+    public class OceanTemperature
+    {
+        public double Year { get; set; }
+        public double Anomaly { get; set; }
+        public string Color { get; set; }
+    }
+
+    public List<OceanTemperature> rectSeriesNegativeData = new()
+    {
+        new() { Year = 1880, Anomaly = -0.02, Color = ""#FF8080"" }, 
+        new() { Year = 1881, Anomaly = 0.04, Color = ""#52D681"" }, 
+        new() { Year = 1882, Anomaly = 0.03, Color = ""#52D681"" },
+        new() { Year = 1883, Anomaly = -0.03, Color = ""#FF8080"" }, 
+        new() { Year = 1884, Anomaly = -0.12, Color = ""#FF8080"" }
+    };
+}";
+
+    public string barWithTrackCode = @"<SfChart @key=""@_currentTheme"" Height=""450px"" Title=""Gross Revenue by Region"" Width=""100%"" EnableSideBySidePlacement=""false"" Theme=""@_currentTheme"" Background=""transparent"">
+    <ChartPrimaryXAxis Title=""Region"" ValueType=""Syncfusion.Blazor.Toolkit.ValueType.Category""><ChartAxisMajorTickLines Width=""1""></ChartAxisMajorTickLines></ChartPrimaryXAxis>
+    <ChartPrimaryYAxis Format=""$ {value}"" Minimum=""0"" Maximum=""12000000"" Interval=""2000000""></ChartPrimaryYAxis>
+    
+        <ChartSeries DataSource=""@BarWithTrackData"" XName=""Region"" YName=""TargetRevenue"" Type=""ChartSeriesType.Bar"" Fill=""#B2CD9C"" Opacity=""0.9"" ColumnWidth=""0.4"">
+            <ChartSeriesBorder Width=""1"" Color=""#689B8A""></ChartSeriesBorder>
+            <ChartCornerRadius TopRight=""20"" BottomRight=""20""></ChartCornerRadius>
+        </ChartSeries>
+        <ChartSeries DataSource=""@BarWithTrackData"" XName=""Region"" YName=""Revenue"" Type=""ChartSeriesType.Bar"" Fill=""#689B8A"" ColumnWidth=""0.4"">
+            <ChartSeriesBorder Width=""1"" Color=""#B2CD9C""></ChartSeriesBorder>
+            <ChartMarker><ChartDataLabel Visible=""true"" Position=""ChartLabelPosition.Bottom"" Format=""{value}%""><ChartDataLabelFont Color=""#ffffff""></ChartDataLabelFont></ChartDataLabel></ChartMarker>
+        </ChartSeries>
+    
+    <ChartTooltipSettings Enable=""true"" Header=""${point.x}"" Format=""Revenue: <b>${point.y}</b>""></ChartTooltipSettings>
+</SfChart>
+
+@code {
+    private Theme _currentTheme = Theme.Fluent;
+
+    public class RevenueData
+    {
+        public string Region { get; set; }
+        public double Revenue { get; set; }
+        public double TargetRevenue { get; set; }
+    }
+
+    public List<RevenueData> BarWithTrackData = new()
+    {
+        new RevenueData { Region = ""Europe"", Revenue = 5300000, TargetRevenue = 10050000 },
+        new RevenueData { Region = ""Americas"", Revenue = 8700000, TargetRevenue = 11500000 },
+        new RevenueData { Region = ""Asia"", Revenue = 5800000, TargetRevenue = 8000000 },
+        new RevenueData { Region = ""Africa"", Revenue = 7700000, TargetRevenue = 10000000 }
+    };
+}";
+    public string dataSourceUpdateCode = @"<SfChart @key=""@_currentTheme"" Width=""600"" Title=""Sales by Product"" Theme=""@_currentTheme"" Background=""transparent"">
+    <ChartPrimaryXAxis ValueType=""Syncfusion.Blazor.Toolkit.ValueType.Category"" LabelIntersectAction=""LabelIntersectAction.Rotate90""><ChartAxisMajorTickLines Width=""1""/></ChartPrimaryXAxis>
+    <ChartPrimaryYAxis Minimum=""0"" Maximum=""100"" Interval=""20"" Format=""{value}%""></ChartPrimaryYAxis>
+    
+        <ChartSeries DataSource=""@RectSeriesLiveUpdateData"" XName=""X"" YName=""Y"" Type=""ChartSeriesType.Bar"" PointColorMapping=""BarColor"" ColumnWidth=""0.5"">
+            <ChartCornerRadius TopLeft=""0"" TopRight=""15"" BottomLeft=""0"" BottomRight=""15""></ChartCornerRadius>
+            <ChartMarker><ChartDataLabel Visible=""true"" Position=""ChartLabelPosition.Top""/></ChartMarker>
+        </ChartSeries>
+    
+</SfChart>
+
+@code {
+    private Theme _currentTheme = Theme.Fluent;
+
+    public class ProductSaleData
+    {
+        public string X { get; set; }
+        public int Y { get; set; }
+        public string BarColor { get; set; }
+    }
+
+    public List<ProductSaleData> RectSeriesLiveUpdateData = new()
+    {
+        new ProductSaleData { X = ""Jewellery"", Y = 75, BarColor = ""#D8B4F8"" },
+        new ProductSaleData { X = ""Shoes"", Y = 45, BarColor = ""#FF8080"" },
+        new ProductSaleData { X = ""Footwear"", Y = 73, BarColor = ""#A4B465"" },
+        new ProductSaleData { X = ""Pet Services"", Y = 53, BarColor = ""#86A7FC"" },
+        new ProductSaleData { X = ""Business Clothing"", Y = 85, BarColor = ""#73946B"" },
+        new ProductSaleData { X = ""Office Supplies"", Y = 68, BarColor = ""#F2C078"" },
+        new ProductSaleData { X = ""Food"", Y = 45, BarColor = ""#578FCA"" }
+    };
+}";
+    public string customizeBarCode = @"<div style=""padding:15px; display:flex; gap:25px; margin-bottom:20px;"">
+    <div>
+        <label><b>Column Spacing:</b> @ColumnSpacing.ToString(""0.00"")</label><br/>
+        <input type=""range"" min=""0.1"" max=""1"" step=""0.01"" @bind=""ColumnSpacing""/>
+    </div>
+    <div>
+        <label><b>Column Width:</b> @ColumnWidth.ToString(""0.00"")</label><br/>
+        <input type=""range"" min=""0.1"" max=""1"" step=""0.01"" @bind=""ColumnWidth""/>
+    </div>
+</div>
+
+<SfChart @key=""@_currentTheme"" Width=""600px"" Title=""Global Smartphone Sales Trends by Brand (2021–2023)"" Theme=""@_currentTheme"" Background=""transparent"">
+    <ChartTooltipSettings Enable=""true"" Format=""${point.x} : <b>${point.y}M</b>""/>
+    <ChartPrimaryXAxis ValueType=""Syncfusion.Blazor.Toolkit.ValueType.Category""></ChartPrimaryXAxis>
+    <ChartPrimaryYAxis Maximum=""300"" Title=""Units Sold (in Millions)"" Format=""{value}M""></ChartPrimaryYAxis>
+    
+        <ChartSeries DataSource=""@PaletteData"" XName=""Year"" YName=""Apple"" Type=""ChartSeriesType.Bar"" Fill=""#8AA624"" ColumnSpacing=""@ColumnSpacing"" ColumnWidth=""@ColumnWidth"" Name=""Apple""></ChartSeries>
+        <ChartSeries DataSource=""@PaletteData"" XName=""Year"" YName=""Xiaomi"" Type=""ChartSeriesType.Bar"" Fill=""#D25D5D"" ColumnSpacing=""@ColumnSpacing"" ColumnWidth=""@ColumnWidth"" Name=""Xiaomi""></ChartSeries>
+        <ChartSeries DataSource=""@PaletteData"" XName=""Year"" YName=""Oppo"" Type=""ChartSeriesType.Bar"" Fill=""#239BA7"" ColumnSpacing=""@ColumnSpacing"" ColumnWidth=""@ColumnWidth"" Name=""Oppo""></ChartSeries>
+    
+</SfChart>
+
+@code {
+    private Theme _currentTheme = Theme.Fluent;
+    private double ColumnSpacing = 0.15;
+    private double ColumnWidth = 0.5;
+
+    public class PhonePalette
+    {
+        public string Year { get; set; }
+        public double Apple { get; set; }
+        public double Xiaomi { get; set; }
+        public double Oppo { get; set; }
+    }
+
+    private List<PhonePalette> PaletteData = new()
+    {
+        new PhonePalette { Year = ""2021"", Apple = 237, Xiaomi = 190, Oppo = 143 },
+        new PhonePalette { Year = ""2022"", Apple = 226.4, Xiaomi = 153.1, Oppo = 103.3 },
+        new PhonePalette { Year = ""2023"", Apple = 234.6, Xiaomi = 145.9, Oppo = 103.1 }
+    };
+}";
+    public string BarWidth = @"<div class=""property-pane"">
+    <div style=""display:flex; align-items:center; gap:20px; padding:15px; border-radius:8px; margin-bottom:20px"">
+        <div style=""min-width:160px"">
+            <label style=""display:block; margin-bottom:5px; font-weight:500"">Column Width (Pixels): @ColumnWidthInPixel</label>
+            <input type=""range"" min=""5"" max=""100"" step=""1"" value=""@ColumnWidthInPixel"" @oninput=""OnColumnWidthChange"" style=""width:150px; height:6px""/>
+        </div>
+    </div>
+</div>
+
+<SfChart @key=""@_currentTheme"" Width=""600px"" Title=""Global Smartphone Sales Trends by Apple (2021-2023)"" Theme=""@_currentTheme"" Background=""transparent"">
+    <ChartPrimaryXAxis ValueType=""Syncfusion.Blazor.Toolkit.ValueType.Category""/>
+    <ChartPrimaryYAxis Maximum=""300"" Title=""Units Sold (in Millions)"" Format=""{value}M""></ChartPrimaryYAxis>
+    
+        <ChartSeries DataSource=""@PaletteData"" XName=""Year"" YName=""Apple"" Type=""ChartSeriesType.Bar"" Fill=""#239BA7"" ColumnWidthInPixel=""@ColumnWidthInPixel"" CornerRadius=""@(new ChartCornerRadius { BottomRight = 4, TopRight = 4 })""></ChartSeries>
+    
+    <ChartTooltipSettings Enable=""true"" Header=""Apple"" Format=""${point.x} : <b>${point.y}</b>""/>
+</SfChart>
+
+@code {
+    private Theme _currentTheme = Theme.Fluent;
+    private double ColumnWidthInPixel = 45;
+
+    private void OnColumnWidthChange(ChangeEventArgs e)
+    {
+        ColumnWidthInPixel = Convert.ToDouble(e.Value);
+    }
+
+    public class PhonePalette
+    {
+        public string Year { get; set; }
+        public double Apple { get; set; }
+    }
+
+    private List<PhonePalette> PaletteData = new()
+    {
+        new PhonePalette { Year = ""2021"", Apple = 237 },
+        new PhonePalette { Year = ""2022"", Apple = 226.4 },
+        new PhonePalette { Year = ""2023"", Apple = 234.6 }
+    };
+}";
+    public string BarSpacing = @"<div class=""property-pane"">";
+    public string seriesCode = @"<svg style=""height:0"">
+    <defs>
+        <linearGradient id=""appleGradient"" x1=""0"" y1=""0"" x2=""1"" y2=""0""><stop offset=""0%"" stop-color=""#8C3BC8""/><stop offset=""100%"" stop-color=""#CE59FF""/></linearGradient>
+        <linearGradient id=""xiaomiGradient"" x1=""0"" y1=""0"" x2=""1"" y2=""0""><stop offset=""0%"" stop-color=""#45AF20""/><stop offset=""100%"" stop-color=""#80C76D""/></linearGradient>
+        <linearGradient id=""oppoGradient"" x1=""1"" y1=""0"" x2=""0"" y2=""0""><stop offset=""0%"" stop-color=""#8F94FB""/><stop offset=""100%"" stop-color=""#4E54C8""/></linearGradient>
+    </defs>
+</svg>
+
+<SfChart @key=""@_currentTheme"" Width=""600px"" Title=""Global Smartphone Sales Trends by Brand (2021–2023)"" Theme=""@_currentTheme"" Background=""transparent"">
+    <ChartPrimaryXAxis ValueType=""Syncfusion.Blazor.Toolkit.ValueType.Category""/>
+    <ChartPrimaryYAxis Title=""Units Sold (in Millions)"" Maximum=""300"" Format=""{value}M""><ChartAxisLineStyle Width=""0""/></ChartPrimaryYAxis>
+    <ChartTooltipSettings Enable=""true"" Header=""${series.name}"" Format=""${point.x} : <b>${point.y}</b>""/>
+    
+        <ChartSeries DataSource=""@salesReport"" XName=""Year"" YName=""AppleSales"" Type=""ChartSeriesType.Bar"" Fill=""url(#appleGradient)"" Opacity=""0.8"" Name=""Apple"" ColumnSpacing=""0.3""><ChartCornerRadius TopRight=""10"" BottomRight=""10"" /></ChartSeries>
+        <ChartSeries DataSource=""@salesReport"" XName=""Year"" YName=""XiaomiSales"" Type=""ChartSeriesType.Bar"" Fill=""url(#xiaomiGradient)"" Opacity=""0.8"" Name=""Xiaomi"" ColumnSpacing=""0.3""><ChartCornerRadius TopRight=""10"" BottomRight=""10"" /></ChartSeries>
+        <ChartSeries DataSource=""@salesReport"" XName=""Year"" YName=""OppoSales"" Type=""ChartSeriesType.Bar"" Fill=""url(#oppoGradient)"" Opacity=""0.8"" Name=""Oppo"" ColumnSpacing=""0.3""><ChartCornerRadius TopRight=""10"" BottomRight=""10"" /></ChartSeries>
+    
+</SfChart>
+
+@code {
+    private Theme _currentTheme = Theme.Fluent;
+
+    public class SmartphoneSalesData
+    {
+        public string Year { get; set; }
+        public double AppleSales { get; set; }
+        public double XiaomiSales { get; set; }
+        public double OppoSales { get; set; }
+    }
+
+    private List<SmartphoneSalesData> salesReport = new()
+    {
+        new SmartphoneSalesData { Year = ""2021"", AppleSales = 237, XiaomiSales = 190, OppoSales = 143 },
+        new SmartphoneSalesData { Year = ""2022"", AppleSales = 226.4, XiaomiSales = 153.1, OppoSales = 103.3 },
+        new SmartphoneSalesData { Year = ""2023"", AppleSales = 234.6, XiaomiSales = 145.9, OppoSales = 103.1 }
+    };
+}";
+    public string colorCode = @"<SfChart @key=""@_currentTheme"" Palettes=""@palettes"" Title=""U.S Trade with India in 2024"" Theme=""@_currentTheme"" Background=""transparent"">
+    <ChartPrimaryXAxis ValueType=""Syncfusion.Blazor.Toolkit.ValueType.Category""></ChartPrimaryXAxis>
+    <ChartPrimaryYAxis Interval=""0.3"" Format=""{value}B"" Title=""Billion USD""><ChartAxisLineStyle Width=""0""></ChartAxisLineStyle></ChartPrimaryYAxis>
+    
+        <ChartSeries DataSource=""@TradeDataSource"" XName=""X"" YName=""Y"" Type=""ChartSeriesType.Bar"" PointColorMapping=""BarColor"" ColumnSpacing=""0.2"" CornerRadius=""new ChartCornerRadius { BottomRight = 8, TopRight = 8 }""></ChartSeries>
+    
+    <ChartTooltipSettings Enable=""true"" Header=""Export to India"" Format=""${point.x} : <b>${point.y}</b>""></ChartTooltipSettings>
+</SfChart>
+
+@code {
+    private Theme _currentTheme = Theme.Fluent;
+    string[] palettes = new string[] { ""#87CEEB"", ""#F6B53F"", ""#6FAAB0"", ""#C4C24A"" };
+
+    public class TradeData
+    {
+        public string X { get; set; }
+        public double Y { get; set; }
+        public string BarColor { get; set; }
+    }
+
+    public List<TradeData> TradeDataSource = new()
+    {
+        new TradeData { X = ""Cotton"", Y = 0.20, BarColor = ""#A4B465"" },
+        new TradeData { X = ""Soybean Oil"", Y = 0.37, BarColor = ""#C4C24A"" },
+        new TradeData { X = ""Fresh Fruit"", Y = 0.40, BarColor = ""#6FAAB0"" },
+        new TradeData { X = ""Ethanol"", Y = 0.42, BarColor = ""#FF8080"" },
+        new TradeData { X = ""Other Feeds, Meals & Fodders"", Y = 0.43, BarColor = ""#F6B53F"" }
+    };
+}";
+}
+
+@code {
+
+    //Customizing bar spacing and width
+    private double ColumnSpacing = 0.15;
+
+    private double ColumnWidth = 0.5;
+
+    //Bar width in pixels
+    private double ColumnWidthInPixel = 45;
+
+    private string ChartTheme = "Bootstrap5";
+
+    // ✅ Slider change handler
+    private void OnColumnWidthChange(ChangeEventArgs e)
+    {
+        ColumnWidthInPixel = Convert.ToDouble(e.Value);
+    }
+
+    // Series customization.
+    public class SmartphoneSalesData
+    {
+        public string Year { get; set; }
+        public double AppleSales { get; set; }
+        public double XiaomiSales { get; set; }
+        public double OppoSales { get; set; }
+    }
+
+    private List<SmartphoneSalesData> salesReport = new()
+    {
+        new SmartphoneSalesData { Year = "2021", AppleSales = 237, XiaomiSales = 190, OppoSales = 143 },
+        new SmartphoneSalesData { Year = "2022", AppleSales = 226.4, XiaomiSales = 153.1, OppoSales = 103.3 },
+        new SmartphoneSalesData { Year = "2023", AppleSales = 234.6, XiaomiSales = 145.9, OppoSales = 103.1 }
+    };
+
+    public class TradeData
+    {
+        public string X { get; set; }
+        public double Y { get; set; }
+        public string Color { get; set; }
+        public string BarColor { get; set; }
+    }
+
+    string[] color = new string[] { "#87CEEB", "#F6B53F", "#6FAAB0", "#C4C24A" };
+
+    public List<TradeData> TradeDataSource = new()
+    {
+        new TradeData { X = "Cotton", Y = 0.20, Color = "#73946B", BarColor = "#A4B465" },
+        new TradeData { X = "Soybean Oil", Y = 0.37, Color = "#C4C24A", BarColor = "#C4C24A" },
+        new TradeData { X = "Fresh Fruit", Y = 0.40, Color = "#6FAAB0", BarColor = "#6FAAB0" },
+        new TradeData { X = "Ethanol", Y = 0.42, Color = "#F2C078", BarColor = "#FF8080" },
+        new TradeData { X = "Other Feeds, Meals & Fodders", Y = 0.43, Color = "#F6B53F", BarColor = "#F6B53F" },
+        new TradeData { X = "Other Intermediate Products", Y = 0.51, Color = "#5FDDE5", BarColor = "#578FCA" },
+        new TradeData { X = "Dairy Products", Y = 0.52, Color = "#D3DE32", BarColor = "#F2C078" },
+        new TradeData { X = "Essential Oils", Y = 0.67, Color = "#FF8080", BarColor = "#73946B" },
+        new TradeData { X = "Pulses", Y = 0.73, Color = "#98A1EA", BarColor = "#86A7FC" },
+        new TradeData { X = "Tree Nuts", Y = 1.12, Color = "#578FCA", BarColor = "#D8B4F8" }
+    };
+
+
+    // Data source update
+
+    public class ProductSaleData
+    {
+        public string X { get; set; }
+        public int Y { get; set; }
+        public string Color { get; set; }
+        public string BarColor { get; set; }
+    }
+
+    public static class ProductSaleDataSource
+    {
+        public static List<ProductSaleData> RectSeriesLiveUpdateData = new()
+        {
+            new ProductSaleData { X = "Jewellery", Y = 75, Color = "#578FCA", BarColor = "#D8B4F8" },
+            new ProductSaleData { X = "Shoes", Y = 45, Color = "#F2C078", BarColor = "#FF8080" },
+            new ProductSaleData { X = "Footwear", Y = 73, Color = "#73946B", BarColor = "#A4B465" },
+            new ProductSaleData { X = "Pet Services", Y = 53, Color = "#98A1EA", BarColor = "#86A7FC" },
+            new ProductSaleData { X = "Business Clothing", Y = 85, Color = "#FF8080", BarColor = "#73946B" },
+            new ProductSaleData { X = "Office Supplies", Y = 68, Color = "#D3DE32", BarColor = "#F2C078" },
+            new ProductSaleData { X = "Food", Y = 45, Color = "#5FDDE5", BarColor = "#578FCA" }
+        };
+    }
+
+    // Bar with track
+
+    public class RevenueData
+    {
+        public string Region { get; set; }
+        public double Revenue { get; set; }
+        public double TargetRevenue { get; set; }
+        public int Percentage { get; set; }
+    }
+
+    public List<RevenueData> BarWithTrackData = new()
+    {
+        new RevenueData { Region = "Europe", Revenue = 5300000, TargetRevenue = 10050000, Percentage = 53 },
+        new RevenueData { Region = "Americas", Revenue = 8700000, TargetRevenue = 11500000, Percentage = 87 },
+        new RevenueData { Region = "Asia", Revenue = 5800000, TargetRevenue = 8000000, Percentage = 58 },
+        new RevenueData { Region = "Africa", Revenue = 7700000, TargetRevenue = 10000000, Percentage = 77 }
+    };
+
+    // Negative data
+
+    public class OceanTemperature
+    {
+        public double Year { get; set; }
+        public double Anomaly { get; set; }
+        public string Color { get; set; }
+    }
+
+    public List<OceanTemperature> rectSeriesNegativeData = new()
+    {
+        new() { Year = 1880, Anomaly = -0.02, Color = "#FF8080" }, new() { Year = 1881, Anomaly = 0.04, Color = "#52D681" }, new() { Year = 1882, Anomaly = 0.03, Color = "#52D681" },
+        new() { Year = 1883, Anomaly = -0.03, Color = "#FF8080" }, new() { Year = 1884, Anomaly = -0.12, Color = "#FF8080" }, new() { Year = 1885, Anomaly = -0.16, Color = "#FF8080" },
+        new() { Year = 1886, Anomaly = -0.16, Color = "#FF8080" }, new() { Year = 1887, Anomaly = -0.2, Color = "#FF8080" }, new() { Year = 1888, Anomaly = -0.01, Color = "#FF8080" },
+        new() { Year = 1889, Anomaly = 0, Color = "#FF8080" }, new() { Year = 1890, Anomaly = -0.24, Color = "#FF8080" }, new() { Year = 1891, Anomaly = -0.09, Color = "#FF8080" },
+        new() { Year = 1892, Anomaly = -0.13, Color = "#FF8080" }, new() { Year = 1893, Anomaly = -0.19, Color = "#FF8080" }, new() { Year = 1894, Anomaly = -0.21, Color = "#FF8080" },
+        new() { Year = 1895, Anomaly = -0.1, Color = "#FF8080" }, new() { Year = 1896, Anomaly = 0.03, Color = "#52D681" }, new() { Year = 1897, Anomaly = -0.01, Color = "#FF8080" },
+        new() { Year = 1898, Anomaly = -0.17, Color = "#FF8080" }, new() { Year = 1899, Anomaly = -0.1, Color = "#FF8080" }, new() { Year = 1900, Anomaly = -0.02, Color = "#FF8080" },
+        new() { Year = 1901, Anomaly = -0.12, Color = "#FF8080" }, new() { Year = 1902, Anomaly = -0.19, Color = "#FF8080" }, new() { Year = 1903, Anomaly = -0.34, Color = "#FF8080" },
+        new() { Year = 1904, Anomaly = -0.43, Color = "#FF8080" }, new() { Year = 1905, Anomaly = -0.22, Color = "#FF8080" }, new() { Year = 1906, Anomaly = -0.19, Color = "#FF8080" },
+        new() { Year = 1907, Anomaly = -0.27, Color = "#FF8080" }, new() { Year = 1908, Anomaly = -0.4, Color = "#FF8080" }, new() { Year = 1909, Anomaly = -0.44, Color = "#FF8080" },
+        new() { Year = 1910, Anomaly = -0.41, Color = "#FF8080" }, new() { Year = 1911, Anomaly = -0.4, Color = "#FF8080" }, new() { Year = 1912, Anomaly = -0.25, Color = "#FF8080" },
+        new() { Year = 1913, Anomaly = -0.3, Color = "#FF8080" }, new() { Year = 1914, Anomaly = -0.15, Color = "#FF8080" }, new() { Year = 1915, Anomaly = -0.08, Color = "#FF8080" },
+        new() { Year = 1916, Anomaly = -0.26, Color = "#FF8080" }, new() { Year = 1917, Anomaly = -0.32, Color = "#FF8080" }, new() { Year = 1918, Anomaly = -0.18, Color = "#FF8080" },
+        new() { Year = 1919, Anomaly = -0.2, Color = "#FF8080" }, new() { Year = 1920, Anomaly = -0.21, Color = "#FF8080" }, new() { Year = 1921, Anomaly = -0.18, Color = "#FF8080" },
+        new() { Year = 1922, Anomaly = -0.24, Color = "#FF8080" }, new() { Year = 1923, Anomaly = -0.23, Color = "#FF8080" }, new() { Year = 1924, Anomaly = -0.24, Color = "#FF8080" },
+        new() { Year = 1925, Anomaly = -0.21, Color = "#FF8080" }, new() { Year = 1926, Anomaly = -0.11, Color = "#FF8080" }, new() { Year = 1927, Anomaly = -0.17, Color = "#FF8080" },
+        new() { Year = 1928, Anomaly = -0.21, Color = "#FF8080" }, new() { Year = 1929, Anomaly = -0.27, Color = "#FF8080" }, new() { Year = 1930, Anomaly = -0.14, Color = "#FF8080" },
+        new() { Year = 1931, Anomaly = -0.1, Color = "#FF8080" }, new() { Year = 1932, Anomaly = -0.18, Color = "#FF8080" }, new() { Year = 1933, Anomaly = -0.23, Color = "#FF8080" },
+        new() { Year = 1934, Anomaly = -0.16, Color = "#FF8080" }, new() { Year = 1935, Anomaly = -0.17, Color = "#FF8080" }, new() { Year = 1936, Anomaly = -0.13, Color = "#FF8080" },
+        new() { Year = 1937, Anomaly = -0.04, Color = "#FF8080" }, new() { Year = 1938, Anomaly = -0.11, Color = "#FF8080" }, new() { Year = 1939, Anomaly = -0.04, Color = "#FF8080" },
+        new() { Year = 1940, Anomaly = 0.15, Color = "#52D681" }, new() { Year = 1941, Anomaly = 0.28, Color = "#52D681" }, new() { Year = 1942, Anomaly = 0.1, Color = "#52D681" },
+        new() { Year = 1943, Anomaly = 0.07, Color = "#52D681" }, new() { Year = 1944, Anomaly = 0.23, Color = "#52D681" }, new() { Year = 1945, Anomaly = 0.21, Color = "#52D681" },
+        new() { Year = 1946, Anomaly = -0.05, Color = "#FF8080" }, new() { Year = 1947, Anomaly = -0.07, Color = "#FF8080" }, new() { Year = 1948, Anomaly = -0.11, Color = "#FF8080" },
+        new() { Year = 1949, Anomaly = -0.07, Color = "#FF8080" }, new() { Year = 1950, Anomaly = -0.09, Color = "#FF8080" }, new() { Year = 1951, Anomaly = 0, Color = "#FF8080" },
+        new() { Year = 1952, Anomaly = 0.07, Color = "#52D681" }, new() { Year = 1953, Anomaly = 0.05, Color = "#52D681" }, new() { Year = 1954, Anomaly = -0.11, Color = "#FF8080" },
+        new() { Year = 1955, Anomaly = -0.13, Color = "#FF8080" }, new() { Year = 1956, Anomaly = -0.09, Color = "#FF8080" }, new() { Year = 1957, Anomaly = 0.1, Color = "#52D681" },
+        new() { Year = 1958, Anomaly = 0.12, Color = "#52D681" }, new() { Year = 1959, Anomaly = 0.06, Color = "#52D681" }, new() { Year = 1960, Anomaly = 0.05, Color = "#52D681" },
+        new() { Year = 1961, Anomaly = 0.08, Color = "#52D681" }, new() { Year = 1962, Anomaly = 0.06, Color = "#52D681" }, new() { Year = 1963, Anomaly = 0.08, Color = "#52D681" },
+        new() { Year = 1964, Anomaly = -0.08, Color = "#FF8080" }, new() { Year = 1965, Anomaly = -0.04, Color = "#FF8080" }, new() { Year = 1966, Anomaly = 0.02, Color = "#52D681" },
+        new() { Year = 1967, Anomaly = 0, Color = "#FF8080" }, new() { Year = 1968, Anomaly = 0.02, Color = "#52D681" }, new() { Year = 1969, Anomaly = 0.19, Color = "#52D681" },
+        new() { Year = 1970, Anomaly = 0.08, Color = "#52D681" }, new() { Year = 1971, Anomaly = -0.06, Color = "#FF8080" }, new() { Year = 1972, Anomaly = 0.12, Color = "#52D681" },
+        new() { Year = 1973, Anomaly = 0.15, Color = "#52D681" }, new() { Year = 1974, Anomaly = -0.01, Color = "#FF8080" }, new() { Year = 1975, Anomaly = -0.02, Color = "#FF8080" },
+        new() { Year = 1976, Anomaly = 0.02, Color = "#52D681" }, new() { Year = 1977, Anomaly = 0.2, Color = "#52D681" }, new() { Year = 1978, Anomaly = 0.14, Color = "#52D681" },
+        new() { Year = 1979, Anomaly = 0.27, Color = "#52D681" }, new() { Year = 1980, Anomaly = 0.28, Color = "#52D681" }, new() { Year = 1981, Anomaly = 0.25, Color = "#52D681" },
+        new() { Year = 1982, Anomaly = 0.24, Color = "#52D681" }, new() { Year = 1983, Anomaly = 0.32, Color = "#52D681" }, new() { Year = 1984, Anomaly = 0.21, Color = "#52D681" },
+        new() { Year = 1985, Anomaly = 0.18, Color = "#52D681" }, new() { Year = 1986, Anomaly = 0.23, Color = "#52D681" }, new() { Year = 1987, Anomaly = 0.38, Color = "#52D681" },
+        new() { Year = 1988, Anomaly = 0.33, Color = "#52D681" }, new() { Year = 1989, Anomaly = 0.28, Color = "#52D681" }, new() { Year = 1990, Anomaly = 0.37, Color = "#52D681" },
+        new() { Year = 1991, Anomaly = 0.34, Color = "#52D681" }, new() { Year = 1992, Anomaly = 0.25, Color = "#52D681" }, new() { Year = 1993, Anomaly = 0.26, Color = "#52D681" },
+        new() { Year = 1994, Anomaly = 0.3, Color = "#52D681" }, new() { Year = 1995, Anomaly = 0.34, Color = "#52D681" }, new() { Year = 1996, Anomaly = 0.31, Color = "#52D681" },
+        new() { Year = 1997, Anomaly = 0.47, Color = "#52D681" }, new() { Year = 1998, Anomaly = 0.52, Color = "#52D681" }, new() { Year = 1999, Anomaly = 0.31, Color = "#52D681" },
+        new() { Year = 2000, Anomaly = 0.33, Color = "#52D681" }, new() { Year = 2001, Anomaly = 0.45, Color = "#52D681" }, new() { Year = 2002, Anomaly = 0.48, Color = "#52D681" },
+        new() { Year = 2003, Anomaly = 0.5, Color = "#52D681" }, new() { Year = 2004, Anomaly = 0.49, Color = "#52D681" }, new() { Year = 2005, Anomaly = 0.49, Color = "#52D681" },
+        new() { Year = 2006, Anomaly = 0.48, Color = "#52D681" }, new() { Year = 2007, Anomaly = 0.4, Color = "#52D681" }, new() { Year = 2008, Anomaly = 0.39, Color = "#52D681" },
+        new() { Year = 2009, Anomaly = 0.52, Color = "#52D681" }, new() { Year = 2010, Anomaly = 0.53, Color = "#52D681" }, new() { Year = 2011, Anomaly = 0.41, Color = "#52D681" },
+        new() { Year = 2012, Anomaly = 0.48, Color = "#52D681" }, new() { Year = 2013, Anomaly = 0.51, Color = "#52D681" }, new() { Year = 2014, Anomaly = 0.6, Color = "#52D681" },
+        new() { Year = 2015, Anomaly = 0.72, Color = "#52D681" }, new() { Year = 2016, Anomaly = 0.75, Color = "#52D681" }, new() { Year = 2017, Anomaly = 0.7, Color = "#52D681" },
+        new() { Year = 2018, Anomaly = 0.66, Color = "#52D681" }, new() { Year = 2019, Anomaly = 0.74, Color = "#52D681" }, new() { Year = 2020, Anomaly = 0.73, Color = "#52D681" },
+        new() { Year = 2021, Anomaly = 0.63, Color = "#52D681" }, new() { Year = 2022, Anomaly = 0.67, Color = "#52D681" }
+    };
+
+
+    // Grouped bar
+
+    public class OlympicData
+    {
+        public string X { get; set; }
+        public double Y1 { get; set; }
+        public double Y2 { get; set; }
+        public double Y3 { get; set; }
+        public double Y4 { get; set; }
+        public double Y5 { get; set; }
+        public double Y6 { get; set; }
+    }
+
+    public List<OlympicData> CombinedData = new()
+    {
+        new OlympicData { X = "2016", Y1 = 104, Y2 = 46, Y3 = 65, Y4 = 29, Y5 = 91, Y6 = 38 },
+        new OlympicData { X = "2020", Y1 = 121, Y2 = 46, Y3 = 67, Y4 = 27, Y5 = 70, Y6 = 26 },
+        new OlympicData { X = "2024", Y1 = 113, Y2 = 39, Y3 = 65, Y4 = 22, Y5 = 88, Y6 = 38 }
+    };
+
+    // 100% Stacking bar
+
+    public static class EnergyDataService
+    {
+        public static List<EnergyData> Wind = new()
+        {
+            new() { X = "2020", Y = 35 },
+            new() { X = "2021", Y = 38 },
+            new() { X = "2022", Y = 40 },
+            new() { X = "2023", Y = 42 }
+        };
+
+        public static List<EnergyData> Solar = new()
+        {
+            new() { X = "2020", Y = 25 },
+            new() { X = "2021", Y = 28 },
+            new() { X = "2022", Y = 30 },
+            new() { X = "2023", Y = 33 }
+        };
+
+        public static List<EnergyData> Hydro = new()
+        {
+            new() { X = "2020", Y = 40 },
+            new() { X = "2021", Y = 34 },
+            new() { X = "2022", Y = 30 },
+            new() { X = "2023", Y = 25 }
+        };
+    }
+
+    public class EnergyData
+    {
+        public string X { get; set; }
+        public double Y { get; set; }
+    }
+    // Stacking group
+
+    public class StackingColumnGroupData
+    {
+        public string X { get; set; }
+        public double Y1 { get; set; }
+        public double Y2 { get; set; }
+        public double Y3 { get; set; }
+        public double Y4 { get; set; }
+        public double Total { get; set; }
+    }
+
+    public static class ChartData
+    {
+        public static List<StackingColumnGroupData> StackingColumnGroupData = new()
+        {
+            new() { X = "2018", Y1 = 24.5, Y2 = 6.2, Y3 = 24.5, Y4 = 15.4, Total = 70.6 },
+            new() { X = "2019", Y1 = 25.6, Y2 = 15.6, Y3 = 23.2, Y4 = 21.1, Total = 85.5 },
+            new() { X = "2020", Y1 = 29, Y2 = 14.3, Y3 = 20.4, Y4 = 13.9, Total = 77.6 },
+            new() { X = "2021", Y1 = 28.5, Y2 = 9.3, Y3 = 23.2, Y4 = 11.6, Total = 75.4 },
+            new() { X = "2022", Y1 = 30.6, Y2 = 7.8, Y3 = 24.5, Y4 = 14.4, Total = 77.3 }
+        };
+    }
+
+    // Stacking labels
+
+    public class AnnualEnergyDataLabel
+    {
+        public string X { get; set; }
+        public double Y1 { get; set; }
+        public double Y2 { get; set; }
+        public double Y3 { get; set; }
+        public double Total { get; set; }
+    }
+
+    public List<AnnualEnergyDataLabel> StackingBarDataLabel = new()
+    {
+        new AnnualEnergyDataLabel { X = "2020", Y1 = 466, Y2 = 261, Y3 = 1355, Total = 2082 },
+        new AnnualEnergyDataLabel { X = "2021", Y1 = 656, Y2 = 327, Y3 = 1340, Total = 2323 },
+        new AnnualEnergyDataLabel { X = "2022", Y1 = 763, Y2 = 427, Y3 = 1352, Total = 2542 },
+        new AnnualEnergyDataLabel { X = "2023", Y1 = 886, Y2 = 584, Y3 = 1286, Total = 2756 }
+    };
+
+    //Stacking bar
+
+    public class AnnualEnergyData
+    {
+        public string X { get; set; }
+        public double Y1 { get; set; }
+        public double Y2 { get; set; }
+        public double Y3 { get; set; }
+        public double Total { get; set; }
+    }
+
+    public List<AnnualEnergyData> StackingBarData = new()
+    {
+        new AnnualEnergyData { X = "2020", Y1 = 466, Y2 = 261, Y3 = 1355, Total = 2082 },
+        new AnnualEnergyData { X = "2021", Y1 = 656, Y2 = 327, Y3 = 1340, Total = 2323 },
+        new AnnualEnergyData { X = "2022", Y1 = 763, Y2 = 427, Y3 = 1352, Total = 2542 },
+        new AnnualEnergyData { X = "2023", Y1 = 886, Y2 = 584, Y3 = 1286, Total = 2756 }
+    };
+
+    //Data label
+
+    public class PhonePalette
+    {
+        public string Year { get; set; }
+        public double Apple { get; set; }
+        public double Xiaomi { get; set; }
+        public double Oppo { get; set; }
+    }
+
+    private List<PhonePalette> PaletteData = new()
+    {
+        new PhonePalette { Year = "2021", Apple = 237, Xiaomi = 190, Oppo = 143 },
+        new PhonePalette { Year = "2022", Apple = 226.4, Xiaomi = 153.1, Oppo = 103.3 },
+        new PhonePalette { Year = "2023", Apple = 234.6, Xiaomi = 145.9, Oppo = 103.1 }
+    };
+
+    // Overview
+    public class SmartPhoneData
+    {
+        public string Year { get; set; }
+        public double Count { get; set; }
+    }
+
+    public static class SmartPhoneService
+    {
+        public static List<SmartPhoneData> AppleData = new()
+        {
+            new SmartPhoneData { Year = "2021", Count = 237 },
+            new SmartPhoneData { Year = "2022", Count = 226.4 },
+            new SmartPhoneData { Year = "2023", Count = 234.6 }
+        };
+
+        public static List<SmartPhoneData> XiaomiData = new()
+        {
+            new SmartPhoneData { Year = "2021", Count = 190 },
+            new SmartPhoneData { Year = "2022", Count = 153.1 },
+            new SmartPhoneData { Year = "2023", Count = 145.9 }
+        };
+
+        public static List<SmartPhoneData> OppoData = new()
+        {
+            new SmartPhoneData { Year = "2021", Count = 143 },
+            new SmartPhoneData { Year = "2022", Count = 103.3 },
+            new SmartPhoneData { Year = "2023", Count = 103.1 }
+        };
+    }
+
+}
+}

@@ -1,0 +1,27 @@
+﻿@using Syncfusion.Blazor.Toolkit.Charts
+@using Syncfusion.Blazor.Toolkit.Tests
+@using Syncfusion.Blazor.Toolkit.Charts
+@using Syncfusion.Blazor.Toolkit.Charts.Internal
+@using Bunit
+@using Xunit
+
+@inherits TestComponentBase
+
+<SfFixture @ref="sfFixture" TestAsync="Blaz975459ThemeChangeIssue" Description="Blaz975459ThemeChangeIssue">
+    <ComponentUnderTest>
+        <ChartWithRender />
+    </ComponentUnderTest>
+</SfFixture>
+
+@code {
+    SfFixture sfFixture { get; set; }
+
+    async Task Blaz975459ThemeChangeIssue(Fixture sfFixture)
+    {
+        var cut = sfFixture.GetComponentUnderTest<SfChart>();
+        await Task.Delay(200); 
+        var chartbackground = cut.Find("#container_ChartBorder");
+        Assert.True(chartbackground.GetAttribute("fill") == "#FFFFFF");
+        cut.SetParametersAndRender();
+    }
+}

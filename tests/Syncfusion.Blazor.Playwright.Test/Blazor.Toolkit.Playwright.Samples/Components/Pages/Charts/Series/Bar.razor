@@ -1,0 +1,69 @@
+@page "/chart/bar/regression"
+@using Syncfusion.Blazor.Toolkit.Charts
+
+<div id="chart-host" style="width:800px;height:500px">
+    <SfChart IsTransposed="@IsTransposed">
+
+        <ChartArea Background="@Background" />
+
+        <ChartPrimaryXAxis ValueType="@XAxisType" />
+        <ChartPrimaryYAxis IsInversed="@IsInversed" />
+
+        <ChartSeriesCollection>
+            <ChartSeries DataSource="@Data" XName="X" YName="Y" Type="ChartSeriesType.Bar" Fill="rgba(135,206,235,1)">
+
+                <ChartSeriesBorder Width="4" Color="Red" />
+
+                <ChartMarker Visible="@ShowMarker" Width="20" Height="20" Fill="@MarkerColor" Shape="@MarkerShape"
+                             ImageUrl="@MarkerImage">
+
+                    <ChartDataLabel Visible="@ShowLabel" Position="@LabelPosition">
+                        <Template>
+                            @{
+                                if (UseTemplate)
+                                {
+                                    var p = context as ChartDataPointInfo;
+                                    <div class="label-template">@p.Y</div>
+                                }
+                            }
+                        </Template>
+                    </ChartDataLabel>
+                </ChartMarker>
+
+            </ChartSeries>
+        </ChartSeriesCollection>
+
+    </SfChart>
+</div>
+
+<button id="transpose" @onclick="() => IsTransposed = !IsTransposed">Rotate</button>
+<button id="invert" @onclick="() => IsInversed = !IsInversed">Invert</button>
+
+@code {
+    bool IsTransposed;
+    bool IsInversed;
+    bool ShowMarker = true;
+    bool ShowLabel = true;
+    bool UseTemplate = true;
+
+    ChartShape MarkerShape = ChartShape.Circle;
+    string MarkerColor = "Green";
+    System.Uri? MarkerImage = null;
+    string Background = "Black";
+    ChartLabelPosition LabelPosition = ChartLabelPosition.Auto;
+    Syncfusion.Blazor.Toolkit.ValueType XAxisType = Syncfusion.Blazor.Toolkit.ValueType.DateTime;
+
+    public class DataPoint
+    {
+        public DateTime X { get; set; }
+        public double Y { get; set; }
+    }
+
+    List<DataPoint> Data = new()
+    {
+        new() { X = new(2005,1,1), Y = 70 },
+        new() { X = new(2006,1,1), Y = -40 },
+        new() { X = new(2007,1,1), Y = 80 },
+        new() { X = new(2008,1,1), Y = 0 }
+    };
+}

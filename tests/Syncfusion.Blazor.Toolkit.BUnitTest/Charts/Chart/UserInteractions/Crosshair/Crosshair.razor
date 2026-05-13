@@ -1,0 +1,85 @@
+﻿@using Syncfusion.Blazor.Toolkit.Charts
+@using Syncfusion.Blazor.Toolkit.Tests
+@using Syncfusion.Blazor.Toolkit.Charts
+@using Syncfusion.Blazor.Toolkit.Charts.Internal
+@using Bunit
+@using Xunit
+
+@inherits TestComponentBase
+
+<SfFixture @ref="fixture" TestAsync="CheckingBasicCrosshair" Description="CheckingBasicCrosshair">
+    <ComponentUnderTest>
+        <SfChart ID="container" OnCrosshairMove="OnCrosshairMove">
+            <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Toolkit.ValueType.DateTime">
+                <ChartAxisCrosshairTooltip Enable="true" Fill="red">
+                    <ChartCrosshairTextStyle Size="14px" Color="white" FontFamily="Aerial" FontWeight="600"></ChartCrosshairTextStyle>
+                </ChartAxisCrosshairTooltip>
+            </ChartPrimaryXAxis>
+
+            <ChartCrosshairSettings Enable="true" DashArray="2" LineType="LineType.Vertical">
+                <ChartCrosshairLine Color="red" Width="3"/>
+            </ChartCrosshairSettings>
+
+            <ChartSeriesCollection>
+                <ChartSeries DataSource="@SalesDetails" XName="X" YName="Y" Type="ChartSeriesType.Line">
+                </ChartSeries>
+            </ChartSeriesCollection>
+        </SfChart>
+    </ComponentUnderTest>
+</SfFixture>
+
+@code {
+    SfFixture fixture { get; set; }
+    List<CrosshairAxisInfo> axisInfo;
+    async Task CheckingBasicCrosshair(Fixture fixture)
+    {
+        var cut = fixture.GetComponentUnderTest<SfChart>();
+        await Task.Delay(200);
+        var crosshairTextStyle = cut.FindComponent<ChartCrosshairTextStyle>();
+        var crosshairLine = cut.FindComponent<ChartCrosshairLine>();
+        var chartFontOptions = crosshairTextStyle.Instance.GetChartFontOptions(cut.Instance._chartThemeStyle);
+        var fontOptions = crosshairTextStyle.Instance.GetFontOptions(cut.Instance._chartThemeStyle);
+        Assert.True(chartFontOptions.Size == "14px");
+        Assert.True(chartFontOptions.Color == "white");
+        Assert.True(chartFontOptions.FontWeight == "600");
+        Assert.True(chartFontOptions.FontFamily == "Aerial");
+        var crosshairTooltip = cut.FindComponent<ChartAxisCrosshairTooltip>();
+        Assert.True(crosshairTooltip.Instance.Enable == true);
+        Assert.True(crosshairTooltip.Instance.Fill == "red");
+        var crosshairSettings = cut.FindComponent<ChartCrosshairSettings>();
+        Assert.True(crosshairSettings.Instance.LineType == LineType.Vertical);
+        Assert.True(crosshairSettings.Instance.DashArray == "2");
+        List<CrosshairAxisInfo> axisInfo = new List<CrosshairAxisInfo>
+        {
+            new CrosshairAxisInfo("PrimaryXAxis", null, null)
+        };
+        CrosshairMoveEventArgs crosshairArgs = new CrosshairMoveEventArgs { AxisInfo = axisInfo };
+        cut.Instance.OnCrosshairMove.Invoke(crosshairArgs);
+        Assert.True(axisInfo != null);
+        cut.SetParametersAndRender();
+        await crosshairLine.Instance.DisposeAsync();
+        await crosshairTooltip.Instance.DisposeAsync();
+        await crosshairSettings.Instance.DisposeAsync();
+    }
+
+    public void OnCrosshairMove(CrosshairMoveEventArgs args)
+    {
+        axisInfo = args.AxisInfo;
+    }
+
+    public class ChartData
+    {
+        public DateTime X { get; set; }
+        public double Y { get; set; }
+    }
+
+    public List<ChartData> SalesDetails = new List<ChartData>
+    {
+        new ChartData { X = new DateTime(2000, 01, 01), Y = 4  },
+        new ChartData { X = new DateTime(2001, 01, 01), Y = 3.0 },
+        new ChartData { X = new DateTime(2002, 01, 01), Y = 3.8 },
+        new ChartData { X = new DateTime(2003, 01, 01), Y = 3.4 },
+        new ChartData { X = new DateTime(2004, 01, 01), Y = 3.2 },
+        new ChartData { X = new DateTime(2005, 01, 01), Y = 3.9 },
+    };
+}

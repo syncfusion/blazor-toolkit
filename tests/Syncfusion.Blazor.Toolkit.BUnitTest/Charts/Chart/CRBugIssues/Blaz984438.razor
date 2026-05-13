@@ -1,0 +1,75 @@
+﻿@using Syncfusion.Blazor.Toolkit.Charts
+@using Syncfusion.Blazor.Toolkit.Tests
+@using Syncfusion.Blazor.Toolkit.Charts
+@using Syncfusion.Blazor.Toolkit.Charts.Internal
+@using Bunit
+@using Xunit
+
+@inherits TestComponentBase
+
+<SfFixture @ref="sfFixture" TestAsync="Blaz984438AxisLabelTextIssue" Description="Blaz984438AxisLabelTextIssue">
+    <ComponentUnderTest>
+        <Chart984438 />
+    </ComponentUnderTest>
+</SfFixture>
+
+@code {
+    SfFixture sfFixture { get; set; }
+
+    async Task Blaz984438AxisLabelTextIssue(Fixture sfFixture)
+    {
+        var cut = sfFixture.GetComponentUnderTest<SfChart>();
+        await Task.Delay(200);
+        var firstlabel = cut.Find("#container1_AxisLabel_1");
+        Assert.True(firstlabel.TextContent.Contains("0.5", StringComparison.OrdinalIgnoreCase));
+        var lastlabel = cut.Find("#container1_AxisLabel_3");
+        Assert.True(lastlabel.TextContent.Contains("1.5", StringComparison.OrdinalIgnoreCase));
+        cut.SetParametersAndRender();
+    }
+}
+
+<SfFixture @ref="sfFixture1" TestAsync="Blaz984438DataLabelTextIssue" Description="Blaz984438DataLabelTextIssue">
+    <ComponentUnderTest>
+        <SfChart UseGroupingSeparator="true" ID="container">
+            <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Toolkit.ValueType.Category" />
+            <ChartPrimaryYAxis Minimum="0" Maximum="2.5"></ChartPrimaryYAxis>
+            <ChartTooltipSettings Enable="true"></ChartTooltipSettings>
+            <ChartSeriesCollection>
+                <ChartSeries DataSource="@Data" XName="XValue" YName="YValue" Type="ChartSeriesType.Column">
+                    <ChartMarker>
+                        <ChartDataLabel Visible="true"></ChartDataLabel>
+                    </ChartMarker>
+                </ChartSeries>
+            </ChartSeriesCollection>
+        </SfChart>
+    </ComponentUnderTest>
+</SfFixture>
+
+@code {
+    SfFixture sfFixture1 { get; set; }
+
+    async Task Blaz984438DataLabelTextIssue(Fixture sfFixture)
+    {
+        var cut = sfFixture1.GetComponentUnderTest<SfChart>();
+        await Task.Delay(200);
+        var firstlabel = cut.Find("#container_Series_0_Point_0_Text_0");
+        Assert.True(firstlabel.TextContent.Contains("0.5", StringComparison.OrdinalIgnoreCase));
+        var lastlabel = cut.Find("#container_Series_0_Point_1_Text_0");
+        Assert.True(lastlabel.TextContent.Contains("1.5", StringComparison.OrdinalIgnoreCase));
+        cut.SetParametersAndRender();
+    }
+
+    public class ChartData
+    {
+        public string XValue { get; set; }
+        public double YValue { get; set; }
+    }
+
+    public List<ChartData> Data = new List<ChartData>
+    {
+        new ChartData { XValue = "C001", YValue = 0.5 },
+        new ChartData { XValue = "C002", YValue = 1.5 },
+    };
+}
+
+

@@ -1,0 +1,105 @@
+@page "/button/accessibility-edge-cases"
+@using Syncfusion.Blazor.Toolkit.Buttons
+@layout MainLayout
+
+<h1>Button - Accessibility & Edge Cases</h1>
+
+<div class="test-container">
+   <h2>ARIA Attributes</h2>
+    <SfButton id="btn-accessible">Accessible</SfButton>
+
+    <h2>Disabled with ARIA</h2>
+    <SfButton id="btn-disabled-aria" Disabled="true">Disabled</SfButton>
+
+    <h2>Toggle with ARIA-Pressed</h2>
+    <SfButton id="btn-toggle-aria" IsToggle="true">Toggle</SfButton>
+
+    <h2>Keyboard Navigation</h2>
+    <SfButton id="btn-keyboard">Keyboard Test</SfButton>
+
+    <h2>Focus Indicator</h2>
+    <SfButton id="btn-focus-indicator">Focus Indicator</SfButton>
+
+    <h2>Button with Long Text</h2>
+    <SfButton id="btn-long-text">This is a button with very long text content for testing text wrapping behavior</SfButton>
+
+    <h2>Button with Missing Label (Icon Only)</h2>
+    <SfButton id="btn-icon-only-no-label" IconCss="e-icons e-search"></SfButton>
+
+    <h2>Multiple Buttons in Sequence</h2>
+    <div class="button-group">
+        <SfButton id="btn-seq-1">Button 1</SfButton>
+        <SfButton id="btn-seq-2">Button 2</SfButton>
+        <SfButton id="btn-seq-3">Button 3</SfButton>
+    </div>
+
+    <h2>Nested Button Content</h2>
+    <SfButton id="btn-nested-content">
+        <span id="nested-span">Complex Content</span>
+    </SfButton>
+
+    <h2>Button in Form</h2>
+    <form id="test-form">
+        <SfButton id="btn-submit-form">Submit</SfButton>
+        <SfButton id="btn-reset-form">Reset</SfButton>
+        <SfButton id="btn-regular-form">Regular</SfButton>
+    </form>
+
+    <h2>Button with Disabled State Change</h2>
+    <SfButton id="btn-toggle-disable" Disabled="@isDisabled" @onclick="ToggleDisable">
+        @(isDisabled ? "Enable Me" : "Disable Me")
+    </SfButton>
+
+    <h2>Rapid Click Handling</h2>
+    <SfButton id="btn-rapid-click" @onclick="HandleRapidClick">Click Count: @clickCount</SfButton>
+</div>
+
+<style>
+    .test-container {
+        padding: 20px;
+        border: 1px solid #ddd;
+        margin: 10px 0;
+        border-radius: 4px;
+        background-color: #f9f9f9;
+    }
+    
+    h2 {
+        margin-top: 20px;
+        font-size: 18px;
+        font-weight: 600;
+    }
+    
+    [dir="rtl"] {
+        text-align: right;
+        margin: 15px 0;
+    }
+    
+    .button-group {
+        display: flex;
+        gap: 10px;
+        margin: 15px 0;
+    }
+    
+    #test-form {
+        margin: 15px 0;
+        padding: 10px;
+        border: 1px solid #ddd;
+        border-radius: 4px;
+        background-color: #fff;
+    }
+</style>
+
+@code {
+    private bool isDisabled = false;
+    private int clickCount = 0;
+
+    private void ToggleDisable()
+    {
+        isDisabled = !isDisabled;
+    }
+
+    private void HandleRapidClick()
+    {
+        clickCount++;
+    }
+}

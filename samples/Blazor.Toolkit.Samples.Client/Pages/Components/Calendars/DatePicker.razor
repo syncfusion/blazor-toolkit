@@ -1,0 +1,210 @@
+﻿@page "/calendars/datepicker"
+
+@using Syncfusion.Blazor.Toolkit.Calendars
+
+<PageTitle>DatePicker | ASP.NET Core Blazor OSS Components</PageTitle>
+
+<Description>
+	<Header>
+		<h4>Blazor Toolkit Date Picker Component</h4>
+	</Header>
+	<Content>
+		The Blazor <code>DatePicker</code> component provides an intuitive interface for date selection and navigation. It offers a comprehensive set of features including multiple view modes, date range restrictions, custom rendering, and accessibility support for building robust date-picking experiences.
+	</Content>
+</Description>
+
+<CodePreview CodeSection="@DefaultCode">
+	<PreviewSection>
+		<SfDatePicker TValue="DateTime?" Width="270px" Placeholder="Choose a Date" ShowClearButton="true"></SfDatePicker>
+	</PreviewSection>
+</CodePreview>
+
+<Description>
+	<Header>
+		<h5>Two-Way Binding</h5>
+	</Header>
+	<Content>
+		Two-way binding can be achieved by using <code>bind-Value</code> attribute, which supports string, int, Enum, DateTime, bool types. If the component value has been changed, it will affect all places where the variable is bound for the bind-value attribute.
+	</Content>
+</Description>
+
+<CodePreview CodeSection="@TwoWayCode">
+	<PreviewSection>
+		<p style="display: ruby;"><label class="sb-label">Selected Date:</label> @DateValue</p>
+		<SfDatePicker TValue="DateOnly?" Width="270px" Placeholder="Choose a Date" @bind-Value="@DateValue" ShowClearButton="true"></SfDatePicker>
+
+		@code {
+			public DateOnly? DateValue { get; set; } = DateOnly.FromDateTime(DateTime.Today);
+		}
+	</PreviewSection>
+</CodePreview>
+
+<Description>
+	<Header>
+		<h5>Date Format</h5>
+	</Header>
+	<Content>
+		The <code>Format</code> property allows you to define how the selected date is displayed in the input field. Additionally, the <code>InputFormats</code> property defines a list of custom formats that the DatePicker accepts when a user manually enters a date, providing flexibility for different date entry styles.
+	</Content>
+</Description>
+
+<CodePreview CodeSection="@FormatCode">
+	<PreviewSection>
+		<SfDatePicker TValue="DateTime?" Width="270px" Format="yyyy-MM-dd" InputFormats='new string[] { "dd/MM/yyyy", "MM-dd-yyyy", "yyyy/MM/dd" }' @bind-Value="@FormatValue" ShowClearButton="true"></SfDatePicker>
+	</PreviewSection>
+</CodePreview>
+
+<Description>
+	<Header>
+		<h5>Date Range</h5>
+	</Header>
+	<Content>
+		The <code>Min</code> and <code>Max</code> properties allow you to restrict the range of dates that a user can select. Any dates outside of this range will be disabled in the calendar popup, and manual entry of out-of-range dates will be invalidated.
+	</Content>
+</Description>
+
+<CodePreview CodeSection="@RangeCode">
+	<PreviewSection>
+		<SfDatePicker TValue="DateTime?" Width="270px" Min='@MinDate' Max='@MaxDate' Value='@DateRangeValue' ShowClearButton="true"></SfDatePicker>
+	</PreviewSection>
+</CodePreview>
+
+<Description>
+	<Header>
+		<h5>Strict Mode</h5>
+	</Header>
+	<Content>
+		By default, the DatePicker allows users to enter any date, but if the entered date is outside the <code>Min</code> and <code>Max</code> range, it will be automatically reset to the nearest valid date when <code>StrictMode</code> is enabled. This ensures the component always holds a value within the specified boundaries.
+	</Content>
+</Description>
+
+<CodePreview CodeSection="@StrictCode">
+	<PreviewSection>
+		<SfDatePicker TValue="DateTime?" Width="270px" Min='@MinDate' Max='@MaxDate' Value='@DateRangeValue' StrictMode="true" ShowClearButton="true"></SfDatePicker>
+	</PreviewSection>
+</CodePreview>
+
+<Description>
+	<Header>
+		<h5>Start And Depth View</h5>
+	</Header>
+	<Content>
+		The <code>Start</code> property specifies the initial view when the calendar is opened (e.g., Year, Decade), while the <code>Depth</code> property restricts the view navigation level (e.g., to Month, Year). This allows for quick selection of years or decades without drilling down to specific days.
+	</Content>
+</Description>
+
+<CodePreview CodeSection="@ViewsCode">
+	<PreviewSection>
+		<SfDatePicker TValue="DateTime?" Width="270px" Placeholder='Select a date' Start='CalendarView.Year' Depth='CalendarView.Decade' ShowClearButton="true"></SfDatePicker>
+	</PreviewSection>
+</CodePreview>
+
+<Description>
+	<Header>
+		<h5>Floating Label</h5>
+	</Header>
+	<Content>
+		Enable floating labels by setting the <code>FloatLabelType</code> property. Floating labels move above the input field when focused or filled, providing a clean interface that saves vertical space.
+	</Content>
+</Description>
+
+<CodePreview CodeSection="@FloatLabelCode">
+	<PreviewSection>
+		<SfDatePicker TValue="DateTime?" Width="270px" Placeholder="Choose a Date" FloatLabelType="FloatLabelType.Auto" ShowClearButton="true"></SfDatePicker>
+	</PreviewSection>
+</CodePreview>
+
+<Description>
+	<Header>
+		<h5>Mask Support</h5>
+	</Header>
+	<Content>
+		The masking feature allows users to enter a date in the correct format, as specified by the <code>Format</code> property. This helps to ensure that the date is entered correctly and can also make it easier for users to understand how to enter the date. The <code>EnableMask</code> property in the DatePicker component allows you to enable or disable the masking functionality. When enabled, the input field will be displayed as masked with a specific date format pattern for entering the date.
+	</Content>
+</Description>
+
+<CodePreview CodeSection="@MasekedCode">
+	<PreviewSection>
+		<SfDatePicker TValue="DateTime?" Width="270px" EnableMask="true" ShowClearButton="true">
+			<DatePickerMaskPlaceholder Day="day" Month="month" Year="year"></DatePickerMaskPlaceholder>
+		</SfDatePicker>
+	</PreviewSection>
+</CodePreview>
+
+<Description>
+	<Header>
+		<h5>Islamic Calendar</h5>
+	</Header>
+	<Content>
+		The DatePicker control supports displaying the <code>Islamic</code> calendar (Hijri calendar). Islamic calendar or Hijri calendar is a lunar calendar consisting of 12 months in a year of 354 or 355 days.Users can either select a date from the Islamic calendar or manually enter a date. Additionally, you can use the ConvertToHijri and ConvertToGregorian methods to parse dates.
+	</Content>
+</Description>
+
+<CodePreview CodeSection="@IslamicCode">
+	<PreviewSection>
+		<SfDatePicker TValue="DateTime?" Width="270px" Placeholder="Choose a Date" Value='@DateRangeValue' CalendarMode="CalendarType.Islamic" ShowClearButton="true"></SfDatePicker>
+	</PreviewSection>
+</CodePreview>
+
+<Description>
+	<Header>
+		<h5>Week Number</h5>
+	</Header>
+	<Content>
+		You can enable WeekNumber in the DatePicker by using the <code>WeekNumber</code> property. Configure how the first week of the year is determined by using the <code>WeekRule</code> property (aligned with .NET CalendarWeekRule semantics).
+	</Content>
+</Description>
+
+<CodePreview CodeSection="@WeekNumberCode">
+	<PreviewSection>
+		<SfDatePicker TValue="DateTime?" Width="270px" WeekNumber="true" Placeholder="Choose a Date" ShowClearButton="true"></SfDatePicker>
+	</PreviewSection>
+</CodePreview>
+
+@code {
+	private string DefaultCode => @"<SfDatePicker TValue=""DateTime?"" Width=""270px"" Placeholder=""Choose a Date"" ShowClearButton=""true""></SfDatePicker>";
+	private string TwoWayCode => @"<p><label>Selected Date:</label> @DateValue</p>
+
+<SfDatePicker TValue=""DateOnly?"" Width=""270px"" @bind-Value=""@DateValue"" ShowClearButton=""true""></SfDatePicker>
+	
+@code {
+	public DateOnly? DateValue { get; set; } = DateOnly.FromDateTime(DateTime.Today);
+}";
+	private string FloatLabelCode => @"<SfDatePicker TValue=""DateTime?"" Width=""270px"" Placeholder=""Choose a Date"" FloatLabelType=""FloatLabelType.Auto"" ShowClearButton=""true""></SfDatePicker>";
+	private string MasekedCode => @"<SfDatePicker TValue=""DateTime?"" Width=""270px"" EnableMask=""true"" ShowClearButton=""true"">
+	<DatePickerMaskPlaceholder Day=""day"" Month=""month"" Year=""year""></DatePickerMaskPlaceholder>
+</SfDatePicker>";
+	private string IslamicCode => @"<SfDatePicker TValue=""DateTime?"" Width=""270px"" Placeholder=""Choose a Date"" Value=""@DateRangeValue"" CalendarMode=""CalendarType.Islamic"" ShowClearButton=""true""></SfDatePicker>
+
+@code {
+    public DateTime? DateRangeValue { get; set; } = new DateTime(DateTime.Now.Year, DateTime.Now.Month, 15);
+}";
+	private string WeekNumberCode => @"<SfDatePicker TValue=""DateTime?"" Width=""270px"" WeekNumber=""true"" Placeholder=""Choose a Date"" ShowClearButton=""true""></SfDatePicker>";
+	private string FormatCode => @"<SfDatePicker TValue=""DateTime?"" Width=""270px"" Format=""yyyy-MM-dd"" InputFormats='new string[] { ""dd/MM/yyyy"", ""MM-dd-yyyy"", ""yyyy/MM/dd"" }' @bind-Value=""@FormatValue"" ShowClearButton=""true""></SfDatePicker>
+
+@code {
+    public DateTime? FormatValue { get; set; } = new DateTime(2022, 12, 11, 11, 30, 00);
+}";
+	
+	private string RangeCode => @"<SfDatePicker TValue=""DateTime?"" Width=""270px"" Min=""@MinDate"" Max=""@MaxDate"" Value=""@DateRangeValue"" ShowClearButton=""true""></SfDatePicker>
+
+@code {
+    public DateTime MinDate { get; set; } = new DateTime(DateTime.Now.Year, DateTime.Now.Month, 07);
+    public DateTime MaxDate { get; set; } = new DateTime(DateTime.Now.Year, DateTime.Now.Month, 27);
+    public DateTime? DateRangeValue { get; set; } = new DateTime(DateTime.Now.Year, DateTime.Now.Month, 15);
+}";
+	
+	private string ViewsCode => @"<SfDatePicker TValue=""DateTime?"" Width=""270px"" Placeholder=""Select a date"" Start=""CalendarView.Year"" Depth=""CalendarView.Decade"" ShowClearButton=""true""></SfDatePicker>";
+	private string StrictCode => @"<SfDatePicker TValue=""DateTime?"" Width=""270px"" Min=""@MinDate"" Max=""@MaxDate"" @bind-Value=""@DateRangeValue"" StrictMode=""true"" ShowClearButton=""true""></SfDatePicker>
+
+@code {
+    public DateTime MinDate { get; set; } = new DateTime(DateTime.Now.Year, DateTime.Now.Month, 07);
+    public DateTime MaxDate { get; set; } = new DateTime(DateTime.Now.Year, DateTime.Now.Month, 27);
+    public DateTime? DateRangeValue { get; set; } = new DateTime(DateTime.Now.Year, DateTime.Now.Month, 15);
+}";
+
+	public DateTime? FormatValue { get; set; } = new DateTime(DateTime.Now.Year, DateTime.Now.Month, 10, 11, 30, 0);
+	public DateTime MinDate { get; set; } = new DateTime(DateTime.Now.Year, DateTime.Now.Month, 07);
+	public DateTime MaxDate { get; set; } = new DateTime(DateTime.Now.Year, DateTime.Now.Month, 27);
+	public DateTime? DateRangeValue { get; set; } = new DateTime(DateTime.Now.Year, DateTime.Now.Month, 15);
+}

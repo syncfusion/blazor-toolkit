@@ -1,0 +1,165 @@
+@page "/chart/chart-basics"
+@using Syncfusion.Blazor.Toolkit.Charts
+@using Syncfusion.Blazor.Toolkit.Data
+
+<h1>Chart - Basic Rendering</h1>
+
+<div class="test-container">
+    <h2>Chart Basic Rendering</h2>
+    <SfChart ID="Chart" Title="Month wise Sales Report" Height="400" Width="900">
+        <ChartMargin Top="5" Bottom="5" Left="5" Right="5"></ChartMargin>
+        <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Toolkit.ValueType.Category" RangePadding="ChartRangePadding.Normal"></ChartPrimaryXAxis>
+        <ChartPrimaryYAxis Title="PrimaryYaxis"></ChartPrimaryYAxis>
+        <ChartSeriesCollection>
+            <ChartSeries DataSource="@Sales" XName="Month" YName="SalesValue" Type="ChartSeriesType.Column" Name="Gold" Fill="Red">
+                <ChartSeriesAnimation Enable="false"></ChartSeriesAnimation>
+            </ChartSeries>
+        </ChartSeriesCollection>
+    </SfChart>
+
+    <h2>Checking Title Rendering</h2>
+    <SfChart ID="container" Title="Olympic Medals" SubTitle="Medals">
+        <ChartArea Background="skyblue" Width="80%" Border="@border" Opacity="0.8" />
+        <ChartSubTitleStyle FontFamily="Arial" FontStyle="italic" FontWeight="regular" Size="18px" Color="red" AccessibilityDescription="Olympic Medals" AccessibilityRole="Count" Focusable=false></ChartSubTitleStyle>
+        <ChartTitleStyle FontFamily="Arial" FontStyle="italic" FontWeight="regular" Size="23px" Color="red"></ChartTitleStyle>
+        <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Toolkit.ValueType.Category">
+        </ChartPrimaryXAxis>
+        <ChartSeriesCollection>
+            <ChartSeries DataSource="@MedalDetails" XName="Country" YName="Gold" Type="ChartSeriesType.Column">
+            </ChartSeries>
+        </ChartSeriesCollection>
+    </SfChart>
+
+    <h2>Checking Chart Properties And Methods</h2>
+    <SfChart ID="container" @ref="chartObj" Title="Medal Details" Height="400" Width="900" EnableAnimation="false" DataSource="@dataSource"
+                HighlightMode="HighlightMode.Point" Palettes="@palettes" SelectionPattern="SelectionPattern.Dots" HighlightPattern="SelectionPattern.Dots" AllowMultiSelection="true"
+                Background="blue" BackgroundImage="@backgroundImage" UseGroupingSeparator="true" AccessibilityDescription="Medal details with line Chart" TabIndex="0" CustomClass="@customClass">
+
+        <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Toolkit.ValueType.Category" RangePadding="ChartRangePadding.Normal"></ChartPrimaryXAxis>
+        <ChartPrimaryYAxis Title="PrimaryYaxis">
+            <ChartStriplines>
+                <ChartStripline Start="35" End="45" Color="red" />
+                <ChartStripline Start="45" End="65" Color="blue" />
+            </ChartStriplines>
+        </ChartPrimaryYAxis>
+        <ChartSeriesCollection>
+            <ChartSeries DataSource="@MedalDetails2" Name="Gold" XName="Country" Width="2" Opacity="1" YName="Gold" Type="ChartSeriesType.Line">
+            </ChartSeries>
+            <ChartSeries DataSource="@MedalDetails2" Name="Silver" XName="Country" Width="2" Opacity="1" YName="Silver" Type="ChartSeriesType.Spline">
+            </ChartSeries>
+            <ChartSeries DataSource="@MedalDetails2" Name="bronze" XName="Country" Width="2" Opacity="1" YName="Bronze" Type="ChartSeriesType.Column">
+            </ChartSeries>
+        </ChartSeriesCollection>
+        <ChartCrosshairSettings Enable="true"></ChartCrosshairSettings>
+        <ChartLegendSettings Visible="true"></ChartLegendSettings>
+        <ChartZoomSettings EnableMouseWheelZooming="true" EnableSelectionZooming="true"></ChartZoomSettings>
+    </SfChart>
+
+    <h2>Checking Dynamic Update Properties - Area</h2>
+    <SfChart ID="container" Title="Sales Report over the year 2025" Width="800">
+        <ChartSeriesCollection>
+            <ChartSeries DataSource="@SalesDetails" XName="X" YName="Y" Type="ChartSeriesType.Area" Name="India" Fill="@SeriesFill" Opacity="@SeriesOpacity" Width="@SeriesWidth" DashArray="@SeriesDashArray">
+                <ChartSeriesAnimation Enable="false"></ChartSeriesAnimation>
+                <ChartSeriesBorder Width="@SeriesBorderWidth" Color="@SeriesBorderColor"></ChartSeriesBorder>
+            </ChartSeries>
+        </ChartSeriesCollection>
+    </SfChart>
+</div>
+
+@code {
+    ChartAreaBorder border = new ChartAreaBorder { Color = "gray", Width = 2 };
+
+    SfChart chartObj;
+    string customClass = "custom_chart";
+    string backgroundImage = "../Images/cloud.png";
+    public IEnumerable<object> dataSource;
+    string[] palettes = new string[] { "green", "red", "blue" };
+
+    string SeriesFill = "blue";
+    double SeriesOpacity = 1;
+    double SeriesWidth = 2;
+    string SeriesBorderColor = "red";
+    double SeriesBorderWidth = 5;
+    string SeriesDashArray = "3, 2";
+
+    public class SalesInfo
+    {
+        public string Month { get; set; }
+        public double SalesValue { get; set; }
+    }
+
+    public List<SalesInfo> Sales = new List<SalesInfo>
+    {
+        new SalesInfo { Month = "Jan", SalesValue = 35 },
+        new SalesInfo { Month = "Feb", SalesValue = 28 },
+        new SalesInfo { Month = "Mar", SalesValue = 34 },
+        new SalesInfo { Month = "Apr", SalesValue = 32 },
+        new SalesInfo { Month = "May", SalesValue = 40 },
+        new SalesInfo { Month = "Jun", SalesValue = 32 },
+        new SalesInfo { Month = "Jul", SalesValue = 35 }
+    };
+
+    public class ChartData2
+    {
+        public string Country { get; set; }
+        public double Gold { get; set; }
+    }
+
+    public List<ChartData2> MedalDetails = new List<ChartData2>
+    {
+        new ChartData2{ Country= "USA", Gold=50  },
+        new ChartData2{ Country="China", Gold=40 },
+        new ChartData2{ Country= "Japan", Gold=70 },
+        new ChartData2{ Country= "Australia", Gold=60},
+        new ChartData2{ Country= "France", Gold=50 },
+        new ChartData2{ Country= "Germany", Gold=40 },
+        new ChartData2{ Country= "Italy", Gold=40 },
+        new ChartData2{ Country= "Sweden", Gold=30 }
+    };
+
+    public class ChartData3
+    {
+        public string Country { get; set; }
+        public double Gold { get; set; }
+        public double Silver { get; set; }
+        public double Bronze { get; set; }
+    }
+
+    public List<ChartData3> MedalDetails2 = new List<ChartData3>
+    {
+        new ChartData3{ Country= "USA", Gold=50, Silver=70, Bronze=45 },
+        new ChartData3{ Country="China", Gold=40, Silver= 60, Bronze=55 },
+        new ChartData3{ Country= "Japan", Gold=70, Silver= 60, Bronze=50 },
+        new ChartData3{ Country= "Australia", Gold=60, Silver= 56, Bronze=40 },
+        new ChartData3{ Country= "France", Gold=50, Silver= 45, Bronze=35 },
+        new ChartData3{ Country= "Germany", Gold=40, Silver=30, Bronze=22 },
+        new ChartData3{ Country= "Italy", Gold=40, Silver=35, Bronze=37 },
+        new ChartData3{ Country= "Sweden", Gold=30, Silver=25, Bronze=27 }
+    };
+
+    public class ChartData
+    {
+        public double X { get; set; }
+        public double Y { get; set; }
+    }
+    
+    public List<ChartData> SalesDetails = new List<ChartData>
+    {
+        new ChartData { X= 1900, Y= 4 },
+        new ChartData { X= 1920, Y= 3.0 },
+        new ChartData { X= 1940, Y= 3.8 },
+        new ChartData { X= 1960, Y= 3.4 },
+        new ChartData { X= 2000, Y= 3.9 }
+    };
+}
+
+<style>
+    .test-container {
+        padding: 20px;
+        border: 1px solid #ddd;
+        margin: 10px 0;
+        border-radius: 4px;
+        background-color: #f9f9f9;
+    }
+    h2 { margin-top: 20px; font-size: 18px; font-weight: 600; }
+</style>

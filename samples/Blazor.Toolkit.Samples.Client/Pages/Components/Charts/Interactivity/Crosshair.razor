@@ -1,0 +1,1083 @@
+﻿@page "/charts/interactivity/crosshair"
+@using Syncfusion.Blazor.Toolkit.Buttons
+@using Syncfusion.Blazor.Toolkit.Charts;
+@using static System.Runtime.InteropServices.JavaScript.JSType
+@using static System.Net.WebRequestMethods
+@inject HttpClient Http
+
+<PageTitle>Crosshair Chart</PageTitle>
+<Description>
+    <Header>
+        <h5>Enable Crosshair</h5>
+    </Header>
+    <Content>
+        <p>
+            The crosshair feature displays horizontal and vertical reference lines that follow the mouse pointer or touch interaction across the chart area. To enable this feature, set the <code>Enable</code> property in <code>ChartCrosshairSettings</code> to <code>true</code>. This helps users easily track the exact position of data points.
+        </p>
+    </Content>
+</Description>
+<VirtualizeSection MinHeightPx="600px">
+    <CodePreview IsFullWidth="true" CodeSection="@CrosshairCode">
+        <PreviewSection>
+
+          
+            <SfChart @key="@_currentTheme" Title="Angular Major Versions by Release Date" Theme="@_currentTheme">
+
+              
+                <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Toolkit.ValueType.DateTime"
+                                   IntervalType="IntervalType.Years"
+                                   LabelFormat="dd MMM yyyy">
+                    <ChartAxisMajorGridLines Width="0.5"/>
+                </ChartPrimaryXAxis>
+
+                <!-- Y Axis -->
+                <ChartPrimaryYAxis Title="Major Version" Interval="5">
+                    <ChartAxisMajorGridLines Width="0.5"/>
+                </ChartPrimaryYAxis>
+
+                <!-- Series -->
+                
+                    <ChartSeries DataSource="@ChartData.Releases"
+                                 XName="X"
+                                 YName="Y"
+                                 Type="ChartSeriesType.Area"
+                                 Opacity="0.6"
+                                 Fill="rgba(98, 0, 238, 1)">
+
+                        <ChartMarker Visible="true" IsFilled="false">
+                            <ChartMarkerBorder Width="2" Color="#6200EE"></ChartMarkerBorder>
+                        </ChartMarker>
+                    </ChartSeries>
+                
+
+                <!-- Tooltip -->
+                <ChartTooltipSettings Enable="true"
+                                      Header="<b>${point.x}</b>"
+                                      Format="Version: <b>${point.y}</b>"/>
+
+                <!-- Crosshair -->
+                <ChartCrosshairSettings Enable="true"/>
+
+                <!-- Legend -->
+                <ChartLegendSettings Visible="false"/>
+
+            </SfChart>
+
+        </PreviewSection>
+    </CodePreview>
+</VirtualizeSection>
+
+<Description>
+    <Header>
+        <h5>Highlight Category</h5>
+    </Header>
+    <Content>
+        <p>
+            The highlight category option emphasizes the entire category that aligns with the crosshair position. To enable this feature, set the <code>HighlightCategory</code> property in <code>ChartCrosshairSettings</code> to <code>true</code>. When enabled, the corresponding X-axis or Y-axis category is visually highlighted, making it easier to identify related data points across series.
+        </p>
+    </Content>
+</Description>
+<VirtualizeSection MinHeightPx="600px">
+    <CodePreview IsFullWidth="true" CodeSection="@HighlightCode">
+        <PreviewSection>
+          
+            <SfChart @key="@_currentTheme" Title="Corn vs Wheat Estimated Production, 2023" Width="100%" Height="400px" Theme="@_currentTheme">
+              
+                <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Toolkit.ValueType.Category"
+                                   RangePadding="ChartRangePadding.Normal" LabelIntersectAction="LabelIntersectAction.Rotate90">
+                </ChartPrimaryXAxis>
+
+                <ChartPrimaryYAxis Interval="100000" Title="Production (metric tons)">
+                </ChartPrimaryYAxis>
+
+                
+                    <ChartSeries DataSource="CrosshairData.CornData"
+                                 XName="X"
+                                 YName="Y"
+                                 Name="Corn"
+                                 Type="ChartSeriesType.Column"
+                                 Fill="#82C100"
+                                 LegendShape="LegendShape.Circle">
+                    </ChartSeries>
+
+                    <ChartSeries DataSource="CrosshairData.WheatData"
+                                 XName="X"
+                                 YName="Y"
+                                 Name="Wheat"
+                                 Type="ChartSeriesType.Column"
+                                 Fill="#E77A16"
+                                 LegendShape="LegendShape.Circle">
+                    </ChartSeries>
+                
+
+                <!-- Crosshair -->
+                <ChartCrosshairSettings Enable="true"
+                                        LineType="LineType.Vertical"
+                                        HighlightCategory="true">
+                    <ChartCrosshairLine Color="#EADDFF"></ChartCrosshairLine>
+                </ChartCrosshairSettings>
+
+                <!-- Tooltip -->
+                <ChartTooltipSettings Enable="true"
+                                      Shared="true"
+                                      Header="<b>${point.x}</b>"
+                                      Format="${series.name}: <b>${point.y} MT</b>">
+                </ChartTooltipSettings>
+
+            </SfChart>
+
+        </PreviewSection>
+    </CodePreview>
+</VirtualizeSection>
+<Description>
+    <Header>
+        <h5>Label</h5>
+    </Header>
+    <Content>
+        <p>
+            The crosshair label displays the corresponding axis value at the intersection point of the crosshair lines. To display the crosshair label, set the <code>Enable</code> property in <code>ChartAxisCrosshairTooltip</code> within the axis configuration to <code>true</code>. This provides precise information about the data position and improves readability during data inspection.
+        </p>
+    </Content>
+</Description>
+<VirtualizeSection MinHeightPx="600px">
+    <CodePreview IsFullWidth="true" CodeSection="@LabelCode">
+        <PreviewSection>
+            
+            <SfChart @key="@_currentTheme" Title="Global Market Capitalization (Current US$)" Theme="@_currentTheme">
+
+                <!-- Legend -->
+                <ChartLegendSettings Visible="false"></ChartLegendSettings>
+
+                <!-- Crosshair -->
+                <ChartCrosshairSettings Enable="true" DashArray="2,3" LineType="LineType.Both">
+
+                    <ChartCrosshairLine Width="1.5"></ChartCrosshairLine>
+                </ChartCrosshairSettings>
+
+                <!-- X Axis -->
+              
+                <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Toolkit.ValueType.Category">
+                    <ChartAxisLineStyle Width="0"></ChartAxisLineStyle>
+                    <ChartAxisCrosshairTooltip Enable="true"></ChartAxisCrosshairTooltip>
+                </ChartPrimaryXAxis>
+
+                <!-- Y Axis -->
+                <ChartPrimaryYAxis Title="Market Cap (Billions of US$)" Interval="40000">
+                    <ChartAxisLineStyle Width="0"></ChartAxisLineStyle>
+                    <ChartAxisCrosshairTooltip Enable="true"></ChartAxisCrosshairTooltip>
+                </ChartPrimaryYAxis>
+
+                <!-- Series -->
+                
+                    <ChartSeries DataSource="Data"
+                                 XName="Year"
+                                 YName="ValueB"
+                                 Type="ChartSeriesType.SplineArea"
+                                 Name="Market Cap"
+                                 Width="2"
+                                 Opacity="0.6"
+                                 Fill="#38BE09">
+                        <ChartSeriesBorder Width="2" Color="#38BE09"></ChartSeriesBorder>
+                    </ChartSeries>
+                
+
+                <!-- Tooltip -->
+                <ChartTooltipSettings Enable="true"
+                                      Header="<b>${point.x}</b>"
+                                      Format="${series.name}: <b>${point.y} B US$</b>">
+                </ChartTooltipSettings>
+            </SfChart>
+
+        </PreviewSection>
+    </CodePreview>
+</VirtualizeSection>
+<Description>
+    <Header>
+        <h5>Line Type</h5>
+    </Header>
+    <Content>
+        <p>
+            The crosshair line type determines the direction of the crosshair lines. It can be customized to appear as vertical, horizontal, or both using the <code>LineType</code> property in <code>ChartCrosshairSettings</code>. You can also customize it as solid, dashed, or dotted lines using the <code>DashArray</code> property, allowing better visual distinction based on chart requirements.
+        </p>
+    </Content>
+</Description>
+<VirtualizeSection MinHeightPx="600px">
+    <CodePreview IsFullWidth="true" CodeSection="@LineTypeCode">
+        <PreviewSection>
+            <div class="property-pane">
+                <div style="display:flex; align-items:center; gap:10px;">
+                    <label style="font-weight:700;">Crosshair Line Type:</label>
+                   
+                    <SfButtonGroup Mode="SelectionMode.Single">
+                        <ButtonGroupButton Selected="IsSelected(LineType.None)" SelectedChanged="@(v => OnModeChanged(v, LineType.None))">None</ButtonGroupButton>
+                        <ButtonGroupButton Selected="IsSelected(LineType.Vertical)" SelectedChanged="@(v => OnModeChanged(v, LineType.Vertical))">Vertical</ButtonGroupButton>
+                        <ButtonGroupButton Selected="IsSelected(LineType.Horizontal)" SelectedChanged="@(v => OnModeChanged(v, LineType.Horizontal))">Horizontal</ButtonGroupButton>
+                        <ButtonGroupButton Selected="IsSelected(LineType.Both)" SelectedChanged="@(v => OnModeChanged(v, LineType.Both))">Both</ButtonGroupButton>
+                    </SfButtonGroup>
+                </div>
+            </div>
+
+          
+            <SfChart @key="@_currentTheme" Title="India — Top Export Products (USD Billions, OEC 2022)" Theme="@_currentTheme">
+                <ChartLegendSettings Visible="false"/>
+
+                <ChartCrosshairSettings Enable="true"
+                                        LineType="@Mode"
+                                        DashArray="2,3">
+                    <ChartCrosshairLine Width="1.5"></ChartCrosshairLine>
+                </ChartCrosshairSettings>
+
+              
+                <ChartPrimaryXAxis Title="Export Value (USD Billions)" Format="${value}B" LabelIntersectAction="LabelIntersectAction.Rotate90" Minimum="0" ValueType="Syncfusion.Blazor.Toolkit.ValueType.Category">
+
+                </ChartPrimaryXAxis>
+
+                
+                    <ChartSeries DataSource="Items"
+                                 XName="X"
+                                 YName="Y"
+                                 Type="ChartSeriesType.Column"
+                                 Fill="#05B3DA"
+                                 ColumnSpacing="0.2">
+                        <ChartCornerRadius TopLeft="6" TopRight="6"/>
+                    </ChartSeries>
+                
+
+                <ChartTooltipSettings Enable="true"
+                                      Shared="true"
+                                      Header="Product: <b>${point.x}</b>"
+                                      Format="Export value: <b>$${point.y} Billion</b>"/>
+            </SfChart>
+
+        </PreviewSection>
+    </CodePreview>
+</VirtualizeSection>
+<Description>
+    <Header>
+        <h5>Snap</h5>
+    </Header>
+    <Content>
+        <p>
+            The snap feature aligns the crosshair directly to the nearest data point instead of following free mouse movement. You can disable this behavior by setting the <code>SnapToData</code> property in <code>ChartCrosshairSettings</code> to <code>false</code>. This ensures accurate value representation, especially when dealing with dense or closely plotted data points.
+        </p>
+    </Content>
+</Description>
+<VirtualizeSection MinHeightPx="600px">
+    <CodePreview IsFullWidth="true" CodeSection="@SnapCode">
+        <PreviewSection>
+
+            <SfChart @key="@_currentTheme" Title="United States GDP (Current US$)" SubTitle="Manual Data (Example)" Theme="@_currentTheme">
+                <!-- X Axis -->
+                
+                <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Toolkit.ValueType.DateTime"
+                                   IntervalType="IntervalType.Years"
+                                   LabelFormat="yyyy">
+                </ChartPrimaryXAxis>
+
+                <!-- Y Axis -->
+                <ChartPrimaryYAxis Title="GDP (US$, trillions)" Minimum="0" Format="$ {value}B">
+
+                    <ChartAxisMajorGridLines Width="0.5"/>
+                </ChartPrimaryYAxis>
+
+                <!-- Series -->
+                
+                    <ChartSeries DataSource="GdpData"
+                                 XName="X"
+                                 YName="Y"
+                                 Type="ChartSeriesType.Area"
+                                 Fill="#38BE09"
+                                 Opacity="0.6"
+                                 Name="GDP">
+                        <ChartMarker Visible="true">
+                            <ChartMarkerBorder Width="2" Color="#38BE09"/>
+                        </ChartMarker>
+                    </ChartSeries>
+                
+
+                <!-- Tooltip -->
+                <ChartTooltipSettings Enable="true" Shared="true"
+                                      Header="<b>${point.x}</b>"
+                                      Format="GDP: <b>${point.y}</b>"/>
+
+                <!-- Crosshair -->
+                <ChartCrosshairSettings Enable="true" SnapToData="false"/>
+
+                <!-- Legend -->
+                <ChartLegendSettings Visible="false"/>
+            </SfChart>
+
+        </PreviewSection>
+    </CodePreview>
+</VirtualizeSection>
+
+<Description>
+    <Header>
+        <h5>Style</h5>
+    </Header>
+    <Content>
+        <p>
+            The appearance of the crosshair can be customized using styling properties. You can modify attributes such as line color and width using the <code>ChartCrosshairLine</code> component, and the label text opacity using the <code>ChartCrosshairTextStyle</code> component to match the chart theme and improve visual clarity.
+        </p>
+    </Content>
+</Description>
+<VirtualizeSection MinHeightPx="600px">
+    <CodePreview IsFullWidth="true" CodeSection="@StyleCode">
+        <PreviewSection>
+
+           
+            <SfChart @key="@_currentTheme" SubTitle="World Bank (Indicator: EG.FEC.RNEW.ZS)" Title="Global Renewable Energy Share (2003–2022)" Theme="@_currentTheme">
+                <!-- Chart Titles -->
+                <ChartTitleStyle Size="12px"></ChartTitleStyle>
+                <!-- Legend -->
+                <ChartLegendSettings Visible="false"/>
+
+                <!-- Crosshair -->
+                <ChartCrosshairSettings Enable="true"
+                                        LineType="LineType.Both" DashArray="5,10">
+                    <ChartCrosshairLine Color="#353839"
+                                        Width="2"/>
+                    <ChartCrosshairTextStyle Opacity="0.6"></ChartCrosshairTextStyle>
+                </ChartCrosshairSettings>
+
+                <!-- Tooltip -->
+                <ChartTooltipSettings Enable="true"
+                                      Header="Year: <b>${point.x}</b>"
+                                      Format="Renewable Energy Share: <b>${point.y}%</b>"/>
+
+                <!-- X Axis -->
+           
+                <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Toolkit.ValueType.DateTime"
+                                   IntervalType="IntervalType.Years"
+                                   Interval="2"
+                                   EdgeLabelPlacement="EdgeLabelPlacement.Shift" Format="yyyy">
+                </ChartPrimaryXAxis>
+
+                <!-- Y Axis -->
+                <ChartPrimaryYAxis Interval="1" Format="{value}%" Title="Renewable Energy Share (%)">
+                    <ChartAxisLineStyle Width="0"/>
+                </ChartPrimaryYAxis>
+
+                <!-- Series -->
+                
+                    <ChartSeries DataSource="@RenewableShareData.Data"
+                                 XName="X"
+                                 YName="Y"
+                                 Name="Renewable energy share"
+                                 Type="ChartSeriesType.Area"
+                                 Fill="#08EE9B"
+                                 Opacity="0.6">
+                        <ChartSeriesBorder Width="2" Color="#08EE9B"/>
+                    </ChartSeries>
+                
+            </SfChart>
+
+        </PreviewSection>
+    </CodePreview>
+</VirtualizeSection>
+
+@code{
+    [CascadingParameter]
+    private Theme CurrentTheme { get; set; } = Theme.Fluent;
+
+    private Theme _currentTheme = Theme.Fluent;
+
+    protected override void OnInitialized()
+    {
+        _currentTheme = CurrentTheme;
+    }
+
+    protected override void OnParametersSet()
+    {
+        _currentTheme = CurrentTheme;
+    }
+
+    private bool IsDarkTheme => _currentTheme.ToString().Contains("Dark") || _currentTheme.ToString().Contains("HighContrast");
+    private string TextColor => IsDarkTheme ? "#E6EEF8" : "#0B1F3B";
+    public string StyleCode = @"@using Syncfusion.Blazor.Toolkit.Charts
+
+<SfChart @key=""@_currentTheme"" SubTitle=""World Bank (Indicator: EG.FEC.RNEW.ZS)"" Title=""Global Renewable Energy Share (2003–2022)"" Theme=""@_currentTheme"">
+    <!-- Chart Titles -->
+    <ChartTitleStyle Size=""12px""></ChartTitleStyle>
+    <!-- Legend -->
+    <ChartLegendSettings Visible=""false""/>
+
+    <!-- Crosshair -->
+    <ChartCrosshairSettings Enable=""true""
+                            LineType=""LineType.Both"" DashArray=""5,10"">
+        <ChartCrosshairLine Color=""#353839""
+                            Width=""2""/>
+        <ChartCrosshairTextStyle Opacity=""0.6""></ChartCrosshairTextStyle>
+    </ChartCrosshairSettings>
+
+    <!-- Tooltip -->
+    <ChartTooltipSettings Enable=""true""
+                          Header=""Year: <b>${point.x}</b>""
+                          Format=""Renewable Energy Share: <b>${point.y}%</b>""/>
+
+    <!-- X Axis -->
+   
+    <ChartPrimaryXAxis ValueType=""Syncfusion.Blazor.Toolkit.ValueType.DateTime""
+                       IntervalType=""IntervalType.Years""
+                       Interval=""2""
+                       EdgeLabelPlacement=""EdgeLabelPlacement.Shift"" Format=""yyyy"">
+    </ChartPrimaryXAxis>
+
+    <!-- Y Axis -->
+    <ChartPrimaryYAxis Interval=""1"" Format=""{value}%"" Title=""Renewable Energy Share (%)"">
+        <ChartAxisLineStyle Width=""0""/>
+    </ChartPrimaryYAxis>
+
+    <!-- Series -->
+    
+        <ChartSeries DataSource=""@RenewableShareData.Data""
+                     XName=""X""
+                     YName=""Y""
+                     Name=""Renewable energy share""
+                     Type=""ChartSeriesType.Area""
+                     Fill=""#08EE9B""
+                     Opacity=""0.6"">
+            <ChartSeriesBorder Width=""2"" Color=""#08EE9B""/>
+        </ChartSeries>
+    
+</SfChart>
+
+@code {
+    private Theme _currentTheme = Theme.Fluent;
+
+    public class Point
+    {
+        public DateTime X { get; set; }
+        public double Y { get; set; }
+    }
+
+    public static class RenewableShareData
+    {
+        public static List<Point> Data = new()
+        {
+            new Point { X = new DateTime(2003, 1, 1), Y = 17.0 },
+            new Point { X = new DateTime(2004, 1, 1), Y = 17.1 },
+            new Point { X = new DateTime(2005, 1, 1), Y = 17.2 },
+            new Point { X = new DateTime(2006, 1, 1), Y = 17.3 },
+            new Point { X = new DateTime(2007, 1, 1), Y = 17.4 },
+            new Point { X = new DateTime(2008, 1, 1), Y = 17.6 },
+            new Point { X = new DateTime(2009, 1, 1), Y = 17.9 },
+            new Point { X = new DateTime(2010, 1, 1), Y = 18.1 },
+            new Point { X = new DateTime(2011, 1, 1), Y = 18.2 },
+            new Point { X = new DateTime(2012, 1, 1), Y = 18.3 },
+            new Point { X = new DateTime(2013, 1, 1), Y = 18.4 },
+            new Point { X = new DateTime(2014, 1, 1), Y = 18.5 },
+            new Point { X = new DateTime(2015, 1, 1), Y = 18.6 },
+            new Point { X = new DateTime(2016, 1, 1), Y = 18.7 },
+            new Point { X = new DateTime(2017, 1, 1), Y = 18.8 },
+            new Point { X = new DateTime(2018, 1, 1), Y = 18.9 },
+            new Point { X = new DateTime(2019, 1, 1), Y = 19.0 },
+            new Point { X = new DateTime(2020, 1, 1), Y = 19.2 },
+            new Point { X = new DateTime(2021, 1, 1), Y = 19.3 },
+            new Point { X = new DateTime(2022, 1, 1), Y = 19.4 }
+        };
+    }
+}";
+    public string SnapCode = @"@using Syncfusion.Blazor.Toolkit.Charts
+
+<SfChart @key=""@_currentTheme"" Title=""United States GDP (Current US$)"" SubTitle=""Manual Data (Example)"" Theme=""@_currentTheme"">
+    <!-- X Axis -->
+   
+    <ChartPrimaryXAxis ValueType=""Syncfusion.Blazor.Toolkit.ValueType.DateTime""
+                       IntervalType=""IntervalType.Years""
+                       LabelFormat=""yyyy"">
+    </ChartPrimaryXAxis>
+
+    <!-- Y Axis -->
+    <ChartPrimaryYAxis Title=""GDP (US$, trillions)"" Minimum=""0"" Format=""$ {value}B"">
+
+        <ChartAxisMajorGridLines Width=""0.5""/>
+    </ChartPrimaryYAxis>
+
+    <!-- Series -->
+    
+        <ChartSeries DataSource=""GdpData""
+                     XName=""X""
+                     YName=""Y""
+                     Type=""ChartSeriesType.Area""
+                     Fill=""#38BE09""
+                     Opacity=""0.6""
+                     Name=""GDP"">
+            <ChartMarker Visible=""true"">
+                <ChartMarkerBorder Width=""2"" Color=""#38BE09""/>
+            </ChartMarker>
+        </ChartSeries>
+    
+
+    <!-- Tooltip -->
+    <ChartTooltipSettings Enable=""true"" Shared=""true""
+                          Header=""<b>${point.x}</b>""
+                          Format=""GDP: <b>${point.y}</b>""/>
+
+    <!-- Crosshair -->
+    <ChartCrosshairSettings Enable=""true"" SnapToData=""false""/>
+
+    <!-- Legend -->
+    <ChartLegendSettings Visible=""false""/>
+</SfChart>
+
+@code {
+    private Theme _currentTheme = Theme.Fluent;
+
+    public record GdpPoint(DateTime X, double Y);
+
+    public List<GdpPoint> GdpData = new()
+    {
+        new GdpPoint(new DateTime(2014, 1, 1), 17500000000000),
+        new GdpPoint(new DateTime(2015, 1, 1), 18200000000000),
+        new GdpPoint(new DateTime(2016, 1, 1), 18700000000000),
+        new GdpPoint(new DateTime(2017, 1, 1), 19500000000000),
+        new GdpPoint(new DateTime(2018, 1, 1), 20600000000000),
+        new GdpPoint(new DateTime(2019, 1, 1), 21400000000000),
+        new GdpPoint(new DateTime(2020, 1, 1), 20900000000000),
+        new GdpPoint(new DateTime(2021, 1, 1), 23300000000000),
+        new GdpPoint(new DateTime(2022, 1, 1), 25500000000000),
+        new GdpPoint(new DateTime(2023, 1, 1), 27000000000000),
+    };
+}";
+    public string HighlightCode = @"@using Syncfusion.Blazor.Toolkit.Charts
+
+<SfChart @key=""@_currentTheme"" Title=""Corn vs Wheat Estimated Production, 2023"" Width=""100%"" Height=""400px"" Theme=""@_currentTheme"">
+   
+    <ChartPrimaryXAxis ValueType=""Syncfusion.Blazor.Toolkit.ValueType.Category""
+                       RangePadding=""ChartRangePadding.Normal"" LabelIntersectAction=""LabelIntersectAction.Rotate90"">
+    </ChartPrimaryXAxis>
+
+    <ChartPrimaryYAxis Interval=""100000"" Title=""Production (metric tons)"">
+    </ChartPrimaryYAxis>
+
+    
+        <ChartSeries DataSource=""CrosshairData.CornData""
+                     XName=""X""
+                     YName=""Y""
+                     Name=""Corn""
+                     Type=""ChartSeriesType.Column""
+                     Fill=""#82C100""
+                     LegendShape=""LegendShape.Circle"">
+        </ChartSeries>
+
+        <ChartSeries DataSource=""CrosshairData.WheatData""
+                     XName=""X""
+                     YName=""Y""
+                     Name=""Wheat""
+                     Type=""ChartSeriesType.Column""
+                     Fill=""#E77A16""
+                     LegendShape=""LegendShape.Circle"">
+        </ChartSeries>
+    
+
+    <!-- Crosshair -->
+    <ChartCrosshairSettings Enable=""true""
+                            LineType=""LineType.Vertical""
+                            HighlightCategory=""true"">
+        <ChartCrosshairLine Color=""#EADDFF""></ChartCrosshairLine>
+    </ChartCrosshairSettings>
+
+    <!-- Tooltip -->
+    <ChartTooltipSettings Enable=""true""
+                          Shared=""true""
+                          Header=""<b>${point.x}</b>""
+                          Format=""${series.name}: <b>${point.y} MT</b>"">
+    </ChartTooltipSettings>
+
+</SfChart>
+
+@code {
+    private Theme _currentTheme = Theme.Fluent;
+
+    public class HighlightChartData
+    {
+        public string X { get; set; } = string.Empty;
+        public double Y { get; set; }
+    }
+
+    public static class CrosshairData
+    {
+        public static List<HighlightChartData> CornData = new()
+        {
+            new HighlightChartData { X = ""USA"", Y = 390000 },
+            new HighlightChartData { X = ""China"", Y = 280000 },
+            new HighlightChartData { X = ""Brazil"", Y = 210000 }
+        };
+
+        public static List<HighlightChartData> WheatData = new()
+        {
+            new HighlightChartData { X = ""USA"", Y = 170000 },
+            new HighlightChartData { X = ""China"", Y = 140000 },
+            new HighlightChartData { X = ""Brazil"", Y = 100000 }
+        };
+    }
+}";
+    public string LineTypeCode = @"@using Syncfusion.Blazor.Toolkit.Buttons
+@using Syncfusion.Blazor.Toolkit.Charts
+
+<div class=""property-pane"">
+    <div style=""display:flex; align-items:center; gap:10px;"">
+        <label style=""font-weight:700;"">Crosshair Line Type:</label>
+
+        <SfButtonGroup Mode=""SelectionMode.Single"">
+            <ButtonGroupButton Selected=""IsSelected(LineType.None)"" SelectedChanged=""@(v => OnModeChanged(v, LineType.None))"">None</ButtonGroupButton>
+            <ButtonGroupButton Selected=""IsSelected(LineType.Vertical)"" SelectedChanged=""@(v => OnModeChanged(v, LineType.Vertical))"">Vertical</ButtonGroupButton>
+            <ButtonGroupButton Selected=""IsSelected(LineType.Horizontal)"" SelectedChanged=""@(v => OnModeChanged(v, LineType.Horizontal))"">Horizontal</ButtonGroupButton>
+            <ButtonGroupButton Selected=""IsSelected(LineType.Both)"" SelectedChanged=""@(v => OnModeChanged(v, LineType.Both))"">Both</ButtonGroupButton>
+        </SfButtonGroup>
+    </div>
+</div>
+
+<SfChart @key=""@_currentTheme"" Title=""India — Top Export Products (USD Billions, OEC 2022)"" Width=""600px"" Theme=""@_currentTheme"">
+    <ChartLegendSettings Visible=""false""/>
+
+    <ChartCrosshairSettings Enable=""true""
+                            LineType=""@Mode""
+                            DashArray=""2,3"">
+        <ChartCrosshairLine Width=""1.5""></ChartCrosshairLine>
+    </ChartCrosshairSettings>
+
+    <ChartPrimaryXAxis Title=""Export Value (USD Billions)"" Format=""${value}B"" LabelIntersectAction=""LabelIntersectAction.Rotate90"" Minimum=""0"" ValueType=""Syncfusion.Blazor.Toolkit.ValueType.Category"">
+    </ChartPrimaryXAxis>
+
+    
+        <ChartSeries DataSource=""ProductsData.Items""
+                     XName=""X""
+                     YName=""Y""
+                     Type=""ChartSeriesType.Column""
+                     Fill=""#05B3DA""
+                     ColumnSpacing=""0.2"">
+            <ChartCornerRadius TopLeft=""6"" TopRight=""6""/>
+        </ChartSeries>
+    
+
+    <ChartTooltipSettings Enable=""true""
+                          Shared=""true""
+                          Header=""Product: <b>${point.x}</b>""
+                          Format=""Export value: <b>$${point.y} Billion</b>""/>
+</SfChart>
+
+@code {
+    private Theme _currentTheme = Theme.Fluent;
+    public LineType Mode { get; set; } = LineType.None;
+
+    private bool IsSelected(LineType mode) => Mode == mode;
+    private void OnModeChanged(bool selected, LineType mode)
+    {
+        if (selected)
+        {
+            Mode = mode;
+        }
+    }
+
+    public class ProductDatum
+    {
+        public string X { get; set; } = string.Empty;
+        public double Y { get; set; }
+    }
+
+    public static class ProductsData
+    {
+        public static List<ProductDatum> Items = new()
+        {
+            new() { X = ""Petroleum"", Y = 86.6 },
+            new() { X = ""Medicines"", Y = 23.3 },
+            new() { X = ""Diamonds"", Y = 23.0 },
+            new() { X = ""Cars"", Y = 9.7 },
+            new() { X = ""Rice"", Y = 9.6 },
+            new() { X = ""Aluminium"", Y = 7.7 },
+            new() { X = ""Cotton"", Y = 8.4 },
+            new() { X = ""Sugar"", Y = 5.9 }
+        };
+    }
+}";
+
+     public string CrosshairCode = @"@using Syncfusion.Blazor.Toolkit.Charts
+
+<SfChart @key=""@_currentTheme"" Title=""Angular Major Versions by Release Date"" Theme=""@_currentTheme"">
+
+    <ChartPrimaryXAxis ValueType=""Syncfusion.Blazor.Toolkit.ValueType.DateTime""
+                       IntervalType=""IntervalType.Years""
+                       LabelFormat=""dd MMM yyyy"">
+        <ChartAxisMajorGridLines Width=""0.5""/>
+    </ChartPrimaryXAxis>
+
+    <!-- Y Axis -->
+    <ChartPrimaryYAxis Title=""Major Version"" Interval=""5"">
+        <ChartAxisMajorGridLines Width=""0.5""/>
+    </ChartPrimaryYAxis>
+
+    <!-- Series -->
+    
+        <ChartSeries DataSource=""@ChartData.Releases""
+                     XName=""X""
+                     YName=""Y""
+                     Type=""ChartSeriesType.Area""
+                     Opacity=""0.6""
+                     Fill=""rgba(98, 0, 238, 1)"">
+
+            <ChartMarker Visible=""true"" IsFilled=""false"">
+                <ChartMarkerBorder Width=""2"" Color=""#6200EE""></ChartMarkerBorder>
+            </ChartMarker>
+        </ChartSeries>
+    
+
+    <!-- Tooltip -->
+    <ChartTooltipSettings Enable=""true""
+                          Header=""<b>${point.x}</b>""
+                          Format=""Version: <b>${point.y}</b>""/>
+
+    <!-- Crosshair -->
+    <ChartCrosshairSettings Enable=""true""/>
+
+    <!-- Legend -->
+    <ChartLegendSettings Visible=""false""/>
+
+</SfChart>
+
+@code {
+    private Theme _currentTheme = Theme.Fluent;
+
+    public class ReleaseData
+    {
+        public DateTime X { get; set; }
+        public double Y { get; set; }
+    }
+
+    public static class ChartData
+    {
+        public static List<ReleaseData> Releases = new()
+        {
+            new ReleaseData { X = new DateTime(2016, 9, 14), Y = 2 },
+            new ReleaseData { X = new DateTime(2017, 3, 22), Y = 4 },
+            new ReleaseData { X = new DateTime(2018, 11, 7), Y = 7 },
+            new ReleaseData { X = new DateTime(2020, 2, 6), Y = 9 },
+            new ReleaseData { X = new DateTime(2022, 6, 2), Y = 14 }
+        };
+    }
+}";
+
+     public string LabelCode = @"@using Syncfusion.Blazor.Toolkit.Charts
+
+<SfChart @key=""@_currentTheme"" Title=""Global Market Capitalization (Current US$)"" Theme=""@_currentTheme"">
+
+    <!-- Legend -->
+    <ChartLegendSettings Visible=""false""></ChartLegendSettings>
+
+    <!-- Crosshair -->
+    <ChartCrosshairSettings Enable=""true"" DashArray=""2,3"" LineType=""LineType.Both"">
+
+        <ChartCrosshairLine Width=""1.5""></ChartCrosshairLine>
+    </ChartCrosshairSettings>
+
+    <!-- X Axis -->
+   <ChartPrimaryXAxis ValueType=""Syncfusion.Blazor.Toolkit.ValueType.Category"">
+        <ChartAxisLineStyle Width=""0""></ChartAxisLineStyle>
+        <ChartAxisCrosshairTooltip Enable=""true""></ChartAxisCrosshairTooltip>
+    </ChartPrimaryXAxis>
+
+    <!-- Y Axis -->
+    <ChartPrimaryYAxis Title=""Market Cap (Billions of US$)"" Interval=""40000"">
+        <ChartAxisLineStyle Width=""0""></ChartAxisLineStyle>
+        <ChartAxisCrosshairTooltip Enable=""true""></ChartAxisCrosshairTooltip>
+    </ChartPrimaryYAxis>
+
+    <!-- Series -->
+    
+        <ChartSeries DataSource=""Data""
+                     XName=""Year""
+                     YName=""ValueB""
+                     Type=""ChartSeriesType.SplineArea""
+                     Name=""Market Cap""
+                     Width=""2""
+                     Opacity=""0.6""
+                     Fill=""#38BE09"">
+            <ChartSeriesBorder Width=""2"" Color=""#38BE09""></ChartSeriesBorder>
+        </ChartSeries>
+    
+
+    <!-- Tooltip -->
+    <ChartTooltipSettings Enable=""true""
+                          Header=""<b>${point.x}</b>""
+                          Format=""${series.name}: <b>${point.y} B US$</b>"">
+    </ChartTooltipSettings>
+}
+</SfChart>
+
+@code {
+    private Theme _currentTheme = Theme.Fluent;
+
+    public class MarketCapPoint
+    {
+        public string Year { get; set; } = string.Empty;
+        public double ValueB { get; set; }
+    }
+
+    private List<MarketCapPoint> Data = new()
+    {
+        new MarketCapPoint { Year = ""1975"", ValueB = 1500 },
+        new MarketCapPoint { Year = ""1980"", ValueB = 2100 },
+        new MarketCapPoint { Year = ""1985"", ValueB = 3200 },
+        new MarketCapPoint { Year = ""1990"", ValueB = 4500 },
+        new MarketCapPoint { Year = ""1995"", ValueB = 7200 },
+        new MarketCapPoint { Year = ""2000"", ValueB = 30000 },
+        new MarketCapPoint { Year = ""2005"", ValueB = 35000 },
+        new MarketCapPoint { Year = ""2010"", ValueB = 54000 },
+        new MarketCapPoint { Year = ""2015"", ValueB = 68000 },
+        new MarketCapPoint { Year = ""2020"", ValueB = 95000 },
+        new MarketCapPoint { Year = ""2024"", ValueB = 110000 }
+    };
+}";
+}
+@code{
+    public LineType Mode { get; set; }
+    = LineType.None;
+    // ButtonGroup helpers
+    private bool IsSelected(LineType mode)
+        => Mode == mode;
+    private void OnModeChanged(bool selected, LineType mode)
+    {
+        if (selected)
+        {
+            Mode = mode;
+        }
+    }
+    // Label
+
+    public class MarketCapPoint
+    {
+        public string Year { get; set; }
+        public double ValueB { get; set; }
+    }
+
+    private List<MarketCapPoint> Data = new()
+    {
+        new MarketCapPoint { Year = "1975", ValueB = 1500 },
+        new MarketCapPoint { Year = "1980", ValueB = 2100 },
+        new MarketCapPoint { Year = "1985", ValueB = 3200 },
+        new MarketCapPoint { Year = "1990", ValueB = 4500 },
+        new MarketCapPoint { Year = "1995", ValueB = 7200 },
+        new MarketCapPoint { Year = "2000", ValueB = 30000 },
+        new MarketCapPoint { Year = "2005", ValueB = 35000 },
+        new MarketCapPoint { Year = "2010", ValueB = 54000 },
+        new MarketCapPoint { Year = "2015", ValueB = 68000 },
+        new MarketCapPoint { Year = "2020", ValueB = 95000 },
+        new MarketCapPoint { Year = "2024", ValueB = 110000 }
+    };
+
+    // Styles
+
+    public class Point
+    {
+        public DateTime X { get; set; }
+        public double Y { get; set; }
+    }
+
+    public static class RenewableShareData
+    {
+        public static List<Point> Data = new()
+        {
+            new Point { X = new DateTime(2003, 1, 1), Y = 17.0 },
+            new Point { X = new DateTime(2004, 1, 1), Y = 17.1 },
+            new Point { X = new DateTime(2005, 1, 1), Y = 17.2 },
+            new Point { X = new DateTime(2006, 1, 1), Y = 17.3 },
+            new Point { X = new DateTime(2007, 1, 1), Y = 17.4 },
+            new Point { X = new DateTime(2008, 1, 1), Y = 17.6 },
+            new Point { X = new DateTime(2009, 1, 1), Y = 17.9 },
+            new Point { X = new DateTime(2010, 1, 1), Y = 18.1 },
+            new Point { X = new DateTime(2011, 1, 1), Y = 18.2 },
+            new Point { X = new DateTime(2012, 1, 1), Y = 18.3 },
+            new Point { X = new DateTime(2013, 1, 1), Y = 18.4 },
+            new Point { X = new DateTime(2014, 1, 1), Y = 18.5 },
+            new Point { X = new DateTime(2015, 1, 1), Y = 18.6 },
+            new Point { X = new DateTime(2016, 1, 1), Y = 18.7 },
+            new Point { X = new DateTime(2017, 1, 1), Y = 18.8 },
+            new Point { X = new DateTime(2018, 1, 1), Y = 18.9 },
+            new Point { X = new DateTime(2019, 1, 1), Y = 19.0 },
+            new Point { X = new DateTime(2020, 1, 1), Y = 19.2 },
+            new Point { X = new DateTime(2021, 1, 1), Y = 19.3 },
+            new Point { X = new DateTime(2022, 1, 1), Y = 19.4 }
+        };
+    }
+
+
+    // ✅ Manual GDP data (last 10 years, example)
+    public List<GdpPoint> GdpData = new()
+    {
+        new GdpPoint(new DateTime(2014, 1, 1), 17500000000000),
+        new GdpPoint(new DateTime(2015, 1, 1), 18200000000000),
+        new GdpPoint(new DateTime(2016, 1, 1), 18700000000000),
+        new GdpPoint(new DateTime(2017, 1, 1), 19500000000000),
+        new GdpPoint(new DateTime(2018, 1, 1), 20600000000000),
+        new GdpPoint(new DateTime(2019, 1, 1), 21400000000000),
+        new GdpPoint(new DateTime(2020, 1, 1), 20900000000000),
+        new GdpPoint(new DateTime(2021, 1, 1), 23300000000000),
+        new GdpPoint(new DateTime(2022, 1, 1), 25500000000000),
+        new GdpPoint(new DateTime(2023, 1, 1), 27000000000000),
+    };
+
+    // 📌 Axis formatter (K, M, B, T)
+    private string Compact(double value)
+    {
+        var abs = Math.Abs(value);
+        if (abs >= 1e12) return "$" + (value / 1e12).ToString("0") + "T";
+        if (abs >= 1e9) return "$" + (value / 1e9).ToString("0") + "B";
+        if (abs >= 1e6) return "$" + (value / 1e6).ToString("0") + "M";
+        if (abs >= 1e3) return "$" + (value / 1e3).ToString("0") + "K";
+        return value.ToString("N0");
+    }
+
+    // 📦 Model
+    public record GdpPoint(DateTime X, double Y);
+
+    public class ProductDatum
+    {
+        public string X { get; set; }
+        public double Y { get; set; }
+    }
+
+    public static List<ProductDatum> Items = new()
+    {
+        new() { X = "Petroleum", Y = 86.6 },
+        new() { X = "Medicines", Y = 23.3 },
+        new() { X = "Diamonds", Y = 23.0 },
+        new() { X = "Cars", Y = 9.7 },
+        new() { X = "Rice", Y = 9.6 },
+        new() { X = "Aluminium", Y = 7.7 },
+        new() { X = "Cotton", Y = 8.4 },
+        new() { X = "Sugar", Y = 5.9 }
+    };
+
+    private LineType LineType = LineType.Vertical;
+
+    private void ChangeLineType(LineType type)
+    {
+        LineType = type;
+        StateHasChanged();
+    }
+
+    // Label Formatter
+
+    public class OhlcPoint
+    {
+        public DateTime Date { get; set; }
+        public double Open { get; set; }
+        public double High { get; set; }
+        public double Low { get; set; }
+        public double Close { get; set; }
+    }
+
+    public static List<OhlcPoint> ohlcData = new()
+    {
+        new() { Date = new DateTime(2025, 8, 1), Open = 3732.58, High = 3767.43, Low = 3695.73, Close = 3706.20 },
+        new() { Date = new DateTime(2025, 8, 2), Open = 3708.38, High = 3749.34, Low = 3675.81, Close = 3676.26 },
+        new() { Date = new DateTime(2025, 8, 3), Open = 3662.88, High = 3693.55, Low = 3632.79, Close = 3686.55 },
+        new() { Date = new DateTime(2025, 8, 4), Open = 3679.77, High = 3693.56, Low = 3664.08, Close = 3688.66 },
+        new() { Date = new DateTime(2025, 8, 5), Open = 3694.22, High = 3704.63, Low = 3683.91, Close = 3689.02 },
+        new() { Date = new DateTime(2025, 8, 6), Open = 3693.19, High = 3732.26, Low = 3657.08, Close = 3659.82 },
+        new() { Date = new DateTime(2025, 8, 7), Open = 3669.62, High = 3693.42, Low = 3649.08, Close = 3688.07 },
+        new() { Date = new DateTime(2025, 8, 8), Open = 3674.32, High = 3677.69, Low = 3667.42, Close = 3672.44 },
+        new() { Date = new DateTime(2025, 8, 9), Open = 3670.41, High = 3704.94, Low = 3641.36, Close = 3641.83 },
+        new() { Date = new DateTime(2025, 8, 10), Open = 3627.21, High = 3645.32, Low = 3608.59, Close = 3636.76 },
+        new() { Date = new DateTime(2025, 8, 11), Open = 3621.16, High = 3627.84, Low = 3615.95, Close = 3621.96 },
+        new() { Date = new DateTime(2025, 8, 12), Open = 3609.23, High = 3650.79, Low = 3566.05, Close = 3640.79 },
+        new() { Date = new DateTime(2025, 8, 13), Open = 3651.82, High = 3670.32, Low = 3624.12, Close = 3668.06 },
+        new() { Date = new DateTime(2025, 8, 14), Open = 3684.04, High = 3695.30, Low = 3681.55, Close = 3683.48 },
+        new() { Date = new DateTime(2025, 8, 15), Open = 3698.55, High = 3719.50, Low = 3674.27, Close = 3718.73 },
+        new() { Date = new DateTime(2025, 8, 16), Open = 3706.79, High = 3735.18, Low = 3685.65, Close = 3724.72 },
+        new() { Date = new DateTime(2025, 8, 17), Open = 3712.25, High = 3740.20, Low = 3679.42, Close = 3734.34 },
+        new() { Date = new DateTime(2025, 8, 18), Open = 3726.04, High = 3752.36, Low = 3701.90, Close = 3705.62 },
+        new() { Date = new DateTime(2025, 8, 19), Open = 3694.50, High = 3728.80, Low = 3651.15, Close = 3662.08 },
+        new() { Date = new DateTime(2025, 8, 20), Open = 3675.91, High = 3690.46, Low = 3654.18, Close = 3688.49 },
+        new() { Date = new DateTime(2025, 8, 21), Open = 3689.57, High = 3723.94, Low = 3658.43, Close = 3662.62 },
+        new() { Date = new DateTime(2025, 8, 22), Open = 3664.55, High = 3697.43, Low = 3628.15, Close = 3690.66 },
+        new() { Date = new DateTime(2025, 8, 23), Open = 3707.91, High = 3742.94, Low = 3675.64, Close = 3680.24 },
+        new() { Date = new DateTime(2025, 8, 24), Open = 3672.00, High = 3704.40, Low = 3644.43, Close = 3692.84 },
+        new() { Date = new DateTime(2025, 8, 25), Open = 3702.10, High = 3717.05, Low = 3690.26, Close = 3692.32 },
+        new() { Date = new DateTime(2025, 8, 26), Open = 3676.51, High = 3703.13, Low = 3656.50, Close = 3693.56 },
+        new() { Date = new DateTime(2025, 8, 27), Open = 3710.50, High = 3727.09, Low = 3693.01, Close = 3720.25 },
+        new() { Date = new DateTime(2025, 8, 28), Open = 3702.81, High = 3716.32, Low = 3687.96, Close = 3689.70 },
+        new() { Date = new DateTime(2025, 8, 29), Open = 3687.33, High = 3701.43, Low = 3668.76, Close = 3695.45 },
+        new() { Date = new DateTime(2025, 8, 30), Open = 3685.90, High = 3719.28, Low = 3659.89, Close = 3660.15 },
+        new() { Date = new DateTime(2025, 9, 1), Open = 3655.07, High = 3691.13, Low = 3616.09, Close = 3620.25 },
+        new() { Date = new DateTime(2025, 9, 2), Open = 3623.18, High = 3649.35, Low = 3601.50, Close = 3603.88 },
+        new() { Date = new DateTime(2025, 9, 3), Open = 3603.00, High = 3613.25, Low = 3583.40, Close = 3611.67 },
+        new() { Date = new DateTime(2025, 9, 4), Open = 3599.40, High = 3618.47, Low = 3574.01, Close = 3581.45 },
+        new() { Date = new DateTime(2025, 9, 5), Open = 3591.33, High = 3622.01, Low = 3562.25, Close = 3617.32 },
+        new() { Date = new DateTime(2025, 9, 6), Open = 3622.39, High = 3663.15, Low = 3584.11, Close = 3588.19 },
+        new() { Date = new DateTime(2025, 9, 7), Open = 3586.23, High = 3607.35, Low = 3567.48, Close = 3596.42 },
+        new() { Date = new DateTime(2025, 9, 8), Open = 3610.54, High = 3628.66, Low = 3586.73, Close = 3592.94 },
+        new() { Date = new DateTime(2025, 9, 9), Open = 3583.75, High = 3591.02, Low = 3568.09, Close = 3577.17 },
+        new() { Date = new DateTime(2025, 9, 10), Open = 3578.96, High = 3624.07, Low = 3543.16, Close = 3544.82 },
+        new() { Date = new DateTime(2025, 9, 11), Open = 3548.60, High = 3575.55, Low = 3520.08, Close = 3527.57 },
+        new() { Date = new DateTime(2025, 9, 12), Open = 3516.18, High = 3541.73, Low = 3490.74, Close = 3538.12 },
+        new() { Date = new DateTime(2025, 9, 13), Open = 3551.75, High = 3592.49, Low = 3511.79, Close = 3520.14 },
+        new() { Date = new DateTime(2025, 9, 14), Open = 3532.19, High = 3575.44, Low = 3492.21, Close = 3497.64 },
+        new() { Date = new DateTime(2025, 9, 15), Open = 3495.98, High = 3515.54, Low = 3477.83, Close = 3512.90 },
+        new() { Date = new DateTime(2025, 9, 16), Open = 3496.76, High = 3519.41, Low = 3469.27, Close = 3478.02 },
+        new() { Date = new DateTime(2025, 9, 17), Open = 3490.11, High = 3512.07, Low = 3473.34, Close = 3503.76 },
+        new() { Date = new DateTime(2025, 9, 18), Open = 3501.52, High = 3514.49, Low = 3491.66, Close = 3505.29 },
+        new() { Date = new DateTime(2025, 9, 19), Open = 3510.26, High = 3537.95, Low = 3491.30, Close = 3493.83 },
+        new() { Date = new DateTime(2025, 9, 20), Open = 3476.86, High = 3506.50, Low = 3447.51, Close = 3503.47 },
+        new() { Date = new DateTime(2025, 9, 21), Open = 3519.03, High = 3544.81, Low = 3498.15, Close = 3536.10 },
+        new() { Date = new DateTime(2025, 9, 22), Open = 3530.10, High = 3559.50, Low = 3492.90, Close = 3556.71 },
+        new() { Date = new DateTime(2025, 9, 23), Open = 3563.46, High = 3580.37, Low = 3542.89, Close = 3572.61 },
+        new() { Date = new DateTime(2025, 9, 24), Open = 3584.50, High = 3594.78, Low = 3572.36, Close = 3582.37 },
+        new() { Date = new DateTime(2025, 9, 25), Open = 3590.23, High = 3601.28, Low = 3582.24, Close = 3585.83 },
+        new() { Date = new DateTime(2025, 9, 26), Open = 3590.12, High = 3611.19, Low = 3559.34, Close = 3569.96 },
+        new() { Date = new DateTime(2025, 9, 27), Open = 3553.40, High = 3579.53, Low = 3517.69, Close = 3528.53 },
+        new() { Date = new DateTime(2025, 9, 28), Open = 3515.99, High = 3527.18, Low = 3504.64, Close = 3505.13 },
+        new() { Date = new DateTime(2025, 9, 29), Open = 3509.82, High = 3531.43, Low = 3487.74, Close = 3523.30 },
+        new() { Date = new DateTime(2025, 9, 30), Open = 3526.47, High = 3561.10, Low = 3486.53, Close = 3496.07 },
+        new() { Date = new DateTime(2025, 10, 1), Open = 3509.77, High = 3532.90, Low = 3477.27, Close = 3532.13 }
+    };
+    // Label on crosshair
+
+
+    // Highlight category 
+
+    public class HighlightChartData
+    {
+        public string X { get; set; }
+        public double Y { get; set; }
+    }
+
+    public static class CrosshairData
+    {
+        public static List<HighlightChartData> CornData = new()
+        {
+            new HighlightChartData { X = "USA", Y = 390000 },
+            new HighlightChartData { X = "China", Y = 280000 },
+            new HighlightChartData { X = "Brazil", Y = 210000 }
+        };
+
+        public static List<HighlightChartData> WheatData = new()
+        {
+            new HighlightChartData { X = "USA", Y = 170000 },
+            new HighlightChartData { X = "China", Y = 140000 },
+            new HighlightChartData { X = "Brazil", Y = 100000 }
+        };
+    }
+
+    // Enable crosshair
+    public class ReleaseData
+    {
+        public DateTime X { get; set; }
+        public double Y { get; set; }
+    }
+
+    public static class ChartData
+    {
+        public static List<ReleaseData> Releases = new()
+        {
+            new ReleaseData { X = new DateTime(2016, 9, 14), Y = 2 },
+            new ReleaseData { X = new DateTime(2017, 3, 22), Y = 4 },
+            new ReleaseData { X = new DateTime(2018, 11, 7), Y = 7 },
+            new ReleaseData { X = new DateTime(2020, 2, 6), Y = 9 },
+            new ReleaseData { X = new DateTime(2022, 6, 2), Y = 14 }
+        };
+    }
+
+
+}

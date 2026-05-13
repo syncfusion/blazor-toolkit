@@ -1,0 +1,948 @@
+@page "/charts/area/step-area-chart"
+@using Syncfusion.Blazor.Toolkit.Charts
+@inject System.Net.Http.HttpClient Http
+@inject NavigationManager NavigationManager
+
+<PageTitle>Syncfusion Blazor Toolkit Step Area Chart Demo</PageTitle>
+
+<!-- ─────────────────────────────────────────────────────────────
+     OVERVIEW
+     ───────────────────────────────────────────────────────────── -->
+<Description>
+    <Header>
+        <h5><b>Overview</b></h5>
+    </Header>
+    <Content>
+        The Step Area Chart uses vertical and horizontal lines to connect data points, forming a step-like structure with the area below shaded. This visualization is ideal for representing data that changes at discrete intervals, such as production shifts or price levels. This is achieved by setting the <code>Type</code> property of <code>ChartSeries</code> to <code>ChartSeriesType.StepArea</code>.
+    </Content>
+</Description>
+
+<VirtualizeSection MinHeightPx="600px">
+<CodePreview IsFullWidth="true" CodeSection="@OverviewCode">
+    <PreviewSection>
+        <SfChart @key="@_currentTheme" Title="Global Electricity Production" Width="100%" Height="400px" Theme="@_currentTheme">
+          
+            <ChartArea>
+                <ChartAreaBorder Width="0" />
+            </ChartArea>
+
+            <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Toolkit.ValueType.Double" />
+
+            <ChartPrimaryYAxis ValueType="Syncfusion.Blazor.Toolkit.ValueType.Double">
+                
+                <ChartPrimaryYAxis Format="{value}B" />
+            </ChartPrimaryYAxis>
+
+            
+                <ChartSeries Type="ChartSeriesType.StepArea"
+                             DataSource="@(Renewable.Cast<object>())"
+                             XName="X"
+                             YName="Y"
+                             Name="Renewable"
+                             Opacity="0.7"
+                             Width="2"
+                             Fill="#38BE09"
+                             LegendShape="LegendShape.Rectangle">
+                    <ChartSeriesBorder Width="2" Color="#38BE09" />
+                </ChartSeries>
+          
+
+
+            <ChartSeries Type="ChartSeriesType.StepArea"
+                             DataSource="@(NonRenewable.Cast<object>())"
+                         XName="X"
+                         YName="Y"
+                         Name="Non-Renewable"
+                         Opacity="0.7"
+                         Width="2"
+                         Fill="#E77A16"
+                             LegendShape="LegendShape.Rectangle">
+                    <ChartSeriesBorder Width="2" Color="#E77A16" />
+                </ChartSeries>
+                         
+
+
+        
+
+        <ChartTooltipSettings Enable="true"
+                              ShowNearestTooltip="true"
+                              Header="<b>${series.name}</b>"
+                              Format="${point.x}: <b>${point.y}</b>" />
+    </SfChart>
+</PreviewSection>
+</CodePreview>
+</VirtualizeSection>
+
+<!-- ─────────────────────────────────────────────────────────────
+     DATA LABEL
+     ───────────────────────────────────────────────────────────── -->
+<Description>
+    <Header>
+        <h5><b>Data Labels</b></h5>
+    </Header>
+    <Content>
+        Enhance readability by displaying data labels at each step of the Chart. You can enable them by setting the <code>Visible</code> property to <code>true</code> in the <code>ChartDataLabel</code> component within the <code>ChartMarker</code>. Customizations such as font and borders can be done using the <code>ChartDataLabelFont</code> and <code>ChartDataLabelBorder</code> components.
+    </Content>
+</Description>
+
+<VirtualizeSection MinHeightPx="600px">
+    <CodePreview IsFullWidth="true" CodeSection="@DataLabelCode">
+    <PreviewSection>
+        <SfChart @key="@_currentTheme" Title="Global Corn Exports (Billions of Tons)" Width="100%" Height="400px" Theme="@_currentTheme">
+          
+            <!-- Chart Area -->
+            <ChartArea>
+                <ChartAreaBorder Width="0" />
+            </ChartArea>
+
+            <!-- Tooltip -->
+            <ChartTooltipSettings Enable="true"
+                                  Header=""
+                                  Format="Year: <b>${point.x}</b><br/>Exports: <b>${point.y}</b>" />
+
+            <!-- X Axis -->
+            <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Toolkit.ValueType.Category">
+                <ChartAxisLabelStyle />
+            </ChartPrimaryXAxis>
+
+            <!-- Y Axis -->
+            <ChartPrimaryYAxis Maximum="24" Interval="6">
+                <ChartAxisLineStyle Width="0" />
+                <ChartPrimaryYAxis Format="{value}B" />
+            </ChartPrimaryYAxis>
+
+            
+                <ChartSeries DataSource="@ExportData"
+                             XName="X"
+                             YName="Y"
+                             Type="ChartSeriesType.StepArea"
+                             StepPosition="StepPosition.Center"
+                             Opacity="0.6"
+                             Fill="#6200EE"
+                             Width="2">
+
+                    <!-- Series Border -->
+                    <ChartSeriesBorder Width="2" Color="#6200EE" />
+
+                    <!-- Marker -->
+                    <ChartMarker Visible="true"
+                                 Width="8"
+                                 Height="8"
+                                 Fill="#6200EE">
+
+                        <ChartMarkerBorder Width="1" Color="#6200EE" />
+
+                        <!-- ✅ Data Label -->
+                        <ChartDataLabel Visible="true"
+                                        Position="ChartLabelPosition.Outer"
+                                        Fill="#FFFFFF">
+                            <ChartDataLabelBorder Width="1" Color="#6200EE" />
+                            <ChartDataLabelFont FontWeight="600" Color="#333333" />
+                        </ChartDataLabel>
+
+                    </ChartMarker>
+
+                </ChartSeries>
+            
+        </SfChart>
+    </PreviewSection>
+</CodePreview>
+</VirtualizeSection>
+
+<!-- ─────────────────────────────────────────────────────────────
+     INVERTED AXES
+     ───────────────────────────────────────────────────────────── -->
+<Description>
+    <Header>
+        <h5><b>Inverted Axes</b></h5>
+    </Header>
+    <Content>
+        The Step Area Chart supports transposition, swapping the horizontal and vertical axes for different perspectives. Transpose the Chart axes by setting the <code>IsTransposed</code> property to <code>true</code> in the <code>SfChart</code> component.
+    </Content>
+</Description>
+
+<VirtualizeSection MinHeightPx="600px">
+    <CodePreview IsFullWidth="true" CodeSection="@InvertedAxesCode">
+    <PreviewSection>
+        <SfChart @key="@_currentTheme" Title="Population by Age and Gender (Percent)" Width="100%" Height="400px" IsTransposed="true" Theme="@_currentTheme">
+            
+    <ChartArea Border="new ChartAreaBorder { Width = 0 }" />
+
+    <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Toolkit.ValueType.Category" />
+
+    <ChartPrimaryYAxis Minimum="-6" Maximum="6" Interval="1">
+        <ChartAxisMajorGridLines Width="1" />
+    </ChartPrimaryYAxis>
+
+    
+        <!-- Male -->
+        <ChartSeries DataSource="@PopulationData"
+                     XName="Age"
+                     YName="MalePercentValue"
+                     Type="ChartSeriesType.StepArea"
+                     Name="Male"
+                     Opacity="0.6"
+                     LegendShape="LegendShape.Rectangle"
+        >
+                     <ChartSeriesBorder Width="2" Color="#0765e0ff" />
+
+        </ChartSeries>
+
+        <!-- Female -->
+        <ChartSeries DataSource="@PopulationData"
+                     XName="Age"
+                     YName="FemalePercentValue"
+                     Type="ChartSeriesType.StepArea"
+                     Name="Female"
+                     Opacity="0.6"
+                     LegendShape="LegendShape.Rectangle">
+                     <ChartSeriesBorder Width="2" Color="#e007a6ff" />
+
+        </ChartSeries>
+    
+
+    <ChartTooltipSettings Enable="true"
+                          Header="Age: <b>${point.x}</b>"
+                          Format="Gender Share: <b>${point.y}</b>" />
+        </SfChart>
+    </PreviewSection>
+</CodePreview>
+</VirtualizeSection>
+
+<!-- ─────────────────────────────────────────────────────────────
+     NEGATIVE DATA
+     ───────────────────────────────────────────────────────────── -->
+<Description>
+    <Header>
+        <h5><b>Negative Data</b></h5>
+    </Header>
+    <Content>
+        Gracefully handle and visualize negative values within the step area series. The area is filled downwards from the zero line for negative values mapped to the <code>YName</code> property. Significant thresholds and regions can be highlighted using the <code>ChartStripline</code> component within the axis, utilizing properties like <code>Start</code>, <code>End</code>, and <code>Text</code>.
+    </Content>
+</Description>
+
+<VirtualizeSection MinHeightPx="600px">
+    <CodePreview IsFullWidth="true" CodeSection="@NegativeDataCode">
+    <PreviewSection>
+        <SfChart @key="@_currentTheme" Title="Annual Gold Price (2009-2023) in USD" Width="100%" Height="400px" Theme="@_currentTheme">
+            <ChartArea><ChartAreaBorder Width="0"></ChartAreaBorder></ChartArea>
+          
+            <!-- X Axis -->
+            <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Toolkit.ValueType.Double"
+                               Interval="3" />
+
+            <!-- Y Axis -->
+            <ChartPrimaryYAxis Interval="20">
+                <ChartAxisTitle Text="% Annual Exchange Rate" />
+                <ChartAxisLineStyle Width="0" />
+
+                <!-- Strip Lines -->
+                <ChartStriplines>
+
+                    <!-- Highest Growth Line -->
+                    <ChartStripline Start="20"
+                                    End="20.5"
+                                    Visible="true"
+                                    Color="#79747E"
+                                    DashArray="10,10"
+                                    ZIndex="@ZIndex.Over" />
+
+                    <ChartStripline Start="21"
+                                    End="21.5"
+                                    Visible="true"
+                                    Color="transparent"
+                                    DashArray="4,4"
+                                    Text="Highest Annual Growth"
+                                    HorizontalAlignment="Anchor.End"
+                                    ZIndex="@ZIndex.Over"
+                                    Rotation="0">
+                        <ChartStriplineTextStyle Color="@HighestTextColor" />
+                    </ChartStripline>
+
+                    <!-- Lowest Growth Line -->
+                    <ChartStripline Start="-25"
+                                    End="-24.5"
+                                    Visible="true"
+                                    Color="#79747E"
+                                    DashArray="10,10"
+                                    ZIndex="@ZIndex.Over" />
+
+                    <ChartStripline Start="-28.5"
+                                    End="-28"
+                                    Visible="true"
+                                    Color="transparent"
+                                    DashArray="4,4"
+                                    Text="Lowest Annual Growth"
+                                    HorizontalAlignment="Anchor.End"
+                                    ZIndex="@ZIndex.Over"
+                                    Rotation="0">
+                        <ChartStriplineTextStyle Color="@LowestTextColor" />
+                    </ChartStripline>
+
+                </ChartStriplines>
+            </ChartPrimaryYAxis>
+
+            <!-- Series -->
+            
+                <ChartSeries DataSource="NegativeData"
+                             XName="X"
+                             YName="USD"
+                             Type="ChartSeriesType.StepArea"
+                             Width="2"
+                             Opacity="0.4"
+                             Fill="#3CFFD2">
+                     <ChartSeriesBorder Width="2" Color="@SeriesBorderColor" />
+                </ChartSeries>
+            
+
+            <!-- Tooltip -->
+            <ChartTooltipSettings Enable="true"
+                                  Header="${point.x}"
+                                  Format="Annual Growth : <b>${point.y}</b>" />
+
+        </SfChart>
+    </PreviewSection>
+</CodePreview>
+</VirtualizeSection>
+
+<!-- ─────────────────────────────────────────────────────────────
+     SERIES CUSTOMIZATION
+     ───────────────────────────────────────────────────────────── -->
+<Description>
+    <Header>
+        <h5><b>Series Customization</b></h5>
+    </Header>
+    <Content>
+        Apply custom colors, opacity levels, and step positions to match your application's design guidelines. You can fine-tune the appearance using properties like <code>Fill</code>, <code>Opacity</code>, <code>Width</code>, and <code>StepPosition</code> in the <code>ChartSeries</code>, and customize borders using the <code>ChartSeriesBorder</code> component.
+    </Content>
+</Description>
+
+<VirtualizeSection MinHeightPx="600px">
+    <CodePreview IsFullWidth="true" CodeSection="@CustomizationCode">
+    <PreviewSection>
+        <SfChart @key="@_currentTheme" Title="Monthly Active Users (Web vs Mobile)" Width="100%" Height="400px" Theme="@_currentTheme">
+             <ChartArea>
+        <ChartAreaBorder Width="0" />
+    </ChartArea>
+
+    <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Toolkit.ValueType.Category" />
+
+    <ChartPrimaryYAxis>
+        <ChartPrimaryYAxis Format="{value}k" />
+    </ChartPrimaryYAxis>
+
+    
+
+        <ChartSeries DataSource="@WebUsers"
+                     XName="X"
+                     YName="Y"
+                     Type="ChartSeriesType.StepArea"
+                     Name="Web"
+                     Opacity="0.6"
+                     Fill="#05B3DA"
+                     StepPosition="StepPosition.Center"
+                     LegendShape="LegendShape.Rectangle">
+            <ChartSeriesBorder Width="2"
+                               Color="#05B3DA"/>
+
+        </ChartSeries>
+
+        <ChartSeries DataSource="@MobileUsers"
+                     XName="X"
+                     YName="Y"
+                     Type="ChartSeriesType.StepArea"
+                     Name="Mobile"
+                     Opacity="0.6"
+                     Fill="#82C100"
+                     StepPosition="StepPosition.Center"
+                     LegendShape="LegendShape.Rectangle">
+            <ChartSeriesBorder Width="2"
+                               Color="#82C100" />
+
+        </ChartSeries>
+
+    
+
+    <ChartTooltipSettings Enable="true"
+                          ShowNearestTooltip="true"
+                          Header="<b>${series.name}</b>"
+                          Format="${point.x}: <b>${point.y}</b>" />
+        </SfChart>
+    </PreviewSection>
+</CodePreview>
+</VirtualizeSection>
+
+@code {
+    [CascadingParameter]
+    private Theme CurrentTheme { get; set; } = Theme.Fluent;
+
+    private Theme _currentTheme = Theme.Fluent;
+
+    protected override void OnInitialized()
+    {
+        _currentTheme = CurrentTheme;
+    }
+
+    protected override void OnParametersSet()
+    {
+        _currentTheme = CurrentTheme;
+    }
+    public class MonthlyUsers
+    {
+        public string X { get; set; } = string.Empty;
+        public double Y { get; set; }
+    }
+
+  
+        private List<MonthlyUsers> WebUsers = new()
+    {
+        new() { X = "Jan", Y = 120 },
+        new() { X = "Feb", Y = 135 },
+        new() { X = "Mar", Y = 150 },
+        new() { X = "Apr", Y = 170 },
+        new() { X = "May", Y = 160 },
+        new() { X = "Jun", Y = 175 },
+        new() { X = "Jul", Y = 190 },
+        new() { X = "Aug", Y = 205 },
+        new() { X = "Sep", Y = 198 },
+        new() { X = "Oct", Y = 210 },
+        new() { X = "Nov", Y = 220 },
+        new() { X = "Dec", Y = 230 }
+    };
+
+        private List<MonthlyUsers> MobileUsers = new()
+    {
+        new() { X = "Jan", Y = 80 },
+        new() { X = "Feb", Y = 95 },
+        new() { X = "Mar", Y = 110 },
+        new() { X = "Apr", Y = 130 },
+        new() { X = "May", Y = 140 },
+        new() { X = "Jun", Y = 155 },
+        new() { X = "Jul", Y = 165 },
+        new() { X = "Aug", Y = 178 },
+        new() { X = "Sep", Y = 185 },
+        new() { X = "Oct", Y = 195 },
+        new() { X = "Nov", Y = 205 },
+        new() { X = "Dec", Y = 215 }
+    };
+    
+    private bool IsDarkTheme => _currentTheme.ToString().Contains("Dark") || _currentTheme.ToString().Contains("HighContrast");
+    private string HighestTextColor => IsDarkTheme ? "#53CA17" : "#205107";
+    private string LowestTextColor => IsDarkTheme ? "#F2B8B5" : "#B3261E";
+    private string BorderColor => IsDarkTheme ? "#D6FF89" : "#71AD01";
+    private string SeriesBorderColor => IsDarkTheme ? "#3CFFD2" : "#008264";
+
+    private ChartBorder MaleBorder => new()
+    {
+        Width = 2,
+        Color =  "#0765e0ff"
+    };
+
+    private ChartBorder FemaleBorder => new()
+    {
+        Width = 2,
+        Color ="#e007a6ff"
+    };
+
+    // ✅ Axis label formatter → absolute percentage
+    private void OnAxisLabelRender(AxisLabelRenderEventArgs args)
+    {
+        if (double.TryParse(args.Text, out var value))
+        {
+            args.Text = $"{Math.Abs(value)}%";
+        }
+    }
+
+    // ✅ Tooltip formatter → remove minus sign
+    private void OnTooltipRender(TooltipRenderEventArgs args)
+    {
+        if (args.Text.Contains("-"))
+        {
+            args.Text = args.Text.Replace("-", "");
+        }
+    }
+
+    // ✅ Data
+    public List<PopulationModel> PopulationData = new()
+    {
+        new() { Age = "70 - 74", MalePercentValue = 0.66,  FemalePercentValue = -0.72 },
+        new() { Age = "65 - 69", MalePercentValue = 1.02,  FemalePercentValue = -1.08 },
+        new() { Age = "60 - 64", MalePercentValue = 1.48,  FemalePercentValue = -1.53 },
+        new() { Age = "55 - 59", MalePercentValue = 1.86,  FemalePercentValue = -1.91 },
+        new() { Age = "50 - 54", MalePercentValue = 2.31,  FemalePercentValue = -2.42 },
+        new() { Age = "45 - 49", MalePercentValue = 2.72,  FemalePercentValue = -2.78 },
+        new() { Age = "40 - 44", MalePercentValue = 3.25,  FemalePercentValue = -3.29 },
+        new() { Age = "35 - 39", MalePercentValue = 3.91,  FemalePercentValue = -3.84 },
+        new() { Age = "30 - 34", MalePercentValue = 4.51,  FemalePercentValue = -4.32 },
+        new() { Age = "25 - 29", MalePercentValue = 4.80,  FemalePercentValue = -4.61 },
+        new() { Age = "20 - 24", MalePercentValue = 4.90,  FemalePercentValue = -4.72 },
+    };
+
+    public class PopulationModel
+    {
+        public string Age { get; set; }
+        public double MalePercentValue { get; set; }
+        public double FemalePercentValue { get; set; }
+    }
+
+    public List<ExportPoint> ExportData { get; set; } = new()
+    {
+        new(2015, 8.27),
+        new(2016, 9.88),
+        new(2017, 9.13),
+        new(2018, 12.47),
+        new(2019, 7.67),
+        new(2020, 9.25),
+        new(2021, 18.63),
+        new(2022, 18.57),
+        new(2023, 13.02),
+        new(2024, 13.70)
+    };
+    public record ExportPoint(int X, double Y);
+    public record EnergyData(double X, double Y);
+    public List<EnergyData> Renewable { get; set; } = new()
+    {
+        new(2000, 416), new(2001, 490), new(2002, 470), new(2003, 500),
+        new(2004, 449), new(2005, 470), new(2006, 437), new(2007, 458),
+        new(2008, 500), new(2009, 473), new(2010, 520), new(2011, 520)
+    };
+
+    public List<EnergyData> NonRenewable { get; set; } = new()
+    {
+        new(2000, 180), new(2001, 240), new(2002, 370), new(2003, 200),
+        new(2004, 229), new(2005, 210), new(2006, 337), new(2007, 258),
+        new(2008, 300), new(2009, 173), new(2010, 220), new(2011, 220)
+    };
+    private string OverviewCode => @"@using Syncfusion.Blazor.Toolkit.Charts
+
+  <SfChart @key=""@_currentTheme"" Title=""Global Electricity Production"" Width=""100%"" Height=""400px"" Theme=""@_currentTheme"">
+          
+            <ChartArea>
+                <ChartAreaBorder Width=""0"" />
+            </ChartArea>
+
+            <ChartPrimaryXAxis ValueType=""Syncfusion.Blazor.Toolkit.ValueType.Double"" />
+
+            <ChartPrimaryYAxis ValueType=""Syncfusion.Blazor.Toolkit.ValueType.Double"">
+                
+                <ChartPrimaryYAxis Format=""{value}B"" />
+            </ChartPrimaryYAxis>
+
+            
+                <ChartSeries Type=""ChartSeriesType.StepArea""
+                             DataSource=""@(Renewable.Cast<object>())""
+                             XName=""X""
+                             YName=""Y""
+                             Name=""Renewable""
+                             Opacity=""0.7""
+                             Width=""2""
+                             Fill=""#38BE09""
+                             LegendShape=""LegendShape.Rectangle"">
+                    <ChartSeriesBorder Width=""2"" Color=""#38BE09"" />
+                </ChartSeries>
+          
+
+
+            <ChartSeries Type=""ChartSeriesType.StepArea""
+                             DataSource=""@(NonRenewable.Cast<object>())""
+                         XName=""X""
+                         YName=""Y""
+                         Name=""Non-Renewable""
+                         Opacity=""0.7""
+                         Width=""2""
+                         Fill=""#E77A16""
+                             LegendShape=""LegendShape.Rectangle"">
+                    <ChartSeriesBorder Width=""2"" Color=""#E77A16"" />
+                </ChartSeries>
+                         
+
+
+        
+
+        <ChartTooltipSettings Enable=""true""
+                              ShowNearestTooltip=""true""
+                              Header=""<b>${series.name}</b>""
+                              Format=""${point.x}: <b>${point.y}</b>"" />
+    </SfChart>
+
+@code {
+    private Theme _currentTheme = Theme.Fluent;
+    public record EnergyData(double X, double Y);
+    public List<EnergyData> Renewable { get; set; } = new()
+    {
+        new(2000, 416), new(2001, 490), new(2002, 470), new(2003, 500),
+        new(2004, 449), new(2005, 470), new(2006, 437), new(2007, 458),
+        new(2008, 500), new(2009, 473), new(2010, 520), new(2011, 520)
+    };
+
+    public List<EnergyData> NonRenewable { get; set; } = new()
+    {
+        new(2000, 180), new(2001, 240), new(2002, 370), new(2003, 200),
+        new(2004, 229), new(2005, 210), new(2006, 337), new(2007, 258),
+        new(2008, 300), new(2009, 173), new(2010, 220), new(2011, 220)
+    };
+}";
+
+    private string DataLabelCode => @"@using Syncfusion.Blazor.Toolkit.Charts
+
+ <SfChart @key=""@_currentTheme"" Title=""Global Corn Exports (Billions of Tons)"" Width=""100%"" Height=""400px"" Theme=""@_currentTheme"">
+          
+            <!-- Chart Area -->
+            <ChartArea>
+                <ChartAreaBorder Width=""0"" />
+            </ChartArea>
+
+            <!-- Tooltip -->
+            <ChartTooltipSettings Enable=""true""
+                                  Header=""""
+                                  Format=""Year: <b>${point.x}</b><br/>Exports: <b>${point.y}</b>"" />
+
+            <!-- X Axis -->
+            <ChartPrimaryXAxis ValueType=""Syncfusion.Blazor.Toolkit.ValueType.Category"">
+                <ChartAxisLabelStyle />
+            </ChartPrimaryXAxis>
+
+            <!-- Y Axis -->
+            <ChartPrimaryYAxis Maximum=""24"" Interval=""6"">
+                <ChartAxisLineStyle Width=""0"" />
+                <ChartPrimaryYAxis Format=""{value}B"" />
+            </ChartPrimaryYAxis>
+
+            
+                <ChartSeries DataSource=""@ExportData""
+                             XName=""X""
+                             YName=""Y""
+                             Type=""ChartSeriesType.StepArea""
+                             StepPosition=""StepPosition.Center""
+                             Opacity=""0.6""
+                             Fill=""#6200EE""
+                             Width=""2"">
+
+                    <!-- Series Border -->
+                    <ChartSeriesBorder Width=""2"" Color=""#6200EE"" />
+
+                    <!-- Marker -->
+                    <ChartMarker Visible=""true""
+                                 Width=""8""
+                                 Height=""8""
+                                 Fill=""#6200EE"">
+
+                        <ChartMarkerBorder Width=""1"" Color=""#6200EE"" />
+
+                        <!-- ✅ Data Label -->
+                        <ChartDataLabel Visible=""true""
+                                        Position=""ChartLabelPosition.Outer""
+                                        Fill=""#FFFFFF"">
+                            <ChartDataLabelBorder Width=""1"" Color=""#6200EE"" />
+                            <ChartDataLabelFont FontWeight=""600"" Color=""#333333"" />
+                        </ChartDataLabel>
+
+                    </ChartMarker>
+
+                </ChartSeries>
+            
+        </SfChart>
+
+@code {
+    private Theme _currentTheme = Theme.Fluent;
+    public List<ExportPoint> ExportData { get; set; } = new()
+    {
+        new(2015, 8.27),
+        new(2016, 9.88),
+        new(2017, 9.13),
+        new(2018, 12.47),
+        new(2019, 7.67),
+        new(2020, 9.25),
+        new(2021, 18.63),
+        new(2022, 18.57),
+        new(2023, 13.02),
+        new(2024, 13.70)
+    };
+    public record ExportPoint(int X, double Y);
+}";
+
+    private string InvertedAxesCode => @"@using Syncfusion.Blazor.Toolkit.Charts
+
+<SfChart @key=""@_currentTheme"" Title=""Population by Age and Gender (Percent)"" Width=""100%"" Height=""400px"" IsTransposed=""true"" Theme=""@_currentTheme"">
+    <ChartArea Border=""new ChartAreaBorder { Width = 0 }"" />
+    <ChartPrimaryXAxis ValueType=""Syncfusion.Blazor.Toolkit.ValueType.Category"" />
+    <ChartPrimaryYAxis Minimum=""-6"" Maximum=""6"" Interval=""1"">
+        <ChartAxisMajorGridLines Width=""1"" />
+    </ChartPrimaryYAxis>
+    
+        <ChartSeries DataSource=""@PopulationData""
+                     XName=""Age""
+                     YName=""MalePercentValue""
+                     Type=""ChartSeriesType.StepArea""
+                     Name=""Male""
+                     Opacity=""0.6""
+                     LegendShape=""LegendShape.Rectangle"">
+            <ChartSeriesBorder Width=""2"" Color=""#0765e0ff"" />
+        </ChartSeries>
+        <ChartSeries DataSource=""@PopulationData""
+                     XName=""Age""
+                     YName=""FemalePercentValue""
+                     Type=""ChartSeriesType.StepArea""
+                     Name=""Female""
+                     Opacity=""0.6""
+                     LegendShape=""LegendShape.Rectangle"">
+            <ChartSeriesBorder Width=""2"" Color=""#e007a6ff"" />
+        </ChartSeries>
+    
+<ChartTooltipSettings Enable=""true""
+                          Header=""Age: <b>${point.x}</b>""
+                          Format=""Gender Share: <b>${point.y}</b>"" />
+</SfChart>
+
+@code {
+    private Theme _currentTheme = Theme.Fluent;
+    public class PopulationModel { public string Age { get; set; } public double MalePercentValue { get; set; } public double FemalePercentValue { get; set; } }
+    public List<PopulationModel> PopulationData = new()
+    {
+        new() { Age = ""70 - 74"", MalePercentValue = 0.66,  FemalePercentValue = -0.72 },
+        new() { Age = ""65 - 69"", MalePercentValue = 1.02,  FemalePercentValue = -1.08 },
+        new() { Age = ""60 - 64"", MalePercentValue = 1.48,  FemalePercentValue = -1.53 },
+        new() { Age = ""55 - 59"", MalePercentValue = 1.86,  FemalePercentValue = -1.91 },
+        new() { Age = ""50 - 54"", MalePercentValue = 2.31,  FemalePercentValue = -2.42 },
+        new() { Age = ""45 - 49"", MalePercentValue = 2.72,  FemalePercentValue = -2.78 },
+        new() { Age = ""40 - 44"", MalePercentValue = 3.25,  FemalePercentValue = -3.29 },
+        new() { Age = ""35 - 39"", MalePercentValue = 3.91,  FemalePercentValue = -3.84 },
+        new() { Age = ""30 - 34"", MalePercentValue = 4.51,  FemalePercentValue = -4.32 },
+        new() { Age = ""25 - 29"", MalePercentValue = 4.80,  FemalePercentValue = -4.61 },
+        new() { Age = ""20 - 24"", MalePercentValue = 4.90,  FemalePercentValue = -4.72 }
+    };
+}";
+
+    private string CustomizationCode => @"@using Syncfusion.Blazor.Toolkit.Charts
+
+<SfChart @key=""@_currentTheme"" Title=""Monthly Active Users (Web vs Mobile)"" Width=""100%"" Height=""400px"" Theme=""@_currentTheme"">
+             <ChartArea>
+        <ChartAreaBorder Width=""0"" />
+    </ChartArea>
+
+    <ChartPrimaryXAxis ValueType=""Syncfusion.Blazor.Toolkit.ValueType.Category"" />
+
+    <ChartPrimaryYAxis>
+        <ChartPrimaryYAxis Format=""{value}k"" />
+    </ChartPrimaryYAxis>
+
+    
+
+        <ChartSeries DataSource=""@WebUsers""
+                     XName=""X""
+                     YName=""Y""
+                     Type=""ChartSeriesType.StepArea""
+                     Name=""Web""
+                     Opacity=""0.6""
+                     Fill=""#05B3DA""
+                     StepPosition=""StepPosition.Center""
+                     LegendShape=""LegendShape.Rectangle"">
+            <ChartSeriesBorder Width=""2""
+                               Color=""#05B3DA""/>
+
+        </ChartSeries>
+
+        <ChartSeries DataSource=""@MobileUsers""
+                     XName=""X""
+                     YName=""Y""
+                     Type=""ChartSeriesType.StepArea""
+                     Name=""Mobile""
+                     Opacity=""0.6""
+                     Fill=""#82C100""
+                     StepPosition=""StepPosition.Center""
+                     LegendShape=""LegendShape.Rectangle"">
+            <ChartSeriesBorder Width=""2""
+                               Color=""#82C100"" />
+
+        </ChartSeries>
+
+    
+
+    <ChartTooltipSettings Enable=""true""
+                          ShowNearestTooltip=""true""
+                          Header=""<b>${series.name}</b>""
+                          Format=""${point.x}: <b>${point.y}</b>"" />
+        </SfChart>
+
+@code {
+    private Theme _currentTheme = Theme.Fluent;
+     public class MonthlyUsers
+    {
+        public string X { get; set; } = string.Empty;
+        public double Y { get; set; }
+    }
+
+        private List<MonthlyUsers> WebUsers = new()
+    {
+        new() { X = ""Jan"", Y = 120 },
+        new() { X = ""Feb"", Y = 135 },
+        new() { X = ""Mar"", Y = 150 },
+        new() { X = ""Apr"", Y = 170 },
+        new() { X = ""May"", Y = 160 },
+        new() { X = ""Jun"", Y = 175 },
+        new() { X = ""Jul"", Y = 190 },
+        new() { X = ""Aug"", Y = 205 },
+        new() { X = ""Sep"", Y = 198 },
+        new() { X = ""Oct"", Y = 210 },
+        new() { X = ""Nov"", Y = 220 },
+        new() { X = ""Dec"", Y = 230 }
+    };
+
+        private List<MonthlyUsers> MobileUsers = new()
+    {
+        new() { X = ""Jan"", Y = 80 },
+        new() { X = ""Feb"", Y = 95 },
+        new() { X = ""Mar"", Y = 110 },
+        new() { X = ""Apr"", Y = 130 },
+        new() { X = ""May"", Y = 140 },
+        new() { X = ""Jun"", Y = 155 },
+        new() { X = ""Jul"", Y = 165 },
+        new() { X = ""Aug"", Y = 178 },
+        new() { X = ""Sep"", Y = 185 },
+        new() { X = ""Oct"", Y = 195 },
+        new() { X = ""Nov"", Y = 205 },
+        new() { X = ""Dec"", Y = 215 }
+    };
+}";
+
+    private string NegativeDataCode => @"@using Syncfusion.Blazor.Toolkit.Charts
+
+<SfChart @key=""@_currentTheme"" Title=""Annual Gold Price (2009-2023) in USD"" Width=""100%"" Height=""400px"" Theme=""@_currentTheme"">
+            <ChartArea><ChartAreaBorder Width=""0""></ChartAreaBorder></ChartArea>
+          
+            <!-- X Axis -->
+            <ChartPrimaryXAxis ValueType=""Syncfusion.Blazor.Toolkit.ValueType.Double""
+                               Interval=""3"" />
+
+            <!-- Y Axis -->
+            <ChartPrimaryYAxis Interval=""20"">
+                <ChartAxisTitle Text=""% Annual Exchange Rate"" />
+                <ChartAxisLineStyle Width=""0"" />
+
+                <!-- Strip Lines -->
+                <ChartStriplines>
+
+                    <!-- Highest Growth Line -->
+                    <ChartStripline Start=""20""
+                                    End=""20.5""
+                                    Visible=""true""
+                                    Color=""#79747E""
+                                    DashArray=""10,10""
+                                    ZIndex=""@ZIndex.Over"" />
+
+                    <ChartStripline Start=""21""
+                                    End=""21.5""
+                                    Visible=""true""
+                                    Color=""transparent""
+                                    DashArray=""4,4""
+                                    Text=""Highest Annual Growth""
+                                    HorizontalAlignment=""Anchor.End""
+                                    ZIndex=""@ZIndex.Over""
+                                    Rotation=""0"">
+                        <ChartStriplineTextStyle Color=""@HighestTextColor"" />
+                    </ChartStripline>
+
+                    <!-- Lowest Growth Line -->
+                    <ChartStripline Start=""-25""
+                                    End=""-24.5""
+                                    Visible=""true""
+                                    Color=""#79747E""
+                                    DashArray=""10,10""
+                                    ZIndex=""@ZIndex.Over"" />
+
+                    <ChartStripline Start=""-28.5""
+                                    End=""-28""
+                                    Visible=""true""
+                                    Color=""transparent""
+                                    DashArray=""4,4""
+                                    Text=""Lowest Annual Growth""
+                                    HorizontalAlignment=""Anchor.End""
+                                    ZIndex=""@ZIndex.Over""
+                                    Rotation=""0"">
+                        <ChartStriplineTextStyle Color=""@LowestTextColor"" />
+                    </ChartStripline>
+
+                </ChartStriplines>
+            </ChartPrimaryYAxis>
+
+            <!-- Series -->
+            
+                <ChartSeries DataSource=""NegativeData""
+                             XName=""X""
+                             YName=""USD""
+                             Type=""ChartSeriesType.StepArea""
+                             Width=""2""
+                             Opacity=""0.4""
+                             Fill=""#3CFFD2"">
+                     <ChartSeriesBorder Width=""2"" Color=""@SeriesBorderColor"" />
+                </ChartSeries>
+            
+
+            <!-- Tooltip -->
+            <ChartTooltipSettings Enable=""true""
+                                  Header=""${point.x}""
+                                  Format=""Annual Growth : <b>${point.y}</b>"" />
+
+        </SfChart>
+
+@code {
+    private Theme _currentTheme = Theme.Fluent;
+    private bool IsDarkTheme => _currentTheme.ToString().Contains(""Dark"") || _currentTheme.ToString().Contains(""HighContrast"");
+    private string HighestTextColor => IsDarkTheme ? ""#53CA17"" : ""#205107"";
+    private string LowestTextColor => IsDarkTheme ? ""#F2B8B5"" : ""#B3261E"";
+    private string SeriesBorderColor => IsDarkTheme ? ""#3CFFD2"" : ""#008264"";
+    public class GoldPrice { public double X { get; set; } public double USD { get; set; } }
+    public List<GoldPrice> NegativeData = new()
+    {
+        new() { X = 2009, USD = 23.4 },
+        new() { X = 2010, USD = 29.5 },
+        new() { X = 2011, USD = 10.1 },
+        new() { X = 2012, USD = 7.0 },
+        new() { X = 2013, USD = -28.3 },
+        new() { X = 2014, USD = -1.5 },
+        new() { X = 2015, USD = -10.4 },
+        new() { X = 2016, USD = 9.1 },
+        new() { X = 2017, USD = 13.6 },
+        new() { X = 2018, USD = -2.1 },
+        new() { X = 2019, USD = 18.9 },
+        new() { X = 2020, USD = 24.6 },
+        new() { X = 2021, USD = -3.5 },
+        new() { X = 2022, USD = -0.3 },
+        new() { X = 2023, USD = 12.8 }
+    };
+}";
+
+    public class GoldPrice
+    {
+        public double X { get; set; }
+        public double USD { get; set; }
+    }
+
+    public List<GoldPrice> NegativeData = new()
+    {
+        new() { X = 2009, USD = 23.4 },
+        new() { X = 2010, USD = 29.5 },
+        new() { X = 2011, USD = 10.1 },
+        new() { X = 2012, USD = 7.0 },
+        new() { X = 2013, USD = -28.3 },
+        new() { X = 2014, USD = -1.5 },
+        new() { X = 2015, USD = -10.4 },
+        new() { X = 2016, USD = 9.1 },
+        new() { X = 2017, USD = 13.6 },
+        new() { X = 2018, USD = -2.1 },
+        new() { X = 2019, USD = 18.9 },
+        new() { X = 2020, USD = 24.6 },
+        new() { X = 2021, USD = -3.5 },
+        new() { X = 2022, USD = -0.3 },
+        new() { X = 2023, USD = 12.8 }
+    };
+    
+    private class CategoryPoint
+    {
+        public string X { get; set; } = string.Empty;
+        public double Y { get; set; }
+    }
+    private List<CategoryPoint> Data1 = new();
+
+    
+}

@@ -1,0 +1,721 @@
+@page "/inputs/textarea"
+
+@using Syncfusion.Blazor.Toolkit.Inputs
+@using System.ComponentModel.DataAnnotations
+@using Microsoft.AspNetCore.Components.Forms
+
+<PageTitle>Syncfusion Blazor TextArea Playwright Tests</PageTitle>
+
+<h2>TextArea Component Test Examples</h2>
+
+<!-- ================ BASIC RENDERING ================ -->
+<h3>Basic Rendering</h3>
+<div class="basic-rendering-section">
+    <div>
+        <label>Default TextArea</label>
+        <SfTextArea id="defaultTextArea" Placeholder="Enter text here" @bind-Value="DefaultValue" />
+        <div class="mt-2"><b>Value:</b> @DefaultValue</div>
+    </div>
+
+    <div>
+        <label>TextArea with ID</label>
+        <SfTextArea id="idTextArea" Placeholder="TextArea with ID" @bind-Value="IdValue" />
+        <div class="mt-2"><b>Value:</b> @IdValue</div>
+    </div>
+
+    <div>
+        <label>TextArea with Placeholder</label>
+        <SfTextArea id="placeholderTextArea" Placeholder="This is a placeholder text" @bind-Value="PlaceholderValue" />
+        <div class="mt-2"><b>Value:</b> @PlaceholderValue</div>
+    </div>
+</div>
+
+<!-- ================ ROW & COLUMN COUNT ================ -->
+<h3>Row & Column Count</h3>
+<div class="row-column-section">
+    <div>
+        <label>Default Rows & Columns (10x50)</label>
+        <SfTextArea id="defaultRowCol" Placeholder="10 rows, 50 columns" @bind-Value="DefaultRowColValue" Rows="10" Cols="50" />
+        <div class="mt-2"><b>Value:</b> @DefaultRowColValue</div>
+    </div>
+
+    <div>
+        <label>Custom Rows (5) & Columns (30)</label>
+        <SfTextArea id="customRowCol" Placeholder="5 rows, 30 columns" @bind-Value="CustomRowColValue" Rows="5" Cols="30" />
+        <div class="mt-2"><b>Value:</b> @CustomRowColValue</div>
+    </div>
+
+    <div>
+        <label>Large TextArea (15x60)</label>
+        <SfTextArea id="largeRowCol" Placeholder="15 rows, 60 columns" @bind-Value="LargeRowColValue" Rows="15" Cols="60" />
+        <div class="mt-2"><b>Value:</b> @LargeRowColValue</div>
+    </div>
+
+    <div>
+        <label>Update Rows Dynamically</label>
+        <div class="controls-group">
+            <input type="number" id="rowsInput" min="1" max="30" value="10" @onchange="@((ChangeEventArgs e) => UpdateRows(int.Parse(e.Value?.ToString() ?? "10")))" />
+        </div>
+        <SfTextArea id="dynamicRowsTextArea" Placeholder="Dynamic rows" @bind-Value="DynamicRowsValue" Rows="@CurrentRows" Cols="50" />
+        <div class="mt-2"><b>Current Rows:</b> @CurrentRows</div>
+    </div>
+
+    <div>
+        <label>Update Columns Dynamically</label>
+        <div class="controls-group">
+            <input type="number" id="colsInput" min="1" max="100" value="50" @onchange="@((ChangeEventArgs e) => UpdateCols(int.Parse(e.Value?.ToString() ?? "50")))" />
+        </div>
+        <SfTextArea id="dynamicColsTextArea" Placeholder="Dynamic columns" @bind-Value="DynamicColsValue" Rows="10" Cols="@CurrentCols" />
+        <div class="mt-2"><b>Current Columns:</b> @CurrentCols</div>
+    </div>
+</div>
+
+<!-- ================ RESIZE MODES ================ -->
+<h3>Resize Modes</h3>
+<div class="resize-modes-section">
+    <div>
+        <label>No Resize (Default)</label>
+        <SfTextArea id="noResizeTextArea" Placeholder="Cannot resize" @bind-Value="NoResizeValue" ResizeMode="Resize.None" />
+        <div class="mt-2"><b>Value:</b> @NoResizeValue</div>
+    </div>
+
+    <div>
+        <label>Vertical Resize Only</label>
+        <SfTextArea id="verticalResizeTextArea" Placeholder="Resize vertically only" @bind-Value="VerticalResizeValue" ResizeMode="Resize.Vertical" />
+        <div class="mt-2"><b>Value:</b> @VerticalResizeValue</div>
+    </div>
+
+    <div>
+        <label>Horizontal Resize Only</label>
+        <SfTextArea id="horizontalResizeTextArea" Placeholder="Resize horizontally only" @bind-Value="HorizontalResizeValue" ResizeMode="Resize.Horizontal" />
+        <div class="mt-2"><b>Value:</b> @HorizontalResizeValue</div>
+    </div>
+
+    <div>
+        <label>Both Resize</label>
+        <SfTextArea id="bothResizeTextArea" Placeholder="Resize both directions" @bind-Value="BothResizeValue" ResizeMode="Resize.Both" />
+        <div class="mt-2"><b>Value:</b> @BothResizeValue</div>
+    </div>
+</div>
+
+<!-- ================ MAX LENGTH ================ -->
+<h3>Max Length Validation</h3>
+<div class="maxlength-section">
+    <div>
+        <label>Max Length 100 Characters</label>
+        <SfTextArea id="maxLength100" 
+                    Placeholder="Max 100 chars" 
+                    @bind-Value="MaxLength100Value" 
+                    MaxLength="100" />
+        <div class="mt-2"><b>Value:</b> @MaxLength100Value</div>
+        <div class="mt-2"><b>Length:</b> @MaxLength100Value?.Length / 100</div>
+    </div>
+
+    <div>
+        <label>Max Length 50 Characters</label>
+        <SfTextArea id="maxLength50" 
+                    Placeholder="Max 50 chars" 
+                    @bind-Value="MaxLength50Value" 
+                    MaxLength="50" />
+        <div class="mt-2"><b>Value:</b> @MaxLength50Value</div>
+        <div class="mt-2"><b>Length:</b> @MaxLength50Value?.Length / 50</div>
+    </div>
+
+    <div>
+        <label>Max Length 500 Characters</label>
+        <SfTextArea id="maxLength500" 
+                    Placeholder="Max 500 chars" 
+                    @bind-Value="MaxLength500Value" 
+                    MaxLength="500" />
+        <div class="mt-2"><b>Value:</b> @MaxLength500Value</div>
+        <div class="mt-2"><b>Length:</b> @MaxLength500Value?.Length / 500</div>
+    </div>
+</div>
+
+<!-- ================ CLEAR BUTTON ================ -->
+<h3>Clear Button Feature</h3>
+<div class="clear-button-section">
+    <div>
+        <label>With Clear Button</label>
+        <SfTextArea id="clearButtonTextArea" 
+                    ShowClearButton="true" 
+                    FloatLabelType="FloatLabelType.Auto" 
+                    Placeholder="Type to see clear button" 
+                    @bind-Value="ClearButtonValue" />
+        <div class="mt-2"><b>Value:</b> @ClearButtonValue</div>
+    </div>
+
+    <div>
+        <label>Without Clear Button</label>
+        <SfTextArea id="noClearButtonTextArea" 
+                    ShowClearButton="false" 
+                    FloatLabelType="FloatLabelType.Auto" 
+                    Placeholder="No clear button" 
+                    @bind-Value="NoClearButtonValue" />
+        <div class="mt-2"><b>Value:</b> @NoClearButtonValue</div>
+    </div>
+</div>
+
+<!-- ================ DISABLED & READONLY ================ -->
+<h3>Disabled and ReadOnly States</h3>
+<div class="disabled-readonly-section">
+    <div>
+        <label>Disabled TextArea</label>
+        <SfTextArea id="disabledTextArea" 
+                    Disabled="true" 
+                    FloatLabelType="FloatLabelType.Auto" 
+                    Placeholder="Disabled" 
+                    Value="Cannot edit this text" />
+    </div>
+
+    <div>
+        <label>ReadOnly TextArea</label>
+        <SfTextArea id="readonlyTextArea" 
+                    ReadOnly="true" 
+                    FloatLabelType="FloatLabelType.Auto" 
+                    Placeholder="ReadOnly" 
+                    Value="Can view but not edit this text" />
+    </div>
+
+    <div>
+        <label>Enabled TextArea</label>
+        <SfTextArea id="enabledTextArea" 
+                    Disabled="false" 
+                    FloatLabelType="FloatLabelType.Auto" 
+                    Placeholder="Enabled and editable" 
+                    @bind-Value="EnabledValue" />
+        <div class="mt-2"><b>Value:</b> @EnabledValue</div>
+    </div>
+
+    <div>
+        <label>Toggle Disabled State</label>
+        <div class="controls-group">
+            <button class="btn btn-primary" @onclick="ToggleDisabled">Toggle Disabled</button>
+        </div>
+        <SfTextArea id="toggleDisabledTextArea" 
+                    Disabled="@IsDisabled" 
+                    FloatLabelType="FloatLabelType.Auto" 
+                    Placeholder="Toggle this state" 
+                    @bind-Value="ToggleDisabledValue" />
+        <div class="mt-2"><b>Disabled:</b> @IsDisabled</div>
+    </div>
+
+    <div>
+        <label>Toggle ReadOnly State</label>
+        <div class="controls-group">
+            <button class="btn btn-primary" @onclick="ToggleReadOnly">Toggle ReadOnly</button>
+        </div>
+        <SfTextArea id="toggleReadOnlyTextArea" 
+                    ReadOnly="@IsReadOnly" 
+                    FloatLabelType="FloatLabelType.Auto" 
+                    Placeholder="Toggle this state" 
+                    @bind-Value="ToggleReadOnlyValue" />
+        <div class="mt-2"><b>ReadOnly:</b> @IsReadOnly</div>
+    </div>
+</div>
+
+<!-- ================ FLOAT LABEL ================ -->
+<h3>Float Label Types</h3>
+<div class="float-label-section">
+    <div>
+        <label>FloatLabelType.Never</label>
+        <SfTextArea id="floatLabelNever" 
+                    FloatLabelType="FloatLabelType.Never" 
+                    Placeholder="Never floats" 
+                    @bind-Value="FloatLabelNeverValue" />
+        <div class="mt-2"><b>Value:</b> @FloatLabelNeverValue</div>
+    </div>
+
+    <div>
+        <label>FloatLabelType.Auto</label>
+        <SfTextArea id="floatLabelAuto" 
+                    FloatLabelType="FloatLabelType.Auto" 
+                    Placeholder="Floats on focus/value" 
+                    @bind-Value="FloatLabelAutoValue" />
+        <div class="mt-2"><b>Value:</b> @FloatLabelAutoValue</div>
+    </div>
+
+    <div>
+        <label>FloatLabelType.Always</label>
+        <SfTextArea id="floatLabelAlways" 
+                    FloatLabelType="FloatLabelType.Always" 
+                    Placeholder="Always floats" 
+                    @bind-Value="FloatLabelAlwaysValue" />
+        <div class="mt-2"><b>Value:</b> @FloatLabelAlwaysValue</div>
+    </div>
+</div>
+
+<!-- ================ APPEARANCE VARIANTS ================ -->
+<h3>Appearance Variants</h3>
+<div class="appearance-section">
+    <div>
+        <label>Outline Appearance (Default)</label>
+        <SfTextArea id="outlineAppearance" 
+                    Appearance="AppearanceType.Outline" 
+                    Placeholder="Outline style" 
+                    @bind-Value="OutlineValue" />
+        <div class="mt-2"><b>Value:</b> @OutlineValue</div>
+    </div>
+
+    <div>
+        <label>Filled Appearance</label>
+        <SfTextArea id="filledAppearance" 
+                    Appearance="AppearanceType.Filled" 
+                    Placeholder="Filled style" 
+                    @bind-Value="FilledValue" />
+        <div class="mt-2"><b>Value:</b> @FilledValue</div>
+    </div>
+
+   <div>
+        <label>Switch Appearance Dynamically</label>
+        <div class="controls-group">
+            <button class="btn btn-primary" @onclick="@(() => CurrentAppearance = "Outline")">Outline</button>
+            <button class="btn btn-secondary" @onclick="@(() => CurrentAppearance = "Filled")">Filled</button>
+        </div>
+        <SfTextArea id="dynamicAppearanceTextArea" 
+                    Appearance="@CurrentAppearance" 
+                    Placeholder="Dynamic appearance" 
+                    @bind-Value="DynamicAppearanceValue" />
+        <div class="mt-2"><b>Current Appearance:</b> @CurrentAppearance</div>
+    </div>
+</div>
+
+<!-- ================ EVENTS ================ -->
+<h3>Events Demonstration</h3>
+<div class="events-section">
+    <div>
+        <label>Event Listener TextArea</label>
+        <SfTextArea id="eventTextArea"
+                    FloatLabelType="FloatLabelType.Auto"
+                    Placeholder="Type here to trigger events"
+                    @bind-Value="EventValue"
+                    OnInput="@OnInput"
+                    ValueChange="@OnValueChange"
+                    OnFocus="@OnFocus"
+                    OnBlur="@OnBlur" />
+        <div class="mt-2"><b>Value:</b> @EventValue</div>
+        <div class="mt-2"><b>Event Message:</b> @EventMessage</div>
+    </div>
+</div>
+
+<!-- ================ VALUE BINDING ================ -->
+<h3>Value Binding</h3>
+<div class="value-binding-section">
+    <div>
+        <label>Programmatic Value Update</label>
+        <div class="controls-group">
+            <button class="btn btn-primary me-2" @onclick="SetProgrammaticValue">Set Value</button>
+            <button class="btn btn-secondary" @onclick="ClearProgrammaticValue">Clear Value</button>
+        </div>
+        <SfTextArea id="programmaticTextArea" 
+                    FloatLabelType="FloatLabelType.Auto" 
+                    Placeholder="Value updated from code" 
+                    @bind-Value="ProgrammaticValue" />
+        <div class="mt-2"><b>Value:</b> @ProgrammaticValue</div>
+    </div>
+
+    <div>
+        <label>Initial Value</label>
+        <SfTextArea id="initialValueTextArea" 
+                    FloatLabelType="FloatLabelType.Auto" 
+                    Placeholder="Initial value" 
+                    Value="Syncfusion TextArea Component" />
+    </div>
+
+    <div>
+        <label>Null/Empty Value</label>
+        <SfTextArea id="emptyValueTextArea" 
+                    FloatLabelType="FloatLabelType.Auto" 
+                    Placeholder="Initially empty" 
+                    @bind-Value="EmptyValue" />
+        <div class="mt-2"><b>Value:</b> @EmptyValue</div>
+    </div>
+</div>
+
+<!-- ================ VALIDATION EDITING CONTEXT ================ -->
+<h3>Form Integration and Validation</h3>
+<div class="form-validation-section">
+    <EditForm Model="@FormModel" OnValidSubmit="@HandleFormSubmit">
+        <DataAnnotationsValidator />
+
+        <div class="form-group">
+            <label>Required Field</label>
+            <SfTextArea @bind-Value="@FormModel.RequiredField"
+                        id="formRequiredTextArea"
+                        FloatLabelType="FloatLabelType.Auto"
+                        Placeholder="This field is required"
+                        Rows="5" />
+            <ValidationMessage For="@(() => FormModel.RequiredField)" />
+        </div>
+
+        <div class="form-group">
+            <label>Comments (String Length: 5-200 chars)</label>
+            <SfTextArea @bind-Value="@FormModel.Comments"
+                        id="formCommentsTextArea"
+                        FloatLabelType="FloatLabelType.Auto"
+                        Placeholder="Enter your comments"
+                        Rows="6"
+                        MaxLength="200" />
+            <ValidationMessage For="@(() => FormModel.Comments)" />
+            <div class="mt-2"><b>Length:</b> @FormModel.Comments?.Length / 200</div>
+        </div>
+
+        <div class="form-group">
+            <label>Feedback (Optional)</label>
+            <SfTextArea @bind-Value="@FormModel.Feedback"
+                        id="formFeedbackTextArea"
+                        FloatLabelType="FloatLabelType.Auto"
+                        Placeholder="Enter your feedback (optional)"
+                        Rows="5"
+                        MaxLength="500" />
+            <div class="mt-2"><b>Length:</b> @FormModel.Feedback?.Length / 500</div>
+        </div>
+
+        <div class="form-buttons">
+            <button type="submit" class="btn btn-success me-2">Submit</button>
+            <button type="button" class="btn btn-warning" @onclick="ResetForm">Reset</button>
+        </div>
+    </EditForm>
+
+    @if (!string.IsNullOrEmpty(FormSubmitMessage))
+    {
+        <div class="alert alert-success mt-3">@FormSubmitMessage</div>
+    }
+</div>
+
+<!-- ================ API ATTRIBUTES ================ -->
+<h3>API Attributes</h3>
+<div class="api-attributes-section">
+    <div>
+        <label>With aria-label</label>
+        <SfTextArea id="ariaLabelTextArea" 
+                    Placeholder="Text with aria-label" 
+                    @bind-Value="AriaLabelValue"
+                    HtmlAttributes="@AriaLabelAttrs" />
+        <div class="mt-2"><b>Value:</b> @AriaLabelValue</div>
+    </div>
+
+    <div>
+        <label>With data-testid</label>
+        <SfTextArea id="dataTestIdTextArea" 
+                    Placeholder="Text with data-testid" 
+                    @bind-Value="DataTestIdValue"
+                    HtmlAttributes="@DataTestIdAttrs" />
+        <div class="mt-2"><b>Value:</b> @DataTestIdValue</div>
+    </div>
+
+    <div>
+        <label>With Custom CSS Class</label>
+        <SfTextArea id="customCssTextArea" 
+                    CssClass="custom-textarea-style" 
+                    Placeholder="Custom styled textarea" 
+                    @bind-Value="CustomCssValue" />
+        <div class="mt-2"><b>Value:</b> @CustomCssValue</div>
+    </div>
+</div>
+
+<!-- ================ STATE PERSISTENCE ================ -->
+<h3>State Persistence</h3>
+<div class="persistence-section">
+    <div>
+        <label>Persistent TextArea</label>
+        <SfTextArea id="persistenceTextArea"
+                    EnablePersistence="true"
+                    FloatLabelType="FloatLabelType.Auto"
+                    Placeholder="Values persist in localStorage" />
+    </div>
+</div>
+
+<style>
+    .basic-rendering-section,
+    .row-column-section,
+    .resize-modes-section,
+    .maxlength-section,
+    .clear-button-section,
+    .disabled-readonly-section,
+    .float-label-section,
+    .appearance-section,
+    .events-section,
+    .value-binding-section,
+    .form-validation-section,
+    .rtl-section,
+    .api-attributes-section {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+        gap: 20px;
+        margin-bottom: 30px;
+        padding: 15px;
+        border: 1px solid #e0e0e0;
+        border-radius: 8px;
+    }
+
+    .basic-rendering-section > div,
+    .row-column-section > div,
+    .resize-modes-section > div,
+    .maxlength-section > div,
+    .clear-button-section > div,
+    .disabled-readonly-section > div,
+    .float-label-section > div,
+    .appearance-section > div,
+    .events-section > div,
+    .value-binding-section > div,
+    .form-validation-section,
+    .rtl-section > div,
+    .api-attributes-section > div {
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+    }
+
+    label {
+        font-weight: 600;
+        color: #333;
+        margin-bottom: 4px;
+    }
+
+    .mt-2 {
+        margin-top: 8px;
+        font-size: 14px;
+        color: #666;
+    }
+
+    .mt-3 {
+        margin-top: 12px;
+    }
+
+    .me-2 {
+        margin-right: 8px;
+    }
+
+    .controls-group {
+        display: flex;
+        gap: 8px;
+        margin-bottom: 8px;
+    }
+
+    .controls-group input[type="number"] {
+        padding: 8px 12px;
+        border: 1px solid #ddd;
+        border-radius: 4px;
+        font-size: 14px;
+        width: 80px;
+    }
+
+    .btn {
+        padding: 8px 16px;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+        font-size: 14px;
+        font-weight: 500;
+        transition: background-color 0.3s;
+    }
+
+    .btn-primary {
+        background-color: #2196F3;
+        color: white;
+    }
+
+    .btn-primary:hover {
+        background-color: #1976D2;
+    }
+
+    .btn-secondary {
+        background-color: #757575;
+        color: white;
+    }
+
+    .btn-secondary:hover {
+        background-color: #616161;
+    }
+
+    .btn-success {
+        background-color: #4CAF50;
+        color: white;
+    }
+
+    .btn-success:hover {
+        background-color: #388E3C;
+    }
+
+    .btn-warning {
+        background-color: #FF9800;
+        color: white;
+    }
+
+    .btn-warning:hover {
+        background-color: #F57C00;
+    }
+
+    .form-buttons {
+        display: flex;
+        gap: 8px;
+        margin-top: 16px;
+    }
+
+    .alert {
+        padding: 12px 16px;
+        border-radius: 4px;
+        font-weight: 500;
+    }
+
+    .alert-success {
+        background-color: #C8E6C9;
+        color: #2E7D32;
+        border: 1px solid #4CAF50;
+    }
+
+    .custom-textarea-style {
+        border-radius: 12px !important;
+        border: 2px solid #2196F3 !important;
+    }
+</style>
+
+@code {
+    /* ================ BASIC RENDERING ================ */
+    private string DefaultValue { get; set; } = "";
+    private string IdValue { get; set; } = "";
+    private string PlaceholderValue { get; set; } = "";
+
+    /* ================ ROW & COLUMN COUNT ================ */
+    private string DefaultRowColValue { get; set; } = "";
+    private string CustomRowColValue { get; set; } = "";
+    private string LargeRowColValue { get; set; } = "";
+    private string DynamicRowsValue { get; set; } = "";
+    private string DynamicColsValue { get; set; } = "";
+    private int CurrentRows { get; set; } = 10;
+    private int CurrentCols { get; set; } = 50;
+
+    private void UpdateRows(int rows)
+    {
+        CurrentRows = rows;
+    }
+
+    private void UpdateCols(int cols)
+    {
+        CurrentCols = cols;
+    }
+
+    /* ================ RESIZE MODES ================ */
+    private string NoResizeValue { get; set; } = "";
+    private string VerticalResizeValue { get; set; } = "";
+    private string HorizontalResizeValue { get; set; } = "";
+    private string BothResizeValue { get; set; } = "";
+
+    /* ================ MAX LENGTH ================ */
+    private string MaxLength100Value { get; set; } = "";
+    private string MaxLength50Value { get; set; } = "";
+    private string MaxLength500Value { get; set; } = "";
+
+    /* ================ CLEAR BUTTON ================ */
+    private string ClearButtonValue { get; set; } = "";
+    private string NoClearButtonValue { get; set; } = "";
+
+    /* ================ DISABLED & READONLY ================ */
+    private string EnabledValue { get; set; } = "";
+    private bool IsDisabled { get; set; } = false;
+    private bool IsReadOnly { get; set; } = false;
+    private string ToggleDisabledValue { get; set; } = "";
+    private string ToggleReadOnlyValue { get; set; } = "";
+
+    private void ToggleDisabled()
+    {
+        IsDisabled = !IsDisabled;
+    }
+
+    private void ToggleReadOnly()
+    {
+        IsReadOnly = !IsReadOnly;
+    }
+
+    /* ================ FLOAT LABEL ================ */
+    private string FloatLabelNeverValue { get; set; } = "";
+    private string FloatLabelAutoValue { get; set; } = "";
+    private string FloatLabelAlwaysValue { get; set; } = "";
+
+    /* ================ APPEARANCE VARIANTS ================ */
+    private string OutlineValue { get; set; } = "";
+    private string FilledValue { get; set; } = "";
+    private string DynamicAppearanceValue { get; set; } = "";
+    private string CurrentAppearance { get; set; } = "Outline";
+
+    /* ================ EVENTS ================ */
+    private string EventValue { get; set; } = "";
+    private string EventMessage { get; set; } = "—";
+
+    private void OnInput(TextAreaInputEventArgs args)
+    {
+        EventMessage = $"Input event - Value: {args.Value}";
+    }
+
+    private void OnValueChange(TextAreaValueChangeEventArgs args)
+    {
+        EventMessage = $"ValueChange event - New: {args.Value}, Previous: {args.PreviousValue}";
+    }
+
+    private void OnFocus(TextAreaFocusInEventArgs args)
+    {
+        EventMessage = $"Focus event - Value: {args.Value}";
+    }
+
+    private void OnBlur(TextAreaFocusOutEventArgs args)
+    {
+        EventMessage = $"Blur event - Value: {args.Value}";
+    }
+
+    /* ================ VALUE BINDING ================ */
+    private string ProgrammaticValue { get; set; } = "";
+    private string EmptyValue { get; set; } = "";
+
+    private void SetProgrammaticValue()
+    {
+        ProgrammaticValue = "Updated value from code";
+    }
+
+    private void ClearProgrammaticValue()
+    {
+        ProgrammaticValue = "";
+    }
+
+    /* ================ VALIDATION EDITING CONTEXT ================ */
+    private TextAreaValidationModel FormModel = new();
+    private string FormSubmitMessage = "";
+
+    private async Task HandleFormSubmit(EditContext context)
+    {
+        FormSubmitMessage = "Form submitted successfully!";
+        await Task.Delay(0);
+    }
+
+    private void ResetForm()
+    {
+        FormModel = new();
+        FormSubmitMessage = "";
+    }
+
+    /* ================ API ATTRIBUTES ================ */
+    private string AriaLabelValue { get; set; } = "";
+    private string DataTestIdValue { get; set; } = "";
+    private string CustomCssValue { get; set; } = "";
+
+    private Dictionary<string, object> AriaLabelAttrs => new() { { "aria-label", "Textarea with aria-label" } };
+    private Dictionary<string, object> DataTestIdAttrs => new() { { "data-testid", "textarea-dataid" } };
+    private Dictionary<string, object> CustomHtmlAttrs => new()
+    {
+        { "data-testid", "custom-textarea" },
+        { "title", "Custom textarea with attributes" }
+    };
+
+    /* ================ VALIDATION MODEL ================ */
+    public class TextAreaValidationModel
+    {
+        [Required(ErrorMessage = "This field is required")]
+        public string RequiredField { get; set; } = "";
+
+        [StringLength(200, MinimumLength = 5, ErrorMessage = "Length must be between 5 and 200 characters")]
+        public string Comments { get; set; } = "";
+
+        [StringLength(500, ErrorMessage = "Feedback cannot exceed 500 characters")]
+        public string Feedback { get; set; } = "";
+    }
+}

@@ -1,0 +1,83 @@
+@page "/radio-button/value-binding"
+@using Syncfusion.Blazor.Toolkit.Inputs
+@layout MainLayout
+
+<h1>Radio Button - Value Binding</h1>
+
+<div class="test-container">
+    <h2>Bind to Different Data Types</h2>
+    <div class="e-radio-group">
+        <SfRadioButton TChecked="string" Name="string-group" Value="val-a" Label="String Value A" @bind-Checked="stringValue"></SfRadioButton>
+        <SfRadioButton TChecked="string" Name="string-group" Value="val-b" Label="String Value B" @bind-Checked="stringValue"></SfRadioButton>
+        <SfRadioButton TChecked="string" Name="string-group" Value="val-c" Label="String Value C" @bind-Checked="stringValue"></SfRadioButton>
+    </div>
+    <p>String Binding: <strong>@stringValue</strong></p>
+</div>
+
+<div class="test-container">
+    <h2>Two-Way Binding</h2>
+    <div class="e-radio-group">
+        <SfRadioButton TChecked="string" Name="bind-group" Value="bind1" Label="Bind Option 1" @bind-Checked="bindValue"></SfRadioButton>
+        <SfRadioButton TChecked="string" Name="bind-group" Value="bind2" Label="Bind Option 2" @bind-Checked="bindValue"></SfRadioButton>
+        <SfRadioButton TChecked="string" Name="bind-group" Value="bind3" Label="Bind Option 3" @bind-Checked="bindValue"></SfRadioButton>
+    </div>
+    <p>Bound Value: <strong>@bindValue</strong></p>
+    <input type="text" @bind="bindValue" placeholder="Type a value here" />
+    <button @onclick="SetCustomValue">Set to custom-value</button>
+</div>
+
+<style>
+    .test-container {
+        padding: 20px;
+        border: 1px solid #ddd;
+        margin: 10px 0;
+        border-radius: 4px;
+        background-color: #f9f9f9;
+    }
+    
+    .e-radio-group {
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+        margin-bottom: 15px;
+    }
+    
+    input[type="text"] {
+        padding: 8px;
+        margin-top: 10px;
+        font-size: 14px;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+    }
+    
+    button {
+        padding: 8px 16px;
+        margin-top: 10px;
+        cursor: pointer;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        background-color: #f0f0f0;
+    }
+    
+    button:hover {
+        background-color: #e0e0e0;
+    }
+    
+    h2 {
+        margin-top: 20px;
+        font-size: 18px;
+        font-weight: 600;
+    }
+</style>
+
+@code {
+    private string stringValue = "val-a";
+    private string bindValue = "bind1";
+    
+    private void SetCustomValue()
+    {
+        bindValue = "custom-value";
+    }
+}
+
+

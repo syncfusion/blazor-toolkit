@@ -1,0 +1,24 @@
+@using Microsoft.AspNetCore.Components.Web;
+@using Syncfusion.Blazor.Toolkit.Internal
+@namespace Syncfusion.Blazor.Toolkit.Calendars.Internal
+@typeparam TCalendarCell
+@inherits CalendarBase<TCalendarCell>
+@if (this.Cells % WEEKCOUNT == 0 && this.Parent is not null && this.Parent.WeekNumber && CalendarRenderView == CalendarView.Month)
+{
+    <td class="@(CELL + " " + WEEKNUMBER)" aria-label="calendar cell">
+        <span>@Intl.GetWeekOfYear(LocalDates, true, this.Parent.WeekRule).ToString()</span>
+    </td>
+}
+@{ 
+    var cellData = new CellDetails { CellID = LocalDates.Ticks + "_" + this.Cells, ClassList = CellClass is not null ? CellClass : this.TdEleClass, Element = this._dayCell, EventArgs = new MouseEventArgs(), CurrentDate = CurrentCellDate };
+    var ariaSelected = cellData.ClassList?.Contains(SELECTED, StringComparison.Ordinal).ToString().ToLower();
+    var classList = cellData.ClassList ?? string.Empty;
+    var isToday = classList.Contains(TODAY, StringComparison.Ordinal);
+    if (this.Parent is not null)
+    {
+        <td @ref="_dayCell" class="@(CellClass is not null ? CellClass : this.TdEleClass)" id="@(LocalDates.Ticks + "_" + this.Cells)" aria-selected="@(ariaSelected)" aria-current="@(isToday ? "date" : null)" aria-label="calendar cell" @onclick="@((e) => OnCellClick.InvokeAsync(cellData))">
+            <span title="@this.DayTitle" class="@LINK">@this.DayLink</span>
+        </td>
+    }
+}
+

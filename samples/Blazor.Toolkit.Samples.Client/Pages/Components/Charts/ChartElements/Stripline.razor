@@ -1,0 +1,977 @@
+@page "/charts/stripline"
+
+
+@using Syncfusion.Blazor.Toolkit.Charts
+@using ValueType = Syncfusion.Blazor.Toolkit.ValueType
+
+<Description>
+    <Header>
+        <h4><b>Stripline In Blazor Chart</b></h4>
+    </Header>
+    <Content>
+        Striplines are horizontal or vertical bands in charts that highlight specific regions
+        or intervals to emphasize important data points or ranges. They are commonly used
+        to indicate thresholds, target ranges, or to visually separate different sections
+        of a chart. In Blazor Chart, striplines are configured using the
+        <code>ChartStripLines</code> collection on the axis.
+    </Content>
+</Description>
+<Description>
+    <Header>
+        <h5><b>Horizontal Striplines</b></h5>
+    </Header>
+    <Content>
+        Horizontal striplines highlight a specific range or threshold along the vertical axis.
+        They appear as horizontal bands across the plot area and are defined using the
+        <code>ChartStripLine</code> component inside the vertical axis.
+    </Content>
+</Description>
+
+<VirtualizeSection MinHeightPx="600px">
+    <CodePreview IsFullWidth="true" CodeSection="@StriplineBandCode">
+    <PreviewSection>
+        <SfChart @key="@_currentTheme" Title="Wind Speed and Gust (km/h)" Theme="@_currentTheme">
+            <ChartPrimaryXAxis ValueType="ValueType.DateTime"
+                               LabelFormat="ddd dd/MM" LabelRotation="-90">
+                <ChartAxisMajorTickLines Width="0" />
+                <ChartAxisMajorGridLines Width="0" />
+            </ChartPrimaryXAxis>
+
+            <ChartPrimaryYAxis Minimum="0" Maximum="35" Interval="5"
+                               Title="Wind Speed and Gust (km/h)">
+                <ChartAxisMajorTickLines Width="0" />
+                <ChartAxisLineStyle Width="0"/>
+                <ChartAxisLabelStyle Color="@AxisLabelColor" />
+                <ChartStriplines>
+                    <ChartStripline Start="0" End="2" Text="Calm" Color="@CalmStriplineColor" Opacity="0.6" HorizontalAlignment="Anchor.Start"/>
+                    <ChartStripline Start="2" End="6" Text="Light Air" Color="@LightAirStriplineColor" Opacity="0.6" HorizontalAlignment="Anchor.Start" />
+                    <ChartStripline Start="6" End="10" Text="Light Breeze" Color="@LightBreezeStriplineColor" Opacity="0.6" HorizontalAlignment="Anchor.Start" />
+                    <ChartStripline Start="10" End="15" Text="Gentle Breeze" Color="@GentleBreezeStriplineColor" Opacity="0.6" HorizontalAlignment="Anchor.Start" />
+                    <ChartStripline Start="15" End="25" Text="Moderate Breeze" Color="@ModerateBreezeStriplineColor" Opacity="0.6" HorizontalAlignment="Anchor.Start" />
+                    <ChartStripline Start="25" End="35" Text="Fresh Breeze" Color="@FreshBreezeStriplineColor" Opacity="0.6" HorizontalAlignment="Anchor.Start" />
+                </ChartStriplines>
+            </ChartPrimaryYAxis>
+
+            
+                <ChartSeries DataSource="@WindSeriesData"
+                             XName="Date"
+                             YName="Gust"
+                             Name="Wind Gust (km/h)"
+                             Type="ChartSeriesType.Spline">
+                </ChartSeries>
+
+                <ChartSeries DataSource="@WindSeriesData"
+                             XName="Date"
+                             YName="Wind"
+                             Name="Wind Speed (km/h)"
+                             Type="ChartSeriesType.Spline">
+                </ChartSeries>
+            
+            <ChartTooltipSettings Enable="true" EnableHighlight="true"
+                                  EnableMarker="true"
+                                  ShowNearestTooltip="true"
+                                  Format="${point.x}<br/>${series.name}: <b>${point.y}</b>" />
+        </SfChart>
+    </PreviewSection>
+</CodePreview>
+</VirtualizeSection>
+
+<Description>
+    <Header>
+        <h5><b>Vertical Striplines</b></h5>
+    </Header>
+    <Content>
+        Vertical striplines highlight a specific region or interval along the horizontal axis.
+        They are rendered as vertical bands and are defined within the
+        <code>ChartPrimaryXAxis</code>.
+    </Content>
+</Description>
+
+<VirtualizeSection MinHeightPx="600px">
+    <CodePreview IsFullWidth="true" CodeSection="@VerticalStriplineCode">
+    <PreviewSection>
+        <SfChart @key="@_currentTheme" Title="Wind Speed and Gust (km/h)" Theme="@_currentTheme">
+
+            <ChartPrimaryXAxis ValueType="ValueType.DateTime"
+                               LabelFormat="ddd dd/MM" LabelRotation="-90">
+
+                       
+                <!-- ✅ Vertical Striplines -->
+                <ChartStriplines>
+                    <ChartStripline Start="@(new DateTime(2023, 5, 1))"
+                                    End="@(new DateTime(2023, 5, 5))"
+                                    Text="Week 1"
+                                    HorizontalAlignment="Anchor.Middle"
+                                    Color="rgba(68,170,213,0.1)">
+                    </ChartStripline>
+
+                    <ChartStripline Start="@(new DateTime(2023, 5, 5))"
+                                    End="@(new DateTime(2023, 5, 10))"
+                                    Text="Week 2"
+                                    HorizontalAlignment="Anchor.Middle"
+                                    Color="rgba(0,0,0,0)">
+                    </ChartStripline>
+
+                    <ChartStripline Start="@(new DateTime(2023, 5, 10))"
+                                    End="@(new DateTime(2023, 5, 15))"
+                                    Text="Week 3"
+                                    HorizontalAlignment="Anchor.Middle"
+                                    Color="rgba(68,170,213,0.1)">
+                    </ChartStripline>
+
+                </ChartStriplines>
+            </ChartPrimaryXAxis>
+
+            <ChartPrimaryYAxis Minimum="0"
+                               Maximum="30"
+                               Interval="10"
+                               Title="Wind Speed and Gust (km/h)">
+                <ChartAxisLineStyle Width="0" />
+            </ChartPrimaryYAxis>
+
+            
+                <ChartSeries DataSource="@WindSpeedData"
+                             XName="Date"
+                             YName="Wind"
+                             Name="Wind Speed (km/h)"
+                             Type="ChartSeriesType.Spline"
+                             Width="2"
+                             Fill="#01A725"
+                             LegendShape="LegendShape.HorizontalLine">
+                </ChartSeries>
+
+                <ChartSeries DataSource="@WindGustData"
+                             XName="Date"
+                             YName="Gust"
+                             Name="Wind Gust (km/h)"
+                             Type="ChartSeriesType.Spline"
+                             Width="2"
+                             Fill="#FF8225"
+                             LegendShape="LegendShape.HorizontalLine">
+                </ChartSeries>
+            
+
+            <ChartTooltipSettings Enable="true"
+                                  ShowNearestTooltip="true"
+                                  EnableHighlight="true" EnableMarker="true"
+                                  Format="${point.x}<br/>${series.name} : <b>${point.y}</b>" />
+
+            <ChartLegendSettings Visible="true"
+                                 ShapeHeight="6"
+                                 ShapeWidth="15">
+            </ChartLegendSettings>
+
+        </SfChart>
+    </PreviewSection>
+</CodePreview>
+</VirtualizeSection>
+
+<Description>
+    <Header>
+        <h5><b>Stripline Recurrence</b></h5>
+    </Header>
+    <Content>
+        Striplines with recurrence enable highlighting repeating ranges
+        across chart axes. This example demonstrates recurring striplines
+        on both horizontal and vertical axes to improve readability
+        in a world pollution data visualization.
+    </Content>
+</Description>
+
+<VirtualizeSection MinHeightPx="600px">
+    <CodePreview IsFullWidth="true" CodeSection="@StriplineRecurrenceCode">
+    <PreviewSection>
+        <SfChart @key="@_currentTheme" Title="World Pollution Report" Theme="@_currentTheme">
+            <ChartArea><ChartAreaBorder Width="0"></ChartAreaBorder></ChartArea>
+            <ChartTooltipSettings Enable="true" EnableHighlight="true"
+                                  Format="Year: ${point.x}<br/>Tons Per Day: <b>${point.y}</b>" />
+            <ChartPrimaryXAxis ValueType="ValueType.DateTime"
+                               IntervalType="IntervalType.Years" EdgeLabelPlacement="EdgeLabelPlacement.Shift"
+                               Minimum="@(new DateTime(1965, 1, 1))" LabelFormat="yyyy"
+                               Maximum="@(new DateTime(2010, 1, 1))" >
+                                    <ChartAxisMinorTickLines Width="0" />
+                <ChartAxisMajorTickLines Width="0" />
+                <ChartAxisMajorGridLines Width="0" />
+
+                <ChartStriplines>
+                    <ChartStripline Start="@(new DateTime(1965, 1, 1))"
+                                    Size="5"
+                                    SizeType="SizeType.Years"
+                                    IsRepeat="true"
+                                    RepeatEvery="10"
+                                    Color="rgba(167,169,171,0.1)"
+                                    Visible="true" />
+                </ChartStriplines>
+            </ChartPrimaryXAxis>
+            <ChartPrimaryYAxis Minimum="0"
+                               Maximum="18000"
+                               Interval="2000">
+                <ChartAxisMajorGridLines Color="rgba(167,169,171,0.3)" />
+                <ChartAxisLabelStyle Color="transparent" />
+                <ChartAxisMajorTickLines Width="0" />
+
+                <ChartStriplines>
+                    <ChartStripline Start="0"
+                                    Size="2000"
+                                    IsRepeat="true"
+                                    RepeatEvery="4000"
+                                    Color="rgba(167,169,171,0.1)"
+                                    Visible="true" />
+                </ChartStriplines>
+            </ChartPrimaryYAxis>
+
+            
+                <ChartSeries DataSource="@AllSourcesData"
+                             XName="Year"
+                             YName="Value"
+                             Name="All sources"
+                             Type="ChartSeriesType.Column"
+                             Fill="#00C58D"
+                             ColumnWidth="0.8"
+                             ColumnSpacing="0.2"
+                             CornerRadius="new ChartCornerRadius {TopLeft = 5, TopRight = 5}">
+                </ChartSeries>
+
+                <ChartSeries DataSource="@AutosData"
+                             XName="Year"
+                             YName="Value"
+                             Name="Autos & Light Trucks"
+                             Type="ChartSeriesType.Column"
+                             Fill="#DA7DD4"
+                             ColumnWidth="0.8"
+                             ColumnSpacing="0.2"
+                             CornerRadius="new ChartCornerRadius {TopLeft = 5, TopRight = 5}">
+                </ChartSeries>
+            
+        </SfChart>
+    </PreviewSection>
+</CodePreview>
+</VirtualizeSection>
+@code {
+    [CascadingParameter]
+    private Theme CurrentTheme { get; set; } = Theme.Fluent;
+
+    private Theme _currentTheme = Theme.Fluent;
+
+    private string _prevThemeName = string.Empty;
+
+    protected override void OnInitialized()
+    {
+        _currentTheme = CurrentTheme;
+    }
+
+    protected override void OnParametersSet()
+    {
+        var name = CurrentTheme.ToString() ?? string.Empty;
+        if (name != _prevThemeName)
+        {
+            _prevThemeName = name;
+            _currentTheme = CurrentTheme;
+            InvokeAsync(StateHasChanged);
+        }
+        else
+        {
+            _currentTheme = CurrentTheme;
+        }
+    }
+
+    private bool IsDarkTheme => CurrentTheme.ToString().Contains("Dark") || CurrentTheme.ToString().Contains("HighContrast");
+
+    // Stripline palette (light and dark alternatives)
+    private string CalmStriplineColor => IsDarkTheme ? "rgba(255,255,255,0.03)" : "#E3F2FD";
+    private string LightAirStriplineColor => IsDarkTheme ? "rgba(255,255,255,0.04)" : "#E1F5FE";
+    private string LightBreezeStriplineColor => IsDarkTheme ? "rgba(255,255,255,0.05)" : "#E8F5E9";
+    private string GentleBreezeStriplineColor => IsDarkTheme ? "rgba(255,255,255,0.06)" : "#FFFDE7";
+    private string ModerateBreezeStriplineColor => IsDarkTheme ? "rgba(255,255,255,0.07)" : "#FFF3E0";
+    private string FreshBreezeStriplineColor => IsDarkTheme ? "rgba(255,255,255,0.08)" : "#FBE9E7";
+
+    private string AxisLabelColor => IsDarkTheme ? "#BDBDBD" : "#333333";
+    private string StriplineBandCode => @"@using Syncfusion.Blazor.Toolkit.Charts
+    <SfChart @key=""@_currentTheme"" Title=""Wind Speed and Gust (km/h)"" Theme=""@_currentTheme"">
+            <ChartPrimaryXAxis ValueType=""ValueType.DateTime""
+                               LabelFormat=""ddd dd/MM"" LabelRotation=""-90"">
+                <ChartAxisMajorTickLines Width=""0"" />
+                <ChartAxisMajorGridLines Width=""0"" />
+            </ChartPrimaryXAxis>
+
+            <ChartPrimaryYAxis Minimum=""0"" Maximum=""35"" Interval=""5""
+                               Title=""Wind Speed and Gust (km/h)"">
+                <ChartAxisMajorTickLines Width=""0"" />
+                <ChartAxisLineStyle Width=""0""/>
+                <ChartAxisLabelStyle Color=""@AxisLabelColor"" />
+                <ChartStriplines>
+                    <ChartStripline Start=""0"" End=""2"" Text=""Calm"" Color=""@CalmStriplineColor"" Opacity=""0.6"" HorizontalAlignment=""Anchor.Start""/>
+                    <ChartStripline Start=""2"" End=""6"" Text=""Light Air"" Color=""@LightAirStriplineColor"" Opacity=""0.6"" HorizontalAlignment=""Anchor.Start"" />
+                    <ChartStripline Start=""6"" End=""10"" Text=""Light Breeze"" Color=""@LightBreezeStriplineColor"" Opacity=""0.6"" HorizontalAlignment=""Anchor.Start"" />
+                    <ChartStripline Start=""10"" End=""15"" Text=""Gentle Breeze"" Color=""@GentleBreezeStriplineColor"" Opacity=""0.6"" HorizontalAlignment=""Anchor.Start"" />
+                    <ChartStripline Start=""15"" End=""25"" Text=""Moderate Breeze"" Color=""@ModerateBreezeStriplineColor"" Opacity=""0.6"" HorizontalAlignment=""Anchor.Start"" />
+                    <ChartStripline Start=""25"" End=""35"" Text=""Fresh Breeze"" Color=""@FreshBreezeStriplineColor"" Opacity=""0.6"" HorizontalAlignment=""Anchor.Start"" />
+                </ChartStriplines>
+            </ChartPrimaryYAxis>
+            <ChartSeriesCollection>
+                <ChartSeries DataSource=""@WindSeriesData""
+                             XName=""Date""
+                             YName=""Gust""
+                             Name=""Wind Gust (km/h)""
+                             Type=""ChartSeriesType.Spline"">
+                </ChartSeries>
+                <ChartSeries DataSource=""@WindSeriesData""
+                             XName=""Date""
+                             YName=""Wind""
+                             Name=""Wind Speed (km/h)""
+                             Type=""ChartSeriesType.Spline"">
+                </ChartSeries>
+            </ChartSeriesCollection>
+            <ChartTooltipSettings Enable=""true"" EnableHighlight=""true""
+                                  EnableMarker=""true""
+                                  ShowNearestTooltip=""true""
+                                  Format=""${point.x}<br/>${series.name}: <b>${point.y}</b>"" />
+        </SfChart>
+@code {
+    private Theme _currentTheme = Theme.Fluent;
+    private bool IsDarkTheme => CurrentTheme.ToString().Contains(""Dark"") || CurrentTheme.ToString().Contains(""HighContrast"");
+    // Stripline palette (light and dark alternatives)
+    private string CalmStriplineColor => IsDarkTheme ? ""rgba(255,255,255,0.03)"" : ""#E3F2FD"";
+    private string LightAirStriplineColor => IsDarkTheme ? ""rgba(255,255,255,0.04)"" : ""#E1F5FE"";
+    private string LightBreezeStriplineColor => IsDarkTheme ? ""rgba(255,255,255,0.05)"" : ""#E8F5E9"";
+    private string GentleBreezeStriplineColor => IsDarkTheme ? ""rgba(255,255,255,0.06)"" : ""#FFFDE7"";
+    private string ModerateBreezeStriplineColor => IsDarkTheme ? ""rgba(255,255,255,0.07)"" : ""#FFF3E0"";
+    private string FreshBreezeStriplineColor => IsDarkTheme ? ""rgba(255,255,255,0.08)"" : ""#FBE9E7"";
+    public class WindData
+    {
+        public DateTime Date { get; set; }
+        public double Wind { get; set; }
+        public double Gust { get; set; }
+    }
+    public List<WindData> WindSeriesData = new()
+    {
+        new WindData { Date = new DateTime(2000, 5, 1),  Wind = 17, Gust = 30 },
+        new WindData { Date = new DateTime(2000, 5, 2),  Wind = 14, Gust = 28 },
+        new WindData { Date = new DateTime(2000, 5, 3),  Wind = 12, Gust = 22 },
+        new WindData { Date = new DateTime(2000, 5, 4),  Wind = 9,  Gust = 19 },
+        new WindData { Date = new DateTime(2000, 5, 5),  Wind = 10, Gust = 21 },
+        new WindData { Date = new DateTime(2000, 5, 6),  Wind = 7,  Gust = 15 },
+        new WindData { Date = new DateTime(2000, 5, 7),  Wind = 11, Gust = 20 },
+        new WindData { Date = new DateTime(2000, 5, 8),  Wind = 16, Gust = 30 },
+        new WindData { Date = new DateTime(2000, 5, 9),  Wind = 9,  Gust = 18 },
+        new WindData { Date = new DateTime(2000, 5,10),  Wind = 13, Gust = 20 },
+        new WindData { Date = new DateTime(2000, 5,11),  Wind = 7,  Gust = 14 },
+        new WindData { Date = new DateTime(2000, 5,12),  Wind = 12, Gust = 26 },
+        new WindData { Date = new DateTime(2000, 5,13),  Wind = 6,  Gust = 12 },
+        new WindData { Date = new DateTime(2000, 5,14),  Wind = 8,  Gust = 16 }
+    };
+}";
+
+    private string StriplineRangeCode => @"<SfChart @key=""@_currentTheme"" Title=""Wind Speed and Gust (km/h)"" Theme=""@_currentTheme"">
+    <ChartTooltipSettings Enable=""true"" EnableHighlight=""true""
+                          ShowNearestTooltip=""true""
+                          Format=""${point.x}<br/>${series.name}: <b>${point.y}</b>"" />
+
+    <ChartPrimaryXAxis ValueType=""ValueType.DateTime""
+                       LabelFormat=""dd/MM"">
+        <ChartAxisMajorTickLines Width=""0"" />
+        <ChartAxisMajorGridLines Width=""0"" />
+        <ChartStriplines>
+            <ChartStripline Start=""@(new DateTime(2000, 5, 3))""
+                             End=""@(new DateTime(2000, 5, 5))""
+                             Text=""Low Wind Period""
+                             Color=""#E1F5FE""
+                             Opacity=""0.6"">
+            </ChartStripline>
+
+            <ChartStripline Start=""@(new DateTime(2000, 5, 8))""
+                             End=""@(new DateTime(2000, 5, 9))""
+                             Text=""High Gust Period""
+                             Color=""#FFF3E0""
+                             Opacity=""0.6"">
+            </ChartStripline>
+        </ChartStriplines>
+    </ChartPrimaryXAxis>
+
+    <ChartPrimaryYAxis Minimum=""0""
+                       Maximum=""35""
+                       Interval=""5""
+                       Title=""Wind Speed and Gust (km/h)"">
+        <ChartAxisMajorTickLines Width=""0"" />
+        <ChartAxisLineStyle Width=""0"" />
+    </ChartPrimaryYAxis>
+
+    
+        <ChartSeries DataSource=""@WindSeriesData""
+                     XName=""Date""
+                     YName=""Gust""
+                     Name=""Wind Gust (km/h)""
+                     Type=""ChartSeriesType.Spline"">
+        </ChartSeries>
+
+        <ChartSeries DataSource=""@WindSeriesData""
+                     XName=""Date""
+                     YName=""Wind""
+                     Name=""Wind Speed (km/h)""
+                     Type=""ChartSeriesType.Spline"">
+        </ChartSeries>
+    
+</SfChart>";
+
+    private string StriplineRecurrenceCode => @"@using Syncfusion.Blazor.Toolkit.Charts
+    <SfChart @key=""@_currentTheme"" Title=""World Pollution Report"" Theme=""@_currentTheme"">
+            <ChartArea><ChartAreaBorder Width=""0""></ChartAreaBorder></ChartArea>
+            <ChartTooltipSettings Enable=""true"" EnableHighlight=""true""
+                                  Format=""Year: ${point.x}<br/>Tons Per Day: <b>${point.y}</b>"" />
+            <ChartPrimaryXAxis ValueType=""ValueType.DateTime""
+                               IntervalType=""IntervalType.Years"" EdgeLabelPlacement=""EdgeLabelPlacement.Shift""
+                               Minimum=""@(new DateTime(1965, 1, 1))"" LabelFormat=""yyyy""
+                               Maximum=""@(new DateTime(2010, 1, 1))"" >
+                                    <ChartAxisMinorTickLines Width=""0"" />
+                <ChartAxisMajorTickLines Width=""0"" />
+                <ChartAxisMajorGridLines Width=""0"" />
+
+                <ChartStriplines>
+                    <ChartStripline Start=""@(new DateTime(1965, 1, 1))""
+                                    Size=""5""
+                                    SizeType=""SizeType.Years""
+                                    IsRepeat=""true""
+                                    RepeatEvery=""10""
+                                    Color=""rgba(167,169,171,0.1)""
+                                    Visible=""true"" />
+                </ChartStriplines>
+            </ChartPrimaryXAxis>
+            <ChartPrimaryYAxis Minimum=""0""
+                               Maximum=""18000""
+                               Interval=""2000"">
+                <ChartAxisMajorGridLines Color=""rgba(167,169,171,0.3)"" />
+                <ChartAxisLabelStyle Color=""transparent"" />
+                <ChartAxisMajorTickLines Width=""0"" />
+
+                <ChartStriplines>
+                    <ChartStripline Start=""0""
+                                    Size=""2000""
+                                    IsRepeat=""true""
+                                    RepeatEvery=""4000""
+                                    Color=""rgba(167,169,171,0.1)""
+                                    Visible=""true"" />
+                </ChartStriplines>
+            </ChartPrimaryYAxis>
+
+            <ChartSeriesCollection>
+                <ChartSeries DataSource=""@AllSourcesData""
+                             XName=""Year""
+                             YName=""Value""
+                             Name=""All sources""
+                             Type=""ChartSeriesType.Column""
+                             Fill=""#00C58D""
+                             ColumnWidth=""0.8""
+                             ColumnSpacing=""0.2""
+                             CornerRadius=""new ChartCornerRadius {TopLeft = 5, TopRight = 5}"">
+                </ChartSeries>
+
+                <ChartSeries DataSource=""@AutosData""
+                             XName=""Year""
+                             YName=""Value""
+                             Name=""Autos & Light Trucks""
+                             Type=""ChartSeriesType.Column""
+                             Fill=""#DA7DD4""
+                             ColumnWidth=""0.8""
+                             ColumnSpacing=""0.2""
+                             CornerRadius=""new ChartCornerRadius {TopLeft = 5, TopRight = 5}"">
+                </ChartSeries>
+            </ChartSeriesCollection>
+        </SfChart>
+@code {
+    private Theme _currentTheme = Theme.Fluent;
+    public class PollutionData
+        {
+            public double Value { get; set; }
+            public DateTime Year { get; set; }
+        }
+    public List<PollutionData> AllSourcesData = new()
+        {
+            new() { Year = new DateTime(1970, 1, 1), Value = 16500 },
+            new() { Year = new DateTime(1975, 1, 1), Value = 16000 },
+            new() { Year = new DateTime(1980, 1, 1), Value = 15400 },
+            new() { Year = new DateTime(1985, 1, 1), Value = 15800 },
+            new() { Year = new DateTime(1990, 1, 1), Value = 14000 },
+            new() { Year = new DateTime(1995, 1, 1), Value = 10500 },
+            new() { Year = new DateTime(2000, 1, 1), Value = 13300 },
+            new() { Year = new DateTime(2005, 1, 1), Value = 12800 }
+        };
+    public List<PollutionData> AutosData = new()
+        {
+            new() { Year = new DateTime(1970, 1, 1), Value = 8000 },
+            new() { Year = new DateTime(1975, 1, 1), Value = 7600 },
+            new() { Year = new DateTime(1980, 1, 1), Value = 6400 },
+            new() { Year = new DateTime(1985, 1, 1), Value = 3700 },
+            new() { Year = new DateTime(1990, 1, 1), Value = 7200 },
+            new() { Year = new DateTime(1995, 1, 1), Value = 2300 },
+            new() { Year = new DateTime(2000, 1, 1), Value = 4000 },
+            new() { Year = new DateTime(2005, 1, 1), Value = 4800 }
+        };
+}";
+
+
+    public class PollutionData
+    {
+        public double Value { get; set; }
+        public DateTime Year { get; set; }
+    }
+
+    public List<PollutionData> AllSourcesData = new()
+    {
+        new() { Year = new DateTime(1970, 1, 1), Value = 16500 },
+        new() { Year = new DateTime(1975, 1, 1), Value = 16000 },
+        new() { Year = new DateTime(1980, 1, 1), Value = 15400 },
+        new() { Year = new DateTime(1985, 1, 1), Value = 15800 },
+        new() { Year = new DateTime(1990, 1, 1), Value = 14000 },
+        new() { Year = new DateTime(1995, 1, 1), Value = 10500 },
+        new() { Year = new DateTime(2000, 1, 1), Value = 13300 },
+        new() { Year = new DateTime(2005, 1, 1), Value = 12800 }
+    };
+
+    public List<PollutionData> AutosData = new()
+    {
+        new() { Year = new DateTime(1970, 1, 1), Value = 8000 },
+        new() { Year = new DateTime(1975, 1, 1), Value = 7600 },
+        new() { Year = new DateTime(1980, 1, 1), Value = 6400 },
+        new() { Year = new DateTime(1985, 1, 1), Value = 3700 },
+        new() { Year = new DateTime(1990, 1, 1), Value = 7200 },
+        new() { Year = new DateTime(1995, 1, 1), Value = 2300 },
+        new() { Year = new DateTime(2000, 1, 1), Value = 4000 },
+        new() { Year = new DateTime(2005, 1, 1), Value = 4800 }
+    };
+}
+
+<Description>
+    <Header>
+        <h5><b>Customize The Stripline Text</b></h5>
+    </Header>
+    <Content>
+        Stripline text customization allows you to display descriptive labels
+        within specific axis ranges to provide contextual meaning to data bands.
+        This example demonstrates adding custom text to striplines on the
+        Y-axis to categorize wind conditions such as calm, breeze, and gusts,
+        with precise control over text alignment and background styling.
+    </Content>
+</Description>
+
+<VirtualizeSection MinHeightPx="600px">
+    <CodePreview IsFullWidth="true" CodeSection="@StriplineTextCustomizationCode">
+    <PreviewSection>
+        <SfChart @key="@_currentTheme" Title="Wind Speed and Gust (km/h)" Theme="@_currentTheme">
+
+            <!-- X Axis (DateTime) -->
+            <ChartPrimaryXAxis ValueType="ValueType.DateTime" LabelFormat="ddd dd/MM" LabelRotation="-90">
+                <ChartAxisMajorTickLines Width="0" />
+                <ChartAxisMajorGridLines Width="0" />
+            </ChartPrimaryXAxis>
+
+            <!-- Y Axis -->
+            <ChartPrimaryYAxis Title="Wind Speed and Gust (km/h)"
+                               Minimum="0"
+                               Maximum="30"
+                               Interval="5"
+                               RangePadding="ChartRangePadding.None">
+                <ChartAxisLineStyle Width="0"/>
+                <ChartAxisMajorTickLines Width="0"/>
+                <ChartStriplines>
+                    <ChartStripline Start="0" End="5"
+                                    Text="Calm"
+                                    HorizontalAlignment="Anchor.Start"
+                                    VerticalAlignment="Anchor.Middle"
+                                    Color="rgba(68,170,213,0.1)"  />
+
+                    <ChartStripline Start="5" End="8"
+                                    Text="Light Air"
+                                    HorizontalAlignment="Anchor.Middle"
+                                    VerticalAlignment="Anchor.Start"
+                                    Color="rgba(0,0,0,0)" />
+
+                    <ChartStripline Start="8" End="11"
+                                    Text="Light Breeze"
+                                    HorizontalAlignment="Anchor.End"
+                                    VerticalAlignment="Anchor.Middle"
+                                    Color="rgba(68,170,213,0.1)" />
+
+                    <ChartStripline Start="11" End="18"
+                                    Text="Gentle Breeze"
+                                    HorizontalAlignment="Anchor.Middle"
+                                    VerticalAlignment="Anchor.End"
+                                    Color="rgba(0,0,0,0)" />
+
+                    <ChartStripline Start="18" End="28"
+                                    Text="Moderate Breeze"
+                                    HorizontalAlignment="Anchor.End"
+                                    VerticalAlignment="Anchor.Start"
+                                    Color="rgba(68,170,213,0.1)" />
+
+                    <ChartStripline Start="28" End="30"
+                                    Text="Fresh Breeze"
+                                    HorizontalAlignment="Anchor.Start"
+                                    VerticalAlignment="Anchor.End"
+                                    Color="rgba(0,0,0,0)" />
+                </ChartStriplines>
+            </ChartPrimaryYAxis>
+
+            <!-- Series -->
+            
+                <ChartSeries DataSource="@WindSpeedData"
+                             XName="Date"
+                             YName="Wind"
+                             Name="Wind Speed (km/h)"
+                             Type="ChartSeriesType.Spline"
+                             Width="2"
+                             Fill="#01A725"
+                             LegendShape="LegendShape.HorizontalLine" />
+
+                <ChartSeries DataSource="@WindGustData"
+                             XName="Date"
+                             YName="Gust"
+                             Name="Wind Gust (km/h)"
+                             Type="ChartSeriesType.Spline"
+                             Width="2"
+                             Fill="#FF8225"
+                             LegendShape="LegendShape.HorizontalLine" />
+            
+
+            <!-- Tooltip -->
+            <ChartTooltipSettings Enable="true" EnableHighlight="true"
+                                  EnableMarker="true"
+                                  ShowNearestTooltip="true"
+                                  Format="${point.x}<br/>${series.name}: <b>${point.y}</b>" />
+
+            <!-- Legend -->
+            <ChartLegendSettings Visible="true"
+                                 ShapeHeight="6"
+                                 ShapeWidth="15" />
+
+        </SfChart>
+    </PreviewSection>
+</CodePreview>
+</VirtualizeSection>
+@code {
+    private string StriplineTextCustomizationCode => @"@using Syncfusion.Blazor.Toolkit.Charts
+   <SfChart @key=""@_currentTheme"" Title=""Wind Speed and Gust (km/h)"" Theme=""@_currentTheme"">
+
+            <!-- X Axis (DateTime) -->
+            <ChartPrimaryXAxis ValueType=""ValueType.DateTime"" LabelFormat=""ddd dd/MM"" LabelRotation=""-90"">
+                <ChartAxisMajorTickLines Width=""0"" />
+                <ChartAxisMajorGridLines Width=""0"" />
+            </ChartPrimaryXAxis>
+
+            <!-- Y Axis -->
+            <ChartPrimaryYAxis Title=""Wind Speed and Gust (km/h)""
+                               Minimum=""0""
+                               Maximum=""30""
+                               Interval=""5""
+                               RangePadding=""ChartRangePadding.None"">
+                <ChartAxisLineStyle Width=""0""/>
+                <ChartAxisMajorTickLines Width=""0""/>
+                <ChartStriplines>
+                    <ChartStripline Start=""0"" End=""5""
+                                    Text=""Calm""
+                                    HorizontalAlignment=""Anchor.Start""
+                                    VerticalAlignment=""Anchor.Middle""
+                                    Color=""rgba(68,170,213,0.1)""  />
+
+                    <ChartStripline Start=""5"" End=""8""
+                                    Text=""Light Air""
+                                    HorizontalAlignment=""Anchor.Middle""
+                                    VerticalAlignment=""Anchor.Start""
+                                    Color=""rgba(0,0,0,0)"" />
+
+                    <ChartStripline Start=""8"" End=""11""
+                                    Text=""Light Breeze""
+                                    HorizontalAlignment=""Anchor.End""
+                                    VerticalAlignment=""Anchor.Middle""
+                                    Color=""rgba(68,170,213,0.1)"" />
+
+                    <ChartStripline Start=""11"" End=""18""
+                                    Text=""Gentle Breeze""
+                                    HorizontalAlignment=""Anchor.Middle""
+                                    VerticalAlignment=""Anchor.End""
+                                    Color=""rgba(0,0,0,0)"" />
+
+                    <ChartStripline Start=""18"" End=""28""
+                                    Text=""Moderate Breeze""
+                                    HorizontalAlignment=""Anchor.End""
+                                    VerticalAlignment=""Anchor.Start""
+                                    Color=""rgba(68,170,213,0.1)"" />
+
+                    <ChartStripline Start=""28"" End=""30""
+                                    Text=""Fresh Breeze""
+                                    HorizontalAlignment=""Anchor.Start""
+                                    VerticalAlignment=""Anchor.End""
+                                    Color=""rgba(0,0,0,0)"" />
+                </ChartStriplines>
+            </ChartPrimaryYAxis>
+
+            <!-- Series -->
+            <ChartSeriesCollection>
+                <ChartSeries DataSource=""@WindSpeedData""
+                             XName=""Date""
+                             YName=""Wind""
+                             Name=""Wind Speed (km/h)""
+                             Type=""ChartSeriesType.Spline""
+                             Width=""2""
+                             Fill=""#01A725""
+                             LegendShape=""LegendShape.HorizontalLine"" />
+
+                <ChartSeries DataSource=""@WindGustData""
+                             XName=""Date""
+                             YName=""Gust""
+                             Name=""Wind Gust (km/h)""
+                             Type=""ChartSeriesType.Spline""
+                             Width=""2""
+                             Fill=""#FF8225""
+                             LegendShape=""LegendShape.HorizontalLine"" />
+            </ChartSeriesCollection>
+            <!-- Tooltip -->
+            <ChartTooltipSettings Enable=""true"" EnableHighlight=""true""
+                                  EnableMarker=""true""
+                                  ShowNearestTooltip=""true""
+                                  Format=""${point.x}<br/>${series.name}: <b>${point.y}</b>"" />
+
+            <!-- Legend -->
+            <ChartLegendSettings Visible=""true""
+                                 ShapeHeight=""6""
+                                 ShapeWidth=""15"" />
+        </SfChart>
+
+@code {
+    private Theme _currentTheme = Theme.Fluent;
+    public class WindGustInfo
+        {
+            public DateTime Date { get; set; }
+            public double Gust { get; set; }
+        }
+    public List<WindGustInfo> WindGustData = new()
+        {
+            new() { Date = new DateTime(2023, 5, 1), Gust = 30 },
+            new() { Date = new DateTime(2023, 5, 2), Gust = 28 },
+            new() { Date = new DateTime(2023, 5, 3), Gust = 26 },
+            new() { Date = new DateTime(2023, 5, 4), Gust = 19 },
+            new() { Date = new DateTime(2023, 5, 5), Gust = 21 },
+            new() { Date = new DateTime(2023, 5, 6), Gust = 14 },
+            new() { Date = new DateTime(2023, 5, 7), Gust = 13 },
+            new() { Date = new DateTime(2023, 5, 8), Gust = 29 },
+            new() { Date = new DateTime(2023, 5, 9), Gust = 19 },
+            new() { Date = new DateTime(2023, 5, 10), Gust = 20 },
+            new() { Date = new DateTime(2023, 5, 11), Gust = 15 },
+            new() { Date = new DateTime(2023, 5, 12), Gust = 25 },
+            new() { Date = new DateTime(2023, 5, 13), Gust = 20 },
+            new() { Date = new DateTime(2023, 5, 14), Gust = 10 },
+            new() { Date = new DateTime(2023, 5, 15), Gust = 15 }
+        };
+    public class WindSpeedInfo
+        {
+            public DateTime Date { get; set; }
+            public double Wind { get; set; }
+        }
+    public List<WindSpeedInfo> WindSpeedData = new()
+        {
+            new() { Date = new DateTime(2023, 5, 1), Wind = 19 },
+            new() { Date = new DateTime(2023, 5, 2), Wind = 17 },
+            new() { Date = new DateTime(2023, 5, 3), Wind = 14 },
+            new() { Date = new DateTime(2023, 5, 4), Wind = 9 },
+            new() { Date = new DateTime(2023, 5, 5), Wind = 10 },
+            new() { Date = new DateTime(2023, 5, 6), Wind = 8 },
+            new() { Date = new DateTime(2023, 5, 7), Wind = 8 },
+            new() { Date = new DateTime(2023, 5, 8), Wind = 16 },
+            new() { Date = new DateTime(2023, 5, 9), Wind = 9 },
+            new() { Date = new DateTime(2023, 5, 10), Wind = 13 },
+            new() { Date = new DateTime(2023, 5, 11), Wind = 7 },
+            new() { Date = new DateTime(2023, 5, 12), Wind = 12 },
+            new() { Date = new DateTime(2023, 5, 13), Wind = 10 },
+            new() { Date = new DateTime(2023, 5, 14), Wind = 5 },
+            new() { Date = new DateTime(2023, 5, 15), Wind = 8 }
+        };
+}";
+
+    public class WindSpeedInfo
+    {
+        public DateTime Date { get; set; }
+        public double Wind { get; set; }
+    }
+
+    public class WindGustInfo
+    {
+        public DateTime Date { get; set; }
+        public double Gust { get; set; }
+    }
+
+    public List<WindSpeedInfo> WindSpeedData = new()
+    {
+        new() { Date = new DateTime(2023, 5, 1), Wind = 19 },
+        new() { Date = new DateTime(2023, 5, 2), Wind = 17 },
+        new() { Date = new DateTime(2023, 5, 3), Wind = 14 },
+        new() { Date = new DateTime(2023, 5, 4), Wind = 9 },
+        new() { Date = new DateTime(2023, 5, 5), Wind = 10 },
+        new() { Date = new DateTime(2023, 5, 6), Wind = 8 },
+        new() { Date = new DateTime(2023, 5, 7), Wind = 8 },
+        new() { Date = new DateTime(2023, 5, 8), Wind = 16 },
+        new() { Date = new DateTime(2023, 5, 9), Wind = 9 },
+        new() { Date = new DateTime(2023, 5, 10), Wind = 13 },
+        new() { Date = new DateTime(2023, 5, 11), Wind = 7 },
+        new() { Date = new DateTime(2023, 5, 12), Wind = 12 },
+        new() { Date = new DateTime(2023, 5, 13), Wind = 10 },
+        new() { Date = new DateTime(2023, 5, 14), Wind = 5 },
+        new() { Date = new DateTime(2023, 5, 15), Wind = 8 }
+    };
+
+    public List<WindGustInfo> WindGustData = new()
+    {
+        new() { Date = new DateTime(2023, 5, 1), Gust = 30 },
+        new() { Date = new DateTime(2023, 5, 2), Gust = 28 },
+        new() { Date = new DateTime(2023, 5, 3), Gust = 26 },
+        new() { Date = new DateTime(2023, 5, 4), Gust = 19 },
+        new() { Date = new DateTime(2023, 5, 5), Gust = 21 },
+        new() { Date = new DateTime(2023, 5, 6), Gust = 14 },
+        new() { Date = new DateTime(2023, 5, 7), Gust = 13 },
+        new() { Date = new DateTime(2023, 5, 8), Gust = 29 },
+        new() { Date = new DateTime(2023, 5, 9), Gust = 19 },
+        new() { Date = new DateTime(2023, 5, 10), Gust = 20 },
+        new() { Date = new DateTime(2023, 5, 11), Gust = 15 },
+        new() { Date = new DateTime(2023, 5, 12), Gust = 25 },
+        new() { Date = new DateTime(2023, 5, 13), Gust = 20 },
+        new() { Date = new DateTime(2023, 5, 14), Gust = 10 },
+        new() { Date = new DateTime(2023, 5, 15), Gust = 15 }
+    };
+}
+@code {
+
+    private string VerticalStriplineCode => @"@using Syncfusion.Blazor.Toolkit.Charts
+    <SfChart @key=""@_currentTheme"" Title=""Wind Speed and Gust (km/h)"" Theme=""@_currentTheme"">
+            <ChartPrimaryXAxis ValueType=""ValueType.DateTime""
+                               LabelFormat=""ddd dd/MM"" LabelRotation=""-90"">
+                   
+                <!-- ✅ Vertical Striplines -->
+                <ChartStriplines>
+                    <ChartStripline Start=""@(new DateTime(2023, 5, 1))""
+                                    End=""@(new DateTime(2023, 5, 5))""
+                                    Text=""Week 1""
+                                    HorizontalAlignment=""Anchor.Middle""
+                                    Color=""rgba(68,170,213,0.1)"">
+                    </ChartStripline>
+                    <ChartStripline Start=""@(new DateTime(2023, 5, 5))""
+                                    End=""@(new DateTime(2023, 5, 10))""
+                                    Text=""Week 2""
+                                    HorizontalAlignment=""Anchor.Middle""
+                                    Color=""rgba(0,0,0,0)"">
+                    </ChartStripline>
+                    <ChartStripline Start=""@(new DateTime(2023, 5, 10))""
+                                    End=""@(new DateTime(2023, 5, 15))""
+                                    Text=""Week 3""
+                                    HorizontalAlignment=""Anchor.Middle""
+                                    Color=""rgba(68,170,213,0.1)"">
+                    </ChartStripline>
+                </ChartStriplines>
+            </ChartPrimaryXAxis>
+            <ChartPrimaryYAxis Minimum=""0""
+                               Maximum=""30""
+                               Interval=""10""
+                               Title=""Wind Speed and Gust (km/h)"">
+                <ChartAxisLineStyle Width=""0"" />
+            </ChartPrimaryYAxis>
+            <ChartSeriesCollection>
+                <ChartSeries DataSource=""@WindSpeedData""
+                             XName=""Date""
+                             YName=""Wind""
+                             Name=""Wind Speed (km/h)""
+                             Type=""ChartSeriesType.Spline""
+                             Width=""2""
+                             Fill=""#01A725""
+                             LegendShape=""LegendShape.HorizontalLine"">
+                </ChartSeries>
+                <ChartSeries DataSource=""@WindGustData""
+                             XName=""Date""
+                             YName=""Gust""
+                             Name=""Wind Gust (km/h)""
+                             Type=""ChartSeriesType.Spline""
+                             Width=""2""
+                             Fill=""#FF8225""
+                             LegendShape=""LegendShape.HorizontalLine"">
+                </ChartSeries>
+            </ChartSeriesCollection>
+            <ChartTooltipSettings Enable=""true""
+                                  ShowNearestTooltip=""true""
+                                  EnableHighlight=""true"" EnableMarker=""true""
+                                  Format=""${point.x}<br/>${series.name} : <b>${point.y}</b>"" />
+            <ChartLegendSettings Visible=""true""
+                                 ShapeHeight=""6""
+                                 ShapeWidth=""15"">
+            </ChartLegendSettings>
+        </SfChart>
+@code {
+    private Theme _currentTheme = Theme.Fluent;
+    public class WindGustInfo
+        {
+            public DateTime Date { get; set; }
+            public double Gust { get; set; }
+        }
+    public List<WindGustInfo> WindGustData = new()
+        {
+            new() { Date = new DateTime(2023, 5, 1), Gust = 30 },
+            new() { Date = new DateTime(2023, 5, 2), Gust = 28 },
+            new() { Date = new DateTime(2023, 5, 3), Gust = 26 },
+            new() { Date = new DateTime(2023, 5, 4), Gust = 19 },
+            new() { Date = new DateTime(2023, 5, 5), Gust = 21 },
+            new() { Date = new DateTime(2023, 5, 6), Gust = 14 },
+            new() { Date = new DateTime(2023, 5, 7), Gust = 13 },
+            new() { Date = new DateTime(2023, 5, 8), Gust = 29 },
+            new() { Date = new DateTime(2023, 5, 9), Gust = 19 },
+            new() { Date = new DateTime(2023, 5, 10), Gust = 20 },
+            new() { Date = new DateTime(2023, 5, 11), Gust = 15 },
+            new() { Date = new DateTime(2023, 5, 12), Gust = 25 },
+            new() { Date = new DateTime(2023, 5, 13), Gust = 20 },
+            new() { Date = new DateTime(2023, 5, 14), Gust = 10 },
+            new() { Date = new DateTime(2023, 5, 15), Gust = 15 }
+        };
+    public class WindSpeedInfo
+        {
+            public DateTime Date { get; set; }
+            public double Wind { get; set; }
+        }
+    public List<WindSpeedInfo> WindSpeedData = new()
+        {
+            new() { Date = new DateTime(2023, 5, 1), Wind = 19 },
+            new() { Date = new DateTime(2023, 5, 2), Wind = 17 },
+            new() { Date = new DateTime(2023, 5, 3), Wind = 14 },
+            new() { Date = new DateTime(2023, 5, 4), Wind = 9 },
+            new() { Date = new DateTime(2023, 5, 5), Wind = 10 },
+            new() { Date = new DateTime(2023, 5, 6), Wind = 8 },
+            new() { Date = new DateTime(2023, 5, 7), Wind = 8 },
+            new() { Date = new DateTime(2023, 5, 8), Wind = 16 },
+            new() { Date = new DateTime(2023, 5, 9), Wind = 9 },
+            new() { Date = new DateTime(2023, 5, 10), Wind = 13 },
+            new() { Date = new DateTime(2023, 5, 11), Wind = 7 },
+            new() { Date = new DateTime(2023, 5, 12), Wind = 12 },
+            new() { Date = new DateTime(2023, 5, 13), Wind = 10 },
+            new() { Date = new DateTime(2023, 5, 14), Wind = 5 },
+            new() { Date = new DateTime(2023, 5, 15), Wind = 8 }
+        };
+}";
+
+    public class WindData
+    {
+        public DateTime Date { get; set; }
+        public double Wind { get; set; }
+        public double Gust { get; set; }
+    }
+
+    public List<WindData> WindSeriesData = new()
+    {
+        new WindData { Date = new DateTime(2000, 5, 1),  Wind = 17, Gust = 30 },
+        new WindData { Date = new DateTime(2000, 5, 2),  Wind = 14, Gust = 28 },
+        new WindData { Date = new DateTime(2000, 5, 3),  Wind = 12, Gust = 22 },
+        new WindData { Date = new DateTime(2000, 5, 4),  Wind = 9,  Gust = 19 },
+        new WindData { Date = new DateTime(2000, 5, 5),  Wind = 10, Gust = 21 },
+        new WindData { Date = new DateTime(2000, 5, 6),  Wind = 7,  Gust = 15 },
+        new WindData { Date = new DateTime(2000, 5, 7),  Wind = 11, Gust = 20 },
+        new WindData { Date = new DateTime(2000, 5, 8),  Wind = 16, Gust = 30 },
+        new WindData { Date = new DateTime(2000, 5, 9),  Wind = 9,  Gust = 18 },
+        new WindData { Date = new DateTime(2000, 5,10),  Wind = 13, Gust = 20 },
+        new WindData { Date = new DateTime(2000, 5,11),  Wind = 7,  Gust = 14 },
+        new WindData { Date = new DateTime(2000, 5,12),  Wind = 12, Gust = 26 },
+        new WindData { Date = new DateTime(2000, 5,13),  Wind = 6,  Gust = 12 },
+        new WindData { Date = new DateTime(2000, 5,14),  Wind = 8,  Gust = 16 }
+    };
+}

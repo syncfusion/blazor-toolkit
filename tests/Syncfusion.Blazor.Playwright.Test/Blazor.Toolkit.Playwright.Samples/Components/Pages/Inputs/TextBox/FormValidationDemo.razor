@@ -1,0 +1,149 @@
+@page "/textbox-form-validation-test"
+@using System.ComponentModel.DataAnnotations
+@using Microsoft.AspNetCore.Components.Forms
+@using Syncfusion.Blazor.Toolkit.Inputs
+
+<h3>SfTextBox - Form Validation Testing</h3>
+
+<div style="max-width: 600px;">
+    <EditForm Model="@formModel" OnValidSubmit="@HandleSubmit" OnInvalidSubmit="@HandleInvalidSubmit">
+        <DataAnnotationsValidator />
+        <ValidationSummary style="color: #d9534f; margin-bottom: 15px;" />
+
+        <div style="margin-bottom: 20px;">
+            <label for="required-name" style="display: block; margin-bottom: 5px; font-weight: bold;">
+                Full Name *
+            </label>
+            <SfTextBox id="required-name" @bind-Value="formModel.FullName"
+                       Placeholder="Enter your full name"
+                       FloatLabelType="@FloatLabelType.Auto"
+                       data-testid="required-name"
+                       HtmlAttributes="@(new Dictionary<string, object> { { "aria-label", "Full Name" } })" />
+            <ValidationMessage For="@(() => formModel.FullName)"
+                               style="color: #d9534f; font-size: 12px; margin-top: 5px;" />
+        </div>
+
+        <div style="margin-bottom: 20px;">
+            <label for="email" style="display: block; margin-bottom: 5px; font-weight: bold;">
+                Email Address *
+            </label>
+            <SfTextBox id="email" @bind-Value="formModel.Email" Type="InputType.Email"
+                       Placeholder="Enter your email"
+                       FloatLabelType="@FloatLabelType.Auto"
+                       data-testid="email"
+                       HtmlAttributes="@(new Dictionary<string, object> { { "aria-label", "Email Address" } })" />
+            <ValidationMessage For="@(() => formModel.Email)"
+                               style="color: #d9534f; font-size: 12px; margin-top: 5px;" />
+        </div>
+
+        <div style="margin-bottom: 20px;">
+            <label for="min-length" style="display: block; margin-bottom: 5px; font-weight: bold;">
+                Message (Minimum 10 characters)
+            </label>
+            <SfTextBox id="min-length" @bind-Value="formModel.Message" Multiline="true"
+                       Placeholder="Enter at least 10 characters"
+                       FloatLabelType="@FloatLabelType.Auto"
+                       data-testid="min-length"
+                       HtmlAttributes="@(new Dictionary<string, object> { { "aria-label", "Message" }, { "rows", 4 } })" />
+            <ValidationMessage For="@(() => formModel.Message)"
+                               style="color: #d9534f; font-size: 12px; margin-top: 5px;" />
+        </div>
+
+        <div style="margin-bottom: 20px;">
+            <label for="phone" style="display: block; margin-bottom: 5px; font-weight: bold;">
+                Phone Number
+            </label>
+            <SfTextBox id="phone" @bind-Value="formModel.Phone" Type="InputType.Tel"
+                       Placeholder="Optional: Enter phone number"
+                       FloatLabelType="@FloatLabelType.Auto"
+                       data-testid="phone"
+                       HtmlAttributes="@(new Dictionary<string, object> { { "aria-label", "Phone Number" } })" />
+            <ValidationMessage For="@(() => formModel.Phone)"
+                               style="color: #d9534f; font-size: 12px; margin-top: 5px;" />
+        </div>
+
+        <div style="margin-bottom: 20px;">
+            <label for="password" style="display: block; margin-bottom: 5px; font-weight: bold;">
+                Password (Minimum 8 characters) *
+            </label>
+            <SfTextBox id="password" @bind-Value="formModel.Password" Type="InputType.Password"
+                       Placeholder="Enter password (min 8 chars)"
+                       FloatLabelType="@FloatLabelType.Auto"
+                       data-testid="password"
+                       HtmlAttributes="@(new Dictionary<string, object> { { "aria-label", "Password" } })" />
+            <ValidationMessage For="@(() => formModel.Password)"
+                               style="color: #d9534f; font-size: 12px; margin-top: 5px;" />
+        </div>
+
+        <div style="display: flex; gap: 10px; margin-top: 30px;">
+            <button type="submit" id="submit-btn" class="e-btn e-primary">
+                Submit Form
+            </button>
+            <button type="reset" class="e-btn">
+                Clear Form
+            </button>
+        </div>
+    </EditForm>
+
+    @if (showSuccess)
+    {
+        <div style="margin-top: 20px; padding: 15px; background-color: #dff0d8; border: 1px solid #d6e9c6; border-radius: 4px; color: #3c763d;">
+            <strong>Success!</strong> Form submitted successfully with all validations passed.
+        </div>
+    }
+
+    @if (validationErrors.Count > 0)
+    {
+        <div style="margin-top: 20px; padding: 15px; background-color: #f2dede; border: 1px solid #ebccd1; border-radius: 4px; color: #a94442;">
+            <strong>Validation Errors:</strong>
+            <ul style="margin: 10px 0 0 20px; padding: 0;">
+                @foreach (var error in validationErrors)
+                {
+                    <li>@error</li>
+                }
+            </ul>
+        </div>
+    }
+</div>
+
+@code {
+    private FormModel formModel = new();
+    private bool showSuccess = false;
+    private List<string> validationErrors = new();
+
+    public class FormModel
+    {
+        [Required(ErrorMessage = "Full name is required")]
+        [StringLength(100, ErrorMessage = "Full name must be less than 100 characters")]
+        public string FullName { get; set; } = "";
+
+        [Required(ErrorMessage = "Email address is required")]
+        [EmailAddress(ErrorMessage = "Invalid email address format")]
+        public string Email { get; set; } = "";
+
+        [StringLength(500, MinimumLength = 10, ErrorMessage = "Message must be between 10 and 500 characters")]
+        public string Message { get; set; } = "";
+
+        [Phone(ErrorMessage = "Invalid phone number format")]
+        public string Phone { get; set; } = "";
+
+        [Required(ErrorMessage = "Password is required")]
+        [StringLength(100, MinimumLength = 8, ErrorMessage = "Password must be between 8 and 100 characters")]
+        public string Password { get; set; } = "";
+    }
+
+    private void HandleSubmit()
+    {
+        showSuccess = true;
+        validationErrors.Clear();
+        Console.WriteLine("Form submitted successfully!");
+    }
+
+    private void HandleInvalidSubmit()
+    {
+        showSuccess = false;
+        validationErrors.Clear();
+        validationErrors.Add("Please fix the validation errors above and try again.");
+        Console.WriteLine("Form submission failed - validation errors present");
+    }
+}

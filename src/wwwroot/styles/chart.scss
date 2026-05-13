@@ -1,0 +1,59 @@
+@use 'sass:color';
+
+@use './base.scss' as *;
+
+// Chart focused and selection styles
+.e-chart-focused:focus-visible,
+path[class*='_ej2_chart_selection_series']:focus-visible,
+path[id*='_Point_']:focus-visible,
+text[id*='_ChartTitle']:focus-visible {
+    outline: 1.5px #424242 solid;
+    outline-offset: 0px;
+}
+
+// Stack Label Visibility
+.e-stacklabel-visible {
+    visibility: visible !important;
+}
+
+.e-stacklabel-hidden {
+    visibility: hidden !important;
+}
+
+// Series outline
+.e-series-outline {
+    outline: none;
+}
+
+// Last label visibility
+.e-lastlabel-visible {
+    visibility: visible;
+}
+
+.e-lastlabel-hidden {
+    visibility: hidden;
+}
+
+// Trendline and trendspline outline
+.e-trendline-outline {
+    outline: none;
+}
+
+.e-trendspline-outline {
+    outline: none;
+}
+
+// Legend cursor and pointer events
+.e-legend-cursor {
+    cursor: pointer;
+}
+
+.e-legend-default {
+    pointer-events: bounding-box;
+    cursor: default;
+}
+
+.e-legend-pointer {
+    pointer-events: bounding-box;
+    cursor: pointer;
+}

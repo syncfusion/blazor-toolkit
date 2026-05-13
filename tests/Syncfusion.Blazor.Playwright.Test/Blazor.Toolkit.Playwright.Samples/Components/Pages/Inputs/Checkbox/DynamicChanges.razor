@@ -1,0 +1,128 @@
+@page "/checkbox/dynamic-changes"
+@using Syncfusion.Blazor.Toolkit.Inputs
+@layout MainLayout
+
+<h1>Checkbox - Dynamic Changes</h1>
+
+<div class="test-container">
+    <h2>Dynamic Label Change</h2>
+    <SfCheckBox TChecked="bool" Label="@dynamicLabel" @bind-Checked="labelChangeChecked"></SfCheckBox>
+    <button @onclick="ChangeLabel">Change Label</button>
+    <p>Current Label: <strong>@dynamicLabel</strong></p>
+</div>
+
+<div class="test-container">
+    <h2>Dynamic Disabled State</h2>
+    <SfCheckBox TChecked="bool" Label="Toggle Disabled" Disabled="isDisabled" @bind-Checked="disabledStateChecked"></SfCheckBox>
+    <button @onclick="ToggleDisabled">@(isDisabled ? "Enable" : "Disable")</button>
+    <p>Is Disabled: <strong>@isDisabled</strong></p>
+</div>
+
+<div class="test-container">
+    <h2>Dynamic CSS Classes</h2>
+    <SfCheckBox TChecked="bool" Label="Resizable Checkbox" CssClass="@dynamicCssClass" @bind-Checked="cssChangeChecked"></SfCheckBox>
+    <button @onclick="ToggleSize">@(isSmall ? "Make Larger" : "Make Smaller")</button>
+    <p>CSS Class: <strong>@dynamicCssClass</strong></p>
+</div>
+
+<div class="test-container">
+    <h2>Dynamic Indeterminate State</h2>
+    <SfCheckBox TChecked="bool" Label="Toggle Indeterminate" Indeterminate="isIndeterminate" @bind-Checked="indeterminateChangeChecked"></SfCheckBox>
+    <button @onclick="ToggleIndeterminate">@(isIndeterminate ? "Clear" : "Set") Indeterminate</button>
+    <p>Indeterminate: <strong>@isIndeterminate</strong></p>
+</div>
+
+<div class="test-container">
+    <h2>Parent-Child Synchronization</h2>
+    <SfCheckBox TChecked="bool" Label="Select All" @bind-Checked="selectAll" ValueChange="OnSelectAllChanged"></SfCheckBox>
+    <div style="margin-left: 30px; margin-top: 10px;">
+        <SfCheckBox TChecked="bool" Label="Child Item 1" @bind-Checked="child1"></SfCheckBox>
+        <SfCheckBox TChecked="bool" Label="Child Item 2" @bind-Checked="child2"></SfCheckBox>
+        <SfCheckBox TChecked="bool" Label="Child Item 3" @bind-Checked="child3"></SfCheckBox>
+    </div>
+    <p>All Selected: <strong>@(selectAll && child1 && child2 && child3)</strong></p>
+</div>
+
+<style>
+    .test-container {
+        padding: 20px;
+        border: 1px solid #ddd;
+        margin: 10px 0;
+        border-radius: 4px;
+        background-color: #f9f9f9;
+    }
+    
+    h2 {
+        margin-top: 20px;
+        font-size: 18px;
+        font-weight: 600;
+    }
+    
+    button {
+        padding: 8px 16px;
+        margin-top: 10px;
+        cursor: pointer;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        background-color: #f0f0f0;
+    }
+    
+    button:hover {
+        background-color: #e0e0e0;
+    }
+    
+    p {
+        margin-top: 10px;
+        font-size: 14px;
+    }
+</style>
+
+@code {
+    private string dynamicLabel = "Original Label";
+    private bool labelChangeChecked = false;
+    private bool isDisabled = false;
+    private bool disabledStateChecked = false;
+    private bool isSmall = false;
+    private string dynamicCssClass = "";
+    private bool cssChangeChecked = false;
+    private bool isIndeterminate = false;
+    private bool indeterminateChangeChecked = false;
+    private bool selectAll = false;
+    private bool child1 = false;
+    private bool child2 = false;
+    private bool child3 = false;
+    
+    private void ChangeLabel()
+    {
+        dynamicLabel = dynamicLabel == "Original Label" ? "Changed Label" : "Original Label";
+    }
+    
+    private void ToggleDisabled()
+    {
+        isDisabled = !isDisabled;
+    }
+    
+    private void ToggleSize()
+    {
+        isSmall = !isSmall;
+        dynamicCssClass = isSmall ? "e-small" : "";
+    }
+    
+    private void ToggleIndeterminate()
+    {
+        isIndeterminate = !isIndeterminate;
+    }
+    
+    private void OnSelectAllChanged(CheckedChangeEventArgs<bool> args)
+    {
+        selectAll = args.Checked;
+        if (selectAll)
+        {
+            child1 = child2 = child3 = true;
+        }
+        else
+        {
+            child1 = child2 = child3 = false;
+        }
+    }
+}

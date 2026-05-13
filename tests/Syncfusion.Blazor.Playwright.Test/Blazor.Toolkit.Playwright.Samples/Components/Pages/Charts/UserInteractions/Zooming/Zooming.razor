@@ -1,0 +1,138 @@
+@page "/chart-zooming-playwright"
+@using Syncfusion.Blazor.Toolkit.Charts
+@layout MainLayout
+
+<h2>Chart Zooming – Playwright Converted Sample</h2>
+
+<div style="display:flex; flex-direction:column; gap:50px;">
+
+<!-- 1️⃣ Zooming events & interactions -->
+<SfChart ID="zoomingEvents"
+         Width="900px"
+         Height="450px"
+         OnZoomEnd="OnZoomEnd">
+        <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Toolkit.ValueType.DateTime"
+                       LabelFormat="yyyy"
+                       IntervalType="IntervalType.Years"
+                       EdgeLabelPlacement="EdgeLabelPlacement.Shift" />
+    <ChartSeriesCollection>
+        <ChartSeries DataSource="@ChartPoints"
+                     XName="Period"
+                     YName="JohnRevenue"
+                     Type="ChartSeriesType.Line">
+            <ChartMarker Visible="true" />
+        </ChartSeries>
+        <ChartSeries DataSource="@ChartPoints"
+                     XName="Period"
+                     YName="AndrewRevenue"
+                     Type="ChartSeriesType.Line">
+            <ChartMarker Visible="true" />
+        </ChartSeries>
+    </ChartSeriesCollection>
+
+    <ChartZoomSettings EnableSelectionZooming="true"
+                       EnableMouseWheelZooming="true"
+                       EnablePinchZooming="true"
+                       Mode="ZoomMode.XY" />
+</SfChart>
+
+<!-- 2️⃣ Zooming properties -->
+<SfChart ID="zoomingProperties"
+         Width="900px"
+         Height="450px">
+        <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Toolkit.ValueType.DateTime" />
+    <ChartSeriesCollection>
+        <ChartSeries DataSource="@ChartPoints"
+                     XName="Period"
+                     YName="JohnRevenue"
+                     Type="ChartSeriesType.Line" />
+    </ChartSeriesCollection>
+
+    <ChartZoomSettings EnableSelectionZooming="true"
+                       EnableMouseWheelZooming="true"
+                       EnablePinchZooming="true"
+                       EnablePan="true"
+                       EnableScrollbar="true"
+                       EnableDeferredZooming="false"
+                       ToolbarDisplayMode="ToolbarMode.Always"
+                       ToolbarItems="@ToolbarCollection"
+                       AccessibilityDescriptionFormat="Selected the ${value} option"
+                       AccessibilityRole="button"
+                       Focusable="false"
+                       Mode="ZoomMode.XY" />
+</SfChart>
+
+<!-- 3️⃣ Zoom toolbar position -->
+<SfChart ID="zoomingToolbarPosition"
+         Width="900px"
+         Height="450px">
+        <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Toolkit.ValueType.Category" />
+    <ChartSeriesCollection>
+        <ChartSeries DataSource="@SalesReports"
+                     XName="X"
+                     YName="YValue"
+                     Type="ChartSeriesType.Column" />
+    </ChartSeriesCollection>
+
+    <ChartZoomSettings EnableSelectionZooming="true"
+                       EnableMouseWheelZooming="true"
+                       EnablePinchZooming="true"
+                       ToolbarDisplayMode="ToolbarMode.Always">
+        <ChartZoomToolbarPosition
+            HorizontalAlign="HorizontalAlign.Left"
+            VerticalAlign="VerticalAlign.Top"
+            X="10"
+            Y="5" />
+    </ChartZoomSettings>
+</SfChart>
+
+</div>
+
+@code {
+
+    bool zoomEndTriggered;
+
+    void OnZoomEnd(ZoomingEventArgs args)
+    {
+        zoomEndTriggered = true;
+        Console.WriteLine("ZoomEnd event triggered");
+    }
+
+    public class ZoomData
+    {
+        public DateTime Period { get; set; }
+        public double JohnRevenue { get; set; }
+        public double AndrewRevenue { get; set; }
+    }
+
+    public List<ZoomData> ChartPoints = new()
+    {
+        new() { Period = new DateTime(2000, 2, 11), JohnRevenue = 14, AndrewRevenue = 39 },
+        new() { Period = new DateTime(2001, 2, 11), JohnRevenue = 25, AndrewRevenue = 28 },
+        new() { Period = new DateTime(2002, 2, 7),  JohnRevenue = 13, AndrewRevenue = 39 },
+        new() { Period = new DateTime(2003, 2, 11), JohnRevenue = 24, AndrewRevenue = 45 },
+        new() { Period = new DateTime(2004, 2, 6),  JohnRevenue = 19, AndrewRevenue = 54 }
+    };
+
+    public class SalesData
+    {
+        public string X { get; set; }
+        public double YValue { get; set; }
+    }
+
+    public List<SalesData> SalesReports = new()
+    {
+        new() { X="USA", YValue=50 },
+        new() { X="GBR", YValue=20 },
+        new() { X="CHN", YValue=26 }
+    };
+
+    public List<ToolbarItems> ToolbarCollection = new()
+    {
+        ToolbarItems.Zoom,
+        ToolbarItems.ZoomIn,
+        ToolbarItems.ZoomOut,
+        ToolbarItems.Pan,
+        ToolbarItems.Reset
+    };
+}

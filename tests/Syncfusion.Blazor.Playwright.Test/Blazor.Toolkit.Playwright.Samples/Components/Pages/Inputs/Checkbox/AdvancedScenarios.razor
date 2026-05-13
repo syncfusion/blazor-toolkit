@@ -1,0 +1,115 @@
+@page "/checkbox/advanced-scenarios"
+@using Syncfusion.Blazor.Toolkit.Inputs
+@layout MainLayout
+
+<h1>Checkbox - Advanced Scenarios</h1>
+
+<div class="test-container">
+    <h2>No Label with ARIA Label</h2>
+    <SfCheckBox TChecked="bool"
+                id="no-label-cb"
+                @bind-Checked="noLabelChecked"
+                InputAttributes="@ariaLabelAttributes">
+    </SfCheckBox>
+    <p>Checked: <strong>@noLabelChecked</strong></p>
+</div>
+
+<div class="test-container">
+    <h2>Long Label Text - Multi-line Wrapping</h2>
+    <div style="width: 400px;">
+        <SfCheckBox TChecked="bool"
+                    Label="@longLabel"
+                    @bind-Checked="longLabelChecked">
+        </SfCheckBox>
+    </div>
+    <p>Checked: <strong>@longLabelChecked</strong></p>
+</div>
+
+<div class="test-container">
+    <h2>Label with Special Characters</h2>
+    <SfCheckBox TChecked="bool"
+                Label="© 2024 Terms & Conditions"
+                @bind-Checked="specialCharsChecked">
+    </SfCheckBox>
+    <p>Checked: <strong>@specialCharsChecked</strong></p>
+</div>
+
+<div class="test-container">
+    <h2>Tri-State Cycling (Unchecked → Checked → Indeterminate → Unchecked)</h2>
+    <SfCheckBox TChecked="bool"
+                id="cycle-cb"
+                Label="Tri-State Cycle Test"
+                EnableTriState="true"
+                @bind-Indeterminate="isCycleIndeterminate"
+                @bind-Checked="cycleState">
+    </SfCheckBox>
+    <p>Current State: <strong>@cycleStateDisplay</strong></p>
+</div>
+
+<div class="test-container">
+    <h2>Custom Data Attributes</h2>
+    <SfCheckBox TChecked="bool"
+                id="complex-cb"
+                Label="Custom Attributes Test"
+                @bind-Checked="customAttrChecked"
+                InputAttributes="@customAttributes">
+    </SfCheckBox>
+    <p>Checked: <strong>@customAttrChecked</strong></p>
+</div>
+
+<style>
+    .test-container {
+        padding: 20px;
+        border: 1px solid #ddd;
+        margin: 10px 0;
+        border-radius: 4px;
+        background-color: #f9f9f9;
+    }
+
+    h2 {
+        margin-top: 20px;
+        font-size: 18px;
+        font-weight: 600;
+    }
+
+    p {
+        margin-top: 10px;
+        font-size: 14px;
+    }
+</style>
+
+@code {
+    // State variables
+    private bool noLabelChecked = false;
+    private bool longLabelChecked = false;
+    private bool specialCharsChecked = false;
+    private bool customAttrChecked = false;
+    private bool cycleState = false;
+    private bool isCycleIndeterminate = false;
+
+    private string longLabel = "This is a very long label text that should wrap to multiple lines when the checkbox component is rendering it in a constrained width container. It demonstrates how the label should behave with multi-line content while maintaining proper alignment with the checkbox element.";
+
+    private string cycleStateDisplay
+    {
+        get
+        {
+            if (isCycleIndeterminate)
+                return "Indeterminate";
+            return cycleState ? "Checked" : "Unchecked";
+        }
+    }
+
+    // ARIA label attributes for accessibility
+    private Dictionary<string, object> ariaLabelAttributes = new()
+    {
+        { "aria-label", "Checkbox without visible label" }
+    };
+
+    // Custom data attributes
+    private Dictionary<string, object> customAttributes = new()
+    {
+        { "data-custom", "value123" },
+        { "data-testid", "checkbox-element" },
+        { "title", "Hover to see this tooltip" }
+    };
+}

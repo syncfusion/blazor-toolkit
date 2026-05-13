@@ -1,0 +1,57 @@
+@page "/switch/state-persistence"
+@using Syncfusion.Blazor.Toolkit.Inputs
+@layout MainLayout
+
+<h1>Switch - State Persistence</h1>
+
+<div class="test-container">
+    <h2>Persistent Switch (EnablePersistence=true)</h2>
+    <p style="margin-bottom: 10px;">Change the switch state and reload - it retains state in localStorage.</p>
+    <SfSwitch Id="switch-persist-enabled"
+              EnablePersistence="true"
+              Label="Remember my preference"
+              @bind-Checked="persistValue" />
+    <p>Current Value: <strong id="persist-value">@persistValue</strong></p>
+    <p style="font-size: 12px; color: #666;">Storage Key: <code>Syncfusion.Blazor.Toolkit.Buttons.SfSwitch_switch-persist-enabled_Checked</code></p>
+</div>
+
+<div class="test-container">
+    <h2>Non-Persistent Switch (EnablePersistence=false)</h2>
+    <p style="margin-bottom: 10px;">This switch does NOT persist state across reloads.</p>
+    <SfSwitch Id="switch-persist-disabled"
+              Label="Temporary choice"
+              @bind-Checked="nonPersistValue" />
+    <p>Current Value: <strong>@nonPersistValue</strong></p>
+</div>
+
+<div class="test-container">
+    <h2>Multiple Persistent Switches</h2>
+    <SfSwitch Id="switch-persist-1"
+              EnablePersistence="true"
+              Label="Setting 1"
+              @bind-Checked="persist1" />
+    <p>Setting 1: <strong id="persist-1-value">@persist1</strong></p>
+    
+    <SfSwitch Id="switch-persist-2"
+              EnablePersistence="true"
+              Label="Setting 2"
+              @bind-Checked="persist2" />
+    <p>Setting 2: <strong id="persist-2-value">@persist2</strong></p>
+</div>
+
+<style>
+    .test-container {
+        padding: 20px;
+        border: 1px solid #ddd;
+        margin: 10px 0;
+        border-radius: 4px;
+        background-color: #f9f9f9;
+    }
+</style>
+
+@code {
+    bool persistValue;
+    bool nonPersistValue;
+    bool persist1;
+    bool persist2;
+}

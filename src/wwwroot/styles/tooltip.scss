@@ -1,0 +1,273 @@
+@use 'sass:color';
+@use './base.scss' as *;
+@use './animation.scss' as *;
+
+//layout variables
+$tooltip-drop-shadow: 0 4px 6px rgba(0, 0, 0, .2) !default;
+$tooltip-drop-shadow-filter: drop-shadow(2px 2px 5px rgba(0, 0, 0, .25)) !default;
+$tooltip-close-icon-border: 1px solid $border !default;
+$tooltip-icon-box-shadow: $shadow-sm !default;
+$tooltip-font-size: $text-xs !default;
+$tooltip-border-radius: $radius-4 !default;
+$border-size: 1px !default;
+$border-type: solid !default;
+$tooltip-opacity: 1 !default;
+$tooltip-arrow-outer-border: 8px !default;
+$tooltip-arrow-inner-border: 7px !default;
+$tooltip-horizontal-padding: 4px !default;
+$tooltip-vertical-padding: 8px !default;
+$tooltip-line-height: 16px !default;
+$tooltip-arrow-icon-font-size: $text-base !default;
+$tooltip-tip-bottom-height: 8px !default;
+$tooltip-tip-bottom-left: 50% !default;
+$tooltip-tip-bottom-top: 100% !default;
+$tooltip-tip-bottom-width: 16px !default;
+
+$tooltip-tip-top-height: 8px !default;
+$tooltip-tip-top-left: 50% !default;
+$tooltip-tip-top-top: -9px !default;
+$tooltip-tip-top-width: 16px !default;
+
+$tooltip-tip-left-height: 16px !default;
+$tooltip-tip-left-left: -9px !default;
+$tooltip-tip-left-top: 48% !default;
+$tooltip-tip-left-width: 8px !default;
+
+$tooltip-tip-right-height: 16px !default;
+$tooltip-tip-right-left: 100% !default;
+$tooltip-tip-right-top: 50% !default;
+$tooltip-tip-right-width: 8px !default;
+
+$tooltip-mobile-font-size: $text-sm !default;
+$tooltip-mobile-horizontal-padding: 8px !default;
+$tooltip-mobile-vertical-padding: 12px !default;
+
+//color variables
+$tooltip-content-bg-color: $tooltip-bg-color !default;
+$tooltip-content-border-color: $tooltip-border !default;
+$tooltip-content-font-color: $tooltip-text-color !default;
+$tooltip-default-icon-color: $icon-color !default;
+$tooltip-icon-bg-normal: $secondary-bg-color !default;
+$tooltip-hover-icon-color: $icon-color-hover !default;
+$tooltip-icon-bg-hover: $content-bg-color-hover !default;
+$tooltip-icon-border-color: $border !default;
+$tooltip-tip-content-line-height: 20px !default;
+$tooltip-zero-padding-margin: 0 !default;
+$tooltip-wrap-min-width: 30px !default;
+$tooltip-zero-height: 0 !default;
+$tooltip-one-line-height: 1 !default;
+$tooltip-close-right: -9px !default;
+$tooltip-close-top: -9px !default;
+$tooltip-full-height: 100% !default;
+$tooltip-full-width: 100% !default;
+$tooltip-nrml-close-border-radius: $radius-9 !default;
+$tooltip-nrml-close-border: 1px !default;
+$tooltip-nrml-close-height: 16px !default;
+$tooltip-nrml-close-width: 16px !default;
+
+@mixin tip-size($height, $left, $top, $width) {
+  height: $height;
+  left: $left;
+  top: $top;
+  width: $width;
+}
+
+@include export-module('tooltip-layout') {
+
+  .e-tooltip-popup-container {
+    position: relative;
+  }
+
+  .e-tooltip-wrap {
+    max-width: 350px;
+    min-width: $tooltip-wrap-min-width;
+    padding: $tooltip-zero-padding-margin;
+    position: absolute;
+    visibility: visible;
+
+    .e-arrow-tip {
+      overflow: hidden;
+      position: absolute;
+
+      &.e-tip-bottom {
+        @include tip-size($tooltip-tip-bottom-height, $tooltip-tip-bottom-left, $tooltip-tip-bottom-top, $tooltip-tip-bottom-width);
+      }
+
+      &.e-tip-top {
+        @include tip-size($tooltip-tip-top-height, $tooltip-tip-top-left, $tooltip-tip-top-top, $tooltip-tip-top-width);
+      }
+
+      &.e-tip-left {
+        @include tip-size($tooltip-tip-left-height, $tooltip-tip-left-left, $tooltip-tip-left-top, $tooltip-tip-left-width);
+      }
+
+      &.e-tip-right {
+        @include tip-size($tooltip-tip-right-height, $tooltip-tip-right-left, $tooltip-tip-right-top, $tooltip-tip-right-width);
+      }
+    }
+
+    .e-close {
+      cursor: pointer;
+      float: right;
+      position: absolute;
+      right: $tooltip-close-right;
+      top: $tooltip-close-top;
+      z-index: inherit;
+      border-radius: $tooltip-nrml-close-border-radius;
+      border-width: $tooltip-nrml-close-border;
+      box-shadow: $shadow-sm;
+      box-sizing: border-box;
+      height: $tooltip-nrml-close-height;
+      width: $tooltip-nrml-close-width;
+    }
+
+    .e-tip-content {
+      background-color: inherit;
+      height: $tooltip-full-height;
+      line-height: $tooltip-line-height;
+      overflow-wrap: break-word;
+      overflow-x: hidden;
+      padding: $tooltip-horizontal-padding $tooltip-vertical-padding;
+      position: relative;
+      white-space: normal;
+      width: $tooltip-full-width;
+      word-break: break-word;
+      z-index: 1;
+    }
+
+    &.e-rtl {
+      .e-close::before {
+      }
+    }
+  }
+  .e-tooltip-content-placeholder {
+    display: none;
+  }
+}
+
+@include export-module('tooltip-theme') {
+
+  .e-tooltip-wrap {
+    border-radius: $tooltip-border-radius;
+
+    &.e-popup {
+      background-color: $tooltip-content-bg-color;
+      border: $border-size $border-type $tooltip-content-border-color;
+      box-shadow: $tooltip-drop-shadow;
+      filter: $tooltip-drop-shadow-filter;
+    }
+
+    .e-arrow-tip-outer {
+      height: $tooltip-zero-height;
+      left: 0;
+      position: absolute;
+      top: 0;
+      width: $tooltip-zero-padding-margin;
+
+      &.e-tip-bottom {
+        border-left: $tooltip-arrow-outer-border $border-type transparent;
+        border-right: $tooltip-arrow-outer-border $border-type transparent;
+        border-top: $tooltip-arrow-outer-border $border-type $tooltip-content-border-color;
+      }
+
+      &.e-tip-top {
+        border-bottom: $tooltip-arrow-outer-border $border-type $tooltip-content-border-color;
+        border-left: $tooltip-arrow-outer-border $border-type transparent;
+        border-right: $tooltip-arrow-outer-border $border-type transparent;
+      }
+
+      &.e-tip-left {
+        border-bottom: $tooltip-arrow-outer-border $border-type transparent;
+        border-right: $tooltip-arrow-outer-border $border-type $tooltip-content-border-color;
+        border-top: $tooltip-arrow-outer-border $border-type transparent;
+      }
+
+      &.e-tip-right {
+        border-bottom: $tooltip-arrow-outer-border $border-type transparent;
+        border-left: $tooltip-arrow-outer-border $border-type $tooltip-content-border-color;
+        border-top: $tooltip-arrow-outer-border $border-type transparent;
+      }
+    }
+
+    .e-arrow-tip-inner {
+      height: $tooltip-zero-height;
+      position: absolute;
+      width: $tooltip-zero-padding-margin;
+      z-index: 10;
+
+      &.e-tip-right,
+      &.e-tip-left,
+      &.e-tip-bottom,
+      &.e-tip-top {
+        color: $tooltip-content-bg-color;
+        font-family: 'e-toolkit-icons';
+        font-size: $tooltip-arrow-icon-font-size;
+        font-style: normal;
+        font-variant: normal;
+        font-weight: normal;
+        line-height: 1;
+        text-transform: none;
+      }
+
+      &.e-tip-bottom,
+      &.e-tip-top {
+        right: $tooltip-arrow-icon-font-size;
+      }
+
+      &.e-tip-right,
+      &.e-tip-left {
+        bottom: $tooltip-arrow-icon-font-size;
+      }
+    }
+
+    .e-close {
+      background-color: $tooltip-icon-bg-normal;
+      border-color: $tooltip-icon-border-color;
+      border-radius: 8px;
+      color: $tooltip-default-icon-color;
+      &:hover {
+          background-color: $tooltip-icon-bg-hover;
+          color: $tooltip-hover-icon-color;
+      }
+    }
+
+    .e-tip-content {
+      border-radius: inherit;
+      color: $tooltip-content-font-color;
+      font-family: $font-family;
+      font-size: $tooltip-font-size;
+    }
+  }
+}
+
+.e-tooltip-wrap {
+    /*! Tooltip icons */
+    .e-toolkit-icons.e-close::before {
+        content: '\e709';
+        font-family: 'e-toolkit-icons';
+        font-size: 12px;
+        left: 2px;
+        position: absolute;
+        top: 2px;
+    }
+
+    .e-arrow-tip-inner.e-chevron-right-fill::before {
+        content: '\e719';
+        font-family: 'e-toolkit-icons';
+    }
+
+    .e-arrow-tip-inner.e-chevron-up-fill::before {
+        content: '\e716';
+        font-family: 'e-toolkit-icons';
+    }
+
+    .e-arrow-tip-inner.e-chevron-down-fill::before {
+        content: '\e717';
+        font-family: 'e-toolkit-icons';
+    }
+
+    .e-arrow-tip-inner.e-chevron-left-fill::before {
+        content: '\e718';
+        font-family: 'e-toolkit-icons';
+    }
+}

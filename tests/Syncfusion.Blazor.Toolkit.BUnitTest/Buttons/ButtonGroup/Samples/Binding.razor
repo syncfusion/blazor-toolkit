@@ -1,0 +1,52 @@
+﻿@using Syncfusion.Blazor.Toolkit.Buttons
+@namespace Syncfusion.Blazor.Toolkit.Tests.Buttons
+
+<table>
+    <tr>
+        <td>
+            <SfButtonGroup Mode="SelectionMode.Multiple">
+                <ButtonGroupButton @bind-Selected="_boldChecked">Bold</ButtonGroupButton>
+                <ButtonGroupButton @bind-Selected="_italicChecked">Italic</ButtonGroupButton>
+                <ButtonGroupButton @bind-Selected="_underlineChecked">Underline</ButtonGroupButton>
+            </SfButtonGroup>
+        </td>
+        <td>
+            Bold<input type="checkbox" @bind="_boldChecked" id="value-bind1" value="bold"/>
+            Italic<input type="checkbox" @bind="_italicChecked" id="value-bind2" value="italic"/>
+            Underline<input type="checkbox" @bind="_underlineChecked" id="value-bind3" value="underline"/>
+        </td>
+    </tr>
+    <tr>
+        <td>
+            <SfButtonGroup Mode="SelectionMode.Single">
+                <ButtonGroupButton @bind-Selected="_isTrueChecked" Value="true">True</ButtonGroupButton>
+                <ButtonGroupButton @bind-Selected="_isFalseChecked" Value="false">False</ButtonGroupButton>
+            </SfButtonGroup>
+        </td>
+        <td>
+            True<input type="radio" checked="@_isTrueChecked" name="major2" value="true" @onchange="@((ChangeEventArgs e) => OnChange(e, true))" />
+            False<input type="radio" checked="@_isFalseChecked" name="major2" value="false" @onchange="@( (ChangeEventArgs e) => OnChange(e, false))" />
+        </td>
+    </tr>
+</table>
+
+@code {
+    bool _boldChecked = false;
+    bool _italicChecked = false;
+    bool _underlineChecked = false;
+    bool _isTrueChecked = false;
+    bool _isFalseChecked = false;
+
+    private void OnChange(Microsoft.AspNetCore.Components.ChangeEventArgs args, bool value) {
+        if (value) 
+        {
+            _isTrueChecked = true;
+            _isFalseChecked = false;
+        } 
+        else 
+        {
+            _isTrueChecked = false;
+            _isFalseChecked = true;
+        }
+    }
+}

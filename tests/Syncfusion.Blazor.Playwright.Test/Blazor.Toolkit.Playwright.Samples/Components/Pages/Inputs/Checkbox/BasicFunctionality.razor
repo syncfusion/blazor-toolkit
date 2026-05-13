@@ -1,0 +1,68 @@
+@page "/checkbox/basic-functionality"
+@using Syncfusion.Blazor.Toolkit.Inputs
+@layout MainLayout
+
+<h1>Checkbox - Basic Functionality</h1>
+
+<div class="test-container">
+    <h2>Default Checkbox</h2>
+    <SfCheckBox TChecked="bool"
+                @bind-Checked="defaultChecked">
+    </SfCheckBox>
+    <p>Default Checked: <strong>@defaultChecked</strong></p>
+</div>
+
+<div class="test-container">
+    <h2>Checkbox with Label</h2>
+    <SfCheckBox TChecked="bool"
+                Label="Accept Terms and Conditions"
+                @bind-Checked="labelChecked">
+    </SfCheckBox>
+    <p>Checked: <strong>@labelChecked</strong></p>
+</div>
+
+<div class="test-container">
+    <h2>Checked State</h2>
+    <SfCheckBox TChecked="bool"
+                Label="I agree"
+                @bind-Checked="preChecked">
+    </SfCheckBox>
+    <p>Pre-checked State: <strong>@preChecked</strong></p>
+</div>
+
+<div class="test-container">
+    <h2>Toggle States</h2>
+    <SfCheckBox TChecked="bool"
+                Label="Toggle me"
+                @bind-Checked="toggleState">
+    </SfCheckBox>
+    <p>Current State: <strong>@toggleState</strong></p>
+</div>
+
+<style>
+    .test-container {
+        padding: 20px;
+        border: 1px solid #ddd;
+        margin: 10px 0;
+        border-radius: 4px;
+        background-color: #f9f9f9;
+    }
+
+    h2 {
+        margin-top: 20px;
+        font-size: 18px;
+        font-weight: 600;
+    }
+
+    p {
+        margin-top: 10px;
+        font-size: 14px;
+    }
+</style>
+
+@code {
+    private bool defaultChecked = false;
+    private bool labelChecked = false;
+    private bool preChecked = true;   // ✅ initial checked
+    private bool toggleState = false;
+}

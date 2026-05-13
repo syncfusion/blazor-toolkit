@@ -1,0 +1,114 @@
+@using Syncfusion.Blazor.Toolkit.Charts
+@using Syncfusion.Blazor.Toolkit.Tests
+@using Bunit
+@using Xunit
+
+@inherits TestComponentBase
+
+
+<SfFixture @ref="fixture" TestAsync="CheckingTheBottomLine" Description="CheckingTheBottomLine">
+    <ComponentUnderTest>
+        <SfChart ID="container">
+            <ChartPrimaryXAxis Title="PrimaryXAxis" ValueType="Syncfusion.Blazor.Toolkit.ValueType.Category"></ChartPrimaryXAxis>
+            <ChartPrimaryYAxis Title="PrimaryYaxis" RangePadding="ChartRangePadding.None"></ChartPrimaryYAxis>
+            <ChartSeriesCollection>
+                <ChartSeries DataSource="@Sales" XName="Month" YName="SalesValue" Type="ChartSeriesType.Column" Name="Gold" Fill="Red">
+                    <ChartSeriesAnimation Enable="false"></ChartSeriesAnimation>
+                </ChartSeries>
+            </ChartSeriesCollection>
+        </SfChart>
+    </ComponentUnderTest>
+</SfFixture>
+
+
+@code {
+
+    SfFixture fixture { get; set; }
+    async Task CheckingTheBottomLine(Fixture fixture)
+    {
+        var cut = fixture.GetComponentUnderTest<SfChart>();
+        await Task.Delay(200);
+        Assert.True(cut.Find("#container0_AxisLabel_3").InnerHtml == "Apr\n    ");
+        //Assert.True(cut.Find("#container_AxisTitle_1").GetAttribute("aria-label") == "PrimaryYaxis");
+        Assert.True(cut.Find("#container_Series_0_Point_2").GetAttribute("aria-label") == "Mar:34, Gold");
+        cut.SetParametersAndRender();
+    }
+    public class SalesInfo
+    {
+        public string Month { get; set; }
+        public double SalesValue { get; set; }
+    }
+
+    public List<SalesInfo> Sales = new List<SalesInfo>
+{
+        new SalesInfo { Month = "Jan", SalesValue = 35 },
+        new SalesInfo { Month = "Feb", SalesValue = 28 },
+        new SalesInfo { Month = "Mar", SalesValue = 34 },
+        new SalesInfo { Month = "Apr", SalesValue = 32 },
+        new SalesInfo { Month = "May", SalesValue = 40 },
+        new SalesInfo { Month = "Jun", SalesValue = 32 },
+        new SalesInfo { Month = "Jul", SalesValue = 35 }
+    };
+}
+
+@{
+    var InitialGroup1 = (new string[] { "CustomerID", "OrderID" });
+}
+
+<SfFixture @ref="fixture1" TestAsync="CheckingColumnApiDefinition" Description="CheckingColumnApiDefinition">
+    <ComponentUnderTest>
+        <SfChart ID="container" Title="Weather condition JPN vs DEU">
+            <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Toolkit.ValueType.Category" />
+            <ChartPrimaryYAxis Title="Temperature (Fahrenheit)" LabelFormat="{value}�F" Minimum="0" Maximum="90" Interval="20" />
+            <ChartColumns>
+                <ChartColumn Width="90%" BorderWidth="3" BorderColor="red"/>
+            </ChartColumns>
+            <ChartSeriesCollection>
+                <ChartSeries DataSource="@WeatherReports" XName="X" YName="Y" Type="ChartSeriesType.Column" />
+            </ChartSeriesCollection>
+        </SfChart>
+    </ComponentUnderTest>
+</SfFixture>
+
+
+@code {
+
+    SfFixture fixture1 { get; set; }
+    async Task CheckingColumnApiDefinition(Fixture fixture)
+    {
+        var cut = fixture1.GetComponentUnderTest<SfChart>();
+        await Task.Delay(200);
+        var columnBorder = cut.Find("#container_ColumnBorder_0");
+        Assert.True(columnBorder.GetAttribute("stroke") == "red");
+        Assert.True(columnBorder.GetAttribute("stroke-width") == "3");
+        var column = cut.FindComponent<ChartColumn>();
+        column.Instance.Width = "85%";
+        column.Instance.BorderWidth = 2;
+        column.Instance.BorderColor = "black";
+        cut.SetParametersAndRender();
+        // column.Instance.ComponentDispose();
+    }
+
+    public class ChartData
+    {
+        public string X { get; set; }
+        public double Y { get; set; }
+        public double Y1 { get; set; }
+    }
+
+    public List<ChartData> WeatherReports = new List<ChartData>
+    {
+        new ChartData{ X= "Jan", Y= 15, Y1= 33 },
+        new ChartData{ X= "Feb", Y= 20, Y1= 31 },
+        new ChartData{ X= "Mar", Y= 35, Y1= 30 },
+        new ChartData{ X= "Apr", Y= 40, Y1= 28 },
+        new ChartData{ X= "May", Y= 80, Y1= 29 },
+        new ChartData{ X= "Jun", Y= 70, Y1= 30 },
+        new ChartData{ X= "Jul", Y= 65, Y1= 33 },
+        new ChartData{ X= "Aug", Y= 55, Y1= 32 },
+        new ChartData{ X= "Sep", Y= 50, Y1= 34 },
+        new ChartData{ X= "Oct", Y= 30, Y1= 32 },
+        new ChartData{ X= "Nov", Y= 35, Y1= 32 },
+        new ChartData{ X= "Dec", Y= 35, Y1= 31 }
+    };
+}

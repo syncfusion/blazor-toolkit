@@ -1,0 +1,13 @@
+@page "/spinner/basic"
+@using Syncfusion.Blazor.Toolkit.Spinner
+
+<h3 id="basic-ready">Spinner Basic Ready</h3>
+
+<SfSpinner @ref="Spinner" />
+
+<button id="btn-show" @onclick="() => Spinner!.ShowAsync()">Show</button>
+<button id="btn-hide" @onclick="() => Spinner!.HideAsync()">Hide</button>
+
+@code {
+    SfSpinner? Spinner;
+}

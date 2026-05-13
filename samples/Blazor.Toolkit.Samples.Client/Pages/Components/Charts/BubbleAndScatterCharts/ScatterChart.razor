@@ -1,0 +1,3009 @@
+﻿@page "/charts/scatter-chart"
+@using Syncfusion.Blazor.Toolkit.Charts
+
+<PageTitle>Syncfusion Blazor Toolkit Scatter Chart Demo</PageTitle>
+
+
+
+<div class="@GetChartClass()">
+
+<Description>
+    <Header>
+        <h5>Overview</h5>
+    </Header>
+    <Content>
+      <p>The Blazor Scatter Chart is used to visualize the relationship between two numeric values by plotting individual data points. Each point represents a data item positioned using X and Y values, making the Chart useful for identifying correlations, patterns, clusters, and outliers in data analysis scenarios. To create a scatter chart, set the <code>Type</code> property of <code>ChartSeries</code> to <code>ChartSeriesType.Scatter</code>.</p>
+    </Content>
+</Description>
+
+<VirtualizeSection MinHeightPx="600px">
+    <CodePreview IsFullWidth="true" CodeSection="@overViewCode">
+    <PreviewSection>
+        
+        <SfChart @key="@_currentTheme" Theme="@_currentTheme">
+            <ChartTitleStyle Color="@TextColor" />
+            <ChartPrimaryXAxis Title="Shoulder Breadth (cm)" Minimum="40" Maximum="56" ValueType="Syncfusion.Blazor.Toolkit.ValueType.Double">
+                <ChartAxisLabelStyle Color="@TextColor" />
+            </ChartPrimaryXAxis>
+            <ChartPrimaryYAxis Title="Bust Chest Circumference (cm)" minimum="70" maximum="140" Interval="20" RangePadding="ChartRangePadding.None">
+                <ChartAxisLabelStyle Color="@TextColor" />
+            </ChartPrimaryYAxis>
+            
+                <ChartSeries DataSource="cluster1Value" Name="18-20 Years" LegendShape="LegendShape.Circle" Fill="#2CAFFE" Opacity="0.5" XName="Breadth" YName="Circumference" Type="ChartSeriesType.Scatter"></ChartSeries>
+                <ChartSeries DataSource="cluster2Value" Name="21-25 Years" LegendShape="LegendShape.Circle" Fill="#635DE5" Opacity="0.5" XName="Breadth" YName="Circumference" Type="ChartSeriesType.Scatter"></ChartSeries>
+                <ChartSeries DataSource="cluster3Value" Name="26-30 Years" LegendShape="LegendShape.Circle" Fill="#FFA330" Opacity="0.5" XName="Breadth" YName="Circumference" Type="ChartSeriesType.Scatter"></ChartSeries>
+                <ChartSeries DataSource="cluster4Value" Name="31-35 years" LegendShape="LegendShape.Circle" Fill="#FE6C38" Opacity="0.5" XName="Breadth" YName="Circumference" Type="ChartSeriesType.Scatter"></ChartSeries>
+                <ChartSeries DataSource="cluster5Value" Name="36+ Years" LegendShape="LegendShape.Circle" Fill="#7D9CCF" Opacity="0.5" XName="Breadth" YName="Circumference" Type="ChartSeriesType.Scatter"></ChartSeries>
+            
+                <ChartTooltipSettings Enable="true" Header="${series.name}" Format="Shoulder Breadth: <b>${point.x} cm</b><br/>Bust Chest Circumference: <b>${point.y} cm</b>" />
+        </SfChart>
+    </PreviewSection>
+</CodePreview>
+</VirtualizeSection>
+
+<Description>
+    <Header>
+        <h5>Data Label</h5>
+    </Header>
+    <Content>
+        <p>Data labels display the values of data points directly on the scatter Chart. They help users quickly understand exact values without relying on tooltips and automatically adjust to avoid overlapping, improving readability in analytical and reporting views. To display data labels, add the <code>ChartDataLabel</code> component inside the <code>ChartMarker</code> and set its <code>Visible</code> property to <code>true</code>.</p>
+    </Content>
+</Description>
+<VirtualizeSection MinHeightPx="600px">
+
+    <CodePreview IsFullWidth="true" CodeSection="@dataLabelCode">
+    <PreviewSection>
+    
+        <SfChart @key="@_currentTheme" Theme="@_currentTheme" Title="Weight by Height">
+            <ChartTitleStyle Color="@TextColor" />
+            <ChartTooltipSettings Enable="true" Header="${point.tooltip}" Format="Height: <b>${point.x} in</b><br/>Weight: <b>${point.y} kg</b>"/>
+          
+            <ChartPrimaryXAxis Title="Height (inches)" Minimum="50" Maximum="75" Interval="5" ValueType="Syncfusion.Blazor.Toolkit.ValueType.Double">
+                <ChartAxisLabelStyle Color="@TextColor" />
+            </ChartPrimaryXAxis>
+            <ChartPrimaryYAxis Title="Weight (kg)" minimum="50" maximum="160" Interval="20" RangePadding="ChartRangePadding.None">
+                <ChartAxisLabelStyle Color="@TextColor" />
+            </ChartPrimaryYAxis>
+            
+                <ChartSeries DataSource="scatterLabelData" Name="18-20 Years" LegendShape="LegendShape.Circle" Fill="#807BFF" EnableTooltip="true" Opacity="0.5" XName="Height" YName="Weight" Type="ChartSeriesType.Scatter">
+                    <ChartMarker Visible="true" Shape="ChartShape.Diamond" Height="15" Width="15">
+                        <ChartDataLabel Name="Name" Visible="true"/>
+                    </ChartMarker>
+                </ChartSeries>
+
+            
+        </SfChart>
+    </PreviewSection>
+</CodePreview>
+</VirtualizeSection>
+
+<Description>
+    <Header>
+        <h5>Customizing Point Shape</h5>
+    </Header>
+    <Content>
+        <p>The point shape in a Blazor Scatter Chart can be customized using marker shapes such as circle, diamond, rectangle, or triangle. Custom shapes help differentiate multiple series and improve visual clarity when comparing datasets in the same Chart. You can set the shape using the <code>Shape</code> property in the <code>ChartMarker</code>.</p>
+    </Content>
+</Description>
+<VirtualizeSection MinHeightPx="600px">
+<CodePreview IsFullWidth="true" CodeSection="@pointShapeCode">
+    <PreviewSection>
+        <SfChart Theme="@_currentTheme">
+            <ChartTitleStyle Color="@TextColor" />
+            <ChartTooltipSettings Enable="true" Header="${point.tooltip}" Format="Height: <b>${point.x} in</b><br/>Weight: <b>${point.y} kg</b>"/>
+           
+            <ChartPrimaryXAxis Title="Shoulder Breadth (cm)" Minimum="44" Maximum="54" ValueType="Syncfusion.Blazor.Toolkit.ValueType.Double">
+                <ChartAxisLabelStyle Color="@TextColor" />
+            </ChartPrimaryXAxis>
+            <ChartPrimaryYAxis Title="Bust Chest Circumference (cm)" minimum="70" maximum="140" Interval="20" RangePadding="ChartRangePadding.None">
+                <ChartAxisLabelStyle Color="@TextColor" />
+            </ChartPrimaryYAxis>
+            
+
+                <ChartSeries DataSource="shape2Value" Name="21-25 Years" LegendShape="LegendShape.Circle" Fill="#5853C6" EnableTooltip="true" Opacity="0.5" XName="Breadth" YName="Circumference" Type="ChartSeriesType.Scatter">
+                    <ChartMarker Visible="true" Shape="ChartShape.Rectangle" Height="10" Width="10">
+                    </ChartMarker>
+                </ChartSeries>
+                <ChartSeries DataSource="shape3Value" Name="26-30 Years" LegendShape="LegendShape.Circle" Fill="#FF9B1D" EnableTooltip="true" Opacity="0.5" XName="Breadth" YName="Circumference" Type="ChartSeriesType.Scatter">
+                    <ChartMarker Visible="true" Shape="ChartShape.Pentagon" Height="10" Width="10">
+                    </ChartMarker>
+                </ChartSeries>
+                <ChartSeries DataSource="shape4Value" Name="31-35 years" LegendShape="LegendShape.Circle" Fill="#FE6C38" EnableTooltip="true" Opacity="0.5" XName="Breadth" YName="Circumference" Type="ChartSeriesType.Scatter">
+                    <ChartMarker Visible="true" Shape="ChartShape.Diamond" Height="10" Width="10">
+                    </ChartMarker>
+                </ChartSeries>
+            
+        </SfChart>
+    </PreviewSection>
+</CodePreview>
+</VirtualizeSection>
+
+<Description>
+    <Header>
+        <h5>Customizing Point Size</h5>
+    </Header>
+    <Content>
+        <p>The point size can be adjusted by setting the marker height and width. Proper sizing ensures better visibility of data points, especially when working with dense or sparse datasets, and helps maintain a balanced Chart appearance. This is done by configuring the <code>Width</code> and <code>Height</code> properties of the <code>ChartMarker</code> component.</p>
+    </Content>
+</Description>
+<VirtualizeSection MinHeightPx="600px">
+<CodePreview IsFullWidth="true" CodeSection="@pointSizeCode">
+    <PreviewSection>
+        <SfChart Theme="@_currentTheme">
+            <ChartTitleStyle Color="@TextColor" />
+            <ChartTooltipSettings Enable="true" Header="${point.tooltip}" Format="Height: <b>${point.x} in</b><br/>Weight: <b>${point.y} kg</b>"/>
+         
+            <ChartPrimaryXAxis Title="Shoulder Breadth (cm)" Minimum="45" Maximum="50" ValueType="Syncfusion.Blazor.Toolkit.ValueType.Double">
+                <ChartAxisLabelStyle Color="@TextColor" />
+            </ChartPrimaryXAxis>
+            <ChartPrimaryYAxis Title="Bust Chest Circumference (cm)" minimum="70" maximum="140" Interval="20" RangePadding="ChartRangePadding.None">
+                <ChartAxisLabelStyle Color="@TextColor" />
+            </ChartPrimaryYAxis>
+            
+                <ChartSeries DataSource="shape2Value" Name="11-26 Years" LegendShape="LegendShape.Circle" Fill="#635DE5" EnableTooltip="true" Opacity="0.4" XName="Breadth" YName="Circumference" Type="ChartSeriesType.Scatter">
+                    <ChartMarker Visible="true" Shape="ChartShape.Circle" Height="18" Width="18">
+                    </ChartMarker>
+                </ChartSeries>
+                <ChartSeries DataSource="shape3Value" Name="26-30 years" LegendShape="LegendShape.Circle" Fill="#FFA330" EnableTooltip="true" Opacity="0.4" XName="Breadth" YName="Circumference" Type="ChartSeriesType.Scatter">
+                    <ChartMarker Visible="true" Shape="ChartShape.Circle" Height="8" Width="8">
+                    </ChartMarker>
+                </ChartSeries>
+
+            
+        </SfChart>
+    </PreviewSection>
+</CodePreview>
+</VirtualizeSection>
+
+<Description>
+    <Header>
+        <h5>Series Customization</h5>
+    </Header>
+    <Content>
+        <p>The scatter series can be customized using properties like fill color and opacity. These options help visually distinguish datasets, highlight trends, and align the Chart’s appearance with the application’s theme. Customize the series by setting properties like <code>Fill</code> and <code>Opacity</code> within the <code>ChartSeries</code> component.</p>
+    </Content>
+</Description>
+<VirtualizeSection MinHeightPx="600px">
+    <CodePreview IsFullWidth="true" CodeSection="@seriesCustomizationCode">
+    <PreviewSection>
+        <SfChart Theme="@_currentTheme">
+            <ChartTitleStyle Color="@TextColor" />
+            <ChartTooltipSettings Enable="true" Header="${point.tooltip}" Format="Height: <b>${point.x} in</b><br/>Weight: <b>${point.y} kg</b>"/>
+            
+            <ChartPrimaryXAxis Title="Shoulder Breadth (cm)" Minimum="40" Maximum="56" ValueType="Syncfusion.Blazor.Toolkit.ValueType.Double">
+                <ChartAxisLabelStyle Color="@TextColor" />
+            </ChartPrimaryXAxis>
+            <ChartPrimaryYAxis Title="Bust Chest Circumference (cm)" minimum="70" maximum="140" Interval="20" RangePadding="ChartRangePadding.None">
+                <ChartAxisLabelStyle Color="@TextColor" />
+            </ChartPrimaryYAxis>
+            
+                <ChartSeries DataSource="shape1Value" Name="18-20 Years" LegendShape="LegendShape.Circle" Fill="#2CAFFE" EnableTooltip="true" Opacity="0.5" XName="Breadth" YName="Circumference" Type="ChartSeriesType.Scatter">
+                    <ChartMarker Visible="true" Shape="ChartShape.Circle" Height="10" Width="10" Opacity="0.4">
+                    </ChartMarker>
+                </ChartSeries>
+                <ChartSeries DataSource="shape2Value" Name="21-25 Years" LegendShape="LegendShape.Circle" Fill="#5853C6" EnableTooltip="true" Opacity="0.5" XName="Breadth" YName="Circumference" Type="ChartSeriesType.Scatter">
+                    <ChartMarker Visible="true" Shape="ChartShape.Rectangle" Height="10" Width="10">
+                    </ChartMarker>
+                </ChartSeries>
+                <ChartSeries DataSource="shape3Value" Name="26-30 Years" LegendShape="LegendShape.Circle" Fill="#FF9B1D" EnableTooltip="true" Opacity="0.5" XName="Breadth" YName="Circumference" Type="ChartSeriesType.Scatter">
+                    <ChartMarker Visible="true" Shape="ChartShape.Diamond" Height="10" Width="10">
+                    </ChartMarker>
+                </ChartSeries>
+                <ChartSeries DataSource="shape4Value" Name="31-35 years" LegendShape="LegendShape.Circle" Fill="#FE6C38" EnableTooltip="true" Opacity="0.5" XName="Breadth" YName="Circumference" Type="ChartSeriesType.Scatter">
+                    <ChartMarker Visible="true" Shape="ChartShape.Rectangle" Height="10" Width="10">
+                    </ChartMarker>
+                </ChartSeries>
+                <ChartSeries DataSource="shape5Value" Name="36+ years" LegendShape="LegendShape.Circle" Fill="#7D9CCF" EnableTooltip="true" Opacity="0.5" XName="Breadth" YName="Circumference" Type="ChartSeriesType.Scatter">
+                    <ChartMarker Visible="true" Shape="ChartShape.Pentagon" Height="10" Width="10">
+                    </ChartMarker>
+                </ChartSeries>
+
+            
+        </SfChart>
+    </PreviewSection>
+</CodePreview>
+</VirtualizeSection>
+
+</div>
+@code{
+    public string overViewCode = @"<SfChart @key=""@_currentTheme"" Theme=""@_currentTheme"">
+            <ChartTitleStyle Color=""@TextColor"" />
+            <ChartPrimaryXAxis Title=""Shoulder Breadth (cm)"" Minimum=""40"" Maximum=""56"" ValueType=""Syncfusion.Blazor.Toolkit.ValueType.Double"">
+                <ChartAxisLabelStyle Color=""@TextColor"" />
+            </ChartPrimaryXAxis>
+            <ChartPrimaryYAxis Title=""Bust Chest Circumference (cm)"" minimum=""70"" maximum=""140"" Interval=""20"" RangePadding=""ChartRangePadding.None"">
+                <ChartAxisLabelStyle Color=""@TextColor"" />
+            </ChartPrimaryYAxis>
+            <ChartSeriesCollection>
+                <ChartSeries DataSource=""cluster1Value"" Name=""18-20 Years"" LegendShape=""LegendShape.Circle"" Fill=""#2CAFFE"" Opacity=""0.5"" XName=""Breadth"" YName=""Circumference"" Type=""ChartSeriesType.Scatter""></ChartSeries>
+                <ChartSeries DataSource=""cluster2Value"" Name=""21-25 Years"" LegendShape=""LegendShape.Circle"" Fill=""#635DE5"" Opacity=""0.5"" XName=""Breadth"" YName=""Circumference"" Type=""ChartSeriesType.Scatter""></ChartSeries>
+                <ChartSeries DataSource=""cluster3Value"" Name=""26-30 Years"" LegendShape=""LegendShape.Circle"" Fill=""#FFA330"" Opacity=""0.5"" XName=""Breadth"" YName=""Circumference"" Type=""ChartSeriesType.Scatter""></ChartSeries>
+                <ChartSeries DataSource=""cluster4Value"" Name=""31-35 years"" LegendShape=""LegendShape.Circle"" Fill=""#FE6C38"" Opacity=""0.5"" XName=""Breadth"" YName=""Circumference"" Type=""ChartSeriesType.Scatter""></ChartSeries>
+                <ChartSeries DataSource=""cluster5Value"" Name=""36+ Years"" LegendShape=""LegendShape.Circle"" Fill=""#7D9CCF"" Opacity=""0.5"" XName=""Breadth"" YName=""Circumference"" Type=""ChartSeriesType.Scatter""></ChartSeries>
+            </ChartSeriesCollection>
+                <ChartTooltipSettings Enable=""true"" Header=""${series.name}"" Format=""Shoulder Breadth: <b>${point.x} cm</b><br/>Bust Chest Circumference: <b>${point.y} cm</b>"" />
+        </SfChart>
+@code {
+ 
+    private Theme _currentTheme = Theme.Fluent;
+    private bool IsDarkTheme => _currentTheme.ToString().Contains(""Dark"") || _currentTheme.ToString().Contains(""HighContrast"");
+    private string TextColor => IsDarkTheme ? ""#E6EEF8"" : ""#0B1F3B"";
+    public class ClusterValue
+    {
+        public double Breadth { get; set; }
+        public double Circumference { get; set; }
+    }
+
+    private static List<ClusterValue> shape1Value = new()
+    {
+        new() { Breadth = 41.3, Circumference = 78.1 },
+        new() { Breadth = 41.3, Circumference = 78.04 },
+        new() { Breadth = 42.9, Circumference = 78.9 },
+        new() { Breadth = 42.4, Circumference = 80.4 },
+        new() { Breadth = 42.3, Circumference = 81.7 },
+        new() { Breadth = 42.1, Circumference = 83.9 },
+        new() { Breadth = 41.9, Circumference = 82.9 },
+        new() { Breadth = 41.6, Circumference = 84.6 },
+        new() { Breadth = 41.6, Circumference = 84.6 },
+        new() { Breadth = 41.5, Circumference = 85.1 },
+        new() { Breadth = 41.5, Circumference = 84.3 },
+        new() { Breadth = 41.5, Circumference = 84.3 },
+        new() { Breadth = 41.9, Circumference = 87.9 },
+        new() { Breadth = 42.6, Circumference = 84.0 },
+        new() { Breadth = 42.6, Circumference = 84.0 },
+        new() { Breadth = 42.9, Circumference = 84.9 },
+        new() { Breadth = 42.9, Circumference = 84.9 },
+        new() { Breadth = 43.4, Circumference = 85.8 },
+        new() { Breadth = 43.1, Circumference = 83.5 },
+        new() { Breadth = 42.9, Circumference = 82.2 },
+        new() { Breadth = 43.2, Circumference = 81.7 },
+        new() { Breadth = 43.5, Circumference = 82.8 },
+        new() { Breadth = 43.7, Circumference = 82.7 },
+        new() { Breadth = 43.5, Circumference = 81.3 },
+        new() { Breadth = 43.7, Circumference = 80.9 },
+        new() { Breadth = 43.7, Circumference = 80.9 },
+        new() { Breadth = 43.5, Circumference = 89.4 },
+        new() { Breadth = 43.5, Circumference = 79.4 },
+        new() { Breadth = 43.7, Circumference = 89.0 },
+        new() { Breadth = 43.5, Circumference = 88.4 },
+        new() { Breadth = 43.5, Circumference = 88.4 },
+        new() { Breadth = 43.4, Circumference = 89.4 },
+        new() { Breadth = 43.0, Circumference = 91.5 },
+        new() { Breadth = 42.6, Circumference = 87.9 },
+        new() { Breadth = 42.9, Circumference = 88.4 },
+        new() { Breadth = 42.9, Circumference = 86.8 },
+        new() { Breadth = 42.9, Circumference = 86.8 },
+        new() { Breadth = 43.1, Circumference = 88.5 },
+        new() { Breadth = 44.2, Circumference = 84.7 },
+        new() { Breadth = 44.2, Circumference = 84.7 },
+        new() { Breadth = 44.1, Circumference = 88.6 },
+        new() { Breadth = 44.1, Circumference = 88.6 },
+        new() { Breadth = 43.9, Circumference = 87.6 },
+        new() { Breadth = 44.0, Circumference = 86.6 },
+        new() { Breadth = 44.3, Circumference = 86.5 },
+        new() { Breadth = 44.3, Circumference = 86.59 },
+        new() { Breadth = 44.5, Circumference = 86.9 },
+        new() { Breadth = 44.5, Circumference = 85.5 },
+        new() { Breadth = 44.8, Circumference = 85.8 },
+        new() { Breadth = 45.0, Circumference = 84.6 },
+        new() { Breadth = 45.0, Circumference = 84.64 },
+        new() { Breadth = 44.9, Circumference = 82.7 },
+        new() { Breadth = 44.8, Circumference = 83.7 },
+        new() { Breadth = 44.89, Circumference = 83.75 },
+        new() { Breadth = 44.6, Circumference = 83.3 },
+        new() { Breadth = 44.65, Circumference = 83.37 },
+        new() { Breadth = 44.65, Circumference = 84.5 },
+        new() { Breadth = 44.65, Circumference = 84.53 },
+        new() { Breadth = 44.2, Circumference = 81.8 },
+        new() { Breadth = 44.9, Circumference = 80.2 },
+        new() { Breadth = 45.1, Circumference = 85.5 },
+        new() { Breadth = 44.7, Circumference = 87.1 },
+        new() { Breadth = 44.70, Circumference = 87.10 },
+        new() { Breadth = 44.70, Circumference = 87.1 },
+        new() { Breadth = 44.9, Circumference = 86.8 },
+        new() { Breadth = 45.1, Circumference = 87.2 },
+        new() { Breadth = 45.0, Circumference = 88.6 },
+        new() { Breadth = 45.0, Circumference = 89.4 },
+        new() { Breadth = 45.0, Circumference = 89.4 },
+        new() { Breadth = 44.7, Circumference = 88.5 },
+        new() { Breadth = 44.4, Circumference = 88.3 },
+        new() { Breadth = 44.4, Circumference = 88.39 },
+        new() { Breadth = 44.5, Circumference = 89.4 },
+        new() { Breadth = 44.4, Circumference = 90.0 },
+        new() { Breadth = 43.9, Circumference = 89.3 },
+        new() { Breadth = 44.2, Circumference = 90.2 },
+        new() { Breadth = 44.0, Circumference = 91.2 },
+        new() { Breadth = 44.0, Circumference = 91.24 },
+        new() { Breadth = 44.1, Circumference = 88.5 },
+        new() { Breadth = 44.16, Circumference = 88.53 },
+        new() { Breadth = 44.16, Circumference = 88.535 },
+        new() { Breadth = 44.2, Circumference = 91.7 },
+        new() { Breadth = 44.2, Circumference = 91.75 },
+        new() { Breadth = 43.9, Circumference = 92.79 },
+        new() { Breadth = 43.9, Circumference = 92.7 },
+        new() { Breadth = 44.2, Circumference = 94.8 },
+        new() { Breadth = 44.0, Circumference = 93.8 },
+        new() { Breadth = 44.0, Circumference = 93.81 },
+        new() { Breadth = 44.4, Circumference = 95.6 },
+        new() { Breadth = 44.8, Circumference = 97.4 },
+        new() { Breadth = 44.8, Circumference = 93.6 },
+        new() { Breadth = 44.8, Circumference = 93.67 },
+        new() { Breadth = 44.6, Circumference = 92.5 },
+        new() { Breadth = 44.7, Circumference = 94.5 },
+        new() { Breadth = 45.2, Circumference = 92.2 },
+        new() { Breadth = 45.2, Circumference = 92.24 },
+        new() { Breadth = 45.1, Circumference = 94.0 },
+        new() { Breadth = 45.1, Circumference = 94.0 },
+        new() { Breadth = 44.9, Circumference = 90.4 },
+        new() { Breadth = 44.9, Circumference = 89.4 },
+        new() { Breadth = 44.7, Circumference = 90.4 },
+        new() { Breadth = 44.7, Circumference = 90.45 },
+        new() { Breadth = 41.3, Circumference = 78.0 },
+        new() { Breadth = 42.9, Circumference = 78.9 },
+        new() { Breadth = 42.4, Circumference = 80.4 },
+        new() { Breadth = 42.3, Circumference = 81.7 },
+        new() { Breadth = 42.1, Circumference = 83.9 },
+        new() { Breadth = 41.9, Circumference = 82.9 },
+        new() { Breadth = 41.6, Circumference = 84.6 },
+        new() { Breadth = 41.6, Circumference = 84.60 },
+        new() { Breadth = 41.5, Circumference = 85.1 },
+        new() { Breadth = 41.5, Circumference = 84.3 },
+        new() { Breadth = 41.5, Circumference = 84.34 },
+        new() { Breadth = 41.9, Circumference = 87.9 },
+        new() { Breadth = 42.6, Circumference = 84.0 },
+        new() { Breadth = 42.6, Circumference = 84.0 },
+        new() { Breadth = 42.9, Circumference = 84.9 },
+        new() { Breadth = 42.9, Circumference = 84.9 },
+        new() { Breadth = 43.4, Circumference = 85.8 },
+        new() { Breadth = 43.1, Circumference = 83.5 },
+        new() { Breadth = 42.9, Circumference = 82.2 },
+        new() { Breadth = 43.2, Circumference = 81.7 },
+        new() { Breadth = 43.5, Circumference = 82.8 },
+        new() { Breadth = 43.7, Circumference = 82.7 },
+        new() { Breadth = 43.5, Circumference = 81.3 },
+        new() { Breadth = 43.7, Circumference = 80.9 },
+        new() { Breadth = 43.7, Circumference = 80.94 },
+        new() { Breadth = 43.5, Circumference = 79.4 },
+        new() { Breadth = 43.5, Circumference = 79.40 },
+        new() { Breadth = 43.7, Circumference = 89.0 },
+        new() { Breadth = 43.5, Circumference = 88.4 },
+        new() { Breadth = 43.5, Circumference = 88.42 },
+        new() { Breadth = 43.4, Circumference = 89.45 },
+        new() { Breadth = 43.0, Circumference = 91.5 },
+        new() { Breadth = 42.6, Circumference = 87.9 },
+        new() { Breadth = 42.9, Circumference = 88.4 },
+        new() { Breadth = 42.9, Circumference = 86.8 },
+        new() { Breadth = 42.95, Circumference = 86.89 },
+        new() { Breadth = 43.1, Circumference = 88.5 },
+        new() { Breadth = 44.2, Circumference = 84.7 },
+        new() { Breadth = 44.2, Circumference = 84.7 },
+        new() { Breadth = 44.1, Circumference = 88.6 },
+        new() { Breadth = 44.1, Circumference = 88.66 },
+        new() { Breadth = 43.9, Circumference = 87.6 },
+        new() { Breadth = 44.0, Circumference = 86.6 },
+        new() { Breadth = 44.3, Circumference = 86.5 },
+        new() { Breadth = 44.3, Circumference = 86.5 },
+        new() { Breadth = 44.5, Circumference = 86.9 },
+        new() { Breadth = 44.57, Circumference = 85.5 },
+        new() { Breadth = 44.8, Circumference = 85.8 },
+        new() { Breadth = 45.0, Circumference = 84.6 },
+        new() { Breadth = 45.0, Circumference = 84.64 },
+        new() { Breadth = 44.9, Circumference = 82.7 },
+        new() { Breadth = 44.8, Circumference = 83.7 },
+        new() { Breadth = 44.8, Circumference = 83.75 },
+        new() { Breadth = 44.6, Circumference = 83.3 },
+        new() { Breadth = 44.65, Circumference = 83.37 },
+        new() { Breadth = 44.65, Circumference = 84.5 },
+        new() { Breadth = 44.65, Circumference = 84.53 },
+        new() { Breadth = 44.2, Circumference = 81.8 },
+        new() { Breadth = 44.9, Circumference = 80.2 },
+        new() { Breadth = 45.1, Circumference = 85.5 },
+        new() { Breadth = 44.7, Circumference = 87.1 },
+        new() { Breadth = 44.7, Circumference = 87.10 },
+        new() { Breadth = 44.70, Circumference = 87.10 },
+        new() { Breadth = 44.9, Circumference = 86.8 },
+        new() { Breadth = 45.1, Circumference = 87.2 },
+        new() { Breadth = 45.0, Circumference = 88.6 },
+        new() { Breadth = 45.0, Circumference = 89.4 },
+        new() { Breadth = 45.0, Circumference = 89.41 },
+        new() { Breadth = 44.7, Circumference = 88.5 },
+        new() { Breadth = 44.4, Circumference = 88.3 },
+        new() { Breadth = 44.4, Circumference = 88.3 },
+        new() { Breadth = 44.5, Circumference = 89.4 },
+        new() { Breadth = 44.4, Circumference = 90.0 },
+        new() { Breadth = 43.9, Circumference = 89.3 },
+        new() { Breadth = 44.20, Circumference = 90.2 },
+        new() { Breadth = 44.0, Circumference = 91.2 },
+        new() { Breadth = 44.0, Circumference = 91.24 },
+        new() { Breadth = 44.1, Circumference = 88.5 },
+        new() { Breadth = 44.1, Circumference = 88.53 },
+        new() { Breadth = 44.16, Circumference = 88.5 },
+        new() { Breadth = 44.2, Circumference = 91.7 },
+        new() { Breadth = 44.2, Circumference = 91.75 },
+        new() { Breadth = 43.9, Circumference = 92.7 },
+        new() { Breadth = 43.9, Circumference = 92.79 },
+        new() { Breadth = 44.2, Circumference = 94.8 },
+        new() { Breadth = 44.0, Circumference = 93.8 },
+        new() { Breadth = 44.0, Circumference = 93.81 },
+        new() { Breadth = 44.4, Circumference = 95.6 },
+        new() { Breadth = 44.8, Circumference = 97.4 },
+        new() { Breadth = 44.8, Circumference = 93.6 },
+        new() { Breadth = 44.81, Circumference = 93.67 },
+        new() { Breadth = 44.6, Circumference = 92.5 },
+        new() { Breadth = 44.7, Circumference = 94.57 },
+        new() { Breadth = 45.2, Circumference = 92.2 },
+        new() { Breadth = 45.2, Circumference = 92.24 },
+        new() { Breadth = 45.1, Circumference = 94.0 },
+        new() { Breadth = 45.1, Circumference = 94.0 },
+        new() { Breadth = 44.9, Circumference = 90.4 },
+        new() { Breadth = 44.9, Circumference = 89.4 },
+        new() { Breadth = 44.7, Circumference = 90.4 },
+        new() { Breadth = 44.7, Circumference = 90.45 }
+    };
+
+    private static List<ClusterValue> shape2Value = new()
+    {
+        new() { Breadth = 45.6, Circumference = 91.6 },
+        new() { Breadth = 46.0, Circumference = 92.6 },
+        new() { Breadth = 46.4, Circumference = 94.7 },
+        new() { Breadth = 46.9, Circumference = 97.3 },
+        new() { Breadth = 46.9, Circumference = 97.3 },
+        new() { Breadth = 46.8, Circumference = 98.7 },
+        new() { Breadth = 46.84, Circumference = 98.72 },
+        new() { Breadth = 45.4, Circumference = 95.9 },
+        new() { Breadth = 45.4, Circumference = 94.8 },
+        new() { Breadth = 45.2, Circumference = 97.2 },
+        new() { Breadth = 45.2, Circumference = 95.9 },
+        new() { Breadth = 45.3, Circumference = 97.4 },
+        new() { Breadth = 46.2, Circumference = 96.6 },
+        new() { Breadth = 46.2, Circumference = 98.3 },
+        new() { Breadth = 46.3, Circumference = 96.9 },
+        new() { Breadth = 46.3, Circumference = 96.9 },
+        new() { Breadth = 46.0, Circumference = 97.0 },
+        new() { Breadth = 46.0, Circumference = 97.7 },
+        new() { Breadth = 45.7, Circumference = 97.5 },
+        new() { Breadth = 45.7, Circumference = 98.8 },
+        new() { Breadth = 45.79, Circumference = 98.88 },
+        new() { Breadth = 45.79, Circumference = 98.88 },
+        new() { Breadth = 45.6, Circumference = 98.7 },
+        new() { Breadth = 45.63, Circumference = 98.75 },
+        new() { Breadth = 45.5, Circumference = 99.9 },
+        new() { Breadth = 45.6, Circumference = 101.4 },
+        new() { Breadth = 45.7, Circumference = 102.6 },
+        new() { Breadth = 45.7, Circumference = 102.62 },
+        new() { Breadth = 45.3, Circumference = 101.3 },
+        new() { Breadth = 45.3, Circumference = 103.0 },
+        new() { Breadth = 45.1, Circumference = 100.7 },
+        new() { Breadth = 45.1, Circumference = 100.70 },
+        new() { Breadth = 45.5, Circumference = 102.7 },
+        new() { Breadth = 45.5, Circumference = 103.9 },
+        new() { Breadth = 45.4, Circumference = 105.3 },
+        new() { Breadth = 45.2, Circumference = 108.1 },
+        new() { Breadth = 45.6, Circumference = 108.2 },
+        new() { Breadth = 45.5, Circumference = 107.3 },
+        new() { Breadth = 46.3, Circumference = 107.6 },
+        new() { Breadth = 45.9, Circumference = 106.0 },
+        new() { Breadth = 45.8, Circumference = 104.9 },
+        new() { Breadth = 45.9, Circumference = 104.1 },
+        new() { Breadth = 46.0, Circumference = 103.7 },
+        new() { Breadth = 46.07, Circumference = 105.3 },
+        new() { Breadth = 46.0, Circumference = 105.31 },
+        new() { Breadth = 46.3, Circumference = 105.4 },
+        new() { Breadth = 46.3, Circumference = 105.43 },
+        new() { Breadth = 46.5, Circumference = 105.1 },
+        new() { Breadth = 46.58, Circumference = 105.17 },
+        new() { Breadth = 46.6, Circumference = 104.5 },
+        new() { Breadth = 46.7, Circumference = 104.2 },
+        new() { Breadth = 46.5, Circumference = 102.9 },
+        new() { Breadth = 46.4, Circumference = 102.7 },
+        new() { Breadth = 46.0, Circumference = 102.6 },
+        new() { Breadth = 46.2, Circumference = 104.1 },
+        new() { Breadth = 46.2, Circumference = 104.15 },
+        new() { Breadth = 46.2, Circumference = 104.15 },
+        new() { Breadth = 46.3, Circumference = 101.3 },
+        new() { Breadth = 46.6, Circumference = 100.4 },
+        new() { Breadth = 46.4, Circumference = 99.6 },
+        new() { Breadth = 46.4, Circumference = 100.2 },
+        new() { Breadth = 46.1, Circumference = 100.29 },
+        new() { Breadth = 45.9, Circumference = 99.5 },
+        new() { Breadth = 46.94, Circumference = 102.0 },
+        new() { Breadth = 46.9, Circumference = 102.07 },
+        new() { Breadth = 47.1, Circumference = 99.8 },
+        new() { Breadth = 46.8, Circumference = 101.1 },
+        new() { Breadth = 47.0, Circumference = 101.2 },
+        new() { Breadth = 47.7, Circumference = 96.7 },
+        new() { Breadth = 47.5, Circumference = 98.9 },
+        new() { Breadth = 47.5, Circumference = 100.3 },
+        new() { Breadth = 47.5, Circumference = 100.38 },
+        new() { Breadth = 47.5, Circumference = 101.5 },
+        new() { Breadth = 47.2, Circumference = 102.9 },
+        new() { Breadth = 46.8, Circumference = 103.7 },
+        new() { Breadth = 47.1, Circumference = 102.4 },
+        new() { Breadth = 46.9, Circumference = 104.2 },
+        new() { Breadth = 47.0, Circumference = 105.2 },
+        new() { Breadth = 46.7, Circumference = 106.4 },
+        new() { Breadth = 47.1, Circumference = 106.0 },
+        new() { Breadth = 46.9, Circumference = 106.0 },
+        new() { Breadth = 47.0, Circumference = 106.4 },
+        new() { Breadth = 47.2, Circumference = 106.5 },
+        new() { Breadth = 47.2, Circumference = 108.2 },
+        new() { Breadth = 47.2, Circumference = 109.1 },
+        new() { Breadth = 47.0, Circumference = 109.9 },
+        new() { Breadth = 46.9, Circumference = 108.3 },
+        new() { Breadth = 46.5, Circumference = 108.9 },
+        new() { Breadth = 47.1, Circumference = 113.9 },
+        new() { Breadth = 46.3, Circumference = 113.5 },
+        new() { Breadth = 46.3, Circumference = 110.8 },
+        new() { Breadth = 46.32, Circumference = 110.8 },
+        new() { Breadth = 46.4, Circumference = 111.7 },
+        new() { Breadth = 46.8, Circumference = 112.2 },
+        new() { Breadth = 46.9, Circumference = 112.2 },
+        new() { Breadth = 47.1, Circumference = 111.7 },
+        new() { Breadth = 47.3, Circumference = 110.8 },
+        new() { Breadth = 47.4, Circumference = 106.8 }
+    };
+
+    private static List<ClusterValue> shape3Value = new()
+    {
+        new() { Breadth = 47.6, Circumference = 96.5 },
+        new() { Breadth = 47.6, Circumference = 98.3 },
+        new() { Breadth = 47.5, Circumference = 100.2 },
+        new() { Breadth = 47.5, Circumference = 103.0 },
+        new() { Breadth = 47.6, Circumference = 104.3 },
+        new() { Breadth = 47.8, Circumference = 103.7 },
+        new() { Breadth = 48.3, Circumference = 102.9 },
+        new() { Breadth = 48.2, Circumference = 103.7 },
+        new() { Breadth = 48.3, Circumference = 103.8 },
+        new() { Breadth = 48.6, Circumference = 103.7 },
+        new() { Breadth = 48.7, Circumference = 104.4 },
+        new() { Breadth = 48.8, Circumference = 103.7 },
+        new() { Breadth = 48.3, Circumference = 105.5 },
+        new() { Breadth = 48.3, Circumference = 105.52 },
+        new() { Breadth = 48.4, Circumference = 106.2 },
+        new() { Breadth = 48.46, Circumference = 104.7 },
+        new() { Breadth = 48.7, Circumference = 104.9 },
+        new() { Breadth = 48.7, Circumference = 104.99 },
+        new() { Breadth = 48.7, Circumference = 104.9 },
+        new() { Breadth = 48.8, Circumference = 106.66 },
+        new() { Breadth = 49.3, Circumference = 106.2 },
+        new() { Breadth = 49.0, Circumference = 106.0 },
+        new() { Breadth = 49.2, Circumference = 104.3 },
+        new() { Breadth = 49.7, Circumference = 109.8 },
+        new() { Breadth = 49.6, Circumference = 108.0 },
+        new() { Breadth = 49.5, Circumference = 108.0 },
+        new() { Breadth = 49.3, Circumference = 106.7 },
+        new() { Breadth = 49.1, Circumference = 106.78 },
+        new() { Breadth = 49.0, Circumference = 108.3 },
+        new() { Breadth = 49.1, Circumference = 109.2 },
+        new() { Breadth = 49.3, Circumference = 108.0 },
+        new() { Breadth = 48.9, Circumference = 107.3 },
+        new() { Breadth = 47.7, Circumference = 106.9 },
+        new() { Breadth = 48.1, Circumference = 106.6 },
+        new() { Breadth = 47.9, Circumference = 105.9 },
+        new() { Breadth = 47.9, Circumference = 107.5 },
+        new() { Breadth = 47.8, Circumference = 107.0 },
+        new() { Breadth = 47.8, Circumference = 107.0 },
+        new() { Breadth = 48.3, Circumference = 107.06 },
+        new() { Breadth = 48.1, Circumference = 108.1 },
+        new() { Breadth = 48.4, Circumference = 107.7 },
+        new() { Breadth = 48.2, Circumference = 107.71 },
+        new() { Breadth = 48.3, Circumference = 108.8 },
+        new() { Breadth = 48.31, Circumference = 109.8 },
+        new() { Breadth = 48.0, Circumference = 108.8 },
+        new() { Breadth = 47.9, Circumference = 109.3 },
+        new() { Breadth = 47.8, Circumference = 109.9 },
+        new() { Breadth = 47.8, Circumference = 110.9 },
+        new() { Breadth = 47.82, Circumference = 112.4 },
+        new() { Breadth = 48.1, Circumference = 112.6 },
+        new() { Breadth = 47.9, Circumference = 111.3 },
+        new() { Breadth = 47.9, Circumference = 111.32 },
+        new() { Breadth = 48.6, Circumference = 112.9 },
+        new() { Breadth = 48.0, Circumference = 113.2 },
+        new() { Breadth = 47.8, Circumference = 108.8 },
+        new() { Breadth = 49.0, Circumference = 115.0 },
+        new() { Breadth = 48.9, Circumference = 115.0 },
+        new() { Breadth = 47.6, Circumference = 108.2 },
+        new() { Breadth = 47.6, Circumference = 110.0 },
+        new() { Breadth = 47.7, Circumference = 108.6 },
+        new() { Breadth = 47.9, Circumference = 117.5 },
+        new() { Breadth = 48.3, Circumference = 118.3 },
+        new() { Breadth = 48.6, Circumference = 118.9 },
+        new() { Breadth = 48.7, Circumference = 122.3 },
+        new() { Breadth = 49.4, Circumference = 120.8 },
+        new() { Breadth = 49.3, Circumference = 117.7 },
+        new() { Breadth = 48.6, Circumference = 115.9 },
+        new() { Breadth = 48.7, Circumference = 116.4 },
+        new() { Breadth = 48.3, Circumference = 115.5 },
+        new() { Breadth = 49.2, Circumference = 115.2 },
+        new() { Breadth = 49.5, Circumference = 115.27 },
+        new() { Breadth = 48.6, Circumference = 113.2 },
+        new() { Breadth = 48.5, Circumference = 112.4 },
+        new() { Breadth = 49.0, Circumference = 113.2 },
+        new() { Breadth = 48.9, Circumference = 112.5 },
+        new() { Breadth = 48.8, Circumference = 110.9 },
+        new() { Breadth = 48.6, Circumference = 109.8 },
+        new() { Breadth = 48.6, Circumference = 108.0 },
+        new() { Breadth = 48.5, Circumference = 110.4 },
+        new() { Breadth = 48.5, Circumference = 108.8 },
+        new() { Breadth = 48.8, Circumference = 110.6 },
+        new() { Breadth = 48.8, Circumference = 110.65 },
+        new() { Breadth = 49.0, Circumference = 109.8 },
+        new() { Breadth = 49.2, Circumference = 111.6 },
+        new() { Breadth = 48.8, Circumference = 111.9 },
+        new() { Breadth = 48.9, Circumference = 111.6 },
+        new() { Breadth = 49.3, Circumference = 111.4 },
+        new() { Breadth = 49.3, Circumference = 111.42 },
+        new() { Breadth = 49.3, Circumference = 111.6 },
+        new() { Breadth = 49.4, Circumference = 112.1 },
+        new() { Breadth = 49.5, Circumference = 112.9 },
+        new() { Breadth = 49.7, Circumference = 113.2 },
+        new() { Breadth = 49.9, Circumference = 113.3 },
+        new() { Breadth = 49.6, Circumference = 113.7 },
+        new() { Breadth = 48.9, Circumference = 111.3 },
+        new() { Breadth = 49.0, Circumference = 112.0 },
+        new() { Breadth = 48.8, Circumference = 109.3 }
+    };
+
+    private static List<ClusterValue> shape4Value = new()
+    {
+        new() { Breadth = 50.3, Circumference = 107.0 },
+        new() { Breadth = 50.1, Circumference = 107.5 },
+        new() { Breadth = 50.0, Circumference = 110.2 },
+        new() { Breadth = 49.8, Circumference = 110.7 },
+        new() { Breadth = 50.0, Circumference = 111.2 },
+        new() { Breadth = 50.0, Circumference = 112.0 },
+        new() { Breadth = 50.1, Circumference = 112.17 },
+        new() { Breadth = 50.0, Circumference = 113.2 },
+        new() { Breadth = 50.6, Circumference = 113.4 },
+        new() { Breadth = 50.3, Circumference = 114.7 },
+        new() { Breadth = 50.3, Circumference = 115.3 },
+        new() { Breadth = 50.2, Circumference = 116.5 },
+        new() { Breadth = 49.8, Circumference = 116.8 },
+        new() { Breadth = 49.9, Circumference = 117.9 },
+        new() { Breadth = 49.94, Circumference = 121.9 },
+        new() { Breadth = 50.3, Circumference = 123.2 },
+        new() { Breadth = 50.6, Circumference = 121.4 },
+        new() { Breadth = 50.9, Circumference = 121.0 },
+        new() { Breadth = 50.7, Circumference = 118.4 },
+        new() { Breadth = 50.70, Circumference = 118.2 },
+        new() { Breadth = 50.8, Circumference = 117.1 },
+        new() { Breadth = 50.8, Circumference = 115.2 },
+        new() { Breadth = 50.9, Circumference = 112.7 },
+        new() { Breadth = 50.6, Circumference = 112.4 },
+        new() { Breadth = 50.5, Circumference = 111.5 },
+        new() { Breadth = 50.7, Circumference = 110.6 },
+        new() { Breadth = 50.7, Circumference = 111.3 },
+        new() { Breadth = 50.8, Circumference = 110.9 },
+        new() { Breadth = 51.0, Circumference = 111.8 },
+        new() { Breadth = 50.7, Circumference = 108.8 },
+        new() { Breadth = 50.6, Circumference = 108.2 },
+        new() { Breadth = 50.65, Circumference = 108.2 },
+        new() { Breadth = 51.2, Circumference = 108.6 },
+        new() { Breadth = 51.8, Circumference = 112.0 },
+        new() { Breadth = 52.3, Circumference = 113.6 },
+        new() { Breadth = 51.1, Circumference = 115.4 },
+        new() { Breadth = 51.8, Circumference = 115.7 },
+        new() { Breadth = 51.7, Circumference = 117.2 },
+        new() { Breadth = 52.0, Circumference = 119.5 },
+        new() { Breadth = 52.0, Circumference = 120.6 },
+        new() { Breadth = 51.9, Circumference = 122.9 },
+        new() { Breadth = 51.9, Circumference = 124.8 },
+        new() { Breadth = 51.17, Circumference = 124.7 },
+        new() { Breadth = 52.3, Circumference = 128.0 },
+        new() { Breadth = 52.3, Circumference = 128.0 },
+        new() { Breadth = 52.6, Circumference = 124.9 },
+        new() { Breadth = 52.7, Circumference = 124.2 },
+        new() { Breadth = 52.5, Circumference = 120.2 },
+        new() { Breadth = 52.8, Circumference = 119.7 }
+    };
+
+    private static List<ClusterValue> shape5Value = new()
+    {
+        new() { Breadth = 53.1, Circumference = 121.3 },
+        new() { Breadth = 53.0, Circumference = 122.4 },
+        new() { Breadth = 54.6, Circumference = 133.4 },
+        new() { Breadth = 53.3, Circumference = 122.6 },
+        new() { Breadth = 53.6, Circumference = 125.4 },
+        new() { Breadth = 53.9, Circumference = 128.5 },
+        new() { Breadth = 53.3, Circumference = 125.7 },
+        new() { Breadth = 53.3, Circumference = 125.78 },
+        new() { Breadth = 54.0, Circumference = 127.0 },
+        new() { Breadth = 54.0, Circumference = 127.05 },
+        new() { Breadth = 53.1, Circumference = 127.3 },
+        new() { Breadth = 53.6, Circumference = 121.36 },
+        new() { Breadth = 52.6, Circumference = 123.4 },
+        new() { Breadth = 54.0, Circumference = 123.2 },
+        new() { Breadth = 53.8, Circumference = 124.8 },
+        new() { Breadth = 53.3, Circumference = 123.3 },
+        new() { Breadth = 53.3, Circumference = 124.3 },
+        new() { Breadth = 53.8, Circumference = 123.6 },
+        new() { Breadth = 53.8, Circumference = 124.61 },
+        new() { Breadth = 53.5, Circumference = 123.5 }
+    };
+}";
+    public string dataLabelCode = @" <SfChart @key=""@_currentTheme"" Theme=""@_currentTheme"" Title=""Weight by Height"">
+            <ChartTitleStyle Color=""@TextColor"" />
+            <ChartTooltipSettings Enable=""true"" Header=""${point.tooltip}"" Format=""Height: <b>${point.x} in</b><br/>Weight: <b>${point.y} kg</b>""/>
+          
+            <ChartPrimaryXAxis Title=""Height (inches)"" Minimum=""50"" Maximum=""75"" Interval=""5"" ValueType=""Syncfusion.Blazor.Toolkit.ValueType.Double"">
+                <ChartAxisLabelStyle Color=""@TextColor"" />
+            </ChartPrimaryXAxis>
+            <ChartPrimaryYAxis Title=""Weight (kg)"" minimum=""50"" maximum=""160"" Interval=""20"" RangePadding=""ChartRangePadding.None"">
+                <ChartAxisLabelStyle Color=""@TextColor"" />
+            </ChartPrimaryYAxis>
+            <ChartSeriesCollection>
+                <ChartSeries DataSource=""scatterLabelData"" Name=""18-20 Years"" LegendShape=""LegendShape.Circle"" Fill=""#807BFF"" EnableTooltip=""true"" Opacity=""0.5"" XName=""Height"" YName=""Weight"" Type=""ChartSeriesType.Scatter"">
+                    <ChartMarker Visible=""true"" Shape=""ChartShape.Diamond"" Height=""15"" Width=""15"">
+                        <ChartDataLabel Name=""Name"" Visible=""true""/>
+                    </ChartMarker>
+                </ChartSeries>
+
+            </ChartSeriesCollection>
+        </SfChart>
+@code {
+     private Theme _currentTheme = Theme.Fluent;
+
+    private bool IsDarkTheme => _currentTheme.ToString().Contains(""Dark"") || _currentTheme.ToString().Contains(""HighContrast"");
+    private string TextColor => IsDarkTheme ? ""#E6EEF8"" : ""#0B1F3B"";
+      public class LabelData
+    {
+        public double Height { get; set; }
+        public double Weight { get; set; }
+        public string Name { get; set; }
+    }
+
+    private List<LabelData> scatterLabelData = new()
+    {
+        new() { Height = 57, Weight = 105, Name = ""John"" },
+        new() { Height = 63, Weight = 127, Name = ""Robert"" },
+        new() { Height = 54, Weight = 70, Name = ""James"" },
+        new() { Height = 64, Weight = 110, Name = ""Henry"" },
+        new() { Height = 68, Weight = 120, Name = ""William"" },
+        new() { Height = 70, Weight = 112, Name = ""Alfred"" },
+        new() { Height = 58, Weight = 88, Name = ""Thomas"" },
+        new() { Height = 72, Weight = 150, Name = ""Philip"" },
+        new() { Height = 68, Weight = 137, Name = ""Ronald"" },
+        new() { Height = 60, Weight = 84, Name = ""Jeffrey"" },
+        new() { Height = 54, Weight = 85, Name = ""Alice"" },
+        new() { Height = 58, Weight = 55, Name = ""Jane"" },
+        new() { Height = 70, Weight = 84, Name = ""Louise"" },
+        new() { Height = 61, Weight = 101, Name = ""Janet"" },
+        new() { Height = 66, Weight = 98, Name = ""Carol"" },
+        new() { Height = 66, Weight = 112, Name = ""Mary"" },
+        new() { Height = 65, Weight = 78, Name = ""Barbara"" },
+        new() { Height = 64, Weight = 90, Name = ""Judy"" },
+        new() { Height = 51, Weight = 59, Name = ""Joyce"" }
+    };
+}";
+    public string pointShapeCode = @"<SfChart Theme=""@_currentTheme"">
+            <ChartTitleStyle Color=""@TextColor"" />
+            <ChartTooltipSettings Enable=""true"" Header=""${point.tooltip}"" Format=""Height: <b>${point.x} in</b><br/>Weight: <b>${point.y} kg</b>""/>
+           
+            <ChartPrimaryXAxis Title=""Shoulder Breadth (cm)"" Minimum=""44"" Maximum=""54"" ValueType=""Syncfusion.Blazor.Toolkit.ValueType.Double"">
+                <ChartAxisLabelStyle Color=""@TextColor"" />
+            </ChartPrimaryXAxis>
+            <ChartPrimaryYAxis Title=""Bust Chest Circumference (cm)"" minimum=""70"" maximum=""140"" Interval=""20"" RangePadding=""ChartRangePadding.None"">
+                <ChartAxisLabelStyle Color=""@TextColor"" />
+            </ChartPrimaryYAxis>
+            <ChartSeriesCollection>
+
+                <ChartSeries DataSource=""shape2Value"" Name=""21-25 Years"" LegendShape=""LegendShape.Circle"" Fill=""#5853C6"" EnableTooltip=""true"" Opacity=""0.5"" XName=""Breadth"" YName=""Circumference"" Type=""ChartSeriesType.Scatter"">
+                    <ChartMarker Visible=""true"" Shape=""ChartShape.Rectangle"" Height=""10"" Width=""10"">
+                    </ChartMarker>
+                </ChartSeries>
+                <ChartSeries DataSource=""shape3Value"" Name=""26-30 Years"" LegendShape=""LegendShape.Circle"" Fill=""#FF9B1D"" EnableTooltip=""true"" Opacity=""0.5"" XName=""Breadth"" YName=""Circumference"" Type=""ChartSeriesType.Scatter"">
+                    <ChartMarker Visible=""true"" Shape=""ChartShape.Pentagon"" Height=""10"" Width=""10"">
+                    </ChartMarker>
+                </ChartSeries>
+                <ChartSeries DataSource=""shape4Value"" Name=""31-35 years"" LegendShape=""LegendShape.Circle"" Fill=""#FE6C38"" EnableTooltip=""true"" Opacity=""0.5"" XName=""Breadth"" YName=""Circumference"" Type=""ChartSeriesType.Scatter"">
+                    <ChartMarker Visible=""true"" Shape=""ChartShape.Diamond"" Height=""10"" Width=""10"">
+                    </ChartMarker>
+                </ChartSeries>
+            </ChartSeriesCollection>
+        </SfChart>
+@code {
+
+      private Theme _currentTheme = Theme.Fluent;
+
+    private bool IsDarkTheme => _currentTheme.ToString().Contains(""Dark"") || _currentTheme.ToString().Contains(""HighContrast"");
+
+    private string TextColor => IsDarkTheme ? ""#E6EEF8"" : ""#0B1F3B"";
+    public class ClusterValue
+    {
+        public double Breadth { get; set; }
+        public double Circumference { get; set; }
+    }
+
+        private static List<ClusterValue> shape2Value = new()
+    {
+        new() { Breadth = 45.6, Circumference = 91.6 },
+        new() { Breadth = 46.0, Circumference = 92.6 },
+        new() { Breadth = 46.4, Circumference = 94.7 },
+        new() { Breadth = 46.9, Circumference = 97.3 },
+        new() { Breadth = 46.9, Circumference = 97.3 },
+        new() { Breadth = 46.8, Circumference = 98.7 },
+        new() { Breadth = 46.84, Circumference = 98.72 },
+        new() { Breadth = 45.4, Circumference = 95.9 },
+        new() { Breadth = 45.4, Circumference = 94.8 },
+        new() { Breadth = 45.2, Circumference = 97.2 },
+        new() { Breadth = 45.2, Circumference = 95.9 },
+        new() { Breadth = 45.3, Circumference = 97.4 },
+        new() { Breadth = 46.2, Circumference = 96.6 },
+        new() { Breadth = 46.2, Circumference = 98.3 },
+        new() { Breadth = 46.3, Circumference = 96.9 },
+        new() { Breadth = 46.3, Circumference = 96.9 },
+        new() { Breadth = 46.0, Circumference = 97.0 },
+        new() { Breadth = 46.0, Circumference = 97.7 },
+        new() { Breadth = 45.7, Circumference = 97.5 },
+        new() { Breadth = 45.7, Circumference = 98.8 },
+        new() { Breadth = 45.79, Circumference = 98.88 },
+        new() { Breadth = 45.79, Circumference = 98.88 },
+        new() { Breadth = 45.6, Circumference = 98.7 },
+        new() { Breadth = 45.63, Circumference = 98.75 },
+        new() { Breadth = 45.5, Circumference = 99.9 },
+        new() { Breadth = 45.6, Circumference = 101.4 },
+        new() { Breadth = 45.7, Circumference = 102.6 },
+        new() { Breadth = 45.7, Circumference = 102.62 },
+        new() { Breadth = 45.3, Circumference = 101.3 },
+        new() { Breadth = 45.3, Circumference = 103.0 },
+        new() { Breadth = 45.1, Circumference = 100.7 },
+        new() { Breadth = 45.1, Circumference = 100.70 },
+        new() { Breadth = 45.5, Circumference = 102.7 },
+        new() { Breadth = 45.5, Circumference = 103.9 },
+        new() { Breadth = 45.4, Circumference = 105.3 },
+        new() { Breadth = 45.2, Circumference = 108.1 },
+        new() { Breadth = 45.6, Circumference = 108.2 },
+        new() { Breadth = 45.5, Circumference = 107.3 },
+        new() { Breadth = 46.3, Circumference = 107.6 },
+        new() { Breadth = 45.9, Circumference = 106.0 },
+        new() { Breadth = 45.8, Circumference = 104.9 },
+        new() { Breadth = 45.9, Circumference = 104.1 },
+        new() { Breadth = 46.0, Circumference = 103.7 },
+        new() { Breadth = 46.07, Circumference = 105.3 },
+        new() { Breadth = 46.0, Circumference = 105.31 },
+        new() { Breadth = 46.3, Circumference = 105.4 },
+        new() { Breadth = 46.3, Circumference = 105.43 },
+        new() { Breadth = 46.5, Circumference = 105.1 },
+        new() { Breadth = 46.58, Circumference = 105.17 },
+        new() { Breadth = 46.6, Circumference = 104.5 },
+        new() { Breadth = 46.7, Circumference = 104.2 },
+        new() { Breadth = 46.5, Circumference = 102.9 },
+        new() { Breadth = 46.4, Circumference = 102.7 },
+        new() { Breadth = 46.0, Circumference = 102.6 },
+        new() { Breadth = 46.2, Circumference = 104.1 },
+        new() { Breadth = 46.2, Circumference = 104.15 },
+        new() { Breadth = 46.2, Circumference = 104.15 },
+        new() { Breadth = 46.3, Circumference = 101.3 },
+        new() { Breadth = 46.6, Circumference = 100.4 },
+        new() { Breadth = 46.4, Circumference = 99.6 },
+        new() { Breadth = 46.4, Circumference = 100.2 },
+        new() { Breadth = 46.1, Circumference = 100.29 },
+        new() { Breadth = 45.9, Circumference = 99.5 },
+        new() { Breadth = 46.94, Circumference = 102.0 },
+        new() { Breadth = 46.9, Circumference = 102.07 },
+        new() { Breadth = 47.1, Circumference = 99.8 },
+        new() { Breadth = 46.8, Circumference = 101.1 },
+        new() { Breadth = 47.0, Circumference = 101.2 },
+        new() { Breadth = 47.7, Circumference = 96.7 },
+        new() { Breadth = 47.5, Circumference = 98.9 },
+        new() { Breadth = 47.5, Circumference = 100.3 },
+        new() { Breadth = 47.5, Circumference = 100.38 },
+        new() { Breadth = 47.5, Circumference = 101.5 },
+        new() { Breadth = 47.2, Circumference = 102.9 },
+        new() { Breadth = 46.8, Circumference = 103.7 },
+        new() { Breadth = 47.1, Circumference = 102.4 },
+        new() { Breadth = 46.9, Circumference = 104.2 },
+        new() { Breadth = 47.0, Circumference = 105.2 },
+        new() { Breadth = 46.7, Circumference = 106.4 },
+        new() { Breadth = 47.1, Circumference = 106.0 },
+        new() { Breadth = 46.9, Circumference = 106.0 },
+        new() { Breadth = 47.0, Circumference = 106.4 },
+        new() { Breadth = 47.2, Circumference = 106.5 },
+        new() { Breadth = 47.2, Circumference = 108.2 },
+        new() { Breadth = 47.2, Circumference = 109.1 },
+        new() { Breadth = 47.0, Circumference = 109.9 },
+        new() { Breadth = 46.9, Circumference = 108.3 },
+        new() { Breadth = 46.5, Circumference = 108.9 },
+        new() { Breadth = 47.1, Circumference = 113.9 },
+        new() { Breadth = 46.3, Circumference = 113.5 },
+        new() { Breadth = 46.3, Circumference = 110.8 },
+        new() { Breadth = 46.32, Circumference = 110.8 },
+        new() { Breadth = 46.4, Circumference = 111.7 },
+        new() { Breadth = 46.8, Circumference = 112.2 },
+        new() { Breadth = 46.9, Circumference = 112.2 },
+        new() { Breadth = 47.1, Circumference = 111.7 },
+        new() { Breadth = 47.3, Circumference = 110.8 },
+        new() { Breadth = 47.4, Circumference = 106.8 }
+    };
+
+    private static List<ClusterValue> shape3Value = new()
+    {
+        new() { Breadth = 47.6, Circumference = 96.5 },
+        new() { Breadth = 47.6, Circumference = 98.3 },
+        new() { Breadth = 47.5, Circumference = 100.2 },
+        new() { Breadth = 47.5, Circumference = 103.0 },
+        new() { Breadth = 47.6, Circumference = 104.3 },
+        new() { Breadth = 47.8, Circumference = 103.7 },
+        new() { Breadth = 48.3, Circumference = 102.9 },
+        new() { Breadth = 48.2, Circumference = 103.7 },
+        new() { Breadth = 48.3, Circumference = 103.8 },
+        new() { Breadth = 48.6, Circumference = 103.7 },
+        new() { Breadth = 48.7, Circumference = 104.4 },
+        new() { Breadth = 48.8, Circumference = 103.7 },
+        new() { Breadth = 48.3, Circumference = 105.5 },
+        new() { Breadth = 48.3, Circumference = 105.52 },
+        new() { Breadth = 48.4, Circumference = 106.2 },
+        new() { Breadth = 48.46, Circumference = 104.7 },
+        new() { Breadth = 48.7, Circumference = 104.9 },
+        new() { Breadth = 48.7, Circumference = 104.99 },
+        new() { Breadth = 48.7, Circumference = 104.9 },
+        new() { Breadth = 48.8, Circumference = 106.66 },
+        new() { Breadth = 49.3, Circumference = 106.2 },
+        new() { Breadth = 49.0, Circumference = 106.0 },
+        new() { Breadth = 49.2, Circumference = 104.3 },
+        new() { Breadth = 49.7, Circumference = 109.8 },
+        new() { Breadth = 49.6, Circumference = 108.0 },
+        new() { Breadth = 49.5, Circumference = 108.0 },
+        new() { Breadth = 49.3, Circumference = 106.7 },
+        new() { Breadth = 49.1, Circumference = 106.78 },
+        new() { Breadth = 49.0, Circumference = 108.3 },
+        new() { Breadth = 49.1, Circumference = 109.2 },
+        new() { Breadth = 49.3, Circumference = 108.0 },
+        new() { Breadth = 48.9, Circumference = 107.3 },
+        new() { Breadth = 47.7, Circumference = 106.9 },
+        new() { Breadth = 48.1, Circumference = 106.6 },
+        new() { Breadth = 47.9, Circumference = 105.9 },
+        new() { Breadth = 47.9, Circumference = 107.5 },
+        new() { Breadth = 47.8, Circumference = 107.0 },
+        new() { Breadth = 47.8, Circumference = 107.0 },
+        new() { Breadth = 48.3, Circumference = 107.06 },
+        new() { Breadth = 48.1, Circumference = 108.1 },
+        new() { Breadth = 48.4, Circumference = 107.7 },
+        new() { Breadth = 48.2, Circumference = 107.71 },
+        new() { Breadth = 48.3, Circumference = 108.8 },
+        new() { Breadth = 48.31, Circumference = 109.8 },
+        new() { Breadth = 48.0, Circumference = 108.8 },
+        new() { Breadth = 47.9, Circumference = 109.3 },
+        new() { Breadth = 47.8, Circumference = 109.9 },
+        new() { Breadth = 47.8, Circumference = 110.9 },
+        new() { Breadth = 47.82, Circumference = 112.4 },
+        new() { Breadth = 48.1, Circumference = 112.6 },
+        new() { Breadth = 47.9, Circumference = 111.3 },
+        new() { Breadth = 47.9, Circumference = 111.32 },
+        new() { Breadth = 48.6, Circumference = 112.9 },
+        new() { Breadth = 48.0, Circumference = 113.2 },
+        new() { Breadth = 47.8, Circumference = 108.8 },
+        new() { Breadth = 49.0, Circumference = 115.0 },
+        new() { Breadth = 48.9, Circumference = 115.0 },
+        new() { Breadth = 47.6, Circumference = 108.2 },
+        new() { Breadth = 47.6, Circumference = 110.0 },
+        new() { Breadth = 47.7, Circumference = 108.6 },
+        new() { Breadth = 47.9, Circumference = 117.5 },
+        new() { Breadth = 48.3, Circumference = 118.3 },
+        new() { Breadth = 48.6, Circumference = 118.9 },
+        new() { Breadth = 48.7, Circumference = 122.3 },
+        new() { Breadth = 49.4, Circumference = 120.8 },
+        new() { Breadth = 49.3, Circumference = 117.7 },
+        new() { Breadth = 48.6, Circumference = 115.9 },
+        new() { Breadth = 48.7, Circumference = 116.4 },
+        new() { Breadth = 48.3, Circumference = 115.5 },
+        new() { Breadth = 49.2, Circumference = 115.2 },
+        new() { Breadth = 49.5, Circumference = 115.27 },
+        new() { Breadth = 48.6, Circumference = 113.2 },
+        new() { Breadth = 48.5, Circumference = 112.4 },
+        new() { Breadth = 49.0, Circumference = 113.2 },
+        new() { Breadth = 48.9, Circumference = 112.5 },
+        new() { Breadth = 48.8, Circumference = 110.9 },
+        new() { Breadth = 48.6, Circumference = 109.8 },
+        new() { Breadth = 48.6, Circumference = 108.0 },
+        new() { Breadth = 48.5, Circumference = 110.4 },
+        new() { Breadth = 48.5, Circumference = 108.8 },
+        new() { Breadth = 48.8, Circumference = 110.6 },
+        new() { Breadth = 48.8, Circumference = 110.65 },
+        new() { Breadth = 49.0, Circumference = 109.8 },
+        new() { Breadth = 49.2, Circumference = 111.6 },
+        new() { Breadth = 48.8, Circumference = 111.9 },
+        new() { Breadth = 48.9, Circumference = 111.6 },
+        new() { Breadth = 49.3, Circumference = 111.4 },
+        new() { Breadth = 49.3, Circumference = 111.42 },
+        new() { Breadth = 49.3, Circumference = 111.6 },
+        new() { Breadth = 49.4, Circumference = 112.1 },
+        new() { Breadth = 49.5, Circumference = 112.9 },
+        new() { Breadth = 49.7, Circumference = 113.2 },
+        new() { Breadth = 49.9, Circumference = 113.3 },
+        new() { Breadth = 49.6, Circumference = 113.7 },
+        new() { Breadth = 48.9, Circumference = 111.3 },
+        new() { Breadth = 49.0, Circumference = 112.0 },
+        new() { Breadth = 48.8, Circumference = 109.3 }
+    };
+
+    private static List<ClusterValue> shape4Value = new()
+    {
+        new() { Breadth = 50.3, Circumference = 107.0 },
+        new() { Breadth = 50.1, Circumference = 107.5 },
+        new() { Breadth = 50.0, Circumference = 110.2 },
+        new() { Breadth = 49.8, Circumference = 110.7 },
+        new() { Breadth = 50.0, Circumference = 111.2 },
+        new() { Breadth = 50.0, Circumference = 112.0 },
+        new() { Breadth = 50.1, Circumference = 112.17 },
+        new() { Breadth = 50.0, Circumference = 113.2 },
+        new() { Breadth = 50.6, Circumference = 113.4 },
+        new() { Breadth = 50.3, Circumference = 114.7 },
+        new() { Breadth = 50.3, Circumference = 115.3 },
+        new() { Breadth = 50.2, Circumference = 116.5 },
+        new() { Breadth = 49.8, Circumference = 116.8 },
+        new() { Breadth = 49.9, Circumference = 117.9 },
+        new() { Breadth = 49.94, Circumference = 121.9 },
+        new() { Breadth = 50.3, Circumference = 123.2 },
+        new() { Breadth = 50.6, Circumference = 121.4 },
+        new() { Breadth = 50.9, Circumference = 121.0 },
+        new() { Breadth = 50.7, Circumference = 118.4 },
+        new() { Breadth = 50.70, Circumference = 118.2 },
+        new() { Breadth = 50.8, Circumference = 117.1 },
+        new() { Breadth = 50.8, Circumference = 115.2 },
+        new() { Breadth = 50.9, Circumference = 112.7 },
+        new() { Breadth = 50.6, Circumference = 112.4 },
+        new() { Breadth = 50.5, Circumference = 111.5 },
+        new() { Breadth = 50.7, Circumference = 110.6 },
+        new() { Breadth = 50.7, Circumference = 111.3 },
+        new() { Breadth = 50.8, Circumference = 110.9 },
+        new() { Breadth = 51.0, Circumference = 111.8 },
+        new() { Breadth = 50.7, Circumference = 108.8 },
+        new() { Breadth = 50.6, Circumference = 108.2 },
+        new() { Breadth = 50.65, Circumference = 108.2 },
+        new() { Breadth = 51.2, Circumference = 108.6 },
+        new() { Breadth = 51.8, Circumference = 112.0 },
+        new() { Breadth = 52.3, Circumference = 113.6 },
+        new() { Breadth = 51.1, Circumference = 115.4 },
+        new() { Breadth = 51.8, Circumference = 115.7 },
+        new() { Breadth = 51.7, Circumference = 117.2 },
+        new() { Breadth = 52.0, Circumference = 119.5 },
+        new() { Breadth = 52.0, Circumference = 120.6 },
+        new() { Breadth = 51.9, Circumference = 122.9 },
+        new() { Breadth = 51.9, Circumference = 124.8 },
+        new() { Breadth = 51.17, Circumference = 124.7 },
+        new() { Breadth = 52.3, Circumference = 128.0 },
+        new() { Breadth = 52.3, Circumference = 128.0 },
+        new() { Breadth = 52.6, Circumference = 124.9 },
+        new() { Breadth = 52.7, Circumference = 124.2 },
+        new() { Breadth = 52.5, Circumference = 120.2 },
+        new() { Breadth = 52.8, Circumference = 119.7 }
+    };
+}";
+
+    public string pointSizeCode = @"<SfChart Theme=""@_currentTheme"">
+            <ChartTitleStyle Color=""@TextColor"" />
+            <ChartTooltipSettings Enable=""true"" Header=""${point.tooltip}"" Format=""Height: <b>${point.x} in</b><br/>Weight: <b>${point.y} kg</b>""/>
+         
+            <ChartPrimaryXAxis Title=""Shoulder Breadth (cm)"" Minimum=""45"" Maximum=""50"" ValueType=""Syncfusion.Blazor.Toolkit.ValueType.Double"">
+                <ChartAxisLabelStyle Color=""@TextColor"" />
+            </ChartPrimaryXAxis>
+            <ChartPrimaryYAxis Title=""Bust Chest Circumference (cm)"" minimum=""70"" maximum=""140"" Interval=""20"" RangePadding=""ChartRangePadding.None"">
+                <ChartAxisLabelStyle Color=""@TextColor"" />
+            </ChartPrimaryYAxis>
+            <ChartSeriesCollection>
+                <ChartSeries DataSource=""shape2Value"" Name=""11-26 Years"" LegendShape=""LegendShape.Circle"" Fill=""#635DE5"" EnableTooltip=""true"" Opacity=""0.4"" XName=""Breadth"" YName=""Circumference"" Type=""ChartSeriesType.Scatter"">
+                    <ChartMarker Visible=""true"" Shape=""ChartShape.Circle"" Height=""18"" Width=""18"">
+                    </ChartMarker>
+                </ChartSeries>
+                <ChartSeries DataSource=""shape3Value"" Name=""26-30 years"" LegendShape=""LegendShape.Circle"" Fill=""#FFA330"" EnableTooltip=""true"" Opacity=""0.4"" XName=""Breadth"" YName=""Circumference"" Type=""ChartSeriesType.Scatter"">
+                    <ChartMarker Visible=""true"" Shape=""ChartShape.Circle"" Height=""8"" Width=""8"">
+                    </ChartMarker>
+                </ChartSeries>
+
+            </ChartSeriesCollection>
+        </SfChart>
+@code {
+
+      private Theme _currentTheme = Theme.Fluent;
+
+    private bool IsDarkTheme => _currentTheme.ToString().Contains(""Dark"") || _currentTheme.ToString().Contains(""HighContrast"");
+    private string TextColor => IsDarkTheme ? ""#E6EEF8"" : ""#0B1F3B"";
+    public class ClusterValue
+    {
+        public double Breadth { get; set; }
+        public double Circumference { get; set; }
+    }
+
+
+       private static List<ClusterValue> shape2Value = new()
+    {
+        new() { Breadth = 45.6, Circumference = 91.6 },
+        new() { Breadth = 46.0, Circumference = 92.6 },
+        new() { Breadth = 46.4, Circumference = 94.7 },
+        new() { Breadth = 46.9, Circumference = 97.3 },
+        new() { Breadth = 46.9, Circumference = 97.3 },
+        new() { Breadth = 46.8, Circumference = 98.7 },
+        new() { Breadth = 46.84, Circumference = 98.72 },
+        new() { Breadth = 45.4, Circumference = 95.9 },
+        new() { Breadth = 45.4, Circumference = 94.8 },
+        new() { Breadth = 45.2, Circumference = 97.2 },
+        new() { Breadth = 45.2, Circumference = 95.9 },
+        new() { Breadth = 45.3, Circumference = 97.4 },
+        new() { Breadth = 46.2, Circumference = 96.6 },
+        new() { Breadth = 46.2, Circumference = 98.3 },
+        new() { Breadth = 46.3, Circumference = 96.9 },
+        new() { Breadth = 46.3, Circumference = 96.9 },
+        new() { Breadth = 46.0, Circumference = 97.0 },
+        new() { Breadth = 46.0, Circumference = 97.7 },
+        new() { Breadth = 45.7, Circumference = 97.5 },
+        new() { Breadth = 45.7, Circumference = 98.8 },
+        new() { Breadth = 45.79, Circumference = 98.88 },
+        new() { Breadth = 45.79, Circumference = 98.88 },
+        new() { Breadth = 45.6, Circumference = 98.7 },
+        new() { Breadth = 45.63, Circumference = 98.75 },
+        new() { Breadth = 45.5, Circumference = 99.9 },
+        new() { Breadth = 45.6, Circumference = 101.4 },
+        new() { Breadth = 45.7, Circumference = 102.6 },
+        new() { Breadth = 45.7, Circumference = 102.62 },
+        new() { Breadth = 45.3, Circumference = 101.3 },
+        new() { Breadth = 45.3, Circumference = 103.0 },
+        new() { Breadth = 45.1, Circumference = 100.7 },
+        new() { Breadth = 45.1, Circumference = 100.70 },
+        new() { Breadth = 45.5, Circumference = 102.7 },
+        new() { Breadth = 45.5, Circumference = 103.9 },
+        new() { Breadth = 45.4, Circumference = 105.3 },
+        new() { Breadth = 45.2, Circumference = 108.1 },
+        new() { Breadth = 45.6, Circumference = 108.2 },
+        new() { Breadth = 45.5, Circumference = 107.3 },
+        new() { Breadth = 46.3, Circumference = 107.6 },
+        new() { Breadth = 45.9, Circumference = 106.0 },
+        new() { Breadth = 45.8, Circumference = 104.9 },
+        new() { Breadth = 45.9, Circumference = 104.1 },
+        new() { Breadth = 46.0, Circumference = 103.7 },
+        new() { Breadth = 46.07, Circumference = 105.3 },
+        new() { Breadth = 46.0, Circumference = 105.31 },
+        new() { Breadth = 46.3, Circumference = 105.4 },
+        new() { Breadth = 46.3, Circumference = 105.43 },
+        new() { Breadth = 46.5, Circumference = 105.1 },
+        new() { Breadth = 46.58, Circumference = 105.17 },
+        new() { Breadth = 46.6, Circumference = 104.5 },
+        new() { Breadth = 46.7, Circumference = 104.2 },
+        new() { Breadth = 46.5, Circumference = 102.9 },
+        new() { Breadth = 46.4, Circumference = 102.7 },
+        new() { Breadth = 46.0, Circumference = 102.6 },
+        new() { Breadth = 46.2, Circumference = 104.1 },
+        new() { Breadth = 46.2, Circumference = 104.15 },
+        new() { Breadth = 46.2, Circumference = 104.15 },
+        new() { Breadth = 46.3, Circumference = 101.3 },
+        new() { Breadth = 46.6, Circumference = 100.4 },
+        new() { Breadth = 46.4, Circumference = 99.6 },
+        new() { Breadth = 46.4, Circumference = 100.2 },
+        new() { Breadth = 46.1, Circumference = 100.29 },
+        new() { Breadth = 45.9, Circumference = 99.5 },
+        new() { Breadth = 46.94, Circumference = 102.0 },
+        new() { Breadth = 46.9, Circumference = 102.07 },
+        new() { Breadth = 47.1, Circumference = 99.8 },
+        new() { Breadth = 46.8, Circumference = 101.1 },
+        new() { Breadth = 47.0, Circumference = 101.2 },
+        new() { Breadth = 47.7, Circumference = 96.7 },
+        new() { Breadth = 47.5, Circumference = 98.9 },
+        new() { Breadth = 47.5, Circumference = 100.3 },
+        new() { Breadth = 47.5, Circumference = 100.38 },
+        new() { Breadth = 47.5, Circumference = 101.5 },
+        new() { Breadth = 47.2, Circumference = 102.9 },
+        new() { Breadth = 46.8, Circumference = 103.7 },
+        new() { Breadth = 47.1, Circumference = 102.4 },
+        new() { Breadth = 46.9, Circumference = 104.2 },
+        new() { Breadth = 47.0, Circumference = 105.2 },
+        new() { Breadth = 46.7, Circumference = 106.4 },
+        new() { Breadth = 47.1, Circumference = 106.0 },
+        new() { Breadth = 46.9, Circumference = 106.0 },
+        new() { Breadth = 47.0, Circumference = 106.4 },
+        new() { Breadth = 47.2, Circumference = 106.5 },
+        new() { Breadth = 47.2, Circumference = 108.2 },
+        new() { Breadth = 47.2, Circumference = 109.1 },
+        new() { Breadth = 47.0, Circumference = 109.9 },
+        new() { Breadth = 46.9, Circumference = 108.3 },
+        new() { Breadth = 46.5, Circumference = 108.9 },
+        new() { Breadth = 47.1, Circumference = 113.9 },
+        new() { Breadth = 46.3, Circumference = 113.5 },
+        new() { Breadth = 46.3, Circumference = 110.8 },
+        new() { Breadth = 46.32, Circumference = 110.8 },
+        new() { Breadth = 46.4, Circumference = 111.7 },
+        new() { Breadth = 46.8, Circumference = 112.2 },
+        new() { Breadth = 46.9, Circumference = 112.2 },
+        new() { Breadth = 47.1, Circumference = 111.7 },
+        new() { Breadth = 47.3, Circumference = 110.8 },
+        new() { Breadth = 47.4, Circumference = 106.8 }
+    };
+
+    private static List<ClusterValue> shape3Value = new()
+    {
+        new() { Breadth = 47.6, Circumference = 96.5 },
+        new() { Breadth = 47.6, Circumference = 98.3 },
+        new() { Breadth = 47.5, Circumference = 100.2 },
+        new() { Breadth = 47.5, Circumference = 103.0 },
+        new() { Breadth = 47.6, Circumference = 104.3 },
+        new() { Breadth = 47.8, Circumference = 103.7 },
+        new() { Breadth = 48.3, Circumference = 102.9 },
+        new() { Breadth = 48.2, Circumference = 103.7 },
+        new() { Breadth = 48.3, Circumference = 103.8 },
+        new() { Breadth = 48.6, Circumference = 103.7 },
+        new() { Breadth = 48.7, Circumference = 104.4 },
+        new() { Breadth = 48.8, Circumference = 103.7 },
+        new() { Breadth = 48.3, Circumference = 105.5 },
+        new() { Breadth = 48.3, Circumference = 105.52 },
+        new() { Breadth = 48.4, Circumference = 106.2 },
+        new() { Breadth = 48.46, Circumference = 104.7 },
+        new() { Breadth = 48.7, Circumference = 104.9 },
+        new() { Breadth = 48.7, Circumference = 104.99 },
+        new() { Breadth = 48.7, Circumference = 104.9 },
+        new() { Breadth = 48.8, Circumference = 106.66 },
+        new() { Breadth = 49.3, Circumference = 106.2 },
+        new() { Breadth = 49.0, Circumference = 106.0 },
+        new() { Breadth = 49.2, Circumference = 104.3 },
+        new() { Breadth = 49.7, Circumference = 109.8 },
+        new() { Breadth = 49.6, Circumference = 108.0 },
+        new() { Breadth = 49.5, Circumference = 108.0 },
+        new() { Breadth = 49.3, Circumference = 106.7 },
+        new() { Breadth = 49.1, Circumference = 106.78 },
+        new() { Breadth = 49.0, Circumference = 108.3 },
+        new() { Breadth = 49.1, Circumference = 109.2 },
+        new() { Breadth = 49.3, Circumference = 108.0 },
+        new() { Breadth = 48.9, Circumference = 107.3 },
+        new() { Breadth = 47.7, Circumference = 106.9 },
+        new() { Breadth = 48.1, Circumference = 106.6 },
+        new() { Breadth = 47.9, Circumference = 105.9 },
+        new() { Breadth = 47.9, Circumference = 107.5 },
+        new() { Breadth = 47.8, Circumference = 107.0 },
+        new() { Breadth = 47.8, Circumference = 107.0 },
+        new() { Breadth = 48.3, Circumference = 107.06 },
+        new() { Breadth = 48.1, Circumference = 108.1 },
+        new() { Breadth = 48.4, Circumference = 107.7 },
+        new() { Breadth = 48.2, Circumference = 107.71 },
+        new() { Breadth = 48.3, Circumference = 108.8 },
+        new() { Breadth = 48.31, Circumference = 109.8 },
+        new() { Breadth = 48.0, Circumference = 108.8 },
+        new() { Breadth = 47.9, Circumference = 109.3 },
+        new() { Breadth = 47.8, Circumference = 109.9 },
+        new() { Breadth = 47.8, Circumference = 110.9 },
+        new() { Breadth = 47.82, Circumference = 112.4 },
+        new() { Breadth = 48.1, Circumference = 112.6 },
+        new() { Breadth = 47.9, Circumference = 111.3 },
+        new() { Breadth = 47.9, Circumference = 111.32 },
+        new() { Breadth = 48.6, Circumference = 112.9 },
+        new() { Breadth = 48.0, Circumference = 113.2 },
+        new() { Breadth = 47.8, Circumference = 108.8 },
+        new() { Breadth = 49.0, Circumference = 115.0 },
+        new() { Breadth = 48.9, Circumference = 115.0 },
+        new() { Breadth = 47.6, Circumference = 108.2 },
+        new() { Breadth = 47.6, Circumference = 110.0 },
+        new() { Breadth = 47.7, Circumference = 108.6 },
+        new() { Breadth = 47.9, Circumference = 117.5 },
+        new() { Breadth = 48.3, Circumference = 118.3 },
+        new() { Breadth = 48.6, Circumference = 118.9 },
+        new() { Breadth = 48.7, Circumference = 122.3 },
+        new() { Breadth = 49.4, Circumference = 120.8 },
+        new() { Breadth = 49.3, Circumference = 117.7 },
+        new() { Breadth = 48.6, Circumference = 115.9 },
+        new() { Breadth = 48.7, Circumference = 116.4 },
+        new() { Breadth = 48.3, Circumference = 115.5 },
+        new() { Breadth = 49.2, Circumference = 115.2 },
+        new() { Breadth = 49.5, Circumference = 115.27 },
+        new() { Breadth = 48.6, Circumference = 113.2 },
+        new() { Breadth = 48.5, Circumference = 112.4 },
+        new() { Breadth = 49.0, Circumference = 113.2 },
+        new() { Breadth = 48.9, Circumference = 112.5 },
+        new() { Breadth = 48.8, Circumference = 110.9 },
+        new() { Breadth = 48.6, Circumference = 109.8 },
+        new() { Breadth = 48.6, Circumference = 108.0 },
+        new() { Breadth = 48.5, Circumference = 110.4 },
+        new() { Breadth = 48.5, Circumference = 108.8 },
+        new() { Breadth = 48.8, Circumference = 110.6 },
+        new() { Breadth = 48.8, Circumference = 110.65 },
+        new() { Breadth = 49.0, Circumference = 109.8 },
+        new() { Breadth = 49.2, Circumference = 111.6 },
+        new() { Breadth = 48.8, Circumference = 111.9 },
+        new() { Breadth = 48.9, Circumference = 111.6 },
+        new() { Breadth = 49.3, Circumference = 111.4 },
+        new() { Breadth = 49.3, Circumference = 111.42 },
+        new() { Breadth = 49.3, Circumference = 111.6 },
+        new() { Breadth = 49.4, Circumference = 112.1 },
+        new() { Breadth = 49.5, Circumference = 112.9 },
+        new() { Breadth = 49.7, Circumference = 113.2 },
+        new() { Breadth = 49.9, Circumference = 113.3 },
+        new() { Breadth = 49.6, Circumference = 113.7 },
+        new() { Breadth = 48.9, Circumference = 111.3 },
+        new() { Breadth = 49.0, Circumference = 112.0 },
+        new() { Breadth = 48.8, Circumference = 109.3 }
+    };
+}";
+    public string seriesCustomizationCode = @"<SfChart Theme=""@_currentTheme"">
+            <ChartTitleStyle Color=""@TextColor"" />
+            <ChartTooltipSettings Enable=""true"" Header=""${point.tooltip}"" Format=""Height: <b>${point.x} in</b><br/>Weight: <b>${point.y} kg</b>""/>
+            
+            <ChartPrimaryXAxis Title=""Shoulder Breadth (cm)"" Minimum=""40"" Maximum=""56"" ValueType=""Syncfusion.Blazor.Toolkit.ValueType.Double"">
+                <ChartAxisLabelStyle Color=""@TextColor"" />
+            </ChartPrimaryXAxis>
+            <ChartPrimaryYAxis Title=""Bust Chest Circumference (cm)"" minimum=""70"" maximum=""140"" Interval=""20"" RangePadding=""ChartRangePadding.None"">
+                <ChartAxisLabelStyle Color=""@TextColor"" />
+            </ChartPrimaryYAxis>
+            <ChartSeriesCollection>
+                <ChartSeries DataSource=""shape1Value"" Name=""18-20 Years"" LegendShape=""LegendShape.Circle"" Fill=""#2CAFFE"" EnableTooltip=""true"" Opacity=""0.5"" XName=""Breadth"" YName=""Circumference"" Type=""ChartSeriesType.Scatter"">
+                    <ChartMarker Visible=""true"" Shape=""ChartShape.Circle"" Height=""10"" Width=""10"" Opacity=""0.4"">
+                    </ChartMarker>
+                </ChartSeries>
+                <ChartSeries DataSource=""shape2Value"" Name=""21-25 Years"" LegendShape=""LegendShape.Circle"" Fill=""#5853C6"" EnableTooltip=""true"" Opacity=""0.5"" XName=""Breadth"" YName=""Circumference"" Type=""ChartSeriesType.Scatter"">
+                    <ChartMarker Visible=""true"" Shape=""ChartShape.Rectangle"" Height=""10"" Width=""10"">
+                    </ChartMarker>
+                </ChartSeries>
+                <ChartSeries DataSource=""shape3Value"" Name=""26-30 Years"" LegendShape=""LegendShape.Circle"" Fill=""#FF9B1D"" EnableTooltip=""true"" Opacity=""0.5"" XName=""Breadth"" YName=""Circumference"" Type=""ChartSeriesType.Scatter"">
+                    <ChartMarker Visible=""true"" Shape=""ChartShape.Diamond"" Height=""10"" Width=""10"">
+                    </ChartMarker>
+                </ChartSeries>
+                <ChartSeries DataSource=""shape4Value"" Name=""31-35 years"" LegendShape=""LegendShape.Circle"" Fill=""#FE6C38"" EnableTooltip=""true"" Opacity=""0.5"" XName=""Breadth"" YName=""Circumference"" Type=""ChartSeriesType.Scatter"">
+                    <ChartMarker Visible=""true"" Shape=""ChartShape.Rectangle"" Height=""10"" Width=""10"">
+                    </ChartMarker>
+                </ChartSeries>
+                <ChartSeries DataSource=""shape5Value"" Name=""36+ years"" LegendShape=""LegendShape.Circle"" Fill=""#7D9CCF"" EnableTooltip=""true"" Opacity=""0.5"" XName=""Breadth"" YName=""Circumference"" Type=""ChartSeriesType.Scatter"">
+                    <ChartMarker Visible=""true"" Shape=""ChartShape.Pentagon"" Height=""10"" Width=""10"">
+                    </ChartMarker>
+                </ChartSeries>
+            </ChartSeriesCollection>
+        </SfChart>
+@code {
+     
+    private Theme _currentTheme = Theme.Fluent;
+    private bool IsDarkTheme => _currentTheme.ToString().Contains(""Dark"") || _currentTheme.ToString().Contains(""HighContrast"");
+    private string TextColor => IsDarkTheme ? ""#E6EEF8"" : ""#0B1F3B"";
+    public class ClusterValue
+    {
+        public double Breadth { get; set; }
+        public double Circumference { get; set; }
+    }
+
+    private static List<ClusterValue> shape1Value = new()
+    {
+        new() { Breadth = 41.3, Circumference = 78.1 },
+        new() { Breadth = 41.3, Circumference = 78.04 },
+        new() { Breadth = 42.9, Circumference = 78.9 },
+        new() { Breadth = 42.4, Circumference = 80.4 },
+        new() { Breadth = 42.3, Circumference = 81.7 },
+        new() { Breadth = 42.1, Circumference = 83.9 },
+        new() { Breadth = 41.9, Circumference = 82.9 },
+        new() { Breadth = 41.6, Circumference = 84.6 },
+        new() { Breadth = 41.6, Circumference = 84.6 },
+        new() { Breadth = 41.5, Circumference = 85.1 },
+        new() { Breadth = 41.5, Circumference = 84.3 },
+        new() { Breadth = 41.5, Circumference = 84.3 },
+        new() { Breadth = 41.9, Circumference = 87.9 },
+        new() { Breadth = 42.6, Circumference = 84.0 },
+        new() { Breadth = 42.6, Circumference = 84.0 },
+        new() { Breadth = 42.9, Circumference = 84.9 },
+        new() { Breadth = 42.9, Circumference = 84.9 },
+        new() { Breadth = 43.4, Circumference = 85.8 },
+        new() { Breadth = 43.1, Circumference = 83.5 },
+        new() { Breadth = 42.9, Circumference = 82.2 },
+        new() { Breadth = 43.2, Circumference = 81.7 },
+        new() { Breadth = 43.5, Circumference = 82.8 },
+        new() { Breadth = 43.7, Circumference = 82.7 },
+        new() { Breadth = 43.5, Circumference = 81.3 },
+        new() { Breadth = 43.7, Circumference = 80.9 },
+        new() { Breadth = 43.7, Circumference = 80.9 },
+        new() { Breadth = 43.5, Circumference = 89.4 },
+        new() { Breadth = 43.5, Circumference = 79.4 },
+        new() { Breadth = 43.7, Circumference = 89.0 },
+        new() { Breadth = 43.5, Circumference = 88.4 },
+        new() { Breadth = 43.5, Circumference = 88.4 },
+        new() { Breadth = 43.4, Circumference = 89.4 },
+        new() { Breadth = 43.0, Circumference = 91.5 },
+        new() { Breadth = 42.6, Circumference = 87.9 },
+        new() { Breadth = 42.9, Circumference = 88.4 },
+        new() { Breadth = 42.9, Circumference = 86.8 },
+        new() { Breadth = 42.9, Circumference = 86.8 },
+        new() { Breadth = 43.1, Circumference = 88.5 },
+        new() { Breadth = 44.2, Circumference = 84.7 },
+        new() { Breadth = 44.2, Circumference = 84.7 },
+        new() { Breadth = 44.1, Circumference = 88.6 },
+        new() { Breadth = 44.1, Circumference = 88.6 },
+        new() { Breadth = 43.9, Circumference = 87.6 },
+        new() { Breadth = 44.0, Circumference = 86.6 },
+        new() { Breadth = 44.3, Circumference = 86.5 },
+        new() { Breadth = 44.3, Circumference = 86.59 },
+        new() { Breadth = 44.5, Circumference = 86.9 },
+        new() { Breadth = 44.5, Circumference = 85.5 },
+        new() { Breadth = 44.8, Circumference = 85.8 },
+        new() { Breadth = 45.0, Circumference = 84.6 },
+        new() { Breadth = 45.0, Circumference = 84.64 },
+        new() { Breadth = 44.9, Circumference = 82.7 },
+        new() { Breadth = 44.8, Circumference = 83.7 },
+        new() { Breadth = 44.89, Circumference = 83.75 },
+        new() { Breadth = 44.6, Circumference = 83.3 },
+        new() { Breadth = 44.65, Circumference = 83.37 },
+        new() { Breadth = 44.65, Circumference = 84.5 },
+        new() { Breadth = 44.65, Circumference = 84.53 },
+        new() { Breadth = 44.2, Circumference = 81.8 },
+        new() { Breadth = 44.9, Circumference = 80.2 },
+        new() { Breadth = 45.1, Circumference = 85.5 },
+        new() { Breadth = 44.7, Circumference = 87.1 },
+        new() { Breadth = 44.70, Circumference = 87.10 },
+        new() { Breadth = 44.70, Circumference = 87.1 },
+        new() { Breadth = 44.9, Circumference = 86.8 },
+        new() { Breadth = 45.1, Circumference = 87.2 },
+        new() { Breadth = 45.0, Circumference = 88.6 },
+        new() { Breadth = 45.0, Circumference = 89.4 },
+        new() { Breadth = 45.0, Circumference = 89.4 },
+        new() { Breadth = 44.7, Circumference = 88.5 },
+        new() { Breadth = 44.4, Circumference = 88.3 },
+        new() { Breadth = 44.4, Circumference = 88.39 },
+        new() { Breadth = 44.5, Circumference = 89.4 },
+        new() { Breadth = 44.4, Circumference = 90.0 },
+        new() { Breadth = 43.9, Circumference = 89.3 },
+        new() { Breadth = 44.2, Circumference = 90.2 },
+        new() { Breadth = 44.0, Circumference = 91.2 },
+        new() { Breadth = 44.0, Circumference = 91.24 },
+        new() { Breadth = 44.1, Circumference = 88.5 },
+        new() { Breadth = 44.16, Circumference = 88.53 },
+        new() { Breadth = 44.16, Circumference = 88.535 },
+        new() { Breadth = 44.2, Circumference = 91.7 },
+        new() { Breadth = 44.2, Circumference = 91.75 },
+        new() { Breadth = 43.9, Circumference = 92.79 },
+        new() { Breadth = 43.9, Circumference = 92.7 },
+        new() { Breadth = 44.2, Circumference = 94.8 },
+        new() { Breadth = 44.0, Circumference = 93.8 },
+        new() { Breadth = 44.0, Circumference = 93.81 },
+        new() { Breadth = 44.4, Circumference = 95.6 },
+        new() { Breadth = 44.8, Circumference = 97.4 },
+        new() { Breadth = 44.8, Circumference = 93.6 },
+        new() { Breadth = 44.8, Circumference = 93.67 },
+        new() { Breadth = 44.6, Circumference = 92.5 },
+        new() { Breadth = 44.7, Circumference = 94.5 },
+        new() { Breadth = 45.2, Circumference = 92.2 },
+        new() { Breadth = 45.2, Circumference = 92.24 },
+        new() { Breadth = 45.1, Circumference = 94.0 },
+        new() { Breadth = 45.1, Circumference = 94.0 },
+        new() { Breadth = 44.9, Circumference = 90.4 },
+        new() { Breadth = 44.9, Circumference = 89.4 },
+        new() { Breadth = 44.7, Circumference = 90.4 },
+        new() { Breadth = 44.7, Circumference = 90.45 },
+        new() { Breadth = 41.3, Circumference = 78.0 },
+        new() { Breadth = 42.9, Circumference = 78.9 },
+        new() { Breadth = 42.4, Circumference = 80.4 },
+        new() { Breadth = 42.3, Circumference = 81.7 },
+        new() { Breadth = 42.1, Circumference = 83.9 },
+        new() { Breadth = 41.9, Circumference = 82.9 },
+        new() { Breadth = 41.6, Circumference = 84.6 },
+        new() { Breadth = 41.6, Circumference = 84.60 },
+        new() { Breadth = 41.5, Circumference = 85.1 },
+        new() { Breadth = 41.5, Circumference = 84.3 },
+        new() { Breadth = 41.5, Circumference = 84.34 },
+        new() { Breadth = 41.9, Circumference = 87.9 },
+        new() { Breadth = 42.6, Circumference = 84.0 },
+        new() { Breadth = 42.6, Circumference = 84.0 },
+        new() { Breadth = 42.9, Circumference = 84.9 },
+        new() { Breadth = 42.9, Circumference = 84.9 },
+        new() { Breadth = 43.4, Circumference = 85.8 },
+        new() { Breadth = 43.1, Circumference = 83.5 },
+        new() { Breadth = 42.9, Circumference = 82.2 },
+        new() { Breadth = 43.2, Circumference = 81.7 },
+        new() { Breadth = 43.5, Circumference = 82.8 },
+        new() { Breadth = 43.7, Circumference = 82.7 },
+        new() { Breadth = 43.5, Circumference = 81.3 },
+        new() { Breadth = 43.7, Circumference = 80.9 },
+        new() { Breadth = 43.7, Circumference = 80.94 },
+        new() { Breadth = 43.5, Circumference = 79.4 },
+        new() { Breadth = 43.5, Circumference = 79.40 },
+        new() { Breadth = 43.7, Circumference = 89.0 },
+        new() { Breadth = 43.5, Circumference = 88.4 },
+        new() { Breadth = 43.5, Circumference = 88.42 },
+        new() { Breadth = 43.4, Circumference = 89.45 },
+        new() { Breadth = 43.0, Circumference = 91.5 },
+        new() { Breadth = 42.6, Circumference = 87.9 },
+        new() { Breadth = 42.9, Circumference = 88.4 },
+        new() { Breadth = 42.9, Circumference = 86.8 },
+        new() { Breadth = 42.95, Circumference = 86.89 },
+        new() { Breadth = 43.1, Circumference = 88.5 },
+        new() { Breadth = 44.2, Circumference = 84.7 },
+        new() { Breadth = 44.2, Circumference = 84.7 },
+        new() { Breadth = 44.1, Circumference = 88.6 },
+        new() { Breadth = 44.1, Circumference = 88.66 },
+        new() { Breadth = 43.9, Circumference = 87.6 },
+        new() { Breadth = 44.0, Circumference = 86.6 },
+        new() { Breadth = 44.3, Circumference = 86.5 },
+        new() { Breadth = 44.3, Circumference = 86.5 },
+        new() { Breadth = 44.5, Circumference = 86.9 },
+        new() { Breadth = 44.57, Circumference = 85.5 },
+        new() { Breadth = 44.8, Circumference = 85.8 },
+        new() { Breadth = 45.0, Circumference = 84.6 },
+        new() { Breadth = 45.0, Circumference = 84.64 },
+        new() { Breadth = 44.9, Circumference = 82.7 },
+        new() { Breadth = 44.8, Circumference = 83.7 },
+        new() { Breadth = 44.8, Circumference = 83.75 },
+        new() { Breadth = 44.6, Circumference = 83.3 },
+        new() { Breadth = 44.65, Circumference = 83.37 },
+        new() { Breadth = 44.65, Circumference = 84.5 },
+        new() { Breadth = 44.65, Circumference = 84.53 },
+        new() { Breadth = 44.2, Circumference = 81.8 },
+        new() { Breadth = 44.9, Circumference = 80.2 },
+        new() { Breadth = 45.1, Circumference = 85.5 },
+        new() { Breadth = 44.7, Circumference = 87.1 },
+        new() { Breadth = 44.7, Circumference = 87.10 },
+        new() { Breadth = 44.70, Circumference = 87.10 },
+        new() { Breadth = 44.9, Circumference = 86.8 },
+        new() { Breadth = 45.1, Circumference = 87.2 },
+        new() { Breadth = 45.0, Circumference = 88.6 },
+        new() { Breadth = 45.0, Circumference = 89.4 },
+        new() { Breadth = 45.0, Circumference = 89.41 },
+        new() { Breadth = 44.7, Circumference = 88.5 },
+        new() { Breadth = 44.4, Circumference = 88.3 },
+        new() { Breadth = 44.4, Circumference = 88.3 },
+        new() { Breadth = 44.5, Circumference = 89.4 },
+        new() { Breadth = 44.4, Circumference = 90.0 },
+        new() { Breadth = 43.9, Circumference = 89.3 },
+        new() { Breadth = 44.20, Circumference = 90.2 },
+        new() { Breadth = 44.0, Circumference = 91.2 },
+        new() { Breadth = 44.0, Circumference = 91.24 },
+        new() { Breadth = 44.1, Circumference = 88.5 },
+        new() { Breadth = 44.1, Circumference = 88.53 },
+        new() { Breadth = 44.16, Circumference = 88.5 },
+        new() { Breadth = 44.2, Circumference = 91.7 },
+        new() { Breadth = 44.2, Circumference = 91.75 },
+        new() { Breadth = 43.9, Circumference = 92.7 },
+        new() { Breadth = 43.9, Circumference = 92.79 },
+        new() { Breadth = 44.2, Circumference = 94.8 },
+        new() { Breadth = 44.0, Circumference = 93.8 },
+        new() { Breadth = 44.0, Circumference = 93.81 },
+        new() { Breadth = 44.4, Circumference = 95.6 },
+        new() { Breadth = 44.8, Circumference = 97.4 },
+        new() { Breadth = 44.8, Circumference = 93.6 },
+        new() { Breadth = 44.81, Circumference = 93.67 },
+        new() { Breadth = 44.6, Circumference = 92.5 },
+        new() { Breadth = 44.7, Circumference = 94.57 },
+        new() { Breadth = 45.2, Circumference = 92.2 },
+        new() { Breadth = 45.2, Circumference = 92.24 },
+        new() { Breadth = 45.1, Circumference = 94.0 },
+        new() { Breadth = 45.1, Circumference = 94.0 },
+        new() { Breadth = 44.9, Circumference = 90.4 },
+        new() { Breadth = 44.9, Circumference = 89.4 },
+        new() { Breadth = 44.7, Circumference = 90.4 },
+        new() { Breadth = 44.7, Circumference = 90.45 }
+    };
+
+    private static List<ClusterValue> shape2Value = new()
+    {
+        new() { Breadth = 45.6, Circumference = 91.6 },
+        new() { Breadth = 46.0, Circumference = 92.6 },
+        new() { Breadth = 46.4, Circumference = 94.7 },
+        new() { Breadth = 46.9, Circumference = 97.3 },
+        new() { Breadth = 46.9, Circumference = 97.3 },
+        new() { Breadth = 46.8, Circumference = 98.7 },
+        new() { Breadth = 46.84, Circumference = 98.72 },
+        new() { Breadth = 45.4, Circumference = 95.9 },
+        new() { Breadth = 45.4, Circumference = 94.8 },
+        new() { Breadth = 45.2, Circumference = 97.2 },
+        new() { Breadth = 45.2, Circumference = 95.9 },
+        new() { Breadth = 45.3, Circumference = 97.4 },
+        new() { Breadth = 46.2, Circumference = 96.6 },
+        new() { Breadth = 46.2, Circumference = 98.3 },
+        new() { Breadth = 46.3, Circumference = 96.9 },
+        new() { Breadth = 46.3, Circumference = 96.9 },
+        new() { Breadth = 46.0, Circumference = 97.0 },
+        new() { Breadth = 46.0, Circumference = 97.7 },
+        new() { Breadth = 45.7, Circumference = 97.5 },
+        new() { Breadth = 45.7, Circumference = 98.8 },
+        new() { Breadth = 45.79, Circumference = 98.88 },
+        new() { Breadth = 45.79, Circumference = 98.88 },
+        new() { Breadth = 45.6, Circumference = 98.7 },
+        new() { Breadth = 45.63, Circumference = 98.75 },
+        new() { Breadth = 45.5, Circumference = 99.9 },
+        new() { Breadth = 45.6, Circumference = 101.4 },
+        new() { Breadth = 45.7, Circumference = 102.6 },
+        new() { Breadth = 45.7, Circumference = 102.62 },
+        new() { Breadth = 45.3, Circumference = 101.3 },
+        new() { Breadth = 45.3, Circumference = 103.0 },
+        new() { Breadth = 45.1, Circumference = 100.7 },
+        new() { Breadth = 45.1, Circumference = 100.70 },
+        new() { Breadth = 45.5, Circumference = 102.7 },
+        new() { Breadth = 45.5, Circumference = 103.9 },
+        new() { Breadth = 45.4, Circumference = 105.3 },
+        new() { Breadth = 45.2, Circumference = 108.1 },
+        new() { Breadth = 45.6, Circumference = 108.2 },
+        new() { Breadth = 45.5, Circumference = 107.3 },
+        new() { Breadth = 46.3, Circumference = 107.6 },
+        new() { Breadth = 45.9, Circumference = 106.0 },
+        new() { Breadth = 45.8, Circumference = 104.9 },
+        new() { Breadth = 45.9, Circumference = 104.1 },
+        new() { Breadth = 46.0, Circumference = 103.7 },
+        new() { Breadth = 46.07, Circumference = 105.3 },
+        new() { Breadth = 46.0, Circumference = 105.31 },
+        new() { Breadth = 46.3, Circumference = 105.4 },
+        new() { Breadth = 46.3, Circumference = 105.43 },
+        new() { Breadth = 46.5, Circumference = 105.1 },
+        new() { Breadth = 46.58, Circumference = 105.17 },
+        new() { Breadth = 46.6, Circumference = 104.5 },
+        new() { Breadth = 46.7, Circumference = 104.2 },
+        new() { Breadth = 46.5, Circumference = 102.9 },
+        new() { Breadth = 46.4, Circumference = 102.7 },
+        new() { Breadth = 46.0, Circumference = 102.6 },
+        new() { Breadth = 46.2, Circumference = 104.1 },
+        new() { Breadth = 46.2, Circumference = 104.15 },
+        new() { Breadth = 46.2, Circumference = 104.15 },
+        new() { Breadth = 46.3, Circumference = 101.3 },
+        new() { Breadth = 46.6, Circumference = 100.4 },
+        new() { Breadth = 46.4, Circumference = 99.6 },
+        new() { Breadth = 46.4, Circumference = 100.2 },
+        new() { Breadth = 46.1, Circumference = 100.29 },
+        new() { Breadth = 45.9, Circumference = 99.5 },
+        new() { Breadth = 46.94, Circumference = 102.0 },
+        new() { Breadth = 46.9, Circumference = 102.07 },
+        new() { Breadth = 47.1, Circumference = 99.8 },
+        new() { Breadth = 46.8, Circumference = 101.1 },
+        new() { Breadth = 47.0, Circumference = 101.2 },
+        new() { Breadth = 47.7, Circumference = 96.7 },
+        new() { Breadth = 47.5, Circumference = 98.9 },
+        new() { Breadth = 47.5, Circumference = 100.3 },
+        new() { Breadth = 47.5, Circumference = 100.38 },
+        new() { Breadth = 47.5, Circumference = 101.5 },
+        new() { Breadth = 47.2, Circumference = 102.9 },
+        new() { Breadth = 46.8, Circumference = 103.7 },
+        new() { Breadth = 47.1, Circumference = 102.4 },
+        new() { Breadth = 46.9, Circumference = 104.2 },
+        new() { Breadth = 47.0, Circumference = 105.2 },
+        new() { Breadth = 46.7, Circumference = 106.4 },
+        new() { Breadth = 47.1, Circumference = 106.0 },
+        new() { Breadth = 46.9, Circumference = 106.0 },
+        new() { Breadth = 47.0, Circumference = 106.4 },
+        new() { Breadth = 47.2, Circumference = 106.5 },
+        new() { Breadth = 47.2, Circumference = 108.2 },
+        new() { Breadth = 47.2, Circumference = 109.1 },
+        new() { Breadth = 47.0, Circumference = 109.9 },
+        new() { Breadth = 46.9, Circumference = 108.3 },
+        new() { Breadth = 46.5, Circumference = 108.9 },
+        new() { Breadth = 47.1, Circumference = 113.9 },
+        new() { Breadth = 46.3, Circumference = 113.5 },
+        new() { Breadth = 46.3, Circumference = 110.8 },
+        new() { Breadth = 46.32, Circumference = 110.8 },
+        new() { Breadth = 46.4, Circumference = 111.7 },
+        new() { Breadth = 46.8, Circumference = 112.2 },
+        new() { Breadth = 46.9, Circumference = 112.2 },
+        new() { Breadth = 47.1, Circumference = 111.7 },
+        new() { Breadth = 47.3, Circumference = 110.8 },
+        new() { Breadth = 47.4, Circumference = 106.8 }
+    };
+
+    private static List<ClusterValue> shape3Value = new()
+    {
+        new() { Breadth = 47.6, Circumference = 96.5 },
+        new() { Breadth = 47.6, Circumference = 98.3 },
+        new() { Breadth = 47.5, Circumference = 100.2 },
+        new() { Breadth = 47.5, Circumference = 103.0 },
+        new() { Breadth = 47.6, Circumference = 104.3 },
+        new() { Breadth = 47.8, Circumference = 103.7 },
+        new() { Breadth = 48.3, Circumference = 102.9 },
+        new() { Breadth = 48.2, Circumference = 103.7 },
+        new() { Breadth = 48.3, Circumference = 103.8 },
+        new() { Breadth = 48.6, Circumference = 103.7 },
+        new() { Breadth = 48.7, Circumference = 104.4 },
+        new() { Breadth = 48.8, Circumference = 103.7 },
+        new() { Breadth = 48.3, Circumference = 105.5 },
+        new() { Breadth = 48.3, Circumference = 105.52 },
+        new() { Breadth = 48.4, Circumference = 106.2 },
+        new() { Breadth = 48.46, Circumference = 104.7 },
+        new() { Breadth = 48.7, Circumference = 104.9 },
+        new() { Breadth = 48.7, Circumference = 104.99 },
+        new() { Breadth = 48.7, Circumference = 104.9 },
+        new() { Breadth = 48.8, Circumference = 106.66 },
+        new() { Breadth = 49.3, Circumference = 106.2 },
+        new() { Breadth = 49.0, Circumference = 106.0 },
+        new() { Breadth = 49.2, Circumference = 104.3 },
+        new() { Breadth = 49.7, Circumference = 109.8 },
+        new() { Breadth = 49.6, Circumference = 108.0 },
+        new() { Breadth = 49.5, Circumference = 108.0 },
+        new() { Breadth = 49.3, Circumference = 106.7 },
+        new() { Breadth = 49.1, Circumference = 106.78 },
+        new() { Breadth = 49.0, Circumference = 108.3 },
+        new() { Breadth = 49.1, Circumference = 109.2 },
+        new() { Breadth = 49.3, Circumference = 108.0 },
+        new() { Breadth = 48.9, Circumference = 107.3 },
+        new() { Breadth = 47.7, Circumference = 106.9 },
+        new() { Breadth = 48.1, Circumference = 106.6 },
+        new() { Breadth = 47.9, Circumference = 105.9 },
+        new() { Breadth = 47.9, Circumference = 107.5 },
+        new() { Breadth = 47.8, Circumference = 107.0 },
+        new() { Breadth = 47.8, Circumference = 107.0 },
+        new() { Breadth = 48.3, Circumference = 107.06 },
+        new() { Breadth = 48.1, Circumference = 108.1 },
+        new() { Breadth = 48.4, Circumference = 107.7 },
+        new() { Breadth = 48.2, Circumference = 107.71 },
+        new() { Breadth = 48.3, Circumference = 108.8 },
+        new() { Breadth = 48.31, Circumference = 109.8 },
+        new() { Breadth = 48.0, Circumference = 108.8 },
+        new() { Breadth = 47.9, Circumference = 109.3 },
+        new() { Breadth = 47.8, Circumference = 109.9 },
+        new() { Breadth = 47.8, Circumference = 110.9 },
+        new() { Breadth = 47.82, Circumference = 112.4 },
+        new() { Breadth = 48.1, Circumference = 112.6 },
+        new() { Breadth = 47.9, Circumference = 111.3 },
+        new() { Breadth = 47.9, Circumference = 111.32 },
+        new() { Breadth = 48.6, Circumference = 112.9 },
+        new() { Breadth = 48.0, Circumference = 113.2 },
+        new() { Breadth = 47.8, Circumference = 108.8 },
+        new() { Breadth = 49.0, Circumference = 115.0 },
+        new() { Breadth = 48.9, Circumference = 115.0 },
+        new() { Breadth = 47.6, Circumference = 108.2 },
+        new() { Breadth = 47.6, Circumference = 110.0 },
+        new() { Breadth = 47.7, Circumference = 108.6 },
+        new() { Breadth = 47.9, Circumference = 117.5 },
+        new() { Breadth = 48.3, Circumference = 118.3 },
+        new() { Breadth = 48.6, Circumference = 118.9 },
+        new() { Breadth = 48.7, Circumference = 122.3 },
+        new() { Breadth = 49.4, Circumference = 120.8 },
+        new() { Breadth = 49.3, Circumference = 117.7 },
+        new() { Breadth = 48.6, Circumference = 115.9 },
+        new() { Breadth = 48.7, Circumference = 116.4 },
+        new() { Breadth = 48.3, Circumference = 115.5 },
+        new() { Breadth = 49.2, Circumference = 115.2 },
+        new() { Breadth = 49.5, Circumference = 115.27 },
+        new() { Breadth = 48.6, Circumference = 113.2 },
+        new() { Breadth = 48.5, Circumference = 112.4 },
+        new() { Breadth = 49.0, Circumference = 113.2 },
+        new() { Breadth = 48.9, Circumference = 112.5 },
+        new() { Breadth = 48.8, Circumference = 110.9 },
+        new() { Breadth = 48.6, Circumference = 109.8 },
+        new() { Breadth = 48.6, Circumference = 108.0 },
+        new() { Breadth = 48.5, Circumference = 110.4 },
+        new() { Breadth = 48.5, Circumference = 108.8 },
+        new() { Breadth = 48.8, Circumference = 110.6 },
+        new() { Breadth = 48.8, Circumference = 110.65 },
+        new() { Breadth = 49.0, Circumference = 109.8 },
+        new() { Breadth = 49.2, Circumference = 111.6 },
+        new() { Breadth = 48.8, Circumference = 111.9 },
+        new() { Breadth = 48.9, Circumference = 111.6 },
+        new() { Breadth = 49.3, Circumference = 111.4 },
+        new() { Breadth = 49.3, Circumference = 111.42 },
+        new() { Breadth = 49.3, Circumference = 111.6 },
+        new() { Breadth = 49.4, Circumference = 112.1 },
+        new() { Breadth = 49.5, Circumference = 112.9 },
+        new() { Breadth = 49.7, Circumference = 113.2 },
+        new() { Breadth = 49.9, Circumference = 113.3 },
+        new() { Breadth = 49.6, Circumference = 113.7 },
+        new() { Breadth = 48.9, Circumference = 111.3 },
+        new() { Breadth = 49.0, Circumference = 112.0 },
+        new() { Breadth = 48.8, Circumference = 109.3 }
+    };
+
+    private static List<ClusterValue> shape4Value = new()
+    {
+        new() { Breadth = 50.3, Circumference = 107.0 },
+        new() { Breadth = 50.1, Circumference = 107.5 },
+        new() { Breadth = 50.0, Circumference = 110.2 },
+        new() { Breadth = 49.8, Circumference = 110.7 },
+        new() { Breadth = 50.0, Circumference = 111.2 },
+        new() { Breadth = 50.0, Circumference = 112.0 },
+        new() { Breadth = 50.1, Circumference = 112.17 },
+        new() { Breadth = 50.0, Circumference = 113.2 },
+        new() { Breadth = 50.6, Circumference = 113.4 },
+        new() { Breadth = 50.3, Circumference = 114.7 },
+        new() { Breadth = 50.3, Circumference = 115.3 },
+        new() { Breadth = 50.2, Circumference = 116.5 },
+        new() { Breadth = 49.8, Circumference = 116.8 },
+        new() { Breadth = 49.9, Circumference = 117.9 },
+        new() { Breadth = 49.94, Circumference = 121.9 },
+        new() { Breadth = 50.3, Circumference = 123.2 },
+        new() { Breadth = 50.6, Circumference = 121.4 },
+        new() { Breadth = 50.9, Circumference = 121.0 },
+        new() { Breadth = 50.7, Circumference = 118.4 },
+        new() { Breadth = 50.70, Circumference = 118.2 },
+        new() { Breadth = 50.8, Circumference = 117.1 },
+        new() { Breadth = 50.8, Circumference = 115.2 },
+        new() { Breadth = 50.9, Circumference = 112.7 },
+        new() { Breadth = 50.6, Circumference = 112.4 },
+        new() { Breadth = 50.5, Circumference = 111.5 },
+        new() { Breadth = 50.7, Circumference = 110.6 },
+        new() { Breadth = 50.7, Circumference = 111.3 },
+        new() { Breadth = 50.8, Circumference = 110.9 },
+        new() { Breadth = 51.0, Circumference = 111.8 },
+        new() { Breadth = 50.7, Circumference = 108.8 },
+        new() { Breadth = 50.6, Circumference = 108.2 },
+        new() { Breadth = 50.65, Circumference = 108.2 },
+        new() { Breadth = 51.2, Circumference = 108.6 },
+        new() { Breadth = 51.8, Circumference = 112.0 },
+        new() { Breadth = 52.3, Circumference = 113.6 },
+        new() { Breadth = 51.1, Circumference = 115.4 },
+        new() { Breadth = 51.8, Circumference = 115.7 },
+        new() { Breadth = 51.7, Circumference = 117.2 },
+        new() { Breadth = 52.0, Circumference = 119.5 },
+        new() { Breadth = 52.0, Circumference = 120.6 },
+        new() { Breadth = 51.9, Circumference = 122.9 },
+        new() { Breadth = 51.9, Circumference = 124.8 },
+        new() { Breadth = 51.17, Circumference = 124.7 },
+        new() { Breadth = 52.3, Circumference = 128.0 },
+        new() { Breadth = 52.3, Circumference = 128.0 },
+        new() { Breadth = 52.6, Circumference = 124.9 },
+        new() { Breadth = 52.7, Circumference = 124.2 },
+        new() { Breadth = 52.5, Circumference = 120.2 },
+        new() { Breadth = 52.8, Circumference = 119.7 }
+    };
+
+    private static List<ClusterValue> shape5Value = new()
+    {
+        new() { Breadth = 53.1, Circumference = 121.3 },
+        new() { Breadth = 53.0, Circumference = 122.4 },
+        new() { Breadth = 54.6, Circumference = 133.4 },
+        new() { Breadth = 53.3, Circumference = 122.6 },
+        new() { Breadth = 53.6, Circumference = 125.4 },
+        new() { Breadth = 53.9, Circumference = 128.5 },
+        new() { Breadth = 53.3, Circumference = 125.7 },
+        new() { Breadth = 53.3, Circumference = 125.78 },
+        new() { Breadth = 54.0, Circumference = 127.0 },
+        new() { Breadth = 54.0, Circumference = 127.05 },
+        new() { Breadth = 53.1, Circumference = 127.3 },
+        new() { Breadth = 53.6, Circumference = 121.36 },
+        new() { Breadth = 52.6, Circumference = 123.4 },
+        new() { Breadth = 54.0, Circumference = 123.2 },
+        new() { Breadth = 53.8, Circumference = 124.8 },
+        new() { Breadth = 53.3, Circumference = 123.3 },
+        new() { Breadth = 53.3, Circumference = 124.3 },
+        new() { Breadth = 53.8, Circumference = 123.6 },
+        new() { Breadth = 53.8, Circumference = 124.61 },
+        new() { Breadth = 53.5, Circumference = 123.5 }
+    };
+}";
+    public string dynamicUpdateCode = @"@using Syncfusion.Blazor.Toolkit.Charts
+@using System.Collections.ObjectModel
+@using System.Timers
+
+<SfChart @key=""@_currentTheme"" Theme=""@_currentTheme"" >
+    <ChartTitleStyle Color=""@TextColor"" />
+    <ChartPrimaryXAxis ValueType=""Syncfusion.Blazor.Toolkit.ValueType.Double"">
+        <ChartAxisLabelStyle Color=""@TextColor"" />
+    </ChartPrimaryXAxis>
+    <ChartPrimaryYAxis ValueType=""Syncfusion.Blazor.Toolkit.ValueType.Double"" Interval=""10"">
+        <ChartAxisLabelStyle Color=""@TextColor"" />
+    </ChartPrimaryYAxis>
+    
+        <ChartSeries DataSource=""@Data""
+                     XName=""X""
+                     YName=""Y""
+                     Type=""ChartSeriesType.Scatter""
+                     Fill=""#5853C6""
+                     Animation=""ScatterAnimation"">
+            <ChartMarker Visible=""true""
+                         Width=""10""
+                         Height=""10""
+                         Shape=""ChartShape.Circle"">
+            </ChartMarker>
+        </ChartSeries>
+    
+</SfChart>
+
+@code {
+    private Theme _currentTheme = Theme.Fluent;
+
+    public class ScatterDataPoint
+    {
+        public double X { get; set; }
+        public double Y { get; set; }
+    }
+
+    private ChartSeriesAnimation ScatterAnimation = new ChartSeriesAnimation
+    {
+        Enable = true,
+        Duration = 1000
+    };
+
+    private ObservableCollection<ScatterDataPoint> Data = new();
+    private System.Timers.Timer? timer;
+    private readonly Random random = new();
+    private const int START_YEAR = 2017;
+    private const int DATA_COUNT = 12;
+
+    protected override void OnInitialized()
+    {
+        _currentTheme = Theme.Fluent;
+
+        Data = new ObservableCollection<ScatterDataPoint>(GenerateInitialData());
+
+        timer = new System.Timers.Timer(2000);
+        timer.Elapsed += (_, _) =>
+        {
+            InvokeAsync(() => {
+                UpdateDataSource();
+            });
+        };
+        timer.Start();
+    }
+
+    private List<ScatterDataPoint> GenerateInitialData()
+    {
+        var data = new List<ScatterDataPoint>();
+
+        for (int i = 0; i < DATA_COUNT; i++)
+        {
+            data.Add(new ScatterDataPoint
+            {
+                X = START_YEAR + i,
+                Y = random.NextDouble() * 50
+            });
+        }
+
+        return data;
+    }
+
+    private void UpdateDataSource()
+    {
+        for (int i = 0; i < Data.Count; i++)
+        {
+            Data[i] = new ScatterDataPoint
+            {
+                X = START_YEAR + i,
+                Y = random.NextDouble() * 50
+            };
+        }
+    }
+
+    public void Dispose()
+    {
+        timer?.Stop();
+        timer?.Dispose();
+    }
+}";
+}
+
+@code {
+    [CascadingParameter]
+    private Theme CurrentTheme { get; set; } = Theme.Fluent;
+
+    private Theme _currentTheme = Theme.Fluent;
+
+    private bool IsDarkTheme => _currentTheme.ToString().Contains("Dark") || _currentTheme.ToString().Contains("HighContrast");
+
+    private string GetChartClass() => IsDarkTheme ? "sf-dark-chart" : "sf-light-chart";
+
+    private string TextColor => IsDarkTheme ? "#E6EEF8" : "#0B1F3B";
+
+    public class ScatterData
+    {
+        public double X { get; set; }
+        public double Y { get; set; }
+    }
+
+    private ChartSeriesAnimation ScatterAnimation = new ChartSeriesAnimation
+    {
+        Enable = true,
+        Duration = 1000
+    };
+
+    private const int DATA_COUNT = 12;
+    private const int START_YEAR = 2017;
+
+    private List<ScatterData> GenerateInitialScatterData()
+    {
+        var random = new Random();
+        var data = new List<ScatterData>();
+
+        for (int i = 0; i < DATA_COUNT; i++)
+        {
+            data.Add(new ScatterData
+            {
+                X = START_YEAR + i,
+                Y = random.NextDouble() * 50
+            });
+        }
+
+        return data;
+    }
+
+    protected override void OnParametersSet()
+    {
+        _currentTheme = CurrentTheme;
+    }
+
+    public class ClusterValue
+    {
+        public double Breadth { get; set; }
+        public double Circumference { get; set; }
+    }
+
+    private static List<ClusterValue> shape1Value = new()
+    {
+        new() { Breadth = 41.3, Circumference = 78.1 },
+        new() { Breadth = 41.3, Circumference = 78.04 },
+        new() { Breadth = 42.9, Circumference = 78.9 },
+        new() { Breadth = 42.4, Circumference = 80.4 },
+        new() { Breadth = 42.3, Circumference = 81.7 },
+        new() { Breadth = 42.1, Circumference = 83.9 },
+        new() { Breadth = 41.9, Circumference = 82.9 },
+        new() { Breadth = 41.6, Circumference = 84.6 },
+        new() { Breadth = 41.6, Circumference = 84.6 },
+        new() { Breadth = 41.5, Circumference = 85.1 },
+        new() { Breadth = 41.5, Circumference = 84.3 },
+        new() { Breadth = 41.5, Circumference = 84.3 },
+        new() { Breadth = 41.9, Circumference = 87.9 },
+        new() { Breadth = 42.6, Circumference = 84.0 },
+        new() { Breadth = 42.6, Circumference = 84.0 },
+        new() { Breadth = 42.9, Circumference = 84.9 },
+        new() { Breadth = 42.9, Circumference = 84.9 },
+        new() { Breadth = 43.4, Circumference = 85.8 },
+        new() { Breadth = 43.1, Circumference = 83.5 },
+        new() { Breadth = 42.9, Circumference = 82.2 },
+        new() { Breadth = 43.2, Circumference = 81.7 },
+        new() { Breadth = 43.5, Circumference = 82.8 },
+        new() { Breadth = 43.7, Circumference = 82.7 },
+        new() { Breadth = 43.5, Circumference = 81.3 },
+        new() { Breadth = 43.7, Circumference = 80.9 },
+        new() { Breadth = 43.7, Circumference = 80.9 },
+        new() { Breadth = 43.5, Circumference = 89.4 },
+        new() { Breadth = 43.5, Circumference = 79.4 },
+        new() { Breadth = 43.7, Circumference = 89.0 },
+        new() { Breadth = 43.5, Circumference = 88.4 },
+        new() { Breadth = 43.5, Circumference = 88.4 },
+        new() { Breadth = 43.4, Circumference = 89.4 },
+        new() { Breadth = 43.0, Circumference = 91.5 },
+        new() { Breadth = 42.6, Circumference = 87.9 },
+        new() { Breadth = 42.9, Circumference = 88.4 },
+        new() { Breadth = 42.9, Circumference = 86.8 },
+        new() { Breadth = 42.9, Circumference = 86.8 },
+        new() { Breadth = 43.1, Circumference = 88.5 },
+        new() { Breadth = 44.2, Circumference = 84.7 },
+        new() { Breadth = 44.2, Circumference = 84.7 },
+        new() { Breadth = 44.1, Circumference = 88.6 },
+        new() { Breadth = 44.1, Circumference = 88.6 },
+        new() { Breadth = 43.9, Circumference = 87.6 },
+        new() { Breadth = 44.0, Circumference = 86.6 },
+        new() { Breadth = 44.3, Circumference = 86.5 },
+        new() { Breadth = 44.3, Circumference = 86.59 },
+        new() { Breadth = 44.5, Circumference = 86.9 },
+        new() { Breadth = 44.5, Circumference = 85.5 },
+        new() { Breadth = 44.8, Circumference = 85.8 },
+        new() { Breadth = 45.0, Circumference = 84.6 },
+        new() { Breadth = 45.0, Circumference = 84.64 },
+        new() { Breadth = 44.9, Circumference = 82.7 },
+        new() { Breadth = 44.8, Circumference = 83.7 },
+        new() { Breadth = 44.89, Circumference = 83.75 },
+        new() { Breadth = 44.6, Circumference = 83.3 },
+        new() { Breadth = 44.65, Circumference = 83.37 },
+        new() { Breadth = 44.65, Circumference = 84.5 },
+        new() { Breadth = 44.65, Circumference = 84.53 },
+        new() { Breadth = 44.2, Circumference = 81.8 },
+        new() { Breadth = 44.9, Circumference = 80.2 },
+        new() { Breadth = 45.1, Circumference = 85.5 },
+        new() { Breadth = 44.7, Circumference = 87.1 },
+        new() { Breadth = 44.70, Circumference = 87.10 },
+        new() { Breadth = 44.70, Circumference = 87.1 },
+        new() { Breadth = 44.9, Circumference = 86.8 },
+        new() { Breadth = 45.1, Circumference = 87.2 },
+        new() { Breadth = 45.0, Circumference = 88.6 },
+        new() { Breadth = 45.0, Circumference = 89.4 },
+        new() { Breadth = 45.0, Circumference = 89.4 },
+        new() { Breadth = 44.7, Circumference = 88.5 },
+        new() { Breadth = 44.4, Circumference = 88.3 },
+        new() { Breadth = 44.4, Circumference = 88.39 },
+        new() { Breadth = 44.5, Circumference = 89.4 },
+        new() { Breadth = 44.4, Circumference = 90.0 },
+        new() { Breadth = 43.9, Circumference = 89.3 },
+        new() { Breadth = 44.2, Circumference = 90.2 },
+        new() { Breadth = 44.0, Circumference = 91.2 },
+        new() { Breadth = 44.0, Circumference = 91.24 },
+        new() { Breadth = 44.1, Circumference = 88.5 },
+        new() { Breadth = 44.16, Circumference = 88.53 },
+        new() { Breadth = 44.16, Circumference = 88.535 },
+        new() { Breadth = 44.2, Circumference = 91.7 },
+        new() { Breadth = 44.2, Circumference = 91.75 },
+        new() { Breadth = 43.9, Circumference = 92.79 },
+        new() { Breadth = 43.9, Circumference = 92.7 },
+        new() { Breadth = 44.2, Circumference = 94.8 },
+        new() { Breadth = 44.0, Circumference = 93.8 },
+        new() { Breadth = 44.0, Circumference = 93.81 },
+        new() { Breadth = 44.4, Circumference = 95.6 },
+        new() { Breadth = 44.8, Circumference = 97.4 },
+        new() { Breadth = 44.8, Circumference = 93.6 },
+        new() { Breadth = 44.8, Circumference = 93.67 },
+        new() { Breadth = 44.6, Circumference = 92.5 },
+        new() { Breadth = 44.7, Circumference = 94.5 },
+        new() { Breadth = 45.2, Circumference = 92.2 },
+        new() { Breadth = 45.2, Circumference = 92.24 },
+        new() { Breadth = 45.1, Circumference = 94.0 },
+        new() { Breadth = 45.1, Circumference = 94.0 },
+        new() { Breadth = 44.9, Circumference = 90.4 },
+        new() { Breadth = 44.9, Circumference = 89.4 },
+        new() { Breadth = 44.7, Circumference = 90.4 },
+        new() { Breadth = 44.7, Circumference = 90.45 },
+        new() { Breadth = 41.3, Circumference = 78.0 },
+        new() { Breadth = 42.9, Circumference = 78.9 },
+        new() { Breadth = 42.4, Circumference = 80.4 },
+        new() { Breadth = 42.3, Circumference = 81.7 },
+        new() { Breadth = 42.1, Circumference = 83.9 },
+        new() { Breadth = 41.9, Circumference = 82.9 },
+        new() { Breadth = 41.6, Circumference = 84.6 },
+        new() { Breadth = 41.6, Circumference = 84.60 },
+        new() { Breadth = 41.5, Circumference = 85.1 },
+        new() { Breadth = 41.5, Circumference = 84.3 },
+        new() { Breadth = 41.5, Circumference = 84.34 },
+        new() { Breadth = 41.9, Circumference = 87.9 },
+        new() { Breadth = 42.6, Circumference = 84.0 },
+        new() { Breadth = 42.6, Circumference = 84.0 },
+        new() { Breadth = 42.9, Circumference = 84.9 },
+        new() { Breadth = 42.9, Circumference = 84.9 },
+        new() { Breadth = 43.4, Circumference = 85.8 },
+        new() { Breadth = 43.1, Circumference = 83.5 },
+        new() { Breadth = 42.9, Circumference = 82.2 },
+        new() { Breadth = 43.2, Circumference = 81.7 },
+        new() { Breadth = 43.5, Circumference = 82.8 },
+        new() { Breadth = 43.7, Circumference = 82.7 },
+        new() { Breadth = 43.5, Circumference = 81.3 },
+        new() { Breadth = 43.7, Circumference = 80.9 },
+        new() { Breadth = 43.7, Circumference = 80.94 },
+        new() { Breadth = 43.5, Circumference = 79.4 },
+        new() { Breadth = 43.5, Circumference = 79.40 },
+        new() { Breadth = 43.7, Circumference = 89.0 },
+        new() { Breadth = 43.5, Circumference = 88.4 },
+        new() { Breadth = 43.5, Circumference = 88.42 },
+        new() { Breadth = 43.4, Circumference = 89.45 },
+        new() { Breadth = 43.0, Circumference = 91.5 },
+        new() { Breadth = 42.6, Circumference = 87.9 },
+        new() { Breadth = 42.9, Circumference = 88.4 },
+        new() { Breadth = 42.9, Circumference = 86.8 },
+        new() { Breadth = 42.95, Circumference = 86.89 },
+        new() { Breadth = 43.1, Circumference = 88.5 },
+        new() { Breadth = 44.2, Circumference = 84.7 },
+        new() { Breadth = 44.2, Circumference = 84.7 },
+        new() { Breadth = 44.1, Circumference = 88.6 },
+        new() { Breadth = 44.1, Circumference = 88.66 },
+        new() { Breadth = 43.9, Circumference = 87.6 },
+        new() { Breadth = 44.0, Circumference = 86.6 },
+        new() { Breadth = 44.3, Circumference = 86.5 },
+        new() { Breadth = 44.3, Circumference = 86.5 },
+        new() { Breadth = 44.5, Circumference = 86.9 },
+        new() { Breadth = 44.57, Circumference = 85.5 },
+        new() { Breadth = 44.8, Circumference = 85.8 },
+        new() { Breadth = 45.0, Circumference = 84.6 },
+        new() { Breadth = 45.0, Circumference = 84.64 },
+        new() { Breadth = 44.9, Circumference = 82.7 },
+        new() { Breadth = 44.8, Circumference = 83.7 },
+        new() { Breadth = 44.8, Circumference = 83.75 },
+        new() { Breadth = 44.6, Circumference = 83.3 },
+        new() { Breadth = 44.65, Circumference = 83.37 },
+        new() { Breadth = 44.65, Circumference = 84.5 },
+        new() { Breadth = 44.65, Circumference = 84.53 },
+        new() { Breadth = 44.2, Circumference = 81.8 },
+        new() { Breadth = 44.9, Circumference = 80.2 },
+        new() { Breadth = 45.1, Circumference = 85.5 },
+        new() { Breadth = 44.7, Circumference = 87.1 },
+        new() { Breadth = 44.7, Circumference = 87.10 },
+        new() { Breadth = 44.70, Circumference = 87.10 },
+        new() { Breadth = 44.9, Circumference = 86.8 },
+        new() { Breadth = 45.1, Circumference = 87.2 },
+        new() { Breadth = 45.0, Circumference = 88.6 },
+        new() { Breadth = 45.0, Circumference = 89.4 },
+        new() { Breadth = 45.0, Circumference = 89.41 },
+        new() { Breadth = 44.7, Circumference = 88.5 },
+        new() { Breadth = 44.4, Circumference = 88.3 },
+        new() { Breadth = 44.4, Circumference = 88.3 },
+        new() { Breadth = 44.5, Circumference = 89.4 },
+        new() { Breadth = 44.4, Circumference = 90.0 },
+        new() { Breadth = 43.9, Circumference = 89.3 },
+        new() { Breadth = 44.20, Circumference = 90.2 },
+        new() { Breadth = 44.0, Circumference = 91.2 },
+        new() { Breadth = 44.0, Circumference = 91.24 },
+        new() { Breadth = 44.1, Circumference = 88.5 },
+        new() { Breadth = 44.1, Circumference = 88.53 },
+        new() { Breadth = 44.16, Circumference = 88.5 },
+        new() { Breadth = 44.2, Circumference = 91.7 },
+        new() { Breadth = 44.2, Circumference = 91.75 },
+        new() { Breadth = 43.9, Circumference = 92.7 },
+        new() { Breadth = 43.9, Circumference = 92.79 },
+        new() { Breadth = 44.2, Circumference = 94.8 },
+        new() { Breadth = 44.0, Circumference = 93.8 },
+        new() { Breadth = 44.0, Circumference = 93.81 },
+        new() { Breadth = 44.4, Circumference = 95.6 },
+        new() { Breadth = 44.8, Circumference = 97.4 },
+        new() { Breadth = 44.8, Circumference = 93.6 },
+        new() { Breadth = 44.81, Circumference = 93.67 },
+        new() { Breadth = 44.6, Circumference = 92.5 },
+        new() { Breadth = 44.7, Circumference = 94.57 },
+        new() { Breadth = 45.2, Circumference = 92.2 },
+        new() { Breadth = 45.2, Circumference = 92.24 },
+        new() { Breadth = 45.1, Circumference = 94.0 },
+        new() { Breadth = 45.1, Circumference = 94.0 },
+        new() { Breadth = 44.9, Circumference = 90.4 },
+        new() { Breadth = 44.9, Circumference = 89.4 },
+        new() { Breadth = 44.7, Circumference = 90.4 },
+        new() { Breadth = 44.7, Circumference = 90.45 }
+    };
+
+    private static List<ClusterValue> shape2Value = new()
+    {
+        new() { Breadth = 45.6, Circumference = 91.6 },
+        new() { Breadth = 46.0, Circumference = 92.6 },
+        new() { Breadth = 46.4, Circumference = 94.7 },
+        new() { Breadth = 46.9, Circumference = 97.3 },
+        new() { Breadth = 46.9, Circumference = 97.3 },
+        new() { Breadth = 46.8, Circumference = 98.7 },
+        new() { Breadth = 46.84, Circumference = 98.72 },
+        new() { Breadth = 45.4, Circumference = 95.9 },
+        new() { Breadth = 45.4, Circumference = 94.8 },
+        new() { Breadth = 45.2, Circumference = 97.2 },
+        new() { Breadth = 45.2, Circumference = 95.9 },
+        new() { Breadth = 45.3, Circumference = 97.4 },
+        new() { Breadth = 46.2, Circumference = 96.6 },
+        new() { Breadth = 46.2, Circumference = 98.3 },
+        new() { Breadth = 46.3, Circumference = 96.9 },
+        new() { Breadth = 46.3, Circumference = 96.9 },
+        new() { Breadth = 46.0, Circumference = 97.0 },
+        new() { Breadth = 46.0, Circumference = 97.7 },
+        new() { Breadth = 45.7, Circumference = 97.5 },
+        new() { Breadth = 45.7, Circumference = 98.8 },
+        new() { Breadth = 45.79, Circumference = 98.88 },
+        new() { Breadth = 45.79, Circumference = 98.88 },
+        new() { Breadth = 45.6, Circumference = 98.7 },
+        new() { Breadth = 45.63, Circumference = 98.75 },
+        new() { Breadth = 45.5, Circumference = 99.9 },
+        new() { Breadth = 45.6, Circumference = 101.4 },
+        new() { Breadth = 45.7, Circumference = 102.6 },
+        new() { Breadth = 45.7, Circumference = 102.62 },
+        new() { Breadth = 45.3, Circumference = 101.3 },
+        new() { Breadth = 45.3, Circumference = 103.0 },
+        new() { Breadth = 45.1, Circumference = 100.7 },
+        new() { Breadth = 45.1, Circumference = 100.70 },
+        new() { Breadth = 45.5, Circumference = 102.7 },
+        new() { Breadth = 45.5, Circumference = 103.9 },
+        new() { Breadth = 45.4, Circumference = 105.3 },
+        new() { Breadth = 45.2, Circumference = 108.1 },
+        new() { Breadth = 45.6, Circumference = 108.2 },
+        new() { Breadth = 45.5, Circumference = 107.3 },
+        new() { Breadth = 46.3, Circumference = 107.6 },
+        new() { Breadth = 45.9, Circumference = 106.0 },
+        new() { Breadth = 45.8, Circumference = 104.9 },
+        new() { Breadth = 45.9, Circumference = 104.1 },
+        new() { Breadth = 46.0, Circumference = 103.7 },
+        new() { Breadth = 46.07, Circumference = 105.3 },
+        new() { Breadth = 46.0, Circumference = 105.31 },
+        new() { Breadth = 46.3, Circumference = 105.4 },
+        new() { Breadth = 46.3, Circumference = 105.43 },
+        new() { Breadth = 46.5, Circumference = 105.1 },
+        new() { Breadth = 46.58, Circumference = 105.17 },
+        new() { Breadth = 46.6, Circumference = 104.5 },
+        new() { Breadth = 46.7, Circumference = 104.2 },
+        new() { Breadth = 46.5, Circumference = 102.9 },
+        new() { Breadth = 46.4, Circumference = 102.7 },
+        new() { Breadth = 46.0, Circumference = 102.6 },
+        new() { Breadth = 46.2, Circumference = 104.1 },
+        new() { Breadth = 46.2, Circumference = 104.15 },
+        new() { Breadth = 46.2, Circumference = 104.15 },
+        new() { Breadth = 46.3, Circumference = 101.3 },
+        new() { Breadth = 46.6, Circumference = 100.4 },
+        new() { Breadth = 46.4, Circumference = 99.6 },
+        new() { Breadth = 46.4, Circumference = 100.2 },
+        new() { Breadth = 46.1, Circumference = 100.29 },
+        new() { Breadth = 45.9, Circumference = 99.5 },
+        new() { Breadth = 46.94, Circumference = 102.0 },
+        new() { Breadth = 46.9, Circumference = 102.07 },
+        new() { Breadth = 47.1, Circumference = 99.8 },
+        new() { Breadth = 46.8, Circumference = 101.1 },
+        new() { Breadth = 47.0, Circumference = 101.2 },
+        new() { Breadth = 47.7, Circumference = 96.7 },
+        new() { Breadth = 47.5, Circumference = 98.9 },
+        new() { Breadth = 47.5, Circumference = 100.3 },
+        new() { Breadth = 47.5, Circumference = 100.38 },
+        new() { Breadth = 47.5, Circumference = 101.5 },
+        new() { Breadth = 47.2, Circumference = 102.9 },
+        new() { Breadth = 46.8, Circumference = 103.7 },
+        new() { Breadth = 47.1, Circumference = 102.4 },
+        new() { Breadth = 46.9, Circumference = 104.2 },
+        new() { Breadth = 47.0, Circumference = 105.2 },
+        new() { Breadth = 46.7, Circumference = 106.4 },
+        new() { Breadth = 47.1, Circumference = 106.0 },
+        new() { Breadth = 46.9, Circumference = 106.0 },
+        new() { Breadth = 47.0, Circumference = 106.4 },
+        new() { Breadth = 47.2, Circumference = 106.5 },
+        new() { Breadth = 47.2, Circumference = 108.2 },
+        new() { Breadth = 47.2, Circumference = 109.1 },
+        new() { Breadth = 47.0, Circumference = 109.9 },
+        new() { Breadth = 46.9, Circumference = 108.3 },
+        new() { Breadth = 46.5, Circumference = 108.9 },
+        new() { Breadth = 47.1, Circumference = 113.9 },
+        new() { Breadth = 46.3, Circumference = 113.5 },
+        new() { Breadth = 46.3, Circumference = 110.8 },
+        new() { Breadth = 46.32, Circumference = 110.8 },
+        new() { Breadth = 46.4, Circumference = 111.7 },
+        new() { Breadth = 46.8, Circumference = 112.2 },
+        new() { Breadth = 46.9, Circumference = 112.2 },
+        new() { Breadth = 47.1, Circumference = 111.7 },
+        new() { Breadth = 47.3, Circumference = 110.8 },
+        new() { Breadth = 47.4, Circumference = 106.8 }
+    };
+
+    private static List<ClusterValue> shape3Value = new()
+    {
+        new() { Breadth = 47.6, Circumference = 96.5 },
+        new() { Breadth = 47.6, Circumference = 98.3 },
+        new() { Breadth = 47.5, Circumference = 100.2 },
+        new() { Breadth = 47.5, Circumference = 103.0 },
+        new() { Breadth = 47.6, Circumference = 104.3 },
+        new() { Breadth = 47.8, Circumference = 103.7 },
+        new() { Breadth = 48.3, Circumference = 102.9 },
+        new() { Breadth = 48.2, Circumference = 103.7 },
+        new() { Breadth = 48.3, Circumference = 103.8 },
+        new() { Breadth = 48.6, Circumference = 103.7 },
+        new() { Breadth = 48.7, Circumference = 104.4 },
+        new() { Breadth = 48.8, Circumference = 103.7 },
+        new() { Breadth = 48.3, Circumference = 105.5 },
+        new() { Breadth = 48.3, Circumference = 105.52 },
+        new() { Breadth = 48.4, Circumference = 106.2 },
+        new() { Breadth = 48.46, Circumference = 104.7 },
+        new() { Breadth = 48.7, Circumference = 104.9 },
+        new() { Breadth = 48.7, Circumference = 104.99 },
+        new() { Breadth = 48.7, Circumference = 104.9 },
+        new() { Breadth = 48.8, Circumference = 106.66 },
+        new() { Breadth = 49.3, Circumference = 106.2 },
+        new() { Breadth = 49.0, Circumference = 106.0 },
+        new() { Breadth = 49.2, Circumference = 104.3 },
+        new() { Breadth = 49.7, Circumference = 109.8 },
+        new() { Breadth = 49.6, Circumference = 108.0 },
+        new() { Breadth = 49.5, Circumference = 108.0 },
+        new() { Breadth = 49.3, Circumference = 106.7 },
+        new() { Breadth = 49.1, Circumference = 106.78 },
+        new() { Breadth = 49.0, Circumference = 108.3 },
+        new() { Breadth = 49.1, Circumference = 109.2 },
+        new() { Breadth = 49.3, Circumference = 108.0 },
+        new() { Breadth = 48.9, Circumference = 107.3 },
+        new() { Breadth = 47.7, Circumference = 106.9 },
+        new() { Breadth = 48.1, Circumference = 106.6 },
+        new() { Breadth = 47.9, Circumference = 105.9 },
+        new() { Breadth = 47.9, Circumference = 107.5 },
+        new() { Breadth = 47.8, Circumference = 107.0 },
+        new() { Breadth = 47.8, Circumference = 107.0 },
+        new() { Breadth = 48.3, Circumference = 107.06 },
+        new() { Breadth = 48.1, Circumference = 108.1 },
+        new() { Breadth = 48.4, Circumference = 107.7 },
+        new() { Breadth = 48.2, Circumference = 107.71 },
+        new() { Breadth = 48.3, Circumference = 108.8 },
+        new() { Breadth = 48.31, Circumference = 109.8 },
+        new() { Breadth = 48.0, Circumference = 108.8 },
+        new() { Breadth = 47.9, Circumference = 109.3 },
+        new() { Breadth = 47.8, Circumference = 109.9 },
+        new() { Breadth = 47.8, Circumference = 110.9 },
+        new() { Breadth = 47.82, Circumference = 112.4 },
+        new() { Breadth = 48.1, Circumference = 112.6 },
+        new() { Breadth = 47.9, Circumference = 111.3 },
+        new() { Breadth = 47.9, Circumference = 111.32 },
+        new() { Breadth = 48.6, Circumference = 112.9 },
+        new() { Breadth = 48.0, Circumference = 113.2 },
+        new() { Breadth = 47.8, Circumference = 108.8 },
+        new() { Breadth = 49.0, Circumference = 115.0 },
+        new() { Breadth = 48.9, Circumference = 115.0 },
+        new() { Breadth = 47.6, Circumference = 108.2 },
+        new() { Breadth = 47.6, Circumference = 110.0 },
+        new() { Breadth = 47.7, Circumference = 108.6 },
+        new() { Breadth = 47.9, Circumference = 117.5 },
+        new() { Breadth = 48.3, Circumference = 118.3 },
+        new() { Breadth = 48.6, Circumference = 118.9 },
+        new() { Breadth = 48.7, Circumference = 122.3 },
+        new() { Breadth = 49.4, Circumference = 120.8 },
+        new() { Breadth = 49.3, Circumference = 117.7 },
+        new() { Breadth = 48.6, Circumference = 115.9 },
+        new() { Breadth = 48.7, Circumference = 116.4 },
+        new() { Breadth = 48.3, Circumference = 115.5 },
+        new() { Breadth = 49.2, Circumference = 115.2 },
+        new() { Breadth = 49.5, Circumference = 115.27 },
+        new() { Breadth = 48.6, Circumference = 113.2 },
+        new() { Breadth = 48.5, Circumference = 112.4 },
+        new() { Breadth = 49.0, Circumference = 113.2 },
+        new() { Breadth = 48.9, Circumference = 112.5 },
+        new() { Breadth = 48.8, Circumference = 110.9 },
+        new() { Breadth = 48.6, Circumference = 109.8 },
+        new() { Breadth = 48.6, Circumference = 108.0 },
+        new() { Breadth = 48.5, Circumference = 110.4 },
+        new() { Breadth = 48.5, Circumference = 108.8 },
+        new() { Breadth = 48.8, Circumference = 110.6 },
+        new() { Breadth = 48.8, Circumference = 110.65 },
+        new() { Breadth = 49.0, Circumference = 109.8 },
+        new() { Breadth = 49.2, Circumference = 111.6 },
+        new() { Breadth = 48.8, Circumference = 111.9 },
+        new() { Breadth = 48.9, Circumference = 111.6 },
+        new() { Breadth = 49.3, Circumference = 111.4 },
+        new() { Breadth = 49.3, Circumference = 111.42 },
+        new() { Breadth = 49.3, Circumference = 111.6 },
+        new() { Breadth = 49.4, Circumference = 112.1 },
+        new() { Breadth = 49.5, Circumference = 112.9 },
+        new() { Breadth = 49.7, Circumference = 113.2 },
+        new() { Breadth = 49.9, Circumference = 113.3 },
+        new() { Breadth = 49.6, Circumference = 113.7 },
+        new() { Breadth = 48.9, Circumference = 111.3 },
+        new() { Breadth = 49.0, Circumference = 112.0 },
+        new() { Breadth = 48.8, Circumference = 109.3 }
+    };
+
+    private static List<ClusterValue> shape4Value = new()
+    {
+        new() { Breadth = 50.3, Circumference = 107.0 },
+        new() { Breadth = 50.1, Circumference = 107.5 },
+        new() { Breadth = 50.0, Circumference = 110.2 },
+        new() { Breadth = 49.8, Circumference = 110.7 },
+        new() { Breadth = 50.0, Circumference = 111.2 },
+        new() { Breadth = 50.0, Circumference = 112.0 },
+        new() { Breadth = 50.1, Circumference = 112.17 },
+        new() { Breadth = 50.0, Circumference = 113.2 },
+        new() { Breadth = 50.6, Circumference = 113.4 },
+        new() { Breadth = 50.3, Circumference = 114.7 },
+        new() { Breadth = 50.3, Circumference = 115.3 },
+        new() { Breadth = 50.2, Circumference = 116.5 },
+        new() { Breadth = 49.8, Circumference = 116.8 },
+        new() { Breadth = 49.9, Circumference = 117.9 },
+        new() { Breadth = 49.94, Circumference = 121.9 },
+        new() { Breadth = 50.3, Circumference = 123.2 },
+        new() { Breadth = 50.6, Circumference = 121.4 },
+        new() { Breadth = 50.9, Circumference = 121.0 },
+        new() { Breadth = 50.7, Circumference = 118.4 },
+        new() { Breadth = 50.70, Circumference = 118.2 },
+        new() { Breadth = 50.8, Circumference = 117.1 },
+        new() { Breadth = 50.8, Circumference = 115.2 },
+        new() { Breadth = 50.9, Circumference = 112.7 },
+        new() { Breadth = 50.6, Circumference = 112.4 },
+        new() { Breadth = 50.5, Circumference = 111.5 },
+        new() { Breadth = 50.7, Circumference = 110.6 },
+        new() { Breadth = 50.7, Circumference = 111.3 },
+        new() { Breadth = 50.8, Circumference = 110.9 },
+        new() { Breadth = 51.0, Circumference = 111.8 },
+        new() { Breadth = 50.7, Circumference = 108.8 },
+        new() { Breadth = 50.6, Circumference = 108.2 },
+        new() { Breadth = 50.65, Circumference = 108.2 },
+        new() { Breadth = 51.2, Circumference = 108.6 },
+        new() { Breadth = 51.8, Circumference = 112.0 },
+        new() { Breadth = 52.3, Circumference = 113.6 },
+        new() { Breadth = 51.1, Circumference = 115.4 },
+        new() { Breadth = 51.8, Circumference = 115.7 },
+        new() { Breadth = 51.7, Circumference = 117.2 },
+        new() { Breadth = 52.0, Circumference = 119.5 },
+        new() { Breadth = 52.0, Circumference = 120.6 },
+        new() { Breadth = 51.9, Circumference = 122.9 },
+        new() { Breadth = 51.9, Circumference = 124.8 },
+        new() { Breadth = 51.17, Circumference = 124.7 },
+        new() { Breadth = 52.3, Circumference = 128.0 },
+        new() { Breadth = 52.3, Circumference = 128.0 },
+        new() { Breadth = 52.6, Circumference = 124.9 },
+        new() { Breadth = 52.7, Circumference = 124.2 },
+        new() { Breadth = 52.5, Circumference = 120.2 },
+        new() { Breadth = 52.8, Circumference = 119.7 }
+    };
+
+    private static List<ClusterValue> shape5Value = new()
+    {
+        new() { Breadth = 53.1, Circumference = 121.3 },
+        new() { Breadth = 53.0, Circumference = 122.4 },
+        new() { Breadth = 54.6, Circumference = 133.4 },
+        new() { Breadth = 53.3, Circumference = 122.6 },
+        new() { Breadth = 53.6, Circumference = 125.4 },
+        new() { Breadth = 53.9, Circumference = 128.5 },
+        new() { Breadth = 53.3, Circumference = 125.7 },
+        new() { Breadth = 53.3, Circumference = 125.78 },
+        new() { Breadth = 54.0, Circumference = 127.0 },
+        new() { Breadth = 54.0, Circumference = 127.05 },
+        new() { Breadth = 53.1, Circumference = 127.3 },
+        new() { Breadth = 53.6, Circumference = 121.36 },
+        new() { Breadth = 52.6, Circumference = 123.4 },
+        new() { Breadth = 54.0, Circumference = 123.2 },
+        new() { Breadth = 53.8, Circumference = 124.8 },
+        new() { Breadth = 53.3, Circumference = 123.3 },
+        new() { Breadth = 53.3, Circumference = 124.3 },
+        new() { Breadth = 53.8, Circumference = 123.6 },
+        new() { Breadth = 53.8, Circumference = 124.61 },
+        new() { Breadth = 53.5, Circumference = 123.5 }
+    };
+
+    public class LabelData
+    {
+        public double Height { get; set; }
+        public double Weight { get; set; }
+        public string Name { get; set; }
+    }
+
+    private List<LabelData> scatterLabelData = new()
+    {
+        new() { Height = 57, Weight = 105, Name = "John" },
+        new() { Height = 63, Weight = 127, Name = "Robert" },
+        new() { Height = 54, Weight = 70, Name = "James" },
+        new() { Height = 64, Weight = 110, Name = "Henry" },
+        new() { Height = 68, Weight = 120, Name = "William" },
+        new() { Height = 70, Weight = 112, Name = "Alfred" },
+        new() { Height = 58, Weight = 88, Name = "Thomas" },
+        new() { Height = 72, Weight = 150, Name = "Philip" },
+        new() { Height = 68, Weight = 137, Name = "Ronald" },
+        new() { Height = 60, Weight = 84, Name = "Jeffrey" },
+        new() { Height = 54, Weight = 85, Name = "Alice" },
+        new() { Height = 58, Weight = 55, Name = "Jane" },
+        new() { Height = 70, Weight = 84, Name = "Louise" },
+        new() { Height = 61, Weight = 101, Name = "Janet" },
+        new() { Height = 66, Weight = 98, Name = "Carol" },
+        new() { Height = 66, Weight = 112, Name = "Mary" },
+        new() { Height = 65, Weight = 78, Name = "Barbara" },
+        new() { Height = 64, Weight = 90, Name = "Judy" },
+        new() { Height = 51, Weight = 59, Name = "Joyce" }
+    };
+
+    public class ClusterData
+    {
+        public double Breadth { get; set; }
+        public double Circumference { get; set; }
+    }
+
+    public static List<ClusterData> cluster1Value = new()
+    {
+        new() { Breadth = 41.3, Circumference = 78.1 },
+        new() { Breadth = 41.3, Circumference = 78.04 },
+        new() { Breadth = 42.9, Circumference = 78.9 },
+        new() { Breadth = 42.4, Circumference = 80.4 },
+        new() { Breadth = 42.3, Circumference = 81.7 },
+        new() { Breadth = 42.1, Circumference = 83.9 },
+        new() { Breadth = 41.9, Circumference = 82.9 },
+        new() { Breadth = 41.6, Circumference = 84.6 },
+        new() { Breadth = 41.6, Circumference = 84.6 },
+        new() { Breadth = 41.5, Circumference = 85.1 },
+        new() { Breadth = 41.5, Circumference = 84.3 },
+        new() { Breadth = 41.5, Circumference = 84.3 },
+        new() { Breadth = 41.9, Circumference = 87.9 },
+        new() { Breadth = 42.6, Circumference = 84.0 },
+        new() { Breadth = 42.6, Circumference = 84.0 },
+        new() { Breadth = 42.9, Circumference = 84.9 },
+        new() { Breadth = 42.9, Circumference = 84.9 },
+        new() { Breadth = 43.4, Circumference = 85.8 },
+        new() { Breadth = 43.1, Circumference = 83.5 },
+        new() { Breadth = 42.9, Circumference = 82.2 },
+        new() { Breadth = 43.2, Circumference = 81.7 },
+        new() { Breadth = 43.5, Circumference = 82.8 },
+        new() { Breadth = 43.7, Circumference = 82.7 },
+        new() { Breadth = 43.5, Circumference = 81.3 },
+        new() { Breadth = 43.7, Circumference = 80.9 },
+        new() { Breadth = 43.7, Circumference = 80.9 },
+        new() { Breadth = 43.5, Circumference = 89.4 },
+        new() { Breadth = 43.5, Circumference = 79.4 },
+        new() { Breadth = 43.7, Circumference = 89.0 },
+        new() { Breadth = 43.5, Circumference = 88.4 },
+        new() { Breadth = 43.5, Circumference = 88.4 },
+        new() { Breadth = 43.4, Circumference = 89.4 },
+        new() { Breadth = 43.0, Circumference = 91.5 },
+        new() { Breadth = 42.6, Circumference = 87.9 },
+        new() { Breadth = 42.9, Circumference = 88.4 },
+        new() { Breadth = 42.9, Circumference = 86.8 },
+        new() { Breadth = 42.9, Circumference = 86.8 },
+        new() { Breadth = 43.1, Circumference = 88.5 },
+        new() { Breadth = 44.2, Circumference = 84.7 },
+        new() { Breadth = 44.2, Circumference = 84.7 },
+        new() { Breadth = 44.1, Circumference = 88.6 },
+        new() { Breadth = 44.1, Circumference = 88.6 },
+        new() { Breadth = 43.9, Circumference = 87.6 },
+        new() { Breadth = 44.0, Circumference = 86.6 },
+        new() { Breadth = 44.3, Circumference = 86.5 },
+        new() { Breadth = 44.3, Circumference = 86.59 },
+        new() { Breadth = 44.5, Circumference = 86.9 },
+        new() { Breadth = 44.5, Circumference = 85.5 },
+        new() { Breadth = 44.8, Circumference = 85.8 },
+        new() { Breadth = 45.0, Circumference = 84.6 },
+        new() { Breadth = 45.0, Circumference = 84.64 },
+        new() { Breadth = 44.9, Circumference = 82.7 },
+        new() { Breadth = 44.8, Circumference = 83.7 },
+        new() { Breadth = 44.89, Circumference = 83.75 },
+        new() { Breadth = 44.6, Circumference = 83.3 },
+        new() { Breadth = 44.65, Circumference = 83.37 },
+        new() { Breadth = 44.65, Circumference = 84.5 },
+        new() { Breadth = 44.65, Circumference = 84.53 },
+        new() { Breadth = 44.2, Circumference = 81.8 },
+        new() { Breadth = 44.9, Circumference = 80.2 },
+        new() { Breadth = 45.1, Circumference = 85.5 },
+        new() { Breadth = 44.7, Circumference = 87.1 },
+        new() { Breadth = 44.70, Circumference = 87.10 },
+        new() { Breadth = 44.70, Circumference = 87.1 },
+        new() { Breadth = 44.9, Circumference = 86.8 },
+        new() { Breadth = 45.1, Circumference = 87.2 },
+        new() { Breadth = 45.0, Circumference = 88.6 },
+        new() { Breadth = 45.0, Circumference = 89.4 },
+        new() { Breadth = 45.0, Circumference = 89.4 },
+        new() { Breadth = 44.7, Circumference = 88.5 },
+        new() { Breadth = 44.4, Circumference = 88.3 },
+        new() { Breadth = 44.4, Circumference = 88.39 },
+        new() { Breadth = 44.5, Circumference = 89.4 },
+        new() { Breadth = 44.4, Circumference = 90.0 },
+        new() { Breadth = 43.9, Circumference = 89.3 },
+        new() { Breadth = 44.2, Circumference = 90.2 },
+        new() { Breadth = 44.0, Circumference = 91.2 },
+        new() { Breadth = 44.0, Circumference = 91.24 },
+        new() { Breadth = 44.1, Circumference = 88.5 },
+        new() { Breadth = 44.16, Circumference = 88.53 },
+        new() { Breadth = 44.16, Circumference = 88.535 },
+        new() { Breadth = 44.2, Circumference = 91.7 },
+        new() { Breadth = 44.2, Circumference = 91.75 },
+        new() { Breadth = 43.9, Circumference = 92.79 },
+        new() { Breadth = 43.9, Circumference = 92.7 },
+        new() { Breadth = 44.2, Circumference = 94.8 },
+        new() { Breadth = 44.0, Circumference = 93.8 },
+        new() { Breadth = 44.0, Circumference = 93.81 },
+        new() { Breadth = 44.4, Circumference = 95.6 },
+        new() { Breadth = 44.8, Circumference = 97.4 },
+        new() { Breadth = 44.8, Circumference = 93.6 },
+        new() { Breadth = 44.8, Circumference = 93.67 },
+        new() { Breadth = 44.6, Circumference = 92.5 },
+        new() { Breadth = 44.7, Circumference = 94.5 },
+        new() { Breadth = 45.2, Circumference = 92.2 },
+        new() { Breadth = 45.2, Circumference = 92.24 },
+        new() { Breadth = 45.1, Circumference = 94.0 },
+        new() { Breadth = 45.1, Circumference = 94.0 },
+        new() { Breadth = 44.9, Circumference = 90.4 },
+        new() { Breadth = 44.9, Circumference = 89.4 },
+        new() { Breadth = 44.7, Circumference = 90.4 },
+        new() { Breadth = 44.7, Circumference = 90.45 },
+        new() { Breadth = 41.3, Circumference = 78.0 },
+        new() { Breadth = 42.9, Circumference = 78.9 },
+        new() { Breadth = 42.4, Circumference = 80.4 },
+        new() { Breadth = 42.3, Circumference = 81.7 },
+        new() { Breadth = 42.1, Circumference = 83.9 },
+        new() { Breadth = 41.9, Circumference = 82.9 },
+        new() { Breadth = 41.6, Circumference = 84.6 },
+        new() { Breadth = 41.6, Circumference = 84.60 },
+        new() { Breadth = 41.5, Circumference = 85.1 },
+        new() { Breadth = 41.5, Circumference = 84.3 },
+        new() { Breadth = 41.5, Circumference = 84.34 },
+        new() { Breadth = 41.9, Circumference = 87.9 },
+        new() { Breadth = 42.6, Circumference = 84.0 },
+        new() { Breadth = 42.6, Circumference = 84.0 },
+        new() { Breadth = 42.9, Circumference = 84.9 },
+        new() { Breadth = 42.9, Circumference = 84.9 },
+        new() { Breadth = 43.4, Circumference = 85.8 },
+        new() { Breadth = 43.1, Circumference = 83.5 },
+        new() { Breadth = 42.9, Circumference = 82.2 },
+        new() { Breadth = 43.2, Circumference = 81.7 },
+        new() { Breadth = 43.5, Circumference = 82.8 },
+        new() { Breadth = 43.7, Circumference = 82.7 },
+        new() { Breadth = 43.5, Circumference = 81.3 },
+        new() { Breadth = 43.7, Circumference = 80.9 },
+        new() { Breadth = 43.7, Circumference = 80.94 },
+        new() { Breadth = 43.5, Circumference = 79.4 },
+        new() { Breadth = 43.5, Circumference = 79.40 },
+        new() { Breadth = 43.7, Circumference = 89.0 },
+        new() { Breadth = 43.5, Circumference = 88.4 },
+        new() { Breadth = 43.5, Circumference = 88.42 },
+        new() { Breadth = 43.4, Circumference = 89.45 },
+        new() { Breadth = 43.0, Circumference = 91.5 },
+        new() { Breadth = 42.6, Circumference = 87.9 },
+        new() { Breadth = 42.9, Circumference = 88.4 },
+        new() { Breadth = 42.9, Circumference = 86.8 },
+        new() { Breadth = 42.95, Circumference = 86.89 },
+        new() { Breadth = 43.1, Circumference = 88.5 },
+        new() { Breadth = 44.2, Circumference = 84.7 },
+        new() { Breadth = 44.2, Circumference = 84.7 },
+        new() { Breadth = 44.1, Circumference = 88.6 },
+        new() { Breadth = 44.1, Circumference = 88.66 },
+        new() { Breadth = 43.9, Circumference = 87.6 },
+        new() { Breadth = 44.0, Circumference = 86.6 },
+        new() { Breadth = 44.3, Circumference = 86.5 },
+        new() { Breadth = 44.3, Circumference = 86.5 },
+        new() { Breadth = 44.5, Circumference = 86.9 },
+        new() { Breadth = 44.57, Circumference = 85.5 },
+        new() { Breadth = 44.8, Circumference = 85.8 },
+        new() { Breadth = 45.0, Circumference = 84.6 },
+        new() { Breadth = 45.0, Circumference = 84.64 },
+        new() { Breadth = 44.9, Circumference = 82.7 },
+        new() { Breadth = 44.8, Circumference = 83.7 },
+        new() { Breadth = 44.8, Circumference = 83.75 },
+        new() { Breadth = 44.6, Circumference = 83.3 },
+        new() { Breadth = 44.65, Circumference = 83.37 },
+        new() { Breadth = 44.65, Circumference = 84.5 },
+        new() { Breadth = 44.65, Circumference = 84.53 },
+        new() { Breadth = 44.2, Circumference = 81.8 },
+        new() { Breadth = 44.9, Circumference = 80.2 },
+        new() { Breadth = 45.1, Circumference = 85.5 },
+        new() { Breadth = 44.7, Circumference = 87.1 },
+        new() { Breadth = 44.7, Circumference = 87.10 },
+        new() { Breadth = 44.70, Circumference = 87.10 },
+        new() { Breadth = 44.9, Circumference = 86.8 },
+        new() { Breadth = 45.1, Circumference = 87.2 },
+        new() { Breadth = 45.0, Circumference = 88.6 },
+        new() { Breadth = 45.0, Circumference = 89.4 },
+        new() { Breadth = 45.0, Circumference = 89.41 },
+        new() { Breadth = 44.7, Circumference = 88.5 },
+        new() { Breadth = 44.4, Circumference = 88.3 },
+        new() { Breadth = 44.4, Circumference = 88.3 },
+        new() { Breadth = 44.5, Circumference = 89.4 },
+        new() { Breadth = 44.4, Circumference = 90.0 },
+        new() { Breadth = 43.9, Circumference = 89.3 },
+        new() { Breadth = 44.20, Circumference = 90.2 },
+        new() { Breadth = 44.0, Circumference = 91.2 },
+        new() { Breadth = 44.0, Circumference = 91.24 },
+        new() { Breadth = 44.1, Circumference = 88.5 },
+        new() { Breadth = 44.1, Circumference = 88.53 },
+        new() { Breadth = 44.16, Circumference = 88.5 },
+        new() { Breadth = 44.2, Circumference = 91.7 },
+        new() { Breadth = 44.2, Circumference = 91.75 },
+        new() { Breadth = 43.9, Circumference = 92.7 },
+        new() { Breadth = 43.9, Circumference = 92.79 },
+        new() { Breadth = 44.2, Circumference = 94.8 },
+        new() { Breadth = 44.0, Circumference = 93.8 },
+        new() { Breadth = 44.0, Circumference = 93.81 },
+        new() { Breadth = 44.4, Circumference = 95.6 },
+        new() { Breadth = 44.8, Circumference = 97.4 },
+        new() { Breadth = 44.8, Circumference = 93.6 },
+        new() { Breadth = 44.81, Circumference = 93.67 },
+        new() { Breadth = 44.6, Circumference = 92.5 },
+        new() { Breadth = 44.7, Circumference = 94.57 },
+        new() { Breadth = 45.2, Circumference = 92.2 },
+        new() { Breadth = 45.2, Circumference = 92.24 },
+        new() { Breadth = 45.1, Circumference = 94.0 },
+        new() { Breadth = 45.1, Circumference = 94.0 },
+        new() { Breadth = 44.9, Circumference = 90.4 },
+        new() { Breadth = 44.9, Circumference = 89.4 },
+        new() { Breadth = 44.7, Circumference = 90.4 },
+        new() { Breadth = 44.7, Circumference = 90.45 }
+    };
+
+    private static List<ClusterData> cluster2Value = new()
+    {
+        new() { Breadth = 45.6, Circumference = 91.6 },
+        new() { Breadth = 46.0, Circumference = 92.6 },
+        new() { Breadth = 46.4, Circumference = 94.7 },
+        new() { Breadth = 46.9, Circumference = 97.3 },
+        new() { Breadth = 46.9, Circumference = 97.3 },
+        new() { Breadth = 46.8, Circumference = 98.7 },
+        new() { Breadth = 46.84, Circumference = 98.72 },
+        new() { Breadth = 45.4, Circumference = 95.9 },
+        new() { Breadth = 45.4, Circumference = 94.8 },
+        new() { Breadth = 45.2, Circumference = 97.2 },
+        new() { Breadth = 45.2, Circumference = 95.9 },
+        new() { Breadth = 45.3, Circumference = 97.4 },
+        new() { Breadth = 46.2, Circumference = 96.6 },
+        new() { Breadth = 46.2, Circumference = 98.3 },
+        new() { Breadth = 46.3, Circumference = 96.9 },
+        new() { Breadth = 46.3, Circumference = 96.9 },
+        new() { Breadth = 46.0, Circumference = 97.0 },
+        new() { Breadth = 46.0, Circumference = 97.7 },
+        new() { Breadth = 45.7, Circumference = 97.5 },
+        new() { Breadth = 45.7, Circumference = 98.8 },
+        new() { Breadth = 45.79, Circumference = 98.88 },
+        new() { Breadth = 45.79, Circumference = 98.88 },
+        new() { Breadth = 45.6, Circumference = 98.7 },
+        new() { Breadth = 45.63, Circumference = 98.75 },
+        new() { Breadth = 45.5, Circumference = 99.9 },
+        new() { Breadth = 45.6, Circumference = 101.4 },
+        new() { Breadth = 45.7, Circumference = 102.6 },
+        new() { Breadth = 45.7, Circumference = 102.62 },
+        new() { Breadth = 45.3, Circumference = 101.3 },
+        new() { Breadth = 45.3, Circumference = 103.0 },
+        new() { Breadth = 45.1, Circumference = 100.7 },
+        new() { Breadth = 45.1, Circumference = 100.70 },
+        new() { Breadth = 45.5, Circumference = 102.7 },
+        new() { Breadth = 45.5, Circumference = 103.9 },
+        new() { Breadth = 45.4, Circumference = 105.3 },
+        new() { Breadth = 45.2, Circumference = 108.1 },
+        new() { Breadth = 45.6, Circumference = 108.2 },
+        new() { Breadth = 45.5, Circumference = 107.3 },
+        new() { Breadth = 46.3, Circumference = 107.6 },
+        new() { Breadth = 45.9, Circumference = 106.0 },
+        new() { Breadth = 45.8, Circumference = 104.9 },
+        new() { Breadth = 45.9, Circumference = 104.1 },
+        new() { Breadth = 46.0, Circumference = 103.7 },
+        new() { Breadth = 46.07, Circumference = 105.3 },
+        new() { Breadth = 46.0, Circumference = 105.31 },
+        new() { Breadth = 46.3, Circumference = 105.4 },
+        new() { Breadth = 46.3, Circumference = 105.43 },
+        new() { Breadth = 46.5, Circumference = 105.1 },
+        new() { Breadth = 46.58, Circumference = 105.17 },
+        new() { Breadth = 46.6, Circumference = 104.5 },
+        new() { Breadth = 46.7, Circumference = 104.2 },
+        new() { Breadth = 46.5, Circumference = 102.9 },
+        new() { Breadth = 46.4, Circumference = 102.7 },
+        new() { Breadth = 46.0, Circumference = 102.6 },
+        new() { Breadth = 46.2, Circumference = 104.1 },
+        new() { Breadth = 46.2, Circumference = 104.15 },
+        new() { Breadth = 46.2, Circumference = 104.15 },
+        new() { Breadth = 46.3, Circumference = 101.3 },
+        new() { Breadth = 46.6, Circumference = 100.4 },
+        new() { Breadth = 46.4, Circumference = 99.6 },
+        new() { Breadth = 46.4, Circumference = 100.2 },
+        new() { Breadth = 46.1, Circumference = 100.29 },
+        new() { Breadth = 45.9, Circumference = 99.5 },
+        new() { Breadth = 46.94, Circumference = 102.0 },
+        new() { Breadth = 46.9, Circumference = 102.07 },
+        new() { Breadth = 47.1, Circumference = 99.8 },
+        new() { Breadth = 46.8, Circumference = 101.1 },
+        new() { Breadth = 47.0, Circumference = 101.2 },
+        new() { Breadth = 47.7, Circumference = 96.7 },
+        new() { Breadth = 47.5, Circumference = 98.9 },
+        new() { Breadth = 47.5, Circumference = 100.3 },
+        new() { Breadth = 47.5, Circumference = 100.38 },
+        new() { Breadth = 47.5, Circumference = 101.5 },
+        new() { Breadth = 47.2, Circumference = 102.9 },
+        new() { Breadth = 46.8, Circumference = 103.7 },
+        new() { Breadth = 47.1, Circumference = 102.4 },
+        new() { Breadth = 46.9, Circumference = 104.2 },
+        new() { Breadth = 47.0, Circumference = 105.2 },
+        new() { Breadth = 46.7, Circumference = 106.4 },
+        new() { Breadth = 47.1, Circumference = 106.0 },
+        new() { Breadth = 46.9, Circumference = 106.0 },
+        new() { Breadth = 47.0, Circumference = 106.4 },
+        new() { Breadth = 47.2, Circumference = 106.5 },
+        new() { Breadth = 47.2, Circumference = 108.2 },
+        new() { Breadth = 47.2, Circumference = 109.1 },
+        new() { Breadth = 47.0, Circumference = 109.9 },
+        new() { Breadth = 46.9, Circumference = 108.3 },
+        new() { Breadth = 46.5, Circumference = 108.9 },
+        new() { Breadth = 47.1, Circumference = 113.9 },
+        new() { Breadth = 46.3, Circumference = 113.5 },
+        new() { Breadth = 46.3, Circumference = 110.8 },
+        new() { Breadth = 46.32, Circumference = 110.8 },
+        new() { Breadth = 46.4, Circumference = 111.7 },
+        new() { Breadth = 46.8, Circumference = 112.2 },
+        new() { Breadth = 46.9, Circumference = 112.2 },
+        new() { Breadth = 47.1, Circumference = 111.7 },
+        new() { Breadth = 47.3, Circumference = 110.8 },
+        new() { Breadth = 47.4, Circumference = 106.8 }
+    };
+
+    private static List<ClusterData> cluster3Value = new()
+    {
+        new() { Breadth = 47.6, Circumference = 96.5 },
+        new() { Breadth = 47.6, Circumference = 98.3 },
+        new() { Breadth = 47.5, Circumference = 100.2 },
+        new() { Breadth = 47.5, Circumference = 103.0 },
+        new() { Breadth = 47.6, Circumference = 104.3 },
+        new() { Breadth = 47.8, Circumference = 103.7 },
+        new() { Breadth = 48.3, Circumference = 102.9 },
+        new() { Breadth = 48.2, Circumference = 103.7 },
+        new() { Breadth = 48.3, Circumference = 103.8 },
+        new() { Breadth = 48.6, Circumference = 103.7 },
+        new() { Breadth = 48.7, Circumference = 104.4 },
+        new() { Breadth = 48.8, Circumference = 103.7 },
+        new() { Breadth = 48.3, Circumference = 105.5 },
+        new() { Breadth = 48.3, Circumference = 105.52 },
+        new() { Breadth = 48.4, Circumference = 106.2 },
+        new() { Breadth = 48.46, Circumference = 104.7 },
+        new() { Breadth = 48.7, Circumference = 104.9 },
+        new() { Breadth = 48.7, Circumference = 104.99 },
+        new() { Breadth = 48.7, Circumference = 104.9 },
+        new() { Breadth = 48.8, Circumference = 106.66 },
+        new() { Breadth = 49.3, Circumference = 106.2 },
+        new() { Breadth = 49.0, Circumference = 106.0 },
+        new() { Breadth = 49.2, Circumference = 104.3 },
+        new() { Breadth = 49.7, Circumference = 109.8 },
+        new() { Breadth = 49.6, Circumference = 108.0 },
+        new() { Breadth = 49.5, Circumference = 108.0 },
+        new() { Breadth = 49.3, Circumference = 106.7 },
+        new() { Breadth = 49.1, Circumference = 106.78 },
+        new() { Breadth = 49.0, Circumference = 108.3 },
+        new() { Breadth = 49.1, Circumference = 109.2 },
+        new() { Breadth = 49.3, Circumference = 108.0 },
+        new() { Breadth = 48.9, Circumference = 107.3 },
+        new() { Breadth = 47.7, Circumference = 106.9 },
+        new() { Breadth = 48.1, Circumference = 106.6 },
+        new() { Breadth = 47.9, Circumference = 105.9 },
+        new() { Breadth = 47.9, Circumference = 107.5 },
+        new() { Breadth = 47.8, Circumference = 107.0 },
+        new() { Breadth = 47.8, Circumference = 107.0 },
+        new() { Breadth = 48.3, Circumference = 107.06 },
+        new() { Breadth = 48.1, Circumference = 108.1 },
+        new() { Breadth = 48.4, Circumference = 107.7 },
+        new() { Breadth = 48.2, Circumference = 107.71 },
+        new() { Breadth = 48.3, Circumference = 108.8 },
+        new() { Breadth = 48.31, Circumference = 109.8 },
+        new() { Breadth = 48.0, Circumference = 108.8 },
+        new() { Breadth = 47.9, Circumference = 109.3 },
+        new() { Breadth = 47.8, Circumference = 109.9 },
+        new() { Breadth = 47.8, Circumference = 110.9 },
+        new() { Breadth = 47.82, Circumference = 112.4 },
+        new() { Breadth = 48.1, Circumference = 112.6 },
+        new() { Breadth = 47.9, Circumference = 111.3 },
+        new() { Breadth = 47.9, Circumference = 111.32 },
+        new() { Breadth = 48.6, Circumference = 112.9 },
+        new() { Breadth = 48.0, Circumference = 113.2 },
+        new() { Breadth = 47.8, Circumference = 108.8 },
+        new() { Breadth = 49.0, Circumference = 115.0 },
+        new() { Breadth = 48.9, Circumference = 115.0 },
+        new() { Breadth = 47.6, Circumference = 108.2 },
+        new() { Breadth = 47.6, Circumference = 110.0 },
+        new() { Breadth = 47.7, Circumference = 108.6 },
+        new() { Breadth = 47.9, Circumference = 117.5 },
+        new() { Breadth = 48.3, Circumference = 118.3 },
+        new() { Breadth = 48.6, Circumference = 118.9 },
+        new() { Breadth = 48.7, Circumference = 122.3 },
+        new() { Breadth = 49.4, Circumference = 120.8 },
+        new() { Breadth = 49.3, Circumference = 117.7 },
+        new() { Breadth = 48.6, Circumference = 115.9 },
+        new() { Breadth = 48.7, Circumference = 116.4 },
+        new() { Breadth = 48.3, Circumference = 115.5 },
+        new() { Breadth = 49.2, Circumference = 115.2 },
+        new() { Breadth = 49.5, Circumference = 115.27 },
+        new() { Breadth = 48.6, Circumference = 113.2 },
+        new() { Breadth = 48.5, Circumference = 112.4 },
+        new() { Breadth = 49.0, Circumference = 113.2 },
+        new() { Breadth = 48.9, Circumference = 112.5 },
+        new() { Breadth = 48.8, Circumference = 110.9 },
+        new() { Breadth = 48.6, Circumference = 109.8 },
+        new() { Breadth = 48.6, Circumference = 108.0 },
+        new() { Breadth = 48.5, Circumference = 110.4 },
+        new() { Breadth = 48.5, Circumference = 108.8 },
+        new() { Breadth = 48.8, Circumference = 110.6 },
+        new() { Breadth = 48.8, Circumference = 110.65 },
+        new() { Breadth = 49.0, Circumference = 109.8 },
+        new() { Breadth = 49.2, Circumference = 111.6 },
+        new() { Breadth = 48.8, Circumference = 111.9 },
+        new() { Breadth = 48.9, Circumference = 111.6 },
+        new() { Breadth = 49.3, Circumference = 111.4 },
+        new() { Breadth = 49.3, Circumference = 111.42 },
+        new() { Breadth = 49.3, Circumference = 111.6 },
+        new() { Breadth = 49.4, Circumference = 112.1 },
+        new() { Breadth = 49.5, Circumference = 112.9 },
+        new() { Breadth = 49.7, Circumference = 113.2 },
+        new() { Breadth = 49.9, Circumference = 113.3 },
+        new() { Breadth = 49.6, Circumference = 113.7 },
+        new() { Breadth = 48.9, Circumference = 111.3 },
+        new() { Breadth = 49.0, Circumference = 112.0 },
+        new() { Breadth = 48.8, Circumference = 109.3 }
+    };
+
+    private static List<ClusterData> cluster4Value = new()
+    {
+        new() { Breadth = 50.3, Circumference = 107.0 },
+        new() { Breadth = 50.1, Circumference = 107.5 },
+        new() { Breadth = 50.0, Circumference = 110.2 },
+        new() { Breadth = 49.8, Circumference = 110.7 },
+        new() { Breadth = 50.0, Circumference = 111.2 },
+        new() { Breadth = 50.0, Circumference = 112.0 },
+        new() { Breadth = 50.1, Circumference = 112.17 },
+        new() { Breadth = 50.0, Circumference = 113.2 },
+        new() { Breadth = 50.6, Circumference = 113.4 },
+        new() { Breadth = 50.3, Circumference = 114.7 },
+        new() { Breadth = 50.3, Circumference = 115.3 },
+        new() { Breadth = 50.2, Circumference = 116.5 },
+        new() { Breadth = 49.8, Circumference = 116.8 },
+        new() { Breadth = 49.9, Circumference = 117.9 },
+        new() { Breadth = 49.94, Circumference = 121.9 },
+        new() { Breadth = 50.3, Circumference = 123.2 },
+        new() { Breadth = 50.6, Circumference = 121.4 },
+        new() { Breadth = 50.9, Circumference = 121.0 },
+        new() { Breadth = 50.7, Circumference = 118.4 },
+        new() { Breadth = 50.70, Circumference = 118.2 },
+        new() { Breadth = 50.8, Circumference = 117.1 },
+        new() { Breadth = 50.8, Circumference = 115.2 },
+        new() { Breadth = 50.9, Circumference = 112.7 },
+        new() { Breadth = 50.6, Circumference = 112.4 },
+        new() { Breadth = 50.5, Circumference = 111.5 },
+        new() { Breadth = 50.7, Circumference = 110.6 },
+        new() { Breadth = 50.7, Circumference = 111.3 },
+        new() { Breadth = 50.8, Circumference = 110.9 },
+        new() { Breadth = 51.0, Circumference = 111.8 },
+        new() { Breadth = 50.7, Circumference = 108.8 },
+        new() { Breadth = 50.6, Circumference = 108.2 },
+        new() { Breadth = 50.65, Circumference = 108.2 },
+        new() { Breadth = 51.2, Circumference = 108.6 },
+        new() { Breadth = 51.8, Circumference = 112.0 },
+        new() { Breadth = 52.3, Circumference = 113.6 },
+        new() { Breadth = 51.1, Circumference = 115.4 },
+        new() { Breadth = 51.8, Circumference = 115.7 },
+        new() { Breadth = 51.7, Circumference = 117.2 },
+        new() { Breadth = 52.0, Circumference = 119.5 },
+        new() { Breadth = 52.0, Circumference = 120.6 },
+        new() { Breadth = 51.9, Circumference = 122.9 },
+        new() { Breadth = 51.9, Circumference = 124.8 },
+        new() { Breadth = 51.17, Circumference = 124.7 },
+        new() { Breadth = 52.3, Circumference = 128.0 },
+        new() { Breadth = 52.3, Circumference = 128.0 },
+        new() { Breadth = 52.6, Circumference = 124.9 },
+        new() { Breadth = 52.7, Circumference = 124.2 },
+        new() { Breadth = 52.5, Circumference = 120.2 },
+        new() { Breadth = 52.8, Circumference = 119.7 }
+    };
+
+    private static List<ClusterData> cluster5Value = new()
+    {
+        new() { Breadth = 53.1, Circumference = 121.3 },
+        new() { Breadth = 53.0, Circumference = 122.4 },
+        new() { Breadth = 54.6, Circumference = 133.4 },
+        new() { Breadth = 53.3, Circumference = 122.6 },
+        new() { Breadth = 53.6, Circumference = 125.4 },
+        new() { Breadth = 53.9, Circumference = 128.5 },
+        new() { Breadth = 53.3, Circumference = 125.7 },
+        new() { Breadth = 53.3, Circumference = 125.78 },
+        new() { Breadth = 54.0, Circumference = 127.0 },
+        new() { Breadth = 54.0, Circumference = 127.05 },
+        new() { Breadth = 53.1, Circumference = 127.3 },
+        new() { Breadth = 53.6, Circumference = 121.36 },
+        new() { Breadth = 52.6, Circumference = 123.4 },
+        new() { Breadth = 54.0, Circumference = 123.2 },
+        new() { Breadth = 53.8, Circumference = 124.8 },
+        new() { Breadth = 53.3, Circumference = 123.3 },
+        new() { Breadth = 53.3, Circumference = 124.3 },
+        new() { Breadth = 53.8, Circumference = 123.6 },
+        new() { Breadth = 53.8, Circumference = 124.61 },
+        new() { Breadth = 53.5, Circumference = 123.5 }
+    };
+
+}

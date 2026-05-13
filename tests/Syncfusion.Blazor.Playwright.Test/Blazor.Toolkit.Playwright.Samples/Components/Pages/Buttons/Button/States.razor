@@ -1,0 +1,66 @@
+@page "/button/states"
+@using Syncfusion.Blazor.Toolkit.Buttons
+@layout MainLayout
+
+<h1>Button - States & Interactions</h1>
+
+<div class="test-container">
+    <h2>Enabled Button</h2>
+    <SfButton id="btn-enabled">Enabled</SfButton>
+
+    <h2>Disabled Button</h2>
+    <SfButton id="btn-disabled" Disabled="true">Disabled</SfButton>
+
+    <h2>Toggle Button State</h2>
+    <SfButton id="btn-toggle-state" @onclick="ToggleButtonState">Toggle State</SfButton>
+    <p>Button is @(isToggled ? "toggled" : "not toggled")</p>
+
+    <h2>Toggle Button (IsToggle)</h2>
+    <SfButton id="btn-toggle" IsToggle="true" @onclick="HandleToggle">Toggle</SfButton>
+    <p>Toggle state: @(toggleValue ? "active" : "inactive")</p>
+
+    <h2>Toggle Button with Initial Active State</h2>
+    <SfButton id="btn-toggle-active" IsToggle="true" IconCss="e-icons e-play">Play</SfButton>
+    <p>Toggle buttons track state via internal e-active CSS class</p>
+</div>
+
+<style>
+    .test-container {
+        padding: 20px;
+        border: 1px solid #ddd;
+        margin: 10px 0;
+        border-radius: 4px;
+        background-color: #f9f9f9;
+    }
+    
+    h2 {
+        margin-top: 20px;
+        font-size: 18px;
+        font-weight: 600;
+    }
+    
+    p {
+        margin-top: 10px;
+        font-size: 14px;
+    }
+    
+    :deep(.e-active) {
+        background-color: #007bff !important;
+        color: white !important;
+    }
+</style>
+
+@code {
+    private bool isToggled = false;
+    private bool toggleValue = false;
+
+    private void ToggleButtonState()
+    {
+        isToggled = !isToggled;
+    }
+
+    private void HandleToggle()
+    {
+        toggleValue = !toggleValue;
+    }
+}

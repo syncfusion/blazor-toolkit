@@ -1,0 +1,824 @@
+@page "/charts/marker"
+
+@using Syncfusion.Blazor.Toolkit.Buttons
+@using Syncfusion.Blazor.Toolkit.Charts
+@using ValueType = Syncfusion.Blazor.Toolkit.ValueType
+
+<Description>
+  
+    <Header>
+        <h5><b>Overview</b></h5>
+    </Header>
+    <Content>
+        Markers are used to highlight individual data points in a Chart series.
+        This sample demonstrates markers enabled in a Line Chart to visualize
+        year-wise values for China and the United States by setting the <code>Visible</code> property 
+        of the <code>ChartMarker</code> component to <code>true</code>.
+    </Content>
+</Description>
+
+<VirtualizeSection MinHeightPx="600px">
+    <CodePreview IsFullWidth="true" CodeSection="@MarkerOverviewCode">
+    <PreviewSection>
+        <SfChart @key="@_currentTheme" Title="Marker Overview" Theme="@_currentTheme">
+            <ChartPrimaryXAxis ValueType="ValueType.Double"
+                               Title="Year">
+                <ChartAxisMajorTickLines Width="0"/>
+                <ChartAxisMajorGridLines Width="0"/>
+            </ChartPrimaryXAxis>
+
+            <ChartPrimaryYAxis Title="Value">
+                <ChartAxisLineStyle Width="0" />
+            </ChartPrimaryYAxis>
+
+            
+                <ChartSeries DataSource="@MarkerOverviewData"
+                             XName="Year"
+                             YName="China"
+                             Name="China"
+                             Type="ChartSeriesType.Line">
+                    <ChartMarker Visible="true" Width="10" Height="10">
+                    </ChartMarker>
+                </ChartSeries>
+
+                <ChartSeries DataSource="@MarkerOverviewData"
+                             XName="Year"
+                             YName="UnitedStates"
+                             Name="United States"
+                             Type="ChartSeriesType.Line">
+                    <ChartMarker Visible="true" Width="10" Height="10">
+                    </ChartMarker>
+                </ChartSeries>
+            
+
+                <!-- Tooltip -->
+                <ChartTooltipSettings Enable="true" Shared ="true"
+                                      Header="${point.x}"
+                                      Format="${series.name} : <b>${point.y}°C</b>" />
+        </SfChart>
+    </PreviewSection>
+</CodePreview>
+</VirtualizeSection>
+
+@code {
+    [CascadingParameter]
+    private Theme CurrentTheme { get; set; } = Theme.Fluent;
+
+    private Theme _currentTheme = Theme.Fluent;
+
+    protected override void OnInitialized()
+    {
+        _currentTheme = CurrentTheme;
+    }
+
+    protected override void OnParametersSet()
+    {
+        _currentTheme = CurrentTheme;
+    }
+
+    private bool IsDarkTheme => _currentTheme.ToString().Contains("Dark") || _currentTheme.ToString().Contains("HighContrast");
+    private string TextColor => IsDarkTheme ? "#E6EEF8" : "#0B1F3B";
+    private string MarkerOverviewCode => @"@using Syncfusion.Blazor.Toolkit.Charts
+    <SfChart @key=""@_currentTheme"" Title=""Marker Overview"" Theme=""@_currentTheme"">
+            <ChartPrimaryXAxis ValueType=""ValueType.Double""
+                               Title=""Year"">
+                <ChartAxisMajorTickLines Width=""0""/>
+                <ChartAxisMajorGridLines Width=""0""/>
+            </ChartPrimaryXAxis>
+
+            <ChartPrimaryYAxis Title=""Value"">
+                <ChartAxisLineStyle Width=""0"" />
+            </ChartPrimaryYAxis>
+            <ChartSeriesCollection>
+                <ChartSeries DataSource=""@MarkerOverviewData""
+                             XName=""Year""
+                             YName=""China""
+                             Name=""China""
+                             Type=""ChartSeriesType.Line"">
+                    <ChartMarker Visible=""true"" Width=""10"" Height=""10"">
+                    </ChartMarker>
+                </ChartSeries>
+
+                <ChartSeries DataSource=""@MarkerOverviewData""
+                             XName=""Year""
+                             YName=""UnitedStates""
+                             Name=""United States""
+                             Type=""ChartSeriesType.Line"">
+                    <ChartMarker Visible=""true"" Width=""10"" Height=""10"">
+                    </ChartMarker>
+                </ChartSeries>
+            </ChartSeriesCollection>
+                <!-- Tooltip -->
+                <ChartTooltipSettings Enable=""true"" Shared =""true""
+                                      Header=""${point.x}""
+                                      Format=""${series.name} : <b>${point.y}°C</b>"" />
+        </SfChart>
+@code {
+    private Theme _currentTheme = Theme.Fluent;
+    public class MarkerOverviewInfo
+        {
+            public double Year { get; set; }
+            public double China { get; set; }
+            public double UnitedStates { get; set; }
+        }
+    public List<MarkerOverviewInfo> MarkerOverviewData = new()
+        {
+            new MarkerOverviewInfo { Year = 2001, China = -19.9, UnitedStates = -15.9 },
+            new MarkerOverviewInfo { Year = 2002, China = -19.1, UnitedStates = -16.6 },
+            new MarkerOverviewInfo { Year = 2003, China = -19.5, UnitedStates = -17.1 },
+            new MarkerOverviewInfo { Year = 2004, China = -19.3, UnitedStates = -19.7 },
+            new MarkerOverviewInfo { Year = 2005, China = -18.9, UnitedStates = -18.2 },
+            new MarkerOverviewInfo { Year = 2006, China = -18.6, UnitedStates = -18.0 },
+            new MarkerOverviewInfo { Year = 2007, China = -17.3, UnitedStates = -18.6 },
+            new MarkerOverviewInfo { Year = 2008, China = -20.3, UnitedStates = -19.0 },
+            new MarkerOverviewInfo { Year = 2009, China = -18.3, UnitedStates = -19.9 },
+            new MarkerOverviewInfo { Year = 2010, China = -19.0, UnitedStates = -18.5 },
+            new MarkerOverviewInfo { Year = 2011, China = -21.1, UnitedStates = -19.9 },
+            new MarkerOverviewInfo { Year = 2012, China = -19.9, UnitedStates = -16.9 },
+            new MarkerOverviewInfo { Year = 2013, China = -20.0, UnitedStates = -18.8 },
+            new MarkerOverviewInfo { Year = 2014, China = -18.4, UnitedStates = -18.3 },
+            new MarkerOverviewInfo { Year = 2015, China = -17.6, UnitedStates = -18.3 },
+            new MarkerOverviewInfo { Year = 2016, China = -20.8, UnitedStates = -18.2 },
+            new MarkerOverviewInfo { Year = 2017, China = -17.0, UnitedStates = -19.4 },
+            new MarkerOverviewInfo { Year = 2018, China = -19.9, UnitedStates = -18.6 },
+            new MarkerOverviewInfo { Year = 2019, China = -18.1, UnitedStates = -18.3 },
+            new MarkerOverviewInfo { Year = 2020, China = -18.0, UnitedStates = -16.1 },
+            new MarkerOverviewInfo { Year = 2021, China = -20.3, UnitedStates = -19.7 },
+            new MarkerOverviewInfo { Year = 2022, China = -17.3, UnitedStates = -19.9 }
+        };
+}";
+
+    public class MarkerOverviewInfo
+    {
+        public double Year { get; set; }
+        public double China { get; set; }
+        public double UnitedStates { get; set; }
+    }
+
+    public List<MarkerOverviewInfo> MarkerOverviewData = new()
+    {
+        new MarkerOverviewInfo { Year = 2001, China = -19.9, UnitedStates = -15.9 },
+        new MarkerOverviewInfo { Year = 2002, China = -19.1, UnitedStates = -16.6 },
+        new MarkerOverviewInfo { Year = 2003, China = -19.5, UnitedStates = -17.1 },
+        new MarkerOverviewInfo { Year = 2004, China = -19.3, UnitedStates = -19.7 },
+        new MarkerOverviewInfo { Year = 2005, China = -18.9, UnitedStates = -18.2 },
+        new MarkerOverviewInfo { Year = 2006, China = -18.6, UnitedStates = -18.0 },
+        new MarkerOverviewInfo { Year = 2007, China = -17.3, UnitedStates = -18.6 },
+        new MarkerOverviewInfo { Year = 2008, China = -20.3, UnitedStates = -19.0 },
+        new MarkerOverviewInfo { Year = 2009, China = -18.3, UnitedStates = -19.9 },
+        new MarkerOverviewInfo { Year = 2010, China = -19.0, UnitedStates = -18.5 },
+        new MarkerOverviewInfo { Year = 2011, China = -21.1, UnitedStates = -19.9 },
+        new MarkerOverviewInfo { Year = 2012, China = -19.9, UnitedStates = -16.9 },
+        new MarkerOverviewInfo { Year = 2013, China = -20.0, UnitedStates = -18.8 },
+        new MarkerOverviewInfo { Year = 2014, China = -18.4, UnitedStates = -18.3 },
+        new MarkerOverviewInfo { Year = 2015, China = -17.6, UnitedStates = -18.3 },
+        new MarkerOverviewInfo { Year = 2016, China = -20.8, UnitedStates = -18.2 },
+        new MarkerOverviewInfo { Year = 2017, China = -17.0, UnitedStates = -19.4 },
+        new MarkerOverviewInfo { Year = 2018, China = -19.9, UnitedStates = -18.6 },
+        new MarkerOverviewInfo { Year = 2019, China = -18.1, UnitedStates = -18.3 },
+        new MarkerOverviewInfo { Year = 2020, China = -18.0, UnitedStates = -16.1 },
+        new MarkerOverviewInfo { Year = 2021, China = -20.3, UnitedStates = -19.7 },
+        new MarkerOverviewInfo { Year = 2022, China = -17.3, UnitedStates = -19.9 }
+    };
+}
+
+
+<Description>
+    <Header>
+        <h5><b>Shape</b></h5>
+    </Header>
+    <Content>
+        The <code>Shape</code> property of the <code>ChartMarker</code> component is used to control
+        the visual representation of markers. This example demonstrates
+        different marker shapes applied to data points in a Line Chart using the <code>ChartShape</code> enum.
+    </Content>
+</Description>
+
+<VirtualizeSection MinHeightPx="600px">
+    <CodePreview IsFullWidth="true" CodeSection="@MarkerShapeCode">
+    <PreviewSection>
+        <div>
+            <label>Shape: </label>
+            <SfButtonGroup Mode="Syncfusion.Blazor.Toolkit.SelectionMode.Single">
+                    <ButtonGroupButton Selected="IsSelected(ChartShape.Circle)" SelectedChanged="@(v => OnMarkerShapeSelected(v, ChartShape.Circle))">Circle</ButtonGroupButton>
+                    <ButtonGroupButton Selected="IsSelected(ChartShape.Diamond)" SelectedChanged="@(v => OnMarkerShapeSelected(v, ChartShape.Diamond))">Diamond</ButtonGroupButton>
+                    <ButtonGroupButton Selected="IsSelected(ChartShape.Rectangle)" SelectedChanged="@(v => OnMarkerShapeSelected(v, ChartShape.Rectangle))">Rectangle</ButtonGroupButton>
+                    <ButtonGroupButton Selected="IsSelected(ChartShape.Triangle)" SelectedChanged="@(v => OnMarkerShapeSelected(v, ChartShape.Triangle))">Triangle</ButtonGroupButton>
+            </SfButtonGroup>
+        </div>
+        <SfChart Title="Marker Shape Example" Theme="@_currentTheme" @key="@_currentTheme">
+            <ChartPrimaryXAxis ValueType="ValueType.Double"
+                               Title="Year">
+                <ChartAxisLineStyle Width="0" />
+                <ChartAxisMajorGridLines Width="0" />
+            </ChartPrimaryXAxis>
+
+            <ChartPrimaryYAxis Title="Percentage (%)"
+                               Minimum="75"
+                               Maximum="100">
+                <ChartAxisLineStyle Width="0" />
+            </ChartPrimaryYAxis>
+
+            
+                <ChartSeries DataSource="@MarkerShapeData"
+                             XName="Year"
+                             YName="Value"
+                             Name="Growth"
+                             Type="ChartSeriesType.Line">
+                    <ChartMarker Visible="true"
+                                 Shape="@chartShape"
+                                 Width="10"
+                                 Height="10">
+                    </ChartMarker>
+                </ChartSeries>
+            
+
+                <!-- Tooltip -->
+                <ChartTooltipSettings Enable="true" 
+                                      Header="${point.x}"
+                                      Format="World : <b>${point.y}% of population</b>" />
+        </SfChart>
+    </PreviewSection>
+</CodePreview>
+</VirtualizeSection>
+
+@code {
+    public ChartShape chartShape = ChartShape.Diamond;
+    bool IsSelected(ChartShape shape)
+    {
+        return chartShape == shape;
+    }
+    public void OnMarkerShapeSelected(bool selected, ChartShape shape)
+    {
+        if (selected)
+        {
+            chartShape = shape;
+        }
+    }
+    private string MarkerShapeCode => @"@using Syncfusion.Blazor.Toolkit.Charts
+    <div>
+            <label>Shape: </label>
+            <SfButtonGroup Mode=""Syncfusion.Blazor.Toolkit.SelectionMode.Single"">
+                    <ButtonGroupButton Selected=""IsSelected(ChartShape.Circle)"" SelectedChanged=""@(v => OnMarkerShapeSelected(v, ChartShape.Circle))"">Circle</ButtonGroupButton>
+                    <ButtonGroupButton Selected=""IsSelected(ChartShape.Diamond)"" SelectedChanged=""@(v => OnMarkerShapeSelected(v, ChartShape.Diamond))"">Diamond</ButtonGroupButton>
+                    <ButtonGroupButton Selected=""IsSelected(ChartShape.Rectangle)"" SelectedChanged=""@(v => OnMarkerShapeSelected(v, ChartShape.Rectangle))"">Rectangle</ButtonGroupButton>
+                    <ButtonGroupButton Selected=""IsSelected(ChartShape.Triangle)"" SelectedChanged=""@(v => OnMarkerShapeSelected(v, ChartShape.Triangle))"">Triangle</ButtonGroupButton>
+            </SfButtonGroup>
+        </div>
+        <SfChart Title=""Marker Shape Example"" Theme=""@_currentTheme"" @key=""@_currentTheme"">
+            <ChartPrimaryXAxis ValueType=""ValueType.Double""
+                               Title=""Year"">
+                <ChartAxisLineStyle Width=""0"" />
+                <ChartAxisMajorGridLines Width=""0"" />
+            </ChartPrimaryXAxis>
+
+            <ChartPrimaryYAxis Title=""Percentage (%)""
+                               Minimum=""75""
+                               Maximum=""100"">
+                <ChartAxisLineStyle Width=""0"" />
+            </ChartPrimaryYAxis>
+            <ChartSeriesCollection>
+                <ChartSeries DataSource=""@MarkerShapeData""
+                             XName=""Year""
+                             YName=""Value""
+                             Name=""Growth""
+                             Type=""ChartSeriesType.Line"">
+                    <ChartMarker Visible=""true""
+                                 Shape=""@chartShape""
+                                 Width=""10""
+                                 Height=""10"">
+                    </ChartMarker>
+                </ChartSeries>
+            </ChartSeriesCollection>
+                <!-- Tooltip -->
+                <ChartTooltipSettings Enable=""true"" 
+                                      Header=""${point.x}""
+                                      Format=""World : <b>${point.y}% of population</b>"" />
+        </SfChart>
+
+@code {
+    private Theme _currentTheme = Theme.Fluent;
+    public ChartShape chartShape = ChartShape.Diamond;
+    bool IsSelected(ChartShape shape)
+    {
+        return chartShape == shape;
+    }
+    public void OnMarkerShapeSelected(bool selected, ChartShape shape)
+    {
+        if (selected)
+        {
+            chartShape = shape;
+        }
+    }
+    public class MarkerShapeInfo
+        {
+            public int Year { get; set; }
+            public double Value { get; set; }
+        }
+    public List<MarkerShapeInfo> MarkerShapeData = new()
+        {
+            new MarkerShapeInfo { Year = 2004, Value = 81.4 },
+            new MarkerShapeInfo { Year = 2005, Value = 79.1 },
+            new MarkerShapeInfo { Year = 2006, Value = 79.4 },
+            new MarkerShapeInfo { Year = 2007, Value = 87.5 },
+            new MarkerShapeInfo { Year = 2008, Value = 92.9 },
+            new MarkerShapeInfo { Year = 2009, Value = 93.8 },
+            new MarkerShapeInfo { Year = 2010, Value = 93.1 },
+            new MarkerShapeInfo { Year = 2011, Value = 93.6 },
+            new MarkerShapeInfo { Year = 2012, Value = 95.1 },
+            new MarkerShapeInfo { Year = 2013, Value = 96.1 },
+            new MarkerShapeInfo { Year = 2014, Value = 95.8 },
+            new MarkerShapeInfo { Year = 2015, Value = 93.6 },
+            new MarkerShapeInfo { Year = 2016, Value = 94.1 },
+            new MarkerShapeInfo { Year = 2017, Value = 94.5 },
+            new MarkerShapeInfo { Year = 2018, Value = 95.8 },
+            new MarkerShapeInfo { Year = 2019, Value = 95.1 },
+            new MarkerShapeInfo { Year = 2020, Value = 95.4 },
+            new MarkerShapeInfo { Year = 2021, Value = 95.7 },
+            new MarkerShapeInfo { Year = 2022, Value = 95.7 },
+            new MarkerShapeInfo { Year = 2023, Value = 97.1 },
+            new MarkerShapeInfo { Year = 2024, Value = 98.2 }
+        };
+}";
+
+    public class MarkerShapeInfo
+    {
+        public int Year { get; set; }
+        public double Value { get; set; }
+    }
+
+    public List<MarkerShapeInfo> MarkerShapeData = new()
+    {
+        new MarkerShapeInfo { Year = 2004, Value = 81.4 },
+        new MarkerShapeInfo { Year = 2005, Value = 79.1 },
+        new MarkerShapeInfo { Year = 2006, Value = 79.4 },
+        new MarkerShapeInfo { Year = 2007, Value = 87.5 },
+        new MarkerShapeInfo { Year = 2008, Value = 92.9 },
+        new MarkerShapeInfo { Year = 2009, Value = 93.8 },
+        new MarkerShapeInfo { Year = 2010, Value = 93.1 },
+        new MarkerShapeInfo { Year = 2011, Value = 93.6 },
+        new MarkerShapeInfo { Year = 2012, Value = 95.1 },
+        new MarkerShapeInfo { Year = 2013, Value = 96.1 },
+        new MarkerShapeInfo { Year = 2014, Value = 95.8 },
+        new MarkerShapeInfo { Year = 2015, Value = 93.6 },
+        new MarkerShapeInfo { Year = 2016, Value = 94.1 },
+        new MarkerShapeInfo { Year = 2017, Value = 94.5 },
+        new MarkerShapeInfo { Year = 2018, Value = 95.8 },
+        new MarkerShapeInfo { Year = 2019, Value = 95.1 },
+        new MarkerShapeInfo { Year = 2020, Value = 95.4 },
+        new MarkerShapeInfo { Year = 2021, Value = 95.7 },
+        new MarkerShapeInfo { Year = 2022, Value = 95.7 },
+        new MarkerShapeInfo { Year = 2023, Value = 97.1 },
+        new MarkerShapeInfo { Year = 2024, Value = 98.2 }
+    };
+}
+
+<Description>
+    <Header><code></code> and setting the <code>Shape</code> property to <code>ChartShapeImage</code>.
+        <h5><b>Marker As Image</b></h5>
+    </Header>
+    <Content>
+        Markers can be rendered using custom images instead of built-in shapes.
+        This example demonstrates displaying image-based markers for average
+        monthly temperature values using the <code>ImageUrl</code> property
+        of the ChartMarker component.
+        of the <code>ChartMarker</code> component and setting the <code>Shape</code> property to <code>ChartShape.Image</code>.
+    </Content>
+</Description>
+
+<VirtualizeSection MinHeightPx="600px">
+    <CodePreview IsFullWidth="true" CodeSection="@MarkerAsImageCode">
+    <PreviewSection>
+        <SfChart Title="Monthly Average Temperature" Theme="@_currentTheme">
+            <ChartPrimaryXAxis ValueType="ValueType.Category"
+                               Title="Month">
+                <ChartAxisLineStyle Width="0" />
+                <ChartAxisMajorGridLines Width="0" />
+            </ChartPrimaryXAxis>
+
+            <ChartPrimaryYAxis Title="Temperature (°F)">
+                <ChartAxisLineStyle Width="0" />
+            </ChartPrimaryYAxis>
+
+            
+                <ChartSeries DataSource="@TemperatureData"
+                             XName="Month"
+                             YName="Avg"
+                             Name="Average Temperature"
+                             Type="ChartSeriesType.Line">
+                    <ChartMarker Visible="true"
+                                 Width="16"
+                                 Height="16"
+                                 Shape="ChartShape.Image"
+                                 ImageUrl="@(new Uri("images/charts/cloudy.png", UriKind.Relative))">
+                    </ChartMarker>
+                </ChartSeries>
+            
+
+                <!-- Tooltip -->
+                <ChartTooltipSettings Enable="true"
+                                      Header="Average"
+                                      Format="${point.x} : <b>${point.y}</b>" />
+        </SfChart>
+    </PreviewSection>
+</CodePreview>
+</VirtualizeSection>
+
+@code {
+
+    private string MarkerAsImageCode => @"@using Syncfusion.Blazor.Toolkit.Charts
+   <SfChart Title=""Monthly Average Temperature"" Theme=""@_currentTheme"">
+            <ChartPrimaryXAxis ValueType=""ValueType.Category""
+                               Title=""Month"">
+                <ChartAxisLineStyle Width=""0"" />
+                <ChartAxisMajorGridLines Width=""0"" />
+            </ChartPrimaryXAxis>
+
+            <ChartPrimaryYAxis Title=""Temperature (°F)"">
+                <ChartAxisLineStyle Width=""0"" />
+            </ChartPrimaryYAxis>
+
+            <ChartSeriesCollection>
+                <ChartSeries DataSource=""@TemperatureData""
+                             XName=""Month""
+                             YName=""Avg""
+                             Name=""Average Temperature""
+                             Type=""ChartSeriesType.Line"">
+                    <ChartMarker Visible=""true""
+                                 Width=""16""
+                                 Height=""16""
+                                 Shape=""ChartShape.Image""
+                                 ImageUrl=""@(new Uri(""images/charts/cloudy.png"", UriKind.Relative))"">
+                    </ChartMarker>
+                </ChartSeries>
+            </ChartSeriesCollection>
+                <!-- Tooltip -->
+                <ChartTooltipSettings Enable=""true""
+                                      Header=""Average""
+                                      Format=""${point.x} : <b>${point.y}</b>"" />
+        </SfChart>
+
+@code {
+    private Theme _currentTheme = Theme.Fluent;
+    public class TemperatureInfo
+        {
+            public string Month { get; set; }
+            public double Min { get; set; }
+            public double Avg { get; set; }
+            public double Max { get; set; }
+        }
+    public List<TemperatureInfo> TemperatureData = new()
+        {
+            new TemperatureInfo { Month = ""Jan"", Min = 22.75, Avg = 31.89, Max = 41.02 },
+            new TemperatureInfo { Month = ""Feb"", Min = 29.71, Avg = 40.82, Max = 51.93 },
+            new TemperatureInfo { Month = ""Mar"", Min = 33.53, Avg = 44.96, Max = 56.39 },
+            new TemperatureInfo { Month = ""Apr"", Min = 41.22, Avg = 53.64, Max = 66.06 },
+            new TemperatureInfo { Month = ""May"", Min = 49.87, Avg = 62.28, Max = 74.64 },
+            new TemperatureInfo { Month = ""Jun"", Min = 59.02, Avg = 71.80, Max = 84.58 },
+            new TemperatureInfo { Month = ""Jul"", Min = 62.94, Avg = 75.69, Max = 88.43 },
+            new TemperatureInfo { Month = ""Aug"", Min = 61.27, Avg = 73.99, Max = 86.72 },
+            new TemperatureInfo { Month = ""Sep"", Min = 55.36, Avg = 68.61, Max = 81.86 },
+            new TemperatureInfo { Month = ""Oct"", Min = 44.76, Avg = 58.95, Max = 73.13 },
+            new TemperatureInfo { Month = ""Nov"", Min = 34.79, Avg = 45.18, Max = 55.54 },
+            new TemperatureInfo { Month = ""Dec"", Min = 28.04, Avg = 38.21, Max = 48.36 }
+        };
+}";
+
+    public class TemperatureInfo
+    {
+        public string Month { get; set; }
+        public double Min { get; set; }
+        public double Avg { get; set; }
+        public double Max { get; set; }
+    }
+
+    public List<TemperatureInfo> TemperatureData = new()
+    {
+        new TemperatureInfo { Month = "Jan", Min = 22.75, Avg = 31.89, Max = 41.02 },
+        new TemperatureInfo { Month = "Feb", Min = 29.71, Avg = 40.82, Max = 51.93 },
+        new TemperatureInfo { Month = "Mar", Min = 33.53, Avg = 44.96, Max = 56.39 },
+        new TemperatureInfo { Month = "Apr", Min = 41.22, Avg = 53.64, Max = 66.06 },
+        new TemperatureInfo { Month = "May", Min = 49.87, Avg = 62.28, Max = 74.64 },
+        new TemperatureInfo { Month = "Jun", Min = 59.02, Avg = 71.80, Max = 84.58 },
+        new TemperatureInfo { Month = "Jul", Min = 62.94, Avg = 75.69, Max = 88.43 },
+        new TemperatureInfo { Month = "Aug", Min = 61.27, Avg = 73.99, Max = 86.72 },
+        new TemperatureInfo { Month = "Sep", Min = 55.36, Avg = 68.61, Max = 81.86 },
+        new TemperatureInfo { Month = "Oct", Min = 44.76, Avg = 58.95, Max = 73.13 },
+        new TemperatureInfo { Month = "Nov", Min = 34.79, Avg = 45.18, Max = 55.54 },
+        new TemperatureInfo { Month = "Dec", Min = 28.04, Avg = 38.21, Max = 48.36 }
+    };
+}
+
+<Description>
+    <Header>
+        <h5><b>Marker Customization</b></h5>
+    </Header>
+    <Content>
+        Marker customization allows you to control the appearance of markers by
+        configuring properties such as <code>Shape</code>, <code>Width</code>, <code>Height</code>, <code>Fill</code>, and <code>Border</code>.
+        This example demonstrates customized markers for minimum, average,
+        and maximum monthly temperature values in a Line Chart by utilizing the <code>ChartMarkerBorder</code> 
+        component within the <code>ChartMarker</code>.
+    </Content>
+</Description>
+
+<VirtualizeSection MinHeightPx="600px">
+    <CodePreview IsFullWidth="true" CodeSection="@MarkerCustomizationCode">
+    <PreviewSection>
+        <SfChart Title="Monthly Temperature Variations" Theme="@_currentTheme">
+            <ChartPrimaryXAxis ValueType="ValueType.Category"
+                               Title="Month">
+                <ChartAxisLineStyle Width="0" />
+                <ChartAxisMajorGridLines Width="0" />
+            </ChartPrimaryXAxis>
+
+            <ChartPrimaryYAxis Title="Temperature (°F)">
+                <ChartAxisLineStyle Width="0" />
+            </ChartPrimaryYAxis>
+
+            
+                <ChartSeries DataSource="@TemperatureData"
+                             XName="Month"
+                             YName="Min"
+                             Name="Minimum"
+                             Type="ChartSeriesType.Line">
+                    <ChartMarker Visible="true"
+                                 Shape="ChartShape.Circle"
+                                 Width="10"
+                                 Height="10"
+                                 Fill="#1976D2"
+                                 Border="@(new ChartMarkerBorder { Width = 2, Color = "#0D47A1" })">
+                    </ChartMarker>
+                </ChartSeries>
+
+                <ChartSeries DataSource="@TemperatureData"
+                             XName="Month"
+                             YName="Avg"
+                             Name="Average"
+                             Type="ChartSeriesType.Line">
+                    <ChartMarker Visible="true"
+                                 Shape="ChartShape.Diamond"
+                                 Width="10"
+                                 Height="10"
+                                 Fill="#388E3C"
+                                 Border="@(new ChartMarkerBorder { Width = 2, Color = "#1B5E20" })">
+                    </ChartMarker>
+                </ChartSeries>
+
+                <ChartSeries DataSource="@TemperatureData"
+                             XName="Month"
+                             YName="Max"
+                             Name="Maximum"
+                             Type="ChartSeriesType.Line">
+                    <ChartMarker Visible="true"
+                                 Shape="ChartShape.Triangle"
+                                 Width="10"
+                                 Height="10"
+                                 Fill="#D32F2F"
+                                 Border="@(new ChartMarkerBorder { Width = 2, Color = "#B71C1C"})">
+                    </ChartMarker>
+                </ChartSeries>
+            
+
+                <!-- Tooltip -->
+                <ChartTooltipSettings Enable="true" Shared="true"
+                                      Header="${point.x}"
+                                      Format="${series.name} : <b>${point.y}</b>" />
+        </SfChart>
+    </PreviewSection>
+</CodePreview>
+</VirtualizeSection>
+
+@code{
+    private string MarkerCustomizationCode => @"@using Syncfusion.Blazor.Toolkit.Charts
+    <SfChart Title=""Monthly Temperature Variations"" Theme=""@_currentTheme"">
+            <ChartPrimaryXAxis ValueType=""ValueType.Category""
+                               Title=""Month"">
+                <ChartAxisLineStyle Width=""0"" />
+                <ChartAxisMajorGridLines Width=""0"" />
+            </ChartPrimaryXAxis>
+
+            <ChartPrimaryYAxis Title=""Temperature (°F)"">
+                <ChartAxisLineStyle Width=""0"" />
+            </ChartPrimaryYAxis>
+            <ChartSeriesCollection>
+                <ChartSeries DataSource=""@TemperatureData""
+                             XName=""Month""
+                             YName=""Min""
+                             Name=""Minimum""
+                             Type=""ChartSeriesType.Line"">
+                    <ChartMarker Visible=""true""
+                                 Shape=""ChartShape.Circle""
+                                 Width=""10""
+                                 Height=""10""
+                                 Fill=""#1976D2""
+                                 Border=""@(new ChartMarkerBorder { Width = 2, Color = ""#0D47A1"" })"">
+                    </ChartMarker>
+                </ChartSeries>
+                <ChartSeries DataSource=""@TemperatureData""
+                             XName=""Month""
+                             YName=""Avg""
+                             Name=""Average""
+                             Type=""ChartSeriesType.Line"">
+                    <ChartMarker Visible=""true""
+                                 Shape=""ChartShape.Diamond""
+                                 Width=""10""
+                                 Height=""10""
+                                 Fill=""#388E3C""
+                                 Border=""@(new ChartMarkerBorder { Width = 2, Color = ""#1B5E20"" })"">
+                    </ChartMarker>
+                </ChartSeries>
+                <ChartSeries DataSource=""@TemperatureData""
+                             XName=""Month""
+                             YName=""Max""
+                             Name=""Maximum""
+                             Type=""ChartSeriesType.Line"">
+                    <ChartMarker Visible=""true""
+                                 Shape=""ChartShape.Triangle""
+                                 Width=""10""
+                                 Height=""10""
+                                 Fill=""#D32F2F""
+                                 Border=""@(new ChartMarkerBorder { Width = 2, Color = ""#B71C1C""})"">
+                    </ChartMarker>
+                </ChartSeries>
+            </ChartSeriesCollection>
+                <!-- Tooltip -->
+                <ChartTooltipSettings Enable=""true"" Shared=""true""
+                                      Header=""${point.x}""
+                                      Format=""${series.name} : <b>${point.y}</b>"" />
+        </SfChart>
+
+@code {
+    private Theme _currentTheme = Theme.Fluent;
+    public class TemperatureInfo
+        {
+            public string Month { get; set; }
+            public double Min { get; set; }
+            public double Avg { get; set; }
+            public double Max { get; set; }
+        }
+    public List<TemperatureInfo> TemperatureData = new()
+        {
+            new TemperatureInfo { Month = ""Jan"", Min = 22.75, Avg = 31.89, Max = 41.02 },
+            new TemperatureInfo { Month = ""Feb"", Min = 29.71, Avg = 40.82, Max = 51.93 },
+            new TemperatureInfo { Month = ""Mar"", Min = 33.53, Avg = 44.96, Max = 56.39 },
+            new TemperatureInfo { Month = ""Apr"", Min = 41.22, Avg = 53.64, Max = 66.06 },
+            new TemperatureInfo { Month = ""May"", Min = 49.87, Avg = 62.28, Max = 74.64 },
+            new TemperatureInfo { Month = ""Jun"", Min = 59.02, Avg = 71.80, Max = 84.58 },
+            new TemperatureInfo { Month = ""Jul"", Min = 62.94, Avg = 75.69, Max = 88.43 },
+            new TemperatureInfo { Month = ""Aug"", Min = 61.27, Avg = 73.99, Max = 86.72 },
+            new TemperatureInfo { Month = ""Sep"", Min = 55.36, Avg = 68.61, Max = 81.86 },
+            new TemperatureInfo { Month = ""Oct"", Min = 44.76, Avg = 58.95, Max = 73.13 },
+            new TemperatureInfo { Month = ""Nov"", Min = 34.79, Avg = 45.18, Max = 55.54 },
+            new TemperatureInfo { Month = ""Dec"", Min = 28.04, Avg = 38.21, Max = 48.36 }
+        };
+}";
+}
+
+<Description>
+    <Header>
+        <h5><b>Filled Marker</b></h5>
+    </Header>
+    <Content>
+        Filled markers allow you to emphasize data points by applying a solid
+        fill color to the marker shape. This example demonstrates filled circular
+        markers applied to two line series representing yearly values for China
+        and the United States.
+        and the United States by setting the <code>IsFilled</code> property of the <code>ChartMarker</code> component to <code>true</code>.
+    </Content>
+</Description>
+
+<VirtualizeSection MinHeightPx="600px">
+    <CodePreview IsFullWidth="true" CodeSection="@FilledMarkerCode">
+    <PreviewSection>
+        <SfChart Title="Filled Marker Example" Theme="@_currentTheme">
+            <ChartPrimaryXAxis ValueType="ValueType.Double"
+                               Title="Year">
+                <ChartAxisLineStyle Width="0" />
+                <ChartAxisMajorGridLines Width="0" />
+            </ChartPrimaryXAxis>
+
+            <ChartPrimaryYAxis Title="Value">
+                <ChartAxisLineStyle Width="0" />
+            </ChartPrimaryYAxis>
+
+            
+                <ChartSeries DataSource="@MarkerOverviewData"
+                             XName="Year"
+                             YName="China"
+                             Name="China"
+                             Type="ChartSeriesType.Line">
+                    <ChartMarker Visible="true"
+                                 Shape="ChartShape.Circle"
+                                 Width="10"
+                                 Height="10"
+                                     IsFilled="true">
+                    </ChartMarker>
+                </ChartSeries>
+
+                <ChartSeries DataSource="@MarkerOverviewData"
+                             XName="Year"
+                             YName="UnitedStates"
+                             Name="United States"
+                             Type="ChartSeriesType.Line">
+                    <ChartMarker Visible="true"
+                                 Shape="ChartShape.Circle"
+                                 Width="10"
+                                 Height="10"
+                                IsFilled="true">
+                    </ChartMarker>
+                </ChartSeries>
+            
+
+                <!-- Tooltip -->
+                <ChartTooltipSettings Enable="true" Shared="true"
+                                      Header="${point.x}"
+                                      Format="${series.name} : <b>${point.y}°C</b>" />
+        </SfChart>
+    </PreviewSection>
+</CodePreview>
+</VirtualizeSection>
+
+@code{
+    private string FilledMarkerCode => @"@using Syncfusion.Blazor.Toolkit.Charts
+
+ <SfChart Title=""Filled Marker Example"" Theme=""@_currentTheme"">
+            <ChartPrimaryXAxis ValueType=""ValueType.Double""
+                               Title=""Year"">
+                <ChartAxisLineStyle Width=""0"" />
+                <ChartAxisMajorGridLines Width=""0"" />
+            </ChartPrimaryXAxis>
+
+            <ChartPrimaryYAxis Title=""Value"">
+                <ChartAxisLineStyle Width=""0"" />
+            </ChartPrimaryYAxis>
+
+            <ChartSeriesCollection>
+                <ChartSeries DataSource=""@MarkerOverviewData""
+                             XName=""Year""
+                             YName=""China""
+                             Name=""China""
+                             Type=""ChartSeriesType.Line"">
+                    <ChartMarker Visible=""true""
+                                 Shape=""ChartShape.Circle""
+                                 Width=""10""
+                                 Height=""10""
+                                     IsFilled=""true"">
+                    </ChartMarker>
+                </ChartSeries>
+                <ChartSeries DataSource=""@MarkerOverviewData""
+                             XName=""Year""
+                             YName=""UnitedStates""
+                             Name=""United States""
+                             Type=""ChartSeriesType.Line"">
+                    <ChartMarker Visible=""true""
+                                 Shape=""ChartShape.Circle""
+                                 Width=""10""
+                                 Height=""10""
+                                IsFilled=""true"">
+                    </ChartMarker>
+                </ChartSeries>
+            </ChartSeriesCollection>
+
+                <!-- Tooltip -->
+                <ChartTooltipSettings Enable=""true"" Shared=""true""
+                                      Header=""${point.x}""
+                                      Format=""${series.name} : <b>${point.y}°C</b>"" />
+        </SfChart>
+
+@code {
+    private Theme _currentTheme = Theme.Fluent;
+    public class MarkerOverviewInfo
+        {
+            public double Year { get; set; }
+            public double China { get; set; }
+            public double UnitedStates { get; set; }
+        }
+    public List<MarkerOverviewInfo> MarkerOverviewData = new()
+        {
+            new MarkerOverviewInfo { Year = 2001, China = -19.9, UnitedStates = -15.9 },
+            new MarkerOverviewInfo { Year = 2002, China = -19.1, UnitedStates = -16.6 },
+            new MarkerOverviewInfo { Year = 2003, China = -19.5, UnitedStates = -17.1 },
+            new MarkerOverviewInfo { Year = 2004, China = -19.3, UnitedStates = -19.7 },
+            new MarkerOverviewInfo { Year = 2005, China = -18.9, UnitedStates = -18.2 },
+            new MarkerOverviewInfo { Year = 2006, China = -18.6, UnitedStates = -18.0 },
+            new MarkerOverviewInfo { Year = 2007, China = -17.3, UnitedStates = -18.6 },
+            new MarkerOverviewInfo { Year = 2008, China = -20.3, UnitedStates = -19.0 },
+            new MarkerOverviewInfo { Year = 2009, China = -18.3, UnitedStates = -19.9 },
+            new MarkerOverviewInfo { Year = 2010, China = -19.0, UnitedStates = -18.5 },
+            new MarkerOverviewInfo { Year = 2011, China = -21.1, UnitedStates = -19.9 },
+            new MarkerOverviewInfo { Year = 2012, China = -19.9, UnitedStates = -16.9 },
+            new MarkerOverviewInfo { Year = 2013, China = -20.0, UnitedStates = -18.8 },
+            new MarkerOverviewInfo { Year = 2014, China = -18.4, UnitedStates = -18.3 },
+            new MarkerOverviewInfo { Year = 2015, China = -17.6, UnitedStates = -18.3 },
+            new MarkerOverviewInfo { Year = 2016, China = -20.8, UnitedStates = -18.2 },
+            new MarkerOverviewInfo { Year = 2017, China = -17.0, UnitedStates = -19.4 },
+            new MarkerOverviewInfo { Year = 2018, China = -19.9, UnitedStates = -18.6 },
+            new MarkerOverviewInfo { Year = 2019, China = -18.1, UnitedStates = -18.3 },
+            new MarkerOverviewInfo { Year = 2020, China = -18.0, UnitedStates = -16.1 },
+            new MarkerOverviewInfo { Year = 2021, China = -20.3, UnitedStates = -19.7 },
+            new MarkerOverviewInfo { Year = 2022, China = -17.3, UnitedStates = -19.9 }
+        };
+}";
+
+}

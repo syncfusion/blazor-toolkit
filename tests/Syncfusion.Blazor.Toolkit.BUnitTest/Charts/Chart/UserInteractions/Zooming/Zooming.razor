@@ -1,0 +1,265 @@
+@using Syncfusion.Blazor.Toolkit.Charts
+@using Syncfusion.Blazor.Toolkit.Tests
+@using Syncfusion.Blazor.Toolkit.Charts
+@using Syncfusion.Blazor.Toolkit.Charts.Internal
+@using Bunit
+@using Xunit
+
+@inherits TestComponentBase
+
+<SfFixture @ref="fixture" TestAsync="CheckingZoomingEvent" Description="CheckingZoomingEvent">
+    <ComponentUnderTest>
+        <div>
+    <SfChart ID="container2" @ref="chart1" Width="900px" Height="450px" OnZoomEnd="ZoomEnd">
+    <ChartArea>
+        <ChartAreaBorder Width="1" Color="Blue"></ChartAreaBorder>
+    </ChartArea>
+    <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Toolkit.ValueType.DateTime" LabelFormat="yyyy" IntervalType="IntervalType.Years" EdgeLabelPlacement="EdgeLabelPlacement.Shift">
+    </ChartPrimaryXAxis>
+    <ChartSeriesCollection>
+        <ChartSeries DataSource="@ChartPoints" Name="John" XName="Period" Width="2" Opacity="1" YName="JohnRevenue" Type="ChartSeriesType.Line">
+            <ChartMarker Visible="true" Width="7" Height="7" IsFilled="true"></ChartMarker>
+        </ChartSeries>
+        <ChartSeries DataSource="@ChartPoints" Name="Andrew" XName="Period" Width="2" Opacity="1" YName="AndrewRevenue" Type="ChartSeriesType.Line">
+            <ChartMarker Visible="true" Width="7" Height="7" IsFilled="true"></ChartMarker>
+        </ChartSeries>
+        <ChartSeries DataSource="@ChartPoints" Name="Thomas" XName="Period" Width="2" Opacity="1" YName="ThamosRevenue" Type="ChartSeriesType.Line">
+            <ChartMarker Visible="true" Width="7" Height="7" IsFilled="true"></ChartMarker>
+        </ChartSeries>
+    </ChartSeriesCollection>
+    <ChartZoomSettings EnableSelectionZooming="true" EnableMouseWheelZooming="true" EnablePinchZooming="true" Mode="ZoomMode.XY"></ChartZoomSettings>
+        </SfChart>
+        </div>
+    </ComponentUnderTest>
+</SfFixture>
+
+@code {
+
+    SfFixture fixture { get; set; }
+    SfChart chart1 { get; set; }
+    bool isChartZoomed = false;
+    async Task CheckingZoomingEvent(Fixture fixture)
+    {
+        var cut = fixture.GetComponentUnderTest<SfChart>();
+        await Task.Delay(200);
+        ZoomingEventArgs zoomingEvent = new ZoomingEventArgs() { AxisCollection = new List<AxisData>(), Cancel = false, Name = "OnZoomEnd" };
+        IZoomingStates zoomingStates = new IZoomingStates();
+        chart1.ZoomingComplete(zoomingEvent, zoomingStates);
+
+        Assert.True(!zoomingStates.IsPanning);
+        Assert.True(!zoomingStates.IsZoomed);
+        Assert.True(!zoomingStates.IsWheelZoom);
+        Assert.True(!zoomingStates.PerformedUI);
+        Assert.True(!zoomingStates.DelayRedraw);
+        Assert.True(!zoomingStates.IsDoubleTap);
+        Assert.True(!zoomingStates.IsChartDrag);
+        Assert.True(!zoomingStates.IsChartPanning);
+
+        ChartMouseWheelArgs wheelEventArgs = new ChartMouseWheelArgs()
+            {
+                WheelDelta = 0.1,
+                BrowserName = "Chrome",
+                ClientX = 100,
+                ClientY = 100,
+                Detail = 1,
+                IsPointer = true,
+                MouseX = 100,
+                MouseY = 150,
+                Target = "container2"
+            };
+        chart1.OnChartMouseWheel(wheelEventArgs);
+
+        Assert.Equal(0.1, wheelEventArgs.WheelDelta);
+        Assert.Equal("Chrome", wheelEventArgs.BrowserName);
+        Assert.Equal(100, wheelEventArgs.ClientX);
+        Assert.Equal(100, wheelEventArgs.ClientY);
+        Assert.Equal(1, wheelEventArgs.Detail);
+        Assert.True(wheelEventArgs.IsPointer);
+        Assert.Equal(100, wheelEventArgs.MouseX);
+        Assert.Equal(150, wheelEventArgs.MouseY);
+        Assert.Equal("container2", wheelEventArgs.Target);
+
+        IScrollEventsArgs scrollEventsArgs = new IScrollEventsArgs()
+            {
+                AxisName = "primaryXAxis",
+                CurrentRangeMax = "100",
+                CurrentRangeMin = "0",
+                Name = "Test",
+                ZoomFactor = 0.5,
+                ZoomPosition = 0.5
+            };
+        chart1.TriggerScrollEvents(scrollEventsArgs);
+
+        Assert.Equal("primaryXAxis", scrollEventsArgs.AxisName);
+        Assert.Equal("100", scrollEventsArgs.CurrentRangeMax);
+        Assert.Equal("0", scrollEventsArgs.CurrentRangeMin);
+        Assert.Equal("Test", scrollEventsArgs.Name);
+        Assert.Equal(0.5, scrollEventsArgs.ZoomFactor);
+        Assert.Equal(0.5, scrollEventsArgs.ZoomPosition);
+
+        ZoomAxisRange zoomAxisRange = new ZoomAxisRange()
+        {
+            ActualDelta = 0.1,
+            Delta = 0.2,
+            ActualMin = 0,
+            Min = 1
+        };
+        Assert.True(isChartZoomed);
+
+        Assert.Equal(0.1, zoomAxisRange.ActualDelta);
+        Assert.Equal(0.2, zoomAxisRange.Delta);
+        Assert.Equal(0, zoomAxisRange.ActualMin);
+        Assert.Equal(1, zoomAxisRange.Min);
+
+        // Assert.True(!chart1.Browser.IsTouch);
+        // Assert.True(!chart1.Browser.IsIos);
+        // Assert.True(!chart1.Browser.IsPointer);
+        // Assert.True(!chart1.Browser.IsDevice);
+        // Assert.Equal("chrome", chart1.Browser.BrowserName);
+
+        cut.SetParametersAndRender();
+
+    }
+    public List<TrackballChartData> ChartPoints { get; set; } = new List<TrackballChartData>
+    {
+        new TrackballChartData { Period = new DateTime(2000, 2, 11), JohnRevenue = 14, AndrewRevenue = 39, ThamosRevenue = 60 },
+        new TrackballChartData { Period = new DateTime(2000, 9, 4), JohnRevenue = 20, AndrewRevenue = 30, ThamosRevenue = 55 },
+        new TrackballChartData { Period = new DateTime(2001, 2, 11), JohnRevenue = 25, AndrewRevenue = 28, ThamosRevenue = 48 },
+        new TrackballChartData { Period = new DateTime(2001, 9, 16), JohnRevenue = 21, AndrewRevenue = 35, ThamosRevenue = 57 },
+        new TrackballChartData { Period = new DateTime(2002, 2, 7), JohnRevenue = 13, AndrewRevenue = 39, ThamosRevenue = 62 },
+        new TrackballChartData { Period = new DateTime(2002, 9, 7), JohnRevenue = 18, AndrewRevenue = 41, ThamosRevenue = 64 },
+        new TrackballChartData { Period = new DateTime(2003, 2, 11), JohnRevenue = 24, AndrewRevenue = 45, ThamosRevenue = 57 },
+        new TrackballChartData { Period = new DateTime(2003, 9, 14), JohnRevenue = 23, AndrewRevenue = 48, ThamosRevenue = 53 },
+        new TrackballChartData { Period = new DateTime(2004, 2, 6), JohnRevenue = 19, AndrewRevenue = 54, ThamosRevenue = 63 },
+        new TrackballChartData { Period = new DateTime(2004, 9, 6), JohnRevenue = 31, AndrewRevenue = 55, ThamosRevenue = 50 },
+        new TrackballChartData { Period = new DateTime(2005, 2, 11), JohnRevenue = 39, AndrewRevenue = 57, ThamosRevenue = 66 },
+        new TrackballChartData { Period = new DateTime(2005, 9, 11), JohnRevenue = 50, AndrewRevenue = 60, ThamosRevenue = 65 },
+        new TrackballChartData { Period = new DateTime(2006, 2, 11), JohnRevenue = 24, AndrewRevenue = 60, ThamosRevenue = 79 },
+    };
+    public class TrackballChartData
+    {
+        public DateTime Period { get; set; }
+        public double JohnRevenue { get; set; }
+        public double AndrewRevenue { get; set; }
+        public double ThamosRevenue { get; set; }
+    }
+    void ZoomEnd(ZoomingEventArgs args)
+    {
+        isChartZoomed = true;
+    }
+}
+
+<SfFixture @ref="fixture1" TestAsync="CheckingZoomingProperties" Description="CheckingZoomingProperties">
+    <ComponentUnderTest>
+        <div>
+            <SfChart ID="container_zooming_properties" @ref="chartProperties" Width="900px" Height="450px">
+                <ChartArea>
+                    <ChartAreaBorder Width="1" Color="Blue"></ChartAreaBorder>
+                </ChartArea>
+                <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Toolkit.ValueType.DateTime" LabelFormat="yyyy" IntervalType="IntervalType.Years" EdgeLabelPlacement="EdgeLabelPlacement.Shift">
+                </ChartPrimaryXAxis>
+                <ChartSeriesCollection>
+                    <ChartSeries DataSource="@ChartPoints" Name="John" XName="Period" Width="2" Opacity="1" YName="JohnRevenue" Type="ChartSeriesType.Line">
+                        <ChartMarker Visible="true" Width="7" Height="7" IsFilled="true"></ChartMarker>
+                    </ChartSeries>
+                </ChartSeriesCollection>
+                <ChartZoomSettings EnableSelectionZooming="true" EnableMouseWheelZooming="true"
+                                   EnablePinchZooming="true" Mode="ZoomMode.XY"
+                                   EnableDeferredZooming="false"
+                                   EnablePan="true"
+                                   EnableScrollbar="true"
+                                   ToolbarDisplayMode="ToolbarMode.Always"
+                                   ToolbarItems="@ToolbarCollection"
+                                   AccessibilityDescriptionFormat="Selected the ${value} option"
+                                   AccessibilityRole="button"
+                                   Focusable="false">
+                </ChartZoomSettings>
+            </SfChart>
+        </div>
+    </ComponentUnderTest>
+</SfFixture>
+
+@code {
+    SfFixture fixture1 { get; set; }
+    SfChart chartProperties { get; set; }
+
+    public List<ToolbarItems> ToolbarCollection = new List<ToolbarItems>()
+    {
+        ToolbarItems.Zoom,
+        ToolbarItems.ZoomIn,
+        ToolbarItems.ZoomOut,
+        ToolbarItems.Pan,
+        ToolbarItems.Reset
+    };
+
+    async Task CheckingZoomingProperties(Fixture fixture1)
+    {
+        var cut = fixture1.GetComponentUnderTest<SfChart>();
+        await Task.Delay(200);
+        Assert.False(chartProperties._zoomSettings.EnableDeferredZooming);
+        Assert.True(chartProperties._zoomSettings.EnablePan);
+        Assert.True(chartProperties._zoomSettings.EnableScrollbar);
+        Assert.Equal(ZoomMode.XY, chartProperties._zoomSettings.Mode);
+        Assert.Equal(ToolbarMode.Always, chartProperties._zoomSettings.ToolbarDisplayMode);
+        Assert.Equal(5, chartProperties._zoomSettings.ToolbarItems.Count);
+        Assert.True(ToolbarCollection.SequenceEqual(chartProperties._zoomSettings.ToolbarItems));
+        Assert.Equal("Selected the ${value} option", chartProperties._zoomSettings.AccessibilityDescriptionFormat); 
+        Assert.Equal("button", chartProperties._zoomSettings.AccessibilityRole);
+        Assert.False(chartProperties._zoomSettings.Focusable);
+
+        cut.SetParametersAndRender();
+        await chartProperties._zoomSettings.DisposeAsync();
+    }
+}
+
+<SfFixture @ref="fixture2" TestAsync="CheckingZoomingToolbarPosition" Description="CheckingZoomingToolbarPosition">
+    <ComponentUnderTest>
+        <SfChart ID="container">
+            <ChartPrimaryXAxis ValueType="Toolkit.ValueType.Category"></ChartPrimaryXAxis>
+
+            <ChartSeriesCollection>
+                <ChartSeries DataSource="@SalesReports" XName="X" YName="YValue" Type="ChartSeriesType.Column"></ChartSeries>
+            </ChartSeriesCollection>
+
+            <ChartZoomSettings EnableSelectionZooming="true" EnableMouseWheelZooming="true" EnablePinchZooming="true" ToolbarDisplayMode="ToolbarMode.Always">
+                <ChartZoomToolbarPosition HorizontalAlign="HorizontalAlign.Left" VerticalAlign="VerticalAlign.Top" X="10" Y="5">
+                </ChartZoomToolbarPosition>
+            </ChartZoomSettings>
+        </SfChart>
+    </ComponentUnderTest>
+</SfFixture>
+
+@code {
+    SfFixture fixture2;
+
+    async Task CheckingZoomingToolbarPosition(Fixture fixture2)
+    {
+        var cut = fixture2.GetComponentUnderTest<SfChart>();
+        await Task.Delay(200);
+        var toolbar = cut.FindComponent<ChartZoomToolbarPosition>();
+        Assert.Equal(HorizontalAlign.Left, toolbar.Instance.HorizontalAlign);
+        Assert.Equal(VerticalAlign.Top, toolbar.Instance.VerticalAlign);
+        Assert.True(toolbar.Instance.X == 10);
+        Assert.True(toolbar.Instance.Y == 5);
+        Assert.True(cut.Find("#container_Zooming_KitCollection").ChildElementCount > 0);
+        await toolbar.Instance.DisposeAsync();
+    }
+
+    public class ChartData1
+    {
+        public string X { get; set; }
+        public double YValue { get; set; }
+    }
+
+    public List<ChartData1> SalesReports = new List<ChartData1>
+    {
+        new ChartData1 { X= "USA", YValue= 50 },
+        new ChartData1 { X= "GBR", YValue= 20 },
+        new ChartData1 { X= "CHN", YValue= 26 },
+        new ChartData1 { X= "UK", YValue= 20 },
+        new ChartData1 { X= "AUS", YValue= 35 },
+        new ChartData1 { X= "IND", YValue= 15 },
+        new ChartData1 { X= "DEN", YValue= 40 },
+        new ChartData1 { X= "MEX", YValue= 30 },
+    };
+}

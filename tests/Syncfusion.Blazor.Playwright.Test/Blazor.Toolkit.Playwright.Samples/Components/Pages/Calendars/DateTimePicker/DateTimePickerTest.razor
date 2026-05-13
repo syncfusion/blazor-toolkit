@@ -1,0 +1,86 @@
+@page "/datetimepicker-test"
+
+@using Syncfusion.Blazor.Toolkit.Calendars
+@using Microsoft.AspNetCore.Components.Forms
+
+<h3>DateTimePicker Test Page</h3>
+
+<div id="wrapper-dtp-basic">
+  <label>Basic</label>
+  <SfDateTimePicker TValue="DateTime?" Id="dtp-basic" Placeholder="Select date and time" ShowClearButton="true" Format="MM/dd/yyyy HH:mm" />
+</div>
+
+<div id="wrapper-dtp-initial">
+  <label>Initial Value</label>
+  <SfDateTimePicker TValue="DateTime?" Id="dtp-initial" @bind-Value="initialValue" ShowClearButton="true" Format="MM/dd/yyyy HH:mm" />
+</div>
+
+<div id="wrapper-dtp-strict">
+  <label>Strict Mode</label>
+  <SfDateTimePicker TValue="DateTime?" Id="dtp-strict" StrictMode="true" Placeholder="MM/dd/yyyy HH:mm" ShowClearButton="true" Format="MM/dd/yyyy HH:mm" />
+</div>
+
+<div id="wrapper-dtp-minmax">
+  <label>Min/Max Date & Time</label>
+  <SfDateTimePicker TValue="DateTime?" Id="dtp-minmax" Min="@minDateTime" Max="@maxDateTime" MinTime="@minTime" MaxTime="@maxTime" Placeholder="Select (2022-2026)" Format="MM/dd/yyyy HH:mm" />
+</div>
+
+<div id="wrapper-dtp-step">
+  <label>Step</label>
+  <SfDateTimePicker TValue="DateTime?" Id="dtp-step" Step="15" TimeFormat="HH:mm" Placeholder="15-min intervals" Format="MM/dd/yyyy HH:mm" />
+</div>
+
+<div id="wrapper-dtp-disabled">
+  <label>Disabled</label>
+  <SfDateTimePicker TValue="DateTime?" Id="dtp-disabled" Disabled="true" Placeholder="Disabled" Format="MM/dd/yyyy HH:mm" />
+</div>
+
+<div id="wrapper-dtp-timeformat">
+  <label>Time Format AM/PM</label>
+  <SfDateTimePicker TValue="DateTime?" Id="dtp-timeformat" TimeFormat="hh:mm tt" Placeholder="12-hour format" Format="MM/dd/yyyy hh:mm tt" />
+</div>
+
+<div id="wrapper-dtp-width">
+  <label>Width</label>
+  <SfDateTimePicker TValue="DateTime?" Id="dtp-width" Width="300px" Placeholder="Width example" Format="MM/dd/yyyy HH:mm" />
+</div>
+
+<div id="wrapper-dtp-form">
+  <label>Form Integration</label>
+  <EditForm Model="formModel" OnValidSubmit="OnSubmit">
+    <SfDateTimePicker TValue="DateTime?" Id="dtp-form" @bind-Value="formModel.DateTime" Placeholder="Pick and submit" Format="MM/dd/yyyy HH:mm" />
+    <button type="submit">Submit</button>
+  </EditForm>
+  <div id="form-result">@formResult</div>
+</div>
+
+<div id="wrapper-dtp-many">
+  <label>Many pickers</label>
+  @for (int i = 1; i <= 10; i++)
+  {
+    string id = $"dtp-many-{i}";
+    <div class="many-item" id="many-@i">
+      <SfDateTimePicker TValue="DateTime?" Id="@id" Placeholder="Many" Format="MM/dd/yyyy HH:mm" />
+    </div>
+  }
+</div>
+
+@code {
+    private DateTime? initialValue = new DateTime(2025, 5, 15, 14, 30, 0);
+    private DateTime minDateTime = new DateTime(2022, 1, 1, 9, 0, 0);
+    private DateTime maxDateTime = new DateTime(2026, 12, 31, 18, 0, 0);
+    private DateTime minTime = new DateTime(2024, 1, 1, 9, 0, 0);
+    private DateTime maxTime = new DateTime(2024, 1, 1, 18, 0, 0);
+    private FormModel formModel = new FormModel();
+    private string formResult = string.Empty;
+
+    private void OnSubmit()
+    {
+        formResult = formModel.DateTime?.ToString("MM/dd/yyyy HH:mm") ?? string.Empty;
+    }
+
+    private class FormModel
+    {
+        public DateTime? DateTime { get; set; }
+    }
+}

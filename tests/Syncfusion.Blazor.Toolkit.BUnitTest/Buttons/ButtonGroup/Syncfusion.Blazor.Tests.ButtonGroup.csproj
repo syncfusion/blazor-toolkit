@@ -1,0 +1,40 @@
+<Project Sdk="Microsoft.NET.Sdk.Razor">
+
+  <PropertyGroup>
+    <SignAssembly>true</SignAssembly>
+	<AssemblyName>Syncfusion.Blazor.Tests</AssemblyName>  
+	<AssemblyOriginatorKeyFile>..\..\sf.snk</AssemblyOriginatorKeyFile>
+    <TargetFramework>net8.0</TargetFramework>
+    <IsPackable>false</IsPackable>
+  </PropertyGroup>
+
+
+
+  <ItemGroup>
+  	<PackageReference Include="JetBrains.dotCover.CommandLineTools" Version="2023.2.3">
+		<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+		<PrivateAssets>all</PrivateAssets>
+	</PackageReference>
+	<PackageReference Include="Syncfusion.Blazor" Version="*" />
+	<PackageReference Include="bunit" Version="1.10.14" />
+	<PackageReference Include="bunit.web.testcomponents" Version="1.10.14" />
+    	<PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.1.0" />
+    	<PackageReference Include="xunit" Version="2.4.2" />
+    	<PackageReference Include="xunit.runner.visualstudio" Version="2.4.2">
+      		<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+      		<PrivateAssets>all</PrivateAssets>
+    	</PackageReference>
+    	<PackageReference Include="coverlet.collector" Version="6.0.0">
+      		<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+      		<PrivateAssets>all</PrivateAssets>
+    	</PackageReference>
+  </ItemGroup>
+
+  <ItemGroup>
+    <File Include="..\..\Base\*.cs" />
+    <None Include="..\..\Base\*.cs"  />
+	<Compile Include="..\..\Base\*.cs"  />
+
+  </ItemGroup>
+
+</Project>

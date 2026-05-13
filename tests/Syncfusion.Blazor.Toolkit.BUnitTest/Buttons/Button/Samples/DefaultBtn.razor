@@ -1,0 +1,34 @@
+﻿@using Syncfusion.Blazor.Toolkit.Buttons
+
+@namespace Syncfusion.Blazor.Toolkit.Tests.Buttons
+
+<div class="sample">
+    <SfButton></SfButton>
+    <SfButton IsPrimary="Primary" Content="@Content"></SfButton>
+    <SfButton CssClass="e-success">@ChildContent</SfButton>
+    <SfButton CssClass="e-info">@template</SfButton>
+    <SfButton CssClass="@ClassName">Button</SfButton>
+    <SfButton CssClass="e-danger">Button</SfButton>
+    <SfButton CssClass="e-outline">Button</SfButton>
+    <SfButton CssClass="e-outline e-primary">Button</SfButton>
+    <SfButton CssClass="@ClassName">Button</SfButton>
+    <SfButton CssClass="e-outline e-warning">Button</SfButton>
+    <SfButton CssClass="e-round">I</SfButton>
+    <SfButton CssClass="e-round e-primary">I</SfButton>
+</div>
+
+@code{
+    [Parameter]
+    public bool Primary { get; set; }
+
+    [Parameter]
+    public string Content { get; set; } ="Button";
+
+    [Parameter]
+    public string ChildContent { get; set; } = "Child Content";
+
+    public RenderFragment template = @<div> ChildContent Button</div>;
+
+    [Parameter]
+    public string ClassName { get; set; }
+}

@@ -1,0 +1,54 @@
+@page "/checkbox/label-positioning"
+@using Syncfusion.Blazor.Toolkit.Inputs
+@layout MainLayout
+
+<h1>Checkbox - Label Positioning</h1>
+
+<div class="test-container">
+    <h2>Label Position - Before</h2>
+    <SfCheckBox TChecked="bool" Label="Before Label" LabelPosition="LabelPosition.Before" @bind-Checked="beforeChecked"></SfCheckBox>
+    <p>Checked: <strong>@beforeChecked</strong></p>
+</div>
+
+<div class="test-container">
+    <h2>Label Position - After (Default)</h2>
+    <SfCheckBox TChecked="bool" Label="After Label" LabelPosition="LabelPosition.After" @bind-Checked="afterChecked"></SfCheckBox>
+    <p>Checked: <strong>@afterChecked</strong></p>
+</div>
+
+<div class="test-container">
+    <h2>Label Customization</h2>
+    <SfCheckBox TChecked="bool" Label="Short" @bind-Checked="shortLabelChecked"></SfCheckBox>
+    <SfCheckBox TChecked="bool" Label="This is a much longer label text to test label rendering and wrapping behavior" @bind-Checked="longLabelChecked"></SfCheckBox>
+    <SfCheckBox TChecked="bool" Label="@specialLabel" @bind-Checked="specialLabelChecked"></SfCheckBox>
+</div>
+
+<style>
+    .test-container {
+        padding: 20px;
+        border: 1px solid #ddd;
+        margin: 10px 0;
+        border-radius: 4px;
+        background-color: #f9f9f9;
+    }
+    
+    h2 {
+        margin-top: 20px;
+        font-size: 18px;
+        font-weight: 600;
+    }
+    
+    p {
+        margin-top: 10px;
+        font-size: 14px;
+    }
+</style>
+
+@code {
+    private bool beforeChecked = false;
+    private bool afterChecked = false;
+    private bool shortLabelChecked = false;
+    private bool longLabelChecked = false;
+    private bool specialLabelChecked = false;
+    private string specialLabel = "Special: @#$%^&*";
+}

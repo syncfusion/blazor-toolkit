@@ -1,0 +1,31 @@
+﻿@using Syncfusion.Blazor.Toolkit.Inputs
+
+@namespace Syncfusion.Blazor.Toolkit.Tests.Inputs
+
+<div class="sample">
+    <SfCheckBox TChecked="bool" Checked=@IsChecked></SfCheckBox>
+    <SfCheckBox Checked="true"></SfCheckBox>
+    <SfCheckBox Checked="propertyChecked">Link</SfCheckBox>
+    <label><b>@propertyChecked</b></label> 
+    <button @onclick="OnClickHandler">Change</button>
+    <SfCheckBox @bind-Checked="bindChecked"></SfCheckBox>
+    <input type="checkbox" @bind="bindChecked" id="value-bind" />
+    <SfCheckBox @bind-Checked="nullChecked"></SfCheckBox>
+    <input type="checkbox" @bind="nullChecked" id="null-bind" />
+    <SfCheckBox TChecked="bool"></SfCheckBox>
+    <label><b>Syncfusion</b></label> 
+</div>
+
+@code {
+    [Parameter]
+    public bool IsChecked { get; set; }=false;
+    
+    private bool propertyChecked = false;
+    private bool bindChecked = true;
+    private bool? nullChecked = true;
+
+    private void OnClickHandler()
+    {
+        propertyChecked = !propertyChecked;
+    }
+}

@@ -1,0 +1,91 @@
+@page "/checkbox/disabled-state"
+@using Syncfusion.Blazor.Toolkit.Inputs
+@layout MainLayout
+
+<h1>Checkbox - Disabled State</h1>
+
+<div class="test-container">
+    <h2>Enabled and Disabled States</h2>
+    <SfCheckBox TChecked="bool" Label="Enabled Checkbox" @bind-Checked="enabledChecked"></SfCheckBox>
+    <SfCheckBox TChecked="bool" Label="Disabled Checkbox" Disabled="true" @bind-Checked="disabledChecked"></SfCheckBox>
+    <p>Enabled State: <strong>@enabledChecked</strong></p>
+    <p>Disabled State: <strong>@disabledChecked</strong></p>
+</div>
+
+<div class="test-container">
+    <h2>Dynamic Disable/Enable</h2>
+    <SfCheckBox TChecked="bool" Label="Toggle-able Checkbox" Disabled="isDisabled" @bind-Checked="dynamicChecked"></SfCheckBox>
+    <button @onclick="ToggleDisabled">@(isDisabled ? "Enable" : "Disable") Checkbox</button>
+    <p>Disabled: <strong>@isDisabled</strong></p>
+    <p>Checked: <strong>@dynamicChecked</strong></p>
+</div>
+
+<div class="test-container">
+    <h2>Multiple States</h2>
+    <SfCheckBox TChecked="bool" Label="Option 1 (Always Enabled)" @bind-Checked="option1"></SfCheckBox>
+    <SfCheckBox TChecked="bool" Label="Option 2 (Can Be Disabled)" Disabled="disableOption2" @bind-Checked="option2"></SfCheckBox>
+    <SfCheckBox TChecked="bool" Label="Option 3 (Can Be Disabled)" Disabled="disableOption3" @bind-Checked="option3"></SfCheckBox>
+    <button @onclick="ToggleOption2">Toggle Option 2</button>
+    <button @onclick="ToggleOption3">Toggle Option 3</button>
+</div>
+
+<style>
+    .test-container {
+        padding: 20px;
+        border: 1px solid #ddd;
+        margin: 10px 0;
+        border-radius: 4px;
+        background-color: #f9f9f9;
+    }
+    
+    h2 {
+        margin-top: 20px;
+        font-size: 18px;
+        font-weight: 600;
+    }
+    
+    button {
+        padding: 8px 16px;
+        margin-top: 10px;
+        cursor: pointer;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        background-color: #f0f0f0;
+    }
+    
+    button:hover {
+        background-color: #e0e0e0;
+    }
+    
+    p {
+        margin-top: 10px;
+        font-size: 14px;
+    }
+</style>
+
+@code {
+    private bool enabledChecked = false;
+    private bool disabledChecked = false;
+    private bool isDisabled = false;
+    private bool dynamicChecked = false;
+    private bool option1 = false;
+    private bool option2 = false;
+    private bool option3 = false;
+    private bool disableOption2 = false;
+    private bool disableOption3 = false;
+    
+    private void ToggleDisabled()
+    {
+        isDisabled = !isDisabled;
+    }
+    
+    private void ToggleOption2()
+    {
+        disableOption2 = !disableOption2;
+    }
+    
+    private void ToggleOption3()
+    {
+        disableOption3 = !disableOption3;
+    }
+}

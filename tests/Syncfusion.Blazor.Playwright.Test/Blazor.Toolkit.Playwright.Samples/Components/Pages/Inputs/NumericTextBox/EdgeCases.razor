@@ -1,0 +1,26 @@
+@page "/numerictextbox/edge-cases"
+@using Syncfusion.Blazor.Toolkit.Inputs
+
+<h1>NumericTextBox — Edge Cases</h1>
+
+<div style="max-width:540px">
+    <h3>Step = 0</h3>
+    <SfNumericTextBox Id="edgeStepZero" TValue="double?" @bind-Value="StepZero" Step="0"></SfNumericTextBox>
+
+    <h3 style="margin-top:12px">Extreme values & NaN</h3>
+    <SfNumericTextBox Id="edgeExtreme" TValue="double?" @bind-Value="ExtremeValue"></SfNumericTextBox>
+    <div style="margin-top:8px">
+        <button @onclick="SetExtreme">Set Extreme</button>
+        <button @onclick="SetNaN" style="margin-left:8px">Set NaN (not parseable)</button>
+        <span id="edge-log" style="margin-left:12px">@EdgeDisplay</span>
+    </div>
+</div>
+
+@code {
+    private double? StepZero { get; set; }
+    private double? ExtremeValue { get; set; }
+    private string EdgeDisplay => ExtremeValue?.ToString() ?? "(empty)";
+
+    private void SetExtreme() => ExtremeValue = double.MaxValue / 1e250;
+    private void SetNaN() { /* can't directly set NaN in UI; tests will attempt paste */ }
+}

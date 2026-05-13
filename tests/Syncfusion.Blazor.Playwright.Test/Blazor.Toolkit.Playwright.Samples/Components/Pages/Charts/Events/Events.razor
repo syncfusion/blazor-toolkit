@@ -1,0 +1,166 @@
+﻿@page "/chart-events-keyboard-playwright"
+@using Syncfusion.Blazor.Toolkit.Charts
+@layout MainLayout
+
+<h2>Chart Events & Keyboard – Playwright (Full Coverage)</h2>
+
+<div style="display:flex;flex-direction:column;gap:60px">
+
+<!-- =========================================================
+   1️⃣ FULL EVENT COVERAGE CHART
+   ========================================================= -->
+<SfChart ID="chartEvents"
+         Title="Sales Overview"
+         Width="900px"
+         Height="450px"
+             SelectionMode="ChartSelectionMode.Point"
+         EnableAutoIntervalOnBothAxis="true"
+         Loaded="OnLoaded"
+         ChartMouseClick="OnChartMouse"
+         ChartMouseDown="OnChartMouse"
+         ChartMouseMove="OnChartMouse"
+         ChartMouseUp="OnChartMouse"
+         OnAxisLabelRender="OnAxisLabelRender"
+         OnAxisLabelClick="OnAxisLabelClick"
+         OnAxisActualRangeCalculated="OnAxisRangeCalculated"
+         OnAxisMultiLevelLabelRender="OnAxisMultiLevelLabelRender"
+         OnMultiLevelLabelClick="OnMultiLevelLabelClick"
+         OnCrosshairMove="OnCrosshairMove"
+         OnDataEdit="OnDataEdit"
+         OnDataEditCompleted="OnDataEditCompleted"
+         OnDataLabelRender="OnDataLabelRender"
+         TooltipRender="OnTooltipRender"
+         SharedTooltipRender="OnSharedTooltipRender"
+         OnLegendClick="OnLegendClick"
+         OnLegendItemRender="OnLegendItemRender"
+         OnPointClick="OnPointClick"
+         OnPointRender="OnPointRender"
+         OnSelectionChanged="OnSelectionChanged"
+         OnSeriesRender="OnSeriesRender"
+         OnScrollChanged="OnScrollChanged"
+         OnZoomStart="OnZoomEvent"
+         OnZooming="OnZoomEvent"
+         OnZoomEnd="OnZoomEvent"
+         SizeChanged="OnSizeChanged">
+
+        <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Toolkit.ValueType.Category">
+        <ChartMultiLevelLabels>
+            <ChartMultiLevelLabel>
+                <ChartCategories>
+                    <ChartCategory Start="-0.5" End="3.5" Text="Half yearly 1" />
+                    <ChartCategory Start="3.5" End="7.5" Text="Half yearly 2" />
+                </ChartCategories>
+            </ChartMultiLevelLabel>
+        </ChartMultiLevelLabels>
+
+        <ChartAxisScrollbarSettings Enable="true" />
+    </ChartPrimaryXAxis>
+
+    <ChartSeriesCollection>
+        <ChartSeries DataSource="@Sales"
+                     Name="Sales"
+                     XName="Month"
+                     YName="SalesValue"
+                     Type="ChartSeriesType.Column">
+            <ChartMarker Visible="true">
+                <ChartDataLabel Visible="true" />
+            </ChartMarker>
+            <ChartDataEditSettings Enable="true" />
+        </ChartSeries>
+    </ChartSeriesCollection>
+
+    <ChartLegendSettings Visible="true" />
+    <ChartCrosshairSettings Enable="true" />
+    <ChartTooltipSettings Enable="true" Shared="true" />
+    <ChartZoomSettings EnableSelectionZooming="true"
+                       EnableMouseWheelZooming="true" />
+</SfChart>
+
+<!-- =========================================================
+   2️⃣ KEYBOARD NAVIGATION CHART
+   ========================================================= -->
+<SfChart ID="chartKeyboard"
+         Width="900px"
+         Height="450px"
+         Title="Olympic Medals"
+         OnPointClick="OnPointClick">
+
+        <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Toolkit.ValueType.Category" />
+
+    <ChartSeriesCollection>
+        <ChartSeries DataSource="@Medals" XName="Country" YName="Gold" Name="Gold"  Type="ChartSeriesType.Column"/>
+        <ChartSeries DataSource="@Medals" XName="Country" YName="Silver" Name="Silver" Type="ChartSeriesType.Column"/>
+        <ChartSeries DataSource="@Medals" XName="Country" YName="Bronze" Name="Bronze" Type="ChartSeriesType.Column"/>
+    </ChartSeriesCollection>
+
+    <ChartLegendSettings Visible="true" />
+    <ChartZoomSettings EnableMouseWheelZooming="true"
+                       EnablePinchZooming="true"
+                       EnableSelectionZooming="true"
+                       ToolbarDisplayMode="ToolbarMode.Always" />
+</SfChart>
+
+</div>
+
+@code {
+
+    /* ================= DATA ================= */
+
+    public class SalesInfo
+    {
+        public string Month { get; set; }
+        public double SalesValue { get; set; }
+    }
+
+    public List<SalesInfo> Sales = new()
+    {
+        new() { Month="Jan", SalesValue=35 },
+        new() { Month="Feb", SalesValue=28 },
+        new() { Month="Mar", SalesValue=34 },
+        new() { Month="Apr", SalesValue=32 },
+        new() { Month="May", SalesValue=40 },
+        new() { Month="Jun", SalesValue=32 },
+        new() { Month="Jul", SalesValue=35 }
+    };
+
+    public class MedalData
+    {
+        public string Country { get; set; }
+        public double Gold { get; set; }
+        public double Silver { get; set; }
+        public double Bronze { get; set; }
+    }
+
+    public List<MedalData> Medals = new()
+    {
+        new() { Country="USA", Gold=50, Silver=70, Bronze=45 },
+        new() { Country="China", Gold=40, Silver=60, Bronze=55 },
+        new() { Country="Japan", Gold=70, Silver=60, Bronze=50 },
+        new() { Country="Australia", Gold=60, Silver=56, Bronze=40 }
+    };
+
+    /* ================= EVENT HANDLERS ================= */
+
+    void OnLoaded(LoadedEventArgs args)                   => Console.WriteLine(args.Name);
+    void OnChartMouse(ChartMouseEventArgs args)           => Console.WriteLine(args.Name);
+    void OnAxisLabelRender(AxisLabelRenderEventArgs a)    => Console.WriteLine(a.Name);
+    void OnAxisLabelClick(AxisLabelClickEventArgs a)      => Console.WriteLine(a.Name);
+    void OnAxisRangeCalculated(AxisRangeCalculatedEventArgs a)=> Console.WriteLine(a.Name);
+    void OnAxisMultiLevelLabelRender(AxisMultiLabelRenderEventArgs a)=> Console.WriteLine(a.Name);
+    void OnMultiLevelLabelClick(MultiLevelLabelClickEventArgs a)=> Console.WriteLine(a.Name);
+    void OnCrosshairMove(CrosshairMoveEventArgs a)         => Console.WriteLine("OnCrosshairMove");
+    void OnDataEdit(DataEditingEventArgs a)                => Console.WriteLine(a.Name);
+    void OnDataEditCompleted(DataEditingEventArgs a)       => Console.WriteLine(a.Name);
+    void OnDataLabelRender(TextRenderEventArgs a)           => Console.WriteLine(a.Name);
+    void OnTooltipRender(TooltipRenderEventArgs a)          => Console.WriteLine(a.Name);
+    void OnSharedTooltipRender(SharedTooltipRenderEventArgs a)=> Console.WriteLine(a.Name);
+    void OnLegendClick(LegendClickEventArgs a)              => Console.WriteLine(a.Name);
+    void OnLegendItemRender(LegendRenderEventArgs a)        => Console.WriteLine(a.Name);
+    void OnPointClick(PointEventArgs a)                     => Console.WriteLine(a.Name);
+    void OnPointRender(PointRenderEventArgs a)              => Console.WriteLine(a.Name);
+    void OnSelectionChanged(SelectionCompleteEventArgs a)   => Console.WriteLine("OnSelectionChanged");
+    void OnSeriesRender(SeriesRenderEventArgs a)            => Console.WriteLine(a.Name);
+    void OnScrollChanged(ScrollEventArgs a)                 => Console.WriteLine(a.Name);
+    void OnZoomEvent(ZoomingEventArgs a)                    => Console.WriteLine(a.Name);
+    void OnSizeChanged(ResizeEventArgs a)                   => Console.WriteLine(a.Name);
+}

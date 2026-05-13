@@ -1,0 +1,55 @@
+﻿@page "/chart-inversed-spline"
+@using Syncfusion.Blazor.Toolkit
+@using Syncfusion.Blazor.Toolkit.Charts
+@inject NavigationManager NavigationManager
+@layout MainLayout
+<PageTitle>Home</PageTitle>
+
+<h1>Toolkit Source</h1>
+<div class="control-section" align='center'>
+    <SfChart id="chart-host" Title="Stock Market Capitalization as a Percentage of GDP by Country" SubTitle="Source: wikipedia.org" IsTransposed="true" Width="@Width">
+        <ChartTitleStyle TextOverflow="TextOverflow.Wrap"></ChartTitleStyle>
+        <ChartSubTitleStyle TextOverflow="TextOverflow.Wrap"></ChartSubTitleStyle>
+        <ChartArea><ChartAreaBorder Width="0"></ChartAreaBorder></ChartArea>
+        <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Toolkit.ValueType.Category">
+            <ChartAxisMinorTickLines Width="0"></ChartAxisMinorTickLines>
+            <ChartAxisMajorTickLines Width="0"></ChartAxisMajorTickLines>
+            <ChartAxisLineStyle Width="0"></ChartAxisLineStyle>
+        </ChartPrimaryXAxis>
+        <ChartPrimaryYAxis Title="Capitalization Ratio (% of GDP)" Interval="40" LabelFormat="{value}%" EdgeLabelPlacement="EdgeLabelPlacement.Shift">
+            <ChartAxisMinorTickLines Width="0"></ChartAxisMinorTickLines>
+            <ChartAxisMajorTickLines Width="0"></ChartAxisMajorTickLines>
+            <ChartAxisMajorGridLines Width="0"></ChartAxisMajorGridLines>
+            <ChartAxisLineStyle Width="0"></ChartAxisLineStyle>
+        </ChartPrimaryYAxis>
+        <ChartTooltipSettings Header="<b>Stock Market Cap</b>" Enable="true" Format="${point.x}: <b>${point.y}</b>" ShowNearestTooltip="true"></ChartTooltipSettings>
+        <ChartSeriesCollection>
+            <ChartSeries DataSource="@InversedData" XName="Country" YName="Y" Width="2" Type="ChartSeriesType.Spline">
+                <ChartMarker Visible="true" Width="7" Height="7" IsFilled="true">
+                </ChartMarker>
+            </ChartSeries>
+        </ChartSeriesCollection>
+    </SfChart>
+</div>
+@code {
+    public string Width { get; set; } = "90%";
+    public List<Data> InversedData = new List<Data>
+    {
+        new Data { Country = "United States", Y = 194.55 },
+        new Data { Country = "Japan", Y = 146.2 },
+        new Data { Country = "China", Y = 65.1 },
+        new Data { Country = "France", Y = 84.9 },
+        new Data { Country = "India", Y = 140.1 },
+        new Data { Country = "Canada", Y = 160.7 },
+        new Data { Country = "Brazil", Y = 68.4 },
+        new Data { Country = "United Kingdom", Y = 100.2 },
+        new Data { Country = "Sweden", Y = 162 },
+        new Data { Country = "Netherlands", Y = 132.3 },
+        new Data { Country = "Bangladesh", Y = 27.7 }
+    };
+    public class Data
+    {
+        public string? Country { get; set; }
+        public double Y { get; set; }
+    }
+}

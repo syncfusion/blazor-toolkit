@@ -1,0 +1,47 @@
+@page "/button/basic-rendering"
+@using Syncfusion.Blazor.Toolkit.Buttons
+@layout MainLayout
+
+<h1>Button - Basic Rendering</h1>
+
+<div class="test-container">
+    <h2>Button with String Content</h2>
+    <SfButton id="btn-string-content">Click Me</SfButton>
+
+    <h2>Button with Empty Content</h2>
+    <SfButton id="btn-empty-content"></SfButton>
+
+    <h2>Button with HTML Content</h2>
+    <SfButton id="btn-html-content">
+        <span class="e-icons e-save"></span> Save Document
+    </SfButton>
+
+    <h2>Icon-only Button</h2>
+    <SfButton id="btn-icon-only">
+        <span class="e-icons e-edit"></span>
+    </SfButton>
+</div>
+
+<style>
+    .test-container {
+        padding: 20px;
+        border: 1px solid #ddd;
+        margin: 10px 0;
+        border-radius: 4px;
+        background-color: #f9f9f9;
+    }
+    
+    h2 {
+        margin-top: 20px;
+        font-size: 18px;
+        font-weight: 600;
+    }
+    
+    .e-icons {
+        display: inline-block !important;
+        width: 1em;
+        height: 1em;
+        margin-right: 8px;
+        vertical-align: middle;
+    }
+</style>

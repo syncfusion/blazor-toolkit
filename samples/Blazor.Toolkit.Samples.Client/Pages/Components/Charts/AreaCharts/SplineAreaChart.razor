@@ -1,0 +1,1437 @@
+@page "/charts/area/spline-area-chart"
+@using Syncfusion.Blazor.Toolkit.Charts
+@using Syncfusion.Blazor.Toolkit.Buttons
+@using System.Collections.ObjectModel
+@inject System.Net.Http.HttpClient Http
+@inject NavigationManager NavigationManager
+
+<PageTitle>Syncfusion Blazor Toolkit Spline Area Chart Demo</PageTitle>
+
+<!-- ─────────────────────────────────────────────────────────────
+     OVERVIEW
+     ───────────────────────────────────────────────────────────── -->
+<Description>
+    <Header>
+        <h5><b>Overview</b></h5>
+    </Header>
+    <Content>
+        The Spline Area Chart represents data using a curved line connecting data points, with the area below the line shaded.
+        It provides a smoother aesthetic than a standard Area Chart. This is achieved by setting the <code>Type</code> property of <code>ChartSeries</code> to <code>ChartSeriesType.SplineArea</code>.
+    </Content>
+</Description>
+
+<VirtualizeSection MinHeightPx="600px">
+    <CodePreview IsFullWidth="true" CodeSection="@OverviewCode">
+    <PreviewSection>
+        <SfChart @key="@_currentTheme" Title="Inflation Rate in Percentage" Width="100%" Height="400px" Theme="@_currentTheme">
+          
+            <ChartTooltipSettings Enable="true" />
+
+            <!-- X AXIS -->
+            <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Toolkit.ValueType.DateTime"
+                               IntervalType="IntervalType.Years"
+                               LabelFormat="yyyy"
+                               Minimum="@(new DateTime(2001, 1, 1))"
+                               Maximum="@(new DateTime(2012, 1, 1))"
+                               EdgeLabelPlacement="EdgeLabelPlacement.Shift" />
+
+            <!-- Y AXIS -->
+            <ChartPrimaryYAxis Maximum="4"
+                               Interval="1"
+                               LabelFormat="{value}%">
+                <ChartAxisLineStyle Width="0" />
+            </ChartPrimaryYAxis>
+
+            
+
+                <!-- US -->
+                <ChartSeries DataSource="@SplineAreaData"
+                             XName="X"
+                             YName="Y1"
+                             Name="US"
+                             Type="ChartSeriesType.SplineArea"
+                             Opacity="0.4"
+                             Width="2"
+                             Fill="#D6FF89">
+                    <ChartSeriesBorder Width="2" Color="#71AD01" />
+                    <ChartMarker Visible="true"
+                                 Shape="ChartShape.Circle"
+                                 Fill="#71AD01">
+                        <ChartMarkerBorder Width="2" Color="#71AD01" />
+                    </ChartMarker>
+                </ChartSeries>
+
+                <!-- France -->
+                <ChartSeries DataSource="@SplineAreaData"
+                             XName="X"
+                             YName="Y2"
+                             Name="France"
+                             Type="ChartSeriesType.SplineArea"
+                             Opacity="0.4"
+                             Width="2"
+                             Fill="#71C8EE">
+                    <ChartSeriesBorder Width="2" Color="#0085BF" />
+                    <ChartMarker Visible="true"
+                                 Shape="ChartShape.Circle"
+                                 Fill="#0085BF">
+                        <ChartMarkerBorder Width="2" Color="#0085BF" />
+                    </ChartMarker>
+                </ChartSeries>
+
+            
+
+        </SfChart>
+    </PreviewSection>
+</CodePreview>
+</VirtualizeSection>
+
+<!-- ─────────────────────────────────────────────────────────────
+     DATA LABEL
+     ───────────────────────────────────────────────────────────── -->
+<Description>
+    <Header>
+        <h5><b>Data Labels</b></h5>
+    </Header>
+    <Content>
+        Enable data labels to display the exact values of data points directly within the Spline Area Chart. You can enable them by setting the <code>Visible</code> property to <code>true</code> in the <code>ChartDataLabel</code> within the <code>ChartMarker</code>. Position the labels appropriately using the <code>Position</code> property.
+    </Content>
+</Description>
+
+<VirtualizeSection MinHeightPx="600px">
+    <CodePreview IsFullWidth="true" CodeSection="@DataLabelCode">
+    <PreviewSection>
+        <SfChart @key="@_currentTheme" Title="France's Inflation Rate (%) Over Time" Width="100%" Height="400px" Theme="@_currentTheme">
+            <ChartTooltipSettings Enable="true" Header="<b>France</b>" Format="${point.y}" />
+
+            <!-- ✅ X AXIS -->
+            <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Toolkit.ValueType.DateTime"
+                               IntervalType="IntervalType.Years"
+                               Interval="1"
+                               Minimum="@(new DateTime(2002, 1, 1))"
+                               Maximum="@(new DateTime(2011, 1, 1))"
+                               LabelFormat="yyyy"
+                               EdgeLabelPlacement="EdgeLabelPlacement.Shift">
+            </ChartPrimaryXAxis>
+
+            <!-- ✅ Y AXIS -->
+            <ChartPrimaryYAxis Maximum="4" Interval="1" LabelFormat="{value}%">
+                <ChartAxisLineStyle Width="0"></ChartAxisLineStyle>
+            </ChartPrimaryYAxis>
+
+            
+                <ChartSeries DataSource="@SplineAreaData"
+                             XName="X"
+                             YName="Y2"
+                             Type="ChartSeriesType.SplineArea"
+                             Opacity="0.4"
+                             Fill="#D6FF89"
+                             Width="2">
+
+                    <ChartSeriesBorder Width="2" Color="#71AD01"></ChartSeriesBorder>
+
+                    <ChartMarker Visible="true" Fill="#71AD01">
+                        <ChartMarkerBorder Width="2" Color="#71AD01"></ChartMarkerBorder>
+
+                        <!-- ✅ DATA LABEL WITH % -->
+                        
+                        <ChartDataLabel Visible="true" Format="{value}%" Position="ChartLabelPosition.Top" Font="@(new ChartDataLabelFont { Color = TextColor })"></ChartDataLabel>
+
+                    </ChartMarker>
+                </ChartSeries>
+            
+        </SfChart>
+    </PreviewSection>
+</CodePreview>
+</VirtualizeSection>
+
+<!-- ─────────────────────────────────────────────────────────────
+     SPLINE TYPE VARIATIONS
+     ───────────────────────────────────────────────────────────── -->
+<Description>
+    <Header>
+        <h5><b>Spline Type Variations</b></h5>
+    </Header>
+    <Content>
+        Use different spline types like <code>Natural</code>, <code>Monotonic</code>, <code>Cardinal</code>, or <code>Clamped</code> to achieve the desired curve smoothness for your data visualization. This is configured using the <code>SplineType</code> property of the <code>ChartSeries</code> component.
+    </Content>
+</Description>
+
+<VirtualizeSection MinHeightPx="600px">
+    <CodePreview IsFullWidth="true" CodeSection="@SplineVariationsCode">
+    <PreviewSection>
+        <div style="width: 100%;">
+            <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 20px;">
+                <label style="font-weight:700;margin-bottom:0;white-space:nowrap">
+                    Spline Type
+                </label>
+
+                <SfButtonGroup Mode="SelectionMode.Single">
+                    <ButtonGroupButton Selected="@IsSplineTypeSelected(SplineType.Natural)"
+                                       SelectedChanged="@(v => OnSplineTypeChanged(v, SplineType.Natural))">
+                        Natural
+                    </ButtonGroupButton>
+
+                    <ButtonGroupButton Selected="@IsSplineTypeSelected(SplineType.Monotonic)"
+                                       SelectedChanged="@(v => OnSplineTypeChanged(v, SplineType.Monotonic))">
+                        Monotonic
+                    </ButtonGroupButton>
+
+                    <ButtonGroupButton Selected="@IsSplineTypeSelected(SplineType.Cardinal)"
+                                       SelectedChanged="@(v => OnSplineTypeChanged(v, SplineType.Cardinal))">
+                        Cardinal
+                    </ButtonGroupButton>
+
+                    <ButtonGroupButton Selected="@IsSplineTypeSelected(SplineType.Clamped)"
+                                       SelectedChanged="@(v => OnSplineTypeChanged(v, SplineType.Clamped))">
+                        Clamped
+                    </ButtonGroupButton>
+                </SfButtonGroup>
+            </div>
+            
+            <SfChart @key="@_currentTheme" Title="France's Inflation Rate (%) Over Time" Width="100%" Height="400px" Theme="@_currentTheme">
+
+                <ChartTooltipSettings Enable="true"
+                                      Header="<b>France</b>" />
+
+                    <ChartPrimaryXAxis Format="y"  ValueType="Syncfusion.Blazor.Toolkit.ValueType.DateTime"
+                                   IntervalType="IntervalType.Years"
+                                   Minimum="new DateTime(2002,1,1)"
+                                   Maximum="new DateTime(2011,1,1)">
+                    <ChartAxisLabelStyle  />
+                </ChartPrimaryXAxis>
+
+                    <ChartPrimaryYAxis Format="{value}%" Maximum="4" Interval="1">
+                    <ChartAxisLabelStyle  />
+                    <ChartAxisLineStyle Width="0" />
+                </ChartPrimaryYAxis>
+
+                
+                    <ChartSeries DataSource="InflationSplineData"
+                                 XName="X"
+                                 YName="Y2"
+                                 Type="ChartSeriesType.SplineArea"
+                                 SplineType="SelectedSplineType"
+                                 Opacity="0.4"
+                                 Fill="#D6FF89"
+                                 Width="2">
+                        <ChartSeriesBorder Width="2" Color="@AccentColor" />
+
+                        <ChartMarker Visible="true" Fill="@AccentColor">
+                            <ChartMarkerBorder Width="2" Color="@AccentColor" />
+                        </ChartMarker>
+                    </ChartSeries>
+                
+            </SfChart>
+        </div>
+    </PreviewSection>
+</CodePreview>
+</VirtualizeSection>
+
+<!-- ─────────────────────────────────────────────────────────────
+     SKIP MISSING POINTS
+     ───────────────────────────────────────────────────────────── -->
+<Description>
+    <Header>
+        <h5><b>Skip Missing Points</b></h5>
+    </Header>
+    <Content>
+        Manage incomplete data point sets by specifying how the Chart should handle null values using the <code>ChartEmptyPointSettings</code> component. You can control the behavior using the <code>Mode</code> property, with options like <code>Gap</code>, <code>Zero</code>, <code>Drop</code>, and <code>Average</code>.
+    </Content>
+</Description>
+
+<VirtualizeSection MinHeightPx="600px">
+    <CodePreview IsFullWidth="true" CodeSection="@MissingPointsCode">
+    <PreviewSection>
+        <div style="width: 100%;">
+            <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 20px;">
+                <label style="font-weight:700;margin-bottom:0;white-space:nowrap">
+                    Empty Point Mode:
+                </label>
+
+                <SfButtonGroup Mode="SelectionMode.Single">
+                    <ButtonGroupButton Selected="@IsEmptyModeSelected(EmptyPointMode.Gap)"
+                                       SelectedChanged="@(v => OnEmptyModeChanged(v, EmptyPointMode.Gap))">
+                        Gap
+                    </ButtonGroupButton>
+
+                    <ButtonGroupButton Selected="@IsEmptyModeSelected(EmptyPointMode.Zero)"
+                                       SelectedChanged="@(v => OnEmptyModeChanged(v, EmptyPointMode.Zero))">
+                        Zero
+                    </ButtonGroupButton>
+
+                    <ButtonGroupButton Selected="@IsEmptyModeSelected(EmptyPointMode.Average)"
+                                       SelectedChanged="@(v => OnEmptyModeChanged(v, EmptyPointMode.Average))">
+                        Average
+                    </ButtonGroupButton>
+
+                    <ButtonGroupButton Selected="@IsEmptyModeSelected(EmptyPointMode.Drop)"
+                                       SelectedChanged="@(v => OnEmptyModeChanged(v, EmptyPointMode.Drop))">
+                        Drop
+                    </ButtonGroupButton>
+                </SfButtonGroup>
+            </div>
+            <SfChart @key="@_currentTheme" Title="Spline Area - Skip Missing" Width="100%" Height="400px" Theme="@_currentTheme">
+                <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Toolkit.ValueType.DateTime" LabelFormat="yyyy" />
+                <ChartPrimaryYAxis />
+
+                
+                    <ChartSeries DataSource="@Data"
+                                 XName="X"
+                                 YName="Y"
+                                 Type="ChartSeriesType.SplineArea"
+                                 Opacity="0.4"
+                                 Fill="#D6FF89"
+                                 Width="2">
+                        <ChartSeriesBorder Width="2" Color="#71AD01" />
+                        <ChartMarker Visible="true" Fill="#71AD01">
+                            <ChartMarkerBorder Width="2" Color="#71AD01" />
+                        </ChartMarker>
+                        <ChartEmptyPointSettings Mode="@EmptyMode" />
+                    </ChartSeries>
+                
+                    <!-- Tooltip -->
+                    <ChartTooltipSettings Enable="true" Header="<b>France</b>" />
+            </SfChart>
+        </div>
+    </PreviewSection>
+</CodePreview>
+</VirtualizeSection>
+<!-- ─────────────────────────────────────────────────────────────
+     INVERTED AXES
+     ───────────────────────────────────────────────────────────── -->
+<Description>
+    <Header>
+        <h5><b>Inverted Axes</b></h5>
+    </Header>
+    <Content>
+        The Spline Area Chart supports transposition, swapping the horizontal and vertical axes for different perspectives. Transpose the Chart axes by setting the <code>IsTransposed</code> property to <code>true</code> in the <code>SfChart</code> component.
+    </Content>
+</Description>
+
+<VirtualizeSection MinHeightPx="600px">
+    <CodePreview IsFullWidth="true" CodeSection="@InvertedAxesCode">
+    <PreviewSection>
+        <SfChart @key="@_currentTheme" Title="Spline Area - Inverted" Width="100%" Height="400px" IsTransposed="true" Theme="@_currentTheme">
+         
+            <ChartTooltipSettings Enable="true"
+                                  Header="${point.x}"
+                                  Format="${series.name} : <b>${point.y} Billions</b>" />
+
+            <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Toolkit.ValueType.Category"
+                               Interval="2">
+                <ChartAxisLineStyle Width="0" />
+            </ChartPrimaryXAxis>
+
+                <ChartPrimaryYAxis Format="{value}B" Minimum="12">
+                <ChartAxisLabelStyle  />
+            </ChartPrimaryYAxis>
+
+            
+
+                <!-- Alibaba -->
+                <ChartSeries DataSource="@AreaTransposedData"
+                             XName="X"
+                             YName="Y1"
+                             Name="Alibaba"
+                             Type="ChartSeriesType.SplineArea"
+                             Opacity="0.5"
+                             Fill="#71AD01">
+                    <ChartEmptyPointSettings Mode="EmptyPointMode.Drop" />
+                    <ChartMarker Visible="true" Shape="ChartShape.Circle"
+                                 Fill="#71AD01">
+                        <ChartMarkerBorder Width="2" Color="#71AD01" />
+                    </ChartMarker>
+                    <ChartBorder Width="2" Color="#008264" />
+                </ChartSeries>
+
+                <!-- Meta -->
+                <ChartSeries DataSource="@AreaTransposedData"
+                             XName="X"
+                             YName="Y2"
+                             Name="Meta (Facebook)"
+                             Type="ChartSeriesType.SplineArea"
+                             Opacity="0.5"
+                             Fill="#71C8EE">
+                    <ChartEmptyPointSettings Mode="EmptyPointMode.Drop" />
+                    <ChartMarker Visible="true" Shape="ChartShape.Circle"
+                                 Fill="#0085BF">
+                        <ChartMarkerBorder Width="2" Color="#0085BF" />
+                    </ChartMarker>
+                    <ChartBorder Width="2" Color="#5A8100" />
+                </ChartSeries>
+
+            
+        </SfChart>
+    </PreviewSection>
+</CodePreview>
+</VirtualizeSection>
+
+<!-- ─────────────────────────────────────────────────────────────
+     NEGATIVE DATA
+     ───────────────────────────────────────────────────────────── -->
+<Description>
+    <Header>
+        <h5><b>Negative Data</b></h5>
+    </Header>
+    <Content>
+        Gracefully handle and visualize negative values within the curved area series. The area is filled downwards from the zero line for negative values mapped to the <code>YName</code> property. Significant data thresholds can be highlighted using the <code>ChartStripline</code> component in the axis.
+    </Content>
+</Description>
+
+<VirtualizeSection MinHeightPx="600px">
+    <CodePreview IsFullWidth="true" CodeSection="@NegativeDataCode">
+    <PreviewSection>
+        <SfChart @key="@_currentTheme" Title="Annual Gold Price (2009-2023) in USD" Width="100%" Height="400px" Theme="@_currentTheme">
+            <ChartArea><ChartAreaBorder Width="0"></ChartAreaBorder></ChartArea>
+           
+            <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Toolkit.ValueType.Double" Interval="3" />
+
+                <ChartPrimaryYAxis Title="% Annual Exchange Rate" Interval="20">
+                <ChartAxisLineStyle Width="0" />
+
+                <ChartStriplines>
+
+                    <!-- Positive strip line -->
+                    <ChartStripline Start="20" End="20.5"
+                                    Visible="true"
+                                    Color="#79747E"
+                                    DashArray="10,10"
+                                    ZIndex="@ZIndex.Over" />
+
+                    <ChartStripline Start="21" End="21.5"
+                                    Visible="true"
+                                    Color="Transparent"
+                                    DashArray="4,4"
+                                    Text="Highest Annual Growth"
+                                    HorizontalAlignment="Anchor.End"
+                                    ZIndex="@ZIndex.Over"
+                                    Rotation="0">
+                        <ChartStriplineTextStyle Color="@HighestTextColor" />
+                    </ChartStripline>
+
+                    <!-- Negative strip line -->
+                    <ChartStripline Start="-25" End="-24.5"
+                                    Visible="true"
+                                    Color="#79747E"
+                                    DashArray="10,10"
+                                    ZIndex="@ZIndex.Over" />
+
+                    <ChartStripline Start="-28.5" End="-28"
+                                    Visible="true"
+                                    Color="Transparent"
+                                    DashArray="4,4"
+                                    Text="Lowest Annual Growth"
+                                    HorizontalAlignment="Anchor.End"
+                                    ZIndex="@ZIndex.Over"
+                                    Rotation="0">
+                        <ChartStriplineTextStyle Color="@LowestTextColor" />
+                    </ChartStripline>
+
+                </ChartStriplines>
+            </ChartPrimaryYAxis>
+
+            
+                <ChartSeries DataSource="@LineNegativeData"
+                             XName="X"
+                             YName="USD"
+                             Type="ChartSeriesType.SplineArea"
+                             Width="2"
+                             Opacity="0.4"
+                             Fill="#3CFFD2"
+                             Border="@NegativeSeriesBorder">
+                    <ChartMarker Visible="true" IsFilled="true" />
+                </ChartSeries>
+            
+
+            <ChartTooltipSettings Enable="true"
+                                  Header="${point.x}"
+                                  Format="Annual Growth : <b>${point.y}</b>" />
+        </SfChart>
+    </PreviewSection>
+</CodePreview>
+</VirtualizeSection>
+
+<!-- ─────────────────────────────────────────────────────────────
+     SERIES CUSTOMIZATION
+     ───────────────────────────────────────────────────────────── -->
+<Description>
+    <Header>
+        <h5><b>Series Customization</b></h5>
+    </Header>
+    <Content>
+        Apply custom colors and opacity levels to match your application's design guidelines. You can fine-tune the appearance using properties like <code>Fill</code>, <code>Opacity</code>, <code>Width</code>, and <code>DashArray</code> in the <code>ChartSeries</code>, and customize borders using the <code>ChartSeriesBorder</code> component.
+    </Content>
+</Description>
+
+<VirtualizeSection MinHeightPx="600px">
+    <CodePreview IsFullWidth="true" CodeSection="@CustomizationCode">
+    <PreviewSection>
+        <SfChart @key="@_currentTheme" Title="France's Inflation Rate (%) Over Time" Width="100%" Height="400px" Theme="@_currentTheme">
+            <ChartTooltipSettings Enable="true"
+                                  Header="<b>France</b>" />
+
+            <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Toolkit.ValueType.DateTime"
+                               IntervalType="IntervalType.Years"
+                               Minimum="@MinDate"
+                               Maximum="@MaxDate"
+                               LabelFormat="yyyy"
+                               EdgeLabelPlacement="EdgeLabelPlacement.Shift">
+            </ChartPrimaryXAxis>
+
+                <ChartPrimaryYAxis Format="{value}%" Maximum="4" Interval="1">
+                    <ChartAxisLineStyle Width="0"  />
+                <ChartAxisLabelStyle  />
+            </ChartPrimaryYAxis>
+
+            
+                <ChartSeries DataSource="@SplineAreaData"
+                             XName="X"
+                             YName="Y1"
+                             Type="ChartSeriesType.SplineArea"
+                             Opacity="0.4"
+                             Width="2"
+                                 Fill="#D6FF89" DashArray="5,5">
+                    <ChartSeriesBorder Width="2"
+                                       Color="@BorderColor"
+                                        />
+                </ChartSeries>
+            
+        </SfChart>
+    </PreviewSection>
+</CodePreview>
+</VirtualizeSection>
+
+<!-- ─────────────────────────────────────────────────────────────
+     DATASOURCE UPDATE
+     ───────────────────────────────────────────────────────────── -->
+<Description>
+    <Header>
+        <h5><b>DataSource Update</b></h5>
+    </Header>
+    <Content>
+        Observe the Spline Area Chart smoothly animate as its data source bound to the <code>DataSource</code> property is continuously updated at regular intervals. Smooth transitions between data updates are handled automatically by configuring the <code>ChartSeriesAnimation</code> component.
+    </Content>
+</Description>
+
+<VirtualizeSection MinHeightPx="600px">
+    <CodePreview IsFullWidth="true" CodeSection="@DatasourceUpdateCode">
+    <PreviewSection>
+        <div style="width: 100%;">
+            <SfChart @key="@_currentTheme" Title="Auto-Updating SplineArea Chart" Width="100%" Height="400px" Theme="@_currentTheme">
+              
+                <ChartPrimaryXAxis Minimum="1" Maximum="7" Interval="1" />
+
+                <ChartPrimaryYAxis Minimum="0" Maximum="100" Interval="20">
+                    <ChartAxisMajorGridLines Width="1" />
+                    <ChartAxisLineStyle Width="0" />
+                </ChartPrimaryYAxis>
+
+                
+                    <ChartSeries DataSource="@AutoUpdateData"
+                                 Type="ChartSeriesType.SplineArea"
+                                 XName="X"
+                                 YName="Y"
+                                 Opacity="0.4"
+                                 Fill="#D6FF89"
+                                 Width="2"
+                                 Animation="AnimationOptions">
+                        <ChartSeriesBorder Width="2" Color="@BorderColor" />
+                        <ChartMarker Visible="true"
+                                     Fill="@BorderColor">
+                            <ChartMarkerBorder Width="2" Color="@BorderColor" />
+                        </ChartMarker>
+                    </ChartSeries>
+                
+            </SfChart>
+        </div>
+    </PreviewSection>
+</CodePreview>
+</VirtualizeSection>
+
+@code {
+    [CascadingParameter]
+    private Theme CurrentTheme { get; set; } = Theme.Fluent;
+
+    private Theme _currentTheme = Theme.Fluent;
+
+    protected override void OnInitialized()
+    {
+        _currentTheme = CurrentTheme;
+
+        // ─────────────────────────────────────────
+        // DATASOURCE UPDATE - Initialize and start timer
+        // ─────────────────────────────────────────
+        AutoUpdateData = new ObservableCollection<AutoUpdatePoint>(GenerateInitialData());
+
+        Timer = new System.Threading.Timer(UpdateData, null, TimeSpan.FromSeconds(2), TimeSpan.FromSeconds(2));
+    }
+
+    protected override void OnParametersSet()
+    {
+        _currentTheme = CurrentTheme;
+    }
+
+    private readonly ChartSeriesBorder BorderStyle = new()
+    {
+        Width = 2,
+        Color = "#71AD01"
+    };
+    private readonly ChartMarkerBorder MarkerBorderStyle = new()
+    {
+        Width = 2,
+        Color = "#71AD01"
+    };
+
+    private readonly ChartSeriesAnimation AnimationOptions = new()
+    {
+        Enable = true,
+        Duration = 1500
+    };
+    private List<ChartDataLabel> ChartData = new();
+    private DateTime MinDate = new DateTime(2002, 1, 1);
+    private DateTime MaxDate = new DateTime(2011, 1, 1);
+    private bool IsDarkTheme => _currentTheme.ToString().Contains("Dark") || _currentTheme.ToString().Contains("HighContrast");
+    private string TextColor => IsDarkTheme ? "#ffffff" : "#000000";
+    private string HighestTextColor => IsDarkTheme ? "#53CA17" : "#205107";
+    private string LowestTextColor => IsDarkTheme ? "#F2B8B5" : "#B3261E";
+    private string BorderColor = "#71AD01";
+    private string SeriesBorderColor = "#008264";
+
+    private ChartSeriesBorder NegativeSeriesBorder => new ChartSeriesBorder { Width = 2, Color = SeriesBorderColor };
+
+    public List<GoldPrice> LineNegativeData = new()
+    {
+        new() { X = 2009, USD = 23.4 },
+        new() { X = 2010, USD = 29.5 },
+        new() { X = 2011, USD = 10.1 },
+        new() { X = 2012, USD = 7.0 },
+        new() { X = 2013, USD = -28.3 },
+        new() { X = 2014, USD = -1.5 },
+        new() { X = 2015, USD = -10.4 },
+        new() { X = 2016, USD = 9.1 },
+        new() { X = 2017, USD = 13.6 },
+        new() { X = 2018, USD = -2.1 },
+        new() { X = 2019, USD = 18.9 },
+        new() { X = 2020, USD = 24.6 },
+        new() { X = 2021, USD = -3.5 },
+        new() { X = 2022, USD = -0.3 },
+        new() { X = 2023, USD = 12.8 }
+    };
+
+    public class GoldPrice
+    {
+        public double X { get; set; }
+        public double USD { get; set; }
+    }
+    public List<RevenueData> AreaTransposedData { get; set; } = new()
+    {
+        new() { X = 2023, Y1 = 130.80, Y2 = 134.90 },
+        new() { X = 2022, Y1 = null,   Y2 = 116.61 }, // ← missing
+        new() { X = 2021, Y1 = 129.44, Y2 = null  }, // ← missing
+        new() { X = 2020, Y1 = 94.46,  Y2 = 84.17 },
+        new() { X = 2019, Y1 = 70.49,  Y2 = null  }, // ← missing
+        new() { X = 2018, Y1 = 51.52,  Y2 = 55.01 },
+        new() { X = 2017, Y1 = null,   Y2 = 39.94 }, // ← missing
+        new() { X = 2016, Y1 = 21.40,  Y2 = 26.88 },
+        new() { X = 2015, Y1 = 14.89,  Y2 = 17.08 },
+        new() { X = 2014, Y1 = 11.44,  Y2 = 11.49 }
+    };
+
+    public class RevenueData
+    {
+        public int X { get; set; }
+        public double? Y1 { get; set; }
+        public double? Y2 { get; set; }
+    }
+    private ChartBorder MarkerBorder = new()
+    {
+        Width = 2,
+        Color = "#71AD01"
+    };
+    
+    private List<InflationData> InflationSplineData =
+new()
+    {
+        new() { X = new DateTime(2002, 1, 1), Y1 = 2.2, Y2 = 2.0 },
+        new() { X = new DateTime(2003, 1, 1), Y1 = 3.4, Y2 = 1.7 },
+        new() { X = new DateTime(2004, 1, 1), Y1 = 2.8, Y2 = 1.8 },
+        new() { X = new DateTime(2005, 1, 1), Y1 = 1.6, Y2 = 2.1 },
+        new() { X = new DateTime(2006, 1, 1), Y1 = 2.3, Y2 = 2.3 },
+        new() { X = new DateTime(2007, 1, 1), Y1 = 2.5, Y2 = 1.7 },
+        new() { X = new DateTime(2008, 1, 1), Y1 = 2.9, Y2 = 1.5 },
+        new() { X = new DateTime(2009, 1, 1), Y1 = 1.1, Y2 = 0.5 },
+        new() { X = new DateTime(2010, 1, 1), Y1 = 1.4, Y2 = 1.5 },
+        new() { X = new DateTime(2011, 1, 1), Y1 = 1.1, Y2 = 1.3 }
+    };
+
+    private string AccentColor = "#71AD01";
+
+    private SplineType SelectedSplineType = SplineType.Natural;
+
+    private List<SplineType> SplineTypes = new()
+    {
+        SplineType.Natural,
+        SplineType.Monotonic,
+        SplineType.Cardinal,
+        SplineType.Clamped
+    };
+    EmptyPointMode EmptyMode = EmptyPointMode.Gap;
+
+    // Spline Type Selection
+    private bool IsSplineTypeSelected(SplineType type)
+        => SelectedSplineType == type;
+
+    private void OnSplineTypeChanged(bool selected, SplineType type)
+    {
+        if (selected)
+        {
+            SelectedSplineType = type;
+        }
+    }
+
+    // Empty Point Mode Selection
+    private bool IsEmptyModeSelected(EmptyPointMode mode)
+        => EmptyMode == mode;
+
+    private void OnEmptyModeChanged(bool selected, EmptyPointMode mode)
+    {
+        if (selected)
+        {
+            EmptyMode = mode;
+        }
+    }
+
+    List<DataPoint> Data = new()
+    {
+        new(new DateTime(2002,1,1),2.2),
+        new(new DateTime(2003,1,1),3.4),
+        new(new DateTime(2004,1,1),2.8),
+        new(new DateTime(2005,1,1),1.6),
+        new(new DateTime(2006,1,1),null),
+        new(new DateTime(2007,1,1),2.5),
+        new(new DateTime(2008,1,1),null),
+        new(new DateTime(2009,1,1),1.1)
+    };
+
+    record DataPoint(DateTime X, double? Y);
+    // ✅ Equivalent to React useState<SplineType>
+    public SplineType CurrentSplineType { get; set; } = SplineType.Natural;
+
+    private string OverviewCode => @"@using Syncfusion.Blazor.Toolkit.Charts
+
+<SfChart @key=""@_currentTheme"" Title=""Inflation Rate in Percentage"" Width=""100%"" Height=""400px"" Theme=""@_currentTheme"">
+    <ChartTooltipSettings Enable=""true"" />
+    <ChartPrimaryXAxis ValueType=""Syncfusion.Blazor.Toolkit.ValueType.DateTime""
+                       IntervalType=""IntervalType.Years""
+                       LabelFormat=""yyyy""
+                       Minimum=""@(new DateTime(2001, 1, 1))""
+                       Maximum=""@(new DateTime(2012, 1, 1))""
+                       EdgeLabelPlacement=""EdgeLabelPlacement.Shift"" />
+    <ChartPrimaryYAxis Maximum=""4""
+                       Interval=""1""
+                       LabelFormat=""{value}%"">
+        <ChartAxisLineStyle Width=""0"" />
+    </ChartPrimaryYAxis>
+    
+        <ChartSeries DataSource=""@SplineAreaData""
+                     XName=""X""
+                     YName=""Y1""
+                     Name=""US""
+                     Type=""ChartSeriesType.SplineArea""
+                     Opacity=""0.4""
+                     Width=""2""
+                     Fill=""#D6FF89"">
+            <ChartSeriesBorder Width=""2"" Color=""#71AD01"" />
+            <ChartMarker Visible=""true"" Shape=""ChartShape.Circle"" Fill=""#71AD01"">
+                <ChartMarkerBorder Width=""2"" Color=""#71AD01"" />
+            </ChartMarker>
+        </ChartSeries>
+        <ChartSeries DataSource=""@SplineAreaData""
+                     XName=""X""
+                     YName=""Y2""
+                     Name=""France""
+                     Type=""ChartSeriesType.SplineArea""
+                     Opacity=""0.4""
+                     Width=""2""
+                     Fill=""#71C8EE"">
+            <ChartSeriesBorder Width=""2"" Color=""#0085BF"" />
+            <ChartMarker Visible=""true"" Shape=""ChartShape.Circle"" Fill=""#0085BF"">
+                <ChartMarkerBorder Width=""2"" Color=""#0085BF"" />
+            </ChartMarker>
+        </ChartSeries>
+    
+</SfChart>
+
+@code {
+    private Theme _currentTheme = Theme.Fluent;
+    public class InflationData { public DateTime X { get; set; } public double Y1 { get; set; } public double Y2 { get; set; } }
+    public List<InflationData> SplineAreaData = new()
+    {
+        new() { X = new DateTime(2002, 1, 1), Y1 = 2.2, Y2 = 2.0 },
+        new() { X = new DateTime(2003, 1, 1), Y1 = 3.4, Y2 = 1.7 },
+        new() { X = new DateTime(2004, 1, 1), Y1 = 2.8, Y2 = 1.8 },
+        new() { X = new DateTime(2005, 1, 1), Y1 = 1.6, Y2 = 2.1 },
+        new() { X = new DateTime(2006, 1, 1), Y1 = 2.3, Y2 = 2.3 },
+        new() { X = new DateTime(2007, 1, 1), Y1 = 2.5, Y2 = 1.7 },
+        new() { X = new DateTime(2008, 1, 1), Y1 = 2.9, Y2 = 1.5 },
+        new() { X = new DateTime(2009, 1, 1), Y1 = 1.1, Y2 = 0.5 },
+        new() { X = new DateTime(2010, 1, 1), Y1 = 1.4, Y2 = 1.5 },
+        new() { X = new DateTime(2011, 1, 1), Y1 = 1.1, Y2 = 1.3 }
+    };
+}";
+
+    private string DataLabelCode => @"@using Syncfusion.Blazor.Toolkit.Charts
+
+<SfChart @key=""@_currentTheme"" Title=""France's Inflation Rate (%) Over Time"" Width=""100%"" Height=""400px"" Theme=""@_currentTheme"">
+    <ChartTooltipSettings Enable=""true"" Header=""<b>France</b>"" Format=""${point.y}%"" />
+    <ChartPrimaryXAxis ValueType=""Syncfusion.Blazor.Toolkit.ValueType.DateTime""
+                       IntervalType=""IntervalType.Years""
+                       Interval=""1""
+                       Minimum=""@(new DateTime(2002, 1, 1))""
+                       Maximum=""@(new DateTime(2011, 1, 1))""
+                       LabelFormat=""yyyy""
+                       EdgeLabelPlacement=""EdgeLabelPlacement.Shift"">
+    </ChartPrimaryXAxis>
+    <ChartPrimaryYAxis Maximum=""4"" Interval=""1"" LabelFormat=""{value}%"">
+        <ChartAxisLineStyle Width=""0""></ChartAxisLineStyle>
+    </ChartPrimaryYAxis>
+    
+        <ChartSeries DataSource=""@SplineAreaData""
+                     XName=""X""
+                     YName=""Y2""
+                     Type=""ChartSeriesType.SplineArea""
+                     Opacity=""0.4""
+                     Fill=""#D6FF89""
+                     Width=""2"">
+            <ChartSeriesBorder Width=""2"" Color=""#71AD01""></ChartSeriesBorder>
+            <ChartMarker Visible=""true"" Fill=""#71AD01"">
+                <ChartMarkerBorder Width=""2"" Color=""#71AD01""></ChartMarkerBorder>
+                <ChartDataLabel Visible=""true"" Format=""{value}%"" Position=""ChartLabelPosition.Top"" Font=""@(new ChartDataLabelFont { Color = TextColor })""></ChartDataLabel>
+            </ChartMarker>
+        </ChartSeries>
+    
+</SfChart>
+
+@code {
+    private Theme _currentTheme = Theme.Fluent;
+    private bool IsDarkTheme => _currentTheme.ToString().Contains(""Dark"") || _currentTheme.ToString().Contains(""HighContrast"");
+    private string TextColor => IsDarkTheme ? ""#ffffff"" : ""#000000"";
+    public class InflationData { public DateTime X { get; set; } public double Y2 { get; set; } }
+    public List<InflationData> SplineAreaData = new()
+    {
+        new() { X = new DateTime(2002, 1, 1), Y2 = 2.0 },
+        new() { X = new DateTime(2003, 1, 1), Y2 = 1.7 },
+        new() { X = new DateTime(2004, 1, 1), Y2 = 1.8 },
+        new() { X = new DateTime(2005, 1, 1), Y2 = 2.1 },
+        new() { X = new DateTime(2006, 1, 1), Y2 = 2.3 },
+        new() { X = new DateTime(2007, 1, 1), Y2 = 1.7 },
+        new() { X = new DateTime(2008, 1, 1), Y2 = 1.5 },
+        new() { X = new DateTime(2009, 1, 1), Y2 = 0.5 },
+        new() { X = new DateTime(2010, 1, 1), Y2 = 1.5 },
+        new() { X = new DateTime(2011, 1, 1), Y2 = 1.3 }
+    };
+}";
+
+    private string SplineVariationsCode => @"@using Syncfusion.Blazor.Toolkit.Charts
+
+ <div style=""width: 100%;"">
+            <div style=""display: flex; align-items: center; gap: 10px; margin-bottom: 20px;"">
+                <label style=""font-weight:700;margin-bottom:0;white-space:nowrap"">
+                    Spline Type
+                </label>
+
+                <SfButtonGroup Mode=""SelectionMode.Single"">
+                    <ButtonGroupButton Selected=""@IsSplineTypeSelected(SplineType.Natural)""
+                                       SelectedChanged=""@(v => OnSplineTypeChanged(v, SplineType.Natural))"">
+                        Natural
+                    </ButtonGroupButton>
+
+                    <ButtonGroupButton Selected=""@IsSplineTypeSelected(SplineType.Monotonic)""
+                                       SelectedChanged=""@(v => OnSplineTypeChanged(v, SplineType.Monotonic))"">
+                        Monotonic
+                    </ButtonGroupButton>
+
+                    <ButtonGroupButton Selected=""@IsSplineTypeSelected(SplineType.Cardinal)""
+                                       SelectedChanged=""@(v => OnSplineTypeChanged(v, SplineType.Cardinal))"">
+                        Cardinal
+                    </ButtonGroupButton>
+
+                    <ButtonGroupButton Selected=""@IsSplineTypeSelected(SplineType.Clamped)""
+                                       SelectedChanged=""@(v => OnSplineTypeChanged(v, SplineType.Clamped))"">
+                        Clamped
+                    </ButtonGroupButton>
+                </SfButtonGroup>
+            </div>
+            
+            <SfChart @key=""@_currentTheme"" Title=""France's Inflation Rate (%) Over Time"" Width=""100%"" Height=""400px"" Theme=""@_currentTheme"">
+
+                <ChartTooltipSettings Enable=""true""
+                                      Header=""<b>France</b>"" />
+
+                    <ChartPrimaryXAxis Format=""y""  ValueType=""Syncfusion.Blazor.Toolkit.ValueType.DateTime""
+                                   IntervalType=""IntervalType.Years""
+                                   Minimum=""new DateTime(2002,1,1)""
+                                   Maximum=""new DateTime(2011,1,1)"">
+                    <ChartAxisLabelStyle  />
+                </ChartPrimaryXAxis>
+
+                    <ChartPrimaryYAxis Format=""{value}%"" Maximum=""4"" Interval=""1"">
+                    <ChartAxisLabelStyle  />
+                    <ChartAxisLineStyle Width=""0"" />
+                </ChartPrimaryYAxis>
+
+                
+                    <ChartSeries DataSource=""InflationSplineData""
+                                 XName=""X""
+                                 YName=""Y2""
+                                 Type=""ChartSeriesType.SplineArea""
+                                 SplineType=""SelectedSplineType""
+                                 Opacity=""0.4""
+                                 Fill=""#D6FF89""
+                                 Width=""2"">
+                        <ChartSeriesBorder Width=""2"" Color=""@AccentColor"" />
+
+                        <ChartMarker Visible=""true"" Fill=""@AccentColor"">
+                            <ChartMarkerBorder Width=""2"" Color=""@AccentColor"" />
+                        </ChartMarker>
+                    </ChartSeries>
+                
+            </SfChart>
+        </div>
+@code {
+    private Theme _currentTheme = Theme.Fluent;
+    public class InflationData { public DateTime X { get; set; } public double Y1 { get; set; } public double Y2 { get; set; } }
+    private List<InflationData> InflationSplineData =
+new()
+    {
+        new() { X = new DateTime(2002, 1, 1), Y1 = 2.2, Y2 = 2.0 },
+        new() { X = new DateTime(2003, 1, 1), Y1 = 3.4, Y2 = 1.7 },
+        new() { X = new DateTime(2004, 1, 1), Y1 = 2.8, Y2 = 1.8 },
+        new() { X = new DateTime(2005, 1, 1), Y1 = 1.6, Y2 = 2.1 },
+        new() { X = new DateTime(2006, 1, 1), Y1 = 2.3, Y2 = 2.3 },
+        new() { X = new DateTime(2007, 1, 1), Y1 = 2.5, Y2 = 1.7 },
+        new() { X = new DateTime(2008, 1, 1), Y1 = 2.9, Y2 = 1.5 },
+        new() { X = new DateTime(2009, 1, 1), Y1 = 1.1, Y2 = 0.5 },
+        new() { X = new DateTime(2010, 1, 1), Y1 = 1.4, Y2 = 1.5 },
+        new() { X = new DateTime(2011, 1, 1), Y1 = 1.1, Y2 = 1.3 }
+    };
+ private string AccentColor = ""#71AD01"";
+ private SplineType SelectedSplineType = SplineType.Natural;
+
+    private List<SplineType> SplineTypes = new()
+    {
+        SplineType.Natural,
+        SplineType.Monotonic,
+        SplineType.Cardinal,
+        SplineType.Clamped
+    };
+// Spline Type Selection
+    private bool IsSplineTypeSelected(SplineType type)
+        => SelectedSplineType == type;
+
+    private void OnSplineTypeChanged(bool selected, SplineType type)
+    {
+        if (selected)
+        {
+            SelectedSplineType = type;
+        }
+    }
+}";
+
+    private string MissingPointsCode => @"@using Syncfusion.Blazor.Toolkit.Charts
+
+<div style=""width: 100%;"">
+            <div style=""display: flex; align-items: center; gap: 10px; margin-bottom: 20px;"">
+                <label style=""font-weight:700;margin-bottom:0;white-space:nowrap"">
+                    Empty Point Mode:
+                </label>
+
+                <SfButtonGroup Mode=""SelectionMode.Single"">
+                    <ButtonGroupButton Selected=""@IsEmptyModeSelected(EmptyPointMode.Gap)""
+                                       SelectedChanged=""@(v => OnEmptyModeChanged(v, EmptyPointMode.Gap))"">
+                        Gap
+                    </ButtonGroupButton>
+
+                    <ButtonGroupButton Selected=""@IsEmptyModeSelected(EmptyPointMode.Zero)""
+                                       SelectedChanged=""@(v => OnEmptyModeChanged(v, EmptyPointMode.Zero))"">
+                        Zero
+                    </ButtonGroupButton>
+
+                    <ButtonGroupButton Selected=""@IsEmptyModeSelected(EmptyPointMode.Average)""
+                                       SelectedChanged=""@(v => OnEmptyModeChanged(v, EmptyPointMode.Average))"">
+                        Average
+                    </ButtonGroupButton>
+
+                    <ButtonGroupButton Selected=""@IsEmptyModeSelected(EmptyPointMode.Drop)""
+                                       SelectedChanged=""@(v => OnEmptyModeChanged(v, EmptyPointMode.Drop))"">
+                        Drop
+                    </ButtonGroupButton>
+                </SfButtonGroup>
+            </div>
+            <SfChart @key=""@_currentTheme"" Title=""Spline Area - Skip Missing"" Width=""100%"" Height=""400px"" Theme=""@_currentTheme"">
+                <ChartPrimaryXAxis ValueType=""Syncfusion.Blazor.Toolkit.ValueType.DateTime"" LabelFormat=""yyyy"" />
+                <ChartPrimaryYAxis />
+
+                
+                    <ChartSeries DataSource=""@Data""
+                                 XName=""X""
+                                 YName=""Y""
+                                 Type=""ChartSeriesType.SplineArea""
+                                 Opacity=""0.4""
+                                 Fill=""#D6FF89""
+                                 Width=""2"">
+                        <ChartSeriesBorder Width=""2"" Color=""#71AD01"" />
+                        <ChartMarker Visible=""true"" Fill=""#71AD01"">
+                            <ChartMarkerBorder Width=""2"" Color=""#71AD01"" />
+                        </ChartMarker>
+                        <ChartEmptyPointSettings Mode=""@EmptyMode"" />
+                    </ChartSeries>
+                
+                    <!-- Tooltip -->
+                    <ChartTooltipSettings Enable=""true"" Header=""<b>France</b>"" />
+            </SfChart>
+        </div>
+@code {
+    private Theme _currentTheme = Theme.Fluent;
+    EmptyPointMode EmptyMode = EmptyPointMode.Gap;
+     // Empty Point Mode Selection
+    private bool IsEmptyModeSelected(EmptyPointMode mode)
+        => EmptyMode == mode;
+
+    private void OnEmptyModeChanged(bool selected, EmptyPointMode mode)
+    {
+        if (selected)
+        {
+            EmptyMode = mode;
+        }
+    }
+  record DataPoint(DateTime X, double? Y);
+    List<DataPoint> Data = new()
+    {
+        new(new DateTime(2002,1,1),2.2),
+        new(new DateTime(2003,1,1),3.4),
+        new(new DateTime(2004,1,1),2.8),
+        new(new DateTime(2005,1,1),1.6),
+        new(new DateTime(2006,1,1),null),
+        new(new DateTime(2007,1,1),2.5),
+        new(new DateTime(2008,1,1),null),
+        new(new DateTime(2009,1,1),1.1)
+    };
+  }";
+
+    private string InvertedAxesCode => @"@using Syncfusion.Blazor.Toolkit.Charts
+
+ <SfChart @key=""@_currentTheme"" Title=""Spline Area - Inverted"" Width=""100%"" Height=""400px"" IsTransposed=""true"" Theme=""@_currentTheme"">
+         
+            <ChartTooltipSettings Enable=""true""
+                                  Header=""${point.x}""
+                                  Format=""${series.name} : <b>${point.y} Billions</b>"" />
+
+            <ChartPrimaryXAxis ValueType=""Syncfusion.Blazor.Toolkit.ValueType.Category""
+                               Interval=""2"">
+                <ChartAxisLineStyle Width=""0"" />
+            </ChartPrimaryXAxis>
+
+                <ChartPrimaryYAxis Format=""{value}B"" Minimum=""12"">
+                <ChartAxisLabelStyle  />
+            </ChartPrimaryYAxis>
+
+            
+
+                <!-- Alibaba -->
+                <ChartSeries DataSource=""@AreaTransposedData""
+                             XName=""X""
+                             YName=""Y1""
+                             Name=""Alibaba""
+                             Type=""ChartSeriesType.SplineArea""
+                             Opacity=""0.5""
+                             Fill=""#71AD01"">
+                    <ChartEmptyPointSettings Mode=""EmptyPointMode.Drop"" />
+                    <ChartMarker Visible=""true"" Shape=""ChartShape.Circle""
+                                 Fill=""#71AD01"">
+                        <ChartMarkerBorder Width=""2"" Color=""#71AD01"" />
+                    </ChartMarker>
+                    <ChartBorder Width=""2"" Color=""#008264"" />
+                </ChartSeries>
+
+                <!-- Meta -->
+                <ChartSeries DataSource=""@AreaTransposedData""
+                             XName=""X""
+                             YName=""Y2""
+                             Name=""Meta (Facebook)""
+                             Type=""ChartSeriesType.SplineArea""
+                             Opacity=""0.5""
+                             Fill=""#71C8EE"">
+                    <ChartEmptyPointSettings Mode=""EmptyPointMode.Drop"" />
+                    <ChartMarker Visible=""true"" Shape=""ChartShape.Circle""
+                                 Fill=""#0085BF"">
+                        <ChartMarkerBorder Width=""2"" Color=""#0085BF"" />
+                    </ChartMarker>
+                    <ChartBorder Width=""2"" Color=""#5A8100"" />
+                </ChartSeries>
+
+            
+        </SfChart>
+
+@code {
+    private Theme _currentTheme = Theme.Fluent;
+    public List<RevenueData> AreaTransposedData { get; set; } = new()
+    {
+        new() { X = 2023, Y1 = 130.80, Y2 = 134.90 },
+        new() { X = 2022, Y1 = null,   Y2 = 116.61 }, // ← missing
+        new() { X = 2021, Y1 = 129.44, Y2 = null  }, // ← missing
+        new() { X = 2020, Y1 = 94.46,  Y2 = 84.17 },
+        new() { X = 2019, Y1 = 70.49,  Y2 = null  }, // ← missing
+        new() { X = 2018, Y1 = 51.52,  Y2 = 55.01 },
+        new() { X = 2017, Y1 = null,   Y2 = 39.94 }, // ← missing
+        new() { X = 2016, Y1 = 21.40,  Y2 = 26.88 },
+        new() { X = 2015, Y1 = 14.89,  Y2 = 17.08 },
+        new() { X = 2014, Y1 = 11.44,  Y2 = 11.49 }
+    };
+
+    public class RevenueData
+    {
+        public int X { get; set; }
+        public double? Y1 { get; set; }
+        public double? Y2 { get; set; }
+    }
+}";
+
+    private string NegativeDataCode => @"@using Syncfusion.Blazor.Toolkit.Charts
+
+<SfChart @key=""@_currentTheme"" Title=""Annual Gold Price (2009-2023) in USD"" Width=""100%"" Height=""400px"" Theme=""@_currentTheme"">
+            <ChartArea><ChartAreaBorder Width=""0""></ChartAreaBorder></ChartArea>
+           
+            <ChartPrimaryXAxis ValueType=""Syncfusion.Blazor.Toolkit.ValueType.Double"" Interval=""3"" />
+
+                <ChartPrimaryYAxis Title=""% Annual Exchange Rate"" Interval=""20"">
+                <ChartAxisLineStyle Width=""0"" />
+
+                <ChartStriplines>
+
+                    <!-- Positive strip line -->
+                    <ChartStripline Start=""20"" End=""20.5""
+                                    Visible=""true""
+                                    Color=""#79747E""
+                                    DashArray=""10,10""
+                                    ZIndex=""@ZIndex.Over"" />
+
+                    <ChartStripline Start=""21"" End=""21.5""
+                                    Visible=""true""
+                                    Color=""Transparent""
+                                    DashArray=""4,4""
+                                    Text=""Highest Annual Growth""
+                                    HorizontalAlignment=""Anchor.End""
+                                    ZIndex=""@ZIndex.Over""
+                                    Rotation=""0"">
+                        <ChartStriplineTextStyle Color=""@HighestTextColor"" />
+                    </ChartStripline>
+
+                    <!-- Negative strip line -->
+                    <ChartStripline Start=""-25"" End=""-24.5""
+                                    Visible=""true""
+                                    Color=""#79747E""
+                                    DashArray=""10,10""
+                                    ZIndex=""@ZIndex.Over"" />
+
+                    <ChartStripline Start=""-28.5"" End=""-28""
+                                    Visible=""true""
+                                    Color=""Transparent""
+                                    DashArray=""4,4""
+                                    Text=""Lowest Annual Growth""
+                                    HorizontalAlignment=""Anchor.End""
+                                    ZIndex=""@ZIndex.Over""
+                                    Rotation=""0"">
+                        <ChartStriplineTextStyle Color=""@LowestTextColor"" />
+                    </ChartStripline>
+
+                </ChartStriplines>
+            </ChartPrimaryYAxis>
+
+            
+                <ChartSeries DataSource=""@LineNegativeData""
+                             XName=""X""
+                             YName=""USD""
+                             Type=""ChartSeriesType.SplineArea""
+                             Width=""2""
+                             Opacity=""0.4""
+                             Fill=""#3CFFD2""
+                             Border=""@NegativeSeriesBorder"">
+                    <ChartMarker Visible=""true"" IsFilled=""true"" />
+                </ChartSeries>
+            
+
+            <ChartTooltipSettings Enable=""true""
+                                  Header=""${point.x}""
+                                  Format=""Annual Growth : <b>${point.y}</b>"" />
+        </SfChart>
+
+@code {
+    private Theme _currentTheme = Theme.Fluent;
+    private bool IsDarkTheme => _currentTheme.ToString().Contains(""Dark"") || _currentTheme.ToString().Contains(""HighContrast"");
+    private string TextColor => IsDarkTheme ? ""#ffffff"" : ""#000000"";
+    private string HighestTextColor => IsDarkTheme ? ""#53CA17"" : ""#205107"";
+    private string LowestTextColor => IsDarkTheme ? ""#F2B8B5"" : ""#B3261E"";
+      private ChartSeriesBorder NegativeSeriesBorder => new ChartSeriesBorder { Width = 2, Color = SeriesBorderColor };
+
+    public List<GoldPrice> LineNegativeData = new()
+    {
+        new() { X = 2009, USD = 23.4 },
+        new() { X = 2010, USD = 29.5 },
+        new() { X = 2011, USD = 10.1 },
+        new() { X = 2012, USD = 7.0 },
+        new() { X = 2013, USD = -28.3 },
+        new() { X = 2014, USD = -1.5 },
+        new() { X = 2015, USD = -10.4 },
+        new() { X = 2016, USD = 9.1 },
+        new() { X = 2017, USD = 13.6 },
+        new() { X = 2018, USD = -2.1 },
+        new() { X = 2019, USD = 18.9 },
+        new() { X = 2020, USD = 24.6 },
+        new() { X = 2021, USD = -3.5 },
+        new() { X = 2022, USD = -0.3 },
+        new() { X = 2023, USD = 12.8 }
+    };
+
+    public class GoldPrice
+    {
+        public double X { get; set; }
+        public double USD { get; set; }
+    }
+}";
+
+    private string CustomizationCode => @"@using Syncfusion.Blazor.Toolkit.Charts
+
+<SfChart @key=""@_currentTheme"" Title=""France's Inflation Rate (%) Over Time"" Width=""100%"" Height=""400px"" Theme=""@_currentTheme"">
+            <ChartTooltipSettings Enable=""true""
+                                  Header=""<b>France</b>"" />
+
+            <ChartPrimaryXAxis ValueType=""Syncfusion.Blazor.Toolkit.ValueType.DateTime""
+                               IntervalType=""IntervalType.Years""
+                               Minimum=""@MinDate""
+                               Maximum=""@MaxDate""
+                               LabelFormat=""yyyy""
+                               EdgeLabelPlacement=""EdgeLabelPlacement.Shift"">
+            </ChartPrimaryXAxis>
+
+                <ChartPrimaryYAxis Format=""{value}%"" Maximum=""4"" Interval=""1"">
+                    <ChartAxisLineStyle Width=""0""  />
+                <ChartAxisLabelStyle  />
+            </ChartPrimaryYAxis>
+
+            
+                <ChartSeries DataSource=""@SplineAreaData""
+                             XName=""X""
+                             YName=""Y1""
+                             Type=""ChartSeriesType.SplineArea""
+                             Opacity=""0.4""
+                             Width=""2""
+                                 Fill=""#D6FF89"" DashArray=""5,5"">
+                    <ChartSeriesBorder Width=""2""
+                                       Color=""@BorderColor""
+                                        />
+                </ChartSeries>
+            
+        </SfChart>
+
+@code {
+    private Theme _currentTheme = Theme.Fluent;
+    private DateTime MinDate = new DateTime(2002, 1, 1);
+    private DateTime MaxDate = new DateTime(2011, 1, 1);
+    private string BorderColor = ""#71AD01"";
+    public class InflationData { public DateTime X { get; set; } public double Y1 { get; set; } }
+    public List<InflationData> SplineAreaData = new()
+    {
+        new() { X = new DateTime(2002, 1, 1), Y1 = 2.2 },
+        new() { X = new DateTime(2003, 1, 1), Y1 = 3.4 },
+        new() { X = new DateTime(2004, 1, 1), Y1 = 2.8 },
+        new() { X = new DateTime(2005, 1, 1), Y1 = 1.6 },
+        new() { X = new DateTime(2006, 1, 1), Y1 = 2.3 },
+        new() { X = new DateTime(2007, 1, 1), Y1 = 2.5 },
+        new() { X = new DateTime(2008, 1, 1), Y1 = 2.9 },
+        new() { X = new DateTime(2009, 1, 1), Y1 = 1.1 },
+        new() { X = new DateTime(2010, 1, 1), Y1 = 1.4 },
+        new() { X = new DateTime(2011, 1, 1), Y1 = 1.1 }
+    };
+}";
+
+    private string DatasourceUpdateCode => @"@using Syncfusion.Blazor.Toolkit.Charts
+@using System.Collections.ObjectModel
+@using System.Timers
+        <div style=""width: 100%;"">
+            <SfChart @key=""@_currentTheme"" Title=""Auto-Updating SplineArea Chart"" Width=""100%"" Height=""400px"" Theme=""@_currentTheme"">
+              
+                <ChartPrimaryXAxis Minimum=""1"" Maximum=""7"" Interval=""1"" />
+
+                <ChartPrimaryYAxis Minimum=""0"" Maximum=""100"" Interval=""20"">
+                    <ChartAxisMajorGridLines Width=""1"" />
+                    <ChartAxisLineStyle Width=""0"" />
+                </ChartPrimaryYAxis>
+
+                
+                    <ChartSeries DataSource=""@AutoUpdateData""
+                                 Type=""ChartSeriesType.SplineArea""
+                                 XName=""X""
+                                 YName=""Y""
+                                 Opacity=""0.4""
+                                 Fill=""#D6FF89""
+                                 Width=""2""
+                                 Animation=""AnimationOptions"">
+                        <ChartSeriesBorder Width=""2"" Color=""@BorderColor"" />
+                        <ChartMarker Visible=""true""
+                                     Fill=""@BorderColor"">
+                            <ChartMarkerBorder Width=""2"" Color=""@BorderColor"" />
+                        </ChartMarker>
+                    </ChartSeries>
+                
+            </SfChart>
+        </div>
+
+@code {
+    private Theme _currentTheme = Theme.Fluent;
+   private System.Threading.Timer Timer;
+    private Random rnd = new();
+    private readonly ChartSeriesAnimation AnimationOptions = new()
+    {
+        Enable = true,
+        Duration = 1500
+    };
+    private string BorderColor = ""#71AD01"";
+    protected override void OnInitialized()
+    {
+        _currentTheme = CurrentTheme;
+
+       AutoUpdateData = new ObservableCollection<AutoUpdatePoint>(GenerateInitialData());
+
+        Timer = new System.Threading.Timer(UpdateData, null, TimeSpan.FromSeconds(2), TimeSpan.FromSeconds(2));
+    }
+
+   private List<AutoUpdatePoint> GenerateInitialData()
+    {
+        var list = new List<AutoUpdatePoint>();
+        for (int i = 1; i <= 7; i++)
+        {
+            list.Add(new AutoUpdatePoint { X = i, Y = Math.Floor(rnd.NextDouble() * 75 + 15) });
+        }
+        return list;
+    }
+
+   private void UpdateData(object state)
+    {
+        InvokeAsync(() =>
+        {
+            for (int i = 0; i < AutoUpdateData.Count; i++)
+            {
+                AutoUpdateData[i] = new AutoUpdatePoint 
+                { 
+                    X = AutoUpdateData[i].X, 
+                    Y = 10 + rnd.NextDouble() * 85 
+                };
+            }
+        });
+    }
+
+    public void Dispose() => Timer?.Dispose();
+    private ObservableCollection<AutoUpdatePoint> AutoUpdateData = new();
+      public class AutoUpdatePoint
+    {
+        public double X { get; set; }
+        public double Y { get; set; }
+    }
+}";
+
+
+    private class CategoryPoint
+    {
+        public string X { get; set; } = string.Empty;
+        public double Y { get; set; }
+    }
+    private List<CategoryPoint> Data1 = new();
+    private ObservableCollection<CategoryPoint> Data2 = new();
+    private ObservableCollection<CategoryPoint> NegData = new();
+    private ObservableCollection<AutoUpdatePoint> AutoUpdateData = new();
+    private ObservableCollection<CategoryPoint> liveData = new();
+    private System.Timers.Timer? liveTimer;
+    private Random rnd = new();
+    private System.Threading.Timer Timer;
+    private SfChart ChartRef;
+    
+
+    private void StartLive()
+    {
+        if (liveTimer != null) return;
+        liveTimer = new System.Timers.Timer(900);
+        liveTimer.Elapsed += (s, e) =>
+        {
+            InvokeAsync(() =>
+            {
+                if (liveData.Count > 8) liveData.RemoveAt(0);
+                liveData.Add(new CategoryPoint { X = DateTime.Now.ToString("HH:mm:ss"), Y = Math.Round(10 + rnd.NextDouble() * 40, 1) });
+            });
+        };
+        liveTimer.Start();
+    }
+    
+    private void UpdateData(object state)
+    {
+        InvokeAsync(() =>
+        {
+            for (int i = 0; i < AutoUpdateData.Count; i++)
+            {
+                AutoUpdateData[i] = new AutoUpdatePoint 
+                { 
+                    X = AutoUpdateData[i].X, 
+                    Y = 10 + rnd.NextDouble() * 85 
+                };
+            }
+        });
+    }
+
+    private List<AutoUpdatePoint> GenerateInitialData()
+    {
+        var list = new List<AutoUpdatePoint>();
+        for (int i = 1; i <= 7; i++)
+        {
+            list.Add(new AutoUpdatePoint { X = i, Y = Math.Floor(rnd.NextDouble() * 75 + 15) });
+        }
+        return list;
+    }
+
+    public void Dispose() => Timer?.Dispose();
+
+    private void StopLive()
+    {
+        liveTimer?.Stop();
+        liveTimer?.Dispose();
+        liveTimer = null;
+    }
+    
+    private string MarkerColor = "#71AD01";
+
+    private List<InflationData> SplineAreaData = new()
+    {
+        new() { X = new DateTime(2002, 1, 1), Y1 = 2.2, Y2 = 2.0 },
+        new() { X = new DateTime(2003, 1, 1), Y1 = 3.4, Y2 = 1.7 },
+        new() { X = new DateTime(2004, 1, 1), Y1 = 2.8, Y2 = 1.8 },
+        new() { X = new DateTime(2005, 1, 1), Y1 = 1.6, Y2 = 2.1 },
+        new() { X = new DateTime(2006, 1, 1), Y1 = 2.3, Y2 = 2.3 },
+        new() { X = new DateTime(2007, 1, 1), Y1 = 2.5, Y2 = 1.7 },
+        new() { X = new DateTime(2008, 1, 1), Y1 = 2.9, Y2 = 1.5 },
+        new() { X = new DateTime(2009, 1, 1), Y1 = 1.1, Y2 = 0.5 },
+        new() { X = new DateTime(2010, 1, 1), Y1 = 1.4, Y2 = 1.5 },
+        new() { X = new DateTime(2011, 1, 1), Y1 = 1.1, Y2 = 1.3 }
+    };
+
+    public class InflationData
+    {
+        public DateTime X { get; set; }
+        public double Y1 { get; set; }
+        public double Y2 { get; set; }
+    }
+
+    public class AutoUpdatePoint
+    {
+        public double X { get; set; }
+        public double Y { get; set; }
+    }
+}

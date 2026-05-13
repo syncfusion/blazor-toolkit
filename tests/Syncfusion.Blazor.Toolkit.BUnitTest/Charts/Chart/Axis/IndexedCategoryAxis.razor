@@ -1,0 +1,688 @@
+@using Syncfusion.Blazor.Toolkit.Charts
+@using Syncfusion.Blazor.Toolkit.Tests
+@using Bunit
+@using Xunit
+
+@inherits TestComponentBase
+
+
+<SfFixture @ref="fixture" TestAsync="CheckingSingleSerieslabel" Description="CheckingSingleSerieslabel">
+    <ComponentUnderTest>
+        <SfChart ID="container" Height="400" Width="900">
+            <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Toolkit.ValueType.Category" IsIndexed="true" LabelIntersectAction="LabelIntersectAction.Hide"></ChartPrimaryXAxis>
+            <ChartPrimaryYAxis Title="PrimaryYaxis" RangePadding="ChartRangePadding.None"></ChartPrimaryYAxis>
+            <ChartSeriesCollection>
+                <ChartSeries DataSource="@Sales" XName="x" YName="y" Type="ChartSeriesType.Column" Name="Gold">
+                    <ChartSeriesAnimation Enable="false"></ChartSeriesAnimation>
+                </ChartSeries>
+            </ChartSeriesCollection>
+        </SfChart>
+    </ComponentUnderTest>
+</SfFixture>
+@code {
+
+    SfFixture fixture { get; set; }
+    async Task CheckingSingleSerieslabel(Fixture fixture)
+    {
+        var cut = fixture.GetComponentUnderTest<SfChart>();
+        await Task.Delay(200);
+        var svg = cut.Find("#containerAxisLabels0");
+        Assert.True(svg.ChildNodes.Length == 7);
+        var svg1 = cut.Find("#container0_AxisLabel_0");
+        Assert.True(svg1.TextContent == "Monday\n    ");
+        var svg2 = cut.Find("#container0_AxisLabel_6");
+        Assert.True(svg2.TextContent == "Monday\n    ");
+        cut.SetParametersAndRender();
+    }
+    public class SalesInfo
+    {
+        public string x { get; set; }
+        public double y { get; set; }
+    }
+
+    public List<SalesInfo> Sales = new List<SalesInfo>
+{
+        new SalesInfo { x = "Monday", y = 50 },
+        new SalesInfo { x = "Tuesday", y = 40 },
+        new SalesInfo { x = "Wednesday", y = 70 },
+        new SalesInfo { x = "Thursday", y = 60 },
+        new SalesInfo { x = "Friday", y = 50 },
+        new SalesInfo { x = "Monday", y = 40 },
+        new SalesInfo { x = "Monday", y = 30 }
+    };
+}
+
+
+@{
+    var InitialGroup1 = (new string[] { "CustomerID", "OrderID" });
+}
+
+<SfFixture @ref="fixture1" TestAsync="CheckingIndexedFalse" Description="CheckingIndexedFalse">
+    <ComponentUnderTest>
+        <SfChart ID="container" Height="400" Width="900">
+            <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Toolkit.ValueType.Category" IsIndexed="false" LabelIntersectAction="LabelIntersectAction.Hide"></ChartPrimaryXAxis>
+            <ChartPrimaryYAxis Title="PrimaryYaxis" RangePadding="ChartRangePadding.None"></ChartPrimaryYAxis>
+            <ChartSeriesCollection>
+                <ChartSeries DataSource="@Sales1" XName="x" YName="y" Type="ChartSeriesType.Column" Name="Gold">
+                    <ChartSeriesAnimation Enable="false"></ChartSeriesAnimation>
+                </ChartSeries>
+            </ChartSeriesCollection>
+        </SfChart>
+    </ComponentUnderTest>
+</SfFixture>
+@code {
+
+    SfFixture fixture1 { get; set; }
+    async Task CheckingIndexedFalse(Fixture fixture1)
+    {
+        var cut = fixture1.GetComponentUnderTest<SfChart>();
+        await Task.Delay(200);
+        var svg = cut.Find("#containerAxisLabels0");
+        Assert.True(svg.ChildNodes.Length == 5);
+        cut.SetParametersAndRender();
+    }
+    public class SalesInfo1
+    {
+        public string x { get; set; }
+        public double y { get; set; }
+    }
+
+    public List<SalesInfo1> Sales1 = new List<SalesInfo1>
+{
+        new SalesInfo1 { x = "Monday", y = 50 },
+        new SalesInfo1 { x = "Tuesday", y = 40 },
+        new SalesInfo1 { x = "Wednesday", y = 70 },
+        new SalesInfo1 { x = "Thursday", y = 60 },
+        new SalesInfo1 { x = "Friday", y = 50 },
+        new SalesInfo1 { x = "Monday", y = 40 },
+        new SalesInfo1 { x = "Monday", y = 30 }
+    };
+}
+
+
+
+@{
+    var InitialGroup2 = (new string[] { "CustomerID", "OrderID" });
+}
+
+<SfFixture @ref="fixture2" TestAsync="CheckingWithMultipleSerieslabel" Description="CheckingWithMultipleSerieslabel">
+    <ComponentUnderTest>
+        <SfChart ID="container" Height="400" Width="900">
+            <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Toolkit.ValueType.Category" IsIndexed="true" LabelIntersectAction="LabelIntersectAction.Hide"></ChartPrimaryXAxis>
+            <ChartPrimaryYAxis Title="PrimaryYaxis" RangePadding="ChartRangePadding.None"></ChartPrimaryYAxis>
+            <ChartSeriesCollection>
+                <ChartSeries DataSource="@Sales2" XName="x" YName="y" Type="ChartSeriesType.Column" Name="Gold">
+                    <ChartSeriesAnimation Enable="false"></ChartSeriesAnimation>
+                </ChartSeries>
+                <ChartSeries DataSource="@Sales2" XName="x" YName="y" Type="ChartSeriesType.Column" Name="Silver">
+                    <ChartSeriesAnimation Enable="false"></ChartSeriesAnimation>
+                </ChartSeries>
+            </ChartSeriesCollection>
+        </SfChart>
+    </ComponentUnderTest>
+</SfFixture>
+@code {
+
+    SfFixture fixture2 { get; set; }
+    async Task CheckingWithMultipleSerieslabel(Fixture fixture2)
+    {
+        var cut = fixture2.GetComponentUnderTest<SfChart>();
+        await Task.Delay(200);
+        var svg = cut.Find("#containerAxisLabels0");
+        Assert.True(svg.ChildNodes.Length == 7);
+        var svg1 = cut.Find("#container0_AxisLabel_0");
+        Assert.True(svg1.TextContent == "Monday, Monday\n    ");
+        var svg2 = cut.Find("#container0_AxisLabel_6");
+        Assert.True(svg2.TextContent == "Monday, Monday\n    ");
+        cut.SetParametersAndRender();
+    }
+    public class SalesInfo2
+    {
+        public string x { get; set; }
+        public double y { get; set; }
+    }
+
+    public List<SalesInfo2> Sales2 = new List<SalesInfo2>
+{
+        new SalesInfo2 { x = "Monday", y = 50 },
+        new SalesInfo2 { x = "Tuesday", y = 40 },
+        new SalesInfo2 { x = "Wednesday", y = 70 },
+        new SalesInfo2 { x = "Thursday", y = 60 },
+        new SalesInfo2 { x = "Friday", y = 50 },
+        new SalesInfo2 { x = "Monday", y = 40 },
+        new SalesInfo2 { x = "Monday", y = 30 }
+    };
+}
+
+
+
+@{
+    var InitialGroup3 = (new string[] { "CustomerID", "OrderID" });
+}
+
+<SfFixture @ref="fixture3" TestAsync="CheckingWithTwoRows" Description="CheckingWithTwoRows">
+    <ComponentUnderTest>
+        <SfChart ID="container" Height="400" Width="900">
+            <ChartRows>
+                <ChartRow Height="50%"></ChartRow>
+                <ChartRow Height="50%"></ChartRow>
+            </ChartRows>
+            <ChartAxes>
+                <ChartAxis RowIndex="1" Name="yAxis"></ChartAxis>
+            </ChartAxes>
+            <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Toolkit.ValueType.Category" IsIndexed="true" LabelIntersectAction="LabelIntersectAction.Hide"></ChartPrimaryXAxis>
+            <ChartPrimaryYAxis Title="PrimaryYaxis" RangePadding="ChartRangePadding.None"></ChartPrimaryYAxis>
+            <ChartSeriesCollection>
+                <ChartSeries DataSource="@Sales3" XName="x" YName="y" YAxisName="yAxis" Type="ChartSeriesType.Column" Name="Gold">
+                    <ChartSeriesAnimation Enable="false"></ChartSeriesAnimation>
+                </ChartSeries>
+                <ChartSeries DataSource="@Sales3" XName="x" YName="y" Type="ChartSeriesType.Column" Name="Silver">
+                    <ChartSeriesAnimation Enable="false"></ChartSeriesAnimation>
+                </ChartSeries>
+            </ChartSeriesCollection>
+        </SfChart>
+    </ComponentUnderTest>
+</SfFixture>
+@code {
+
+    SfFixture fixture3 { get; set; }
+    async Task CheckingWithTwoRows(Fixture fixture3)
+    {
+        var cut = fixture3.GetComponentUnderTest<SfChart>();
+        await Task.Delay(200);
+        var svg = cut.Find("#containerAxisLabels0");
+        Assert.True(svg.ChildNodes.Length == 7);
+        var svg1 = cut.Find("#container0_AxisLabel_0");
+        Assert.True(svg1.TextContent == "Monday, Monday\n    ");
+        var svg2 = cut.Find("#container0_AxisLabel_6");
+        Assert.True(svg2.TextContent == "Monday, Monday\n    ");
+        cut.SetParametersAndRender();
+    }
+    public class SalesInfo3
+    {
+        public string x { get; set; }
+        public double y { get; set; }
+    }
+
+    public List<SalesInfo3> Sales3 = new List<SalesInfo3>
+{
+        new SalesInfo3 { x = "Monday", y = 50 },
+        new SalesInfo3 { x = "Tuesday", y = 40 },
+        new SalesInfo3 { x = "Wednesday", y = 70 },
+        new SalesInfo3 { x = "Thursday", y = 60 },
+        new SalesInfo3 { x = "Friday", y = 50 },
+        new SalesInfo3 { x = "Monday", y = 40 },
+        new SalesInfo3 { x = "Monday", y = 30 }
+    };
+}
+
+
+
+@{
+    var InitialGroup4 = (new string[] { "CustomerID", "OrderID" });
+}
+
+<SfFixture @ref="fixture4" TestAsync="CheckingWithTwoColumns" Description="CheckingWithTwoColumns">
+    <ComponentUnderTest>
+        <SfChart ID="container" Height="400" Width="900">
+            <ChartColumns>
+                <ChartColumn Width="50%"></ChartColumn>
+                <ChartColumn Width="50%"></ChartColumn>
+            </ChartColumns>
+            <ChartAxes>
+                <ChartAxis ColumnIndex="1" Name="xAxis" ValueType="Syncfusion.Blazor.Toolkit.ValueType.Category"></ChartAxis>
+            </ChartAxes>
+            <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Toolkit.ValueType.Category" IsIndexed="true" LabelIntersectAction="LabelIntersectAction.Hide"></ChartPrimaryXAxis>
+            <ChartPrimaryYAxis Title="PrimaryYaxis" RangePadding="ChartRangePadding.None"></ChartPrimaryYAxis>
+            <ChartSeriesCollection>
+                <ChartSeries DataSource="@Sales4" XName="x" YName="y" XAxisName="xAxis" Type="ChartSeriesType.Column" Name="Gold">
+                    <ChartSeriesAnimation Enable="false"></ChartSeriesAnimation>
+                </ChartSeries>
+                <ChartSeries DataSource="@Sales4" XName="x" YName="y" Type="ChartSeriesType.Column" Name="Silver">
+                    <ChartSeriesAnimation Enable="false"></ChartSeriesAnimation>
+                </ChartSeries>
+            </ChartSeriesCollection>
+        </SfChart>
+    </ComponentUnderTest>
+</SfFixture>
+@code {
+
+    SfFixture fixture4 { get; set; }
+    async Task CheckingWithTwoColumns(Fixture fixture4)
+    {
+        var cut = fixture4.GetComponentUnderTest<SfChart>();
+        await Task.Delay(200);
+        var svg = cut.Find("#containerAxisLabels0");
+        Assert.True(svg.ChildNodes.Length == 7);
+        var svg1 = cut.Find("#container0_AxisLabel_0");
+        Assert.True(svg1.TextContent == "Monday\n    ");
+        var svg2 = cut.Find("#container0_AxisLabel_6");
+        Assert.True(svg2.TextContent == "Monday\n    ");
+        cut.SetParametersAndRender();
+    }
+    public class SalesInfo4
+    {
+        public string x { get; set; }
+        public double y { get; set; }
+    }
+
+    public List<SalesInfo4> Sales4 = new List<SalesInfo4>
+{
+        new SalesInfo4 { x = "Monday", y = 50 },
+        new SalesInfo4 { x = "Tuesday", y = 40 },
+        new SalesInfo4 { x = "Wednesday", y = 70 },
+        new SalesInfo4 { x = "Thursday", y = 60 },
+        new SalesInfo4 { x = "Friday", y = 50 },
+        new SalesInfo4 { x = "Monday", y = 40 },
+        new SalesInfo4 { x = "Monday", y = 30 }
+    };
+}
+
+
+
+@{
+    var InitialGroup5 = (new string[] { "CustomerID", "OrderID" });
+}
+
+<SfFixture @ref="fixture5" TestAsync="CheckingWithTwoColumnsWithMultipleSeriesSecondColIndexedFalse" Description="CheckingWithTwoColumnsWithMultipleSeriesSecondColIndexedFalse">
+    <ComponentUnderTest>
+        <SfChart ID="container" Height="400" Width="900">
+            <ChartColumns>
+                <ChartColumn Width="50%"></ChartColumn>
+                <ChartColumn Width="50%"></ChartColumn>
+            </ChartColumns>
+            <ChartAxes>
+                <ChartAxis ColumnIndex="1" Name="xAxis" ValueType="Syncfusion.Blazor.Toolkit.ValueType.Category"></ChartAxis>
+            </ChartAxes>
+            <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Toolkit.ValueType.Category" IsIndexed="true" LabelIntersectAction="LabelIntersectAction.Hide"></ChartPrimaryXAxis>
+            <ChartPrimaryYAxis Title="PrimaryYaxis" RangePadding="ChartRangePadding.None"></ChartPrimaryYAxis>
+            <ChartSeriesCollection>
+                <ChartSeries DataSource="@Sales5" XName="x" YName="y" XAxisName="xAxis" Type="ChartSeriesType.Column" Name="Gold">
+                    <ChartSeriesAnimation Enable="false"></ChartSeriesAnimation>
+                </ChartSeries>
+                <ChartSeries DataSource="@Sales5" XName="x" YName="y" XAxisName="xAxis" Type="ChartSeriesType.Column" Name="Gold1">
+                    <ChartSeriesAnimation Enable="false"></ChartSeriesAnimation>
+                </ChartSeries>
+                <ChartSeries DataSource="@Sales5" XName="x" YName="y" Type="ChartSeriesType.Column" Name="Silver">
+                    <ChartSeriesAnimation Enable="false"></ChartSeriesAnimation>
+                </ChartSeries>
+                <ChartSeries DataSource="@Sales5" XName="x" YName="y" Type="ChartSeriesType.Column" Name="Silver1">
+                    <ChartSeriesAnimation Enable="false"></ChartSeriesAnimation>
+                </ChartSeries>
+            </ChartSeriesCollection>
+        </SfChart>
+    </ComponentUnderTest>
+</SfFixture>
+@code {
+
+    SfFixture fixture5 { get; set; }
+    async Task CheckingWithTwoColumnsWithMultipleSeriesSecondColIndexedFalse(Fixture fixture5)
+    {
+        var cut = fixture5.GetComponentUnderTest<SfChart>();
+        await Task.Delay(200);
+        var svg1 = cut.Find("#container0_AxisLabel_0");
+        Assert.True(svg1.TextContent == "Monday, Monday\n    ");
+        var svg2 = cut.Find("#container2_AxisLabel_0");
+        Assert.True(svg2.TextContent == "Monday\n    ");
+        cut.SetParametersAndRender();
+    }
+    public class SalesInfo5
+    {
+        public string x { get; set; }
+        public double y { get; set; }
+    }
+
+    public List<SalesInfo5> Sales5 = new List<SalesInfo5>
+{
+        new SalesInfo5 { x = "Monday", y = 50 },
+        new SalesInfo5 { x = "Tuesday", y = 40 },
+        new SalesInfo5 { x = "Wednesday", y = 70 },
+        new SalesInfo5 { x = "Thursday", y = 60 },
+        new SalesInfo5 { x = "Friday", y = 50 },
+        new SalesInfo5 { x = "Monday", y = 40 },
+        new SalesInfo5 { x = "Monday", y = 30 }
+    };
+}
+
+
+
+@{
+    var InitialGroup6 = (new string[] { "CustomerID", "OrderID" });
+}
+
+<SfFixture @ref="fixture6" TestAsync="CheckingWithTwoColumnsSecondColIndexedTrue" Description="CheckingWithTwoColumnsSecondColIndexedTrue">
+    <ComponentUnderTest>
+        <SfChart ID="container" Height="400" Width="900">
+            <ChartColumns>
+                <ChartColumn Width="50%"></ChartColumn>
+                <ChartColumn Width="50%"></ChartColumn>
+            </ChartColumns>
+            <ChartAxes>
+                <ChartAxis ColumnIndex="1" Name="xAxis" ValueType="Syncfusion.Blazor.Toolkit.ValueType.Category" LabelIntersectAction="LabelIntersectAction.Hide" IsIndexed="true"></ChartAxis>
+            </ChartAxes>
+            <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Toolkit.ValueType.Category" IsIndexed="true" LabelIntersectAction="LabelIntersectAction.Hide"></ChartPrimaryXAxis>
+            <ChartPrimaryYAxis Title="PrimaryYaxis" RangePadding="ChartRangePadding.None"></ChartPrimaryYAxis>
+            <ChartSeriesCollection>
+                <ChartSeries DataSource="@Sales6" XName="x" YName="y" XAxisName="xAxis" Type="ChartSeriesType.Column" Name="Gold">
+                    <ChartSeriesAnimation Enable="false"></ChartSeriesAnimation>
+                </ChartSeries>
+                <ChartSeries DataSource="@Sales6" XName="x" YName="y" XAxisName="xAxis" Type="ChartSeriesType.Column" Name="Gold1">
+                    <ChartSeriesAnimation Enable="false"></ChartSeriesAnimation>
+                </ChartSeries>
+                <ChartSeries DataSource="@Sales6" XName="x" YName="y" Type="ChartSeriesType.Column" Name="Silver">
+                    <ChartSeriesAnimation Enable="false"></ChartSeriesAnimation>
+                </ChartSeries>
+                <ChartSeries DataSource="@Sales6" XName="x" YName="y" Type="ChartSeriesType.Column" Name="Silver1">
+                    <ChartSeriesAnimation Enable="false"></ChartSeriesAnimation>
+                </ChartSeries>
+            </ChartSeriesCollection>
+        </SfChart>
+    </ComponentUnderTest>
+</SfFixture>
+@code {
+
+    SfFixture fixture6 { get; set; }
+    async Task CheckingWithTwoColumnsSecondColIndexedTrue(Fixture fixture6)
+    {
+        var cut = fixture6.GetComponentUnderTest<SfChart>();
+        await Task.Delay(200);
+        var svg1 = cut.Find("#container2_AxisLabel_0");
+        Assert.True(svg1.TextContent == "Monday, Monday\n    ");
+        cut.SetParametersAndRender();
+    }
+    public class SalesInfo6
+    {
+        public string x { get; set; }
+        public double y { get; set; }
+    }
+
+    public List<SalesInfo6> Sales6 = new List<SalesInfo6>
+{
+        new SalesInfo6 { x = "Monday", y = 50 },
+        new SalesInfo6 { x = "Tuesday", y = 40 },
+        new SalesInfo6 { x = "Wednesday", y = 70 },
+        new SalesInfo6 { x = "Thursday", y = 60 },
+        new SalesInfo6 { x = "Friday", y = 50 },
+        new SalesInfo6 { x = "Monday", y = 40 },
+        new SalesInfo6 { x = "Monday", y = 30 }
+    };
+}
+
+
+
+@{
+    var InitialGroup7 = (new string[] { "CustomerID", "OrderID" });
+}
+
+<SfFixture @ref="fixture7" TestAsync="CheckingWithTwoColumnsandSpanning" Description="CheckingWithTwoColumnsandSpanning">
+    <ComponentUnderTest>
+        <SfChart ID="container" Height="400" Width="900">
+            <ChartColumns>
+                <ChartColumn Width="50%"></ChartColumn>
+                <ChartColumn Width="50%"></ChartColumn>
+            </ChartColumns>
+            <ChartAxes>
+                <ChartAxis ColumnIndex="1" Name="xAxis" ValueType="Syncfusion.Blazor.Toolkit.ValueType.Category" LabelIntersectAction="LabelIntersectAction.Hide" IsIndexed="true"></ChartAxis>
+            </ChartAxes>
+            <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Toolkit.ValueType.Category" IsIndexed="true" LabelIntersectAction="LabelIntersectAction.Hide" Span="2"></ChartPrimaryXAxis>
+            <ChartPrimaryYAxis Title="PrimaryYaxis" RangePadding="ChartRangePadding.None"></ChartPrimaryYAxis>
+            <ChartSeriesCollection>
+                <ChartSeries DataSource="@Sales7" XName="x" YName="y" XAxisName="xAxis" Type="ChartSeriesType.Column" Name="Gold">
+                    <ChartSeriesAnimation Enable="false"></ChartSeriesAnimation>
+                </ChartSeries>
+                <ChartSeries DataSource="@Sales7" XName="x" YName="y" XAxisName="xAxis" Type="ChartSeriesType.Column" Name="Gold1">
+                    <ChartSeriesAnimation Enable="false"></ChartSeriesAnimation>
+                </ChartSeries>
+                <ChartSeries DataSource="@Sales7" XName="x" YName="y" Type="ChartSeriesType.Column" Name="Silver">
+                    <ChartSeriesAnimation Enable="false"></ChartSeriesAnimation>
+                </ChartSeries>
+                <ChartSeries DataSource="@Sales7" XName="x" YName="y" Type="ChartSeriesType.Column" Name="Silver1">
+                    <ChartSeriesAnimation Enable="false"></ChartSeriesAnimation>
+                </ChartSeries>
+            </ChartSeriesCollection>
+        </SfChart>
+    </ComponentUnderTest>
+</SfFixture>
+@code {
+
+    SfFixture fixture7 { get; set; }
+    async Task CheckingWithTwoColumnsandSpanning(Fixture fixture7)
+    {
+        var cut = fixture7.GetComponentUnderTest<SfChart>();
+        await Task.Delay(200);
+        var svg1 = cut.Find("#container2_AxisLabel_0");
+        Assert.True(svg1.TextContent == "Monday, Monday\n    ");
+        cut.SetParametersAndRender();
+    }
+    public class SalesInfo7
+    {
+        public string x { get; set; }
+        public double y { get; set; }
+    }
+
+    public List<SalesInfo7> Sales7 = new List<SalesInfo7>
+{
+        new SalesInfo7 { x = "Monday", y = 50 },
+        new SalesInfo7 { x = "Tuesday", y = 40 },
+        new SalesInfo7 { x = "Wednesday", y = 70 },
+        new SalesInfo7 { x = "Thursday", y = 60 },
+        new SalesInfo7 { x = "Friday", y = 50 },
+        new SalesInfo7 { x = "Monday", y = 40 },
+        new SalesInfo7 { x = "Monday", y = 30 }
+    };
+}
+
+
+
+
+@{
+    var InitialGroup8 = (new string[] { "CustomerID", "OrderID" });
+}
+
+<SfFixture @ref="fixture8" TestAsync="CheckingWithMultipleAxisAndOpposedPosition" Description="CheckingWithMultipleAxisAndOpposedPosition">
+    <ComponentUnderTest>
+        <SfChart ID="container" Height="400" Width="900">
+            <ChartRows>
+                <ChartRow Height="50%"></ChartRow>
+                <ChartRow Height="50%"></ChartRow>
+            </ChartRows>
+            <ChartAxes>
+                <ChartAxis RowIndex="0" Name="xAxis" ValueType="Syncfusion.Blazor.Toolkit.ValueType.Category" IsIndexed="true" OpposedPosition="true"></ChartAxis>
+                <ChartAxis RowIndex="0" Name="xAxis1" ValueType="Syncfusion.Blazor.Toolkit.ValueType.Category" IsIndexed="true" OpposedPosition="false"></ChartAxis>
+            </ChartAxes>
+            <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Toolkit.ValueType.Category" IsIndexed="true" LabelIntersectAction="LabelIntersectAction.Hide" Span="2"></ChartPrimaryXAxis>
+            <ChartPrimaryYAxis Title="PrimaryYaxis" RangePadding="ChartRangePadding.None"></ChartPrimaryYAxis>
+            <ChartSeriesCollection>
+                <ChartSeries DataSource="@Sales8" XName="x" YName="y" XAxisName="xAxis" Type="ChartSeriesType.Column" Name="Gold">
+                    <ChartSeriesAnimation Enable="false"></ChartSeriesAnimation>
+                </ChartSeries>
+                <ChartSeries DataSource="@Sales8" XName="x" YName="y" XAxisName="xAxis" Type="ChartSeriesType.Column" Name="Gold1">
+                    <ChartSeriesAnimation Enable="false"></ChartSeriesAnimation>
+                </ChartSeries>
+                <ChartSeries DataSource="@Sales8" XName="x" YName="y" Type="ChartSeriesType.Column" Name="Silver">
+                    <ChartSeriesAnimation Enable="false"></ChartSeriesAnimation>
+                </ChartSeries>
+                <ChartSeries DataSource="@Sales8" XName="x" YName="y" Type="ChartSeriesType.Column" Name="Silver1">
+                    <ChartSeriesAnimation Enable="false"></ChartSeriesAnimation>
+                </ChartSeries>
+            </ChartSeriesCollection>
+        </SfChart>
+    </ComponentUnderTest>
+</SfFixture>
+@code {
+
+    SfFixture fixture8 { get; set; }
+    async Task CheckingWithMultipleAxisAndOpposedPosition(Fixture fixture8)
+    {
+        var cut = fixture8.GetComponentUnderTest<SfChart>();
+        await Task.Delay(200);
+        var svg1 = cut.Find("#container0_AxisLabel_0");
+        Assert.True(svg1.TextContent == "Monday, Monday\n    ");
+        var svg2 = cut.Find("#container2_AxisLabel_0");
+        Assert.True(svg2.TextContent == "Monday, Monday\n    ");
+        cut.SetParametersAndRender();
+    }
+    public class SalesInfo8
+    {
+        public string x { get; set; }
+        public double y { get; set; }
+    }
+
+    public List<SalesInfo8> Sales8 = new List<SalesInfo8>
+{
+        new SalesInfo8 { x = "Monday", y = 50 },
+        new SalesInfo8 { x = "Tuesday", y = 40 },
+        new SalesInfo8 { x = "Wednesday", y = 70 },
+        new SalesInfo8 { x = "Thursday", y = 60 },
+        new SalesInfo8 { x = "Friday", y = 50 },
+        new SalesInfo8 { x = "Monday", y = 40 },
+        new SalesInfo8 { x = "Monday", y = 30 }
+    };
+}
+
+
+
+@{
+    var InitialGroup9 = (new string[] { "CustomerID", "OrderID" });
+}
+
+<SfFixture @ref="fixture9" TestAsync="LineBreakLabelBehaviourChecking" Description="LineBreakLabelBehaviourChecking">
+    <ComponentUnderTest>
+        <SfChart ID="container">
+            <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Toolkit.ValueType.Category" IsIndexed="true"></ChartPrimaryXAxis>
+            <ChartSeriesCollection>
+                <ChartSeries DataSource="@Sales9" XName="x" YName="y" Type="ChartSeriesType.Column" Name="Gold">
+                    <ChartSeriesAnimation Enable="false"></ChartSeriesAnimation>
+                </ChartSeries>
+            </ChartSeriesCollection>
+        </SfChart>
+    </ComponentUnderTest>
+</SfFixture>
+@code {
+
+    SfFixture fixture9 { get; set; }
+    async Task LineBreakLabelBehaviourChecking(Fixture fixture9)
+    {
+        var cut = fixture9.GetComponentUnderTest<SfChart>();
+        await Task.Delay(200);
+        var svg = cut.Find("#containerAxisLabels0");
+        Assert.True(svg.ChildElementCount == 9);
+        var svg1 = cut.Find("#container0_AxisLabel_0");
+        Assert.True(svg1.ChildElementCount == 0);       
+        cut.SetParametersAndRender();
+    }
+    public class SalesInfo9
+    {
+        public string x { get; set; }
+        public double y { get; set; }
+    }
+
+    public List<SalesInfo9> Sales9 = new List<SalesInfo9>
+{
+        new SalesInfo9 { x = "Monday<br>Monday<br>Monday<br>Monday", y = 50 },
+        new SalesInfo9 { x = "Tuesday", y = 40 },
+        new SalesInfo9 { x = "Wednesday", y = 70 },
+        new SalesInfo9 { x = "Thursday", y = 60 },
+        new SalesInfo9 { x = "Friday", y = 50 },
+        new SalesInfo9 { x = "Monday<br>Monday<br>Monday<br>Monday", y = 40 },
+        new SalesInfo9 { x = "Monday<br>Monday<br>Monday<br>Monday", y = 30 }
+    };
+}
+
+
+
+@{
+    var InitialGroup10 = (new string[] { "CustomerID", "OrderID" });
+}
+
+<SfFixture @ref="fixture10" TestAsync="LineBreakLabelsWithInversedAxis" Description="LineBreakLabelsWithInversedAxis">
+    <ComponentUnderTest>
+        <SfChart ID="container">
+            <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Toolkit.ValueType.Category" IsIndexed="true" IsInversed="true"></ChartPrimaryXAxis>
+            <ChartSeriesCollection>
+                <ChartSeries DataSource="@Sales10" XName="x" YName="y" Type="ChartSeriesType.Column" Name="Gold">
+                    <ChartSeriesAnimation Enable="false"></ChartSeriesAnimation>
+                </ChartSeries>
+            </ChartSeriesCollection>
+        </SfChart>
+    </ComponentUnderTest>
+</SfFixture>
+@code {
+
+    SfFixture fixture10 { get; set; }
+    async Task LineBreakLabelsWithInversedAxis(Fixture fixture10)
+    {
+        var cut = fixture10.GetComponentUnderTest<SfChart>();
+        await Task.Delay(200);
+        var svg = cut.Find("#containerAxisLabels0");
+        Assert.True(svg.ChildElementCount == 9);
+        var svg1 = cut.Find("#container0_AxisLabel_0");
+        Assert.True(svg1.ChildElementCount == 0);
+        cut.SetParametersAndRender();
+    }
+    public class SalesInfo10
+    {
+        public string x { get; set; }
+        public double y { get; set; }
+    }
+
+    public List<SalesInfo10> Sales10 = new List<SalesInfo10>
+{
+        new SalesInfo10 { x = "Monday<br>Monday<br>Monday<br>Monday", y = 50 },
+        new SalesInfo10 { x = "Tuesday", y = 40 },
+        new SalesInfo10 { x = "Wednesday", y = 70 },
+        new SalesInfo10 { x = "Thursday", y = 60 },
+        new SalesInfo10 { x = "Friday", y = 50 },
+        new SalesInfo10 { x = "Monday<br>Monday<br>Monday<br>Monday", y = 40 },
+        new SalesInfo10 { x = "Monday<br>Monday<br>Monday<br>Monday", y = 30 }
+    };
+}
+
+
+
+@{
+    var InitialGroup11 = (new string[] { "CustomerID", "OrderID" });
+}
+
+<SfFixture @ref="fixture11" TestAsync="LineBreakLabelsWithOpposedPosition" Description="LineBreakLabelsWithOpposedPosition">
+    <ComponentUnderTest>
+        <SfChart ID="container">
+            <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Toolkit.ValueType.Category" IsIndexed="true" IsInversed="false" OpposedPosition="true"></ChartPrimaryXAxis>
+            <ChartSeriesCollection>
+                <ChartSeries DataSource="@Sales11" XName="x" YName="y" Type="ChartSeriesType.Column" Name="Gold">
+                    <ChartSeriesAnimation Enable="false"></ChartSeriesAnimation>
+                </ChartSeries>
+            </ChartSeriesCollection>
+        </SfChart>
+    </ComponentUnderTest>
+</SfFixture>
+@code {
+
+    SfFixture fixture11 { get; set; }
+    async Task LineBreakLabelsWithOpposedPosition(Fixture fixture11)
+    {
+        var cut = fixture11.GetComponentUnderTest<SfChart>();
+        await Task.Delay(200);
+        var svg = cut.Find("#containerAxisLabels0");
+        Assert.True(svg.ChildElementCount == 9);
+        var svg1 = cut.Find("#container0_AxisLabel_0");
+        Assert.True(svg1.ChildElementCount == 0);
+        cut.SetParametersAndRender();
+    }
+    public class SalesInfo11
+    {
+        public string x { get; set; }
+        public double y { get; set; }
+    }
+
+    public List<SalesInfo11> Sales11 = new List<SalesInfo11>
+{
+        new SalesInfo11 { x = "Monday<br>Monday<br>Monday<br>Monday", y = 50 },
+        new SalesInfo11 { x = "Tuesday", y = 40 },
+        new SalesInfo11 { x = "Wednesday", y = 70 },
+        new SalesInfo11 { x = "Thursday", y = 60 },
+        new SalesInfo11 { x = "Friday", y = 50 },
+        new SalesInfo11 { x = "Monday<br>Monday<br>Monday<br>Monday", y = 40 },
+        new SalesInfo11 { x = "Monday<br>Monday<br>Monday<br>Monday", y = 30 }
+    };
+}

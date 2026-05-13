@@ -1,0 +1,442 @@
+﻿@inject NavigationManager NavigationManager
+@implements IDisposable
+
+<div class="nav-scrollable">
+    <nav class="nav flex-column">
+        <ul class="sidebar list-unstyled px-3">
+            @if (string.IsNullOrEmpty(_singleCategory))
+            {
+                <li class="mb-2 open-page">
+                    <NavLink class="nav-link" href="/" Match="NavLinkMatch.All">Explore</NavLink>
+                </li>
+                <li class="mb-2 open-page">
+                    <NavLink class="nav-link" href="system-requirements" >System Requirements</NavLink>
+                </li>
+                <li class="mb-2 open-page">
+                    <NavLink class="nav-link" href="browser-support">Browser Support</NavLink>
+                </li>
+                <li class="mb-2">
+                    <details class="menu-group" open='@(IsAnyGroupOpen("blazor-web-app", "blazor-webassembly-app"))'>
+                        <summary class="menu-summary">Getting Started</summary>
+                        <ul class="ms-3 list-unstyled">
+                            @* <li class="last-li-child">
+                                <NavLink class="nav-link" href="getting-started">Installation</NavLink>
+                            </li> *@
+                             <li class="last-li-child">
+                                <NavLink class="nav-link" href="blazor-web-app">Blazor Web App</NavLink>
+                            </li>
+                            <li class="last-li-child">
+                                <NavLink class="nav-link" href="blazor-webassembly-app">Blazor WebAssembly App</NavLink>
+                            </li>
+                        </ul>
+                    </details>
+                </li>
+                <li class="mb-2">
+                    <details class="menu-group" open='@(IsGroupOpenPrefix("common"))'>
+                        <summary class="menu-summary">Common</summary>
+                        <ul class="ms-3 list-unstyled">
+                            <li class="last-li-child">
+                                <NavLink class="nav-link" href="common/right-to-left">Right-To-Left</NavLink>
+                            </li>
+                            <li class="last-li-child">
+                                <NavLink class="nav-link" href="/common/state-persistence">State Persistence</NavLink>
+                            </li>
+                            <li class="last-li-child">
+                                <NavLink class="nav-link" href="/common/globalization">Globalization</NavLink>
+                            </li>
+                             <li class="last-li-child">
+                                <NavLink class="nav-link" href="/common/test-case-count">Component Test Matrix</NavLink>
+                            </li>
+                        </ul>
+                    </details>
+                </li>
+                <li class="mb-2">
+                    <details class="menu-group" open='@(_firstRender || IsAnyGroupOpen("buttons", "calendars", "inputs", "popups"))'>
+                        <summary class="menu-summary comp-option">Components</summary>
+                        <ul class="ms-3 list-unstyled">
+                            <li class="open-comp-list">
+                                <a class="@GetChartsLinkClass()" href="#" @onclick='() => ShowCategory("charts")' @onclick:preventDefault="true">Charts</a>
+                            </li>
+                            <li class="mb-2">
+                                <details class="menu-group" open='@(_firstRender || IsGroupOpenPrefix("buttons"))'>
+                                    <summary class="menu-summary">Buttons</summary>
+                                    <ul class="ms-3 list-unstyled">
+                                        <li class="last-li-child">
+                                            <NavLink class="nav-link" href="buttons/button">Button</NavLink>
+                                        </li>
+                                        <li class="last-li-child">
+                                            <NavLink class="nav-link" href="buttons/button-group">Button Group</NavLink>
+                                        </li>
+                                    </ul>
+                                </details>
+                            </li>
+
+                            <li class="mb-2">
+                                <details class="menu-group" open='@(_firstRender || IsGroupOpenPrefix("calendars"))'>
+                                    <summary class="menu-summary">Calendars</summary>
+                                    <ul class="ms-3 list-unstyled">
+                                        <li class="last-li-child">
+                                            <NavLink class="nav-link" href="calendars/calendar">Calendar</NavLink>
+                                        </li>
+                                        <li class="last-li-child">
+                                            <NavLink class="nav-link" href="calendars/datepicker">DatePicker</NavLink>
+                                        </li>
+                                        <li class="last-li-child">
+                                            <NavLink class="nav-link" href="calendars/datetimepicker">DateTime Picker</NavLink>
+                                        </li>
+                                        <li class="last-li-child">
+                                            <NavLink class="nav-link" href="calendars/timepicker">TimePicker</NavLink>
+                                        </li>
+                                    </ul>
+                                </details>
+                            </li>
+
+                            
+                            <li class="mb-2">
+                                <NavLink class="nav-link" href="spinner">Spinner</NavLink>
+                            </li>
+
+                            <li class="mb-2">
+                                <details class="menu-group" open='@(_firstRender || IsGroupOpenPrefix("inputs"))'>
+                                    <summary class="menu-summary">Inputs</summary>
+                                    <ul class="ms-3 list-unstyled">
+                                        <li class="last-li-child">
+                                            <NavLink class="nav-link" href="inputs/checkbox">Checkbox</NavLink>
+                                        </li>
+                                        <li class="last-li-child">
+                                            <NavLink class="nav-link" href="inputs/uploader">File Upload</NavLink>
+                                        </li>
+                                        <li class="last-li-child">
+                                            <NavLink class="nav-link" href="inputs/numerictextbox">Numeric Textbox</NavLink>
+                                        </li>
+                                        <li class="last-li-child">
+                                            <NavLink class="nav-link" href="inputs/textarea">TextArea</NavLink>
+                                        </li>
+                                        <li class="last-li-child">
+                                            <NavLink class="nav-link" href="inputs/textbox">TextBox</NavLink>
+                                        </li>
+                                        <li class="last-li-child">
+                                            <NavLink class="nav-link" href="inputs/radio-button">Radio Button</NavLink>
+                                        </li>
+                                        <li class="last-li-child">
+                                            <NavLink class="nav-link" href="inputs/switch">Switch</NavLink>
+                                        </li>
+                                    </ul>
+                                </details>
+                            </li>
+                            <li class="mb-2">
+                                <details class="menu-group" open='@(_firstRender || IsGroupOpenPrefix("popups"))'>
+                                    <summary class="menu-summary">Popups</summary>
+                                    <ul class="ms-3 list-unstyled">
+                                        <li class="last-li-child">
+                                            <NavLink class="nav-link" href="popups/dialog">Dialog</NavLink>
+                                        </li>
+                                        <li class="last-li-child">
+                                            <NavLink class="nav-link" href="/popups/tooltip">Tooltip</NavLink>
+                                        </li>
+                                    </ul>
+                                </details>
+                            </li>
+                        </ul>
+                    </details>
+                </li>
+            }
+            else if (_singleCategory == "charts")
+            {
+                <li class="all-comp-class">
+                    <a href="#" @onclick="ShowAll" @onclick:preventDefault="true"><span class="me-2 sb-icons e-chevron-left"></span>ALL COMPONENTS</a>
+                </li>
+                <li class="li-line" />
+                <li class="li-heading open-page">Charts</li>
+                <li class="charts-list mb-2 open-page">
+                    <NavLink class="nav-link" href="charts/overview">Overview</NavLink>
+                </li>
+              
+                <li class="charts-list mb-2 open-page">
+                    <NavLink href="charts/getting-started" class="nav-link">Getting Started</NavLink>
+                </li>
+          
+                 <li class="charts-list mb-2 open-page">
+                    <NavLink class="nav-link" href="charts/databinding">Data Binding</NavLink>
+                </li>
+
+                <li class="mb-2">
+                    <details class="menu-group" open='@(_firstRender || _chartsSectionsExpanded || IsAnyGroupOpen("charts/line-chart", "charts/spline-chart", "charts/stepline-chart"))'>
+                        <summary class="menu-summary">Line Charts</summary>
+                        <ul class="ms-3 list-unstyled">
+                            <li class="last-li-child">
+                                <NavLink class="nav-link" href="charts/line-chart">Line Chart</NavLink>
+                            </li>
+                            <li class="last-li-child">
+                                <NavLink class="nav-link" href="charts/spline-chart">Spline Chart</NavLink>
+                            </li>
+                            <li class="last-li-child">
+                                <NavLink class="nav-link" href="charts/stepline-chart">Stepline Chart</NavLink>
+                            </li>
+                        </ul>                        
+                    </details>
+                </li>
+                <li class="mb-2">
+                    <details class="menu-group" open='@(_firstRender || _chartsSectionsExpanded || IsAnyGroupOpen("charts/area/area-chart", "charts/area/spline-area-chart", "charts/area/step-area-chart"))'>
+                        <summary class="menu-summary">Area Charts</summary>
+                        <ul class="ms-3 list-unstyled">
+                            <li class="last-li-child">
+                                <NavLink class="nav-link" href="charts/area/area-chart">Area Chart</NavLink>
+                            </li>
+                            <li class="last-li-child">
+                                <NavLink class="nav-link" href="charts/area/spline-area-chart">Spline Area Chart</NavLink>
+                            </li>
+                            <li class="last-li-child">
+                                <NavLink class="nav-link" href="charts/area/step-area-chart">Step Area Chart</NavLink>
+                            </li>
+                        </ul>
+                    </details>
+                </li>
+                <li class="mb-2">
+                    <details class="menu-group" open='@(_firstRender || _chartsSectionsExpanded || IsAnyGroupOpen("charts/stripline", "charts/datalabel", "charts/marker", "charts/annotation", "charts/trendline", "charts/legend"))'>
+                        <summary class="menu-summary">Chart Elements</summary>
+                        <ul class="ms-3 list-unstyled">
+                            <li class="last-li-child">
+                                <NavLink class="nav-link" href="charts/stripline">Stripline</NavLink>
+                            </li>
+                            <li class="last-li-child">
+                                <NavLink class="nav-link" href="charts/datalabel">DataLabel</NavLink>
+                            </li>
+                            <li class="last-li-child">
+                                <NavLink class="nav-link" href="charts/marker">Marker</NavLink>
+                            </li>
+                            <li class="last-li-child">
+                                <NavLink class="nav-link" href="charts/annotation">Annotation</NavLink>
+                            </li>
+                            <li class="last-li-child">
+                                <NavLink class="nav-link" href="charts/trendline">Trendline</NavLink>
+                            </li>
+                            <li class="last-li-child">
+                                <NavLink class="nav-link" href="charts/legend">Legend</NavLink>
+                            </li>
+                        </ul>
+                    </details>
+                </li>
+				
+                <li class="mb-2">
+                    <details class="menu-group" open='@(_firstRender || _chartsSectionsExpanded || IsAnyGroupOpen("charts/bubble-chart", "charts/scatter-chart"))'>
+                        <summary class="menu-summary">Bubble and Scatter Charts</summary>
+                        <ul class="ms-3 list-unstyled">
+                            <li class="last-li-child">
+                                <NavLink class="nav-link" href="charts/bubble-chart">Bubble Chart</NavLink>
+                            </li>
+                            <li class="last-li-child">
+                                <NavLink class="nav-link" href="charts/scatter-chart">Scatter Chart</NavLink>
+                            </li>
+                        </ul>
+                    </details>
+                </li>
+                <li class="mb-2">
+                    <details class="menu-group" open='@(_firstRender || _chartsSectionsExpanded || IsAnyGroupOpen("charts/column-chart", "charts/bar-chart"))'>
+                        <summary class="menu-summary">Column and Bar Charts</summary>
+                        <ul class="ms-3 list-unstyled">
+                            <li class="last-li-child">
+                                <NavLink class="nav-link" href="charts/column-chart">Column Chart</NavLink>
+                            </li>
+                            <li class="last-li-child">
+                                <NavLink class="nav-link" href="charts/bar-chart">Bar Chart</NavLink>
+                            </li>
+                        </ul>
+                    </details>
+                </li>
+                <li class="mb-2">
+                    <details class="menu-group" open='@(_firstRender || _chartsSectionsExpanded || IsAnyGroupOpen("charts/category-axis", "charts/numeric-axis", "charts/datetime-axis", "charts/log-axis", "charts/axis-labels", "charts/axis-customization", "charts/axis-position", "charts/multiple-axes", "charts/multiple-panes"))'>
+                        <summary class="menu-summary">Axis Configuration</summary>
+                        <ul class="ms-3 list-unstyled">
+                            <li class="last-li-child">
+                                <NavLink class="nav-link" href="charts/category-axis">Category Axis</NavLink>
+                            </li>
+                            <li class="last-li-child">
+                                <NavLink class="nav-link" href="charts/numeric-axis">Numeric Axis</NavLink>
+                            </li>
+                            <li class="last-li-child">
+                                <NavLink class="nav-link" href="charts/datetime-axis">DateTime Axis</NavLink>
+                            </li>
+                            <li class="last-li-child">
+                                <NavLink class="nav-link" href="charts/log-axis">Log Axis</NavLink>
+                            </li>
+                            <li class="last-li-child">
+                                <NavLink class="nav-link" href="charts/axis-labels">Axis Labels</NavLink>
+                            </li>
+                            <li class="last-li-child">
+                                <NavLink class="nav-link" href="charts/axis-customization">Axis Customization</NavLink>
+                            </li>
+                            <li class="last-li-child">
+                                <NavLink class="nav-link" href="charts/axis-position">Axis Position</NavLink>
+                            </li>
+                            <li class="last-li-child">
+                                <NavLink class="nav-link" href="charts/multiple-axes">Multiple Axes</NavLink>
+                            </li>
+                            <li class="last-li-child">
+                                <NavLink class="nav-link" href="charts/multiple-panes">Multiple Panes</NavLink>
+                            </li>
+                             </ul>
+                    </details>
+                 </li>      
+                <li class="mb-2">
+                    <details class="menu-group" open='@(_firstRender || _chartsSectionsExpanded || IsAnyGroupOpen("charts/interactivity/tooltip", "charts/interactivity/crosshair", "charts/interactivity/zooming-and-panning", "charts/interactivity/selection-and-highlight", "charts/interactivity/animation"))'>
+                        <summary class="menu-summary">Interactivity</summary>
+                        <ul class="ms-3 list-unstyled">
+                            <li class="last-li-child">
+                                <NavLink class="nav-link" href="charts/interactivity/tooltip">Tooltip</NavLink>
+                            </li>
+                            <li class="last-li-child">
+                                <NavLink class="nav-link" href="charts/interactivity/crosshair">Crosshair</NavLink>
+                            </li>
+                            <li class="last-li-child">
+                                <NavLink class="nav-link" href="charts/interactivity/zooming-and-panning">Zooming and Panning</NavLink>
+                            </li>
+                            <li class="last-li-child">
+                                <NavLink class="nav-link" href="charts/interactivity/selection-and-highlight">Selection and Highlight</NavLink>
+                            </li> 
+                            <li class="last-li-child">
+                                <NavLink class="nav-link" href="/charts/interactivity/animation">Animation</NavLink>
+                            </li>
+                        </ul>
+                    </details>
+                </li>
+            }
+
+        </ul>
+    </nav>
+</div>
+
+@code {
+    // Track the current relative URI so we can compute which menu items/groups are active.
+    private string _relativeUri = string.Empty;
+    // True only for the very first render so we can show all component sections opened on initial load
+    private bool _firstRender = true;
+    // Keeps Chart detail groups expanded whenever charts are the active menu view.
+    private bool _chartsSectionsExpanded = false;
+    // Currently selected single-category view (empty = show full menu)
+    private string _singleCategory = string.Empty;
+
+    // Subscribe to location changes so that clicks, programmatic navigations, and router-based changes
+    // all update the active state and cause the sidebar to re-render.
+    protected override void OnInitialized()
+    {
+        _relativeUri = NavigationManager.ToBaseRelativePath(NavigationManager.Uri).Trim('/');
+        // If the initial URL is inside the charts section, show charts view on first render.
+        if (string.IsNullOrEmpty(_singleCategory) &&
+            (_relativeUri.Equals("charts", StringComparison.OrdinalIgnoreCase) || _relativeUri.StartsWith("charts/", StringComparison.OrdinalIgnoreCase)))
+        {
+            _singleCategory = "charts";
+        }
+        _chartsSectionsExpanded = IsChartsRoute(_relativeUri) || string.Equals(_singleCategory, "charts", StringComparison.OrdinalIgnoreCase);
+        NavigationManager.LocationChanged += OnLocationChanged;
+    }
+
+    protected override void OnAfterRender(bool firstRender)
+    {
+        if (firstRender)
+        {
+            _firstRender = false;
+        }
+    }
+
+    private void OnLocationChanged(object? sender, Microsoft.AspNetCore.Components.Routing.LocationChangedEventArgs e)
+    {
+        // Update cached relative URI and re-render component on the UI thread.
+        _relativeUri = NavigationManager.ToBaseRelativePath(e.Location).Trim('/');
+        if (string.IsNullOrEmpty(_singleCategory))
+        {
+            if (_relativeUri.Equals("charts", StringComparison.OrdinalIgnoreCase) || _relativeUri.StartsWith("charts/", StringComparison.OrdinalIgnoreCase))
+            {
+                _singleCategory = "charts";
+            }
+        }
+        else
+        {
+            if (!(_relativeUri.Equals(_singleCategory, StringComparison.OrdinalIgnoreCase) || _relativeUri.StartsWith(_singleCategory + "/", StringComparison.OrdinalIgnoreCase)))
+            {
+                _singleCategory = string.Empty;
+            }
+        }
+        _chartsSectionsExpanded = IsChartsRoute(_relativeUri) || string.Equals(_singleCategory, "charts", StringComparison.OrdinalIgnoreCase);
+        InvokeAsync(StateHasChanged);
+    }
+
+    private void ShowCategory(string category)
+    {
+        _singleCategory = category ?? string.Empty;
+        _chartsSectionsExpanded = string.Equals(category, "charts", StringComparison.OrdinalIgnoreCase);
+        if (string.Equals(category, "charts", StringComparison.OrdinalIgnoreCase))
+        {
+            NavigationManager.NavigateTo("charts/overview");
+        }
+        InvokeAsync(StateHasChanged);
+    }
+
+    private void ShowAll()
+    {
+        _singleCategory = string.Empty;
+        _chartsSectionsExpanded = false;
+        InvokeAsync(StateHasChanged);
+    }
+
+    private string GetChartsLinkClass()
+    {
+        return string.Equals(_singleCategory, "charts", StringComparison.OrdinalIgnoreCase)
+            ? "nav-link active"
+            : "nav-link";
+    }
+
+    private static bool IsChartsRoute(string relativeUri)
+    {
+        if (string.IsNullOrWhiteSpace(relativeUri))
+        {
+            return false;
+        }
+
+        return relativeUri.Equals("charts", StringComparison.OrdinalIgnoreCase)
+            || relativeUri.StartsWith("charts/", StringComparison.OrdinalIgnoreCase);
+    }
+
+    // Helper to determine if a navlink href (relative path) matches the current URL.
+    // We treat exact match and prefix match (so /buttons matches /buttons/button etc.).
+    private bool IsActive(string href)
+    {
+        if (string.IsNullOrEmpty(href)) return false;
+        var normalized = href.Trim('/');
+        if (string.Equals(_relativeUri, normalized, StringComparison.OrdinalIgnoreCase)) return true;
+        return _relativeUri.StartsWith(normalized + "/", StringComparison.OrdinalIgnoreCase);
+    }
+
+    // Group open detection by looking for the URL prefix belonging to that section.
+    // Using simple prefix checks keeps separation of UI and logic simple and reliable.
+    private bool IsGroupOpenPrefix(string prefix)
+    {
+        if (string.IsNullOrEmpty(prefix)) return false;
+        var p = prefix.Trim('/');
+        return _relativeUri.Equals(p, StringComparison.OrdinalIgnoreCase)
+            || _relativeUri.StartsWith(p + "/", StringComparison.OrdinalIgnoreCase);
+    }
+
+    private bool IsAnyGroupOpen(params string[] prefixes)
+    {
+        if (prefixes is null || prefixes.Length == 0)
+        {
+            return false;
+        }
+
+        foreach (var prefix in prefixes)
+        {
+            if (IsGroupOpenPrefix(prefix))
+            {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    public void Dispose()
+    {
+        NavigationManager.LocationChanged -= OnLocationChanged;
+    }
+}

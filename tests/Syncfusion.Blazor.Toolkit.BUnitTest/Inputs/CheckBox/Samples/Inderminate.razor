@@ -1,0 +1,20 @@
+﻿@using Syncfusion.Blazor.Toolkit.Inputs
+
+@namespace Syncfusion.Blazor.Toolkit.Tests.Inputs
+
+<div class="sample">
+    <SfCheckBox Checked="true" Indeterminate="true"></SfCheckBox>
+    <SfCheckBox Checked=@IsChcked Indeterminate=@IsIndeterminate></SfCheckBox>
+    <SfCheckBox TChecked="bool?" Checked=@IsChecked Indeterminate=@IsIndeterminate EnableTriState="true"></SfCheckBox>
+    <SfCheckBox TChecked="bool?" Checked="true" Indeterminate="true" EnableTriState="true"></SfCheckBox>
+    <SfCheckBox TChecked="bool?" Checked="true" EnableTriState="true"></SfCheckBox>
+</div>
+
+@code {
+    [Parameter]
+    public bool IsChcked {get; set;}=false;
+    [Parameter]
+    public bool IsChecked {get; set;}=true;
+    [Parameter]
+    public bool IsIndeterminate{get;set;}=true;
+}
