@@ -33,6 +33,7 @@ Built with community collaboration in mind, the toolkit incorporates user feedba
 | Inputs        | TextArea                  | Multi-line text input with auto-resize, character counter, and floating label support. |
 | Inputs        | Textbox                   | Single-line text input with floating labels, icons, validation states, and clear button. |
 | Layout        | Dialog                    | Modal/popup window for alerts, forms, or confirmations with drag, resize, and animation support. |
+| Layout        | Tooltip                   | Lightweight popup that displays contextual information when users hover over, focus on, or interact with a target element, with customizable positioning and animation support. |
 | Notification  | Spinner                   | Loading indicator with customizable size, type, and overlay for async operations. |
 
 ## Installation
