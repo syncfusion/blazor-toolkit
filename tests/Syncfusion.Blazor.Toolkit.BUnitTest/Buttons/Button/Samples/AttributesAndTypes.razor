@@ -1,0 +1,22 @@
+﻿@using Syncfusion.Blazor.Toolkit.Buttons
+
+@namespace Syncfusion.Blazor.Toolkit.Tests.Buttons
+
+<div class="sample">
+    <SfButton @attributes="htmlAttributes">Tooltip</SfButton>
+    <SfButton EnableRtl=@enableRTL>RTL !</SfButton>
+</div>
+
+@code {
+    [Parameter]
+    public bool enableRTL { get; set; }
+    private Dictionary<string, object> htmlAttributes;
+
+    protected override Task OnInitializedAsync()
+    {
+        htmlAttributes = new Dictionary<string, object>();
+        htmlAttributes.Add("title", "Button tooltip");
+        htmlAttributes.Add("aria-label", "Button");
+        return base.OnInitializedAsync();
+    }
+}

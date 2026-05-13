@@ -1,0 +1,14 @@
+﻿@using Syncfusion.Blazor.Toolkit.Buttons
+
+@namespace Syncfusion.Blazor.Toolkit.Tests.Buttons
+
+<div class="sample">
+    <SfButton IsPrimary="true" Content="Button" Disabled=@Disabled></SfButton>
+    <SfButton CssClass="e-success" Disabled="true">Button</SfButton>
+</div>
+@code
+{
+    [Parameter]
+
+    public bool Disabled { get; set; }
+}

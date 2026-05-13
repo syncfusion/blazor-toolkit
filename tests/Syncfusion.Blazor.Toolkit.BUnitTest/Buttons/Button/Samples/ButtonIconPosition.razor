@@ -1,0 +1,16 @@
+﻿@using Syncfusion.Blazor.Toolkit.Buttons
+
+@namespace Syncfusion.Blazor.Toolkit.Tests.Buttons
+
+<div class="sample">
+    <SfButton IconCss="@play" IconPosition="IconPosition.Right">Play</SfButton>
+    <SfButton IsPrimary="true" IconCss="@play" IconPosition="@IconcssPosition">Play</SfButton>
+    <SfButton IsPrimary="true" IconCss="@play" IconPosition="IconPosition.Top">Play</SfButton>
+    <SfButton IsPrimary="true" IconCss="@play" IconPosition="IconPosition.Bottom">Play</SfButton>
+</div>
+@code
+{
+    [Parameter]
+    public IconPosition IconcssPosition { get; set; }
+    private string play = "e-icons e-play";
+}

@@ -1,0 +1,14 @@
+@page "/switch/value-binding"
+@using Syncfusion.Blazor.Toolkit.Inputs
+
+<SfSwitch Id="switch-binding"
+          @bind-Checked="value" />
+
+<button id="set-true" @onclick="() => value = true">Set True</button>
+<button id="set-false" @onclick="() => value = false">Set False</button>
+
+<p id="binding-value">@value</p>
+
+@code {
+    bool value;
+}

@@ -1,0 +1,76 @@
+@page "/switch/event-handling"
+@using Syncfusion.Blazor.Toolkit.Inputs
+@layout MainLayout
+
+<h1>Switch - Event Handling</h1>
+
+<div class="test-container">
+    <h2>Value Change Event</h2>
+    <SfSwitch Id="switch-event"
+              Label="Enable notifications"
+              ValueChange="@((CheckedChangeEventArgs<bool> e) => OnValueChange(e))"
+              @bind-Checked="value" />
+    <p>Switch Value: <strong>@value</strong></p>
+    <p>Last Change: <strong>@lastChange</strong></p>
+</div>
+
+<div class="test-container">
+    <h2>Event Log</h2>
+    <button @onclick="ClearLog">Clear Log</button>
+    <ul id="event-log">
+        @foreach (var e in events)
+        {
+            <li>@e</li>
+        }
+    </ul>
+</div>
+
+<style>
+    .test-container {
+        padding: 20px;
+        border: 1px solid #ddd;
+        margin: 10px 0;
+        border-radius: 4px;
+        background-color: #f9f9f9;
+    }
+    
+    h2 {
+        margin-top: 20px;
+        font-size: 18px;
+        font-weight: 600;
+    }
+    
+    button {
+        padding: 8px 16px;
+        margin: 10px 0;
+        cursor: pointer;
+    }
+    
+    #event-log {
+        margin-top: 10px;
+        list-style-position: inside;
+    }
+</style>
+
+@code {
+    bool value;
+    string lastChange = "None";
+    List<string> events = new();
+
+    private void OnValueChange(CheckedChangeEventArgs<bool> args)
+    {
+        value = args.Checked;
+        lastChange = DateTime.Now.ToString("HH:mm:ss.fff");
+        events.Insert(0, $"[{lastChange}] Value changed to: {args.Checked}");
+        
+        if (events.Count > 20)
+        {
+            events.RemoveAt(events.Count - 1);
+        }
+    }
+    
+    private void ClearLog()
+    {
+        events.Clear();
+    }
+}

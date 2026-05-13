@@ -1,0 +1,185 @@
+﻿@page "/chart-gradient-playwright"
+@using Syncfusion.Blazor.Toolkit.Charts
+@layout MainLayout
+
+<h2>Chart Gradients – Playwright Converted Sample</h2>
+
+<div style="display:flex; flex-direction:column; gap:60px;">
+
+    <!-- 1️⃣ Linear Gradient – Default properties -->
+    <SfChart ID="linearDefault" Title="Linear Gradient – Default">
+        <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Toolkit.ValueType.Category" />
+        <ChartSeriesCollection>
+            <ChartSeries Type="ChartSeriesType.Column" DataSource="@DataA" XName="X" YName="Y">
+                <ChartLinearGradient>
+                    <ChartGradientColorStops>
+                        <ChartGradientColorStop Offset="0" Color="#42A5F5" />
+                        <ChartGradientColorStop Offset="100" Color="#1E88E5" />
+                    </ChartGradientColorStops>
+                </ChartLinearGradient>
+            </ChartSeries>
+        </ChartSeriesCollection>
+    </SfChart>
+
+    <!-- 2️⃣ Linear Gradient – Custom coordinates -->
+    <SfChart ID="linearCustom" Title="Linear Gradient – Custom Coordinates">
+        <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Toolkit.ValueType.Category" />
+        <ChartSeriesCollection>
+            <ChartSeries Type="ChartSeriesType.Column" DataSource="@DataA" XName="X" YName="Y">
+                <ChartLinearGradient X1="0" Y1="0" X2="1" Y2="1">
+                    <ChartGradientColorStops>
+                        <ChartGradientColorStop Offset="0" Color="red" />
+                        <ChartGradientColorStop Offset="100" Color="blue" />
+                    </ChartGradientColorStops>
+                </ChartLinearGradient>
+            </ChartSeries>
+        </ChartSeriesCollection>
+    </SfChart>
+
+    <!-- 3️⃣ Radial Gradient – Default -->
+    <SfChart ID="radialDefault" Title="Radial Gradient – Default">
+        <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Toolkit.ValueType.Category" />
+        <ChartSeriesCollection>
+            <ChartSeries Type="ChartSeriesType.Column" DataSource="@DataA" XName="X" YName="Y">
+                <ChartRadialGradient>
+                    <ChartGradientColorStops>
+                        <ChartGradientColorStop Offset="0" Color="yellow" />
+                        <ChartGradientColorStop Offset="100" Color="green" />
+                    </ChartGradientColorStops>
+                </ChartRadialGradient>
+            </ChartSeries>
+        </ChartSeriesCollection>
+    </SfChart>
+
+    <!-- 4️⃣ Radial Gradient – Custom -->
+    <SfChart ID="radialCustom" Title="Radial Gradient – Custom">
+        <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Toolkit.ValueType.Category" />
+        <ChartSeriesCollection>
+            <ChartSeries Type="ChartSeriesType.Column" DataSource="@DataA" XName="X" YName="Y">
+                <ChartRadialGradient Cx="0.5" Cy="0.5" Fx="0.5" Fy="0.5" R="0.6">
+                    <ChartGradientColorStops>
+                        <ChartGradientColorStop Offset="0" Color="#FFE082" />
+                        <ChartGradientColorStop Offset="100" Color="#FFCA28" />
+                    </ChartGradientColorStops>
+                </ChartRadialGradient>
+            </ChartSeries>
+        </ChartSeriesCollection>
+    </SfChart>
+
+    <!-- 5️⃣ Gradient Stops – Opacity / Brighten / Lighten -->
+    <SfChart ID="gradientStops" Title="Color Stop Properties">
+        <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Toolkit.ValueType.Category" />
+        <ChartSeriesCollection>
+            <ChartSeries Type="ChartSeriesType.Column" DataSource="@DataA" XName="X" YName="Y">
+                <ChartLinearGradient X1="1" Y1="0" X2="1" Y2="0">
+                    <ChartGradientColorStops>
+                        <ChartGradientColorStop Offset="0" Color="#42A5F5" Opacity="0.8" Brighten="1" Lighten="0.2" />
+                        <ChartGradientColorStop Offset="50" Color="#66BB6A" Opacity="0.9" Brighten="0.7" />
+                        <ChartGradientColorStop Offset="100" Color="#1E88E5" />
+                    </ChartGradientColorStops>
+                </ChartLinearGradient>
+            </ChartSeries>
+        </ChartSeriesCollection>
+    </SfChart>
+
+    <!-- 6️⃣ Multiple Series Gradients -->
+    <SfChart ID="multipleSeries" Title="Multiple Series – Gradients">
+        <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Toolkit.ValueType.Category" />
+        <ChartSeriesCollection>
+            <ChartSeries Name="S1" Type="ChartSeriesType.Column" DataSource="@DataA" XName="X" YName="Y">
+                <ChartLinearGradient X1="0" Y1="0" X2="1" Y2="0">
+                    <ChartGradientColorStops>
+                        <ChartGradientColorStop Offset="0" Color="#42A5F5" />
+                        <ChartGradientColorStop Offset="100" Color="#1E88E5" />
+                    </ChartGradientColorStops>
+                </ChartLinearGradient>
+            </ChartSeries>
+
+            <ChartSeries Name="S2" Type="ChartSeriesType.Area" DataSource="@DataB" XName="X" YName="Y">
+                <ChartLinearGradient X1="0" Y1="0" X2="0" Y2="1">
+                    <ChartGradientColorStops>
+                        <ChartGradientColorStop Offset="0" Color="#FF7F50" />
+                        <ChartGradientColorStop Offset="100" Color="#FFD700" />
+                    </ChartGradientColorStops>
+                </ChartLinearGradient>
+            </ChartSeries>
+        </ChartSeriesCollection>
+    </SfChart>
+
+    <!-- 7️⃣ Line Series Gradient -->
+    <SfChart ID="lineGradient" Title="Line Chart – Linear Gradient">
+        <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Toolkit.ValueType.Category" />
+        <ChartSeriesCollection>
+            <ChartSeries Type="ChartSeriesType.Line" DataSource="@DataA" XName="X" YName="Y">
+                <ChartLinearGradient X1="0" Y1="0" X2="1" Y2="1">
+                    <ChartGradientColorStops>
+                        <ChartGradientColorStop Offset="0" Color="#4F46E5" />
+                        <ChartGradientColorStop Offset="100" Color="#22D3EE" />
+                    </ChartGradientColorStops>
+                </ChartLinearGradient>
+            </ChartSeries>
+        </ChartSeriesCollection>
+    </SfChart>
+
+    <!-- 8️⃣ Trendline – Linear Gradient -->
+    <SfChart ID="trendlineLinear" Title="Trendline – Linear Gradient">
+        <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Toolkit.ValueType.Category" />
+        <ChartSeriesCollection>
+            <ChartSeries Type="ChartSeriesType.Line" DataSource="@DataA" XName="X" YName="Y">
+                <ChartTrendlines>
+                    <ChartTrendline Type="TrendlineTypes.Linear">
+                        <ChartLinearGradient X1="0" Y1="1" X2="1" Y2="0">
+                            <ChartGradientColorStops>
+                                <ChartGradientColorStop Offset="0" Color="#22C55E" />
+                                <ChartGradientColorStop Offset="100" Color="#16A34A" />
+                            </ChartGradientColorStops>
+                        </ChartLinearGradient>
+                    </ChartTrendline>
+                </ChartTrendlines>
+            </ChartSeries>
+        </ChartSeriesCollection>
+    </SfChart>
+
+    <!-- 9️⃣ Trendline – Radial Gradient -->
+    <SfChart ID="trendlineRadial" Title="Trendline – Radial Gradient">
+        <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Toolkit.ValueType.Category" />
+        <ChartSeriesCollection>
+            <ChartSeries Type="ChartSeriesType.Line" DataSource="@DataA" XName="X" YName="Y">
+                <ChartTrendlines>
+                    <ChartTrendline Type="TrendlineTypes.Linear">
+                        <ChartRadialGradient Cx="0.5" Cy="0.5" R="0.6">
+                            <ChartGradientColorStops>
+                                <ChartGradientColorStop Offset="0" Color="#EF4444" />
+                                <ChartGradientColorStop Offset="100" Color="#3B82F6" />
+                            </ChartGradientColorStops>
+                        </ChartRadialGradient>
+                    </ChartTrendline>
+                </ChartTrendlines>
+            </ChartSeries>
+        </ChartSeriesCollection>
+    </SfChart>
+
+</div>
+
+@code {
+    public class ChartData
+    {
+        public string X { get; set; }
+        public double Y { get; set; }
+    }
+
+    List<ChartData> DataA = new()
+    {
+        new() { X = "Jan", Y = 35 },
+        new() { X = "Feb", Y = 28 },
+        new() { X = "Mar", Y = 34 },
+        new() { X = "Apr", Y = 32 }
+    };
+
+    List<ChartData> DataB = new()
+    {
+        new() { X = "Jan", Y = 30 },
+        new() { X = "Feb", Y = 25 },
+        new() { X = "Mar", Y = 32 }
+    };
+}

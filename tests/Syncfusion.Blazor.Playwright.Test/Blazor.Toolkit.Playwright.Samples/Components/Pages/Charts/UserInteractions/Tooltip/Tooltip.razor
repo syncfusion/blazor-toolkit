@@ -1,0 +1,166 @@
+﻿@page "/chart-tooltip-playwright"
+@using Syncfusion.Blazor.Toolkit.Charts
+@layout MainLayout
+
+<h2>Chart Tooltip – Playwright Converted Sample</h2>
+
+<div style="display:flex; flex-direction:column; gap:50px;">
+
+<!-- 1️⃣ Tooltip with text style -->
+<SfChart ID="tooltipTextStyle"
+         Title="Product Sales"
+         Width="900px"
+         Height="450px">
+        <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Toolkit.ValueType.Category" />
+    <ChartPrimaryYAxis LabelFormat="{value}M" />
+
+    <ChartTooltipSettings Enable="true" Fill="gray">
+        <ChartTooltipTextStyle
+            Color="Black"
+            Size="12px"
+            FontFamily="Aerial"
+            FontWeight="600" />
+    </ChartTooltipSettings>
+
+    <ChartSeriesCollection>
+        <ChartSeries DataSource="@SalesReports"
+                     XName="X"
+                     YName="Y"
+                     Type="ChartSeriesType.Column" />
+    </ChartSeriesCollection>
+</SfChart>
+
+<!-- 2️⃣ Tooltip default API -->
+<SfChart ID="tooltipDefaultApi"
+         Title="Product Sales"
+         Width="900px"
+         Height="450px">
+        <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Toolkit.ValueType.Category" />
+    <ChartPrimaryYAxis LabelFormat="{value}M" />
+
+    <ChartTooltipSettings Enable="true"
+                          ShowNearestPoint="false"
+                          Opacity="0.75"
+                          EnableTextWrap="false" />
+
+    <ChartSeriesCollection>
+        <ChartSeries DataSource="@SalesReports"
+                     XName="X"
+                     YName="Y"
+                     Type="ChartSeriesType.Column" />
+    </ChartSeriesCollection>
+</SfChart>
+
+<!-- 3️⃣ Tooltip on stacking column -->
+<SfChart ID="tooltipStacking"
+         Title="Stacked Tooltip"
+         Width="900px"
+         Height="450px"
+         TooltipRender="OnTooltipRender">
+        <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Toolkit.ValueType.Category" />
+    <ChartTooltipSettings Enable="true" />
+
+    <ChartSeriesCollection>
+        <ChartSeries DataSource="@StackedData"
+                     XName="X"
+                     YName="Y"
+                     Type="ChartSeriesType.StackingColumn" />
+        <ChartSeries DataSource="@StackedData"
+                     XName="X"
+                     YName="Y1"
+                     Type="ChartSeriesType.StackingColumn" />
+        <ChartSeries DataSource="@StackedData"
+                     XName="X"
+                     YName="Y2"
+                     Type="ChartSeriesType.StackingColumn" />
+    </ChartSeriesCollection>
+</SfChart>
+
+<!-- 4️⃣ Chart title tooltip -->
+<SfChart ID="tooltipTitle"
+         Title="Inflation - Consumer Price For the year 2025-2026"
+         Width="350px">
+        <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Toolkit.ValueType.Category" />
+
+    <ChartSeriesCollection>
+        <ChartSeries DataSource="@ConsumerDetails"
+                     XName="X"
+                     YName="YValue"
+                     Type="ChartSeriesType.Column" />
+    </ChartSeriesCollection>
+
+    <ChartTooltipSettings Enable="true" />
+</SfChart>
+
+<!-- 5️⃣ Axis label tooltip -->
+<SfChart ID="tooltipAxisLabel"
+         Title="Inflation - Consumer Price For the year 2025-2026"
+         Width="350px">
+        <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Toolkit.ValueType.Category" />
+
+    <ChartSeriesCollection>
+        <ChartSeries DataSource="@ConsumerDetailsFull"
+                     XName="X"
+                     YName="YValue"
+                     Type="ChartSeriesType.Column" />
+    </ChartSeriesCollection>
+
+    <ChartTooltipSettings Enable="true" />
+</SfChart>
+
+</div>
+
+@code {
+
+    void OnTooltipRender(TooltipRenderEventArgs args)
+    {
+        Console.WriteLine($"TooltipRender fired: {args.Name}");
+    }
+
+    public class SalesData
+    {
+        public string X { get; set; }
+        public double Y { get; set; }
+    }
+
+    public List<SalesData> SalesReports = new()
+    {
+        new() { X="Jan", Y=3 },
+        new() { X="Feb", Y=3.5 },
+        new() { X="Mar", Y=7 },
+        new() { X="Apr", Y=13.5 }
+    };
+
+    public class StackedDataItem
+    {
+        public string X { get; set; }
+        public double Y { get; set; }
+        public double Y1 { get; set; }
+        public double Y2 { get; set; }
+    }
+
+    public List<StackedDataItem> StackedData = new()
+    {
+        new() { X="2014", Y=111.1, Y1=76.9, Y2=66.1 },
+        new() { X="2015", Y=127.3, Y1=99.5, Y2=79.3 },
+        new() { X="2016", Y=143.4, Y1=121.7, Y2=91.3 }
+    };
+
+    public class ChartData
+    {
+        public string X { get; set; }
+        public double YValue { get; set; }
+    }
+
+    public List<ChartData> ConsumerDetails = new()
+    {
+        new() { X="USA", YValue=46 },
+        new() { X="GBR", YValue=27 }
+    };
+
+    public List<ChartData> ConsumerDetailsFull = new()
+    {
+        new() { X="United States of America", YValue=46 },
+        new() { X="Great Britain", YValue=27 }
+    };
+}

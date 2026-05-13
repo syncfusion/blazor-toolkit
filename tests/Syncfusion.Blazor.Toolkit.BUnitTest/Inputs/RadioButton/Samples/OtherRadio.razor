@@ -1,0 +1,28 @@
+﻿@using Syncfusion.Blazor.Toolkit
+@using Syncfusion.Blazor.Toolkit.Buttons
+@using Syncfusion.Blazor.Toolkit.Inputs
+
+@namespace Syncfusion.Blazor.Toolkit.Tests.Inputs
+
+<div class="sample">
+    <div class="e-c-list">
+        @foreach (var i in radioButtons)
+        {
+            <SfRadioButton CssClass="block" Name="country" Value="@i" @bind-Checked="isChecked" Label="@i"></SfRadioButton>
+        }
+    </div>
+    <div>
+        <SfRadioButton TChecked="bool" Label="Disabled" Disabled=@IsDisabled></SfRadioButton>
+        <SfRadioButton TChecked="bool" Label="Rtl sample" EnableRtl=@rtl></SfRadioButton>
+        <SfRadioButton TChecked="bool" Label="Rtl sample" EnableRtl=@rtl LabelPosition="LabelPosition.Before"></SfRadioButton>
+    </div>
+</div>
+
+@code {
+    [Parameter]
+    public bool IsDisabled {get;set;}=true;
+    [Parameter]
+    public bool rtl {get;set;}=true;
+    private string isChecked = "China";
+    private string[] radioButtons = new string[] { "India", "America", "China" };
+}

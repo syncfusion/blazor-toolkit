@@ -1,0 +1,193 @@
+@page "/checkbox/form-validation"
+@using Syncfusion.Blazor.Toolkit.Inputs
+@using Microsoft.AspNetCore.Components.Forms
+@layout MainLayout
+
+<h1>Checkbox - Form Validation</h1>
+
+<div class="test-container">
+    <h2>Required Checkbox</h2>
+    <form @onsubmit="HandleFormSubmit1">
+        <SfCheckBox TChecked="bool" 
+                    Label="I accept the terms and conditions" 
+                    @bind-Checked="agreeToTerms"
+                    id="required-terms">
+        </SfCheckBox>
+        <button type="submit" class="submit-btn">Submit Form</button>
+        <p class="validation-message">@validationMessage1</p>
+    </form>
+</div>
+
+<div class="test-container">
+    <h2>Enable/Disable Submit Button Based on Checkbox</h2>
+    <form @onsubmit="HandleFormSubmit2">
+        <SfCheckBox TChecked="bool" 
+                    Label="Enable submit button" 
+                    @bind-Checked="enableButton"
+                    id="enable-submit-cb">
+        </SfCheckBox>
+        <button type="submit" class="submit-btn" disabled="@(!enableButton)" id="submit-btn-2">Submit</button>
+        <p class="validation-message">@validationMessage2</p>
+    </form>
+</div>
+
+<div class="test-container">
+    <h2>Form with Multiple Checkboxes (All Required)</h2>
+    <form @onsubmit="HandleFormSubmit3">
+        <SfCheckBox TChecked="bool" 
+                    Label="Option A" 
+                    @bind-Checked="optionA"
+                    id="option-a">
+        </SfCheckBox>
+        <SfCheckBox TChecked="bool" 
+                    Label="Option B" 
+                    @bind-Checked="optionB"
+                    id="option-b">
+        </SfCheckBox>
+        <SfCheckBox TChecked="bool" 
+                    Label="Option C" 
+                    @bind-Checked="optionC"
+                    id="option-c">
+        </SfCheckBox>
+        <button type="submit" class="submit-btn">Submit with All Checked</button>
+        <p class="validation-message">@validationMessage3</p>
+    </form>
+</div>
+
+<div class="test-container">
+    <h2>Checkbox with Validation Message</h2>
+    <form @onsubmit="HandleFormSubmit4">
+        <SfCheckBox TChecked="bool" 
+                    Label="I confirm this action" 
+                    @bind-Checked="confirmCheckbox"
+                    id="confirm-cb">
+        </SfCheckBox>
+        @if (showValidationError)
+        {
+            <p class="error-message">@errorMessage</p>
+        }
+        <button type="submit" class="submit-btn">Confirm</button>
+    </form>
+</div>
+
+<style>
+    .test-container {
+        padding: 20px;
+        border: 1px solid #ddd;
+        margin: 10px 0;
+        border-radius: 4px;
+        background-color: #f9f9f9;
+    }
+    
+    h2 {
+        margin-top: 20px;
+        font-size: 18px;
+        font-weight: 600;
+    }
+    
+    form {
+        margin: 15px 0;
+    }
+    
+    button {
+        padding: 8px 16px;
+        margin-top: 10px;
+        cursor: pointer;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        background-color: #f0f0f0;
+    }
+    
+    button:hover:not(:disabled) {
+        background-color: #e0e0e0;
+    }
+    
+    button:disabled {
+        opacity: 0.6;
+        cursor: not-allowed;
+    }
+    
+    .validation-message {
+        margin-top: 10px;
+        font-size: 14px;
+        color: #333;
+        min-height: 20px;
+    }
+    
+    .error-message {
+        color: red;
+        margin-top: 10px;
+        font-size: 14px;
+    }
+</style>
+
+@code {
+    // Form 1: Required checkbox
+    private bool agreeToTerms = false;
+    private string validationMessage1 = "";
+    
+    // Form 2: Enable/disable submit button
+    private bool enableButton = false;
+    private string validationMessage2 = "";
+    
+    // Form 3: Multiple checkboxes
+    private bool optionA = false;
+    private bool optionB = false;
+    private bool optionC = false;
+    private string validationMessage3 = "";
+    
+    // Form 4: Checkbox with validation
+    private bool confirmCheckbox = false;
+    private bool showValidationError = false;
+    private string errorMessage = "";
+    
+    private async Task HandleFormSubmit1()
+    {
+        if (!agreeToTerms)
+        {
+            validationMessage1 = "You must accept the terms and conditions";
+        }
+        else
+        {
+            validationMessage1 = "Form submitted successfully!";
+        }
+    }
+    
+    private async Task HandleFormSubmit2()
+    {
+        if (enableButton)
+        {
+            validationMessage2 = "Form submitted successfully!";
+        }
+        else
+        {
+            validationMessage2 = "Submit button is disabled";
+        }
+    }
+    
+    private async Task HandleFormSubmit3()
+    {
+        if (optionA && optionB && optionC)
+        {
+            validationMessage3 = "All options selected! Form submitted.";
+        }
+        else
+        {
+            validationMessage3 = "Please select all options";
+        }
+    }
+    
+    private async Task HandleFormSubmit4()
+    {
+        if (!confirmCheckbox)
+        {
+            showValidationError = true;
+            errorMessage = "You must confirm this action";
+        }
+        else
+        {
+            showValidationError = false;
+            errorMessage = "";
+        }
+    }
+}

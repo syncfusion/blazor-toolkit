@@ -1,0 +1,20 @@
+﻿@page "/TooltipDelay"
+
+@using Syncfusion.Blazor.Toolkit.Buttons
+@using Syncfusion.Blazor.Toolkit.Popups
+<div style="display:inline-block">
+    <SfTooltip ShowTipPointer="true" Width="@width" Content=@toolContent>
+        <SfButton Content="Show Tooltip"></SfButton>
+    </SfTooltip>
+</div>
+@code {
+    public string width = "200px";
+    public string toolContent = "hi";
+   
+    protected override async Task OnInitializedAsync()
+    {
+        await Task.Delay(100);
+        width = "300px";
+        toolContent = "hello";
+    } 
+}

@@ -1,0 +1,43 @@
+﻿@namespace Syncfusion.Blazor.Toolkit.Popups
+@using Syncfusion.Blazor;
+@using Microsoft.AspNetCore.Components;
+@inherits SfBaseComponent
+@using System.Text.Encodings.Web
+
+
+@*Tooltip element*@
+<div id="@ID" @ref="_tooltipElement" @attributes="@_attributes">
+    <CascadingValue Value="@this">
+        @ChildContent
+    </CascadingValue>
+</div>
+
+@*Dynamically generating tooltip element on JSInterop server method call*@
+@if (_renderWrapper)
+{
+    <div id="@(ID)_content_placeholder" class="@TOOLTIPCONTENTPLACEHOLDER">
+        <div id="@(ID)_content" class="@TOOLTIPCONTENTCLASS @CssClass" role="tooltip" aria-hidden="false">
+            <div class="@TOOLTIPCONTENT">
+                @if (!string.IsNullOrEmpty(Content))
+                {
+                    @Content
+                }
+                else if (ContentTemplate != null)
+                {
+                    @ContentTemplate
+                }
+            </div>
+            @if (ShowTipPointer)
+            {
+                <div class="@ARRORTIP">
+                    <div class="@ARROWTIPOUTER"></div>
+                    <div class="@ARROWIPINNER"></div>
+                </div>
+            }
+            @if (IsSticky)
+            {
+                <div class="@CLOSEICON" @onclick="@StickyCloseAsync" role="button" aria-label="Close tooltip"></div>
+            }
+        </div>
+    </div>
+}

@@ -1,0 +1,228 @@
+﻿@page "/chart-sorting-playwright"
+@using Syncfusion.Blazor.Toolkit.Charts
+@using Syncfusion.Blazor.Toolkit.Data
+@layout MainLayout
+
+<h1>Chart Sorting – Playwright Coverage</h1>
+
+<!-- ========================================================= -->
+<!-- 1. Column sorting by Y (Descending) -->
+<!-- ========================================================= -->
+<SfChart ID="sort_y_desc" Width="700">
+    <ChartSorting PropertyName="y"
+                  Direction="ListSortDirection.Descending" />
+    <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Toolkit.ValueType.DateTimeCategory" />
+    <ChartPrimaryYAxis />
+    <ChartSeriesCollection>
+        <ChartSeries DataSource="@Columns"
+                     XName="x" YName="y"
+                     Name="Column Series"
+                     Type="ChartSeriesType.Column">
+            <ChartSeriesAnimation Enable="false" />
+            <ChartMarker Visible="true"
+                         Width="20"
+                         Height="20"
+                         Shape="ChartShape.Circle"
+                         Fill="Green"
+                         Opacity="0.1">
+                <ChartDataLabel Visible="true"
+                                Position="ChartLabelPosition.Top" />
+            </ChartMarker>
+        </ChartSeries>
+    </ChartSeriesCollection>
+</SfChart>
+
+<!-- ========================================================= -->
+<!-- 2. Column sorting by X (Descending) -->
+<!-- ========================================================= -->
+<SfChart ID="sort_x_desc" Width="700">
+    <ChartSorting PropertyName="x"
+                  Direction="ListSortDirection.Descending" />
+    <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Toolkit.ValueType.DateTimeCategory" />
+    <ChartPrimaryYAxis />
+    <ChartSeriesCollection>
+        <ChartSeries DataSource="@Columns"
+                     XName="x" YName="y"
+                     Name="Column Series"
+                     Type="ChartSeriesType.Column" />
+    </ChartSeriesCollection>
+</SfChart>
+
+<!-- ========================================================= -->
+<!-- 3. Column sorting by Custom property -->
+<!-- ========================================================= -->
+<SfChart ID="sort_custom_asc" Width="700">
+    <ChartSorting PropertyName="Custom"
+                  Direction="ListSortDirection.Ascending" />
+    <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Toolkit.ValueType.DateTimeCategory"
+                       Format="dd/MM/yyyy" />
+    <ChartPrimaryYAxis />
+    <ChartSeriesCollection>
+        <ChartSeries DataSource="@ColumnsCustom"
+                     XName="x" YName="y"
+                     Name="Column Series"
+                     Type="ChartSeriesType.Column" />
+    </ChartSeriesCollection>
+</SfChart>
+
+<!-- ========================================================= -->
+<!-- 4. Multiple column series sorting by Y -->
+<!-- ========================================================= -->
+<SfChart ID="sort_multi_series" Width="700">
+    <ChartSorting PropertyName="y"
+                  Direction="ListSortDirection.Descending" />
+    <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Toolkit.ValueType.DateTimeCategory" />
+    <ChartPrimaryYAxis />
+    <ChartSeriesCollection>
+        <ChartSeries DataSource="@ColumnsMulti"
+                     XName="x" YName="y"
+                     Name="Series A"
+                     Type="ChartSeriesType.Column" />
+        <ChartSeries DataSource="@ColumnsMulti"
+                     XName="x" YName="y1"
+                     Name="Series B"
+                     Type="ChartSeriesType.Column" />
+    </ChartSeriesCollection>
+</SfChart>
+
+<!-- ========================================================= -->
+<!-- 5. Bubble series sorting by Y -->
+<!-- ========================================================= -->
+<SfChart ID="sort_bubble" Width="700">
+    <ChartSorting PropertyName="y"
+                  Direction="ListSortDirection.Ascending" />
+    <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Toolkit.ValueType.DateTimeCategory" />
+    <ChartPrimaryYAxis />
+    <ChartSeriesCollection>
+        <ChartSeries DataSource="@ColumnsCustom"
+                     XName="x" YName="y"
+                     Name="Bubble Series"
+                     Type="ChartSeriesType.Bubble" />
+    </ChartSeriesCollection>
+</SfChart>
+
+<!-- ========================================================= -->
+<!-- 6. Multiple plane sorting by X -->
+<!-- ========================================================= -->
+<SfChart ID="sort_plane_x" Title="Weather condition JPN vs DEU">
+    <ChartSorting PropertyName="X"
+                  Direction="ListSortDirection.Ascending" />
+    <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Toolkit.ValueType.Category" />
+    <ChartPrimaryYAxis Title="Temperature (°F)"
+                       Minimum="0"
+                       Maximum="90"
+                       Interval="20"
+                       LabelFormat="{value}°F" />
+    <ChartRows>
+        <ChartRow Height="50%" />
+        <ChartRow Height="50%" />
+    </ChartRows>
+    <ChartAxes>
+        <ChartAxis Name="YAxis"
+                   RowIndex="1"
+                   OpposedPosition="true"
+                   Minimum="24"
+                   Maximum="36"
+                   Interval="2"
+                   LabelFormat="{value}°C" />
+    </ChartAxes>
+    <ChartSeriesCollection>
+        <ChartSeries DataSource="@Weather"
+                     XName="X" YName="Y"
+                     Type="ChartSeriesType.Column" />
+        <ChartSeries DataSource="@Weather"
+                     XName="X" YName="Y1"
+                     YAxisName="YAxis"
+                     Type="ChartSeriesType.Column" />
+    </ChartSeriesCollection>
+</SfChart>
+
+<!-- ========================================================= -->
+<!-- 7. Multiple plane sorting by Y (dynamic change) -->
+<!-- ========================================================= -->
+<SfChart ID="sort_plane_y" Title="Weather condition JPN vs DEU">
+    <ChartSorting @ref="PlaneSort"
+                  PropertyName="Y"
+                  Direction="ListSortDirection.Ascending" />
+    <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Toolkit.ValueType.Category" />
+    <ChartPrimaryYAxis LabelFormat="{value}°F"
+                       Minimum="0"
+                       Maximum="90"
+                       Interval="20" />
+    <ChartRows>
+        <ChartRow Height="50%" />
+        <ChartRow Height="50%" />
+    </ChartRows>
+    <ChartAxes>
+        <ChartAxis Name="YAxis"
+                   RowIndex="1"
+                   OpposedPosition="true"
+                   Minimum="24"
+                   Maximum="36"
+                   Interval="2"
+                   LabelFormat="{value}°C" />
+    </ChartAxes>
+    <ChartSeriesCollection>
+        <ChartSeries DataSource="@Weather1"
+                     XName="X" YName="Y"
+                     Type="ChartSeriesType.Column" />
+        <ChartSeries DataSource="@Weather1"
+                     XName="X" YName="Y1"
+                     YAxisName="YAxis"
+                     Type="ChartSeriesType.Column" />
+    </ChartSeriesCollection>
+</SfChart>
+@code {
+
+    ChartSorting PlaneSort;
+
+    public class ColumnData
+    {
+        public DateTime x { get; set; }
+        public double y { get; set; }
+        public double y1 { get; set; }
+        public double Custom { get; set; }
+    }
+
+    List<ColumnData> Columns = new()
+    {
+        new(){ x=new DateTime(2000,6,11), y=10 },
+        new(){ x=new DateTime(2002,3,7),  y=-30 },
+        new(){ x=new DateTime(2004,3,6),  y=15 },
+        new(){ x=new DateTime(2006,3,30), y=-65 },
+        new(){ x=new DateTime(2008,3,8),  y=0 },
+        new(){ x=new DateTime(2010,3,8),  y=85 }
+    };
+
+    List<ColumnData> ColumnsCustom = new()
+    {
+        new(){ x=new DateTime(2000,6,11), y=10,  Custom=5 },
+        new(){ x=new DateTime(2002,3,7),  y=-30, Custom=2 },
+        new(){ x=new DateTime(2004,3,6),  y=15,  Custom=3 },
+        new(){ x=new DateTime(2006,3,30), y=-65, Custom=1 },
+        new(){ x=new DateTime(2008,3,8),  y=0,   Custom=6 },
+        new(){ x=new DateTime(2010,3,8),  y=85,  Custom=4 }
+    };
+
+    List<ColumnData> ColumnsMulti => ColumnsCustom.Select(c =>
+        new ColumnData { x=c.x, y=c.y, y1=c.y+15 }).ToList();
+
+    public class WeatherData
+    {
+        public string X { get; set; }
+        public double Y { get; set; }
+        public double Y1 { get; set; }
+    }
+
+    List<WeatherData> Weather = new()
+    {
+        new(){ X="Ind", Y=15, Y1=33 },
+        new(){ X="Aus", Y=20, Y1=31 },
+        new(){ X="Ban", Y=35, Y1=30 },
+        new(){ X="Eng", Y=40, Y1=28 },
+        new(){ X="USA", Y=80, Y1=29 },
+        new(){ X="Chn", Y=70, Y1=30 }
+    };
+
+    List<WeatherData> Weather1 => Weather;
+}

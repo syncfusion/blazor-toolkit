@@ -1,0 +1,383 @@
+﻿@page "/inputs/radio-button"
+@using Syncfusion.Blazor.Toolkit.Buttons
+@using Microsoft.AspNetCore.Components.Forms
+@using System.ComponentModel.DataAnnotations
+@using Syncfusion.Blazor.Toolkit.Inputs
+@using Buttons = Syncfusion.Blazor.Toolkit.Buttons
+
+<PageTitle>RadioButton | ASP.NET Core Blazor OSS Components</PageTitle>
+
+<!-- ============================================================
+     INTRO – Payment method
+     ============================================================ -->
+<Description>
+    <Header>
+        <h4><b>Blazor Toolkit Radio Button Component</b></h4>
+    </Header>
+    <Content>
+        The Radio Button component enables users to select option from a set of mutually exclusive
+        choices. This sample demonstrates the core Radio Button features including label placement, size customization,
+        visual states, built‑in theme‑based appearance, disabled interaction states, and form validation support.
+    </Content>
+</Description>
+
+<CodePreview CodeSection="@IntroCode">
+    <PreviewSection>
+        <div class="mb-2 fw-semibold">Select a payment method</div>
+
+        <div class="d-flex flex-column gap-2">
+            <SfRadioButton Name="pay" Label="Credit/Debit Card" Value="Card" @bind-Checked="paymentPick"></SfRadioButton>
+            <SfRadioButton Name="pay" Label="Net Banking" Value="Net" @bind-Checked="paymentPick"></SfRadioButton>
+            <SfRadioButton Name="pay" Label="Cash on Delivery" Value="COD" @bind-Checked="paymentPick"></SfRadioButton>
+            <SfRadioButton Name="pay" Label="Other Wallets" Value="Wallets" @bind-Checked="paymentPick"></SfRadioButton>
+        </div>
+        <small class="text-muted mt-2 d-inline-block">Selected: <b>@paymentPick</b></small>
+    </PreviewSection>
+</CodePreview>
+
+<!-- ============================================================
+     LABEL PLACEMENT – Before / After
+     ============================================================ -->
+<Description>
+    <Header>
+        <h5><b>Label Placement</b></h5>
+    </Header>
+    <Content>
+        The <code>Label</code> property provides contextual text next to the Radio Button. Use the
+        <code>LabelPosition</code> property to place the label either <b>Before</b> or <b>After</b> the radio.
+        Positioning automatically adapts when using RTL layouts.
+    </Content>
+</Description>
+
+<CodePreview CodeSection="@LabelPlacementCode">
+    <PreviewSection>
+        <div class="d-flex gap-4 align-items-center flex-wrap">
+            <SfRadioButton Name="labelpos" Label="Label First" Value="Before" LabelPosition="LabelPosition.Before" @bind-Checked="labelPosPick" />
+            <SfRadioButton Name="labelpos" Label="Label Last" Value="After" LabelPosition="LabelPosition.After" @bind-Checked="labelPosPick" />
+        </div>
+    </PreviewSection>
+</CodePreview>
+
+<!-- ============================================================
+     STATE – Checked / Unchecked / Disabled
+     ============================================================ -->
+<Description>
+    <Header>
+        <h5><b>States</b></h5>
+    </Header>
+    <Content>
+        Radio Buttons support common selection states including <code>Checked</code>, <code>Unchecked</code>, and
+        <code>Disabled</code>. Use the <code>Disabled</code> property to prevent interaction while retaining visual
+        presence.
+    </Content>
+</Description>
+
+<CodePreview CodeSection="@TypesCode">
+    <PreviewSection>
+        <div class="d-flex gap-4 align-items-center flex-wrap">
+            <SfRadioButton Name="types" Label="Checked" Value="Checked" @bind-Checked="typesPick" />
+            <SfRadioButton Name="types" Label="Unchecked" Value="Unchecked" @bind-Checked="typesPick" />
+            <SfRadioButton Name="types" Label="Disabled" Value="Disabled" Disabled="true" @bind-Checked="typesPick" />
+        </div>
+    </PreviewSection>
+</CodePreview>
+
+<!-- ============================================================
+     COLOR CUSTOMIZATION – semantic classes
+     ============================================================ -->
+<Description>
+    <Header>
+        <h5><b>Color Customization</b></h5>
+    </Header>
+    <Content>
+        Customize the appearance of Radio Buttons using built‑in theme color classes such as
+        <code>e-success</code>, <code>e-info</code>, <code>e-warning</code>,
+        and <code>e-danger</code>. These semantic color utilities help visually differentiate important
+        selections or highlight specific actions.
+
+        Additional styling can be applied using custom CSS targeting the Radio Button wrapper and its
+        state indicators.
+    </Content>
+</Description>
+
+<CodePreview CodeSection="@ColorCode">
+    <PreviewSection>
+        <div class="d-flex gap-4 align-items-center flex-wrap">
+            <SfRadioButton Name="colors" CssClass="e-success" Label="Success" Value="Success" @bind-Checked="colorPick" />
+            <SfRadioButton Name="colors" CssClass="e-info" Label="Info" Value="Info" @bind-Checked="colorPick" />
+            <SfRadioButton Name="colors" CssClass="e-warning" Label="Warning" Value="Warning" @bind-Checked="colorPick" />
+            <SfRadioButton Name="colors" CssClass="e-danger" Label="Danger" Value="Danger" @bind-Checked="colorPick" />
+        </div>
+    </PreviewSection>
+</CodePreview>
+
+<style>
+    .e-radio-wrapper.e-success .e-radio:checked + label::after { /* csslint allow: adjoining-classes */
+        background-color: #689f38;
+        color: #689f38;
+    }
+
+    .e-radio-wrapper.e-success .e-radio:checked:focus + label::after,
+    .e-radio-wrapper.e-success .e-radio:checked + label:hover::after { /* csslint allow: adjoining-classes */
+        background-color: #449d44;
+    }
+
+    /* FIXED: + label::before (not + ::before) */
+    .e-radio-wrapper.e-success .e-radio:checked + label::before {
+        border-color: #689f38;
+        background-color: #fff;
+    }
+
+    .e-radio-wrapper.e-success .e-radio:checked:focus + label::before,
+    .e-radio-wrapper.e-success .e-radio:checked + label:hover::before { /* csslint allow: adjoining-classes */
+        border-color: #449d44;
+    }
+
+    .e-radio-wrapper.e-success .e-radio + label:hover::before {
+        border-color: #b1afaf;
+    }
+
+    .e-radio-wrapper.e-info .e-radio:checked + label::after { /* csslint allow: adjoining-classes */
+        background-color: #2196f3;
+        color: #2196f3;
+    }
+
+    .e-radio-wrapper.e-info .e-radio:checked:focus + label::after,
+    .e-radio-wrapper.e-info .e-radio:checked + label:hover::after { /* csslint allow: adjoining-classes */
+        background-color: #0b7dda;
+    }
+
+    .e-radio-wrapper.e-info .e-radio:checked + label::before {
+        border-color: #2196f3;
+        background-color: #fff;
+    }
+
+    .e-radio-wrapper.e-info .e-radio:checked:focus + label::before,
+    .e-radio-wrapper.e-info .e-radio:checked + label:hover::before {
+        border-color: #0b7dda;
+    }
+
+    .e-radio-wrapper.e-info .e-radio + label:hover::before {
+        border-color: #b1afaf;
+    }
+
+    .e-radio-wrapper.e-warning .e-radio:checked + label::after { /* csslint allow: adjoining-classes */
+        background-color: #ef6c00;
+        color: #ef6c00;
+    }
+
+    .e-radio-wrapper.e-warning .e-radio:checked:focus + label::after,
+    .e-radio-wrapper.e-warning .e-radio:checked + label:hover::after { /* csslint allow: adjoining-classes */
+        background-color: #cc5c00;
+    }
+
+    .e-radio-wrapper.e-warning .e-radio:checked + label::before {
+        border-color: #ef6c00;
+        background-color: #fff;
+    }
+
+    .e-radio-wrapper.e-warning .e-radio:checked:focus + label::before,
+    .e-radio-wrapper.e-warning .e-radio:checked + label:hover::before {
+        border-color: #cc5c00;
+    }
+
+    .e-radio-wrapper.e-warning .e-radio + label:hover::before {
+        border-color: #b1afaf;
+    }
+
+    .e-radio-wrapper.e-danger .e-radio:checked + label::after { /* csslint allow: adjoining-classes */
+        background-color: #d84315;
+        color: #d84315;
+    }
+
+    .e-radio-wrapper.e-danger .e-radio:checked:focus + label::after,
+    .e-radio-wrapper.e-danger .e-radio:checked + label:hover::after { /* csslint allow: adjoining-classes */
+        background-color: #ba330a;
+    }
+
+    .e-radio-wrapper.e-danger .e-radio:checked + label::before {
+        border-color: #d84315;
+        background-color: #fff;
+    }
+
+    .e-radio-wrapper.e-danger .e-radio:checked:focus + label::before,
+    .e-radio-wrapper.e-danger .e-radio:checked + label:hover::before {
+        border-color: #ba330a;
+    }
+
+    .e-radio-wrapper.e-danger .e-radio + label:hover::before {
+        border-color: #b1afaf
+    }
+</style>
+
+<!-- ============================================================
+     FORM – like Checkbox sample
+     ============================================================ -->
+<Description>
+    <Header>
+        <h5><b>Form Support & Validation</b></h5>
+    </Header>
+    <Content>
+        The Radio Button integrates seamlessly with Blazor’s <code>EditForm</code>, supporting two‑way model
+        binding and <code>DataAnnotations</code> validation. Required fields, validation messages, and submit
+        behavior follow standard form conventions.
+
+        This example highlights validation enforcement when no option is selected and displays a confirmation
+        message after a successful form submission.
+    </Content>
+</Description>
+
+<CodePreview CodeSection="@FormCode">
+    <PreviewSection>
+        <EditForm Model="@formModel" OnValidSubmit="@OnSubmit">
+            <DataAnnotationsValidator />
+            <div class="mb-2">
+                <label class="fw-semibold mb-1 d-block">Gender</label>
+                <div class="d-flex gap-4 align-items-center flex-wrap">
+                    <SfRadioButton Name="form-gender" Label="Male" Value="male" @bind-Checked="formModel.Gender" />
+                    <SfRadioButton Name="form-gender" Label="Female" Value="female" @bind-Checked="formModel.Gender" />
+                </div>
+                <ValidationMessage For="@(() => formModel.Gender)" />
+            </div>
+            <div class="d-flex gap-2">
+                <button class="btn btn-primary" type="submit" disabled="@string.IsNullOrEmpty(formModel.Gender)">Submit</button>
+                <button class="btn btn-outline-secondary" type="button" @onclick="OnReset">Reset</button>
+            </div>
+        </EditForm>
+
+        @if (!string.IsNullOrEmpty(formSubmitted))
+        {
+            <div class="alert alert-success mt-3">
+                <strong>Submitted:</strong> @formSubmitted
+            </div>
+        }
+    </PreviewSection>
+</CodePreview>
+
+@code {
+    // =============================
+    // STATE (unique, all in use)
+    // =============================
+
+    // Intro (payment)
+    private string paymentPick = "Card";
+
+    // Label Placement
+    private string labelPosPick = "Before";
+
+    // Size
+    private string sizePick = "Medium";
+
+    // States (Checked/Unchecked/Disabled)
+    private string typesPick = "Checked";
+
+    // Colors
+    private string colorPick = "Success";
+
+    // Form
+    private FormModel formModel = new();
+    private string formSubmitted = "";
+    private void OnSubmit() => formSubmitted = $"Gender: {formModel.Gender}";
+    private void OnReset()
+    {
+        formModel = new();
+        formSubmitted = "";
+        StateHasChanged();
+    }
+    public class FormModel
+    {
+        [Required(ErrorMessage = "Please select gender.")]
+        public string? Gender { get; set; }
+    }
+
+    // =============================
+    // CODE SNIPPETS
+    // =============================
+    private string IntroCode => @"<div class=""mb-2 fw-semibold"">Select a payment method</div>
+<div class=""d-flex flex-column gap-2"">
+   <SfRadioButton Name=""pay"" Label=""Credit/Debit Card"" Value=""Card"" @bind-Checked=""paymentPick""></SfRadioButton>
+   <SfRadioButton Name=""pay"" Label=""Net Banking"" Value=""Net"" @bind-Checked=""paymentPick""></SfRadioButton>
+   <SfRadioButton Name=""pay"" Label=""Cash on Delivery"" Value=""COD"" @bind-Checked=""paymentPick""></SfRadioButton>
+   <SfRadioButton Name=""pay"" Label=""Other Wallets"" Value=""Wallets"" @bind-Checked=""paymentPick""></SfRadioButton>
+</div>
+<small class=""text-muted mt-2 d-inline-block"">Selected: <b>@paymentPick</b></small>
+@code
+{
+  // Intro (payment)
+  private string paymentPick = ""Card"";
+}";
+
+    private string LabelPlacementCode => @"<div class=""d-flex gap-4 align-items-center flex-wrap"">
+<SfRadioButton Name=""labelpos"" Label=""Label First"" Value=""Before"" LabelPosition=""LabelPosition.Before"" @bind-Checked=""labelPosPick"" />
+<SfRadioButton Name=""labelpos"" Label=""Label Last"" Value=""After"" LabelPosition=""LabelPosition.After"" @bind-Checked=""labelPosPick"" />
+</div>
+@code
+{
+    // Label Placement
+    private string labelPosPick = ""Before"";
+}";
+
+    private string TypesCode => @"<div class=""d-flex gap-4 align-items-center flex-wrap"">
+<SfRadioButton Name=""types"" Label=""Checked"" Value=""Checked"" @bind-Checked=""typesPick"" />
+<SfRadioButton Name=""types"" Label=""Unchecked"" Value=""Unchecked"" @bind-Checked=""typesPick"" />
+<SfRadioButton Name=""types"" Label=""Disabled"" Value=""Disabled"" Disabled=""true"" @bind-Checked=""typesPick"" />
+</div>
+@code
+{
+    // States (Checked/Unchecked/Disabled)
+    private string typesPick = ""Checked"";
+}";
+
+    private string ColorCode => @"<div class=""d-flex gap-4 align-items-center flex-wrap"">
+<SfRadioButton Name=""colors"" CssClass=""e-success"" Label=""Success"" Value=""Success"" @bind-Checked=""colorPick"" />
+<SfRadioButton Name=""colors"" CssClass=""e-info"" Label=""Info"" Value=""Info"" @bind-Checked=""colorPick"" />
+<SfRadioButton Name=""colors"" CssClass=""e-warning"" Label=""Warning"" Value=""Warning"" @bind-Checked=""colorPick"" />
+<SfRadioButton Name=""colors"" CssClass=""e-danger"" Label=""Danger"" Value=""Danger"" @bind-Checked=""colorPick"" />
+</div>
+@code
+{
+    // Colors
+    private string colorPick = ""Success"";
+}";
+
+    private string FormCode => @"<EditForm Model=""@formModel"" OnValidSubmit=""@OnSubmit"">
+  <DataAnnotationsValidator />
+  <div class=""mb-2"">
+    <label class=""fw-semibold mb-1 d-block"">Gender</label>
+    <div class=""d-flex gap-4 align-items-center flex-wrap"">
+      <SfRadioButton Name=""form-gender"" Label=""Male""   Value=""male""   @bind-Checked=""formModel.Gender"" />
+      <SfRadioButton Name=""form-gender"" Label=""Female"" Value=""female"" @bind-Checked=""formModel.Gender"" />
+    </div>
+    <ValidationMessage For=""@(() => formModel.Gender)"" />
+  </div>
+  <div class=""d-flex gap-2"">
+    <button class=""btn btn-primary"" type=""submit"" disabled=""@string.IsNullOrEmpty(formModel.Gender)"">Submit</button>
+    <button class=""btn btn-outline-secondary"" type=""button"" @onclick=""@OnReset"">Reset</button>
+  </div>
+</EditForm>
+
+@if (!string.IsNullOrEmpty(formSubmitted))
+{
+  <div class=""alert alert-success mt-3"">
+    <strong>Submitted:</strong> @formSubmitted
+  </div>
+}
+@code 
+{
+  // Form
+    private FormModel formModel = new();
+    private string formSubmitted = "";
+    private void OnSubmit() => formSubmitted = $""Gender: {formModel.Gender}"";
+    private void OnReset()
+    {
+        formModel = new();
+        formSubmitted = "";
+        StateHasChanged();
+    }
+    public class FormModel
+    {
+        [Required(ErrorMessage = ""Please select gender."")]
+        public string? Gender { get; set; }
+    }
+}";
+}

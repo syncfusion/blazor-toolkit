@@ -1,0 +1,54 @@
+﻿@page "/chart-bar-with-gradient"
+@using Syncfusion.Blazor.Toolkit
+@using Syncfusion.Blazor.Toolkit.Charts
+@inject NavigationManager NavigationManager
+@layout MainLayout
+<div class="control-section" align="center">
+    <SfChart id="chart-host" Title="Revenue by product (Q4, USD)" Width="@Width">
+        <ChartArea><ChartAreaBorder Width="0"></ChartAreaBorder></ChartArea>
+        <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Toolkit.ValueType.Category">
+            <ChartAxisLineStyle Width="0"></ChartAxisLineStyle>
+            <ChartAxisMajorTickLines Width="0"></ChartAxisMajorTickLines>
+            <ChartAxisMajorGridLines Width="1"></ChartAxisMajorGridLines>
+        </ChartPrimaryXAxis>
+        <ChartPrimaryYAxis Visible="false" LabelFormat="${value}k">
+            <ChartAxisLineStyle Width="0"></ChartAxisLineStyle>
+            <ChartAxisMajorTickLines Width="0"></ChartAxisMajorTickLines>
+            <ChartAxisMajorGridLines Width="0"></ChartAxisMajorGridLines>
+        </ChartPrimaryYAxis>
+        <ChartSeriesCollection>
+            <ChartSeries DataSource="@GradientBarData" XName="Product" YName="Revenue" Type="ChartSeriesType.Bar" ColumnSpacing="0.25">
+                <ChartCornerRadius TopRight="10" BottomRight="10" TopLeft="10" BottomLeft="10"></ChartCornerRadius>
+                <ChartLinearGradient X1="0" Y1="0" X2="1" Y2="0">
+                    <ChartGradientColorStops>
+                        <ChartGradientColorStop Offset="0" Color="#0b1026" Opacity="1" />
+                        <ChartGradientColorStop Offset="50" Color="#e11d74" Opacity="1" />
+                        <ChartGradientColorStop Offset="100" Color="#fdb025" Opacity="1" />
+                    </ChartGradientColorStops>
+                </ChartLinearGradient>
+                <ChartMarker Visible="false">
+                    <ChartDataLabel Visible="true" Position="ChartLabelPosition.Outer" Format="${value}k"></ChartDataLabel>
+                </ChartMarker>
+            </ChartSeries>
+        </ChartSeriesCollection>
+        <ChartLegendSettings Visible="false"></ChartLegendSettings>
+        <ChartTooltipSettings Enable="true" Format="${point.x}: <b>${point.y}</b>"></ChartTooltipSettings>
+    </SfChart>
+</div>
+@code {
+    public string Width { get; set; } = "90%";
+    public class ChartData
+    {
+        public string? Product { get; set; }
+        public double Revenue { get; set; }
+    }
+    public List<ChartData> GradientBarData = new List<ChartData>
+    {
+        new ChartData { Product = "Mobile",       Revenue = 260 },
+        new ChartData { Product = "Integrations", Revenue = 310 },
+        new ChartData { Product = "Support",      Revenue = 360 },
+        new ChartData { Product = "Billing",      Revenue = 420 },
+        new ChartData { Product = "CRM",          Revenue = 460 },
+        new ChartData { Product = "Analytics",    Revenue = 520 }
+    };
+}

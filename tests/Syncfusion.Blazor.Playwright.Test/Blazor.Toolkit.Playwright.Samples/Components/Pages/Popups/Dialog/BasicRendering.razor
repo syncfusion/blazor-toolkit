@@ -1,0 +1,176 @@
+@page "/dialog/basic-rendering"
+@using Syncfusion.Blazor.Toolkit.Popups
+@using Syncfusion.Blazor.Toolkit.Buttons
+@layout MainLayout
+
+<h1>Dialog - Basic Rendering</h1>
+
+<div class="test-controls">
+    <SfButton id="open-nonmodal" OnClick="@(()=> nonModalVisible = true)">Open Non-Modal</SfButton>
+    <SfButton id="open-modal" OnClick="@(()=> modalVisible = true)">Open Modal</SfButton>
+    <SfButton id="open-drag" OnClick="@(()=> dragVisible = true)">Open Draggable</SfButton>
+    <SfButton id="open-resize" OnClick="@(()=> resizeVisible = true)">Open Resizable</SfButton>
+    <SfButton id="open-cancel" OnClick="@(()=> tryOpenCancelled = modalVisible = true)">Attempt Open (cancel)</SfButton>
+</div>
+
+<div class="sample-area">
+    <SfDialog ID="dlg-non-modal" @bind-Visible="nonModalVisible" Header="Non-Modal Dialog" ShowCloseIcon="true">
+        <DialogTemplates>
+            <Content>
+                <div id="dlg-non-modal_dialog-div-content">This is non-modal dialog content.</div>
+            </Content>
+            <FooterTemplate>
+                <div>
+                    <SfButton id="dlg-non-modal-close" OnClick="@CloseNonModal">Close</SfButton>
+                </div>
+            </FooterTemplate>
+        </DialogTemplates>
+    </SfDialog>
+
+    <SfDialog ID="dlg-modal" @bind-Visible="modalVisible" Header="Modal Dialog" IsModal="true" ShowCloseIcon="true" OnOpen="@OnModalBeforeOpen" Opened="@OnModalOpened" OnClose="@OnModalBeforeClose" Closed="@OnModalClosed" OnOverlayModalClick="@OnOverlayClicked">
+        <DialogTemplates>
+            <Content>
+                <div id="dlg-modal_dialog-content">This is modal dialog content.</div>
+            </Content>
+        </DialogTemplates>
+        <DialogButtons>
+            <DialogButton Content="OK" OnClick="@ModalOkClicked" />
+            <DialogButton Content="Cancel" OnClick="@ModalCancelClicked" />
+        </DialogButtons>
+    </SfDialog>
+
+    <SfDialog ID="dlg-drag" @bind-Visible="dragVisible" Header="Draggable Dialog" AllowDragging="true" ShowCloseIcon="true" OnDragStart="@OnDragStart" OnDrag="@OnDrag" OnDragStop="@OnDragStop">
+        <DialogTemplates>
+            <Content>
+                <div id="dlg-drag_dialog-content">Drag me by header</div>
+            </Content>
+        </DialogTemplates>
+    </SfDialog>
+
+    <SfDialog ID="dlg-resize" @bind-Visible="resizeVisible" Header="Resizable Dialog" EnableResize="true" ShowCloseIcon="true">
+        <DialogTemplates>
+            <Content>
+                <div id="dlg-resize_dialog-content">Resizable content</div>
+            </Content>
+        </DialogTemplates>
+    </SfDialog>
+    
+    <div style="margin-top:12px">
+        <SfButton id="open-zindex1" OnClick="@(()=> zindex1Visible = true)">Open ZIndex 1500</SfButton>
+        <SfButton id="open-zindex2" OnClick="@(()=> zindex2Visible = true)">Open ZIndex 2000</SfButton>
+    </div>
+
+    <SfDialog ID="dlg-zindex1" @bind-Visible="zindex1Visible" Header="ZIndex 1500" IsModal="true" ZIndex="1500">
+        <DialogTemplates>
+            <Content>
+                <div id="dlg-zindex1_dialog-content">ZIndex dialog 1500</div>
+            </Content>
+        </DialogTemplates>
+    </SfDialog>
+
+    <SfDialog ID="dlg-zindex2" @bind-Visible="zindex2Visible" Header="ZIndex 2000" IsModal="true" ZIndex="2000">
+        <DialogTemplates>
+            <Content>
+                <div id="dlg-zindex2_dialog-content">ZIndex dialog 2000</div>
+            </Content>
+        </DialogTemplates>
+    </SfDialog>
+</div>
+
+<div class="event-log">
+    <div id="dlg-modal-opened">@((modalOpened) ? "opened" : string.Empty)</div>
+    <div id="dlg-modal-closed">@((modalClosed) ? "closed" : string.Empty)</div>
+    <div id="dlg-beforeopen-cancelled">@((beforeOpenCancelled) ? "cancelled" : string.Empty)</div>
+    <div id="dlg-overlay-clicked">@((overlayClicked) ? "overlay" : string.Empty)</div>
+</div>
+
+@code {
+    private bool nonModalVisible { get; set; } = false;
+    private bool modalVisible { get; set; }
+    private bool dragVisible { get; set; }
+    private bool resizeVisible { get; set; }
+    private bool tryOpenCancelled { get; set; }
+    private bool zindex1Visible { get; set; }
+    private bool zindex2Visible { get; set; }
+    private bool modalOpened { get; set; }
+    private bool modalClosed { get; set; }
+    private bool beforeOpenCancelled { get; set; }
+    private bool overlayClicked { get; set; }
+
+    protected override void OnParametersSet()
+    {
+        if (tryOpenCancelled)
+        {
+            // Attempt to open a dialog but cancel in OnOpen handler
+            modalVisible = true;
+            tryOpenCancelled = false;
+        }
+    }
+
+    private void CloseNonModal(Microsoft.AspNetCore.Components.Web.MouseEventArgs args)
+    {
+        nonModalVisible = false;
+    }
+
+    private void OnModalBeforeOpen(BeforeOpenEventArgs args)
+    {
+        // If an attempt flag was set, cancel this open to test cancelable open
+        if (!beforeOpenCancelled && modalVisible && tryOpenCancelled)
+        {
+            args.Cancel = true;
+            beforeOpenCancelled = true;
+            modalVisible = false;
+        }
+    }
+
+    private void OnModalOpened(OpenEventArgs args)
+    {
+        modalOpened = true;
+    }
+
+    private void OnModalBeforeClose(BeforeCloseEventArgs args)
+    {
+        // No-op for now
+    }
+
+    private void OnModalClosed(CloseEventArgs args)
+    {
+        modalClosed = true;
+    }
+
+    private void OnOverlayClicked(OverlayModalClickEventArgs args)
+    {
+        overlayClicked = true;
+    }
+
+    private void ModalOkClicked(Microsoft.AspNetCore.Components.Web.MouseEventArgs args)
+    {
+        modalVisible = false;
+    }
+
+    private void ModalCancelClicked(Microsoft.AspNetCore.Components.Web.MouseEventArgs args)
+    {
+        modalVisible = false;
+    }
+
+    private void OnDragStart(DragStartEventArgs args)
+    {
+        // marker - no-op
+    }
+
+    private void OnDrag()
+    {
+        // marker - no-op
+    }
+
+    private void OnDragStop(DragStopEventArgs args)
+    {
+        // marker - no-op
+    }
+}
+
+<style>
+    .test-controls { margin-bottom: 12px; }
+    .sample-area { padding: 12px; border: 1px solid #eee; background: #fafafa; }
+    .event-log { margin-top: 12px; }
+</style>

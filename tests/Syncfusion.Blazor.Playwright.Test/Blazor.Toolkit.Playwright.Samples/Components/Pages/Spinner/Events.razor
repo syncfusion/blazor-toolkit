@@ -1,0 +1,32 @@
+@page "/spinner/events"
+@using Syncfusion.Blazor.Toolkit.Spinner
+
+<h3 id="events-ready">Spinner Events Ready</h3>
+
+<SfSpinner @ref="Spinner"
+           Created="OnCreated"
+           OnClose="BeforeClose" />
+
+<button id="btn-show" @onclick="() => Spinner!.ShowAsync()">Show</button>
+<button id="btn-hide" @onclick="() => Spinner!.HideAsync()">Hide</button>
+<button id="btn-cancel-close" @onclick="() => CancelClose = true">Cancel Close</button>
+
+<pre id="log">@Log</pre>
+
+@code {
+    SfSpinner? Spinner;
+    bool CancelClose;
+    string Log = "";
+
+    void OnCreated()
+    {
+        Log += "created|";
+    }
+
+    Task BeforeClose(SpinnerEventArgs args)
+    {
+        args.Cancel = CancelClose;
+        CancelClose = false;
+        return Task.CompletedTask;
+    }
+}

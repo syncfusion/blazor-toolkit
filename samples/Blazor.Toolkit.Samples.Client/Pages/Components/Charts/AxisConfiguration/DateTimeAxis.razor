@@ -1,0 +1,939 @@
+@page "/charts/datetime-axis"
+@using Syncfusion.Blazor.Toolkit.Buttons
+@using Syncfusion.Blazor.Toolkit.Charts
+
+<PageTitle>Syncfusion Blazor Toolkit DateTime Axis Demo</PageTitle>
+
+<!-- ─────────────────────────────────────────────
+     DATETIME AXIS
+     ───────────────────────────────────────────── -->
+<Description>
+    <Header>
+        <h5><b>DateTime Axis</b></h5>
+    </Header>
+    <Content>
+        A DateTime axis is used to plot data points that occur at specific
+        moments in time. It supports automatic interval calculation and
+        formatted date labels for improved temporal readability.
+
+        In the Syncfusion Blazor Toolkit, the DateTime axis is enabled by setting
+        the <code>ValueType</code> property to <code>ValueType.DateTime</code>.
+        You can further control formatting using <code>IntervalType</code> and
+        <code>LabelFormat</code> to display values such as months, years, or
+        custom date representations.
+    </Content>
+</Description>
+
+<VirtualizeSection MinHeightPx="600px">
+    <CodePreview IsFullWidth="true" CodeSection="@DateTimeAxisCode">
+    <PreviewSection>
+        <!-- CHART -->
+        <SfChart @key="@_currentTheme" Title="USD to INR Performance" Theme="@_currentTheme">
+            <ChartArea>
+                <ChartAreaBorder Width="0"></ChartAreaBorder>
+            </ChartArea>
+
+            <!-- X AXIS -->
+            <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Toolkit.ValueType.DateTime"
+                               IntervalType="IntervalType.Months"
+                               LabelFormat="yyyy MMM"
+                               EdgeLabelPlacement="EdgeLabelPlacement.Shift">
+                <ChartAxisMajorGridLines Width="0" />
+                <ChartAxisMajorTickLines Width="0" />
+                <ChartAxisMinorTickLines Width="0" />
+            </ChartPrimaryXAxis>
+
+            <!-- Y AXIS -->
+            <ChartPrimaryYAxis Minimum="79"
+                               Maximum="85"
+                               Interval="1.5"
+                               LabelFormat="₹{value}">
+                <ChartAxisLineStyle Width="0" />
+                <ChartAxisMajorTickLines Width="0" />
+            </ChartPrimaryYAxis>
+
+            <!-- SERIES -->
+            
+                <ChartSeries DataSource="@SynchronizedData"
+                             XName="USD"
+                             YName="INR"
+                             Type="ChartSeriesType.Line"
+                             Width="2"
+                             Fill="#5433FF">
+                </ChartSeries>
+            
+
+            <!-- TOOLTIP -->
+            <ChartTooltipSettings Enable="true"
+                                  Format="${point.x} : <b>${point.y}</b>"
+                                  EnableHighlight="true" />
+        </SfChart>
+
+    </PreviewSection>
+</CodePreview>
+</VirtualizeSection>
+
+<!-- ─────────────────────────────────────────────
+     RANGE (DATETIME AXIS)
+     ───────────────────────────────────────────── -->
+<Description>
+    <Header>
+        <h5><b>Range</b></h5>
+    </Header>
+    <Content>
+        Range configuration allows you to explicitly control the visible start
+        and end values of an axis. This is especially useful for DateTime axes
+        when focusing on a specific time window within a larger dataset.
+
+        In the Syncfusion Blazor Toolkit, the <code>Minimum</code> and
+        <code>Maximum</code> properties of a DateTime axis define the visible
+        range, while properties such as <code>IntervalType</code> and
+        <code>LabelFormat</code> improve temporal readability.
+    </Content>
+</Description>
+
+<VirtualizeSection MinHeightPx="600px">
+    <CodePreview CodeSection="@DateTimeRangeCode" IsFullWidth="true">
+    <PreviewSection>
+        <!-- CHART -->
+        <SfChart @key="@_currentTheme" Title="USD to EURO Performance" Theme="@_currentTheme">
+            <ChartArea>
+                <ChartAreaBorder Width="0"></ChartAreaBorder>
+            </ChartArea>
+
+            <!-- X AXIS (DATETIME RANGE) -->
+            <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Toolkit.ValueType.DateTime"
+                               IntervalType="IntervalType.Months"
+                               Minimum="@(new DateTime(2023, 2, 18))"
+                               Maximum="@(new DateTime(2023, 8, 18))"
+                               LabelFormat="yyyy MMM"
+                               EdgeLabelPlacement="EdgeLabelPlacement.Shift">
+                <ChartAxisMajorGridLines Width="0" />
+                <ChartAxisMajorTickLines Width="0" />
+                <ChartAxisMinorTickLines Width="0" />
+            </ChartPrimaryXAxis>
+
+            <!-- Y AXIS -->
+            <ChartPrimaryYAxis Minimum="0.86"
+                               Maximum="0.96"
+                               Interval="0.025"
+                               LabelFormat="€{value}">
+                <ChartAxisLineStyle Width="0" />
+                <ChartAxisMajorTickLines Width="0" />
+            </ChartPrimaryYAxis>
+
+            <!-- SERIES -->
+            
+                <ChartSeries DataSource="@SynchronizedData"
+                             XName="USD"
+                             YName="EUR"
+                             Type="ChartSeriesType.Line"
+                             Width="2"
+                             Fill="#006BFF">
+                </ChartSeries>
+            
+
+            <!-- TOOLTIP -->
+            <ChartTooltipSettings Enable="true"
+                                  Format="${point.x} : <b>${point.y}</b>"
+                                  EnableHighlight="true" />
+
+        </SfChart>
+    </PreviewSection>
+</CodePreview>
+</VirtualizeSection>
+
+<!-- ─────────────────────────────────────────────
+     INTERVAL AND RANGE CUSTOMIZATION
+     ───────────────────────────────────────────── -->
+<Description>
+    <Header>
+        <h5><b>Interval and Range Customization</b></h5>
+    </Header>
+    <Content>
+        Interval and range customization allows fine‑grained control over how
+        DateTime values are segmented and padded on an axis.
+
+        In the Syncfusion Blazor Toolkit, the axis interval behavior is controlled
+        using the <code>IntervalType</code> property, while whitespace around the
+        plotted range is managed using <code>RangePadding</code>.
+        Since dropdown components are not available in the Blazor Toolkit,
+        interactive selection is achieved using <code>ButtonGroup</code>.
+    </Content>
+</Description>
+
+<VirtualizeSection MinHeightPx="600px">
+    <CodePreview CodeSection="@IntervalRangeCode" IsFullWidth="true">
+    <PreviewSection>
+        <!-- PROPERTY PANEL -->
+        <div class="mb-4">
+
+            <div class="mb-3">
+                <label class="fw-bold d-block mb-2">Interval Type</label>
+
+                <SfButtonGroup Mode="SelectionMode.Single">
+                    <ButtonGroupButton Selected="@IsIntervalSelected(IntervalType.Auto)"
+                                       SelectedChanged="@(v => SetInterval(v, IntervalType.Auto))">
+                        Auto
+                    </ButtonGroupButton>
+                    <ButtonGroupButton Selected="@IsIntervalSelected(IntervalType.Years)"
+                                       SelectedChanged="@(v => SetInterval(v, IntervalType.Years))">
+                        Years
+                    </ButtonGroupButton>
+                    <ButtonGroupButton Selected="@IsIntervalSelected(IntervalType.Months)"
+                                       SelectedChanged="@(v => SetInterval(v, IntervalType.Months))">
+                        Months
+                    </ButtonGroupButton>
+                    <ButtonGroupButton Selected="@IsIntervalSelected(IntervalType.Days)"
+                                       SelectedChanged="@(v => SetInterval(v, IntervalType.Days))">
+                        Days
+                    </ButtonGroupButton>
+                    <ButtonGroupButton Selected="@IsIntervalSelected(IntervalType.Hours)"
+                                       SelectedChanged="@(v => SetInterval(v, IntervalType.Hours))">
+                        Hours
+                    </ButtonGroupButton>
+                    <ButtonGroupButton Selected="@IsIntervalSelected(IntervalType.Minutes)"
+                                       SelectedChanged="@(v => SetInterval(v, IntervalType.Minutes))">
+                        Minutes
+                    </ButtonGroupButton>
+                    <ButtonGroupButton Selected="@IsIntervalSelected(IntervalType.Seconds)"
+                                       SelectedChanged="@(v => SetInterval(v, IntervalType.Seconds))">
+                        Seconds
+                    </ButtonGroupButton>
+                </SfButtonGroup>
+            </div>
+
+            <div>
+                <label class="fw-bold d-block mb-2">Range Padding</label>
+
+                <SfButtonGroup Mode="SelectionMode.Single">
+                    <ButtonGroupButton Selected="@IsPaddingSelected(ChartRangePadding.None)"
+                                       SelectedChanged="@(v => SetPadding(v, ChartRangePadding.None))">
+                        None
+                    </ButtonGroupButton>
+                    <ButtonGroupButton Selected="@IsPaddingSelected(ChartRangePadding.Round)"
+                                       SelectedChanged="@(v => SetPadding(v, ChartRangePadding.Round))">
+                        Round
+                    </ButtonGroupButton>
+                    <ButtonGroupButton Selected="@IsPaddingSelected(ChartRangePadding.Additional)"
+                                       SelectedChanged="@(v => SetPadding(v, ChartRangePadding.Additional))">
+                        Additional
+                    </ButtonGroupButton>
+                </SfButtonGroup>
+            </div>
+        </div>
+
+        <!-- CHART -->
+        <SfChart @key="@_currentTheme" Title="USD vs Yen Performance" Theme="@_currentTheme">
+            <ChartArea>
+                <ChartAreaBorder Width="0"></ChartAreaBorder>
+            </ChartArea>
+
+            <!-- X AXIS -->
+            <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Toolkit.ValueType.DateTime"
+                               IntervalType="@IntervalType"
+                               RangePadding="@RangePadding"
+                               EdgeLabelPlacement="EdgeLabelPlacement.Shift">
+                <ChartAxisMajorGridLines Width="0"></ChartAxisMajorGridLines>
+                <ChartAxisMajorTickLines Width="0"></ChartAxisMajorTickLines>
+            </ChartPrimaryXAxis>
+
+            <!-- Y AXIS -->
+            <ChartPrimaryYAxis Minimum="120"
+                               Maximum="152"
+                               LabelFormat="¥{value}">
+                <ChartAxisLineStyle Width="0"></ChartAxisLineStyle>
+                <ChartAxisMajorTickLines Width="0"></ChartAxisMajorTickLines>
+            </ChartPrimaryYAxis>
+
+            <!-- SERIES -->
+            
+                <ChartSeries DataSource="@SynchronizedData"
+                             XName="USD"
+                             YName="JPY"
+                             Type="ChartSeriesType.Line"
+                             Width="2"
+                             Fill="#8B5DFF">
+                </ChartSeries>
+            
+
+            <!-- TOOLTIP -->
+            <ChartTooltipSettings Enable="true"
+                                  Format="${point.x} : <b>${point.y}</b>"
+                                  EnableHighlight="true" />
+        </SfChart>
+    </PreviewSection>
+</CodePreview>
+</VirtualizeSection>
+
+<!-- ─────────────────────────────────────────────
+     LABEL FORMAT (DATETIME AXIS)
+     ───────────────────────────────────────────── -->
+<Description>
+    <Header>
+        <h5><b>Label Format</b></h5>
+    </Header>
+    <Content>
+        Label formatting controls how DateTime values are rendered on the axis,
+        allowing dates and times to be displayed in different patterns such as
+        weekdays, months, or time values.
+
+        In the Syncfusion Blazor Toolkit, DateTime label formats are applied using
+        the <code>LabelFormat</code> property of the axis. Since dropdown controls
+        are not available, format selection is handled using a
+        <code>ButtonGroup</code>.
+    </Content>
+</Description>
+
+<VirtualizeSection MinHeightPx="600px">
+    <CodePreview CodeSection="@LabelFormatCode" IsFullWidth="true">
+    <PreviewSection>
+        <!-- PROPERTY PANEL -->
+        <div class="mb-4">
+            <label class="fw-bold d-block mb-2">Label Format</label>
+
+            <SfButtonGroup Mode="SelectionMode.Single">
+                <ButtonGroupButton Selected="@IsFormatSelected("dddd")"
+                                   SelectedChanged="@(v => SetFormat(v, "dddd"))">
+                    dddd
+                </ButtonGroupButton>
+
+                <ButtonGroupButton Selected="@IsFormatSelected("yyyy/M/d")"
+                                   SelectedChanged="@(v => SetFormat(v, "yyyy/M/d"))">
+                    y/M/d
+                </ButtonGroupButton>
+
+                <ButtonGroupButton Selected="@IsFormatSelected("MMM")"
+                                   SelectedChanged="@(v => SetFormat(v, "MMM"))">
+                    MMM
+                </ButtonGroupButton>
+
+                <ButtonGroupButton Selected="@IsFormatSelected("h:mm")"
+                                   SelectedChanged="@(v => SetFormat(v, "h:mm"))">
+                    h:mm
+                </ButtonGroupButton>
+
+                <ButtonGroupButton Selected="@IsFormatSelected("h:mm:ss")"
+                                   SelectedChanged="@(v => SetFormat(v, "h:mm:ss"))">
+                    h:mm:ss
+                </ButtonGroupButton>
+
+                <ButtonGroupButton Selected="@IsFormatSelected("yyyy MMM")"
+                                   SelectedChanged="@(v => SetFormat(v, "yyyy MMM"))">
+                    y MMM
+                </ButtonGroupButton>
+            </SfButtonGroup>
+        </div>
+
+        <!-- CHART -->
+        <SfChart @key="@_currentTheme" Title="USD to SGD Performance" Theme="@_currentTheme">
+            <ChartArea>
+                <ChartAreaBorder Width="0"></ChartAreaBorder>
+            </ChartArea>
+
+            <!-- X AXIS -->
+            <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Toolkit.ValueType.DateTime"
+                               Minimum="@(new DateTime(2023, 2, 18))"
+                               Maximum="@(new DateTime(2023, 8, 18))"
+                               LabelIntersectAction="LabelIntersectAction.Rotate45"
+                               LabelFormat="@LabelFormat"
+                               EdgeLabelPlacement="EdgeLabelPlacement.Shift">
+                <ChartAxisMajorGridLines Width="0" />
+                <ChartAxisMajorTickLines Width="0" />
+                <ChartAxisMinorTickLines Width="0" />
+            </ChartPrimaryXAxis>
+
+            <!-- Y AXIS -->
+            <ChartPrimaryYAxis Minimum="1.30"
+                               Maximum="1.37"
+                               Interval="0.0175"
+                               LabelFormat="${value}">
+                <ChartAxisLineStyle Width="0" />
+                <ChartAxisMajorTickLines Width="0" />
+            </ChartPrimaryYAxis>
+
+            <!-- SERIES -->
+            
+                <ChartSeries DataSource="@SynchronizedData"
+                             XName="USD"
+                             YName="SGD"
+                             Type="ChartSeriesType.Line"
+                             Width="2"
+                             Fill="#E82561">
+                </ChartSeries>
+            
+
+            <!-- TOOLTIP -->
+            <ChartTooltipSettings Enable="true"
+                                  Format="${point.x} : <b>${point.y}</b>"
+                                  EnableHighlight="true" />
+        </SfChart>
+    </PreviewSection>
+
+</CodePreview>
+</VirtualizeSection>
+
+@code {
+    [CascadingParameter]
+    private Theme CurrentTheme { get; set; } = Theme.Fluent;
+
+    private Theme _currentTheme = Theme.Fluent;
+
+    protected override void OnInitialized()
+    {
+        _currentTheme = CurrentTheme;
+    }
+
+    protected override void OnParametersSet()
+    {
+        _currentTheme = CurrentTheme;
+    }
+
+    private bool IsDarkTheme => _currentTheme.ToString().Contains("Dark") || _currentTheme.ToString().Contains("HighContrast");
+    private string TextColor => IsDarkTheme ? "#E6EEF8" : "#0B1F3B";
+
+    public class ExchangeRateData
+    {
+        public DateTime USD { get; set; }
+        public double EUR { get; set; }
+        public double JPY { get; set; }
+        public double SGD { get; set; }
+        public double INR { get; set; }
+    }
+
+    private List<ExchangeRateData> SynchronizedData = new()
+    {
+        new() { USD = new DateTime(2023, 2, 18), EUR = 0.93316, JPY = 134.10, SGD = 1.3370, INR = 82.814 },
+        new() { USD = new DateTime(2023, 2, 19), EUR = 0.93591, JPY = 134.31, SGD = 1.3371, INR = 82.773 },
+        new() { USD = new DateTime(2023, 2, 20), EUR = 0.93604, JPY = 134.32, SGD = 1.3359, INR = 82.520 },
+        new() { USD = new DateTime(2023, 2, 21), EUR = 0.93881, JPY = 134.97, SGD = 1.3402, INR = 82.899 },
+        new() { USD = new DateTime(2023, 2, 22), EUR = 0.94289, JPY = 134.93, SGD = 1.3408, INR = 82.843 },
+        new() { USD = new DateTime(2023, 2, 23), EUR = 0.94358, JPY = 134.63, SGD = 1.3428, INR = 82.636 },
+        new() { USD = new DateTime(2023, 2, 24), EUR = 0.94473, JPY = 136.47, SGD = 1.3500, INR = 82.933 },
+        new() { USD = new DateTime(2023, 2, 25), EUR = 0.94584, JPY = 136.48, SGD = 1.3499, INR = 82.929 },
+        new() { USD = new DateTime(2023, 2, 26), EUR = 0.94745, JPY = 136.40, SGD = 1.3498, INR = 82.928 },
+        new() { USD = new DateTime(2023, 2, 27), EUR = 0.94262, JPY = 136.32, SGD = 1.3469, INR = 82.673 },
+        new() { USD = new DateTime(2023, 2, 28), EUR = 0.94548, JPY = 136.35, SGD = 1.3484, INR = 82.641 },
+        new() { USD = new DateTime(2023, 3, 01), EUR = 0.93722, JPY = 136.20, SGD = 1.3420, INR = 82.418 },
+        new() { USD = new DateTime(2023, 3, 02), EUR = 0.94344, JPY = 136.70, SGD = 1.3473, INR = 82.349 },
+        new() { USD = new DateTime(2023, 3, 03), EUR = 0.93901, JPY = 135.85, SGD = 1.3452, INR = 81.712 },
+        new() { USD = new DateTime(2023, 3, 04), EUR = 0.93968, JPY = 135.84, SGD = 1.3452, INR = 81.713 },
+        new() { USD = new DateTime(2023, 3, 05), EUR = 0.94106, JPY = 136.02, SGD = 1.3455, INR = 81.742 },
+        new() { USD = new DateTime(2023, 3, 06), EUR = 0.93573, JPY = 135.99, SGD = 1.3451, INR = 81.858 },
+        new() { USD = new DateTime(2023, 3, 07), EUR = 0.94792, JPY = 137.38, SGD = 1.3544, INR = 82.072 },
+        new() { USD = new DateTime(2023, 3, 08), EUR = 0.94793, JPY = 137.24, SGD = 1.3533, INR = 81.960 },
+        new() { USD = new DateTime(2023, 3, 09), EUR = 0.94480, JPY = 136.41, SGD = 1.3532, INR = 82.011 },
+        new() { USD = new DateTime(2023, 3, 10), EUR = 0.93842, JPY = 135.00, SGD = 1.3488, INR = 82.018 },
+        new() { USD = new DateTime(2023, 3, 11), EUR = 0.93926, JPY = 134.99, SGD = 1.3489, INR = 81.966 },
+        new() { USD = new DateTime(2023, 3, 12), EUR = 0.93600, JPY = 134.98, SGD = 1.3475, INR = 82.019 },
+        new() { USD = new DateTime(2023, 3, 13), EUR = 0.93246, JPY = 133.12, SGD = 1.3474, INR = 82.422 },
+        new() { USD = new DateTime(2023, 3, 14), EUR = 0.93219, JPY = 134.40, SGD = 1.3452, INR = 82.309 },
+        new() { USD = new DateTime(2023, 3, 15), EUR = 0.94490, JPY = 132.94, SGD = 1.3512, INR = 82.713 },
+        new() { USD = new DateTime(2023, 3, 16), EUR = 0.94220, JPY = 133.38, SGD = 1.3461, INR = 82.642 },
+        new() { USD = new DateTime(2023, 3, 17), EUR = 0.93006, JPY = 131.84, SGD = 1.3416, INR = 82.531 },
+        new() { USD = new DateTime(2023, 3, 18), EUR = 0.92806, JPY = 131.85, SGD = 1.3415, INR = 82.536 },
+        new() { USD = new DateTime(2023, 3, 19), EUR = 0.93648, JPY = 132.29, SGD = 1.3406, INR = 82.544 },
+        new() { USD = new DateTime(2023, 3, 20), EUR = 0.93295, JPY = 131.40, SGD = 1.3377, INR = 82.520 },
+        new() { USD = new DateTime(2023, 3, 21), EUR = 0.92817, JPY = 132.36, SGD = 1.3370, INR = 82.663 },
+        new() { USD = new DateTime(2023, 3, 22), EUR = 0.92003, JPY = 131.18, SGD = 1.3297, INR = 82.520 },
+        new() { USD = new DateTime(2023, 3, 23), EUR = 0.92290, JPY = 130.80, SGD = 1.3278, INR = 82.253 },
+        new() { USD = new DateTime(2023, 3, 24), EUR = 0.92795, JPY = 130.75, SGD = 1.3329, INR = 82.347 },
+        new() { USD = new DateTime(2023, 3, 25), EUR = 0.92795, JPY = 130.75, SGD = 1.3329, INR = 82.347 },
+        new() { USD = new DateTime(2023, 3, 26), EUR = 0.92789, JPY = 130.79, SGD = 1.3316, INR = 82.348 },
+        new() { USD = new DateTime(2023, 3, 27), EUR = 0.92601, JPY = 131.48, SGD = 1.3312, INR = 82.240 },
+        new() { USD = new DateTime(2023, 3, 28), EUR = 0.92242, JPY = 130.85, SGD = 1.3277, INR = 82.164 },
+        new() { USD = new DateTime(2023, 3, 29), EUR = 0.92205, JPY = 132.66, SGD = 1.3292, INR = 82.246 },
+        new() { USD = new DateTime(2023, 3, 30), EUR = 0.91709, JPY = 132.81, SGD = 1.3276, INR = 82.103 },
+        new() { USD = new DateTime(2023, 3, 31), EUR = 0.92020, JPY = 132.78, SGD = 1.3308, INR = 82.181 },        
+        new() { USD = new DateTime(2023, 4, 1), EUR = 0.92021, JPY = 132.77, SGD = 1.3308, INR = 82.181 },
+        new() { USD = new DateTime(2023, 4, 2), EUR = 0.92422, JPY = 133.26, SGD = 1.3328, INR = 82.201 },
+        new() { USD = new DateTime(2023, 4, 3), EUR = 0.91706, JPY = 132.34, SGD = 1.3269, INR = 82.147 },
+        new() { USD = new DateTime(2023, 4, 4), EUR = 0.91257, JPY = 131.68, SGD = 1.3255, INR = 82.138 },
+        new() { USD = new DateTime(2023, 4, 5), EUR = 0.91665, JPY = 131.12, SGD = 1.3281, INR = 81.960 },
+        new() { USD = new DateTime(2023, 4, 6), EUR = 0.91605, JPY = 131.84, SGD = 1.3306, INR = 81.825 },
+        new() { USD = new DateTime(2023, 4, 7), EUR = 0.90949, JPY = 132.15, SGD = 1.3321, INR = 81.875 },
+        new() { USD = new DateTime(2023, 4, 8), EUR = 0.90951, JPY = 132.15, SGD = 1.3298, INR = 81.841 },
+        new() { USD = new DateTime(2023, 4, 9), EUR = 0.90951, JPY = 132.15, SGD = 1.3298, INR = 81.841 },
+        new() { USD = new DateTime(2023, 4,10), EUR = 0.92040, JPY = 133.54, SGD = 1.3324, INR = 81.977 },
+        new() { USD = new DateTime(2023, 4,11), EUR = 0.91601, JPY = 133.62, SGD = 1.3324, INR = 82.079 },
+        new() { USD = new DateTime(2023, 4,12), EUR = 0.90951, JPY = 133.07, SGD = 1.3279, INR = 81.951 },
+        new() { USD = new DateTime(2023, 4,13), EUR = 0.90513, JPY = 132.59, SGD = 1.3222, INR = 81.691 },
+        new() { USD = new DateTime(2023, 4,14), EUR = 0.90139, JPY = 133.83, SGD = 1.3303, INR = 81.852 },
+        new() { USD = new DateTime(2023, 4,15), EUR = 0.90067, JPY = 133.81, SGD = 1.3304, INR = 81.842 },
+        new() { USD = new DateTime(2023, 4,16), EUR = 0.91013, JPY = 133.91, SGD = 1.3311, INR = 81.857 },
+        new() { USD = new DateTime(2023, 4,17), EUR = 0.91539, JPY = 134.46, SGD = 1.3342, INR = 82.004 },
+        new() { USD = new DateTime(2023, 4,18), EUR = 0.91132, JPY = 134.05, SGD = 1.3325, INR = 82.107 },
+        new() { USD = new DateTime(2023, 4,19), EUR = 0.91297, JPY = 134.73, SGD = 1.3349, INR = 82.334 },
+        new() { USD = new DateTime(2023, 4,20), EUR = 0.91182, JPY = 134.18, SGD = 1.3326, INR = 82.153 },
+        new() { USD = new DateTime(2023, 4,21), EUR = 0.90117, JPY = 134.16, SGD = 1.3351, INR = 82.041 },
+        new() { USD = new DateTime(2023, 4,22), EUR = 0.90117, JPY = 134.16, SGD = 1.3351, INR = 82.041 },
+        new() { USD = new DateTime(2023, 4,23), EUR = 0.90977, JPY = 134.09, SGD = 1.3341, INR = 82.036 },
+        new() { USD = new DateTime(2023, 4,24), EUR = 0.90489, JPY = 134.12, SGD = 1.3334, INR = 81.855 },
+        new() { USD = new DateTime(2023, 4,25), EUR = 0.91085, JPY = 133.72, SGD = 1.3380, INR = 81.978 },
+        new() { USD = new DateTime(2023, 4,26), EUR = 0.90584, JPY = 133.58, SGD = 1.3354, INR = 81.748 },
+        new() { USD = new DateTime(2023, 4,27), EUR = 0.90684, JPY = 133.90, SGD = 1.3351, INR = 81.716 },
+        new() { USD = new DateTime(2023, 4,28), EUR = 0.89872, JPY = 136.31, SGD = 1.3355, INR = 81.745 },
+        new() { USD = new DateTime(2023, 4,29), EUR = 0.89861, JPY = 136.32, SGD = 1.3353, INR = 81.742 },
+        new() { USD = new DateTime(2023, 4,30), EUR = 0.90810, JPY = 136.24, SGD = 1.3349, INR = 81.764 },
+        new() { USD = new DateTime(2023, 5, 1), EUR = 0.91123, JPY = 137.45, SGD = 1.3363, INR = 81.780 },
+        new() { USD = new DateTime(2023, 5, 2), EUR = 0.90859, JPY = 136.52, SGD = 1.3346, INR = 81.770 },
+        new() { USD = new DateTime(2023, 5, 3), EUR = 0.90346, JPY = 134.61, SGD = 1.3303, INR = 81.804 },
+        new() { USD = new DateTime(2023, 5, 4), EUR = 0.90740, JPY = 134.29, SGD = 1.3277, INR = 81.698 },
+        new() { USD = new DateTime(2023, 5, 5), EUR = 0.89849, JPY = 134.84, SGD = 1.3261, INR = 81.730 },
+        new() { USD = new DateTime(2023, 5, 6), EUR = 0.89200, JPY = 134.83, SGD = 1.3261, INR = 81.730 },
+        new() { USD = new DateTime(2023, 5, 7), EUR = 0.90768, JPY = 135.04, SGD = 1.3257, INR = 81.720 },
+        new() { USD = new DateTime(2023, 5, 8), EUR = 0.90893, JPY = 135.01, SGD = 1.3251, INR = 81.787 },
+        new() { USD = new DateTime(2023, 5, 9), EUR = 0.91193, JPY = 135.20, SGD = 1.3271, INR = 82.102 },
+        new() { USD = new DateTime(2023, 5,10), EUR = 0.91019, JPY = 134.20, SGD = 1.3247, INR = 81.913 },
+        new() { USD = new DateTime(2023, 5,11), EUR = 0.91601, JPY = 134.52, SGD = 1.3315, INR = 82.094 },
+        new() { USD = new DateTime(2023, 5,12), EUR = 0.91412, JPY = 135.75, SGD = 1.3388, INR = 82.256 },
+        new() { USD = new DateTime(2023, 5,13), EUR = 0.91429, JPY = 135.73, SGD = 1.3384, INR = 82.197 },
+        new() { USD = new DateTime(2023, 5,14), EUR = 0.92153, JPY = 135.78, SGD = 1.3385, INR = 82.228 },
+        new() { USD = new DateTime(2023, 5,15), EUR = 0.91939, JPY = 136.02, SGD = 1.3362, INR = 82.270 },
+        new() { USD = new DateTime(2023, 5,16), EUR = 0.92062, JPY = 136.39, SGD = 1.3404, INR = 82.295 },
+        new() { USD = new DateTime(2023, 5,17), EUR = 0.92249, JPY = 137.59, SGD = 1.3421, INR = 82.458 },
+        new() { USD = new DateTime(2023, 5,18), EUR = 0.92798, JPY = 138.65, SGD = 1.3478, INR = 82.726 },
+        new() { USD = new DateTime(2023, 5,19), EUR = 0.92391, JPY = 137.97, SGD = 1.3444, INR = 82.842 },
+        new() { USD = new DateTime(2023, 5,20), EUR = 0.92447, JPY = 137.97, SGD = 1.3444, INR = 82.843 },
+        new() { USD = new DateTime(2023, 5,21), EUR = 0.92428, JPY = 137.66, SGD = 1.3451, INR = 82.883 },
+        new() { USD = new DateTime(2023, 5,22), EUR = 0.92482, JPY = 138.57, SGD = 1.3464, INR = 82.822 },
+        new() { USD = new DateTime(2023, 5,23), EUR = 0.92833, JPY = 138.53, SGD = 1.3469, INR = 82.897 },
+        new() { USD = new DateTime(2023, 5,24), EUR = 0.92982, JPY = 139.22, SGD = 1.3490, INR = 82.705 },
+        new() { USD = new DateTime(2023, 5,25), EUR = 0.93225, JPY = 139.94, SGD = 1.3544, INR = 82.734 },
+        new() { USD = new DateTime(2023, 5,26), EUR = 0.93188, JPY = 140.66, SGD = 1.3502, INR = 82.565 },
+        new() { USD = new DateTime(2023, 5,27), EUR = 0.93188, JPY = 140.66, SGD = 1.3502, INR = 82.565 },
+        new() { USD = new DateTime(2023, 5,28), EUR = 0.93286, JPY = 140.78, SGD = 1.3530, INR = 82.569 },
+        new() { USD = new DateTime(2023, 5,29), EUR = 0.93372, JPY = 140.49, SGD = 1.3538, INR = 82.580 },
+        new() { USD = new DateTime(2023, 5,30), EUR = 0.93174, JPY = 139.76, SGD = 1.3506, INR = 82.682 },
+        new() { USD = new DateTime(2023, 5,31), EUR = 0.93515, JPY = 139.18, SGD = 1.3514, INR = 82.669 },
+        new() { USD = new DateTime(2023, 6, 1), EUR = 0.92911, JPY = 138.77, SGD = 1.3473, INR = 82.280 },
+        new() { USD = new DateTime(2023, 6, 2), EUR = 0.93342, JPY = 139.95, SGD = 1.3505, INR = 82.402 },
+        new() { USD = new DateTime(2023, 6, 3), EUR = 0.93341, JPY = 139.96, SGD = 1.3504, INR = 82.402 },
+        new() { USD = new DateTime(2023, 6, 4), EUR = 0.93425, JPY = 140.06, SGD = 1.3504, INR = 82.407 },
+        new() { USD = new DateTime(2023, 6, 5), EUR = 0.93341, JPY = 139.46, SGD = 1.3493, INR = 82.506 },
+        new() { USD = new DateTime(2023, 6, 6), EUR = 0.93505, JPY = 139.61, SGD = 1.3483, INR = 82.520 },
+        new() { USD = new DateTime(2023, 6, 7), EUR = 0.93464, JPY = 140.03, SGD = 1.3487, INR = 82.625 },
+        new() { USD = new DateTime(2023, 6, 8), EUR = 0.92739, JPY = 138.90, SGD = 1.3427, INR = 82.481 },
+        new() { USD = new DateTime(2023, 6, 9), EUR = 0.93028, JPY = 139.40, SGD = 1.3441, INR = 82.425 },
+        new() { USD = new DateTime(2023, 6,10), EUR = 0.92992, JPY = 139.39, SGD = 1.3440, INR = 82.421 },
+        new() { USD = new DateTime(2023, 6,11), EUR = 0.93066, JPY = 139.43, SGD = 1.3438, INR = 82.435 },
+        new() { USD = new DateTime(2023, 6,12), EUR = 0.92927, JPY = 139.56, SGD = 1.3435, INR = 82.329 },
+        new() { USD = new DateTime(2023, 6,13), EUR = 0.92665, JPY = 140.14, SGD = 1.3421, INR = 82.290 },
+        new() { USD = new DateTime(2023, 6,14), EUR = 0.92307, JPY = 140.06, SGD = 1.3414, INR = 82.045 },
+        new() { USD = new DateTime(2023, 6,15), EUR = 0.91334, JPY = 140.18, SGD = 1.3361, INR = 81.910 },
+        new() { USD = new DateTime(2023, 6,16), EUR = 0.91266, JPY = 141.83, SGD = 1.3404, INR = 81.907 },
+        new() { USD = new DateTime(2023, 6,17), EUR = 0.91266, JPY = 141.83, SGD = 1.3404, INR = 81.907 },
+        new() { USD = new DateTime(2023, 6,18), EUR = 0.91401, JPY = 141.89, SGD = 1.3374, INR = 81.916 },
+        new() { USD = new DateTime(2023, 6,19), EUR = 0.91539, JPY = 141.92, SGD = 1.3405, INR = 81.982 },
+        new() { USD = new DateTime(2023, 6,20), EUR = 0.91579, JPY = 141.36, SGD = 1.3431, INR = 81.992 },
+        new() { USD = new DateTime(2023, 6,21), EUR = 0.91008, JPY = 141.72, SGD = 1.3402, INR = 81.944 },
+        new() { USD = new DateTime(2023, 6,22), EUR = 0.91292, JPY = 143.06, SGD = 1.3452, INR = 81.900 },
+        new() { USD = new DateTime(2023, 6,23), EUR = 0.91498, JPY = 143.72, SGD = 1.3508, INR = 81.971 },
+        new() { USD = new DateTime(2023, 6,24), EUR = 0.91608, JPY = 143.69, SGD = 1.3518, INR = 81.985 },
+        new() { USD = new DateTime(2023, 6,25), EUR = 0.91684, JPY = 143.46, SGD = 1.3518, INR = 81.961 },
+        new() { USD = new DateTime(2023, 6,26), EUR = 0.91655, JPY = 143.43, SGD = 1.3535, INR = 82.005 },
+        new() { USD = new DateTime(2023, 6,27), EUR = 0.91254, JPY = 143.97, SGD = 1.3493, INR = 82.000 },
+        new() { USD = new DateTime(2023, 6,28), EUR = 0.91607, JPY = 144.35, SGD = 1.3528, INR = 82.025 },
+        new() { USD = new DateTime(2023, 6,29), EUR = 0.92032, JPY = 144.77, SGD = 1.3561, INR = 82.073 },
+        new() { USD = new DateTime(2023, 6,30), EUR = 0.91610, JPY = 144.31, SGD = 1.3523, INR = 82.099 },
+        new() { USD = new DateTime(2023, 7, 1), EUR = 0.91610, JPY = 144.34, SGD = 1.3523, INR = 82.099 },
+        new() { USD = new DateTime(2023, 7, 2), EUR = 0.91660, JPY = 144.33, SGD = 1.3521, INR = 82.097 },
+        new() { USD = new DateTime(2023, 7, 3), EUR = 0.91631, JPY = 144.67, SGD = 1.3511, INR = 81.967 },
+        new() { USD = new DateTime(2023, 7, 4), EUR = 0.91908, JPY = 144.46, SGD = 1.3494, INR = 82.005 },
+        new() { USD = new DateTime(2023, 7, 5), EUR = 0.92119, JPY = 144.54, SGD = 1.3533, INR = 82.395 },
+        new() { USD = new DateTime(2023, 7, 6), EUR = 0.91822, JPY = 144.05, SGD = 1.3531, INR = 82.770 },
+        new() { USD = new DateTime(2023, 7, 7), EUR = 0.91113, JPY = 142.09, SGD = 1.3503, INR = 82.651 },
+        new() { USD = new DateTime(2023, 7, 8), EUR = 0.91152, JPY = 142.11, SGD = 1.3499, INR = 82.647 },
+        new() { USD = new DateTime(2023, 7, 9), EUR = 0.91190, JPY = 142.18, SGD = 1.3465, INR = 82.628 },
+        new() { USD = new DateTime(2023, 7,10), EUR = 0.90896, JPY = 141.31, SGD = 1.3444, INR = 82.536 },
+        new() { USD = new DateTime(2023, 7,11), EUR = 0.90808, JPY = 140.22, SGD = 1.3406, INR = 82.384 },
+        new() { USD = new DateTime(2023, 7,12), EUR = 0.89801, JPY = 138.38, SGD = 1.3300, INR = 81.975 },
+        new() { USD = new DateTime(2023, 7,13), EUR = 0.89080, JPY = 138.02, SGD = 1.3223, INR = 82.031 },
+        new() { USD = new DateTime(2023, 7,14), EUR = 0.88939, JPY = 138.69, SGD = 1.3211, INR = 82.134 },
+        new() { USD = new DateTime(2023, 7,15), EUR = 0.88992, JPY = 138.69, SGD = 1.3209, INR = 82.116 },
+        new() { USD = new DateTime(2023, 7,16), EUR = 0.89084, JPY = 138.76, SGD = 1.3219, INR = 82.075 },
+        new() { USD = new DateTime(2023, 7,17), EUR = 0.88965, JPY = 138.71, SGD = 1.3216, INR = 82.057 },
+        new() { USD = new DateTime(2023, 7,18), EUR = 0.89041, JPY = 138.94, SGD = 1.3225, INR = 82.076 },
+        new() { USD = new DateTime(2023, 7,19), EUR = 0.89269, JPY = 139.62, SGD = 1.3251, INR = 82.065 },
+        new() { USD = new DateTime(2023, 7,20), EUR = 0.89814, JPY = 139.98, SGD = 1.3267, INR = 82.084 },
+        new() { USD = new DateTime(2023, 7,21), EUR = 0.89824, JPY = 141.78, SGD = 1.3309, INR = 82.003 },
+        new() { USD = new DateTime(2023, 7,22), EUR = 0.89857, JPY = 141.78, SGD = 1.3306, INR = 82.004 },
+        new() { USD = new DateTime(2023, 7,23), EUR = 0.89864, JPY = 141.75, SGD = 1.3308, INR = 82.005 },
+        new() { USD = new DateTime(2023, 7,24), EUR = 0.90382, JPY = 141.51, SGD = 1.3317, INR = 81.814 },
+        new() { USD = new DateTime(2023, 7,25), EUR = 0.90485, JPY = 140.92, SGD = 1.3278, INR = 81.956 },
+        new() { USD = new DateTime(2023, 7,26), EUR = 0.90178, JPY = 140.41, SGD = 1.3254, INR = 81.976 },
+        new() { USD = new DateTime(2023, 7,27), EUR = 0.91046, JPY = 139.18, SGD = 1.3305, INR = 82.373 },
+        new() { USD = new DateTime(2023, 7,28), EUR = 0.90651, JPY = 141.15, SGD = 1.3309, INR = 82.260 },
+        new() { USD = new DateTime(2023, 7,29), EUR = 0.90651, JPY = 141.15, SGD = 1.3309, INR = 82.266 },
+        new() { USD = new DateTime(2023, 7,30), EUR = 0.90709, JPY = 140.93, SGD = 1.3319, INR = 82.263 },
+        new() { USD = new DateTime(2023, 7,31), EUR = 0.90896, JPY = 142.27, SGD = 1.3295, INR = 82.241 },
+        new() { USD = new DateTime(2023, 8, 1), EUR = 0.90869, JPY = 142.90, SGD = 1.3351, INR = 82.337 },
+        new() { USD = new DateTime(2023, 8, 2), EUR = 0.91373, JPY = 143.22, SGD = 1.3413, INR = 82.666 },
+        new() { USD = new DateTime(2023, 8, 3), EUR = 0.91309, JPY = 142.49, SGD = 1.3410, INR = 82.833 },
+        new() { USD = new DateTime(2023, 8, 4), EUR = 0.90697, JPY = 141.75, SGD = 1.3391, INR = 82.677 },
+        new() { USD = new DateTime(2023, 8, 5), EUR = 0.90697, JPY = 141.75, SGD = 1.3391, INR = 82.677 },
+        new() { USD = new DateTime(2023, 8, 6), EUR = 0.90877, JPY = 141.84, SGD = 1.3397, INR = 82.687 },
+        new() { USD = new DateTime(2023, 8, 7), EUR = 0.90893, JPY = 142.44, SGD = 1.3409, INR = 82.764 },
+        new() { USD = new DateTime(2023, 8, 8), EUR = 0.91304, JPY = 143.36, SGD = 1.3479, INR = 82.859 },
+        new() { USD = new DateTime(2023, 8, 9), EUR = 0.91092, JPY = 143.67, SGD = 1.3463, INR = 82.924 },
+        new() { USD = new DateTime(2023, 8,10), EUR = 0.91051, JPY = 144.83, SGD = 1.3493, INR = 82.918 },
+        new() { USD = new DateTime(2023, 8,11), EUR = 0.91208, JPY = 144.90, SGD = 1.3521, INR = 82.957 },
+        new() { USD = new DateTime(2023, 8,12), EUR = 0.91271, JPY = 144.90, SGD = 1.3521, INR = 82.957 },
+        new() { USD = new DateTime(2023, 8,13), EUR = 0.91401, JPY = 144.93, SGD = 1.3530, INR = 82.956 },
+        new() { USD = new DateTime(2023, 8,14), EUR = 0.91675, JPY = 145.52, SGD = 1.3559, INR = 83.407 },
+        new() { USD = new DateTime(2023, 8,15), EUR = 0.91717, JPY = 145.59, SGD = 1.3586, INR = 83.204 },
+        new() { USD = new DateTime(2023, 8,16), EUR = 0.91902, JPY = 146.29, SGD = 1.3595, INR = 83.234 },
+        new() { USD = new DateTime(2023, 8,17), EUR = 0.91966, JPY = 145.71, SGD = 1.3584, INR = 83.101 },
+        new() { USD = new DateTime(2023, 8,18), EUR = 0.91832, JPY = 145.41, SGD = 1.3587, INR = 83.157 },
+    };
+
+    private IntervalType IntervalType { get; set; } = IntervalType.Months;
+    private ChartRangePadding RangePadding { get; set; } = ChartRangePadding.None;
+
+    private bool IsIntervalSelected(IntervalType type) => IntervalType == type;
+    private void SetInterval(bool selected, IntervalType type) { if (selected) IntervalType = type; }
+
+    private bool IsPaddingSelected(ChartRangePadding padding) => RangePadding == padding;
+    private void SetPadding(bool selected, ChartRangePadding padding) { if (selected) RangePadding = padding; }
+
+    private string LabelFormat { get; set; } = "yyyy MMM";
+    private bool IsFormatSelected(string format) => LabelFormat == format;
+    private void SetFormat(bool selected, string format) { if (selected) LabelFormat = format; }
+
+    private string DateTimeAxisCode => @"@using Syncfusion.Blazor.Toolkit.Charts
+
+ <SfChart @key=""@_currentTheme"" Title=""USD to INR Performance"" Theme=""@_currentTheme"">
+            <ChartArea>
+                <ChartAreaBorder Width=""0""></ChartAreaBorder>
+            </ChartArea>
+
+            <!-- X AXIS -->
+            <ChartPrimaryXAxis ValueType=""Syncfusion.Blazor.Toolkit.ValueType.DateTime""
+                               IntervalType=""IntervalType.Months""
+                               LabelFormat=""yyyy MMM""
+                               EdgeLabelPlacement=""EdgeLabelPlacement.Shift"">
+                <ChartAxisMajorGridLines Width=""0"" />
+                <ChartAxisMajorTickLines Width=""0"" />
+                <ChartAxisMinorTickLines Width=""0"" />
+            </ChartPrimaryXAxis>
+
+            <!-- Y AXIS -->
+            <ChartPrimaryYAxis Minimum=""79""
+                               Maximum=""85""
+                               Interval=""1.5""
+                               LabelFormat=""₹{value}"">
+                <ChartAxisLineStyle Width=""0"" />
+                <ChartAxisMajorTickLines Width=""0"" />
+            </ChartPrimaryYAxis>
+
+            <!-- SERIES -->
+            
+                <ChartSeries DataSource=""@SynchronizedData""
+                             XName=""USD""
+                             YName=""INR""
+                             Type=""ChartSeriesType.Line""
+                             Width=""2""
+                             Fill=""#5433FF"">
+                </ChartSeries>
+            
+
+            <!-- TOOLTIP -->
+            <ChartTooltipSettings Enable=""true""
+                                  Format=""${point.x} : <b>${point.y}</b>""
+                                  EnableHighlight=""true"" />
+        </SfChart>
+
+@code {
+    public class ExchangeRateData
+    {
+        public DateTime USD { get; set; }
+        public double EUR { get; set; }
+        public double JPY { get; set; }
+        public double SGD { get; set; }
+        public double INR { get; set; }
+    }
+
+    private List<ExchangeRateData> SynchronizedData = new()
+    {
+        new() { USD = new DateTime(2023, 2, 18), EUR = 0.93316, JPY = 134.10, SGD = 1.3370, INR = 82.814 },
+        // ... more data
+    };
+}";
+
+    private string DateTimeRangeCode => @"@using Syncfusion.Blazor.Toolkit.Charts
+
+<SfChart Title=""USD to EURO Performance"">
+    <ChartArea>
+        <ChartAreaBorder Width=""0"" />
+    </ChartArea>
+
+    <ChartPrimaryXAxis ValueType=""Syncfusion.Blazor.Toolkit.ValueType.DateTime""
+                       IntervalType=""IntervalType.Months""
+                       Minimum=""@(new DateTime(2023, 2, 18))""
+                       Maximum=""@(new DateTime(2023, 8, 18))""
+                       LabelFormat=""yyyy MMM"">
+                       EdgeLabelPlacement=""EdgeLabelPlacement.Shift"">
+        <ChartAxisMajorGridLines Width=""0"" />
+        <ChartAxisMajorTickLines Width=""0"" />
+        <ChartAxisMinorTickLines Width=""0"" />
+    </ChartPrimaryXAxis>
+
+    <ChartPrimaryYAxis Minimum=""0.86"" Maximum=""0.96"" Interval=""0.025""
+                       LabelFormat=""€{value}"">
+        <ChartAxisLineStyle Width=""0"" />
+        <ChartAxisMajorTickLines Width=""0"" />
+    </ChartPrimaryYAxis>
+
+    
+        <ChartSeries DataSource=""SynchronizedData""
+                     XName=""USD"" YName=""EUR""
+                     Type=""ChartSeriesType.Line""
+                     Width=""2""
+                     Fill=""#006BFF"" />
+    
+
+    <ChartTooltipSettings Enable=""true""
+                          Format=""${point.x} : <b>${point.y}</b>""
+                          EnableHighlight=""true"" />
+</SfChart>
+
+@code {
+    public class ExchangeRateData
+    {
+        public DateTime USD { get; set; }
+        public double EUR { get; set; }
+        public double JPY { get; set; }
+        public double SGD { get; set; }
+        public double INR { get; set; }
+    }
+
+    private List<ExchangeRateData> SynchronizedData = new()
+    {
+        new() { USD = new DateTime(2023, 2, 18), EUR = 0.93316, JPY = 134.10, SGD = 1.3370, INR = 82.814 },
+        // ... more data
+    };
+}";
+
+    private string IntervalRangeCode => @"@using Syncfusion.Blazor.Toolkit.Charts
+        <div class=""mb-4"">
+
+            <div class=""mb-3"">
+                <label class=""fw-bold d-block mb-2"">Interval Type</label>
+
+                <SfButtonGroup Mode=""SelectionMode.Single"">
+                    <ButtonGroupButton Selected=""@IsIntervalSelected(IntervalType.Auto)""
+                                       SelectedChanged=""@(v => SetInterval(v, IntervalType.Auto))"">
+                        Auto
+                    </ButtonGroupButton>
+                    <ButtonGroupButton Selected=""@IsIntervalSelected(IntervalType.Years)""
+                                       SelectedChanged=""@(v => SetInterval(v, IntervalType.Years))"">
+                        Years
+                    </ButtonGroupButton>
+                    <ButtonGroupButton Selected=""@IsIntervalSelected(IntervalType.Months)""
+                                       SelectedChanged=""@(v => SetInterval(v, IntervalType.Months))"">
+                        Months
+                    </ButtonGroupButton>
+                    <ButtonGroupButton Selected=""@IsIntervalSelected(IntervalType.Days)""
+                                       SelectedChanged=""@(v => SetInterval(v, IntervalType.Days))"">
+                        Days
+                    </ButtonGroupButton>
+                    <ButtonGroupButton Selected=""@IsIntervalSelected(IntervalType.Hours)""
+                                       SelectedChanged=""@(v => SetInterval(v, IntervalType.Hours))"">
+                        Hours
+                    </ButtonGroupButton>
+                    <ButtonGroupButton Selected=""@IsIntervalSelected(IntervalType.Minutes)""
+                                       SelectedChanged=""@(v => SetInterval(v, IntervalType.Minutes))"">
+                        Minutes
+                    </ButtonGroupButton>
+                    <ButtonGroupButton Selected=""@IsIntervalSelected(IntervalType.Seconds)""
+                                       SelectedChanged=""@(v => SetInterval(v, IntervalType.Seconds))"">
+                        Seconds
+                    </ButtonGroupButton>
+                </SfButtonGroup>
+            </div>
+
+            <div>
+                <label class=""fw-bold d-block mb-2"">Range Padding</label>
+
+                <SfButtonGroup Mode=""SelectionMode.Single"">
+                    <ButtonGroupButton Selected=""@IsPaddingSelected(ChartRangePadding.None)""
+                                       SelectedChanged=""@(v => SetPadding(v, ChartRangePadding.None))"">
+                        None
+                    </ButtonGroupButton>
+                    <ButtonGroupButton Selected=""@IsPaddingSelected(ChartRangePadding.Round)""
+                                       SelectedChanged=""@(v => SetPadding(v, ChartRangePadding.Round))"">
+                        Round
+                    </ButtonGroupButton>
+                    <ButtonGroupButton Selected=""@IsPaddingSelected(ChartRangePadding.Additional)""
+                                       SelectedChanged=""@(v => SetPadding(v, ChartRangePadding.Additional))"">
+                        Additional
+                    </ButtonGroupButton>
+                </SfButtonGroup>
+            </div>
+        </div>
+
+        <!-- CHART -->
+        <SfChart @key=""@_currentTheme"" Title=""USD vs Yen Performance"" Theme=""@_currentTheme"">
+            <ChartArea>
+                <ChartAreaBorder Width=""0""></ChartAreaBorder>
+            </ChartArea>
+
+            <!-- X AXIS -->
+            <ChartPrimaryXAxis ValueType=""Syncfusion.Blazor.Toolkit.ValueType.DateTime""
+                               IntervalType=""@IntervalType""
+                               RangePadding=""@RangePadding""
+                               EdgeLabelPlacement=""EdgeLabelPlacement.Shift"">
+                <ChartAxisMajorGridLines Width=""0""></ChartAxisMajorGridLines>
+                <ChartAxisMajorTickLines Width=""0""></ChartAxisMajorTickLines>
+            </ChartPrimaryXAxis>
+
+            <!-- Y AXIS -->
+            <ChartPrimaryYAxis Minimum=""120""
+                               Maximum=""152""
+                               LabelFormat=""¥{value}"">
+                <ChartAxisLineStyle Width=""0""></ChartAxisLineStyle>
+                <ChartAxisMajorTickLines Width=""0""></ChartAxisMajorTickLines>
+            </ChartPrimaryYAxis>
+
+            <!-- SERIES -->
+            
+                <ChartSeries DataSource=""@SynchronizedData""
+                             XName=""USD""
+                             YName=""JPY""
+                             Type=""ChartSeriesType.Line""
+                             Width=""2""
+                             Fill=""#8B5DFF"">
+                </ChartSeries>
+            
+
+            <!-- TOOLTIP -->
+            <ChartTooltipSettings Enable=""true""
+                                  Format=""${point.x} : <b>${point.y}</b>""
+                                  EnableHighlight=""true"" />
+        </SfChart>
+@code {
+    private IntervalType IntervalType { get; set; } = IntervalType.Months;
+    private ChartRangePadding RangePadding { get; set; } = ChartRangePadding.None;
+
+    private bool IsIntervalSelected(IntervalType type) => IntervalType == type;
+    private void SetInterval(bool selected, IntervalType type) { if (selected) IntervalType = type; }
+
+    private bool IsPaddingSelected(ChartRangePadding padding) => RangePadding == padding;
+    private void SetPadding(bool selected, ChartRangePadding padding) { if (selected) RangePadding = padding; }
+
+    public class ExchangeRateData
+    {
+        public DateTime USD { get; set; }
+        public double EUR { get; set; }
+        public double JPY { get; set; }
+        public double SGD { get; set; }
+        public double INR { get; set; }
+    }
+
+    private List<ExchangeRateData> SynchronizedData = new()
+    {
+        new() { USD = new DateTime(2023, 2, 18), EUR = 0.93316, JPY = 134.10, SGD = 1.3370, INR = 82.814 },
+        // ... more data
+    };
+}";
+
+    private string LabelFormatCode => @"@using Syncfusion.Blazor.Toolkit.Charts
+    <div class=""mb-4"">
+            <label class=""fw-bold d-block mb-2"">Label Format</label>
+
+            <SfButtonGroup Mode=""SelectionMode.Single"">
+                <ButtonGroupButton Selected=""@IsFormatSelected(""dddd"")""
+                                   SelectedChanged=""@(v => SetFormat(v, ""dddd""))"">
+                    dddd
+                </ButtonGroupButton>
+
+                <ButtonGroupButton Selected=""@IsFormatSelected(""yyyy/M/d"")""
+                                   SelectedChanged=""@(v => SetFormat(v, ""yyyy/M/d""))"">
+                    y/M/d
+                </ButtonGroupButton>
+
+                <ButtonGroupButton Selected=""@IsFormatSelected(""MMM"")""
+                                   SelectedChanged=""@(v => SetFormat(v, ""MMM""))"">
+                    MMM
+                </ButtonGroupButton>
+
+                <ButtonGroupButton Selected=""@IsFormatSelected(""h:mm"")""
+                                   SelectedChanged=""@(v => SetFormat(v, ""h:mm""))"">
+                    h:mm
+                </ButtonGroupButton>
+
+                <ButtonGroupButton Selected=""@IsFormatSelected(""h:mm:ss"")""
+                                   SelectedChanged=""@(v => SetFormat(v, ""h:mm:ss""))"">
+                    h:mm:ss
+                </ButtonGroupButton>
+
+                <ButtonGroupButton Selected=""@IsFormatSelected(""yyyy MMM"")""
+                                   SelectedChanged=""@(v => SetFormat(v, ""yyyy MMM""))"">
+                    y MMM
+                </ButtonGroupButton>
+            </SfButtonGroup>
+        </div>
+
+        <!-- CHART -->
+        <SfChart @key=""@_currentTheme"" Title=""USD to SGD Performance"" Theme=""@_currentTheme"">
+            <ChartArea>
+                <ChartAreaBorder Width=""0""></ChartAreaBorder>
+            </ChartArea>
+
+            <!-- X AXIS -->
+            <ChartPrimaryXAxis ValueType=""Syncfusion.Blazor.Toolkit.ValueType.DateTime""
+                               Minimum=""@(new DateTime(2023, 2, 18))""
+                               Maximum=""@(new DateTime(2023, 8, 18))""
+                               LabelIntersectAction=""LabelIntersectAction.Rotate45""
+                               LabelFormat=""@LabelFormat""
+                               EdgeLabelPlacement=""EdgeLabelPlacement.Shift"">
+                <ChartAxisMajorGridLines Width=""0"" />
+                <ChartAxisMajorTickLines Width=""0"" />
+                <ChartAxisMinorTickLines Width=""0"" />
+            </ChartPrimaryXAxis>
+
+            <!-- Y AXIS -->
+            <ChartPrimaryYAxis Minimum=""1.30""
+                               Maximum=""1.37""
+                               Interval=""0.0175""
+                               LabelFormat=""${value}"">
+                <ChartAxisLineStyle Width=""0"" />
+                <ChartAxisMajorTickLines Width=""0"" />
+            </ChartPrimaryYAxis>
+
+            <!-- SERIES -->
+            
+                <ChartSeries DataSource=""@SynchronizedData""
+                             XName=""USD""
+                             YName=""SGD""
+                             Type=""ChartSeriesType.Line""
+                             Width=""2""
+                             Fill=""#E82561"">
+                </ChartSeries>
+            
+
+            <!-- TOOLTIP -->
+            <ChartTooltipSettings Enable=""true""
+                                  Format=""${point.x} : <b>${point.y}</b>""
+                                  EnableHighlight=""true"" />
+        </SfChart>
+@code {
+    private string LabelFormat { get; set; } = ""yyyy MMM"";
+    private bool IsFormatSelected(string format) => LabelFormat == format;
+    private void SetFormat(bool selected, string format) { if (selected) LabelFormat = format; }
+    public class ExchangeRateData
+    {
+        public DateTime USD { get; set; }
+        public double EUR { get; set; }
+        public double JPY { get; set; }
+        public double SGD { get; set; }
+        public double INR { get; set; }
+    }
+
+    private List<ExchangeRateData> SynchronizedData = new()
+    {
+        new() { USD = new DateTime(2023, 2, 18), EUR = 0.93316, JPY = 134.10, SGD = 1.3370, INR = 82.814 },
+        // ... more data
+    };
+}";
+}

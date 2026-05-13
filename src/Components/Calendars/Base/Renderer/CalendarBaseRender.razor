@@ -1,0 +1,145 @@
+@using Microsoft.AspNetCore.Components.Web;
+@using System.Globalization;
+@using Syncfusion.Blazor.Toolkit.Internal
+@namespace Syncfusion.Blazor.Toolkit.Calendars.Internal
+@typeparam TValue
+@inherits CalendarBase<TValue>
+
+<div class="@this.ContentHeader">
+    <div class="@TitleClass" tabindex="0" aria-atomic="true" role="button" aria-label="title @(CultureInfo.CurrentCulture.TextInfo.ToTitleCase(this.HeaderTitle ?? string.Empty))" @onclick="@NavigateTitle">@(CultureInfo.CurrentCulture.TextInfo.ToTitleCase(this.HeaderTitle ?? string.Empty))</div>
+    <div class="@ICON_CONTAINER">
+        <button tabindex="0" class="@this.PrevIconClass" type="button" @attributes="@this.PrevIconAttr" aria-label="previous month" @onclick="@((args) => NavigatePreviousHandler(args, false))">
+            <span class="@(PREV_SPAN + SPACE + ICON)"></span>
+        </button>
+        <button tabindex="0" class="@this.NextIconClass" type="button" @attributes="@this.NextIconAttr" aria-label="next month" @onclick="@((args) => NavigateNextHandler(args, false))">
+            <span class="@(NEXT_SPAN + SPACE + ICON)"></span>
+        </button>
+    </div>
+</div>
+@if (this.ContentElement)
+{
+    this.Row = NumCells;
+    var rowIterator = 0;
+    this.Count = NumCells;
+    var rowEleClass = string.Empty;
+    RowAttr = new Dictionary<string, object>();
+    HijriDate islamicDate = new HijriDate { Year = 1441, Month = 1, Date = 1 };
+    if (CalendarMode == CalendarType.Islamic) 
+    {
+        islamicDate = HijriParser.ToHijriDate(CurrentDate);
+    }
+    bool isValid = true;
+    var rowCount = this.CellsCount / this.Count;
+    <div class="@this.ContentElementClass">
+        <table tabindex="0" class="@CONTENT_TABLE" role="grid" aria-label="calendar" @onkeydown="OnCalendarKeyDownAsync">
+            @if (CalendarView == CalendarView.Month)
+            {
+                <CalendarTableHeader TCalendarHeader="TValue" CalendarRenderView="CalendarView"></CalendarTableHeader>
+            }
+            <tbody @ref="@this.TableBodyEle">
+                @for (int dayCells = 0; dayCells < rowCount; dayCells++)
+                {
+                    <tr class="@(rowEleClass)" @attributes="@RowAttr">
+                    @for (rowIterator = 0 + rowIterator; (rowIterator < this.Row) && !(IsMaxDateReached(rowIterator,this.LocalDate)); rowIterator++)
+                        {
+                            DateTime localCalDate = default;
+                            if (CalendarView == CalendarView.Decade && CalendarMode == CalendarType.Islamic)
+                            {
+                                string[] splitYear = (HeaderTitle ?? string.Empty).Split('-');
+                                int startHijriYear = int.Parse(ConvertArabicToNumeric(splitYear[0])) - 1;
+                                int endHijriYear = int.Parse(ConvertArabicToNumeric(splitYear[1]));
+                                int year = startHijriYear + rowIterator;
+                                HijriDate hijriLocalDate = new HijriDate { Year = year, Month = 1, Date = 1 };
+                                localCalDate = HijriParser.ToGregorian(hijriLocalDate);
+                                LocalMainDate?.Add(localCalDate);
+                                isValid = true;
+                            }
+                            else
+                            {
+                                localCalDate = (CalendarView == CalendarView.Month) ? this.LocalDate.AddDays(rowIterator) 
+                                              : (CalendarView == CalendarView.Year) ? this.LocalDate.AddMonths(rowIterator)
+                                              : this.LocalDate.AddYears(rowIterator);
+                                LocalMainDate?.Add(localCalDate);
+                            }
+
+                            string? cellClass = null;
+                            var listData = this.Parent?.CellListData?.FirstOrDefault(item => item.CellID == localCalDate.Ticks + "_" + rowIterator);
+                            if (listData is not null)
+                            {
+                                cellClass = listData.ClassList;
+                            }
+                            var previousCellData = this.Parent?.PreviousCellListData?.FirstOrDefault(item => item.CellID == localCalDate.Ticks + "_" + rowIterator);
+                            if (previousCellData is not null && listData is null && (this.Parent is not null) && this.Parent.IsRenderDayCellEvent)
+                            {
+                                cellClass = previousCellData.ClassList;
+                            }
+
+                            if (isValid)
+                            {
+                                <CalendarDayCell @ref="@CalDayCell" CellClass="@cellClass" LocalDates="localCalDate" CurrentCellDate="this.CurrentDate" TCalendarCell="TValue" Cells="rowIterator" TodayCellDate="this.TodayDate" IsNavigation="IsNavigation" CalendarMode="@this.CalendarMode"
+                                                 CalendarRenderView="CalendarView" OnCellClick="this.ClickHandlerAsync" IsSelect="IsSelect" IsMultiSelect="this.MultiSelection" MultiselectValues="this.MultiValues" IsFocusTodayDate="@IsFocusTodayCell">
+                                </CalendarDayCell>
+                            }
+                    }
+                </tr>
+                    @if (CalendarView == CalendarView.Month)
+                    {
+                        @if ((this.Parent is not null) && this.Parent.WeekNumber && rowIterator == OtherMonthCell + 1 && (LocalMainDate is not null) && !IsSameCalendarMonth(LocalMainDate[rowIterator - 1].AddDays(1), this.CurrentDate))
+                        {
+                            rowEleClass = OTHER_MONTH_ROW;
+                            RowAttr = StyleDisplayNone;
+                        }
+                        @if ((this.Parent is not null) && !this.Parent.WeekNumber && rowIterator == OtherMonthCell && (LocalMainDate is not null) && !IsSameCalendarMonth(LocalMainDate[rowIterator - 1].AddDays(1), this.CurrentDate))
+                        {
+                            rowEleClass = OTHER_MONTH_ROW;
+                            RowAttr = StyleDisplayNone;
+                        }
+                        @if ((this.Parent is not null) && this.Parent.WeekNumber)
+                        {
+                            @if ((LocalMainDate is not null) && !IsSameCalendarMonth(LocalMainDate[rowIterator - 1].AddDays(1), this.CurrentDate))
+                            {
+                                rowEleClass = OTHER_MONTH_ROW;
+                                RowAttr = StyleDisplayNone;
+                            }
+                        }
+                        else if (!(IsMaxDateReached(rowIterator,this.LocalDate)))
+                        {
+                            var isPersianCulture = CultureInfo.CurrentCulture.Name.StartsWith(PERSIAN, StringComparison.Ordinal);
+                            if (isPersianCulture)
+                            {
+                                PersianCalendar persianCalendar = new PersianCalendar();
+                                if ((LocalMainDate is not null) && (persianCalendar.GetYear(LocalMainDate[rowIterator - 1].AddDays(1)) != persianCalendar.GetYear(this.CurrentDate) || persianCalendar.GetMonth(LocalMainDate[rowIterator - 1].AddDays(1)) != persianCalendar.GetMonth(this.CurrentDate)))
+                                {
+                                    rowEleClass = OTHER_MONTH_ROW;
+                                    RowAttr = StyleDisplayNone;
+                                }
+                            }
+                            else if ((LocalMainDate is not null) && !IsSameCalendarMonth(LocalMainDate[rowIterator - 1].AddDays(1), this.CurrentDate))
+                            {
+                                rowEleClass = OTHER_MONTH_ROW;
+                                RowAttr = StyleDisplayNone;
+                            }
+                        }
+                    }
+                    this.Row = this.Row + this.Count;
+                    rowIterator = rowIterator + 0;
+                }
+            </tbody>
+        </table>
+    </div>
+    IsNavigation = false;
+    IslamicYearClick = false;
+}
+else if (this.IsDeviceMode && this.IsCellClicked)
+{
+    this.ContentElement = true;
+    StateHasChanged();
+    InvokeVoidAsync(Parent!._animationJsModule!, Parent._animationJsInProcessModule!, "animate", new object[] { this.TableBodyEle, this.Animate }).ConfigureAwait(true);
+    this.IsCellClicked = false;
+}
+@if ( this.Parent is not null && this.Parent.ShowTodayButton)
+{
+    <div class="@FOOTER">
+        <button tabindex="0" role="button" type="button" aria-label="@this.TodayEleContent" class="@this.TodayEleClass" @onclick="@TodayButtonClickAsync" @onkeydown="@TodayButtonKeyDownAsync">@this.TodayEleContent</button>
+    </div>
+}

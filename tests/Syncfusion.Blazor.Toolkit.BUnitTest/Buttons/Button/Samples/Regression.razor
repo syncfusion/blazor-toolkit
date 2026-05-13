@@ -1,0 +1,21 @@
+﻿@using Syncfusion.Blazor.Toolkit.Buttons
+
+@namespace Syncfusion.Blazor.Toolkit.Tests.Buttons
+
+<SfButton Disabled="@Disabled" CssClass="e-primary d-inline">Poprzedni</SfButton>
+
+@code {
+    public bool Disabled { get; set; }
+    protected override async Task OnInitializedAsync()
+    {
+        await Load();
+        Disabled = true;
+    }
+    private async Task Load()
+    {
+        await Task.Run(() =>
+        {
+
+        });
+    }
+}

@@ -1,0 +1,174 @@
+/* Full-height layout with sticky header */
+.page {
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+}
+
+.top-layout-custom {
+    position: sticky;
+    top: 0;
+    z-index: 40;
+    border-bottom: 1px solid rgba(0,0,0,0.06);
+}
+
+.top-layout-inner {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0.5rem 1rem;
+}
+
+/* Content row fills remaining height */
+.content-row {
+    flex: 1 1 auto;
+    display: flex;
+    min-height: 0; /* important to allow children to scroll */
+}
+
+/* Sidebar: fixed percentage width, full available height, internal scroll only */
+.sidebar {
+    flex: 0 0 18%;
+    box-sizing: border-box;
+    border-right: 1px solid rgba(0,0,0,0.04);
+    overflow: auto; /* scroll appears only inside sidebar */
+}
+
+/* Main area: takes remaining width and scrolls if needed */
+.main-area {
+    flex: 1 1 auto;
+    min-width: 0;
+    overflow: auto;
+    padding: 1rem;
+    scrollbar-width: none;
+}
+
+/* Right-side panel: table of contents */
+.right-panel {
+    flex: 0 0 15%;
+    box-sizing: border-box;
+    overflow: auto;
+}
+
+.right-toc .toc-inner {
+    position: sticky;
+    top: 80px;
+}
+
+.toc-list {
+    list-style: none;
+    padding-left: 0;
+    margin: 0.25rem 0 0 0;
+}
+.toc-item {
+    margin: 0.25rem 0;
+}
+.toc-item a {
+    color: inherit;
+    text-decoration: none;
+    font-weight: normal;
+    background: none;
+    border: none;
+    outline: none;
+    display: inline-block;
+    list-style: none;
+}
+.toc-item a:hover,
+.toc-item a:focus {
+    text-decoration: none;
+    color: inherit;
+}
+.toc-item.level-1 { font-weight: 600; }
+.toc-item.level-2 { padding-left: 8px; }
+.toc-item.level-3 { padding-left: 16px; }
+
+
+.page-content {
+    padding: 0.5rem;
+}
+
+/* Responsive: stack sidebar above content on small screens */
+@media (max-width: 767.98px) {
+    .content-row {
+        flex-direction: column;
+    }
+
+    .sidebar {
+        flex: 0 0 auto;
+        max-width: 100%;
+        height: auto;
+    }
+    .right-panel { display: none; }
+}
+.brand-section, .top-right {
+    display: flex;
+}
+.action-buttons {
+    padding-left:10px;
+    padding-right:10px;
+}
+.github {
+    padding: 3px 10px;
+    border: 1px solid #e7e0ec;
+    border-radius: 5px;
+    margin-left: 5px;
+    margin-right: 5px;
+}
+
+.search {
+    height: stretch;
+}
+
+.brand-name {
+    line-height: 35px;
+    font-size: 1em;
+}
+
+/* ----- Loading Spinner styles ----- */
+
+body {
+    position: relative;
+}
+
+.overlay { display: none; }
+
+/* When the page starts with the `loader-class` on the wrapper element
+   show a full-page translucent overlay and a centered brand logo.
+   The existing `toc.js` removes the `loader-class` after initialization,
+   which will hide this overlay automatically. */
+.overlay { display: none; }
+
+/* by default hide the brand loader; it's shown only while `loader-class` is present */
+.brand-loader { display: none; }
+
+/* When the page starts with the `loader-class` on the wrapper element
+    show a full-page translucent overlay and a centered brand logo.
+    The existing `toc.js` removes the `loader-class` after initialization,
+    which will hide this overlay automatically. */
+.loader-class .overlay {
+    display: block;
+    position: absolute;
+    inset: 0;
+    background: rgba(255, 255, 255, 0.95);
+    z-index: 100;
+}
+
+.loader-class .brand-loader {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: absolute;
+    inset: 0;
+    z-index: 101;
+}
+
+.syncfusion-logo-large {
+    width: 320px;
+    height: 80px;
+    background: url(https://cdn.syncfusion.com/blazor/images/demos/syncfusion-logo.svg) center/contain no-repeat;
+    filter: drop-shadow(0 8px 18px rgba(16,24,40,0.08));
+}
+
+/* Hide the brand loader when the wrapper no longer has loader-class */
+.loader-class ~ * .brand-loader, .loader-class .brand-loader { }

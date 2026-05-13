@@ -1,0 +1,172 @@
+﻿@using Syncfusion.Blazor.Toolkit.Charts
+@using Syncfusion.Blazor.Toolkit.Tests
+@using Bunit
+@using Xunit
+
+@inherits TestComponentBase
+
+<SfFixture @ref="fixture" TestAsync="TrendLineWithLineStyle" Description="TrendLineWithLineStyle">
+    <ComponentUnderTest>
+        <SfChart ID="container" Title="Online trading">
+            <ChartPrimaryXAxis Title="Months" ValueType="Syncfusion.Blazor.Toolkit.ValueType.DateTime"></ChartPrimaryXAxis>
+            <ChartPrimaryYAxis Title="Rupees against Dollars" Interval="5"></ChartPrimaryYAxis>
+            <ChartSeriesCollection>
+                <ChartSeries DataSource="@Trends" XName="x" YName="y" Type="ChartSeriesType.Scatter" Name="trend" Fill="#0066FF">
+                    <ChartSeriesAnimation Enable="false"></ChartSeriesAnimation>
+                    <ChartTrendlines>
+                        <ChartTrendline Type="TrendlineTypes.Linear" ForwardForecast="5" Name="Linear"
+                                        DashArray="4,5" Fill="Red" Width="1.5"></ChartTrendline>
+                    </ChartTrendlines>
+                </ChartSeries>
+            </ChartSeriesCollection>
+        </SfChart>
+    </ComponentUnderTest>
+</SfFixture>
+@code {
+
+    SfFixture fixture { get; set; }
+    async Task TrendLineWithLineStyle(Fixture fixture)
+    {
+        var cut = fixture.GetComponentUnderTest<SfChart>();
+        await Task.Delay(200);
+        var svg = cut.Find("#container_Series_0_TrendLine_0");
+        Assert.True(svg.GetAttribute("stroke-dasharray") == "4,5");
+        Assert.True(svg.GetAttribute("stroke") == "Red");
+        Assert.True(svg.GetAttribute("stroke-width") == "1.5");
+        Assert.True(svg.GetAttribute("fill") == "none");
+        cut.SetParametersAndRender();
+    }
+    public class TrendData
+    {
+        public DateTime x { get; set; }
+        public double y { get; set; }
+    }
+    public List<TrendData> Trends = new List<TrendData>
+{
+        new TrendData { x = new DateTime(2000, 2, 11), y = 14 },
+        new TrendData { x = new DateTime(2001, 9, 4), y = 20 },
+        new TrendData { x = new DateTime(2002, 2, 11), y = 25 },
+        new TrendData { x = new DateTime(2003, 9, 16), y = 21 },
+        new TrendData { x = new DateTime(2004, 2, 7), y = 13},
+        new TrendData { x = new DateTime(2005, 9, 7), y = 18 },
+        new TrendData { x = new DateTime(2006, 2, 11), y = 24 },
+        new TrendData { x = new DateTime(2007, 9, 14), y = 23 },
+        new TrendData { x = new DateTime(2008, 2, 6), y = 19 },
+        new TrendData { x = new DateTime(2009, 9, 6), y = 31 },
+        new TrendData { x = new DateTime(2010, 2, 11), y = 39},
+        new TrendData { x = new DateTime(2011, 9, 11), y = 50 },
+        new TrendData { x = new DateTime(2012, 2, 11), y = 24 },
+    };
+}
+
+
+@{
+    var InitialGroup1 = (new string[] { "CustomerID", "OrderID" });
+}
+<SfFixture @ref="fixture1" TestAsync="TrendLineWithLegendVisibility" Description="TrendLineWithLegendVisibility">
+    <ComponentUnderTest>
+        <SfChart ID="container" Title="Online trading">
+            <ChartPrimaryXAxis Title="Months" ValueType="Syncfusion.Blazor.Toolkit.ValueType.DateTime"></ChartPrimaryXAxis>
+            <ChartPrimaryYAxis Title="Rupees against Dollars" Interval="5"></ChartPrimaryYAxis>
+            <ChartSeriesCollection>
+                <ChartSeries DataSource="@Trends1" XName="x" YName="y" Type="ChartSeriesType.Scatter" Name="trend" Fill="#0066FF">
+                    <ChartSeriesAnimation Enable="false"></ChartSeriesAnimation>
+                    <ChartTrendlines>
+                        <ChartTrendline Type="TrendlineTypes.Linear" ForwardForecast="5" Name="Linear"
+                                        DashArray="4,5" Fill="Red" Width="1.5"></ChartTrendline>
+                    </ChartTrendlines>
+                </ChartSeries>
+            </ChartSeriesCollection>
+        </SfChart>
+    </ComponentUnderTest>
+</SfFixture>
+@code {
+
+    SfFixture fixture1 { get; set; }
+    async Task TrendLineWithLegendVisibility(Fixture fixture1)
+    {
+        var cut = fixture1.GetComponentUnderTest<SfChart>();
+        await Task.Delay(200);
+        var svg = cut.Find("#container_chart_legend_shape_1");
+        Assert.True(svg.GetAttribute("stroke") == "Red");
+        Assert.True(svg.GetAttribute("stroke-width") == "1");
+        Assert.True(svg.GetAttribute("fill") == "Red");
+        cut.SetParametersAndRender();
+    }
+    public class TrendData1
+    {
+        public DateTime x { get; set; }
+        public double y { get; set; }
+    }
+    public List<TrendData1> Trends1 = new List<TrendData1>
+{
+        new TrendData1 { x = new DateTime(2000, 2, 11), y = 14 },
+        new TrendData1 { x = new DateTime(2001, 9, 4), y = 20 },
+        new TrendData1 { x = new DateTime(2002, 2, 11), y = 25 },
+        new TrendData1 { x = new DateTime(2003, 9, 16), y = 21 },
+        new TrendData1 { x = new DateTime(2004, 2, 7), y = 13},
+        new TrendData1 { x = new DateTime(2005, 9, 7), y = 18 },
+        new TrendData1 { x = new DateTime(2006, 2, 11), y = 24 },
+        new TrendData1 { x = new DateTime(2007, 9, 14), y = 23 },
+        new TrendData1 { x = new DateTime(2008, 2, 6), y = 19 },
+        new TrendData1 { x = new DateTime(2009, 9, 6), y = 31 },
+        new TrendData1 { x = new DateTime(2010, 2, 11), y = 39},
+        new TrendData1 { x = new DateTime(2011, 9, 11), y = 50 },
+        new TrendData1 { x = new DateTime(2012, 2, 11), y = 24 },
+    };
+}
+
+
+@{
+    var InitialGroup2 = (new string[] { "CustomerID", "OrderID" });
+}
+<SfFixture @ref="fixture2" TestAsync="TrendLineWithLegendText" Description="TrendLineWithLegendText">
+    <ComponentUnderTest>
+        <SfChart ID="container" Title="Online trading">
+            <ChartPrimaryXAxis Title="Months" ValueType="Syncfusion.Blazor.Toolkit.ValueType.DateTime"></ChartPrimaryXAxis>
+            <ChartPrimaryYAxis Title="Rupees against Dollars" Interval="5"></ChartPrimaryYAxis>
+            <ChartSeriesCollection>
+                <ChartSeries DataSource="@Trends2" XName="x" YName="y" Type="ChartSeriesType.Scatter" Name="trend" Fill="#0066FF">
+                    <ChartSeriesAnimation Enable="false"></ChartSeriesAnimation>
+                    <ChartTrendlines>
+                        <ChartTrendline Type="TrendlineTypes.Linear" ForwardForecast="5" Name="Linear"
+                                        DashArray="4,5" Fill="Red" Width="1.5"></ChartTrendline>
+                    </ChartTrendlines>
+                </ChartSeries>
+            </ChartSeriesCollection>
+        </SfChart>
+    </ComponentUnderTest>
+</SfFixture>
+@code {
+
+    SfFixture fixture2 { get; set; }
+    async Task TrendLineWithLegendText(Fixture fixture2)
+    {
+        var cut = fixture2.GetComponentUnderTest<SfChart>();
+        await Task.Delay(200);
+        var svg = cut.Find("#container_chart_legend_text_1");
+        Assert.True(svg.GetAttribute("fill") == "#242424");
+        cut.SetParametersAndRender();
+    }
+    public class TrendData2
+    {
+        public DateTime x { get; set; }
+        public double y { get; set; }
+    }
+    public List<TrendData2> Trends2 = new List<TrendData2>
+{
+        new TrendData2 { x = new DateTime(2000, 2, 11), y = 14 },
+        new TrendData2 { x = new DateTime(2001, 9, 4), y = 20 },
+        new TrendData2 { x = new DateTime(2002, 2, 11), y = 25 },
+        new TrendData2 { x = new DateTime(2003, 9, 16), y = 21 },
+        new TrendData2 { x = new DateTime(2004, 2, 7), y = 13},
+        new TrendData2 { x = new DateTime(2005, 9, 7), y = 18 },
+        new TrendData2 { x = new DateTime(2006, 2, 11), y = 24 },
+        new TrendData2 { x = new DateTime(2007, 9, 14), y = 23 },
+        new TrendData2 { x = new DateTime(2008, 2, 6), y = 19 },
+        new TrendData2 { x = new DateTime(2009, 9, 6), y = 31 },
+        new TrendData2 { x = new DateTime(2010, 2, 11), y = 39},
+        new TrendData2 { x = new DateTime(2011, 9, 11), y = 50 },
+        new TrendData2 { x = new DateTime(2012, 2, 11), y = 24 },
+    };
+}

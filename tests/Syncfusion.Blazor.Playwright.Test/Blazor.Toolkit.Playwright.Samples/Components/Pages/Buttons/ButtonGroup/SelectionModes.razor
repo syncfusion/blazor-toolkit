@@ -1,0 +1,59 @@
+@page "/button-group/selection-modes"
+@using Syncfusion.Blazor.Toolkit.Buttons
+@layout MainLayout
+
+<h1>Button Group - Selection Modes</h1>
+
+<div class="test-container">
+    <h2>Single Selection Mode</h2>
+    <SfButtonGroup id="bg-single-mode" Mode="SelectionMode.Single">
+        <ButtonGroupButton Content="Small" id="size-small" Value="small"></ButtonGroupButton>
+        <ButtonGroupButton Content="Medium" id="size-medium" Value="medium" Selected="true"></ButtonGroupButton>
+        <ButtonGroupButton Content="Large" id="size-large" Value="large"></ButtonGroupButton>
+    </SfButtonGroup>
+    <p>Selected Value: <strong id="single-value">medium</strong></p>
+</div>
+
+<div class="test-container">
+    <h2>Multiple Selection Mode</h2>
+    <SfButtonGroup id="bg-multi-mode" Mode="SelectionMode.Multiple">
+        <ButtonGroupButton Content="Read" id="perm-read" Value="read"></ButtonGroupButton>
+        <ButtonGroupButton Content="Write" id="perm-write" Value="write"></ButtonGroupButton>
+        <ButtonGroupButton Content="Execute" id="perm-execute" Value="execute"></ButtonGroupButton>
+    </SfButtonGroup>
+    <p>Selected Permissions: <strong id="multi-value">None</strong></p>
+</div>
+
+<div class="test-container">
+    <h2>Default Mode (No Selection)</h2>
+    <SfButtonGroup id="bg-default-mode">
+        <ButtonGroupButton Content="Action 1" id="action-1"></ButtonGroupButton>
+        <ButtonGroupButton Content="Action 2" id="action-2"></ButtonGroupButton>
+        <ButtonGroupButton Content="Action 3" id="action-3"></ButtonGroupButton>
+    </SfButtonGroup>
+    <p>Note: Buttons respond to clicks but don't maintain selection state in default mode</p>
+</div>
+
+<style>
+    .test-container {
+        padding: 20px;
+        border: 1px solid #ddd;
+        margin: 10px 0;
+        border-radius: 4px;
+        background-color: #f9f9f9;
+    }
+    
+    h2 {
+        margin-top: 20px;
+        font-size: 18px;
+        font-weight: 600;
+    }
+    
+    p {
+        margin-top: 15px;
+        font-size: 14px;
+    }
+</style>
+
+@code {
+}

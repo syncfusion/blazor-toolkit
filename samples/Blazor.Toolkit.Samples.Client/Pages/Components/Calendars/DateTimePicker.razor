@@ -1,0 +1,651 @@
+﻿@page "/calendars/datetimepicker"
+
+<PageTitle>DateTimePicker | ASP.NET Core Blazor OSS Components</PageTitle>
+
+@using Syncfusion.Blazor.Toolkit.Calendars
+@using System.Globalization
+
+<Description>
+	<Header>
+		<h4>Blazor Toolkit DateTimePicker Component</h4>
+	</Header>
+	<Content>
+        The Blazor <code>DateTimePicker</code> component provides a seamless interface for choosing both date and time in a single, unified control. It supports multiple display modes, customizable formats, validation rules, and accessibility features for precise date‑time input.
+	</Content>
+</Description>
+
+<CodePreview CodeSection="@DefaultCode">
+	<PreviewSection>
+		<SfDateTimePicker TValue="DateTime?" Width="300px" Placeholder='Select a date and time' ShowClearButton="true"></SfDateTimePicker>
+	</PreviewSection>
+</CodePreview>
+
+<Description>
+	<Header>
+		<h5>Disabled Dates</h5>
+	</Header>
+	<Content>
+		<p>
+            This sample demonstrates disabled dates functionality in the <code>DateTimePicker</code> component. All weekends (Saturday and Sunday) of a month are disabled and restricted from selection.
+		</p>
+		<p>
+			The Disabled Dates example shows how to disable specific dates in the DateTimePicker using the DayCellRendering event. This event triggers on each day cell element creation, allowing customization or disabling of specific dates.
+			In this example, weekend dates are disabled using the <code>DayCellRendering</code> event by adding appropriate CSS classes to restrict selection.
+		</p>
+	</Content>
+</Description>
+
+<CodePreview CodeSection="@DisabledDatesCode">
+	<PreviewSection>
+        <SfDateTimePicker TValue="DateTime ?" Width="300px" @ref="@DateTimePickerObj" ShowClearButton="true" DayCellRendering="@DisableDate" Placeholder="Select a date and time" />
+	</PreviewSection>
+</CodePreview>
+
+<Description>
+	<Header>
+		<h5>Special Dates</h5>
+	</Header>
+	<Content>
+		<p>
+			This sample demonstrates how to highlight specific dates in the calendar popup of the DateTimePicker component with custom styling.
+		</p>
+		<p>
+			The Special Dates example shows how to customize specific dates using the DayCellRendering event. This event triggers on each day cell element creation, allowing custom styling and customization.
+			In this example, weekend dates are disabled using the <code>DayCellRendering</code> event by adding appropriate CSS classes to restrict selection.
+		</p>
+	</Content>
+</Description>
+
+<CodePreview CodeSection="@SpecialDatesCode">
+	<PreviewSection>
+		<div class="control-wrapper">
+			<SfDateTimePicker TValue="DateTime?" Width="300px" ShowClearButton="true" @bind-Value="@SelectedDate" Placeholder="Select date and time" DayCellRendering="CustomDates" ValueChange="OnChange" Created="CreatedHandler" />
+		</div>
+		<div class="display-date">
+		    <span class="example-label">Selected date is: <b>@SelectedValue</b></span>
+		</div>	
+	</PreviewSection>
+</CodePreview>
+
+<Description>
+    <Header>
+        <h5>Date And Time Range Restriction</h5>
+    </Header>
+    <Content>
+        <p>
+            This sample demonstrates date and time range selection in the DateTimePicker component.
+            Date and time selection is restricted within specific ranges defined by the Min, Max, MinTime, and MaxTime properties.
+            All other dates and times are out of range and restricted.
+        </p>
+        <p>
+            In this example, the DateTimePicker range is restricted from 7th to 27th days of current month and the time is restriced from 10:00 AM to 7:00 PM.
+        </p>
+    </Content>
+</Description>
+
+<CodePreview CodeSection="@RangeRestrictionCode">
+    <PreviewSection>
+        <SfDateTimePicker TValue="DateTime?" Width="300px" Value="@DateTimeValue" Min="@MinDate" Max="@MaxDate" MinTime="@MinTime" MaxTime="@MaxTime" ShowClearButton="true" Placeholder="Select a date and time" />
+    </PreviewSection>
+</CodePreview>
+
+<Description>
+    <Header>
+        <h5>DateTime Format</h5>
+    </Header>
+    <Content>
+        <p>
+            The display format defines how the date and time value is shown (and parsed) in the DateTimePicker.
+            By default, the DateTimePicker’s format is based on the current culture.
+            You can also apply a custom or standard .NET date and time format by using the <code>Format</code> property.
+        </p>
+    </Content>
+</Description>
+
+<CodePreview CodeSection="@DateTimeFormatCode">
+    <PreviewSection>
+        <SfDateTimePicker TValue="DateTime?" Width="300px" Format="yyyy-MM-dd hh:mm:ss" @bind-Value="@FormattedDateValue" ShowClearButton="true" Placeholder="Select a date and time" />
+    </PreviewSection>
+</CodePreview>
+
+<Description>
+    <Header>
+        <h5>Mask Support</h5>
+    </Header>
+    <Content>
+        <p>
+            The masking feature guides users to enter date and time values that match the display format defined by the Format property.
+            Enable or disable masking using the EnableMask property.
+            When enabled, the input shows a mask pattern derived from the configured format and the current culture (including localized separators and literals).
+        </p>
+        <p>
+            The DateTimePickerMaskPlaceholder directive allows custom placeholder text for each segment of the date and time format in a DateTimePicker.
+            Use it together with EnableMask to provide clear guidance for expected input.
+            Placeholders apply to the segments used by the configured format (for example, dd/MM/yyyy hh:mm:ss).
+        </p>
+    </Content>
+</Description>
+
+<CodePreview CodeSection="@MaskCode">
+    <PreviewSection>
+        <SfDateTimePicker TValue="DateTime?" Width="300px" Format="yyyy-MM-dd, dddd, hh:mm:ss" EnableMask="true" @bind-Value="@MaskDateValue" ShowClearButton="true" Placeholder="Select a date and time">
+            <DateTimePickerMaskPlaceholder Day="day" Month="month" Year="year" Hour="hour" Minute="minute" Second="second" DayOfWeek="weekday"></DateTimePickerMaskPlaceholder>
+        </SfDateTimePicker>
+    </PreviewSection>
+</CodePreview>
+
+<Description>
+    <Header>
+        <h5>Events</h5>
+    </Header>
+    <Content>
+        <p>
+            This sample demonstrates the list of events of the DateTimePicker component which will be triggered for appropriate DateTimePicker actions.
+        </p>
+        <p>
+            <table class="table table-bordered">
+                <thead>
+                    <tr>
+                        <th>Event Name</th>
+                        <th>Uses</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Blur</td>
+                        <td>Triggers when the input loses focus.</td>
+                    </tr>
+                    <tr>
+                        <td>ValueChange</td>
+                        <td>Triggers when the DateTimePicker value is changed.</td>
+                    </tr>
+                    <tr>
+                        <td>OnClose</td>
+                        <td>Triggers when the DateTimePicker popup is closed.</td>
+                    </tr>
+                    <tr>
+                        <td>OnOpen</td>
+                        <td>Triggers when the DateTimePicker popup is opened.</td>
+                    </tr>
+                    <tr>
+                        <td>Created</td>
+                        <td>Triggers when the DateTimePicker component is created.</td>
+                    </tr>
+                    <tr>
+                        <td>Destroyed</td>
+                        <td>Triggers when the DateTimePicker component is destroyed.</td>
+                    </tr>
+                    <tr>
+                        <td>Focus</td>
+                        <td>Triggers when the input element gets focus.</td>
+                    </tr>
+                    <tr>
+                        <td>Navigated</td>
+                        <td>Triggers when the the Calendar is navigated to another level or within the same level of view.</td>
+                    </tr>
+                    <tr>
+                        <td>DayCellRendering</td>
+                        <td>Triggers before each day cell is rendered in the calendar.</td>
+                    </tr>
+                </tbody>
+            </table>
+        </p>
+    </Content>
+</Description>
+
+<CodePreview CodeSection="@EventsCode">
+    <PreviewSection>
+        <div class="control-wrapper">
+            <SfDateTimePicker TValue="DateTime?" Width="300px" Placeholder="Select a date and time" ShowClearButton="true" OnBlur="BlurHandler" ValueChange="ValueChangeHandler" OnFocus="FocusHandler"></SfDateTimePicker>
+        </div>
+        <div class="mt-3">
+            <span class="example-label"><b>Triggered Event:</b> @_triggeredEvent</span>
+        </div>
+    </PreviewSection>
+</CodePreview>
+
+<Description>
+    <Header>
+        <h5>Islamic Calendar</h5>
+    </Header>
+    <Content>
+        <p>
+            In addition to the Gregorian calendar, the DateTimePicker component supports the Islamic (Hijri) calendar.
+            The Islamic calendar is a lunar calendar consisting of 12 months in a year of 354 or 355 days.
+            Users can select a date from the Islamic calendar or manually enter a date.
+            Additionally, helper methods such as ConvertToHijri and ConvertToGregorian can be used to convert dates between calendar systems.
+        </p>
+        <p>
+            The DateTimePicker retains its core features in Islamic mode, such as minimum and maximum date constraints, week numbers, first day of the week, right-to-left (RTL) support, start and depth views, localization, and the ability to highlight and customize specific dates.
+            By default, the calendar mode is Gregorian. Enable Islamic mode by setting the CalendarMode property to CalendarType.Islamic. The selected value continues to be handled as a date/time value while the UI uses the Hijri calendar for display and navigation.
+        </p>
+    </Content>
+</Description>
+
+<CodePreview CodeSection="@IslamicCalendarCode">
+    <PreviewSection>
+        <SfDateTimePicker TValue="DateTime?" Width="300px" CalendarMode="CalendarType.Islamic" ShowClearButton="true" Placeholder="Select a date and time" />
+    </PreviewSection>
+</CodePreview>
+
+<Description>
+    <Header>
+        <h5>Strict Mode</h5>
+    </Header>
+    <Content>
+        <p>
+            The <code>StrictMode</code> property controls how typed input is validated against the configured Min and Max range.
+            When enabled, only valid date and time values within the specified range are accepted. 
+            If the entered value is invalid, the component retains the previous valid value. 
+            If the entered value is out of range, the component clamps the value to the nearest boundary (Min or Max).
+        </p>
+        <p>
+            The following example demonstrates the DateTimePicker in <code>StrictMode</code> with a Min/Max range of 5/5/2019 2:00 AM to 5/25/2019 2:00 AM.
+            Only valid values within the range are accepted.
+        </p>
+        <ul>
+            <li>If an out-of-range value such as 5/28/2019 is entered, the value is set to the Max value (5/25/2019 2:00 AM).</li>
+            <li>If an invalid date is entered, the value remains at the previous valid value.</li>
+        </ul>
+        <p>
+            The following code demonstrates the DateTimePicker with <code>StrictMode</code> as <code>true</code>.
+        </p>
+    </Content>
+</Description>
+
+<CodePreview CodeSection="@StrictModeCode">
+    <PreviewSection>
+        <SfDateTimePicker TValue="DateTime?" Width="300px" Min="@StrictModeMinDate" Max="@StrictModeMaxDate" StrictMode=true Value="@StrictModeDateValue" Placeholder="Select a date and time" />
+    </PreviewSection>
+</CodePreview>
+
+<Description>
+    <Header>
+        <h5>WeekNumber And WeekRule</h5>
+    </Header>
+    <Content>
+        <p>
+            This sample demonstrates the week number and different week rules functionalities of the DateTimePicker component. Here, we have assigned <code>FirstDay</code> as the <code>WeekRule</code> for the DateTimePicker component.
+        </p>
+        <p>
+            The DateTimePicker provides the <code>WeekNumber</code> and <code>WeekRule</code> properties to specify the rule for defining the first week of the year with options: <code>FirstDay</code>, <code>FirstFullWeek</code>, and <code>FirstFourDayWeek</code>.
+        </p>
+        <table class="table table-bordered">
+            <thead>
+                <tr>
+                    <th>Types</th>
+                    <th>Description</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>FirstDay</td>
+                    <td>
+                        The first week starts on the first day of the year; subsequent
+                        weeks are numbered 1, 2, 3, and so on.
+                    </td>
+                </tr>
+
+                <tr>
+                    <td>FirstFullWeek</td>
+                    <td>
+                        The first full week of the year is week 1; days before the first
+                        full week are counted as the last week (52 or 53) of the
+                        previous year.
+                    </td>
+                </tr>
+
+                <tr>
+                    <td>FirstFourDayWeek</td>
+                    <td>
+                        The first week with at least four days in the new year is week 1;
+                        otherwise, that week is counted as the last week (52 or 53)
+                        of the previous year.
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </Content>
+</Description>
+
+<CodePreview CodeSection="@WeekNumberCode">
+    <PreviewSection>
+        <SfDateTimePicker TValue="DateTime?" Width="300px" WeekNumber="true" WeekRule="CalendarWeekRule.FirstDay" ShowClearButton="true" Placeholder="Select a date and time"></SfDateTimePicker>
+    </PreviewSection>
+</CodePreview>
+
+
+
+@code {
+    //Default
+    private string DefaultCode => @"<SfDateTimePicker TValue=""DateTime?"" Width=""300px"" Placeholder=""Select a date and time"" ShowClearButton=""true""></SfDateTimePicker>";
+
+    //DisabledDates
+    private string DisabledDatesCode => 
+@"<SfDateTimePicker TValue=""DateTime?"" Width=""300px"" @ref=""@DateTimePickerObj"" ShowClearButton=""true"" DayCellRendering=""@DisableDate"" Placeholder=""Select a date and time"" />
+
+@code {
+    private SfDateTimePicker<DateTime?>? DateTimePickerObj { get; set; }
+    private void DisableDate(RenderDayCellEventArgs args)
+    {
+        if (DateTimePickerObj != null)
+        {
+            var view = DateTimePickerObj.CurrentView();
+            if (view == ""Month"" && ((int)args.Date.DayOfWeek == 0 || (int)args.Date.DayOfWeek == 6))
+            {
+                args.IsDisabled = true;
+            }           
+        }
+    }
+}";
+    private SfDateTimePicker<DateTime?>? DateTimePickerObj { get; set; }
+    private void DisableDate(RenderDayCellEventArgs args)
+    {
+        if (DateTimePickerObj != null)
+        {
+            var view = DateTimePickerObj.CurrentView();
+            if (view == "Month" && ((int)args.Date.DayOfWeek == 0 || (int)args.Date.DayOfWeek == 6))
+            {
+                args.IsDisabled = true;
+            }
+        }
+    }
+
+    //SpecialDates
+    private string SpecialDatesCode => 
+@"<div class=""control-wrapper"">
+	<SfDateTimePicker TValue=""DateTime?"" Width=""300px"" ShowClearButton=""true"" @bind-Value=""@SelectedDate"" Placeholder=""Select date and time"" DayCellRendering=""CustomDates"" ValueChange=""OnChange"" Created=""CreatedHandler""/>
+</div>
+<div class=""display-date"">
+    <span class=""example-label"">Selected date is: @SelectedValue</b></span>
+</div>
+
+code {
+    public DateTime? SelectedDate { get; set; } = DateTime.Now;
+    public string? SelectedValue { get; set; } = DateTime.Now.ToString(""M/d/yyyy"");
+    public DateTime? CurrentDate { get; set; } = DateTime.Now;
+    public void CustomDates(RenderDayCellEventArgs args)
+    {
+        if (CurrentDate != null)
+        {
+            var CurrentMonth = CurrentDate.Value.Month;
+            if (args.Date.Month == CurrentMonth && (args.Date.Day == 7 || args.Date.Day == 14 || args.Date.Day == 24 || args.Date.Day == 29))
+            {
+                if (args.CellData != null)
+                {
+                    args.CellData.ClassList += "" personal-appointment"";
+                }
+            }
+            if (args.Date.Month == CurrentMonth && (args.Date.Day == 3 || args.Date.Day == 11 || args.Date.Day == 17 || args.Date.Day == 22))
+            {
+                if (args.CellData != null)
+                {
+                    args.CellData.ClassList += "" official-appointment"";
+                }
+            }
+        }
+    }
+    public void CreatedHandler(object args)
+    {
+        if (DateTime.Today.Day == 7 || DateTime.Today.Day == 14 || DateTime.Today.Day == 24 || DateTime.Today.Day == 29)
+        {
+            this.SelectedValue = this.SelectedDate?.ToString(""M/d/yyyy"") + "" (Personal appointment)"";
+        }
+        if (DateTime.Today.Day == 3 || DateTime.Today.Day == 11 || DateTime.Today.Day == 17 || DateTime.Today.Day == 22)
+        {
+            this.SelectedValue = this.SelectedDate?.ToString(""M/d/yyyy"") + "" (Official appointment)"";
+        }
+    }
+    public void OnChange(ChangedEventArgs<DateTime?> args)
+    {
+        var Count = 0;
+        if (CurrentDate != null)
+        {
+            var CurrentMonth = CurrentDate.Value.Month;
+            if (args.Value != null && args.Value.Value.Month == CurrentMonth && (args.Value.Value.Day == 7 || args.Value.Value.Day == 14 || args.Value.Value.Day == 24 || args.Value.Value.Day == 29))
+            {
+                this.SelectedValue = this.SelectedDate?.ToString(""M/d/yyyy"") + "" (Personal appointment)"";
+                Count++;
+            }
+            if (args.Value != null && args.Value.Value.Month == CurrentMonth && (args.Value.Value.Day == 3 || args.Value.Value.Day == 11 || args.Value.Value.Day == 17 || args.Value.Value.Day == 22))
+            {
+                this.SelectedValue = this.SelectedDate?.ToString(""M/d/yyyy"") + "" (Official appointment)"";
+                Count++;
+            }
+            if (Count == 0)
+            {
+                this.SelectedValue = this.SelectedDate?.ToString(""M/d/yyyy"");
+            }
+        }
+    }
+}
+<style>
+    .control-wrapper {
+        max-width: 275px;
+        margin: 0 auto;
+        padding: 50px 0px 0px;
+    }
+    .example-label {
+        font-size: 14px;
+        margin-bottom: 6px;
+    }
+    .display-date {
+        max-width: 275px;
+        margin: 0 auto;
+        padding: 15px 0px;
+    }
+    .e-calendar .e-content .e-cell.personal-appointment span.e-day,
+    .e-calendar .e-content td:hover.e-cell.personal-appointment span.e-day,
+    .e-calendar .e-content td.e-selected.e-focused-date.e-cell.personal-appointment span.e-day {
+        color: #28a745;
+        font-weight: 800;
+    }
+    .e-calendar .e-content .e-cell.official-appointment span.e-day,
+    .e-calendar .e-content td:hover.e-cell.official-appointment span.e-day,
+    .e-calendar .e-content td.e-selected.e-focused-date.e-cell.official-appointment span.e-day {
+        color: #dc3545;
+        font-weight: 800;
+    }
+    .e-calendar .e-content td.e-selected.e-focused-date.e-cell.personal-appointment span.e-day,
+    .e-calendar .e-content td.e-selected.e-focused-date.e-cell.official-appointment span.e-day {
+        background-color: rgb(255 255 0 / 90%);
+    }
+</style>";
+    public DateTime? SelectedDate { get; set; } = DateTime.Now;
+    public string? SelectedValue { get; set; } = DateTime.Now.ToString("M/d/yyyy");
+    public DateTime? CurrentDate { get; set; } = DateTime.Now;
+    public void CustomDates(RenderDayCellEventArgs args)
+    {
+        if (CurrentDate != null)
+        {
+            var CurrentMonth = CurrentDate.Value.Month;
+            if (args.Date.Month == CurrentMonth && (args.Date.Day == 7 || args.Date.Day == 14 || args.Date.Day == 24 || args.Date.Day == 29))
+            {
+                if (args.CellData != null)
+                {
+                    args.CellData.ClassList += " personal-appointment";
+                }
+            }
+            if (args.Date.Month == CurrentMonth && (args.Date.Day == 3 || args.Date.Day == 11 || args.Date.Day == 17 || args.Date.Day == 22))
+            {
+                if (args.CellData != null)
+                {
+                    args.CellData.ClassList += " official-appointment";
+                }
+            }
+        }
+    }
+    public void CreatedHandler(object args)
+    {
+        if (DateTime.Today.Day == 7 || DateTime.Today.Day == 14 || DateTime.Today.Day == 24 || DateTime.Today.Day == 29)
+        {
+            this.SelectedValue = this.SelectedDate?.ToString("M/d/yyyy") + " (Personal appointment)";
+        }
+        if (DateTime.Today.Day == 3 || DateTime.Today.Day == 11 || DateTime.Today.Day == 17 || DateTime.Today.Day == 22)
+        {
+            this.SelectedValue = this.SelectedDate?.ToString("M/d/yyyy") + " (Official appointment)";
+        }
+    }
+    public void OnChange(ChangedEventArgs<DateTime?> args)
+    {
+        var Count = 0;
+        if (CurrentDate != null)
+        {
+            var CurrentMonth = CurrentDate.Value.Month;
+            if (args.Value != null && args.Value.Value.Month == CurrentMonth && (args.Value.Value.Day == 7 || args.Value.Value.Day == 14 || args.Value.Value.Day == 24 || args.Value.Value.Day == 29))
+            {
+                this.SelectedValue = this.SelectedDate?.ToString("M/d/yyyy") + " (Personal appointment)";
+                Count++;
+            }
+            if (args.Value != null && args.Value.Value.Month == CurrentMonth && (args.Value.Value.Day == 3 || args.Value.Value.Day == 11 || args.Value.Value.Day == 17 || args.Value.Value.Day == 22))
+            {
+                this.SelectedValue = this.SelectedDate?.ToString("M/d/yyyy") + " (Official appointment)";
+                Count++;
+            }
+            if (Count == 0)
+            {
+                this.SelectedValue = this.SelectedDate?.ToString("M/d/yyyy");
+            }
+        }
+    }
+
+    //DateTimeRangeRestriction
+    private string RangeRestrictionCode => 
+@"<SfDateTimePicker TValue=""DateTime?"" Width=""300px"" Value=""@DateTimeValue"" Min=""@MinDate"" Max=""@MaxDate"" MinTime=""@MinTime"" MaxTime=""@MaxTime"" ShowClearButton=""true"" Placeholder=""Select a date and time"" />
+
+code {
+    public DateTime DateTimeValue { get; set; } = new DateTime(DateTime.Now.Year, DateTime.Now.Month, 9, 11, 0, 0);
+    public DateTime MinDate { get; set; } = new DateTime(DateTime.Now.Year, DateTime.Now.Month, 7, 10, 0, 0);
+    public DateTime MaxDate { get; set; } = new DateTime(DateTime.Now.Year, DateTime.Now.Month, 27, 22, 30, 0);
+    public DateTime MinTime { get; set; } = new DateTime(DateTime.Now.Year, DateTime.Now.Month, 7, 10, 0, 0);
+    public DateTime MaxTime { get; set; } = new DateTime(DateTime.Now.Year, DateTime.Now.Month, 27, 20, 30, 0);
+}";
+    public DateTime DateTimeValue { get; set; } = new DateTime(DateTime.Now.Year, DateTime.Now.Month, 9, 11, 0, 0);
+    public DateTime MinDate { get; set; } = new DateTime(DateTime.Now.Year, DateTime.Now.Month, 7, 10, 0, 0);
+    public DateTime MaxDate { get; set; } = new DateTime(DateTime.Now.Year, DateTime.Now.Month, 27, 22, 30, 0);
+    public DateTime MinTime { get; set; } = new DateTime(DateTime.Now.Year, DateTime.Now.Month, 7, 10, 0, 0);
+    public DateTime MaxTime { get; set; } = new DateTime(DateTime.Now.Year, DateTime.Now.Month, 27, 20, 30, 0);
+
+    //DateTimeFormat
+    private string DateTimeFormatCode =>
+@"<SfDateTimePicker TValue=""DateTime?"" Width=""300px"" Format=""yyyy-MM-dd hh:mm:ss"" @bind-Value=""@FormattedDateValue"" ShowClearButton=""true"" Placeholder=""Select a date and time"" />
+code {
+    public DateTime? FormattedDateValue { get; set; } = new DateTime(2026, 12, 11, 11, 30, 00);
+}";
+    public DateTime? FormattedDateValue { get; set; } = new DateTime(2026, 12, 11, 11, 30, 00);
+
+    //Mask
+    private string MaskCode => 
+@"<SfDateTimePicker TValue=""DateTime?"" Width=""300px"" Format=""yyyy-MM-dd hh:mm:ss"" EnableMask=""true"" @bind-Value=""@MaskDateValue"" ShowClearButton=""true"" Placeholder=""Select a date and time"">
+    <DateTimePickerMaskPlaceholder Day=""day"" Month=""month"" Year=""year"" Hour=""hour"" Minute=""minute"" Second=""second"" DayOfWeek=""weekday""></DateTimePickerMaskPlaceholder>
+</SfDateTimePicker>
+code {
+    public DateTime? MaskDateValue { get; set; } = new DateTime(2026, 12, 11, 11, 30, 00);
+}";
+    public DateTime? MaskDateValue { get; set; } = new DateTime(2026, 12, 11, 11, 30, 00);
+
+    //Events
+    private string EventsCode =>
+@"<div class=""control-wrapper"">
+     <SfDateTimePicker TValue=""DateTime?"" Width=""300px"" Placeholder=""Select a date and time"" ShowClearButton=""true"" OnBlur=""BlurHandler"" ValueChange=""ValueChangeHandler"" OnFocus=""FocusHandler""></SfDateTimePicker>
+ </div>
+ <div class=""mt-3"">
+     <span class=""example-label"">Triggered Event:</b> @_triggeredEvent</span>
+ </div>
+
+code {
+    private string _triggeredEvent = string.Empty;
+	public void BlurHandler(Syncfusion.Blazor.Toolkit.Calendars.BlurEventArgs args)
+	{
+	    _triggeredEvent = ""Blur event is triggered"";
+	}
+
+	public void ValueChangeHandler(ChangedEventArgs<DateTime?> args)
+	{
+	    _triggeredEvent = ""ValueChange event is triggered"";
+	}
+
+	public void FocusHandler(Syncfusion.Blazor.Toolkit.Calendars.FocusEventArgs args)
+	{
+	    _triggeredEvent = ""Focus event is triggered"";
+	}
+}
+<style>
+    .control-wrapper {
+        max-width: 275px;
+        margin: 0 auto;
+        padding: 50px 0px 0px;
+    }
+    .example-label {
+        font-size: 14px;
+        margin-bottom: 6px;
+    }
+</style>";
+    private string _triggeredEvent = string.Empty;
+    public void BlurHandler(Syncfusion.Blazor.Toolkit.Calendars.BlurEventArgs args)
+    {
+        _triggeredEvent = "Blur event is triggered";
+    }
+    public void ValueChangeHandler(ChangedEventArgs<DateTime?> args)
+    {
+        _triggeredEvent = "ValueChange event is triggered";
+    }
+    public void FocusHandler(object args)
+    {
+        _triggeredEvent = "Focus event is triggered";
+    }
+
+    //IslamicCalendar
+    private string IslamicCalendarCode => @"<SfDateTimePicker TValue=""DateTime?"" Width=""300px"" CalendarMode=""CalendarType.Islamic"" ShowClearButton=""true"" Placeholder=""Select a date and time"" />";
+
+    //StrictMode
+    private string StrictModeCode => 
+@"<SfDateTimePicker TValue=""DateTime?"" Width=""300px"" Min=""@StrictModeMinDate"" Max=""@StrictModeMaxDate"" StrictMode=true Value=""@StrictModeDateValue"" Placeholder=""Select a date and time"" />
+
+code{
+    public DateTime StrictModeMinDate { get; set; } = new DateTime(DateTime.Now.Year, DateTime.Now.Month, 05, 02, 00, 00);
+    public DateTime StrictModeMaxDate { get; set; } = new DateTime(DateTime.Now.Year, DateTime.Now.Month, 25, 02, 00, 00);
+    public DateTime? StrictModeDateValue { get; set; } = new DateTime(DateTime.Now.Year, DateTime.Now.Month, 28, 02, 00, 00);
+}
+";
+    public DateTime StrictModeMinDate { get; set; } = new DateTime(DateTime.Now.Year, DateTime.Now.Month, 05, 02, 00, 00);
+    public DateTime StrictModeMaxDate { get; set; } = new DateTime(DateTime.Now.Year, DateTime.Now.Month, 25, 02, 00, 00);
+    public DateTime? StrictModeDateValue { get; set; } = new DateTime(DateTime.Now.Year, DateTime.Now.Month, 28, 02, 00, 00);
+
+    //WeekNumber
+    private string WeekNumberCode => @"<SfDateTimePicker TValue=""DateTime?"" Width=""300px"" WeekNumber=""true"" WeekRule=""CalendarWeekRule.FirstDay"" ShowClearButton=""true"" Placeholder=""Select a date and time""></SfDateTimePicker>";
+}
+
+@* Styles for Special Dates sample *@
+<style>
+    .control-wrapper {
+        max-width: 275px;
+        margin: 0 auto;
+        padding: 50px 0px 0px;
+    }
+    .example-label {
+        font-size: 14px;
+        margin-bottom: 6px;
+    }
+    .display-date {
+        max-width: 275px;
+        margin: 0 auto;
+        padding: 15px 0px;
+    }
+    .e-calendar .e-content .e-cell.personal-appointment span.e-day,
+    .e-calendar .e-content td:hover.e-cell.personal-appointment span.e-day,
+    .e-calendar .e-content td.e-selected.e-focused-date.e-cell.personal-appointment span.e-day {
+        color: #28a745;
+        font-weight: 800;
+    }
+    .e-calendar .e-content .e-cell.official-appointment span.e-day,
+    .e-calendar .e-content td:hover.e-cell.official-appointment span.e-day,
+    .e-calendar .e-content td.e-selected.e-focused-date.e-cell.official-appointment span.e-day {
+        color: #dc3545;
+        font-weight: 800;
+    }
+    .e-calendar .e-content td.e-selected.e-focused-date.e-cell.personal-appointment span.e-day,
+    .e-calendar .e-content td.e-selected.e-focused-date.e-cell.official-appointment span.e-day {
+        background-color: rgb(255 255 0 / 90%);
+    }
+</style>

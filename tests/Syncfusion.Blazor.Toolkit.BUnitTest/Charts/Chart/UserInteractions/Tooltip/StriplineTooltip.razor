@@ -1,0 +1,603 @@
+@using Syncfusion.Blazor.Toolkit.Charts
+@using Syncfusion.Blazor.Toolkit.Tests
+@using Syncfusion.Blazor.Toolkit.Charts
+@using Syncfusion.Blazor.Toolkit.Charts.Internal
+@using Bunit
+@using Xunit
+
+@inherits TestComponentBase
+
+<SfFixture @ref="fixture" TestAsync="CheckingTooltipTextStyle" Description="CheckingTooltipTextStyle">
+    <ComponentUnderTest>
+        <SfChart ID="container" Title="Weather Report">
+            <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Toolkit.ValueType.Category" />
+            <ChartPrimaryYAxis>
+                <ChartStriplines>
+                    <ChartStripline Start="20" End="30" Color="red">
+                        <ChartStriplineTooltip Enable="true">
+                            <ChartStriplineTooltipTextStyle Color="Black" FontFamily="Aerial" Size="12px" FontWeight="600" />
+                        </ChartStriplineTooltip>
+                    </ChartStripline>
+                </ChartStriplines>
+            </ChartPrimaryYAxis>
+
+            <ChartSeriesCollection>
+                <ChartSeries Type="ChartSeriesType.Column" DataSource="@WeatherReports" XName="X" YName="Y">
+                </ChartSeries>
+            </ChartSeriesCollection>
+        </SfChart>
+    </ComponentUnderTest>
+</SfFixture>
+
+@code {
+    SfFixture fixture { get; set; }
+    async Task CheckingTooltipTextStyle(Fixture fixture)
+    {
+        var cut = fixture.GetComponentUnderTest<SfChart>();
+        await Task.Delay(200);
+        var striplineTooltipTextStyle = cut.FindComponent<ChartStriplineTooltipTextStyle>();
+        Assert.True(striplineTooltipTextStyle.Instance.Size != "" && striplineTooltipTextStyle.Instance.GetFontSize(cut.Instance._chartThemeStyle) == "12px");
+        Assert.True(striplineTooltipTextStyle.Instance.FontFamily != "" && striplineTooltipTextStyle.Instance.GetFontFamily(cut.Instance._chartThemeStyle) == "Aerial");
+        Assert.True(striplineTooltipTextStyle.Instance.FontWeight != "" && striplineTooltipTextStyle.Instance.GetFontWeight(cut.Instance._chartThemeStyle) == "600");
+        Assert.True(striplineTooltipTextStyle.Instance.Color != "" && striplineTooltipTextStyle.Instance.Color == "Black");
+        cut.SetParametersAndRender();
+        striplineTooltipTextStyle.Instance.ComponentDispose();
+    }
+
+    public class ChartData
+    {
+        public string X { get; set; }
+        public double Y { get; set; }
+    }
+
+    public List<ChartData> WeatherReports = new List<ChartData>
+	{
+		new ChartData { X = "Sun", Y = 28 },
+		new ChartData { X = "Mon", Y = 27 },
+		new ChartData { X = "Tue", Y = 33 },
+		new ChartData { X = "Wed", Y = 36 },
+		new ChartData { X = "Thu", Y = 28 },
+		new ChartData { X = "Fri", Y = 30 },
+		new ChartData { X = "Sat", Y = 31 }
+    };
+}
+
+<SfFixture @ref="fixture1" TestAsync="CheckingTooltipDefaultApi" Description="CheckingTooltipDefaultApi">
+    <ComponentUnderTest>
+        <SfChart ID="container" Title="Weather Report">
+            <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Toolkit.ValueType.Category" />
+            <ChartPrimaryYAxis>
+                <ChartStriplines>
+                    <ChartStripline Start="20" End="30" Color="red">
+                        <ChartStriplineTooltip Enable="true">
+                        </ChartStriplineTooltip>
+                    </ChartStripline>
+                </ChartStriplines>
+            </ChartPrimaryYAxis>
+
+            <ChartSeriesCollection>
+                <ChartSeries Type="ChartSeriesType.Column" DataSource="@WeatherReports1" XName="X" YName="Y">
+                </ChartSeries>
+            </ChartSeriesCollection>
+        </SfChart>
+    </ComponentUnderTest>
+</SfFixture>
+
+@code {
+    SfFixture fixture1 { get; set; }
+    async Task CheckingTooltipDefaultApi(Fixture fixture1)
+    {
+        var cut = fixture1.GetComponentUnderTest<SfChart>();
+        await Task.Delay(200);
+        var tooltip = cut.FindComponent<ChartStriplineTooltip>();
+        Assert.True(tooltip.Instance.Enable == true);
+        Assert.True(tooltip.Instance.Opacity == 0.75);
+        Assert.True(tooltip.Instance.Header == "");
+        Assert.True(tooltip.Instance.Fill == "");
+        Assert.True(tooltip.Instance.ShowHeaderLine == true);
+        Assert.True(tooltip.Instance.Content == "");
+        cut.SetParametersAndRender();
+        await tooltip.Instance.DisposeAsync();
+        await cut.Instance.DisposeAsync();
+    }
+
+    public class ChartData1
+    {
+        public string X { get; set; }
+        public double Y { get; set; }
+    }
+
+    public List<ChartData1> WeatherReports1 = new List<ChartData1>
+	{
+		new ChartData1 { X = "Sun", Y = 28 },
+		new ChartData1 { X = "Mon", Y = 27 },
+		new ChartData1 { X = "Tue", Y = 33 },
+		new ChartData1 { X = "Wed", Y = 36 },
+		new ChartData1 { X = "Thu", Y = 28 },
+		new ChartData1 { X = "Fri", Y = 30 },
+		new ChartData1 { X = "Sat", Y = 31 }
+    };
+}
+
+<SfFixture @ref="fixture2" TestAsync="CheckingStriplineTooltipBorderStyle" Description="CheckingStriplineTooltipBorderStyle">
+    <ComponentUnderTest>
+        <SfChart ID="container" Title="Weather Report">
+            <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Toolkit.ValueType.Category" />
+            <ChartPrimaryYAxis>
+                <ChartStriplines>
+                    <ChartStripline Start="20" End="30" Color="red">
+                        <ChartStriplineTooltip Enable="true">
+                            <ChartStriplineTooltipBorder Color="green" Width="3"></ChartStriplineTooltipBorder>
+                        </ChartStriplineTooltip>
+                    </ChartStripline>
+                </ChartStriplines>
+            </ChartPrimaryYAxis>
+
+            <ChartSeriesCollection>
+                <ChartSeries Type="ChartSeriesType.Column" DataSource="@WeatherReports2" XName="X" YName="Y">
+                </ChartSeries>
+            </ChartSeriesCollection>
+        </SfChart>
+    </ComponentUnderTest>
+</SfFixture>
+
+@code {
+    SfFixture fixture2 { get; set; }
+    async Task CheckingStriplineTooltipBorderStyle(Fixture fixture2)
+    {
+        var cut = fixture2.GetComponentUnderTest<SfChart>();
+        await Task.Delay(200);
+
+        var striplineTooltip = cut.FindComponent<ChartStriplineTooltip>();
+        Assert.NotNull(striplineTooltip);
+        Assert.True(striplineTooltip.Instance.Enable == true);
+
+        var striplineTooltipBorder = cut.FindComponent<ChartStriplineTooltipBorder>();
+        Assert.NotNull(striplineTooltipBorder);
+
+        Assert.True(striplineTooltipBorder.Instance.Color == "green", "Border color should be green");
+        Assert.True(striplineTooltipBorder.Instance.Width == 3, "Border width should be 3");
+
+        cut.SetParametersAndRender();
+        striplineTooltipBorder.Instance.ComponentDispose();
+        await striplineTooltip.Instance.DisposeAsync();
+        await cut.Instance.DisposeAsync();
+    }
+
+    public class ChartData2
+    {
+        public string X { get; set; }
+        public double Y { get; set; }
+    }
+
+    public List<ChartData2> WeatherReports2 = new List<ChartData2>
+	{
+		new ChartData2 { X = "Sun", Y = 28 },
+		new ChartData2 { X = "Mon", Y = 27 },
+		new ChartData2 { X = "Tue", Y = 33 },
+		new ChartData2 { X = "Wed", Y = 36 },
+		new ChartData2 { X = "Thu", Y = 28 },
+		new ChartData2 { X = "Fri", Y = 30 },
+		new ChartData2 { X = "Sat", Y = 31 }
+    };
+}
+
+<SfFixture @ref="fixture3" TestAsync="CheckingStriplineTooltipHeaderline" Description="CheckingStriplineTooltipHeaderline">
+    <ComponentUnderTest>
+        <SfChart ID="container" Title="Weather Report">
+            <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Toolkit.ValueType.Category" />
+            <ChartPrimaryYAxis>
+                <ChartStriplines>
+                    <ChartStripline Start="20" End="30" Color="red">
+                        <ChartStriplineTooltip Enable="true" ShowHeaderLine="false">
+                        </ChartStriplineTooltip>
+                    </ChartStripline>
+                </ChartStriplines>
+            </ChartPrimaryYAxis>
+
+            <ChartSeriesCollection>
+                <ChartSeries Type="ChartSeriesType.Column" DataSource="@WeatherReports3" XName="X" YName="Y">
+                </ChartSeries>
+            </ChartSeriesCollection>
+        </SfChart>
+    </ComponentUnderTest>
+</SfFixture>
+
+@code {
+    SfFixture fixture3 { get; set; }
+    async Task CheckingStriplineTooltipHeaderline(Fixture fixture3)
+    {
+        var cut = fixture3.GetComponentUnderTest<SfChart>();
+        await Task.Delay(200);
+
+        var striplineTooltip = cut.FindComponent<ChartStriplineTooltip>();
+        Assert.NotNull(striplineTooltip);
+        Assert.True(striplineTooltip.Instance.Enable == true);
+        Assert.True(striplineTooltip.Instance.ShowHeaderLine == false, "ShowHeaderLine should be false");
+
+        cut.SetParametersAndRender();
+        await striplineTooltip.Instance.DisposeAsync();
+        await cut.Instance.DisposeAsync();
+    }
+
+    public class ChartData3
+    {
+        public string X { get; set; }
+        public double Y { get; set; }
+    }
+
+    public List<ChartData3> WeatherReports3 = new List<ChartData3>
+    {
+        new ChartData3 { X = "Sun", Y = 28 },
+        new ChartData3 { X = "Mon", Y = 27 },
+        new ChartData3 { X = "Tue", Y = 33 },
+        new ChartData3 { X = "Wed", Y = 36 },
+        new ChartData3 { X = "Thu", Y = 28 },
+        new ChartData3 { X = "Fri", Y = 30 },
+        new ChartData3 { X = "Sat", Y = 31 }
+    };
+}
+
+<SfFixture @ref="fixture4" TestAsync="CheckingStriplineTooltipOpacity" Description="CheckingStriplineTooltipOpacity">
+    <ComponentUnderTest>
+        <SfChart ID="container" Title="Weather Report">
+            <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Toolkit.ValueType.Category" />
+            <ChartPrimaryYAxis>
+                <ChartStriplines>
+                    <ChartStripline Start="20" End="30" Color="red">
+                        <ChartStriplineTooltip Enable="true" Opacity="1">
+                        </ChartStriplineTooltip>
+                    </ChartStripline>
+                </ChartStriplines>
+            </ChartPrimaryYAxis>
+
+            <ChartSeriesCollection>
+                <ChartSeries Type="ChartSeriesType.Column" DataSource="@WeatherReports4" XName="X" YName="Y">
+                </ChartSeries>
+            </ChartSeriesCollection>
+        </SfChart>
+    </ComponentUnderTest>
+</SfFixture>
+
+@code {
+    SfFixture fixture4 { get; set; }
+    async Task CheckingStriplineTooltipOpacity(Fixture fixture4)
+    {
+        var cut = fixture4.GetComponentUnderTest<SfChart>();
+        await Task.Delay(200);
+
+        var striplineTooltip = cut.FindComponent<ChartStriplineTooltip>();
+        Assert.NotNull(striplineTooltip);
+        Assert.True(striplineTooltip.Instance.Enable == true);
+        Assert.True(striplineTooltip.Instance.Opacity == 1, "Opacity should be 1");
+
+        cut.SetParametersAndRender();
+        await striplineTooltip.Instance.DisposeAsync();
+        await cut.Instance.DisposeAsync();
+    }
+
+    public class ChartData4
+    {
+        public string X { get; set; }
+        public double Y { get; set; }
+    }
+
+    public List<ChartData4> WeatherReports4 = new List<ChartData4>
+    {
+        new ChartData4 { X = "Sun", Y = 28 },
+        new ChartData4 { X = "Mon", Y = 27 },
+        new ChartData4 { X = "Tue", Y = 33 },
+        new ChartData4 { X = "Wed", Y = 36 },
+        new ChartData4 { X = "Thu", Y = 28 },
+        new ChartData4 { X = "Fri", Y = 30 },
+        new ChartData4 { X = "Sat", Y = 31 }
+    };
+}
+
+<SfFixture @ref="fixture5" TestAsync="CheckingStriplineToolipFill" Description="CheckingStriplineToolipFill">
+    <ComponentUnderTest>
+        <SfChart ID="container" Title="Weather Report">
+            <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Toolkit.ValueType.Category" />
+            <ChartPrimaryYAxis>
+                <ChartStriplines>
+                    <ChartStripline Start="20" End="30" Color="red">
+                        <ChartStriplineTooltip Enable="true" Fill="blue">
+                        </ChartStriplineTooltip>
+                    </ChartStripline>
+                </ChartStriplines>
+            </ChartPrimaryYAxis>
+
+            <ChartSeriesCollection>
+                <ChartSeries Type="ChartSeriesType.Column" DataSource="@WeatherReports5" XName="X" YName="Y">
+                </ChartSeries>
+            </ChartSeriesCollection>
+        </SfChart>
+    </ComponentUnderTest>
+</SfFixture>
+
+@code {
+    SfFixture fixture5 { get; set; }
+    async Task CheckingStriplineToolipFill(Fixture fixture5)
+    {
+        var cut = fixture5.GetComponentUnderTest<SfChart>();
+        await Task.Delay(200);
+
+        var striplineTooltip = cut.FindComponent<ChartStriplineTooltip>();
+        Assert.NotNull(striplineTooltip);
+        Assert.True(striplineTooltip.Instance.Enable == true);
+        Assert.True(striplineTooltip.Instance.Fill == "blue", "Fill should be blue");
+
+        cut.SetParametersAndRender();
+        await striplineTooltip.Instance.DisposeAsync();
+        await cut.Instance.DisposeAsync();
+    }
+
+    public class ChartData5
+    {
+        public string X { get; set; }
+        public double Y { get; set; }
+    }
+
+    public List<ChartData5> WeatherReports5 = new List<ChartData5>
+    {
+        new ChartData5 { X = "Sun", Y = 28 },
+        new ChartData5 { X = "Mon", Y = 27 },
+        new ChartData5 { X = "Tue", Y = 33 },
+        new ChartData5 { X = "Wed", Y = 36 },
+        new ChartData5 { X = "Thu", Y = 28 },
+        new ChartData5 { X = "Fri", Y = 30 },
+        new ChartData5 { X = "Sat", Y = 31 }
+    };
+}
+
+<SfFixture @ref="fixture6" TestAsync="CheckingStriplineToolipContent" Description="CheckingStriplineToolipContent">
+    <ComponentUnderTest>
+        <SfChart ID="container" Title="Weather Report">
+            <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Toolkit.ValueType.Category" />
+            <ChartPrimaryYAxis>
+                <ChartStriplines>
+                    <ChartStripline Start="20" End="30" Color="red">
+                        <ChartStriplineTooltip Enable="true" Content="From: ${stripline.start}<br>To: ${stripline.end}<br>Axis Name: ${axis.name}">
+                        </ChartStriplineTooltip>
+                    </ChartStripline>
+                </ChartStriplines>
+            </ChartPrimaryYAxis>
+
+            <ChartSeriesCollection>
+                <ChartSeries Type="ChartSeriesType.Column" DataSource="@WeatherReports6" XName="X" YName="Y">
+                </ChartSeries>
+            </ChartSeriesCollection>
+        </SfChart>
+    </ComponentUnderTest>
+</SfFixture>
+
+@code {
+    SfFixture fixture6 { get; set; }
+    async Task CheckingStriplineToolipContent(Fixture fixture6)
+    {
+        var cut = fixture6.GetComponentUnderTest<SfChart>();
+        await Task.Delay(200);
+
+        var striplineTooltip = cut.FindComponent<ChartStriplineTooltip>();
+        Assert.NotNull(striplineTooltip);
+        Assert.True(striplineTooltip.Instance.Enable == true);
+        Assert.True(striplineTooltip.Instance.Content == "From: ${stripline.start}<br>To: ${stripline.end}<br>Axis Name: ${axis.name}", "Content should match the check string");
+
+        cut.SetParametersAndRender();
+        await striplineTooltip.Instance.DisposeAsync();
+        await cut.Instance.DisposeAsync();
+    }
+
+    public class ChartData6
+    {
+        public string X { get; set; }
+        public double Y { get; set; }
+    }
+
+    public List<ChartData6> WeatherReports6 = new List<ChartData6>
+    {
+        new ChartData6 { X = "Sun", Y = 28 },
+        new ChartData6 { X = "Mon", Y = 27 },
+        new ChartData6 { X = "Tue", Y = 33 },
+        new ChartData6 { X = "Wed", Y = 36 },
+        new ChartData6 { X = "Thu", Y = 28 },
+        new ChartData6 { X = "Fri", Y = 30 },
+        new ChartData6 { X = "Sat", Y = 31 }
+    };
+}
+
+<SfFixture @ref="fixture7" TestAsync="CheckingStriplineToolipHeader" Description="CheckingStriplineToolipHeader">
+    <ComponentUnderTest>
+        <SfChart ID="container" Title="Weather Report">
+            <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Toolkit.ValueType.Category" />
+            <ChartPrimaryYAxis>
+                <ChartStriplines>
+                    <ChartStripline Start="20" End="30" Color="red">
+                        <ChartStriplineTooltip Enable="true" Header="Temperature Range">
+                        </ChartStriplineTooltip>
+                    </ChartStripline>
+                </ChartStriplines>
+            </ChartPrimaryYAxis>
+
+            <ChartSeriesCollection>
+                <ChartSeries Type="ChartSeriesType.Column" DataSource="@WeatherReports7" XName="X" YName="Y">
+                </ChartSeries>
+            </ChartSeriesCollection>
+        </SfChart>
+    </ComponentUnderTest>
+</SfFixture>
+
+@code {
+    SfFixture fixture7 { get; set; }
+    async Task CheckingStriplineToolipHeader(Fixture fixture7)
+    {
+        var cut = fixture7.GetComponentUnderTest<SfChart>();
+        await Task.Delay(200);
+
+        var striplineTooltip = cut.FindComponent<ChartStriplineTooltip>();
+        Assert.NotNull(striplineTooltip);
+        Assert.True(striplineTooltip.Instance.Enable == true);
+        Assert.True(striplineTooltip.Instance.Header == "Temperature Range", "Header should be 'Temperature Range'");
+
+        cut.SetParametersAndRender();
+        await striplineTooltip.Instance.DisposeAsync();
+        await cut.Instance.DisposeAsync();
+    }
+
+    public class ChartData7
+    {
+        public string X { get; set; }
+        public double Y { get; set; }
+    }
+
+    public List<ChartData7> WeatherReports7 = new List<ChartData7>
+    {
+        new ChartData7 { X = "Sun", Y = 28 },
+        new ChartData7 { X = "Mon", Y = 27 },
+        new ChartData7 { X = "Tue", Y = 33 },
+        new ChartData7 { X = "Wed", Y = 36 },
+        new ChartData7 { X = "Thu", Y = 28 },
+        new ChartData7 { X = "Fri", Y = 30 },
+        new ChartData7 { X = "Sat", Y = 31 }
+    };
+}
+
+<SfFixture @ref="fixture8" TestAsync="CheckingStriplineToolipEnable" Description="CheckingStriplineToolipEnable">
+    <ComponentUnderTest>
+        <SfChart ID="container" Title="Weather Report">
+            <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Toolkit.ValueType.Category" />
+            <ChartPrimaryYAxis>
+                <ChartStriplines>
+                    <ChartStripline Start="20" End="30" Color="red">
+                        <ChartStriplineTooltip></ChartStriplineTooltip>
+                    </ChartStripline>
+                </ChartStriplines>
+            </ChartPrimaryYAxis>
+
+            <ChartSeriesCollection>
+                <ChartSeries Type="ChartSeriesType.Column" DataSource="@WeatherReports8" XName="X" YName="Y">
+                </ChartSeries>
+            </ChartSeriesCollection>
+        </SfChart>
+    </ComponentUnderTest>
+</SfFixture>
+
+@code {
+    SfFixture fixture8 { get; set; }
+    async Task CheckingStriplineToolipEnable(Fixture fixture8)
+    {
+        var cut = fixture8.GetComponentUnderTest<SfChart>();
+        await Task.Delay(200);
+
+        var striplineTooltip = cut.FindComponent<ChartStriplineTooltip>();
+        Assert.NotNull(striplineTooltip);
+        Assert.True(striplineTooltip.Instance.Enable == false, "Enable should be false by default");
+
+        cut.SetParametersAndRender();
+        await striplineTooltip.Instance.DisposeAsync();
+        await cut.Instance.DisposeAsync();
+    }
+
+    public class ChartData8
+    {
+        public string X { get; set; }
+        public double Y { get; set; }
+    }
+
+    public List<ChartData8> WeatherReports8 = new List<ChartData8>
+    {
+        new ChartData8 { X = "Sun", Y = 28 },
+        new ChartData8 { X = "Mon", Y = 27 },
+        new ChartData8 { X = "Tue", Y = 33 },
+        new ChartData8 { X = "Wed", Y = 36 },
+        new ChartData8 { X = "Thu", Y = 28 },
+        new ChartData8 { X = "Fri", Y = 30 },
+        new ChartData8 { X = "Sat", Y = 31 }
+    };
+}
+
+<SfFixture @ref="fixture9" TestAsync="CheckingStriplineTooltipRendering" Description="CheckingStriplineTooltipRendering">
+    <ComponentUnderTest>
+        <SfChart @ref="sfChart" ID="container" Title="Weather Report" ChartMouseMove="MouseMove">
+            <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Toolkit.ValueType.Category" />
+            <ChartPrimaryYAxis>
+                <ChartStriplines>
+                    <ChartStripline Start="20" End="30" Color="red">
+                        <ChartStriplineTooltip Enable="true" Header="Temperature Range" Content="20-30°C" Fill="#7bb4eb">
+                            <ChartStriplineTooltipTextStyle Color="White" Size="14px" />
+                        </ChartStriplineTooltip>
+                    </ChartStripline>
+                </ChartStriplines>
+            </ChartPrimaryYAxis>
+
+            <ChartSeriesCollection>
+                <ChartSeries Type="ChartSeriesType.Column" DataSource="@WeatherReports9" XName="X" YName="Y">
+                </ChartSeries>
+            </ChartSeriesCollection>
+        </SfChart>
+    </ComponentUnderTest>
+</SfFixture>
+
+@code {
+    SfFixture fixture9 { get; set; }
+    SfChart sfChart { get; set; }
+    bool isTooltipRendered = false;
+
+    async Task CheckingStriplineTooltipRendering(Fixture fixture9)
+    {
+        var cut = fixture9.GetComponentUnderTest<SfChart>();
+        await Task.Delay(300);
+
+        var striplineTooltip = cut.FindComponent<ChartStriplineTooltip>();
+        Assert.NotNull(striplineTooltip);
+        Assert.True(striplineTooltip.Instance.Enable == true);
+        Assert.True(striplineTooltip.Instance.Header == "Temperature Range");
+        Assert.True(striplineTooltip.Instance.Content == "20-30°C");
+        Assert.True(striplineTooltip.Instance.Fill == "#7bb4eb");
+
+        ChartInternalMouseEventArgs args = new ChartInternalMouseEventArgs
+        {
+            MouseX = 150,
+            MouseY = 250,
+            PointerId = 0,
+            PointerType = "",
+            Target = "container_stripline_Behind_rect_PrimaryYAxis_0",
+            Type = "mousemove"
+        };
+
+        sfChart.OnZoomingMouseMove(args);
+
+        Assert.True(cut.Find("#container_stripline_tooltip") != null);
+        Assert.Equal(args.MouseX, 150);
+        Assert.Equal(args.MouseY, 250);
+        Assert.Equal(args.Target, "container_stripline_Behind_rect_PrimaryYAxis_0");
+        Assert.Equal(args.Type, "mousemove");
+
+        Assert.True(isTooltipRendered);
+
+        cut.SetParametersAndRender();
+        await cut.Instance.DisposeAsync();
+    }
+
+    void MouseMove(ChartMouseEventArgs args)
+    {
+        isTooltipRendered = true;
+    }
+
+    public class ChartData9
+    {
+        public string X { get; set; }
+        public double Y { get; set; }
+    }
+
+    public List<ChartData9> WeatherReports9 = new List<ChartData9>
+    {
+        new ChartData9 { X = "Sun", Y = 28 },
+        new ChartData9 { X = "Mon", Y = 27 },
+        new ChartData9 { X = "Tue", Y = 33 },
+        new ChartData9 { X = "Wed", Y = 36 },
+        new ChartData9 { X = "Thu", Y = 28 },
+        new ChartData9 { X = "Fri", Y = 30 },
+        new ChartData9 { X = "Sat", Y = 31 }
+    };
+}

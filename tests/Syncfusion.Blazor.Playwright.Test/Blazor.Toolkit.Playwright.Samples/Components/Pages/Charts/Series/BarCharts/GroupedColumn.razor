@@ -1,0 +1,101 @@
+﻿@page "/chart-grouped-column"
+@using Syncfusion.Blazor.Toolkit
+@using Syncfusion.Blazor.Toolkit.Charts
+@inject NavigationManager NavigationManager
+@layout MainLayout
+<div class="control-section" align='center'>
+    <SfChart id="chart-host" Title="Olympic Medal Trends by Country and Year" SubTitle="A Historical Overview of Medal Counts Across Nations" Width="@Width">
+        <ChartTitleStyle TextOverflow="TextOverflow.Wrap"></ChartTitleStyle>
+        <ChartSubTitleStyle TextOverflow="TextOverflow.Wrap"></ChartSubTitleStyle>
+        <ChartPrimaryXAxis ValueType="@Syncfusion.Blazor.Toolkit.ValueType.Category" Interval="1">
+            <ChartAxisMajorGridLines Width="0"></ChartAxisMajorGridLines>
+            <ChartAxisMajorTickLines Width="0"></ChartAxisMajorTickLines>
+        </ChartPrimaryXAxis>
+        <ChartMargin Bottom="12"></ChartMargin>
+        <ChartArea>
+            <ChartAreaBorder Width="0"></ChartAreaBorder>
+        </ChartArea>
+        <ChartPrimaryYAxis Title="Number of Medals Won">
+            <ChartAxisMajorTickLines Width="0"></ChartAxisMajorTickLines>
+            <ChartAxisLineStyle Width="0"></ChartAxisLineStyle>
+        </ChartPrimaryYAxis>
+        <ChartSeriesCollection>
+            <ChartSeries DataSource="@ChartPoints" XName="Year" YName="USA_Total" Name="USA Total Medals" GroupName="USA" ColumnWidth="0.7" ColumnSpacing="0.1" Type="ChartSeriesType.Column" LegendShape="LegendShape.Rectangle">
+                <ChartCornerRadius TopLeft="4" TopRight="4" />
+                <ChartMarker>
+                    <ChartDataLabel Visible="true" Position="ChartLabelPosition.Top">
+                        <ChartDataLabelFont Color="#ffffff" FontWeight="600"></ChartDataLabelFont>
+                    </ChartDataLabel>
+                </ChartMarker>
+            </ChartSeries>
+            <ChartSeries DataSource="@ChartPoints" XName="Year" YName="USA_Gold" Name="USA Gold Medals" GroupName="USA" ColumnWidth="0.5" ColumnSpacing="0.1" Type="ChartSeriesType.Column" LegendShape="LegendShape.Rectangle">
+                <ChartCornerRadius TopLeft="4" TopRight="4" />
+                <ChartMarker>
+                    <ChartDataLabel Visible="true" Position="ChartLabelPosition.Top">
+                        <ChartDataLabelFont Color="#ffffff" FontWeight="600"></ChartDataLabelFont>
+                    </ChartDataLabel>
+                </ChartMarker>
+            </ChartSeries>
+            <ChartSeries DataSource="@ChartPoints" XName="Year" YName="UK_Total" Name="UK Total Medals" GroupName="UK" ColumnWidth="0.7" ColumnSpacing="0.1" Type="ChartSeriesType.Column" LegendShape="LegendShape.Rectangle">
+                <ChartCornerRadius TopLeft="4" TopRight="4" />
+                <ChartMarker>
+                    <ChartDataLabel Visible="true" Position="ChartLabelPosition.Top">
+                        <ChartDataLabelFont Color="#ffffff" FontWeight="600"></ChartDataLabelFont>
+                    </ChartDataLabel>
+                </ChartMarker>
+            </ChartSeries>
+            <ChartSeries DataSource="@ChartPoints" XName="Year" YName="UK_Gold" Name="UK Gold Medals" GroupName="UK" ColumnWidth="0.5" ColumnSpacing="0.1" Type="ChartSeriesType.Column" LegendShape="LegendShape.Rectangle">
+                <ChartCornerRadius TopLeft="4" TopRight="4" />
+                <ChartMarker>
+                    <ChartDataLabel Visible="true" Position="ChartLabelPosition.Top">
+                        <ChartDataLabelFont Color="#ffffff" FontWeight="600"></ChartDataLabelFont>
+                    </ChartDataLabel>
+                </ChartMarker>
+            </ChartSeries>
+            <ChartSeries DataSource="@ChartPoints" XName="Year" YName="China_Total" Name="China Total Medals" GroupName="China" ColumnWidth="0.7" ColumnSpacing="0.1" Type="ChartSeriesType.Column" LegendShape="LegendShape.Rectangle">
+                <ChartCornerRadius TopLeft="4" TopRight="4" />
+                <ChartMarker>
+                    <ChartDataLabel Visible="true" Position="ChartLabelPosition.Top">
+                        <ChartDataLabelFont Color="#ffffff" FontWeight="600"></ChartDataLabelFont>
+                    </ChartDataLabel>
+                </ChartMarker>
+            </ChartSeries>
+            <ChartSeries DataSource="@ChartPoints" XName="Year" YName="China_Gold" Name="China Gold Medals" GroupName="China" ColumnWidth="0.5" ColumnSpacing="0.1" Type="ChartSeriesType.Column" LegendShape="LegendShape.Rectangle">
+                <ChartCornerRadius TopLeft="4" TopRight="4" />
+                <ChartMarker>
+                    <ChartDataLabel Visible="true" Position="ChartLabelPosition.Top">
+                        <ChartDataLabelFont Color="#ffffff" FontWeight="600"></ChartDataLabelFont>
+                    </ChartDataLabel>
+                </ChartMarker>
+            </ChartSeries>
+        </ChartSeriesCollection>
+        <ChartLegendSettings Visible="true" ShapeHeight="9" ShapeWidth="9"></ChartLegendSettings>
+        <ChartTooltipSettings Enable="true" Header="<b>${point.x}</b>" Format="${series.name}: <b>${point.y}</b>"></ChartTooltipSettings>
+    </SfChart>
+</div>
+@code {
+    public string Width { get; set; } = "90%";
+    public class ColumnData
+    {
+        public string? Year { get; set; }
+        public double USA_Total { get; set; }
+        public double USA_Gold { get; set; }
+        public double UK_Total { get; set; }
+        public double UK_Gold { get; set; }
+        public double China_Total { get; set; }
+        public double China_Gold { get; set; }
+    }
+    public List<ColumnData> ChartPoints { get; set; } = new List<ColumnData>
+    {
+        new ColumnData { Year = "2016", USA_Total = 104, USA_Gold = 46, UK_Total = 65, UK_Gold = 29, China_Total = 91, China_Gold = 38},
+        new ColumnData { Year = "2020", USA_Total = 121, USA_Gold = 46, UK_Total = 67, UK_Gold = 27, China_Total = 70, China_Gold = 26},
+        new ColumnData { Year = "2024", USA_Total = 113, USA_Gold = 39, UK_Total = 65, UK_Gold = 22, China_Total = 88, China_Gold = 38},
+    };
+    public void TooltipRender(TooltipRenderEventArgs args)
+    {
+        if (args.Series is ChartSeries series)
+        {
+            args.Text = $"{series.GroupName} : <b>{args.Data.PointY} Gold</b>";
+        }
+    }
+}

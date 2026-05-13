@@ -1,0 +1,77 @@
+﻿@using Syncfusion.Blazor.Toolkit.Inputs;
+@using Syncfusion.Blazor.Toolkit.Internal;
+@namespace Syncfusion.Blazor.Toolkit.Calendars
+@typeparam TValue
+@inherits SfInputBase<TValue>
+<SfInputBase>
+    <CascadingValue Value="this">
+        @if (this.FloatLabelType == FloatLabelType.Auto || this.FloatLabelType == FloatLabelType.Always)
+        {
+            <div @ref="@ContainerElement" class="@ContainerClass?.Trim()" @attributes="ContainerHtmlAttributes">
+                <input @ref="@InputElement" id="@ID" @attributes="InputHtmlAttributes" value="@(this.CurrentValueAsString)"
+                       @onchange="@OnChangeHandlerAsync" @onfocus="@OnFocusHandlerAsync" @oninput="@OnInputHandlerAsync" @onblur="@OnBlurHandlerAsync" @onkeydown="OnHandleKeyDownAsync" />
+                <span class="e-float-line"></span>
+                <label class="@FloatLabel?.Trim()" id="label_@(ID)" for="@(ID)">@this.Placeholder</label>
+                @if (this.ShowClearButton && !this.Readonly)
+                {
+                    <span class="@(ClearIconClass)" aria-label="@CLOSE" role="button" @onclick="@WireClearBtnEventsAsync"
+                          @onmousedown="@InvokeClearBtnEventAsync" @ontouchstart="@InvokeClearBtnEventAsync"
+                          @onmousedown:preventDefault="@ClickStopPropagation"
+                          @ontouchstart:preventDefault="@ClickStopPropagation"></span>
+                }
+                <span class="@(GROUPICON + SPACE + TimeIcon)" @onmousedown="@((args) => MouseIconHandlerAsync(args))"
+                      @onmousedown:preventDefault=@(!IsDevice)></span>
+            </div>
+        }
+        else
+        {
+            <span @ref="@ContainerElement" class="@ContainerClass?.Trim()" @attributes="ContainerHtmlAttributes">
+                <input @ref="@InputElement" id="@ID" @attributes="InputHtmlAttributes" value="@(this.CurrentValueAsString)"
+                       @onchange="@OnChangeHandlerAsync" @oninput="@OnInputHandlerAsync" @onfocus="@OnFocusHandlerAsync" @onblur="@OnBlurHandlerAsync" @onkeydown="OnHandleKeyDownAsync" />
+                @if (this.ShowClearButton && !this.Readonly)
+                {
+                    <span class="@(ClearIconClass)" aria-label="@CLOSE" role="button" @onclick="@WireClearBtnEventsAsync"
+                          @onmousedown="@InvokeClearBtnEventAsync" @ontouchstart="@InvokeClearBtnEventAsync"
+                          @onmousedown:preventDefault="@ClickStopPropagation"
+                          @ontouchstart:preventDefault="@ClickStopPropagation"></span>
+                }
+                <span class="@(GROUPICON + SPACE + TimeIcon)" @onmousedown="@((args) => MouseIconHandlerAsync(args))"
+                      @onmousedown:preventDefault=@(!IsDevice)></span>
+            </span>
+        }
+        @ChildContent
+
+        @if (this.ShowPopupList)
+        {
+            <div @ref="@PopupHolderEle" class="e-timepicker e-popup-holder" id="@(ID)_popupholder">
+                <div @ref="@PopupElement" class="@RootClass @PopupContainer @POPUP" id="@(ID)_popup" aria-label="@TIMEPICKER"
+                     aria-modal='@(IsDevice && !IsExtendedDevicePopup() ? "true" : null)' role="dialog">
+                    @if (this.IsDevice && this.IsExtendedDevicePopup())
+                    {
+                        <div class="@MODELHEADER">
+                            <span class="e-popup-close" aria-label="@CLOSE" role="button" @onclick="@PopupCloseHandlerAsync"></span>
+                            <span class="e-model-title">Select time</span>
+                        </div>
+                    }
+                    <div class="@POPUP_CONTENT">
+                        @if (this.ListData is not null && this.ListData.Count > 0)
+                        {
+                            <ul class="e-list-parent e-ul" role="listbox" aria-label="popup" tabindex="0">
+                                @for (int i = 0; i < ListData.Count; i++)
+                                {
+                                    var item = ListData[i];
+                                    var itemId = $"{ID}_{i}";
+                                    <li class="@item.ListClass" @key="@item" role="option" data-value="@item.ItemData" id="@itemId"
+                                        @onclick="@((e) => ListItemClickAsync(item, e))">
+                                        @item.ItemData
+                                    </li>
+                                }
+                            </ul>
+                        }
+                    </div>
+                </div>
+            </div>
+        }
+
+    </CascadingValue>
+</SfInputBase>

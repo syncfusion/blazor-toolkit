@@ -1,0 +1,14 @@
+﻿@namespace Syncfusion.Blazor.Toolkit.Charts.Internal
+
+<CascadingValue Value="@this">
+    <g id="@(Id + "_g")">
+        <path id="@Id" d="@Path" stroke="@Stroke" stroke-width="@StrokeWidth" fill="@Fill" style="@_cursorStyle" />
+        @if (_isDrawCloseIcon)
+        {
+            <g id="@(Id.Replace("rect", "close"))" style="cursor:pointer; visibility: visible;">
+                <circle id="@Close.Circle.Id" opacity="@Close.Circle.Opacity" fill="@Close.Circle.Fill" stroke="@Close.Circle.Stroke" stroke-width="1" cy="@Close.Circle.Cy.ToString(_culture)" cx="@Close.Circle.Cx.ToString(_culture)" r="@Close.Circle.R.ToString(_culture)" />
+                <path id="@Close.Path.Id" opacity="@Close.Path.Opacity" d="@Close.Path.Direction" stroke="@Close.Path.Stroke" stroke-width="2" fill="@Close.Path.Stroke" />
+            </g>
+        }
+    </g>
+</CascadingValue>

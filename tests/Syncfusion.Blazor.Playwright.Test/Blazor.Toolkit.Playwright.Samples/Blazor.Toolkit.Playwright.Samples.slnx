@@ -1,0 +1,4 @@
+<Solution>
+  <Project Path="../../../src/Syncfusion.Blazor.Toolkit.csproj" />
+  <Project Path="Blazor.Toolkit.Playwright.Samples.csproj" />
+</Solution>

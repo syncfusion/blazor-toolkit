@@ -1,0 +1,343 @@
+@use 'sass:color';
+
+@use './base.scss' as *;
+@use './animation.scss' as *;
+@use './input.scss' as *;
+@use './popup.scss' as *;
+@use './button.scss' as *;
+@use './calendar.scss' as *;
+
+// size variables
+$timepicker-default-text-indent: 12px !default;
+$timepicker-list-normal-line-height: 32px !default;
+$timepicker-list-normal-font-size: $text-sm !default;
+$timepicker-list-normal-text-indent: $timepicker-default-text-indent !default;
+$timepicker-popup-border-radius: $radius-8 !default;
+$timepicker-list-font-weight: $font-weight-normal !default;
+$timepicker-list-normal-padding: 4px !default;
+$timepicker-font-icon: '\e20c' !default;
+$timepicker-icon-normal-font-size: $text-sm !default;
+$timepicker-normal-input-min-height: 20px !default;
+$timepicker-normal-input-min-width: 20px !default;
+$timepicker-list-default-border-style: none !default;
+$timepicker-disable-opacity: 1 !default;
+
+// color variables
+$timepicker-popup-shadow: $shadow-lg !default;
+$timepicker-list-default-font-color: $content-text-color !default;
+$timepicker-list-border-color: 1px solid $border-light !default;
+$timepicker-list-hover-border-color: none !default;
+$timepicker-list-bg-color: $flyout-bg-color !default;
+$timepicker-list-active-bg-color: $content-bg-color-selected !default;
+$timepicker-list-active-font-color: $content-text-color-selected !default;
+$timepicker-list-active-icon-color: $content-text-color-selected !default;
+$timepicker-list-hover-bg-color: $content-bg-color-hover !default;
+$timepicker-list-hover-font-color: $content-text-color-hover !default;
+$timepicker-list-popup-icon-active-color: $content-text-color-selected !default;
+$timepicker-list-active-hover-bg-color: $content-bg-color-hover !default;
+$timepicker-list-active-hover-font-color: $content-text-color-selected !default;
+$timepicker-disable-text: $content-text-color-disabled !default;
+$timepicker-default-overlay: $overlay-bg-color !default;
+
+// modal dialog colors
+$modal-header-bg-color: $content-bg-color-alt1 !default;
+$modal-header-text-color: $content-text-color-alt1 !default;
+
+// modal dialog portrait dimensions
+$modal-header-height: 10% !default;
+$modal-header-padding: 2.5vh 2.5vw 2.5vh 1.5vw !default;
+$modal-header-display-style: flex !default;
+$modal-header-content-align: center !default;
+$modal-header-portrait-font-size: 2vh !default;
+$modal-close-icon-float: left !default;
+$modal-portrait-content-padding: 1vh 2vw !default;
+$modal-content-height: 90% !default;
+$modal-content-overflow: auto !default;
+$modal-header-title-transform: capitalize !default;
+$modal-header-border-bottom: none !default;
+$modal-list-line-height: 5vh !default;
+$modal-landscape-list-line-height: 10vh !default;
+
+// modal dialog landscape dimensions
+$modal-header-landscape-height: 15% !default;
+$modal-content-landscape-height: 85% !default;
+$modal-header-landscape-font-size: 2vw !default;
+$modal-landscape-padding: 1vh 1vw !default;
+$modal-list-item-padding: 1vh 0 !default;
+$modal-mobile-font-size: 14px !default;
+$modal-tablet-font-size: 24px !default;
+
+$timepicker-list-parent-margin: 0;
+$timepicker-list-parent-padding: $timepicker-list-normal-padding 0;
+$timepicker-zero-border-radius: $radius-0 !default;
+$timepicker-model-title-font-weight: 500 !default;
+$timepicker-full-height: 100% !default;
+$timepicker-content-placeholder-min-height: 33px !default;
+$timepicker-full-width: 100% !default;
+$timepicker-border: 1px !default;
+
+@include export-module('timepicker-layout') {
+  //   timepicker layout
+  .e-input-group.e-control-wrapper.e-time-wrapper.e-non-edit.e-input-focus .e-input:focus ~ .e-clear-icon,
+  .e-float-input.e-control-wrapper.e-input-group.e-time-wrapper.e-non-edit.e-input-focus input:focus ~ .e-clear-icon {
+    display: flex;
+  }
+
+  .e-time-wrapper,
+  #{if(&, '&', '*')}.e-control-wrapper.e-time-wrapper {
+    /* stylelint-disable property-no-vendor-prefix */
+    -webkit-tap-highlight-color: transparent;
+
+    #{if(&, '&', '*')} .e-clock.e-toolkit-icons {
+      font-size: $timepicker-icon-normal-font-size;
+    }
+
+    #{if(&, '&', '*')} .e-clock.e-toolkit-icons.e-disabled {
+      pointer-events: none;
+    }
+
+    #{if(&, '&', '*')} span {
+      cursor: pointer;
+    }
+  }
+
+  #{&}.e-timepicker.e-time-modal {
+    background-color: $timepicker-default-overlay;
+    height: $timepicker-full-height;
+    left: $timepicker-list-parent-margin;
+    opacity: .5;
+    pointer-events: auto;
+    position: fixed;
+    top: $timepicker-list-parent-margin;
+    width: $timepicker-full-width;
+    z-index: 999;
+  }
+
+  #{&}.e-timepicker.e-popup {
+    border-style: solid;
+    border-width: $timepicker-border;
+    overflow: auto;
+
+    #{if(&, '&', '*')} .e-content {
+      position: relative;
+    }
+
+    #{if(&, '&', '*')} .e-list-parent.e-ul {
+      margin: $timepicker-list-parent-margin;
+      padding: $timepicker-list-parent-padding;
+
+      #{if(&, '&', '*')} .e-list-item {
+        cursor: default;
+        font-size: $timepicker-list-normal-font-size;
+        overflow: hidden;
+        position: relative;
+        text-overflow: ellipsis;
+        vertical-align: middle;
+        white-space: nowrap;
+        width: $timepicker-full-width;
+      }
+
+      #{if(&, '&', '*')} .e-list-item.e-hover {
+        cursor: pointer;
+      }
+    }
+  }
+
+  #{&}.e-timepicker.e-popup {
+    #{if(&, '&', '*')} .e-list-parent.e-ul .e-list-item {
+      line-height: $timepicker-list-normal-line-height;
+      text-indent: $timepicker-list-normal-text-indent;
+    }
+  }
+
+  .e-content-placeholder.e-timepicker.e-placeholder-timepicker {
+    background-size: 250px 33px;
+    min-height: $timepicker-content-placeholder-min-height;
+  }
+}
+
+/* stylelint-disable */
+.e-time-overflow {
+  overflow: hidden;
+}
+
+.e-timepicker-mob-popup-wrap {
+  align-items: center;
+  display: flex;
+  flex-direction: column;
+  height: $timepicker-full-height;
+  justify-content: center;
+  left: $timepicker-list-parent-margin;
+  max-height: $timepicker-full-height;
+  position: fixed;
+  top: $timepicker-list-parent-margin;
+  width: $timepicker-full-width;
+  z-index: 1002;
+
+  .e-timepicker.e-popup.e-lib.e-control.e-popup-open {
+    left: $timepicker-list-parent-margin !important;
+    position: relative;
+    top: $timepicker-list-parent-margin !important;
+  }
+}
+
+.e-timepicker-mob-popup-wrap .e-popup-expand.e-timepicker.e-popup,
+.e-datetimepicker.e-popup-expand.e-timepicker.e-popup,
+.e-timepicker-mob-popup-wrap .e-popup-expand.e-datetimepicker.e-popup,
+.e-datetimepicker.e-popup-expand.e-popup {
+  border-radius: $timepicker-zero-border-radius;
+}
+
+.e-timepicker-mob-popup-wrap .e-popup-expand,
+.e-datetimepicker.e-popup-expand {
+    #{if(&, '&', '*')} .e-model-header {
+      height: $modal-header-height;
+      padding: $modal-header-padding;
+      display: $modal-header-display-style;
+      align-items: $modal-header-content-align;
+      font-size: $modal-header-portrait-font-size;
+      border-bottom: $modal-header-border-bottom;
+
+      #{if(&, '&', '*')} .e-popup-close {
+        float: $modal-close-icon-float;
+        padding: $modal-portrait-content-padding;
+      }
+
+      #{if(&, '&', '*')} .e-model-title {
+        padding: $modal-portrait-content-padding;
+        text-transform: $modal-header-title-transform;
+        font-weight: $timepicker-model-title-font-weight;
+      }
+
+      #{if(&, '&', '*')} .e-btn.e-popup-close {
+        font-size: $modal-header-portrait-font-size;
+      }
+    }
+
+    #{if(&, '&', '*')} .e-content {
+      height: $modal-content-height;
+      overflow: $modal-content-overflow;
+
+      #{if(&, '&', '*')} .e-list-parent.e-ul .e-list-item {
+        padding: $modal-list-item-padding;
+        line-height: $modal-list-line-height;
+
+        @media (max-device-width: 768px) {
+          font-size: $modal-mobile-font-size;
+        }
+
+        @media (min-device-width: 768px) {
+          font-size: $modal-tablet-font-size;
+        }
+      }
+    }
+}
+
+@media screen and (orientation: landscape) {
+  .e-timepicker-mob-popup-wrap .e-popup-expand,
+  .e-datetimepicker.e-popup-expand {  
+      #{if(&, '&', '*')} .e-model-header {
+        height: $modal-header-landscape-height;
+        font-size: $modal-header-landscape-font-size;
+
+        #{if(&, '&', '*')} .e-popup-close {
+          padding: $modal-landscape-padding;
+        }
+
+        #{if(&, '&', '*')} .e-model-title {
+          padding: $modal-landscape-padding;
+        }
+
+        #{if(&, '&', '*')} .e-btn.e-popup-close {
+          font-size: $modal-header-landscape-font-size;
+        }
+      }
+
+      #{if(&, '&', '*')} .e-content {
+        height: $modal-content-landscape-height;
+
+        #{if(&, '&', '*')} .e-list-parent.e-ul .e-list-item {
+          padding: $modal-list-item-padding;
+          line-height: $modal-landscape-list-line-height;
+        }
+      }
+    }
+}
+/* stylelint-enable */
+
+@include export-module('timepicker-theme') {
+  .e-time-wrapper {
+    #{if(&, '&', '*')} .e-input-group-icon.e-toolkit-icons.e-active {
+      color: $timepicker-list-active-icon-color;
+    }
+
+    #{if(&, '&', '*')}.e-input-group:not(.e-disabled) .e-input-group-icon.e-active:active {
+      color: $timepicker-list-popup-icon-active-color;
+    }
+  }
+
+  #{&}.e-timepicker.e-popup {
+    background-color: $timepicker-list-bg-color;
+    border: $timepicker-list-border-color;
+    border-radius: $timepicker-popup-border-radius;
+    box-shadow: $timepicker-popup-shadow;
+
+    #{if(&, '&', '*')} .e-list-parent.e-ul {
+      background-color: $timepicker-list-bg-color;
+
+      #{if(&, '&', '*')} li.e-list-item {
+        border: $timepicker-list-default-border-style;
+        color: $timepicker-list-default-font-color;
+      }
+
+      #{if(&, '&', '*')} .e-list-item.e-disabled {
+        color: $timepicker-disable-text;
+        opacity: $timepicker-disable-opacity;
+        pointer-events: none;
+        touch-action: none;
+      }
+
+      #{if(&, '&', '*')} .e-list-item.e-hover,
+      #{if(&, '&', '*')} .e-list-item.e-navigation,
+      #{if(&, '&', '*')} .e-list-item:focus {
+        background-color: $timepicker-list-hover-bg-color;
+        border: $timepicker-list-hover-border-color;
+        color: $timepicker-list-hover-font-color;
+      }
+
+      #{if(&, '&', '*')} .e-list-item.e-active {
+        background-color: $timepicker-list-active-bg-color;
+        color: $timepicker-list-active-font-color;
+      }
+
+      #{if(&, '&', '*')} .e-list-item.e-active.e-hover {
+        background-color: $timepicker-list-active-hover-bg-color;
+        color: $timepicker-list-active-hover-font-color;
+      }
+    }
+  }
+
+  .e-timepicker-mob-popup-wrap .e-timepicker.e-popup-expand,
+  .e-datetimepicker.e-popup-expand {
+
+    #{if(&, '&', '*')} .e-model-header {
+      background-color: $modal-header-bg-color;
+      color: $modal-header-text-color;
+
+      #{if(&, '&', '*')} .e-popup-close {
+        color: $modal-header-text-color;
+        font-weight: $timepicker-model-title-font-weight;
+      }
+    }
+  }
+}
+
+.e-timepicker.e-popup-holder {
+  top: -9999px;
+  left: -9999px;
+  position: absolute;
+  visibility: hidden;
+  width: 0px;
+  height: 0px;
+  display: none;
+}

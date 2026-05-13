@@ -1,0 +1,12 @@
+@page "/switch/label-placement"
+@using Syncfusion.Blazor.Toolkit.Inputs
+
+<SfSwitch Id="switch-label"
+          Label="Notifications"
+          OnLabel="On"
+          OffLabel="Off"
+          @bind-Checked="value" />
+
+@code {
+    bool value;
+}

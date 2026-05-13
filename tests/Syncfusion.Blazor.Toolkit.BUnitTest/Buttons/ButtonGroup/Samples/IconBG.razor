@@ -1,0 +1,54 @@
+﻿@using Syncfusion.Blazor.Toolkit.Buttons
+
+@namespace Syncfusion.Blazor.Toolkit.Tests.Buttons
+
+<div class="sample">
+    <SfButtonGroup>
+        <ButtonGroupButton IconCss="@IconCssPrimary" CssClass="@CssPrimary">View</ButtonGroupButton>
+        <ButtonGroupButton IconCss="@starIconCss" CssClass="e-btn e-info">Edit</ButtonGroupButton>
+        <ButtonGroupButton IconCss="@downloadIconCss" CssClass="e-btn e-danger">Delete</ButtonGroupButton>
+    </SfButtonGroup>
+    <SfButtonGroup>
+        <ButtonGroupButton IconCss="@watchIconCss"></ButtonGroupButton>
+        <ButtonGroupButton IconCss="@starIconCss"></ButtonGroupButton>
+        <ButtonGroupButton IconCss="@downloadIconCss"></ButtonGroupButton>
+    </SfButtonGroup>
+    <SfButtonGroup>
+        <ButtonGroupButton IconCss="@watchIconCss" IconPosition="@IconPositionPrimary">View</ButtonGroupButton>
+        <ButtonGroupButton IconCss="@starIconCss" IconPosition="IconPosition.Right">Edit</ButtonGroupButton>
+        <ButtonGroupButton IconCss="@downloadIconCss" IconPosition="IconPosition.Bottom">Copy</ButtonGroupButton>
+        <ButtonGroupButton IconCss="@downloadIconCss" IconPosition="IconPosition.Left">Delete</ButtonGroupButton>
+    </SfButtonGroup>
+</div>
+
+@code{
+    public string watchIconCss = "bg-icons e-btngrp-watch";
+    public string starIconCss = "bg-icons e-btngrp-star";
+    public string downloadIconCss = "bg-icons e-btngrp-download";
+    [Parameter]
+    public string IconCssPrimary { get; set; } = "bg-icons e-btngrp-watch";
+
+    [Parameter]
+    public string ButtonCssClassPrimary { get; set; } = "e-btn e-success";
+
+    [Parameter]
+    public IconPosition IconPositionPrimary { get; set; } = IconPosition.Top;
+
+    [Parameter]
+    public bool IsDisabledPrimary { get; set; } = true;
+
+    [Parameter]
+    public string RtlClassPrimary { get; set; } = "e-rtl";
+
+    [Parameter]
+    public string CssPrimary { get; set; } = "";
+
+    [Parameter]
+    public string CssSecondary { get; set; } = "";
+
+    [Parameter]
+    public string CssTertiary { get; set; } = "";
+
+    [Parameter]
+    public string CssQuaternary { get; set; } = "";
+}

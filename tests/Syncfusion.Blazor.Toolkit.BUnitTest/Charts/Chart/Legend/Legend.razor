@@ -1,0 +1,341 @@
+@using Syncfusion.Blazor.Toolkit.Charts
+@using Syncfusion.Blazor.Toolkit.Tests
+@using Syncfusion.Blazor.Toolkit.Charts.Internal
+@using Bunit
+@using Xunit
+
+@inherits TestComponentBase
+
+<SfFixture @ref="fixture" TestAsync="CheckingLegendCustomization" Description="CheckingLegendCustomization">
+    <ComponentUnderTest>
+        <SfChart ID="container" Title="Olympic Medals">
+            <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Toolkit.ValueType.Category" />
+            <ChartSeriesCollection>
+                <ChartSeries DataSource="@MedalDetails" Name="Gold" XName="Country" Width="2" Opacity="1" YName="Gold" Type="ChartSeriesType.Column" />
+                <ChartSeries DataSource="@MedalDetails" Name="Silver" XName="Country" Width="2" Opacity="1" YName="Silver" Type="ChartSeriesType.Column" />
+                <ChartSeries DataSource="@MedalDetails" Name="Bronze" XName="Country" Width="2" Opacity="1" YName="Bronze" Type="ChartSeriesType.Column" />
+            </ChartSeriesCollection>
+
+            <ChartLegendSettings Visible="true" Width="400px" Height="50px" ItemPadding="35" ShapeHeight="15" ShapeWidth="15" ShapePadding="9" Background="gray" Opacity="0.8" ToggleVisibility="false" AccessibilityDescriptionFormat="chart legend" TabIndex="1" />
+        </SfChart>
+    </ComponentUnderTest>
+</SfFixture>
+
+@code {
+    SfFixture fixture { get; set; }
+    async Task CheckingLegendCustomization(Fixture fixture)
+    {
+        var cut = fixture.GetComponentUnderTest<SfChart>();
+        await Task.Delay(200);
+        var legendElement = cut.Find("#container_chart_legend_element");
+        Assert.True(legendElement.GetAttribute("height") == "50");
+        Assert.True(legendElement.GetAttribute("width") == "400");
+        Assert.True(legendElement.GetAttribute("fill") == "gray");
+        var legend = cut.FindComponent<ChartLegendSettings>();
+        legend.Instance.Position = LegendPosition.Bottom;
+        legend.Instance.Alignment = Alignment.Near;
+        legend.Instance.Visible = false;
+        cut.SetParametersAndRender();
+        await legend.Instance.DisposeAsync();
+    }
+
+    public class ChartData
+    {
+        public string Country { get; set; }
+        public double Gold { get; set; }
+        public double Silver { get; set; }
+        public double Bronze { get; set; }
+    }
+
+    public List<ChartData> MedalDetails = new List<ChartData>
+    {
+        new ChartData{ Country= "USA", Gold=50, Silver=70, Bronze=45 },
+        new ChartData{ Country="China", Gold=40, Silver= 60, Bronze=55 },
+        new ChartData{ Country= "Japan", Gold=70, Silver= 60, Bronze=50 },
+        new ChartData{ Country= "Australia", Gold=60, Silver= 56, Bronze=40 },
+        new ChartData{ Country= "France", Gold=50, Silver= 45, Bronze=35 },
+        new ChartData{ Country= "Germany", Gold=40, Silver=30, Bronze=22 },
+        new ChartData{ Country= "Italy", Gold=40, Silver=35, Bronze=37 },
+        new ChartData{ Country= "Sweden", Gold=30, Silver=25, Bronze=27 }
+    };
+}
+
+<SfFixture @ref="fixture1" TestAsync="CheckingChartLegendTextStyleProperties" Description="ChartLegendTextStyleProperties">
+    <ComponentUnderTest>
+        <SfChart ID="container1" Title="Olympic Medals"> @* Changed ID to be unique *@
+            <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Toolkit.ValueType.Category" />
+            <ChartSeriesCollection>
+                <ChartSeries DataSource="@MedalDetails" Name="Gold" XName="Country" Width="2" Opacity="1" YName="Gold" Type="ChartSeriesType.Column" />
+                <ChartSeries DataSource="@MedalDetails" Name="Silver" XName="Country" Width="2" Opacity="1" YName="Silver" Type="ChartSeriesType.Column" />
+                <ChartSeries DataSource="@MedalDetails" Name="Bronze" XName="Country" Width="2" Opacity="1" YName="Bronze" Type="ChartSeriesType.Column" />
+            </ChartSeriesCollection>
+
+            <ChartLegendSettings Visible="true">
+                <ChartLegendTextStyle Size="20px" Color="red" FontFamily="Times New Roman" FontWeight="bold" FontStyle="Italic" Opacity="0.5" TextAlignment="Alignment.Near" TextOverflow="TextOverflow.Trim" />
+            </ChartLegendSettings>
+        </SfChart>
+    </ComponentUnderTest>
+</SfFixture>
+
+@code {
+    SfFixture fixture1 { get; set; }
+
+    async Task CheckingChartLegendTextStyleProperties(Fixture fixture1)
+    {
+        var cut = fixture1.GetComponentUnderTest<SfChart>();
+        await Task.Delay(200);
+        var legendTextStyle = cut.FindComponent<ChartLegendTextStyle>();
+        Assert.True(legendTextStyle.Instance.Size == "20px", "Size should be 20px");
+        Assert.True(legendTextStyle.Instance.Color == "red", "Color should be red");
+        Assert.True(legendTextStyle.Instance.FontFamily == "Times New Roman", "FontFamily should be Times New Roman");
+        Assert.True(legendTextStyle.Instance.FontWeight == "bold", "FontWeight should be bold");
+        Assert.True(legendTextStyle.Instance.FontStyle == "Italic", "FontStyle should be Italic");
+        Assert.True(legendTextStyle.Instance.Opacity == 0.5, "Opacity should be 0.5");
+        Assert.True(legendTextStyle.Instance.TextAlignment == Alignment.Near, "TextAlignment should be Near");
+        Assert.True(legendTextStyle.Instance.TextOverflow == TextOverflow.Trim, "TextOverflow should be Trim");
+        cut.SetParametersAndRender();
+        await legendTextStyle.Instance.DisposeAsync();
+    }
+}
+
+<SfFixture @ref="fixture2" TestAsync="CheckingChartLegendMarginProperties" Description="ChartLegendMarginProperties">
+    <ComponentUnderTest>
+        <SfChart ID="container2" Title="Olympic Medals"> @* Changed ID to be unique *@
+            <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Toolkit.ValueType.Category" />
+            <ChartSeriesCollection>
+                <ChartSeries DataSource="@MedalDetails" Name="Gold" XName="Country" YName="Gold" />
+            </ChartSeriesCollection>
+
+            <ChartLegendSettings Visible="true">
+                <ChartLegendMargin Left="10" Right="10" Top="10" Bottom="10" />
+            </ChartLegendSettings>
+        </SfChart>
+    </ComponentUnderTest>
+</SfFixture>
+
+@code {
+    SfFixture fixture2 { get; set; }
+
+    async Task CheckingChartLegendMarginProperties(Fixture fixture2)
+    {
+        var cut = fixture2.GetComponentUnderTest<SfChart>();
+        await Task.Delay(200);
+        var legendMargin = cut.FindComponent<ChartLegendMargin>();
+        Assert.True(legendMargin.Instance.Left == 10);
+        Assert.True(legendMargin.Instance.Right == 10);
+        Assert.True(legendMargin.Instance.Top == 10);
+        Assert.True(legendMargin.Instance.Bottom == 10);
+        cut.SetParametersAndRender();
+        // legendMargin.Instance.ComponentDispose();
+    }
+}
+
+<SfFixture @ref="fixture3" TestAsync="CheckingLegendProps1" Description="Checking ChartLegendSettings (EnableHighlight, Accessibility, Inversed, Reverse, Overflow, Wrap, MaxWidth, Focusable)">
+    <ComponentUnderTest>
+        <SfChart ID="container3" Title="Olympic Medals">
+            <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Toolkit.ValueType.Category" />
+            <ChartSeriesCollection>
+                <ChartSeries DataSource="@MedalDetails" Name="Gold" XName="Country" YName="Gold" />
+                <ChartSeries DataSource="@MedalDetails" Name="Silver" XName="Country" YName="Silver" />
+            </ChartSeriesCollection>
+
+            <ChartLegendSettings Visible="true"
+                                 EnableHighlight="true"
+                                 AccessibilityDescriptionFormat="Custom legend item: ${value}"
+                                 AccessibilityRole="region"
+                                 Focusable="false"
+                                 IsInversed="true"
+                                 Reverse="true"
+                                 TextOverflow="LabelOverflow.Clip"
+                                 TextWrap="TextWrap.Wrap"
+                                 MaximumLabelWidth="60">
+            </ChartLegendSettings>
+        </SfChart>
+    </ComponentUnderTest>
+</SfFixture>
+
+@code {
+    SfFixture fixture3 { get; set; }
+
+    async Task CheckingLegendProps1(Fixture fixture3)
+    {
+        var cut = fixture3.GetComponentUnderTest<SfChart>();
+        await Task.Delay(200);
+        var legend = cut.FindComponent<ChartLegendSettings>().Instance;
+
+        Assert.True(legend.EnableHighlight, "EnableHighlight should be true");
+        Assert.Equal("Custom legend item: ${value}", legend.AccessibilityDescriptionFormat);
+        Assert.Equal("region", legend.AccessibilityRole);
+        Assert.False(legend.Focusable, "Focusable should be false");
+        Assert.True(legend.IsInversed, "IsInversed should be true");
+        Assert.True(legend.Reverse, "Reverse should be true");
+        Assert.Equal(LabelOverflow.Clip, legend.TextOverflow);
+        Assert.Equal(TextWrap.Wrap, legend.TextWrap);
+        Assert.Equal(60, legend.MaximumLabelWidth);
+
+        cut.SetParametersAndRender();
+        await legend.DisposeAsync();
+    }
+}
+
+<SfFixture @ref="fixture4" TestAsync="CheckingLegendPositionAndLocation" Description="Checking ChartLegendSettings Position and Location">
+    <ComponentUnderTest>
+        <SfChart ID="container4" Title="Olympic Medals">
+            <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Toolkit.ValueType.Category" />
+            <ChartSeriesCollection>
+                <ChartSeries DataSource="@MedalDetails" Name="Gold" XName="Country" YName="Gold" />
+            </ChartSeriesCollection>
+
+            <ChartLegendSettings Visible="true" Position="LegendPosition.Custom" Padding="15">
+                <ChartLocation X="100" Y="200" />
+            </ChartLegendSettings>
+        </SfChart>
+    </ComponentUnderTest>
+</SfFixture>
+
+@code {
+    SfFixture fixture4 { get; set; }
+
+    async Task CheckingLegendPositionAndLocation(Fixture fixture4)
+    {
+        var cut = fixture4.GetComponentUnderTest<SfChart>();
+        await Task.Delay(200);
+        var legend = cut.FindComponent<ChartLegendSettings>().Instance;
+
+        Assert.Equal(LegendPosition.Custom, legend.Position);
+        Assert.Equal(15, legend.Padding);
+
+        Assert.NotNull(legend.Location);
+        Assert.Equal(100, legend.Location.X);
+        Assert.Equal(200, legend.Location.Y);
+
+        cut.SetParametersAndRender();
+        await legend.DisposeAsync();
+    }
+}
+
+<SfFixture @ref="fixture5" TestAsync="CheckingLegendBorder" Description="Checking ChartLegendSettings Border">
+    <ComponentUnderTest>
+        <SfChart ID="container5" Title="Olympic Medals">
+            <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Toolkit.ValueType.Category" />
+            <ChartSeriesCollection>
+                <ChartSeries DataSource="@MedalDetails" Name="Gold" XName="Country" YName="Gold" />
+            </ChartSeriesCollection>
+
+            <ChartLegendSettings Visible="true">
+                <ChartLegendBorder Color="green" Width="3" />
+            </ChartLegendSettings>
+        </SfChart>
+    </ComponentUnderTest>
+</SfFixture>
+
+@code {
+    SfFixture fixture5 { get; set; }
+
+    async Task CheckingLegendBorder(Fixture fixture5)
+    {
+        var cut = fixture5.GetComponentUnderTest<SfChart>();
+        await Task.Delay(200);
+        var legend = cut.FindComponent<ChartLegendSettings>().Instance;
+
+        Assert.NotNull(legend.Border);
+        Assert.Equal("green", legend.Border.Color);
+        Assert.Equal(3, legend.Border.Width);
+
+        cut.SetParametersAndRender();
+        await legend.DisposeAsync();
+    }
+}
+
+<SfFixture @ref="fixture6" TestAsync="CheckingLegendInverseWithRtl" Description="CheckingLegendInverseWithRtl">
+    <ComponentUnderTest>
+        <SfChart ID="container6" Title="Olympic Medals" EnableRtl="true">
+            <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Toolkit.ValueType.Category" />
+            <ChartSeriesCollection>
+                <ChartSeries DataSource="@MedalDetails" Name="Gold" XName="Country" YName="Gold" />
+                <ChartSeries DataSource="@MedalDetails" Name="Silver" XName="Country" YName="Silver" />
+            </ChartSeriesCollection>
+
+            <ChartLegendSettings Visible="true" IsInversed="true">
+            </ChartLegendSettings>
+        </SfChart>
+    </ComponentUnderTest>
+</SfFixture>
+
+@code {
+    SfFixture fixture6 { get; set; }
+
+    async Task CheckingLegendInverseWithRtl(Fixture fixture6)
+    {
+        var cut = fixture6.GetComponentUnderTest<SfChart>();
+        await Task.Delay(200);
+        var legend = cut.FindComponent<ChartLegendSettings>().Instance;
+
+        Assert.True(cut.Instance.EnableRtl, "EnableRtl should be true");
+        Assert.True(legend.IsInversed, "IsInversed should be true");
+
+        cut.SetParametersAndRender();
+        await legend.DisposeAsync();
+    }
+}
+
+<SfFixture @ref="fixture7" TestAsync="CheckingLegendPagination" Description="CheckingLegendPagination">
+    <ComponentUnderTest>
+        <SfChart ID="container" @ref="chartobj" Title="Olympic Medals" ChartMouseDown="OnChartMouseDown">
+            <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Toolkit.ValueType.Category">
+            </ChartPrimaryXAxis>
+
+            <ChartSeriesCollection>
+                <ChartSeries DataSource="@MedalDetails" Name="Gold" XName="Country" Width="2" LegendShape="LegendShape.Circle" Opacity="1" YName="Gold" Type="ChartSeriesType.Spline">
+                </ChartSeries>
+                <ChartSeries DataSource="@MedalDetails" Name="Silver" XName="Country" Width="2" LegendShape="LegendShape.SeriesType" Opacity="1" YName="Silver" Type="ChartSeriesType.Line">
+                </ChartSeries>
+                <ChartSeries DataSource="@MedalDetails" Name="Bronze" XName="Country" Width="2" LegendShape="LegendShape.Diamond" Opacity="1" YName="Bronze" Type="ChartSeriesType.Bubble">
+                </ChartSeries>
+            </ChartSeriesCollection>
+
+            <ChartLegendSettings Visible="true" Width="100" Height="70" Padding="10" ShapePadding="10" >
+                <ChartLegendBorder Color="red" Width="1"/>
+            </ChartLegendSettings>
+            <ChartZoomSettings EnableMouseWheelZooming="true" EnablePinchZooming="true" EnableSelectionZooming="true" ToolbarDisplayMode="ToolbarMode.Always"></ChartZoomSettings>
+        </SfChart>
+    </ComponentUnderTest>
+</SfFixture>
+
+@code{
+    SfFixture fixture7;
+    SfChart chartobj;
+    async Task CheckingLegendPagination(Fixture fixture7)
+    {
+        var cut = fixture7.GetComponentUnderTest<SfChart>();
+        await Task.Delay(200);
+        await cut.InvokeAsync(() => chartobj.OnZoomingMouseDown(new ChartInternalMouseEventArgs{
+            Target = "container_chart_legend_pagedown",
+            MouseX = 250,
+            MouseY = 369.75,
+            Type="touch",
+            PreventDefault=false,
+            PointerId = 0
+        }, false)).ConfigureAwait(true);
+        await Task.Delay(500);
+        Assert.Equal("2/2", cut.Find("#container_chart_legend_pagenumber").InnerHtml.Trim());
+        await cut.InvokeAsync(() => chartobj.OnZoomingMouseDown(new ChartInternalMouseEventArgs{
+            Target = "container_chart_legend_pageup",
+            MouseX = 250,
+            MouseY = 369.75,
+            Type="touch",
+            PreventDefault=false,
+            PointerId = 0
+        }, false)).ConfigureAwait(true);
+        await Task.Delay(500);
+        Assert.Equal("1/2", cut.Find("#container_chart_legend_pagenumber").InnerHtml.Trim());
+    }
+
+    public void OnChartMouseDown(ChartMouseEventArgs args)
+    {
+        Assert.Equal("onmousedown", args.Name);
+        Assert.True(args.MouseX > 0);
+        Assert.True(args.MouseY > 0);
+        Assert.True(args.ID == "container");
+    } 
+}

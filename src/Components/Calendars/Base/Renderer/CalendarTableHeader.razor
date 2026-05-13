@@ -1,0 +1,16 @@
+@using System.Globalization;
+@namespace Syncfusion.Blazor.Toolkit.Calendars.Internal
+@typeparam TCalendarHeader
+@inherits CalendarBase<TCalendarHeader>
+<thead class="@WEEK_HEADER">
+    <tr>
+        @if (this.Parent is not null && this.Parent.WeekNumber && CalendarRenderView == CalendarView.Month)
+        {
+            <th class="@WEEK_NUMBER" aria-hidden="true"></th>
+        }
+        @for (int days = 0; days < this.DaysCount; days++)
+        {
+            <th>@(CultureInfo.CurrentCulture.TextInfo.ToTitleCase(this.ShortNames[days]))</th>
+        }
+    </tr>
+</thead>

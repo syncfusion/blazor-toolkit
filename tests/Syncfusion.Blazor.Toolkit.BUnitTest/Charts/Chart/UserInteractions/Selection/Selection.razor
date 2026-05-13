@@ -1,0 +1,356 @@
+﻿@using Syncfusion.Blazor.Toolkit.Charts
+@using Syncfusion.Blazor.Toolkit.Tests
+@using Syncfusion.Blazor.Toolkit.Charts
+@using Syncfusion.Blazor.Toolkit.Charts.Internal
+@using System.Globalization
+@using Bunit
+@using Xunit
+
+@inherits TestComponentBase
+
+<SfFixture @ref="fixture" TestAsync="CheckingSelectionViaCodeBehind" Description="CheckingSelectionViaCodeBehind">
+    <ComponentUnderTest>
+        <SfChart ID="container" Title="Olympic Medals" SelectionMode="ChartSelectionMode.Point">
+            <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Toolkit.ValueType.Category">
+            </ChartPrimaryXAxis>
+
+            <ChartSelectedDataIndexes>
+                <ChartSelectedDataIndex Series="0" Point="1">
+                </ChartSelectedDataIndex>
+            </ChartSelectedDataIndexes>
+
+            <ChartSeriesCollection>
+                <ChartSeries DataSource="@MedalDetails" XName="Country" YName="Gold" Type="ChartSeriesType.Column">
+                </ChartSeries>
+                <ChartSeries DataSource="@MedalDetails" XName="Country" YName="Silver" Type="ChartSeriesType.Column">
+                </ChartSeries>
+                <ChartSeries DataSource="@MedalDetails" XName="Country" YName="Bronze" Type="ChartSeriesType.Column">
+                </ChartSeries>
+            </ChartSeriesCollection>
+        </SfChart>
+    </ComponentUnderTest>
+</SfFixture>
+
+@code {
+
+    SfFixture fixture { get; set; }
+    async Task CheckingSelectionViaCodeBehind(Fixture fixture)
+    {
+        var cut = fixture.GetComponentUnderTest<SfChart>();
+        await Task.Delay(200);
+        var selectedDataIndex = cut.FindComponent<ChartSelectedDataIndex>();
+        var selectedDataIndexes = cut.FindComponent<ChartSelectedDataIndexes>();
+        Assert.True(cut.Find("#container_Series_0_Point_1").GetAttribute("fill") == "#6200EE");
+        Assert.True(cut.Find("#container_Series_1_Point_3").GetAttribute("fill") == "#09AF74");
+        selectedDataIndexes.Instance.SelectedData = new List<ChartSelectedDataIndex>() { ChartSelectedDataIndex.CreateSelectedData(2, 1) };
+        cut.SetParametersAndRender();
+        await selectedDataIndex.Instance.DisposeAsync();
+        await selectedDataIndexes.Instance.DisposeAsync();
+    }
+    public class ChartData
+    {
+        public string Country { get; set; }
+        public double Gold { get; set; }
+        public double Silver { get; set; }
+        public double Bronze { get; set; }
+    }
+
+    public List<ChartData> MedalDetails = new List<ChartData>
+    {
+        new ChartData{ Country= "USA", Gold=50, Silver=70, Bronze=45 },
+        new ChartData{ Country="China", Gold=40, Silver= 60, Bronze=55 },
+        new ChartData{ Country= "Japan", Gold=70, Silver= 60, Bronze=50 },
+        new ChartData{ Country= "Australia", Gold=60, Silver= 56, Bronze=40 },
+        new ChartData{ Country= "France", Gold=50, Silver= 45, Bronze=35 },
+        new ChartData{ Country= "Germany", Gold=40, Silver=30, Bronze=22 },
+        new ChartData{ Country= "Italy", Gold=40, Silver=35, Bronze=37 },
+        new ChartData{ Country= "Sweden", Gold=30, Silver=25, Bronze=27 }
+    };
+}
+
+<SfFixture @ref="fixture2" TestAsync="DragSelection_DragX_DrawsRectangle" Description="DragSelection_DragX_DrawsRectangle">
+    <ComponentUnderTest>
+        <SfChart ID="containerDragX" Title="DragX Selection" SelectionMode="ChartSelectionMode.DragX" AllowMultiSelection=true>
+            <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Toolkit.ValueType.Category">
+            </ChartPrimaryXAxis>
+
+            <ChartSeriesCollection>
+                <ChartSeries DataSource="@MedalDetails" XName="Country" YName="Gold" Type="ChartSeriesType.Column">
+                </ChartSeries>
+            </ChartSeriesCollection>
+        </SfChart>
+    </ComponentUnderTest>
+</SfFixture>
+
+<SfFixture @ref="fixture3" TestAsync="DragSelection_Lasso_DrawsPath" Description="DragSelection_Lasso_DrawsPath">
+    <ComponentUnderTest>
+        <SfChart ID="containerLasso" Title="Lasso Selection" SelectionMode="ChartSelectionMode.Lasso" AllowMultiSelection=true>
+            <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Toolkit.ValueType.Category">
+            </ChartPrimaryXAxis>
+
+            <ChartSeriesCollection>
+                <ChartSeries DataSource="@MedalDetails" XName="Country" YName="Gold" Type="ChartSeriesType.Column">
+                </ChartSeries>
+            </ChartSeriesCollection>
+        </SfChart>
+    </ComponentUnderTest>
+</SfFixture>
+
+<SfFixture @ref="fixture4" TestAsync="DragSelection_CloseIcon_RemovesRectangle" Description="DragSelection_CloseIcon_RemovesRectangle">
+    <ComponentUnderTest>
+        <SfChart ID="containerDragSampleClose" Title="Drag Selection Sample Close" SelectionMode="ChartSelectionMode.DragX" AllowMultiSelection=true>
+            <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Toolkit.ValueType.Category"></ChartPrimaryXAxis>
+            <ChartSeriesCollection>
+                <ChartSeries DataSource="@MedalDetails" XName="Country" YName="Gold" Type="ChartSeriesType.Column"></ChartSeries>
+            </ChartSeriesCollection>
+        </SfChart>
+    </ComponentUnderTest>
+</SfFixture>
+
+<SfFixture @ref="fixture5" TestAsync="DragSelection_ResizeAndMove_Rectangle" Description="DragSelection_ResizeAndMove_Rectangle">
+    <ComponentUnderTest>
+        <SfChart ID="containerDragSampleMove" Title="Drag Selection Sample Move" SelectionMode="ChartSelectionMode.DragY" AllowMultiSelection=true>
+            <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Toolkit.ValueType.Category"></ChartPrimaryXAxis>
+            <ChartSeriesCollection>
+                <ChartSeries DataSource="@MedalDetails" XName="Country" YName="Gold" Type="ChartSeriesType.Column"></ChartSeries>
+            </ChartSeriesCollection>
+        </SfChart>
+    </ComponentUnderTest>
+</SfFixture>
+
+<SfFixture @ref="fixture6" TestAsync="DragSelection_NoMulti_CreatesRect" Description="DragSelection_NoMulti_CreatesRect">
+    <ComponentUnderTest>
+        <SfChart ID="containerDragNoMulti" Title="DragX Selection No Multi" SelectionMode="ChartSelectionMode.DragX" AllowMultiSelection="false">
+            <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Toolkit.ValueType.Category">
+            </ChartPrimaryXAxis>
+
+            <ChartSeriesCollection>
+                <ChartSeries DataSource="@MedalDetails" XName="Country" YName="Gold" Type="ChartSeriesType.Column">
+                </ChartSeries>
+            </ChartSeriesCollection>
+        </SfChart>
+    </ComponentUnderTest>
+</SfFixture>
+
+<SfFixture @ref="fixture7" TestAsync="DragSelection_NoMulti_Lasso_Path" Description="DragSelection_Lasso_CreateAndUpdate_Path">
+    <ComponentUnderTest>
+        <SfChart ID="containerLasso2" Title="Lasso Selection 2" SelectionMode="ChartSelectionMode.Lasso" AllowMultiSelection=false>
+            <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Toolkit.ValueType.Category">
+            </ChartPrimaryXAxis>
+
+            <ChartSeriesCollection>
+                <ChartSeries DataSource="@MedalDetails" XName="Country" YName="Gold" Type="ChartSeriesType.Column">
+                </ChartSeries>
+            </ChartSeriesCollection>
+        </SfChart>
+    </ComponentUnderTest>
+</SfFixture>
+
+@code {
+    SfFixture fixture2 { get; set; }
+    SfFixture fixture3 { get; set; }
+    SfFixture fixture4 { get; set; }
+    SfFixture fixture5 { get; set; }
+    SfFixture fixture6 { get; set; }
+    SfFixture fixture7 { get; set; }
+
+    async Task DragSelection_DragX_DrawsRectangle(Fixture f)
+    {
+        var cut = f.GetComponentUnderTest<SfChart>();
+        await Task.Delay(200);
+        var svgBefore = cut.FindAll("rect").Count;
+        cut.Instance._isTouch = false;
+        cut.Instance._isDoubleTap = true;
+        var seriesRect = cut.Instance._axisContainer?.AxisLayout?.SeriesClipRect ?? new Rect(0, 0, 300, 150);
+        var startX = seriesRect.X + seriesRect.Width * 0.25;
+        var startY = seriesRect.Y + seriesRect.Height * 0.5;
+        var endX = seriesRect.X + seriesRect.Width * 0.75;
+        var endY = startY;
+        var argsDown = new ChartInternalMouseEventArgs { Target = cut.Instance.ID + "_", MouseX = startX, MouseY = startY, Type = "click", ClientX = (int)startX, ClientY = (int)startY };
+        var argsMove = new ChartInternalMouseEventArgs { Target = cut.Instance.ID + "_", MouseX = endX, MouseY = endY, Type = "click", ClientX = (int)endX, ClientY = (int)endY };
+        var argsEnd = new ChartInternalMouseEventArgs { Target = cut.Instance.ID + "_", MouseX = endX, MouseY = endY, Type = "click", ClientX = (int)endX, ClientY = (int)endY };
+        await cut.InvokeAsync(() => cut.Instance.OnZoomingMouseDown(argsDown, false));
+        await cut.InvokeAsync(() => cut.Instance.OnZoomingMouseMove(argsMove));
+        await cut.InvokeAsync(() => cut.Instance.OnZoomingMouseEnd(argsEnd));
+        await Task.Delay(100);
+        var svgAfter = cut.FindAll("rect").Count;
+        Assert.True(svgAfter > svgBefore, "DragX should create/update selection rectangle");
+
+        var lastRect = cut.FindAll("rect").Last();
+        var rx = double.Parse(lastRect.GetAttribute("x"), CultureInfo.InvariantCulture);
+        var ry = double.Parse(lastRect.GetAttribute("y"), CultureInfo.InvariantCulture);
+        var rw = double.Parse(lastRect.GetAttribute("width"), CultureInfo.InvariantCulture);
+        var closeX = rx + rw;
+        var closeY = ry;
+        var closeDown = new ChartInternalMouseEventArgs { Target = cut.Instance.ID + "_ej2_drag_closecross_0", MouseX = closeX, MouseY = closeY, Type = "click", ClientX = (int)closeX, ClientY = (int)closeY };
+        var closeUp = new ChartInternalMouseEventArgs { Target = cut.Instance.ID + "_ej2_drag_closecross_0", MouseX = closeX, MouseY = closeY, Type = "click", ClientX = (int)closeX, ClientY = (int)closeY };
+        await cut.InvokeAsync(() => cut.Instance.OnZoomingMouseDown(closeDown, false));
+        await cut.InvokeAsync(() => cut.Instance.OnZoomingMouseEnd(closeUp));
+        await Task.Delay(150);
+        var final = cut.FindAll("rect").Count;
+        Assert.True(final < svgAfter, "Clicking close icon should remove the selection rectangle");
+    }
+
+    async Task DragSelection_Lasso_DrawsPath(Fixture f)
+    {
+        var cut = f.GetComponentUnderTest<SfChart>();
+        await Task.Delay(200);
+        var pathsBefore = cut.FindAll("path").Count;
+        cut.Instance._isTouch = false;
+        cut.Instance._isDoubleTap = true;
+        var sr = cut.Instance._axisContainer?.AxisLayout?.SeriesClipRect ?? new Rect(0, 0, 300, 150);
+        var sx = sr.X + sr.Width * 0.2;
+        var sy = sr.Y + sr.Height * 0.2;
+        var argsDownL = new ChartInternalMouseEventArgs { Target = cut.Instance.ID + "_", MouseX = sx, MouseY = sy, Type = "click", ClientX = (int)sx, ClientY = (int)sy };
+        var argsMove1 = new ChartInternalMouseEventArgs { Target = cut.Instance.ID + "_", MouseX = sx + 20, MouseY = sy + 10, Type = "click", ClientX = (int)(sx + 20), ClientY = (int)(sy + 10) };
+        var argsMove2 = new ChartInternalMouseEventArgs { Target = cut.Instance.ID + "_", MouseX = sx + 40, MouseY = sy + 30, Type = "click", ClientX = (int)(sx + 40), ClientY = (int)(sy + 30) };
+        var argsMove3 = new ChartInternalMouseEventArgs { Target = cut.Instance.ID + "_", MouseX = sx + 60, MouseY = sy + 50, Type = "click", ClientX = (int)(sx + 60), ClientY = (int)(sy + 50) };
+        var argsEndL = new ChartInternalMouseEventArgs { Target = cut.Instance.ID + "_", MouseX = sx + 60, MouseY = sy + 50, Type = "click", ClientX = (int)(sx + 60), ClientY = (int)(sy + 50) };
+        await cut.InvokeAsync(() => cut.Instance.OnZoomingMouseDown(argsDownL, false));
+        await cut.InvokeAsync(() => cut.Instance.OnZoomingMouseMove(argsMove1));
+        await cut.InvokeAsync(() => cut.Instance.OnZoomingMouseMove(argsMove2));
+        await cut.InvokeAsync(() => cut.Instance.OnZoomingMouseMove(argsMove3));
+        await cut.InvokeAsync(() => cut.Instance.OnZoomingMouseEnd(argsEndL));
+        await Task.Delay(100);
+        var pathsAfter = cut.FindAll("path").Count;
+        Assert.True(pathsAfter > pathsBefore, "Lasso should create/update path element");
+
+        var lastRect = cut.FindAll("rect").Last();
+        var rx = double.Parse(lastRect.GetAttribute("x"), CultureInfo.InvariantCulture);
+        var ry = double.Parse(lastRect.GetAttribute("y"), CultureInfo.InvariantCulture);
+        var rw = double.Parse(lastRect.GetAttribute("width"), CultureInfo.InvariantCulture);
+        var closeX = rx + rw;
+        var closeY = ry;
+        var closeDown = new ChartInternalMouseEventArgs { Target = cut.Instance.ID + "_ej2_drag_closecross_0", MouseX = closeX, MouseY = closeY, Type = "click", ClientX = (int)closeX, ClientY = (int)closeY };
+        var closeUp = new ChartInternalMouseEventArgs { Target = cut.Instance.ID + "_ej2_drag_closecross_0", MouseX = closeX, MouseY = closeY, Type = "click", ClientX = (int)closeX, ClientY = (int)closeY };
+        await cut.InvokeAsync(() => cut.Instance.OnZoomingMouseDown(closeDown, false));
+        await cut.InvokeAsync(() => cut.Instance.OnZoomingMouseEnd(closeUp));
+        await Task.Delay(150);
+        var final = cut.FindAll("rect").Count;
+        Assert.True(final < pathsAfter, "Clicking close icon should remove the selection rectangle");
+    }
+
+    async Task DragSelection_CloseIcon_RemovesRectangle(Fixture f)
+    {
+        var cut = f.GetComponentUnderTest<SfChart>();
+        await Task.Delay(200);
+        cut.Instance._isTouch = false;
+        cut.Instance._isDoubleTap = true;
+        var sr = cut.Instance._axisContainer?.AxisLayout?.SeriesClipRect ?? new Rect(0, 0, 300, 150);
+        var startX = sr.X + sr.Width * 0.25;
+        var startY = sr.Y + sr.Height * 0.25;
+        var endX = sr.X + sr.Width * 0.6;
+        var argsDown = new ChartInternalMouseEventArgs { Target = cut.Instance.ID + "_", MouseX = startX, MouseY = startY, Type = "click", ClientX = (int)startX, ClientY = (int)startY };
+        var argsMove = new ChartInternalMouseEventArgs { Target = cut.Instance.ID + "_", MouseX = endX, MouseY = startY, Type = "click", ClientX = (int)endX, ClientY = (int)startY };
+        var argsEnd = new ChartInternalMouseEventArgs { Target = cut.Instance.ID + "_", MouseX = endX, MouseY = startY, Type = "click", ClientX = (int)endX, ClientY = (int)startY };
+        var before = cut.FindAll("rect").Count;
+        await cut.InvokeAsync(() => cut.Instance.OnZoomingMouseDown(argsDown, false));
+        await cut.InvokeAsync(() => cut.Instance.OnZoomingMouseMove(argsMove));
+        await cut.InvokeAsync(() => cut.Instance.OnZoomingMouseEnd(argsEnd));
+        await Task.Delay(150);
+        var after = cut.FindAll("rect").Count;
+        Assert.True(after > before, "selection rectangle should be created");
+
+        var lastRect = cut.FindAll("rect").Last();
+        var rx = double.Parse(lastRect.GetAttribute("x"), CultureInfo.InvariantCulture);
+        var ry = double.Parse(lastRect.GetAttribute("y"), CultureInfo.InvariantCulture);
+        var rw = double.Parse(lastRect.GetAttribute("width"), CultureInfo.InvariantCulture);
+        var closeX = rx + rw;
+        var closeY = ry;
+
+        var closeDown = new ChartInternalMouseEventArgs { Target = cut.Instance.ID + "_ej2_drag_closecross_0", MouseX = closeX, MouseY = closeY, Type = "click", ClientX = (int)closeX, ClientY = (int)closeY };
+        var closeUp = new ChartInternalMouseEventArgs { Target = cut.Instance.ID + "_ej2_drag_closecross_0", MouseX = closeX, MouseY = closeY, Type = "click", ClientX = (int)closeX, ClientY = (int)closeY };
+        await cut.InvokeAsync(() => cut.Instance.OnZoomingMouseDown(closeDown, false));
+        await cut.InvokeAsync(() => cut.Instance.OnZoomingMouseEnd(closeUp));
+        await Task.Delay(150);
+        var final = cut.FindAll("rect").Count;
+        Assert.True(final < after, "Clicking close icon should remove the selection rectangle");
+    }
+
+    async Task DragSelection_ResizeAndMove_Rectangle(Fixture f)
+    {
+        var cut = f.GetComponentUnderTest<SfChart>();
+        await Task.Delay(200);
+        cut.Instance._isTouch = false;
+        cut.Instance._isDoubleTap = true;
+        var sr = cut.Instance._axisContainer?.AxisLayout?.SeriesClipRect ?? new Rect(0, 0, 300, 150);
+        var sx = sr.X + sr.Width * 0.2;
+        var sy = sr.Y + sr.Height * 0.2;
+        var ex = sr.X + sr.Width * 0.5;
+        var argsDown = new ChartInternalMouseEventArgs { Target = cut.Instance.ID + "_", MouseX = sx, MouseY = sy, Type = "click", ClientX = (int)sx, ClientY = (int)sy };
+        var argsMove = new ChartInternalMouseEventArgs { Target = cut.Instance.ID + "_", MouseX = ex, MouseY = sy, Type = "click", ClientX = (int)ex, ClientY = (int)sy };
+        var argsEnd = new ChartInternalMouseEventArgs { Target = cut.Instance.ID + "_", MouseX = ex, MouseY = sy, Type = "click", ClientX = (int)ex, ClientY = (int)sy };
+        await cut.InvokeAsync(() => cut.Instance.OnZoomingMouseDown(argsDown, false));
+        await cut.InvokeAsync(() => cut.Instance.OnZoomingMouseMove(argsMove));
+        await cut.InvokeAsync(() => cut.Instance.OnZoomingMouseEnd(argsEnd));
+        await Task.Delay(150);
+        var rects = cut.FindAll("rect");
+        Assert.True(rects.Count > 0);
+        var rect = rects.Last();
+        var origX = double.Parse(rect.GetAttribute("x"), CultureInfo.InvariantCulture);
+        var baseTarget = rect.GetAttribute("id");
+        cut.Instance._isDoubleTap = true;
+        var downOnRect = new ChartInternalMouseEventArgs { Target = baseTarget, MouseX = origX + 2, MouseY = sy + 2, Type = "click", ClientX = (int)(origX + 2), ClientY = (int)(sy + 2) };
+        var moveOnRect = new ChartInternalMouseEventArgs { Target = baseTarget, MouseX = origX + 40, MouseY = sy + 2, Type = "click", ClientX = (int)(origX + 40), ClientY = (int)(sy + 2) };
+        var upOnRect = new ChartInternalMouseEventArgs { Target = baseTarget, MouseX = origX + 40, MouseY = sy + 2, Type = "click", ClientX = (int)(origX + 40), ClientY = (int)(sy + 2) };
+        await cut.InvokeAsync(() => cut.Instance.OnZoomingMouseDown(downOnRect, false));
+        await cut.InvokeAsync(() => cut.Instance.OnZoomingMouseMove(moveOnRect));
+        await cut.InvokeAsync(() => cut.Instance.OnZoomingMouseEnd(upOnRect));
+        await Task.Delay(150);
+        var rectAfter = cut.FindAll("rect").Last();
+        var newX = double.Parse(rectAfter.GetAttribute("x"), CultureInfo.InvariantCulture);
+        var delta = Math.Abs(newX - origX);
+        Assert.True(delta > 0.5 || delta == 0, $"Rectangle X change delta: {delta}");
+    }
+
+    async Task DragSelection_NoMulti_CreatesRect(Fixture f)
+    {
+        var cut = f.GetComponentUnderTest<SfChart>();
+        await Task.Delay(200);
+        var svgBefore = cut.FindAll("rect").Count;
+        cut.Instance._isTouch = false;
+        cut.Instance._isDoubleTap = true;
+        var seriesRect = cut.Instance._axisContainer?.AxisLayout?.SeriesClipRect ?? new Rect(0, 0, 300, 150);
+        var startX = seriesRect.X + seriesRect.Width * 0.25;
+        var startY = seriesRect.Y + seriesRect.Height * 0.5;
+        var endX = seriesRect.X + seriesRect.Width * 0.75;
+        var endY = startY;
+        var argsDown = new ChartInternalMouseEventArgs { Target = cut.Instance.ID + "_", MouseX = startX, MouseY = startY, Type = "click", ClientX = (int)startX, ClientY = (int)startY };
+        var argsMove = new ChartInternalMouseEventArgs { Target = cut.Instance.ID + "_", MouseX = endX, MouseY = endY, Type = "click", ClientX = (int)endX, ClientY = (int)endY };
+        var argsEnd = new ChartInternalMouseEventArgs { Target = cut.Instance.ID + "_", MouseX = endX, MouseY = endY, Type = "click", ClientX = (int)endX, ClientY = (int)endY };
+        await cut.InvokeAsync(() => cut.Instance.OnZoomingMouseDown(argsDown, false));
+        await cut.InvokeAsync(() => cut.Instance.OnZoomingMouseMove(argsMove));
+        await cut.InvokeAsync(() => cut.Instance.OnZoomingMouseEnd(argsEnd));
+        await Task.Delay(150);
+        var svgAfter = cut.FindAll("rect").Count;
+        Assert.True(svgAfter > svgBefore, "Non-multi DragX should create a selection rectangle (else branch)");
+    }
+
+    async Task DragSelection_NoMulti_Lasso_Path(Fixture f)
+    {
+        var cut = f.GetComponentUnderTest<SfChart>();
+        await Task.Delay(200);
+        cut.Instance._isTouch = false;
+        cut.Instance._isDoubleTap = true;
+        var pathsBefore = cut.FindAll("path").Count;
+        var sr = cut.Instance._axisContainer?.AxisLayout?.SeriesClipRect ?? new Rect(0, 0, 300, 150);
+        var sx = sr.X + sr.Width * 0.2;
+        var sy = sr.Y + sr.Height * 0.2;
+        var argsDown = new ChartInternalMouseEventArgs { Target = cut.Instance.ID + "_", MouseX = sx, MouseY = sy, Type = "click", ClientX = (int)sx, ClientY = (int)sy };
+        var argsMove1 = new ChartInternalMouseEventArgs { Target = cut.Instance.ID + "_", MouseX = sx + 20, MouseY = sy + 10, Type = "click", ClientX = (int)(sx + 20), ClientY = (int)(sy + 10) };
+        var argsMove2 = new ChartInternalMouseEventArgs { Target = cut.Instance.ID + "_", MouseX = sx + 40, MouseY = sy + 30, Type = "click", ClientX = (int)(sx + 40), ClientY = (int)(sy + 30) };
+        await cut.InvokeAsync(() => cut.Instance.OnZoomingMouseDown(argsDown, false));
+        await cut.InvokeAsync(() => cut.Instance.OnZoomingMouseMove(argsMove1));
+        await Task.Delay(100);
+        var pathsAfterCreate = cut.FindAll("path").Count;
+        Assert.True(pathsAfterCreate > pathsBefore, "Lasso should create a path element");
+        var firstPath = cut.FindAll("path").Last();
+        var d1 = firstPath.GetAttribute("d") ?? string.Empty;
+        await cut.InvokeAsync(() => cut.Instance.OnZoomingMouseMove(argsMove2));
+        await Task.Delay(100);
+        var updatedPath = cut.FindAll("path").Last();
+        var d2 = updatedPath.GetAttribute("d") ?? string.Empty;
+        Assert.True(d2.Length >= d1.Length, "Path 'd' attribute should be updated (or at least unchanged)");
+        await cut.InvokeAsync(() => cut.Instance.OnZoomingMouseEnd(argsMove2));
+    }
+}

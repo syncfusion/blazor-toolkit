@@ -1,0 +1,200 @@
+@page "/checkbox/hierarchical-selection"
+@using Syncfusion.Blazor.Toolkit.Inputs
+@layout MainLayout
+
+<h1>Checkbox - Hierarchical Selection (Parent-Child Groups)</h1>
+
+<div class="test-container">
+    <h2>Parent-Child Checkbox Group with Tri-State Logic</h2>
+    <div>
+        <SfCheckBox TChecked="bool"
+                    id="parent-flow"
+                    Label="Parent"
+                    Indeterminate="parentIndeterminate"
+                    @bind-Checked="parentChecked"
+                    @onchange="HandleParentChange">
+        </SfCheckBox>
+    </div>
+    <div style="margin-left: 30px; margin-top: 15px;">
+        <SfCheckBox TChecked="bool"
+                    id="cf1"
+                    Label="Item 1"
+                    @bind-Checked="child1Checked"
+                    @onchange="HandleChildChange">
+        </SfCheckBox>
+        <SfCheckBox TChecked="bool"
+                    id="cf2"
+                    Label="Item 2"
+                    @bind-Checked="child2Checked"
+                    @onchange="HandleChildChange">
+        </SfCheckBox>
+        <SfCheckBox TChecked="bool"
+                    id="cf3"
+                    Label="Item 3"
+                    @bind-Checked="child3Checked"
+                    @onchange="HandleChildChange">
+        </SfCheckBox>
+    </div>
+</div>
+
+<div class="test-container">
+    <h2>Select All / Deselect All</h2>
+    <div>
+        <button @onclick="CheckAll" class="btn" id="check-all-btn">Check All</button>
+        <button @onclick="UncheckAll" class="btn" id="uncheck-all-btn">Uncheck All</button>
+    </div>
+    <p>Parent State: <strong>@parentStateDisplay</strong></p>
+    <p>Checked Children: <strong>@checkedCount / 3</strong></p>
+</div>
+
+<div class="test-container">
+    <h2>Independent Checkboxes</h2>
+    <div>
+        <SfCheckBox TChecked="bool"
+                    id="optionA"
+                    Label="Option A"
+                    @bind-Checked="optionA">
+        </SfCheckBox>
+        <SfCheckBox TChecked="bool"
+                    id="optionB"
+                    Label="Option B"
+                    @bind-Checked="optionB">
+        </SfCheckBox>
+        <SfCheckBox TChecked="bool"
+                    id="optionC"
+                    Label="Option C"
+                    @bind-Checked="optionC">
+        </SfCheckBox>
+    </div>
+    <p>Different states are preserved independently</p>
+</div>
+
+<style>
+    .test-container {
+        padding: 20px;
+        border: 1px solid #ddd;
+        margin: 10px 0;
+        border-radius: 4px;
+        background-color: #f9f9f9;
+    }
+
+    h2 {
+        margin-top: 20px;
+        font-size: 18px;
+        font-weight: 600;
+    }
+
+    p {
+        margin-top: 10px;
+        font-size: 14px;
+    }
+
+    .btn {
+        padding: 8px 16px;
+        margin-right: 10px;
+        margin-top: 10px;
+        background-color: #007bff;
+        color: white;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+    }
+
+    .btn:hover {
+        background-color: #0056b3;
+    }
+</style>
+
+@code {
+    // Parent-child group state
+    private bool parentChecked = false;
+    private bool parentIndeterminate = false;
+    private bool child1Checked = false;
+    private bool child2Checked = false;
+    private bool child3Checked = false;
+
+    // Independent options
+    private bool optionA = false;
+    private bool optionB = false;
+    private bool optionC = false;
+
+    private string parentStateDisplay
+    {
+        get
+        {
+            if (parentIndeterminate)
+                return "Indeterminate";
+            return parentChecked ? "Checked" : "Unchecked";
+        }
+    }
+
+    private int checkedCount
+    {
+        get
+        {
+            int count = 0;
+            if (child1Checked) count++;
+            if (child2Checked) count++;
+            if (child3Checked) count++;
+            return count;
+        }
+    }
+
+    private void HandleParentChange()
+    {
+        // When parent changes, update all children
+        child1Checked = parentChecked;
+        child2Checked = parentChecked;
+        child3Checked = parentChecked;
+        parentIndeterminate = false;
+    }
+
+    private void HandleChildChange()
+    {
+        // Update parent state based on children
+        UpdateParentState();
+    }
+
+    private void UpdateParentState()
+    {
+        int checkedCount = 0;
+        if (child1Checked) checkedCount++;
+        if (child2Checked) checkedCount++;
+        if (child3Checked) checkedCount++;
+
+        if (checkedCount == 0)
+        {
+            parentChecked = false;
+            parentIndeterminate = false;
+        }
+        else if (checkedCount == 3)
+        {
+            parentChecked = true;
+            parentIndeterminate = false;
+        }
+        else
+        {
+            // Indeterminate state when partially checked
+            parentChecked = false;
+            parentIndeterminate = true;
+        }
+    }
+
+    private void CheckAll()
+    {
+        child1Checked = true;
+        child2Checked = true;
+        child3Checked = true;
+        parentChecked = true;
+        parentIndeterminate = false;
+    }
+
+    private void UncheckAll()
+    {
+        child1Checked = false;
+        child2Checked = false;
+        child3Checked = false;
+        parentChecked = false;
+        parentIndeterminate = false;
+    }
+}

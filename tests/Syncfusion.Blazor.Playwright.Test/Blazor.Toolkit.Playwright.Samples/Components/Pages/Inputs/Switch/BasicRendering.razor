@@ -1,0 +1,12 @@
+@page "/switch/basic-rendering"
+@using Syncfusion.Blazor.Toolkit.Inputs
+
+<SfSwitch Id="switch-basic"
+          Label="Enable feature"
+          @bind-Checked="value" />
+
+<p id="switch-value">@value</p>
+
+@code {
+    bool value;
+}

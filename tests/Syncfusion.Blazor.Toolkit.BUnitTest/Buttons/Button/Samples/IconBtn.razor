@@ -1,0 +1,28 @@
+﻿@using Syncfusion.Blazor.Toolkit.Buttons
+
+@namespace Syncfusion.Blazor.Toolkit.Tests.Buttons
+
+<div class="sample">
+    <SfButton CssClass="e-primary" IconCss="@IconCssClass"></SfButton>
+
+    <SfButton Content="Disabled1" Disabled="@IsDisabled1"></SfButton>
+    <SfButton Content="Disabled2" Disabled="@IsDisabled2"></SfButton>
+</div>
+
+@code { 
+    [Parameter]
+    public string IconCssClass { get; set; }
+
+    public bool IsDisabled1 { get; set; } = true;
+    public bool IsDisabled2 { get; set; } = true;
+
+    protected override void OnAfterRender(bool firstRender)
+    {
+        if (firstRender)
+        {
+            IsDisabled2 = false;
+            StateHasChanged();
+        }
+    }
+}
+

@@ -1,0 +1,46 @@
+@using Syncfusion.Blazor.Toolkit.Spinner.Internal
+@inherits SfBaseComponent
+@namespace Syncfusion.Blazor.Toolkit.Spinner
+
+<div class="@_spinnerClass"
+     @attributes="@_attributes"
+     role="status"
+     aria-busy="@_enableRender.ToString().ToLower()">
+    <div class="@SpinnerInnerClass">
+        <CascadingValue Value="@this">
+            @ChildContent
+            @if (_enableRender)
+            {
+                @if (_spinnerTemplate != null && IsAnimationEnabled())
+                {
+                    @_spinnerTemplate
+                }
+                else
+                {
+                    <Border />
+                }
+            }
+        </CascadingValue>
+        @if (Label != null)
+        {
+            <div class="@ClassLabel">
+                @Label
+            </div>
+        }
+    </div>
+</div>
+
+@code {
+    /// <summary>
+    /// Determines whether animation is enabled based on global settings.
+    /// </summary>
+    /// <returns><see langword="true"/> if animation is enabled; otherwise, <see langword="false"/>.</returns>
+    /// <remarks>
+    /// This method respects the global animation settings provided by the SyncfusionService,
+    /// allowing for centralized animation control across the application.
+    /// </remarks>
+    private bool IsAnimationEnabled()
+    {
+        return SyncfusionService is not null && SyncfusionService.IsAnimationEnabled();
+    }
+}

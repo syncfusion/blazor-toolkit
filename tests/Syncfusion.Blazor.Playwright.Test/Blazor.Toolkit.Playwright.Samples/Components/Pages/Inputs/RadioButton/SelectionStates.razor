@@ -1,0 +1,63 @@
+@page "/radio-button/selection-states"
+@using Syncfusion.Blazor.Toolkit.Inputs
+@layout MainLayout
+
+<h1>Radio Button - Selection States</h1>
+
+<div class="test-container">
+    <h2>Selection and Mutual Exclusivity</h2>
+    <div class="e-radio-group">
+        <SfRadioButton TChecked="string" Name="selection-group" Value="selected" Label="Selected Option" @bind-Checked="selectionState"></SfRadioButton>
+        <SfRadioButton TChecked="string" Name="selection-group" Value="unselected" Label="Unselected Option" @bind-Checked="selectionState"></SfRadioButton>
+        <SfRadioButton TChecked="string" Name="selection-group" Value="another" Label="Another Option" @bind-Checked="selectionState"></SfRadioButton>
+    </div>
+    <p>Selected Value: <strong>@selectionState</strong></p>
+    <button @onclick="ResetSelection">Reset Selection</button>
+</div>
+
+<style>
+    .test-container {
+        padding: 20px;
+        border: 1px solid #ddd;
+        margin: 10px 0;
+        border-radius: 4px;
+        background-color: #f9f9f9;
+    }
+    
+    .e-radio-group {
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+        margin-bottom: 15px;
+    }
+    
+    h2 {
+        margin-top: 20px;
+        font-size: 18px;
+        font-weight: 600;
+    }
+    
+    button {
+        padding: 8px 16px;
+        margin-top: 10px;
+        cursor: pointer;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        background-color: #f0f0f0;
+    }
+    
+    button:hover {
+        background-color: #e0e0e0;
+    }
+</style>
+
+@code {
+    private string selectionState = "selected";
+    
+    private void ResetSelection()
+    {
+        selectionState = "selected";
+    }
+}
+
+

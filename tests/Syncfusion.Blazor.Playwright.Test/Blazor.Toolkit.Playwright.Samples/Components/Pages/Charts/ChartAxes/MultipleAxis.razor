@@ -1,0 +1,59 @@
+﻿@page "/chart-multiple-axis"
+@using Syncfusion.Blazor.Toolkit
+@using Syncfusion.Blazor.Toolkit.Charts
+@inject NavigationManager NavigationManager
+<div class="control-section" align='center'>
+    <SfChart Title="Weather Data - 2024" SubTitle="Source: ncei.noaa.gov" Width="@Width">
+        <ChartTitleStyle TextOverflow="TextOverflow.Wrap"></ChartTitleStyle>
+        <ChartArea><ChartAreaBorder Width="0"></ChartAreaBorder></ChartArea>
+        <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Toolkit.ValueType.Category">
+            <ChartAxisMinorGridLines Width="0"></ChartAxisMinorGridLines>
+            <ChartAxisMajorGridLines Width="0"></ChartAxisMajorGridLines>
+        </ChartPrimaryXAxis>
+        <ChartPrimaryYAxis Minimum="151" Maximum="156" Interval="1" LabelFormat="{value}°F">
+            <ChartAxisLineStyle Width="0"></ChartAxisLineStyle>
+            <ChartAxisMajorTickLines Width="0"></ChartAxisMajorTickLines>
+        </ChartPrimaryYAxis>
+        <ChartAxes>
+            <ChartAxis Minimum="46" Maximum="50" Interval="1" OpposedPosition="true" RowIndex="0" Name="yAxis2" LabelFormat="{value}°C">
+                <ChartAxisLineStyle Width="0"></ChartAxisLineStyle>
+                <ChartAxisMajorGridLines Width="0"></ChartAxisMajorGridLines>
+            </ChartAxis>
+        </ChartAxes>
+        <ChartTooltipSettings Enable="true"></ChartTooltipSettings>
+        <ChartSeriesCollection>
+            <ChartSeries DataSource="@ChartPoints" XName="Month" YName="Texas" Opacity="1" Name="Texas" Width="2" Type="ChartSeriesType.Column">
+                <ChartCornerRadius TopLeft="4" TopRight="4"></ChartCornerRadius>
+            </ChartSeries>
+            <ChartSeries DataSource="@ChartPoints" YAxisName="yAxis2" XName="Month" YName="Washington" Opacity="1" Name="Washington" Width="2" Type="ChartSeriesType.Spline">
+                <ChartMarker Visible="true" Height="7" Width="7" IsFilled="true">
+                </ChartMarker>
+            </ChartSeries>
+        </ChartSeriesCollection>
+        <ChartLegendSettings Visible="true"></ChartLegendSettings>
+    </SfChart>
+</div>
+@code {
+    public string Width { get; set; } = "90%";
+    public List<CategoryData> ChartPoints { get; set; } = new List<CategoryData>
+    {
+        new CategoryData { Month = "Jan", Texas = 153.5, Washington = 48.1 },
+        new CategoryData { Month = "Feb", Texas = 153.64, Washington = 48.5 },
+        new CategoryData { Month = "Mar", Texas = 153.64, Washington = 48.8 },
+        new CategoryData { Month = "Apr", Texas = 154.58, Washington = 49.0 },
+        new CategoryData { Month = "May", Texas = 155.12, Washington = 48.4 },
+        new CategoryData { Month = "Jun", Texas = 155.12, Washington = 48.2 },
+        new CategoryData { Month = "Jul", Texas = 154.58, Washington = 48.4 },
+        new CategoryData { Month = "Aug", Texas = 154.4, Washington = 48.2 },
+        new CategoryData { Month = "Sep", Texas = 153.68, Washington = 48.5 },
+        new CategoryData { Month = "Oct", Texas = 154.4, Washington = 48.4 },
+        new CategoryData { Month = "Nov", Texas = 154.94, Washington = 48.5 },
+        new CategoryData { Month = "Dec", Texas = 155.3, Washington = 48.4 }
+    };
+    public class CategoryData
+    {
+        public String? Month { get; set; }
+        public double Washington { get; set; }
+        public double Texas { get; set; }
+    }
+}

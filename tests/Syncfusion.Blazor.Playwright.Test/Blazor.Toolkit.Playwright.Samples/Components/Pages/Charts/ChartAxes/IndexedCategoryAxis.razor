@@ -1,0 +1,113 @@
+﻿@page "/chart-indexed-category-axis"
+@using Syncfusion.Blazor.Toolkit
+@using Syncfusion.Blazor.Toolkit.Charts
+@using Syncfusion.Blazor.Toolkit.Buttons
+@using Syncfusion.Blazor.Toolkit.Inputs
+@inject NavigationManager NavigationManager
+<div class="col-lg-10 control-section">
+    <SfChart @ref="ChartRef" Title="GDP by Countries" SubTitle="Source: ourworldindata.org">
+        <ChartTitleStyle TextOverflow="TextOverflow.Wrap"></ChartTitleStyle>
+        <ChartArea><ChartAreaBorder Width="0"></ChartAreaBorder></ChartArea>
+        <ChartMargin Bottom="12"></ChartMargin>
+        <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Toolkit.ValueType.Category" EdgeLabelPlacement="EdgeLabelPlacement.Shift" LabelIntersectAction="@Label" LabelRotation="@LabelRotate" Interval="1" IsIndexed="@Indexed">
+            <ChartAxisCrosshairTooltip Enable="true"></ChartAxisCrosshairTooltip>
+            <ChartAxisMajorTickLines Width="0"></ChartAxisMajorTickLines>
+        </ChartPrimaryXAxis>
+        <ChartPrimaryYAxis LabelFormat="{value}%">
+            <ChartAxisMajorTickLines Width="0"></ChartAxisMajorTickLines>
+        </ChartPrimaryYAxis>
+        <ChartSeriesCollection>
+            <ChartSeries DataSource="@GDP_2021" Name="2021" XName="Country" Width="2" Opacity="1" YName="GDPGrowthRate" Type="@Series1">
+                <ChartCornerRadius TopLeft="4" TopRight="4"></ChartCornerRadius>
+                <ChartMarker Visible="@Marker1" Height="10" Width="10">
+                    <ChartDataLabel Visible="true" EnableRotation="@Rotation" Angle="@RotateAngle" Position="ChartLabelPosition.Top" Name="TextMapping">
+                    </ChartDataLabel>
+                </ChartMarker>
+            </ChartSeries>
+            <ChartSeries DataSource="@GDP_2022" Name="2022" XName="Country" Width="2" Opacity="1" YName="GDPGrowthRate" Type="@Series2">
+                <ChartCornerRadius TopLeft="4" TopRight="4"></ChartCornerRadius>
+                <ChartMarker Visible="@Marker2" Height="10" Width="10">
+                    <ChartDataLabel Visible="true" EnableRotation="@Rotation" Angle="@RotateAngle" Position="ChartLabelPosition.Top" Name="TextMapping">
+                    </ChartDataLabel>
+                </ChartMarker>
+            </ChartSeries>
+        </ChartSeriesCollection>
+        <ChartLegendSettings Visible="true"></ChartLegendSettings>
+    </SfChart>
+</div>
+<PropertyPanel ControlSecClass="col-lg-10" CollapseChanged="HandlePanelCollapseChangedAsync" InitialRefresh="HandlePanelCollapseChangedAsync">
+            <table style="width: 100%">
+                <tr style="height: 50px">
+                    <td style="width: 50%">
+                        <div>Indexed: </div>
+                    </td>
+                    <td style="width: 50%;">
+                        <div>
+                    <SfCheckBox TChecked="bool"
+                                Checked="@Indexed"
+                                CheckedChanged="OnIndexedChanged">
+                    </SfCheckBox>
+                        </div>
+                    </td>
+                </tr>
+            </table>
+</PropertyPanel>
+@code{
+    public SfChart? ChartRef { get; set; }
+    bool Rotation { get; set; } = false;
+    public double RotateAngle {get; set;} = 0;
+    public LabelIntersectAction Label { get; set; } = LabelIntersectAction.Rotate45;
+    public List<CategoryData> GDP_2021 { get; set; } = new List<CategoryData>
+    {
+        new CategoryData { Country = "India", GDPGrowthRate = 9.05 },
+        new CategoryData { Country = "Nepal", GDPGrowthRate = 4.84 },
+        new CategoryData { Country = "Bangladesh", GDPGrowthRate = 6.94 },
+        new CategoryData { Country = "Cambodia", GDPGrowthRate = 3.03 },
+        new CategoryData { Country = "China", GDPGrowthRate = 8.45 },
+    };
+    public List<CategoryData> GDP_2022 { get; set; } = new List<CategoryData>
+    {
+        new CategoryData { Country = "Australia", GDPGrowthRate = 4.27 },
+        new CategoryData { Country = "Poland", GDPGrowthRate = 5.26 },
+        new CategoryData { Country = "Singapore", GDPGrowthRate = 3.65 },
+        new CategoryData { Country = "Canada", GDPGrowthRate = 3.82 },
+        new CategoryData { Country = "Germany", GDPGrowthRate = 1.81 },
+    };
+    private bool Indexed = true, Marker1 = false, Marker2 = false;
+    private ChartSeriesType Series1 = ChartSeriesType.Column, Series2 = ChartSeriesType.Column;
+    private double LabelRotate;
+    private void OnIndexedChanged(bool value)
+    {
+        Indexed = value;
+
+        if (Indexed)
+        {
+            Series1 = Series2 = ChartSeriesType.Column;
+            Marker1 = Marker2 = false;
+            LabelRotate = 0;
+            Label = LabelIntersectAction.Rotate45;
+        }
+        else
+        {
+            Series1 = Series2 = ChartSeriesType.Line;
+            Marker1 = Marker2 = true;
+            LabelRotate = 90;
+        }
+    }
+    public class CategoryData
+    {
+        public string? Country { get; set; }
+        public double GDPGrowthRate { get; set; }
+    }
+    /// <summary>
+    /// EventCallback handler - invoked when PropertyPanel is expanded/collapsed
+    /// This is triggered by CollapseChanged EventCallback from PropertyPanel
+    /// </summary>
+    public async Task HandlePanelCollapseChangedAsync()
+    {
+        if (ChartRef != null)
+        {
+            await ChartRef.RefreshAsync(false);
+        }
+    }
+}

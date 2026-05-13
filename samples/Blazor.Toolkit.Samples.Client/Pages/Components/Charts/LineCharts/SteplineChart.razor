@@ -1,0 +1,1020 @@
+@page "/charts/stepline-chart"
+@using Syncfusion.Blazor.Toolkit.Charts
+@using Syncfusion.Blazor.Toolkit.Buttons
+
+<PageTitle>Syncfusion Blazor Toolkit Stepline Chart Demo</PageTitle>
+
+<!-- ─────────────────────────────────────────────
+     OVERVIEW
+     ───────────────────────────────────────────── -->
+<Description>
+    <Header>
+        <h5><b>Overview</b></h5>
+    </Header>
+    <Content>
+        A Stepline Chart displays data using horizontal and vertical segments
+        instead of diagonal slopes, clearly highlighting discrete changes
+        between consecutive values.
+
+        In the Syncfusion Blazor Toolkit, a Stepline Chart is created by setting
+        the <code>Type</code> property of the <code>ChartSeries</code> component to
+        <code>ChartSeriesType.Stepline</code>. This Chart supports markers, data
+        labels, tooltips, and full axis customization, making it ideal for
+        visualizing year‑over‑year or stage‑based progressions.
+    </Content>
+</Description>
+
+<VirtualizeSection MinHeightPx="600px">
+    <CodePreview IsFullWidth="true" CodeSection="@StepLineOverviewCode">
+        <PreviewSection>
+            <SfChart @key="@_currentTheme" Title="Worldwide Best-Selling Albums by Year" Theme="@_currentTheme">
+                <ChartArea><ChartAreaBorder Width="0"></ChartAreaBorder></ChartArea>
+                <!-- Tooltip -->
+                <ChartTooltipSettings Enable="true"
+                                      Header="${point.x}"
+                                      Format="Sales : <b>${point.y}M</b>"
+                                      EnableHighlight="true" />
+
+                <!-- X Axis -->
+                <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Toolkit.ValueType.Double"
+                                   Minimum="2006"
+                                   Maximum="2025"
+                                   Interval="3">
+                    <ChartAxisMajorGridLines Width="0" />
+                    <ChartAxisMajorTickLines Width="0" />
+                    <ChartAxisMinorTickLines Width="0" />
+                </ChartPrimaryXAxis>
+
+                <!-- Y Axis -->
+                <ChartPrimaryYAxis Minimum="0"
+                                   Maximum="20"
+                                   Interval="4"
+                                   Title="Sales in million">
+                    <ChartAxisLineStyle Width="0" />
+                    <ChartAxisMajorTickLines Width="0" />
+                </ChartPrimaryYAxis>
+
+                <!-- Series -->
+                
+                    <ChartSeries DataSource="@StepLineData"
+                                 XName="X"
+                                 YName="Y"
+                                 Width="3"
+                                 Fill="#0FAF9C"
+                                 Type="ChartSeriesType.StepLine">
+                        <ChartMarker IsFilled="true" />
+                    </ChartSeries>
+                
+            </SfChart>
+        </PreviewSection>
+    </CodePreview>
+</VirtualizeSection>
+
+<!-- ─────────────────────────────────────────────
+     DATA LABEL
+     ───────────────────────────────────────────── -->
+<Description>
+    <Header>
+        <h5><b>Data Label</b></h5>
+    </Header>
+    <Content>
+        Data labels display the exact value of each data point directly on the
+        Stepline, making changes between consecutive levels easy to interpret
+        without relying on tooltips.
+
+        In a Step Line Chart, data labels are enabled by setting the
+        <code>Visible</code> property of the <code>ChartDataLabel</code> component
+        to <code>true</code> inside the <code>ChartMarker</code>. This ensures that
+        the value for each step is clearly displayed along the series.
+    </Content>
+</Description>
+
+<VirtualizeSection MinHeightPx="600px">
+    <CodePreview IsFullWidth="true" CodeSection="@StepLineDataLabelCode">
+        <PreviewSection>
+            <SfChart @key="@_currentTheme" Title="Worldwide Best-Selling Albums by Year" Theme="@_currentTheme">
+                <ChartArea><ChartAreaBorder Width="0"></ChartAreaBorder></ChartArea>
+                <!-- Tooltip -->
+                <ChartTooltipSettings Enable="true"
+                                      Header="${point.x}"
+                                      Format="Sales : <b>${point.y}M</b>"
+                                      EnableHighlight="true" />
+
+                <!-- X Axis -->
+                <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Toolkit.ValueType.Double"
+                                   Minimum="2006"
+                                   Maximum="2025"
+                                   Interval="3">
+                    <ChartAxisMajorGridLines Width="0" />
+                    <ChartAxisMajorTickLines Width="0" />
+                    <ChartAxisMinorTickLines Width="0" />
+                </ChartPrimaryXAxis>
+
+                <!-- Y Axis -->
+                <ChartPrimaryYAxis Minimum="0"
+                                   Maximum="20"
+                                   Interval="4"
+                                   Title="Sales in million">
+                    <ChartAxisLineStyle Width="0" />
+                    <ChartAxisMajorTickLines Width="0" />
+                </ChartPrimaryYAxis>
+
+                <!-- Series -->
+                
+                    <ChartSeries DataSource="@StepLineData"
+                                 XName="X"
+                                 YName="Y"
+                                 Width="3"
+                                 Fill="#0FAF9C"
+                                 Type="ChartSeriesType.StepLine">
+                        <ChartMarker IsFilled="true">
+                            <ChartDataLabel Visible="true" />
+                        </ChartMarker>
+                    </ChartSeries>
+                
+            </SfChart>
+        </PreviewSection>
+    </CodePreview>
+</VirtualizeSection>
+
+<!-- ─────────────────────────────────────────────
+     SKIP MISSING POINTS
+     ───────────────────────────────────────────── -->
+<Description>
+    <Header>
+        <h5><b>Skip Missing Points</b></h5>
+    </Header>
+    <Content>
+        Step Line Charts can contain missing or <code>null</code> values, which
+        are treated as empty points. You can control how the Stepline behaves
+        when it encounters such gaps.
+
+        The Syncfusion Blazor Toolkit supports multiple empty point modes through
+        the <code>ChartEmptyPointSettings</code> component:
+        <code>Gap</code>, <code>Zero</code>, <code>Average</code>, and
+        <code>Drop</code>. Since the Toolkit does not provide a dropdown
+        component, an interactive <code>SfButtonGroup</code> is used to switch
+        between these modes.
+    </Content>
+</Description>
+
+<VirtualizeSection MinHeightPx="600px">
+    <CodePreview IsFullWidth="true" CodeSection="@StepLineSkipMissingCode">
+        <PreviewSection>
+            <!-- EMPTY POINT MODE SELECTOR -->
+            <div class="mb-3 text-center">
+                <label class="fw-bold d-block mb-2">Empty Point Mode</label>
+                <SfButtonGroup Mode="SelectionMode.Single">
+                    <ButtonGroupButton Selected="@IsEmptyModeSelected(EmptyPointMode.Gap)"
+                                       SelectedChanged="@(v => OnEmptyModeChanged(v, EmptyPointMode.Gap))">
+                        Gap
+                    </ButtonGroupButton>
+
+                    <ButtonGroupButton Selected="@IsEmptyModeSelected(EmptyPointMode.Zero)"
+                                       SelectedChanged="@(v => OnEmptyModeChanged(v, EmptyPointMode.Zero))">
+                        Zero
+                    </ButtonGroupButton>
+
+                    <ButtonGroupButton Selected="@IsEmptyModeSelected(EmptyPointMode.Average)"
+                                       SelectedChanged="@(v => OnEmptyModeChanged(v, EmptyPointMode.Average))">
+                        Average
+                    </ButtonGroupButton>
+
+                    <ButtonGroupButton Selected="@IsEmptyModeSelected(EmptyPointMode.Drop)"
+                                       SelectedChanged="@(v => OnEmptyModeChanged(v, EmptyPointMode.Drop))">
+                        Drop
+                    </ButtonGroupButton>
+                </SfButtonGroup>
+
+                <!-- CHART -->
+                <SfChart @key="@_currentTheme" Title="Worldwide Best-Selling Albums by Year" Theme="@_currentTheme">
+                    <ChartArea><ChartAreaBorder Width="0"></ChartAreaBorder></ChartArea>
+                    <ChartTooltipSettings Enable="true"
+                                          Header="${point.x}"
+                                          Format="Sales : <b>${point.y}M</b>"
+                                          EnableHighlight="true" />
+
+                    <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Toolkit.ValueType.Double"
+                                       Minimum="2006"
+                                       Maximum="2025"
+                                       Interval="3">
+                        <ChartAxisMajorGridLines Width="0" />
+                        <ChartAxisMajorTickLines Width="0" />
+                        <ChartAxisMinorTickLines Width="0" />
+                    </ChartPrimaryXAxis>
+
+                    <ChartPrimaryYAxis Minimum="0"
+                                       Maximum="20"
+                                       Interval="4"
+                                       Title="Sales in million">
+                        <ChartAxisLineStyle Width="0" />
+                        <ChartAxisMajorTickLines Width="0" />
+                    </ChartPrimaryYAxis>
+
+                    
+                        <ChartSeries DataSource="@StepLineEmptyData"
+                                     XName="X"
+                                     YName="Y"
+                                     Width="3"
+                                     Type="ChartSeriesType.StepLine"
+                                     Fill="#0FAF9C">
+                            <ChartEmptyPointSettings Mode="@CurrentEmptyPointMode" />
+                            <ChartMarker Visible="true" IsFilled="true" />
+                        </ChartSeries>
+                    
+                </SfChart>
+            </div>
+        </PreviewSection>
+    </CodePreview>
+</VirtualizeSection>
+
+<!-- ─────────────────────────────────────────────
+     INVERTED AXES
+     ───────────────────────────────────────────── -->
+<Description>
+    <Header>
+        <h5><b>Inverted Axes</b></h5>
+    </Header>
+    <Content>
+        An inverted or transposed Stepline Chart swaps the X‑axis and Y‑axis,
+        displaying categories along the vertical axis and values along the
+        horizontal axis.
+
+        In the Syncfusion Blazor Toolkit, this layout is enabled by setting the
+        <code>IsTransposed</code> property of the <code>SfChart</code> component
+        to <code>true</code>. Transposed Stepline Charts are useful when working
+        with dense category labels or when comparing multiple series across a
+        vertical scale.
+    </Content>
+</Description>
+
+<VirtualizeSection MinHeightPx="600px">
+    <CodePreview IsFullWidth="true" CodeSection="@StepLineInvertedAxesCode">
+        <PreviewSection>
+            <SfChart @key="@_currentTheme" Title="Unemployment rate 1975 - 2010" Theme="@_currentTheme"
+                     IsTransposed="true">
+                <ChartArea><ChartAreaBorder Width="0"></ChartAreaBorder></ChartArea>
+
+                <!-- X Axis (Category) -->
+                <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Toolkit.ValueType.Category">
+                    <ChartAxisMajorTickLines Width="0" />
+                    <ChartAxisMinorTickLines Width="0" />
+                </ChartPrimaryXAxis>
+
+                <!-- Y Axis -->
+                <ChartPrimaryYAxis LabelFormat="{value}%">
+                    <ChartAxisMajorTickLines Width="0" />
+                </ChartPrimaryYAxis>
+
+                <!-- Series -->
+                
+                    <ChartSeries DataSource="@StepLineTransposedData"
+                                 XName="X"
+                                 YName="Y1"
+                                 Name="China"
+                                 Width="2"
+                                 Type="ChartSeriesType.StepLine"
+                                 Fill="@ChinaColor">
+                        <ChartMarker Visible="true"
+                                     Shape="ChartShape.Circle"
+                                     IsFilled="true" />
+                    </ChartSeries>
+
+                    <ChartSeries DataSource="@StepLineTransposedData"
+                                 XName="X"
+                                 YName="Y2"
+                                 Name="Australia"
+                                 Width="2"
+                                 Type="ChartSeriesType.StepLine"
+                                 Fill="@AustraliaColor">
+                        <ChartMarker Visible="true"
+                                     Shape="ChartShape.Circle"
+                                     IsFilled="true" />
+                    </ChartSeries>
+                
+
+                <!-- Tooltip -->
+                <ChartTooltipSettings Enable="true"
+                                      Header="${series.name}"
+                                      EnableHighlight="true" />
+                <ChartLegendSettings EnableHighlight="true"></ChartLegendSettings>
+            </SfChart>
+        </PreviewSection>
+    </CodePreview>
+</VirtualizeSection>
+
+<!-- ─────────────────────────────────────────────
+     STEP POSITION
+     ───────────────────────────────────────────── -->
+<Description>
+    <Header>
+        <h5><b>Step Position</b></h5>
+    </Header>
+    <Content>
+        Step position controls how horizontal and vertical segments are aligned
+        between consecutive points in a Stepline Chart.
+
+        The Syncfusion Blazor Toolkit supports three step positions:
+        <code>Left</code>, <code>Center</code>, and <code>Right</code>. Since the
+        Toolkit does not provide a dropdown component, the step position can be
+        changed interactively using a <code>SfButtonGroup</code>, providing a
+        clean and accessible alternative for selecting step alignment.
+    </Content>
+</Description>
+
+<VirtualizeSection MinHeightPx="600px">
+    <CodePreview IsFullWidth="true" CodeSection="@StepLineStepPositionCode">
+        <PreviewSection>
+            <div class="mb-3 text-center">
+                <label class="fw-bold d-block mb-2">Empty Point Mode</label>
+                <SfButtonGroup Mode="SelectionMode.Single">
+                    <ButtonGroupButton Selected="@IsStepSelected(StepPosition.Left)"
+                                       SelectedChanged="@(v => OnStepChanged(v, StepPosition.Left))">
+                        Left
+                    </ButtonGroupButton>
+
+                    <ButtonGroupButton Selected="@IsStepSelected(StepPosition.Center)"
+                                       SelectedChanged="@(v => OnStepChanged(v, StepPosition.Center))">
+                        Center
+                    </ButtonGroupButton>
+
+                    <ButtonGroupButton Selected="@IsStepSelected(StepPosition.Right)"
+                                       SelectedChanged="@(v => OnStepChanged(v, StepPosition.Right))">
+                        Right
+                    </ButtonGroupButton>
+                </SfButtonGroup>
+            </div>
+
+            <SfChart @key="@_currentTheme" Title="Worldwide Best-Selling Albums by Year" Theme="@_currentTheme">
+                <ChartArea>
+                    <ChartAreaBorder Width="0" />
+                </ChartArea>
+
+                <ChartTooltipSettings Enable="true"
+                                      Header="${point.x}"
+                                      Format="Sales : <b>${point.y}M</b>"
+                                      EnableHighlight="true" />
+
+                <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Toolkit.ValueType.Double"
+                                   Minimum="2006"
+                                   Maximum="2025"
+                                   Interval="3">
+                    <ChartAxisMajorGridLines Width="0" />
+                    <ChartAxisMajorTickLines Width="0" />
+                    <ChartAxisMinorTickLines Width="0" />
+                </ChartPrimaryXAxis>
+
+                <ChartPrimaryYAxis Minimum="0"
+                                   Maximum="20"
+                                   Interval="4"
+                                   Title="Sales in million">
+                    <ChartAxisLineStyle Width="0" />
+                    <ChartAxisMajorTickLines Width="0" />
+                </ChartPrimaryYAxis>
+
+                
+                    <ChartSeries DataSource="@StepLineData"
+                                 XName="X"
+                                 YName="Y"
+                                 Width="3"
+                                 StepPosition="@CurrentStepPosition"
+                                 Type="ChartSeriesType.StepLine"
+                                 Fill="#0FAF9C">
+                        <ChartMarker Visible="true" IsFilled="true" />
+                    </ChartSeries>
+                
+            </SfChart>
+        </PreviewSection>
+    </CodePreview>
+</VirtualizeSection>
+
+<!-- ─────────────────────────────────────────────
+     SERIES CUSTOMIZATION
+     ───────────────────────────────────────────── -->
+<Description>
+    <Header>
+        <h5><b>Series Customization</b></h5>
+    </Header>
+    <Content>
+        Series customization allows you to control the visual appearance of a
+        Stepline, including line thickness, dash patterns, opacity, and step
+        alignment.
+
+        In the Syncfusion Blazor Toolkit, these options are configured using
+        properties such as <code>Width</code>, <code>DashArray</code>,
+        <code>Opacity</code>, and <code>StepPosition</code> on the
+        <code>ChartSeries</code> component. This provides flexibility to highlight
+        trends or differentiate a Stepline from other series.
+    </Content>
+</Description>
+
+<VirtualizeSection MinHeightPx="600px">
+    <CodePreview IsFullWidth="true" CodeSection="@StepLineSeriesCustomizationCode">
+        <PreviewSection>
+            <SfChart @key="@_currentTheme" Title="Worldwide Best-Selling Albums by Year" Theme="@_currentTheme">
+                <ChartArea><ChartAreaBorder Width="0"></ChartAreaBorder></ChartArea>
+                <!-- Tooltip -->
+                <ChartTooltipSettings Enable="true"
+                                      Header="${point.x}"
+                                      Format="Sales : <b>${point.y}M</b>"
+                                      EnableHighlight="true" />
+
+                <!-- X Axis -->
+                <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Toolkit.ValueType.Double"
+                                   Minimum="2006"
+                                   Maximum="2025"
+                                   Interval="3">
+                    <ChartAxisMajorGridLines Width="0" />
+                    <ChartAxisMajorTickLines Width="0" />
+                    <ChartAxisMinorTickLines Width="0" />
+                </ChartPrimaryXAxis>
+
+                <!-- Y Axis -->
+                <ChartPrimaryYAxis Minimum="0"
+                                   Maximum="20"
+                                   Interval="4"
+                                   Title="Sales in million">
+                    <ChartAxisLineStyle Width="0" />
+                    <ChartAxisMajorTickLines Width="0" />
+                </ChartPrimaryYAxis>
+
+                <!-- Series -->
+                
+                    <ChartSeries DataSource="@StepLineData"
+                                 XName="X"
+                                 YName="Y"
+                                 Width="3"
+                                 DashArray="5,6"
+                                 Opacity="0.7"
+                                 StepPosition="StepPosition.Right"
+                                 Fill="@CustomizedSeriesColor"
+                                 Type="ChartSeriesType.StepLine">
+                        <ChartMarker Visible="true"
+                                     Shape="ChartShape.Circle"
+                                     IsFilled="true" />
+                    </ChartSeries>
+                
+            </SfChart>
+        </PreviewSection>
+    </CodePreview>
+</VirtualizeSection>
+
+@code {
+    [CascadingParameter]
+    private Theme CurrentTheme { get; set; } = Theme.Fluent;
+
+    private Theme _currentTheme = Theme.Fluent;
+
+    protected override void OnInitialized()
+    {
+        _currentTheme = CurrentTheme;
+    }
+
+    protected override void OnParametersSet()
+    {
+        _currentTheme = CurrentTheme;
+    }
+    public class AlbumSalesData
+    {
+        public double X { get; set; }
+        public double Y { get; set; }
+        public string Album { get; set; } = string.Empty;
+        public string Artist { get; set; } = string.Empty;
+    }
+
+    private List<AlbumSalesData> StepLineData = new()
+    {
+        new() { X = 2007, Y = 6.0,  Album = "High School Musical 2", Artist = "Various Artists" },
+        new() { X = 2008, Y = 6.8,  Album = "Viva la Vida", Artist = "Coldplay" },
+        new() { X = 2009, Y = 8.3,  Album = "I Dreamed a Dream", Artist = "Susan Boyle" },
+        new() { X = 2010, Y = 5.7,  Album = "Recovery", Artist = "Eminem" },
+        new() { X = 2011, Y = 17.7, Album = "21", Artist = "Adele" },
+        new() { X = 2012, Y = 8.3,  Album = "21", Artist = "Adele" },
+        new() { X = 2013, Y = 4.0,  Album = "Midnight Memories", Artist = "One Direction" },
+        new() { X = 2014, Y = 10.0, Album = "Frozen", Artist = "Various Artists" },
+        new() { X = 2015, Y = 17.4, Album = "25", Artist = "Adele" },
+        new() { X = 2016, Y = 2.5,  Album = "Lemonade", Artist = "Beyoncé" },
+        new() { X = 2017, Y = 6.1,  Album = "÷", Artist = "Ed Sheeran" },
+        new() { X = 2018, Y = 3.5,  Album = "The Greatest Showman", Artist = "Various Artists" },
+        new() { X = 2019, Y = 3.3,  Album = "5x20 All the Best!!", Artist = "Arashi" },
+        new() { X = 2020, Y = 4.8,  Album = "Map of the Soul: 7", Artist = "BTS" },
+        new() { X = 2021, Y = 4.68, Album = "30", Artist = "Adele" },
+        new() { X = 2022, Y = 7.2,  Album = "Greatest Works of Art", Artist = "Jay Chou" },
+        new() { X = 2023, Y = 6.4,  Album = "FML", Artist = "Seventeen" },
+        new() { X = 2024, Y = 5.6,  Album = "The Tortured Poets Department", Artist = "Taylor Swift" }
+    };
+
+    // Current empty point mode
+    private EmptyPointMode CurrentEmptyPointMode { get; set; } = EmptyPointMode.Gap;
+
+    // ButtonGroup helpers
+    private bool IsEmptyModeSelected(EmptyPointMode mode)
+        => CurrentEmptyPointMode == mode;
+
+    private void OnEmptyModeChanged(bool selected, EmptyPointMode mode)
+    {
+        if (selected)
+        {
+            CurrentEmptyPointMode = mode;
+        }
+    }
+
+    public class StepLineEmptyPoint
+    {
+        public double X { get; set; }
+        public double? Y { get; set; }
+    }
+
+    private List<StepLineEmptyPoint> StepLineEmptyData = new()
+    {
+        new() { X = 2007, Y = 6.0 },
+        new() { X = 2008, Y = 6.8 },
+        new() { X = 2009, Y = 8.3 },
+        new() { X = 2010, Y = 5.7 },
+        new() { X = 2011, Y = 18.1 },
+        new() { X = 2012, Y = 8.3 },
+        new() { X = 2013, Y = 4.0 },
+        new() { X = 2014, Y = 10.0 },
+        new() { X = 2015, Y = 17.4 },
+        new() { X = 2016, Y = null },
+        new() { X = 2017, Y = 6.1 },
+        new() { X = 2018, Y = 3.5 },
+        new() { X = 2019, Y = null },
+        new() { X = 2020, Y = 4.8 },
+        new() { X = 2021, Y = 4.68 },
+        new() { X = 2022, Y = null },
+        new() { X = 2023, Y = 6.4 },
+        new() { X = 2024, Y = 5.6 }
+    };
+
+    public class StepLineTransposedPoint
+    {
+        public int X { get; set; }
+        public double Y1 { get; set; }
+        public double Y2 { get; set; }
+    }
+
+    private List<StepLineTransposedPoint> StepLineTransposedData = new()
+    {
+        new() { X = 1975, Y1 = 16,   Y2 = 10   },
+        new() { X = 1980, Y1 = 12.5, Y2 = 7.5  },
+        new() { X = 1985, Y1 = 19,   Y2 = 11   },
+        new() { X = 1990, Y1 = 14.4, Y2 = 7    },
+        new() { X = 1995, Y1 = 11.5, Y2 = 8    },
+        new() { X = 2000, Y1 = 14,   Y2 = 6    },
+        new() { X = 2005, Y1 = 10,   Y2 = 3.5  },
+        new() { X = 2010, Y1 = 16,   Y2 = 7    }
+    };
+
+    private bool IsDarkTheme => _currentTheme.ToString().Contains("Dark") || _currentTheme.ToString().Contains("HighContrast");
+    private string ChinaColor => IsDarkTheme ? "#7F9CFE" : "#0A30AE";
+    private string AustraliaColor => IsDarkTheme ? "#EE884E" : "#E3651D";
+    private string CustomizedSeriesColor =>
+    IsDarkTheme ? "#F44F80" : "#D71D55";
+
+    // Current step position
+    private StepPosition CurrentStepPosition { get; set; } = StepPosition.Left;
+
+    // ButtonGroup helpers
+    private bool IsStepSelected(StepPosition position)
+        => CurrentStepPosition == position;
+
+    private void OnStepChanged(bool selected, StepPosition position)
+    {
+        if (selected)
+        {
+            CurrentStepPosition = position;
+        }
+    }
+
+    // CODE SNIPPETS
+    private string StepLineOverviewCode => @"@using Syncfusion.Blazor.Toolkit.Charts
+
+<SfChart Title=""Worldwide Best-Selling Albums by Year"">
+    <ChartArea>
+        <ChartAreaBorder Width=""0"" />
+    </ChartArea>
+
+    <ChartTooltipSettings Enable=""true""
+                          Header=""${point.x}""
+                          Format=""Sales : <b>${point.y}M</b>""
+                          EnableHighlight=""true"" />
+
+    <ChartPrimaryXAxis ValueType=""Syncfusion.Blazor.Toolkit.ValueType.Double""
+                       Minimum=""2006""
+                       Maximum=""2025""
+                       Interval=""3"">
+        <ChartAxisMajorGridLines Width=""0"" />
+        <ChartAxisMajorTickLines Width=""0"" />
+        <ChartAxisMinorTickLines Width=""0"" />
+    </ChartPrimaryXAxis>
+
+    <ChartPrimaryYAxis Minimum=""0""
+                       Maximum=""20""
+                       Interval=""4""
+                       Title=""Sales in million"">
+        <ChartAxisLineStyle Width=""0"" />
+        <ChartAxisMajorTickLines Width=""0"" />
+    </ChartPrimaryYAxis>
+
+    
+        <ChartSeries DataSource=""@StepLineData""
+                     XName=""X""
+                     YName=""Y""
+                     Width=""3""
+                     Fill=""#0FAF9C""
+                     Type=""ChartSeriesType.Stepline"">
+            <ChartMarker IsFilled=""true"" />
+        </ChartSeries>
+    
+</SfChart>
+
+@code {
+    public class AlbumSalesData
+    {
+        public double X { get; set; }
+        public double Y { get; set; }
+        public string Album { get; set; } = string.Empty;
+        public string Artist { get; set; } = string.Empty;
+    }
+
+    private List<AlbumSalesData> StepLineData = new()
+    {
+        new() { X = 2007, Y = 6.0,  Album = ""High School Musical 2"", Artist = ""Various Artists"" },
+        new() { X = 2008, Y = 6.8,  Album = ""Viva la Vida"", Artist = ""Coldplay"" },
+        new() { X = 2009, Y = 8.3,  Album = ""I Dreamed a Dream"", Artist = ""Susan Boyle"" },
+        new() { X = 2010, Y = 5.7,  Album = ""Recovery"", Artist = ""Eminem"" },
+        new() { X = 2011, Y = 17.7, Album = ""21"", Artist = ""Adele"" },
+        new() { X = 2012, Y = 8.3,  Album = ""21"", Artist = ""Adele"" },
+        new() { X = 2013, Y = 4.0,  Album = ""Midnight Memories"", Artist = ""One Direction"" },
+        new() { X = 2014, Y = 10.0, Album = ""Frozen"", Artist = ""Various Artists"" },
+        new() { X = 2015, Y = 17.4, Album = ""25"", Artist = ""Adele"" },
+        new() { X = 2016, Y = 2.5,  Album = ""Lemonade"", Artist = ""Beyoncé"" },
+        new() { X = 2017, Y = 6.1,  Album = ""÷"", Artist = ""Ed Sheeran"" },
+        new() { X = 2018, Y = 3.5,  Album = ""The Greatest Showman"", Artist = ""Various Artists"" },
+        new() { X = 2019, Y = 3.3,  Album = ""5x20 All the Best!!"", Artist = ""Arashi"" },
+        new() { X = 2020, Y = 4.8,  Album = ""Map of the Soul: 7"", Artist = ""BTS"" },
+        new() { X = 2021, Y = 4.68, Album = ""30"", Artist = ""Adele"" },
+        new() { X = 2022, Y = 7.2,  Album = ""Greatest Works of Art"", Artist = ""Jay Chou"" },
+        new() { X = 2023, Y = 6.4,  Album = ""FML"", Artist = ""Seventeen"" },
+        new() { X = 2024, Y = 5.6,  Album = ""The Tortured Poets Department"", Artist = ""Taylor Swift"" }
+    };
+}";
+
+    private string StepLineDataLabelCode => @"@using Syncfusion.Blazor.Toolkit.Charts
+
+<SfChart Title=""Worldwide Best-Selling Albums by Year"">
+    <ChartArea>
+        <ChartAreaBorder Width=""0"" />
+    </ChartArea>
+
+    <ChartTooltipSettings Enable=""true""
+                          Header=""${point.x}""
+                          Format=""Sales : <b>${point.y}M</b>""
+                          EnableHighlight=""true"" />
+
+    <ChartPrimaryXAxis ValueType=""Syncfusion.Blazor.Toolkit.ValueType.Double""
+                       Minimum=""2006""
+                       Maximum=""2025""
+                       Interval=""3"">
+        <ChartAxisMajorGridLines Width=""0"" />
+        <ChartAxisMajorTickLines Width=""0"" />
+        <ChartAxisMinorTickLines Width=""0"" />
+    </ChartPrimaryXAxis>
+
+    <ChartPrimaryYAxis Minimum=""0""
+                       Maximum=""20""
+                       Interval=""4""
+                       Title=""Sales in million"">
+        <ChartAxisLineStyle Width=""0"" />
+        <ChartAxisMajorTickLines Width=""0"" />
+    </ChartPrimaryYAxis>
+
+    
+        <ChartSeries DataSource=""@StepLineData""
+                     XName=""X""
+                     YName=""Y""
+                     Width=""3""
+                     Fill=""#0FAF9C""
+                     Type=""ChartSeriesType.Stepline"">
+            <ChartMarker IsFilled=""true"">
+                <ChartDataLabel Visible=""true"" />
+            </ChartMarker>
+        </ChartSeries>
+    
+</SfChart>
+
+@code {
+    public class AlbumSalesData
+    {
+        public double X { get; set; }
+        public double Y { get; set; }
+        public string Album { get; set; } = string.Empty;
+        public string Artist { get; set; } = string.Empty;
+    }
+
+    private List<AlbumSalesData> StepLineData = new()
+    {
+        new() { X = 2007, Y = 6.0,  Album = ""High School Musical 2"", Artist = ""Various Artists"" },
+        new() { X = 2008, Y = 6.8,  Album = ""Viva la Vida"", Artist = ""Coldplay"" },
+        new() { X = 2009, Y = 8.3,  Album = ""I Dreamed a Dream"", Artist = ""Susan Boyle"" },
+        new() { X = 2010, Y = 5.7,  Album = ""Recovery"", Artist = ""Eminem"" },
+        new() { X = 2011, Y = 17.7, Album = ""21"", Artist = ""Adele"" },
+        new() { X = 2012, Y = 8.3,  Album = ""21"", Artist = ""Adele"" },
+        new() { X = 2013, Y = 4.0,  Album = ""Midnight Memories"", Artist = ""One Direction"" },
+        new() { X = 2014, Y = 10.0, Album = ""Frozen"", Artist = ""Various Artists"" },
+        new() { X = 2015, Y = 17.4, Album = ""25"", Artist = ""Adele"" },
+        new() { X = 2016, Y = 2.5,  Album = ""Lemonade"", Artist = ""Beyoncé"" },
+        new() { X = 2017, Y = 6.1,  Album = ""÷"", Artist = ""Ed Sheeran"" },
+        new() { X = 2018, Y = 3.5,  Album = ""The Greatest Showman"", Artist = ""Various Artists"" },
+        new() { X = 2019, Y = 3.3,  Album = ""5x20 All the Best!!"", Artist = ""Arashi"" },
+        new() { X = 2020, Y = 4.8,  Album = ""Map of the Soul: 7"", Artist = ""BTS"" },
+        new() { X = 2021, Y = 4.68, Album = ""30"", Artist = ""Adele"" },
+        new() { X = 2022, Y = 7.2,  Album = ""Greatest Works of Art"", Artist = ""Jay Chou"" },
+        new() { X = 2023, Y = 6.4,  Album = ""FML"", Artist = ""Seventeen"" },
+        new() { X = 2024, Y = 5.6,  Album = ""The Tortured Poets Department"", Artist = ""Taylor Swift"" }
+    };
+}";
+
+    private string StepLineSkipMissingCode => @"@using Syncfusion.Blazor.Toolkit.Charts
+@using Syncfusion.Blazor.Toolkit.Buttons
+
+<div class=""mb-3 text-center"">
+    <label class=""fw-bold d-block mb-2"">Empty Point Mode</label>
+
+    <SfButtonGroup Mode=""SelectionMode.Single"">
+        <ButtonGroupButton Selected=""@IsEmptyModeSelected(EmptyPointMode.Gap)"" 
+                           SelectedChanged=""@(v => OnEmptyModeChanged(v, EmptyPointMode.Gap))"">
+            Gap
+        </ButtonGroupButton>
+
+        <ButtonGroupButton Selected=""@IsEmptyModeSelected(EmptyPointMode.Zero)"" 
+                           SelectedChanged=""@(v => OnEmptyModeChanged(v, EmptyPointMode.Zero))"">
+            Zero
+        </ButtonGroupButton>
+
+        <ButtonGroupButton Selected=""@IsEmptyModeSelected(EmptyPointMode.Average)"" 
+                           SelectedChanged=""@(v => OnEmptyModeChanged(v, EmptyPointMode.Average))"">
+            Average
+        </ButtonGroupButton>
+
+        <ButtonGroupButton Selected=""@IsEmptyModeSelected(EmptyPointMode.Drop)"" 
+                           SelectedChanged=""@(v => OnEmptyModeChanged(v, EmptyPointMode.Drop))"">
+            Drop
+        </ButtonGroupButton>
+    </SfButtonGroup>
+</div>
+
+<SfChart Title=""Worldwide Best-Selling Albums by Year"">
+    <ChartArea>
+        <ChartAreaBorder Width=""0"" />
+    </ChartArea>
+
+    <ChartTooltipSettings Enable=""true""
+                          Header=""${point.x}""
+                          Format=""Sales : <b>${point.y}M</b>""
+                          EnableHighlight=""true"" />
+
+    <ChartPrimaryXAxis ValueType=""Syncfusion.Blazor.Toolkit.ValueType.Double""
+                       Minimum=""2006""
+                       Maximum=""2025""
+                       Interval=""3"">
+        <ChartAxisMajorGridLines Width=""0"" />
+        <ChartAxisMajorTickLines Width=""0"" />
+        <ChartAxisMinorTickLines Width=""0"" />
+    </ChartPrimaryXAxis>
+
+    <ChartPrimaryYAxis Minimum=""0""
+                       Maximum=""20""
+                       Interval=""4""
+                       Title=""Sales in million"">
+        <ChartAxisLineStyle Width=""0"" />
+        <ChartAxisMajorTickLines Width=""0"" />
+    </ChartPrimaryYAxis>
+
+    
+        <ChartSeries DataSource=""@StepLineEmptyData""
+                     XName=""X""
+                     YName=""Y""
+                     Width=""3""
+                     Fill=""#0FAF9C""
+                     Type=""ChartSeriesType.Stepline"">
+            <ChartEmptyPointSettings Mode=""@CurrentEmptyPointMode"" />
+            <ChartMarker Visible=""true"" IsFilled=""true"" />
+        </ChartSeries>
+    
+</SfChart>
+
+@code {
+    private EmptyPointMode CurrentEmptyPointMode { get; set; } = EmptyPointMode.Gap;
+
+    private bool IsEmptyModeSelected(EmptyPointMode mode)
+        => CurrentEmptyPointMode == mode;
+
+    private void OnEmptyModeChanged(bool selected, EmptyPointMode mode)
+    {
+        if (selected)
+        {
+            CurrentEmptyPointMode = mode;
+        }
+    }
+
+    public class StepLineEmptyPoint
+    {
+        public double X { get; set; }
+        public double? Y { get; set; }
+    }
+
+    private List<StepLineEmptyPoint> StepLineEmptyData = new()
+    {
+        new() { X = 2007, Y = 6.0 },
+        new() { X = 2008, Y = 6.8 },
+        new() { X = 2009, Y = 8.3 },
+        new() { X = 2010, Y = 5.7 },
+        new() { X = 2011, Y = 18.1 },
+        new() { X = 2012, Y = 8.3 },
+        new() { X = 2013, Y = 4.0 },
+        new() { X = 2014, Y = 10.0 },
+        new() { X = 2015, Y = 17.4 },
+        new() { X = 2016, Y = null },
+        new() { X = 2017, Y = 6.1 },
+        new() { X = 2018, Y = 3.5 },
+        new() { X = 2019, Y = null },
+        new() { X = 2020, Y = 4.8 },
+        new() { X = 2021, Y = 4.68 },
+        new() { X = 2022, Y = null },
+        new() { X = 2023, Y = 6.4 },
+        new() { X = 2024, Y = 5.6 }
+    };
+}";
+
+    private string StepLineInvertedAxesCode => @"
+<SfChart Title=""Unemployment rate 1975 - 2010""
+         IsTransposed=""true"" Theme=""@_currentTheme"">
+    <ChartArea>
+        <ChartAreaBorder Width=""0"" />
+    </ChartArea>
+
+    <ChartPrimaryXAxis ValueType=""Syncfusion.Blazor.Toolkit.ValueType.Category"">
+        <ChartAxisMajorTickLines Width=""0"" />
+        <ChartAxisMinorTickLines Width=""0"" />
+    </ChartPrimaryXAxis>
+
+    <ChartPrimaryYAxis LabelFormat=""{value}%"">
+        <ChartAxisMajorTickLines Width=""0"" />
+    </ChartPrimaryYAxis>
+
+    
+        <ChartSeries DataSource=""@StepLineTransposedData""
+                     XName=""X""
+                     YName=""Y1""
+                     Name=""China""
+                     Width=""2""
+                     Fill=""@ChinaColor""
+                     Type=""ChartSeriesType.Stepline"">
+            <ChartMarker Visible=""true"" Shape=""ChartShape.Circle"" />
+        </ChartSeries>
+
+        <ChartSeries DataSource=""@StepLineTransposedData""
+                     XName=""X""
+                     YName=""Y2""
+                     Name=""Australia""
+                     Width=""2""
+                     Fill=""@AustraliaColor""
+                     Type=""ChartSeriesType.Stepline"">
+            <ChartMarker Visible=""true"" Shape=""ChartShape.Circle"" IsFilled=""true"" />
+        </ChartSeries>
+    
+
+    <ChartTooltipSettings Enable=""true""
+                          Header=""${series.name}""
+                          EnableHighlight=""true"" />
+
+    <ChartLegendSettings EnableHighlight=""true"" />
+</SfChart>
+
+@code {
+    private Theme _currentTheme = Theme.Fluent;
+
+    public class StepLineTransposedPoint
+    {
+        public int X { get; set; }
+        public double Y1 { get; set; }
+        public double Y2 { get; set; }
+    }
+
+    private List<StepLineTransposedPoint> StepLineTransposedData = new()
+    {
+        new() { X = 1975, Y1 = 16,   Y2 = 10   },
+        new() { X = 1980, Y1 = 12.5, Y2 = 7.5  },
+        new() { X = 1985, Y1 = 19,   Y2 = 11   },
+        new() { X = 1990, Y1 = 14.4, Y2 = 7    },
+        new() { X = 1995, Y1 = 11.5, Y2 = 8    },
+        new() { X = 2000, Y1 = 14,   Y2 = 6    },
+        new() { X = 2005, Y1 = 10,   Y2 = 3.5  },
+        new() { X = 2010, Y1 = 16,   Y2 = 7    }
+    };
+
+    private bool IsDarkTheme => _currentTheme.ToString().Contains(""Dark"") || _currentTheme.ToString().Contains(""HighContrast"");
+    private string ChinaColor => IsDarkTheme ? ""#7F9CFE"" : ""#0A30AE"";
+    private string AustraliaColor => IsDarkTheme ? ""#EE884E"" : ""#E3651D"";
+}";
+
+    private string StepLineStepPositionCode => @"
+<div class=""mb-3 text-center"">@using Syncfusion.Blazor.Toolkit.Charts
+
+<div class=""mb-3 text-center"">
+    <label class=""fw-bold d-block mb-2"">Step Position</label>
+
+    <SfButtonGroup Mode=""SelectionMode.Single"">
+        <ButtonGroupButton>Left</ButtonGroupButton>
+        <ButtonGroupButton>Center</ButtonGroupButton>
+        <ButtonGroupButton>Right</ButtonGroupButton>
+    </SfButtonGroup>
+</div>
+
+<SfChart Title=""Worldwide Best-Selling Albums by Year
+        <ChartAreaBorder Width=""0"" />
+    </ChartArea>
+
+    <ChartTooltipSettings Enable=""true""
+                          Header=""${point.x}""
+                          Format=""Sales : <b>${point.y}M</b>""
+                          EnableHighlight=""true"" />
+
+    <ChartPrimaryXAxis ValueType=""Syncfusion.Blazor.Toolkit.ValueType.Double""
+                       Minimum=""2006""
+                       Maximum=""2025""
+                       Interval=""3"">
+        <ChartAxisMajorGridLines Width=""0"" />
+        <ChartAxisMajorTickLines Width=""0"" />
+        <ChartAxisMinorTickLines Width=""0"" />
+    </ChartPrimaryXAxis>
+
+    <ChartPrimaryYAxis Minimum=""0""
+                       Maximum=""20""
+                       Interval=""4""
+                       Title=""Sales in million"">
+        <ChartAxisLineStyle Width=""0"" />
+        <ChartAxisMajorTickLines Width=""0"" />
+    </ChartPrimaryYAxis>
+
+    
+        <ChartSeries DataSource=""@StepLineData""
+                     XName=""X""
+                     YName=""Y""
+                     Width=""3""
+                     StepPosition=""@CurrentStepPosition""
+                     Fill=""#0FAF9C""
+                     Type=""ChartSeriesType.Stepline"">
+            <ChartMarker Visible=""true"" IsFilled=""true"" />
+        </ChartSeries>
+    
+</SfChart>";
+
+    private string StepLineSeriesCustomizationCode => @"@using Syncfusion.Blazor.Toolkit.Charts
+
+<SfChart Title=""Worldwide Best-Selling Albums by Year"">
+    <ChartArea>
+        <ChartAreaBorder Width=""0"" />
+    </ChartArea>
+
+    <ChartTooltipSettings Enable=""true""
+                          Header=""${point.x}""
+                          Format=""Sales : <b>${point.y}M</b>""
+                          EnableHighlight=""true"" />
+
+    <ChartPrimaryXAxis ValueType=""Syncfusion.Blazor.Toolkit.ValueType.Double""
+                       Minimum=""2006""
+                       Maximum=""2025""
+                       Interval=""3"">
+        <ChartAxisMajorGridLines Width=""0"" />
+        <ChartAxisMajorTickLines Width=""0"" />
+        <ChartAxisMinorTickLines Width=""0"" />
+    </ChartPrimaryXAxis>
+
+    <ChartPrimaryYAxis Minimum=""0""
+                       Maximum=""20""
+                       Interval=""4""
+                       Title=""Sales in million"">
+        <ChartAxisLineStyle Width=""0"" />
+        <ChartAxisMajorTickLines Width=""0"" />
+    </ChartPrimaryYAxis>
+
+    
+        <ChartSeries DataSource=""@StepLineData""
+                     XName=""X""
+                     YName=""Y""
+                     Width=""3""
+                     DashArray=""5,6""
+                     Opacity=""0.7""
+                     StepPosition=""StepPosition.Right""
+                     Fill=""@CustomizedSeriesColor""
+                     Type=""ChartSeriesType.Stepline"">
+            <ChartMarker Visible=""true""
+                         Shape=""ChartShape.Circle""
+                         IsFilled=""true"" />
+        </ChartSeries>
+    
+</SfChart>";
+}

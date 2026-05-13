@@ -1,0 +1,12 @@
+﻿@inherits SpinnerBase
+@namespace Syncfusion.Blazor.Toolkit.Spinner.Internal
+
+<svg class="@SpinnerSvgClass"
+     id="@SvgId"
+     viewBox="@ViewBox"
+     style="@SvgStyle"
+     role="img"
+     aria-hidden="true">
+    <path class="@PathClass" d="@_pathCircleData" style="@_strokeWidth" />
+    <path class="@_pathArcClass" d="@_pathArcData" style="@_strokeWidth" />
+</svg>

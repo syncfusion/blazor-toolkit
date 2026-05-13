@@ -1,0 +1,62 @@
+@using System.Dynamic;
+@using Microsoft.JSInterop;
+@using Syncfusion.Blazor.Toolkit;
+@using System.ComponentModel;
+@using Microsoft.AspNetCore.Components;
+@using Syncfusion.Blazor.Toolkit.Inputs;
+@namespace Syncfusion.Blazor.Toolkit.Inputs
+@code  {
+    /// <summary>
+    /// Specifies the content that has to be passed.
+    /// </summary>
+    ///<exclude/>
+    [EditorBrowsable(EditorBrowsableState.Never)]
+    [Parameter]
+    public RenderFragment? ChildContent { get; set; }
+    [CascadingParameter]
+    SfUploader? TemplateParent { get; set; }
+    /// <summary>
+    /// Gets or sets the template used to render custom content for uploaded files in the <see cref="SfUploader"/> component.
+    /// </summary>
+    /// <value>
+    /// A <see cref="Microsoft.AspNetCore.Components.RenderFragment{T}"/> of type <see cref="FileInfo"/> that defines the custom template content. The default value is <c>null</c>.
+    /// </value>
+    /// <remarks>
+    /// This property allows you to define a custom template for displaying uploaded files in the uploader component.
+    /// The template receives a <see cref="FileInfo"/> context object that contains information about the uploaded file.
+    /// When this property is set, the template will be applied to each file item in the uploader's file list.
+    /// </remarks>
+    /// <example>
+    /// The following example demonstrates how to use a custom template for file display:
+    /// <code><![CDATA[
+    /// <SfUploader>
+    ///     <UploaderTemplates>
+    ///         <Template>
+    ///             <div class="custom-file-item">
+    ///                 <span>@context.Name</span>
+    ///                 <span>(@context.Size bytes)</span>
+    ///             </div>
+    ///         </Template>
+    ///     </UploaderTemplates>
+    /// </SfUploader>
+    /// ]]></code>
+    /// </example>
+    [Parameter]
+    public RenderFragment<FileInfo>? Template { get; set; }
+    /// <summary>
+    /// Method invoked when the component is ready to start, having received its initial parameters from its parent in the render tree.
+    /// </summary>
+    /// <returns>A <see cref="Task"/> that represents the asynchronous initialization operation.</returns>
+    /// <remarks>
+    /// This method is called once during the component's lifecycle, after the component has been constructed and has received its initial set of parameters.
+    /// It registers the template with the parent <see cref="SfUploader"/> component if a template is provided.
+    /// </remarks>
+    protected override async Task OnInitializedAsync()
+    {
+        await base.OnInitializedAsync();
+        if (Template != null)
+        {
+            this.TemplateParent?.UpdateTemplate(Template);
+        }
+    }
+}

@@ -1,0 +1,68 @@
+@page "/button-group/content-variations"
+@using Syncfusion.Blazor.Toolkit.Buttons
+@layout MainLayout
+
+<h1>Button Group - Content Variations</h1>
+
+<div class="test-container">
+    <h2>Text-Only Buttons</h2>
+    <SfButtonGroup id="bg-text-only" Mode="SelectionMode.Single">
+        <ButtonGroupButton Content="All" id="view-all"></ButtonGroupButton>
+        <ButtonGroupButton Content="Pending" id="view-pending"></ButtonGroupButton>
+        <ButtonGroupButton Content="Completed" id="view-completed"></ButtonGroupButton>
+    </SfButtonGroup>
+</div>
+
+<div class="test-container">
+    <h2>Icon and Text Buttons</h2>
+    <SfButtonGroup id="bg-icon-text">
+        <ButtonGroupButton IconCss="e-icons e-cut" Content="Cut" id="btn-cut"></ButtonGroupButton>
+        <ButtonGroupButton IconCss="e-icons e-copy" Content="Copy" id="btn-copy"></ButtonGroupButton>
+        <ButtonGroupButton IconCss="e-icons e-paste" Content="Paste" id="btn-paste"></ButtonGroupButton>
+    </SfButtonGroup>
+</div>
+
+<div class="test-container">
+    <h2>Icon-Only Buttons</h2>
+    <SfButtonGroup id="bg-icon-only">
+        <ButtonGroupButton IconCss="e-icons e-bold" id="fmt-bold"></ButtonGroupButton>
+        <ButtonGroupButton IconCss="e-icons e-italic" id="fmt-italic"></ButtonGroupButton>
+        <ButtonGroupButton IconCss="e-icons e-underline" id="fmt-underline"></ButtonGroupButton>
+    </SfButtonGroup>
+</div>
+
+<div class="test-container">
+    <h2>Buttons with Custom Content</h2>
+    <SfButtonGroup id="bg-custom" Mode="SelectionMode.Single">
+        <ButtonGroupButton id="custom-1">
+            <span>Custom</span>
+        </ButtonGroupButton>
+        <ButtonGroupButton id="custom-2">
+            <span>Content</span>
+        </ButtonGroupButton>
+    </SfButtonGroup>
+</div>
+
+<style>
+    .test-container {
+        padding: 20px;
+        border: 1px solid #ddd;
+        margin: 10px 0;
+        border-radius: 4px;
+        background-color: #f9f9f9;
+    }
+    
+    h2 {
+        margin-top: 20px;
+        font-size: 18px;
+        font-weight: 600;
+    }
+    
+    .e-icons {
+        display: inline-block !important;
+        margin: 0 4px;
+    }
+</style>
+
+@code {
+}

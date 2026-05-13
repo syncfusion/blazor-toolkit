@@ -1,0 +1,81 @@
+﻿@page "/chart-axis-label-template"
+@using Syncfusion.Blazor.Toolkit
+@using Syncfusion.Blazor.Toolkit.Charts
+@inject NavigationManager NavigationManager
+<div class="control-section" align='center'>
+    <SfChart ID="chart" Title="Men's Olympics - 2024" SubTitle="Source: basketball-reference.com" Width="@Width">
+        <ChartTitleStyle TextOverflow="TextOverflow.Wrap"></ChartTitleStyle>
+        <ChartSubTitleStyle TextOverflow="TextOverflow.Wrap"></ChartSubTitleStyle>
+        <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Toolkit.ValueType.Category" Title="Countries">
+            <ChildContent>
+                <ChartAxisTitleStyle FontWeight="bold" />
+            </ChildContent>
+            <LabelTemplate>
+                @{
+                    var data = context as ChartAxisLabelInfo;
+                    var country = data.Text;
+                    var imagePath = GetCountryImagePath(data.Text);
+                    var textColor = "black";
+                    <div style="align-items: center; text-align: center; color:@textColor">
+                        <img src="@(imagePath)" alt="@country flag" width="27" height="27" style="border: 2px solid black; border-radius: 50%" />
+                        <br>
+                        <span style="font-size: 12px;">@country</span>
+                    </div>
+                }
+            </LabelTemplate>
+        </ChartPrimaryXAxis>
+            <ChartPrimaryYAxis ValueType="Syncfusion.Blazor.Toolkit.ValueType.Double"
+                           Title="Games Won">
+            <ChartAxisTitleStyle FontWeight="bold" />
+        </ChartPrimaryYAxis>
+        <ChartSeriesCollection>
+            <ChartSeries DataSource="@OlympicsData" XName="Country" YName="Count" Type="ChartSeriesType.Column">
+            </ChartSeries>
+        </ChartSeriesCollection>
+        <ChartTooltipSettings Enable="true"></ChartTooltipSettings>
+    </SfChart>
+</div>
+@code {
+    public string? Width { get; set; } = "90%";
+    public List<ChartData> OlympicsData = new List<ChartData>
+    {
+        new ChartData { Country = "United States", Count = 6},
+        new ChartData { Country = "Canada", Count = 3},
+        new ChartData { Country = "France", Count = 4},
+        new ChartData { Country = "Germany", Count = 4},
+        new ChartData { Country = "Serbia", Count = 4},
+        new ChartData { Country = "Spain", Count = 1}
+    };
+
+    public class ChartData
+    {
+        public string? Country { get; set; }
+        public double Count { get; set; }
+    }
+    private string GetCountryLabel(string country)
+    {
+        return country switch
+        {
+            "United States" => "USA",
+            "Canada" => "CAN",
+            "France" => "FRA",
+            "Germany" => "GER",
+            "Serbia" => "SRB",
+            "Spain" => "ESP",
+            _ => ""
+        };
+    }
+    private string GetCountryImagePath(string country)
+    {
+        return country switch
+        {
+            "United States" => "images/chart/united-states.png",
+            "Canada" => "images/chart/canada.png",
+            "France" => "images/chart/france.png",
+            "Germany" => "images/chart/germany.png",
+            "Serbia" => "images/chart/serbia.png",
+            "Spain" => "images/chart/spain.png",
+            _ => "🏳️"
+        };
+    }
+}

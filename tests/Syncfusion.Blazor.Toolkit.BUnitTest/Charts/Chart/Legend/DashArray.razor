@@ -1,0 +1,295 @@
+﻿@using Syncfusion.Blazor.Toolkit.Charts
+@using Syncfusion.Blazor.Toolkit.Tests
+@using Syncfusion.Blazor.Toolkit.Charts
+@using Syncfusion.Blazor.Toolkit.Charts.Internal
+@using Bunit
+@using Xunit
+
+@inherits TestComponentBase
+
+<SfFixture @ref="sfFixture" TestAsync="checkingDasharrayInLineChart" Description="checkingDasharrayInLineChart">
+    <ComponentUnderTest>
+            <SfChart ID="container" Title="Fruits Production Statistics" Width="@Width">
+                <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Toolkit.ValueType.Category" EdgeLabelPlacement="EdgeLabelPlacement.Shift">
+                    <ChartAxisMajorGridLines Width="0"></ChartAxisMajorGridLines>
+                </ChartPrimaryXAxis>
+                <ChartPrimaryYAxis LabelFormat="{value}K" RangePadding="ChartRangePadding.None" Minimum="0" Maximum="300" Interval="50">
+                    <ChartAxisLineStyle Width="0"></ChartAxisLineStyle>
+                    <ChartAxisMajorTickLines Width="0"></ChartAxisMajorTickLines>
+                </ChartPrimaryYAxis>
+                <ChartTooltipSettings Enable="true" Format="${point.x} : <b>${point.y}"></ChartTooltipSettings>
+                <ChartLegendSettings Visible="true" Position="LegendPosition.Top">
+
+                </ChartLegendSettings>
+                <ChartSeriesCollection>
+                    <ChartSeries DataSource="@ChartData" XName="Period" Width="2"
+                                Opacity="1" YName="Banana_ProductionRate" Name="Orange" Type="ChartSeriesType.Line" DashArray="5">
+                        <ChartMarker Visible="false" Width="7" Height="7" Shape="ChartShape.Diamond">
+                        </ChartMarker>
+                    </ChartSeries>
+                    <ChartSeries DataSource="@ChartDataValues" XName="Period" Width="2"
+                                Opacity="1" YName="Banana_ProductionRate" Name="Grapes" Type="ChartSeriesType.StackingLine" DashArray="5">
+                        <ChartMarker Visible="false" Width="7" Height="7" Shape="ChartShape.Diamond">
+                        </ChartMarker>
+                    </ChartSeries>
+                    <ChartSeries DataSource="@ChartDataValues1" XName="Period" Width="2"
+                                Opacity="1" YName="Banana_ProductionRate" Name="Apple" Type="ChartSeriesType.StackingLine100" DashArray="5">
+                        <ChartMarker Visible="false" Width="7" Height="7" Shape="ChartShape.Diamond">
+                        </ChartMarker>
+                    </ChartSeries>
+
+                </ChartSeriesCollection>
+
+            </SfChart>
+     </ComponentUnderTest>
+</SfFixture>
+
+
+@code {
+
+    SfFixture sfFixture { get; set; }
+    async Task checkingDasharrayInLineChart(Fixture sfFixture)
+    {
+        var cut = sfFixture.GetComponentUnderTest<SfChart>();
+        var legendShape = cut.Find("#container_Series_0");
+        Assert.True(legendShape.GetAttribute("stroke-dasharray") == "5");
+        var legendShape2 = cut.Find("#container_Series_1");
+        Assert.True(legendShape2.GetAttribute("stroke-dasharray") == "5");
+        var legendShape3 = cut.Find("#container_Series_2");
+        Assert.True(legendShape3.GetAttribute("stroke-dasharray") == "5");
+        cut.SetParametersAndRender();
+
+    }
+    public string Width { get; set; } = "90%";
+
+    public List<LineChartData> ChartData = new List<LineChartData>
+    {
+        new LineChartData { Period = "Jan", Banana_ProductionRate = 150 },
+        new LineChartData { Period = "Feb", Banana_ProductionRate = 150 },
+        new LineChartData { Period = "Mar", Banana_ProductionRate = 150 },
+        new LineChartData { Period = "Apr", Banana_ProductionRate = 150 },
+        new LineChartData { Period = "May", Banana_ProductionRate = 150 },
+        new LineChartData { Period = "Jun", Banana_ProductionRate = 150 },
+        new LineChartData { Period = "Jul", Banana_ProductionRate = 150 },
+        new LineChartData { Period = "Aug", Banana_ProductionRate = 150 },
+        new LineChartData { Period = "Sep", Banana_ProductionRate = 150 },
+        new LineChartData { Period = "Oct", Banana_ProductionRate = 150 },
+        new LineChartData { Period = "Nov", Banana_ProductionRate = 150 },
+        new LineChartData { Period = "Dec", Banana_ProductionRate = 150 }
+    };
+
+
+    public List<LineChartData> ChartDataValues = new List<LineChartData>
+    {
+        new LineChartData { Period = "Jan", Banana_ProductionRate = 50 },
+        new LineChartData { Period = "Feb", Banana_ProductionRate = 100 },
+        new LineChartData { Period = "Mar", Banana_ProductionRate = 50 },
+        new LineChartData { Period = "Apr", Banana_ProductionRate = 100 },
+        new LineChartData { Period = "May", Banana_ProductionRate = 50 },
+        new LineChartData { Period = "Jun", Banana_ProductionRate = 100 },
+        new LineChartData { Period = "Jul", Banana_ProductionRate = 50 },
+        new LineChartData { Period = "Aug", Banana_ProductionRate = 100 },
+        new LineChartData { Period = "Sep", Banana_ProductionRate = 50 },
+        new LineChartData { Period = "Oct", Banana_ProductionRate = 100 },
+        new LineChartData { Period = "Nov", Banana_ProductionRate = 50 },
+        new LineChartData { Period = "Dec", Banana_ProductionRate = 100 }
+    };
+
+    public List<LineChartData> ChartDataValues1 = new List<LineChartData>
+    {
+        new LineChartData { Period = "Jan", Banana_ProductionRate = 150 },
+        new LineChartData { Period = "Feb", Banana_ProductionRate = 200 },
+        new LineChartData { Period = "Mar", Banana_ProductionRate = 150 },
+        new LineChartData { Period = "Apr", Banana_ProductionRate = 200 },
+        new LineChartData { Period = "May", Banana_ProductionRate = 150 },
+        new LineChartData { Period = "Jun", Banana_ProductionRate = 200 },
+        new LineChartData { Period = "Jul", Banana_ProductionRate = 150 },
+        new LineChartData { Period = "Aug", Banana_ProductionRate = 200 },
+        new LineChartData { Period = "Sep", Banana_ProductionRate = 150 },
+        new LineChartData { Period = "Oct", Banana_ProductionRate = 200 },
+        new LineChartData { Period = "Nov", Banana_ProductionRate = 150 },
+        new LineChartData { Period = "Dec", Banana_ProductionRate = 200 }
+    };
+
+    public class LineChartData
+    {
+        public string Period { get; set; }
+        public double Banana_ProductionRate { get; set; }
+        public double Apple_ProductionRate { get; set; }
+    }
+
+}
+<SfFixture @ref="sfFixture1" TestAsync="checkingDasharrayInSplineChart" Description="checkingDasharrayInSplineChart">
+    <ComponentUnderTest>
+        <div class="control-section" align='center'>
+            <SfChart ID="container" Title="NC Weather Report - 2016">
+                <ChartArea><ChartAreaBorder Width="0"></ChartAreaBorder></ChartArea>
+                <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Toolkit.ValueType.Category" Interval="1" LabelIntersectAction="LabelIntersectAction.Rotate90">
+                    <ChartAxisMajorGridLines Width="0"></ChartAxisMajorGridLines>
+                    <ChartAxisMajorTickLines Width="0"></ChartAxisMajorTickLines>
+                </ChartPrimaryXAxis>
+                <ChartPrimaryYAxis LabelFormat="{value}°C">
+                    <ChartAxisLineStyle Width="0"></ChartAxisLineStyle>
+                    <ChartAxisMajorTickLines Width="0"></ChartAxisMajorTickLines>
+                </ChartPrimaryYAxis>
+                <ChartTooltipSettings Enable="true"></ChartTooltipSettings>
+                <ChartLegendSettings EnableHighlight="true" Position="LegendPosition.Bottom"></ChartLegendSettings>
+                <ChartSeriesCollection>
+                    <ChartSeries DataSource="@SplineData" Name="Max Temp" XName="Days" Width="2" DashArray="5"
+                                 Opacity="1" YName="MaxTemp" Type="ChartSeriesType.Spline">
+                        <ChartMarker Visible="true" Width="7" Height="7">
+                        </ChartMarker>
+                    </ChartSeries>
+            
+                </ChartSeriesCollection>
+            </SfChart>
+        </div>
+</ComponentUnderTest>
+</SfFixture>
+@code {
+    SfFixture sfFixture1 { get; set; }
+    async Task checkingDasharrayInSplineChart(Fixture sfFixture1)
+    {
+        var cut = sfFixture1.GetComponentUnderTest<SfChart>();
+        var legendShape = cut.Find("#container_chart_legend_shape_0");
+        Assert.True(legendShape.GetAttribute("stroke-dasharray") == "");
+        cut.SetParametersAndRender();
+
+    }
+    public List<SplineChartData> SplineData = new List<SplineChartData>
+{
+        new SplineChartData { Days = "Sun", MaxTemp = 15},
+        new SplineChartData { Days = "Mon", MaxTemp = 22},
+        new SplineChartData { Days = "Tue", MaxTemp = 32},
+        new SplineChartData { Days = "Wed", MaxTemp = 31},
+        new SplineChartData { Days = "Thu", MaxTemp = 29},
+        new SplineChartData { Days = "Fri", MaxTemp = 24},
+        new SplineChartData { Days = "Sat", MaxTemp = 18}
+    };
+  
+    public class SplineChartData
+    {
+        public string Days { get; set; }
+        public double MaxTemp { get; set; }
+    }
+   
+}
+<SfFixture @ref="sfFixture2" TestAsync="checkingDasharrayInAreaChart" Description="checkingDasharrayInAreaChart">
+    <ComponentUnderTest>
+        <SfChart ID="container" Title="Amount of Sales by Payment Mode">
+                <ChartArea><ChartAreaBorder Width="0"></ChartAreaBorder></ChartArea>
+                <ChartTooltipSettings Enable="true"></ChartTooltipSettings>
+                <ChartLegendSettings EnableHighlight="true" Position="LegendPosition.Left"></ChartLegendSettings>
+                <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Toolkit.ValueType.DateTime" LabelFormat="yyyy" IntervalType="IntervalType.Years" EdgeLabelPlacement="EdgeLabelPlacement.Shift">
+                    <ChartAxisMajorGridLines Width="0"></ChartAxisMajorGridLines>
+                </ChartPrimaryXAxis>
+                <ChartPrimaryYAxis Title="Amount of sales in €" Minimum="0" Maximum="7" Interval="1" LabelFormat="{value}k">
+                    <ChartAxisMajorTickLines Width="0"></ChartAxisMajorTickLines>
+                    <ChartAxisLineStyle Width="0"></ChartAxisLineStyle>
+                </ChartPrimaryYAxis>
+                <ChartSeriesCollection>
+                    <ChartSeries DataSource="@ChartPoints" Name="Bank Transfer" XName="Period" Width="2"
+                                 Opacity="1" YName="OrganicSales" Type="ChartSeriesType.StackingArea">
+                    </ChartSeries>
+                </ChartSeriesCollection>
+            </SfChart>
+    </ComponentUnderTest>
+    </SfFixture>
+@code{
+    SfFixture sfFixture2 { get; set; }
+    async Task checkingDasharrayInAreaChart(Fixture sfFixture2)
+    {
+        var cut = sfFixture2.GetComponentUnderTest<SfChart>();
+        var legendShape = cut.Find("#container_chart_legend_shape_0");
+        Assert.True(legendShape.GetAttribute("stroke-dasharray") == "");
+        cut.SetParametersAndRender();
+
+    }
+    public List<StackedAreaChartData> ChartPoints { get; set; } = new List<StackedAreaChartData>
+    {
+        new StackedAreaChartData { Period = new DateTime(2000, 01, 01), OrganicSales = 0.61},
+        new StackedAreaChartData { Period = new DateTime(2002, 01, 01), OrganicSales = 0.91},
+        new StackedAreaChartData { Period = new DateTime(2004, 01, 01), OrganicSales = 1.19},        
+        new StackedAreaChartData { Period = new DateTime(2006, 01, 01), OrganicSales = 1.74},        
+        new StackedAreaChartData { Period = new DateTime(2008, 01, 01), OrganicSales = 1.99},        
+        new StackedAreaChartData { Period = new DateTime(2010, 01, 01), OrganicSales = 1.48},        
+        new StackedAreaChartData { Period = new DateTime(2012, 01, 01), OrganicSales = 1.66},        
+        new StackedAreaChartData { Period = new DateTime(2014, 01, 01), OrganicSales = 1.67}
+    };
+    public class StackedAreaChartData
+    {
+        public DateTime Period { get; set; }
+        public double OrganicSales { get; set; }
+    }
+}
+<SfFixture @ref="sfFixture3" TestAsync="checkingDasharrayInColumnChart" Description="checkingDasharrayInColumnChart">
+    <ComponentUnderTest>
+        <SfChart ID="container" @ref="chart3" Title="Olympic Medal Counts - RIO" OnLegendClick="LegendClickEvent">
+        <ChartArea><ChartAreaBorder Width="0"></ChartAreaBorder></ChartArea>
+        <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Toolkit.ValueType.Category" Interval="1">
+            <ChartAxisMajorGridLines Width="0"></ChartAxisMajorGridLines>
+            <ChartAxisMajorTickLines Width="0"></ChartAxisMajorTickLines>
+        </ChartPrimaryXAxis>
+        <ChartPrimaryYAxis Title="Medal Count" Maximum="50" Interval="10">
+            <ChartAxisMajorTickLines Width="0"></ChartAxisMajorTickLines>
+            <ChartAxisLineStyle Width="0"></ChartAxisLineStyle>
+        </ChartPrimaryYAxis>
+        <ChartSeriesCollection>
+            <ChartSeries DataSource="@ChartPoints1" XName="Country" YName="GoldMedal" Name="Gold" ColumnSpacing="0.1" Type="ChartSeriesType.Column">
+            </ChartSeries>
+        </ChartSeriesCollection>
+            <ChartLegendSettings Visible="true" EnableHighlight="true" Position="LegendPosition.Right"></ChartLegendSettings>
+    </SfChart>
+    </ComponentUnderTest>
+</SfFixture>
+@code{
+    SfFixture sfFixture3 { get; set; }
+    SfChart chart3 { get; set; }
+    async Task checkingDasharrayInColumnChart(Fixture sfFixture3)
+    {
+        var cut = sfFixture3.GetComponentUnderTest<SfChart>();
+        var legendShape = cut.Find("#container_chart_legend_shape_0");
+        Assert.True(legendShape.GetAttribute("stroke-dasharray") == "");
+        Console.WriteLine("LegendClick");
+        List<Touches> touches = new List<Touches>();
+
+        ChartInternalMouseEventArgs mouseEventArgs = new ChartInternalMouseEventArgs()
+        {
+            ClientX = 1366,
+            ClientY = 314,
+            PreventDefault = false,
+            ID = "container",
+            Touches = touches,
+            MouseX = 1084.00927734375,
+            MouseY = 240.41204071044922,
+            PointerId = 0,
+            Target = "container_chart_legend_text_0",
+            Type = "mousedown",
+        };
+        chart3.OnZoomingMouseDown(mouseEventArgs, false);
+        cut.SetParametersAndRender();
+    }
+    public void LegendClickEvent(LegendClickEventArgs args)
+    {
+        Console.WriteLine("LegendClick");
+    }
+    public List<ColumnChartData> ChartPoints1 { get; set; } = new List<ColumnChartData>
+    {
+        new ColumnChartData { Country = "GBR", GoldMedal = 27},
+        new ColumnChartData { Country = "CHN", GoldMedal = 26},
+        new ColumnChartData { Country = "AUS", GoldMedal = 8},
+        new ColumnChartData { Country = "RUS", GoldMedal = 19},
+        new ColumnChartData { Country = "GER", GoldMedal = 17},
+        new ColumnChartData { Country = "UA", GoldMedal = 2},       
+        new ColumnChartData { Country = "ES", GoldMedal = 7},
+        new ColumnChartData { Country = "UZB", GoldMedal = 4},
+        new ColumnChartData { Country = "JPN", GoldMedal = 12},
+        new ColumnChartData { Country = "NL", GoldMedal = 8},
+        new ColumnChartData { Country = "USA", GoldMedal = 46},
+    };
+    public class ColumnChartData
+    {
+        public string Country { get; set; }
+        public double GoldMedal { get; set; }
+    }
+}

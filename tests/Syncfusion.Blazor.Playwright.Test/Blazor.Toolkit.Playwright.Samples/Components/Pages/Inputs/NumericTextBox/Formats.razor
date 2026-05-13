@@ -1,0 +1,25 @@
+@page "/numerictextbox/formats"
+@using Syncfusion.Blazor.Toolkit.Inputs
+
+<h1>NumericTextBox — Formats & Locale</h1>
+
+<div style="max-width:480px">
+    <h3>Number (2 decimals)</h3>
+    <SfNumericTextBox Id="formatNumber" TValue="double?" @bind-Value="NumberValue" Decimals="2" Format="n2"></SfNumericTextBox>
+
+    <h3 style="margin-top:12px">Currency (USD)</h3>
+    <SfNumericTextBox Id="formatCurrency" TValue="double?" @bind-Value="CurrencyValue" Decimals="2" Format="c2"></SfNumericTextBox>
+
+    <h3 style="margin-top:12px">Percent</h3>
+    <SfNumericTextBox Id="formatPercent" TValue="double?" @bind-Value="PercentValue" Decimals="2" Format="p2"></SfNumericTextBox>
+
+    <div style="margin-top:12px">
+        <span id="format-log">{NumberValue} / {CurrencyValue} / {PercentValue}</span>
+    </div>
+</div>
+
+@code {
+    private double? NumberValue { get; set; }
+    private double? CurrencyValue { get; set; }
+    private double? PercentValue { get; set; }
+}

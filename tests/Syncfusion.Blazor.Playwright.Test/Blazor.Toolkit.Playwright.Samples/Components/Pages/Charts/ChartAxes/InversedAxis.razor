@@ -1,0 +1,51 @@
+﻿@page "/chart-inversed-axis"
+@using Syncfusion.Blazor.Toolkit
+@using Syncfusion.Blazor.Toolkit.Charts
+@inject NavigationManager NavigationManager
+<div class="control-section" align='center'>
+    <SfChart Title="Exchange Rate(INR per USD)" SubTitle="Source: wikipedia.org" Width="@Width">
+        <ChartTitleStyle TextOverflow="TextOverflow.Wrap"></ChartTitleStyle>
+        <ChartArea><ChartAreaBorder Width="0"></ChartAreaBorder></ChartArea>
+        <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Toolkit.ValueType.Category" OpposedPosition="true" IsInversed="true">
+            <ChartAxisMajorGridLines Width="0"></ChartAxisMajorGridLines>
+            <ChartAxisMajorTickLines Width="0"></ChartAxisMajorTickLines>
+        </ChartPrimaryXAxis>
+        <ChartPrimaryYAxis IsInversed="true" EdgeLabelPlacement="EdgeLabelPlacement.Shift" LabelIntersectAction="LabelIntersectAction.Rotate45">
+            <ChartAxisLabelStyle Color="transparent"></ChartAxisLabelStyle>
+            <ChartAxisLineStyle Width="0"></ChartAxisLineStyle>
+            <ChartAxisMajorTickLines Width="0"></ChartAxisMajorTickLines>
+            <ChartAxisMajorGridLines Width="0"></ChartAxisMajorGridLines>
+        </ChartPrimaryYAxis>
+        <ChartTooltipSettings Enable="true"></ChartTooltipSettings>
+        <ChartSeriesCollection>
+            <ChartSeries DataSource="@ChartPoints" Name="Rate" XName="Year" Width="2" Opacity="1" YName="ExchangeRate" Type="ChartSeriesType.Column">
+                <ChartCornerRadius BottomLeft="4" BottomRight="4"></ChartCornerRadius>
+                <ChartMarker>
+                    <ChartDataLabel Visible="true" Position="ChartLabelPosition.Top">
+                        <ChartDataLabelFont FontWeight="600" Color="#ffffff"></ChartDataLabelFont>
+                    </ChartDataLabel>
+                </ChartMarker>
+            </ChartSeries>
+        </ChartSeriesCollection>
+        <ChartLegendSettings Visible="false"></ChartLegendSettings>
+    </SfChart>
+</div>
+@code{
+    public string Width { get; set; } = "90%";
+    public List<CategoryData> ChartPoints { get; set; } = new List<CategoryData>
+    {
+        new CategoryData { Year = "2015", ExchangeRate = 61.14 },
+        new CategoryData { Year = "2016", ExchangeRate = 65.46 },
+        new CategoryData { Year = "2017", ExchangeRate = 67.07 },
+        new CategoryData { Year = "2018", ExchangeRate = 64.45 },
+        new CategoryData { Year = "2019", ExchangeRate = 69.92 },
+        new CategoryData { Year = "2020", ExchangeRate = 74.53 },
+        new CategoryData { Year = "2021", ExchangeRate = 73.22 },
+        new CategoryData { Year = "2022", ExchangeRate = 82.44 }
+    };
+    public class CategoryData
+    {
+        public string? Year { get; set; }
+        public double ExchangeRate { get; set; }
+    }
+}

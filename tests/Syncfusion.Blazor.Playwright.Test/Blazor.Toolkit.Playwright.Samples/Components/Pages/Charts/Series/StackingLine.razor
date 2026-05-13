@@ -1,0 +1,136 @@
+﻿@page "/stackingline-default-points-playwright"
+
+@using Syncfusion.Blazor.Toolkit.Charts
+
+<h2>StackingLine & StackingLine100 – Empty Point Modes</h2>
+
+<div style="display:flex; flex-direction:column; gap:50px;">
+
+    <!-- 1️⃣ StackingLine -->
+    <SfChart ID="stackingLineChart" Title="StackingLine Default Points">
+        <ChartPrimaryXAxis Title="PrimaryXAxis" />
+        <ChartPrimaryYAxis Title="PrimaryYAxis" />
+        <ChartSeriesCollection>
+
+            <ChartSeries DataSource="@Sales"
+                         XName="x"
+                         YName="y"
+                         Type="ChartSeriesType.StackingLine">
+                <ChartEmptyPointSettings Mode="EmptyPointMode.Average" />
+                <ChartMarker Visible="true">
+                    <ChartDataLabel Visible="true" />
+                </ChartMarker>
+                <ChartSeriesAnimation Enable="false" />
+            </ChartSeries>
+
+            <ChartSeries DataSource="@Sales"
+                         XName="x"
+                         YName="y1"
+                         Type="ChartSeriesType.StackingLine">
+                <ChartEmptyPointSettings Mode="EmptyPointMode.Drop" />
+                <ChartMarker Visible="true">
+                    <ChartDataLabel Visible="true" />
+                </ChartMarker>
+                <ChartSeriesAnimation Enable="false" />
+            </ChartSeries>
+
+            <ChartSeries DataSource="@Sales"
+                         XName="x"
+                         YName="y2"
+                         Type="ChartSeriesType.StackingLine">
+                <ChartEmptyPointSettings Mode="EmptyPointMode.Gap" />
+                <ChartMarker Visible="true">
+                    <ChartDataLabel Visible="true" />
+                </ChartMarker>
+                <ChartSeriesAnimation Enable="false" />
+            </ChartSeries>
+
+            <ChartSeries DataSource="@Sales"
+                         XName="x"
+                         YName="y3"
+                         Type="ChartSeriesType.StackingLine">
+                <ChartEmptyPointSettings Mode="EmptyPointMode.Zero" />
+                <ChartMarker Visible="true">
+                    <ChartDataLabel Visible="true" />
+                </ChartMarker>
+                <ChartSeriesAnimation Enable="false" />
+            </ChartSeries>
+
+        </ChartSeriesCollection>
+    </SfChart>
+
+    <!-- 2️⃣ StackingLine100 -->
+    <SfChart ID="stackingLine100Chart" Title="StackingLine100 Default Points">
+        <ChartPrimaryXAxis Title="PrimaryXAxis" />
+        <ChartPrimaryYAxis Title="PrimaryYAxis" />
+        <ChartSeriesCollection>
+
+            <ChartSeries DataSource="@Sales"
+                         XName="x"
+                         YName="y"
+                         Type="ChartSeriesType.StackingLine100">
+                <ChartEmptyPointSettings Mode="EmptyPointMode.Average" />
+                <ChartMarker Visible="true">
+                    <ChartDataLabel Visible="true" />
+                </ChartMarker>
+                <ChartSeriesAnimation Enable="false" />
+            </ChartSeries>
+
+            <ChartSeries DataSource="@Sales"
+                         XName="x"
+                         YName="y1"
+                         Type="ChartSeriesType.StackingLine100">
+                <ChartEmptyPointSettings Mode="EmptyPointMode.Drop" />
+                <ChartMarker Visible="true">
+                    <ChartDataLabel Visible="true" />
+                </ChartMarker>
+                <ChartSeriesAnimation Enable="false" />
+            </ChartSeries>
+
+            <ChartSeries DataSource="@Sales"
+                         XName="x"
+                         YName="y2"
+                         Type="ChartSeriesType.StackingLine100">
+                <ChartEmptyPointSettings Mode="EmptyPointMode.Gap" />
+                <ChartMarker Visible="true">
+                    <ChartDataLabel Visible="true" />
+                </ChartMarker>
+                <ChartSeriesAnimation Enable="false" />
+            </ChartSeries>
+
+            <ChartSeries DataSource="@Sales"
+                         XName="x"
+                         YName="y3"
+                         Type="ChartSeriesType.StackingLine100">
+                <ChartEmptyPointSettings Mode="EmptyPointMode.Zero" />
+                <ChartMarker Visible="true">
+                    <ChartDataLabel Visible="true" />
+                </ChartMarker>
+                <ChartSeriesAnimation Enable="false" />
+            </ChartSeries>
+
+        </ChartSeriesCollection>
+    </SfChart>
+
+</div>
+
+@code {
+    public class SalesInfo
+    {
+        public double x { get; set; }
+        public double? y { get; set; }
+        public double? y1 { get; set; }
+        public double? y2 { get; set; }
+        public double? y3 { get; set; }
+    }
+
+    public List<SalesInfo> Sales = new()
+    {
+        new() { x = 1, y = 10, y1 = 10, y2 = 10, y3 = null },
+        new() { x = 2, y = null, y1 = 30, y2 = 30, y3 = 30 },
+        new() { x = 3, y = 15, y1 = 15, y2 = 15, y3 = 15 },
+        new() { x = 4, y = 25, y1 = 25, y2 = null, y3 = 25 },
+        new() { x = 5, y = 30, y1 = 30, y2 = 30, y3 = 30 },
+        new() { x = 6, y = 20, y1 = null, y2 = 20, y3 = 20 }
+    };
+}

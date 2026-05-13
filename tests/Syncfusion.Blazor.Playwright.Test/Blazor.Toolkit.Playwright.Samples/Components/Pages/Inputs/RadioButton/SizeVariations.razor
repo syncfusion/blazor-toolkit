@@ -1,0 +1,53 @@
+@page "/radio-button/size-variations"
+@using Syncfusion.Blazor.Toolkit.Inputs
+@layout MainLayout
+
+<h1>Radio Button - Size Variations</h1>
+
+<div class="test-container">
+    <h2>Size Variations</h2>
+    <div class="e-radio-group">
+        <SfRadioButton TChecked="string" Name="size-group" CssClass="e-small" Label="Small" @bind-Value="sizeValue"></SfRadioButton>
+        <SfRadioButton TChecked="string" Name="size-group" Label="Medium (Default)" @bind-Value="sizeValue"></SfRadioButton>
+        <SfRadioButton TChecked="string" Name="size-group" CssClass="e-bigger" Label="Large" @bind-Value="sizeValue"></SfRadioButton>
+    </div>
+    <p>Selected Size: @sizeValue</p>
+</div>
+
+<div class="test-container">
+    <h2>Size and State Combinations</h2>
+    <div class="e-radio-group">
+        <SfRadioButton TChecked="string" Name="combo-group" CssClass="e-small" Label="Small Enabled" @bind-Value="comboValue"></SfRadioButton>
+        <SfRadioButton TChecked="string" Name="combo-group" CssClass="e-small" Label="Small Disabled" Disabled="true" @bind-Value="comboValue"></SfRadioButton>
+        <SfRadioButton TChecked="string" Name="combo-group" CssClass="e-bigger" Label="Large Enabled" @bind-Value="comboValue"></SfRadioButton>
+        <SfRadioButton TChecked="string" Name="combo-group" CssClass="e-bigger" Label="Large Disabled" Disabled="true" @bind-Value="comboValue"></SfRadioButton>
+    </div>
+    <p>Selected Combo: @comboValue</p>
+</div>
+
+<style>
+    .test-container {
+        padding: 20px;
+        border: 1px solid #ddd;
+        margin: 10px 0;
+    }
+    
+    .e-radio-group {
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+        margin-bottom: 15px;
+    }
+    
+    h2 {
+        margin-top: 20px;
+        font-size: 18px;
+    }
+</style>
+
+@code {
+    private string sizeValue = "small";
+    private string comboValue = "se";
+}
+
+

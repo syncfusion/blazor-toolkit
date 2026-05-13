@@ -1,0 +1,58 @@
+@page "/button-group/basic-rendering"
+@using Syncfusion.Blazor.Toolkit.Buttons
+@layout MainLayout
+
+<h1>Button Group - Basic Rendering</h1>
+
+<div class="test-container">
+    <h2>Basic Button Group (Default Mode)</h2>
+    <SfButtonGroup id="bg-basic" CssClass="e-basic-group">
+        <ButtonGroupButton Content="Left" id="btn-left"></ButtonGroupButton>
+        <ButtonGroupButton Content="Center" id="btn-center"></ButtonGroupButton>
+        <ButtonGroupButton Content="Right" id="btn-right"></ButtonGroupButton>
+    </SfButtonGroup>
+</div>
+
+<div class="test-container">
+    <h2>Button Group with Single Selection</h2>
+    <SfButtonGroup id="bg-single" Mode="SelectionMode.Single">
+        <ButtonGroupButton Content="Option 1" id="opt-1"></ButtonGroupButton>
+        <ButtonGroupButton Content="Option 2" id="opt-2"></ButtonGroupButton>
+        <ButtonGroupButton Content="Option 3" id="opt-3"></ButtonGroupButton>
+    </SfButtonGroup>
+    <p>Selected: <strong id="single-selected">None</strong></p>
+</div>
+
+<div class="test-container">
+    <h2>Button Group with Multiple Selection</h2>
+    <SfButtonGroup id="bg-multiple" Mode="SelectionMode.Multiple">
+        <ButtonGroupButton Content="Bold" id="opt-bold"></ButtonGroupButton>
+        <ButtonGroupButton Content="Italic" id="opt-italic"></ButtonGroupButton>
+        <ButtonGroupButton Content="Underline" id="opt-underline"></ButtonGroupButton>
+    </SfButtonGroup>
+    <p>Selected: <strong id="multiple-selected">None</strong></p>
+</div>
+
+<style>
+    .test-container {
+        padding: 20px;
+        border: 1px solid #ddd;
+        margin: 10px 0;
+        border-radius: 4px;
+        background-color: #f9f9f9;
+    }
+    
+    h2 {
+        margin-top: 20px;
+        font-size: 18px;
+        font-weight: 600;
+    }
+    
+    p {
+        margin-top: 15px;
+        font-size: 14px;
+    }
+</style>
+
+@code {
+}

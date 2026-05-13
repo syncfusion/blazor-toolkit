@@ -1,0 +1,20 @@
+﻿@using Syncfusion.Blazor.Toolkit
+@using Syncfusion.Blazor.Toolkit.Buttons
+@using Syncfusion.Blazor.Toolkit.Inputs
+var Buttons= Syncfusion.Blazor.Toolkit.Buttons
+
+
+@namespace Syncfusion.Blazor.Toolkit.Tests.Inputs
+
+<div class="sample">
+    <SfRadioButton Label=@label TChecked="bool"></SfRadioButton>
+    <SfRadioButton TChecked="bool" Label="Credit card" LabelPosition=@labelposition></SfRadioButton>
+    <SfRadioButton TChecked="bool" id="custom"></SfRadioButton>
+    <label for="custom">Credit card</label>
+</div>
+@code {
+    [Parameter]
+    public string label {get;set;} = "Credit Card";
+    [Parameter]
+    public LabelPosition labelposition { get; set; } = LabelPosition.Before;
+}

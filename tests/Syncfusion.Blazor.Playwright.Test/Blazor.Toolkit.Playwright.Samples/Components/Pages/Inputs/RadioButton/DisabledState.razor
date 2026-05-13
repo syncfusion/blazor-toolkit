@@ -1,0 +1,79 @@
+@page "/radio-button/disabled-state"
+@using Syncfusion.Blazor.Toolkit.Inputs
+@layout MainLayout
+
+<h1>Radio Button - Disabled State</h1>
+
+<div class="test-container">
+    <h2>Enabled and Disabled States</h2>
+    <div class="e-radio-group">
+        <SfRadioButton TChecked="string" Name="state-group" Value="enabled" Label="Enabled Option" @bind-Checked="stateValue"></SfRadioButton>
+        <SfRadioButton TChecked="string" Name="state-group" Value="disabled-opt" Label="Disabled Option" Disabled="true" @bind-Checked="stateValue"></SfRadioButton>
+        <SfRadioButton TChecked="string" Name="state-group" Value="another-enabled" Label="Another Enabled" @bind-Checked="stateValue"></SfRadioButton>
+    </div>
+    <p>Selected: <strong>@stateValue</strong></p>
+</div>
+
+<div class="test-container">
+    <h2>Dynamic Disable/Enable</h2>
+    <div class="e-radio-group">
+        <SfRadioButton TChecked="string" Name="dynamic-group" Value="dyn1" Label="Dynamic Option 1" Disabled="isDisabled" @bind-Checked="dynamicValue"></SfRadioButton>
+        <SfRadioButton TChecked="string" Name="dynamic-group" Value="dyn2" Label="Dynamic Option 2" Disabled="isDisabled" @bind-Checked="dynamicValue"></SfRadioButton>
+    </div>
+    <button @onclick="ToggleDisabled">@(isDisabled ? "Enable" : "Disable") Buttons</button>
+    <p>Are buttons disabled? <strong>@isDisabled</strong></p>
+</div>
+
+<style>
+    .test-container {
+        padding: 20px;
+        border: 1px solid #ddd;
+        margin: 10px 0;
+        border-radius: 4px;
+        background-color: #f9f9f9;
+    }
+    
+    .e-radio-group {
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+        margin-bottom: 15px;
+    }
+    
+    h2 {
+        margin-top: 20px;
+        font-size: 18px;
+        font-weight: 600;
+    }
+    
+    button {
+        padding: 8px 16px;
+        margin-top: 10px;
+        cursor: pointer;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        background-color: #f0f0f0;
+    }
+    
+    button:hover {
+        background-color: #e0e0e0;
+    }
+    
+    p {
+        margin-top: 10px;
+        font-size: 14px;
+    }
+</style>
+
+@code {
+    private string stateValue = "enabled";
+    private string dynamicValue = "dyn1";
+    private bool isDisabled = false;
+    
+    private void ToggleDisabled()
+    {
+        isDisabled = !isDisabled;
+    }
+}
+
+

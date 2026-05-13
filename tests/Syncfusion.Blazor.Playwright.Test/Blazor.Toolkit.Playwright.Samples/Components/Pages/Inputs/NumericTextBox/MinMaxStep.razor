@@ -1,0 +1,21 @@
+@page "/numerictextbox/min-max-step"
+@using Syncfusion.Blazor.Toolkit.Inputs
+
+<h1>NumericTextBox — Min/Max/Step</h1>
+
+<div style="max-width:480px">
+    <SfNumericTextBox Id="minmaxNumeric" TValue="double?" @bind-Value="Value" Min="0" Max="100" Step="2" Decimals="1" ShowSpinButton="true"></SfNumericTextBox>
+    <div style="margin-top:12px">
+        <button @onclick="SetBelowMin">Set below Min</button>
+        <button @onclick="SetAboveMax" style="margin-left:8px">Set above Max</button>
+        <span id="minmax-log" style="margin-left:12px">@DisplayValue</span>
+    </div>
+</div>
+
+@code {
+    private double? Value { get; set; }
+    private string DisplayValue => Value?.ToString() ?? "(empty)";
+
+    private void SetBelowMin() => Value = -50;
+    private void SetAboveMax() => Value = 9999;
+}

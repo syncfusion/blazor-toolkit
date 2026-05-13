@@ -1,0 +1,3078 @@
+﻿@using AngleSharp.Dom
+@using Syncfusion.Blazor.Toolkit.Charts
+@using Syncfusion.Blazor.Toolkit.Tests
+@using Bunit
+@using Xunit
+
+@inherits TestComponentBase
+
+<SfFixture @ref="fixture" TestAsync="XAxisStripline" Description="XAxisStripline">
+    <ComponentUnderTest>
+        <SfChart ID="container" Height="400" Width="600">
+            <ChartPrimaryXAxis Title="Sales Across Years">
+                <ChartStriplines>
+                    <ChartStripline StartFromAxis="false" Start="1" Size="4" VerticalAlignment="Anchor.End" Opacity="0.5" Color="Red" ZIndex="ZIndex.Behind" Text="Behind"></ChartStripline>
+                    <ChartStripline Start="6" End="8" Opacity="0.3" Color="Blue" Text="Over" ZIndex="ZIndex.Over">
+                        <ChartStriplineTextStyle Color="#ffffff" />
+                    </ChartStripline>
+                </ChartStriplines>
+            </ChartPrimaryXAxis>
+            <ChartPrimaryYAxis Title="Sales Amount in millions(USD)" RangePadding="ChartRangePadding.Additional"></ChartPrimaryYAxis>
+            <ChartSeriesCollection>
+                <ChartSeries DataSource="@chartsvalue" XName="X" YName="Y"></ChartSeries>
+            </ChartSeriesCollection>
+        </SfChart>
+    </ComponentUnderTest>
+</SfFixture>
+
+@code {
+
+    SfFixture fixture { get; set; }
+    async Task XAxisStripline(Fixture fixture)
+    {
+        var cut = fixture.GetComponentUnderTest<SfChart>();
+        await Task.Delay(200);
+        var striplineelement = cut.Find("#container_stripline_Behind_rect_PrimaryXAxis_0");
+        Assert.True(striplineelement != null);
+        var striplineelement1 = cut.Find("#container_stripline_Over_rect_PrimaryXAxis_0");
+        Assert.True(striplineelement1 != null);
+        cut.SetParametersAndRender();
+    }
+    public class ChartData
+    {
+        public double X { get; set; }
+        public double Y { get; set; }
+    }
+
+    public List<ChartData> chartsvalue = new List<ChartData>
+{
+    new ChartData { X = 1, Y = 28 },
+    new ChartData { X = 2, Y = 27 },
+    new ChartData { X = 3, Y = 33 },
+    new ChartData { X = 4, Y = 36 },
+    new ChartData { X = 5, Y = 28 },
+    new ChartData { X = 6, Y = 30 },
+    new ChartData { X = 7, Y = 31 },
+    new ChartData { X = 8, Y = 28 },
+    new ChartData { X = 9, Y = 30 },
+    new ChartData { X = 10, Y = 31 }
+};
+}
+
+
+@{
+    var InitialGroup1 = (new string[] { "CustomerID", "OrderID" });
+}
+<SfFixture @ref="fixture1" TestAsync="YAxisStripline" Description="YAxisStripline">
+    <ComponentUnderTest>
+        <SfChart ID="container" Height="400" Width="600">
+            <ChartPrimaryXAxis Title="Sales Across Years">
+            </ChartPrimaryXAxis>
+            <ChartPrimaryYAxis Title="Sales Amount in millions(USD)" RangePadding="ChartRangePadding.Additional">
+                <ChartStriplines>
+                    <ChartStripline Start="10" Size="23" Color="#663AB6" ZIndex="ZIndex.Over" Text="Behind"></ChartStripline>
+                    <ChartStripline Start="40" End="50" Color="#EB3F79">
+                    </ChartStripline>
+                </ChartStriplines>
+            </ChartPrimaryYAxis>
+            <ChartSeriesCollection>
+                <ChartSeries DataSource="@chartsvalue1" XName="X" YName="Y"></ChartSeries>
+            </ChartSeriesCollection>
+        </SfChart>
+    </ComponentUnderTest>
+</SfFixture>
+
+@code {
+
+    SfFixture fixture1 { get; set; }
+    async Task YAxisStripline(Fixture fixture1)
+    {
+        var cut = fixture1.GetComponentUnderTest<SfChart>();
+        await Task.Delay(200);
+        var striplineelement = cut.Find("#container_stripline_Over_rect_PrimaryYAxis_0");
+        Assert.True(striplineelement != null);
+        var striplineelement1 = cut.Find("#container_stripline_Behind_rect_PrimaryYAxis_0");
+        Assert.True(striplineelement1 != null);
+        cut.SetParametersAndRender();
+    }
+    public class ChartData1
+    {
+        public double X { get; set; }
+        public double Y { get; set; }
+    }
+
+    public List<ChartData1> chartsvalue1 = new List<ChartData1>
+{
+    new ChartData1 { X = 1, Y = 28 },
+    new ChartData1 { X = 2, Y = 27 },
+    new ChartData1 { X = 3, Y = 33 },
+    new ChartData1 { X = 4, Y = 36 },
+    new ChartData1 { X = 5, Y = 28 },
+    new ChartData1 { X = 6, Y = 30 },
+    new ChartData1 { X = 7, Y = 31 },
+    new ChartData1 { X = 8, Y = 45 },
+    new ChartData1 { X = 9, Y = 55 },
+    new ChartData1 { X = 10, Y = 60 }
+};
+}
+
+
+@{
+    var InitialGroup2 = (new string[] { "CustomerID", "OrderID" });
+}
+<SfFixture @ref="fixture2" TestAsync="XAxisSize" Description="XAxisSize">
+    <ComponentUnderTest>
+        <SfChart ID="container" Height="400" Width="600">
+            <ChartPrimaryXAxis Title="Sales Across Years">
+                <ChartStriplines>
+                    <ChartStripline Start="1" Color="#663AB6" Size="3"></ChartStripline>
+                    <ChartStripline Start="6" Color="#EB3F79" Size="2"></ChartStripline>
+                </ChartStriplines>
+            </ChartPrimaryXAxis>
+            <ChartPrimaryYAxis Title="Sales Amount in millions(USD)" RangePadding="ChartRangePadding.Additional">
+            </ChartPrimaryYAxis>
+            <ChartSeriesCollection>
+                <ChartSeries DataSource="@chartsvalue2" XName="X" YName="Y"></ChartSeries>
+            </ChartSeriesCollection>
+        </SfChart>
+    </ComponentUnderTest>
+</SfFixture>
+
+@code {
+
+    SfFixture fixture2 { get; set; }
+    async Task XAxisSize(Fixture fixture2)
+    {
+        var cut = fixture2.GetComponentUnderTest<SfChart>();
+        await Task.Delay(200);
+        var striplineelement = cut.Find("#container_stripline_Behind_rect_PrimaryXAxis_0");
+        // Note: Values may vary slightly depending on screen resolution.
+        Assert.True(striplineelement.GetAttribute("width") == "174.76666666666665");
+        Assert.True(striplineelement.GetAttribute("x") == "65.7");
+        var striplineelement1 = cut.Find("#container_stripline_Behind_rect_PrimaryXAxis_1");
+        Assert.True(striplineelement1.GetAttribute("width") == "116.51111111111109");
+        Assert.True(striplineelement1.GetAttribute("x") == "356.97777777777776");
+        cut.SetParametersAndRender();
+    }
+    public class ChartData2
+    {
+        public double X { get; set; }
+        public double Y { get; set; }
+    }
+
+    public List<ChartData2> chartsvalue2 = new List<ChartData2>
+{
+    new ChartData2 { X = 1, Y = 28 },
+    new ChartData2 { X = 2, Y = 27 },
+    new ChartData2 { X = 3, Y = 33 },
+    new ChartData2 { X = 4, Y = 36 },
+    new ChartData2 { X = 5, Y = 28 },
+    new ChartData2 { X = 6, Y = 30 },
+    new ChartData2 { X = 7, Y = 31 },
+    new ChartData2 { X = 8, Y = 45 },
+    new ChartData2 { X = 9, Y = 55 },
+    new ChartData2 { X = 10, Y = 60 }
+};
+}
+
+
+@{
+    var InitialGroup3 = (new string[] { "CustomerID", "OrderID" });
+}
+<SfFixture @ref="fixture3" TestAsync="YAxisSize" Description="YAxisSize">
+    <ComponentUnderTest>
+        <SfChart ID="container" Height="400" Width="600">
+            <ChartPrimaryXAxis Title="Sales Across Years">
+            </ChartPrimaryXAxis>
+            <ChartPrimaryYAxis Title="Sales Amount in millions(USD)" RangePadding="ChartRangePadding.Additional">
+                <ChartStriplines>
+                    <ChartStripline Start="30" End="40" Size="60" Color="#663AB6"></ChartStripline>
+                    <ChartStripline Start="70"  Color="#EB3F79" Size="30"></ChartStripline>
+                    <ChartStripline StartFromAxis="true" Size="10"></ChartStripline>
+                    <ChartStripline End="110" Size="10"></ChartStripline>
+                </ChartStriplines>
+            </ChartPrimaryYAxis>
+            <ChartSeriesCollection>
+                <ChartSeries DataSource="@chartsvalue3" XName="X" YName="Y"></ChartSeries>
+            </ChartSeriesCollection>
+        </SfChart>
+    </ComponentUnderTest>
+</SfFixture>
+
+@code {
+
+    SfFixture fixture3 { get; set; }
+    async Task YAxisSize(Fixture fixture3)
+    {
+        var cut = fixture3.GetComponentUnderTest<SfChart>();
+        await Task.Delay(200);
+        var striplineelement = cut.Find("#container_stripline_Behind_rect_PrimaryYAxis_0");
+        // Note: Values may vary slightly depending on screen resolution.
+        Assert.True(striplineelement.GetAttribute("height") == "33.044999999999995");
+        Assert.True(striplineelement.GetAttribute("y") == "241.315");
+        Assert.True(striplineelement.GetAttribute("width") == "518.3");
+        Assert.True(striplineelement.GetAttribute("x") == "71.7");
+        var striplineelement1 = cut.Find("#container_stripline_Behind_rect_PrimaryYAxis_1");
+        Assert.True(striplineelement1.GetAttribute("height") == "99.135");
+        Assert.True(striplineelement1.GetAttribute("y") == "43.045000000000016");
+        Assert.True(striplineelement1.GetAttribute("width") == "518.3");
+        Assert.True(striplineelement1.GetAttribute("x") == "71.7");
+        var striplineelement2 = cut.Find("#container_stripline_Behind_rect_PrimaryYAxis_2");
+        Assert.True(striplineelement2.GetAttribute("height") == "33.045");
+        Assert.True(striplineelement2.GetAttribute("y") == "307.405");
+        Assert.True(striplineelement2.GetAttribute("width") == "518.3");
+        Assert.True(striplineelement2.GetAttribute("x") == "71.7");
+        cut.SetParametersAndRender();
+    }
+    public class ChartData3
+    {
+        public double X { get; set; }
+        public double Y { get; set; }
+    }
+    public List<ChartData3> chartsvalue3 = new List<ChartData3>
+{
+    new ChartData3 { X = 1, Y = 28 },
+    new ChartData3 { X = 2, Y = 27 },
+    new ChartData3 { X = 3, Y = 89 },
+    new ChartData3 { X = 4, Y = 36 },
+    new ChartData3 { X = 5, Y = 78 },
+    new ChartData3 { X = 6, Y = 30 },
+    new ChartData3 { X = 7, Y = 100 },
+    new ChartData3 { X = 8, Y = 45 },
+    new ChartData3 { X = 9, Y = 55 },
+    new ChartData3 { X = 10, Y = 60 }
+};
+}
+
+
+@{
+    var InitialGroup4 = (new string[] { "CustomerID", "OrderID" });
+}
+<SfFixture @ref="fixture4" TestAsync="StriplineDashArrayPresent" Description="StriplineDashArrayPresent">
+    <ComponentUnderTest>
+        <SfChart ID="container" Height="400" Width="600">
+            <ChartPrimaryXAxis Title="Sales Across Years">
+            </ChartPrimaryXAxis>
+            <ChartPrimaryYAxis Title="Sales Amount in millions(USD)" RangePadding="ChartRangePadding.Additional">
+                <ChartStriplines>
+                    <ChartStripline Start="10" Size="3" Color="#663AB6"></ChartStripline>
+                    <ChartStripline Start="10" Color="#663AB6" Size="3" DashArray="10,2"></ChartStripline>
+                </ChartStriplines>
+            </ChartPrimaryYAxis>
+            <ChartSeriesCollection>
+                <ChartSeries DataSource="@chartsvalue4" XName="X" YName="Y"></ChartSeries>
+            </ChartSeriesCollection>
+        </SfChart>
+    </ComponentUnderTest>
+</SfFixture>
+
+@code {
+
+    SfFixture fixture4 { get; set; }
+    async Task StriplineDashArrayPresent(Fixture fixture4)
+    {
+        var cut = fixture4.GetComponentUnderTest<SfChart>();
+        await Task.Delay(200);
+        var striplineelement = cut.Find("#container_stripline_Behind_rect_PrimaryYAxis_0");
+        //Assert.True(striplineelement != null);
+        var striplineelement1 = cut.Find("#container_stripline_Behind_rect_PrimaryYAxis_1");
+        //Assert.True(striplineelement1.GetAttribute("stroke-dasharray") != null);
+        cut.SetParametersAndRender();
+    }
+    public class ChartData4
+    {
+        public double X { get; set; }
+        public double Y { get; set; }
+    }
+    public List<ChartData4> chartsvalue4 = new List<ChartData4>
+{
+    new ChartData4 { X = 1, Y = 28 },
+    new ChartData4 { X = 2, Y = 27 },
+    new ChartData4 { X = 3, Y = 89 },
+    new ChartData4 { X = 4, Y = 36 },
+    new ChartData4 { X = 5, Y = 78 },
+    new ChartData4 { X = 6, Y = 30 },
+    new ChartData4 { X = 7, Y = 100 },
+    new ChartData4 { X = 8, Y = 45 },
+    new ChartData4 { X = 9, Y = 55 },
+    new ChartData4 { X = 10, Y = 60 }
+};
+}
+
+
+@{
+    var InitialGroup5 = (new string[] { "CustomerID", "OrderID" });
+}
+<SfFixture @ref="fixture5" TestAsync="BasicDashArrayRequirementChecking" Description="BasicDashArrayRequirementChecking">
+    <ComponentUnderTest>
+        <SfChart ID="container" Height="400" Width="600">
+            <ChartPrimaryXAxis Title="Sales Across Years">
+            </ChartPrimaryXAxis>
+            <ChartPrimaryYAxis Title="Sales Amount in millions(USD)" RangePadding="ChartRangePadding.Additional">
+                <ChartStriplines>
+                    <ChartStripline Start="0" End="50" Color="#663AB6" DashArray="10,2"></ChartStripline>
+                </ChartStriplines>
+            </ChartPrimaryYAxis>
+            <ChartSeriesCollection>
+                <ChartSeries DataSource="@chartsvalue5" XName="X" YName="Y"></ChartSeries>
+            </ChartSeriesCollection>
+        </SfChart>
+    </ComponentUnderTest>
+</SfFixture>
+
+@code {
+
+    SfFixture fixture5 { get; set; }
+    async Task BasicDashArrayRequirementChecking(Fixture fixture5)
+    {
+        var cut = fixture5.GetComponentUnderTest<SfChart>();
+        await Task.Delay(200);
+        var striplineelement = cut.Find("#container_stripline_Behind_rect_PrimaryYAxis_0");
+        Assert.True(striplineelement != null);
+        // Note: Values may vary slightly depending on screen resolution.
+        Assert.True(Convert.ToDouble(cut.Find("#container_stripline_Behind_rect_PrimaryYAxis_0").GetAttribute("height")) >= 0);
+        Assert.True((cut.Find("#container_stripline_Behind_rect_PrimaryYAxis_0").GetAttribute("y")) != "528.3");
+        Assert.True(cut.Find("#container_stripline_Behind_rect_PrimaryYAxis_0").GetAttribute("width") == "518.3");
+        Assert.True(cut.Find("#container_stripline_Behind_rect_PrimaryYAxis_0").GetAttribute("stroke-dasharray") == null);
+        cut.SetParametersAndRender();
+    }
+    public class ChartData5
+    {
+        public double X { get; set; }
+        public double Y { get; set; }
+    }
+    public List<ChartData5> chartsvalue5 = new List<ChartData5>
+{
+    new ChartData5 { X = 1, Y = 28 },
+    new ChartData5 { X = 2, Y = 27 },
+    new ChartData5 { X = 3, Y = 89 },
+    new ChartData5 { X = 4, Y = 36 },
+    new ChartData5 { X = 5, Y = 78 },
+    new ChartData5 { X = 6, Y = 30 },
+    new ChartData5 { X = 7, Y = 100 },
+    new ChartData5 { X = 8, Y = 45 },
+    new ChartData5 { X = 9, Y = 55 },
+    new ChartData5 { X = 10, Y = 60 }
+};
+}
+
+
+@{
+    var InitialGroup6 = (new string[] { "CustomerID", "OrderID" });
+}
+<SfFixture @ref="fixture6" TestAsync="CheckColorOpacityBorderColor" Description="CheckColorOpacityBorderColor">
+    <ComponentUnderTest>
+        <SfChart ID="container" Height="400" Width="600">
+            <ChartPrimaryXAxis Title="Sales Across Years">
+                <ChartStriplines>
+                    <ChartStripline Start="1" Size="5" Color="#663AB6" DashArray="10,2" Opacity="0.5">
+                        <ChartStriplineBorder Color="Blue" Width="4"></ChartStriplineBorder>
+                    </ChartStripline>
+                </ChartStriplines>
+            </ChartPrimaryXAxis>
+            <ChartPrimaryYAxis Title="Sales Amount in millions(USD)" RangePadding="ChartRangePadding.Additional">
+            </ChartPrimaryYAxis>
+            <ChartSeriesCollection>
+                <ChartSeries DataSource="@chartsvalue6" XName="X" YName="Y"></ChartSeries>
+            </ChartSeriesCollection>
+        </SfChart>
+    </ComponentUnderTest>
+</SfFixture>
+
+@code {
+
+    SfFixture fixture6 { get; set; }
+    async Task CheckColorOpacityBorderColor(Fixture fixture6)
+    {
+        var cut = fixture6.GetComponentUnderTest<SfChart>();
+        await Task.Delay(200);
+        var striplineelement = cut.Find("#container_stripline_Behind_rect_PrimaryXAxis_0");
+        Assert.True(cut.Find("#container_stripline_Behind_rect_PrimaryXAxis_0").GetAttribute("fill") == "#663AB6");
+        Assert.True(cut.Find("#container_stripline_Behind_rect_PrimaryXAxis_0").GetAttribute("stroke") == "Blue");
+        Assert.True(cut.Find("#container_stripline_Behind_rect_PrimaryXAxis_0").GetAttribute("opacity") == "0.5");
+        Assert.True(cut.Find("#container_stripline_Behind_rect_PrimaryXAxis_0").GetAttribute("stroke-width") == "4");
+        cut.SetParametersAndRender();
+    }
+    public class ChartData6
+    {
+        public double X { get; set; }
+        public double Y { get; set; }
+    }
+    public List<ChartData6> chartsvalue6 = new List<ChartData6>
+{
+    new ChartData6 { X = 1, Y = 28 },
+    new ChartData6 { X = 2, Y = 27 },
+    new ChartData6 { X = 3, Y = 89 },
+    new ChartData6 { X = 4, Y = 36 },
+    new ChartData6 { X = 5, Y = 78 },
+    new ChartData6 { X = 6, Y = 30 },
+    new ChartData6 { X = 7, Y = 100 },
+    new ChartData6 { X = 8, Y = 45 },
+    new ChartData6 { X = 9, Y = 55 },
+    new ChartData6 { X = 10, Y = 60 }
+};
+}
+
+
+@{
+    var InitialGroup7 = (new string[] { "CustomerID", "OrderID" });
+}
+<SfFixture @ref="fixture7" TestAsync="InversedAxisStripLine" Description="InversedAxisStripLine">
+    <ComponentUnderTest>
+        <SfChart ID="container" Height="400" Width="600">
+            <ChartPrimaryXAxis Title="Sales Across Years" IsInversed="true">
+                <ChartStriplines>
+                    <ChartStripline Start="1" Size="5" Color="#663AB6" DashArray="10,2" Opacity="0.5">
+                        <ChartStriplineBorder Color="grey" Width="1"></ChartStriplineBorder>
+                    </ChartStripline>
+                </ChartStriplines>
+            </ChartPrimaryXAxis>
+            <ChartPrimaryYAxis Title="Sales Amount in millions(USD)" IsInversed="true" RangePadding="ChartRangePadding.Additional">
+                <ChartStriplines>
+                    <ChartStripline Start="30" End="50"></ChartStripline>
+                </ChartStriplines>
+            </ChartPrimaryYAxis>
+            <ChartSeriesCollection>
+                <ChartSeries DataSource="@chartsvalue7" XName="X" YName="Y"></ChartSeries>
+            </ChartSeriesCollection>
+        </SfChart>
+    </ComponentUnderTest>
+</SfFixture>
+
+@code {
+
+    SfFixture fixture7 { get; set; }
+    async Task InversedAxisStripLine(Fixture fixture7)
+    {
+        var cut = fixture7.GetComponentUnderTest<SfChart>();
+        await Task.Delay(200);
+        var striplineelement = cut.Find("#container_stripline_Behind_rect_PrimaryYAxis_1");
+        // Note: Values may vary slightly depending on screen resolution.
+        Assert.True(Convert.ToDouble(striplineelement.GetAttribute("x")) == 71.7);
+        Assert.True(Convert.ToDouble(striplineelement.GetAttribute("y")) == 76.089999999999975);
+        Assert.True(Convert.ToDouble(striplineelement.GetAttribute("height")) == 66.09000000000002);
+        Assert.True(Convert.ToDouble(striplineelement.GetAttribute("width")) == 518.3);
+        var striplineelement1 = cut.Find("#container_stripline_Behind_rect_PrimaryXAxis_0");
+        Assert.True(Convert.ToDouble(striplineelement1.GetAttribute("x")) == 302.05555555555554);
+        Assert.True(Convert.ToDouble(striplineelement1.GetAttribute("y")) == 10);
+        Assert.True(Convert.ToDouble(striplineelement1.GetAttribute("height")) == 330.45);
+        Assert.True(Convert.ToDouble(striplineelement1.GetAttribute("width")) == 287.94444444444446);
+        cut.SetParametersAndRender();
+    }
+    public class ChartData7
+    {
+        public double X { get; set; }
+        public double Y { get; set; }
+    }
+    public List<ChartData7> chartsvalue7 = new List<ChartData7>
+{
+    new ChartData7 { X = 1, Y = 28 },
+    new ChartData7 { X = 2, Y = 27 },
+    new ChartData7 { X = 3, Y = 89 },
+    new ChartData7 { X = 4, Y = 36 },
+    new ChartData7 { X = 5, Y = 78 },
+    new ChartData7 { X = 6, Y = 30 },
+    new ChartData7 { X = 7, Y = 100 },
+    new ChartData7 { X = 8, Y = 45 },
+    new ChartData7 { X = 9, Y = 55 },
+    new ChartData7 { X = 10, Y = 60 }
+};
+}
+
+
+@{
+    var InitialGroup8 = (new string[] { "CustomerID", "OrderID" });
+}
+<SfFixture @ref="fixture8" TestAsync="CheckingPixelType" Description="CheckingPixelType">
+    <ComponentUnderTest>
+        <SfChart ID="container">
+            <ChartPrimaryXAxis Title="Sales Across Years" ValueType="Syncfusion.Blazor.Toolkit.ValueType.DateTime" IntervalType="IntervalType.Years">
+                <ChartStriplines>
+                    <ChartStripline StartFromAxis="true" Size="1" SizeType="SizeType.Pixel"></ChartStripline>
+                    <ChartStripline Start="new DateTime(2011, 12, 01)" Size="1" SizeType="SizeType.Pixel"></ChartStripline>
+                </ChartStriplines>
+            </ChartPrimaryXAxis>
+            <ChartPrimaryYAxis>
+            </ChartPrimaryYAxis>
+            <ChartArea>
+                <ChartAreaBorder Width="1" Color="Blue"></ChartAreaBorder>
+            </ChartArea>
+            <ChartSeriesCollection>
+                <ChartSeries DataSource="@chartsvalue8" XName="X" YName="Y" Type="ChartSeriesType.Line">
+                    <ChartMarker Visible="true" Width="5" Height="5"></ChartMarker>
+                </ChartSeries>
+            </ChartSeriesCollection>
+            <ChartLegendSettings Visible="true">
+                <ChartLegendBorder Width="1" Color="Red"></ChartLegendBorder>
+            </ChartLegendSettings>
+        </SfChart>
+    </ComponentUnderTest>
+</SfFixture>
+
+@code {
+
+    SfFixture fixture8 { get; set; }
+    async Task CheckingPixelType(Fixture fixture8)
+    {
+        var cut = fixture8.GetComponentUnderTest<SfChart>();
+        await Task.Delay(200);
+        //var striplineelement = cut.Find("#container_stripline_Behind_path_PrimaryXAxis_0_0");
+        //Assert.True(striplineelement.GetAttribute("stroke-width") == "1");
+        //Assert.True(striplineelement.GetAttribute("d") != null);
+        //Assert.True(striplineelement.GetAttribute("stroke") == "#808080");
+        cut.SetParametersAndRender();
+    }
+    public class ChartData8
+    {
+        public DateTime X { get; set; }
+        public double Y { get; set; }
+    }
+    public List<ChartData8> chartsvalue8 = new List<ChartData8>
+{
+    new ChartData8 { X = new DateTime(2005, 12, 01), Y = 21 },
+    new ChartData8 { X = new DateTime(2006, 12, 01), Y = 24 },
+    new ChartData8 { X = new DateTime(2007, 12, 01), Y = 36 },
+    new ChartData8 { X = new DateTime(2008, 12, 01), Y = 38 },
+    new ChartData8 { X = new DateTime(2009, 12, 01), Y = 54 },
+    new ChartData8 { X = new DateTime(2010, 12, 01), Y = 57 },
+    new ChartData8 { X = new DateTime(2011, 12, 01), Y = 70 }
+};
+}
+
+
+@{
+    var InitialGroup9 = (new string[] { "CustomerID", "OrderID" });
+}
+<SfFixture @ref="fixture9" TestAsync="CheckingPixelTypeWithoutStartValue" Description="CheckingPixelTypeWithoutStartValue">
+    <ComponentUnderTest>
+        <SfChart ID="container">
+            <ChartPrimaryXAxis Title="Sales Across Years" ValueType="Syncfusion.Blazor.Toolkit.ValueType.DateTime" IntervalType="IntervalType.Years">
+                <ChartStriplines>
+                    <ChartStripline Visible="true" StartFromAxis="true" Size="10" SizeType="SizeType.Pixel" Color="Black" RepeatEvery="2" Text="text"></ChartStripline>
+                </ChartStriplines>
+            </ChartPrimaryXAxis>
+            <ChartPrimaryYAxis>
+            </ChartPrimaryYAxis>
+            <ChartArea>
+                <ChartAreaBorder Width="1" Color="Blue"></ChartAreaBorder>
+            </ChartArea>
+            <ChartSeriesCollection>
+                <ChartSeries DataSource="@chartsvalue9" XName="X" YName="Y" Type="ChartSeriesType.Line">
+                    <ChartMarker Visible="true" Width="5" Height="5"></ChartMarker>
+                </ChartSeries>
+            </ChartSeriesCollection>
+            <ChartLegendSettings Visible="true">
+                <ChartLegendBorder Width="1" Color="Red"></ChartLegendBorder>
+            </ChartLegendSettings>
+        </SfChart>
+    </ComponentUnderTest>
+</SfFixture>
+
+@code {
+
+    SfFixture fixture9 { get; set; }
+    async Task CheckingPixelTypeWithoutStartValue(Fixture fixture9)
+    {
+        var cut = fixture9.GetComponentUnderTest<SfChart>();
+        await Task.Delay(200);
+        var striplineelement = cut.Find("#container_stripline_Behind_path_PrimaryXAxis_0");
+        Assert.True(striplineelement != null);
+        cut.SetParametersAndRender();
+    }
+    public class ChartData9
+    {
+        public DateTime X { get; set; }
+        public double Y { get; set; }
+    }
+    public List<ChartData9> chartsvalue9 = new List<ChartData9>
+{
+    new ChartData9 { X = new DateTime(2005, 12, 01), Y = 21 },
+    new ChartData9 { X = new DateTime(2006, 12, 01), Y = 24 },
+    new ChartData9 { X = new DateTime(2007, 12, 01), Y = 36 },
+    new ChartData9 { X = new DateTime(2008, 12, 01), Y = 38 },
+    new ChartData9 { X = new DateTime(2009, 12, 01), Y = 54 },
+    new ChartData9 { X = new DateTime(2010, 12, 01), Y = 57 },
+    new ChartData9 { X = new DateTime(2011, 12, 01), Y = 70 }
+};
+}
+
+
+@{
+    var InitialGroup10 = (new string[] { "CustomerID", "OrderID" });
+}
+<SfFixture @ref="fixture10" TestAsync="CheckingInversedAxisPixelType" Description="CheckingInversedAxisPixelType">
+    <ComponentUnderTest>
+        <SfChart ID="container">
+            <ChartPrimaryXAxis Title="Sales Across Years" ValueType="Syncfusion.Blazor.Toolkit.ValueType.DateTime" IntervalType="IntervalType.Years" IsInversed="true">
+                <ChartStriplines>
+                    <ChartStripline StartFromAxis="true" Size="1" SizeType="SizeType.Pixel"></ChartStripline>
+                    <ChartStripline Start="new DateTime(2009, 12, 01)" Size="1" SizeType="SizeType.Pixel" Text="test"></ChartStripline>
+                    <ChartStripline Start="new DateTime(2000, 12, 01)" Size="1" SizeType="SizeType.Pixel"></ChartStripline>
+                    <ChartStripline Start="new DateTime(2018, 12, 01)" Size="1" SizeType="SizeType.Pixel"></ChartStripline>
+                </ChartStriplines>
+            </ChartPrimaryXAxis>
+            <ChartPrimaryYAxis IsInversed="true">
+                <ChartStriplines>
+                    <ChartStripline StartFromAxis="true" Size="1" SizeType="SizeType.Pixel"></ChartStripline>
+                    <ChartStripline Start="100" Size="1" SizeType="SizeType.Pixel" Text="test"></ChartStripline>
+                    <ChartStripline Start="-100" Size="1" SizeType="SizeType.Pixel"></ChartStripline>
+                </ChartStriplines>
+            </ChartPrimaryYAxis>
+            <ChartArea>
+                <ChartAreaBorder Width="1" Color="Blue"></ChartAreaBorder>
+            </ChartArea>
+            <ChartSeriesCollection>
+                <ChartSeries DataSource="@chartsvalue10" XName="X" YName="Y" Type="ChartSeriesType.Line">
+                    <ChartMarker Visible="true" Width="5" Height="5"></ChartMarker>
+                </ChartSeries>
+            </ChartSeriesCollection>
+            <ChartLegendSettings Visible="true">
+                <ChartLegendBorder Width="1" Color="Red"></ChartLegendBorder>
+            </ChartLegendSettings>
+        </SfChart>
+    </ComponentUnderTest>
+</SfFixture>
+
+@code {
+
+    SfFixture fixture10 { get; set; }
+    async Task CheckingInversedAxisPixelType(Fixture fixture10)
+    {
+        var cut = fixture10.GetComponentUnderTest<SfChart>();
+        await Task.Delay(200);
+        var striplineelement = cut.Find("#container_stripline_Behind_path_PrimaryXAxis_1");
+        // Note: Values may vary slightly depending on screen resolution.
+        Assert.True(striplineelement.GetAttribute("d") == "M218.24851665905982 10 L218.24851665905982 390.45");
+        cut.SetParametersAndRender();
+    }
+    public class ChartData10
+    {
+        public DateTime X { get; set; }
+        public double Y { get; set; }
+    }
+    public List<ChartData10> chartsvalue10 = new List<ChartData10>
+{
+    new ChartData10 { X = new DateTime(2005, 12, 01), Y = 21 },
+    new ChartData10 { X = new DateTime(2006, 12, 01), Y = 24 },
+    new ChartData10 { X = new DateTime(2007, 12, 01), Y = 36 },
+    new ChartData10 { X = new DateTime(2008, 12, 01), Y = 38 },
+    new ChartData10 { X = new DateTime(2009, 12, 01), Y = 54 },
+    new ChartData10 { X = new DateTime(2010, 12, 01), Y = 57 },
+    new ChartData10 { X = new DateTime(2011, 12, 01), Y = 70 }
+};
+}
+
+
+@{
+    var InitialGroup11 = (new string[] { "CustomerID", "OrderID" });
+}
+<SfFixture @ref="fixture11" TestAsync="CheckingYearsType" Description="CheckingYearsType">
+    <ComponentUnderTest>
+        <SfChart ID="container">
+            <ChartPrimaryXAxis Title="Sales Across Years" ValueType="Syncfusion.Blazor.Toolkit.ValueType.DateTime" IntervalType="IntervalType.Years" IsInversed="false">
+                <ChartStriplines>
+                    <ChartStripline Start="new DateTime(2005, 12, 01)" Size="1" SizeType="SizeType.Years"></ChartStripline>
+                    <ChartStripline Start="new DateTime(2005, 12, 01)" End="new DateTime(2005, 12, 01)" SizeType="SizeType.Years"></ChartStripline>
+                </ChartStriplines>
+            </ChartPrimaryXAxis>
+            <ChartPrimaryYAxis IsInversed="true">
+                <ChartStriplines>
+                    <ChartStripline StartFromAxis="true" Size="1" SizeType="SizeType.Pixel"></ChartStripline>
+                    <ChartStripline Start="100" Size="1" SizeType="SizeType.Pixel" Text="test"></ChartStripline>
+                    <ChartStripline Start="-100" Size="1" SizeType="SizeType.Pixel"></ChartStripline>
+                </ChartStriplines>
+            </ChartPrimaryYAxis>
+            <ChartArea>
+                <ChartAreaBorder Width="1" Color="Blue"></ChartAreaBorder>
+            </ChartArea>
+            <ChartSeriesCollection>
+                <ChartSeries DataSource="@chartsvalue11" XName="X" YName="Y" Type="ChartSeriesType.Line">
+                    <ChartMarker Visible="true" Width="5" Height="5"></ChartMarker>
+                </ChartSeries>
+            </ChartSeriesCollection>
+            <ChartLegendSettings Visible="true">
+                <ChartLegendBorder Width="1" Color="Red"></ChartLegendBorder>
+            </ChartLegendSettings>
+        </SfChart>
+    </ComponentUnderTest>
+</SfFixture>
+
+@code {
+
+    SfFixture fixture11 { get; set; }
+    async Task CheckingYearsType(Fixture fixture11)
+    {
+        var cut = fixture11.GetComponentUnderTest<SfChart>();
+        await Task.Delay(200);
+        var striplineelement = cut.Find("#container_stripline_Behind_rect_PrimaryXAxis_0");
+        // Note: Values may vary slightly depending on screen resolution.
+        Assert.True(Convert.ToDouble(striplineelement.GetAttribute("height")) == 380.45);
+        Assert.True(Convert.ToDouble(striplineelement.GetAttribute("width")) == 92.8742583295299);
+        Assert.True(Convert.ToDouble(striplineelement.GetAttribute("x")) == 32.5);
+        Assert.True(Convert.ToDouble(striplineelement.GetAttribute("y")) == 10);
+        cut.SetParametersAndRender();
+    }
+    public class ChartData11
+    {
+        public DateTime X { get; set; }
+        public double Y { get; set; }
+    }
+    public List<ChartData11> chartsvalue11 = new List<ChartData11>
+{
+    new ChartData11 { X = new DateTime(2005, 12, 01), Y = 21 },
+    new ChartData11 { X = new DateTime(2006, 12, 01), Y = 24 },
+    new ChartData11 { X = new DateTime(2007, 12, 01), Y = 36 },
+    new ChartData11 { X = new DateTime(2008, 12, 01), Y = 38 },
+    new ChartData11 { X = new DateTime(2009, 12, 01), Y = 54 },
+    new ChartData11 { X = new DateTime(2010, 12, 01), Y = 57 },
+    new ChartData11 { X = new DateTime(2011, 12, 01), Y = 70 }
+};
+}
+
+
+@{
+    var InitialGroup12 = (new string[] { "CustomerID", "OrderID" });
+}
+<SfFixture @ref="fixture12" TestAsync="CheckingMonthsType" Description="CheckingMonthsType">
+    <ComponentUnderTest>
+        <SfChart ID="container">
+            <ChartPrimaryXAxis Title="Sales Across Years" ValueType="Syncfusion.Blazor.Toolkit.ValueType.DateTime" IntervalType="IntervalType.Months" IsInversed="false">
+                <ChartStriplines>
+                    <ChartStripline Start="new DateTime(2005, 12, 01)" Size="1" SizeType="SizeType.Months"></ChartStripline>
+                    <ChartStripline Start="new DateTime(2005, 12, 01)" End="new DateTime(2005, 01, 01)" SizeType="SizeType.Months"></ChartStripline>
+                </ChartStriplines>
+            </ChartPrimaryXAxis>
+            <ChartPrimaryYAxis IsInversed="true">
+                <ChartStriplines>
+                    <ChartStripline StartFromAxis="true" Size="1" SizeType="SizeType.Pixel"></ChartStripline>
+                    <ChartStripline Start="100" Size="1" SizeType="SizeType.Pixel" Text="test"></ChartStripline>
+                    <ChartStripline Start="-100" Size="1" SizeType="SizeType.Pixel"></ChartStripline>
+                </ChartStriplines>
+            </ChartPrimaryYAxis>
+            <ChartArea>
+                <ChartAreaBorder Width="1" Color="Blue"></ChartAreaBorder>
+            </ChartArea>
+            <ChartSeriesCollection>
+                <ChartSeries DataSource="@chartsvalue12" XName="X" YName="Y" Type="ChartSeriesType.Line">
+                    <ChartMarker Visible="true" Width="5" Height="5"></ChartMarker>
+                </ChartSeries>
+            </ChartSeriesCollection>
+            <ChartLegendSettings Visible="true">
+                <ChartLegendBorder Width="1" Color="Red"></ChartLegendBorder>
+            </ChartLegendSettings>
+        </SfChart>
+    </ComponentUnderTest>
+</SfFixture>
+
+@code {
+
+    SfFixture fixture12 { get; set; }
+    async Task CheckingMonthsType(Fixture fixture12)
+    {
+        var cut = fixture12.GetComponentUnderTest<SfChart>();
+        await Task.Delay(200);
+        var striplineelement = cut.Find("#container_stripline_Behind_rect_PrimaryXAxis_0");
+        // Note: Values may vary slightly depending on screen resolution.
+        Assert.True(Convert.ToDouble(striplineelement.GetAttribute("height")) == 380.45);
+        Assert.True(Convert.ToDouble(striplineelement.GetAttribute("width")) == 7.8879507074395256);
+        Assert.True(Convert.ToDouble(striplineelement.GetAttribute("x")) == 32.5);
+        Assert.True(Convert.ToDouble(striplineelement.GetAttribute("y")) == 10);
+        cut.SetParametersAndRender();
+    }
+    public class ChartData12
+    {
+        public DateTime X { get; set; }
+        public double Y { get; set; }
+    }
+    public List<ChartData12> chartsvalue12 = new List<ChartData12>
+{
+    new ChartData12 { X = new DateTime(2005, 12, 01), Y = 21 },
+    new ChartData12 { X = new DateTime(2006, 12, 01), Y = 24 },
+    new ChartData12 { X = new DateTime(2007, 12, 01), Y = 36 },
+    new ChartData12 { X = new DateTime(2008, 12, 01), Y = 38 },
+    new ChartData12 { X = new DateTime(2009, 12, 01), Y = 54 },
+    new ChartData12 { X = new DateTime(2010, 12, 01), Y = 57 },
+    new ChartData12 { X = new DateTime(2011, 12, 01), Y = 70 }
+};
+}
+
+
+@{
+    var InitialGroup13 = (new string[] { "CustomerID", "OrderID" });
+}
+<SfFixture @ref="fixture13" TestAsync="CheckingDaysType" Description="CheckingDaysType">
+    <ComponentUnderTest>
+        <SfChart ID="container">
+            <ChartPrimaryXAxis Title="Sales Across Years" ValueType="Syncfusion.Blazor.Toolkit.ValueType.DateTime" IntervalType="IntervalType.Days" IsInversed="false">
+                <ChartStriplines>
+                    <ChartStripline Start="new DateTime(2009, 12, 01)" Size="30" SizeType="SizeType.Days"></ChartStripline>
+                    <ChartStripline StartFromAxis="true" End="new DateTime(2006, 12, 30)" SizeType="SizeType.Days"></ChartStripline>
+                </ChartStriplines>
+            </ChartPrimaryXAxis>
+            <ChartPrimaryYAxis IsInversed="false">
+                <ChartStriplines>
+                    <ChartStripline StartFromAxis="true" Size="1" SizeType="SizeType.Pixel"></ChartStripline>
+                    <ChartStripline Start="100" Size="1" SizeType="SizeType.Pixel" Text="test"></ChartStripline>
+                    <ChartStripline Start="-100" Size="1" SizeType="SizeType.Pixel"></ChartStripline>
+                </ChartStriplines>
+            </ChartPrimaryYAxis>
+            <ChartArea>
+                <ChartAreaBorder Width="1" Color="Blue"></ChartAreaBorder>
+            </ChartArea>
+            <ChartSeriesCollection>
+                <ChartSeries DataSource="@chartsvalue13" XName="X" YName="Y" Type="ChartSeriesType.Line">
+                    <ChartMarker Visible="true" Width="5" Height="5"></ChartMarker>
+                </ChartSeries>
+            </ChartSeriesCollection>
+            <ChartLegendSettings Visible="true">
+                <ChartLegendBorder Width="1" Color="Red"></ChartLegendBorder>
+            </ChartLegendSettings>
+        </SfChart>
+    </ComponentUnderTest>
+</SfFixture>
+
+@code {
+
+    SfFixture fixture13 { get; set; }
+    async Task CheckingDaysType(Fixture fixture13)
+    {
+        var cut = fixture13.GetComponentUnderTest<SfChart>();
+        await Task.Delay(200);
+        var striplineelement = cut.Find("#container_stripline_Behind_rect_PrimaryXAxis_0");
+        // Note: Values may vary slightly depending on screen resolution.
+        Assert.True(Convert.ToDouble(striplineelement.GetAttribute("height")) == 380.45);
+        Assert.True(Convert.ToDouble(striplineelement.GetAttribute("width")) == 7.6335006846188884);
+        Assert.True(Convert.ToDouble(striplineelement.GetAttribute("x")) == 404.25148334094018);
+        Assert.True(Convert.ToDouble(striplineelement.GetAttribute("y")) == 10);
+        var striplineelement1 = cut.Find("#container_stripline_Behind_rect_PrimaryXAxis_1");
+        Assert.True(Convert.ToDouble(striplineelement1.GetAttribute("height")) == 380.45);
+        Assert.True(Convert.ToDouble(striplineelement1.GetAttribute("width")) == 100.25330899132817);
+        Assert.True(Convert.ToDouble(striplineelement1.GetAttribute("x")) == 32.5);
+        Assert.True(Convert.ToDouble(striplineelement1.GetAttribute("y")) == 10);
+        cut.SetParametersAndRender();
+    }
+    public class ChartData13
+    {
+        public DateTime X { get; set; }
+        public double Y { get; set; }
+    }
+    public List<ChartData13> chartsvalue13 = new List<ChartData13>
+{
+    new ChartData13 { X = new DateTime(2005, 12, 01), Y = 21 },
+    new ChartData13 { X = new DateTime(2006, 12, 01), Y = 24 },
+    new ChartData13 { X = new DateTime(2007, 12, 01), Y = 36 },
+    new ChartData13 { X = new DateTime(2008, 12, 01), Y = 38 },
+    new ChartData13 { X = new DateTime(2009, 12, 01), Y = 54 },
+    new ChartData13 { X = new DateTime(2010, 12, 01), Y = 57 },
+    new ChartData13 { X = new DateTime(2011, 12, 01), Y = 70 }
+};
+}
+
+
+@{
+    var InitialGroup14 = (new string[] { "CustomerID", "OrderID" });
+}
+<SfFixture @ref="fixture14" TestAsync="CheckingHoursType" Description="CheckingHoursType">
+    <ComponentUnderTest>
+        <SfChart ID="container">
+            <ChartPrimaryXAxis Title="Sales Across Years" ValueType="Syncfusion.Blazor.Toolkit.ValueType.DateTime" IntervalType="IntervalType.Hours" IsInversed="false">
+                <ChartStriplines>
+                    <ChartStripline Start="new DateTime(2005, 12, 01, 00, 00, 00)" Size="720" SizeType="SizeType.Hours"></ChartStripline>
+                   
+                </ChartStriplines>
+            </ChartPrimaryXAxis>
+            <ChartPrimaryYAxis IsInversed="true">
+                <ChartStriplines>
+                    <ChartStripline StartFromAxis="true" Size="1" SizeType="SizeType.Pixel"></ChartStripline>
+                    
+                </ChartStriplines>
+            </ChartPrimaryYAxis>
+            <ChartArea>
+                <ChartAreaBorder Width="1" Color="Blue"></ChartAreaBorder>
+            </ChartArea>
+            <ChartSeriesCollection>
+                <ChartSeries DataSource="@chartsvalue14" XName="X" YName="Y" Type="ChartSeriesType.Line">
+                    <ChartMarker Visible="true" Width="5" Height="5"></ChartMarker>
+                </ChartSeries>
+            </ChartSeriesCollection>
+            <ChartLegendSettings Visible="true">
+                <ChartLegendBorder Width="1" Color="Red"></ChartLegendBorder>
+            </ChartLegendSettings>
+        </SfChart>
+    </ComponentUnderTest>
+</SfFixture>
+
+@code {
+
+    SfFixture fixture14 { get; set; }
+    async Task CheckingHoursType(Fixture fixture14)
+    {
+        var cut = fixture14.GetComponentUnderTest<SfChart>();
+        await Task.Delay(200);
+        var striplineelement = cut.Find("#container_stripline_Behind_rect_PrimaryXAxis_0");
+        // Note: Values may vary slightly depending on screen resolution.
+        Assert.True(Convert.ToDouble(striplineelement.GetAttribute("height")) == 380.45);
+        Assert.True(Convert.ToDouble(striplineelement.GetAttribute("width")) == 7.6335006846188955);
+        Assert.True(Convert.ToDouble(striplineelement.GetAttribute("x")) == 32.5);
+        Assert.True(Convert.ToDouble(striplineelement.GetAttribute("y")) == 10);
+        cut.SetParametersAndRender();
+    }
+    public class ChartData14
+    {
+        public DateTime X { get; set; }
+        public double Y { get; set; }
+    }
+    public List<ChartData14> chartsvalue14 = new List<ChartData14>
+{
+    new ChartData14 { X = new DateTime(2005, 12, 01, 00, 00, 00), Y = 21 },
+    new ChartData14 { X = new DateTime(2006, 12, 01, 00, 00, 00), Y = 24 },
+    new ChartData14 { X = new DateTime(2007, 12, 01, 00, 00, 00), Y = 36 },
+    new ChartData14 { X = new DateTime(2008, 12, 01, 00, 00, 00), Y = 38 },
+    new ChartData14 { X = new DateTime(2009, 12, 01, 00, 00, 00), Y = 54 },
+    new ChartData14 { X = new DateTime(2010, 12, 01, 00, 00, 00), Y = 57 },
+    new ChartData14 { X = new DateTime(2011, 12, 01, 00, 00, 00), Y = 70 }
+};
+}
+
+
+@{
+    var InitialGroup15 = (new string[] { "CustomerID", "OrderID" });
+}
+<SfFixture @ref="fixture15" TestAsync="CheckingMinutesType" Description="CheckingMinutesType">
+    <ComponentUnderTest>
+        <SfChart ID="container">
+            <ChartPrimaryXAxis Title="Sales Across Years" ValueType="Syncfusion.Blazor.Toolkit.ValueType.DateTime" IntervalType="IntervalType.Minutes" IsInversed="false">
+                <ChartStriplines>
+                    <ChartStripline Start="new DateTime(2005, 12, 01, 00, 00, 00)" Size="43200" SizeType="SizeType.Minutes"></ChartStripline>
+                    
+                </ChartStriplines>
+            </ChartPrimaryXAxis>
+            <ChartPrimaryYAxis IsInversed="true">
+                <ChartStriplines>
+                    <ChartStripline StartFromAxis="true" Size="1" SizeType="SizeType.Pixel"></ChartStripline>
+                                    </ChartStriplines>
+            </ChartPrimaryYAxis>
+            <ChartArea>
+                <ChartAreaBorder Width="1" Color="Blue"></ChartAreaBorder>
+            </ChartArea>
+            <ChartSeriesCollection>
+                <ChartSeries DataSource="@chartsvalue15" XName="X" YName="Y" Type="ChartSeriesType.Line">
+                    <ChartMarker Visible="true" Width="5" Height="5"></ChartMarker>
+                </ChartSeries>
+            </ChartSeriesCollection>
+            <ChartLegendSettings Visible="true">
+                <ChartLegendBorder Width="1" Color="Red"></ChartLegendBorder>
+            </ChartLegendSettings>
+        </SfChart>
+    </ComponentUnderTest>
+</SfFixture>
+
+@code {
+
+    SfFixture fixture15 { get; set; }
+    async Task CheckingMinutesType(Fixture fixture15)
+    {
+        var cut = fixture15.GetComponentUnderTest<SfChart>();
+        await Task.Delay(200);
+        var striplineelement = cut.Find("#container_stripline_Behind_rect_PrimaryXAxis_0");
+        // Note: Values may vary slightly depending on screen resolution.
+        Assert.True(Convert.ToDouble(striplineelement.GetAttribute("height")) == 380.45);
+        Assert.True(Convert.ToDouble(striplineelement.GetAttribute("width")) == 7.6335006846188955);
+        Assert.True(Convert.ToDouble(striplineelement.GetAttribute("x")) == 32.5);
+        Assert.True(Convert.ToDouble(striplineelement.GetAttribute("y")) == 10);
+        cut.SetParametersAndRender();
+    }
+    public class ChartData15
+    {
+        public DateTime X { get; set; }
+        public double Y { get; set; }
+    }
+    public List<ChartData15> chartsvalue15 = new List<ChartData15>
+{
+    new ChartData15 { X = new DateTime(2005, 12, 01, 00, 00, 00), Y = 21 },
+    new ChartData15 { X = new DateTime(2006, 12, 01, 00, 00, 00), Y = 24 },
+    new ChartData15 { X = new DateTime(2007, 12, 01, 00, 00, 00), Y = 36 },
+    new ChartData15 { X = new DateTime(2008, 12, 01, 00, 00, 00), Y = 38 },
+    new ChartData15 { X = new DateTime(2009, 12, 01, 00, 00, 00), Y = 54 },
+    new ChartData15 { X = new DateTime(2010, 12, 01, 00, 00, 00), Y = 57 },
+    new ChartData15 { X = new DateTime(2011, 12, 01, 00, 00, 00), Y = 70 }
+};
+}
+
+
+@{
+    var InitialGroup16 = (new string[] { "CustomerID", "OrderID" });
+}
+<SfFixture @ref="fixture16" TestAsync="CheckingSecondsType" Description="CheckingSecondsType">
+    <ComponentUnderTest>
+        <SfChart ID="container">
+            <ChartPrimaryXAxis Title="Sales Across Years" ValueType="Syncfusion.Blazor.Toolkit.ValueType.DateTime" IntervalType="IntervalType.Seconds" IsInversed="false">
+                <ChartStriplines>
+                    <ChartStripline Start="new DateTime(2005, 12, 01, 00, 00, 00)" Size="2592000" SizeType="SizeType.Seconds"></ChartStripline>
+                    <ChartStripline Start="new DateTime(2005, 12, 01, 00, 00, 00)" End="new DateTime(2005, 12, 01, 05, 59, 44)" SizeType="SizeType.Seconds"></ChartStripline>
+                </ChartStriplines>
+            </ChartPrimaryXAxis>
+            <ChartPrimaryYAxis IsInversed="true">
+                <ChartStriplines>
+                    <ChartStripline StartFromAxis="true" Size="1" SizeType="SizeType.Pixel"></ChartStripline>
+                    <ChartStripline Start="100" Size="1" SizeType="SizeType.Pixel" Text="test"></ChartStripline>
+                    <ChartStripline Start="-100" Size="1" SizeType="SizeType.Pixel"></ChartStripline>
+                </ChartStriplines>
+            </ChartPrimaryYAxis>
+            <ChartArea>
+                <ChartAreaBorder Width="1" Color="Blue"></ChartAreaBorder>
+            </ChartArea>
+            <ChartSeriesCollection>
+                <ChartSeries DataSource="@chartsvalue16" XName="X" YName="Y" Type="ChartSeriesType.Line">
+                    <ChartMarker Visible="true" Width="5" Height="5"></ChartMarker>
+                </ChartSeries>
+            </ChartSeriesCollection>
+            <ChartLegendSettings Visible="true">
+                <ChartLegendBorder Width="1" Color="Red"></ChartLegendBorder>
+            </ChartLegendSettings>
+        </SfChart>
+    </ComponentUnderTest>
+</SfFixture>
+
+@code {
+
+    SfFixture fixture16 { get; set; }
+    async Task CheckingSecondsType(Fixture fixture16)
+    {
+        var cut = fixture16.GetComponentUnderTest<SfChart>();
+        await Task.Delay(200);
+        var striplineelement = cut.Find("#container_stripline_Behind_rect_PrimaryXAxis_0");
+        // Note: Values may vary slightly depending on screen resolution.
+        Assert.True(Convert.ToDouble(striplineelement.GetAttribute("height")) == 380.45);
+        Assert.True(Convert.ToDouble(striplineelement.GetAttribute("width")) == 7.6335006846188955);
+        Assert.True(Convert.ToDouble(striplineelement.GetAttribute("x")) == 32.5);
+        Assert.True(Convert.ToDouble(striplineelement.GetAttribute("y")) == 10);  
+        cut.SetParametersAndRender();
+    }
+    public class ChartData16
+    {
+        public DateTime X { get; set; }
+        public double Y { get; set; }
+    }
+    public List<ChartData16> chartsvalue16 = new List<ChartData16>
+{
+    new ChartData16 { X = new DateTime(2005, 12, 01, 00, 00, 00), Y = 21 },
+    new ChartData16 { X = new DateTime(2006, 12, 01, 00, 00, 00), Y = 24 },
+    new ChartData16 { X = new DateTime(2007, 12, 01, 00, 00, 00), Y = 36 },
+    new ChartData16 { X = new DateTime(2008, 12, 01, 00, 00, 00), Y = 38 },
+    new ChartData16 { X = new DateTime(2009, 12, 01, 00, 00, 00), Y = 54 },
+    new ChartData16 { X = new DateTime(2010, 12, 01, 00, 00, 00), Y = 57 },
+    new ChartData16 { X = new DateTime(2011, 12, 01, 00, 00, 00), Y = 70 }
+};
+}
+
+
+@{
+    var InitialGroup17 = (new string[] { "CustomerID", "OrderID" });
+}
+<SfFixture @ref="fixture17" TestAsync="CheckingSizeTypeAuto" Description="CheckingSizeTypeAuto">
+    <ComponentUnderTest>
+        <SfChart ID="container">
+            <ChartPrimaryXAxis Title="Sales Across Years" ValueType="Syncfusion.Blazor.Toolkit.ValueType.DateTime" IntervalType="IntervalType.Months" IsInversed="false">
+                <ChartStriplines>
+                    <ChartStripline StartFromAxis="true" Size="2" SizeType="SizeType.Auto"></ChartStripline>
+                </ChartStriplines>
+            </ChartPrimaryXAxis>
+            <ChartPrimaryYAxis IsInversed="true">
+                <ChartStriplines>
+                    <ChartStripline StartFromAxis="true" Size="1" SizeType="SizeType.Pixel"></ChartStripline>
+                    <ChartStripline Start="100" Size="1" SizeType="SizeType.Pixel" Text="test"></ChartStripline>
+                    <ChartStripline Start="-100" Size="1" SizeType="SizeType.Pixel"></ChartStripline>
+                </ChartStriplines>
+            </ChartPrimaryYAxis>
+            <ChartArea>
+                <ChartAreaBorder Width="1" Color="Blue"></ChartAreaBorder>
+            </ChartArea>
+            <ChartSeriesCollection>
+                <ChartSeries DataSource="@chartsvalue17" XName="X" YName="Y" Type="ChartSeriesType.Line">
+                    <ChartMarker Visible="true" Width="5" Height="5"></ChartMarker>
+                </ChartSeries>
+            </ChartSeriesCollection>
+            <ChartLegendSettings Visible="true">
+                <ChartLegendBorder Width="1" Color="Red"></ChartLegendBorder>
+            </ChartLegendSettings>
+        </SfChart>
+    </ComponentUnderTest>
+</SfFixture>
+
+@code {
+
+    SfFixture fixture17 { get; set; }
+    async Task CheckingSizeTypeAuto(Fixture fixture17)
+    {
+        var cut = fixture17.GetComponentUnderTest<SfChart>();
+        await Task.Delay(200);
+        var striplineelement = cut.Find("#container_stripline_Behind_rect_PrimaryXAxis_0");
+        // Note: Values may vary slightly depending on screen resolution.
+        Assert.True(Convert.ToDouble(striplineelement.GetAttribute("height")) == 380.45);
+        Assert.True(Convert.ToDouble(striplineelement.GetAttribute("width")) == 154.70561387494294);
+        Assert.True(Convert.ToDouble(striplineelement.GetAttribute("x")) == 32.5);
+        Assert.True(Convert.ToDouble(striplineelement.GetAttribute("y")) == 10);
+        cut.SetParametersAndRender();
+    }
+    public class ChartData17
+    {
+        public DateTime X { get; set; }
+        public double Y { get; set; }
+    }
+    public List<ChartData17> chartsvalue17 = new List<ChartData17>
+{
+    new ChartData17 { X = new DateTime(2005, 12, 01, 00, 00, 00), Y = 21 },
+    new ChartData17 { X = new DateTime(2006, 12, 01, 00, 00, 00), Y = 24 },
+    new ChartData17 { X = new DateTime(2007, 12, 01, 00, 00, 00), Y = 36 },
+    new ChartData17 { X = new DateTime(2008, 12, 01, 00, 00, 00), Y = 38 },
+    new ChartData17 { X = new DateTime(2009, 12, 01, 00, 00, 00), Y = 54 },
+    new ChartData17 { X = new DateTime(2010, 12, 01, 00, 00, 00), Y = 57 },
+    new ChartData17 { X = new DateTime(2011, 12, 01, 00, 00, 00), Y = 70 }
+};
+}
+
+
+
+
+
+
+
+
+@{
+    var InitialGroup27 = (new string[] { "CustomerID", "OrderID" });
+}
+<SfFixture @ref="fixture27" TestAsync="VerticalSegmentedStriplineOnNumericAxis" Description="VerticalSegmentedStriplineOnNumericAxis">
+    <ComponentUnderTest>
+       <SfChart ID="container" Title="Mobile Browser Statistics">
+            <ChartPrimaryXAxis>
+            </ChartPrimaryXAxis>
+            <ChartPrimaryYAxis>
+                <ChartStriplines>
+                    <ChartStripline Start="4" End="8" IsSegmented="true" SegmentStart="3" SegmentEnd="6" Color="Green"></ChartStripline>
+                </ChartStriplines>
+            </ChartPrimaryYAxis>
+            <ChartSeriesCollection>
+                <ChartSeries DataSource="@chartsvalue27" XName="X" YName="Y" Type="ChartSeriesType.Line">
+                    <ChartMarker Visible="true" Width="5" Height="5"></ChartMarker>
+                </ChartSeries>
+            </ChartSeriesCollection>
+        </SfChart>
+    </ComponentUnderTest>
+</SfFixture>
+
+@code {
+
+    SfFixture fixture27 { get; set; }
+    async Task VerticalSegmentedStriplineOnNumericAxis(Fixture fixture27)
+    {
+        var cut = fixture27.GetComponentUnderTest<SfChart>();
+        await Task.Delay(200);
+        var striplineelement = cut.Find("#container_stripline_Behind_rect_PrimaryYAxis_0");
+        // Note: Values may vary slightly depending on screen resolution.
+        Assert.True((striplineelement.GetAttribute("x")) == "91.18421052631578");
+        Assert.True((striplineelement.GetAttribute("y")) == "250.16111111111113");
+        Assert.True((striplineelement.GetAttribute("height")) == "81.74444444444443");
+        Assert.True((striplineelement.GetAttribute("width")) == "88.02631578947368");
+        cut.SetParametersAndRender();
+    }
+    public class ChartData27
+    {
+        public double X { get; set; }
+        public double Y { get; set; }
+    }
+    public List<ChartData27> chartsvalue27 = new List<ChartData27>
+{
+    new ChartData27 { X = 1, Y = 7 },
+    new ChartData27 { X = 2, Y = 1 },
+    new ChartData27 { X = 3, Y = 1 },
+    new ChartData27 { X = 4, Y = 14 },
+    new ChartData27 { X = 5, Y = 1 },
+    new ChartData27 { X = 6, Y = 10 },
+    new ChartData27 { X = 7, Y = 8 },
+    new ChartData27 { X = 8, Y = 6 },
+    new ChartData27 { X = 9, Y = 10 },
+    new ChartData27 { X = 10, Y = 10 },
+    new ChartData27 { X = 11, Y = 16 },
+    new ChartData27 { X = 12, Y = 6 },
+    new ChartData27 { X = 13, Y = 14 },
+    new ChartData27 { X = 14, Y = 7 },
+    new ChartData27 { X = 15, Y = 5 },
+    new ChartData27 { X = 16, Y = 2 },
+    new ChartData27 { X = 17, Y = 14 },
+    new ChartData27 { X = 18, Y = 7 },
+    new ChartData27 { X = 19, Y = 7 },
+    new ChartData27 { X = 20, Y = 10 }
+};
+}
+
+
+@{
+    var InitialGroup28 = (new string[] { "CustomerID", "OrderID" });
+}
+<SfFixture @ref="fixture28" TestAsync="SegmentedStriplineOnCategoryAxis" Description="SegmentedStriplineOnCategoryAxis">
+    <ComponentUnderTest>
+        <SfChart ID="container" Title="Mobile Browser Statistics">
+            <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Toolkit.ValueType.Category">
+            <ChartStriplines>
+                    <ChartStripline Start="4" End="5" IsSegmented="true" SegmentStart="3" SegmentEnd="4" Color="Red"></ChartStripline>
+                    <ChartStripline Start="1" Size="1" IsSegmented="false" SegmentEnd="2" SegmentStart="1" Color="Blue"></ChartStripline>
+                </ChartStriplines>
+            </ChartPrimaryXAxis>
+            <ChartPrimaryYAxis>
+                <ChartStriplines>
+                    <ChartStripline Start="5" End="10" IsSegmented="true" SegmentStart="3" SegmentEnd="4" Color="Green"></ChartStripline>
+                    <ChartStripline Start="1" Size="1" IsSegmented="false" SegmentEnd="2" SegmentStart="1"></ChartStripline>
+                </ChartStriplines>
+            </ChartPrimaryYAxis>
+            <ChartSeriesCollection>
+                <ChartSeries DataSource="@chartsvalue28" XName="X" YName="Y" Type="ChartSeriesType.Line">
+                    <ChartMarker Visible="true" Width="5" Height="5"></ChartMarker>
+                </ChartSeries>
+            </ChartSeriesCollection>
+        </SfChart>
+    </ComponentUnderTest>
+</SfFixture>
+
+@code {
+
+    SfFixture fixture28 { get; set; }
+    async Task SegmentedStriplineOnCategoryAxis(Fixture fixture28)
+    {
+        var cut = fixture28.GetComponentUnderTest<SfChart>();
+        await Task.Delay(200);
+        var striplineelement = cut.Find("#container_stripline_Behind_rect_PrimaryXAxis_1");
+        // Note: Values may vary slightly depending on screen resolution.
+        Assert.True(Convert.ToDouble(striplineelement.GetAttribute("x")) == 171.875);
+        Assert.True(Convert.ToDouble(striplineelement.GetAttribute("y")) == 45.8);
+        Assert.True(Convert.ToDouble(striplineelement.GetAttribute("height")) == 367.84999999999997);
+        Assert.True(Convert.ToDouble(striplineelement.GetAttribute("width")) == 92.91666666666667);
+        Assert.True(striplineelement.GetAttribute("fill") == "Blue");
+        Assert.True(striplineelement.GetAttribute("stroke-width") == "1");
+        var striplineelement1 = cut.Find("#container_stripline_Behind_rect_PrimaryXAxis_0");
+        Assert.True(Convert.ToDouble(striplineelement1.GetAttribute("x")) == 450.625);
+        Assert.True(Convert.ToDouble(striplineelement1.GetAttribute("y")) == 364.6033333333333);
+        Assert.True(Convert.ToDouble(striplineelement1.GetAttribute("height")) == 12.261666666666663);
+        Assert.True(Convert.ToDouble(striplineelement1.GetAttribute("width")) == 92.91666666666664);
+        Assert.True(striplineelement1.GetAttribute("fill") == "Red");
+        Assert.True(striplineelement1.GetAttribute("stroke-width") == "1");
+
+        var striplineelementY = cut.Find("#container_stripline_Behind_rect_PrimaryYAxis_2");
+        Assert.True(Convert.ToDouble(striplineelementY.GetAttribute("x")) == 357.70833333333337);
+        Assert.True(Convert.ToDouble(striplineelementY.GetAttribute("y")) == 291.0333333333333);
+        Assert.True(Convert.ToDouble(striplineelementY.GetAttribute("height")) ==61.30833333333332);
+        Assert.True(Convert.ToDouble(striplineelementY.GetAttribute("width")) == 92.91666666666664);
+        Assert.True(striplineelementY.GetAttribute("fill") == "Green");
+        Assert.True(striplineelementY.GetAttribute("stroke-width") == "1");
+        var striplineelementY1 = cut.Find("#container_stripline_Behind_rect_PrimaryYAxis_3");
+        Assert.True(Convert.ToDouble(striplineelementY1.GetAttribute("x")) == 32.5);
+        Assert.True(Convert.ToDouble(striplineelementY1.GetAttribute("y")) == 389.12666666666667);
+        Assert.True(Convert.ToDouble(striplineelementY1.GetAttribute("height")) == 12.261666666666665);
+        Assert.True(Convert.ToDouble(striplineelementY1.GetAttribute("width")) == 557.5);
+        Assert.True(striplineelementY1.GetAttribute("fill") == "#808080");
+        Assert.True(striplineelementY1.GetAttribute("stroke-width") == "1");
+        cut.SetParametersAndRender();
+    }
+    public class ChartData28
+    {
+        public string X { get; set; }
+        public double Y { get; set; }
+    }
+    public List<ChartData28> chartsvalue28 = new List<ChartData28>
+{
+    new ChartData28 { X = "Chrome", Y = 27 },
+    new ChartData28 { X = "UC Browser", Y = 17 },
+    new ChartData28 { X = "iPhone", Y = 19 },
+    new ChartData28 { X = "Others", Y = 4 },
+    new ChartData28 { X = "Opera", Y = 11 },
+    new ChartData28 { X = "Android", Y = 12 }
+};
+}
+
+
+@{
+    var InitialGroup29 = (new string[] { "CustomerID", "OrderID" });
+}
+<SfFixture @ref="fixture29" TestAsync="SegementCheckWithoutSegementStartandEnd" Description="SegementCheckWithoutSegementStartandEnd">
+    <ComponentUnderTest>
+        <SfChart ID="container" Title="Mobile Browser Statistics">
+            <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Toolkit.ValueType.Category">
+                <ChartStriplines>
+                    <ChartStripline Start="1" End="2" Color="Black" Opacity="0.2" IsSegmented="true"></ChartStripline>
+                </ChartStriplines>
+            </ChartPrimaryXAxis>
+            <ChartPrimaryYAxis>
+            </ChartPrimaryYAxis>
+            <ChartSeriesCollection>
+                <ChartSeries DataSource="@chartsvalue29" XName="X" YName="Y" Type="ChartSeriesType.Line">
+                    <ChartMarker Visible="true" Width="5" Height="5"></ChartMarker>
+                </ChartSeries>
+            </ChartSeriesCollection>
+        </SfChart>
+    </ComponentUnderTest>
+</SfFixture>
+
+@code {
+
+    SfFixture fixture29 { get; set; }
+    async Task SegementCheckWithoutSegementStartandEnd(Fixture fixture29)
+    {
+        var cut = fixture29.GetComponentUnderTest<SfChart>();
+        await Task.Delay(200);
+        var striplineelement = cut.Find("#container_stripline_Behind_rect_PrimaryXAxis_0");
+        // Note: Values may vary slightly depending on screen resolution.
+        Assert.True((striplineelement.GetAttribute("x")) == "171.875");
+        Assert.True((striplineelement.GetAttribute("y")) == "45.8");
+        Assert.True((striplineelement.GetAttribute("height")) == "367.84999999999997");
+        Assert.True((striplineelement.GetAttribute("width")) == "92.91666666666667");
+        cut.SetParametersAndRender();
+    }
+    public class ChartData29
+    {
+        public string X { get; set; }
+        public double Y { get; set; }
+    }
+    public List<ChartData29> chartsvalue29 = new List<ChartData29>
+{
+    new ChartData29 { X = "Chrome", Y = 27 },
+    new ChartData29 { X = "UC Browser", Y = 17 },
+    new ChartData29 { X = "iPhone", Y = 19 },
+    new ChartData29 { X = "Others", Y = 4 },
+    new ChartData29 { X = "Opera", Y = 11 },
+    new ChartData29 { X = "Android", Y = 12 }
+};
+}
+
+
+@{
+    var InitialGroup30 = (new string[] { "CustomerID", "OrderID" });
+}
+<SfFixture @ref="fixture30" TestAsync="VerticalSegmentedStriplineOnDateTimeAxis" Description="VerticalSegmentedStriplineOnDateTimeAxis">
+    <ComponentUnderTest>
+        <SfChart ID="container" Title="Mobile Browser Statistics">
+            <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Toolkit.ValueType.DateTime" IntervalType="IntervalType.Years">
+                <ChartStriplines>
+                    <ChartStripline Start="new DateTime(2005, 12, 01)" End="new DateTime(2006, 12, 01)" Color="Black" Opacity="0.2" IsSegmented="true"></ChartStripline>
+                </ChartStriplines>
+            </ChartPrimaryXAxis>
+            <ChartPrimaryYAxis>
+                <ChartStriplines>
+                    <ChartStripline Start="40" End="60" IsSegmented="true" SegmentStart="new DateTime(2007, 12, 01)" SegmentEnd="new DateTime(2010, 12, 01)" Color="Green"></ChartStripline>
+                </ChartStriplines>
+            </ChartPrimaryYAxis>
+            <ChartSeriesCollection>
+                <ChartSeries DataSource="@chartsvalue30" XName="X" YName="Y" Type="ChartSeriesType.Line">
+                    <ChartMarker Visible="true" Width="5" Height="5"></ChartMarker>
+                </ChartSeries>
+            </ChartSeriesCollection>
+        </SfChart>
+    </ComponentUnderTest>
+</SfFixture>
+
+@code {
+
+    SfFixture fixture30 { get; set; }
+    async Task VerticalSegmentedStriplineOnDateTimeAxis(Fixture fixture30)
+    {
+        var cut = fixture30.GetComponentUnderTest<SfChart>();
+        await Task.Delay(200);
+        var striplineelement = cut.Find("#container_stripline_Behind_rect_PrimaryXAxis_0");
+        // Note: Values may vary slightly depending on screen resolution.
+        Assert.True((striplineelement.GetAttribute("x")) == "32.5");
+        Assert.True((striplineelement.GetAttribute("y")) == "45.8");
+        Assert.True((striplineelement.GetAttribute("height")) == "367.84999999999997");
+        Assert.True((striplineelement.GetAttribute("width")) == "92.8742583295299");
+        cut.SetParametersAndRender();
+    }
+    public class ChartData30
+    {
+        public DateTime X { get; set; }
+        public double Y { get; set; }
+    }
+    public List<ChartData30> chartsvalue30 = new List<ChartData30>
+{
+    new ChartData30 { X = new DateTime(2005, 12, 01), Y = 21 },
+    new ChartData30 { X = new DateTime(2006, 12, 01), Y = 24 },
+    new ChartData30 { X = new DateTime(2007, 12, 01), Y = 36 },
+    new ChartData30 { X = new DateTime(2008, 12, 01), Y = 38 },
+    new ChartData30 { X = new DateTime(2009, 12, 01), Y = 54 },
+    new ChartData30 { X = new DateTime(2010, 12, 01), Y = 57 },
+    new ChartData30 { X = new DateTime(2011, 12, 01), Y = 70 }
+};
+}
+
+
+@{
+    var InitialGroup31 = (new string[] { "CustomerID", "OrderID" });
+}
+<SfFixture @ref="fixture31" TestAsync="HorizontalSegmentedStriplineOnNumericAxis" Description="HorizontalSegmentedStriplineOnNumericAxis">
+    <ComponentUnderTest>
+        <SfChart ID="container" Title="Mobile Browser Statistics">
+            <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Toolkit.ValueType.Double">
+                <ChartStriplines>
+                    <ChartStripline Start="10" End="14" Color="Blue" IsSegmented="true" SegmentStart="10" SegmentEnd="14"></ChartStripline>
+                </ChartStriplines>
+            </ChartPrimaryXAxis>
+            <ChartPrimaryYAxis>
+            </ChartPrimaryYAxis>
+            <ChartSeriesCollection>
+                <ChartSeries DataSource="@chartsvalue31" XName="X" YName="Y" Type="ChartSeriesType.Line">
+                    <ChartMarker Visible="true" Width="5" Height="5"></ChartMarker>
+                </ChartSeries>
+            </ChartSeriesCollection>
+        </SfChart>
+    </ComponentUnderTest>
+</SfFixture>
+
+@code {
+
+    SfFixture fixture31 { get; set; }
+    async Task HorizontalSegmentedStriplineOnNumericAxis(Fixture fixture31)
+    {
+        var cut = fixture31.GetComponentUnderTest<SfChart>();
+        await Task.Delay(200);
+        var striplineelement = cut.Find("#container_stripline_Behind_rect_PrimaryXAxis_0");
+        // Note: Values may vary slightly depending on screen resolution.
+        Assert.True((striplineelement.GetAttribute("x")) == "296.57894736842104");
+        Assert.True((striplineelement.GetAttribute("y")) == "127.54444444444442");
+        Assert.True((striplineelement.GetAttribute("height")) == "81.74444444444443");
+        Assert.True((striplineelement.GetAttribute("width")) == "117.3684210526316");
+        cut.SetParametersAndRender();
+    }
+    public class ChartData31
+    {
+        public double X { get; set; }
+        public double Y { get; set; }
+    }
+    public List<ChartData31> chartsvalue31 = new List<ChartData31>
+{
+    new ChartData31 { X = 1, Y = 7 },
+    new ChartData31 { X = 2, Y = 1 },
+    new ChartData31 { X = 3, Y = 1 },
+    new ChartData31 { X = 4, Y = 14 },
+    new ChartData31 { X = 5, Y = 1 },
+    new ChartData31 { X = 6, Y = 10 },
+    new ChartData31 { X = 7, Y = 8 },
+    new ChartData31 { X = 8, Y = 6 },
+    new ChartData31 { X = 9, Y = 10 },
+    new ChartData31 { X = 10, Y = 10 },
+    new ChartData31 { X = 11, Y = 16 },
+    new ChartData31 { X = 12, Y = 6 },
+    new ChartData31 { X = 13, Y = 14 },
+    new ChartData31 { X = 14, Y = 7 },
+    new ChartData31 { X = 15, Y = 5 },
+    new ChartData31 { X = 16, Y = 2 },
+    new ChartData31 { X = 17, Y = 14 },
+    new ChartData31 { X = 18, Y = 7 },
+    new ChartData31 { X = 19, Y = 7 },
+    new ChartData31 { X = 20, Y = 10 }
+ };
+}
+
+
+@{
+    var InitialGroup32 = (new string[] { "CustomerID", "OrderID" });
+}
+<SfFixture @ref="fixture32" TestAsync="HorizontalSegmentedStriplineOnLogarithmicAxis" Description="HorizontalSegmentedStriplineOnLogarithmicAxis">
+    <ComponentUnderTest>
+        <SfChart ID="container" Title="Mobile Browser Statistics">
+            <ChartPrimaryXAxis>
+                <ChartStriplines>
+                    <ChartStripline Start="2.5" End="3.5" Color="Red" IsSegmented="true" SegmentStart="3" SegmentEnd="5"></ChartStripline>
+                </ChartStriplines>
+            </ChartPrimaryXAxis>
+            <ChartPrimaryYAxis ValueType="Syncfusion.Blazor.Toolkit.ValueType.Logarithmic">
+            </ChartPrimaryYAxis>
+            <ChartSeriesCollection>
+                <ChartSeries DataSource="@chartsvalue32" XName="X" YName="Y" Type="ChartSeriesType.Line">
+                    <ChartMarker Visible="true" Width="5" Height="5"></ChartMarker>
+                </ChartSeries>
+            </ChartSeriesCollection>
+        </SfChart>
+    </ComponentUnderTest>
+</SfFixture>
+
+@code {
+
+    SfFixture fixture32 { get; set; }
+    async Task HorizontalSegmentedStriplineOnLogarithmicAxis(Fixture fixture32)
+    {
+        var cut = fixture32.GetComponentUnderTest<SfChart>();
+        await Task.Delay(200);
+        var striplineelement = cut.Find("#container_stripline_Behind_rect_PrimaryXAxis_0");
+        // Note: Values may vary slightly depending on screen resolution.
+        Assert.True((striplineelement.GetAttribute("x")) == "220.75");
+        Assert.True((striplineelement.GetAttribute("y")) == "119.37");
+        Assert.True((striplineelement.GetAttribute("height")) == "147.14");
+        Assert.True((striplineelement.GetAttribute("width")) == "105.5");
+        cut.SetParametersAndRender();
+    }
+    public class ChartData32
+    {
+        public double X { get; set; }
+        public double Y { get; set; }
+    }
+    public List<ChartData32> chartsvalue32 = new List<ChartData32>
+{
+    new ChartData32 { X = 1, Y = 10 },
+    new ChartData32 { X = 2, Y = 100 },
+    new ChartData32 { X = 3, Y = 1000 },
+    new ChartData32 { X = 4, Y = 10000 },
+    new ChartData32 { X = 5, Y = 100000},
+    new ChartData32 { X = 6, Y = 1000000 }
+ };
+}
+
+
+@{
+    var InitialGroup33 = (new string[] { "CustomerID", "OrderID" });
+}
+<SfFixture @ref="fixture33" TestAsync="SegmentedStriplineinMultipleAxis" Description="SegmentedStriplineinMultipleAxis">
+    <ComponentUnderTest>
+        <SfChart ID="container" Title="Mobile Browser Statistics">
+            <ChartAxes>
+                <ChartAxis Name="yAxis1" OpposedPosition="true"></ChartAxis>
+            </ChartAxes>
+            <ChartPrimaryXAxis>
+                <ChartStriplines>
+                    <ChartStripline Start="5" End="10" Color="Red" IsSegmented="true" SegmentStart="5" SegmentEnd="10" SegmentAxisName="yAxis1"></ChartStripline>
+                </ChartStriplines>
+            </ChartPrimaryXAxis>
+            <ChartPrimaryYAxis>
+            </ChartPrimaryYAxis>
+            <ChartSeriesCollection>
+                <ChartSeries DataSource="@chartsvalue33" XName="X" YName="Y" Type="ChartSeriesType.Line">
+                    <ChartMarker Visible="true" Width="5" Height="5"></ChartMarker>
+                </ChartSeries>
+                <ChartSeries DataSource="@chartsvalue33" YAxisName="yAxis1" XName="X" YName="Y" Type="ChartSeriesType.Scatter">
+                    <ChartMarker Visible="true" Width="5" Height="5"></ChartMarker>
+                </ChartSeries>
+            </ChartSeriesCollection>
+        </SfChart>
+    </ComponentUnderTest>
+</SfFixture>
+
+@code {
+
+    SfFixture fixture33 { get; set; }
+    async Task SegmentedStriplineinMultipleAxis(Fixture fixture33)
+    {
+        var cut = fixture33.GetComponentUnderTest<SfChart>();
+        await Task.Delay(200);
+        var striplineelement = cut.Find("#container_stripline_Behind_rect_PrimaryXAxis_0");
+        // Note: Values may vary slightly depending on screen resolution.
+        Assert.True((striplineelement.GetAttribute("x")) == "145.1315789473684");
+        Assert.True((striplineelement.GetAttribute("y")) == "209.28888888888886");
+        Assert.True((striplineelement.GetAttribute("height")) == "102.18055555555556");
+        Assert.True((striplineelement.GetAttribute("width")) == "140.78947368421052");
+        cut.SetParametersAndRender();
+    }
+    public class ChartData33
+    {
+        public double X { get; set; }
+        public double Y { get; set; }
+    }
+    public List<ChartData33> chartsvalue33 = new List<ChartData33>
+{
+    new ChartData33 { X = 1, Y = 7 },
+    new ChartData33 { X = 2, Y = 1 },
+    new ChartData33 { X = 3, Y = 1 },
+    new ChartData33 { X = 4, Y = 14 },
+    new ChartData33 { X = 5, Y = 1 },
+    new ChartData33 { X = 6, Y = 10 },
+    new ChartData33 { X = 7, Y = 8 },
+    new ChartData33 { X = 8, Y = 6 },
+    new ChartData33 { X = 9, Y = 10 },
+    new ChartData33 { X = 10, Y = 10 },
+    new ChartData33 { X = 11, Y = 16 },
+    new ChartData33 { X = 12, Y = 6 },
+    new ChartData33 { X = 13, Y = 14 },
+    new ChartData33 { X = 14, Y = 7 },
+    new ChartData33 { X = 15, Y = 5 },
+    new ChartData33 { X = 16, Y = 2 },
+    new ChartData33 { X = 17, Y = 14 },
+    new ChartData33 { X = 18, Y = 7 },
+    new ChartData33 { X = 19, Y = 7 },
+    new ChartData33 { X = 20, Y = 10 }
+ };
+}
+
+
+@{
+    var InitialGroup34 = (new string[] { "CustomerID", "OrderID" });
+}
+<SfFixture @ref="fixture34" TestAsync="VerticalSegmentedStriplineOnLogarithmicAxis" Description="VerticalSegmentedStriplineOnLogarithmicAxis">
+    <ComponentUnderTest>
+        <SfChart ID="container" Title="Mobile Browser Statistics">
+            <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Toolkit.ValueType.Logarithmic">
+                <ChartStriplines>
+                    <ChartStripline Start="5" End="10" Color="Red" IsSegmented="true" SegmentStart="5" SegmentEnd="10"></ChartStripline>
+                </ChartStriplines>
+            </ChartPrimaryXAxis>
+            <ChartPrimaryYAxis>
+                <ChartStriplines>
+                    <ChartStripline Start="3" End="6" IsSegmented="true" SegmentStart="4" SegmentEnd="5" Color="Red"></ChartStripline>
+                </ChartStriplines>
+            </ChartPrimaryYAxis>
+            <ChartSeriesCollection>
+                <ChartSeries DataSource="@chartsvalue34" XName="X" YName="Y" Type="ChartSeriesType.Line">
+                    <ChartMarker Visible="true" Width="5" Height="5"></ChartMarker>
+                </ChartSeries>
+            </ChartSeriesCollection>
+        </SfChart>
+    </ComponentUnderTest>
+</SfFixture>
+
+@code {
+
+    SfFixture fixture34 { get; set; }
+    async Task VerticalSegmentedStriplineOnLogarithmicAxis(Fixture fixture34)
+    {
+        var cut = fixture34.GetComponentUnderTest<SfChart>();
+        await Task.Delay(200);
+        IElement striplineelement = null;
+        try
+        {
+           striplineelement = cut.Find("#container_stripline_Behind_rect_PrimaryXAxis_0");
+        }
+        catch {}
+        Assert.True(striplineelement != null);
+        cut.SetParametersAndRender();
+    }
+    public class ChartData34
+    {
+        public double X { get; set; }
+        public double Y { get; set; }
+    }
+    public List<ChartData34> chartsvalue34 = new List<ChartData34>
+{
+    new ChartData34 { X = 1, Y = 10 },
+    new ChartData34 { X = 2, Y = 100 },
+    new ChartData34 { X = 3, Y = 1000 },
+    new ChartData34 { X = 4, Y = 10000 },
+    new ChartData34 { X = 5, Y = 100000},
+    new ChartData34 { X = 6, Y = 1000000 }
+ };
+}
+
+
+@{
+    var InitialGroup35 = (new string[] { "CustomerID", "OrderID" });
+}
+<SfFixture @ref="fixture35" TestAsync="VerticalSegmentedStriplineOnDateTimeCategoryAxis" Description="VerticalSegmentedStriplineOnDateTimeCategoryAxis">
+    <ComponentUnderTest>
+       <SfChart ID="container" Title="Mobile Browser Statistics">
+            <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Toolkit.ValueType.DateTimeCategory">
+                <ChartStriplines>
+               
+                    <ChartStripline Start="new DateTime(2017, 12, 20)" End="new DateTime(2017, 12, 21)" IsSegmented="true" SegmentStart="20" SegmentEnd="50"></ChartStripline>
+                    <ChartStripline Start="1" End="2" IsSegmented="true" SegmentStart="20" SegmentEnd="50"></ChartStripline>
+                </ChartStriplines>
+            </ChartPrimaryXAxis>
+            <ChartPrimaryYAxis ValueType="Syncfusion.Blazor.Toolkit.ValueType.Double">
+            </ChartPrimaryYAxis>
+            <ChartSeriesCollection>
+                <ChartSeries DataSource="@chartsvalue35" XName="X" YName="Y" Type="ChartSeriesType.Line">
+                    <ChartMarker Visible="true" Width="5" Height="5"></ChartMarker>
+                </ChartSeries>
+            </ChartSeriesCollection>
+        </SfChart>
+    </ComponentUnderTest>
+</SfFixture>
+
+@code {
+
+    SfFixture fixture35 { get; set; }
+    async Task VerticalSegmentedStriplineOnDateTimeCategoryAxis(Fixture fixture35)
+    {
+        var cut = fixture35.GetComponentUnderTest<SfChart>();
+        await Task.Delay(200);
+        var striplineelement = cut.Find("#container_stripline_Behind_rect_PrimaryXAxis_0");
+        // Note: Values may vary slightly depending on screen resolution.
+        Assert.True(Convert.ToDouble(striplineelement.GetAttribute("x")) == 60.375);
+        Assert.True(Convert.ToDouble(striplineelement.GetAttribute("y")) == 183.74375);
+        Assert.True(Convert.ToDouble(striplineelement.GetAttribute("height")) == 137.94375);
+        Assert.True(Convert.ToDouble(striplineelement.GetAttribute("width")) == 55.74999999999999);
+        var striplineelement1 = cut.Find("#container_stripline_Behind_rect_PrimaryXAxis_1");
+        Assert.True(Convert.ToDouble(striplineelement1.GetAttribute("x")) == 116.125);
+        Assert.True(Convert.ToDouble(striplineelement1.GetAttribute("y")) == 183.74375);
+        Assert.True(Convert.ToDouble(striplineelement1.GetAttribute("height")) == 137.94375);
+        Assert.True(Convert.ToDouble(striplineelement1.GetAttribute("width")) == 55.75);
+        cut.SetParametersAndRender();
+    }
+    public class ChartData35
+    {
+        public DateTime X { get; set; }
+        public double Y { get; set; }
+    }
+    public List<ChartData35> chartsvalue35 = new List<ChartData35>
+{
+    new ChartData35 { X = new DateTime(2017, 12, 20), Y = 21 },
+    new ChartData35 { X = new DateTime(2017, 12, 21), Y = 40 },
+    new ChartData35 { X = new DateTime(2017, 12, 22), Y = 65 },
+    new ChartData35 { X = new DateTime(2017, 12, 26), Y = 70 },
+    new ChartData35 { X = new DateTime(2017, 12, 27), Y = 30 },
+    new ChartData35 { X = new DateTime(2018, 01, 02), Y = 25 },
+    new ChartData35 { X = new DateTime(2018, 01, 03), Y = 53 },
+    new ChartData35 { X = new DateTime(2018, 01, 04), Y = 20 },
+    new ChartData35 { X = new DateTime(2018, 01, 05), Y = 26 },
+    new ChartData35 { X = new DateTime(2018, 01, 08), Y = 21 },
+ };
+}
+
+
+@{
+    var InitialGroup36 = (new string[] { "CustomerID", "OrderID" });
+}
+<SfFixture @ref="fixture36" TestAsync="StriplineTextLocationYAndHeight" Description="StriplineTextLocationYAndHeight">
+    <ComponentUnderTest>
+        <SfChart ID="container" Title="Mobile Browser Statistics" Height="400" Width="600">
+            <ChartPrimaryXAxis Title="Sales Across Years">
+            </ChartPrimaryXAxis>
+            <ChartPrimaryYAxis Title="Sales Amount in millions(USD)" RangePadding="ChartRangePadding.Additional">
+            </ChartPrimaryYAxis>
+            <ChartRows>
+                <ChartRow Height="180"></ChartRow>
+                <ChartRow Height="180"></ChartRow>
+            </ChartRows>
+            <ChartColumns>
+                <ChartColumn Width="250"></ChartColumn>
+                <ChartColumn Width="250"></ChartColumn>
+            </ChartColumns>
+            <ChartAxes>
+                <ChartAxis RowIndex="1" Name="yAxis1">
+                    <ChartStriplines>
+                        <ChartStripline Start="30" Color="#663AB6" Text="Row Definition Stripline" Size="30"></ChartStripline>
+                    </ChartStriplines>
+                </ChartAxis>
+                <ChartAxis ColumnIndex="1" Name="xAxis1">
+                    <ChartStriplines>
+                        <ChartStripline Start="20" Color="#663AB6" Text="Column Definition Stripline" Size="15"></ChartStripline>
+                    </ChartStriplines>
+                </ChartAxis>
+            </ChartAxes>
+            <ChartSeriesCollection>
+                <ChartSeries DataSource="@chartsvalue36" XName="X" YName="Y" Type="ChartSeriesType.Line" Name="series1" Fill="#ACE5FF" Width="2" XAxisName="xAxis1">
+                    <ChartMarker Visible="true" Width="5" Height="5"></ChartMarker>
+                </ChartSeries>
+                <ChartSeries DataSource="@chartsvalue36" XName="X" YName="Y1" Type="ChartSeriesType.Line" Name="series2" Fill="Red" Width="2" YAxisName="yAxis1">
+                    <ChartMarker Visible="true" Width="5" Height="5"></ChartMarker>
+                </ChartSeries>
+            </ChartSeriesCollection>
+        </SfChart>
+    </ComponentUnderTest>
+</SfFixture>
+
+@code {
+
+    SfFixture fixture36 { get; set; }
+    async Task StriplineTextLocationYAndHeight(Fixture fixture36)
+    {
+        var cut = fixture36.GetComponentUnderTest<SfChart>();
+        await Task.Delay(200);
+        var striplineelement = cut.Find("#container_stripline_Behind_text_yAxis1_0");
+        // Note: Values may vary slightly depending on screen resolution.
+        Assert.True(Convert.ToDouble(striplineelement.GetAttribute("x")) == 330.84999999999997);
+        Assert.True(Convert.ToDouble(striplineelement.GetAttribute("y")) == 90.34750000000001);
+        Assert.True((striplineelement.GetAttribute("text-anchor")) == "Middle");
+        Assert.True((striplineelement.GetAttribute("transform")) == "rotate(0,330.84999999999997,90.34750000000001)");
+        var striplineelement1 = cut.Find("#container_stripline_Behind_text_xAxis1_1");
+        Assert.True(Convert.ToDouble(striplineelement1.GetAttribute("x")) == 444.93125);
+        Assert.True(Convert.ToDouble(striplineelement1.GetAttribute("y")) == 175.52499999999998);
+        Assert.True((striplineelement1.GetAttribute("text-anchor")) == "Middle");
+        Assert.True((striplineelement1.GetAttribute("transform")) == "rotate(-90,444.93125,175.52499999999998)");
+        cut.SetParametersAndRender();
+    }
+    public class ChartData36
+    {
+        public double X { get; set; }
+        public double Y { get; set; }
+        public double Y1 { get; set; }
+    }
+    public List<ChartData36> chartsvalue36 = new List<ChartData36>
+{
+    new ChartData36 { X = 10, Y = 124, Y1 = 24 },
+    new ChartData36 { X = 20, Y = 120, Y1 = 20 },
+    new ChartData36 { X = 30, Y = 115, Y1 = 55 },
+    new ChartData36 { X = 40, Y = 147, Y1 = 47 },
+    new ChartData36 { X = 50, Y = 122, Y1 = 72 }
+ };
+}
+
+
+@{
+    var InitialGroup37 = (new string[] { "CustomerID", "OrderID" });
+}
+<SfFixture @ref="fixture37" TestAsync="StriplineTextLocationXAndWidth" Description="StriplineTextLocationXAndWidth">
+    <ComponentUnderTest>
+        <SfChart ID="container" Title="Mobile Browser Statistics" Height="400" Width="600">
+            <ChartPrimaryXAxis Title="Sales Across Years">
+            </ChartPrimaryXAxis>
+            <ChartPrimaryYAxis Title="Sales Amount in millions(USD)" RangePadding="ChartRangePadding.Additional">
+            </ChartPrimaryYAxis>
+            <ChartRows>
+                <ChartRow Height="180"></ChartRow>
+                <ChartRow Height="180"></ChartRow>
+            </ChartRows>
+            <ChartColumns>
+                <ChartColumn Width="250"></ChartColumn>
+                <ChartColumn Width="250"></ChartColumn>
+            </ChartColumns>
+            <ChartAxes>
+                <ChartAxis RowIndex="1" Name="yAxis1">
+                    <ChartStriplines>
+                        <ChartStripline Start="30" Color="#663AB6" Text="Row Definition Stripline" Size="30"></ChartStripline>
+                    </ChartStriplines>
+                </ChartAxis>
+                <ChartAxis ColumnIndex="1" Name="xAxis1">
+                    <ChartStriplines>
+                        <ChartStripline Start="20" Color="#663AB6" Text="Column Definition Stripline" Size="15"></ChartStripline>
+                    </ChartStriplines>
+                </ChartAxis>
+            </ChartAxes>
+            <ChartSeriesCollection>
+                <ChartSeries DataSource="@chartsvalue37" XName="X" YName="Y" Type="ChartSeriesType.Line" Name="series1" Fill="#ACE5FF" Width="2" XAxisName="xAxis1">
+                    <ChartMarker Visible="true" Width="5" Height="5"></ChartMarker>
+                </ChartSeries>
+                <ChartSeries DataSource="@chartsvalue37" XName="X" YName="Y1" Type="ChartSeriesType.Line" Name="series2" Fill="Red" Width="2" YAxisName="yAxis1">
+                    <ChartMarker Visible="true" Width="5" Height="5"></ChartMarker>
+                </ChartSeries>
+            </ChartSeriesCollection>
+        </SfChart>
+    </ComponentUnderTest>
+</SfFixture>
+
+@code {
+
+    SfFixture fixture37 { get; set; }
+    async Task StriplineTextLocationXAndWidth(Fixture fixture37)
+    {
+        var cut = fixture37.GetComponentUnderTest<SfChart>();
+        await Task.Delay(200);
+        var striplineelement = cut.Find("#container_stripline_Behind_rect_yAxis1_0");
+        // Note: Values may vary slightly depending on screen resolution.
+        Assert.True(Convert.ToDouble(striplineelement.GetAttribute("x")) == 71.7);
+        Assert.True(Convert.ToDouble(striplineelement.GetAttribute("y")) == 77.58000000000001);
+        Assert.True(Convert.ToDouble(striplineelement.GetAttribute("height")) == 23.834999999999997);
+        Assert.True(Convert.ToDouble(striplineelement.GetAttribute("width")) == 518.3);
+        var striplineelement1 = cut.Find("#container_stripline_Behind_rect_xAxis1_1");
+        var tickLine = cut.Find("#container_MajorTickLine_3_1");
+        Assert.True(Convert.ToDouble(tickLine.GetAttribute("d").Split(" ")[1]) == Convert.ToDouble(striplineelement1.GetAttribute("x")));
+        Assert.True(Convert.ToDouble(striplineelement1.GetAttribute("x")) == 388.775);
+        Assert.True(Convert.ToDouble(striplineelement1.GetAttribute("y")) == 45.8);
+        Assert.True(Convert.ToDouble(striplineelement1.GetAttribute("height")) == 259.45);
+        Assert.True(Convert.ToDouble(striplineelement1.GetAttribute("width")) == 100.61249999999998);
+        cut.SetParametersAndRender();
+    }
+    public class ChartData37
+    {
+        public double X { get; set; }
+        public double Y { get; set; }
+        public double Y1 { get; set; }
+    }
+    public List<ChartData37> chartsvalue37 = new List<ChartData37>
+{
+    new ChartData37 { X = 10, Y = 124, Y1 = 24 },
+    new ChartData37 { X = 20, Y = 120, Y1 = 20 },
+    new ChartData37 { X = 30, Y = 115, Y1 = 55 },
+    new ChartData37 { X = 40, Y = 147, Y1 = 47 },
+    new ChartData37 { X = 50, Y = 122, Y1 = 72 }
+ };
+}
+
+
+@{
+    var InitialGroup38 = (new string[] { "CustomerID", "OrderID" });
+}
+<SfFixture @ref="fixture38" TestAsync="StriplineTextContent" Description="StriplineTextContent">
+    <ComponentUnderTest>
+        <SfChart ID="container" Title="Mobile Browser Statistics" Height="400" Width="600">
+            <ChartPrimaryXAxis Title="Sales Across Years">
+            </ChartPrimaryXAxis>
+            <ChartPrimaryYAxis Title="Sales Amount in millions(USD)" RangePadding="ChartRangePadding.Additional">
+            </ChartPrimaryYAxis>
+            <ChartRows>
+                <ChartRow Height="180"></ChartRow>
+                <ChartRow Height="180"></ChartRow>
+            </ChartRows>
+            <ChartColumns>
+                <ChartColumn Width="250"></ChartColumn>
+                <ChartColumn Width="250"></ChartColumn>
+            </ChartColumns>
+            <ChartAxes>
+                <ChartAxis RowIndex="1" Name="yAxis1">
+                    <ChartStriplines>
+                        <ChartStripline Start="30" Color="#663AB6" Text="Row Definition Stripline" Size="30"></ChartStripline>
+                    </ChartStriplines>
+                </ChartAxis>
+                <ChartAxis ColumnIndex="1" Name="xAxis1">
+                    <ChartStriplines>
+                        <ChartStripline Start="20" Color="#663AB6" Text="Column Definition Stripline" Size="15"></ChartStripline>
+                    </ChartStriplines>
+                </ChartAxis>
+            </ChartAxes>
+            <ChartSeriesCollection>
+                <ChartSeries DataSource="@chartsvalue38" XName="X" YName="Y" Type="ChartSeriesType.Line" Name="series1" Fill="#ACE5FF" Width="2" XAxisName="xAxis1">
+                    <ChartMarker Visible="true" Width="5" Height="5"></ChartMarker>
+                </ChartSeries>
+                <ChartSeries DataSource="@chartsvalue38" XName="X" YName="Y1" Type="ChartSeriesType.Line" Name="series2" Fill="Red" Width="2" YAxisName="yAxis1">
+                    <ChartMarker Visible="true" Width="5" Height="5"></ChartMarker>
+                </ChartSeries>
+            </ChartSeriesCollection>
+        </SfChart>
+    </ComponentUnderTest>
+</SfFixture>
+
+@code {
+
+    SfFixture fixture38 { get; set; }
+    async Task StriplineTextContent(Fixture fixture38)
+    {
+        var cut = fixture38.GetComponentUnderTest<SfChart>();
+        await Task.Delay(200);
+        var striplineelement = cut.Find("#container_stripline_Behind_rect_yAxis1_0");
+        // Note: Values may vary slightly depending on screen resolution.
+        Assert.True(Convert.ToDouble(striplineelement.GetAttribute("x")) == 71.7);
+        Assert.True(Convert.ToDouble(striplineelement.GetAttribute("y")) == 77.58000000000001);
+        Assert.True(Convert.ToDouble(striplineelement.GetAttribute("height")) == 23.834999999999997);
+        Assert.True(Convert.ToDouble(striplineelement.GetAttribute("width")) == 518.3);
+        var striplineelement1 = cut.Find("#container_stripline_Behind_rect_xAxis1_1");
+        Assert.True(Convert.ToDouble(striplineelement1.GetAttribute("x")) == 388.775);
+        Assert.True(Convert.ToDouble(striplineelement1.GetAttribute("y")) == 45.8);
+        Assert.True(Convert.ToDouble(striplineelement1.GetAttribute("height")) == 259.45);
+        Assert.True(Convert.ToDouble(striplineelement1.GetAttribute("width")) == 100.61249999999998);
+        cut.SetParametersAndRender();
+    }
+    public class ChartData38
+    {
+        public double X { get; set; }
+        public double Y { get; set; }
+        public double Y1 { get; set; }
+    }
+    public List<ChartData38> chartsvalue38 = new List<ChartData38>
+{
+    new ChartData38 { X = 10, Y = 124, Y1 = 24 },
+    new ChartData38 { X = 20, Y = 120, Y1 = 20 },
+    new ChartData38 { X = 30, Y = 115, Y1 = 55 },
+    new ChartData38 { X = 40, Y = 147, Y1 = 47 },
+    new ChartData38 { X = 50, Y = 122, Y1 = 72 }
+ };
+}
+
+
+@{
+    var InitialGroup39 = (new string[] { "CustomerID", "OrderID" });
+}
+<SfFixture @ref="fixture39" TestAsync="HorizontalAlignmentAndVerticalAlignment" Description="HorizontalAlignmentAndVerticalAlignment">
+    <ComponentUnderTest>
+        <SfChart ID="container" Title="Mobile Browser Statistics" Height="400" Width="600">
+            <ChartPrimaryXAxis Title="Sales Across Years">
+            </ChartPrimaryXAxis>
+            <ChartPrimaryYAxis Title="Sales Amount in millions(USD)" RangePadding="ChartRangePadding.Additional">
+            </ChartPrimaryYAxis>
+            <ChartRows>
+                <ChartRow Height="180"></ChartRow>
+                <ChartRow Height="180"></ChartRow>
+            </ChartRows>
+            <ChartColumns>
+                <ChartColumn Width="250"></ChartColumn>
+                <ChartColumn Width="250"></ChartColumn>
+            </ChartColumns>
+            <ChartAxes>
+                <ChartAxis RowIndex="1" Name="yAxis1">
+                    <ChartStriplines>
+                        <ChartStripline Start="10" Color="#663AB6" Text="Row Definition Stripline" Size="70" ></ChartStripline>
+                    </ChartStriplines>
+                </ChartAxis>
+                <ChartAxis ColumnIndex="1" Name="xAxis1">
+                    <ChartStriplines>
+                        <ChartStripline Start="20" Color="#663AB6" Text="Column Definition Stripline" Size="15" ></ChartStripline>
+                    </ChartStriplines>
+                </ChartAxis>
+            </ChartAxes>
+            <ChartSeriesCollection>
+                <ChartSeries DataSource="@chartsvalue39" XName="X" YName="Y" Type="ChartSeriesType.Line" Name="series1" Fill="#ACE5FF" Width="2" XAxisName="xAxis1">
+                    <ChartMarker Visible="true" Width="5" Height="5"></ChartMarker>
+                </ChartSeries>
+                <ChartSeries DataSource="@chartsvalue39" XName="X" YName="Y1" Type="ChartSeriesType.Line" Name="series2" Fill="Red" Width="2" YAxisName="yAxis1">
+                    <ChartMarker Visible="true" Width="5" Height="5"></ChartMarker>
+                </ChartSeries>
+            </ChartSeriesCollection>
+        </SfChart>
+    </ComponentUnderTest>
+</SfFixture>
+
+@code {
+
+    SfFixture fixture39 { get; set; }
+    async Task HorizontalAlignmentAndVerticalAlignment(Fixture fixture39)
+    {
+        var cut = fixture39.GetComponentUnderTest<SfChart>();
+        await Task.Delay(200);
+        var striplineelement = cut.Find("#container_stripline_Behind_text_yAxis1_0");
+        var striplineelement1 = cut.Find("#container_stripline_Behind_text_xAxis1_1");
+        // Note: Values may vary slightly depending on screen resolution.
+        Assert.True((striplineelement.GetAttribute("x")) == "330.84999999999997");
+        Assert.True((striplineelement.GetAttribute("y")) == "90.3475");
+        Assert.True((striplineelement.GetAttribute("fill")) == "rgba(158, 158, 158, 1)");
+        Assert.True((striplineelement.GetAttribute("text-anchor")) == "Middle");
+        Assert.True((striplineelement.GetAttribute("transform")) == "rotate(0,330.84999999999997,90.3475)");
+        
+        Assert.True((striplineelement1.GetAttribute("x")) == "444.93125");
+        Assert.True((striplineelement1.GetAttribute("y")) == "175.52499999999998");
+        Assert.True((striplineelement1.GetAttribute("fill")) == "rgba(158, 158, 158, 1)");
+        Assert.True((striplineelement1.GetAttribute("text-anchor")) == "Middle");
+        Assert.True((striplineelement1.GetAttribute("transform")) == "rotate(-90,444.93125,175.52499999999998)");
+        cut.SetParametersAndRender();
+    }
+    public class ChartData39
+    {
+        public double X { get; set; }
+        public double Y { get; set; }
+        public double Y1 { get; set; }
+    }
+    public List<ChartData39> chartsvalue39 = new List<ChartData39>
+{
+    new ChartData39 { X = 10, Y = 124, Y1 = 24 },
+    new ChartData39 { X = 20, Y = 120, Y1 = 20 },
+    new ChartData39 { X = 30, Y = 115, Y1 = 55 },
+    new ChartData39 { X = 40, Y = 147, Y1 = 47 },
+    new ChartData39 { X = 50, Y = 122, Y1 = 72 }
+ };
+}
+
+
+@{
+    var InitialGroup40 = (new string[] { "CustomerID", "OrderID" });
+}
+<SfFixture @ref="fixture40" TestAsync="StartHorizontalAlignmentAndVerticalAlignment" Description="StartHorizontalAlignmentAndVerticalAlignment">
+    <ComponentUnderTest>
+       <SfChart ID="container" Title="Mobile Browser Statistics" Height="400" Width="600">
+            <ChartPrimaryXAxis Title="Sales Across Years">
+            </ChartPrimaryXAxis>
+            <ChartPrimaryYAxis Title="Sales Amount in millions(USD)" RangePadding="ChartRangePadding.Additional">
+            </ChartPrimaryYAxis>
+            <ChartRows>
+                <ChartRow Height="180"></ChartRow>
+                <ChartRow Height="180"></ChartRow>
+            </ChartRows>
+            <ChartColumns>
+                <ChartColumn Width="250"></ChartColumn>
+                <ChartColumn Width="250"></ChartColumn>
+            </ChartColumns>
+            <ChartAxes>
+                <ChartAxis RowIndex="1" Name="yAxis1">
+                    <ChartStriplines>
+                        <ChartStripline Start="10" Color="#663AB6" Text="Row Definition Stripline" Size="70" HorizontalAlignment="Anchor.Start" VerticalAlignment="Anchor.Start"></ChartStripline>
+                    </ChartStriplines>
+                </ChartAxis>
+                <ChartAxis ColumnIndex="1" Name="xAxis1">
+                    <ChartStriplines>
+                        <ChartStripline Start="20" Color="#663AB6" Text="Column Definition Stripline" Size="15" HorizontalAlignment="Anchor.Start" VerticalAlignment="Anchor.Start"></ChartStripline>
+                    </ChartStriplines>
+                </ChartAxis>
+            </ChartAxes>
+            <ChartSeriesCollection>
+                <ChartSeries DataSource="@chartsvalue40" XName="X" YName="Y" Type="ChartSeriesType.Line" Name="series1" Fill="#ACE5FF" Width="2" XAxisName="xAxis1">
+                    <ChartMarker Visible="true" Width="5" Height="5"></ChartMarker>
+                </ChartSeries>
+                <ChartSeries DataSource="@chartsvalue40" XName="X" YName="Y1" Type="ChartSeriesType.Line" Name="series2" Fill="Red" Width="2" YAxisName="yAxis1">
+                    <ChartMarker Visible="true" Width="5" Height="5"></ChartMarker>
+                </ChartSeries>
+            </ChartSeriesCollection>
+        </SfChart>
+    </ComponentUnderTest>
+</SfFixture>
+
+@code {
+
+    SfFixture fixture40 { get; set; }
+    async Task StartHorizontalAlignmentAndVerticalAlignment(Fixture fixture40)
+    {
+        var cut = fixture40.GetComponentUnderTest<SfChart>();
+        await Task.Delay(200);
+        var striplineelement = cut.Find("#container_stripline_Behind_text_yAxis1_0");
+        // Note: Values may vary slightly depending on screen resolution.
+        Assert.True((striplineelement.GetAttribute("x")) == "76.69999999999999");
+        Assert.True((striplineelement.GetAttribute("y")) == "73.38999999999999");
+        Assert.True((striplineelement.GetAttribute("fill")) == "rgba(158, 158, 158, 1)");
+        Assert.True((striplineelement.GetAttribute("text-anchor")) == "Start");
+        Assert.True((striplineelement.GetAttribute("transform")) == "rotate(0,76.69999999999999,73.38999999999999)");
+        var striplineelement1 = cut.Find("#container_stripline_Behind_text_xAxis1_1");
+        Assert.True((striplineelement1.GetAttribute("x")) == "400.625");
+        Assert.True((striplineelement1.GetAttribute("y")) == "50.79999999999998");
+        Assert.True((striplineelement1.GetAttribute("fill")) == "rgba(158, 158, 158, 1)");
+        Assert.True((striplineelement1.GetAttribute("text-anchor")) == "End");
+        Assert.True((striplineelement1.GetAttribute("transform")) == "rotate(-90,400.625,50.79999999999998)");
+        cut.SetParametersAndRender();
+    }
+    public class ChartData40
+    {
+        public double X { get; set; }
+        public double Y { get; set; }
+        public double Y1 { get; set; }
+    }
+    public List<ChartData40> chartsvalue40 = new List<ChartData40>
+{
+    new ChartData40 { X = 10, Y = 124, Y1 = 24 },
+    new ChartData40 { X = 20, Y = 120, Y1 = 20 },
+    new ChartData40 { X = 30, Y = 115, Y1 = 55 },
+    new ChartData40 { X = 40, Y = 147, Y1 = 47 },
+    new ChartData40 { X = 50, Y = 122, Y1 = 72 }
+ };
+}
+
+
+@{
+    var InitialGroup41 = (new string[] { "CustomerID", "OrderID" });
+}
+<SfFixture @ref="fixture41" TestAsync="StartHorizontalAlignmentAndMiddleVerticalAlignment" Description="StartHorizontalAlignmentAndMiddleVerticalAlignment">
+    <ComponentUnderTest>
+        <SfChart ID="container" Title="Mobile Browser Statistics" Height="400" Width="600">
+            <ChartPrimaryXAxis Title="Sales Across Years">
+            </ChartPrimaryXAxis>
+            <ChartPrimaryYAxis Title="Sales Amount in millions(USD)" RangePadding="ChartRangePadding.Additional">
+            </ChartPrimaryYAxis>
+            <ChartRows>
+                <ChartRow Height="180"></ChartRow>
+                <ChartRow Height="180"></ChartRow>
+            </ChartRows>
+            <ChartColumns>
+                <ChartColumn Width="250"></ChartColumn>
+                <ChartColumn Width="250"></ChartColumn>
+            </ChartColumns>
+            <ChartAxes>
+                <ChartAxis RowIndex="1" Name="yAxis1">
+                    <ChartStriplines>
+                        <ChartStripline Start="10" Color="#663AB6" Text="Row Definition Stripline" Size="70" HorizontalAlignment="Anchor.Start" VerticalAlignment="Anchor.Middle"></ChartStripline>
+                    </ChartStriplines>
+                </ChartAxis>
+                <ChartAxis ColumnIndex="1" Name="xAxis1">
+                    <ChartStriplines>
+                        <ChartStripline Start="20" Color="#663AB6" Text="Column Definition Stripline" Size="15" HorizontalAlignment="Anchor.Start" VerticalAlignment="Anchor.Middle"></ChartStripline>
+                    </ChartStriplines>
+                </ChartAxis>
+            </ChartAxes>
+            <ChartSeriesCollection>
+                <ChartSeries DataSource="@chartsvalue41" XName="X" YName="Y" Type="ChartSeriesType.Line" Name="series1" Fill="#ACE5FF" Width="2" XAxisName="xAxis1">
+                    <ChartMarker Visible="true" Width="5" Height="5"></ChartMarker>
+                </ChartSeries>
+                <ChartSeries DataSource="@chartsvalue41" XName="X" YName="Y1" Type="ChartSeriesType.Line" Name="series2" Fill="Red" Width="2" YAxisName="yAxis1">
+                    <ChartMarker Visible="true" Width="5" Height="5"></ChartMarker>
+                </ChartSeries>
+            </ChartSeriesCollection>
+        </SfChart>
+    </ComponentUnderTest>
+</SfFixture>
+
+@code {
+
+    SfFixture fixture41 { get; set; }
+    async Task StartHorizontalAlignmentAndMiddleVerticalAlignment(Fixture fixture41)
+    {
+        var cut = fixture41.GetComponentUnderTest<SfChart>();
+        await Task.Delay(200);
+        var striplineelement = cut.Find("#container_stripline_Behind_text_yAxis1_0");
+        // Note: Values may vary slightly depending on screen resolution.
+        Assert.True((striplineelement.GetAttribute("x")) == "76.69999999999999");
+        Assert.True((striplineelement.GetAttribute("y")) == "90.3475");
+        Assert.True((striplineelement.GetAttribute("fill")) == "rgba(158, 158, 158, 1)");
+        Assert.True((striplineelement.GetAttribute("text-anchor")) == "Start");
+        Assert.True((striplineelement.GetAttribute("transform")) == "rotate(0,76.69999999999999,90.3475)");
+        var striplineelement1 = cut.Find("#container_stripline_Behind_text_xAxis1_1");
+        Assert.True((striplineelement1.GetAttribute("x")) == "400.625");
+        Assert.True((striplineelement1.GetAttribute("y")) == "175.52499999999998");
+        Assert.True((striplineelement1.GetAttribute("fill")) == "rgba(158, 158, 158, 1)");
+        Assert.True((striplineelement1.GetAttribute("text-anchor")) == "Middle");
+        Assert.True((striplineelement1.GetAttribute("transform")) == "rotate(-90,400.625,175.52499999999998)");
+        cut.SetParametersAndRender();
+    }
+    public class ChartData41
+    {
+        public double X { get; set; }
+        public double Y { get; set; }
+        public double Y1 { get; set; }
+    }
+    public List<ChartData41> chartsvalue41 = new List<ChartData41>
+{
+    new ChartData41 { X = 10, Y = 124, Y1 = 24 },
+    new ChartData41 { X = 20, Y = 120, Y1 = 20 },
+    new ChartData41 { X = 30, Y = 115, Y1 = 55 },
+    new ChartData41 { X = 40, Y = 147, Y1 = 47 },
+    new ChartData41 { X = 50, Y = 122, Y1 = 72 }
+ };
+}
+
+
+@{
+    var InitialGroup42 = (new string[] { "CustomerID", "OrderID" });
+}
+<SfFixture @ref="fixture42" TestAsync="StartHorizontalAlignmentAndEndVerticalAlignment" Description="StartHorizontalAlignmentAndEndVerticalAlignment">
+    <ComponentUnderTest>
+        <SfChart ID="container" Title="Mobile Browser Statistics" Height="400" Width="600">
+            <ChartPrimaryXAxis Title="Sales Across Years">
+            </ChartPrimaryXAxis>
+            <ChartPrimaryYAxis Title="Sales Amount in millions(USD)" RangePadding="ChartRangePadding.Additional">
+            </ChartPrimaryYAxis>
+            <ChartRows>
+                <ChartRow Height="180"></ChartRow>
+                <ChartRow Height="180"></ChartRow>
+            </ChartRows>
+            <ChartColumns>
+                <ChartColumn Width="250"></ChartColumn>
+                <ChartColumn Width="250"></ChartColumn>
+            </ChartColumns>
+            <ChartAxes>
+                <ChartAxis RowIndex="1" Name="yAxis1">
+                    <ChartStriplines>
+                        <ChartStripline Start="10" Color="#663AB6" Text="Row Definition Stripline" Size="70" HorizontalAlignment="Anchor.Start" VerticalAlignment="Anchor.End"></ChartStripline>
+                    </ChartStriplines>
+                </ChartAxis>
+                <ChartAxis ColumnIndex="1" Name="xAxis1">
+                    <ChartStriplines>
+                        <ChartStripline Start="20" Color="#663AB6" Text="Column Definition Stripline" Size="15" HorizontalAlignment="Anchor.Start" VerticalAlignment="Anchor.End"></ChartStripline>
+                    </ChartStriplines>
+                </ChartAxis>
+            </ChartAxes>
+            <ChartSeriesCollection>
+                <ChartSeries DataSource="@chartsvalue42" XName="X" YName="Y" Type="ChartSeriesType.Line" Name="series1" Fill="#ACE5FF" Width="2" XAxisName="xAxis1">
+                    <ChartMarker Visible="true" Width="5" Height="5"></ChartMarker>
+                </ChartSeries>
+                <ChartSeries DataSource="@chartsvalue42" XName="X" YName="Y1" Type="ChartSeriesType.Line" Name="series2" Fill="Red" Width="2" YAxisName="yAxis1">
+                    <ChartMarker Visible="true" Width="5" Height="5"></ChartMarker>
+                </ChartSeries>
+            </ChartSeriesCollection>
+        </SfChart>
+    </ComponentUnderTest>
+</SfFixture>
+
+@code {
+
+    SfFixture fixture42 { get; set; }
+    async Task StartHorizontalAlignmentAndEndVerticalAlignment(Fixture fixture42)
+    {
+        var cut = fixture42.GetComponentUnderTest<SfChart>();
+        await Task.Delay(200);
+        var striplineelement = cut.Find("#container_stripline_Behind_text_yAxis1_0");
+        // Note: Values may vary slightly depending on screen resolution.
+        Assert.True((striplineelement.GetAttribute("x")) == "76.69999999999999");
+        Assert.True((striplineelement.GetAttribute("y")) == "107.305");
+        Assert.True((striplineelement.GetAttribute("fill")) == "rgba(158, 158, 158, 1)");
+        Assert.True((striplineelement.GetAttribute("text-anchor")) == "Start");
+        Assert.True((striplineelement.GetAttribute("transform")) == "rotate(0,76.69999999999999,107.305)");
+        var striplineelement1 = cut.Find("#container_stripline_Behind_text_xAxis1_1");
+        Assert.True((striplineelement1.GetAttribute("x")) == "400.625");
+        Assert.True((striplineelement1.GetAttribute("y")) == "300.25");
+        Assert.True((striplineelement1.GetAttribute("fill")) == "rgba(158, 158, 158, 1)");
+        Assert.True((striplineelement1.GetAttribute("text-anchor")) == "Start");
+        Assert.True((striplineelement1.GetAttribute("transform")) == "rotate(-90,400.625,300.25)");
+        cut.SetParametersAndRender();
+    }
+    public class ChartData42
+    {
+        public double X { get; set; }
+        public double Y { get; set; }
+        public double Y1 { get; set; }
+    }
+    public List<ChartData42> chartsvalue42 = new List<ChartData42>
+{
+    new ChartData42 { X = 10, Y = 124, Y1 = 24 },
+    new ChartData42 { X = 20, Y = 120, Y1 = 20 },
+    new ChartData42 { X = 30, Y = 115, Y1 = 55 },
+    new ChartData42 { X = 40, Y = 147, Y1 = 47 },
+    new ChartData42 { X = 50, Y = 122, Y1 = 72 }
+ };
+}
+
+
+@{
+    var InitialGroup43 = (new string[] { "CustomerID", "OrderID" });
+}
+<SfFixture @ref="fixture43" TestAsync="MiddleHorizontalAlignmentAndEndVerticalAlignment" Description="MiddleHorizontalAlignmentAndEndVerticalAlignment">
+    <ComponentUnderTest>
+        <SfChart ID="container" Title="Mobile Browser Statistics" Height="400" Width="600">
+            <ChartPrimaryXAxis Title="Sales Across Years">
+            </ChartPrimaryXAxis>
+            <ChartPrimaryYAxis Title="Sales Amount in millions(USD)" RangePadding="ChartRangePadding.Additional">
+            </ChartPrimaryYAxis>
+            <ChartRows>
+                <ChartRow Height="180"></ChartRow>
+                <ChartRow Height="180"></ChartRow>
+            </ChartRows>
+            <ChartColumns>
+                <ChartColumn Width="250"></ChartColumn>
+                <ChartColumn Width="250"></ChartColumn>
+            </ChartColumns>
+            <ChartAxes>
+                <ChartAxis RowIndex="1" Name="yAxis1">
+                    <ChartStriplines>
+                        <ChartStripline Start="10" Color="#663AB6" Text="Row Definition Stripline" Size="70" HorizontalAlignment="Anchor.Middle" VerticalAlignment="Anchor.End"></ChartStripline>
+                    </ChartStriplines>
+                </ChartAxis>
+                <ChartAxis ColumnIndex="1" Name="xAxis1">
+                    <ChartStriplines>
+                        <ChartStripline Start="20" Color="#663AB6" Text="Column Definition Stripline" Size="15" HorizontalAlignment="Anchor.Middle" VerticalAlignment="Anchor.End"></ChartStripline>
+                    </ChartStriplines>
+                </ChartAxis>
+            </ChartAxes>
+            <ChartSeriesCollection>
+                <ChartSeries DataSource="@chartsvalue43" XName="X" YName="Y" Type="ChartSeriesType.Line" Name="series1" Fill="#ACE5FF" Width="2" XAxisName="xAxis1">
+                    <ChartMarker Visible="true" Width="5" Height="5"></ChartMarker>
+                </ChartSeries>
+                <ChartSeries DataSource="@chartsvalue43" XName="X" YName="Y1" Type="ChartSeriesType.Line" Name="series2" Fill="Red" Width="2" YAxisName="yAxis1">
+                    <ChartMarker Visible="true" Width="5" Height="5"></ChartMarker>
+                </ChartSeries>
+            </ChartSeriesCollection>
+        </SfChart>
+    </ComponentUnderTest>
+</SfFixture>
+
+@code {
+
+    SfFixture fixture43 { get; set; }
+    async Task MiddleHorizontalAlignmentAndEndVerticalAlignment(Fixture fixture43)
+    {
+        var cut = fixture43.GetComponentUnderTest<SfChart>();
+        await Task.Delay(200);
+        var striplineelement = cut.Find("#container_stripline_Behind_text_yAxis1_0");
+        // Note: Values may vary slightly depending on screen resolution.
+        Assert.True((striplineelement.GetAttribute("x")) == "330.84999999999997");
+        Assert.True((striplineelement.GetAttribute("y")) == "107.305");
+        Assert.True((striplineelement.GetAttribute("fill")) == "rgba(158, 158, 158, 1)");
+        Assert.True((striplineelement.GetAttribute("text-anchor")) == "Middle");
+        Assert.True((striplineelement.GetAttribute("transform")) == "rotate(0,330.84999999999997,107.305)");
+        var striplineelement1 = cut.Find("#container_stripline_Behind_text_xAxis1_1");
+        Assert.True((striplineelement1.GetAttribute("x")) == "444.93125");
+        Assert.True((striplineelement1.GetAttribute("y")) == "300.25");
+        Assert.True((striplineelement1.GetAttribute("fill")) == "rgba(158, 158, 158, 1)");
+        Assert.True((striplineelement1.GetAttribute("text-anchor")) == "Start");
+        Assert.True((striplineelement1.GetAttribute("transform")) == "rotate(-90,444.93125,300.25)");
+        cut.SetParametersAndRender();
+    }
+    public class ChartData43
+    {
+        public double X { get; set; }
+        public double Y { get; set; }
+        public double Y1 { get; set; }
+    }
+    public List<ChartData43> chartsvalue43 = new List<ChartData43>
+{
+    new ChartData43 { X = 10, Y = 124, Y1 = 24 },
+    new ChartData43 { X = 20, Y = 120, Y1 = 20 },
+    new ChartData43 { X = 30, Y = 115, Y1 = 55 },
+    new ChartData43 { X = 40, Y = 147, Y1 = 47 },
+    new ChartData43 { X = 50, Y = 122, Y1 = 72 }
+ };
+}
+
+
+@{
+    var InitialGroup44 = (new string[] { "CustomerID", "OrderID" });
+}
+<SfFixture @ref="fixture44" TestAsync="MiddleHorizontalAlignmentAndMiddleVerticalAlignment" Description="MiddleHorizontalAlignmentAndMiddleVerticalAlignment">
+    <ComponentUnderTest>
+        <SfChart ID="container" Title="Mobile Browser Statistics" Height="400" Width="600">
+            <ChartPrimaryXAxis Title="Sales Across Years">
+            </ChartPrimaryXAxis>
+            <ChartPrimaryYAxis Title="Sales Amount in millions(USD)" RangePadding="ChartRangePadding.Additional">
+            </ChartPrimaryYAxis>
+            <ChartRows>
+                <ChartRow Height="180"></ChartRow>
+                <ChartRow Height="180"></ChartRow>
+            </ChartRows>
+            <ChartColumns>
+                <ChartColumn Width="250"></ChartColumn>
+                <ChartColumn Width="250"></ChartColumn>
+            </ChartColumns>
+            <ChartAxes>
+                <ChartAxis RowIndex="1" Name="yAxis1">
+                    <ChartStriplines>
+                        <ChartStripline Start="10" Color="#663AB6" Text="Row Definition Stripline" Size="70" HorizontalAlignment="Anchor.Middle" VerticalAlignment="Anchor.Middle"></ChartStripline>
+                    </ChartStriplines>
+                </ChartAxis>
+                <ChartAxis ColumnIndex="1" Name="xAxis1">
+                    <ChartStriplines>
+                        <ChartStripline Start="20" Color="#663AB6" Text="Column Definition Stripline" Size="15" HorizontalAlignment="Anchor.Middle" VerticalAlignment="Anchor.Middle"></ChartStripline>
+                    </ChartStriplines>
+                </ChartAxis>
+            </ChartAxes>
+            <ChartSeriesCollection>
+                <ChartSeries DataSource="@chartsvalue44" XName="X" YName="Y" Type="ChartSeriesType.Line" Name="series1" Fill="#ACE5FF" Width="2" XAxisName="xAxis1">
+                    <ChartMarker Visible="true" Width="5" Height="5"></ChartMarker>
+                </ChartSeries>
+                <ChartSeries DataSource="@chartsvalue44" XName="X" YName="Y1" Type="ChartSeriesType.Line" Name="series2" Fill="Red" Width="2" YAxisName="yAxis1">
+                    <ChartMarker Visible="true" Width="5" Height="5"></ChartMarker>
+                </ChartSeries>
+            </ChartSeriesCollection>
+        </SfChart>
+    </ComponentUnderTest>
+</SfFixture>
+
+@code {
+
+    SfFixture fixture44 { get; set; }
+    async Task MiddleHorizontalAlignmentAndMiddleVerticalAlignment(Fixture fixture44)
+    {
+        var cut = fixture44.GetComponentUnderTest<SfChart>();
+        await Task.Delay(200);
+        var striplineelement = cut.Find("#container_stripline_Behind_text_yAxis1_0");
+        // Note: Values may vary slightly depending on screen resolution.
+        Assert.True((striplineelement.GetAttribute("x")) == "330.84999999999997");
+        Assert.True((striplineelement.GetAttribute("y")) == "90.3475");
+        Assert.True((striplineelement.GetAttribute("fill")) == "rgba(158, 158, 158, 1)");
+        Assert.True((striplineelement.GetAttribute("text-anchor")) == "Middle");
+        Assert.True((striplineelement.GetAttribute("transform")) == "rotate(0,330.84999999999997,90.3475)");
+        var striplineelement1 = cut.Find("#container_stripline_Behind_text_xAxis1_1");
+        Assert.True((striplineelement1.GetAttribute("x")) == "444.93125");
+        Assert.True((striplineelement1.GetAttribute("y")) == "175.52499999999998");
+        Assert.True((striplineelement1.GetAttribute("fill")) == "rgba(158, 158, 158, 1)");
+        Assert.True((striplineelement1.GetAttribute("text-anchor")) == "Middle");
+        Assert.True((striplineelement1.GetAttribute("transform")) == "rotate(-90,444.93125,175.52499999999998)");
+        cut.SetParametersAndRender();
+    }
+    public class ChartData44
+    {
+        public double X { get; set; }
+        public double Y { get; set; }
+        public double Y1 { get; set; }
+    }
+    public List<ChartData44> chartsvalue44 = new List<ChartData44>
+{
+    new ChartData44 { X = 10, Y = 124, Y1 = 24 },
+    new ChartData44 { X = 20, Y = 120, Y1 = 20 },
+    new ChartData44 { X = 30, Y = 115, Y1 = 55 },
+    new ChartData44 { X = 40, Y = 147, Y1 = 47 },
+    new ChartData44 { X = 50, Y = 122, Y1 = 72 }
+ };
+}
+
+
+@{
+    var InitialGroup45 = (new string[] { "CustomerID", "OrderID" });
+}
+<SfFixture @ref="fixture45" TestAsync="MiddleHorizontalAlignmentAndStartVerticalAlignment" Description="MiddleHorizontalAlignmentAndStartVerticalAlignment">
+    <ComponentUnderTest>
+        <SfChart ID="container" Title="Mobile Browser Statistics" Height="400" Width="600">
+            <ChartPrimaryXAxis Title="Sales Across Years">
+            </ChartPrimaryXAxis>
+            <ChartPrimaryYAxis Title="Sales Amount in millions(USD)" RangePadding="ChartRangePadding.Additional">
+            </ChartPrimaryYAxis>
+            <ChartRows>
+                <ChartRow Height="180"></ChartRow>
+                <ChartRow Height="180"></ChartRow>
+            </ChartRows>
+            <ChartColumns>
+                <ChartColumn Width="250"></ChartColumn>
+                <ChartColumn Width="250"></ChartColumn>
+            </ChartColumns>
+            <ChartAxes>
+                <ChartAxis RowIndex="1" Name="yAxis1">
+                    <ChartStriplines>
+                        <ChartStripline Start="10" Color="#663AB6" Text="Row Definition Stripline" Size="70" HorizontalAlignment="Anchor.Middle" VerticalAlignment="Anchor.Start"></ChartStripline>
+                    </ChartStriplines>
+                </ChartAxis>
+                <ChartAxis ColumnIndex="1" Name="xAxis1">
+                    <ChartStriplines>
+                        <ChartStripline Start="20" Color="#663AB6" Text="Column Definition Stripline" Size="15" HorizontalAlignment="Anchor.Middle" VerticalAlignment="Anchor.Start"></ChartStripline>
+                    </ChartStriplines>
+                </ChartAxis>
+            </ChartAxes>
+            <ChartSeriesCollection>
+                <ChartSeries DataSource="@chartsvalue45" XName="X" YName="Y" Type="ChartSeriesType.Line" Name="series1" Fill="#ACE5FF" Width="2" XAxisName="xAxis1">
+                    <ChartMarker Visible="true" Width="5" Height="5"></ChartMarker>
+                </ChartSeries>
+                <ChartSeries DataSource="@chartsvalue45" XName="X" YName="Y1" Type="ChartSeriesType.Line" Name="series2" Fill="Red" Width="2" YAxisName="yAxis1">
+                    <ChartMarker Visible="true" Width="5" Height="5"></ChartMarker>
+                </ChartSeries>
+            </ChartSeriesCollection>
+        </SfChart>
+    </ComponentUnderTest>
+</SfFixture>
+
+@code {
+
+    SfFixture fixture45 { get; set; }
+    async Task MiddleHorizontalAlignmentAndStartVerticalAlignment(Fixture fixture45)
+    {
+        var cut = fixture45.GetComponentUnderTest<SfChart>();
+        await Task.Delay(200);
+        var striplineelement = cut.Find("#container_stripline_Behind_text_yAxis1_0");
+        // Note: Values may vary slightly depending on screen resolution.
+        Assert.True((striplineelement.GetAttribute("x")) == "330.84999999999997");
+        Assert.True((striplineelement.GetAttribute("y")) == "73.38999999999999");
+        Assert.True((striplineelement.GetAttribute("fill")) == "rgba(158, 158, 158, 1)");
+        Assert.True((striplineelement.GetAttribute("text-anchor")) == "Middle");
+        Assert.True((striplineelement.GetAttribute("transform")) == "rotate(0,330.84999999999997,73.38999999999999)");
+        var striplineelement1 = cut.Find("#container_stripline_Behind_text_xAxis1_1");
+        Assert.True((striplineelement1.GetAttribute("x")) == "444.93125");
+        Assert.True((striplineelement1.GetAttribute("y")) == "50.79999999999998");
+        Assert.True((striplineelement1.GetAttribute("fill")) == "rgba(158, 158, 158, 1)");
+        Assert.True((striplineelement1.GetAttribute("text-anchor")) == "End");
+        Assert.True((striplineelement1.GetAttribute("transform")) == "rotate(-90,444.93125,50.79999999999998)");
+        cut.SetParametersAndRender();
+    }
+    public class ChartData45
+    {
+        public double X { get; set; }
+        public double Y { get; set; }
+        public double Y1 { get; set; }
+    }
+    public List<ChartData45> chartsvalue45 = new List<ChartData45>
+{
+    new ChartData45 { X = 10, Y = 124, Y1 = 24 },
+    new ChartData45 { X = 20, Y = 120, Y1 = 20 },
+    new ChartData45 { X = 30, Y = 115, Y1 = 55 },
+    new ChartData45 { X = 40, Y = 147, Y1 = 47 },
+    new ChartData45 { X = 50, Y = 122, Y1 = 72 }
+ };
+}
+
+
+@{
+    var InitialGroup46 = (new string[] { "CustomerID", "OrderID" });
+}
+<SfFixture @ref="fixture46" TestAsync="EndHorizontalAlignmentAndStartVerticalAlignment" Description="EndHorizontalAlignmentAndStartVerticalAlignment">
+    <ComponentUnderTest>
+        <SfChart ID="container" Title="Mobile Browser Statistics" Height="400" Width="600">
+            <ChartPrimaryXAxis Title="Sales Across Years">
+            </ChartPrimaryXAxis>
+            <ChartPrimaryYAxis Title="Sales Amount in millions(USD)" RangePadding="ChartRangePadding.Additional">
+            </ChartPrimaryYAxis>
+            <ChartRows>
+                <ChartRow Height="180"></ChartRow>
+                <ChartRow Height="180"></ChartRow>
+            </ChartRows>
+            <ChartColumns>
+                <ChartColumn Width="250"></ChartColumn>
+                <ChartColumn Width="250"></ChartColumn>
+            </ChartColumns>
+            <ChartAxes>
+                <ChartAxis RowIndex="1" Name="yAxis1">
+                    <ChartStriplines>
+                        <ChartStripline Start="10" Color="#663AB6" Text="Row Definition Stripline" Size="70" HorizontalAlignment="Anchor.End" VerticalAlignment="Anchor.Start"></ChartStripline>
+                    </ChartStriplines>
+                </ChartAxis>
+                <ChartAxis ColumnIndex="1" Name="xAxis1">
+                    <ChartStriplines>
+                        <ChartStripline Start="20" Color="#663AB6" Text="Column Definition Stripline" Size="15" HorizontalAlignment="Anchor.End" VerticalAlignment="Anchor.Start"></ChartStripline>
+                    </ChartStriplines>
+                </ChartAxis>
+            </ChartAxes>
+            <ChartSeriesCollection>
+                <ChartSeries DataSource="@chartsvalue46" XName="X" YName="Y" Type="ChartSeriesType.Line" Name="series1" Fill="#ACE5FF" Width="2" XAxisName="xAxis1">
+                    <ChartMarker Visible="true" Width="5" Height="5"></ChartMarker>
+                </ChartSeries>
+                <ChartSeries DataSource="@chartsvalue46" XName="X" YName="Y1" Type="ChartSeriesType.Line" Name="series2" Fill="Red" Width="2" YAxisName="yAxis1">
+                    <ChartMarker Visible="true" Width="5" Height="5"></ChartMarker>
+                </ChartSeries>
+            </ChartSeriesCollection>
+        </SfChart>
+    </ComponentUnderTest>
+</SfFixture>
+
+@code {
+
+    SfFixture fixture46 { get; set; }
+    async Task EndHorizontalAlignmentAndStartVerticalAlignment(Fixture fixture46)
+    {
+        var cut = fixture46.GetComponentUnderTest<SfChart>();
+        await Task.Delay(200);
+        var striplineelement = cut.Find("#container_stripline_Behind_text_yAxis1_0");
+        // Note: Values may vary slightly depending on screen resolution.
+        Assert.True((striplineelement.GetAttribute("x")) == "585");
+        Assert.True((striplineelement.GetAttribute("y")) == "73.38999999999999");
+        Assert.True((striplineelement.GetAttribute("fill")) == "rgba(158, 158, 158, 1)");
+        Assert.True((striplineelement.GetAttribute("text-anchor")) == "End");
+        Assert.True((striplineelement.GetAttribute("transform")) == "rotate(0,585,73.38999999999999)");
+        var striplineelement1 = cut.Find("#container_stripline_Behind_text_xAxis1_1");
+        Assert.True((striplineelement1.GetAttribute("x")) == "489.23749999999995");
+        Assert.True((striplineelement1.GetAttribute("y")) == "50.79999999999998");
+        Assert.True((striplineelement1.GetAttribute("fill")) == "rgba(158, 158, 158, 1)");
+        Assert.True((striplineelement1.GetAttribute("text-anchor")) == "End");
+        Assert.True((striplineelement1.GetAttribute("transform")) == "rotate(-90,489.23749999999995,50.79999999999998)");
+        cut.SetParametersAndRender();
+    }
+    public class ChartData46
+    {
+        public double X { get; set; }
+        public double Y { get; set; }
+        public double Y1 { get; set; }
+    }
+    public List<ChartData46> chartsvalue46 = new List<ChartData46>
+{
+    new ChartData46 { X = 10, Y = 124, Y1 = 24 },
+    new ChartData46 { X = 20, Y = 120, Y1 = 20 },
+    new ChartData46 { X = 30, Y = 115, Y1 = 55 },
+    new ChartData46 { X = 40, Y = 147, Y1 = 47 },
+    new ChartData46 { X = 50, Y = 122, Y1 = 72 }
+ };
+}
+
+
+@{
+    var InitialGroup47 = (new string[] { "CustomerID", "OrderID" });
+}
+<SfFixture @ref="fixture47" TestAsync="EndHorizontalAlignmentAndMiddleVerticalAlignment" Description="EndHorizontalAlignmentAndMiddleVerticalAlignment">
+    <ComponentUnderTest>
+        <SfChart ID="container" Title="Mobile Browser Statistics" Height="400" Width="600">
+            <ChartPrimaryXAxis Title="Sales Across Years">
+            </ChartPrimaryXAxis>
+            <ChartPrimaryYAxis Title="Sales Amount in millions(USD)" RangePadding="ChartRangePadding.Additional">
+            </ChartPrimaryYAxis>
+            <ChartRows>
+                <ChartRow Height="180"></ChartRow>
+                <ChartRow Height="180"></ChartRow>
+            </ChartRows>
+            <ChartColumns>
+                <ChartColumn Width="250"></ChartColumn>
+                <ChartColumn Width="250"></ChartColumn>
+            </ChartColumns>
+            <ChartAxes>
+                <ChartAxis RowIndex="1" Name="yAxis1">
+                    <ChartStriplines>
+                        <ChartStripline Start="10" Color="#663AB6" Text="Row Definition Stripline" Size="70" HorizontalAlignment="Anchor.End" VerticalAlignment="Anchor.Middle"></ChartStripline>
+                    </ChartStriplines>
+                </ChartAxis>
+                <ChartAxis ColumnIndex="1" Name="xAxis1">
+                    <ChartStriplines>
+                        <ChartStripline Start="20" Color="#663AB6" Text="Column Definition Stripline" Size="15" HorizontalAlignment="Anchor.End" VerticalAlignment="Anchor.Middle"></ChartStripline>
+                    </ChartStriplines>
+                </ChartAxis>
+            </ChartAxes>
+            <ChartSeriesCollection>
+                <ChartSeries DataSource="@chartsvalue47" XName="X" YName="Y" Type="ChartSeriesType.Line" Name="series1" Fill="#ACE5FF" Width="2" XAxisName="xAxis1">
+                    <ChartMarker Visible="true" Width="5" Height="5"></ChartMarker>
+                </ChartSeries>
+                <ChartSeries DataSource="@chartsvalue47" XName="X" YName="Y1" Type="ChartSeriesType.Line" Name="series2" Fill="Red" Width="2" YAxisName="yAxis1">
+                    <ChartMarker Visible="true" Width="5" Height="5"></ChartMarker>
+                </ChartSeries>
+            </ChartSeriesCollection>
+        </SfChart>
+    </ComponentUnderTest>
+</SfFixture>
+
+@code {
+
+    SfFixture fixture47 { get; set; }
+    async Task EndHorizontalAlignmentAndMiddleVerticalAlignment(Fixture fixture47)
+    {
+        var cut = fixture47.GetComponentUnderTest<SfChart>();
+        await Task.Delay(200);
+        var striplineelement = cut.Find("#container_stripline_Behind_text_yAxis1_0");
+        // Note: Values may vary slightly depending on screen resolution.
+        Assert.True((striplineelement.GetAttribute("x")) == "585");
+        Assert.True((striplineelement.GetAttribute("y")) == "90.3475");
+        Assert.True((striplineelement.GetAttribute("fill")) == "rgba(158, 158, 158, 1)");
+        Assert.True((striplineelement.GetAttribute("text-anchor")) == "End");
+        Assert.True((striplineelement.GetAttribute("transform")) == "rotate(0,585,90.3475)");
+        var striplineelement1 = cut.Find("#container_stripline_Behind_text_xAxis1_1");
+        Assert.True((striplineelement1.GetAttribute("x")) == "489.23749999999995");
+        Assert.True((striplineelement1.GetAttribute("y")) == "175.52499999999998");
+        Assert.True((striplineelement1.GetAttribute("fill")) == "rgba(158, 158, 158, 1)");
+        Assert.True((striplineelement1.GetAttribute("text-anchor")) == "Middle");
+        Assert.True((striplineelement1.GetAttribute("transform")) == "rotate(-90,489.23749999999995,175.52499999999998)");
+        cut.SetParametersAndRender();
+    }
+    public class ChartData47
+    {
+        public double X { get; set; }
+        public double Y { get; set; }
+        public double Y1 { get; set; }
+    }
+    public List<ChartData47> chartsvalue47 = new List<ChartData47>
+{
+    new ChartData47 { X = 10, Y = 124, Y1 = 24 },
+    new ChartData47 { X = 20, Y = 120, Y1 = 20 },
+    new ChartData47 { X = 30, Y = 115, Y1 = 55 },
+    new ChartData47 { X = 40, Y = 147, Y1 = 47 },
+    new ChartData47 { X = 50, Y = 122, Y1 = 72 }
+ };
+}
+
+
+@{
+    var InitialGroup48 = (new string[] { "CustomerID", "OrderID" });
+}
+<SfFixture @ref="fixture48" TestAsync="EndHorizontalAlignmentAndEndVerticalAlignment" Description="EndHorizontalAlignmentAndEndVerticalAlignment">
+    <ComponentUnderTest>
+       <SfChart ID="container" Title="Mobile Browser Statistics" Height="400" Width="600">
+            <ChartPrimaryXAxis Title="Sales Across Years">
+            </ChartPrimaryXAxis>
+            <ChartPrimaryYAxis Title="Sales Amount in millions(USD)" RangePadding="ChartRangePadding.Additional">
+            </ChartPrimaryYAxis>
+            <ChartRows>
+                <ChartRow Height="180"></ChartRow>
+                <ChartRow Height="180"></ChartRow>
+            </ChartRows>
+            <ChartColumns>
+                <ChartColumn Width="250"></ChartColumn>
+                <ChartColumn Width="250"></ChartColumn>
+            </ChartColumns>
+            <ChartAxes>
+                <ChartAxis RowIndex="1" Name="yAxis1">
+                    <ChartStriplines>
+                        <ChartStripline Start="10" Color="#663AB6" Text="Row Definition Stripline" Size="70" HorizontalAlignment="Anchor.End" VerticalAlignment="Anchor.End"></ChartStripline>
+                    </ChartStriplines>
+                </ChartAxis>
+                <ChartAxis ColumnIndex="1" Name="xAxis1">
+                    <ChartStriplines>
+                        <ChartStripline Start="20" Color="#663AB6" Text="Column Definition Stripline" Size="15" HorizontalAlignment="Anchor.End" VerticalAlignment="Anchor.End"></ChartStripline>
+                    </ChartStriplines>
+                </ChartAxis>
+            </ChartAxes>
+            <ChartSeriesCollection>
+                <ChartSeries DataSource="@chartsvalue48" XName="X" YName="Y" Type="ChartSeriesType.Line" Name="series1" Fill="#ACE5FF" Width="2" XAxisName="xAxis1">
+                    <ChartMarker Visible="true" Width="5" Height="5"></ChartMarker>
+                </ChartSeries>
+                <ChartSeries DataSource="@chartsvalue48" XName="X" YName="Y1" Type="ChartSeriesType.Line" Name="series2" Fill="Red" Width="2" YAxisName="yAxis1">
+                    <ChartMarker Visible="true" Width="5" Height="5"></ChartMarker>
+                </ChartSeries>
+            </ChartSeriesCollection>
+        </SfChart>
+    </ComponentUnderTest>
+</SfFixture>
+
+@code {
+
+    SfFixture fixture48 { get; set; }
+    async Task EndHorizontalAlignmentAndEndVerticalAlignment(Fixture fixture48)
+    {
+        var cut = fixture48.GetComponentUnderTest<SfChart>();
+        await Task.Delay(200);
+        var striplineelement = cut.Find("#container_stripline_Behind_text_yAxis1_0");
+        // Note: Values may vary slightly depending on screen resolution.
+        Assert.True((striplineelement.GetAttribute("x")) == "585");
+        Assert.True((striplineelement.GetAttribute("y")) == "107.305");
+        Assert.True((striplineelement.GetAttribute("fill")) == "rgba(158, 158, 158, 1)");
+        Assert.True((striplineelement.GetAttribute("text-anchor")) == "End");
+        Assert.True((striplineelement.GetAttribute("transform")) == "rotate(0,585,107.305)");
+        var striplineelement1 = cut.Find("#container_stripline_Behind_text_xAxis1_1");
+        Assert.True((striplineelement1.GetAttribute("x")) == "489.23749999999995");
+        Assert.True((striplineelement1.GetAttribute("y")) == "300.25");
+        Assert.True((striplineelement1.GetAttribute("fill")) == "rgba(158, 158, 158, 1)");
+        Assert.True((striplineelement1.GetAttribute("text-anchor")) == "Start");
+        Assert.True((striplineelement1.GetAttribute("transform")) == "rotate(-90,489.23749999999995,300.25)");
+        cut.SetParametersAndRender();
+    }
+    public class ChartData48
+    {
+        public double X { get; set; }
+        public double Y { get; set; }
+        public double Y1 { get; set; }
+    }
+    public List<ChartData48> chartsvalue48 = new List<ChartData48>
+{
+    new ChartData48 { X = 10, Y = 124, Y1 = 24 },
+    new ChartData48 { X = 20, Y = 120, Y1 = 20 },
+    new ChartData48 { X = 30, Y = 115, Y1 = 55 },
+    new ChartData48 { X = 40, Y = 147, Y1 = 47 },
+    new ChartData48 { X = 50, Y = 122, Y1 = 72 }
+ };
+}
+
+
+@{
+    var InitialGroup49 = (new string[] { "CustomerID", "OrderID" });
+}
+<SfFixture @ref="fixture49" TestAsync="TextRotation" Description="TextRotation">
+    <ComponentUnderTest>
+        <SfChart ID="container" Title="Mobile Browser Statistics" Height="400" Width="600">
+            <ChartPrimaryXAxis Title="Sales Across Years">
+            </ChartPrimaryXAxis>
+            <ChartPrimaryYAxis Title="Sales Amount in millions(USD)" RangePadding="ChartRangePadding.Additional">
+            </ChartPrimaryYAxis>
+            <ChartRows>
+                <ChartRow Height="180"></ChartRow>
+                <ChartRow Height="180"></ChartRow>
+            </ChartRows>
+            <ChartColumns>
+                <ChartColumn Width="250"></ChartColumn>
+                <ChartColumn Width="250"></ChartColumn>
+            </ChartColumns>
+            <ChartAxes>
+                <ChartAxis RowIndex="1" Name="yAxis1">
+                    <ChartStriplines>
+                        <ChartStripline Start="30" Color="#663AB6" Rotation="-30" Text="Row Definition Stripline" Size="30" HorizontalAlignment="Anchor.End" VerticalAlignment="Anchor.End"></ChartStripline>
+                    </ChartStriplines>
+                </ChartAxis>
+                <ChartAxis ColumnIndex="1" Name="xAxis1">
+                    <ChartStriplines>
+                        <ChartStripline Start="20" Color="#663AB6" Rotation="60" Text="Column Definition Stripline" Size="15" HorizontalAlignment="Anchor.End" VerticalAlignment="Anchor.End"></ChartStripline>
+                    </ChartStriplines>
+                </ChartAxis>
+            </ChartAxes>
+            <ChartSeriesCollection>
+                <ChartSeries DataSource="@chartsvalue49" XName="X" YName="Y" Type="ChartSeriesType.Line" Name="series1" Fill="#ACE5FF" Width="2" XAxisName="xAxis1">
+                    <ChartMarker Visible="true" Width="5" Height="5"></ChartMarker>
+                </ChartSeries>
+                <ChartSeries DataSource="@chartsvalue49" XName="X" YName="Y1" Type="ChartSeriesType.Line" Name="series2" Fill="Red" Width="2" YAxisName="yAxis1">
+                    <ChartMarker Visible="true" Width="5" Height="5"></ChartMarker>
+                </ChartSeries>
+            </ChartSeriesCollection>
+        </SfChart>
+    </ComponentUnderTest>
+</SfFixture>
+
+@code {
+
+    SfFixture fixture49 { get; set; }
+    async Task TextRotation(Fixture fixture49)
+    {
+        var cut = fixture49.GetComponentUnderTest<SfChart>();
+        await Task.Delay(200);        
+        var striplineelement1 = cut.Find("#container_stripline_Behind_text_yAxis1_0");
+        // Note: Values may vary slightly depending on screen resolution.
+        Assert.True(Convert.ToDouble(striplineelement1.GetAttribute("x")) == 585);
+        Assert.True(Convert.ToDouble(striplineelement1.GetAttribute("y")) == 91.41500000000002);
+        Assert.True((striplineelement1.GetAttribute("text-anchor")) == "End");
+        Assert.True((striplineelement1.GetAttribute("transform")) == "rotate(-30,585,91.41500000000002)");
+        cut.SetParametersAndRender();
+    }
+    public class ChartData49
+    {
+        public double X { get; set; }
+        public double Y { get; set; }
+        public double Y1 { get; set; }
+    }
+    public List<ChartData49> chartsvalue49 = new List<ChartData49>
+{
+    new ChartData49 { X = 10, Y = 124, Y1 = 24 },
+    new ChartData49 { X = 20, Y = 120, Y1 = 20 },
+    new ChartData49 { X = 30, Y = 115, Y1 = 55 },
+    new ChartData49 { X = 40, Y = 147, Y1 = 47 },
+    new ChartData49 { X = 50, Y = 122, Y1 = 72 }
+ };
+}
+
+
+
+@{
+    var InitialGroup50 = (new string[] { "CustomerID", "OrderID" });
+}
+<SfFixture @ref="fixture50" TestAsync="CategoryValue" Description="CategoryValue">
+    <ComponentUnderTest>
+        <SfChart ID="container" Title="Mobile Browser Statistics" Height="400" Width="600">
+            <ChartPrimaryXAxis Title="Sales Across Years" ValueType="Syncfusion.Blazor.Toolkit.ValueType.Category" LabelPlacement="LabelPlacement.OnTicks">
+            <ChartStriplines>
+                <ChartStripline StartFromAxis="true" Start="2" Size="3" Opacity="0.5" Color="Red" Text="Category Axis Behind"></ChartStripline>
+                <ChartStripline Start="4" End="6" Opacity="0.3" Color="Blue" Text="Category Axis Over" ZIndex="ZIndex.Over"></ChartStripline>
+            </ChartStriplines>
+            </ChartPrimaryXAxis>
+            <ChartPrimaryYAxis Title="Sales Amount in millions(USD)" RangePadding="ChartRangePadding.Additional">
+            </ChartPrimaryYAxis>
+            <ChartRows>
+                <ChartRow Height="180"></ChartRow>
+                <ChartRow Height="180"></ChartRow>
+            </ChartRows>
+            <ChartColumns>
+                <ChartColumn Width="250"></ChartColumn>
+                <ChartColumn Width="250"></ChartColumn>
+            </ChartColumns>            
+            <ChartSeriesCollection>
+                <ChartSeries DataSource="@chartsvalue50" XName="X" YName="Y" Type="ChartSeriesType.Line" Name="series1" Fill="#ACE5FF" Width="2">
+                    <ChartMarker Visible="true" Width="5" Height="5"></ChartMarker>
+                </ChartSeries>
+            </ChartSeriesCollection>
+        </SfChart>
+    </ComponentUnderTest>
+</SfFixture>
+
+@code {
+
+    SfFixture fixture50 { get; set; }
+    async Task CategoryValue(Fixture fixture50)
+    {
+        var cut = fixture50.GetComponentUnderTest<SfChart>();
+        await Task.Delay(200);
+        var striplineelement = cut.Find("#container_stripline_Over_text_PrimaryXAxis_0");
+        Assert.True(striplineelement.TextContent == "Category Axis Over\n    ");
+        var striplineelement1 = cut.Find("#container_stripline_Behind_text_PrimaryXAxis_0");
+        Assert.True(striplineelement1.TextContent == "Category Axis Behind\n    ");
+        cut.SetParametersAndRender();
+    }
+    public class ChartData50
+    {
+        public string X { get; set; }
+        public double Y { get; set; }
+    }
+    public List<ChartData50> chartsvalue50 = new List<ChartData50>
+{
+    new ChartData50 { X = "USA", Y = 30},
+    new ChartData50 { X = "China", Y = 23},
+    new ChartData50 { X = "Japan", Y = 10},
+    new ChartData50 { X = "Australia", Y = 23},
+    new ChartData50 { X = "France", Y = 20},
+    new ChartData50 { X = "Germany", Y = 45},
+    new ChartData50 { X = "Italy", Y = 45},
+    new ChartData50 { X = "Sweden", Y = 31}
+ };
+}
+
+
+@{
+    var InitialGroup51 = (new string[] { "CustomerID", "OrderID" });
+}
+<SfFixture @ref="fixture51" TestAsync="DateTimeValue" Description="DateTimeValue">
+    <ComponentUnderTest>
+        <SfChart ID="container" Title="Mobile Browser Statistics" Height="400" Width="600">
+            <ChartPrimaryXAxis Title="Sales Across Years" ValueType="Syncfusion.Blazor.Toolkit.ValueType.DateTime" IntervalType="IntervalType.Years" Interval="1"
+                               Minimum="new DateTime(2000, 06, 01)" Maximum="new DateTime(2010, 06, 01)">
+            <ChartStriplines>
+                <ChartStripline Start="new DateTime(2001, 06, 01)" End="new DateTime(2004, 03, 06)" Size="90000000009" Opacity="0.5" Color="Red" Text="Date time Axis Behind"></ChartStripline>
+                <ChartStripline Start="new DateTime(2005, 01, 01)" End="new DateTime(2007, 01, 01)" Opacity="0.3" Color="Blue" Text="Date time Axis Over" ZIndex="ZIndex.Over"></ChartStripline>
+            </ChartStriplines>
+            </ChartPrimaryXAxis>
+            <ChartPrimaryYAxis Title="Sales Amount in millions(USD)" RangePadding="ChartRangePadding.Additional">
+            </ChartPrimaryYAxis>
+            <ChartRows>
+                <ChartRow Height="180"></ChartRow>
+                <ChartRow Height="180"></ChartRow>
+            </ChartRows>
+            <ChartColumns>
+                <ChartColumn Width="250"></ChartColumn>
+                <ChartColumn Width="250"></ChartColumn>
+            </ChartColumns>            
+            <ChartSeriesCollection>
+                <ChartSeries DataSource="@chartsvalue51" XName="X" YName="Y" Type="ChartSeriesType.Line" Name="series1" Fill="#ACE5FF" Width="2">
+                    <ChartMarker Visible="true" Width="5" Height="5"></ChartMarker>
+                </ChartSeries>
+            </ChartSeriesCollection>
+        </SfChart>
+    </ComponentUnderTest>
+</SfFixture>
+
+@code {
+
+    SfFixture fixture51 { get; set; }
+    async Task DateTimeValue(Fixture fixture51)
+    {
+        var cut = fixture51.GetComponentUnderTest<SfChart>();
+        await Task.Delay(200);
+        var striplineelement = cut.Find("#container_stripline_Over_text_PrimaryXAxis_0");
+        Assert.True(striplineelement.TextContent == "Date time Axis Over\n    ");
+        var striplineelement1 = cut.Find("#container_stripline_Behind_text_PrimaryXAxis_0");
+        Assert.True(striplineelement1.TextContent == "Date time Axis Behind\n    ");
+        cut.SetParametersAndRender();
+    }
+    public class ChartData51
+    {
+        public DateTime X { get; set; }
+        public double Y { get; set; }
+    }
+    public List<ChartData51> chartsvalue51 = new List<ChartData51>
+{
+    new ChartData51 { X = new DateTime(2000, 06, 11), Y = 10},
+    new ChartData51 { X = new DateTime(2002, 03, 07), Y = 30},
+    new ChartData51 { X = new DateTime(2004, 03, 06), Y = 15},
+    new ChartData51 { X = new DateTime(2006, 03, 30), Y = 65},
+    new ChartData51 { X = new DateTime(2008, 03, 08), Y = 90},
+    new ChartData51 { X = new DateTime(2010, 03, 08), Y = 85}
+ };
+}
+
+@{
+    var InitialGroup52 = (new string[] { "CustomerID", "OrderID" });
+}
+<SfFixture @ref="fixture52" TestAsync="CheckingStriplineTextStyleProperties" Description="CheckingStriplineTextStyleProperties">
+    <ComponentUnderTest>
+        <SfChart ID="containerStriplineTextStyle" Height="400" Width="600">
+            <ChartPrimaryXAxis Title="Sales Across Years">
+                <ChartStriplines>
+                    <ChartStripline Start="3" End="5" Text="Test Strip" Color="lightgray">
+                        <ChartStriplineTextStyle Size="16px" Color="purple" FontFamily="Verdana" FontWeight="700"></ChartStriplineTextStyle>
+                    </ChartStripline>
+                </ChartStriplines>
+            </ChartPrimaryXAxis>
+            <ChartPrimaryYAxis Title="Sales Amount in millions(USD)" RangePadding="ChartRangePadding.Additional"></ChartPrimaryYAxis>
+            <ChartSeriesCollection>
+                <ChartSeries DataSource="@chartsvalue53" XName="X" YName="Y"></ChartSeries>
+            </ChartSeriesCollection>
+        </SfChart>
+    </ComponentUnderTest>
+</SfFixture>
+
+@code {
+    SfFixture fixture52 { get; set; }
+    async Task CheckingStriplineTextStyleProperties(Fixture fixture52)
+    {
+        var cut = fixture52.GetComponentUnderTest<SfChart>();
+        await Task.Delay(200);
+
+        var stripline = cut.FindComponent<ChartStripline>();
+        var striplineTextStyle = cut.FindComponent<ChartStriplineTextStyle>();
+
+        Assert.Equal("16px", striplineTextStyle.Instance.Size);
+        Assert.Equal("purple", striplineTextStyle.Instance.Color);
+        Assert.Equal("Verdana", striplineTextStyle.Instance.FontFamily);
+        Assert.Equal("700", striplineTextStyle.Instance.FontWeight);
+        
+        var striplineTextElement = cut.Find("#containerStriplineTextStyle_stripline_Behind_text_PrimaryXAxis_0");
+        
+        Assert.Contains("16px", striplineTextElement.GetAttribute("font-size"), StringComparison.OrdinalIgnoreCase);
+        Assert.Contains("Verdana", striplineTextElement.GetAttribute("font-family"), StringComparison.OrdinalIgnoreCase);
+        Assert.Contains("700", striplineTextElement.GetAttribute("font-weight"), StringComparison.OrdinalIgnoreCase);
+        Assert.Equal("purple", striplineTextElement.GetAttribute("fill"));
+        
+        cut.SetParametersAndRender();
+        await striplineTextStyle.Instance.DisposeAsync();
+        await stripline.Instance.DisposeAsync();
+    }
+
+    public class ChartData53
+    {
+        public double X { get; set; }
+        public double Y { get; set; }
+    }
+
+    public List<ChartData53> chartsvalue53 = new List<ChartData53>
+    {
+        new ChartData53 { X = 1, Y = 28 },
+        new ChartData53 { X = 2, Y = 27 },
+        new ChartData53 { X = 3, Y = 33 },
+        new ChartData53 { X = 4, Y = 36 },
+        new ChartData53 { X = 5, Y = 28 },
+        new ChartData53 { X = 6, Y = 30 },
+        new ChartData53 { X = 7, Y = 31 },
+        new ChartData53 { X = 8, Y = 28 },
+        new ChartData53 { X = 9, Y = 30 },
+        new ChartData53 { X = 10, Y = 31 }
+    };
+}
+
+<SfFixture @ref="fixture53" TestAsync="CheckingVisiblePropertyUpdate" Description="CheckingVisiblePropertyUpdate">
+    <ComponentUnderTest>
+        <SfChart ID="container" Height="400" Width="600">
+            <ChartPrimaryXAxis Title="Sales Across Years">
+                <ChartStriplines>
+                    <ChartStripline Visible="@visible" StartFromAxis="false" Start="1" Size="4" VerticalAlignment="Anchor.End" Opacity="0.5" Color="Red" ZIndex="ZIndex.Behind" Text="Behind"></ChartStripline>
+                    <ChartStripline Visible="@visible" Start="6" End="8" Opacity="0.3" Color="Blue" Text="Over" ZIndex="ZIndex.Over">
+                        <ChartStriplineTextStyle Color="#ffffff" />
+                    </ChartStripline>
+                </ChartStriplines>
+            </ChartPrimaryXAxis>
+            <ChartPrimaryYAxis Title="Sales Amount in millions(USD)" RangePadding="ChartRangePadding.Additional"></ChartPrimaryYAxis>
+            <ChartSeriesCollection>
+                <ChartSeries DataSource="@chartsvalue" XName="X" YName="Y"></ChartSeries>
+            </ChartSeriesCollection>
+        </SfChart>
+    </ComponentUnderTest>
+</SfFixture>
+
+@code {
+
+    SfFixture fixture53 { get; set; }
+    public bool visible = true;
+    async Task CheckingVisiblePropertyUpdate(Fixture fixture)
+    {
+        var cut = fixture.GetComponentUnderTest<SfChart>();
+        await Task.Delay(200);
+        var striplineelement = cut.Find("#container_stripline_Behind_rect_PrimaryXAxis_0");
+        Assert.True(striplineelement != null);
+        var striplineelement1 = cut.Find("#container_stripline_Over_rect_PrimaryXAxis_0");
+        Assert.True(striplineelement1 != null);
+        visible = false;
+        cut.SetParametersAndRender();
+        Assert.Empty(cut.FindAll("#container_stripline_Behind_rect_PrimaryXAxis_0"));
+        Assert.Empty(cut.FindAll("#container_stripline_Over_rect_PrimaryXAxis_0"));
+    }
+}

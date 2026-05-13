@@ -1,0 +1,16 @@
+@page "/numerictextbox/accessibility"
+@using Syncfusion.Blazor.Toolkit.Inputs
+
+<h1>NumericTextBox — Accessibility</h1>
+
+<div style="max-width:480px">
+    <SfNumericTextBox Id="accessNumeric" TValue="double?" @bind-Value="AccValue" Min="0" Max="10" Step="1" ShowClearButton="true"></SfNumericTextBox>
+    <div style="margin-top:8px">
+        <p id="aria-status">role: <span id="role"></span></p>
+        <p>Use keyboard to increment/decrement; ARIA attrs should update.</p>
+    </div>
+</div>
+
+@code {
+    private double? AccValue { get; set; }
+}

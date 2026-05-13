@@ -1,0 +1,194 @@
+@using Blazor.Toolkit.Samples.Client.Services
+@using Syncfusion.Blazor.Toolkit.Charts.Internal
+@inject RenderModeService ModeService
+@inject IJSRuntime JS
+@inject NavigationManager Nav
+@implements IDisposable
+
+<div class="dynamic-mode-switcher">
+    <label class="me-2">
+        @if (isRenderModeSwitcher)
+        {
+            <span class="mode-icon interactive" aria-hidden="true">
+                <!-- Interaction icon: code symbol </> -->
+                <svg viewBox="0 0 20 20" role="img" focusable="false" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M9 8L5 12l4 4" stroke="currentColor" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                    <path d="M15 8l4 4-4 4" stroke="currentColor" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                    <path d="M10.5 7.5L13.5 16.5" stroke="currentColor" fill="none" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+            </span>
+        }
+        else
+        {
+            <span class="mode-icon localization" aria-hidden="true">
+                <!-- Localization icon: globe (outlined, matches screenshot) -->
+                <svg viewBox="0 0 24 24" role="img" focusable="false" xmlns="http://www.w3.org/2000/svg">
+                    <circle cx="12" cy="12" r="9" stroke="currentColor" stroke-width="2" fill="none"/>
+                    <ellipse cx="12" cy="12" rx="4" ry="9" stroke="currentColor" stroke-width="2" fill="none"/>
+                    <path d="M3 12h18" stroke="currentColor" stroke-width="2" fill="none"/>
+                </svg>
+            </span>
+        }
+        @(isRenderModeSwitcher ? "Render Mode" : "Localization")
+    </label>
+    @if (isRenderModeSwitcher)
+    {
+        <select class="form-select d-inline-block w-auto" @bind="SelectedMode">
+            <option value="InteractiveAuto">Auto</option>
+            <option value="InteractiveServer">Server</option>
+            <option value="InteractiveWebAssembly">WASM</option>
+        </select>
+    }
+    else
+    {
+        <select class="form-select d-inline-block w-auto" @bind="CurrentCulture">
+            <option value="en">English</option>
+            <option value="de-DE">German - Germany*</option>
+            <option value="fr-CH">French - Switzerland*</option>
+            <option value="ar-AE">Arabic*</option>
+            <option value="zh-CN">Chinese - China*</option>
+        </select>
+    }
+    
+</div>
+
+@code {
+    [Parameter]
+    public bool isRenderModeSwitcher { get; set; }
+
+    private string _selectedMode = "InteractiveAuto";
+    private string _currentCulture = "en";
+
+    private string CurrentCulture
+    {
+        get => _currentCulture;
+        set
+        {
+            if (_currentCulture == value) return;
+            _currentCulture = value;
+            _ = OnCultureChangedAsync(value);
+        }
+    }
+
+    private string SelectedMode
+    {
+        get => _selectedMode;
+        set
+        {
+            if (_selectedMode == value) return;
+            _selectedMode = value;
+            if (Enum.TryParse<Blazor.Toolkit.Samples.Client.Services.RenderMode>(value, out var mode))
+            {
+                ModeService.SetMode(mode);
+                // notify JS helper (stores cookie/localStorage and runs plain JS for StaticSSR)
+                _ = JS.InvokeVoidAsync("renderModeHelper.notify", value);
+            }
+        }
+    }
+
+    protected override void OnInitialized()
+    {
+        // Initialize from ModeService (server App.razor sets ModeService from cookie when applicable)
+        _selectedMode = ModeService.CurrentMode.ToString();
+        ModeService.RenderModeChanged += OnExternalModeChanged;
+    }
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (!firstRender) return;
+        try
+        {
+            // Try to read persisted culture from localStorage (WASM) or cookie
+            var persisted = await JS.InvokeAsync<string>("blazorCulture.get");
+            if (!string.IsNullOrEmpty(persisted))
+            {
+                _currentCulture = persisted;
+                await InvokeAsync(StateHasChanged);
+            }
+        }
+        catch { }
+        try
+        {
+            var cookie = await JS.InvokeAsync<string>("renderModeHelper.readCookie");
+            if (!string.IsNullOrEmpty(cookie) && Enum.TryParse<Blazor.Toolkit.Samples.Client.Services.RenderMode>(cookie, out var mode))
+            {
+                // Ensure service and UI reflect cookie value
+                ModeService.SetMode(mode);
+                _selectedMode = mode.ToString();
+                await InvokeAsync(StateHasChanged);
+            }
+        }
+        catch { }
+    }
+
+    private void OnExternalModeChanged(Blazor.Toolkit.Samples.Client.Services.RenderMode mode)
+    {
+        _selectedMode = mode.ToString();
+        InvokeAsync(StateHasChanged);
+    }
+
+    private async Task OnCultureChangedAsync(string culture)
+    {
+        try
+        {
+            await JS.InvokeVoidAsync("blazorCulture.set", culture);
+        }
+        catch
+        {
+            try
+            {
+                await JS.InvokeVoidAsync("mainLayout.setCulture", culture);
+            }
+            catch { }
+        }
+
+        try
+        {
+            Nav.NavigateTo(Nav.Uri, forceLoad: true);
+        }
+        catch
+        {
+            try { await JS.InvokeVoidAsync("mainLayout.reload"); } catch { }
+        }
+    }
+
+    public void Dispose()
+    {
+        ModeService.RenderModeChanged -= OnExternalModeChanged;
+    }
+}
+
+<style>
+    .dynamic-mode-switcher {
+        display: grid;
+        font-size: 14px;
+    }
+    .dynamic-mode-switcher label {
+        margin-bottom: 6px;
+    }
+    .dynamic-mode-switcher .mode-icon {
+        display: inline-block;
+        width: 18px;
+        height: 18px;
+        margin-right: 6px;
+        vertical-align: -3px;
+        fill: currentColor;
+        stroke: none;
+    }
+    .dynamic-mode-switcher .mode-icon svg {
+        width: 100%;
+        height: 100%;
+        display: block;
+        fill: currentColor;
+    }
+
+    .dynamic-mode-switcher .mode-icon.interactive,
+    .dynamic-mode-switcher .mode-icon.localization { 
+        color: #222; 
+    }
+
+    .dark .dynamic-mode-switcher .mode-icon.interactive,
+    .dark .dynamic-mode-switcher .mode-icon.localization {
+        color: #fff;
+    }
+</style>

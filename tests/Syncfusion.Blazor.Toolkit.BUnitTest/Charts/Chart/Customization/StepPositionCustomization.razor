@@ -1,0 +1,983 @@
+﻿﻿@using Syncfusion.Blazor.Toolkit.Charts
+@using Syncfusion.Blazor.Toolkit.Tests
+@using Bunit
+@using Xunit
+
+@inherits TestComponentBase
+
+<SfFixture @ref="sfFixture" TestAsync="CheckingStepLineSeriesWithLeftStepPosition" Description="CheckingStepLineSeriesWithLeftStepPosition">
+    <ComponentUnderTest>
+        <SfChart ID="container" Title="Step Position Customization" IsTransposed="false">
+            <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Toolkit.ValueType.Category" LabelPlacement="LabelPlacement.OnTicks"/>
+            <ChartSeriesCollection>
+                <ChartSeries DataSource="@MedalDetails" Name="StepLine" XName="X" YName="Y" Type="ChartSeriesType.StepLine" StepPosition="StepPosition.Left">
+                    <ChartMarker Visible="true"></ChartMarker>
+                </ChartSeries>
+            </ChartSeriesCollection>
+        </SfChart>
+    </ComponentUnderTest>
+</SfFixture>
+
+
+@code {
+    SfFixture sfFixture { get; set; }
+    async Task CheckingStepLineSeriesWithLeftStepPosition(Fixture sfFixture)
+    {
+        var cut = sfFixture.GetComponentUnderTest<SfChart>();
+        await Task.Delay(200);
+        var marker = cut.Find("#container_Series_0_Point_1_Symbol");
+        // Note: Values may vary slightly depending on screen resolution.
+        Assert.True(marker.GetAttribute("cx") == "50.68181818181818");
+        Assert.True(marker.GetAttribute("cy") == "231.42935714285713");
+        var series = cut.Find("#container_Series_0");
+        var pathDirection = series.GetAttribute("d").Split("L");
+        Assert.True(pathDirection[2].Trim() == "50.68181818181818 145.41557142857144");
+        Assert.True(pathDirection[3].Trim() == "50.68181818181818 231.42935714285713");
+        cut.SetParametersAndRender();
+    }
+
+    public class ChartData
+    {
+        public string X { get; set; }
+        public Nullable<double> Y { get; set; }
+        public Nullable<double> Z { get; set; }
+        public Nullable<double> Z1 { get; set; }
+    }
+    public List<ChartData> MedalDetails = new List<ChartData>
+    {
+        new ChartData { X= "South Korea", Y= 39.4 , Z = 50.5, Z1 = 150.5 },
+        new ChartData { X= "India", Y= 21.3, Z = 83.5, Z1 = 183.5  },
+        new ChartData { X= "Pakistan", Y= 10.4, Z = 62.5, Z1 = 162.5  },
+        new ChartData { X= "Germany", Y= 20.1, Z = 56.4, Z1 = 156.5  },
+        new ChartData { X= "Australia", Y= 15.8, Z = 70.4, Z1 = 170.5 },
+        new ChartData { X= "Italy", Y= 29.2, Z = 90.5, Z1 = 190.5  },
+        new ChartData { X= "United Kingdom", Y= 44.6, Z = 76.3, Z1 = 176.5  },
+        new ChartData { X= "Saudi Arabia", Y= 60.7, Z = 98.7, Z1 = 198.5   },
+        new ChartData { X= "Russia", Y= 40.8, Z = 79.9, Z1 = 179.5   },
+        new ChartData { X= "Mexico", Y= 31, Z = 66.1, Z1 = 166.5   },
+        new ChartData { X= "Brazil", Y= 45.9, Z = 98.7, Z1 = 198.5   },
+        new ChartData { X= "China", Y= 51.4, Z = 68.5, Z1 = 168.5   }
+    };
+}
+
+
+@{
+    var InitialGroup1 = (new string[] { "CustomerID", "OrderID" });
+}
+<SfFixture @ref="sfFixture1" TestAsync="CheckingStepLineSeriesWithRightStepPosition" Description="CheckingStepLineSeriesWithRightStepPosition">
+    <ComponentUnderTest>
+        <SfChart ID="container" Title="Step Position Customization" IsTransposed="false">
+            <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Toolkit.ValueType.Category" LabelPlacement="LabelPlacement.OnTicks" />
+            <ChartSeriesCollection>
+                <ChartSeries DataSource="@MedalDetails1" Name="StepLine" XName="X" YName="Y" Type="ChartSeriesType.StepLine" StepPosition="StepPosition.Right">
+                    <ChartMarker Visible="true"></ChartMarker>
+                </ChartSeries>
+            </ChartSeriesCollection>
+        </SfChart>
+    </ComponentUnderTest>
+</SfFixture>
+
+@code {
+    SfFixture sfFixture1 { get; set; }
+    async Task CheckingStepLineSeriesWithRightStepPosition(Fixture sfFixture1)
+    {
+        var cut = sfFixture1.GetComponentUnderTest<SfChart>();
+        await Task.Delay(200);
+        var marker = cut.Find("#container_Series_0_Point_1_Symbol");
+        // Note: Values may vary slightly depending on screen resolution.
+        Assert.True(marker.GetAttribute("cx") == "50.68181818181818");
+        Assert.True(marker.GetAttribute("cy") == "231.42935714285713");
+        var series = cut.Find("#container_Series_0");
+        var pathDirection = series.GetAttribute("d").Split("L");
+        Assert.True(pathDirection[2].Trim() == "0 231.42935714285713");
+        Assert.True(pathDirection[3].Trim() == "50.68181818181818 231.42935714285713");
+        cut.SetParametersAndRender();
+    }
+
+    public class ChartData1
+    {
+        public string X { get; set; }
+        public Nullable<double> Y { get; set; }
+        public Nullable<double> Z { get; set; }
+        public Nullable<double> Z1 { get; set; }
+    }
+    public List<ChartData1> MedalDetails1 = new List<ChartData1>
+    {
+        new ChartData1 { X= "South Korea", Y= 39.4 , Z = 50.5, Z1 = 150.5 },
+        new ChartData1 { X= "India", Y= 21.3, Z = 83.5, Z1 = 183.5  },
+        new ChartData1 { X= "Pakistan", Y= 10.4, Z = 62.5, Z1 = 162.5  },
+        new ChartData1 { X= "Germany", Y= 20.1, Z = 56.4, Z1 = 156.5  },
+        new ChartData1 { X= "Australia", Y= 15.8, Z = 70.4, Z1 = 170.5 },
+        new ChartData1 { X= "Italy", Y= 29.2, Z = 90.5, Z1 = 190.5  },
+        new ChartData1 { X= "United Kingdom", Y= 44.6, Z = 76.3, Z1 = 176.5  },
+        new ChartData1 { X= "Saudi Arabia", Y= 60.7, Z = 98.7, Z1 = 198.5   },
+        new ChartData1 { X= "Russia", Y= 40.8, Z = 79.9, Z1 = 179.5   },
+        new ChartData1 { X= "Mexico", Y= 31, Z = 66.1, Z1 = 166.5   },
+        new ChartData1 { X= "Brazil", Y= 45.9, Z = 98.7, Z1 = 198.5   },
+        new ChartData1 { X= "China", Y= 51.4, Z = 68.5, Z1 = 168.5   }
+    };
+}
+
+
+@{
+    var InitialGroup2 = (new string[] { "CustomerID", "OrderID" });
+}
+<SfFixture @ref="sfFixture2" TestAsync="CheckingStepLineSeriesWithCenterStepPosition" Description="CheckingStepLineSeriesWithCenterStepPosition">
+    <ComponentUnderTest>
+        <SfChart ID="container" Title="Step Position Customization" IsTransposed="false">
+            <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Toolkit.ValueType.Category" LabelPlacement="LabelPlacement.OnTicks" />
+            <ChartSeriesCollection>
+                <ChartSeries DataSource="@MedalDetails2" Name="StepLine" XName="X" YName="Y" Type="ChartSeriesType.StepLine" StepPosition="StepPosition.Center">
+                    <ChartMarker Visible="true"></ChartMarker>
+                </ChartSeries>
+            </ChartSeriesCollection>
+        </SfChart>
+    </ComponentUnderTest>
+</SfFixture>
+
+@code {
+    SfFixture sfFixture2 { get; set; }
+    async Task CheckingStepLineSeriesWithCenterStepPosition(Fixture sfFixture2)
+    {
+        var cut = sfFixture2.GetComponentUnderTest<SfChart>();
+        await Task.Delay(200);
+        var marker = cut.Find("#container_Series_0_Point_1_Symbol");
+        // Note: Values may vary slightly depending on screen resolution.
+        Assert.True(marker.GetAttribute("cx") == "50.68181818181818");
+        Assert.True(marker.GetAttribute("cy") == "231.42935714285713");
+        var series = cut.Find("#container_Series_0");
+        var pathDirection = series.GetAttribute("d").Split("L");
+        Assert.True(pathDirection[2].Trim() == "25.34090909090909 145.41557142857144");
+        Assert.True(pathDirection[3].Trim() == "25.34090909090909 231.42935714285713");
+        Assert.True(pathDirection[4].Trim() == "50.68181818181818 231.42935714285713");
+        cut.SetParametersAndRender();
+    }
+
+    public class ChartData2
+    {
+        public string X { get; set; }
+        public Nullable<double> Y { get; set; }
+        public Nullable<double> Z { get; set; }
+        public Nullable<double> Z1 { get; set; }
+    }
+    public List<ChartData2> MedalDetails2 = new List<ChartData2>
+    {
+        new ChartData2 { X= "South Korea", Y= 39.4 , Z = 50.5, Z1 = 150.5 },
+        new ChartData2 { X= "India", Y= 21.3, Z = 83.5, Z1 = 183.5  },
+        new ChartData2 { X= "Pakistan", Y= 10.4, Z = 62.5, Z1 = 162.5  },
+        new ChartData2 { X= "Germany", Y= 20.1, Z = 56.4, Z1 = 156.5  },
+        new ChartData2 { X= "Australia", Y= 15.8, Z = 70.4, Z1 = 170.5 },
+        new ChartData2 { X= "Italy", Y= 29.2, Z = 90.5, Z1 = 190.5  },
+        new ChartData2 { X= "United Kingdom", Y= 44.6, Z = 76.3, Z1 = 176.5  },
+        new ChartData2 { X= "Saudi Arabia", Y= 60.7, Z = 98.7, Z1 = 198.5   },
+        new ChartData2 { X= "Russia", Y= 40.8, Z = 79.9, Z1 = 179.5   },
+        new ChartData2 { X= "Mexico", Y= 31, Z = 66.1, Z1 = 166.5   },
+        new ChartData2 { X= "Brazil", Y= 45.9, Z = 98.7, Z1 = 198.5   },
+        new ChartData2 { X= "China", Y= 51.4, Z = 68.5, Z1 = 168.5   }
+    };
+}
+
+
+@{
+    var InitialGroup3 = (new string[] { "CustomerID", "OrderID" });
+}
+<SfFixture @ref="sfFixture3" TestAsync="CheckingStepAreaSeriesWithLeftStepPosition" Description="CheckingStepAreaSeriesWithLeftStepPosition">
+    <ComponentUnderTest>
+        <SfChart ID="container" Title="Step Position Customization" IsTransposed="false">
+            <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Toolkit.ValueType.Category" LabelPlacement="LabelPlacement.OnTicks" />
+            <ChartSeriesCollection>
+                <ChartSeries DataSource="@MedalDetails3" XName="X" YName="Y" Type="ChartSeriesType.StepArea" StepPosition="StepPosition.Left">
+                    <ChartMarker Visible="true"></ChartMarker>
+                </ChartSeries>
+            </ChartSeriesCollection>
+        </SfChart>
+    </ComponentUnderTest>
+</SfFixture>
+
+@code {
+    SfFixture sfFixture3 { get; set; }
+    async Task CheckingStepAreaSeriesWithLeftStepPosition(Fixture sfFixture3)
+    {
+        var cut = sfFixture3.GetComponentUnderTest<SfChart>();
+        await Task.Delay(200);
+        var series = cut.Find("#container_Series_0");
+        var pathDirection = series.GetAttribute("d").Split("L");
+        // Note: Values may vary slightly depending on screen resolution.
+        Assert.True(pathDirection[3].Trim() == "50.68181818181818 160.803");
+        Assert.True(pathDirection[4].Trim() == "50.68181818181818 255.9185");
+        Assert.True(pathDirection[5].Trim() == "101.36363636363636 255.9185");
+        cut.SetParametersAndRender();
+    }
+
+    public class ChartData3
+    {
+        public string X { get; set; }
+        public Nullable<double> Y { get; set; }
+        public Nullable<double> Z { get; set; }
+        public Nullable<double> Z1 { get; set; }
+    }
+    public List<ChartData3> MedalDetails3 = new List<ChartData3>
+    {
+        new ChartData3 { X= "South Korea", Y= 39.4 , Z = 50.5, Z1 = 150.5 },
+        new ChartData3 { X= "India", Y= 21.3, Z = 83.5, Z1 = 183.5  },
+        new ChartData3 { X= "Pakistan", Y= 10.4, Z = 62.5, Z1 = 162.5  },
+        new ChartData3 { X= "Germany", Y= 20.1, Z = 56.4, Z1 = 156.5  },
+        new ChartData3 { X= "Australia", Y= 15.8, Z = 70.4, Z1 = 170.5 },
+        new ChartData3 { X= "Italy", Y= 29.2, Z = 90.5, Z1 = 190.5  },
+        new ChartData3 { X= "United Kingdom", Y= 44.6, Z = 76.3, Z1 = 176.5  },
+        new ChartData3 { X= "Saudi Arabia", Y= 60.7, Z = 98.7, Z1 = 198.5   },
+        new ChartData3 { X= "Russia", Y= 40.8, Z = 79.9, Z1 = 179.5   },
+        new ChartData3 { X= "Mexico", Y= 31, Z = 66.1, Z1 = 166.5   },
+        new ChartData3 { X= "Brazil", Y= 45.9, Z = 98.7, Z1 = 198.5   },
+        new ChartData3 { X= "China", Y= 51.4, Z = 68.5, Z1 = 168.5   }
+    };
+}
+
+
+@{
+    var InitialGroup4 = (new string[] { "CustomerID", "OrderID" });
+}
+<SfFixture @ref="sfFixture4" TestAsync="CheckingStepAreaSeriesWithRightStepPosition" Description="CheckingStepAreaSeriesWithRightStepPosition">
+    <ComponentUnderTest>
+        <SfChart ID="container" Title="Step Position Customization" IsTransposed="false">
+            <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Toolkit.ValueType.Category" LabelPlacement="LabelPlacement.OnTicks" />
+            <ChartSeriesCollection>
+                <ChartSeries DataSource="@MedalDetails4" XName="X" YName="Y" Type="ChartSeriesType.StepArea" StepPosition="StepPosition.Right">
+                    <ChartMarker Visible="true"></ChartMarker>
+                </ChartSeries>
+            </ChartSeriesCollection>
+        </SfChart>
+    </ComponentUnderTest>
+</SfFixture>
+
+@code {
+    SfFixture sfFixture4 { get; set; }
+    async Task CheckingStepAreaSeriesWithRightStepPosition(Fixture sfFixture4)
+    {
+        var cut = sfFixture4.GetComponentUnderTest<SfChart>();
+        await Task.Delay(200);
+        var marker = cut.Find("#container_Series_0_Point_1_Symbol");
+        // Note: Values may vary slightly depending on screen resolution.
+        Assert.True(marker.GetAttribute("cx") == "50.68181818181818");
+        Assert.True(marker.GetAttribute("cy") == "255.9185");
+        var series = cut.Find("#container_Series_0");
+        var pathDirection = series.GetAttribute("d").Split("L");
+        Assert.True(pathDirection[5].Trim() == "50.68181818181818 313.198");
+        Assert.True(pathDirection[6].Trim() == "101.36363636363636 313.198");
+        cut.SetParametersAndRender();
+    }
+
+    public class ChartData4
+    {
+        public string X { get; set; }
+        public Nullable<double> Y { get; set; }
+        public Nullable<double> Z { get; set; }
+        public Nullable<double> Z1 { get; set; }
+    }
+    public List<ChartData4> MedalDetails4 = new List<ChartData4>
+    {
+        new ChartData4 { X= "South Korea", Y= 39.4 , Z = 50.5, Z1 = 150.5 },
+        new ChartData4 { X= "India", Y= 21.3, Z = 83.5, Z1 = 183.5  },
+        new ChartData4 { X= "Pakistan", Y= 10.4, Z = 62.5, Z1 = 162.5  },
+        new ChartData4 { X= "Germany", Y= 20.1, Z = 56.4, Z1 = 156.5  },
+        new ChartData4 { X= "Australia", Y= 15.8, Z = 70.4, Z1 = 170.5 },
+        new ChartData4 { X= "Italy", Y= 29.2, Z = 90.5, Z1 = 190.5  },
+        new ChartData4 { X= "United Kingdom", Y= 44.6, Z = 76.3, Z1 = 176.5  },
+        new ChartData4 { X= "Saudi Arabia", Y= 60.7, Z = 98.7, Z1 = 198.5   },
+        new ChartData4 { X= "Russia", Y= 40.8, Z = 79.9, Z1 = 179.5   },
+        new ChartData4 { X= "Mexico", Y= 31, Z = 66.1, Z1 = 166.5   },
+        new ChartData4 { X= "Brazil", Y= 45.9, Z = 98.7, Z1 = 198.5   },
+        new ChartData4 { X= "China", Y= 51.4, Z = 68.5, Z1 = 168.5   }
+    };
+}
+
+
+@{
+    var InitialGroup5 = (new string[] { "CustomerID", "OrderID" });
+}
+<SfFixture @ref="sfFixture5" TestAsync="CheckingStepAreaSeriesWithCenterStepPosition" Description="CheckingStepAreaSeriesWithCenterStepPosition">
+    <ComponentUnderTest>
+        <SfChart ID="container" Title="Step Position Customization" IsTransposed="false">
+            <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Toolkit.ValueType.Category" LabelPlacement="LabelPlacement.OnTicks" />
+            <ChartSeriesCollection>
+                <ChartSeries DataSource="@MedalDetails5" XName="X" YName="Y" Type="ChartSeriesType.StepArea" StepPosition="StepPosition.Center">
+                    <ChartMarker Visible="true"></ChartMarker>
+                </ChartSeries>
+            </ChartSeriesCollection>
+        </SfChart>
+    </ComponentUnderTest>
+</SfFixture>
+
+@code {
+    SfFixture sfFixture5 { get; set; }
+    async Task CheckingStepAreaSeriesWithCenterStepPosition(Fixture sfFixture5)
+    {
+        var cut = sfFixture5.GetComponentUnderTest<SfChart>();
+        await Task.Delay(200);
+        var marker = cut.Find("#container_Series_0_Point_1_Symbol");
+        // Note: Values may vary slightly depending on screen resolution.
+        Assert.True(marker.GetAttribute("cx") == "50.68181818181818");
+        Assert.True(marker.GetAttribute("cy") == "255.9185");
+        var series = cut.Find("#container_Series_0");
+        var pathDirection = series.GetAttribute("d").Split("L");
+        Assert.True(pathDirection[6].Trim() == "76.02272727272727 255.9185");
+        Assert.True(pathDirection[7].Trim() == "76.02272727272727 313.198");
+        Assert.True(pathDirection[8].Trim() == "101.36363636363636 313.198");
+        cut.SetParametersAndRender();
+    }
+
+    public class ChartData5
+    {
+        public string X { get; set; }
+        public Nullable<double> Y { get; set; }
+        public Nullable<double> Z { get; set; }
+        public Nullable<double> Z1 { get; set; }
+    }
+    public List<ChartData5> MedalDetails5 = new List<ChartData5>
+    {
+        new ChartData5 { X= "South Korea", Y= 39.4 , Z = 50.5, Z1 = 150.5 },
+        new ChartData5 { X= "India", Y= 21.3, Z = 83.5, Z1 = 183.5  },
+        new ChartData5 { X= "Pakistan", Y= 10.4, Z = 62.5, Z1 = 162.5  },
+        new ChartData5 { X= "Germany", Y= 20.1, Z = 56.4, Z1 = 156.5  },
+        new ChartData5 { X= "Australia", Y= 15.8, Z = 70.4, Z1 = 170.5 },
+        new ChartData5 { X= "Italy", Y= 29.2, Z = 90.5, Z1 = 190.5  },
+        new ChartData5 { X= "United Kingdom", Y= 44.6, Z = 76.3, Z1 = 176.5  },
+        new ChartData5 { X= "Saudi Arabia", Y= 60.7, Z = 98.7, Z1 = 198.5   },
+        new ChartData5 { X= "Russia", Y= 40.8, Z = 79.9, Z1 = 179.5   },
+        new ChartData5 { X= "Mexico", Y= 31, Z = 66.1, Z1 = 166.5   },
+        new ChartData5 { X= "Brazil", Y= 45.9, Z = 98.7, Z1 = 198.5   },
+        new ChartData5 { X= "China", Y= 51.4, Z = 68.5, Z1 = 168.5   }
+    };
+}
+
+@{
+    var InitialGroup9 = (new string[] { "CustomerID", "OrderID" });
+}
+<SfFixture @ref="sfFixture9" TestAsync="CheckingStackedStepAreaSeriesWithLeftStepPosition" Description="CheckingStackedStepAreaSeriesWithLeftStepPosition">
+    <ComponentUnderTest>
+        <SfChart ID="container" Title="Step Position Customization" IsTransposed="false">
+            <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Toolkit.ValueType.Category" LabelPlacement="LabelPlacement.OnTicks" />
+            <ChartSeriesCollection>
+                <ChartSeries DataSource="@MedalDetails9" XName="X" YName="Y" Type="ChartSeriesType.StackingStepArea" StepPosition="StepPosition.Left">
+                    <ChartMarker Visible="true"></ChartMarker>
+                </ChartSeries>
+                <ChartSeries DataSource="@MedalDetails9" XName="X" YName="Z" Type="ChartSeriesType.StackingStepArea" StepPosition="StepPosition.Left">
+                    <ChartMarker Visible="true"></ChartMarker>
+                </ChartSeries>
+            </ChartSeriesCollection>
+        </SfChart>
+    </ComponentUnderTest>
+</SfFixture>
+
+@code {
+    SfFixture sfFixture9 { get; set; }
+    async Task CheckingStackedStepAreaSeriesWithLeftStepPosition(Fixture sfFixture9)
+    {
+        var cut = sfFixture9.GetComponentUnderTest<SfChart>();
+        await Task.Delay(200);
+        var series = cut.Find("#container_Series_1");
+        var pathDirection = series.GetAttribute("d").Split("L");
+        // Note: Values may vary slightly depending on screen resolution.
+        Assert.True(pathDirection[3].Trim() == "50.13636363636364 184.12936111111108");
+        Assert.True(pathDirection[4].Trim() == "50.13636363636364 153.67955555555554");
+        Assert.True(pathDirection[5].Trim() == "100.27272727272728 153.67955555555554");
+        cut.SetParametersAndRender();
+    }
+
+    public class ChartData9
+    {
+        public string X { get; set; }
+        public Nullable<double> Y { get; set; }
+        public Nullable<double> Z { get; set; }
+        public Nullable<double> Z1 { get; set; }
+    }
+    public List<ChartData9> MedalDetails9 = new List<ChartData9>
+    {
+        new ChartData9 { X= "South Korea", Y= 39.4 , Z = 50.5, Z1 = 150.5 },
+        new ChartData9 { X= "India", Y= 21.3, Z = 83.5, Z1 = 183.5  },
+        new ChartData9 { X= "Pakistan", Y= 10.4, Z = 62.5, Z1 = 162.5  },
+        new ChartData9 { X= "Germany", Y= 20.1, Z = 56.4, Z1 = 156.5  },
+        new ChartData9 { X= "Australia", Y= 15.8, Z = 70.4, Z1 = 170.5 },
+        new ChartData9 { X= "Italy", Y= 29.2, Z = 90.5, Z1 = 190.5  },
+        new ChartData9 { X= "United Kingdom", Y= 44.6, Z = 76.3, Z1 = 176.5  },
+        new ChartData9 { X= "Saudi Arabia", Y= 60.7, Z = 98.7, Z1 = 198.5   },
+        new ChartData9 { X= "Russia", Y= 40.8, Z = 79.9, Z1 = 179.5   },
+        new ChartData9 { X= "Mexico", Y= 31, Z = 66.1, Z1 = 166.5   },
+        new ChartData9 { X= "Brazil", Y= 45.9, Z = 98.7, Z1 = 198.5   },
+        new ChartData9 { X= "China", Y= 51.4, Z = 68.5, Z1 = 168.5   }
+    };
+}
+
+
+@{
+    var InitialGroup10 = (new string[] { "CustomerID", "OrderID" });
+}
+<SfFixture @ref="sfFixture10" TestAsync="CheckingStackedStepAreaSeriesWithRightStepPosition" Description="CheckingStackedStepAreaSeriesWithRightStepPosition">
+    <ComponentUnderTest>
+        <SfChart ID="container" Title="Step Position Customization" IsTransposed="false">
+            <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Toolkit.ValueType.Category" LabelPlacement="LabelPlacement.OnTicks" />
+            <ChartSeriesCollection>
+                <ChartSeries DataSource="@MedalDetails10" XName="X" YName="Y" Type="ChartSeriesType.StackingStepArea" StepPosition="StepPosition.Right">
+                    <ChartMarker Visible="true"></ChartMarker>
+                </ChartSeries>
+                <ChartSeries DataSource="@MedalDetails10" XName="X" YName="Z" Type="ChartSeriesType.StackingStepArea" StepPosition="StepPosition.Right">
+                    <ChartMarker Visible="true"></ChartMarker>
+                </ChartSeries>
+            </ChartSeriesCollection>
+        </SfChart>
+    </ComponentUnderTest>
+</SfFixture>
+
+@code {
+    SfFixture sfFixture10 { get; set; }
+    async Task CheckingStackedStepAreaSeriesWithRightStepPosition(Fixture sfFixture10)
+    {
+        var cut = sfFixture10.GetComponentUnderTest<SfChart>();
+        await Task.Delay(200);
+        var series = cut.Find("#container_Series_1");
+        var pathDirection = series.GetAttribute("d").Split("L");
+        // Note: Values may vary slightly depending on screen resolution.
+        Assert.True(pathDirection[3].Trim() == "0 153.67955555555554");
+        Assert.True(pathDirection[4].Trim() == "50.13636363636364 153.67955555555554");
+        Assert.True(pathDirection[5].Trim() == "50.13636363636364 218.87074999999996");
+        cut.SetParametersAndRender();
+    }
+
+    public class ChartData10
+    {
+        public string X { get; set; }
+        public Nullable<double> Y { get; set; }
+        public Nullable<double> Z { get; set; }
+        public Nullable<double> Z1 { get; set; }
+    }
+    public List<ChartData10> MedalDetails10 = new List<ChartData10>
+    {
+        new ChartData10 { X= "South Korea", Y= 39.4 , Z = 50.5, Z1 = 150.5 },
+        new ChartData10 { X= "India", Y= 21.3, Z = 83.5, Z1 = 183.5  },
+        new ChartData10 { X= "Pakistan", Y= 10.4, Z = 62.5, Z1 = 162.5  },
+        new ChartData10 { X= "Germany", Y= 20.1, Z = 56.4, Z1 = 156.5  },
+        new ChartData10 { X= "Australia", Y= 15.8, Z = 70.4, Z1 = 170.5 },
+        new ChartData10 { X= "Italy", Y= 29.2, Z = 90.5, Z1 = 190.5  },
+        new ChartData10 { X= "United Kingdom", Y= 44.6, Z = 76.3, Z1 = 176.5  },
+        new ChartData10 { X= "Saudi Arabia", Y= 60.7, Z = 98.7, Z1 = 198.5   },
+        new ChartData10 { X= "Russia", Y= 40.8, Z = 79.9, Z1 = 179.5   },
+        new ChartData10 { X= "Mexico", Y= 31, Z = 66.1, Z1 = 166.5   },
+        new ChartData10 { X= "Brazil", Y= 45.9, Z = 98.7, Z1 = 198.5   },
+        new ChartData10 { X= "China", Y= 51.4, Z = 68.5, Z1 = 168.5   }
+    };
+}
+
+
+@{
+    var InitialGroup11 = (new string[] { "CustomerID", "OrderID" });
+}
+<SfFixture @ref="sfFixture11" TestAsync="CheckingStackedStepAreaSeriesWithCenterStepPosition" Description="CheckingStackedStepAreaSeriesWithCenterStepPosition">
+    <ComponentUnderTest>
+        <SfChart ID="container" Title="Step Position Customization" IsTransposed="false">
+            <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Toolkit.ValueType.Category" LabelPlacement="LabelPlacement.OnTicks" />
+            <ChartSeriesCollection>
+                <ChartSeries DataSource="@MedalDetails11" XName="X" YName="Y" Type="ChartSeriesType.StackingStepArea" StepPosition="StepPosition.Center">
+                    <ChartMarker Visible="true"></ChartMarker>
+                </ChartSeries>
+                <ChartSeries DataSource="@MedalDetails11" XName="X" YName="Z" Type="ChartSeriesType.StackingStepArea" StepPosition="StepPosition.Center">
+                    <ChartMarker Visible="true"></ChartMarker>
+                </ChartSeries>
+            </ChartSeriesCollection>
+        </SfChart>
+    </ComponentUnderTest>
+</SfFixture>
+
+@code {
+    SfFixture sfFixture11 { get; set; }
+    async Task CheckingStackedStepAreaSeriesWithCenterStepPosition(Fixture sfFixture11)
+    {
+        var cut = sfFixture11.GetComponentUnderTest<SfChart>();
+        await Task.Delay(200);
+        var series = cut.Find("#container_Series_1");
+        var pathDirection = series.GetAttribute("d").Split("L");
+        // Note: Values may vary slightly depending on screen resolution.
+        Assert.True(pathDirection[3].Trim() == "25.06818181818182 184.12936111111108");
+        Assert.True(pathDirection[4].Trim() == "25.06818181818182 153.67955555555554");
+        Assert.True(pathDirection[5].Trim() == "50.13636363636364 153.67955555555554");
+        cut.SetParametersAndRender();
+    }
+
+    public class ChartData11
+    {
+        public string X { get; set; }
+        public Nullable<double> Y { get; set; }
+        public Nullable<double> Z { get; set; }
+        public Nullable<double> Z1 { get; set; }
+    }
+    public List<ChartData11> MedalDetails11 = new List<ChartData11>
+    {
+        new ChartData11 { X= "South Korea", Y= 39.4 , Z = 50.5, Z1 = 150.5 },
+        new ChartData11 { X= "India", Y= 21.3, Z = 83.5, Z1 = 183.5  },
+        new ChartData11 { X= "Pakistan", Y= 10.4, Z = 62.5, Z1 = 162.5  },
+        new ChartData11 { X= "Germany", Y= 20.1, Z = 56.4, Z1 = 156.5  },
+        new ChartData11 { X= "Australia", Y= 15.8, Z = 70.4, Z1 = 170.5 },
+        new ChartData11 { X= "Italy", Y= 29.2, Z = 90.5, Z1 = 190.5  },
+        new ChartData11 { X= "United Kingdom", Y= 44.6, Z = 76.3, Z1 = 176.5  },
+        new ChartData11 { X= "Saudi Arabia", Y= 60.7, Z = 98.7, Z1 = 198.5   },
+        new ChartData11 { X= "Russia", Y= 40.8, Z = 79.9, Z1 = 179.5   },
+        new ChartData11 { X= "Mexico", Y= 31, Z = 66.1, Z1 = 166.5   },
+        new ChartData11 { X= "Brazil", Y= 45.9, Z = 98.7, Z1 = 198.5   },
+        new ChartData11 { X= "China", Y= 51.4, Z = 68.5, Z1 = 168.5   }
+    };
+}
+
+@{
+    var InitialGroup12 = (new string[] { "CustomerID", "OrderID" });
+}
+<SfFixture @ref="sfFixture12" TestAsync="CheckingStepPositionCustomizationWithBetweenTicksAxis" Description="CheckingStepPositionCustomizationWithBetweenTicksAxis">
+    <ComponentUnderTest>
+        <SfChart ID="container" Title="Step Position Customization" IsTransposed="false">
+            <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Toolkit.ValueType.Category" LabelPlacement="LabelPlacement.BetweenTicks" />
+            <ChartSeriesCollection>
+                <ChartSeries DataSource="@MedalDetails12" XName="X" YName="Y" Type="ChartSeriesType.StepArea" StepPosition="StepPosition.Right">
+                    <ChartMarker Visible="true"></ChartMarker>
+                </ChartSeries>
+            </ChartSeriesCollection>
+        </SfChart>
+    </ComponentUnderTest>
+</SfFixture>
+
+@code {
+    SfFixture sfFixture12 { get; set; }
+    async Task CheckingStepPositionCustomizationWithBetweenTicksAxis(Fixture sfFixture12)
+    {
+        var cut = sfFixture12.GetComponentUnderTest<SfChart>();
+        await Task.Delay(200);
+        var marker = cut.Find("#container_Series_0_Point_0_Symbol");
+        // Note: Values may vary slightly depending on screen resolution.
+        Assert.True(marker.GetAttribute("cx") == "23.229166666666664");
+        Assert.True(marker.GetAttribute("cy") == "160.803");
+        var series = cut.Find("#container_Series_0");
+        var pathDirection = series.GetAttribute("d").Split("L");
+        Assert.True(pathDirection[3].Trim() == "23.229166666666664 255.9185");
+        Assert.True(pathDirection[4].Trim() == "69.6875 255.9185");
+        cut.SetParametersAndRender();
+    }
+
+    public class ChartData12
+    {
+        public string X { get; set; }
+        public Nullable<double> Y { get; set; }
+        public Nullable<double> Z { get; set; }
+        public Nullable<double> Z1 { get; set; }
+    }
+    public List<ChartData12> MedalDetails12 = new List<ChartData12>
+    {
+        new ChartData12 { X= "South Korea", Y= 39.4 , Z = 50.5, Z1 = 150.5 },
+        new ChartData12 { X= "India", Y= 21.3, Z = 83.5, Z1 = 183.5  },
+        new ChartData12 { X= "Pakistan", Y= 10.4, Z = 62.5, Z1 = 162.5  },
+        new ChartData12 { X= "Germany", Y= 20.1, Z = 56.4, Z1 = 156.5  },
+        new ChartData12 { X= "Australia", Y= 15.8, Z = 70.4, Z1 = 170.5 },
+        new ChartData12 { X= "Italy", Y= 29.2, Z = 90.5, Z1 = 190.5  },
+        new ChartData12 { X= "United Kingdom", Y= 44.6, Z = 76.3, Z1 = 176.5  },
+        new ChartData12 { X= "Saudi Arabia", Y= 60.7, Z = 98.7, Z1 = 198.5   },
+        new ChartData12 { X= "Russia", Y= 40.8, Z = 79.9, Z1 = 179.5   },
+        new ChartData12 { X= "Mexico", Y= 31, Z = 66.1, Z1 = 166.5   },
+        new ChartData12 { X= "Brazil", Y= 45.9, Z = 98.7, Z1 = 198.5   },
+        new ChartData12 { X= "China", Y= 51.4, Z = 68.5, Z1 = 168.5   }
+    };
+}
+
+
+@{
+    var InitialGroup13 = (new string[] { "CustomerID", "OrderID" });
+}
+<SfFixture @ref="sfFixture13" TestAsync="CheckingNullPointsWithLeftStepPosition" Description="CheckingNullPointsWithLeftStepPosition">
+    <ComponentUnderTest>
+        <SfChart ID="container" Title="Step Position Customization" IsTransposed="false">
+            <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Toolkit.ValueType.Category" LabelPlacement="LabelPlacement.OnTicks" />
+            <ChartSeriesCollection>
+                <ChartSeries DataSource="@MedalDetails13" XName="X" YName="Y" Type="ChartSeriesType.StepLine" StepPosition="StepPosition.Left">
+                    <ChartMarker Visible="true"></ChartMarker>
+                </ChartSeries>
+            </ChartSeriesCollection>
+        </SfChart>
+    </ComponentUnderTest>
+</SfFixture>
+
+@code {
+    SfFixture sfFixture13 { get; set; }
+    async Task CheckingNullPointsWithLeftStepPosition(Fixture sfFixture13)
+    {
+        var cut = sfFixture13.GetComponentUnderTest<SfChart>();
+        await Task.Delay(200);
+        var series = cut.Find("#container_Series_0");
+        var pathDirection = series.GetAttribute("d").Split("L");
+        // Note: Values may vary slightly depending on screen resolution.
+        Assert.True(pathDirection[3].Trim() == "50.68181818181818 255.9185 M 152.04545454545453 262.2245");
+        Assert.True(pathDirection[4].Trim() == "152.04545454545453 262.2245");
+        cut.SetParametersAndRender();
+    }
+
+    public class ChartData13
+    {
+        public string X { get; set; }
+        public Nullable<double> Y { get; set; }
+        public Nullable<double> Z { get; set; }
+        public Nullable<double> Z1 { get; set; }
+    }
+    public List<ChartData13> MedalDetails13 = new List<ChartData13>
+    {
+        new ChartData13 { X= "South Korea", Y= 39.4 , Z = 50.5, Z1 = 150.5 },
+        new ChartData13 { X= "India", Y= 21.3, Z = 83.5, Z1 = 183.5  },
+        new ChartData13 { X= "Pakistan", Y= null, Z = null, Z1 = null  },
+        new ChartData13 { X= "Germany", Y= 20.1, Z = 56.4, Z1 = 156.5  },
+        new ChartData13 { X= "Australia", Y= 15.8, Z = 70.4, Z1 = 170.5 },
+        new ChartData13 { X= "Italy", Y= 29.2, Z = 90.5, Z1 = 190.5  },
+        new ChartData13 { X= "United Kingdom", Y= 44.6, Z = 76.3, Z1 = 176.5  },
+        new ChartData13 { X= "Saudi Arabia", Y= 60.7, Z = 98.7, Z1 = 198.5   },
+        new ChartData13 { X= "Russia", Y= 40.8, Z = 79.9, Z1 = 179.5   },
+        new ChartData13 { X= "Mexico", Y= null, Z = null, Z1 = null   },
+        new ChartData13 { X= "Brazil", Y= 45.9, Z = 98.7, Z1 = 198.5   },
+        new ChartData13 { X= "China", Y= 51.4, Z = 68.5, Z1 = 168.5   }
+    };
+}
+
+
+@{
+    var InitialGroup14 = (new string[] { "CustomerID", "OrderID" });
+}
+<SfFixture @ref="sfFixture14" TestAsync="CheckingNullPointsWithRightStepPosition" Description="CheckingNullPointsWithRightStepPosition">
+    <ComponentUnderTest>
+        <SfChart ID="container" Title="Step Position Customization" IsTransposed="false">
+            <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Toolkit.ValueType.Category" LabelPlacement="LabelPlacement.OnTicks" />
+            <ChartSeriesCollection>
+                <ChartSeries DataSource="@MedalDetails14" XName="X" YName="Y" Type="ChartSeriesType.StepLine" StepPosition="StepPosition.Right">
+                    <ChartMarker Visible="true"></ChartMarker>
+                </ChartSeries>
+            </ChartSeriesCollection>
+        </SfChart>
+    </ComponentUnderTest>
+</SfFixture>
+
+@code {
+    SfFixture sfFixture14 { get; set; }
+    async Task CheckingNullPointsWithRightStepPosition(Fixture sfFixture14)
+    {
+        var cut = sfFixture14.GetComponentUnderTest<SfChart>();
+        await Task.Delay(200);
+        var series = cut.Find("#container_Series_0");
+        var pathDirection = series.GetAttribute("d").Split("L");
+        // Note: Values may vary slightly depending on screen resolution.
+        Assert.True(pathDirection[3].Trim() == "50.68181818181818 255.9185 M 152.04545454545453 262.2245");
+        Assert.True(pathDirection[4].Trim() == "152.04545454545453 262.2245");
+        cut.SetParametersAndRender();
+    }
+
+    public class ChartData14
+    {
+        public string X { get; set; }
+        public Nullable<double> Y { get; set; }
+        public Nullable<double> Z { get; set; }
+        public Nullable<double> Z1 { get; set; }
+    }
+    public List<ChartData14> MedalDetails14 = new List<ChartData14>
+    {
+        new ChartData14 { X= "South Korea", Y= 39.4 , Z = 50.5, Z1 = 150.5 },
+        new ChartData14 { X= "India", Y= 21.3, Z = 83.5, Z1 = 183.5  },
+        new ChartData14 { X= "Pakistan", Y= null, Z = null, Z1 = null  },
+        new ChartData14 { X= "Germany", Y= 20.1, Z = 56.4, Z1 = 156.5  },
+        new ChartData14 { X= "Australia", Y= 15.8, Z = 70.4, Z1 = 170.5 },
+        new ChartData14 { X= "Italy", Y= 29.2, Z = 90.5, Z1 = 190.5  },
+        new ChartData14 { X= "United Kingdom", Y= 44.6, Z = 76.3, Z1 = 176.5  },
+        new ChartData14 { X= "Saudi Arabia", Y= 60.7, Z = 98.7, Z1 = 198.5   },
+        new ChartData14 { X= "Russia", Y= 40.8, Z = 79.9, Z1 = 179.5   },
+        new ChartData14 { X= "Mexico", Y= null, Z = null, Z1 = null   },
+        new ChartData14 { X= "Brazil", Y= 45.9, Z = 98.7, Z1 = 198.5   },
+        new ChartData14 { X= "China", Y= 51.4, Z = 68.5, Z1 = 168.5   }
+    };
+}
+
+
+@{
+    var InitialGroup15 = (new string[] { "CustomerID", "OrderID" });
+}
+<SfFixture @ref="sfFixture15" TestAsync="CheckingStepAreaNullPointsWithStepPosition" Description="CheckingStepAreaNullPointsWithStepPosition">
+    <ComponentUnderTest>
+        <SfChart ID="container" Title="Step Position Customization" IsTransposed="false">
+            <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Toolkit.ValueType.Category" LabelPlacement="LabelPlacement.BetweenTicks" />
+            <ChartSeriesCollection>
+                <ChartSeries DataSource="@MedalDetails15" XName="X" YName="Y" Type="ChartSeriesType.StepArea" StepPosition="StepPosition.Center">
+                    <ChartMarker Visible="true"></ChartMarker>
+                </ChartSeries>
+            </ChartSeriesCollection>
+        </SfChart>
+    </ComponentUnderTest>
+</SfFixture>
+
+@code {
+    SfFixture sfFixture15 { get; set; }
+    async Task CheckingStepAreaNullPointsWithStepPosition(Fixture sfFixture15)
+    {
+        var cut = sfFixture15.GetComponentUnderTest<SfChart>();
+        await Task.Delay(200);
+        var marker = cut.Find("#container_Series_0_Point_1_Symbol");
+        // Note: Values may vary slightly depending on screen resolution.
+        Assert.True(marker.GetAttribute("cx") == "69.6875");
+        Assert.True(marker.GetAttribute("cy") == "255.9185");
+        var series = cut.Find("#container_Series_0");
+        var pathDirection = series.GetAttribute("d").Split("L");
+        Assert.True(pathDirection[6].Trim() == "93 368M 139 368");
+        Assert.True(pathDirection[7].Trim() == "139 262");
+        cut.SetParametersAndRender();
+    }
+
+    public class ChartData15
+    {
+        public string X { get; set; }
+        public Nullable<double> Y { get; set; }
+        public Nullable<double> Z { get; set; }
+        public Nullable<double> Z1 { get; set; }
+    }
+    public List<ChartData15> MedalDetails15 = new List<ChartData15>
+    {
+        new ChartData15 { X= "South Korea", Y= 39.4 , Z = 50.5, Z1 = 150.5 },
+        new ChartData15 { X= "India", Y= 21.3, Z = 83.5, Z1 = 183.5  },
+        new ChartData15 { X= "Pakistan", Y= null, Z = null, Z1 = null  },
+        new ChartData15 { X= "Germany", Y= 20.1, Z = 56.4, Z1 = 156.5  },
+        new ChartData15 { X= "Australia", Y= 15.8, Z = 70.4, Z1 = 170.5 },
+        new ChartData15 { X= "Italy", Y= 29.2, Z = 90.5, Z1 = 190.5  },
+        new ChartData15 { X= "United Kingdom", Y= 44.6, Z = 76.3, Z1 = 176.5  },
+        new ChartData15 { X= "Saudi Arabia", Y= 60.7, Z = 98.7, Z1 = 198.5   },
+        new ChartData15 { X= "Russia", Y= 40.8, Z = 79.9, Z1 = 179.5   },
+        new ChartData15 { X= "Mexico", Y= null, Z = null, Z1 = null   },
+        new ChartData15 { X= "Brazil", Y= 45.9, Z = 98.7, Z1 = 198.5   },
+        new ChartData15 { X= "China", Y= 51.4, Z = 68.5, Z1 = 168.5   }
+    };
+}
+
+@{
+    var InitialGroup17 = (new string[] { "CustomerID", "OrderID" });
+}
+<SfFixture @ref="sfFixture17" TestAsync="CheckingStackedStepAreaNullPointsWithStepPosition" Description="CheckingStackedStepAreaNullPointsWithStepPosition">
+    <ComponentUnderTest>
+        <SfChart ID="container" Title="Step Position Customization" IsTransposed="false">
+            <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Toolkit.ValueType.Category" LabelPlacement="LabelPlacement.BetweenTicks" />
+            <ChartSeriesCollection>
+                <ChartSeries DataSource="@MedalDetails17" XName="X" YName="Y" Type="ChartSeriesType.StackingStepArea" StepPosition="StepPosition.Right">
+                    <ChartMarker Visible="true"></ChartMarker>
+                </ChartSeries>
+                <ChartSeries DataSource="@MedalDetails17" XName="X" YName="Z" Type="ChartSeriesType.StackingStepArea" StepPosition="StepPosition.Right">
+                    <ChartMarker Visible="true"></ChartMarker>
+                </ChartSeries>
+            </ChartSeriesCollection>
+        </SfChart>
+    </ComponentUnderTest>
+</SfFixture>
+
+@code {
+    SfFixture sfFixture17 { get; set; }
+    async Task CheckingStackedStepAreaNullPointsWithStepPosition(Fixture sfFixture17)
+    {
+        var cut = sfFixture17.GetComponentUnderTest<SfChart>();
+        await Task.Delay(200);
+        var series = cut.Find("#container_Series_1");
+        var pathDirection = series.GetAttribute("d").Split("L");
+        // Note: Values may vary slightly depending on screen resolution.
+        Assert.True(pathDirection[7].Trim() == "22.979166666666664 287.3317222222222 M 137.875 287.3317222222222");
+        Assert.True(pathDirection[8].Trim() == "137.875 211.51374999999996");
+        cut.SetParametersAndRender();
+    }
+
+    public class ChartData17
+    {
+        public string X { get; set; }
+        public Nullable<double> Y { get; set; }
+        public Nullable<double> Z { get; set; }
+        public Nullable<double> Z1 { get; set; }
+    }
+    public List<ChartData17> MedalDetails17 = new List<ChartData17>
+    {
+        new ChartData17 { X= "South Korea", Y= 39.4 , Z = 50.5, Z1 = 150.5 },
+        new ChartData17 { X= "India", Y= 21.3, Z = 83.5, Z1 = 183.5  },
+        new ChartData17 { X= "Pakistan", Y= null, Z = null, Z1 = null  },
+        new ChartData17 { X= "Germany", Y= 20.1, Z = 56.4, Z1 = 156.5  },
+        new ChartData17 { X= "Australia", Y= 15.8, Z = 70.4, Z1 = 170.5 },
+        new ChartData17 { X= "Italy", Y= 29.2, Z = 90.5, Z1 = 190.5  },
+        new ChartData17 { X= "United Kingdom", Y= 44.6, Z = 76.3, Z1 = 176.5  },
+        new ChartData17 { X= "Saudi Arabia", Y= 60.7, Z = 98.7, Z1 = 198.5   },
+        new ChartData17 { X= "Russia", Y= 40.8, Z = 79.9, Z1 = 179.5   },
+        new ChartData17 { X= "Mexico", Y= null, Z = null, Z1 = null   },
+        new ChartData17 { X= "Brazil", Y= 45.9, Z = 98.7, Z1 = 198.5   },
+        new ChartData17 { X= "China", Y= 51.4, Z = 68.5, Z1 = 168.5   }
+    };
+}
+
+
+@{
+    var InitialGroup18 = (new string[] { "CustomerID", "OrderID" });
+}
+<SfFixture @ref="sfFixture18" TestAsync="CheckingDataLabelWithLeftStepPosition" Description="CheckingDataLabelWithLeftStepPosition">
+    <ComponentUnderTest>
+        <SfChart ID="container" Title="Step Position Customization" IsTransposed="false">
+            <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Toolkit.ValueType.Category" LabelPlacement="LabelPlacement.OnTicks" />
+            <ChartSeriesCollection>
+                <ChartSeries DataSource="@MedalDetails18" Name="StepLine" XName="X" YName="Y" Type="ChartSeriesType.StepLine" StepPosition="StepPosition.Left">
+                    <ChartMarker Visible="true">
+                        <ChartDataLabel Visible="true" />
+                    </ChartMarker>
+                </ChartSeries>
+            </ChartSeriesCollection>
+        </SfChart>
+    </ComponentUnderTest>
+</SfFixture>
+
+@code {
+    SfFixture sfFixture18 { get; set; }
+    async Task CheckingDataLabelWithLeftStepPosition(Fixture sfFixture18)
+    {
+        var cut = sfFixture18.GetComponentUnderTest<SfChart>();
+        await Task.Delay(200);
+        var dataLabel = cut.Find("#container_Series_0_Point_1_Text_0");
+        // Note: Values may vary slightly depending on screen resolution.
+        Assert.True(dataLabel.GetAttribute("x") == "50.68181818181818");
+        Assert.True(dataLabel.GetAttribute("y") == "250.62935714285712");
+        var content = dataLabel.TextContent;
+        Assert.True(dataLabel.TextContent == "21.3\n    ");
+        cut.SetParametersAndRender();
+    }
+
+    public class ChartData18
+    {
+        public string X { get; set; }
+        public Nullable<double> Y { get; set; }
+        public Nullable<double> Z { get; set; }
+        public Nullable<double> Z1 { get; set; }
+    }
+    public List<ChartData18> MedalDetails18 = new List<ChartData18>
+    {
+        new ChartData18 { X= "South Korea", Y= 39.4 , Z = 50.5, Z1 = 150.5 },
+        new ChartData18 { X= "India", Y= 21.3, Z = 83.5, Z1 = 183.5  },
+        new ChartData18 { X= "Pakistan", Y= 10.4, Z = 62.5, Z1 = 162.5  },
+        new ChartData18 { X= "Germany", Y= 20.1, Z = 56.4, Z1 = 156.5  },
+        new ChartData18 { X= "Australia", Y= 15.8, Z = 70.4, Z1 = 170.5 },
+        new ChartData18 { X= "Italy", Y= 29.2, Z = 90.5, Z1 = 190.5  },
+        new ChartData18 { X= "United Kingdom", Y= 44.6, Z = 76.3, Z1 = 176.5  },
+        new ChartData18 { X= "Saudi Arabia", Y= 60.7, Z = 98.7, Z1 = 198.5   },
+        new ChartData18 { X= "Russia", Y= 40.8, Z = 79.9, Z1 = 179.5   },
+        new ChartData18 { X= "Mexico", Y= 31, Z = 66.1, Z1 = 166.5   },
+        new ChartData18 { X= "Brazil", Y= 45.9, Z = 98.7, Z1 = 198.5   },
+        new ChartData18 { X= "China", Y= 51.4, Z = 68.5, Z1 = 168.5   }
+    };
+}
+
+
+@{
+    var InitialGroup19 = (new string[] { "CustomerID", "OrderID" });
+}
+<SfFixture @ref="sfFixture19" TestAsync="CheckingDataLabelWithRightStepPosition" Description="CheckingDataLabelWithRightStepPosition">
+    <ComponentUnderTest>
+        <SfChart ID="container" Title="Step Position Customization" IsTransposed="false">
+            <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Toolkit.ValueType.Category" LabelPlacement="LabelPlacement.OnTicks" />
+            <ChartSeriesCollection>
+                <ChartSeries DataSource="@MedalDetails19" Name="StepLine" XName="X" YName="Y" Type="ChartSeriesType.StepLine" StepPosition="StepPosition.Right">
+                    <ChartMarker Visible="true">
+                        <ChartDataLabel Visible="true" />
+                    </ChartMarker>
+                </ChartSeries>
+            </ChartSeriesCollection>
+        </SfChart>
+    </ComponentUnderTest>
+</SfFixture>
+
+@code {
+    SfFixture sfFixture19 { get; set; }
+    async Task CheckingDataLabelWithRightStepPosition(Fixture sfFixture19)
+    {
+        var cut = sfFixture19.GetComponentUnderTest<SfChart>();
+        await Task.Delay(200);
+        var dataLabel = cut.Find("#container_Series_0_Point_1_Text_0");
+        // Note: Values may vary slightly depending on screen resolution.
+        Assert.True(dataLabel.GetAttribute("x") == "50.68181818181818");
+        Assert.True(dataLabel.GetAttribute("y") == "250.62935714285712");
+        var content = dataLabel.TextContent;
+        Assert.True(dataLabel.TextContent == "21.3\n    ");
+        cut.SetParametersAndRender();
+    }
+
+    public class ChartData19
+    {
+        public string X { get; set; }
+        public Nullable<double> Y { get; set; }
+        public Nullable<double> Z { get; set; }
+        public Nullable<double> Z1 { get; set; }
+    }
+    public List<ChartData19> MedalDetails19 = new List<ChartData19>
+    {
+        new ChartData19 { X= "South Korea", Y= 39.4 , Z = 50.5, Z1 = 150.5 },
+        new ChartData19 { X= "India", Y= 21.3, Z = 83.5, Z1 = 183.5  },
+        new ChartData19 { X= "Pakistan", Y= 10.4, Z = 62.5, Z1 = 162.5  },
+        new ChartData19 { X= "Germany", Y= 20.1, Z = 56.4, Z1 = 156.5  },
+        new ChartData19 { X= "Australia", Y= 15.8, Z = 70.4, Z1 = 170.5 },
+        new ChartData19 { X= "Italy", Y= 29.2, Z = 90.5, Z1 = 190.5  },
+        new ChartData19 { X= "United Kingdom", Y= 44.6, Z = 76.3, Z1 = 176.5  },
+        new ChartData19 { X= "Saudi Arabia", Y= 60.7, Z = 98.7, Z1 = 198.5   },
+        new ChartData19 { X= "Russia", Y= 40.8, Z = 79.9, Z1 = 179.5   },
+        new ChartData19 { X= "Mexico", Y= 31, Z = 66.1, Z1 = 166.5   },
+        new ChartData19 { X= "Brazil", Y= 45.9, Z = 98.7, Z1 = 198.5   },
+        new ChartData19 { X= "China", Y= 51.4, Z = 68.5, Z1 = 168.5   }
+    };
+}
+
+
+@{
+    var InitialGroup20 = (new string[] { "CustomerID", "OrderID" });
+}
+<SfFixture @ref="sfFixture20" TestAsync="CheckingDataLabelWithCenterStepPosition" Description="CheckingDataLabelWithCenterStepPosition">
+    <ComponentUnderTest>
+        <SfChart ID="container" Title="Step Position Customization" IsTransposed="false">
+            <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Toolkit.ValueType.Category" LabelPlacement="LabelPlacement.OnTicks" />
+            <ChartSeriesCollection>
+                <ChartSeries DataSource="@MedalDetails20" Name="StepLine" XName="X" YName="Y" Type="ChartSeriesType.StepLine" StepPosition="StepPosition.Center">
+                    <ChartMarker Visible="true">
+                        <ChartDataLabel Visible="true" />
+                    </ChartMarker>
+                </ChartSeries>
+            </ChartSeriesCollection>
+        </SfChart>
+    </ComponentUnderTest>
+</SfFixture>
+
+@code {
+    SfFixture sfFixture20 { get; set; }
+    async Task CheckingDataLabelWithCenterStepPosition(Fixture sfFixture20)
+    {
+        var cut = sfFixture20.GetComponentUnderTest<SfChart>();
+        await Task.Delay(200);
+        var dataLabel = cut.Find("#container_Series_0_Point_1_Text_0");
+        // Note: Values may vary slightly depending on screen resolution.
+        Assert.True(dataLabel.GetAttribute("x") == "50.68181818181818");
+        Assert.True(dataLabel.GetAttribute("y") == "250.62935714285712");
+        var content = dataLabel.TextContent;
+        Assert.True(dataLabel.TextContent == "21.3\n    ");
+        cut.SetParametersAndRender();
+    }
+
+    public class ChartData20
+    {
+        public string X { get; set; }
+        public Nullable<double> Y { get; set; }
+        public Nullable<double> Z { get; set; }
+        public Nullable<double> Z1 { get; set; }
+    }
+    public List<ChartData20> MedalDetails20 = new List<ChartData20>
+    {
+        new ChartData20 { X= "South Korea", Y= 39.4 , Z = 50.5, Z1 = 150.5 },
+        new ChartData20 { X= "India", Y= 21.3, Z = 83.5, Z1 = 183.5  },
+        new ChartData20 { X= "Pakistan", Y= 10.4, Z = 62.5, Z1 = 162.5  },
+        new ChartData20 { X= "Germany", Y= 20.1, Z = 56.4, Z1 = 156.5  },
+        new ChartData20 { X= "Australia", Y= 15.8, Z = 70.4, Z1 = 170.5 },
+        new ChartData20 { X= "Italy", Y= 29.2, Z = 90.5, Z1 = 190.5  },
+        new ChartData20 { X= "United Kingdom", Y= 44.6, Z = 76.3, Z1 = 176.5  },
+        new ChartData20 { X= "Saudi Arabia", Y= 60.7, Z = 98.7, Z1 = 198.5   },
+        new ChartData20 { X= "Russia", Y= 40.8, Z = 79.9, Z1 = 179.5   },
+        new ChartData20 { X= "Mexico", Y= 31, Z = 66.1, Z1 = 166.5   },
+        new ChartData20 { X= "Brazil", Y= 45.9, Z = 98.7, Z1 = 198.5   },
+        new ChartData20 { X= "China", Y= 51.4, Z = 68.5, Z1 = 168.5   }
+    };
+}

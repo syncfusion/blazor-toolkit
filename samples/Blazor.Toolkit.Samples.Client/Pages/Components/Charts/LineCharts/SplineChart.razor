@@ -1,0 +1,1239 @@
+@page "/charts/spline-chart"
+@using Syncfusion.Blazor.Toolkit.Buttons
+@using Syncfusion.Blazor.Toolkit.Charts
+@using System.Collections.ObjectModel
+
+<PageTitle>Syncfusion Blazor Toolkit Spline Chart Demo</PageTitle>
+
+<!-- ─────────────────────────────────────────────
+     OVERVIEW
+     ───────────────────────────────────────────── -->
+<Description>
+    <Header>
+        <h5><b>Overview</b></h5>
+    </Header>
+    <Content>
+        A Spline Chart displays smooth, curved lines between data points,
+        making it ideal for visualizing gradual changes or continuous trends
+        over time.
+
+        In the Syncfusion Blazor Toolkit, a spline Chart is created by setting the
+        <code>Type</code> property of the <code>ChartSeries</code> component to
+        <code>ChartSeriesType.Spline</code>. To plot data, assign a data collection to the <code>DataSource</code> property and map the fields using <code>XName</code> and <code>YName</code>. It supports multiple series,
+        shared tooltips by enabling the <code>Shared</code> property in <code>ChartTooltipSettings</code>, markers via <code>ChartMarker</code>, and axis formatting using <code>ChartPrimaryXAxis</code> and <code>ChartPrimaryYAxis</code> for comparing related
+        datasets such as minimum, average, and maximum values.
+    </Content>
+</Description>
+
+<VirtualizeSection MinHeightPx="600px">
+    <CodePreview IsFullWidth="true" CodeSection="@SplineOverviewCode">
+        <PreviewSection>
+            <SfChart @key="@_currentTheme" Title="2024 US Temperature Trends with Hottest, Coldest and Average Records" Theme="@_currentTheme">
+                <ChartArea><ChartAreaBorder Width="0"></ChartAreaBorder></ChartArea>
+                <!-- Tooltip -->
+                <ChartTooltipSettings Enable="true"
+                                      Shared="true"
+                                      Header="${point.x}"
+                                      Format="${series.name} : <b>${point.y}</b>"
+                                      EnableHighlight="true" />
+                <!-- X Axis -->
+                <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Toolkit.ValueType.Category"
+                                   Interval="1"
+                                   LabelIntersectAction="LabelIntersectAction.Rotate90">
+                    <ChartAxisMajorGridLines Width="0" />
+                    <ChartAxisMajorTickLines Width="0" />
+                    <ChartAxisMinorTickLines Width="0" />
+                </ChartPrimaryXAxis>
+                <ChartPrimaryYAxis Minimum="0"
+                                   Maximum="120"
+                                   Title="Temperature (°F)"
+                                   LabelFormat="{value}°F">
+                    <ChartAxisLineStyle Width="0" />
+                    <ChartAxisMajorTickLines Width="0" />
+                </ChartPrimaryYAxis>
+                <!-- Series -->
+                
+                    <ChartSeries DataSource="@TemperatureData"
+                                 XName="X"
+                                 YName="Max"
+                                 Name="Max Temp"
+                                 Width="2"
+                                 Type="ChartSeriesType.Spline"
+                                 Fill="@MaxTempColor">
+                        <ChartMarker Visible="true"
+                                     IsFilled="false"
+                                     Shape="ChartShape.Circle" />
+                    </ChartSeries>
+
+                    <ChartSeries DataSource="@TemperatureData"
+                                 XName="X"
+                                 YName="Avg"
+                                 Name="Avg Temp"
+                                 Width="2"
+                                 Type="ChartSeriesType.Spline"
+                                 Fill="#FF6060">
+                        <ChartMarker Visible="true"
+                                     IsFilled="false"
+                                     Shape="ChartShape.Circle" />
+                    </ChartSeries>
+
+                    <ChartSeries DataSource="@TemperatureData"
+                                 XName="X"
+                                 YName="Min"
+                                 Name="Min Temp"
+                                 Width="2"
+                                 Type="ChartSeriesType.Spline"
+                                 Fill="#68FF60">
+                        <ChartMarker Visible="true"
+                                     IsFilled="false"
+                                     Shape="ChartShape.Circle" />
+                    </ChartSeries>
+                
+                <ChartLegendSettings EnableHighlight="true"></ChartLegendSettings>
+            </SfChart>
+        </PreviewSection>
+    </CodePreview>
+</VirtualizeSection>
+
+<!-- ─────────────────────────────────────────────
+     DATA LABEL
+     ───────────────────────────────────────────── -->
+<Description>
+    <Header>
+        <h5><b>Data Label</b></h5>
+    </Header>
+    <Content>
+        Data labels display the value of each data point directly on the spline,
+        reducing the need to rely on tooltips or axis values.
+
+        In a Spline Chart, data labels are enabled by setting the
+        <code>Visible</code> property of the <code>ChartDataLabel</code> component
+        to <code>true</code>. The <code>ChartDataLabel</code> component is added inside the <code>ChartMarker</code> component. This helps
+        improve readability when comparing values across multiple series.
+    </Content>
+</Description>
+
+<VirtualizeSection MinHeightPx="600px">
+    <CodePreview IsFullWidth="true" CodeSection="@SplineDataLabelCode">
+        <PreviewSection>
+            <SfChart @key="@_currentTheme" Title="2024 Temperature Trends with Average Records" Theme="@_currentTheme">
+                <ChartArea><ChartAreaBorder Width="0"></ChartAreaBorder></ChartArea>
+                <!-- Tooltip -->
+                <ChartTooltipSettings Enable="true"
+                                      Shared="true"
+                                      Header="Temperature"
+                                      Format="${series.name} : <b>${point.y}</b>"
+                                      EnableHighlight="true" />
+
+                <!-- X Axis -->
+                <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Toolkit.ValueType.Category">
+                    <ChartAxisMajorGridLines Width="0" />
+                    <ChartAxisMajorTickLines Width="0" />
+                    <ChartAxisMinorTickLines Width="0" />
+                </ChartPrimaryXAxis>
+
+                <!-- Y Axis -->
+                <ChartPrimaryYAxis Minimum="-10"
+                                   Interval="10"
+                                   LabelFormat="{value}°F">
+                    <ChartAxisLineStyle Width="0" />
+                    <ChartAxisMajorTickLines Width="0" />
+                </ChartPrimaryYAxis>
+
+                <!-- Series -->
+                
+                    <ChartSeries DataSource="@SplineMinimumData"
+                                 XName="X"
+                                 YName="Y"
+                                 Name="Reggane"
+                                 Width="2"
+                                 Fill="#FF7F50"
+                                 Type="ChartSeriesType.Spline">
+                        <ChartMarker Visible="true" IsFilled="true">
+                            <ChartDataLabel Visible="true" />
+                        </ChartMarker>
+                    </ChartSeries>
+
+                    <ChartSeries DataSource="@SplineData"
+                                 XName="X"
+                                 YName="Y"
+                                 Name="Tallinn"
+                                 Width="2"
+                                 Fill="#19DA00"
+                                 Type="ChartSeriesType.Spline">
+                        <ChartMarker Visible="true" IsFilled="true">
+                            <ChartDataLabel Visible="true" />
+                        </ChartMarker>
+                    </ChartSeries>
+                
+            </SfChart>
+        </PreviewSection>
+    </CodePreview>
+</VirtualizeSection>
+
+<!-- ─────────────────────────────────────────────
+     SPLINE TYPE
+     ───────────────────────────────────────────── -->
+<Description>
+    <Header>
+        <h5><b>Spline Type</b></h5>
+    </Header>
+    <Content>
+        The spline type determines how curves are interpolated between data points,
+        affecting the smoothness and shape of the spline line.
+
+        The Syncfusion Blazor Toolkit supports multiple spline interpolation options via the
+        <code>SplineType</code> property of <code>ChartSeries</code>. Supported modes include
+        <code>SplineType.Natural</code>, <code>SplineType.Monotonic</code>, <code>SplineType.Cardinal</code>, and
+        <code>SplineType.Clamped</code>. A <code>SfButtonGroup</code> is used here to allow interactive switching between these spline types.
+    </Content>
+</Description>
+
+<VirtualizeSection MinHeightPx="600px">
+    <CodePreview IsFullWidth="true" CodeSection="@SplineTypeCode">
+        <PreviewSection>
+            <!-- SPLINE TYPE SELECTOR -->
+            <div class="mb-3 text-center">
+                <label class="fw-bold d-block mb-2">Spline Type</label>
+                <SfButtonGroup Mode="SelectionMode.Single">
+                    <ButtonGroupButton Selected="@IsSplineTypeSelected(SplineType.Natural)"
+                                       SelectedChanged="@(v => OnSplineTypeChanged(v, SplineType.Natural))">
+                        Natural
+                    </ButtonGroupButton>
+
+                    <ButtonGroupButton Selected="@IsSplineTypeSelected(SplineType.Monotonic)"
+                                       SelectedChanged="@(v => OnSplineTypeChanged(v, SplineType.Monotonic))">
+                        Monotonic
+                    </ButtonGroupButton>
+
+                    <ButtonGroupButton Selected="@IsSplineTypeSelected(SplineType.Cardinal)"
+                                       SelectedChanged="@(v => OnSplineTypeChanged(v, SplineType.Cardinal))">
+                        Cardinal
+                    </ButtonGroupButton>
+
+                    <ButtonGroupButton Selected="@IsSplineTypeSelected(SplineType.Clamped)"
+                                       SelectedChanged="@(v => OnSplineTypeChanged(v, SplineType.Clamped))">
+                        Clamped
+                    </ButtonGroupButton>
+                </SfButtonGroup>
+
+                <SfChart @key="@_currentTheme" Title="2024 US Temperature Trends with Average Records" Theme="@_currentTheme">
+                    <ChartArea><ChartAreaBorder Width="0"></ChartAreaBorder></ChartArea>
+
+                    <!-- Tooltip -->
+                    <ChartTooltipSettings Enable="true"
+                                          Header="${point.x}"
+                                          Format="Temperature : <b>${point.y}</b>" />
+
+                    <!-- X Axis -->
+                    <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Toolkit.ValueType.Category">
+                        <ChartAxisMajorGridLines Width="0" />
+                        <ChartAxisMajorTickLines Width="0" />
+                        <ChartAxisMinorTickLines Width="0" />
+                    </ChartPrimaryXAxis>
+
+                    <!-- Y Axis -->
+                    <ChartPrimaryYAxis Minimum="20"
+                                       Maximum="80"
+                                       Interval="10"
+                                       LabelFormat="{value}°C">
+                        <ChartAxisLineStyle Width="0" />
+                        <ChartAxisMajorTickLines Width="0" />
+                    </ChartPrimaryYAxis>
+
+                    <!-- Series -->
+                    
+                        <ChartSeries DataSource="@TemperatureData"
+                                     XName="X"
+                                     YName="Avg"
+                                     Width="2"
+                                     Fill="#6F00FF"
+                                     Type="ChartSeriesType.Spline"
+                                     SplineType="@CurrentSplineType">
+                            <ChartMarker Visible="true" IsFilled="true" />
+                        </ChartSeries>
+                    
+                </SfChart>
+            </div>
+        </PreviewSection>
+    </CodePreview>
+</VirtualizeSection>
+
+<!-- ─────────────────────────────────────────────
+     SKIP MISSING POINTS
+     ───────────────────────────────────────────── -->
+<Description>
+    <Header>
+        <h5><b>Skip Missing Points</b></h5>
+    </Header>
+    <Content>
+        Spline Charts can contain missing or <code>null</code> values that create
+        gaps in the data. These are treated as empty points and can be rendered
+        in different ways depending on the selected mode.
+
+        In the Syncfusion Blazor Toolkit, empty point behavior is controlled using
+        the <code>Mode</code> property of the <code>ChartEmptyPointSettings</code> component inside the <code>ChartSeries</code>. Supported modes include
+        <code>EmptyPointMode.Gap</code>, <code>EmptyPointMode.Zero</code>, <code>EmptyPointMode.Average</code>, and
+        <code>EmptyPointMode.Drop</code>. An interactive <code>SfButtonGroup</code> is used to switch between modes.
+    </Content>
+</Description>
+
+<VirtualizeSection MinHeightPx="600px">
+    <CodePreview IsFullWidth="true" CodeSection="@SplineSkipMissingCode">
+        <PreviewSection>
+            <!-- EMPTY POINT MODE SELECTOR -->
+            <div class="mb-3 text-center">
+                <label class="fw-bold d-block mb-2">Empty Point Mode</label>
+
+                <SfButtonGroup Mode="SelectionMode.Single">
+                    <ButtonGroupButton Selected="@IsEmptyModeSelected(EmptyPointMode.Gap)"
+                                       SelectedChanged="@(v => OnEmptyModeChanged(v, EmptyPointMode.Gap))">
+                        Gap
+                    </ButtonGroupButton>
+
+                    <ButtonGroupButton Selected="@IsEmptyModeSelected(EmptyPointMode.Zero)"
+                                       SelectedChanged="@(v => OnEmptyModeChanged(v, EmptyPointMode.Zero))">
+                        Zero
+                    </ButtonGroupButton>
+
+                    <ButtonGroupButton Selected="@IsEmptyModeSelected(EmptyPointMode.Average)"
+                                       SelectedChanged="@(v => OnEmptyModeChanged(v, EmptyPointMode.Average))">
+                        Average
+                    </ButtonGroupButton>
+
+                    <ButtonGroupButton Selected="@IsEmptyModeSelected(EmptyPointMode.Drop)"
+                                       SelectedChanged="@(v => OnEmptyModeChanged(v, EmptyPointMode.Drop))">
+                        Drop
+                    </ButtonGroupButton>
+                </SfButtonGroup>
+            </div>
+
+            <SfChart @key="@_currentTheme" Title="Sales Analysis" Theme="@_currentTheme">
+                <ChartArea><ChartAreaBorder Width="0"></ChartAreaBorder></ChartArea>
+
+                <!-- Tooltip -->
+                <ChartTooltipSettings Enable="true"
+                                      Header="${point.x}"
+                                      Format="Sales : <b>${point.y} Units</b>"
+                                      EnableHighlight="true" />
+
+                <!-- X Axis -->
+                <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Toolkit.ValueType.Category">
+                    <ChartAxisMajorGridLines Width="0" />
+                    <ChartAxisMajorTickLines Width="0" />
+                    <ChartAxisMinorTickLines Width="0" />
+                </ChartPrimaryXAxis>
+
+                <!-- Y Axis -->
+                <ChartPrimaryYAxis>
+                    <ChartAxisLineStyle Width="0" />
+                    <ChartAxisMajorTickLines Width="0" />
+                </ChartPrimaryYAxis>
+
+                <!-- Series -->
+                
+                    <ChartSeries DataSource="@SplineEmptyData"
+                                 XName="X"
+                                 YName="Y"
+                                 Width="2"
+                                 Fill="#009698"
+                                 Type="ChartSeriesType.Spline">
+                        <ChartEmptyPointSettings Mode="@CurrentEmptyPointMode" />
+                        <ChartMarker Visible="true" IsFilled="true" />
+                    </ChartSeries>
+                
+            </SfChart>
+        </PreviewSection>
+    </CodePreview>
+</VirtualizeSection>
+
+<!-- ─────────────────────────────────────────────
+     LIVE POINT UPDATE
+     ───────────────────────────────────────────── -->
+<Description>
+    <Header>
+        <h5><b>Live Point Update</b></h5>
+    </Header>
+    <Content>
+        Live point update demonstrates how a Spline Chart can be updated in
+        real time as new data arrives. This is commonly used for monitoring
+        scenarios such as sensor readings, live metrics, or streaming data.
+
+        In the Syncfusion Blazor Toolkit, live updates are achieved by modifying
+        the Chart’s bound data source (e.g., an <code>ObservableCollection</code>) at regular intervals. As the collection
+        changes, the Chart automatically refreshes, and the <code>ChartSeriesAnimation</code>
+        component provides smooth animated transitions between points using its <code>Duration</code> property.
+    </Content>
+</Description>
+
+<VirtualizeSection MinHeightPx="600px">
+    <CodePreview IsFullWidth="true" CodeSection="@SplineLiveUpdateCode">
+        <PreviewSection>
+            <SfChart @key="@_currentTheme" Title="Live Spline Chart" Theme="@_currentTheme">
+
+                <!-- X Axis -->
+                <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Toolkit.ValueType.DateTime"
+                                   Interval="1"
+                                   IntervalType="IntervalType.Minutes" LabelIntersectAction="LabelIntersectAction.Hide">
+                    <ChartAxisMajorGridLines Width="1" />
+                </ChartPrimaryXAxis>
+
+                <!-- Y Axis -->
+                <ChartPrimaryYAxis Minimum="0" Maximum="70">
+                    <ChartAxisMajorGridLines Width="1" />
+                </ChartPrimaryYAxis>
+
+                <!-- Series -->
+                
+                    <ChartSeries DataSource="@LiveData"
+                                 XName="X"
+                                 YName="Y"
+                                 Width="2"
+                                 Fill="#E377C2"
+                                 Type="ChartSeriesType.Spline">
+                        <ChartMarker Visible="true" />
+                        <ChartSeriesAnimation Enable="true" Duration="500" />
+                    </ChartSeries>
+                
+            </SfChart>
+        </PreviewSection>
+    </CodePreview>
+</VirtualizeSection>
+
+<!-- ─────────────────────────────────────────────
+     INVERTED AXES
+     ───────────────────────────────────────────── -->
+<Description>
+    <Header>
+        <h5><b>Inverted Axes</b></h5>
+    </Header>
+    <Content>
+        An inverted (transposed) Spline Chart swaps the X‑axis and Y‑axis, placing
+        category values along the vertical axis and numeric values along the
+        horizontal axis.
+
+        In the Syncfusion Blazor Toolkit, this layout is enabled by setting the
+        <code>IsTransposed</code> property of the <code>SfChart</code> component to
+        <code>true</code>. This format is useful for improving readability when category
+        labels are lengthy or when comparing values across a vertical scale.
+    </Content>
+</Description>
+
+<VirtualizeSection MinHeightPx="600px">
+    <CodePreview IsFullWidth="true" CodeSection="@SplineInvertedAxesCode">
+        <PreviewSection>
+            <SfChart @key="@_currentTheme" Title="Climate Graph in 2024" Theme="@_currentTheme"
+                     IsTransposed="true">
+                <ChartArea><ChartAreaBorder Width="0"></ChartAreaBorder></ChartArea>
+
+                <!-- X Axis -->
+                <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Toolkit.ValueType.Category">
+                    <ChartAxisMajorGridLines Width="0" />
+                    <ChartAxisMajorTickLines Width="0" />
+                    <ChartAxisMinorTickLines Width="0" />
+                </ChartPrimaryXAxis>
+
+                <!-- Y Axis -->
+                <ChartPrimaryYAxis LabelFormat="{value}°C">
+                    <ChartAxisLineStyle Width="0" />
+                    <ChartAxisMajorTickLines Width="0" />
+                </ChartPrimaryYAxis>
+
+                <!-- Series -->
+                
+                    <ChartSeries DataSource="@SplineTransposedData"
+                                 XName="X"
+                                 YName="Y1"
+                                 Name="London"
+                                 Width="2"
+                                 Fill="#66CCFF"
+                                 Type="ChartSeriesType.Spline">
+                        <ChartMarker Visible="true"
+                                     Shape="ChartShape.Circle"
+                                     IsFilled="true" />
+                    </ChartSeries>
+
+                    <ChartSeries DataSource="@SplineTransposedData"
+                                 XName="X"
+                                 YName="Y2"
+                                 Name="France"
+                                 Width="2"
+                                 Fill="#99CC00"
+                                 Type="ChartSeriesType.Spline">
+                        <ChartMarker Visible="true"
+                                     Shape="ChartShape.Circle"
+                                     IsFilled="true" />
+                    </ChartSeries>
+                
+                <ChartLegendSettings EnableHighlight="true"></ChartLegendSettings>
+                <!-- Tooltip -->
+                <ChartTooltipSettings Enable="true"
+                                      Header="${series.name}"
+                                      EnableHighlight="true" />
+            </SfChart>
+        </PreviewSection>
+    </CodePreview>
+</VirtualizeSection>
+
+<!-- ─────────────────────────────────────────────
+     NEGATIVE DATA
+     ───────────────────────────────────────────── -->
+<Description>
+    <Header>
+        <h5><b>Negative Data</b></h5>
+    </Header>
+    <Content>
+        Spline Charts can visualize both positive and negative values, making
+        them useful for analyzing growth and decline around a baseline.
+
+        In the Syncfusion Blazor Toolkit, negative values are rendered naturally
+        below the horizontal axis. Reference lines can be added using the <code>ChartStriplines</code>
+        collection and the <code>ChartStripline</code> component to highlight significant positive
+        or negative thresholds, helping users quickly identify peaks and drops in the data. You can customize the strip lines using properties like <code>Start</code>, <code>End</code>, <code>Color</code>, and <code>DashArray</code>.
+    </Content>
+</Description>
+
+<VirtualizeSection MinHeightPx="600px">
+    <CodePreview IsFullWidth="true" CodeSection="@SplineNegativeDataCode">
+        <PreviewSection>
+            <SfChart @key="@_currentTheme" Title="Annual Gold Price (2009–2023) in USD" Theme="@_currentTheme">
+                <ChartArea><ChartAreaBorder Width="0"></ChartAreaBorder></ChartArea>
+                <!-- X Axis -->
+                <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Toolkit.ValueType.Double">
+                    <ChartAxisMajorGridLines Width="0" />
+                    <ChartAxisMajorTickLines Width="0" />
+                    <ChartAxisMinorTickLines Width="0" />
+                </ChartPrimaryXAxis>
+
+                <!-- Y Axis -->
+                <ChartPrimaryYAxis Title="% Annual Exchange Rate">
+                    <ChartAxisLineStyle Width="0" />
+                    <ChartAxisMajorTickLines Width="0" />
+
+                    <!-- REFERENCE LINES -->
+                    <ChartStriplines>
+                        <!-- Highest Growth Line -->
+                        <ChartStripline Start="20"
+                                        End="20.5"
+                                        DashArray="10,10"
+                                        Color="#79747E"
+                                        Visible="true" />
+
+                        <ChartStripline Start="21"
+                                        End="21.5"
+                                        Color="Transparent"
+                                        Visible="true"
+                                        Text="Highest Annual Growth"
+                                        HorizontalAlignment="Anchor.End">
+                            <ChartStriplineTextStyle Color="@HighestTextColor"
+                                                     FontWeight="500" />
+                        </ChartStripline>
+
+                        <!-- Lowest Growth Line -->
+                        <ChartStripline Start="-25"
+                                        End="-24.5"
+                                        DashArray="10,10"
+                                        Color="#79747E"
+                                        Visible="true" />
+
+                        <ChartStripline Start="-28.5"
+                                        End="-28"
+                                        Color="Transparent"
+                                        Visible="true"
+                                        Text="Lowest Annual Growth"
+                                        HorizontalAlignment="Anchor.End">
+                            <ChartStriplineTextStyle Color="@LowestTextColor"
+                                                     FontWeight="500" />
+                        </ChartStripline>
+                    </ChartStriplines>
+                </ChartPrimaryYAxis>
+
+                <!-- Series -->
+                
+                    <ChartSeries DataSource="@SplineNegativeData"
+                                 XName="X"
+                                 YName="USD"
+                                 Width="2"
+                                 Fill="#34B98F"
+                                 Type="ChartSeriesType.Spline">
+                        <ChartMarker Visible="true" IsFilled="true" />
+                    </ChartSeries>
+                
+
+                <!-- Tooltip -->
+                <ChartTooltipSettings Enable="true"
+                                      Header="<b>${point.x}</b>"
+                                      Format="Annual Growth : <b>${point.y}</b>"
+                                      EnableHighlight="true" />
+            </SfChart>
+        </PreviewSection>
+    </CodePreview>
+</VirtualizeSection>
+
+<!-- ─────────────────────────────────────────────
+     SERIES CUSTOMIZATION
+     ───────────────────────────────────────────── -->
+<Description>
+    <Header>
+        <h5><b>Series Customization</b></h5>
+    </Header>
+    <Content>
+        Series customization allows you to modify the visual appearance of a
+        spline line, including its opacity, dash pattern, border style, and
+        markers.
+
+        In the Syncfusion Blazor Toolkit, these properties are configured using
+        the <code>Opacity</code>, <code>DashArray</code>, and
+        <code>Fill</code> properties on the <code>ChartSeries</code> component. You can also customize the border using the <code>ChartSeriesBorder</code> component.
+        This helps emphasize specific trends or visually distinguish a spline
+        from other series.
+    </Content>
+</Description>
+
+<VirtualizeSection MinHeightPx="600px">
+    <CodePreview IsFullWidth="true" CodeSection="@SplineSeriesCustomizationCode">
+        <PreviewSection>
+            <SfChart @key="@_currentTheme" Title="2024 US Temperature Trends with Minimum Records" Theme="@_currentTheme">
+                <ChartArea><ChartAreaBorder Width="0"></ChartAreaBorder></ChartArea>
+                <!-- Tooltip -->
+                <ChartTooltipSettings Enable="true"
+                                      Header="${point.x}"
+                                      Format="Temperature : <b>${point.y}</b>"
+                                      EnableHighlight="true" />
+
+                <!-- X Axis -->
+                <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Toolkit.ValueType.Category">
+                    <ChartAxisMajorGridLines Width="0" />
+                    <ChartAxisMajorTickLines Width="0" />
+                    <ChartAxisMinorTickLines Width="0" />
+                </ChartPrimaryXAxis>
+
+                <!-- Y Axis -->
+                <ChartPrimaryYAxis Minimum="20"
+                                   Maximum="90"
+                                   LabelFormat="{value}°F">
+                    <ChartAxisLineStyle Width="0" />
+                    <ChartAxisMajorTickLines Width="0" />
+                </ChartPrimaryYAxis>
+
+                <!-- Series -->
+                
+                    <ChartSeries DataSource="@TemperatureData"
+                                 XName="X"
+                                 YName="Min"
+                                 Width="2"
+                                 Opacity="0.4"
+                                 DashArray="5,5"
+                                 Fill="#ED5707"
+                                 Type="ChartSeriesType.Spline">
+                        
+                        <!-- Border customization -->
+                        <ChartSeriesBorder Color="#71AD01" Width="2" />
+
+                        <!-- Marker -->
+                        <ChartMarker Visible="true" IsFilled="true" />
+                    </ChartSeries>
+                
+            </SfChart>
+        </PreviewSection>
+    </CodePreview>
+</VirtualizeSection>
+
+<!-- ─────────────────────────────────────────────
+     DATASOURCE UPDATE
+     ───────────────────────────────────────────── -->
+<Description>
+    <Header>
+        <h5><b>DataSource Update</b></h5>
+    </Header>
+    <Content>
+        DataSource update demonstrates how a Spline Chart can be refreshed by
+        replacing the entire data collection at regular intervals.
+
+        Unlike live point updates that add or remove individual points, this
+        approach regenerates all data values and rebinds the series using an
+        <code>ObservableCollection</code>. The Chart automatically animates the transition
+        using the <code>ChartSeriesAnimation</code> component by enabling it via the <code>Enable</code> property, making it useful for scenarios
+        such as simulated data feeds, polling-based updates, or periodic recalculations.
+    </Content>
+</Description>
+
+<VirtualizeSection MinHeightPx="600px">
+    <CodePreview IsFullWidth="true" CodeSection="@SplineDatasourceUpdateCode">
+        <PreviewSection>
+            <SfChart @key="@_currentTheme" Title="Auto-Updating Spline Chart" Theme="@_currentTheme">
+                <ChartArea><ChartAreaBorder Width="0"></ChartAreaBorder></ChartArea>
+
+                <!-- X Axis -->
+                <ChartPrimaryXAxis Minimum="1"
+                                   Maximum="7"
+                                   Interval="1">
+                    <ChartAxisMajorGridLines Width="0" />
+                    <ChartAxisMajorTickLines Width="0" />
+                    <ChartAxisMinorTickLines Width="0" />
+                </ChartPrimaryXAxis>
+
+                <!-- Y Axis -->
+                <ChartPrimaryYAxis Minimum="0"
+                                   Maximum="100"
+                                   Interval="20">
+                    <ChartAxisLineStyle Width="0" />
+                    <ChartAxisMajorTickLines Width="0" />
+                </ChartPrimaryYAxis>
+
+                <!-- Series -->
+                
+                    <ChartSeries DataSource="@SplineDataSource"
+                                 XName="X"
+                                 YName="Y"
+                                 Width="2"
+                                 Opacity="0.6"
+                                 DashArray=""
+                                 Fill="#BD33A4"
+                                 Type="ChartSeriesType.Spline">
+                        <ChartSeriesBorder Width="2" />
+                        <ChartSeriesAnimation Enable="true" Duration="1500" />
+                        <ChartMarker Visible="true" IsFilled="true" />
+                    </ChartSeries>
+                
+            </SfChart>
+        </PreviewSection>
+    </CodePreview>
+</VirtualizeSection>
+
+@code {
+    [CascadingParameter]
+    private Theme CurrentTheme { get; set; } = Theme.Fluent;
+
+    private Theme _currentTheme = Theme.Fluent;
+
+    protected override void OnParametersSet()
+    {
+        _currentTheme = CurrentTheme;
+    }
+
+    public class TemperaturePoint
+    {
+        public string X { get; set; } = string.Empty;
+        public double Min { get; set; }
+        public double Avg { get; set; }
+        public double Max { get; set; }
+    }
+
+    private List<TemperaturePoint> TemperatureData = new()
+    {
+        new() { X = "Jan", Min = 22.75, Avg = 31.89, Max = 41.02 },
+        new() { X = "Feb", Min = 29.71, Avg = 40.82, Max = 51.93 },
+        new() { X = "Mar", Min = 33.53, Avg = 44.96, Max = 56.39 },
+        new() { X = "Apr", Min = 41.22, Avg = 53.64, Max = 66.06 },
+        new() { X = "May", Min = 49.87, Avg = 62.28, Max = 74.64 },
+        new() { X = "Jun", Min = 59.02, Avg = 71.80, Max = 84.58 },
+        new() { X = "Jul", Min = 62.94, Avg = 75.69, Max = 88.43 },
+        new() { X = "Aug", Min = 61.27, Avg = 73.99, Max = 86.72 },
+        new() { X = "Sep", Min = 55.36, Avg = 68.61, Max = 81.86 },
+        new() { X = "Oct", Min = 44.76, Avg = 58.95, Max = 73.13 },
+        new() { X = "Nov", Min = 34.79, Avg = 45.18, Max = 55.54 },
+        new() { X = "Dec", Min = 28.04, Avg = 38.21, Max = 48.36 }
+    };
+
+    private bool IsDarkTheme => _currentTheme.ToString().Contains("Dark") || _currentTheme.ToString().Contains("HighContrast");
+
+    private string MaxTempColor => IsDarkTheme ? "#6094FF" : "#6094FF";
+
+    public class SplinePoint
+    {
+        public string X { get; set; } = string.Empty;
+        public double Y { get; set; }
+    }
+
+    private List<SplinePoint> SplineMinimumData = new()
+    {
+        new() { X = "Jan", Y = 16 },
+        new() { X = "Feb", Y = 18.2 },
+        new() { X = "Mar", Y = 23.1 },
+        new() { X = "Apr", Y = 27.9 },
+        new() { X = "May", Y = 32.2 },
+        new() { X = "Jun", Y = 36.4 },
+        new() { X = "Jul", Y = 39.8 },
+        new() { X = "Aug", Y = 38.4 },
+        new() { X = "Sep", Y = 35.5 },
+        new() { X = "Oct", Y = 29.2 },
+        new() { X = "Nov", Y = 22 },
+        new() { X = "Dec", Y = 17.8 }
+    };
+
+    private List<SplinePoint> SplineData = new()
+    {
+        new() { X = "Jan", Y = -2.9 },
+        new() { X = "Feb", Y = -3.6 },
+        new() { X = "Mar", Y = -0.6 },
+        new() { X = "Apr", Y = 4.8 },
+        new() { X = "May", Y = 10.2 },
+        new() { X = "Jun", Y = 14.5 },
+        new() { X = "Jul", Y = 17.6 },
+        new() { X = "Aug", Y = 16.5 },
+        new() { X = "Sep", Y = 12 },
+        new() { X = "Oct", Y = 6.5 },
+        new() { X = "Nov", Y = 2 },
+        new() { X = "Dec", Y = -0.9 }
+    };
+
+    private SplineType CurrentSplineType { get; set; } = SplineType.Natural;
+
+    private bool IsSplineTypeSelected(SplineType type) => CurrentSplineType == type;
+
+    private void OnSplineTypeChanged(bool selected, SplineType type)
+    {
+        if (selected)
+        {
+            CurrentSplineType = type;
+        }
+    }
+
+    private EmptyPointMode CurrentEmptyPointMode { get; set; } = EmptyPointMode.Gap;
+
+    private bool IsEmptyModeSelected(EmptyPointMode mode) => CurrentEmptyPointMode == mode;
+
+    private void OnEmptyModeChanged(bool selected, EmptyPointMode mode)
+    {
+        if (selected)
+        {
+            CurrentEmptyPointMode = mode;
+        }
+    }
+
+    public class SplineEmptyPoint
+    {
+        public string X { get; set; } = string.Empty;
+        public double? Y { get; set; }
+    }
+
+    private List<SplineEmptyPoint> SplineEmptyData = new()
+    {
+        new() { X = "Jan",   Y = 200 },
+        new() { X = "Feb",   Y = 300 },
+        new() { X = "Mar",   Y = 170 },
+        new() { X = "April", Y = null },
+        new() { X = "May",   Y = 300 },
+        new() { X = "Jun",   Y = null },
+        new() { X = "July",  Y = 100 },
+        new() { X = "Aug",   Y = 200 },
+        new() { X = "Sep",   Y = 174 },
+        new() { X = "Oct",   Y = null },
+        new() { X = "Nov",   Y = null },
+        new() { X = "Dec",   Y = 160 }
+    };
+
+    public class SplineTransposedPoint
+    {
+        public string X { get; set; } = string.Empty;
+        public double Y1 { get; set; }
+        public double Y2 { get; set; }
+    }
+
+    private List<SplineTransposedPoint> SplineTransposedData = new()
+    {
+        new() { X = "Jan", Y1 = 2,  Y2 = 8  },
+        new() { X = "Mar", Y1 = 14, Y2 = 4  },
+        new() { X = "Apr", Y1 = 27, Y2 = 15 },
+        new() { X = "Jun", Y1 = 33, Y2 = 23 },
+        new() { X = "Aug", Y1 = 28, Y2 = 28 },
+        new() { X = "Oct", Y1 = 16, Y2 = 12 },
+        new() { X = "Dec", Y1 = 10, Y2 = 2  }
+    };
+
+    public class GoldGrowthPoint
+    {
+        public int X { get; set; }
+        public double USD { get; set; }
+    }
+
+    private List<GoldGrowthPoint> SplineNegativeData = new()
+    {
+        new() { X = 2009, USD = 23.4 },
+        new() { X = 2010, USD = 29.5 },
+        new() { X = 2011, USD = 10.1 },
+        new() { X = 2012, USD = 7.0 },
+        new() { X = 2013, USD = -28.3 },
+        new() { X = 2014, USD = -1.5 },
+        new() { X = 2015, USD = -10.4 },
+        new() { X = 2016, USD = 9.1 },
+        new() { X = 2017, USD = 13.6 },
+        new() { X = 2018, USD = -2.1 },
+        new() { X = 2019, USD = 18.9 },
+        new() { X = 2020, USD = 24.6 },
+        new() { X = 2021, USD = -3.5 },
+        new() { X = 2022, USD = -0.3 },
+        new() { X = 2023, USD = 12.8 }
+    };
+
+    private string HighestTextColor => IsDarkTheme ? "#50C812" : "#337D0E";
+    private string LowestTextColor => IsDarkTheme ? "#F5463C" : "#E02F25";
+
+    private System.Timers.Timer? liveTimer;
+    private System.Threading.Timer? datasourceTimer;
+
+    public class LivePoint
+    {
+        public DateTime X { get; set; }
+        public double Y { get; set; }
+    }
+
+    private ObservableCollection<LivePoint> LiveData = new()
+    {
+        new() { X = new DateTime(2020, 1, 1, 10, 0, 0), Y = 21.5 },
+        new() { X = new DateTime(2020, 1, 1, 10, 1, 0), Y = 24.0 },
+        new() { X = new DateTime(2020, 1, 1, 10, 2, 0), Y = 41.3 },
+        new() { X = new DateTime(2020, 1, 1, 10, 3, 0), Y = 49.5 },
+        new() { X = new DateTime(2020, 1, 1, 10, 4, 0), Y = 61.0 },
+        new() { X = new DateTime(2020, 1, 1, 10, 5, 0), Y = 48.6 },
+        new() { X = new DateTime(2020, 1, 1, 10, 6, 0), Y = 39.5 },
+        new() { X = new DateTime(2020, 1, 1, 10, 7, 0), Y = 42.1 }
+    };
+
+    public class ChartData
+    {
+        public int X { get; set; }
+        public double Y { get; set; }
+    }
+
+    private ObservableCollection<ChartData> SplineDataSource = new(GenerateInitialData());
+    private readonly Random Randomizer = new();
+
+    protected override void OnInitialized()
+    {
+        _currentTheme = CurrentTheme;
+        liveTimer = new System.Timers.Timer(2000);
+        liveTimer.Elapsed += async (_, _) => { await InvokeAsync(UpdateLiveData); };
+        liveTimer.Start();
+
+        datasourceTimer = new System.Threading.Timer(_ => { InvokeAsync(UpdateDatasource); }, null, 2000, 2000);
+    }
+
+    private void UpdateLiveData()
+    {
+        if (LiveData.Count == 0) return;
+        var lastPoint = LiveData[^1];
+        LiveData.RemoveAt(0);
+        LiveData.Add(new LivePoint
+        {
+            X = lastPoint.X.AddMinutes(1),
+            Y = Math.Clamp(lastPoint.Y + Randomizer.Next(-15, 16), 5, 60)
+        });
+    }
+
+    private void UpdateDatasource()
+    {
+        for (int i = 0; i < SplineDataSource.Count; i++)
+        {
+            SplineDataSource[i] = new ChartData
+            {
+                X = SplineDataSource[i].X,
+                Y = 10 + Randomizer.NextDouble() * (95 - 10)
+            };
+        }
+    }
+
+    private static List<ChartData> GenerateInitialData()
+    {
+        var data = new List<ChartData>();
+        var random = new Random();
+        for (int i = 1; i <= 7; i++)
+        {
+            data.Add(new ChartData { X = i, Y = random.Next(15, 90) });
+        }
+        return data;
+    }
+
+    public void Dispose()
+    {
+        liveTimer?.Dispose();
+        datasourceTimer?.Dispose();
+    }
+
+    private string SplineOverviewCode => @"@using Syncfusion.Blazor.Toolkit.Charts
+
+<SfChart Title=""2024 US Temperature Trends with Hottest, Coldest and Average Records"">
+    <ChartArea><ChartAreaBorder Width=""0"" /></ChartArea>
+    <ChartTooltipSettings Enable=""true"" Shared=""true"" Header=""${point.x}"" Format=""${series.name} : <b>${point.y}</b>"" EnableHighlight=""true"" />
+    <ChartPrimaryXAxis ValueType=""Syncfusion.Blazor.Toolkit.ValueType.Category"" Interval=""1"" LabelIntersectAction=""LabelIntersectAction.Rotate90"">
+        <ChartAxisMajorGridLines Width=""0"" /><ChartAxisMajorTickLines Width=""0"" /><ChartAxisMinorTickLines Width=""0"" />
+    </ChartPrimaryXAxis>
+    <ChartPrimaryYAxis Minimum=""0"" Maximum=""120"" Title=""Temperature (°F)"" LabelFormat=""{value}°F"">
+        <ChartAxisLineStyle Width=""0"" /><ChartAxisMajorTickLines Width=""0"" />
+    </ChartPrimaryYAxis>
+    
+        <ChartSeries DataSource=""@TemperatureData"" XName=""X"" YName=""Max"" Name=""Max Temp"" Width=""2"" Type=""ChartSeriesType.Spline"" Fill=""@MaxTempColor"">
+            <ChartMarker Visible=""true"" IsFilled=""false"" Shape=""ChartShape.Circle"" />
+        </ChartSeries>
+        <ChartSeries DataSource=""@TemperatureData"" XName=""X"" YName=""Avg"" Name=""Avg Temp"" Width=""2"" Type=""ChartSeriesType.Spline"" Fill=""#FF6060"">
+            <ChartMarker Visible=""true"" IsFilled=""false"" Shape=""ChartShape.Circle"" />
+        </ChartSeries>
+        <ChartSeries DataSource=""@TemperatureData"" XName=""X"" YName=""Min"" Name=""Min Temp"" Width=""2"" Type=""ChartSeriesType.Spline"" Fill=""#68FF60"">
+            <ChartMarker Visible=""true"" IsFilled=""false"" Shape=""ChartShape.Circle"" />
+        </ChartSeries>
+    
+    <ChartLegendSettings EnableHighlight=""true"" />
+</SfChart>
+
+@code {
+    public class TemperaturePoint { public string X { get; set; } = string.Empty; public double Min { get; set; } public double Avg { get; set; } public double Max { get; set; } }
+    private List<TemperaturePoint> TemperatureData = new() { ... };
+}";
+
+    private string SplineDataLabelCode => @"@using Syncfusion.Blazor.Toolkit.Charts
+
+<SfChart Title=""2024 Temperature Trends with Average Records"">
+    <ChartArea><ChartAreaBorder Width=""0"" /></ChartArea>
+    <ChartTooltipSettings Enable=""true"" Shared=""true"" Header=""Temperature"" Format=""${series.name} : <b>${point.y}</b>"" EnableHighlight=""true"" />
+    <ChartPrimaryXAxis ValueType=""Syncfusion.Blazor.Toolkit.ValueType.Category"">
+        <ChartAxisMajorGridLines Width=""0"" /><ChartAxisMajorTickLines Width=""0"" /><ChartAxisMinorTickLines Width=""0"" />
+    </ChartPrimaryXAxis>
+    <ChartPrimaryYAxis Minimum=""-10"" Interval=""10"" LabelFormat=""{value}°F"">
+        <ChartAxisLineStyle Width=""0"" /><ChartAxisMajorTickLines Width=""0"" />
+    </ChartPrimaryYAxis>
+    
+        <ChartSeries DataSource=""@SplineMinimumData"" XName=""X"" YName=""Y"" Name=""Reggane"" Width=""2"" Fill=""#FF7F50"" Type=""ChartSeriesType.Spline"">
+            <ChartMarker Visible=""true"" IsFilled=""true""><ChartDataLabel Visible=""true"" /></ChartMarker>
+        </ChartSeries>
+        <ChartSeries DataSource=""@SplineData"" XName=""X"" YName=""Y"" Name=""Tallinn"" Width=""2"" Fill=""#19DA00"" Type=""ChartSeriesType.Spline"">
+            <ChartMarker Visible=""true"" IsFilled=""true""><ChartDataLabel Visible=""true"" /></ChartMarker>
+        </ChartSeries>
+    
+</SfChart>";
+
+    private string SplineTypeCode => @"@using Syncfusion.Blazor.Toolkit.Charts
+
+<div class=""mb-3 text-center"">
+    <SfButtonGroup Mode=""SelectionMode.Single"">
+        <ButtonGroupButton>Natural</ButtonGroupButton>
+        <ButtonGroupButton>Monotonic</ButtonGroupButton>
+        <ButtonGroupButton>Cardinal</ButtonGroupButton>
+        <ButtonGroupButton>Clamped</ButtonGroupButton>
+    </SfButtonGroup>
+</div>
+
+<SfChart Title=""2024 US Temperature Trends with Average Records"">
+    <ChartArea><ChartAreaBorder Width=""0"" /></ChartArea>
+    <ChartPrimaryXAxis ValueType=""Syncfusion.Blazor.Toolkit.ValueType.Category"">
+        <ChartAxisMajorGridLines Width=""0"" /><ChartAxisMajorTickLines Width=""0"" /><ChartAxisMinorTickLines Width=""0"" />
+    </ChartPrimaryXAxis>
+    <ChartPrimaryYAxis Minimum=""20"" Maximum=""80"" Interval=""10"" LabelFormat=""{value}°C"">
+        <ChartAxisLineStyle Width=""0"" /><ChartAxisMajorTickLines Width=""0"" />
+    </ChartPrimaryYAxis>
+    
+        <ChartSeries DataSource=""@TemperatureData"" XName=""X"" YName=""Avg"" Width=""2"" Fill=""#6F00FF"" Type=""ChartSeriesType.Spline"" SplineType=""@CurrentSplineType"">
+            <ChartMarker Visible=""true"" IsFilled=""true"" />
+        </ChartSeries>
+    
+</SfChart>";
+
+    private string SplineSkipMissingCode => @"@using Syncfusion.Blazor.Toolkit.Charts
+
+<SfButtonGroup Mode=""SelectionMode.Single"">
+    <ButtonGroupButton>Gap</ButtonGroupButton>
+    <ButtonGroupButton>Zero</ButtonGroupButton>
+    <ButtonGroupButton>Average</ButtonGroupButton>
+    <ButtonGroupButton>Drop</ButtonGroupButton>
+</SfButtonGroup>
+
+<SfChart Title=""Sales Analysis"">
+    <ChartArea><ChartAreaBorder Width=""0"" /></ChartArea>
+    <ChartPrimaryXAxis ValueType=""Syncfusion.Blazor.Toolkit.ValueType.Category"">
+        <ChartAxisMajorGridLines Width=""0"" /><ChartAxisMajorTickLines Width=""0"" /><ChartAxisMinorTickLines Width=""0"" />
+    </ChartPrimaryXAxis>
+    <ChartPrimaryYAxis><ChartAxisLineStyle Width=""0"" /><ChartAxisMajorTickLines Width=""0"" /></ChartPrimaryYAxis>
+    
+        <ChartSeries DataSource=""@SplineEmptyData"" XName=""X"" YName=""Y"" Width=""2"" Fill=""#009698"" Type=""ChartSeriesType.Spline"">
+            <ChartEmptyPointSettings Mode=""@CurrentEmptyPointMode"" />
+            <ChartMarker Visible=""true"" IsFilled=""true"" />
+        </ChartSeries>
+    
+</SfChart>";
+
+    private string SplineLiveUpdateCode => @"@using System.Collections.ObjectModel
+@using Syncfusion.Blazor.Toolkit.Charts
+@using System.Timers
+
+<SfChart Title=""Live Spline Chart"">
+    <ChartPrimaryXAxis ValueType=""Syncfusion.Blazor.Toolkit.ValueType.DateTime"" Interval=""1"" IntervalType=""IntervalType.Minutes"" LabelIntersectAction=""LabelIntersectAction.Hide"">
+        <ChartAxisMajorGridLines Width=""1"" />
+    </ChartPrimaryXAxis>
+    <ChartPrimaryYAxis Minimum=""0"" Maximum=""70""><ChartAxisMajorGridLines Width=""1"" /></ChartPrimaryYAxis>
+    
+        <ChartSeries DataSource=""@LiveData"" XName=""X"" YName=""Y"" Width=""2"" Fill=""#E377C2"" Type=""ChartSeriesType.Spline"">
+            <ChartMarker Visible=""true"" /><ChartSeriesAnimation Enable=""true"" Duration=""500"" />
+        </ChartSeries>
+    
+</SfChart>
+
+@code {
+    public class LivePoint
+    {
+        public DateTime X { get; set; }
+        public double Y { get; set; }
+    }
+
+    private ObservableCollection<LivePoint> LiveData = new()
+    {
+        new() { X = new DateTime(2020, 1, 1, 10, 0, 0), Y = 21.5 },
+        new() { X = new DateTime(2020, 1, 1, 10, 1, 0), Y = 24.0 },
+        new() { X = new DateTime(2020, 1, 1, 10, 2, 0), Y = 41.3 },
+        new() { X = new DateTime(2020, 1, 1, 10, 3, 0), Y = 49.5 },
+        new() { X = new DateTime(2020, 1, 1, 10, 4, 0), Y = 61.0 },
+        new() { X = new DateTime(2020, 1, 1, 10, 5, 0), Y = 48.6 },
+        new() { X = new DateTime(2020, 1, 1, 10, 6, 0), Y = 39.5 },
+        new() { X = new DateTime(2020, 1, 1, 10, 7, 0), Y = 42.1 }
+    };
+
+    private System.Timers.Timer? liveTimer;
+    private readonly Random Randomizer = new();
+
+    protected override void OnInitialized()
+    {
+        liveTimer = new System.Timers.Timer(2000);
+        liveTimer.Elapsed += async (_, _) => { await InvokeAsync(UpdateLiveData); };
+        liveTimer.Start();
+    }
+
+    private void UpdateLiveData()
+    {
+        if (LiveData.Count == 0) return;
+        var lastPoint = LiveData[^1];
+        LiveData.RemoveAt(0);
+        LiveData.Add(new LivePoint
+        {
+            X = lastPoint.X.AddMinutes(1),
+            Y = Math.Clamp(lastPoint.Y + Randomizer.Next(-15, 16), 5, 60)
+        });
+    }
+
+    public void Dispose()
+    {
+        liveTimer?.Dispose();
+    }
+}";
+
+    private string SplineInvertedAxesCode => @"@using Syncfusion.Blazor.Toolkit.Charts
+
+<SfChart Title=""Climate Graph in 2024"" IsTransposed=""true"">
+    <ChartArea><ChartAreaBorder Width=""0"" /></ChartArea>
+    <ChartPrimaryXAxis ValueType=""Syncfusion.Blazor.Toolkit.ValueType.Category"">
+        <ChartAxisMajorGridLines Width=""0"" /><ChartAxisMajorTickLines Width=""0"" /><ChartAxisMinorTickLines Width=""0"" />
+    </ChartPrimaryXAxis>
+    <ChartPrimaryYAxis LabelFormat=""{value}°C""><ChartAxisLineStyle Width=""0"" /><ChartAxisMajorTickLines Width=""0"" /></ChartPrimaryYAxis>
+    
+        <ChartSeries DataSource=""@SplineTransposedData"" XName=""X"" YName=""Y1"" Name=""London"" Width=""2"" Fill=""#66CCFF"" Type=""ChartSeriesType.Spline"">
+            <ChartMarker Visible=""true"" Shape=""ChartShape.Circle"" IsFilled=""true"" />
+        </ChartSeries>
+        <ChartSeries DataSource=""@SplineTransposedData"" XName=""X"" YName=""Y2"" Name=""France"" Width=""2"" Fill=""#99CC00"" Type=""ChartSeriesType.Spline"">
+            <ChartMarker Visible=""true"" Shape=""ChartShape.Circle"" IsFilled=""true"" />
+        </ChartSeries>
+    
+    <ChartLegendSettings EnableHighlight=""true"" />
+</SfChart>";
+
+    private string SplineNegativeDataCode => @"@using Syncfusion.Blazor.Toolkit.Charts
+
+<SfChart Title=""Annual Gold Price (2009–2023) in USD"">
+    <ChartArea><ChartAreaBorder Width=""0"" /></ChartArea>
+    <ChartPrimaryXAxis ValueType=""Syncfusion.Blazor.Toolkit.ValueType.Double"">
+        <ChartAxisMajorGridLines Width=""0"" /><ChartAxisMajorTickLines Width=""0"" /><ChartAxisMinorTickLines Width=""0"" />
+    </ChartPrimaryXAxis>
+    <ChartPrimaryYAxis Title=""% Annual Exchange Rate"">
+        <ChartAxisLineStyle Width=""0"" /><ChartAxisMajorTickLines Width=""0"" />
+        <ChartStriplines>
+            <ChartStripline Start=""20"" End=""20.5"" DashArray=""10,10"" Color=""#79747E"" />
+            <ChartStripline Start=""-25"" End=""-24.5"" DashArray=""10,10"" Color=""#79747E"" />
+        </ChartStriplines>
+    </ChartPrimaryYAxis>
+    
+        <ChartSeries DataSource=""@SplineNegativeData"" XName=""X"" YName=""USD"" Width=""2"" Fill=""#34B98F"" Type=""ChartSeriesType.Spline"">
+            <ChartMarker Visible=""true"" IsFilled=""true"" />
+        </ChartSeries>
+    
+</SfChart>";
+
+    private string SplineSeriesCustomizationCode => @"@using Syncfusion.Blazor.Toolkit.Charts
+
+<SfChart Title=""2024 US Temperature Trends with Minimum Records"">
+    <ChartArea><ChartAreaBorder Width=""0"" /></ChartArea>
+    <ChartPrimaryXAxis ValueType=""Syncfusion.Blazor.Toolkit.ValueType.Category"">
+        <ChartAxisMajorGridLines Width=""0"" /><ChartAxisMajorTickLines Width=""0"" /><ChartAxisMinorTickLines Width=""0"" />
+    </ChartPrimaryXAxis>
+    <ChartPrimaryYAxis Minimum=""20"" Maximum=""90"" LabelFormat=""{value}°F"">
+        <ChartAxisLineStyle Width=""0"" /><ChartAxisMajorTickLines Width=""0"" />
+    </ChartPrimaryYAxis>
+    
+        <ChartSeries DataSource=""@TemperatureData"" XName=""X"" YName=""Min"" Width=""2"" Opacity=""0.4"" DashArray=""5,5"" Fill=""#ED5707"" Type=""ChartSeriesType.Spline"">
+            <ChartSeriesBorder Color=""#71AD01"" Width=""2"" />
+            <ChartMarker Visible=""true"" IsFilled=""true"" />
+        </ChartSeries>
+    
+</SfChart>";
+
+    private string SplineDatasourceUpdateCode => @"@using System.Collections.ObjectModel
+@using Syncfusion.Blazor.Toolkit.Charts
+
+<SfChart Title=""Auto-Updating Spline Chart"">
+    <ChartArea><ChartAreaBorder Width=""0"" /></ChartArea>
+    <ChartPrimaryXAxis Minimum=""1"" Maximum=""7"" Interval=""1"">
+        <ChartAxisMajorGridLines Width=""0"" /><ChartAxisMajorTickLines Width=""0"" /><ChartAxisMinorTickLines Width=""0"" />
+    </ChartPrimaryXAxis>
+    <ChartPrimaryYAxis Minimum=""0"" Maximum=""100"" Interval=""20"">
+        <ChartAxisLineStyle Width=""0"" /><ChartAxisMajorTickLines Width=""0"" />
+    </ChartPrimaryYAxis>
+    
+        <ChartSeries DataSource=""@SplineDataSource"" XName=""X"" YName=""Y"" Width=""2"" Opacity=""0.6"" Fill=""#BD33A4"" Type=""ChartSeriesType.Spline"">
+            <ChartSeriesBorder Width=""2"" /><ChartSeriesAnimation Enable=""true"" Duration=""1500"" />
+            <ChartMarker Visible=""true"" IsFilled=""true"" />
+        </ChartSeries>
+    
+</SfChart>
+
+@code {
+    public class ChartData
+    {
+        public int X { get; set; }
+        public double Y { get; set; }
+    }
+
+    private ObservableCollection<ChartData> SplineDataSource = new(GenerateInitialData());
+    private readonly Random Randomizer = new();
+    private System.Threading.Timer? datasourceTimer;
+
+    protected override void OnInitialized()
+    {
+        datasourceTimer = new System.Threading.Timer(_ => { InvokeAsync(UpdateDatasource); }, null, 2000, 2000);
+    }
+
+    private void UpdateDatasource()
+    {
+        for (int i = 0; i < SplineDataSource.Count; i++)
+        {
+            SplineDataSource[i] = new ChartData
+            {
+                X = SplineDataSource[i].X,
+                Y = 10 + Randomizer.NextDouble() * (95 - 10)
+            };
+        }
+    }
+
+    private static List<ChartData> GenerateInitialData()
+    {
+        var data = new List<ChartData>();
+        var random = new Random();
+        for (int i = 1; i <= 7; i++)
+        {
+            data.Add(new ChartData { X = i, Y = random.Next(15, 90) });
+        }
+        return data;
+    }
+
+    public void Dispose()
+    {
+        datasourceTimer?.Dispose();
+    }
+}";
+}
+

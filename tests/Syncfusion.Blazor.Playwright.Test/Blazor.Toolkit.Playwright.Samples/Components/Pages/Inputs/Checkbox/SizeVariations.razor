@@ -1,0 +1,56 @@
+@page "/checkbox/size-variations"
+@using Syncfusion.Blazor.Toolkit.Inputs
+@layout MainLayout
+
+<h1>Checkbox - Size Variations</h1>
+
+<div class="test-container">
+    <h2>Size Variations</h2>
+    <SfCheckBox TChecked="bool" CssClass="e-small" Label="Small Checkbox" @bind-Checked="smallChecked"></SfCheckBox>
+    <SfCheckBox TChecked="bool" Label="Medium (Default)" @bind-Checked="mediumChecked"></SfCheckBox>
+    <SfCheckBox TChecked="bool" CssClass="e-bigger" Label="Large Checkbox" @bind-Checked="largeChecked"></SfCheckBox>
+</div>
+
+<div class="test-container">
+    <h2>Size and State Combinations</h2>
+    <SfCheckBox TChecked="bool" CssClass="e-small" Label="Small Enabled" @bind-Checked="smallEnabled"></SfCheckBox>
+    <SfCheckBox TChecked="bool" CssClass="e-small" Label="Small Disabled" Disabled="true" @bind-Checked="smallDisabled"></SfCheckBox>
+    <SfCheckBox TChecked="bool" CssClass="e-bigger" Label="Large Enabled" @bind-Checked="largeEnabled"></SfCheckBox>
+    <SfCheckBox TChecked="bool" CssClass="e-bigger" Label="Large Disabled" Disabled="true" @bind-Checked="largeDisabled"></SfCheckBox>
+</div>
+
+<div class="test-container">
+    <h2>Indeterminate States with Sizes</h2>
+    <SfCheckBox TChecked="bool" CssClass="e-small" Label="Small Indeterminate" Indeterminate="true" @bind-Checked="smallIndeterminate"></SfCheckBox>
+    <SfCheckBox TChecked="bool" Label="Medium Indeterminate" Indeterminate="true" @bind-Checked="mediumIndeterminate"></SfCheckBox>
+    <SfCheckBox TChecked="bool" CssClass="e-bigger" Label="Large Indeterminate" Indeterminate="true" @bind-Checked="largeIndeterminate"></SfCheckBox>
+</div>
+
+<style>
+    .test-container {
+        padding: 20px;
+        border: 1px solid #ddd;
+        margin: 10px 0;
+        border-radius: 4px;
+        background-color: #f9f9f9;
+    }
+    
+    h2 {
+        margin-top: 20px;
+        font-size: 18px;
+        font-weight: 600;
+    }
+</style>
+
+@code {
+    private bool smallChecked = false;
+    private bool mediumChecked = false;
+    private bool largeChecked = false;
+    private bool smallEnabled = false;
+    private bool smallDisabled = false;
+    private bool largeEnabled = false;
+    private bool largeDisabled = false;
+    private bool smallIndeterminate = false;
+    private bool mediumIndeterminate = false;
+    private bool largeIndeterminate = false;
+}

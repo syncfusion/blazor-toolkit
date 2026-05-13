@@ -1,0 +1,636 @@
+@page "/charts/log-axis"
+@using Syncfusion.Blazor.Toolkit.Charts
+
+<PageTitle>Syncfusion Blazor Toolkit Logarithmic Axis Demo</PageTitle>
+
+<!-- ─────────────────────────────────────────────
+     LOGARITHMIC AXIS
+     ───────────────────────────────────────────── -->
+<Description>
+    <Header>
+        <h5><b>Logarithmic Axis</b></h5>
+    </Header>
+    <Content>
+        A logarithmic axis is ideal for visualizing datasets with values that grow
+        exponentially over time. It ensures that both small and large values remain
+        readable by scaling evenly based on orders of magnitude.
+
+        In the Syncfusion Blazor Toolkit, a logarithmic axis is configured by setting
+        the <code>ValueType</code> of the primary Y‑axis to
+        <code>ValueType.Logarithmic</code>. Additional properties such as minor ticks,
+        grid lines, and formatting help improve clarity for analytical scenarios.
+    </Content>
+</Description>
+
+<VirtualizeSection MinHeightPx="600px">
+    <CodePreview CodeSection="@LogarithmicAxisCode" IsFullWidth="true">
+    <PreviewSection>
+        <SfChart @key="@_currentTheme" Title="Product X Growth (1995–2005)" Theme="@_currentTheme">
+            <ChartArea>
+                <ChartAreaBorder Width="0" />
+            </ChartArea>
+
+            <!-- X AXIS -->
+            <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Toolkit.ValueType.DateTime" LabelFormat="yyyy" EdgeLabelPlacement="EdgeLabelPlacement.Shift">
+                <ChartAxisMajorGridLines Width="0" />
+                <ChartAxisMajorTickLines Width="0" />
+                <ChartAxisMinorTickLines Width="0" />
+            </ChartPrimaryXAxis>
+
+            <!-- Y AXIS (LOGARITHMIC) -->
+            <ChartPrimaryYAxis ValueType="Syncfusion.Blazor.Toolkit.ValueType.Logarithmic"
+                               Minimum="1"
+                               Maximum="100000"
+                               Interval="1"
+                               MinorTicksPerInterval="5"
+                               LabelFormat="${value}">
+                <ChartAxisLineStyle Width="0" />
+                <ChartAxisMajorTickLines Width="0" />
+            </ChartPrimaryYAxis>
+
+            <!-- SERIES -->
+            
+                <ChartSeries DataSource="@LogAxisData"
+                             XName="X"
+                             YName="Y"
+                             Type="ChartSeriesType.Line"
+                             Width="2"
+                             Fill="#FF2DF1">
+                    <ChartMarker Visible="true" IsFilled="true" />
+                </ChartSeries>
+            
+
+            <!-- TOOLTIP -->
+            <ChartTooltipSettings Enable="true"
+                                  Header="${point.x}"
+                                  Format="Growth : <b>${point.y}</b>"
+                                  EnableHighlight="true" />
+        </SfChart>
+    </PreviewSection>
+</CodePreview>
+</VirtualizeSection>
+
+<!-- ─────────────────────────────────────────────
+     Range
+     ───────────────────────────────────────────── -->
+<Description>
+    <Header>
+        <h5><b>Logarithmic Axis Range</b></h5>
+    </Header>
+    <Content>
+        This sample demonstrates setting an explicit range on a logarithmic Y‑axis
+        to focus on a specific growth interval.
+
+        By defining the <code>Minimum</code> and <code>Maximum</code> values, lower‑order
+        fluctuations are excluded, allowing the Chart to emphasize meaningful growth
+        within a defined logarithmic scale. This approach is especially useful when
+        analyzing product adoption, revenue growth, or performance metrics over time.
+    </Content>
+</Description>
+
+<VirtualizeSection MinHeightPx="600px">
+    <CodePreview CodeSection="@LogRangeAxisCode" IsFullWidth="true">
+    <PreviewSection>
+        <SfChart @key="@_currentTheme" Title="Product X Growth (1995–2005)" Theme="@_currentTheme">
+            <ChartArea>
+                <ChartAreaBorder Width="0" />
+            </ChartArea>
+
+            <!-- X AXIS -->
+            <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Toolkit.ValueType.DateTime" LabelFormat="yyyy">
+                <ChartAxisMajorGridLines Width="0" />
+                <ChartAxisMajorTickLines Width="0" />
+                <ChartAxisMinorTickLines Width="0" />
+            </ChartPrimaryXAxis>
+
+            <!-- Y AXIS (LOGARITHMIC WITH RANGE) -->
+            <ChartPrimaryYAxis ValueType="Syncfusion.Blazor.Toolkit.ValueType.Logarithmic"
+                               Minimum="100"
+                               Maximum="100000"
+                               LabelFormat=" ${value}">
+                <ChartAxisLineStyle Width="0" />
+                <ChartAxisMajorTickLines Width="0" />
+            </ChartPrimaryYAxis>
+
+            <!-- SERIES -->
+            
+                <ChartSeries DataSource="@LogRangeData"
+                             XName="X"
+                             YName="Y"
+                             Type="ChartSeriesType.Line"
+                             Width="2"
+                             Fill="#ED3500">
+                    <ChartMarker Visible="true" IsFilled="true" />
+                </ChartSeries>
+            
+
+            <!-- TOOLTIP -->
+            <ChartTooltipSettings Enable="true"
+                                  Header="${point.x}"
+                                  Format="Growth : <b>${point.y}</b>"
+                                  EnableHighlight="true" />
+        </SfChart>
+    </PreviewSection>
+</CodePreview>
+</VirtualizeSection>
+
+<!-- ─────────────────────────────────────────────
+     LOG BASE
+     ───────────────────────────────────────────── -->
+<Description>
+    <Header>
+        <h5><b>Logarithmic Axis with Custom Log Base</b></h5>
+    </Header>
+    <Content>
+        This sample demonstrates configuring a logarithmic axis using a custom base
+        value instead of the default base‑10 scale.
+
+        By setting the <code>LogBase</code> property on the primary Y‑axis, the Chart
+        scales values using a different exponential factor. Custom log bases are
+        useful when working with domain‑specific growth patterns, non‑decimal scaling,
+        or scientific datasets that follow alternative progression models.
+    </Content>
+</Description>
+
+<VirtualizeSection MinHeightPx="600px">
+    <CodePreview CodeSection="@LogBaseAxisCode" IsFullWidth="true">
+    <PreviewSection>
+
+        <SfChart @key="@_currentTheme" Title="Product X Growth (1995–2005)" Theme="@_currentTheme">
+            <ChartArea>
+                <ChartAreaBorder Width="0" />
+            </ChartArea>
+
+            <!-- X AXIS -->
+            <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Toolkit.ValueType.DateTime" LabelFormat="yyyy">
+                <ChartAxisMajorGridLines Width="0" />
+                <ChartAxisMajorTickLines Width="0" />
+                <ChartAxisMinorTickLines Width="0" />
+            </ChartPrimaryXAxis>
+
+            <!-- Y AXIS (LOGARITHMIC WITH CUSTOM BASE) -->
+            <ChartPrimaryYAxis ValueType="Syncfusion.Blazor.Toolkit.ValueType.Logarithmic"
+                               LogBase="5"
+                               Minimum="100"
+                               Maximum="100000"
+                               LabelFormat="${value}">
+                <ChartAxisLineStyle Width="0" />
+                <ChartAxisMajorTickLines Width="0" />
+            </ChartPrimaryYAxis>
+
+            <!-- SERIES -->
+            
+                <ChartSeries DataSource="@LogBaseData"
+                             XName="X"
+                             YName="Y"
+                             Type="ChartSeriesType.Line"
+                             Width="2"
+                             Fill="#9929EA">
+                    <ChartMarker Visible="true" IsFilled="true" />
+                </ChartSeries>
+            
+
+            <!-- TOOLTIP -->
+            <ChartTooltipSettings Enable="true"
+                                  Header="${point.x}"
+                                  Format="Growth : <b>${point.y}</b>"
+                                  EnableHighlight="true" />
+        </SfChart>
+    </PreviewSection>
+</CodePreview>
+</VirtualizeSection>
+
+<!-- ─────────────────────────────────────────────
+     INTERVAL
+     ───────────────────────────────────────────── -->
+<Description>
+    <Header>
+        <h5><b>Logarithmic Axis with Interval</b></h5>
+    </Header>
+    <Content>
+        This sample demonstrates controlling the spacing of labels and grid lines
+        on a logarithmic axis using the <code>Interval</code> property.
+
+        By setting a higher interval value, the axis displays labels at larger
+        logarithmic steps, reducing visual clutter when working with wide numeric
+        ranges. This is useful for summarizing long‑term growth patterns and
+        large‑scale performance data.
+    </Content>
+</Description>
+
+<VirtualizeSection MinHeightPx="600px">
+    <CodePreview CodeSection="@LogIntervalAxisCode" IsFullWidth="true">
+    <PreviewSection>
+        <SfChart @key="@_currentTheme" Title="Product X Growth (1995–2005)" Theme="@_currentTheme">
+            <ChartArea>
+                <ChartAreaBorder Width="0" />
+            </ChartArea>
+
+            <!-- X AXIS -->
+            <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Toolkit.ValueType.DateTime" LabelFormat="yyyy">
+                <ChartAxisMajorGridLines Width="0" />
+                <ChartAxisMajorTickLines Width="0" />
+                <ChartAxisMinorTickLines Width="0" />
+            </ChartPrimaryXAxis>
+
+            <!-- Y AXIS (LOGARITHMIC WITH INTERVAL) -->
+            <ChartPrimaryYAxis ValueType="Syncfusion.Blazor.Toolkit.ValueType.Logarithmic"
+                               Minimum="0"
+                               Maximum="100000"
+                               Interval="2"
+                               LabelFormat="${value}">
+                <ChartAxisLineStyle Width="0" />
+                <ChartAxisMajorTickLines Width="0" />
+            </ChartPrimaryYAxis>
+
+            <!-- SERIES -->
+            
+                <ChartSeries DataSource="@LogIntervalData"
+                             XName="X"
+                             YName="Y"
+                             Type="ChartSeriesType.Line"
+                             Width="2"
+                             Fill="#FF8040">
+                    <ChartMarker Visible="true" IsFilled="true" />
+                </ChartSeries>
+            
+
+            <!-- TOOLTIP -->
+            <ChartTooltipSettings Enable="true"
+                                  Header="${point.x}"
+                                  Format="Growth : <b>${point.y}</b>"
+                                  EnableHighlight="true" />
+        </SfChart>
+    </PreviewSection>
+</CodePreview>
+</VirtualizeSection>
+
+@code {
+    [CascadingParameter]
+    private Theme CurrentTheme { get; set; } = Theme.Fluent;
+
+    private Theme _currentTheme = Theme.Fluent;
+
+    protected override void OnInitialized()
+    {
+        _currentTheme = CurrentTheme;
+    }
+
+    protected override void OnParametersSet()
+    {
+        _currentTheme = CurrentTheme;
+    }
+
+    private bool IsDarkTheme => _currentTheme.ToString().Contains("Dark") || _currentTheme.ToString().Contains("HighContrast");
+    private string TextColor => IsDarkTheme ? "#E6EEF8" : "#0B1F3B";
+    // DATA MODEL (matches React)
+    public class LogAxisDataPoint
+    {
+        public DateTime X { get; set; }
+        public double Y { get; set; }
+    }
+
+    // DATASOURCE (1:1 from React)
+    private readonly List<LogAxisDataPoint> LogAxisData = new()
+    {
+        new() { X = new DateTime(1995, 1, 1), Y = 80 },
+        new() { X = new DateTime(1996, 1, 1), Y = 200 },
+        new() { X = new DateTime(1997, 1, 1), Y = 400 },
+        new() { X = new DateTime(1998, 1, 1), Y = 600 },
+        new() { X = new DateTime(1999, 1, 1), Y = 700 },
+        new() { X = new DateTime(2000, 1, 1), Y = 1400 },
+        new() { X = new DateTime(2001, 1, 1), Y = 2000 },
+        new() { X = new DateTime(2002, 1, 1), Y = 4000 },
+        new() { X = new DateTime(2003, 1, 1), Y = 6000 },
+        new() { X = new DateTime(2004, 1, 1), Y = 8000 },
+        new() { X = new DateTime(2005, 1, 1), Y = 11000 }
+    };
+
+    
+    // DATA MODEL
+    public class LogRangePoint
+    {
+        public DateTime X { get; set; }
+        public double Y { get; set; }
+    }
+
+    // DATASOURCE (1:1 FROM REACT)
+    private readonly List<LogRangePoint> LogRangeData = new()
+    {
+        new() { X = new DateTime(1995, 1, 1), Y = 100 },
+        new() { X = new DateTime(1996, 1, 1), Y = 200 },
+        new() { X = new DateTime(1997, 1, 1), Y = 400 },
+        new() { X = new DateTime(1998, 1, 1), Y = 600 },
+        new() { X = new DateTime(1999, 1, 1), Y = 700 },
+        new() { X = new DateTime(2000, 1, 1), Y = 1400 },
+        new() { X = new DateTime(2001, 1, 1), Y = 2000 },
+        new() { X = new DateTime(2002, 1, 1), Y = 4000 },
+        new() { X = new DateTime(2003, 1, 1), Y = 6000 },
+        new() { X = new DateTime(2004, 1, 1), Y = 8000 },
+        new() { X = new DateTime(2005, 1, 1), Y = 11000 }
+    };
+
+    
+    // DATA MODEL
+    public class LogBasePoint
+    {
+        public DateTime X { get; set; }
+        public double Y { get; set; }
+    }
+
+    // DATASOURCE (1:1 WITH REACT)
+    private readonly List<LogBasePoint> LogBaseData = new()
+    {
+        new() { X = new DateTime(1995, 1, 1), Y = 100 },
+        new() { X = new DateTime(1996, 1, 1), Y = 200 },
+        new() { X = new DateTime(1997, 1, 1), Y = 400 },
+        new() { X = new DateTime(1998, 1, 1), Y = 600 },
+        new() { X = new DateTime(1999, 1, 1), Y = 700 },
+        new() { X = new DateTime(2000, 1, 1), Y = 1400 },
+        new() { X = new DateTime(2001, 1, 1), Y = 2000 },
+        new() { X = new DateTime(2002, 1, 1), Y = 4000 },
+        new() { X = new DateTime(2003, 1, 1), Y = 6000 },
+        new() { X = new DateTime(2004, 1, 1), Y = 8000 },
+        new() { X = new DateTime(2005, 1, 1), Y = 11000 }
+    };
+
+    
+    // DATA MODEL
+    public class LogIntervalPoint
+    {
+        public DateTime X { get; set; }
+        public double Y { get; set; }
+    }
+
+    // DATASOURCE (1:1 WITH REACT)
+    private readonly List<LogIntervalPoint> LogIntervalData = new()
+    {
+        new() { X = new DateTime(1995, 1, 1), Y = 80 },
+        new() { X = new DateTime(1996, 1, 1), Y = 200 },
+        new() { X = new DateTime(1997, 1, 1), Y = 400 },
+        new() { X = new DateTime(1998, 1, 1), Y = 600 },
+        new() { X = new DateTime(1999, 1, 1), Y = 700 },
+        new() { X = new DateTime(2000, 1, 1), Y = 1400 },
+        new() { X = new DateTime(2001, 1, 1), Y = 2000 },
+        new() { X = new DateTime(2002, 1, 1), Y = 4000 },
+        new() { X = new DateTime(2003, 1, 1), Y = 6000 },
+        new() { X = new DateTime(2004, 1, 1), Y = 8000 },
+        new() { X = new DateTime(2005, 1, 1), Y = 11000 }
+    };
+
+
+    // CODE SNIPPET (IN SYNC WITH PREVIEW)
+    private string LogarithmicAxisCode => @"@using Syncfusion.Blazor.Toolkit.Charts
+
+
+<SfChart Title=""Product X Growth (1995–2005)"">
+    <ChartArea>
+                <ChartAreaBorder Width=""0"" />
+            </ChartArea>
+
+            <ChartPrimaryXAxis ValueType=""Syncfusion.Blazor.Toolkit.ValueType.DateTime"" LabelFormat=""yyyy"" EdgeLabelPlacement=""EdgeLabelPlacement.Shift"">
+                <ChartAxisMajorGridLines Width=""0"" />
+                <ChartAxisMajorTickLines Width=""0"" />
+                <ChartAxisMinorTickLines Width=""0"" />
+            </ChartPrimaryXAxis>
+
+    <ChartPrimaryYAxis ValueType=""ValueType.Logarithmic""
+                       Minimum=""1""
+                       Maximum=""100000""
+                       Interval=""1""
+                       MinorTicksPerInterval=""5"">
+        <ChartAxisLineStyle Width=""0"" />
+        <ChartAxisMajorGridLines Width=""1.5"" />
+        <ChartAxisLabel Format=""${value}"" />
+    </ChartPrimaryYAxis>
+
+    
+        <ChartSeries DataSource=""LogAxisData""
+                     XName=""X""
+                     YName=""Y""
+                     Type=""ChartSeriesType.Line""
+                     Width=""2""
+                     Fill=""#FF2DF1"">
+            <ChartMarker Visible=""true"" IsFilled=""true"" />
+        </ChartSeries>
+    
+
+    <ChartTooltipSettings Enable=""true""
+                          Header=""${point.x}""
+                          Format=""Growth : <b>${point.y}</b>""
+                          EnableHighlight=""true"" />
+</SfChart>
+
+@code {
+    public class LogAxisDataPoint
+        {
+            public DateTime X { get; set; }
+            public double Y { get; set; }
+        }
+     List<LogAxisDataPoint> LogAxisData = new()
+        {
+            new() { X = new DateTime(1995, 1, 1), Y = 80 },
+            new() { X = new DateTime(1996, 1, 1), Y = 200 },
+            new() { X = new DateTime(1997, 1, 1), Y = 400 },
+            new() { X = new DateTime(1998, 1, 1), Y = 600 },
+            new() { X = new DateTime(1999, 1, 1), Y = 700 },
+            new() { X = new DateTime(2000, 1, 1), Y = 1400 },
+            new() { X = new DateTime(2001, 1, 1), Y = 2000 },
+            new() { X = new DateTime(2002, 1, 1), Y = 4000 },
+            new() { X = new DateTime(2003, 1, 1), Y = 6000 },
+            new() { X = new DateTime(2004, 1, 1), Y = 8000 },
+            new() { X = new DateTime(2005, 1, 1), Y = 11000 }
+        };
+}";
+
+    private string LogRangeAxisCode => @"@using Syncfusion.Blazor.Toolkit.Charts
+  <SfChart  Title=""Product X Growth (1995–2005)"" >
+            <ChartArea>
+                <ChartAreaBorder Width=""0"" />
+            </ChartArea>
+
+            <!-- X AXIS -->
+            <ChartPrimaryXAxis ValueType=""Syncfusion.Blazor.Toolkit.ValueType.DateTime"" LabelFormat=""yyyy"">
+                <ChartAxisMajorGridLines Width=""0"" />
+                <ChartAxisMajorTickLines Width=""0"" />
+                <ChartAxisMinorTickLines Width=""0"" />
+            </ChartPrimaryXAxis>
+
+            <!-- Y AXIS (LOGARITHMIC WITH RANGE) -->
+            <ChartPrimaryYAxis ValueType=""Syncfusion.Blazor.Toolkit.ValueType.Logarithmic""
+                               Minimum=""100""
+                               Maximum=""100000""
+                               LabelFormat="" ${value}"">
+                <ChartAxisLineStyle Width=""0"" />
+                <ChartAxisMajorTickLines Width=""0"" />
+            </ChartPrimaryYAxis>
+
+            <!-- SERIES -->
+            
+                <ChartSeries DataSource=""@LogRangeData""
+                             XName=""X""
+                             YName=""Y""
+                             Type=""ChartSeriesType.Line""
+                             Width=""2""
+                             Fill=""#ED3500"">
+                    <ChartMarker Visible=""true"" IsFilled=""true"" />
+                </ChartSeries>
+            
+
+            <!-- TOOLTIP -->
+            <ChartTooltipSettings Enable=""true""
+                                  Header=""${point.x}""
+                                  Format=""Growth : <b>${point.y}</b>""
+                                  EnableHighlight=""true"" />
+        </SfChart>
+
+@code {
+    public class LogRangePoint
+        {
+            public DateTime X { get; set; }
+            public double Y { get; set; }
+        }
+     List<LogRangePoint> LogRangeData = new()
+        {
+            new() { X = new DateTime(1995, 1, 1), Y = 100 },
+            new() { X = new DateTime(1996, 1, 1), Y = 200 },
+            new() { X = new DateTime(1997, 1, 1), Y = 400 },
+            new() { X = new DateTime(1998, 1, 1), Y = 600 },
+            new() { X = new DateTime(1999, 1, 1), Y = 700 },
+            new() { X = new DateTime(2000, 1, 1), Y = 1400 },
+            new() { X = new DateTime(2001, 1, 1), Y = 2000 },
+            new() { X = new DateTime(2002, 1, 1), Y = 4000 },
+            new() { X = new DateTime(2003, 1, 1), Y = 6000 },
+            new() { X = new DateTime(2004, 1, 1), Y = 8000 },
+            new() { X = new DateTime(2005, 1, 1), Y = 11000 }
+        };
+}";
+
+    private string LogBaseAxisCode => @"@using Syncfusion.Blazor.Toolkit.Charts    
+        <SfChart Title=""Product X Growth (1995–2005)"">
+            <ChartArea>
+                <ChartAreaBorder Width=""0"" />
+            </ChartArea>
+
+            <!-- X AXIS -->
+            <ChartPrimaryXAxis ValueType=""Syncfusion.Blazor.Toolkit.ValueType.DateTime"" LabelFormat=""yyyy"">
+                <ChartAxisMajorGridLines Width=""0"" />
+                <ChartAxisMajorTickLines Width=""0"" />
+                <ChartAxisMinorTickLines Width=""0"" />
+            </ChartPrimaryXAxis>
+
+            <!-- Y AXIS (LOGARITHMIC WITH CUSTOM BASE) -->
+            <ChartPrimaryYAxis ValueType=""Syncfusion.Blazor.Toolkit.ValueType.Logarithmic""
+                               LogBase=""5""
+                               Minimum=""100""
+                               Maximum=""100000""
+                               LabelFormat=""${value}"">
+                <ChartAxisLineStyle Width=""0"" />
+                <ChartAxisMajorTickLines Width=""0"" />
+            </ChartPrimaryYAxis>
+
+            <!-- SERIES -->
+            
+                <ChartSeries DataSource=""@LogBaseData""
+                             XName=""X""
+                             YName=""Y""
+                             Type=""ChartSeriesType.Line""
+                             Width=""2""
+                             Fill=""#9929EA"">
+                    <ChartMarker Visible=""true"" IsFilled=""true"" />
+                </ChartSeries>
+            
+
+            <!-- TOOLTIP -->
+            <ChartTooltipSettings Enable=""true""
+                                  Header=""${point.x}""
+                                  Format=""Growth : <b>${point.y}</b>""
+                                  EnableHighlight=""true"" />
+        </SfChart>
+
+@code {
+    public class LogBasePoint
+        {
+            public DateTime X { get; set; }
+            public double Y { get; set; }
+        }
+     List<LogBasePoint> LogBaseData = new()
+        {
+            new() { X = new DateTime(1995, 1, 1), Y = 100 },
+            new() { X = new DateTime(1996, 1, 1), Y = 200 },
+            new() { X = new DateTime(1997, 1, 1), Y = 400 },
+            new() { X = new DateTime(1998, 1, 1), Y = 600 },
+            new() { X = new DateTime(1999, 1, 1), Y = 700 },
+            new() { X = new DateTime(2000, 1, 1), Y = 1400 },
+            new() { X = new DateTime(2001, 1, 1), Y = 2000 },
+            new() { X = new DateTime(2002, 1, 1), Y = 4000 },
+            new() { X = new DateTime(2003, 1, 1), Y = 6000 },
+            new() { X = new DateTime(2004, 1, 1), Y = 8000 },
+            new() { X = new DateTime(2005, 1, 1), Y = 11000 }
+        };
+}";
+
+    private string LogIntervalAxisCode => @"@using Syncfusion.Blazor.Toolkit.Charts
+    <SfChart Title=""Product X Growth (1995–2005)"">
+            <ChartArea>
+                <ChartAreaBorder Width=""0"" />
+            </ChartArea>
+
+            <!-- X AXIS -->
+            <ChartPrimaryXAxis ValueType=""Syncfusion.Blazor.Toolkit.ValueType.DateTime"" LabelFormat=""yyyy"">
+                <ChartAxisMajorGridLines Width=""0"" />
+                <ChartAxisMajorTickLines Width=""0"" />
+                <ChartAxisMinorTickLines Width=""0"" />
+            </ChartPrimaryXAxis>
+
+            <!-- Y AXIS (LOGARITHMIC WITH INTERVAL) -->
+            <ChartPrimaryYAxis ValueType=""Syncfusion.Blazor.Toolkit.ValueType.Logarithmic""
+                               Minimum=""0""
+                               Maximum=""100000""
+                               Interval=""2""
+                               LabelFormat=""${value}"">
+                <ChartAxisLineStyle Width=""0"" />
+                <ChartAxisMajorTickLines Width=""0"" />
+            </ChartPrimaryYAxis>
+
+            <!-- SERIES -->
+            
+                <ChartSeries DataSource=""@LogIntervalData""
+                             XName=""X""
+                             YName=""Y""
+                             Type=""ChartSeriesType.Line""
+                             Width=""2""
+                             Fill=""#FF8040"">
+                    <ChartMarker Visible=""true"" IsFilled=""true"" />
+                </ChartSeries>
+            
+
+            <!-- TOOLTIP -->
+            <ChartTooltipSettings Enable=""true""
+                                  Header=""${point.x}""
+                                  Format=""Growth : <b>${point.y}</b>""
+                                  EnableHighlight=""true"" />
+        </SfChart>
+
+@code {
+    public class LogIntervalPoint
+        {
+            public DateTime X { get; set; }
+            public double Y { get; set; }
+        }
+     List<LogIntervalPoint> LogIntervalData = new()
+        {
+            new() { X = new DateTime(1995, 1, 1), Y = 80 },
+            new() { X = new DateTime(1996, 1, 1), Y = 200 },
+            new() { X = new DateTime(1997, 1, 1), Y = 400 },
+            new() { X = new DateTime(1998, 1, 1), Y = 600 },
+            new() { X = new DateTime(1999, 1, 1), Y = 700 },
+            new() { X = new DateTime(2000, 1, 1), Y = 1400 },
+            new() { X = new DateTime(2001, 1, 1), Y = 2000 },
+            new() { X = new DateTime(2002, 1, 1), Y = 4000 },
+            new() { X = new DateTime(2003, 1, 1), Y = 6000 },
+            new() { X = new DateTime(2004, 1, 1), Y = 8000 },
+            new() { X = new DateTime(2005, 1, 1), Y = 11000 }
+        };
+}";
+}

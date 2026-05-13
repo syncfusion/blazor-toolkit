@@ -1,0 +1,230 @@
+@page "/charts/interactivity/animation"
+@using Syncfusion.Blazor.Toolkit.Charts;
+
+<Description>
+    <Header>
+        <h5>Animation</h5>
+    </Header>
+    <Content>
+        <p>
+            Animation enhances the Chart by smoothly rendering data during load or updates. To enable animation, set the <code>Enable</code> property in <code>ChartSeriesAnimation</code> to <code>true</code>. You can customize the animation's timing using the <code>Duration</code> and <code>Delay</code> properties. Selection allows users to focus on specific data points or series, while Highlight emphasizes data elements on hover. Together, these features improve interactivity, readability, and overall data exploration experience.
+        </p>
+    </Content>
+</Description>
+<VirtualizeSection MinHeightPx="600px">
+    <CodePreview IsFullWidth="true" CodeSection="@AnimationCode">
+        <PreviewSection>
+            <SfChart @key="@_currentTheme" Title="Almond Yield Comparison Across Countries (2010–2022)" Theme="@_currentTheme">
+                <!-- X Axis -->
+                <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Toolkit.ValueType.DateTime"
+                                   EdgeLabelPlacement="EdgeLabelPlacement.Shift">
+                </ChartPrimaryXAxis>
+
+                <!-- Y Axis -->
+                <ChartPrimaryYAxis Title="Yield (In Tons per Hectare)" Maximum="8" Interval="2">
+                </ChartPrimaryYAxis>
+
+                <!-- Series Collection -->
+                
+
+                    <ChartSeries DataSource="@AnimationDataSource.Data"
+                                 XName="X" YName="Y1"
+                                 Type="ChartSeriesType.Spline"
+                                 Name="United States"
+                                 Width="3">
+                        <ChartSeriesAnimation Enable="true" Duration="1000"/>
+                    </ChartSeries>
+
+                    <ChartSeries DataSource="@AnimationDataSource.Data"
+                                 XName="X" YName="Y2"
+                                 Type="ChartSeriesType.Spline"
+                                 Name="China"
+                                 Width="3">
+                        <ChartSeriesAnimation Enable="true" Delay="1500" Duration="1000"/>
+                    </ChartSeries>
+
+                    <ChartSeries DataSource="@AnimationDataSource.Data"
+                                 XName="X" YName="Y3"
+                                 Type="ChartSeriesType.Spline"
+                                 Name="Afghanistan"
+                                 Width="3">
+                        <ChartSeriesAnimation Enable="true" Delay="3000" Duration="1000"/>
+                    </ChartSeries>
+
+                    <ChartSeries DataSource="@AnimationDataSource.Data"
+                                 XName="X" YName="Y4"
+                                 Type="ChartSeriesType.Spline"
+                                 Name="Yemen"
+                                 Width="3">
+                        <ChartSeriesAnimation Enable="true" Delay="4500" Duration="1000"/>
+                    </ChartSeries>
+
+                    <ChartSeries DataSource="@AnimationDataSource.Data"
+                                 XName="X" YName="Y"
+                                 Type="ChartSeriesType.Spline"
+                                 Name="Australia"
+                                 Width="3">
+                        <ChartSeriesAnimation Enable="true" Delay="6000" Duration="1000"/>
+                    </ChartSeries>
+
+                
+
+                <!-- Tooltip -->
+                <ChartTooltipSettings Enable="true"
+                                      Format="${series.name}: <b>${point.y}</b>"/>
+
+                <!-- Legend -->
+                <ChartLegendSettings Visible="true"/>
+
+            </SfChart>
+        </PreviewSection>
+    </CodePreview>
+</VirtualizeSection>
+
+@code{
+    [CascadingParameter]
+    private Theme CurrentTheme { get; set; } = Theme.Fluent;
+
+    private Theme _currentTheme = Theme.Fluent;
+
+    protected override void OnInitialized()
+    {
+        _currentTheme = CurrentTheme;
+    }
+
+    protected override void OnParametersSet()
+    {
+        _currentTheme = CurrentTheme;
+    }
+
+    private bool IsDarkTheme => _currentTheme.ToString().Contains("Dark") || _currentTheme.ToString().Contains("HighContrast");
+    private string TextColor => IsDarkTheme ? "#E6EEF8" : "#0B1F3B";
+    public string AnimationCode = @"<SfChart @key=""@_currentTheme"" Title=""Almond Yield Comparison Across Countries (2010–2022)"" Theme=""@_currentTheme"">
+    <!-- X Axis -->
+    <ChartPrimaryXAxis ValueType=""Syncfusion.Blazor.Toolkit.ValueType.DateTime""
+                       EdgeLabelPlacement=""EdgeLabelPlacement.Shift"">
+    </ChartPrimaryXAxis>
+
+    <!-- Y Axis -->
+    <ChartPrimaryYAxis Title=""Yield (In Tons per Hectare)"" Maximum=""8"" Interval=""2"">
+    </ChartPrimaryYAxis>
+
+    <!-- Series Collection -->
+    
+
+        <ChartSeries DataSource=""@AnimationDataSource.Data""
+                     XName=""X"" YName=""Y1""
+                     Type=""ChartSeriesType.Spline""
+                     Name=""United States""
+                     Width=""3"">
+            <ChartSeriesAnimation Enable=""true"" Duration=""1000""/>
+        </ChartSeries>
+
+        <ChartSeries DataSource=""@AnimationDataSource.Data""
+                     XName=""X"" YName=""Y2""
+                     Type=""ChartSeriesType.Spline""
+                     Name=""China""
+                     Width=""3"">
+            <ChartSeriesAnimation Enable=""true"" Delay=""1500"" Duration=""1000""/>
+        </ChartSeries>
+
+        <ChartSeries DataSource=""@AnimationDataSource.Data""
+                     XName=""X"" YName=""Y3""
+                     Type=""ChartSeriesType.Spline""
+                     Name=""Afghanistan""
+                     Width=""3"">
+            <ChartSeriesAnimation Enable=""true"" Delay=""3000"" Duration=""1000""/>
+        </ChartSeries>
+
+        <ChartSeries DataSource=""@AnimationDataSource.Data""
+                     XName=""X"" YName=""Y4""
+                     Type=""ChartSeriesType.Spline""
+                     Name=""Yemen""
+                     Width=""3"">
+            <ChartSeriesAnimation Enable=""true"" Delay=""4500"" Duration=""1000""/>
+        </ChartSeries>
+
+        <ChartSeries DataSource=""@AnimationDataSource.Data""
+                     XName=""X"" YName=""Y""
+                     Type=""ChartSeriesType.Spline""
+                     Name=""Australia""
+                     Width=""3"">
+            <ChartSeriesAnimation Enable=""true"" Delay=""6000"" Duration=""1000""/>
+        </ChartSeries>
+
+    
+
+    <!-- Tooltip -->
+    <ChartTooltipSettings Enable=""true""
+                          Format=""${series.name}: <b>${point.y}</b>""/>
+
+    <!-- Legend -->
+    <ChartLegendSettings Visible=""true""/>
+
+</SfChart>
+
+@code{
+
+    public class AnimationData
+    {
+        public DateTime X { get; set; }
+        public double Y { get; set; }
+        public double Y1 { get; set; }
+        public double Y2 { get; set; }
+        public double Y3 { get; set; }
+        public double Y4 { get; set; }
+    }
+
+    public static class AnimationDataSource
+    {
+        public static List<AnimationData> Data = new()
+        {
+            new() { X = new DateTime(2010, 1, 1), Y = 5.00, Y1 = 4.54, Y2 = 3.62, Y3 = 2.92, Y4 = 1.87 },
+            new() { X = new DateTime(2011, 1, 1), Y = 5.69, Y1 = 4.50, Y2 = 3.23, Y3 = 3.00, Y4 = 1.87 },
+            new() { X = new DateTime(2012, 1, 1), Y = 4.99, Y1 = 4.60, Y2 = 4.19, Y3 = 2.97, Y4 = 1.85 },
+            new() { X = new DateTime(2013, 1, 1), Y = 5.65, Y1 = 5.04, Y2 = 2.99, Y3 = 2.97, Y4 = 1.84 },
+            new() { X = new DateTime(2014, 1, 1), Y = 5.43, Y1 = 4.39, Y2 = 3.07, Y3 = 2.00, Y4 = 1.84 },
+            new() { X = new DateTime(2015, 1, 1), Y = 5.51, Y1 = 3.86, Y2 = 3.19, Y3 = 1.88, Y4 = 1.65 },
+            new() { X = new DateTime(2016, 1, 1), Y = 6.12, Y1 = 4.12, Y2 = 3.28, Y3 = 1.81, Y4 = 1.69 },
+            new() { X = new DateTime(2017, 1, 1), Y = 6.68, Y1 = 6.35, Y2 = 4.12, Y3 = 1.79, Y4 = 1.38 },
+            new() { X = new DateTime(2018, 1, 1), Y = 5.52, Y1 = 3.90, Y2 = 3.39, Y3 = 1.75, Y4 = 1.72 },
+            new() { X = new DateTime(2019, 1, 1), Y = 5.59, Y1 = 4.01, Y2 = 3.46, Y3 = 1.75, Y4 = 1.31 },
+            new() { X = new DateTime(2020, 1, 1), Y = 5.46, Y1 = 4.64, Y2 = 3.52, Y3 = 1.78, Y4 = 1.75 },
+            new() { X = new DateTime(2021, 1, 1), Y = 6.08, Y1 = 4.12, Y2 = 3.58, Y3 = 1.74, Y4 = 1.29 },
+            new() { X = new DateTime(2022, 1, 1), Y = 6.23, Y1 = 3.64, Y2 = 3.40, Y3 = 1.73, Y4 = 1.64 }
+        };
+    }";
+}
+@code{
+
+    public class AnimationData
+    {
+        public DateTime X { get; set; }
+        public double Y { get; set; }
+        public double Y1 { get; set; }
+        public double Y2 { get; set; }
+        public double Y3 { get; set; }
+        public double Y4 { get; set; }
+    }
+
+    public static class AnimationDataSource
+    {
+        public static List<AnimationData> Data = new()
+        {
+            new() { X = new DateTime(2010, 1, 1), Y = 5.00, Y1 = 4.54, Y2 = 3.62, Y3 = 2.92, Y4 = 1.87 },
+            new() { X = new DateTime(2011, 1, 1), Y = 5.69, Y1 = 4.50, Y2 = 3.23, Y3 = 3.00, Y4 = 1.87 },
+            new() { X = new DateTime(2012, 1, 1), Y = 4.99, Y1 = 4.60, Y2 = 4.19, Y3 = 2.97, Y4 = 1.85 },
+            new() { X = new DateTime(2013, 1, 1), Y = 5.65, Y1 = 5.04, Y2 = 2.99, Y3 = 2.97, Y4 = 1.84 },
+            new() { X = new DateTime(2014, 1, 1), Y = 5.43, Y1 = 4.39, Y2 = 3.07, Y3 = 2.00, Y4 = 1.84 },
+            new() { X = new DateTime(2015, 1, 1), Y = 5.51, Y1 = 3.86, Y2 = 3.19, Y3 = 1.88, Y4 = 1.65 },
+            new() { X = new DateTime(2016, 1, 1), Y = 6.12, Y1 = 4.12, Y2 = 3.28, Y3 = 1.81, Y4 = 1.69 },
+            new() { X = new DateTime(2017, 1, 1), Y = 6.68, Y1 = 6.35, Y2 = 4.12, Y3 = 1.79, Y4 = 1.38 },
+            new() { X = new DateTime(2018, 1, 1), Y = 5.52, Y1 = 3.90, Y2 = 3.39, Y3 = 1.75, Y4 = 1.72 },
+            new() { X = new DateTime(2019, 1, 1), Y = 5.59, Y1 = 4.01, Y2 = 3.46, Y3 = 1.75, Y4 = 1.31 },
+            new() { X = new DateTime(2020, 1, 1), Y = 5.46, Y1 = 4.64, Y2 = 3.52, Y3 = 1.78, Y4 = 1.75 },
+            new() { X = new DateTime(2021, 1, 1), Y = 6.08, Y1 = 4.12, Y2 = 3.58, Y3 = 1.74, Y4 = 1.29 },
+            new() { X = new DateTime(2022, 1, 1), Y = 6.23, Y1 = 3.64, Y2 = 3.40, Y3 = 1.73, Y4 = 1.64 }
+        };
+    }
+
+}

@@ -1,0 +1,115 @@
+﻿@using Microsoft.Extensions.Localization
+@using Syncfusion.Blazor.Toolkit.Buttons;
+@inherits SfBaseComponent
+@namespace Syncfusion.Blazor.Toolkit.Popups
+@inject IStringLocalizer Localizer
+
+@code {
+    private RenderFragment DialogInner => __builder =>
+    {
+        <CascadingValue Value="@this">
+            @if (IsHeaderContentExist() || ShowCloseIcon)
+            {
+                <div id="@(ID)_dialog-header" class="@HEADERCONTENT">
+                    @if (ShowCloseIcon)
+                    {
+                        <SfButton CssClass="@(BTNCSSCLASS + " " + CssClass)" IconCss="@BTNICONCSS" @attributes="@CloseIconAttributes" Type="ButtonType.Button" OnClick="@CloseIconClickHandlerAsync"></SfButton>
+                    }
+                    @if (IsHeaderContentExist())
+                    {
+                        <div id="@(ID)_title" class="@HEADER">
+                            @if (HeaderTemplate is not null)
+                            {
+                                @HeaderTemplate
+                            }
+                            else
+                            {
+                                @Header
+                            }
+                        </div>
+                    }
+                </div>
+            }
+            @if ((ContentTemplate is not null && string.IsNullOrEmpty(Content)) || (ContentTemplate is null && !string.IsNullOrEmpty(Content)))
+            {
+                <div id="@(ID)_dialog-content" class="@CONTENT">
+                    @if (ContentTemplate is not null)
+                    {
+                        @ContentTemplate
+                    }
+                    else
+                    {
+                        @Content
+                    }
+                </div>
+                <div class="e-dialog-content-hidden"> @ChildContent </div>
+            }
+            else
+            {
+                <div id="@(ID)_dialog-content" class="@CONTENT"> @ChildContent </div>
+            }
+            @if ((FooterTemplates is not null && string.IsNullOrEmpty(FooterTemplate)) || (FooterTemplates is null && !string.IsNullOrEmpty(FooterTemplate)))
+            {
+                <div class="@FOOTER_CONTENT">
+                    @if (FooterTemplates is not null)
+                    {
+                        @FooterTemplates
+                    }
+                    else
+                    {
+                        @FooterTemplate
+                    }
+                </div>
+            }
+            else
+            {
+                @if (ButtonsValue is not null && ButtonsValue.Count > 0)
+                {
+                    <div class="@FOOTER_CONTENT">
+                        @for (var i = 0; i < ButtonsValue.Count; i++)
+                        {
+                            DialogButton model = (DialogButton)ButtonsValue[i];
+                            string? btnCssClass = ButtonsValue[i].IsFlat ? "e-flat " + model.CssClass : model.CssClass;
+                            <SfButton CssClass="@(btnCssClass + " " + CssClass)" Disabled="@model.Disabled" IsPrimary="@model.IsPrimary" IconCss="@model.IconCss" IconPosition="@model.IconPosition" IsToggle="@model.IsToggle" Type=@model.Type @attributes=@model.HtmlAttributes OnClick="@ButtonsValue[i].OnClick">
+                                @if (model.ChildContent is not null)
+                                {
+                                    @model.ChildContent
+                                }
+                                else
+                                {
+                                    @model.Content
+                                }
+                            </SfButton>
+                        }
+                    </div>
+                }
+            }
+        </CascadingValue>;
+    };
+}
+
+@if (!IsModal)
+{
+    @if (AllowPrerender || (!AllowPrerender && IsPreRender))
+    {
+        <div @ref="DialogElement" id="@ID" class="@_dialogClass" role="dialog" aria-describedby="@(ID)_dialog-content" @attributes="@_dialogAttribute">
+            @DialogInner
+        </div>
+    }
+}
+else
+{
+    @if (AllowPrerender || (!AllowPrerender && IsPreRender))
+    {
+        <div id="@(MODAL + "-" + ID)" class="@(CONTAINER + " " + CssClass)" @attributes="@ContainerAttribute">
+            <div @ref="ModalDialogElement" id="@ID" class="@_dialogClass" aria-modal="true" role="dialog" aria-describedby="@(ID)_dialog-content" @attributes="@_dialogAttribute">
+                <!-- Render shared DialogInner -->
+                @DialogInner
+            </div>
+            @if (IsModal)
+            {
+                <div id="@(ID)_overlay" class="@OVERLAY" @attributes="@OverlayAttribute" @onclick="@OverlayClickHandlerAsync"></div>
+            }
+        </div>
+    }
+}

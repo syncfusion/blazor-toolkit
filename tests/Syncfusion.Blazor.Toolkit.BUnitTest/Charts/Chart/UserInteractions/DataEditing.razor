@@ -1,0 +1,85 @@
+@using Syncfusion.Blazor.Toolkit.Charts
+@using Syncfusion.Blazor.Toolkit.Tests
+@using Syncfusion.Blazor.Toolkit.Charts
+@using Syncfusion.Blazor.Toolkit.Charts.Internal
+@using Microsoft.AspNetCore.Components.Web
+@using Bunit
+@using Xunit
+
+@inherits TestComponentBase
+
+<SfFixture @ref="fixture" TestAsync="DataEditing_Drag" Description="DataEditing Dragging Test">
+    <ComponentUnderTest>
+        <SfChart ID="container" @ref="chart" Title="Data Edit Test" Height="400" Width="800" OnDataEdit="OnDataEditTrigger" OnDataEditCompleted="OnDataEditCompletedTrigger">
+            <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Toolkit.ValueType.Category"></ChartPrimaryXAxis>
+            <ChartPrimaryYAxis></ChartPrimaryYAxis>
+            <ChartSeriesCollection>
+                <ChartSeries DataSource="@Sales" XName="Month" YName="SalesValue" Type="ChartSeriesType.Column" Name="Series1" Fill="blue">
+                    <ChartSeriesAnimation Enable="false"></ChartSeriesAnimation>
+                    <ChartDataEditSettings Enable="true" Fill="green" MinY="0" MaxY="100"></ChartDataEditSettings>
+                </ChartSeries>
+            </ChartSeriesCollection>
+        </SfChart>
+    </ComponentUnderTest>
+</SfFixture>
+
+
+@code {
+    SfFixture fixture { get; set; }
+    SfChart chart;
+
+    public class SalesInfo { public string Month { get; set; } public double SalesValue { get; set; } }
+
+    public List<SalesInfo> Sales = new List<SalesInfo>
+    {
+        new SalesInfo{ Month = "Jan", SalesValue = 35 },
+        new SalesInfo{ Month = "Feb", SalesValue = 28 },
+        new SalesInfo{ Month = "Mar", SalesValue = 34 }
+    };
+
+    async Task DataEditing_Drag(Fixture fixture)
+    {
+        var cut = fixture.GetComponentUnderTest<SfChart>();
+        await Task.Delay(300);
+        var args = new ChartInternalMouseEventArgs
+        {
+            Target = "container_Series_0_Point_0",
+            MouseX = 70.375,
+            MouseY = 71.13125000000001,
+            Type = "touch",
+            ClientX = 100,
+            ClientY = 100
+        };
+        await cut.InvokeAsync(() => cut.Instance.OnZoomingMouseDown(args, false));
+        Assert.True(cut.Instance._isPointMouseDown);
+        var point = cut.Find("#container_Series_0_Point_0");
+        Assert.NotNull(point);
+        Assert.True(point.GetAttribute("fill") == "green" || cut.Instance._visibleSeriesRenderers[0].Series.ChartDataEditSettings.Fill == "green");
+        await cut.InvokeAsync(() => cut.Instance.OnZoomingMouseMove(args));
+        Assert.True(cut.Instance._dataEditingModule._isPointDragging);
+        await cut.InvokeAsync(() => cut.Instance.OnZoomingMouseEnd(args));
+        Assert.False(cut.Instance._isPointMouseDown);
+        var editing = new Syncfusion.Blazor.Toolkit.Charts.Internal.DataEditing(chart);
+        editing.Dispose();
+    }
+
+    public void OnDataEditTrigger(DataEditingEventArgs args)
+    {
+        Assert.Equal("OnDataEdit", args.Name);
+        Assert.True(args.OldValue == 35);
+        Assert.True(args.Point != null);
+        Assert.True(args.Series != null);
+        Assert.True(args.SeriesIndex == 0);
+        Assert.True(args.PointIndex == 0);
+    }
+
+    public void OnDataEditCompletedTrigger(DataEditingEventArgs args)
+    {
+        Assert.Equal("OnDataEditCompleted", args.Name);
+        Assert.True(args.OldValue == 35);
+        Assert.True(args.Point != null);
+        Assert.True(args.Series != null);
+        Assert.True(args.SeriesIndex == 0);
+        Assert.True(args.PointIndex == 0);
+    }
+}

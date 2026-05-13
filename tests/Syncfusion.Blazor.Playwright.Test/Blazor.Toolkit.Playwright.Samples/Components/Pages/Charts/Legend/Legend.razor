@@ -1,0 +1,47 @@
+@page "/chart/legend/customization"
+@using Syncfusion.Blazor.Toolkit.Charts
+@layout MainLayout
+
+<h3>Chart – Legend Customization</h3>
+
+<div id="chart-host" style="width:900px;height:500px">
+    <SfChart Title="Olympic Medals">
+
+        <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Toolkit.ValueType.Category" />
+
+        <ChartSeriesCollection>
+            <ChartSeries DataSource="@MedalDetails" Name="Gold" XName="Country" YName="Gold" Type="ChartSeriesType.Column" />
+            <ChartSeries DataSource="@MedalDetails" Name="Silver" XName="Country" YName="Silver" Type="ChartSeriesType.Column" />
+            <ChartSeries DataSource="@MedalDetails" Name="Bronze" XName="Country" YName="Bronze" Type="ChartSeriesType.Column" />
+        </ChartSeriesCollection>
+
+        <ChartLegendSettings Visible="true"
+                             Width="400px"
+                             Height="50px"
+                             Background="gray"
+                             Opacity="0.8"
+                             ItemPadding="35"
+                             ShapeWidth="15"
+                             ShapeHeight="15"
+                             ShapePadding="9"
+                             ToggleVisibility="false"
+                             TabIndex="1" />
+    </SfChart>
+</div>
+
+@code {
+    public class ChartData
+    {
+        public string Country { get; set; }
+        public double Gold { get; set; }
+        public double Silver { get; set; }
+        public double Bronze { get; set; }
+    }
+
+    public List<ChartData> MedalDetails = new()
+    {
+        new() { Country="USA", Gold=50, Silver=70, Bronze=45 },
+        new() { Country="China", Gold=40, Silver=60, Bronze=55 },
+        new() { Country="Japan", Gold=70, Silver=60, Bronze=50 }
+    };
+}

@@ -1,0 +1,3481 @@
+﻿@using Syncfusion.Blazor.Toolkit.Charts
+@using Syncfusion.Blazor.Toolkit.Tests
+@using Bunit
+@using Xunit
+
+@inherits TestComponentBase
+
+<SfFixture @ref="fixture" TestAsync="CheckingDefaultpoints" Description="CheckingDefaultpoints">
+    <ComponentUnderTest>
+        <SfChart ID="container" Title="x wise Sales Report" Width="800">
+            <ChartPrimaryXAxis Title="PrimaryXAxis" RangePadding="ChartRangePadding.Normal"></ChartPrimaryXAxis>
+            <ChartPrimaryYAxis Title="PrimaryYaxis"></ChartPrimaryYAxis>
+            <ChartSeriesCollection>
+                <ChartSeries DataSource="@Sales" XName="x" YName="y" Type="ChartSeriesType.StackingColumn" Name="Gold" Fill="rgba(135,206,235,1)">
+                    <ChartSeriesAnimation Enable="false"></ChartSeriesAnimation>
+                </ChartSeries>
+                <ChartSeries DataSource="@Sales" XName="x" YName="y1" Type="ChartSeriesType.StackingColumn" Name="Silver" Fill="Blue">
+                    <ChartSeriesAnimation Enable="false"></ChartSeriesAnimation>
+                </ChartSeries>
+            </ChartSeriesCollection>
+        </SfChart>
+    </ComponentUnderTest>
+</SfFixture>
+
+
+@code {
+
+    SfFixture fixture { get; set; }
+    async Task CheckingDefaultpoints(Fixture fixture)
+    {
+        var cut = fixture.GetComponentUnderTest<SfChart>();
+        await Task.Delay(200);
+        var series1 = cut.Find("#container_Series_0_Point_0");
+        Assert.True(series1.GetAttribute("fill") == "rgba(135,206,235,1)");
+        var series2 = cut.Find("#container_Series_1_Point_1");
+        Assert.True(series2.GetAttribute("fill") == "Blue");
+        cut.SetParametersAndRender();
+    }
+    public class BarData
+    {
+        public double x { get; set; }
+        public double y { get; set; }
+        public double y1 { get; set; }
+    }
+
+    public List<BarData> Sales = new List<BarData>
+{
+        new BarData { x = 1000, y = 70, y1 = 73 },
+        new BarData { x = 2000, y = 40, y1 = 40 },
+        new BarData { x = 3000, y = 70, y1 = 75 },
+        new BarData { x = 4000, y = 60, y1 = 30 },
+        new BarData { x = 5000, y = 50, y1 = 56 },
+        new BarData { x = 6000, y = 40, y1 = 60 },
+        new BarData { x = 7000, y = 40, y1 = 41 },
+        new BarData { x = 8000, y = 70, y1 = 45 }
+    };
+}
+
+
+@{
+    var InitialGroup1 = (new string[] { "CustomerID", "OrderID" });
+}
+<SfFixture @ref="fixture1" TestAsync="CheckingAxisMaximumBaseStackingSeriesEndValues" Description="CheckingAxisMaximumBaseStackingSeriesEndValues">
+    <ComponentUnderTest>
+        <SfChart ID="container" @ref="chartobj" Title="x wise Sales Report" Width="800">
+            <ChartPrimaryXAxis Title="PrimaryXAxis" RangePadding="ChartRangePadding.Normal"></ChartPrimaryXAxis>
+            <ChartPrimaryYAxis Title="PrimaryYaxis"></ChartPrimaryYAxis>
+            <ChartSeriesCollection>
+                <ChartSeries DataSource="@Sales1" XName="x" YName="y" Type="ChartSeriesType.StackingColumn" Name="Gold" Fill="rgba(135,206,235,1)">
+                    <ChartSeriesAnimation Enable="false"></ChartSeriesAnimation>
+                </ChartSeries>
+                <ChartSeries DataSource="@Sales1" XName="x" YName="y1" Type="ChartSeriesType.StackingColumn" Name="Silver" Fill="Blue">
+                    <ChartSeriesAnimation Enable="false"></ChartSeriesAnimation>
+                </ChartSeries>
+            </ChartSeriesCollection>
+        </SfChart>
+    </ComponentUnderTest>
+</SfFixture>
+
+
+@code {
+    SfChart chartobj;
+    SfFixture fixture1 { get; set; }
+    async Task CheckingAxisMaximumBaseStackingSeriesEndValues(Fixture fixture1)
+    {
+        var cut = fixture1.GetComponentUnderTest<SfChart>();
+        await Task.Delay(200);
+        //Assert.True(chartobj.Series[1].ymax)
+        cut.SetParametersAndRender();
+    }
+    public class BarData1
+    {
+        public double x { get; set; }
+        public double y { get; set; }
+        public double y1 { get; set; }
+    }
+
+    public List<BarData1> Sales1 = new List<BarData1>
+{
+        new BarData1 { x = 1000, y = 70, y1 = 73 },
+        new BarData1 { x = 2000, y = 40, y1 = 40 },
+        new BarData1 { x = 3000, y = 70, y1 = 75 },
+        new BarData1 { x = 4000, y = 60, y1 = 30 },
+        new BarData1 { x = 5000, y = 50, y1 = 56 },
+        new BarData1 { x = 6000, y = 40, y1 = 60 },
+        new BarData1 { x = 7000, y = 40, y1 = 41 },
+        new BarData1 { x = 8000, y = 70, y1 = 45 }
+    };
+}
+
+
+@{
+    var InitialGroup2 = (new string[] { "CustomerID", "OrderID" });
+}
+<SfFixture @ref="fixture2" TestAsync="CheckingEachPointPercentageValue" Description="CheckingEachPointPercentageValue">
+    <ComponentUnderTest>
+        <SfChart ID="container" @ref="chartobj1" Title="x wise Sales Report" Width="800">
+            <ChartPrimaryXAxis Title="PrimaryXAxis" RangePadding="ChartRangePadding.Normal"></ChartPrimaryXAxis>
+            <ChartPrimaryYAxis Title="PrimaryYaxis"></ChartPrimaryYAxis>
+            <ChartSeriesCollection>
+                <ChartSeries DataSource="@Sales2" XName="x" YName="y" Type="ChartSeriesType.StackingColumn" Name="Gold" Fill="rgba(135,206,235,1)">
+                    <ChartSeriesAnimation Enable="false"></ChartSeriesAnimation>
+                </ChartSeries>
+                <ChartSeries DataSource="@Sales2" XName="x" YName="y1" Type="ChartSeriesType.StackingColumn" Name="Silver" Fill="Blue">
+                    <ChartSeriesAnimation Enable="false"></ChartSeriesAnimation>
+                </ChartSeries>
+            </ChartSeriesCollection>
+        </SfChart>
+    </ComponentUnderTest>
+</SfFixture>
+
+
+@code {
+    SfChart chartobj1;
+    SfFixture fixture2 { get; set; }
+    async Task CheckingEachPointPercentageValue(Fixture fixture2)
+    {
+        var cut = fixture2.GetComponentUnderTest<SfChart>();
+        await Task.Delay(200);
+        Assert.True(chartobj1._visibleSeriesRenderers[0].Points[0].Percentage == 48.95);
+        cut.SetParametersAndRender();
+    }
+    public class BarData2
+    {
+        public double x { get; set; }
+        public double y { get; set; }
+        public double y1 { get; set; }
+    }
+
+    public List<BarData2> Sales2 = new List<BarData2>
+{
+        new BarData2 { x = 1000, y = 70, y1 = 73 },
+        new BarData2 { x = 2000, y = 40, y1 = 40 },
+        new BarData2 { x = 3000, y = 70, y1 = 75 },
+        new BarData2 { x = 4000, y = 60, y1 = 30 },
+        new BarData2 { x = 5000, y = 50, y1 = 56 },
+        new BarData2 { x = 6000, y = 40, y1 = 60 },
+        new BarData2 { x = 7000, y = 40, y1 = 41 },
+        new BarData2 { x = 8000, y = 70, y1 = 45 }
+    };
+}
+
+
+@{
+    var InitialGroup3 = (new string[] { "CustomerID", "OrderID" });
+}
+<SfFixture @ref="fixture3" TestAsync="CheckingAxisMaximumBaseStackingSeries100EndValues" Description="CheckingAxisMaximumBaseStackingSeries100EndValues">
+    <ComponentUnderTest>
+        <SfChart ID="container" @ref="chartobj2" Title="x wise Sales Report" Width="800">
+            <ChartPrimaryXAxis Title="PrimaryXAxis" RangePadding="ChartRangePadding.Normal"></ChartPrimaryXAxis>
+            <ChartPrimaryYAxis Title="PrimaryYaxis"></ChartPrimaryYAxis>
+            <ChartSeriesCollection>
+                <ChartSeries DataSource="@Sales3" XName="x" YName="y" Type="ChartSeriesType.StackingColumn100" Name="Gold" Fill="rgba(135,206,235,1)">
+                    <ChartSeriesAnimation Enable="false"></ChartSeriesAnimation>
+                </ChartSeries>
+                <ChartSeries DataSource="@Sales3" XName="x" YName="y1" Type="ChartSeriesType.StackingColumn100" Name="Silver" Fill="Blue">
+                    <ChartSeriesAnimation Enable="false"></ChartSeriesAnimation>
+                </ChartSeries>
+            </ChartSeriesCollection>
+        </SfChart>
+    </ComponentUnderTest>
+</SfFixture>
+
+
+@code {
+    SfChart chartobj2;
+    SfFixture fixture3 { get; set; }
+    async Task CheckingAxisMaximumBaseStackingSeries100EndValues(Fixture fixture3)
+    {
+        var cut = fixture3.GetComponentUnderTest<SfChart>();
+        await Task.Delay(200);
+        //Assert.True(chartobj2.Series[1].ymax)
+        cut.SetParametersAndRender();
+    }
+    public class BarData3
+    {
+        public double x { get; set; }
+        public double y { get; set; }
+        public double y1 { get; set; }
+    }
+
+    public List<BarData3> Sales3 = new List<BarData3>
+{
+        new BarData3 { x = 1000, y = 70, y1 = 73 },
+        new BarData3 { x = 2000, y = 40, y1 = 40 },
+        new BarData3 { x = 3000, y = 70, y1 = 75 },
+        new BarData3 { x = 4000, y = 60, y1 = 30 },
+        new BarData3 { x = 5000, y = 50, y1 = 56 },
+        new BarData3 { x = 6000, y = 40, y1 = 60 },
+        new BarData3 { x = 7000, y = 40, y1 = 41 },
+        new BarData3 { x = 8000, y = 70, y1 = 45 }
+    };
+}
+
+
+@{
+    var InitialGroup4 = (new string[] { "CustomerID", "OrderID" });
+}
+<SfFixture @ref="fixture4" TestAsync="CheckingWithNullPoints" Description="CheckingWithNullPoints">
+    <ComponentUnderTest>
+        <SfChart ID="container" Title="x wise Sales Report" Width="800">
+            <ChartPrimaryXAxis Title="PrimaryXAxis" RangePadding="ChartRangePadding.Normal"></ChartPrimaryXAxis>
+            <ChartPrimaryYAxis Title="PrimaryYaxis"></ChartPrimaryYAxis>
+            <ChartSeriesCollection>
+                <ChartSeries DataSource="@Sales4" XName="x" YName="y" Type="ChartSeriesType.StackingColumn" Name="Gold" Fill="rgba(135,206,235,1)">
+                    <ChartSeriesAnimation Enable="false"></ChartSeriesAnimation>
+                </ChartSeries>
+                <ChartSeries DataSource="@Sales4" XName="x" YName="y1" Type="ChartSeriesType.StackingColumn" Name="Silver" Fill="Blue">
+                    <ChartSeriesAnimation Enable="false"></ChartSeriesAnimation>
+                </ChartSeries>
+            </ChartSeriesCollection>
+        </SfChart>
+    </ComponentUnderTest>
+</SfFixture>
+
+@code {
+
+    SfFixture fixture4 { get; set; }
+    async Task CheckingWithNullPoints(Fixture fixture4)
+    {
+        var cut = fixture4.GetComponentUnderTest<SfChart>();
+        await Task.Delay(200);
+        var series1 = cut.Find("#container_Series_0_Point_4");
+        Assert.True(series1 != null);
+        cut.SetParametersAndRender();
+    }
+    public class BarData4
+    {
+        public double x { get; set; }
+        public double? y { get; set; }
+        public double? y1 { get; set; }
+    }
+
+    public List<BarData4> Sales4 = new List<BarData4>
+{
+        new BarData4 { x = 1000, y = 70, y1 = 73 },
+        new BarData4 { x = 2000, y = 40, y1 = 40 },
+        new BarData4 { x = 3000, y = 70, y1 = 75 },
+        new BarData4 { x = 4000, y = null, y1 = 30 },
+        new BarData4 { x = 5000, y = 50, y1 = 56 },
+        new BarData4 { x = 6000, y = 40, y1 = null },
+        new BarData4 { x = 7000, y = 40, y1 = 41 },
+        new BarData4 { x = 8000, y = 70, y1 = 45 }
+    };
+}
+
+
+@{
+    var InitialGroup5 = (new string[] { "CustomerID", "OrderID" });
+}
+<SfFixture @ref="fixture5" TestAsync="CheckingWithNegativeDataPoint" Description="CheckingWithNegativeDataPoint">
+    <ComponentUnderTest>
+        <SfChart ID="container" @ref="chartobj3" Title="x wise Sales Report" Width="800">
+            <ChartPrimaryXAxis Title="PrimaryXAxis" RangePadding="ChartRangePadding.Additional" ValueType="Syncfusion.Blazor.Toolkit.ValueType.Double"></ChartPrimaryXAxis>
+            <ChartPrimaryYAxis Title="PrimaryYaxis"></ChartPrimaryYAxis>
+            <ChartSeriesCollection>
+                <ChartSeries DataSource="@Sales5" XName="x" YName="y" Type="ChartSeriesType.StackingColumn" Name="Gold" Fill="rgba(135,206,235,1)">
+                    <ChartSeriesAnimation Enable="false"></ChartSeriesAnimation>
+                </ChartSeries>
+                <ChartSeries DataSource="@Sales5" XName="x" YName="y1" Type="ChartSeriesType.StackingColumn" Name="Silver" Fill="Blue">
+                    <ChartSeriesAnimation Enable="false"></ChartSeriesAnimation>
+                </ChartSeries>
+            </ChartSeriesCollection>
+        </SfChart>
+    </ComponentUnderTest>
+</SfFixture>
+
+@code {
+    SfChart chartobj3;
+    SfFixture fixture5 { get; set; }
+    async Task CheckingWithNegativeDataPoint(Fixture fixture5)
+    {
+        var cut = fixture5.GetComponentUnderTest<SfChart>();
+        await Task.Delay(200);
+        var axislabel = Convert.ToDouble(cut.Find("#container1_AxisLabel_6").GetAttribute("y"));
+        var series0 = chartobj3._visibleSeriesRenderers[0];
+        var series1 = chartobj3._visibleSeriesRenderers[1];
+        Assert.True((series0.Points[1].Regions[0].Y + series0.Points[0].Regions[0].Height) > axislabel);
+        Assert.True((series1.Points[4].Regions[0].Y + series1.Points[4].Regions[0].Height) > axislabel);
+        cut.SetParametersAndRender();
+    }
+    public class BarData5
+    {
+        public double x { get; set; }
+        public double y { get; set; }
+        public double y1 { get; set; }
+    }
+    public List<BarData5> Sales5 = new List<BarData5>
+{
+        new BarData5 { x = 1000, y = 70, y1 = 70 },
+        new BarData5 { x = 2000, y = -40, y1 = -40 },
+        new BarData5 { x = 3000, y = 70, y1 = 70 },
+        new BarData5 { x = 4000, y = 60, y1 = 60 },
+        new BarData5 { x = 5000, y = -50, y1 = -50 },
+        new BarData5 { x = 6000, y = -40, y1 = -40 },
+        new BarData5 { x = 7000, y = 40, y1 = 40 },
+        new BarData5 { x = 8000, y = 70, y1 = 70 }
+    };
+}
+
+
+@{
+    var InitialGroup6 = (new string[] { "CustomerID", "OrderID" });
+}
+<SfFixture @ref="fixture6" TestAsync="CheckingWithDifferentStackingGroup" Description="CheckingWithDifferentStackingGroup">
+    <ComponentUnderTest>
+        <SfChart ID="container" @ref="chartobj4" Title="x wise Sales Report" Width="800">
+            <ChartPrimaryXAxis Title="PrimaryXAxis" RangePadding="ChartRangePadding.Normal"></ChartPrimaryXAxis>
+            <ChartPrimaryYAxis Title="PrimaryYaxis"></ChartPrimaryYAxis>
+            <ChartSeriesCollection>
+                <ChartSeries DataSource="@Sales6" XName="x" YName="y" Type="ChartSeriesType.StackingColumn" Name="Gold" Fill="rgba(135,206,235,1)" StackingGroup="a">
+                    <ChartSeriesAnimation Enable="false"></ChartSeriesAnimation>
+                </ChartSeries>
+                <ChartSeries DataSource="@Sales6" XName="x" YName="y1" Type="ChartSeriesType.StackingColumn" Name="Silver" Fill="Blue" StackingGroup="b">
+                    <ChartSeriesAnimation Enable="false"></ChartSeriesAnimation>
+                </ChartSeries>
+            </ChartSeriesCollection>
+        </SfChart>
+    </ComponentUnderTest>
+</SfFixture>
+
+@code {
+    SfChart chartobj4;
+    SfFixture fixture6 { get; set; }
+    async Task CheckingWithDifferentStackingGroup(Fixture fixture6)
+    {
+        var cut = fixture6.GetComponentUnderTest<SfChart>();
+        await Task.Delay(200);
+        var series1 = chartobj4._visibleSeriesRenderers[0].Points[1].Regions[0].X;
+        var series2 = chartobj4._visibleSeriesRenderers[1].Points[1].Regions[0].X;
+        Assert.True(series1 < series2);
+        cut.SetParametersAndRender();
+    }
+    public class BarData6
+    {
+        public double x { get; set; }
+        public double y { get; set; }
+        public double y1 { get; set; }
+    }
+
+    public List<BarData6> Sales6 = new List<BarData6>
+{
+        new BarData6 { x = 1000, y = 70, y1 = 73 },
+        new BarData6 { x = 2000, y = 40, y1 = 40 },
+        new BarData6 { x = 3000, y = 70, y1 = 75 },
+        new BarData6 { x = 4000, y = 70, y1 = 30 },
+        new BarData6 { x = 5000, y = 50, y1 = 56 },
+        new BarData6 { x = 6000, y = 40, y1 = 60 },
+        new BarData6 { x = 7000, y = 40, y1 = 41 },
+        new BarData6 { x = 8000, y = 70, y1 = 45 }
+    };
+}
+
+
+@{
+    var InitialGroup7 = (new string[] { "CustomerID", "OrderID" });
+}
+<SfFixture @ref="fixture7" TestAsync="CheckingWithDefaultDatalabel" Description="CheckingWithDefaultDatalabel">
+    <ComponentUnderTest>
+        <SfChart ID="container" @ref="chartobj5" Title="x wise Sales Report" Width="800">
+            <ChartPrimaryXAxis Title="PrimaryXAxis" RangePadding="ChartRangePadding.Normal" ValueType="Syncfusion.Blazor.Toolkit.ValueType.Double"></ChartPrimaryXAxis>
+            <ChartPrimaryYAxis Title="PrimaryYaxis"></ChartPrimaryYAxis>
+            <ChartSeriesCollection>
+                <ChartSeries DataSource="@Sales7" XName="x" YName="y" Type="ChartSeriesType.StackingColumn" Name="Gold" Fill="rgba(135,206,235,1)">
+                    <ChartSeriesAnimation Enable="false"></ChartSeriesAnimation>
+                    <ChartMarker>
+                        <ChartDataLabel Visible="true"></ChartDataLabel>
+                    </ChartMarker>
+                </ChartSeries>
+                <ChartSeries DataSource="@Sales7" XName="x" YName="y1" Type="ChartSeriesType.StackingColumn" Name="Silver" Fill="Blue">
+                    <ChartSeriesAnimation Enable="false"></ChartSeriesAnimation>
+                    <ChartMarker>
+                        <ChartDataLabel Visible="true"></ChartDataLabel>
+                    </ChartMarker>
+                </ChartSeries>
+            </ChartSeriesCollection>
+        </SfChart>
+    </ComponentUnderTest>
+</SfFixture>
+
+@code {
+    SfChart chartobj5;
+    SfFixture fixture7 { get; set; }
+    async Task CheckingWithDefaultDatalabel(Fixture fixture7)
+    {
+        var cut = fixture7.GetComponentUnderTest<SfChart>();
+        await Task.Delay(200);
+        var datalabel = cut.Find("#container_Series_0_Point_0_Text_0");
+        Assert.True(datalabel.TextContent == "70\n    ");
+        var datalabel1 = cut.Find("#container_Series_1_Point_0_Text_0");
+        Assert.True(datalabel1.TextContent == "73\n    ");
+        cut.SetParametersAndRender();
+    }
+    public class BarData7
+    {
+        public double x { get; set; }
+        public double y { get; set; }
+        public double y1 { get; set; }
+    }
+
+    public List<BarData7> Sales7 = new List<BarData7>
+{
+        new BarData7 { x = 1000, y = 70, y1 = 73 },
+        new BarData7 { x = 2000, y = 40, y1 = 40 },
+        new BarData7 { x = 3000, y = 70, y1 = 75 },
+        new BarData7 { x = 4000, y = 70, y1 = 30 },
+        new BarData7 { x = 5000, y = 50, y1 = 56 },
+        new BarData7 { x = 6000, y = 40, y1 = 60 },
+        new BarData7 { x = 7000, y = 40, y1 = 41 },
+        new BarData7 { x = 8000, y = 70, y1 = 45 }
+    };
+}
+
+
+@{
+    var InitialGroup8 = (new string[] { "CustomerID", "OrderID" });
+}
+<SfFixture @ref="fixture8" TestAsync="CheckingWithDefaultDatalabelFill" Description="CheckingWithDefaultDatalabelFill">
+    <ComponentUnderTest>
+        <SfChart ID="container" Title="x wise Sales Report" Width="800">
+            <ChartPrimaryXAxis Title="PrimaryXAxis" RangePadding="ChartRangePadding.Normal" ValueType="Syncfusion.Blazor.Toolkit.ValueType.Double"></ChartPrimaryXAxis>
+            <ChartPrimaryYAxis Title="PrimaryYaxis"></ChartPrimaryYAxis>
+            <ChartSeriesCollection>
+                <ChartSeries DataSource="@Sales8" XName="x" YName="y" Type="ChartSeriesType.StackingColumn" Name="Gold" Fill="rgba(135,206,235,1)">
+                    <ChartSeriesAnimation Enable="false"></ChartSeriesAnimation>
+                    <ChartMarker>
+                        <ChartDataLabel Visible="true">
+                            <ChartDataLabelBorder Width="2" Color="Grey"></ChartDataLabelBorder>
+                        </ChartDataLabel>
+                    </ChartMarker>
+                </ChartSeries>
+                <ChartSeries DataSource="@Sales8" XName="x" YName="y1" Type="ChartSeriesType.StackingColumn" Name="Silver" Fill="Blue">
+                    <ChartSeriesAnimation Enable="false"></ChartSeriesAnimation>
+                    <ChartMarker>
+                        <ChartDataLabel Visible="true">
+                            <ChartDataLabelBorder Width="2" Color="Grey"></ChartDataLabelBorder>
+                        </ChartDataLabel>
+                    </ChartMarker>
+                </ChartSeries>
+            </ChartSeriesCollection>
+        </SfChart>
+    </ComponentUnderTest>
+</SfFixture>
+
+@code {
+
+    SfFixture fixture8 { get; set; }
+    async Task CheckingWithDefaultDatalabelFill(Fixture fixture8)
+    {
+        var cut = fixture8.GetComponentUnderTest<SfChart>();
+        await Task.Delay(200);
+        var datalabel = cut.Find("#container_Series_0_Point_0_TextShape_0");
+        Assert.True(datalabel.GetAttribute("stroke") == "Grey");
+        Assert.True(datalabel.GetAttribute("stroke-width") == "2");
+        cut.SetParametersAndRender();
+    }
+    public class BarData8
+    {
+        public double x { get; set; }
+        public double y { get; set; }
+        public double y1 { get; set; }
+    }
+
+    public List<BarData8> Sales8 = new List<BarData8>
+{
+        new BarData8 { x = 1000, y = 70, y1 = 73 },
+        new BarData8 { x = 2000, y = 40, y1 = 40 },
+        new BarData8 { x = 3000, y = 70, y1 = 75 },
+        new BarData8 { x = 4000, y = 70, y1 = 30 },
+        new BarData8 { x = 5000, y = 50, y1 = 56 },
+        new BarData8 { x = 6000, y = 40, y1 = 60 },
+        new BarData8 { x = 7000, y = 40, y1 = 41 },
+        new BarData8 { x = 8000, y = 70, y1 = 45 }
+    };
+}
+
+
+@{
+    var InitialGroup9 = (new string[] { "CustomerID", "OrderID" });
+}
+<SfFixture @ref="fixture9" TestAsync="CheckingWithDefaultDatalabelFillStackingColumn100" Description="CheckingWithDefaultDatalabelFillStackingColumn100">
+    <ComponentUnderTest>
+        <SfChart ID="container" Title="x wise Sales Report" Width="800">
+            <ChartPrimaryXAxis Title="PrimaryXAxis" RangePadding="ChartRangePadding.Normal" ValueType="Syncfusion.Blazor.Toolkit.ValueType.Double"></ChartPrimaryXAxis>
+            <ChartPrimaryYAxis Title="PrimaryYaxis"></ChartPrimaryYAxis>
+            <ChartSeriesCollection>
+                <ChartSeries DataSource="@Sales9" XName="x" YName="y" Type="ChartSeriesType.StackingColumn100" Name="Gold" Fill="rgba(135,206,235,1)">
+                    <ChartSeriesAnimation Enable="false"></ChartSeriesAnimation>
+                    <ChartMarker>
+                        <ChartDataLabel Visible="true">
+                            <ChartDataLabelBorder Width="2" Color="Grey"></ChartDataLabelBorder>
+                        </ChartDataLabel>
+                    </ChartMarker>
+                </ChartSeries>
+                <ChartSeries DataSource="@Sales9" XName="x" YName="y1" Type="ChartSeriesType.StackingColumn100" Name="Silver" Fill="Blue">
+                    <ChartSeriesAnimation Enable="false"></ChartSeriesAnimation>
+                    <ChartMarker>
+                        <ChartDataLabel Visible="true">
+                            <ChartDataLabelBorder Width="2" Color="Grey"></ChartDataLabelBorder>
+                        </ChartDataLabel>
+                    </ChartMarker>
+                </ChartSeries>
+            </ChartSeriesCollection>
+        </SfChart>
+    </ComponentUnderTest>
+</SfFixture>
+
+@code {
+
+    SfFixture fixture9 { get; set; }
+    async Task CheckingWithDefaultDatalabelFillStackingColumn100(Fixture fixture9)
+    {
+        var cut = fixture9.GetComponentUnderTest<SfChart>();
+        await Task.Delay(200);
+        var datalabel = cut.Find("#container_Series_0_Point_0_TextShape_0");
+        Assert.True(datalabel.GetAttribute("stroke") == "Grey");
+        Assert.True(datalabel.GetAttribute("stroke-width") == "2");
+        cut.SetParametersAndRender();
+    }
+    public class BarData9
+    {
+        public double x { get; set; }
+        public double y { get; set; }
+        public double y1 { get; set; }
+    }
+
+    public List<BarData9> Sales9 = new List<BarData9>
+{
+        new BarData9 { x = 1000, y = 70, y1 = 73 },
+        new BarData9 { x = 2000, y = 40, y1 = 40 },
+        new BarData9 { x = 3000, y = 70, y1 = 75 },
+        new BarData9 { x = 4000, y = 70, y1 = 30 },
+        new BarData9 { x = 5000, y = 50, y1 = 56 },
+        new BarData9 { x = 6000, y = 40, y1 = 60 },
+        new BarData9 { x = 7000, y = 40, y1 = 41 },
+        new BarData9 { x = 8000, y = 70, y1 = 45 }
+    };
+}
+
+
+@{
+    var InitialGroup10 = (new string[] { "CustomerID", "OrderID" });
+}
+<SfFixture @ref="fixture10" TestAsync="CheckingFontColorSaturationStackingColumn100" Description="CheckingFontColorSaturationStackingColumn100">
+    <ComponentUnderTest>
+        <SfChart ID="container" Title="x wise Sales Report" Width="800">
+            <ChartArea Background="Black"></ChartArea>
+            <ChartPrimaryXAxis Title="PrimaryXAxis" RangePadding="ChartRangePadding.Normal" ValueType="Syncfusion.Blazor.Toolkit.ValueType.Double"></ChartPrimaryXAxis>
+            <ChartPrimaryYAxis Title="PrimaryYaxis"></ChartPrimaryYAxis>
+            <ChartSeriesCollection>
+                <ChartSeries DataSource="@Sales10" XName="x" YName="y" Type="ChartSeriesType.StackingColumn100" Name="Gold" Fill="rgba(135,206,235,1)">
+                    <ChartSeriesAnimation Enable="false"></ChartSeriesAnimation>
+                    <ChartMarker>
+                        <ChartDataLabel Visible="true">
+                            <ChartDataLabelBorder Width="2" Color="Grey"></ChartDataLabelBorder>
+                        </ChartDataLabel>
+                    </ChartMarker>
+                </ChartSeries>
+                <ChartSeries DataSource="@Sales10" XName="x" YName="y1" Type="ChartSeriesType.StackingColumn100" Name="Silver" Fill="Blue">
+                    <ChartSeriesAnimation Enable="false"></ChartSeriesAnimation>
+                    <ChartMarker>
+                        <ChartDataLabel Visible="true">
+                            <ChartDataLabelBorder Width="2" Color="Grey"></ChartDataLabelBorder>
+                        </ChartDataLabel>
+                    </ChartMarker>
+                </ChartSeries>
+            </ChartSeriesCollection>
+        </SfChart>
+    </ComponentUnderTest>
+</SfFixture>
+
+@code {
+
+    SfFixture fixture10 { get; set; }
+    async Task CheckingFontColorSaturationStackingColumn100(Fixture fixture10)
+    {
+        var cut = fixture10.GetComponentUnderTest<SfChart>();
+        await Task.Delay(200);
+        var datalabel = cut.Find("#container_Series_0_Point_0_Text_0");
+        Assert.True(datalabel.GetAttribute("fill") == "black");
+        cut.SetParametersAndRender();
+    }
+    public class BarData10
+    {
+        public double x { get; set; }
+        public double y { get; set; }
+        public double y1 { get; set; }
+    }
+
+    public List<BarData10> Sales10 = new List<BarData10>
+{
+        new BarData10 { x = 1000, y = 70, y1 = 73 },
+        new BarData10 { x = 2000, y = 40, y1 = 40 },
+        new BarData10 { x = 3000, y = 70, y1 = 75 },
+        new BarData10 { x = 4000, y = 70, y1 = 30 },
+        new BarData10 { x = 5000, y = 50, y1 = 56 },
+        new BarData10 { x = 6000, y = 40, y1 = 60 },
+        new BarData10 { x = 7000, y = 40, y1 = 41 },
+        new BarData10 { x = 8000, y = 70, y1 = 45 }
+    };
+}
+
+
+@{
+    var InitialGroup11 = (new string[] { "CustomerID", "OrderID" });
+}
+<SfFixture @ref="fixture11" TestAsync="CheckingFontColorSaturationStackingColumn" Description="CheckingFontColorSaturationStackingColumn">
+    <ComponentUnderTest>
+        <SfChart ID="container" Title="x wise Sales Report" Width="800">
+            <ChartArea Background="Black"></ChartArea>
+            <ChartPrimaryXAxis Title="PrimaryXAxis" RangePadding="ChartRangePadding.Normal" ValueType="Syncfusion.Blazor.Toolkit.ValueType.Double"></ChartPrimaryXAxis>
+            <ChartPrimaryYAxis Title="PrimaryYaxis"></ChartPrimaryYAxis>
+            <ChartSeriesCollection>
+                <ChartSeries DataSource="@Sales11" XName="x" YName="y" Type="ChartSeriesType.StackingColumn" Name="Gold" Fill="rgba(135,206,235,1)">
+                    <ChartSeriesAnimation Enable="false"></ChartSeriesAnimation>
+                    <ChartMarker>
+                        <ChartDataLabel Visible="true">
+                            <ChartDataLabelBorder Width="2" Color="Grey"></ChartDataLabelBorder>
+                        </ChartDataLabel>
+                    </ChartMarker>
+                </ChartSeries>
+                <ChartSeries DataSource="@Sales11" XName="x" YName="y1" Type="ChartSeriesType.StackingColumn" Name="Silver" Fill="Blue">
+                    <ChartSeriesAnimation Enable="false"></ChartSeriesAnimation>
+                    <ChartMarker>
+                        <ChartDataLabel Visible="true">
+                            <ChartDataLabelBorder Width="2" Color="Grey"></ChartDataLabelBorder>
+                        </ChartDataLabel>
+                    </ChartMarker>
+                </ChartSeries>
+            </ChartSeriesCollection>
+        </SfChart>
+    </ComponentUnderTest>
+</SfFixture>
+
+@code {
+
+    SfFixture fixture11 { get; set; }
+    async Task CheckingFontColorSaturationStackingColumn(Fixture fixture11)
+    {
+        var cut = fixture11.GetComponentUnderTest<SfChart>();
+        await Task.Delay(200);
+        var datalabel = cut.Find("#container_Series_0_Point_0_Text_0");
+        Assert.True(datalabel.GetAttribute("fill") == "black");
+        Assert.True(cut.Find("#container_Series_0_Point_0_TextShape_0").GetAttribute("fill") == "transparent");
+        cut.SetParametersAndRender();
+    }
+    public class BarData11
+    {
+        public double x { get; set; }
+        public double y { get; set; }
+        public double y1 { get; set; }
+    }
+
+    public List<BarData11> Sales11 = new List<BarData11>
+{
+        new BarData11 { x = 1000, y = 70, y1 = 73 },
+        new BarData11 { x = 2000, y = 40, y1 = 40 },
+        new BarData11 { x = 3000, y = 70, y1 = 75 },
+        new BarData11 { x = 4000, y = 70, y1 = 30 },
+        new BarData11 { x = 5000, y = 50, y1 = 56 },
+        new BarData11 { x = 6000, y = 40, y1 = 60 },
+        new BarData11 { x = 7000, y = 40, y1 = 41 },
+        new BarData11 { x = 8000, y = 70, y1 = 45 }
+    };
+}
+
+
+@{
+    var InitialGroup12 = (new string[] { "CustomerID", "OrderID" });
+}
+<SfFixture @ref="fixture12" TestAsync="CheckingFontColorSaturationStackingColumn1" Description="CheckingFontColorSaturationStackingColumn1">
+    <ComponentUnderTest>
+        <SfChart ID="container" Title="x wise Sales Report" Width="800">
+            <ChartArea Background="White"></ChartArea>
+            <ChartPrimaryXAxis Title="PrimaryXAxis" RangePadding="ChartRangePadding.Normal" ValueType="Syncfusion.Blazor.Toolkit.ValueType.Double"></ChartPrimaryXAxis>
+            <ChartPrimaryYAxis Title="PrimaryYaxis"></ChartPrimaryYAxis>
+            <ChartSeriesCollection>
+                <ChartSeries DataSource="@Sales12" XName="x" YName="y" Type="ChartSeriesType.StackingColumn" Name="Gold" Fill="rgba(135,206,235,1)">
+                    <ChartSeriesAnimation Enable="false"></ChartSeriesAnimation>
+                    <ChartMarker>
+                        <ChartDataLabel Visible="true">
+                            <ChartDataLabelBorder Width="2" Color="Grey"></ChartDataLabelBorder>
+                        </ChartDataLabel>
+                    </ChartMarker>
+                </ChartSeries>
+                <ChartSeries DataSource="@Sales12" XName="x" YName="y1" Type="ChartSeriesType.StackingColumn" Name="Silver" Fill="Blue">
+                    <ChartSeriesAnimation Enable="false"></ChartSeriesAnimation>
+                    <ChartMarker>
+                        <ChartDataLabel Visible="true">
+                            <ChartDataLabelBorder Width="2" Color="Grey"></ChartDataLabelBorder>
+                        </ChartDataLabel>
+                    </ChartMarker>
+                </ChartSeries>
+            </ChartSeriesCollection>
+        </SfChart>
+    </ComponentUnderTest>
+</SfFixture>
+
+@code {
+
+    SfFixture fixture12 { get; set; }
+    async Task CheckingFontColorSaturationStackingColumn1(Fixture fixture12)
+    {
+        var cut = fixture12.GetComponentUnderTest<SfChart>();
+        await Task.Delay(200);
+        var datalabel = cut.Find("#container_Series_0_Point_0_Text_0");
+        Assert.True(datalabel.GetAttribute("fill") == "black");
+        Assert.True(cut.Find("#container_Series_0_Point_0_TextShape_0").GetAttribute("fill") == "transparent");
+        cut.SetParametersAndRender();
+    }
+    public class BarData12
+    {
+        public double x { get; set; }
+        public double y { get; set; }
+        public double y1 { get; set; }
+    }
+
+    public List<BarData12> Sales12 = new List<BarData12>
+{
+        new BarData12 { x = 1000, y = 70, y1 = 73 },
+        new BarData12 { x = 2000, y = 40, y1 = 40 },
+        new BarData12 { x = 3000, y = 70, y1 = 75 },
+        new BarData12 { x = 4000, y = 70, y1 = 30 },
+        new BarData12 { x = 5000, y = 50, y1 = 56 },
+        new BarData12 { x = 6000, y = 40, y1 = 60 },
+        new BarData12 { x = 7000, y = 40, y1 = 41 },
+        new BarData12 { x = 8000, y = 70, y1 = 45 }
+    };
+}
+
+
+@{
+    var InitialGroup13 = (new string[] { "CustomerID", "OrderID" });
+}
+<SfFixture @ref="fixture13" TestAsync="CheckingStackingColumnDatalabelBottom" Description="CheckingStackingColumnDatalabelBottom">
+    <ComponentUnderTest>
+        <SfChart ID="container" @ref="chartobj6" Title="x wise Sales Report" Width="800">
+            <ChartArea Background="White"></ChartArea>
+            <ChartPrimaryXAxis Title="PrimaryXAxis" RangePadding="ChartRangePadding.Normal" ValueType="Syncfusion.Blazor.Toolkit.ValueType.Double"></ChartPrimaryXAxis>
+            <ChartPrimaryYAxis Title="PrimaryYaxis"></ChartPrimaryYAxis>
+            <ChartSeriesCollection>
+                <ChartSeries DataSource="@Sales13" XName="x" YName="y" Type="ChartSeriesType.StackingColumn" Name="Gold" Fill="rgba(135,206,235,1)">
+                    <ChartSeriesAnimation Enable="false"></ChartSeriesAnimation>
+                    <ChartMarker>
+                        <ChartDataLabel Visible="true" Position="ChartLabelPosition.Bottom">
+                            <ChartDataLabelBorder Width="2" Color="Grey"></ChartDataLabelBorder>
+                        </ChartDataLabel>
+                    </ChartMarker>
+                </ChartSeries>
+                <ChartSeries DataSource="@Sales13" XName="x" YName="y1" Type="ChartSeriesType.StackingColumn" Name="Silver" Fill="Blue">
+                    <ChartSeriesAnimation Enable="false"></ChartSeriesAnimation>
+                    <ChartMarker>
+                        <ChartDataLabel Visible="true" Position="ChartLabelPosition.Bottom">
+                            <ChartDataLabelBorder Width="2" Color="Grey"></ChartDataLabelBorder>
+                        </ChartDataLabel>
+                    </ChartMarker>
+                </ChartSeries>
+            </ChartSeriesCollection>
+        </SfChart>
+    </ComponentUnderTest>
+</SfFixture>
+
+@code {
+    SfChart chartobj6;
+    SfFixture fixture13 { get; set; }
+    async Task CheckingStackingColumnDatalabelBottom(Fixture fixture13)
+    {
+        var cut = fixture13.GetComponentUnderTest<SfChart>();
+        await Task.Delay(200);
+        var series0 = chartobj6._visibleSeriesRenderers[0].Points[0].Regions[0];
+        var series1 = chartobj6._visibleSeriesRenderers[1].Points[0].Regions[0];
+        var datalabel0 = Convert.ToDouble(cut.Find("#container_Series_0_Point_0_Text_0").GetAttribute("y"));
+        var datalabel1 = Convert.ToDouble(cut.Find("#container_Series_1_Point_0_Text_0").GetAttribute("y"));
+        Assert.True((series0.Y + series0.Height) > datalabel0);
+        Assert.True((series1.Y + series1.Height) > datalabel1);
+        cut.SetParametersAndRender();
+    }
+    public class BarData13
+    {
+        public double x { get; set; }
+        public double y { get; set; }
+        public double y1 { get; set; }
+    }
+
+    public List<BarData13> Sales13 = new List<BarData13>
+{
+        new BarData13 { x = 1000, y = 70, y1 = 73 },
+        new BarData13 { x = 2000, y = 40, y1 = 40 },
+        new BarData13 { x = 3000, y = 70, y1 = 75 },
+        new BarData13 { x = 4000, y = 70, y1 = 30 },
+        new BarData13 { x = 5000, y = 50, y1 = 56 },
+        new BarData13 { x = 6000, y = 40, y1 = 60 },
+        new BarData13 { x = 7000, y = 40, y1 = 41 },
+        new BarData13 { x = 8000, y = 70, y1 = 45 }
+    };
+}
+
+
+@{
+    var InitialGroup14 = (new string[] { "CustomerID", "OrderID" });
+}
+<SfFixture @ref="fixture14" TestAsync="CheckingStackingColumn100DatalabelBottom" Description="CheckingStackingColumn100DatalabelBottom">
+    <ComponentUnderTest>
+        <SfChart ID="container" @ref="chartobj7" Title="x wise Sales Report" Width="800">
+            <ChartArea Background="White"></ChartArea>
+            <ChartPrimaryXAxis Title="PrimaryXAxis" RangePadding="ChartRangePadding.Normal" ValueType="Syncfusion.Blazor.Toolkit.ValueType.Double"></ChartPrimaryXAxis>
+            <ChartPrimaryYAxis Title="PrimaryYaxis"></ChartPrimaryYAxis>
+            <ChartSeriesCollection>
+                <ChartSeries DataSource="@Sales14" XName="x" YName="y" Type="ChartSeriesType.StackingColumn100" Name="Gold" Fill="rgba(135,206,235,1)">
+                    <ChartSeriesAnimation Enable="false"></ChartSeriesAnimation>
+                    <ChartMarker>
+                        <ChartDataLabel Visible="true" Position="ChartLabelPosition.Bottom">
+                            <ChartDataLabelBorder Width="2" Color="Grey"></ChartDataLabelBorder>
+                        </ChartDataLabel>
+                    </ChartMarker>
+                </ChartSeries>
+                <ChartSeries DataSource="@Sales14" XName="x" YName="y1" Type="ChartSeriesType.StackingColumn100" Name="Silver" Fill="Blue">
+                    <ChartSeriesAnimation Enable="false"></ChartSeriesAnimation>
+                    <ChartMarker>
+                        <ChartDataLabel Visible="true" Position="ChartLabelPosition.Bottom">
+                            <ChartDataLabelBorder Width="2" Color="Grey"></ChartDataLabelBorder>
+                        </ChartDataLabel>
+                    </ChartMarker>
+                </ChartSeries>
+            </ChartSeriesCollection>
+        </SfChart>
+    </ComponentUnderTest>
+</SfFixture>
+
+@code {
+    SfChart chartobj7;
+    SfFixture fixture14 { get; set; }
+    async Task CheckingStackingColumn100DatalabelBottom(Fixture fixture14)
+    {
+        var cut = fixture14.GetComponentUnderTest<SfChart>();
+        await Task.Delay(200);
+        var series0 = chartobj7._visibleSeriesRenderers[0].Points[0].Regions[0];
+        var series1 = chartobj7._visibleSeriesRenderers[1].Points[0].Regions[0];
+        var datalabel0 = Convert.ToDouble(cut.Find("#container_Series_0_Point_0_Text_0").GetAttribute("y"));
+        var datalabel1 = Convert.ToDouble(cut.Find("#container_Series_1_Point_0_Text_0").GetAttribute("y"));
+        Assert.True((series0.Y + series0.Height) > datalabel0);
+        Assert.True((series1.Y + series1.Height) > datalabel1);
+        cut.SetParametersAndRender();
+    }
+    public class BarData14
+    {
+        public double x { get; set; }
+        public double y { get; set; }
+        public double y1 { get; set; }
+    }
+
+    public List<BarData14> Sales14 = new List<BarData14>
+{
+        new BarData14 { x = 1000, y = 70, y1 = 73 },
+        new BarData14 { x = 2000, y = 40, y1 = 40 },
+        new BarData14 { x = 3000, y = 70, y1 = 75 },
+        new BarData14 { x = 4000, y = 70, y1 = 30 },
+        new BarData14 { x = 5000, y = 50, y1 = 56 },
+        new BarData14 { x = 6000, y = 40, y1 = 60 },
+        new BarData14 { x = 7000, y = 40, y1 = 41 },
+        new BarData14 { x = 8000, y = 70, y1 = 45 }
+    };
+}
+
+
+@{
+    var InitialGroup15 = (new string[] { "CustomerID", "OrderID" });
+}
+<SfFixture @ref="fixture15" TestAsync="CheckingStackingColumn100DatalabelMiddle" Description="CheckingStackingColumn100DatalabelMiddle">
+    <ComponentUnderTest>
+        <SfChart ID="container" @ref="chartobj8" Title="x wise Sales Report" Width="800">
+            <ChartArea Background="White"></ChartArea>
+            <ChartPrimaryXAxis Title="PrimaryXAxis" RangePadding="ChartRangePadding.Normal" ValueType="Syncfusion.Blazor.Toolkit.ValueType.Double"></ChartPrimaryXAxis>
+            <ChartPrimaryYAxis Title="PrimaryYaxis"></ChartPrimaryYAxis>
+            <ChartSeriesCollection>
+                <ChartSeries DataSource="@Sales15" XName="x" YName="y" Type="ChartSeriesType.StackingColumn100" Name="Gold" Fill="rgba(135,206,235,1)">
+                    <ChartSeriesAnimation Enable="false"></ChartSeriesAnimation>
+                    <ChartMarker>
+                        <ChartDataLabel Visible="true" Position="ChartLabelPosition.Middle">
+                            <ChartDataLabelBorder Width="2" Color="Grey"></ChartDataLabelBorder>
+                        </ChartDataLabel>
+                    </ChartMarker>
+                </ChartSeries>
+                <ChartSeries DataSource="@Sales15" XName="x" YName="y1" Type="ChartSeriesType.StackingColumn100" Name="Silver" Fill="Blue">
+                    <ChartSeriesAnimation Enable="false"></ChartSeriesAnimation>
+                    <ChartMarker>
+                        <ChartDataLabel Visible="true" Position="ChartLabelPosition.Middle">
+                            <ChartDataLabelBorder Width="2" Color="Grey"></ChartDataLabelBorder>
+                        </ChartDataLabel>
+                    </ChartMarker>
+                </ChartSeries>
+            </ChartSeriesCollection>
+        </SfChart>
+    </ComponentUnderTest>
+</SfFixture>
+
+@code {
+    SfChart chartobj8;
+    SfFixture fixture15 { get; set; }
+    async Task CheckingStackingColumn100DatalabelMiddle(Fixture fixture15)
+    {
+        var cut = fixture15.GetComponentUnderTest<SfChart>();
+        await Task.Delay(200);
+        var series0 = chartobj8._visibleSeriesRenderers[0].Points[0].Regions[0];
+        var series1 = chartobj8._visibleSeriesRenderers[1].Points[0].Regions[0];
+        var datalabel0 = Convert.ToDouble(cut.Find("#container_Series_0_Point_0_Text_0").GetAttribute("y"));
+        var datalabel1 = Convert.ToDouble(cut.Find("#container_Series_1_Point_0_Text_0").GetAttribute("y"));
+        Assert.True((series0.Y + series0.Height) / 2 <= datalabel0);
+        Assert.True((series1.Y + series1.Height) / 2 <= datalabel1);
+        cut.SetParametersAndRender();
+    }
+    public class BarData15
+    {
+        public double x { get; set; }
+        public double y { get; set; }
+        public double y1 { get; set; }
+    }
+
+    public List<BarData15> Sales15 = new List<BarData15>
+{
+        new BarData15 { x = 1000, y = 70, y1 = 73 },
+        new BarData15 { x = 2000, y = 40, y1 = 40 },
+        new BarData15 { x = 3000, y = 70, y1 = 75 },
+        new BarData15 { x = 4000, y = 70, y1 = 30 },
+        new BarData15 { x = 5000, y = 50, y1 = 56 },
+        new BarData15 { x = 6000, y = 40, y1 = 60 },
+        new BarData15 { x = 7000, y = 40, y1 = 41 },
+        new BarData15 { x = 8000, y = 70, y1 = 45 }
+    };
+}
+
+
+@{
+    var InitialGroup16 = (new string[] { "CustomerID", "OrderID" });
+}
+<SfFixture @ref="fixture16" TestAsync="CheckingStackingColumnDatalabelMiddle" Description="CheckingStackingColumnDatalabelMiddle">
+    <ComponentUnderTest>
+        <SfChart ID="container" @ref="chartobj9" Title="x wise Sales Report" Width="800">
+            <ChartArea Background="White"></ChartArea>
+            <ChartPrimaryXAxis Title="PrimaryXAxis" RangePadding="ChartRangePadding.Normal" ValueType="Syncfusion.Blazor.Toolkit.ValueType.Double"></ChartPrimaryXAxis>
+            <ChartPrimaryYAxis Title="PrimaryYaxis"></ChartPrimaryYAxis>
+            <ChartSeriesCollection>
+                <ChartSeries DataSource="@Sales16" XName="x" YName="y" Type="ChartSeriesType.StackingColumn" Name="Gold" Fill="rgba(135,206,235,1)">
+                    <ChartSeriesAnimation Enable="false"></ChartSeriesAnimation>
+                    <ChartMarker>
+                        <ChartDataLabel Visible="true" Position="ChartLabelPosition.Middle">
+                            <ChartDataLabelBorder Width="2" Color="Grey"></ChartDataLabelBorder>
+                        </ChartDataLabel>
+                    </ChartMarker>
+                </ChartSeries>
+                <ChartSeries DataSource="@Sales16" XName="x" YName="y1" Type="ChartSeriesType.StackingColumn" Name="Silver" Fill="Blue">
+                    <ChartSeriesAnimation Enable="false"></ChartSeriesAnimation>
+                    <ChartMarker>
+                        <ChartDataLabel Visible="true" Position="ChartLabelPosition.Middle">
+                            <ChartDataLabelBorder Width="2" Color="Grey"></ChartDataLabelBorder>
+                        </ChartDataLabel>
+                    </ChartMarker>
+                </ChartSeries>
+            </ChartSeriesCollection>
+        </SfChart>
+    </ComponentUnderTest>
+</SfFixture>
+
+@code {
+    SfChart chartobj9;
+    SfFixture fixture16 { get; set; }
+    async Task CheckingStackingColumnDatalabelMiddle(Fixture fixture16)
+    {
+        var cut = fixture16.GetComponentUnderTest<SfChart>();
+        await Task.Delay(200);
+        var series0 = chartobj9._visibleSeriesRenderers[0].Points[0].Regions[0];
+        var series1 = chartobj9._visibleSeriesRenderers[1].Points[0].Regions[0];
+        var datalabel0 = Convert.ToDouble(cut.Find("#container_Series_0_Point_0_Text_0").GetAttribute("y"));
+        var datalabel1 = Convert.ToDouble(cut.Find("#container_Series_1_Point_0_Text_0").GetAttribute("y"));
+        Assert.True((series0.Y + series0.Height) / 2 <= datalabel0);
+        Assert.True((series1.Y + series1.Height) / 2 <= datalabel1);
+        cut.SetParametersAndRender();
+    }
+    public class BarData16
+    {
+        public double x { get; set; }
+        public double y { get; set; }
+        public double y1 { get; set; }
+    }
+
+    public List<BarData16> Sales16 = new List<BarData16>
+{
+        new BarData16 { x = 1000, y = 70, y1 = 73 },
+        new BarData16 { x = 2000, y = 40, y1 = 40 },
+        new BarData16 { x = 3000, y = 70, y1 = 75 },
+        new BarData16 { x = 4000, y = 70, y1 = 30 },
+        new BarData16 { x = 5000, y = 50, y1 = 56 },
+        new BarData16 { x = 6000, y = 40, y1 = 60 },
+        new BarData16 { x = 7000, y = 40, y1 = 41 },
+        new BarData16 { x = 8000, y = 70, y1 = 45 }
+    };
+}
+
+
+@{
+    var InitialGroup17 = (new string[] { "CustomerID", "OrderID" });
+}
+<SfFixture @ref="fixture17" TestAsync="CheckingStackingColumnDatalabelTop" Description="CheckingStackingColumnDatalabelTop">
+    <ComponentUnderTest>
+        <SfChart ID="container" @ref="chartobj10" Title="x wise Sales Report" Width="800">
+            <ChartArea Background="White"></ChartArea>
+            <ChartPrimaryXAxis Title="PrimaryXAxis" RangePadding="ChartRangePadding.Normal" ValueType="Syncfusion.Blazor.Toolkit.ValueType.Double"></ChartPrimaryXAxis>
+            <ChartPrimaryYAxis Title="PrimaryYaxis"></ChartPrimaryYAxis>
+            <ChartSeriesCollection>
+                <ChartSeries DataSource="@Sales17" XName="x" YName="y" Type="ChartSeriesType.StackingColumn" Name="Gold" Fill="rgba(135,206,235,1)">
+                    <ChartSeriesAnimation Enable="false"></ChartSeriesAnimation>
+                    <ChartMarker>
+                        <ChartDataLabel Visible="true" Position="ChartLabelPosition.Top">
+                            <ChartDataLabelBorder Width="2" Color="Grey"></ChartDataLabelBorder>
+                        </ChartDataLabel>
+                    </ChartMarker>
+                </ChartSeries>
+                <ChartSeries DataSource="@Sales17" XName="x" YName="y1" Type="ChartSeriesType.StackingColumn" Name="Silver" Fill="Blue">
+                    <ChartSeriesAnimation Enable="false"></ChartSeriesAnimation>
+                    <ChartMarker>
+                        <ChartDataLabel Visible="true" Position="ChartLabelPosition.Top">
+                            <ChartDataLabelBorder Width="2" Color="Grey"></ChartDataLabelBorder>
+                        </ChartDataLabel>
+                    </ChartMarker>
+                </ChartSeries>
+            </ChartSeriesCollection>
+        </SfChart>
+    </ComponentUnderTest>
+</SfFixture>
+
+@code {
+    SfChart chartobj10;
+    SfFixture fixture17 { get; set; }
+    async Task CheckingStackingColumnDatalabelTop(Fixture fixture17)
+    {
+        var cut = fixture17.GetComponentUnderTest<SfChart>();
+        await Task.Delay(200);
+        var series0 = chartobj10._visibleSeriesRenderers[0].Points[0].Regions[0];
+        var series1 = chartobj10._visibleSeriesRenderers[1].Points[0].Regions[0];
+        var datalabel0 = Convert.ToDouble(cut.Find("#container_Series_0_Point_0_Text_0").GetAttribute("y"));
+        var datalabel1 = Convert.ToDouble(cut.Find("#container_Series_1_Point_0_Text_0").GetAttribute("y"));
+        Assert.True(series0.Y < datalabel0);
+        Assert.True(series1.Y < datalabel1);
+        cut.SetParametersAndRender();
+    }
+    public class BarData17
+    {
+        public double x { get; set; }
+        public double y { get; set; }
+        public double y1 { get; set; }
+    }
+
+    public List<BarData17> Sales17 = new List<BarData17>
+{
+        new BarData17 { x = 1000, y = 70, y1 = 73 },
+        new BarData17 { x = 2000, y = 40, y1 = 40 },
+        new BarData17 { x = 3000, y = 70, y1 = 75 },
+        new BarData17 { x = 4000, y = 70, y1 = 30 },
+        new BarData17 { x = 5000, y = 50, y1 = 56 },
+        new BarData17 { x = 6000, y = 40, y1 = 60 },
+        new BarData17 { x = 7000, y = 40, y1 = 41 },
+        new BarData17 { x = 8000, y = 70, y1 = 45 }
+    };
+}
+
+
+@{
+    var InitialGroup18 = (new string[] { "CustomerID", "OrderID" });
+}
+<SfFixture @ref="fixture18" TestAsync="CheckingStackingColumn100DatalabelTop" Description="CheckingStackingColumn100DatalabelTop">
+    <ComponentUnderTest>
+        <SfChart ID="container" @ref="chartobj11" Title="x wise Sales Report" Width="800">
+            <ChartArea Background="White"></ChartArea>
+            <ChartPrimaryXAxis Title="PrimaryXAxis" RangePadding="ChartRangePadding.Normal" ValueType="Syncfusion.Blazor.Toolkit.ValueType.Double"></ChartPrimaryXAxis>
+            <ChartPrimaryYAxis Title="PrimaryYaxis"></ChartPrimaryYAxis>
+            <ChartSeriesCollection>
+                <ChartSeries DataSource="@Sales18" XName="x" YName="y" Type="ChartSeriesType.StackingColumn100" Name="Gold" Fill="rgba(135,206,235,1)">
+                    <ChartSeriesAnimation Enable="false"></ChartSeriesAnimation>
+                    <ChartMarker>
+                        <ChartDataLabel Visible="true" Position="ChartLabelPosition.Top">
+                            <ChartDataLabelBorder Width="2" Color="Grey"></ChartDataLabelBorder>
+                        </ChartDataLabel>
+                    </ChartMarker>
+                </ChartSeries>
+                <ChartSeries DataSource="@Sales18" XName="x" YName="y1" Type="ChartSeriesType.StackingColumn100" Name="Silver" Fill="Blue">
+                    <ChartSeriesAnimation Enable="false"></ChartSeriesAnimation>
+                    <ChartMarker>
+                        <ChartDataLabel Visible="true" Position="ChartLabelPosition.Top">
+                            <ChartDataLabelBorder Width="2" Color="Grey"></ChartDataLabelBorder>
+                        </ChartDataLabel>
+                    </ChartMarker>
+                </ChartSeries>
+            </ChartSeriesCollection>
+        </SfChart>
+    </ComponentUnderTest>
+</SfFixture>
+
+@code {
+    SfChart chartobj11;
+    SfFixture fixture18 { get; set; }
+    async Task CheckingStackingColumn100DatalabelTop(Fixture fixture18)
+    {
+        var cut = fixture18.GetComponentUnderTest<SfChart>();
+        await Task.Delay(200);
+        var series0 = chartobj11._visibleSeriesRenderers[0].Points[0].Regions[0];
+        var series1 = chartobj11._visibleSeriesRenderers[1].Points[0].Regions[0];
+        var datalabel0 = Convert.ToDouble(cut.Find("#container_Series_0_Point_0_Text_0").GetAttribute("y"));
+        var datalabel1 = Convert.ToDouble(cut.Find("#container_Series_1_Point_0_Text_0").GetAttribute("y"));
+        Assert.True(series0.Y < datalabel0);
+        Assert.True(series1.Y < datalabel1);
+        cut.SetParametersAndRender();
+    }
+    public class BarData18
+    {
+        public double x { get; set; }
+        public double y { get; set; }
+        public double y1 { get; set; }
+    }
+
+    public List<BarData18> Sales18 = new List<BarData18>
+{
+        new BarData18 { x = 1000, y = 70, y1 = 73 },
+        new BarData18 { x = 2000, y = 40, y1 = 40 },
+        new BarData18 { x = 3000, y = 70, y1 = 75 },
+        new BarData18 { x = 4000, y = 70, y1 = 30 },
+        new BarData18 { x = 5000, y = 50, y1 = 56 },
+        new BarData18 { x = 6000, y = 40, y1 = 60 },
+        new BarData18 { x = 7000, y = 40, y1 = 41 },
+        new BarData18 { x = 8000, y = 70, y1 = 45 }
+    };
+}
+
+
+@{
+    var InitialGroup19 = (new string[] { "CustomerID", "OrderID" });
+}
+<SfFixture @ref="fixture19" TestAsync="CheckingStackingColumn100DatalabelOuter" Description="CheckingStackingColumn100DatalabelOuter">
+    <ComponentUnderTest>
+        <SfChart ID="container" @ref="chartobj12" Title="x wise Sales Report" Width="800">
+            <ChartArea Background="White"></ChartArea>
+            <ChartPrimaryXAxis Title="PrimaryXAxis" RangePadding="ChartRangePadding.Normal" ValueType="Syncfusion.Blazor.Toolkit.ValueType.Double"></ChartPrimaryXAxis>
+            <ChartPrimaryYAxis Title="PrimaryYaxis"></ChartPrimaryYAxis>
+            <ChartSeriesCollection>
+                <ChartSeries DataSource="@Sales19" XName="x" YName="y" Type="ChartSeriesType.StackingColumn100" Name="Gold" Fill="rgba(135,206,235,1)">
+                    <ChartSeriesAnimation Enable="false"></ChartSeriesAnimation>
+                    <ChartMarker>
+                        <ChartDataLabel Visible="true" Position="ChartLabelPosition.Outer">
+                            <ChartDataLabelBorder Width="2" Color="Grey"></ChartDataLabelBorder>
+                        </ChartDataLabel>
+                    </ChartMarker>
+                </ChartSeries>
+                <ChartSeries DataSource="@Sales19" XName="x" YName="y1" Type="ChartSeriesType.StackingColumn100" Name="Silver" Fill="Blue">
+                    <ChartSeriesAnimation Enable="false"></ChartSeriesAnimation>
+                    <ChartMarker>
+                        <ChartDataLabel Visible="true" Position="ChartLabelPosition.Outer">
+                            <ChartDataLabelBorder Width="2" Color="Grey"></ChartDataLabelBorder>
+                        </ChartDataLabel>
+                    </ChartMarker>
+                </ChartSeries>
+            </ChartSeriesCollection>
+        </SfChart>
+    </ComponentUnderTest>
+</SfFixture>
+
+@code {
+    SfChart chartobj12;
+    SfFixture fixture19 { get; set; }
+    async Task CheckingStackingColumn100DatalabelOuter(Fixture fixture19)
+    {
+        var cut = fixture19.GetComponentUnderTest<SfChart>();
+        await Task.Delay(200);
+        var series0 = chartobj12._visibleSeriesRenderers[0].Points[0].Regions[0];
+        var series1 = chartobj12._visibleSeriesRenderers[1].Points[0].Regions[0];
+        var datalabel0 = Convert.ToDouble(cut.Find("#container_Series_0_Point_0_Text_0").GetAttribute("y"));
+        var datalabel1 = Convert.ToDouble(cut.Find("#container_Series_1_Point_0_Text_0").GetAttribute("y"));
+        Assert.True(series0.Y > datalabel0);
+        Assert.True(series1.Y > datalabel1);
+        cut.SetParametersAndRender();
+    }
+    public class BarData19
+    {
+        public double x { get; set; }
+        public double y { get; set; }
+        public double y1 { get; set; }
+    }
+
+    public List<BarData19> Sales19 = new List<BarData19>
+{
+        new BarData19 { x = 1000, y = 70, y1 = 73 },
+        new BarData19 { x = 2000, y = 40, y1 = 40 },
+        new BarData19 { x = 3000, y = 70, y1 = 75 },
+        new BarData19 { x = 4000, y = 70, y1 = 30 },
+        new BarData19 { x = 5000, y = 50, y1 = 56 },
+        new BarData19 { x = 6000, y = 40, y1 = 60 },
+        new BarData19 { x = 7000, y = 40, y1 = 41 },
+        new BarData19 { x = 8000, y = 70, y1 = 45 }
+    };
+}
+
+
+@{
+    var InitialGroup20 = (new string[] { "CustomerID", "OrderID" });
+}
+<SfFixture @ref="fixture20" TestAsync="CheckingStackingColumnDatalabelOuter" Description="CheckingStackingColumnDatalabelOuter">
+    <ComponentUnderTest>
+        <SfChart ID="container" @ref="chartobj13" Title="x wise Sales Report" Width="800">
+            <ChartArea Background="White"></ChartArea>
+            <ChartPrimaryXAxis Title="PrimaryXAxis" RangePadding="ChartRangePadding.Normal" ValueType="Syncfusion.Blazor.Toolkit.ValueType.Double"></ChartPrimaryXAxis>
+            <ChartPrimaryYAxis Title="PrimaryYaxis"></ChartPrimaryYAxis>
+            <ChartSeriesCollection>
+                <ChartSeries DataSource="@Sales20" XName="x" YName="y" Type="ChartSeriesType.StackingColumn" Name="Gold" Fill="rgba(135,206,235,1)">
+                    <ChartSeriesAnimation Enable="false"></ChartSeriesAnimation>
+                    <ChartMarker>
+                        <ChartDataLabel Visible="true" Position="ChartLabelPosition.Outer">
+                            <ChartDataLabelBorder Width="2" Color="Grey"></ChartDataLabelBorder>
+                        </ChartDataLabel>
+                    </ChartMarker>
+                </ChartSeries>
+                <ChartSeries DataSource="@Sales20" XName="x" YName="y1" Type="ChartSeriesType.StackingColumn" Name="Silver" Fill="Blue">
+                    <ChartSeriesAnimation Enable="false"></ChartSeriesAnimation>
+                    <ChartMarker>
+                        <ChartDataLabel Visible="true" Position="ChartLabelPosition.Outer">
+                            <ChartDataLabelBorder Width="2" Color="Grey"></ChartDataLabelBorder>
+                        </ChartDataLabel>
+                    </ChartMarker>
+                </ChartSeries>
+            </ChartSeriesCollection>
+        </SfChart>
+    </ComponentUnderTest>
+</SfFixture>
+
+@code {
+    SfChart chartobj13;
+    SfFixture fixture20 { get; set; }
+    async Task CheckingStackingColumnDatalabelOuter(Fixture fixture20)
+    {
+        var cut = fixture20.GetComponentUnderTest<SfChart>();
+        await Task.Delay(200);
+        var series0 = chartobj13._visibleSeriesRenderers[0].Points[0].Regions[0];
+        var series1 = chartobj13._visibleSeriesRenderers[1].Points[0].Regions[0];
+        var datalabel0 = Convert.ToDouble(cut.Find("#container_Series_0_Point_0_Text_0").GetAttribute("y"));
+        var datalabel1 = Convert.ToDouble(cut.Find("#container_Series_1_Point_0_Text_0").GetAttribute("y"));
+        Assert.True(series0.Y > datalabel0);
+        Assert.True(series1.Y > datalabel1);
+        cut.SetParametersAndRender();
+    }
+    public class BarData20
+    {
+        public double x { get; set; }
+        public double y { get; set; }
+        public double y1 { get; set; }
+    }
+
+    public List<BarData20> Sales20 = new List<BarData20>
+{
+        new BarData20 { x = 1000, y = 70, y1 = 73 },
+        new BarData20 { x = 2000, y = 40, y1 = 40 },
+        new BarData20 { x = 3000, y = 70, y1 = 75 },
+        new BarData20 { x = 4000, y = 70, y1 = 30 },
+        new BarData20 { x = 5000, y = 50, y1 = 56 },
+        new BarData20 { x = 6000, y = 40, y1 = 60 },
+        new BarData20 { x = 7000, y = 40, y1 = 41 },
+        new BarData20 { x = 8000, y = 70, y1 = 45 }
+    };
+}
+
+
+@{
+    var InitialGroup21 = (new string[] { "CustomerID", "OrderID" });
+}
+<SfFixture @ref="fixture21" TestAsync="CheckingStackingColumnDatalabelTopAlignNear" Description="CheckingStackingColumnDatalabelTopAlignNear">
+    <ComponentUnderTest>
+        <SfChart ID="container" @ref="chartobj14" Title="x wise Sales Report" Width="800">
+            <ChartArea Background="White"></ChartArea>
+            <ChartPrimaryXAxis Title="PrimaryXAxis" RangePadding="ChartRangePadding.Normal" ValueType="Syncfusion.Blazor.Toolkit.ValueType.Double"></ChartPrimaryXAxis>
+            <ChartPrimaryYAxis Title="PrimaryYaxis"></ChartPrimaryYAxis>
+            <ChartSeriesCollection>
+                <ChartSeries DataSource="@Sales21" XName="x" YName="y" Type="ChartSeriesType.StackingColumn" Name="Gold" Fill="rgba(135,206,235,1)">
+                    <ChartSeriesAnimation Enable="false"></ChartSeriesAnimation>
+                    <ChartMarker>
+                        <ChartDataLabel Visible="true" Position="ChartLabelPosition.Top" Alignment="Alignment.Near">
+                            <ChartDataLabelBorder Width="2" Color="Grey"></ChartDataLabelBorder>
+                        </ChartDataLabel>
+                    </ChartMarker>
+                </ChartSeries>
+                <ChartSeries DataSource="@Sales21" XName="x" YName="y1" Type="ChartSeriesType.StackingColumn" Name="Silver" Fill="Blue">
+                    <ChartSeriesAnimation Enable="false"></ChartSeriesAnimation>
+                    <ChartMarker>
+                        <ChartDataLabel Visible="true" Position="ChartLabelPosition.Outer" Alignment="Alignment.Near">
+                            <ChartDataLabelBorder Width="2" Color="Grey"></ChartDataLabelBorder>
+                        </ChartDataLabel>
+                    </ChartMarker>
+                </ChartSeries>
+            </ChartSeriesCollection>
+        </SfChart>
+    </ComponentUnderTest>
+</SfFixture>
+
+@code {
+    SfChart chartobj14;
+    SfFixture fixture21 { get; set; }
+    async Task CheckingStackingColumnDatalabelTopAlignNear(Fixture fixture21)
+    {
+        var cut = fixture21.GetComponentUnderTest<SfChart>();
+        await Task.Delay(200);
+        var series0 = chartobj14._visibleSeriesRenderers[0].Points[0].Regions[0];
+        var datalabel0 = Convert.ToDouble(cut.Find("#container_Series_0_Point_0_Text_0").GetAttribute("y"));
+        Assert.True(series0.Y < datalabel0);
+        cut.SetParametersAndRender();
+    }
+    public class BarData21
+    {
+        public double x { get; set; }
+        public double y { get; set; }
+        public double y1 { get; set; }
+    }
+
+    public List<BarData21> Sales21 = new List<BarData21>
+{
+        new BarData21 { x = 1000, y = 70, y1 = 73 },
+        new BarData21 { x = 2000, y = 40, y1 = 40 },
+        new BarData21 { x = 3000, y = 70, y1 = 75 },
+        new BarData21 { x = 4000, y = 70, y1 = 30 },
+        new BarData21 { x = 5000, y = 50, y1 = 56 },
+        new BarData21 { x = 6000, y = 40, y1 = 60 },
+        new BarData21 { x = 7000, y = 40, y1 = 41 },
+        new BarData21 { x = 8000, y = 70, y1 = 45 }
+    };
+}
+
+
+@{
+    var InitialGroup22 = (new string[] { "CustomerID", "OrderID" });
+}
+<SfFixture @ref="fixture22" TestAsync="CheckingStackingColumn100DatalabelTopAlignNear" Description="CheckingStackingColumn100DatalabelTopAlignNear">
+    <ComponentUnderTest>
+        <SfChart ID="container" @ref="chartobj15" Title="x wise Sales Report" Width="800">
+            <ChartArea Background="White"></ChartArea>
+            <ChartPrimaryXAxis Title="PrimaryXAxis" RangePadding="ChartRangePadding.Normal" ValueType="Syncfusion.Blazor.Toolkit.ValueType.Double"></ChartPrimaryXAxis>
+            <ChartPrimaryYAxis Title="PrimaryYaxis"></ChartPrimaryYAxis>
+            <ChartSeriesCollection>
+                <ChartSeries DataSource="@Sales22" XName="x" YName="y" Type="ChartSeriesType.StackingColumn100" Name="Gold" Fill="rgba(135,206,235,1)">
+                    <ChartSeriesAnimation Enable="false"></ChartSeriesAnimation>
+                    <ChartMarker>
+                        <ChartDataLabel Visible="true" Position="ChartLabelPosition.Top" Alignment="Alignment.Near">
+                            <ChartDataLabelBorder Width="2" Color="Grey"></ChartDataLabelBorder>
+                        </ChartDataLabel>
+                    </ChartMarker>
+                </ChartSeries>
+                <ChartSeries DataSource="@Sales22" XName="x" YName="y1" Type="ChartSeriesType.StackingColumn100" Name="Silver" Fill="Blue">
+                    <ChartSeriesAnimation Enable="false"></ChartSeriesAnimation>
+                    <ChartMarker>
+                        <ChartDataLabel Visible="true" Position="ChartLabelPosition.Outer" Alignment="Alignment.Near">
+                            <ChartDataLabelBorder Width="2" Color="Grey"></ChartDataLabelBorder>
+                        </ChartDataLabel>
+                    </ChartMarker>
+                </ChartSeries>
+            </ChartSeriesCollection>
+        </SfChart>
+    </ComponentUnderTest>
+</SfFixture>
+
+@code {
+    SfChart chartobj15;
+    SfFixture fixture22 { get; set; }
+    async Task CheckingStackingColumn100DatalabelTopAlignNear(Fixture fixture22)
+    {
+        var cut = fixture22.GetComponentUnderTest<SfChart>();
+        await Task.Delay(200);
+        var series0 = chartobj15._visibleSeriesRenderers[0].Points[0].Regions[0];
+        var datalabel0 = Convert.ToDouble(cut.Find("#container_Series_0_Point_0_Text_0").GetAttribute("y"));
+        Assert.True(series0.Y < datalabel0);
+        cut.SetParametersAndRender();
+    }
+    public class BarData22
+    {
+        public double x { get; set; }
+        public double y { get; set; }
+        public double y1 { get; set; }
+    }
+
+    public List<BarData22> Sales22 = new List<BarData22>
+{
+        new BarData22 { x = 1000, y = 70, y1 = 73 },
+        new BarData22 { x = 2000, y = 40, y1 = 40 },
+        new BarData22 { x = 3000, y = 70, y1 = 75 },
+        new BarData22 { x = 4000, y = 70, y1 = 30 },
+        new BarData22 { x = 5000, y = 50, y1 = 56 },
+        new BarData22 { x = 6000, y = 40, y1 = 60 },
+        new BarData22 { x = 7000, y = 40, y1 = 41 },
+        new BarData22 { x = 8000, y = 70, y1 = 45 }
+    };
+}
+
+
+@{
+    var InitialGroup23 = (new string[] { "CustomerID", "OrderID" });
+}
+<SfFixture @ref="fixture23" TestAsync="CheckingStackingColumn100DatalabelTopAlignFar" Description="CheckingStackingColumn100DatalabelTopAlignFar">
+    <ComponentUnderTest>
+        <SfChart ID="container" @ref="chartobj16" Title="x wise Sales Report" Width="800">
+            <ChartArea Background="White"></ChartArea>
+            <ChartPrimaryXAxis Title="PrimaryXAxis" RangePadding="ChartRangePadding.Normal" ValueType="Syncfusion.Blazor.Toolkit.ValueType.Double"></ChartPrimaryXAxis>
+            <ChartPrimaryYAxis Title="PrimaryYaxis"></ChartPrimaryYAxis>
+            <ChartSeriesCollection>
+                <ChartSeries DataSource="@Sales23" XName="x" YName="y" Type="ChartSeriesType.StackingColumn100" Name="Gold" Fill="rgba(135,206,235,1)">
+                    <ChartSeriesAnimation Enable="false"></ChartSeriesAnimation>
+                    <ChartMarker>
+                        <ChartDataLabel Visible="true" Position="ChartLabelPosition.Top" Alignment="Alignment.Far">
+                            <ChartDataLabelBorder Width="2" Color="Grey"></ChartDataLabelBorder>
+                        </ChartDataLabel>
+                    </ChartMarker>
+                </ChartSeries>
+                <ChartSeries DataSource="@Sales23" XName="x" YName="y1" Type="ChartSeriesType.StackingColumn100" Name="Silver" Fill="Blue">
+                    <ChartSeriesAnimation Enable="false"></ChartSeriesAnimation>
+                    <ChartMarker>
+                        <ChartDataLabel Visible="true" Position="ChartLabelPosition.Outer" Alignment="Alignment.Far">
+                            <ChartDataLabelBorder Width="2" Color="Grey"></ChartDataLabelBorder>
+                        </ChartDataLabel>
+                    </ChartMarker>
+                </ChartSeries>
+            </ChartSeriesCollection>
+        </SfChart>
+    </ComponentUnderTest>
+</SfFixture>
+
+@code {
+    SfChart chartobj16;
+    SfFixture fixture23 { get; set; }
+    async Task CheckingStackingColumn100DatalabelTopAlignFar(Fixture fixture23)
+    {
+        var cut = fixture23.GetComponentUnderTest<SfChart>();
+        await Task.Delay(200);
+        var series0 = chartobj16._visibleSeriesRenderers[0].Points[0].Regions[0];
+        var datalabel0 = Convert.ToDouble(cut.Find("#container_Series_0_Point_0_Text_0").GetAttribute("y"));
+        Assert.True(series0.Y < datalabel0);
+        cut.SetParametersAndRender();
+    }
+    public class BarData23
+    {
+        public double x { get; set; }
+        public double y { get; set; }
+        public double y1 { get; set; }
+    }
+
+    public List<BarData23> Sales23 = new List<BarData23>
+{
+        new BarData23 { x = 1000, y = 70, y1 = 73 },
+        new BarData23 { x = 2000, y = 40, y1 = 40 },
+        new BarData23 { x = 3000, y = 70, y1 = 75 },
+        new BarData23 { x = 4000, y = 70, y1 = 30 },
+        new BarData23 { x = 5000, y = 50, y1 = 56 },
+        new BarData23 { x = 6000, y = 40, y1 = 60 },
+        new BarData23 { x = 7000, y = 40, y1 = 41 },
+        new BarData23 { x = 8000, y = 70, y1 = 45 }
+    };
+}
+
+
+@{
+    var InitialGroup24 = (new string[] { "CustomerID", "OrderID" });
+}
+<SfFixture @ref="fixture24" TestAsync="CheckingStackingColumnDatalabelTopAlignFar" Description="CheckingStackingColumnDatalabelTopAlignFar">
+    <ComponentUnderTest>
+        <SfChart ID="container" @ref="chartobj17" Title="x wise Sales Report" Width="800">
+            <ChartArea Background="White"></ChartArea>
+            <ChartPrimaryXAxis Title="PrimaryXAxis" RangePadding="ChartRangePadding.Normal" ValueType="Syncfusion.Blazor.Toolkit.ValueType.Double"></ChartPrimaryXAxis>
+            <ChartPrimaryYAxis Title="PrimaryYaxis"></ChartPrimaryYAxis>
+            <ChartSeriesCollection>
+                <ChartSeries DataSource="@Sales24" XName="x" YName="y" Type="ChartSeriesType.StackingColumn" Name="Gold" Fill="rgba(135,206,235,1)">
+                    <ChartSeriesAnimation Enable="false"></ChartSeriesAnimation>
+                    <ChartMarker>
+                        <ChartDataLabel Visible="true" Position="ChartLabelPosition.Top" Alignment="Alignment.Far">
+                            <ChartDataLabelBorder Width="2" Color="Grey"></ChartDataLabelBorder>
+                        </ChartDataLabel>
+                    </ChartMarker>
+                </ChartSeries>
+                <ChartSeries DataSource="@Sales24" XName="x" YName="y1" Type="ChartSeriesType.StackingColumn" Name="Silver" Fill="Blue">
+                    <ChartSeriesAnimation Enable="false"></ChartSeriesAnimation>
+                    <ChartMarker>
+                        <ChartDataLabel Visible="true" Position="ChartLabelPosition.Top" Alignment="Alignment.Far">
+                            <ChartDataLabelBorder Width="2" Color="Grey"></ChartDataLabelBorder>
+                        </ChartDataLabel>
+                    </ChartMarker>
+                </ChartSeries>
+            </ChartSeriesCollection>
+        </SfChart>
+    </ComponentUnderTest>
+</SfFixture>
+
+@code {
+    SfChart chartobj17;
+    SfFixture fixture24 { get; set; }
+    async Task CheckingStackingColumnDatalabelTopAlignFar(Fixture fixture24)
+    {
+        var cut = fixture24.GetComponentUnderTest<SfChart>();
+        await Task.Delay(200);
+        var series0 = chartobj17._visibleSeriesRenderers[0].Points[0].Regions[0];
+        var datalabel0 = Convert.ToDouble(cut.Find("#container_Series_0_Point_0_Text_0").GetAttribute("y"));
+        Assert.True(series0.Y < datalabel0);
+        cut.SetParametersAndRender();
+    }
+    public class BarData24
+    {
+        public double x { get; set; }
+        public double y { get; set; }
+        public double y1 { get; set; }
+    }
+
+    public List<BarData24> Sales24 = new List<BarData24>
+{
+        new BarData24 { x = 1000, y = 70, y1 = 73 },
+        new BarData24 { x = 2000, y = 40, y1 = 40 },
+        new BarData24 { x = 3000, y = 70, y1 = 75 },
+        new BarData24 { x = 4000, y = 70, y1 = 30 },
+        new BarData24 { x = 5000, y = 50, y1 = 56 },
+        new BarData24 { x = 6000, y = 40, y1 = 60 },
+        new BarData24 { x = 7000, y = 40, y1 = 41 },
+        new BarData24 { x = 8000, y = 70, y1 = 45 }
+    };
+}
+
+
+
+@{
+    var InitialGroup25 = (new string[] { "CustomerID", "OrderID" });
+}
+<SfFixture @ref="fixture25" TestAsync="CheckingStackingColumnDatalabelTopAlignCenter" Description="CheckingStackingColumnDatalabelTopAlignCenter">
+    <ComponentUnderTest>
+        <SfChart ID="container" @ref="chartobj18" Title="x wise Sales Report" Width="800">
+            <ChartArea Background="White"></ChartArea>
+            <ChartPrimaryXAxis Title="PrimaryXAxis" RangePadding="ChartRangePadding.Normal" ValueType="Syncfusion.Blazor.Toolkit.ValueType.Double"></ChartPrimaryXAxis>
+            <ChartPrimaryYAxis Title="PrimaryYaxis"></ChartPrimaryYAxis>
+            <ChartSeriesCollection>
+                <ChartSeries DataSource="@Sales25" XName="x" YName="y" Type="ChartSeriesType.StackingColumn" Name="Gold" Fill="rgba(135,206,235,1)">
+                    <ChartSeriesAnimation Enable="false"></ChartSeriesAnimation>
+                    <ChartMarker>
+                        <ChartDataLabel Visible="true" Position="ChartLabelPosition.Top" Alignment="Alignment.Center">
+                            <ChartDataLabelBorder Width="2" Color="Grey"></ChartDataLabelBorder>
+                        </ChartDataLabel>
+                    </ChartMarker>
+                </ChartSeries>
+                <ChartSeries DataSource="@Sales25" XName="x" YName="y1" Type="ChartSeriesType.StackingColumn" Name="Silver" Fill="Blue">
+                    <ChartSeriesAnimation Enable="false"></ChartSeriesAnimation>
+                    <ChartMarker>
+                        <ChartDataLabel Visible="true" Position="ChartLabelPosition.Top" Alignment="Alignment.Center">
+                            <ChartDataLabelBorder Width="2" Color="Grey"></ChartDataLabelBorder>
+                        </ChartDataLabel>
+                    </ChartMarker>
+                </ChartSeries>
+            </ChartSeriesCollection>
+        </SfChart>
+    </ComponentUnderTest>
+</SfFixture>
+
+@code {
+    SfChart chartobj18;
+    SfFixture fixture25 { get; set; }
+    async Task CheckingStackingColumnDatalabelTopAlignCenter(Fixture fixture25)
+    {
+        var cut = fixture25.GetComponentUnderTest<SfChart>();
+        await Task.Delay(200);
+        var series0 = chartobj18._visibleSeriesRenderers[0].Points[0].Regions[0];
+        var datalabel0 = Convert.ToDouble(cut.Find("#container_Series_0_Point_0_Text_0").GetAttribute("y"));
+        Assert.True(series0.Y < datalabel0);
+        cut.SetParametersAndRender();
+    }
+    public class BarData25
+    {
+        public double x { get; set; }
+        public double y { get; set; }
+        public double y1 { get; set; }
+    }
+
+    public List<BarData25> Sales25 = new List<BarData25>
+{
+        new BarData25 { x = 1000, y = 70, y1 = 73 },
+        new BarData25 { x = 2000, y = 40, y1 = 40 },
+        new BarData25 { x = 3000, y = 70, y1 = 75 },
+        new BarData25 { x = 4000, y = 70, y1 = 30 },
+        new BarData25 { x = 5000, y = 50, y1 = 56 },
+        new BarData25 { x = 6000, y = 40, y1 = 60 },
+        new BarData25 { x = 7000, y = 40, y1 = 41 },
+        new BarData25 { x = 8000, y = 70, y1 = 45 }
+    };
+}
+
+
+@{
+    var InitialGroup26 = (new string[] { "CustomerID", "OrderID" });
+}
+<SfFixture @ref="fixture26" TestAsync="CheckingStackingColumn100DatalabelTopAlignCenter" Description="CheckingStackingColumn100DatalabelTopAlignCenter">
+    <ComponentUnderTest>
+        <SfChart ID="container" @ref="chartobj19" Title="x wise Sales Report" Width="800">
+            <ChartArea Background="White"></ChartArea>
+            <ChartPrimaryXAxis Title="PrimaryXAxis" RangePadding="ChartRangePadding.Normal" ValueType="Syncfusion.Blazor.Toolkit.ValueType.Double"></ChartPrimaryXAxis>
+            <ChartPrimaryYAxis Title="PrimaryYaxis"></ChartPrimaryYAxis>
+            <ChartSeriesCollection>
+                <ChartSeries DataSource="@Sales26" XName="x" YName="y" Type="ChartSeriesType.StackingColumn100" Name="Gold" Fill="rgba(135,206,235,1)">
+                    <ChartSeriesAnimation Enable="false"></ChartSeriesAnimation>
+                    <ChartMarker>
+                        <ChartDataLabel Visible="true" Position="ChartLabelPosition.Top" Alignment="Alignment.Center">
+                            <ChartDataLabelBorder Width="2" Color="Grey"></ChartDataLabelBorder>
+                        </ChartDataLabel>
+                    </ChartMarker>
+                </ChartSeries>
+                <ChartSeries DataSource="@Sales26" XName="x" YName="y1" Type="ChartSeriesType.StackingColumn100" Name="Silver" Fill="Blue">
+                    <ChartSeriesAnimation Enable="false"></ChartSeriesAnimation>
+                    <ChartMarker>
+                        <ChartDataLabel Visible="true" Position="ChartLabelPosition.Top" Alignment="Alignment.Center">
+                            <ChartDataLabelBorder Width="2" Color="Grey"></ChartDataLabelBorder>
+                        </ChartDataLabel>
+                    </ChartMarker>
+                </ChartSeries>
+            </ChartSeriesCollection>
+        </SfChart>
+    </ComponentUnderTest>
+</SfFixture>
+
+@code {
+    SfChart chartobj19;
+    SfFixture fixture26 { get; set; }
+    async Task CheckingStackingColumn100DatalabelTopAlignCenter(Fixture fixture26)
+    {
+        var cut = fixture26.GetComponentUnderTest<SfChart>();
+        await Task.Delay(200);
+        var series0 = chartobj19._visibleSeriesRenderers[0].Points[0].Regions[0];
+        var datalabel0 = Convert.ToDouble(cut.Find("#container_Series_0_Point_0_Text_0").GetAttribute("y"));
+        Assert.True(series0.Y < datalabel0);
+        cut.SetParametersAndRender();
+    }
+    public class BarData26
+    {
+        public double x { get; set; }
+        public double y { get; set; }
+        public double y1 { get; set; }
+    }
+
+    public List<BarData26> Sales26 = new List<BarData26>
+{
+        new BarData26 { x = 1000, y = 70, y1 = 73 },
+        new BarData26 { x = 2000, y = 40, y1 = 40 },
+        new BarData26 { x = 3000, y = 70, y1 = 75 },
+        new BarData26 { x = 4000, y = 70, y1 = 30 },
+        new BarData26 { x = 5000, y = 50, y1 = 56 },
+        new BarData26 { x = 6000, y = 40, y1 = 60 },
+        new BarData26 { x = 7000, y = 40, y1 = 41 },
+        new BarData26 { x = 8000, y = 70, y1 = 45 }
+    };
+}
+
+
+@{
+    var InitialGroup27 = (new string[] { "CustomerID", "OrderID" });
+}
+<SfFixture @ref="fixture27" TestAsync="CheckingStackingColumn100DatalabelBotomAlignNear" Description="CheckingStackingColumn100DatalabelBotomAlignNear">
+    <ComponentUnderTest>
+        <SfChart ID="container" Title="x wise Sales Report" Width="800">
+            <ChartArea Background="White"></ChartArea>
+            <ChartPrimaryXAxis Title="PrimaryXAxis" RangePadding="ChartRangePadding.Normal" ValueType="Syncfusion.Blazor.Toolkit.ValueType.Double"></ChartPrimaryXAxis>
+            <ChartPrimaryYAxis Title="PrimaryYaxis"></ChartPrimaryYAxis>
+            <ChartSeriesCollection>
+                <ChartSeries DataSource="@Sales27" XName="x" YName="y" Type="ChartSeriesType.StackingColumn100" Name="Gold" Fill="rgba(135,206,235,1)">
+                    <ChartSeriesAnimation Enable="false"></ChartSeriesAnimation>
+                    <ChartMarker>
+                        <ChartDataLabel Visible="true" Position="ChartLabelPosition.Bottom" Alignment="Alignment.Near">
+                            <ChartDataLabelBorder Width="2" Color="Grey"></ChartDataLabelBorder>
+                        </ChartDataLabel>
+                    </ChartMarker>
+                </ChartSeries>
+                <ChartSeries DataSource="@Sales27" XName="x" YName="y1" Type="ChartSeriesType.StackingColumn100" Name="Silver" Fill="Blue">
+                    <ChartSeriesAnimation Enable="false"></ChartSeriesAnimation>
+                    <ChartMarker>
+                        <ChartDataLabel Visible="true" Position="ChartLabelPosition.Bottom" Alignment="Alignment.Near">
+                            <ChartDataLabelBorder Width="2" Color="Grey"></ChartDataLabelBorder>
+                        </ChartDataLabel>
+                    </ChartMarker>
+                </ChartSeries>
+            </ChartSeriesCollection>
+        </SfChart>
+    </ComponentUnderTest>
+</SfFixture>
+
+@code {
+
+    SfFixture fixture27 { get; set; }
+    async Task CheckingStackingColumn100DatalabelBotomAlignNear(Fixture fixture27)
+    {
+        var cut = fixture27.GetComponentUnderTest<SfChart>();
+        await Task.Delay(200);
+        var datalabel0 = cut.Find("#container_Series_1_Point_0_Text_0");
+        Assert.True(datalabel0 != null);
+        cut.SetParametersAndRender();
+    }
+    public class BarData27
+    {
+        public double x { get; set; }
+        public double y { get; set; }
+        public double y1 { get; set; }
+    }
+
+    public List<BarData27> Sales27 = new List<BarData27>
+{
+        new BarData27 { x = 1000, y = 70, y1 = 73 },
+        new BarData27 { x = 2000, y = 40, y1 = 40 },
+        new BarData27 { x = 3000, y = 70, y1 = 75 },
+        new BarData27 { x = 4000, y = 70, y1 = 30 },
+        new BarData27 { x = 5000, y = 50, y1 = 56 },
+        new BarData27 { x = 6000, y = 40, y1 = 60 },
+        new BarData27 { x = 7000, y = 40, y1 = 41 },
+        new BarData27 { x = 8000, y = 70, y1 = 45 }
+    };
+}
+
+
+@{
+    var InitialGroup28 = (new string[] { "CustomerID", "OrderID" });
+}
+<SfFixture @ref="fixture28" TestAsync="CheckingStackingColumnDatalabelBotomAlignNear" Description="CheckingStackingColumnDatalabelBotomAlignNear">
+    <ComponentUnderTest>
+        <SfChart ID="container" Title="x wise Sales Report" Width="800">
+            <ChartArea Background="White"></ChartArea>
+            <ChartPrimaryXAxis Title="PrimaryXAxis" RangePadding="ChartRangePadding.Normal" ValueType="Syncfusion.Blazor.Toolkit.ValueType.Double"></ChartPrimaryXAxis>
+            <ChartPrimaryYAxis Title="PrimaryYaxis"></ChartPrimaryYAxis>
+            <ChartSeriesCollection>
+                <ChartSeries DataSource="@Sales28" XName="x" YName="y" Type="ChartSeriesType.StackingColumn" Name="Gold" Fill="rgba(135,206,235,1)">
+                    <ChartSeriesAnimation Enable="false"></ChartSeriesAnimation>
+                    <ChartMarker>
+                        <ChartDataLabel Visible="true" Position="ChartLabelPosition.Bottom" Alignment="Alignment.Near">
+                            <ChartDataLabelBorder Width="2" Color="Grey"></ChartDataLabelBorder>
+                        </ChartDataLabel>
+                    </ChartMarker>
+                </ChartSeries>
+                <ChartSeries DataSource="@Sales28" XName="x" YName="y1" Type="ChartSeriesType.StackingColumn" Name="Silver" Fill="Blue">
+                    <ChartSeriesAnimation Enable="false"></ChartSeriesAnimation>
+                    <ChartMarker>
+                        <ChartDataLabel Visible="true" Position="ChartLabelPosition.Bottom" Alignment="Alignment.Near">
+                            <ChartDataLabelBorder Width="2" Color="Grey"></ChartDataLabelBorder>
+                        </ChartDataLabel>
+                    </ChartMarker>
+                </ChartSeries>
+            </ChartSeriesCollection>
+        </SfChart>
+    </ComponentUnderTest>
+</SfFixture>
+
+@code {
+
+    SfFixture fixture28 { get; set; }
+    async Task CheckingStackingColumnDatalabelBotomAlignNear(Fixture fixture28)
+    {
+        var cut = fixture28.GetComponentUnderTest<SfChart>();
+        await Task.Delay(200);
+        var datalabel0 = cut.Find("#container_Series_1_Point_0_Text_0");
+        Assert.True(datalabel0 != null);
+        cut.SetParametersAndRender();
+    }
+    public class BarData28
+    {
+        public double x { get; set; }
+        public double y { get; set; }
+        public double y1 { get; set; }
+    }
+
+    public List<BarData28> Sales28 = new List<BarData28>
+{
+        new BarData28 { x = 1000, y = 70, y1 = 73 },
+        new BarData28 { x = 2000, y = 40, y1 = 40 },
+        new BarData28 { x = 3000, y = 70, y1 = 75 },
+        new BarData28 { x = 4000, y = 70, y1 = 30 },
+        new BarData28 { x = 5000, y = 50, y1 = 56 },
+        new BarData28 { x = 6000, y = 40, y1 = 60 },
+        new BarData28 { x = 7000, y = 40, y1 = 41 },
+        new BarData28 { x = 8000, y = 70, y1 = 45 }
+    };
+}
+
+
+@{
+    var InitialGroup29 = (new string[] { "CustomerID", "OrderID" });
+}
+<SfFixture @ref="fixture29" TestAsync="CheckingStackingColumnDatalabelBotomAlignFar" Description="CheckingStackingColumnDatalabelBotomAlignFar">
+    <ComponentUnderTest>
+        <SfChart ID="container" @ref="chartobj20" Title="x wise Sales Report" Width="800">
+            <ChartArea Background="White"></ChartArea>
+            <ChartPrimaryXAxis Title="PrimaryXAxis" RangePadding="ChartRangePadding.Normal" ValueType="Syncfusion.Blazor.Toolkit.ValueType.Double"></ChartPrimaryXAxis>
+            <ChartPrimaryYAxis Title="PrimaryYaxis"></ChartPrimaryYAxis>
+            <ChartSeriesCollection>
+                <ChartSeries DataSource="@Sales29" XName="x" YName="y" Type="ChartSeriesType.StackingColumn" Name="Gold" Fill="rgba(135,206,235,1)">
+                    <ChartSeriesAnimation Enable="false"></ChartSeriesAnimation>
+                    <ChartMarker>
+                        <ChartDataLabel Visible="true" Position="ChartLabelPosition.Bottom" Alignment="Alignment.Far">
+                            <ChartDataLabelBorder Width="2" Color="Grey"></ChartDataLabelBorder>
+                        </ChartDataLabel>
+                    </ChartMarker>
+                </ChartSeries>
+                <ChartSeries DataSource="@Sales29" XName="x" YName="y1" Type="ChartSeriesType.StackingColumn" Name="Silver" Fill="Blue">
+                    <ChartSeriesAnimation Enable="false"></ChartSeriesAnimation>
+                    <ChartMarker>
+                        <ChartDataLabel Visible="true" Position="ChartLabelPosition.Bottom" Alignment="Alignment.Far">
+                            <ChartDataLabelBorder Width="2" Color="Grey"></ChartDataLabelBorder>
+                        </ChartDataLabel>
+                    </ChartMarker>
+                </ChartSeries>
+            </ChartSeriesCollection>
+        </SfChart>
+    </ComponentUnderTest>
+</SfFixture>
+
+@code {
+    SfChart chartobj20;
+    SfFixture fixture29 { get; set; }
+    async Task CheckingStackingColumnDatalabelBotomAlignFar(Fixture fixture29)
+    {
+        var cut = fixture29.GetComponentUnderTest<SfChart>();
+        await Task.Delay(200);
+        var series0 = chartobj20._visibleSeriesRenderers[0].Points[0].Regions[0];
+        var datalabel0 = Convert.ToDouble(cut.Find("#container_Series_0_Point_0_Text_0").GetAttribute("y"));
+        Assert.True((series0.Y + series0.Height) > datalabel0);
+        cut.SetParametersAndRender();
+    }
+    public class BarData29
+    {
+        public double x { get; set; }
+        public double y { get; set; }
+        public double y1 { get; set; }
+    }
+
+    public List<BarData29> Sales29 = new List<BarData29>
+{
+        new BarData29 { x = 1000, y = 70, y1 = 73 },
+        new BarData29 { x = 2000, y = 40, y1 = 40 },
+        new BarData29 { x = 3000, y = 70, y1 = 75 },
+        new BarData29 { x = 4000, y = 70, y1 = 30 },
+        new BarData29 { x = 5000, y = 50, y1 = 56 },
+        new BarData29 { x = 6000, y = 40, y1 = 60 },
+        new BarData29 { x = 7000, y = 40, y1 = 41 },
+        new BarData29 { x = 8000, y = 70, y1 = 45 }
+    };
+}
+
+
+@{
+    var InitialGroup30 = (new string[] { "CustomerID", "OrderID" });
+}
+<SfFixture @ref="fixture30" TestAsync="CheckingStackingColumnCustomLabelFormat" Description="CheckingStackingColumnCustomLabelFormat">
+    <ComponentUnderTest>
+        <SfChart ID="container" Title="x wise Sales Report" Width="800">
+            <ChartArea Background="White"></ChartArea>
+            <ChartPrimaryXAxis Title="PrimaryXAxis" RangePadding="ChartRangePadding.Normal" ValueType="Syncfusion.Blazor.Toolkit.ValueType.Double"></ChartPrimaryXAxis>
+            <ChartPrimaryYAxis Title="PrimaryYaxis" LabelFormat="{value}%"></ChartPrimaryYAxis>
+            <ChartSeriesCollection>
+                <ChartSeries DataSource="@Sales30" XName="x" YName="y" Type="ChartSeriesType.StackingColumn" Name="Gold" Fill="rgba(135,206,235,1)">
+                    <ChartSeriesAnimation Enable="false"></ChartSeriesAnimation>
+                    <ChartMarker>
+                        <ChartDataLabel Visible="true" Position="ChartLabelPosition.Bottom" Alignment="Alignment.Far">
+                            <ChartDataLabelBorder Width="2" Color="Grey"></ChartDataLabelBorder>
+                        </ChartDataLabel>
+                    </ChartMarker>
+                </ChartSeries>
+                <ChartSeries DataSource="@Sales30" XName="x" YName="y1" Type="ChartSeriesType.StackingColumn" Name="Silver" Fill="Blue">
+                    <ChartSeriesAnimation Enable="false"></ChartSeriesAnimation>
+                    <ChartMarker>
+                        <ChartDataLabel Visible="true" Position="ChartLabelPosition.Bottom" Alignment="Alignment.Far">
+                            <ChartDataLabelBorder Width="2" Color="Grey"></ChartDataLabelBorder>
+                        </ChartDataLabel>
+                    </ChartMarker>
+                </ChartSeries>
+            </ChartSeriesCollection>
+        </SfChart>
+    </ComponentUnderTest>
+</SfFixture>
+
+@code {
+
+    SfFixture fixture30 { get; set; }
+    async Task CheckingStackingColumnCustomLabelFormat(Fixture fixture30)
+    {
+        var cut = fixture30.GetComponentUnderTest<SfChart>();
+        await Task.Delay(200);
+        var datalabel = cut.Find("#container_Series_0_Point_0_Text_0");
+        Assert.True(datalabel.TextContent == "70%\n    ");
+        cut.SetParametersAndRender();
+    }
+    public class BarData30
+    {
+        public double x { get; set; }
+        public double y { get; set; }
+        public double y1 { get; set; }
+    }
+
+    public List<BarData30> Sales30 = new List<BarData30>
+{
+        new BarData30 { x = 1000, y = 70, y1 = 73 },
+        new BarData30 { x = 2000, y = 40, y1 = 40 },
+        new BarData30 { x = 3000, y = 70, y1 = 75 },
+        new BarData30 { x = 4000, y = 70, y1 = 30 },
+        new BarData30 { x = 5000, y = 50, y1 = 56 },
+        new BarData30 { x = 6000, y = 40, y1 = 60 },
+        new BarData30 { x = 7000, y = 40, y1 = 41 },
+        new BarData30 { x = 8000, y = 70, y1 = 45 }
+    };
+}
+
+
+@{
+    var InitialGroup31 = (new string[] { "CustomerID", "OrderID" });
+}
+<SfFixture @ref="fixture31" TestAsync="CheckingStackingColumnDatalabelBottomAlignCenter" Description="CheckingStackingColumnDatalabelBottomAlignCenter">
+    <ComponentUnderTest>
+        <SfChart ID="container" @ref="chartobj21" Title="x wise Sales Report" Width="800">
+            <ChartArea Background="White"></ChartArea>
+            <ChartPrimaryXAxis Title="PrimaryXAxis" RangePadding="ChartRangePadding.Normal" ValueType="Syncfusion.Blazor.Toolkit.ValueType.Double"></ChartPrimaryXAxis>
+            <ChartPrimaryYAxis Title="PrimaryYaxis"></ChartPrimaryYAxis>
+            <ChartSeriesCollection>
+                <ChartSeries DataSource="@Sales31" XName="x" YName="y" Type="ChartSeriesType.StackingColumn" Name="Gold" Fill="rgba(135,206,235,1)">
+                    <ChartSeriesAnimation Enable="false"></ChartSeriesAnimation>
+                    <ChartMarker>
+                        <ChartDataLabel Visible="true" Position="ChartLabelPosition.Bottom" Alignment="Alignment.Center">
+                            <ChartDataLabelBorder Width="2" Color="Grey"></ChartDataLabelBorder>
+                        </ChartDataLabel>
+                    </ChartMarker>
+                </ChartSeries>
+                <ChartSeries DataSource="@Sales31" XName="x" YName="y1" Type="ChartSeriesType.StackingColumn" Name="Silver" Fill="Blue">
+                    <ChartSeriesAnimation Enable="false"></ChartSeriesAnimation>
+                    <ChartMarker>
+                        <ChartDataLabel Visible="true" Position="ChartLabelPosition.Bottom" Alignment="Alignment.Far">
+                            <ChartDataLabelBorder Width="2" Color="Grey"></ChartDataLabelBorder>
+                        </ChartDataLabel>
+                    </ChartMarker>
+                </ChartSeries>
+            </ChartSeriesCollection>
+        </SfChart>
+    </ComponentUnderTest>
+</SfFixture>
+
+@code {
+    SfChart chartobj21;
+    SfFixture fixture31 { get; set; }
+    async Task CheckingStackingColumnDatalabelBottomAlignCenter(Fixture fixture31)
+    {
+        var cut = fixture31.GetComponentUnderTest<SfChart>();
+        await Task.Delay(200);
+        var series0 = chartobj21._visibleSeriesRenderers[0].Points[0].Regions[0];
+        var datalabel0 = Convert.ToDouble(cut.Find("#container_Series_0_Point_0_Text_0").GetAttribute("y"));
+        Assert.True((series0.Y + series0.Height) > datalabel0);
+        cut.SetParametersAndRender();
+    }
+    public class BarData31
+    {
+        public double x { get; set; }
+        public double y { get; set; }
+        public double y1 { get; set; }
+    }
+
+    public List<BarData31> Sales31 = new List<BarData31>
+{
+        new BarData31 { x = 1000, y = 70, y1 = 73 },
+        new BarData31 { x = 2000, y = 40, y1 = 40 },
+        new BarData31 { x = 3000, y = 70, y1 = 75 },
+        new BarData31 { x = 4000, y = 70, y1 = 30 },
+        new BarData31 { x = 5000, y = 50, y1 = 56 },
+        new BarData31 { x = 6000, y = 40, y1 = 60 },
+        new BarData31 { x = 7000, y = 40, y1 = 41 },
+        new BarData31 { x = 8000, y = 70, y1 = 45 }
+    };
+}
+
+
+@{
+    var InitialGroup32 = (new string[] { "CustomerID", "OrderID" });
+}
+<SfFixture @ref="fixture32" TestAsync="CheckingStackingColumnDatalabelTopNegativePoints" Description="CheckingStackingColumnDatalabelTopNegativePoints">
+    <ComponentUnderTest>
+        <SfChart ID="container" @ref="chartobj22" Title="x wise Sales Report" Width="800">
+            <ChartArea Background="White"></ChartArea>
+            <ChartPrimaryXAxis Title="PrimaryXAxis" RangePadding="ChartRangePadding.Normal" ValueType="Syncfusion.Blazor.Toolkit.ValueType.Double"></ChartPrimaryXAxis>
+            <ChartPrimaryYAxis Title="PrimaryYaxis"></ChartPrimaryYAxis>
+            <ChartSeriesCollection>
+                <ChartSeries DataSource="@Sales32" XName="x" YName="y" Type="ChartSeriesType.StackingColumn" Name="Gold" Fill="rgba(135,206,235,1)">
+                    <ChartSeriesAnimation Enable="false"></ChartSeriesAnimation>
+                    <ChartMarker>
+                        <ChartDataLabel Visible="true" Position="ChartLabelPosition.Top" Alignment="Alignment.Center">
+                            <ChartDataLabelBorder Width="2" Color="Grey"></ChartDataLabelBorder>
+                        </ChartDataLabel>
+                    </ChartMarker>
+                </ChartSeries>
+                <ChartSeries DataSource="@Sales32" XName="x" YName="y" Type="ChartSeriesType.StackingColumn" Name="Silver" Fill="Blue">
+                    <ChartSeriesAnimation Enable="false"></ChartSeriesAnimation>
+                    <ChartMarker>
+                        <ChartDataLabel Visible="true" Position="ChartLabelPosition.Top" Alignment="Alignment.Center">
+                            <ChartDataLabelBorder Width="2" Color="Grey"></ChartDataLabelBorder>
+                        </ChartDataLabel>
+                    </ChartMarker>
+                </ChartSeries>
+            </ChartSeriesCollection>
+        </SfChart>
+    </ComponentUnderTest>
+</SfFixture>
+
+@code {
+    SfChart chartobj22;
+    SfFixture fixture32 { get; set; }
+    async Task CheckingStackingColumnDatalabelTopNegativePoints(Fixture fixture32)
+    {
+        var cut = fixture32.GetComponentUnderTest<SfChart>();
+        await Task.Delay(200);
+        var series0 = chartobj22._visibleSeriesRenderers[0].Points[2].Regions[0];
+        var datalabel0 = Convert.ToDouble(cut.Find("#container_Series_0_Point_2_Text_0").GetAttribute("y"));
+        Assert.True((series0.Y + series0.Height) > datalabel0);
+        var series1 = chartobj22._visibleSeriesRenderers[1].Points[5].Regions[0];
+        var datalabel1 = Convert.ToDouble(cut.Find("#container_Series_1_Point_5_Text_0").GetAttribute("y"));
+        Assert.True((series1.Y + series1.Height) > datalabel1);
+        cut.SetParametersAndRender();
+    }
+    public class BarData32
+    {
+        public double x { get; set; }
+        public double y { get; set; }
+        public double y1 { get; set; }
+    }
+
+    public List<BarData32> Sales32 = new List<BarData32>
+{
+        new BarData32 { x = 1000, y = 70, y1 = 73 },
+        new BarData32 { x = 2000, y = -40, y1 = 40 },
+        new BarData32 { x = 3000, y = 70, y1 = 75 },
+        new BarData32 { x = 4000, y = 70, y1 = 30 },
+        new BarData32 { x = 5000, y = -50, y1 = 56 },
+        new BarData32 { x = 6000, y = -40, y1 = 60 },
+        new BarData32 { x = 7000, y = 40, y1 = 41 },
+        new BarData32 { x = 8000, y = 70, y1 = 45 }
+    };
+}
+
+
+@{
+    var InitialGroup33 = (new string[] { "CustomerID", "OrderID" });
+}
+<SfFixture @ref="fixture33" TestAsync="CheckingStackingColumnDatalabelOuterNegativePoints" Description="CheckingStackingColumnDatalabelOuterNegativePoints">
+    <ComponentUnderTest>
+        <SfChart ID="container" @ref="chartobj23" Title="x wise Sales Report" Width="800">
+            <ChartArea Background="White"></ChartArea>
+            <ChartPrimaryXAxis Title="PrimaryXAxis" RangePadding="ChartRangePadding.Normal" ValueType="Syncfusion.Blazor.Toolkit.ValueType.Double"></ChartPrimaryXAxis>
+            <ChartPrimaryYAxis Title="PrimaryYaxis"></ChartPrimaryYAxis>
+            <ChartSeriesCollection>
+                <ChartSeries DataSource="@Sales33" XName="x" YName="y" Type="ChartSeriesType.StackingColumn" Name="Gold" Fill="rgba(135,206,235,1)">
+                    <ChartSeriesAnimation Enable="false"></ChartSeriesAnimation>
+                    <ChartMarker>
+                        <ChartDataLabel Visible="true" Position="ChartLabelPosition.Outer" Alignment="Alignment.Center">
+                            <ChartDataLabelBorder Width="2" Color="Grey"></ChartDataLabelBorder>
+                        </ChartDataLabel>
+                    </ChartMarker>
+                </ChartSeries>
+                <ChartSeries DataSource="@Sales33" XName="x" YName="y" Type="ChartSeriesType.StackingColumn" Name="Silver" Fill="Blue">
+                    <ChartSeriesAnimation Enable="false"></ChartSeriesAnimation>
+                    <ChartMarker>
+                        <ChartDataLabel Visible="true" Position="ChartLabelPosition.Outer" Alignment="Alignment.Center">
+                            <ChartDataLabelBorder Width="2" Color="Grey"></ChartDataLabelBorder>
+                        </ChartDataLabel>
+                    </ChartMarker>
+                </ChartSeries>
+            </ChartSeriesCollection>
+        </SfChart>
+    </ComponentUnderTest>
+</SfFixture>
+
+@code {
+    SfChart chartobj23;
+    SfFixture fixture33 { get; set; }
+    async Task CheckingStackingColumnDatalabelOuterNegativePoints(Fixture fixture33)
+    {
+        var cut = fixture33.GetComponentUnderTest<SfChart>();
+        await Task.Delay(200);
+        var series0 = chartobj23._visibleSeriesRenderers[0].Points[2].Regions[0];
+        var datalabel0 = Convert.ToDouble(cut.Find("#container_Series_0_Point_2_Text_0").GetAttribute("y"));
+        Assert.True((series0.Y + series0.Height) > datalabel0);
+        var series1 = chartobj23._visibleSeriesRenderers[1].Points[5].Regions[0];
+        var datalabel1 = Convert.ToDouble(cut.Find("#container_Series_1_Point_5_Text_0").GetAttribute("y"));
+        Assert.True((series1.Y + series1.Height) < datalabel1);
+        cut.SetParametersAndRender();
+    }
+    public class BarData33
+    {
+        public double x { get; set; }
+        public double y { get; set; }
+        public double y1 { get; set; }
+    }
+
+    public List<BarData33> Sales33 = new List<BarData33>
+{
+        new BarData33 { x = 1000, y = 70, y1 = 73 },
+        new BarData33 { x = 2000, y = -40, y1 = 40 },
+        new BarData33 { x = 3000, y = 70, y1 = 75 },
+        new BarData33 { x = 4000, y = 70, y1 = 30 },
+        new BarData33 { x = 5000, y = -50, y1 = 56 },
+        new BarData33 { x = 6000, y = -40, y1 = 60 },
+        new BarData33 { x = 7000, y = 40, y1 = 41 },
+        new BarData33 { x = 8000, y = 70, y1 = 45 }
+    };
+}
+
+
+@{
+    var InitialGroup34 = (new string[] { "CustomerID", "OrderID" });
+}
+<SfFixture @ref="fixture34" TestAsync="CheckingStackingColumnDatalabelBottomNegativePoints" Description="CheckingStackingColumnDatalabelBottomNegativePoints">
+    <ComponentUnderTest>
+        <SfChart ID="container" @ref="chartobj24" Title="x wise Sales Report" Width="800">
+            <ChartArea Background="White"></ChartArea>
+            <ChartPrimaryXAxis Title="PrimaryXAxis" RangePadding="ChartRangePadding.Normal" ValueType="Syncfusion.Blazor.Toolkit.ValueType.Double"></ChartPrimaryXAxis>
+            <ChartPrimaryYAxis Title="PrimaryYaxis"></ChartPrimaryYAxis>
+            <ChartSeriesCollection>
+                <ChartSeries DataSource="@Sales34" XName="x" YName="y" Type="ChartSeriesType.StackingColumn" Name="Gold" Fill="rgba(135,206,235,1)">
+                    <ChartSeriesAnimation Enable="false"></ChartSeriesAnimation>
+                    <ChartMarker>
+                        <ChartDataLabel Visible="true" Position="ChartLabelPosition.Bottom" Alignment="Alignment.Center">
+                            <ChartDataLabelBorder Width="2" Color="Grey"></ChartDataLabelBorder>
+                        </ChartDataLabel>
+                    </ChartMarker>
+                </ChartSeries>
+                <ChartSeries DataSource="@Sales34" XName="x" YName="y" Type="ChartSeriesType.StackingColumn" Name="Silver" Fill="Blue">
+                    <ChartSeriesAnimation Enable="false"></ChartSeriesAnimation>
+                    <ChartMarker>
+                        <ChartDataLabel Visible="true" Position="ChartLabelPosition.Bottom" Alignment="Alignment.Center">
+                            <ChartDataLabelBorder Width="2" Color="Grey"></ChartDataLabelBorder>
+                        </ChartDataLabel>
+                    </ChartMarker>
+                </ChartSeries>
+            </ChartSeriesCollection>
+        </SfChart>
+    </ComponentUnderTest>
+</SfFixture>
+
+@code {
+    SfChart chartobj24;
+    SfFixture fixture34 { get; set; }
+    async Task CheckingStackingColumnDatalabelBottomNegativePoints(Fixture fixture34)
+    {
+        var cut = fixture34.GetComponentUnderTest<SfChart>();
+        await Task.Delay(200);
+        var series0 = chartobj24._visibleSeriesRenderers[0].Points[2].Regions[0];
+        var datalabel0 = Convert.ToDouble(cut.Find("#container_Series_0_Point_2_Text_0").GetAttribute("y"));
+        Assert.True(series0.Y < datalabel0);
+        var series1 = chartobj24._visibleSeriesRenderers[1].Points[5].Regions[0];
+        var datalabel1 = Convert.ToDouble(cut.Find("#container_Series_1_Point_5_Text_0").GetAttribute("y"));
+        Assert.True(series1.Y < datalabel1);
+        cut.SetParametersAndRender();
+    }
+    public class BarData34
+    {
+        public double x { get; set; }
+        public double y { get; set; }
+        public double y1 { get; set; }
+    }
+
+    public List<BarData34> Sales34 = new List<BarData34>
+{
+        new BarData34 { x = 1000, y = 70, y1 = 73 },
+        new BarData34 { x = 2000, y = -40, y1 = 40 },
+        new BarData34 { x = 3000, y = 70, y1 = 75 },
+        new BarData34 { x = 4000, y = 70, y1 = 30 },
+        new BarData34 { x = 5000, y = -50, y1 = 56 },
+        new BarData34 { x = 6000, y = -40, y1 = 60 },
+        new BarData34 { x = 7000, y = 40, y1 = 41 },
+        new BarData34 { x = 8000, y = 70, y1 = 45 }
+    };
+}
+
+
+@{
+    var InitialGroup35 = (new string[] { "CustomerID", "OrderID" });
+}
+<SfFixture @ref="fixture35" TestAsync="CheckingStackingColumnDatalabelMiddleNegativePoints" Description="CheckingStackingColumnDatalabelMiddleNegativePoints">
+    <ComponentUnderTest>
+        <SfChart ID="container" @ref="chartobj25" Title="x wise Sales Report" Width="800">
+            <ChartArea Background="White"></ChartArea>
+            <ChartPrimaryXAxis Title="PrimaryXAxis" RangePadding="ChartRangePadding.Normal" ValueType="Syncfusion.Blazor.Toolkit.ValueType.Double"></ChartPrimaryXAxis>
+            <ChartPrimaryYAxis Title="PrimaryYaxis"></ChartPrimaryYAxis>
+            <ChartSeriesCollection>
+                <ChartSeries DataSource="@Sales35" XName="x" YName="y" Type="ChartSeriesType.StackingColumn" Name="Gold" Fill="rgba(135,206,235,1)">
+                    <ChartSeriesAnimation Enable="false"></ChartSeriesAnimation>
+                    <ChartMarker>
+                        <ChartDataLabel Visible="true" Position="ChartLabelPosition.Middle" Alignment="Alignment.Center">
+                            <ChartDataLabelBorder Width="2" Color="Grey"></ChartDataLabelBorder>
+                        </ChartDataLabel>
+                    </ChartMarker>
+                </ChartSeries>
+                <ChartSeries DataSource="@Sales35" XName="x" YName="y" Type="ChartSeriesType.StackingColumn" Name="Silver" Fill="Blue">
+                    <ChartSeriesAnimation Enable="false"></ChartSeriesAnimation>
+                    <ChartMarker>
+                        <ChartDataLabel Visible="true" Position="ChartLabelPosition.Middle" Alignment="Alignment.Center">
+                            <ChartDataLabelBorder Width="2" Color="Grey"></ChartDataLabelBorder>
+                        </ChartDataLabel>
+                    </ChartMarker>
+                </ChartSeries>
+            </ChartSeriesCollection>
+        </SfChart>
+    </ComponentUnderTest>
+</SfFixture>
+
+@code {
+    SfChart chartobj25;
+    SfFixture fixture35 { get; set; }
+    async Task CheckingStackingColumnDatalabelMiddleNegativePoints(Fixture fixture35)
+    {
+        var cut = fixture35.GetComponentUnderTest<SfChart>();
+        await Task.Delay(200);
+        var series0 = chartobj25._visibleSeriesRenderers[0].Points[2].Regions[0];
+        var datalabel0 = Convert.ToDouble(cut.Find("#container_Series_0_Point_2_Text_0").GetAttribute("y"));
+        Assert.True(series0.Y < datalabel0);
+        var series1 = chartobj25._visibleSeriesRenderers[1].Points[5].Regions[0];
+        var datalabel1 = Convert.ToDouble(cut.Find("#container_Series_1_Point_5_Text_0").GetAttribute("y"));
+        Assert.True(series1.Y < datalabel1);
+        cut.SetParametersAndRender();
+    }
+    public class BarData35
+    {
+        public double x { get; set; }
+        public double y { get; set; }
+        public double y1 { get; set; }
+    }
+
+    public List<BarData35> Sales35 = new List<BarData35>
+{
+        new BarData35 { x = 1000, y = 70, y1 = 73 },
+        new BarData35 { x = 2000, y = -40, y1 = 40 },
+        new BarData35 { x = 3000, y = 70, y1 = 75 },
+        new BarData35 { x = 4000, y = 70, y1 = 30 },
+        new BarData35 { x = 5000, y = -50, y1 = 56 },
+        new BarData35 { x = 6000, y = -40, y1 = 60 },
+        new BarData35 { x = 7000, y = 40, y1 = 41 },
+        new BarData35 { x = 8000, y = 70, y1 = 45 }
+    };
+}
+
+
+@{
+    var InitialGroup36 = (new string[] { "CustomerID", "OrderID" });
+}
+<SfFixture @ref="fixture36" TestAsync="CheckingStackingColumnWithBorder" Description="CheckingStackingColumnWithBorder">
+    <ComponentUnderTest>
+        <SfChart ID="container" Title="x wise Sales Report" Width="800">
+            <ChartArea Background="White"></ChartArea>
+            <ChartPrimaryXAxis Title="PrimaryXAxis" RangePadding="ChartRangePadding.Normal" ValueType="Syncfusion.Blazor.Toolkit.ValueType.Double"></ChartPrimaryXAxis>
+            <ChartPrimaryYAxis Title="PrimaryYaxis"></ChartPrimaryYAxis>
+            <ChartSeriesCollection>
+                <ChartSeries DataSource="@Sales36" XName="x" YName="y" Type="ChartSeriesType.StackingColumn" Name="Gold" Fill="rgba(135,206,235,1)">
+                    <ChartSeriesAnimation Enable="false"></ChartSeriesAnimation>
+                    <ChartSeriesBorder Width="2" Color="Green"></ChartSeriesBorder>
+                    <ChartMarker>
+                        <ChartDataLabel Visible="true" Position="ChartLabelPosition.Middle" Alignment="Alignment.Center">
+                            <ChartDataLabelBorder Width="2" Color="Grey"></ChartDataLabelBorder>
+                        </ChartDataLabel>
+                    </ChartMarker>
+                </ChartSeries>
+                <ChartSeries DataSource="@Sales36" XName="x" YName="y1" Type="ChartSeriesType.StackingColumn" Name="Silver" Fill="Blue">
+                    <ChartSeriesAnimation Enable="false"></ChartSeriesAnimation>
+                    <ChartSeriesBorder Width="2" Color="Black"></ChartSeriesBorder>
+                    <ChartMarker>
+                        <ChartDataLabel Visible="true" Position="ChartLabelPosition.Middle" Alignment="Alignment.Center">
+                            <ChartDataLabelBorder Width="2" Color="Grey"></ChartDataLabelBorder>
+                        </ChartDataLabel>
+                    </ChartMarker>
+                </ChartSeries>
+            </ChartSeriesCollection>
+        </SfChart>
+    </ComponentUnderTest>
+</SfFixture>
+
+@code {
+
+    SfFixture fixture36 { get; set; }
+    async Task CheckingStackingColumnWithBorder(Fixture fixture36)
+    {
+        var cut = fixture36.GetComponentUnderTest<SfChart>();
+        await Task.Delay(200);
+        var svg = cut.Find("#container_Series_0_Point_3");
+        Assert.True(svg.GetAttribute("stroke") == "Green");
+        Assert.True(svg.GetAttribute("stroke-width") == "2");
+        var svg1 = cut.Find("#container_Series_1_Point_3");
+        Assert.True(svg1.GetAttribute("stroke") == "Black");
+        Assert.True(svg1.GetAttribute("stroke-width") == "2");
+        cut.SetParametersAndRender();
+    }
+    public class BarData36
+    {
+        public double x { get; set; }
+        public double y { get; set; }
+        public double y1 { get; set; }
+    }
+
+    public List<BarData36> Sales36 = new List<BarData36>
+{
+        new BarData36 { x = 1000, y = 70, y1 = 73 },
+        new BarData36 { x = 2000, y = 40, y1 = 40 },
+        new BarData36 { x = 3000, y = 70, y1 = 75 },
+        new BarData36 { x = 4000, y = 70, y1 = 30 },
+        new BarData36 { x = 5000, y = 50, y1 = 56 },
+        new BarData36 { x = 6000, y = 40, y1 = 60 },
+        new BarData36 { x = 7000, y = 40, y1 = 41 },
+        new BarData36 { x = 8000, y = 70, y1 = 45 }
+    };
+}
+
+
+@{
+    var InitialGroup37 = (new string[] { "CustomerID", "OrderID" });
+}
+<SfFixture @ref="fixture37" TestAsync="CheckingStackingColumnWithEmptyData" Description="CheckingStackingColumnWithEmptyData">
+    <ComponentUnderTest>
+        <SfChart ID="container" Title="x wise Sales Report" Width="800">
+            <ChartArea Background="White"></ChartArea>
+            <ChartPrimaryXAxis Title="PrimaryXAxis" RangePadding="ChartRangePadding.Normal" ValueType="Syncfusion.Blazor.Toolkit.ValueType.Double"></ChartPrimaryXAxis>
+            <ChartPrimaryYAxis Title="PrimaryYaxis"></ChartPrimaryYAxis>
+            <ChartSeriesCollection>
+                <ChartSeries DataSource="@Sales37" XName="x" YName="y" Type="ChartSeriesType.StackingColumn" Name="Gold" Fill="rgba(135,206,235,1)">
+                    <ChartSeriesAnimation Enable="false"></ChartSeriesAnimation>
+                    <ChartSeriesBorder Width="2" Color="Green"></ChartSeriesBorder>
+                    <ChartMarker>
+                        <ChartDataLabel Visible="true" Position="ChartLabelPosition.Middle" Alignment="Alignment.Center">
+                            <ChartDataLabelBorder Width="2" Color="Grey"></ChartDataLabelBorder>
+                        </ChartDataLabel>
+                    </ChartMarker>
+                </ChartSeries>
+                <ChartSeries DataSource="@Sales37" XName="x" YName="y1" Type="ChartSeriesType.StackingColumn" Name="Silver" Fill="Blue">
+                    <ChartSeriesAnimation Enable="false"></ChartSeriesAnimation>
+                    <ChartSeriesBorder Width="2" Color="Black"></ChartSeriesBorder>
+                    <ChartMarker>
+                        <ChartDataLabel Visible="true" Position="ChartLabelPosition.Middle" Alignment="Alignment.Center">
+                            <ChartDataLabelBorder Width="2" Color="Grey"></ChartDataLabelBorder>
+                        </ChartDataLabel>
+                    </ChartMarker>
+                </ChartSeries>
+            </ChartSeriesCollection>
+        </SfChart>
+    </ComponentUnderTest>
+</SfFixture>
+
+@code {
+
+    SfFixture fixture37 { get; set; }
+    async Task CheckingStackingColumnWithEmptyData(Fixture fixture37)
+    {
+        var cut = fixture37.GetComponentUnderTest<SfChart>();
+        await Task.Delay(200);
+        var svg = cut.Find("#containerSeriesGroup0");
+        Assert.True(svg.ChildElementCount == 8);
+        cut.SetParametersAndRender();
+    }
+    public class BarData37
+    {
+        public double x { get; set; }
+        public double? y { get; set; }
+        public double? y1 { get; set; }
+    }
+
+    public List<BarData37> Sales37 = new List<BarData37>
+{
+        new BarData37 { x = 1000, y = 70, y1 = 70 },
+        new BarData37 { x = 2000, y = 40, y1 = 40 },
+        new BarData37 { x = 3000, y = 70, y1 = 70 },
+        new BarData37 { x = 4000, y = null, y1 = null },
+        new BarData37 { x = 5000, y = 50, y1 = 50 },
+        new BarData37 { x = 6000, y = 40, y1 = 40 },
+        new BarData37 { x = 7000, y = 40, y1 = 40 },
+        new BarData37 { x = 8000, y = 70, y1 = 70 }
+    };
+}
+
+
+@{
+    var InitialGroup38 = (new string[] { "CustomerID", "OrderID" });
+}
+<SfFixture @ref="fixture38" TestAsync="CheckingStackingColumnWithMultipleSeries" Description="CheckingStackingColumnWithMultipleSeries">
+    <ComponentUnderTest>
+        <SfChart ID="container" Title="x wise Sales Report" Width="800">
+            <ChartArea Background="White"></ChartArea>
+            <ChartPrimaryXAxis Title="PrimaryXAxis" RangePadding="ChartRangePadding.Normal" ValueType="Syncfusion.Blazor.Toolkit.ValueType.Double"></ChartPrimaryXAxis>
+            <ChartPrimaryYAxis Title="PrimaryYaxis"></ChartPrimaryYAxis>
+            <ChartSeriesCollection>
+                <ChartSeries DataSource="@Sales38" XName="x" YName="y" Type="ChartSeriesType.StackingColumn" Name="Gold" Fill="Red">
+                    <ChartSeriesAnimation Enable="false"></ChartSeriesAnimation>
+                    <ChartSeriesBorder Width="2" Color="Green"></ChartSeriesBorder>
+                    <ChartMarker>
+                        <ChartDataLabel Visible="true" Position="ChartLabelPosition.Middle" Alignment="Alignment.Center">
+                            <ChartDataLabelBorder Width="2" Color="Grey"></ChartDataLabelBorder>
+                        </ChartDataLabel>
+                    </ChartMarker>
+                </ChartSeries>
+                <ChartSeries DataSource="@Sales38" XName="x" YName="y1" Type="ChartSeriesType.StackingColumn" Name="Silver" Fill="rgba(135,206,235,1)">
+                    <ChartSeriesAnimation Enable="false"></ChartSeriesAnimation>
+                    <ChartSeriesBorder Width="2" Color="Black"></ChartSeriesBorder>
+                    <ChartMarker>
+                        <ChartDataLabel Visible="true" Position="ChartLabelPosition.Middle" Alignment="Alignment.Center">
+                            <ChartDataLabelBorder Width="2" Color="Grey"></ChartDataLabelBorder>
+                        </ChartDataLabel>
+                    </ChartMarker>
+                </ChartSeries>
+            </ChartSeriesCollection>
+        </SfChart>
+    </ComponentUnderTest>
+</SfFixture>
+
+@code {
+
+    SfFixture fixture38 { get; set; }
+    async Task CheckingStackingColumnWithMultipleSeries(Fixture fixture38)
+    {
+        var cut = fixture38.GetComponentUnderTest<SfChart>();
+        await Task.Delay(200);
+        var svg = cut.Find("#container_Series_0_Point_0");
+        Assert.True(svg.GetAttribute("fill") == "Red");
+        var svg1 = cut.Find("#container_Series_1_Point_0");
+        Assert.True(svg1.GetAttribute("fill") == "rgba(135,206,235,1)");
+        cut.SetParametersAndRender();
+    }
+    public class BarData38
+    {
+        public double x { get; set; }
+        public double y { get; set; }
+        public double y1 { get; set; }
+    }
+
+    public List<BarData38> Sales38 = new List<BarData38>
+{
+        new BarData38 { x = 1000, y = 70, y1 = 73 },
+        new BarData38 { x = 2000, y = 40, y1 = 40 },
+        new BarData38 { x = 3000, y = 70, y1 = 75 },
+        new BarData38 { x = 4000, y = 70, y1 = 30 },
+        new BarData38 { x = 5000, y = 50, y1 = 56 },
+        new BarData38 { x = 6000, y = 40, y1 = 60 },
+        new BarData38 { x = 7000, y = 40, y1 = 41 },
+        new BarData38 { x = 8000, y = 70, y1 = 45 }
+    };
+}
+
+
+@{
+    var InitialGroup39 = (new string[] { "CustomerID", "OrderID" });
+}
+<SfFixture @ref="fixture39" TestAsync="CheckingStackingColumnWithMultipleSeriesStackingGroup" Description="CheckingStackingColumnWithMultipleSeriesStackingGroup">
+    <ComponentUnderTest>
+        <SfChart ID="container" Title="x wise Sales Report" Width="800">
+            <ChartArea Background="White"></ChartArea>
+            <ChartPrimaryXAxis Title="PrimaryXAxis" RangePadding="ChartRangePadding.Normal" ValueType="Syncfusion.Blazor.Toolkit.ValueType.Double"></ChartPrimaryXAxis>
+            <ChartPrimaryYAxis Title="PrimaryYaxis"></ChartPrimaryYAxis>
+            <ChartSeriesCollection>
+                <ChartSeries DataSource="@Sales39" XName="x" YName="y" Type="ChartSeriesType.StackingColumn" Name="Gold" Fill="rgba(135,206,235,1)">
+                    <ChartSeriesAnimation Enable="false"></ChartSeriesAnimation>
+                </ChartSeries>
+                <ChartSeries DataSource="@Sales39" XName="x" YName="y1" Type="ChartSeriesType.StackingColumn" Name="Silver" Fill="Red" StackingGroup="a">
+                    <ChartSeriesAnimation Enable="false"></ChartSeriesAnimation>
+                </ChartSeries>
+                <ChartSeries DataSource="@Sales39" XName="x" YName="y" Type="ChartSeriesType.StackingColumn" Name="Silver" Fill="Green" StackingGroup="a">
+                    <ChartSeriesAnimation Enable="false"></ChartSeriesAnimation>
+                </ChartSeries>
+                <ChartSeries DataSource="@Sales39" XName="x" YName="y1" Type="ChartSeriesType.StackingColumn" Name="Silver" Fill="Blue">
+                    <ChartSeriesAnimation Enable="false"></ChartSeriesAnimation>
+                </ChartSeries>
+            </ChartSeriesCollection>
+        </SfChart>
+    </ComponentUnderTest>
+</SfFixture>
+
+@code {
+
+    SfFixture fixture39 { get; set; }
+    async Task CheckingStackingColumnWithMultipleSeriesStackingGroup(Fixture fixture39)
+    {
+        var cut = fixture39.GetComponentUnderTest<SfChart>();
+        await Task.Delay(200);
+        var svg = cut.Find("#container_Series_0_Point_0");
+        Assert.True(svg.GetAttribute("fill") == "rgba(135,206,235,1)");
+        var svg1 = cut.Find("#container_Series_1_Point_0");
+        Assert.True(svg1.GetAttribute("fill") == "Red");
+        var svg2 = cut.Find("#container_Series_2_Point_0");
+        Assert.True(svg2.GetAttribute("fill") == "Green");
+        var svg3 = cut.Find("#container_Series_3_Point_0");
+        Assert.True(svg3.GetAttribute("fill") == "Blue");
+        cut.SetParametersAndRender();
+    }
+    public class BarData39
+    {
+        public double x { get; set; }
+        public double y { get; set; }
+        public double y1 { get; set; }
+    }
+
+    public List<BarData39> Sales39 = new List<BarData39>
+{
+        new BarData39 { x = 1000, y = 70, y1 = 73 },
+        new BarData39 { x = 2000, y = 40, y1 = 40 },
+        new BarData39 { x = 3000, y = 70, y1 = 75 },
+        new BarData39 { x = 4000, y = 70, y1 = 30 },
+        new BarData39 { x = 5000, y = 50, y1 = 56 },
+        new BarData39 { x = 6000, y = 40, y1 = 60 },
+        new BarData39 { x = 7000, y = 40, y1 = 41 },
+        new BarData39 { x = 8000, y = 70, y1 = 45 }
+    };
+}
+
+
+@{
+    var InitialGroup40 = (new string[] { "CustomerID", "OrderID" });
+}
+<SfFixture @ref="fixture40" TestAsync="CheckingStackingColumnWithMultipleAxes" Description="CheckingStackingColumnWithMultipleAxes">
+    <ComponentUnderTest>
+        <SfChart ID="container" Title="x wise Sales Report" Width="800" Height="600">
+            <ChartArea Background="White"></ChartArea>
+            <ChartAxes>
+                <ChartAxis RowIndex="1" Name="yAxis1">
+                    <ChartAxisTitleStyle Size="14px" FontWeight="Regular" FontFamily="Segoe UI" FontStyle="Normal" Color="#282828"></ChartAxisTitleStyle>
+                    <ChartAxisLabelStyle Size="12px" FontWeight="Regular" FontFamily="Segoe UI" FontStyle="Normal" Color="#282828"></ChartAxisLabelStyle>
+                </ChartAxis>
+            </ChartAxes>
+            <ChartRows>
+                <ChartRow Height="300"></ChartRow>
+                <ChartRow></ChartRow>
+            </ChartRows>
+            <ChartPrimaryXAxis Title="PrimaryXAxis" RangePadding="ChartRangePadding.Normal" ValueType="Syncfusion.Blazor.Toolkit.ValueType.Double"></ChartPrimaryXAxis>
+            <ChartPrimaryYAxis Title="PrimaryYaxis"></ChartPrimaryYAxis>
+            <ChartSeriesCollection>
+                <ChartSeries DataSource="@Sales40" XName="x" YName="y" Type="ChartSeriesType.StackingColumn" Name="Gold" Fill="rgba(135,206,235,1)">
+                    <ChartSeriesAnimation Enable="false"></ChartSeriesAnimation>
+                </ChartSeries>
+                <ChartSeries DataSource="@Sales40" XName="x" YName="y1" YAxisName="yAxis1" Type="ChartSeriesType.StackingColumn" Name="Silver" Fill="Red" StackingGroup="a">
+                    <ChartSeriesAnimation Enable="false"></ChartSeriesAnimation>
+                </ChartSeries>
+                <ChartSeries DataSource="@Sales40" XName="x" YName="y" YAxisName="yAxis1" Type="ChartSeriesType.StackingColumn" Name="Silver" Fill="Green" StackingGroup="a">
+                    <ChartSeriesAnimation Enable="false"></ChartSeriesAnimation>
+                </ChartSeries>
+                <ChartSeries DataSource="@Sales40" XName="x" YName="y1" Type="ChartSeriesType.StackingColumn" Name="Silver" Fill="Blue">
+                    <ChartSeriesAnimation Enable="false"></ChartSeriesAnimation>
+                </ChartSeries>
+            </ChartSeriesCollection>
+        </SfChart>
+    </ComponentUnderTest>
+</SfFixture>
+
+@code {
+
+    SfFixture fixture40 { get; set; }
+    async Task CheckingStackingColumnWithMultipleAxes(Fixture fixture40)
+    {
+        var cut = fixture40.GetComponentUnderTest<SfChart>();
+        await Task.Delay(200);
+        var svg = cut.Find("#container_Series_0_Point_0");
+        Assert.True(svg.GetAttribute("fill") == "rgba(135,206,235,1)");
+        var svg1 = cut.Find("#container_Series_1_Point_0");
+        Assert.True(svg1.GetAttribute("fill") == "Red");
+        var svg2 = cut.Find("#container_Series_2_Point_0");
+        Assert.True(svg2.GetAttribute("fill") == "Green");
+        var svg3 = cut.Find("#container_Series_3_Point_0");
+        Assert.True(svg3.GetAttribute("fill") == "Blue");
+        cut.SetParametersAndRender();
+    }
+    public class BarData40
+    {
+        public double x { get; set; }
+        public double y { get; set; }
+        public double y1 { get; set; }
+    }
+
+    public List<BarData40> Sales40 = new List<BarData40>
+{
+        new BarData40 { x = 1000, y = 70, y1 = 73 },
+        new BarData40 { x = 2000, y = 40, y1 = 40 },
+        new BarData40 { x = 3000, y = 70, y1 = 75 },
+        new BarData40 { x = 4000, y = 70, y1 = 30 },
+        new BarData40 { x = 5000, y = 50, y1 = 56 },
+        new BarData40 { x = 6000, y = 40, y1 = 60 },
+        new BarData40 { x = 7000, y = 40, y1 = 41 },
+        new BarData40 { x = 8000, y = 70, y1 = 45 }
+    };
+}
+
+
+@{
+    var InitialGroup41 = (new string[] { "CustomerID", "OrderID" });
+}
+<SfFixture @ref="fixture41" TestAsync="CheckingStackingColumnWithEvents" Description="CheckingStackingColumnWithEvents">
+    <ComponentUnderTest>
+        <SfChart ID="container" Title="x wise Sales Report" Width="800" OnPointRender="pointrenders">
+            <ChartArea Background="White"></ChartArea>
+            <ChartPrimaryXAxis Title="PrimaryXAxis" RangePadding="ChartRangePadding.Normal" ValueType="Syncfusion.Blazor.Toolkit.ValueType.Double"></ChartPrimaryXAxis>
+            <ChartPrimaryYAxis Title="PrimaryYaxis"></ChartPrimaryYAxis>
+            <ChartSeriesCollection>
+                <ChartSeries DataSource="@Sales41" XName="x" YName="y" Type="ChartSeriesType.StackingColumn" Name="Gold" Fill="rgba(135,206,235,1)">
+                    <ChartSeriesAnimation Enable="false"></ChartSeriesAnimation>
+                </ChartSeries>
+                <ChartSeries DataSource="@Sales41" XName="x" YName="y1" Type="ChartSeriesType.StackingColumn" Name="Silver" Fill="Red" StackingGroup="a">
+                    <ChartSeriesAnimation Enable="false"></ChartSeriesAnimation>
+                </ChartSeries>
+                <ChartSeries DataSource="@Sales41" XName="x" YName="y" Type="ChartSeriesType.StackingColumn" Name="Silver" Fill="Green" StackingGroup="a">
+                    <ChartSeriesAnimation Enable="false"></ChartSeriesAnimation>
+                </ChartSeries>
+                <ChartSeries DataSource="@Sales41" XName="x" YName="y1" Type="ChartSeriesType.StackingColumn" Name="Silver" Fill="Blue">
+                    <ChartSeriesAnimation Enable="false"></ChartSeriesAnimation>
+                </ChartSeries>
+            </ChartSeriesCollection>
+        </SfChart>
+    </ComponentUnderTest>
+</SfFixture>
+
+@code {
+
+    SfFixture fixture41 { get; set; }
+    async Task CheckingStackingColumnWithEvents(Fixture fixture41)
+    {
+        var cut = fixture41.GetComponentUnderTest<SfChart>();
+        await Task.Delay(200);
+        var svg0 = cut.Find("#container_Series_0_Point_1");
+        Assert.True(svg0.GetAttribute("fill") == "rgba(135,206,235,1)");
+        var svg1 = cut.Find("#container_Series_1_Point_1");
+        Assert.True(svg1.GetAttribute("fill") == "Red");
+        var svg2 = cut.Find("#container_Series_2_Point_1");
+        Assert.True(svg2.GetAttribute("fill") == "Green");
+        var svg3 = cut.Find("#container_Series_3_Point_1");
+        Assert.True(svg3.GetAttribute("fill") == "Blue");
+        var svg01 = cut.Find("#container_Series_0_Point_2");
+        Assert.True(svg01.GetAttribute("fill") == "Brown");
+        var svg11 = cut.Find("#container_Series_1_Point_2");
+        Assert.True(svg11.GetAttribute("fill") == "Brown");
+        var svg21 = cut.Find("#container_Series_2_Point_2");
+        Assert.True(svg21.GetAttribute("fill") == "Brown");
+        var svg31 = cut.Find("#container_Series_3_Point_2");
+        Assert.True(svg31.GetAttribute("fill") == "Brown");
+        cut.SetParametersAndRender();
+    }
+    public class BarData41
+    {
+        public double x { get; set; }
+        public double y { get; set; }
+        public double y1 { get; set; }
+    }
+
+    public List<BarData41> Sales41 = new List<BarData41>
+{
+        new BarData41 { x = 1000, y = 70, y1 = 73 },
+        new BarData41 { x = 2000, y = 40, y1 = 40 },
+        new BarData41 { x = 3000, y = 70, y1 = 75 },
+        new BarData41 { x = 4000, y = 70, y1 = 30 },
+        new BarData41 { x = 5000, y = 50, y1 = 56 },
+        new BarData41 { x = 6000, y = 40, y1 = 60 },
+        new BarData41 { x = 7000, y = 40, y1 = 41 },
+        new BarData41 { x = 8000, y = 70, y1 = 45 }
+    };
+    public void pointrenders(PointRenderEventArgs args)
+    {
+        if (args.Point.Index == 0)
+        {
+            args.Cancel = true;
+        }
+        if (args.Point.Index == 2)
+        {
+            args.Fill = "Brown";
+        }
+    }
+}
+
+
+@{
+    var InitialGroup42 = (new string[] { "CustomerID", "OrderID" });
+}
+<SfFixture @ref="fixture42" TestAsync="CheckingStackingColumnInversedDatalabelAuto" Description="CheckingStackingColumnInversedDatalabelAuto">
+    <ComponentUnderTest>
+        <SfChart ID="container" @ref="chartobj26" Title="x wise Sales Report" Width="800">
+            <ChartPrimaryXAxis Title="PrimaryXAxis"></ChartPrimaryXAxis>
+            <ChartPrimaryYAxis Title="PrimaryYaxis" RangePadding="ChartRangePadding.Normal" IsInversed="true"></ChartPrimaryYAxis>
+            <ChartSeriesCollection>
+                <ChartSeries DataSource="@Sales42" XName="x" YName="y" Type="ChartSeriesType.StackingColumn" Name="Gold" Fill="rgba(135,206,235,1)">
+                    <ChartSeriesAnimation Enable="false"></ChartSeriesAnimation>
+                    <ChartMarker Visible="false">
+                        <ChartDataLabel Visible="true" Fill="Violet"></ChartDataLabel>
+                    </ChartMarker>
+                </ChartSeries>
+                <ChartSeries DataSource="@Sales42" XName="x" YName="y1" Type="ChartSeriesType.StackingColumn" Name="Silver">
+                    <ChartSeriesAnimation Enable="false"></ChartSeriesAnimation>
+                    <ChartMarker Visible="false">
+                        <ChartDataLabel Visible="true" Fill="Violet"></ChartDataLabel>
+                    </ChartMarker>
+                </ChartSeries>
+            </ChartSeriesCollection>
+        </SfChart>
+    </ComponentUnderTest>
+</SfFixture>
+
+@code {
+    SfChart chartobj26;
+    SfFixture fixture42 { get; set; }
+    async Task CheckingStackingColumnInversedDatalabelAuto(Fixture fixture42)
+    {
+        var cut = fixture42.GetComponentUnderTest<SfChart>();
+        await Task.Delay(200);
+        var datalabel0 = Convert.ToDouble(cut.Find("#container_Series_0_Point_1_TextShape_1").GetAttribute("y"));
+        var point0 = chartobj26._visibleSeriesRenderers[0].Points[1].SymbolLocations[0].Y;
+        Assert.True(datalabel0 > point0);
+
+        var datalabel1 = Convert.ToDouble(cut.Find("#container_Series_0_Point_0_TextShape_0").GetAttribute("y"));
+        var point1 = chartobj26._visibleSeriesRenderers[0].Points[0].SymbolLocations[0].Y;
+        Assert.True(datalabel1 < point1);
+        cut.SetParametersAndRender();
+    }
+    public class BarData42
+    {
+        public double x { get; set; }
+        public double y { get; set; }
+        public double y1 { get; set; }
+    }
+
+    public List<BarData42> Sales42 = new List<BarData42>
+{
+        new BarData42 { x = 1000, y = 70, y1 = 70 },
+        new BarData42 { x = 2000, y = -40, y1 = 40 },
+        new BarData42 { x = 3000, y = 70, y1 = 90 },
+        new BarData42 { x = 4000, y = 60, y1 = 50 },
+        new BarData42 { x = 5000, y = -50, y1 = 50 },
+        new BarData42 { x = 6000, y = -40, y1 = 60 },
+        new BarData42 { x = 7000, y = 40, y1 = -40 },
+        new BarData42 { x = 8000, y = 70, y1 = -70 }
+    };
+
+}
+
+
+@{
+    var InitialGroup43 = (new string[] { "CustomerID", "OrderID" });
+}
+<SfFixture @ref="fixture43" TestAsync="CheckingStackingColumnInversedDatalabelOuter" Description="CheckingStackingColumnInversedDatalabelOuter">
+    <ComponentUnderTest>
+        <SfChart ID="container" @ref="chartobj27" Title="x wise Sales Report" Width="800">
+            <ChartPrimaryXAxis Title="PrimaryXAxis"></ChartPrimaryXAxis>
+            <ChartPrimaryYAxis Title="PrimaryYaxis" RangePadding="ChartRangePadding.Normal" IsInversed="true"></ChartPrimaryYAxis>
+            <ChartSeriesCollection>
+                <ChartSeries DataSource="@Sales43" XName="x" YName="y" Type="ChartSeriesType.StackingColumn" Name="Gold" Fill="rgba(135,206,235,1)">
+                    <ChartSeriesAnimation Enable="false"></ChartSeriesAnimation>
+                    <ChartMarker Visible="false">
+                        <ChartDataLabel Visible="true" Fill="Violet" Position="ChartLabelPosition.Outer"></ChartDataLabel>
+                    </ChartMarker>
+                </ChartSeries>
+                <ChartSeries DataSource="@Sales43" XName="x" YName="y1" Type="ChartSeriesType.StackingColumn" Name="Silver">
+                    <ChartSeriesAnimation Enable="false"></ChartSeriesAnimation>
+                    <ChartMarker Visible="false">
+                        <ChartDataLabel Visible="true" Fill="Violet" Position="ChartLabelPosition.Outer"></ChartDataLabel>
+                    </ChartMarker>
+                </ChartSeries>
+            </ChartSeriesCollection>
+        </SfChart>
+    </ComponentUnderTest>
+</SfFixture>
+
+@code {
+    SfChart chartobj27;
+    SfFixture fixture43 { get; set; }
+    async Task CheckingStackingColumnInversedDatalabelOuter(Fixture fixture43)
+    {
+        var cut = fixture43.GetComponentUnderTest<SfChart>();
+        await Task.Delay(200);
+        var datalabel0 = Convert.ToDouble(cut.Find("#container_Series_0_Point_1_TextShape_1").GetAttribute("y"));
+        var point0 = chartobj27._visibleSeriesRenderers[0].Points[1].SymbolLocations[0].Y;
+        Assert.True(datalabel0 < point0);
+
+        var datalabel1 = Convert.ToDouble(cut.Find("#container_Series_0_Point_0_TextShape_0").GetAttribute("y"));
+        var point1 = chartobj27._visibleSeriesRenderers[0].Points[0].SymbolLocations[0].Y;
+        Assert.True(datalabel1 > point1);
+        cut.SetParametersAndRender();
+    }
+    public class BarData43
+    {
+        public double x { get; set; }
+        public double y { get; set; }
+        public double y1 { get; set; }
+    }
+
+    public List<BarData43> Sales43 = new List<BarData43>
+{
+        new BarData43 { x = 1000, y = 70, y1 = 70 },
+        new BarData43 { x = 2000, y = -40, y1 = 40 },
+        new BarData43 { x = 3000, y = 70, y1 = 90 },
+        new BarData43 { x = 4000, y = 60, y1 = 50 },
+        new BarData43 { x = 5000, y = -50, y1 = 50 },
+        new BarData43 { x = 6000, y = -40, y1 = 60 },
+        new BarData43 { x = 7000, y = 40, y1 = -40 },
+        new BarData43 { x = 8000, y = 70, y1 = -70 }
+    };
+}
+
+
+@{
+    var InitialGroup44 = (new string[] { "CustomerID", "OrderID" });
+}
+<SfFixture @ref="fixture44" TestAsync="CheckingStackingColumnInversedDatalabelTop" Description="CheckingStackingColumnInversedDatalabelTop">
+    <ComponentUnderTest>
+        <SfChart ID="container" @ref="chartobj28" Title="x wise Sales Report" Width="800">
+            <ChartPrimaryXAxis Title="PrimaryXAxis"></ChartPrimaryXAxis>
+            <ChartPrimaryYAxis Title="PrimaryYaxis" RangePadding="ChartRangePadding.Normal" IsInversed="true"></ChartPrimaryYAxis>
+            <ChartSeriesCollection>
+                <ChartSeries DataSource="@Sales44" XName="x" YName="y" Type="ChartSeriesType.StackingColumn" Name="Gold" Fill="rgba(135,206,235,1)">
+                    <ChartSeriesAnimation Enable="false"></ChartSeriesAnimation>
+                    <ChartMarker Visible="false">
+                        <ChartDataLabel Visible="true" Fill="Violet" Position="ChartLabelPosition.Top"></ChartDataLabel>
+                    </ChartMarker>
+                </ChartSeries>
+                <ChartSeries DataSource="@Sales44" XName="x" YName="y1" Type="ChartSeriesType.StackingColumn" Name="Silver">
+                    <ChartSeriesAnimation Enable="false"></ChartSeriesAnimation>
+                    <ChartMarker Visible="false">
+                        <ChartDataLabel Visible="true" Fill="Violet" Position="ChartLabelPosition.Top"></ChartDataLabel>
+                    </ChartMarker>
+                </ChartSeries>
+            </ChartSeriesCollection>
+        </SfChart>
+    </ComponentUnderTest>
+</SfFixture>
+
+@code {
+    SfChart chartobj28;
+    SfFixture fixture44 { get; set; }
+    async Task CheckingStackingColumnInversedDatalabelTop(Fixture fixture44)
+    {
+        var cut = fixture44.GetComponentUnderTest<SfChart>();
+        await Task.Delay(200);
+        var datalabel0 = Convert.ToDouble(cut.Find("#container_Series_0_Point_1_TextShape_1").GetAttribute("y"));
+        var point0 = chartobj28._visibleSeriesRenderers[0].Points[1].SymbolLocations[0].Y;
+        Assert.True(datalabel0 > point0);
+
+        var datalabel1 = Convert.ToDouble(cut.Find("#container_Series_0_Point_0_TextShape_0").GetAttribute("y"));
+        var point1 = chartobj28._visibleSeriesRenderers[0].Points[0].SymbolLocations[0].Y;
+        Assert.True(datalabel1 < point1);
+        cut.SetParametersAndRender();
+    }
+    public class BarData44
+    {
+        public double x { get; set; }
+        public double y { get; set; }
+        public double y1 { get; set; }
+    }
+
+    public List<BarData44> Sales44 = new List<BarData44>
+{
+        new BarData44 { x = 1000, y = 70, y1 = 70 },
+        new BarData44 { x = 2000, y = -40, y1 = 40 },
+        new BarData44 { x = 3000, y = 70, y1 = 90 },
+        new BarData44 { x = 4000, y = 60, y1 = 50 },
+        new BarData44 { x = 5000, y = -50, y1 = 50 },
+        new BarData44 { x = 6000, y = -40, y1 = 60 },
+        new BarData44 { x = 7000, y = 40, y1 = -40 },
+        new BarData44 { x = 8000, y = 70, y1 = -70 }
+    };
+}
+
+
+@{
+    var InitialGroup45 = (new string[] { "CustomerID", "OrderID" });
+}
+<SfFixture @ref="fixture45" TestAsync="CheckingStackingColumnInversedDatalabelBottom" Description="CheckingStackingColumnInversedDatalabelBottom">
+    <ComponentUnderTest>
+        <SfChart ID="container" @ref="chartobj29" Title="x wise Sales Report" Width="800">
+            <ChartPrimaryXAxis Title="PrimaryXAxis"></ChartPrimaryXAxis>
+            <ChartPrimaryYAxis Title="PrimaryYaxis" RangePadding="ChartRangePadding.Normal" IsInversed="true"></ChartPrimaryYAxis>
+            <ChartSeriesCollection>
+                <ChartSeries DataSource="@Sales45" XName="x" YName="y" Type="ChartSeriesType.StackingColumn" Name="Gold" Fill="rgba(135,206,235,1)">
+                    <ChartSeriesAnimation Enable="false"></ChartSeriesAnimation>
+                    <ChartMarker Visible="false">
+                        <ChartDataLabel Visible="true" Fill="Violet" Position="ChartLabelPosition.Bottom"></ChartDataLabel>
+                    </ChartMarker>
+                </ChartSeries>
+                <ChartSeries DataSource="@Sales45" XName="x" YName="y1" Type="ChartSeriesType.StackingColumn" Name="Silver">
+                    <ChartSeriesAnimation Enable="false"></ChartSeriesAnimation>
+                    <ChartMarker Visible="false">
+                        <ChartDataLabel Visible="true" Fill="Violet" Position="ChartLabelPosition.Bottom"></ChartDataLabel>
+                    </ChartMarker>
+                </ChartSeries>
+            </ChartSeriesCollection>
+        </SfChart>
+    </ComponentUnderTest>
+</SfFixture>
+
+@code {
+    SfChart chartobj29;
+    SfFixture fixture45 { get; set; }
+    async Task CheckingStackingColumnInversedDatalabelBottom(Fixture fixture45)
+    {
+        var cut = fixture45.GetComponentUnderTest<SfChart>();
+        await Task.Delay(200);
+        var datalabel0 = Convert.ToDouble(cut.Find("#container_Series_0_Point_1_TextShape_1").GetAttribute("y"));
+        var point0 = chartobj29._visibleSeriesRenderers[0].Points[1];
+        Assert.True(datalabel0 < (point0.Regions[0].X + point0.Regions[0].Width));
+
+        var datalabel1 = Convert.ToDouble(cut.Find("#container_Series_0_Point_0_TextShape_0").GetAttribute("y"));
+        var point1 = chartobj29._visibleSeriesRenderers[0].Points[0].Regions[0].X;
+        Assert.True(datalabel1 > point1);
+        cut.SetParametersAndRender();
+    }
+    public class BarData45
+    {
+        public double x { get; set; }
+        public double y { get; set; }
+        public double y1 { get; set; }
+    }
+    public List<BarData45> Sales45 = new List<BarData45>
+{
+        new BarData45 { x = 1000, y = 70, y1 = 70 },
+        new BarData45 { x = 2000, y = -40, y1 = 40 },
+        new BarData45 { x = 3000, y = 70, y1 = 90 },
+        new BarData45 { x = 4000, y = 60, y1 = 50 },
+        new BarData45 { x = 5000, y = -50, y1 = 50 },
+        new BarData45 { x = 6000, y = -40, y1 = 60 },
+        new BarData45 { x = 7000, y = 40, y1 = -40 },
+        new BarData45 { x = 8000, y = 70, y1 = -70 }
+    };
+}
+
+
+@{
+    var InitialGroup46 = (new string[] { "CustomerID", "OrderID" });
+}
+<SfFixture @ref="fixture46" TestAsync="CheckingStackingColumnInversedDatalabelMiddle" Description="CheckingStackingColumnInversedDatalabelMiddle">
+    <ComponentUnderTest>
+        <SfChart ID="container" @ref="chartobj30" Title="x wise Sales Report" Width="800">
+            <ChartPrimaryXAxis Title="PrimaryXAxis"></ChartPrimaryXAxis>
+            <ChartPrimaryYAxis Title="PrimaryYaxis" RangePadding="ChartRangePadding.Normal" IsInversed="true"></ChartPrimaryYAxis>
+            <ChartSeriesCollection>
+                <ChartSeries DataSource="@Sales46" XName="x" YName="y" Type="ChartSeriesType.StackingColumn" Name="Gold" Fill="rgba(135,206,235,1)">
+                    <ChartSeriesAnimation Enable="false"></ChartSeriesAnimation>
+                    <ChartMarker Visible="false">
+                        <ChartDataLabel Visible="true" Fill="Violet" Position="ChartLabelPosition.Middle"></ChartDataLabel>
+                    </ChartMarker>
+                </ChartSeries>
+                <ChartSeries DataSource="@Sales46" XName="x" YName="y1" Type="ChartSeriesType.StackingColumn" Name="Silver">
+                    <ChartSeriesAnimation Enable="false"></ChartSeriesAnimation>
+                    <ChartMarker Visible="false">
+                        <ChartDataLabel Visible="true" Fill="Violet" Position="ChartLabelPosition.Middle"></ChartDataLabel>
+                    </ChartMarker>
+                </ChartSeries>
+            </ChartSeriesCollection>
+        </SfChart>
+    </ComponentUnderTest>
+</SfFixture>
+
+@code {
+    SfChart chartobj30;
+    SfFixture fixture46 { get; set; }
+    async Task CheckingStackingColumnInversedDatalabelMiddle(Fixture fixture46)
+    {
+        var cut = fixture46.GetComponentUnderTest<SfChart>();
+        await Task.Delay(200);
+        var datalabel0 = Convert.ToDouble(cut.Find("#container_Series_0_Point_1_TextShape_1").GetAttribute("y"));
+        var datalabelHeight = Convert.ToDouble(cut.Find("#container_Series_0_Point_1_TextShape_1").GetAttribute("height"));
+        var point0 = chartobj30._visibleSeriesRenderers[0].Points[1].Regions[0].Y;
+        var pointheight = chartobj30._visibleSeriesRenderers[0].Points[1].Regions[0].Height;
+        Assert.True((datalabel0 + datalabelHeight / 2) == (point0 + pointheight / 2));
+        cut.SetParametersAndRender();
+    }
+    public class BarData46
+    {
+        public double x { get; set; }
+        public double y { get; set; }
+        public double y1 { get; set; }
+    }
+    public List<BarData46> Sales46 = new List<BarData46>
+{
+        new BarData46 { x = 1000, y = 70, y1 = 70 },
+        new BarData46 { x = 2000, y = -40, y1 = 40 },
+        new BarData46 { x = 3000, y = 70, y1 = 90 },
+        new BarData46 { x = 4000, y = 60, y1 = 50 },
+        new BarData46 { x = 5000, y = -50, y1 = 50 },
+        new BarData46 { x = 6000, y = -40, y1 = 60 },
+        new BarData46 { x = 7000, y = 40, y1 = -40 },
+        new BarData46 { x = 8000, y = 70, y1 = -70 }
+    };
+}
+
+
+@{
+    var InitialGroup47 = (new string[] { "CustomerID", "OrderID" });
+}
+<SfFixture @ref="fixture47" TestAsync="CheckingStackingColumnWithoutRotated" Description="CheckingStackingColumnWithoutRotated">
+    <ComponentUnderTest>
+        <SfChart ID="container" @ref="chartobj31" Title="x wise Sales Report" Width="800">
+            <ChartPrimaryXAxis Title="PrimaryXAxis" ValueType="Syncfusion.Blazor.Toolkit.ValueType.DateTime"></ChartPrimaryXAxis>
+            <ChartPrimaryYAxis Title="PrimaryYaxis"></ChartPrimaryYAxis>
+            <ChartSeriesCollection>
+                <ChartSeries DataSource="@Sales47" XName="x" YName="y" Type="ChartSeriesType.StackingColumn" Name="Gold" Fill="rgba(135,206,235,1)">
+                    <ChartSeriesAnimation Enable="false"></ChartSeriesAnimation>
+                    <ChartMarker Visible="false">
+                        <ChartDataLabel Visible="false" Fill="Violet" Position="ChartLabelPosition.Middle"></ChartDataLabel>
+                    </ChartMarker>
+                </ChartSeries>
+                <ChartSeries DataSource="@Sales47" XName="x" YName="y1" Type="ChartSeriesType.StackingColumn" Name="Silver">
+                    <ChartSeriesAnimation Enable="false"></ChartSeriesAnimation>
+                    <ChartMarker Visible="false">
+                        <ChartDataLabel Visible="false" Fill="Violet" Position="ChartLabelPosition.Middle"></ChartDataLabel>
+                    </ChartMarker>
+                </ChartSeries>
+            </ChartSeriesCollection>
+        </SfChart>
+    </ComponentUnderTest>
+</SfFixture>
+
+@code {
+    SfChart chartobj31;
+    SfFixture fixture47 { get; set; }
+    async Task CheckingStackingColumnWithoutRotated(Fixture fixture47)
+    {
+        var cut = fixture47.GetComponentUnderTest<SfChart>();
+        await Task.Delay(200);
+        Assert.True(chartobj31._axisContainer.Axes[Constants.PrimaryXAxis].Renderer.Orientation.ToString() == "Horizontal");
+        Assert.True(chartobj31._axisContainer.Axes[Constants.PrimaryYAxis].Renderer.Orientation.ToString() == "Vertical");
+        cut.SetParametersAndRender();
+    }
+    public class BarData47
+    {
+        public DateTime x { get; set; }
+        public double y { get; set; }
+        public double y1 { get; set; }
+    }
+    public List<BarData47> Sales47 = new List<BarData47>
+{
+        new BarData47 { x = new DateTime(2000, 06, 11), y = 10, y1 = -30 },
+        new BarData47 { x = new DateTime(2002, 03, 07), y = -30, y1 = 10  },
+        new BarData47 { x = new DateTime(2004, 03, 06), y = 15, y1 = 0  },
+        new BarData47 { x = new DateTime(2006, 03, 30), y = -65, y1 = 75  },
+        new BarData47 { x = new DateTime(2008, 03, 08), y = 0 , y1 = 45 },
+        new BarData47 { x = new DateTime(2010, 03, 08), y = 85 , y1 = 32 }
+    };
+}
+
+
+@{
+    var InitialGroup48 = (new string[] { "CustomerID", "OrderID" });
+}
+<SfFixture @ref="fixture48" TestAsync="CheckingStackingColumnWithRotated" Description="CheckingStackingColumnWithRotated">
+    <ComponentUnderTest>
+        <SfChart ID="container" @ref="chartobj32" Title="x wise Sales Report" Width="800" IsTransposed="true">
+            <ChartPrimaryXAxis Title="PrimaryXAxis" ValueType="Syncfusion.Blazor.Toolkit.ValueType.DateTime"></ChartPrimaryXAxis>
+            <ChartPrimaryYAxis Title="PrimaryYaxis"></ChartPrimaryYAxis>
+            <ChartSeriesCollection>
+                <ChartSeries DataSource="@Sales48" XName="x" YName="y" Type="ChartSeriesType.StackingColumn" Name="Gold" Fill="rgba(135,206,235,1)">
+                    <ChartSeriesAnimation Enable="false"></ChartSeriesAnimation>
+                    <ChartMarker Visible="false">
+                        <ChartDataLabel Visible="false" Fill="Violet" Position="ChartLabelPosition.Middle"></ChartDataLabel>
+                    </ChartMarker>
+                </ChartSeries>
+                <ChartSeries DataSource="@Sales48" XName="x" YName="y1" Type="ChartSeriesType.StackingColumn" Name="Silver">
+                    <ChartSeriesAnimation Enable="false"></ChartSeriesAnimation>
+                    <ChartMarker Visible="false">
+                        <ChartDataLabel Visible="false" Fill="Violet" Position="ChartLabelPosition.Middle"></ChartDataLabel>
+                    </ChartMarker>
+                </ChartSeries>
+            </ChartSeriesCollection>
+        </SfChart>
+    </ComponentUnderTest>
+</SfFixture>
+
+@code {
+    SfChart chartobj32;
+    SfFixture fixture48 { get; set; }
+    async Task CheckingStackingColumnWithRotated(Fixture fixture48)
+    {
+        var cut = fixture48.GetComponentUnderTest<SfChart>();
+        await Task.Delay(200);
+        Assert.True(chartobj32._axisContainer.Axes[Constants.PrimaryYAxis].Renderer.Orientation.ToString() == "Horizontal");
+        Assert.True(chartobj32._axisContainer.Axes[Constants.PrimaryXAxis].Renderer.Orientation.ToString() == "Vertical");
+        cut.SetParametersAndRender();
+    }
+    public class BarData48
+    {
+        public DateTime x { get; set; }
+        public double y { get; set; }
+        public double y1 { get; set; }
+    }
+    public List<BarData48> Sales48 = new List<BarData48>
+{
+        new BarData48 { x = new DateTime(2000, 06, 11), y = 10, y1 = -30 },
+        new BarData48 { x = new DateTime(2002, 03, 07), y = -30, y1 = 10  },
+        new BarData48 { x = new DateTime(2004, 03, 06), y = 15, y1 = 0  },
+        new BarData48 { x = new DateTime(2006, 03, 30), y = -65, y1 = 75  },
+        new BarData48 { x = new DateTime(2008, 03, 08), y = 0 , y1 = 45 },
+        new BarData48 { x = new DateTime(2010, 03, 08), y = 85 , y1 = 32 }
+    };
+}
+
+
+@{
+    var InitialGroup49 = (new string[] { "CustomerID", "OrderID" });
+}
+<SfFixture @ref="fixture49" TestAsync="CheckingStackingColumnWithRotatedDatalabelAuto" Description="CheckingStackingColumnWithRotatedDatalabelAuto">
+    <ComponentUnderTest>
+        <SfChart ID="container" @ref="chartobj33" Title="x wise Sales Report" Width="800" IsTransposed="true">
+            <ChartPrimaryXAxis Title="PrimaryXAxis" ValueType="Syncfusion.Blazor.Toolkit.ValueType.DateTime"></ChartPrimaryXAxis>
+            <ChartPrimaryYAxis Title="PrimaryYaxis"></ChartPrimaryYAxis>
+            <ChartSeriesCollection>
+                <ChartSeries DataSource="@Sales49" XName="x" YName="y" Type="ChartSeriesType.StackingColumn" Name="Gold" Fill="rgba(135,206,235,1)">
+                    <ChartSeriesAnimation Enable="false"></ChartSeriesAnimation>
+                    <ChartMarker Visible="false">
+                        <ChartDataLabel Visible="true" Position="ChartLabelPosition.Auto"></ChartDataLabel>
+                    </ChartMarker>
+                </ChartSeries>
+                <ChartSeries DataSource="@Sales49" XName="x" YName="y1" Type="ChartSeriesType.StackingColumn" Name="Silver">
+                    <ChartSeriesAnimation Enable="false"></ChartSeriesAnimation>
+                    <ChartMarker Visible="false">
+                        <ChartDataLabel Visible="true" Position="ChartLabelPosition.Auto"></ChartDataLabel>
+                    </ChartMarker>
+                </ChartSeries>
+            </ChartSeriesCollection>
+        </SfChart>
+    </ComponentUnderTest>
+</SfFixture>
+
+@code {
+    SfChart chartobj33;
+    SfFixture fixture49 { get; set; }
+    async Task CheckingStackingColumnWithRotatedDatalabelAuto(Fixture fixture49)
+    {
+        var cut = fixture49.GetComponentUnderTest<SfChart>();
+        await Task.Delay(200);
+        var datalabel0 = Convert.ToDouble(cut.Find("#container_Series_0_Point_2_Text_0").GetAttribute("x"));
+        var point0 = chartobj33._visibleSeriesRenderers[0].Points[2].SymbolLocations[0].X;
+        Assert.True(datalabel0 < point0);
+
+        var datalabel1 = Convert.ToDouble(cut.Find("#container_Series_0_Point_1_Text_0").GetAttribute("x"));
+        var point1 = chartobj33._visibleSeriesRenderers[0].Points[1].SymbolLocations[0].X;
+        Assert.True(datalabel1 > point1);
+        cut.SetParametersAndRender();
+    }
+    public class BarData49
+    {
+        public DateTime x { get; set; }
+        public double y { get; set; }
+        public double y1 { get; set; }
+    }
+    public List<BarData49> Sales49 = new List<BarData49>
+{
+        new BarData49 { x = new DateTime(2000, 06, 11), y = 10, y1 = -30 },
+        new BarData49 { x = new DateTime(2002, 03, 07), y = -30, y1 = 10  },
+        new BarData49 { x = new DateTime(2004, 03, 06), y = 15, y1 = 0  },
+        new BarData49 { x = new DateTime(2006, 03, 30), y = -65, y1 = 75  },
+        new BarData49 { x = new DateTime(2008, 03, 08), y = 0 , y1 = 45 },
+        new BarData49 { x = new DateTime(2010, 03, 08), y = 85 , y1 = 32 }
+    };
+}
+
+
+@{
+    var InitialGroup50 = (new string[] { "CustomerID", "OrderID" });
+}
+<SfFixture @ref="fixture50" TestAsync="CheckingStackingColumnWithRotatedDatalabelOuter" Description="CheckingStackingColumnWithRotatedDatalabelOuter">
+    <ComponentUnderTest>
+        <SfChart ID="container" @ref="chartobj34" Title="x wise Sales Report" Width="800" IsTransposed="true">
+            <ChartPrimaryXAxis Title="PrimaryXAxis" ValueType="Syncfusion.Blazor.Toolkit.ValueType.DateTime"></ChartPrimaryXAxis>
+            <ChartPrimaryYAxis Title="PrimaryYaxis"></ChartPrimaryYAxis>
+            <ChartSeriesCollection>
+                <ChartSeries DataSource="@Sales50" XName="x" YName="y" Type="ChartSeriesType.StackingColumn" Name="Gold" Fill="rgba(135,206,235,1)">
+                    <ChartSeriesAnimation Enable="false"></ChartSeriesAnimation>
+                    <ChartMarker Visible="false">
+                        <ChartDataLabel Visible="true" Position="ChartLabelPosition.Outer"></ChartDataLabel>
+                    </ChartMarker>
+                </ChartSeries>
+                <ChartSeries DataSource="@Sales50" XName="x" YName="y1" Type="ChartSeriesType.StackingColumn" Name="Silver">
+                    <ChartSeriesAnimation Enable="false"></ChartSeriesAnimation>
+                    <ChartMarker Visible="false">
+                        <ChartDataLabel Visible="true" Position="ChartLabelPosition.Outer"></ChartDataLabel>
+                    </ChartMarker>
+                </ChartSeries>
+            </ChartSeriesCollection>
+        </SfChart>
+    </ComponentUnderTest>
+</SfFixture>
+
+@code {
+    SfChart chartobj34;
+    SfFixture fixture50 { get; set; }
+    async Task CheckingStackingColumnWithRotatedDatalabelOuter(Fixture fixture50)
+    {
+        var cut = fixture50.GetComponentUnderTest<SfChart>();
+        await Task.Delay(200);
+        var datalabel0 = Convert.ToDouble(cut.Find("#container_Series_0_Point_2_Text_0").GetAttribute("x"));
+        var point0 = chartobj34._visibleSeriesRenderers[0].Points[2].SymbolLocations[0].X;
+        Assert.True(datalabel0 > point0);
+
+        var datalabel1 = Convert.ToDouble(cut.Find("#container_Series_0_Point_1_Text_0").GetAttribute("x"));
+        var point1 = chartobj34._visibleSeriesRenderers[0].Points[1].SymbolLocations[0].X;
+        Assert.True(datalabel1 < point1);
+        cut.SetParametersAndRender();
+    }
+    public class BarData50
+    {
+        public DateTime x { get; set; }
+        public double y { get; set; }
+        public double y1 { get; set; }
+    }
+    public List<BarData50> Sales50 = new List<BarData50>
+{
+        new BarData50 { x = new DateTime(2000, 06, 11), y = 10, y1 = -30 },
+        new BarData50 { x = new DateTime(2002, 03, 07), y = -30, y1 = 10  },
+        new BarData50 { x = new DateTime(2004, 03, 06), y = 15, y1 = 0  },
+        new BarData50 { x = new DateTime(2006, 03, 30), y = -65, y1 = 75  },
+        new BarData50 { x = new DateTime(2008, 03, 08), y = 0 , y1 = 45 },
+        new BarData50 { x = new DateTime(2010, 03, 08), y = 85 , y1 = 32 }
+    };
+}
+
+
+@{
+    var InitialGroup51 = (new string[] { "CustomerID", "OrderID" });
+}
+<SfFixture @ref="fixture51" TestAsync="CheckingStackingColumnWithRotatedDatalabelTop" Description="CheckingStackingColumnWithRotatedDatalabelTop">
+    <ComponentUnderTest>
+        <SfChart ID="container" @ref="chartobj35" Title="x wise Sales Report" Width="800" IsTransposed="true">
+            <ChartPrimaryXAxis Title="PrimaryXAxis" ValueType="Syncfusion.Blazor.Toolkit.ValueType.DateTime"></ChartPrimaryXAxis>
+            <ChartPrimaryYAxis Title="PrimaryYaxis"></ChartPrimaryYAxis>
+            <ChartSeriesCollection>
+                <ChartSeries DataSource="@Sales51" XName="x" YName="y" Type="ChartSeriesType.StackingColumn" Name="Gold" Fill="rgba(135,206,235,1)">
+                    <ChartSeriesAnimation Enable="false"></ChartSeriesAnimation>
+                    <ChartMarker Visible="false">
+                        <ChartDataLabel Visible="true" Position="ChartLabelPosition.Top"></ChartDataLabel>
+                    </ChartMarker>
+                </ChartSeries>
+                <ChartSeries DataSource="@Sales51" XName="x" YName="y1" Type="ChartSeriesType.StackingColumn" Name="Silver">
+                    <ChartSeriesAnimation Enable="false"></ChartSeriesAnimation>
+                    <ChartMarker Visible="false">
+                        <ChartDataLabel Visible="true" Position="ChartLabelPosition.Top"></ChartDataLabel>
+                    </ChartMarker>
+                </ChartSeries>
+            </ChartSeriesCollection>
+        </SfChart>
+    </ComponentUnderTest>
+</SfFixture>
+
+@code {
+    SfChart chartobj35;
+    SfFixture fixture51 { get; set; }
+    async Task CheckingStackingColumnWithRotatedDatalabelTop(Fixture fixture51)
+    {
+        var cut = fixture51.GetComponentUnderTest<SfChart>();
+        await Task.Delay(200);
+        var datalabel0 = Convert.ToDouble(cut.Find("#container_Series_0_Point_2_Text_0").GetAttribute("x"));
+        var point0 = chartobj35._visibleSeriesRenderers[0].Points[2].SymbolLocations[0].X;
+        Assert.True(datalabel0 < point0);
+
+        var datalabel1 = Convert.ToDouble(cut.Find("#container_Series_0_Point_1_Text_0").GetAttribute("x"));
+        var point1 = chartobj35._visibleSeriesRenderers[0].Points[1].SymbolLocations[0].X;
+        Assert.True(datalabel1 > point1);
+        cut.SetParametersAndRender();
+    }
+    public class BarData51
+    {
+        public DateTime x { get; set; }
+        public double y { get; set; }
+        public double y1 { get; set; }
+    }
+    public List<BarData51> Sales51 = new List<BarData51>
+{
+        new BarData51 { x = new DateTime(2000, 06, 11), y = 10, y1 = -30 },
+        new BarData51 { x = new DateTime(2002, 03, 07), y = -30, y1 = 10  },
+        new BarData51 { x = new DateTime(2004, 03, 06), y = 15, y1 = 0  },
+        new BarData51 { x = new DateTime(2006, 03, 30), y = -65, y1 = 75  },
+        new BarData51 { x = new DateTime(2008, 03, 08), y = 0 , y1 = 45 },
+        new BarData51 { x = new DateTime(2010, 03, 08), y = 85 , y1 = 32 }
+    };
+}
+
+
+@{
+    var InitialGroup52 = (new string[] { "CustomerID", "OrderID" });
+}
+<SfFixture @ref="fixture52" TestAsync="CheckingStackingColumnWithRotatedDatalabelMiddle" Description="CheckingStackingColumnWithRotatedDatalabelMiddle">
+    <ComponentUnderTest>
+        <SfChart ID="container" @ref="chartobj36" Title="x wise Sales Report" Width="800" IsTransposed="true">
+            <ChartPrimaryXAxis Title="PrimaryXAxis" ValueType="Syncfusion.Blazor.Toolkit.ValueType.DateTime"></ChartPrimaryXAxis>
+            <ChartPrimaryYAxis Title="PrimaryYaxis"></ChartPrimaryYAxis>
+            <ChartSeriesCollection>
+                <ChartSeries DataSource="@Sales52" XName="x" YName="y" Type="ChartSeriesType.StackingColumn" Name="Gold" Fill="rgba(135,206,235,1)">
+                    <ChartSeriesAnimation Enable="false"></ChartSeriesAnimation>
+                    <ChartMarker Visible="false">
+                        <ChartDataLabel Visible="true" Position="ChartLabelPosition.Middle"></ChartDataLabel>
+                    </ChartMarker>
+                </ChartSeries>
+                <ChartSeries DataSource="@Sales52" XName="x" YName="y1" Type="ChartSeriesType.StackingColumn" Name="Silver">
+                    <ChartSeriesAnimation Enable="false"></ChartSeriesAnimation>
+                    <ChartMarker Visible="false">
+                        <ChartDataLabel Visible="true" Position="ChartLabelPosition.Middle"></ChartDataLabel>
+                    </ChartMarker>
+                </ChartSeries>
+            </ChartSeriesCollection>
+        </SfChart>
+    </ComponentUnderTest>
+</SfFixture>
+
+@code {
+    SfChart chartobj36;
+    SfFixture fixture52 { get; set; }
+    async Task CheckingStackingColumnWithRotatedDatalabelMiddle(Fixture fixture52)
+    {
+        var cut = fixture52.GetComponentUnderTest<SfChart>();
+        await Task.Delay(200);
+        var datalabel0 = Convert.ToDouble(cut.Find("#container_Series_0_Point_2_Text_0").GetAttribute("x"));
+        var point0 = chartobj36._visibleSeriesRenderers[0].Points[2];
+        Assert.True(datalabel0 < (point0.SymbolLocations[0].X + point0.Regions[0].Width / 2));
+        cut.SetParametersAndRender();
+    }
+    public class BarData52
+    {
+        public DateTime x { get; set; }
+        public double y { get; set; }
+        public double y1 { get; set; }
+    }
+    public List<BarData52> Sales52 = new List<BarData52>
+{
+        new BarData52 { x = new DateTime(2000, 06, 11), y = 10, y1 = -30 },
+        new BarData52 { x = new DateTime(2002, 03, 07), y = -30, y1 = 10  },
+        new BarData52 { x = new DateTime(2004, 03, 06), y = 15, y1 = 0  },
+        new BarData52 { x = new DateTime(2006, 03, 30), y = -65, y1 = 75  },
+        new BarData52 { x = new DateTime(2008, 03, 08), y = 0 , y1 = 45 },
+        new BarData52 { x = new DateTime(2010, 03, 08), y = 85 , y1 = 32 }
+    };
+}
+
+
+@{
+    var InitialGroup53 = (new string[] { "CustomerID", "OrderID" });
+}
+<SfFixture @ref="fixture53" TestAsync="CheckingStackingColumnWithRotatedDatalabelBottom" Description="CheckingStackingColumnWithRotatedDatalabelBottom">
+    <ComponentUnderTest>
+        <SfChart ID="container" @ref="chartobj37" Title="x wise Sales Report" Width="800" IsTransposed="true">
+            <ChartPrimaryXAxis Title="PrimaryXAxis" ValueType="Syncfusion.Blazor.Toolkit.ValueType.DateTime"></ChartPrimaryXAxis>
+            <ChartPrimaryYAxis Title="PrimaryYaxis"></ChartPrimaryYAxis>
+            <ChartSeriesCollection>
+                <ChartSeries DataSource="@Sales53" XName="x" YName="y" Type="ChartSeriesType.StackingColumn" Name="Gold" Fill="rgba(135,206,235,1)">
+                    <ChartSeriesAnimation Enable="false"></ChartSeriesAnimation>
+                    <ChartMarker Visible="false">
+                        <ChartDataLabel Visible="true" Position="ChartLabelPosition.Bottom"></ChartDataLabel>
+                    </ChartMarker>
+                </ChartSeries>
+                <ChartSeries DataSource="@Sales53" XName="x" YName="y1" Type="ChartSeriesType.StackingColumn" Name="Silver">
+                    <ChartSeriesAnimation Enable="false"></ChartSeriesAnimation>
+                    <ChartMarker Visible="false">
+                        <ChartDataLabel Visible="true" Position="ChartLabelPosition.Bottom"></ChartDataLabel>
+                    </ChartMarker>
+                </ChartSeries>
+            </ChartSeriesCollection>
+        </SfChart>
+    </ComponentUnderTest>
+</SfFixture>
+
+@code {
+    SfChart chartobj37;
+    SfFixture fixture53 { get; set; }
+    async Task CheckingStackingColumnWithRotatedDatalabelBottom(Fixture fixture53)
+    {
+        var cut = fixture53.GetComponentUnderTest<SfChart>();
+        await Task.Delay(200);
+        var datalabel0 = Convert.ToDouble(cut.Find("#container_Series_0_Point_2_Text_0").GetAttribute("x"));
+        var point0 = chartobj37._visibleSeriesRenderers[0].Points[2];
+        Assert.True(datalabel0 > (point0.SymbolLocations[0].X - point0.Regions[0].Width));
+
+        var datalabel1 = Convert.ToDouble(cut.Find("#container_Series_0_Point_1_Text_0").GetAttribute("x"));
+        var point1 = chartobj37._visibleSeriesRenderers[0].Points[1];
+        Assert.True(datalabel1 < (point1.SymbolLocations[0].X + point1.Regions[0].Width));
+        cut.SetParametersAndRender();
+    }
+    public class BarData53
+    {
+        public DateTime x { get; set; }
+        public double y { get; set; }
+        public double y1 { get; set; }
+    }
+    public List<BarData53> Sales53 = new List<BarData53>
+{
+        new BarData53 { x = new DateTime(2000, 06, 11), y = 10, y1 = -30 },
+        new BarData53 { x = new DateTime(2002, 03, 07), y = -30, y1 = 10  },
+        new BarData53 { x = new DateTime(2004, 03, 06), y = 15, y1 = 0  },
+        new BarData53 { x = new DateTime(2006, 03, 30), y = -65, y1 = 75  },
+        new BarData53 { x = new DateTime(2008, 03, 08), y = 0 , y1 = 45 },
+        new BarData53 { x = new DateTime(2010, 03, 08), y = 85 , y1 = 32 }
+    };
+}
+
+@{
+    var InitialGroup54 = (new string[] { "CustomerID", "OrderID" });
+}
+<SfFixture @ref="fixture54" TestAsync="CheckingStackLabelRender" Description="CheckingStackLabelRender">
+    <ComponentUnderTest>
+        <SfChart ID="container">
+            <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Toolkit.ValueType.Category"></ChartPrimaryXAxis>
+
+            <ChartSeriesCollection>
+                <ChartSeries DataSource="@StackedDataList" XName="X" YName="Y" Type="ChartSeriesType.StackingColumn">
+                </ChartSeries>
+                <ChartSeries DataSource="@StackedDataList" XName="X" YName="Y1" Type="ChartSeriesType.StackingColumn">
+                </ChartSeries>
+                <ChartSeries DataSource="@StackedDataList" XName="X" YName="Y2" Type="ChartSeriesType.StackingColumn">
+                </ChartSeries>
+                <ChartSeries DataSource="@StackedDataList" XName="X" YName="Y3" Type="ChartSeriesType.StackingColumn">
+                </ChartSeries>
+            </ChartSeriesCollection>
+            <ChartStackLabelSettings Visible="true" Format="{value}M" Angle="90" Fill="pink" Rx="10" Ry="10">
+                <ChartStackLabelFont Size="14px" FontFamily="Roboto" FontStyle="Normal" FontWeight="400" Color="green"></ChartStackLabelFont>
+                <ChartStackLabelBorder Color="red" Width="2"></ChartStackLabelBorder>
+                <ChartStackLabelMargin Left="6" Right="6" Top="6" Bottom="6"></ChartStackLabelMargin>
+            </ChartStackLabelSettings>
+        </SfChart>
+    </ComponentUnderTest>
+</SfFixture>
+
+@code {
+    SfFixture fixture54;
+
+    async Task CheckingStackLabelRender(Fixture fixture54)
+    {
+        var cut = fixture54.GetComponentUnderTest<SfChart>();
+        await Task.Delay(200);
+        var stackLabelSettings = cut.FindComponent<ChartStackLabelSettings>();
+        var stackLabelFont = cut.FindComponent<ChartStackLabelFont>();
+        var stackLabelBorder = cut.FindComponent<ChartStackLabelBorder>();
+        var stackLabelMargin = cut.FindComponent<ChartStackLabelMargin>();
+        var fontOptions = cut.Instance._stackLabelSettings.Font.GetFontOptions(cut.Instance._chartThemeStyle);
+        Assert.Equal("14px", fontOptions.Size);
+        Assert.Equal("Roboto", fontOptions.FontFamily);
+        Assert.Equal("Normal", fontOptions.FontStyle);
+        Assert.Equal("400", fontOptions.FontWeight);
+        Assert.Equal("green", fontOptions.Color);
+        Assert.Equal("red", cut.Instance._stackLabelSettings.Border.Color);
+        Assert.Equal(2, cut.Instance._stackLabelSettings.Border.Width);
+        Assert.Equal("{value}M", cut.Instance._stackLabelSettings.Format);
+        Assert.Equal(90, cut.Instance._stackLabelSettings.Angle);
+        Assert.Equal("pink", cut.Instance._stackLabelSettings.Fill);
+        Assert.Equal(10, cut.Instance._stackLabelSettings.Rx);
+        Assert.Equal(10, cut.Instance._stackLabelSettings.Ry);
+        Assert.Equal(6, cut.Instance._stackLabelSettings.Margin.Left);
+        Assert.Equal(6, cut.Instance._stackLabelSettings.Margin.Right);
+        Assert.Equal(6, cut.Instance._stackLabelSettings.Margin.Top);
+        Assert.Equal(6, cut.Instance._stackLabelSettings.Margin.Bottom);
+        Assert.True(cut.Find("#container_StackLabelCollection").ChildElementCount > 0);
+        stackLabelFont.Instance.ComponentDispose();
+        stackLabelBorder.Instance.ComponentDispose();
+        stackLabelMargin.Instance.ComponentDispose();
+        await stackLabelSettings.Instance.DisposeAsync();
+    }
+
+    public class StackedData
+    {
+        public string X { get; set; }
+        public double Y { get; set; }
+        public double Y1 { get; set; }
+        public double Y2 { get; set; }
+        public double Y3 { get; set; }
+    }
+
+    public List<StackedData> StackedDataList = new List<StackedData>
+    {
+        new StackedData { X = "2014", Y = 111.1, Y1 = 76.9, Y2 = 66.1, Y3 = 34.1 },
+        new StackedData { X = "2015", Y = 127.3, Y1 = 99.5, Y2 = 79.3, Y3 = 38.2 },
+        new StackedData { X = "2016", Y = 143.4, Y1 = 121.7, Y2 = 91.3, Y3 = 44.0 },
+        new StackedData { X = "2017", Y = 159.9, Y1 = 142.5, Y2 = 102.4, Y3 = 51.6 },
+        new StackedData { X = "2018", Y = 175.4, Y1 = 166.7, Y2 = 112.9, Y3 = 61.9 },
+        new StackedData { X = "2019", Y = 189.0, Y1 = 182.9, Y2 = 122.4, Y3 = 71.5 },
+        new StackedData { X = "2020", Y = 202.7, Y1 = 197.3, Y2 = 120.9, Y3 = 82.0 }
+    };
+}

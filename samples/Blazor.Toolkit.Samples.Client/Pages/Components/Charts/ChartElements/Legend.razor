@@ -1,0 +1,2158 @@
+@page "/charts/legend"
+
+
+@using Syncfusion.Blazor.Toolkit.Charts
+@using ValueType = Syncfusion.Blazor.Toolkit.ValueType
+
+<Description>
+    <Header>
+        <h5><b>Overview</b></h5>
+    </Header>
+    <Content>
+        Legends help users identify the data series rendered in a Chart.
+        This example demonstrates the default legend behavior where each
+        series appears as an individual legend item based on its name by setting the <code>Visible</code> property in the <code>ChartLegendSettings</code> component to <code>true</code>.
+    </Content>
+</Description>
+
+<VirtualizeSection MinHeightPx="600px">
+    <CodePreview IsFullWidth="true" CodeSection="@LegendOverviewCode">
+    <PreviewSection>
+            <SfChart @key="@_currentTheme" Title="GDP Growth (2015 - 2024)" Theme="@_currentTheme">
+
+            <ChartPrimaryXAxis ValueType="ValueType.Category">
+            </ChartPrimaryXAxis>
+
+            <ChartPrimaryYAxis Interval="5"
+                               LineStyle="new ChartAxisLineStyle { Width = 0 }">
+            </ChartPrimaryYAxis>
+
+            
+                <ChartSeries DataSource="@LegendOverviewData"
+                             XName="Year"
+                             YName="USA"
+                             Name="USA"
+                             Type="ChartSeriesType.Column"
+                             Fill="#689B8A"
+                             ColumnSpacing="0.1"
+                             LegendShape="LegendShape.Circle"
+                             CornerRadius="new ChartCornerRadius { TopLeft = 2, TopRight = 2 }">
+                </ChartSeries>
+
+                <ChartSeries DataSource="@LegendOverviewData"
+                             XName="Year"
+                             YName="India"
+                             Name="India"
+                             Type="ChartSeriesType.Column"
+                             Fill="#8E7AB5"
+                             ColumnSpacing="0.1"
+                             LegendShape="LegendShape.Circle"
+                             CornerRadius="new ChartCornerRadius { TopLeft = 2, TopRight = 2 }">
+                </ChartSeries>
+
+                <ChartSeries DataSource="@LegendOverviewData"
+                             XName="Year"
+                             YName="Japan"
+                             Name="Japan"
+                             Type="ChartSeriesType.Column"
+                             Fill="#FF6868"
+                             ColumnSpacing="0.1"
+                             LegendShape="LegendShape.Circle"
+                             CornerRadius="new ChartCornerRadius { TopLeft = 2, TopRight = 2 }">
+                </ChartSeries>
+
+                <ChartSeries DataSource="@LegendOverviewData"
+                             XName="Year"
+                             YName="Russia"
+                             Name="Russia"
+                             Type="ChartSeriesType.Column"
+                             Fill="#6897D4"
+                             ColumnSpacing="0.1"
+                             LegendShape="LegendShape.Circle"
+                             CornerRadius="new ChartCornerRadius { TopLeft = 2, TopRight = 2 }">
+                </ChartSeries>
+
+                <ChartSeries DataSource="@LegendOverviewData"
+                             XName="Year"
+                             YName="France"
+                             Name="France"
+                             Type="ChartSeriesType.Column"
+                             Fill="#D2A953"
+                             ColumnSpacing="0.1"
+                             LegendShape="LegendShape.Circle"
+                             CornerRadius="new ChartCornerRadius { TopLeft = 2, TopRight = 2 }">
+                </ChartSeries>
+            
+
+            <ChartTooltipSettings Enable="true"
+                                  Header="<b>${point.x}</b>"
+                                  Format="${series.name} : <b>${point.y}%</b>" />
+
+            <ChartLegendSettings Visible="true"></ChartLegendSettings>
+        </SfChart>
+    </PreviewSection>
+</CodePreview>
+</VirtualizeSection>
+
+<Description>
+    <Header>
+        <h5><b>Shapes</b></h5>
+    </Header>
+    <Content>
+        Legend shapes visually represent the corresponding data series in a Chart.
+        This example demonstrates customizing legend items using different shapes
+        such as <code>Circle</code> and <code>Rectangle</code> using the <code>LegendShape</code> property in the <code>ChartSeries</code> component to improve series differentiation.
+    </Content>
+</Description>
+
+<VirtualizeSection MinHeightPx="600px">
+    <CodePreview IsFullWidth="true" CodeSection="@LegendShapesCode">
+    <PreviewSection>
+         <SfChart @key="@_currentTheme" Title="Global CO₂ Emissions: India vs China" Theme="@_currentTheme">
+
+            <ChartPrimaryXAxis ValueType="ValueType.Category">
+            </ChartPrimaryXAxis>
+
+            <ChartPrimaryYAxis Interval="5" Format="{value}">
+                <ChartAxisLineStyle Width = "0" />
+            </ChartPrimaryYAxis>
+
+            
+                <ChartSeries DataSource="@IndiaLegendData"
+                             XName="Year"
+                             YName="Value"
+                             Name="India"
+                             Type="ChartSeriesType.SplineArea"
+                             Width="2"
+                             Opacity="0.5"
+                             Fill="#F57BB8"
+                             LegendShape="LegendShape.SeriesType">
+                </ChartSeries>
+
+                <ChartSeries DataSource="@ChinaLegendData"
+                             XName="Year"
+                             YName="Value"
+                             Name="China"
+                             Type="ChartSeriesType.SplineArea"
+                             Width="2"
+                             Opacity="0.5"
+                             Fill="#9DACFF"
+                                 LegendShape="LegendShape.SeriesType">
+                </ChartSeries>
+            
+
+            <ChartTooltipSettings Enable="true"
+                                  Header="${point.x}"
+                                  Format="${series.name} : <b>${point.y}%</b>" />
+
+            <ChartLegendSettings Visible="true"></ChartLegendSettings>
+        </SfChart>
+    </PreviewSection>
+</CodePreview>
+</VirtualizeSection>
+
+<Description>
+    <Header>
+        <h5><b>Position</b></h5>
+    </Header>
+    <Content>
+        The legend position property controls where the legend is displayed
+        within the Chart area. This example demonstrates positioning the
+        legend at the top of the Chart by setting the <code>Position</code> property to <code>LegendPosition.Top</code> in the <code>ChartLegendSettings</code> component to improve visibility and layout.
+    </Content>
+</Description>
+
+<VirtualizeSection MinHeightPx="600px">
+    <CodePreview IsFullWidth="true" CodeSection="@LegendPositionCode">
+    <PreviewSection>
+        <SfChart @key="@_currentTheme" Title="Annual percentage change in fossil fuel consumption (2023 - 2024)" Theme="@_currentTheme">
+
+            <ChartPrimaryXAxis ValueType="ValueType.Category" LabelIntersectAction="LabelIntersectAction.Rotate45">
+            </ChartPrimaryXAxis>
+
+            <ChartPrimaryYAxis Interval="2" Format="{value}%">
+                <ChartAxisLineStyle Width="0" />
+            </ChartPrimaryYAxis>
+
+            
+                <ChartSeries DataSource="@LegendPositionData"
+                             XName="Country"
+                             YName="Value2024"
+                             Name="2024"
+                             Type="ChartSeriesType.Bar"
+                             Fill="#FF6868"
+                             ColumnSpacing="0.1"
+                             CornerRadius="new ChartCornerRadius { TopRight = 6, BottomRight = 6 }">
+                </ChartSeries>
+
+                <ChartSeries DataSource="@LegendPositionData"
+                             XName="Country"
+                             YName="Value2023"
+                             Name="2023"
+                             Type="ChartSeriesType.Bar"
+                             Fill="#689B8A"
+                             ColumnSpacing="0.1"
+                             CornerRadius="new ChartCornerRadius { TopRight = 6, BottomRight = 6 }">
+                </ChartSeries>
+            
+
+            <ChartTooltipSettings Enable="true"
+                                  Header="${point.x}"
+                                  Format="${series.name} : <b>${point.y}</b>" />
+
+            <ChartLegendSettings Visible="true"
+                                 Position="LegendPosition.Top">
+            </ChartLegendSettings>
+
+        </SfChart>
+    </PreviewSection>
+</CodePreview>
+</VirtualizeSection>
+
+<Description>
+    <Header>
+        <h5><b>Legend Custom Position</b></h5>
+    </Header>
+    <Content>
+        The legend can be positioned freely within the Chart area using custom
+        X and Y coordinates. This example demonstrates placing the legend at a
+        specific location to avoid overlapping with the plotted data by setting the <code>Position</code> property to <code>LegendPosition.Custom</code> and providing coordinates to the <code>Location</code> property in the <code>ChartLegendSettings</code> component.
+    </Content>
+</Description>
+
+<VirtualizeSection MinHeightPx="600px">
+    <CodePreview IsFullWidth="true" CodeSection="@LegendCustomPositionCode">
+    <PreviewSection>
+        <SfChart @key="@_currentTheme" Title="Paris 2024 Olympics: Medal Count by Country" Theme="@_currentTheme">
+           
+    <ChartPrimaryXAxis ValueType="ValueType.Category"
+                       LabelIntersectAction="LabelIntersectAction.Rotate45">
+    </ChartPrimaryXAxis>
+
+
+            <ChartPrimaryYAxis Interval="10"
+                               Format="{value}">
+                <ChartAxisLineStyle Width="0" />
+            </ChartPrimaryYAxis>
+
+            
+                <ChartSeries DataSource="@LegendCustomPositionData"
+                             XName="Country"
+                             YName="Gold"
+                             Name="Gold"
+                             Type="ChartSeriesType.Column"
+                             Fill="#83A2FF"
+                             ColumnSpacing="0.1"
+                             ColumnWidth="0.6"
+                             CornerRadius="new ChartCornerRadius { TopLeft = 15, TopRight = 15 }"
+                             LegendShape="LegendShape.Rectangle">
+                </ChartSeries>
+
+                <ChartSeries DataSource="@LegendCustomPositionData"
+                             XName="Country"
+                             YName="Silver"
+                             Name="Silver"
+                             Type="ChartSeriesType.Column"
+                             Fill="#FFB823"
+                             ColumnSpacing="0.1"
+                             ColumnWidth="0.6"
+                             CornerRadius="new ChartCornerRadius { TopLeft = 15, TopRight = 15 }"
+                             LegendShape="LegendShape.Rectangle">
+                </ChartSeries>
+
+                <ChartSeries DataSource="@LegendCustomPositionData"
+                             XName="Country"
+                             YName="Bronze"
+                             Name="Bronze"
+                             Type="ChartSeriesType.Column"
+                             Fill="#B6F500"
+                             ColumnSpacing="0.1"
+                             ColumnWidth="0.6"
+                             CornerRadius="new ChartCornerRadius { TopLeft = 15, TopRight = 15 }"
+                             LegendShape="LegendShape.Rectangle">
+                </ChartSeries>
+            
+
+            <ChartTooltipSettings Enable="true"
+                                  Header="${point.x}"
+                                  Format="${series.name} : <b>${point.y}</b>" />
+
+            <ChartLegendSettings Visible="true"
+                                 Position="LegendPosition.Custom"
+                                 Location="new ChartLocation { X = 400, Y = 80 }">
+            </ChartLegendSettings>
+
+        </SfChart>
+    </PreviewSection>
+</CodePreview>
+</VirtualizeSection>
+
+<Description>
+    <Header>
+        <h5><b>Alignment</b></h5>
+    </Header>
+    <Content>
+        The legend alignment property controls how legend items are aligned
+        within the legend container. This example demonstrates aligning the
+        legend items to the far end by setting the <code>Alignment</code> property to <code>Alignment.Far</code> in the <code>ChartLegendSettings</code> component for improved visual balance.
+    </Content>
+</Description>
+
+<VirtualizeSection MinHeightPx="600px">
+    <CodePreview IsFullWidth="true" CodeSection="@LegendAlignmentCode">
+    <PreviewSection>
+         <SfChart @key="@_currentTheme" Title="Annual Change in Hydropower Generation" Theme="@_currentTheme">
+
+            <ChartPrimaryXAxis ValueType="ValueType.Category">
+            </ChartPrimaryXAxis>
+
+            <ChartPrimaryYAxis Interval="200"
+                               Format="{value}TWh">
+                <ChartAxisLineStyle Width="0" />
+            </ChartPrimaryYAxis>
+
+            
+                <ChartSeries DataSource="@ChinaLegendAlignData"
+                             XName="Year"
+                             YName="Value"
+                             Name="China"
+                             Type="ChartSeriesType.Line"
+                             LegendShape="LegendShape.Circle"
+                             Fill="#5DB996">
+                    <ChartMarker Visible="true" Height="7" Width="7" />
+                </ChartSeries>
+
+                <ChartSeries DataSource="@FranceLegendAlignData"
+                             XName="Year"
+                             YName="Value"
+                             Name="France"
+                             Type="ChartSeriesType.Line"
+                             LegendShape="LegendShape.Circle"
+                             Fill="#FF748B">
+                    <ChartMarker Visible="true" Height="7" Width="7" />
+                </ChartSeries>
+
+                <ChartSeries DataSource="@GermanyLegendAlignData"
+                             XName="Year"
+                             YName="Value"
+                             Name="Germany"
+                             Type="ChartSeriesType.Line"
+                             LegendShape="LegendShape.Circle"
+                             Fill="#60B5FF">
+                    <ChartMarker Visible="true" Height="7" Width="7" />
+                </ChartSeries>
+            
+
+            <ChartTooltipSettings Enable="true"
+                                  Header="${point.x}"
+                                  Format="${series.name} : <b>${point.y}</b>" />
+
+            <ChartLegendSettings Visible="true"
+                                 Alignment="Alignment.Far">
+            </ChartLegendSettings>
+
+        </SfChart>
+    </PreviewSection>
+</CodePreview>
+</VirtualizeSection>
+
+<Description>
+    <Header>
+        <h5><b>Reverse (Inversed)</b></h5>
+    </Header>
+    <Content>
+        The inversed property allows you to reverse the order of legend items.
+        This is useful when the series rendering order needs to be displayed
+        in reverse within the legend for better comparison. This can be achieved by setting the <code>Reverse</code> property to <code>true</code> in the <code>ChartLegendSettings</code> component.
+    </Content>
+</Description>
+
+<VirtualizeSection MinHeightPx="600px">
+<CodePreview IsFullWidth="true" CodeSection="@LegendReverseCode">
+    <PreviewSection>
+        <SfChart @key="@_currentTheme" Title="Change in Energy Sources" Theme="@_currentTheme">
+
+            <ChartPrimaryXAxis ValueType="ValueType.Category">
+            </ChartPrimaryXAxis>
+
+            <ChartPrimaryYAxis Title="Measure in Tons">
+                <ChartAxisLineStyle Width="0" />
+            </ChartPrimaryYAxis>
+
+            
+                <ChartSeries DataSource="@EnergySourceData"
+                             XName="Quarter"
+                             YName="Coal"
+                             Name="Coal"
+                             Type="ChartSeriesType.Column"
+                             Fill="#B4E50D"
+                             ColumnWidth="0.6"
+                             ColumnSpacing="0.1"
+                             CornerRadius="new ChartCornerRadius { TopLeft = 10, TopRight = 10 }"
+                             LegendShape="LegendShape.Rectangle">
+                </ChartSeries>
+
+                <ChartSeries DataSource="@EnergySourceData"
+                             XName="Quarter"
+                             YName="Petroleum"
+                             Name="Petroleum"
+                             Type="ChartSeriesType.Column"
+                             Fill="#FF90BB"
+                             ColumnWidth="0.6"
+                             ColumnSpacing="0.1"
+                             CornerRadius="new ChartCornerRadius { TopLeft = 10, TopRight = 10 }"
+                             LegendShape="LegendShape.Rectangle">
+                </ChartSeries>
+
+                <ChartSeries DataSource="@EnergySourceData"
+                             XName="Quarter"
+                             YName="NaturalGas"
+                             Name="Natural Gas"
+                             Type="ChartSeriesType.Column"
+                             Fill="#60B5FF"
+                             ColumnWidth="0.6"
+                             ColumnSpacing="0.1"
+                             CornerRadius="new ChartCornerRadius { TopLeft = 10, TopRight = 10 }"
+                             LegendShape="LegendShape.Rectangle">
+                </ChartSeries>
+            
+
+            <ChartTooltipSettings Enable="true"
+                                  Header="${point.x}"
+                                  Format="${series.name} : <b>${point.y}</b>" />
+
+            <ChartLegendSettings Visible="true" Reverse="true">
+            </ChartLegendSettings>
+
+        </SfChart>
+    </PreviewSection>
+</CodePreview>
+</VirtualizeSection>
+
+<Description>
+    <Header>
+        <h5><b>Toggle Visibility</b></h5>
+    </Header>
+    <Content>
+        The <code>ToggleVisibility</code> property allows users to show or hide a series by clicking on
+        its corresponding legend item. This example demonstrates how this feature can be used to compare
+        different product categories' revenue more effectively.
+    </Content>
+</Description>
+
+<VirtualizeSection MinHeightPx="600px">
+    <CodePreview IsFullWidth="true" CodeSection="@LegendToggleCode">
+    <PreviewSection>
+        <SfChart @key="@_currentTheme" Title="Apple Quartely Revenue by Product Category" Theme="@_currentTheme">
+
+                <ChartPrimaryXAxis ValueType="ValueType.Category" LabelRotation="-45">
+                </ChartPrimaryXAxis>
+
+            <ChartPrimaryYAxis Format="${value}B">
+                <ChartAxisLineStyle Width="0" />
+            </ChartPrimaryYAxis>
+
+            
+                <ChartSeries DataSource="@ToggleData"
+                             XName="Product"
+                             YName="Revenue2024"
+                             Name="Jun 29, 2024"
+                             Type="ChartSeriesType.Column"
+                             Fill="#A2C579"
+                             ColumnWidth="0.6"
+                             CornerRadius="new ChartCornerRadius { TopRight = 15, TopLeft = 15 }"
+                             ColumnSpacing="0.1"
+                             LegendShape="LegendShape.Rectangle">
+                </ChartSeries>
+
+                <ChartSeries DataSource="@ToggleData"
+                             XName="Product"
+                             YName="Revenue2025"
+                             Name="Jun 29, 2025"
+                             Type="ChartSeriesType.Column"
+                             Fill="#8E7AB5"
+                             ColumnWidth="0.6"
+                             CornerRadius="new ChartCornerRadius { TopRight = 15, TopLeft = 15 }"
+                             ColumnSpacing="0.1"
+                             LegendShape="LegendShape.Rectangle">
+                </ChartSeries>
+            
+
+            <ChartTooltipSettings Enable="true"
+                                  Header="${point.x}"
+                                  Format="${series.name} : <b>${point.y}</b>" />
+
+            <ChartLegendSettings Visible="true" ToggleVisibility="true" >
+                <ChartLegendTextStyle ></ChartLegendTextStyle>
+            </ChartLegendSettings>
+
+        </SfChart>
+    </PreviewSection>
+</CodePreview>
+</VirtualizeSection>
+
+
+
+
+<Description>
+    <Header>
+        <h5><b>Size And Appearance</b></h5>
+    </Header>
+    <Content>
+        The legend's visual appearance can be customized using the <code>Background</code> property and the <code>ChartLegendBorder</code> component within the <code>ChartLegendSettings</code> component.
+        This example demonstrates how to set a background color and a border around the legend area to make it stand out.
+    </Content>
+</Description>
+
+<VirtualizeSection MinHeightPx="600px">
+    <CodePreview IsFullWidth="true" CodeSection="@LegendSizeAppearanceCode">
+    <PreviewSection>
+         <SfChart @key="@_currentTheme" Title="Annual Percentage Change in Fossil Fuel Consumption" Theme="@_currentTheme">
+
+            <ChartPrimaryXAxis ValueType="ValueType.Category">
+                <ChartPrimaryXAxis LabelRotation="-45" />
+            </ChartPrimaryXAxis>
+
+            <ChartPrimaryYAxis Interval="10"
+                               Format="{value}%">
+                <ChartAxisLineStyle Width="0" />
+            </ChartPrimaryYAxis>
+
+            
+                <ChartSeries DataSource="@ChinaSizeData"
+                             XName="Year"
+                             YName="Value"
+                             Name="China"
+                             Type="ChartSeriesType.Line"
+                             Fill="#898AC4">
+                    <ChartMarker Visible="true" Shape="ChartShape.Circle" />
+                </ChartSeries>
+
+                <ChartSeries DataSource="@GermanySizeData"
+                             XName="Year"
+                             YName="Value"
+                             Name="Germany"
+                             Type="ChartSeriesType.Line"
+                             Fill="#B3C890">
+                    <ChartMarker Visible="true" Shape="ChartShape.Circle" />
+                </ChartSeries>
+
+                <ChartSeries DataSource="@SpainSizeData"
+                             XName="Year"
+                             YName="Value"
+                             Name="Spain"
+                             Type="ChartSeriesType.Line"
+                             Fill="#CD8D7A">
+                    <ChartMarker Visible="true" Shape="ChartShape.Circle" />
+                </ChartSeries>
+
+                <ChartSeries DataSource="@UKSizeData"
+                             XName="Year"
+                             YName="Value"
+                             Name="U.K"
+                             Type="ChartSeriesType.Line"
+                             Fill="#D7B26D">
+                    <ChartMarker Visible="true" Shape="ChartShape.Circle" />
+                </ChartSeries>
+
+                <ChartSeries DataSource="@USASizeData"
+                             XName="Year"
+                             YName="Value"
+                             Name="USA"
+                             Type="ChartSeriesType.Line"
+                             Fill="#6A9C89">
+                    <ChartMarker Visible="true" Shape="ChartShape.Circle" />
+                </ChartSeries>
+            
+
+            <ChartTooltipSettings Enable="true"
+                                  Header="${point.x}"
+                                  Format="${series.name} : <b>${point.y}</b>" />
+
+            <ChartLegendSettings Visible="true"
+                                 Background="#e6a112">
+                <ChartLegendBorder Width="2" Color="#865b01" />
+            </ChartLegendSettings>
+
+        </SfChart>
+    </PreviewSection>
+</CodePreview>
+</VirtualizeSection>
+
+<Description>
+    <Header>
+        <h5><b>Item Size</b></h5>
+    </Header>
+    <Content>
+        The size and spacing of legend items can be customized using the <code>ShapeHeight</code>, <code>ShapeWidth</code>, and <code>ShapePadding</code> properties in the <code>ChartLegendSettings</code> component.
+        This example demonstrates how to adjust these properties to change the dimensions of the legend shapes and the spacing between them and their labels.
+    </Content>
+</Description>
+
+<VirtualizeSection MinHeightPx="600px">
+    <CodePreview IsFullWidth="true" CodeSection="@LegendItemSizeCode">
+    <PreviewSection>
+    <div class="legend-controls" style="@LegendControlsStyle">
+            <div style="display: flex; align-items: center; gap: 10px;">
+                <label style="font-weight: 500;">Shape Height:</label>
+                <input type="range" min="10" max="50" @bind="shapeHeight" @bind:event="oninput" style="cursor: pointer;" />
+                <span style="min-width: 25px">@shapeHeight</span>
+            </div>
+            <div style="display: flex; align-items: center; gap: 10px;">
+                <label style="font-weight: 500;">Shape Width:</label>
+                <input type="range" min="10" max="50" @bind="shapeWidth" @bind:event="oninput" style="cursor: pointer;" />
+                <span style="min-width: 25px">@shapeWidth</span>
+            </div>
+            <div style="display: flex; align-items: center; gap: 10px;">
+                <label style="font-weight: 500;">Shape Padding:</label>
+                <input type="range" min="0" max="50" @bind="shapePadding" @bind:event="oninput" style="cursor: pointer;" />
+                <span style="min-width: 25px">@shapePadding</span>
+            </div>
+        </div>
+         <SfChart  Title="Renewable Sources Used to Generate Electricity for Transport Fuels" Theme="@_currentTheme">
+
+            <ChartPrimaryXAxis ValueType="ValueType.Category" />
+
+            <ChartPrimaryYAxis>
+                <ChartAxisLineStyle Width="0" />
+            </ChartPrimaryYAxis>
+
+            
+                <ChartSeries DataSource="@PagingData"
+                             XName="Year"
+                             YName="LargeScaleHydro"
+                             Name="Large scale Hydro"
+                             Type="ChartSeriesType.Line"
+                             Fill="#6A9C89">
+                    <ChartMarker Visible="true" Shape="ChartShape.Circle" />
+                </ChartSeries>
+
+                <ChartSeries DataSource="@PagingData"
+                             XName="Year"
+                             YName="AnimalBiomass"
+                             Name="Animal biomass"
+                             Type="ChartSeriesType.Line"
+                             Fill="#D7B26D">
+                    <ChartMarker Visible="true" Shape="ChartShape.Circle" />
+                </ChartSeries>
+
+                <ChartSeries DataSource="@PagingData"
+                             XName="Year"
+                             YName="LandfillGas"
+                             Name="Landfill gas"
+                             Type="ChartSeriesType.Line"
+                             Fill="#B3C890">
+                    <ChartMarker Visible="true" Shape="ChartShape.Circle" />
+                </ChartSeries>
+
+                <ChartSeries DataSource="@PagingData"
+                             XName="Year"
+                             YName="SewageGas"
+                             Name="Sewage gas"
+                             Type="ChartSeriesType.Line"
+                             Fill="#7695FF">
+                    <ChartMarker Visible="true" Shape="ChartShape.Circle" />
+                </ChartSeries>
+            
+
+            <ChartTooltipSettings Enable="true"
+                                  Header="${point.x}"
+                                  Format="${series.name} : <b>${point.y}</b>" />
+
+            <ChartLegendSettings Visible="true"
+                                 ShapeHeight="@shapeHeight"
+                                 ShapeWidth="@shapeWidth"
+                                 ShapePadding="@shapePadding">
+            </ChartLegendSettings>
+
+        </SfChart>
+    </PreviewSection>
+</CodePreview>
+</VirtualizeSection>
+
+<Description>
+    <Header>
+        <h5><b>Pagination</b></h5>
+    </Header>
+    <Content>
+        When the number of legend items exceeds the available legend area, pagination is automatically enabled.
+        This example demonstrates how to set a fixed <code>Width</code> and <code>Height</code> for the legend in the <code>ChartLegendSettings</code> component,
+        triggering the pagination behavior for the multiple series displayed in the chart.
+    </Content>
+</Description>
+
+<VirtualizeSection MinHeightPx="600px">
+    <CodePreview IsFullWidth="true" CodeSection="@LegendPaginationCode">
+    <PreviewSection>
+        <SfChart @key="@_currentTheme" Title="Renewable Sources Used to Generate Electricity for Transport Fuels" Theme="@_currentTheme">
+
+            <ChartPrimaryXAxis ValueType="ValueType.Category" />
+
+            <ChartPrimaryYAxis>
+                <ChartAxisLineStyle Width="0" />
+            </ChartPrimaryYAxis>
+
+            
+                <ChartSeries DataSource="@PagingData" XName="Year" YName="OnshoreWind" Name="Onshore wind" Width="2" Type="ChartSeriesType.Spline" Fill="#FF9874">
+                    <ChartSeriesAnimation Enable="false" />
+                    <ChartMarker Visible="true" />
+                </ChartSeries>
+                <ChartSeries DataSource="@PagingData" XName="Year" YName="OffshoreWind" Name="Offshore wind" Width="2" Type="ChartSeriesType.Spline" Fill="#D2649A">
+                    <ChartSeriesAnimation Enable="false" />
+                    <ChartMarker Visible="true" />
+                </ChartSeries>
+                <ChartSeries DataSource="@PagingData" XName="Year" YName="MarineEnergy" Name="Marine energy" Width="2" Type="ChartSeriesType.Spline" Fill="#7D8ABC">
+                    <ChartSeriesAnimation Enable="false" />
+                    <ChartMarker Visible="true" />
+                </ChartSeries>
+                <ChartSeries DataSource="@PagingData" XName="Year" YName="SolarPV" Name="Solar photovoltaics" Width="2" Type="ChartSeriesType.Spline" Fill="#7695FF">
+                    <ChartSeriesAnimation Enable="false" />
+                    <ChartMarker Visible="true" />
+                </ChartSeries>
+                <ChartSeries DataSource="@PagingData" XName="Year" YName="SmallScaleHydro" Name="Small scale Hydro" Width="2" Type="ChartSeriesType.Spline" Fill="#898AC4">
+                    <ChartSeriesAnimation Enable="false" />
+                    <ChartMarker Visible="true" />
+                </ChartSeries>
+                <ChartSeries DataSource="@PagingData" XName="Year" YName="LargeScaleHydro" Name="Large scale Hydro" Width="2" Type="ChartSeriesType.Spline" Fill="#B3C890">
+                    <ChartSeriesAnimation Enable="false" />
+                    <ChartMarker Visible="true" />
+                </ChartSeries>
+                <ChartSeries DataSource="@PagingData" XName="Year" YName="PlantBiomass" Name="Plant biomass" Width="2" Type="ChartSeriesType.Spline" Fill="#CD8D7A">
+                    <ChartSeriesAnimation Enable="false" />
+                    <ChartMarker Visible="true" />
+                </ChartSeries>
+                <ChartSeries DataSource="@PagingData" XName="Year" YName="AnimalBiomass" Name="Animal biomass" Width="2" Type="ChartSeriesType.Spline" Fill="#D7B26D">
+                    <ChartSeriesAnimation Enable="false" />
+                    <ChartMarker Visible="true" />
+                </ChartSeries>
+                <ChartSeries DataSource="@PagingData" XName="Year" YName="LandfillGas" Name="Landfill gas" Width="2" Type="ChartSeriesType.Spline" Fill="#286944ff">
+                    <ChartSeriesAnimation Enable="false" />
+                    <ChartMarker Visible="true" />
+                </ChartSeries>
+                <ChartSeries DataSource="@PagingData" XName="Year" YName="SewageGas" Name="Sewage gas" Width="2" Type="ChartSeriesType.Spline" Fill="#6A9C89">
+                    <ChartSeriesAnimation Enable="false" />
+                    <ChartMarker Visible="true" />
+                </ChartSeries>
+            
+
+            <ChartTooltipSettings Enable="true" Header="${point.x}" Format="${series.name}: <b>${point.y}</b>" />
+
+            <ChartLegendSettings Visible="true" Width="315" Height="50" />
+
+        </SfChart>
+    </PreviewSection>
+</CodePreview>
+</VirtualizeSection>
+
+
+<Description>
+    <Header>
+        <h5><b>Legend Text Customization</b></h5>
+    </Header>
+    <Content>
+        <code>MaximumLabelWidth</code>: Defines the maximum width of legend labels in the <code>ChartLegendSettings</code> component.
+        <br />
+        <code>ChartLegendTextStyle</code>: Enables detailed customization of the legend text appearance, such as font size, color, and weight.
+    </Content>
+</Description>
+
+<VirtualizeSection MinHeightPx="600px">
+    <CodePreview IsFullWidth="true" CodeSection="@LegendTextCustomizationCode">
+    <PreviewSection>
+        <SfChart @key="@_currentTheme" Title="Life Expectancy for People of Different Ages, France" Theme="@_currentTheme">
+
+            <ChartPrimaryXAxis ValueType="ValueType.Category" />
+
+            <ChartPrimaryYAxis Minimum="25"
+                               Maximum="90"
+                               Format="{value} Years">
+                <ChartAxisLineStyle Width="0" />
+            </ChartPrimaryYAxis>
+
+            
+                <ChartSeries DataSource="@FranceBirthData" XName="Year" YName="AtBirth" Name="At Birth" Type="ChartSeriesType.Line" LegendShape="LegendShape.SeriesType" Fill="#0A97B0"></ChartSeries>
+                <ChartSeries DataSource="@FranceBirthData" XName="Year" YName="Age10" Name="10 Year old" Type="ChartSeriesType.Line" LegendShape="LegendShape.SeriesType" Fill="#FF8225"></ChartSeries>
+                <ChartSeries DataSource="@FranceBirthData" XName="Year" YName="Age25" Name="25 Year old" Type="ChartSeriesType.Line" LegendShape="LegendShape.SeriesType" Fill="#006A71"></ChartSeries>
+                <ChartSeries DataSource="@FranceBirthData" XName="Year" YName="Age45" Name="45 Year old" Type="ChartSeriesType.Line" LegendShape="LegendShape.SeriesType" Fill="#AC1754"></ChartSeries>
+                <ChartSeries DataSource="@FranceBirthData" XName="Year" YName="Age65" Name="65 Year old" Type="ChartSeriesType.Line" LegendShape="LegendShape.SeriesType" Fill="#37AFE1"></ChartSeries>
+                <ChartSeries DataSource="@FranceBirthData" XName="Year" YName="Age80" Name="80 Year old" Type="ChartSeriesType.Line" LegendShape="LegendShape.SeriesType" Fill="#6A9C89"></ChartSeries>
+            
+
+            <ChartTooltipSettings Enable="true"
+                                  Header="${point.x}"
+                                  Format="${series.name} : <b>${point.y}</b>" />
+
+            <ChartLegendSettings Visible="true"
+                                 MaximumLabelWidth="130">
+                <ChartLegendTextStyle Size="20px"
+                                       FontWeight="bold"
+                                       Color="#1993c4ff" />
+            </ChartLegendSettings>
+
+        </SfChart>
+    </PreviewSection>
+</CodePreview>
+</VirtualizeSection>
+
+
+
+
+@code {
+    [CascadingParameter]
+    private Theme CurrentTheme { get; set; } = Theme.Fluent;
+
+    private Theme _currentTheme = Theme.Fluent;
+
+    private string _prevThemeName = string.Empty;
+
+    protected override void OnInitialized()
+    {
+        _currentTheme = CurrentTheme;
+    }
+
+    protected override void OnParametersSet()
+    {
+        var name = CurrentTheme.ToString() ?? string.Empty;
+        if (name != _prevThemeName)
+        {
+            _prevThemeName = name;
+            _currentTheme = CurrentTheme;
+            InvokeAsync(StateHasChanged);
+        }
+        else
+        {
+            _currentTheme = CurrentTheme;
+        }
+    }
+
+    private bool IsDarkTheme => CurrentTheme.ToString().Contains("Dark") || CurrentTheme.ToString().Contains("HighContrast");
+
+    private string LegendOverviewCode => @"@using Syncfusion.Blazor.Toolkit.Charts
+       <SfChart @key=""@_currentTheme"" Title=""GDP Growth (2015 - 2024)"" Theme=""@_currentTheme"">
+
+            <ChartPrimaryXAxis ValueType=""ValueType.Category"">
+            </ChartPrimaryXAxis>
+
+            <ChartPrimaryYAxis Interval=""5""
+                               LineStyle=""new ChartAxisLineStyle { Width = 0 }"">
+            </ChartPrimaryYAxis>
+
+            
+                <ChartSeries DataSource=""@LegendOverviewData""
+                             XName=""Year""
+                             YName=""USA""
+                             Name=""USA""
+                             Type=""ChartSeriesType.Column""
+                             Fill=""#689B8A""
+                             ColumnSpacing=""0.1""
+                             LegendShape=""LegendShape.Circle""
+                             CornerRadius=""new ChartCornerRadius { TopLeft = 2, TopRight = 2 }"">
+                </ChartSeries>
+
+                <ChartSeries DataSource=""@LegendOverviewData""
+                             XName=""Year""
+                             YName=""India""
+                             Name=""India""
+                             Type=""ChartSeriesType.Column""
+                             Fill=""#8E7AB5""
+                             ColumnSpacing=""0.1""
+                             LegendShape=""LegendShape.Circle""
+                             CornerRadius=""new ChartCornerRadius { TopLeft = 2, TopRight = 2 }"">
+                </ChartSeries>
+
+                <ChartSeries DataSource=""@LegendOverviewData""
+                             XName=""Year""
+                             YName=""Japan""
+                             Name=""Japan""
+                             Type=""ChartSeriesType.Column""
+                             Fill=""#FF6868""
+                             ColumnSpacing=""0.1""
+                             LegendShape=""LegendShape.Circle""
+                             CornerRadius=""new ChartCornerRadius { TopLeft = 2, TopRight = 2 }"">
+                </ChartSeries>
+
+                <ChartSeries DataSource=""@LegendOverviewData""
+                             XName=""Year""
+                             YName=""Russia""
+                             Name=""Russia""
+                             Type=""ChartSeriesType.Column""
+                             Fill=""#6897D4""
+                             ColumnSpacing=""0.1""
+                             LegendShape=""LegendShape.Circle""
+                             CornerRadius=""new ChartCornerRadius { TopLeft = 2, TopRight = 2 }"">
+                </ChartSeries>
+
+                <ChartSeries DataSource=""@LegendOverviewData""
+                             XName=""Year""
+                             YName=""France""
+                             Name=""France""
+                             Type=""ChartSeriesType.Column""
+                             Fill=""#D2A953""
+                             ColumnSpacing=""0.1""
+                             LegendShape=""LegendShape.Circle""
+                             CornerRadius=""new ChartCornerRadius { TopLeft = 2, TopRight = 2 }"">
+                </ChartSeries>
+            
+
+            <ChartTooltipSettings Enable=""true""
+                                  Header=""<b>${point.x}</b>""
+                                  Format=""${series.name} : <b>${point.y}%</b>"" />
+
+            <ChartLegendSettings Visible=""true""></ChartLegendSettings>
+        </SfChart>
+
+@code {
+    public class GdpGrowthData
+    {
+        public int Year { get; set; }
+        public double USA { get; set; }
+        public double India { get; set; }
+        public double Japan { get; set; }
+        public double Russia { get; set; }
+        public double France { get; set; }
+    }
+
+    public List<GdpGrowthData> LegendOverviewData = new()
+    {
+        new() { Year = 2015, USA = 2.95, India = 7.41, Japan = 1.56, Russia = -1.97, France = 1.07 },
+        new() { Year = 2016, USA = 1.82, India = 8.00, Japan = 0.75, Russia = 0.19,  France = 0.86 },
+        new() { Year = 2017, USA = 2.46, India = 8.26, Japan = 1.68, Russia = 1.83,  France = 2.08 },
+        new() { Year = 2018, USA = 2.97, India = 6.80, Japan = 0.64, Russia = 2.81,  France = 1.65 },
+        new() { Year = 2019, USA = 2.58, India = 6.45, Japan = -0.40, Russia = 2.20, France = 2.03 },
+        new() { Year = 2020, USA = -2.16,India = -5.78,Japan = -4.17,Russia = -2.65,France = -7.44 },
+        new() { Year = 2021, USA = 6.06, India = 9.69, Japan = 2.70, Russia = 5.87,  France = 6.88 },
+        new() { Year = 2022, USA = 2.51, India = 7.61, Japan = 0.94, Russia = -1.44, France = 2.57 },
+        new() { Year = 2023, USA = 2.89, India = 9.19, Japan = 1.48, Russia = 4.08,  France = 0.94 },
+        new() { Year = 2024, USA = 2.80, India = 6.48, Japan = 0.08, Russia = 4.34,  France = 1.17 }
+    };
+}";
+
+    public class GdpGrowthData
+    {
+        public int Year { get; set; }
+        public double USA { get; set; }
+        public double India { get; set; }
+        public double Japan { get; set; }
+        public double Russia { get; set; }
+        public double France { get; set; }
+    }
+
+    public List<GdpGrowthData> LegendOverviewData = new()
+    {
+        new() { Year = 2015, USA = 2.95, India = 7.41, Japan = 1.56, Russia = -1.97, France = 1.07 },
+        new() { Year = 2016, USA = 1.82, India = 8.00, Japan = 0.75, Russia = 0.19,  France = 0.86 },
+        new() { Year = 2017, USA = 2.46, India = 8.26, Japan = 1.68, Russia = 1.83,  France = 2.08 },
+        new() { Year = 2018, USA = 2.97, India = 6.80, Japan = 0.64, Russia = 2.81,  France = 1.65 },
+        new() { Year = 2019, USA = 2.58, India = 6.45, Japan = -0.40, Russia = 2.20, France = 2.03 },
+        new() { Year = 2020, USA = -2.16,India = -5.78,Japan = -4.17,Russia = -2.65,France = -7.44 },
+        new() { Year = 2021, USA = 6.06, India = 9.69, Japan = 2.70, Russia = 5.87,  France = 6.88 },
+        new() { Year = 2022, USA = 2.51, India = 7.61, Japan = 0.94, Russia = -1.44, France = 2.57 },
+        new() { Year = 2023, USA = 2.89, India = 9.19, Japan = 1.48, Russia = 4.08,  France = 0.94 },
+        new() { Year = 2024, USA = 2.80, India = 6.48, Japan = 0.08, Russia = 4.34,  France = 1.17 }
+    };
+
+    private string LegendShapesCode => @"<SfChart Title=""Global CO₂ Emissions: India vs China"">
+            <ChartPrimaryXAxis ValueType=""ValueType.Category"">
+            </ChartPrimaryXAxis>
+
+            <ChartPrimaryYAxis Interval=""5"" Format=""{value}"">
+                <ChartAxisLineStyle Width = ""0"" />
+            </ChartPrimaryYAxis>
+
+            <ChartSeriesCollection>
+                <ChartSeries DataSource=""@IndiaLegendData""
+                             XName=""Year""
+                             YName=""Value""
+                             Name=""India""
+                             Type=""ChartSeriesType.SplineArea""
+                             Width=""2""
+                             Opacity=""0.5""
+                             Fill=""#F57BB8""
+                             LegendShape=""LegendShape.SeriesType"">
+                </ChartSeries>
+
+                <ChartSeries DataSource=""@ChinaLegendData""
+                             XName=""Year""
+                             YName=""Value""
+                             Name=""China""
+                             Type=""ChartSeriesType.SplineArea""
+                             Width=""2""
+                             Opacity=""0.5""
+                             Fill=""#9DACFF""
+                                 LegendShape=""LegendShape.SeriesType"">
+                </ChartSeries>
+            </ChartSeriesCollection>
+
+            <ChartTooltipSettings Enable=""true""
+                                  Header=""${point.x}""
+                                  Format=""${series.name} : <b>${point.y}%</b>"" />
+
+            <ChartLegendSettings Visible=""true""></ChartLegendSettings>
+        </SfChart>
+@code {
+    public class EmissionData
+    {
+        public int Year { get; set; }
+        public double Value { get; set; }
+    }
+
+    public List<EmissionData> IndiaLegendData = new()
+    {
+        new() { Year = 2008, Value = 4.6437244 }, new() { Year = 2009, Value = 5.111345 },
+        new() { Year = 2010, Value = 5.028607 }, new() { Year = 2011, Value = 5.1144357 },
+        new() { Year = 2012, Value = 5.5019956 }, new() { Year = 2013, Value = 5.651571 },
+        new() { Year = 2014, Value = 6.060192 }, new() { Year = 2015, Value = 6.3104815 },
+        new() { Year = 2016, Value = 6.648448 }, new() { Year = 2017, Value = 6.742467 },
+        new() { Year = 2018, Value = 7.0597 }, new() { Year = 2019, Value = 7.042013 },
+        new() { Year = 2020, Value = 6.893799 }, new() { Year = 2021, Value = 7.229242 },
+        new() { Year = 2022, Value = 7.591513 }, new() { Year = 2023, Value = 8.103194 }
+    };
+
+    public List<EmissionData> ChinaLegendData = new()
+    {
+        new() { Year = 2008, Value = 23.38795 }, new() { Year = 2009, Value = 25.017748 },
+        new() { Year = 2010, Value = 25.844229 }, new() { Year = 2011, Value = 27.626312 },
+        new() { Year = 2012, Value = 27.940819 }, new() { Year = 2013, Value = 28.203577 },
+        new() { Year = 2014, Value = 28.181187 }, new() { Year = 2015, Value = 27.859018 },
+        new() { Year = 2016, Value = 27.565317 }, new() { Year = 2017, Value = 27.803198 },
+        new() { Year = 2018, Value = 28.13197 }, new() { Year = 2019, Value = 28.875336 },
+        new() { Year = 2020, Value = 31.046888 }, new() { Year = 2021, Value = 30.947222 },
+        new() { Year = 2022, Value = 30.435427 }, new() { Year = 2023, Value = 31.495125 }
+    };
+}";
+
+    public class EmissionData
+    {
+        public int Year { get; set; }
+        public double Value { get; set; }
+    }
+
+    public List<EmissionData> IndiaLegendData = new()
+    {
+        new() { Year = 2008, Value = 4.6437244 }, new() { Year = 2009, Value = 5.111345 },
+        new() { Year = 2010, Value = 5.028607 }, new() { Year = 2011, Value = 5.1144357 },
+        new() { Year = 2012, Value = 5.5019956 }, new() { Year = 2013, Value = 5.651571 },
+        new() { Year = 2014, Value = 6.060192 }, new() { Year = 2015, Value = 6.3104815 },
+        new() { Year = 2016, Value = 6.648448 }, new() { Year = 2017, Value = 6.742467 },
+        new() { Year = 2018, Value = 7.0597 }, new() { Year = 2019, Value = 7.042013 },
+        new() { Year = 2020, Value = 6.893799 }, new() { Year = 2021, Value = 7.229242 },
+        new() { Year = 2022, Value = 7.591513 }, new() { Year = 2023, Value = 8.103194 }
+    };
+
+    public List<EmissionData> ChinaLegendData = new()
+    {
+        new() { Year = 2008, Value = 23.38795 }, new() { Year = 2009, Value = 25.017748 },
+        new() { Year = 2010, Value = 25.844229 }, new() { Year = 2011, Value = 27.626312 },
+        new() { Year = 2012, Value = 27.940819 }, new() { Year = 2013, Value = 28.203577 },
+        new() { Year = 2014, Value = 28.181187 }, new() { Year = 2015, Value = 27.859018 },
+        new() { Year = 2016, Value = 27.565317 }, new() { Year = 2017, Value = 27.803198 },
+        new() { Year = 2018, Value = 28.13197 }, new() { Year = 2019, Value = 28.875336 },
+        new() { Year = 2020, Value = 31.046888 }, new() { Year = 2021, Value = 30.947222 },
+        new() { Year = 2022, Value = 30.435427 }, new() { Year = 2023, Value = 31.495125 }
+    };
+
+    private string LegendPositionCode => @"<SfChart Title=""Annual percentage change in fossil fuel consumption (2023 - 2024)"">
+            <ChartPrimaryXAxis ValueType=""ValueType.Category"" LabelIntersectAction=""LabelIntersectAction.Rotate45"">
+            </ChartPrimaryXAxis>
+
+            <ChartPrimaryYAxis Interval=""2"" Format=""{value}%"">
+                <ChartAxisLineStyle Width=""0"" />
+            </ChartPrimaryYAxis>
+
+            <ChartSeriesCollection>
+                <ChartSeries DataSource=""@LegendPositionData""
+                             XName=""Country""
+                             YName=""Value2024""
+                             Name=""2024""
+                             Type=""ChartSeriesType.Bar""
+                             Fill=""#FF6868""
+                             ColumnSpacing=""0.1""
+                             CornerRadius=""new ChartCornerRadius { TopRight = 6, BottomRight = 6 }"">
+                </ChartSeries>
+
+                <ChartSeries DataSource=""@LegendPositionData""
+                             XName=""Country""
+                             YName=""Value2023""
+                             Name=""2023""
+                             Type=""ChartSeriesType.Bar""
+                             Fill=""#689B8A""
+                             ColumnSpacing=""0.1""
+                             CornerRadius=""new ChartCornerRadius { TopRight = 6, BottomRight = 6 }"">
+                </ChartSeries>
+            </ChartSeriesCollection>
+
+            <ChartTooltipSettings Enable=""true""
+                                  Header=""${point.x}""
+                                  Format=""${series.name} : <b>${point.y}</b>"" />
+
+            <ChartLegendSettings Visible=""true""
+                                 Position=""LegendPosition.Top"">
+            </ChartLegendSettings>
+
+        </SfChart>
+        @code
+        {
+              public class FossilFuelData
+    {
+        public string Country { get; set; }
+        public double Value2024 { get; set; }
+        public double Value2023 { get; set; }
+    }
+
+    public List<FossilFuelData> LegendPositionData = new()
+    {
+        new() { Country = ""India"",   Value2024 = 4.28,  Value2023 = 4.50 },
+        new() { Country = ""Spain"",   Value2024 = 2.90,  Value2023 = 3.10 },
+        new() { Country = ""China"",   Value2024 = 1.53,  Value2023 = 1.60 },
+        new() { Country = ""World"",   Value2024 = 1.52,  Value2023 = 1.50 },
+        new() { Country = ""Germany"", Value2024 = 0.82,  Value2023 = 0.90 },
+        new() { Country = ""USA"",     Value2024 = 0.18,  Value2023 = 0.20 },
+        new() { Country = ""UK"",      Value2024 = -1.33, Value2023 = -1.50 }
+    };
+        }";
+
+    public class FossilFuelData
+    {
+        public string Country { get; set; }
+        public double Value2024 { get; set; }
+        public double Value2023 { get; set; }
+    }
+
+    public List<FossilFuelData> LegendPositionData = new()
+    {
+        new() { Country = "India",   Value2024 = 4.28,  Value2023 = 4.50 },
+        new() { Country = "Spain",   Value2024 = 2.90,  Value2023 = 3.10 },
+        new() { Country = "China",   Value2024 = 1.53,  Value2023 = 1.60 },
+        new() { Country = "World",   Value2024 = 1.52,  Value2023 = 1.50 },
+        new() { Country = "Germany", Value2024 = 0.82,  Value2023 = 0.90 },
+        new() { Country = "USA",     Value2024 = 0.18,  Value2023 = 0.20 },
+        new() { Country = "UK",      Value2024 = -1.33, Value2023 = -1.50 }
+    };
+
+    private string LegendCustomPositionCode => @"<SfChart Title=""Paris 2024 Olympics: Medal Count by Country"">
+    <ChartPrimaryXAxis ValueType=""ValueType.Category""
+                       LabelIntersectAction=""LabelIntersectAction.Rotate45"">
+    </ChartPrimaryXAxis>
+
+
+            <ChartPrimaryYAxis Interval=""10""
+                               Format=""{value}"">
+                <ChartAxisLineStyle Width=""0"" />
+            </ChartPrimaryYAxis>
+
+            <ChartSeriesCollection>
+                <ChartSeries DataSource=""@LegendCustomPositionData""
+                             XName=""Country""
+                             YName=""Gold""
+                             Name=""Gold""
+                             Type=""ChartSeriesType.Column""
+                             Fill=""#83A2FF""
+                             ColumnSpacing=""0.1""
+                             ColumnWidth=""0.6""
+                             CornerRadius=""new ChartCornerRadius { TopLeft = 15, TopRight = 15 }""
+                             LegendShape=""LegendShape.Rectangle"">
+                </ChartSeries>
+
+                <ChartSeries DataSource=""@LegendCustomPositionData""
+                             XName=""Country""
+                             YName=""Silver""
+                             Name=""Silver""
+                             Type=""ChartSeriesType.Column""
+                             Fill=""#FFB823""
+                             ColumnSpacing=""0.1""
+                             ColumnWidth=""0.6""
+                             CornerRadius=""new ChartCornerRadius { TopLeft = 15, TopRight = 15 }""
+                             LegendShape=""LegendShape.Rectangle"">
+                </ChartSeries>
+
+                <ChartSeries DataSource=""@LegendCustomPositionData""
+                             XName=""Country""
+                             YName=""Bronze""
+                             Name=""Bronze""
+                             Type=""ChartSeriesType.Column""
+                             Fill=""#B6F500""
+                             ColumnSpacing=""0.1""
+                             ColumnWidth=""0.6""
+                             CornerRadius=""new ChartCornerRadius { TopLeft = 15, TopRight = 15 }""
+                             LegendShape=""LegendShape.Rectangle"">
+                </ChartSeries>
+            </ChartSeriesCollection>
+
+            <ChartTooltipSettings Enable=""true""
+                                  Header=""${point.x}""
+                                  Format=""${series.name} : <b>${point.y}</b>"" />
+
+            <ChartLegendSettings Visible=""true""
+                                 Position=""LegendPosition.Custom""
+                                 Location=""new ChartLocation { X = 400, Y = 80 }"">
+            </ChartLegendSettings>
+
+        </SfChart>
+    @code
+    {
+          public class OlympicMedalData
+        {
+            public string Country { get; set; }
+            public int Gold { get; set; }
+            public int Silver { get; set; }
+            public int Bronze { get; set; }
+        }
+
+        public List<OlympicMedalData> LegendCustomPositionData = new()
+        {
+            new() { Country = ""USA"",         Gold = 40, Silver = 44, Bronze = 42 },
+            new() { Country = ""China"",       Gold = 40, Silver = 27, Bronze = 24 },
+            new() { Country = ""Japan"",       Gold = 20, Silver = 12, Bronze = 13 },
+            new() { Country = ""Australia"",   Gold = 18, Silver = 19, Bronze = 16 },
+            new() { Country = ""France"",      Gold = 16, Silver = 26, Bronze = 22 },
+            new() { Country = ""Netherlands"", Gold = 15, Silver = 7,  Bronze = 12 }
+        };
+    }";
+
+    public class OlympicMedalData
+    {
+        public string Country { get; set; }
+        public int Gold { get; set; }
+        public int Silver { get; set; }
+        public int Bronze { get; set; }
+    }
+
+    public List<OlympicMedalData> LegendCustomPositionData = new()
+    {
+        new() { Country = "USA",         Gold = 40, Silver = 44, Bronze = 42 },
+        new() { Country = "China",       Gold = 40, Silver = 27, Bronze = 24 },
+        new() { Country = "Japan",       Gold = 20, Silver = 12, Bronze = 13 },
+        new() { Country = "Australia",   Gold = 18, Silver = 19, Bronze = 16 },
+        new() { Country = "France",      Gold = 16, Silver = 26, Bronze = 22 },
+        new() { Country = "Netherlands", Gold = 15, Silver = 7,  Bronze = 12 }
+    };
+
+    private string LegendAlignmentCode => @"<SfChart Title=""Annual Change in Hydropower Generation"">
+
+            <ChartPrimaryXAxis ValueType=""ValueType.Category"">
+            </ChartPrimaryXAxis>
+
+            <ChartPrimaryYAxis Interval=""200""
+                               Format=""{value}TWh"">
+                <ChartAxisLineStyle Width=""0"" />
+            </ChartPrimaryYAxis>
+
+            <ChartSeriesCollection>
+                <ChartSeries DataSource=""@ChinaLegendAlignData""
+                             XName=""Year""
+                             YName=""Value""
+                             Name=""China""
+                             Type=""ChartSeriesType.Line""
+                             LegendShape=""LegendShape.Circle""
+                             Fill=""#5DB996"">
+                    <ChartMarker Visible=""true"" Height=""7"" Width=""7"" />
+                </ChartSeries>
+
+                <ChartSeries DataSource=""@FranceLegendAlignData""
+                             XName=""Year""
+                             YName=""Value""
+                             Name=""France""
+                             Type=""ChartSeriesType.Line""
+                             LegendShape=""LegendShape.Circle""
+                             Fill=""#FF748B"">
+                    <ChartMarker Visible=""true"" Height=""7"" Width=""7"" />
+                </ChartSeries>
+
+                <ChartSeries DataSource=""@GermanyLegendAlignData""
+                             XName=""Year""
+                             YName=""Value""
+                             Name=""Germany""
+                             Type=""ChartSeriesType.Line""
+                             LegendShape=""LegendShape.Circle""
+                             Fill=""#60B5FF"">
+                    <ChartMarker Visible=""true"" Height=""7"" Width=""7"" />
+                </ChartSeries>
+            </ChartSeriesCollection>
+
+            <ChartTooltipSettings Enable=""true""
+                                  Header=""${point.x}""
+                                  Format=""${series.name} : <b>${point.y}</b>"" />
+
+            <ChartLegendSettings Visible=""true""
+                                 Alignment=""Alignment.Far"">
+            </ChartLegendSettings>
+
+        </SfChart>
+    @code
+    {
+               public class HydroPowerData
+        {
+            public int Year { get; set; }
+            public double Value { get; set; }
+        }
+
+        public List<HydroPowerData> ChinaLegendAlignData = new()
+        {
+            new() { Year = 2008, Value = 390.03748 }, new() { Year = 2009, Value = -64.7699 },
+            new() { Year = 2010, Value = 236.69678 }, new() { Year = 2011, Value = -70.0603 },
+            new() { Year = 2012, Value = 441.19617 }, new() { Year = 2013, Value = 102.67798 },
+            new() { Year = 2014, Value = 370.04224 }, new() { Year = 2015, Value = 125.1416 },
+            new() { Year = 2016, Value = 76.09912 }, new() { Year = 2017, Value = 15.005371 },
+            new() { Year = 2018, Value = 69.643555 }, new() { Year = 2019, Value = 167.54053 },
+            new() { Year = 2020, Value = 113.63257 }, new() { Year = 2021, Value = -61.508545 },
+            new() { Year = 2022, Value = -12.481445 }, new() { Year = 2023, Value = -199.2561 },
+            new() { Year = 2024, Value = 312.82642 }
+        };
+
+        public List<HydroPowerData> FranceLegendAlignData = new()
+        {
+            new() { Year = 2008, Value = 14.750366 }, new() { Year = 2009, Value = -18.361954 },
+            new() { Year = 2010, Value = 13.727158 }, new() { Year = 2011, Value = -47.129738 },
+            new() { Year = 2012, Value = 35.310112 }, new() { Year = 2013, Value = 29.68428 },
+            new() { Year = 2014, Value = -21.312805 }, new() { Year = 2015, Value = -21.750671 },
+            new() { Year = 2016, Value = 12.44249 }, new() { Year = 2017, Value = -28.150238 },
+            new() { Year = 2018, Value = 36.583313 }, new() { Year = 2019, Value = -20.311996 },
+            new() { Year = 2020, Value = 13.672607 }, new() { Year = 2021, Value = -7.8893585 },
+            new() { Year = 2022, Value = -35.693787 }, new() { Year = 2023, Value = 27.132172 },
+            new() { Year = 2024, Value = 37.042023 }
+        };
+
+        public List<HydroPowerData> GermanyLegendAlignData = new()
+        {
+            new() { Year = 2008, Value = -2.3638763 }, new() { Year = 2009, Value = -3.9891853 },
+            new() { Year = 2010, Value = 4.614971 }, new() { Year = 2011, Value = -8.785313 },
+            new() { Year = 2012, Value = 10.289795 }, new() { Year = 2013, Value = 2.748829 },
+            new() { Year = 2014, Value = -8.978718 }, new() { Year = 2015, Value = -1.7966614 },
+            new() { Year = 2016, Value = 3.580082 }, new() { Year = 2017, Value = -1.2481155 },
+            new() { Year = 2018, Value = -6.3625603 }, new() { Year = 2019, Value = 4.8266716 },
+            new() { Year = 2020, Value = -3.5996056 }, new() { Year = 2021, Value = 3.1777763 },
+            new() { Year = 2022, Value = -5.8821435 }, new() { Year = 2023, Value = -0.56994116 },
+            new() { Year = 2024, Value = 1.0028775 }
+        };
+    }";
+
+    public class HydroPowerData
+    {
+        public int Year { get; set; }
+        public double Value { get; set; }
+    }
+
+    public List<HydroPowerData> ChinaLegendAlignData = new()
+    {
+        new() { Year = 2008, Value = 390.03748 }, new() { Year = 2009, Value = -64.7699 },
+        new() { Year = 2010, Value = 236.69678 }, new() { Year = 2011, Value = -70.0603 },
+        new() { Year = 2012, Value = 441.19617 }, new() { Year = 2013, Value = 102.67798 },
+        new() { Year = 2014, Value = 370.04224 }, new() { Year = 2015, Value = 125.1416 },
+        new() { Year = 2016, Value = 76.09912 }, new() { Year = 2017, Value = 15.005371 },
+        new() { Year = 2018, Value = 69.643555 }, new() { Year = 2019, Value = 167.54053 },
+        new() { Year = 2020, Value = 113.63257 }, new() { Year = 2021, Value = -61.508545 },
+        new() { Year = 2022, Value = -12.481445 }, new() { Year = 2023, Value = -199.2561 },
+        new() { Year = 2024, Value = 312.82642 }
+    };
+
+    public List<HydroPowerData> FranceLegendAlignData = new()
+    {
+        new() { Year = 2008, Value = 14.750366 }, new() { Year = 2009, Value = -18.361954 },
+        new() { Year = 2010, Value = 13.727158 }, new() { Year = 2011, Value = -47.129738 },
+        new() { Year = 2012, Value = 35.310112 }, new() { Year = 2013, Value = 29.68428 },
+        new() { Year = 2014, Value = -21.312805 }, new() { Year = 2015, Value = -21.750671 },
+        new() { Year = 2016, Value = 12.44249 }, new() { Year = 2017, Value = -28.150238 },
+        new() { Year = 2018, Value = 36.583313 }, new() { Year = 2019, Value = -20.311996 },
+        new() { Year = 2020, Value = 13.672607 }, new() { Year = 2021, Value = -7.8893585 },
+        new() { Year = 2022, Value = -35.693787 }, new() { Year = 2023, Value = 27.132172 },
+        new() { Year = 2024, Value = 37.042023 }
+    };
+
+    public List<HydroPowerData> GermanyLegendAlignData = new()
+    {
+        new() { Year = 2008, Value = -2.3638763 }, new() { Year = 2009, Value = -3.9891853 },
+        new() { Year = 2010, Value = 4.614971 }, new() { Year = 2011, Value = -8.785313 },
+        new() { Year = 2012, Value = 10.289795 }, new() { Year = 2013, Value = 2.748829 },
+        new() { Year = 2014, Value = -8.978718 }, new() { Year = 2015, Value = -1.7966614 },
+        new() { Year = 2016, Value = 3.580082 }, new() { Year = 2017, Value = -1.2481155 },
+        new() { Year = 2018, Value = -6.3625603 }, new() { Year = 2019, Value = 4.8266716 },
+        new() { Year = 2020, Value = -3.5996056 }, new() { Year = 2021, Value = 3.1777763 },
+        new() { Year = 2022, Value = -5.8821435 }, new() { Year = 2023, Value = -0.56994116 },
+        new() { Year = 2024, Value = 1.0028775 }
+    };
+
+    private string LegendReverseCode => @"<SfChart Title=""Change in Energy Sources"">
+            <ChartPrimaryXAxis ValueType=""ValueType.Category"">
+            </ChartPrimaryXAxis>
+
+            <ChartPrimaryYAxis Title=""Measure in Tons"">
+                <ChartAxisLineStyle Width=""0"" />
+            </ChartPrimaryYAxis>
+
+            <ChartSeriesCollection>
+                <ChartSeries DataSource=""@EnergySourceData""
+                             XName=""Quarter""
+                             YName=""Coal""
+                             Name=""Coal""
+                             Type=""ChartSeriesType.Column""
+                             Fill=""#B4E50D""
+                             ColumnWidth=""0.6""
+                             ColumnSpacing=""0.1""
+                             CornerRadius=""new ChartCornerRadius { TopLeft = 10, TopRight = 10 }""
+                             LegendShape=""LegendShape.Rectangle"">
+                </ChartSeries>
+
+                <ChartSeries DataSource=""@EnergySourceData""
+                             XName=""Quarter""
+                             YName=""Petroleum""
+                             Name=""Petroleum""
+                             Type=""ChartSeriesType.Column""
+                             Fill=""#FF90BB""
+                             ColumnWidth=""0.6""
+                             ColumnSpacing=""0.1""
+                             CornerRadius=""new ChartCornerRadius { TopLeft = 10, TopRight = 10 }""
+                             LegendShape=""LegendShape.Rectangle"">
+                </ChartSeries>
+
+                <ChartSeries DataSource=""@EnergySourceData""
+                             XName=""Quarter""
+                             YName=""NaturalGas""
+                             Name=""Natural Gas""
+                             Type=""ChartSeriesType.Column""
+                             Fill=""#60B5FF""
+                             ColumnWidth=""0.6""
+                             ColumnSpacing=""0.1""
+                             CornerRadius=""new ChartCornerRadius { TopLeft = 10, TopRight = 10 }""
+                             LegendShape=""LegendShape.Rectangle"">
+                </ChartSeries>
+            </ChartSeriesCollection>
+
+            <ChartTooltipSettings Enable=""true""
+                                  Header=""${point.x}""
+                                  Format=""${series.name} : <b>${point.y}</b>"" />
+
+            <ChartLegendSettings Visible=""true"" Reverse=""true"">
+            </ChartLegendSettings>
+
+        </SfChart>
+        @code
+       {
+         public class EnergyChangeData
+         {
+            public string Quarter { get; set; }
+            public double Coal { get; set; }
+            public double ManufacturedFuels { get; set; }
+            public double PrimaryOil { get; set; }
+            public double Petroleum { get; set; }
+            public double NaturalGas { get; set; }
+         }
+
+        public List<EnergyChangeData> EnergySourceData = new()
+        {
+            new() { Quarter = ""Q1"", Coal = -666, ManufacturedFuels = -14, PrimaryOil = -261, Petroleum = -124, NaturalGas = -1197 },
+            new() { Quarter = ""Q2"", Coal = 208,  ManufacturedFuels = 71,  PrimaryOil = 950,  Petroleum = -318, NaturalGas = 906 },
+            new() { Quarter = ""Q3"", Coal = 426,  ManufacturedFuels = 19,  PrimaryOil = -845, Petroleum = 166,  NaturalGas = 276 },
+            new() { Quarter = ""Q4"", Coal = 158,  ManufacturedFuels = -29, PrimaryOil = -156, Petroleum = -19,  NaturalGas = 672 }
+        };
+       }";
+
+    public class EnergyChangeData
+    {
+        public string Quarter { get; set; }
+        public double Coal { get; set; }
+        public double ManufacturedFuels { get; set; }
+        public double PrimaryOil { get; set; }
+        public double Petroleum { get; set; }
+        public double NaturalGas { get; set; }
+    }
+
+    public List<EnergyChangeData> EnergySourceData = new()
+    {
+        new() { Quarter = "Q1", Coal = -666, ManufacturedFuels = -14, PrimaryOil = -261, Petroleum = -124, NaturalGas = -1197 },
+        new() { Quarter = "Q2", Coal = 208,  ManufacturedFuels = 71,  PrimaryOil = 950,  Petroleum = -318, NaturalGas = 906 },
+        new() { Quarter = "Q3", Coal = 426,  ManufacturedFuels = 19,  PrimaryOil = -845, Petroleum = 166,  NaturalGas = 276 },
+        new() { Quarter = "Q4", Coal = 158,  ManufacturedFuels = -29, PrimaryOil = -156, Petroleum = -19,  NaturalGas = 672 }
+    };
+
+    private string LegendToggleCode => @"<SfChart Title=""Apple Quartely Revenue by Product Category"">
+                <ChartPrimaryXAxis ValueType=""ValueType.Category"" LabelRotation=""-45"">
+                </ChartPrimaryXAxis>
+            <ChartPrimaryYAxis Format=""${value}B"">
+                <ChartAxisLineStyle Width=""0"" />
+            </ChartPrimaryYAxis>
+            <ChartSeriesCollection>
+                <ChartSeries DataSource=""@ToggleData""
+                             XName=""Product""
+                             YName=""Revenue2024""
+                             Name=""Jun 29, 2024""
+                             Type=""ChartSeriesType.Column""
+                             Fill=""#A2C579""
+                             ColumnWidth=""0.6""
+                             CornerRadius=""new ChartCornerRadius { TopRight = 15, TopLeft = 15 }""
+                             ColumnSpacing=""0.1""
+                             LegendShape=""LegendShape.Rectangle"">
+                </ChartSeries>
+                <ChartSeries DataSource=""@ToggleData""
+                             XName=""Product""
+                             YName=""Revenue2025""
+                             Name=""Jun 29, 2025""
+                             Type=""ChartSeriesType.Column""
+                             Fill=""#8E7AB5""
+                             ColumnWidth=""0.6""
+                             CornerRadius=""new ChartCornerRadius { TopRight = 15, TopLeft = 15 }""
+                             ColumnSpacing=""0.1""
+                             LegendShape=""LegendShape.Rectangle"">
+                </ChartSeries>
+            </ChartSeriesCollection>
+
+            <ChartTooltipSettings Enable=""true""
+                                  Header=""${point.x}""
+                                  Format=""${series.name} : <b>${point.y}</b>"" />
+
+            <ChartLegendSettings Visible=""true"" ToggleVisibility=""true"" >
+                <ChartLegendTextStyle ></ChartLegendTextStyle>
+            </ChartLegendSettings>
+
+        </SfChart>
+        @code
+        {
+            public class AppleRevenueData
+            {
+                public string Product { get; set; }
+                public double Revenue2024 { get; set; }
+                public double Revenue2025 { get; set; }
+            }
+
+            public List<AppleRevenueData> ToggleData = new()
+            {
+                new() { Product = ""Iphone"", Revenue2024 = 39.3, Revenue2025 = 44.6 },
+                new() { Product = ""Services"", Revenue2024 = 24.2, Revenue2025 = 27.4 },
+                new() { Product = ""Mac"", Revenue2024 = 7, Revenue2025 = 8 },
+                new() { Product = ""Wearable Accessories"", Revenue2024 = 8.1, Revenue2025 = 7.4 },
+                new() { Product = ""Ipad"", Revenue2024 = 7.2, Revenue2025 = 6.6 }
+            };
+        }";
+
+    public class AppleRevenueData
+    {
+        public string Product { get; set; }
+        public double Revenue2024 { get; set; }
+        public double Revenue2025 { get; set; }
+    }
+
+    public List<AppleRevenueData> ToggleData = new()
+    {
+        new() { Product = "Iphone", Revenue2024 = 39.3, Revenue2025 = 44.6 },
+        new() { Product = "Services", Revenue2024 = 24.2, Revenue2025 = 27.4 },
+        new() { Product = "Mac", Revenue2024 = 7, Revenue2025 = 8 },
+        new() { Product = "Wearable Accessories", Revenue2024 = 8.1, Revenue2025 = 7.4 },
+        new() { Product = "Ipad", Revenue2024 = 7.2, Revenue2025 = 6.6 }
+    };
+
+    private string LegendSizeAppearanceCode => @"<SfChart Title=""Annual Percentage Change in Fossil Fuel Consumption"">
+            <ChartPrimaryXAxis ValueType=""ValueType.Category"">
+                <ChartPrimaryXAxis LabelRotation=""-45"" />
+            </ChartPrimaryXAxis>
+
+            <ChartPrimaryYAxis Interval=""10""
+                               Format=""{value}%"">
+                <ChartAxisLineStyle Width=""0"" />
+            </ChartPrimaryYAxis>
+            <ChartSeriesCollection>
+                <ChartSeries DataSource=""@ChinaSizeData""
+                             XName=""Year""
+                             YName=""Value""
+                             Name=""China""
+                             Type=""ChartSeriesType.Line""
+                             Fill=""#898AC4"">
+                    <ChartMarker Visible=""true"" Shape=""ChartShape.Circle"" />
+                </ChartSeries>
+
+                <ChartSeries DataSource=""@GermanySizeData""
+                             XName=""Year""
+                             YName=""Value""
+                             Name=""Germany""
+                             Type=""ChartSeriesType.Line""
+                             Fill=""#B3C890"">
+                    <ChartMarker Visible=""true"" Shape=""ChartShape.Circle"" />
+                </ChartSeries>
+
+                <ChartSeries DataSource=""@SpainSizeData""
+                             XName=""Year""
+                             YName=""Value""
+                             Name=""Spain""
+                             Type=""ChartSeriesType.Line""
+                             Fill=""#CD8D7A"">
+                    <ChartMarker Visible=""true"" Shape=""ChartShape.Circle"" />
+                </ChartSeries>
+
+                <ChartSeries DataSource=""@UKSizeData""
+                             XName=""Year""
+                             YName=""Value""
+                             Name=""U.K""
+                             Type=""ChartSeriesType.Line""
+                             Fill=""#D7B26D"">
+                    <ChartMarker Visible=""true"" Shape=""ChartShape.Circle"" />
+                </ChartSeries>
+
+                <ChartSeries DataSource=""@USASizeData""
+                             XName=""Year""
+                             YName=""Value""
+                             Name=""USA""
+                             Type=""ChartSeriesType.Line""
+                             Fill=""#6A9C89"">
+                    <ChartMarker Visible=""true"" Shape=""ChartShape.Circle"" />
+                </ChartSeries>
+            </ChartSeriesCollection>
+
+            <ChartTooltipSettings Enable=""true""
+                                  Header=""${point.x}""
+                                  Format=""${series.name} : <b>${point.y}</b>"" />
+
+            <ChartLegendSettings Visible=""true""
+                                 Background=""#D3D3D3"">
+                <ChartLegendBorder Width=""2"" Color=""black"" />
+            </ChartLegendSettings>
+
+        </SfChart>
+        @code
+        {
+             public class FossilFuelConsumptionData
+            {
+                public int Year { get; set; }
+                public double Value { get; set; }
+            }
+
+            public List<FossilFuelConsumptionData> ChinaSizeData = new()
+            {
+                new() { Year = 2012, Value = 3.9141755 }, new() { Year = 2013, Value = 3.6593583 },
+                new() { Year = 2014, Value = 2.2238302 }, new() { Year = 2015, Value = -0.06528751 },
+                new() { Year = 2016, Value = -0.32014525 }, new() { Year = 2017, Value = 2.8797305 },
+                new() { Year = 2018, Value = 3.1904576 }, new() { Year = 2019, Value = 4.3828387 },
+                new() { Year = 2020, Value = 2.0526013 }, new() { Year = 2021, Value = 4.542263 },
+                new() { Year = 2022, Value = 0.93297124 }, new() { Year = 2023, Value = 5.922115 },
+                new() { Year = 2024, Value = 1.5348873 }
+            };
+
+            public List<FossilFuelConsumptionData> GermanySizeData = new()
+            {
+                new() { Year = 2012, Value = 0.6560194 }, new() { Year = 2013, Value = 3.1069093 },
+                new() { Year = 2014, Value = -5.853749 }, new() { Year = 2015, Value = 0.60647434 },
+                new() { Year = 2016, Value = 2.6676753 }, new() { Year = 2017, Value = 2.012044 },
+                new() { Year = 2018, Value = -3.8458169 }, new() { Year = 2019, Value = -4.46649 },
+                new() { Year = 2020, Value = -9.026834 }, new() { Year = 2021, Value = 5.361363 },
+                new() { Year = 2022, Value = -3.983767 }, new() { Year = 2023, Value = -9.798819 },
+                new() { Year = 2024, Value = 0.82265115 }
+            };
+
+            public List<FossilFuelConsumptionData> SpainSizeData = new()
+            {
+                new() { Year = 2012, Value = -2.4186563 }, new() { Year = 2013, Value = -8.309622 },
+                new() { Year = 2014, Value = -2.0009587 }, new() { Year = 2015, Value = 5.18584 },
+                new() { Year = 2016, Value = -1.1721327 }, new() { Year = 2017, Value = 5.7110085 },
+                new() { Year = 2018, Value = -1.214902 }, new() { Year = 2019, Value = -2.3932867 },
+                new() { Year = 2020, Value = -17.604729 }, new() { Year = 2021, Value = 8.793011 },
+                new() { Year = 2022, Value = 6.266217 }, new() { Year = 2023, Value = -7.0316525 },
+                new() { Year = 2024, Value = 2.8967035 }
+            };
+
+            public List<FossilFuelConsumptionData> UKSizeData = new()
+            {
+                new() { Year = 2012, Value = 1.1497142 }, new() { Year = 2013, Value = -1.4915984 },
+                new() { Year = 2014, Value = -7.248566 }, new() { Year = 2015, Value = -2.27227 },
+                new() { Year = 2016, Value = -1.8265706 }, new() { Year = 2017, Value = -1.8465825 },
+                new() { Year = 2018, Value = -1.409581 }, new() { Year = 2019, Value = -3.4915404 },
+                new() { Year = 2020, Value = -13.557806 }, new() { Year = 2021, Value = 3.4425383 },
+                new() { Year = 2022, Value = -1.3518904 }, new() { Year = 2023, Value = -4.398203 },
+                new() { Year = 2024, Value = -1.3263665 }
+            };
+
+            public List<FossilFuelConsumptionData> USASizeData = new()
+            {
+                new() { Year = 2012, Value = -2.579147 }, new() { Year = 2013, Value = 2.4972367 },
+                new() { Year = 2014, Value = 0.9460448 }, new() { Year = 2015, Value = -1.2333843 },
+                new() { Year = 2016, Value = -1.1025952 }, new() { Year = 2017, Value = -0.4846117 },
+                new() { Year = 2018, Value = 4.220058 }, new() { Year = 2019, Value = -1.1917049 },
+                new() { Year = 2020, Value = -9.127873 }, new() { Year = 2021, Value = 6.143898 },
+                new() { Year = 2022, Value = 1.4998055 }, new() { Year = 2023, Value = -1.6757863 },
+                new() { Year = 2024, Value = 0.18467744 }
+            };
+        }";
+
+    public class FossilFuelConsumptionData
+    {
+        public int Year { get; set; }
+        public double Value { get; set; }
+    }
+
+    public List<FossilFuelConsumptionData> ChinaSizeData = new()
+    {
+        new() { Year = 2012, Value = 3.9141755 }, new() { Year = 2013, Value = 3.6593583 },
+        new() { Year = 2014, Value = 2.2238302 }, new() { Year = 2015, Value = -0.06528751 },
+        new() { Year = 2016, Value = -0.32014525 }, new() { Year = 2017, Value = 2.8797305 },
+        new() { Year = 2018, Value = 3.1904576 }, new() { Year = 2019, Value = 4.3828387 },
+        new() { Year = 2020, Value = 2.0526013 }, new() { Year = 2021, Value = 4.542263 },
+        new() { Year = 2022, Value = 0.93297124 }, new() { Year = 2023, Value = 5.922115 },
+        new() { Year = 2024, Value = 1.5348873 }
+    };
+
+    public List<FossilFuelConsumptionData> GermanySizeData = new()
+    {
+        new() { Year = 2012, Value = 0.6560194 }, new() { Year = 2013, Value = 3.1069093 },
+        new() { Year = 2014, Value = -5.853749 }, new() { Year = 2015, Value = 0.60647434 },
+        new() { Year = 2016, Value = 2.6676753 }, new() { Year = 2017, Value = 2.012044 },
+        new() { Year = 2018, Value = -3.8458169 }, new() { Year = 2019, Value = -4.46649 },
+        new() { Year = 2020, Value = -9.026834 }, new() { Year = 2021, Value = 5.361363 },
+        new() { Year = 2022, Value = -3.983767 }, new() { Year = 2023, Value = -9.798819 },
+        new() { Year = 2024, Value = 0.82265115 }
+    };
+
+    public List<FossilFuelConsumptionData> SpainSizeData = new()
+    {
+        new() { Year = 2012, Value = -2.4186563 }, new() { Year = 2013, Value = -8.309622 },
+        new() { Year = 2014, Value = -2.0009587 }, new() { Year = 2015, Value = 5.18584 },
+        new() { Year = 2016, Value = -1.1721327 }, new() { Year = 2017, Value = 5.7110085 },
+        new() { Year = 2018, Value = -1.214902 }, new() { Year = 2019, Value = -2.3932867 },
+        new() { Year = 2020, Value = -17.604729 }, new() { Year = 2021, Value = 8.793011 },
+        new() { Year = 2022, Value = 6.266217 }, new() { Year = 2023, Value = -7.0316525 },
+        new() { Year = 2024, Value = 2.8967035 }
+    };
+
+    public List<FossilFuelConsumptionData> UKSizeData = new()
+    {
+        new() { Year = 2012, Value = 1.1497142 }, new() { Year = 2013, Value = -1.4915984 },
+        new() { Year = 2014, Value = -7.248566 }, new() { Year = 2015, Value = -2.27227 },
+        new() { Year = 2016, Value = -1.8265706 }, new() { Year = 2017, Value = -1.8465825 },
+        new() { Year = 2018, Value = -1.409581 }, new() { Year = 2019, Value = -3.4915404 },
+        new() { Year = 2020, Value = -13.557806 }, new() { Year = 2021, Value = 3.4425383 },
+        new() { Year = 2022, Value = -1.3518904 }, new() { Year = 2023, Value = -4.398203 },
+        new() { Year = 2024, Value = -1.3263665 }
+    };
+
+    public List<FossilFuelConsumptionData> USASizeData = new()
+    {
+        new() { Year = 2012, Value = -2.579147 }, new() { Year = 2013, Value = 2.4972367 },
+        new() { Year = 2014, Value = 0.9460448 }, new() { Year = 2015, Value = -1.2333843 },
+        new() { Year = 2016, Value = -1.1025952 }, new() { Year = 2017, Value = -0.4846117 },
+        new() { Year = 2018, Value = 4.220058 }, new() { Year = 2019, Value = -1.1917049 },
+        new() { Year = 2020, Value = -9.127873 }, new() { Year = 2021, Value = 6.143898 },
+        new() { Year = 2022, Value = 1.4998055 }, new() { Year = 2023, Value = -1.6757863 },
+        new() { Year = 2024, Value = 0.18467744 }
+    };
+
+        private double shapeHeight = 25;
+        private double shapeWidth = 25;
+        private double shapePadding = 30;
+
+        private string LegendControlsStyle => $"--legend-bg: {(IsDarkTheme ? "#0b1220" : "#f8f9fa")}; --legend-text: {(IsDarkTheme ? "#e5e7eb" : "inherit")}; --legend-accent: {(IsDarkTheme ? "#60b5ff" : "#1e90ff")}; --legend-track-bg: {(IsDarkTheme ? "rgba(255,255,255,0.06)" : "rgba(0,0,0,0.06)")}; display: flex; align-items: center; justify-content: center; gap: 30px; padding: 20px; background: var(--legend-bg); border-radius: 8px; margin-bottom: 20px; flex-wrap: wrap; color: var(--legend-text);";
+
+    private string LegendItemSizeCode => @"<div style=""display: flex; align-items: center; justify-content: center; gap: 30px; padding: 20px; background: #f8f9fa; border-radius: 8px; margin-bottom: 20px; flex-wrap: wrap;"">
+            <div style=""display: flex; align-items: center; gap: 10px;"">
+                <label style=""font-weight: 500;"">Shape Height:</label>
+                <input type=""range"" min=""10"" max=""50"" @bind=""shapeHeight"" @bind:event=""oninput"" style=""cursor: pointer;"" />
+                <span style=""min-width: 25px"">@shapeHeight</span>
+            </div>
+            <div style=""display: flex; align-items: center; gap: 10px;"">
+                <label style=""font-weight: 500;"">Shape Width:</label>
+                <input type=""range"" min=""10"" max=""50"" @bind=""shapeWidth"" @bind:event=""oninput"" style=""cursor: pointer;"" />
+                <span style=""min-width: 25px"">@shapeWidth</span>
+            </div>
+            <div style=""display: flex; align-items: center; gap: 10px;"">
+                <label style=""font-weight: 500;"">Shape Padding:</label>
+                <input type=""range"" min=""0"" max=""50"" @bind=""shapePadding"" @bind:event=""oninput"" style=""cursor: pointer;"" />
+                <span style=""min-width: 25px"">@shapePadding</span>
+            </div>
+        </div>
+        <SfChart Title=""Renewable Sources Used to Generate Electricity for Transport Fuels"">
+
+            <ChartPrimaryXAxis ValueType=""ValueType.Category"" />
+
+            <ChartPrimaryYAxis>
+                <ChartAxisLineStyle Width=""0"" />
+            </ChartPrimaryYAxis>
+            <ChartSeriesCollection>
+                <ChartSeries DataSource=""@PagingData""
+                             XName=""Year""
+                             YName=""LargeScaleHydro""
+                             Name=""Large scale Hydro""
+                             Type=""ChartSeriesType.Line""
+                             Fill=""#6A9C89"">
+                    <ChartMarker Visible=""true"" Shape=""ChartShape.Circle"" />
+                </ChartSeries>
+                <ChartSeries DataSource=""@PagingData""
+                             XName=""Year""
+                             YName=""AnimalBiomass""
+                             Name=""Animal biomass""
+                             Type=""ChartSeriesType.Line""
+                             Fill=""#D7B26D"">
+                    <ChartMarker Visible=""true"" Shape=""ChartShape.Circle"" />
+                </ChartSeries>
+                <ChartSeries DataSource=""@PagingData""
+                             XName=""Year""
+                             YName=""LandfillGas""
+                             Name=""Landfill gas""
+                             Type=""ChartSeriesType.Line""
+                             Fill=""#B3C890"">
+                    <ChartMarker Visible=""true"" Shape=""ChartShape.Circle"" />
+                </ChartSeries>
+                <ChartSeries DataSource=""@PagingData""
+                             XName=""Year""
+                             YName=""SewageGas""
+                             Name=""Sewage gas""
+                             Type=""ChartSeriesType.Line""
+                             Fill=""#7695FF"">
+                    <ChartMarker Visible=""true"" Shape=""ChartShape.Circle"" />
+                </ChartSeries>
+            </ChartSeriesCollection>
+            <ChartTooltipSettings Enable=""true""
+                                  Header=""${point.x}""
+                                  Format=""${series.name} : <b>${point.y}</b>"" />
+            <ChartLegendSettings Visible=""true""
+                                 ShapeHeight=""@shapeHeight""
+                                 ShapeWidth=""@shapeWidth""
+                                 ShapePadding=""@shapePadding"">
+            </ChartLegendSettings>
+        </SfChart>
+        @code
+        {
+           private double shapeHeight = 25;
+           private double shapeWidth = 25;
+           private double shapePadding = 30;
+            public class RenewableEnergyData
+            {
+                public int Year { get; set; }
+                public double OnshoreWind { get; set; }
+                public double OffshoreWind { get; set; }
+                public double MarineEnergy { get; set; }
+                public double SolarPV { get; set; }
+                public double SmallScaleHydro { get; set; }
+                public double LargeScaleHydro { get; set; }
+                public double PlantBiomass { get; set; }
+                public double AnimalBiomass { get; set; }
+                public double LandfillGas { get; set; }
+                public double SewageGas { get; set; }
+            }
+
+            public List<RenewableEnergyData> PagingData = new()
+            {
+                new() { Year = 1990, OnshoreWind = 1, OffshoreWind = 0, MarineEnergy = 0, SolarPV = 0, SmallScaleHydro = 11, LargeScaleHydro = 437, PlantBiomass = 0, AnimalBiomass = 0, LandfillGas = 46, SewageGas = 104 },
+                new() { Year = 1991, OnshoreWind = 1, OffshoreWind = 0, MarineEnergy = 0, SolarPV = 0, SmallScaleHydro = 12, LargeScaleHydro = 385, PlantBiomass = 0, AnimalBiomass = 0, LandfillGas = 68, SewageGas = 108 },
+                new() { Year = 1992, OnshoreWind = 3, OffshoreWind = 0, MarineEnergy = 0, SolarPV = 0, SmallScaleHydro = 13, LargeScaleHydro = 454, PlantBiomass = 0, AnimalBiomass = 17, LandfillGas = 124, SewageGas = 108 },
+                new() { Year = 1993, OnshoreWind = 19, OffshoreWind = 0, MarineEnergy = 0, SolarPV = 0, SmallScaleHydro = 14, LargeScaleHydro = 356, PlantBiomass = 0, AnimalBiomass = 52, LandfillGas = 147, SewageGas = 124 },
+                new() { Year = 1994, OnshoreWind = 30, OffshoreWind = 0, MarineEnergy = 0, SolarPV = 0, SmallScaleHydro = 14, LargeScaleHydro = 424, PlantBiomass = 0, AnimalBiomass = 71, LandfillGas = 170, SewageGas = 118 },
+                new() { Year = 1995, OnshoreWind = 34, OffshoreWind = 0, MarineEnergy = 0, SolarPV = 0, SmallScaleHydro = 14, LargeScaleHydro = 402, PlantBiomass = 0, AnimalBiomass = 71, LandfillGas = 184, SewageGas = 135 },
+                new() { Year = 1996, OnshoreWind = 42, OffshoreWind = 0, MarineEnergy = 0, SolarPV = 0, SmallScaleHydro = 10, LargeScaleHydro = 282, PlantBiomass = 0, AnimalBiomass = 67, LandfillGas = 232, SewageGas = 135 },
+                new() { Year = 1997, OnshoreWind = 57, OffshoreWind = 0, MarineEnergy = 0, SolarPV = 0, SmallScaleHydro = 14, LargeScaleHydro = 344, PlantBiomass = 0, AnimalBiomass = 68, LandfillGas = 301, SewageGas = 134 },
+                new() { Year = 1998, OnshoreWind = 75, OffshoreWind = 0, MarineEnergy = 0, SolarPV = 0, SmallScaleHydro = 18, LargeScaleHydro = 422, PlantBiomass = 0, AnimalBiomass = 76, LandfillGas = 389, SewageGas = 126 },
+                new() { Year = 1999, OnshoreWind = 73, OffshoreWind = 0, MarineEnergy = 0, SolarPV = 0, SmallScaleHydro = 18, LargeScaleHydro = 441, PlantBiomass = 0, AnimalBiomass = 157, LandfillGas = 558, SewageGas = 135 },
+                new() { Year = 2000, OnshoreWind = 81, OffshoreWind = 0, MarineEnergy = 0, SolarPV = 0, SmallScaleHydro = 18, LargeScaleHydro = 419, PlantBiomass = 11, AnimalBiomass = 183, LandfillGas = 718, SewageGas = 120 },
+                new() { Year = 2001, OnshoreWind = 83, OffshoreWind = 0, MarineEnergy = 0, SolarPV = 0, SmallScaleHydro = 18, LargeScaleHydro = 331, PlantBiomass = 81, AnimalBiomass = 205, LandfillGas = 822, SewageGas = 119 },
+                new() { Year = 2002, OnshoreWind = 108, OffshoreWind = 0, MarineEnergy = 0, SolarPV = 0, SmallScaleHydro = 18, LargeScaleHydro = 394, PlantBiomass = 92, AnimalBiomass = 184, LandfillGas = 879, SewageGas = 121 },
+                new() { Year = 2003, OnshoreWind = 110, OffshoreWind = 1, MarineEnergy = 0, SolarPV = 0, SmallScaleHydro = 13, LargeScaleHydro = 257, PlantBiomass = 137, AnimalBiomass = 169, LandfillGas = 1075, SewageGas = 129 },
+                new() { Year = 2004, OnshoreWind = 149, OffshoreWind = 17, MarineEnergy = 0, SolarPV = 0, SmallScaleHydro = 24, LargeScaleHydro = 392, PlantBiomass = 123, AnimalBiomass = 179, LandfillGas = 1313, SewageGas = 144 },
+                new() { Year = 2005, OnshoreWind = 215, OffshoreWind = 35, MarineEnergy = 0, SolarPV = 1, SmallScaleHydro = 38, LargeScaleHydro = 385, PlantBiomass = 129, AnimalBiomass = 159, LandfillGas = 1407, SewageGas = 153 },
+                new() { Year = 2006, OnshoreWind = 307, OffshoreWind = 56, MarineEnergy = 0, SolarPV = 1, SmallScaleHydro = 41, LargeScaleHydro = 354, PlantBiomass = 123, AnimalBiomass = 145, LandfillGas = 1451, SewageGas = 146 },
+                new() { Year = 2007, OnshoreWind = 386, OffshoreWind = 67, MarineEnergy = 0, SolarPV = 1, SmallScaleHydro = 45, LargeScaleHydro = 392, PlantBiomass = 138, AnimalBiomass = 218, LandfillGas = 1534, SewageGas = 162 },
+                new() { Year = 2008, OnshoreWind = 498, OffshoreWind = 115, MarineEnergy = 0, SolarPV = 1, SmallScaleHydro = 47, LargeScaleHydro = 396, PlantBiomass = 242, AnimalBiomass = 260, LandfillGas = 1540, SewageGas = 180 },
+                new() { Year = 2009, OnshoreWind = 647, OffshoreWind = 151, MarineEnergy = 0, SolarPV = 2, SmallScaleHydro = 49, LargeScaleHydro = 401, PlantBiomass = 387, AnimalBiomass = 232, LandfillGas = 1613, SewageGas = 198 },
+                new() { Year = 2010, OnshoreWind = 621, OffshoreWind = 263, MarineEnergy = 0, SolarPV = 3, SmallScaleHydro = 43, LargeScaleHydro = 266, PlantBiomass = 461, AnimalBiomass = 239, LandfillGas = 1711, SewageGas = 237 },
+                new() { Year = 2011, OnshoreWind = 930, OffshoreWind = 443, MarineEnergy = 0, SolarPV = 21, SmallScaleHydro = 61, LargeScaleHydro = 429, PlantBiomass = 554, AnimalBiomass = 224, LandfillGas = 1744, SewageGas = 254 },
+                new() { Year = 2012, OnshoreWind = 1053, OffshoreWind = 654, MarineEnergy = 0, SolarPV = 116, SmallScaleHydro = 58, LargeScaleHydro = 398, PlantBiomass = 1062, AnimalBiomass = 225, LandfillGas = 1708, SewageGas = 242 },
+                new() { Year = 2013, OnshoreWind = 1455, OffshoreWind = 986, MarineEnergy = 0, SolarPV = 173, SmallScaleHydro = 58, LargeScaleHydro = 346, PlantBiomass = 2008, AnimalBiomass = 226, LandfillGas = 1697, SewageGas = 251 },
+                new() { Year = 2014, OnshoreWind = 1595, OffshoreWind = 1153, MarineEnergy = 0, SolarPV = 349, SmallScaleHydro = 72, LargeScaleHydro = 435, PlantBiomass = 2913, AnimalBiomass = 225, LandfillGas = 1651, SewageGas = 276 },
+                new() { Year = 2015, OnshoreWind = 1965, OffshoreWind = 1498, MarineEnergy = 0, SolarPV = 648, SmallScaleHydro = 85, LargeScaleHydro = 457, PlantBiomass = 3850, AnimalBiomass = 235, LandfillGas = 1598, SewageGas = 293 },
+                new() { Year = 2016, OnshoreWind = 1785, OffshoreWind = 1411, MarineEnergy = 0, SolarPV = 894, SmallScaleHydro = 87, LargeScaleHydro = 374, PlantBiomass = 3855, AnimalBiomass = 230, LandfillGas = 1542, SewageGas = 312 },
+                new() { Year = 2017, OnshoreWind = 2470, OffshoreWind = 1798, MarineEnergy = 0, SolarPV = 985, SmallScaleHydro = 112, LargeScaleHydro = 394, PlantBiomass = 4206, AnimalBiomass = 226, LandfillGas = 1405, SewageGas = 317 },
+                new() { Year = 2018, OnshoreWind = 2612, OffshoreWind = 2281, MarineEnergy = 1, SolarPV = 1089, SmallScaleHydro = 111, LargeScaleHydro = 357, PlantBiomass = 4898, AnimalBiomass = 219, LandfillGas = 1284, SewageGas = 325 },
+                new() { Year = 2019, OnshoreWind = 2739, OffshoreWind = 2749, MarineEnergy = 1, SolarPV = 1068, SmallScaleHydro = 120, LargeScaleHydro = 390, PlantBiomass = 5400, AnimalBiomass = 243, LandfillGas = 866, SewageGas = 233 },
+                new() { Year = 2020, OnshoreWind = 3004, OffshoreWind = 3498, MarineEnergy = 1, SolarPV = 1109, SmallScaleHydro = 134, LargeScaleHydro = 456, PlantBiomass = 5637, AnimalBiomass = 241, LandfillGas = 835, SewageGas = 237 },
+                new() { Year = 2021, OnshoreWind = 2507, OffshoreWind = 3053, MarineEnergy = 0, SolarPV = 1044, SmallScaleHydro = 119, LargeScaleHydro = 353, PlantBiomass = 5990, AnimalBiomass = 240, LandfillGas = 791, SewageGas = 233 }
+            };
+        }";
+
+    public class RenewableEnergyData
+    {
+        public int Year { get; set; }
+        public double OnshoreWind { get; set; }
+        public double OffshoreWind { get; set; }
+        public double MarineEnergy { get; set; }
+        public double SolarPV { get; set; }
+        public double SmallScaleHydro { get; set; }
+        public double LargeScaleHydro { get; set; }
+        public double PlantBiomass { get; set; }
+        public double AnimalBiomass { get; set; }
+        public double LandfillGas { get; set; }
+        public double SewageGas { get; set; }
+    }
+
+    public List<RenewableEnergyData> PagingData = new()
+    {
+        new() { Year = 1990, OnshoreWind = 1, OffshoreWind = 0, MarineEnergy = 0, SolarPV = 0, SmallScaleHydro = 11, LargeScaleHydro = 437, PlantBiomass = 0, AnimalBiomass = 0, LandfillGas = 46, SewageGas = 104 },
+        new() { Year = 1991, OnshoreWind = 1, OffshoreWind = 0, MarineEnergy = 0, SolarPV = 0, SmallScaleHydro = 12, LargeScaleHydro = 385, PlantBiomass = 0, AnimalBiomass = 0, LandfillGas = 68, SewageGas = 108 },
+        new() { Year = 1992, OnshoreWind = 3, OffshoreWind = 0, MarineEnergy = 0, SolarPV = 0, SmallScaleHydro = 13, LargeScaleHydro = 454, PlantBiomass = 0, AnimalBiomass = 17, LandfillGas = 124, SewageGas = 108 },
+        new() { Year = 1993, OnshoreWind = 19, OffshoreWind = 0, MarineEnergy = 0, SolarPV = 0, SmallScaleHydro = 14, LargeScaleHydro = 356, PlantBiomass = 0, AnimalBiomass = 52, LandfillGas = 147, SewageGas = 124 },
+        new() { Year = 1994, OnshoreWind = 30, OffshoreWind = 0, MarineEnergy = 0, SolarPV = 0, SmallScaleHydro = 14, LargeScaleHydro = 424, PlantBiomass = 0, AnimalBiomass = 71, LandfillGas = 170, SewageGas = 118 },
+        new() { Year = 1995, OnshoreWind = 34, OffshoreWind = 0, MarineEnergy = 0, SolarPV = 0, SmallScaleHydro = 14, LargeScaleHydro = 402, PlantBiomass = 0, AnimalBiomass = 71, LandfillGas = 184, SewageGas = 135 },
+        new() { Year = 1996, OnshoreWind = 42, OffshoreWind = 0, MarineEnergy = 0, SolarPV = 0, SmallScaleHydro = 10, LargeScaleHydro = 282, PlantBiomass = 0, AnimalBiomass = 67, LandfillGas = 232, SewageGas = 135 },
+        new() { Year = 1997, OnshoreWind = 57, OffshoreWind = 0, MarineEnergy = 0, SolarPV = 0, SmallScaleHydro = 14, LargeScaleHydro = 344, PlantBiomass = 0, AnimalBiomass = 68, LandfillGas = 301, SewageGas = 134 },
+        new() { Year = 1998, OnshoreWind = 75, OffshoreWind = 0, MarineEnergy = 0, SolarPV = 0, SmallScaleHydro = 18, LargeScaleHydro = 422, PlantBiomass = 0, AnimalBiomass = 76, LandfillGas = 389, SewageGas = 126 },
+        new() { Year = 1999, OnshoreWind = 73, OffshoreWind = 0, MarineEnergy = 0, SolarPV = 0, SmallScaleHydro = 18, LargeScaleHydro = 441, PlantBiomass = 0, AnimalBiomass = 157, LandfillGas = 558, SewageGas = 135 },
+        new() { Year = 2000, OnshoreWind = 81, OffshoreWind = 0, MarineEnergy = 0, SolarPV = 0, SmallScaleHydro = 18, LargeScaleHydro = 419, PlantBiomass = 11, AnimalBiomass = 183, LandfillGas = 718, SewageGas = 120 },
+        new() { Year = 2001, OnshoreWind = 83, OffshoreWind = 0, MarineEnergy = 0, SolarPV = 0, SmallScaleHydro = 18, LargeScaleHydro = 331, PlantBiomass = 81, AnimalBiomass = 205, LandfillGas = 822, SewageGas = 119 },
+        new() { Year = 2002, OnshoreWind = 108, OffshoreWind = 0, MarineEnergy = 0, SolarPV = 0, SmallScaleHydro = 18, LargeScaleHydro = 394, PlantBiomass = 92, AnimalBiomass = 184, LandfillGas = 879, SewageGas = 121 },
+        new() { Year = 2003, OnshoreWind = 110, OffshoreWind = 1, MarineEnergy = 0, SolarPV = 0, SmallScaleHydro = 13, LargeScaleHydro = 257, PlantBiomass = 137, AnimalBiomass = 169, LandfillGas = 1075, SewageGas = 129 },
+        new() { Year = 2004, OnshoreWind = 149, OffshoreWind = 17, MarineEnergy = 0, SolarPV = 0, SmallScaleHydro = 24, LargeScaleHydro = 392, PlantBiomass = 123, AnimalBiomass = 179, LandfillGas = 1313, SewageGas = 144 },
+        new() { Year = 2005, OnshoreWind = 215, OffshoreWind = 35, MarineEnergy = 0, SolarPV = 1, SmallScaleHydro = 38, LargeScaleHydro = 385, PlantBiomass = 129, AnimalBiomass = 159, LandfillGas = 1407, SewageGas = 153 },
+        new() { Year = 2006, OnshoreWind = 307, OffshoreWind = 56, MarineEnergy = 0, SolarPV = 1, SmallScaleHydro = 41, LargeScaleHydro = 354, PlantBiomass = 123, AnimalBiomass = 145, LandfillGas = 1451, SewageGas = 146 },
+        new() { Year = 2007, OnshoreWind = 386, OffshoreWind = 67, MarineEnergy = 0, SolarPV = 1, SmallScaleHydro = 45, LargeScaleHydro = 392, PlantBiomass = 138, AnimalBiomass = 218, LandfillGas = 1534, SewageGas = 162 },
+        new() { Year = 2008, OnshoreWind = 498, OffshoreWind = 115, MarineEnergy = 0, SolarPV = 1, SmallScaleHydro = 47, LargeScaleHydro = 396, PlantBiomass = 242, AnimalBiomass = 260, LandfillGas = 1540, SewageGas = 180 },
+        new() { Year = 2009, OnshoreWind = 647, OffshoreWind = 151, MarineEnergy = 0, SolarPV = 2, SmallScaleHydro = 49, LargeScaleHydro = 401, PlantBiomass = 387, AnimalBiomass = 232, LandfillGas = 1613, SewageGas = 198 },
+        new() { Year = 2010, OnshoreWind = 621, OffshoreWind = 263, MarineEnergy = 0, SolarPV = 3, SmallScaleHydro = 43, LargeScaleHydro = 266, PlantBiomass = 461, AnimalBiomass = 239, LandfillGas = 1711, SewageGas = 237 },
+        new() { Year = 2011, OnshoreWind = 930, OffshoreWind = 443, MarineEnergy = 0, SolarPV = 21, SmallScaleHydro = 61, LargeScaleHydro = 429, PlantBiomass = 554, AnimalBiomass = 224, LandfillGas = 1744, SewageGas = 254 },
+        new() { Year = 2012, OnshoreWind = 1053, OffshoreWind = 654, MarineEnergy = 0, SolarPV = 116, SmallScaleHydro = 58, LargeScaleHydro = 398, PlantBiomass = 1062, AnimalBiomass = 225, LandfillGas = 1708, SewageGas = 242 },
+        new() { Year = 2013, OnshoreWind = 1455, OffshoreWind = 986, MarineEnergy = 0, SolarPV = 173, SmallScaleHydro = 58, LargeScaleHydro = 346, PlantBiomass = 2008, AnimalBiomass = 226, LandfillGas = 1697, SewageGas = 251 },
+        new() { Year = 2014, OnshoreWind = 1595, OffshoreWind = 1153, MarineEnergy = 0, SolarPV = 349, SmallScaleHydro = 72, LargeScaleHydro = 435, PlantBiomass = 2913, AnimalBiomass = 225, LandfillGas = 1651, SewageGas = 276 },
+        new() { Year = 2015, OnshoreWind = 1965, OffshoreWind = 1498, MarineEnergy = 0, SolarPV = 648, SmallScaleHydro = 85, LargeScaleHydro = 457, PlantBiomass = 3850, AnimalBiomass = 235, LandfillGas = 1598, SewageGas = 293 },
+        new() { Year = 2016, OnshoreWind = 1785, OffshoreWind = 1411, MarineEnergy = 0, SolarPV = 894, SmallScaleHydro = 87, LargeScaleHydro = 374, PlantBiomass = 3855, AnimalBiomass = 230, LandfillGas = 1542, SewageGas = 312 },
+        new() { Year = 2017, OnshoreWind = 2470, OffshoreWind = 1798, MarineEnergy = 0, SolarPV = 985, SmallScaleHydro = 112, LargeScaleHydro = 394, PlantBiomass = 4206, AnimalBiomass = 226, LandfillGas = 1405, SewageGas = 317 },
+        new() { Year = 2018, OnshoreWind = 2612, OffshoreWind = 2281, MarineEnergy = 1, SolarPV = 1089, SmallScaleHydro = 111, LargeScaleHydro = 357, PlantBiomass = 4898, AnimalBiomass = 219, LandfillGas = 1284, SewageGas = 325 },
+        new() { Year = 2019, OnshoreWind = 2739, OffshoreWind = 2749, MarineEnergy = 1, SolarPV = 1068, SmallScaleHydro = 120, LargeScaleHydro = 390, PlantBiomass = 5400, AnimalBiomass = 243, LandfillGas = 866, SewageGas = 233 },
+        new() { Year = 2020, OnshoreWind = 3004, OffshoreWind = 3498, MarineEnergy = 1, SolarPV = 1109, SmallScaleHydro = 134, LargeScaleHydro = 456, PlantBiomass = 5637, AnimalBiomass = 241, LandfillGas = 835, SewageGas = 237 },
+        new() { Year = 2021, OnshoreWind = 2507, OffshoreWind = 3053, MarineEnergy = 0, SolarPV = 1044, SmallScaleHydro = 119, LargeScaleHydro = 353, PlantBiomass = 5990, AnimalBiomass = 240, LandfillGas = 791, SewageGas = 233 }
+    };
+
+    private string LegendPaginationCode => @"<SfChart @key=""@_currentTheme"" Title=""Renewable Sources Used to Generate Electricity for Transport Fuels"" Theme=""@_currentTheme"">
+            <ChartPrimaryXAxis ValueType=""ValueType.Category"" />
+            <ChartPrimaryYAxis>
+                <ChartAxisLineStyle Width=""0"" />
+            </ChartPrimaryYAxis>
+            <ChartSeriesCollection>
+                <ChartSeries DataSource=""@PagingData"" XName=""Year"" YName=""OnshoreWind"" Name=""Onshore wind"" Width=""2"" Type=""ChartSeriesType.Spline"" Fill=""#FF9874"">
+                    <ChartSeriesAnimation Enable=""false"" />
+                    <ChartMarker Visible=""true"" />
+                </ChartSeries>
+                <ChartSeries DataSource=""@PagingData"" XName=""Year"" YName=""OffshoreWind"" Name=""Offshore wind"" Width=""2"" Type=""ChartSeriesType.Spline"" Fill=""#D2649A"">
+                    <ChartSeriesAnimation Enable=""false"" />
+                    <ChartMarker Visible=""true"" />
+                </ChartSeries>
+                <ChartSeries DataSource=""@PagingData"" XName=""Year"" YName=""MarineEnergy"" Name=""Marine energy"" Width=""2"" Type=""ChartSeriesType.Spline"" Fill=""#7D8ABC"">
+                    <ChartSeriesAnimation Enable=""false"" />
+                    <ChartMarker Visible=""true"" />
+                </ChartSeries>
+                <ChartSeries DataSource=""@PagingData"" XName=""Year"" YName=""SolarPV"" Name=""Solar photovoltaics"" Width=""2"" Type=""ChartSeriesType.Spline"" Fill=""#7695FF"">
+                    <ChartSeriesAnimation Enable=""false"" />
+                    <ChartMarker Visible=""true"" />
+                </ChartSeries>
+                <ChartSeries DataSource=""@PagingData"" XName=""Year"" YName=""SmallScaleHydro"" Name=""Small scale Hydro"" Width=""2"" Type=""ChartSeriesType.Spline"" Fill=""#898AC4"">
+                    <ChartSeriesAnimation Enable=""false"" />
+                    <ChartMarker Visible=""true"" />
+                </ChartSeries>
+                <ChartSeries DataSource=""@PagingData"" XName=""Year"" YName=""LargeScaleHydro"" Name=""Large scale Hydro"" Width=""2"" Type=""ChartSeriesType.Spline"" Fill=""#B3C890"">
+                    <ChartSeriesAnimation Enable=""false"" />
+                    <ChartMarker Visible=""true"" />
+                </ChartSeries>
+                <ChartSeries DataSource=""@PagingData"" XName=""Year"" YName=""PlantBiomass"" Name=""Plant biomass"" Width=""2"" Type=""ChartSeriesType.Spline"" Fill=""#CD8D7A"">
+                    <ChartSeriesAnimation Enable=""false"" />
+                    <ChartMarker Visible=""true"" />
+                </ChartSeries>
+                <ChartSeries DataSource=""@PagingData"" XName=""Year"" YName=""AnimalBiomass"" Name=""Animal biomass"" Width=""2"" Type=""ChartSeriesType.Spline"" Fill=""#D7B26D"">
+                    <ChartSeriesAnimation Enable=""false"" />
+                    <ChartMarker Visible=""true"" />
+                </ChartSeries>
+                <ChartSeries DataSource=""@PagingData"" XName=""Year"" YName=""LandfillGas"" Name=""Landfill gas"" Width=""2"" Type=""ChartSeriesType.Spline"" Fill=""#286944ff"">
+                    <ChartSeriesAnimation Enable=""false"" />
+                    <ChartMarker Visible=""true"" />
+                </ChartSeries>
+                <ChartSeries DataSource=""@PagingData"" XName=""Year"" YName=""SewageGas"" Name=""Sewage gas"" Width=""2"" Type=""ChartSeriesType.Spline"" Fill=""#6A9C89"">
+                    <ChartSeriesAnimation Enable=""false"" />
+                    <ChartMarker Visible=""true"" />
+                </ChartSeries>
+            </ChartSeriesCollection>
+            <ChartTooltipSettings Enable=""true"" Header=""${point.x}"" Format=""${series.name}: <b>${point.y}</b>"" />
+            <ChartLegendSettings Visible=""true"" Width=""315"" Height=""50"" />
+        </SfChart>
+        @code
+        {
+            private Theme _currentTheme = Theme.Fluent;
+              public class RenewableEnergyData
+            {
+                public int Year { get; set; }
+                public double OnshoreWind { get; set; }
+                public double OffshoreWind { get; set; }
+                public double MarineEnergy { get; set; }
+                public double SolarPV { get; set; }
+                public double SmallScaleHydro { get; set; }
+                public double LargeScaleHydro { get; set; }
+                public double PlantBiomass { get; set; }
+                public double AnimalBiomass { get; set; }
+                public double LandfillGas { get; set; }
+                public double SewageGas { get; set; }
+            }
+
+            public List<RenewableEnergyData> PagingData = new()
+            {
+                new() { Year = 1990, OnshoreWind = 1, OffshoreWind = 0, MarineEnergy = 0, SolarPV = 0, SmallScaleHydro = 11, LargeScaleHydro = 437, PlantBiomass = 0, AnimalBiomass = 0, LandfillGas = 46, SewageGas = 104 },
+                new() { Year = 1991, OnshoreWind = 1, OffshoreWind = 0, MarineEnergy = 0, SolarPV = 0, SmallScaleHydro = 12, LargeScaleHydro = 385, PlantBiomass = 0, AnimalBiomass = 0, LandfillGas = 68, SewageGas = 108 },
+                new() { Year = 1992, OnshoreWind = 3, OffshoreWind = 0, MarineEnergy = 0, SolarPV = 0, SmallScaleHydro = 13, LargeScaleHydro = 454, PlantBiomass = 0, AnimalBiomass = 17, LandfillGas = 124, SewageGas = 108 },
+                new() { Year = 1993, OnshoreWind = 19, OffshoreWind = 0, MarineEnergy = 0, SolarPV = 0, SmallScaleHydro = 14, LargeScaleHydro = 356, PlantBiomass = 0, AnimalBiomass = 52, LandfillGas = 147, SewageGas = 124 },
+                new() { Year = 1994, OnshoreWind = 30, OffshoreWind = 0, MarineEnergy = 0, SolarPV = 0, SmallScaleHydro = 14, LargeScaleHydro = 424, PlantBiomass = 0, AnimalBiomass = 71, LandfillGas = 170, SewageGas = 118 },
+                new() { Year = 1995, OnshoreWind = 34, OffshoreWind = 0, MarineEnergy = 0, SolarPV = 0, SmallScaleHydro = 14, LargeScaleHydro = 402, PlantBiomass = 0, AnimalBiomass = 71, LandfillGas = 184, SewageGas = 135 },
+                new() { Year = 1996, OnshoreWind = 42, OffshoreWind = 0, MarineEnergy = 0, SolarPV = 0, SmallScaleHydro = 10, LargeScaleHydro = 282, PlantBiomass = 0, AnimalBiomass = 67, LandfillGas = 232, SewageGas = 135 },
+                new() { Year = 1997, OnshoreWind = 57, OffshoreWind = 0, MarineEnergy = 0, SolarPV = 0, SmallScaleHydro = 14, LargeScaleHydro = 344, PlantBiomass = 0, AnimalBiomass = 68, LandfillGas = 301, SewageGas = 134 },
+                new() { Year = 1998, OnshoreWind = 75, OffshoreWind = 0, MarineEnergy = 0, SolarPV = 0, SmallScaleHydro = 18, LargeScaleHydro = 422, PlantBiomass = 0, AnimalBiomass = 76, LandfillGas = 389, SewageGas = 126 },
+                new() { Year = 1999, OnshoreWind = 73, OffshoreWind = 0, MarineEnergy = 0, SolarPV = 0, SmallScaleHydro = 18, LargeScaleHydro = 441, PlantBiomass = 0, AnimalBiomass = 157, LandfillGas = 558, SewageGas = 135 },
+                new() { Year = 2000, OnshoreWind = 81, OffshoreWind = 0, MarineEnergy = 0, SolarPV = 0, SmallScaleHydro = 18, LargeScaleHydro = 419, PlantBiomass = 11, AnimalBiomass = 183, LandfillGas = 718, SewageGas = 120 },
+                new() { Year = 2001, OnshoreWind = 83, OffshoreWind = 0, MarineEnergy = 0, SolarPV = 0, SmallScaleHydro = 18, LargeScaleHydro = 331, PlantBiomass = 81, AnimalBiomass = 205, LandfillGas = 822, SewageGas = 119 },
+                new() { Year = 2002, OnshoreWind = 108, OffshoreWind = 0, MarineEnergy = 0, SolarPV = 0, SmallScaleHydro = 18, LargeScaleHydro = 394, PlantBiomass = 92, AnimalBiomass = 184, LandfillGas = 879, SewageGas = 121 },
+                new() { Year = 2003, OnshoreWind = 110, OffshoreWind = 1, MarineEnergy = 0, SolarPV = 0, SmallScaleHydro = 13, LargeScaleHydro = 257, PlantBiomass = 137, AnimalBiomass = 169, LandfillGas = 1075, SewageGas = 129 },
+                new() { Year = 2004, OnshoreWind = 149, OffshoreWind = 17, MarineEnergy = 0, SolarPV = 0, SmallScaleHydro = 24, LargeScaleHydro = 392, PlantBiomass = 123, AnimalBiomass = 179, LandfillGas = 1313, SewageGas = 144 },
+                new() { Year = 2005, OnshoreWind = 215, OffshoreWind = 35, MarineEnergy = 0, SolarPV = 1, SmallScaleHydro = 38, LargeScaleHydro = 385, PlantBiomass = 129, AnimalBiomass = 159, LandfillGas = 1407, SewageGas = 153 },
+                new() { Year = 2006, OnshoreWind = 307, OffshoreWind = 56, MarineEnergy = 0, SolarPV = 1, SmallScaleHydro = 41, LargeScaleHydro = 354, PlantBiomass = 123, AnimalBiomass = 145, LandfillGas = 1451, SewageGas = 146 },
+                new() { Year = 2007, OnshoreWind = 386, OffshoreWind = 67, MarineEnergy = 0, SolarPV = 1, SmallScaleHydro = 45, LargeScaleHydro = 392, PlantBiomass = 138, AnimalBiomass = 218, LandfillGas = 1534, SewageGas = 162 },
+                new() { Year = 2008, OnshoreWind = 498, OffshoreWind = 115, MarineEnergy = 0, SolarPV = 1, SmallScaleHydro = 47, LargeScaleHydro = 396, PlantBiomass = 242, AnimalBiomass = 260, LandfillGas = 1540, SewageGas = 180 },
+                new() { Year = 2009, OnshoreWind = 647, OffshoreWind = 151, MarineEnergy = 0, SolarPV = 2, SmallScaleHydro = 49, LargeScaleHydro = 401, PlantBiomass = 387, AnimalBiomass = 232, LandfillGas = 1613, SewageGas = 198 },
+                new() { Year = 2010, OnshoreWind = 621, OffshoreWind = 263, MarineEnergy = 0, SolarPV = 3, SmallScaleHydro = 43, LargeScaleHydro = 266, PlantBiomass = 461, AnimalBiomass = 239, LandfillGas = 1711, SewageGas = 237 },
+                new() { Year = 2011, OnshoreWind = 930, OffshoreWind = 443, MarineEnergy = 0, SolarPV = 21, SmallScaleHydro = 61, LargeScaleHydro = 429, PlantBiomass = 554, AnimalBiomass = 224, LandfillGas = 1744, SewageGas = 254 },
+                new() { Year = 2012, OnshoreWind = 1053, OffshoreWind = 654, MarineEnergy = 0, SolarPV = 116, SmallScaleHydro = 58, LargeScaleHydro = 398, PlantBiomass = 1062, AnimalBiomass = 225, LandfillGas = 1708, SewageGas = 242 },
+                new() { Year = 2013, OnshoreWind = 1455, OffshoreWind = 986, MarineEnergy = 0, SolarPV = 173, SmallScaleHydro = 58, LargeScaleHydro = 346, PlantBiomass = 2008, AnimalBiomass = 226, LandfillGas = 1697, SewageGas = 251 },
+                new() { Year = 2014, OnshoreWind = 1595, OffshoreWind = 1153, MarineEnergy = 0, SolarPV = 349, SmallScaleHydro = 72, LargeScaleHydro = 435, PlantBiomass = 2913, AnimalBiomass = 225, LandfillGas = 1651, SewageGas = 276 },
+                new() { Year = 2015, OnshoreWind = 1965, OffshoreWind = 1498, MarineEnergy = 0, SolarPV = 648, SmallScaleHydro = 85, LargeScaleHydro = 457, PlantBiomass = 3850, AnimalBiomass = 235, LandfillGas = 1598, SewageGas = 293 },
+                new() { Year = 2016, OnshoreWind = 1785, OffshoreWind = 1411, MarineEnergy = 0, SolarPV = 894, SmallScaleHydro = 87, LargeScaleHydro = 374, PlantBiomass = 3855, AnimalBiomass = 230, LandfillGas = 1542, SewageGas = 312 },
+                new() { Year = 2017, OnshoreWind = 2470, OffshoreWind = 1798, MarineEnergy = 0, SolarPV = 985, SmallScaleHydro = 112, LargeScaleHydro = 394, PlantBiomass = 4206, AnimalBiomass = 226, LandfillGas = 1405, SewageGas = 317 },
+                new() { Year = 2018, OnshoreWind = 2612, OffshoreWind = 2281, MarineEnergy = 1, SolarPV = 1089, SmallScaleHydro = 111, LargeScaleHydro = 357, PlantBiomass = 4898, AnimalBiomass = 219, LandfillGas = 1284, SewageGas = 325 },
+                new() { Year = 2019, OnshoreWind = 2739, OffshoreWind = 2749, MarineEnergy = 1, SolarPV = 1068, SmallScaleHydro = 120, LargeScaleHydro = 390, PlantBiomass = 5400, AnimalBiomass = 243, LandfillGas = 866, SewageGas = 233 },
+                new() { Year = 2020, OnshoreWind = 3004, OffshoreWind = 3498, MarineEnergy = 1, SolarPV = 1109, SmallScaleHydro = 134, LargeScaleHydro = 456, PlantBiomass = 5637, AnimalBiomass = 241, LandfillGas = 835, SewageGas = 237 },
+                new() { Year = 2021, OnshoreWind = 2507, OffshoreWind = 3053, MarineEnergy = 0, SolarPV = 1044, SmallScaleHydro = 119, LargeScaleHydro = 353, PlantBiomass = 5990, AnimalBiomass = 240, LandfillGas = 791, SewageGas = 233 }
+            };
+        }";
+
+    public class LifeExpectancyAgeData
+    {
+        public int Year { get; set; }
+        public double AtBirth { get; set; }
+        public double Age10 { get; set; }
+        public double Age25 { get; set; }
+        public double Age45 { get; set; }
+        public double Age65 { get; set; }
+        public double Age80 { get; set; }
+    }
+
+    public List<LifeExpectancyAgeData> FranceBirthData = new()
+    {
+        new() { Year = 1816, AtBirth = 40, Age10 = 57, Age25 = 62, Age45 = 68, Age65 = 76, Age80 = 85 },
+        new() { Year = 1817, AtBirth = 39, Age10 = 57, Age25 = 61, Age45 = 68, Age65 = 76, Age80 = 85 },
+        new() { Year = 1818, AtBirth = 39, Age10 = 57, Age25 = 62, Age45 = 68, Age65 = 76, Age80 = 85 },
+        new() { Year = 1819, AtBirth = 37, Age10 = 57, Age25 = 62, Age45 = 68, Age65 = 76, Age80 = 85 },
+        new() { Year = 1820, AtBirth = 39, Age10 = 57, Age25 = 62, Age45 = 68, Age65 = 76, Age80 = 85 },
+        new() { Year = 1821, AtBirth = 40, Age10 = 58, Age25 = 63, Age45 = 69, Age65 = 77, Age80 = 85 },
+        new() { Year = 1822, AtBirth = 38, Age10 = 58, Age25 = 63, Age45 = 69, Age65 = 76, Age80 = 85 },
+        new() { Year = 1823, AtBirth = 40, Age10 = 59, Age25 = 63, Age45 = 69, Age65 = 76, Age80 = 85 },
+        new() { Year = 1824, AtBirth = 39, Age10 = 59, Age25 = 63, Age45 = 69, Age65 = 77, Age80 = 85 },
+        new() { Year = 1825, AtBirth = 39, Age10 = 58, Age25 = 63, Age45 = 69, Age65 = 76, Age80 = 85 },
+        new() { Year = 1826, AtBirth = 38, Age10 = 57, Age25 = 62, Age45 = 68, Age65 = 76, Age80 = 85 },
+        new() { Year = 1827, AtBirth = 39, Age10 = 57, Age25 = 62, Age45 = 68, Age65 = 76, Age80 = 85 },
+        new() { Year = 1828, AtBirth = 38, Age10 = 57, Age25 = 62, Age45 = 68, Age65 = 76, Age80 = 85 },
+        new() { Year = 1829, AtBirth = 39, Age10 = 57, Age25 = 62, Age45 = 68, Age65 = 76, Age80 = 85 },
+        new() { Year = 1830, AtBirth = 40, Age10 = 57, Age25 = 62, Age45 = 68, Age65 = 76, Age80 = 85 },
+        new() { Year = 1831, AtBirth = 40, Age10 = 58, Age25 = 62, Age45 = 69, Age65 = 76, Age80 = 85 },
+        new() { Year = 1832, AtBirth = 36, Age10 = 54, Age25 = 59, Age45 = 66, Age65 = 75, Age80 = 85 },
+        new() { Year = 1833, AtBirth = 39, Age10 = 57, Age25 = 62, Age45 = 68, Age65 = 76, Age80 = 85 },
+        new() { Year = 1834, AtBirth = 35, Age10 = 56, Age25 = 61, Age45 = 68, Age65 = 76, Age80 = 85 },
+        new() { Year = 1835, AtBirth = 40, Age10 = 57, Age25 = 62, Age45 = 68, Age65 = 76, Age80 = 85 },
+        new() { Year = 1836, AtBirth = 42, Age10 = 59, Age25 = 63, Age45 = 69, Age65 = 76, Age80 = 85 },
+        new() { Year = 1837, AtBirth = 39, Age10 = 56, Age25 = 61, Age45 = 67, Age65 = 75, Age80 = 84 },
+        new() { Year = 1838, AtBirth = 39, Age10 = 57, Age25 = 62, Age45 = 68, Age65 = 76, Age80 = 85 },
+        new() { Year = 1839, AtBirth = 41, Age10 = 58, Age25 = 63, Age45 = 69, Age65 = 76, Age80 = 85 },
+        new() { Year = 1840, AtBirth = 40, Age10 = 57, Age25 = 62, Age45 = 69, Age65 = 76, Age80 = 85 },
+        new() { Year = 1841, AtBirth = 41, Age10 = 57, Age25 = 63, Age45 = 69, Age65 = 76, Age80 = 85 },
+        new() { Year = 1842, AtBirth = 40, Age10 = 57, Age25 = 62, Age45 = 69, Age65 = 76, Age80 = 85 },
+        new() { Year = 1843, AtBirth = 41, Age10 = 58, Age25 = 63, Age45 = 69, Age65 = 76, Age80 = 85 },
+        new() { Year = 1844, AtBirth = 42, Age10 = 58, Age25 = 63, Age45 = 69, Age65 = 76, Age80 = 85 },
+        new() { Year = 1845, AtBirth = 44, Age10 = 59, Age25 = 64, Age45 = 70, Age65 = 76, Age80 = 85 },
+        new() { Year = 1846, AtBirth = 41, Age10 = 58, Age25 = 63, Age45 = 69, Age65 = 76, Age80 = 85 },
+        new() { Year = 1847, AtBirth = 40, Age10 = 56, Age25 = 61, Age45 = 68, Age65 = 75, Age80 = 84 },
+        new() { Year = 1848, AtBirth = 40, Age10 = 57, Age25 = 62, Age45 = 68, Age65 = 76, Age80 = 85 },
+        new() { Year = 1849, AtBirth = 36, Age10 = 54, Age25 = 59, Age45 = 67, Age65 = 75, Age80 = 84 },
+        new() { Year = 1850, AtBirth = 43, Age10 = 59, Age25 = 63, Age45 = 69, Age65 = 76, Age80 = 85 },
+        new() { Year = 1851, AtBirth = 42, Age10 = 59, Age25 = 63, Age45 = 69, Age65 = 76, Age80 = 85 },
+        new() { Year = 1852, AtBirth = 41, Age10 = 58, Age25 = 63, Age45 = 69, Age65 = 76, Age80 = 85 },
+        new() { Year = 1853, AtBirth = 43, Age10 = 58, Age25 = 63, Age45 = 69, Age65 = 76, Age80 = 84 },
+        new() { Year = 1854, AtBirth = 36, Age10 = 53, Age25 = 59, Age45 = 67, Age65 = 75, Age80 = 84 },
+        new() { Year = 1855, AtBirth = 38, Age10 = 54, Age25 = 60, Age45 = 68, Age65 = 75, Age80 = 84 },
+        new() { Year = 1856, AtBirth = 40, Age10 = 57, Age25 = 63, Age45 = 69, Age65 = 76, Age80 = 85 },
+        new() { Year = 1857, AtBirth = 40, Age10 = 57, Age25 = 62, Age45 = 69, Age65 = 76, Age80 = 85 },
+        new() { Year = 1858, AtBirth = 40, Age10 = 57, Age25 = 62, Age45 = 68, Age65 = 75, Age80 = 84 },
+        new() { Year = 1859, AtBirth = 35, Age10 = 56, Age25 = 62, Age45 = 68, Age65 = 76, Age80 = 84 },
+        new() { Year = 1860, AtBirth = 43, Age10 = 59, Age25 = 63, Age45 = 69, Age65 = 76, Age80 = 85 },
+        new() { Year = 1861, AtBirth = 41, Age10 = 59, Age25 = 63, Age45 = 69, Age65 = 76, Age80 = 85 },
+        new() { Year = 1862, AtBirth = 43, Age10 = 59, Age25 = 64, Age45 = 69, Age65 = 76, Age80 = 85 },
+        new() { Year = 1863, AtBirth = 42, Age10 = 59, Age25 = 63, Age45 = 69, Age65 = 76, Age80 = 85 },
+        new() { Year = 1864, AtBirth = 42, Age10 = 59, Age25 = 63, Age45 = 69, Age65 = 76, Age80 = 85 },
+        new() { Year = 1865, AtBirth = 40, Age10 = 57, Age25 = 62, Age45 = 68, Age65 = 76, Age80 = 85 },
+        new() { Year = 1866, AtBirth = 42, Age10 = 58, Age25 = 63, Age45 = 68, Age65 = 76, Age80 = 85 },
+        new() { Year = 1867, AtBirth = 42, Age10 = 59, Age25 = 63, Age45 = 69, Age65 = 76, Age80 = 85 },
+        new() { Year = 1868, AtBirth = 40, Age10 = 58, Age25 = 62, Age45 = 68, Age65 = 76, Age80 = 85 },
+        new() { Year = 1869, AtBirth = 41, Age10 = 58, Age25 = 62, Age45 = 69, Age65 = 76, Age80 = 85 },
+        new() { Year = 1870, AtBirth = 37, Age10 = 54, Age25 = 59, Age45 = 67, Age65 = 75, Age80 = 84 },
+        new() { Year = 1871, AtBirth = 30, Age10 = 47, Age25 = 55, Age45 = 66, Age65 = 75, Age80 = 84 },
+        new() { Year = 1872, AtBirth = 43, Age10 = 59, Age25 = 63, Age45 = 70, Age65 = 76, Age80 = 85 },
+        new() { Year = 1873, AtBirth = 42, Age10 = 58, Age25 = 63, Age45 = 69, Age65 = 76, Age80 = 85 },
+        new() { Year = 1874, AtBirth = 44, Age10 = 60, Age25 = 64, Age45 = 70, Age65 = 76, Age80 = 85 },
+        new() { Year = 1875, AtBirth = 43, Age10 = 58, Age25 = 63, Age45 = 69, Age65 = 76, Age80 = 85 },
+        new() { Year = 1876, AtBirth = 44, Age10 = 59, Age25 = 63, Age45 = 69, Age65 = 76, Age80 = 85 },
+        new() { Year = 1877, AtBirth = 44, Age10 = 59, Age25 = 63, Age45 = 69, Age65 = 76, Age80 = 85 },
+        new() { Year = 1878, AtBirth = 43, Age10 = 59, Age25 = 63, Age45 = 69, Age65 = 76, Age80 = 85 },
+        new() { Year = 1879, AtBirth = 44, Age10 = 59, Age25 = 63, Age45 = 69, Age65 = 76, Age80 = 84 },
+        new() { Year = 1880, AtBirth = 43, Age10 = 59, Age25 = 63, Age45 = 69, Age65 = 76, Age80 = 84 },
+        new() { Year = 1881, AtBirth = 43, Age10 = 59, Age25 = 63, Age45 = 69, Age65 = 76, Age80 = 85 },
+        new() { Year = 1882, AtBirth = 43, Age10 = 59, Age25 = 63, Age45 = 69, Age65 = 76, Age80 = 85 },
+        new() { Year = 1883, AtBirth = 43, Age10 = 59, Age25 = 63, Age45 = 69, Age65 = 76, Age80 = 85 },
+        new() { Year = 1884, AtBirth = 42, Age10 = 59, Age25 = 63, Age45 = 69, Age65 = 76, Age80 = 85 },
+        new() { Year = 1885, AtBirth = 44, Age10 = 59, Age25 = 63, Age45 = 69, Age65 = 76, Age80 = 85 },
+        new() { Year = 1886, AtBirth = 43, Age10 = 59, Age25 = 63, Age45 = 69, Age65 = 76, Age80 = 85 }
+    };
+
+    private string LegendTextCustomizationCode => @" <SfChart @key=""@_currentTheme"" Title=""Life Expectancy for People of Different Ages, France"" Theme=""@_currentTheme"">
+            <ChartPrimaryXAxis ValueType=""ValueType.Category"" />
+            <ChartPrimaryYAxis Minimum=""25""
+                               Maximum=""90""
+                               Format=""{value} Years"">
+                <ChartAxisLineStyle Width=""0"" />
+            </ChartPrimaryYAxis>
+            <ChartSeriesCollection>
+                <ChartSeries DataSource=""@FranceBirthData"" XName=""Year"" YName=""AtBirth"" Name=""At Birth"" Type=""ChartSeriesType.Line"" LegendShape=""LegendShape.SeriesType"" Fill=""#0A97B0""></ChartSeries>
+                <ChartSeries DataSource=""@FranceBirthData"" XName=""Year"" YName=""Age10"" Name=""10 Year old"" Type=""ChartSeriesType.Line"" LegendShape=""LegendShape.SeriesType"" Fill=""#FF8225""></ChartSeries>
+                <ChartSeries DataSource=""@FranceBirthData"" XName=""Year"" YName=""Age25"" Name=""25 Year old"" Type=""ChartSeriesType.Line"" LegendShape=""LegendShape.SeriesType"" Fill=""#006A71""></ChartSeries>
+                <ChartSeries DataSource=""@FranceBirthData"" XName=""Year"" YName=""Age45"" Name=""45 Year old"" Type=""ChartSeriesType.Line"" LegendShape=""LegendShape.SeriesType"" Fill=""#AC1754""></ChartSeries>
+                <ChartSeries DataSource=""@FranceBirthData"" XName=""Year"" YName=""Age65"" Name=""65 Year old"" Type=""ChartSeriesType.Line"" LegendShape=""LegendShape.SeriesType"" Fill=""#37AFE1""></ChartSeries>
+                <ChartSeries DataSource=""@FranceBirthData"" XName=""Year"" YName=""Age80"" Name=""80 Year old"" Type=""ChartSeriesType.Line"" LegendShape=""LegendShape.SeriesType"" Fill=""#6A9C89""></ChartSeries>
+            </ChartSeriesCollection>
+            <ChartTooltipSettings Enable=""true""
+                                  Header=""${point.x}""
+                                  Format=""${series.name} : <b>${point.y}</b>"" />
+            <ChartLegendSettings Visible=""true""
+                                 MaximumLabelWidth=""130"">
+                <ChartLegendTextStyle Size=""20px""
+                                       FontWeight=""bold""
+                                       Color=""#1993c4ff"" />
+            </ChartLegendSettings>
+        </SfChart>
+        @code
+        {
+            private Theme _currentTheme = Theme.Fluent;
+             public class LifeExpectancyAgeData
+            {
+                public int Year { get; set; }
+                public double AtBirth { get; set; }
+                public double Age10 { get; set; }
+                public double Age25 { get; set; }
+                public double Age45 { get; set; }
+                public double Age65 { get; set; }
+                public double Age80 { get; set; }
+            }
+
+            public List<LifeExpectancyAgeData> FranceBirthData = new()
+            {
+                new() { Year = 1816, AtBirth = 40, Age10 = 57, Age25 = 62, Age45 = 68, Age65 = 76, Age80 = 85 },
+                new() { Year = 1817, AtBirth = 39, Age10 = 57, Age25 = 61, Age45 = 68, Age65 = 76, Age80 = 85 },
+                new() { Year = 1818, AtBirth = 39, Age10 = 57, Age25 = 62, Age45 = 68, Age65 = 76, Age80 = 85 },
+                new() { Year = 1819, AtBirth = 37, Age10 = 57, Age25 = 62, Age45 = 68, Age65 = 76, Age80 = 85 },
+                new() { Year = 1820, AtBirth = 39, Age10 = 57, Age25 = 62, Age45 = 68, Age65 = 76, Age80 = 85 },
+                new() { Year = 1821, AtBirth = 40, Age10 = 58, Age25 = 63, Age45 = 69, Age65 = 77, Age80 = 85 },
+                new() { Year = 1822, AtBirth = 38, Age10 = 58, Age25 = 63, Age45 = 69, Age65 = 76, Age80 = 85 },
+                new() { Year = 1823, AtBirth = 40, Age10 = 59, Age25 = 63, Age45 = 69, Age65 = 76, Age80 = 85 },
+                new() { Year = 1824, AtBirth = 39, Age10 = 59, Age25 = 63, Age45 = 69, Age65 = 77, Age80 = 85 },
+                new() { Year = 1825, AtBirth = 39, Age10 = 58, Age25 = 63, Age45 = 69, Age65 = 76, Age80 = 85 }
+            };
+        }";
+}

@@ -1,0 +1,85 @@
+﻿@page "/chart/selection-drag"
+@using Syncfusion.Blazor.Toolkit.Charts
+@layout MainLayout
+
+<h3>Chart – Selection & Drag</h3>
+
+<div id="chart-selection-host" style="width:900px;height:500px">
+
+    <!-- Point Selection -->
+    <SfChart ID="container"
+             Title="Olympic Medals"
+             SelectionMode="ChartSelectionMode.Point">
+        <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Toolkit.ValueType.Category" />
+
+        <ChartSelectedDataIndexes>
+            <ChartSelectedDataIndex Series="0" Point="1" />
+        </ChartSelectedDataIndexes>
+
+        <ChartSeriesCollection>
+            <ChartSeries DataSource="@MedalDetails"
+                         XName="Country"
+                         YName="Gold"
+                         Type="ChartSeriesType.Column" />
+            <ChartSeries DataSource="@MedalDetails"
+                         XName="Country"
+                         YName="Silver"
+                         Type="ChartSeriesType.Column" />
+            <ChartSeries DataSource="@MedalDetails"
+                         XName="Country"
+                         YName="Bronze"
+                         Type="ChartSeriesType.Column" />
+        </ChartSeriesCollection>
+    </SfChart>
+
+    <!-- DragX Selection -->
+    <SfChart ID="containerDragX"
+             Title="DragX Selection"
+             SelectionMode="ChartSelectionMode.DragX"
+             AllowMultiSelection="true">
+        <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Toolkit.ValueType.Category" />
+        <ChartSeriesCollection>
+            <ChartSeries DataSource="@MedalDetails"
+                         XName="Country"
+                         YName="Gold"
+                         Type="ChartSeriesType.Column" />
+        </ChartSeriesCollection>
+    </SfChart>
+
+    <!-- Lasso Selection -->
+    <SfChart ID="containerLasso"
+             Title="Lasso Selection"
+             SelectionMode="ChartSelectionMode.Lasso"
+             AllowMultiSelection="true">
+        <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Toolkit.ValueType.Category" />
+        <ChartSeriesCollection>
+            <ChartSeries DataSource="@MedalDetails"
+                         XName="Country"
+                         YName="Gold"
+                         Type="ChartSeriesType.Column" />
+        </ChartSeriesCollection>
+    </SfChart>
+
+</div>
+
+@code {
+    public class ChartData
+    {
+        public string Country { get; set; }
+        public double Gold { get; set; }
+        public double Silver { get; set; }
+        public double Bronze { get; set; }
+    }
+
+    public List<ChartData> MedalDetails = new()
+    {
+        new() { Country="USA", Gold=50, Silver=70, Bronze=45 },
+        new() { Country="China", Gold=40, Silver=60, Bronze=55 },
+        new() { Country="Japan", Gold=70, Silver=60, Bronze=50 },
+        new() { Country="Australia", Gold=60, Silver=56, Bronze=40 },
+        new() { Country="France", Gold=50, Silver=45, Bronze=35 },
+        new() { Country="Germany", Gold=40, Silver=30, Bronze=22 },
+        new() { Country="Italy", Gold=40, Silver=35, Bronze=37 },
+        new() { Country="Sweden", Gold=30, Silver=25, Bronze=27 }
+    };
+}

@@ -1,0 +1,92 @@
+﻿@page "/chart-multiple-level"
+@using Syncfusion.Blazor.Toolkit
+@using Syncfusion.Blazor.Toolkit.Charts
+@inject NavigationManager NavigationManager
+<div class="control-section" align="center">
+    <SfChart Title="Fruits and Vegetables - Season" Width="@Width">
+        <ChartTitleStyle TextOverflow="TextOverflow.Wrap"></ChartTitleStyle>
+        <ChartArea><ChartAreaBorder Width="0"></ChartAreaBorder></ChartArea>
+        <ChartPrimaryXAxis IsIndexed="true" Interval="1" ValueType="Syncfusion.Blazor.Toolkit.ValueType.Category" LabelRotation="90">
+            <ChartAxisLabelStyle Size="@Size"></ChartAxisLabelStyle>
+            <ChartAxisLabelBorder Width="1" Type="BorderType.Rectangle"></ChartAxisLabelBorder>
+            <ChartAxisMinorGridLines Width="0"></ChartAxisMinorGridLines>
+            <ChartAxisMajorGridLines Width="0"></ChartAxisMajorGridLines>
+            <ChartMultiLevelLabels>
+                <ChartMultiLevelLabel>
+                    <ChartAxisMultiLevelLabelBorder Type="BorderType.Rectangle"></ChartAxisMultiLevelLabelBorder>
+                    <ChartCategories>
+                        <ChartCategory Start="-0.5" End="0.5" Text="Seedless"></ChartCategory>
+                        <ChartCategory Start="0.5" End="2.5" Text="Seeded"></ChartCategory>
+                        <ChartCategory Start="2.5" End="3.5" Text="Seedless"></ChartCategory>
+                        <ChartCategory Start="3.5" End="5.5" Text="Seeded"></ChartCategory>
+                        <ChartCategory Start="5.5" End="6.5" Text="Seedless"></ChartCategory>
+                        <ChartCategory Start="6.5" End="7.5" Text="Seeded"></ChartCategory>
+                        <ChartCategory Start="7.5" End="8.5" Text="Seedless"></ChartCategory>
+                        <ChartCategory Start="8.5" End="9.5" Text="Seeded"></ChartCategory>
+                    </ChartCategories>
+                </ChartMultiLevelLabel>
+
+                <ChartMultiLevelLabel>
+                    <ChartAxisMultiLevelLabelBorder Type="BorderType.Rectangle"></ChartAxisMultiLevelLabelBorder>
+                    <ChartAxisMultiLevelLabelTextStyle Size="@FontSize"></ChartAxisMultiLevelLabelTextStyle>
+                    <ChartCategories>
+                        <ChartCategory Start="-0.5" End="2.5" Text="In Season"></ChartCategory>
+                        <ChartCategory Start="2.5" End="5.5" Text="Out of Season"></ChartCategory>
+                        <ChartCategory Start="5.5" End="7.5" Text="In Season"></ChartCategory>
+                        <ChartCategory Start="7.5" End="9.5" Text="Out of Season"></ChartCategory>
+                    </ChartCategories>
+                </ChartMultiLevelLabel>
+                <ChartMultiLevelLabel>
+                    <ChartAxisMultiLevelLabelBorder Type="BorderType.Rectangle"></ChartAxisMultiLevelLabelBorder>
+                    <ChartAxisMultiLevelLabelTextStyle Size="@Size" FontWeight="Bold"></ChartAxisMultiLevelLabelTextStyle>
+                    <ChartCategories>
+                        <ChartCategory Start="-0.5" End="5.5" Text="Fruits"></ChartCategory>
+                        <ChartCategory Start="5.5" End="9.5" Text="Vegetables"></ChartCategory>
+                    </ChartCategories>
+                </ChartMultiLevelLabel>
+            </ChartMultiLevelLabels>
+        </ChartPrimaryXAxis>
+        <ChartPrimaryYAxis Minimum="0" Maximum="120" Interval="30">
+            <ChartAxisMajorTickLines Width="0"></ChartAxisMajorTickLines>
+            <ChartAxisLineStyle Width="0"></ChartAxisLineStyle>
+            <ChartAxisLabelStyle Color="transparent"></ChartAxisLabelStyle>
+        </ChartPrimaryYAxis>
+        <ChartSeriesCollection>
+            <ChartSeries DataSource="@ChartPoints" XName="Fruits" YName="Sales" Type="ChartSeriesType.Column">
+                <ChartCornerRadius TopLeft="4" TopRight="4"></ChartCornerRadius>
+                <ChartMarker>
+                    <ChartDataLabel Visible="true" Position="ChartLabelPosition.Outer">
+                        <ChartDataLabelFont Size="@Size"></ChartDataLabelFont>
+                    </ChartDataLabel>
+                </ChartMarker>
+            </ChartSeries>
+        </ChartSeriesCollection>
+        <ChartLegendSettings Visible="false"></ChartLegendSettings>
+    </SfChart>
+</div>
+
+@code {
+    public string Width { get; set; } = "90%";
+    public string Size { get; set; } = "12px";
+    public string FontSize { get; set; } = "12px";
+
+    public List<CategoryData> ChartPoints { get; set; } = new List<CategoryData>
+    {
+        new CategoryData { Fruits = "Grapes", Sales = 28 },
+        new CategoryData { Fruits = "Apples", Sales = 87 },
+        new CategoryData { Fruits = "Pears", Sales = 42 },
+        new CategoryData { Fruits = "Grapes", Sales = 13 },
+        new CategoryData { Fruits = "Apples", Sales = 13 },
+        new CategoryData { Fruits = "Pears", Sales = 10 },
+        new CategoryData { Fruits = "Tomato", Sales = 31 },
+        new CategoryData { Fruits = "Potato", Sales = 96 },
+        new CategoryData { Fruits = "Cucumber", Sales = 41 },
+        new CategoryData { Fruits = "Onion", Sales = 59 }
+    };
+
+    public class CategoryData
+    {
+        public string? Fruits { get; set; }
+        public double Sales { get; set; }
+    }
+}

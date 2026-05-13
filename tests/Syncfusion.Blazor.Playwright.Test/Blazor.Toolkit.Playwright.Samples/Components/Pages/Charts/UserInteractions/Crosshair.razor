@@ -1,0 +1,49 @@
+@page "/chart/crosshair"
+@using Syncfusion.Blazor.Toolkit.Charts
+@layout MainLayout
+
+<h3>Chart – Crosshair</h3>
+
+<div id="chart-host" style="width:800px;height:450px">
+    <SfChart Height="450px" Width="800px">
+        <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Toolkit.ValueType.DateTime">
+            <ChartAxisCrosshairTooltip Enable="true" Fill="red">
+                <ChartCrosshairTextStyle Size="14px"
+                                         Color="white"
+                                         FontFamily="Aerial"
+                                         FontWeight="600" />
+            </ChartAxisCrosshairTooltip>
+        </ChartPrimaryXAxis>
+
+        <ChartCrosshairSettings Enable="true"
+                                LineType="LineType.Vertical"
+                                DashArray="2">
+            <ChartCrosshairLine Color="red" Width="3" />
+        </ChartCrosshairSettings>
+
+        <ChartSeriesCollection>
+            <ChartSeries DataSource="@SalesDetails"
+                         XName="X"
+                         YName="Y"
+                         Type="ChartSeriesType.Line" />
+        </ChartSeriesCollection>
+    </SfChart>
+</div>
+
+@code {
+    public class ChartData
+    {
+        public DateTime X { get; set; }
+        public double Y { get; set; }
+    }
+
+    public List<ChartData> SalesDetails = new()
+    {
+        new ChartData { X = new DateTime(2000, 01, 01), Y = 4 },
+        new ChartData { X = new DateTime(2001, 01, 01), Y = 3.0 },
+        new ChartData { X = new DateTime(2002, 01, 01), Y = 3.8 },
+        new ChartData { X = new DateTime(2003, 01, 01), Y = 3.4 },
+        new ChartData { X = new DateTime(2004, 01, 01), Y = 3.2 },
+        new ChartData { X = new DateTime(2005, 01, 01), Y = 3.9 },
+    };
+}

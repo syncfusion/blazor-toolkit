@@ -1,0 +1,57 @@
+﻿@using Syncfusion.Blazor.Toolkit.Inputs
+@using Xunit.Sdk
+@using System.ComponentModel.DataAnnotations
+@using Microsoft.AspNetCore.Components.Forms
+
+@namespace Syncfusion.Blazor.Toolkit.Tests.Inputs
+
+<div class="sample">
+    <form>
+        <SfCheckBox Checked="true" Name="status" Value="test"></SfCheckBox>
+        <button>Submit</button>
+    </form>
+    <EditForm Model="validationMessage">
+        <DataAnnotationsValidator />
+        <ValidationMessage For="@(() => validationMessage.IsChecked)" />
+        <SfCheckBox @bind-Checked="validationMessage.IsChecked"></SfCheckBox>
+    </EditForm>
+    <EditForm Model="validationSummary">
+        <DataAnnotationsValidator />
+        <ValidationSummary />
+        <SfCheckBox @bind-Checked="validationSummary.IsChecked"></SfCheckBox>
+    </EditForm>
+
+    <EditForm EditContext="valiationMessageContext">
+        <DataAnnotationsValidator />
+        <ValidationMessage For="@(() => valiationMessageModel.IsChecked)" />
+        <SfCheckBox @bind-Checked="valiationMessageModel.IsChecked"></SfCheckBox>
+    </EditForm>
+    <EditForm EditContext="validationSummaryContext">
+        <DataAnnotationsValidator />
+        <ValidationSummary />
+        <SfCheckBox @bind-Checked="validationSummaryModel.IsChecked"></SfCheckBox>
+    </EditForm>
+</div>
+
+@code {    
+    private EditContext valiationMessageContext;
+    private EditContext validationSummaryContext;
+    private CheckboxModel validationSummary = new CheckboxModel();
+    private CheckboxModel validationMessage = new CheckboxModel();
+    private CheckboxModel valiationMessageModel = new CheckboxModel();
+    private CheckboxModel validationSummaryModel = new CheckboxModel();
+
+    protected override Task OnInitializedAsync()
+    {
+        valiationMessageContext = new EditContext(valiationMessageModel);
+        validationSummaryContext = new EditContext(validationSummaryModel);
+        return base.OnInitializedAsync();
+    }
+
+    public class CheckboxModel
+    {
+        [Required]
+        [Range(typeof(bool), "true", "true", ErrorMessage = "This form disallows unapproved ships.")]
+        public bool? IsChecked { get; set; }
+    }
+}

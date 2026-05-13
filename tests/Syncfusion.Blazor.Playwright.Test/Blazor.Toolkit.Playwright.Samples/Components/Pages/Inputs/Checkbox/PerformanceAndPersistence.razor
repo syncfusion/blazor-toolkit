@@ -1,0 +1,197 @@
+@page "/checkbox/performance-persistence"
+@using Syncfusion.Blazor.Toolkit.Inputs
+@using System.Collections.Generic
+@layout MainLayout
+
+<h1>Checkbox - Performance & State Persistence</h1>
+
+<div class="test-container">
+    <h2>Many Checkboxes on Single Page</h2>
+    <div class="checkbox-grid">
+        @for (int i = 0; i < 50; i++)
+        {
+            int index = i; // Capture for closure
+            string checkboxId = $"perf-{index}";
+            string checkboxLabel = $"Option {index + 1}";
+            <SfCheckBox TChecked="bool"
+                        id="@checkboxId"
+                        Label="@checkboxLabel"
+                        InputAttributes="@GetPerfAttributes(index)"
+                        @bind-Checked="perfCheckboxes[index]">
+            </SfCheckBox>
+        }
+    </div>
+    <p>Total Checkboxes: <strong>50</strong></p>
+    <p>Checked Count: <strong>@perfCheckedCount</strong></p>
+</div>
+
+<div class="test-container">
+    <h2>State Persistence with Local Storage</h2>
+    <div>
+        <SfCheckBox TChecked="bool"
+                    id="persist-cb"
+                    Label="Remember this choice"
+                    @bind-Checked="persistenceCheckbox"
+                    @onchange="() => SaveToLocalStorage()">
+        </SfCheckBox>
+    </div>
+    <p>Persistent State: <strong>@persistenceCheckbox</strong></p>
+    <button @onclick="LoadFromLocalStorage" class="btn">Load from Storage</button>
+    <button @onclick="ClearLocalStorage" class="btn">Clear Storage</button>
+    <p id="persist-state">State: @persistenceCheckbox</p>
+</div>
+
+<div class="test-container">
+    <h2>Dynamic Checkbox Creation and State</h2>
+    <div>
+        <button @onclick="AddCheckboxes" class="btn">Add 10 Checkboxes</button>
+        <button @onclick="RemoveCheckboxes" class="btn">Remove 10 Checkboxes</button>
+        <p>Dynamic Checkboxes Count: <strong>@dynamicCheckboxes.Count</strong></p>
+    </div>
+    <div class="checkbox-grid">
+        @foreach (var cb in dynamicCheckboxes)
+        {
+            var cbCopy = cb;
+            var dynamicAttrs = GetDynamicAttributes(cb.Id);
+            string dynamicLabel = $"Dynamic {cb.Id}";
+            <SfCheckBox TChecked="bool"
+                        Label="@dynamicLabel"
+                        InputAttributes="@dynamicAttrs"
+                        @bind-Checked="cbCopy.IsChecked">
+            </SfCheckBox>
+        }
+    </div>
+</div>
+
+<style>
+    .test-container {
+        padding: 20px;
+        border: 1px solid #ddd;
+        margin: 10px 0;
+        border-radius: 4px;
+        background-color: #f9f9f9;
+    }
+
+    h2 {
+        margin-top: 20px;
+        font-size: 18px;
+        font-weight: 600;
+    }
+
+    p {
+        margin-top: 10px;
+        font-size: 14px;
+    }
+
+    .checkbox-grid {
+        display: grid;
+        grid-template-columns: repeat(5, 1fr);
+        gap: 15px;
+        margin-top: 15px;
+    }
+
+    .btn {
+        padding: 8px 16px;
+        margin-right: 10px;
+        margin-top: 10px;
+        background-color: #007bff;
+        color: white;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+    }
+
+    .btn:hover {
+        background-color: #0056b3;
+    }
+</style>
+
+@code {
+    // Performance test state
+    private bool[] perfCheckboxes = new bool[50];
+    private bool persistenceCheckbox = false;
+    private List<DynamicCheckbox> dynamicCheckboxes = new List<DynamicCheckbox>();
+    private int nextDynamicId = 0;
+
+    private int perfCheckedCount
+    {
+        get
+        {
+            int count = 0;
+            foreach (var cb in perfCheckboxes)
+            {
+                if (cb) count++;
+            }
+            return count;
+        }
+    }
+
+    private Dictionary<string, object> GetPerfAttributes(int index)
+    {
+        return new Dictionary<string, object>
+        {
+            { "class", "e-control e-checkbox e-lib perf-cb" },
+            { "data-index", index.ToString() }
+        };
+    }
+
+    private void SaveToLocalStorage()
+    {
+        // This will be tested via Playwright using page.evaluate()
+        // to interact with localStorage
+    }
+
+    private void LoadFromLocalStorage()
+    {
+        // This would load from localStorage in a real scenario
+        // For testing, Playwright will handle this
+    }
+
+    private void ClearLocalStorage()
+    {
+        persistenceCheckbox = false;
+    }
+
+    private void AddCheckboxes()
+    {
+        for (int i = 0; i < 10; i++)
+        {
+            dynamicCheckboxes.Add(new DynamicCheckbox 
+            { 
+                Id = nextDynamicId++, 
+                IsChecked = false 
+            });
+        }
+    }
+
+    private void RemoveCheckboxes()
+    {
+        if (dynamicCheckboxes.Count >= 10)
+        {
+            dynamicCheckboxes.RemoveRange(dynamicCheckboxes.Count - 10, 10);
+        }
+    }
+
+    protected override void OnInitialized()
+    {
+        // Initialize performance checkboxes
+        for (int i = 0; i < 50; i++)
+        {
+            perfCheckboxes[i] = false;
+        }
+    }
+
+    private Dictionary<string, object> GetDynamicAttributes(int id)
+    {
+        return new Dictionary<string, object>
+        {
+            { "data-id", $"dyn-{id}" }
+        };
+    }
+
+    private class DynamicCheckbox
+    {
+        public int Id { get; set; }
+        public bool IsChecked { get; set; }
+    }
+}

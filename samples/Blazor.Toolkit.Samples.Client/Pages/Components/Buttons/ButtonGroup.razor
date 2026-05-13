@@ -1,0 +1,574 @@
+﻿@page "/buttons/button-group"
+
+@using Syncfusion.Blazor.Toolkit.Buttons
+@using Blazor.Toolkit.Samples.Client.Services
+@using Microsoft.AspNetCore.Components.Web
+
+<PageTitle>Button Group | ASP.NET Core Blazor OSS Components</PageTitle>
+
+<Description>
+    <Header>
+        <h4><b>Blazor ButtonGroup Component</b></h4>
+    </Header>
+    <Content>
+        Add the ButtonGroup component to your application as shown in the below code example.
+    </Content>
+</Description>
+
+<CodePreview CodeSection="@BasicsCode">
+    <PreviewSection>
+        <SfButtonGroup>
+            <ButtonGroupButton>One</ButtonGroupButton>
+            <ButtonGroupButton>Two</ButtonGroupButton>
+            <ButtonGroupButton>Three</ButtonGroupButton>
+        </SfButtonGroup>
+    </PreviewSection>
+</CodePreview>
+
+<Description>
+    <Header>
+        <h5><b>Vertical Orientation</b></h5>
+    </Header>
+    <Content>
+        Set the ButtonGroup orientation to vertical by using the property <code>IsVertical="true"</code>. This stacks the buttons vertically and can be combined with variants such as <code>e-flat</code> and <code>e-outline</code>.
+    </Content>
+</Description>
+
+<CodePreview CodeSection="@VerticalCode">
+    <PreviewSection>
+         <div class="e-section">
+        <!-- Default (filled/standard) vertical group -->
+        <SfButtonGroup IsVertical="true">
+            <ButtonGroupButton>ONE</ButtonGroupButton>
+            <ButtonGroupButton>TWO</ButtonGroupButton>
+            <ButtonGroupButton>THREE</ButtonGroupButton>
+        </SfButtonGroup>
+
+        <!-- Vertical + flat -->
+            <SfButtonGroup IsVertical="true">
+            <ButtonGroupButton CssClass="e-flat">ONE</ButtonGroupButton>
+            <ButtonGroupButton CssClass="e-flat">TWO</ButtonGroupButton>
+            <ButtonGroupButton CssClass="e-flat">THREE</ButtonGroupButton>
+        </SfButtonGroup>
+
+        <!-- Vertical + outlined -->
+            <SfButtonGroup IsVertical="true">
+            <ButtonGroupButton CssClass="e-outline">ONE</ButtonGroupButton>
+            <ButtonGroupButton CssClass="e-outline">TWO</ButtonGroupButton>
+            <ButtonGroupButton CssClass="e-outline">THREE</ButtonGroupButton>
+        </SfButtonGroup>
+        </div>
+    </PreviewSection>
+</CodePreview>
+
+<Description>
+    <Header>
+        <h5><b>Selection Type</b></h5>
+    </Header>
+    <Content>
+        ButtonGroup can behave like a segmented control with single or multiple selection using the built-in selection model.
+    </Content>
+</Description>
+
+<CodePreview CodeSection="@SelectionCode">
+    <PreviewSection>
+        <div class="e-section">
+            <label class="e-label">Single selection</label>
+
+            <!-- Single selection via Selected + SelectedChanged -->
+            <SfButtonGroup Mode="SelectionMode.Single">
+                <ButtonGroupButton Selected="@isLeft"
+                                   SelectedChanged='@(v => OnAlignmentChanged(v, "Left"))'
+                                   CssClass='@GetActive("Left")'
+                                   aria-pressed="@isLeft">
+                    Left
+                </ButtonGroupButton>
+
+                <ButtonGroupButton Selected="@isCenter"
+                                   SelectedChanged='@(v => OnAlignmentChanged(v, "Center"))'
+                                   CssClass='@GetActive("Center")'
+                                   aria-pressed="@isCenter">
+                    Center
+                </ButtonGroupButton>
+
+                <ButtonGroupButton Selected="@isRight"
+                                   SelectedChanged='@(v => OnAlignmentChanged(v, "Right"))'
+                                   CssClass='@GetActive("Right")'
+                                   aria-pressed="@isRight">
+                    Right
+                </ButtonGroupButton>
+            </SfButtonGroup>
+
+            <div class="e-note">Selected: @alignment</div>
+        </div>
+
+        <div class="e-section" style="margin-top:12px">
+            <label class="e-label">Multiple selection</label>
+
+            <!-- Multiple selection via Selected + SelectedChanged -->
+            <SfButtonGroup Mode="SelectionMode.Multiple">
+                <ButtonGroupButton Selected='@tags.Contains("News")'
+                                   SelectedChanged='@(v => OnTagChanged("News", v))'
+                                   CssClass='@GetTagClass("News")'
+                                   aria-pressed='@tags.Contains("News")'>
+                    News
+                </ButtonGroupButton>
+
+                <ButtonGroupButton Selected='@tags.Contains("Blog")'
+                                   SelectedChanged='@(v => OnTagChanged("Blog", v))'
+                                   CssClass='@GetTagClass("Blog")'
+                                   aria-pressed='@tags.Contains("Blog")'>
+                    Blog
+                </ButtonGroupButton>
+
+                <ButtonGroupButton Selected='@tags.Contains("Updates")'
+                                   SelectedChanged='@(v => OnTagChanged("Updates", v))'
+                                   CssClass='@GetTagClass("Updates")'
+                                   aria-pressed='@tags.Contains("Updates")'>
+                    Updates
+                </ButtonGroupButton>
+            </SfButtonGroup>
+
+            <div class="e-note">Tags: @string.Join(", ", tags)</div>
+        </div>
+    </PreviewSection>
+</CodePreview>
+
+<Description>
+    <Header>
+        <h5><b>Rounded Buttons</b></h5>
+    </Header>
+    <Content>
+        Apply the <code>e-round-corner</code> style to get rounded corners on grouped buttons.
+    </Content>
+</Description>
+
+<CodePreview CodeSection="@RoundedCode">
+    <PreviewSection>
+        <SfButtonGroup CssClass="e-round-corner">
+            <ButtonGroupButton>Day</ButtonGroupButton>
+            <ButtonGroupButton>Week</ButtonGroupButton>
+            <ButtonGroupButton>Month</ButtonGroupButton>
+        </SfButtonGroup>
+    </PreviewSection>
+</CodePreview>
+
+<Description>
+    <Header>
+        <h5><b>Color Variants</b></h5>
+    </Header>
+    <Content>
+        Use semantic styles to represent intent—Primary, Success, Warning, Info, and Error—within a group.
+    </Content>
+</Description>
+
+<CodePreview CodeSection="@ColorCode">
+    <PreviewSection>
+        <SfButtonGroup>
+            <ButtonGroupButton CssClass="e-primary">Primary</ButtonGroupButton>
+            <ButtonGroupButton CssClass="e-success">Success</ButtonGroupButton>
+            <ButtonGroupButton CssClass="e-warning">Warning</ButtonGroupButton>
+            <ButtonGroupButton CssClass="e-info">Info</ButtonGroupButton>
+            <ButtonGroupButton CssClass="e-danger">Error</ButtonGroupButton>
+        </SfButtonGroup>
+    </PreviewSection>
+</CodePreview>
+
+<Description>
+    <Header>
+        <h5><b><b>Icons</b></b></h5>
+    </Header>
+    <Content>
+        Use icon-only or icon-with-text buttons inside a group. Provide an <code>aria-label</code> for icon-only groups for accessibility.
+    </Content>
+</Description>
+
+<CodePreview CodeSection="@IconsCode">
+    <PreviewSection>
+        <div class="e-section">
+            <label class="e-label">Icon-only</label>
+            <SfButtonGroup>
+                <ButtonGroupButton aria-label="Bold"><span class="sb-icons e-bold"></span></ButtonGroupButton>
+                <ButtonGroupButton aria-label="Italic"><span class="sb-icons e-italic"></span></ButtonGroupButton>
+                <ButtonGroupButton aria-label="Underline"><span class="sb-icons e-underline"></span></ButtonGroupButton>
+            </SfButtonGroup>
+        </div>
+
+        <div class="e-section" style="margin-top:12px">
+            <label class="e-label">Icon with text</label>
+            <SfButtonGroup>
+                <ButtonGroupButton><span class="sb-icons e-align-left"></span>&nbsp;Left</ButtonGroupButton>
+                <ButtonGroupButton><span class="sb-icons e-align-center"></span>&nbsp;Center</ButtonGroupButton>
+                <ButtonGroupButton><span class="sb-icons e-align-right"></span>&nbsp;Right</ButtonGroupButton>
+            </SfButtonGroup>
+        </div>
+    </PreviewSection>
+</CodePreview>
+
+<Description>
+    <Header>
+        <h5><b>States</b></h5>
+    </Header>
+    <Content>
+        Showcase disabled and active states inside a ButtonGroup.
+    </Content>
+</Description>
+
+<CodePreview CodeSection="@StatesCode">
+    <PreviewSection>
+        <div class="e-section">
+            <label class="e-label">Disabled group</label>
+            <SfButtonGroup>
+                <ButtonGroupButton Disabled="true">One</ButtonGroupButton>
+                <ButtonGroupButton Disabled="true">Two</ButtonGroupButton>
+                <ButtonGroupButton Disabled="true">Three</ButtonGroupButton>
+            </SfButtonGroup>
+        </div>
+
+        <div class="e-section" style="margin-top:12px">
+            <label class="e-label">Active (Selected) state</label>
+
+            <SfButtonGroup Mode="SelectionMode.Multiple">
+                <ButtonGroupButton Selected='@textStyles.Contains("Bold")'
+                                   SelectedChanged='@(v => ToggleStyle("Bold", v))'
+                                   CssClass='@GetActive("Bold")'
+                                   aria-pressed='@textStyles.Contains("Bold")'>
+                    Bold
+                </ButtonGroupButton>
+
+                <ButtonGroupButton Selected='@textStyles.Contains("Italic")'
+                                   SelectedChanged='@(v => ToggleStyle("Italic", v))'
+                                   CssClass='@GetActive("Italic")'
+                                   aria-pressed='@textStyles.Contains("Italic")'>
+                    Italic
+                </ButtonGroupButton>
+
+                <ButtonGroupButton Selected='@textStyles.Contains("Underline")'
+                                   SelectedChanged='@(v => ToggleStyle("Underline", v))'
+                                   CssClass='@GetActive("Underline")'
+                                   aria-pressed='@textStyles.Contains("Underline")'>
+                    Underline
+                </ButtonGroupButton>
+            </SfButtonGroup>
+
+            <div class="e-note">Active: @string.Join(", ", textStyles)</div>
+        </div>
+    </PreviewSection>
+</CodePreview>
+
+@code {
+    // ---------- Basics ----------
+    private string BasicsCode => @"<SfButtonGroup>
+    <ButtonGroupButton>One</ButtonGroupButton>
+    <ButtonGroupButton>Two</ButtonGroupButton>
+    <ButtonGroupButton>Three</ButtonGroupButton>
+</SfButtonGroup>";
+
+    // ---------- Selection Type ----------
+    // Single-selection backing state
+    private bool isLeft = true, isCenter = false, isRight = false;
+    private string alignment = "Left";
+
+    private string GetActive(string key)
+        => (alignment == key || textStyles.Contains(key) || tags.Contains(key)) ? "e-primary" : string.Empty;
+
+    private void OnAlignmentChanged(bool curr, string which)
+    {
+        if (!curr) return; // ignore deselect in Single mode
+        isLeft = which == "Left";
+        isCenter = which == "Center";
+        isRight = which == "Right";
+        alignment = which;
+    }
+
+    // Multiple-selection backing state
+    private HashSet<string> tags = new(new[] { "News" });
+
+    private void OnTagChanged(string key, bool selected)
+    {
+        if (selected) tags.Add(key); else tags.Remove(key);
+        StateHasChanged();
+    }
+
+    private string GetTagClass(string key) => tags.Contains(key) ? "e-primary" : string.Empty;
+
+    private string SelectionCode => @" <div class=""e-section"">
+            <label class=""e-label"">Single selection</label>
+
+            <!-- Single selection via Selected + SelectedChanged -->
+            <SfButtonGroup Mode=""SelectionMode.Single"">
+                <ButtonGroupButton Selected=""@isLeft""
+                                   SelectedChanged='@(v => OnAlignmentChanged(v, ""Left""))'
+                                   CssClass='@GetActive(""Left"")'
+                                   aria-pressed=""@isLeft"">
+                    Left
+                </ButtonGroupButton>
+
+                <ButtonGroupButton Selected=""@isCenter""
+                                   SelectedChanged='@(v => OnAlignmentChanged(v, ""Center""))'
+                                   CssClass='@GetActive(""Center"")'
+                                   aria-pressed=""@isCenter"">
+                    Center
+                </ButtonGroupButton>
+
+                <ButtonGroupButton Selected=""@isRight""
+                                   SelectedChanged='@(v => OnAlignmentChanged(v, ""Right""))'
+                                   CssClass='@GetActive(""Right"")'
+                                   aria-pressed=""@isRight"">
+                    Right
+                </ButtonGroupButton>
+            </SfButtonGroup>
+
+            <div class=""e-note"">Selected: @alignment</div>
+        </div>
+
+        <div class=""e-section"" style=""margin-top:12px"">
+            <label class=""e-label"">Multiple selection</label>
+
+            <!-- Multiple selection via Selected + SelectedChanged -->
+            <SfButtonGroup Mode=""SelectionMode.Multiple"">
+                <ButtonGroupButton Selected='@tags.Contains(""News"")'
+                                   SelectedChanged='@(v => OnTagChanged(""News"", v))'
+                                   CssClass='@GetTagClass(""News"")'
+                                   aria-pressed='@tags.Contains(""News"")'>
+                    News
+                </ButtonGroupButton>
+
+                <ButtonGroupButton Selected='@tags.Contains(""Blog"")'
+                                   SelectedChanged='@(v => OnTagChanged(""Blog"", v))'
+                                   CssClass='@GetTagClass(""Blog"")'
+                                   aria-pressed='@tags.Contains(""Blog"")'>
+                    Blog
+                </ButtonGroupButton>
+
+                <ButtonGroupButton Selected='@tags.Contains(""Updates"")'
+                                   SelectedChanged='@(v => OnTagChanged(""Updates"", v))'
+                                   CssClass='@GetTagClass(""Updates"")'
+                                   aria-pressed='@tags.Contains(""Updates"")'>
+                    Updates
+                </ButtonGroupButton>
+            </SfButtonGroup>
+
+            <div class=""e-note"">Tags: @string.Join("", "", tags)</div>
+        </div>
+        @code 
+        {
+              // ---------- Selection Type ----------
+            // Single-selection backing state
+            private bool isLeft = true, isCenter = false, isRight = false;
+            private string alignment = ""Left"";
+
+            private string GetActive(string key)
+                => (alignment == key || textStyles.Contains(key) || tags.Contains(key)) ? ""e-primary"" : string.Empty;
+
+            private void OnAlignmentChanged(bool curr, string which)
+            {
+                if (!curr) return; // ignore deselect in Single mode
+                isLeft = which == ""Left"";
+                isCenter = which == ""Center"";
+                isRight = which == ""Right"";
+                alignment = which;
+            }
+
+            // Multiple-selection backing state
+            private HashSet<string> tags = new(new[] { ""News"" });
+
+            private void OnTagChanged(string key, bool selected)
+            {
+                if (selected) tags.Add(key); else tags.Remove(key);
+                StateHasChanged();
+            }
+
+            private string GetTagClass(string key) => tags.Contains(key) ? ""e-primary"" : string.Empty;
+        }
+      <style>
+            .e-section .e-label {
+                display: block;
+                font-weight: 600;
+                margin-bottom: 6px;
+            }
+
+            .e-section .e-note {
+                margin-top: 8px;
+                color: var(--e-info-foreground, #6b7280);
+                font-size: .9rem;
+            }
+      </style>
+     ";
+
+    // ---------- Flat ----------
+    private string FlatCode => @"<SfButtonGroup>
+    <ButtonGroupButton CssClass=""e-flat"">Day</ButtonGroupButton>
+    <ButtonGroupButton CssClass=""e-flat"">Week</ButtonGroupButton>
+    <ButtonGroupButton CssClass=""e-flat"">Month</ButtonGroupButton>
+</SfButtonGroup>";
+
+    // ---------- Outlined ----------
+    private string OutlinedCode => @"<SfButtonGroup>
+    <ButtonGroupButton CssClass=""e-outline"">Day</ButtonGroupButton>
+    <ButtonGroupButton CssClass=""e-outline"">Week</ButtonGroupButton>
+    <ButtonGroupButton CssClass=""e-outline"">Month</ButtonGroupButton>
+</SfButtonGroup>";
+
+    // ---------- Rounded ----------
+    private string RoundedCode => @"<SfButtonGroup CssClass=""e-round-corner"">
+    <ButtonGroupButton>Day</ButtonGroupButton>
+    <ButtonGroupButton>Week</ButtonGroupButton>
+    <ButtonGroupButton>Month</ButtonGroupButton>
+</SfButtonGroup>";
+
+    // ---------- Colors ----------
+    private string ColorCode => @"<SfButtonGroup>
+    <ButtonGroupButton CssClass=""e-primary"">Primary</ButtonGroupButton>
+    <ButtonGroupButton CssClass=""e-success"">Success</ButtonGroupButton>
+    <ButtonGroupButton CssClass=""e-warning"">Warning</ButtonGroupButton>
+    <ButtonGroupButton CssClass=""e-info"">Info</ButtonGroupButton>
+    <ButtonGroupButton CssClass=""e-danger"">Error</ButtonGroupButton>
+</SfButtonGroup>";
+
+    // ---------- Icons ----------
+    private string IconsCode => @"<div class=""e-section"">
+            <label class=""e-label"">Icon-only</label>
+            <SfButtonGroup>
+                <ButtonGroupButton aria-label=""Bold""><span class=""sb-icons e-bold""></span></ButtonGroupButton>
+                <ButtonGroupButton aria-label=""Italic""><span class=""sb-icons e-italic""></span></ButtonGroupButton>
+                <ButtonGroupButton aria-label=""Underline""><span class=""sb-icons e-underline""></span></ButtonGroupButton>
+            </SfButtonGroup>
+        </div>
+
+        <div class=""e-section"" style=""margin-top:12px"">
+            <label class=""e-label"">Icon with text</label>
+            <SfButtonGroup>
+                <ButtonGroupButton><span class=""sb-icons e-align-left""></span>&nbsp;Left</ButtonGroupButton>
+                <ButtonGroupButton><span class=""sb-icons e-align-center""></span>&nbsp;Center</ButtonGroupButton>
+                <ButtonGroupButton><span class=""sb-icons e-align-right""></span>&nbsp;Right</ButtonGroupButton>
+            </SfButtonGroup>
+        </div>
+        <style>
+            /* --- Minor UI polish for your previews --- */
+            .e-section .e-label {
+                display: block;
+                font-weight: 600;
+                margin-bottom: 6px;
+            }
+        </style>";
+
+    // ---------- States ----------
+    private HashSet<string> textStyles = new();
+
+    private void ToggleStyle(string key, bool selected)
+    {
+        if (selected) textStyles.Add(key); else textStyles.Remove(key);
+        StateHasChanged();
+    }
+
+    private string StatesCode => @"
+ <div class=""e-section"">
+            <label class=""e-label"">Disabled group</label>
+            <SfButtonGroup>
+                <ButtonGroupButton Disabled=""true"">One</ButtonGroupButton>
+                <ButtonGroupButton Disabled=""true"">Two</ButtonGroupButton>
+                <ButtonGroupButton Disabled=""true"">Three</ButtonGroupButton>
+            </SfButtonGroup>
+        </div>
+
+        <div class=""e-section"" style=""margin-top:12px"">
+            <label class=""e-label"">Active (Selected) state</label>
+
+            <SfButtonGroup Mode=""SelectionMode.Multiple"">
+                <ButtonGroupButton Selected='@textStyles.Contains(""Bold"")'
+                                   SelectedChanged='@(v => ToggleStyle(""Bold"", v))'
+                                   CssClass='@GetActive(""Bold"")'
+                                   aria-pressed='@textStyles.Contains(""Bold"")'>
+                    Bold
+                </ButtonGroupButton>
+
+                <ButtonGroupButton Selected='@textStyles.Contains(""Italic"")'
+                                   SelectedChanged='@(v => ToggleStyle(""Italic"", v))'
+                                   CssClass='@GetActive(""Italic"")'
+                                   aria-pressed='@textStyles.Contains(""Italic"")'>
+                    Italic
+                </ButtonGroupButton>
+
+                <ButtonGroupButton Selected='@textStyles.Contains(""Underline"")'
+                                   SelectedChanged='@(v => ToggleStyle(""Underline"", v))'
+                                   CssClass='@GetActive(""Underline"")'
+                                   aria-pressed='@textStyles.Contains(""Underline"")'>
+                    Underline
+                </ButtonGroupButton>
+            </SfButtonGroup>
+
+            <div class=""e-note"">Active: @string.Join("", "", textStyles)</div>
+        </div>
+        @code 
+        {
+            
+            private string GetActive(string key)
+                => (alignment == key || textStyles.Contains(key) || tags.Contains(key)) ? ""e-primary"" : string.Empty;
+            private HashSet<string> textStyles = new();
+
+            private void ToggleStyle(string key, bool selected)
+            {
+                if (selected) textStyles.Add(key); else textStyles.Remove(key);
+                StateHasChanged();
+            }
+        }
+        <style>
+            /* --- Minor UI polish for your previews --- */
+            .e-section .e-label {
+                display: block;
+                font-weight: 600;
+                margin-bottom: 6px;
+            }
+
+            .e-section .e-note {
+                margin-top: 8px;
+                color: var(--e-info-foreground, #6b7280);
+                font-size: .9rem;
+            }
+        </style>
+        ";
+
+    // ---------- Vertical ----------
+    private string VerticalCode => @"<div class=""e-section"">
+<SfButtonGroup IsVertical=""true"">
+    <ButtonGroupButton>ONE</ButtonGroupButton>
+    <ButtonGroupButton>TWO</ButtonGroupButton>
+    <ButtonGroupButton>THREE</ButtonGroupButton>
+</SfButtonGroup>
+
+<SfButtonGroup IsVertical=""true"">
+    <ButtonGroupButton CssClass=""e-flat"">ONE</ButtonGroupButton>
+    <ButtonGroupButton CssClass=""e-flat"">TWO</ButtonGroupButton>
+    <ButtonGroupButton CssClass=""e-flat"">THREE</ButtonGroupButton>
+</SfButtonGroup>
+
+<SfButtonGroup IsVertical=""true"">
+    <ButtonGroupButton CssClass=""e-outline"">ONE</ButtonGroupButton>
+    <ButtonGroupButton CssClass=""e-outline"">TWO</ButtonGroupButton>
+    <ButtonGroupButton CssClass=""e-outline"">THREE</ButtonGroupButton>
+</SfButtonGroup>
+</div>";
+}
+
+<style>
+    /* --- Minor UI polish for your previews --- */
+    .preview-row {
+        display: inline-flex;
+        gap: 16px;
+        align-items: flex-start;
+        flex-wrap: wrap;
+    }
+
+    .e-section .e-label {
+        display: block;
+        font-weight: 600;
+        margin-bottom: 6px;
+    }
+
+    .e-section .e-note {
+        margin-top: 8px;
+        color: var(--e-info-foreground, #6b7280);
+        font-size: .9rem;
+    }
+</style>

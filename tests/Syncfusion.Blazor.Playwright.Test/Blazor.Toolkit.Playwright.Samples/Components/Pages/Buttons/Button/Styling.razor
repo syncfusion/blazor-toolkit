@@ -1,0 +1,84 @@
+@page "/button/styling"
+@using Syncfusion.Blazor.Toolkit.Buttons
+@layout MainLayout
+
+<h1>Button - Styling & Appearance</h1>
+
+<div class="test-container">
+    <h2>Button Types</h2>
+    <div class="button-group">
+        <SfButton id="btn-default">Default</SfButton>
+        <SfButton id="btn-outline" CssClass="e-outline">Outlined</SfButton>
+        <SfButton id="btn-flat" CssClass="e-flat">Flat</SfButton>
+        <SfButton id="btn-round" CssClass="e-round">R</SfButton>
+        <SfButton id="btn-primary" IsPrimary="true">Primary</SfButton>
+    </div>
+
+    <h2>Semantic Colors</h2>
+    <div class="button-group">
+        <SfButton id="btn-info" CssClass="e-info">Info</SfButton>
+        <SfButton id="btn-success" CssClass="e-success">Success</SfButton>
+        <SfButton id="btn-warning" CssClass="e-warning">Warning</SfButton>
+        <SfButton id="btn-danger" CssClass="e-danger">Danger</SfButton>
+    </div>
+
+    <h2>Combined Styles</h2>
+    <div class="button-group">
+        <SfButton id="btn-outline-success" CssClass="e-outline e-success">Outline Success</SfButton>
+        <SfButton id="btn-outline-primary" CssClass="e-outline" IsPrimary="true">Outline Primary</SfButton>
+        <SfButton id="btn-flat-danger" CssClass="e-flat e-danger">Flat Danger</SfButton>
+    </div>
+
+    <h2>Size Variations</h2>
+    <div class="button-group">
+        <SfButton id="btn-small" CssClass="e-small">Small</SfButton>
+        <SfButton id="btn-normal">Normal</SfButton>
+        <SfButton id="btn-large" CssClass="e-large">Large</SfButton>
+    </div>
+
+    <h2>Button Width</h2>
+    <div class="button-group full-width">
+        <SfButton id="btn-full-width" CssClass="e-full-width">Full Width</SfButton>
+    </div>
+
+    <h2>Button with Custom Classes</h2>
+    <div class="button-group">
+        <SfButton id="btn-custom-class" CssClass="custom-button-class">Custom Class</SfButton>
+    </div>
+</div>
+
+<style>
+    .test-container {
+        padding: 20px;
+        border: 1px solid #ddd;
+        margin: 10px 0;
+        border-radius: 4px;
+        background-color: #f9f9f9;
+    }
+    
+    h2 {
+        margin-top: 20px;
+        font-size: 18px;
+        font-weight: 600;
+    }
+    
+    .button-group {
+        display: flex;
+        gap: 10px;
+        flex-wrap: wrap;
+        margin: 15px 0;
+    }
+    
+    .button-group.full-width {
+        display: block;
+    }
+    
+    :deep(.e-full-width) {
+        width: 100%;
+    }
+    
+    :deep(.custom-button-class) {
+        background-color: #ddd;
+        color: #333;
+    }
+</style>

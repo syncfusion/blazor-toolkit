@@ -1,0 +1,2112 @@
+﻿@using Syncfusion.Blazor.Toolkit.Charts
+@using Syncfusion.Blazor.Toolkit.Tests
+@using Bunit
+@using Xunit
+
+@inherits TestComponentBase
+
+<SfFixture @ref="fixture" TestAsync="CheckingWithoutRange" Description="CheckingWithoutRange">
+    <ComponentUnderTest>
+        <SfChart ID="container" Title="Chart TS Title" Width="800">
+            <ChartPrimaryXAxis Title="PrimaryXAxis"></ChartPrimaryXAxis>
+            <ChartPrimaryYAxis Title="PrimaryYaxis" RangePadding="ChartRangePadding.Normal"></ChartPrimaryYAxis>
+            <ChartSeriesCollection>
+                <ChartSeries DataSource="@Sales" XName="x" YName="y" Type="ChartSeriesType.Spline" Name="Gold" Fill="Green">
+                    <ChartSeriesAnimation Enable="false"></ChartSeriesAnimation>
+                </ChartSeries>
+            </ChartSeriesCollection>
+        </SfChart>
+    </ComponentUnderTest>
+</SfFixture>
+
+@code {
+
+    SfFixture fixture { get; set; }
+    async Task CheckingWithoutRange(Fixture fixture)
+    {
+        var cut = fixture.GetComponentUnderTest<SfChart>();
+        await Task.Delay(200);
+        var svg = cut.Find("#container_Series_0");
+        Assert.True(svg.GetAttribute("stroke") == "Green");
+        cut.SetParametersAndRender();
+    }
+    public class SplineData
+    {
+        public double x { get; set; }
+        public double y { get; set; }
+    }
+    public List<SplineData> Sales = new List<SplineData>
+{
+        new SplineData { x = 2002, y = 2.2 },
+        new SplineData { x = 2003, y = 3.4 },
+        new SplineData { x = 2004, y = 2.8 },
+        new SplineData { x = 2005, y = 1.6 },
+        new SplineData { x = 2006, y = 2.3 },
+        new SplineData { x = 2007, y = 2.5 },
+        new SplineData { x = 2008, y = 2.9 },
+        new SplineData { x = 2009, y = 3.8 },
+        new SplineData { x = 2010, y = 1.4 },
+        new SplineData { x = 2011, y = 3.1 }
+    };
+}
+
+
+@{
+    var InitialGroup1 = (new string[] { "CustomerID", "OrderID" });
+}
+<SfFixture @ref="fixture1" TestAsync="CheckingPointRenderingEvent" Description="CheckingPointRenderingEvent">
+    <ComponentUnderTest>
+        <SfChart ID="container" Title="Chart TS Title" Width="800" OnPointRender="pointrenders">
+            <ChartPrimaryXAxis Title="PrimaryXAxis"></ChartPrimaryXAxis>
+            <ChartPrimaryYAxis Title="PrimaryYaxis" RangePadding="ChartRangePadding.Normal"></ChartPrimaryYAxis>
+            <ChartSeriesCollection>
+                <ChartSeries DataSource="@Sales1" XName="x" YName="y" Type="ChartSeriesType.Spline" Name="Gold" Fill="Green">
+                    <ChartSeriesAnimation Enable="false"></ChartSeriesAnimation>
+                    <ChartMarker Visible="true" Fill="Black" Shape="ChartShape.Circle"></ChartMarker>
+                </ChartSeries>
+            </ChartSeriesCollection>
+        </SfChart>
+    </ComponentUnderTest>
+</SfFixture>
+
+@code {
+
+    SfFixture fixture1 { get; set; }
+    async Task CheckingPointRenderingEvent(Fixture fixture1)
+    {
+        var cut = fixture1.GetComponentUnderTest<SfChart>();
+        await Task.Delay(200);
+        var svg = cut.Find("#container_Series_0_Point_0_Symbol");
+        Assert.True(svg.GetAttribute("fill") == "Black");
+        cut.SetParametersAndRender();
+    }
+    public class SplineData1
+    {
+        public double x { get; set; }
+        public double y { get; set; }
+    }
+    public List<SplineData1> Sales1 = new List<SplineData1>
+{
+        new SplineData1 { x = 2002, y = 2.2 },
+        new SplineData1 { x = 2003, y = 3.4 },
+        new SplineData1 { x = 2004, y = 2.8 },
+        new SplineData1 { x = 2005, y = 1.6 },
+        new SplineData1 { x = 2006, y = 2.3 },
+        new SplineData1 { x = 2007, y = 2.5 },
+        new SplineData1 { x = 2008, y = 2.9 },
+        new SplineData1 { x = 2009, y = 3.8 },
+        new SplineData1 { x = 2010, y = 1.4 },
+        new SplineData1 { x = 2011, y = 3.1 }
+    };
+    public void pointrenders(PointRenderEventArgs args)
+    {
+        if (args.Point.Index == 0)
+        {
+            args.Fill = "Pink";
+        }
+    }
+}
+
+
+@{
+    var InitialGroup2 = (new string[] { "CustomerID", "OrderID" });
+}
+<SfFixture @ref="fixture2" TestAsync="CheckingLegendRenderingEvent" Description="CheckingLegendRenderingEvent">
+    <ComponentUnderTest>
+        <SfChart ID="container" Title="Chart TS Title" Width="800" OnLegendItemRender="LegendRenders">
+            <ChartPrimaryXAxis Title="PrimaryXAxis"></ChartPrimaryXAxis>
+            <ChartPrimaryYAxis Title="PrimaryYaxis" RangePadding="ChartRangePadding.Normal"></ChartPrimaryYAxis>
+            <ChartSeriesCollection>
+                <ChartSeries DataSource="@Sales2" XName="x" YName="y" Type="ChartSeriesType.Spline" Name="Gold" Fill="Green">
+                    <ChartSeriesAnimation Enable="false"></ChartSeriesAnimation>
+                    <ChartMarker Visible="true" Fill="Black" Shape="ChartShape.Circle"></ChartMarker>
+                </ChartSeries>
+            </ChartSeriesCollection>
+            <ChartLegendSettings Visible="true" Position="LegendPosition.Top" Alignment="Alignment.Near"></ChartLegendSettings>
+        </SfChart>
+    </ComponentUnderTest>
+</SfFixture>
+
+@code {
+
+    SfFixture fixture2 { get; set; }
+    async Task CheckingLegendRenderingEvent(Fixture fixture2)
+    {
+        var cut = fixture2.GetComponentUnderTest<SfChart>();
+        await Task.Delay(200);
+        var legendElement = cut.Find("#container_chart_legend_element");
+        Assert.True(legendElement.TagName == "rect");
+        Assert.True(legendElement.GetAttribute("d") == null);
+        var legendshape = cut.Find("#container_chart_legend_shape_0");
+        Assert.True(legendshape.GetAttribute("stroke") == "Blue");
+        Assert.True(legendshape.GetAttribute("d") != null);
+        cut.SetParametersAndRender();
+
+    }
+    public class SplineData2
+    {
+        public double x { get; set; }
+        public double y { get; set; }
+    }
+    public List<SplineData2> Sales2 = new List<SplineData2>
+{
+        new SplineData2 { x = 2002, y = 2.2 },
+        new SplineData2 { x = 2003, y = 3.4 },
+        new SplineData2 { x = 2004, y = 2.8 },
+        new SplineData2 { x = 2005, y = 1.6 },
+        new SplineData2 { x = 2006, y = 2.3 },
+        new SplineData2 { x = 2007, y = 2.5 },
+        new SplineData2 { x = 2008, y = 2.9 },
+        new SplineData2 { x = 2009, y = 3.8 },
+        new SplineData2 { x = 2010, y = 1.4 },
+        new SplineData2 { x = 2011, y = 3.1 }
+    };
+    public void LegendRenders(LegendRenderEventArgs args)
+    {
+        args.Fill = "Blue";
+    }
+}
+
+
+@{
+    var InitialGroup3 = (new string[] { "CustomerID", "OrderID" });
+}
+<SfFixture @ref="fixture3" TestAsync="CheckingMarkershapeCircle" Description="CheckingMarkershapeCircle">
+    <ComponentUnderTest>
+        <SfChart ID="container" Title="Chart TS Title" Width="800">
+            <ChartPrimaryXAxis Title="PrimaryXAxis"></ChartPrimaryXAxis>
+            <ChartPrimaryYAxis Title="PrimaryYaxis" RangePadding="ChartRangePadding.Normal"></ChartPrimaryYAxis>
+            <ChartSeriesCollection>
+                <ChartSeries DataSource="@Sales3" XName="x" YName="y" Type="ChartSeriesType.Spline" Name="Gold" Fill="Green">
+                    <ChartSeriesAnimation Enable="false"></ChartSeriesAnimation>
+                    <ChartMarker Visible="true" Fill="Black" Shape="ChartShape.Circle"></ChartMarker>
+                </ChartSeries>
+            </ChartSeriesCollection>
+        </SfChart>
+    </ComponentUnderTest>
+</SfFixture>
+
+@code {
+
+    SfFixture fixture3 { get; set; }
+    async Task CheckingMarkershapeCircle(Fixture fixture3)
+    {
+        var cut = fixture3.GetComponentUnderTest<SfChart>();
+        await Task.Delay(200);
+        var svg = cut.Find("#container_Series_0_Point_1_Symbol");
+        Assert.True(svg.GetAttribute("fill") == "Black");
+        cut.SetParametersAndRender();
+    }
+    public class SplineData3
+    {
+        public double x { get; set; }
+        public double y { get; set; }
+    }
+    public List<SplineData3> Sales3 = new List<SplineData3>
+{
+        new SplineData3 { x = 2002, y = 2.2 },
+        new SplineData3 { x = 2003, y = 3.4 },
+        new SplineData3 { x = 2004, y = 2.8 },
+        new SplineData3 { x = 2005, y = 1.6 },
+        new SplineData3 { x = 2006, y = 2.3 },
+        new SplineData3 { x = 2007, y = 2.5 },
+        new SplineData3 { x = 2008, y = 2.9 },
+        new SplineData3 { x = 2009, y = 3.8 },
+        new SplineData3 { x = 2010, y = 1.4 },
+        new SplineData3 { x = 2011, y = 3.1 }
+    };
+}
+
+
+@{
+    var InitialGroup4 = (new string[] { "CustomerID", "OrderID" });
+}
+<SfFixture @ref="fixture4" TestAsync="CheckingMarkershapeDiamond" Description="CheckingMarkershapeDiamond">
+    <ComponentUnderTest>
+        <SfChart ID="container" Title="Chart TS Title" Width="800">
+            <ChartPrimaryXAxis Title="PrimaryXAxis"></ChartPrimaryXAxis>
+            <ChartPrimaryYAxis Title="PrimaryYaxis" RangePadding="ChartRangePadding.Normal"></ChartPrimaryYAxis>
+            <ChartSeriesCollection>
+                <ChartSeries DataSource="@Sales4" XName="x" YName="y" Type="ChartSeriesType.Spline" Name="Gold" Fill="Green">
+                    <ChartSeriesAnimation Enable="false"></ChartSeriesAnimation>
+                    <ChartMarker Visible="true" Fill="Black" Shape="ChartShape.Diamond"></ChartMarker>
+                </ChartSeries>
+            </ChartSeriesCollection>
+        </SfChart>
+    </ComponentUnderTest>
+</SfFixture>
+
+@code {
+
+    SfFixture fixture4 { get; set; }
+    async Task CheckingMarkershapeDiamond(Fixture fixture4)
+    {
+        var cut = fixture4.GetComponentUnderTest<SfChart>();
+        await Task.Delay(200);
+        var svg = cut.Find("#container_Series_0_Point_1_Symbol");
+        Assert.True(svg.GetAttribute("fill") == "Black");
+        cut.SetParametersAndRender();
+    }
+    public class SplineData4
+    {
+        public double x { get; set; }
+        public double y { get; set; }
+    }
+    public List<SplineData4> Sales4 = new List<SplineData4>
+{
+        new SplineData4 { x = 2002, y = 2.2 },
+        new SplineData4 { x = 2003, y = 3.4 },
+        new SplineData4 { x = 2004, y = 2.8 },
+        new SplineData4 { x = 2005, y = 1.6 },
+        new SplineData4 { x = 2006, y = 2.3 },
+        new SplineData4 { x = 2007, y = 2.5 },
+        new SplineData4 { x = 2008, y = 2.9 },
+        new SplineData4 { x = 2009, y = 3.8 },
+        new SplineData4 { x = 2010, y = 1.4 },
+        new SplineData4 { x = 2011, y = 3.1 }
+    };
+}
+
+
+@{
+    var InitialGroup5 = (new string[] { "CustomerID", "OrderID" });
+}
+<SfFixture @ref="fixture5" TestAsync="CheckingWithNullPoints" Description="CheckingWithNullPoints">
+    <ComponentUnderTest>
+        <SfChart ID="container" Title="Chart TS Title" Width="800">
+            <ChartPrimaryXAxis Title="PrimaryXAxis"></ChartPrimaryXAxis>
+            <ChartPrimaryYAxis Title="PrimaryYaxis" RangePadding="ChartRangePadding.Normal"></ChartPrimaryYAxis>
+            <ChartSeriesCollection>
+                <ChartSeries DataSource="@Sales5" XName="x" YName="y" Type="ChartSeriesType.Spline" Name="Gold" Fill="Green">
+                    <ChartSeriesAnimation Enable="false"></ChartSeriesAnimation>
+                    <ChartMarker Visible="true" Fill="Black" Shape="ChartShape.Diamond"></ChartMarker>
+                </ChartSeries>
+            </ChartSeriesCollection>
+        </SfChart>
+    </ComponentUnderTest>
+</SfFixture>
+
+@code {
+
+    SfFixture fixture5 { get; set; }
+    async Task CheckingWithNullPoints(Fixture fixture5)
+    {
+        var cut = fixture5.GetComponentUnderTest<SfChart>();
+        await Task.Delay(200);
+        var svg = cut.Find("#container_Series_0").GetAttribute("d").LastIndexOf("M");
+        // Note: Values may vary slightly depending on screen resolution.
+        Assert.True(svg == 271);
+        cut.SetParametersAndRender();
+    }
+    public class SplineData5
+    {
+        public double x { get; set; }
+        public double? y { get; set; }
+    }
+    public List<SplineData5> Sales5 = new List<SplineData5>
+{
+        new SplineData5 { x = 2002, y = 2.2 },
+        new SplineData5 { x = 2003, y = 3.4 },
+        new SplineData5 { x = 2004, y = 2.8 },
+        new SplineData5 { x = 2005, y = null },
+        new SplineData5 { x = 2006, y = 2.3 },
+        new SplineData5 { x = 2007, y = 2.5 },
+        new SplineData5 { x = 2008, y = 2.9 },
+        new SplineData5 { x = 2009, y = 3.8 },
+        new SplineData5 { x = 2010, y = 1.4 },
+        new SplineData5 { x = 2011, y = 3.1 }
+    };
+}
+
+
+@{
+    var InitialGroup6 = (new string[] { "CustomerID", "OrderID" });
+}
+<SfFixture @ref="fixture6" TestAsync="CheckingWithNegativeDatapoint" Description="CheckingWithNegativeDatapoint">
+    <ComponentUnderTest>
+        <SfChart ID="container" @ref="chartobj" Title="Chart TS Title" Width="800">
+            <ChartPrimaryXAxis Title="PrimaryXAxis"></ChartPrimaryXAxis>
+            <ChartPrimaryYAxis Title="PrimaryYaxis" RangePadding="ChartRangePadding.Normal"></ChartPrimaryYAxis>
+            <ChartSeriesCollection>
+                <ChartSeries DataSource="@Sales6" XName="x" YName="y" Type="ChartSeriesType.Spline" Name="Gold" Fill="Green">
+                    <ChartSeriesAnimation Enable="false"></ChartSeriesAnimation>
+                    <ChartMarker Visible="true" Fill="Black" Shape="ChartShape.Diamond"></ChartMarker>
+                </ChartSeries>
+            </ChartSeriesCollection>
+        </SfChart>
+    </ComponentUnderTest>
+</SfFixture>
+
+@code {
+    SfChart chartobj;
+    SfFixture fixture6 { get; set; }
+    async Task CheckingWithNegativeDatapoint(Fixture fixture6)
+    {
+        var cut = fixture6.GetComponentUnderTest<SfChart>();
+        await Task.Delay(200);
+        var svg = Convert.ToDouble(cut.Find("#container1_AxisLabel_5").GetAttribute("y"));
+        var series = chartobj._visibleSeriesRenderers[0].Points[4].SymbolLocations[0].Y;
+        Assert.True(svg < series);
+        cut.SetParametersAndRender();
+    }
+    public class SplineData6
+    {
+        public double x { get; set; }
+        public double y { get; set; }
+    }
+    public List<SplineData6> Sales6 = new List<SplineData6>
+{
+        new SplineData6 { x = 1000, y = 70  },
+        new SplineData6 { x = 2000, y = -40 },
+        new SplineData6 { x = 3000, y = 70  },
+        new SplineData6 { x = 4000, y = 60 },
+        new SplineData6 { x = 5000, y = -50 },
+        new SplineData6 { x = 6000, y = -40 },
+        new SplineData6 { x = 7000, y = 40 },
+        new SplineData6 { x = 8000, y = 70 }
+      };
+}
+
+
+@{
+    var InitialGroup7 = (new string[] { "CustomerID", "OrderID" });
+}
+<SfFixture @ref="fixture7" TestAsync="CheckingWithSinglePoint" Description="CheckingWithSinglePoint">
+    <ComponentUnderTest>
+        <SfChart ID="container" Title="Chart TS Title" Width="800">
+            <ChartPrimaryXAxis Title="PrimaryXAxis"></ChartPrimaryXAxis>
+            <ChartPrimaryYAxis Title="PrimaryYaxis" RangePadding="ChartRangePadding.Normal"></ChartPrimaryYAxis>
+            <ChartSeriesCollection>
+                <ChartSeries DataSource="@Sales7" XName="x" YName="y" Type="ChartSeriesType.Spline" Name="Gold" Fill="Green">
+                    <ChartSeriesAnimation Enable="false"></ChartSeriesAnimation>
+                    <ChartMarker Visible="true" Fill="Black" Shape="ChartShape.Diamond"></ChartMarker>
+                </ChartSeries>
+            </ChartSeriesCollection>
+        </SfChart>
+    </ComponentUnderTest>
+</SfFixture>
+
+@code {
+
+    SfFixture fixture7 { get; set; }
+    async Task CheckingWithSinglePoint(Fixture fixture7)
+    {
+        var cut = fixture7.GetComponentUnderTest<SfChart>();
+        await Task.Delay(200);
+        var marker = cut.Find("#container_Series_0_Point_0_Symbol");
+        Assert.True(marker != null);
+        var xaxislabels = cut.Find("#containerAxisLabels0");
+        Assert.True(xaxislabels.ChildElementCount == 11);
+        var yaxislabels = cut.Find("#containerAxisLabels1");
+        Assert.True(yaxislabels.ChildElementCount == 10);
+        cut.SetParametersAndRender();
+    }
+    public class SplineData7
+    {
+        public double x { get; set; }
+        public double y { get; set; }
+    }
+    public List<SplineData7> Sales7 = new List<SplineData7>
+{
+        new SplineData7 { x = 1, y = 1000  }
+      };
+}
+
+
+@{
+    var InitialGroup8 = (new string[] { "CustomerID", "OrderID" });
+}
+<SfFixture @ref="fixture8" TestAsync="CheckingWithCategoryAxis" Description="CheckingWithCategoryAxis">
+    <ComponentUnderTest>
+        <SfChart ID="container" Title="Chart TS Title" Width="800">
+            <ChartPrimaryXAxis Title="PrimaryXAxis" ValueType="Syncfusion.Blazor.Toolkit.ValueType.Category"></ChartPrimaryXAxis>
+            <ChartPrimaryYAxis Title="PrimaryYaxis" RangePadding="ChartRangePadding.Normal"></ChartPrimaryYAxis>
+            <ChartSeriesCollection>
+                <ChartSeries DataSource="@Sales8" XName="x" YName="y" Type="ChartSeriesType.Spline" Name="Gold" Fill="Green">
+                    <ChartSeriesAnimation Enable="false"></ChartSeriesAnimation>
+                    <ChartMarker Visible="true" Fill="Black" Shape="ChartShape.Diamond"></ChartMarker>
+                </ChartSeries>
+            </ChartSeriesCollection>
+        </SfChart>
+    </ComponentUnderTest>
+</SfFixture>
+
+@code {
+
+    SfFixture fixture8 { get; set; }
+    async Task CheckingWithCategoryAxis(Fixture fixture8)
+    {
+        var cut = fixture8.GetComponentUnderTest<SfChart>();
+        await Task.Delay(200);
+        var marker = cut.Find("#container_Series_0_Point_0_Symbol");
+        Assert.True(marker != null);
+        var xaxislabels = cut.Find("#containerAxisLabels0");
+        Assert.True(xaxislabels.ChildElementCount == 8);
+        var yaxislabels = cut.Find("#containerAxisLabels1");
+        Assert.True(yaxislabels.ChildElementCount == 9);
+        cut.SetParametersAndRender();
+    }
+    public class SplineData8
+    {
+        public string x { get; set; }
+        public double y { get; set; }
+    }
+    public List<SplineData8> Sales8 = new List<SplineData8>
+{
+        new SplineData8 { x = "USA", y = 70  },
+        new SplineData8 { x = "China", y = 60  },
+        new SplineData8 { x = "Japan", y = 60  },
+        new SplineData8 { x = "Australia", y = 56  },
+        new SplineData8 { x = "France1", y = 45  },
+        new SplineData8 { x = "Germany1", y = 30  },
+        new SplineData8 { x = "Italy", y = 35  },
+        new SplineData8 { x = "Sweden", y = 25  }
+      };
+}
+
+
+@{
+    var InitialGroup9 = (new string[] { "CustomerID", "OrderID" });
+}
+<SfFixture @ref="fixture9" TestAsync="CheckingWithCategoryAxisOnTicks" Description="CheckingWithCategoryAxisOnTicks">
+    <ComponentUnderTest>
+        <SfChart ID="container" Title="Chart TS Title" Width="800">
+            <ChartPrimaryXAxis Title="PrimaryXAxis" ValueType="Syncfusion.Blazor.Toolkit.ValueType.Category" LabelPlacement="LabelPlacement.OnTicks"></ChartPrimaryXAxis>
+            <ChartPrimaryYAxis Title="PrimaryYaxis" RangePadding="ChartRangePadding.Normal"></ChartPrimaryYAxis>
+            <ChartSeriesCollection>
+                <ChartSeries DataSource="@Sales9" XName="x" YName="y" Type="ChartSeriesType.Spline" Name="Gold" Fill="Green">
+                    <ChartSeriesAnimation Enable="false"></ChartSeriesAnimation>
+                    <ChartMarker Visible="true" Fill="Black" Shape="ChartShape.Diamond"></ChartMarker>
+                </ChartSeries>
+            </ChartSeriesCollection>
+        </SfChart>
+    </ComponentUnderTest>
+</SfFixture>
+
+@code {
+
+    SfFixture fixture9 { get; set; }
+    async Task CheckingWithCategoryAxisOnTicks(Fixture fixture9)
+    {
+        var cut = fixture9.GetComponentUnderTest<SfChart>();
+        await Task.Delay(200);
+        var marker = cut.Find("#container_Series_0_Point_0_Symbol");
+        Assert.True(marker != null);
+        var xaxislabels = cut.Find("#containerAxisLabels0");
+        Assert.True(xaxislabels.ChildElementCount == 8);
+        var yaxislabels = cut.Find("#containerAxisLabels1");
+        Assert.True(yaxislabels.ChildElementCount == 9);
+        cut.SetParametersAndRender();
+    }
+    public class SplineData9
+    {
+        public string x { get; set; }
+        public double y { get; set; }
+    }
+    public List<SplineData9> Sales9 = new List<SplineData9>
+{
+        new SplineData9 { x = "USA", y = 70  },
+        new SplineData9 { x = "China", y = 60  },
+        new SplineData9 { x = "Japan", y = 60  },
+        new SplineData9 { x = "Australia", y = 56  },
+        new SplineData9 { x = "France1", y = 45  },
+        new SplineData9 { x = "Germany1", y = 30  },
+        new SplineData9 { x = "Italy", y = 35  },
+        new SplineData9 { x = "Sweden", y = 25  }
+      };
+}
+
+
+@{
+    var InitialGroup10 = (new string[] { "CustomerID", "OrderID" });
+}
+<SfFixture @ref="fixture10" TestAsync="CheckingWithMultipleSeries" Description="CheckingWithMultipleSeries">
+    <ComponentUnderTest>
+        <SfChart ID="container" Title="Chart TS Title" Width="800">
+            <ChartPrimaryXAxis Title="PrimaryXAxis" ValueType="Syncfusion.Blazor.Toolkit.ValueType.Category" LabelPlacement="LabelPlacement.OnTicks"></ChartPrimaryXAxis>
+            <ChartPrimaryYAxis Title="PrimaryYaxis" RangePadding="ChartRangePadding.Normal"></ChartPrimaryYAxis>
+            <ChartSeriesCollection>
+                <ChartSeries DataSource="@Sales10" XName="x" YName="y" Type="ChartSeriesType.Spline" Name="Gold" Fill="Red" Opacity="0.5">
+                    <ChartSeriesAnimation Enable="false"></ChartSeriesAnimation>
+                    <ChartMarker Visible="true"></ChartMarker>
+                </ChartSeries>
+                <ChartSeries DataSource="@Sales10" XName="x" YName="y1" Type="ChartSeriesType.Spline" Name="Silver" Fill="rgba(135,206,235,1)" Opacity="0.5">
+                    <ChartSeriesAnimation Enable="false"></ChartSeriesAnimation>
+                    <ChartMarker Visible="true"></ChartMarker>
+                </ChartSeries>
+            </ChartSeriesCollection>
+        </SfChart>
+    </ComponentUnderTest>
+</SfFixture>
+
+@code {
+
+    SfFixture fixture10 { get; set; }
+    async Task CheckingWithMultipleSeries(Fixture fixture10)
+    {
+        var cut = fixture10.GetComponentUnderTest<SfChart>();
+        await Task.Delay(200);
+        var svg = cut.Find("#container_Series_0");
+        Assert.True(svg.GetAttribute("stroke") == "Red");
+        var svg1 = cut.Find("#container_Series_1");
+        Assert.True(svg1.GetAttribute("stroke") == "rgba(135,206,235,1)");
+        cut.SetParametersAndRender();
+    }
+    public class SplineData10
+    {
+        public double x { get; set; }
+        public double y { get; set; }
+        public double y1 { get; set; }
+    }
+    public List<SplineData10> Sales10 = new List<SplineData10>
+{
+        new SplineData10 { x = 1000, y = 70 , y1 = 73 },
+        new SplineData10 { x = 2000, y = 40 , y1 = 40 },
+        new SplineData10 { x = 3000, y = 70 , y1 = 75 },
+        new SplineData10 { x = 4000, y = 60 , y1 = 30 },
+        new SplineData10 { x = 5000, y = 50 , y1 = 56 },
+        new SplineData10 { x = 6000, y = 40 , y1 = 60 },
+        new SplineData10 { x = 7000, y = 40 , y1 = 41 },
+        new SplineData10 { x = 8000, y = 70 , y1 = 45 },
+      };
+}
+
+
+@{
+    var InitialGroup11 = (new string[] { "CustomerID", "OrderID" });
+}
+<SfFixture @ref="fixture11" TestAsync="CheckingWithMultipleAxes" Description="CheckingWithMultipleAxes">
+    <ComponentUnderTest>
+        <SfChart ID="container" Title="Chart TS Title" Height="650" Width="800">
+            <ChartAxes>
+                <ChartAxis RowIndex="1" Name="yAxis1">
+                    <ChartAxisTitleStyle Size="14px" FontWeight="Regular" Color="#282828" FontStyle="Normal" FontFamily="Segoe UI"></ChartAxisTitleStyle>
+                    <ChartAxisLabelStyle Size="12px" FontWeight="Regular" Color="#282828" FontStyle="Normal" FontFamily="Segoe UI"></ChartAxisLabelStyle>
+                </ChartAxis>
+                <ChartAxis ColumnIndex="1" Name="xAxis1">
+                    <ChartAxisTitleStyle Size="14px" FontWeight="Regular" Color="#282828" FontStyle="Normal" FontFamily="Segoe UI"></ChartAxisTitleStyle>
+                    <ChartAxisLabelStyle Size="12px" FontWeight="Regular" Color="#282828" FontStyle="Normal" FontFamily="Segoe UI"></ChartAxisLabelStyle>
+                </ChartAxis>
+            </ChartAxes>
+            <ChartRows>
+                <ChartRow Height="300"></ChartRow>
+                <ChartRow Height="300"></ChartRow>
+            </ChartRows>
+            <ChartColumns>
+                <ChartColumn Width="400"></ChartColumn>
+                <ChartColumn Width="400"></ChartColumn>
+            </ChartColumns>
+            <ChartPrimaryXAxis Title="PrimaryXAxis" ValueType="Syncfusion.Blazor.Toolkit.ValueType.Double" LabelPlacement="LabelPlacement.OnTicks"></ChartPrimaryXAxis>
+            <ChartPrimaryYAxis Title="PrimaryYaxis" RangePadding="ChartRangePadding.Normal"></ChartPrimaryYAxis>
+            <ChartSeriesCollection>
+                <ChartSeries DataSource="@Sales11" XName="x" YName="y" Type="ChartSeriesType.Spline" Name="Gold" Fill="Red" Opacity="0.5">
+                    <ChartSeriesAnimation Enable="false"></ChartSeriesAnimation>
+                    <ChartMarker Visible="true"></ChartMarker>
+                </ChartSeries>
+                <ChartSeries DataSource="@Sales11" YAxisName="yAxis1" XName="x" YName="y" Type="ChartSeriesType.Spline" Name="Silver" Fill="Blue" Opacity="0.5">
+                    <ChartSeriesAnimation Enable="false"></ChartSeriesAnimation>
+                    <ChartMarker Visible="true"></ChartMarker>
+                </ChartSeries>
+                <ChartSeries DataSource="@Sales11" XAxisName="xAxis1" XName="x" YName="y" Type="ChartSeriesType.Spline" Name="Ruby" Fill="Green" Opacity="0.5">
+                    <ChartSeriesAnimation Enable="false"></ChartSeriesAnimation>
+                    <ChartMarker Visible="true"></ChartMarker>
+                </ChartSeries>
+                <ChartSeries DataSource="@Sales11" XAxisName="xAxis1" YAxisName="yAxis1" XName="x" YName="y" Type="ChartSeriesType.Spline" Name="Diamond" Fill="Black" Opacity="0.5">
+                    <ChartSeriesAnimation Enable="false"></ChartSeriesAnimation>
+                    <ChartMarker Visible="true"></ChartMarker>
+                </ChartSeries>
+            </ChartSeriesCollection>
+        </SfChart>
+    </ComponentUnderTest>
+</SfFixture>
+
+@code {
+
+    SfFixture fixture11 { get; set; }
+    async Task CheckingWithMultipleAxes(Fixture fixture11)
+    {
+        var cut = fixture11.GetComponentUnderTest<SfChart>();
+        await Task.Delay(200);
+        var svg = cut.Find("#container_Series_0");
+        Assert.True(svg.GetAttribute("stroke") == "Red");
+        var svg1 = cut.Find("#container_Series_1");
+        Assert.True(svg1.GetAttribute("stroke") == "Blue");
+        var svg2 = cut.Find("#container_Series_2");
+        Assert.True(svg2.GetAttribute("stroke") == "Green");
+        var svg3 = cut.Find("#container_Series_3");
+        Assert.True(svg3.GetAttribute("stroke") == "Black");
+        cut.SetParametersAndRender();
+    }
+    public class SplineData11
+    {
+        public double x { get; set; }
+        public double y { get; set; }
+    }
+    public List<SplineData11> Sales11 = new List<SplineData11>
+{
+        new SplineData11 { x = 2002, y = 2.2 },
+        new SplineData11 { x = 2003, y = 3.4 },
+        new SplineData11 { x = 2004, y = 2.8 },
+        new SplineData11 { x = 2005, y = 1.6 },
+        new SplineData11 { x = 2006, y = 2.3 },
+        new SplineData11 { x = 2007, y = 2.5 },
+        new SplineData11 { x = 2008, y = 2.9 },
+        new SplineData11 { x = 2009, y = 3.8 },
+        new SplineData11 { x = 2010, y = 1.4 },
+        new SplineData11 { x = 2011, y = 3.1 }
+      };
+}
+
+
+@{
+    var InitialGroup12 = (new string[] { "CustomerID", "OrderID" });
+}
+<SfFixture @ref="fixture12" TestAsync="CheckingWithMultipleAxesOpposed" Description="CheckingWithMultipleAxesOpposed">
+    <ComponentUnderTest>
+        <SfChart ID="container" Title="Chart TS Title" Height="650" Width="800">
+            <ChartAxes>
+                <ChartAxis RowIndex="1" Name="yAxis1" OpposedPosition="true">
+                    <ChartAxisTitleStyle Size="14px" FontWeight="Regular" Color="#282828" FontStyle="Normal" FontFamily="Segoe UI"></ChartAxisTitleStyle>
+                    <ChartAxisLabelStyle Size="12px" FontWeight="Regular" Color="#282828" FontStyle="Normal" FontFamily="Segoe UI"></ChartAxisLabelStyle>
+                </ChartAxis>
+                <ChartAxis ColumnIndex="1" Name="xAxis1">
+                    <ChartAxisTitleStyle Size="14px" FontWeight="Regular" Color="#282828" FontStyle="Normal" FontFamily="Segoe UI"></ChartAxisTitleStyle>
+                    <ChartAxisLabelStyle Size="12px" FontWeight="Regular" Color="#282828" FontStyle="Normal" FontFamily="Segoe UI"></ChartAxisLabelStyle>
+                </ChartAxis>
+            </ChartAxes>
+            <ChartRows>
+                <ChartRow Height="300"></ChartRow>
+                <ChartRow Height="300"></ChartRow>
+            </ChartRows>
+            <ChartColumns>
+                <ChartColumn Width="400"></ChartColumn>
+                <ChartColumn Width="400"></ChartColumn>
+            </ChartColumns>
+            <ChartPrimaryXAxis Title="PrimaryXAxis" ValueType="Syncfusion.Blazor.Toolkit.ValueType.Double" LabelPlacement="LabelPlacement.OnTicks"></ChartPrimaryXAxis>
+            <ChartPrimaryYAxis Title="PrimaryYaxis" RangePadding="ChartRangePadding.Normal"></ChartPrimaryYAxis>
+            <ChartSeriesCollection>
+                <ChartSeries DataSource="@Sales12" XName="x" YName="y" Type="ChartSeriesType.Spline" Name="Gold" Fill="Red" Opacity="0.5">
+                    <ChartSeriesAnimation Enable="false"></ChartSeriesAnimation>
+                    <ChartMarker Visible="true"></ChartMarker>
+                </ChartSeries>
+                <ChartSeries DataSource="@Sales12" YAxisName="yAxis1" XName="x" YName="y" Type="ChartSeriesType.Spline" Name="Silver" Fill="Blue" Opacity="0.5">
+                    <ChartSeriesAnimation Enable="false"></ChartSeriesAnimation>
+                    <ChartMarker Visible="true"></ChartMarker>
+                </ChartSeries>
+                <ChartSeries DataSource="@Sales12" XAxisName="xAxis1" XName="x" YName="y" Type="ChartSeriesType.Spline" Name="Ruby" Fill="Green" Opacity="0.5">
+                    <ChartSeriesAnimation Enable="false"></ChartSeriesAnimation>
+                    <ChartMarker Visible="true"></ChartMarker>
+                </ChartSeries>
+                <ChartSeries DataSource="@Sales12" YAxisName="yAxis1" XAxisName="xAxis1" XName="x" YName="y" Type="ChartSeriesType.Spline" Name="Diamond" Fill="Black" Opacity="0.5">
+                    <ChartSeriesAnimation Enable="false"></ChartSeriesAnimation>
+                    <ChartMarker Visible="true"></ChartMarker>
+                </ChartSeries>
+            </ChartSeriesCollection>
+        </SfChart>
+    </ComponentUnderTest>
+</SfFixture>
+
+@code {
+
+    SfFixture fixture12 { get; set; }
+    async Task CheckingWithMultipleAxesOpposed(Fixture fixture12)
+    {
+        var cut = fixture12.GetComponentUnderTest<SfChart>();
+        await Task.Delay(200);
+        var svg = cut.Find("#container_Series_0");
+        Assert.True(svg.GetAttribute("stroke") == "Red");
+        var svg1 = cut.Find("#container_Series_1");
+        Assert.True(svg1.GetAttribute("stroke") == "Blue");
+        var svg2 = cut.Find("#container_Series_2");
+        Assert.True(svg2.GetAttribute("stroke") == "Green");
+        var svg3 = cut.Find("#container_Series_3");
+        Assert.True(svg3.GetAttribute("stroke") == "Black");
+        var svgele = cut.Find("#container_ChartAreaBorder");
+        var svgele1 = Convert.ToDouble(cut.Find("#container2_AxisLabel_0").GetAttribute("x"));
+        Assert.True((Convert.ToDouble(svgele.GetAttribute("x")) + Convert.ToDouble(svgele.GetAttribute("x"))) < svgele1);
+        cut.SetParametersAndRender();
+    }
+    public class SplineData12
+    {
+        public double x { get; set; }
+        public double y { get; set; }
+    }
+    public List<SplineData12> Sales12 = new List<SplineData12>
+{
+        new SplineData12 { x = 2002, y = 2.2 },
+        new SplineData12 { x = 2003, y = 3.4 },
+        new SplineData12 { x = 2004, y = 2.8 },
+        new SplineData12 { x = 2005, y = 1.6 },
+        new SplineData12 { x = 2006, y = 2.3 },
+        new SplineData12 { x = 2007, y = 2.5 },
+        new SplineData12 { x = 2008, y = 2.9 },
+        new SplineData12 { x = 2009, y = 3.8 },
+        new SplineData12 { x = 2010, y = 1.4 },
+        new SplineData12 { x = 2011, y = 3.1 }
+      };
+}
+
+
+@{
+    var InitialGroup13 = (new string[] { "CustomerID", "OrderID" });
+}
+<SfFixture @ref="fixture13" TestAsync="CheckingWithMultiplePanesColumn" Description="CheckingWithMultiplePanesColumn">
+    <ComponentUnderTest>
+        <SfChart ID="container" Title="Chart TS Title" Height="650" Width="800">
+            <ChartAxes>
+                <ChartAxis ColumnIndex="1" RowIndex="1" Title="Axis2" Name="yAxis1" OpposedPosition="true">
+                    <ChartAxisTitleStyle Size="14px" FontWeight="Regular" Color="#282828" FontStyle="Normal" FontFamily="Segoe UI"></ChartAxisTitleStyle>
+                    <ChartAxisLabelStyle Size="12px" FontWeight="Regular" Color="#282828" FontStyle="Normal" FontFamily="Segoe UI"></ChartAxisLabelStyle>
+                </ChartAxis>
+                <ChartAxis ColumnIndex="1" Name="xAxis1">
+                    <ChartAxisTitleStyle Size="14px" FontWeight="Regular" Color="#282828" FontStyle="Normal" FontFamily="Segoe UI"></ChartAxisTitleStyle>
+                    <ChartAxisLabelStyle Size="12px" FontWeight="Regular" Color="#282828" FontStyle="Normal" FontFamily="Segoe UI"></ChartAxisLabelStyle>
+                </ChartAxis>
+            </ChartAxes>
+            <ChartRows>
+                <ChartRow Height="300"></ChartRow>
+                <ChartRow Height="300"></ChartRow>
+            </ChartRows>
+            <ChartColumns>
+                <ChartColumn Width="400"></ChartColumn>
+                <ChartColumn Width="400"></ChartColumn>
+            </ChartColumns>
+            <ChartPrimaryXAxis Title="PrimaryXAxis" ValueType="Syncfusion.Blazor.Toolkit.ValueType.Double" LabelPlacement="LabelPlacement.OnTicks"></ChartPrimaryXAxis>
+            <ChartPrimaryYAxis Title="PrimaryYaxis" Minimum="0" Maximum="50" RangePadding="ChartRangePadding.Normal"></ChartPrimaryYAxis>
+            <ChartSeriesCollection>
+                <ChartSeries DataSource="@Sales13" XName="x" YName="y" Type="ChartSeriesType.Spline" Name="Gold" Fill="Red" Opacity="0.5">
+                    <ChartSeriesAnimation Enable="false"></ChartSeriesAnimation>
+                    <ChartMarker Visible="true"></ChartMarker>
+                </ChartSeries>
+                <ChartSeries DataSource="@Sales13" XAxisName="yAxis1" XName="x" YName="y" Type="ChartSeriesType.Spline" Name="Silver" Fill="Blue" Opacity="0.5">
+                    <ChartSeriesAnimation Enable="false"></ChartSeriesAnimation>
+                    <ChartMarker Visible="true"></ChartMarker>
+                </ChartSeries>
+            </ChartSeriesCollection>
+        </SfChart>
+    </ComponentUnderTest>
+</SfFixture>
+
+@code {
+
+    SfFixture fixture13 { get; set; }
+    async Task CheckingWithMultiplePanesColumn(Fixture fixture13)
+    {
+        var cut = fixture13.GetComponentUnderTest<SfChart>();
+        await Task.Delay(200);
+        var svg = cut.Find("#containerAxisLine_0");
+        // Note: Values may vary slightly depending on screen resolution.
+        Assert.True(svg.GetAttribute("d").Split(" ")[2] == "555.25");
+        var svg1 = cut.Find("#containerAxisLine_1");
+        Assert.True(svg1.GetAttribute("d").Split(" ")[1] == "65.7");
+        cut.SetParametersAndRender();
+    }
+    public class SplineData13
+    {
+        public double x { get; set; }
+        public double y { get; set; }
+    }
+    public List<SplineData13> Sales13 = new List<SplineData13>
+{
+        new SplineData13 { x = 2002, y = 2.2 },
+        new SplineData13 { x = 2003, y = 3.4 },
+        new SplineData13 { x = 2004, y = 2.8 },
+        new SplineData13 { x = 2005, y = 1.6 },
+        new SplineData13 { x = 2006, y = 2.3 },
+        new SplineData13 { x = 2007, y = 2.5 },
+        new SplineData13 { x = 2008, y = 2.9 },
+        new SplineData13 { x = 2009, y = 3.8 },
+        new SplineData13 { x = 2010, y = 1.4 },
+        new SplineData13 { x = 2011, y = 3.1 }
+      };
+}
+
+
+@{
+    var InitialGroup14 = (new string[] { "CustomerID", "OrderID" });
+}
+<SfFixture @ref="fixture14" TestAsync="CheckingWithMultiplePanesRow" Description="CheckingWithMultiplePanesRow">
+    <ComponentUnderTest>
+        <SfChart ID="container" Title="Chart TS Title" Height="650" Width="800">
+            <ChartAxes>
+                <ChartAxis ColumnIndex="1" RowIndex="1" Title="Axis2" Name="yAxis1" Minimum="50" Maximum="130" Interval="10" OpposedPosition="true">
+                    <ChartAxisTitleStyle Size="14px" FontWeight="Regular" Color="#282828" FontStyle="Normal" FontFamily="Segoe UI"></ChartAxisTitleStyle>
+                    <ChartAxisLabelStyle Size="12px" FontWeight="Regular" Color="#282828" FontStyle="Normal" FontFamily="Segoe UI"></ChartAxisLabelStyle>
+                </ChartAxis>
+                <ChartAxis ColumnIndex="1" Name="xAxis1">
+                    <ChartAxisTitleStyle Size="14px" FontWeight="Regular" Color="#282828" FontStyle="Normal" FontFamily="Segoe UI"></ChartAxisTitleStyle>
+                    <ChartAxisLabelStyle Size="12px" FontWeight="Regular" Color="#282828" FontStyle="Normal" FontFamily="Segoe UI"></ChartAxisLabelStyle>
+                </ChartAxis>
+            </ChartAxes>
+            <ChartRows>
+                <ChartRow Height="50%"></ChartRow>
+                <ChartRow Height="50%"></ChartRow>
+            </ChartRows>
+            <ChartColumns>
+                <ChartColumn Width="400"></ChartColumn>
+                <ChartColumn Width="400"></ChartColumn>
+            </ChartColumns>
+            <ChartPrimaryXAxis Title="PrimaryXAxis" ValueType="Syncfusion.Blazor.Toolkit.ValueType.Double" LabelPlacement="LabelPlacement.OnTicks"></ChartPrimaryXAxis>
+            <ChartPrimaryYAxis Title="PrimaryYaxis" Minimum="0" Maximum="50" RangePadding="ChartRangePadding.Normal"></ChartPrimaryYAxis>
+            <ChartSeriesCollection>
+                <ChartSeries DataSource="@Sales14" XName="x" YName="y" Type="ChartSeriesType.Spline" Name="Gold" Fill="Red" Opacity="0.5">
+                    <ChartSeriesAnimation Enable="false"></ChartSeriesAnimation>
+                    <ChartMarker Visible="true"></ChartMarker>
+                </ChartSeries>
+                <ChartSeries DataSource="@Sales14" YAxisName="yAxis1" XName="x" YName="y" Type="ChartSeriesType.Spline" Name="Silver" Fill="Blue" Opacity="0.5">
+                    <ChartSeriesAnimation Enable="false"></ChartSeriesAnimation>
+                    <ChartMarker Visible="true"></ChartMarker>
+                </ChartSeries>
+            </ChartSeriesCollection>
+        </SfChart>
+    </ComponentUnderTest>
+</SfFixture>
+
+@code {
+
+    SfFixture fixture14 { get; set; }
+    async Task CheckingWithMultiplePanesRow(Fixture fixture14)
+    {
+        var cut = fixture14.GetComponentUnderTest<SfChart>();
+        await Task.Delay(200);
+        var svg = cut.Find("#containerAxisLine_0");
+        // Note: Values may vary slightly depending on screen resolution.
+        Assert.True(svg.GetAttribute("d").Split(" ")[2] == "555.25");
+        var svg1 = cut.Find("#containerAxisLine_1");
+        Assert.True(svg1.GetAttribute("d").Split(" ")[2] == "300.525");
+        cut.SetParametersAndRender();
+    }
+    public class SplineData14
+    {
+        public double x { get; set; }
+        public double y { get; set; }
+    }
+    public List<SplineData14> Sales14 = new List<SplineData14>
+{
+        new SplineData14 { x = 2002, y = 2.2 },
+        new SplineData14 { x = 2003, y = 3.4 },
+        new SplineData14 { x = 2004, y = 2.8 },
+        new SplineData14 { x = 2005, y = 1.6 },
+        new SplineData14 { x = 2006, y = 2.3 },
+        new SplineData14 { x = 2007, y = 2.5 },
+        new SplineData14 { x = 2008, y = 2.9 },
+        new SplineData14 { x = 2009, y = 3.8 },
+        new SplineData14 { x = 2010, y = 1.4 },
+        new SplineData14 { x = 2011, y = 3.1 }
+      };
+}
+
+
+@{
+    var InitialGroup15 = (new string[] { "CustomerID", "OrderID" });
+}
+<SfFixture @ref="fixture15" TestAsync="CheckingInversedAxisDatalabelAuto" Description="CheckingInversedAxisDatalabelAuto">
+    <ComponentUnderTest>
+        <SfChart ID="container" @ref="chartobj1" Title="Chart TS Title" Width="800">
+            <ChartPrimaryXAxis Title="PrimaryXAxis"></ChartPrimaryXAxis>
+            <ChartPrimaryYAxis Title="PrimaryYaxis" IsInversed="true"></ChartPrimaryYAxis>
+            <ChartSeriesCollection>
+                <ChartSeries DataSource="@Sales15" XName="x" YName="y" Type="ChartSeriesType.Spline" Name="Gold" Fill="Red" Opacity="0.5">
+                    <ChartSeriesAnimation Enable="false"></ChartSeriesAnimation>
+                    <ChartMarker Visible="true">
+                        <ChartDataLabel Visible="true" Fill="Violet"></ChartDataLabel>
+                    </ChartMarker>
+                </ChartSeries>
+            </ChartSeriesCollection>
+        </SfChart>
+    </ComponentUnderTest>
+</SfFixture>
+
+@code {
+    SfChart chartobj1;
+    SfFixture fixture15 { get; set; }
+    async Task CheckingInversedAxisDatalabelAuto(Fixture fixture15)
+    {
+        var cut = fixture15.GetComponentUnderTest<SfChart>();
+        await Task.Delay(200);
+        var datalabelY = Convert.ToDouble(cut.Find("#container_Series_0_Point_2_TextShape_2").GetAttribute("y"));
+        var pointY = chartobj1._visibleSeriesRenderers[0].Points[2].SymbolLocations[0].Y;
+        Assert.True(datalabelY != pointY);
+        var datalabelY1 = Convert.ToDouble(cut.Find("#container_Series_0_Point_6_TextShape_6").GetAttribute("y"));
+        var pointY1 = chartobj1._visibleSeriesRenderers[0].Points[6].SymbolLocations[0].Y;
+        Assert.True(datalabelY1 != pointY1);
+        cut.SetParametersAndRender();
+    }
+    public class SplineData15
+    {
+        public double x { get; set; }
+        public double y { get; set; }
+    }
+    public List<SplineData15> Sales15 = new List<SplineData15>
+{
+        new SplineData15 { x = 1000, y = 70  },
+        new SplineData15 { x = 2000, y = 40  },
+        new SplineData15 { x = 3000, y = 70  },
+        new SplineData15 { x = 4000, y = 60  },
+        new SplineData15 { x = 5000, y = 50  },
+        new SplineData15 { x = 6000, y = 40  },
+        new SplineData15 { x = 7000, y = 40  },
+        new SplineData15 { x = 8000, y = 70  },
+      };
+}
+
+
+@{
+    var InitialGroup16 = (new string[] { "CustomerID", "OrderID" });
+}
+<SfFixture @ref="fixture16" TestAsync="CheckingInversedAxisDatalabelOuter" Description="CheckingInversedAxisDatalabelOuter">
+    <ComponentUnderTest>
+        <SfChart ID="container" @ref="chartobj2" Title="Chart TS Title" Width="800">
+            <ChartPrimaryXAxis Title="PrimaryXAxis"></ChartPrimaryXAxis>
+            <ChartPrimaryYAxis Title="PrimaryYaxis" IsInversed="true"></ChartPrimaryYAxis>
+            <ChartSeriesCollection>
+                <ChartSeries DataSource="@Sales16" XName="x" YName="y" Type="ChartSeriesType.Spline" Name="Gold" Fill="Red" Opacity="0.5">
+                    <ChartSeriesAnimation Enable="false"></ChartSeriesAnimation>
+                    <ChartMarker Visible="true">
+                        <ChartDataLabel Visible="true" Fill="Violet" Position="ChartLabelPosition.Outer"></ChartDataLabel>
+                    </ChartMarker>
+                </ChartSeries>
+            </ChartSeriesCollection>
+        </SfChart>
+    </ComponentUnderTest>
+</SfFixture>
+
+@code {
+    SfChart chartobj2;
+    SfFixture fixture16 { get; set; }
+    async Task CheckingInversedAxisDatalabelOuter(Fixture fixture16)
+    {
+        var cut = fixture16.GetComponentUnderTest<SfChart>();
+        await Task.Delay(200);
+        var datalabelY = Convert.ToDouble(cut.Find("#container_Series_0_Point_2_TextShape_2").GetAttribute("y"));
+        var pointY = chartobj2._visibleSeriesRenderers[0].Points[2].SymbolLocations[0].Y;
+        Assert.True(datalabelY < pointY);
+        var datalabelY1 = Convert.ToDouble(cut.Find("#container_Series_0_Point_6_TextShape_6").GetAttribute("y"));
+        var pointY1 = chartobj2._visibleSeriesRenderers[0].Points[6].SymbolLocations[0].Y;
+        Assert.True(datalabelY1 < pointY1);
+        cut.SetParametersAndRender();
+    }
+    public class SplineData16
+    {
+        public double x { get; set; }
+        public double y { get; set; }
+    }
+    public List<SplineData16> Sales16 = new List<SplineData16>
+{
+        new SplineData16 { x = 1000, y = 70  },
+        new SplineData16 { x = 2000, y = 40  },
+        new SplineData16 { x = 3000, y = 70  },
+        new SplineData16 { x = 4000, y = 60  },
+        new SplineData16 { x = 5000, y = 50  },
+        new SplineData16 { x = 6000, y = 40  },
+        new SplineData16 { x = 7000, y = 40  },
+        new SplineData16 { x = 8000, y = 70  },
+      };
+}
+
+
+@{
+    var InitialGroup17 = (new string[] { "CustomerID", "OrderID" });
+}
+<SfFixture @ref="fixture17" TestAsync="CheckingInversedAxisDatalabelTop" Description="CheckingInversedAxisDatalabelTop">
+    <ComponentUnderTest>
+        <SfChart ID="container" @ref="chartobj3" Title="Chart TS Title" Width="800">
+            <ChartPrimaryXAxis Title="PrimaryXAxis"></ChartPrimaryXAxis>
+            <ChartPrimaryYAxis Title="PrimaryYaxis" IsInversed="true"></ChartPrimaryYAxis>
+            <ChartSeriesCollection>
+                <ChartSeries DataSource="@Sales17" XName="x" YName="y" Type="ChartSeriesType.Spline" Name="Gold" Fill="Red" Opacity="0.5">
+                    <ChartSeriesAnimation Enable="false"></ChartSeriesAnimation>
+                    <ChartMarker Visible="true">
+                        <ChartDataLabel Visible="true" Fill="Violet" Position="ChartLabelPosition.Top"></ChartDataLabel>
+                    </ChartMarker>
+                </ChartSeries>
+            </ChartSeriesCollection>
+        </SfChart>
+    </ComponentUnderTest>
+</SfFixture>
+
+@code {
+    SfChart chartobj3;
+    SfFixture fixture17 { get; set; }
+    async Task CheckingInversedAxisDatalabelTop(Fixture fixture17)
+    {
+        var cut = fixture17.GetComponentUnderTest<SfChart>();
+        await Task.Delay(200);
+        var datalabelY = Convert.ToDouble(cut.Find("#container_Series_0_Point_2_TextShape_2").GetAttribute("y"));
+        var pointY = chartobj3._visibleSeriesRenderers[0].Points[2].SymbolLocations[0].Y;
+        Assert.True(datalabelY < pointY);
+        var datalabelY1 = Convert.ToDouble(cut.Find("#container_Series_0_Point_6_TextShape_6").GetAttribute("y"));
+        var pointY1 = chartobj3._visibleSeriesRenderers[0].Points[6].SymbolLocations[0].Y;
+        Assert.True(datalabelY1 < pointY1);
+        cut.SetParametersAndRender();
+    }
+    public class SplineData17
+    {
+        public double x { get; set; }
+        public double y { get; set; }
+    }
+    public List<SplineData17> Sales17 = new List<SplineData17>
+{
+        new SplineData17 { x = 1000, y = 70  },
+        new SplineData17 { x = 2000, y = 40  },
+        new SplineData17 { x = 3000, y = 70  },
+        new SplineData17 { x = 4000, y = 60  },
+        new SplineData17 { x = 5000, y = 50  },
+        new SplineData17 { x = 6000, y = 40  },
+        new SplineData17 { x = 7000, y = 40  },
+        new SplineData17 { x = 8000, y = 70  },
+      };
+}
+
+
+@{
+    var InitialGroup18 = (new string[] { "CustomerID", "OrderID" });
+}
+<SfFixture @ref="fixture18" TestAsync="CheckingInversedAxisDatalabelBottom" Description="CheckingInversedAxisDatalabelBottom">
+    <ComponentUnderTest>
+        <SfChart ID="container" @ref="chartobj4" Title="Chart TS Title" Width="800">
+            <ChartPrimaryXAxis Title="PrimaryXAxis"></ChartPrimaryXAxis>
+            <ChartPrimaryYAxis Title="PrimaryYaxis" IsInversed="true"></ChartPrimaryYAxis>
+            <ChartSeriesCollection>
+                <ChartSeries DataSource="@Sales18" XName="x" YName="y" Type="ChartSeriesType.Spline" Name="Gold" Fill="Red" Opacity="0.5">
+                    <ChartSeriesAnimation Enable="false"></ChartSeriesAnimation>
+                    <ChartMarker Visible="true">
+                        <ChartDataLabel Visible="true" Fill="Violet" Position="ChartLabelPosition.Bottom"></ChartDataLabel>
+                    </ChartMarker>
+                </ChartSeries>
+            </ChartSeriesCollection>
+        </SfChart>
+    </ComponentUnderTest>
+</SfFixture>
+
+@code {
+    SfChart chartobj4;
+    SfFixture fixture18 { get; set; }
+    async Task CheckingInversedAxisDatalabelBottom(Fixture fixture18)
+    {
+        var cut = fixture18.GetComponentUnderTest<SfChart>();
+        await Task.Delay(200);
+        var datalabelY = Convert.ToDouble(cut.Find("#container_Series_0_Point_2_TextShape_2").GetAttribute("y"));
+        var pointY = chartobj4._visibleSeriesRenderers[0].Points[2].SymbolLocations[0].Y;
+        Assert.True(datalabelY > pointY);
+        var datalabelY1 = Convert.ToDouble(cut.Find("#container_Series_0_Point_6_TextShape_6").GetAttribute("y"));
+        var pointY1 = chartobj4._visibleSeriesRenderers[0].Points[6].SymbolLocations[0].Y;
+        Assert.True(datalabelY1 > pointY1);
+        cut.SetParametersAndRender();
+    }
+    public class SplineData18
+    {
+        public double x { get; set; }
+        public double y { get; set; }
+    }
+    public List<SplineData18> Sales18 = new List<SplineData18>
+{
+        new SplineData18 { x = 1000, y = 70  },
+        new SplineData18 { x = 2000, y = 40  },
+        new SplineData18 { x = 3000, y = 70  },
+        new SplineData18 { x = 4000, y = 60  },
+        new SplineData18 { x = 5000, y = 50  },
+        new SplineData18 { x = 6000, y = 40  },
+        new SplineData18 { x = 7000, y = 40  },
+        new SplineData18 { x = 8000, y = 70  },
+      };
+}
+
+
+@{
+    var InitialGroup19 = (new string[] { "CustomerID", "OrderID" });
+}
+<SfFixture @ref="fixture19" TestAsync="CheckingInversedAxisDatalabelMiddle" Description="CheckingInversedAxisDatalabelMiddle">
+    <ComponentUnderTest>
+        <SfChart ID="container" @ref="chartobj5" Title="Chart TS Title" Width="800">
+            <ChartPrimaryXAxis Title="PrimaryXAxis"></ChartPrimaryXAxis>
+            <ChartPrimaryYAxis Title="PrimaryYaxis" IsInversed="true"></ChartPrimaryYAxis>
+            <ChartSeriesCollection>
+                <ChartSeries DataSource="@Sales19" XName="x" YName="y" Type="ChartSeriesType.Spline" Name="Gold" Fill="Red" Opacity="0.5">
+                    <ChartSeriesAnimation Enable="false"></ChartSeriesAnimation>
+                    <ChartMarker Visible="true">
+                        <ChartDataLabel Visible="true" Fill="Violet" Position="ChartLabelPosition.Middle"></ChartDataLabel>
+                    </ChartMarker>
+                </ChartSeries>
+            </ChartSeriesCollection>
+        </SfChart>
+    </ComponentUnderTest>
+</SfFixture>
+
+@code {
+    SfChart chartobj5;
+    SfFixture fixture19 { get; set; }
+    async Task CheckingInversedAxisDatalabelMiddle(Fixture fixture19)
+    {
+        var cut = fixture19.GetComponentUnderTest<SfChart>();
+        await Task.Delay(200);
+        var labelY = Convert.ToDouble(cut.Find("#container_Series_0_Point_1_TextShape_1").GetAttribute("y"));
+        var labelheight = Convert.ToDouble(cut.Find("#container_Series_0_Point_1_TextShape_1").GetAttribute("height"));
+        var point = chartobj5._visibleSeriesRenderers[0].Points[1].Regions[0];
+        Assert.True((labelY + labelheight / 2) == (point.Y + point.Height / 2));
+        cut.SetParametersAndRender();
+    }
+    public class SplineData19
+    {
+        public double x { get; set; }
+        public double y { get; set; }
+    }
+    public List<SplineData19> Sales19 = new List<SplineData19>
+{
+        new SplineData19 { x = 1000, y = 70  },
+        new SplineData19 { x = 2000, y = 40  },
+        new SplineData19 { x = 3000, y = 70  },
+        new SplineData19 { x = 4000, y = 60  },
+        new SplineData19 { x = 5000, y = 50  },
+        new SplineData19 { x = 6000, y = 40  },
+        new SplineData19 { x = 7000, y = 40  },
+        new SplineData19 { x = 8000, y = 70  },
+      };
+}
+
+
+@{
+    var InitialGroup20 = (new string[] { "CustomerID", "OrderID" });
+}
+<SfFixture @ref="fixture20" TestAsync="CheckingEmptyPointWithGap" Description="CheckingEmptyPointWithGap">
+    <ComponentUnderTest>
+        <SfChart ID="container" Title="Chart TS Title" Width="800">
+            <ChartPrimaryXAxis Title="PrimaryXAxis"></ChartPrimaryXAxis>
+            <ChartPrimaryYAxis Title="PrimaryYaxis"></ChartPrimaryYAxis>
+            <ChartSeriesCollection>
+                <ChartSeries DataSource="@Sales20" XName="x" YName="y" Type="ChartSeriesType.Spline" Name="Gold" Fill="Red" Opacity="0.5">
+                    <ChartSeriesAnimation Enable="false"></ChartSeriesAnimation>
+                    <ChartMarker Visible="true">
+                    </ChartMarker>
+                    <ChartEmptyPointSettings Mode="EmptyPointMode.Gap"></ChartEmptyPointSettings>
+                </ChartSeries>
+            </ChartSeriesCollection>
+        </SfChart>
+    </ComponentUnderTest>
+</SfFixture>
+
+@code {
+
+    SfFixture fixture20 { get; set; }
+    async Task CheckingEmptyPointWithGap(Fixture fixture20)
+    {
+        var cut = fixture20.GetComponentUnderTest<SfChart>();
+        await Task.Delay(200);
+        var svg = cut.Find("#container_Series_0").GetAttribute("d").Split("L").Length;
+        Assert.True(svg == 4);
+        cut.SetParametersAndRender();
+    }
+    public class SplineData20
+    {
+        public double x { get; set; }
+        public double? y { get; set; }
+    }
+    public List<SplineData20> Sales20 = new List<SplineData20>
+{
+        new SplineData20 { x = 1000, y = 70  },
+        new SplineData20 { x = 2000, y = 40  },
+        new SplineData20 { x = 3000, y = null  },
+        new SplineData20 { x = 4000, y = 60  },
+        new SplineData20 { x = 5000, y = 50  },
+        new SplineData20 { x = 6000, y = 40  },
+        new SplineData20 { x = 7000, y = 40  },
+        new SplineData20 { x = 8000, y = 70  },
+      };
+}
+
+
+@{
+    var InitialGroup21 = (new string[] { "CustomerID", "OrderID" });
+}
+<SfFixture @ref="fixture21" TestAsync="CheckingEmptyPointWithZero" Description="CheckingEmptyPointWithZero">
+    <ComponentUnderTest>
+        <SfChart ID="container" Title="Chart TS Title" Width="800">
+            <ChartPrimaryXAxis Title="PrimaryXAxis"></ChartPrimaryXAxis>
+            <ChartPrimaryYAxis Title="PrimaryYaxis"></ChartPrimaryYAxis>
+            <ChartSeriesCollection>
+                <ChartSeries DataSource="@Sales21" XName="x" YName="y" Type="ChartSeriesType.Spline" Name="Gold" Fill="Red" Opacity="0.5">
+                    <ChartSeriesAnimation Enable="false"></ChartSeriesAnimation>
+                    <ChartMarker Visible="false">
+                    </ChartMarker>
+                    <ChartEmptyPointSettings Mode="EmptyPointMode.Zero" Fill="Blue">
+                        <ChartEmptyPointBorder Width="2" Color="Purple"></ChartEmptyPointBorder>
+                    </ChartEmptyPointSettings>
+                </ChartSeries>
+            </ChartSeriesCollection>
+        </SfChart>
+    </ComponentUnderTest>
+</SfFixture>
+
+@code {
+
+    SfFixture fixture21 { get; set; }
+    async Task CheckingEmptyPointWithZero(Fixture fixture21)
+    {
+        var cut = fixture21.GetComponentUnderTest<SfChart>();
+        await Task.Delay(200);
+        var svg = cut.Find("#container_Series_0").GetAttribute("d").Split("L").Length;
+        Assert.True(svg == 7);
+        cut.SetParametersAndRender();
+    }
+    public class SplineData21
+    {
+        public double x { get; set; }
+        public double? y { get; set; }
+    }
+    public List<SplineData21> Sales21 = new List<SplineData21>
+{
+        new SplineData21 { x = 1000, y = 70  },
+        new SplineData21 { x = 2000, y = 40  },
+        new SplineData21 { x = 3000, y = null  },
+        new SplineData21 { x = 4000, y = 60  },
+        new SplineData21 { x = 5000, y = 50  },
+        new SplineData21 { x = 6000, y = 40  },
+        new SplineData21 { x = 7000, y = 40  },
+        new SplineData21 { x = 8000, y = 70  },
+      };
+}
+
+
+@{
+    var InitialGroup22 = (new string[] { "CustomerID", "OrderID" });
+}
+<SfFixture @ref="fixture22" TestAsync="CheckingEmptyPointWithAverage" Description="CheckingEmptyPointWithAverage">
+    <ComponentUnderTest>
+        <SfChart ID="container" Title="Chart TS Title" Width="800">
+            <ChartPrimaryXAxis Title="PrimaryXAxis"></ChartPrimaryXAxis>
+            <ChartPrimaryYAxis Title="PrimaryYaxis"></ChartPrimaryYAxis>
+            <ChartSeriesCollection>
+                <ChartSeries DataSource="@Sales22" XName="x" YName="y" Type="ChartSeriesType.Spline" Name="Gold" Fill="Red" Opacity="0.5">
+                    <ChartSeriesAnimation Enable="false"></ChartSeriesAnimation>
+                    <ChartMarker Visible="false">
+                    </ChartMarker>
+                    <ChartEmptyPointSettings Mode="EmptyPointMode.Average" Fill="Blue">
+                        <ChartEmptyPointBorder Width="2" Color="Purple"></ChartEmptyPointBorder>
+                    </ChartEmptyPointSettings>
+                </ChartSeries>
+            </ChartSeriesCollection>
+        </SfChart>
+    </ComponentUnderTest>
+</SfFixture>
+
+@code {
+
+    SfFixture fixture22 { get; set; }
+    async Task CheckingEmptyPointWithAverage(Fixture fixture22)
+    {
+        var cut = fixture22.GetComponentUnderTest<SfChart>();
+        await Task.Delay(200);
+        var svg = cut.Find("#container_Series_0").GetAttribute("d").Split("L").Length;
+        //Assert.True(svg == 3);
+        cut.SetParametersAndRender();
+    }
+    public class SplineData22
+    {
+        public double x { get; set; }
+        public double? y { get; set; }
+    }
+    public List<SplineData22> Sales22 = new List<SplineData22>
+{
+        new SplineData22 { x = 1000, y = 70  },
+        new SplineData22 { x = 2000, y = 40  },
+        new SplineData22 { x = 3000, y = null  },
+        new SplineData22 { x = 4000, y = 60  },
+        new SplineData22 { x = 5000, y = 50  },
+        new SplineData22 { x = 6000, y = 40  },
+        new SplineData22 { x = 7000, y = 40  },
+        new SplineData22 { x = 8000, y = 70  },
+      };
+}
+
+
+@{
+    var InitialGroup23 = (new string[] { "CustomerID", "OrderID" });
+}
+<SfFixture @ref="fixture23" TestAsync="CheckingEmptyPointWithDrop" Description="CheckingEmptyPointWithDrop">
+    <ComponentUnderTest>
+        <SfChart ID="container" Title="Chart TS Title" Width="800">
+            <ChartPrimaryXAxis Title="PrimaryXAxis"></ChartPrimaryXAxis>
+            <ChartPrimaryYAxis Title="PrimaryYaxis"></ChartPrimaryYAxis>
+            <ChartSeriesCollection>
+                <ChartSeries DataSource="@Sales23" XName="x" YName="y" Type="ChartSeriesType.Spline" Name="Gold" Fill="Red" Opacity="0.5">
+                    <ChartSeriesAnimation Enable="false"></ChartSeriesAnimation>
+                    <ChartMarker Visible="false">
+                    </ChartMarker>
+                    <ChartEmptyPointSettings Mode="EmptyPointMode.Drop" Fill="Blue">
+                        <ChartEmptyPointBorder Width="2" Color="Purple"></ChartEmptyPointBorder>
+                    </ChartEmptyPointSettings>
+                </ChartSeries>
+            </ChartSeriesCollection>
+        </SfChart>
+    </ComponentUnderTest>
+</SfFixture>
+
+@code {
+
+    SfFixture fixture23 { get; set; }
+    async Task CheckingEmptyPointWithDrop(Fixture fixture23)
+    {
+        var cut = fixture23.GetComponentUnderTest<SfChart>();
+        await Task.Delay(200);
+        var svg = cut.Find("#container_Series_0").GetAttribute("d").Split("L").Length;
+        Assert.True(svg == 6);
+        cut.SetParametersAndRender();
+    }
+    public class SplineData23
+    {
+        public double x { get; set; }
+        public double? y { get; set; }
+    }
+    public List<SplineData23> Sales23 = new List<SplineData23>
+{
+        new SplineData23 { x = 1000, y = 70  },
+        new SplineData23 { x = 2000, y = 40  },
+        new SplineData23 { x = 3000, y = null  },
+        new SplineData23 { x = 4000, y = 60  },
+        new SplineData23 { x = 5000, y = 50  },
+        new SplineData23 { x = 6000, y = 40  },
+        new SplineData23 { x = 7000, y = 40  },
+        new SplineData23 { x = 8000, y = 70  }
+      };
+}
+
+
+@{
+    var InitialGroup24 = (new string[] { "CustomerID", "OrderID" });
+}
+<SfFixture @ref="fixture24" TestAsync="CheckingWithoutRotated" Description="CheckingWithoutRotated">
+    <ComponentUnderTest>
+        <SfChart ID="container" @ref="chartobj6" Title="Chart TS Title" Width="800">
+            <ChartPrimaryXAxis Title="PrimaryXAxis" ValueType="Syncfusion.Blazor.Toolkit.ValueType.DateTime"></ChartPrimaryXAxis>
+            <ChartPrimaryYAxis Title="PrimaryYaxis"></ChartPrimaryYAxis>
+            <ChartSeriesCollection>
+                <ChartSeries DataSource="@Sales24" XName="x" YName="y" Type="ChartSeriesType.Spline" Name="Gold">
+                    <ChartSeriesAnimation Enable="false"></ChartSeriesAnimation>
+                    <ChartMarker Visible="true">
+                    </ChartMarker>
+                </ChartSeries>
+            </ChartSeriesCollection>
+        </SfChart>
+    </ComponentUnderTest>
+</SfFixture>
+
+@code {
+    SfChart chartobj6;
+    SfFixture fixture24 { get; set; }
+    async Task CheckingWithoutRotated(Fixture fixture24)
+    {
+        var cut = fixture24.GetComponentUnderTest<SfChart>();
+        await Task.Delay(200);
+        Assert.True(chartobj6._axisContainer.Axes[Constants.PrimaryXAxis].Renderer.Orientation.ToString() == "Horizontal");
+        Assert.True(chartobj6._axisContainer.Axes[Constants.PrimaryYAxis].Renderer.Orientation.ToString() == "Vertical");
+        cut.SetParametersAndRender();
+    }
+    public class SplineData24
+    {
+        public DateTime x { get; set; }
+        public double y { get; set; }
+    }
+    public List<SplineData24> Sales24 = new List<SplineData24>
+{
+        new SplineData24 { x = new DateTime(2000, 06, 11), y = 10  },
+        new SplineData24 { x = new DateTime(2002, 03, 07), y = -30  },
+        new SplineData24 { x = new DateTime(2004, 03, 06), y = 15  },
+        new SplineData24 { x = new DateTime(2006, 03, 30), y = -65  },
+        new SplineData24 { x = new DateTime(2008, 03, 08), y = 0  },
+        new SplineData24 { x = new DateTime(2010, 03, 08), y = 85  }
+      };
+}
+
+
+@{
+    var InitialGroup25 = (new string[] { "CustomerID", "OrderID" });
+}
+<SfFixture @ref="fixture25" TestAsync="CheckingWithRotated" Description="CheckingWithRotated">
+    <ComponentUnderTest>
+        <SfChart ID="container" @ref="chartobj7" Title="Chart TS Title" Width="800" IsTransposed="true">
+            <ChartPrimaryXAxis Title="PrimaryXAxis" ValueType="Syncfusion.Blazor.Toolkit.ValueType.DateTime"></ChartPrimaryXAxis>
+            <ChartPrimaryYAxis Title="PrimaryYaxis"></ChartPrimaryYAxis>
+            <ChartSeriesCollection>
+                <ChartSeries DataSource="@Sales25" XName="x" YName="y" Type="ChartSeriesType.Spline" Name="Gold">
+                    <ChartSeriesAnimation Enable="false"></ChartSeriesAnimation>
+                    <ChartMarker Visible="true">
+                    </ChartMarker>
+                </ChartSeries>
+            </ChartSeriesCollection>
+        </SfChart>
+    </ComponentUnderTest>
+</SfFixture>
+
+@code {
+    SfChart chartobj7;
+    SfFixture fixture25 { get; set; }
+    async Task CheckingWithRotated(Fixture fixture25)
+    {
+        var cut = fixture25.GetComponentUnderTest<SfChart>();
+        await Task.Delay(200);
+        Assert.True(chartobj7._axisContainer.Axes[Constants.PrimaryYAxis].Renderer.Orientation.ToString() == "Horizontal");
+        Assert.True(chartobj7._axisContainer.Axes[Constants.PrimaryXAxis].Renderer.Orientation.ToString() == "Vertical");
+        cut.SetParametersAndRender();
+    }
+    public class SplineData25
+    {
+        public DateTime x { get; set; }
+        public double y { get; set; }
+    }
+    public List<SplineData25> Sales25 = new List<SplineData25>
+{
+        new SplineData25 { x = new DateTime(2000, 06, 11), y = 10  },
+        new SplineData25 { x = new DateTime(2002, 03, 07), y = -30  },
+        new SplineData25 { x = new DateTime(2004, 03, 06), y = 15  },
+        new SplineData25 { x = new DateTime(2006, 03, 30), y = -65  },
+        new SplineData25 { x = new DateTime(2008, 03, 08), y = 0  },
+        new SplineData25 { x = new DateTime(2010, 03, 08), y = 85  }
+      };
+}
+
+
+@{
+    var InitialGroup26 = (new string[] { "CustomerID", "OrderID" });
+}
+<SfFixture @ref="fixture26" TestAsync="CheckingWithRotatedDatalabelAuto" Description="CheckingWithRotatedDatalabelAuto">
+    <ComponentUnderTest>
+        <SfChart ID="container" @ref="chartobj8" Title="Chart TS Title" Width="800" IsTransposed="true">
+            <ChartPrimaryXAxis Title="PrimaryXAxis" ValueType="Syncfusion.Blazor.Toolkit.ValueType.DateTime"></ChartPrimaryXAxis>
+            <ChartPrimaryYAxis Title="PrimaryYaxis"></ChartPrimaryYAxis>
+            <ChartSeriesCollection>
+                <ChartSeries DataSource="@Sales26" XName="x" YName="y" Type="ChartSeriesType.Spline" Name="Gold">
+                    <ChartSeriesAnimation Enable="false"></ChartSeriesAnimation>
+                    <ChartMarker Visible="true">
+                        <ChartDataLabel Visible="true" Position="ChartLabelPosition.Auto"></ChartDataLabel>
+                    </ChartMarker>
+                </ChartSeries>
+            </ChartSeriesCollection>
+        </SfChart>
+    </ComponentUnderTest>
+</SfFixture>
+
+@code {
+    SfChart chartobj8;
+    SfFixture fixture26 { get; set; }
+    async Task CheckingWithRotatedDatalabelAuto(Fixture fixture26)
+    {
+        var cut = fixture26.GetComponentUnderTest<SfChart>();
+        await Task.Delay(200);
+        var datalabel = Convert.ToDouble(cut.Find("#container_Series_0_Point_2_Text_0").GetAttribute("y"));
+        var point = chartobj8._visibleSeriesRenderers[0].Points[2].SymbolLocations[0].Y;
+        Assert.True(datalabel < point);
+        cut.SetParametersAndRender();
+    }
+    public class SplineData26
+    {
+        public DateTime x { get; set; }
+        public double y { get; set; }
+    }
+    public List<SplineData26> Sales26 = new List<SplineData26>
+{
+        new SplineData26 { x = new DateTime(2000, 06, 11), y = 10  },
+        new SplineData26 { x = new DateTime(2002, 03, 07), y = -30  },
+        new SplineData26 { x = new DateTime(2004, 03, 06), y = 15  },
+        new SplineData26 { x = new DateTime(2006, 03, 30), y = -65  },
+        new SplineData26 { x = new DateTime(2008, 03, 08), y = 0  },
+        new SplineData26 { x = new DateTime(2010, 03, 08), y = 85  }
+      };
+}
+
+
+@{
+    var InitialGroup27 = (new string[] { "CustomerID", "OrderID" });
+}
+<SfFixture @ref="fixture27" TestAsync="CheckingWithRotatedDatalabelOuter" Description="CheckingWithRotatedDatalabelOuter">
+    <ComponentUnderTest>
+        <SfChart ID="container" @ref="chartobj9" Title="Chart TS Title" Width="800" IsTransposed="true">
+            <ChartPrimaryXAxis Title="PrimaryXAxis" ValueType="Syncfusion.Blazor.Toolkit.ValueType.DateTime"></ChartPrimaryXAxis>
+            <ChartPrimaryYAxis Title="PrimaryYaxis"></ChartPrimaryYAxis>
+            <ChartSeriesCollection>
+                <ChartSeries DataSource="@Sales27" XName="x" YName="y" Type="ChartSeriesType.Spline" Name="Gold">
+                    <ChartSeriesAnimation Enable="false"></ChartSeriesAnimation>
+                    <ChartMarker Visible="true">
+                        <ChartDataLabel Visible="true" Position="ChartLabelPosition.Outer"></ChartDataLabel>
+                    </ChartMarker>
+                </ChartSeries>
+            </ChartSeriesCollection>
+        </SfChart>
+    </ComponentUnderTest>
+</SfFixture>
+
+@code {
+    SfChart chartobj9;
+    SfFixture fixture27 { get; set; }
+    async Task CheckingWithRotatedDatalabelOuter(Fixture fixture27)
+    {
+        var cut = fixture27.GetComponentUnderTest<SfChart>();
+        await Task.Delay(200);
+        var datalabel = Convert.ToDouble(cut.Find("#container_Series_0_Point_2_Text_0").GetAttribute("y"));
+        var point = chartobj9._visibleSeriesRenderers[0].Points[2].SymbolLocations[0].Y;
+        Assert.True(datalabel < point);
+        cut.SetParametersAndRender();
+    }
+    public class SplineData27
+    {
+        public DateTime x { get; set; }
+        public double y { get; set; }
+    }
+    public List<SplineData27> Sales27 = new List<SplineData27>
+{
+        new SplineData27 { x = new DateTime(2000, 06, 11), y = 10  },
+        new SplineData27 { x = new DateTime(2002, 03, 07), y = -30  },
+        new SplineData27 { x = new DateTime(2004, 03, 06), y = 15  },
+        new SplineData27 { x = new DateTime(2006, 03, 30), y = -65  },
+        new SplineData27 { x = new DateTime(2008, 03, 08), y = 0  },
+        new SplineData27 { x = new DateTime(2010, 03, 08), y = 85  }
+      };
+}
+
+
+@{
+    var InitialGroup28 = (new string[] { "CustomerID", "OrderID" });
+}
+<SfFixture @ref="fixture28" TestAsync="CheckingWithRotatedDatalabelTop" Description="CheckingWithRotatedDatalabelTop">
+    <ComponentUnderTest>
+        <SfChart ID="container" @ref="chartobj10" Title="Chart TS Title" Width="800" IsTransposed="true">
+            <ChartPrimaryXAxis Title="PrimaryXAxis" ValueType="Syncfusion.Blazor.Toolkit.ValueType.DateTime"></ChartPrimaryXAxis>
+            <ChartPrimaryYAxis Title="PrimaryYaxis"></ChartPrimaryYAxis>
+            <ChartSeriesCollection>
+                <ChartSeries DataSource="@Sales28" XName="x" YName="y" Type="ChartSeriesType.Spline" Name="Gold">
+                    <ChartSeriesAnimation Enable="false"></ChartSeriesAnimation>
+                    <ChartMarker Visible="true">
+                        <ChartDataLabel Visible="true" Position="ChartLabelPosition.Top"></ChartDataLabel>
+                    </ChartMarker>
+                </ChartSeries>
+            </ChartSeriesCollection>
+        </SfChart>
+    </ComponentUnderTest>
+</SfFixture>
+
+@code {
+    SfChart chartobj10;
+    SfFixture fixture28 { get; set; }
+    async Task CheckingWithRotatedDatalabelTop(Fixture fixture28)
+    {
+        var cut = fixture28.GetComponentUnderTest<SfChart>();
+        await Task.Delay(200);
+        var datalabel = Convert.ToDouble(cut.Find("#container_Series_0_Point_2_Text_0").GetAttribute("y"));
+        var point = chartobj10._visibleSeriesRenderers[0].Points[2].SymbolLocations[0].Y;
+        Assert.True(datalabel < point);
+        cut.SetParametersAndRender();
+    }
+    public class SplineData28
+    {
+        public DateTime x { get; set; }
+        public double y { get; set; }
+    }
+    public List<SplineData28> Sales28 = new List<SplineData28>
+{
+        new SplineData28 { x = new DateTime(2000, 06, 11), y = 10  },
+        new SplineData28 { x = new DateTime(2002, 03, 07), y = -30  },
+        new SplineData28 { x = new DateTime(2004, 03, 06), y = 15  },
+        new SplineData28 { x = new DateTime(2006, 03, 30), y = -65  },
+        new SplineData28 { x = new DateTime(2008, 03, 08), y = 0  },
+        new SplineData28 { x = new DateTime(2010, 03, 08), y = 85  }
+      };
+}
+
+
+@{
+    var InitialGroup29 = (new string[] { "CustomerID", "OrderID" });
+}
+<SfFixture @ref="fixture29" TestAsync="CheckingWithRotatedDatalabelBottom" Description="CheckingWithRotatedDatalabelBottom">
+    <ComponentUnderTest>
+        <SfChart ID="container" @ref="chartobj11" Title="Chart TS Title" Width="800" IsTransposed="true">
+            <ChartPrimaryXAxis Title="PrimaryXAxis" ValueType="Syncfusion.Blazor.Toolkit.ValueType.DateTime"></ChartPrimaryXAxis>
+            <ChartPrimaryYAxis Title="PrimaryYaxis"></ChartPrimaryYAxis>
+            <ChartSeriesCollection>
+                <ChartSeries DataSource="@Sales29" XName="x" YName="y" Type="ChartSeriesType.Spline" Name="Gold">
+                    <ChartSeriesAnimation Enable="false"></ChartSeriesAnimation>
+                    <ChartMarker Visible="true">
+                        <ChartDataLabel Visible="true" Position="ChartLabelPosition.Bottom"></ChartDataLabel>
+                    </ChartMarker>
+                </ChartSeries>
+            </ChartSeriesCollection>
+        </SfChart>
+    </ComponentUnderTest>
+</SfFixture>
+
+@code {
+    SfChart chartobj11;
+    SfFixture fixture29 { get; set; }
+    async Task CheckingWithRotatedDatalabelBottom(Fixture fixture29)
+    {
+        var cut = fixture29.GetComponentUnderTest<SfChart>();
+        await Task.Delay(200);
+        var datalabel = Convert.ToDouble(cut.Find("#container_Series_0_Point_2_Text_0").GetAttribute("y"));
+        var point = chartobj11._visibleSeriesRenderers[0].Points[2].SymbolLocations[0].Y;
+        Assert.True(datalabel > point);
+        cut.SetParametersAndRender();
+    }
+    public class SplineData29
+    {
+        public DateTime x { get; set; }
+        public double y { get; set; }
+    }
+    public List<SplineData29> Sales29 = new List<SplineData29>
+{
+        new SplineData29 { x = new DateTime(2000, 06, 11), y = 10  },
+        new SplineData29 { x = new DateTime(2002, 03, 07), y = -30  },
+        new SplineData29 { x = new DateTime(2004, 03, 06), y = 15  },
+        new SplineData29 { x = new DateTime(2006, 03, 30), y = -65  },
+        new SplineData29 { x = new DateTime(2008, 03, 08), y = 0  },
+        new SplineData29 { x = new DateTime(2010, 03, 08), y = 85  }
+      };
+}
+
+
+@{
+    var InitialGroup30 = (new string[] { "CustomerID", "OrderID" });
+}
+<SfFixture @ref="fixture30" TestAsync="CheckingWithRotatedDatalabelMiddle" Description="CheckingWithRotatedDatalabelMiddle">
+    <ComponentUnderTest>
+        <SfChart ID="container" @ref="chartobj12" Title="Chart TS Title" Width="800" IsTransposed="true">
+            <ChartPrimaryXAxis Title="PrimaryXAxis" ValueType="Syncfusion.Blazor.Toolkit.ValueType.DateTime"></ChartPrimaryXAxis>
+            <ChartPrimaryYAxis Title="PrimaryYaxis"></ChartPrimaryYAxis>
+            <ChartSeriesCollection>
+                <ChartSeries DataSource="@Sales30" XName="x" YName="y" Type="ChartSeriesType.Spline" Name="Gold">
+                    <ChartSeriesAnimation Enable="false"></ChartSeriesAnimation>
+                    <ChartMarker Visible="true">
+                        <ChartDataLabel Visible="true" Position="ChartLabelPosition.Middle"></ChartDataLabel>
+                    </ChartMarker>
+                </ChartSeries>
+            </ChartSeriesCollection>
+        </SfChart>
+    </ComponentUnderTest>
+</SfFixture>
+
+@code {
+    SfChart chartobj12;
+    SfFixture fixture30 { get; set; }
+    async Task CheckingWithRotatedDatalabelMiddle(Fixture fixture30)
+    {
+        var cut = fixture30.GetComponentUnderTest<SfChart>();
+        await Task.Delay(200);
+        var datalabel = Convert.ToDouble(cut.Find("#container_Series_0_Point_2_Text_0").GetAttribute("y"));
+        var point = chartobj12._visibleSeriesRenderers[0].Points[2];
+        Assert.True(datalabel > (point.SymbolLocations[0].Y - point.Regions[0].Height / 2));
+        cut.SetParametersAndRender();
+    }
+    public class SplineData30
+    {
+        public DateTime x { get; set; }
+        public double y { get; set; }
+    }
+    public List<SplineData30> Sales30 = new List<SplineData30>
+{
+        new SplineData30 { x = new DateTime(2000, 06, 11), y = 10  },
+        new SplineData30 { x = new DateTime(2002, 03, 07), y = -30  },
+        new SplineData30 { x = new DateTime(2004, 03, 06), y = 15  },
+        new SplineData30 { x = new DateTime(2006, 03, 30), y = -65  },
+        new SplineData30 { x = new DateTime(2008, 03, 08), y = 0  },
+        new SplineData30 { x = new DateTime(2010, 03, 08), y = 85  }
+      };
+}
+
+
+@{
+    var InitialGroup31 = (new string[] { "CustomerID", "OrderID" });
+}
+<SfFixture @ref="fixture31" TestAsync="CheckingWithCardinalDateTimeAxis" Description="CheckingWithCardinalDateTimeAxis">
+    <ComponentUnderTest>
+        <SfChart ID="container" Title="Chart TS Title">
+            <ChartPrimaryXAxis Title="PrimaryXAxis" ValueType="Syncfusion.Blazor.Toolkit.ValueType.DateTime"></ChartPrimaryXAxis>
+            <ChartPrimaryYAxis Title="PrimaryYaxis"></ChartPrimaryYAxis>
+            <ChartSeriesCollection>
+                <ChartSeries DataSource="@Sales31" XName="x" YName="y" Type="ChartSeriesType.Spline" Name="Gold" SplineType="SplineType.Cardinal" CardinalSplineTension="0.8">
+                    <ChartSeriesAnimation Enable="false"></ChartSeriesAnimation>
+                </ChartSeries>
+            </ChartSeriesCollection>
+        </SfChart>
+    </ComponentUnderTest>
+</SfFixture>
+
+@code {
+
+    SfFixture fixture31 { get; set; }
+    async Task CheckingWithCardinalDateTimeAxis(Fixture fixture31)
+    {
+        var cut = fixture31.GetComponentUnderTest<SfChart>();
+        await Task.Delay(200);
+        var svg = cut.Find("#container_Series_0");
+        Assert.True(svg != null);
+        cut.SetParametersAndRender();
+    }
+    public class SplineData31
+    {
+        public DateTime x { get; set; }
+        public double y { get; set; }
+    }
+    public List<SplineData31> Sales31 = new List<SplineData31>
+{
+        new SplineData31 { x = new DateTime(2000, 06, 11), y = 10  },
+        new SplineData31 { x = new DateTime(2002, 03, 07), y = 30  },
+        new SplineData31 { x = new DateTime(2004, 03, 06), y = 15  },
+        new SplineData31 { x = new DateTime(2006, 03, 30), y = 65  },
+        new SplineData31 { x = new DateTime(2008, 03, 08), y = 90  },
+        new SplineData31 { x = new DateTime(2010, 03, 08), y = 85  }
+      };
+}
+
+
+@{
+    var InitialGroup32 = (new string[] { "CustomerID", "OrderID" });
+}
+<SfFixture @ref="fixture32" TestAsync="CheckingWithCardinalDateTimeAxisMonths" Description="CheckingWithCardinalDateTimeAxisMonths">
+    <ComponentUnderTest>
+        <SfChart ID="container" Title="Chart TS Title">
+            <ChartPrimaryXAxis Title="PrimaryXAxis" ValueType="Syncfusion.Blazor.Toolkit.ValueType.DateTime" IntervalType="IntervalType.Months"></ChartPrimaryXAxis>
+            <ChartPrimaryYAxis Title="PrimaryYaxis"></ChartPrimaryYAxis>
+            <ChartSeriesCollection>
+                <ChartSeries DataSource="@Sales32" XName="x" YName="y" Type="ChartSeriesType.Spline" Name="Gold" SplineType="SplineType.Cardinal" CardinalSplineTension="0.8">
+                    <ChartSeriesAnimation Enable="false"></ChartSeriesAnimation>
+                </ChartSeries>
+            </ChartSeriesCollection>
+        </SfChart>
+    </ComponentUnderTest>
+</SfFixture>
+
+@code {
+
+    SfFixture fixture32 { get; set; }
+    async Task CheckingWithCardinalDateTimeAxisMonths(Fixture fixture32)
+    {
+        var cut = fixture32.GetComponentUnderTest<SfChart>();
+        await Task.Delay(200);
+        var svg = cut.Find("#container_Series_0");
+        Assert.True(svg != null);
+        cut.SetParametersAndRender();
+    }
+    public class SplineData32
+    {
+        public DateTime x { get; set; }
+        public double y { get; set; }
+    }
+    public List<SplineData32> Sales32 = new List<SplineData32>
+{
+        new SplineData32 { x = new DateTime(2000, 06, 11), y = 10  },
+        new SplineData32 { x = new DateTime(2002, 03, 07), y = 30  },
+        new SplineData32 { x = new DateTime(2004, 03, 06), y = 15  },
+        new SplineData32 { x = new DateTime(2006, 03, 30), y = 65  },
+        new SplineData32 { x = new DateTime(2008, 03, 08), y = 90  },
+        new SplineData32 { x = new DateTime(2010, 03, 08), y = 85  }
+      };
+}
+
+
+@{
+    var InitialGroup33 = (new string[] { "CustomerID", "OrderID" });
+}
+<SfFixture @ref="fixture33" TestAsync="CheckingWithCardinalDateTimeAxisDays" Description="CheckingWithCardinalDateTimeAxisDays">
+    <ComponentUnderTest>
+        <SfChart ID="container" Title="Chart TS Title">
+            <ChartPrimaryXAxis Title="PrimaryXAxis" ValueType="Syncfusion.Blazor.Toolkit.ValueType.DateTime" IntervalType="IntervalType.Days"></ChartPrimaryXAxis>
+            <ChartPrimaryYAxis Title="PrimaryYaxis"></ChartPrimaryYAxis>
+            <ChartSeriesCollection>
+                <ChartSeries DataSource="@Sales33" XName="x" YName="y" Type="ChartSeriesType.Spline" Name="Gold" SplineType="SplineType.Cardinal" CardinalSplineTension="0.8">
+                    <ChartSeriesAnimation Enable="false"></ChartSeriesAnimation>
+                </ChartSeries>
+            </ChartSeriesCollection>
+        </SfChart>
+    </ComponentUnderTest>
+</SfFixture>
+
+@code {
+
+    SfFixture fixture33 { get; set; }
+    async Task CheckingWithCardinalDateTimeAxisDays(Fixture fixture33)
+    {
+        var cut = fixture33.GetComponentUnderTest<SfChart>();
+        await Task.Delay(200);
+        var svg = cut.Find("#container_Series_0");
+        Assert.True(svg != null);
+        cut.SetParametersAndRender();
+    }
+    public class SplineData33
+    {
+        public DateTime x { get; set; }
+        public double y { get; set; }
+    }
+    public List<SplineData33> Sales33 = new List<SplineData33>
+{
+        new SplineData33 { x = new DateTime(2000, 06, 11), y = 10  },
+        new SplineData33 { x = new DateTime(2002, 03, 07), y = 30  },
+        new SplineData33 { x = new DateTime(2004, 03, 06), y = 15  },
+        new SplineData33 { x = new DateTime(2006, 03, 30), y = 65  },
+        new SplineData33 { x = new DateTime(2008, 03, 08), y = 90  },
+        new SplineData33 { x = new DateTime(2010, 03, 08), y = 85  }
+      };
+}
+
+
+@{
+    var InitialGroup34 = (new string[] { "CustomerID", "OrderID" });
+}
+<SfFixture @ref="fixture34" TestAsync="CheckingWithCardinalDateTimeAxisHours" Description="CheckingWithCardinalDateTimeAxisHours">
+    <ComponentUnderTest>
+        <SfChart ID="container" Title="Chart TS Title">
+            <ChartPrimaryXAxis Title="PrimaryXAxis" ValueType="Syncfusion.Blazor.Toolkit.ValueType.DateTime" IntervalType="IntervalType.Hours"></ChartPrimaryXAxis>
+            <ChartPrimaryYAxis Title="PrimaryYaxis"></ChartPrimaryYAxis>
+            <ChartSeriesCollection>
+                <ChartSeries DataSource="@Sales34" XName="x" YName="y" Type="ChartSeriesType.Spline" Name="Gold" SplineType="SplineType.Cardinal" CardinalSplineTension="-0.2">
+                    <ChartSeriesAnimation Enable="false"></ChartSeriesAnimation>
+                </ChartSeries>
+            </ChartSeriesCollection>
+        </SfChart>
+    </ComponentUnderTest>
+</SfFixture>
+
+@code {
+
+    SfFixture fixture34 { get; set; }
+    async Task CheckingWithCardinalDateTimeAxisHours(Fixture fixture34)
+    {
+        var cut = fixture34.GetComponentUnderTest<SfChart>();
+        await Task.Delay(200);
+        var svg = cut.Find("#container_Series_0");
+        Assert.True(svg != null);
+        cut.SetParametersAndRender();
+    }
+    public class SplineData34
+    {
+        public DateTime x { get; set; }
+        public double y { get; set; }
+    }
+    public List<SplineData34> Sales34 = new List<SplineData34>
+{
+        new SplineData34 { x = new DateTime(2000, 06, 11), y = 10  },
+        new SplineData34 { x = new DateTime(2002, 03, 07), y = 30  },
+        new SplineData34 { x = new DateTime(2004, 03, 06), y = 15  },
+        new SplineData34 { x = new DateTime(2006, 03, 30), y = 65  },
+        new SplineData34 { x = new DateTime(2008, 03, 08), y = 90  },
+        new SplineData34 { x = new DateTime(2010, 03, 08), y = 85  }
+      };
+}
+
+
+@{
+    var InitialGroup35 = (new string[] { "CustomerID", "OrderID" });
+}
+<SfFixture @ref="fixture35" TestAsync="CheckingWithCardinalDateTimeAxisSeconds" Description="CheckingWithCardinalDateTimeAxisSeconds">
+    <ComponentUnderTest>
+        <SfChart ID="container" Title="Chart TS Title">
+            <ChartPrimaryXAxis Title="PrimaryXAxis" ValueType="Syncfusion.Blazor.Toolkit.ValueType.DateTime" IntervalType="IntervalType.Seconds"></ChartPrimaryXAxis>
+            <ChartPrimaryYAxis Title="PrimaryYaxis"></ChartPrimaryYAxis>
+            <ChartSeriesCollection>
+                <ChartSeries DataSource="@Sales35" XName="x" YName="y" Type="ChartSeriesType.Spline" Name="Gold" SplineType="SplineType.Cardinal" CardinalSplineTension="1.2">
+                    <ChartSeriesAnimation Enable="false"></ChartSeriesAnimation>
+                </ChartSeries>
+            </ChartSeriesCollection>
+        </SfChart>
+    </ComponentUnderTest>
+</SfFixture>
+
+@code {
+
+    SfFixture fixture35 { get; set; }
+    async Task CheckingWithCardinalDateTimeAxisSeconds(Fixture fixture35)
+    {
+        var cut = fixture35.GetComponentUnderTest<SfChart>();
+        await Task.Delay(200);
+        var svg = cut.Find("#container_Series_0");
+        Assert.True(svg != null);
+        cut.SetParametersAndRender();
+    }
+    public class SplineData35
+    {
+        public DateTime x { get; set; }
+        public double y { get; set; }
+    }
+    public List<SplineData35> Sales35 = new List<SplineData35>
+{
+        new SplineData35 { x = new DateTime(2000, 06, 11), y = 10  },
+        new SplineData35 { x = new DateTime(2002, 03, 07), y = 30  },
+        new SplineData35 { x = new DateTime(2004, 03, 06), y = 15  },
+        new SplineData35 { x = new DateTime(2006, 03, 30), y = 65  },
+        new SplineData35 { x = new DateTime(2008, 03, 08), y = 90  },
+        new SplineData35 { x = new DateTime(2010, 03, 08), y = 85  }
+      };
+}
+
+
+@{
+    var InitialGroup36 = (new string[] { "CustomerID", "OrderID" });
+}
+<SfFixture @ref="fixture36" TestAsync="CheckingWithCardinalDateTimeAxisMinutes" Description="CheckingWithCardinalDateTimeAxisMinutes">
+    <ComponentUnderTest>
+        <SfChart ID="container" Title="Chart TS Title">
+            <ChartPrimaryXAxis Title="PrimaryXAxis" ValueType="Syncfusion.Blazor.Toolkit.ValueType.DateTime" IntervalType="IntervalType.Minutes"></ChartPrimaryXAxis>
+            <ChartPrimaryYAxis Title="PrimaryYaxis"></ChartPrimaryYAxis>
+            <ChartSeriesCollection>
+                <ChartSeries DataSource="@Sales36" XName="x" YName="y" Type="ChartSeriesType.Spline" Name="Gold" SplineType="SplineType.Cardinal" CardinalSplineTension="1.2">
+                    <ChartSeriesAnimation Enable="false"></ChartSeriesAnimation>
+                </ChartSeries>
+            </ChartSeriesCollection>
+        </SfChart>
+    </ComponentUnderTest>
+</SfFixture>
+
+@code {
+
+    SfFixture fixture36 { get; set; }
+    async Task CheckingWithCardinalDateTimeAxisMinutes(Fixture fixture36)
+    {
+        var cut = fixture36.GetComponentUnderTest<SfChart>();
+        await Task.Delay(200);
+        var svg = cut.Find("#container_Series_0");
+        Assert.True(svg != null);
+        cut.SetParametersAndRender();
+    }
+    public class SplineData36
+    {
+        public DateTime x { get; set; }
+        public double y { get; set; }
+    }
+    public List<SplineData36> Sales36 = new List<SplineData36>
+{
+        new SplineData36 { x = new DateTime(2000, 06, 11), y = 10  },
+        new SplineData36 { x = new DateTime(2002, 03, 07), y = 30  },
+        new SplineData36 { x = new DateTime(2004, 03, 06), y = 15  },
+        new SplineData36 { x = new DateTime(2006, 03, 30), y = 65  },
+        new SplineData36 { x = new DateTime(2008, 03, 08), y = 90  },
+        new SplineData36 { x = new DateTime(2010, 03, 08), y = 85  }
+      };
+}
+
+
+@{
+    var InitialGroup37 = (new string[] { "CustomerID", "OrderID" });
+}
+<SfFixture @ref="fixture37" TestAsync="CheckingWithMonotonicDateTimeAxis" Description="CheckingWithMonotonicDateTimeAxis">
+    <ComponentUnderTest>
+        <SfChart ID="container" Title="Chart TS Title">
+            <ChartPrimaryXAxis Title="PrimaryXAxis" ValueType="Syncfusion.Blazor.Toolkit.ValueType.DateTime" IntervalType="IntervalType.Minutes"></ChartPrimaryXAxis>
+            <ChartPrimaryYAxis Title="PrimaryYaxis"></ChartPrimaryYAxis>
+            <ChartSeriesCollection>
+                <ChartSeries DataSource="@Sales37" XName="x" YName="y" Type="ChartSeriesType.Spline" Name="Gold" SplineType="SplineType.Monotonic" CardinalSplineTension="1.2">
+                    <ChartSeriesAnimation Enable="false"></ChartSeriesAnimation>
+                </ChartSeries>
+            </ChartSeriesCollection>
+        </SfChart>
+    </ComponentUnderTest>
+</SfFixture>
+
+@code {
+
+    SfFixture fixture37 { get; set; }
+    async Task CheckingWithMonotonicDateTimeAxis(Fixture fixture37)
+    {
+        var cut = fixture37.GetComponentUnderTest<SfChart>();
+        await Task.Delay(200);
+        var svg = cut.Find("#container_Series_0");
+        Assert.True(svg != null);
+        cut.SetParametersAndRender();
+    }
+    public class SplineData37
+    {
+        public DateTime x { get; set; }
+        public double y { get; set; }
+    }
+    public List<SplineData37> Sales37 = new List<SplineData37>
+{
+        new SplineData37 { x = new DateTime(2000, 06, 11), y = 10  },
+        new SplineData37 { x = new DateTime(2002, 03, 07), y = 30  },
+        new SplineData37 { x = new DateTime(2004, 03, 06), y = 15  },
+        new SplineData37 { x = new DateTime(2006, 03, 30), y = 65  },
+        new SplineData37 { x = new DateTime(2008, 03, 08), y = 90  },
+        new SplineData37 { x = new DateTime(2010, 03, 08), y = 85  }
+      };
+}
+
+
+@{
+    var InitialGroup38 = (new string[] { "CustomerID", "OrderID" });
+}
+<SfFixture @ref="fixture38" TestAsync="CheckingWithClampedDateTimeAxis" Description="CheckingWithClampedDateTimeAxis">
+    <ComponentUnderTest>
+        <SfChart ID="container" Title="Chart TS Title">
+            <ChartPrimaryXAxis Title="PrimaryXAxis" ValueType="Syncfusion.Blazor.Toolkit.ValueType.DateTime" IntervalType="IntervalType.Minutes"></ChartPrimaryXAxis>
+            <ChartPrimaryYAxis Title="PrimaryYaxis"></ChartPrimaryYAxis>
+            <ChartSeriesCollection>
+                <ChartSeries DataSource="@Sales38" XName="x" YName="y" Type="ChartSeriesType.Spline" Name="Gold" SplineType="SplineType.Clamped" CardinalSplineTension="1.2">
+                    <ChartSeriesAnimation Enable="false"></ChartSeriesAnimation>
+                </ChartSeries>
+            </ChartSeriesCollection>
+        </SfChart>
+    </ComponentUnderTest>
+</SfFixture>
+
+@code {
+
+    SfFixture fixture38 { get; set; }
+    async Task CheckingWithClampedDateTimeAxis(Fixture fixture38)
+    {
+        var cut = fixture38.GetComponentUnderTest<SfChart>();
+        await Task.Delay(200);
+        var svg = cut.Find("#container_Series_0");
+        Assert.True(svg != null);
+        cut.SetParametersAndRender();
+    }
+    public class SplineData38
+    {
+        public DateTime x { get; set; }
+        public double y { get; set; }
+    }
+    public List<SplineData38> Sales38 = new List<SplineData38>
+{
+        new SplineData38 { x = new DateTime(2000, 06, 11), y = 10  },
+        new SplineData38 { x = new DateTime(2002, 03, 07), y = 30  },
+        new SplineData38 { x = new DateTime(2004, 03, 06), y = 15  },
+        new SplineData38 { x = new DateTime(2006, 03, 30), y = 65  },
+        new SplineData38 { x = new DateTime(2008, 03, 08), y = 90  },
+        new SplineData38 { x = new DateTime(2010, 03, 08), y = 85  }
+      };
+}
+
+
+@{
+    var InitialGroup39 = (new string[] { "CustomerID", "OrderID" });
+}
+<SfFixture @ref="fixture39" TestAsync="CheckingMaximumValueatFirst" Description="CheckingMaximumValueatFirst">
+    <ComponentUnderTest>
+        <SfChart ID="container" Title="Chart TS Title">
+            <ChartPrimaryXAxis Title="PrimaryXAxis" ValueType="Syncfusion.Blazor.Toolkit.ValueType.Double" IntervalType="IntervalType.Minutes"></ChartPrimaryXAxis>
+            <ChartPrimaryYAxis Title="PrimaryYaxis"></ChartPrimaryYAxis>
+            <ChartSeriesCollection>
+                <ChartSeries DataSource="@Sales39" XName="x" YName="y" Type="ChartSeriesType.Spline" Name="Gold" SplineType="SplineType.Clamped" CardinalSplineTension="1.2">
+                    <ChartSeriesAnimation Enable="false"></ChartSeriesAnimation>
+                </ChartSeries>
+            </ChartSeriesCollection>
+        </SfChart>
+    </ComponentUnderTest>
+</SfFixture>
+
+@code {
+
+    SfFixture fixture39 { get; set; }
+    async Task CheckingMaximumValueatFirst(Fixture fixture39)
+    {
+        var cut = fixture39.GetComponentUnderTest<SfChart>();
+        await Task.Delay(200);
+        var svg = cut.Find("#container_Series_0");
+        Assert.True(svg != null);
+        cut.SetParametersAndRender();
+    }
+    public class SplineData39
+    {
+        public double x { get; set; }
+        public double y { get; set; }
+    }
+    public List<SplineData39> Sales39 = new List<SplineData39>
+{
+        new SplineData39 { x = 1, y = 100 },
+        new SplineData39 { x = 2, y = 20  },
+        new SplineData39 { x = 3, y = 65  }
+      };
+}

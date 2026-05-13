@@ -1,0 +1,20 @@
+@namespace Syncfusion.Blazor.Toolkit.Inputs
+@using Syncfusion.Blazor.Toolkit.Buttons
+@inherits SfSelectionBase<TChecked>
+@typeparam TChecked
+
+<div class="@_rootClass">
+    <input @ref="_input"
+    id="@_idValue"
+    class="@RadioButtonClass"
+    type="@InputType"
+    name="@Name"
+    value="@Value"
+    checked="@_isChecked"
+    disabled="@Disabled"
+    @onclick="HandleClickAsync"
+    @attributes="@_inputAttributes" />
+    <label for="@_idValue" class="@_labelClass">
+        <span class="@LabelClass">@Label</span>
+    </label>
+</div>

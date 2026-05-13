@@ -1,0 +1,732 @@
+﻿@page "/popups/dialog"
+
+<PageTitle>Dialog | ASP.NET Core Blazor OSS Components</PageTitle>
+
+@using Syncfusion.Blazor.Toolkit.Buttons
+@using Syncfusion.Blazor.Toolkit.Inputs
+@using Syncfusion.Blazor.Toolkit.Popups
+@inject SfDialogService DialogService
+
+<Description>
+    <Header>
+        <h4>Blazor Toolkit Dialog Component</h4>
+    </Header>
+    <Content>
+        The Blazor Dialog component is a pop-up window that appears in front of app content to show important information, collecting user input, showing forms, or presenting detailed content.
+    </Content>
+</Description>
+
+<CodePreview CodeSection="@DefaultCode">
+    <PreviewSection>
+        <div id="target">
+            <div>
+                <SfButton @onclick="@OpenDialog">Open Dialog</SfButton>
+            </div>
+            <SfDialog Target="#target" Width="250px" @bind-Visible="@IsVisible" Header="Dialog Header" Content="Here dialog with Content property." ShowCloseIcon="true"></SfDialog>
+        </div>
+        <style>
+            #target {
+                height: 200px;
+            }
+        </style>
+    </PreviewSection>
+</CodePreview>
+
+<Description>
+    <Header>
+        <h5>Modal Dialog</h5>
+    </Header>
+    <Content>
+        A modal dialog prevents users from interacting with the rest of the application until the dialog is closed. The <code>IsModal</code> property enables modal behavior by displaying an overlay behind the Dialog, ensuring users must complete their interaction with the Dialog before accessing other application content.
+    </Content>
+</Description>
+
+<CodePreview CodeSection="@ModalCode">
+	<PreviewSection>
+        <div id="modaltarget">
+            <div>
+                <SfButton @onclick="@OpenModalDialog">Open Modal Dialog</SfButton>
+            </div>
+            <SfDialog Target="#modaltarget" Width="250px" IsModal="true" @bind-Visible="@IsModalVisible" Header="Modal Dialog" Content="This is a modal dialog" ShowCloseIcon="true"></SfDialog>
+        </div>
+        <style>
+            #modaltarget {
+                height: 200px;
+            }
+        </style>
+	</PreviewSection>
+</CodePreview>
+
+<Description>
+    <Header>
+        <h5>Template Dialog</h5>
+    </Header>
+    <Content>
+        The Dialog component allows for complete customization of its appearance through templates. You can define custom layouts for the <code>Header</code>, <code>Content</code>, and <code>Footer</code> areas within the <code>DialogTemplates</code> component, giving you full control over the UI and UX of the pop-up.
+    </Content>
+</Description>
+
+<CodePreview CodeSection="@TemplateCode">
+    <PreviewSection>
+        <div id="template-target">
+            <SfButton @onclick="@OpenTemplateDialog">Open Template Dialog</SfButton>
+
+            <SfDialog Target="#template-target" Width="400px" ShowCloseIcon="true" @bind-Visible="@IsTemplateVisible">
+                <DialogTemplates>
+                    <Header>
+                        <div class="custom-header">
+                            <span class="sb-icons e-settings"></span> User Profile Settings
+                        </div>
+                    </Header>
+                    <Content>
+                        <div class="custom-content">
+                            <p>Customize your account preferences and security settings here.</p>
+                            <label>Display Name:</label>
+                            <SfTextBox Placeholder="Enter youe name"></SfTextBox>
+                        </div>
+                    </Content>
+                    <FooterTemplate>
+                        <div class="custom-footer">
+                            <SfButton Content="Save Changes" IsPrimary="true" @onclick="@(() => IsTemplateVisible = false)" />
+                            <SfButton Content="Dismiss" @onclick="@(() => IsTemplateVisible = false)" />
+                        </div>
+                    </FooterTemplate>
+                </DialogTemplates>
+            </SfDialog>
+        </div>
+        <style>
+            #template-target {
+                height: 350px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+            }
+            .custom-header {
+                font-size: 17px;
+                color: #0078d4;
+            }
+            .custom-content {
+                padding: 10px;
+            }
+            .custom-footer {
+                padding: 10px;
+                text-align: right;
+            }
+            .custom-header .sb-icons.e-settings {
+               vertical-align: sub;
+            }
+        </style>
+    </PreviewSection>
+</CodePreview>
+
+<Description>
+    <Header>
+        <h5>Positioning Dialog</h5>
+    </Header>
+    <Content>
+        The Blazor Dialog can be positioned using the <code>DialogPositionData</code> property by providing the X and Y coordinates. It can be positioned inside the target of the container or body of the element based on the given X and Y values.
+    </Content>
+</Description>
+
+<CodePreview CodeSection="@PositionCode">
+    <PreviewSection>
+        <div id="target-Position">
+            <div>
+                <SfButton Content="Open Position Dialog" @onclick="@OpenDialogPosition"></SfButton>
+            </div>
+            <SfDialog ID="defaultDialog" Target="#target-Position" Width="300px" ShowCloseIcon="true" @bind-Visible="@Visibility" Header="Dialog Position" Content="Dialog positioned on top and Right">
+                <DialogPositionData X="right" Y="top"></DialogPositionData>
+            </SfDialog>
+        </div>
+
+        <style>
+             #target-Position {
+                height: 200px;
+                width: 700px;
+            }
+        </style>
+    </PreviewSection>
+</CodePreview>
+
+<Description>
+    <Header>
+        <h5>Resizing Dialog</h5>
+    </Header>
+    <Content>
+        The resizable dialog can be created by setting the <code>EnableResize</code> property to true, which is used to change the size of a dialog dynamically and view its content with expanded mode. When enabled, users can interact with the dialog’s resize handles to modify its dimensions according to their needs. The <code>ResizeHandles</code> property configures the specific directions in which the dialog can be resized. Resize handles are interactive grip areas positioned on the dialog’s edges and corners that users can drag to modify the dialog dimensions.
+    </Content>
+</Description>
+
+<CodePreview CodeSection="@ReasizeCode">
+    <PreviewSection>
+        <div id="target-resize">
+            <div>
+                <SfButton Content="Open Resize Dialog" @onclick="@OpenResizeDialog"></SfButton>
+            </div>
+            <SfDialog Target="#target-resize" Width="300px" ShowCloseIcon="true" EnableResize="true" ResizeHandles="@dialogResizeDirections" @bind-Visible="@IsResizeVisible" Header="Resize Dialog" Content="This is a resizing dialog">
+            </SfDialog>
+        </div>
+
+        <style>
+             #target-resize {
+                height: 400px;
+                width: 700px;
+            }
+        </style>
+    </PreviewSection>
+</CodePreview>
+
+<Description>
+    <Header>
+        <h5>Draggable Dialog</h5>
+    </Header>
+    <Content>
+        To enable dragging capabilities, set the <code>AllowDragging</code> property to true on the Dialog component. When enabled, users can drag the dialog by clicking and holding the dialog header area.
+    </Content>
+</Description>
+
+<CodePreview CodeSection="@DragCode">
+    <PreviewSection>
+        <div id="target-draggable">
+            <div>
+                <SfButton Content="Open Dialog" @onclick="@OpenDraggableDialog"></SfButton>
+            </div>
+            <SfDialog Target="#target-draggable" Width="300px" ShowCloseIcon="true" AllowDragging="true" @bind-Visible="@IsDraggableVisible" Header="Draggable Dialog" Content="This is a Dialog with drag enabled">
+            </SfDialog>
+        </div>
+
+        <style>
+            #target-draggable {
+                height: 400px;
+                width: 900px;
+            }
+        </style>
+    </PreviewSection>
+</CodePreview>
+
+<Description>
+    <Header>
+        <h5>Dialog Buttons</h5>
+    </Header>
+    <Content>
+        The Blazor Dialog component supports rendering one or more action buttons in its footer using the <code>DialogButtons</code> Tag element. Inside this element, each button is defined using the <code>DialogButton</code> Tag
+    </Content>
+</Description>
+
+<CodePreview CodeSection="@ButtonCode">
+    <PreviewSection>
+        <div id="btn-target">
+            <SfButton @onclick="@OpenButtonDialog">Open Dialog Buttons Dialog</SfButton>
+
+            <SfDialog Target="#btn-target" Width="250px" ShowCloseIcon="true" @bind-Visible="@IsButtonVisible">
+                <DialogTemplates>
+                    <Header> Dialog </Header>
+                    <Content>This is a standard dialog with footer buttons</Content>
+                </DialogTemplates>
+                <DialogButtons>
+                    <DialogButton Content="OK" IsPrimary="true" OnClick="@OnOkClick" />
+                    <DialogButton Content="Cancel" OnClick="@OnCancelClick" />
+                </DialogButtons>
+            </SfDialog>
+        </div>
+
+        <style>
+             #btn-target {
+                min-height: 400px;
+                height: 100%;
+                position: relative;
+            }
+        </style>
+    </PreviewSection>
+</CodePreview>
+
+<Description>
+    <Header>
+        <h5>Full Screen</h5>
+    </Header>
+    <Content>
+        You can show the dialog in full screen by passing <code>true</code> as argument to the dialog <code>ShowAsync</code> method. By using the Visible property, you can prevent the dialog from showing initially.
+    </Content>
+</Description>
+
+<CodePreview CodeSection="@FullScreenCode">
+    <PreviewSection>
+        <SfButton @onclick="@OpenFullScreenDialog">Open FullScreen Dialog</SfButton>
+
+        <SfDialog @ref="DialogRef" Width="250px" CssClass="custom-full-screen" ShowCloseIcon="true" Visible="false">
+            <DialogTemplates>
+                <Header>
+                    <div class="full-screen-dialog-header">Everyday Knowledge in a Full-Screen View</div>
+                </Header>
+                <Content>
+                    <div style="padding:16px; line-height:1.7;">
+                        <p>General knowledge helps people connect ideas across science, history, geography, technology, and daily life. It is the kind of information that makes conversations easier, decision-making clearer, and learning more enjoyable. For example, knowing how weather changes, why oceans influence climate, or how the internet connects devices gives a broader view of the world around us. Small facts often lead to bigger understanding, and that is why general knowledge remains useful in school, work, and everyday situations.</p>
+                        <p>In a full-screen dialog, this kind of descriptive content works well because it creates room for comfortable reading and smooth scrolling. Users can focus on the message without feeling constrained by a small panel, and the larger layout gives the demo a more polished presentation. A clear header, readable spacing, and meaningful text together improve the visual balance of the component and make the experience feel more complete, modern, and practical.</p>
+                    </div>
+                </Content>
+            </DialogTemplates>
+            <DialogButtons>
+                <DialogButton Content="OK" IsPrimary="true" OnClick="@CloseDialog" />
+                <DialogButton Content="Cancel" OnClick="@CloseDialog" />
+            </DialogButtons>
+        </SfDialog>
+        <style>
+            .full-screen-dialog-header {
+                font-size: 1.15rem;
+                font-weight: 600;
+                color: #0f172a;
+                padding: 4px 0;
+                letter-spacing: 0.2px;
+            }
+            .full-screen-dialog-header::after {
+                content: '';
+                display: block;
+                width: 72px;
+                height: 3px;
+                margin-top: 8px;
+                border-radius: 999px;
+                background: linear-gradient(90deg, #2563eb, #38bdf8);
+            }
+            .custom-full-screen .e-dlg-closeicon-btn {
+                margin: 9px;
+            }
+            .dark .full-screen-dialog-header {
+                color: #fff;
+            }
+        </style>
+    </PreviewSection>
+</CodePreview>
+
+<Description>
+    <Header>
+        <h5>Predefined Dialog</h5>
+    </Header>
+    <Content>
+        <p>The <code>SfDialogService</code> enables predefined dialogs (<b>Alert</b>, <b>Confirm</b>, <b>Prompt</b>) that can be invoked from code without declaring dialog components in each page. To use these features in a real project you must register Syncfusion services and add the dialog provider at app root.</p>
+
+        <h6>Register And Dialog Service</h6>
+        <p>Add the Syncfusion services and register <code>SfDialogService</code> in <code>Program.cs</code> (or your startup file):</p>
+        <CodePreview FileName="Program.cs" IsCodeAlone="true" CodeSection="builder.Services.AddScoped<SfDialogService/>();"></CodePreview>
+
+        <h6>Add The Dialog Provider</h6>
+        <p>Place the dialog provider near the root of the app (for example in <code>App.razor</code> or your main layout) so predefined dialogs can render correctly:</p>
+        <CodePreview FileName="MainLayout.razor" IsCodeAlone="true" CodeSection="<SfDialogProvider/>"></CodePreview>
+
+        <p>With these steps completed you can call <code>DialogService.AlertAsync</code>, <code>DialogService.ConfirmAsync</code>, and <code>DialogService.PromptAsync</code> from pages, components or services and capture results via the returned <code>Task</code>.</p>
+    </Content>
+</Description>
+
+<CodePreview CodeSection="@PredefinedCode">
+    <PreviewSection>
+        <div>
+            <SfButton @onclick="@AlertBtn">Alert</SfButton>
+            <SfButton @onclick="@ConfirmBtn">Confirm</SfButton>
+            <SfButton @onclick="@PromptBtn">Prompt</SfButton>
+        </div>
+        <div class="predefined-result" style="margin-top:12px; font-size: 14px;">
+            <strong>Result:</strong> @PredefinedResult
+        </div>
+    </PreviewSection>
+</CodePreview>
+
+
+@code {
+    private string DefaultCode => @"<div id=""target"">
+    <div>
+        <SfButton @onclick=""@OpenDialog"">Open Dialog</SfButton>
+    </div>
+    <SfDialog Target=""#target"" Width=""250px"" @bind-Visible=""@IsVisible"" Header=""Dialog Header"" Content=""Here dialog with Content property."" ShowCloseIcon=""true""></SfDialog>
+</div>
+    <style>
+        #target {
+            height: 200px;
+        }
+    </style>
+
+@code {
+    private bool IsVisible { get; set; } = false;
+
+    private void OpenDialog()
+    {
+        this.IsVisible = true;
+    }
+}";
+    private string ModalCode => @"<div id=""modaltarget"">
+    <div>
+        <SfButton @onclick=""@OpenModalDialog"">Open Modal Dialog</SfButton>
+     </div>
+    <SfDialog Target=""#modaltarget"" Width=""250px"" IsModal=""true"" @bind-Visible=""@IsModalVisible"" Header=""Modal Dialog"" Content=""This is a modal dialog"" ShowCloseIcon=""true""></SfDialog>
+</div>
+
+<style>
+    #modaltarget {
+        height: 300px;
+    }
+</style>
+
+@code {
+    private bool IsModalVisible { get; set; } = false;
+
+    private void OpenModalDialog()
+    {
+        this.IsModalVisible = true;
+    }
+}";
+
+    private string PositionCode => @"<div id=""target-Position"">
+    <div>
+         <SfButton Content=""Open Position Dialog"" @onclick=""@OpenDialogPosition""></SfButton>
+     </div>
+     <SfDialog Target=""#target-Position"" Width=""300px"" ShowCloseIcon=""true"" @bind-Visible=""@Visibility"" Header=""Dialog Position"" Content=""Dialog positioned on top and Right"">
+        <DialogPositionData X=""right"" Y=""top""></DialogPositionData>
+    </SfDialog>
+</div>
+
+<style>
+    #target-Position {
+        height: 200px;
+        width: 700px;
+    }
+</style>
+
+@code {
+    private bool Visibility { get; set; } = false;
+
+    private void OpenDialogPosition()
+    {
+        this.Visibility = true;
+    }
+}";
+
+    private string ReasizeCode => @"<div id=""target-resize"">
+    <div>
+        <SfButton Content=""Open Resize Dialog"" @onclick=""@OpenResizeDialog""></SfButton>
+    </div>
+    <SfDialog Target=""#target-resize"" Width=""300px"" ShowCloseIcon=""true"" EnableResize=""true"" ResizeHandles=""@dialogResizeDirections"" @bind-Visible=""@IsResizeVisible"" Header=""Resize Dialog"" Content=""This is a resizing dialog"">
+    </SfDialog>
+</div>
+
+<style>
+    #target-resize {
+        height: 400px;
+        width: 700px;
+    }
+</style>
+
+@code {
+    private bool IsResizeVisible { get; set; } = false;
+    private ResizeDirection[] dialogResizeDirections { get; set; } = new ResizeDirection[] { ResizeDirection.All };
+    private void OpenResizeDialog()
+    {
+        this.IsResizeVisible = true;
+    }
+}";
+
+    private string ButtonCode => @"<div id=""btn-target"">
+     <SfButton @onclick=""@OpenButtonDialog"">Open Dialog Buttons Dialog</SfButton>
+
+    <SfDialog Target=""#btn-target"" Width=""250px"" ShowCloseIcon=""true"" @bind-Visible=""@IsButtonVisible"">
+        <DialogTemplates>
+            <Header> Dialog </Header>
+            <Content>This is a standard dialog with footer buttons</Content>
+        </DialogTemplates>
+        <DialogButtons>
+            <DialogButton Content=""OK"" IsPrimary=""true"" OnClick=""@OnOkClick"" />
+            <DialogButton Content=""Cancel"" OnClick=""@OnCancelClick"" />
+        </DialogButtons>
+    </SfDialog>
+</div>
+
+<style>
+    #btn-target {
+        min-height: 400px;
+        height: 100%;
+        position: relative;
+    }
+</style>
+
+@code {
+    private bool IsButtonVisible { get; set; } = false;
+
+    private void OpenButtonDialog()
+    {
+        this.IsButtonVisible = true;
+    }
+
+    private void OnOkClick()
+    {
+        this.IsButtonVisible = false;
+    }
+
+    private void OnCancelClick()
+    {
+        this.IsButtonVisible = false;
+    }
+}";
+
+    private string TemplateCode => @"<div id=""template-target"">
+    <SfButton @onclick=""@OpenTemplateDialog"">Open Template Dialog</SfButton>
+
+    <SfDialog Target=""#template-target"" Width=""400px"" ShowCloseIcon=""true"" @bind-Visible=""@IsTemplateVisible"">
+        <DialogTemplates>
+            <Header>
+                <div class=""custom-header"">
+                    <span class=""sb-icons e-settings""></span> User Profile Settings
+                </div>
+            </Header>
+            <Content>
+                <div class=""custom-content"">
+                    <p>Customize your account preferences and security settings here.</p>
+                    <label>Display Name:</label>
+                    <SfTextBox Placeholder=""Enter youe name""></SfTextBox>
+                </div>
+            </Content>
+            <FooterTemplate>
+                <div class=""custom-footer"">
+                    <SfButton Content=""Save Changes"" IsPrimary=""true"" @onclick=""@(() => IsTemplateVisible = false)"" />
+                    <SfButton Content=""Dismiss"" @onclick=""@(() => IsTemplateVisible = false)"" />
+                </div>
+            </FooterTemplate>
+        </DialogTemplates>
+    </SfDialog>
+</div>
+
+<style>
+    #template-target {
+        height: 350px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+    .custom-header { font-size: 17px; color: #0078d4; }
+    .custom-content { padding: 10px; }
+    .custom-footer { padding: 10px; text-align: right; }
+    .custom-header .sb-icons.e-settings { vertical-align: sub; }
+</style>
+
+@code {
+    private bool IsTemplateVisible { get; set; } = false;
+
+    private void OpenTemplateDialog()
+    {
+        this.IsTemplateVisible = true;
+    }
+}";
+
+    private string FullScreenCode => @"<SfButton @onclick=""@OpenFullScreenDialog"">Open FullScreen Dialog</SfButton>
+
+<SfDialog @ref=""DialogRef"" Width=""250px"" CssClass=""custom-full-screen"" ShowCloseIcon=""true"" Visible=""false"">
+    <DialogTemplates>
+        <Header>
+            <div class=""full-screen-dialog-header"">Everyday Knowledge in a Full-Screen View</div>
+        </Header>
+        <Content>
+            <div style=""padding:16px; line-height:1.7;"">
+                <p>General knowledge helps people connect ideas across science, history, geography, technology, and daily life. It is the kind of information that makes conversations easier, decision-making clearer, and learning more enjoyable. For example, knowing how weather changes, why oceans influence climate, or how the internet connects devices gives a broader view of the world around us. Small facts often lead to bigger understanding, and that is why general knowledge remains useful in school, work, and everyday situations.</p>
+                <p>In a full-screen dialog, this kind of descriptive content works well because it creates room for comfortable reading and smooth scrolling. Users can focus on the message without feeling constrained by a small panel, and the larger layout gives the demo a more polished presentation. A clear header, readable spacing, and meaningful text together improve the visual balance of the component and make the experience feel more complete, modern, and practical.</p>
+            </div>
+        </Content>
+    </DialogTemplates>
+    <DialogButtons>
+        <DialogButton Content=""OK"" IsPrimary=""true"" OnClick=""@CloseDialog"" />
+        <DialogButton Content=""Cancel"" OnClick=""@CloseDialog"" />
+    </DialogButtons>
+</SfDialog>
+
+<style>
+    .full-screen-dialog-header {
+        font-size: 1.15rem;
+        font-weight: 600;
+        color: #0f172a;
+        padding: 4px 0;
+        letter-spacing: 0.2px;
+    }
+    .full-screen-dialog-header::after {
+        content: '';
+        display: block;
+        width: 72px;
+        height: 3px;
+        margin-top: 8px;
+        border-radius: 999px;
+        background: linear-gradient(90deg, #2563eb, #38bdf8);
+    }
+    .custom-full-screen .e-dlg-closeicon-btn {
+        margin: 9px;
+    }
+</style>
+
+@code {
+    private SfDialog DialogRef;
+
+    private async Task OpenFullScreenDialog()
+    {
+        await this.DialogRef.ShowAsync(true);
+    }
+
+    private async Task CloseDialog()
+    {
+        await this.DialogRef.HideAsync();
+    }
+}";
+    private string PredefinedCode => @"<div>
+    <SfButton @onclick=""@AlertBtn"">Alert</SfButton>
+    <SfButton @onclick=""@ConfirmBtn"">Confirm</SfButton>
+    <SfButton @onclick=""@PromptBtn"">Prompt</SfButton>
+
+    <div style=""margin-top:12px;"">
+        <strong>Result:</strong> @PredefinedResult
+    </div>
+</div>
+
+@code {
+    @inject SfDialogService DialogService
+
+    private string PredefinedResult { get; set; } = string.Empty;
+
+    private async Task AlertBtn()
+    {
+        await DialogService.AlertAsync(""10% of battery remaining"", ""Low Battery"");
+        PredefinedResult = ""Alert closed"";
+    }
+
+    private async Task ConfirmBtn()
+    {
+        bool isConfirm = await DialogService.ConfirmAsync(""Are you sure you want to permanently delete these items?"", ""Delete Multiple Items"");
+        PredefinedResult = $""Confirm result: {isConfirm}"";
+    }
+
+    private async Task PromptBtn()
+    {
+        string userName = await DialogService.PromptAsync(""Enter your name:"", ""Join Chat Group"");
+        PredefinedResult = $""Prompt result: {userName}"";
+    }
+}";
+
+    private string DragCode => @"<div id=""target-draggable"">
+    <div>
+        <SfButton Content=""Open Dialog"" @onclick=""@OpenDraggableDialog""></SfButton>
+    </div>
+    <SfDialog Target=""#target-draggable"" Width=""300px"" ShowCloseIcon=""true"" AllowDragging=""true"" @bind-Visible=""@IsDraggableVisible"" Header=""Draggable Dialog"" Content=""This is a Dialog with drag enabled"">
+    </SfDialog>
+</div>
+
+<style>
+    #target-draggable {
+        height: 400px;
+        width: 900px;
+    }
+</style>
+@code {
+    private bool IsDraggableVisible { get; set; } = false;
+    private async Task OpenDraggableDialog()
+    {
+        this.IsDraggableVisible = true;
+    }
+}";
+    private bool IsVisible { get; set; } = false;
+    private bool IsModalVisible { get; set; } = false;
+    private bool Visibility { get; set; } = false;
+    private bool IsResizeVisible { get; set; } = false;
+    private bool IsDraggableVisible { get; set; } = false;
+    private bool IsButtonVisible { get; set; } = false;
+    private bool IsTemplateVisible { get; set; } = false;
+    private SfDialog DialogRef = default!;
+    private string PredefinedResult { get; set; } = string.Empty;
+    private ResizeDirection[] dialogResizeDirections { get; set; } = new ResizeDirection[] { ResizeDirection.All };
+
+    private async Task AlertBtn()
+    {
+        await DialogService.AlertAsync("10% of battery remaining", "Low Battery");
+        PredefinedResult = "Alert closed";
+    }
+
+    private async Task ConfirmBtn()
+    {
+        bool isConfirm = await DialogService.ConfirmAsync("Are you sure you want to permanently delete these items?", "Delete Multiple Items");
+        PredefinedResult = $"Confirm result - {isConfirm}";
+    }
+
+    private async Task PromptBtn()
+    {
+        string userName = await DialogService.PromptAsync("Enter your name:", "Join Chat Group");
+        PredefinedResult = $"Prompt result - {userName}";
+    }
+
+    private async Task OpenFullScreenDialog()
+    {
+        await this.DialogRef.ShowAsync(true);
+    }
+
+    private async Task CloseDialog()
+    {
+        await this.DialogRef.HideAsync();
+    }
+
+    private void OpenDialog()
+    {
+        this.IsVisible = true;
+    }
+
+    private void OpenModalDialog()
+    {
+        this.IsModalVisible = true;
+    }
+
+    private void OpenDialogPosition()
+    {
+        this.Visibility = true;
+    }
+
+    private void OpenResizeDialog()
+    {
+        this.IsResizeVisible = true;
+    }
+
+    private void OpenDraggableDialog()
+    {
+        this.IsDraggableVisible = true;
+    }
+
+    private void OpenButtonDialog()
+    {
+        this.IsButtonVisible = true;
+    }
+
+    private void OpenTemplateDialog()
+    {
+        this.IsTemplateVisible = true;
+    }
+
+    private void OnOkClick()
+    {
+        this.IsButtonVisible = false;
+    }
+
+    private void OnCancelClick()
+    {
+        this.IsButtonVisible = false;
+    }
+}
+
+<style>
+    @@media (max-width: 768px) {
+        #target-Position {
+            width: 600px;
+        }
+        #target-resize {
+            width: auto;
+        }
+        #target-draggable {
+            width: 500px;
+        }
+    }
+
+    @@media (max-width: 300px) {
+        #target-Position {
+            width: 260px;
+        }
+        #target-draggable {
+            width: 200px;
+        }
+    }
+</style>

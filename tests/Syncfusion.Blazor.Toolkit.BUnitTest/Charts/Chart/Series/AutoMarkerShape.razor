@@ -1,0 +1,145 @@
+﻿@using Syncfusion.Blazor.Toolkit.Charts
+@using Syncfusion.Blazor.Toolkit.Tests
+@using Syncfusion.Blazor.Toolkit.Charts
+@using Syncfusion.Blazor.Toolkit.Charts.Internal
+@using Syncfusion.Blazor.Toolkit.Charts
+@using Syncfusion.Blazor.Toolkit.Charts.Internal;
+@using Syncfusion.Blazor.Toolkit.Data
+@using Bunit
+@using Xunit
+
+@inherits TestComponentBase
+
+
+<SfFixture @ref="fixture" TestAsync="AutoMarkerShapeCheck">
+    <ComponentUnderTest>
+        <SfChart ID="container">
+            <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Toolkit.ValueType.DateTimeCategory" Format="yyyy"></ChartPrimaryXAxis>
+            <ChartPrimaryYAxis Interval="40"></ChartPrimaryYAxis>
+            <ChartSeriesCollection>
+                <ChartSeries Name="Series1" DataSource="@ConsumerReports" XName="X" YName="Y1" Type="ChartSeriesType.Line">
+                    <ChartMarker Visible="true" Height="10" Width="10" IsFilled="true" />
+                </ChartSeries>
+                <ChartSeries Name="Series2" DataSource="@ConsumerReports" XName="X" YName="Y2" Type="ChartSeriesType.Line">
+                    <ChartMarker Visible="true" Height="10" Width="10" IsFilled="true" />
+                </ChartSeries>
+                <ChartSeries Name="Series3" DataSource="@ConsumerReports" XName="X" YName="Y3" Type="ChartSeriesType.Line">
+                    <ChartMarker Visible="true" Height="10" Width="10" IsFilled="true" />
+                </ChartSeries>
+                <ChartSeries Name="Series4" DataSource="@ConsumerReports" XName="X" YName="Y4" Type="ChartSeriesType.Line">
+                    <ChartMarker Visible="true" Height="10" Width="10" IsFilled="true" />
+                </ChartSeries>
+                <ChartSeries Name="Series5" DataSource="@ConsumerReports" XName="X" YName="Y5" Type="ChartSeriesType.Line">
+                    <ChartMarker Visible="true" Height="10" Width="10" IsFilled="true" />
+                </ChartSeries>
+                <ChartSeries Name="Series6" DataSource="@ConsumerReports" XName="X" YName="Y6" Type="ChartSeriesType.Line">
+                    <ChartMarker Visible="true" Height="10" Width="10" IsFilled="true" />
+                </ChartSeries>
+            </ChartSeriesCollection>
+        </SfChart>
+    </ComponentUnderTest>
+</SfFixture>
+
+@code {
+    SfFixture fixture{ get; set; } 
+    async Task AutoMarkerShapeCheck(Fixture fixture)
+    {
+        var cut = fixture.GetComponentUnderTest<SfChart>();
+        await Task.Delay(200);
+        var series = cut.Find("#containerSeriesGroup0");
+        Assert.True(series.GetAttribute("data-point").Contains("Circle"), series.GetAttribute("data-point"));
+        var series1 = cut.Find("#containerSeriesGroup1");
+        Assert.True(series1.GetAttribute("data-point").Contains("Triangle"), series.GetAttribute("data-point"));
+        var series2 = cut.Find("#containerSeriesGroup2");
+        Assert.True(series2.GetAttribute("data-point").Contains("Diamond"), series.GetAttribute("data-point"));
+        cut.SetParametersAndRender();
+    }
+    public class ChartData
+    {
+        public DateTime X { get; set; }
+        public double Y { get; set; }
+        public double Y1 { get; set; }
+        public double Y2 { get; set; }
+        public double Y3 { get; set; }
+        public double Y4 { get; set; }
+        public double Y5 { get; set; }
+        public double Y6 { get; set; }
+    }
+
+    public List<ChartData> ConsumerReports = new List<ChartData>
+    {
+        new ChartData{ X= new DateTime(2005,01,01), Y1 = 100, Y2 = 190, Y3 = 30, Y4 = 125, Y5 = 160, Y6 = 60 },
+        new ChartData{ X= new DateTime(2006,01,01), Y1 = 120, Y2 = 140, Y3 = 80, Y4 = 190, Y5 = 170, Y6 = 30 },
+        new ChartData{ X= new DateTime(2007,01,01), Y1 = 110, Y2 = 80, Y3 = 60, Y4 = 140, Y5 = 200, Y6 = 30 },
+        new ChartData{ X= new DateTime(2008,01,01), Y1 = 30, Y2 = 120, Y3 = 60, Y4 = 180, Y5 = 150, Y6 = 90 },
+        new ChartData{ X= new DateTime(2009,01,01), Y1 = 170, Y2 = 50, Y3 = 20, Y4 = 110, Y5 = 140, Y6 = 80 },
+    };
+}
+@{
+    var InitialGroup1 = (new string[] { "CustomerID", "OrderID" });
+}
+<SfFixture @ref="fixture1" TestAsync="MarkerPathCheck">
+    <ComponentUnderTest>
+        <SfChart ID="container">
+            <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Toolkit.ValueType.DateTimeCategory" Format="yyyy"></ChartPrimaryXAxis>
+            <ChartPrimaryYAxis Interval="40"></ChartPrimaryYAxis>
+            <ChartSeriesCollection>
+                <ChartSeries Name="Series1" DataSource="@ConsumerReports1" XName="X" YName="Y1" Type="ChartSeriesType.Line">
+                    <ChartMarker Visible="true" Height="10" Width="10" IsFilled="true" />
+                </ChartSeries>
+                <ChartSeries Name="Series2" DataSource="@ConsumerReports1" XName="X" YName="Y2" Type="ChartSeriesType.Line">
+                    <ChartMarker Visible="true" Height="10" Width="10" IsFilled="true" />
+                </ChartSeries>1
+                <ChartSeries Name="Series3" DataSource="@ConsumerReports1" XName="X" YName="Y3" Type="ChartSeriesType.Line">
+                    <ChartMarker Visible="true" Height="10" Width="10" IsFilled="true" />
+                </ChartSeries>
+                <ChartSeries Name="Series4" DataSource="@ConsumerReports1" XName="X" YName="Y4" Type="ChartSeriesType.Line">
+                    <ChartMarker Visible="true" Height="10" Width="10" IsFilled="true" />
+                </ChartSeries>
+                <ChartSeries Name="Series5" DataSource="@ConsumerReports1" XName="X" YName="Y5" Type="ChartSeriesType.Line">
+                    <ChartMarker Visible="true" Height="10" Width="10" IsFilled="true" />
+                </ChartSeries>
+                <ChartSeries Name="Series6" DataSource="@ConsumerReports1" XName="X" YName="Y6" Type="ChartSeriesType.Line">
+                    <ChartMarker Visible="true" Height="10" Width="10" IsFilled="true" />
+                </ChartSeries>
+            </ChartSeriesCollection>
+        </SfChart>
+    </ComponentUnderTest>
+</SfFixture>
+
+@code {
+    SfFixture fixture1 { get; set; }
+    async Task MarkerPathCheck(Fixture fixture1)
+    {
+        var cut = fixture1.GetComponentUnderTest<SfChart>();          
+        await Task.Delay(200);
+        var series = cut.Find("#container_Series_0_Point_0_Symbol");
+        // Note: Values may vary slightly depending on screen resolution.
+        Assert.True(series.GetAttribute("rx") == "5");
+        var series1 = cut.Find("#container_Series_1_Point_0_Symbol");
+        Assert.True(series1.GetAttribute("d") == "M 50.150000000000006 81.76041666666667 L 55.150000000000006 71.76041666666667 L 60.150000000000006 81.76041666666667 L 50.150000000000006 81.76041666666667 z");
+        var series2 = cut.Find("#container_Series_2_Point_0_Symbol");
+        Assert.True(series2.GetAttribute("d") == "M 50.150000000000006 322.39375 L 55.150000000000006 317.39375 L 60.150000000000006 322.39375 L 55.150000000000006 327.39375 L 50.150000000000006 322.39375 z");
+        cut.SetParametersAndRender();     
+    }
+    public class ChartData1
+    {
+        public DateTime X { get; set; }
+        public double Y { get; set; }
+        public double Y1 { get; set; }
+        public double Y2 { get; set; }
+        public double Y3 { get; set; }
+        public double Y4 { get; set; }
+        public double Y5 { get; set; }
+        public double Y6 { get; set; }
+    }
+
+    public List<ChartData1> ConsumerReports1 = new List<ChartData1>
+    {
+        new ChartData1{ X= new DateTime(2005,01,01), Y1 = 100, Y2 = 190, Y3 = 30, Y4 = 125, Y5 = 160, Y6 = 60 },
+        new ChartData1{ X= new DateTime(2006,01,01), Y1 = 120, Y2 = 140, Y3 = 80, Y4 = 190, Y5 = 170, Y6 = 30 },
+        new ChartData1{ X= new DateTime(2007,01,01), Y1 = 110, Y2 = 80, Y3 = 60, Y4 = 140, Y5 = 200, Y6 = 30 },
+        new ChartData1{ X= new DateTime(2008,01,01), Y1 = 30, Y2 = 120, Y3 = 60, Y4 = 180, Y5 = 150, Y6 = 90 },
+        new ChartData1{ X= new DateTime(2009,01,01), Y1 = 170, Y2 = 50, Y3 = 20, Y4 = 110, Y5 = 140, Y6 = 80 },
+    };
+}

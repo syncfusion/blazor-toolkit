@@ -1,0 +1,275 @@
+@page "/charts/multiple-panes"
+@using Syncfusion.Blazor.Toolkit.Charts
+
+<PageTitle>Syncfusion Blazor Toolkit Multiple Panes Demo</PageTitle>
+
+<Description>
+    <Header>
+        <h5><b>Multiple Panes</b></h5>
+    </Header>
+    <Content>
+        Multiple panes enable the Chart to be divided into stacked horizontal sections,
+        each with its own axis and dataset while sharing a common X‑axis. Add multiple panes to a Chart by defining them within the <code>ChartRows</code> collection using the <code>ChartRow</code> component.
+
+        In this sample, monthly precipitation is displayed in the top pane, while
+        average temperature is visualized in a separate pane below using a secondary
+        Y‑axis. The secondary axis is added to the <code>ChartAxes</code> collection using the <code>ChartAxis</code> component, and the <code>RowIndex</code> property of the axis assigns it to a specific pane. Additionally, a series is explicitly bound to its corresponding axis using the <code>YAxisName</code> property. This layout allows different units and ranges to be compared clearly without visual overlap.
+    </Content>
+</Description>
+
+<VirtualizeSection MinHeightPx="600px">
+    <CodePreview CodeSection="@MultiplePanesCode" IsFullWidth="true">
+    <PreviewSection>
+        <SfChart @key="@_currentTheme" Title="Annual Weather in New York, USA" Theme="@_currentTheme">
+            <ChartArea><ChartAreaBorder Width="0"></ChartAreaBorder></ChartArea>
+            <!-- X AXIS -->
+            <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Toolkit.ValueType.Category">
+                <ChartAxisMajorGridLines Width="0" />
+                <ChartAxisMajorTickLines Width="0" />
+                <ChartAxisMinorTickLines Width="0" />
+            </ChartPrimaryXAxis>
+
+            <!-- PRIMARY Y AXIS (PRECIPITATION) -->
+            <ChartPrimaryYAxis Title="Precipitation, inch" Minimum="0"
+                               Maximum="6"
+                               Interval="1">
+                <ChartAxisLineStyle Width="0" />
+                <ChartAxisMajorTickLines Width="0" />
+            </ChartPrimaryYAxis>
+
+            <!-- MULTIPLE PANES -->
+            <ChartRows>
+                <ChartRow Height="50%" />
+                <ChartRow Height="50%" />
+            </ChartRows>
+
+            <!-- SECONDARY Y AXIS (TEMPERATURE) -->
+            <ChartAxes>
+                <ChartAxis Title="Temperature, °F"
+                           Name="TemperatureAxis"
+                           Minimum="20"
+                           Maximum="100"
+                           Interval="20"
+                           RowIndex="1"
+                           OpposedPosition="true">
+                    <ChartAxisLineStyle Width="0" />
+                    <ChartAxisMajorGridLines Width="0" />
+                    <ChartAxisMajorTickLines Width="0" />
+                    <ChartAxisMinorTickLines Width="0" />                    
+                </ChartAxis>
+            </ChartAxes>
+
+            <!-- SERIES -->
+            
+
+                <!-- TEMPERATURE SERIES (BOTTOM PANE) -->
+                <ChartSeries DataSource="@WeatherData"
+                             XName="X"
+                             YName="AverageTemperatureF"
+                             YAxisName="TemperatureAxis"
+                             Type="ChartSeriesType.Spline"
+                             Name="Average Temperature"
+                             Width="2"
+                             Fill="#ED3500">
+                    <ChartMarker Visible="true"
+                                 IsFilled="true"
+                                 Shape="ChartShape.Circle"
+                                 Height="10"
+                                 Width="10">
+                        <ChartDataLabel Visible="true"
+                                        Format="{value} °F"
+                                        Font="@(new ChartDataLabelFont { Color = DataLabelTextColor })" />
+                    </ChartMarker>
+                </ChartSeries>
+
+                <!-- PRECIPITATION SERIES (TOP PANE) -->
+                <ChartSeries DataSource="@WeatherData"
+                             XName="X"
+                             YName="PrecipitationInch"
+                             Type="ChartSeriesType.Column"
+                             Name="Precipitation"
+                             Fill="#4E71FF"
+                             ColumnWidth="0.5">
+                    <ChartCornerRadius TopLeft="4"
+                                       TopRight="4" />
+                    <ChartMarker>
+                        <ChartDataLabel Visible="true"
+                                        Format="{value}"
+                                        Font="@(new ChartDataLabelFont { Color = DataLabelTextColor })" />
+                    </ChartMarker>
+                </ChartSeries>
+
+            
+
+            <!-- TOOLTIP -->
+            <ChartTooltipSettings Enable="true"
+                                  ShowNearestTooltip="false"
+                                  Header="${point.x}"
+                                  Format="${series.name} : <b>${point.y}</b>" />
+            <ChartLegendSettings EnableHighlight="true"></ChartLegendSettings>
+        </SfChart>
+    </PreviewSection>
+</CodePreview>
+</VirtualizeSection>
+
+@code {
+    [CascadingParameter]
+    private Theme CurrentTheme { get; set; } = Theme.Fluent;
+
+    private Theme _currentTheme = Theme.Fluent;
+
+    protected override void OnInitialized()
+    {
+        _currentTheme = CurrentTheme;
+    }
+
+    protected override void OnParametersSet()
+    {
+        _currentTheme = CurrentTheme;
+    }
+    private bool IsDarkTheme => _currentTheme.ToString().Contains("Dark") || _currentTheme.ToString().Contains("HighContrast");
+    private string TextColor => IsDarkTheme ? "#E6EEF8" : "#0B1F3B";
+    private string DataLabelTextColor => IsDarkTheme ? "#FFFFFF" : "#000000";
+    // DATA MODEL
+    public class WeatherPoint
+    {
+        public string X { get; set; } = string.Empty;
+        public double AverageTemperatureF { get; set; }
+        public double PrecipitationInch { get; set; }
+    }
+
+    // DATASOURCE (1:1 WITH REACT)
+    private readonly List<WeatherPoint> WeatherData = new()
+    {
+        new() { X = "Jan", AverageTemperatureF = (39 + 26) / 2.0, PrecipitationInch = 3.90 },
+        new() { X = "Feb", AverageTemperatureF = (42 + 29) / 2.0, PrecipitationInch = 2.95 },
+        new() { X = "Mar", AverageTemperatureF = (50 + 35) / 2.0, PrecipitationInch = 4.06 },
+        new() { X = "Apr", AverageTemperatureF = (60 + 44) / 2.0, PrecipitationInch = 3.94 },
+        new() { X = "May", AverageTemperatureF = (71 + 55) / 2.0, PrecipitationInch = 4.45 },
+        new() { X = "Jun", AverageTemperatureF = (79 + 64) / 2.0, PrecipitationInch = 3.50 },
+        new() { X = "Jul", AverageTemperatureF = (85 + 70) / 2.0, PrecipitationInch = 4.53 },
+        new() { X = "Aug", AverageTemperatureF = (83 + 69) / 2.0, PrecipitationInch = 4.13 },
+        new() { X = "Sep", AverageTemperatureF = (76 + 61) / 2.0, PrecipitationInch = 3.98 },
+        new() { X = "Oct", AverageTemperatureF = (65 + 50) / 2.0, PrecipitationInch = 3.39 },
+        new() { X = "Nov", AverageTemperatureF = (54 + 41) / 2.0, PrecipitationInch = 3.82 },
+        new() { X = "Dec", AverageTemperatureF = (44 + 32) / 2.0, PrecipitationInch = 3.58 }
+    };
+
+    // CODE SNIPPET (IN SYNC WITH PREVIEW)
+    private string MultiplePanesCode => @"@@using Syncfusion.Blazor.Toolkit.Charts
+    <SfChart Title=""Annual Weather in New York, USA"">
+            <ChartArea><ChartAreaBorder Width=""0""></ChartAreaBorder></ChartArea>
+            <!-- X AXIS -->
+            <ChartPrimaryXAxis ValueType=""Syncfusion.Blazor.Toolkit.ValueType.Category"">
+                <ChartAxisMajorGridLines Width=""0"" />
+                <ChartAxisMajorTickLines Width=""0"" />
+                <ChartAxisMinorTickLines Width=""0"" />
+            </ChartPrimaryXAxis>
+
+            <!-- PRIMARY Y AXIS (PRECIPITATION) -->
+            <ChartPrimaryYAxis Title=""Precipitation, inch"" Minimum=""0""
+                               Maximum=""6""
+                               Interval=""1"">
+                <ChartAxisLineStyle Width=""0"" />
+                <ChartAxisMajorTickLines Width=""0"" />
+            </ChartPrimaryYAxis>
+
+            <!-- MULTIPLE PANES -->
+            <ChartRows>
+                <ChartRow Height=""50%"" />
+                <ChartRow Height=""50%"" />
+            </ChartRows>
+
+            <!-- SECONDARY Y AXIS (TEMPERATURE) -->
+            <ChartAxes>
+                <ChartAxis Title=""Temperature, °F""
+                           Name=""TemperatureAxis""
+                           Minimum=""20""
+                           Maximum=""100""
+                           Interval=""20""
+                           RowIndex=""1""
+                           OpposedPosition=""true"">
+                    <ChartAxisLineStyle Width=""0"" />
+                    <ChartAxisMajorGridLines Width=""0"" />
+                    <ChartAxisMajorTickLines Width=""0"" />
+                    <ChartAxisMinorTickLines Width=""0"" />                    
+                </ChartAxis>
+            </ChartAxes>
+
+            <!-- SERIES -->
+            
+
+                <!-- TEMPERATURE SERIES (BOTTOM PANE) -->
+                <ChartSeries DataSource=""@WeatherData""
+                             XName=""X""
+                             YName=""AverageTemperatureF""
+                             YAxisName=""TemperatureAxis""
+                             Type=""ChartSeriesType.Spline""
+                             Name=""Average Temperature""
+                             Width=""2""
+                             Fill=""#ED3500"">
+                    <ChartMarker Visible=""true""
+                                 IsFilled=""true""
+                                 Shape=""ChartShape.Circle""
+                                 Height=""10""
+                                 Width=""10"">
+                        <ChartDataLabel Visible=""true""
+                                        Format=""{value} °F""
+                                        Font=""@(new ChartDataLabelFont { Color = DataLabelTextColor })"" />
+                    </ChartMarker>
+                </ChartSeries>
+
+                <!-- PRECIPITATION SERIES (TOP PANE) -->
+                <ChartSeries DataSource=""@WeatherData""
+                             XName=""X""
+                             YName=""PrecipitationInch""
+                             Type=""ChartSeriesType.Column""
+                             Name=""Precipitation""
+                             Fill=""#4E71FF""
+                             ColumnWidth=""0.5"">
+                    <ChartCornerRadius TopLeft=""4""
+                                       TopRight=""4"" />
+                    <ChartMarker>
+                        <ChartDataLabel Visible=""true""
+                                        Format=""{value}""
+                                        Font=""@(new ChartDataLabelFont { Color = DataLabelTextColor })"" />
+                    </ChartMarker>
+                </ChartSeries>
+
+            
+
+            <!-- TOOLTIP -->
+            <ChartTooltipSettings Enable=""true""
+                                  ShowNearestTooltip=""false""
+                                  Header=""${point.x}""
+                                  Format=""${series.name} : <b>${point.y}</b>"" />
+            <ChartLegendSettings EnableHighlight=""true""></ChartLegendSettings>
+        </SfChart>
+   
+
+
+@@code {
+     private string DataLabelTextColor => ""#000000"";
+    public class WeatherPoint
+        {
+            public string X { get; set; } = string.Empty;
+            public double AverageTemperatureF { get; set; }
+            public double PrecipitationInch { get; set; }
+        }
+     List<WeatherPoint> WeatherData = new()
+        {
+            new() { X = ""Jan"", AverageTemperatureF = (39 + 26) / 2.0, PrecipitationInch = 3.90 },
+            new() { X = ""Feb"", AverageTemperatureF = (42 + 29) / 2.0, PrecipitationInch = 2.95 },
+            new() { X = ""Mar"", AverageTemperatureF = (50 + 35) / 2.0, PrecipitationInch = 4.06 },
+            new() { X = ""Apr"", AverageTemperatureF = (60 + 44) / 2.0, PrecipitationInch = 3.94 },
+            new() { X = ""May"", AverageTemperatureF = (71 + 55) / 2.0, PrecipitationInch = 4.45 },
+            new() { X = ""Jun"", AverageTemperatureF = (79 + 64) / 2.0, PrecipitationInch = 3.50 },
+            new() { X = ""Jul"", AverageTemperatureF = (85 + 70) / 2.0, PrecipitationInch = 4.53 },
+            new() { X = ""Aug"", AverageTemperatureF = (83 + 69) / 2.0, PrecipitationInch = 4.13 },
+            new() { X = ""Sep"", AverageTemperatureF = (76 + 61) / 2.0, PrecipitationInch = 3.98 },
+            new() { X = ""Oct"", AverageTemperatureF = (65 + 50) / 2.0, PrecipitationInch = 3.39 },
+            new() { X = ""Nov"", AverageTemperatureF = (54 + 41) / 2.0, PrecipitationInch = 3.82 },
+            new() { X = ""Dec"", AverageTemperatureF = (44 + 32) / 2.0, PrecipitationInch = 3.58 }
+        };
+}";
+}

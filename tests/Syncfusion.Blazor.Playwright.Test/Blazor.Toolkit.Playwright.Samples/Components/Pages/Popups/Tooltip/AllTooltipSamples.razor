@@ -1,0 +1,168 @@
+@page "/tooltip-all-samples"
+@using Syncfusion.Blazor.Toolkit.Popups
+@using Syncfusion.Blazor.Toolkit.Buttons
+<h2>Tooltip Content Samples (All in One)</h2>
+
+<!-- 1. Simple Text Content -->
+<section>
+    <h4>1. Simple Text Content</h4>
+    <SfTooltip ID="TooltipText" Target="#btnText" Content="@ContentText">
+        <SfButton ID="btnText" Content="Show Tooltip"></SfButton>
+    </SfTooltip>
+</section>
+
+<!-- 2. Using title Attribute -->
+<section>
+    <h4>2. Using title Attribute</h4>
+    <SfTooltip ID="TooltipTitle" Target="#container [title]">
+        <div id="container">
+            <SfButton ID="btn1" Content="Show Tooltip 1" title="Go green and save energy!"></SfButton>
+            <SfButton ID="btn2" Content="Show Tooltip 2" title="Plant trees to combat climate change!"></SfButton>
+            <button title="Recycle to reduce waste">Recycle Tips</button>
+            <a href="#" title="Switch to renewable energy">Renewable Energy</a>
+        </div>
+    </SfTooltip>
+</section>
+
+<!-- 3. Custom Template Content -->
+<section>
+    <h4>3. Custom Template Content</h4>
+    <SfTooltip CssClass="e-tooltip-css" OpensOn="Click" Target="#btnTemplate">
+        <ContentTemplate>
+            <div class="democontent">
+                <div class="info">
+                    <h3 style="margin-top:10px">Eastern Bluebird</h3>
+                    <hr style="margin-top:10px" />
+                    <div style="margin-top:-10px">
+                        <div style="float:left;width:57%">
+                            The <a href="https://en.wikipedia.org/wiki/Eastern_bluebird" target="_blank">Eastern Bluebird</a>
+                            is found in open fields and woodland edges. They are cavity-nesting birds.
+                        </div>
+                        <div id="bird" style="float:right;width:42%">
+                            <img src="https://blazor.syncfusion.com/demos/_content/blazor_webapp_common_net8/images/tooltip/bird.png" width="125" height="125" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </ContentTemplate>
+        <ChildContent>
+            <SfButton ID="btnTemplate" CssClass="e-outline text" IsPrimary="true" Content="HTML Template"></SfButton>
+        </ChildContent>
+    </SfTooltip>
+</section>
+
+<!-- 4. Dynamic Content with RenderFragment -->
+<section>
+    <h4>4. Dynamic Content (RenderFragment)</h4>
+    <SfTooltip ID="TooltipDynamic" Target="#targetDynamic">
+        <ContentTemplate>
+            <div>@(TooltipContent())</div>
+        </ContentTemplate>
+        <ChildContent>
+            <div id="container">
+                <p>
+                    A green home is designed to be <a id="targetDynamic"><u>environmentally friendly</u></a> and sustainable.
+                </p>
+            </div>
+        </ChildContent>
+    </SfTooltip>
+</section>
+
+<!-- 5. Rendering HTML with MarkupString -->
+<section>
+    <h4>5. Rendering HTML (MarkupString)</h4>
+    <SfTooltip ID="TooltipMarkup" Target="#targetMarkup">
+        <ContentTemplate>
+            <div>@((MarkupString)ContentMarkup)</div>
+        </ContentTemplate>
+        <ChildContent>
+            <div id="container">
+                <p>
+                    A green home is designed to be <a id="targetMarkup"><u>environmentally friendly</u></a> and sustainable.
+                </p>
+            </div>
+        </ChildContent>
+    </SfTooltip>
+</section>
+
+<!-- 6. Positions -->
+<section>
+    <h4>6. Positions</h4>
+    <div style="display:flex;gap:8px;flex-wrap:wrap">
+        <SfTooltip ID="TooltipTop" Position="Position.TopCenter" Target="#btnTop" Content="Top position"></SfTooltip>
+        <SfButton ID="btnTop" Content="Top"></SfButton>
+
+        <SfTooltip ID="TooltipBottom" Position="Position.BottomCenter" Target="#btnBottom" Content="Bottom position"></SfTooltip>
+        <SfButton ID="btnBottom" Content="Bottom"></SfButton>
+
+        <SfTooltip ID="TooltipLeft" Position="Position.LeftCenter" Target="#btnLeft" Content="Left position"></SfTooltip>
+        <SfButton ID="btnLeft" Content="Left"></SfButton>
+
+        <SfTooltip ID="TooltipRight" Position="Position.RightCenter" Target="#btnRight" Content="Right position"></SfTooltip>
+        <SfButton ID="btnRight" Content="Right"></SfButton>
+    </div>
+</section>
+
+<!-- 7. Offset and Collision -->
+<section>
+    <h4>7. Offset &amp; Collision</h4>
+    <SfTooltip ID="TooltipOffset" Target="#btnOffset" OffsetX="50" OffsetY="20" WindowCollision="true" Content="Offset tooltip"></SfTooltip>
+    <SfButton ID="btnOffset" Content="Offset"></SfButton>
+</section>
+
+<!-- 8. Sticky Tooltip -->
+<section>
+    <h4>8. Sticky Tooltip</h4>
+    <SfTooltip ID="TooltipSticky" Target="#btnSticky" IsSticky="true" OpensOn="Click" Content="Sticky tooltip (click to open)"></SfTooltip>
+    <SfButton ID="btnSticky" Content="Sticky (Click)"></SfButton>
+</section>
+
+<!-- 9. Mouse Trail -->
+<section>
+    <h4>9. Mouse Trail</h4>
+    <SfTooltip ID="TooltipTrail" Target="#btnTrail" MouseTrail="true" Content="Mouse trail tooltip"></SfTooltip>
+    <SfButton ID="btnTrail" Content="Mouse Trail"></SfButton>
+</section>
+
+<!-- 10. Container Target -->
+<section>
+    <h4>10. Container Target</h4>
+    <div id="sampleContainer" style="padding:10px;border:1px dashed #ccc;display:inline-block">
+        <SfTooltip ID="TooltipContainer" Target="#btnContainer" Container="#sampleContainer" Content="Inside container"></SfTooltip>
+        <SfButton ID="btnContainer" Content="In Container"></SfButton>
+    </div>
+</section>
+
+<!-- 11. Hide Tip Pointer -->
+<section>
+    <h4>11. Hide Tip Pointer</h4>
+    <SfTooltip ID="TooltipNoPointer" Target="#btnNoPointer" ShowTipPointer="false" Content="No pointer"></SfTooltip>
+    <SfButton ID="btnNoPointer" Content="No Pointer"></SfButton>
+</section>
+
+<!-- 12. HtmlAttributes and Size -->
+<section>
+    <h4>12. HtmlAttributes &amp; Size</h4>
+    <SfTooltip ID="TooltipHtmlAttr" Target="#btnHtml" HtmlAttributes="@(new Dictionary<string, object>{{"data-test","tooltip-html"}})" Width="200" Height="50" Content="Html attributes tooltip"></SfTooltip>
+    <SfButton ID="btnHtml" Content="Html Attr"></SfButton>
+</section>
+
+@code {
+    // 1. Simple text
+    string ContentText = "Lets go green & Save Earth !!";
+
+    // 4. Dynamic content
+    private RenderFragment TooltipContent() => @<div>
+        <h3>Complex Tooltip Content</h3>
+        <p>This is a paragraph inside the tooltip.</p>
+        <ul>
+            <li>List item 1</li>
+            <li>List item 2</li>
+            <li>List item 3</li>
+        </ul>
+        <button>Click me!</button>
+    </div>;
+
+    // 5. MarkupString content
+    string ContentMarkup = "<div><b>Environmentally friendly</b> or eco-friendly refers to goods and services that reduce harm to ecosystems.</div>";
+}

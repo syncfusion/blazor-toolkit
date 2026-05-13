@@ -1,0 +1,21 @@
+@page "/numerictextbox/data-binding"
+@using Syncfusion.Blazor.Toolkit.Inputs
+
+<h1>NumericTextBox — Data Binding & API</h1>
+
+<div style="max-width:540px">
+    <SfNumericTextBox Id="bindingNumeric" TValue="double?" @bind-Value="ModelValue"></SfNumericTextBox>
+    <div style="margin-top:8px">
+        <button @onclick="Increment">Increment</button>
+        <button @onclick="SetNull" style="margin-left:8px">Set null</button>
+        <span id="binding-log" style="margin-left:12px">@Display</span>
+    </div>
+</div>
+
+@code {
+    private double? ModelValue { get; set; } = 10;
+    private string Display => ModelValue?.ToString() ?? "(null)";
+
+    private void Increment() => ModelValue = (ModelValue ?? 0) + 1;
+    private void SetNull() => ModelValue = null;
+}

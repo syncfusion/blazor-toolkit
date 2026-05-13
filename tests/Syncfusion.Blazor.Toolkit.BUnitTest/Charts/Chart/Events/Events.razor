@@ -1,0 +1,530 @@
+﻿@using Syncfusion.Blazor.Toolkit.Charts
+@using Syncfusion.Blazor.Toolkit.Tests
+@using Syncfusion.Blazor.Toolkit.Charts.Internal
+@using System.ComponentModel
+@using Bunit
+@using Xunit
+
+@inherits TestComponentBase
+
+<SfFixture @ref="fixture" TestAsync="CheckingChartEvents" Description="CheckingChartEvents">
+    <ComponentUnderTest>
+        <SfChart ID="container" @ref="chartObj" SelectionMode="ChartSelectionMode.Point" EnableAutoIntervalOnBothAxis=true Loaded="Loaded" OnAxisLabelRender="OnAxisLabelRender" ChartMouseClick="ChartMouseClick" ChartMouseDown="ChartMouseDown" ChartMouseMove="ChartMouseMove" ChartMouseUp="ChartMouseUp" OnAxisActualRangeCalculated="OnAxisActualRangeCalculated"
+                 OnAxisLabelClick="OnAxisLabelClick" OnAxisMultiLevelLabelRender="OnAxisMultiLevelLabelRender" OnCrosshairMove="OnCrosshairMove" OnDataEdit="OnDataEdit" OnDataEditCompleted="OnDataEditCompleted" OnDataLabelRender="OnDataLabelRender"
+                 OnLegendClick="OnLegendClick" OnLegendItemRender="OnLegendItemRender" OnMultiLevelLabelClick="OnMultiLevelLabelClick" OnPointClick="OnPointClick" OnPointRender="OnPointRender" OnScrollChanged="OnScrollChanged"
+                 OnSelectionChanged="OnSelectionChanged" OnSeriesRender="OnSeriesRender" OnZoomEnd="OnZoomEnd" OnZooming="OnZooming" OnZoomStart="OnZoomStart" SharedTooltipRender="SharedTooltipRender" SizeChanged="SizeChanged" TooltipRender="TooltipRender">
+            <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Toolkit.ValueType.Category">
+                <ChartMultiLevelLabels>
+                    <ChartMultiLevelLabel>
+                        <ChartCategories>                   
+                                <ChartCategory Start="-0.5" End="3.5" Text="Half yearly 1" MaximumTextWidth=50 ></ChartCategory>
+                                <ChartCategory Start="3.5" End="7.5" Text="Half yearly 2" MaximumTextWidth=50></ChartCategory>                
+                        </ChartCategories>
+                    </ChartMultiLevelLabel>
+                </ChartMultiLevelLabels>
+                <ChartAxisScrollbarSettings Enable="true"></ChartAxisScrollbarSettings>
+            </ChartPrimaryXAxis>
+            <ChartSeriesCollection>
+                <ChartSeries Name="Sales" DataSource="@Sales" XName="Month" YName="SalesValue" Type="ChartSeriesType.Column">
+                    <ChartMarker Visible="true">
+                        <ChartDataLabel Visible="true"/>
+                    </ChartMarker>
+                    <ChartDataEditSettings Enable="true"></ChartDataEditSettings>
+                </ChartSeries>
+            </ChartSeriesCollection>
+            <ChartLegendSettings Visible="true"></ChartLegendSettings>
+            <ChartCrosshairSettings Enable="true"></ChartCrosshairSettings>
+	        <ChartTooltipSettings Enable="true" Shared="true"></ChartTooltipSettings>
+            <ChartZoomSettings EnableSelectionZooming="true" EnableMouseWheelZooming="true"></ChartZoomSettings>
+        </SfChart>
+    </ComponentUnderTest>
+</SfFixture>
+
+@code {
+    SfFixture fixture { get; set; }
+    SfChart chartObj;
+    public string eventName;
+    async Task CheckingChartEvents(Fixture fixture)
+    {
+        var cut = fixture.GetComponentUnderTest<SfChart>();
+        await Task.Delay(200);
+        var category = cut.FindComponent<ChartCategory>();
+        chartObj._browser = new Browser() { BrowserName = "chrome", IsDevice = false, IsPointer = false, IsIos = false, IsTouch = false };
+        await chartObj.RefreshAsync();
+        ChartMouseEventArgs args = new ChartMouseEventArgs("ChartMouseDown", 120, 200, chartObj.ID);
+        chartObj.ChartMouseDown.Invoke(args);
+        Assert.True(eventName == "ChartMouseDown");
+        args.Name = "ChartMouseMove";
+        chartObj.ChartMouseMove.Invoke(args);
+        Assert.True(eventName == "ChartMouseMove");
+        args.MouseX = 140;
+        args.Name = "ChartMouseUp";
+        ChartInternalMouseEventArgs mouseEndArgs = new ChartInternalMouseEventArgs{
+            Target = "container_ChartBorder",
+            MouseX = 201.20499999999998,
+            MouseY = 360,
+            Type = "mouseclick"
+        };
+        await cut.InvokeAsync(() => chartObj.OnZoomingMouseEnd(mouseEndArgs));
+        await cut.InvokeAsync(() => chartObj.OnChartResize("{\"Width\":1024, \"Height\":768}"));
+        Assert.True(cut.Instance.AvailableSize.Width == 1024);
+        Assert.True(cut.Instance.AvailableSize.Height == 768);
+        DataEditingEventArgs dataEditArgs = new DataEditingEventArgs("OnDataEdit", 40, 35, chartObj._visibleSeriesRenderers[0].Points[0], 0, chartObj._visibleSeriesRenderers[0].Series, 0);
+        chartObj.OnDataEdit.Invoke(dataEditArgs);
+        Assert.True(eventName == "OnDataEdit");
+        dataEditArgs.Name = "OnDataEditCompleted";
+        chartObj.OnDataEditCompleted.Invoke(dataEditArgs);
+        Assert.True(eventName == "OnDataEditCompleted");
+        List<PointXY> pointList = new List<PointXY> { new PointXY { PointIndex = 2, SeriesIndex = 0 } };
+        chartObj.OnSelectionChanged.Invoke(new SelectionCompleteEventArgs { SelectedDataValues = pointList });
+        Assert.True(eventName == "OnSelectionChanged");
+        LegendClickEventArgs legendClickArgs = new LegendClickEventArgs("OnLegendClick", false, chartObj, LegendShape.Circle, chartObj._visibleSeriesRenderers[0].Series, "Sales");
+        await chartObj.OnLegendClick.InvokeAsync(legendClickArgs);
+        Assert.True(eventName == "OnLegendClick");
+        ScrollEventArgs scrollArgs = SfChart.GetScrollArguments("OnScrollChanged", chartObj._axisContainer.Axes["PrimaryXAxis"], chartObj._axisContainer.Axes["PrimaryXAxis"].Renderer.VisibleRange);
+        await cut.InvokeAsync(() => chartObj.TriggerScrollEvents(new IScrollEventsArgs{
+            Name = "OnScrollChanged",
+            AxisName = "PrimaryXAxis",
+            ZoomPosition = 1,
+            ZoomFactor = 1,
+            CurrentRangeMin = "10",
+            CurrentRangeMax = "25"
+        }));
+        VisibleRangeModel axisRange = new VisibleRangeModel()
+        {
+            Min = chartObj._axisContainer.Axes["PrimaryXAxis"].Renderer.VisibleRange.Start,
+            Max = chartObj._axisContainer.Axes["PrimaryXAxis"].Renderer.VisibleRange.End,
+            Delta = chartObj._axisContainer.Axes["PrimaryXAxis"].Renderer.VisibleRange.Delta,
+            Interval = chartObj._axisContainer.Axes["PrimaryXAxis"].Renderer.VisibleInterval
+        };
+        List<AxisData> axisCollection = new List<AxisData>
+        {
+            new AxisData{ AxisName = "PrimaryXAxis", AxisRange = axisRange, ZoomFactor = 1, ZoomPosition = 1 }
+        };
+        ZoomingEventArgs zoomArgs = new ZoomingEventArgs { AxisCollection = axisCollection };
+        if (chartObj._zoomingModule.TouchMoveList == null && chartObj._zoomingModule.TouchStartList == null)
+        {
+            chartObj._zoomingModule.TouchMoveList = chartObj._zoomingModule.TouchStartList = new List<Touches>()
+            {
+                new Touches { PageX = 100, PageY = 120, PointerId = 0},
+                new Touches { PageX = 110, PageY = 130, PointerId = 1}
+            };
+        }
+        zoomArgs.Name = "OnZoomStart";
+        await cut.InvokeAsync(() => chartObj.ZoomToolkitSetDeferredZoom(zoomArgs));
+        zoomArgs.Name = "OnZooming";
+        await cut.InvokeAsync(() => chartObj.ZoomToolkitSetDeferredZoom(zoomArgs));
+        zoomArgs.Name = "OnZoomEnd";
+        await cut.InvokeAsync(() => chartObj.ZoomToolkitSetDeferredZoom(zoomArgs));
+        Assert.True(chartObj._zoomingModule.Browser.BrowserName == "chrome");
+        Assert.True(chartObj._zoomingModule.Browser.IsPointer == false);
+        Assert.True(chartObj._zoomingModule.Browser.IsDevice == false);
+        Assert.True(chartObj._zoomingModule.Browser.IsTouch == false);
+        Assert.True(chartObj._zoomingModule.Browser.IsIos == false);
+        TooltipRenderEventArgs tooltipArgs = new TooltipRenderEventArgs("TooltipRender", false, new PointInfo { PointIndex = 2, PointText = "Jan", PointX = 120, PointY = 250, SeriesIndex = 0, SeriesName = "Sales" }, cut.Instance._tooltipModule.HeaderText, chartObj._visibleSeriesRenderers[0].Points[0], chartObj._visibleSeriesRenderers[0].Series, "Jan", new ChartDefaultFont());
+        chartObj.TooltipRender.Invoke(tooltipArgs);
+        Assert.True(eventName == "TooltipRender");
+        SharedTooltipRenderEventArgs sharedTooltipArgs = new SharedTooltipRenderEventArgs("SharedTooltipRender", false, chartObj._tooltipModule.Text, new ChartDefaultFont(), chartObj._tooltipModule.HeaderText, new List<PointInfo>());
+        chartObj.SharedTooltipRender.Invoke(sharedTooltipArgs);
+        Assert.True(eventName == "SharedTooltipRender");
+        ChartInternalMouseEventArgs multiLevelMouseArgs = new ChartInternalMouseEventArgs{
+            Target = "container1_Axis_MultiLevelLabel_Level_0_Text_0",
+            MouseX = 201.20499999999998,
+            MouseY = 394.25,
+            Type = "mouseclick",
+            PointerId = 0
+        };
+        await cut.InvokeAsync(() => chartObj.OnChartMouseClick(multiLevelMouseArgs));
+        ChartInternalMouseEventArgs labelMouseArgs = new ChartInternalMouseEventArgs{
+            Target = "container1_AxisLabel_0",
+            MouseX = 57.81625,
+            MouseY = 367.96000000000004,
+            Type = "mouseclick",
+            PointerId = 0
+        };
+        await cut.InvokeAsync(() => chartObj.OnChartMouseClick(labelMouseArgs));
+        PointEventArgs pointArgs = new PointEventArgs("OnPointClick", false, 150, 220, chartObj._visibleSeriesRenderers[0].Points[2], 2, chartObj._visibleSeriesRenderers[0].Series, 0, 0, 25, false);
+        await chartObj.OnPointClick.InvokeAsync(pointArgs);
+        Assert.True(eventName == "OnPointClick");
+        List<CrosshairAxisInfo> crosshairAxisInfo = new List<CrosshairAxisInfo>{
+            new CrosshairAxisInfo("PrimaryXAxis", "Jan", null)
+        };
+        CrosshairMoveEventArgs crosshairArgs = new CrosshairMoveEventArgs { AxisInfo = crosshairAxisInfo };
+        chartObj.OnCrosshairMove.Invoke(crosshairArgs);
+        ChartMouseWheelArgs mouseWheelArgs = new ChartMouseWheelArgs
+        {
+            BrowserName = "chrome",
+            ClientX = 684,
+            ClientY = 431,
+            Detail = 0,
+            IsPointer = false,
+            MouseX = 402,
+            MouseY = 357.40000152587891,
+            Target = "container",
+            WheelDelta = 120
+        };
+        chartObj.OnChartMouseWheel(mouseWheelArgs);
+        Assert.True(eventName == "OnCrosshairMove");
+        category.Instance.CustomAttributes = new ChartAxisMultiLevelLabelTextStyle { FontFamily = "Roboto", FontWeight = "600", Color = "Red", Size = "14px" };
+        var scrollbarSettings = cut.FindComponent<ChartAxisScrollbarSettings>();
+        var categories = cut.FindComponent<ChartCategories>();
+        categories.Instance.Categories = new List<ChartCategory>
+        {
+            new ChartCategory { Start = 1.5, End = 3.5, Text = "Half yearly 1 - Quarter 2"}
+        };
+        cut.SetParametersAndRender();
+        await cut.InvokeAsync(() => chartObj.RemoveTooltipData());
+        Assert.True(cut.Instance._tooltipsData.Attributes.Count == 0);
+        await category.Instance.DisposeAsync();
+        await scrollbarSettings.Instance.DisposeAsync();
+        await categories.Instance.DisposeAsync();
+    }
+
+    public class SalesInfo
+    {
+        public string Month { get; set; }
+        public double SalesValue { get; set; }
+    }
+
+    public List<SalesInfo> Sales = new List<SalesInfo>
+    {
+        new SalesInfo { Month = "Jan", SalesValue = 35 },
+        new SalesInfo { Month = "Feb", SalesValue = 28 },
+        new SalesInfo { Month = "Mar", SalesValue = 34 },
+        new SalesInfo { Month = "Apr", SalesValue = 32 },
+        new SalesInfo { Month = "May", SalesValue = 40 },
+        new SalesInfo { Month = "Jun", SalesValue = 32 },
+        new SalesInfo { Month = "Jul", SalesValue = 35 }
+    };
+
+    public void ChartMouseMove(ChartMouseEventArgs args)
+    {
+        eventName = args.Name;
+    }
+
+    public void Loaded(LoadedEventArgs args)
+    {
+        eventName = args.Name;
+    }
+
+    public void OnAxisLabelRender(AxisLabelRenderEventArgs args)
+    {
+        eventName = args.Name;
+    }
+
+    public void ChartMouseClick(ChartMouseEventArgs args)
+    {
+        eventName = args.Name;
+    }
+
+    public void ChartMouseDown(ChartMouseEventArgs args)
+    {
+        eventName = args.Name;
+    }
+
+    public void ChartMouseUp(ChartMouseEventArgs args)
+    {
+        eventName = args.Name;
+        Assert.Equal("onmouseup", args.Name);
+        Assert.True(args.ID == "container");
+        Assert.True(args.AxisData != null);
+    }
+
+    public void OnAxisActualRangeCalculated(AxisRangeCalculatedEventArgs args)
+    {
+        eventName = args.Name;
+    }
+
+    public void OnAxisLabelClick(AxisLabelClickEventArgs args)
+    {
+        eventName = args.Name;
+        Assert.True(!String.IsNullOrEmpty(args.Text));
+        Assert.True(args.Axis != null);
+        Assert.True(args.Chart != null);
+        Assert.True(!String.IsNullOrEmpty(args.LabelID));
+        Assert.True(args.Index >= 0);
+        Assert.True(args.Value == 0);
+        Assert.True(args.Location != null);
+    }
+
+    public void OnAxisMultiLevelLabelRender(AxisMultiLabelRenderEventArgs args)
+    {
+        eventName = args.Name;
+        Assert.True(args.Axis != null);
+        Assert.True(args.Alignment == Alignment.Center);
+        Assert.False(args.Cancel);
+        Assert.True(!String.IsNullOrEmpty(args.Text));
+        Assert.True(args.TextStyle != null);
+    }
+
+    public void OnCrosshairMove(CrosshairMoveEventArgs args)
+    {
+        eventName = "OnCrosshairMove";
+        var axisInfo = args.AxisInfo[0];
+        string axisName = axisInfo.AxisName;
+        string axisLabel = axisInfo.AxisLabel;
+        var value = axisInfo.Value;
+        Assert.True(axisInfo != null);
+    }
+
+    public void OnDataEdit(DataEditingEventArgs args)
+    {
+        eventName = args.Name;
+        Assert.True(args.OldValue != args.NewValue);
+        Assert.True(args.Series != null);
+        Assert.True(args.Point != null);
+    }
+
+    public void OnDataEditCompleted(DataEditingEventArgs args)
+    {
+        eventName = args.Name;
+        double newValue = args.NewValue;
+        double oldValue = args.OldValue;
+        var point = args.Point;
+        double pointIndex = args.PointIndex;
+        var series = args.Series;
+        double seriesIndex = args.SeriesIndex;
+        Assert.True(oldValue > 0);
+        Assert.True(point != null);
+        Assert.True(series != null);
+    }
+
+    public void OnDataLabelRender(TextRenderEventArgs args)
+    {
+        eventName = args.Name;
+    }
+
+    public void OnLegendClick(LegendClickEventArgs args)
+    {
+        eventName = args.Name;
+        var chart = args.Chart;
+        var legendShape = args.LegendShape;
+        var series = args.Series;
+        string legendText = args.LegendText;
+        Assert.True(series != null);
+        Assert.True(legendShape != null);
+        Assert.True(chart != null);
+    }
+
+    public void OnLegendItemRender(LegendRenderEventArgs args)
+    {
+        eventName = args.Name;
+    }
+
+    public void OnMultiLevelLabelClick(MultiLevelLabelClickEventArgs args)
+    {
+        eventName = args.Name;
+        Assert.Equal("OnMultiLevelLabelClick", args.Name);
+        Assert.True(!String.IsNullOrEmpty(args.Text));
+        Assert.True(args.Axis != null);
+        Assert.True(args.End != null);
+        Assert.True(args.Start != null);
+        Assert.True(args.CustomAttributes == null);
+        Assert.True(args.Level == 0);
+    }
+
+    public void OnPointClick(PointEventArgs args)
+    {
+        eventName = args.Name;
+        double pageX = args.PageX;
+        double pageY = args.PageY;
+        var point = args.Point;
+        var series = args.Series;
+        double pointIndex = args.PointIndex;
+        double seriesIndex = args.SeriesIndex;
+        double x = args.X;
+        double y = args.Y;
+        bool isRightClick = args.IsRightClick;
+        Assert.True(point != null);
+        Assert.True(series != null);
+        Assert.False(isRightClick);
+        Assert.True(pageX > 0);
+        Assert.True(pageY > 0);
+    }
+
+    public void OnPointRender(PointRenderEventArgs args)
+    {
+        eventName = args.Name;
+    }
+
+    public void OnScrollChanged(ScrollEventArgs args)
+    {
+        eventName = args.Name;
+        Assert.Equal("OnScrollChanged", args.Name);
+        Assert.True(args.Axis != null);
+        Assert.True(args.CurrentRange != null);
+        Assert.True(args.PreviousRange != null);
+        Assert.True(args.Range != null);
+        Assert.True(args.ZoomFactor == 1);
+        Assert.True(args.ZoomPosition == 0);
+        Assert.True(args.PreviousZoomFactor == 1 );
+        Assert.True(args.PreviousZoomPosition == 1);
+    }
+
+    public void OnSelectionChanged(SelectionCompleteEventArgs args)
+    {
+        eventName = "OnSelectionChanged";
+        int seriesIndex = (int)args.SelectedDataValues[0].SeriesIndex;
+        int pointIndex = (int)args.SelectedDataValues[0].PointIndex;
+        Assert.True(seriesIndex == 0);
+        Assert.True(pointIndex == 2);
+    }
+
+    public void OnSeriesRender(SeriesRenderEventArgs args)
+    {
+        eventName = args.Name;
+    }
+
+    public void OnZoomEnd(ZoomingEventArgs args)
+    {
+        eventName = "OnZoomEnd";
+        Assert.Equal("OnZoomEnd", args.Name);
+        Assert.True(args.AxisCollection != null);
+        Assert.True(args.AxisCollection[0].AxisName != "");
+        Assert.True(args.AxisCollection[0].AxisRange != null);
+        Assert.True(args.AxisCollection[0].AxisRange.Delta > 0);
+        Assert.True(args.AxisCollection[0].AxisRange.Min < 0);
+        Assert.True(args.AxisCollection[0].AxisRange.Max > 0);
+        Assert.True(args.AxisCollection[0].AxisRange.Interval > 0);
+        Assert.True(args.AxisCollection[0].ZoomFactor > 0);
+        Assert.True(args.AxisCollection[0].ZoomPosition > 0);
+    }
+
+    public void OnZooming(ZoomingEventArgs args)
+    {
+        eventName = "OnZooming";
+        Assert.Equal("OnZooming", args.Name);
+        Assert.True(args.AxisCollection != null);
+        Assert.True(args.AxisCollection[0].AxisName != "");
+        Assert.True(args.AxisCollection[0].AxisRange != null);
+        Assert.True(args.AxisCollection[0].AxisRange.Delta > 0);
+        Assert.True(args.AxisCollection[0].AxisRange.Min < 0);
+        Assert.True(args.AxisCollection[0].AxisRange.Max > 0);
+        Assert.True(args.AxisCollection[0].AxisRange.Interval > 0);
+        Assert.True(args.AxisCollection[0].ZoomFactor > 0);
+        Assert.True(args.AxisCollection[0].ZoomPosition > 0);
+    }
+
+    public void OnZoomStart(ZoomingEventArgs args)
+    {
+        eventName = "OnZoomStart";
+        Assert.Equal("OnZoomStart", args.Name);
+        Assert.True(args.AxisCollection != null);
+        Assert.True(args.AxisCollection[0].AxisName != "");
+        Assert.True(args.AxisCollection[0].AxisRange != null);
+        Assert.True(args.AxisCollection[0].AxisRange.Delta > 0);
+        Assert.True(args.AxisCollection[0].AxisRange.Min == 0);
+        Assert.True(args.AxisCollection[0].AxisRange.Max > 0);
+        Assert.True(args.AxisCollection[0].AxisRange.Interval > 0);
+        Assert.True(args.AxisCollection[0].ZoomFactor > 0);
+        Assert.True(args.AxisCollection[0].ZoomPosition == 0);
+    }
+
+    public void SharedTooltipRender(SharedTooltipRenderEventArgs args)
+    {
+        eventName = args.Name;
+        List<string> text = args.Text;
+        string headertext = args.HeaderText;
+        var data = args.Data;
+        var textStyle = args.TextStyle;
+        Assert.Equal("SharedTooltipRender", eventName);
+        Assert.True(textStyle != null);
+        Assert.True(data != null);
+    }
+
+    public void SizeChanged(ResizeEventArgs args)
+    {
+        eventName = args.Name;
+        Assert.Equal("SizeChanged", args.Name);
+        Assert.True(args.PreviousSize != args.CurrentSize);
+        Assert.False(args.Cancel);
+    }
+
+    public void TooltipRender(TooltipRenderEventArgs args)
+    {
+        eventName = args.Name;
+        string text = args.Text;
+        string headertext = args.HeaderText;
+        var data = args.Data;
+        double pointIndex = data.PointIndex;
+        string pointText = data.PointText;
+        var pointX = data.PointX;
+        var pointY = data.PointY;
+        double seriesIndex = data.SeriesIndex;
+        string seriesName = data.SeriesName;
+        double stackedTotalValue = data.StackedTotalValue;
+        var textStyle = args.TextStyle;
+        var point = args.Point;
+        var series = args.Series;
+        Assert.True(series != null);
+        Assert.True(point != null);
+        Assert.True(data != null);
+        Assert.True(pointX != null);
+        Assert.True(pointY != null);
+    }
+}
+
+<SfFixture @ref="fixture1" TestAsync="CheckingKeyboardNavigations" Description="CheckingKeyboradNavigations">
+    <ComponentUnderTest>
+        <SfChart ID="container" @ref="chartRef" Title="Olympic Medals" OnPointClick="PointClickTrigger">
+            <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Toolkit.ValueType.Category"/>    
+
+            <ChartSeriesCollection>
+                <ChartSeries DataSource="@MedalDetails" Name="Gold" XName="Country" Width="2" Opacity="1" YName="Gold" Type="ChartSeriesType.Column"/>      
+                <ChartSeries DataSource="@MedalDetails" Name="Silver" XName="Country" Width="2" Opacity="1" YName="Silver" Type="ChartSeriesType.Column"/>     
+                <ChartSeries DataSource="@MedalDetails" Name="Bronze" XName="Country" Width="2" Opacity="1" YName="Bronze" Type="ChartSeriesType.Column"/>      
+            </ChartSeriesCollection>
+
+            <ChartLegendSettings Visible="true"/>
+            <ChartZoomSettings EnableMouseWheelZooming="true" EnablePinchZooming="true" EnableSelectionZooming="true" ToolbarDisplayMode="ToolbarMode.Always"></ChartZoomSettings>
+        </SfChart>
+    </ComponentUnderTest>
+</SfFixture>
+
+@code{
+    SfFixture fixture1;
+    SfChart chartRef;
+
+    async Task CheckingKeyboardNavigations(Fixture fixture1)
+    {
+        var cut = fixture1.GetComponentUnderTest<SfChart>();
+        await Task.Delay(200);
+        await cut.InvokeAsync(() => chartRef.OnChartKeyboardNavigationsAsync("Enter", "container_chart_legend_text_1"));
+        Assert.Empty(cut.FindAll("#containerSeriesGroup1"));
+        await cut.InvokeAsync(() => chartRef.OnChartKeyboardNavigationsAsync("Enter", "container_Zooming_ZoomIn_1"));
+        Assert.NotEqual("M -153.4756776518768 89.32588888888894 Q -153.4756776518768 89.32588888888894 -153.4756776518768 89.32588888888894 L -124.20430265187679 89.32588888888894 Q -124.20430265187679 89.32588888888894 -124.20430265187679 89.32588888888894 L -124.20430265187679 331.39000000000004 Q -124.20430265187679 331.39000000000004 -124.20430265187679 331.39000000000004 L -153.4756776518768 331.39000000000004 Q -153.4756776518768 331.39000000000004 -153.4756776518768 331.39000000000004 L -153.4756776518768 89.32588888888894 Z", cut.Find("#container_Series_0_Point_0").GetAttribute("d"));
+        await cut.InvokeAsync(() => chartRef.OnChartKeyboardNavigationsAsync("Minus", "container_ChartBorder"));
+        Assert.True(cut.Instance._legendRenderer.KeyboardFocusTarget == String.Empty);
+        chartRef.DisposeDotNetReference();
+    }
+
+    public void PointClickTrigger(PointEventArgs args)
+    {
+        Assert.Equal("OnPointClick", args.Name);
+        Assert.True(args.PageX > 0);
+        Assert.True(args.PageY > 0);
+        Assert.True(args.PointIndex >= 0);
+        Assert.True(args.Series != null);
+        Assert.True(args.SeriesIndex == 0);
+    }
+
+    public class ChartData
+    {
+        public string Country { get; set; }
+        public double Gold { get; set; }
+        public double Silver { get; set; }
+        public double Bronze { get; set; }
+    }
+
+    public List<ChartData> MedalDetails = new List<ChartData>
+	{
+		new ChartData{ Country= "USA", Gold=50, Silver=70, Bronze=45 },
+		new ChartData{ Country="China", Gold=40, Silver= 60, Bronze=55 },
+		new ChartData{ Country= "Japan", Gold=70, Silver= 60, Bronze=50 },
+		new ChartData{ Country= "Australia", Gold=60, Silver= 56, Bronze=40 },
+		new ChartData{ Country= "France", Gold=50, Silver= 45, Bronze=35 },
+		new ChartData{ Country= "Germany", Gold=40, Silver=30, Bronze=22 },
+		new ChartData{ Country= "Italy", Gold=40, Silver=35, Bronze=37 },
+		new ChartData{ Country= "Sweden", Gold=30, Silver=25, Bronze=27 }
+	};
+}

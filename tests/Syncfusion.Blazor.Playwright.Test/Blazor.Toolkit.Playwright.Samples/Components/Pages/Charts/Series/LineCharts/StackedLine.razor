@@ -1,0 +1,112 @@
+﻿@page "/chart-stacked-line"
+@using Syncfusion.Blazor.Toolkit
+@using Syncfusion.Blazor.Toolkit.Charts
+@inject NavigationManager NavigationManager
+@layout MainLayout
+<PageTitle>Home</PageTitle>
+
+<h1>Toolkit Source</h1>
+<div class="control-section" align='center'>
+    <SfChart id="chart-host" Title="Yearly Renewable Energy Generation in India (2015-2023)" SubTitle="Source: wikipedia.org" Width="@Width">
+        <ChartTitleStyle TextOverflow="TextOverflow.Wrap"></ChartTitleStyle>
+        <ChartSubTitleStyle TextOverflow="TextOverflow.Wrap"></ChartSubTitleStyle>
+        <ChartArea><ChartAreaBorder Width="0"></ChartAreaBorder></ChartArea>
+        <ChartMargin Bottom="12"></ChartMargin>
+        <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Toolkit.ValueType.Double" LabelIntersectAction="@Label" LabelRotation="@Rotation">
+            <ChartAxisMajorGridLines Width="0"></ChartAxisMajorGridLines>
+            <ChartAxisMinorGridLines Width="0"></ChartAxisMinorGridLines>
+            <ChartAxisMajorTickLines Width="0"></ChartAxisMajorTickLines>
+            <ChartAxisMinorTickLines Width="0"></ChartAxisMinorTickLines>
+            <ChartAxisLineStyle Width="0"></ChartAxisLineStyle>
+        </ChartPrimaryXAxis>
+        <ChartPrimaryYAxis LabelFormat="{value}TWh" Title="Energy Generation (TWh)">
+            <ChartAxisMajorGridLines Width="1"></ChartAxisMajorGridLines>
+            <ChartAxisMinorGridLines Width="1"></ChartAxisMinorGridLines>
+            <ChartAxisMajorTickLines Width="0"></ChartAxisMajorTickLines>
+            <ChartAxisMinorTickLines Width="0"></ChartAxisMinorTickLines>
+            <ChartAxisLineStyle Width="0"></ChartAxisLineStyle>
+        </ChartPrimaryYAxis>
+        <ChartTooltipSettings Enable="true" EnableHighlight="true" ShowNearestTooltip="true" Header="<b>${series.name}</b>" Format="${point.x} : <b>${point.y}</b>"></ChartTooltipSettings>
+        <ChartLegendSettings EnableHighlight="true"></ChartLegendSettings>
+        <ChartSeriesCollection>
+            <ChartSeries DataSource="@StackChartData1" XName="X" Name="Wind" Width="2"
+                         YName="Y" Type="ChartSeriesType.StackingLine">
+                <ChartMarker IsFilled="true" Visible="true" Height="7" Width="7" Shape="ChartShape.Circle">
+                </ChartMarker>
+            </ChartSeries>
+            <ChartSeries DataSource="@StackChartData2" XName="X" Name="Bio mass" Width="2"
+                         YName="Y" Type="ChartSeriesType.StackingLine">
+                <ChartMarker IsFilled="true" Visible="true" Height="7" Width="7" Shape="ChartShape.Diamond">
+                </ChartMarker>
+            </ChartSeries>
+            <ChartSeries DataSource="@StackChartData3" XName="X" Name="Small Hydro" Width="2"
+                         YName="Y" Type="ChartSeriesType.StackingLine">
+                <ChartMarker IsFilled="true" Visible="true" Height="5" Width="5" Shape="ChartShape.Rectangle">
+                </ChartMarker>
+            </ChartSeries>
+            <ChartSeries DataSource="@StackChartData4" XName="X" Name="Solar" Width="2"
+                         YName="Y" Type="ChartSeriesType.StackingLine">
+                <ChartMarker IsFilled="true" Visible="true" Height="6" Width="6" Shape="ChartShape.Triangle">
+                </ChartMarker>
+            </ChartSeries>
+        </ChartSeriesCollection>
+    </SfChart>
+</div>
+@code {
+    public string Width { get; set; } = "90%";
+    public double Rotation { get; set; } = 0;
+    public LabelIntersectAction Label { get; set; } = LabelIntersectAction.Trim;
+    public class StackChartData
+    {
+        public int X { get; set; }
+        public double Y { get; set; }
+    }
+    public List<StackChartData> StackChartData1 = new List<StackChartData>
+    {
+        new StackChartData { X = 2015, Y = 28.2 },
+        new StackChartData { X = 2016, Y = 28.6 },
+        new StackChartData { X = 2017, Y = 46.0 },
+        new StackChartData { X = 2018, Y = 52.7 },
+        new StackChartData { X = 2019, Y = 62.0 },
+        new StackChartData { X = 2020, Y = 64.6 },
+        new StackChartData { X = 2021, Y = 60.1 },
+        new StackChartData { X = 2022, Y = 68.6 },
+        new StackChartData { X = 2023, Y = 71.81 }
+    };
+    public List<StackChartData> StackChartData2 = new List<StackChartData>
+    {
+        new StackChartData { X = 2015, Y = 15.0 },
+        new StackChartData { X = 2016, Y = 16.7 },
+        new StackChartData { X = 2017, Y = 14.2 },
+        new StackChartData { X = 2018, Y = 15.3 },
+        new StackChartData { X = 2019, Y = 16.4 },
+        new StackChartData { X = 2020, Y = 13.9 },
+        new StackChartData { X = 2021, Y = 14.8 },
+        new StackChartData { X = 2022, Y = 16.1 },
+        new StackChartData { X = 2023, Y = 16.02 }
+    };
+    public List<StackChartData> StackChartData3 = new List<StackChartData>
+    {
+        new StackChartData { X = 2015, Y = 8.1 },
+        new StackChartData { X = 2016, Y = 8.4 },
+        new StackChartData { X = 2017, Y = 7.73 },
+        new StackChartData { X = 2018, Y = 5.1 },
+        new StackChartData { X = 2019, Y = 8.7 },
+        new StackChartData { X = 2020, Y = 9.4 },
+        new StackChartData { X = 2021, Y = 10.3 },
+        new StackChartData { X = 2022, Y = 10.4 },
+        new StackChartData { X = 2023, Y = 11.17 }
+    };
+    public List<StackChartData> StackChartData4 = new List<StackChartData>
+    {
+        new StackChartData { X = 2015, Y = 4.6 },
+        new StackChartData { X = 2016, Y = 7.5 },
+        new StackChartData { X = 2017, Y = 12.1 },
+        new StackChartData { X = 2018, Y = 25.9 },
+        new StackChartData { X = 2019, Y = 39.3 },
+        new StackChartData { X = 2020, Y = 50.1 },
+        new StackChartData { X = 2021, Y = 60.4 },
+        new StackChartData { X = 2022, Y = 73.5 },
+        new StackChartData { X = 2023, Y = 102.01 }
+    };
+}

@@ -1,0 +1,100 @@
+﻿@using Syncfusion.Blazor.Toolkit.Charts
+@using Syncfusion.Blazor.Toolkit.Tests
+
+<h3>Incorrect Chart - Miscounted Orders</h3>
+
+<SfChart Title="Sales Orders per Customer" UseGroupingSeparator="true" ID="container">
+    <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Toolkit.ValueType.Category" Title="Customer ID" />
+    <ChartPrimaryYAxis ValueType="Syncfusion.Blazor.Toolkit.ValueType.Double" Title="Order Count" />
+
+    <ChartSeriesCollection>
+        <ChartSeries DataSource="@GroupedAccounts"
+                     XName="CustomerID"
+                     YName="CustomerCount"
+                     Type="ChartSeriesType.Column"
+                     TooltipMappingName="AccountID" />
+    </ChartSeriesCollection>
+
+    <ChartTooltipSettings Enable="true"
+                          Format="<b>${point.x} : ${point.y} <br>${point.tooltip}"
+                          Header="Customer" />
+</SfChart>
+
+@code {
+    public List<OpenPaymentChartModel> GroupedAccounts = new();
+    public List<SalesOrder> SalesOrderList = new();
+    public List<Debtor> DebtorList = new();
+
+    protected override void OnInitialized()
+    {
+        LoadSampleData();
+
+        var ordersPerCustomer = SalesOrderList
+            .GroupBy(x => new { x.CustomerID, x.OrderDate })
+            .GroupBy(g => g.Key.CustomerID)
+            .ToDictionary(g => g.Key, g => g.Count());
+
+        foreach (var order in SalesOrderList)
+        {
+            if (order.SalesPrice == 0)
+            {
+                var debtor = DebtorList.FirstOrDefault(x => x.CustomerID == order.CustomerID);
+                GroupedAccounts.Add(new OpenPaymentChartModel
+                    {
+                        CustomerID = order.CustomerID,
+                        AccountID = debtor?.AccountID,
+                        OutstandingAmount = debtor?.OutstandingAmount ?? 0,
+                        CustomerCount = ordersPerCustomer.TryGetValue(order.CustomerID, out var count) ? count : 0
+                    });
+            }
+        }
+
+        GroupedAccounts = GroupedAccounts
+            .GroupBy(x => x.CustomerID)
+            .Select(g => g.OrderByDescending(a => a.OutstandingAmount).First())
+            .ToList();
+    }
+
+    private void LoadSampleData()
+    {
+        SalesOrderList = new List<SalesOrder>
+        {
+            new SalesOrder { CustomerID = "C001", OrderDate = new DateTime(2025, 9, 1), Item = "ItemA", OrderNumber = "ORD001", SalesPrice = 100 },
+            new SalesOrder { CustomerID = "C001", OrderDate = new DateTime(2025, 9, 1), Item = "ItemB", OrderNumber = "ORD001", SalesPrice = 0 },
+            new SalesOrder { CustomerID = "C002", OrderDate = new DateTime(2025, 9, 2), Item = "ItemC", OrderNumber = "ORD002", SalesPrice = 200 },
+            new SalesOrder { CustomerID = "C002", OrderDate = new DateTime(2025, 9, 2), Item = "ItemD", OrderNumber = "ORD002", SalesPrice = 0 },
+            new SalesOrder { CustomerID = "C002", OrderDate = new DateTime(2025, 9, 3), Item = "ItemE", OrderNumber = "ORD003", SalesPrice = 150 }
+        };
+
+        DebtorList = new List<Debtor>
+        {
+            new Debtor { CustomerID = "C001", CustomerName = "Alpha Corp", AccountID = "A001", OutstandingAmount = 500 },
+            new Debtor { CustomerID = "C002", CustomerName = "Beta Ltd", AccountID = "A002", OutstandingAmount = 1000 }
+        };
+    }
+
+    public class OpenPaymentChartModel
+    {
+        public string CustomerID { get; set; }
+        public string AccountID { get; set; }
+        public double OutstandingAmount { get; set; }
+        public int CustomerCount { get; set; }
+    }
+
+    public class SalesOrder
+    {
+        public string CustomerID { get; set; }
+        public DateTime OrderDate { get; set; }
+        public string Item { get; set; }
+        public string OrderNumber { get; set; }
+        public double SalesPrice { get; set; }
+    }
+
+    public class Debtor
+    {
+        public string CustomerID { get; set; }
+        public string CustomerName { get; set; }
+        public string AccountID { get; set; }
+        public double OutstandingAmount { get; set; }
+    }
+}

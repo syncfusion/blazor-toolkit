@@ -1,0 +1,62 @@
+@page "/button/icon-support"
+@using Syncfusion.Blazor.Toolkit.Buttons
+@layout MainLayout
+
+<h1>Button - Icon Support & Positioning</h1>
+
+<div class="test-container">
+    <h2>Button with Icon (Left Position)</h2>
+    <SfButton id="btn-icon-left" IconCss="e-icons e-save">Save</SfButton>
+
+    <h2>Button with Icon (Right Position)</h2>
+    <SfButton id="btn-icon-right" IconCss="e-icons e-edit" IconPosition="IconPosition.Right">Edit</SfButton>
+
+    <h2>Button with Icon (Top Position)</h2>
+    <SfButton id="btn-icon-top" IconCss="e-icons e-upload" IconPosition="IconPosition.Top">
+        Upload
+    </SfButton>
+
+    <h2>Button with Icon (Bottom Position)</h2>
+    <SfButton id="btn-icon-bottom" IconCss="e-icons e-download" IconPosition="IconPosition.Bottom">
+        Download
+    </SfButton>
+
+    <h2>Icon-only Button</h2>
+    <SfButton id="btn-icon-only-dedicated" IconCss="e-icons e-search" CssClass="e-icon-btn"></SfButton>
+
+    <h2>Button with Aria-hidden Icon</h2>
+    <SfButton id="btn-icon-aria-hidden">
+        <span class="e-icons e-play" aria-hidden="true"></span> Play
+    </SfButton>
+
+    <h2>Button with Multiple Icons</h2>
+    <SfButton id="btn-multi-icon">Open Document</SfButton>
+</div>
+
+<style>
+    .test-container {
+        padding: 20px;
+        border: 1px solid #ddd;
+        margin: 10px 0;
+        border-radius: 4px;
+        background-color: #f9f9f9;
+    }
+    
+    h2 {
+        margin-top: 20px;
+        font-size: 18px;
+        font-weight: 600;
+    }
+    
+    .e-icons {
+        display: inline-block !important;
+        width: 1em;
+        height: 1em;
+        vertical-align: middle;
+    }
+    
+    :deep(.e-icon-btn) {
+        padding: 6px !important;
+        min-width: auto !important;
+    }
+</style>

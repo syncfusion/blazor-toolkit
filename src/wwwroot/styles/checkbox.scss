@@ -1,0 +1,323 @@
+@use 'sass:color';
+
+@use './base.scss' as *;
+@use './icons.scss' as *;
+$cbox-border: 1px solid !default;
+$cbox-font-size: $text-sm !default;
+$cbox-height: 16px !default;
+$cbox-border-radius: $radius-2 !default;
+$cbox-check-fontsize: 10px !default;
+$cbox-indeterminate-fontsize: 13px !default;
+$cbox-indeterminate-lineheight: 15px !default;
+$cbox-lineheight: 15px !default;
+$cbox-margin: 4px !default;
+$cbox-padding: 0 !default;
+$cbox-width: 16px !default;
+$cbox-focus-outline-offset: 0 !default;
+$cbox-focus-outline: rgba($primary, .25) !default;
+$cbox-border-color: $border-alt !default;
+$cbox-bgcolor: $content-bg-color !default;
+$cbox-checkmark-bgcolor: $primary !default;
+$cbox-checkmark-border-color: $primary !default;
+$cbox-checkmark-color: $primary-text-color !default;
+$cbox-checkmark-disabled-bgcolor: transparent !default;
+$cbox-checkmark-disabled-border-color: $border-disabled !default;
+$cbox-checkmark-disabled-color: $content-text-color-disabled !default;
+$cbox-checkmark-hover-bgcolor: $primary-border-color-hover !default;
+$cbox-checkmark-hover-border-color: $primary-border-color-hover !default;
+$cbox-checkmark-hover-color: $primary-text-color !default;
+$cbox-color: $content-text-color !default;
+$cbox-disabled-bgcolor: transparent !default;
+$cbox-disabled-border-color: $border-disabled !default;
+$cbox-disabled-color: $content-text-color-disabled !default;
+$cbox-focussed-box-shadow: none !default;
+$cbox-hover-bgcolor: $content-bg-color !default;
+$cbox-hover-border-color: $border-hover !default;
+$cbox-hover-color: $content-text-color !default;
+$cbox-indeterminate-bgcolor: $content-bg-color !default;
+$cbox-indeterminate-border-color: $primary !default;
+$cbox-indeterminate-color: $primary !default;
+$cbox-indeterminate-content: '\e7d6' !default;
+$cbox-indeterminate-disabled-bgcolor: transparent !default;
+$cbox-indeterminate-disabled-border-color: $border-disabled !default;
+$cbox-indeterminate-disabled-color: $content-text-color-disabled !default;
+$cbox-indeterminate-hover-color: $primary !default;
+$cbox-key-focussed-bgcolor: transparent !default;
+$cbox-focussed-bgcolor: $cbox-hover-bgcolor !default;
+$cbox-focussed-border-color: $border-alt !default;
+$cbox-focussed-checkmark-bgcolor: $primary !default;
+$cbox-focussed-checkmark-border-color: $primary !default;
+$cbox-focussed-checkmark-color: $primary-text-color !default;
+$cbox-border-style: solid !default;
+$cbox-zero-margin: 0 !default;
+$cbox-wrapper-line-height: 1 !default;
+$cbox-label-line-height: 0 !default;
+$cbox-nrml-height: 1px !default;
+$cbox-nrml-width: 1px !default;
+$cbox-nrml-checkbox-border-radius: $radius-4 !default;
+$cbox-border: 1px !default;
+$cbox-nrml-label-margin: 6px 4px 6px 8px !default;
+$cbox-nrml-frame-margin: 7.2px 8px !default;
+$cbox-nrml-label-frame-margin: 6px 8px 6px 4px !default;
+$cbox-auto-width: auto;
+
+$cbox-auto-width: auto;
+
+
+
+@include export-module('checkbox-layout') {
+  .e-checkbox-wrapper,
+  .e-css.e-checkbox-wrapper {
+    border-radius: $cbox-nrml-checkbox-border-radius;
+    border: 1px solid transparent;
+    cursor: pointer;
+    display: inline-block;
+    line-height: $cbox-label-line-height;
+    outline: none;
+    user-select: none;
+
+    @at-root {
+      & label {
+        cursor: pointer;
+        display: inline-block;
+        line-height: $cbox-label-line-height;
+        margin: $cbox-zero-margin;
+        position: relative;
+        white-space: nowrap;
+      }
+
+      &:focus,
+      &.e-focus {
+        & .e-frame {
+          box-shadow: $shadow-focus-ring1;
+          border-radius: $cbox-nrml-checkbox-border-radius;
+        }
+      }
+
+
+
+      & .e-label {
+        cursor: pointer;
+        display: inline-block;
+        font-family: $font-family;
+        font-size: $cbox-font-size;
+        font-weight: normal;
+        line-height: $cbox-height;
+        user-select: none;
+        vertical-align: middle;
+        white-space: normal;
+      }
+
+      & .e-checkbox {
+        height: $cbox-nrml-height;
+        opacity: 0;
+        position: absolute;
+        width: $cbox-nrml-width;
+
+        + .e-label {
+          margin: $cbox-nrml-label-margin;
+        }
+      }
+
+      & .e-frame {
+        border: $cbox-border;
+        border-radius: $cbox-border-radius;
+        box-sizing: border-box;
+        cursor: pointer;
+        display: inline-block;
+        font-family: 'e-toolkit-icons';
+        height: $cbox-height;
+        line-height: $cbox-lineheight;
+        padding: $cbox-padding;
+        text-align: center;
+        vertical-align: middle;
+        width: $cbox-width;
+        margin: $cbox-nrml-frame-margin;
+
+        + .e-label {
+          margin: $cbox-nrml-label-frame-margin;
+        }
+      }
+
+      & .e-check {
+        font-size: $cbox-check-fontsize;
+      }
+
+      & .e-stop {
+        font-size: $cbox-indeterminate-fontsize;
+        line-height: $cbox-indeterminate-lineheight;
+      }
+
+      &.e-checkbox-disabled {
+        cursor: default;
+        pointer-events: none;
+
+        & .e-frame {
+          cursor: default;
+        }
+
+        & .e-label {
+          cursor: default;
+        }
+      }
+
+      &.e-rtl {
+
+        & .e-frame {
+          &:hover {
+            background-color: $cbox-hover-bgcolor;
+            border-color: $cbox-hover-border-color;
+          }
+        }
+
+        & .e-label {
+          margin: $cbox-nrml-label-margin;
+        }
+
+        & .e-checkbox {
+          + .e-label {
+            margin: $cbox-nrml-label-margin;
+          }
+        }
+      }
+
+
+    }
+  }
+
+  .e-checkbox-wrapper[readonly] {
+    pointer-events: none;
+  }
+
+
+}
+
+@include export-module('checkbox-theme') {
+  .e-checkbox-wrapper,
+  .e-css.e-checkbox-wrapper {
+    -webkit-tap-highlight-color: transparent;
+
+    @at-root {
+      & .e-frame {
+        background-color: $cbox-bgcolor;
+        border-color: $cbox-border-color;
+
+        &.e-check {
+          background-color: $cbox-checkmark-bgcolor;
+          border-color: $cbox-checkmark-border-color;
+          color: $cbox-checkmark-color;
+        }
+
+        &.e-stop {
+          background-color: $cbox-indeterminate-bgcolor;
+          border-color: $cbox-indeterminate-border-color;
+          color: $cbox-indeterminate-color;
+        }
+      }
+
+      & .e-label {
+        color: $cbox-color;
+      }
+
+      & .e-checkbox {
+        &:focus,
+        &:active {
+          + .e-frame {
+            background-color: $cbox-focussed-bgcolor;
+            border-color: $cbox-focussed-border-color;
+            box-shadow: $cbox-focussed-box-shadow;
+
+            &.e-check {
+              background-color: $cbox-focussed-checkmark-bgcolor;
+              border-color: $cbox-focussed-checkmark-border-color;
+              box-shadow: $cbox-focussed-box-shadow;
+              color: $cbox-focussed-checkmark-color;
+            }
+
+            &.e-stop {
+              background-color: $cbox-indeterminate-bgcolor;
+              border-color: $cbox-focussed-checkmark-border-color;
+              box-shadow: $cbox-focussed-box-shadow;
+              color: $primary-bg-color-hover;
+            }
+          }
+        }
+      }
+
+      &:hover {
+        & .e-frame {
+          background-color: $cbox-hover-bgcolor;
+          border-color: $cbox-hover-border-color;
+
+          &.e-check {
+            background-color: $cbox-checkmark-hover-bgcolor;
+            border-color: $cbox-checkmark-hover-border-color;
+            color: $cbox-checkmark-hover-color;
+          }
+
+          &.e-stop {
+            border-color: $cbox-checkmark-hover-border-color;
+            color: $primary-bg-color-hover;
+          }
+        }
+
+        & .e-label {
+          color: $cbox-hover-color;
+        }
+      }
+
+      &.e-checkbox-disabled {
+        & .e-frame {
+          background-color: $cbox-disabled-bgcolor;
+          border-color: $cbox-disabled-border-color;
+          color: $cbox-disabled-color;
+
+          &.e-check {
+            background-color: $cbox-checkmark-disabled-bgcolor;
+            border-color: $cbox-checkmark-disabled-border-color;
+            color: $cbox-checkmark-disabled-color;
+          }
+
+          &.e-stop {
+            background-color: $cbox-indeterminate-disabled-bgcolor;
+            border-color: $cbox-indeterminate-disabled-border-color;
+            color: $cbox-indeterminate-disabled-color;
+          }
+        }
+
+        & .e-label {
+          color: $cbox-disabled-color;
+        }
+      }
+
+      &.e-focus {
+        & .e-frame,
+        & .e-frame.e-check {
+          outline: $cbox-focus-outline;
+          outline-offset: $cbox-focus-outline-offset;
+        }
+      }
+    }
+  }
+}
+
+@include export-module('check-box-fluent-icons') {
+  .e-checkbox-wrapper,
+  .e-css.e-checkbox-wrapper {
+    @at-root {
+      & .e-check {
+        &::before {
+          content: '\e707';
+        }
+      }
+
+      & .e-stop {
+        &::before {
+          content: '\e708';
+        }
+      }
+    }
+  }
+}
+
+

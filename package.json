@@ -1,0 +1,22 @@
+{
+	"name": "blazor-toolkit",
+	"description": "Syncfusion Blazor Toolkit Components",
+	"author": "Syncfusion Inc.",
+	"keywords": [
+		"blazor",
+		"blazor-toolkit"
+	],
+	"repository": {
+		"type": "git",
+		"url": "https://gitea.syncfusion.com/essential-studio/blazor-toolkit.git"
+	},	
+	"devDependencies": {
+		"gulp": "^4.0.2",        
+		"shelljs": "^0.8.5",		
+		"@playwright/test": "^1.58.2",		
+		"gulp-sass": "5.1.0",
+        "sass": "1.51.0",
+		"gulp-clean-css": "^4.3.0",
+		"gulp-rename": "^2.1.0"
+	}
+}

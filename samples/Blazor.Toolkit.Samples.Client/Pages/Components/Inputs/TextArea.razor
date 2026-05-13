@@ -1,0 +1,736 @@
+﻿@page "/inputs/textarea"
+
+<PageTitle>TextArea | ASP.NET Core Blazor OSS Components</PageTitle>
+
+@using Syncfusion.Blazor.Toolkit.Inputs
+@using Syncfusion.Blazor.Toolkit.Buttons;
+@using System.ComponentModel.DataAnnotations;
+
+<Description>
+    <Header>
+        <h4><b>Blazor Toolkit TextArea Component</b></h4>
+    </Header>
+    <Content>
+        Add the TextArea component in application as shown in below code example.
+    </Content>
+</Description>
+
+@* Default TextArea example code *@
+
+<CodePreview CodeSection="@DefaultCode">
+	<PreviewSection>
+		<div class="mt-1 mb-1 p-1 example-label">About me</div>
+        <SfTextArea Placeholder="Tell us a little bit about yourself..." Width="300px"></SfTextArea>
+	</PreviewSection>
+</CodePreview>
+
+@* Variants (Filled, Outlined) example code *@
+
+<Description>
+    <Header>
+        <h5><b>Variants</b></h5>
+    </Header>
+    <Content>
+        The TextArea component offers two visual variants — <code>Filled</code>, and <code>Outlined</code>
+    </Content>
+</Description>
+
+<CodePreview CodeSection="@VariantCode">
+	<PreviewSection>
+		<div class="mt-1 mb-1 p-1 example-label">Filled TextArea</div>
+        <SfTextArea Placeholder="Tell us a little bit about yourself..." CssClass="e-filled" Width="300px">
+        </SfTextArea>
+        <div class="mt-1 mb-1 p-1 example-label">Outlined TextArea</div>
+        <SfTextArea Placeholder="Tell us a little bit about yourself..." CssClass="e-outlined" Width="300px">
+        </SfTextArea>
+	</PreviewSection>
+</CodePreview>
+
+<Description>
+    <Header>
+        <h5><b>Width</b></h5>
+    </Header>
+    <Content>
+        Customize the <code>width</code> of the TextArea using the <a href="https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.Inputs.SfTextArea.html#Syncfusion_Blazor_Inputs_SfTextArea_Width" target="_blank" rel="noreferrer noopener">
+        Width </a> property. This property allows precise adjustment of the TextArea’s width according to the specific layout requirements of the application.
+    </Content>
+</Description>
+
+@* Width customization example code *@
+
+<CodePreview CodeSection="@WidthCode">
+	<PreviewSection>
+		<SfTextArea Placeholder="Enter the Address" Width="500px"></SfTextArea>
+	</PreviewSection>
+</CodePreview>
+
+@* Floating label example code *@
+
+<Description>
+    <Header>
+        <h5><b>Float Label</b></h5>
+    </Header>
+    <Content>
+        The <b>floating label</b> functionality supports three modes: <a href="https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.Inputs.FloatLabelType.html#Syncfusion_Blazor_Inputs_FloatLabelType_Never" target="_blank" rel="noreferrer noopener">
+        Never</a>, <a href="https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.Inputs.FloatLabelType.html#Syncfusion_Blazor_Inputs_FloatLabelType_Auto" target="_blank" rel="noreferrer noopener">Auto</a>, and<a href="http://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.Inputs.FloatLabelType.html#Syncfusion_Blazor_Inputs_FloatLabelType_Always" target="_blank" rel="noreferrer noopener"> Always</a>.
+    </Content>
+</Description>
+
+<CodePreview CodeSection="@FloatingLabelCode">
+	<PreviewSection>
+		<div class="mt-1 mb-1 p-1 example-label">Never TextArea</div>
+        <SfTextArea Placeholder="Never" FloatLabelType="FloatLabelType.Never" Width="300px"></SfTextArea>
+        <div class="mt-1 mb-1 p-1 example-label">Auto TextArea</div>
+        <SfTextArea Placeholder="Auto" FloatLabelType="FloatLabelType.Auto" Width="300px"></SfTextArea>
+        <div class="mt-1 mb-1 p-1 example-label">Always TextArea</div>
+        <SfTextArea Placeholder="Always" FloatLabelType="FloatLabelType.Always" Width="300px"></SfTextArea>
+	</PreviewSection>
+</CodePreview>
+
+@* Disabled TextArea example code *@
+
+<Description>
+    <Header>
+        <h5><b>Disabled</b></h5>
+    </Header>
+    <Content>
+        When the <a href="https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.Inputs.SfTextArea.html#Syncfusion_Blazor_Inputs_SfTextArea_Disabled" target="_blank" rel="noreferrer noopener">
+        Disabled</a> property is set to <b>true</b>, the TextArea cannot be focused or edited.
+    </Content>
+</Description>
+
+<CodePreview CodeSection="@DisabledCode">
+	<PreviewSection>
+        <SfTextArea Placeholder="Disabled textarea" FloatLabelType="FloatLabelType.Always" Disabled="true"
+                    Width="300px"></SfTextArea>
+	</PreviewSection>
+</CodePreview>
+
+@* RowCount property example code *@
+
+<Description>
+    <Header>
+        <h5><b>Rows Count</b></h5>
+    </Header>
+    <Content>
+        The <a href="https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.Inputs.SfTextArea.html#Syncfusion_Blazor_Inputs_SfTextArea_RowCount" target="_blank" rel="noreferrer noopener">
+        RowCount</a> property defines the initial number of visible text lines in the TextArea, controlling its vertical size and improving usability for inputs such as addresses or comments.
+    </Content>
+</Description>
+
+<CodePreview CodeSection="@RowCountCode">
+	<PreviewSection>
+		<SfTextArea Placeholder="TextArea 3 rows" RowCount="3" FloatLabelType="FloatLabelType.Always" Width="300px">
+        </SfTextArea>
+	</PreviewSection>
+</CodePreview>
+
+@* ColumnCount property example code *@
+
+<Description>
+    <Header>
+        <h5><b>Columns Count</b></h5>
+    </Header>
+    <Content>
+        The <a href="https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.Inputs.SfTextArea.html#Syncfusion_Blazor_Inputs_SfTextArea_ColumnCount" target="_blank" rel="noreferrer noopener">
+        ColumnCount</a> property specifies the TextArea's initial width in terms of the approximate number of characters per line, allowing you to size the control appropriately for short or long inputs.
+    </Content>
+</Description>
+
+<CodePreview CodeSection="@ColumnCountCode">
+	<PreviewSection>
+		<SfTextArea Placeholder="TextArea 30 columns" ColumnCount="30" FloatLabelType="FloatLabelType.Always"
+                    Width="300px">
+		</SfTextArea>
+	</PreviewSection>
+</CodePreview>
+
+@* ResizeMode property example code *@
+
+<Description>
+    <Header>
+        <h5><b>Resizing</b></h5>
+    </Header>
+    <Content>
+        The TextArea component offers flexible resizing options through the <a href="https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.Inputs.SfTextArea.html#Syncfusion_Blazor_Inputs_SfTextArea_ResizeMode" target="_blank" rel="noreferrer noopener">
+        ResizeMode</a> property, including <code>Both</code>, <code>Horizontal</code>, <code>Vertical</code>, and <code>None</code>. This option enables the TextArea to be resized in any direction.
+    </Content>
+</Description>
+
+<CodePreview CodeSection="@ResizeModeCode">
+	<PreviewSection>
+		<SfTextArea Placeholder="Both side resizable" ResizeMode="Resize.Both" FloatLabelType="FloatLabelType.Always">
+        </SfTextArea>
+	</PreviewSection>
+</CodePreview>
+
+@* MaxLength property example code *@
+
+<Description>
+    <Header>
+        <h5><b>Maximum Length</b></h5>
+    </Header>
+    <Content>
+        Use the <a href="https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.Inputs.SfTextArea.html#Syncfusion_Blazor_Inputs_SfTextArea_MaxLength" target="_blank" rel="noreferrer noopener">
+        MaxLength</a> property to enforce a maximum character limit in the TextArea. This defines the highest number of characters that can be entered, helping control input length and maintain data quality.
+    </Content>
+</Description>
+
+<CodePreview CodeSection="@MaxLengthCode">
+	<PreviewSection>
+		<SfTextArea Placeholder="Maximum length of 20 characters" MaxLength="20" FloatLabelType="FloatLabelType.Always"
+                    Width="300px">
+		</SfTextArea>
+	</PreviewSection>
+</CodePreview>
+
+@* Form validation with submit and reset example code *@
+
+<Description>
+    <Header>
+        <h5><b>Form Support</b></h5>
+    </Header>
+    <Content>
+        Use the <a href="https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.Inputs.SfTextArea.html#Syncfusion_Blazor_Inputs_SfTextArea_MaxLength" target="_blank" rel="noreferrer noopener">
+        MaxLength</a> property to enforce a maximum character limit in the TextArea. This defines the highest number of characters that can be entered, helping control input length and maintain data quality.
+</Content>
+</Description>
+
+<CodePreview CodeSection="@TextAreaValidation">
+	<PreviewSection>
+		<div id="validation" class="control-section col-lg-12">
+            <div class="control-wrapper">
+                @if (string.IsNullOrEmpty(_message))
+                {
+                    <EditForm Model="@_annotation" OnValidSubmit="@OnValidSubmit" OnInvalidSubmit="@OnInvalidSubmit">
+                        <DataAnnotationsValidator />
+                        <div class="form-group">
+                            <SfTextBox @bind-Value="@_annotation.Name" FloatLabelType="FloatLabelType.Auto"
+                                       Placeholder="Enter a Name"></SfTextBox>
+                            <ValidationMessage For="@(() => _annotation.Name)" />
+                            <div class="example-content">
+                                <SfTextArea @bind-Value="@_annotation.Comments" RowCount="5"
+                                            FloatLabelType="FloatLabelType.Auto" Placeholder="Enter your Comments"
+                                            ColumnCount="250"></SfTextArea>
+                                <ValidationMessage For="@(() => _annotation.Comments)" />
+                            </div>
+                        </div>
+                        <div class="d-flex justify-content-center gap-3 mt-4">
+                            <SfButton Type="ButtonType.Submit" CssClass="e-primary" IsPrimary="true">Submit</SfButton>
+                            <SfButton CssClass="e-secondary" OnClick="@OnReset">Reset</SfButton>
+                        </div>
+                    </EditForm>
+                }
+                else
+                {
+                    <div class="alert alert-success">
+                        @_message
+                    </div>
+                }
+            </div>
+        </div>
+        <style>
+            .control-wrapper {
+                width: 70%;
+                margin: 0 auto;
+                min-width: 85px;
+            }
+
+            .example-label {
+                font-size: 14px;
+                margin-bottom: 6px;
+            }
+
+            .example-content {
+                padding: 15px 0px;
+            }
+
+            .example-content:last-child {
+                padding: 15px 0px;
+            }
+
+            .validation-message {
+                color: red;
+                padding: 5px 0px 0px;
+            }
+
+            #validation .e-multi-line-input {
+                max-width: 100%;
+            }
+        </style>
+	</PreviewSection>
+</CodePreview>
+
+@* TextArea events example code *@
+
+<Description>
+    <Header>
+        <h5><b>Events</b></h5>
+    </Header>
+    <Content>
+        The TextArea component supports events including
+        <a href="https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.Inputs.SfTextArea.html#Syncfusion_Blazor_Inputs_SfTextArea_Created" target="_blank" rel="noreferrer noopener">Created</a>, <a href="https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.Inputs.SfTextArea.html#Syncfusion_Blazor_Inputs_SfTextArea_Input" target="_blank" rel="noreferrer noopener">OnInput</a>, <a href="https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.Inputs.SfTextArea.html#Syncfusion_Blazor_Inputs_SfTextArea_ValueChange" target="_blank" rel="noreferrer noopener">ValueChange</a>, <a href="https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.Inputs.SfTextArea.html#Syncfusion_Blazor_Inputs_SfTextArea_Focus" target="_blank" rel="noreferrer noopener">OnFocus</a> and <a href="https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.Inputs.SfTextArea.html#Syncfusion_Blazor_Inputs_SfTextArea_Blur" target="_blank" rel="noreferrer noopener">OnBlur</a>.
+    </Content>
+</Description>
+
+<CodePreview CodeSection="@EventsCode">
+	<PreviewSection>
+		<SfTextArea ID="Events" Placeholder="Enter your comments" FloatLabelType="FloatLabelType.Auto" Width="300px"
+                    OnBlur="@BlurHandler" ValueChange="@ChangeHandler" Created="@CreatedHandler" OnInput="@InputHandler"
+                    OnFocus="@FocusHandler"></SfTextArea>
+        <div class="mt-3">
+            <p><b>Event:</b> @_eventMessage</p>
+        </div>
+	</PreviewSection>
+</CodePreview>
+
+<!-- Accessiblity -->
+
+<Description>
+    <Header>
+        <h5><b>Accessibility</b></h5>
+    </Header>
+    <Content>
+        The TextArea component followed the accessibility guidelines and standards, including <a href="https://www.ada.gov/">ADA</a>, <a href="https://www.section508.gov/">Section 508</a>, <a href="https://www.w3.org/TR/WCAG22/">WCAG 2.2</a>
+        standards, and <a href="https://www.w3.org/TR/wai-aria/#roles">WCAG roles</a> that are commonly used to evaluate
+        accessibility.
+        <p>The accessibility compliance for the TextArea component is outlined below.</p>
+        <table class="property-panel-table">
+            <thead>
+                <tr>
+                    <th>Accessibility Criteria</th>
+                    <th>Compatibility</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><a href="https://www.w3.org/TR/WCAG22/">WCAG 2.2</a> Support</td>
+                    <td>
+                        <img src="https://cdn.syncfusion.com/content/images/documentation/full.png"
+                             alt="Meets requirement">
+                    </td>
+                </tr>
+                <tr>
+                    <td><a href="https://www.section508.gov/">Section 508</a> Support</td>
+                    <td>
+                        <img src="https://cdn.syncfusion.com/content/images/documentation/full.png"
+                             alt="Meets requirement">
+                    </td>
+                </tr>
+                <tr>
+                    <td>Screen Reader Support</td>
+                    <td>
+                        <img src="https://cdn.syncfusion.com/content/images/documentation/full.png"
+                             alt="Meets requirement">
+                    </td>
+                </tr>
+                <tr>
+                    <td>Right-To-Left Support</td>
+                    <td>
+                        <img src="https://cdn.syncfusion.com/content/images/documentation/full.png"
+                             alt="Meets requirement">
+                    </td>
+                </tr>
+                <tr>
+                    <td>Color Contrast</td>
+                    <td>
+                        <img src="https://cdn.syncfusion.com/content/images/documentation/full.png"
+                             alt="Meets requirement">
+                    </td>
+                </tr>
+                <tr>
+                    <td>Mobile Device Support</td>
+                    <td>
+                        <img src="https://cdn.syncfusion.com/content/images/documentation/full.png"
+                             alt="Meets requirement">
+                    </td>
+                </tr>
+                <tr>
+                    <td>Keyboard Navigation Support</td>
+                    <td>
+                        <img src="https://cdn.syncfusion.com/content/images/documentation/full.png"
+                             alt="Meets requirement">
+                    </td>
+                </tr>
+                <tr>
+                    <td><a href="https://www.npmjs.com/package/storybook/addon-a11y">Accessibility</a> Validation</td>
+                    <td>
+                        <img src="https://cdn.syncfusion.com/content/images/documentation/full.png"
+                             alt="Meets requirement">
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <div class="mt-4">
+            <div class="access-image">
+                <img src="https://cdn.syncfusion.com/content/images/documentation/full.png" alt="Meets requirement"> -
+                All features of the component meet the requirement.
+            </div>
+            <div class="access-image">
+                <img src="https://cdn.syncfusion.com/content/images/documentation/partial.png"
+                     alt="Partially meets requirement"> - Some features of the component do not meet the requirement.
+            </div>
+            <div class="access-image">
+                <img src="https://cdn.syncfusion.com/content/images/documentation/not-supported.png"
+                     alt="Not supported"> - The component does not meet the requirement.
+            </div>
+        </div>
+    </Content>
+</Description>
+
+<!-- WAI-ARIA attributes -->
+
+<Description>
+    <Header>
+        <h5><b>WAI-ARIA Attributes</b></h5>
+    </Header>
+    <Content>
+        The TextArea component followed the <a href="https://www.w3.org/WAI/ARIA/apg/patterns/alert/">WAI-ARIA</a>
+        patterns to meet the accessibility. The following ARIA attributes
+        are used in the TextArea component:
+        <table class="property-panel-table">
+            <thead>
+                <tr>
+                    <th>Attributes</th>
+                    <th>Purpose</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><code>aria-labelledby</code></td>
+                    <td>Provides an accessible name for the component.</td>
+                </tr>
+                <tr>
+                    <td><code>aria-multiline</code></td>
+                    <td>Indicates that the component is a multi-line text box.</td>
+                </tr>
+            </tbody>
+        </table>
+    </Content>
+</Description>
+
+@code {
+
+    /* ---------------- Form Validation Code ---------------- */
+
+    private string _message = string.Empty;
+    private Annotation _annotation = new Annotation();
+    async void OnValidSubmit()
+    {
+        _message = "Form Submitted Successfully!";
+        await Task.Delay(2000);
+        _message = string.Empty;
+        _annotation.Name = null;
+        StateHasChanged();
+    }
+    private void OnInvalidSubmit()
+    {
+        _message = string.Empty;
+    }
+
+    private void OnReset()
+    {
+        _annotation = new Annotation();
+        _message = string.Empty;
+        StateHasChanged();
+    }
+
+    public class Annotation
+    {
+        [Required(ErrorMessage = "The name field is required.")]
+        [MaxLength(10, ErrorMessage = "The name field should not contain more than 10 characters.")]
+        [MinLength(3, ErrorMessage = "The name field must contain at least 3 characters.")]
+        public string? Name { get; set; }
+        [Required(ErrorMessage = "The name field is required.")]
+        [MaxLength(20, ErrorMessage = "The comments field should not contain more than 20 characters.")]
+        [MinLength(10, ErrorMessage = "The comments field must contain at least 10 characters.")]
+        public string? Comments { get; set; }
+    }
+
+    /* ---------------- Events Code ---------------- */
+
+    private string _eventMessage = string.Empty;
+    private void CreatedHandler()
+    {
+        _eventMessage = "Created event triggered";
+    }
+    private void InputHandler(TextAreaInputEventArgs args)
+    {
+        _eventMessage = "Input event triggered";
+    }
+    private void ChangeHandler(TextAreaValueChangeEventArgs args)
+    {
+        _eventMessage = "Changed event triggered";
+    }
+    private void BlurHandler(TextAreaFocusOutEventArgs args)
+    {
+        _eventMessage = "FocusOut event triggered";
+    }
+    private void FocusHandler(TextAreaFocusInEventArgs args)
+    {
+        _eventMessage = "FocusIn event triggered";
+    }
+
+    /* ---------------- CODE SECTION ---------------- */
+
+    @* Default TextArea example code *@
+
+    private string DefaultCode => @"<SfTextArea Placeholder=""Tell us a little bit about yourself..."" Width=""300px""></SfTextArea>";
+
+    @* Width customization example code *@
+
+    private string WidthCode => @"<SfTextArea Placeholder=""Enter the Address"" Width=""500px""></SfTextArea>";
+
+    @* Floating label example code *@
+
+    private string FloatingLabelCode => @"<div class=""mt-1 mb-1 p-1 example-label"">Never TextArea</div>
+<SfTextArea Placeholder=""Never"" FloatLabelType=""FloatLabelType.Never"" Width=""300px""></SfTextArea>
+
+<div class=""mt-1 mb-1 p-1 example-label"">Auto TextArea</div>
+<SfTextArea Placeholder=""Auto"" FloatLabelType=""FloatLabelType.Auto"" Width=""300px""></SfTextArea>
+
+<div class=""mt-1 mb-1 p-1 example-label"">Always TextArea</div>
+<SfTextArea Placeholder=""Always"" FloatLabelType=""FloatLabelType.Always"" Width=""300px""></SfTextArea>";
+
+    @* Variants (Standard, Filled, Outlined) example code *@
+
+    private string VariantCode => @"<div class=""mt-1 mb-1 p-1 example-label"">Filled TextArea</div>
+<SfTextArea Placeholder=""Tell us a little bit about yourself..."" CssClass=""e-filled"" Width=""300px""></SfTextArea>
+<div class=""mt-1 mb-1 p-1 example-label"">Outlined TextArea</div>
+<SfTextArea Placeholder=""Tell us a little bit about yourself..."" CssClass=""e-outlined"" Width=""300px""></SfTextArea>";
+
+
+    @* Disabled TextArea example code *@
+	
+    private string DisabledCode => @"<SfTextArea Placeholder=""Disabled textarea""
+                                 FloatLabelType=""FloatLabelType.Always""
+                                 Disabled=""true""
+                                 Width=""300px""></SfTextArea>";
+
+    @* RowCount property example code *@
+
+    private string RowCountCode => @"<SfTextArea Placeholder=""TextArea 3 rows"" RowCount=""3"" FloatLabelType=""FloatLabelType.Always"" Width=""300px""></SfTextArea>";
+
+    @* ColumnCount property example code *@
+
+    private string ColumnCountCode => @"<SfTextArea Placeholder=""TextArea 30 columns"" ColumnCount=""30"" FloatLabelType=""FloatLabelType.Always"" Width=""300px""></SfTextArea>";
+
+    @* ResizeMode property example code *@
+
+    private string ResizeModeCode => @"<SfTextArea Placeholder=""Both side resizable"" ResizeMode=""Resize.Both"" FloatLabelType=""FloatLabelType.Always""></SfTextArea>";
+
+    @* MaxLength property example code *@
+
+    private string MaxLengthCode => @"<SfTextArea Placeholder=""Maximum length of 20 characters"" MaxLength=""20"" FloatLabelType=""FloatLabelType.Always"" Width=""300px""></SfTextArea>";
+
+    @* Form validation with submit and reset example code *@
+
+    private string TextAreaValidation => @"<div id=""validation"" class=""control-section col-lg-12"">
+    <div class=""control-wrapper"">
+        @if (string.IsNullOrEmpty(_message))
+        {
+            <EditForm Model=""@_annotation"" OnValidSubmit=""@OnValidSubmit"" OnInvalidSubmit=""@OnInvalidSubmit"">
+                <DataAnnotationsValidator />
+                <div class=""form-group"">
+                    <SfTextBox @bind-Value=""@_annotation.Name"" FloatLabelType=""FloatLabelType.Auto"" Placeholder=""Enter a Name""></SfTextBox>
+                    <ValidationMessage For=""@(() => _annotation.Name)"" />
+                    <div class=""example-content"">
+                        <SfTextArea @bind-Value=""@_annotation.Comments"" RowCount=""5"" FloatLabelType=""FloatLabelType.Auto"" Placeholder=""Enter your Comments""
+                                    ColumnCount=""250""></SfTextArea>
+                        <ValidationMessage For=""@(() => _annotation.Comments)"" />
+                    </div>
+                </div>
+                <div class=""d-flex justify-content-center gap-3 mt-4"">
+                    <SfButton Type=""ButtonType.Submit"" CssClass=""e-primary"" IsPrimary=""true"">Submit</SfButton>
+                    <SfButton CssClass=""e-secondary"" OnClick=""@OnReset"">Reset</SfButton>
+                </div>
+            </EditForm>
+        }
+        else
+        {
+            <div class=""alert alert-success"">
+                @_message
+            </div>
+        }
+    </div>
+</div>
+@code {
+    private string _message = string.Empty;
+    private Annotation _annotation = new Annotation();
+    private async void OnValidSubmit()
+    {
+        _message = ""Form Submitted Successfully!"";
+        await Task.Delay(2000);
+        _message = string.Empty;
+        _annotation.Name = null;
+        StateHasChanged();
+    }
+    private void OnInvalidSubmit()
+    {
+        _message = string.Empty;
+    }
+    private void OnReset()
+    {
+        _annotation = new Annotation();
+        _message = string.Empty;
+        StateHasChanged();
+    }
+    public class Annotation
+    {
+        [Required(ErrorMessage = ""The name field is required."")]
+        [MaxLength(10, ErrorMessage = ""The name field should not contain more than 10 characters."")]
+        [MinLength(3, ErrorMessage = ""The name field must contain at least 3 characters."")]
+        public string? Name { get; set; }
+        [Required(ErrorMessage = ""The name field is required."")]
+        [MaxLength(20, ErrorMessage = ""The comments field should not contain more than 20 characters."")]
+        [MinLength(10, ErrorMessage = ""The comments field must contain at least 10 characters."")]
+        public string? Comments { get; set; }
+    }
+}
+<style>
+    .control-wrapper {
+        width: 70%;
+        margin: 0 auto;
+        min-width: 85px;
+    }
+    .example-label {
+        font-size: 14px;
+        margin-bottom: 6px;
+    }
+    .example-content {
+        padding: 15px 0px;
+    }
+    .example-content:last-child {
+        padding: 15px 0px;
+    }
+    .validation-message {
+        color: red;
+        padding: 5px 0px 0px;
+    }
+    #validation .e-multi-line-input {
+        max-width: 100%;
+    }
+</style>";
+
+    @* TextArea events example code *@
+
+    private string EventsCode => @"<SfTextArea ID=""Events"" Placeholder=""Enter your comments"" FloatLabelType=""FloatLabelType.Auto"" Width=""300px""
+    OnBlur=""@BlurHandler"" ValueChange=""@ChangeHandler"" Created=""@CreatedHandler""
+    OnInput=""@InputHandler"" OnFocus=""@FocusHandler"">
+</SfTextArea>
+<div class=""mt-3"">
+    <p><b>Event:</b> ""@_eventMessage""</p>
+</div>
+@code {
+    private string _eventMessage = string.Empty;
+    private void CreatedHandler()
+    {
+	    _eventMessage = ""Created event triggered"";
+    }
+
+    private void InputHandler(TextAreaInputEventArgs args)
+    {
+	    _eventMessage = ""Input event triggered"";
+    }
+
+    private void ChangeHandler(TextAreaValueChangeEventArgs args)
+    {
+	    _eventMessage = ""Changed event triggered"";
+    }
+
+    private void BlurHandler(TextAreaFocusOutEventArgs args)
+    {
+	    _eventMessage = ""FocusOut event triggered"";
+    }
+
+    private void FocusHandler(TextAreaFocusInEventArgs args)
+    {
+	    _eventMessage = ""FocusIn event triggered"";
+    }
+}";
+}
+<style>
+    .access-image img {
+        display: inline-block;
+        margin: 0.5em 0;
+    }
+
+    .property-panel-table {
+        width: 100%;
+        border-collapse: separate;
+        border-spacing: 0;
+        font-size: 15px;
+        line-height: 1.45;
+        margin-top: 12px;
+        border: 1px solid #ced4da;
+        border-radius: 6px;
+        overflow: hidden;
+    }
+
+    .property-panel-table thead th {
+        text-align: left;
+        padding: 10px 10px;
+        font-size: 15px;
+        font-weight: 600;
+        border-bottom: 1px solid #ced4da;
+        background: #ced4da;
+        color: #333;
+        vertical-align: middle;
+    }
+
+    .property-panel-table thead th + th {
+        border-left: 1px solid #ced4da;
+    }
+
+    .property-panel-table tbody td {
+        padding: 10px 10px;
+        vertical-align: middle;
+        border-bottom: 1px solid #ced4da;
+    }
+
+    .property-panel-table tbody td + td {
+        border-left: 1px solid #ced4da;
+    }
+
+    .e-dark-mode .property-panel-table tbody tr:hover {
+        color: #1a1a1a;
+    }
+
+    .property-panel-table tbody tr:hover {
+        background: #f9f9f9;
+    }
+
+    .property-panel-table a {
+        color: #0f6cbd;
+        font-weight: 500;
+        text-decoration: none;
+    }
+
+    .property-panel-table a:hover {
+        text-decoration: underline;
+    }
+
+    .property-panel-table img {
+        width: 22px;
+        height: 22px;
+        vertical-align: middle;
+    }
+
+    .property-panel-table thead th:first-child {
+        border-top-left-radius: 6px;
+    }
+
+    .property-panel-table thead th:last-child {
+        border-top-right-radius: 6px;
+    }
+
+    a {
+        text-decoration: none;
+    }
+
+    /* Float label font size for float-always variant */
+    .e-input-base-wrapper .e-float-input.e-control-wrapper textarea:valid ~ label.e-float-text,
+    .e-input-base-wrapper .e-float-input.e-control-wrapper textarea[disabled] ~ label.e-label-top.e-float-text {
+        font-size: 15px;
+    }
+</style>

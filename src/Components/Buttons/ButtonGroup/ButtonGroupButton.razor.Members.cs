@@ -1,0 +1,240 @@
+using Microsoft.AspNetCore.Components;
+using System.ComponentModel;
+
+namespace Syncfusion.Blazor.Toolkit.Buttons
+{
+    public partial class ButtonGroupButton
+    {
+        #region Properties
+
+        /// <exclude />
+        /// <summary>
+        /// Gets or sets the child content of the button, which can include custom HTML elements.
+        /// </summary>
+        /// <value>
+        /// A <see cref="RenderFragment"/> that represents the content rendered inside the button. The default is <c>null</c>.
+        /// </value>
+        /// <remarks>
+        /// When <see cref="ChildContent"/> is not specified, the button's content is rendered from the <see cref="Content"/> property.
+        /// </remarks>
+        [Parameter]
+        [EditorBrowsable(EditorBrowsableState.Never)]
+        public RenderFragment? ChildContent { get; set; }
+
+        /// <summary>
+        /// Gets or sets a CSS class string to customize the appearance of the button.
+        /// </summary>
+        /// <value>
+        /// A string that represents the CSS class. The default value is <c>string.Empty</c>.
+        /// </value>
+        /// <remarks>
+        /// You can add multiple classes separated by spaces to apply custom styles to the button.
+        /// </remarks>
+        /// <example>
+        /// The following example demonstrates how to apply a custom CSS class to a <see cref="ButtonGroupButton"/>.
+        /// <code><![CDATA[
+        /// <SfButtonGroup>
+        ///   <ButtonGroupButton CssClass="custom-style">Left</ButtonGroupButton>
+        ///   <ButtonGroupButton>Center</ButtonGroupButton>
+        ///   <ButtonGroupButton>Right</ButtonGroupButton>
+        /// </SfButtonGroup>
+        /// ]]></code>
+        /// </example>
+        [Parameter]
+        public string CssClass { get; set; } = string.Empty;
+
+        /// <summary>
+        /// Gets or sets a CSS class string to include an icon on the button.
+        /// </summary>
+        /// <value>
+        /// A string representing the icon's CSS class, with support for multiple classes separated by spaces. The default value is <c>string.Empty</c>.
+        /// </value>
+        /// <remarks>
+        /// This property is used to apply a CSS class that defines the button's icon, typically by setting a background image.
+        /// </remarks>
+        /// <example>
+        /// The following example demonstrates how to add icons to <see cref="ButtonGroupButton"/> components.
+        /// <code><![CDATA[
+        /// <SfButtonGroup>
+        ///   <ButtonGroupButton IconCss="e-icons e-cut">Cut</ButtonGroupButton>
+        ///   <ButtonGroupButton IconCss="e-icons e-copy">Copy</ButtonGroupButton>
+        ///   <ButtonGroupButton IconCss="e-icons e-paste">Paste</ButtonGroupButton>
+        /// </SfButtonGroup>
+        /// ]]></code>
+        /// </example>
+        [Parameter]
+        public string IconCss { get; set; } = string.Empty;
+
+        /// <summary>
+        /// Gets or sets a value indicating whether the button is disabled.
+        /// </summary>
+        /// <value>
+        /// <c>true</c> if the button is disabled; otherwise, <c>false</c>. The default value is <c>false</c>.
+        /// </value>
+        /// <remarks>
+        /// A disabled button cannot be clicked or focused, and its appearance will be altered to indicate its inactive state.
+        /// </remarks>
+        [Parameter]
+        public bool Disabled { get; set; }
+
+        /// <summary>
+        /// Gets or sets a value indicating whether the button is in the selected state.
+        /// </summary>
+        /// <value>
+        /// <c>true</c> if the button is selected; otherwise, <c>false</c>. The default value is <c>false</c>.
+        /// </value>
+        /// <remarks>
+        /// This property is particularly useful when the parent <see cref="SfButtonGroup"/> is configured for single or multiple selection modes using the <see cref="SfButtonGroup.Mode"/> property.
+        /// </remarks>
+        /// <example>
+        /// The following example demonstrates how to bind and toggle the <see cref="Selected"/> state from a parent component.
+        /// <code><![CDATA[
+        /// <SfButtonGroup Mode="SelectionMode.Multiple">
+        ///   <ButtonGroupButton Selected="@isSelected">Option</ButtonGroupButton>
+        /// </SfButtonGroup>
+        /// @code {
+        ///   bool isSelected = true;
+        /// }
+        /// ]]></code>
+        /// </example>
+        [Parameter]
+        public bool Selected { get; set; }
+
+        /// <summary>
+        /// Gets or sets the name attribute for the button's input element.
+        /// </summary>
+        /// <value>
+        /// A string that represents the name of the button. The default value is <c>string.Empty</c>.
+        /// </value>
+        /// <remarks>
+        /// The <see cref="Name"/> property is used to set the <c>name</c> attribute of the underlying HTML input element, which is useful for form submissions.
+        /// </remarks>
+        /// <example>
+        /// Use the <see cref="Name"/> property to group radio inputs when using single-selection mode.
+        /// <code><![CDATA[
+        /// <SfButtonGroup Mode="SelectionMode.Single">
+        ///   <ButtonGroupButton Name="group1">A</ButtonGroupButton>
+        ///   <ButtonGroupButton Name="group1">B</ButtonGroupButton>
+        /// </SfButtonGroup>
+        /// ]]></code>
+        /// </example>
+        [Parameter]
+        public string Name { get; set; } = string.Empty;
+
+        /// <summary>
+        /// Gets or sets the value attribute for the button's input element.
+        /// </summary>
+        /// <value>
+        /// A string that represents the value of the button. The default value is <c>string.Empty</c>.
+        /// </value>
+        /// <remarks>
+        /// The <see cref="Value"/> property is used to set the <c>value</c> attribute of the underlying HTML input element, which is useful for form submissions.
+        /// </remarks>
+        /// <example>
+        /// Set a custom <see cref="Value"/> when using the group within a form to identify the selected option.
+        /// <code><![CDATA[
+        /// <SfButtonGroup Mode="SelectionMode.Single">
+        ///   <ButtonGroupButton Value="left">Left</ButtonGroupButton>
+        ///   <ButtonGroupButton Value="right">Right</ButtonGroupButton>
+        /// </SfButtonGroup>
+        /// ]]></code>
+        /// </example>
+        [Parameter]
+        public string Value { get; set; } = string.Empty;
+
+        /// <summary>
+        /// Gets or sets the text content to be displayed on the button.
+        /// </summary>
+        /// <value>
+        /// A string representing the text to be displayed. The default value is <c>string.Empty</c>.
+        /// </value>
+        /// <remarks>
+        /// For rendering complex HTML content, it is recommended to use the <see cref="ChildContent"/> property instead.
+        /// </remarks>
+        /// <example>
+        /// The following example demonstrates how to set the text content for <see cref="ButtonGroupButton"/> components.
+        /// <code><![CDATA[
+        /// <SfButtonGroup>
+        ///   <ButtonGroupButton Content="Left"></ButtonGroupButton>
+        ///   <ButtonGroupButton Content="Center"></ButtonGroupButton>
+        ///   <ButtonGroupButton Content="Right"></ButtonGroupButton>
+        /// </SfButtonGroup>
+        /// ]]></code>
+        /// </example>
+        [Parameter]
+        public string Content { get; set; } = string.Empty;
+
+        /// <summary>
+        /// Gets or sets a value indicating whether the button functions as a toggle button.
+        /// </summary>
+        /// <value>
+        /// <c>true</c> to enable toggle functionality; otherwise, <c>false</c>. The default is <c>false</c>.
+        /// </value>
+        /// <remarks>
+        /// When <see cref="IsToggle"/> is set to <c>true</c>, the button persists in a selected state after being clicked and can be deselected by clicking it again.
+        /// </remarks>
+        /// <example>
+        /// Enable toggle behavior so the button stays selected after a click.
+        /// <code><![CDATA[
+        /// <SfButtonGroup Mode="SelectionMode.Multiple">
+        ///   <ButtonGroupButton IsToggle="true">Toggle Me</ButtonGroupButton>
+        /// </SfButtonGroup>
+        /// ]]></code>
+        /// </example>
+        [Parameter]
+        public bool IsToggle { get; set; }
+
+        /// <summary>
+        /// Gets or sets the position of the icon relative to the text content.
+        /// </summary>
+        /// <value>
+        /// One of the <see cref="IconPosition"/> enumeration values that specifies the icon's placement. The default value is <see cref="IconPosition.Left"/>.
+        /// </value>
+        /// <remarks>
+        /// <para>The available positions are:</para>
+        /// <para><see cref="IconPosition.Left"/>: Places the icon to the left of the text.</para>
+        /// <para><see cref="IconPosition.Right"/>: Places the icon to the right of the text.</para>
+        /// <para><see cref="IconPosition.Top"/>: Places the icon above the text.</para>
+        /// <para><see cref="IconPosition.Bottom"/>: Places the icon below the text.</para>
+        /// </remarks>
+        /// <example>
+        /// Place an icon to the right of the text.
+        /// <code><![CDATA[
+        /// <SfButtonGroup>
+        ///   <ButtonGroupButton IconCss="e-icons e-save" IconPosition="IconPosition.Right">Save</ButtonGroupButton>
+        /// </SfButtonGroup>
+        /// ]]></code>
+        /// </example>
+        [Parameter]
+        public IconPosition IconPosition { get; set; }
+
+        /// <exclude/>
+        /// <summary>
+        /// Gets or sets a collection of additional HTML attributes to apply to the button element.
+        /// </summary>
+        /// <value>
+        /// A <see cref="Dictionary{TKey, TValue}"/> where the key is the attribute name and the value is the attribute's value.
+        /// </value>
+        /// <remarks>
+        /// These attributes are "splatted" onto the root element of the component, allowing for custom attributes to be added.
+        /// </remarks>
+        /// <example>
+        /// The following example demonstrates how to apply a `style` attribute to a <see cref="ButtonGroupButton"/>.
+        /// <code><![CDATA[
+        /// <SfButtonGroup>
+        ///   <ButtonGroupButton style="width:200px">Left</ButtonGroupButton>
+        ///   <ButtonGroupButton>Center</ButtonGroupButton>
+        ///   <ButtonGroupButton>Right</ButtonGroupButton>
+        /// </SfButtonGroup>
+        /// ]]></code>
+        /// </example>
+        [Parameter(CaptureUnmatchedValues = true)]
+        [EditorBrowsable(EditorBrowsableState.Never)]
+        public Dictionary<string, object> HtmlAttributes
+        {
+            get => _inputAttributes; set => _inputAttributes = value;
+        }
+
+        #endregion
+    }
+}

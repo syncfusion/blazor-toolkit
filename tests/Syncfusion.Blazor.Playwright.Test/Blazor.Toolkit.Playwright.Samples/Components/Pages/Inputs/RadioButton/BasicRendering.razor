@@ -1,0 +1,49 @@
+@page "/radio-button/basic-rendering"
+@using Syncfusion.Blazor.Toolkit.Inputs
+@layout MainLayout
+
+<h1>Radio Button - Basic Rendering</h1>
+
+<div class="test-container">
+    <h2>Basic Radio Button Group</h2>
+    <div class="e-radio-group">
+        <SfRadioButton TChecked="string" Name="basic-group" Value="opt0" Label="Option 0" @bind-Checked="selectedValue"></SfRadioButton>
+        <SfRadioButton TChecked="string" Name="basic-group" Value="opt1" Label="Option 1" @bind-Checked="selectedValue"></SfRadioButton>
+        <SfRadioButton TChecked="string" Name="basic-group" Value="opt2" Label="Option 2" @bind-Checked="selectedValue"></SfRadioButton>
+    </div>
+    <p>Selected Value: <strong>@selectedValue</strong></p>
+</div>
+
+<style>
+    .test-container {
+        padding: 20px;
+        border: 1px solid #ddd;
+        margin: 10px 0;
+        border-radius: 4px;
+        background-color: #f9f9f9;
+    }
+    
+    .e-radio-group {
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+        margin: 15px 0;
+    }
+    
+    h2 {
+        margin-top: 20px;
+        font-size: 18px;
+        font-weight: 600;
+    }
+    
+    p {
+        margin-top: 15px;
+        font-size: 14px;
+    }
+</style>
+
+@code {
+    private string selectedValue = "opt0";
+}
+
+

@@ -1,0 +1,1549 @@
+﻿@using Syncfusion.Blazor.Toolkit.Charts
+@using Syncfusion.Blazor.Toolkit.Tests
+@using Bunit
+@using Xunit
+
+@inherits TestComponentBase
+
+<SfFixture @ref="fixture" TestAsync="CheckingYear" Description="DateTime CheckingYear">
+    <ComponentUnderTest>
+        <SfChart ID="container" Height="600" Width="900">
+            <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Toolkit.ValueType.DateTime" Title="Sales Across Years" IntervalType="IntervalType.Years"
+                               Minimum="new DateTime(2000, 06, 01)" Maximum="new DateTime(2010, 06, 01)" Interval="1"></ChartPrimaryXAxis>
+            <ChartPrimaryYAxis Title="Sales Amount in millions(USD)" RangePadding="ChartRangePadding.Additional"></ChartPrimaryYAxis>
+            <ChartSeriesCollection>
+                <ChartSeries DataSource="@DateValue" XName="X" YName="Y" Name="series1" Type="ChartSeriesType.Line" Fill="#ACE5FF" Width="2">
+                    <ChartSeriesAnimation Enable="false"></ChartSeriesAnimation>
+                </ChartSeries>
+            </ChartSeriesCollection>
+            <ChartLegendSettings Visible="false"></ChartLegendSettings>
+        </SfChart>
+    </ComponentUnderTest>
+</SfFixture>
+
+@code{
+    SfFixture fixture { get; set; }
+
+    async Task CheckingYear(Fixture fixture)
+    {
+        var cut = fixture.GetComponentUnderTest<SfChart>();
+        await Task.Delay(200);
+        var svg = cut.Find("#containerAxisLabels0");
+        Assert.True(svg.ChildNodes.Length == 11);
+        Assert.True(svg.ChildNodes[0].TextContent == "2000\n    ");
+        Assert.True(svg.ChildNodes[1].TextContent == "2001\n    ");
+        Assert.True(svg.ChildNodes[2].TextContent == "2002\n    ");
+        Assert.True(svg.ChildNodes[3].TextContent == "2003\n    ");
+        Assert.True(svg.ChildNodes[4].TextContent == "2004\n    ");
+        Assert.True(svg.ChildNodes[5].TextContent == "2005\n    ");
+        Assert.True(svg.ChildNodes[6].TextContent == "2006\n    ");
+        Assert.True(svg.ChildNodes[7].TextContent == "2007\n    ");
+        Assert.True(svg.ChildNodes[8].TextContent == "2008\n    ");
+        Assert.True(svg.ChildNodes[9].TextContent == "2009\n    ");
+        Assert.True(svg.ChildNodes[10].TextContent == "2010\n    ");
+        cut.SetParametersAndRender();
+    }
+    public class DateTimeData
+    {
+        public DateTime X { get; set; }
+        public double Y { get; set; }
+    }
+    public List<DateTimeData> DateValue = new List<DateTimeData>
+{
+        new DateTimeData{ X = new DateTime(2000, 06, 11), Y = 10},
+        new DateTimeData{ X = new DateTime(2002, 03, 07), Y = 30},
+        new DateTimeData{ X = new DateTime(2004, 03, 06), Y = 15},
+        new DateTimeData{ X = new DateTime(2006, 03, 30), Y = 65},
+        new DateTimeData{ X = new DateTime(2008, 03, 08), Y = 90},
+        new DateTimeData{ X = new DateTime(2010, 03, 08), Y = 85}
+    };
+}
+
+@{
+    var InitialGroup1 = (new string[] { "CustomerID", "OrderID" });
+}
+<SfFixture @ref="fixture1" TestAsync="CheckingMonthLabel" Description="DateTime CheckingMonthlabel">
+    <ComponentUnderTest>
+        <SfChart ID="container">
+            <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Toolkit.ValueType.DateTime" Title="Sales Across Years" LabelIntersectAction="LabelIntersectAction.None"
+                               RangePadding="ChartRangePadding.Additional"></ChartPrimaryXAxis>
+
+            <ChartSeriesCollection>
+                <ChartSeries DataSource="@DateValue1" XName="X" YName="Y" Name="series1" Type="ChartSeriesType.Line" Fill="#ACE5FF" Width="2">
+                    <ChartSeriesAnimation Enable="false"></ChartSeriesAnimation>
+                </ChartSeries>
+            </ChartSeriesCollection>
+            <ChartLegendSettings Visible="false"></ChartLegendSettings>
+        </SfChart>
+    </ComponentUnderTest>
+</SfFixture>
+
+@code{
+    SfFixture fixture1 { get; set; }
+
+    async Task CheckingMonthLabel(Fixture fixture1)
+    {
+        var cut = fixture1.GetComponentUnderTest<SfChart>();
+        await Task.Delay(200);
+        var svg = cut.Find("#containerAxisLabels0");
+        //Assert.True(svg.ChildNodes.Length == 13);
+        cut.SetParametersAndRender();
+    }
+    public class DateTimeData1
+    {
+        public DateTime X { get; set; }
+        public double Y { get; set; }
+    }
+    public List<DateTimeData1> DateValue1 = new List<DateTimeData1>
+{
+        new DateTimeData1{ X = new DateTime(2000, 03, 21), Y = 10},
+        new DateTimeData1{ X = new DateTime(2000, 03, 17), Y = 10},
+        new DateTimeData1{ X = new DateTime(2000, 03, 18), Y = 14},
+        new DateTimeData1{ X = new DateTime(2000, 03, 20), Y = 45},
+        new DateTimeData1{ X = new DateTime(2000, 03, 25), Y = 67},
+        new DateTimeData1{ X = new DateTime(2010, 03, 30), Y = 75}
+    };
+}
+
+
+@{
+    var InitialGroup2 = (new string[] { "CustomerID", "OrderID" });
+}
+<SfFixture @ref="fixture2" TestAsync="CheckingLabelWithEmptyData" Description="DateTime CheckingLabelWithEmptyData">
+    <ComponentUnderTest>
+        <SfChart ID="container">
+            <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Toolkit.ValueType.DateTime" Title="Sales Across Years" LabelIntersectAction="LabelIntersectAction.Hide"
+                               RangePadding="ChartRangePadding.None" ZoomFactor="0.7" ZoomPosition="0.2"></ChartPrimaryXAxis>
+            <ChartPrimaryYAxis RangePadding="ChartRangePadding.Normal"></ChartPrimaryYAxis>
+            <ChartSeriesCollection>
+                <ChartSeries DataSource="@DateValue2" XName="X" YName="Y" Name="series1" Type="ChartSeriesType.Line" Fill="#ACE5FF" Width="2">
+                    <ChartSeriesAnimation Enable="false"></ChartSeriesAnimation>
+                </ChartSeries>
+            </ChartSeriesCollection>
+            <ChartLegendSettings Visible="false"></ChartLegendSettings>
+        </SfChart>
+    </ComponentUnderTest>
+</SfFixture>
+
+@code{
+    SfFixture fixture2 { get; set; }
+
+    async Task CheckingLabelWithEmptyData(Fixture fixture2)
+    {
+        var cut = fixture2.GetComponentUnderTest<SfChart>();
+        await Task.Delay(200);
+        var svg = cut.Find("#containerAxisLabels0");
+        //Assert.True(svg.ChildNodes.Length == 8);
+        cut.SetParametersAndRender();
+    }
+    public class DateTimeData2
+    {
+        public DateTime X { get; set; }
+        public double Y { get; set; }
+    }
+    public List<DateTimeData2> DateValue2 = new List<DateTimeData2>
+{
+        new DateTimeData2{ X = new DateTime(2000, 03, 21), Y = 10},
+        new DateTimeData2{ X = new DateTime(2000, 03, 17), Y = 10},
+        new DateTimeData2{ X = new DateTime(2000, 03, 18), Y = 14},
+        new DateTimeData2{ X = new DateTime(2000, 03, 20), Y = 45},
+        new DateTimeData2{ X = new DateTime(2000, 03, 25), Y = 67},
+        new DateTimeData2{ X = new DateTime(2010, 03, 30), Y = 75}
+    };
+}
+
+
+@{
+    var InitialGroup3 = (new string[] { "CustomerID", "OrderID" });
+}
+<SfFixture @ref="fixture3" TestAsync="CheckingAutoIntervalWithHour" Description="DateTime CheckingAutoIntervalWithHour">
+    <ComponentUnderTest>
+        <SfChart ID="container" Height="450">
+            <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Toolkit.ValueType.DateTime"
+                               RangePadding="ChartRangePadding.Round" ZoomFactor="1" ZoomPosition="0"></ChartPrimaryXAxis>
+            <ChartPrimaryYAxis RangePadding="ChartRangePadding.Normal"></ChartPrimaryYAxis>
+            <ChartSeriesCollection>
+                <ChartSeries DataSource="@DateValue3" XName="X" YName="Y" Name="series1" Type="ChartSeriesType.Line" Fill="#ACE5FF" Width="2">
+                    <ChartSeriesAnimation Enable="false"></ChartSeriesAnimation>
+                </ChartSeries>
+            </ChartSeriesCollection>
+            <ChartLegendSettings Visible="false"></ChartLegendSettings>
+        </SfChart>
+    </ComponentUnderTest>
+</SfFixture>
+
+@code{
+    SfFixture fixture3 { get; set; }
+
+    async Task CheckingAutoIntervalWithHour(Fixture fixture3)
+    {
+        var cut = fixture3.GetComponentUnderTest<SfChart>();
+        await Task.Delay(200);
+        var svg = cut.Find("#containerAxisLabels0");
+        Assert.True(svg.ChildNodes.Length == 5);
+        cut.SetParametersAndRender();
+    }
+    public class DateTimeData3
+    {
+        public DateTime X { get; set; }
+        public double Y { get; set; }
+    }
+    public List<DateTimeData3> DateValue3 = new List<DateTimeData3>
+{
+        new DateTimeData3{ X = new DateTime(2000, 03, 21), Y = 10},
+        new DateTimeData3{ X = new DateTime(2000, 03, 22), Y = 40},
+
+    };
+}
+
+
+@{
+    var InitialGroup4 = (new string[] { "CustomerID", "OrderID" });
+}
+<SfFixture @ref="fixture4" TestAsync="CheckingAutoIntervalWithMinutes" Description="DateTime CheckingAutoIntervalWithMinutes">
+    <ComponentUnderTest>
+        <SfChart ID="container" Height="450">
+            <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Toolkit.ValueType.DateTime"
+                               RangePadding="ChartRangePadding.Round"></ChartPrimaryXAxis>
+            <ChartSeriesCollection>
+                <ChartSeries DataSource="@DateValue4" XName="X" YName="Y" Name="series1" Type="ChartSeriesType.Line" Fill="#ACE5FF" Width="2">
+                    <ChartSeriesAnimation Enable="false"></ChartSeriesAnimation>
+                </ChartSeries>
+            </ChartSeriesCollection>
+            <ChartLegendSettings Visible="false"></ChartLegendSettings>
+        </SfChart>
+    </ComponentUnderTest>
+</SfFixture>
+
+@code{
+    SfFixture fixture4 { get; set; }
+
+    async Task CheckingAutoIntervalWithMinutes(Fixture fixture4)
+    {
+        var cut = fixture4.GetComponentUnderTest<SfChart>();
+        await Task.Delay(200);
+        //var svg = cut.Find("#containerAxisLabels0");
+        //Assert.True(svg.ChildNodes.Length == 8);
+        cut.SetParametersAndRender();
+    }
+    public class DateTimeData4
+    {
+        public DateTime X { get; set; }
+        public double Y { get; set; }
+    }
+    public List<DateTimeData4> DateValue4 = new List<DateTimeData4>
+{
+        new DateTimeData4{ X = new DateTime(2000, 03, 21, 03, 00, 00), Y = 50},
+        new DateTimeData4{ X = new DateTime(2000, 03, 22, 04, 00, 00), Y = 10},
+
+    };
+}
+
+
+@{
+    var InitialGroup5 = (new string[] { "CustomerID", "OrderID" });
+}
+<SfFixture @ref="fixture5" TestAsync="CheckingAutoIntervalWithSeconds" Description="DateTime CheckingAutoIntervalWithSeconds">
+    <ComponentUnderTest>
+        <SfChart ID="container" Height="450">
+            <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Toolkit.ValueType.DateTime"
+                               RangePadding="ChartRangePadding.Round"></ChartPrimaryXAxis>
+            <ChartSeriesCollection>
+                <ChartSeries DataSource="@DateValue5" XName="X" YName="Y" Name="series1" Type="ChartSeriesType.Line" Fill="#ACE5FF" Width="2">
+                    <ChartSeriesAnimation Enable="false"></ChartSeriesAnimation>
+                </ChartSeries>
+            </ChartSeriesCollection>
+            <ChartLegendSettings Visible="false"></ChartLegendSettings>
+        </SfChart>
+    </ComponentUnderTest>
+</SfFixture>
+
+@code{
+    SfFixture fixture5 { get; set; }
+
+    async Task CheckingAutoIntervalWithSeconds(Fixture fixture5)
+    {
+        var cut = fixture5.GetComponentUnderTest<SfChart>();
+        await Task.Delay(200);
+        var svg = cut.Find("#containerAxisLabels0");
+        Assert.True(svg.ChildNodes.Length == 12);
+        cut.SetParametersAndRender();
+    }
+    public class DateTimeData5
+    {
+        public DateTime X { get; set; }
+        public double Y { get; set; }
+    }
+    public List<DateTimeData5> DateValue5 = new List<DateTimeData5>
+{
+        new DateTimeData5{ X = new DateTime(2000, 03, 21, 03, 00, 00), Y = 50},
+        new DateTimeData5{ X = new DateTime(2000, 03, 22, 04, 00, 00), Y = 10},
+
+    };
+}
+
+@{
+    var InitialGroup6 = (new string[] { "CustomerID", "OrderID" });
+}
+
+<SfFixture @ref="fixture6" TestAsync="CheckIntervalTypeMonths" Description="DateTime CheckIntervalTypeMonths">
+    <ComponentUnderTest>
+        <SfChart @ref="chart6" ID="container" Height="600" Width="900">
+            <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Toolkit.ValueType.DateTime" Title="Sales Across Years" IntervalType="IntervalType.Months"
+                               Minimum="new DateTime(2000, 06, 01)" Maximum="new DateTime(2005, 07, 01)"></ChartPrimaryXAxis>
+            <ChartSeriesCollection>
+                <ChartSeries DataSource="@DateValue6" XName="X" YName="Y" Name="series1" Type="ChartSeriesType.Line" Fill="#ACE5FF" Width="2">
+                    <ChartSeriesAnimation Enable="false"></ChartSeriesAnimation>
+                </ChartSeries>
+            </ChartSeriesCollection>
+            <ChartLegendSettings Visible="false"></ChartLegendSettings>
+        </SfChart>
+    </ComponentUnderTest>
+</SfFixture>
+
+@code{
+    SfFixture fixture6 { get; set; }
+    SfChart chart6;
+    async Task CheckIntervalTypeMonths(Fixture fixture6)
+    {
+        var cut = fixture6.GetComponentUnderTest<SfChart>();
+        await Task.Delay(200);
+        int index = chart6._axisContainer.Axes[Constants.PrimaryXAxis].Renderer.Index;
+        var svg = cut.Find("#containerAxisLabels" + index);
+        Assert.True(svg.ChildNodes.Length == 13);
+        Assert.True(cut.Find("#containerAxisLabels" + index).ChildNodes[0].TextContent == "2000 Jun\n    ");
+        Assert.True(cut.Find("#containerAxisLabels" + index).ChildNodes[1].TextContent == "2000 Nov\n    ");
+        Assert.True(cut.Find("#containerAxisLabels" + index).ChildNodes[2].TextContent == "2001 Apr\n    ");
+        Assert.True(cut.Find("#containerAxisLabels" + index).ChildNodes[3].TextContent == "2001 Sep\n    ");
+        Assert.True(cut.Find("#containerAxisLabels" + index).ChildNodes[4].TextContent == "2002 Feb\n    ");
+        Assert.True(cut.Find("#containerAxisLabels" + index).ChildNodes[5].TextContent == "2002 Jul\n    ");
+        Assert.True(cut.Find("#containerAxisLabels" + index).ChildNodes[6].TextContent == "2002 Dec\n    ");
+        Assert.True(cut.Find("#containerAxisLabels" + index).ChildNodes[7].TextContent == "2003 May\n    ");
+        Assert.True(cut.Find("#containerAxisLabels" + index).ChildNodes[8].TextContent == "2003 Oct\n    ");
+        Assert.True(cut.Find("#containerAxisLabels" + index).ChildNodes[9].TextContent == "2004 Mar\n    ");
+        Assert.True(cut.Find("#containerAxisLabels" + index).ChildNodes[10].TextContent == "2004 Aug\n    ");
+        Assert.True(cut.Find("#containerAxisLabels" + index).ChildNodes[11].TextContent == "2005 Jan\n    ");
+        Assert.True(cut.Find("#containerAxisLabels" + index).ChildNodes[12].TextContent == "2005 Jun\n    ");
+        cut.SetParametersAndRender();
+    }
+    public class DateTimeData6
+    {
+        public DateTime X { get; set; }
+        public double Y { get; set; }
+    }
+    public List<DateTimeData6> DateValue6 = new List<DateTimeData6>
+{
+        new DateTimeData6{ X = new DateTime(2000, 06, 11), Y = 10},
+        new DateTimeData6{ X = new DateTime(2002, 03, 07), Y = 30},
+        new DateTimeData6{ X = new DateTime(2004, 03, 06), Y = 15},
+        new DateTimeData6{ X = new DateTime(2006, 03, 30), Y = 65},
+        new DateTimeData6{ X = new DateTime(2008, 03, 08), Y = 90},
+        new DateTimeData6{ X = new DateTime(2010, 03, 08), Y = 85}
+    };
+}
+
+
+@{
+    var InitialGroup7 = (new string[] { "CustomerID", "OrderID" });
+}
+
+<SfFixture @ref="fixture7" TestAsync="CheckIntervalTypeDays" Description="DateTime CheckIntervalTypeDays">
+    <ComponentUnderTest>
+        <SfChart @ref="chart7" ID="container" Height="600" Width="900">
+            <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Toolkit.ValueType.DateTime" Title="Sales Across Years" IntervalType="IntervalType.Days"
+                               Minimum="new DateTime(2000, 06, 01)" Maximum="new DateTime(2000, 09, 01)"></ChartPrimaryXAxis>
+            <ChartSeriesCollection>
+                <ChartSeries DataSource="@DateValue7" XName="X" YName="Y" Name="series1" Type="ChartSeriesType.Line" Fill="#ACE5FF" Width="2">
+                    <ChartSeriesAnimation Enable="false"></ChartSeriesAnimation>
+                </ChartSeries>
+            </ChartSeriesCollection>
+            <ChartLegendSettings Visible="false"></ChartLegendSettings>
+        </SfChart>
+    </ComponentUnderTest>
+</SfFixture>
+
+@code{
+    SfFixture fixture7 { get; set; }
+    SfChart chart7;
+    async Task CheckIntervalTypeDays(Fixture fixture7)
+    {
+        var cut = fixture7.GetComponentUnderTest<SfChart>();
+        await Task.Delay(200);
+        int index = chart7._axisContainer.Axes[Constants.PrimaryXAxis].Renderer.Index;
+        var svg = cut.Find("#containerAxisLabels" + index);
+        Assert.True(svg.ChildNodes.Length == 10);
+        Assert.True(cut.Find("#containerAxisLabels" + index).ChildNodes[0].TextContent == "6/1/2000\n    ");
+        Assert.True(cut.Find("#containerAxisLabels" + index).ChildNodes[1].TextContent == "6/11/2000\n    ");
+        Assert.True(cut.Find("#containerAxisLabels" + index).ChildNodes[2].TextContent == "6/21/2000\n    ");
+        Assert.True(cut.Find("#containerAxisLabels" + index).ChildNodes[3].TextContent == "7/1/2000\n    ");
+        Assert.True(cut.Find("#containerAxisLabels" + index).ChildNodes[4].TextContent == "7/11/2000\n    ");
+        Assert.True(cut.Find("#containerAxisLabels" + index).ChildNodes[5].TextContent == "7/21/2000\n    ");
+        Assert.True(cut.Find("#containerAxisLabels" + index).ChildNodes[6].TextContent == "7/31/2000\n    ");
+        Assert.True(cut.Find("#containerAxisLabels" + index).ChildNodes[7].TextContent == "8/10/2000\n    ");
+        Assert.True(cut.Find("#containerAxisLabels" + index).ChildNodes[8].TextContent == "8/20/2000\n    ");
+        Assert.True(cut.Find("#containerAxisLabels" + index).ChildNodes[9].TextContent == "8/30/2000\n    ");
+
+        //var Lastlabel = cut.Find("#container0_AxisLabel_3");
+        //Assert.True(Lastlabel.TextContent == "\n    01-Jul-00\n    \n");
+        cut.SetParametersAndRender();
+    }
+    public class DateTimeData7
+    {
+        public DateTime X { get; set; }
+        public double Y { get; set; }
+    }
+    public List<DateTimeData7> DateValue7 = new List<DateTimeData7>
+{
+        new DateTimeData7{ X = new DateTime(2000, 06, 11), Y = 10},
+        new DateTimeData7{ X = new DateTime(2002, 03, 07), Y = 30},
+        new DateTimeData7{ X = new DateTime(2004, 03, 06), Y = 15},
+        new DateTimeData7{ X = new DateTime(2006, 03, 30), Y = 65},
+        new DateTimeData7{ X = new DateTime(2008, 03, 08), Y = 90},
+        new DateTimeData7{ X = new DateTime(2010, 03, 08), Y = 85}
+    };
+}
+
+
+@{
+    var InitialGroup8 = (new string[] { "CustomerID", "OrderID" });
+}
+
+<SfFixture @ref="fixture8" TestAsync="CheckIntervalTypeHours" Description="DateTime CheckIntervalTypeHours">
+    <ComponentUnderTest>
+        <SfChart @ref="chart8" ID="container" Height="600" Width="900">
+            <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Toolkit.ValueType.DateTime" Title="Sales Across Years" IntervalType="IntervalType.Hours"
+                               Minimum="new DateTime(2000, 06, 01, 03, 00, 00)" Maximum="new DateTime(2000, 07, 01, 00, 00, 00)"></ChartPrimaryXAxis>
+            <ChartSeriesCollection>
+                <ChartSeries DataSource="@DateValue8" XName="X" YName="Y" Name="series1" Type="ChartSeriesType.Line" Fill="#ACE5FF" Width="2">
+                    <ChartSeriesAnimation Enable="false"></ChartSeriesAnimation>
+                </ChartSeries>
+            </ChartSeriesCollection>
+            <ChartLegendSettings Visible="false"></ChartLegendSettings>
+        </SfChart>
+    </ComponentUnderTest>
+</SfFixture>
+
+@code{
+    SfFixture fixture8 { get; set; }
+    SfChart chart8;
+    async Task CheckIntervalTypeHours(Fixture fixture8)
+    {
+        var cut = fixture8.GetComponentUnderTest<SfChart>();
+        await Task.Delay(200);
+        int index = chart8._axisContainer.Axes[Constants.PrimaryXAxis].Renderer.Index;
+        var svg = cut.Find("#containerAxisLabels" + index);
+        Assert.True(svg.ChildNodes.Length == 8);
+        Assert.True(cut.Find("#containerAxisLabels" + index).ChildNodes[0].TextContent == "3:00 AM\n    ");
+        Assert.True(cut.Find("#containerAxisLabels" + index).ChildNodes[1].TextContent == "7:00 AM\n    ");
+        Assert.True(cut.Find("#containerAxisLabels" + index).ChildNodes[2].TextContent == "11:00 AM\n    ");
+        Assert.True(cut.Find("#containerAxisLabels" + index).ChildNodes[3].TextContent == "3:00 PM\n    ");
+        Assert.True(cut.Find("#containerAxisLabels" + index).ChildNodes[4].TextContent == "7:00 PM\n    ");
+        Assert.True(cut.Find("#containerAxisLabels" + index).ChildNodes[5].TextContent == "11:00 PM\n    ");
+        Assert.True(cut.Find("#containerAxisLabels" + index).ChildNodes[6].TextContent == "3:00 AM\n    ");
+        Assert.True(cut.Find("#containerAxisLabels" + index).ChildNodes[7].TextContent == "7:00 AM\n    ");
+        cut.SetParametersAndRender();
+    }
+    public class DateTimeData8
+    {
+        public DateTime X { get; set; }
+        public double Y { get; set; }
+    }
+    public List<DateTimeData8> DateValue8 = new List<DateTimeData8>
+{
+        new DateTimeData8{ X = new DateTime(2000, 06, 11, 00, 00, 00), Y = 10},
+        new DateTimeData8{ X = new DateTime(2002, 03, 07, 00, 00, 00), Y = 30},
+        new DateTimeData8{ X = new DateTime(2004, 03, 06, 00, 00, 00), Y = 15},
+        new DateTimeData8{ X = new DateTime(2006, 03, 30, 00, 00, 00), Y = 65},
+        new DateTimeData8{ X = new DateTime(2008, 03, 08, 00, 00, 00), Y = 90},
+        new DateTimeData8{ X = new DateTime(2010, 03, 08, 00, 00, 00), Y = 85}
+    };
+}
+
+
+@{
+    var InitialGroup9 = (new string[] { "CustomerID", "OrderID" });
+}
+
+<SfFixture @ref="fixture9" TestAsync="CheckIntervalTypeMinutes" Description="DateTime CheckIntervalTypeMinutes">
+    <ComponentUnderTest>
+        <SfChart @ref="chart9" ID="container" Height="600" Width="900">
+            <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Toolkit.ValueType.DateTime" Title="Sales Across Years" IntervalType="IntervalType.Minutes"
+                               Minimum="new DateTime(2000, 06, 01, 04, 00, 00)" Maximum="new DateTime(2000, 06, 01, 06, 00, 00)"></ChartPrimaryXAxis>
+            <ChartSeriesCollection>
+                <ChartSeries DataSource="@DateValue9" XName="X" YName="Y" Name="series1" Type="ChartSeriesType.Line" Fill="#ACE5FF" Width="2">
+                    <ChartSeriesAnimation Enable="false"></ChartSeriesAnimation>
+                </ChartSeries>
+            </ChartSeriesCollection>
+            <ChartLegendSettings Visible="false"></ChartLegendSettings>
+        </SfChart>
+    </ComponentUnderTest>
+</SfFixture>
+
+@code{
+    SfFixture fixture9 { get; set; }
+    SfChart chart9;
+    async Task CheckIntervalTypeMinutes(Fixture fixture9)
+    {
+        var cut = fixture9.GetComponentUnderTest<SfChart>();
+        await Task.Delay(200);
+        int index = chart9._axisContainer.Axes[Constants.PrimaryXAxis].Renderer.Index;
+        var svg = cut.Find("#containerAxisLabels" + index);
+        Assert.True(svg.ChildNodes.Length == 13);
+        Assert.True(cut.Find("#containerAxisLabels" + index).ChildNodes[0].TextContent == "4:00:00 AM\n    ");
+        Assert.True(cut.Find("#containerAxisLabels" + index).ChildNodes[1].TextContent == "4:10:00 AM\n    ");
+        Assert.True(cut.Find("#containerAxisLabels" + index).ChildNodes[2].TextContent == "4:20:00 AM\n    ");
+        Assert.True(cut.Find("#containerAxisLabels" + index).ChildNodes[3].TextContent == "4:30:00 AM\n    ");
+        Assert.True(cut.Find("#containerAxisLabels" + index).ChildNodes[4].TextContent == "4:40:00 AM\n    ");
+        Assert.True(cut.Find("#containerAxisLabels" + index).ChildNodes[5].TextContent == "4:50:00 AM\n    ");
+        Assert.True(cut.Find("#containerAxisLabels" + index).ChildNodes[6].TextContent == "5:00:00 AM\n    ");
+        Assert.True(cut.Find("#containerAxisLabels" + index).ChildNodes[7].TextContent == "5:10:00 AM\n    ");
+        Assert.True(cut.Find("#containerAxisLabels" + index).ChildNodes[8].TextContent == "5:20:00 AM\n    ");
+        Assert.True(cut.Find("#containerAxisLabels" + index).ChildNodes[9].TextContent == "5:30:00 AM\n    ");
+        Assert.True(cut.Find("#containerAxisLabels" + index).ChildNodes[10].TextContent == "5:40:00 AM\n    ");
+        Assert.True(cut.Find("#containerAxisLabels" + index).ChildNodes[11].TextContent == "5:50:00 AM\n    ");
+        Assert.True(cut.Find("#containerAxisLabels" + index).ChildNodes[12].TextContent == "6:00:00 AM\n    ");
+        cut.SetParametersAndRender();
+    }
+    public class DateTimeData9
+    {
+        public DateTime X { get; set; }
+        public double Y { get; set; }
+    }
+    public List<DateTimeData9> DateValue9 = new List<DateTimeData9>
+{
+        new DateTimeData9{ X = new DateTime(2000, 06, 11, 00, 00, 00), Y = 10},
+        new DateTimeData9{ X = new DateTime(2002, 03, 07, 00, 00, 00), Y = 30},
+        new DateTimeData9{ X = new DateTime(2004, 03, 06, 00, 00, 00), Y = 15},
+        new DateTimeData9{ X = new DateTime(2006, 03, 30, 00, 00, 00), Y = 65},
+        new DateTimeData9{ X = new DateTime(2008, 03, 08, 00, 00, 00), Y = 90},
+        new DateTimeData9{ X = new DateTime(2010, 03, 08, 00, 00, 00), Y = 85}
+    };
+}
+
+
+@{
+    var InitialGroup10 = (new string[] { "CustomerID", "OrderID" });
+}
+
+<SfFixture @ref="fixture10" TestAsync="CheckIntervalTypeSeconds" Description="DateTime CheckIntervalTypeSeconds">
+    <ComponentUnderTest>
+        <SfChart @ref="chart10"  ID="container" Height="600" Width="900">
+            <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Toolkit.ValueType.DateTime" Title="Sales Across Years" IntervalType="IntervalType.Seconds"
+                               Minimum="new DateTime(2000, 06, 01, 01, 00, 00)" Maximum="new DateTime(2000, 06, 01, 02, 00, 00)"></ChartPrimaryXAxis>
+            <ChartSeriesCollection>
+                <ChartSeries DataSource="@DateValue10" XName="X" YName="Y" Name="series1" Type="ChartSeriesType.Line" Fill="#ACE5FF" Width="2">
+                    <ChartSeriesAnimation Enable="false"></ChartSeriesAnimation>
+                </ChartSeries>
+            </ChartSeriesCollection>
+            <ChartLegendSettings Visible="false"></ChartLegendSettings>
+        </SfChart>
+    </ComponentUnderTest>
+</SfFixture>
+
+@code{
+    SfFixture fixture10 { get; set; }
+    SfChart chart10;
+    async Task CheckIntervalTypeSeconds(Fixture fixture10)
+    {
+        var cut = fixture10.GetComponentUnderTest<SfChart>();
+        await Task.Delay(200);
+        int index = chart10._axisContainer.Axes[Constants.PrimaryXAxis].Renderer.Index;
+        var svg = cut.Find("#containerAxisLabels" + index);
+        Assert.True(svg.ChildNodes.Length == 8);
+        Assert.True(cut.Find("#containerAxisLabels" + index).ChildNodes[0].TextContent == "1:00:00 AM\n    ");
+        Assert.True(cut.Find("#containerAxisLabels" + index).ChildNodes[1].TextContent == "1:08:20 AM\n    ");
+        Assert.True(cut.Find("#containerAxisLabels" + index).ChildNodes[2].TextContent == "1:16:40 AM\n    ");
+        Assert.True(cut.Find("#containerAxisLabels" + index).ChildNodes[3].TextContent == "1:25:00 AM\n    ");
+        Assert.True(cut.Find("#containerAxisLabels" + index).ChildNodes[4].TextContent == "1:33:20 AM\n    ");
+        Assert.True(cut.Find("#containerAxisLabels" + index).ChildNodes[5].TextContent == "1:41:40 AM\n    ");
+        Assert.True(cut.Find("#containerAxisLabels" + index).ChildNodes[6].TextContent == "1:50:00 AM\n    ");
+        Assert.True(cut.Find("#containerAxisLabels" + index).ChildNodes[7].TextContent == "1:58:20 AM\n    ");
+        cut.SetParametersAndRender();
+    }
+    public class DateTimeData10
+    {
+        public DateTime X { get; set; }
+        public double Y { get; set; }
+    }
+    public List<DateTimeData10> DateValue10 = new List<DateTimeData10>
+{
+        new DateTimeData10{ X = new DateTime(2000, 06, 11, 00, 00, 00), Y = 10},
+        new DateTimeData10{ X = new DateTime(2002, 03, 07, 00, 00, 00), Y = 30},
+        new DateTimeData10{ X = new DateTime(2004, 03, 06, 00, 00, 00), Y = 15},
+        new DateTimeData10{ X = new DateTime(2006, 03, 30, 00, 00, 00), Y = 65},
+        new DateTimeData10{ X = new DateTime(2008, 03, 08, 00, 00, 00), Y = 90},
+        new DateTimeData10{ X = new DateTime(2010, 03, 08, 00, 00, 00), Y = 85}
+    };
+}
+
+
+@{
+    var InitialGroup11 = (new string[] { "CustomerID", "OrderID" });
+}
+
+<SfFixture @ref="fixture11" TestAsync="CheckYearsWithAdditionalRangePadding" Description="DateTime CheckYearsAdditionalRangePadd">
+    <ComponentUnderTest>
+        <SfChart @ref="chart11" ID="container" Height="600" Width="900">
+            <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Toolkit.ValueType.DateTime" Title="Sales Across Years" IntervalType="IntervalType.Years"
+                               RangePadding="ChartRangePadding.Additional" ZoomFactor="1" ZoomPosition="0"></ChartPrimaryXAxis>
+            <ChartSeriesCollection>
+                <ChartSeries DataSource="@DateValue11" XName="X" YName="Y" Name="series1" Type="ChartSeriesType.Line" Fill="#ACE5FF" Width="2">
+                    <ChartSeriesAnimation Enable="false"></ChartSeriesAnimation>
+                </ChartSeries>
+            </ChartSeriesCollection>
+            <ChartLegendSettings Visible="false"></ChartLegendSettings>
+        </SfChart>
+    </ComponentUnderTest>
+</SfFixture>
+
+@code{
+    SfFixture fixture11 { get; set; }
+    SfChart chart11;
+    async Task CheckYearsWithAdditionalRangePadding(Fixture fixture11)
+    {
+        var cut = fixture11.GetComponentUnderTest<SfChart>();
+        await Task.Delay(200);
+        int index = chart11._axisContainer.Axes[Constants.PrimaryXAxis].Renderer.Index;
+        var svg = cut.Find("#containerAxisLabels" + index);
+        Assert.True(svg.ChildNodes.Length == 13);
+        Assert.True(cut.Find("#containerAxisLabels" + index).ChildNodes[0].TextContent == "1999\n    ");
+        Assert.True(cut.Find("#containerAxisLabels" + index).ChildNodes[1].TextContent == "2000\n    ");
+        Assert.True(cut.Find("#containerAxisLabels" + index).ChildNodes[2].TextContent == "2001\n    ");
+        Assert.True(cut.Find("#containerAxisLabels" + index).ChildNodes[3].TextContent == "2002\n    ");
+        Assert.True(cut.Find("#containerAxisLabels" + index).ChildNodes[4].TextContent == "2003\n    ");
+        Assert.True(cut.Find("#containerAxisLabels" + index).ChildNodes[5].TextContent == "2004\n    ");
+        Assert.True(cut.Find("#containerAxisLabels" + index).ChildNodes[6].TextContent == "2005\n    ");
+        Assert.True(cut.Find("#containerAxisLabels" + index).ChildNodes[7].TextContent == "2006\n    ");
+        Assert.True(cut.Find("#containerAxisLabels" + index).ChildNodes[8].TextContent == "2007\n    ");
+        Assert.True(cut.Find("#containerAxisLabels" + index).ChildNodes[9].TextContent == "2008\n    ");
+        Assert.True(cut.Find("#containerAxisLabels" + index).ChildNodes[10].TextContent == "2009\n    ");
+        Assert.True(cut.Find("#containerAxisLabels" + index).ChildNodes[11].TextContent == "2010\n    ");
+        Assert.True(cut.Find("#containerAxisLabels" + index).ChildNodes[12].TextContent == "2011\n    ");
+        cut.SetParametersAndRender();
+    }
+    public class DateTimeData11
+    {
+        public DateTime X { get; set; }
+        public double Y { get; set; }
+    }
+    public List<DateTimeData11> DateValue11 = new List<DateTimeData11>
+{
+        new DateTimeData11{ X = new DateTime(2000, 03, 21, 00, 00, 00), Y = 14},
+        new DateTimeData11{ X = new DateTime(2010, 03, 21, 00, 00, 00), Y = 45}
+    };
+}
+
+
+@{
+    var InitialGroup12 = (new string[] { "CustomerID", "OrderID" });
+}
+
+<SfFixture @ref="fixture12" TestAsync="CheckYearsWithRoundRangePadding" Description="DateTime CheckYearsRoundRangePadd">
+    <ComponentUnderTest>
+        <SfChart ID="container" Height="600" Width="900">
+            <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Toolkit.ValueType.DateTime" Title="Sales Across Years"
+                               RangePadding="ChartRangePadding.Round"></ChartPrimaryXAxis>
+            <ChartSeriesCollection>
+                <ChartSeries DataSource="@DateValue12" XName="X" YName="Y" Name="series1" Type="ChartSeriesType.Line" Fill="#ACE5FF" Width="2">
+                    <ChartSeriesAnimation Enable="false"></ChartSeriesAnimation>
+                </ChartSeries>
+            </ChartSeriesCollection>
+            <ChartLegendSettings Visible="false"></ChartLegendSettings>
+        </SfChart>
+    </ComponentUnderTest>
+</SfFixture>
+
+@code{
+    SfFixture fixture12 { get; set; }
+
+    async Task CheckYearsWithRoundRangePadding(Fixture fixture12)
+    {
+        var cut = fixture12.GetComponentUnderTest<SfChart>();
+        await Task.Delay(200);
+        var svg = cut.Find("#containerAxisLabels0");
+        Assert.True(svg.ChildNodes.Length == 11);
+        Assert.True(cut.Find("#containerAxisLabels0").ChildNodes[0].TextContent == "0\n    ");
+        cut.SetParametersAndRender();
+    }
+    public class DateTimeData12
+    {
+        public DateTime X { get; set; }
+        public double Y { get; set; }
+    }
+    public List<DateTimeData12> DateValue12 = new List<DateTimeData12>
+{
+       new DateTimeData12{ X = new DateTime(2005, 01, 01, 03, 00, 00), Y = 14},
+       new DateTimeData12{ X = new DateTime(2006, 01, 01, 04, 00, 00), Y = 45}
+    };
+}
+
+
+@{
+    var InitialGroup13 = (new string[] { "CustomerID", "OrderID" });
+}
+
+<SfFixture @ref="fixture13" TestAsync="CheckMonthsWithAdditionalRangePadding" Description="DateTime CheckMonthsAdditionalRangePadd">
+    <ComponentUnderTest>
+        <SfChart ID="container" Height="600" Width="900">
+            <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Toolkit.ValueType.DateTime" Title="Sales Across Years" IntervalType="IntervalType.Months"
+                               RangePadding="ChartRangePadding.Additional"></ChartPrimaryXAxis>
+            <ChartSeriesCollection>
+                <ChartSeries DataSource="@DateValue13" XName="X" YName="Y" Name="series1" Type="ChartSeriesType.Line" Fill="#ACE5FF" Width="2">
+                    <ChartSeriesAnimation Enable="false"></ChartSeriesAnimation>
+                </ChartSeries>
+            </ChartSeriesCollection>
+            <ChartLegendSettings Visible="false"></ChartLegendSettings>
+        </SfChart>
+    </ComponentUnderTest>
+</SfFixture>
+
+@code{
+    SfFixture fixture13 { get; set; }
+
+    async Task CheckMonthsWithAdditionalRangePadding(Fixture fixture13)
+    {
+        var cut = fixture13.GetComponentUnderTest<SfChart>();
+        await Task.Delay(200);
+        var svg = cut.Find("#containerAxisLabels0");
+        Assert.True(svg.ChildNodes.Length == 11);
+        Assert.True(cut.Find("#containerAxisLabels0").ChildNodes[0].TextContent == "0\n    ");
+        cut.SetParametersAndRender();
+    }
+    public class DateTimeData13
+    {
+        public DateTime X { get; set; }
+        public double Y { get; set; }
+    }
+    public List<DateTimeData13> DateValue13 = new List<DateTimeData13>
+{
+        new DateTimeData13{ X = new DateTime(2000, 03, 21, 00, 00, 00), Y = 14},
+        new DateTimeData13{ X = new DateTime(2002, 03, 21, 00, 00, 00), Y = 45}
+    };
+}
+
+
+
+@{
+    var InitialGroup14 = (new string[] { "CustomerID", "OrderID" });
+}
+
+<SfFixture @ref="fixture14" TestAsync="CheckMonthsWithRoundRangePadding" Description="DateTime CheckMonthsRoundRangePadd">
+    <ComponentUnderTest>
+        <SfChart ID="container" Height="600" Width="900">
+            <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Toolkit.ValueType.DateTime" Title="Sales Across Years" IntervalType="IntervalType.Months"
+                               RangePadding="ChartRangePadding.Round"></ChartPrimaryXAxis>
+            <ChartSeriesCollection>
+                <ChartSeries DataSource="@DateValue14" XName="X" YName="Y" Name="series1" Type="ChartSeriesType.Line" Fill="#ACE5FF" Width="2">
+                    <ChartSeriesAnimation Enable="false"></ChartSeriesAnimation>
+                </ChartSeries>
+            </ChartSeriesCollection>
+            <ChartLegendSettings Visible="false"></ChartLegendSettings>
+        </SfChart>
+    </ComponentUnderTest>
+</SfFixture>
+
+@code{
+    SfFixture fixture14 { get; set; }
+
+    async Task CheckMonthsWithRoundRangePadding(Fixture fixture14)
+    {
+        var cut = fixture14.GetComponentUnderTest<SfChart>();
+        await Task.Delay(200);
+        var svg = cut.Find("#containerAxisLabels0");
+        Assert.True(svg.ChildNodes.Length == 11);
+        Assert.True(cut.Find("#containerAxisLabels0").ChildNodes[0].TextContent == "0\n    ");
+        cut.SetParametersAndRender();
+    }
+    public class DateTimeData14
+    {
+        public DateTime X { get; set; }
+        public double Y { get; set; }
+    }
+    public List<DateTimeData14> DateValue14 = new List<DateTimeData14>
+{
+        new DateTimeData14{ X = new DateTime(2000, 03, 21, 00, 00, 00), Y = 14},
+        new DateTimeData14{ X = new DateTime(2002, 03, 21, 00, 00, 00), Y = 45}
+    };
+}
+
+
+
+@{
+    var InitialGroup15 = (new string[] { "CustomerID", "OrderID" });
+}
+
+<SfFixture @ref="fixture15" TestAsync="CheckDaysWithAdditionalRangePadding" Description="DateTime CheckDaysAdditionalRangePadd">
+<ComponentUnderTest>
+<SfChart @ref="chart" ID="container" Height="600" Width="900">
+<ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Toolkit.ValueType.DateTime" Title="Sales Across Years" IntervalType="IntervalType.Days"
+RangePadding="ChartRangePadding.Additional"></ChartPrimaryXAxis>
+<ChartSeriesCollection>
+<ChartSeries DataSource="@DateValue15" XName="X" YName="Y" Name="series1" Type="ChartSeriesType.Line" Fill="#ACE5FF" Width="2">
+<ChartSeriesAnimation Enable="false"></ChartSeriesAnimation>
+</ChartSeries>
+</ChartSeriesCollection>
+<ChartLegendSettings Visible="false"></ChartLegendSettings>
+</SfChart>
+</ComponentUnderTest>
+</SfFixture>
+
+
+
+@code{
+SfFixture fixture15 { get; set; }
+SfChart chart;
+async Task CheckDaysWithAdditionalRangePadding(Fixture fixture15)
+{
+var cut = fixture15.GetComponentUnderTest<SfChart>();
+await Task.Delay(200);
+int index = chart._axisContainer.Axes["PrimaryXAxis"].Renderer.Index;
+var svg = cut.Find("#containerAxisLabels" + index);
+Assert.True(svg.ChildNodes.Length == 14);
+Assert.True(cut.Find("#containerAxisLabels" + index).ChildNodes[0].TextContent == "7/20/2000\n    ");
+Assert.True(cut.Find("#containerAxisLabels" + index).ChildNodes[1].TextContent == "7/25/2000\n    ");
+Assert.True(cut.Find("#containerAxisLabels" + index).ChildNodes[2].TextContent == "7/30/2000\n    ");
+Assert.True(cut.Find("#containerAxisLabels" + index).ChildNodes[3].TextContent == "8/4/2000\n    ");
+Assert.True(cut.Find("#containerAxisLabels" + index).ChildNodes[4].TextContent == "8/9/2000\n    ");
+Assert.True(cut.Find("#containerAxisLabels" + index).ChildNodes[5].TextContent == "8/14/2000\n    ");
+Assert.True(cut.Find("#containerAxisLabels" + index).ChildNodes[6].TextContent == "8/19/2000\n    ");
+Assert.True(cut.Find("#containerAxisLabels" + index).ChildNodes[7].TextContent == "8/24/2000\n    ");
+Assert.True(cut.Find("#containerAxisLabels" + index).ChildNodes[8].TextContent == "8/29/2000\n    ");
+Assert.True(cut.Find("#containerAxisLabels" + index).ChildNodes[9].TextContent == "9/3/2000\n    ");
+Assert.True(cut.Find("#containerAxisLabels" + index).ChildNodes[10].TextContent == "9/8/2000\n    ");
+Assert.True(cut.Find("#containerAxisLabels" + index).ChildNodes[11].TextContent == "9/13/2000\n    ");
+Assert.True(cut.Find("#containerAxisLabels" + index).ChildNodes[12].TextContent == "9/18/2000\n    ");
+Assert.True(cut.Find("#containerAxisLabels" + index).ChildNodes[13].TextContent == "9/23/2000\n    ");
+cut.SetParametersAndRender();
+}
+public class DateTimeData15
+{
+public DateTime X { get; set; }
+public double Y { get; set; }
+}
+public List<DateTimeData15> DateValue15 = new List<DateTimeData15>
+{
+new DateTimeData15{ X = new DateTime(2000, 07, 21, 00, 00, 00), Y = 14},
+new DateTimeData15{ X = new DateTime(2000, 09, 21, 00, 00, 00), Y = 45}
+};
+}
+
+
+
+@{
+    var InitialGroup16 = (new string[] { "CustomerID", "OrderID" });
+}
+
+<SfFixture @ref="fixture16" TestAsync="CheckDaysWithRoundRangePadding" Description="DateTime CheckDaysRoundRangePadd">
+    <ComponentUnderTest>
+        <SfChart @ref="chart16" ID="container" Height="600" Width="900">
+            <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Toolkit.ValueType.DateTime" Title="Sales Across Years" IntervalType="IntervalType.Days"
+                               RangePadding="ChartRangePadding.Round"></ChartPrimaryXAxis>
+            <ChartSeriesCollection>
+                <ChartSeries DataSource="@DateValue16" XName="X" YName="Y" Name="series1" Type="ChartSeriesType.Line" Fill="#ACE5FF" Width="2">
+                    <ChartSeriesAnimation Enable="false"></ChartSeriesAnimation>
+                </ChartSeries>
+            </ChartSeriesCollection>
+            <ChartLegendSettings Visible="false"></ChartLegendSettings>
+        </SfChart>
+    </ComponentUnderTest>
+</SfFixture>
+
+@code{
+    SfFixture fixture16 { get; set; }
+    SfChart chart16;
+    async Task CheckDaysWithRoundRangePadding(Fixture fixture16)
+    {
+        var cut = fixture16.GetComponentUnderTest<SfChart>();
+        await Task.Delay(200);
+        int index = chart16._axisContainer.Axes[Constants.PrimaryXAxis].Renderer.Index;
+        var svg = cut.Find("#containerAxisLabels" + index);
+        Assert.True(svg.ChildNodes.Length == 12);
+        Assert.True(cut.Find("#containerAxisLabels" + index).ChildNodes[0].TextContent == "7/25/2000\n    ");
+        Assert.True(cut.Find("#containerAxisLabels" + index).ChildNodes[1].TextContent == "7/30/2000\n    ");
+        Assert.True(cut.Find("#containerAxisLabels" + index).ChildNodes[2].TextContent == "8/4/2000\n    ");
+        Assert.True(cut.Find("#containerAxisLabels" + index).ChildNodes[3].TextContent == "8/9/2000\n    ");
+        Assert.True(cut.Find("#containerAxisLabels" + index).ChildNodes[4].TextContent == "8/14/2000\n    ");
+        Assert.True(cut.Find("#containerAxisLabels" + index).ChildNodes[5].TextContent == "8/19/2000\n    ");
+        Assert.True(cut.Find("#containerAxisLabels" + index).ChildNodes[6].TextContent == "8/24/2000\n    ");
+        Assert.True(cut.Find("#containerAxisLabels" + index).ChildNodes[7].TextContent == "8/29/2000\n    ");
+        Assert.True(cut.Find("#containerAxisLabels" + index).ChildNodes[8].TextContent == "9/3/2000\n    ");
+        Assert.True(cut.Find("#containerAxisLabels" + index).ChildNodes[9].TextContent == "9/8/2000\n    ");
+        Assert.True(cut.Find("#containerAxisLabels" + index).ChildNodes[10].TextContent == "9/13/2000\n    ");
+        Assert.True(cut.Find("#containerAxisLabels" + index).ChildNodes[11].TextContent == "9/18/2000\n    ");
+        cut.SetParametersAndRender();
+    }
+    public class DateTimeData16
+    {
+        public DateTime X { get; set; }
+        public double Y { get; set; }
+    }
+    public List<DateTimeData16> DateValue16 = new List<DateTimeData16>
+{
+        new DateTimeData16{ X = new DateTime(2000, 07, 21, 00, 00, 00), Y = 14},
+        new DateTimeData16{ X = new DateTime(2000, 09, 21, 00, 00, 00), Y = 45}
+    };
+}
+
+
+
+@{
+    var InitialGroup17 = (new string[] { "CustomerID", "OrderID" });
+}
+
+<SfFixture @ref="fixture17" TestAsync="CheckEdgelabelPlacementIntersect" Description="DateTime CheckEdgelabelPlacementIntersectAction">
+    <ComponentUnderTest>
+        <SfChart ID="container" Height="600" Width="900">
+            <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Toolkit.ValueType.DateTime" Title="Sales Across Years" EdgeLabelPlacement="EdgeLabelPlacement.Hide"
+                               LabelIntersectAction="LabelIntersectAction.Rotate90" IntervalType="IntervalType.Months"></ChartPrimaryXAxis>
+            <ChartSeriesCollection>
+                <ChartSeries DataSource="@DateValue17" XName="X" YName="Y" Name="series1" Type="ChartSeriesType.Line" Fill="#ACE5FF" Width="2">
+                    <ChartSeriesAnimation Enable="false"></ChartSeriesAnimation>
+                </ChartSeries>
+            </ChartSeriesCollection>
+            <ChartLegendSettings Visible="false"></ChartLegendSettings>
+        </SfChart>
+    </ComponentUnderTest>
+</SfFixture>
+
+@code{
+    SfFixture fixture17 { get; set; }
+
+    async Task CheckEdgelabelPlacementIntersect(Fixture fixture17)
+    {
+        var cut = fixture17.GetComponentUnderTest<SfChart>();
+        await Task.Delay(200);
+        var svg = cut.Find("#container0_AxisLabel_0");
+        Assert.True(svg != null);
+
+        cut.SetParametersAndRender();
+    }
+    public class DateTimeData17
+    {
+        public DateTime X { get; set; }
+        public double Y { get; set; }
+    }
+    public List<DateTimeData17> DateValue17 = new List<DateTimeData17>
+{
+        new DateTimeData17{ X = new DateTime(2000, 07, 21, 00, 00, 00), Y = 14},
+        new DateTimeData17{ X = new DateTime(2000, 09, 21, 00, 00, 00), Y = 45}
+    };
+}
+
+
+
+@{
+    var InitialGroup18 = (new string[] { "CustomerID", "OrderID" });
+}
+
+<SfFixture @ref="fixture18" TestAsync="CheckWithBarSeries" Description="DateTime CheckWithBarSeries">
+    <ComponentUnderTest>
+        <SfChart ID="container">
+            <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Toolkit.ValueType.DateTime" ZoomFactor="0.7" Title="Sales Across Years" RangePadding="ChartRangePadding.Auto"
+                               EnableAutoIntervalOnZooming="false"></ChartPrimaryXAxis>
+            <ChartPrimaryYAxis RangePadding="ChartRangePadding.Auto"></ChartPrimaryYAxis>
+            <ChartSeriesCollection>
+                <ChartSeries DataSource="@DateValue18" XName="X" YName="Y" Name="series1" Type="ChartSeriesType.Bar" Fill="#ACE5FF" Width="2">
+                    <ChartSeriesAnimation Enable="false"></ChartSeriesAnimation>
+                </ChartSeries>
+            </ChartSeriesCollection>
+            <ChartLegendSettings Visible="false"></ChartLegendSettings>
+        </SfChart>
+    </ComponentUnderTest>
+</SfFixture>
+
+@code{
+    SfFixture fixture18 { get; set; }
+
+    async Task CheckWithBarSeries(Fixture fixture18)
+    {
+        var cut = fixture18.GetComponentUnderTest<SfChart>();
+        await Task.Delay(200);
+        var svg = cut.Find("#containerAxisLabels0");
+       Assert.True(svg.ChildNodes.Length == 9);
+
+        cut.SetParametersAndRender();
+    }
+    public class DateTimeData18
+    {
+        public DateTime X { get; set; }
+        public double Y { get; set; }
+    }
+    public List<DateTimeData18> DateValue18 = new List<DateTimeData18>
+{
+       new DateTimeData18{ X = new DateTime(2000, 06, 11), Y = 10},
+        new DateTimeData18{ X = new DateTime(2002, 03, 07), Y = 30},
+        new DateTimeData18{ X = new DateTime(2004, 03, 06), Y = 15},
+        new DateTimeData18{ X = new DateTime(2006, 03, 30), Y = 65},
+        new DateTimeData18{ X = new DateTime(2008, 03, 08), Y = 90},
+        new DateTimeData18{ X = new DateTime(2010, 03, 08), Y = 85}
+    };
+}
+
+
+@{
+    var InitialGroup19 = (new string[] { "CustomerID", "OrderID" });
+}
+
+<SfFixture @ref="fixture19" TestAsync="CheckWitLineSeriesNeg45Degree" Description="DateTime CheckWitLineSeriesNeg45Degree">
+    <ComponentUnderTest>
+        <SfChart ID="container">
+            <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Toolkit.ValueType.DateTime" LabelRotation="-45" Title="Sales Across Years"></ChartPrimaryXAxis>
+
+            <ChartPrimaryYAxis RangePadding="ChartRangePadding.Auto"></ChartPrimaryYAxis>
+            <ChartSeriesCollection>
+                <ChartSeries DataSource="@DateValue19" XName="X" YName="Y" Name="series1" Type="ChartSeriesType.Line" Fill="#ACE5FF" Width="2">
+                    <ChartSeriesAnimation Enable="false"></ChartSeriesAnimation>
+                </ChartSeries>
+            </ChartSeriesCollection>
+            <ChartLegendSettings Visible="false"></ChartLegendSettings>
+        </SfChart>
+    </ComponentUnderTest>
+</SfFixture>
+
+@code{
+    SfFixture fixture19 { get; set; }
+
+    async Task CheckWitLineSeriesNeg45Degree(Fixture fixture19)
+    {
+        var cut = fixture19.GetComponentUnderTest<SfChart>();
+        await Task.Delay(200);
+        var svg = cut.Find("#container_AxisTitle_0");
+        var axis = cut.Find("#container0_AxisLabel_3");
+        Assert.True(Convert.ToDouble(svg.GetAttribute("y")) > (Convert.ToDouble(axis.GetAttribute("y"))));
+
+        cut.SetParametersAndRender();
+    }
+    public class DateTimeData19
+    {
+        public DateTime X { get; set; }
+        public double Y { get; set; }
+    }
+    public List<DateTimeData19> DateValue19 = new List<DateTimeData19>
+{
+       new DateTimeData19{ X = new DateTime(2000, 06, 11), Y = 10},
+        new DateTimeData19{ X = new DateTime(2002, 03, 07), Y = 30},
+        new DateTimeData19{ X = new DateTime(2004, 03, 06), Y = 15},
+        new DateTimeData19{ X = new DateTime(2006, 03, 30), Y = 65},
+        new DateTimeData19{ X = new DateTime(2008, 03, 08), Y = 90},
+        new DateTimeData19{ X = new DateTime(2010, 03, 08), Y = 85}
+    };
+}
+
+
+@{
+    var InitialGroup20 = (new string[] { "CustomerID", "OrderID" });
+}
+
+<SfFixture @ref="fixture20" TestAsync="CheckEdgelabelPlaceLabelRotation" Description="DateTime CheckEdgelabelPlaceLabelRotation">
+    <ComponentUnderTest>
+        <SfChart ID="container">
+            <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Toolkit.ValueType.DateTime" EdgeLabelPlacement="EdgeLabelPlacement.Shift" Title="Sales Across Years"></ChartPrimaryXAxis>
+
+            <ChartSeriesCollection>
+                <ChartSeries DataSource="@DateValue20" XName="X" YName="Y" Name="series1" Type="ChartSeriesType.Line" Fill="#ACE5FF" Width="2">
+                    <ChartSeriesAnimation Enable="false"></ChartSeriesAnimation>
+                </ChartSeries>
+            </ChartSeriesCollection>
+            <ChartLegendSettings Visible="false"></ChartLegendSettings>
+        </SfChart>
+    </ComponentUnderTest>
+</SfFixture>
+
+@code{
+    SfFixture fixture20 { get; set; }
+
+    async Task CheckEdgelabelPlaceLabelRotation(Fixture fixture20)
+    {
+        var cut = fixture20.GetComponentUnderTest<SfChart>();
+        await Task.Delay(200);
+        var svg = cut.Find("#container_ChartAreaBorder");
+        var axis = cut.Find("#container0_AxisLabel_3");
+        Assert.True(Convert.ToDouble(svg.GetAttribute("y")) + Convert.ToDouble(svg.GetAttribute("height")) > Convert.ToDouble(axis.GetAttribute("y")));
+        cut.SetParametersAndRender();
+    }
+    public class DateTimeData20
+    {
+        public DateTime X { get; set; }
+        public double Y { get; set; }
+    }
+    public List<DateTimeData20> DateValue20 = new List<DateTimeData20>
+{
+       new DateTimeData20{ X = new DateTime(2000, 06, 11), Y = 10},
+        new DateTimeData20{ X = new DateTime(2002, 03, 07), Y = 30},
+        new DateTimeData20{ X = new DateTime(2004, 03, 06), Y = 15},
+        new DateTimeData20{ X = new DateTime(2006, 03, 30), Y = 65},
+        new DateTimeData20{ X = new DateTime(2008, 03, 08), Y = 90},
+        new DateTimeData20{ X = new DateTime(2010, 03, 08), Y = 85}
+    };
+}
+
+
+@{
+    var InitialGroup21 = (new string[] { "CustomerID", "OrderID" });
+}
+
+<SfFixture @ref="fixture21" TestAsync="CheckMinorGridAndTickLines" Description="DateTime CheckMinorGridAndTickLines">
+    <ComponentUnderTest>
+        <SfChart ID="container">
+            <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Toolkit.ValueType.DateTime" EdgeLabelPlacement="EdgeLabelPlacement.Shift" Title="Sales Across Years"
+                               LabelRotation="0" MinorTicksPerInterval="3"></ChartPrimaryXAxis>
+
+            <ChartSeriesCollection>
+                <ChartSeries DataSource="@DateValue21" XName="X" YName="Y" Name="series1" Type="ChartSeriesType.Line" Fill="#ACE5FF" Width="2">
+                    <ChartSeriesAnimation Enable="false"></ChartSeriesAnimation>
+                </ChartSeries>
+            </ChartSeriesCollection>
+            <ChartLegendSettings Visible="false"></ChartLegendSettings>
+        </SfChart>
+    </ComponentUnderTest>
+</SfFixture>
+
+@code{
+    SfFixture fixture21 { get; set; }
+
+    async Task CheckMinorGridAndTickLines(Fixture fixture21)
+    {
+        var cut = fixture21.GetComponentUnderTest<SfChart>();
+        await Task.Delay(200);
+        var svg = cut.Find("#container_MinorGridLine_1_0");
+        var axis = cut.Find("#container_MajorTickLine_0_1");
+        Assert.True(svg != null);
+        Assert.True(axis != null);
+        cut.SetParametersAndRender();
+    }
+    public class DateTimeData21
+    {
+        public DateTime X { get; set; }
+        public double Y { get; set; }
+    }
+    public List<DateTimeData21> DateValue21 = new List<DateTimeData21>
+{
+       new DateTimeData21{ X = new DateTime(2000, 06, 11), Y = 10},
+        new DateTimeData21{ X = new DateTime(2002, 03, 07), Y = 30},
+        new DateTimeData21{ X = new DateTime(2004, 03, 06), Y = 15},
+        new DateTimeData21{ X = new DateTime(2006, 03, 30), Y = 65},
+        new DateTimeData21{ X = new DateTime(2008, 03, 08), Y = 90},
+        new DateTimeData21{ X = new DateTime(2010, 03, 08), Y = 85}
+    };
+}
+
+
+@{
+    var InitialGroup22 = (new string[] { "CustomerID", "OrderID" });
+}
+
+<SfFixture @ref="fixture22" TestAsync="CheckWithLabelIntersectActANdEdgeLabelPlacment" Description="DateTime CheckWithLabelIntersectActANdEdgeLabelPlacment">
+    <ComponentUnderTest>
+        <SfChart ID="container" Width="400">
+            <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Toolkit.ValueType.DateTime" EdgeLabelPlacement="EdgeLabelPlacement.Shift" Title="Sales Across Years"
+                               LabelIntersectAction="LabelIntersectAction.Rotate45" Interval="7" MinorTicksPerInterval="0"></ChartPrimaryXAxis>
+
+            <ChartSeriesCollection>
+                <ChartSeries DataSource="@DateValue22" XName="X" YName="Y" Name="series1" Type="ChartSeriesType.Line" Fill="#ACE5FF" Width="2">
+                    <ChartSeriesAnimation Enable="false"></ChartSeriesAnimation>
+                </ChartSeries>
+            </ChartSeriesCollection>
+            <ChartLegendSettings Visible="false"></ChartLegendSettings>
+        </SfChart>
+    </ComponentUnderTest>
+</SfFixture>
+
+@code{
+    SfFixture fixture22 { get; set; }
+
+    async Task CheckWithLabelIntersectActANdEdgeLabelPlacment(Fixture fixture22)
+    {
+        var cut = fixture22.GetComponentUnderTest<SfChart>();
+        await Task.Delay(200);
+        var axisLabelFirst = cut.Find("#container0_AxisLabel_0");
+        var axisLabelLast = cut.Find("#container0_AxisLabel_10");
+        Assert.True(axisLabelFirst.GetAttribute("transform") == "");
+        Assert.True(axisLabelLast.GetAttribute("transform") == "");
+        cut.SetParametersAndRender();
+    }
+    public class DateTimeData22
+    {
+        public DateTime X { get; set; }
+        public double Y { get; set; }
+    }
+    public List<DateTimeData22> DateValue22 = new List<DateTimeData22>
+{
+       new DateTimeData22{ X = new DateTime(2000, 06, 11), Y = 10},
+        new DateTimeData22{ X = new DateTime(2002, 03, 07), Y = 30},
+        new DateTimeData22{ X = new DateTime(2004, 03, 06), Y = 15},
+        new DateTimeData22{ X = new DateTime(2006, 03, 30), Y = 65},
+        new DateTimeData22{ X = new DateTime(2008, 03, 08), Y = 90},
+        new DateTimeData22{ X = new DateTime(2010, 03, 08), Y = 85},
+        new DateTimeData22{ X = new DateTime(2012, 06, 11), Y = 10},
+        new DateTimeData22{ X = new DateTime(2014, 03, 07), Y = 30},
+        new DateTimeData22{ X = new DateTime(2016, 03, 06), Y = 15},
+        new DateTimeData22{ X = new DateTime(2018, 03, 30), Y = 65},
+        new DateTimeData22{ X = new DateTime(2020, 03, 08), Y = 90},
+        new DateTimeData22{ X = new DateTime(2022, 03, 08), Y = 85}
+    };
+}
+
+
+@{
+    var InitialGroup23 = (new string[] { "CustomerID", "OrderID" });
+}
+
+<SfFixture @ref="fixture23" TestAsync="CheckXAxisInversedAxis" Description="DateTime CheckXAxisInversedAxis">
+    <ComponentUnderTest>
+        <SfChart @ref="chart23" ID="container">
+            <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Toolkit.ValueType.DateTime" Title="Sales Across Years" IsInversed="true"></ChartPrimaryXAxis>
+
+            <ChartSeriesCollection>
+                <ChartSeries DataSource="@DateValue23" XName="X" YName="Y" Name="Gold" Type="ChartSeriesType.Line" Fill="rgba(135,206,235,1)" Width="2">
+                    <ChartSeriesAnimation Enable="false"></ChartSeriesAnimation>
+                </ChartSeries>
+            </ChartSeriesCollection>
+            <ChartLegendSettings Visible="false"></ChartLegendSettings>
+        </SfChart>
+    </ComponentUnderTest>
+</SfFixture>
+
+@code{
+    SfFixture fixture23 { get; set; }
+    SfChart chart23;
+    async Task CheckXAxisInversedAxis(Fixture fixture23)
+    {
+        var cut = fixture23.GetComponentUnderTest<SfChart>();
+        await Task.Delay(200);
+        int index = chart23._axisContainer.Axes[Constants.PrimaryXAxis].Renderer.Index;
+        var svg = cut.Find("#containerAxisLabels" + index);
+        Assert.True(svg.ChildNodes.Length == 5);
+        Assert.True(cut.Find("#containerAxisLabels" + index).ChildNodes[0].TextContent == "2000\n    ");
+        cut.SetParametersAndRender();
+    }
+    public class DateTimeData23
+    {
+        public DateTime X { get; set; }
+        public double Y { get; set; }
+    }
+    public List<DateTimeData23> DateValue23 = new List<DateTimeData23>
+{
+       new DateTimeData23{ X = new DateTime(2000, 06, 11), Y = 10},
+        new DateTimeData23{ X = new DateTime(2002, 03, 07), Y = 30},
+        new DateTimeData23{ X = new DateTime(2004, 03, 06), Y = 15},
+        new DateTimeData23{ X = new DateTime(2006, 03, 30), Y = 65},
+        new DateTimeData23{ X = new DateTime(2008, 03, 08), Y = 90},
+        new DateTimeData23{ X = new DateTime(2010, 03, 08), Y = 85}
+
+    };
+}
+
+
+@{
+    var InitialGroup24 = (new string[] { "CustomerID", "OrderID" });
+}
+
+<SfFixture @ref="fixture24" TestAsync="CheckLineBreakDateTimeAxis" Description="DateTime CheckLineBreakDateTimeAxis">
+    <ComponentUnderTest>
+        <SfChart ID="container" Width="900" Height="600">
+            <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Toolkit.ValueType.DateTime" LabelFormat="dd<br>MMM<br>yyyy" Title="Sales Across Years"></ChartPrimaryXAxis>
+            <ChartPrimaryYAxis></ChartPrimaryYAxis>
+            <ChartSeriesCollection>
+                <ChartSeries DataSource="@DateValue24" XName="X" YName="Y" Name="Gold" Type="ChartSeriesType.Line">
+                    <ChartSeriesAnimation Enable="false"></ChartSeriesAnimation>
+                </ChartSeries>
+            </ChartSeriesCollection>
+            <ChartLegendSettings Visible="false"></ChartLegendSettings>
+        </SfChart>
+    </ComponentUnderTest>
+</SfFixture>
+
+@code{
+    SfFixture fixture24 { get; set; }
+
+    async Task CheckLineBreakDateTimeAxis(Fixture fixture24)
+    {
+        var cut = fixture24.GetComponentUnderTest<SfChart>();
+        await Task.Delay(200);
+        var Label = cut.Find("#containerAxisLabels0");
+        Assert.True(Label.ChildElementCount == 10);
+        var lastLabel = cut.Find("#container0_AxisLabel_1");
+        Assert.True(lastLabel.ChildElementCount == 2);
+
+        cut.SetParametersAndRender();
+    }
+    public class DateTimeData24
+    {
+        public DateTime X { get; set; }
+        public double Y { get; set; }
+    }
+    public List<DateTimeData24> DateValue24 = new List<DateTimeData24>
+{
+       new DateTimeData24{ X = new DateTime(2000, 06, 11), Y = 10},
+        new DateTimeData24{ X = new DateTime(2002, 03, 07), Y = 30},
+        new DateTimeData24{ X = new DateTime(2004, 03, 06), Y = 15},
+        new DateTimeData24{ X = new DateTime(2006, 03, 30), Y = 65},
+        new DateTimeData24{ X = new DateTime(2008, 03, 08), Y = 90},
+        new DateTimeData24{ X = new DateTime(2010, 03, 08), Y = 85}
+
+    };
+}
+
+
+@{
+    var InitialGroup25 = (new string[] { "CustomerID", "OrderID" });
+}
+
+<SfFixture @ref="fixture25" TestAsync="CheckLineBreakInversedDateTimeAxis" Description="DateTime CheckLineBreakInversedDateTimeAxis">
+    <ComponentUnderTest>
+        <SfChart ID="container" Width="900" Height="600">
+            <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Toolkit.ValueType.DateTime" LabelFormat="dd<br>MMM<br>yyyy" Title="Sales Across Years" IsInversed="true"></ChartPrimaryXAxis>
+            <ChartPrimaryYAxis></ChartPrimaryYAxis>
+            <ChartSeriesCollection>
+                <ChartSeries DataSource="@DateValue25" XName="X" YName="Y" Name="Gold" Type="ChartSeriesType.Line">
+                    <ChartSeriesAnimation Enable="false"></ChartSeriesAnimation>
+                </ChartSeries>
+            </ChartSeriesCollection>
+            <ChartLegendSettings Visible="false"></ChartLegendSettings>
+        </SfChart>
+    </ComponentUnderTest>
+</SfFixture>
+
+@code{
+    SfFixture fixture25 { get; set; }
+
+    async Task CheckLineBreakInversedDateTimeAxis(Fixture fixture25)
+    {
+        var cut = fixture25.GetComponentUnderTest<SfChart>();
+        await Task.Delay(200);
+
+        var lastLabel = cut.Find("#container0_AxisLabel_1");
+        Assert.True(lastLabel.ChildElementCount == 2);
+
+        cut.SetParametersAndRender();
+    }
+    public class DateTimeData25
+    {
+        public DateTime X { get; set; }
+        public double Y { get; set; }
+    }
+    public List<DateTimeData25> DateValue25 = new List<DateTimeData25>
+{
+       new DateTimeData25{ X = new DateTime(2000, 06, 11), Y = 10},
+        new DateTimeData25{ X = new DateTime(2002, 03, 07), Y = 30},
+        new DateTimeData25{ X = new DateTime(2004, 03, 06), Y = 15},
+        new DateTimeData25{ X = new DateTime(2006, 03, 30), Y = 65},
+        new DateTimeData25{ X = new DateTime(2008, 03, 08), Y = 90},
+        new DateTimeData25{ X = new DateTime(2010, 03, 08), Y = 85}
+
+    };
+}
+
+
+@{
+    var InitialGroup26 = (new string[] { "CustomerID", "OrderID" });
+}
+
+<SfFixture @ref="fixture26" TestAsync="CheckLineBreakOpposedDateTimeAxis" Description="DateTime CheckLineBreakOpposedDateTimeAxis">
+    <ComponentUnderTest>
+        <SfChart ID="container" Width="900" Height="600">
+            <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Toolkit.ValueType.DateTime" LabelFormat="dd<br>MMM<br>yyyy" Title="Sales Across Years" IsInversed="false" OpposedPosition="true"></ChartPrimaryXAxis>
+            <ChartPrimaryYAxis></ChartPrimaryYAxis>
+            <ChartSeriesCollection>
+                <ChartSeries DataSource="@DateValue26" XName="X" YName="Y" Name="Gold" Type="ChartSeriesType.Line">
+                    <ChartSeriesAnimation Enable="false"></ChartSeriesAnimation>
+                </ChartSeries>
+            </ChartSeriesCollection>
+            <ChartLegendSettings Visible="false"></ChartLegendSettings>
+        </SfChart>
+    </ComponentUnderTest>
+</SfFixture>
+
+@code{
+    SfFixture fixture26 { get; set; }
+
+    async Task CheckLineBreakOpposedDateTimeAxis(Fixture fixture26)
+    {
+        var cut = fixture26.GetComponentUnderTest<SfChart>();
+        await Task.Delay(200);
+        var Label = cut.Find("#containerAxisLabels0");
+        Assert.True(Label.ChildElementCount == 10);
+        var lastLabel = cut.Find("#container0_AxisLabel_1");
+        Assert.True(lastLabel.ChildElementCount == 2);
+
+        cut.SetParametersAndRender();
+    }
+    public class DateTimeData26
+    {
+        public DateTime X { get; set; }
+        public double Y { get; set; }
+    }
+    public List<DateTimeData26> DateValue26 = new List<DateTimeData26>
+{
+       new DateTimeData26{ X = new DateTime(2000, 06, 11), Y = 10},
+        new DateTimeData26{ X = new DateTime(2002, 03, 07), Y = 30},
+        new DateTimeData26{ X = new DateTime(2004, 03, 06), Y = 15},
+        new DateTimeData26{ X = new DateTime(2006, 03, 30), Y = 65},
+        new DateTimeData26{ X = new DateTime(2008, 03, 08), Y = 90},
+        new DateTimeData26{ X = new DateTime(2010, 03, 08), Y = 85}
+
+    };
+}
+
+
+@{
+    var InitialGroup27 = (new string[] { "CustomerID", "OrderID" });
+}
+
+<SfFixture @ref="fixture27" TestAsync="CheckDoubleValueIntervalInYears" Description="DateTime CheckDoubleValueIntervalInYears">
+    <ComponentUnderTest>
+        <SfChart ID="container" Height="600" Width="900">
+            <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Toolkit.ValueType.DateTime" Title="Sales Across Years"
+                               IntervalType="IntervalType.Years" Minimum="new DateTime(2000, 06, 01)" Maximum="new DateTime(2010, 06,01)" Interval="1.4"></ChartPrimaryXAxis>
+            <ChartPrimaryYAxis Title="Sales Amount in millions(USD)"></ChartPrimaryYAxis>
+            <ChartSeriesCollection>
+                <ChartSeries DataSource="@DateValue27" XName="X" YName="Y" Name="Gold" Type="ChartSeriesType.Line">
+                    <ChartSeriesAnimation Enable="false"></ChartSeriesAnimation>
+                </ChartSeries>
+            </ChartSeriesCollection>
+            <ChartLegendSettings Visible="false"></ChartLegendSettings>
+        </SfChart>
+    </ComponentUnderTest>
+</SfFixture>
+
+@code{
+    SfFixture fixture27 { get; set; }
+
+    async Task CheckDoubleValueIntervalInYears(Fixture fixture27)
+    {
+        var cut = fixture27.GetComponentUnderTest<SfChart>();
+        await Task.Delay(200);
+        var Label = cut.Find("#containerAxisLabels0");
+        Assert.True(Label.ChildElementCount == 8);
+
+        cut.SetParametersAndRender();
+    }
+    public class DateTimeData27
+    {
+        public DateTime X { get; set; }
+        public double Y { get; set; }
+    }
+    public List<DateTimeData27> DateValue27 = new List<DateTimeData27>
+{
+       new DateTimeData27{ X = new DateTime(2000, 06, 11), Y = 10},
+        new DateTimeData27{ X = new DateTime(2002, 03, 07), Y = 30},
+        new DateTimeData27{ X = new DateTime(2004, 03, 06), Y = 15},
+        new DateTimeData27{ X = new DateTime(2006, 03, 30), Y = 65},
+        new DateTimeData27{ X = new DateTime(2008, 03, 08), Y = 90},
+        new DateTimeData27{ X = new DateTime(2010, 03, 08), Y = 85}
+
+    };
+}
+
+
+@{
+    var InitialGroup28 = (new string[] { "CustomerID", "OrderID" });
+}
+
+<SfFixture @ref="fixture28" TestAsync="CheckDoubleValueIntervalInMonths" Description="DateTime CheckDoubleValueIntervalInMonths">
+    <ComponentUnderTest>
+        <SfChart ID="container" Height="600" Width="900">
+            <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Toolkit.ValueType.DateTime" Title="Sales Across Years"
+                               IntervalType="IntervalType.Months" Minimum="new DateTime(2000, 01, 01)" Maximum="new DateTime(2000, 11, 01)" Interval="0.5"></ChartPrimaryXAxis>
+            <ChartPrimaryYAxis Title="Sales Amount in millions(USD)"></ChartPrimaryYAxis>
+            <ChartSeriesCollection>
+                <ChartSeries DataSource="@DateValue28" XName="X" YName="Y" Name="Gold" Type="ChartSeriesType.Line">
+                    <ChartSeriesAnimation Enable="false"></ChartSeriesAnimation>
+                </ChartSeries>
+            </ChartSeriesCollection>
+            <ChartLegendSettings Visible="false"></ChartLegendSettings>
+        </SfChart>
+    </ComponentUnderTest>
+</SfFixture>
+
+@code{
+    SfFixture fixture28 { get; set; }
+
+    async Task CheckDoubleValueIntervalInMonths(Fixture fixture28)
+    {
+        var cut = fixture28.GetComponentUnderTest<SfChart>();
+        await Task.Delay(200);
+        var Label = cut.Find("#containerAxisLabels0");
+        Assert.True(Label.ChildElementCount == 21);
+
+        cut.SetParametersAndRender();
+    }
+    public class DateTimeData28
+    {
+        public DateTime X { get; set; }
+        public double Y { get; set; }
+    }
+    public List<DateTimeData28> DateValue28 = new List<DateTimeData28>
+{
+       new DateTimeData28{ X = new DateTime(2000, 01, 11), Y = 10},
+        new DateTimeData28{ X = new DateTime(2000, 03, 07), Y = 30},
+        new DateTimeData28{ X = new DateTime(2000, 04, 06), Y = 15},
+        new DateTimeData28{ X = new DateTime(2000, 05, 30), Y = 65},
+        new DateTimeData28{ X = new DateTime(2000, 07, 08), Y = 90},
+        new DateTimeData28{ X = new DateTime(2000, 09, 08), Y = 85}
+
+    };
+}
+
+<SfFixture @ref="fixture30" TestAsync="CheckingDateTimeWithMinutesInterval" Description="CheckingDateTimeWithMinutesInterval">
+    <ComponentUnderTest>
+        <SfChart>
+            <ChartPrimaryXAxis RangePadding="ChartRangePadding.Round" ValueType="Syncfusion.Blazor.Toolkit.ValueType.DateTime" IntervalType="IntervalType.Minutes">
+            </ChartPrimaryXAxis>
+
+            <ChartSeriesCollection>
+                <ChartSeries DataSource="@WeatherReports" XName="XValue" YName="YValue" Type="ChartSeriesType.Line">
+                </ChartSeries>
+            </ChartSeriesCollection>
+        </SfChart>
+    </ComponentUnderTest>
+</SfFixture>
+
+@code{
+    SfFixture fixture30;
+    async Task CheckingDateTimeWithMinutesInterval(Fixture fixture30)
+    {
+        var cut = fixture30.GetComponentUnderTest<SfChart>();
+        await Task.Delay(200);
+        Assert.Equal(Syncfusion.Blazor.Toolkit.ValueType.DateTime, cut.Instance._axisContainer.Axes["PrimaryXAxis"].ValueType);
+        Assert.Equal(IntervalType.Minutes, cut.Instance._axisContainer.Axes["PrimaryXAxis"].IntervalType);
+    }
+    public class ChartData
+    {
+        public DateTime XValue { get; set; }
+        public double YValue { get; set; }
+    }
+	
+    public List<ChartData> WeatherReports = new List<ChartData>
+	{
+		new ChartData { XValue = new DateTime(2005, 01, 01), YValue = 21 },
+		new ChartData { XValue = new DateTime(2006, 01, 01), YValue = 24 },
+		new ChartData { XValue = new DateTime(2007, 01, 01), YValue = 36 },
+		new ChartData { XValue = new DateTime(2008, 01, 01), YValue = 38 },
+    };
+}
+
+<SfFixture @ref="fixture31" TestAsync="CheckingDateTimeWithSecondsInterval" Description="CheckingDateTimeWithSecondsInterval">
+    <ComponentUnderTest>
+        <SfChart>
+            <ChartPrimaryXAxis RangePadding="ChartRangePadding.Round" ValueType="Syncfusion.Blazor.Toolkit.ValueType.DateTime" IntervalType="IntervalType.Seconds">
+            </ChartPrimaryXAxis>
+
+            <ChartSeriesCollection>
+                <ChartSeries DataSource="@WeatherReports" XName="XValue" YName="YValue" Type="ChartSeriesType.Line">
+                </ChartSeries>
+            </ChartSeriesCollection>
+        </SfChart>
+    </ComponentUnderTest>
+</SfFixture>
+
+@code {
+    SfFixture fixture31;
+    async Task CheckingDateTimeWithSecondsInterval(Fixture fixture31)
+    {
+        var cut = fixture31.GetComponentUnderTest<SfChart>();
+        await Task.Delay(200);
+        Assert.Equal(Syncfusion.Blazor.Toolkit.ValueType.DateTime, cut.Instance._axisContainer.Axes["PrimaryXAxis"].ValueType);
+        Assert.Equal(IntervalType.Seconds, cut.Instance._axisContainer.Axes["PrimaryXAxis"].IntervalType);
+    }
+}

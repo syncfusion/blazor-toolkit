@@ -1,0 +1,11 @@
+﻿@using Syncfusion.Blazor.Toolkit
+@using Syncfusion.Blazor.Toolkit.Inputs
+@namespace Syncfusion.Blazor.Toolkit.Tests.Inputs
+
+<SfRadioButton @bind-Checked="nullableChecked" Name="nv" Value="null" />
+<SfRadioButton @bind-Checked="nullableChecked" Name="nv" Value="true" />
+<SfRadioButton @bind-Checked="nullableChecked" Name="nv" Value="false" />
+
+@code {
+    private bool? nullableChecked;
+}

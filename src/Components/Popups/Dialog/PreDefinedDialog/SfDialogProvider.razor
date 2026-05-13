@@ -1,0 +1,55 @@
+@using Microsoft.Extensions.Localization
+@using Syncfusion.Blazor.Toolkit.Inputs
+@using Syncfusion.Blazor.Toolkit.Popups;
+@namespace Syncfusion.Blazor.Toolkit.Popups
+@inject IStringLocalizer Localizer
+
+@if (DialogOptions is not null)
+{
+    <SfDialog @bind-Visible="IsVisible" ShowCloseIcon="DialogOptions.ShowCloseIcon" Width="@DialogOptions.Width" Height="@DialogOptions.Height" IsModal="true" AllowDragging="DialogOptions.AllowDragging" CloseOnEscape="DialogOptions.CloseOnEscape" CssClass="@DialogOptions.CssClass" ZIndex="DialogOptions.ZIndex" Closed="OnDialogClose">
+        <DialogTemplates>
+            <Header>@(DialogTitle is not null ? DialogTitle : Localizer["Information"])</Header>
+            <Content>
+                @if (DialogOptions.ChildContent is not null)
+                {
+                    @DialogOptions.ChildContent
+                }
+                else
+                {
+                    @if (DialogType == "Prompt")
+                    {
+                        <table class="Table">
+                            <tbody>
+                                <tr>
+                                    <td id="@_id">@DialogContent</td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <SfInputBase>
+                                            <span class="e-input-group">
+                                                <input role="textbox" tabindex="0" aria-labelledby="@_id" type="text" @bind-value="InputValue" name="Required" class="e-input">
+                                            </span>
+                                        </SfInputBase>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    }
+                    else
+                    {
+                        <div>@DialogContent</div>
+                    }
+                }
+            </Content>
+        </DialogTemplates>
+        <DialogAnimationSettings Effect="DialogOptions.AnimationSettings!=null ?DialogOptions.AnimationSettings.Effect:DialogEffect.Fade" Delay="DialogOptions.AnimationSettings!=null ?Convert.ToDouble(DialogOptions.AnimationSettings.Delay):0" Duration="DialogOptions.AnimationSettings!=null ?Convert.ToDouble(DialogOptions.AnimationSettings.Duration): 400"></DialogAnimationSettings>
+        <DialogPositionData X="@DialogOptions.Position.X" Y="@DialogOptions.Position.Y"></DialogPositionData>
+        <DialogButtons>
+            <DialogButton CssClass="@DialogOptions.CssClass" Content="@(DialogOptions.PrimaryButtonOptions.Content is null ? Localizer["OK"] : DialogOptions.PrimaryButtonOptions.Content)" IsPrimary="true" OnClick="OnOkButtonClickAsync" IconCss="@DialogOptions.PrimaryButtonOptions.IconCss" Disabled="@DialogOptions.PrimaryButtonOptions.Disabled"></DialogButton>
+            @if (DialogOptions.CancelButtonOptions is not null)
+            {
+                <DialogButton CssClass="@DialogOptions.CssClass" Content="@(DialogOptions.CancelButtonOptions.Content is null ? Localizer["Cancel"] : DialogOptions.CancelButtonOptions.Content)" OnClick="OnCancelButtonClick" IconCss="@DialogOptions.CancelButtonOptions.IconCss" Disabled="@DialogOptions.CancelButtonOptions.Disabled"></DialogButton>
+            }
+        </DialogButtons>
+    </SfDialog>
+}

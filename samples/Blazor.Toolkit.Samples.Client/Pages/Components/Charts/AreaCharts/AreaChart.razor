@@ -1,0 +1,2136 @@
+@page "/charts/area/area-chart"
+@using Syncfusion.Blazor.Toolkit.Charts
+@using Syncfusion.Blazor.Toolkit.Buttons
+@using System.Collections.ObjectModel
+@using System.Timers
+@inject System.Net.Http.HttpClient Http
+@inject NavigationManager NavigationManager
+
+<PageTitle>Syncfusion Blazor Toolkit Area Chart Demo</PageTitle>
+
+<!-- ─────────────────────────────────────────────────────────────
+     OVERVIEW
+     ───────────────────────────────────────────────────────────── -->
+<Description>
+    <Header>
+        <h5><b>Overview</b></h5>
+    </Header>
+    <Content>
+        The <code>Area Chart</code> visually represents quantitative data by shading the area between the line and the axis.
+        It is ideal for showing trends over time and emphasizing the magnitude of change. This is achieved by setting the <code>Type</code> property of <code>ChartSeries</code> to <code>ChartSeriesType.Area</code>.
+    </Content>
+</Description>
+
+<VirtualizeSection MinHeightPx="600px">
+    <CodePreview IsFullWidth="true" CodeSection="@OverviewCode">
+    <PreviewSection>
+        
+        <SfChart @key="@_currentTheme" Title="Global Primary Energy Consumption by Source" Width="100%" Height="400px" Theme="@_currentTheme">
+            <ChartTitleStyle Color="@TextColor" />
+            
+            <!-- Tooltip -->
+            <ChartTooltipSettings Enable="true"
+                                  Header="${series.name}"
+                                  Format="${point.x} : <b>${point.y}</b>" />
+            
+            <!-- Legend -->
+           
+            <ChartLegendSettings Visible="true" Position="LegendPosition.Bottom" />
+
+            <!-- X Axis -->
+            <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Toolkit.ValueType.Category"
+                               Interval="1">
+                <ChartAxisLabelStyle Color="@TextColor" />
+            </ChartPrimaryXAxis>
+
+            <!-- Y Axis -->
+            <ChartPrimaryYAxis Maximum="3200"
+                               Interval="800"
+                               LabelFormat="{value}TWh">
+                <ChartAxisLabelStyle Color="@TextColor" />
+                <ChartAxisLineStyle Width="0" />
+            </ChartPrimaryYAxis>
+
+            <!-- Other Renewable -->
+            <ChartSeries DataSource="EnergyData"
+                            XName="X"
+                            YName="Y1"
+                            Name="Other Renewable"
+                            Type="ChartSeriesType.Area"
+                            Opacity="0.5"
+                            Fill="#3CFFD2"
+                            Border="@(new ChartSeriesBorder
+                                    {
+                                        Width = 2,
+                                        Color = "#008264"
+                                    })" />
+
+            <!-- Modern Biofuels -->
+            <ChartSeries DataSource="EnergyData"
+                            XName="X"
+                            YName="Y2"
+                            Name="Modern biofuels"
+                            Type="ChartSeriesType.Area"
+                            Opacity="0.5"
+                            Fill="#DCFF89"
+                            Border="@(new ChartSeriesBorder
+                                    {
+                                        Width = 2,
+                                        Color = "#5A8100"
+                                    })" />
+        </SfChart>
+    </PreviewSection>
+</CodePreview>
+</VirtualizeSection>
+
+<!-- ─────────────────────────────────────────────────────────────
+     DATA LABEL
+     ───────────────────────────────────────────────────────────── -->
+<Description>
+    <Header>
+        <h5><b>Data Labels</b></h5>
+    </Header>
+    <Content>
+        Data labels provide direct information about data points, making it easier for users to read exact values without referring to the axes. You can enable them by setting the <code>Visible</code> property to <code>true</code> in <code>ChartDataLabel</code> within the <code>ChartMarker</code>.
+    </Content>
+</Description>
+
+<VirtualizeSection MinHeightPx="600px">
+    <CodePreview IsFullWidth="true" CodeSection="@DataLabelCode">
+    <PreviewSection>
+        
+        <SfChart @key="@_currentTheme" Title="Annual Corn Exports 2015 - 2024" Width="100%" Height="400px" Theme="@_currentTheme">
+
+            <ChartTooltipSettings Enable="true"
+                                  Header="Export of Corn"
+                                  Format="${point.x} : <b>${point.y}</b>" />
+
+            <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Toolkit.ValueType.Category"
+                               Interval="3">
+                <ChartAxisLabelStyle />
+            </ChartPrimaryXAxis>
+
+            <ChartPrimaryYAxis Maximum="24"
+                               Interval="8"
+                               LabelFormat="{value}B">
+                <ChartAxisLineStyle Width="0" />
+            </ChartPrimaryYAxis>
+
+            
+                <ChartSeries DataSource="CornExports"
+                             XName="X"
+                             YName="Y"
+                             Type="ChartSeriesType.Area"
+                             Opacity="0.5"
+                             Fill="#3CFFD2"
+                             Border="@(new ChartSeriesBorder { Width = 2, Color = "#008264" })">
+
+                    <ChartMarker Visible="false">
+                        <ChartDataLabel Visible="true"
+                                        Position="ChartLabelPosition.Top"
+                                            Format="{value}B" 
+                                            Font="@(new ChartDataLabelFont { Color = TextColor })">
+                        </ChartDataLabel>
+                    </ChartMarker>
+
+                </ChartSeries>
+            
+
+        </SfChart>
+
+    </PreviewSection>
+</CodePreview>
+</VirtualizeSection>
+
+<!-- ─────────────────────────────────────────────────────────────
+     STACKING AREA
+     ───────────────────────────────────────────────────────────── -->
+<Description>
+    <Header>
+        <h5><b>Stacking Area</b></h5>
+    </Header>
+    <Content>
+        Stacking Area Charts allow multiple series to be stacked on top of each other, showing the cumulative total of the data points. This is configured by setting the <code>Type</code> property of <code>ChartSeries</code> to <code>ChartSeriesType.StackingArea</code>.
+    </Content>
+</Description>
+
+<VirtualizeSection MinHeightPx="600px">
+    <CodePreview IsFullWidth="true" CodeSection="@StackingAreaCode">
+    <PreviewSection>
+        <SfChart @key="@_currentTheme" Title="U.S. Agricultural Export Values (2008-2024)" Width="100%" Height="400px" Theme="@_currentTheme">
+          
+            <!-- Tooltip -->
+            <ChartTooltipSettings Enable="true"
+                                  Format="<b>${series.name}</b><br />Year: <b>${point.x}</b><br />Share: <b>${point.y}B</b>" />
+            
+            <!-- Legend -->
+            <ChartLegendSettings Visible="true" Position="LegendPosition.Bottom" />
+
+            <!-- X Axis -->
+            <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Toolkit.ValueType.DateTime"
+                               RangePadding="ChartRangePadding.Normal"
+                               Interval="2"
+                               IntervalType="IntervalType.Years"
+                               LabelFormat="yyyy">
+            </ChartPrimaryXAxis>
+
+            <!-- ✅ Y Axis (FIXED) -->
+            <ChartPrimaryYAxis Minimum="0"
+                               Maximum="70"
+                               Interval="10"
+                               LabelFormat="${value}B">
+                <ChartAxisLineStyle Width="0" />
+            </ChartPrimaryYAxis>
+
+            
+
+                <ChartSeries DataSource="WheatData"
+                             XName="X"
+                             YName="Y"
+                             Name="Wheat"
+                             Type="ChartSeriesType.StackingArea"
+                             Fill="#38BE09"
+                             Opacity="0.9"
+                             Border="@(new ChartSeriesBorder { Width = 2 })"
+                             LegendShape="LegendShape.Circle" />
+
+                <ChartSeries DataSource="CornAreaData"
+                             XName="X"
+                             YName="Y"
+                             Name="Corn"
+                             Type="ChartSeriesType.StackingArea"
+                             Fill="#B1212D"
+                             Opacity="0.9"
+                             Border="@(new ChartSeriesBorder { Width = 2 })"
+                             LegendShape="LegendShape.Circle" />
+
+                <ChartSeries DataSource="TreeNutsData"
+                             XName="X"
+                             YName="Y"
+                             Name="Tree Nuts"
+                             Type="ChartSeriesType.StackingArea"
+                             Fill="#E77A16"
+                             Opacity="0.9"
+                             Border="@(new ChartSeriesBorder { Width = 2 })"
+                             LegendShape="LegendShape.Circle" />
+
+                <ChartSeries DataSource="SoybeansData"
+                             XName="X"
+                             YName="Y"
+                             Name="Soybeans"
+                             Type="ChartSeriesType.StackingArea"
+                             Fill="#82C100"
+                             Opacity="0.9"
+                             Border="@(new ChartSeriesBorder { Width = 2 })"
+                             LegendShape="LegendShape.Circle" />
+
+            
+        </SfChart>
+    </PreviewSection>
+</CodePreview>
+</VirtualizeSection>
+
+<!-- ─────────────────────────────────────────────────────────────
+     100% STACKING AREA
+     ───────────────────────────────────────────────────────────── -->
+<Description>
+    <Header>
+        <h5><b>100% Stacking Area</b></h5>
+    </Header>
+    <Content>
+        The 100% Stacking Area Chart shows the relative percentage of multiple data series, where the total area always sums to 100%. Set the <code>Type</code> property of <code>ChartSeries</code> to <code>ChartSeriesType.StackingArea100</code> to enable this feature.
+    </Content>
+</Description>
+
+<VirtualizeSection MinHeightPx="600px">
+    <CodePreview IsFullWidth="true" CodeSection="@StackingArea100Code">
+    <PreviewSection>
+     
+        <SfChart @key="@_currentTheme" Title="Payment Shares by Mode (2015-2024)" Width="100%" Height="400px" Theme="@_currentTheme">
+            <!-- Tooltip -->
+            <ChartTooltipSettings Enable="true"
+                                  Format="<b>${series.name}</b><br />Year: <b>${point.x}</b><br />Share: <b>${point.y}%</b>" />
+                                  
+            <!-- Legend -->
+            <ChartLegendSettings Visible="true" Position="LegendPosition.Bottom" />
+
+            <!-- X Axis -->
+            <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Toolkit.ValueType.DateTime"
+                               RangePadding="ChartRangePadding.Normal"
+                               LabelFormat="yyyy">
+            </ChartPrimaryXAxis>
+
+            <!-- Y Axis (100% scale) -->
+            <ChartPrimaryYAxis Minimum="0"
+                               Maximum="100"
+                               Interval="20"
+                               LabelFormat="{value}%">
+                <ChartAxisLineStyle Width="0" />
+            </ChartPrimaryYAxis>
+
+            <!-- Series -->
+            
+
+                <ChartSeries DataSource="BankTransfer"
+                             XName="X"
+                             YName="Y"
+                             Name="Bank-Transfer"
+                             Type="ChartSeriesType.StackingArea100"
+                             Fill="#B1212D"
+                             Opacity="1"
+                             Border="@(new ChartSeriesBorder { Width = 0.5, Color = "#ffffff" })"
+                             LegendShape="LegendShape.Circle" />
+
+                <ChartSeries DataSource="CreditCard"
+                             XName="X"
+                             YName="Y"
+                             Name="Credit Card"
+                             Type="ChartSeriesType.StackingArea100"
+                             Fill="#E77A16"
+                             Opacity="1"
+                             Border="@(new ChartSeriesBorder { Width = 0.5, Color = "#ffffff" })"
+                             LegendShape="LegendShape.Circle" />
+
+                <ChartSeries DataSource="DebitCard"
+                             XName="X"
+                             YName="Y"
+                             Name="Debit Card"
+                             Type="ChartSeriesType.StackingArea100"
+                             Fill="#6200EE"
+                             Opacity="1"
+                             Border="@(new ChartSeriesBorder { Width = 0.5, Color = "#ffffff" })"
+                             LegendShape="LegendShape.Circle" />
+
+                <ChartSeries DataSource="Cash"
+                             XName="X"
+                             YName="Y"
+                             Name="Cash"
+                             Type="ChartSeriesType.StackingArea100"
+                             Fill="#05B3DA"
+                             Opacity="1"
+                             Border="@(new ChartSeriesBorder { Width = 0.5, Color = "#ffffff" })"
+                             LegendShape="LegendShape.Circle" />
+
+            
+
+        </SfChart>
+    </PreviewSection>
+</CodePreview>
+</VirtualizeSection>
+
+<!-- ─────────────────────────────────────────────────────────────
+     MULTI-COLORED AREA
+     ───────────────────────────────────────────────────────────── -->
+<Description>
+    <Header>
+        <h5><b>Multi-Colored Area</b></h5>
+    </Header>
+    <Content>
+        Visualize data trends with varying colors for different segments or data points, allowing for clear distinction between market phases or categories. You can achieve this by setting the <code>Type</code> property of <code>ChartSeries</code> to <code>ChartSeriesType.MultiColoredArea</code> and mapping colors using the <code>PointColorMapping</code> property.
+    </Content>
+</Description>
+
+<VirtualizeSection MinHeightPx="600px">
+    <CodePreview IsFullWidth="true" CodeSection="@MultiColoredAreaCode">
+    <PreviewSection>
+        <SfChart @key="@_currentTheme" Title="Samsung Smartphone Shipments (2013-2024)" SubTitle="Trend Analysis: From Peak Sales to Recent Market Share" Width="100%" Height="400px" Theme="@_currentTheme">
+            <!-- X Axis -->
+            <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Toolkit.ValueType.Category"
+                               Interval="1"
+                               LabelIntersectAction="LabelIntersectAction.Rotate45"
+                               EdgeLabelPlacement="EdgeLabelPlacement.Shift">
+            </ChartPrimaryXAxis>
+
+            <!-- Y Axis -->
+                <ChartPrimaryYAxis Title="Shipments (Million Units)" Minimum="0"
+                               Maximum="500"
+                               Interval="100"
+                               LabelFormat="{value}M">
+                <ChartAxisLineStyle Width="0" />
+            </ChartPrimaryYAxis>
+
+            <!-- Series -->
+            
+                <ChartSeries DataSource="@SalesData"
+                             XName="Year"
+                             YName="Sales"
+                             Type="ChartSeriesType.MultiColoredArea"
+                             PointColorMapping="Color">
+                </ChartSeries>
+            
+
+            <!-- Annotations -->
+                    <ChartAnnotations>
+
+                <ChartAnnotation X="@("2013")" Y="460" CoordinateUnits="Units.Point">
+                    <ContentTemplate>
+                        <div style="color:#0B4F4F;font-weight:bold;font-size:14px;">Peak</div>
+                    </ContentTemplate>
+                </ChartAnnotation>
+
+                <ChartAnnotation X="@("2017")" Y="345" CoordinateUnits="Units.Point">
+                    <ContentTemplate>
+                        <div style="color:#26A69A;font-weight:bold;font-size:14px;">Moderate</div>
+                    </ContentTemplate>
+                </ChartAnnotation>
+
+                <ChartAnnotation X="@("2021")" Y="290" CoordinateUnits="Units.Point">
+                    <ContentTemplate>
+                        <div style="color:#B2DFDB;font-weight:bold;font-size:14px;">Low</div>
+                    </ContentTemplate>
+                </ChartAnnotation>
+
+                <ChartAnnotation X="@("2024")" Y="245" CoordinateUnits="Units.Point">
+                    <ContentTemplate>
+                        <div style="color:#1F77B4;font-weight:bold;font-size:14px;">Current</div>
+                    </ContentTemplate>
+                </ChartAnnotation>
+
+            </ChartAnnotations>
+
+        </SfChart>
+</PreviewSection>
+</CodePreview>
+</VirtualizeSection>
+
+<!-- ─────────────────────────────────────────────────────────────
+     SKIP MISSING POINTS
+     ───────────────────────────────────────────────────────────── -->
+<Description>
+    <Header>
+        <h5><b>Skip Missing Points</b></h5>
+    </Header>
+    <Content>
+        Handle null or missing data points gracefully using <code>ChartEmptyPointSettings</code>. You can control the behavior of empty points using the <code>Mode</code> property, with options like <code>Gap</code>, <code>Zero</code>, <code>Drop</code>, and <code>Average</code>.
+    </Content>
+</Description>
+
+<VirtualizeSection MinHeightPx="600px">
+    <CodePreview IsFullWidth="true" CodeSection="@MissingPointsCode">
+    <PreviewSection>
+        <div class="mb-3">
+            <label class="fw-bold d-block mb-2">Empty Point Mode</label>
+
+            <SfButtonGroup Mode="SelectionMode.Single">
+                <ButtonGroupButton Selected="@IsEmptyModeSelected(EmptyPointMode.Gap)"
+                                   SelectedChanged="@(v => OnEmptyModeChanged(v, EmptyPointMode.Gap))">
+                    Gap
+                </ButtonGroupButton>
+
+                <ButtonGroupButton Selected="@IsEmptyModeSelected(EmptyPointMode.Zero)"
+                                   SelectedChanged="@(v => OnEmptyModeChanged(v, EmptyPointMode.Zero))">
+                    Zero
+                </ButtonGroupButton>
+
+                <ButtonGroupButton Selected="@IsEmptyModeSelected(EmptyPointMode.Average)"
+                                   SelectedChanged="@(v => OnEmptyModeChanged(v, EmptyPointMode.Average))">
+                    Average
+                </ButtonGroupButton>
+
+                <ButtonGroupButton Selected="@IsEmptyModeSelected(EmptyPointMode.Drop)"
+                                   SelectedChanged="@(v => OnEmptyModeChanged(v, EmptyPointMode.Drop))">
+                    Drop
+                </ButtonGroupButton>
+            </SfButtonGroup>
+        </div>
+       
+        <SfChart @key="@_currentTheme" Title="Skip Missing Points" Width="100%" Height="400px" Theme="@_currentTheme">
+
+            
+            <!-- X Axis -->
+            <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Toolkit.ValueType.Category" />
+
+            <!-- Y Axis -->
+            <ChartPrimaryYAxis Interval="100">
+                <ChartAxisLineStyle Width="0" />
+            </ChartPrimaryYAxis>
+
+            <!-- Series -->
+            
+                <ChartSeries DataSource="AreaData"
+                             XName="X"
+                             YName="Y"
+                             Type="ChartSeriesType.Area"
+                             Width="2"
+                             Opacity="0.5"
+                             Fill="#3CFFD2"
+                             Border="@(new ChartSeriesBorder { Width = 2, Color = "#008264" })">
+
+                    <!-- Empty Point Settings -->
+                    <ChartEmptyPointSettings Mode="@SelectedEmptyPointMode" />
+
+                    <!-- Marker -->
+                    <ChartMarker Visible="true"
+                                 Fill="#008264"
+                                 Border="@(new ChartMarkerBorder { Width = 2, Color = "#008264" })" />
+                </ChartSeries>
+            
+
+            <!-- Tooltip -->
+            <ChartTooltipSettings Enable="true"
+                                  Header="${point.x}"
+                                  Format="Sales : <b>${point.y} Units</b>" />
+
+        </SfChart>
+
+
+    </PreviewSection>
+</CodePreview>
+</VirtualizeSection>
+
+<!-- ─────────────────────────────────────────────────────────────
+     LIVE POINT UPDATE
+     ───────────────────────────────────────────────────────────── -->
+<Description>
+    <Header>
+        <h5><b>Live Point Update</b></h5>
+    </Header>
+    <Content>
+        The Chart component supports dynamic data updates, allowing you to visualize real-time data streams efficiently. The Chart automatically re-renders when data points are added or removed from the data source bound to the <code>DataSource</code> property.
+    </Content>
+</Description>
+
+<VirtualizeSection MinHeightPx="600px">
+    <CodePreview IsFullWidth="true" CodeSection="@LiveUpdateCode">
+    <PreviewSection>
+        <SfChart @key="@_currentTheme" Title="Live Update" Width="100%" Height="400px" Theme="@_currentTheme">
+            <ChartArea><ChartAreaBorder Width="0"></ChartAreaBorder></ChartArea>
+ 
+            <!-- X Axis -->
+            <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Toolkit.ValueType.DateTime" 
+                               LabelFormat="mm:ss" 
+                               Title="Time (s)">
+                <ChartAxisMajorGridLines Width="0"></ChartAxisMajorGridLines>
+                <ChartAxisMajorTickLines Width="0" />
+                <ChartAxisMinorTickLines Width="0" />
+            </ChartPrimaryXAxis>
+
+            <!-- Y Axis -->
+            <ChartPrimaryYAxis Minimum="0" Maximum="70">
+                <ChartAxisLineStyle Width="0" />
+                <ChartAxisMajorTickLines Width="0"></ChartAxisMajorTickLines>
+            </ChartPrimaryYAxis>
+
+            <!-- Series -->
+            
+                <ChartSeries Type="ChartSeriesType.Area" 
+                             DataSource="@LiveData"
+                             XName="@nameof(LivePoint.X)" 
+                             YName="@nameof(LivePoint.Y)"
+                             Opacity="0.4"
+                             Fill="#3CFFD2"
+                             Border="@(new ChartSeriesBorder { Width = 2, Color = "#008264" })">
+                    <ChartSeriesAnimation Enable="true" Duration="500" />
+                    <ChartMarker Visible="true" 
+                                 Fill="#008264"
+                                 Border="@(new ChartMarkerBorder { Width = 2, Color = "#008264" })" />
+                </ChartSeries>
+            
+
+        </SfChart>
+    </PreviewSection>
+</CodePreview>
+</VirtualizeSection>
+
+<!-- ─────────────────────────────────────────────────────────────
+     INVERTED AXES
+     ───────────────────────────────────────────────────────────── -->
+<Description>
+    <Header>
+        <h5><b>Inverted Axes</b></h5>
+    </Header>
+    <Content>
+        Transpose the Chart axes to swap the X and Y positions using the <code>IsTransposed</code> property in the <code>SfChart</code> component. This is useful for displaying data that is easier to read horizontally.
+    </Content>
+</Description>
+
+<VirtualizeSection MinHeightPx="600px">
+    <CodePreview IsFullWidth="true" CodeSection="@InvertedAxesCode">
+    <PreviewSection>
+        <SfChart @key="@_currentTheme" Title="Inverted Axes" Width="100%" Height="400px" IsTransposed="true" Theme="@_currentTheme">    
+            <!-- Tooltip -->
+            <ChartTooltipSettings Enable="true"
+                                  Header="${point.x}"
+                                  Format="${series.name} : <b>${point.y}</b>" />
+
+            <!-- X Axis (Category, becomes vertical when transposed) -->
+            <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Toolkit.ValueType.Category"
+                               Interval="3">
+                <ChartAxisMajorGridLines Width="1" DashArray="10,10" />
+            </ChartPrimaryXAxis>
+
+            <!-- Y Axis -->
+            <ChartPrimaryYAxis LabelFormat="${value}M">
+                <ChartAxisLineStyle Width="0" />
+            </ChartPrimaryYAxis>
+
+            <!-- Series -->
+            
+
+                <!-- Amazon -->
+                <ChartSeries DataSource="AmazonData"
+                             XName="X"
+                             YName="Y"
+                             Name="Amazon"
+                             Type="ChartSeriesType.Area"
+                             Opacity="0.5"
+                             Fill="#3CFFD2"
+                             Border="@(new ChartSeriesBorder { Width = 2, Color = "#008264" })">
+                    <ChartMarker Visible="true"
+                                 Shape="ChartShape.Circle" />
+                </ChartSeries>
+
+                <!-- Tencent -->
+                <ChartSeries DataSource="TencentData"
+                             XName="X"
+                             YName="Y"
+                             Name="Tencent"
+                             Type="ChartSeriesType.Area"
+                             Opacity="0.5"
+                             Fill="#DCFF89"
+                             Border="@(new ChartSeriesBorder { Width = 2, Color = "#5A8100" })">
+                    <ChartMarker Visible="true"
+                                 Shape="ChartShape.Circle" />
+                </ChartSeries>
+
+            
+        </SfChart>
+    </PreviewSection>
+</CodePreview>
+</VirtualizeSection>
+
+<!-- ─────────────────────────────────────────────────────────────
+     NEGATIVE DATA
+     ───────────────────────────────────────────────────────────── -->
+<Description>
+    <Header>
+        <h5><b>Negative Data</b></h5>
+    </Header>
+    <Content>
+        Area Charts can effectively display data points with negative values, useful for representing losses, decreases, or sub-zero measurements. The area is filled downwards from the zero line for negative values mapped to the <code>YName</code> property.
+    </Content>
+</Description>
+
+<VirtualizeSection MinHeightPx="600px">
+    <CodePreview IsFullWidth="true" CodeSection="@NegativeDataCode">
+    <PreviewSection>
+        <SfChart @key="@_currentTheme" Title="Annual Gold Price (2009-2023) in USD" Width="100%" Height="400px" Theme="@_currentTheme">
+            <ChartArea><ChartAreaBorder Width="0"></ChartAreaBorder></ChartArea>
+          
+            <!-- X Axis -->
+            <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Toolkit.ValueType.Double"
+                               Interval="3" />
+
+            <!-- Y Axis -->
+            <ChartPrimaryYAxis Interval="20">
+                <ChartAxisTitle Text="% Annual Exchange Rate" />
+                <ChartAxisLineStyle Width="0" />
+
+                <!-- Strip Lines -->
+                <ChartStriplines>
+
+                    <!-- Highest Growth Line -->
+                    <ChartStripline Start="20"
+                                    End="20.5"
+                                    Visible="true"
+                                    Color="#79747E"
+                                    DashArray="10,10"
+                                    ZIndex="@ZIndex.Over" />
+
+                    <ChartStripline Start="21"
+                                    End="21.5"
+                                    Visible="true"
+                                    Color="transparent"
+                                    DashArray="4,4"
+                                    Text="Highest Annual Growth"
+                                    HorizontalAlignment="Anchor.End"
+                                    ZIndex="@ZIndex.Over"
+                                    Rotation="0">
+                        <ChartStriplineTextStyle Color="@HighestTextColor" />
+                    </ChartStripline>
+
+                    <!-- Lowest Growth Line -->
+                    <ChartStripline Start="-25"
+                                    End="-24.5"
+                                    Visible="true"
+                                    Color="#79747E"
+                                    DashArray="10,10"
+                                    ZIndex="@ZIndex.Over" />
+
+                    <ChartStripline Start="-28.5"
+                                    End="-28"
+                                    Visible="true"
+                                    Color="transparent"
+                                    DashArray="4,4"
+                                    Text="Lowest Annual Growth"
+                                    HorizontalAlignment="Anchor.End"
+                                    ZIndex="@ZIndex.Over"
+                                    Rotation="0">
+                        <ChartStriplineTextStyle Color="@LowestTextColor" />
+                    </ChartStripline>
+
+                </ChartStriplines>
+            </ChartPrimaryYAxis>
+
+            <!-- Series -->
+            
+                <ChartSeries DataSource="NegativeData"
+                             XName="X"
+                             YName="USD"
+                             Type="ChartSeriesType.Area"
+                             Width="2"
+                             Opacity="0.4"
+                             Fill="#3CFFD2"
+                             Border="@NegativeSeriesBorder">
+                    <ChartMarker Visible="true" IsFilled="true" />
+                </ChartSeries>
+            
+
+            <!-- Tooltip -->
+            <ChartTooltipSettings Enable="true"
+                                  Header="${point.x}"
+                                  Format="Annual Growth : <b>${point.y}</b>" />
+
+        </SfChart>
+    </PreviewSection>
+</CodePreview>
+</VirtualizeSection>
+
+<!-- ─────────────────────────────────────────────────────────────
+     SERIES CUSTOMIZATION
+     ───────────────────────────────────────────────────────────── -->
+<Description>
+    <Header>
+        <h5><b>Series Customization</b></h5>
+    </Header>
+    <Content>
+        Fine-tune the appearance of the Chart series with properties like <code>Width</code>, custom <code>Fill</code> colors, and <code>Opacity</code> in the <code>ChartSeries</code>. You can also customize the series border using the <code>Border</code> property.
+    </Content>
+</Description>
+
+<VirtualizeSection MinHeightPx="600px">
+    <CodePreview IsFullWidth="true" CodeSection="@CustomizationCode">
+    <PreviewSection>
+        <SfChart @key="@_currentTheme" Title="Global Primary Energy Consumption by Source" Width="100%" Height="400px" Theme="@_currentTheme">          
+            <!-- Tooltip -->
+            <ChartTooltipSettings Enable="true"
+                                  Header="${series.name}"
+                                  Format="${point.x} : <b>${point.y}</b>" />
+
+            <!-- X Axis -->
+            <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Toolkit.ValueType.Category"
+                               Interval="6" />
+
+            <!-- Y Axis -->
+            <ChartPrimaryYAxis Maximum="2700"
+                               Interval="800"
+                               LabelFormat="{value}TWh">
+                <ChartAxisLineStyle Width="0" />
+            </ChartPrimaryYAxis>
+
+            <!-- Series Collection -->
+            
+
+                <!-- Other Renewable -->
+                <ChartSeries DataSource="EnergyData"
+                             XName="X"
+                             YName="Y1"
+                             Name="Other Renewable"
+                             Type="ChartSeriesType.Area"
+                             Opacity="0.5"
+                             Fill="#3CFFD2"
+                             Border="@(new ChartSeriesBorder
+                                     {
+                                         Width = 2,
+                                         Color = "#008264",
+                                     })" />
+
+                <!-- Modern Biofuels -->
+                <ChartSeries DataSource="EnergyData"
+                             XName="X"
+                             YName="Y2"
+                             Name="Modern biofuels"
+                             Type="ChartSeriesType.Area"
+                             Opacity="0.5"
+                             Fill="#DCFF89"
+                             Border="@(new ChartSeriesBorder
+                                     {
+                                         Width = 2,
+                                         Color = "#5A8100"
+                                     })" />
+
+            
+        </SfChart>
+    </PreviewSection>
+</CodePreview>
+</VirtualizeSection>
+
+<!-- ─────────────────────────────────────────────────────────────
+     DATASOURCE UPDATE
+     ───────────────────────────────────────────────────────────── -->
+<Description>
+    <Header>
+        <h5><b>DataSource Update</b></h5>
+    </Header>
+    <Content>
+        The Chart automatically re-renders when the bound data source is updated, providing a seamless user experience. Smooth transitions between data updates are handled automatically by setting the <code>Enable</code> property to <code>true</code> in <code>ChartSeriesAnimation</code>.
+    </Content>
+</Description>
+
+<VirtualizeSection MinHeightPx="600px">
+    <CodePreview IsFullWidth="true" CodeSection="@DatasourceUpdateCode">
+    <PreviewSection>
+        <SfChart @key="@_currentTheme" Title="Auto-Updating Area Chart" Width="100%" Height="400px" Theme="@_currentTheme">
+           
+            <!-- X Axis -->
+            <ChartPrimaryXAxis Minimum="1"
+                               Maximum="7"
+                               Interval="1" />
+
+            <!-- Y Axis -->
+            <ChartPrimaryYAxis Minimum="0"
+                               Maximum="100"
+                               Interval="20">
+                <ChartAxisLineStyle Width="0" />
+                <ChartAxisMajorGridLines Width="1" />
+            </ChartPrimaryYAxis>
+
+            <!-- Series -->
+            
+                <ChartSeries DataSource="@ChartData"
+                             XName="X"
+                             YName="Y"
+                             Type="ChartSeriesType.Area"
+                             Opacity="0.4"
+                             Fill="#3CFFD2"
+                             Border="@(new ChartSeriesBorder
+                                     {
+                                         Width = 2,
+                                         Color = "#008264"
+                                     })"
+                             Animation="@(new ChartSeriesAnimation
+                                     {
+                                         Enable = true,
+                                         Duration = 1500
+                                     })" />
+            
+        </SfChart>
+        
+    </PreviewSection>
+</CodePreview>
+</VirtualizeSection>
+
+
+ 
+@code {
+    [CascadingParameter]
+    private Theme CurrentTheme { get; set; } = Theme.Fluent;
+    private bool IsDarkTheme => _currentTheme.ToString().Contains("Dark") || _currentTheme.ToString().Contains("HighContrast");
+    private string TextColor => IsDarkTheme ? "#ffffff" : "#000000";
+   
+    private Theme _currentTheme = Theme.Fluent;
+
+    /* =========================
+       Model
+       ========================= */
+    public class ChartPoint
+    {
+        public int X { get; set; }
+        public double Y { get; set; }
+    }
+
+    /* =========================
+       Data Source
+       ========================= */
+    private ObservableCollection<ChartPoint> ChartData = new();
+    private System.Timers.Timer? timer;
+    private readonly Random random = new();
+
+    protected override void OnInitialized()
+    {
+        _currentTheme = CurrentTheme;
+        
+        // ─────────────────────────────────────────
+        // DATASOURCE UPDATE - Initial load
+        // ─────────────────────────────────────────
+        ChartData = new ObservableCollection<ChartPoint>(GenerateInitialData());
+
+        // Update data every 2 seconds
+        timer = new System.Timers.Timer(2000);
+        timer.Elapsed += (_, _) =>
+        {
+            InvokeAsync(() => {
+                UpdateDataSource();
+            });
+        };
+        timer.Start();
+
+        // ─────────────────────────────────────────
+        // LIVE POINT UPDATE - Initialize and start timer
+        // ─────────────────────────────────────────
+        LiveData = new ObservableCollection<LivePoint>(
+            Enumerable.Range(0, 20)
+                .Select(i => new LivePoint
+                {
+                    X = DateTime.Now.AddSeconds(i),
+                    Y = Random.Shared.Next(30, 60)
+                })
+        );
+
+        updateLivePointTimer = new System.Timers.Timer(400);
+        updateLivePointTimer.Elapsed += async (_, _) =>
+        {
+            await InvokeAsync(UpdateLivePointData);
+        };
+        updateLivePointTimer.Start();
+    }
+
+    protected override void OnParametersSet()
+    {
+        _currentTheme = CurrentTheme;
+    }
+
+    public void Dispose()
+    {
+        timer?.Stop();
+        timer?.Dispose();
+        updateLivePointTimer?.Stop();
+        updateLivePointTimer?.Dispose();
+    }
+
+    private List<ChartPoint> GenerateInitialData()
+    {
+        var data = new List<ChartPoint>();
+        for (int i = 1; i <= 7; i++)
+        {
+            data.Add(new ChartPoint
+            {
+                X = i,
+                Y = random.Next(15, 90)
+            });
+        }
+        return data;
+    }
+
+    private void UpdateDataSource()
+    {
+        // Update datasource values in-place (same X, new Y)
+        for (int i = 0; i < ChartData.Count; i++)
+        {
+            ChartData[i] = new ChartPoint
+            {
+                X = ChartData[i].X,
+                Y = 10 + random.NextDouble() * 85
+            };
+        }
+    }
+
+    private void UpdateLivePointData()
+    {
+        if (LiveData.Count == 0)
+            return;
+
+        var lastTime = LiveData[^1].X;
+
+        // Remove the oldest data point
+        LiveData.RemoveAt(0);
+
+        // Add a new data point with sequential time
+        LiveData.Add(new LivePoint
+        {
+            X = lastTime.AddSeconds(1),
+            Y = Random.Shared.Next(30, 60)
+        });
+    }
+
+    public class EnergyConsumption
+    {
+        public string X { get; set; } = "";
+        public double Y1 { get; set; }
+        public double Y2 { get; set; }
+    }
+
+    public List<EnergyConsumption> EnergyData { get; set; } = new()
+    {
+        new() { X = "1994", Y1 = 400, Y2 = 100 },
+        new() { X = "2000", Y1 = 600, Y2 = 150 },
+        new() { X = "2006", Y1 = 800, Y2 = 200 },
+        new() { X = "2012", Y1 = 1400, Y2 = 800 },
+        new() { X = "2018", Y1 = 1800, Y2 = 1000 },
+        new() { X = "2024", Y1 = 2500, Y2 = 1400 }
+    };
+
+    public class GoldRate
+    {
+        public int X { get; set; }          // Year
+        public double USD { get; set; }     // Growth (can be negative)
+    }
+
+    public List<GoldRate> NegativeData { get; set; } = new()
+    {
+        new() { X = 2009, USD = 23.4 },
+        new() { X = 2010, USD = 29.5 },
+        new() { X = 2011, USD = 10.1 },
+        new() { X = 2012, USD = 7.0 },
+        new() { X = 2013, USD = -28.3 },
+        new() { X = 2014, USD = -1.5 },
+        new() { X = 2015, USD = -10.4 },
+        new() { X = 2016, USD = 9.1 },
+        new() { X = 2017, USD = 13.6 },
+        new() { X = 2018, USD = -2.1 },
+        new() { X = 2019, USD = 18.9 },
+        new() { X = 2020, USD = 24.6 },
+        new() { X = 2021, USD = -3.5 },
+        new() { X = 2022, USD = -0.3 },
+        new() { X = 2023, USD = 12.8 }
+    };
+    public class RevenueData
+    {
+        public int X { get; set; }   // Year
+        public double Y { get; set; } // Revenue
+    }
+
+    public List<RevenueData> AmazonData { get; set; } = new()
+    {
+        new() { X = 2024, Y = 638 },
+        new() { X = 2023, Y = 575 },
+        new() { X = 2022, Y = 514 },
+        new() { X = 2021, Y = 470 },
+        new() { X = 2020, Y = 386 },
+        new() { X = 2019, Y = 281 },
+        new() { X = 2018, Y = 233 },
+        new() { X = 2017, Y = 178 },
+        new() { X = 2016, Y = 136 },
+        new() { X = 2015, Y = 107 },
+        new() { X = 2014, Y = 89 },
+        new() { X = 2013, Y = 74 },
+        new() { X = 2012, Y = 61 },
+        new() { X = 2011, Y = 48 },
+        new() { X = 2010, Y = 34 },
+        new() { X = 2009, Y = 25 }
+    };
+
+    public List<RevenueData> TencentData { get; set; } = new()
+    {
+        new() { X = 2024, Y = 92 },
+        new() { X = 2023, Y = 86 },
+        new() { X = 2022, Y = 82 },
+        new() { X = 2021, Y = 87 },
+        new() { X = 2020, Y = 70 },
+        new() { X = 2019, Y = 55 },
+        new() { X = 2018, Y = 47 },
+        new() { X = 2017, Y = 35 },
+        new() { X = 2016, Y = 23 },
+        new() { X = 2015, Y = 17 },
+        new() { X = 2014, Y = 13 },
+        new() { X = 2013, Y = 10 },
+        new() { X = 2012, Y = 7 },
+        new() { X = 2011, Y = 4 },
+        new() { X = 2010, Y = 3 }
+    };
+    /* ========================
+      Data Model
+      ======================== */
+    public class AreaDataItem
+    {
+        public string X { get; set; } = "";
+        public double? Y { get; set; }
+    }
+
+    /* ========================
+       Data with Missing Points
+       ======================== */
+    public List<AreaDataItem> AreaData { get; set; } = new()
+    {
+        new() { X = "Jan",   Y = 200 },
+        new() { X = "Feb",   Y = 300 },
+        new() { X = "Mar",   Y = 170 },
+        new() { X = "April", Y = null },
+        new() { X = "May",   Y = 300 },
+        new() { X = "Jun",   Y = null },
+        new() { X = "July",  Y = 100 },
+        new() { X = "Aug",   Y = 200 },
+        new() { X = "Sep",   Y = 174 },
+        new() { X = "Oct",   Y = null },
+        new() { X = "Nov",   Y = null },
+        new() { X = "Dec",   Y = 160 }
+    };
+    public class CornData
+    {
+        public int X { get; set; }
+        public double Y { get; set; }
+    }
+
+    public List<CornData> CornExports = new()
+    {
+        new CornData { X = 2015, Y = 8.27 },
+        new CornData { X = 2016, Y = 9.88 },
+        new CornData { X = 2017, Y = 9.13 },
+        new CornData { X = 2018, Y = 12.47 },
+        new CornData { X = 2019, Y = 7.67 },
+        new CornData { X = 2020, Y = 9.25 },
+        new CornData { X = 2021, Y = 18.63 },
+        new CornData { X = 2022, Y = 18.57 },
+        new CornData { X = 2023, Y = 13.02 },
+        new CornData { X = 2024, Y = 13.70 }
+    };
+    
+    public class AgriExportData
+    {
+        public DateTime X { get; set; }
+        public double Y { get; set; }
+    }
+
+    List<AgriExportData> WheatData = new()
+    {
+        new() { X = new DateTime(2008, 1, 1), Y = 10 },
+        new() { X = new DateTime(2012, 1, 1), Y = 12 },
+        new() { X = new DateTime(2016, 1, 1), Y = 14 },
+        new() { X = new DateTime(2020, 1, 1), Y = 11 },
+        new() { X = new DateTime(2024, 1, 1), Y = 13 }
+    };
+
+    List<AgriExportData> CornAreaData = new()
+    {
+        new() { X = new DateTime(2008, 1, 1), Y = 15 },
+        new() { X = new DateTime(2012, 1, 1), Y = 18 },
+        new() { X = new DateTime(2016, 1, 1), Y = 22 },
+        new() { X = new DateTime(2020, 1, 1), Y = 19 },
+        new() { X = new DateTime(2024, 1, 1), Y = 21 }
+    };
+
+    List<AgriExportData> TreeNutsData = new()
+    {
+        new() { X = new DateTime(2008, 1, 1), Y = 5 },
+        new() { X = new DateTime(2012, 1, 1), Y = 7 },
+        new() { X = new DateTime(2016, 1, 1), Y = 9 },
+        new() { X = new DateTime(2020, 1, 1), Y = 8 },
+        new() { X = new DateTime(2024, 1, 1), Y = 10 }
+    };
+
+    List<AgriExportData> SoybeansData = new()
+    {
+        new() { X = new DateTime(2008, 1, 1), Y = 20 },
+        new() { X = new DateTime(2012, 1, 1), Y = 23 },
+        new() { X = new DateTime(2016, 1, 1), Y = 25 },
+        new() { X = new DateTime(2020, 1, 1), Y = 22 },
+        new() { X = new DateTime(2024, 1, 1), Y = 24 }
+    };
+
+    private string OverviewCode => @"@using Syncfusion.Blazor.Toolkit.Charts
+
+<SfChart @key=""@_currentTheme"" Title=""Global Primary Energy Consumption by Source"" Width=""100%"" Height=""400px"" Theme=""@_currentTheme"">
+    <ChartTitleStyle Color=""@TextColor"" />
+    <ChartTooltipSettings Enable=""true""
+                          Header=""${series.name}""
+                          Format=""${point.x} : <b>${point.y}</b>"" />
+    <ChartLegendSettings Visible=""true"" Position=""LegendPosition.Bottom"" />
+    <ChartPrimaryXAxis ValueType=""Syncfusion.Blazor.Toolkit.ValueType.Category""
+                       Interval=""1"">
+        <ChartAxisLabelStyle Color=""@TextColor"" />
+    </ChartPrimaryXAxis>
+    <ChartPrimaryYAxis Maximum=""3200""
+                       Interval=""800""
+                       LabelFormat=""{value}TWh"">
+        <ChartAxisLabelStyle Color=""@TextColor"" />
+        <ChartAxisLineStyle Width=""0"" />
+    </ChartPrimaryYAxis>
+    
+        <ChartSeries DataSource=""@EnergyData""
+                     XName=""X""
+                     YName=""Y1""
+                     Name=""Other Renewable""
+                     Type=""ChartSeriesType.Area""
+                     Opacity=""0.5""
+                     Fill=""#3CFFD2""
+                     Border=""@(new ChartSeriesBorder
+                             {
+                                 Width = 2,
+                                 Color = ""#008264""
+                             })"" />
+        <ChartSeries DataSource=""@EnergyData""
+                     XName=""X""
+                     YName=""Y2""
+                     Name=""Modern biofuels""
+                     Type=""ChartSeriesType.Area""
+                     Opacity=""0.5""
+                     Fill=""#DCFF89""
+                     Border=""@(new ChartSeriesBorder
+                             {
+                                 Width = 2,
+                                 Color = ""#5A8100""
+                             })"" />
+    
+</SfChart>
+
+@code {
+    private Theme _currentTheme = Theme.Fluent;
+    private bool IsDarkTheme => _currentTheme.ToString().Contains(""Dark"") || _currentTheme.ToString().Contains(""HighContrast"");
+    private string TextColor => IsDarkTheme ? ""#ffffff"" : ""#000000"";
+    public class EnergyConsumption { public string X { get; set; } = """"; public double Y1 { get; set; } public double Y2 { get; set; } }
+    public List<EnergyConsumption> EnergyData = new()
+    {
+        new() { X = ""1994"", Y1 = 400, Y2 = 100 },
+        new() { X = ""2000"", Y1 = 600, Y2 = 150 },
+        new() { X = ""2006"", Y1 = 800, Y2 = 200 },
+        new() { X = ""2012"", Y1 = 1400, Y2 = 800 },
+        new() { X = ""2018"", Y1 = 1800, Y2 = 1000 },
+        new() { X = ""2024"", Y1 = 2500, Y2 = 1400 }
+    };
+}";
+
+    private string DataLabelCode => @"@using Syncfusion.Blazor.Toolkit.Charts
+
+<SfChart @key=""@_currentTheme"" Title=""Annual Corn Exports 2015 - 2024"" Width=""100%"" Height=""400px"" Theme=""@_currentTheme"">
+    <ChartTooltipSettings Enable=""true""
+                          Header=""Export of Corn""
+                          Format=""${point.x} : <b>${point.y}</b>"" />
+    <ChartPrimaryXAxis ValueType=""Syncfusion.Blazor.Toolkit.ValueType.Category""
+                       Interval=""3"">
+        <ChartAxisLabelStyle />
+    </ChartPrimaryXAxis>
+    <ChartPrimaryYAxis Maximum=""24""
+                       Interval=""8""
+                       LabelFormat=""{value}B"">
+        <ChartAxisLineStyle Width=""0"" />
+    </ChartPrimaryYAxis>
+    
+        <ChartSeries DataSource=""@CornExports""
+                     XName=""X""
+                     YName=""Y""
+                     Type=""ChartSeriesType.Area""
+                     Opacity=""0.5""
+                     Fill=""#3CFFD2""
+                     Border=""@(new ChartSeriesBorder { Width = 2, Color = ""#008264"" })"">
+            <ChartMarker Visible=""false"">
+                <ChartDataLabel Visible=""true""
+                                Position=""ChartLabelPosition.Top""
+                                    Format=""{value}B"" 
+                                    Font=""@(new ChartDataLabelFont { Color = TextColor })"">
+                </ChartDataLabel>
+            </ChartMarker>
+        </ChartSeries>
+    
+</SfChart>
+
+@code {
+    private Theme _currentTheme = Theme.Fluent;
+    private bool IsDarkTheme => _currentTheme.ToString().Contains(""Dark"") || _currentTheme.ToString().Contains(""HighContrast"");
+    private string TextColor => IsDarkTheme ? ""#ffffff"" : ""#000000"";
+    public class CornData { public int X { get; set; } public double Y { get; set; } }
+    public List<CornData> CornExports = new()
+    {
+        new CornData { X = 2015, Y = 8.27 },
+        new CornData { X = 2016, Y = 9.88 },
+        new CornData { X = 2017, Y = 9.13 },
+        new CornData { X = 2018, Y = 12.47 },
+        new CornData { X = 2019, Y = 7.67 },
+        new CornData { X = 2020, Y = 9.25 },
+        new CornData { X = 2021, Y = 18.63 },
+        new CornData { X = 2022, Y = 18.57 },
+        new CornData { X = 2023, Y = 13.02 },
+        new CornData { X = 2024, Y = 13.70 }
+    };
+}";
+
+    private string StackingAreaCode => @"@using Syncfusion.Blazor.Toolkit.Charts
+
+<SfChart @key=""@_currentTheme"" Title=""U.S. Agricultural Export Values (2008-2024)"" Width=""100%"" Height=""400px"" Theme=""@_currentTheme"">
+    <ChartTooltipSettings Enable=""true""
+                          Format=""<b>${series.name}</b><br />Year: <b>${point.x}</b><br />Share: <b>${point.y}B</b>"" />
+    <ChartLegendSettings Visible=""true"" Position=""LegendPosition.Bottom"" />
+    <ChartPrimaryXAxis ValueType=""Syncfusion.Blazor.Toolkit.ValueType.DateTime""
+                       RangePadding=""ChartRangePadding.Normal""
+                       Interval=""2""
+                       IntervalType=""IntervalType.Years""
+                       LabelFormat=""yyyy"">
+    </ChartPrimaryXAxis>
+    <ChartPrimaryYAxis Minimum=""0""
+                       Maximum=""70""
+                       Interval=""10""
+                       LabelFormat=""${value}B"">
+        <ChartAxisLineStyle Width=""0"" />
+    </ChartPrimaryYAxis>
+    
+        <ChartSeries DataSource=""@WheatData""
+                     XName=""X""
+                     YName=""Y""
+                     Name=""Wheat""
+                     Type=""ChartSeriesType.StackingArea""
+                     Fill=""#38BE09""
+                     Opacity=""0.9""
+                     Border=""@(new ChartSeriesBorder { Width = 2 })""
+                     LegendShape=""LegendShape.Circle"" />
+        <ChartSeries DataSource=""@CornAreaData""
+                     XName=""X""
+                     YName=""Y""
+                     Name=""Corn""
+                     Type=""ChartSeriesType.StackingArea""
+                     Fill=""#B1212D""
+                     Opacity=""0.9""
+                     Border=""@(new ChartSeriesBorder { Width = 2 })""
+                     LegendShape=""LegendShape.Circle"" />
+        <ChartSeries DataSource=""@TreeNutsData""
+                     XName=""X""
+                     YName=""Y""
+                     Name=""Tree Nuts""
+                     Type=""ChartSeriesType.StackingArea""
+                     Fill=""#E77A16""
+                     Opacity=""0.9""
+                     Border=""@(new ChartSeriesBorder { Width = 2 })""
+                     LegendShape=""LegendShape.Circle"" />
+        <ChartSeries DataSource=""@SoybeansData""
+                     XName=""X""
+                     YName=""Y""
+                     Name=""Soybeans""
+                     Type=""ChartSeriesType.StackingArea""
+                     Fill=""#82C100""
+                     Opacity=""0.9""
+                     Border=""@(new ChartSeriesBorder { Width = 2 })""
+                     LegendShape=""LegendShape.Circle"" />
+    
+</SfChart>
+
+@code {
+    private Theme _currentTheme = Theme.Fluent;
+      public class AgriExportData
+    {
+        public DateTime X { get; set; }
+        public double Y { get; set; }
+    }
+
+    List<AgriExportData> WheatData = new()
+    {
+        new() { X = new DateTime(2008, 1, 1), Y = 10 },
+        new() { X = new DateTime(2012, 1, 1), Y = 12 },
+        new() { X = new DateTime(2016, 1, 1), Y = 14 },
+        new() { X = new DateTime(2020, 1, 1), Y = 11 },
+        new() { X = new DateTime(2024, 1, 1), Y = 13 }
+    };
+
+    List<AgriExportData> CornAreaData = new()
+    {
+        new() { X = new DateTime(2008, 1, 1), Y = 15 },
+        new() { X = new DateTime(2012, 1, 1), Y = 18 },
+        new() { X = new DateTime(2016, 1, 1), Y = 22 },
+        new() { X = new DateTime(2020, 1, 1), Y = 19 },
+        new() { X = new DateTime(2024, 1, 1), Y = 21 }
+    };
+
+    List<AgriExportData> TreeNutsData = new()
+    {
+        new() { X = new DateTime(2008, 1, 1), Y = 5 },
+        new() { X = new DateTime(2012, 1, 1), Y = 7 },
+        new() { X = new DateTime(2016, 1, 1), Y = 9 },
+        new() { X = new DateTime(2020, 1, 1), Y = 8 },
+        new() { X = new DateTime(2024, 1, 1), Y = 10 }
+    };
+
+    List<AgriExportData> SoybeansData = new()
+    {
+        new() { X = new DateTime(2008, 1, 1), Y = 20 },
+        new() { X = new DateTime(2012, 1, 1), Y = 23 },
+        new() { X = new DateTime(2016, 1, 1), Y = 25 },
+        new() { X = new DateTime(2020, 1, 1), Y = 22 },
+        new() { X = new DateTime(2024, 1, 1), Y = 24 }
+    };
+}";
+
+    private string StackingArea100Code => @"@using Syncfusion.Blazor.Toolkit.Charts
+
+<SfChart @key=""@_currentTheme"" Title=""Payment Shares by Mode (2015-2024)"" Width=""100%"" Height=""400px"" Theme=""@_currentTheme"">
+    <ChartTooltipSettings Enable=""true""
+                          Format=""<b>${series.name}</b><br />Year: <b>${point.x}</b><br />Share: <b>${point.y}%</b>"" />
+    <ChartLegendSettings Visible=""true"" Position=""LegendPosition.Bottom"" />
+    <ChartPrimaryXAxis ValueType=""Syncfusion.Blazor.Toolkit.ValueType.DateTime""
+                       RangePadding=""ChartRangePadding.Normal""
+                       LabelFormat=""yyyy"">
+    </ChartPrimaryXAxis>
+    <ChartPrimaryYAxis Minimum=""0""
+                       Maximum=""100""
+                       Interval=""20""
+                       LabelFormat=""{value}%"">
+        <ChartAxisLineStyle Width=""0"" />
+    </ChartPrimaryYAxis>
+    
+        <ChartSeries DataSource=""@BankTransfer""
+                     XName=""X""
+                     YName=""Y""
+                     Name=""Bank-Transfer""
+                     Type=""ChartSeriesType.StackingArea100""
+                     Fill=""#B1212D""
+                     Opacity=""1""
+                     Border=""@(new ChartSeriesBorder { Width = 0.5, Color = ""#ffffff"" })""
+                     LegendShape=""LegendShape.Circle"" />
+        <ChartSeries DataSource=""@CreditCard""
+                     XName=""X""
+                     YName=""Y""
+                     Name=""Credit Card""
+                     Type=""ChartSeriesType.StackingArea100""
+                     Fill=""#E77A16""
+                     Opacity=""1""
+                     Border=""@(new ChartSeriesBorder { Width = 0.5, Color = ""#ffffff"" })""
+                     LegendShape=""LegendShape.Circle"" />
+        <ChartSeries DataSource=""@DebitCard""
+                     XName=""X""
+                     YName=""Y""
+                     Name=""Debit Card""
+                     Type=""ChartSeriesType.StackingArea100""
+                     Fill=""#6200EE""
+                     Opacity=""1""
+                     Border=""@(new ChartSeriesBorder { Width = 0.5, Color = ""#ffffff"" })""
+                     LegendShape=""LegendShape.Circle"" />
+        <ChartSeries DataSource=""@Cash""
+                     XName=""X""
+                     YName=""Y""
+                     Name=""Cash""
+                     Type=""ChartSeriesType.StackingArea100""
+                     Fill=""#05B3DA""
+                     Opacity=""1""
+                     Border=""@(new ChartSeriesBorder { Width = 0.5, Color = ""#ffffff"" })""
+                     LegendShape=""LegendShape.Circle"" />
+    
+</SfChart>
+
+@code {
+    private Theme _currentTheme = Theme.Fluent;
+    public class PaymentData { public DateTime X { get; set; } public double Y { get; set; } }
+
+    List<PaymentData> BankTransfer = new()
+    {
+        new() { X = new DateTime(2015,1,1), Y = 22 },
+        new() { X = new DateTime(2016,1,1), Y = 21 },
+        new() { X = new DateTime(2017,1,1), Y = 20 },
+        new() { X = new DateTime(2018,1,1), Y = 19 },
+        new() { X = new DateTime(2019,1,1), Y = 18 },
+        new() { X = new DateTime(2020,1,1), Y = 17 },
+        new() { X = new DateTime(2021,1,1), Y = 16 },
+        new() { X = new DateTime(2022,1,1), Y = 15 },
+        new() { X = new DateTime(2023,1,1), Y = 27 },
+        new() { X = new DateTime(2024,1,1), Y = 28 }
+    };
+
+    List<PaymentData> CreditCard = new()
+    {
+        new() { X = new DateTime(2015,1,1), Y = 10 },
+        new() { X = new DateTime(2016,1,1), Y = 11 },
+        new() { X = new DateTime(2017,1,1), Y = 12 },
+        new() { X = new DateTime(2018,1,1), Y = 13 },
+        new() { X = new DateTime(2019,1,1), Y = 14 },
+        new() { X = new DateTime(2020,1,1), Y = 15 },
+        new() { X = new DateTime(2021,1,1), Y = 16 },
+        new() { X = new DateTime(2022,1,1), Y = 17 },
+        new() { X = new DateTime(2023,1,1), Y = 10 },
+        new() { X = new DateTime(2024,1,1), Y = 11 }
+    };
+
+    List<PaymentData> DebitCard = new()
+    {
+        new() { X = new DateTime(2015,1,1), Y = 40 },
+        new() { X = new DateTime(2016,1,1), Y = 42 },
+        new() { X = new DateTime(2017,1,1), Y = 44 },
+        new() { X = new DateTime(2018,1,1), Y = 46 },
+        new() { X = new DateTime(2019,1,1), Y = 48 },
+        new() { X = new DateTime(2020,1,1), Y = 50 },
+        new() { X = new DateTime(2021,1,1), Y = 52 },
+        new() { X = new DateTime(2022,1,1), Y = 54 },
+        new() { X = new DateTime(2023,1,1), Y = 51 },
+        new() { X = new DateTime(2024,1,1), Y = 52 }
+    };
+
+    List<PaymentData> Cash = new()
+    {
+        new() { X = new DateTime(2015,1,1), Y = 28 },
+        new() { X = new DateTime(2016,1,1), Y = 26 },
+        new() { X = new DateTime(2017,1,1), Y = 24 },
+        new() { X = new DateTime(2018,1,1), Y = 22 },
+        new() { X = new DateTime(2019,1,1), Y = 20 },
+        new() { X = new DateTime(2020,1,1), Y = 18 },
+        new() { X = new DateTime(2021,1,1), Y = 16 },
+        new() { X = new DateTime(2022,1,1), Y = 14 },
+        new() { X = new DateTime(2023,1,1), Y = 12 },
+        new() { X = new DateTime(2024,1,1), Y = 9 }
+    };
+}";
+
+    private string MultiColoredAreaCode => @"@using Syncfusion.Blazor.Toolkit.Charts
+
+<SfChart @key=""@_currentTheme"" Title=""Samsung Smartphone Shipments (2013-2024)"" SubTitle=""Trend Analysis: From Peak Sales to Recent Market Share"" Width=""100%"" Height=""400px"" Theme=""@_currentTheme"">
+    <ChartPrimaryXAxis ValueType=""Syncfusion.Blazor.Toolkit.ValueType.Category""
+                       Interval=""1""
+                       LabelIntersectAction=""LabelIntersectAction.Rotate45""
+                       EdgeLabelPlacement=""EdgeLabelPlacement.Shift"">
+    </ChartPrimaryXAxis>
+    <ChartPrimaryYAxis Title=""Shipments (Million Units)"" Minimum=""0""
+                       Maximum=""500""
+                       Interval=""100""
+                       LabelFormat=""{value}M"">
+        <ChartAxisLineStyle Width=""0"" />
+    </ChartPrimaryYAxis>
+    
+        <ChartSeries DataSource=""@SalesData""
+                     XName=""Year""
+                     YName=""Sales""
+                     Type=""ChartSeriesType.MultiColoredArea""
+                     PointColorMapping=""Color"">
+        </ChartSeries>
+    
+    <ChartAnnotationCollection>
+        <ChartAnnotation X=""@(""2013"")"" Y=""460"" CoordinateUnits=""Units.Point"">
+            <ContentTemplate>
+                <div style=""color:#0B4F4F;font-weight:bold;font-size:14px;"">Peak</div>
+            </ContentTemplate>
+        </ChartAnnotation>
+        <ChartAnnotation X=""@(""2017"")"" Y=""345"" CoordinateUnits=""Units.Point"">
+            <ContentTemplate>
+                <div style=""color:#26A69A;font-weight:bold;font-size:14px;"">Moderate</div>
+            </ContentTemplate>
+        </ChartAnnotation>
+        <ChartAnnotation X=""@(""2021"")"" Y=""290"" CoordinateUnits=""Units.Point"">
+            <ContentTemplate>
+                <div style=""color:#B2DFDB;font-weight:bold;font-size:14px;"">Low</div>
+            </ContentTemplate>
+        </ChartAnnotation>
+        <ChartAnnotation X=""@(""2024"")"" Y=""245"" CoordinateUnits=""Units.Point"">
+            <ContentTemplate>
+                <div style=""color:#1F77B4;font-weight:bold;font-size:14px;"">Current</div>
+            </ContentTemplate>
+        </ChartAnnotation>
+    </ChartAnnotationCollection>
+</SfChart>
+
+@code {
+    private Theme _currentTheme = Theme.Fluent;
+    public class SamsungSales { public string Year { get; set; } = """"; public double Sales { get; set; } public string Color { get; set; } = """"; }
+    private List<SamsungSales> SalesData = new()
+    {
+        new() { Year = ""2013"", Sales = 444.4442, Color = ""#0B4F4F"" },
+        new() { Year = ""2014"", Sales = 392.546, Color = ""#0B4F4F"" },
+        new() { Year = ""2015"", Sales = 320.4, Color = ""#0B4F4F"" },
+        new() { Year = ""2016"", Sales = 306.4466, Color = ""#0B4F4F"" },
+        new() { Year = ""2017"", Sales = 321.2633, Color = ""#26A69A"" },
+        new() { Year = ""2018"", Sales = 295.0437, Color = ""#26A69A"" },
+        new() { Year = ""2019"", Sales = 296.194, Color = ""#26A69A"" },
+        new() { Year = ""2020"", Sales = 253, Color = ""#26A69A"" },
+        new() { Year = ""2021"", Sales = 272, Color = ""#B2DFDB"" },
+        new() { Year = ""2022"", Sales = 260.9, Color = ""#B2DFDB"" },
+        new() { Year = ""2023"", Sales = 226.6, Color = ""#B2DFDB"" },
+        new() { Year = ""2024"", Sales = 223.4, Color = ""#B2DFDB"" }
+    };
+}";
+
+    private string MissingPointsCode => @"@using Syncfusion.Blazor.Toolkit.Charts
+@using Syncfusion.Blazor.Toolkit.Buttons
+        <div class=""mb-3"">
+            <label class=""fw-bold d-block mb-2"">Empty Point Mode</label>
+
+            <SfButtonGroup Mode=""SelectionMode.Single"">
+                <ButtonGroupButton Selected=""@IsEmptyModeSelected(EmptyPointMode.Gap)""
+                                   SelectedChanged=""@(v => OnEmptyModeChanged(v, EmptyPointMode.Gap))"">
+                    Gap
+                </ButtonGroupButton>
+
+                <ButtonGroupButton Selected=""@IsEmptyModeSelected(EmptyPointMode.Zero)""
+                                   SelectedChanged=""@(v => OnEmptyModeChanged(v, EmptyPointMode.Zero))"">
+                    Zero
+                </ButtonGroupButton>
+
+                <ButtonGroupButton Selected=""@IsEmptyModeSelected(EmptyPointMode.Average)""
+                                   SelectedChanged=""@(v => OnEmptyModeChanged(v, EmptyPointMode.Average))"">
+                    Average
+                </ButtonGroupButton>
+
+                <ButtonGroupButton Selected=""@IsEmptyModeSelected(EmptyPointMode.Drop)""
+                                   SelectedChanged=""@(v => OnEmptyModeChanged(v, EmptyPointMode.Drop))"">
+                    Drop
+                </ButtonGroupButton>
+            </SfButtonGroup>
+        </div>
+<SfChart @key=""@_currentTheme"" Title=""Skip Missing Points"" Width=""100%"" Height=""400px"" Theme=""@_currentTheme"">
+    <ChartPrimaryXAxis ValueType=""Syncfusion.Blazor.Toolkit.ValueType.Category"" />
+    <ChartPrimaryYAxis Interval=""100"">
+        <ChartAxisLineStyle Width=""0"" />
+    </ChartPrimaryYAxis>
+    
+        <ChartSeries DataSource=""@AreaData""
+                     XName=""X""
+                     YName=""Y""
+                     Type=""ChartSeriesType.Area""
+                     Width=""2""
+                     Opacity=""0.5""
+                     Fill=""#3CFFD2""
+                     Border=""@(new ChartSeriesBorder { Width = 2, Color = ""#008264"" })"">
+            <ChartEmptyPointSettings Mode=""@SelectedEmptyPointMode"" />
+            <ChartMarker Visible=""true""
+                         Fill=""#008264""
+                         Border=""@(new ChartMarkerBorder { Width = 2, Color = ""#008264"" })"" />
+        </ChartSeries>
+    
+    <ChartTooltipSettings Enable=""true""
+                          Header=""${point.x}""
+                          Format=""Sales : <b>${point.y} Units</b>"" />
+</SfChart>
+
+@code {
+    private Theme _currentTheme = Theme.Fluent;
+    public EmptyPointMode SelectedEmptyPointMode { get; set; } = EmptyPointMode.Gap;
+    public class AreaDataItem { public string X { get; set; } = """"; public double? Y { get; set; } }
+    public List<AreaDataItem> AreaData = new()
+    {
+        new() { X = ""Jan"", Y = 200 },
+        new() { X = ""Feb"", Y = 300 },
+        new() { X = ""Mar"", Y = 170 },
+        new() { X = ""April"", Y = null },
+        new() { X = ""May"", Y = 300 },
+        new() { X = ""Jun"", Y = null },
+        new() { X = ""July"", Y = 100 },
+        new() { X = ""Aug"", Y = 200 },
+        new() { X = ""Sep"", Y = 174 },
+        new() { X = ""Oct"", Y = null },
+        new() { X = ""Nov"", Y = null },
+        new() { X = ""Dec"", Y = 160 }
+    };
+}";
+
+    private string LiveUpdateCode => @"@using Syncfusion.Blazor.Toolkit.Charts
+@using System.Collections.ObjectModel
+@using System.Timers
+
+<SfChart @key=""@_currentTheme"" Title=""Live Update"" Width=""100%"" Height=""400px"" Theme=""@_currentTheme"">
+    <ChartArea><ChartAreaBorder Width=""0""></ChartAreaBorder></ChartArea>
+    <ChartPrimaryXAxis ValueType=""Syncfusion.Blazor.Toolkit.ValueType.DateTime"" 
+                       LabelFormat=""mm:ss"" 
+                       Title=""Time (s)"">
+        <ChartAxisMajorGridLines Width=""0""></ChartAxisMajorGridLines>
+        <ChartAxisMajorTickLines Width=""0"" />
+        <ChartAxisMinorTickLines Width=""0"" />
+    </ChartPrimaryXAxis>
+    <ChartPrimaryYAxis Minimum=""0"" Maximum=""70"">
+        <ChartAxisLineStyle Width=""0"" />
+        <ChartAxisMajorTickLines Width=""0""></ChartAxisMajorTickLines>
+    </ChartPrimaryYAxis>
+    
+        <ChartSeries Type=""ChartSeriesType.Area"" 
+                     DataSource=""@LiveData""
+                     XName=""@nameof(LivePoint.X)"" 
+                     YName=""@nameof(LivePoint.Y)""
+                     Opacity=""0.4""
+                     Fill=""#3CFFD2""
+                     Border=""@(new ChartSeriesBorder { Width = 2, Color = ""#008264"" })"">
+            <ChartSeriesAnimation Enable=""true"" Duration=""500"" />
+            <ChartMarker Visible=""true"" 
+                         Fill=""#008264""
+                         Border=""@(new ChartMarkerBorder { Width = 2, Color = ""#008264"" })"" />
+        </ChartSeries>
+    
+</SfChart>
+
+@code {
+    private Theme _currentTheme = Theme.Fluent;
+    public class LivePoint { public DateTime X { get; set; } public double Y { get; set; } }
+    public ObservableCollection<LivePoint> LiveData = new();
+    private System.Timers.Timer? updateLivePointTimer;
+
+    protected override void OnInitialized()
+    {
+        _currentTheme = Theme.Fluent;
+        
+        LiveData = new ObservableCollection<LivePoint>(
+            Enumerable.Range(0, 20)
+                .Select(i => new LivePoint
+                {
+                    X = DateTime.Now.AddSeconds(i),
+                    Y = Random.Shared.Next(30, 60)
+                })
+        );
+
+        updateLivePointTimer = new System.Timers.Timer(400);
+        updateLivePointTimer.Elapsed += async (_, _) =>
+        {
+            await InvokeAsync(UpdateLivePointData);
+        };
+        updateLivePointTimer.Start();
+    }
+
+    private void UpdateLivePointData()
+    {
+        if (LiveData.Count == 0)
+            return;
+
+        var lastTime = LiveData[^1].X;
+        LiveData.RemoveAt(0);
+        LiveData.Add(new LivePoint
+        {
+            X = lastTime.AddSeconds(1),
+            Y = Random.Shared.Next(30, 60)
+        });
+    }
+
+    public void Dispose()
+    {
+        updateLivePointTimer?.Stop();
+        updateLivePointTimer?.Dispose();
+    }
+}";
+
+    private string InvertedAxesCode => @"@using Syncfusion.Blazor.Toolkit.Charts
+
+<SfChart @key=""@_currentTheme"" Title=""Inverted Axes"" Width=""100%"" Height=""400px"" IsTransposed=""true"" Theme=""@_currentTheme"">    
+    <ChartTooltipSettings Enable=""true""
+                          Header=""${point.x}""
+                          Format=""${series.name} : <b>${point.y}</b>"" />
+    <ChartPrimaryXAxis ValueType=""Syncfusion.Blazor.Toolkit.ValueType.Category""
+                       Interval=""3"">
+        <ChartAxisMajorGridLines Width=""1"" DashArray=""10,10"" />
+    </ChartPrimaryXAxis>
+    <ChartPrimaryYAxis LabelFormat=""${value}M"">
+        <ChartAxisLineStyle Width=""0"" />
+    </ChartPrimaryYAxis>
+    
+        <ChartSeries DataSource=""@AmazonData""
+                     XName=""X""
+                     YName=""Y""
+                     Name=""Amazon""
+                     Type=""ChartSeriesType.Area""
+                     Opacity=""0.5""
+                     Fill=""#3CFFD2""
+                     Border=""@(new ChartSeriesBorder { Width = 2, Color = ""#008264"" })"">
+            <ChartMarker Visible=""true""
+                         Shape=""ChartShape.Circle"" />
+        </ChartSeries>
+        <ChartSeries DataSource=""@TencentData""
+                     XName=""X""
+                     YName=""Y""
+                     Name=""Tencent""
+                     Type=""ChartSeriesType.Area""
+                     Opacity=""0.5""
+                     Fill=""#DCFF89""
+                     Border=""@(new ChartSeriesBorder { Width = 2, Color = ""#5A8100"" })"">
+            <ChartMarker Visible=""true""
+                         Shape=""ChartShape.Circle"" />
+        </ChartSeries>
+    
+</SfChart>
+
+@code {
+    private Theme _currentTheme = Theme.Fluent;
+    public class RevenueData { public int X { get; set; } public double Y { get; set; } }
+    public List<RevenueData> AmazonData = new()
+    {
+        new() { X = 2024, Y = 638 }, new() { X = 2023, Y = 575 }, new() { X = 2022, Y = 514 },
+        new() { X = 2021, Y = 470 }, new() { X = 2020, Y = 386 }, new() { X = 2019, Y = 281 }
+    };
+    public List<RevenueData> TencentData = new()
+    {
+        new() { X = 2024, Y = 92 }, new() { X = 2023, Y = 86 }, new() { X = 2022, Y = 82 },
+        new() { X = 2021, Y = 87 }, new() { X = 2020, Y = 70 }, new() { X = 2019, Y = 55 }
+    };
+}";
+
+    private string NegativeDataCode => @"@using Syncfusion.Blazor.Toolkit.Charts
+
+<SfChart @key=""@_currentTheme"" Title=""Annual Gold Price (2009-2023) in USD"" Width=""100%"" Height=""400px"" Theme=""@_currentTheme"">
+    <ChartArea><ChartAreaBorder Width=""0""></ChartAreaBorder></ChartArea>
+    <ChartPrimaryXAxis ValueType=""Syncfusion.Blazor.Toolkit.ValueType.Double""
+                       Interval=""3"" />
+    <ChartPrimaryYAxis Interval=""20"">
+        <ChartAxisTitle Text=""% Annual Exchange Rate"" />
+        <ChartAxisLineStyle Width=""0"" />
+        <ChartStriplines>
+            <ChartStripline Start=""20""
+                            End=""20.5""
+                            Visible=""true""
+                            Color=""#79747E""
+                            DashArray=""10,10""
+                            ZIndex=""@ZIndex.Over"" />
+            <ChartStripline Start=""21""
+                            End=""21.5""
+                            Visible=""true""
+                            Color=""transparent""
+                            DashArray=""4,4""
+                            Text=""Highest Annual Growth""
+                            HorizontalAlignment=""Anchor.End""
+                            ZIndex=""@ZIndex.Over""
+                            Rotation=""0"">
+                <ChartStriplineTextStyle Color=""@HighestTextColor"" />
+            </ChartStripline>
+            <ChartStripline Start=""-25""
+                            End=""-24.5""
+                            Visible=""true""
+                            Color=""#79747E""
+                            DashArray=""10,10""
+                            ZIndex=""@ZIndex.Over"" />
+            <ChartStripline Start=""-28.5""
+                            End=""-28""
+                            Visible=""true""
+                            Color=""transparent""
+                            DashArray=""4,4""
+                            Text=""Lowest Annual Growth""
+                            HorizontalAlignment=""Anchor.End""
+                            ZIndex=""@ZIndex.Over""
+                            Rotation=""0"">
+                <ChartStriplineTextStyle Color=""@LowestTextColor"" />
+            </ChartStripline>
+        </ChartStriplines>
+    </ChartPrimaryYAxis>
+    
+        <ChartSeries DataSource=""@NegativeData""
+                     XName=""X""
+                     YName=""USD""
+                     Type=""ChartSeriesType.Area""
+                     Width=""2""
+                     Opacity=""0.4""
+                     Fill=""#3CFFD2""
+                     Border=""@NegativeSeriesBorder"">
+            <ChartMarker Visible=""true"" IsFilled=""true"" />
+        </ChartSeries>
+    
+    <ChartTooltipSettings Enable=""true""
+                          Header=""${point.x}""
+                          Format=""Annual Growth : <b>${point.y}</b>"" />
+</SfChart>
+
+@code {
+    private Theme _currentTheme = Theme.Fluent;
+    private string HighestTextColor => ""#205107"";
+    private string LowestTextColor => ""#B3261E"";
+    public class GoldRate { public int X { get; set; } public double USD { get; set; } }
+    private ChartSeriesBorder NegativeSeriesBorder => new ChartSeriesBorder { Width = 2, Color = SeriesBorderColor };
+    public List<GoldRate> NegativeData = new()
+    {
+        new() { X = 2009, USD = 23.4 },
+        new() { X = 2010, USD = 29.5 },
+        new() { X = 2011, USD = 10.1 },
+        new() { X = 2012, USD = 7.0 },
+        new() { X = 2013, USD = -28.3 },
+        new() { X = 2014, USD = -1.5 },
+        new() { X = 2015, USD = -10.4 },
+        new() { X = 2016, USD = 9.1 },
+        new() { X = 2017, USD = 13.6 },
+        new() { X = 2018, USD = -2.1 },
+        new() { X = 2019, USD = 18.9 },
+        new() { X = 2020, USD = 24.6 },
+        new() { X = 2021, USD = -3.5 },
+        new() { X = 2022, USD = -0.3 },
+        new() { X = 2023, USD = 12.8 }
+    };
+}";
+
+    private string CustomizationCode => @"@using Syncfusion.Blazor.Toolkit.Charts
+
+<SfChart @key=""@_currentTheme"" Title=""Global Primary Energy Consumption by Source"" Width=""100%"" Height=""400px"" Theme=""@_currentTheme"">          
+    <ChartTooltipSettings Enable=""true""
+                          Header=""${series.name}""
+                          Format=""${point.x} : <b>${point.y}</b>"" />
+    <ChartPrimaryXAxis ValueType=""Syncfusion.Blazor.Toolkit.ValueType.Category""
+                       Interval=""6"" />
+    <ChartPrimaryYAxis Maximum=""2700""
+                       Interval=""800""
+                       LabelFormat=""{value}TWh"">
+        <ChartAxisLineStyle Width=""0"" />
+    </ChartPrimaryYAxis>
+    
+        <ChartSeries DataSource=""@EnergyData""
+                     XName=""X""
+                     YName=""Y1""
+                     Name=""Other Renewable""
+                     Type=""ChartSeriesType.Area""
+                     Opacity=""0.5""
+                     Fill=""#3CFFD2""
+                     Border=""@(new ChartSeriesBorder
+                             {
+                                 Width = 2,
+                                 Color = ""#008264"",
+                             })"" />
+        <ChartSeries DataSource=""@EnergyData""
+                     XName=""X""
+                     YName=""Y2""
+                     Name=""Modern biofuels""
+                     Type=""ChartSeriesType.Area""
+                     Opacity=""0.5""
+                     Fill=""#DCFF89""
+                     Border=""@(new ChartSeriesBorder
+                             {
+                                 Width = 2,
+                                 Color = ""#5A8100""
+                             })"" />
+    
+</SfChart>
+
+@code {
+    private Theme _currentTheme = Theme.Fluent;
+    public class EnergyConsumption { public string X { get; set; } = """"; public double Y1 { get; set; } public double Y2 { get; set; } }
+    public List<EnergyConsumption> EnergyData = new()
+    {
+        new() { X = ""1994"", Y1 = 400, Y2 = 100 },
+        new() { X = ""2000"", Y1 = 600, Y2 = 150 },
+        new() { X = ""2006"", Y1 = 800, Y2 = 200 },
+        new() { X = ""2012"", Y1 = 1400, Y2 = 800 },
+        new() { X = ""2018"", Y1 = 1800, Y2 = 1000 },
+        new() { X = ""2024"", Y1 = 2500, Y2 = 1400 }
+    };
+}";
+
+    private string DatasourceUpdateCode => @"@using Syncfusion.Blazor.Toolkit.Charts
+@using System.Collections.ObjectModel
+@using System.Timers
+
+<SfChart @key=""@_currentTheme"" Title=""Auto-Updating Area Chart"" Width=""100%"" Height=""400px"" Theme=""@_currentTheme"">
+    <ChartPrimaryXAxis Minimum=""1""
+                       Maximum=""7""
+                       Interval=""1"" />
+    <ChartPrimaryYAxis Minimum=""0""
+                       Maximum=""100""
+                       Interval=""20"">
+        <ChartAxisLineStyle Width=""0"" />
+        <ChartAxisMajorGridLines Width=""1"" />
+    </ChartPrimaryYAxis>
+    
+        <ChartSeries DataSource=""@ChartData""
+                     XName=""X""
+                     YName=""Y""
+                     Type=""ChartSeriesType.Area""
+                     Opacity=""0.4""
+                     Fill=""#3CFFD2""
+                     Border=""@(new ChartSeriesBorder
+                             {
+                                 Width = 2,
+                                 Color = ""#008264""
+                             })""
+                     Animation=""@(new ChartSeriesAnimation
+                             {
+                                 Enable = true,
+                                 Duration = 1500
+                             })"" />
+    
+</SfChart>
+
+@code {
+    private Theme _currentTheme = Theme.Fluent;
+    public class ChartPoint { public int X { get; set; } public double Y { get; set; } }
+    public ObservableCollection<ChartPoint> ChartData = new();
+    private System.Timers.Timer? timer;
+    private readonly Random random = new();
+
+    protected override void OnInitialized()
+    {
+        _currentTheme = Theme.Fluent;
+        
+        ChartData = new ObservableCollection<ChartPoint>(GenerateInitialData());
+
+        timer = new System.Timers.Timer(2000);
+        timer.Elapsed += (_, _) =>
+        {
+            InvokeAsync(() => {
+                UpdateDataSource();
+            });
+        };
+        timer.Start();
+    }
+
+    private List<ChartPoint> GenerateInitialData()
+    {
+        var data = new List<ChartPoint>();
+        for (int i = 1; i <= 7; i++)
+        {
+            data.Add(new ChartPoint
+            {
+                X = i,
+                Y = random.Next(15, 90)
+            });
+        }
+        return data;
+    }
+
+    private void UpdateDataSource()
+    {
+        for (int i = 0; i < ChartData.Count; i++)
+        {
+            ChartData[i] = new ChartPoint
+            {
+                X = ChartData[i].X,
+                Y = 10 + random.NextDouble() * 85
+            };
+        }
+    }
+
+    public void Dispose()
+    {
+        timer?.Stop();
+        timer?.Dispose();
+    }
+}";
+
+
+    private List<CategoryPoint> Data1 = new();
+    private List<CategoryPoint> Data2 = new();
+    private List<CategoryPoint> NegData = new();
+    private List<CategoryPoint> currentData = new();
+    private List<CategoryPoint> liveData = new();
+    private System.Timers.Timer? liveTimer;
+    private Random rnd = new();
+
+    // Empty Point Mode Selection
+    public EmptyPointMode SelectedEmptyPointMode { get; set; } = EmptyPointMode.Gap;
+
+    // ButtonGroup helpers
+    private bool IsEmptyModeSelected(EmptyPointMode mode)
+        => SelectedEmptyPointMode == mode;
+
+    private void OnEmptyModeChanged(bool selected, EmptyPointMode mode)
+    {
+        if (selected)
+        {
+            SelectedEmptyPointMode = mode;
+        }
+    }
+
+    private void StartLive()
+    {
+        if (liveTimer != null) return;
+        liveTimer = new System.Timers.Timer(900);
+        liveTimer.Elapsed += (s, e) =>
+        {
+            InvokeAsync(() =>
+            {
+                if (liveData.Count > 8) liveData.RemoveAt(0);
+                liveData.Add(new CategoryPoint { X = DateTime.Now.ToString("HH:mm:ss"), Y = Math.Round(10 + rnd.NextDouble() * 40, 1) });
+            });
+        };
+        liveTimer.Start();
+    }
+
+    private void StopLive()
+    {
+        liveTimer?.Stop();
+        liveTimer?.Dispose();
+        liveTimer = null;
+    }
+    public class PaymentData
+    {
+        public DateTime X { get; set; }
+        public double Y { get; set; }
+    }
+
+    List<PaymentData> BankTransfer = new()
+    {
+        new() { X = new DateTime(2015,1,1), Y = 22 },
+        new() { X = new DateTime(2016,1,1), Y = 21 },
+        new() { X = new DateTime(2017,1,1), Y = 20 },
+        new() { X = new DateTime(2018,1,1), Y = 19 },
+        new() { X = new DateTime(2019,1,1), Y = 18 },
+        new() { X = new DateTime(2020,1,1), Y = 17 },
+        new() { X = new DateTime(2021,1,1), Y = 16 },
+        new() { X = new DateTime(2022,1,1), Y = 15 },
+        new() { X = new DateTime(2023,1,1), Y = 27 },
+        new() { X = new DateTime(2024,1,1), Y = 28 }
+    };
+
+    List<PaymentData> CreditCard = new()
+    {
+        new() { X = new DateTime(2015,1,1), Y = 10 },
+        new() { X = new DateTime(2016,1,1), Y = 11 },
+        new() { X = new DateTime(2017,1,1), Y = 12 },
+        new() { X = new DateTime(2018,1,1), Y = 13 },
+        new() { X = new DateTime(2019,1,1), Y = 14 },
+        new() { X = new DateTime(2020,1,1), Y = 15 },
+        new() { X = new DateTime(2021,1,1), Y = 16 },
+        new() { X = new DateTime(2022,1,1), Y = 17 },
+        new() { X = new DateTime(2023,1,1), Y = 10 },
+        new() { X = new DateTime(2024,1,1), Y = 11 }
+    };
+
+    List<PaymentData> DebitCard = new()
+    {
+        new() { X = new DateTime(2015,1,1), Y = 40 },
+        new() { X = new DateTime(2016,1,1), Y = 42 },
+        new() { X = new DateTime(2017,1,1), Y = 44 },
+        new() { X = new DateTime(2018,1,1), Y = 46 },
+        new() { X = new DateTime(2019,1,1), Y = 48 },
+        new() { X = new DateTime(2020,1,1), Y = 50 },
+        new() { X = new DateTime(2021,1,1), Y = 52 },
+        new() { X = new DateTime(2022,1,1), Y = 54 },
+        new() { X = new DateTime(2023,1,1), Y = 51 },
+        new() { X = new DateTime(2024,1,1), Y = 52 }
+    };
+
+    List<PaymentData> Cash = new()
+    {
+        new() { X = new DateTime(2015,1,1), Y = 28 },
+        new() { X = new DateTime(2016,1,1), Y = 26 },
+        new() { X = new DateTime(2017,1,1), Y = 24 },
+        new() { X = new DateTime(2018,1,1), Y = 22 },
+        new() { X = new DateTime(2019,1,1), Y = 20 },
+        new() { X = new DateTime(2020,1,1), Y = 18 },
+        new() { X = new DateTime(2021,1,1), Y = 16 },
+        new() { X = new DateTime(2022,1,1), Y = 14 },
+        new() { X = new DateTime(2023,1,1), Y = 12 },
+        new() { X = new DateTime(2024,1,1), Y = 9 }
+    };
+
+    public class SamsungSales
+    {
+        public string Year { get; set; } = "";
+        public double Sales { get; set; }
+        public string Color { get; set; } = "";
+    }
+
+    // Light palette (hard‑coded for clarity)
+    private readonly Dictionary<string, string> Palette = new()
+    {
+        { "peak", "#0B4F4F" },
+        { "moderate", "#26A69A" },
+        { "low", "#B2DFDB" }
+    };
+
+    private List<SamsungSales> SalesData = new()
+    {
+        new() { Year = "2013", Sales = 444.4442, Color = "#0B4F4F" },
+        new() { Year = "2014", Sales = 392.546, Color = "#0B4F4F" },
+        new() { Year = "2015", Sales = 320.4, Color = "#0B4F4F" },
+        new() { Year = "2016", Sales = 306.4466, Color = "#0B4F4F" },
+
+        new() { Year = "2017", Sales = 321.2633, Color = "#26A69A" },
+        new() { Year = "2018", Sales = 295.0437, Color = "#26A69A" },
+        new() { Year = "2019", Sales = 296.194, Color = "#26A69A" },
+        new() { Year = "2020", Sales = 253, Color = "#26A69A" },
+
+        new() { Year = "2021", Sales = 272, Color = "#B2DFDB" },
+        new() { Year = "2022", Sales = 260.9, Color = "#B2DFDB" },
+        new() { Year = "2023", Sales = 226.6, Color = "#B2DFDB" },
+        new() { Year = "2024", Sales = 223.4, Color = "#B2DFDB" }
+    };
+ 
+    private string HighestTextColor => IsDarkTheme ? "#53CA17" : "#205107";
+    private string LowestTextColor => IsDarkTheme ? "#F2B8B5" : "#B3261E";
+    private string SeriesBorderColor => IsDarkTheme ? "#3CFFD2" : "#008264";
+
+    private ChartSeriesBorder NegativeSeriesBorder => new ChartSeriesBorder { Width = 2, Color = SeriesBorderColor };
+
+    private void UpdateTo(int which)
+    {
+        currentData = which == 1 ? new List<CategoryPoint>(Data1) : new List<CategoryPoint>(Data2);
+    }
+
+    
+    /* =========================
+       Model
+       ========================= */
+    public class LivePoint
+    {
+        public DateTime X { get; set; }
+        public double Y { get; set; }
+    }
+
+    /* =========================
+       Data Source - Live Point Update
+       ========================= */
+    private ObservableCollection<LivePoint> LiveData = new();
+    private System.Timers.Timer? updateLivePointTimer;
+
+    private class CategoryPoint
+    {
+        public string X { get; set; } = string.Empty;
+        public double Y { get; set; }
+    }
+}

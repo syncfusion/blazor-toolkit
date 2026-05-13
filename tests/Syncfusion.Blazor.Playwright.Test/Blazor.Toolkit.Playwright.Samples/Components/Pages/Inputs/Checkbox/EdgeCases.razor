@@ -1,0 +1,145 @@
+@page "/checkbox/edge-cases"
+@using Syncfusion.Blazor.Toolkit.Inputs
+@layout MainLayout
+
+<h1>Checkbox - Edge Cases</h1>
+
+<div class="test-container">
+    <h2>Empty Label</h2>
+    <SfCheckBox TChecked="bool"
+                Label=""
+                @bind-Checked="emptyLabelChecked">
+    </SfCheckBox>
+    <p>Checked: <strong>@emptyLabelChecked</strong></p>
+</div>
+
+<div class="test-container">
+    <h2>Very Long Label</h2>
+    <SfCheckBox TChecked="bool"
+                Label="@LongLabel"
+                @bind-Checked="longLabelChecked">
+    </SfCheckBox>
+    <p>Checked: <strong>@longLabelChecked</strong></p>
+</div>
+
+<div class="test-container">
+    <h2>Special Characters in Label</h2>
+    <SfCheckBox TChecked="bool"
+                Label="@SpecialCharsLabel"
+                @bind-Checked="specialCharsChecked">
+    </SfCheckBox>
+    <p>Checked: <strong>@specialCharsChecked</strong></p>
+</div>
+
+<div class="test-container">
+    <h2>Unicode Characters in Label</h2>
+    <SfCheckBox TChecked="bool"
+                Label="@UnicodeLabel"
+                @bind-Checked="unicodeChecked">
+    </SfCheckBox>
+    <p>Checked: <strong>@unicodeChecked</strong></p>
+</div>
+
+<div class="test-container">
+    <h2>Multiple Rapid Toggles</h2>
+    <SfCheckBox TChecked="bool"
+                Label="Rapid Toggle Test"
+                @bind-Checked="rapidToggleChecked">
+    </SfCheckBox>
+
+    <button @onclick="RapidToggle">
+        Perform 10 Rapid Toggles
+    </button>
+
+    <p>Final State: <strong>@rapidToggleChecked</strong></p>
+    <p>Manual Toggles: <strong>@manualToggles</strong></p>
+</div>
+
+<div class="test-container">
+    <h2>State Persistence Across Re-renders</h2>
+    <SfCheckBox TChecked="bool"
+                Label="Persistence Test"
+                @bind-Checked="persistenceChecked">
+    </SfCheckBox>
+
+    <button @onclick="ForceRerender">
+        Force Rerender
+    </button>
+
+    <p>Checked: <strong>@persistenceChecked</strong></p>
+    <p>Rerenders: <strong>@rerenderCount</strong></p>
+</div>
+
+<style>
+    .test-container {
+        padding: 20px;
+        border: 1px solid #ddd;
+        margin: 10px 0;
+        border-radius: 4px;
+        background-color: #f9f9f9;
+    }
+
+    h2 {
+        margin-top: 20px;
+        font-size: 18px;
+        font-weight: 600;
+    }
+
+    button {
+        padding: 8px 16px;
+        margin-top: 10px;
+        cursor: pointer;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        background-color: #f0f0f0;
+    }
+
+    button:hover {
+        background-color: #e0e0e0;
+    }
+
+    p {
+        margin-top: 10px;
+        font-size: 14px;
+    }
+</style>
+
+@code {
+    private bool emptyLabelChecked;
+    private bool longLabelChecked;
+    private bool specialCharsChecked;
+    private bool unicodeChecked;
+    private bool rapidToggleChecked;
+    private bool persistenceChecked;
+
+    private int manualToggles;
+    private int rerenderCount;
+
+    // ✅ Labels moved to code to avoid Razor parsing issues
+    private const string LongLabel =
+        "This is an extremely long checkbox label that contains a lot of text " +
+        "and is meant to test how the component handles text wrapping and display " +
+        "of long content without breaking the layout or functionality of the component itself";
+
+    private const string SpecialCharsLabel =
+        "Label with special chars: @#$%^&*(){}[]|;:',.<>?/";
+
+    private const string UnicodeLabel =
+        "Unicode: 你好 مرحبا 🎉 ✓";
+
+    private async Task RapidToggle()
+    {
+        for (int i = 0; i < 10; i++)
+        {
+            rapidToggleChecked = !rapidToggleChecked;
+            manualToggles++;
+            await Task.Delay(50);
+        }
+    }
+
+    private void ForceRerender()
+    {
+        rerenderCount++;
+        StateHasChanged();
+    }
+}

@@ -1,0 +1,14 @@
+﻿@using Syncfusion.Blazor.Toolkit.Popups
+
+@namespace Syncfusion.Blazor.Toolkit.Tests.Dialog
+
+<SfDialog Width="400px" ShowCloseIcon="true">
+    <DialogTemplates>
+        <Header> <div> Header Template </div> </Header>
+        <Content> <div> "10% of battery remaining", "Low Battery" </div> </Content>
+    </DialogTemplates>
+    <DialogButtons>
+        <DialogButton Content="yes" IsPrimary="false" />
+        <DialogButton Content="no" IsPrimary="true" />
+    </DialogButtons>
+</SfDialog>

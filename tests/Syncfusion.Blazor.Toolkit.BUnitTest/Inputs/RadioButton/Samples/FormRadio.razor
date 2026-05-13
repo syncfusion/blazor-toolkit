@@ -1,0 +1,74 @@
+﻿@using Microsoft.AspNetCore.Components.Forms
+@using Syncfusion.Blazor.Toolkit
+@using Syncfusion.Blazor.Toolkit.Inputs
+@using System.ComponentModel.DataAnnotations
+@using Xunit.Sdk
+
+@namespace Syncfusion.Blazor.Toolkit.Tests.Inputs
+
+<div class="sample">
+    <div>
+        <SfRadioButton Name="country" Value="india" Checked="@country"></SfRadioButton>
+        <SfRadioButton Name="country" Value="us" Checked="@country"></SfRadioButton>
+    </div>
+    <div>
+        <EditForm EditContext="validationMessageContext">
+            <DataAnnotationsValidator />
+            <ValidationMessage For="@(() => validationMessageModel.Value)"></ValidationMessage>
+            <SfRadioButton @bind-Checked="validationMessageModel.Value" Name="country" Value="1"></SfRadioButton>
+            <SfRadioButton @bind-Checked="validationMessageModel.Value" Name="country" Value="2"></SfRadioButton>
+            <SfRadioButton @bind-Checked="validationMessageModel.Value" Name="country" Value="3"></SfRadioButton>
+        </EditForm>
+    </div>
+    <div>
+        <EditForm EditContext="validationSummaryContext">
+            <DataAnnotationsValidator />
+            <ValidationSummary />
+            <SfRadioButton @bind-Checked="validationSummaryModel.Value" Name="country" Value="1"></SfRadioButton>
+            <SfRadioButton @bind-Checked="validationSummaryModel.Value" Name="country" Value="2"></SfRadioButton>
+            <SfRadioButton @bind-Checked="validationSummaryModel.Value" Name="country" Value="3"></SfRadioButton>
+        </EditForm>
+    </div>
+    <div>
+        <EditForm Model="validationMessage">
+            <DataAnnotationsValidator />
+            <ValidationMessage For="@(() => validationMessage.Value)"></ValidationMessage>
+            <SfRadioButton @bind-Checked="validationMessage.Value" Name="country" Value="1"></SfRadioButton>
+            <SfRadioButton @bind-Checked="validationMessage.Value" Name="country" Value="2"></SfRadioButton>
+            <SfRadioButton @bind-Checked="validationMessage.Value" Name="country" Value="3"></SfRadioButton>
+        </EditForm>
+    </div>
+    <div>
+        <EditForm Model="validationSummary">
+            <DataAnnotationsValidator />
+            <ValidationSummary />
+            <SfRadioButton @bind-Checked="validationSummary.Value" Name="country" Value="1"></SfRadioButton>
+            <SfRadioButton @bind-Checked="validationSummary.Value" Name="country" Value="2"></SfRadioButton>
+            <SfRadioButton @bind-Checked="validationSummary.Value" Name="country" Value="3"></SfRadioButton>
+        </EditForm>
+    </div>
+</div>
+
+@code {
+    private string country = "india";
+    private EditContext validationMessageContext;
+    private EditContext validationSummaryContext;
+    private RadioButtonModel validationMessage = new RadioButtonModel();
+    private RadioButtonModel validationSummary = new RadioButtonModel();
+    private RadioButtonModel validationMessageModel = new RadioButtonModel();
+    private RadioButtonModel validationSummaryModel = new RadioButtonModel();
+
+    protected override Task OnInitializedAsync()
+    {
+        validationMessageContext = new EditContext(validationMessageModel);
+        validationSummaryContext = new EditContext(validationSummaryModel);
+        return base.OnInitializedAsync();
+    }
+
+    private class RadioButtonModel
+    {
+        [Required]
+        [Range(1, 2, ErrorMessage = "Value size is exceeded.")]
+        public int? Value { get; set; }
+    }
+}

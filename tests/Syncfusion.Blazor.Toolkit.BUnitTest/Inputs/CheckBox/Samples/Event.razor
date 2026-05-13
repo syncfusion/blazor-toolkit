@@ -1,0 +1,57 @@
+﻿@using Syncfusion.Blazor.Toolkit.Inputs
+@using Microsoft.AspNetCore.Components.Web
+
+@namespace Syncfusion.Blazor.Toolkit.Tests.Inputs
+
+<div class="sample">
+    <SfCheckBox Created="CreatedHandler" TChecked="bool"></SfCheckBox>
+    <label>@createdText</label>
+    <SfCheckBox @bind-Checked=@valueChecked Label="@label" ValueChange="ValueChangeHandler" TChecked="bool"></SfCheckBox>
+    <SfCheckBox @bind-Checked=@nativeChecked @onchange="OnChangeHandler"></SfCheckBox>
+    <label>@onChanged</label>
+    <SfCheckBox @bind-Checked=@lambdaChecked @onchange="@((e) => OnChangeHandler(e, "Value is: "))"></SfCheckBox>
+    <label>@changedText</label>
+</div>
+
+@code {
+    private bool onChanged;
+    private string createdText;
+    private string changedText;
+    private string label = "Checkbox state is: false";
+
+    private bool _valueChecked = false;
+    private bool valueChecked
+    {
+        get => _valueChecked;
+        set
+        {
+            _valueChecked = value;
+            label = "Checkbox state is: " + _valueChecked;
+        }
+    }
+
+    private bool nativeChecked = false;
+
+    private bool lambdaChecked = false;
+
+    private void CreatedHandler()
+    {
+        createdText = "created";
+    }
+
+    private void ValueChangeHandler(CheckedChangeEventArgs<bool> args)
+    {
+        // preserve for compatibility; primary label update happens via binding setter
+        label = "Checkbox state is: " + args.Checked;
+    }
+
+    private void OnChangeHandler(Microsoft.AspNetCore.Components.ChangeEventArgs args)
+    {
+        onChanged = (bool)args.Value;
+    }
+
+    private void OnChangeHandler(Microsoft.AspNetCore.Components.ChangeEventArgs args, string text)
+    {
+        changedText = text + args.Value;
+    }
+}

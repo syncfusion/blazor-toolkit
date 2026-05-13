@@ -1,0 +1,74 @@
+﻿@page "/chart/annotation"
+@using Syncfusion.Blazor.Toolkit.Charts
+
+<h1>Chart - Annotation</h1>
+
+<div class="test-container">
+    <h2>Checking Chart Annotation</h2>
+    <SfChart ID="container" Title="Olympic Medals">
+        <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Toolkit.ValueType.Category"></ChartPrimaryXAxis>	
+        <ChartAnnotations AccessibilityDescription="Medal count" AccessibilityRole="count" Focusable=false>
+            <ChartAnnotation X="@data" Y="65" CoordinateUnits="Units.Point" Description="chart annotation" XAxisName="PrimaryXAxis" YAxisName="PrimaryYAxis" Region="Regions.Series">
+                <ContentTemplate>
+                    <div style="color: firebrick; font-size: medium; font-style: italic">Highest Medal Count</div>
+                </ContentTemplate>
+            </ChartAnnotation>
+        </ChartAnnotations>
+        <ChartSeriesCollection>
+            <ChartSeries DataSource="@MedalDetails" XName="Country" YName="Gold" Type="ChartSeriesType.Column"></ChartSeries>
+        </ChartSeriesCollection>
+    </SfChart>
+
+    <h2>Checking Coordinate Unit Pixel</h2>
+    <SfChart ID="container2" Title="Olympic Medals">
+        <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Toolkit.ValueType.Category"></ChartPrimaryXAxis>
+        <ChartAnnotations>
+            <ChartAnnotation X="250" Y="100" CoordinateUnits="Units.Pixel">
+                <ContentTemplate>
+                    <div>Annotation in Pixel</div>
+                </ContentTemplate>
+            </ChartAnnotation>
+        </ChartAnnotations>
+        <ChartSeriesCollection>
+            <ChartSeries DataSource="@MedalDetails" XName="Country" YName="Gold" Type="ChartSeriesType.Column"></ChartSeries>
+        </ChartSeriesCollection>
+    </SfChart>
+</div>
+
+@code {
+    string data = "France";
+
+    public class ChartData
+    {
+        public string Country { get; set; }
+        public double Gold { get; set; }
+    }
+	
+    public List<ChartData> MedalDetails = new List<ChartData>
+    {
+        new ChartData{ Country= "USA", Gold=50  },
+        new ChartData{ Country= "China", Gold=40 },
+        new ChartData{ Country= "Japan", Gold=70 },
+        new ChartData{ Country= "Australia", Gold=60},
+        new ChartData{ Country= "France", Gold=50 },
+        new ChartData{ Country= "Germany", Gold=40 },
+        new ChartData{ Country= "Italy", Gold=40 },
+        new ChartData{ Country= "Sweden", Gold=30 }
+    };
+}
+
+<style>
+    .test-container {
+        padding: 20px;
+        border: 1px solid #ddd;
+        margin: 10px 0;
+        border-radius: 4px;
+        background-color: #f9f9f9;
+    }
+    
+    h2 {
+        margin-top: 20px;
+        font-size: 18px;
+        font-weight: 600;
+    }
+</style>

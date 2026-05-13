@@ -1,0 +1,421 @@
+﻿@using Syncfusion.Blazor.Toolkit.Charts
+@using Syncfusion.Blazor.Toolkit.Tests
+@using Syncfusion.Blazor.Toolkit.Charts
+@using Syncfusion.Blazor.Toolkit.Charts.Internal
+@using Syncfusion.Blazor.Toolkit.Charts
+@using Syncfusion.Blazor.Toolkit.Charts.Internal;
+@using Bunit
+@using Xunit
+
+@inherits TestComponentBase
+@using Syncfusion.Blazor.Toolkit.Data
+
+<SfFixture @ref="fixture" TestAsync="SortedPointCheckY" Description="Sorting Column Series based On Y Axis">
+    <ComponentUnderTest>
+        <SfChart ID="container" Width="700">
+             <ChartSorting PropertyName="Y" Direction="ListSortDirection.Descending"></ChartSorting>
+            <ChartPrimaryXAxis Title="PrimaryXAxis" ValueType="Syncfusion.Blazor.Toolkit.ValueType.DateTimeCategory"></ChartPrimaryXAxis>
+            <ChartPrimaryYAxis Title="PrimaryYAxis"></ChartPrimaryYAxis>
+            <ChartSeriesCollection>
+                <ChartSeries DataSource="@columns" Type="ChartSeriesType.Column" XName="x" YName="y" Name="Column Series">
+                    <ChartSeriesAnimation Enable="false"></ChartSeriesAnimation>
+                    <ChartMarker Visible="true" Width="20" Height="20" Fill="Green" Opacity="0.1" Shape="ChartShape.Circle">
+                        <ChartDataLabel Visible="true" Position="ChartLabelPosition.Top" Fill="#404041"></ChartDataLabel>
+                        <ChartMarkerBorder Width="4" Color="Red"></ChartMarkerBorder>
+                        <ChartMarkerOffset X="0" Y="0"></ChartMarkerOffset>
+                    </ChartMarker>
+                </ChartSeries>
+            </ChartSeriesCollection>
+        </SfChart>
+    </ComponentUnderTest>
+</SfFixture>
+
+@code {
+
+    SfFixture fixture { get; set; }
+    async Task SortedPointCheckY(Fixture fixture)
+    {
+        var cut = fixture.GetComponentUnderTest<SfChart>();
+        await Task.Delay(200);
+        var point = cut.Find("#container_Series_0_Point_0_Symbol");
+        Assert.True(point.GetAttribute("aria-label") == "March 8: 85, Column Series");
+        cut.SetParametersAndRender();
+    }
+    public class ColumnData
+    {
+        public DateTime x { get; set; }
+        public double y { get; set; }
+    }
+    public List<ColumnData> columns = new List<ColumnData>
+        {
+           new ColumnData{ x = new DateTime(2000, 06, 11), y = 10 },
+           new ColumnData{ x = new DateTime(2002, 03, 07), y = -30 },
+           new ColumnData{ x = new DateTime(2004, 03, 06), y = 15 },
+           new ColumnData{ x = new DateTime(2006, 03, 30), y = -65 },
+           new ColumnData{ x = new DateTime(2008, 03, 08), y = 0 },
+           new ColumnData{ x = new DateTime(2010, 03, 08), y = 85 }
+        };
+}
+@{
+    var InitialGroup1 = (new string[] { "CustomerID", "OrderID" });
+}
+
+<SfFixture @ref="fixture1" TestAsync="SortedPointCheckX" Description="Sorting Column Series Based On X Axis">
+    <ComponentUnderTest>
+        <SfChart ID="container" Width="700">
+             <ChartSorting PropertyName="X" Direction="ListSortDirection.Descending"></ChartSorting>
+            <ChartPrimaryXAxis Title="PrimaryXAxis" ValueType="Syncfusion.Blazor.Toolkit.ValueType.DateTimeCategory"></ChartPrimaryXAxis>
+            <ChartPrimaryYAxis Title="PrimaryYAxis"></ChartPrimaryYAxis>
+            <ChartSeriesCollection>
+                <ChartSeries DataSource="@columns1" Type="ChartSeriesType.Column" XName="x" YName="y" Name="Column Series">
+                    <ChartSeriesAnimation Enable="false"></ChartSeriesAnimation>
+                    <ChartMarker Visible="true" Width="20" Height="20" Fill="Green" Opacity="0.1" Shape="ChartShape.Circle">
+                        <ChartDataLabel Visible="true" Position="ChartLabelPosition.Top" Fill="#404041"></ChartDataLabel>
+                        <ChartMarkerBorder Width="4" Color="Red"></ChartMarkerBorder>
+                        <ChartMarkerOffset X="0" Y="0"></ChartMarkerOffset>
+                    </ChartMarker>
+                </ChartSeries>
+            </ChartSeriesCollection>
+        </SfChart>
+    </ComponentUnderTest>
+</SfFixture>
+
+@code {
+
+    SfFixture fixture1 { get; set; }
+    async Task SortedPointCheckX(Fixture fixture1)
+    {
+        var cut = fixture1.GetComponentUnderTest<SfChart>();
+        await Task.Delay(200);
+        var point = cut.Find("#container_Series_0_Point_0_Symbol");
+        Assert.True(point.GetAttribute("aria-label") == "2010: 85, Column Series");
+        cut.SetParametersAndRender();
+    }
+    public class ColumnData1
+    {
+        public DateTime x { get; set; }
+        public double y { get; set; }
+    }
+    public List<ColumnData1> columns1 = new List<ColumnData1>
+        {
+           new ColumnData1{ x = new DateTime(2000, 06, 11), y = 10 },
+           new ColumnData1{ x = new DateTime(2002, 03, 07), y = -30 },
+           new ColumnData1{ x = new DateTime(2004, 03, 06), y = 15 },
+           new ColumnData1{ x = new DateTime(2006, 03, 30), y = -65 },
+           new ColumnData1{ x = new DateTime(2008, 03, 08), y = 0 },
+           new ColumnData1{ x = new DateTime(2010, 03, 08), y = 85 }
+        };
+}
+
+@{
+    var InitialGroup2 = (new string[] { "CustomerID", "OrderID" });
+}
+
+
+<SfFixture @ref="fixture2" TestAsync="SortedPointCheckCustom" Description="Sorting Column Series Based on Custom Values">
+    <ComponentUnderTest>
+        <SfChart ID="container" Width="700">
+             <ChartSorting PropertyName="Custom" Direction="ListSortDirection.Ascending"></ChartSorting>
+             <ChartPrimaryXAxis Title="PrimaryXAxis" ValueType="Syncfusion.Blazor.Toolkit.ValueType.DateTimeCategory" Format="dd/MM/yyyy"></ChartPrimaryXAxis>
+             <ChartPrimaryYAxis Title="PrimaryYAxis"></ChartPrimaryYAxis>
+             <ChartSeriesCollection>
+                 <ChartSeries DataSource="@columns2" Type="ChartSeriesType.Column" XName="x" YName="y" Name="Column Series">
+                     <ChartSeriesAnimation Enable="false"></ChartSeriesAnimation>
+                     <ChartMarker Visible="true" Width="20" Height="20" Fill="Green" Opacity="0.1" Shape="ChartShape.Circle">
+                         <ChartDataLabel Visible="true" Position="ChartLabelPosition.Top" Fill="#404041"></ChartDataLabel>
+                         <ChartMarkerBorder Width="4" Color="Red"></ChartMarkerBorder>
+                         <ChartMarkerOffset X="0" Y="0"></ChartMarkerOffset>
+                     </ChartMarker>
+                 </ChartSeries>
+             </ChartSeriesCollection>
+       </SfChart>
+    </ComponentUnderTest>
+</SfFixture>
+
+@code {
+
+    SfFixture fixture2 { get; set; }
+    async Task SortedPointCheckCustom(Fixture fixture2)
+    {
+        var cut = fixture2.GetComponentUnderTest<SfChart>();
+        await Task.Delay(200);
+        var point = cut.Find("#container_Series_0_Point_0_Symbol");
+        Assert.True(point.GetAttribute("aria-label") == "30/03/2006: -65, Column Series");
+        cut.SetParametersAndRender();
+    }
+    public class ColumnData2
+    {
+        public DateTime x { get; set; }
+        public double y { get; set; }
+        public double Custom { get; set; }
+    }
+    public List<ColumnData2> columns2 = new List<ColumnData2>
+        {
+           new ColumnData2{ x = new DateTime(2000, 06, 11), y = 10, Custom = 5},
+           new ColumnData2{ x = new DateTime(2002, 03, 07), y = -30, Custom = 2},
+           new ColumnData2{ x = new DateTime(2004, 03, 06), y = 15, Custom = 3},
+           new ColumnData2{ x = new DateTime(2006, 03, 30), y = -65, Custom = 1},
+           new ColumnData2{ x = new DateTime(2008, 03, 08), y = 0, Custom = 6},
+           new ColumnData2{ x = new DateTime(2010, 03, 08), y = 85, Custom = 4}
+        };
+}
+
+@{
+    var InitialGroup3 = (new string[] { "CustomerID", "OrderID" });
+}
+
+<SfFixture @ref="fixture3" TestAsync="SortedPointMultipleSeriesCheck" Description="Multiple Series Sorting Based on Y Axis">
+    <ComponentUnderTest>
+        <SfChart ID="container" Width="700">
+             <ChartSorting PropertyName="Y" Direction="ListSortDirection.Descending"></ChartSorting>
+             <ChartPrimaryXAxis Title="PrimaryXAxis" ValueType="Syncfusion.Blazor.Toolkit.ValueType.DateTimeCategory" Format="dd/MM/yyyy"></ChartPrimaryXAxis>
+             <ChartPrimaryYAxis Title="PrimaryYAxis"></ChartPrimaryYAxis>
+             <ChartSeriesCollection>
+                 <ChartSeries DataSource="@columns3" Type="ChartSeriesType.Column" XName="x" YName="y" Name="Column Series">
+                     <ChartSeriesAnimation Enable="false"></ChartSeriesAnimation>
+                     <ChartMarker Visible="true" Width="20" Height="20" Fill="Green" Opacity="0.1" Shape="ChartShape.Circle">
+                         <ChartDataLabel Visible="true" Position="ChartLabelPosition.Top" Fill="#404041"></ChartDataLabel>
+                         <ChartMarkerBorder Width="4" Color="Red"></ChartMarkerBorder>
+                         <ChartMarkerOffset X="0" Y="0"></ChartMarkerOffset>
+                     </ChartMarker>
+                 </ChartSeries>
+                 <ChartSeries DataSource="@columns3" Type="ChartSeriesType.Column" XName="x" YName="Y1" Name="Column Series">
+                    <ChartSeriesAnimation Enable="false"></ChartSeriesAnimation>
+                    <ChartMarker Visible="true" Width="20" Height="20" Fill="Green" Opacity="0.1" Shape="ChartShape.Circle">
+                        <ChartDataLabel Visible="true" Position="ChartLabelPosition.Top" Fill="#404041"></ChartDataLabel>
+                        <ChartMarkerBorder Width="4" Color="Red"></ChartMarkerBorder>
+                        <ChartMarkerOffset X="0" Y="0"></ChartMarkerOffset>
+                    </ChartMarker>
+                </ChartSeries>
+             </ChartSeriesCollection>
+       </SfChart>
+    </ComponentUnderTest>
+</SfFixture>
+
+@code {
+
+    SfFixture fixture3 { get; set; }
+    SfChart point;
+    async Task SortedPointMultipleSeriesCheck(Fixture fixture3)
+    {
+        var cut = fixture3.GetComponentUnderTest<SfChart>();
+        await Task.Delay(200);
+        var point1 = cut.Find("#container_Series_1_Point_0");
+        Assert.True(point1.GetAttribute("data-point") == "0,50,#09AF74,Column,1,,,,True,0,Series,XY,Circle,,/Column Series/,True,False,False,1,PrimaryXAxis,PrimaryYAxis,,,0,5,Gap,True,True,1");
+        var point2 = cut.Find("#container_Series_0_Point_0");
+        Assert.True(point2.GetAttribute("data-point") == "0,85,#6200EE,Column,0,,,,True,0,Series,XY,Circle,,/Column Series/,True,False,False,1,PrimaryXAxis,PrimaryYAxis,,,0,5,Gap,True,True,1");
+        cut.SetParametersAndRender();
+    }
+    public class ColumnData3
+    {
+        public DateTime x { get; set; }
+        public double y { get; set; }
+        public double Y1 { get; set; }
+        public double Custom { get; set; }
+    }
+    public List<ColumnData3> columns3 = new List<ColumnData3>
+        {
+           new ColumnData3{ x = new DateTime(2000, 06, 11), y = 10, Custom = 5, Y1 = 15},
+           new ColumnData3{ x = new DateTime(2002, 03, 07), y = -30, Custom = 2, Y1 = -15},
+           new ColumnData3{ x = new DateTime(2004, 03, 06), y = 15, Custom = 3, Y1 = 20},
+           new ColumnData3{ x = new DateTime(2006, 03, 30), y = -65, Custom = 1, Y1 = 20},
+           new ColumnData3{ x = new DateTime(2008, 03, 08), y = 0, Custom = 6, Y1 = 5},
+           new ColumnData3{ x = new DateTime(2010, 03, 08), y = 85, Custom = 4, Y1 = 50}
+        };
+}
+
+@{
+    var InitialGroup5 = (new string[] { "CustomerID", "OrderID" });
+}
+
+<SfFixture @ref="fixture5" TestAsync="SortedPointCheckBubble" Description="Bubble Points Sorting Based on Y Axis">
+    <ComponentUnderTest>
+        <SfChart ID="container" Width="700">
+             <ChartSorting PropertyName="Y" Direction="ListSortDirection.Ascending"></ChartSorting>
+             <ChartPrimaryXAxis Title="PrimaryXAxis" ValueType="Syncfusion.Blazor.Toolkit.ValueType.DateTimeCategory" Format="dd/MM/yyyy"></ChartPrimaryXAxis>
+             <ChartPrimaryYAxis Title="PrimaryYAxis"></ChartPrimaryYAxis>
+             <ChartSeriesCollection>
+                 <ChartSeries DataSource="@Bubble" Type="ChartSeriesType.Bubble" XName="x" YName="y" Name="Bubble Series">
+                     <ChartSeriesAnimation Enable="false"></ChartSeriesAnimation>
+                     <ChartMarker Visible="true" Width="20" Height="20" Fill="Green" Opacity="0.1" Shape="ChartShape.Circle">
+                         <ChartDataLabel Visible="true" Position="ChartLabelPosition.Top" Fill="#404041"></ChartDataLabel>
+                         <ChartMarkerBorder Width="4" Color="Red"></ChartMarkerBorder>
+                         <ChartMarkerOffset X="0" Y="0"></ChartMarkerOffset>
+                     </ChartMarker>
+                 </ChartSeries>
+             </ChartSeriesCollection>
+       </SfChart>
+    </ComponentUnderTest>
+</SfFixture>
+
+@code {
+
+    SfFixture fixture5 { get; set; }
+    async Task SortedPointCheckBubble(Fixture fixture5)
+    {
+        var cut = fixture5.GetComponentUnderTest<SfChart>();
+        await Task.Delay(200);
+        var point = cut.Find("#container_Series_0_Point_0");
+        Assert.True(point.GetAttribute("data-point") == "0,-65,#6200EE,Bubble,0,,,,True,0,Series,XY,Circle,,/Bubble Series/,True,False,False,1,PrimaryXAxis,PrimaryYAxis,,,0,5,Gap,True,True,1");
+        cut.SetParametersAndRender();
+    }
+    public class BubbleData
+    {
+        public DateTime x { get; set; }
+        public double y { get; set; }
+        public double Custom { get; set; }
+    }
+    public List<BubbleData> Bubble = new List<BubbleData>
+        {
+           new BubbleData{ x = new DateTime(2000, 06, 11), y = 10, Custom = 5},
+           new BubbleData{ x = new DateTime(2002, 03, 07), y = -30, Custom = 2},
+           new BubbleData{ x = new DateTime(2004, 03, 06), y = 15, Custom = 3},
+           new BubbleData{ x = new DateTime(2006, 03, 30), y = -65, Custom = 1},
+           new BubbleData{ x = new DateTime(2008, 03, 08), y = 0, Custom = 6},
+           new BubbleData{ x = new DateTime(2010, 03, 08), y = 85, Custom = 4}
+        };
+}
+
+@{
+    var InitialGroup7 = (new string[] { "CustomerID", "OrderID" });
+}
+
+<SfFixture @ref="fixture7" TestAsync="SortedPointMultiplePlaneX" Description="Multiple Plane Sorting Based On X Axis">
+    <ComponentUnderTest>
+        <SfChart Title="Weather condition JPN vs DEU" ID="container">
+            <ChartSorting PropertyName="x" Direction="ListSortDirection.Ascending"></ChartSorting>
+            <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Toolkit.ValueType.Category"/>
+            <ChartPrimaryYAxis Title="Temperature (Fahrenheit)" LabelFormat="{value}°F" Minimum="0" Maximum="90" Interval="20"/>
+            <ChartRows>
+                <ChartRow Height="50%"/>
+                <ChartRow Height="50%"/>
+            </ChartRows>
+            <ChartAxes>
+                <ChartAxis Minimum="24" Maximum="36" Interval="2" OpposedPosition="true" RowIndex="1" Name="YAxis" LabelFormat="{value}°C"/>
+            </ChartAxes>
+            <ChartSeriesCollection>
+                <ChartSeries DataSource="@WeatherReports" XName="X" YName="Y" Type="ChartSeriesType.Column">
+                    <ChartSeriesAnimation Enable="false"></ChartSeriesAnimation>
+                    <ChartMarker Visible="true" Width="20" Height="20" Fill="Green" Opacity="0.1" Shape="ChartShape.Circle">
+                        <ChartDataLabel Visible="true" Position="ChartLabelPosition.Top" Fill="#404041"></ChartDataLabel>
+                        <ChartMarkerBorder Width="4" Color="Red"></ChartMarkerBorder>
+                        <ChartMarkerOffset X="0" Y="0"></ChartMarkerOffset>
+                    </ChartMarker>
+                </ChartSeries>
+                <ChartSeries DataSource="@WeatherReports" XName="X" YName="Y1" YAxisName="YAxis">
+                    <ChartSeriesAnimation Enable="false"></ChartSeriesAnimation>
+                    <ChartMarker Visible="true" Width="20" Height="20" Fill="Green" Opacity="0.1" Shape="ChartShape.Circle">
+                        <ChartDataLabel Visible="true" Position="ChartLabelPosition.Top" Fill="#404041"></ChartDataLabel>
+                        <ChartMarkerBorder Width="4" Color="Red"></ChartMarkerBorder>
+                        <ChartMarkerOffset X="0" Y="0"></ChartMarkerOffset>
+                    </ChartMarker>
+                </ChartSeries>
+            </ChartSeriesCollection>
+        </SfChart>
+    </ComponentUnderTest>
+</SfFixture>
+
+@code {
+
+    SfFixture fixture7 { get; set; }
+    async Task SortedPointMultiplePlaneX(Fixture fixture7)
+    {
+        var cut = fixture7.GetComponentUnderTest<SfChart>();
+        await Task.Delay(200);
+        var point = cut.Find("#container_Series_0_Point_0");
+        Assert.True(point.GetAttribute("aria-label") == "Aus:20°F, ");
+        cut.SetParametersAndRender();
+    }
+     public class ChartData
+        {
+            public string X { get; set; }
+            public double Y { get; set; }
+            public double Y1 { get; set; }
+        }
+    
+    	public List<ChartData> WeatherReports = new List<ChartData>
+    	{
+    		new ChartData{ X= "Ind", Y= 15, Y1= 33 },
+    		new ChartData{ X= "Aus", Y= 20, Y1= 31 },
+    		new ChartData{ X= "Ban", Y= 35, Y1= 30 },
+    		new ChartData{ X= "Eng", Y= 40, Y1= 28 },
+    		new ChartData{ X= "USA", Y= 80, Y1= 29 },
+    		new ChartData{ X= "Chn", Y= 70, Y1= 30 },    		
+    	};
+}
+
+@{
+    var InitialGroup8 = (new string[] { "CustomerID", "OrderID" });
+}
+
+<SfFixture @ref="fixture8" TestAsync="SortedPointMultiplePlaneY" Description="Multiple Plane Sorting Based On Y Axis">
+    <ComponentUnderTest>
+        <SfChart Title="Weather condition JPN vs DEU" ID="container">
+            <ChartSorting PropertyName="y" Direction="ListSortDirection.Ascending"></ChartSorting>
+            <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Toolkit.ValueType.Category" />
+            <ChartPrimaryYAxis Title="Temperature (Fahrenheit)" LabelFormat="{value}°F" Minimum="0" Maximum="90" Interval="20" />
+            <ChartRows>
+                <ChartRow Height="50%" />
+                <ChartRow Height="50%" />
+            </ChartRows>
+            <ChartAxes>
+                <ChartAxis Minimum="24" Maximum="36" Interval="2" OpposedPosition="true" RowIndex="1" Name="YAxis" LabelFormat="{value}°C" />
+            </ChartAxes>
+            <ChartSeriesCollection>
+                <ChartSeries DataSource="@WeatherReports1" XName="X" YName="Y" Type="ChartSeriesType.Column">
+                    <ChartSeriesAnimation Enable="false"></ChartSeriesAnimation>
+                    <ChartMarker Visible="true" Width="20" Height="20" Fill="Green" Opacity="0.1" Shape="ChartShape.Circle">
+                        <ChartDataLabel Visible="true" Position="ChartLabelPosition.Top" Fill="#404041"></ChartDataLabel>
+                        <ChartMarkerBorder Width="4" Color="Red"></ChartMarkerBorder>
+                        <ChartMarkerOffset X="0" Y="0"></ChartMarkerOffset>
+                    </ChartMarker>
+                </ChartSeries>
+                <ChartSeries DataSource="@WeatherReports1" XName="X" YName="Y1" YAxisName="YAxis">
+                    <ChartSeriesAnimation Enable="false"></ChartSeriesAnimation>
+                    <ChartMarker Visible="true" Width="20" Height="20" Fill="Green" Opacity="0.1" Shape="ChartShape.Circle">
+                        <ChartDataLabel Visible="true" Position="ChartLabelPosition.Top" Fill="#404041"></ChartDataLabel>
+                        <ChartMarkerBorder Width="4" Color="Red"></ChartMarkerBorder>
+                        <ChartMarkerOffset X="0" Y="0"></ChartMarkerOffset>
+                    </ChartMarker>
+                </ChartSeries>
+            </ChartSeriesCollection>
+        </SfChart>
+    </ComponentUnderTest>
+</SfFixture>
+
+@code {
+
+    SfFixture fixture8 { get; set; }
+    async Task SortedPointMultiplePlaneY(Fixture fixture8)
+    {
+        var cut = fixture7.GetComponentUnderTest<SfChart>();
+        await Task.Delay(200);
+        var point = cut.Find("#container_Series_0_Point_0");
+        Assert.True(point.GetAttribute("aria-label") == "Aus:20°F, ");
+        var sorting = cut.FindComponent<ChartSorting>();
+        sorting.Instance.SetSortKeyAndDirection("X", ListSortDirection.Descending);
+        cut.SetParametersAndRender();
+        sorting.Instance.ClearSortKey();
+    }
+    public class ChartData1
+    {
+        public string X { get; set; }
+        public double Y { get; set; }
+        public double Y1 { get; set; }
+    }
+
+    public List<ChartData1> WeatherReports1 = new List<ChartData1>
+        {
+            new ChartData1{ X= "Ind", Y= 15, Y1= 33 },
+            new ChartData1{ X= "Aus", Y= 20, Y1= 31 },
+            new ChartData1{ X= "Ban", Y= 35, Y1= 30 },
+            new ChartData1{ X= "Eng", Y= 40, Y1= 28 },
+            new ChartData1{ X= "USA", Y= 80, Y1= 29 },
+            new ChartData1{ X= "Chn", Y= 70, Y1= 30 },
+        };
+}
+
+
+
+
+

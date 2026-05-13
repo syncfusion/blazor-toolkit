@@ -1,0 +1,759 @@
+﻿@page "/charts/category-axis"
+@using Syncfusion.Blazor.Toolkit.Buttons
+@using Syncfusion.Blazor.Toolkit.Charts
+@using Syncfusion.Blazor.Toolkit.Inputs
+
+<PageTitle>Syncfusion Blazor Toolkit Category Axis Demo</PageTitle>
+
+<!-- ─────────────────────────────────────────────
+     CATEGORY AXIS
+     ───────────────────────────────────────────── -->
+<Description>
+    <Header>
+        <h5><b>Category Axis</b></h5>
+    </Header>
+    <Content>
+        Category axes are used to display discrete values such as country names,
+        product labels, or classifications along the axis.
+
+        In the Syncfusion Blazor Toolkit Chart, a category axis is configured by
+        setting the <code>ValueType</code> property of the
+        <code>ChartPrimaryXAxis</code> to <code>ValueType.Category</code>.
+        This sample demonstrates a Column Chart with category labels, responsive
+        label rotation, tooltip support, and axis title customization.
+        This sample demonstrates a Column Chart with category labels, responsive
+        label rotation using the <code>LabelRotation</code> property, tooltip support, and axis title customization.
+    </Content>
+</Description>
+
+<VirtualizeSection MinHeightPx="600px">
+    <CodePreview CodeSection="@CategoryAxisCode" IsFullWidth="true">
+    <PreviewSection>
+      
+        <SfChart @key="@_currentTheme" Title="Population by Country 2024" Theme="@_currentTheme">
+            <ChartArea><ChartAreaBorder Width="0"></ChartAreaBorder></ChartArea>
+            <!-- Tooltip -->
+            <ChartTooltipSettings Enable="true"
+                                  Header="${point.x}"
+                                  Format="Population : <b>${point.y}B</b>" 
+                                  EnableHighlight="true" />
+
+            <!-- X Axis (Category) -->
+            <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Toolkit.ValueType.Category" LabelRotation="-45">
+                <ChartAxisMajorGridLines Width="0" />
+                <ChartAxisMajorTickLines Width="0" />
+                <ChartAxisMinorTickLines Width="0" />
+            </ChartPrimaryXAxis>
+
+            <!-- Y Axis -->
+            <ChartPrimaryYAxis Title="Population in Billions" Interval="0.3">
+                <ChartAxisLineStyle Width="0" />
+                <ChartAxisMajorTickLines Width="0" />
+            </ChartPrimaryYAxis>
+
+            <!-- Series -->
+            
+                <ChartSeries DataSource="@CategoryAxisData"
+                             XName="Country"
+                             YName="Population"
+                             Type="ChartSeriesType.Column"
+                             Fill="#34699A"
+                             ColumnWidth="0.4">
+                    <ChartCornerRadius TopLeft="5" TopRight="5" />
+                </ChartSeries>
+            
+        </SfChart>
+    </PreviewSection>
+</CodePreview>
+</VirtualizeSection>
+
+<!-- ─────────────────────────────────────────────
+        LABEL PLACEMENT
+     ───────────────────────────────────────────── -->
+<Description>
+    <Header>
+        <h5><b>Label Placement</b></h5>
+    </Header>
+    <Content>
+        Label placement controls whether axis labels are rendered directly on
+        category tick marks or positioned between ticks.
+
+        In the Syncfusion Blazor Toolkit Chart, label placement is configured using
+        the <code>Placement</code> property of the
+        <code>ChartAxisLabel</code> component. This sample demonstrates switching
+        between <code>OnTicks</code> and <code>BetweenTicks</code> dynamically
+        the <code>LabelPlacement</code> property of the
+        <code>ChartPrimaryXAxis</code> component. This sample demonstrates switching
+        between <code>LabelPlacement.OnTicks</code> and <code>LabelPlacement.BetweenTicks</code> dynamically
+        using a button group.
+    </Content>
+</Description>
+
+<VirtualizeSection MinHeightPx="600px">
+    <CodePreview CodeSection="@LabelPlacementCode" IsFullWidth="true">
+    <PreviewSection>
+        <!-- Property Panel -->
+        <div class="mb-3">
+            <label class="fw-bold d-block mb-2">Tick Placement</label>
+
+            <SfButtonGroup Mode="SelectionMode.Single">
+                <ButtonGroupButton Selected="@IsOnTicks"
+                                   SelectedChanged="@(v => OnPlacementChanged(v, LabelPlacement.OnTicks))">
+                    On Ticks
+                </ButtonGroupButton>
+
+                <ButtonGroupButton Selected="@IsBetweenTicks"
+                                   SelectedChanged="@(v => OnPlacementChanged(v, LabelPlacement.BetweenTicks))">
+                    Between Ticks
+                </ButtonGroupButton>
+            </SfButtonGroup>
+        </div>
+
+        <!-- Chart -->
+        <SfChart @key="@_currentTheme" Title="Stock Market Capitalization as a Percentage of GDP by Country" Theme="@_currentTheme">
+            <ChartArea><ChartAreaBorder Width="0"></ChartAreaBorder></ChartArea>
+            <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Toolkit.ValueType.Category" LabelPlacement="@TickPlacement" LabelRotation="-45">
+                <ChartAxisMajorGridLines Width="0" />
+            </ChartPrimaryXAxis>
+
+            <ChartPrimaryYAxis Title="Capitalization Ratio (% of GDP)" LabelFormat="{value}" LabelPlacement="@TickPlacement" Interval="50">
+                <ChartAxisLineStyle Width="0" />
+                <ChartAxisMajorTickLines Width="0" />
+            </ChartPrimaryYAxis>
+
+            
+                <ChartSeries DataSource="@LabelPlacementData"
+                             XName="Country"
+                             YName="Value"
+                             Type="ChartSeriesType.SplineArea"
+                             Width="2"
+                             Opacity="0.4"
+                             Fill="#D6FF89">
+                    <ChartSeriesBorder Width="2" Color="#71AD01" />
+                    <ChartMarker Visible="true"
+                                 Shape="ChartShape.Circle"
+                                 Fill="#71AD01"
+                                 IsFilled="true">
+                        <ChartMarkerBorder Width="2" Color="#71AD01" />
+                    </ChartMarker>
+                </ChartSeries>
+            
+
+            <ChartTooltipSettings Enable="true"
+                                  Header="Stock Market Cap"
+                                  Format="${point.x} : <b>${point.y}B</b>" 
+                                  EnableHighlight="true" />
+        </SfChart>
+    </PreviewSection>
+</CodePreview>
+</VirtualizeSection>
+
+<!-- ─────────────────────────────────────────────
+     RANGES
+     ───────────────────────────────────────────── -->
+<Description>
+    <Header>
+        <h5><b>Ranges</b></h5>
+    </Header>
+    <Content>
+        You can control which category labels are displayed on a Chart by configuring
+        explicit axis ranges.
+
+        In the Syncfusion Blazor Toolkit Chart, the following axis properties are used
+        to define the visible range:
+        <ul>
+            <li>
+                <b>Minimum</b> – Specifies the starting index of the visible categories
+                <code>Minimum</code> – Specifies the starting index of the visible categories
+                on the axis.
+            </li>
+            <li>
+                <b>Maximum</b> – Specifies the ending index of the visible categories.
+                <code>Maximum</code> – Specifies the ending index of the visible categories.
+            </li>
+            <li>
+                <b>Interval</b> – Controls the spacing between displayed labels.
+                <code>Interval</code> – Controls the spacing between displayed labels.
+            </li>
+        </ul>
+        This allows you to limit the visible range to focus on a subset of categories,
+        reduce clutter by skipping labels at regular intervals, and improve readability
+        when working with dense or large datasets.
+    </Content>
+</Description>
+
+<VirtualizeSection MinHeightPx="600px">
+    <CodePreview CodeSection="@RangeAxisCode" IsFullWidth="true"> 
+    <PreviewSection>
+        <SfChart @key="@_currentTheme" Title="Population by Country 2024" Theme="@_currentTheme">
+            <ChartArea><ChartAreaBorder Width="0"></ChartAreaBorder></ChartArea>
+            <!-- Tooltip -->
+            <ChartTooltipSettings Enable="true"
+                                  Header="${point.x}"
+                                  Format="Population : <b>${point.y}B</b>" 
+                                  EnableHighlight="true" />
+
+            <!-- X Axis with Category Range -->
+            <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Toolkit.ValueType.Category"
+                               Minimum="2"
+                               Maximum="6"
+                               Interval="1"
+                               LabelRotation="-45">
+                <ChartAxisMajorGridLines Width="0" />
+                <ChartAxisMajorTickLines Width="0" />
+                <ChartAxisMinorTickLines Width="0" />
+            </ChartPrimaryXAxis>
+
+            <!-- Y Axis with Restricted Range -->
+            <ChartPrimaryYAxis Title="Population in Billions" Interval="0.1"
+                               Maximum="0.4">
+                <ChartAxisLineStyle Width="0" />
+                <ChartAxisMajorTickLines Width="0" />
+            </ChartPrimaryYAxis>
+            <!-- Series -->
+            
+                <ChartSeries DataSource="@CategoryAxisData"
+                             XName="Country"
+                             YName="Population"
+                             Type="ChartSeriesType.Column"
+                             Fill="#179BAE"
+                             ColumnWidth="0.4">
+                    <ChartCornerRadius TopLeft="5" TopRight="5" />
+                </ChartSeries>
+            
+        </SfChart>
+    </PreviewSection>
+</CodePreview>
+</VirtualizeSection>
+
+<!-- ─────────────────────────────────────────────
+     INDEXED
+     ───────────────────────────────────────────── -->
+<Description>
+    <Header>
+        <h5><b>Indexed Category Axis</b></h5>
+    </Header>
+    <Content>
+        An indexed category axis arranges data points based on their index position
+        instead of matching them by actual category values. This makes it possible
+        to align multiple series that contain different category labels.
+
+        In the Syncfusion Blazor Toolkit Chart, indexing is enabled by setting the
+        <code>Indexed</code> property of the <code>ChartPrimaryXAxis</code>.
+        <code>IsIndexed</code> property of the <code>ChartPrimaryXAxis</code> to <code>true</code>.
+        This sample demonstrates toggling indexed mode dynamically and switching
+        between column and line series to compare indexed and non‑indexed behavior.
+        between Column and Line series to compare indexed and non‑indexed behavior.
+    </Content>
+</Description>
+
+<VirtualizeSection MinHeightPx="600px">
+    <CodePreview CodeSection="@IndexedCategoryAxisCode" IsFullWidth="true">
+    <PreviewSection>
+        <!-- Property Panel -->
+        <div class="mb-3">
+            <label class="fw-bold d-block mb-2">Indexed</label>
+            <SfCheckBox Checked="@IsIndexed"
+                        CheckedChanged="@( (bool value) => OnIndexedChanged(value) )" />
+        </div>
+
+        <!-- Gradient Definitions -->
+        <svg style="height:0">
+            <defs>
+                <linearGradient id="gradient-fill" x1="0" y1="0" x2="0" y2="1">
+                    <stop offset="0%" stop-color="#8C3BC8" />
+                    <stop offset="100%" stop-color="#CE59FF" />
+                </linearGradient>
+            </defs>
+        </svg>
+
+        <svg style="height:0">
+            <defs>
+                <linearGradient id="gradient-fill-index" x1="0" y1="0" x2="0" y2="1">
+                    <stop offset="0%" stop-color="#45AF20" />
+                    <stop offset="100%" stop-color="#80C76D" />
+                </linearGradient>
+            </defs>
+        </svg>
+
+        <!-- Chart -->
+        <SfChart @key="@_currentTheme" Title="Indexed Category Comparison of GDP Growth Rate (%)" Theme="@_currentTheme">
+            <ChartArea><ChartAreaBorder Width="0"></ChartAreaBorder></ChartArea>
+            <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Toolkit.ValueType.Category"
+            IsIndexed="@IsIndexed"
+            LabelRotation=-45
+            LabelIntersectAction="LabelIntersectAction.Rotate45">
+                <ChartAxisMajorGridLines Width="0" />
+                <ChartAxisMajorTickLines Width="0" />
+                <ChartAxisMinorTickLines Width="0" />
+            </ChartPrimaryXAxis>
+
+            <ChartPrimaryYAxis Title="GDP Growth Rate" LabelFormat="{value}%" Interval="2">
+                <ChartAxisLineStyle Width="0" />
+                <ChartAxisMajorTickLines Width="0" />
+            </ChartPrimaryYAxis>
+
+            
+                <ChartSeries DataSource="@AsiaGrowthData"
+                             XName="Country"
+                             YName="Growth"
+                             Width="2"
+                             Type="@SeriesType"
+                             Fill="url(#gradient-fill)"
+                             ColumnWidth="0.5"
+                             ColumnSpacing="0.2">
+                    <ChartCornerRadius TopLeft="15" TopRight="15" />
+                    <ChartMarker Visible="@(!IsIndexed)">
+                        <ChartDataLabel Visible="@(!IsIndexed)"
+                                        Position="ChartLabelPosition.Top" />
+                    </ChartMarker>
+                </ChartSeries>
+
+                <ChartSeries DataSource="@GlobalGrowthData"
+                             XName="Country"
+                             YName="Growth"
+                             Width="2"
+                             Type="@SeriesType"
+                             Fill="url(#gradient-fill-index)"
+                             ColumnWidth="0.5"
+                             ColumnSpacing="0.2">
+                    <ChartCornerRadius TopLeft="15" TopRight="15" />
+                    <ChartMarker Visible="@(!IsIndexed)">
+                        <ChartDataLabel Visible="@(!IsIndexed)"
+                                        Position="ChartLabelPosition.Top" />
+                    </ChartMarker>
+                </ChartSeries>
+            
+
+            <ChartTooltipSettings Enable="true"
+                                  Header="${point.x}"
+                                  Format="Growth : <b>${point.y}</b>" 
+                                  EnableHighlight="true" />
+        </SfChart>
+    </PreviewSection>
+</CodePreview>
+</VirtualizeSection>
+
+@code {
+    [CascadingParameter]
+    private Theme CurrentTheme { get; set; } = Theme.Fluent;
+
+    private Theme _currentTheme = Theme.Fluent;
+
+    protected override void OnInitialized()
+    {
+        _currentTheme = CurrentTheme;
+    }
+
+    protected override void OnParametersSet()
+    {
+        _currentTheme = CurrentTheme;
+    }
+
+    private bool IsDarkTheme => _currentTheme.ToString().Contains("Dark") || _currentTheme.ToString().Contains("HighContrast");
+    private string TextColor => IsDarkTheme ? "#E6EEF8" : "#0B1F3B";
+    public class PopulationData
+    {
+        public string Country { get; set; } = string.Empty;
+        public double Population { get; set; }
+    }
+
+    private List<PopulationData> CategoryAxisData = new()
+    {
+        new() { Country = "India",        Population = 1.42 },
+        new() { Country = "China",        Population = 1.41 },
+        new() { Country = "USA",          Population = 0.33 },
+        new() { Country = "Indonesia",    Population = 0.27 },
+        new() { Country = "Pakistan",     Population = 0.24 },
+        new() { Country = "Nigeria",      Population = 0.22 },
+        new() { Country = "Brazil",       Population = 0.21 },
+        new() { Country = "Bangladesh",   Population = 0.17 }
+    };
+
+    private bool IsIndexed { get; set; } = true;
+
+    private ChartSeriesType SeriesType =>
+        IsIndexed ? ChartSeriesType.Column : ChartSeriesType.Line;
+    
+    private void OnIndexedChanged(bool value)
+    {
+        IsIndexed = value;
+    }
+
+    public class GrowthData
+    {
+        public string Country { get; set; } = string.Empty;
+        public double Growth { get; set; }
+    }
+
+    private List<GrowthData> AsiaGrowthData = new()
+    {
+        new() { Country = "Myanmar",    Growth = 7.3 },
+        new() { Country = "India",      Growth = 7.9 },
+        new() { Country = "Bangladesh", Growth = 6.8 },
+        new() { Country = "Cambodia",   Growth = 7.0 },
+        new() { Country = "China",      Growth = 6.9 }
+    };
+
+    private List<GrowthData> GlobalGrowthData = new()
+    {
+        new() { Country = "Poland",    Growth = 2.7 },
+        new() { Country = "Australia", Growth = 2.5 },
+        new() { Country = "Singapore", Growth = 2.0 },
+        new() { Country = "Canada",    Growth = 1.4 },
+        new() { Country = "Germany",   Growth = 1.8 }
+    };
+    
+    private LabelPlacement TickPlacement { get; set; }
+        = LabelPlacement.OnTicks;
+
+    private bool IsOnTicks => TickPlacement == LabelPlacement.OnTicks;
+    private bool IsBetweenTicks => TickPlacement == LabelPlacement.BetweenTicks;
+
+    private void OnPlacementChanged(bool selected, LabelPlacement placement)
+    {
+        if (selected)
+        {
+            TickPlacement = placement;
+        }
+    }
+
+    public class PlacementData
+    {
+        public string Country { get; set; } = string.Empty;
+        public double Value { get; set; }
+    }
+
+    private List<PlacementData> LabelPlacementData = new()
+    {
+        new() { Country = "USA",        Value = 194.55 },
+        new() { Country = "Japan",      Value = 146.20 },
+        new() { Country = "China",      Value = 65.10 },
+        new() { Country = "France",     Value = 84.90 },
+        new() { Country = "India",      Value = 140.10 },
+        new() { Country = "Canada",     Value = 160.70 },
+        new() { Country = "Brazil",     Value = 68.40 },
+        new() { Country = "UK",         Value = 100.20 },
+        new() { Country = "Sweden",     Value = 162.00 },
+        new() { Country = "Bangladesh", Value = 27.70 }
+    };
+
+    // CODE SNIPPETS
+    private string CategoryAxisCode => @"@using Syncfusion.Blazor.Toolkit.Charts
+   <SfChart Title=""Population by Country 2024"">
+            <ChartArea><ChartAreaBorder Width=""0""></ChartAreaBorder></ChartArea>
+            <!-- Tooltip -->
+            <ChartTooltipSettings Enable=""true""
+                                  Header=""${point.x}""
+                                  Format=""Population : <b>${point.y}B</b>"" 
+                                  EnableHighlight=""true"" />
+
+            <!-- X Axis (Category) -->
+            <ChartPrimaryXAxis ValueType=""Syncfusion.Blazor.Toolkit.ValueType.Category"" LabelRotation=""-45"">
+                <ChartAxisMajorGridLines Width=""0"" />
+                <ChartAxisMajorTickLines Width=""0"" />
+                <ChartAxisMinorTickLines Width=""0"" />
+            </ChartPrimaryXAxis>
+
+            <!-- Y Axis -->
+            <ChartPrimaryYAxis Title=""Population in Billions"" Interval=""0.3"">
+                <ChartAxisLineStyle Width=""0"" />
+                <ChartAxisMajorTickLines Width=""0"" />
+            </ChartPrimaryYAxis>
+
+            <!-- Series -->
+            
+                <ChartSeries DataSource=""@CategoryAxisData""
+                             XName=""Country""
+                             YName=""Population""
+                             Type=""ChartSeriesType.Column""
+                             Fill=""#34699A""
+                             ColumnWidth=""0.4"">
+                    <ChartCornerRadius TopLeft=""5"" TopRight=""5"" />
+                </ChartSeries>
+            
+        </SfChart>
+
+@code {
+    public class PopulationData
+    {
+        public string Country { get; set; } = string.Empty;
+        public double Population { get; set; }
+    }
+    private List<PopulationData> CategoryAxisData = new()
+    {
+        new() { Country = ""India"",        Population = 1.42 },
+        new() { Country = ""China"",        Population = 1.41 },
+        new() { Country = ""USA"",          Population = 0.33 },
+        new() { Country = ""Indonesia"",    Population = 0.27 },
+        new() { Country = ""Pakistan"",     Population = 0.24 },
+        new() { Country = ""Nigeria"",      Population = 0.22 },
+        new() { Country = ""Brazil"",       Population = 0.21 },
+        new() { Country = ""Bangladesh"",   Population = 0.17 }
+    };
+}";
+
+    private string LabelPlacementCode => @"@using Syncfusion.Blazor.Toolkit.Charts
+   <div class=""mb-3"">
+            <label class=""fw-bold d-block mb-2"">Tick Placement</label>
+
+            <SfButtonGroup Mode=""SelectionMode.Single"">
+                <ButtonGroupButton Selected=""@IsOnTicks""
+                                   SelectedChanged=""@(v => OnPlacementChanged(v, LabelPlacement.OnTicks))"">
+                    On Ticks
+                </ButtonGroupButton>
+
+                <ButtonGroupButton Selected=""@IsBetweenTicks""
+                                   SelectedChanged=""@(v => OnPlacementChanged(v, LabelPlacement.BetweenTicks))"">
+                    Between Ticks
+                </ButtonGroupButton>
+            </SfButtonGroup>
+        </div>
+
+        <!-- Chart -->
+        <SfChart Title=""Stock Market Capitalization as a Percentage of GDP by Country"">
+            <ChartArea><ChartAreaBorder Width=""0""></ChartAreaBorder></ChartArea>
+            <ChartPrimaryXAxis ValueType=""Syncfusion.Blazor.Toolkit.ValueType.Category"" LabelPlacement=""@TickPlacement"" LabelRotation=""-45"">
+                <ChartAxisMajorGridLines Width=""0"" />
+            </ChartPrimaryXAxis>
+
+            <ChartPrimaryYAxis Title=""Capitalization Ratio (% of GDP)"" LabelFormat=""{value}"" LabelPlacement=""@TickPlacement"" Interval=""50"">
+                <ChartAxisLineStyle Width=""0"" />
+                <ChartAxisMajorTickLines Width=""0"" />
+            </ChartPrimaryYAxis>
+
+            
+                <ChartSeries DataSource=""@LabelPlacementData""
+                             XName=""Country""
+                             YName=""Value""
+                             Type=""ChartSeriesType.SplineArea""
+                             Width=""2""
+                             Opacity=""0.4""
+                             Fill=""#D6FF89"">
+                    <ChartSeriesBorder Width=""2"" Color=""#71AD01"" />
+                    <ChartMarker Visible=""true""
+                                 Shape=""ChartShape.Circle""
+                                 Fill=""#71AD01""
+                                 IsFilled=""true"">
+                        <ChartMarkerBorder Width=""2"" Color=""#71AD01"" />
+                    </ChartMarker>
+                </ChartSeries>
+            
+
+            <ChartTooltipSettings Enable=""true""
+                                  Header=""Stock Market Cap""
+                                  Format=""${point.x} : <b>${point.y}B</b>"" 
+                                  EnableHighlight=""true"" />
+        </SfChart>
+
+@code {
+    public class PlacementData
+    {
+        public string Country { get; set; } = string.Empty;
+        public double Value { get; set; }
+    }
+
+    private List<PlacementData> LabelPlacementData = new()
+    {
+        new() { Country = ""USA"",        Value = 194.55 },
+        new() { Country = ""Japan"",      Value = 146.20 },
+        new() { Country = ""China"",      Value = 65.10 },
+        new() { Country = ""France"",     Value = 84.90 },
+        new() { Country = ""India"",      Value = 140.10 },
+        new() { Country = ""Canada"",     Value = 160.70 },
+        new() { Country = ""Brazil"",     Value = 68.40 },
+        new() { Country = ""UK"",         Value = 100.20 },
+        new() { Country = ""Sweden"",     Value = 162.00 },
+        new() { Country = ""Bangladesh"", Value = 27.70 }
+    };
+    private LabelPlacement TickPlacement { get; set; }
+        = LabelPlacement.OnTicks;
+
+    private bool IsOnTicks => TickPlacement == LabelPlacement.OnTicks;
+    private bool IsBetweenTicks => TickPlacement == LabelPlacement.BetweenTicks;
+
+    private void OnPlacementChanged(bool selected, LabelPlacement placement)
+    {
+        if (selected)
+        {
+            TickPlacement = placement;
+        }
+    }
+}";
+    private string RangeAxisCode => @"@using Syncfusion.Blazor.Toolkit.Charts
+ <SfChart @key=""@_currentTheme"" Title=""Population by Country 2024"" Theme=""@_currentTheme"">
+            <ChartArea><ChartAreaBorder Width=""0""></ChartAreaBorder></ChartArea>
+            <!-- Tooltip -->
+            <ChartTooltipSettings Enable=""true""
+                                  Header=""${point.x}""
+                                  Format=""Population : <b>${point.y}B</b>"" 
+                                  EnableHighlight=""true"" />
+
+            <!-- X Axis with Category Range -->
+            <ChartPrimaryXAxis ValueType=""Syncfusion.Blazor.Toolkit.ValueType.Category""
+                               Minimum=""2""
+                               Maximum=""6""
+                               Interval=""1""
+                               LabelRotation=""-45"">
+                <ChartAxisMajorGridLines Width=""0"" />
+                <ChartAxisMajorTickLines Width=""0"" />
+                <ChartAxisMinorTickLines Width=""0"" />
+            </ChartPrimaryXAxis>
+
+            <!-- Y Axis with Restricted Range -->
+            <ChartPrimaryYAxis Title=""Population in Billions"" Interval=""0.1""
+                               Maximum=""0.4"">
+                <ChartAxisLineStyle Width=""0"" />
+                <ChartAxisMajorTickLines Width=""0"" />
+            </ChartPrimaryYAxis>
+            <!-- Series -->
+            
+                <ChartSeries DataSource=""@CategoryAxisData""
+                             XName=""Country""
+                             YName=""Population""
+                             Type=""ChartSeriesType.Column""
+                             Fill=""#179BAE""
+                             ColumnWidth=""0.4"">
+                    <ChartCornerRadius TopLeft=""5"" TopRight=""5"" />
+                </ChartSeries>
+            
+        </SfChart>
+
+@code {
+    private Theme _currentTheme = Theme.Fluent;
+    public class PopulationData
+        {
+            public string Country { get; set; } = string.Empty;
+            public double Population { get; set; }
+        }
+    private List<PopulationData> CategoryAxisData = new()
+        {
+            new() { Country = ""India"",        Population = 1.42 },
+            new() { Country = ""China"",        Population = 1.41 },
+            new() { Country = ""USA"",          Population = 0.33 },
+            new() { Country = ""Indonesia"",    Population = 0.27 },
+            new() { Country = ""Pakistan"",     Population = 0.24 },
+            new() { Country = ""Nigeria"",      Population = 0.22 },
+            new() { Country = ""Brazil"",       Population = 0.21 },
+            new() { Country = ""Bangladesh"",   Population = 0.17 }
+        };
+}";
+
+    private string IndexedCategoryAxisCode => @"@using Syncfusion.Blazor.Toolkit.Charts
+    <div class=""mb-3"">
+                <label class=""fw-bold d-block mb-2"">Indexed</label>
+                <SfCheckBox Checked=""@IsIndexed""
+                            CheckedChanged=""@( (bool value) => OnIndexedChanged(value) )"" />
+            </div>
+
+            <!-- Gradient Definitions -->
+            <svg style=""height:0"">
+                <defs>
+                    <linearGradient id=""gradient-fill"" x1=""0"" y1=""0"" x2=""0"" y2=""1"">
+                        <stop offset=""0%"" stop-color=""#8C3BC8"" />
+                        <stop offset=""100%"" stop-color=""#CE59FF"" />
+                    </linearGradient>
+                </defs>
+            </svg>
+
+            <svg style=""height:0"">
+                <defs>
+                    <linearGradient id=""gradient-fill-index"" x1=""0"" y1=""0"" x2=""0"" y2=""1"">
+                        <stop offset=""0%"" stop-color=""#45AF20"" />
+                        <stop offset=""100%"" stop-color=""#80C76D"" />
+                    </linearGradient>
+                </defs>
+            </svg>
+
+            <!-- Chart -->
+            <SfChart @key=""@_currentTheme"" Title=""Indexed Category Comparison of GDP Growth Rate (%)"" Theme=""@_currentTheme"">
+                <ChartArea><ChartAreaBorder Width=""0""></ChartAreaBorder></ChartArea>
+                <ChartPrimaryXAxis ValueType=""Syncfusion.Blazor.Toolkit.ValueType.Category""
+                IsIndexed=""@IsIndexed""
+                LabelRotation=-45
+                LabelIntersectAction=""LabelIntersectAction.Rotate45"">
+                    <ChartAxisMajorGridLines Width=""0"" />
+                    <ChartAxisMajorTickLines Width=""0"" />
+                    <ChartAxisMinorTickLines Width=""0"" />
+                </ChartPrimaryXAxis>
+
+                <ChartPrimaryYAxis Title=""GDP Growth Rate"" LabelFormat=""{value}%"" Interval=""2"">
+                    <ChartAxisLineStyle Width=""0"" />
+                    <ChartAxisMajorTickLines Width=""0"" />
+                </ChartPrimaryYAxis>
+
+                
+                    <ChartSeries DataSource=""@AsiaGrowthData""
+                                 XName=""Country""
+                                 YName=""Growth""
+                                 Width=""2""
+                                 Type=""@SeriesType""
+                                 Fill=""url(#gradient-fill)""
+                                 ColumnWidth=""0.5""
+                                 ColumnSpacing=""0.2"">
+                        <ChartCornerRadius TopLeft=""15"" TopRight=""15"" />
+                        <ChartMarker Visible=""@(!IsIndexed)"">
+                            <ChartDataLabel Visible=""@(!IsIndexed)""
+                                            Position=""ChartLabelPosition.Top"" />
+                        </ChartMarker>
+                    </ChartSeries>
+
+                    <ChartSeries DataSource=""@GlobalGrowthData""
+                                 XName=""Country""
+                                 YName=""Growth""
+                                 Width=""2""
+                                 Type=""@SeriesType""
+                                 Fill=""url(#gradient-fill-index)""
+                                 ColumnWidth=""0.5""
+                                 ColumnSpacing=""0.2"">
+                        <ChartCornerRadius TopLeft=""15"" TopRight=""15"" />
+                        <ChartMarker Visible=""@(!IsIndexed)"">
+                            <ChartDataLabel Visible=""@(!IsIndexed)""
+                                            Position=""ChartLabelPosition.Top"" />
+                        </ChartMarker>
+                    </ChartSeries>
+                
+
+                <ChartTooltipSettings Enable=""true""
+                                      Header=""${point.x}""
+                                      Format=""Growth : <b>${point.y}</b>"" 
+                                      EnableHighlight=""true"" />
+            </SfChart>
+
+@code {
+    private bool IsIndexed { get; set; } = true;
+
+    private ChartSeriesType SeriesType =>
+        IsIndexed ? ChartSeriesType.Column : ChartSeriesType.Line;
+    
+    private void OnIndexedChanged(bool value)
+    {
+        IsIndexed = value;
+    }
+
+    public class GrowthData
+    {
+        public string Country { get; set; } = string.Empty;
+        public double Growth { get; set; }
+    }
+
+    private List<GrowthData> AsiaGrowthData = new()
+    {
+        new() { Country = ""Myanmar"",    Growth = 7.3 },
+        new() { Country = ""India"",      Growth = 7.9 },
+        new() { Country = ""Bangladesh"", Growth = 6.8 },
+        new() { Country = ""Cambodia"",   Growth = 7.0 },
+        new() { Country = ""China"",      Growth = 6.9 }
+    };
+
+    private List<GrowthData> GlobalGrowthData = new()
+    {
+        new() { Country = ""Poland"",    Growth = 2.7 },
+        new() { Country = ""Australia"", Growth = 2.5 },
+        new() { Country = ""Singapore"", Growth = 2.0 },
+        new() { Country = ""Canada"",    Growth = 1.4 },
+        new() { Country = ""Germany"",   Growth = 1.8 }
+    };
+}";
+
+}

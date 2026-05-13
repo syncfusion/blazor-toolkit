@@ -1,0 +1,971 @@
+﻿@using Syncfusion.Blazor.Toolkit.Charts
+@using Syncfusion.Blazor.Toolkit.Tests
+@using Syncfusion.Blazor.Toolkit.Charts
+@using Syncfusion.Blazor.Toolkit.Charts.Internal
+@using Bunit
+@using Xunit
+
+@inherits TestComponentBase
+
+<SfFixture @ref="fixture" TestAsync="CheckingLinearGradientDefaultProperties" Description="CheckingLinearGradientDefaultProperties">
+    <ComponentUnderTest>
+        <SfChart ID="container" Title="Sales Report">
+            <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Toolkit.ValueType.Category" />
+            <ChartSeriesCollection>
+                <ChartSeries Type="ChartSeriesType.Column" DataSource="@SalesData" XName="X" YName="Y">
+                    <ChartLinearGradient>
+                        <ChartGradientColorStops>
+                            <ChartGradientColorStop Offset="0" Color="#42A5F5" Opacity="1" />
+                            <ChartGradientColorStop Offset="100" Color="#1E88E5" Opacity="1" />
+                        </ChartGradientColorStops>
+                    </ChartLinearGradient>
+                </ChartSeries>
+            </ChartSeriesCollection>
+        </SfChart>
+    </ComponentUnderTest>
+</SfFixture>
+
+@code {
+    SfFixture fixture { get; set; }
+    async Task CheckingLinearGradientDefaultProperties(Fixture fixture)
+    {
+        var cut = fixture.GetComponentUnderTest<SfChart>();
+        await Task.Delay(200);
+        var linearGradient = cut.FindComponent<ChartLinearGradient>();
+        Assert.NotNull(linearGradient);
+        Assert.True(linearGradient.Instance.X1 == 0);
+        Assert.True(linearGradient.Instance.Y1 == 0);
+        Assert.True(linearGradient.Instance.X2 == 0);
+        Assert.True(linearGradient.Instance.Y2 == 0);
+        cut.SetParametersAndRender();
+        linearGradient.Instance.ComponentDispose();
+        await cut.Instance.DisposeAsync();
+    }
+
+    public class ChartData 
+    { 
+        public string X { get; set; } 
+        public double Y { get; set; } 
+    }
+
+    public List<ChartData> SalesData = new List<ChartData>
+    {
+        new ChartData { X = "Jan", Y = 35 },
+        new ChartData { X = "Feb", Y = 28 },
+        new ChartData { X = "Mar", Y = 34 },
+        new ChartData { X = "Apr", Y = 32 },
+        new ChartData { X = "May", Y = 40 }
+    };
+}
+
+<SfFixture @ref="fixture1" TestAsync="CheckingLinearGradientCustomCoordinates" Description="CheckingLinearGradientCustomCoordinates">
+    <ComponentUnderTest>
+        <SfChart ID="container" Title="Revenue Report">
+            <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Toolkit.ValueType.Category" />
+            <ChartSeriesCollection>
+                <ChartSeries Type="ChartSeriesType.Column" DataSource="@SalesData1" XName="X" YName="Y">
+                    <ChartLinearGradient X1="0" Y1="0" X2="1" Y2="1">
+                        <ChartGradientColorStops>
+                            <ChartGradientColorStop Offset="0" Color="red" Opacity="1" />
+                            <ChartGradientColorStop Offset="100" Color="blue" Opacity="1" />
+                        </ChartGradientColorStops>
+                    </ChartLinearGradient>
+                </ChartSeries>
+            </ChartSeriesCollection>
+        </SfChart>
+    </ComponentUnderTest>
+</SfFixture>
+
+@code {
+    SfFixture fixture1 { get; set; }
+    async Task CheckingLinearGradientCustomCoordinates(Fixture fixture1)
+    {
+        var cut = fixture1.GetComponentUnderTest<SfChart>();
+        await Task.Delay(200);
+        var linearGradient = cut.FindComponent<ChartLinearGradient>();
+        Assert.NotNull(linearGradient);
+        Assert.True(linearGradient.Instance.X1 == 0);
+        Assert.True(linearGradient.Instance.Y1 == 0);
+        Assert.True(linearGradient.Instance.X2 == 1);
+        Assert.True(linearGradient.Instance.Y2 == 1);
+        cut.SetParametersAndRender();
+        linearGradient.Instance.ComponentDispose();
+        await cut.Instance.DisposeAsync();
+    }
+
+    public class ChartData1
+    { 
+        public string X { get; set; } 
+        public double Y { get; set; } 
+    }
+
+    public List<ChartData1> SalesData1 = new List<ChartData1>
+    {
+        new ChartData1 { X = "Jan", Y = 35 },
+        new ChartData1 { X = "Feb", Y = 28 },
+        new ChartData1 { X = "Mar", Y = 34 },
+        new ChartData1 { X = "Apr", Y = 32 },
+        new ChartData1 { X = "May", Y = 40 }
+    };
+}
+
+<SfFixture @ref="fixture2" TestAsync="CheckingRadialGradientDefaultProperties" Description="CheckingRadialGradientDefaultProperties">
+    <ComponentUnderTest>
+        <SfChart ID="container" Title="Distribution Chart">
+            <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Toolkit.ValueType.Category" />
+            <ChartSeriesCollection>
+                <ChartSeries Type="ChartSeriesType.Column" DataSource="@SalesData2" XName="X" YName="Y">
+                    <ChartRadialGradient>
+                        <ChartGradientColorStops>
+                            <ChartGradientColorStop Offset="0" Color="yellow" Opacity="1" />
+                            <ChartGradientColorStop Offset="100" Color="green" Opacity="1" />
+                        </ChartGradientColorStops>
+                    </ChartRadialGradient>
+                </ChartSeries>
+            </ChartSeriesCollection>
+        </SfChart>
+    </ComponentUnderTest>
+</SfFixture>
+
+@code {
+    SfFixture fixture2 { get; set; }
+    async Task CheckingRadialGradientDefaultProperties(Fixture fixture2)
+    {
+        var cut = fixture2.GetComponentUnderTest<SfChart>();
+        await Task.Delay(200);
+        var radialGradient = cut.FindComponent<ChartRadialGradient>();
+        Assert.NotNull(radialGradient);
+        Assert.True(radialGradient.Instance.Cx == 0);
+        Assert.True(radialGradient.Instance.Cy == 0);
+        Assert.True(radialGradient.Instance.Fx == 0);
+        Assert.True(radialGradient.Instance.Fy == 0);
+        Assert.True(radialGradient.Instance.R == 0);
+        cut.SetParametersAndRender();
+        radialGradient.Instance.ComponentDispose();
+        await cut.Instance.DisposeAsync();
+    }
+
+    public class ChartData2
+    { 
+        public string X { get; set; } 
+        public double Y { get; set; } 
+    }
+
+    public List<ChartData2> SalesData2 = new List<ChartData2>
+    {
+        new ChartData2 { X = "Jan", Y = 35 },
+        new ChartData2 { X = "Feb", Y = 28 },
+        new ChartData2 { X = "Mar", Y = 34 },
+        new ChartData2 { X = "Apr", Y = 32 },
+        new ChartData2 { X = "May", Y = 40 }
+    };
+}
+
+<SfFixture @ref="fixture3" TestAsync="CheckingRadialGradientCustomProperties" Description="CheckingRadialGradientCustomProperties">
+    <ComponentUnderTest>
+        <SfChart ID="container" Title="Custom Radial Gradient">
+            <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Toolkit.ValueType.Category" />
+            <ChartSeriesCollection>
+                <ChartSeries Type="ChartSeriesType.Column" DataSource="@SalesData3" XName="X" YName="Y">
+                    <ChartRadialGradient Cx="0.5" Cy="0.5" Fx="0.5" Fy="0.5" R="0.6">
+                        <ChartGradientColorStops>
+                            <ChartGradientColorStop Offset="0" Color="#FFE082" Opacity="1" />
+                            <ChartGradientColorStop Offset="100" Color="#FFCA28" Opacity="1" />
+                        </ChartGradientColorStops>
+                    </ChartRadialGradient>
+                </ChartSeries>
+            </ChartSeriesCollection>
+        </SfChart>
+    </ComponentUnderTest>
+</SfFixture>
+
+@code {
+    SfFixture fixture3 { get; set; }
+    async Task CheckingRadialGradientCustomProperties(Fixture fixture3)
+    {
+        var cut = fixture3.GetComponentUnderTest<SfChart>();
+        await Task.Delay(200);
+        var radialGradient = cut.FindComponent<ChartRadialGradient>();
+        Assert.NotNull(radialGradient);
+        Assert.True(radialGradient.Instance.Cx == 0.5);
+        Assert.True(radialGradient.Instance.Cy == 0.5);
+        Assert.True(radialGradient.Instance.Fx == 0.5);
+        Assert.True(radialGradient.Instance.Fy == 0.5);
+        Assert.True(radialGradient.Instance.R == 0.6);
+        cut.SetParametersAndRender();
+        radialGradient.Instance.ComponentDispose();
+        await cut.Instance.DisposeAsync();
+    }
+
+    public class ChartData3
+    { 
+        public string X { get; set; } 
+        public double Y { get; set; } 
+    }
+
+    public List<ChartData3> SalesData3 = new List<ChartData3>
+    {
+        new ChartData3 { X = "Jan", Y = 35 },
+        new ChartData3 { X = "Feb", Y = 28 },
+        new ChartData3 { X = "Mar", Y = 34 },
+        new ChartData3 { X = "Apr", Y = 32 },
+        new ChartData3 { X = "May", Y = 40 }
+    };
+}
+
+<SfFixture @ref="fixture4" TestAsync="CheckingGradientColorStopProperties" Description="CheckingGradientColorStopProperties">
+    <ComponentUnderTest>
+        <SfChart ID="container" Title="Color Stops Test">
+            <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Toolkit.ValueType.Category" />
+            <ChartSeriesCollection>
+                <ChartSeries Type="ChartSeriesType.Column" DataSource="@SalesData4" XName="X" YName="Y">
+                    <ChartLinearGradient X1="1" Y1="0" X2="1" Y2="0">
+                        <ChartGradientColorStops>
+                            <ChartGradientColorStop Offset="0" Color="#42A5F5" Opacity="0.8" Brighten="1" Lighten="0.2" />
+                            <ChartGradientColorStop Offset="50" Color="#66BB6A" Opacity="0.9" Brighten="0.7" Lighten="0" />
+                            <ChartGradientColorStop Offset="100" Color="#1E88E5" Opacity="1" Brighten="1" Lighten="0" />
+                        </ChartGradientColorStops>
+                    </ChartLinearGradient>
+                </ChartSeries>
+            </ChartSeriesCollection>
+        </SfChart>
+    </ComponentUnderTest>
+</SfFixture>
+
+@code {
+    SfFixture fixture4 { get; set; }
+    async Task CheckingGradientColorStopProperties(Fixture fixture4)
+    {
+        var cut = fixture4.GetComponentUnderTest<SfChart>();
+        await Task.Delay(200);
+        var colorStops = cut.FindComponent<ChartGradientColorStops>();
+        Assert.NotNull(colorStops);
+        var stops = cut.FindComponents<ChartGradientColorStop>();
+        var firstStop = stops[0];
+        Assert.True(firstStop.Instance.Offset == 0);
+        Assert.True(firstStop.Instance.Color == "#42A5F5");
+        Assert.True(firstStop.Instance.Opacity == 0.8);
+        Assert.True(firstStop.Instance.Brighten == 1);
+        Assert.True(firstStop.Instance.Lighten == 0.2);
+        var middleStop = stops[1];
+        Assert.True(middleStop.Instance.Offset == 50);
+        Assert.True(middleStop.Instance.Color == "#66BB6A");
+        Assert.True(middleStop.Instance.Opacity == 0.9);
+        Assert.True(middleStop.Instance.Brighten == 0.7);
+        Assert.True(middleStop.Instance.Lighten == 0);
+        var lastStop = stops[2];
+        Assert.True(lastStop.Instance.Offset == 100);
+        Assert.True(lastStop.Instance.Color == "#1E88E5");
+        Assert.True(lastStop.Instance.Opacity == 1);
+        Assert.True(lastStop.Instance.Brighten == 1);
+        Assert.True(lastStop.Instance.Lighten == 0);
+        cut.SetParametersAndRender();
+        await colorStops.Instance.DisposeAsync();
+        await cut.Instance.DisposeAsync();
+    }
+
+    public class ChartData4
+    {
+        public string X { get; set; }
+        public double Y { get; set; }
+    }
+
+    public List<ChartData4> SalesData4 = new List<ChartData4>
+    {
+        new ChartData4 { X = "Jan", Y = 35 },
+        new ChartData4 { X = "Feb", Y = 28 },
+        new ChartData4 { X = "Mar", Y = 34 },
+        new ChartData4 { X = "Apr", Y = 32 },
+        new ChartData4 { X = "May", Y = 40 }
+    };
+}
+
+<SfFixture @ref="fixture5" TestAsync="CheckingGradientOpacity" Description="CheckingGradientOpacity">
+    <ComponentUnderTest>
+        <SfChart ID="container" Title="Opacity Test">
+            <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Toolkit.ValueType.Category" />
+            <ChartSeriesCollection>
+                <ChartSeries Type="ChartSeriesType.Column" DataSource="@SalesData5" XName="X" YName="Y">
+                    <ChartLinearGradient X1="0" Y1="0" X2="0" Y2="1">
+                        <ChartGradientColorStops>
+                            <ChartGradientColorStop Offset="0" Color="red" Opacity="0.5" />
+                            <ChartGradientColorStop Offset="100" Color="blue" Opacity="1" />
+                        </ChartGradientColorStops>
+                    </ChartLinearGradient>
+                </ChartSeries>
+            </ChartSeriesCollection>
+        </SfChart>
+    </ComponentUnderTest>
+</SfFixture>
+
+@code {
+    SfFixture fixture5 { get; set; }
+    async Task CheckingGradientOpacity(Fixture fixture5)
+    {
+        var cut = fixture5.GetComponentUnderTest<SfChart>();
+        await Task.Delay(200);
+        var stops = cut.FindComponents<ChartGradientColorStop>();
+        Assert.True(stops[0].Instance.Opacity == 0.5);
+        Assert.True(stops[1].Instance.Opacity == 1);
+        cut.SetParametersAndRender();
+        await cut.Instance.DisposeAsync();
+    }
+
+    public class ChartData5
+    { 
+        public string X { get; set; } 
+        public double Y { get; set; } 
+    }
+
+    public List<ChartData5> SalesData5 = new List<ChartData5>
+    {
+        new ChartData5 { X = "Jan", Y = 20 },
+        new ChartData5 { X = "Feb", Y = 25 },
+        new ChartData5 { X = "Mar", Y = 30 }
+    };
+}
+
+<SfFixture @ref="fixture6" TestAsync="CheckingMultipleSeriesGradients" Description="CheckingMultipleSeriesGradients">
+    <ComponentUnderTest>
+        <SfChart ID="container" Title="Multiple Series Linear Gradients">
+            <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Toolkit.ValueType.Category" />
+            <ChartSeriesCollection>
+                <ChartSeries Name="Series1" Type="ChartSeriesType.Column" DataSource="@SalesData6" XName="X" YName="Y">
+                    <ChartLinearGradient X1="0" Y1="0" X2="1" Y2="0">
+                        <ChartGradientColorStops>
+                            <ChartGradientColorStop Offset="0" Color="#42A5F5" Opacity="1" Brighten="1" Lighten="0" />
+                            <ChartGradientColorStop Offset="50" Color="#66BB6A" Opacity="0.9" Brighten="0.8" Lighten="0.1" />
+                            <ChartGradientColorStop Offset="100" Color="#1E88E5" Opacity="1" Brighten="1" Lighten="0" />
+                        </ChartGradientColorStops>
+                    </ChartLinearGradient>
+                </ChartSeries>
+                <ChartSeries Name="Series2" Type="ChartSeriesType.Area" DataSource="@SalesData6B" XName="X" YName="Y">
+                    <ChartLinearGradient X1="0" Y1="0" X2="0" Y2="1">
+                        <ChartGradientColorStops>
+                            <ChartGradientColorStop Offset="0" Color="#FF7F50" Opacity="0.8" Brighten="0.7" Lighten="-0.1" />
+                            <ChartGradientColorStop Offset="100" Color="#FFD700" Opacity="1" Brighten="1" Lighten="0.2" />
+                        </ChartGradientColorStops>
+                    </ChartLinearGradient>
+                </ChartSeries>
+            </ChartSeriesCollection>
+        </SfChart>
+    </ComponentUnderTest>
+</SfFixture>
+
+@code {
+    SfFixture fixture6 { get; set; }
+    async Task CheckingMultipleSeriesGradients(Fixture fixture6)
+    {
+        var cut = fixture6.GetComponentUnderTest<SfChart>();
+        await Task.Delay(200);
+        var gradients = cut.FindComponents<ChartLinearGradient>();
+        Assert.True(gradients.Count == 2);
+        var series1Gradient = gradients[0];
+        Assert.True(series1Gradient.Instance.X1 == 0);
+        Assert.True(series1Gradient.Instance.Y1 == 0);
+        Assert.True(series1Gradient.Instance.X2 == 1);
+        Assert.True(series1Gradient.Instance.Y2 == 0);
+        var s1Stops = series1Gradient.FindComponents<ChartGradientColorStop>();
+        Assert.True(s1Stops.Count == 3);
+        Assert.True(s1Stops[0].Instance.Offset == 0);
+        Assert.True(s1Stops[0].Instance.Color == "#42A5F5");
+        Assert.True(s1Stops[0].Instance.Opacity == 1);
+        Assert.True(s1Stops[0].Instance.Brighten == 1);
+        Assert.True(s1Stops[0].Instance.Lighten == 0);
+        Assert.True(s1Stops[1].Instance.Offset == 50);
+        Assert.True(s1Stops[1].Instance.Color == "#66BB6A");
+        Assert.True(s1Stops[1].Instance.Opacity == 0.9);
+        Assert.True(s1Stops[1].Instance.Brighten == 0.8);
+        Assert.True(s1Stops[1].Instance.Lighten == 0.1);
+        Assert.True(s1Stops[2].Instance.Offset == 100);
+        Assert.True(s1Stops[2].Instance.Color == "#1E88E5");
+        Assert.True(s1Stops[2].Instance.Opacity == 1);
+        Assert.True(s1Stops[2].Instance.Brighten == 1);
+        Assert.True(s1Stops[2].Instance.Lighten == 0);
+        var series2Gradient = gradients[1];
+        Assert.True(series2Gradient.Instance.X1 == 0);
+        Assert.True(series2Gradient.Instance.Y1 == 0);
+        Assert.True(series2Gradient.Instance.X2 == 0);
+        Assert.True(series2Gradient.Instance.Y2 == 1);
+        var s2Stops = series2Gradient.FindComponents<ChartGradientColorStop>();
+        Assert.True(s2Stops.Count == 2);
+        Assert.True(s2Stops[0].Instance.Offset == 0);
+        Assert.True(s2Stops[0].Instance.Color == "#FF7F50");
+        Assert.True(s2Stops[0].Instance.Opacity == 0.8);
+        Assert.True(s2Stops[0].Instance.Brighten == 0.7);
+        Assert.True(s2Stops[0].Instance.Lighten == -0.1);
+        Assert.True(s2Stops[1].Instance.Offset == 100);
+        Assert.True(s2Stops[1].Instance.Color == "#FFD700");
+        Assert.True(s2Stops[1].Instance.Opacity == 1);
+        Assert.True(s2Stops[1].Instance.Brighten == 1);
+        Assert.True(s2Stops[1].Instance.Lighten == 0.2);
+        cut.SetParametersAndRender();
+        await cut.Instance.DisposeAsync();
+    }
+
+    public class ChartData6
+    {
+        public string X { get; set; }
+        public double Y { get; set; }
+    }
+
+    public class ChartData6B
+    {
+        public string X { get; set; }
+        public double Y { get; set; }
+    }
+
+    public List<ChartData6> SalesData6 = new List<ChartData6>
+    {
+        new ChartData6 { X = "Jan", Y = 35 },
+        new ChartData6 { X = "Feb", Y = 28 },
+        new ChartData6 { X = "Mar", Y = 34 }
+    };
+    
+    public List<ChartData6B> SalesData6B = new List<ChartData6B>
+    {
+        new ChartData6B { X = "Jan", Y = 30 },
+        new ChartData6B { X = "Feb", Y = 25 },
+        new ChartData6B { X = "Mar", Y = 32 }
+    };
+}
+
+<SfFixture @ref="fixture7" TestAsync="CheckingGradientBrighten" Description="CheckingGradientBrighten">
+    <ComponentUnderTest>
+        <SfChart ID="container" Title="Brighten Test">
+            <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Toolkit.ValueType.Category" />
+            <ChartSeriesCollection>
+                <ChartSeries Type="ChartSeriesType.Line" DataSource="@SalesData7" XName="X" YName="Y">
+                    <ChartLinearGradient X1="0" Y1="0" X2="1" Y2="1">
+                        <ChartGradientColorStops>
+                            <ChartGradientColorStop Offset="0" Color="yellow" Brighten="1" />
+                            <ChartGradientColorStop Offset="50" Color="purple" Brighten="0.7" />
+                            <ChartGradientColorStop Offset="100" Color="blue" Brighten="-0.2" />
+                        </ChartGradientColorStops>
+                    </ChartLinearGradient>
+                </ChartSeries>
+            </ChartSeriesCollection>
+        </SfChart>
+    </ComponentUnderTest>
+</SfFixture>
+
+@code {
+    SfFixture fixture7 { get; set; }
+    async Task CheckingGradientBrighten(Fixture fixture7)
+    {
+        var cut = fixture7.GetComponentUnderTest<SfChart>();
+        await Task.Delay(200);
+        var stops = cut.FindComponents<ChartGradientColorStop>();
+        Assert.True(stops[0].Instance.Brighten == 1);
+        Assert.True(stops[1].Instance.Brighten == 0.7);
+        Assert.True(stops[2].Instance.Brighten == -0.2);
+        cut.SetParametersAndRender();
+        await cut.Instance.DisposeAsync();
+    }
+
+    public class ChartData7
+    { 
+        public string X { get; set; } 
+        public double Y { get; set; } 
+    }
+
+    public List<ChartData7> SalesData7 = new List<ChartData7>
+    {
+        new ChartData7 { X = "Jan", Y = 35 },
+        new ChartData7 { X = "Feb", Y = 28 },
+        new ChartData7 { X = "Mar", Y = 34 },
+        new ChartData7 { X = "Apr", Y = 32 }
+    };
+}
+
+<SfFixture @ref="fixture8" TestAsync="CheckingGradientLighten" Description="CheckingGradientLighten">
+    <ComponentUnderTest>
+        <SfChart ID="container" Title="Lighten Test">
+            <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Toolkit.ValueType.Category" />
+            <ChartSeriesCollection>
+                <ChartSeries Type="ChartSeriesType.Area" DataSource="@SalesData8" XName="X" YName="Y">
+                    <ChartRadialGradient Cx="0.5" Cy="0.5" R="0.6">
+                        <ChartGradientColorStops>
+                            <ChartGradientColorStop Offset="0" Color="red" Lighten="0" />
+                            <ChartGradientColorStop Offset="50" Color="orange" Lighten="-0.3" />
+                            <ChartGradientColorStop Offset="100" Color="yellow" Lighten="0.2" />
+                        </ChartGradientColorStops>
+                    </ChartRadialGradient>
+                </ChartSeries>
+            </ChartSeriesCollection>
+        </SfChart>
+    </ComponentUnderTest>
+</SfFixture>
+
+@code {
+    SfFixture fixture8 { get; set; }
+    async Task CheckingGradientLighten(Fixture fixture8)
+    {
+        var cut = fixture8.GetComponentUnderTest<SfChart>();
+        await Task.Delay(200);
+        var stops = cut.FindComponents<ChartGradientColorStop>();
+        Assert.True(stops[0].Instance.Lighten == 0);
+        Assert.True(stops[1].Instance.Lighten == -0.3);
+        Assert.True(stops[2].Instance.Lighten == 0.2);
+        cut.SetParametersAndRender();
+        await cut.Instance.DisposeAsync();
+    }
+
+    public class ChartData8
+    { 
+        public string X { get; set; } 
+        public double Y { get; set; } 
+    }
+
+    public List<ChartData8> SalesData8 = new List<ChartData8>
+    {
+        new ChartData8 { X = "Jan", Y = 35 },
+        new ChartData8 { X = "Feb", Y = 28 },
+        new ChartData8 { X = "Mar", Y = 34 },
+        new ChartData8 { X = "Apr", Y = 32 },
+        new ChartData8 { X = "May", Y = 40 }
+    };
+}
+
+<SfFixture @ref="fixture9" TestAsync="CheckingLinearGradientInLineChart" Description="CheckingLinearGradientInLineChart">
+    <ComponentUnderTest>
+        <SfChart ID="container" Title="Line Chart with Gradient">
+            <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Toolkit.ValueType.Category" />
+            <ChartSeriesCollection>
+                <ChartSeries Type="ChartSeriesType.Line" DataSource="@SalesData9" XName="X" YName="Y">
+                    <ChartLinearGradient X1="0" Y1="0" X2="1" Y2="1">
+                        <ChartGradientColorStops>
+                            <ChartGradientColorStop Offset="0" Color="#4F46E5" Opacity="1" Brighten="0.9" Lighten="0.05" />
+                            <ChartGradientColorStop Offset="100" Color="#22D3EE" Opacity="0.85" Brighten="0.7" Lighten="-0.1" />
+                        </ChartGradientColorStops>
+                    </ChartLinearGradient>
+                </ChartSeries>
+            </ChartSeriesCollection>
+        </SfChart>
+    </ComponentUnderTest>
+</SfFixture>
+
+@code {
+    SfFixture fixture9 { get; set; }
+    async Task CheckingLinearGradientInLineChart(Fixture fixture9)
+    {
+        var cut = fixture9.GetComponentUnderTest<SfChart>();
+        await Task.Delay(200);
+        var linearGradient = cut.FindComponent<ChartLinearGradient>();
+        Assert.NotNull(linearGradient);
+        Assert.True(linearGradient.Instance.X1 == 0);
+        Assert.True(linearGradient.Instance.Y1 == 0);
+        Assert.True(linearGradient.Instance.X2 == 1);
+        Assert.True(linearGradient.Instance.Y2 == 1);
+        var stops = cut.FindComponents<ChartGradientColorStop>();
+        Assert.True(stops.Count == 2);
+        Assert.True(stops[0].Instance.Offset == 0);
+        Assert.True(stops[0].Instance.Color == "#4F46E5");
+        Assert.True(stops[0].Instance.Opacity == 1);
+        Assert.True(stops[0].Instance.Brighten == 0.9);
+        Assert.True(stops[0].Instance.Lighten == 0.05);
+        Assert.True(stops[1].Instance.Offset == 100);
+        Assert.True(stops[1].Instance.Color == "#22D3EE");
+        Assert.True(stops[1].Instance.Opacity == 0.85);
+        Assert.True(stops[1].Instance.Brighten == 0.7);
+        Assert.True(stops[1].Instance.Lighten == -0.1);
+        cut.SetParametersAndRender();
+        linearGradient.Instance.ComponentDispose();
+        await cut.Instance.DisposeAsync();
+    }
+
+    public class ChartData9
+    {
+        public string X { get; set; }
+        public double Y { get; set; }
+    }
+    
+    public List<ChartData9> SalesData9 = new List<ChartData9>
+    {
+        new ChartData9 { X = "Jan", Y = 35 },
+        new ChartData9 { X = "Feb", Y = 28 },
+        new ChartData9 { X = "Mar", Y = 34 },
+        new ChartData9 { X = "Apr", Y = 32 },
+        new ChartData9 { X = "May", Y = 40 },
+        new ChartData9 { X = "Jun", Y = 32 }
+    };
+}
+
+<SfFixture @ref="fixture10" TestAsync="CheckingTrendlineLinearGradientProperties" Description="CheckingTrendlineLinearGradientProperties">
+    <ComponentUnderTest>
+        <SfChart ID="container" Title="Trendline Linear Gradient">
+            <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Toolkit.ValueType.Category" />
+            <ChartSeriesCollection>
+                <ChartSeries Name="SeriesA" Type="ChartSeriesType.Line" DataSource="@SalesData10" XName="X" YName="Y">
+                    <ChartTrendlines>
+                        <ChartTrendline Type="TrendlineTypes.Linear" Width="2" Name="TL-Linear">
+                            <ChartLinearGradient X1="0" Y1="1" X2="1" Y2="0">
+                                <ChartGradientColorStops>
+                                    <ChartGradientColorStop Offset="0" Color="#22C55E" Opacity="0.95" Brighten="0.8" Lighten="0.1" />
+                                    <ChartGradientColorStop Offset="100" Color="#16A34A" Opacity="0.85" Brighten="1" Lighten="-0.2" />
+                                </ChartGradientColorStops>
+                            </ChartLinearGradient>
+                        </ChartTrendline>
+                    </ChartTrendlines>
+                </ChartSeries>
+            </ChartSeriesCollection>
+        </SfChart>
+    </ComponentUnderTest>
+</SfFixture>
+
+@code {
+    SfFixture fixture10 { get; set; }
+    async Task CheckingTrendlineLinearGradientProperties(Fixture fixture10)
+    {
+        var cut = fixture10.GetComponentUnderTest<SfChart>();
+        await Task.Delay(250);
+        var linearGradient = cut.FindComponent<ChartLinearGradient>();
+        Assert.NotNull(linearGradient);
+        Assert.True(linearGradient.Instance.X1 == 0);
+        Assert.True(linearGradient.Instance.Y1 == 1);
+        Assert.True(linearGradient.Instance.X2 == 1);
+        Assert.True(linearGradient.Instance.Y2 == 0);
+        var stops = cut.FindComponents<ChartGradientColorStop>();
+        Assert.True(stops.Count == 2);
+        Assert.True(stops[0].Instance.Offset == 0);
+        Assert.True(stops[0].Instance.Color == "#22C55E");
+        Assert.True(stops[0].Instance.Opacity == 0.95);
+        Assert.True(stops[0].Instance.Brighten == 0.8);
+        Assert.True(stops[0].Instance.Lighten == 0.1);
+        Assert.True(stops[1].Instance.Offset == 100);
+        Assert.True(stops[1].Instance.Color == "#16A34A");
+        Assert.True(stops[1].Instance.Opacity == 0.85);
+        Assert.True(stops[1].Instance.Brighten == 1);
+        Assert.True(stops[1].Instance.Lighten == -0.2);
+        cut.SetParametersAndRender();
+        linearGradient.Instance.ComponentDispose();
+        await cut.Instance.DisposeAsync();
+    }
+
+    public class ChartData10
+    {
+        public string X { get; set; }
+        public double Y { get; set; }
+    }
+
+    public List<ChartData10> SalesData10 = new List<ChartData10>
+    {
+        new ChartData10 { X = "Jan", Y = 10 },
+        new ChartData10 { X = "Feb", Y = 14 },
+        new ChartData10 { X = "Mar", Y = 18 },
+        new ChartData10 { X = "Apr", Y = 16 },
+        new ChartData10 { X = "May", Y = 22 }
+    };
+}
+
+<SfFixture @ref="fixture11" TestAsync="CheckingTrendlineRadialGradientProperties" Description="CheckingTrendlineRadialGradientProperties">
+    <ComponentUnderTest>
+        <SfChart ID="container" Title="Trendline Radial Gradient">
+            <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Toolkit.ValueType.Category" />
+            <ChartSeriesCollection>
+                <ChartSeries Name="SeriesB" Type="ChartSeriesType.Line" DataSource="@SalesData11" XName="X" YName="Y">
+                    <ChartTrendlines>
+                        <ChartTrendline Type="TrendlineTypes.Logarithmic" Width="2" Name="TL-Radial">
+                            <ChartRadialGradient Cx="0.5" Cy="0.5" Fx="0.5" Fy="0.5" R="0.6">
+                                <ChartGradientColorStops>
+                                    <ChartGradientColorStop Offset="0" Color="#EF4444" Opacity="0.9" Brighten="0.6" Lighten="0.15" />
+                                    <ChartGradientColorStop Offset="100" Color="#3B82F6" Opacity="1" Brighten="1" Lighten="-0.1" />
+                                </ChartGradientColorStops>
+                            </ChartRadialGradient>
+                        </ChartTrendline>
+                    </ChartTrendlines>
+                </ChartSeries>
+            </ChartSeriesCollection>
+        </SfChart>
+    </ComponentUnderTest>
+</SfFixture>
+
+@code {
+    SfFixture fixture11 { get; set; }
+    async Task CheckingTrendlineRadialGradientProperties(Fixture fixture11)
+    {
+        var cut = fixture11.GetComponentUnderTest<SfChart>();
+        await Task.Delay(250);
+        var radialGradient = cut.FindComponent<ChartRadialGradient>();
+        Assert.NotNull(radialGradient);
+        Assert.True(radialGradient.Instance.Cx == 0.5);
+        Assert.True(radialGradient.Instance.Cy == 0.5);
+        Assert.True(radialGradient.Instance.Fx == 0.5);
+        Assert.True(radialGradient.Instance.Fy == 0.5);
+        Assert.True(radialGradient.Instance.R == 0.6);
+        var stops = cut.FindComponents<ChartGradientColorStop>();
+        Assert.True(stops.Count == 2);
+        Assert.True(stops[0].Instance.Offset == 0);
+        Assert.True(stops[0].Instance.Color == "#EF4444");
+        Assert.True(stops[0].Instance.Opacity == 0.9);
+        Assert.True(stops[0].Instance.Brighten == 0.6);
+        Assert.True(stops[0].Instance.Lighten == 0.15);
+        Assert.True(stops[1].Instance.Offset == 100);
+        Assert.True(stops[1].Instance.Color == "#3B82F6");
+        Assert.True(stops[1].Instance.Opacity == 1);
+        Assert.True(stops[1].Instance.Brighten == 1);
+        Assert.True(stops[1].Instance.Lighten == -0.1);
+        cut.SetParametersAndRender();
+        radialGradient.Instance.ComponentDispose();
+        await cut.Instance.DisposeAsync();
+    }
+
+    public class ChartData11
+    {
+        public string X { get; set; }
+        public double Y { get; set; }
+    }
+
+    public List<ChartData11> SalesData11 = new List<ChartData11>
+    {
+        new ChartData11 { X = "Jan", Y = 12 },
+        new ChartData11 { X = "Feb", Y = 15 },
+        new ChartData11 { X = "Mar", Y = 17 },
+        new ChartData11 { X = "Apr", Y = 21 },
+        new ChartData11 { X = "May", Y = 25 }
+    };
+}
+
+<SfFixture @ref="fixture14" TestAsync="CheckingSeriesLinearGradientUrls" Description="CheckingSeriesLinearGradientUrls">
+    <ComponentUnderTest>
+        <SfChart ID="container" Title="Linear Gradient Verification">
+            <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Toolkit.ValueType.Category" />
+            <ChartLegendSettings Visible="true"></ChartLegendSettings>
+            <ChartSeriesCollection>
+                <ChartSeries Name="Series0" Type="ChartSeriesType.Column" DataSource="@SalesData14" XName="X" YName="Y">
+                    <ChartMarker Visible="true" IsFilled="true" Width="5" Height="5"></ChartMarker>
+                    <ChartLinearGradient X1="0" Y1="0" X2="0" Y2="1">
+                        <ChartGradientColorStops>
+                            <ChartGradientColorStop Offset="0" Color="#4F46E5" Opacity="1" />
+                            <ChartGradientColorStop Offset="100" Color="#22D3EE" Opacity="1" />
+                        </ChartGradientColorStops>
+                    </ChartLinearGradient>
+                </ChartSeries>
+            </ChartSeriesCollection>
+        </SfChart>
+    </ComponentUnderTest>
+</SfFixture>
+
+@code {
+    SfFixture fixture14 { get; set; }
+    async Task CheckingSeriesLinearGradientUrls(Fixture fixture14)
+    {
+        var cut = fixture14.GetComponentUnderTest<SfChart>();
+        await Task.Delay(200);
+        var expectedGradientId = "container_Series_0_LinearGradient";
+        var expectedUrl = $"url(#{expectedGradientId})";
+        var defsGradient = cut.FindAll($"linearGradient[id='{expectedGradientId}']");
+        Assert.True(defsGradient.Count == 1);
+        var seriesPointPath = cut.Find("#container_Series_0_Point_0");
+        Assert.True(seriesPointPath != null);
+        Assert.True(seriesPointPath.GetAttribute("fill") == expectedUrl);
+        var legendShape = cut.Find("#container_chart_legend_shape_0");
+        Assert.True(legendShape != null);
+        Assert.True(legendShape.GetAttribute("fill") == expectedUrl);
+        var markerSymbol = cut.Find("#container_Series_0_Point_0_Symbol");
+        Assert.True(markerSymbol != null);
+        Assert.True(markerSymbol.GetAttribute("fill") == expectedUrl);
+        Assert.True(markerSymbol.GetAttribute("stroke") == expectedUrl);
+        cut.SetParametersAndRender();
+        await cut.Instance.DisposeAsync();
+    }
+
+    public class ChartData14
+    {
+        public string X { get; set; }
+        public double Y { get; set; }
+    }
+
+    public List<ChartData14> SalesData14 = new List<ChartData14>
+    {
+        new ChartData14 { X = "Jan", Y = 35 },
+        new ChartData14 { X = "Feb", Y = 28 },
+        new ChartData14 { X = "Mar", Y = 34 },
+        new ChartData14 { X = "Apr", Y = 32 }
+    };
+}
+
+<SfFixture @ref="fixture15" TestAsync="CheckingSeriesRadialGradientUrls" Description="CheckingSeriesRadialGradientUrls">
+    <ComponentUnderTest>
+        <SfChart ID="container" Title="Radial Gradient Verification">
+            <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Toolkit.ValueType.Category" />
+            <ChartLegendSettings Visible="true"></ChartLegendSettings>
+            <ChartSeriesCollection>
+                <ChartSeries Name="Series0" Type="ChartSeriesType.Column" DataSource="@SalesData15" XName="X" YName="Y">
+                    <ChartMarker Visible="true" IsFilled="true" Width="5" Height="5"></ChartMarker>
+                    <ChartRadialGradient Cx="0.5" Cy="0.5" Fx="0.5" Fy="0.5" R="0.6">
+                        <ChartGradientColorStops>
+                            <ChartGradientColorStop Offset="0" Color="#FFE082" Opacity="1" />
+                            <ChartGradientColorStop Offset="100" Color="#FFCA28" Opacity="1" />
+                        </ChartGradientColorStops>
+                    </ChartRadialGradient>
+                </ChartSeries>
+            </ChartSeriesCollection>
+        </SfChart>
+    </ComponentUnderTest>
+</SfFixture>
+
+@code {
+    SfFixture fixture15 { get; set; }
+    async Task CheckingSeriesRadialGradientUrls(Fixture fixture15)
+    {
+        var cut = fixture15.GetComponentUnderTest<SfChart>();
+        await Task.Delay(200);
+        var expectedGradientId = "container_Series_0_RadialGradient";
+        var expectedUrl = $"url(#{expectedGradientId})";
+        var defsGradient = cut.FindAll($"radialGradient[id='{expectedGradientId}']");
+        Assert.True(defsGradient.Count == 1);
+        var seriesPointPath = cut.Find("#container_Series_0_Point_0");
+        Assert.True(seriesPointPath != null);
+        Assert.True(seriesPointPath.GetAttribute("fill") == expectedUrl);
+        var legendShape = cut.Find("#container_chart_legend_shape_0");
+        Assert.True(legendShape != null);
+        Assert.True(legendShape.GetAttribute("fill") == expectedUrl);
+        var markerSymbol = cut.Find("#container_Series_0_Point_0_Symbol");
+        Assert.True(markerSymbol != null);
+        Assert.True(markerSymbol.GetAttribute("fill") == expectedUrl);
+        Assert.True(markerSymbol.GetAttribute("stroke") == expectedUrl);
+        cut.SetParametersAndRender();
+        await cut.Instance.DisposeAsync();
+    }
+
+    public class ChartData15
+    {
+        public string X { get; set; }
+        public double Y { get; set; }
+    }
+    
+    public List<ChartData15> SalesData15 = new List<ChartData15>()
+    {
+        new ChartData15 { X = "Jan", Y = 35 },
+        new ChartData15 { X = "Feb", Y = 28 },
+        new ChartData15 { X = "Mar", Y = 34 },
+        new ChartData15 { X = "Apr", Y = 32 }
+    };
+}
+
+<SfFixture @ref="fixture16" TestAsync="CheckingTrendlineLinearGradientUrls" Description="CheckingTrendlineLinearGradientUrls">
+    <ComponentUnderTest>
+        <SfChart ID="container" Title="Trendline Linear Gradient Verification">
+            <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Toolkit.ValueType.Category" />
+            <ChartLegendSettings Visible="true"></ChartLegendSettings>
+            <ChartSeriesCollection>
+                <ChartSeries Name="Series0" Type="ChartSeriesType.Column" DataSource="@SalesData16" XName="X" YName="Y">
+                    <ChartTrendlines>
+                        <ChartTrendline Type="TrendlineTypes.Linear" Width="3" Name="TL0">
+                            <ChartLinearGradient X1="0" Y1="0" X2="1" Y2="0">
+                                <ChartGradientColorStops>
+                                    <ChartGradientColorStop Offset="0" Color="#22C55E" Opacity="1" />
+                                    <ChartGradientColorStop Offset="100" Color="#16A34A" Opacity="1" />
+                                </ChartGradientColorStops>
+                            </ChartLinearGradient>
+                        </ChartTrendline>
+                    </ChartTrendlines>
+                </ChartSeries>
+            </ChartSeriesCollection>
+        </SfChart>
+    </ComponentUnderTest>
+</SfFixture>
+
+@code {
+    SfFixture fixture16 { get; set; }
+    async Task CheckingTrendlineLinearGradientUrls(Fixture fixture16)
+    {
+        var cut = fixture16.GetComponentUnderTest<SfChart>();
+        await Task.Delay(250);
+        var expectedGradientId = "container_Trendline_0_LinearGradient";
+        var expectedLegendGradientId = "container_Trendline_0_LinearGradient_HorizontalLineLegend";
+        var expectedUrl = $"url(#{expectedGradientId})";
+        var expectedLegendUrl = $"url(#{expectedLegendGradientId})";
+        var defsGradient = cut.FindAll($"linearGradient[id='{expectedGradientId}']");
+        Assert.True(defsGradient.Count == 1);
+        var defsLegendGradient = cut.FindAll($"linearGradient[id='{expectedLegendGradientId}']");
+        Assert.True(defsLegendGradient.Count == 1);
+        Assert.True(defsLegendGradient[0].GetAttribute("gradientUnits") == "userSpaceOnUse");
+        var trendlinePath = cut.Find("#container_Series_0_TrendLine_0");
+        Assert.True(trendlinePath != null);
+        Assert.True(trendlinePath.GetAttribute("stroke") == expectedUrl);
+        var legendShape = cut.Find("#container_chart_legend_shape_1");
+        Assert.True(legendShape != null);
+        Assert.True(legendShape.GetAttribute("stroke") == expectedLegendUrl);
+        cut.SetParametersAndRender();
+        await cut.Instance.DisposeAsync();
+    }
+
+    public class ChartData16
+    {
+        public string X { get; set; }
+        public double Y { get; set; }
+    }
+
+    public List<ChartData16> SalesData16 = new List<ChartData16>
+    {
+        new ChartData16 { X = "Jan", Y = 35 },
+        new ChartData16 { X = "Feb", Y = 28 },
+        new ChartData16 { X = "Mar", Y = 34 },
+        new ChartData16 { X = "Apr", Y = 32 }
+    };
+}
+
+<SfFixture @ref="fixture17" TestAsync="CheckingTrendlineRadialGradientUrls" Description="CheckingTrendlineRadialGradientUrls">
+    <ComponentUnderTest>
+        <SfChart ID="container" Title="Trendline Radial Gradient Verification">
+            <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Toolkit.ValueType.Category" />
+            <ChartLegendSettings Visible="true"></ChartLegendSettings>
+            <ChartSeriesCollection>
+                <ChartSeries Name="Series0" Type="ChartSeriesType.Column" DataSource="@SalesData17" XName="X" YName="Y">
+                    <ChartTrendlines>
+                        <ChartTrendline Type="TrendlineTypes.Linear" Width="3" Name="TL0">
+                            <ChartRadialGradient Cx="0.5" Cy="0.5" Fx="0.5" Fy="0.5" R="0.6">
+                                <ChartGradientColorStops>
+                                    <ChartGradientColorStop Offset="0" Color="#EF4444" Opacity="1" />
+                                    <ChartGradientColorStop Offset="100" Color="#3B82F6" Opacity="1" />
+                                </ChartGradientColorStops>
+                            </ChartRadialGradient>
+                        </ChartTrendline>
+                    </ChartTrendlines>
+                </ChartSeries>
+            </ChartSeriesCollection>
+        </SfChart>
+    </ComponentUnderTest>
+</SfFixture>
+
+@code {
+    SfFixture fixture17 { get; set; }
+    async Task CheckingTrendlineRadialGradientUrls(Fixture fixture17)
+    {
+        var cut = fixture17.GetComponentUnderTest<SfChart>();
+        await Task.Delay(250);
+        var expectedGradientId = "container_Trendline_0_RadialGradient";
+        var expectedLegendGradientId = "container_Trendline_0_RadialGradient_HorizontalLineLegend";
+        var expectedUrl = $"url(#{expectedGradientId})";
+        var expectedLegendUrl = $"url(#{expectedLegendGradientId})";
+        var defsGradient = cut.FindAll($"radialGradient[id='{expectedGradientId}']");
+        Assert.True(defsGradient.Count == 1);
+        var defsLegendGradient = cut.FindAll($"radialGradient[id='{expectedLegendGradientId}']");
+        Assert.True(defsLegendGradient.Count == 1);
+        Assert.True(defsLegendGradient[0].GetAttribute("gradientUnits") == "userSpaceOnUse");
+        var trendlinePath = cut.Find("#container_Series_0_TrendLine_0");
+        Assert.True(trendlinePath != null);
+        Assert.True(trendlinePath.GetAttribute("stroke") == expectedUrl);
+        var legendShape = cut.Find("#container_chart_legend_shape_1");
+        Assert.True(legendShape != null);
+        Assert.True(legendShape.GetAttribute("stroke") == expectedLegendUrl);
+        cut.SetParametersAndRender();
+        await cut.Instance.DisposeAsync();
+    }
+
+    public class ChartData17
+    {
+        public string X { get; set; }
+        public double Y { get; set; }
+    }
+
+    public List<ChartData17> SalesData17 = new List<ChartData17>
+    {
+        new ChartData17 { X = "Jan", Y = 35 },
+        new ChartData17 { X = "Feb", Y = 28 },
+        new ChartData17 { X = "Mar", Y = 34 },
+        new ChartData17 { X = "Apr", Y = 32 }
+    };
+}

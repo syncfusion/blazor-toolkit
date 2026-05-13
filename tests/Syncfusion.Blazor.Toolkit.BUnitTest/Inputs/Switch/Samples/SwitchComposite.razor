@@ -1,0 +1,25 @@
+﻿@using Syncfusion.Blazor.Toolkit.Inputs
+
+@namespace Syncfusion.Blazor.Toolkit.Tests.Inputs
+
+<div class="sample">
+    <SfSwitch Checked="true" CssClass=@css></SfSwitch>
+    <SfSwitch Checked="true" OnLabel="@onlabel" OffLabel="@offlabel" EnableRtl=@rtl></SfSwitch>
+    <SfSwitch Checked="true" Disabled=@disabled></SfSwitch>
+    <SfSwitch id="switch1" Checked="true" EnablePersistence="true"></SfSwitch>
+</div>
+
+@code {
+    [Parameter]
+    public string css {get; set;}="e-custom1 e-custom2";
+     [Parameter]
+    public bool rtl {get; set;}=true;
+
+    [Parameter]
+    public bool disabled {get; set;}=true;
+    [Parameter]
+    public string onlabel {get; set;}="ON";
+
+    [Parameter]
+    public string offlabel {get; set;}="OFF";
+}

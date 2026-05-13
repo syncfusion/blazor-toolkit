@@ -1,0 +1,379 @@
+﻿@page "/inputs/switch"
+
+@using Syncfusion.Blazor.Toolkit.Buttons
+@using Microsoft.AspNetCore.Components.Forms
+@using Microsoft.AspNetCore.Components
+@using System.ComponentModel.DataAnnotations
+@using Syncfusion.Blazor.Toolkit.Inputs
+
+
+<PageTitle>Switch | ASP.NET Core Blazor OSS Components</PageTitle>
+
+<Description>
+    <Header>
+        <h4><b>Blazor Toolkit Switch Component</b></h4>
+    </Header>
+    <Content>
+        A toggle component used for enabling and disabling options. Ideal for settings, preferences, and binary selections.
+    </Content>
+</Description>
+
+<Description>
+    <Header>
+        <h5><b>Basic Usage</b></h5>
+    </Header>
+    <Content>
+        The simplest way to use <code>  SfSwitch  </code>  is through <code>  bind-Checked  </code>  property for two‑way binding.
+    </Content>
+</Description>
+
+<CodePreview CodeSection="@BasicCode">
+    <PreviewSection>
+        <div class="switch-container d-inline-flex align-items-center gap-2">
+            <SfSwitch @bind-Checked="basicChecked"></SfSwitch>
+            <span class="status-text">Status: @(basicChecked ? "ON" : "OFF")</span>
+        </div>
+    </PreviewSection>
+</CodePreview>
+
+<Description>
+    <Header>
+        <h5><b>Value Binding</b></h5>
+    </Header>
+    <Content>
+        You can control the switch using either <code> Checked </code>  or <code> CheckedChanged </code>  events, depending on your binding style.
+    </Content>
+</Description>
+
+<CodePreview CodeSection="@BindingCode">
+    <PreviewSection>
+        <div class="switch-container d-inline-flex align-items-center gap-2">
+            <SfSwitch Checked="@manualChecked"
+                      CheckedChanged="@(EventCallback.Factory.Create<bool>(this, (bool v) => manualChecked = v))" />
+            <span class="status-text">Manual Binding: @manualChecked</span>
+
+        </div>
+        <br />
+        <div class="switch-container mt-3 d-inline-flex align-items-center gap-2">
+
+            <SfSwitch Checked="@inlineChecked"
+                      CheckedChanged="@(EventCallback.Factory.Create<bool>(this, (bool v) => { inlineChecked = v; changeCount++; }))" />
+            <span class="status-text">Inline Handler: @inlineChecked (Changed @changeCount times)</span>
+
+        </div>
+    </PreviewSection>
+</CodePreview>
+
+<Description>
+    <Header>
+        <h5><b>Labels</b></h5>
+    </Header>
+    <Content>
+        The Switch component supports both external labels and built‑in state labels.
+        External labels (using the <code>label</code> element) describe what the switch controls.
+        Built‑in labels, configured using the <code>OnLabel</code> and <code>OffLabel</code> properties, display text inside the switch to indicate its ON or OFF state.
+   </Content>
+</Description>
+
+<CodePreview CodeSection="@LabelCode">
+    <PreviewSection>
+        <div class="switch-container d-inline-flex align-items-center gap-2">
+            <label for="wifi-switch" class="mb-0">Wi‑Fi Hotspot:</label>
+            <SfSwitch id="wifi-switch" @bind-Checked="wifiEnabled" />
+        </div>
+        <br />
+        <div class="switch-container mt-3 d-inline-flex align-items-center gap-2">
+            <span class="status-text">Bluetooth: </span>
+            <SfSwitch @bind-Checked="Bluetooth" OnLabel="ON" OffLabel="OFF" />
+        </div>
+    </PreviewSection>
+</CodePreview>
+
+<Description>
+    <Header>
+        <h5><b>States</b></h5>
+    </Header>
+    <Content>
+        The switch can render in multiple states, including interactive and disabled modes. You can control availability using <code> Disabled </code> property
+    </Content>
+</Description>
+
+<CodePreview CodeSection="@StatesCode">
+    <PreviewSection>
+
+        <div class="switch-container mt-3 d-inline-flex align-items-center gap-2">
+            <SfSwitch Checked="true" Disabled="true" />
+            <span class="status-text">True</span>
+        </div>
+        <br />
+        <div class="switch-container mt-3 d-inline-flex align-items-center gap-2">
+            <SfSwitch Checked="false" Disabled="true" />
+            <span class="status-text">False</span>
+        </div>
+    </PreviewSection>
+</CodePreview>
+
+<Description>
+    <Header>
+        <h5><b>Form Validation</b></h5>
+    </Header>
+    <Content>
+        The switch integrates seamlessly with <code> EditForm </code>  and Blazor validation.
+    </Content>
+</Description>
+
+<CodePreview CodeSection="@FormCode">
+    <PreviewSection>
+        <EditForm Model="contactModel" OnValidSubmit="OnSubmit" class="form-example">
+            <DataAnnotationsValidator />    
+            <div class="form-group">
+                <label>Name</label>
+                <SfTextBox  @bind-Value="@contactModel.Name" Placeholder="Enter your name"></SfTextBox>
+                <ValidationMessage For="() => contactModel.Name" class="text-danger" />
+            </div>
+            <div class="form-group mt-3">
+                <label>Email</label>   
+                <SfTextBox @bind-Value="contactModel.Email" Placeholder="Enter your email"></SfTextBox>
+                <ValidationMessage For="() => contactModel.Email" class="text-danger" />
+            </div>
+            @* Clean label + switch layout (no Bootstrap form-switch here) *@
+            <div class="form-group mt-3 d-flex align-items-center gap-2">
+                <label for="newsletter-switch" class="mb-0">Subscribe to newsletter</label>
+                <SfSwitch id="newsletter-switch"
+                          Checked="@contactModel.Newsletter"
+                          CheckedChanged="@(EventCallback.Factory.Create<bool>(this, (bool v) => OnNewsletterChanged(v)))"
+                          Disabled="@newsletterDisabled" />
+            </div>
+
+            @if (showWarning)
+            {
+                <div class="text-danger mt-2">Please enable newsletter to submit.</div>
+            }
+
+            <div class="form-group mt-3 d-flex align-items-center gap-2">
+                <SfButton CssClass="e-primary">Submit</SfButton>
+
+                @if (submitted && contactModel.Newsletter)
+                {
+                    <span class="status-text text-success">✓ Submitted</span>
+                }
+            </div>
+        </EditForm>
+    </PreviewSection>
+</CodePreview>
+
+@code {
+    // Basic Usage
+    private bool basicChecked = false;
+
+    // Value Binding Options
+    private bool manualChecked = true;
+    private bool inlineChecked = false;
+    private int changeCount = 0;
+
+    // Labels
+    private bool wifiEnabled = true;
+    private bool Bluetooth = false;
+
+    // Form Integration
+    private ContactFormModel contactModel = new();
+    private bool submitted = false;
+
+    private void OnSubmit()
+    {
+        // If newsletter is not selected and the switch is not disabled, show warning instead of submitting.
+        if (!contactModel.Newsletter && !newsletterDisabled)
+        {
+            showWarning = true;
+            submitted = false;
+            return;
+        }
+
+        // Proceed with submit and clear any warning
+        submitted = true;
+        showWarning = false;
+    }
+
+    public sealed class ContactFormModel
+    {
+        [Required]
+        public string? Name { get; set; }
+
+        [Required]
+        [EmailAddress]
+        public string? Email { get; set; }
+
+        public bool Newsletter { get; set; }
+    }
+
+    // UI state for validation/warning behavior
+    private bool showWarning = false;
+    // If set true, the newsletter switch is disabled and warnings are suppressed
+    private bool newsletterDisabled = false;
+
+    private void OnNewsletterChanged(bool value)
+    {
+        contactModel.Newsletter = value;
+        // Clear warning as soon as user enables the newsletter
+        if (value)
+        {
+            showWarning = false;
+        }
+    }
+
+    // Code samples
+    private string BasicCode => @"<div class=""switch-container d-inline-flex align-items-center gap-2"">
+    <SfSwitch @bind-Checked=""basicChecked""></SfSwitch>
+    <span class=""status-text"">Status: @(basicChecked ? ""ON"" : ""OFF"")</span>
+</div>
+
+@code {
+    private bool basicChecked = false;
+}";
+
+    private string BindingCode => @"<div class=""switch-container d-inline-flex align-items-center gap-2"">
+        <SfSwitch Checked=""@manualChecked""
+                    CheckedChanged=""@(EventCallback.Factory.Create<bool>(this, (bool v) => manualChecked = v))"" />
+        <span class=""status-text"">Manual Binding: @manualChecked</span>
+
+    </div>
+    <br />
+    <div class=""switch-container mt-3 d-inline-flex align-items-center gap-2"">
+
+        <SfSwitch Checked=""@inlineChecked""
+                    CheckedChanged=""@(EventCallback.Factory.Create<bool>(this, (bool v) => { inlineChecked = v; changeCount++; }))"" />
+        <span class=""status-text"">Inline Handler: @inlineChecked (Changed @changeCount times)</span>
+
+    </div>
+
+    @code {
+        private bool manualChecked = true;
+        private bool inlineChecked = false;
+        private int changeCount = 0;
+    }";
+
+    private string LabelCode => @"  <div class=""switch-container d-inline-flex align-items-center gap-2"">
+            <label for=""wifi-switch"" class=""mb-0"">Wi‑Fi Hotspot:</label>
+            <SfSwitch id=""wifi-switch"" @bind-Checked=""wifiEnabled"" />
+        </div>
+        <br />
+        <div class=""switch-container mt-3 d-inline-flex align-items-center gap-2"">
+            <span class=""status-text"">Bluetooth: </span>
+            <SfSwitch @bind-Checked=""Bluetooth"" OnLabel=""ON"" OffLabel=""OFF"" />
+        </div>
+
+    @code {
+        private bool wifiEnabled = true;
+        private bool Bluetooth = false;
+    }";
+
+    private string StatesCode => @"<div class=""switch-container mt-3 d-inline-flex align-items-center gap-2"">
+            <SfSwitch Checked=""true"" Disabled=""true"" />
+            <span class=""status-text"">True</span>
+        </div>
+        <br />
+        <div class=""switch-container mt-3 d-inline-flex align-items-center gap-2"">
+            <SfSwitch Checked=""false"" Disabled=""true"" />
+            <span class=""status-text"">False</span>
+        </div>";
+
+    private string FormCode => @"<EditForm Model=""contactModel"" OnValidSubmit=""OnSubmit"" class=""form-example"">
+            <DataAnnotationsValidator />    
+            <div class=""form-group"">
+                <label>Name</label>
+                <SfTextBox  @bind-Value=""@contactModel.Name"" Placeholder=""Enter your name""></SfTextBox>
+                <ValidationMessage For=""() => contactModel.Name"" class=""text-danger"" />
+            </div>
+            <div class=""form-group mt-3"">
+                <label>Email</label>   
+                <SfTextBox @bind-Value=""contactModel.Email"" Placeholder=""Enter your email""></SfTextBox>
+                <ValidationMessage For=""() => contactModel.Email"" class=""text-danger"" />
+            </div>
+            @* Clean label + switch layout (no Bootstrap form-switch here) *@
+            <div class=""form-group mt-3 d-flex align-items-center gap-2"">
+                <label for=""newsletter-switch"" class=""mb-0"">Subscribe to newsletter</label>
+                <SfSwitch id=""newsletter-switch""
+                          Checked=""@contactModel.Newsletter""
+                          CheckedChanged=""@(EventCallback.Factory.Create<bool>(this, (bool v) => OnNewsletterChanged(v)))""
+                          Disabled=""@newsletterDisabled"" />
+            </div>
+
+            @if (showWarning)
+            {
+                <div class=""text-danger mt-2"">Please enable newsletter to submit.</div>
+            }
+
+            <div class=""form-group mt-3 d-flex align-items-center gap-2"">
+                <SfButton CssClass=""e-primary"">Submit</SfButton>
+
+                @if (submitted && contactModel.Newsletter)
+                {
+                    <span class=""status-text text-success"">✓ Submitted</span>
+                }
+            </div>
+        </EditForm>
+
+@code {
+     private ContactFormModel contactModel = new();
+    private bool submitted = false;
+
+    private void OnSubmit()
+    {
+        // If newsletter is not selected and the switch is not disabled, show warning instead of submitting.
+        if (!contactModel.Newsletter && !newsletterDisabled)
+        {
+            showWarning = true;
+            submitted = false;
+            return;
+        }
+
+        // Proceed with submit and clear any warning
+        submitted = true;
+        showWarning = false;
+    }
+
+    public sealed class ContactFormModel
+    {
+        [Required]
+        public string? Name { get; set; }
+
+        [Required]
+        [EmailAddress]
+        public string? Email { get; set; }
+
+        public bool Newsletter { get; set; }
+    }
+
+    // UI state for validation/warning behavior
+    private bool showWarning = false;
+    // If set true, the newsletter switch is disabled and warnings are suppressed
+    private bool newsletterDisabled = false;
+
+    private void OnNewsletterChanged(bool value)
+    {
+        contactModel.Newsletter = value;
+        // Clear warning as soon as user enables the newsletter
+        if (value)
+        {
+            showWarning = false;
+        }
+    }
+}
+";
+}
+
+<style>
+    /* --- Layout helpers (safe) --- */
+    .switch-container {
+        margin: 0;
+    }
+
+    .status-text {
+        margin-left: 0;
+    }
+
+    /* Form row alignment tweaks */
+    .form-group.d-flex {
+        gap: .5rem;
+    }
+</style>

@@ -1,0 +1,85 @@
+﻿@page "/chart-column-rotated-labels"
+@using Syncfusion.Blazor
+@using Syncfusion.Blazor.Toolkit.Charts
+@using System.Globalization
+@inject NavigationManager NavigationManager
+@layout MainLayout
+<div class="control-section" align='center'>
+    <SfChart id="chart-host" Title="Annual Profit Overview of Major Companies in 2024" SubTitle="Source: wikipedia.org" Width="@Width" TooltipRender="TooltipRender" OnDataLabelRender="OnDataLabelRender" OnAxisLabelRender="OnAxisLabelRender">
+        <ChartTitleStyle TextOverflow="TextOverflow.Wrap"></ChartTitleStyle>
+        <ChartSubTitleStyle TextOverflow="TextOverflow.Wrap"></ChartSubTitleStyle>
+        <ChartArea>
+            <ChartAreaBorder Width="0"></ChartAreaBorder>
+        </ChartArea>
+        <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Toolkit.ValueType.Category" LabelRotation="-45">
+            <ChartAxisMajorGridLines Width="0"></ChartAxisMajorGridLines>
+            <ChartAxisLineStyle Width="0"></ChartAxisLineStyle>
+            <ChartAxisMajorTickLines Width="0"></ChartAxisMajorTickLines>
+        </ChartPrimaryXAxis>       
+        <ChartPrimaryYAxis Title="Profit (in USD millions)">
+            <ChartAxisLineStyle Width="0"></ChartAxisLineStyle>
+            <ChartAxisMajorTickLines Width="0"></ChartAxisMajorTickLines>
+        </ChartPrimaryYAxis>
+        <ChartSeriesCollection>
+            <ChartSeries Type="ChartSeriesType.Column"
+                DataSource="@CompanyDetails" XName="Name" YName="Profit">
+                <ChartCornerRadius TopLeft="4" TopRight="4"></ChartCornerRadius>
+                <ChartMarker>
+                    <ChartDataLabel Visible="true" EnableRotation="true" Angle="-90" Position="ChartLabelPosition.Top">
+                        <ChartDataLabelFont Color="White" Size="13px"></ChartDataLabelFont>
+                    </ChartDataLabel>
+                </ChartMarker>
+            </ChartSeries>
+        </ChartSeriesCollection>
+        <ChartTooltipSettings Enable="true" EnableHighlight="true" Header="2024"></ChartTooltipSettings>
+        <ChartLegendSettings Visible="false"></ChartLegendSettings>
+    </SfChart>
+</div>
+<style>
+    [id*="_Text_0"] {
+        text-shadow: 1px 1px black;
+    }
+</style>
+@code {
+    public string Width { get; set; } = "90%";
+    private List<Company> CompanyDetails = new List<Company>
+    {
+        new Company { Name = "ExxonMobil", Country = "United States", Profit = 36010 },
+        new Company { Name = "UnitedHealth Group", Country = "United States", Profit = 22381 },
+        new Company { Name = "TotalEnergies", Country = "France", Profit = 21384 },
+        new Company { Name = "Chevron", Country = "United States", Profit = 21369 },
+        new Company { Name = "Shell", Country = "United Kingdom", Profit = 19359 },
+        new Company { Name = "Schwarz Gruppe", Country = "Germany", Profit = 16988 },
+        new Company { Name = "Walmart", Country = "United States", Profit = 15511 },
+        new Company { Name = "Amazon", Country = "United States", Profit = 15511 },
+        new Company { Name = "BP", Country = "United Kingdom", Profit = 15239 },
+        new Company { Name = "Vitol", Country = "Switzerland", Profit = 13000 },
+        new Company { Name = "CVS Health", Country = "United States", Profit = 8344 },
+        new Company { Name = "Trafigura", Country = "Singapore", Profit = 7393 }
+    };
+    public class Company
+    {
+        public string? Name { get; set; }
+        public string? Country { get; set; }
+        public double Profit { get; set; }
+    }
+    public void OnAxisLabelRender(AxisLabelRenderEventArgs args)
+    {
+       if (args.Value >= 1000)
+        {
+            args.Text = (args.Value / 1000).ToString("0") + "K";
+        }
+    }
+    public void OnDataLabelRender(TextRenderEventArgs args)
+    {
+        double text = Convert.ToDouble(args.Text);
+        string value = text.ToString("N0", System.Globalization.CultureInfo.CurrentCulture);
+        args.Text = value;
+    }
+    public void TooltipRender(TooltipRenderEventArgs args)
+    { 
+        double pointYValue = Convert.ToDouble(args.Data.PointY);
+        string value = pointYValue.ToString("N0", System.Globalization.CultureInfo.CurrentCulture);
+        args.Text = $"{args.Data.PointX}: <b>${value}</b>";
+    }
+}

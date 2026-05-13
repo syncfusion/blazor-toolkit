@@ -1,0 +1,40 @@
+@page "/chart-title-style-playwright"
+
+@using Syncfusion.Blazor.Toolkit.Charts
+
+<h2>ChartTitleStyle – Playwright Sample</h2>
+
+<div style="display:flex; flex-direction:column; gap:40px;">
+
+    <!-- 1️⃣ Title style basic properties -->
+    <SfChart ID="chartTitleStyle1"
+             Title="Sales Data"
+             Width="700px"
+             Height="400px">
+        <ChartTitleStyle Size="24px"
+                         FontWeight="bold"
+                         FontFamily="Arial"
+                         Color="red" />
+    </SfChart>
+
+    <!-- 2️⃣ Title custom position -->
+    <SfChart ID="chartTitleStyle2"
+             Title="Revenue Overview"
+             Width="700px"
+             Height="400px">
+        <ChartTitleStyle Position="ChartTitlePosition.Custom"
+                         X="50"
+                         Y="100" />
+    </SfChart>
+
+    <!-- 3️⃣ Title accessibility -->
+    <SfChart ID="chartTitleStyle3"
+             Title="Annual Report"
+             Width="700px"
+             Height="400px">
+        <ChartTitleStyle AccessibilityDescription="This is the annual report chart title"
+                         AccessibilityRole="heading"
+                         Focusable="false" />
+    </SfChart>
+
+</div>

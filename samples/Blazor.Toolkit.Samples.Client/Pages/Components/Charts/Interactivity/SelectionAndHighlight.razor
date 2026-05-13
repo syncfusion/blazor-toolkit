@@ -1,0 +1,762 @@
+﻿@page "/charts/interactivity/selection-and-highlight"
+@using Syncfusion.Blazor.Toolkit.Buttons
+@using Syncfusion.Blazor.Toolkit.Charts;
+@using Syncfusion.Blazor.Toolkit.Inputs
+
+<PageTitle>Selection and Highlight</PageTitle>
+<Description>
+    <Header>
+        <h5>Selection</h5>
+    </Header>
+    <Content>
+        <p>
+            The selection feature allows users to select one or more data points or series in the chart. To enable selection, set the <code>SelectionMode</code> property in <code>SfChart</code> to a mode other than <code>None</code>. You can also customize the selection pattern using the <code>SelectionPattern</code> property and enable multiple selections by setting the <code>AllowMultiSelection</code> property to <code>true</code>. When a data point is selected, it is visually distinguished from the rest, helping users focus on specific data for closer analysis.
+        </p>
+    </Content>
+</Description>
+<VirtualizeSection MinHeightPx="600px">
+    <CodePreview IsFullWidth="true" CodeSection="@SelectionCode">
+        <PreviewSection>
+            <div class="property-pane">
+                <div class="row">
+
+                    <!-- Selection Mode -->
+                    <div class="col">
+                        <label class="fw-bold">Selection Mode</label>
+                             <SfButtonGroup Mode="SelectionMode.Single">
+                            <ButtonGroupButton Selected="IsSelected(ChartSelectionMode.Series)" SelectedChanged="@(v => SelectionModeChanged(v, ChartSelectionMode.Series))">Series</ButtonGroupButton>
+                            <ButtonGroupButton Selected="IsSelected(ChartSelectionMode.Point)" SelectedChanged="@(v => SelectionModeChanged(v, ChartSelectionMode.Point))">Point</ButtonGroupButton>
+                            <ButtonGroupButton Selected="IsSelected(ChartSelectionMode.Cluster)" SelectedChanged="@(v => SelectionModeChanged(v, ChartSelectionMode.Cluster))">Cluster</ButtonGroupButton>
+                        </SfButtonGroup>  
+                    </div>
+
+                    <!-- Selection Pattern -->
+                    <div class="col">
+                        <label class="fw-bold">Selection Pattern</label>
+                        <SfButtonGroup Mode="SelectionMode.Single">
+                            <ButtonGroupButton Selected="SelectedPattern == SelectionPattern.None" SelectedChanged="@(v => { if (v) SelectedPattern = SelectionPattern.None; })">None</ButtonGroupButton>
+                            <ButtonGroupButton Selected="SelectedPattern == SelectionPattern.Chessboard" SelectedChanged="@(v => { if (v) SelectedPattern = SelectionPattern.Chessboard; })">Chessboard</ButtonGroupButton>
+                            <ButtonGroupButton Selected="SelectedPattern == SelectionPattern.DiagonalForward" SelectedChanged="@(v => { if (v) SelectedPattern = SelectionPattern.DiagonalForward; })">DiagonalForward</ButtonGroupButton>
+                            <ButtonGroupButton Selected="SelectedPattern == SelectionPattern.DiagonalBackward" SelectedChanged="@(v => { if (v) SelectedPattern = SelectionPattern.DiagonalBackward; })">DiagonalBackward</ButtonGroupButton>
+                        </SfButtonGroup>          
+                    </div>
+
+                    <!-- Multi Selection -->
+                    <div class="col mt-4">
+                        <SfCheckBox Label="MultiSelection"
+                                    @bind-Checked="IsMultiSelectionEnabled"/>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Chart -->
+            <SfChart @key="@_currentTheme" Title="Global PC Shipments by Brand (2021–2025)" SubTitle="Source: gartner.com" SelectionMode="SelectedMode" SelectionPattern="SelectedPattern" AllowMultiSelection="IsMultiSelectionEnabled" Theme="@_currentTheme">
+                <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Toolkit.ValueType.Category"></ChartPrimaryXAxis>
+
+                <ChartPrimaryYAxis Interval="20" Format="{value}M" Title="Units Shipped (in Millions)">
+
+                </ChartPrimaryYAxis>
+                
+
+                    <ChartSeries DataSource="@HpShipmentData"
+                                 XName="Year"
+                                 YName="Count"
+                                 Type="ChartSeriesType.Column"
+                                 Name="HP"
+                                 Fill="#7107DC"
+                                 ColumnSpacing="0.2">
+                    </ChartSeries>
+
+                    <ChartSeries DataSource="@LenovoShipmentData"
+                                 XName="Year"
+                                 YName="Count"
+                                 Type="ChartSeriesType.Column"
+                                 Name="Lenovo"
+                                 Fill="#38BE09"
+                                 ColumnSpacing="0.2">
+                    </ChartSeries>
+
+                    <ChartSeries DataSource="@DellShipmentData"
+                                 XName="Year"
+                                 YName="Count"
+                                 Type="ChartSeriesType.Column"
+                                 Name="Dell"
+                                 Fill="#B1212D"
+                                 ColumnSpacing="0.2">
+                    </ChartSeries>
+
+                
+
+            </SfChart>
+
+        </PreviewSection>
+    </CodePreview>
+</VirtualizeSection>
+<Description>
+    <Header>
+        <h5>Highlight</h5>
+    </Header>
+    <Content>
+        <p>
+            The highlight feature emphasizes data points or entire series when the mouse pointer hovers over them. To enable this feature, set the <code>HighlightMode</code> property in <code>SfChart</code> to a mode other than <code>None</code>. You can also apply custom patterns to highlighted elements using the <code>HighlightPattern</code> property. This improves readability by drawing attention to the relevant data while fading out other chart elements.
+        </p>
+    </Content>
+</Description>
+<VirtualizeSection MinHeightPx="600px">
+    <CodePreview IsFullWidth="true" CodeSection="@HighlightCode">
+        <PreviewSection>
+
+            <div class="property-pane" style="width: 100%;">
+                <div class="row">
+
+                    <!-- Highlight Mode -->
+                    <div class="col">
+                        <label class="fw-bold">Highlight Mode</label>
+                        <SfButtonGroup Mode="SelectionMode.Single">
+                            <ButtonGroupButton Selected="SelectedHighlightMode == HighlightMode.Series" SelectedChanged="@(v => { if (v) SelectedHighlightMode = HighlightMode.Series; })">Series</ButtonGroupButton>
+                            <ButtonGroupButton Selected="SelectedHighlightMode == HighlightMode.Point" SelectedChanged="@(v => { if (v) SelectedHighlightMode = HighlightMode.Point; })">Point</ButtonGroupButton>
+                            <ButtonGroupButton Selected="SelectedHighlightMode == HighlightMode.Cluster" SelectedChanged="@(v => { if (v) SelectedHighlightMode = HighlightMode.Cluster; })">Cluster</ButtonGroupButton>
+                        </SfButtonGroup>
+                       
+                    </div>
+
+                    <!-- Highlight Pattern -->
+                    <div class="col">
+                        <label class="fw-bold">Highlight Pattern</label>
+                        <SfButtonGroup Mode="SelectionMode.Single">
+                            <ButtonGroupButton Selected="SelectedHighlightPattern == SelectionPattern.None" SelectedChanged="@(v => { if (v) SelectedHighlightPattern = SelectionPattern.None; })">None</ButtonGroupButton>
+                            <ButtonGroupButton Selected="SelectedHighlightPattern == SelectionPattern.Chessboard" SelectedChanged="@(v => { if (v) SelectedHighlightPattern = SelectionPattern.Chessboard; })">Chessboard</ButtonGroupButton>
+                            <ButtonGroupButton Selected="SelectedHighlightPattern == SelectionPattern.DiagonalForward" SelectedChanged="@(v => { if (v) SelectedHighlightPattern = SelectionPattern.DiagonalForward; })">DiagonalForward</ButtonGroupButton>
+                            <ButtonGroupButton Selected="SelectedHighlightPattern == SelectionPattern.DiagonalBackward" SelectedChanged="@(v => { if (v) SelectedHighlightPattern = SelectionPattern.DiagonalBackward; })">DiagonalBackward</ButtonGroupButton>
+                        </SfButtonGroup>
+                    </div>
+                </div>
+            </div>
+
+            <SfChart @key="@_currentTheme" Title="Global Electric Vehicle (EV) Sales by Brand (2021–2025)" Theme="@_currentTheme"
+                     SubTitle="Source: gartner.com"
+                     HighlightMode="SelectedHighlightMode"
+                     HighlightPattern="SelectedHighlightPattern">
+
+                <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Toolkit.ValueType.Category"/>
+
+                <ChartPrimaryYAxis Title="Units Sold (in Millions)"
+                                   LabelFormat="{value}M">
+                </ChartPrimaryYAxis>
+
+                
+
+                    <ChartSeries DataSource="@TeslaSales"
+                                 XName="Year"
+                                 YName="Count"
+                                 Type="ChartSeriesType.Column"
+                                 Name="Tesla"
+                                 Fill="#05B3DA"
+                                 ColumnSpacing="0.1"
+                                 CornerRadius="new ChartCornerRadius { TopLeft = 6, TopRight = 6 }">
+                    </ChartSeries>
+
+                    <ChartSeries DataSource="@BydSales"
+                                 XName="Year"
+                                 YName="Count"
+                                 Type="ChartSeriesType.Column"
+                                 Name="BYD"
+                                 Fill="#E77A16"
+                                 ColumnSpacing="0.1"
+                                 CornerRadius="new ChartCornerRadius { TopLeft = 6, TopRight = 6 }">
+                    </ChartSeries>
+
+                    <ChartSeries DataSource="@VolkswagenSales"
+                                 XName="Year"
+                                 YName="Count"
+                                 Type="ChartSeriesType.Column"
+                                 Name="Volkswagen"
+                                 Fill="#6200EE"
+                                 ColumnSpacing="0.1"
+                                 CornerRadius="new ChartCornerRadius { TopLeft = 6, TopRight = 6 }">
+                    </ChartSeries>
+
+                
+
+            </SfChart>
+
+        </PreviewSection>
+    </CodePreview>
+</VirtualizeSection>
+<Description>
+    <Header>
+        <h5>Highlight Color</h5>
+    </Header>
+    <Content>
+        <p>
+            The highlight color option allows you to customize the color used for highlighting data points or series. To change the highlight color, use the <code>HighlightColor</code> property in <code>SfChart</code>. By applying a distinct highlight color, the hovered or selected data becomes more prominent, enhancing visual clarity and user interaction.
+        </p>
+    </Content>
+</Description>
+<VirtualizeSection MinHeightPx="600px">
+    <CodePreview IsFullWidth="true" CodeSection="@HightlightColorCode">
+        <PreviewSection>
+
+            <div class="property-pane">
+                <div class="row">
+                    <!-- Highlight / Selection Color -->
+                    <div class="col">
+                        <label class="fw-bold">Highlight Color</label>
+                        <input type="color" style="display: inline; width: 50px;"
+                               class="form-control"
+                               value="@SelectionColor"
+                               @onchange="ChangeSelectionColor"/>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Chart -->
+            <SfChart @key="@_currentTheme" Title="Global Smartphone Sales Trends by Brand (2021–2025)" Theme="@_currentTheme"
+                     SubTitle="Source: gartner.com"
+                     HighlightColor="@SelectionColor" HighlightMode="HighlightMode.Series">
+
+                <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Toolkit.ValueType.Category"/>
+
+                <ChartPrimaryYAxis Maximum="300"
+                                   Format="{value}M"
+                                   Title="Units Sold (in Millions)">
+                </ChartPrimaryYAxis>
+                
+
+                    <ChartSeries DataSource="@MobileData.AppleData"
+                                 XName="Year"
+                                 YName="Count"
+                                 Type="ChartSeriesType.Column"
+                                 Name="Apple"
+                                 Fill="#82C100"
+                                 ColumnSpacing="0.1"
+                                 CornerRadius="@(new ChartCornerRadius { TopLeft = 6, TopRight = 6 })">
+                    </ChartSeries>
+
+                    <ChartSeries DataSource="@MobileData.XiaomiData"
+                                 XName="Year"
+                                 YName="Count"
+                                 Type="ChartSeriesType.Column"
+                                 Name="Xiaomi"
+                                 Fill="#E77A16"
+                                 ColumnSpacing="0.1"
+                                 CornerRadius="@(new ChartCornerRadius { TopLeft = 6, TopRight = 6 })">
+                    </ChartSeries>
+
+                    <ChartSeries DataSource="@MobileData.OppoData"
+                                 XName="Year"
+                                 YName="Count"
+                                 Type="ChartSeriesType.Column"
+                                 Name="Oppo"
+                                 Fill="#B1212D"
+                                 ColumnSpacing="0.1"
+                                 CornerRadius="@(new ChartCornerRadius { TopLeft = 6, TopRight = 6 })">
+                    </ChartSeries>
+
+                
+
+            </SfChart>
+
+        </PreviewSection>
+    </CodePreview>
+</VirtualizeSection>
+
+@code{
+    [CascadingParameter]
+    private Theme CurrentTheme { get; set; } = Theme.Fluent;
+
+    private Theme _currentTheme = Theme.Fluent;
+
+    protected override void OnInitialized()
+    {
+        _currentTheme = CurrentTheme;
+    }
+
+    protected override void OnParametersSet()
+    {
+        _currentTheme = CurrentTheme;
+    }
+
+    private bool IsDarkTheme => _currentTheme.ToString().Contains("Dark") || _currentTheme.ToString().Contains("HighContrast");
+    private string TextColor => IsDarkTheme ? "#E6EEF8" : "#0B1F3B";
+    public string HightlightColorCode = @"@using Syncfusion.Blazor.Toolkit.Charts
+
+<div class=""property-pane"">
+    <div class=""row"">
+        <!-- Highlight / Selection Color -->
+        <div class=""col"">
+            <label class=""fw-bold"">Highlight Color</label>
+            <input type=""color""
+                   class=""form-control""
+                   value=""@SelectionColor""
+                   @onchange=""ChangeSelectionColor""/>
+        </div>
+    </div>
+</div>
+
+<!-- Chart -->
+<SfChart @key=""@_currentTheme"" Title=""Global Smartphone Sales Trends by Brand (2021–2025)""
+         SubTitle=""Source: gartner.com""
+         HighlightColor=""@SelectionColor"" Width=""650px"" HighlightMode=""HighlightMode.Series"" Theme=""@_currentTheme"">
+
+    <ChartPrimaryXAxis ValueType=""Syncfusion.Blazor.Toolkit.ValueType.Category""/>
+
+    <ChartPrimaryYAxis Maximum=""300""
+                       Format=""{value}M""
+                       Title=""Units Sold (in Millions)"">
+    </ChartPrimaryYAxis>
+    
+
+        <ChartSeries DataSource=""@MobileData.AppleData""
+                     XName=""Year""
+                     YName=""Count""
+                     Type=""ChartSeriesType.Column""
+                     Name=""Apple""
+                     Fill=""#82C100""
+                     ColumnSpacing=""0.1""
+                     CornerRadius=""@(new ChartCornerRadius { TopLeft = 6, TopRight = 6 })"">
+        </ChartSeries>
+
+        <ChartSeries DataSource=""@MobileData.XiaomiData""
+                     XName=""Year""
+                     YName=""Count""
+                     Type=""ChartSeriesType.Column""
+                     Name=""Xiaomi""
+                     Fill=""#E77A16""
+                     ColumnSpacing=""0.1""
+                     CornerRadius=""@(new ChartCornerRadius { TopLeft = 6, TopRight = 6 })"">
+        </ChartSeries>
+
+        <ChartSeries DataSource=""@MobileData.OppoData""
+                     XName=""Year""
+                     YName=""Count""
+                     Type=""ChartSeriesType.Column""
+                     Name=""Oppo""
+                     Fill=""#B1212D""
+                     ColumnSpacing=""0.1""
+                     CornerRadius=""@(new ChartCornerRadius { TopLeft = 6, TopRight = 6 })"">
+        </ChartSeries>
+
+    
+
+</SfChart>
+
+@code {
+    private Theme _currentTheme = Theme.Fluent;
+    private string SelectionColor { get; set; } = ""#800000"";
+
+    private void ChangeSelectionColor(ChangeEventArgs args)
+    {
+        SelectionColor = args.Value?.ToString() ?? ""#800000"";
+    }
+
+    public class MobileSalesData
+    {
+        public string Year { get; set; } = string.Empty;
+        public double Count { get; set; }
+    }
+
+    public static class MobileData
+    {
+        public static List<MobileSalesData> AppleData = new()
+        {
+            new() { Year = ""2021"", Count = 237 },
+            new() { Year = ""2022"", Count = 226.4 },
+            new() { Year = ""2023"", Count = 234.6 },
+            new() { Year = ""2024"", Count = 232.5 },
+            new() { Year = ""2025"", Count = 245 }
+        };
+
+        public static List<MobileSalesData> XiaomiData = new()
+        {
+            new() { Year = ""2021"", Count = 190 },
+            new() { Year = ""2022"", Count = 154.7 },
+            new() { Year = ""2023"", Count = 145.6 },
+            new() { Year = ""2024"", Count = 152.1 },
+            new() { Year = ""2025"", Count = 168 }
+        };
+
+        public static List<MobileSalesData> OppoData = new()
+        {
+            new() { Year = ""2021"", Count = 115 },
+            new() { Year = ""2022"", Count = 105 },
+            new() { Year = ""2023"", Count = 100 },
+            new() { Year = ""2024"", Count = 98 },
+            new() { Year = ""2025"", Count = 102 }
+        };
+    }
+}";
+    public string HighlightCode = @"@using Syncfusion.Blazor.Toolkit.Buttons
+@using Syncfusion.Blazor.Toolkit.Charts
+
+<div class=""property-pane"" style=""width: 100%;"">
+    <div class=""row"">
+
+        <!-- Highlight Mode -->
+        <div class=""col"">
+            <label class=""fw-bold"">Highlight Mode</label>
+            <SfButtonGroup Mode=""SelectionMode.Single"">
+                <ButtonGroupButton Selected=""SelectedHighlightMode == HighlightMode.Series"" SelectedChanged=""@(v => { if (v) SelectedHighlightMode = HighlightMode.Series; })"">Series</ButtonGroupButton>
+                <ButtonGroupButton Selected=""SelectedHighlightMode == HighlightMode.Point"" SelectedChanged=""@(v => { if (v) SelectedHighlightMode = HighlightMode.Point; })"">Point</ButtonGroupButton>
+                <ButtonGroupButton Selected=""SelectedHighlightMode == HighlightMode.Cluster"" SelectedChanged=""@(v => { if (v) SelectedHighlightMode = HighlightMode.Cluster; })"">Cluster</ButtonGroupButton>
+            </SfButtonGroup>
+            
+        </div>
+
+        <!-- Highlight Pattern -->
+        <div class=""col"">
+            <label class=""fw-bold"">Highlight Pattern</label>
+            <SfButtonGroup Mode=""SelectionMode.Single"">
+                <ButtonGroupButton Selected=""SelectedHighlightPattern == SelectionPattern.None"" SelectedChanged=""@(v => { if (v) SelectedHighlightPattern = SelectionPattern.None; })"">None</ButtonGroupButton>
+                <ButtonGroupButton Selected=""SelectedHighlightPattern == SelectionPattern.Chessboard"" SelectedChanged=""@(v => { if (v) SelectedHighlightPattern = SelectionPattern.Chessboard; })"">Chessboard</ButtonGroupButton>
+                <ButtonGroupButton Selected=""SelectedHighlightPattern == SelectionPattern.DiagonalForward"" SelectedChanged=""@(v => { if (v) SelectedHighlightPattern = SelectionPattern.DiagonalForward; })"">DiagonalForward</ButtonGroupButton>
+                <ButtonGroupButton Selected=""SelectedHighlightPattern == SelectionPattern.DiagonalBackward"" SelectedChanged=""@(v => { if (v) SelectedHighlightPattern = SelectionPattern.DiagonalBackward; })"">DiagonalBackward</ButtonGroupButton>
+            </SfButtonGroup>
+        </div>
+    </div>
+</div>
+
+<SfChart @key=""@_currentTheme"" Title=""Global Electric Vehicle (EV) Sales by Brand (2021–2025)"" Theme=""@_currentTheme""
+            SubTitle=""Source: gartner.com""
+            HighlightMode=""SelectedHighlightMode""
+            HighlightPattern=""SelectedHighlightPattern"">
+
+    <ChartPrimaryXAxis ValueType=""Syncfusion.Blazor.Toolkit.ValueType.Category""/>
+
+    <ChartPrimaryYAxis Title=""Units Sold (in Millions)""
+                        LabelFormat=""{value}M"">
+    </ChartPrimaryYAxis>
+
+    
+
+        <ChartSeries DataSource=""@TeslaSales""
+                        XName=""Year""
+                        YName=""Count""
+                        Type=""ChartSeriesType.Column""
+                        Name=""Tesla""
+                        Fill=""#05B3DA""
+                        ColumnSpacing=""0.1""
+                        CornerRadius=""new ChartCornerRadius { TopLeft = 6, TopRight = 6 }"">
+        </ChartSeries>
+
+        <ChartSeries DataSource=""@BydSales""
+                        XName=""Year""
+                        YName=""Count""
+                        Type=""ChartSeriesType.Column""
+                        Name=""BYD""
+                        Fill=""#E77A16""
+                        ColumnSpacing=""0.1""
+                        CornerRadius=""new ChartCornerRadius { TopLeft = 6, TopRight = 6 }"">
+        </ChartSeries>
+
+        <ChartSeries DataSource=""@VolkswagenSales""
+                        XName=""Year""
+                        YName=""Count""
+                        Type=""ChartSeriesType.Column""
+                        Name=""Volkswagen""
+                        Fill=""#6200EE""
+                        ColumnSpacing=""0.1""
+                        CornerRadius=""new ChartCornerRadius { TopLeft = 6, TopRight = 6 }"">
+        </ChartSeries>
+
+    
+
+</SfChart>
+
+@code {
+    private Theme _currentTheme = Theme.Fluent;
+    private HighlightMode SelectedHighlightMode { get; set; } = HighlightMode.Series;
+    private SelectionPattern SelectedHighlightPattern { get; set; } = SelectionPattern.None;
+
+    public class SalesData
+    {
+        public string Year { get; set; } = string.Empty;
+        public double Count { get; set; }
+    }
+
+    public List<SalesData> TeslaSales = new()
+    {
+        new() { Year = ""2021"", Count = 0.936 },
+        new() { Year = ""2022"", Count = 1.31 },
+        new() { Year = ""2023"", Count = 1.80 },
+        new() { Year = ""2024"", Count = 1.79 },
+        new() { Year = ""2025"", Count = 1.65 }
+    };
+
+    public List<SalesData> BydSales = new()
+    {
+        new() { Year = ""2021"", Count = 0.32 },
+        new() { Year = ""2022"", Count = 0.91 },
+        new() { Year = ""2023"", Count = 1.57 },
+        new() { Year = ""2024"", Count = 1.77 },
+        new() { Year = ""2025"", Count = 2.10 }
+    };
+
+    public List<SalesData> VolkswagenSales = new()
+    {
+        new() { Year = ""2021"", Count = 0.45 },
+        new() { Year = ""2022"", Count = 0.57 },
+        new() { Year = ""2023"", Count = 0.77 },
+        new() { Year = ""2024"", Count = 0.85 },
+        new() { Year = ""2025"", Count = 1.00 }
+    };
+}";
+    public string SelectionCode = @"@using Syncfusion.Blazor.Toolkit.Buttons
+@using Syncfusion.Blazor.Toolkit.Charts
+@using Syncfusion.Blazor.Toolkit.Inputs
+
+<div class=""property-pane"">
+    <div class=""row"">
+        <!-- Selection Mode -->
+        <div class=""col"">
+            <label class=""fw-bold"">Selection Mode</label>
+            <SfButtonGroup Mode=""SelectionMode.Single"">
+                <ButtonGroupButton Selected=""IsSelected(ChartSelectionMode.Series)"" SelectedChanged=""@(v => SelectionModeChanged(v, ChartSelectionMode.Series))"">Series</ButtonGroupButton>
+                <ButtonGroupButton Selected=""IsSelected(ChartSelectionMode.Point)"" SelectedChanged=""@(v => SelectionModeChanged(v, ChartSelectionMode.Point))"">Point</ButtonGroupButton>
+                <ButtonGroupButton Selected=""IsSelected(ChartSelectionMode.Cluster)"" SelectedChanged=""@(v => SelectionModeChanged(v, ChartSelectionMode.Cluster))"">Cluster</ButtonGroupButton>
+            </SfButtonGroup>  
+        </div>
+
+        <!-- Selection Pattern -->
+        <div class=""col"">
+            <label class=""fw-bold"">Selection Pattern</label>
+            <SfButtonGroup Mode=""SelectionMode.Single"">
+                <ButtonGroupButton Selected=""SelectedPattern == SelectionPattern.None"" SelectedChanged=""@(v => { if (v) SelectedPattern = SelectionPattern.None; })"">None</ButtonGroupButton>
+                <ButtonGroupButton Selected=""SelectedPattern == SelectionPattern.Chessboard"" SelectedChanged=""@(v => { if (v) SelectedPattern = SelectionPattern.Chessboard; })"">Chessboard</ButtonGroupButton>
+                <ButtonGroupButton Selected=""SelectedPattern == SelectionPattern.DiagonalForward"" SelectedChanged=""@(v => { if (v) SelectedPattern = SelectionPattern.DiagonalForward; })"">DiagonalForward</ButtonGroupButton>
+                <ButtonGroupButton Selected=""SelectedPattern == SelectionPattern.DiagonalBackward"" SelectedChanged=""@(v => { if (v) SelectedPattern = SelectionPattern.DiagonalBackward; })"">DiagonalBackward</ButtonGroupButton>
+            </SfButtonGroup>          
+        </div>
+
+        <!-- Multi Selection -->
+        <div class=""col mt-4"">
+            <SfCheckBox Label=""MultiSelection""
+                        @bind-Checked=""IsMultiSelectionEnabled""/>
+        </div>
+    </div>
+</div>
+
+<!-- Chart -->
+<SfChart @key=""@_currentTheme"" Title=""Global PC Shipments by Brand (2021–2025)"" SubTitle=""Source: gartner.com"" SelectionMode=""SelectedMode"" SelectionPattern=""SelectedPattern"" AllowMultiSelection=""IsMultiSelectionEnabled"" Theme=""@_currentTheme"">
+    <ChartPrimaryXAxis ValueType=""Syncfusion.Blazor.Toolkit.ValueType.Category""></ChartPrimaryXAxis>
+
+    <ChartPrimaryYAxis Interval=""20"" Format=""{value}M"" Title=""Units Shipped (in Millions)"">
+
+    </ChartPrimaryYAxis>
+    
+
+        <ChartSeries DataSource=""@HpShipmentData""
+                     XName=""Year""
+                     YName=""Count""
+                     Type=""ChartSeriesType.Column""
+                     Name=""HP""
+                     Fill=""#7107DC""
+                     ColumnSpacing=""0.2"">
+        </ChartSeries>
+
+        <ChartSeries DataSource=""@LenovoShipmentData""
+                     XName=""Year""
+                     YName=""Count""
+                     Type=""ChartSeriesType.Column""
+                     Name=""Lenovo""
+                     Fill=""#38BE09""
+                     ColumnSpacing=""0.2"">
+        </ChartSeries>
+
+        <ChartSeries DataSource=""@DellShipmentData""
+                     XName=""Year""
+                     YName=""Count""
+                     Type=""ChartSeriesType.Column""
+                     Name=""Dell""
+                     Fill=""#B1212D""
+                     ColumnSpacing=""0.2"">
+        </ChartSeries>
+
+    
+
+</SfChart>
+
+@code {
+    private Theme _currentTheme = Theme.Fluent;
+
+    private ChartSelectionMode SelectedMode = ChartSelectionMode.Series;
+    private SelectionPattern SelectedPattern = SelectionPattern.None;
+    private bool IsMultiSelectionEnabled = false;
+
+    private bool IsSelected(ChartSelectionMode mode)
+    {
+        return mode == SelectedMode;
+    }
+    
+    private void SelectionModeChanged(bool selected, ChartSelectionMode mode)
+    {
+        if (selected)
+        {
+            SelectedMode = mode;
+        }
+    }
+
+    public record ShipmentInfo(string Year, double Count);
+
+    public List<ShipmentInfo> HpShipmentData = new()
+    {
+        new ShipmentInfo(""2021"", 72.8),
+        new ShipmentInfo(""2022"", 63.6),
+        new ShipmentInfo(""2023"", 53.0),
+        new ShipmentInfo(""2024"", 52.8),
+        new ShipmentInfo(""2025"", 57)
+    };
+
+    public List<ShipmentInfo> LenovoShipmentData = new()
+    {
+        new ShipmentInfo(""2021"", 82.1),
+        new ShipmentInfo(""2022"", 79.1),
+        new ShipmentInfo(""2023"", 62.5),
+        new ShipmentInfo(""2024"", 61.8),
+        new ShipmentInfo(""2025"", 68)
+    };
+
+    public List<ShipmentInfo> DellShipmentData = new()
+    {
+        new ShipmentInfo(""2021"", 58.3),
+        new ShipmentInfo(""2022"", 57.5),
+        new ShipmentInfo(""2023"", 42.5),
+        new ShipmentInfo(""2024"", 39.5),
+        new ShipmentInfo(""2025"", 42)
+    };
+}";
+}
+
+@code{
+    //Highlight color
+
+    private string SelectionColor { get; set; } = "#800000";
+
+    private void ChangeSelectionColor(ChangeEventArgs args)
+    {
+        SelectionColor = args.Value?.ToString() ?? "#800000";
+    }
+
+    public class MobileSalesData
+    {
+        public string Year { get; set; }
+        public double Count { get; set; }
+    }
+
+    public static class MobileData
+    {
+        public static List<MobileSalesData> AppleData = new()
+        {
+            new() { Year = "2021", Count = 237 },
+            new() { Year = "2022", Count = 226.4 },
+            new() { Year = "2023", Count = 234.6 },
+            new() { Year = "2024", Count = 232.5 },
+            new() { Year = "2025", Count = 245 }
+        };
+
+        public static List<MobileSalesData> XiaomiData = new()
+        {
+            new() { Year = "2021", Count = 190 },
+            new() { Year = "2022", Count = 154.7 },
+            new() { Year = "2023", Count = 145.6 },
+            new() { Year = "2024", Count = 152.1 },
+            new() { Year = "2025", Count = 168 }
+        };
+
+        public static List<MobileSalesData> OppoData = new()
+        {
+            new() { Year = "2021", Count = 115 },
+            new() { Year = "2022", Count = 105 },
+            new() { Year = "2023", Count = 100 },
+            new() { Year = "2024", Count = 98 },
+            new() { Year = "2025", Count = 102 }
+        };
+    }
+
+    // Highlight
+
+    public class SalesData
+    {
+        public string Year { get; set; }
+        public double Count { get; set; }
+    }
+
+    public List<SalesData> TeslaSales = new()
+    {
+        new() { Year = "2021", Count = 0.936 },
+        new() { Year = "2022", Count = 1.31 },
+        new() { Year = "2023", Count = 1.80 },
+        new() { Year = "2024", Count = 1.79 },
+        new() { Year = "2025", Count = 1.65 }
+    };
+
+    public List<SalesData> BydSales = new()
+    {
+        new() { Year = "2021", Count = 0.32 },
+        new() { Year = "2022", Count = 0.91 },
+        new() { Year = "2023", Count = 1.57 },
+        new() { Year = "2024", Count = 1.77 },
+        new() { Year = "2025", Count = 2.10 }
+    };
+
+    public List<SalesData> VolkswagenSales = new()
+    {
+        new() { Year = "2021", Count = 0.45 },
+        new() { Year = "2022", Count = 0.57 },
+        new() { Year = "2023", Count = 0.77 },
+        new() { Year = "2024", Count = 0.85 },
+        new() { Year = "2025", Count = 1.00 }
+    };
+    ChartSelectionMode seletionMode = ChartSelectionMode.Series;
+    HighlightMode SelectedHighlightMode { get; set; } = HighlightMode.Series;
+    SelectionPattern SelectedHighlightPattern { get; set; } = SelectionPattern.None;
+    private ChartSelectionMode SelectedMode = ChartSelectionMode.Series;
+
+    void SelectionModeChanged(bool selected, ChartSelectionMode mode)
+    {
+        if (selected)
+        {
+            SelectedMode = mode;
+        }
+    }
+
+    bool IsSelected(ChartSelectionMode mode)
+    {
+        return mode == SelectedMode;
+    }
+
+    // Selection
+    private SelectionPattern SelectedPattern = SelectionPattern.None;
+    private bool IsMultiSelectionEnabled = false;
+    /* ---------------- Data ---------------- */
+
+    public List<ShipmentInfo> HpShipmentData = new()
+    {
+        new ShipmentInfo("2021", 72.8),
+        new ShipmentInfo("2022", 63.6),
+        new ShipmentInfo("2023", 53.0),
+        new ShipmentInfo("2024", 52.8),
+        new ShipmentInfo("2025", 57)
+    };
+
+    public List<ShipmentInfo> LenovoShipmentData = new()
+    {
+        new ShipmentInfo("2021", 82.1),
+        new ShipmentInfo("2022", 79.1),
+        new ShipmentInfo("2023", 62.5),
+        new ShipmentInfo("2024", 61.8),
+        new ShipmentInfo("2025", 68)
+    };
+
+    public List<ShipmentInfo> DellShipmentData = new()
+    {
+        new ShipmentInfo("2021", 58.3),
+        new ShipmentInfo("2022", 57.5),
+        new ShipmentInfo("2023", 42.5),
+        new ShipmentInfo("2024", 39.5),
+        new ShipmentInfo("2025", 42)
+    };
+
+    public record ShipmentInfo(string Year, double Count);
+
+}

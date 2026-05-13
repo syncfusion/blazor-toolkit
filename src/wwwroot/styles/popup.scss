@@ -1,0 +1,24 @@
+@use './base.scss' as *;
+
+/* stylelint-disable-line no-empty-source */
+$popup-width: auto !default;
+$popup-height: auto !default;
+
+@include export-module('popup-layout') {
+
+  /*! popup layout */
+  .e-popup {
+    height: $popup-height;
+    position: absolute;
+    width: $popup-width;
+    z-index: 1000;
+  }
+
+  .e-popup.e-popup-open {
+    display: block;
+  }
+
+  .e-popup.e-popup-close {
+    display: none;
+  }
+}

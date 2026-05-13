@@ -1,0 +1,47 @@
+﻿@using Syncfusion.Blazor.Toolkit.Buttons
+@using Microsoft.AspNetCore.Components.Forms
+@using Syncfusion.Blazor.Toolkit.Inputs
+
+@namespace Syncfusion.Blazor.Toolkit.Tests.Inputs
+
+<SfCheckBox TChecked="bool?" @bind-Checked="checkedBox" EnableTriState="true" Indeterminate="false" />
+<SfButton OnClick="OnClickButton">CLICK</SfButton>
+@checkedBox;
+
+<EditForm Model="Annotate">
+    <DataAnnotationsValidator></DataAnnotationsValidator>
+    <div class="form-group">
+        <SfCheckBox Label="Option 1"  TChecked="bool?" EnableTriState="true" @bind-Checked="@Annotate.Check"></SfCheckBox>
+        <ValidationMessage For="@(() => Annotate.Check)" />
+    </div>
+    <SfButton HtmlAttributes="@Submit" Content="Submit"></SfButton>
+</EditForm>
+
+<SfCheckBox @bind-Checked="nullChecked" TChecked="bool?" CssClass="e-small">
+     <a class="agreement-link" href="/">terms and conditions</a>
+</SfCheckBox>
+
+@code {
+    private bool? nullChecked = true;
+    private bool? checkedBox;
+    private void OnClickButton()
+    {
+        if (checkedBox == false)
+            checkedBox = true;
+        else if (checkedBox == true)
+            checkedBox = null;
+        else if (checkedBox == null)
+            checkedBox = false;
+    }
+
+    public Annotation Annotate = new Annotation();
+    public class Annotation
+    {
+        [System.ComponentModel.DataAnnotations.Required(ErrorMessage = "Uhmmm! Not null, please.")]
+        public bool? Check { get; set; } = null;
+    }
+    public Dictionary<string, object> Submit = new Dictionary<string, object>()
+    {
+        { "type", "submit"}
+    };
+}

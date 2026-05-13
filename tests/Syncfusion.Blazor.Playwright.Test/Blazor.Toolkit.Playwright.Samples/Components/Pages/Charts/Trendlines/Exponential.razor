@@ -1,0 +1,56 @@
+@page "/chart/exponential"
+@using Syncfusion.Blazor.Toolkit.Charts
+@layout MainLayout
+
+<h3>Chart – Exponential Trendline</h3>
+
+<div id="chart-host" style="width:850px;height:600px">
+    <SfChart Height="600px" Width="850px" Title="Online trading">
+
+        <ChartPrimaryXAxis Title="Months"
+                           ValueType="Syncfusion.Blazor.Toolkit.ValueType.DateTime" />
+
+        <ChartPrimaryYAxis Title="Rupees against Dollars" Interval="5" />
+
+        <ChartSeriesCollection>
+            <ChartSeries DataSource="@Trends"
+                         XName="x"
+                         YName="y"
+                         Type="ChartSeriesType.Scatter"
+                         Name="trend">
+
+                <ChartTrendlines>
+                    <ChartTrendline Type="TrendlineTypes.Exponential"
+                                    Fill="Orange"
+                                    ForwardForecast="5"
+                                    BackwardForecast="4"
+                                    Intercept="3">
+                        <ChartTrendlineAnimation Enable="false" />
+                        <ChartTrendlineMarker Visible="true" Fill="Red" />
+                    </ChartTrendline>
+                </ChartTrendlines>
+
+                <ChartSeriesAnimation Enable="false" />
+            </ChartSeries>
+        </ChartSeriesCollection>
+    </SfChart>
+</div>
+
+@code {
+    public class TrendData
+    {
+        public DateTime x { get; set; }
+        public double y { get; set; }
+    }
+
+    public List<TrendData> Trends = new()
+    {
+        new() { x = new DateTime(2000, 2, 11), y = 14 },
+        new() { x = new DateTime(2001, 9, 4),  y = 20 },
+        new() { x = new DateTime(2002, 2, 11), y = 25 },
+        new() { x = new DateTime(2003, 9, 16), y = 21 },
+        new() { x = new DateTime(2004, 2, 7),  y = 13 },
+        new() { x = new DateTime(2005, 9, 7),  y = 18 },
+        new() { x = new DateTime(2006, 2, 11), y = 24 },
+    };
+}

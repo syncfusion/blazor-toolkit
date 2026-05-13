@@ -1,0 +1,313 @@
+﻿@page "/inputs/numerictextbox"
+
+<PageTitle>NumericTextBox | ASP.NET Core Blazor OSS Components</PageTitle>
+
+@using Syncfusion.Blazor.Toolkit.Inputs
+
+<Description>
+    <Header>
+        <h4><b>Blazor Toolkit Numeric Textbox Component</b></h4>
+    </Header>
+    <Content>
+        Add the Numeric Textbox component in application as shown in below code example.
+    </Content>
+</Description>
+
+<!-- ======================================================
+                        DATA BINDING
+======================================================= -->
+
+<Description>
+    <Header>
+        <h5><b>One-Way Binding</b></h5>
+    </Header>
+    <Content>
+        Bind the value using the <b>Value</b> parameter (no two-way sync). Updating the backing field programmatically reflects in the UI.
+    </Content>
+</Description>
+
+<CodePreview CodeSection="@OneWayBindingCode">
+    <PreviewSection>
+         <div class="num-sample-wrapper">
+            <div class="d-flex align-items-center gap-2">
+                <SfNumericTextBox TValue="int?" Value="@OneWayValue" Min="0" Max="100" Step="5" Width="220px" />
+                <button class="btn btn-primary btn-sm" @onclick="UpdateOneWay">Set 75</button>
+            </div>
+            <div class="mt-2 example-label"><b>Value:</b> @OneWayValue</div>
+         </div>
+    </PreviewSection>
+</CodePreview>
+
+<Description>
+    <Header>
+        <h5><b>Two-Way Binding</b></h5>
+    </Header>
+    <Content>
+        Use <b>bind-Value</b> for two-way synchronization between the component and the bound field.
+    </Content>
+</Description>
+
+<CodePreview CodeSection="@TwoWayBindingCode">
+    <PreviewSection>
+        <div class="num-sample-wrapper">
+            <SfNumericTextBox TValue="int?" @bind-Value="TwoWayValue" Min="0" Max="100" Step="1" Width="220px" />
+            <div class="mt-2 example-label"><b>Value:</b> @TwoWayValue</div>
+        </div>
+    </PreviewSection>
+</CodePreview>
+
+<!-- ======================================================
+                          FORMATS
+======================================================= -->
+
+<Description>
+    <Header>
+        <h5><b>Percentage Format</b></h5>
+    </Header>
+    <Content>
+        Apply <b>Format="P2"</b> to display the value as a percentage when unfocused; underlying value remains numeric.
+    </Content>
+</Description>
+
+<CodePreview CodeSection="@PercentageFormatCode">
+    <PreviewSection>
+        <div class="num-sample-wrapper">
+            <SfNumericTextBox TValue="double?" @bind-Value="PercentValue" Min="0" Max="1" Step="0.01" Format="P2" Placeholder="Percentage" Width="220px" />
+            <div class="mt-2 example-label"><b>Raw value:</b> @PercentValue</div>
+        </div>
+    </PreviewSection>
+</CodePreview>
+
+<Description>
+    <Header>
+        <h5><b>Currency Format</b></h5>
+    </Header>
+    <Content>
+        Use <b>Format="C2"</b> to render a currency using the current culture’s currency symbol and separators.
+    </Content>
+</Description>
+
+<CodePreview CodeSection="@CurrencyFormatCode">
+    <PreviewSection>
+        <div class="num-sample-wrapper">
+            <SfNumericTextBox TValue="decimal?" @bind-Value="CurrencyValue" Min="0" Max="100000" Step="100" Format="C2" Placeholder="Currency" Width="220px" />
+            <div class="mt-2 example-label"><b>Raw value:</b> @CurrencyValue</div>
+        </div>
+    </PreviewSection>
+</CodePreview>
+
+<Description>
+    <Header>
+        <h5><b>Custom Format (# And 0)</b></h5>
+    </Header>
+    <Content>
+        Combine <b>#</b> (optional digit) and <b>0</b> (zero placeholder) to build custom display patterns such as <code>###.##</code> and <code>000.00</code>.
+    </Content>
+</Description>
+
+<CodePreview CodeSection="@CustomFormatCode">
+    <PreviewSection>
+        <div class="num-sample-wrapper">
+            <div class="d-flex align-items-center gap-3 flex-wrap">
+                <div>
+                    <SfNumericTextBox TValue="double?" @bind-Value="CustomFormatHash" Format="###.##" Width="220px" Placeholder="Format - ###.##" FloatLabelType="FloatLabelType.Always" />
+                    <div class="mt-2 example-label"><b>Values:</b> @CustomFormatHash</div>
+                </div>
+                <div>
+                    <SfNumericTextBox TValue="double?" @bind-Value="CustomFormatZero" Format="000.00" Width="220px" Placeholder="Format - 000.00" FloatLabelType="FloatLabelType.Always" />
+                    <div class="mt-2 example-label"><b>Values:</b> @CustomFormatZero</div>
+                </div>
+            </div>
+        </div>
+    </PreviewSection>
+</CodePreview>
+
+<!-- ======================================================
+                        NATIVE EVENTS
+======================================================= -->
+
+<Description>
+    <Header>
+        <h5><b>Native Events (OnKeyPress)</b></h5>
+    </Header>
+    <Content>
+        Attach native DOM events directly on the component. This example logs the last key pressed via <b>onkeypress</b>.
+    </Content>
+</Description>
+
+<CodePreview CodeSection="@NativeKeypressCode">
+    <PreviewSection>
+        <div class="num-sample-wrapper">
+            <SfNumericTextBox TValue="int?" @bind-Value="NativeValue" @onkeypress="@OnKeyPress" Placeholder="Type and press keys" Width="220px" />
+            <div class="mt-2 example-label"><b>Last key:</b> @LastKey</div>
+        </div>
+    </PreviewSection>
+</CodePreview>
+
+<!-- ======================================================
+                           EVENTS
+======================================================= -->
+
+<Description>
+    <Header>
+        <h5><b>Events</b></h5>
+    </Header>
+    <Content>
+        Wire component events such as <b>Created</b>, <b>Focus</b>, <b>Blur</b>, <b>ValueChange</b>.
+    </Content>
+</Description>
+
+<CodePreview CodeSection="@EventsCode">
+    <PreviewSection>
+        <div class="num-sample-wrapper">
+            <SfNumericTextBox TValue="int?" @bind-Value="EventValue" Min="0" Max="100" Step="1" Width="220px"
+                              Created="OnCreated"
+                              OnFocus="OnFocus"
+                              OnBlur="OnBlur"
+                              ValueChange="OnValueChange">
+            </SfNumericTextBox>
+
+            <div class="mt-3">
+                <p class="example-label"><b>Value:</b> @EventValue</p>
+                <p class="example-label"><b>Event:</b> @EventMessage</p>
+            </div>
+        </div>
+    </PreviewSection>
+</CodePreview>
+
+@code {
+    /* ---------------- DATA BINDING ---------------- */
+
+    // One-way
+    private int? OneWayValue { get; set; } = 25;
+    private void UpdateOneWay() => OneWayValue = 75;
+
+    private string OneWayBindingCode => @"
+<SfNumericTextBox TValue=""int?"" Value=""@OneWayValue"" Min=""0"" Max=""100"" Step=""5"" Width=""220px"" />
+<button class=""btn btn-primary btn-sm"" @onclick=""UpdateOneWay"">Set 75</button>
+
+@code {
+    private int? OneWayValue { get; set; } = 25;
+    private void UpdateOneWay() => OneWayValue = 75;
+}";
+
+    // Two-way
+    private int? TwoWayValue { get; set; } = 10;
+
+    private string TwoWayBindingCode => @"
+<SfNumericTextBox TValue=""int?"" @bind-Value=""TwoWayValue"" Min=""0"" Max=""100"" Step=""1"" Width=""220px"" />
+
+@code {
+    private int? TwoWayValue { get; set; } = 10;
+}";
+
+    /* ---------------- FORMATS ---------------- */
+
+    private double? PercentValue { get; set; } = 0.5;
+    private decimal? CurrencyValue { get; set; } = 12500.50m;
+    private double? CustomFormatHash { get; set; } = 10.5;
+    private double? CustomFormatZero { get; set; } = 10.5;
+
+    private string PercentageFormatCode => @"
+<SfNumericTextBox TValue=""double?"" @bind-Value=""PercentValue"" Min=""0"" Max=""1"" Step=""0.01"" Format=""P2"" Placeholder=""Percentage"" Width=""220px"" />
+
+@code {
+    private double? PercentValue { get; set; } = 0.5;
+}";
+
+    private string CurrencyFormatCode => @"
+<SfNumericTextBox TValue=""decimal?"" @bind-Value=""CurrencyValue"" Min=""0"" Max=""100000"" Step=""100"" Format=""C2"" Placeholder=""Currency"" Width=""220px"" />
+
+@code {
+    private decimal? CurrencyValue { get; set; } = 12500.50m;
+}";
+
+    private string CustomFormatCode => @"
+<div class=""d-flex align-items-center gap-3 flex-wrap"">
+    <div>
+        <SfNumericTextBox TValue=""double?"" @bind-Value=""CustomFormatHash"" Format=""###.##"" Width=""220px"" Placeholder=""Format - ###.##"" FloatLabelType=""FloatLabelType.Always"" />
+        <div class=""mt-2 example-label""><b>Values:</b> @CustomFormatHash</div>
+    </div>
+    <div>
+        <SfNumericTextBox TValue=""double?"" @bind-Value=""CustomFormatZero"" Format=""000.00"" Width=""220px"" Placeholder=""Format - 000.00"" FloatLabelType=""FloatLabelType.Always"" />
+        <div class=""mt-2 example-label""><b>Values:</b> @CustomFormatZero</div>
+    </div>
+</div>
+
+@code {
+    private double? CustomFormatHash { get; set; } = 10.5;
+    private double? CustomFormatZero { get; set; } = 10.5;
+}";
+
+    /* ---------------- NATIVE EVENTS ---------------- */
+
+    private int? NativeValue { get; set; } = 42;
+    private string LastKey { get; set; } = "—";
+
+    private void OnKeyPress(KeyboardEventArgs e)
+    {
+        LastKey = e?.Key ?? "—";
+    }
+
+    private string NativeKeypressCode => @"
+<SfNumericTextBox TValue=""int?"" @bind-Value=""NativeValue"" @onkeypress=""@OnKeyPress"" Placeholder=""Type and press keys"" Width=""220px"" />
+
+@code {
+    private int? NativeValue { get; set; } = 42;
+    private string LastKey { get; set; } = ""—"";
+
+    private void OnKeyPress(KeyboardEventArgs e)
+    {
+        LastKey = e?.Key ?? ""—"";
+    }
+}";
+
+    /* ---------------- EVENTS ---------------- */
+
+    private int? EventValue { get; set; } = 30;
+    private string EventMessage { get; set; } = "—";
+
+    private void OnCreated(object _) => EventMessage = "Created";
+    private void OnFocus(NumericFocusEventArgs<int?> _) => EventMessage = "Focus";
+    private void OnBlur(NumericBlurEventArgs<int?> _) => EventMessage = "Blur";
+
+    private void OnValueChange(ChangeEventArgs<int?> args)
+    {
+        EventValue = args.Value;
+        EventMessage = $"ValueChange: {EventValue}";
+    }
+
+    private string EventsCode => @"
+<SfNumericTextBox TValue=""int?"" @bind-Value=""EventValue"" Min=""0"" Max=""100"" Step=""1"" Width=""220px"">
+    <NumericTextBoxEvents TValue=""int?""
+                          Created=""OnCreated""
+                          OnFocus=""OnFocus""
+                          OnBlur=""OnBlur""
+                          ValueChange=""OnValueChange"" />
+</SfNumericTextBox>
+
+@code {
+    private int? EventValue { get; set; } = 30;
+    private string EventMessage { get; set; } = ""—"";
+
+    private void OnCreated(object _) => EventMessage = ""Created"";
+    private void OnFocus(NumericFocusEventArgs<int?> _) => EventMessage = ""Focus"";
+    private void OnBlur(NumericBlurEventArgs<int?> _) => EventMessage = ""Blur"";
+    private void OnValueChange(ChangeEventArgs<int?> args)
+    {
+        EventValue = args.Value;
+        EventMessage = $""ValueChange: {EventValue}"";
+    }
+}";
+}
+
+
+<style>
+    .num-sample-wrapper {
+        width: 300px;
+    }
+    .example-label {
+        font-size: 14px;
+        margin-bottom: 6px;
+    }
+</style>

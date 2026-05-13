@@ -1,0 +1,71 @@
+@page "/checkbox/value-binding"
+@using Syncfusion.Blazor.Toolkit.Inputs
+@layout MainLayout
+
+<h1>Checkbox - Value Binding</h1>
+
+<div class="test-container">
+    <h2>Direct Bool Binding</h2>
+    <SfCheckBox TChecked="bool" Label="Simple Bool Binding" @bind-Checked="boolValue"></SfCheckBox>
+    <p>Bound Value: <strong>@boolValue</strong></p>
+</div>
+
+<div class="test-container">
+    <h2>Nullable Bool Binding</h2>
+    <SfCheckBox TChecked="bool?" Label="Nullable Bool Binding" @bind-Checked="nullableBoolValue"></SfCheckBox>
+    <p>Bound Value: <strong>@nullableBoolValue?.ToString() ?? "null"</strong></p>
+</div>
+
+<div class="test-container">
+    <h2>Two-Way Binding with Input</h2>
+    <SfCheckBox TChecked="bool" Label="Sync with Input" @bind-Checked="syncValue"></SfCheckBox>
+    <input type="checkbox" @bind="syncValue" />
+    <p>Current Value: <strong>@syncValue</strong></p>
+</div>
+
+<div class="test-container">
+    <h2>Multiple Checkboxes with Individual Bindings</h2>
+    <SfCheckBox TChecked="bool" Label="Option A" @bind-Checked="optionA"></SfCheckBox>
+    <SfCheckBox TChecked="bool" Label="Option B" @bind-Checked="optionB"></SfCheckBox>
+    <SfCheckBox TChecked="bool" Label="Option C" @bind-Checked="optionC"></SfCheckBox>
+    <p>Option A: <strong>@optionA</strong></p>
+    <p>Option B: <strong>@optionB</strong></p>
+    <p>Option C: <strong>@optionC</strong></p>
+    <p>Any Selected: <strong>@(optionA || optionB || optionC)</strong></p>
+    <p>All Selected: <strong>@(optionA && optionB && optionC)</strong></p>
+</div>
+
+<style>
+    .test-container {
+        padding: 20px;
+        border: 1px solid #ddd;
+        margin: 10px 0;
+        border-radius: 4px;
+        background-color: #f9f9f9;
+    }
+    
+    h2 {
+        margin-top: 20px;
+        font-size: 18px;
+        font-weight: 600;
+    }
+    
+    input[type="checkbox"] {
+        margin-top: 10px;
+        margin-right: 5px;
+    }
+    
+    p {
+        margin-top: 10px;
+        font-size: 14px;
+    }
+</style>
+
+@code {
+    private bool boolValue = false;
+    private bool? nullableBoolValue = null;
+    private bool syncValue = false;
+    private bool optionA = false;
+    private bool optionB = false;
+    private bool optionC = false;
+}

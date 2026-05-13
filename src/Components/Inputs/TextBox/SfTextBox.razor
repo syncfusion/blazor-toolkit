@@ -1,0 +1,115 @@
+@using Microsoft.AspNetCore.Components;
+@using Syncfusion.Blazor.Toolkit.Internal;
+@using Syncfusion.Blazor.Toolkit.Inputs;
+@namespace Syncfusion.Blazor.Toolkit.Inputs
+@inherits SfInputBase<string>
+<SfInputBase>
+	@if (this.BaseFloatLabelType == FloatLabelType.Auto || this.BaseFloatLabelType == FloatLabelType.Always)
+	{
+		@if (this.ListOfButtons != null && this.ListOfButtons.Count > 0)
+		{
+			<div @ref="@ContainerElement" class="@ContainerClass?.Trim()" @attributes="ContainerHtmlAttributes">
+				@RenderIconButtons(PREPEND)
+				<span class="e-input-in-wrap">
+					@if (this.MultilineInput)
+					{
+						<textarea @ref="@InputElement" id="@ID" value="@(FormatValueAsString(InputTextValue))"
+								  @attributes="InputHtmlAttributes" role="textbox" @onchange="@OnChangeHandlerAsync" @onblur="OnBlurHandlerAsync"
+								  @onfocus="@OnFocusHandlerAsync" @oninput="@OnInputHandlerAsync"></textarea>
+					}
+					else
+					{
+						<input @ref="@InputElement" id="@ID" @attributes="InputHtmlAttributes"
+							   value="@(FormatValueAsString(InputTextValue))" @onchange="@OnChangeHandlerAsync" @onfocus="@OnFocusHandlerAsync"
+							   @onblur="OnBlurHandlerAsync" @oninput="@OnInputHandlerAsync" />
+					}
+					<span class="e-float-line"></span>
+					<label class="@FloatLabel?.Trim()" id="label_@(ID)" for="@(ID)">@this.Placeholder</label>
+					@if (this.ShowClearButton)
+					{
+						<span class="@(ClearIconClass)" aria-label="close" role="button" @onclick="@WireClearBtnEventsAsync"
+							  @onmousedown="@BindClearBtnEventsAsync" @ontouchstart="@BindClearBtnTouchEventsAsync"
+							  @onmousedown:preventDefault="@ClickStopPropagation"
+							  @ontouchstart:preventDefault="@ClickStopPropagation"></span>
+					}
+					@RenderIconButtons(APPEND)
+				</span>
+			</div>
+		}
+		else
+		{
+			<div @ref="@ContainerElement" class="@ContainerClass?.Trim()" @attributes="ContainerHtmlAttributes">
+				@if (this.MultilineInput)
+				{
+					<textarea @ref="@InputElement" id="@ID" value="@(FormatValueAsString(InputTextValue))"
+							  @attributes="InputHtmlAttributes" role="textbox" @onchange="@OnChangeHandlerAsync"
+							  @onfocus="@OnFocusHandlerAsync" @onblur="OnBlurHandlerAsync" @oninput="@OnInputHandlerAsync"></textarea>
+				}
+				else
+				{
+					<input @ref="@InputElement" id="@ID" @attributes="InputHtmlAttributes"
+						   value="@(FormatValueAsString(InputTextValue))" @onchange="@OnChangeHandlerAsync" @onfocus="@OnFocusHandlerAsync" @onblur="OnBlurHandlerAsync" @oninput="@OnInputHandlerAsync" />
+				}
+				<span class="e-float-line"></span>
+				<label class="@FloatLabel?.Trim()" id="label_@(ID)" for="@(ID)">@this.Placeholder</label>
+				@if (this.ShowClearButton)
+				{
+					<span class="@(ClearIconClass)" aria-label="close" role="button" @onclick="@WireClearBtnEventsAsync"
+						  @onmousedown="@BindClearBtnEventsAsync" @ontouchstart="@BindClearBtnTouchEventsAsync"
+						  @onmousedown:preventDefault="@ClickStopPropagation"
+						  @ontouchstart:preventDefault="@ClickStopPropagation"></span>
+				}
+				@RenderIconButtons(APPEND)
+			</div>
+		}
+	}
+	else
+	{
+		<span @ref="@ContainerElement" class="@ContainerClass?.Trim()" @attributes="ContainerHtmlAttributes">
+			@RenderIconButtons(PREPEND)
+			@if (this.MultilineInput)
+			{
+				<textarea @ref="@InputElement" id="@ID" value="@(FormatValueAsString(InputTextValue))"
+						  @attributes="InputHtmlAttributes" role="textbox" @onchange="@OnChangeHandlerAsync"
+						  @onfocus="@OnFocusHandlerAsync" @onblur="OnBlurHandlerAsync" @oninput="@OnInputHandlerAsync"></textarea>
+			}
+			else
+			{
+				<input @ref="@InputElement" id="@ID" @attributes="InputHtmlAttributes"
+					   value="@(FormatValueAsString(InputTextValue))" @onchange="@OnChangeHandlerAsync" @onfocus="@OnFocusHandlerAsync" @onblur="OnBlurHandlerAsync" @oninput="@OnInputHandlerAsync" />
+			}
+			@if (this.ShowClearButton)
+			{
+				<span class="@(ClearIconClass)" aria-label="close" role="button" @onclick="@WireClearBtnEventsAsync"
+					  @onmousedown="@BindClearBtnEventsAsync" @ontouchstart="@BindClearBtnTouchEventsAsync"
+					  @onmousedown:preventDefault="@ClickStopPropagation"
+					  @ontouchstart:preventDefault="@ClickStopPropagation"></span>
+			}
+			@RenderIconButtons(APPEND)
+		</span>
+	}
+</SfInputBase>
+
+@code {
+	/// <summary>
+	/// Renders icon buttons for the TextBox component at the specified position (prepend or append).
+	/// </summary>
+	/// <param name="position">The position where icons should be rendered: either <see cref="SfInputBase{TValue}.PREPEND"/> or <see cref="SfInputBase{TValue}.APPEND"/>.</param>
+	/// <returns>A <see cref="RenderFragment"/> that renders the icon button elements.</returns>
+	/// <remarks>
+	/// <para>This helper method extracts the repetitive icon-button rendering logic into a reusable component.
+	/// It iterates through <see cref="SfInputBase{TValue}.ListOfButtons"/> and renders only the icons matching the specified position.</para>
+	/// </remarks>
+	private RenderFragment RenderIconButtons(string position) => @<text>
+		@if (this.ListOfButtons != null && this.ListOfButtons.Count > 0)
+		{
+			@foreach (var icon in this.ListOfButtons)
+			{
+				@if (icon.Position == position)
+				{
+					<span @attributes="icon._events" class="@(GROUPICON + SPACE + icon.Icon)"></span>
+				}
+			}
+		}
+	</text>;
+}

@@ -1,0 +1,21 @@
+﻿@using Syncfusion.Blazor.Toolkit.Popups
+
+@namespace Syncfusion.Blazor.Toolkit.Tests.Dialog
+
+<SfDialog @attributes="@htmlAttribute" IsModal="true" AllowPrerender="true">
+    <DialogTemplates>
+        <Header> <div> Header Template </div> </Header>
+        <Content> <div> Content Template </div> </Content>
+    </DialogTemplates>
+    <DialogButtons>
+        <DialogButton Content="yes" IsPrimary="false" />
+        <DialogButton Content="no" IsPrimary="true" />
+    </DialogButtons>
+</SfDialog>
+
+@code{
+    Dictionary<string, object> htmlAttribute = new Dictionary<string, object>() {
+        {"style", "border: 1px solid red" },
+        {"aria-name", "myDialog" }
+    };
+}
