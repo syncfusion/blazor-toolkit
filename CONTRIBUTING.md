@@ -18,12 +18,7 @@ Have a look at our [Development Guide](DEVELOPMENT.md) to learn about setting up
 
 If you're looking for something to work on, please browse our [backlog](https://github.com/syncfusion/blazor-toolkit/issues?q=is%3Aopen+is%3Aissue+milestone%3ABacklog). Any issue that is not already assigned is up for grabs. 
 
-Follow the style used by the [.NET Foundation](https://github.com/dotnet/runtime/blob/master/docs/coding-guidelines/coding-style.md), with two primary exceptions:
-
-- We do not use the `private` keyword, as it is the default accessibility level in C#.
-- We use hard tabs over spaces.
-
-Read and follow our [pull request template](PULL_REQUEST_TEMPLATE.md).
+Please adhere to the coding standards outlined by the [.NET Foundation](https://github.com/dotnet/runtime/blob/master/docs/coding-guidelines/coding-style.md). Additionally, review and follow the guidelines specified in our [pull request template](PULL_REQUEST_TEMPLATE.md) when submitting changes.
 
 ### Pull Request Requirements
 
