@@ -31,7 +31,7 @@
     bool isValid = true;
     var rowCount = this.CellsCount / this.Count;
     <div class="@this.ContentElementClass">
-        <table tabindex="0" class="@CONTENT_TABLE" role="grid" aria-label="calendar" @onkeydown="OnCalendarKeyDownAsync">
+        <table tabindex="0" class="@CONTENT_TABLE" role="grid" aria-label="calendar" @onkeydown="OnCalendarKeyDownAsync" @onkeydown:preventDefault="@_isNotTabKey">
             @if (CalendarView == CalendarView.Month)
             {
                 <CalendarTableHeader TCalendarHeader="TValue" CalendarRenderView="CalendarView"></CalendarTableHeader>

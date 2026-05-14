@@ -185,7 +185,7 @@
 
 <CodePreview CodeSection="@IconsCode">
     <PreviewSection>
-        <div class="e-section">
+        <div id="icons" class="e-section">
             <label class="e-label">Icon-only</label>
             <SfButtonGroup>
                 <ButtonGroupButton aria-label="Bold"><span class="sb-icons e-bold"></span></ButtonGroupButton>
@@ -194,7 +194,7 @@
             </SfButtonGroup>
         </div>
 
-        <div class="e-section" style="margin-top:12px">
+        <div id="icons-text" class="e-section" style="margin-top:12px">
             <label class="e-label">Icon with text</label>
             <SfButtonGroup>
                 <ButtonGroupButton><span class="sb-icons e-align-left"></span>&nbsp;Left</ButtonGroupButton>
@@ -570,5 +570,13 @@
         margin-top: 8px;
         color: var(--e-info-foreground, #6b7280);
         font-size: .9rem;
+    }
+    #icons .e-btn-group .sb-icons::before,
+    #icons-text .e-btn-group .sb-icons::before {
+        transform: translateY(2px);
+    }
+    #icons .e-btn-group .sb-icons,
+    #icons-text .e-btn-group .sb-icons {
+        display: inline-flex;
     }
 </style>

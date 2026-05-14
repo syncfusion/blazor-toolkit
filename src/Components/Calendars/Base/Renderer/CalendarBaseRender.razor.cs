@@ -22,6 +22,7 @@ namespace Syncfusion.Blazor.Toolkit.Calendars.Internal
     {
         internal ElementReference TableBodyEle { get; set; }
         private bool _isShiftKey;
+        private bool _isNotTabKey = true;
         private static readonly char[] _separatorChar = ['_'];
         private static readonly string[] _calendarKeys =
         [
@@ -35,9 +36,14 @@ namespace Syncfusion.Blazor.Toolkit.Calendars.Internal
 
         private async Task OnCalendarKeyDownAsync(KeyboardEventArgs e)
         {
+            _isNotTabKey = true;
             if (e is null || Parent is null)
             {
                 return;
+            }
+            if (e.Key == "Tab")
+            {
+                _isNotTabKey = false;
             }
             string action = MapKeyToAction(e);
             CellDetails? focused = Parent.CellListData?.FirstOrDefault(c => !string.IsNullOrEmpty(c.ClassList) && c.ClassList.Contains("e-focused-date", StringComparison.CurrentCulture));
