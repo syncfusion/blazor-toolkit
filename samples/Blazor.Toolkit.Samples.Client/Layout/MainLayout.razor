@@ -574,6 +574,9 @@
     .toc-item:hover {
         border-left-color: color-mix(in srgb, var(--accent) 28%, transparent) !important;
     }
+    .page-rtl .toc-item:hover {
+        border-right-color: color-mix(in srgb, var(--accent) 28%, transparent) !important;
+    }
 
     /* Existing UI rules */
     .search-popup.e-dialog.e-popup {
@@ -646,7 +649,8 @@
         padding: 0 5px;
     }
     .page-rtl .right-panel,
-    .page-rtl .top-left  {
+    .page-rtl .top-left,
+    .page-rtl .sidebar {
         direction: ltr;
     }
     .top-layout-title .syncfusion-logo {

@@ -22,7 +22,7 @@
             <div>
                 <SfButton @onclick="@OpenDialog">Open Dialog</SfButton>
             </div>
-            <SfDialog Target="#target" Width="250px" @bind-Visible="@IsVisible" Header="Dialog Header" Content="Here dialog with Content property." ShowCloseIcon="true"></SfDialog>
+            <SfDialog Target="#target" Width="250px" @bind-Visible="@IsVisible" Header="Dialog Header" Content="Here Dialog with Content property." ShowCloseIcon="true"></SfDialog>
         </div>
         <style>
             #target {
@@ -37,7 +37,7 @@
         <h5>Modal Dialog</h5>
     </Header>
     <Content>
-        A modal dialog prevents users from interacting with the rest of the application until the dialog is closed. The <code>IsModal</code> property enables modal behavior by displaying an overlay behind the Dialog, ensuring users must complete their interaction with the Dialog before accessing other application content.
+        A modal Dialog prevents users from interacting with the rest of the application until the Dialog is closed. The <code>IsModal</code> property enables modal behavior by displaying an overlay behind the Dialog, ensuring users must complete their interaction with the Dialog before accessing other application content.
     </Content>
 </Description>
 
@@ -47,7 +47,7 @@
             <div>
                 <SfButton @onclick="@OpenModalDialog">Open Modal Dialog</SfButton>
             </div>
-            <SfDialog Target="#modaltarget" Width="250px" IsModal="true" @bind-Visible="@IsModalVisible" Header="Modal Dialog" Content="This is a modal dialog" ShowCloseIcon="true"></SfDialog>
+            <SfDialog Target="#modaltarget" Width="250px" IsModal="true" @bind-Visible="@IsModalVisible" Header="Modal Dialog" Content="This is a modal Dialog" ShowCloseIcon="true"></SfDialog>
         </div>
         <style>
             #modaltarget {
@@ -153,7 +153,7 @@
         <h5>Resizing Dialog</h5>
     </Header>
     <Content>
-        The resizable dialog can be created by setting the <code>EnableResize</code> property to true, which is used to change the size of a dialog dynamically and view its content with expanded mode. When enabled, users can interact with the dialog’s resize handles to modify its dimensions according to their needs. The <code>ResizeHandles</code> property configures the specific directions in which the dialog can be resized. Resize handles are interactive grip areas positioned on the dialog’s edges and corners that users can drag to modify the dialog dimensions.
+        The resizable Dialog can be created by setting the <code>EnableResize</code> property to true, which is used to change the size of a Dialog dynamically and view its content with expanded mode. When enabled, users can interact with the dialog’s resize handles to modify its dimensions according to their needs. The <code>ResizeHandles</code> property configures the specific directions in which the Dialog can be resized. Resize handles are interactive grip areas positioned on the dialog’s edges and corners that users can drag to modify the Dialog dimensions.
     </Content>
 </Description>
 
@@ -163,7 +163,7 @@
             <div>
                 <SfButton Content="Open Resize Dialog" @onclick="@OpenResizeDialog"></SfButton>
             </div>
-            <SfDialog Target="#target-resize" Width="300px" ShowCloseIcon="true" EnableResize="true" ResizeHandles="@dialogResizeDirections" @bind-Visible="@IsResizeVisible" Header="Resize Dialog" Content="This is a resizing dialog">
+            <SfDialog Target="#target-resize" Width="300px" ShowCloseIcon="true" EnableResize="true" ResizeHandles="@dialogResizeDirections" @bind-Visible="@IsResizeVisible" Header="Resize Dialog" Content="This is a resizing Dialog">
             </SfDialog>
         </div>
 
@@ -181,7 +181,7 @@
         <h5>Draggable Dialog</h5>
     </Header>
     <Content>
-        To enable dragging capabilities, set the <code>AllowDragging</code> property to true on the Dialog component. When enabled, users can drag the dialog by clicking and holding the dialog header area.
+        To enable dragging capabilities, set the <code>AllowDragging</code> property to true on the Dialog component. When enabled, users can drag the Dialog by clicking and holding the Dialog header area.
     </Content>
 </Description>
 
@@ -221,7 +221,7 @@
             <SfDialog Target="#btn-target" Width="250px" ShowCloseIcon="true" @bind-Visible="@IsButtonVisible">
                 <DialogTemplates>
                     <Header> Dialog </Header>
-                    <Content>This is a standard dialog with footer buttons</Content>
+                    <Content>This is a standard Dialog with footer buttons</Content>
                 </DialogTemplates>
                 <DialogButtons>
                     <DialogButton Content="OK" IsPrimary="true" OnClick="@OnOkClick" />
@@ -245,7 +245,7 @@
         <h5>Full Screen</h5>
     </Header>
     <Content>
-        You can show the dialog in full screen by passing <code>true</code> as argument to the dialog <code>ShowAsync</code> method. By using the Visible property, you can prevent the dialog from showing initially.
+        You can show the Dialog in full screen by passing <code>true</code> as argument to the Dialog <code>ShowAsync</code> method. By using the Visible property, you can prevent the Dialog from showing initially.
     </Content>
 </Description>
 
@@ -261,7 +261,7 @@
                 <Content>
                     <div style="padding:16px; line-height:1.7;">
                         <p>General knowledge helps people connect ideas across science, history, geography, technology, and daily life. It is the kind of information that makes conversations easier, decision-making clearer, and learning more enjoyable. For example, knowing how weather changes, why oceans influence climate, or how the internet connects devices gives a broader view of the world around us. Small facts often lead to bigger understanding, and that is why general knowledge remains useful in school, work, and everyday situations.</p>
-                        <p>In a full-screen dialog, this kind of descriptive content works well because it creates room for comfortable reading and smooth scrolling. Users can focus on the message without feeling constrained by a small panel, and the larger layout gives the demo a more polished presentation. A clear header, readable spacing, and meaningful text together improve the visual balance of the component and make the experience feel more complete, modern, and practical.</p>
+                        <p>In a full-screen Dialog, this kind of descriptive content works well because it creates room for comfortable reading and smooth scrolling. Users can focus on the message without feeling constrained by a small panel, and the larger layout gives the demo a more polished presentation. A clear header, readable spacing, and meaningful text together improve the visual balance of the component and make the experience feel more complete, modern, and practical.</p>
                     </div>
                 </Content>
             </DialogTemplates>
@@ -302,14 +302,14 @@
         <h5>Predefined Dialog</h5>
     </Header>
     <Content>
-        <p>The <code>SfDialogService</code> enables predefined dialogs (<b>Alert</b>, <b>Confirm</b>, <b>Prompt</b>) that can be invoked from code without declaring dialog components in each page. To use these features in a real project you must register Syncfusion services and add the dialog provider at app root.</p>
+        <p>The <code>SfDialogService</code> enables Predefined dialogs (<b>Alert</b>, <b>Confirm</b>, <b>Prompt</b>) that can be invoked from code without declaring Dialog components in each page. To use these features in a real project you must register Syncfusion services and add the Dialog provider at app root.</p>
 
         <h6>Register And Dialog Service</h6>
         <p>Add the Syncfusion services and register <code>SfDialogService</code> in <code>Program.cs</code> (or your startup file):</p>
         <CodePreview FileName="Program.cs" IsCodeAlone="true" CodeSection="builder.Services.AddScoped<SfDialogService/>();"></CodePreview>
 
         <h6>Add The Dialog Provider</h6>
-        <p>Place the dialog provider near the root of the app (for example in <code>App.razor</code> or your main layout) so predefined dialogs can render correctly:</p>
+        <p>Place the Dialog provider near the root of the app (for example in <code>App.razor</code> or your main layout) so Predefined dialogs can render correctly:</p>
         <CodePreview FileName="MainLayout.razor" IsCodeAlone="true" CodeSection="<SfDialogProvider/>"></CodePreview>
 
         <p>With these steps completed you can call <code>DialogService.AlertAsync</code>, <code>DialogService.ConfirmAsync</code>, and <code>DialogService.PromptAsync</code> from pages, components or services and capture results via the returned <code>Task</code>.</p>
@@ -335,7 +335,7 @@
     <div>
         <SfButton @onclick=""@OpenDialog"">Open Dialog</SfButton>
     </div>
-    <SfDialog Target=""#target"" Width=""250px"" @bind-Visible=""@IsVisible"" Header=""Dialog Header"" Content=""Here dialog with Content property."" ShowCloseIcon=""true""></SfDialog>
+    <SfDialog Target=""#target"" Width=""250px"" @bind-Visible=""@IsVisible"" Header=""Dialog Header"" Content=""Here Dialog with Content property."" ShowCloseIcon=""true""></SfDialog>
 </div>
     <style>
         #target {
@@ -355,7 +355,7 @@
     <div>
         <SfButton @onclick=""@OpenModalDialog"">Open Modal Dialog</SfButton>
      </div>
-    <SfDialog Target=""#modaltarget"" Width=""250px"" IsModal=""true"" @bind-Visible=""@IsModalVisible"" Header=""Modal Dialog"" Content=""This is a modal dialog"" ShowCloseIcon=""true""></SfDialog>
+    <SfDialog Target=""#modaltarget"" Width=""250px"" IsModal=""true"" @bind-Visible=""@IsModalVisible"" Header=""Modal Dialog"" Content=""This is a modal Dialog"" ShowCloseIcon=""true""></SfDialog>
 </div>
 
 <style>
@@ -402,7 +402,7 @@
     <div>
         <SfButton Content=""Open Resize Dialog"" @onclick=""@OpenResizeDialog""></SfButton>
     </div>
-    <SfDialog Target=""#target-resize"" Width=""300px"" ShowCloseIcon=""true"" EnableResize=""true"" ResizeHandles=""@dialogResizeDirections"" @bind-Visible=""@IsResizeVisible"" Header=""Resize Dialog"" Content=""This is a resizing dialog"">
+    <SfDialog Target=""#target-resize"" Width=""300px"" ShowCloseIcon=""true"" EnableResize=""true"" ResizeHandles=""@dialogResizeDirections"" @bind-Visible=""@IsResizeVisible"" Header=""Resize Dialog"" Content=""This is a resizing Dialog"">
     </SfDialog>
 </div>
 
@@ -428,7 +428,7 @@
     <SfDialog Target=""#btn-target"" Width=""250px"" ShowCloseIcon=""true"" @bind-Visible=""@IsButtonVisible"">
         <DialogTemplates>
             <Header> Dialog </Header>
-            <Content>This is a standard dialog with footer buttons</Content>
+            <Content>This is a standard Dialog with footer buttons</Content>
         </DialogTemplates>
         <DialogButtons>
             <DialogButton Content=""OK"" IsPrimary=""true"" OnClick=""@OnOkClick"" />
@@ -523,7 +523,7 @@
         <Content>
             <div style=""padding:16px; line-height:1.7;"">
                 <p>General knowledge helps people connect ideas across science, history, geography, technology, and daily life. It is the kind of information that makes conversations easier, decision-making clearer, and learning more enjoyable. For example, knowing how weather changes, why oceans influence climate, or how the internet connects devices gives a broader view of the world around us. Small facts often lead to bigger understanding, and that is why general knowledge remains useful in school, work, and everyday situations.</p>
-                <p>In a full-screen dialog, this kind of descriptive content works well because it creates room for comfortable reading and smooth scrolling. Users can focus on the message without feeling constrained by a small panel, and the larger layout gives the demo a more polished presentation. A clear header, readable spacing, and meaningful text together improve the visual balance of the component and make the experience feel more complete, modern, and practical.</p>
+                <p>In a full-screen Dialog, this kind of descriptive content works well because it creates room for comfortable reading and smooth scrolling. Users can focus on the message without feeling constrained by a small panel, and the larger layout gives the demo a more polished presentation. A clear header, readable spacing, and meaningful text together improve the visual balance of the component and make the experience feel more complete, modern, and practical.</p>
             </div>
         </Content>
     </DialogTemplates>

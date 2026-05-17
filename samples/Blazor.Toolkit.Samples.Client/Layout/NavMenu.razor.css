@@ -146,9 +146,10 @@ details[open] > .menu-summary::after {
 
 .sidebar ::deep li a.nav-link {
     font-size: .8125rem;
-    font-weight: 400;
+    font-weight: 600 !important;
     font-stretch: 100%;
     line-height: 1.45;
+    letter-spacing: .18px;
 }
 
 .open-page {

@@ -314,9 +314,9 @@
     <TimePickerMaskPlaceholder Hour=""hour"" Minute=""minute"" Second=""second""></TimePickerMaskPlaceholder>
 </SfTimePicker>
 code {
-	public DateTime? MaskTimeValue { get; set; } = new DateTime(2022, 12, 11, 11, 30, 00);
+	public DateTime? MaskTimeValue { get; set; } = new DateTime(DateTime.Now.Year, DateTime.Now.Month, 11, 11, 30, 00);
 }";
-	public DateTime? MaskTimeValue { get; set; } = new DateTime(2022, 12, 11, 11, 30, 00);
+	public DateTime? MaskTimeValue { get; set; } = new DateTime(DateTime.Now.Year, DateTime.Now.Month, 11, 11, 30, 00);
 
 	//TimeOnly
 	private string TimeOnlyCode => @"<SfTimePicker TValue=""TimeOnly"" @bind-Value=""@Value"" PlaceHolder=""Select a time""></SfTimePicker>";

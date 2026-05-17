@@ -28,6 +28,9 @@ const Resize = (function (exports) {
         (args.direction || '').split(' ').forEach(d => {
             if (!d || !d.trim()) return;
             var iconClass = d === 'south-east' ? 'e-toolkit-icons e-resizer-right ' : 'e-toolkit-icons ';
+            if (args.proxy.enableRtl && d === 'south-west') {
+                iconClass += 'e-resizer-right ';
+            }
             if (dialogBorderResize.indexOf(d) >= 0) setBorderResizeElm(d);
             else targetElement.appendChild(sfBlazorToolkit.base.createElement('div', { className: iconClass + RESIZE_HANDLER + ' e-' + d }));
         });

@@ -262,9 +262,11 @@ $uploader-actions-border-radius: $radius-0 $radius-0 $radius-6 $radius-6 !defaul
         min-height: $form-upload-file-list-height;
         padding-bottom: $form-upload-file-list-padding-bottom;
         padding-top: $form-upload-file-list-padding-top;
+        overflow-x: hidden;
 
         #{if(&, '&', '*')} .e-file-container {
           top: $upload-zer-padding-margin;
+          overflow: hidden;
 
           #{if(&, '&', '*')} .e-hidden-input {
             display: none;
@@ -291,6 +293,8 @@ $uploader-actions-border-radius: $radius-0 $radius-0 $radius-6 $radius-6 !defaul
             padding-bottom: $upload-zer-padding-margin;
             padding-top: $form-upload-file-name-padding;
             position: relative;
+            overflow-wrap: break-word;
+            word-break: break-word;
           }
         }
 
@@ -340,6 +344,7 @@ $uploader-actions-border-radius: $radius-0 $radius-0 $radius-6 $radius-6 !defaul
         line-height: $list-line-height;
         min-height: $li-min-height;
         position: relative;
+        overflow-x: hidden;
 
         .e-file-container {
           display: block;
@@ -576,6 +581,16 @@ $uploader-actions-border-radius: $radius-0 $radius-0 $radius-6 $radius-6 !defaul
             }
 
             #{if(&, '&', '*')} .e-file-size {
+              direction: ltr;
+              float: $float-right;
+              position: relative;
+              text-align: right;
+              width: $file-container-height;
+            }
+
+            #{if(&, '&', '*')} .e-file-status,
+            #{if(&, '&', '*')} .e-file-information {
+              clear: both;
               direction: ltr;
               float: $float-right;
               position: relative;

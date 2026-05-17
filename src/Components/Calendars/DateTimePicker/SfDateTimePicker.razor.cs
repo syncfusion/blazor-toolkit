@@ -177,19 +177,20 @@ namespace Syncfusion.Blazor.Toolkit.Calendars
             {
                 return;
             }
-
-            // If time popup is rendered, handle time list keyboard actions
-            if (IsListRender)
+            await InvokeAsync(async () =>
             {
-                await HandleTimePopupKeyboardAsync(args).ConfigureAwait(false);
-            }
-            // If time popup is not rendered, delegate to DatePicker's keyboard handling
-            else
-            {
-                await HandleDatePickerKeyboardAsync(args).ConfigureAwait(false);
-            }
+                // If time popup is rendered, handle time list keyboard actions
+                if (IsListRender)
+                {
+                    await HandleTimePopupKeyboardAsync(args).ConfigureAwait(false);
+                }
+                // If time popup is not rendered, delegate to DatePicker's keyboard handling
+                else
+                {
+                    await HandleDatePickerKeyboardAsync(args).ConfigureAwait(false);
+                }
+            }).ConfigureAwait(false);
 
-            // Invoke the OnKeyDown event callback if assigned
             if (OnKeyDown.HasDelegate)
             {
                 await OnKeyDown.InvokeAsync(args).ConfigureAwait(false);
@@ -265,25 +266,36 @@ namespace Syncfusion.Blazor.Toolkit.Calendars
             {
                 if (!IsCalendarRender && !IsListRender)
                 {
-                    // No popup is open: open calendar popup
-                    IsDatePickerPopup = true;
-                    await StrictModeUpdateAsync().ConfigureAwait(false);
-                    await UpdateInputAsync().ConfigureAwait(false);
-                    await ChangeTriggerAsync(args).ConfigureAwait(false);
-                    await OpenPopupAsync(args).ConfigureAwait(false);
+                    await InvokeAsync(async () =>
+                    {
+                        IsDatePickerPopup = true;
+                        await StrictModeUpdateAsync().ConfigureAwait(false);
+                        await UpdateInputAsync().ConfigureAwait(false);
+                        await ChangeTriggerAsync(args).ConfigureAwait(false);
+                        await OpenPopupAsync(args).ConfigureAwait(false);
+                        StateHasChanged();
+                    }).ConfigureAwait(false);
                 }
                 else if (IsCalendarRender && !IsListRender)
                 {
-                    // Calendar popup is open: open time popup
-                    await KeyboardTimePopupActionAsync().ConfigureAwait(false);
+                    await InvokeAsync(KeyboardTimePopupActionAsync).ConfigureAwait(false);
                 }
-                // If time popup is already open, do nothing (it's already handled by HandleTimePopupKeyboardAsync)
             }
             // Handle Alt+Up arrow: close calendar popup and return focus
-            else if (args.Code == "ArrowUp" && args.AltKey && IsCalendarRender && !IsListRender)
+            else if (args.Code == "ArrowUp" && args.AltKey)
             {
-                await HidePopupAsync().ConfigureAwait(false);
-                await FocusAsync().ConfigureAwait(false);
+                if (IsListRender)
+                {
+                    await HidePopupAsync().ConfigureAwait(false);
+                }
+                else if (IsCalendarRender)
+                {
+                    await InvokeAsync(async () =>
+                    {
+                        await HidePopupAsync().ConfigureAwait(false);
+                        await FocusAsync().ConfigureAwait(false);
+                    }).ConfigureAwait(false);
+                }
             }
             // For all other keys, delegate to DatePicker's keyboard handling
             else
@@ -304,20 +316,16 @@ namespace Syncfusion.Blazor.Toolkit.Calendars
         /// </remarks>
         private async Task DelegateToDatePickerKeyboardAsync(KeyboardEventArgs args)
         {
-            // Build the key action string based on the keyboard event
             string keyAction = MapInputKeyToAction(args);
             if (!string.IsNullOrEmpty(keyAction))
             {
-                // Convert KeyboardEventArgs to KeyActions format for DatePicker's handler
-                // Note: KeyActions expects MouseEventArgs, but we initialize with default values
-                // since we're delegating keyboard events through DatePicker's handler
                 KeyActions keyArgs = new()
                 {
                     Action = keyAction,
                     Events = new MouseEventArgs() { },
                     Key = args.Code
                 };
-            await InputKeyActionHandleAsync(keyArgs, CurrentValueAsString, true).ConfigureAwait(false);
+                await InputKeyActionHandleAsync(keyArgs, CurrentValueAsString, true).ConfigureAwait(false);
             }
         }
 
@@ -738,9 +746,16 @@ namespace Syncfusion.Blazor.Toolkit.Calendars
         protected override async Task KeyboardTimePopupActionAsync()
         {
             await HidePopupAsync().ConfigureAwait(false);
+            IsDatePickerPopup = false;
+            if (TimeIcon is not null)
+            {
+                TimeIcon = SfBaseUtils.AddClass(TimeIcon, ACTIVE);
+            }
+
+            await Task.Yield();
             if (!IsListRender)
             {
-                await ShowTimePopupAsync().ConfigureAwait(false);
+                await OpenPopupAsync(null).ConfigureAwait(false);
             }
         }
 
