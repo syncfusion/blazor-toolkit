@@ -9,15 +9,15 @@ namespace Syncfusion.Blazor.Toolkit.Inputs
     /// <remarks>
     /// The <see cref="UploaderFiles"/> component allows you to define files that should be displayed as already uploaded when the <see cref="SfUploader"/> component is initially rendered.
     /// This is useful for scenarios where you want to show previously uploaded files or files that exist on the server.
-    /// The component manages a collection of <see cref="UploaderUploadedFiles"/> objects that represent the preloaded files.
+    /// The component manages a collection of <see cref="UploaderUploadedFile"/> objects that represent the preloaded files.
     /// </remarks>
     /// <example>
     /// The following example shows how to use the <see cref="UploaderFiles"/> component to preload files in an uploader.
     /// <code><![CDATA[
     /// <SfUploader>
     ///     <UploaderFiles>
-    ///         <UploaderUploadedFiles Name="document.pdf" Size="1024000" Type="application/pdf"></UploaderUploadedFiles>
-    ///         <UploaderUploadedFiles Name="image.jpg" Size="512000" Type="image/jpeg"></UploaderUploadedFiles>
+    ///         <UploaderUploadedFile Name="document.pdf" Size="1024000" Type="application/pdf"></UploaderUploadedFile>
+    ///         <UploaderUploadedFile Name="image.jpg" Size="512000" Type="image/jpeg"></UploaderUploadedFile>
     ///     </UploaderFiles>
     /// </SfUploader>
     /// ]]></code>
@@ -39,11 +39,11 @@ namespace Syncfusion.Blazor.Toolkit.Inputs
         /// Gets or sets the collection of uploaded files that are preloaded in the <see cref="SfUploader"/> component.
         /// </summary>
         /// <value>
-        /// A <see cref="List{T}"/> of <see cref="UploaderUploadedFiles"/> objects representing the preloaded files. The default value is an empty list.
+        /// A <see cref="List{T}"/> of <see cref="UploaderUploadedFile"/> objects representing the preloaded files. The default value is an empty list.
         /// </value>
         /// <remarks>
         /// This property contains the list of files that will be displayed as already uploaded when the <see cref="SfUploader"/> component is rendered.
-        /// Each file in the collection is represented by an <see cref="UploaderUploadedFiles"/> object that contains file metadata such as name, size, and type.
+        /// Each file in the collection is represented by an <see cref="UploaderUploadedFile"/> object that contains file metadata such as name, size, and type.
         /// The files in this collection are automatically added to the uploader's file list during component initialization.
         /// </remarks>
         /// <example>
@@ -51,7 +51,7 @@ namespace Syncfusion.Blazor.Toolkit.Inputs
         /// <code><![CDATA[
         /// // Access the files collection
         /// var uploaderFiles = new UploaderFiles();
-        /// uploaderFiles.Files.Add(new UploaderUploadedFiles 
+        /// uploaderFiles.Files.Add(new UploaderUploadedFile 
         /// { 
         ///     Name = "document.pdf", 
         ///     Size = 1024000, 
@@ -59,19 +59,19 @@ namespace Syncfusion.Blazor.Toolkit.Inputs
         /// });
         /// ]]></code>
         /// </example>
-        public List<UploaderUploadedFiles> Files { get; set; } = [];
+        public List<UploaderUploadedFile> Files { get; set; } = [];
 
         /// <summary>
         /// Updates the child property by adding a file to the Files collection.
         /// </summary>
-        /// <param name="file">The <see cref="UploaderUploadedFiles"/> object to be added to the Files collection.</param>
+        /// <param name="file">The <see cref="UploaderUploadedFile"/> object to be added to the Files collection.</param>
         /// <remarks>
         /// This internal method is used by the component infrastructure to add individual file instances to the Files collection.
-        /// It is typically called during the component's initialization phase when child <see cref="UploaderUploadedFiles"/> components are processed.
+        /// It is typically called during the component's initialization phase when child <see cref="UploaderUploadedFile"/> components are processed.
         /// The method provides a way for child components to register themselves with the parent <see cref="UploaderFiles"/> component.
         /// </remarks>
         /// <exception cref="ArgumentNullException">Thrown when <paramref name="file"/> is null.</exception>
-        internal void UpdateChildProperty(UploaderUploadedFiles file)
+        internal void UpdateChildProperty(UploaderUploadedFile file)
         {
             if (file == null)
             {

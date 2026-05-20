@@ -87,6 +87,38 @@
                 document.documentElement.classList.remove('dark');
                 document.body.classList.remove('e-dark-mode');
             }
+
+            window.dispatchEvent(new CustomEvent('mainlayout-themechanged', { detail: theme }));
+        } catch(e){}
+    };
+
+    window.mainLayout.observeTheme = function(dotNetRef){
+        try{
+            window.mainLayout._themeDotNetRef = dotNetRef;
+
+            if (!window.mainLayout._themeHandler) {
+                window.mainLayout._themeHandler = function (e) {
+                    try {
+                        var theme = (e && e.detail) ? e.detail : (document.documentElement.classList.contains('dark') ? 'dark' : 'light');
+                        window.mainLayout._themeDotNetRef.invokeMethodAsync('NotifyThemeChanged', theme);
+                    } catch(err){}
+                };
+
+                window.addEventListener('mainlayout-themechanged', window.mainLayout._themeHandler);
+            }
+
+            var currentTheme = document.documentElement.classList.contains('dark') ? 'dark' : 'light';
+            dotNetRef.invokeMethodAsync('NotifyThemeChanged', currentTheme);
+        } catch(e){}
+    };
+
+    window.mainLayout.disposeThemeObserver = function(){
+        try{
+            if (window.mainLayout._themeHandler) {
+                window.removeEventListener('mainlayout-themechanged', window.mainLayout._themeHandler);
+                window.mainLayout._themeHandler = null;
+            }
+            window.mainLayout._themeDotNetRef = null;
         } catch(e){}
     };
 

@@ -118,7 +118,7 @@ namespace Syncfusion.Blazor.Toolkit.Tests.Inputs.Uploader
                 .Add(p => p.EnableHtmlSanitizer, true)
                 .Add(p => p.ShowFileList, true)
                 .AddChildContent<UploaderFiles>(files => files
-                    .AddChildContent<UploaderUploadedFiles>(file => file
+                    .AddChildContent<UploaderUploadedFile>(file => file
                         .Add(f => f.Name, maliciousName)
                         .Add(f => f.Size, 1234)
                         .Add(f => f.Type, "jpg")))) ;

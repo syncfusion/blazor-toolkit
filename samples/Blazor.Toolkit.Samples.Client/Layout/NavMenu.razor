@@ -19,9 +19,6 @@
                     <details class="menu-group" open='@(IsAnyGroupOpen("blazor-web-app", "blazor-webassembly-app"))'>
                         <summary class="menu-summary">Getting Started</summary>
                         <ul class="ms-3 list-unstyled">
-                            @* <li class="last-li-child">
-                                <NavLink class="nav-link" href="getting-started">Installation</NavLink>
-                            </li> *@
                              <li class="last-li-child">
                                 <NavLink class="nav-link" href="blazor-web-app">Blazor Web App</NavLink>
                             </li>
@@ -192,31 +189,6 @@
                         </ul>
                     </details>
                 </li>
-                <li class="mb-2">
-                    <details class="menu-group" open='@(_firstRender || _chartsSectionsExpanded || IsAnyGroupOpen("charts/stripline", "charts/datalabel", "charts/marker", "charts/annotation", "charts/trendline", "charts/legend"))'>
-                        <summary class="menu-summary">Chart Elements</summary>
-                        <ul class="ms-3 list-unstyled">
-                            <li class="last-li-child">
-                                <NavLink class="nav-link" href="charts/stripline">Stripline</NavLink>
-                            </li>
-                            <li class="last-li-child">
-                                <NavLink class="nav-link" href="charts/datalabel">DataLabel</NavLink>
-                            </li>
-                            <li class="last-li-child">
-                                <NavLink class="nav-link" href="charts/marker">Marker</NavLink>
-                            </li>
-                            <li class="last-li-child">
-                                <NavLink class="nav-link" href="charts/annotation">Annotation</NavLink>
-                            </li>
-                            <li class="last-li-child">
-                                <NavLink class="nav-link" href="charts/trendline">Trendline</NavLink>
-                            </li>
-                            <li class="last-li-child">
-                                <NavLink class="nav-link" href="charts/legend">Legend</NavLink>
-                            </li>
-                        </ul>
-                    </details>
-                </li>
 				
                 <li class="mb-2">
                     <details class="menu-group" open='@(_firstRender || _chartsSectionsExpanded || IsAnyGroupOpen("charts/bubble-chart", "charts/scatter-chart"))'>
@@ -240,6 +212,31 @@
                             </li>
                             <li class="last-li-child">
                                 <NavLink class="nav-link" href="charts/bar-chart">Bar Chart</NavLink>
+                            </li>
+                        </ul>
+                    </details>
+                </li>
+                <li class="mb-2">
+                    <details class="menu-group" open='@(_firstRender || _chartsSectionsExpanded || IsAnyGroupOpen("charts/stripline", "charts/datalabel", "charts/marker", "charts/annotation", "charts/trendline", "charts/legend"))'>
+                        <summary class="menu-summary">Chart Elements</summary>
+                        <ul class="ms-3 list-unstyled">
+                            <li class="last-li-child">
+                                <NavLink class="nav-link" href="charts/stripline">Stripline</NavLink>
+                            </li>
+                            <li class="last-li-child">
+                                <NavLink class="nav-link" href="charts/datalabel">DataLabel</NavLink>
+                            </li>
+                            <li class="last-li-child">
+                                <NavLink class="nav-link" href="charts/marker">Marker</NavLink>
+                            </li>
+                            <li class="last-li-child">
+                                <NavLink class="nav-link" href="charts/annotation">Annotation</NavLink>
+                            </li>
+                            <li class="last-li-child">
+                                <NavLink class="nav-link" href="charts/trendline">Trendline</NavLink>
+                            </li>
+                            <li class="last-li-child">
+                                <NavLink class="nav-link" href="charts/legend">Legend</NavLink>
                             </li>
                         </ul>
                     </details>
@@ -301,7 +298,9 @@
                     </details>
                 </li>
             }
-
+            <li class="mb-2 open-page">
+                <NavLink class="nav-link" href="https://help.syncfusion.com/cr/blazor-toolkit/Syncfusion.Blazor.Toolkit.html" target="_blank">API Reference</NavLink>
+            </li>
         </ul>
     </nav>
 </div>

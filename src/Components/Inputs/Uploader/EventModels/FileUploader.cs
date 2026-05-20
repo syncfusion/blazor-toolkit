@@ -2226,7 +2226,7 @@ namespace Syncfusion.Blazor.Toolkit.Inputs
         /// Gets or sets the list of files that will be preloaded when the uploader component is rendered.
         /// </summary>
         /// <value>
-        /// A <see cref="List{UploaderUploadedFiles}"/> containing the preloaded file configurations, or <c>null</c> if no files are preloaded.
+        /// A <see cref="List{UploaderUploadedFile}"/> containing the preloaded file configurations, or <c>null</c> if no files are preloaded.
         /// </value>
         /// <remarks>
         /// This property is used to display and manage files that have already been uploaded to the server.
@@ -2242,7 +2242,7 @@ namespace Syncfusion.Blazor.Toolkit.Inputs
         /// </remarks>
         [DefaultValue(null)]
         [JsonPropertyName("files")]
-        public List<UploaderUploadedFiles>? Files { get; set; }
+        public List<UploaderUploadedFile>? Files { get; set; }
 
         /// <summary>
         /// Gets or sets additional HTML attributes to be applied to the root element of the uploader component.

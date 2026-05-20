@@ -1202,7 +1202,7 @@ namespace Syncfusion.Blazor.Toolkit.Inputs
             // Pre-allocate capacity for better performance
             FileData ??= new List<UploadFileDetails>(UploadedFiles.Count);
 
-            foreach (UploaderUploadedFiles data in UploadedFiles)
+            foreach (UploaderUploadedFile data in UploadedFiles)
             {
                 UploadFileDetails preloadFileData = CreatePreloadFileDetails(data);
                 FileData.Add(preloadFileData);
@@ -1222,7 +1222,7 @@ namespace Syncfusion.Blazor.Toolkit.Inputs
             // Pre-allocate capacity for better performance
             UploadedFilesInfo ??= new List<FileInfo>(UploadedFiles.Count);
 
-            foreach (UploaderUploadedFiles filedata in UploadedFiles)
+            foreach (UploaderUploadedFile filedata in UploadedFiles)
             {
                 FileInfo preloadFile = CreatePreloadFileInfo(filedata);
                 UploadedFilesInfo.Add(preloadFile);
@@ -1234,7 +1234,7 @@ namespace Syncfusion.Blazor.Toolkit.Inputs
         /// </summary>
         /// <param name="data">The uploaded file data.</param>
         /// <returns>A new UploadFileDetails instance.</returns>
-        private UploadFileDetails CreatePreloadFileDetails(UploaderUploadedFiles data)
+        private UploadFileDetails CreatePreloadFileDetails(UploaderUploadedFile data)
         {
             return new UploadFileDetails
             {
@@ -1251,7 +1251,7 @@ namespace Syncfusion.Blazor.Toolkit.Inputs
         /// </summary>
         /// <param name="data">The uploaded file data.</param>
         /// <returns>A new FileInfo instance.</returns>
-        private FileInfo CreatePreloadFileInfo(UploaderUploadedFiles data)
+        private FileInfo CreatePreloadFileInfo(UploaderUploadedFile data)
         {
             return new FileInfo
             {
@@ -1837,7 +1837,7 @@ namespace Syncfusion.Blazor.Toolkit.Inputs
             switch (key)
             {
                 case "Files":
-                    UploadedFiles = _files = (List<UploaderUploadedFiles>)fieldValue!;
+                    UploadedFiles = _files = (List<UploaderUploadedFile>)fieldValue!;
                     break;
                 case "AsyncSettings":
                     UploaderAsyncSettings asyncSetting = fieldValue == null ? new UploaderAsyncSettings() : (UploaderAsyncSettings)fieldValue;

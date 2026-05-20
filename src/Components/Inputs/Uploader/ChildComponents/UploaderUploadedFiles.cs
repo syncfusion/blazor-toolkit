@@ -8,7 +8,7 @@ namespace Syncfusion.Blazor.Toolkit.Inputs
     /// Represents a list of files that are preloaded and displayed in the <see cref="SfUploader"/> component during initial rendering.
     /// </summary>
     /// <remarks>
-    /// The <see cref="UploaderUploadedFiles"/> class is used to configure files that should appear as already uploaded when the <see cref="SfUploader"/> component is first rendered.
+    /// The <see cref="UploaderUploadedFile"/> class is used to configure files that should appear as already uploaded when the <see cref="SfUploader"/> component is first rendered.
     /// This is useful for scenarios where you need to show existing files that were previously uploaded, allowing users to see and manage them alongside new uploads.
     /// Each instance represents a single uploaded file with properties like name, size, and type that define the file's metadata.
     /// </remarks>
@@ -17,13 +17,13 @@ namespace Syncfusion.Blazor.Toolkit.Inputs
     /// <code><![CDATA[
     /// <SfUploader>
     ///     <UploaderFiles>
-    ///         <UploaderUploadedFiles Name="Document1.pdf" Size="2048576" Type="application/pdf" />
-    ///         <UploaderUploadedFiles Name="Image1.jpg" Size="1024000" Type="image/jpeg" />
+    ///         <UploaderUploadedFile Name="Document1.pdf" Size="2048576" Type="application/pdf" />
+    ///         <UploaderUploadedFile Name="Image1.jpg" Size="1024000" Type="image/jpeg" />
     ///     </UploaderFiles>
     /// </SfUploader>
     /// ]]></code>
     /// </example>
-    public class UploaderUploadedFiles : SfBaseComponent
+    public class UploaderUploadedFile : SfBaseComponent
     {
         [CascadingParameter]
         private UploaderFiles? Parent { get; set; }

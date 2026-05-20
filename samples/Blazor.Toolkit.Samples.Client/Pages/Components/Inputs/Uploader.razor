@@ -39,7 +39,7 @@
         <h5><b>Preloaded files</b></h5>
     </Header>
     <Content>
-        The FileUpload component supports displaying a list of files that are already available on the server as <b>UploaderUploadedFiles</b>.
+        The FileUpload component supports displaying a list of files that are already available on the server as <b>UploaderUploadedFile</b>.
         This is useful for editing scenarios where users need to see and potentially remove existing files before uploading new ones.
     </Content>
 </Description>
@@ -48,9 +48,9 @@
     <PreviewSection>
         <SfUploader CssClass="e-custom-uploader">
             <UploaderFiles>
-                <UploaderUploadedFiles Name="Nature" Size=500000 Type=".png"></UploaderUploadedFiles>
-                <UploaderUploadedFiles Name="TypeScript Succinctly" Size=12000 Type=".pdf"></UploaderUploadedFiles>
-                <UploaderUploadedFiles Name="ASP.NET Webhooks" Size="500000" Type=".docx"></UploaderUploadedFiles>
+                <UploaderUploadedFile Name="Nature" Size=500000 Type=".png"></UploaderUploadedFile>
+                <UploaderUploadedFile Name="TypeScript Succinctly" Size=12000 Type=".pdf"></UploaderUploadedFile>
+                <UploaderUploadedFile Name="ASP.NET Webhooks" Size="500000" Type=".docx"></UploaderUploadedFile>
             </UploaderFiles>
         </SfUploader>
     </PreviewSection>
@@ -409,9 +409,9 @@
     private string PreloadedFilesCode =>
         @" <SfUploader>
     <UploaderFiles>
-        <UploaderUploadedFiles Name=""Nature"" Size=500000 Type="".png""></UploaderUploadedFiles>
-        <UploaderUploadedFiles Name=""TypeScript Succinctly"" Size=12000 Type="".pdf""></UploaderUploadedFiles>
-        <UploaderUploadedFiles Name=""ASP.NET Webhooks"" Size=""500000"" Type="".docx""></UploaderUploadedFiles>
+        <UploaderUploadedFile Name=""Nature"" Size=500000 Type="".png""></UploaderUploadedFile>
+        <UploaderUploadedFile Name=""TypeScript Succinctly"" Size=12000 Type="".pdf""></UploaderUploadedFile>
+        <UploaderUploadedFile Name=""ASP.NET Webhooks"" Size=""500000"" Type="".docx""></UploaderUploadedFile>
     </UploaderFiles>
 </SfUploader>";
 
