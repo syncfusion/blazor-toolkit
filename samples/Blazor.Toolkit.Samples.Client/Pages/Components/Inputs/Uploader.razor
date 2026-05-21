@@ -26,7 +26,7 @@
 
 <CodePreview CodeSection="@BasicCode">
     <PreviewSection>
-        <SfUploader CssClass="e-custom-uploader">
+        <SfUploader CssClass="e-custom-uploader" ID="UploadFiles">
             <UploaderAsyncSettings SaveUrl="https://blazor.syncfusion.com/services/production/api/FileUploader/Save"
                                    RemoveUrl="https://blazor.syncfusion.com/services/production/api/FileUploader/Remove" />
         </SfUploader>
@@ -180,7 +180,7 @@
 
 <CodePreview CodeSection="@TemplateCode">
     <PreviewSection>
-        <SfUploader CssClass="e-custom-uploader" ID="Files" AutoUpload="false">
+        <SfUploader CssClass="e-custom-uploader" ID="UploadFiles" AutoUpload="false">
             <UploaderAsyncSettings SaveUrl="https://blazor.syncfusion.com/services/production/api/FileUploader/Save"
                                    RemoveUrl="https://blazor.syncfusion.com/services/production/api/FileUploader/Remove"></UploaderAsyncSettings>
             <UploaderTemplates>
@@ -208,7 +208,7 @@
 
 <CodePreview CodeSection="@EventsCode">
     <PreviewSection>
-        <SfUploader CssClass="e-custom-uploader" ID="simpleUploader"
+        <SfUploader CssClass="e-custom-uploader" ID="UploadFiles"
                     AllowMultiple="true"
                     AutoUpload="false"
                     DirectoryUpload="false"
@@ -401,7 +401,7 @@
 
     // Code strings for CodeSection panes
     private string BasicCode => 
-    @"<SfUploader>
+    @"<SfUploader ID=""UploadFiles"">
             <UploaderAsyncSettings SaveUrl=""https://blazor.syncfusion.com/services/production/api/FileUploader/Save"" 
                                    RemoveUrl=""https://blazor.syncfusion.com/services/production/api/FileUploader/Remove""/>
 </SfUploader>";
@@ -416,13 +416,13 @@
 </SfUploader>";
 
     private string MultipleCode => 
-    @"<SfUploader AllowMultiple=""true"">
+    @"<SfUploader AllowMultiple=""true"" ID=""UploadFiles"">
             <UploaderAsyncSettings SaveUrl=""https://blazor.syncfusion.com/services/production/api/FileUploader/Save""
                                    RemoveUrl=""https://blazor.syncfusion.com/services/production/api/FileUploader/Remove"" />
 </SfUploader>";
 
     private string AutoUploadCode => 
-    @"<SfUploader AutoUpload=""true"">
+    @"<SfUploader AutoUpload=""true"" ID=""UploadFiles"">
             <UploaderAsyncSettings SaveUrl=""https://blazor.syncfusion.com/services/production/api/FileUploader/Save""
                                    RemoveUrl=""https://blazor.syncfusion.com/services/production/api/FileUploader/Remove"" />
 </SfUploader>";
@@ -472,7 +472,7 @@
     }
 }";
 
-    private string TemplateCode => @"<SfUploader ID=""Files"" AutoUpload=""false"">
+    private string TemplateCode => @"<SfUploader ID=""UploadFiles"" AutoUpload=""false"">
     <UploaderAsyncSettings SaveUrl=""https://blazor.syncfusion.com/services/production/api/FileUploader/Save""
                            RemoveUrl=""https://blazor.syncfusion.com/services/production/api/FileUploader/Remove""></UploaderAsyncSettings>
     <UploaderTemplates>
@@ -486,7 +486,7 @@
     </UploaderTemplates>
 </SfUploader>";
 
-    private string EventsCode => @"<SfUploader CssClass=""e-custom-uploader"" ID=""simpleUploader""
+    private string EventsCode => @"<SfUploader CssClass=""e-custom-uploader"" ID=""UploadFiles""
                     AllowMultiple=""true""
                     AutoUpload=""false""
                     DirectoryUpload=""false""
