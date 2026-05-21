@@ -8,7 +8,7 @@ namespace Syncfusion.Blazor.Toolkit
     /// <summary>
     /// Extension method to register Syncfusion Blazor services into the <see href="https://docs.microsoft.com/en-us/dotnet/api/microsoft.extensions.dependencyinjection.iservicecollection">service collection</see>.
     /// </summary>
-    public static class SyncfusionBlazor
+    public static class SyncfusionBlazorToolkit
     {
         /// <summary>
         /// Registers Syncfusion Blazor Toolkit services and optional global configuration.
@@ -23,9 +23,9 @@ namespace Syncfusion.Blazor.Toolkit
             _ = services.AddSingleton(sp =>
             {
                 IStringLocalizerFactory factory = sp.GetRequiredService<IStringLocalizerFactory>();
-                return factory.Create("Base.SfToolkitResources", typeof(SyncfusionBlazor).Assembly.GetName().Name!);
+                return factory.Create("Base.SfToolkitResources", typeof(SyncfusionBlazorToolkit).Assembly.GetName().Name!);
             });
-            _ = services.AddScoped<SyncfusionBlazorService>();
+            _ = services.AddScoped<SyncfusionBlazorToolkitService>();
             if (configure is not null)
             {
                 _ = services.Configure(configure);
@@ -41,7 +41,7 @@ namespace Syncfusion.Blazor.Toolkit
     /// <summary>
     /// Represents an instance of Syncfusion Blazor service.
     /// </summary>
-    public class SyncfusionBlazorService(IOptions<GlobalOptions>? configure)
+    public class SyncfusionBlazorToolkitService(IOptions<GlobalOptions>? configure)
     {
         internal readonly GlobalOptions _options = configure?.Value ?? new GlobalOptions();
 

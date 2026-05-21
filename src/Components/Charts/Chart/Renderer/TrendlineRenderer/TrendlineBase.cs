@@ -30,9 +30,9 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
         /// <summary>
         /// Gets or sets the Syncfusion service for accessing global animation settings.
         /// </summary>
-        /// <value>The injected <see cref="SyncfusionBlazorService"/>, or <see langword="null"/> if not available.</value>
+        /// <value>The injected <see cref="SyncfusionBlazorToolkitService"/>, or <see langword="null"/> if not available.</value>
         [Inject]
-        internal SyncfusionBlazorService? SyncfusionService { get; set; }
+        internal SyncfusionBlazorToolkitService? SyncfusionService { get; set; }
         #endregion
 
         #region Private Methods

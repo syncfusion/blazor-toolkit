@@ -176,7 +176,7 @@ namespace Syncfusion.Blazor.Toolkit
 
         [Inject]
         [JsonIgnore]
-        internal SyncfusionBlazorService? SyncfusionService { get; set; }
+        internal SyncfusionBlazorToolkitService? SyncfusionService { get; set; }
 
         [JsonIgnore]
         internal Dictionary<string, DataManager> DataManagerContainer { get; set; } = [];

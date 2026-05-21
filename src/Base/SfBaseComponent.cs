@@ -16,7 +16,7 @@ namespace Syncfusion.Blazor.Toolkit
         internal IJSRuntime? JSRuntime { get; set; }
 
         [Inject]
-        internal SyncfusionBlazorService? SyncfusionService { get; set; }
+        internal SyncfusionBlazorToolkitService? SyncfusionService { get; set; }
 
         internal IJSObjectReference? _baseJsModule;
         internal IJSInProcessObjectReference? _baseJsInProcessModule;
