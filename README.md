@@ -109,9 +109,7 @@ The following Razor code demonstrates how to set up a basic `SfChart` using the 
 <SfChart Height="330px" Title="Online vs Retails">
     <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Toolkit.ValueType.Category" />
     <ChartPrimaryYAxis Title="Sales in Units">
-    </ChartPrimaryYAxis>
-
-    <ChartSeriesCollection>
+    </ChartPrimaryYAxis>   
         <ChartSeries DataSource="@ChartData"
                      XName="X"
                      YName="Y"
@@ -125,8 +123,7 @@ The following Razor code demonstrates how to set up a basic `SfChart` using the 
                      Type="ChartSeriesType.SplineArea"
                      Name="Retails"
                      Fill="#FF00CC80"
-                     Opacity="0.5" />
-    </ChartSeriesCollection>
+                     Opacity="0.5" /> 
     <ChartLegendSettings Visible="true"></ChartLegendSettings>
     <ChartTooltipSettings Enable="true"
                           Format="${point.x} : <b>${point.y} Units</b>" />

@@ -130,7 +130,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts
         /// <exclude />
         /// <summary>
         /// Initializes the gradient by setting its renderer type.
-        /// </summary>       
+        /// </summary>
         [EditorBrowsable(EditorBrowsableState.Never)]
         [Browsable(false)]
         protected override void OnInitialized()
@@ -142,6 +142,9 @@ namespace Syncfusion.Blazor.Toolkit.Charts
         /// <summary>
         /// Detect changes to parameter values and notify the renderer when they change.
         /// </summary>
+        /// <exclude />
+        [EditorBrowsable(EditorBrowsableState.Never)]
+        [Browsable(false)]
         protected override void OnParametersSet()
         {
             base.OnParametersSet();

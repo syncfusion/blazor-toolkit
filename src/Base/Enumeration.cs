@@ -780,6 +780,7 @@ namespace Syncfusion.Blazor.Toolkit
         /// Renders a numeric axis.
         /// </summary>
         Double,
+
         /// <summary>
         /// Renders a datetime axis.
         /// </summary>

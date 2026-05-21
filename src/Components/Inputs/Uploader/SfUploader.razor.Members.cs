@@ -237,12 +237,12 @@ namespace Syncfusion.Blazor.Toolkit.Inputs
 
         private bool _disabled;
 
-        private List<UploaderUploadedFile>? _files;
+        private List<UploadedFile>? _files;
 
         /// <summary>
         /// Gets or sets the internal uploaded files collection for the component.
         /// </summary>
-        private List<UploaderUploadedFile>? UploadedFiles { get; set; }
+        private List<UploadedFile>? UploadedFiles { get; set; }
 
         /// <summary>
         /// Gets or sets an additional html attributes such as styles, class, and more to add the root element.
