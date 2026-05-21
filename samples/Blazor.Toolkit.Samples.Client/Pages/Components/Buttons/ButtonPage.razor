@@ -1,0 +1,579 @@
+﻿@page "/buttons/button"
+@using Syncfusion.Blazor.Toolkit.Buttons
+@using Microsoft.AspNetCore.Components.Forms
+@using Microsoft.AspNetCore.Components.Web
+@using System.ComponentModel.DataAnnotations
+@using Syncfusion.Blazor.Toolkit.Inputs
+
+<PageTitle>Button | ASP.NET Core Blazor OSS Components</PageTitle>
+
+<!-- ─────────────────────────────────────────────────────────────
+     INTRO / DEFAULT
+     ───────────────────────────────────────────────────────────── -->
+<Description>
+    <Header>
+        <h4><b>Blazor Toolkit Button Component</b></h4>
+    </Header>
+    <Content>
+        The Button component enables user interactions such as submitting forms, toggling states, and invoking actions.
+        This sample demonstrates all Button features, including visual variants, semantic colors, sizes, icons,
+        toggle functionality, disabled states, and form integration. The default Button renders without any styling
+        classes and is suitable for simple or secondary actions.
+    </Content>
+</Description>
+
+<CodePreview CodeSection="@DefaultButtonCode">
+    <PreviewSection>
+            <div class="d-flex gap-5 flex-wrap">
+                <SfButton>Default</SfButton>
+                <SfButton CssClass="e-info">Info</SfButton>
+                <SfButton CssClass="e-success">Success</SfButton>
+                <SfButton CssClass="e-warning">Warning</SfButton>
+                <SfButton CssClass="e-danger">Danger</SfButton>
+            </div>
+    </PreviewSection>
+</CodePreview>
+
+<!-- ─────────────────────────────────────────────────────────────
+     OUTLINE BUTTONS
+     ───────────────────────────────────────────────────────────── -->
+<Description>
+    <Header>
+        <h5><b>Outline Buttons</b></h5>
+    </Header>
+    <Content>
+        Outline Buttons use the <code>e-outline</code> CSS class to display a bordered style with transparent background.
+        This visual type is ideal for secondary actions or providing visual distinction while maintaining a clean, modern appearance.
+        You can combine the outline style with semantic color classes like <code>e-info</code>, <code>e-success</code>,
+        <code>e-warning</code>, and <code>e-danger</code> to communicate the intent of the action.
+    </Content>
+</Description>
+
+<CodePreview CodeSection="@OutlineButtonsCode">
+    <PreviewSection>
+        <div class="d-flex gap-5 flex-wrap">
+            <SfButton CssClass="e-outline">Default</SfButton>
+            <SfButton CssClass="e-outline e-info">Info</SfButton>
+            <SfButton CssClass="e-outline e-success">Success</SfButton>
+            <SfButton CssClass="e-outline e-warning">Warning</SfButton>
+            <SfButton CssClass="e-outline e-danger">Danger</SfButton>
+        </div>
+    </PreviewSection>
+</CodePreview>
+
+<!-- ─────────────────────────────────────────────────────────────
+     TEXT BUTTONS (FLAT)
+     ───────────────────────────────────────────────────────────── -->
+<Description>
+    <Header>
+        <h5><b>Text Buttons (Flat)</b></h5>
+    </Header>
+    <Content>
+        Text Buttons, created using the <code>e-flat</code> CSS class, display a minimal style with no border or background fill.
+        These buttons are perfect for tertiary actions, navigation links, or contexts where visual subtlety is preferred.
+        When combined with semantic color classes such as <code>e-info</code>, <code>e-success</code>, <code>e-warning</code>,
+        and <code>e-danger</code>, text buttons provide clear intent while maintaining a lightweight, clean interface.
+    </Content>
+</Description>
+
+<CodePreview CodeSection="@TextButtonsCode">
+    <PreviewSection>
+        <div class="d-flex gap-5 flex-wrap">
+            <SfButton CssClass="e-flat">Default</SfButton>
+            <SfButton CssClass="e-flat e-info">Info</SfButton>
+            <SfButton CssClass="e-flat e-success">Success</SfButton>
+            <SfButton CssClass="e-flat e-warning">Warning</SfButton>
+            <SfButton CssClass="e-flat e-danger">Danger</SfButton>
+        </div>
+    </PreviewSection>
+</CodePreview>
+
+<!-- ─────────────────────────────────────────────────────────────
+     ROUND BUTTONS
+     ───────────────────────────────────────────────────────────── -->
+<Description>
+    <Header>
+        <h5><b>Round Buttons</b></h5>
+    </Header>
+    <Content>
+        Round Buttons are created using the <code>e-round</code> CSS class to produce a circular or pill-shaped appearance.
+        These buttons are commonly used for icon-only actions, floating action buttons, or compact UI layouts where space
+        is limited. Round Buttons work best with icons via the <code>IconCss</code> property and can be styled using semantic
+        color classes like <code>e-info</code>, <code>e-success</code>, <code>e-warning</code>, and <code>e-danger</code> to reinforce
+        action intent.
+    </Content>
+</Description>
+
+<CodePreview CodeSection="@RoundButtonsCode">
+    <PreviewSection>
+        <div class="d-flex gap-5 flex-wrap">
+            <SfButton CssClass="e-round" IconCss="sb-icons e-plus"></SfButton>
+            <SfButton CssClass="e-round e-info" IconCss="sb-icons e-plus"></SfButton>
+            <SfButton CssClass="e-round e-success" IconCss="sb-icons e-check"></SfButton>
+            <SfButton CssClass="e-round e-warning" IconCss="sb-icons e-edit"></SfButton>
+            <SfButton CssClass="e-round e-danger" IconCss="sb-icons e-close"></SfButton>
+        </div>
+    </PreviewSection>
+</CodePreview>
+
+<!-- ─────────────────────────────────────────────────────────────
+     PRIMARY BUTTONS
+     ───────────────────────────────────────────────────────────── -->
+<Description>
+    <Header>
+        <h5><b>Primary Buttons</b></h5>
+    </Header>
+    <Content>
+        Primary Buttons visually highlight the main action on a page. You can enable primary emphasis using the
+        <code>IsPrimary</code> property or by applying the <code>e-primary</code> CSS class. This provides a stronger
+        visual hierarchy for key actions and can also be combined with semantic color classes to reinforce intent.
+    </Content>
+</Description>
+
+<CodePreview CodeSection="@PrimaryUnifiedCode">
+    <PreviewSection>
+        <div class="mb-3">
+            <div class="d-flex gap-5 flex-wrap align-items-center">
+                <SfButton IsPrimary="true">Primary</SfButton>
+                <SfButton>Default</SfButton>
+            </div>
+        </div>
+    </PreviewSection>
+</CodePreview>
+
+<!-- ─────────────────────────────────────────────────────────────
+     ICONS (unified like Button Types)
+     ───────────────────────────────────────────────────────────── -->
+<Description>
+    <Header>
+        <h5><b>Icons</b></h5>
+    </Header>
+    <Content>
+        Add visual meaning to actions using icons via the <code>IconCss</code> property. Position icons on the left,
+        right, top, or bottom of the Button with <code>IconPosition</code>. For icon‑only Buttons, include an
+        accessible <code>aria-label</code>.
+    </Content>
+</Description>
+
+<CodePreview CodeSection="@IconsUnifiedCode">
+    <PreviewSection>
+        <div class="mb-3">
+            <p class="fw-bold mb-2">Icon with text</p>
+            <div class="d-flex gap-5 flex-wrap">
+                <SfButton CssClass="e-primary" IconCss="sb-icons e-plus">Add New</SfButton>
+                <SfButton CssClass="e-success" IconCss="sb-icons e-save">Save</SfButton>
+                <SfButton CssClass="e-info" IconCss="sb-icons e-refresh">Refresh</SfButton>
+                 <SfButton CssClass="e-primary" IconCss="sb-icons e-send" IconPosition="IconPosition.Right">Send</SfButton>
+                <SfButton CssClass="e-warning" IconCss="sb-icons e-export"  IconPosition="IconPosition.Right">Export</SfButton>
+            </div>
+        </div>
+        <div class="mb-3">
+            <p class="fw-bold mb-2">Icon-only</p>
+            <div class="d-flex gap-3 flex-wrap">
+                <SfButton CssClass="e-success" IconCss="sb-icons e-check"></SfButton>
+                <SfButton CssClass="e-info" IconCss="sb-icons e-settings"></SfButton>
+                <SfButton CssClass="e-danger" IconCss="sb-icons e-close"></SfButton>
+            </div>
+        </div>
+    </PreviewSection>
+</CodePreview>
+
+<!-- ─────────────────────────────────────────────────────────────
+     TOGGLE (merged block)
+     ───────────────────────────────────────────────────────────── -->
+<Description>
+    <Header>
+        <h5><b>Toggle Buttons</b></h5>
+    </Header>
+    <Content>
+        Enable two-state behavior using the <code>IsToggle</code> property to create Buttons that switch between
+        active and inactive states. Apply conditional styling through <code>CssClass</code> to visually reflect the
+        state. Toggle Buttons also support icons using <code>IconCss</code>.
+    </Content>
+</Description>
+
+<CodePreview CodeSection="@UnifiedToggleCode">
+    <PreviewSection>
+
+        <div class="mb-3">
+            <p class="fw-bold mb-2">Toggle with icons</p>
+            <div class="d-flex gap-3 flex-wrap">
+                <SfButton IsToggle="true"
+                          OnClick="@ToggleBold"
+                          CssClass="@($"toggle-btn {(isBold ? "e-filled e-primary" : "e-outline")}")"
+                          IconCss="sb-icons e-bold"
+                          IconPosition="IconPosition.Left"
+                          title="Toggle bold">
+                    @(isBold ? "Bold on" : "Bold off")
+                </SfButton>
+
+                <SfButton IsToggle="true"
+                          OnClick="@ToggleAutoDownload"
+                          CssClass="@($"toggle-btn {(autoDownloadOn ? "e-filled e-info" : "e-outline")}")"
+                          IconCss="sb-icons e-download"
+                          IconPosition="IconPosition.Left"
+                          title="Toggle auto-download">
+                    @(autoDownloadOn ? "Auto-download on" : "Auto-download off")
+                </SfButton>
+            </div>
+        </div>
+
+        <div>
+            <p class="fw-bold mb-2">Icon-only toggle</p>
+            <div class="d-flex gap-2 flex-wrap">
+                <SfButton IsToggle="true"
+                          OnClick="@ToggleSettingsIconOnly"
+                          CssClass="@($"toggle-icon-only {(settingsIconOn ? "e-filled e-primary" : "e-outline")}")"
+                          IconCss="sb-icons e-settings"
+                          title="Settings">
+                </SfButton>
+
+                <SfButton IsToggle="true"
+                          OnClick="@ToggleBookmarkIconOnly"
+                          CssClass="@($"toggle-icon-only {(bookmarkIconOn ? "e-filled e-success" : "e-outline")}")"
+                          IconCss="sb-icons e-bookmark"
+                          title="Bookmark">
+                </SfButton>
+
+                <SfButton IsToggle="true"
+                          OnClick="@TogglePin"
+                          CssClass="@($"toggle-icon-only {(isPinned ? "e-filled e-info" : "e-outline")}")"
+                          IconCss="sb-icons e-pin"
+                          title="Pin">
+                </SfButton>
+            </div>
+
+            <p class="mt-2">
+                <small>
+                    Settings: @(settingsIconOn ? "On" : "Off") |
+                    Bookmark: @(bookmarkIconOn ? "On" : "Off") |
+                    Pinned: @(isPinned ? "Yes" : "No")
+                </small>
+            </p>
+        </div>
+    </PreviewSection>
+</CodePreview>
+
+<!-- ─────────────────────────────────────────────────────────────
+     STATES
+     ───────────────────────────────────────────────────────────── -->
+<Description>
+    <Header>
+        <h5><b>Button States</b></h5>
+    </Header>
+    <Content>
+        Manage interactivity using the <code>Disabled</code> property. Buttons can be permanently disabled or dynamically
+        toggled based on application logic. Disabled Buttons visually indicate unavailable actions while preventing user
+        interaction.
+    </Content>
+</Description>
+
+<CodePreview CodeSection="@StatesUnifiedCode">
+    <PreviewSection>
+        <div class="mb-3">
+            <div class="d-flex gap-5 flex-wrap">
+                <SfButton CssClass="e-primary">Default (Enabled)</SfButton>
+                <SfButton CssClass="e-primary" Disabled="true">Disabled</SfButton>
+            </div>
+        </div>
+
+        <div>
+            <p class="fw-bold mb-2">Interactive state toggle</p>
+            <div class="mb-2">
+                <SfButton OnClick="@(() => isButtonEnabled = !isButtonEnabled)" CssClass="e-outline">
+                    @(isButtonEnabled ? "Disable Button" : "Enable Button")
+                </SfButton>
+            </div>
+            <SfButton CssClass="e-primary" Disabled="@(!isButtonEnabled)">
+                Action Button (@(isButtonEnabled ? "Enabled" : "Disabled"))
+            </SfButton>
+        </div>
+    </PreviewSection>
+</CodePreview>
+
+<!-- ─────────────────────────────────────────────────────────────
+     FORM SUBMIT / RESET
+     ───────────────────────────────────────────────────────────── -->
+<Description>
+    <Header>
+        <h5><b>Form Submit / Reset</b></h5>
+    </Header>
+    <Content>
+        Inside an <code>EditForm</code>, Buttons default to <code>type="submit"</code> and trigger validation through
+        Blazor’s form pipeline. You can set <code>type="reset"</code> to clear the form fields. This example demonstrates how Buttons integrate seamlessly with <code>EditForm</code>, <code>DataAnnotationsValidator</code>, and model binding
+        to perform form submission and reset actions.
+    </Content>
+</Description>
+
+<CodePreview CodeSection="@BasicFormCode">
+    <PreviewSection>
+        <EditForm Model="@basicFormModel"
+                  OnValidSubmit="@HandleBasicSubmit"
+                  @onreset="OnBasicFormReset">
+            <DataAnnotationsValidator />
+            <div class="mb-2">
+                <label class="form-label">Name:</label>
+                <SfTextBox @bind-Value="basicFormModel.Name" Placeholder="Enter your name"></SfTextBox>
+                <ValidationMessage For="@(() => basicFormModel.Name)" />
+            </div>
+            <div class="d-flex gap-2">
+                <SfButton CssClass="e-primary" IconCss="sb-icons e-check" IconPosition="IconPosition.Left" Type="ButtonType.Submit">Submit</SfButton>
+                <SfButton CssClass="e-outline" IconCss="sb-icons e-refresh" IconPosition="IconPosition.Left" Type="ButtonType.Reset">Reset</SfButton>
+            </div>
+        </EditForm>
+        @if (!string.IsNullOrEmpty(basicSubmitted))
+        {
+            <div class="alert alert-success mt-3">
+                <strong>Submitted:</strong> @basicSubmitted
+            </div>
+        }
+    </PreviewSection>
+</CodePreview>
+
+@code {
+    // ─────────────────────────────────────────────────────────
+    // CODE SNIPPETS (only what is used above)
+    // ─────────────────────────────────────────────────────────
+
+    private string DefaultButtonCode => @"<div class=""d-flex gap-5 flex-wrap"">
+    <SfButton>Default</SfButton>
+    <SfButton CssClass=""e-info"">Info</SfButton>
+    <SfButton CssClass=""e-success"">Success</SfButton>
+    <SfButton CssClass=""e-warning"">Warning</SfButton>
+    <SfButton CssClass=""e-danger"">Danger</SfButton>
+</div>";
+
+    private string OutlineButtonsCode => @"<div class=""d-flex gap-5 flex-wrap"">
+    <SfButton CssClass=""e-outline"">Default</SfButton>
+    <SfButton CssClass=""e-outline e-info"">Info</SfButton>
+    <SfButton CssClass=""e-outline e-success"">Success</SfButton>
+    <SfButton CssClass=""e-outline e-warning"">Warning</SfButton>
+    <SfButton CssClass=""e-outline e-danger"">Danger</SfButton>
+</div>";
+
+    private string TextButtonsCode => @"<div class=""d-flex gap-5 flex-wrap"">
+    <SfButton CssClass=""e-flat"">Default</SfButton>
+    <SfButton CssClass=""e-flat e-info"">Info</SfButton>
+    <SfButton CssClass=""e-flat e-success"">Success</SfButton>
+    <SfButton CssClass=""e-flat e-warning"">Warning</SfButton>
+    <SfButton CssClass=""e-flat e-danger"">Danger</SfButton>
+</div>";
+
+    private string RoundButtonsCode => @"<div class=""d-flex gap-5 flex-wrap"">
+    <SfButton CssClass=""e-round"" IconCss=""sb-icons e-plus""></SfButton>
+    <SfButton CssClass=""e-round e-info"" IconCss=""sb-icons e-plus""></SfButton>
+    <SfButton CssClass=""e-round e-success"" IconCss=""sb-icons e-check""></SfButton>
+    <SfButton CssClass=""e-round e-warning"" IconCss=""sb-icons e-edit""></SfButton>
+    <SfButton CssClass=""e-round e-danger"" IconCss=""sb-icons e-close""></SfButton>
+</div>";
+
+    private string PrimaryUnifiedCode => @"<div class=""mb-3"">
+    <div class=""d-flex gap-5 flex-wrap align-items-center"">
+        <SfButton IsPrimary=""true"">Primary</SfButton>
+        <SfButton>Default</SfButton>
+    </div>
+</div>";
+
+    private string IconsUnifiedCode => @"<div class=""mb-3"">
+    <p class=""fw-bold mb-2"">Icon with Text Buttons</p>
+    <div class=""d-flex gap-5 flex-wrap"">
+        <SfButton CssClass=""e-primary"" IconCss=""sb-icons e-plus"">Add New</SfButton>
+        <SfButton CssClass=""e-success"" IconCss=""sb-icons e-save"">Save</SfButton>
+        <SfButton CssClass=""e-info"" IconCss=""sb-icons e-refresh"">Refresh</SfButton>
+        <SfButton CssClass=""e-primary"" IconCss=""sb-icons e-send"" IconPosition=""IconPosition.Right"">Send</SfButton>
+        <SfButton CssClass=""e-warning"" IconCss=""sb-icons e-export"" IconPosition=""IconPosition.Right"">Export</SfButton>
+    </div>
+</div>
+
+<div class=""mb-3"">
+    <p class=""fw-bold mb-2"">Icon-Only Buttons</p>
+    <div class=""d-flex gap-3 flex-wrap"">
+        <SfButton CssClass=""e-success"" IconCss=""sb-icons e-check""></SfButton>
+        <SfButton CssClass=""e-info"" IconCss=""sb-icons e-settings""></SfButton>
+        <SfButton CssClass=""e-danger"" IconCss=""sb-icons e-close""></SfButton>
+    </div>
+</div>";
+
+    private string UnifiedToggleCode => @"
+<p class=""fw-bold mb-2 mt-3"">Toggle with Icons</p>
+<div class=""d-flex gap-2 flex-wrap"">
+    <SfButton IsToggle=""true""
+              OnClick=""@ToggleBold""
+              CssClass=""@($""toggle-btn {(isBold ? ""e-filled e-primary"" : ""e-outline"")}"")""
+              IconCss=""sb-icons e-bold""
+              IconPosition=""IconPosition.Left""
+              title=""Toggle bold"">
+        @(isBold ? ""Bold on"" : ""Bold off"")
+    </SfButton>
+
+    <SfButton IsToggle=""true""
+              OnClick=""@ToggleAutoDownload""
+              CssClass=""@($""toggle-btn {(autoDownloadOn ? ""e-filled e-info"" : ""e-outline"")}"")""
+              IconCss=""sb-icons e-download""
+              IconPosition=""IconPosition.Left""
+              title=""Toggle auto-download"">
+        @(autoDownloadOn ? ""Auto-download on"" : ""Auto-download off"")
+    </SfButton>
+</div>
+
+<p class=""fw-bold mb-2 mt-3"">Icon Only</p>
+<div class=""d-flex gap-2 flex-wrap"">
+    <SfButton IsToggle=""true""
+              OnClick=""@ToggleSettingsIconOnly""
+              CssClass=""@($""toggle-icon-only {(settingsIconOn ? ""e-filled e-primary"" : ""e-outline"")}"")""
+              IconCss=""sb-icons e-settings""
+              title=""Settings"">
+    </SfButton>
+
+    <SfButton IsToggle=""true""
+              OnClick=""@ToggleBookmarkIconOnly""
+              CssClass=""@($""toggle-icon-only {(bookmarkIconOn ? ""e-filled e-success"" : ""e-outline"")}"")""
+              IconCss=""sb-icons e-bookmark""
+              title=""Bookmark"">
+    </SfButton>
+
+    <SfButton IsToggle=""true""
+              OnClick=""@TogglePin""
+              CssClass=""@($""toggle-icon-only {(isPinned ? ""e-filled e-info"" : ""e-outline"")}"")""
+              IconCss=""sb-icons e-pin""
+              title=""Pin"">
+    </SfButton>
+</div>
+
+<p class=""mt-2"">
+    <small>
+        Settings: @(settingsIconOn ? ""On"" : ""Off"") |
+        Bookmark: @(bookmarkIconOn ? ""On"" : ""Off"") |
+        Pinned: @(isPinned ? ""Yes"" : ""No"")
+    </small>
+</p>
+
+@code {
+    private bool isBold;
+    private bool autoDownloadOn;
+    private bool settingsIconOn;
+    private bool bookmarkIconOn;
+    private bool isPinned;
+
+    private void ToggleBold(MouseEventArgs _) => isBold = !isBold;
+    private void ToggleAutoDownload(MouseEventArgs _) => autoDownloadOn = !autoDownloadOn;
+    private void ToggleSettingsIconOnly(MouseEventArgs _) => settingsIconOn = !settingsIconOn;
+    private void ToggleBookmarkIconOnly(MouseEventArgs _) => bookmarkIconOn = !bookmarkIconOn;
+    private void TogglePin(MouseEventArgs _) => isPinned = !isPinned;
+}
+";
+
+    private string StatesUnifiedCode => @"
+<div class=""mb-3"">
+      <div class=""d-flex gap-2 flex-wrap"">
+        <SfButton CssClass=""e-primary"">Default (Enabled)</SfButton>
+        <SfButton CssClass=""e-primary"" Disabled=""true"">Disabled</SfButton>
+    </div>
+</div>
+
+<div>
+    <p class=""fw-bold mb-2"">Interactive state Toggle</p>
+    <div class=""mb-2"">
+        <SfButton OnClick=""@(() => isButtonEnabled = !isButtonEnabled)"" CssClass=""e-outline"">
+            @(isButtonEnabled ? ""Disable Button"" : ""Enable Button"")
+        </SfButton>
+    </div>
+    <SfButton CssClass=""e-primary"" Disabled=""@(!isButtonEnabled)"">
+        Action Button (@(isButtonEnabled ? ""Enabled"" : ""Disabled""))
+    </SfButton>
+</div>
+
+@code {
+    private bool isButtonEnabled = true;
+}";
+
+    private string BasicFormCode => @"<EditForm Model=""@basicFormModel""
+    OnValidSubmit=""@HandleBasicSubmit""
+    @onreset=""OnBasicFormReset"">
+    <DataAnnotationsValidator />
+    <div class=""mb-2"">
+        <label class=""form-label"">Name:</label>
+        <SfTextBox @bind-Value=""basicFormModel.Name"" Placeholder=""Enter your name""></SfTextBox>
+        <ValidationMessage For=""@(() => basicFormModel.Name)"" />
+    </div>
+    <div class=""d-flex gap-2"">
+        <SfButton CssClass=""e-primary"" IconCss=""sb-icons e-check"" IconPosition=""IconPosition.Left"" Type=""ButtonType.Submit"">Submit</SfButton>
+        <SfButton CssClass=""e-outline"" IconCss=""sb-icons e-refresh"" IconPosition=""IconPosition.Left"" Type=""ButtonType.Reset"">Reset</SfButton>
+    </div>
+</EditForm>
+@if (!string.IsNullOrEmpty(basicSubmitted))
+{
+    <div class=""alert alert-success mt-3"">
+        <strong>Submitted:</strong> @basicSubmitted
+    </div>
+}
+@code
+{
+    private BasicFormModel basicFormModel = new();
+    private string basicSubmitted = "";
+    private void HandleBasicSubmit()
+    {
+        basicSubmitted = $""Name: {basicFormModel.Name}"";
+    }
+
+    private void OnBasicFormReset()
+    {
+        basicSubmitted = string.Empty;
+        basicFormModel = new();
+        StateHasChanged();
+    }
+
+    // ─────────────────────────────────────────────────────────
+    // MODEL CLASSES
+    // ─────────────────────────────────────────────────────────
+    public class BasicFormModel
+    {
+        [Required(ErrorMessage = ""Name is required"")]
+        public string Name { get; set; } = "";
+    }
+}";
+
+    // ─────────────────────────────────────────────────────────
+    // INTERACTIVE STATE / MODELS
+    // ─────────────────────────────────────────────────────────
+    private bool isBold;
+    private bool autoDownloadOn;
+    private bool settingsIconOn;
+    private bool bookmarkIconOn;
+    private bool isPinned;
+
+    private bool isButtonEnabled = true;
+
+    private BasicFormModel basicFormModel = new();
+    private string basicSubmitted = "";
+
+    // ─────────────────────────────────────────────────────────
+    // EVENT HANDLERS
+    // ─────────────────────────────────────────────────────────
+    private void ToggleBold(MouseEventArgs _) => isBold = !isBold;
+    private void ToggleAutoDownload(MouseEventArgs _) => autoDownloadOn = !autoDownloadOn;
+    private void ToggleSettingsIconOnly(MouseEventArgs _) => settingsIconOn = !settingsIconOn;
+    private void ToggleBookmarkIconOnly(MouseEventArgs _) => bookmarkIconOn = !bookmarkIconOn;
+    private void TogglePin(MouseEventArgs _) => isPinned = !isPinned;
+
+    private void HandleBasicSubmit()
+    {
+        basicSubmitted = $"Name: {basicFormModel.Name}";
+    }
+
+    private void OnBasicFormReset()
+    {
+        basicSubmitted = string.Empty;
+        basicFormModel = new();
+        StateHasChanged();
+    }
+
+    // ─────────────────────────────────────────────────────────
+    // MODEL CLASSES
+    // ─────────────────────────────────────────────────────────
+    public class BasicFormModel
+    {
+        [Required(ErrorMessage = "Name is required")]
+        public string Name { get; set; } = "";
+    }
+}
