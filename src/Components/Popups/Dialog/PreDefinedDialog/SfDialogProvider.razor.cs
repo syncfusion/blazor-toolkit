@@ -179,6 +179,7 @@ namespace Syncfusion.Blazor.Toolkit.Popups
         /// Releases the unmanaged resources used by the component and optionally releases the managed resources.
         /// </summary>
         /// <param name="disposing">If <c>true</c>, release both managed and unmanaged resources; otherwise release only unmanaged resources.</param>
+        /// <exclude />
         protected virtual void Dispose(bool disposing)
         {
             try
@@ -220,6 +221,7 @@ namespace Syncfusion.Blazor.Toolkit.Popups
         /// This method is called once when the component is first initialized.
         /// It subscribes to the <see cref="SfDialogService.OnOpen"/> event to handle dialog requests from the service.
         /// </remarks>
+        /// <exclude />
         protected override void OnInitialized()
         {
             if (Service is not null)

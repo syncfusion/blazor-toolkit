@@ -92,6 +92,7 @@ namespace Syncfusion.Blazor.Toolkit.Popups
         /// This method is called once when the component is initialized. It registers the position data with the parent dialog
         /// and stores the initial X and Y values for change detection in subsequent parameter updates.
         /// </remarks>
+        /// <exclude />
         protected override async Task OnInitializedAsync()
         {
             await base.OnInitializedAsync().ConfigureAwait(false);
@@ -109,6 +110,7 @@ namespace Syncfusion.Blazor.Toolkit.Popups
         /// and triggers a position change in the dialog if any differences are detected. This ensures the dialog's position is updated
         /// dynamically when the position parameters change.
         /// </remarks>
+        /// <exclude />
         protected override async Task OnParametersSetAsync()
         {
             await base.OnParametersSetAsync().ConfigureAwait(false);
@@ -134,6 +136,7 @@ namespace Syncfusion.Blazor.Toolkit.Popups
         /// This method is called by the public <see cref="SfBaseComponent.DisposeAsync()"/> method and the finalizer.
         /// The method also clears the reference to the parent dialog to prevent memory leaks.
         /// </remarks>
+        /// <exclude />
         protected override ValueTask DisposeAsyncCore()
         {
             Parent = null;

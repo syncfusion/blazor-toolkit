@@ -200,6 +200,9 @@ namespace Syncfusion.Blazor.Toolkit.Charts
         /// <summary>
         /// Cleans up resources when the component is disposed.
         /// </summary>
+        /// <exclude />
+        [EditorBrowsable(EditorBrowsableState.Never)]
+        [Browsable(false)]
         protected override ValueTask DisposeAsyncCore()
         {
             ComponentDispose();

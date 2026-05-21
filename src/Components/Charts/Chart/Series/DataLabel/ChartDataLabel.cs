@@ -552,6 +552,9 @@ namespace Syncfusion.Blazor.Toolkit.Charts
         /// <summary>
         /// Disposes this component and its nested subcomponents.
         /// </summary>
+        /// <exclude />
+        [EditorBrowsable(EditorBrowsableState.Never)]
+        [Browsable(false)]
         protected override ValueTask DisposeAsyncCore()
         {
             ComponentDispose();

@@ -114,6 +114,7 @@ namespace Syncfusion.Blazor.Toolkit.Popups
         /// initial parameters have been set. It registers this animation settings instance with its parent <see cref="SfDialog"/>
         /// component to ensure the animation configuration is properly applied.
         /// </remarks>
+        /// <exclude />
         protected override async Task OnInitializedAsync()
         {
             await base.OnInitializedAsync().ConfigureAwait(false);
@@ -130,6 +131,7 @@ namespace Syncfusion.Blazor.Toolkit.Popups
         /// configuration accordingly. If the parent dialog is already rendered, it will immediately apply the new animation settings
         /// through JavaScript interop to ensure the changes take effect without requiring a full re-render.
         /// </remarks>
+        /// <exclude />
         protected override async Task OnParametersSetAsync()
         {
             await base.OnParametersSetAsync().ConfigureAwait(false);
@@ -157,6 +159,7 @@ namespace Syncfusion.Blazor.Toolkit.Popups
         /// this method releases all resources held by managed objects that this <see cref="DialogAnimationSettings"/> references.
         /// It clears the reference to the parent dialog component to prevent memory leaks.
         /// </remarks>
+        /// <exclude />
         protected override ValueTask DisposeAsyncCore()
         {
             Parent = null;

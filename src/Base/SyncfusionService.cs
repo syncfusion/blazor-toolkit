@@ -39,7 +39,7 @@ namespace Syncfusion.Blazor.Toolkit
     }
 
     /// <summary>
-    /// Represents an instance of Syncfusion Blazor service.
+    /// Represents an instance of Syncfusion Blazor Toolkit service.
     /// </summary>
     public class SyncfusionBlazorToolkitService(IOptions<GlobalOptions>? configure)
     {

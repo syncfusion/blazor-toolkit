@@ -111,7 +111,7 @@ namespace Syncfusion.Blazor.Toolkit.Internal
         /// any parse-specific handling should be applied; otherwise, normal conversion behavior is used.
         /// </param>
         /// <returns>The converted value as an <see cref="object"/>, or <c>null</c> if conversion is not possible.</returns>
-        internal static object? ChangeType(object dataValue, Type conversionType, bool isParseValue = false)
+        internal static object? ChangeType(object? dataValue, Type conversionType, bool isParseValue = false)
         {
             // Returns null value
             if (dataValue is null || conversionType is null)

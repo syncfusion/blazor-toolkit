@@ -4,6 +4,7 @@
     {
         #region LifeCycle Methods
 
+        /// <exclude />
         /// <summary>
         /// Handles parameter updates and recomputes render-time state.
         /// </summary>
@@ -13,6 +14,7 @@
             InitRender();
         }
 
+        /// <exclude />
         /// <summary>
         /// Executes after component render.
         /// </summary>

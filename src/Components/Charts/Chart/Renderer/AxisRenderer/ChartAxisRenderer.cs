@@ -1719,7 +1719,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
         /// <returns>A <see cref="DoubleRange"/> representing the final visible range.</returns>
         internal virtual DoubleRange CalculateVisibleRange(DoubleRange actualRange)
         {
-            if (Chart?._chartAreaType == ChartAreaType.CartesianAxes && (Axis?.ZoomFactor < 1 || Axis?.ZoomPosition > 0))
+            if ((Axis?.ZoomFactor < 1 || Axis?.ZoomPosition > 0))
             {
                 actualRange = CalculateVisibleRangeOnZooming();
                 if (Axis.EnableAutoIntervalOnZooming && Axis.ValueType != ValueType.Category)

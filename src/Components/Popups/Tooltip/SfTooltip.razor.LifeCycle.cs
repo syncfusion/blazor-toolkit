@@ -64,6 +64,7 @@ namespace Syncfusion.Blazor.Toolkit.Popups
         /// </list>
         /// The method ensures that all tooltip properties are properly initialized before the component is rendered.
         /// </remarks>
+        /// <exclude />
         protected override async Task OnInitializedAsync()
         {
             if (string.IsNullOrEmpty(ID))
@@ -118,6 +119,7 @@ namespace Syncfusion.Blazor.Toolkit.Popups
         /// </list>
         /// The method uses the NotifyPropertyChanges mechanism to optimize updates by only processing changed properties.
         /// </remarks>
+        /// <exclude />
         protected override async Task OnParametersSetAsync()
         {
             await base.OnParametersSetAsync().ConfigureAwait(true);
@@ -164,6 +166,7 @@ namespace Syncfusion.Blazor.Toolkit.Popups
         /// </list>
         /// The firstRender parameter is used to determine if initialization-specific logic should be executed.
         /// </remarks>
+        /// <exclude />
         protected override async Task OnAfterRenderAsync(bool firstRender)
         {
             await base.OnAfterRenderAsync(firstRender).ConfigureAwait(true);
@@ -189,6 +192,7 @@ namespace Syncfusion.Blazor.Toolkit.Popups
         /// This mechanism allows for fine-grained control over when the component updates, optimizing performance
         /// by preventing unnecessary re-renders when component state hasn't meaningfully changed.
         /// </remarks>
+        /// <exclude />
         protected override bool ShouldRender()
         {
             bool tmp = _shouldRender;

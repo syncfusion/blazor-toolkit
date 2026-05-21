@@ -69,6 +69,7 @@ namespace Syncfusion.Blazor.Toolkit.Calendars
         /// <remarks>
         /// When set, this enables integration of the calendar with Blazor form validation and editing workflows.
         /// </remarks>
+        /// <exclude />
         [CascadingParameter]
         protected EditContext? CalendarEditContext { get; set; }
 
@@ -446,6 +447,7 @@ namespace Syncfusion.Blazor.Toolkit.Calendars
         /// </summary>
         /// <param name="args">Specifies the <see cref="EventArgs"> arguments</see>.</param>
         /// <param name="isSelection">Determines whether selection is made using the mouse or keyboard.</param>
+        /// <exclude />
         protected virtual void ChangeEvent(EventArgs? args, bool isSelection = false)
         {
         }
@@ -662,6 +664,7 @@ namespace Syncfusion.Blazor.Toolkit.Calendars
         /// <returns>
         /// The 1-based month index (1 = first month) when a match is found; otherwise <c>0</c> if the provided name could not be resolved.
         /// </returns>
+        /// <exclude />
         protected int GetHijriMonthIndex(string monthName, string format)
         {
             string[] monthArray = format == "MMM" ? _hijri_Month_Abbreviated : _hijri_Month_Wide;
@@ -680,6 +683,7 @@ namespace Syncfusion.Blazor.Toolkit.Calendars
         /// </summary>
         /// <param name="dateValue">The value to convert. Expected runtime types include <see cref="DateTime"/>, <see cref="DateOnly"/>, or <see cref="DateTimeOffset"/>, possibly wrapped in a nullable type.</param>
         /// <returns>A <see cref="DateTime"/> representing the input value. If the input is a <see cref="DateOnly"/>, the returned <see cref="DateTime"/> will use <see cref="TimeOnly.MinValue"/> for the time portion. If the input is a <see cref="DateTimeOffset"/>, the returned value uses the <see cref="DateTimeOffset.DateTime"/> property.</returns>
+        /// <exclude />
         protected DateTime ConvertDateValue(T dateValue)
         {
             if (IsDateTimeOffsetType())
@@ -728,6 +732,7 @@ namespace Syncfusion.Blazor.Toolkit.Calendars
         /// <returns>
         /// A new string where any Gregorian day and month names found in <paramref name="formattedDate"/> are replaced by the matching Hijri names from <paramref name="hijriMonths"/>. If no replacements are required the original string is returned unchanged.
         /// </returns>
+        /// <exclude />
         protected static string ReplaceMonthName(string formattedDate, DateTime finalDate, string[] hijriMonths, string format)
         {
             ValidateReplaceMonthNameInputs(formattedDate, format, hijriMonths);
@@ -836,6 +841,7 @@ namespace Syncfusion.Blazor.Toolkit.Calendars
         /// <summary>
         /// Releases resources and performs cleanup when the calendar base is disposed.
         /// </summary>
+        /// <exclude />
         protected override ValueTask DisposeAsyncCore()
         {
             // Clear collections and reset state to default values; avoid assigning null to non-nullable fields.

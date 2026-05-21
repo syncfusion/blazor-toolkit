@@ -156,6 +156,9 @@ namespace Syncfusion.Blazor.Toolkit.Charts
         /// <summary>
         /// Releases resources associated with this component.
         /// </summary>
+        /// <exclude />
+        [EditorBrowsable(EditorBrowsableState.Never)]
+        [Browsable(false)]
         protected override ValueTask DisposeAsyncCore()
         {
             Parent = null;

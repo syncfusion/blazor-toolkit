@@ -7,26 +7,26 @@
 <div class="test-container">
     <h2>Disabled Buttons</h2>
     <SfButtonGroup id="bg-disabled-mixed" Mode="SelectionMode.Single">
-        <ButtonGroupButton Content="Enabled" id="btn-en" Value="enabled"></ButtonGroupButton>
-        <ButtonGroupButton Content="Disabled" id="btn-dis" Disabled="true" Value="disabled"></ButtonGroupButton>
-        <ButtonGroupButton Content="Enabled" id="btn-en2" Value="enabled2"></ButtonGroupButton>
+        <Button Content="Enabled" id="btn-en" Value="enabled"></Button>
+        <Button Content="Disabled" id="btn-dis" Disabled="true" Value="disabled"></Button>
+        <Button Content="Enabled" id="btn-en2" Value="enabled2"></Button>
     </SfButtonGroup>
 </div>
 
 <div class="test-container">
     <h2>All Disabled Buttons</h2>
     <SfButtonGroup id="bg-all-disabled" Mode="SelectionMode.Single">
-        <ButtonGroupButton Content="Option 1" id="opt-d1" Disabled="true"></ButtonGroupButton>
-        <ButtonGroupButton Content="Option 2" id="opt-d2" Disabled="true"></ButtonGroupButton>
-        <ButtonGroupButton Content="Option 3" id="opt-d3" Disabled="true"></ButtonGroupButton>
+        <Button Content="Option 1" id="opt-d1" Disabled="true"></Button>
+        <Button Content="Option 2" id="opt-d2" Disabled="true"></Button>
+        <Button Content="Option 3" id="opt-d3" Disabled="true"></Button>
     </SfButtonGroup>
 </div>
 
 <div class="test-container">
     <h2>Dynamic Disable State</h2>
     <SfButtonGroup id="bg-dynamic-disable" Mode="SelectionMode.Single">
-        <ButtonGroupButton Content="Toggle" id="toggle-btn" Value="toggle"></ButtonGroupButton>
-        <ButtonGroupButton Content="Test" id="test-btn" Value="test"></ButtonGroupButton>
+        <Button Content="Toggle" id="toggle-btn" Value="toggle"></Button>
+        <Button Content="Test" id="test-btn" Value="test"></Button>
     </SfButtonGroup>
     <button id="toggle-disable" @onclick="ToggleDisable">Toggle Disable</button>
 </div>

@@ -4,7 +4,7 @@ using Syncfusion.Blazor.Toolkit.Data;
 using System.Dynamic;
 using System.Reflection;
 
-namespace Syncfusion.Blazor.Toolkit
+namespace Syncfusion.Blazor.Toolkit.Data
 {
     /// <summary>
     /// DataOperation class that performs data operation in DynamicObject type data sources.

@@ -265,15 +265,15 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
 
             switch (shapeoption.ShapeName)
             {
-                case ShapeName.path:
+                case ShapeName.Path:
                     shapeoption.PathOption.Direction = ChartHelper.AppendPathElements(Owner ?? null!, shapeoption.PathOption.Direction, shapeoption.PathOption.Id);
                     shapeoption.PathOption.Visibility = option.Visibility;
                     break;
-                case ShapeName.ellipse:
+                case ShapeName.Ellipse:
                     shapeoption.EllipseOption.Visibility = option.Visibility;
                     shapeoption.EllipseOption.AccessibilityText = option.AccessibilityText;
                     break;
-                case ShapeName.image:
+                case ShapeName.Image:
                     shapeoption.ImageOption.Visibility = option.Visibility;
                     break;
                 default:
@@ -293,11 +293,11 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
             {
                 foreach (KeyValuePair<string, SymbolOptions> symbolOption in _symbolOptions)
                 {
-                    if (symbolOption.Value.ShapeName == ShapeName.ellipse)
+                    if (symbolOption.Value.ShapeName == ShapeName.Ellipse)
                     {
                         symbolOption.Value.EllipseOption.Stroke = borderColor;
                     }
-                    else if (symbolOption.Value.ShapeName == ShapeName.path)
+                    else if (symbolOption.Value.ShapeName == ShapeName.Path)
                     {
                         symbolOption.Value.PathOption.Stroke = borderColor;
                     }
@@ -315,11 +315,11 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
             {
                 foreach (KeyValuePair<string, SymbolOptions> _symbolOption in _symbolOptions)
                 {
-                    if (_symbolOption.Value.ShapeName == ShapeName.ellipse)
+                    if (_symbolOption.Value.ShapeName == ShapeName.Ellipse)
                     {
                         _symbolOption.Value.EllipseOption.Fill = fill;
                     }
-                    else if (_symbolOption.Value.ShapeName == ShapeName.path)
+                    else if (_symbolOption.Value.ShapeName == ShapeName.Path)
                     {
                         _symbolOption.Value.PathOption.Fill = fill;
                     }
@@ -337,11 +337,11 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
             {
                 foreach (KeyValuePair<string, SymbolOptions> _symbolOption in _symbolOptions)
                 {
-                    if (_symbolOption.Value.ShapeName == ShapeName.ellipse)
+                    if (_symbolOption.Value.ShapeName == ShapeName.Ellipse)
                     {
                         _symbolOption.Value.EllipseOption.Opacity = opacity;
                     }
-                    else if (_symbolOption.Value.ShapeName == ShapeName.path)
+                    else if (_symbolOption.Value.ShapeName == ShapeName.Path)
                     {
                         _symbolOption.Value.PathOption.Opacity = opacity;
                     }
@@ -379,13 +379,13 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
                     SymbolOptions options = symbol.Value;
                     switch (options.ShapeName)
                     {
-                        case ShapeName.ellipse:
+                        case ShapeName.Ellipse:
                             Owner?._svgRenderer?.RenderEllipse(builder, options.EllipseOption, options.EllipseOption.DataPoint);
                             break;
-                        case ShapeName.path:
+                        case ShapeName.Path:
                             _ = Owner?._svgRenderer?.RenderPath(builder, options.PathOption);
                             break;
-                        case ShapeName.image:
+                        case ShapeName.Image:
                             Owner?._svgRenderer?.RenderImage(builder, options.ImageOption);
                             break;
                         default:
@@ -504,11 +504,11 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
             {
                 foreach (KeyValuePair<string, SymbolOptions> _symbolOption in _symbolOptions)
                 {
-                    if (_symbolOption.Value.ShapeName == ShapeName.ellipse)
+                    if (_symbolOption.Value.ShapeName == ShapeName.Ellipse)
                     {
                         _symbolOption.Value.EllipseOption.StrokeWidth = width;
                     }
-                    else if (_symbolOption.Value.ShapeName == ShapeName.path)
+                    else if (_symbolOption.Value.ShapeName == ShapeName.Path)
                     {
                         _symbolOption.Value.PathOption.StrokeWidth = width;
                     }

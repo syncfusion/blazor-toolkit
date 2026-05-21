@@ -40,6 +40,7 @@ namespace Syncfusion.Blazor.Toolkit.Calendars.Internal
         /// Used to apply custom CSS styling to the calendar root element.
         /// This property is used in inherited classes and the visual root node for the calendar.
         /// </remarks>
+        /// <exclude />
         protected override string RootClass { get; set; } = string.Empty;
 
         private DateTime TodayDate { get; set; }
@@ -236,6 +237,7 @@ namespace Syncfusion.Blazor.Toolkit.Calendars.Internal
         /// <summary>
         /// Releases resources and performs cleanup when the calendar base render is disposed.
         /// </summary>
+        /// <exclude />
         protected override ValueTask DisposeAsyncCore()
         {
             // Clear event callbacks and references held by renderer

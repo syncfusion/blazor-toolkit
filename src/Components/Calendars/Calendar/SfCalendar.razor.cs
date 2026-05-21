@@ -170,6 +170,7 @@ namespace Syncfusion.Blazor.Toolkit.Calendars
         /// }
         /// ]]></code>
         /// </example>
+        /// <exclude />
         protected override void ChangeEvent(EventArgs? args, bool isSelection = false)
         {
             if (Disabled)

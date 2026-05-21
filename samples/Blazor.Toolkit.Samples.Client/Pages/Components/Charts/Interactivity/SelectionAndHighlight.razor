@@ -24,9 +24,9 @@
                     <div class="col">
                         <label class="fw-bold">Selection Mode</label>
                              <SfButtonGroup Mode="SelectionMode.Single">
-                            <ButtonGroupButton Selected="IsSelected(ChartSelectionMode.Series)" SelectedChanged="@(v => SelectionModeChanged(v, ChartSelectionMode.Series))">Series</ButtonGroupButton>
-                            <ButtonGroupButton Selected="IsSelected(ChartSelectionMode.Point)" SelectedChanged="@(v => SelectionModeChanged(v, ChartSelectionMode.Point))">Point</ButtonGroupButton>
-                            <ButtonGroupButton Selected="IsSelected(ChartSelectionMode.Cluster)" SelectedChanged="@(v => SelectionModeChanged(v, ChartSelectionMode.Cluster))">Cluster</ButtonGroupButton>
+                            <Button Selected="IsSelected(ChartSelectionMode.Series)" SelectedChanged="@(v => SelectionModeChanged(v, ChartSelectionMode.Series))">Series</Button>
+                            <Button Selected="IsSelected(ChartSelectionMode.Point)" SelectedChanged="@(v => SelectionModeChanged(v, ChartSelectionMode.Point))">Point</Button>
+                            <Button Selected="IsSelected(ChartSelectionMode.Cluster)" SelectedChanged="@(v => SelectionModeChanged(v, ChartSelectionMode.Cluster))">Cluster</Button>
                         </SfButtonGroup>  
                     </div>
 
@@ -34,10 +34,10 @@
                     <div class="col">
                         <label class="fw-bold">Selection Pattern</label>
                         <SfButtonGroup Mode="SelectionMode.Single">
-                            <ButtonGroupButton Selected="SelectedPattern == SelectionPattern.None" SelectedChanged="@(v => { if (v) SelectedPattern = SelectionPattern.None; })">None</ButtonGroupButton>
-                            <ButtonGroupButton Selected="SelectedPattern == SelectionPattern.Chessboard" SelectedChanged="@(v => { if (v) SelectedPattern = SelectionPattern.Chessboard; })">Chessboard</ButtonGroupButton>
-                            <ButtonGroupButton Selected="SelectedPattern == SelectionPattern.DiagonalForward" SelectedChanged="@(v => { if (v) SelectedPattern = SelectionPattern.DiagonalForward; })">DiagonalForward</ButtonGroupButton>
-                            <ButtonGroupButton Selected="SelectedPattern == SelectionPattern.DiagonalBackward" SelectedChanged="@(v => { if (v) SelectedPattern = SelectionPattern.DiagonalBackward; })">DiagonalBackward</ButtonGroupButton>
+                            <Button Selected="SelectedPattern == SelectionPattern.None" SelectedChanged="@(v => { if (v) SelectedPattern = SelectionPattern.None; })">None</Button>
+                            <Button Selected="SelectedPattern == SelectionPattern.Chessboard" SelectedChanged="@(v => { if (v) SelectedPattern = SelectionPattern.Chessboard; })">Chessboard</Button>
+                            <Button Selected="SelectedPattern == SelectionPattern.DiagonalForward" SelectedChanged="@(v => { if (v) SelectedPattern = SelectionPattern.DiagonalForward; })">DiagonalForward</Button>
+                            <Button Selected="SelectedPattern == SelectionPattern.DiagonalBackward" SelectedChanged="@(v => { if (v) SelectedPattern = SelectionPattern.DiagonalBackward; })">DiagonalBackward</Button>
                         </SfButtonGroup>          
                     </div>
 
@@ -113,9 +113,9 @@
                     <div class="col">
                         <label class="fw-bold">Highlight Mode</label>
                         <SfButtonGroup Mode="SelectionMode.Single">
-                            <ButtonGroupButton Selected="SelectedHighlightMode == HighlightMode.Series" SelectedChanged="@(v => { if (v) SelectedHighlightMode = HighlightMode.Series; })">Series</ButtonGroupButton>
-                            <ButtonGroupButton Selected="SelectedHighlightMode == HighlightMode.Point" SelectedChanged="@(v => { if (v) SelectedHighlightMode = HighlightMode.Point; })">Point</ButtonGroupButton>
-                            <ButtonGroupButton Selected="SelectedHighlightMode == HighlightMode.Cluster" SelectedChanged="@(v => { if (v) SelectedHighlightMode = HighlightMode.Cluster; })">Cluster</ButtonGroupButton>
+                            <Button Selected="SelectedHighlightMode == HighlightMode.Series" SelectedChanged="@(v => { if (v) SelectedHighlightMode = HighlightMode.Series; })">Series</Button>
+                            <Button Selected="SelectedHighlightMode == HighlightMode.Point" SelectedChanged="@(v => { if (v) SelectedHighlightMode = HighlightMode.Point; })">Point</Button>
+                            <Button Selected="SelectedHighlightMode == HighlightMode.Cluster" SelectedChanged="@(v => { if (v) SelectedHighlightMode = HighlightMode.Cluster; })">Cluster</Button>
                         </SfButtonGroup>
                        
                     </div>
@@ -124,10 +124,10 @@
                     <div class="col">
                         <label class="fw-bold">Highlight Pattern</label>
                         <SfButtonGroup Mode="SelectionMode.Single">
-                            <ButtonGroupButton Selected="SelectedHighlightPattern == SelectionPattern.None" SelectedChanged="@(v => { if (v) SelectedHighlightPattern = SelectionPattern.None; })">None</ButtonGroupButton>
-                            <ButtonGroupButton Selected="SelectedHighlightPattern == SelectionPattern.Chessboard" SelectedChanged="@(v => { if (v) SelectedHighlightPattern = SelectionPattern.Chessboard; })">Chessboard</ButtonGroupButton>
-                            <ButtonGroupButton Selected="SelectedHighlightPattern == SelectionPattern.DiagonalForward" SelectedChanged="@(v => { if (v) SelectedHighlightPattern = SelectionPattern.DiagonalForward; })">DiagonalForward</ButtonGroupButton>
-                            <ButtonGroupButton Selected="SelectedHighlightPattern == SelectionPattern.DiagonalBackward" SelectedChanged="@(v => { if (v) SelectedHighlightPattern = SelectionPattern.DiagonalBackward; })">DiagonalBackward</ButtonGroupButton>
+                            <Button Selected="SelectedHighlightPattern == SelectionPattern.None" SelectedChanged="@(v => { if (v) SelectedHighlightPattern = SelectionPattern.None; })">None</Button>
+                            <Button Selected="SelectedHighlightPattern == SelectionPattern.Chessboard" SelectedChanged="@(v => { if (v) SelectedHighlightPattern = SelectionPattern.Chessboard; })">Chessboard</Button>
+                            <Button Selected="SelectedHighlightPattern == SelectionPattern.DiagonalForward" SelectedChanged="@(v => { if (v) SelectedHighlightPattern = SelectionPattern.DiagonalForward; })">DiagonalForward</Button>
+                            <Button Selected="SelectedHighlightPattern == SelectionPattern.DiagonalBackward" SelectedChanged="@(v => { if (v) SelectedHighlightPattern = SelectionPattern.DiagonalBackward; })">DiagonalBackward</Button>
                         </SfButtonGroup>
                     </div>
                 </div>
@@ -280,66 +280,65 @@
     private bool IsDarkTheme => _currentTheme.ToString().Contains("Dark") || _currentTheme.ToString().Contains("HighContrast");
     private string TextColor => IsDarkTheme ? "#E6EEF8" : "#0B1F3B";
     public string HightlightColorCode = @"@using Syncfusion.Blazor.Toolkit.Charts
+    <div class=""property-pane"">
+                <div class=""row"">
+                    <!-- Highlight / Selection Color -->
+                    <div class=""col"">
+                        <label class=""fw-bold"">Highlight Color</label>
+                        <input type=""color"" style=""display: inline; width: 50px;""
+                               class=""form-control""
+                               value=""@SelectionColor""
+                               @onchange=""ChangeSelectionColor""/>
+                    </div>
+                </div>
+            </div>
 
-<div class=""property-pane"">
-    <div class=""row"">
-        <!-- Highlight / Selection Color -->
-        <div class=""col"">
-            <label class=""fw-bold"">Highlight Color</label>
-            <input type=""color""
-                   class=""form-control""
-                   value=""@SelectionColor""
-                   @onchange=""ChangeSelectionColor""/>
-        </div>
-    </div>
-</div>
+            <!-- Chart -->
+            <SfChart @key=""@_currentTheme"" Title=""Global Smartphone Sales Trends by Brand (2021–2025)"" Theme=""@_currentTheme""
+                     SubTitle=""Source: gartner.com""
+                     HighlightColor=""@SelectionColor"" HighlightMode=""HighlightMode.Series"">
 
-<!-- Chart -->
-<SfChart @key=""@_currentTheme"" Title=""Global Smartphone Sales Trends by Brand (2021–2025)""
-         SubTitle=""Source: gartner.com""
-         HighlightColor=""@SelectionColor"" Width=""650px"" HighlightMode=""HighlightMode.Series"" Theme=""@_currentTheme"">
+                <ChartPrimaryXAxis ValueType=""Syncfusion.Blazor.Toolkit.ValueType.Category""/>
 
-    <ChartPrimaryXAxis ValueType=""Syncfusion.Blazor.Toolkit.ValueType.Category""/>
+                <ChartPrimaryYAxis Maximum=""300""
+                                   Format=""{value}M""
+                                   Title=""Units Sold (in Millions)"">
+                </ChartPrimaryYAxis>
+                
 
-    <ChartPrimaryYAxis Maximum=""300""
-                       Format=""{value}M""
-                       Title=""Units Sold (in Millions)"">
-    </ChartPrimaryYAxis>
-    
+                    <ChartSeries DataSource=""@MobileData.AppleData""
+                                 XName=""Year""
+                                 YName=""Count""
+                                 Type=""ChartSeriesType.Column""
+                                 Name=""Apple""
+                                 Fill=""#82C100""
+                                 ColumnSpacing=""0.1""
+                                 CornerRadius=""@(new ChartCornerRadius { TopLeft = 6, TopRight = 6 })"">
+                    </ChartSeries>
 
-        <ChartSeries DataSource=""@MobileData.AppleData""
-                     XName=""Year""
-                     YName=""Count""
-                     Type=""ChartSeriesType.Column""
-                     Name=""Apple""
-                     Fill=""#82C100""
-                     ColumnSpacing=""0.1""
-                     CornerRadius=""@(new ChartCornerRadius { TopLeft = 6, TopRight = 6 })"">
-        </ChartSeries>
+                    <ChartSeries DataSource=""@MobileData.XiaomiData""
+                                 XName=""Year""
+                                 YName=""Count""
+                                 Type=""ChartSeriesType.Column""
+                                 Name=""Xiaomi""
+                                 Fill=""#E77A16""
+                                 ColumnSpacing=""0.1""
+                                 CornerRadius=""@(new ChartCornerRadius { TopLeft = 6, TopRight = 6 })"">
+                    </ChartSeries>
 
-        <ChartSeries DataSource=""@MobileData.XiaomiData""
-                     XName=""Year""
-                     YName=""Count""
-                     Type=""ChartSeriesType.Column""
-                     Name=""Xiaomi""
-                     Fill=""#E77A16""
-                     ColumnSpacing=""0.1""
-                     CornerRadius=""@(new ChartCornerRadius { TopLeft = 6, TopRight = 6 })"">
-        </ChartSeries>
+                    <ChartSeries DataSource=""@MobileData.OppoData""
+                                 XName=""Year""
+                                 YName=""Count""
+                                 Type=""ChartSeriesType.Column""
+                                 Name=""Oppo""
+                                 Fill=""#B1212D""
+                                 ColumnSpacing=""0.1""
+                                 CornerRadius=""@(new ChartCornerRadius { TopLeft = 6, TopRight = 6 })"">
+                    </ChartSeries>
 
-        <ChartSeries DataSource=""@MobileData.OppoData""
-                     XName=""Year""
-                     YName=""Count""
-                     Type=""ChartSeriesType.Column""
-                     Name=""Oppo""
-                     Fill=""#B1212D""
-                     ColumnSpacing=""0.1""
-                     CornerRadius=""@(new ChartCornerRadius { TopLeft = 6, TopRight = 6 })"">
-        </ChartSeries>
+                
 
-    
-
-</SfChart>
+            </SfChart>
 
 @code {
     private Theme _currentTheme = Theme.Fluent;
@@ -387,81 +386,81 @@
     }
 }";
     public string HighlightCode = @"@using Syncfusion.Blazor.Toolkit.Buttons
-@using Syncfusion.Blazor.Toolkit.Charts
+    @using Syncfusion.Blazor.Toolkit.Charts
+    <div class=""property-pane"" style=""width: 100%;"">
+                <div class=""row"">
 
-<div class=""property-pane"" style=""width: 100%;"">
-    <div class=""row"">
+                    <!-- Highlight Mode -->
+                    <div class=""col"">
+                        <label class=""fw-bold"">Highlight Mode</label>
+                        <SfButtonGroup Mode=""SelectionMode.Single"">
+                            <Button Selected=""SelectedHighlightMode == HighlightMode.Series"" SelectedChanged=""@(v => { if (v) SelectedHighlightMode = HighlightMode.Series; })"">Series</Button>
+                            <Button Selected=""SelectedHighlightMode == HighlightMode.Point"" SelectedChanged=""@(v => { if (v) SelectedHighlightMode = HighlightMode.Point; })"">Point</Button>
+                            <Button Selected=""SelectedHighlightMode == HighlightMode.Cluster"" SelectedChanged=""@(v => { if (v) SelectedHighlightMode = HighlightMode.Cluster; })"">Cluster</Button>
+                        </SfButtonGroup>
+                       
+                    </div>
 
-        <!-- Highlight Mode -->
-        <div class=""col"">
-            <label class=""fw-bold"">Highlight Mode</label>
-            <SfButtonGroup Mode=""SelectionMode.Single"">
-                <ButtonGroupButton Selected=""SelectedHighlightMode == HighlightMode.Series"" SelectedChanged=""@(v => { if (v) SelectedHighlightMode = HighlightMode.Series; })"">Series</ButtonGroupButton>
-                <ButtonGroupButton Selected=""SelectedHighlightMode == HighlightMode.Point"" SelectedChanged=""@(v => { if (v) SelectedHighlightMode = HighlightMode.Point; })"">Point</ButtonGroupButton>
-                <ButtonGroupButton Selected=""SelectedHighlightMode == HighlightMode.Cluster"" SelectedChanged=""@(v => { if (v) SelectedHighlightMode = HighlightMode.Cluster; })"">Cluster</ButtonGroupButton>
-            </SfButtonGroup>
-            
-        </div>
+                    <!-- Highlight Pattern -->
+                    <div class=""col"">
+                        <label class=""fw-bold"">Highlight Pattern</label>
+                        <SfButtonGroup Mode=""SelectionMode.Single"">
+                            <Button Selected=""SelectedHighlightPattern == SelectionPattern.None"" SelectedChanged=""@(v => { if (v) SelectedHighlightPattern = SelectionPattern.None; })"">None</Button>
+                            <Button Selected=""SelectedHighlightPattern == SelectionPattern.Chessboard"" SelectedChanged=""@(v => { if (v) SelectedHighlightPattern = SelectionPattern.Chessboard; })"">Chessboard</Button>
+                            <Button Selected=""SelectedHighlightPattern == SelectionPattern.DiagonalForward"" SelectedChanged=""@(v => { if (v) SelectedHighlightPattern = SelectionPattern.DiagonalForward; })"">DiagonalForward</Button>
+                            <Button Selected=""SelectedHighlightPattern == SelectionPattern.DiagonalBackward"" SelectedChanged=""@(v => { if (v) SelectedHighlightPattern = SelectionPattern.DiagonalBackward; })"">DiagonalBackward</Button>
+                        </SfButtonGroup>
+                    </div>
+                </div>
+            </div>
 
-        <!-- Highlight Pattern -->
-        <div class=""col"">
-            <label class=""fw-bold"">Highlight Pattern</label>
-            <SfButtonGroup Mode=""SelectionMode.Single"">
-                <ButtonGroupButton Selected=""SelectedHighlightPattern == SelectionPattern.None"" SelectedChanged=""@(v => { if (v) SelectedHighlightPattern = SelectionPattern.None; })"">None</ButtonGroupButton>
-                <ButtonGroupButton Selected=""SelectedHighlightPattern == SelectionPattern.Chessboard"" SelectedChanged=""@(v => { if (v) SelectedHighlightPattern = SelectionPattern.Chessboard; })"">Chessboard</ButtonGroupButton>
-                <ButtonGroupButton Selected=""SelectedHighlightPattern == SelectionPattern.DiagonalForward"" SelectedChanged=""@(v => { if (v) SelectedHighlightPattern = SelectionPattern.DiagonalForward; })"">DiagonalForward</ButtonGroupButton>
-                <ButtonGroupButton Selected=""SelectedHighlightPattern == SelectionPattern.DiagonalBackward"" SelectedChanged=""@(v => { if (v) SelectedHighlightPattern = SelectionPattern.DiagonalBackward; })"">DiagonalBackward</ButtonGroupButton>
-            </SfButtonGroup>
-        </div>
-    </div>
-</div>
+            <SfChart @key=""@_currentTheme"" Title=""Global Electric Vehicle (EV) Sales by Brand (2021–2025)"" Theme=""@_currentTheme""
+                     SubTitle=""Source: gartner.com""
+                     HighlightMode=""SelectedHighlightMode""
+                     HighlightPattern=""SelectedHighlightPattern"">
 
-<SfChart @key=""@_currentTheme"" Title=""Global Electric Vehicle (EV) Sales by Brand (2021–2025)"" Theme=""@_currentTheme""
-            SubTitle=""Source: gartner.com""
-            HighlightMode=""SelectedHighlightMode""
-            HighlightPattern=""SelectedHighlightPattern"">
+                <ChartPrimaryXAxis ValueType=""Syncfusion.Blazor.Toolkit.ValueType.Category""/>
 
-    <ChartPrimaryXAxis ValueType=""Syncfusion.Blazor.Toolkit.ValueType.Category""/>
+                <ChartPrimaryYAxis Title=""Units Sold (in Millions)""
+                                   LabelFormat=""{value}M"">
+                </ChartPrimaryYAxis>
 
-    <ChartPrimaryYAxis Title=""Units Sold (in Millions)""
-                        LabelFormat=""{value}M"">
-    </ChartPrimaryYAxis>
+                
 
-    
+                    <ChartSeries DataSource=""@TeslaSales""
+                                 XName=""Year""
+                                 YName=""Count""
+                                 Type=""ChartSeriesType.Column""
+                                 Name=""Tesla""
+                                 Fill=""#05B3DA""
+                                 ColumnSpacing=""0.1""
+                                 CornerRadius=""new ChartCornerRadius { TopLeft = 6, TopRight = 6 }"">
+                    </ChartSeries>
 
-        <ChartSeries DataSource=""@TeslaSales""
-                        XName=""Year""
-                        YName=""Count""
-                        Type=""ChartSeriesType.Column""
-                        Name=""Tesla""
-                        Fill=""#05B3DA""
-                        ColumnSpacing=""0.1""
-                        CornerRadius=""new ChartCornerRadius { TopLeft = 6, TopRight = 6 }"">
-        </ChartSeries>
+                    <ChartSeries DataSource=""@BydSales""
+                                 XName=""Year""
+                                 YName=""Count""
+                                 Type=""ChartSeriesType.Column""
+                                 Name=""BYD""
+                                 Fill=""#E77A16""
+                                 ColumnSpacing=""0.1""
+                                 CornerRadius=""new ChartCornerRadius { TopLeft = 6, TopRight = 6 }"">
+                    </ChartSeries>
 
-        <ChartSeries DataSource=""@BydSales""
-                        XName=""Year""
-                        YName=""Count""
-                        Type=""ChartSeriesType.Column""
-                        Name=""BYD""
-                        Fill=""#E77A16""
-                        ColumnSpacing=""0.1""
-                        CornerRadius=""new ChartCornerRadius { TopLeft = 6, TopRight = 6 }"">
-        </ChartSeries>
+                    <ChartSeries DataSource=""@VolkswagenSales""
+                                 XName=""Year""
+                                 YName=""Count""
+                                 Type=""ChartSeriesType.Column""
+                                 Name=""Volkswagen""
+                                 Fill=""#6200EE""
+                                 ColumnSpacing=""0.1""
+                                 CornerRadius=""new ChartCornerRadius { TopLeft = 6, TopRight = 6 }"">
+                    </ChartSeries>
 
-        <ChartSeries DataSource=""@VolkswagenSales""
-                        XName=""Year""
-                        YName=""Count""
-                        Type=""ChartSeriesType.Column""
-                        Name=""Volkswagen""
-                        Fill=""#6200EE""
-                        ColumnSpacing=""0.1""
-                        CornerRadius=""new ChartCornerRadius { TopLeft = 6, TopRight = 6 }"">
-        </ChartSeries>
+                
 
-    
+            </SfChart>
 
-</SfChart>
 
 @code {
     private Theme _currentTheme = Theme.Fluent;
@@ -502,79 +501,79 @@
     };
 }";
     public string SelectionCode = @"@using Syncfusion.Blazor.Toolkit.Buttons
-@using Syncfusion.Blazor.Toolkit.Charts
-@using Syncfusion.Blazor.Toolkit.Inputs
+    @using Syncfusion.Blazor.Toolkit.Charts
+    @using Syncfusion.Blazor.Toolkit.Inputs
+    <div class=""property-pane"">
+                <div class=""row"">
 
-<div class=""property-pane"">
-    <div class=""row"">
-        <!-- Selection Mode -->
-        <div class=""col"">
-            <label class=""fw-bold"">Selection Mode</label>
-            <SfButtonGroup Mode=""SelectionMode.Single"">
-                <ButtonGroupButton Selected=""IsSelected(ChartSelectionMode.Series)"" SelectedChanged=""@(v => SelectionModeChanged(v, ChartSelectionMode.Series))"">Series</ButtonGroupButton>
-                <ButtonGroupButton Selected=""IsSelected(ChartSelectionMode.Point)"" SelectedChanged=""@(v => SelectionModeChanged(v, ChartSelectionMode.Point))"">Point</ButtonGroupButton>
-                <ButtonGroupButton Selected=""IsSelected(ChartSelectionMode.Cluster)"" SelectedChanged=""@(v => SelectionModeChanged(v, ChartSelectionMode.Cluster))"">Cluster</ButtonGroupButton>
-            </SfButtonGroup>  
-        </div>
+                    <!-- Selection Mode -->
+                    <div class=""col"">
+                        <label class=""fw-bold"">Selection Mode</label>
+                             <SfButtonGroup Mode=""SelectionMode.Single"">
+                            <Button Selected=""IsSelected(ChartSelectionMode.Series)"" SelectedChanged=""@(v => SelectionModeChanged(v, ChartSelectionMode.Series))"">Series</Button>
+                            <Button Selected=""IsSelected(ChartSelectionMode.Point)"" SelectedChanged=""@(v => SelectionModeChanged(v, ChartSelectionMode.Point))"">Point</Button>
+                            <Button Selected=""IsSelected(ChartSelectionMode.Cluster)"" SelectedChanged=""@(v => SelectionModeChanged(v, ChartSelectionMode.Cluster))"">Cluster</Button>
+                        </SfButtonGroup>  
+                    </div>
 
-        <!-- Selection Pattern -->
-        <div class=""col"">
-            <label class=""fw-bold"">Selection Pattern</label>
-            <SfButtonGroup Mode=""SelectionMode.Single"">
-                <ButtonGroupButton Selected=""SelectedPattern == SelectionPattern.None"" SelectedChanged=""@(v => { if (v) SelectedPattern = SelectionPattern.None; })"">None</ButtonGroupButton>
-                <ButtonGroupButton Selected=""SelectedPattern == SelectionPattern.Chessboard"" SelectedChanged=""@(v => { if (v) SelectedPattern = SelectionPattern.Chessboard; })"">Chessboard</ButtonGroupButton>
-                <ButtonGroupButton Selected=""SelectedPattern == SelectionPattern.DiagonalForward"" SelectedChanged=""@(v => { if (v) SelectedPattern = SelectionPattern.DiagonalForward; })"">DiagonalForward</ButtonGroupButton>
-                <ButtonGroupButton Selected=""SelectedPattern == SelectionPattern.DiagonalBackward"" SelectedChanged=""@(v => { if (v) SelectedPattern = SelectionPattern.DiagonalBackward; })"">DiagonalBackward</ButtonGroupButton>
-            </SfButtonGroup>          
-        </div>
+                    <!-- Selection Pattern -->
+                    <div class=""col"">
+                        <label class=""fw-bold"">Selection Pattern</label>
+                        <SfButtonGroup Mode=""SelectionMode.Single"">
+                            <Button Selected=""SelectedPattern == SelectionPattern.None"" SelectedChanged=""@(v => { if (v) SelectedPattern = SelectionPattern.None; })"">None</Button>
+                            <Button Selected=""SelectedPattern == SelectionPattern.Chessboard"" SelectedChanged=""@(v => { if (v) SelectedPattern = SelectionPattern.Chessboard; })"">Chessboard</Button>
+                            <Button Selected=""SelectedPattern == SelectionPattern.DiagonalForward"" SelectedChanged=""@(v => { if (v) SelectedPattern = SelectionPattern.DiagonalForward; })"">DiagonalForward</Button>
+                            <Button Selected=""SelectedPattern == SelectionPattern.DiagonalBackward"" SelectedChanged=""@(v => { if (v) SelectedPattern = SelectionPattern.DiagonalBackward; })"">DiagonalBackward</Button>
+                        </SfButtonGroup>          
+                    </div>
 
-        <!-- Multi Selection -->
-        <div class=""col mt-4"">
-            <SfCheckBox Label=""MultiSelection""
-                        @bind-Checked=""IsMultiSelectionEnabled""/>
-        </div>
-    </div>
-</div>
+                    <!-- Multi Selection -->
+                    <div class=""col mt-4"">
+                        <SfCheckBox Label=""MultiSelection""
+                                    @bind-Checked=""IsMultiSelectionEnabled""/>
+                    </div>
+                </div>
+            </div>
 
-<!-- Chart -->
-<SfChart @key=""@_currentTheme"" Title=""Global PC Shipments by Brand (2021–2025)"" SubTitle=""Source: gartner.com"" SelectionMode=""SelectedMode"" SelectionPattern=""SelectedPattern"" AllowMultiSelection=""IsMultiSelectionEnabled"" Theme=""@_currentTheme"">
-    <ChartPrimaryXAxis ValueType=""Syncfusion.Blazor.Toolkit.ValueType.Category""></ChartPrimaryXAxis>
+            <!-- Chart -->
+            <SfChart @key=""@_currentTheme"" Title=""Global PC Shipments by Brand (2021–2025)"" SubTitle=""Source: gartner.com"" SelectionMode=""SelectedMode"" SelectionPattern=""SelectedPattern"" AllowMultiSelection=""IsMultiSelectionEnabled"" Theme=""@_currentTheme"">
+                <ChartPrimaryXAxis ValueType=""Syncfusion.Blazor.Toolkit.ValueType.Category""></ChartPrimaryXAxis>
 
-    <ChartPrimaryYAxis Interval=""20"" Format=""{value}M"" Title=""Units Shipped (in Millions)"">
+                <ChartPrimaryYAxis Interval=""20"" Format=""{value}M"" Title=""Units Shipped (in Millions)"">
 
-    </ChartPrimaryYAxis>
-    
+                </ChartPrimaryYAxis>
+                
 
-        <ChartSeries DataSource=""@HpShipmentData""
-                     XName=""Year""
-                     YName=""Count""
-                     Type=""ChartSeriesType.Column""
-                     Name=""HP""
-                     Fill=""#7107DC""
-                     ColumnSpacing=""0.2"">
-        </ChartSeries>
+                    <ChartSeries DataSource=""@HpShipmentData""
+                                 XName=""Year""
+                                 YName=""Count""
+                                 Type=""ChartSeriesType.Column""
+                                 Name=""HP""
+                                 Fill=""#7107DC""
+                                 ColumnSpacing=""0.2"">
+                    </ChartSeries>
 
-        <ChartSeries DataSource=""@LenovoShipmentData""
-                     XName=""Year""
-                     YName=""Count""
-                     Type=""ChartSeriesType.Column""
-                     Name=""Lenovo""
-                     Fill=""#38BE09""
-                     ColumnSpacing=""0.2"">
-        </ChartSeries>
+                    <ChartSeries DataSource=""@LenovoShipmentData""
+                                 XName=""Year""
+                                 YName=""Count""
+                                 Type=""ChartSeriesType.Column""
+                                 Name=""Lenovo""
+                                 Fill=""#38BE09""
+                                 ColumnSpacing=""0.2"">
+                    </ChartSeries>
 
-        <ChartSeries DataSource=""@DellShipmentData""
-                     XName=""Year""
-                     YName=""Count""
-                     Type=""ChartSeriesType.Column""
-                     Name=""Dell""
-                     Fill=""#B1212D""
-                     ColumnSpacing=""0.2"">
-        </ChartSeries>
+                    <ChartSeries DataSource=""@DellShipmentData""
+                                 XName=""Year""
+                                 YName=""Count""
+                                 Type=""ChartSeriesType.Column""
+                                 Name=""Dell""
+                                 Fill=""#B1212D""
+                                 ColumnSpacing=""0.2"">
+                    </ChartSeries>
 
-    
+                
 
-</SfChart>
+            </SfChart>
 
 @code {
     private Theme _currentTheme = Theme.Fluent;

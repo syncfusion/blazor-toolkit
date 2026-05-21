@@ -67,11 +67,11 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
             string fill = !string.IsNullOrEmpty(Series.Marker.Border.Color) ? Series.Marker.Border.Color : SeriesRenderer?.Interior ?? string.Empty;
             foreach (SymbolOptions symbolOption in _symbolOptions.ToArray())
             {
-                if (symbolOption.ShapeName == ShapeName.ellipse)
+                if (symbolOption.ShapeName == ShapeName.Ellipse)
                 {
                     symbolOption.EllipseOption.Stroke = fill;
                 }
-                else if (symbolOption.ShapeName == ShapeName.path)
+                else if (symbolOption.ShapeName == ShapeName.Path)
                 {
                     symbolOption.PathOption.Stroke = fill;
                 }
@@ -90,11 +90,11 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
             string fill = !string.IsNullOrEmpty(Series.Marker.Fill) ? Series.Marker.Fill : "#ffffff";
             foreach (SymbolOptions symbolOption in _symbolOptions.ToArray())
             {
-                if (symbolOption.ShapeName == ShapeName.ellipse)
+                if (symbolOption.ShapeName == ShapeName.Ellipse)
                 {
                     symbolOption.EllipseOption.Fill = fill;
                 }
-                else if (symbolOption.ShapeName == ShapeName.path)
+                else if (symbolOption.ShapeName == ShapeName.Path)
                 {
                     symbolOption.PathOption.Fill = fill;
                 }
@@ -113,11 +113,11 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
             double opacity = Series.Marker.Opacity;
             foreach (SymbolOptions symbolOption in _symbolOptions.ToArray())
             {
-                if (symbolOption.ShapeName == ShapeName.ellipse)
+                if (symbolOption.ShapeName == ShapeName.Ellipse)
                 {
                     symbolOption.EllipseOption.Opacity = opacity;
                 }
-                else if (symbolOption.ShapeName == ShapeName.path)
+                else if (symbolOption.ShapeName == ShapeName.Path)
                 {
                     symbolOption.PathOption.Opacity = opacity;
                 }
@@ -330,15 +330,15 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
         {
             foreach (SymbolOptions symbolOption in _symbolOptions.ToArray())
             {
-                if (symbolOption.ShapeName == ShapeName.ellipse)
+                if (symbolOption.ShapeName == ShapeName.Ellipse)
                 {
                     Owner?._svgRenderer?.RenderEllipse(builder, symbolOption.EllipseOption, symbolOption.EllipseOption.DataPoint);
                 }
-                else if (symbolOption.ShapeName == ShapeName.path)
+                else if (symbolOption.ShapeName == ShapeName.Path)
                 {
                     _ = Owner?._svgRenderer?.RenderPath(builder, symbolOption.PathOption);
                 }
-                else if (symbolOption.ShapeName == ShapeName.image)
+                else if (symbolOption.ShapeName == ShapeName.Image)
                 {
                     Owner?._svgRenderer?.RenderImage(builder, symbolOption.ImageOption);
                 }
@@ -386,19 +386,19 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
 
             SymbolOptions shapeoption = ChartHelper.CalculateShapes(currentLocation is not null ? currentLocation : location, size, shape, url, option, false);
 
-            if (shapeoption.ShapeName == ShapeName.path)
+            if (shapeoption.ShapeName == ShapeName.Path)
             {
                 shapeoption.PathOption.Direction = ChartHelper.AppendPathElements(chart ?? null!, shapeoption.PathOption.Direction, shapeoption.PathOption.Id);
                 shapeoption.PathOption.Visibility = option.Visibility;
             }
 
-            if (shapeoption.ShapeName == ShapeName.ellipse)
+            if (shapeoption.ShapeName == ShapeName.Ellipse)
             {
                 shapeoption.EllipseOption.Visibility = option.Visibility;
                 shapeoption.EllipseOption.AccessibilityText = option.AccessibilityText;
             }
 
-            if (shapeoption.ShapeName == ShapeName.image)
+            if (shapeoption.ShapeName == ShapeName.Image)
             {
                 shapeoption.ImageOption.Visibility = option.Visibility;
             }
@@ -495,11 +495,11 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
             double width = Series.Marker.Border.Width;
             foreach (SymbolOptions symbolOption in _symbolOptions.ToArray())
             {
-                if (symbolOption.ShapeName == ShapeName.ellipse)
+                if (symbolOption.ShapeName == ShapeName.Ellipse)
                 {
                     symbolOption.EllipseOption.StrokeWidth = width;
                 }
-                else if (symbolOption.ShapeName == ShapeName.path)
+                else if (symbolOption.ShapeName == ShapeName.Path)
                 {
                     symbolOption.PathOption.StrokeWidth = width;
                 }

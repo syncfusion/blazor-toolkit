@@ -1580,6 +1580,10 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
             {
                 return;
             }
+            if (axis == null)
+            {
+                return;
+            }
 
             double pointY;
             double labelWidth;

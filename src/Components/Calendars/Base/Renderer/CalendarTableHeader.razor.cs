@@ -53,6 +53,7 @@ namespace Syncfusion.Blazor.Toolkit.Calendars.Internal
         /// <remarks>
         /// This method invokes <see cref="CreateContentHeader"/> to initialize the day header based on component configuration.
         /// </remarks>
+        /// <exclude />
         protected override void OnInitialized()
         {
             CreateContentHeader();
@@ -64,6 +65,7 @@ namespace Syncfusion.Blazor.Toolkit.Calendars.Internal
         /// <remarks>
         /// This method ensures that the calendar header reflects any parameter and configuration changes dynamically by calling <see cref="CreateContentHeader"/>.
         /// </remarks>
+        /// <exclude />
         protected override void OnParametersSet()
         {
             CreateContentHeader();
@@ -75,6 +77,7 @@ namespace Syncfusion.Blazor.Toolkit.Calendars.Internal
         /// <remarks>
         /// This method updates the <c>DaysCount</c> and invokes internal logic to construct the day headers.
         /// </remarks>
+        /// <exclude />
         protected void CreateContentHeader()
         {
             DaysCount = DAYCOUNT;

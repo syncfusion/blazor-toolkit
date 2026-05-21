@@ -166,25 +166,25 @@
                 </label>
 
                 <SfButtonGroup Mode="SelectionMode.Single">
-                    <ButtonGroupButton Selected="@IsSplineTypeSelected(SplineType.Natural)"
+                    <Button Selected="@IsSplineTypeSelected(SplineType.Natural)"
                                        SelectedChanged="@(v => OnSplineTypeChanged(v, SplineType.Natural))">
                         Natural
-                    </ButtonGroupButton>
+                    </Button>
 
-                    <ButtonGroupButton Selected="@IsSplineTypeSelected(SplineType.Monotonic)"
+                    <Button Selected="@IsSplineTypeSelected(SplineType.Monotonic)"
                                        SelectedChanged="@(v => OnSplineTypeChanged(v, SplineType.Monotonic))">
                         Monotonic
-                    </ButtonGroupButton>
+                    </Button>
 
-                    <ButtonGroupButton Selected="@IsSplineTypeSelected(SplineType.Cardinal)"
+                    <Button Selected="@IsSplineTypeSelected(SplineType.Cardinal)"
                                        SelectedChanged="@(v => OnSplineTypeChanged(v, SplineType.Cardinal))">
                         Cardinal
-                    </ButtonGroupButton>
+                    </Button>
 
-                    <ButtonGroupButton Selected="@IsSplineTypeSelected(SplineType.Clamped)"
+                    <Button Selected="@IsSplineTypeSelected(SplineType.Clamped)"
                                        SelectedChanged="@(v => OnSplineTypeChanged(v, SplineType.Clamped))">
                         Clamped
-                    </ButtonGroupButton>
+                    </Button>
                 </SfButtonGroup>
             </div>
             
@@ -249,25 +249,25 @@
                 </label>
 
                 <SfButtonGroup Mode="SelectionMode.Single">
-                    <ButtonGroupButton Selected="@IsEmptyModeSelected(EmptyPointMode.Gap)"
+                    <Button Selected="@IsEmptyModeSelected(EmptyPointMode.Gap)"
                                        SelectedChanged="@(v => OnEmptyModeChanged(v, EmptyPointMode.Gap))">
                         Gap
-                    </ButtonGroupButton>
+                    </Button>
 
-                    <ButtonGroupButton Selected="@IsEmptyModeSelected(EmptyPointMode.Zero)"
+                    <Button Selected="@IsEmptyModeSelected(EmptyPointMode.Zero)"
                                        SelectedChanged="@(v => OnEmptyModeChanged(v, EmptyPointMode.Zero))">
                         Zero
-                    </ButtonGroupButton>
+                    </Button>
 
-                    <ButtonGroupButton Selected="@IsEmptyModeSelected(EmptyPointMode.Average)"
+                    <Button Selected="@IsEmptyModeSelected(EmptyPointMode.Average)"
                                        SelectedChanged="@(v => OnEmptyModeChanged(v, EmptyPointMode.Average))">
                         Average
-                    </ButtonGroupButton>
+                    </Button>
 
-                    <ButtonGroupButton Selected="@IsEmptyModeSelected(EmptyPointMode.Drop)"
+                    <Button Selected="@IsEmptyModeSelected(EmptyPointMode.Drop)"
                                        SelectedChanged="@(v => OnEmptyModeChanged(v, EmptyPointMode.Drop))">
                         Drop
-                    </ButtonGroupButton>
+                    </Button>
                 </SfButtonGroup>
             </div>
             <SfChart @key="@_currentTheme" Title="Spline Area - Skip Missing" Width="100%" Height="400px" Theme="@_currentTheme">
@@ -396,7 +396,7 @@
                                     Visible="true"
                                     Color="#79747E"
                                     DashArray="10,10"
-                                    ZIndex="@ZIndex.Over" />
+                                    ZIndex="@ZIndexPosition.Over" />
 
                     <ChartStripline Start="21" End="21.5"
                                     Visible="true"
@@ -404,7 +404,7 @@
                                     DashArray="4,4"
                                     Text="Highest Annual Growth"
                                     HorizontalAlignment="Anchor.End"
-                                    ZIndex="@ZIndex.Over"
+                                    ZIndex="@ZIndexPosition.Over"
                                     Rotation="0">
                         <ChartStriplineTextStyle Color="@HighestTextColor" />
                     </ChartStripline>
@@ -414,7 +414,7 @@
                                     Visible="true"
                                     Color="#79747E"
                                     DashArray="10,10"
-                                    ZIndex="@ZIndex.Over" />
+                                    ZIndex="@ZIndexPosition.Over" />
 
                     <ChartStripline Start="-28.5" End="-28"
                                     Visible="true"
@@ -422,7 +422,7 @@
                                     DashArray="4,4"
                                     Text="Lowest Annual Growth"
                                     HorizontalAlignment="Anchor.End"
-                                    ZIndex="@ZIndex.Over"
+                                    ZIndex="@ZIndexPosition.Over"
                                     Rotation="0">
                         <ChartStriplineTextStyle Color="@LowestTextColor" />
                     </ChartStripline>
@@ -841,25 +841,25 @@ new()
                 </label>
 
                 <SfButtonGroup Mode=""SelectionMode.Single"">
-                    <ButtonGroupButton Selected=""@IsSplineTypeSelected(SplineType.Natural)""
+                    <Button Selected=""@IsSplineTypeSelected(SplineType.Natural)""
                                        SelectedChanged=""@(v => OnSplineTypeChanged(v, SplineType.Natural))"">
                         Natural
-                    </ButtonGroupButton>
+                    </Button>
 
-                    <ButtonGroupButton Selected=""@IsSplineTypeSelected(SplineType.Monotonic)""
+                    <Button Selected=""@IsSplineTypeSelected(SplineType.Monotonic)""
                                        SelectedChanged=""@(v => OnSplineTypeChanged(v, SplineType.Monotonic))"">
                         Monotonic
-                    </ButtonGroupButton>
+                    </Button>
 
-                    <ButtonGroupButton Selected=""@IsSplineTypeSelected(SplineType.Cardinal)""
+                    <Button Selected=""@IsSplineTypeSelected(SplineType.Cardinal)""
                                        SelectedChanged=""@(v => OnSplineTypeChanged(v, SplineType.Cardinal))"">
                         Cardinal
-                    </ButtonGroupButton>
+                    </Button>
 
-                    <ButtonGroupButton Selected=""@IsSplineTypeSelected(SplineType.Clamped)""
+                    <Button Selected=""@IsSplineTypeSelected(SplineType.Clamped)""
                                        SelectedChanged=""@(v => OnSplineTypeChanged(v, SplineType.Clamped))"">
                         Clamped
-                    </ButtonGroupButton>
+                    </Button>
                 </SfButtonGroup>
             </div>
             
@@ -947,25 +947,25 @@ new()
                 </label>
 
                 <SfButtonGroup Mode=""SelectionMode.Single"">
-                    <ButtonGroupButton Selected=""@IsEmptyModeSelected(EmptyPointMode.Gap)""
+                    <Button Selected=""@IsEmptyModeSelected(EmptyPointMode.Gap)""
                                        SelectedChanged=""@(v => OnEmptyModeChanged(v, EmptyPointMode.Gap))"">
                         Gap
-                    </ButtonGroupButton>
+                    </Button>
 
-                    <ButtonGroupButton Selected=""@IsEmptyModeSelected(EmptyPointMode.Zero)""
+                    <Button Selected=""@IsEmptyModeSelected(EmptyPointMode.Zero)""
                                        SelectedChanged=""@(v => OnEmptyModeChanged(v, EmptyPointMode.Zero))"">
                         Zero
-                    </ButtonGroupButton>
+                    </Button>
 
-                    <ButtonGroupButton Selected=""@IsEmptyModeSelected(EmptyPointMode.Average)""
+                    <Button Selected=""@IsEmptyModeSelected(EmptyPointMode.Average)""
                                        SelectedChanged=""@(v => OnEmptyModeChanged(v, EmptyPointMode.Average))"">
                         Average
-                    </ButtonGroupButton>
+                    </Button>
 
-                    <ButtonGroupButton Selected=""@IsEmptyModeSelected(EmptyPointMode.Drop)""
+                    <Button Selected=""@IsEmptyModeSelected(EmptyPointMode.Drop)""
                                        SelectedChanged=""@(v => OnEmptyModeChanged(v, EmptyPointMode.Drop))"">
                         Drop
-                    </ButtonGroupButton>
+                    </Button>
                 </SfButtonGroup>
             </div>
             <SfChart @key=""@_currentTheme"" Title=""Spline Area - Skip Missing"" Width=""100%"" Height=""400px"" Theme=""@_currentTheme"">
@@ -1114,7 +1114,7 @@ new()
                                     Visible=""true""
                                     Color=""#79747E""
                                     DashArray=""10,10""
-                                    ZIndex=""@ZIndex.Over"" />
+                                    ZIndex=""@ZIndexPosition.Over"" />
 
                     <ChartStripline Start=""21"" End=""21.5""
                                     Visible=""true""
@@ -1122,7 +1122,7 @@ new()
                                     DashArray=""4,4""
                                     Text=""Highest Annual Growth""
                                     HorizontalAlignment=""Anchor.End""
-                                    ZIndex=""@ZIndex.Over""
+                                    ZIndex=""@ZIndexPosition.Over""
                                     Rotation=""0"">
                         <ChartStriplineTextStyle Color=""@HighestTextColor"" />
                     </ChartStripline>
@@ -1132,7 +1132,7 @@ new()
                                     Visible=""true""
                                     Color=""#79747E""
                                     DashArray=""10,10""
-                                    ZIndex=""@ZIndex.Over"" />
+                                    ZIndex=""@ZIndexPosition.Over"" />
 
                     <ChartStripline Start=""-28.5"" End=""-28""
                                     Visible=""true""
@@ -1140,7 +1140,7 @@ new()
                                     DashArray=""4,4""
                                     Text=""Lowest Annual Growth""
                                     HorizontalAlignment=""Anchor.End""
-                                    ZIndex=""@ZIndex.Over""
+                                    ZIndex=""@ZIndexPosition.Over""
                                     Rotation=""0"">
                         <ChartStriplineTextStyle Color=""@LowestTextColor"" />
                     </ChartStripline>

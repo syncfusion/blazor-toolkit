@@ -12,7 +12,7 @@ namespace Syncfusion.Blazor.Toolkit.Buttons
 
         /// <exclude/>
         /// <summary>
-        /// Gets or sets the child content of the <see cref="SfButtonGroup"/>, which typically consists of <see cref="ButtonGroupButton"/> components.
+        /// Gets or sets the child content of the <see cref="SfButtonGroup"/>, which typically consists of <see cref="Button"/> components.
         /// </summary>
         /// <value>
         /// A <see cref="RenderFragment"/> that represents the content to be rendered inside the ButtonGroup. The default value is <c>null</c>.
@@ -24,9 +24,9 @@ namespace Syncfusion.Blazor.Toolkit.Buttons
         /// The following example demonstrates how to provide child content to the <see cref="SfButtonGroup"/>.
         /// <code><![CDATA[
         /// <SfButtonGroup>
-        ///   <ButtonGroupButton>Left</ButtonGroupButton>
-        ///   <ButtonGroupButton>Center</ButtonGroupButton>
-        ///   <ButtonGroupButton>Right</ButtonGroupButton>
+        ///   <Button>Left</Button>
+        ///   <Button>Center</Button>
+        ///   <Button>Right</Button>
         /// </SfButtonGroup>
         /// ]]></code>
         /// </example>
@@ -47,9 +47,9 @@ namespace Syncfusion.Blazor.Toolkit.Buttons
         /// The following example demonstrates how to apply a custom CSS class to the <see cref="SfButtonGroup"/>.
         /// <code><![CDATA[
         /// <SfButtonGroup CssClass="e-custom-style">
-        ///   <ButtonGroupButton>Left</ButtonGroupButton>
-        ///   <ButtonGroupButton>Center</ButtonGroupButton>
-        ///   <ButtonGroupButton>Right</ButtonGroupButton>
+        ///   <Button>Left</Button>
+        ///   <Button>Center</Button>
+        ///   <Button>Right</Button>
         /// </SfButtonGroup>
         /// ]]></code>
         /// </example>
@@ -70,9 +70,9 @@ namespace Syncfusion.Blazor.Toolkit.Buttons
         /// In the following example, the <c>style</c> attribute is used to set a custom width for the <see cref="SfButtonGroup"/>.
         /// <code><![CDATA[
         /// <SfButtonGroup style="width:200px">
-        ///   <ButtonGroupButton>Left</ButtonGroupButton>
-        ///   <ButtonGroupButton>Center</ButtonGroupButton>
-        ///   <ButtonGroupButton>Right</ButtonGroupButton>
+        ///   <Button>Left</Button>
+        ///   <Button>Center</Button>
+        ///   <Button>Right</Button>
         /// </SfButtonGroup>
         /// ]]></code>
         /// </example>
@@ -97,9 +97,9 @@ namespace Syncfusion.Blazor.Toolkit.Buttons
         /// The following example configures the <see cref="SfButtonGroup"/> for single selection mode.
         /// <code><![CDATA[
         /// <SfButtonGroup Mode="SelectionMode.Single">
-        ///   <ButtonGroupButton>Option 1</ButtonGroupButton>
-        ///   <ButtonGroupButton>Option 2</ButtonGroupButton>
-        ///   <ButtonGroupButton>Option 3</ButtonGroupButton>
+        ///   <Button>Option 1</Button>
+        ///   <Button>Option 2</Button>
+        ///   <Button>Option 3</Button>
         /// </SfButtonGroup>
         /// ]]></code>
         /// </example>
@@ -121,9 +121,9 @@ namespace Syncfusion.Blazor.Toolkit.Buttons
         /// The following example demonstrates how to create a vertically oriented <see cref="SfButtonGroup"/>.
         /// <code><![CDATA[
         /// <SfButtonGroup IsVertical="true">
-        ///   <ButtonGroupButton>Top</ButtonGroupButton>
-        ///   <ButtonGroupButton>Middle</ButtonGroupButton>
-        ///   <ButtonGroupButton>Bottom</ButtonGroupButton>
+        ///   <Button>Top</Button>
+        ///   <Button>Middle</Button>
+        ///   <Button>Bottom</Button>
         /// </SfButtonGroup>
         /// ]]></code>
         /// </example>

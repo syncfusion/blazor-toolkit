@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Components;
 using Syncfusion.Blazor.Toolkit.Charts.Internal;
+using System.ComponentModel;
 
 namespace Syncfusion.Blazor.Toolkit.Charts
 {
@@ -169,6 +170,9 @@ namespace Syncfusion.Blazor.Toolkit.Charts
         /// <summary>
         /// Performs component initialization and registers tooltip properties with the parent.
         /// </summary>
+        /// <exclude />
+        [EditorBrowsable(EditorBrowsableState.Never)]
+        [Browsable(false)]
         protected override void OnInitialized()
         {
             base.OnInitialized();
@@ -182,6 +186,9 @@ namespace Syncfusion.Blazor.Toolkit.Charts
         /// <summary>
         /// Handles parameter changes and updates tooltip properties.
         /// </summary>
+        /// <exclude />
+        [EditorBrowsable(EditorBrowsableState.Never)]
+        [Browsable(false)]
         protected override void OnParametersSet()
         {
             base.OnParametersSet();
@@ -191,6 +198,9 @@ namespace Syncfusion.Blazor.Toolkit.Charts
         /// <summary>
         /// Releases resources associated with this component.
         /// </summary>
+        /// <exclude />
+        [EditorBrowsable(EditorBrowsableState.Never)]
+        [Browsable(false)]
         protected override ValueTask DisposeAsyncCore()
         {
             ComponentDispose();

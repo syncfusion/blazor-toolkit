@@ -13,13 +13,13 @@ namespace Syncfusion.Blazor.Toolkit.Buttons
 
         #region Lifecycle Methods
 
+        /// <exclude />
         /// <summary>
         /// Executes when component parameters are set.
         /// </summary>
         protected override void OnParametersSet()
         {
             base.OnParametersSet();
-            
             // Trigger re-render if IsVertical property changes
             if (_previousIsVertical != IsVertical)
             {
@@ -27,6 +27,7 @@ namespace Syncfusion.Blazor.Toolkit.Buttons
             }
         }
 
+        /// <exclude />
         /// <summary>
         /// Executes after each render.
         /// </summary>
@@ -40,10 +41,11 @@ namespace Syncfusion.Blazor.Toolkit.Buttons
             }
         }
 
+        /// <exclude />
         /// <summary>
-		/// Disposes resources and destroys interop handlers when the component is removed.
-		/// </summary>
-		protected override ValueTask DisposeAsyncCore()
+        /// Disposes resources and destroys interop handlers when the component is removed.
+        /// </summary>
+        protected override ValueTask DisposeAsyncCore()
         {
             _buttonItems?.Clear();
             _buttonItems = null;

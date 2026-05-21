@@ -150,8 +150,8 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
         {
             Rect result = regionRect.Find(region =>
             {
-                double originX = (Chart?._chartAreaType == ChartAreaType.CartesianAxes ? rect.X : 0) + region.X;
-                double originY = (Chart?._chartAreaType == ChartAreaType.CartesianAxes ? rect.Y : 0) + region.Y;
+                double originX = rect.X + region.X;
+                double originY = rect.Y + region.Y;
                 return ChartHelper.WithInBounds(x, y, new Rect(originX, originY, region.Width, region.Height));
             }) ?? null!;
 
@@ -233,8 +233,8 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
 
             return point.Regions.Any(region =>
             {
-                double originX = (Chart?._chartAreaType == ChartAreaType.CartesianAxes ? rect.X : 0) + region.X + xOffset;
-                double originY = (Chart?._chartAreaType == ChartAreaType.CartesianAxes ? rect.Y : 0) + region.Y + yOffset;
+                double originX = rect.X + region.X + xOffset;
+                double originY = rect.Y + region.Y + yOffset;
                 return ChartHelper.WithInBounds(x, y, new Rect(originX, originY, width, height));
             });
         }

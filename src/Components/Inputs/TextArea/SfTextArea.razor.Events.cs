@@ -195,6 +195,7 @@ namespace Syncfusion.Blazor.Toolkit.Inputs
         /// This method triggers both the OnFocus event (with TextArea-specific event args) and the OnFocus event
         /// when the component receives focus, allowing for custom focus handling logic.
         /// </remarks>
+        /// <exclude/>
         protected override async Task FocusHandlerAsync(Microsoft.AspNetCore.Components.Web.FocusEventArgs args)
         {
             if (OnFocus.HasDelegate)
@@ -217,6 +218,7 @@ namespace Syncfusion.Blazor.Toolkit.Inputs
         /// This method checks for value changes and triggers change events if the value has been modified.
         /// It also invokes the OnBlur event with TextArea-specific event arguments for custom blur handling.
         /// </remarks>
+        /// <exclude/>
         protected override async Task FocusOutHandlerAsync(Microsoft.AspNetCore.Components.Web.FocusEventArgs args)
         {
             if (!(string.IsNullOrEmpty(_previousValue) && string.IsNullOrEmpty(Value) && string.IsNullOrEmpty(InputTextValue)) && _previousValue != InputTextValue)
@@ -244,6 +246,7 @@ namespace Syncfusion.Blazor.Toolkit.Inputs
         /// This method captures real-time input changes and triggers the OnInput event with both current and
         /// previous values, enabling scenarios like character counting, real-time validation, or live formatting.
         /// </remarks>
+        /// <exclude/>
         protected override async Task InputHandlerAsync(ChangeEventArgs? args)
         {
             if (OnInput.HasDelegate)
@@ -267,6 +270,7 @@ namespace Syncfusion.Blazor.Toolkit.Inputs
         /// This method updates the component's current value and triggers change events when the user 
         /// commits their input, typically on blur or when pressing Enter in certain scenarios.
         /// </remarks>
+        /// <exclude/>
         protected override async Task ChangeHandlerAsync(ChangeEventArgs? args)
         {
             string? changeVal = args?.Value is not null ? args.Value.ToString() : null;

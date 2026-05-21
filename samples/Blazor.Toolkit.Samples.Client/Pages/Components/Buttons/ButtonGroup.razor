@@ -18,9 +18,9 @@
 <CodePreview CodeSection="@BasicsCode">
     <PreviewSection>
         <SfButtonGroup>
-            <ButtonGroupButton>One</ButtonGroupButton>
-            <ButtonGroupButton>Two</ButtonGroupButton>
-            <ButtonGroupButton>Three</ButtonGroupButton>
+            <Button>One</Button>
+            <Button>Two</Button>
+            <Button>Three</Button>
         </SfButtonGroup>
     </PreviewSection>
 </CodePreview>
@@ -39,23 +39,23 @@
          <div class="e-section">
         <!-- Default (filled/standard) vertical group -->
         <SfButtonGroup IsVertical="true">
-            <ButtonGroupButton>ONE</ButtonGroupButton>
-            <ButtonGroupButton>TWO</ButtonGroupButton>
-            <ButtonGroupButton>THREE</ButtonGroupButton>
+            <Button>ONE</Button>
+            <Button>TWO</Button>
+            <Button>THREE</Button>
         </SfButtonGroup>
 
         <!-- Vertical + flat -->
             <SfButtonGroup IsVertical="true">
-            <ButtonGroupButton CssClass="e-flat">ONE</ButtonGroupButton>
-            <ButtonGroupButton CssClass="e-flat">TWO</ButtonGroupButton>
-            <ButtonGroupButton CssClass="e-flat">THREE</ButtonGroupButton>
+            <Button CssClass="e-flat">ONE</Button>
+            <Button CssClass="e-flat">TWO</Button>
+            <Button CssClass="e-flat">THREE</Button>
         </SfButtonGroup>
 
         <!-- Vertical + outlined -->
             <SfButtonGroup IsVertical="true">
-            <ButtonGroupButton CssClass="e-outline">ONE</ButtonGroupButton>
-            <ButtonGroupButton CssClass="e-outline">TWO</ButtonGroupButton>
-            <ButtonGroupButton CssClass="e-outline">THREE</ButtonGroupButton>
+            <Button CssClass="e-outline">ONE</Button>
+            <Button CssClass="e-outline">TWO</Button>
+            <Button CssClass="e-outline">THREE</Button>
         </SfButtonGroup>
         </div>
     </PreviewSection>
@@ -77,26 +77,26 @@
 
             <!-- Single selection via Selected + SelectedChanged -->
             <SfButtonGroup Mode="SelectionMode.Single">
-                <ButtonGroupButton Selected="@isLeft"
+                <Button Selected="@isLeft"
                                    SelectedChanged='@(v => OnAlignmentChanged(v, "Left"))'
                                    CssClass='@GetActive("Left")'
                                    aria-pressed="@isLeft">
                     Left
-                </ButtonGroupButton>
+                </Button>
 
-                <ButtonGroupButton Selected="@isCenter"
+                <Button Selected="@isCenter"
                                    SelectedChanged='@(v => OnAlignmentChanged(v, "Center"))'
                                    CssClass='@GetActive("Center")'
                                    aria-pressed="@isCenter">
                     Center
-                </ButtonGroupButton>
+                </Button>
 
-                <ButtonGroupButton Selected="@isRight"
+                <Button Selected="@isRight"
                                    SelectedChanged='@(v => OnAlignmentChanged(v, "Right"))'
                                    CssClass='@GetActive("Right")'
                                    aria-pressed="@isRight">
                     Right
-                </ButtonGroupButton>
+                </Button>
             </SfButtonGroup>
 
             <div class="e-note">Selected: @alignment</div>
@@ -107,26 +107,26 @@
 
             <!-- Multiple selection via Selected + SelectedChanged -->
             <SfButtonGroup Mode="SelectionMode.Multiple">
-                <ButtonGroupButton Selected='@tags.Contains("News")'
+                <Button Selected='@tags.Contains("News")'
                                    SelectedChanged='@(v => OnTagChanged("News", v))'
                                    CssClass='@GetTagClass("News")'
                                    aria-pressed='@tags.Contains("News")'>
                     News
-                </ButtonGroupButton>
+                </Button>
 
-                <ButtonGroupButton Selected='@tags.Contains("Blog")'
+                <Button Selected='@tags.Contains("Blog")'
                                    SelectedChanged='@(v => OnTagChanged("Blog", v))'
                                    CssClass='@GetTagClass("Blog")'
                                    aria-pressed='@tags.Contains("Blog")'>
                     Blog
-                </ButtonGroupButton>
+                </Button>
 
-                <ButtonGroupButton Selected='@tags.Contains("Updates")'
+                <Button Selected='@tags.Contains("Updates")'
                                    SelectedChanged='@(v => OnTagChanged("Updates", v))'
                                    CssClass='@GetTagClass("Updates")'
                                    aria-pressed='@tags.Contains("Updates")'>
                     Updates
-                </ButtonGroupButton>
+                </Button>
             </SfButtonGroup>
 
             <div class="e-note">Tags: @string.Join(", ", tags)</div>
@@ -146,9 +146,9 @@
 <CodePreview CodeSection="@RoundedCode">
     <PreviewSection>
         <SfButtonGroup CssClass="e-round-corner">
-            <ButtonGroupButton>Day</ButtonGroupButton>
-            <ButtonGroupButton>Week</ButtonGroupButton>
-            <ButtonGroupButton>Month</ButtonGroupButton>
+            <Button>Day</Button>
+            <Button>Week</Button>
+            <Button>Month</Button>
         </SfButtonGroup>
     </PreviewSection>
 </CodePreview>
@@ -165,11 +165,11 @@
 <CodePreview CodeSection="@ColorCode">
     <PreviewSection>
         <SfButtonGroup>
-            <ButtonGroupButton CssClass="e-primary">Primary</ButtonGroupButton>
-            <ButtonGroupButton CssClass="e-success">Success</ButtonGroupButton>
-            <ButtonGroupButton CssClass="e-warning">Warning</ButtonGroupButton>
-            <ButtonGroupButton CssClass="e-info">Info</ButtonGroupButton>
-            <ButtonGroupButton CssClass="e-danger">Error</ButtonGroupButton>
+            <Button CssClass="e-primary">Primary</Button>
+            <Button CssClass="e-success">Success</Button>
+            <Button CssClass="e-warning">Warning</Button>
+            <Button CssClass="e-info">Info</Button>
+            <Button CssClass="e-danger">Error</Button>
         </SfButtonGroup>
     </PreviewSection>
 </CodePreview>
@@ -188,18 +188,18 @@
         <div id="icons" class="e-section">
             <label class="e-label">Icon-only</label>
             <SfButtonGroup>
-                <ButtonGroupButton aria-label="Bold"><span class="sb-icons e-bold"></span></ButtonGroupButton>
-                <ButtonGroupButton aria-label="Italic"><span class="sb-icons e-italic"></span></ButtonGroupButton>
-                <ButtonGroupButton aria-label="Underline"><span class="sb-icons e-underline"></span></ButtonGroupButton>
+                <Button aria-label="Bold"><span class="sb-icons e-bold"></span></Button>
+                <Button aria-label="Italic"><span class="sb-icons e-italic"></span></Button>
+                <Button aria-label="Underline"><span class="sb-icons e-underline"></span></Button>
             </SfButtonGroup>
         </div>
 
         <div id="icons-text" class="e-section" style="margin-top:12px">
             <label class="e-label">Icon with text</label>
             <SfButtonGroup>
-                <ButtonGroupButton><span class="sb-icons e-align-left"></span>&nbsp;Left</ButtonGroupButton>
-                <ButtonGroupButton><span class="sb-icons e-align-center"></span>&nbsp;Center</ButtonGroupButton>
-                <ButtonGroupButton><span class="sb-icons e-align-right"></span>&nbsp;Right</ButtonGroupButton>
+                <Button><span class="sb-icons e-align-left"></span>&nbsp;Left</Button>
+                <Button><span class="sb-icons e-align-center"></span>&nbsp;Center</Button>
+                <Button><span class="sb-icons e-align-right"></span>&nbsp;Right</Button>
             </SfButtonGroup>
         </div>
     </PreviewSection>
@@ -219,9 +219,9 @@
         <div class="e-section">
             <label class="e-label">Disabled group</label>
             <SfButtonGroup>
-                <ButtonGroupButton Disabled="true">One</ButtonGroupButton>
-                <ButtonGroupButton Disabled="true">Two</ButtonGroupButton>
-                <ButtonGroupButton Disabled="true">Three</ButtonGroupButton>
+                <Button Disabled="true">One</Button>
+                <Button Disabled="true">Two</Button>
+                <Button Disabled="true">Three</Button>
             </SfButtonGroup>
         </div>
 
@@ -229,26 +229,26 @@
             <label class="e-label">Active (Selected) state</label>
 
             <SfButtonGroup Mode="SelectionMode.Multiple">
-                <ButtonGroupButton Selected='@textStyles.Contains("Bold")'
+                <Button Selected='@textStyles.Contains("Bold")'
                                    SelectedChanged='@(v => ToggleStyle("Bold", v))'
                                    CssClass='@GetActive("Bold")'
                                    aria-pressed='@textStyles.Contains("Bold")'>
                     Bold
-                </ButtonGroupButton>
+                </Button>
 
-                <ButtonGroupButton Selected='@textStyles.Contains("Italic")'
+                <Button Selected='@textStyles.Contains("Italic")'
                                    SelectedChanged='@(v => ToggleStyle("Italic", v))'
                                    CssClass='@GetActive("Italic")'
                                    aria-pressed='@textStyles.Contains("Italic")'>
                     Italic
-                </ButtonGroupButton>
+                </Button>
 
-                <ButtonGroupButton Selected='@textStyles.Contains("Underline")'
+                <Button Selected='@textStyles.Contains("Underline")'
                                    SelectedChanged='@(v => ToggleStyle("Underline", v))'
                                    CssClass='@GetActive("Underline")'
                                    aria-pressed='@textStyles.Contains("Underline")'>
                     Underline
-                </ButtonGroupButton>
+                </Button>
             </SfButtonGroup>
 
             <div class="e-note">Active: @string.Join(", ", textStyles)</div>
@@ -259,9 +259,9 @@
 @code {
     // ---------- Basics ----------
     private string BasicsCode => @"<SfButtonGroup>
-    <ButtonGroupButton>One</ButtonGroupButton>
-    <ButtonGroupButton>Two</ButtonGroupButton>
-    <ButtonGroupButton>Three</ButtonGroupButton>
+    <Button>One</Button>
+    <Button>Two</Button>
+    <Button>Three</Button>
 </SfButtonGroup>";
 
     // ---------- Selection Type ----------
@@ -297,26 +297,26 @@
 
             <!-- Single selection via Selected + SelectedChanged -->
             <SfButtonGroup Mode=""SelectionMode.Single"">
-                <ButtonGroupButton Selected=""@isLeft""
+                <Button Selected=""@isLeft""
                                    SelectedChanged='@(v => OnAlignmentChanged(v, ""Left""))'
                                    CssClass='@GetActive(""Left"")'
                                    aria-pressed=""@isLeft"">
                     Left
-                </ButtonGroupButton>
+                </Button>
 
-                <ButtonGroupButton Selected=""@isCenter""
+                <Button Selected=""@isCenter""
                                    SelectedChanged='@(v => OnAlignmentChanged(v, ""Center""))'
                                    CssClass='@GetActive(""Center"")'
                                    aria-pressed=""@isCenter"">
                     Center
-                </ButtonGroupButton>
+                </Button>
 
-                <ButtonGroupButton Selected=""@isRight""
+                <Button Selected=""@isRight""
                                    SelectedChanged='@(v => OnAlignmentChanged(v, ""Right""))'
                                    CssClass='@GetActive(""Right"")'
                                    aria-pressed=""@isRight"">
                     Right
-                </ButtonGroupButton>
+                </Button>
             </SfButtonGroup>
 
             <div class=""e-note"">Selected: @alignment</div>
@@ -327,26 +327,26 @@
 
             <!-- Multiple selection via Selected + SelectedChanged -->
             <SfButtonGroup Mode=""SelectionMode.Multiple"">
-                <ButtonGroupButton Selected='@tags.Contains(""News"")'
+                <Button Selected='@tags.Contains(""News"")'
                                    SelectedChanged='@(v => OnTagChanged(""News"", v))'
                                    CssClass='@GetTagClass(""News"")'
                                    aria-pressed='@tags.Contains(""News"")'>
                     News
-                </ButtonGroupButton>
+                </Button>
 
-                <ButtonGroupButton Selected='@tags.Contains(""Blog"")'
+                <Button Selected='@tags.Contains(""Blog"")'
                                    SelectedChanged='@(v => OnTagChanged(""Blog"", v))'
                                    CssClass='@GetTagClass(""Blog"")'
                                    aria-pressed='@tags.Contains(""Blog"")'>
                     Blog
-                </ButtonGroupButton>
+                </Button>
 
-                <ButtonGroupButton Selected='@tags.Contains(""Updates"")'
+                <Button Selected='@tags.Contains(""Updates"")'
                                    SelectedChanged='@(v => OnTagChanged(""Updates"", v))'
                                    CssClass='@GetTagClass(""Updates"")'
                                    aria-pressed='@tags.Contains(""Updates"")'>
                     Updates
-                </ButtonGroupButton>
+                </Button>
             </SfButtonGroup>
 
             <div class=""e-note"">Tags: @string.Join("", "", tags)</div>
@@ -398,50 +398,50 @@
 
     // ---------- Flat ----------
     private string FlatCode => @"<SfButtonGroup>
-    <ButtonGroupButton CssClass=""e-flat"">Day</ButtonGroupButton>
-    <ButtonGroupButton CssClass=""e-flat"">Week</ButtonGroupButton>
-    <ButtonGroupButton CssClass=""e-flat"">Month</ButtonGroupButton>
+    <Button CssClass=""e-flat"">Day</Button>
+    <Button CssClass=""e-flat"">Week</Button>
+    <Button CssClass=""e-flat"">Month</Button>
 </SfButtonGroup>";
 
     // ---------- Outlined ----------
     private string OutlinedCode => @"<SfButtonGroup>
-    <ButtonGroupButton CssClass=""e-outline"">Day</ButtonGroupButton>
-    <ButtonGroupButton CssClass=""e-outline"">Week</ButtonGroupButton>
-    <ButtonGroupButton CssClass=""e-outline"">Month</ButtonGroupButton>
+    <Button CssClass=""e-outline"">Day</Button>
+    <Button CssClass=""e-outline"">Week</Button>
+    <Button CssClass=""e-outline"">Month</Button>
 </SfButtonGroup>";
 
     // ---------- Rounded ----------
     private string RoundedCode => @"<SfButtonGroup CssClass=""e-round-corner"">
-    <ButtonGroupButton>Day</ButtonGroupButton>
-    <ButtonGroupButton>Week</ButtonGroupButton>
-    <ButtonGroupButton>Month</ButtonGroupButton>
+    <Button>Day</Button>
+    <Button>Week</Button>
+    <Button>Month</Button>
 </SfButtonGroup>";
 
     // ---------- Colors ----------
     private string ColorCode => @"<SfButtonGroup>
-    <ButtonGroupButton CssClass=""e-primary"">Primary</ButtonGroupButton>
-    <ButtonGroupButton CssClass=""e-success"">Success</ButtonGroupButton>
-    <ButtonGroupButton CssClass=""e-warning"">Warning</ButtonGroupButton>
-    <ButtonGroupButton CssClass=""e-info"">Info</ButtonGroupButton>
-    <ButtonGroupButton CssClass=""e-danger"">Error</ButtonGroupButton>
+    <Button CssClass=""e-primary"">Primary</Button>
+    <Button CssClass=""e-success"">Success</Button>
+    <Button CssClass=""e-warning"">Warning</Button>
+    <Button CssClass=""e-info"">Info</Button>
+    <Button CssClass=""e-danger"">Error</Button>
 </SfButtonGroup>";
 
     // ---------- Icons ----------
     private string IconsCode => @"<div class=""e-section"">
             <label class=""e-label"">Icon-only</label>
             <SfButtonGroup>
-                <ButtonGroupButton aria-label=""Bold""><span class=""sb-icons e-bold""></span></ButtonGroupButton>
-                <ButtonGroupButton aria-label=""Italic""><span class=""sb-icons e-italic""></span></ButtonGroupButton>
-                <ButtonGroupButton aria-label=""Underline""><span class=""sb-icons e-underline""></span></ButtonGroupButton>
+                <Button aria-label=""Bold""><span class=""sb-icons e-bold""></span></Button>
+                <Button aria-label=""Italic""><span class=""sb-icons e-italic""></span></Button>
+                <Button aria-label=""Underline""><span class=""sb-icons e-underline""></span></Button>
             </SfButtonGroup>
         </div>
 
         <div class=""e-section"" style=""margin-top:12px"">
             <label class=""e-label"">Icon with text</label>
             <SfButtonGroup>
-                <ButtonGroupButton><span class=""sb-icons e-align-left""></span>&nbsp;Left</ButtonGroupButton>
-                <ButtonGroupButton><span class=""sb-icons e-align-center""></span>&nbsp;Center</ButtonGroupButton>
-                <ButtonGroupButton><span class=""sb-icons e-align-right""></span>&nbsp;Right</ButtonGroupButton>
+                <Button><span class=""sb-icons e-align-left""></span>&nbsp;Left</Button>
+                <Button><span class=""sb-icons e-align-center""></span>&nbsp;Center</Button>
+                <Button><span class=""sb-icons e-align-right""></span>&nbsp;Right</Button>
             </SfButtonGroup>
         </div>
         <style>
@@ -466,9 +466,9 @@
  <div class=""e-section"">
             <label class=""e-label"">Disabled group</label>
             <SfButtonGroup>
-                <ButtonGroupButton Disabled=""true"">One</ButtonGroupButton>
-                <ButtonGroupButton Disabled=""true"">Two</ButtonGroupButton>
-                <ButtonGroupButton Disabled=""true"">Three</ButtonGroupButton>
+                <Button Disabled=""true"">One</Button>
+                <Button Disabled=""true"">Two</Button>
+                <Button Disabled=""true"">Three</Button>
             </SfButtonGroup>
         </div>
 
@@ -476,26 +476,26 @@
             <label class=""e-label"">Active (Selected) state</label>
 
             <SfButtonGroup Mode=""SelectionMode.Multiple"">
-                <ButtonGroupButton Selected='@textStyles.Contains(""Bold"")'
+                <Button Selected='@textStyles.Contains(""Bold"")'
                                    SelectedChanged='@(v => ToggleStyle(""Bold"", v))'
                                    CssClass='@GetActive(""Bold"")'
                                    aria-pressed='@textStyles.Contains(""Bold"")'>
                     Bold
-                </ButtonGroupButton>
+                </Button>
 
-                <ButtonGroupButton Selected='@textStyles.Contains(""Italic"")'
+                <Button Selected='@textStyles.Contains(""Italic"")'
                                    SelectedChanged='@(v => ToggleStyle(""Italic"", v))'
                                    CssClass='@GetActive(""Italic"")'
                                    aria-pressed='@textStyles.Contains(""Italic"")'>
                     Italic
-                </ButtonGroupButton>
+                </Button>
 
-                <ButtonGroupButton Selected='@textStyles.Contains(""Underline"")'
+                <Button Selected='@textStyles.Contains(""Underline"")'
                                    SelectedChanged='@(v => ToggleStyle(""Underline"", v))'
                                    CssClass='@GetActive(""Underline"")'
                                    aria-pressed='@textStyles.Contains(""Underline"")'>
                     Underline
-                </ButtonGroupButton>
+                </Button>
             </SfButtonGroup>
 
             <div class=""e-note"">Active: @string.Join("", "", textStyles)</div>
@@ -532,21 +532,21 @@
     // ---------- Vertical ----------
     private string VerticalCode => @"<div class=""e-section"">
 <SfButtonGroup IsVertical=""true"">
-    <ButtonGroupButton>ONE</ButtonGroupButton>
-    <ButtonGroupButton>TWO</ButtonGroupButton>
-    <ButtonGroupButton>THREE</ButtonGroupButton>
+    <Button>ONE</Button>
+    <Button>TWO</Button>
+    <Button>THREE</Button>
 </SfButtonGroup>
 
 <SfButtonGroup IsVertical=""true"">
-    <ButtonGroupButton CssClass=""e-flat"">ONE</ButtonGroupButton>
-    <ButtonGroupButton CssClass=""e-flat"">TWO</ButtonGroupButton>
-    <ButtonGroupButton CssClass=""e-flat"">THREE</ButtonGroupButton>
+    <Button CssClass=""e-flat"">ONE</Button>
+    <Button CssClass=""e-flat"">TWO</Button>
+    <Button CssClass=""e-flat"">THREE</Button>
 </SfButtonGroup>
 
 <SfButtonGroup IsVertical=""true"">
-    <ButtonGroupButton CssClass=""e-outline"">ONE</ButtonGroupButton>
-    <ButtonGroupButton CssClass=""e-outline"">TWO</ButtonGroupButton>
-    <ButtonGroupButton CssClass=""e-outline"">THREE</ButtonGroupButton>
+    <Button CssClass=""e-outline"">ONE</Button>
+    <Button CssClass=""e-outline"">TWO</Button>
+    <Button CssClass=""e-outline"">THREE</Button>
 </SfButtonGroup>
 </div>";
 }

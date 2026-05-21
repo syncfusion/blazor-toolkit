@@ -11,8 +11,8 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
     public partial class SvgText
     {
         #region Fields
-        double _opacity { get; set; } = 1;
-        Dictionary<string, object>? _htmlAttributes { get; set; }
+        private double _opacity { get; set; } = 1;
+        private Dictionary<string, object>? _htmlAttributes { get; set; }
         #endregion
 
         #region Properties

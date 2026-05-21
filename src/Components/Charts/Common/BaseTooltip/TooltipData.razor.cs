@@ -12,11 +12,11 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
     public partial class TooltipData
     {
         #region Fields
-        bool _sharedTemplate;
-        ChartTooltipInfo _chartTooltipInfo = new ChartTooltipInfo();
-        List<ChartTooltipInfo> _chartTooltipInfos = new List<ChartTooltipInfo>();
-        SfChart? _owner;
-        bool _isNeedRender;
+        private bool _sharedTemplate;
+        private ChartTooltipInfo _chartTooltipInfo = new();
+        private readonly List<ChartTooltipInfo> _chartTooltipInfos = [];
+        private SfChart? _owner;
+        private bool _isNeedRender;
         #endregion
 
         #region Properties
@@ -63,29 +63,29 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
         /// Builds the RenderFragment that wraps the provided template content in a hidden container.
         /// </summary>
         /// <returns>A <see cref="RenderFragment"/> that renders the tooltip template.</returns>
-        RenderFragment TemplateElements() => builder =>
+        private RenderFragment TemplateElements()
         {
-            int seq = 0;
-            if (GivenContent is not null)
+            return builder =>
             {
-                builder.OpenElement(seq++, "div");
-                builder.AddAttribute(seq++, "id", "tooltip_template");
+                int seq = 0;
+                if (GivenContent is not null)
+                {
+                    builder.OpenElement(seq++, "div");
+                    builder.AddAttribute(seq++, "id", "tooltip_template");
 
-                if (_sharedTemplate)
-                {
-                    builder.AddContent(3, GivenContent(_chartTooltipInfos));
+                    if (_sharedTemplate)
+                    {
+                        builder.AddContent(3, GivenContent(_chartTooltipInfos));
+                    }
+                    else
+                    {
+                        builder.AddContent(3, GivenContent(_chartTooltipInfo));
+                    }
+                    builder.CloseElement();
                 }
-                else
-                {
-                    builder.AddContent(3, GivenContent(_chartTooltipInfo));
-                }
-                builder.CloseElement();
-            }
-            if (_owner is not null)
-            {
-                _owner.SetTooltipStyleAsync(ID).ConfigureAwait(true);
-            }
-        };
+                _ = (_owner?.SetTooltipStyleAsync(ID).ConfigureAwait(true));
+            };
+        }
 
         /// <summary>
         /// Creates a tooltip information object from the given point data.
@@ -93,7 +93,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
         /// <param name="point">The data point from which to extract tooltip information.</param>
         /// <param name="financialPoint">The financial point data, if applicable; otherwise <see langword="null"/>.</param>
         /// <returns>A <see cref="ChartTooltipInfo"/> object populated with point and financial data.</returns>
-        static ChartTooltipInfo CreateTooltipInfo(Point point, FinancialPoint? financialPoint)
+        private static ChartTooltipInfo CreateTooltipInfo(Point point, FinancialPoint? financialPoint)
         {
             return new ChartTooltipInfo
             {
@@ -134,7 +134,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
                     Attributes["tooltip-data" + i] = points[i];
                 }
             }
-            InvokeAsync(StateHasChanged);
+            _ = InvokeAsync(StateHasChanged);
         }
 
         /// <summary>
@@ -193,7 +193,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
                 Attributes.Clear();
             }
             _isNeedRender = false;
-            InvokeAsync(StateHasChanged);
+            _ = InvokeAsync(StateHasChanged);
         }
         #endregion
     }

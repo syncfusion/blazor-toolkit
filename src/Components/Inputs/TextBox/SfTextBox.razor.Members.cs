@@ -356,51 +356,61 @@ namespace Syncfusion.Blazor.Toolkit.Inputs
         /// <summary>
         /// Gets and sets the placeholder text for the <see cref="SfTextBox"/> component, which serves as a hint to users about what to enter in the input field when it is empty.
         /// </summary>
+        /// <exclude/>
         protected override string BasePlaceholder { get; set; } = default!;
 
         /// <summary>
         /// Gets and sets a value indicating whether the <see cref="SfTextBox"/> component is read-only, which prevents users from editing the content of the input field while still allowing them to view and select the text.
         /// </summary>
+        /// <exclude/>
         protected override bool BaseReadOnly { get; set; }
 
         /// <summary>
         /// Gets or sets a value indicating whether the input element itself should be marked as read-only.
         /// </summary>
+        /// <exclude/>
         protected override bool BaseIsReadOnlyInput { get; set; }
 
         /// <summary>
         /// Gets or sets a value indicating whether the clear button should be displayed in the <see cref="SfTextBox"/> component, allowing users to quickly clear the input content with a single click when the TextBox has a value.
         /// </summary>
+        /// <exclude/>
         protected override bool BaseShowClearButton { get; set; }
 
         /// <summary>
         /// Gets or sets the width of the <see cref="SfTextBox"/> component.
         /// </summary>
+        /// <exclude/>
         protected override string? BaseWidth { get; set; }
 
         /// <summary>
         /// Gets or sets the tab index of the <see cref="SfTextBox"/> component for keyboard navigation.
         /// </summary>
+        /// <exclude/>
         protected override int BaseTabIndex { get; set; }
 
         /// <summary>
         /// Gets or sets the floating label behavior of the <see cref="SfTextBox"/> component that determines how the placeholder text is displayed.
         /// </summary>
+        /// <exclude/>
         protected override FloatLabelType BaseFloatLabelType { get; set; }
 
         /// <summary>
         /// Gets or sets a value indicating whether the <see cref="SfTextBox"/> component supports multiple lines of text.
         /// </summary>
+        /// <exclude/>
         protected override bool MultilineInput { get; set; }
 
         /// <summary>
         /// Gets or sets additional HTML attributes to be applied to the <see cref="SfTextBox"/> component's container element.
         /// </summary>
+        /// <exclude/>
         protected override Dictionary<string, object>? BaseHtmlAttributes { get; set; }
 
         /// <summary>
         /// Gets or sets additional HTML attributes to be applied specifically to the input element itself.
         /// </summary>
+        /// <exclude/>
         protected override Dictionary<string, object>? BaseInputAttributes { get; set; } = [];
 
         /// <summary>

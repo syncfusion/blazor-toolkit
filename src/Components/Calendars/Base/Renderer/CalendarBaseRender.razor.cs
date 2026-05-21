@@ -105,6 +105,7 @@ namespace Syncfusion.Blazor.Toolkit.Calendars.Internal
         /// <example>
         /// This method is called automatically by the Blazor framework when the component is being initialized.
         /// </example>
+        /// <exclude />
         protected override async Task OnInitializedAsync()
         {
             await base.OnInitializedAsync().ConfigureAwait(false);
@@ -129,6 +130,7 @@ namespace Syncfusion.Blazor.Toolkit.Calendars.Internal
         /// <remarks>
         /// Invoked automatically by the Blazor runtime when parameters are set or receive updates.
         /// </remarks>
+        /// <exclude />
         protected override async Task OnParametersSetAsync()
         {
             await base.OnParametersSetAsync().ConfigureAwait(false);
@@ -398,6 +400,7 @@ namespace Syncfusion.Blazor.Toolkit.Calendars.Internal
         /// <example>
         /// Called when <c>Min</c> or <c>Max</c> is changed on the calendar to ensure the current value remains valid.
         /// </example>
+        /// <exclude />
         protected async Task MinMaxUpdateAsync(TValue minMaxValue)
         {
             AdjustCurrentDateToMinMaxBounds(minMaxValue);

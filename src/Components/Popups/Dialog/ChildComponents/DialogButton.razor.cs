@@ -283,6 +283,7 @@ namespace Syncfusion.Blazor.Toolkit.Popups
         /// This method is called after the component has been initialized and is ready to start processing.
         /// It initializes the button properties and registers the button with its parent <see cref="DialogButtons"/> container.
         /// </remarks>
+        /// <exclude />
         protected override async Task OnInitializedAsync()
         {
             await base.OnInitializedAsync().ConfigureAwait(false);
@@ -310,6 +311,7 @@ namespace Syncfusion.Blazor.Toolkit.Popups
         /// This method is called whenever the component's parameters change. It compares the current parameter values
         /// with the previous values and triggers a refresh of the parent <see cref="DialogButtons"/> container when changes are detected.
         /// </remarks>
+        /// <exclude />
         protected override async Task OnParametersSetAsync()
         {
             await base.OnParametersSetAsync().ConfigureAwait(false);
@@ -336,6 +338,7 @@ namespace Syncfusion.Blazor.Toolkit.Popups
         /// This method is called by the <see cref="DisposeAsyncCore()"/> method and the finalizer.
         /// it releases all managed resources including removing the button from its parent container and updating button indices.
         /// </remarks>
+        /// <exclude />
         protected override ValueTask DisposeAsyncCore()
         {
             if (Parent is not null)

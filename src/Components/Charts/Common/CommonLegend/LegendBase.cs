@@ -1,10 +1,9 @@
-﻿using Syncfusion.Blazor.Toolkit.Charts.Internal;
-using Microsoft.AspNetCore.Components.Rendering;
+﻿using Microsoft.AspNetCore.Components.Rendering;
 using System.Globalization;
 using System.ComponentModel;
 using Microsoft.AspNetCore.Components;
 
-namespace Syncfusion.Blazor.Toolkit.Charts
+namespace Syncfusion.Blazor.Toolkit.Charts.Internal
 {
     /// <summary>
     /// Provides shared legend layout, measurement, and rendering logic for chart components.
@@ -21,12 +20,12 @@ namespace Syncfusion.Blazor.Toolkit.Charts
     public class LegendBase : ChartRenderer
     {
         #region Constants
-        const double PAGE_BUTTON_SIZE = 8;
+        private const double PAGE_BUTTON_SIZE = 8;
         #endregion
 
         #region Fields
-        string _baseControl { get; set; } = string.Empty;
-        string _pagingTransform { get; set; } = string.Empty;
+        private string _baseControl { get; set; } = string.Empty;
+        private string _pagingTransform { get; set; } = string.Empty;
         protected CultureInfo culture { get; set; } = CultureInfo.InvariantCulture;
         #endregion
 
@@ -323,7 +322,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts
         /// <param name="index">The legend item index.</param>
         /// <param name="pointerValue">The pointer cursor value.</param>
         /// <param name="legend">The legend instance.</param>
-        void CreateCustomLegendTemplate(LegendOption legendOption, int index, string pointerValue, ILegendBase legend)
+        private void CreateCustomLegendTemplate(LegendOption legendOption, int index, string pointerValue, ILegendBase legend)
         {
             TextOptions currentTextOption = LegendOptions[index].TextOption;
             string id = Owner?.ID + "_chart_legend_template_" + Convert.ToString(legendOption.SeriesIndex, null);
@@ -343,7 +342,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts
         /// Calculates paging elements with text options.
         /// </summary>
         /// <param name="textOption">The text options used for paging.</param>
-        void CalculatePagingElements(TextOptions textOption)
+        private void CalculatePagingElements(TextOptions textOption)
         {
             PagingRegions = new List<Rect>();
             CurrentPageNumber = CurrentPageNumber > 1 && CurrentPageNumber > TotalPageCount ? TotalPageCount : CurrentPageNumber;
@@ -374,7 +373,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts
         /// <param name="size">The text size.</param>
         /// <param name="iconSize">The icon size.</param>
         /// <param name="y">The y location.</param>
-        void InitializePagingSymbols(TextOptions textOption, Size size, double iconSize, double y)
+        private void InitializePagingSymbols(TextOptions textOption, Size size, double iconSize, double y)
         {
             PathOptions symbolOption = new PathOptions(!IsRTL ? PageUpID ?? string.Empty : PageDownID ?? string.Empty, string.Empty, string.Empty, 5, "#545454", 1, Constants.Transparent, string.Empty, string.Empty, "Legend paging", "-1");
             double x = LegendBounds.X + (iconSize / 2);
@@ -402,7 +401,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts
         /// <param name="size">The text size.</param>
         /// <param name="iconSize">The icon size.</param>
         /// <param name="y">The y location.</param>
-        void InitializePagingRegions(TextOptions textOption, Size size, double iconSize, double y)
+        private void InitializePagingRegions(TextOptions textOption, Size size, double iconSize, double y)
         {
             double regionOffset = LegendBounds.Width - ((2 * (iconSize + 8)) + 8 + size.Width);
             double x = LegendBounds.X + (iconSize / 2);
@@ -426,17 +425,17 @@ namespace Syncfusion.Blazor.Toolkit.Charts
         /// </summary>
         /// <param name="builder">The render tree builder.</param>
         /// <param name="symbolOption">The symbol options.</param>
-        void RenderSymbol(RenderTreeBuilder builder, SymbolOptions symbolOption)
+        private void RenderSymbol(RenderTreeBuilder builder, SymbolOptions symbolOption)
         {
-            if (symbolOption.ShapeName == ShapeName.ellipse)
+            if (symbolOption.ShapeName == ShapeName.Ellipse)
             {
                 Owner?._svgRenderer?.RenderEllipse(builder, symbolOption.EllipseOption);
             }
-            else if (symbolOption.ShapeName == ShapeName.path)
+            else if (symbolOption.ShapeName == ShapeName.Path)
             {
                 Owner?._svgRenderer?.RenderPath(builder, symbolOption.PathOption);
             }
-            else if (symbolOption.ShapeName == ShapeName.image)
+            else if (symbolOption.ShapeName == ShapeName.Image)
             {
                 Owner?._svgRenderer?.RenderImage(builder, symbolOption.ImageOption);
             }
@@ -447,7 +446,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts
         /// </summary>
         /// <param name="builder">The render tree builder.</param>
         /// <param name="svgRenderer">The SVG renderer.</param>
-        void RenderPagingElements(RenderTreeBuilder builder, SvgRendering svgRenderer)
+        private void RenderPagingElements(RenderTreeBuilder builder, SvgRendering svgRenderer)
         {
             svgRenderer.OpenGroupElement(builder, LegendID + "_navigation", _pagingTransform, string.Empty, "e-legend-cursor");
             foreach (LegendSymbols pagingOption in PagingOptions.ToArray())
@@ -467,7 +466,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts
         /// <param name="legendOption">The legend option containing location and template metadata.</param>
         /// <param name="textWidth">The measured width of the legend text in pixels.</param>
         /// <returns>The resolved X coordinate expressed as an invariant culture string.</returns>
-        string ResolveLegendTextX(LegendOption legendOption, double textWidth)
+        private string ResolveLegendTextX(LegendOption legendOption, double textWidth)
         {
             if (IsInverse && !IsRTL)
             {
@@ -493,7 +492,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts
         /// <param name="builder">The render tree builder that receives the SVG element hierarchy.</param>
         /// <param name="svgRenderer">The SVG renderer responsible for drawing primitive shapes.</param>
         /// <param name="legendBorder">The configured border settings applied to the legend background.</param>
-        void CreateLegendElements(RenderTreeBuilder builder, SvgRendering svgRenderer, ChartDefaultBorder legendBorder)
+        private void CreateLegendElements(RenderTreeBuilder builder, SvgRendering svgRenderer, ChartDefaultBorder legendBorder)
         {
             string clipPath = LegendID + "_clipPath";
             RectOptions Option = new RectOptions(LegendID + "_element", LegendBounds.X, LegendBounds.Y, LegendBounds.Width, LegendBounds.Height, legendBorder.Width, legendBorder.Color, Legend?.Background ?? string.Empty, 0, 0, Legend?.Opacity ?? 1, string.Empty, "pointer-events: none; cursor: " + (Legend is not null && Legend.ToggleVisibility ? "default" : "pointer"));
@@ -524,7 +523,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts
         /// <param name="legendOption">The legend option.</param>
         /// <param name="defaultFill">The default fill color.</param>
         /// <returns>The resolved fill color.</returns>
-        string ResolveLegendMarkerFill(LegendOption legendOption, string defaultFill)
+        private string ResolveLegendMarkerFill(LegendOption legendOption, string defaultFill)
         {
             ChartSeries? series = Owner?._visibleSeriesRenderers?.ElementAtOrDefault((int)legendOption.SeriesIndex)?.Series;
             if (ChartHelper.NeedsLegendHorizontalLineGradient(series))
@@ -538,7 +537,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts
         /// Finds the index of the first renderable legend item.
         /// </summary>
         /// <returns>The first legend index.</returns>
-        int FindFirstLegendPosition()
+        private int FindFirstLegendPosition()
         {
             int count = 0;
             foreach (LegendOption Legend in LegendCollection.ToArray())
@@ -560,7 +559,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts
         /// <param name="availableSize">Available chart size.</param>
         /// <param name="_baseControl">Base control name.</param>
         /// <param name="seriesType">Series type.</param>
-        void GetPosition(Size availableSize, string _baseControl, string seriesType)
+        private void GetPosition(Size availableSize, string _baseControl, string seriesType)
         {
             if (_baseControl == "Chart")
             {
@@ -584,7 +583,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts
         /// <param name="textPadding">Output text padding.</param>
         /// <param name="pointerValue">Output pointer value.</param>
         /// <returns>Computed start point for legend items.</returns>
-        ChartEventLocation SetupStartAndPagingMetrics(int firstLegend, out double textPadding, out string pointerValue)
+        private ChartEventLocation SetupStartAndPagingMetrics(int firstLegend, out double textPadding, out string pointerValue)
         {
             int count = 0;
             double x_Align = 0;
@@ -622,7 +621,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts
         /// <param name="textPadding">Text padding.</param>
         /// <param name="pointerValue">Pointer cursor string.</param>
         /// <param name="firstLegend">First renderable legend index.</param>
-        void BuildLegendSymbolsAndTemplates(ChartEventLocation start, double textPadding, string pointerValue, int firstLegend)
+        private void BuildLegendSymbolsAndTemplates(ChartEventLocation start, double textPadding, string pointerValue, int firstLegend)
         {
             int count = 0;
             LegendOption PreviousLegend = LegendCollection[firstLegend];
@@ -659,7 +658,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts
         /// <summary>
         /// Build rectangle hit areas for legend items.
         /// </summary>
-        void BuildLegendRects()
+        private void BuildLegendRects()
         {
             int count = 0;
 
@@ -687,7 +686,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts
         /// Handles legend paging: template visibility and text offsets.
         /// </summary>
         /// <param name="pointerValue">Pointer cursor string.</param>
-        void HandlePaging(string pointerValue)
+        private void HandlePaging(string pointerValue)
         {
             if (!IsPaging)
             {
@@ -770,7 +769,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts
         /// <param name="index">The legend index.</param>
         /// <param name="legendLabelColor">The legend label color.</param>
         /// <returns>The text options.</returns>
-        TextOptions CalculateText(LegendOption legendOption, int index, string legendLabelColor)
+        private TextOptions CalculateText(LegendOption legendOption, int index, string legendLabelColor)
         {
             if (legendOption is null)
             {
@@ -804,7 +803,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts
         /// </summary>
         /// <param name="legendOption">The legend option.</param>
         /// <returns>Symbol color.</returns>
-        string DetermineSymbolColor(LegendOption legendOption)
+        private string DetermineSymbolColor(LegendOption legendOption)
         {
             return legendOption.Visible ? legendOption.Fill : "#D3D3D3";
         }
@@ -814,7 +813,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts
         /// </summary>
         /// <param name="legendOption">The legend option.</param>
         /// <returns>Shape name string.</returns>
-        string DetermineShape(LegendOption legendOption)
+        private string DetermineShape(LegendOption legendOption)
         {
             string shape;
             if (_baseControl == "Chart")
@@ -834,7 +833,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts
         /// </summary>
         /// <param name="legendOption">The legend option.</param>
         /// <returns>True if series line uses stroke width.</returns>
-        bool IsStrokeWidthSeriesLine(LegendOption legendOption)
+        private bool IsStrokeWidthSeriesLine(LegendOption legendOption)
         {
             if (legendOption.Shape != LegendShape.SeriesType)
             {
@@ -850,7 +849,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts
         /// </summary>
         /// <param name="legendOption">The legend option.</param>
         /// <returns>True when custom border needed.</returns>
-        bool IsCustomBorderSeries(LegendOption legendOption)
+        private bool IsCustomBorderSeries(LegendOption legendOption)
         {
             return legendOption.Type == ChartSeriesType.Scatter.ToString() || legendOption.Type == ChartSeriesType.Bubble.ToString();
         }
@@ -861,7 +860,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts
         /// <param name="isStrokeWidth">Indicates whether stroke width is needed.</param>
         /// <param name="seriesWidth">Series stroke width value.</param>
         /// <returns>Stroke width value.</returns>
-        double GetBaseStrokeWidth(bool isStrokeWidth, double seriesWidth)
+        private double GetBaseStrokeWidth(bool isStrokeWidth, double seriesWidth)
         {
             return isStrokeWidth ? seriesWidth : 1;
         }
@@ -871,7 +870,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts
         /// </summary>
         /// <param name="legendOption">The legend option.</param>
         /// <returns>Dash array or empty string.</returns>
-        string GetDashArray(LegendOption legendOption)
+        private string GetDashArray(LegendOption legendOption)
         {
             bool needsDashArray = legendOption.Shape == LegendShape.SeriesType &&
                 (legendOption.Type == ChartSeriesType.Line.ToString() ||
@@ -890,7 +889,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts
         /// <param name="legendOption">Legend option.</param>
         /// <param name="symbolColor">Symbol color fallback.</param>
         /// <returns>Tuple stroke width and border color.</returns>
-        (double StrokeWidth, string BorderColor) ApplyCustomBorder(bool isCustomBorder, double strokeWidth, LegendOption legendOption, string symbolColor)
+        private (double StrokeWidth, string BorderColor) ApplyCustomBorder(bool isCustomBorder, double strokeWidth, LegendOption legendOption, string symbolColor)
         {
             string borderColor = string.Empty;
             double width = strokeWidth;
@@ -909,7 +908,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts
         /// </summary>
         /// <param name="legendOption">Legend option.</param>
         /// <returns>Padding value.</returns>
-        double GetLegendPadding(LegendOption legendOption)
+        private double GetLegendPadding(LegendOption legendOption)
         {
             return legendOption.LegendTemplate is null ? (Legend?.ShapePadding ?? 0) : 0;
         }
@@ -920,7 +919,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts
         /// <param name="legendOption">Legend option.</param>
         /// <param name="padding">Padding value.</param>
         /// <returns>Symbol location.</returns>
-        ChartEventLocation CreateSymbolLocation(LegendOption legendOption, double padding)
+        private ChartEventLocation CreateSymbolLocation(LegendOption legendOption, double padding)
         {
             ChartEventLocation symbolLocation = new ChartEventLocation(0, 0)
             {
@@ -941,7 +940,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts
         /// <param name="borderColor">Border color.</param>
         /// <param name="symbolColor">Symbol color.</param>
         /// <returns>PathOptions instance.</returns>
-        PathOptions CreateSymbolPathOptions(LegendOption legendOption, int index, string dashArray, double strokeWidth, bool isCustomBorder, string borderColor, string symbolColor)
+        private PathOptions CreateSymbolPathOptions(LegendOption legendOption, int index, string dashArray, double strokeWidth, bool isCustomBorder, string borderColor, string symbolColor)
         {
             return new PathOptions(
                 LegendID + GenerateId("_shape_", index, legendOption),
@@ -964,7 +963,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts
         /// <param name="symbolLocation">Base location.</param>
         /// <param name="symbolOption">Path options for symbol.</param>
         /// <returns>A tuple of marker symbol and resolved shape.</returns>
-        (SymbolOptions MarkerSymbol, string Shape) TryCreateMarkerSymbol(string currentShape, LegendOption legendOption, int index, double strokeWidth, string symbolColor, ChartEventLocation symbolLocation, PathOptions symbolOption)
+        private (SymbolOptions MarkerSymbol, string Shape) TryCreateMarkerSymbol(string currentShape, LegendOption legendOption, int index, double strokeWidth, string symbolColor, ChartEventLocation symbolLocation, PathOptions symbolOption)
         {
             SymbolOptions markerSymbol = null!;
             string shape = currentShape;
@@ -1009,17 +1008,17 @@ namespace Syncfusion.Blazor.Toolkit.Charts
         {
             SymbolOptions shapeoption = ChartHelper.CalculateShapes(location, size, shape, url, option, false);
 
-            if (shapeoption.ShapeName == ShapeName.path)
+            if (shapeoption.ShapeName == ShapeName.Path)
             {
                 shapeoption.PathOption.Visibility = option.Visibility;
             }
 
-            if (shapeoption.ShapeName == ShapeName.ellipse)
+            if (shapeoption.ShapeName == ShapeName.Ellipse)
             {
                 shapeoption.EllipseOption.Visibility = option.Visibility;
             }
 
-            if (shapeoption.ShapeName == ShapeName.image)
+            if (shapeoption.ShapeName == ShapeName.Image)
             {
                 shapeoption.ImageOption.Visibility = option.Visibility;
             }

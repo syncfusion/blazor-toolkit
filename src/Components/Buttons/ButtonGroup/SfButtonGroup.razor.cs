@@ -6,15 +6,15 @@ namespace Syncfusion.Blazor.Toolkit.Buttons
     /// The ButtonGroup component is a container that groups a series of buttons on a single line and supports different selection modes, such as single and multiple selections.
     /// </summary>
     /// <remarks>
-    /// The ButtonGroup can contain <see cref="ButtonGroupButton"/> components, as well as other button components like <c>DropDownButton</c> or <c>SplitButton</c>. To learn more about the ButtonGroup and its features, you can refer to the <a href="https://blazor.syncfusion.com/documentation/button-group/getting-started">Syncfusion Blazor ButtonGroup</a> documentation.
+    /// The ButtonGroup can contain <see cref="Button"/> components, as well as other button components like <c>DropDownButton</c> or <c>SplitButton</c>. To learn more about the ButtonGroup and its features, you can refer to the <a href="https://blazor.syncfusion.com/documentation/button-group/getting-started">Syncfusion Blazor ButtonGroup</a> documentation.
     /// </remarks>
     /// <example>
-    /// The following example demonstrates a basic ButtonGroup with several <see cref="ButtonGroupButton"/> instances.
+    /// The following example demonstrates a basic ButtonGroup with several <see cref="Button"/> instances.
     /// <code><![CDATA[ 
     /// <SfButtonGroup> 
-    /// <ButtonGroupButton>Left</ButtonGroupButton> 
-    /// <ButtonGroupButton>Center</ButtonGroupButton> 
-    /// <ButtonGroupButton>Right</ButtonGroupButton> 
+    /// <Button>Left</Button> 
+    /// <Button>Center</Button> 
+    /// <Button>Right</Button> f
     /// </SfButtonGroup> 
     /// ]]></code> 
     /// </example>
@@ -26,7 +26,7 @@ namespace Syncfusion.Blazor.Toolkit.Buttons
         internal readonly string _inputName = SfBaseUtils.GenerateID("SfButtonGroup");
 
         // Registered child buttons in the group.
-        internal List<ButtonGroupButton>? _buttonItems = [];
+        internal List<Button>? _buttonItems = [];
 
         // Indicates that a click originated from a child and is being processed.
         internal bool _isClicked;
@@ -36,7 +36,7 @@ namespace Syncfusion.Blazor.Toolkit.Buttons
         #region Helper Methods
 
         /// <summary>
-        /// Registers a child <see cref="ButtonGroupButton"/> with this group.
+        /// Registers a child <see cref="Button"/> with this group.
         /// </summary>
         /// <param name="Button">The button instance to register.</param>
         /// <example>
@@ -44,11 +44,11 @@ namespace Syncfusion.Blazor.Toolkit.Buttons
         /// a button instance manually:
         /// <code><![CDATA[
         /// var group = new SfButtonGroup();
-        /// var button = new ButtonGroupButton();
+        /// var button = new Button();
         /// group.UpdateChildProperty(button);
         /// ]]></code>
         /// </example>
-        internal void UpdateChildProperty(ButtonGroupButton Button)
+        internal void UpdateChildProperty(Button Button)
         {
             if (Button is null || _buttonItems is null)
             {
@@ -62,7 +62,7 @@ namespace Syncfusion.Blazor.Toolkit.Buttons
         }
 
         /// <summary>
-        /// Unregisters a child <see cref="ButtonGroupButton"/> from this group.
+        /// Unregisters a child <see cref="Button"/> from this group.
         /// </summary>
         /// <param name="button">The button instance to remove.</param>
         /// <example>
@@ -71,7 +71,7 @@ namespace Syncfusion.Blazor.Toolkit.Buttons
         /// group.RemoveChildProperty(button);
         /// ]]></code>
         /// </example>
-        internal void RemoveChildProperty(ButtonGroupButton? button)
+        internal void RemoveChildProperty(Button? button)
         {
             if (button is null || _buttonItems is null)
             {

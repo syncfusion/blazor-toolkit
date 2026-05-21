@@ -8,10 +8,10 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
     public partial class SvgAxisGroup
     {
         #region Fields
-        string? _horizontalId;
-        string? _verticalId;
-        string? _axisTooltipId;
-        string? _groupId;
+        private string? _horizontalId;
+        private string? _verticalId;
+        private string? _axisTooltipId;
+        private string? _groupId;
         #endregion
 
         #region Properties

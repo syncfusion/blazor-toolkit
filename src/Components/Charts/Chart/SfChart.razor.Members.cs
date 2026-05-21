@@ -799,7 +799,9 @@ namespace Syncfusion.Blazor.Toolkit.Charts
         /// This property is used internally to position the tooltip during chart interactions.
         /// </remarks>
         /// <inheritdoc />
+        /// <exclude />
         [EditorBrowsable(EditorBrowsableState.Never)]
+        [Browsable(false)]
         [Parameter]
         public Func<double> GetTooltipTop { get; set; } = null!;
 

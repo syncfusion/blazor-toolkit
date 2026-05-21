@@ -114,6 +114,9 @@ namespace Syncfusion.Blazor.Toolkit.Charts
         /// Applies parameter updates and ensures the parent chart is updated when ready.
         /// </summary>
         /// <returns>A task that represents the asynchronous operation.</returns>
+        /// <exclude />
+        [EditorBrowsable(EditorBrowsableState.Never)]
+        [Browsable(false)]
         protected override async Task OnParametersSetAsync()
         {
             await base.OnParametersSetAsync().ConfigureAwait(false);
@@ -128,6 +131,9 @@ namespace Syncfusion.Blazor.Toolkit.Charts
         /// Disposes the component and releases references.
         /// </summary>
         /// <remarks>Clears references to avoid memory retention after component disposal.</remarks>
+        /// <exclude />
+        [EditorBrowsable(EditorBrowsableState.Never)]
+        [Browsable(false)]
         protected override ValueTask DisposeAsyncCore()
         {
             Parent = null;

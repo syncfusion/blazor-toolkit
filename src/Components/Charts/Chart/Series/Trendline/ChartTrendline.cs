@@ -794,6 +794,9 @@ namespace Syncfusion.Blazor.Toolkit.Charts
         /// <summary>
         /// Disposes the trendline and unregisters it from the chart container and parent collection.
         /// </summary>
+        /// <exclude />
+        [EditorBrowsable(EditorBrowsableState.Never)]
+        [Browsable(false)]
         protected override ValueTask DisposeAsyncCore()
         {
             _chart?._trendlineContainer?.RemoveElement(this);

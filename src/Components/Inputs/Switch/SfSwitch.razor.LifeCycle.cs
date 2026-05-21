@@ -12,6 +12,7 @@ namespace Syncfusion.Blazor.Toolkit.Inputs
 
         #region Lifecycle Methods
 
+        /// <exclude />
         /// <summary>
         /// Called after each render; on first render, reapplies persisted state if enabled.
         /// </summary>
@@ -58,6 +59,7 @@ namespace Syncfusion.Blazor.Toolkit.Inputs
             }
         }
 
+        /// <exclude />
         /// <summary>
         /// Disposes JS resources and clears references when the component is removed from the UI.
         /// This method is called by the framework to allow the component to release unmanaged

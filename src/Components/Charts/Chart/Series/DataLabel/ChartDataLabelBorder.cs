@@ -93,11 +93,15 @@ namespace Syncfusion.Blazor.Toolkit.Charts
         /// <summary>
         /// Disposes this border and clears references.
         /// </summary>
+        /// <exclude />
+        [EditorBrowsable(EditorBrowsableState.Never)]
+        [Browsable(false)]
         protected override ValueTask DisposeAsyncCore()
         {
             ComponentDispose();
             return base.DisposeAsyncCore();
         }
+
         internal void ComponentDispose()
         {
             _dataLabel = null;

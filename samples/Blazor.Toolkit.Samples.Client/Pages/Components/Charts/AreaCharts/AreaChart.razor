@@ -412,25 +412,25 @@
             <label class="fw-bold d-block mb-2">Empty Point Mode</label>
 
             <SfButtonGroup Mode="SelectionMode.Single">
-                <ButtonGroupButton Selected="@IsEmptyModeSelected(EmptyPointMode.Gap)"
+                <Button Selected="@IsEmptyModeSelected(EmptyPointMode.Gap)"
                                    SelectedChanged="@(v => OnEmptyModeChanged(v, EmptyPointMode.Gap))">
                     Gap
-                </ButtonGroupButton>
+                </Button>
 
-                <ButtonGroupButton Selected="@IsEmptyModeSelected(EmptyPointMode.Zero)"
+                <Button Selected="@IsEmptyModeSelected(EmptyPointMode.Zero)"
                                    SelectedChanged="@(v => OnEmptyModeChanged(v, EmptyPointMode.Zero))">
                     Zero
-                </ButtonGroupButton>
+                </Button>
 
-                <ButtonGroupButton Selected="@IsEmptyModeSelected(EmptyPointMode.Average)"
+                <Button Selected="@IsEmptyModeSelected(EmptyPointMode.Average)"
                                    SelectedChanged="@(v => OnEmptyModeChanged(v, EmptyPointMode.Average))">
                     Average
-                </ButtonGroupButton>
+                </Button>
 
-                <ButtonGroupButton Selected="@IsEmptyModeSelected(EmptyPointMode.Drop)"
+                <Button Selected="@IsEmptyModeSelected(EmptyPointMode.Drop)"
                                    SelectedChanged="@(v => OnEmptyModeChanged(v, EmptyPointMode.Drop))">
                     Drop
-                </ButtonGroupButton>
+                </Button>
             </SfButtonGroup>
         </div>
        
@@ -635,7 +635,7 @@
                                     Visible="true"
                                     Color="#79747E"
                                     DashArray="10,10"
-                                    ZIndex="@ZIndex.Over" />
+                                    ZIndex="@ZIndexPosition.Over" />
 
                     <ChartStripline Start="21"
                                     End="21.5"
@@ -644,7 +644,7 @@
                                     DashArray="4,4"
                                     Text="Highest Annual Growth"
                                     HorizontalAlignment="Anchor.End"
-                                    ZIndex="@ZIndex.Over"
+                                    ZIndex="@ZIndexPosition.Over"
                                     Rotation="0">
                         <ChartStriplineTextStyle Color="@HighestTextColor" />
                     </ChartStripline>
@@ -655,7 +655,7 @@
                                     Visible="true"
                                     Color="#79747E"
                                     DashArray="10,10"
-                                    ZIndex="@ZIndex.Over" />
+                                    ZIndex="@ZIndexPosition.Over" />
 
                     <ChartStripline Start="-28.5"
                                     End="-28"
@@ -664,7 +664,7 @@
                                     DashArray="4,4"
                                     Text="Lowest Annual Growth"
                                     HorizontalAlignment="Anchor.End"
-                                    ZIndex="@ZIndex.Over"
+                                    ZIndex="@ZIndexPosition.Over"
                                     Rotation="0">
                         <ChartStriplineTextStyle Color="@LowestTextColor" />
                     </ChartStripline>
@@ -1525,25 +1525,25 @@
             <label class=""fw-bold d-block mb-2"">Empty Point Mode</label>
 
             <SfButtonGroup Mode=""SelectionMode.Single"">
-                <ButtonGroupButton Selected=""@IsEmptyModeSelected(EmptyPointMode.Gap)""
+                <Button Selected=""@IsEmptyModeSelected(EmptyPointMode.Gap)""
                                    SelectedChanged=""@(v => OnEmptyModeChanged(v, EmptyPointMode.Gap))"">
                     Gap
-                </ButtonGroupButton>
+                </Button>
 
-                <ButtonGroupButton Selected=""@IsEmptyModeSelected(EmptyPointMode.Zero)""
+                <Button Selected=""@IsEmptyModeSelected(EmptyPointMode.Zero)""
                                    SelectedChanged=""@(v => OnEmptyModeChanged(v, EmptyPointMode.Zero))"">
                     Zero
-                </ButtonGroupButton>
+                </Button>
 
-                <ButtonGroupButton Selected=""@IsEmptyModeSelected(EmptyPointMode.Average)""
+                <Button Selected=""@IsEmptyModeSelected(EmptyPointMode.Average)""
                                    SelectedChanged=""@(v => OnEmptyModeChanged(v, EmptyPointMode.Average))"">
                     Average
-                </ButtonGroupButton>
+                </Button>
 
-                <ButtonGroupButton Selected=""@IsEmptyModeSelected(EmptyPointMode.Drop)""
+                <Button Selected=""@IsEmptyModeSelected(EmptyPointMode.Drop)""
                                    SelectedChanged=""@(v => OnEmptyModeChanged(v, EmptyPointMode.Drop))"">
                     Drop
-                </ButtonGroupButton>
+                </Button>
             </SfButtonGroup>
         </div>
 <SfChart @key=""@_currentTheme"" Title=""Skip Missing Points"" Width=""100%"" Height=""400px"" Theme=""@_currentTheme"">
@@ -1742,7 +1742,7 @@
                             Visible=""true""
                             Color=""#79747E""
                             DashArray=""10,10""
-                            ZIndex=""@ZIndex.Over"" />
+                            ZIndex=""@ZIndexPosition.Over"" />
             <ChartStripline Start=""21""
                             End=""21.5""
                             Visible=""true""
@@ -1750,7 +1750,7 @@
                             DashArray=""4,4""
                             Text=""Highest Annual Growth""
                             HorizontalAlignment=""Anchor.End""
-                            ZIndex=""@ZIndex.Over""
+                            ZIndex=""@ZIndexPosition.Over""
                             Rotation=""0"">
                 <ChartStriplineTextStyle Color=""@HighestTextColor"" />
             </ChartStripline>
@@ -1759,7 +1759,7 @@
                             Visible=""true""
                             Color=""#79747E""
                             DashArray=""10,10""
-                            ZIndex=""@ZIndex.Over"" />
+                            ZIndex=""@ZIndexPosition.Over"" />
             <ChartStripline Start=""-28.5""
                             End=""-28""
                             Visible=""true""
@@ -1767,7 +1767,7 @@
                             DashArray=""4,4""
                             Text=""Lowest Annual Growth""
                             HorizontalAlignment=""Anchor.End""
-                            ZIndex=""@ZIndex.Over""
+                            ZIndex=""@ZIndexPosition.Over""
                             Rotation=""0"">
                 <ChartStriplineTextStyle Color=""@LowestTextColor"" />
             </ChartStripline>

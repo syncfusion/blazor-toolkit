@@ -229,7 +229,7 @@ namespace Syncfusion.Blazor.Toolkit.Popups
         /// <example>
         /// <code><![CDATA[
         /// // Get current dialog dimensions
-        /// DialogDimension dimensions = await dialog.GetDimension();
+        /// DialogDimension dimensions = await dialog.GetDimensionAsync();
         /// Console.WriteLine($"Width: {dimensions.Width}, Height: {dimensions.Height}");
         /// ]]></code>
         /// </example>

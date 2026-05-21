@@ -142,6 +142,7 @@ namespace Syncfusion.Blazor.Toolkit.Popups
         /// It registers the Header, Content, and FooterTemplate with the parent <see cref="SfDialog"/> component if they are defined,
         /// and triggers a refresh of the parent dialog to apply the template changes.
         /// </remarks>
+        /// <exclude />
         protected override void OnInitialized()
         {
             if (Header is not null)
@@ -169,6 +170,7 @@ namespace Syncfusion.Blazor.Toolkit.Popups
         /// it cleans up managed resources including setting the Parent reference to <c>null</c> to avoid memory leaks.
         /// The method calls the base class implementation to ensure proper cleanup of inherited resources.
         /// </remarks>
+        /// <exclude />
         protected override ValueTask DisposeAsyncCore()
         {
             Parent = null;

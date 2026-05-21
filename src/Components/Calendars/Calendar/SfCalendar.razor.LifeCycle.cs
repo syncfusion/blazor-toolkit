@@ -10,7 +10,9 @@ namespace Syncfusion.Blazor.Toolkit.Calendars
         /// <summary>
         /// Gets or sets the root CSS class string applied to the calendar's top-level element.
         /// </summary>
+        /// <exclude />
         protected override string RootClass { get; set; } = string.Empty;
+
         /// <summary>
         /// Invoked during the initial rendering of the <see cref="SfCalendar{TValue}"/> component, enabling one-time setup and initialization logic.
         /// </summary>
@@ -29,6 +31,7 @@ namespace Syncfusion.Blazor.Toolkit.Calendars
         /// }
         /// ]]></code>
         /// </example>
+        /// <exclude />
         protected override async Task OnInitializedAsync()
         {
             if (Value is not null)
@@ -71,6 +74,7 @@ namespace Syncfusion.Blazor.Toolkit.Calendars
         /// }
         /// ]]></code>
         /// </example>
+        /// <exclude />
         protected override async Task OnParametersSetAsync()
         {
             await base.OnParametersSetAsync().ConfigureAwait(false);
@@ -144,6 +148,7 @@ namespace Syncfusion.Blazor.Toolkit.Calendars
         /// }
         /// ]]></code>
         /// </example>
+        /// <exclude />
         protected override async Task OnAfterRenderAsync(bool firstRender)
         {
             await base.OnAfterRenderAsync(firstRender).ConfigureAwait(false);
@@ -220,6 +225,7 @@ namespace Syncfusion.Blazor.Toolkit.Calendars
         /// <summary>
         /// Invoke the component dispose.
         /// </summary>
+        /// <exclude />
         protected override async ValueTask DisposeAsyncCore()
         {
             try

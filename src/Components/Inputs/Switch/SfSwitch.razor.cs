@@ -151,6 +151,7 @@ namespace Syncfusion.Blazor.Toolkit.Inputs
         /// </summary>
         internal string? AriaLabel { get; set; }
 
+        /// <exclude />
         /// <summary>
         /// Logger instance for diagnostic and error logging.
         /// </summary>
@@ -165,6 +166,7 @@ namespace Syncfusion.Blazor.Toolkit.Inputs
 
         #region Private Methods
 
+        /// <exclude />
         /// <summary>
         /// Initializes CSS classes and input attributes before each render cycle.
         /// Sets up the root element classes based on current state (checked, disabled, RTL).

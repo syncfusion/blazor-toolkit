@@ -39,6 +39,9 @@ namespace Syncfusion.Blazor.Toolkit.Charts
         /// <value>
         /// The parent <see cref="ChartAnnotations"/> component that contains this annotation.
         /// </value>
+        /// <exclude />
+        [EditorBrowsable(EditorBrowsableState.Never)]
+        [Browsable(false)]
         [CascadingParameter]
         public ChartAnnotations? Parent { get; set; }
 
@@ -415,6 +418,9 @@ namespace Syncfusion.Blazor.Toolkit.Charts
         /// <summary>
         /// Disposes resources and unregisters the annotation from the parent chart.
         /// </summary>
+        /// <exclude />
+        [EditorBrowsable(EditorBrowsableState.Never)]
+        [Browsable(false)]
         protected override ValueTask DisposeAsyncCore()
         {
             Parent?.Chart?.RemoveAnnotation(this);

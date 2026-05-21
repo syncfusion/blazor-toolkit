@@ -22,8 +22,4 @@
 	<Folder Include="Base\" />
   </ItemGroup>
   
-  <ItemGroup>
-    <ProjectReference Include="..\..\src\Syncfusion.Blazor.Toolkit.csproj" />
-  </ItemGroup>
-  
 </Project>

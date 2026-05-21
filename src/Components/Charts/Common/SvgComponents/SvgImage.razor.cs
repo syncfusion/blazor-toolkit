@@ -9,7 +9,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
     public partial class SvgImage
     {
         #region Fields
-        CultureInfo _culture { get; set; } = CultureInfo.InvariantCulture;
+        private CultureInfo _culture { get; set; } = CultureInfo.InvariantCulture;
         #endregion
 
         #region Properties

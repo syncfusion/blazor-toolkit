@@ -10,7 +10,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
     public class DataVizCommonHelper
     {
         #region Constants
-        const string SPACE = " ";
+        private const string SPACE = " ";
         #endregion
 
         #region Internal Methods
@@ -52,7 +52,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
         {
             if (eventFn is not null)
             {
-                var eventHandler = (Action<T>)eventFn;
+                Action<T> eventHandler = (Action<T>)eventFn;
                 eventHandler.Invoke(eventArgs);
             }
         }
@@ -70,11 +70,9 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
         /// </returns>
         public static double StringToNumber(string size, double containerSize)
         {
-            if (!string.IsNullOrEmpty(size) && size != "auto")
-            {
-                return size.Contains('%', StringComparison.InvariantCulture) ? (containerSize / 100) * (int)double.Parse(size.Replace("%", SPACE, StringComparison.InvariantCulture), null) : double.Parse(size.ToUpper(CultureInfo.InvariantCulture).Replace("PX", string.Empty, StringComparison.InvariantCulture), CultureInfo.InvariantCulture);
-            }
-            return double.NaN;
+            return !string.IsNullOrEmpty(size) && size != "auto"
+                ? size.Contains('%', StringComparison.InvariantCulture) ? containerSize / 100 * (int)double.Parse(size.Replace("%", SPACE, StringComparison.InvariantCulture), null) : double.Parse(size.ToUpper(CultureInfo.InvariantCulture).Replace("PX", string.Empty, StringComparison.InvariantCulture), CultureInfo.InvariantCulture)
+                : double.NaN;
         }
         #endregion
     }

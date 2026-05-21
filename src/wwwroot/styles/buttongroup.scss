@@ -42,21 +42,21 @@ $btn-grp-outline-danger-focus-border-color: $btn-danger-focus-border-color !defa
 $btn-grp-outline-focus-danger-color: inherit !default;
 
 @mixin apply-border {
-  &:not(:first-of-type):not(:last-of-type) {
-    border-left: transparent;
-    border-right: transparent;
-  }
+    &:not(:first-of-type):not(:last-of-type) {
+        border-left: transparent;
+        border-right: transparent;
+    }
 
-  &:first-of-type {
-    border-right: transparent;
-  }
+    &:first-of-type {
+        border-right: transparent;
+    }
 
-  &:last-of-type {
-    border-left: transparent;
-  }
+    &:last-of-type {
+        border-left: transparent;
+    }
 }
 
-// Horizontal outline separators – RTL
+// Horizontal outline separators - RTL
 @mixin apply-border-rtl {
     &:not(:first-of-type):not(:last-of-type) {
         border-left: transparent;
@@ -73,61 +73,61 @@ $btn-grp-outline-focus-danger-color: inherit !default;
 }
 
 @mixin apply-border-vertical {
-  &:not(:first-of-type):not(:last-of-type) {
-    border-bottom: transparent;
-    border-top: transparent;
-  }
+    &:not(:first-of-type):not(:last-of-type) {
+        border-bottom: transparent;
+        border-top: transparent;
+    }
 
-  &:first-of-type {
-    border-bottom: transparent;
-  }
+    &:first-of-type {
+        border-bottom: transparent;
+    }
 
-  &:last-of-type {
-    border-top: transparent;
-  }
+    &:last-of-type {
+        border-top: transparent;
+    }
 }
 
 @mixin different-states {
-  // Outline focus
-  .e-btn:focus,
-  input:focus + label.e-btn {
-    &.e-outline {
-      border-color: $btn-grp-outline-focus-border-color;
-      outline-color: $btn-grp-outline-focus-color;
+    // Outline focus
+    .e-btn:focus,
+    input:focus + label.e-btn {
+        &.e-outline {
+            border-color: $btn-grp-outline-focus-border-color;
+            outline-color: $btn-grp-outline-focus-color;
 
-      &.e-primary {
-        border-color: $btn-grp-outline-primary-focus-border-color;
-        outline-color: $btn-grp-outline-focus-primary-color;
-      }
+            &.e-primary {
+                border-color: $btn-grp-outline-primary-focus-border-color;
+                outline-color: $btn-grp-outline-focus-primary-color;
+            }
 
-      &.e-success {
-        border-color: $btn-grp-outline-success-focus-border-color;
-        outline-color: $btn-grp-outline-focus-success-color;
-      }
+            &.e-success {
+                border-color: $btn-grp-outline-success-focus-border-color;
+                outline-color: $btn-grp-outline-focus-success-color;
+            }
 
-      &.e-info {
-        border-color: $btn-grp-outline-info-focus-border-color;
-        outline-color: $btn-grp-outline-focus-info-color;
-      }
+            &.e-info {
+                border-color: $btn-grp-outline-info-focus-border-color;
+                outline-color: $btn-grp-outline-focus-info-color;
+            }
 
-      &.e-warning {
-        border-color: $btn-grp-outline-warning-focus-border-color;
-        outline-color: $btn-grp-outline-focus-warning-color;
-      }
+            &.e-warning {
+                border-color: $btn-grp-outline-warning-focus-border-color;
+                outline-color: $btn-grp-outline-focus-warning-color;
+            }
 
-      &.e-danger {
-        border-color: $btn-grp-outline-danger-focus-border-color;
-        outline-color: $btn-grp-outline-focus-danger-color;
-      }
+            &.e-danger {
+                border-color: $btn-grp-outline-danger-focus-border-color;
+                outline-color: $btn-grp-outline-focus-danger-color;
+            }
+        }
     }
-  }
 }
 
 @mixin disabled {
-  background-color: $btn-disabled-bgcolor;
-  border-color: $btn-disabled-border-color;
-  box-shadow: $btn-flat-box-shadow;
-  color: $btn-disabled-color;
+    background-color: $btn-disabled-bgcolor;
+    border-color: $btn-disabled-border-color;
+    box-shadow: $btn-flat-box-shadow;
+    color: $btn-disabled-color;
 }
 
 @mixin box-shadow-theme {
@@ -326,10 +326,10 @@ $btn-grp-outline-focus-danger-color: inherit !default;
                         border-top-right-radius: $btn-grp-round-radius;
                     }
 
-                    &:last-of-type:not(:last-child) {
-                        border-bottom-right-radius: $btn-zero-radius;
-                        border-top-right-radius: $btn-zero-radius;
-                    }
+                        &:last-of-type:not(:last-child) {
+                            border-bottom-right-radius: $btn-zero-radius;
+                            border-top-right-radius: $btn-zero-radius;
+                        }
                 }
 
                 .e-split-btn-wrapper {
@@ -395,243 +395,259 @@ $btn-grp-outline-focus-danger-color: inherit !default;
 
 
 @include export-module('button-group-theme') {
-/* stylelint-disable */
-  .e-btn-group,
-  .e-css.e-btn-group {
-    &:not(.e-outline) {
-        box-shadow: $btn-box-shadow;
+    /* stylelint-disable */
+    .e-btn-group,
+    .e-css.e-btn-group {
+        &:not(.e-outline) {
+            box-shadow: $btn-box-shadow;
+        }
+
+        .e-btn:hover {
+            box-shadow: none;
+        }
+
+        .e-btn:focus-visible,
+        input:focus-visible + label.e-btn { // only for keybord
+            box-shadow: $btn-keyboard-focus-box-shadow !important;
+        }
+        //Hover state for Outline GroupButton
+        .e-btn:hover,
+        input:hover + label.e-btn {
+            &.e-outline {
+                background: $secondary-bg-color-hover;
+                border-color: $secondary-border-color-hover;
+                color: $secondary-outline-button-text-color-hover;
+            }
+        }
+        //Focus state for Normal and Outline GroupButton
+        .e-btn:focus,
+        input:focus-visible + label.e-btn,
+        input:focus + label.e-btn {
+            @include button-focus;
+            box-shadow: none;
+            outline-color: $btn-grp-outline-focus-color;
+
+            &.e-primary {
+                @include primary-focus;
+                @include box-shadow-theme;
+                outline-color: $btn-grp-outline-focus-primary-color;
+            }
+
+            &.e-success {
+                @include success-focus;
+                @include box-shadow-theme;
+                outline-color: $btn-grp-outline-focus-success-color;
+            }
+
+            &.e-info {
+                @include info-focus;
+                @include box-shadow-theme;
+                outline-color: $btn-grp-outline-focus-info-color;
+            }
+
+            &.e-warning {
+                @include warning-focus;
+                @include box-shadow-theme;
+                outline-color: $btn-grp-outline-focus-warning-color;
+            }
+
+            &.e-danger {
+                @include danger-focus;
+                @include box-shadow-theme;
+                outline-color: $btn-grp-outline-focus-danger-color;
+            }
+
+            &.e-link {
+                @include link-focus;
+                background-color: transparent;
+                border-color: transparent;
+                box-shadow: none;
+                outline: none;
+            }
+
+            &.e-outline {
+                background: $btn-focus-bgcolor !important;
+                border-color: $btn-focus-border-color !important;
+                color: $btn-round-focus-color !important;
+                box-shadow: none;
+
+                &.e-primary {
+                    background: $btn-primary-active-bgcolor !important;
+                    border-color: $btn-outline-primary-active-border-color !important;
+                    color: $btn-primary-active-color !important;
+                    box-shadow: none;
+                }
+
+                &.e-success {
+                    background: $btn-success-active-bgcolor !important;
+                    border-color: $btn-success-active-border-color !important;
+                    color: $btn-success-active-color !important;
+                    box-shadow: none;
+                }
+
+                &.e-info {
+                    background: $btn-info-active-bgcolor !important;
+                    border-color: $btn-info-active-border-color !important;
+                    color: $btn-info-active-color !important;
+                    box-shadow: none;
+                }
+
+                &.e-warning {
+                    background: $btn-warning-active-bgcolor !important;
+                    border-color: $btn-warning-active-border-color !important;
+                    color: $btn-warning-active-color !important;
+                    box-shadow: none;
+                }
+
+                &.e-danger {
+                    background: $btn-danger-active-bgcolor !important;
+                    border-color: $btn-danger-active-border-color !important;
+                    color: $btn-danger-active-color !important;
+                    box-shadow: none;
+                }
+            }
+        }
+        //Active/Checked state for Normal and Outline GroupButton
+        .e-btn:active,
+        input:active + label.e-btn,
+        input:checked + label.e-btn {
+            &:not(.e-outline) {
+                @include button-active;
+
+                &.e-primary {
+                    @include primary-active;
+                }
+
+                &.e-success {
+                    @include success-active;
+                }
+
+                &.e-info {
+                    @include info-active;
+                }
+
+                &.e-warning {
+                    @include warning-active;
+                }
+
+                &.e-danger {
+                    @include danger-active;
+                }
+            }
+
+            &.e-outline {
+                @include outline-active;
+
+                &.e-primary {
+                    @include outline-primary-active;
+                }
+
+                &.e-success {
+                    @include outline-success-active;
+                }
+
+                &.e-info {
+                    @include outline-info-active;
+                }
+
+                &.e-warning {
+                    @include outline-warning-active;
+                }
+
+                &.e-danger {
+                    @include outline-danger-active;
+                }
+            }
+        }
+        //Disabled state for Normal and Outline GroupButton
+        .e-btn:disabled,
+        input:disabled + label.e-btn {
+            @include disabled;
+            border-color: $btn-border-color;
+
+            &.e-primary {
+                @include primary-disabled;
+                border-color: $btn-primary-border-color;
+            }
+
+            &.e-success {
+                @include success-disabled;
+                border-color: $btn-success-border-color;
+            }
+
+            &.e-info {
+                @include info-disabled;
+                border-color: $btn-info-border-color;
+            }
+
+            &.e-warning {
+                @include warning-disabled;
+                border-color: $btn-warning-border-color;
+            }
+
+            &.e-danger {
+                @include danger-disabled;
+                border-color: $btn-danger-border-color;
+            }
+
+            &.e-link {
+                @include link-disabled;
+                border-color: $btn-link-border-color;
+            }
+
+            &.e-outline {
+                @include outline-disabled;
+                border-color: $btn-outline-border-color;
+
+                &.e-primary {
+                    @include outline-primary-disabled;
+                    border-color: $btn-primary-bgcolor;
+                }
+
+                &.e-success {
+                    @include outline-success-disabled;
+                    border-color: $btn-success-bgcolor;
+                }
+
+                &.e-info {
+                    @include outline-info-disabled;
+                    border-color: $btn-info-bgcolor;
+                }
+
+                &.e-warning {
+                    @include outline-warning-disabled;
+                    border-color: $btn-warning-bgcolor;
+                }
+
+                &.e-danger {
+                    @include outline-danger-disabled;
+                    border-color: $btn-danger-bgcolor;
+                }
+            }
+        }
+
+        &:not(.e-vertical):not(.e-rtl) { // Outline GroupButton - Horizontal orientation
+            .e-outline {
+                @include apply-border;
+            }
+
+            @include different-states;
+        }
+
+        &:not(.e-vertical).e-rtl {
+            .e-outline {
+                @include apply-border-rtl;
+            }
+
+            @include different-states;
+        }
+
+        &.e-vertical { // Outline GroupButton - Vertical Orientation
+            .e-outline {
+                @include apply-border-vertical;
+            }
+
+            @include different-states;
+        }
     }
-
-    .e-btn:hover {
-      box-shadow: none;
-    }
-
-    .e-btn:focus-visible,
-    input:focus-visible+label.e-btn { // only for keybord
-      box-shadow: $btn-keyboard-focus-box-shadow !important;
-    }
-
-    .e-outline.e-btn:active,
-    .e-outline.e-btn:focus,
-    input:focus+label.e-btn.e-outline {
-      background: transparent !important;
-    }
-
-    //Focus state for Normal and Outline GroupButton
-    .e-btn:focus,
-    input:focus-visible+label.e-btn,
-    input:focus+label.e-btn {
-      @include button-focus;
-      box-shadow: none;
-      outline-color: $btn-grp-outline-focus-color;
-      &.e-primary {
-        @include primary-focus;
-        @include box-shadow-theme;
-        
-        outline-color: $btn-grp-outline-focus-primary-color;
-      }
-
-      &.e-success {
-        @include success-focus;
-        @include box-shadow-theme;
-     
-        outline-color: $btn-grp-outline-focus-success-color;
-        
-      }
-
-      &.e-info {
-        @include info-focus;
-        @include box-shadow-theme;
-
-        outline-color: $btn-grp-outline-focus-info-color;
-      }
-
-      &.e-warning {
-        @include warning-focus;
-        @include box-shadow-theme;
-        
-        outline-color: $btn-grp-outline-focus-warning-color;
-      }
-
-      &.e-danger {
-        @include danger-focus;
-        @include box-shadow-theme;
-       
-        outline-color: $btn-grp-outline-focus-danger-color;
-      }
-
-      &.e-link {
-        @include link-focus;
-        background-color: transparent;
-        border-color: transparent;
-        box-shadow: none;
-        outline: none;
-      }
-
-      &.e-outline {
-        @include outline-focus;
-        @include outline-box-shadow-theme;
-
-        &.e-primary {
-          @include outline-box-shadow-theme;
-        }
-
-        &.e-success {
-          @include outline-box-shadow-theme;
-        }
-
-        &.e-info {
-          @include outline-box-shadow-theme;
-        }
-
-        &.e-warning {
-          @include outline-box-shadow-theme;
-        }
-
-        &.e-danger {
-          @include outline-box-shadow-theme;
-        }
-      }
-    }
-
-    //Active/Checked state for Normal and Outline GroupButton
-    .e-btn:active,
-    input:active+label.e-btn,
-    input:checked+label.e-btn {
-      @include button-active;
-
-      &.e-primary {
-        @include primary-active;
-      }
-
-      &.e-success {
-        @include success-active;
-      }
-
-      &.e-info {
-        @include info-active;
-      }
-
-      &.e-warning {
-        @include warning-active;
-      }
-
-      &.e-danger {
-        @include danger-active;
-      }
-
-      &.e-outline {
-        @include outline-active;
-
-        &.e-primary {
-          @include outline-primary-active;
-        }
-
-        &.e-success {
-          @include outline-success-active;
-        }
-
-        &.e-info {
-          @include outline-info-active;
-        }
-
-        &.e-warning {
-          @include outline-warning-active;
-        }
-
-        &.e-danger {
-          @include outline-danger-active;
-        }
-      }
-    }
-
-    //Disabled state for Normal and Outline GroupButton
-    .e-btn:disabled,
-    input:disabled+label.e-btn {
-      @include disabled;
-      border-color: $btn-border-color;
-
-      &.e-primary {
-        @include primary-disabled;
-        border-color: $btn-primary-border-color;
-      }
-
-      &.e-success {
-        @include success-disabled;
-        border-color: $btn-success-border-color;
-      }
-
-      &.e-info {
-        @include info-disabled;
-        border-color: $btn-info-border-color;
-      }
-
-      &.e-warning {
-        @include warning-disabled;
-        border-color: $btn-warning-border-color;
-      }
-
-      &.e-danger {
-        @include danger-disabled;
-        border-color: $btn-danger-border-color;
-      }
-
-      &.e-link {
-        @include link-disabled;
-        border-color: $btn-link-border-color;
-      }
-
-      &.e-outline {
-        @include outline-disabled;
-        border-color: $btn-outline-border-color;
-
-        &.e-primary {
-          @include outline-primary-disabled;
-          border-color: $btn-primary-bgcolor;
-        }
-
-        &.e-success {
-          @include outline-success-disabled;
-          border-color: $btn-success-bgcolor;
-        }
-
-        &.e-info {
-          @include outline-info-disabled;
-          border-color: $btn-info-bgcolor;
-        }
-
-        &.e-warning {
-          @include outline-warning-disabled;
-          border-color: $btn-warning-bgcolor;
-        }
-
-        &.e-danger {
-          @include outline-danger-disabled;
-          border-color: $btn-danger-bgcolor;
-        }
-      }
-    }
-
-    &:not(.e-vertical):not(.e-rtl) {// Outline GroupButton - Horizontal orientation
-      .e-outline {
-          @include apply-border;
-      }
-      @include different-states;
-    }
-
-    &:not(.e-vertical).e-rtl {
-      .e-outline {
-        @include apply-border-rtl;
-      }
-      @include different-states;
-    }
-
-    &.e-vertical {// Outline GroupButton - Vertical Orientation
-      .e-outline {
-        @include apply-border-vertical;
-      }
-      @include different-states;
-    }
-  }
 }
-

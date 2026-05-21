@@ -30,6 +30,7 @@ namespace Syncfusion.Blazor.Toolkit.Inputs
         /// <remarks>
         /// This field is used internally to track value changes and should not be accessed directly from external code.
         /// </remarks>
+        /// <exclude/>
         protected TValue? InternalValue { get; set; }
 
         /// <summary>
@@ -42,6 +43,7 @@ namespace Syncfusion.Blazor.Toolkit.Inputs
         /// This cascading parameter is automatically provided by parent form components such as EditForm.
         /// It enables integration with Blazor's built-in validation system.
         /// </remarks>
+        /// <exclude/>
         [CascadingParameter]
         protected EditContext? InputEditContext { get; set; }
 
@@ -68,6 +70,7 @@ namespace Syncfusion.Blazor.Toolkit.Inputs
         /// </item>
         /// </list>
         /// </remarks>
+        /// <exclude/>
         protected virtual FloatLabelType BaseFloatLabelType { get; set; }
 
         /// <summary>
@@ -80,6 +83,7 @@ namespace Syncfusion.Blazor.Toolkit.Inputs
         /// Use this property to add custom HTML attributes such as data attributes, accessibility attributes, or styling classes to the component's container.
         /// Common attributes like 'class', 'style', and 'title' are handled specially and may be applied to different elements within the component structure.
         /// </remarks>
+        /// <exclude/>
         protected virtual Dictionary<string, object>? BaseHtmlAttributes { get; set; }
 
         /// <summary>
@@ -92,6 +96,7 @@ namespace Syncfusion.Blazor.Toolkit.Inputs
         /// This property allows direct customization of the underlying input element with additional HTML attributes.
         /// Attributes set here will be applied directly to the input tag, enabling fine-grained control over input behavior and appearance.
         /// </remarks>
+        /// <exclude/>
         protected virtual Dictionary<string, object>? BaseInputAttributes { get; set; } = [];
 
         /// <summary>
@@ -104,6 +109,7 @@ namespace Syncfusion.Blazor.Toolkit.Inputs
         /// This property determines whether the component renders as a single-line input or a multi-line textarea element.
         /// When <see langword="true"/>, additional styling and behavior for multi-line text handling will be applied.
         /// </remarks>
+        /// <exclude/>
         protected virtual bool MultilineInput { get; set; }
 
         /// <summary>
@@ -116,6 +122,7 @@ namespace Syncfusion.Blazor.Toolkit.Inputs
         /// The placeholder provides a hint about the expected input format or content.
         /// This text is automatically hidden when the input receives focus or contains a value.
         /// </remarks>
+        /// <exclude/>
         protected virtual string BasePlaceholder { get; set; } = default!;
 
         /// <summary>
@@ -128,6 +135,7 @@ namespace Syncfusion.Blazor.Toolkit.Inputs
         /// When in read-only mode, content can be viewed and selected but cannot be modified.
         /// The input will still receive focus and trigger events, but input will be prevented.
         /// </remarks>
+        /// <exclude/>
         protected virtual bool BaseReadOnly { get; set; }
 
         /// <summary>
@@ -140,6 +148,7 @@ namespace Syncfusion.Blazor.Toolkit.Inputs
         /// This property specifically controls the readonly attribute on the underlying HTML input element,
         /// which may behave differently from the component-level <see cref="BaseReadOnly"/> property.
         /// </remarks>
+        /// <exclude/>
         protected virtual bool BaseIsReadOnlyInput { get; set; }
 
         /// <summary>
@@ -152,6 +161,7 @@ namespace Syncfusion.Blazor.Toolkit.Inputs
         /// When enabled, a clear button appears within the input field when it contains a value, enabling quick content clearing.
         /// The button is automatically hidden when the input is empty, disabled, or readonly.
         /// </remarks>
+        /// <exclude/>
         protected virtual bool BaseShowClearButton { get; set; }
 
         /// <summary>
@@ -164,6 +174,7 @@ namespace Syncfusion.Blazor.Toolkit.Inputs
         /// This property accepts any valid CSS width value including pixels, percentages, em units, etc.
         /// The width is applied to the component's container element to control the overall size.
         /// </remarks>
+        /// <exclude/>
         protected virtual string? BaseWidth { get; set; }
 
         /// <summary>
@@ -176,6 +187,7 @@ namespace Syncfusion.Blazor.Toolkit.Inputs
         /// This property controls the order in which the component receives focus during keyboard navigation.
         /// When the component is disabled, the tab index is automatically set to -1 to remove it from the tab sequence.
         /// </remarks>
+        /// <exclude/>
         protected virtual int BaseTabIndex { get; set; }
 
         /// <summary>
@@ -188,6 +200,7 @@ namespace Syncfusion.Blazor.Toolkit.Inputs
         /// This property controls how browsers handle autocomplete functionality for the input field.
         /// Common values include "off" (disable autocomplete), "on" (enable autocomplete), or specific autocomplete tokens like "email", "name", etc.
         /// </remarks>
+        /// <exclude/>
         protected virtual string BaseAutocomplete { get; set; } = "off";
 
         /// <summary>
@@ -200,6 +213,7 @@ namespace Syncfusion.Blazor.Toolkit.Inputs
         /// This dictionary contains attributes that will be applied to the main container element of the input component.
         /// It is used internally to manage container-level styling, accessibility attributes, and other HTML properties.
         /// </remarks>
+        /// <exclude/>
         protected Dictionary<string, object> ContainerHtmlAttributes { get; set; } = [];
 
         /// <summary>
@@ -276,6 +290,7 @@ namespace Syncfusion.Blazor.Toolkit.Inputs
         /// This property maintains a list of button configurations that can be added to the input component,
         /// such as clear buttons, dropdown buttons, or custom action buttons with their respective icons and event handlers.
         /// </remarks>
+        /// <exclude/>
         protected Collection<ButtonGroups>? ListOfButtons { get; set; }
 
         /// <summary>
@@ -288,6 +303,7 @@ namespace Syncfusion.Blazor.Toolkit.Inputs
         /// This property is used internally for component identification in JavaScript interop operations
         /// and for associating DOM elements with their corresponding component instances.
         /// </remarks>
+        /// <exclude/>
         protected string DataId { get; set; } = default!;
 
         /// <summary>
@@ -299,6 +315,7 @@ namespace Syncfusion.Blazor.Toolkit.Inputs
         /// <remarks>
         /// This property controls whether the component should bind to input events for real-time value updates.
         /// </remarks>
+        /// <exclude/>
         protected bool IsBindInputEvent { get; set; }
 
         /// <summary>
@@ -311,6 +328,7 @@ namespace Syncfusion.Blazor.Toolkit.Inputs
         /// This dictionary is used internally to manage all HTML attributes that will be rendered on the input element,
         /// including dynamically calculated attributes for styling, accessibility, and behavior.
         /// </remarks>
+        /// <exclude/>
         protected Dictionary<string, object> InputHtmlAttributes { get; set; } = [];
 
         /// <summary>
@@ -323,6 +341,7 @@ namespace Syncfusion.Blazor.Toolkit.Inputs
         /// This list is used during attribute processing to determine which custom attributes should be applied to the container
         /// versus the input element, ensuring proper HTML structure and styling inheritance.
         /// </remarks>
+        /// <exclude/>
         protected Collection<string>? ContainerAttributes { get; set; } = ["title", "style", "class"];
 
         /// <summary>
@@ -335,6 +354,7 @@ namespace Syncfusion.Blazor.Toolkit.Inputs
         /// This property manages the CSS classes that control floating label animations and positioning,
         /// including classes for top/bottom positioning and transition effects.
         /// </remarks>
+        /// <exclude/>
         protected string FloatLabel { get; set; } = default!;
 
         /// <summary>
@@ -347,6 +367,7 @@ namespace Syncfusion.Blazor.Toolkit.Inputs
         /// This property tracks the focus state of the component and is used to manage focus-dependent behaviors
         /// such as floating label animations, clear button visibility, and styling updates.
         /// </remarks>
+        /// <exclude/>
         protected bool IsFocused { get; set; }
 
         /// <summary>
@@ -359,6 +380,7 @@ namespace Syncfusion.Blazor.Toolkit.Inputs
         /// This property holds the localized tooltip text displayed when hovering over the increment spinner button,
         /// enhancing accessibility and experience.
         /// </remarks>
+        /// <exclude/>
         protected string? IncrementTitle { get; set; }
 
         /// <summary>
@@ -371,6 +393,7 @@ namespace Syncfusion.Blazor.Toolkit.Inputs
         /// This property holds the localized tooltip text displayed when hovering over the decrement spinner button,
         /// enhancing accessibility and experience.
         /// </remarks>
+        /// <exclude/>
         protected string? DecrementTitle { get; set; }
 
         /// <summary>
@@ -383,6 +406,7 @@ namespace Syncfusion.Blazor.Toolkit.Inputs
         /// This flag is used internally to track clear button interactions and coordinate the clearing operation
         /// with other component behaviors and event handling.
         /// </remarks>
+        /// <exclude/>
         protected bool IsClearButtonClicked { get; set; }
 
         /// <summary>
@@ -421,6 +445,7 @@ namespace Syncfusion.Blazor.Toolkit.Inputs
         /// This property is used internally to manage component lifecycle and distinguish between different instances
         /// of the same component type, particularly during initialization and script module loading.
         /// </remarks>
+        /// <exclude/>
         protected virtual string? ComponentReference { get; set; }
 
         #endregion
@@ -430,146 +455,175 @@ namespace Syncfusion.Blazor.Toolkit.Inputs
         /// <summary>
         /// The CSS class name applied to the main container element of the input component.
         /// </summary>
+        /// <exclude/>
         protected const string CONTROLCONTAINER = "e-control-container";
 
         /// <summary>
         /// The CSS class name applied to the wrapper element of the input component, used for styling and layout purposes.
         /// </summary>
+        /// <exclude/>
         protected const string CONTROLOLDCONTAINER = "e-control-wrapper";
 
         /// <summary>
         /// The CSS class name applied to the input group container when the component is configured with additional buttons or icons.
         /// </summary>
+        /// <exclude/>
         protected const string INPUTGROUP = "e-input-group";
 
         /// <summary>
         /// The CSS class name applied to the clear button icon when it is hidden, used to control visibility through CSS.
         /// </summary>
+        /// <exclude/>
         protected const string CLEARICONHIDE = "e-clear-icon-hide";
 
         /// <summary>
         /// The CSS class name applied to the input element when it is configured to support multiple lines of text, typically rendering as a textarea.
         /// </summary>
+        /// <exclude/>
         protected const string MULTILINE = "e-multi-line-input";
 
         /// <summary>
         /// The CSS class name applied to the input element when it is in a disabled state, used to visually indicate that the input is not interactive.
         /// </summary>
+        /// <exclude/>
         protected const string DISABLE = "e-disabled";
 
         /// <summary>
         /// The CSS class name applied to the input element when it is in a read-only state, used to visually indicate that the input cannot be modified.
         /// </summary>
+        /// <exclude/>
         protected const string INPUT = "e-input";
 
         /// <summary>
         /// The CSS class name applied to the input element when it is focused, used to visually indicate that the input is active and ready for user interaction.
         /// </summary>
+        /// <exclude/>
         protected const string INPUTFOCUS = "e-input-focus";
 
         /// <summary>
         /// The CSS class name applied to the input element when it is in a valid state, used to visually indicate that the current input value meets validation criteria.
         /// </summary>
+        /// <exclude/>
         protected const string FLOATINPUT = "e-float-input";
 
         /// <summary>
         /// The CSS class name applied to the floating label element, used to control the appearance and positioning of the label when it is in a floating state.
         /// </summary>
+        /// <exclude/>
         protected const string FLOATTEXT = "e-float-text";
 
         /// <summary>
         /// The CSS class name applied to the floating label element when it is positioned at the bottom of the input field, used to control the label's appearance in this state.
         /// </summary>
+        /// <exclude/>
         protected const string FLOATLABELBOTTOM = "e-label-bottom";
 
         /// <summary>
         /// The CSS class name applied to the floating label element when it is positioned at the top of the input field, used to control the label's appearance in this state.
         /// </summary>
+        /// <exclude/>
         protected const string FLOATLABELTOP = "e-label-top";
 
         /// <summary>
         /// The CSS class name applied to icons that are appended to the input field, used to control styling and layout of appended icons.
         /// </summary>
+        /// <exclude/>
         protected const string APPENDICON = "e-append";
 
         /// <summary>
         /// The CSS class name applied to icons that are prepended to the input field, used to control styling and layout of prepended icons.
         /// </summary>
+        /// <exclude/>
         protected const string PREPENDICON = "e-prepend";
 
         /// <summary>
         /// The CSS class name applied to the clear button icon when it is hidden, used to control visibility through CSS.
         /// </summary>
+        /// <exclude/>
         protected const string CLEARICON = "e-toolkit-icons e-close e-clear-icon-hide";
 
         /// <summary>
         /// The CSS class name applied to the input group icon elements, used to control styling and layout of icons within the input group.
         /// </summary>
+        /// <exclude/>
         protected const string GROUPICON = "e-input-group-icon";
 
         /// <summary>
         /// The CSS class name applied to the spin down button in numeric input components, used to visually indicate the decrement action.
         /// </summary>
+        /// <exclude/>
         protected const string SPINDOWN = "e-toolkit-icons e-chevron-down";
 
         /// <summary>
         /// The CSS class name applied to the spin up button in numeric input components, used to visually indicate the increment action.
         /// </summary>
+        /// <exclude/>
         protected const string SPINUP = "e-toolkit-icons e-chevron-up";
 
         /// <summary>
         /// The CSS class name applied to the icon when it is in a disabled state.
         /// </summary>
+        /// <exclude/>
         protected const string DISABLEICON = "e-ddl-disable-icon";
 
         /// <summary>
         /// The CSS class name applied to the input wrapper element, used as the base class for styling and layout of the input component.
         /// </summary>
+        /// <exclude/>
         protected const string INPUTBASECLASS = "e-input-base-wrapper";
 
         /// <summary>
         /// The string constant representing the "title" attribute for localization of the increment button in numeric input components.
         /// </summary>
+        /// <exclude/>
         protected const string INCREMENTHEADING = "IncrementTitle";
 
         /// <summary>
         /// The string constant representing the "title" attribute for localization of the decrement button in numeric input components.
         /// </summary>
+        /// <exclude/>
         protected const string DECREMENTHEADING = "DecrementTitle";
 
         /// <summary>
         /// The string constant representing the localized tooltip text for the increment button in numeric input components, used to enhance accessibility and user experience.
         /// </summary>
+        /// <exclude/>
         protected const string INCREMENT = "Increment value";
 
         /// <summary>
         /// The string constant representing the localized tooltip text for the decrement button in numeric input components, used to enhance accessibility and user experience.
         /// </summary>
+        /// <exclude/>
         protected const string DECREMENT = "Decrement value";
 
         /// <summary>
         /// The string constant representing the "disabled" attribute for HTML input elements, used to indicate that the input is not interactive and cannot be modified by the user.
         /// </summary>
+        /// <exclude/>
         protected const string DISABLEDATTRIBUTE = "disabled";
 
         /// <summary>
         /// The string constant representing the "aria-disabled" attribute for accessibility, used to indicate that the input is disabled to assistive technologies.
         /// </summary>
+        /// <exclude/>
         protected const string ARIADISABLED = "aria-disabled";
 
         /// <summary>
         /// The string to represent the append position for icons or buttons in the input component.
         /// </summary>
+        /// <exclude/>
         protected const string APPEND = "append";
 
         /// <summary>
         /// The string to represent the prepend position for icons or buttons in the input component.
         /// </summary>
+        /// <exclude/>
         protected const string PREPEND = "prepend";
 
         /// <summary>
         /// The string constant representing a single space character.
         /// </summary>
+        /// <exclude/>
         protected const string SPACE = " ";
 
         private const string FILLED = "e-filled";
@@ -697,6 +751,7 @@ namespace Syncfusion.Blazor.Toolkit.Inputs
         /// This virtual method provides the default string formatting behavior and can be overridden in derived classes
         /// to implement custom formatting logic, such as number formatting, date formatting, or cultural considerations.
         /// </remarks>
+        /// <exclude/>
         protected virtual string? FormatValueAsString(TValue? formatValue)
         {
             return formatValue?.ToString();
@@ -711,6 +766,7 @@ namespace Syncfusion.Blazor.Toolkit.Inputs
         /// This virtual method provides the default parsing behavior and can be overridden in derived classes
         /// to implement custom parsing logic, validation, or type-specific conversion rules.
         /// </remarks>
+        /// <exclude/>
         protected virtual TValue? FormatValue(string? genericValue)
         {
             return string.IsNullOrEmpty(genericValue) ? default : (TValue)SfBaseUtils.ChangeType(genericValue, typeof(TValue))!;
@@ -725,6 +781,7 @@ namespace Syncfusion.Blazor.Toolkit.Inputs
         /// This virtual method serves as an extension point for derived classes to implement component-specific
         /// input processing logic while maintaining the base class's standard input handling behavior.
         /// </remarks>
+        /// <exclude/>
         protected virtual async Task InputHandlerAsync(ChangeEventArgs? args)
         {
             await Task.CompletedTask.ConfigureAwait(true);
@@ -739,6 +796,7 @@ namespace Syncfusion.Blazor.Toolkit.Inputs
         /// This virtual method serves as an extension point for derived classes to implement component-specific
         /// focus processing logic while maintaining the base class's standard focus handling behavior.
         /// </remarks>
+        /// <exclude/>
         protected virtual async Task FocusHandlerAsync(FocusEventArgs args)
         {
             await Task.CompletedTask.ConfigureAwait(true);
@@ -753,6 +811,7 @@ namespace Syncfusion.Blazor.Toolkit.Inputs
         /// This virtual method serves as an extension point for derived classes to implement component-specific
         /// blur processing logic while maintaining the base class's standard focus-out handling behavior.
         /// </remarks>
+        /// <exclude/>
         protected virtual async Task FocusOutHandlerAsync(FocusEventArgs args)
         {
             await Task.CompletedTask.ConfigureAwait(true);
@@ -767,6 +826,7 @@ namespace Syncfusion.Blazor.Toolkit.Inputs
         /// This virtual method serves as an extension point for derived classes to implement component-specific
         /// change processing logic while maintaining the base class's standard change event handling behavior.
         /// </remarks>
+        /// <exclude/>
         protected virtual async Task ChangeHandlerAsync(ChangeEventArgs? args)
         {
             await Task.CompletedTask.ConfigureAwait(true);
@@ -784,9 +844,9 @@ namespace Syncfusion.Blazor.Toolkit.Inputs
         /// <item><description>Manages clear button visibility</description></item>
         /// <item><description>Performs real-time validation when <see cref="ValidateOnInput"/> is enabled</description></item>
         /// <item><description>Calls virtual <see cref="InputHandlerAsync"/> for component-specific logic</description></item>
-        /// <item><description>Triggers the <see cref="OnInput"/> event callback</description></item>
         /// </list>
         /// </remarks>
+        /// <exclude/>
         protected async Task OnInputHandlerAsync(ChangeEventArgs args)
         {
             string? inputVal = args is not null ? args.Value as string : null;
@@ -812,6 +872,7 @@ namespace Syncfusion.Blazor.Toolkit.Inputs
         /// This method serves as a bridge between the DOM paste event and the component's <see cref="OnPaste"/> event callback,
         /// enabling custom paste handling logic such as data validation, formatting, or content filtering.
         /// </remarks>
+        /// <exclude/>
         protected async Task OnPasteHandlerAsync(ClipboardEventArgs args)
         {
             if (OnPaste.HasDelegate)
@@ -834,6 +895,7 @@ namespace Syncfusion.Blazor.Toolkit.Inputs
         /// <item><description>Triggers the <see cref="OnChange"/> event callback if configured</description></item>
         /// </list>
         /// </remarks>
+        /// <exclude/>
         protected async Task OnChangeHandlerAsync(ChangeEventArgs args)
         {
             string? changeVal = args is not null ? args.Value as string : null;
@@ -863,6 +925,7 @@ namespace Syncfusion.Blazor.Toolkit.Inputs
         /// <item><description>Sets the <see cref="IsClearButtonClicked"/> flag to track the clear action</description></item>
         /// </list>
         /// </remarks>
+        /// <exclude/>
         protected async Task WireClearBtnEventsAsync()
         {
             if (InputHtmlAttributes is not null && !(InputHtmlAttributes[CLASS]?.ToString()?.Contains(DISABLE, StringComparison.Ordinal) == true || InputHtmlAttributes.ContainsKey(READONLY)))
@@ -886,6 +949,7 @@ namespace Syncfusion.Blazor.Toolkit.Inputs
         /// <item><description>Updates both container and input element styling to reflect the current state</description></item>
         /// </list>
         /// </remarks>
+        /// <exclude/>
         protected void SetEnabled()
         {
             if (Disabled)
@@ -949,7 +1013,6 @@ namespace Syncfusion.Blazor.Toolkit.Inputs
         /// <item><description>Adds focus-specific CSS classes to the container for visual feedback</description></item>
         /// <item><description>Updates the internal focus state and floating label positioning</description></item>
         /// <item><description>Controls clear button visibility for non-readonly inputs</description></item>
-        /// <item><description>Calls virtual <see cref="FocusHandlerAsync"/> and triggers <see cref="OnFocus"/> event</description></item>
         /// </list>
         /// </remarks>
         internal async Task OnFocusHandlerAsync(FocusEventArgs args)
@@ -982,7 +1045,6 @@ namespace Syncfusion.Blazor.Toolkit.Inputs
         /// <item><description>Removes focus-specific CSS classes from the container</description></item>
         /// <item><description>Updates floating label positioning based on Auto mode and current value</description></item>
         /// <item><description>Hides the clear button if configured</description></item>
-        /// <item><description>Calls virtual <see cref="FocusOutHandlerAsync"/> and triggers <see cref="OnBlur"/> event</description></item>
         /// <item><description>Invokes state change if no blur event delegate is configured</description></item>
         /// </list>
         /// </remarks>
@@ -1409,6 +1471,7 @@ namespace Syncfusion.Blazor.Toolkit.Inputs
         /// such as clear buttons, dropdown buttons, or custom action buttons with their respective icons,
         /// positioning, and event handlers.
         /// </remarks>
+        /// <exclude/>
         protected class ButtonGroups
         {
             #region Internal Variables

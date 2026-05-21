@@ -147,6 +147,7 @@ namespace Syncfusion.Blazor.Toolkit.Calendars
         /// This property controls the appearance and styling of the time icon that users click to open the time selection popup.
         /// The icon's visual state can change based on user interactions and component state.
         /// </remarks>
+        /// <exclude/>
         protected string TimeIcon { get; set; } = string.Empty;
 
         /// <summary>
@@ -1167,6 +1168,7 @@ namespace Syncfusion.Blazor.Toolkit.Calendars
         /// It invokes the Navigated event callback if one has been assigned, allowing consumers to respond
         /// to calendar navigation actions.
         /// </remarks>
+        /// <exclude/>
         internal override void BindNavigateEvent(NavigatedEventArgs eventArgs)
         {
             if (Navigated.HasDelegate)
@@ -1184,6 +1186,7 @@ namespace Syncfusion.Blazor.Toolkit.Calendars
         /// This method is called for each day cell when the calendar is rendered, allowing consumers to
         /// customize the appearance, disable specific dates, or add custom content to day cells.
         /// </remarks>
+        /// <exclude/>
         internal override async Task BindRenderDayEventAsync(RenderDayCellEventArgs eventArgs)
         {
             eventArgs.CurrentView = CurrentView();

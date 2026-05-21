@@ -34,6 +34,7 @@ namespace Syncfusion.Blazor.Toolkit.Calendars
         /// <returns>
         /// A <see cref="Task"/> representing the asynchronous operation.
         /// </returns>
+        /// <exclude />
         protected override async Task OnInitializedAsync()
         {
             await base.OnInitializedAsync().ConfigureAwait(false);

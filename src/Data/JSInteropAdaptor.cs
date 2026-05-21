@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Components;
 using System.Text.Json;
 using System.Text.Json.Serialization;
 
-namespace Syncfusion.Blazor.Toolkit.Internal
+namespace Syncfusion.Blazor.Toolkit.Data
 {
     /// <summary>
     /// An interface for implementing JSInteropAdaptor.

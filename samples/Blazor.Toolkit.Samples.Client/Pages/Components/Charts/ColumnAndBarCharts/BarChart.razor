@@ -679,7 +679,7 @@
             </div>
         </div>
 
-        <SfChart Width="600px" Title="Global Smartphone Sales Trends by Brand (2021–2023)" Theme="@_currentTheme">
+        <SfChart Title="Global Smartphone Sales Trends by Brand (2021–2023)" Theme="@_currentTheme">
             <!-- Tooltip -->
             <ChartTooltipSettings Enable="true"
                                   Format="${point.x} : <b>${point.y}M</b>" />
@@ -759,7 +759,7 @@
             </div>
         </div>
 
-        <SfChart Width="600px" Title="Global Smartphone Sales Trends by Apple (2021-2023)" Theme="@_currentTheme">
+        <SfChart Title="Global Smartphone Sales Trends by Apple (2021-2023)" Theme="@_currentTheme">
             <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Toolkit.ValueType.Category" />
             <ChartPrimaryYAxis Maximum="300" Title="Units Sold (in Millions)" Format="{value}M">
             </ChartPrimaryYAxis>
@@ -814,7 +814,7 @@
             </defs>
         </svg>
 
-        <SfChart Width="600px" Title="Global Smartphone Sales Trends by Brand (2021–2023)" Theme="@_currentTheme">
+        <SfChart Title="Global Smartphone Sales Trends by Brand (2021–2023)" Theme="@_currentTheme">
             <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Toolkit.ValueType.Category" />
 
             <ChartPrimaryYAxis Title="Units Sold (in Millions)" Maximum="300" Format="{value}M">
@@ -923,7 +923,7 @@
     {
         _currentTheme = CurrentTheme;
     }
-    public string overViewCode = @"<SfChart @key=""@_currentTheme"" Title=""Global Smartphone Sales Trends by Brand (2021-2023)"" Theme=""@_currentTheme"" Background=""transparent"">
+    public string overViewCode = @"<SfChart @key=""@_currentTheme"" Title=""Global Smartphone Sales Trends by Brand (2021-2023)"" Theme=""@_currentTheme"">
     <ChartPrimaryXAxis ValueType=""Syncfusion.Blazor.Toolkit.ValueType.Category""/>
     <ChartPrimaryYAxis Format=""{value}M"" Title=""Units Sold (in Millions)"" Maximum=""300"">
         <ChartAxisLineStyle Width=""0""></ChartAxisLineStyle>
@@ -968,22 +968,22 @@
 }";
 
 
-    public string dataLabelCode = @"<SfChart @key=""@_currentTheme"" Title=""Global Smartphone Sales Trends by Brand (2021–2023)"" Theme=""@_currentTheme"" Background=""transparent"">
+    public string dataLabelCode = @"<SfChart @key=""@_currentTheme"" Title=""Global Smartphone Sales Trends by Brand (2021–2023)"" Theme=""@_currentTheme"">
     <ChartPrimaryXAxis ValueType=""Syncfusion.Blazor.Toolkit.ValueType.Category""></ChartPrimaryXAxis>
     <ChartPrimaryYAxis Format=""{value}M"" Title=""Units Sold (in Millions)"" Maximum=""300"">
         <ChartAxisLineStyle Width=""0""/>
     </ChartPrimaryYAxis>
     
         <ChartSeries DataSource=""@PaletteData"" XName=""Year"" YName=""Apple"" Type=""ChartSeriesType.Bar"" Name=""Apple"" Fill=""#8AA624"" ColumnSpacing=""0.3"">
-            <ChartMarker><ChartDataLabel Visible=""true""/></ChartMarker>
+            <ChartMarker><ChartDataLabel Visible=""true"" Format=""{value}M""/></ChartMarker>
             <ChartCornerRadius BottomRight=""8"" TopRight=""8""/>
         </ChartSeries>
         <ChartSeries DataSource=""@PaletteData"" XName=""Year"" YName=""Xiaomi"" Type=""ChartSeriesType.Bar"" Name=""Xiaomi"" Fill=""#D25D5D"" ColumnSpacing=""0.3"">
-            <ChartMarker><ChartDataLabel Visible=""true""/></ChartMarker>
+            <ChartMarker><ChartDataLabel Visible=""true"" Format=""{value}M""/></ChartMarker>
             <ChartCornerRadius BottomRight=""8"" TopRight=""8""/>
         </ChartSeries>
         <ChartSeries DataSource=""@PaletteData"" XName=""Year"" YName=""Oppo"" Type=""ChartSeriesType.Bar"" Name=""Oppo"" Fill=""#239BA7"" ColumnSpacing=""0.3"">
-            <ChartMarker><ChartDataLabel Visible=""true""/></ChartMarker>
+            <ChartMarker><ChartDataLabel Visible=""true"" Format=""{value}M""/></ChartMarker>
             <ChartCornerRadius BottomRight=""8"" TopRight=""8""/>
         </ChartSeries>
     
@@ -1008,7 +1008,7 @@
         new PhonePalette { Year = ""2023"", Apple = 234.6, Xiaomi = 145.9, Oppo = 103.1 }
     };
 }";
-    public string stackingBar = @"<SfChart @key=""@_currentTheme"" Title=""Annual Renewable Energy Generation in China (2020–2023) by Source"" Theme=""@_currentTheme"" Background=""transparent"">
+    public string stackingBar = @"<SfChart @key=""@_currentTheme"" Title=""Annual Renewable Energy Generation in China (2020–2023) by Source"" Theme=""@_currentTheme"">
     <ChartPrimaryXAxis ValueType=""Syncfusion.Blazor.Toolkit.ValueType.Category""/>
     <ChartPrimaryYAxis Interval=""1000"" Format=""{value}TWh""></ChartPrimaryYAxis>
     
@@ -1016,7 +1016,7 @@
         <ChartSeries DataSource=""@StackingBarData"" XName=""X"" YName=""Y2"" Type=""ChartSeriesType.StackingBar"" Name=""Solar"" Fill=""#B2CD9C"" Width=""0.6""></ChartSeries>
         <ChartSeries DataSource=""@StackingBarData"" XName=""X"" YName=""Y3"" Type=""ChartSeriesType.StackingBar"" Name=""Hydro"" Fill=""#8D8D87"" Width=""0.6""></ChartSeries>
     
-    <ChartTooltipSettings Enable=""true"" Header=""Renewable Energy Generation""/>
+    <ChartTooltipSettings Enable=""true"" Header=""Renewable Energy Generation"" Format=""${point.x}: ${point.y}TWh""/>
 </SfChart>
 
 @code {
@@ -1039,7 +1039,7 @@
     };
 }";
 
-    public string stackLabel = @"<SfChart @key=""@_currentTheme"" Title=""Annual Renewable Energy Generation in China (2020–2023) by Source"" Theme=""@_currentTheme"" Background=""transparent"">
+    public string stackLabel = @"<SfChart @key=""@_currentTheme"" Title=""Annual Renewable Energy Generation in China (2020–2023) by Source"" Theme=""@_currentTheme"">
     <ChartPrimaryXAxis ValueType=""Syncfusion.Blazor.Toolkit.ValueType.Category""/>
     <ChartPrimaryYAxis Interval=""1000"" Format=""{value}TWh""></ChartPrimaryYAxis>
     <ChartStackLabelSettings Visible=""true"" Format=""{value}TWh""/>
@@ -1070,22 +1070,22 @@
         new AnnualEnergyDataLabel { X = ""2023"", Y1 = 886, Y2 = 584, Y3 = 1286 }
     };
 }";
-    public string stackingGroup = @"<SfChart @key=""@_currentTheme"" Title=""Steel Production by Countries, Grouped by Continent"" Theme=""@_currentTheme"" Background=""transparent"">
+    public string stackingGroup = @"<SfChart @key=""@_currentTheme"" Title=""Steel Production by Countries, Grouped by Continent"" Theme=""@_currentTheme"">
     <ChartPrimaryXAxis ValueType=""Syncfusion.Blazor.Toolkit.ValueType.Category"" Interval=""1""/>
     <ChartPrimaryYAxis Maximum=""60"" Interval=""10"" Format=""{value} Mmt""></ChartPrimaryYAxis>
     <ChartLegendSettings Visible=""true""/>
     <ChartTooltipSettings Enable=""true""/>
     
-        <ChartSeries DataSource=""@StackingColumnGroupData"" XName=""X"" YName=""Y1"" Name=""Iran"" Type=""ChartSeriesType.StackingBar"" StackingGroup=""Asia"" Fill=""#E195AB"" ColumnSpacing=""0.2"">
+        <ChartSeries DataSource=""@StackingColumnGroupData"" XName=""X"" YName=""Y1"" Name=""Iran"" Type=""ChartSeriesType.StackingBar"" StackingGroup=""Asia"" Fill=""#E195AB"" ColumnSpacing=""0.2"" TooltipMappingName=""Total"">
             <ChartSeriesBorder Width=""1"" Color=""White""/>
         </ChartSeries>
-        <ChartSeries DataSource=""@StackingColumnGroupData"" XName=""X"" YName=""Y2"" Name=""Indonesia"" Type=""ChartSeriesType.StackingBar"" StackingGroup=""Asia"" Fill=""#7E99A3"" ColumnSpacing=""0.2"" CornerRadius=""@(new ChartCornerRadius { BottomRight = 10, TopRight = 10 })"">
+        <ChartSeries DataSource=""@StackingColumnGroupData"" XName=""X"" YName=""Y2"" Name=""Indonesia"" Type=""ChartSeriesType.StackingBar"" StackingGroup=""Asia"" Fill=""#7E99A3"" ColumnSpacing=""0.2"" TooltipMappingName=""Total"" CornerRadius=""@(new ChartCornerRadius { BottomRight = 10, TopRight = 10 })"">
             <ChartSeriesBorder Width=""1"" Color=""White""/>
         </ChartSeries>
         <ChartSeries DataSource=""@StackingColumnGroupData"" XName=""X"" YName=""Y3"" Name=""Italy"" Type=""ChartSeriesType.StackingBar"" StackingGroup=""Europe"" Fill=""#67BFA2"" ColumnSpacing=""0.2"">
             <ChartSeriesBorder Width=""1"" Color=""White""/>
         </ChartSeries>
-        <ChartSeries DataSource=""@StackingColumnGroupData"" XName=""X"" YName=""Y4"" Name=""France"" Type=""ChartSeriesType.StackingBar"" StackingGroup=""Europe"" Fill=""#B2CD9C"" ColumnSpacing=""0.2"" CornerRadius=""@(new ChartCornerRadius { BottomRight = 10, TopRight = 10 })"">
+        <ChartSeries DataSource=""@StackingColumnGroupData"" XName=""X"" YName=""Y4"" Name=""France"" Type=""ChartSeriesType.StackingBar"" StackingGroup=""Europe"" Fill=""#B2CD9C"" ColumnSpacing=""0.2""  TooltipMappingName=""Total"" CornerRadius=""@(new ChartCornerRadius { BottomRight = 10, TopRight = 10 })"">
             <ChartSeriesBorder Width=""1"" Color=""White""/>
         </ChartSeries>
     
@@ -1112,7 +1112,7 @@
         new() { X = ""2022"", Y1 = 30.6, Y2 = 7.8, Y3 = 24.5, Y4 = 14.4 }
     };
 }";
-    public string percentStackBar = @"<SfChart @key=""@_currentTheme"" Title=""Annual Renewable Energy Generation in China (2020–2023) by Source"" Theme=""@_currentTheme"" Background=""transparent"">
+    public string percentStackBar = @"<SfChart @key=""@_currentTheme"" Title=""Annual Renewable Energy Generation in China (2020–2023) by Source"" Theme=""@_currentTheme"">
     <ChartArea><ChartAreaBorder Width=""0""/><ChartDefaultMargin Bottom=""12""></ChartDefaultMargin></ChartArea>
     <ChartPrimaryXAxis ValueType=""Syncfusion.Blazor.Toolkit.ValueType.Category""/>
     <ChartPrimaryYAxis Format=""{value}%"" Minimum=""0"" Maximum=""100"" Interval=""20""></ChartPrimaryYAxis>
@@ -1164,7 +1164,7 @@
         new() { X = ""2023"", Y = 25 }
     };
 }";
-    public string groupedBar = @"<SfChart @key=""@_currentTheme"" Title=""Olympic Medal Trends by Country and Year"" Theme=""@_currentTheme"" Background=""transparent"">
+    public string groupedBar = @"<SfChart @key=""@_currentTheme"" Title=""Olympic Medal Trends by Country and Year"" Theme=""@_currentTheme"">
     <ChartTooltipSettings Enable=""true"" Header=""${point.x}"" Format=""${series.name} : <b>${point.y} Gold</b>""></ChartTooltipSettings>
     <ChartPrimaryXAxis ValueType=""Syncfusion.Blazor.Toolkit.ValueType.Category"" Interval=""1""></ChartPrimaryXAxis>
     <ChartPrimaryYAxis Title=""Number of Medals Won""><ChartAxisLineStyle Width=""0""></ChartAxisLineStyle></ChartPrimaryYAxis>
@@ -1212,7 +1212,7 @@
     };
 }";
 
-    public string negativeDataCode = @"<SfChart @key=""@_currentTheme"" Title=""Global Ocean Temperature Anomalies"" Theme=""@_currentTheme"" Background=""transparent"">
+    public string negativeDataCode = @"<SfChart @key=""@_currentTheme"" Title=""Global Ocean Temperature Anomalies"" Theme=""@_currentTheme"">
     <ChartPrimaryXAxis ValueType=""Syncfusion.Blazor.Toolkit.ValueType.Double"" Minimum=""1880"" Maximum=""2022"" Interval=""20"" Title=""Year"" LabelIntersectAction=""LabelIntersectAction.Trim""></ChartPrimaryXAxis>
     <ChartPrimaryYAxis Minimum=""-0.5"" Maximum=""0.8"" Interval=""0.2"" Title=""Temperature Anomaly (°C)"" Format=""{value}°C""></ChartPrimaryYAxis>
     
@@ -1243,7 +1243,7 @@
     };
 }";
 
-    public string barWithTrackCode = @"<SfChart @key=""@_currentTheme"" Height=""450px"" Title=""Gross Revenue by Region"" Width=""100%"" EnableSideBySidePlacement=""false"" Theme=""@_currentTheme"" Background=""transparent"">
+    public string barWithTrackCode = @"<SfChart @key=""@_currentTheme"" Height=""450px"" Title=""Gross Revenue by Region"" Width=""100%"" EnableSideBySidePlacement=""false"" Theme=""@_currentTheme"">
     <ChartPrimaryXAxis Title=""Region"" ValueType=""Syncfusion.Blazor.Toolkit.ValueType.Category""><ChartAxisMajorTickLines Width=""1""></ChartAxisMajorTickLines></ChartPrimaryXAxis>
     <ChartPrimaryYAxis Format=""$ {value}"" Minimum=""0"" Maximum=""12000000"" Interval=""2000000""></ChartPrimaryYAxis>
     
@@ -1320,7 +1320,7 @@
     </div>
 </div>
 
-<SfChart @key=""@_currentTheme"" Width=""600px"" Title=""Global Smartphone Sales Trends by Brand (2021–2023)"" Theme=""@_currentTheme"" Background=""transparent"">
+<SfChart @key=""@_currentTheme"" Width=""600px"" Title=""Global Smartphone Sales Trends by Brand (2021–2023)"" Theme=""@_currentTheme"">
     <ChartTooltipSettings Enable=""true"" Format=""${point.x} : <b>${point.y}M</b>""/>
     <ChartPrimaryXAxis ValueType=""Syncfusion.Blazor.Toolkit.ValueType.Category""></ChartPrimaryXAxis>
     <ChartPrimaryYAxis Maximum=""300"" Title=""Units Sold (in Millions)"" Format=""{value}M""></ChartPrimaryYAxis>
@@ -1400,7 +1400,7 @@
     </defs>
 </svg>
 
-<SfChart @key=""@_currentTheme"" Width=""600px"" Title=""Global Smartphone Sales Trends by Brand (2021–2023)"" Theme=""@_currentTheme"" Background=""transparent"">
+<SfChart @key=""@_currentTheme"" Width=""600px"" Title=""Global Smartphone Sales Trends by Brand (2021–2023)"" Theme=""@_currentTheme"">
     <ChartPrimaryXAxis ValueType=""Syncfusion.Blazor.Toolkit.ValueType.Category""/>
     <ChartPrimaryYAxis Title=""Units Sold (in Millions)"" Maximum=""300"" Format=""{value}M""><ChartAxisLineStyle Width=""0""/></ChartPrimaryYAxis>
     <ChartTooltipSettings Enable=""true"" Header=""${series.name}"" Format=""${point.x} : <b>${point.y}</b>""/>
@@ -1429,7 +1429,7 @@
         new SmartphoneSalesData { Year = ""2023"", AppleSales = 234.6, XiaomiSales = 145.9, OppoSales = 103.1 }
     };
 }";
-    public string colorCode = @"<SfChart @key=""@_currentTheme"" Palettes=""@palettes"" Title=""U.S Trade with India in 2024"" Theme=""@_currentTheme"" Background=""transparent"">
+    public string colorCode = @"<SfChart @key=""@_currentTheme"" Palettes=""@palettes"" Title=""U.S Trade with India in 2024"" Theme=""@_currentTheme"">
     <ChartPrimaryXAxis ValueType=""Syncfusion.Blazor.Toolkit.ValueType.Category""></ChartPrimaryXAxis>
     <ChartPrimaryYAxis Interval=""0.3"" Format=""{value}B"" Title=""Billion USD""><ChartAxisLineStyle Width=""0""></ChartAxisLineStyle></ChartPrimaryYAxis>
     

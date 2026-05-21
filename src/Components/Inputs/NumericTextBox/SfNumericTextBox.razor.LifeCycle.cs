@@ -28,7 +28,6 @@ namespace Syncfusion.Blazor.Toolkit.Inputs
                     CultureInfo.CurrentCulture.Name.StartsWith(THAILAND, StringComparison.Ordinal) ||
                     CultureInfo.CurrentCulture.Name.StartsWith(PERSIAN, StringComparison.Ordinal);
                 PropertyInitialized();
-                //ScriptModules = SfScriptModules.SfNumericTextBox;
                 InvokeInputEvent();
                 SetCssClass();
                 UpdateDecimalType();
@@ -59,7 +58,7 @@ namespace Syncfusion.Blazor.Toolkit.Inputs
             try
             {
                 await PropertyUpdateAsync().ConfigureAwait(true);
-                if (PropertyChanges.Count > 0 && IsRendered)
+                if (PropertyChanges?.Count > 0 && IsRendered)
                 {
                     await OnPropertyChangedAsync(PropertyChanges).ConfigureAwait(true);
                 }
@@ -77,7 +76,7 @@ namespace Syncfusion.Blazor.Toolkit.Inputs
                     {
                         Format = "f";
                         await PropertyUpdateAsync().ConfigureAwait(true);
-                        if (PropertyChanges.Count > 0 && IsRendered)
+                        if (PropertyChanges?.Count > 0 && IsRendered)
                         {
                             await OnPropertyChangedAsync(PropertyChanges).ConfigureAwait(true);
                         }
@@ -117,7 +116,7 @@ namespace Syncfusion.Blazor.Toolkit.Inputs
                         localStorageValue = (string.IsNullOrEmpty(localStorageValue) || localStorageValue == "null") ? null : localStorageValue;
                         if (!(localStorageValue is null && Value is not null))
                         {
-                            TValue? persistValue = (TValue)SfBaseUtils.ChangeType(localStorageValue, typeof(TValue), true);
+                            TValue? persistValue = (TValue?)SfBaseUtils.ChangeType(localStorageValue, typeof(TValue), true);
                             InputTextValue = persistValue;
                         }
 
@@ -160,6 +159,7 @@ namespace Syncfusion.Blazor.Toolkit.Inputs
         /// </list>
         /// This ensures that all resources are properly released and no memory leaks occur when the component is removed from the DOM.
         /// </remarks>
+        /// <exclude/>
         protected override async ValueTask DisposeAsyncCore()
         {
             if (IsRendered)

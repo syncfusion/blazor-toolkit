@@ -6,7 +6,7 @@ using System.Text;
 using System.Dynamic;
 using System.Reflection;
 
-namespace Syncfusion.Blazor.Toolkit.Charts.Internal
+namespace Syncfusion.Blazor.Toolkit.Data
 {
     internal class AsyncHandler
     {

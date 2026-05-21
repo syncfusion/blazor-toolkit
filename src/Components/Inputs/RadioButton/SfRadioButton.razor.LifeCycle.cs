@@ -4,6 +4,7 @@ namespace Syncfusion.Blazor.Toolkit.Inputs
     {
         #region LifeCycle Methods
 
+        /// <exclude />
         /// <summary>
         /// Initializes the component and generates a unique ID if not explicitly set.
         /// </summary>
@@ -16,6 +17,7 @@ namespace Syncfusion.Blazor.Toolkit.Inputs
             }
         }
 
+        /// <exclude />
         /// <summary>
         /// Handles parameter changes and loads persisted radio button state if enabled.
         /// </summary>
@@ -31,6 +33,7 @@ namespace Syncfusion.Blazor.Toolkit.Inputs
             }
         }
 
+        /// <exclude />
         /// <summary>
         /// Performs post-render initialization and restores persisted state after initial render.
         /// </summary>

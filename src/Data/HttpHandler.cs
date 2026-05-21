@@ -3,7 +3,6 @@ using System.Text.Json;
 using System.Text.Json.Serialization;
 using System.Collections;
 using System.Globalization;
-using Syncfusion.Blazor.Toolkit.Charts.Internal;
 
 namespace Syncfusion.Blazor.Toolkit.Data
 {

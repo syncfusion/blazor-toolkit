@@ -135,6 +135,7 @@ namespace Syncfusion.Blazor.Toolkit.Inputs
         /// <summary>
         /// Releases the resources used by the component.
         /// </summary>
+        /// <exclude/>
         protected override ValueTask DisposeAsyncCore()
         {
             Parent = null;
