@@ -114,6 +114,7 @@ namespace Syncfusion.Blazor.Toolkit.Inputs
         /// <summary>
         /// Disposes the uploader component.
         /// </summary>
+        /// <exclude/>
         protected override async ValueTask DisposeAsyncCore()
         {
             try

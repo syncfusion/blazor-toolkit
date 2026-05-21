@@ -277,9 +277,9 @@
             <div class="property-pane">
                 <label style="font-weight:700">Mode</label>
                 <SfButtonGroup Mode="SelectionMode.Single">
-                    <ButtonGroupButton SelectedChanged="@(v=>SelectedChangeMode(v,ZoomMode.X))" Selected="IsChanged(ZoomMode.X)">X</ButtonGroupButton>
-                    <ButtonGroupButton SelectedChanged="@(v=>SelectedChangeMode(v,ZoomMode.Y))" Selected="IsChanged(ZoomMode.Y)">Y</ButtonGroupButton>
-                    <ButtonGroupButton SelectedChanged="@(v=>SelectedChangeMode(v,ZoomMode.XY))" Selected="IsChanged(ZoomMode.XY)">XY</ButtonGroupButton>
+                    <Button SelectedChanged="@(v=>SelectedChangeMode(v,ZoomMode.X))" Selected="IsChanged(ZoomMode.X)">X</Button>
+                    <Button SelectedChanged="@(v=>SelectedChangeMode(v,ZoomMode.Y))" Selected="IsChanged(ZoomMode.Y)">Y</Button>
+                    <Button SelectedChanged="@(v=>SelectedChangeMode(v,ZoomMode.XY))" Selected="IsChanged(ZoomMode.XY)">XY</Button>
                 </SfButtonGroup>
             </div>
 
@@ -383,9 +383,9 @@
                             <b>Horizontal Alignment:</b>
                         </label><br/>
                         <SfButtonGroup Mode="SelectionMode.Single">
-                            <ButtonGroupButton SelectedChanged="@(v => SelectedChangeHorizontalAlign(v, HorizontalAlign.Left))" Selected="IsChangedHorizontalAlign(HorizontalAlign.Left)">Left</ButtonGroupButton>
-                            <ButtonGroupButton SelectedChanged="@(v => SelectedChangeHorizontalAlign(v, HorizontalAlign.Center))" Selected="IsChangedHorizontalAlign(HorizontalAlign.Center)">Center</ButtonGroupButton>
-                            <ButtonGroupButton SelectedChanged="@(v => SelectedChangeHorizontalAlign(v, HorizontalAlign.Right))" Selected="IsChangedHorizontalAlign(HorizontalAlign.Right)">Right</ButtonGroupButton>
+                            <Button SelectedChanged="@(v => SelectedChangeHorizontalAlign(v, HorizontalAlign.Left))" Selected="IsChangedHorizontalAlign(HorizontalAlign.Left)">Left</Button>
+                            <Button SelectedChanged="@(v => SelectedChangeHorizontalAlign(v, HorizontalAlign.Center))" Selected="IsChangedHorizontalAlign(HorizontalAlign.Center)">Center</Button>
+                            <Button SelectedChanged="@(v => SelectedChangeHorizontalAlign(v, HorizontalAlign.Right))" Selected="IsChangedHorizontalAlign(HorizontalAlign.Right)">Right</Button>
                         </SfButtonGroup>
                     </div>
 
@@ -395,9 +395,9 @@
                             <b>Vertical Alignment:</b>
                         </label><br/>
                         <SfButtonGroup Mode="SelectionMode.Single">
-                            <ButtonGroupButton SelectedChanged="@(v => SelectedChangeVerticalAlign(v, VerticalAlign.Top))" Selected="IsChangedVerticalAlign(VerticalAlign.Top)">Top</ButtonGroupButton>
-                            <ButtonGroupButton SelectedChanged="@(v => SelectedChangeVerticalAlign(v, VerticalAlign.Middle))" Selected="IsChangedVerticalAlign(VerticalAlign.Middle)">Middle</ButtonGroupButton>
-                            <ButtonGroupButton SelectedChanged="@(v => SelectedChangeVerticalAlign(v, VerticalAlign.Bottom))" Selected="IsChangedVerticalAlign(VerticalAlign.Bottom)">Bottom</ButtonGroupButton>
+                            <Button SelectedChanged="@(v => SelectedChangeVerticalAlign(v, VerticalAlign.Top))" Selected="IsChangedVerticalAlign(VerticalAlign.Top)">Top</Button>
+                            <Button SelectedChanged="@(v => SelectedChangeVerticalAlign(v, VerticalAlign.Middle))" Selected="IsChangedVerticalAlign(VerticalAlign.Middle)">Middle</Button>
+                            <Button SelectedChanged="@(v => SelectedChangeVerticalAlign(v, VerticalAlign.Bottom))" Selected="IsChangedVerticalAlign(VerticalAlign.Bottom)">Bottom</Button>
                         </SfButtonGroup>
                     </div>
                 </div>
@@ -459,9 +459,9 @@
                 <b>Horizontal Alignment:</b>
             </label><br/>
             <SfButtonGroup Mode=""SelectionMode.Single"">
-                <ButtonGroupButton SelectedChanged=""@(v => SelectedChangeHorizontalAlign(v, HorizontalAlign.Left))"" Selected=""IsChangedHorizontalAlign(HorizontalAlign.Left)"">Left</ButtonGroupButton>
-                <ButtonGroupButton SelectedChanged=""@(v => SelectedChangeHorizontalAlign(v, HorizontalAlign.Center))"" Selected=""IsChangedHorizontalAlign(HorizontalAlign.Center)"">Center</ButtonGroupButton>
-                <ButtonGroupButton SelectedChanged=""@(v => SelectedChangeHorizontalAlign(v, HorizontalAlign.Right))"" Selected=""IsChangedHorizontalAlign(HorizontalAlign.Right)"">Right</ButtonGroupButton>
+                <Button SelectedChanged=""@(v => SelectedChangeHorizontalAlign(v, HorizontalAlign.Left))"" Selected=""IsChangedHorizontalAlign(HorizontalAlign.Left)"">Left</Button>
+                <Button SelectedChanged=""@(v => SelectedChangeHorizontalAlign(v, HorizontalAlign.Center))"" Selected=""IsChangedHorizontalAlign(HorizontalAlign.Center)"">Center</Button>
+                <Button SelectedChanged=""@(v => SelectedChangeHorizontalAlign(v, HorizontalAlign.Right))"" Selected=""IsChangedHorizontalAlign(HorizontalAlign.Right)"">Right</Button>
             </SfButtonGroup>
         </div>
 
@@ -471,9 +471,9 @@
                 <b>Vertical Alignment:</b>
             </label><br/>
             <SfButtonGroup Mode=""SelectionMode.Single"">
-                <ButtonGroupButton SelectedChanged=""@(v => SelectedChangeVerticalAlign(v, VerticalAlign.Top))"" Selected=""IsChangedVerticalAlign(VerticalAlign.Top)"">Top</ButtonGroupButton>
-                <ButtonGroupButton SelectedChanged=""@(v => SelectedChangeVerticalAlign(v, VerticalAlign.Middle))"" Selected=""IsChangedVerticalAlign(VerticalAlign.Middle)"">Middle</ButtonGroupButton>
-                <ButtonGroupButton SelectedChanged=""@(v => SelectedChangeVerticalAlign(v, VerticalAlign.Bottom))"" Selected=""IsChangedVerticalAlign(VerticalAlign.Bottom)"">Bottom</ButtonGroupButton>
+                <Button SelectedChanged=""@(v => SelectedChangeVerticalAlign(v, VerticalAlign.Top))"" Selected=""IsChangedVerticalAlign(VerticalAlign.Top)"">Top</Button>
+                <Button SelectedChanged=""@(v => SelectedChangeVerticalAlign(v, VerticalAlign.Middle))"" Selected=""IsChangedVerticalAlign(VerticalAlign.Middle)"">Middle</Button>
+                <Button SelectedChanged=""@(v => SelectedChangeVerticalAlign(v, VerticalAlign.Bottom))"" Selected=""IsChangedVerticalAlign(VerticalAlign.Bottom)"">Bottom</Button>
             </SfButtonGroup>
         </div>
     </div>
@@ -644,9 +644,9 @@
     public string ModeBaseCode = @"<div class=""property-pane"">
     <label style=""font-weight:700"">Mode</label>
     <SfButtonGroup Mode=""SelectionMode.Single"">
-        <ButtonGroupButton SelectedChanged=""@(v=>SelectedChangeMode(v,ZoomMode.X))"" Selected=""IsChanged(ZoomMode.X)"">X</ButtonGroupButton>
-        <ButtonGroupButton SelectedChanged=""@(v=>SelectedChangeMode(v,ZoomMode.Y))"" Selected=""IsChanged(ZoomMode.Y)"">Y</ButtonGroupButton>
-        <ButtonGroupButton SelectedChanged=""@(v=>SelectedChangeMode(v,ZoomMode.XY))"" Selected=""IsChanged(ZoomMode.XY)"">XY</ButtonGroupButton>
+        <Button SelectedChanged=""@(v=>SelectedChangeMode(v,ZoomMode.X))"" Selected=""IsChanged(ZoomMode.X)"">X</Button>
+        <Button SelectedChanged=""@(v=>SelectedChangeMode(v,ZoomMode.Y))"" Selected=""IsChanged(ZoomMode.Y)"">Y</Button>
+        <Button SelectedChanged=""@(v=>SelectedChangeMode(v,ZoomMode.XY))"" Selected=""IsChanged(ZoomMode.XY)"">XY</Button>
     </SfButtonGroup>
 </div>
 
@@ -800,22 +800,6 @@
         new() { AxisX = 6, TimeLabel = ""4 PM"", TempValue = 11, CelsiusLabel = ""11"", FahrenheitLabel = ""52"" },
         // ... (data truncated for brevity)
     };
-
-    private List<TemperatureRange> CelsiusRanges = new()
-    {
-        new() { Min = 2, Max = 12 },
-        new() { Min = 6, Max = 16 },
-        new() { Min = 15, Max = 18 },
-        new() { Min = 12, Max = 16 },
-        new() { Min = 14, Max = 18 }
-    };
-
-    protected override void OnInitialized()
-    {
-        DayButtonTemperatures = CelsiusRanges
-            .Select(r => $""{r.Min}°C - {r.Max}°C"")
-            .ToList();
-    }
 
     private void UpdateDayChart(string buttonKey, double zoomPos, double zoomFactor)
     {

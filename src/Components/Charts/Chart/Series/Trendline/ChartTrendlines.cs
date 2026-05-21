@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Components;
+using System.ComponentModel;
 
 namespace Syncfusion.Blazor.Toolkit.Charts
 {
@@ -35,10 +36,12 @@ namespace Syncfusion.Blazor.Toolkit.Charts
 
         #region Lifecycle Methods
 
-        /// <exclude />
         /// <summary>
         /// Initializes the trendline collection and binds it to the parent <see cref="ChartSeries"/>.
         /// </summary>
+        /// <exclude />
+        [EditorBrowsable(EditorBrowsableState.Never)]
+        [Browsable(false)]
         protected override void OnInitialized()
         {
             base.OnInitialized();

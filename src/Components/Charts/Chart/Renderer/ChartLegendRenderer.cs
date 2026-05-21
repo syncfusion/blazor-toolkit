@@ -798,7 +798,8 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
 
             if (LegendSettings?.Position == LegendPosition.Custom)
             {
-                LegendBounds.Width = Math.Min(LegendBounds.Width, (availableSize?.Width ?? 0) - LegendSettings.Location.X - LegendSettings.Border.Width);
+                double width = (availableSize?.Width ?? 0) - LegendSettings.Location.X - LegendSettings.Border.Width;
+                LegendBounds.Width = Math.Max(0, Math.Min(LegendBounds.Width, width));
             }
         }
 

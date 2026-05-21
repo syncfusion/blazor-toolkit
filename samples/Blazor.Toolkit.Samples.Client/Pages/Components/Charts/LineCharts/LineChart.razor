@@ -256,7 +256,7 @@
                     <ChartStripline Start="12" End="12.1"
                                     DashArray="10,10"
                                     Color="#79747E"
-                                    ZIndex="ZIndex.Over"
+                                    ZIndex="ZIndexPosition.Over"
                                     Visible="true">
                     </ChartStripline>
                     <!-- Target label -->
@@ -367,25 +367,25 @@
             <label class="fw-bold d-block mb-2">Empty Point Mode</label>
 
             <SfButtonGroup Mode="SelectionMode.Single">
-                <ButtonGroupButton Selected="@IsSelected(EmptyPointMode.Gap)"
+                <Button Selected="@IsSelected(EmptyPointMode.Gap)"
                                    SelectedChanged="@(v => OnModeChanged(v, EmptyPointMode.Gap))">
                     Gap
-                </ButtonGroupButton>
+                </Button>
 
-                <ButtonGroupButton Selected="@IsSelected(EmptyPointMode.Zero)"
+                <Button Selected="@IsSelected(EmptyPointMode.Zero)"
                                    SelectedChanged="@(v => OnModeChanged(v, EmptyPointMode.Zero))">
                     Zero
-                </ButtonGroupButton>
+                </Button>
 
-                <ButtonGroupButton Selected="@IsSelected(EmptyPointMode.Average)"
+                <Button Selected="@IsSelected(EmptyPointMode.Average)"
                                    SelectedChanged="@(v => OnModeChanged(v, EmptyPointMode.Average))">
                     Average
-                </ButtonGroupButton>
+                </Button>
 
-                <ButtonGroupButton Selected="@IsSelected(EmptyPointMode.Drop)"
+                <Button Selected="@IsSelected(EmptyPointMode.Drop)"
                                    SelectedChanged="@(v => OnModeChanged(v, EmptyPointMode.Drop))">
                     Drop
-                </ButtonGroupButton>
+                </Button>
             </SfButtonGroup>
         </div>
         <!-- CHART -->
@@ -1501,8 +1501,8 @@
                      XName="X"
                      YName="Y"
                      Type="ChartSeriesType.Line"
-                     Fill="#0A97B0">
-            <ChartMarker Visible="true" IsFilled="true">
+                     >
+            <ChartMarker Visible="true" IsFilled="false">
                 <ChartDataLabel Visible="true" Format="${value}">
                 <ChartDataLabelBorder Width="2" Color="#0A97B0" />
             </ChartDataLabel>
@@ -1533,41 +1533,75 @@
         new() { X = "Nov",   Y = 3.59 },
         new() { X = "Dec",   Y = 4.25 }
     };
+    private Theme _currentTheme = Theme.Fluent;
+    private bool IsDarkTheme => _currentTheme.ToString().Contains("Dark") || _currentTheme.ToString().Contains("HighContrast");
+    private string TextColor => IsDarkTheme ? "#FFFFFF" : "#000000";
 }
 """;
 
     private string DashedLineCode => """
 @using Syncfusion.Blazor.Toolkit.Charts
-
-
 <SfChart Title="Capital Investment as a Share of Exports">
-    <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Toolkit.ValueType.Double" Interval="1">
-        <ChartAxisMajorGridLines Width="0" />
-        <ChartAxisMajorTickLines Width="0" />
-        <ChartAxisMinorTickLines Width="0" />
-    </ChartPrimaryXAxis>
+            <ChartArea><ChartAreaBorder Width="0"></ChartAreaBorder></ChartArea>
+            <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Toolkit.ValueType.Double" Interval="1">
+                <ChartAxisMajorGridLines Width="0"></ChartAxisMajorGridLines>
+                <ChartAxisMajorTickLines Width="0" />
+                <ChartAxisMinorTickLines Width="0" />
+            </ChartPrimaryXAxis>
+            <!-- Y Axis -->
+            <ChartPrimaryYAxis Minimum="3"
+                               Maximum="21"
+                               Interval="3"
+                               LabelFormat="{value}%">
+                <ChartAxisLineStyle Width="0"></ChartAxisLineStyle>
+                <ChartAxisMajorTickLines Width="0"></ChartAxisMajorTickLines>
+            </ChartPrimaryYAxis>
+            <!-- Tooltip -->
+            <ChartTooltipSettings Enable="true"
+                                  Header="${series.name}"
+                                  Format="${point.x} : <b>${point.y}</b>"
+                                  EnableHighlight="true">
+            </ChartTooltipSettings>
+            <!-- Series -->
+            
+                <ChartSeries DataSource="InvestmentData"
+                             XName="X"
+                             YName="Y"
+                             Name="Singapore"
+                             Type="ChartSeriesType.Line"
+                             DashArray="4,4">
+                    <ChartMarker Visible="true" IsFilled="true"></ChartMarker>
+                </ChartSeries>
 
-    <ChartPrimaryYAxis Minimum="3" Maximum="21" Interval="3" LabelFormat="{value}%">
-        <ChartAxisLineStyle Width="0" />
-        <ChartAxisMajorTickLines Width="0" />
-    </ChartPrimaryYAxis>
+                <ChartSeries DataSource="InvestmentData"
+                             XName="X"
+                             YName="Y1"
+                             Name="Saudi Arabia"
+                             Type="ChartSeriesType.Line"
+                             DashArray="4,4">
+                    <ChartMarker Visible="true" IsFilled="true"></ChartMarker>
+                </ChartSeries>
 
-    <ChartTooltipSettings Enable="true"
-                          Header="${series.name}"
-                          Format="${point.x} : <b>${point.y}</b>"
-                          EnableHighlight="true" />
+                <ChartSeries DataSource="InvestmentData"
+                             XName="X"
+                             YName="Y2"
+                             Name="Spain"
+                             Type="ChartSeriesType.Line"
+                             DashArray="4,4">
+                    <ChartMarker Visible="true" IsFilled="true"></ChartMarker>
+                </ChartSeries>
 
-    
-        <ChartSeries DataSource="InvestmentData" XName="X" YName="Y"
-                     Name="Singapore" DashArray="4,4"
-                     Type="ChartSeriesType.Line">
-            <ChartMarker Visible="true" IsFilled="true" />
-        </ChartSeries>
-    
-
-    <ChartLegendSettings EnableHighlight="true" />
-</SfChart>
-
+                <ChartSeries DataSource="InvestmentData"
+                             XName="X"
+                             YName="Y3"
+                             Name="Portugal"
+                             Type="ChartSeriesType.Line"
+                             DashArray="4,4">
+                    <ChartMarker Visible="true" IsFilled="true"></ChartMarker>
+                </ChartSeries>
+            
+            <ChartLegendSettings EnableHighlight="true"></ChartLegendSettings>
+        </SfChart>
 @code {
     public class InvestmentDataModel
         {
@@ -1592,54 +1626,53 @@
 
     private string WeeklySalesCode => """
 @using Syncfusion.Blazor.Toolkit.Charts
-
-
 <SfChart Title="Weekly sales vs Target">
-    <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Toolkit.ValueType.DateTime"
-                       Minimum="new DateTime(2024, 3, 27)"
-                       Maximum="new DateTime(2024, 6, 26)"
-                       Format="MMM dd, yyyy"
-                       LabelRotation="-45">
-        <ChartAxisLineStyle Width="0" />
-    </ChartPrimaryXAxis>
+            <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Toolkit.ValueType.DateTime"
+                               Minimum="new DateTime(2024, 3, 27)"
+                               Maximum="new DateTime(2024, 6, 26)" Format="MMM dd, yyyy" LabelRotation="-45">
+                <ChartAxisLineStyle Width="0" />
+            </ChartPrimaryXAxis>
 
-    <ChartPrimaryYAxis Title="Sales"
-                       Minimum="0"
-                       RangePadding="ChartRangePadding.None"
-                       LabelFormat="{value}K">
-        <ChartAxisLineStyle Width="0" />
+            <ChartPrimaryYAxis Title="Sales" Minimum="0" RangePadding="ChartRangePadding.None" LabelFormat="{value}K">
+                <ChartAxisLineStyle Width="0" />
 
-        <ChartStriplines>
-            <ChartStripline Start="12" End="12.1"
-                            DashArray="10,10"
-                            Color="#79747E"
-                            ZIndex="ZIndex.Over"
-                            Visible="true" />
-            <ChartStripline Start="12.5" End="12.6"
-                            Text="Weekly sales target"
-                            Color="Transparent"
-                            Visible="true" 
-                            HorizontalAlignment="Anchor.Start">
-                <ChartStriplineTextStyle Size="14px" FontWeight="400" />
-            </ChartStripline>
-        </ChartStriplines>
-    </ChartPrimaryYAxis>
+                <ChartStriplines>
+                    <!-- Target dashed line -->
+                    <ChartStripline Start="12" End="12.1"
+                                    DashArray="10,10"
+                                    Color="#79747E"
+                                    ZIndex="ZIndexPosition.Over"
+                                    Visible="true">
+                    </ChartStripline>
+                    <!-- Target label -->
+                    <ChartStripline Start="12.5" End="12.6"
+                                    Text="Weekly sales target"
+                                    Color="Transparent"
+                                    Visible="true" 
+                                    HorizontalAlignment="Anchor.Start">
+                        <ChartStriplineTextStyle Size="14px" FontWeight="400" Color="@TextColor" />
+                    </ChartStripline>
+                </ChartStriplines>
+            </ChartPrimaryYAxis>
 
-    
-        <ChartSeries DataSource="WeeklySalesData"
-                     XName="Date"
-                     YName="Sales"
-                     Type="ChartSeriesType.Line"
-                     Fill="#0A97B0">
-            <ChartMarker Visible="true" />
-        </ChartSeries>
-    
-
-    <ChartTooltipSettings Enable="true"
-                          Header="${point.x}"
-                          Format="Sales : <b>${point.y}</b>"
-                          EnableHighlight="true" />
-</SfChart>
+            
+                <ChartSeries DataSource="WeeklySalesData"
+                             XName="Date"
+                             YName="Sales"
+                             Type="ChartSeriesType.Line">
+                    <ChartMarker Visible="true">
+                        <ChartDataLabel Visible="true" Format="${value}"
+                                        Font="@(new ChartDataLabelFont { Color = TextColor })">
+                    <ChartDataLabelBorder Width="2" Color="#0A97B0">
+                    </ChartDataLabelBorder>
+                </ChartDataLabel>
+                </ChartMarker>
+                                </ChartSeries>
+                              
+             <ChartTooltipSettings Enable="true"
+                                  Header="${point.x}"
+                                  Format="Sales : <b>${point.y}</b>" EnableHighlight="true" />
+                              </SfChart>
 
 @code {
     public class WeeklySalesPoint
@@ -1664,52 +1697,51 @@
             new() { Date = new DateTime(2024, 6, 19), Sales = 7.2 },
             new() { Date = new DateTime(2024, 6, 26), Sales = 15.2 }
         };
+        private Theme _currentTheme = Theme.Fluent;
+        private bool IsDarkTheme => _currentTheme.ToString().Contains("Dark") || _currentTheme.ToString().Contains("HighContrast");
+         private string TextColor => IsDarkTheme ? "#FFFFFF" : "#000000";
 }
 """;
 
     private string MultiColoredLineCode => """
 @using Syncfusion.Blazor.Toolkit.Charts
-
-
-<SfChart @key="@_currentTheme" Title="U.S. Historical Temperature Trends (1895–2025)" Theme="@_currentTheme">
-    <CharTitle="U.S. Historical Temperature Trends (1895–2025)">
-    <ChartArea>
-        <ChartAreaBorder Width="0" />
-    </ChartArea>
-
-    <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Toolkit.ValueType.DateTime"
-                       Minimum="new DateTime(1895, 1, 1)"
-                       Maximum="new DateTime(2025, 1, 1)"
-                       Interval="20"
-                       Format="yyyy">
-        <ChartAxisMajorGridLines Width="0" />
-        <ChartAxisMajorTickLines Width="0" />
-        <ChartAxisMinorTickLines Width="0" />
-    </ChartPrimaryXAxis>
-
-    <ChartPrimaryYAxis Minimum="20" Maximum="40" Interval="4"
-                       Title="Mean Temperature (°F)"
-                       LabelFormat="{value}°F">
-        <ChartAxisLineStyle Width="0" />
-        <ChartAxisMajorTickLines Width="0" />
-    </ChartPrimaryYAxis>
-
-    
-        <ChartSeries DataSource="AverageTemperatureData"
-                     XName="Date"
-                     YName="Value"
-                     Type="ChartSeriesType.MultiColoredLine"
-                     PointColorMapping="Color"
-                     Width="2">
-            <ChartMarker AllowHighlight="false" />
-        </ChartSeries>
-    
-
-    <ChartTooltipSettings Enable="true"
-                          Header="Year: ${point.x}"
-                          ShowHeaderLine="true"
-                          Format="Average Temperature : ${point.y}" />
-</SfChart>
+<SfChart Title="U.S. Historical Temperature Trends (1895–2025)">
+            <ChartArea><ChartAreaBorder Width="0"></ChartAreaBorder></ChartArea>
+            <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Toolkit.ValueType.DateTime"
+                               Minimum="new DateTime(1895, 1, 1)"
+                               Maximum="new DateTime(2025, 1, 1)"
+                               Interval="20"
+                               RangePadding="ChartRangePadding.Normal"
+                               Format="yyyy"
+                               EdgeLabelPlacement="EdgeLabelPlacement.None">
+                <ChartAxisMajorGridLines Width="0"></ChartAxisMajorGridLines>
+                <ChartAxisMajorTickLines Width="0" />
+                <ChartAxisMinorTickLines Width="0" />
+            </ChartPrimaryXAxis>
+            <ChartPrimaryYAxis Minimum="20"
+                               Maximum="40"
+                               Interval="4"
+                               Title="Mean Temperature (°F)"
+                               LabelFormat="{value}°F"
+                               EdgeLabelPlacement="EdgeLabelPlacement.Shift">
+                <ChartAxisLineStyle Width="0"></ChartAxisLineStyle>
+                <ChartAxisMajorTickLines Width="0"></ChartAxisMajorTickLines>
+            </ChartPrimaryYAxis>
+            
+                <ChartSeries DataSource="AverageTemperatureData"
+                             XName="Date"
+                             YName="Value"
+                             Type="ChartSeriesType.MultiColoredLine"
+                             PointColorMapping="Color"
+                             Width="2">
+                    <ChartMarker AllowHighlight="false" />
+                </ChartSeries>
+            
+            <ChartTooltipSettings Enable="true"
+                                  Header="Year: ${point.x}"
+                                  ShowHeaderLine="true"
+                                  Format="Average Temperature : ${point.y}" />
+        </SfChart>
 
 @code {
     public class TemperaturePoint
@@ -1734,49 +1766,64 @@
 
     private string SkipMissingCode => """
 @using Syncfusion.Blazor.Toolkit.Charts
+ <div class="mb-3">
+            <label class="fw-bold d-block mb-2">Empty Point Mode</label>
 
+            <SfButtonGroup Mode="SelectionMode.Single">
+                <Button Selected="@IsSelected(EmptyPointMode.Gap)"
+                                   SelectedChanged="@(v => OnModeChanged(v, EmptyPointMode.Gap))">
+                    Gap
+                </Button>
 
-<SfButtonGroup Mode="SelectionMode.Single">
-    <ButtonGroupButton>Gap</ButtonGroupButton>
-    <ButtonGroupButton>Zero</ButtonGroupButton>
-    <ButtonGroupButton>Average</ButtonGroupButton>
-    <ButtonGroupButton>Drop</ButtonGroupButton>
-</SfButtonGroup>
+                <Button Selected="@IsSelected(EmptyPointMode.Zero)"
+                                   SelectedChanged="@(v => OnModeChanged(v, EmptyPointMode.Zero))">
+                    Zero
+                </Button>
 
-<SfChart @key="@_currentTheme" Title="Sales Analysis" Theme="@_currentTheme">
-    <CharTitle="Sales Analysis">
-    <ChartArea>
-        <ChartAreaBorder Width="0" />
-    </ChartArea>
+                <Button Selected="@IsSelected(EmptyPointMode.Average)"
+                                   SelectedChanged="@(v => OnModeChanged(v, EmptyPointMode.Average))">
+                    Average
+                </Button>
 
-    <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Toolkit.ValueType.Category">
-        <ChartAxisMajorGridLines Width="0" />
-        <ChartAxisMajorTickLines Width="0" />
-        <ChartAxisMinorTickLines Width="0" />
-    </ChartPrimaryXAxis>
+                <Button Selected="@IsSelected(EmptyPointMode.Drop)"
+                                   SelectedChanged="@(v => OnModeChanged(v, EmptyPointMode.Drop))">
+                    Drop
+                </Button>
+            </SfButtonGroup>
+        </div>
+        <!-- CHART -->
+        <SfChart Title="Sales Analysis">
+            <ChartArea><ChartAreaBorder Width="0"></ChartAreaBorder></ChartArea>
+            <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Toolkit.ValueType.Category">
+                <ChartAxisMajorGridLines Width="0"></ChartAxisMajorGridLines>
+                <ChartAxisMajorTickLines Width="0" />
+                <ChartAxisMinorTickLines Width="0" />
+            </ChartPrimaryXAxis>
+            <ChartPrimaryYAxis>
+                <ChartAxisLineStyle Width="0"></ChartAxisLineStyle>
+                <ChartAxisMajorTickLines Width="0"></ChartAxisMajorTickLines>
+            </ChartPrimaryYAxis>
 
-    <ChartPrimaryYAxis>
-        <ChartAxisLineStyle Width="0" />
-        <ChartAxisMajorTickLines Width="0" />
-    </ChartPrimaryYAxis>
+            
+                <ChartSeries DataSource="@SalesData"
+                             XName="X"
+                             YName="Y"
+                             Type="ChartSeriesType.Line"
+                             Fill="@SeriesColor">
+                    <ChartEmptyPointSettings Mode="@Mode" />
+                    <ChartMarker Visible="true" IsFilled="true" />
+                </ChartSeries>
+            
 
-    
-        <ChartSeries DataSource="SalesData"
-                     XName="X"
-                     YName="Y"
-                     Type="ChartSeriesType.Line">
-            <ChartEmptyPointSettings Mode="EmptyPointMode.Gap" Fill="#e6e6e6" />
-            <ChartMarker Visible="true" IsFilled="true" />
-        </ChartSeries>
-    
-
-    <ChartTooltipSettings Enable="true"
-                          Header="${point.x}"
-                          Format="Sales : <b>${point.y} Units</b>"
-                          EnableHighlight="true" />
-</SfChart>
+            <ChartTooltipSettings Enable="true"
+                                  Header="${point.x}"
+                                  Format="Sales : <b>${point.y} Units</b>" EnableHighlight="true" />
+        </SfChart>
 
 @code {
+private Theme _currentTheme = Theme.Fluent;
+          private string SeriesColor => IsDarkTheme ? "#77E4D4" : "#0A97B0";
+    private bool IsDarkTheme => _currentTheme.ToString().Contains("Dark") || _currentTheme.ToString().Contains("HighContrast");
     public class SalesPoint
         {
             public string X { get; set; } = string.Empty;
@@ -1805,35 +1852,28 @@
 @using Syncfusion.Blazor.Toolkit.Charts
 @using System.Timers
 
-
-<SfChart Title="Live Line Chart">
-    <ChartArea>
-        <ChartAreaBorder Width="0" />
-    </ChartArea>
-
-    <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Toolkit.ValueType.DateTime"
-                       LabelFormat="mm:ss"
-                       Title="Time (s)">
-        <ChartAxisMajorGridLines Width="0" />
-        <ChartAxisMajorTickLines Width="0" />
-        <ChartAxisMinorTickLines Width="0" />
-    </ChartPrimaryXAxis>
-
-    <ChartPrimaryYAxis Minimum="0" Maximum="70">
-        <ChartAxisLineStyle Width="0" />
-        <ChartAxisMajorTickLines Width="0" />
-    </ChartPrimaryYAxis>
-
-    
-        <ChartSeries DataSource="DataPoints"
-                     XName="Time"
-                     YName="CPU_Usage"
-                     Type="ChartSeriesType.Line">
-            <ChartSeriesAnimation Enable="true" Duration="500" />
-            <ChartMarker Visible="true" />
-        </ChartSeries>
-    
-</SfChart>
+  <SfChart Title="Live Line Chart">
+            <ChartArea><ChartAreaBorder Width="0"></ChartAreaBorder></ChartArea>
+            <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Toolkit.ValueType.DateTime" LabelFormat="mm:ss" Title="Time (s)">
+                <ChartAxisMajorGridLines Width="0"></ChartAxisMajorGridLines>
+                <ChartAxisMajorTickLines Width="0" />
+                <ChartAxisMinorTickLines Width="0" />
+            </ChartPrimaryXAxis>
+            <ChartArea>
+                <ChartAreaBorder Width="0"></ChartAreaBorder>
+            </ChartArea>
+            <ChartPrimaryYAxis Minimum="0" Maximum="70">
+                <ChartAxisLineStyle Width="0"></ChartAxisLineStyle>
+                <ChartAxisMajorTickLines Width="0"></ChartAxisMajorTickLines>
+            </ChartPrimaryYAxis>
+            
+                <ChartSeries Type="ChartSeriesType.Line" DataSource="@DataPoints"
+                             XName="@nameof(ChartDataPointLive.Time)" YName="@nameof(ChartDataPointLive.CPU_Usage)">
+                    <ChartSeriesAnimation Enable="true" Duration="500" />
+                    <ChartMarker Visible="true" />
+                </ChartSeries>
+            
+        </SfChart>
 
 @code {
     public class ChartDataPointLive
@@ -1888,38 +1928,51 @@
 
     private string InvertedAxesCode => """
 @using Syncfusion.Blazor.Toolkit.Charts
+<SfChart Title="Climate Graph in 2024" IsTransposed="true">
+            <ChartArea><ChartAreaBorder Width="0"></ChartAreaBorder></ChartArea>
+            <!-- X AXIS -->
+            <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Toolkit.ValueType.Category">
+                <ChartAxisLineStyle Width="0" />
+                <ChartAxisMajorGridLines Width="0" />
+                <ChartAxisMajorTickLines Width="0" />
+                <ChartAxisMinorTickLines Width="0" />
 
+            </ChartPrimaryXAxis>
 
-<SfChart @key="@_currentTheme" Title="Climate Graph in 2024" IsTransposed="true" Theme="@_currentTheme">
-    <CharTitle="Climate Graph in 2024" IsTransposed="true">
-    <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Toolkit.ValueType.Category">
-        <ChartAxisLineStyle Width="0" />
-        <ChartAxisMajorGridLines Width="0" />
-        <ChartAxisMajorTickLines Width="0" />
-        <ChartAxisMinorTickLines Width="0" />
-    </ChartPrimaryXAxis>
+            <!-- Y AXIS -->
+            <ChartPrimaryYAxis LabelFormat="{value}°C">
+                <ChartAxisLineStyle Width="0"></ChartAxisLineStyle>
+                <ChartAxisMajorTickLines Width="0"></ChartAxisMajorTickLines>
 
-    <ChartPrimaryYAxis LabelFormat="{value}°C">
-        <ChartAxisLineStyle Width="0" />
-        <ChartAxisMajorTickLines Width="0" />
-    </ChartPrimaryYAxis>
+            </ChartPrimaryYAxis>
 
-    
-        <ChartSeries DataSource="ClimateData"
-                     XName="Month"
-                     YName="London"
-                     Name="London"
-                     Type="ChartSeriesType.Line" />
-        <ChartSeries DataSource="ClimateData"
-                     XName="Month"
-                     YName="France"
-                     Name="France"
-                     Type="ChartSeriesType.Line" />
-    
+            <!-- SERIES -->
+            
+                <ChartSeries DataSource="@ClimateData"
+                             XName="Month"
+                             YName="London"
+                             Name="London"
+                             Type="ChartSeriesType.Line"
+                             Fill="@TwoSeriesColors[0]">
+                    <ChartMarker Visible="true" Shape="ChartShape.Circle" IsFilled="true" />
+                </ChartSeries>
 
-    <ChartTooltipSettings Enable="true" Header="${series.name}" />
-    <ChartLegendSettings EnableHighlight="true" />
-</SfChart>
+                <ChartSeries DataSource="@ClimateData"
+                             XName="Month"
+                             YName="France"
+                             Name="France"
+                             Type="ChartSeriesType.Line"
+                             Fill="@TwoSeriesColors[1]">
+                    <ChartMarker Visible="true" Shape="ChartShape.Circle" IsFilled="true" />
+                </ChartSeries>
+            
+
+            <!-- TOOLTIP -->
+            <ChartTooltipSettings Enable="true"
+                                  Header="${series.name}" EnableHighlight="true" />
+            <ChartLegendSettings EnableHighlight="true"></ChartLegendSettings>
+
+        </SfChart>
 
 @code {
     public class ClimatePoint
@@ -1938,52 +1991,81 @@
             new() { Month = "Oct", London = 16, France = 12 },
             new() { Month = "Dec", London = 10, France = 2  }
         };
+           private Theme _currentTheme = Theme.Fluent;
+          private bool IsDarkTheme => _currentTheme.ToString().Contains("Dark") || _currentTheme.ToString().Contains("HighContrast");
+    private string[] TwoSeriesColors =>
+        IsDarkTheme
+            ? new[] { "#7F9CFE", "#FD963B" }
+            : new[] { "#0A30AE", "#E3651D" };
 }
 """;
 
     private string NegativeDataCode => """
 @using Syncfusion.Blazor.Toolkit.Charts
+<SfChart Title="Annual Gold Price (2009–2023) in USD">
+            <ChartArea><ChartAreaBorder Width="0"></ChartAreaBorder></ChartArea>
+            <!-- X AXIS -->
+            <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Toolkit.ValueType.Double">
+                <ChartAxisMajorGridLines Width="0" />
+                <ChartAxisMajorTickLines Width="0" />
+                <ChartAxisMinorTickLines Width="0" />
+            </ChartPrimaryXAxis>
+
+            <!-- Y AXIS -->
+            <ChartPrimaryYAxis Title="% Annual Exchange Rate">
+                <ChartAxisLineStyle Width="0" />
+                <ChartAxisLineStyle Width="0"></ChartAxisLineStyle>
+                <ChartAxisMajorTickLines Width="0"></ChartAxisMajorTickLines>
 
 
-<SfChart @key="@_currentTheme" Title="Annual Gold Price (2009–2023) in USD" Theme="@_currentTheme">
-    <CharTitle="Annual Gold Price (2009–2023) in USD">
-    <ChartArea>
-        <ChartAreaBorder Width="0" />
-    </ChartArea>
+                <!-- REFERENCE LINES -->
+                <ChartStriplines>
+                    <!-- Highest Growth -->
+                    <ChartStripline Start="20" End="20.5"
+                                    DashArray="10,10"
+                                    Color="#79747E"
+                                    Visible="true" />
+                    <ChartStripline Start="21" End="21.5"
+                                    Text="Highest Annual Growth"
+                                    Color="Transparent"
+                                    Visible="true"
+                                    HorizontalAlignment="Anchor.End">
+                        <ChartStriplineTextStyle Color="@HighestTextColor"
+                                                 FontWeight="500" />
+                    </ChartStripline>
 
-    <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Toolkit.ValueType.Double">
-        <ChartAxisMajorGridLines Width="0" />
-        <ChartAxisMajorTickLines Width="0" />
-        <ChartAxisMinorTickLines Width="0" />
-    </ChartPrimaryXAxis>
+                    <!-- Lowest Growth -->
+                    <ChartStripline Start="-25" End="-24.5"
+                                    DashArray="10,10"
+                                    Color="#79747E"
+                                    Visible="true" />
+                    <ChartStripline Start="-28.5" End="-28"
+                                    Text="Lowest Annual Growth"
+                                    Color="Transparent"
+                                    Visible="true"
+                                    HorizontalAlignment="Anchor.End">
+                        <ChartStriplineTextStyle Color="@LowestTextColor"
+                                                 FontWeight="500" />
+                    </ChartStripline>
+                </ChartStriplines>
+            </ChartPrimaryYAxis>
 
-    <ChartPrimaryYAxis Title="% Annual Exchange Rate">
-        <ChartAxisLineStyle Width="0" />
-        <ChartAxisMajorTickLines Width="0" />
+            <!-- SERIES -->
+            
+                <ChartSeries DataSource="@GoldGrowthData"
+                             XName="X"
+                             YName="USD"
+                             Type="ChartSeriesType.Line"
+                             Fill="@SeriesColor">
+                    <ChartMarker Visible="true" IsFilled="true" />
+                </ChartSeries>
+            
 
-        <ChartStriplines>
-            <ChartStripline Start="20" End="20.5" DashArray="10,10" />
-            <ChartStripline Start="21" End="21.5" Text="Highest Annual Growth" />
-
-            <ChartStripline Start="-25" End="-24.5" DashArray="10,10" />
-            <ChartStripline Start="-28.5" End="-28" Text="Lowest Annual Growth" />
-        </ChartStriplines>
-    </ChartPrimaryYAxis>
-
-    
-        <ChartSeries DataSource="GoldGrowthData"
-                     XName="X"
-                     YName="USD"
-                     Type="ChartSeriesType.Line">
-            <ChartMarker Visible="true" IsFilled="true" />
-        </ChartSeries>
-    
-
-    <ChartTooltipSettings Enable="true"
-                          Header="<b>${point.x}</b>"
-                          Format="Annual Growth : <b>${point.y}</b>"
-                          EnableHighlight="true" />
-</SfChart>
+            <!-- TOOLTIP -->
+            <ChartTooltipSettings Enable="true"
+                                  Header="<b>${point.x}</b>"
+                                  Format="Annual Growth : <b>${point.y}</b>" EnableHighlight="true" />
+        </SfChart>
 
 @code {
     public class GoldGrowthPoint
@@ -2009,46 +2091,56 @@
             new() { X = 2022, USD = -0.3 },
             new() { X = 2023, USD = 12.8 }
         };
+     private Theme _currentTheme = Theme.Fluent;
+     private bool IsDarkTheme => _currentTheme.ToString().Contains("Dark") || _currentTheme.ToString().Contains("HighContrast");
+     private string HighestTextColor => IsDarkTheme ? "#50C812" : "#337D0E";
+    private string LowestTextColor => IsDarkTheme ? "#F5463C" : "#E02F25";
+    private string SeriesColor => IsDarkTheme ? "#77E4D4" : "#0A97B0";
 }
 """;
 
     private string SeriesCustomizationCode => """
 @using Syncfusion.Blazor.Toolkit.Charts
-
-
 <SfChart Title="GDP Growth rate (1960 - 2020)">
-    <ChartArea>
-        <ChartAreaBorder Width="0" />
-    </ChartArea>
-
-    <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Toolkit.ValueType.Double">
-        <ChartAxisMajorGridLines Width="0" />
-        <ChartAxisMajorTickLines Width="0" />
-        <ChartAxisMinorTickLines Width="0" />
-    </ChartPrimaryXAxis>
-
-    <ChartPrimaryYAxis Minimum="-10" Maximum="15" Interval="5">
-        <ChartAxisLineStyle Width="0" />
-        <ChartAxisMajorTickLines Width="0" />
-    </ChartPrimaryYAxis>
-
-    
-        <ChartSeries DataSource="IndiaGDPData" XName="Year" YName="Value"
-                     Name="India" Width="3" Type="ChartSeriesType.Line" />
-        <ChartSeries DataSource="JapanGDPData" XName="Year" YName="Value"
-                     Name="Japan" Type="ChartSeriesType.Line" />
-        <ChartSeries DataSource="USAGDPData" XName="Year" YName="Value"
-                     Name="USA" Type="ChartSeriesType.Line" />
-    
-
-    <ChartLegendSettings EnableHighlight="true" />
-    <ChartTooltipSettings Enable="true"
-                          Shared="true"
-                          Header="<b>${point.x}</b>"
-                          Format="${series.name} : <b>${point.y}%</b>"
-                          EnableHighlight="true" />
-</SfChart>
-
+            <ChartArea><ChartAreaBorder Width="0"></ChartAreaBorder></ChartArea>
+            <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Toolkit.ValueType.Double">
+                <ChartAxisMajorGridLines Width="0"></ChartAxisMajorGridLines>
+                <ChartAxisMajorTickLines Width="0" />
+                <ChartAxisMinorTickLines Width="0" />
+            </ChartPrimaryXAxis>
+            <ChartPrimaryYAxis Minimum="-10" Maximum="15" Interval="5">
+                <ChartAxisLineStyle Width="0"></ChartAxisLineStyle>
+                <ChartAxisMajorTickLines Width="0"></ChartAxisMajorTickLines>
+            </ChartPrimaryYAxis>
+            
+                <ChartSeries DataSource="IndiaGDPData"
+                             XName="Year"
+                             YName="Value"
+                             Name="India"
+                             Width="3"
+                             Type="ChartSeriesType.Line">
+                </ChartSeries>
+                <ChartSeries DataSource="JapanGDPData"
+                             XName="Year"
+                             YName="Value"
+                             Name="Japan"
+                             Width="1"
+                             Type="ChartSeriesType.Line">
+                </ChartSeries>
+                <ChartSeries DataSource="USAGDPData"
+                             XName="Year"
+                             YName="Value"
+                             Name="USA"
+                             Width="1"
+                             Type="ChartSeriesType.Line">
+                </ChartSeries>
+            
+            <ChartLegendSettings EnableHighlight="true"></ChartLegendSettings>
+            <ChartTooltipSettings Enable="true"
+                                  Shared="true"
+                                  Header="<b>${point.x}</b>"
+                                  Format="${series.name} : <b>${point.y}%</b>" EnableHighlight="true" />
+        </SfChart>
 @code {
     public class GDPPoint
         {
@@ -2166,35 +2258,29 @@
     private string DatasourceUpdateCode => """
 @using System.Collections.ObjectModel
 @using Syncfusion.Blazor.Toolkit.Charts
+  <SfChart Title="Auto‑Updating Line Chart">
+            <ChartArea><ChartAreaBorder Width="0"></ChartAreaBorder></ChartArea>
+            <ChartPrimaryXAxis Minimum="1" Maximum="7" Interval="1">
+                <ChartAxisMajorGridLines Width="0"></ChartAxisMajorGridLines>
+                <ChartAxisMajorTickLines Width="0" />
+                <ChartAxisMinorTickLines Width="0" />
+            </ChartPrimaryXAxis>
+            <ChartPrimaryYAxis Minimum="0" Maximum="100" Interval="20">
+                <ChartAxisMajorGridLines Width="1" />
+                <ChartAxisMajorTickLines Width="0" />
+                <ChartAxisLineStyle Width="0" />
+            </ChartPrimaryYAxis>
 
-
-<SfChart Title="Auto-Updating Line Chart">
-    <ChartArea>
-        <ChartAreaBorder Width="0" />
-    </ChartArea>
-
-    <ChartPrimaryXAxis Minimum="1" Maximum="7" Interval="1">
-        <ChartAxisMajorGridLines Width="0" />
-        <ChartAxisMajorTickLines Width="0" />
-        <ChartAxisMinorTickLines Width="0" />
-    </ChartPrimaryXAxis>
-
-    <ChartPrimaryYAxis Minimum="0" Maximum="100" Interval="20">
-        <ChartAxisMajorGridLines Width="1" />
-        <ChartAxisMajorTickLines Width="0" />
-        <ChartAxisLineStyle Width="0" />
-    </ChartPrimaryYAxis>
-
-    
-        <ChartSeries DataSource="ChartData"
-                     XName="X"
-                     YName="Y"
-                     Type="ChartSeriesType.Line">
-            <ChartSeriesAnimation Enable="true" Duration="1500" />
-            <ChartMarker Visible="true" IsFilled="true" />
-        </ChartSeries>
-    
-</SfChart>
+            
+                <ChartSeries DataSource="@ChartData"
+                             XName="X"
+                             YName="Y"
+                             Type="ChartSeriesType.Line">
+                    <ChartSeriesAnimation Enable="true" Duration="1500"></ChartSeriesAnimation>
+                    <ChartMarker Visible="true" IsFilled="false" />
+                </ChartSeries>
+            
+        </SfChart>
 
 @code {
     public class ChartPoint

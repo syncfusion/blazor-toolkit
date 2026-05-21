@@ -105,6 +105,7 @@ namespace Syncfusion.Blazor.Toolkit.Inputs
         private bool IsDropValue { get; set; }
 
         private bool IsPasteValue { get; set; }
+
         /// <summary>
         /// Set the min and max validation value to the property.
         /// </summary>
@@ -122,8 +123,9 @@ namespace Syncfusion.Blazor.Toolkit.Inputs
         /// Gets or sets the logger used for capturing diagnostic and runtime information
         /// related to the <see cref="SfNumericTextBox{TValue}"/> component.
         /// </summary>
+        /// <exclude/>
         [Inject]
-        public required ILogger<SfNumericTextBox<TValue>> Logger { get; set; }
+        protected ILogger<SfNumericTextBox<TValue>> Logger { get; set; }
 
         private IJSInProcessObjectReference? _numericTextBoxJsInProcessModule;
         private DotNetObjectReference<SfNumericTextBox<TValue>>? _selectRangeDotNetRef;
@@ -173,7 +175,7 @@ namespace Syncfusion.Blazor.Toolkit.Inputs
                         {
                             return;
                         }
-                        _ = PropertyChanges.Remove(nameof(Value));
+                        _ = PropertyChanges?.Remove(nameof(Value));
                         await ChangeValueAsync(value: (Value is null) ? default : StrictMode ? TrimValue(Value) : Value).ConfigureAwait(true);
                         if (prop.Key == "Value")
                         {
@@ -232,6 +234,7 @@ namespace Syncfusion.Blazor.Toolkit.Inputs
         /// This method applies culture-specific formatting, handles exponential notation, manages decimal separators, and updates ARIA attributes for accessibility. The formatting behavior differs based on whether the input is focused or not.
         /// </remarks>
         /// <exception cref="Exception">Logs any unexpected errors that occur during formatting to the console.</exception>
+        /// <exclude/>
         protected override string? FormatValueAsString(TValue? formatValue)
         {
             try
@@ -294,6 +297,7 @@ namespace Syncfusion.Blazor.Toolkit.Inputs
         /// This method handles culture-specific number parsing, decimal separator validation, and supports both double and decimal numeric types. It also manages formatting for focused input states and validates number formats.
         /// </remarks>
         /// <exception cref="Exception">Logs any unexpected errors that occur during value conversion to the console.</exception>
+        /// <exclude/>
         protected override TValue? FormatValue(string? genericValue)
         {
             if (IsFocus)
@@ -466,6 +470,7 @@ namespace Syncfusion.Blazor.Toolkit.Inputs
         /// <remarks>
         /// This override processes input events and invokes the OnInput callback if registered.
         /// </remarks>
+        /// <exclude/>
         protected override async Task InputHandlerAsync(ChangeEventArgs? args)
         {
             if (OnInput.HasDelegate)
@@ -881,6 +886,7 @@ namespace Syncfusion.Blazor.Toolkit.Inputs
         /// <remarks>
         /// This method is called when the input element receives focus. It triggers client-side focus handling only if the component is enabled, not readonly, and the focus handler hasn't been triggered yet. The focus handler manages input formatting and user interaction states.
         /// </remarks>
+        /// <exclude/>
         protected override async Task FocusHandlerAsync(FocusEventArgs args)
         {
             if (IsTriggerFocusHandler && !Disabled && !Readonly)
@@ -958,6 +964,7 @@ namespace Syncfusion.Blazor.Toolkit.Inputs
         /// </list>
         /// The method prevents recursive calls and ensures proper value conversion based on the data type (double or decimal).
         /// </remarks>
+        /// <exclude/>
         protected override async Task FocusOutHandlerAsync(FocusEventArgs args)
         {
             if (OnBlur.HasDelegate && !IsClearIconClick)
@@ -1202,6 +1209,7 @@ namespace Syncfusion.Blazor.Toolkit.Inputs
         /// </list>
         /// The method supports culture-specific number formatting and ensures proper validation of numeric input.
         /// </remarks>
+        /// <exclude/>
         protected override async Task ChangeHandlerAsync(ChangeEventArgs? args)
         {
             string? formattedVal = args is not null ? args.Value as string : null;

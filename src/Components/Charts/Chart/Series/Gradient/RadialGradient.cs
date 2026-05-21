@@ -156,6 +156,9 @@ namespace Syncfusion.Blazor.Toolkit.Charts
         /// <summary>
         /// Detect changes to parameter values and notify the renderer when they change.
         /// </summary>
+        /// <exclude />
+        [EditorBrowsable(EditorBrowsableState.Never)]
+        [Browsable(false)]
         protected override void OnParametersSet()
         {
             base.OnParametersSet();

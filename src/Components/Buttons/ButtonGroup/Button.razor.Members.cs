@@ -3,7 +3,7 @@ using System.ComponentModel;
 
 namespace Syncfusion.Blazor.Toolkit.Buttons
 {
-    public partial class ButtonGroupButton
+    public partial class Button
     {
         #region Properties
 
@@ -31,12 +31,12 @@ namespace Syncfusion.Blazor.Toolkit.Buttons
         /// You can add multiple classes separated by spaces to apply custom styles to the button.
         /// </remarks>
         /// <example>
-        /// The following example demonstrates how to apply a custom CSS class to a <see cref="ButtonGroupButton"/>.
+        /// The following example demonstrates how to apply a custom CSS class to a <see cref="Button"/>.
         /// <code><![CDATA[
         /// <SfButtonGroup>
-        ///   <ButtonGroupButton CssClass="custom-style">Left</ButtonGroupButton>
-        ///   <ButtonGroupButton>Center</ButtonGroupButton>
-        ///   <ButtonGroupButton>Right</ButtonGroupButton>
+        ///   <Button CssClass="custom-style">Left</Button>
+        ///   <Button>Center</Button>
+        ///   <Button>Right</Button>
         /// </SfButtonGroup>
         /// ]]></code>
         /// </example>
@@ -53,12 +53,12 @@ namespace Syncfusion.Blazor.Toolkit.Buttons
         /// This property is used to apply a CSS class that defines the button's icon, typically by setting a background image.
         /// </remarks>
         /// <example>
-        /// The following example demonstrates how to add icons to <see cref="ButtonGroupButton"/> components.
+        /// The following example demonstrates how to add icons to <see cref="Button"/> components.
         /// <code><![CDATA[
         /// <SfButtonGroup>
-        ///   <ButtonGroupButton IconCss="e-icons e-cut">Cut</ButtonGroupButton>
-        ///   <ButtonGroupButton IconCss="e-icons e-copy">Copy</ButtonGroupButton>
-        ///   <ButtonGroupButton IconCss="e-icons e-paste">Paste</ButtonGroupButton>
+        ///   <Button IconCss="e-icons e-cut">Cut</Button>
+        ///   <Button IconCss="e-icons e-copy">Copy</Button>
+        ///   <Button IconCss="e-icons e-paste">Paste</Button>
         /// </SfButtonGroup>
         /// ]]></code>
         /// </example>
@@ -90,7 +90,7 @@ namespace Syncfusion.Blazor.Toolkit.Buttons
         /// The following example demonstrates how to bind and toggle the <see cref="Selected"/> state from a parent component.
         /// <code><![CDATA[
         /// <SfButtonGroup Mode="SelectionMode.Multiple">
-        ///   <ButtonGroupButton Selected="@isSelected">Option</ButtonGroupButton>
+        ///   <Button Selected="@isSelected">Option</Button>
         /// </SfButtonGroup>
         /// @code {
         ///   bool isSelected = true;
@@ -113,8 +113,8 @@ namespace Syncfusion.Blazor.Toolkit.Buttons
         /// Use the <see cref="Name"/> property to group radio inputs when using single-selection mode.
         /// <code><![CDATA[
         /// <SfButtonGroup Mode="SelectionMode.Single">
-        ///   <ButtonGroupButton Name="group1">A</ButtonGroupButton>
-        ///   <ButtonGroupButton Name="group1">B</ButtonGroupButton>
+        ///   <Button Name="group1">A</Button>
+        ///   <Button Name="group1">B</Button>
         /// </SfButtonGroup>
         /// ]]></code>
         /// </example>
@@ -134,8 +134,8 @@ namespace Syncfusion.Blazor.Toolkit.Buttons
         /// Set a custom <see cref="Value"/> when using the group within a form to identify the selected option.
         /// <code><![CDATA[
         /// <SfButtonGroup Mode="SelectionMode.Single">
-        ///   <ButtonGroupButton Value="left">Left</ButtonGroupButton>
-        ///   <ButtonGroupButton Value="right">Right</ButtonGroupButton>
+        ///   <Button Value="left">Left</Button>
+        ///   <Button Value="right">Right</Button>
         /// </SfButtonGroup>
         /// ]]></code>
         /// </example>
@@ -152,12 +152,12 @@ namespace Syncfusion.Blazor.Toolkit.Buttons
         /// For rendering complex HTML content, it is recommended to use the <see cref="ChildContent"/> property instead.
         /// </remarks>
         /// <example>
-        /// The following example demonstrates how to set the text content for <see cref="ButtonGroupButton"/> components.
+        /// The following example demonstrates how to set the text content for <see cref="Button"/> components.
         /// <code><![CDATA[
         /// <SfButtonGroup>
-        ///   <ButtonGroupButton Content="Left"></ButtonGroupButton>
-        ///   <ButtonGroupButton Content="Center"></ButtonGroupButton>
-        ///   <ButtonGroupButton Content="Right"></ButtonGroupButton>
+        ///   <Button Content="Left"></Button>
+        ///   <Button Content="Center"></Button>
+        ///   <Button Content="Right"></Button>
         /// </SfButtonGroup>
         /// ]]></code>
         /// </example>
@@ -177,7 +177,7 @@ namespace Syncfusion.Blazor.Toolkit.Buttons
         /// Enable toggle behavior so the button stays selected after a click.
         /// <code><![CDATA[
         /// <SfButtonGroup Mode="SelectionMode.Multiple">
-        ///   <ButtonGroupButton IsToggle="true">Toggle Me</ButtonGroupButton>
+        ///   <Button IsToggle="true">Toggle Me</Button>
         /// </SfButtonGroup>
         /// ]]></code>
         /// </example>
@@ -201,7 +201,7 @@ namespace Syncfusion.Blazor.Toolkit.Buttons
         /// Place an icon to the right of the text.
         /// <code><![CDATA[
         /// <SfButtonGroup>
-        ///   <ButtonGroupButton IconCss="e-icons e-save" IconPosition="IconPosition.Right">Save</ButtonGroupButton>
+        ///   <Button IconCss="e-icons e-save" IconPosition="IconPosition.Right">Save</Button>
         /// </SfButtonGroup>
         /// ]]></code>
         /// </example>
@@ -219,12 +219,12 @@ namespace Syncfusion.Blazor.Toolkit.Buttons
         /// These attributes are "splatted" onto the root element of the component, allowing for custom attributes to be added.
         /// </remarks>
         /// <example>
-        /// The following example demonstrates how to apply a `style` attribute to a <see cref="ButtonGroupButton"/>.
+        /// The following example demonstrates how to apply a `style` attribute to a <see cref="Button"/>.
         /// <code><![CDATA[
         /// <SfButtonGroup>
-        ///   <ButtonGroupButton style="width:200px">Left</ButtonGroupButton>
-        ///   <ButtonGroupButton>Center</ButtonGroupButton>
-        ///   <ButtonGroupButton>Right</ButtonGroupButton>
+        ///   <Button style="width:200px">Left</Button>
+        ///   <Button>Center</Button>
+        ///   <Button>Right</Button>
         /// </SfButtonGroup>
         /// ]]></code>
         /// </example>

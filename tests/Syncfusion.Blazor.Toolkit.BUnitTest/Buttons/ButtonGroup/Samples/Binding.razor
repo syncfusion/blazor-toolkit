@@ -5,9 +5,9 @@
     <tr>
         <td>
             <SfButtonGroup Mode="SelectionMode.Multiple">
-                <ButtonGroupButton @bind-Selected="_boldChecked">Bold</ButtonGroupButton>
-                <ButtonGroupButton @bind-Selected="_italicChecked">Italic</ButtonGroupButton>
-                <ButtonGroupButton @bind-Selected="_underlineChecked">Underline</ButtonGroupButton>
+                <Button @bind-Selected="_boldChecked">Bold</Button>
+                <Button @bind-Selected="_italicChecked">Italic</Button>
+                <Button @bind-Selected="_underlineChecked">Underline</Button>
             </SfButtonGroup>
         </td>
         <td>
@@ -19,8 +19,8 @@
     <tr>
         <td>
             <SfButtonGroup Mode="SelectionMode.Single">
-                <ButtonGroupButton @bind-Selected="_isTrueChecked" Value="true">True</ButtonGroupButton>
-                <ButtonGroupButton @bind-Selected="_isFalseChecked" Value="false">False</ButtonGroupButton>
+                <Button @bind-Selected="_isTrueChecked" Value="true">True</Button>
+                <Button @bind-Selected="_isFalseChecked" Value="false">False</Button>
             </SfButtonGroup>
         </td>
         <td>

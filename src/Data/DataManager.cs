@@ -3,16 +3,12 @@ using System.Text.Json.Serialization;
 using Microsoft.JSInterop;
 using System.ComponentModel;
 using Microsoft.AspNetCore.Components;
-using Syncfusion.Blazor.Toolkit.Data;
 using System.Reflection;
 using System.Collections;
-using System.Dynamic;
-using Syncfusion.Blazor.Toolkit.Internal;
 using System.Security.Cryptography;
 using System.Collections.Concurrent;
-using Syncfusion.Blazor.Toolkit.Charts.Internal;
 
-namespace Syncfusion.Blazor.Toolkit
+namespace Syncfusion.Blazor.Toolkit.Data
 {
     /// <summary>
     /// The DataManager is a data management component used for performing data operations in applications.

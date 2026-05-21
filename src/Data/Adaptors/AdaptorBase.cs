@@ -1,6 +1,4 @@
-﻿using System.Dynamic;
-
-namespace Syncfusion.Blazor.Toolkit.Data
+﻿namespace Syncfusion.Blazor.Toolkit.Data
 {
     /// <summary>
     /// Provides the members for data adaptor class.

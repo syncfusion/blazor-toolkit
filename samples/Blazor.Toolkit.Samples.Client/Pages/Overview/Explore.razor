@@ -1,4 +1,5 @@
 ﻿@page "/"
+@implements IAsyncDisposable
 
 @using Microsoft.AspNetCore.Components.Routing
 @using System.Linq
@@ -14,28 +15,26 @@
         Discover the sample components in this toolkit. Click any tile to open the component demo page.
     </p>
 
-    <!-- Only show groups with available components -->
-    @foreach (var group in Categories)
+    @foreach (var category in Categories)
     {
-        var visible = group.Components.Where(c => c.Available).ToList();
-        if (!visible.Any()) continue;
-        <section class="mb-4">
-            <h4 class="mb-1">@group.Name</h4>
-            <p class="text-muted small mb-2">@group.Tagline</p>
-            <div class="component-grid @group.Name">
-                @foreach (var c in visible)
+        <section class="category-section">
+            <h4 class="mb-1">@category.Name</h4>
+            <p class="text-muted small mb-2">@category.Tagline</p>
+
+            <div class="component-grid @category.Name">
+                @foreach (var component in category.Components.Where(c => c.Available))
                 {
-                    <!-- Tile: icon and name, name forced to single line -->
-                    <NavLink class="component-tile" href="@c.Href" Match="NavLinkMatch.Prefix">
-                        <div class="icon" title="@c.Name"><i class="@c.IconClass" aria-hidden="true"></i></div>
-                        <div class="title">@c.Name</div>
+                    <NavLink class="component-tile" href="@component.Href" Match="NavLinkMatch.All">
+                        <span class="component-icon-box @component.Name">
+                            <img class="component-icon-image" src="@GetIconPath(component.IconClass)" alt="@component.Name" loading="lazy" />
+                        </span>
+                        <span class="component-title">@component.Name</span>
                     </NavLink>
                 }
             </div>
         </section>
     }
 </div>
-
 
 @code {
     // Add Available flag to hide placeholders
@@ -44,6 +43,11 @@
 
     private List<Category> Categories = new()
     {
+        new Category("Charts","Line, Area, Colum, Bar Charts…", new List<ComponentItem>
+        {
+            new ComponentItem("Chart","charts/overview", "ci-chart"),
+        }),
+
         new Category("Buttons","Regular, Icon, FAB…", new List<ComponentItem>
         {
             new ComponentItem("Button","buttons/button", "ci-button"),
@@ -56,11 +60,6 @@
             new ComponentItem("DatePicker","calendars/datepicker", "ci-datepicker"),
             new ComponentItem("DateTime Picker","calendars/datetimepicker", "ci-datetime"),
             new ComponentItem("TimePicker","calendars/timepicker", "ci-timepicker"),
-        }),
-
-        new Category("Charts","Cartesian, Pie, Stock…", new List<ComponentItem>
-        {
-            new ComponentItem("Chart","charts/overview", "ci-chart"),
         }),
 
         new Category("Spinner","Loading Indicators…", new List<ComponentItem>
@@ -86,6 +85,39 @@
         })
     };
 
+    private static readonly Dictionary<string, string> IconSvgFiles = new(StringComparer.OrdinalIgnoreCase)
+    {
+        ["ci-chart"] = "Charts.svg",
+        ["ci-button"] = "Button.svg",
+        ["ci-buttongroup"] = "Button Group.svg",
+        ["ci-calendar"] = "Calendar.svg",
+        ["ci-datepicker"] = "Date Picker.svg",
+        ["ci-datetime"] = "DateTime Picker.svg",
+        ["ci-timepicker"] = "TimePicker.svg",
+        ["ci-spinner"] = "Spinners.svg",
+        ["ci-checkbox"] = "Check Box.svg",
+        ["ci-upload"] = "File Upload.svg",
+        ["ci-numeric"] = "Numeric TextBox.svg",
+        ["ci-textarea"] = "TextArea.svg",
+        ["ci-textbox"] = "Textbox.svg",
+        ["ci-radio"] = "Radio Button.svg",
+        ["ci-switch"] = "Switch.svg",
+        ["ci-dialog"] = "Dialog.svg",
+        ["ci-tooltip"] = "Tooltip.svg"
+    };
+
+    private bool _isDarkTheme;
+    private DotNetObjectReference<Explore>? _themeRef;
+
+    private string GetIconPath(string iconClass)
+    {
+        var folder = _isDarkTheme ? "svg-dark" : "svg-light";
+
+        return IconSvgFiles.TryGetValue(iconClass, out var fileName)
+            ? $"{folder}/{fileName}"
+            : $"{folder}/Charts.svg";
+    }
+
     private bool _revealInitialized;
 
     protected override async Task OnAfterRenderAsync(bool firstRender)
@@ -99,6 +131,33 @@
             }
             catch { /* fail silently if JS not available */ }
         }
+
+        if (firstRender)
+        {
+            try
+            {
+                var currentTheme = await JS.InvokeAsync<string>("mainLayout.initTheme");
+                _isDarkTheme = currentTheme == "dark";
+                await InvokeAsync(StateHasChanged);
+                _themeRef = DotNetObjectReference.Create(this);
+                await JS.InvokeVoidAsync("mainLayout.observeTheme", _themeRef);
+            }
+            catch { /* fail silently if JS not available */ }
+        }
+    }
+
+    [JSInvokable]
+    public Task NotifyThemeChanged(string theme)
+    {
+        var isDarkTheme = string.Equals(theme, "dark", StringComparison.OrdinalIgnoreCase);
+
+        if (_isDarkTheme != isDarkTheme)
+        {
+            _isDarkTheme = isDarkTheme;
+            return InvokeAsync(StateHasChanged);
+        }
+
+        return Task.CompletedTask;
     }
 
     public async ValueTask DisposeAsync()
@@ -107,152 +166,158 @@
         {
             try { await JS.InvokeVoidAsync("scrollEffects.dispose"); } catch { }
         }
+
+        try { await JS.InvokeVoidAsync("mainLayout.disposeThemeObserver"); } catch { }
+
+        _themeRef?.Dispose();
     }
 }
 
 <style>
     :root {
-        --font-family: "Inter", system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
-        --font-small: 13px;    /* sidebar/meta */
-        --font-base: 15px;     /* tile labels, body */
-        --font-heading: 20px;  /* page headings */
-        --content-padding: 20px; /* unified left/right content padding */
-        --content-vertical-padding: 18px;
         --page-bg: #ffffff;
-        --card-bg: #ffffff;
-        /* White with subtle violet gradient for tile background */
-        --tile-bg: linear-gradient(135deg, #fff 60%, #f3eaff 100%);
-        --text-color: #0f1724;
+        --text-color: #0f172a;
         --muted-color: #6c757d;
-        --tile-border: rgba(0,0,0,0.06);
-        --tile-shadow: 0 6px 18px rgba(16,24,40,0.06);
-        --accent: #0078D4;
-        --accent-2: #5C2D91;
-        --focus-ring: rgba(0,120,212,0.22);
-        --transition-fast: 160ms;
+        --card-bg: #ffffff;
+        --card-border: #d5d0db;
+        --card-shadow: 0px 4px 14px 0px #251C3021, 0px 0px 20px 4px #6750A41F;
+        --card-hover-border: #592C8C;
+        --card-hover-shadow: 0 4px 10px rgba(16, 24, 40, .08), 0 16px 30px rgba(16, 24, 40, .08);
+        --icon-box-bg: #F7F4FA;
+        --icon-placeholder-border: rgba(122, 92, 196, .45);
+        --icon-placeholder-bg: rgba(255, 255, 255, .75);
+        --title-color: #0F172A;
+        --title-border: rgba(127, 96, 187, .12);
     }
+
     .dark {
-        --page-bg: #071022;
-        --card-bg: #0b1220;
-        --tile-bg: linear-gradient(135deg, #151e2e 0%, #232f47 100%);
-        --text-color: #e6eef8;
-        --muted-color: #9aa8b5;
-        --tile-border: rgba(255,255,255,0.06);
-        --tile-shadow: 0 8px 24px rgba(0,0,0,0.5);
-        --accent: #66a3ff;
-        --accent-2: #9a7fff;
-        --focus-ring: rgba(102,163,255,0.14);
+        --page-bg: #0b1220;
+        --text-color: #e5e7eb;
+        --muted-color: #9aa4b2;
+        --card-bg: #111827;
+        --card-border: #2a3346;
+        --card-shadow: 0 10px 24px rgba(0, 0, 0, .35);
+        --card-hover-border: #a78bfa;
+        --card-hover-shadow: 0 12px 28px rgba(0, 0, 0, .45);
+        --icon-box-bg: #162033;
+        --icon-placeholder-border: rgba(167, 139, 250, .55);
+        --icon-placeholder-bg: rgba(17, 24, 39, .85);
+        --title-color: #f3f4f6;
+        --title-border: rgba(167, 139, 250, .18);
     }
+
     .explore-page {
-        font-family: var(--font-family);
-        font-size: var(--font-base);
+        font-family: "Inter", system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+        font-size: 15px;
         background: var(--page-bg);
         color: var(--text-color);
-        transition: background var(--transition-fast) ease, color var(--transition-fast) ease;
+        transition: background 160ms ease, color 160ms ease;
         box-sizing: border-box;
     }
+
     .explore-page .text-muted {
         color: var(--muted-color) !important;
-        transition: color var(--transition-fast) ease;
-        font-size: var(--font-small);
+        transition: color 160ms ease;
+        font-size: 13px;
     }
-    .explore-page h2 { font-size: var(--font-heading); margin-bottom: 6px; }
-    .explore-page h4 { font-size: calc(var(--font-base) + 1px); margin-bottom: 6px; }
+
+    .explore-page h2 {
+        font-size: 20px;
+        margin-bottom: 6px;
+        color: var(--text-color);
+    }
+
+    .explore-page h4 {
+        font-size: 16px;
+        margin-bottom: 6px;
+        color: var(--text-color);
+    }
+
+    .category-section {
+        margin: 15px 0;
+    }
+
     .component-grid {
-        display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
-        gap: 12px;
+        display: inline-flex;
+        gap: 1rem;
     }
+
+    .component-grid.Inputs {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    }
+
     .component-tile {
         display: flex;
-        align-items: center;
-        gap: 12px;
-        padding: 12px;
-        border-radius: 10px;
+        flex-direction: column;
+        align-items: stretch;
+        justify-content: space-between;
+        min-height: 150px;
+        border: 1px solid var(--card-border);
+        border-radius: 16px;
+        background: var(--card-bg);
+        box-shadow: var(--card-shadow);
         text-decoration: none;
-        color: var(--text-color);
-        background: var(--tile-bg, var(--card-bg));
-        border: 1px solid var(--tile-border);
-        box-shadow: var(--tile-shadow);
-        transition: transform var(--transition-fast) ease, box-shadow var(--transition-fast) ease, background var(--transition-fast) ease;
-        min-height: 56px;
-        cursor: pointer;
-        min-width: 0; /* allow flex children to shrink properly */
-        overflow: hidden; /* prevent child overflow from spilling out */
+        color: inherit;
+        overflow: hidden;
+        transition: transform .18s ease, box-shadow .18s ease, border-color .18s ease, background .18s ease;
+        width: 200px;
     }
-    .component-tile:hover { transform: translateY(-4px); box-shadow: var(--tile-shadow); }
-    .component-tile:focus-visible { outline: 3px solid var(--focus-ring); outline-offset: 2px; }
-    .reveal { opacity: 0; transform: translateY(12px); transition: opacity .44s var(--transition-fast), transform .44s var(--transition-fast); will-change: opacity, transform; }
-    .reveal.visible { opacity: 1; transform: none; }
-    .component-tile .icon { width: 48px; height: 48px; flex: 0 0 48px; display: flex; align-items: center; justify-content: center; }
-    .component-tile .icon i { width: 36px; height: 36px; display: block; background-size: contain; background-repeat: no-repeat; background-position: center; }
-    .component-tile .title {
+
+    .component-tile:hover {
+        transform: translateY(-2px);
+        border-color: var(--card-hover-border);
+        box-shadow: var(--card-hover-shadow);
+    }
+
+    .component-icon-box {
+        display: flex;
+        width: 100%;
+        flex: 1 1 auto;
+        position: relative;
+        background: var(--icon-box-bg);
+        align-items: center;
+        justify-content: center;
+    }
+
+    .component-icon-image {
+        width: 180px;
+        height: 100px;
+        max-width: 100%;
+        max-height: 100%;
+        object-fit: contain;
+        display: block;
+    }
+
+    .component-title {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        min-height: 48px;
+        padding: .75rem 1rem;
+        border-top: 1px solid var(--title-border);
         font-weight: 600;
-        color: var(--text-color);
-        white-space: nowrap; /* single line */
-        overflow: hidden;   /* truncate if too long */
-        text-overflow: ellipsis;
-        font-size: var(--font-base);
-        user-select: none;
-        min-width: 0; /* allow flex to shrink if needed */
-        flex: 1 1 0; /* take remaining space but allow shrinking */
+        line-height: 150%;
+        letter-spacing: 0%;
+        text-align: center;
+        vertical-align: middle;
+        color: var(--title-color);
     }
+
     .explore-page p.small { margin-top: -6px; }
     .right-panel { display: none; }
     .explore-page .h2-title { margin-bottom: 10px; }
     .explore-page .h4 { font-size: 20px; }
-    .component-grid.Inputs {
-        grid-template-columns: repeat(auto-fit, minmax(20%, 1fr))
+
+    @@media (max-width: 640px) {
+        .component-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            width: 100%;
+        }
+
+        .component-tile {
+            width: 100%;
+        }
     }
-    /* Icon rules remain unchanged for brevity */
-
-    .component-tile .icon i.ci-button {
-        background-image: none;
-        background-color: var(--accent);
-        width: 30px;
-        height: 20px;
-        border-radius: 6px;
-        display: block;
-        position: relative;
-        box-shadow: inset 0 -1px rgba(0,0,0,0.04);
-    }
-    /* white inner bar (button label glyph) */
-    .component-tile .icon i.ci-button::after {
-        content: "";
-        position: absolute;
-        left: 50%;
-        top: 50%;
-        transform: translate(-50%, -50%);
-        width: 56%;
-        height: 26%;
-        background: white;
-        border-radius: 2px;
-    }
-    .ci-buttongroup { background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3C!-- Fluent: two-tone group using primary and secondary accents --%3E%3Crect x='2' y='7' width='8' height='10' rx='3' fill='%234AA0FF'/%3E%3Crect x='14' y='7' width='8' height='10' rx='3' fill='%235C2D91'/%3E%3C/svg%3E"); }
-    .ci-radio { background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3C!-- Fluent: radio outer uses primary, inner uses neutral white for contrast --%3E%3Ccircle cx='12' cy='12' r='9' fill='%230078D4'/%3E%3Ccircle cx='12' cy='12' r='4' fill='white'/%3E%3C/svg%3E"); }
-    .ci-switch { background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3C!-- Fluent: switch track neutral, thumb uses secondary accent --%3E%3Crect x='3' y='8' width='18' height='8' rx='6' fill='%23F3F2F1'/%3E%3Ccircle cx='8' cy='12' r='3' fill='%235C2D91'/%3E%3C/svg%3E"); }
-
-    /* Calendars-specific icons */
-    .ci-calendar { background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3C!-- Fluent: calendar uses primary with a thin dividing line --%3E%3Crect x='3' y='5' width='18' height='16' rx='3' fill='%230078D4'/%3E%3Cline x1='3' y1='10' x2='21' y2='10' stroke='white' stroke-width='1.5' stroke-linecap='round'/%3E%3C/svg%3E"); }
-    .ci-datepicker { background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3C!-- Fluent: datepicker filled with secondary, date block in white for contrast --%3E%3Crect x='3' y='5' width='18' height='16' rx='3' fill='%235C2D91'/%3E%3Crect x='7' y='10' width='5' height='3' fill='white'/%3E%3C/svg%3E"); }
-    .ci-datetime { background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3C!-- Fluent: datetime with clock badge using primary and secondary accents --%3E%3Crect x='3' y='5' width='14' height='12' rx='3' fill='%235C2D91'/%3E%3Ccircle cx='18' cy='15' r='4' fill='%230078D4'/%3E%3Cpath d='M18 13v3l2 1' stroke='white' stroke-width='1.5' stroke-linecap='round' fill='none'/%3E%3C/svg%3E"); }
-    .ci-timepicker { background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3C!-- Fluent: clock face using secondary with primary hand, stroke standardized --%3E%3Ccircle cx='12' cy='12' r='9' fill='%235C2D91'/%3E%3Cpath d='M12 8v5l3 2' stroke='white' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round' fill='none'/%3E%3C/svg%3E"); }
-
-    /* Charts-specific icons */
-    .ci-chart { background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Crect x='3' y='8' width='4' height='10' rx='1' fill='%230078D4'/%3E%3Crect x='9' y='5' width='4' height='13' rx='1' fill='%235C2D91'/%3E%3Crect x='15' y='2' width='4' height='16' rx='1' fill='%234AA0FF'/%3E%3C/svg%3E"); }
-
-    /* Spinner-specific icons */
-    .ci-spinner { background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3C!-- Fluent: spinner uses primary stroke, reduced width for crispness --%3E%3Cpath d='M21 12a9 9 0 0 0-9-9' stroke='%230078D4' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E"); }
-
-    /* Inputs-specific icons */
-    /* Fluent 2: checkbox icon added - filled primary box with white check for high contrast */
-    .ci-checkbox { background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3C!-- Fluent: checkbox filled primary with white check, standardized stroke-width --%3E%3Crect x='3' y='3' width='18' height='18' rx='4' fill='%230078D4'/%3E%3Cpath d='M7.5 12.5l3 3 7-7' stroke='white' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round' fill='none'/%3E%3C/svg%3E"); }
-    .ci-textbox { background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3C!-- Fluent: input field using secondary accent with white content line --%3E%3Crect x='3' y='7' width='18' height='10' rx='3' fill='%235C2D91'/%3E%3Crect x='6' y='10' width='12' height='2' fill='white'/%3E%3C/svg%3E"); }
-    .ci-numeric { background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3C!-- Fluent: numeric input with evenly spaced white columns --%3E%3Crect x='3' y='7' width='18' height='10' rx='3' fill='%235C2D91'/%3E%3Crect x='7' y='9' width='3' height='6' fill='white'/%3E%3Crect x='12' y='9' width='3' height='6' fill='white'/%3E%3Crect x='17' y='9' width='3' height='6' fill='white'/%3E%3C/svg%3E"); }
-    .ci-textarea { background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3C!-- Fluent: textarea using secondary background and white text lines --%3E%3Crect x='3' y='5' width='18' height='14' rx='3' fill='%235C2D91'/%3E%3Crect x='6' y='8' width='12' height='1' fill='white'/%3E%3Crect x='6' y='11' width='8' height='1' fill='white'/%3E%3C/svg%3E"); }
-    .ci-signature { background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3C!-- Fluent: signature stroke softened with standardized width --%3E%3Cpath d='M3 17c3-4 6-6 11-3s6 0 7-2' stroke='%235C2D91' stroke-width='1.5' fill='none' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E"); }
-    .ci-upload { background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3C!-- Fluent: upload icon uses secondary stroke with consistent weight --%3E%3Cpath d='M12 3v10' stroke='%235C2D91' stroke-width='1.5' stroke-linecap='round'/%3E%3Cpath d='M5 13l7-7 7 7' stroke='%235C2D91' stroke-width='1.5' stroke-linecap='round'/%3E%3C/svg%3E"); }
-
-    .ci-dialog { background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3C!-- Fluent: dialog uses secondary panel with white controls --%3E%3Crect x='3' y='5' width='18' height='12' rx='3' fill='%235C2D91'/%3E%3Ccircle cx='8' cy='11' r='1.5' fill='white'/%3E%3Crect x='11' y='10' width='6' height='2' fill='white'/%3E%3C/svg%3E"); }
-    .ci-tooltip { background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3C!-- Fluent: tooltip uses primary panel and pointer, softened --%3E%3Crect x='4' y='4' width='14' height='8' rx='3' fill='%230078D4'/%3E%3Cpath d='M6 12l-2 4h8l-2-4' fill='%230078D4'/%3E%3C/svg%3E"); }
 </style>

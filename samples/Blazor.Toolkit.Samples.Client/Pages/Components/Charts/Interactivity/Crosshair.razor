@@ -209,10 +209,10 @@
                     <label style="font-weight:700;">Crosshair Line Type:</label>
                    
                     <SfButtonGroup Mode="SelectionMode.Single">
-                        <ButtonGroupButton Selected="IsSelected(LineType.None)" SelectedChanged="@(v => OnModeChanged(v, LineType.None))">None</ButtonGroupButton>
-                        <ButtonGroupButton Selected="IsSelected(LineType.Vertical)" SelectedChanged="@(v => OnModeChanged(v, LineType.Vertical))">Vertical</ButtonGroupButton>
-                        <ButtonGroupButton Selected="IsSelected(LineType.Horizontal)" SelectedChanged="@(v => OnModeChanged(v, LineType.Horizontal))">Horizontal</ButtonGroupButton>
-                        <ButtonGroupButton Selected="IsSelected(LineType.Both)" SelectedChanged="@(v => OnModeChanged(v, LineType.Both))">Both</ButtonGroupButton>
+                        <Button Selected="IsSelected(LineType.None)" SelectedChanged="@(v => OnModeChanged(v, LineType.None))">None</Button>
+                        <Button Selected="IsSelected(LineType.Vertical)" SelectedChanged="@(v => OnModeChanged(v, LineType.Vertical))">Vertical</Button>
+                        <Button Selected="IsSelected(LineType.Horizontal)" SelectedChanged="@(v => OnModeChanged(v, LineType.Horizontal))">Horizontal</Button>
+                        <Button Selected="IsSelected(LineType.Both)" SelectedChanged="@(v => OnModeChanged(v, LineType.Both))">Both</Button>
                     </SfButtonGroup>
                 </div>
             </div>
@@ -395,52 +395,51 @@
     private bool IsDarkTheme => _currentTheme.ToString().Contains("Dark") || _currentTheme.ToString().Contains("HighContrast");
     private string TextColor => IsDarkTheme ? "#E6EEF8" : "#0B1F3B";
     public string StyleCode = @"@using Syncfusion.Blazor.Toolkit.Charts
+    <SfChart @key=""@_currentTheme"" SubTitle=""World Bank (Indicator: EG.FEC.RNEW.ZS)"" Title=""Global Renewable Energy Share (2003–2022)"" Theme=""@_currentTheme"">
+                <!-- Chart Titles -->
+                <ChartTitleStyle Size=""12px""></ChartTitleStyle>
+                <!-- Legend -->
+                <ChartLegendSettings Visible=""false""/>
 
-<SfChart @key=""@_currentTheme"" SubTitle=""World Bank (Indicator: EG.FEC.RNEW.ZS)"" Title=""Global Renewable Energy Share (2003–2022)"" Theme=""@_currentTheme"">
-    <!-- Chart Titles -->
-    <ChartTitleStyle Size=""12px""></ChartTitleStyle>
-    <!-- Legend -->
-    <ChartLegendSettings Visible=""false""/>
+                <!-- Crosshair -->
+                <ChartCrosshairSettings Enable=""true""
+                                        LineType=""LineType.Both"" DashArray=""5,10"">
+                    <ChartCrosshairLine Color=""#353839""
+                                        Width=""2""/>
+                    <ChartCrosshairTextStyle Opacity=""0.6""></ChartCrosshairTextStyle>
+                </ChartCrosshairSettings>
 
-    <!-- Crosshair -->
-    <ChartCrosshairSettings Enable=""true""
-                            LineType=""LineType.Both"" DashArray=""5,10"">
-        <ChartCrosshairLine Color=""#353839""
-                            Width=""2""/>
-        <ChartCrosshairTextStyle Opacity=""0.6""></ChartCrosshairTextStyle>
-    </ChartCrosshairSettings>
+                <!-- Tooltip -->
+                <ChartTooltipSettings Enable=""true""
+                                      Header=""Year: <b>${point.x}</b>""
+                                      Format=""Renewable Energy Share: <b>${point.y}%</b>""/>
 
-    <!-- Tooltip -->
-    <ChartTooltipSettings Enable=""true""
-                          Header=""Year: <b>${point.x}</b>""
-                          Format=""Renewable Energy Share: <b>${point.y}%</b>""/>
+                <!-- X Axis -->
+           
+                <ChartPrimaryXAxis ValueType=""Syncfusion.Blazor.Toolkit.ValueType.DateTime""
+                                   IntervalType=""IntervalType.Years""
+                                   Interval=""2""
+                                   EdgeLabelPlacement=""EdgeLabelPlacement.Shift"" Format=""yyyy"">
+                </ChartPrimaryXAxis>
 
-    <!-- X Axis -->
-   
-    <ChartPrimaryXAxis ValueType=""Syncfusion.Blazor.Toolkit.ValueType.DateTime""
-                       IntervalType=""IntervalType.Years""
-                       Interval=""2""
-                       EdgeLabelPlacement=""EdgeLabelPlacement.Shift"" Format=""yyyy"">
-    </ChartPrimaryXAxis>
+                <!-- Y Axis -->
+                <ChartPrimaryYAxis Interval=""1"" Format=""{value}%"" Title=""Renewable Energy Share (%)"">
+                    <ChartAxisLineStyle Width=""0""/>
+                </ChartPrimaryYAxis>
 
-    <!-- Y Axis -->
-    <ChartPrimaryYAxis Interval=""1"" Format=""{value}%"" Title=""Renewable Energy Share (%)"">
-        <ChartAxisLineStyle Width=""0""/>
-    </ChartPrimaryYAxis>
-
-    <!-- Series -->
-    
-        <ChartSeries DataSource=""@RenewableShareData.Data""
-                     XName=""X""
-                     YName=""Y""
-                     Name=""Renewable energy share""
-                     Type=""ChartSeriesType.Area""
-                     Fill=""#08EE9B""
-                     Opacity=""0.6"">
-            <ChartSeriesBorder Width=""2"" Color=""#08EE9B""/>
-        </ChartSeries>
-    
-</SfChart>
+                <!-- Series -->
+                
+                    <ChartSeries DataSource=""@RenewableShareData.Data""
+                                 XName=""X""
+                                 YName=""Y""
+                                 Name=""Renewable energy share""
+                                 Type=""ChartSeriesType.Area""
+                                 Fill=""#08EE9B""
+                                 Opacity=""0.6"">
+                        <ChartSeriesBorder Width=""2"" Color=""#08EE9B""/>
+                    </ChartSeries>
+                
+            </SfChart>
 
 @code {
     private Theme _currentTheme = Theme.Fluent;
@@ -479,47 +478,46 @@
     }
 }";
     public string SnapCode = @"@using Syncfusion.Blazor.Toolkit.Charts
+     <SfChart @key=""@_currentTheme"" Title=""United States GDP (Current US$)"" SubTitle=""Manual Data (Example)"" Theme=""@_currentTheme"">
+                <!-- X Axis -->
+                
+                <ChartPrimaryXAxis ValueType=""Syncfusion.Blazor.Toolkit.ValueType.DateTime""
+                                   IntervalType=""IntervalType.Years""
+                                   LabelFormat=""yyyy"">
+                </ChartPrimaryXAxis>
 
-<SfChart @key=""@_currentTheme"" Title=""United States GDP (Current US$)"" SubTitle=""Manual Data (Example)"" Theme=""@_currentTheme"">
-    <!-- X Axis -->
-   
-    <ChartPrimaryXAxis ValueType=""Syncfusion.Blazor.Toolkit.ValueType.DateTime""
-                       IntervalType=""IntervalType.Years""
-                       LabelFormat=""yyyy"">
-    </ChartPrimaryXAxis>
+                <!-- Y Axis -->
+                <ChartPrimaryYAxis Title=""GDP (US$, trillions)"" Minimum=""0"" Format=""$ {value}B"">
 
-    <!-- Y Axis -->
-    <ChartPrimaryYAxis Title=""GDP (US$, trillions)"" Minimum=""0"" Format=""$ {value}B"">
+                    <ChartAxisMajorGridLines Width=""0.5""/>
+                </ChartPrimaryYAxis>
 
-        <ChartAxisMajorGridLines Width=""0.5""/>
-    </ChartPrimaryYAxis>
+                <!-- Series -->
+                
+                    <ChartSeries DataSource=""GdpData""
+                                 XName=""X""
+                                 YName=""Y""
+                                 Type=""ChartSeriesType.Area""
+                                 Fill=""#38BE09""
+                                 Opacity=""0.6""
+                                 Name=""GDP"">
+                        <ChartMarker Visible=""true"">
+                            <ChartMarkerBorder Width=""2"" Color=""#38BE09""/>
+                        </ChartMarker>
+                    </ChartSeries>
+                
 
-    <!-- Series -->
-    
-        <ChartSeries DataSource=""GdpData""
-                     XName=""X""
-                     YName=""Y""
-                     Type=""ChartSeriesType.Area""
-                     Fill=""#38BE09""
-                     Opacity=""0.6""
-                     Name=""GDP"">
-            <ChartMarker Visible=""true"">
-                <ChartMarkerBorder Width=""2"" Color=""#38BE09""/>
-            </ChartMarker>
-        </ChartSeries>
-    
+                <!-- Tooltip -->
+                <ChartTooltipSettings Enable=""true"" Shared=""true""
+                                      Header=""<b>${point.x}</b>""
+                                      Format=""GDP: <b>${point.y}</b>""/>
 
-    <!-- Tooltip -->
-    <ChartTooltipSettings Enable=""true"" Shared=""true""
-                          Header=""<b>${point.x}</b>""
-                          Format=""GDP: <b>${point.y}</b>""/>
+                <!-- Crosshair -->
+                <ChartCrosshairSettings Enable=""true"" SnapToData=""false""/>
 
-    <!-- Crosshair -->
-    <ChartCrosshairSettings Enable=""true"" SnapToData=""false""/>
-
-    <!-- Legend -->
-    <ChartLegendSettings Visible=""false""/>
-</SfChart>
+                <!-- Legend -->
+                <ChartLegendSettings Visible=""false""/>
+            </SfChart>
 
 @code {
     private Theme _currentTheme = Theme.Fluent;
@@ -541,51 +539,50 @@
     };
 }";
     public string HighlightCode = @"@using Syncfusion.Blazor.Toolkit.Charts
+    <SfChart @key=""@_currentTheme"" Title=""Corn vs Wheat Estimated Production, 2023"" Width=""100%"" Height=""400px"" Theme=""@_currentTheme"">
+              
+                <ChartPrimaryXAxis ValueType=""Syncfusion.Blazor.Toolkit.ValueType.Category""
+                                   RangePadding=""ChartRangePadding.Normal"" LabelIntersectAction=""LabelIntersectAction.Rotate90"">
+                </ChartPrimaryXAxis>
 
-<SfChart @key=""@_currentTheme"" Title=""Corn vs Wheat Estimated Production, 2023"" Width=""100%"" Height=""400px"" Theme=""@_currentTheme"">
-   
-    <ChartPrimaryXAxis ValueType=""Syncfusion.Blazor.Toolkit.ValueType.Category""
-                       RangePadding=""ChartRangePadding.Normal"" LabelIntersectAction=""LabelIntersectAction.Rotate90"">
-    </ChartPrimaryXAxis>
+                <ChartPrimaryYAxis Interval=""100000"" Title=""Production (metric tons)"">
+                </ChartPrimaryYAxis>
 
-    <ChartPrimaryYAxis Interval=""100000"" Title=""Production (metric tons)"">
-    </ChartPrimaryYAxis>
+                
+                    <ChartSeries DataSource=""CrosshairData.CornData""
+                                 XName=""X""
+                                 YName=""Y""
+                                 Name=""Corn""
+                                 Type=""ChartSeriesType.Column""
+                                 Fill=""#82C100""
+                                 LegendShape=""LegendShape.Circle"">
+                    </ChartSeries>
 
-    
-        <ChartSeries DataSource=""CrosshairData.CornData""
-                     XName=""X""
-                     YName=""Y""
-                     Name=""Corn""
-                     Type=""ChartSeriesType.Column""
-                     Fill=""#82C100""
-                     LegendShape=""LegendShape.Circle"">
-        </ChartSeries>
+                    <ChartSeries DataSource=""CrosshairData.WheatData""
+                                 XName=""X""
+                                 YName=""Y""
+                                 Name=""Wheat""
+                                 Type=""ChartSeriesType.Column""
+                                 Fill=""#E77A16""
+                                 LegendShape=""LegendShape.Circle"">
+                    </ChartSeries>
+                
 
-        <ChartSeries DataSource=""CrosshairData.WheatData""
-                     XName=""X""
-                     YName=""Y""
-                     Name=""Wheat""
-                     Type=""ChartSeriesType.Column""
-                     Fill=""#E77A16""
-                     LegendShape=""LegendShape.Circle"">
-        </ChartSeries>
-    
+                <!-- Crosshair -->
+                <ChartCrosshairSettings Enable=""true""
+                                        LineType=""LineType.Vertical""
+                                        HighlightCategory=""true"">
+                    <ChartCrosshairLine Color=""#EADDFF""></ChartCrosshairLine>
+                </ChartCrosshairSettings>
 
-    <!-- Crosshair -->
-    <ChartCrosshairSettings Enable=""true""
-                            LineType=""LineType.Vertical""
-                            HighlightCategory=""true"">
-        <ChartCrosshairLine Color=""#EADDFF""></ChartCrosshairLine>
-    </ChartCrosshairSettings>
+                <!-- Tooltip -->
+                <ChartTooltipSettings Enable=""true""
+                                      Shared=""true""
+                                      Header=""<b>${point.x}</b>""
+                                      Format=""${series.name}: <b>${point.y} MT</b>"">
+                </ChartTooltipSettings>
 
-    <!-- Tooltip -->
-    <ChartTooltipSettings Enable=""true""
-                          Shared=""true""
-                          Header=""<b>${point.x}</b>""
-                          Format=""${series.name}: <b>${point.y} MT</b>"">
-    </ChartTooltipSettings>
-
-</SfChart>
+            </SfChart>
 
 @code {
     private Theme _currentTheme = Theme.Fluent;
@@ -614,50 +611,45 @@
     }
 }";
     public string LineTypeCode = @"@using Syncfusion.Blazor.Toolkit.Buttons
-@using Syncfusion.Blazor.Toolkit.Charts
+    @using Syncfusion.Blazor.Toolkit.Charts
+    <div class=""property-pane"">
+                <div style=""display:flex; align-items:center; gap:10px;"">
+                    <label style=""font-weight:700;"">Crosshair Line Type:</label>
+                   
+                    <SfButtonGroup Mode=""SelectionMode.Single"">
+                        <Button Selected=""IsSelected(LineType.None)"" SelectedChanged=""@(v => OnModeChanged(v, LineType.None))"">None</Button>
+                        <Button Selected=""IsSelected(LineType.Vertical)"" SelectedChanged=""@(v => OnModeChanged(v, LineType.Vertical))"">Vertical</Button>
+                        <Button Selected=""IsSelected(LineType.Horizontal)"" SelectedChanged=""@(v => OnModeChanged(v, LineType.Horizontal))"">Horizontal</Button>
+                        <Button Selected=""IsSelected(LineType.Both)"" SelectedChanged=""@(v => OnModeChanged(v, LineType.Both))"">Both</Button>
+                    </SfButtonGroup>
+                </div>
+            </div>          
+            <SfChart @key=""@_currentTheme"" Title=""India — Top Export Products (USD Billions, OEC 2022)"" Theme=""@_currentTheme"">
+                <ChartLegendSettings Visible=""false""/>
+                <ChartCrosshairSettings Enable=""true""
+                                        LineType=""@Mode""
+                                        DashArray=""2,3"">
+                    <ChartCrosshairLine Width=""1.5""></ChartCrosshairLine>
+                </ChartCrosshairSettings>
+              
+                <ChartPrimaryXAxis Title=""Export Value (USD Billions)"" Format=""${value}B"" LabelIntersectAction=""LabelIntersectAction.Rotate90"" Minimum=""0"" ValueType=""Syncfusion.Blazor.Toolkit.ValueType.Category"">
 
-<div class=""property-pane"">
-    <div style=""display:flex; align-items:center; gap:10px;"">
-        <label style=""font-weight:700;"">Crosshair Line Type:</label>
+                </ChartPrimaryXAxis>
+                
+                    <ChartSeries DataSource=""Items""
+                                 XName=""X""
+                                 YName=""Y""
+                                 Type=""ChartSeriesType.Column""
+                                 Fill=""#05B3DA""
+                                 ColumnSpacing=""0.2"">
+                        <ChartCornerRadius TopLeft=""6"" TopRight=""6""/>
+                    </ChartSeries>                
 
-        <SfButtonGroup Mode=""SelectionMode.Single"">
-            <ButtonGroupButton Selected=""IsSelected(LineType.None)"" SelectedChanged=""@(v => OnModeChanged(v, LineType.None))"">None</ButtonGroupButton>
-            <ButtonGroupButton Selected=""IsSelected(LineType.Vertical)"" SelectedChanged=""@(v => OnModeChanged(v, LineType.Vertical))"">Vertical</ButtonGroupButton>
-            <ButtonGroupButton Selected=""IsSelected(LineType.Horizontal)"" SelectedChanged=""@(v => OnModeChanged(v, LineType.Horizontal))"">Horizontal</ButtonGroupButton>
-            <ButtonGroupButton Selected=""IsSelected(LineType.Both)"" SelectedChanged=""@(v => OnModeChanged(v, LineType.Both))"">Both</ButtonGroupButton>
-        </SfButtonGroup>
-    </div>
-</div>
-
-<SfChart @key=""@_currentTheme"" Title=""India — Top Export Products (USD Billions, OEC 2022)"" Width=""600px"" Theme=""@_currentTheme"">
-    <ChartLegendSettings Visible=""false""/>
-
-    <ChartCrosshairSettings Enable=""true""
-                            LineType=""@Mode""
-                            DashArray=""2,3"">
-        <ChartCrosshairLine Width=""1.5""></ChartCrosshairLine>
-    </ChartCrosshairSettings>
-
-    <ChartPrimaryXAxis Title=""Export Value (USD Billions)"" Format=""${value}B"" LabelIntersectAction=""LabelIntersectAction.Rotate90"" Minimum=""0"" ValueType=""Syncfusion.Blazor.Toolkit.ValueType.Category"">
-    </ChartPrimaryXAxis>
-
-    
-        <ChartSeries DataSource=""ProductsData.Items""
-                     XName=""X""
-                     YName=""Y""
-                     Type=""ChartSeriesType.Column""
-                     Fill=""#05B3DA""
-                     ColumnSpacing=""0.2"">
-            <ChartCornerRadius TopLeft=""6"" TopRight=""6""/>
-        </ChartSeries>
-    
-
-    <ChartTooltipSettings Enable=""true""
-                          Shared=""true""
-                          Header=""Product: <b>${point.x}</b>""
-                          Format=""Export value: <b>$${point.y} Billion</b>""/>
-</SfChart>
-
+                <ChartTooltipSettings Enable=""true""
+                                      Shared=""true""
+                                      Header=""Product: <b>${point.x}</b>""
+                                      Format=""Export value: <b>$${point.y} Billion</b>""/>
+               </SfChart>
 @code {
     private Theme _currentTheme = Theme.Fluent;
     public LineType Mode { get; set; } = LineType.None;
@@ -694,48 +686,47 @@
 }";
 
      public string CrosshairCode = @"@using Syncfusion.Blazor.Toolkit.Charts
+     <SfChart @key=""@_currentTheme"" Title=""Angular Major Versions by Release Date"" Theme=""@_currentTheme"">
 
-<SfChart @key=""@_currentTheme"" Title=""Angular Major Versions by Release Date"" Theme=""@_currentTheme"">
+              
+                <ChartPrimaryXAxis ValueType=""Syncfusion.Blazor.Toolkit.ValueType.DateTime""
+                                   IntervalType=""IntervalType.Years""
+                                   LabelFormat=""dd MMM yyyy"">
+                    <ChartAxisMajorGridLines Width=""0.5""/>
+                </ChartPrimaryXAxis>
 
-    <ChartPrimaryXAxis ValueType=""Syncfusion.Blazor.Toolkit.ValueType.DateTime""
-                       IntervalType=""IntervalType.Years""
-                       LabelFormat=""dd MMM yyyy"">
-        <ChartAxisMajorGridLines Width=""0.5""/>
-    </ChartPrimaryXAxis>
+                <!-- Y Axis -->
+                <ChartPrimaryYAxis Title=""Major Version"" Interval=""5"">
+                    <ChartAxisMajorGridLines Width=""0.5""/>
+                </ChartPrimaryYAxis>
 
-    <!-- Y Axis -->
-    <ChartPrimaryYAxis Title=""Major Version"" Interval=""5"">
-        <ChartAxisMajorGridLines Width=""0.5""/>
-    </ChartPrimaryYAxis>
+                <!-- Series -->
+                
+                    <ChartSeries DataSource=""@ChartData.Releases""
+                                 XName=""X""
+                                 YName=""Y""
+                                 Type=""ChartSeriesType.Area""
+                                 Opacity=""0.6""
+                                 Fill=""rgba(98, 0, 238, 1)"">
 
-    <!-- Series -->
-    
-        <ChartSeries DataSource=""@ChartData.Releases""
-                     XName=""X""
-                     YName=""Y""
-                     Type=""ChartSeriesType.Area""
-                     Opacity=""0.6""
-                     Fill=""rgba(98, 0, 238, 1)"">
+                        <ChartMarker Visible=""true"" IsFilled=""false"">
+                            <ChartMarkerBorder Width=""2"" Color=""#6200EE""></ChartMarkerBorder>
+                        </ChartMarker>
+                    </ChartSeries>
+                
 
-            <ChartMarker Visible=""true"" IsFilled=""false"">
-                <ChartMarkerBorder Width=""2"" Color=""#6200EE""></ChartMarkerBorder>
-            </ChartMarker>
-        </ChartSeries>
-    
+                <!-- Tooltip -->
+                <ChartTooltipSettings Enable=""true""
+                                      Header=""<b>${point.x}</b>""
+                                      Format=""Version: <b>${point.y}</b>""/>
 
-    <!-- Tooltip -->
-    <ChartTooltipSettings Enable=""true""
-                          Header=""<b>${point.x}</b>""
-                          Format=""Version: <b>${point.y}</b>""/>
+                <!-- Crosshair -->
+                <ChartCrosshairSettings Enable=""true""/>
 
-    <!-- Crosshair -->
-    <ChartCrosshairSettings Enable=""true""/>
+                <!-- Legend -->
+                <ChartLegendSettings Visible=""false""/>
 
-    <!-- Legend -->
-    <ChartLegendSettings Visible=""false""/>
-
-</SfChart>
-
+            </SfChart>
 @code {
     private Theme _currentTheme = Theme.Fluent;
 
@@ -759,51 +750,50 @@
 }";
 
      public string LabelCode = @"@using Syncfusion.Blazor.Toolkit.Charts
+     <SfChart @key=""@_currentTheme"" Title=""Global Market Capitalization (Current US$)"" Theme=""@_currentTheme"">
 
-<SfChart @key=""@_currentTheme"" Title=""Global Market Capitalization (Current US$)"" Theme=""@_currentTheme"">
+                <!-- Legend -->
+                <ChartLegendSettings Visible=""false""></ChartLegendSettings>
 
-    <!-- Legend -->
-    <ChartLegendSettings Visible=""false""></ChartLegendSettings>
+                <!-- Crosshair -->
+                <ChartCrosshairSettings Enable=""true"" DashArray=""2,3"" LineType=""LineType.Both"">
 
-    <!-- Crosshair -->
-    <ChartCrosshairSettings Enable=""true"" DashArray=""2,3"" LineType=""LineType.Both"">
+                    <ChartCrosshairLine Width=""1.5""></ChartCrosshairLine>
+                </ChartCrosshairSettings>
 
-        <ChartCrosshairLine Width=""1.5""></ChartCrosshairLine>
-    </ChartCrosshairSettings>
+                <!-- X Axis -->
+              
+                <ChartPrimaryXAxis ValueType=""Syncfusion.Blazor.Toolkit.ValueType.Category"">
+                    <ChartAxisLineStyle Width=""0""></ChartAxisLineStyle>
+                    <ChartAxisCrosshairTooltip Enable=""true""></ChartAxisCrosshairTooltip>
+                </ChartPrimaryXAxis>
 
-    <!-- X Axis -->
-   <ChartPrimaryXAxis ValueType=""Syncfusion.Blazor.Toolkit.ValueType.Category"">
-        <ChartAxisLineStyle Width=""0""></ChartAxisLineStyle>
-        <ChartAxisCrosshairTooltip Enable=""true""></ChartAxisCrosshairTooltip>
-    </ChartPrimaryXAxis>
+                <!-- Y Axis -->
+                <ChartPrimaryYAxis Title=""Market Cap (Billions of US$)"" Interval=""40000"">
+                    <ChartAxisLineStyle Width=""0""></ChartAxisLineStyle>
+                    <ChartAxisCrosshairTooltip Enable=""true""></ChartAxisCrosshairTooltip>
+                </ChartPrimaryYAxis>
 
-    <!-- Y Axis -->
-    <ChartPrimaryYAxis Title=""Market Cap (Billions of US$)"" Interval=""40000"">
-        <ChartAxisLineStyle Width=""0""></ChartAxisLineStyle>
-        <ChartAxisCrosshairTooltip Enable=""true""></ChartAxisCrosshairTooltip>
-    </ChartPrimaryYAxis>
+                <!-- Series -->
+                
+                    <ChartSeries DataSource=""Data""
+                                 XName=""Year""
+                                 YName=""ValueB""
+                                 Type=""ChartSeriesType.SplineArea""
+                                 Name=""Market Cap""
+                                 Width=""2""
+                                 Opacity=""0.6""
+                                 Fill=""#38BE09"">
+                        <ChartSeriesBorder Width=""2"" Color=""#38BE09""></ChartSeriesBorder>
+                    </ChartSeries>
+                
 
-    <!-- Series -->
-    
-        <ChartSeries DataSource=""Data""
-                     XName=""Year""
-                     YName=""ValueB""
-                     Type=""ChartSeriesType.SplineArea""
-                     Name=""Market Cap""
-                     Width=""2""
-                     Opacity=""0.6""
-                     Fill=""#38BE09"">
-            <ChartSeriesBorder Width=""2"" Color=""#38BE09""></ChartSeriesBorder>
-        </ChartSeries>
-    
-
-    <!-- Tooltip -->
-    <ChartTooltipSettings Enable=""true""
-                          Header=""<b>${point.x}</b>""
-                          Format=""${series.name}: <b>${point.y} B US$</b>"">
-    </ChartTooltipSettings>
-}
-</SfChart>
+                <!-- Tooltip -->
+                <ChartTooltipSettings Enable=""true""
+                                      Header=""<b>${point.x}</b>""
+                                      Format=""${series.name}: <b>${point.y} B US$</b>"">
+                </ChartTooltipSettings>
+            </SfChart>
 
 @code {
     private Theme _currentTheme = Theme.Fluent;

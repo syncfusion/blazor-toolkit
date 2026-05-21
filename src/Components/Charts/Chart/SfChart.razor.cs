@@ -139,7 +139,6 @@ namespace Syncfusion.Blazor.Toolkit.Charts
         internal StyleElement? _highlightStyleInstance;
 
         // Internal chart layout, area type, and core settings
-        internal ChartAreaType _chartAreaType;
         internal bool _shouldAnimateSeries = true;
         internal ChartMargin _margin = new();
         internal ChartZoomSettings _zoomSettings = new();
@@ -214,6 +213,9 @@ namespace Syncfusion.Blazor.Toolkit.Charts
         /// This property is injected by the Blazor framework and provides access to
         /// localized resources. Use it to retrieve culture-specific text for UI elements.
         /// </remarks>
+        /// <exclude />
+        [EditorBrowsable(EditorBrowsableState.Never)]
+        [Browsable(false)]
         [Inject]
         protected IStringLocalizer Localizer { get; set; } = default!;
 
@@ -1929,19 +1931,6 @@ namespace Syncfusion.Blazor.Toolkit.Charts
         }
 
         /// <summary>
-        /// Gets the chart area type based on series types.
-        /// </summary>
-        /// <returns>The <see cref="ChartAreaType"/> determined by the series container.</returns>
-        internal ChartAreaType GetAreaType()
-        {
-            if (_seriesContainer is not null)
-            {
-                _chartAreaType = _seriesContainer.GetAreaType();
-            }
-            return _chartAreaType;
-        }
-
-        /// <summary>
         /// Adds an annotation to the chart.
         /// </summary>
         /// <param name="annotation">The annotation to add.</param>
@@ -1974,9 +1963,9 @@ namespace Syncfusion.Blazor.Toolkit.Charts
         /// </summary>
         /// <param name="stripline">The stripline to add.</param>
         /// <param name="position">The Z-index position (behind or over series).</param>
-        internal void AddStripline(ChartStripline stripline, ZIndex position)
+        internal void AddStripline(ChartStripline stripline, ZIndexPosition position)
         {
-            if (position == ZIndex.Behind)
+            if (position == ZIndexPosition.Behind)
             {
                 _striplineBehindContainer?.AddElement(stripline);
             }
@@ -1995,9 +1984,9 @@ namespace Syncfusion.Blazor.Toolkit.Charts
         /// </summary>
         /// <param name="stripline">The stripline to remove.</param>
         /// <param name="position">The Z-index position of the stripline.</param>
-        internal void RemoveStripline(ChartStripline stripline, ZIndex position)
+        internal void RemoveStripline(ChartStripline stripline, ZIndexPosition position)
         {
-            if (position == ZIndex.Behind)
+            if (position == ZIndexPosition.Behind)
             {
                 _striplineBehindContainer?.RemoveRenderer(stripline.Renderer ?? null!);
                 _striplineBehindContainer?.RemoveElement(stripline);

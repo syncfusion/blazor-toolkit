@@ -1111,16 +1111,6 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
                 renderer.ProcessRenderQueue();
             }
         }
-
-        /// <summary>
-        /// Returns the area type for the first renderer. Defaults to CartesianAxes.
-        /// </summary>
-        /// <returns>Chart area type.</returns>
-        public ChartAreaType GetAreaType()
-        {
-            ChartSeriesRenderer renderer = Renderers.Count > 0 ? Renderers.First() as ChartSeriesRenderer ?? null! : null!;
-            return renderer is not null ? ChartAreaType.CartesianAxes : ChartAreaType.CartesianAxes;
-        }
         #endregion
     }
 }

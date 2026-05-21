@@ -66,7 +66,6 @@ namespace Syncfusion.Blazor.Toolkit.Calendars
         /// }
         /// ]]></code>
         /// </example>
-        /// <exclude/>
         [Parameter]
         public EventCallback<KeyboardEventArgs> OnKeyDown { get; set; }
 

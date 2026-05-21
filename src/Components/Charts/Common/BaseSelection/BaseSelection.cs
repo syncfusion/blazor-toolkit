@@ -9,7 +9,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
     /// This internal class manages SVG pattern creation for various selection styles (dots, chessboard, stripes, etc.)
     /// and coordinates with <see cref="SelectionStyleComponent"/> for rendering.
     /// </remarks>
-    class BaseSelection
+    internal class BaseSelection
     {
         #region Properties
 
@@ -41,7 +41,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
         /// <param name="index">Index to ensure uniqueness.</param>
         /// <param name="patternName">Pattern enumeration value.</param>
         /// <returns>A configured <see cref="PatternOptions"/> instance.</returns>
-        static PatternOptions CreatePatternOptions(string color, int index, SelectionPattern patternName)
+        private static PatternOptions CreatePatternOptions(string color, int index, SelectionPattern patternName)
         {
             return new PatternOptions()
             {
@@ -57,7 +57,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
         /// <param name="color">Color string safe for ids.</param>
         /// <param name="index">Index for uniqueness.</param>
         /// <returns>String suitable for SVG fill like "url(#...)"</returns>
-        static string BuildPatternUrl(SelectionPattern patternName, string color, int index)
+        private static string BuildPatternUrl(SelectionPattern patternName, string color, int index)
         {
             return "url(#" + patternName + "_Selection_" + color + "_" + index + ")";
         }
@@ -70,7 +70,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
         /// <param name="pathOptions">Mutable list to receive shape descriptors.</param>
         /// <param name="color">Requested color (used for stroke/fill).</param>
         /// <param name="opacity">Requested opacity for shapes.</param>
-        static void ConfigurePattern(SelectionPattern patternName, PatternOptions patternGroup, List<object> pathOptions, string color, double opacity)
+        private static void ConfigurePattern(SelectionPattern patternName, PatternOptions patternGroup, List<object> pathOptions, string color, double opacity)
         {
             switch (patternName)
             {
@@ -131,6 +131,9 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
                 case SelectionPattern.Bubble:
                     ConfigureBubblePattern(patternGroup, pathOptions, color, opacity);
                     break;
+                case SelectionPattern.None:
+                default:
+                    break;
             }
         }
 
@@ -141,7 +144,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
         /// <param name="pathOptions">The shape list to receive the background rectangle and ellipse dot.</param>
         /// <param name="color">The fill color for the dot element.</param>
         /// <param name="opacity">The opacity level for the shapes.</param>
-        static void ConfigureDotsPattern(PatternOptions patternGroup, List<object> pathOptions, string color, double opacity)
+        private static void ConfigureDotsPattern(PatternOptions patternGroup, List<object> pathOptions, string color, double opacity)
         {
             patternGroup.Width = patternGroup.Height = 6;
             pathOptions.Add(new RectOptions("PatternStroke", 0, 0, 7, 7, 0, "0.0000001", "#ffffff", 0, 0, opacity));
@@ -155,7 +158,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
         /// <param name="pathOptions">The shape list to receive the background rectangle and Pacman path.</param>
         /// <param name="color">The fill color for the Pacman shape.</param>
         /// <param name="opacity">The opacity level for the shapes.</param>
-        static void ConfigurePacmanPattern(PatternOptions patternGroup, List<object> pathOptions, string color, double opacity)
+        private static void ConfigurePacmanPattern(PatternOptions patternGroup, List<object> pathOptions, string color, double opacity)
         {
             patternGroup.Height = 18.384;
             patternGroup.Width = 17.917;
@@ -170,7 +173,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
         /// <param name="pathOptions">The shape list to receive the background and alternating square tiles.</param>
         /// <param name="color">The fill color for the dark squares.</param>
         /// <param name="opacity">The opacity level for the shapes.</param>
-        static void ConfigureChessboardPattern(PatternOptions patternGroup, List<object> pathOptions, string color, double opacity)
+        private static void ConfigureChessboardPattern(PatternOptions patternGroup, List<object> pathOptions, string color, double opacity)
         {
             patternGroup.Height = patternGroup.Width = 10;
             pathOptions.Add(new RectOptions(string.Empty, 0, 0, 10, 10, 0, null!, "#ffffff", 0, 0, opacity));
@@ -185,7 +188,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
         /// <param name="pathOptions">The shape list to receive the background and crosshatch lines.</param>
         /// <param name="color">The stroke color for the hatch lines.</param>
         /// <param name="opacity">The opacity level for the shapes.</param>
-        static void ConfigureCrosshatchPattern(PatternOptions patternGroup, List<object> pathOptions, string color, double opacity)
+        private static void ConfigureCrosshatchPattern(PatternOptions patternGroup, List<object> pathOptions, string color, double opacity)
         {
             patternGroup.Height = patternGroup.Width = 8;
             pathOptions.Add(new RectOptions(string.Empty, 0, 0, 8, 8, 0, null!, "#ffffff", 0, 0, opacity));
@@ -199,7 +202,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
         /// <param name="pathOptions">The shape list to receive the background and diagonal lines.</param>
         /// <param name="color">The stroke color for the diagonal lines.</param>
         /// <param name="opacity">The opacity level for the shapes.</param>
-        static void ConfigureDiagonalForwardPattern(PatternOptions patternGroup, List<object> pathOptions, string color, double opacity)
+        private static void ConfigureDiagonalForwardPattern(PatternOptions patternGroup, List<object> pathOptions, string color, double opacity)
         {
             patternGroup.Height = patternGroup.Width = 6;
             pathOptions.Add(new RectOptions(null!, 0, 0, 6, 6, 0, null!, "#ffffff", 0, 0, opacity));
@@ -213,7 +216,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
         /// <param name="pathOptions">The shape list to receive the background and diagonal lines.</param>
         /// <param name="color">The stroke color for the diagonal lines.</param>
         /// <param name="opacity">The opacity level for the shapes.</param>
-        static void ConfigureDiagonalBackwardPattern(PatternOptions patternGroup, List<object> pathOptions, string color, double opacity)
+        private static void ConfigureDiagonalBackwardPattern(PatternOptions patternGroup, List<object> pathOptions, string color, double opacity)
         {
             patternGroup.Height = patternGroup.Width = 6;
             pathOptions.Add(new RectOptions(null!, 0, 0, 6, 6, 0, null!, "#ffffff", 0, 0, opacity));
@@ -227,7 +230,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
         /// <param name="pathOptions">The shape list to receive the background and grid lines.</param>
         /// <param name="color">The stroke color for the grid lines.</param>
         /// <param name="opacity">The opacity level for the shapes.</param>
-        static void ConfigureGridPattern(PatternOptions patternGroup, List<object> pathOptions, string color, double opacity)
+        private static void ConfigureGridPattern(PatternOptions patternGroup, List<object> pathOptions, string color, double opacity)
         {
             patternGroup.Height = patternGroup.Width = 6;
             pathOptions.Add(new RectOptions(null!, 0, 0, 6, 6, 0, null!, "#ffffff", 0, 0, opacity));
@@ -241,7 +244,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
         /// <param name="pathOptions">The shape list to receive the background and turquoise circles.</param>
         /// <param name="color">The fill color for the circles.</param>
         /// <param name="opacity">The opacity level for the shapes.</param>
-        static void ConfigureTurquoisePattern(PatternOptions patternGroup, List<object> pathOptions, string color, double opacity)
+        private static void ConfigureTurquoisePattern(PatternOptions patternGroup, List<object> pathOptions, string color, double opacity)
         {
             patternGroup.Height = patternGroup.Width = 17;
             pathOptions.Add(new RectOptions(null!, 0, 0, 17, 17, 0, null!, "#ffffff", 0, 0, opacity));
@@ -261,7 +264,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
         /// <param name="pathOptions">The shape list to receive the background and star shape.</param>
         /// <param name="color">The fill color for the star.</param>
         /// <param name="opacity">The opacity level for the shapes.</param>
-        static void ConfigureStarPattern(PatternOptions patternGroup, List<object> pathOptions, string color, double opacity)
+        private static void ConfigureStarPattern(PatternOptions patternGroup, List<object> pathOptions, string color, double opacity)
         {
             patternGroup.Height = patternGroup.Width = 21;
             pathOptions.Add(new RectOptions(null!, 0, 0, 21, 21, 0, null!, "#ffffff", 0, 0, opacity));
@@ -275,7 +278,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
         /// <param name="pathOptions">The shape list to receive the background and triangle shape.</param>
         /// <param name="color">The fill color for the triangle.</param>
         /// <param name="opacity">The opacity level for the shapes.</param>
-        static void ConfigureTrianglePattern(PatternOptions patternGroup, List<object> pathOptions, string color, double opacity)
+        private static void ConfigureTrianglePattern(PatternOptions patternGroup, List<object> pathOptions, string color, double opacity)
         {
             patternGroup.Height = patternGroup.Width = 10;
             pathOptions.Add(new RectOptions(null!, 0, 0, 10, 10, 0, null!, "#ffffff", 0, 0, opacity));
@@ -289,7 +292,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
         /// <param name="pathOptions">The shape list to receive the background and circle ellipse.</param>
         /// <param name="color">The stroke color for the circle.</param>
         /// <param name="opacity">The opacity level for the shapes.</param>
-        static void ConfigureCirclePattern(PatternOptions patternGroup, List<object> pathOptions, string color, double opacity)
+        private static void ConfigureCirclePattern(PatternOptions patternGroup, List<object> pathOptions, string color, double opacity)
         {
             double circleNum = 9;
             patternGroup.Height = patternGroup.Width = circleNum;
@@ -304,7 +307,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
         /// <param name="pathOptions">The shape list to receive the background and tile paths.</param>
         /// <param name="color">The fill color for the tiles.</param>
         /// <param name="opacity">The opacity level for the shapes.</param>
-        static void ConfigureTilePattern(PatternOptions patternGroup, List<object> pathOptions, string color, double opacity)
+        private static void ConfigureTilePattern(PatternOptions patternGroup, List<object> pathOptions, string color, double opacity)
         {
             double tileNum = 18;
             patternGroup.Height = patternGroup.Width = tileNum;
@@ -322,7 +325,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
         /// <param name="pathOptions">The shape list to receive the background and horizontal dash lines.</param>
         /// <param name="color">The stroke color for the dashes.</param>
         /// <param name="opacity">The opacity level for the shapes.</param>
-        static void ConfigureHorizontalDashPattern(PatternOptions patternGroup, List<object> pathOptions, string color, double opacity)
+        private static void ConfigureHorizontalDashPattern(PatternOptions patternGroup, List<object> pathOptions, string color, double opacity)
         {
             patternGroup.Height = patternGroup.Width = 12;
             pathOptions.Add(new RectOptions(null!, 0, 0, 12, 12, 0, null!, "#ffffff", 0, 0, opacity));
@@ -336,7 +339,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
         /// <param name="pathOptions">The shape list to receive the background and vertical dash lines.</param>
         /// <param name="color">The stroke color for the dashes.</param>
         /// <param name="opacity">The opacity level for the shapes.</param>
-        static void ConfigureVerticalDashPattern(PatternOptions patternGroup, List<object> pathOptions, string color, double opacity)
+        private static void ConfigureVerticalDashPattern(PatternOptions patternGroup, List<object> pathOptions, string color, double opacity)
         {
             patternGroup.Height = patternGroup.Width = 12;
             pathOptions.Add(new RectOptions(null!, 0, 0, 12, 12, 0, null!, "#ffffff", 0, 9, opacity));
@@ -350,7 +353,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
         /// <param name="pathOptions">The shape list to receive the background and rectangle shapes.</param>
         /// <param name="color">The fill color for the rectangles.</param>
         /// <param name="opacity">The opacity level for the shapes.</param>
-        static void ConfigureRectanglePattern(PatternOptions patternGroup, List<object> pathOptions, string color, double opacity)
+        private static void ConfigureRectanglePattern(PatternOptions patternGroup, List<object> pathOptions, string color, double opacity)
         {
             patternGroup.Height = 12;
             patternGroup.Width = 10;
@@ -366,7 +369,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
         /// <param name="pathOptions">The shape list to receive the background and box shape.</param>
         /// <param name="color">The fill color for the box.</param>
         /// <param name="opacity">The opacity level for the shapes.</param>
-        static void ConfigureBoxPattern(PatternOptions patternGroup, List<object> pathOptions, string color, double opacity)
+        private static void ConfigureBoxPattern(PatternOptions patternGroup, List<object> pathOptions, string color, double opacity)
         {
             patternGroup.Height = patternGroup.Width = 10;
             pathOptions.Add(new RectOptions(null!, 0, 0, 10, 12, 0, null!, "#ffffff", 0, 0, opacity));
@@ -380,7 +383,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
         /// <param name="pathOptions">The shape list to receive the background and horizontal stripe lines.</param>
         /// <param name="color">The stroke color for the stripes.</param>
         /// <param name="opacity">The opacity level for the shapes.</param>
-        static void ConfigureHorizontalStripePattern(PatternOptions patternGroup, List<object> pathOptions, string color, double opacity)
+        private static void ConfigureHorizontalStripePattern(PatternOptions patternGroup, List<object> pathOptions, string color, double opacity)
         {
             patternGroup.Height = 12;
             patternGroup.Width = 10;
@@ -395,7 +398,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
         /// <param name="pathOptions">The shape list to receive the background and vertical stripe lines.</param>
         /// <param name="color">The stroke color for the stripes.</param>
         /// <param name="opacity">The opacity level for the shapes.</param>
-        static void ConfigureVerticalStripePattern(PatternOptions patternGroup, List<object> pathOptions, string color, double opacity)
+        private static void ConfigureVerticalStripePattern(PatternOptions patternGroup, List<object> pathOptions, string color, double opacity)
         {
             patternGroup.Height = 12;
             patternGroup.Width = 10;
@@ -410,7 +413,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
         /// <param name="pathOptions">The shape list to receive the background and bubble shapes.</param>
         /// <param name="color">The fill color for primary bubbles.</param>
         /// <param name="opacity">The opacity level for the shapes.</param>
-        static void ConfigureBubblePattern(PatternOptions patternGroup, List<object> pathOptions, string color, double opacity)
+        private static void ConfigureBubblePattern(PatternOptions patternGroup, List<object> pathOptions, string color, double opacity)
         {
             patternGroup.Height = patternGroup.Width = 20;
             pathOptions.Add(new RectOptions(null!, 0, 0, 20, 20, 0, null!, "#ffffff", 0, 0, opacity));
@@ -434,7 +437,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
         /// <exception cref="ArgumentException">Thrown when <paramref name="color"/> is <see langword="null"/>, empty, or <paramref name="index"/> is negative.</exception>
         protected string FindPattern(string color, int index, SelectionPattern patternName, double opacity)
         {
-            List<object> pathOptions = new List<object>();
+            List<object> pathOptions = [];
             PatternOptions patternGroup = CreatePatternOptions(color, index, patternName);
 
             ConfigurePattern(patternName, patternGroup, pathOptions, color, opacity);

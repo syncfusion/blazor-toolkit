@@ -765,7 +765,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts
         /// - <c>Behind</c>: Places the strip line behind the series elements. 
         /// - <c>Over</c>: Places the strip line over the series elements. 
         /// <br/>
-        /// The default value is <b>ZIndex.Behind</b>. 
+        /// The default value is <b>ZIndexPosition.Behind</b>. 
         /// </value> 
         /// <remarks>
         /// Adjusting the <see cref="ZIndex"/> is useful when you need to control the visual layering of the strip line relative to other elements in a chart, thereby ensuring the intended elements are visible.
@@ -777,7 +777,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts
         /// <SfChart>
         ///     <ChartPrimaryYAxis>
         ///         <ChartStriplines>
-        ///             <ChartStripline Start="18" End="25" ZIndex="ZIndex.Over">
+        ///             <ChartStripline Start="18" End="25" ZIndex="ZIndexPosition.Over">
         ///             </ChartStripline>
         ///         </ChartStriplines>
         ///     </ChartPrimaryYAxis>
@@ -789,7 +789,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts
         /// </code>
         /// </example>
         [Parameter]
-        public ZIndex ZIndex { get; set; } = ZIndex.Behind;
+        public ZIndexPosition ZIndex { get; set; } = ZIndexPosition.Behind;
 
         /// <summary>
         /// Gets or sets the renderer key for internal use.
@@ -898,7 +898,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts
 
                 if (Renderer is not null)
                 {
-                    if (ZIndex == ZIndex.Behind)
+                    if (ZIndex == ZIndexPosition.Behind)
                     {
                         Parent?.Axis?.Container?._striplineBehindContainer?.UpdateStriplineCollection();
                     }
@@ -926,6 +926,9 @@ namespace Syncfusion.Blazor.Toolkit.Charts
         /// <summary>
         /// Handles component disposal and cleanup.
         /// </summary>
+        /// <exclude />
+        [EditorBrowsable(EditorBrowsableState.Never)]
+        [Browsable(false)]
         protected override ValueTask DisposeAsyncCore()
         {
             Parent?.Axis?.Container?.RemoveStripline(this, ZIndex);
@@ -944,9 +947,9 @@ namespace Syncfusion.Blazor.Toolkit.Charts
         {
             switch (ZIndex)
             {
-                case ZIndex.Behind:
+                case ZIndexPosition.Behind:
                     return typeof(ChartStriplineBehindRenderer);
-                case ZIndex.Over:
+                case ZIndexPosition.Over:
                     return typeof(ChartStriplineOverRenderer);
                 default:
                     break;

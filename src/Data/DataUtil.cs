@@ -6,7 +6,6 @@ using System.Text.RegularExpressions;
 using Syncfusion.Blazor.Toolkit.Internal;
 using System.Text.Json.Serialization;
 using System.Text.Json;
-using Syncfusion.Blazor.Toolkit.Charts.Internal;
 
 namespace Syncfusion.Blazor.Toolkit.Data
 {

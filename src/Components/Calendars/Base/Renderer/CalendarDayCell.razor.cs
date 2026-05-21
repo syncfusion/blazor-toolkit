@@ -221,6 +221,7 @@ namespace Syncfusion.Blazor.Toolkit.Calendars.Internal
         /// <remarks>
         /// This override performs setup logic unique to the cell's rendering and calendar integration. It calls <see cref="RenderCellAsync"/> to ensure the cell's state is fully initialized before display.
         /// </remarks>
+        /// <exclude />
         protected override async Task OnInitializedAsync()
         {
             if (Parent is null)
@@ -240,6 +241,7 @@ namespace Syncfusion.Blazor.Toolkit.Calendars.Internal
         /// <remarks>
         /// This override checks for property or navigation changes. If a navigation or value difference is detected, <see cref="RenderCellAsync"/> is triggered to re-render the calendar cell while maintaining accurate navigation and selection state.
         /// </remarks>
+        /// <exclude />
         protected override async Task OnParametersSetAsync()
         {
             await base.OnParametersSetAsync().ConfigureAwait(false);
@@ -264,6 +266,7 @@ namespace Syncfusion.Blazor.Toolkit.Calendars.Internal
         /// <remarks>
         /// This method is useful for focus management and feature updates that must occur after the Blazor rendering pass, such as updating accessibility ARIA details and handling navigation boundary conditions.
         /// </remarks>
+        /// <exclude />
         protected override async Task OnAfterRenderAsync(bool firstRender)
         {
             if (firstRender)
@@ -944,6 +947,7 @@ namespace Syncfusion.Blazor.Toolkit.Calendars.Internal
         /// <summary>
         /// Releases resources and performs cleanup when the calendar base is disposed.
         /// </summary>
+        /// <exclude />
         protected override ValueTask DisposeAsyncCore()
         {
             // Clear event callbacks and element refs

@@ -130,6 +130,7 @@ namespace Syncfusion.Blazor.Toolkit.Calendars
         /// <summary>
         /// Backing field for the public <see cref="FloatLabelType"/> parameter.
         /// </summary>
+        /// <exclude/>
         protected override FloatLabelType BaseFloatLabelType { get; set; }
 
         /// <summary>
@@ -157,6 +158,7 @@ namespace Syncfusion.Blazor.Toolkit.Calendars
         /// <summary>
         /// Backing field for the public <see cref="Placeholder"/> parameter.
         /// </summary>
+        /// <exclude/>
         protected override string BasePlaceholder { get; set; } = default!;
 
         /// <summary>
@@ -184,6 +186,7 @@ namespace Syncfusion.Blazor.Toolkit.Calendars
         /// <summary>
         /// Backing field for the public <see cref="Readonly"/> parameter.
         /// </summary>
+        /// <exclude/>
         protected override bool BaseReadOnly { get; set; }
 
         /// <summary>
@@ -196,6 +199,7 @@ namespace Syncfusion.Blazor.Toolkit.Calendars
         /// This property specifically controls the readonly attribute on the underlying HTML input element,
         /// which may behave differently from the component-level <see cref="BaseReadOnly"/> property.
         /// </remarks>
+        /// <exclude/>
         protected override bool BaseIsReadOnlyInput { get; set; }
 
         /// <summary>
@@ -243,6 +247,7 @@ namespace Syncfusion.Blazor.Toolkit.Calendars
         /// <summary>
         /// Backing field for the public <see cref="ShowClearButton"/> parameter.
         /// </summary>
+        /// <exclude/>
         protected override bool BaseShowClearButton { get; set; }
 
         /// <summary>
@@ -292,11 +297,13 @@ namespace Syncfusion.Blazor.Toolkit.Calendars
         /// <summary>
         /// Backing field for the public <see cref="HtmlAttributes"/> parameter.
         /// </summary>
+        /// <exclude/>
         protected override Dictionary<string, object>? BaseHtmlAttributes { get; set; }
 
         /// <summary>
         /// Backing field for the public <see cref="InputAttributes"/> parameter.
         /// </summary>
+        /// <exclude/>
         protected override Dictionary<string, object>? BaseInputAttributes { get; set; }
 
         /// <summary>
@@ -324,6 +331,7 @@ namespace Syncfusion.Blazor.Toolkit.Calendars
         /// <summary>
         /// Backing field for the public <see cref="Width"/> parameter.
         /// </summary>
+        /// <exclude/>
         protected override string? BaseWidth { get; set; } = default;
 
         /// <summary>
@@ -351,6 +359,7 @@ namespace Syncfusion.Blazor.Toolkit.Calendars
         /// <summary>
         /// Backing field for the public <see cref="TabIndex"/> parameter.
         /// </summary>
+        /// <exclude/>
         protected override int BaseTabIndex { get; set; }
 
         /// <summary>
@@ -758,6 +767,7 @@ namespace Syncfusion.Blazor.Toolkit.Calendars
         /// <value>
         /// Accepts the string value. A string value representing the behavior of the floating label in the TextBox.
         /// </value>
+        /// <exclude/>
         public string FloatLabelType { get; set; } = default!;
 
         /// <summary>

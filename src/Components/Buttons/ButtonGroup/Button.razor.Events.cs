@@ -2,7 +2,7 @@ using Microsoft.AspNetCore.Components;
 
 namespace Syncfusion.Blazor.Toolkit.Buttons
 {
-    public partial class ButtonGroupButton
+    public partial class Button
     {
         #region Events
 

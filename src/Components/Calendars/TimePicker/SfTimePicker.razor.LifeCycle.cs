@@ -23,6 +23,7 @@ namespace Syncfusion.Blazor.Toolkit.Calendars
         /// This method is automatically called by the Blazor framework during component lifecycle.
         /// No manual invocation is required.
         /// </example>
+        /// <exclude/>
         protected override async Task OnInitializedAsync()
         {
             RootClass = ROOT;
@@ -76,6 +77,7 @@ namespace Syncfusion.Blazor.Toolkit.Calendars
         /// <SfTimePicker @bind-Value="timeValue" Format="@currentFormat" Disabled="@isDisabled" />
         /// ]]></code>
         /// </example>
+        /// <exclude/>
         protected override async Task OnParametersSetAsync()
         {
             await base.OnParametersSetAsync().ConfigureAwait(false);
@@ -143,6 +145,7 @@ namespace Syncfusion.Blazor.Toolkit.Calendars
         /// // Subsequent renders: firstRender = false
         /// ]]></code>
         /// </example>
+        /// <exclude/>
         protected override async Task OnAfterRenderAsync(bool firstRender)
         {
             await base.OnAfterRenderAsync(firstRender).ConfigureAwait(false);
@@ -203,6 +206,7 @@ namespace Syncfusion.Blazor.Toolkit.Calendars
         /// nullifies references to prevent memory leaks, and disposes of window instance resources.
         /// It's automatically called when the component is being destroyed.
         /// </remarks>
+        /// <exclude/>
         protected override async ValueTask DisposeAsyncCore()
         {
             try

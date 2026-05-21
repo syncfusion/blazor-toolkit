@@ -1,7 +1,6 @@
 ﻿using System.Collections;
-using Syncfusion.Blazor.Toolkit.Data;
 
-namespace Syncfusion.Blazor.Toolkit
+namespace Syncfusion.Blazor.Toolkit.Data
 {
     /// <summary>
     /// DataOperation class that performs data operation in IEnumerable and IQueryable type data sources.

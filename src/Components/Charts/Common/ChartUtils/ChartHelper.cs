@@ -20,9 +20,9 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
     public class ChartHelper
     {
         #region Constants
-        const int RGB_HEX_CODE = 6;
-        const string DEFAULT_COLOR = "white";
-        const string SPACE = " ";
+        private const int RGB_HEX_CODE = 6;
+        private const string DEFAULT_COLOR = "white";
+        private const string SPACE = " ";
         #endregion
 
         #region Properties
@@ -65,7 +65,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
         /// <param name="element">The text animation options to update.</param>
         /// <param name="locationX">The new X coordinate.</param>
         /// <param name="locationY">The new Y coordinate.</param>
-        static void UpdateExistingElement(DynamicTextAnimationOptions element, double locationX, double locationY)
+        private static void UpdateExistingElement(DynamicTextAnimationOptions element, double locationX, double locationY)
         {
             element.PreLocationX = element.CurLocationX != locationX ? element.CurLocationX : locationX;
             element.PreLocationY = element.CurLocationY != locationY ? element.CurLocationY : locationY;
@@ -79,7 +79,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
         /// <param name="originalText">The text that may contain line breaks.</param>
         /// <param name="font">The font settings used during measurement.</param>
         /// <returns>The measured size encompassing all lines.</returns>
-        static Size MeasureBreakText(string originalText, ChartFontOptions font)
+        private static Size MeasureBreakText(string originalText, ChartFontOptions font)
         {
             originalText = originalText.Replace("<br/>", "<br>", StringComparison.InvariantCulture);
             List<string> textCollection = originalText.Split("<br>").ToList();
@@ -105,7 +105,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
         /// <param name="character">The character to measure.</param>
         /// <param name="font">The font settings used during measurement.</param>
         /// <returns>The measured character size.</returns>
-        static Size GetCharSize(char character, ChartFontOptions font)
+        private static Size GetCharSize(char character, ChartFontOptions font)
         {
             Size? charSize = new Size();
             string key = character + Constants.Underscore + font.FontWeight + Constants.Underscore + font.FontStyle + Constants.Underscore + font.FontFamily;
@@ -131,7 +131,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
         /// </summary>
         /// <param name="size">The CSS size string.</param>
         /// <returns>The pixel value represented by the string.</returns>
-        static double PixelToNumber(string size)
+        private static double PixelToNumber(string size)
         {
             if (!string.IsNullOrEmpty(size))
             {
@@ -222,7 +222,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
         /// <param name="centerLabelFontFamily">Center label font family.</param>
         /// <param name="centerLabelFontWeight">Center label font weight.</param>
         /// <returns>The composed <see cref="ChartThemeStyle"/>.</returns>
-        static ChartThemeStyle GetThemeStyle(string axisLabel, string axisTitle, string axisLine, string majorGridLine, string minorGridLine, string majorTickLine, string minorTickLine, string chartTitle, string legendLabel, string background, string areaBorder, string errorBar, string crosshairLine,
+        private static ChartThemeStyle GetThemeStyle(string axisLabel, string axisTitle, string axisLine, string majorGridLine, string minorGridLine, string majorTickLine, string minorTickLine, string chartTitle, string legendLabel, string background, string areaBorder, string errorBar, string crosshairLine,
                     string crosshairBackground, string crosshairFill, string crosshairLabel, string tooltipFill, string tooltipBoldLabel, string tooltipLightLabel, string tooltipHeaderLine, string markerShadow, string selectionRectFill, string selectionRectStroke, string selectionCircleStroke, string tabColor, string nDLineColor,
                     string chartTitleSize = "15px", string chartTitleFontWeight = "500", string chartTitleFontFamily = "Segoe UI", string axisLabelFontSize = "12px", string axisLabelFontWeight = "Normal", string axisLabelFontFamily = "Segoe UI", string legendTextSize = "13px", string legendFontFamily = "Segoe UI", string legendFontWeight = "Normal",
                     string crosshairTextSize = "13px", string crosshairFontFamily = "Segoe UI", string crosshairFontWeight = "Normal", string dataLabelSize = "11px", string dataLabelFontFamily = "Segoe UI", string dataLabelFontWeight = "Normal", string axisTitleFontSize = "14px", string axisTitleFontFamily = "Segoe UI", string axisTitleFontWeight = "Normal",
@@ -301,10 +301,10 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
         /// <param name="maximumWidth">The maximum width allowed for each line.</param>
         /// <param name="font">The font options used for measurement.</param>
         /// <returns>A collection of wrapped text segments.</returns>
-        static List<string> TextWrapAnyWhere(string currentLabel, double maximumWidth, ChartFontOptions font)
+        private static List<string> TextWrapAnyWhere(string currentLabel, double maximumWidth, ChartFontOptions font)
         {
             double size = MeasureText(currentLabel, font).Width;
-            List<string> labelCollection = new List<string>();
+            List<string> labelCollection = [];
 
             if (Math.Round(size) <= Math.Round(maximumWidth))
             {
@@ -323,7 +323,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
         /// <param name="maximumWidth">The maximum width allowed per line in pixels.</param>
         /// <param name="font">The font options used for measurement.</param>
         /// <param name="labelCollection">The output collection to append wrapped segments to.</param>
-        static void WrapLabelSegments(string label, double maximumWidth, ChartFontOptions font, ICollection<string> labelCollection)
+        private static void WrapLabelSegments(string label, double maximumWidth, ChartFontOptions font, ICollection<string> labelCollection)
         {
             string wrapLabel = string.Empty;
             int startIndex = 0;
@@ -363,7 +363,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
         /// <param name="shape">Marker shape name.</param>
         /// <param name="options">Existing path options to update.</param>
         /// <returns>The path options with updated directives.</returns>
-        static PathOptions CalculateLegendShapes(ChartEventLocation location, Size size, string shape, PathOptions options)
+        private static PathOptions CalculateLegendShapes(ChartEventLocation location, Size size, string shape, PathOptions options)
         {
             if (string.IsNullOrWhiteSpace(shape))
             {
@@ -435,7 +435,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
         /// <param name="locationX">X coordinate.</param>
         /// <param name="locationY">Y coordinate.</param>
         /// <returns>Updated path options.</returns>
-        static PathOptions SetLineLegend(CultureInfo culture, PathOptions options, double width, double height, double locationX, double locationY)
+        private static PathOptions SetLineLegend(CultureInfo culture, PathOptions options, double width, double height, double locationX, double locationY)
         {
             double offset = width / 4;
             double startX = (locationX + (-width + (offset)));
@@ -455,7 +455,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
         /// <param name="locationX">X coordinate.</param>
         /// <param name="locationY">Y coordinate.</param>
         /// <returns>Updated path options.</returns>
-        static PathOptions SetStepLineLegend(CultureInfo culture, PathOptions options, double width, double height, double locationX, double locationY)
+        private static PathOptions SetStepLineLegend(CultureInfo culture, PathOptions options, double width, double height, double locationX, double locationY)
         {
             options.Fill = "transparent";
             options.Direction = "M" + SPACE + (locationX + (-width / 2) - 2.5).ToString(culture) + SPACE + (locationY + (height / 2) - 1).ToString(culture)
@@ -478,7 +478,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
         /// <param name="locationX">X coordinate.</param>
         /// <param name="locationY">Y coordinate.</param>
         /// <returns>Updated path options.</returns>
-        static PathOptions SetRightArrowLegend(CultureInfo culture, PathOptions options, double width, double height, double locationX, double locationY)
+        private static PathOptions SetRightArrowLegend(CultureInfo culture, PathOptions options, double width, double height, double locationX, double locationY)
         {
             options.Direction = "M" + SPACE + (locationX + (-width / 2)).ToString(culture) + SPACE + (locationY - (height / 2)).ToString(culture) + SPACE + 'L'
                 + SPACE + (locationX + (width / 2)).ToString(culture) + SPACE + locationY.ToString(culture) + SPACE + 'L' + SPACE + (locationX + (-width / 2)).ToString(culture)
@@ -498,7 +498,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
         /// <param name="locationX">X coordinate.</param>
         /// <param name="locationY">Y coordinate.</param>
         /// <returns>Updated path options.</returns>
-        static PathOptions SetLeftArrowLegend(CultureInfo culture, PathOptions options, double width, double height, double locationX, double locationY)
+        private static PathOptions SetLeftArrowLegend(CultureInfo culture, PathOptions options, double width, double height, double locationX, double locationY)
         {
             options.Fill = options.Stroke;
             options.Stroke = "transparent";
@@ -520,7 +520,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
         /// <param name="locationX">X coordinate.</param>
         /// <param name="locationY">Y coordinate.</param>
         /// <returns>Updated path options.</returns>
-        static PathOptions SetColumnLegend(CultureInfo culture, PathOptions options, double width, double height, double locationX, double locationY)
+        private static PathOptions SetColumnLegend(CultureInfo culture, PathOptions options, double width, double height, double locationX, double locationY)
         {
             options.Direction = "M" + SPACE + (locationX - 3 * (width / 5)).ToString(culture) + SPACE + (locationY - (height / 5)).ToString(culture) + SPACE + 'L' + SPACE + (locationX + 3 * (-width / 10)).ToString(culture) + SPACE + (locationY - (height / 5)).ToString(culture) + SPACE + 'L'
                 + SPACE + (locationX + 3 * (-width / 10)).ToString(culture) + SPACE + (locationY + (height / 2)).ToString(culture) + SPACE + 'L' + SPACE + (locationX - 3 * (width / 5)).ToString(culture) + SPACE + (locationY + (height / 2)).ToString(culture) + SPACE + 'Z' + SPACE + 'M'
@@ -542,7 +542,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
         /// <param name="locationX">X coordinate.</param>
         /// <param name="locationY">Y coordinate.</param>
         /// <returns>Updated path options.</returns>
-        static PathOptions SetBarLegend(CultureInfo culture, PathOptions options, double width, double height, double locationX, double locationY)
+        private static PathOptions SetBarLegend(CultureInfo culture, PathOptions options, double width, double height, double locationX, double locationY)
         {
             options.Direction = "M" + SPACE + (locationX + (-width / 2) + (-2.5)).ToString(culture) + SPACE + (locationY - 3 * (height / 5)).ToString(culture) + SPACE + 'L' + SPACE + (locationX + 3 * (width / 10)).ToString(culture) + SPACE + (locationY - 3 * (height / 5)).ToString(culture)
                 + SPACE + 'L' + SPACE + (locationX + 3 * (width / 10)).ToString(culture) + SPACE + (locationY - 3 * (height / 10)).ToString(culture) + SPACE + 'L' + SPACE + (locationX - (width / 2) + (-2.5)).ToString(culture) + SPACE + (locationY - 3 * (height / 10)).ToString(culture)
@@ -564,7 +564,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
         /// <param name="locationX">X coordinate.</param>
         /// <param name="locationY">Y coordinate.</param>
         /// <returns>Updated path options.</returns>
-        static PathOptions SetSplineLegend(CultureInfo culture, PathOptions options, double width, double height, double locationX, double locationY)
+        private static PathOptions SetSplineLegend(CultureInfo culture, PathOptions options, double width, double height, double locationX, double locationY)
         {
             options.Fill = "transparent";
             options.Direction = "M" + SPACE + (locationX - (width / 2)).ToString(culture) + SPACE + (locationY + (height / 5)).ToString(culture) + SPACE + 'Q' + SPACE + locationX.ToString(culture)
@@ -585,7 +585,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
         /// <param name="locationX">X coordinate.</param>
         /// <param name="locationY">Y coordinate.</param>
         /// <returns>Updated path options.</returns>
-        static PathOptions SetAreaLegend(CultureInfo culture, PathOptions options, double width, double height, double locationX, double locationY)
+        private static PathOptions SetAreaLegend(CultureInfo culture, PathOptions options, double width, double height, double locationX, double locationY)
         {
             options.Direction = "M" + SPACE + (locationX - (width / 2) - 2.5).ToString(culture) + SPACE + (locationY + (height / 2) - 1).ToString(culture)
                 + SPACE + 'L' + SPACE + (locationX + (-width / 4) + (-1.25)).ToString(culture) + SPACE + (locationY - (height / 2)).ToString(culture)
@@ -605,7 +605,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
         /// <param name="locationX">X coordinate.</param>
         /// <param name="locationY">Y coordinate.</param>
         /// <returns>Updated path options.</returns>
-        static PathOptions SetSplineAreaLegend(CultureInfo culture, PathOptions options, double width, double height, double locationX, double locationY)
+        private static PathOptions SetSplineAreaLegend(CultureInfo culture, PathOptions options, double width, double height, double locationX, double locationY)
         {
             options.Direction = "M" + SPACE + (locationX - (width / 2)).ToString(culture) + SPACE + (locationY + (height / 5)).ToString(culture) + SPACE + 'Q' + SPACE + locationX.ToString(culture) + SPACE + (locationY - height).ToString(culture) + SPACE + locationX.ToString(culture) + SPACE + (locationY + (height / 5)).ToString(culture) + SPACE + 'Z' + SPACE + 'M'
                         + SPACE + locationX.ToString(culture) + SPACE + (locationY + (height / 5)).ToString(culture) + SPACE + 'Q' + SPACE + (locationX + (width / 2)).ToString(culture) + SPACE + (locationY + (height / 2)).ToString(culture) + SPACE + (locationX + (width / 2)).ToString(culture) + SPACE + (locationY - (height / 2)).ToString(culture) + SPACE + " Z";
@@ -622,12 +622,12 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
         /// <param name="height">Legend height.</param>
         /// <param name="width">Legend width.</param>
         /// <returns>The SVG path command.</returns>
-        static string GetAccumulationLegend(double locX, double locY, double radius, double height, double width)
+        private static string GetAccumulationLegend(double locX, double locY, double radius, double height, double width)
         {
             CultureInfo culture = CultureInfo.InvariantCulture;
             ChartEventLocation cartesianlarge = DegreeToLocation(270, radius, new ChartEventLocation(locX, locY));
             ChartEventLocation cartesiansmall = DegreeToLocation(270, radius, new ChartEventLocation(locX + (width / 10), locY));
-    
+
             return "M" + SPACE + locX.ToString(culture) + SPACE + locY.ToString(culture) + SPACE + 'L' + SPACE + (locX + radius).ToString(culture) + SPACE + locY.ToString(culture)
                 + SPACE + 'A' + SPACE + radius.ToString(culture) + SPACE + radius.ToString(culture) + SPACE + 0 + SPACE + 1 + SPACE + 1 + SPACE + cartesianlarge.X.ToString(culture)
                 + SPACE + cartesianlarge.Y.ToString(culture) + SPACE + 'Z' + SPACE + 'M' + SPACE + (locX + (width / 10)).ToString(culture) + SPACE + (locY - (height / 10)).ToString(culture)
@@ -640,7 +640,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
         /// </summary>
         /// <param name="cssColor">RGBA or hex color string.</param>
         /// <returns>A hexadecimal color string.</returns>
-        static string rgbaToHex (string cssColor)
+        private static string rgbaToHex (string cssColor)
         {
             cssColor = cssColor.Trim();
             int left = cssColor.IndexOf('(', StringComparison.InvariantCulture);
@@ -650,7 +650,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
             {
                 return cssColor;
             }
-    
+
             string[] parts = cssColor.Substring(left + 1, right - left - 1).Split(',');
 
             int r = int.Parse(parts[0], CultureInfo.InvariantCulture);
@@ -676,7 +676,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
         /// <param name="h">Resulting hue.</param>
         /// <param name="s">Resulting saturation.</param>
         /// <param name="l">Resulting lightness.</param>
-        static void RgbToHsl(Color color, out double h, out double s, out double l)
+        private static void RgbToHsl(Color color, out double h, out double s, out double l)
         {
             double r = color.R / 255.0;
             double g = color.G / 255.0;
@@ -717,7 +717,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
         /// <param name="r">Resulting red component.</param>
         /// <param name="g">Resulting green component.</param>
         /// <param name="b">Resulting blue component.</param>
-        static void HslToRgb(double h, double s, double l, out int r, out int g, out int b)
+        private static void HslToRgb(double h, double s, double l, out int r, out int g, out int b)
         {
             double rd, gd, bd;
             if (s == 0)
@@ -748,7 +748,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
         /// <remarks>
         /// This helper normalizes the hue value to 0–1 range and applies piecewise interpolation.
         /// </remarks>
-        static double HueToRgb(double p, double q, double t)
+        private static double HueToRgb(double p, double q, double t)
         {
             if (t < 0)
             {
@@ -781,22 +781,25 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
         /// <param name="textLocationCollection">Text and Y coordinate collection.</param>
         /// <param name="svgRenderer">The SVG renderer for sequence numbers.</param>
         /// <returns>A render fragment containing the tspans.</returns>
-        static RenderFragment RenderTSpan(string id, string locationX, List<TextLocation> textLocationCollection, SvgRendering svgRenderer) => builder =>
+        private static RenderFragment RenderTSpan(string id, string locationX, List<TextLocation> textLocationCollection, SvgRendering svgRenderer)
         {
-            for (int i = 0; i < textLocationCollection.Count; i++)
+            return builder =>
             {
-                builder.OpenElement(svgRenderer.Seq++, "tspan");
-                Dictionary<string, object> svgattributes = new Dictionary<string, object>
+                for (int i = 0; i < textLocationCollection.Count; i++)
                 {
-                    { "id", id },
-                    { "x", locationX },
-                    { "y", textLocationCollection[i].Y.ToString(CultureInfo.InvariantCulture) }
-                };
-                builder.AddMultipleAttributes(svgRenderer.Seq++, svgattributes);
-                builder.AddContent(svgRenderer.Seq++, textLocationCollection[i].Text);
-                builder.CloseElement();
-            }
-        };
+                    builder.OpenElement(svgRenderer.Seq++, "tspan");
+                    Dictionary<string, object> svgattributes = new Dictionary<string, object>
+                    {
+                        { "id", id },
+                        { "x", locationX },
+                        { "y", textLocationCollection[i].Y.ToString(CultureInfo.InvariantCulture) }
+                    };
+                    builder.AddMultipleAttributes(svgRenderer.Seq++, svgattributes);
+                    builder.AddContent(svgRenderer.Seq++, textLocationCollection[i].Text);
+                    builder.CloseElement();
+                }
+            };
+        }
 
         /// <summary>
         /// Builds a scrollbar theme style object.
@@ -810,7 +813,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
         /// <param name="arrowHover">Arrow hover color.</param>
         /// <param name="backRectBorder">Background border color.</param>
         /// <returns>The scrollbar theme style.</returns>
-        static ScrollbarThemeStyle GetScrollbarStyle(string backRect, string thumb, string circle, string circleHover, string arrow, string grip, string arrowHover = null!, string backRectBorder = null!)
+        private static ScrollbarThemeStyle GetScrollbarStyle(string backRect, string thumb, string circle, string circleHover, string arrow, string grip, string arrowHover = null!, string backRectBorder = null!)
         {
             return new ScrollbarThemeStyle()
             {
@@ -830,7 +833,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
         /// </summary>
         /// <param name="degree">Degree value.</param>
         /// <returns>The radian equivalent.</returns>
-        static double DegreeToRadian(double degree)
+        private static double DegreeToRadian(double degree)
         {
             return degree * (Math.PI / 180);
         }
@@ -839,7 +842,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
         /// Builds plus direction string.
         /// </summary>
         /// <returns>SVG path for plus.</returns>
-        static string BuildPlusDirection(CultureInfo culture, double locationX, double locationY, double width, double height, double x, double y)
+        private static string BuildPlusDirection(CultureInfo culture, double locationX, double locationY, double width, double height, double x, double y)
         {
             return "M" + SPACE + x.ToString(culture) + SPACE + locationY.ToString(culture) + SPACE + "L" + SPACE + (locationX + (width / 2)).ToString(culture) + SPACE + locationY.ToString(culture)
                 + SPACE + 'M' + SPACE + locationX.ToString(culture) + SPACE + (locationY + (height / 2)).ToString(culture) + SPACE + 'L' + SPACE + locationX.ToString(culture) + SPACE + y.ToString(culture);
@@ -849,7 +852,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
         /// Builds cross direction string.
         /// </summary>
         /// <returns>SVG path for cross.</returns>
-        static string BuildCrossDirection(CultureInfo culture, double locationX, double locationY, double width, double height, double x, double y)
+        private static string BuildCrossDirection(CultureInfo culture, double locationX, double locationY, double width, double height, double x, double y)
         {
             return "M" + SPACE + x.ToString(culture) + SPACE + y.ToString(culture) + SPACE + "L" + SPACE + (locationX + (width / 2)).ToString(culture)
                 + SPACE + (locationY + (height / 2)).ToString(culture) + SPACE + 'M' + SPACE + (locationX - (width / 2)).ToString(culture) + SPACE + (locationY + (height / 2)).ToString(culture)
@@ -860,7 +863,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
         /// Builds location Y direction string.
         /// </summary>
         /// <returns>SVG path for location Y.</returns>
-        static string BuildMultiplocationYDirection(CultureInfo culture, double width, double height, double x, double y)
+        private static string BuildMultiplocationYDirection(CultureInfo culture, double width, double height, double x, double y)
         {
             return "M " + x.ToString(culture) + SPACE + y.ToString(culture) + " L " + (x + width).ToString(culture) + SPACE + (y + height).ToString(culture)
                 + " M " + (x + width).ToString(culture) + SPACE + y.ToString(culture) + " L " + x.ToString(culture) + SPACE + (y + height).ToString(culture);
@@ -870,7 +873,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
         /// Builds horizontal line direction string.
         /// </summary>
         /// <returns>SVG path for horizontal line.</returns>
-        static string BuildHorizontalLineDirection(CultureInfo culture, double locationX, double locationY, double width, double x)
+        private static string BuildHorizontalLineDirection(CultureInfo culture, double locationX, double locationY, double width, double x)
         {
             return "M" + SPACE + x.ToString(culture) + SPACE + locationY.ToString(culture) + SPACE + 'L' + SPACE + (locationX + (width / 2)).ToString(culture) + SPACE + locationY.ToString(culture);
         }
@@ -879,7 +882,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
         /// Builds vertical line direction string.
         /// </summary>
         /// <returns>SVG path for vertical line.</returns>
-        static string BuildVerticalLineDirection(CultureInfo culture, double locationX, double locationY, double height)
+        private static string BuildVerticalLineDirection(CultureInfo culture, double locationX, double locationY, double height)
         {
             return "M" + SPACE + locationX.ToString(culture) + SPACE + (locationY + (height / 2)).ToString(culture) + SPACE + 'L'
                 + SPACE + locationX.ToString(culture) + SPACE + (locationY + (-height / 2)).ToString(culture);
@@ -889,7 +892,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
         /// Builds diamond direction string.
         /// </summary>
         /// <returns>SVG path for diamond.</returns>
-        static string BuildDiamondDirection(CultureInfo culture, double locationX, double locationY, double width, double height, double x)
+        private static string BuildDiamondDirection(CultureInfo culture, double locationX, double locationY, double width, double height, double x)
         {
             return "M" + SPACE + x.ToString(culture) + SPACE + locationY.ToString(culture) + SPACE + 'L' + SPACE + locationX.ToString(culture) + SPACE + (locationY + (-height / 2)).ToString(culture)
                 + SPACE + 'L' + SPACE + (locationX + (width / 2)).ToString(culture) + SPACE + locationY.ToString(culture) + SPACE + 'L' + SPACE + locationX.ToString(culture) + SPACE + (locationY + (height / 2)).ToString(culture)
@@ -900,7 +903,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
         /// Builds actual rect direction string.
         /// </summary>
         /// <returns>SVG path for actual rect.</returns>
-        static string BuildActualRectDirection(CultureInfo culture, double locationX, double locationY, double height, double width, double x)
+        private static string BuildActualRectDirection(CultureInfo culture, double locationX, double locationY, double height, double width, double x)
         {
             return "M" + SPACE + x.ToString(culture) + SPACE + (locationY + (-height / 8)).ToString(culture) + SPACE + 'L' + SPACE + (locationX).ToString(culture)
                 + SPACE + (locationY + (-height / 8)).ToString(culture) + SPACE + 'L' + SPACE + (locationX).ToString(culture) + SPACE + (locationY + (height / 8)).ToString(culture)
@@ -911,7 +914,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
         /// Builds target rect direction string.
         /// </summary>
         /// <returns>SVG path for target rect.</returns>
-        static string BuildTargetRectDirection(CultureInfo culture, double locationX, double locationY, double height, double x)
+        private static string BuildTargetRectDirection(CultureInfo culture, double locationX, double locationY, double height, double x)
         {
             return "M" + SPACE + x.ToString(culture) + SPACE + (locationY + (-height / 2)).ToString(culture) + SPACE + 'L' + SPACE + locationX.ToString(culture)
                 + SPACE + (locationY + (-height / 2)).ToString(culture) + SPACE + 'L' + SPACE + locationX.ToString(culture) + SPACE + (locationY + (height / 2)).ToString(culture)
@@ -922,7 +925,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
         /// Builds rectangle direction string.
         /// </summary>
         /// <returns>SVG path for rectangle.</returns>
-        static string BuildRectangleDirection(CultureInfo culture, double locationX, double locationY, double height, double width, double x)
+        private static string BuildRectangleDirection(CultureInfo culture, double locationX, double locationY, double height, double width, double x)
         {
             return "M" + SPACE + x.ToString(culture) + SPACE + (locationY + (-height / 2)).ToString(culture) + SPACE + 'L' + SPACE + (locationX + (width / 2)).ToString(culture)
                 + SPACE + (locationY + (-height / 2)).ToString(culture) + SPACE + 'L' + SPACE + (locationX + (width / 2)).ToString(culture) + SPACE + (locationY + (height / 2)).ToString(culture)
@@ -933,7 +936,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
         /// Builds triangle direction string.
         /// </summary>
         /// <returns>SVG path for triangle.</returns>
-        static string BuildTriangleDirection(CultureInfo culture, double locationX, double locationY, double height, double width, double x)
+        private static string BuildTriangleDirection(CultureInfo culture, double locationX, double locationY, double height, double width, double x)
         {
             return "M" + SPACE + x.ToString(culture) + SPACE + (locationY + (height / 2)).ToString(culture) + SPACE + 'L' + SPACE + locationX.ToString(culture)
                 + SPACE + (locationY + (-height / 2)).ToString(culture) + SPACE + 'L' + SPACE + (locationX + (width / 2)).ToString(culture) + SPACE + (locationY + (height / 2)).ToString(culture)
@@ -944,7 +947,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
         /// Builds funnel direction string.
         /// </summary>
         /// <returns>SVG path for funnel.</returns>
-        static string BuildFunnelDirection(CultureInfo culture, double locationX, double locationY, double height, double width)
+        private static string BuildFunnelDirection(CultureInfo culture, double locationX, double locationY, double height, double width)
         {
             return "M" + SPACE + (locationX + (width / 2)).ToString(culture) + SPACE + (locationY - (height / 2)).ToString(culture) + SPACE + 'L' + SPACE + locationX.ToString(culture)
                 + SPACE + (locationY + (height / 2)).ToString(culture) + SPACE + 'L' + SPACE + (locationX - (width / 2)).ToString(culture) + SPACE + (locationY - (height / 2)).ToString(culture)
@@ -955,7 +958,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
         /// Builds pentagon direction string.
         /// </summary>
         /// <returns>SVG path for pentagon.</returns>
-        static string BuildPentagonDirection(CultureInfo culture, double locationX, double locationY, double height, double width)
+        private static string BuildPentagonDirection(CultureInfo culture, double locationX, double locationY, double height, double width)
         {
             string dir = string.Empty;
             for (int i = 0; i <= 5; i++)
@@ -1499,13 +1502,13 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
             double locationX = location.X, locationY = location.Y;
             double y = location.Y + (-height / 2), x = location.X + (-width / 2);
 
-            SymbolOptions symbolOption = new SymbolOptions { ShapeName = ShapeName.path };
+            SymbolOptions symbolOption = new SymbolOptions { ShapeName = ShapeName.Path };
 
             switch (shape)
             {
                 case "Bubble":
                 case "Circle":
-                    symbolOption.ShapeName = ShapeName.ellipse;
+                    symbolOption.ShapeName = ShapeName.Ellipse;
                     symbolOption.EllipseOption = new EllipseOptions(option.Id, Convert.ToString(width / 2, culture), Convert.ToString(height / 2, culture), Convert.ToString(locationX, culture), Convert.ToString(locationY, culture), option.StrokeDashArray, option.StrokeWidth, option.Stroke, option.Opacity, option.Fill, option.DataPoint);
                     break;
                 case "Plus":
@@ -1553,7 +1556,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
                     option.Direction = BuildPentagonDirection(culture, locationX, locationY, height, width);
                     break;
                 case "Image":
-                    symbolOption.ShapeName = ShapeName.image;
+                    symbolOption.ShapeName = ShapeName.Image;
                     symbolOption.ImageOption = new ImageOptions(option.Id, x, y, width, height, url);
                     break;
             }
@@ -1809,7 +1812,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
             Color initialColor = GetRBGValue(color);
 
             RgbToHsl(initialColor, out double h, out double s, out double l);
-    
+
             l = Math.Max(0, Math.Min(1, l + lightenFactor));
 
             HslToRgb(h, s, l, out int newR, out int newG, out int newB);
@@ -1825,20 +1828,20 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
         /// <returns>The brightened color as hex.</returns>
         internal static string BrightenColor(string color, double brightenFactor, bool isFluentDark = false)
         {
-	        if (string.IsNullOrEmpty(color))
-	        {
-		        return color;
-	        }
+            if (string.IsNullOrEmpty(color))
+            {
+                return color;
+            }
 
-	        brightenFactor = Math.Max(-1, Math.Min(1, brightenFactor));
-	        Color initialColor = GetRBGValue(color);
+            brightenFactor = Math.Max(-1, Math.Min(1, brightenFactor));
+            Color initialColor = GetRBGValue(color);
 
-	        int newR = (int)Math.Round(Math.Min(255, Math.Max(0, initialColor.R + brightenFactor * initialColor.R)));
-	        int newG = (int)Math.Round(Math.Min(255, Math.Max(0, initialColor.G + brightenFactor * initialColor.G)));
-	        int newB = (int)Math.Round(Math.Min(255, Math.Max(0, initialColor.B + brightenFactor * initialColor.B)));
+            int newR = (int)Math.Round(Math.Min(255, Math.Max(0, initialColor.R + brightenFactor * initialColor.R)));
+            int newG = (int)Math.Round(Math.Min(255, Math.Max(0, initialColor.G + brightenFactor * initialColor.G)));
+            int newB = (int)Math.Round(Math.Min(255, Math.Max(0, initialColor.B + brightenFactor * initialColor.B)));
 
-	        string finalRgbaString = $"rgba({newR},{newG},{newB},1)";
-	        return rgbaToHex(finalRgbaString);
+            string finalRgbaString = $"rgba({newR},{newG},{newB},1)";
+            return rgbaToHex(finalRgbaString);
         }
 
         /// <summary>
@@ -2166,7 +2169,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
         /// <param name="clipRect">The clip rectangle.</param>
         /// <param name="isCartesianAxes">Whether cartesian axes are used.</param>
         /// <returns><c>true</c> if colliding; otherwise <c>false</c>.</returns>
-        internal static bool IsCollide(Rect rect, List<Rect> collections, Rect clipRect, bool isCartesianAxes)
+        internal static bool IsCollide(Rect rect, List<Rect> collections, Rect clipRect)
         {
             Rect currentRect = new Rect(rect.X + clipRect.X, rect.Y + clipRect.Y, rect.Width, rect.Height);
             return (collections.Count != 0 && collections.ToArray().Any(rect => currentRect.X < (rect.X + rect.Width) && (currentRect.X + currentRect.Width) > rect.X &&

@@ -17,7 +17,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
         /// Gets the list of formatted tooltip text lines. Never null for the lifetime of the instance.
         /// </summary>
         /// <value>A list of formatted strings.</value>
-        internal List<string> FormattedText { get; set; } = new List<string>();
+        internal List<string> FormattedText { get; set; } = [];
 
         /// <summary>
         /// Gets or sets the raw tooltip text values prior to formatting.
@@ -46,7 +46,10 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
         /// <param name="sfchart">The owning chart instance used to derive services such as JS runtime.</param>
         internal TooltipBase(SfChart sfchart) : base(sfchart)
         {
-            JSRuntime = sfchart.JSRuntime;
+            if (sfchart.JSRuntime != null)
+            {
+                JSRuntime = sfchart.JSRuntime;
+            }
         }
         #endregion
 

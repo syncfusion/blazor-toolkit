@@ -31,6 +31,7 @@ namespace Syncfusion.Blazor.Toolkit.Calendars
         /// <remarks>
         /// This method is called by the Blazor framework when the component is first initialized.
         /// </remarks>
+        /// <exclude/>
         protected override async Task OnInitializedAsync()
         {
             await base.OnInitializedAsync().ConfigureAwait(true);

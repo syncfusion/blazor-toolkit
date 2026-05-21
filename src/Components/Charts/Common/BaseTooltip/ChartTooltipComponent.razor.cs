@@ -12,15 +12,8 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
     public partial class ChartTooltipComponent
     {
         #region Fields
-        object? _templateContext;
-        bool _inverted;
-        bool _isNegative;
-
-        SfChart? _chart;
-        ChartEventLocation? _symbolLocation;
-        ChartEventLocation? _clipLocation;
-        CultureInfo _culture = CultureInfo.InvariantCulture;
-        ChartTooltipInfo? _tooltipTemp;
+        private object? _templateContext;
+        private readonly CultureInfo _culture = CultureInfo.InvariantCulture;
         #endregion
 
         #region Properties
@@ -58,16 +51,19 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
         /// Produces a render fragment for the template content.
         /// </summary>
         /// <returns>A <see cref="RenderFragment"/> that renders the GivenContent with the current context.</returns>
-        RenderFragment TemplateElements() => builder =>
+        private RenderFragment TemplateElements()
         {
-            int seq = 0;
-            if (GivenContent is not null)
+            return builder =>
             {
-                builder.OpenElement(seq++, "div");
-                builder.AddContent(3, GivenContent(_templateContext ?? null!));
-                builder.CloseElement();
-            }
-        };
+                int seq = 0;
+                if (GivenContent is not null)
+                {
+                    builder.OpenElement(seq++, "div");
+                    builder.AddContent(3, GivenContent(_templateContext ?? null!));
+                    builder.CloseElement();
+                }
+            };
+        }
         #endregion
 
         #region Internal Methods
@@ -80,19 +76,8 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
         /// <param name="chartData">Context object passed to the template.</param>
         /// <param name="visible">Whether the tooltip should be visible.</param>
         /// <param name="chart">Reference to the owning chart instance.</param>
-        /// <param name="symbolLocation">Optional symbol location related to the tooltip.</param>
-        /// <param name="clipLocation">Optional clip location used for positioning adjustments.</param>
-        /// <param name="inverted">Whether the chart axes are inverted.</param>
-        /// <param name="isNegative">Indicates negative value state for styling/placement.</param>
-        /// <param name="tooltipTemp">Optional additional tooltip metadata.</param>
-        internal void ChangeContent(RenderFragment<object> data, ChartEventLocation location, object chartData, bool visible = true, SfChart chart = null!, ChartEventLocation symbolLocation = null!, ChartEventLocation clipLocation = null!, bool inverted = false, bool isNegative = false, ChartTooltipInfo tooltipTemp = null!)
+        internal void ChangeContent(RenderFragment<object> data, ChartEventLocation location, object chartData, bool visible = true, SfChart chart = null!)
         {
-            _chart = chart;
-            _symbolLocation = symbolLocation;
-            _clipLocation = clipLocation;
-            _inverted = inverted;
-            _isNegative = isNegative;
-            _tooltipTemp = tooltipTemp;
             _templateContext = chartData;
 
             if (chart is not null)
@@ -101,7 +86,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
             }
 
             GivenContent = data;
-            InvokeAsync(StateHasChanged);
+            _ = InvokeAsync(StateHasChanged);
         }
 
         /// <summary>
@@ -110,7 +95,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
         internal void TemplateFadeOut()
         {
             GivenContent = null!;
-            InvokeAsync(StateHasChanged);
+            _ = InvokeAsync(StateHasChanged);
         }
         #endregion
     }

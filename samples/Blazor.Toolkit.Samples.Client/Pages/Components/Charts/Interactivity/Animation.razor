@@ -100,71 +100,71 @@
     private bool IsDarkTheme => _currentTheme.ToString().Contains("Dark") || _currentTheme.ToString().Contains("HighContrast");
     private string TextColor => IsDarkTheme ? "#E6EEF8" : "#0B1F3B";
     public string AnimationCode = @"<SfChart @key=""@_currentTheme"" Title=""Almond Yield Comparison Across Countries (2010–2022)"" Theme=""@_currentTheme"">
-    <!-- X Axis -->
-    <ChartPrimaryXAxis ValueType=""Syncfusion.Blazor.Toolkit.ValueType.DateTime""
-                       EdgeLabelPlacement=""EdgeLabelPlacement.Shift"">
-    </ChartPrimaryXAxis>
+                <!-- X Axis -->
+                <ChartPrimaryXAxis ValueType=""Syncfusion.Blazor.Toolkit.ValueType.DateTime""
+                                   EdgeLabelPlacement=""EdgeLabelPlacement.Shift"">
+                </ChartPrimaryXAxis>
 
-    <!-- Y Axis -->
-    <ChartPrimaryYAxis Title=""Yield (In Tons per Hectare)"" Maximum=""8"" Interval=""2"">
-    </ChartPrimaryYAxis>
+                <!-- Y Axis -->
+                <ChartPrimaryYAxis Title=""Yield (In Tons per Hectare)"" Maximum=""8"" Interval=""2"">
+                </ChartPrimaryYAxis>
 
-    <!-- Series Collection -->
-    
+                <!-- Series Collection -->
+                
 
-        <ChartSeries DataSource=""@AnimationDataSource.Data""
-                     XName=""X"" YName=""Y1""
-                     Type=""ChartSeriesType.Spline""
-                     Name=""United States""
-                     Width=""3"">
-            <ChartSeriesAnimation Enable=""true"" Duration=""1000""/>
-        </ChartSeries>
+                    <ChartSeries DataSource=""@AnimationDataSource.Data""
+                                 XName=""X"" YName=""Y1""
+                                 Type=""ChartSeriesType.Spline""
+                                 Name=""United States""
+                                 Width=""3"">
+                        <ChartSeriesAnimation Enable=""true"" Duration=""1000""/>
+                    </ChartSeries>
 
-        <ChartSeries DataSource=""@AnimationDataSource.Data""
-                     XName=""X"" YName=""Y2""
-                     Type=""ChartSeriesType.Spline""
-                     Name=""China""
-                     Width=""3"">
-            <ChartSeriesAnimation Enable=""true"" Delay=""1500"" Duration=""1000""/>
-        </ChartSeries>
+                    <ChartSeries DataSource=""@AnimationDataSource.Data""
+                                 XName=""X"" YName=""Y2""
+                                 Type=""ChartSeriesType.Spline""
+                                 Name=""China""
+                                 Width=""3"">
+                        <ChartSeriesAnimation Enable=""true"" Delay=""1500"" Duration=""1000""/>
+                    </ChartSeries>
 
-        <ChartSeries DataSource=""@AnimationDataSource.Data""
-                     XName=""X"" YName=""Y3""
-                     Type=""ChartSeriesType.Spline""
-                     Name=""Afghanistan""
-                     Width=""3"">
-            <ChartSeriesAnimation Enable=""true"" Delay=""3000"" Duration=""1000""/>
-        </ChartSeries>
+                    <ChartSeries DataSource=""@AnimationDataSource.Data""
+                                 XName=""X"" YName=""Y3""
+                                 Type=""ChartSeriesType.Spline""
+                                 Name=""Afghanistan""
+                                 Width=""3"">
+                        <ChartSeriesAnimation Enable=""true"" Delay=""3000"" Duration=""1000""/>
+                    </ChartSeries>
 
-        <ChartSeries DataSource=""@AnimationDataSource.Data""
-                     XName=""X"" YName=""Y4""
-                     Type=""ChartSeriesType.Spline""
-                     Name=""Yemen""
-                     Width=""3"">
-            <ChartSeriesAnimation Enable=""true"" Delay=""4500"" Duration=""1000""/>
-        </ChartSeries>
+                    <ChartSeries DataSource=""@AnimationDataSource.Data""
+                                 XName=""X"" YName=""Y4""
+                                 Type=""ChartSeriesType.Spline""
+                                 Name=""Yemen""
+                                 Width=""3"">
+                        <ChartSeriesAnimation Enable=""true"" Delay=""4500"" Duration=""1000""/>
+                    </ChartSeries>
 
-        <ChartSeries DataSource=""@AnimationDataSource.Data""
-                     XName=""X"" YName=""Y""
-                     Type=""ChartSeriesType.Spline""
-                     Name=""Australia""
-                     Width=""3"">
-            <ChartSeriesAnimation Enable=""true"" Delay=""6000"" Duration=""1000""/>
-        </ChartSeries>
+                    <ChartSeries DataSource=""@AnimationDataSource.Data""
+                                 XName=""X"" YName=""Y""
+                                 Type=""ChartSeriesType.Spline""
+                                 Name=""Australia""
+                                 Width=""3"">
+                        <ChartSeriesAnimation Enable=""true"" Delay=""6000"" Duration=""1000""/>
+                    </ChartSeries>
 
-    
+                
 
-    <!-- Tooltip -->
-    <ChartTooltipSettings Enable=""true""
-                          Format=""${series.name}: <b>${point.y}</b>""/>
+                <!-- Tooltip -->
+                <ChartTooltipSettings Enable=""true""
+                                      Format=""${series.name}: <b>${point.y}</b>""/>
 
-    <!-- Legend -->
-    <ChartLegendSettings Visible=""true""/>
+                <!-- Legend -->
+                <ChartLegendSettings Visible=""true""/>
 
-</SfChart>
+            </SfChart>
 
 @code{
-
+     private Theme _currentTheme = Theme.Fluent;
     public class AnimationData
     {
         public DateTime X { get; set; }

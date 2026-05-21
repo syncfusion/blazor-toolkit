@@ -333,7 +333,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
                 y_Location = CalculatePathPosition(y, rect, isminus, GetPosition(positionIndex), series, point, size, labelIndex);
                 Rect labelRect = ChartHelper.CalculateRect(new ChartEventLocation(_locationX, y_Location), size, _margin);
 
-                isOverLap = labelRect.Y < 0 || ChartHelper.IsCollide(labelRect, collection, SeriesRenderer?.ClipRect ?? null!, Owner?._chartAreaType == ChartAreaType.CartesianAxes) || (labelRect.Y + labelRect.Height) > SeriesRenderer?.ClipRect?.Height;
+                isOverLap = labelRect.Y < 0 || ChartHelper.IsCollide(labelRect, collection, SeriesRenderer?.ClipRect ?? null!) || (labelRect.Y + labelRect.Height) > SeriesRenderer?.ClipRect?.Height;
                 positionIndex = isBottom ? positionIndex - 1 : positionIndex + 1;
                 isBottom = false;
             }
@@ -545,7 +545,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
 
             if (!_inverted)
             {
-                baseOverlap = labelRect.Y < 0 || (!_isRotationEnabled && _labelAngle == 0 && ChartHelper.IsCollide(labelRect, dataLabelCollection, SeriesRenderer?.ClipRect ?? null!, Owner?._chartAreaType == ChartAreaType.CartesianAxes)) || labelRect.Y + labelRect.Height > SeriesRenderer?.ClipRect?.Height;
+                baseOverlap = labelRect.Y < 0 || (!_isRotationEnabled && _labelAngle == 0 && ChartHelper.IsCollide(labelRect, dataLabelCollection, SeriesRenderer?.ClipRect ?? null!)) || labelRect.Y + labelRect.Height > SeriesRenderer?.ClipRect?.Height;
                 if (Series.Marker.DataLabel.Template is null && !baseOverlap && position != ChartLabelPosition.Outer)
                 {
                     baseOverlap = ((labelRect.Y / 2) + size.Height + point?.Regions[0].Height - (2 * extraSpace)) > series.Renderer.ClipRect?.Height;
@@ -553,7 +553,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
             }
             else
             {
-                baseOverlap = labelRect.X < 0 || (!_isRotationEnabled && _labelAngle == 0 && ChartHelper.IsCollide(labelRect, dataLabelCollection, SeriesRenderer?.ClipRect ?? null!, Owner?._chartAreaType == ChartAreaType.CartesianAxes)) || labelRect.X + labelRect.Width > SeriesRenderer?.ClipRect?.Width;
+                baseOverlap = labelRect.X < 0 || (!_isRotationEnabled && _labelAngle == 0 && ChartHelper.IsCollide(labelRect, dataLabelCollection, SeriesRenderer?.ClipRect ?? null!)) || labelRect.X + labelRect.Width > SeriesRenderer?.ClipRect?.Width;
             }
             return baseOverlap;
         }
@@ -658,7 +658,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
             string id;
             ChartAxisRenderer xAxisRenderer = SeriesRenderer?.XAxisRenderer ?? null!;
 
-            if ((!ChartHelper.IsCollide(rect, Owner?._seriesContainer?._dataLabelCollection ?? null!, clip, Owner?._chartAreaType == ChartAreaType.CartesianAxes) || dataLabel.LabelIntersectAction == "None") && (SeriesRenderer?.SeriesType() != SeriesValueType.XY || point.YValue.Equals(double.NaN) ||
+            if ((!ChartHelper.IsCollide(rect, Owner?._seriesContainer?._dataLabelCollection ?? null!, clip) || dataLabel.LabelIntersectAction == "None") && (SeriesRenderer?.SeriesType() != SeriesValueType.XY || point.YValue.Equals(double.NaN) ||
                 ChartHelper.WithIn(point.YValue, SeriesRenderer.YAxisRenderer.VisibleRange) || (series.SeriesType is not null && series.SeriesType.Contains("100", StringComparison.InvariantCulture) && ChartHelper.WithIn(SeriesRenderer.StackedValues?.EndValues[point.Index] ?? 0, SeriesRenderer.YAxisRenderer.VisibleRange))) &&
                 ChartHelper.WithIn(point.XValue, xAxisRenderer.VisibleRange) && posY >= v_Axis.Rect.Y && posX >= h_Axis.Rect.X && posY <= v_Axis.Rect.Y + v_Axis.Rect.Height && posX <= h_Axis.Rect.X + h_Axis.Rect.Width)
             {
@@ -703,11 +703,8 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
             }
 
             string transform = string.Empty, clipPath = string.Empty;
-            if (Owner?._chartAreaType == ChartAreaType.CartesianAxes)
-            {
-                transform = "translate(" + SeriesRenderer?.ClipRect?.X.ToString(_culture) + "," + SeriesRenderer?.ClipRect?.Y.ToString(_culture) + ")";
-                clipPath = "url(#" + Owner.ID + "_ChartSeriesClipRect_" + SeriesIndex() + ')';
-            }
+            transform = "translate(" + SeriesRenderer?.ClipRect?.X.ToString(_culture) + "," + SeriesRenderer?.ClipRect?.Y.ToString(_culture) + ")";
+            clipPath = "url(#" + Owner.ID + "_ChartSeriesClipRect_" + SeriesIndex() + ')';
 
             List<RectOptions> stackLabelRects = Owner?._stackLabelRenderer?._rectOptions ?? [];
 
@@ -1150,7 +1147,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
             }
             else
             {
-                isNotOverlapping = dataLabel.LabelIntersectAction == "None" || !ChartHelper.IsCollide(rect, Owner?._seriesContainer?._dataLabelCollection ?? null!, SeriesRenderer?.ClipRect ?? null!, Owner?._chartAreaType == ChartAreaType.CartesianAxes);
+                isNotOverlapping = dataLabel.LabelIntersectAction == "None" || !ChartHelper.IsCollide(rect, Owner?._seriesContainer?._dataLabelCollection ?? null!, SeriesRenderer?.ClipRect ?? null!);
             }
 
             return new OverlapCheckResult { IsNotOverlapping = isNotOverlapping, RectPoints = rectPoints };
@@ -1283,12 +1280,11 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
         /// <param name="series">The chart series containing the label.</param>
         private void AdjustPositionForClipping(ref double xPos, ref double yPos, Size textSize, Rect clip, ChartSeries series)
         {
-            xPos -= Owner?._chartAreaType == ChartAreaType.CartesianAxes && xPos + (textSize.Width / 2) > clip.Width
+            xPos -= xPos + (textSize.Width / 2) > clip.Width
                 ? (!Owner._requireInvertedAxis && xPos > clip.Width) ? 0 : xPos + (textSize.Width / 2) - clip.Width
                 : 0;
 
-            yPos -= (Owner?._chartAreaType == ChartAreaType.CartesianAxes
-                && yPos + textSize.Height > clip.Y + clip.Height
+            yPos -= (yPos + textSize.Height > clip.Y + clip.Height
                 && !(series.SeriesType is not null && series.SeriesType.Contains("Bar", StringComparison.OrdinalIgnoreCase)))
                 ? yPos + textSize.Height - (clip.Y + clip.Height)
                 : 0;

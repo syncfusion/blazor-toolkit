@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Components;
+using System.ComponentModel;
 
 namespace Syncfusion.Blazor.Toolkit.Charts
 {
@@ -40,10 +41,12 @@ namespace Syncfusion.Blazor.Toolkit.Charts
             Trendline?.TrendlineInitiator?.UpdateTrendlineAnimation();
         }
 
-        /// <exclude />
         /// <summary>
         /// Propagates parameter changes to the parent <see cref="ChartTrendline"/>.
         /// </summary>
+        /// <exclude />
+        [EditorBrowsable(EditorBrowsableState.Never)]
+        [Browsable(false)]
         protected override void OnParametersSet()
         {
             base.OnParametersSet();
@@ -53,6 +56,9 @@ namespace Syncfusion.Blazor.Toolkit.Charts
         /// <summary>
         /// Disposes the animation component and clears references to prevent memory leaks.
         /// </summary>
+        /// <exclude />
+        [EditorBrowsable(EditorBrowsableState.Never)]
+        [Browsable(false)]
         protected override ValueTask DisposeAsyncCore()
         {
             Trendline = null;

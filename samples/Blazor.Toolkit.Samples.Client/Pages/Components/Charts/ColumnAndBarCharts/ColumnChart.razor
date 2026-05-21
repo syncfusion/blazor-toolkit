@@ -106,16 +106,16 @@
 <VirtualizeSection MinHeightPx="600px">
     <CodePreview IsFullWidth="true" CodeSection="@stackingColumnCode">
     <PreviewSection>
-        <SfChart @key="@_currentTheme" Title="Global Cotton Production by Country (2019–2024)" Theme="@_currentTheme">
+        <SfChart @key="@_currentTheme" Title="Global Cotton Production by Country (2019–2024)" Theme="@_currentTheme" TooltipRender="OnTooltipRender">
             <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Toolkit.ValueType.Category" Interval="1"></ChartPrimaryXAxis>
             <ChartPrimaryYAxis Title="Production (60KG Bags)" Interval="20">
                 <ChartAxisLineStyle Width="0"/>
             </ChartPrimaryYAxis>
-            <ChartTooltipSettings Enable="true" Header="${point.x}" Format="Total: ${point.tooltip}" />
+            <ChartTooltipSettings Enable="true" Header="${point.x}" Format="Total: ${point.stackedValue}" />
             
-                <ChartSeries DataSource="Data" XName="X" YName="Y1" Name="India" Type="ChartSeriesType.StackingColumn" Fill="#5C6BC0" ColumnWidth="0.4" TooltipMappingName="Total"></ChartSeries>
-                <ChartSeries DataSource="Data" XName="X" YName="Y2" Name="China" Type="ChartSeriesType.StackingColumn" Fill="#00796B" ColumnWidth="0.4" TooltipMappingName="Total"></ChartSeries>
-                <ChartSeries DataSource="Data" XName="X" YName="Y3" Name="United States" Type="ChartSeriesType.StackingColumn" Fill="#B71C1C" ColumnWidth="0.4" TooltipMappingName="Total"></ChartSeries>
+                <ChartSeries DataSource="Data" XName="X" YName="Y1" Name="India" Type="ChartSeriesType.StackingColumn" Fill="#5C6BC0" ColumnWidth="0.4"></ChartSeries>
+                <ChartSeries DataSource="Data" XName="X" YName="Y2" Name="China" Type="ChartSeriesType.StackingColumn" Fill="#00796B" ColumnWidth="0.4"></ChartSeries>
+                <ChartSeries DataSource="Data" XName="X" YName="Y3" Name="United States" Type="ChartSeriesType.StackingColumn" Fill="#B71C1C" ColumnWidth="0.4"></ChartSeries>
             
         </SfChart>
     </PreviewSection>
@@ -271,7 +271,7 @@
     <CodePreview IsFullWidth="true" CodeSection="@negativeDataCode">
     <PreviewSection>
         <SfChart @key="@_currentTheme" Title="Global Ocean Temperature Anomalies (1880-2022)" Theme="@_currentTheme">
-            <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Toolkit.ValueType.Double" Minimum="1880" Maximum="2022" Interval="20"></ChartPrimaryXAxis>
+            <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Toolkit.ValueType.Double" Maximum="2022" Interval="20"></ChartPrimaryXAxis>
             <ChartPrimaryYAxis Title="Temperature Anomaly (°C)" Minimum="-0.5" Maximum="0.8" Interval="0.2" Format="{value}°C"></ChartPrimaryYAxis>
             
                     <ChartSeries DataSource="@rectSeriesNegativeData" XName="Year" YName="Anomaly" Type="ChartSeriesType.Column" PointColorMapping="Color">
@@ -383,13 +383,13 @@
                 <ChartAxisMajorGridLines Width="1"></ChartAxisMajorGridLines>
             </ChartPrimaryYAxis>
             
-                <ChartSeries DataSource="@ColumnWithTrackData" XName="MilkType" YName="BottleEffect" Type="ChartSeriesType.Column" Name="Bottle Effect" Fill="#f0f0fd" Opacity="0.9" ColumnWidth="0.55" ColumnSpacing="0.6">
+                <ChartSeries DataSource="@ColumnWithTrackData" XName="MilkType" YName="BottleEffect" Type="ChartSeriesType.Column" Name="Bottle Effect" Fill="#f0f0fd" Opacity="0.9" ColumnWidth="0.45" ColumnSpacing="0.6">
                     <ChartCornerRadius TopLeft="6" TopRight="6"/>
                 </ChartSeries>
-                <ChartSeries DataSource="@ColumnWithTrackData" XName="MilkType" YName="BottleNeck" Type="ChartSeriesType.Column" Name="Bottle Neck" Fill="#f0f0fd" Opacity="0.9" ColumnWidth="0.45" ColumnSpacing="0.6">
+                <ChartSeries DataSource="@ColumnWithTrackData" XName="MilkType" YName="BottleNeck" Type="ChartSeriesType.Column" Name="Bottle Neck" Fill="#f0f0fd" Opacity="0.9" ColumnWidth="0.55" ColumnSpacing="0.6">
                     <ChartCornerRadius TopLeft="10" TopRight="10"/>
                 </ChartSeries>
-                <ChartSeries DataSource="@ColumnWithTrackData" XName="MilkType" YName="WaterUsage" Type="ChartSeriesType.Column" Name="Water Usage" Fill="url(#gradient-fill-track)" ColumnWidth="0.45" ColumnSpacing="0.6">
+                <ChartSeries DataSource="@ColumnWithTrackData" XName="MilkType" YName="WaterUsage" Type="ChartSeriesType.Column" Name="Water Usage" Fill="url(#gradient-fill-track)" ColumnWidth="0.55" ColumnSpacing="0.6">
                     <ChartCornerRadius TopLeft="6" TopRight="6"/>
                 </ChartSeries>
             
@@ -570,25 +570,36 @@
     // --- Code Snippets for Documentation ---
 
     public string overviewCode = @"<SfChart @key=""@_currentTheme"" Title=""Walnuts and Almonds Estimated Production for 2023"" Theme=""@_currentTheme"">
-    <ChartPrimaryXAxis LabelIntersectAction=""LabelIntersectAction.Trim"" Interval=""1"" ValueType=""Syncfusion.Blazor.Toolkit.ValueType.Category""></ChartPrimaryXAxis>
-    <ChartPrimaryYAxis Title=""Metric Tons"" Interval=""50"" Maximum=""200"">
-        <ChartAxisLineStyle Width=""0""/>
-    </ChartPrimaryYAxis>
-    
-        <ChartSeries DataSource=""@columnData"" Fill=""#00C5BC"" ColumnWidth=""0.5"" ColumnSpacing=""0.15"" XName=""Country"" YName=""Walnuts"" Name=""Walnuts"" Type=""ChartSeriesType.Column"">
-            <ChartMarker><ChartDataLabel Visible=""true""></ChartDataLabel></ChartMarker>
-            <ChartCornerRadius TopLeft=""11"" TopRight=""11""></ChartCornerRadius>
-        </ChartSeries>
-        <ChartSeries DataSource=""@columnData"" Fill=""#BA7DDA"" ColumnWidth=""0.5"" ColumnSpacing=""0.15"" XName=""Country"" YName=""Almonds"" Name=""Almonds"" Type=""ChartSeriesType.Column"">
-            <ChartMarker><ChartDataLabel Visible=""true""></ChartDataLabel></ChartMarker>
-            <ChartCornerRadius TopLeft=""11"" TopRight=""11""></ChartCornerRadius>
-        </ChartSeries>
-    
-    <ChartTooltipSettings Enable=""true"" />
-</SfChart>
+            <ChartPrimaryXAxis LabelIntersectAction=""LabelIntersectAction.Trim"" LabelRotation=""0"" Interval=""1"" ValueType=""Syncfusion.Blazor.Toolkit.ValueType.Category""></ChartPrimaryXAxis>
+            <ChartPrimaryYAxis Title=""Metric Tons"" Interval=""50"" Maximum=""200"">
+                <ChartAxisLineStyle Width=""0""/>
+            </ChartPrimaryYAxis>
+            
+                <ChartSeries DataSource=""@columnData"" Fill=""#00C5BC"" ColumnWidth=""0.5"" ColumnSpacing=""0.15"" LegendShape=""LegendShape.Rectangle"" XName=""Country"" YName=""Walnuts"" Name=""Walnuts"" Type=""ChartSeriesType.Column"">
+                    <ChartMarker>
+                        <ChartDataLabel Visible=""true"">
+                            <ChartDataLabelFont Color=""@TextColor""></ChartDataLabelFont>
+                        </ChartDataLabel>
+                    </ChartMarker>
+                    <ChartCornerRadius TopLeft=""10"" TopRight=""10""/>
+                </ChartSeries>
+                <ChartSeries DataSource=""@columnData"" Fill=""#BA7DDA"" ColumnWidth=""0.5"" ColumnSpacing=""0.15"" LegendShape=""LegendShape.Rectangle"" XName=""Country"" YName=""Almonds"" Name=""Almonds"" Type=""ChartSeriesType.Column"">
+                    <ChartMarker>
+                        <ChartDataLabel Visible=""true"">
+                            <ChartDataLabelFont Color=""@TextColor""></ChartDataLabelFont>
+                        </ChartDataLabel>
+                    </ChartMarker>
+                    <ChartCornerRadius TopLeft=""10"" TopRight=""10""/>
+                </ChartSeries>
+            
+                <ChartTooltipSettings Enable=""true"" />
+        </SfChart>
 
 @code {
     private Theme _currentTheme = Theme.Fluent;
+
+     private bool IsDarkTheme => _currentTheme.ToString().Contains(""Dark"") || _currentTheme.ToString().Contains(""HighContrast"");
+     private string TextColor => IsDarkTheme ? ""#E6EEF8"" : ""#0B1F3B"";
 
     public class ProductionData
     {
@@ -608,23 +619,35 @@
 }";
 
     public string dataLabelCode = @"<SfChart @key=""@_currentTheme"" Theme=""@_currentTheme"">
-    <ChartPrimaryXAxis ValueType=""Syncfusion.Blazor.Toolkit.ValueType.Category"" Interval=""1""></ChartPrimaryXAxis>
-    <ChartPrimaryYAxis Title=""Metric Tons""><ChartAxisLineStyle Width=""0""></ChartAxisLineStyle></ChartPrimaryYAxis>
-    
-        <ChartSeries DataSource=""@columnData"" XName=""Country"" YName=""Walnuts"" Type=""ChartSeriesType.Column"" Name=""Walnuts"" Fill=""#00C5BC"" ColumnWidth=""0.5"" ColumnSpacing=""0.15"">
-            <ChartMarker><ChartDataLabel Visible=""true"" EnableRotation=""true"" Format=""{value}K""></ChartDataLabel></ChartMarker>
-            <ChartCornerRadius TopLeft=""11"" TopRight=""11""></ChartCornerRadius>
-        </ChartSeries>
-        <ChartSeries DataSource=""@columnData"" XName=""Country"" YName=""Almonds"" Type=""ChartSeriesType.Column"" Name=""Almonds"" Fill=""#BA7DDA"" ColumnWidth=""0.5"" ColumnSpacing=""0.15"">
-            <ChartMarker><ChartDataLabel Visible=""true"" EnableRotation=""true"" Format=""{value}K""></ChartDataLabel></ChartMarker>
-            <ChartCornerRadius TopLeft=""11"" TopRight=""11""></ChartCornerRadius>
-        </ChartSeries>
-    
-    <ChartTooltipSettings Enable=""true"" Header=""${point.x}"" Format=""${series.name}: <b>${point.y}K</b>""></ChartTooltipSettings>
-</SfChart>
+            <ChartPrimaryXAxis ValueType=""Syncfusion.Blazor.Toolkit.ValueType.Category"" Interval=""1""></ChartPrimaryXAxis>
+            <ChartPrimaryYAxis Title=""Metric Tons"">
+                <ChartAxisLineStyle Width=""0""></ChartAxisLineStyle>
+            </ChartPrimaryYAxis>
+            
+                <ChartSeries DataSource=""@columnData"" XName=""Country"" YName=""Walnuts"" Type=""ChartSeriesType.Column"" Name=""Walnuts"" Fill=""#00C5BC"" ColumnWidth=""0.5"" ColumnSpacing=""0.15"">
+                    <ChartMarker>
+                        <ChartDataLabel Visible=""true"" EnableRotation=""true"" Format=""{value}K"">
+                            <ChartDataLabelFont Color=""@TextColor""></ChartDataLabelFont>
+                        </ChartDataLabel>
+                    </ChartMarker>
+                    <ChartCornerRadius TopLeft=""11"" TopRight=""11""></ChartCornerRadius>
+                </ChartSeries>
+                <ChartSeries DataSource=""@columnData"" XName=""Country"" YName=""Almonds"" Type=""ChartSeriesType.Column"" Name=""Almonds"" Fill=""#BA7DDA"" ColumnWidth=""0.5"" ColumnSpacing=""0.15"">
+                    <ChartMarker>
+                        <ChartDataLabel Visible=""true"" EnableRotation=""true"" Format=""{value}K"">
+                            <ChartDataLabelFont Color=""@TextColor""></ChartDataLabelFont>
+                        </ChartDataLabel>
+                    </ChartMarker>
+                    <ChartCornerRadius TopLeft=""11"" TopRight=""11""></ChartCornerRadius>
+                </ChartSeries>
+            
+            <ChartTooltipSettings Enable=""true"" Header=""${point.x}"" Format=""${series.name}: <b>${point.y}K</b>""></ChartTooltipSettings>
+        </SfChart>
 
 @code {
     private Theme _currentTheme = Theme.Fluent;
+    private bool IsDarkTheme => _currentTheme.ToString().Contains(""Dark"") || _currentTheme.ToString().Contains(""HighContrast"");
+    private string TextColor => IsDarkTheme ? ""#E6EEF8"" : ""#0B1F3B"";
 
     public class ProductionData
     {
@@ -640,7 +663,7 @@
     };
 }";
 
-    public string stackingColumnCode = @"<SfChart @key=""@_currentTheme"" Title=""Global Cotton Production (2019–2024)"" Theme=""@_currentTheme"">
+    public string stackingColumnCode = @"<SfChart @key=""@_currentTheme"" Title=""Global Cotton Production (2019–2024)"" Theme=""@_currentTheme"" TooltipRender=""OnTooltipRender"">
     <ChartPrimaryXAxis ValueType=""Syncfusion.Blazor.Toolkit.ValueType.Category"" Interval=""1""></ChartPrimaryXAxis>
     <ChartPrimaryYAxis Title=""Production (60KG Bags)"" Interval=""20""><ChartAxisLineStyle Width=""0""/></ChartPrimaryYAxis>
     
@@ -652,23 +675,37 @@
 </SfChart>
 
 @code {
+   private void OnTooltipRender(TooltipRenderEventArgs args)
+   {
+        var dataPoint = Data.FirstOrDefault(d => d.X == args.Data.PointX.ToString());
+
+        if (dataPoint != null)
+        {
+            double total = dataPoint.Y1 + dataPoint.Y2 + dataPoint.Y3;
+
+            args.Text = $""{args.Data.PointX}<br/>Total: {total:F1} M"";
+        }
+    }
     private Theme _currentTheme = Theme.Fluent;
     public class StackingColumnData { public string X { get; set; } public double Y1 { get; set; } public double Y2 { get; set; } public double Y3 { get; set; } }
     public List<StackingColumnData> Data = new() { new StackingColumnData { X = ""2019"", Y1 = 28.5, Y2 = 26.9, Y3 = 19.9 } };
 }";
 
-    public string stackingLabelCode = @"<SfChart @key=""@_currentTheme"" Title=""Cotton Production"" Theme=""@_currentTheme"">
-    <ChartPrimaryXAxis ValueType=""Syncfusion.Blazor.Toolkit.ValueType.Category"" Interval=""1""></ChartPrimaryXAxis>
-    <ChartPrimaryYAxis Interval=""20""><ChartAxisLineStyle Width=""0""/></ChartPrimaryYAxis>
-   
-    <ChartStackLabelSettings Visible=""true""></ChartStackLabelSettings>
-    <ChartSeriesCollection>
-        <ChartSeries DataSource=""@Data"" XName=""X"" YName=""Y1"" Name=""India"" Type=""ChartSeriesType.StackingColumn"" Fill=""#5C6BC0"" ColumnWidth=""0.4""></ChartSeries>
-        <ChartSeries DataSource=""@Data"" XName=""X"" YName=""Y3"" Name=""United States"" Type=""ChartSeriesType.StackingColumn"" Fill=""#B71C1C"" ColumnWidth=""0.4"">
-            <ChartCornerRadius TopLeft=""5"" TopRight=""5""></ChartCornerRadius>
-        </ChartSeries>
-    
-</SfChart>
+    public string stackingLabelCode = @" <SfChart @key=""@_currentTheme"" Title=""Global Cotton Production by Country (2019–2024)"" Theme=""@_currentTheme"">
+            <ChartTooltipSettings Enable=""true"" Header=""${point.x}""/>
+            <ChartPrimaryXAxis ValueType=""Syncfusion.Blazor.Toolkit.ValueType.Category"" Interval=""1""></ChartPrimaryXAxis>
+            <ChartPrimaryYAxis Interval=""20""><ChartAxisLineStyle Width=""0""/></ChartPrimaryYAxis>
+            <ChartStackLabelSettings Visible=""true""></ChartStackLabelSettings>
+            
+            <ChartStackLabelSettings Visible=""true""></ChartStackLabelSettings>
+            <ChartSeriesCollection>
+                <ChartSeries DataSource=""Data"" XName=""X"" YName=""Y1"" Name=""India"" Type=""ChartSeriesType.StackingColumn"" Fill=""#5C6BC0"" ColumnWidth=""0.4""></ChartSeries>
+                <ChartSeries DataSource=""Data"" XName=""X"" YName=""Y2"" Name=""China"" Type=""ChartSeriesType.StackingColumn"" Fill=""#00796B"" ColumnWidth=""0.4""></ChartSeries>
+                <ChartSeries DataSource=""Data"" XName=""X"" YName=""Y3"" Name=""United States"" Type=""ChartSeriesType.StackingColumn"" Fill=""#B71C1C"" ColumnWidth=""0.4"">
+                    <ChartCornerRadius TopLeft=""5"" TopRight=""5""></ChartCornerRadius>
+                </ChartSeries>
+                </ChartSeriesCollection>
+        </SfChart>
 
 @code {
     private Theme _currentTheme = Theme.Fluent;
@@ -676,80 +713,127 @@
     public List<StackingColumnData> Data = new() { new StackingColumnData { X = ""2019"", Y1 = 28.5, Y3 = 19.9 } };
 }";
 
-    public string stackingGroupCode = @"<SfChart @key=""@_currentTheme"" Title=""Steel Production Grouped"" Theme=""@_currentTheme"">
-    <ChartPrimaryXAxis ValueType=""Syncfusion.Blazor.Toolkit.ValueType.Category"" Interval=""1"" />
-    <ChartPrimaryYAxis Maximum=""60"" Interval=""10""><ChartAxisLineStyle Width=""0""/></ChartPrimaryYAxis>
-    
-        <ChartSeries DataSource=""@Data"" XName=""X"" YName=""Y1"" Name=""Iran"" Type=""ChartSeriesType.StackingColumn"" StackingGroup=""Asia"" Fill=""#035B83""></ChartSeries>
-        <ChartSeries DataSource=""@Data"" XName=""X"" YName=""Y2"" Name=""Indonesia"" Type=""ChartSeriesType.StackingColumn"" StackingGroup=""Asia"" Fill=""#FEB938"">
-            <ChartCornerRadius TopLeft=""5"" TopRight=""5""></ChartCornerRadius>
-        </ChartSeries>
-    
-</SfChart>
+    public string stackingGroupCode = @"<SfChart @key=""@_currentTheme"" Title=""Steel Production by Countries, Grouped by Continent"" Theme=""@_currentTheme"">
+            <ChartPrimaryXAxis ValueType=""Syncfusion.Blazor.Toolkit.ValueType.Category"" Interval=""1""/>
+            <ChartPrimaryYAxis Maximum=""60"" Interval=""10""><ChartAxisLineStyle Width=""0""/></ChartPrimaryYAxis>
+            <ChartTooltipSettings Enable=""true""/>
+            
+                <ChartSeries DataSource=""stackingColumnGroupData"" XName=""X"" YName=""Y1"" Name=""Iran"" Type=""ChartSeriesType.StackingColumn"" StackingGroup=""Asia"" ColumnSpacing=""0.2"" Fill=""#035B83""></ChartSeries>
+                <ChartSeries DataSource=""stackingColumnGroupData"" XName=""X"" YName=""Y2"" Name=""Indonesia"" Type=""ChartSeriesType.StackingColumn"" StackingGroup=""Asia"" ColumnSpacing=""0.2"" Fill=""#FEB938"">
+                    <ChartCornerRadius TopLeft=""5"" TopRight=""5""></ChartCornerRadius>
+                </ChartSeries>
+                <ChartSeries DataSource=""stackingColumnGroupData"" XName=""X"" YName=""Y3"" Name=""Italy"" Type=""ChartSeriesType.StackingColumn"" StackingGroup=""Europe"" ColumnSpacing=""0.2"" Fill=""#7A5195""></ChartSeries>
+                <ChartSeries DataSource=""stackingColumnGroupData"" XName=""X"" YName=""Y4"" Name=""France"" Type=""ChartSeriesType.StackingColumn"" StackingGroup=""Europe"" ColumnSpacing=""0.2"" Fill=""#EF5675"">
+                    <ChartCornerRadius TopLeft=""5"" TopRight=""5""></ChartCornerRadius>
+                </ChartSeries>
+            
+        </SfChart>
 
 @code {
     private Theme _currentTheme = Theme.Fluent;
-    public class StackingGroupData { public string X { get; set; } public double Y1 { get; set; } public double Y2 { get; set; } }
-    public List<StackingGroupData> Data = new() { new() { X = ""2018"", Y1 = 24.5, Y2 = 6.2 } };
+    public class StackingGroupDataModel { public string X { get; set; } public double Y1 { get; set; } public double Y2 { get; set; } public double Y3 { get; set; } public double Y4 { get; set; } }
+    public List<StackingGroupDataModel> stackingColumnGroupData = new() { new() { X = ""2018"", Y1 = 24.5, Y2 = 6.2, Y3 = 24.5, Y4 = 15.4 }, new() { X = ""2019"", Y1 = 25.6, Y2 = 15.6, Y3 = 23.2, Y4 = 21.1 } };
 }";
 
-    public string percentStackingCode = @"<SfChart @key=""@_currentTheme"" Title=""100% Stacking Column"" Theme=""@_currentTheme"">
-    <ChartPrimaryXAxis ValueType=""Syncfusion.Blazor.Toolkit.ValueType.Category"" Interval=""1""/>
-    <ChartPrimaryYAxis Minimum=""0"" Maximum=""100"" Interval=""20"" LabelFormat=""{value}%""/>
-    
-        <ChartSeries DataSource=""@IndiaData"" XName=""X"" YName=""Y"" Type=""ChartSeriesType.StackingColumn100"" Name=""India"" Fill=""#05B3DA""></ChartSeries>
-        <ChartSeries DataSource=""@USData"" XName=""X"" YName=""Y"" Type=""ChartSeriesType.StackingColumn100"" Name=""US"" Fill=""#6200EE""></ChartSeries>
-    
-</SfChart>
+    public string percentStackingCode = @"<SfChart @key=""@_currentTheme"" Title=""Global Cotton Production by Country (2021–2024)"" Theme=""@_currentTheme"">
+            <ChartArea><ChartAreaBorder Width=""0""/></ChartArea>
+            <ChartPrimaryXAxis ValueType=""Syncfusion.Blazor.Toolkit.ValueType.Category"" Interval=""1""><ChartAxisLineStyle Width=""0""/></ChartPrimaryXAxis>
+            <ChartPrimaryYAxis Minimum=""0"" Maximum=""100"" Interval=""20""><ChartAxisLineStyle Width=""0""/></ChartPrimaryYAxis>
+            
+                <ChartSeries DataSource=""@StackingColumn100DataStore.DesktopData[""India""]"" XName=""X"" YName=""Y"" Type=""ChartSeriesType.StackingColumn100"" Name=""India"" Fill=""#05B3DA"" ColumnWidth=""0.4""></ChartSeries>
+                <ChartSeries DataSource=""@StackingColumn100DataStore.DesktopData[""China""]"" XName=""X"" YName=""Y"" Type=""ChartSeriesType.StackingColumn100"" Name=""China"" Fill=""#B1212D"" ColumnWidth=""0.4""></ChartSeries>
+                <ChartSeries DataSource=""@StackingColumn100DataStore.DesktopData[""US""]"" XName=""X"" YName=""Y"" Type=""ChartSeriesType.StackingColumn100"" Name=""United States"" Fill=""#6200EE"" ColumnWidth=""0.4""></ChartSeries>
+                <ChartSeries DataSource=""@StackingColumn100DataStore.DesktopData[""Brazil""]"" XName=""X"" YName=""Y"" Type=""ChartSeriesType.StackingColumn100"" Name=""Brazil"" Fill=""#38BE09"" ColumnWidth=""0.4""></ChartSeries>
+            
+            <ChartLegendSettings ShapeHeight=""9"" ShapeWidth=""9""></ChartLegendSettings>
+            <ChartTooltipSettings Enable=""true"" Header=""<b>Cotton Production</b>"" Format=""Year: <b>${point.x}</b><br/>${series.name}: <b>${point.y}M</b>""></ChartTooltipSettings>
+        </SfChart>
 
 @code {
     private Theme _currentTheme = Theme.Fluent;
-    public class ChartData { public string X { get; set; } public double Y { get; set; } }
-    public List<ChartData> IndiaData = new() { new() { X = ""2021"", Y = 24.3 } };
-    public List<ChartData> USData = new() { new() { X = ""2021"", Y = 17.5 } };
+    public static class StackingColumn100DataStore
+    {
+        public static Dictionary<string, List<ChartDataModel>> DesktopData = new() { [""India""] = new() { new() { X = ""2019"", Y = 28.5 } }, [""China""] = new() { new() { X = ""2019"", Y = 26.9 } }, [""US""] = new() { new() { X = ""2019"", Y = 19.9 } }, [""Brazil""] = new() { new() { X = ""2019"", Y = 13.0 } } };
+    }
 }";
 
-    public string columnPlacementCode = @"<SfChart @key=""@_currentTheme"" EnableSideBySidePlacement=""false"" Title=""Population Distribution"" Theme=""@_currentTheme"">
-    <ChartPrimaryXAxis ValueType=""Syncfusion.Blazor.Toolkit.ValueType.Category""></ChartPrimaryXAxis>
-    <ChartPrimaryYAxis Title=""Inhabitants (Millions)"" Interval=""300""></ChartPrimaryYAxis>
-    
-        <ChartSeries DataSource=""@PopulationDatas"" XName=""Country"" YName=""Population"" Name=""Total"" Type=""ChartSeriesType.Column"" Fill=""#7E30E1""></ChartSeries>
-        <ChartSeries DataSource=""@PopulationDatas"" XName=""Country"" YName=""Male"" Name=""Male"" Type=""ChartSeriesType.Column"" Fill=""#E26EE5""></ChartSeries>
-    
-</SfChart>
+    public string columnPlacementCode = @"<SfChart @key=""@_currentTheme"" EnableSideBySidePlacement=""false"" Title=""Population Distribution (2024)"" Theme=""@_currentTheme"">
+            <ChartPrimaryXAxis ValueType=""Syncfusion.Blazor.Toolkit.ValueType.Category""></ChartPrimaryXAxis>
+            <ChartPrimaryYAxis Title=""Inhabitants (Millions)"" Interval=""300""></ChartPrimaryYAxis>
+            
+                <ChartSeries DataSource=""PopulationDatas"" XName=""Country"" YName=""Population"" Name=""Total"" Type=""ChartSeriesType.Column"" ColumnWidth=""0.5"" ColumnSpacing=""0.4"" Fill=""#7E30E1"">
+                    <ChartCornerRadius TopLeft=""4"" TopRight=""4""></ChartCornerRadius>
+                </ChartSeries>
+                <ChartSeries DataSource=""PopulationDatas"" XName=""Country"" YName=""Male"" Name=""Male"" Type=""ChartSeriesType.Column"" ColumnWidth=""0.4"" ColumnSpacing=""0.4"" Fill=""#E26EE5"">
+                    <ChartCornerRadius TopLeft=""4"" TopRight=""4""></ChartCornerRadius>
+                </ChartSeries>
+                <ChartSeries DataSource=""PopulationDatas"" XName=""Country"" YName=""Female"" Name=""Female"" Type=""ChartSeriesType.Column"" ColumnWidth=""0.25"" ColumnSpacing=""0.4"" Fill=""#FFEC80"">
+                    <ChartCornerRadius TopLeft=""4"" TopRight=""4""></ChartCornerRadius>
+                </ChartSeries>
+            
+            <ChartTooltipSettings Enable=""true"" Shared=""true""/>
+        </SfChart>
 
 @code {
     private Theme _currentTheme = Theme.Fluent;
-    public class PopulationData { public string Country { get; set; } public double Population { get; set; } public double Male { get; set; } }
-    public List<PopulationData> PopulationDatas = new() { new PopulationData { Country = ""India"", Population = 1450.9, Male = 748.3 } };
+    public List<PopulationDataModel> PopulationDatas = new() { new() { Country = ""India"", Population = 1450.9, Male = 748.3, Female = 702.6 }, new() { Country = ""China"", Population = 1419.3, Male = 723.0, Female = 696.2 }, new() { Country = ""USA"", Population = 345.4, Male = 173.5, Female = 171.8 }, new() { Country = ""Indonesia"", Population = 283.4, Male = 142.4, Female = 141.0 }, new() { Country = ""Pakistan"", Population = 251.2, Male = 127.4, Female = 123.8 } };
+    public class PopulationDataModel { public string Country { get; set; } public double Population { get; set; } public double Male { get; set; } public double Female { get; set; } }
 }";
 
-    public string negativeDataCode = @"<SfChart @key=""@_currentTheme"" Title=""Ocean Temperature Anomalies"" Theme=""@_currentTheme"">
-    <ChartPrimaryXAxis ValueType=""Syncfusion.Blazor.Toolkit.ValueType.Double"" Minimum=""1880"" Maximum=""2022"" Interval=""20""></ChartPrimaryXAxis>
-    <ChartPrimaryYAxis Title=""Temp Anomaly (°C)"" Format=""{value}°C""></ChartPrimaryYAxis>
-    
-        <ChartSeries DataSource=""@rectSeriesNegativeData"" XName=""Year"" YName=""Anomaly"" Type=""ChartSeriesType.Column"" PointColorMapping=""Color"">
-             <ChartCornerRadius TopLeft=""2"" TopRight=""2""/>
-        </ChartSeries>
-    
-</SfChart>
+    public string negativeDataCode = @" <SfChart @key=""@_currentTheme"" Title=""Global Ocean Temperature Anomalies (1880-2022)"" Theme=""@_currentTheme"">
+            <ChartPrimaryXAxis ValueType=""Syncfusion.Blazor.Toolkit.ValueType.Double"" Maximum=""2022"" Interval=""20""></ChartPrimaryXAxis>
+            <ChartPrimaryYAxis Title=""Temperature Anomaly (°C)"" Minimum=""-0.5"" Maximum=""0.8"" Interval=""0.2"" Format=""{value}°C""></ChartPrimaryYAxis>
+            
+                    <ChartSeries DataSource=""@rectSeriesNegativeData"" XName=""Year"" YName=""Anomaly"" Type=""ChartSeriesType.Column"" PointColorMapping=""Color"">
+                    <ChartCornerRadius TopLeft=""2"" TopRight=""2""></ChartCornerRadius>
+                </ChartSeries>
+            
+            <ChartTooltipSettings Enable=""true"" Header=""${point.x}"" Format=""Anomaly: <b>${point.y}</b>""/>
+        </SfChart>
 
 @code {
     private Theme _currentTheme = Theme.Fluent;
-    public class OceanTemperature { public double Year { get; set; } public double Anomaly { get; set; } public string Color { get; set; } }
-    public List<OceanTemperature> RectSeriesNegativeData = new() { new() { Year = 1880, Anomaly = -0.02, Color = ""#FF8080"" } };
+    
+    public class OceanTemperatureModel { public double Year { get; set; } public double Anomaly { get; set; } public string Color { get; set; } }
+    public List<OceanTemperatureModel> rectSeriesNegativeData = new()
+    {
+        new() { Year = 1880, Anomaly = -0.02, Color = ""#FF8080"" }, new() { Year = 1881, Anomaly = 0.04, Color = ""#52D681"" }, new() { Year = 1882, Anomaly = 0.03, Color = ""#52D681"" },
+        new() { Year = 1883, Anomaly = -0.03, Color = ""#FF8080"" }, new() { Year = 1884, Anomaly = -0.12, Color = ""#FF8080"" }, new() { Year = 1885, Anomaly = -0.16, Color = ""#FF8080"" },
+        new() { Year = 1886, Anomaly = -0.16, Color = ""#FF8080"" }, new() { Year = 1887, Anomaly = -0.2, Color = ""#FF8080"" }, new() { Year = 1888, Anomaly = -0.01, Color = ""#FF8080"" },
+        new() { Year = 1889, Anomaly = 0, Color = ""#FF8080"" }, new() { Year = 1890, Anomaly = -0.24, Color = ""#FF8080"" }, new() { Year = 1891, Anomaly = -0.09, Color = ""#FF8080"" },
+        new() { Year = 1892, Anomaly = -0.13, Color = ""#FF8080"" }, new() { Year = 1893, Anomaly = -0.19, Color = ""#FF8080"" }, new() { Year = 1894, Anomaly = -0.21, Color = ""#FF8080"" },
+        new() { Year = 1922, Anomaly = -0.24, Color = ""#FF8080"" }, new() { Year = 1923, Anomaly = -0.23, Color = ""#FF8080"" }, new() { Year = 1924, Anomaly = -0.24, Color = ""#FF8080"" },
+        new() { Year = 1934, Anomaly = -0.16, Color = ""#FF8080"" }, new() { Year = 1935, Anomaly = -0.17, Color = ""#FF8080"" }, new() { Year = 1936, Anomaly = -0.13, Color = ""#FF8080"" },
+        new() { Year = 1937, Anomaly = -0.04, Color = ""#FF8080"" }, new() { Year = 1938, Anomaly = -0.11, Color = ""#FF8080"" }, new() { Year = 1939, Anomaly = -0.04, Color = ""#FF8080"" },
+        new() { Year = 1940, Anomaly = 0.15, Color = ""#52D681"" }, new() { Year = 1941, Anomaly = 0.28, Color = ""#52D681"" }, new() { Year = 1942, Anomaly = 0.1, Color = ""#52D681"" },
+        new() { Year = 1943, Anomaly = 0.07, Color = ""#52D681"" }, new() { Year = 1944, Anomaly = 0.23, Color = ""#52D681"" }, new() { Year = 1945, Anomaly = 0.21, Color = ""#52D681"" },
+        new() { Year = 1946, Anomaly = -0.05, Color = ""#FF8080"" }, new() { Year = 1947, Anomaly = -0.07, Color = ""#FF8080"" }, new() { Year = 1948, Anomaly = -0.11, Color = ""#FF8080"" },
+        new() { Year = 1949, Anomaly = -0.07, Color = ""#FF8080"" }, new() { Year = 1950, Anomaly = -0.09, Color = ""#FF8080"" }, new() { Year = 1951, Anomaly = 0, Color = ""#FF8080"" },
+        new() { Year = 1952, Anomaly = 0.07, Color = ""#52D681"" }, new() { Year = 1953, Anomaly = 0.05, Color = ""#52D681"" }, new() { Year = 1954, Anomaly = -0.11, Color = ""#FF8080"" },
+        new() { Year = 1955, Anomaly = -0.13, Color = ""#FF8080"" }, new() { Year = 1956, Anomaly = -0.09, Color = ""#FF8080"" }, new() { Year = 1957, Anomaly = 0.1, Color = ""#52D681"" },
+        new() { Year = 1958, Anomaly = 0.12, Color = ""#52D681"" }, new() { Year = 1959, Anomaly = 0.06, Color = ""#52D681"" }, new() { Year = 1960, Anomaly = 0.05, Color = ""#52D681"" },
+        new() { Year = 1961, Anomaly = 0.08, Color = ""#52D681"" }, new() { Year = 1962, Anomaly = 0.06, Color = ""#52D681"" }, new() { Year = 1963, Anomaly = 0.08, Color = ""#52D681"" },
+        new() { Year = 1964, Anomaly = -0.08, Color = ""#FF8080"" }, new() { Year = 1965, Anomaly = -0.04, Color = ""#FF8080"" }, new() { Year = 1966, Anomaly = 0.02, Color = ""#52D681"" },
+        new() { Year = 1967, Anomaly = 0, Color = ""#FF8080"" }, new() { Year = 1968, Anomaly = 0.02, Color = ""#52D681"" }, new() { Year = 1969, Anomaly = 0.19, Color = ""#52D681"" },
+        new() { Year = 1970, Anomaly = 0.08, Color = ""#52D681"" }, new() { Year = 1971, Anomaly = -0.06, Color = ""#FF8080"" }, new() { Year = 1972, Anomaly = 0.12, Color = ""#52D681"" },
+        new() { Year = 2009, Anomaly = 0.52, Color = ""#52D681"" }, new() { Year = 2010, Anomaly = 0.53, Color = ""#52D681"" }, new() { Year = 2011, Anomaly = 0.41, Color = ""#52D681"" },
+        new() { Year = 2012, Anomaly = 0.48, Color = ""#52D681"" }, new() { Year = 2013, Anomaly = 0.51, Color = ""#52D681"" }, new() { Year = 2014, Anomaly = 0.6, Color = ""#52D681"" },
+        new() { Year = 2015, Anomaly = 0.72, Color = ""#52D681"" }, new() { Year = 2016, Anomaly = 0.75, Color = ""#52D681"" }, new() { Year = 2017, Anomaly = 0.7, Color = ""#52D681"" },
+        new() { Year = 2018, Anomaly = 0.66, Color = ""#52D681"" }, new() { Year = 2019, Anomaly = 0.74, Color = ""#52D681"" }, new() { Year = 2020, Anomaly = 0.73, Color = ""#52D681"" },
+        new() { Year = 2021, Anomaly = 0.63, Color = ""#52D681"" }, new() { Year = 2022, Anomaly = 0.67, Color = ""#52D681"" }
+    };
 }";
 
     public string columnDrilDownCode = @"<div>
     @if (IsDrilled) { <a style=""color:#EDA9ED;cursor:pointer;text-decoration:underline"" @onclick=""ResetChart"">Population >> @SelectedCategory</a> }
-    <SfChart @key=""@_currentTheme"" Title=""@ChartTitle"" OnPointClick=""OnPointClick"" Theme=""@_currentTheme"">
+    <SfChart @key=""@_currentTheme"" Title=""@ChartTitle"" OnPointClick=""OnPointClick"" Theme=""@_currentTheme"" OnAxisLabelClick=""OnAxisLabelClick"">
         <ChartPrimaryXAxis ValueType=""Syncfusion.Blazor.Toolkit.ValueType.Category""/>
         <ChartPrimaryYAxis Title=""Population (Millions)"" Interval=""@YAxisInterval""></ChartPrimaryYAxis>
         
-            <ChartSeries DataSource=""@CurrentData"" XName=""X"" YName=""Y"" Type=""ChartSeriesType.Column"" PointColorMapping=""Color"">
+            <ChartSeries DataSource=""@CurrentData"" XName=""X"" YName=""Y"" Type=""ChartSeriesType.Column"" ColumnSpacing=""0.3"" PointColorMapping=""Color"">
                 <ChartCornerRadius TopLeft=""5"" TopRight=""5""></ChartCornerRadius>
             </ChartSeries>
-        
+         <ChartTooltipSettings Enable=""true"" Format=""${point.x} : <b>${point.y} Millions</b>""/>
     </SfChart>
 </div>
 
@@ -765,28 +849,61 @@
     protected override void OnInitialized() { CurrentData = Continents; }
     void OnPointClick(PointEventArgs args) { /* drilldown logic */ }
     void ResetChart() { IsDrilled = false; CurrentData = Continents; }
+    void OnAxisLabelClick(AxisLabelClickEventArgs args)
+    {
+        if (IsDrilled) return;
+        IsDrilled = true;
+        SelectedCategory = args.Text;
+        ChartTitle = $""Top Populated Countries of {SelectedCategory} - 2023"";
+        CurrentData = DrillDownDataStore.Countries[args.Index];
+    }
 }";
 
-    public string groupingColumnCode = @"<SfChart @key=""@_currentTheme"" Title=""Olympic Medals"" Theme=""@_currentTheme"">
-    <ChartPrimaryXAxis ValueType=""Syncfusion.Blazor.Toolkit.ValueType.Category"" Interval=""1""></ChartPrimaryXAxis>
-    <ChartPrimaryYAxis></ChartPrimaryYAxis>
-    
-        <ChartSeries DataSource=""@CombinedDataDetails"" XName=""X"" YName=""Y1"" Name=""USA Total"" GroupName=""USA"" Type=""ChartSeriesType.Column"" Fill=""#689B8A""></ChartSeries>
-        <ChartSeries DataSource=""@CombinedDataDetails"" XName=""X"" YName=""Y2"" Name=""USA Gold"" GroupName=""USA"" Type=""ChartSeriesType.Column"" Fill=""#F9CB99""></ChartSeries>
-    
-</SfChart>
+    public string groupingColumnCode = @"
+    <SfChart @key=""@_currentTheme"" Theme=""@_currentTheme"">
+            <ChartTooltipSettings Enable=""true"" />
+            <ChartPrimaryXAxis ValueType=""Syncfusion.Blazor.Toolkit.ValueType.Category"" Interval=""1""></ChartPrimaryXAxis>
+            <ChartPrimaryYAxis></ChartPrimaryYAxis>
+            
+                <ChartSeries DataSource=""CombinedDataDetails"" XName=""X"" YName=""Y1"" Name=""USA Total Medals"" GroupName=""USA"" Type=""ChartSeriesType.Column"" Fill=""#689B8A"" ColumnWidth=""0.7"" ColumnSpacing=""0.2"">
+                    <ChartMarker><ChartDataLabel Visible=""true"" Position=""ChartLabelPosition.Top""></ChartDataLabel></ChartMarker>
+                    <ChartCornerRadius TopLeft=""8"" TopRight=""8""></ChartCornerRadius>
+                </ChartSeries>
+                <ChartSeries DataSource=""CombinedDataDetails"" XName=""X"" YName=""Y2"" Name=""USA Gold Medals"" GroupName=""USA"" Type=""ChartSeriesType.Column"" Fill=""#F9CB99"" ColumnWidth=""0.5"" ColumnSpacing=""0.2"">
+                    <ChartMarker><ChartDataLabel Visible=""true"" Position=""ChartLabelPosition.Top""></ChartDataLabel></ChartMarker>
+                </ChartSeries>
+                <ChartSeries DataSource=""CombinedDataDetails"" XName=""X"" YName=""Y3"" Name=""UK Total Medals"" GroupName=""UK"" Type=""ChartSeriesType.Column"" Fill=""#8E7AB5"" ColumnWidth=""0.7"" ColumnSpacing=""0.2"">
+                    <ChartMarker><ChartDataLabel Visible=""true"" Position=""ChartLabelPosition.Top""></ChartDataLabel></ChartMarker>
+                </ChartSeries>
+                <ChartSeries DataSource=""CombinedDataDetails"" XName=""X"" YName=""Y4"" Name=""UK Gold Medals"" GroupName=""UK"" Type=""ChartSeriesType.Column"" Fill=""#EEA5A6"" ColumnWidth=""0.5"" ColumnSpacing=""0.2"">
+                    <ChartMarker><ChartDataLabel Visible=""true"" Position=""ChartLabelPosition.Top""></ChartDataLabel></ChartMarker>
+                </ChartSeries>
+                <ChartSeries DataSource=""CombinedDataDetails"" XName=""X"" YName=""Y5"" Name=""China Total Medals"" GroupName=""China"" Type=""ChartSeriesType.Column"" Fill=""#FF6868"" ColumnWidth=""0.7"" ColumnSpacing=""0.2"">
+                    <ChartMarker><ChartDataLabel Visible=""true"" Position=""ChartLabelPosition.Top""></ChartDataLabel></ChartMarker>
+                </ChartSeries>
+                <ChartSeries DataSource=""CombinedDataDetails"" XName=""X"" YName=""Y6"" Name=""China Gold Medals"" GroupName=""China"" Type=""ChartSeriesType.Column"" Fill=""#9BCDD2"" ColumnWidth=""0.5"" ColumnSpacing=""0.2"">
+                    <ChartMarker><ChartDataLabel Visible=""true"" Position=""ChartLabelPosition.Top""></ChartDataLabel></ChartMarker>
+                </ChartSeries>
+            
+        </SfChart>
 
 @code {
     private Theme _currentTheme = Theme.Fluent;
-    public class OlympicData { public string X { get; set; } public double Y1 { get; set; } public double Y2 { get; set; } }
-    public List<OlympicData> CombinedDataDetails = new() { new() { X = ""2016"", Y1 = 104, Y2 = 46 } };
+    public class OlympicDataModel { public string X { get; set; } public double Y1 { get; set; } public double Y2 { get; set; } public double Y3 { get; set; } public double Y4 { get; set; } public double Y5 { get; set; } public double Y6 { get; set; } }
+    public static List<OlympicDataModel> CombinedDataDetails = new()
+    {
+        new() { X = ""2016"", Y1 = 104, Y2 = 46, Y3 = 65, Y4 = 29, Y5 = 91, Y6 = 38 },
+        new() { X = ""2020"", Y1 = 121, Y2 = 46, Y3 = 67, Y4 = 27, Y5 = 70, Y6 = 26 },
+        new() { X = ""2024"", Y1 = 113, Y2 = 39, Y3 = 65, Y4 = 22, Y5 = 88, Y6 = 38 }
+    };
 }";
 
     public string dataSourceUpdateCode = @"<SfChart @key=""@_currentTheme"" Title=""Sales Update"" Theme=""@_currentTheme"">
     <ChartPrimaryXAxis ValueType=""Syncfusion.Blazor.Toolkit.ValueType.Category""></ChartPrimaryXAxis>
     <ChartPrimaryYAxis Minimum=""0"" Maximum=""100"" Interval=""20"" Format=""{value}%""></ChartPrimaryYAxis>
     
-        <ChartSeries DataSource=""@SalesData"" XName=""X"" YName=""Y"" Type=""ChartSeriesType.Column"" PointColorMapping=""Color"">
+        <ChartSeries DataSource=""@ProductSaleDataStore.RectSeriesLiveUpdateData"" XName=""X"" YName=""Y"" Type=""ChartSeriesType.Column"" PointColorMapping=""Color"" ColumnWidth=""0.5"">
+           <ChartMarker><ChartDataLabel Visible=""true"" Position=""ChartLabelPosition.Top""/></ChartMarker>
             <ChartSeriesAnimation Enable=""true"" Duration=""1000""/>
         </ChartSeries>
     
@@ -794,85 +911,158 @@
 
 @code {
     private Theme _currentTheme = Theme.Fluent;
-    public class ProductSaleData { public string X { get; set; } public int Y { get; set; } public string Color { get; set; } }
-    public List<ProductSaleData> SalesData = new() { new() { X = ""Jewellery"", Y = 75, Color = ""#578FCA"" } };
+    public class ProductSaleDataModel { public string X { get; set; } public int Y { get; set; } public string Color { get; set; } }
+    public static class ProductSaleDataStore { public static List<ProductSaleDataModel> RectSeriesLiveUpdateData = new() { new() { X = ""Jewellery"", Y = 75, Color = ""#578FCA"" }, new() { X = ""Shoes"", Y = 45, Color = ""#F2C078"" } }; }
 }";
 
-    public string columnWithTrackCode = @"<SfChart @key=""@_currentTheme"" Width=""600px"" EnableSideBySidePlacement=""false"" Title=""Milk Sustainability"" Theme=""@_currentTheme"">
-    <ChartPrimaryXAxis ValueType=""Syncfusion.Blazor.Toolkit.ValueType.Category"" Interval=""1""></ChartPrimaryXAxis>
-    <ChartPrimaryYAxis Minimum=""0"" Maximum=""1050"" Interval=""200"" Title=""Water use [liters]""><ChartAxisLineStyle Width=""0""/></ChartPrimaryYAxis>
-    
-        <ChartSeries DataSource=""@Data"" XName=""MilkType"" YName=""BottleEffect"" Type=""ChartSeriesType.Column"" Fill=""#f0f0fd"" Opacity=""0.9""></ChartSeries>
-        <ChartSeries DataSource=""@Data"" XName=""MilkType"" YName=""WaterUsage"" Type=""ChartSeriesType.Column"" Fill=""#4E54C8"">
-            <ChartCornerRadius TopLeft=""6"" TopRight=""6""/>
-        </ChartSeries>
-    
-</SfChart>
+    public string columnWithTrackCode = @"<SfChart @key=""@_currentTheme"" Theme=""@_currentTheme"" EnableSideBySidePlacement=""false"" Background=""@ChartBackground"" Title=""Which Milk Is the Most Sustainable?"">
+            <ChartPrimaryXAxis LabelIntersectAction=""LabelIntersectAction.Trim"" ValueType=""Syncfusion.Blazor.Toolkit.ValueType.Category"" Interval=""1""></ChartPrimaryXAxis>
+            <ChartPrimaryYAxis Minimum=""0"" Maximum=""1050"" Interval=""200"" Title=""Water use [liters]"">
+                <ChartAxisLineStyle Width=""0""></ChartAxisLineStyle>
+                <ChartAxisMajorGridLines Width=""1""></ChartAxisMajorGridLines>
+            </ChartPrimaryYAxis>
+            
+                <ChartSeries DataSource=""@ColumnWithTrackData"" XName=""MilkType"" YName=""BottleEffect"" Type=""ChartSeriesType.Column"" Name=""Bottle Effect"" Fill=""#f0f0fd"" Opacity=""0.9"" ColumnWidth=""0.45"" ColumnSpacing=""0.6"">
+                    <ChartCornerRadius TopLeft=""6"" TopRight=""6""/>
+                </ChartSeries>
+                <ChartSeries DataSource=""@ColumnWithTrackData"" XName=""MilkType"" YName=""BottleNeck"" Type=""ChartSeriesType.Column"" Name=""Bottle Neck"" Fill=""#f0f0fd"" Opacity=""0.9"" ColumnWidth=""0.55"" ColumnSpacing=""0.6"">
+                    <ChartCornerRadius TopLeft=""10"" TopRight=""10""/>
+                </ChartSeries>
+                <ChartSeries DataSource=""@ColumnWithTrackData"" XName=""MilkType"" YName=""WaterUsage"" Type=""ChartSeriesType.Column"" Name=""Water Usage"" Fill=""url(#gradient-fill-track)"" ColumnWidth=""0.55"" ColumnSpacing=""0.6"">
+                    <ChartCornerRadius TopLeft=""6"" TopRight=""6""/>
+                </ChartSeries>
+            
+            <ChartTooltipSettings Enable=""true"" Header=""${point.x}"" Format=""${series.name}: <b>${point.y}</b>""/>
+            <ChartLegendSettings Visible=""false""/>
+        </SfChart>
+        <svg style=""height:0""><defs><linearGradient id=""gradient-fill-track"" x1=""0"" y1=""0"" x2=""0"" y2=""1""><stop offset=""0%"" stop-color=""#8F94FB""/><stop offset=""100%"" stop-color=""#4E54C8""/></linearGradient></defs></svg>
 
 @code {
     private Theme _currentTheme = Theme.Fluent;
-    public class TrackData { public string MilkType { get; set; } public double WaterUsage { get; set; } public double BottleEffect { get; set; } }
-    public List<TrackData> Data = new() { new() { MilkType = ""Cow"", WaterUsage = 628, BottleEffect = 1050 } };
+        public List<TrackDataModel> ColumnWithTrackData { get; set; } = new()
+    {
+        new() { MilkType = ""Cow"", WaterUsage = 628, BottleNeck = 1000, BottleEffect = 1050 },
+        new() { MilkType = ""Almond"", WaterUsage = 371, BottleNeck = 1000, BottleEffect = 1050 },
+        new() { MilkType = ""Rice"", WaterUsage = 270, BottleNeck = 1000, BottleEffect = 1050 },
+        new() { MilkType = ""Oat"", WaterUsage = 48, BottleNeck = 1000, BottleEffect = 1050 },
+        new() { MilkType = ""Soy"", WaterUsage = 28, BottleNeck = 1000, BottleEffect = 1050 }
+    };
+    public class TrackDataModel { public string MilkType { get; set; } public double WaterUsage { get; set; } public double BottleNeck { get; set; } public double BottleEffect { get; set; } }
 }";
 
-    public string customizeColumnCode = @"<SfChart @key=""@_currentTheme"" Width=""500px"" Title=""Walnuts and Almonds Production"" Theme=""@_currentTheme"">
-    <ChartPrimaryXAxis ValueType=""Syncfusion.Blazor.Toolkit.ValueType.Category"" Interval=""1""></ChartPrimaryXAxis>
-    
-        <ChartSeries DataSource=""@productionData"" XName=""Country"" YName=""Walnuts"" Type=""ChartSeriesType.Column"" Name=""Walnuts"" Fill=""#00C5BC"" ColumnSpacing=""0.15"" ColumnWidth=""0.5""></ChartSeries>
-        <ChartSeries DataSource=""@productionData"" XName=""Country"" YName=""Almonds"" Type=""ChartSeriesType.Column"" Name=""Almonds"" Fill=""#BA7DDA"" ColumnSpacing=""0.15"" ColumnWidth=""0.5""></ChartSeries>
-    
-</SfChart>
+    public string customizeColumnCode = @"<div style=""display:flex; gap:20px; "">
+            <div><label><b>Column Spacing:</b> @columnSpacing.ToString(""0.00"")</label><br/><input type=""range"" min=""0.1"" max=""1"" step=""0.01"" value=""@columnSpacing"" @oninput=""OnSpacingChanged""/></div>
+            <div><label><b>Column Width:</b> @columnWidth.ToString(""0.00"")</label><br/><input type=""range"" min=""0.1"" max=""1"" step=""0.01"" value=""@columnWidth"" @oninput=""OnWidthChanged""/></div>
+        </div>
+        <SfChart @key=""@_currentTheme"" Title=""Walnuts and Almonds Estimated Production for 2023"" Theme=""@_currentTheme"">
+            <ChartPrimaryXAxis LabelIntersectAction=""LabelIntersectAction.Trim"" ValueType=""Syncfusion.Blazor.Toolkit.ValueType.Category"" Interval=""1""></ChartPrimaryXAxis>
+            <ChartPrimaryYAxis></ChartPrimaryYAxis>
+            
+                <ChartSeries DataSource=""@productionData"" XName=""Country"" YName=""Walnuts"" Type=""ChartSeriesType.Column"" Name=""Walnuts"" Fill=""#00C5BC"" ColumnSpacing=""@columnSpacing"" ColumnWidth=""@columnWidth""><ChartCornerRadius TopLeft=""10"" TopRight=""10""/></ChartSeries>
+                <ChartSeries DataSource=""@productionData"" XName=""Country"" YName=""Almonds"" Type=""ChartSeriesType.Column"" Name=""Almonds"" Fill=""#BA7DDA"" ColumnSpacing=""@columnSpacing"" ColumnWidth=""@columnWidth""><ChartCornerRadius TopLeft=""10"" TopRight=""10""/></ChartSeries>
+            
+            <ChartTooltipSettings Enable=""true"" Header=""${point.x}"" Format=""${series.name}: <b>${point.y}K</b>""/>
+        </SfChart>
 
 @code {
     private Theme _currentTheme = Theme.Fluent;
-    public class ProductionData { public string Country { get; set; } public double Walnuts { get; set; } public double Almonds { get; set; } }
-    List<ProductionData> productionData = new() { new() { Country = ""Chile"", Walnuts = 175, Almonds = 11.3 } };
+
+    double columnSpacing = 0.15;
+    double columnWidth = 0.49;
+    List<ProductionDataModel> productionData = new()
+    {
+        new() { Country = ""Chile"", Walnuts = 175, Almonds = 11.3 },
+        new() { Country = ""European Union"", Walnuts = 140, Almonds = 135 },
+        new() { Country = ""Turkey"", Walnuts = 67, Almonds = 24 },
+        new() { Country = ""India"", Walnuts = 33, Almonds = 42 },
+        new() { Country = ""Australia"", Walnuts = 12, Almonds = 154 }
+    };
+    void OnSpacingChanged(ChangeEventArgs e) { columnSpacing = Convert.ToDouble(e.Value); }
+    void OnWidthChanged(ChangeEventArgs e) { columnWidth = Convert.ToDouble(e.Value); }
+
+    public class ProductionDataModel { public string Country { get; set; } public double Walnuts { get; set; } public double Almonds { get; set; } }
 }";
 
-    public string columnWidthCode = @"<SfChart @key=""@_currentTheme"" Width=""600px"" Title=""Walnuts Production Trends"" Theme=""@_currentTheme"">
-    <ChartPrimaryXAxis ValueType=""Syncfusion.Blazor.Toolkit.ValueType.Category"" Interval=""1""/>
-    <ChartPrimaryYAxis Title=""Metric Tons"" Interval=""40""></ChartPrimaryYAxis>
-    
-        <ChartSeries DataSource=""@WalnutColumnChartData"" XName=""Country"" YName=""Walnuts"" Type=""ChartSeriesType.Column"" Fill=""#00C5BC"" ColumnWidthInPixel=""60""></ChartSeries>
-    
-</SfChart>
+    public string columnWidthCode = @"<div style=""padding:15px; margin-bottom:20px;""><label style=""font-weight:500;"">Walnut Column Width (px): @WalnutColumnWidthPx</label><br/><input type=""range"" min=""5"" max=""100"" step=""1"" value=""@WalnutColumnWidthPx"" @oninput=""OnWalnutColumnWidthChanged"" style=""width:150px; height:6px;""/></div>
+        <SfChart @key=""@_currentTheme"" Title=""@WalnutChartTitle"" Theme=""@_currentTheme"">
+            <ChartPrimaryXAxis ValueType=""Syncfusion.Blazor.Toolkit.ValueType.Category"" Interval=""1""/>
+            <ChartPrimaryYAxis Title=""Metric Tons"" Interval=""40""></ChartPrimaryYAxis>
+            
+                <ChartSeries DataSource=""WalnutChartDataStore.WalnutColumnChartData"" XName=""Country"" YName=""Walnuts"" Type=""ChartSeriesType.Column"" Fill=""#00C5BC"" ColumnWidthInPixel=""@WalnutColumnWidthPx""></ChartSeries>
+            
+            <ChartTooltipSettings Enable=""true"" Format=""${point.x} : <b>${point.y}K</b>""/>
+        </SfChart>
 
 @code {
     private Theme _currentTheme = Theme.Fluent;
-    public class WalnutProductionModel { public string Country { get; set; } public double Walnuts { get; set; } }
-    public List<WalnutProductionModel> WalnutColumnChartData = new() { new() { Country = ""Chile"", Walnuts = 175 } };
+    private int WalnutColumnWidthPx = 60;
+    private string WalnutChartTitle => $""Walnuts Production (Column Width: {WalnutColumnWidthPx}px)"";
+    private void OnWalnutColumnWidthChanged(ChangeEventArgs args) { WalnutColumnWidthPx = int.Parse(args.Value!.ToString()!); }
+
+    public class WalnutProductionModel { public string Country { get; set; } public double Walnuts { get; set; } public double Almonds { get; set; } }
+    public static class WalnutChartDataStore
+    {
+        public static List<WalnutProductionModel> WalnutColumnChartData = new()
+        {
+            new() { Country = ""Chile"", Walnuts = 175, Almonds = 11.3 },
+            new() { Country = ""European Union"", Walnuts = 140, Almonds = 135 },
+            new() { Country = ""Turkey"", Walnuts = 67, Almonds = 24 },
+            new() { Country = ""India"", Walnuts = 33, Almonds = 42 },
+            new() { Country = ""Australia"", Walnuts = 12, Almonds = 154 }
+        };
+    }
 }";
 
-    public string seriesCustomizationCode = @"<SfChart @key=""@_currentTheme"" Title=""Walnuts and Almonds Production"" Theme=""@_currentTheme"">
-    <ChartPrimaryXAxis ValueType=""Syncfusion.Blazor.Toolkit.ValueType.Category"" Interval=""1""></ChartPrimaryXAxis>
-    <ChartPrimaryYAxis Title=""Metric Tons""><ChartAxisLineStyle Width=""0""/></ChartPrimaryYAxis>
-    
-        <ChartSeries DataSource=""@ProductionData1"" XName=""Country"" YName=""Walnuts"" Type=""ChartSeriesType.Column"" Name=""Walnuts"" Fill=""#00C5BC"" Opacity=""0.8"" ColumnSpacing=""0.15"" ColumnWidth=""0.5"">
-            <ChartCornerRadius TopLeft=""14"" TopRight=""14""></ChartCornerRadius>
-        </ChartSeries>
-    
-</SfChart>
+    public string seriesCustomizationCode = @"<SfChart @key=""@_currentTheme"" Title=""Walnuts and Almonds Estimated Production for 2023"" Theme=""@_currentTheme"">
+            <ChartPrimaryXAxis LabelIntersectAction=""LabelIntersectAction.Trim"" ValueType=""Syncfusion.Blazor.Toolkit.ValueType.Category"" Interval=""1""></ChartPrimaryXAxis>
+            <ChartPrimaryYAxis Title=""Metric Tons""><ChartAxisLineStyle Width=""0""></ChartAxisLineStyle></ChartPrimaryYAxis>
+            <ChartTooltipSettings Enable=""true"" Header=""${point.x}"" Format=""${series.name}: <b>${point.y}K</b>""/>
+            
+                <ChartSeries DataSource=""@ProductionData1"" XName=""Country"" YName=""Walnuts"" Type=""ChartSeriesType.Column"" Name=""Walnuts"" Fill=""#00C5BC"" Opacity=""0.8"" ColumnSpacing=""0.15"" ColumnWidth=""0.5""><ChartCornerRadius TopLeft=""14"" TopRight=""14""></ChartCornerRadius></ChartSeries>
+                <ChartSeries DataSource=""@ProductionData1"" XName=""Country"" YName=""Almonds"" Type=""ChartSeriesType.Column"" Name=""Almonds"" Fill=""#BA7DDA"" Opacity=""1"" ColumnSpacing=""0.15"" ColumnWidth=""0.5""><ChartCornerRadius TopLeft=""14"" TopRight=""14""></ChartCornerRadius></ChartSeries>
+            
+        </SfChart>
 
 @code {
     private Theme _currentTheme = Theme.Fluent;
-    public class ProductionData { public string Country { get; set; } public double Walnuts { get; set; } }
-    public List<ProductionData> ProductionData1 = new() { new() { Country = ""Chile"", Walnuts = 175 } };
+    public class ProductionDataModel { public string Country { get; set; } public double Walnuts { get; set; } public double Almonds { get; set; } }
+    public List<ProductionDataModel> ProductionData1 = new()
+    {
+        new() { Country = ""Chile"", Walnuts = 175, Almonds = 11.3 },
+        new() { Country = ""European Union"", Walnuts = 140, Almonds = 135 },
+        new() { Country = ""Turkey"", Walnuts = 67, Almonds = 24 },
+        new() { Country = ""India"", Walnuts = 33, Almonds = 42 },
+        new() { Country = ""Australia"", Walnuts = 12, Almonds = 154 }
+    };
 }";
 
-    public string colorCode = @"<SfChart @key=""@_currentTheme"" Title=""Walnuts and Almonds Production"" Theme=""@_currentTheme"">
-    <ChartPrimaryXAxis ValueType=""Syncfusion.Blazor.Toolkit.ValueType.Category"" Interval=""1""></ChartPrimaryXAxis>
-    <ChartPrimaryYAxis Title=""Metric Tons""></ChartPrimaryYAxis>
-    
-        <ChartSeries DataSource=""@PointColorData"" XName=""X"" YName=""Y"" Type=""ChartSeriesType.Column"" PointColorMapping=""Color"" ColumnSpacing=""0.2"">
-            <ChartCornerRadius TopLeft=""8"" TopRight=""8""></ChartCornerRadius>
-        </ChartSeries>
-    
-</SfChart>
+    public string colorCode = @"<SfChart @key=""@_currentTheme"" Title=""Walnuts and Almonds Estimated Production for 2023"" Theme=""@_currentTheme"">
+            <ChartPrimaryXAxis ValueType=""Syncfusion.Blazor.Toolkit.ValueType.Category"" Interval=""1"" LabelIntersectAction=""LabelIntersectAction.Trim""></ChartPrimaryXAxis>
+			<ChartPrimaryYAxis></ChartPrimaryYAxis>
+                
+                    <ChartSeries DataSource=""@PointColorData"" XName=""X"" YName=""Y"" Type=""ChartSeriesType.Column"" PointColorMapping=""Color"" ColumnSpacing=""0.2"">
+                        <ChartCornerRadius TopLeft=""8"" TopRight=""8""></ChartCornerRadius>
+                    </ChartSeries>
+                
+                <ChartTooltipSettings Enable=""true"" Header=""${point.x}"" Format=""${point.x} : <b>${point.y}</b>"" />
+            </SfChart>
 
 @code {
     private Theme _currentTheme = Theme.Fluent;
-    public class TradeData { public string X { get; set; } public double Y { get; set; } public string Color { get; set; } }
-    public List<TradeData> PointColorData = new() { new TradeData { X = ""Tree Nuts"", Y = 1.12, Color = ""#578FCA"" } };
+        public class TradeDataModel { public string X { get; set; } public double Y { get; set; } public string Color { get; set; } }
+    public List<TradeDataModel> PointColorData = new()
+    {
+        new() { X = ""Tree Nuts"", Y = 1.12, Color = ""#578FCA"" },
+        new() { X = ""Pulses"", Y = 0.73, Color = ""#98A1EA"" },
+        new() { X = ""Essential Oils"", Y = 0.67, Color = ""#FF8080"" },
+        new() { X = ""Dairy Products"", Y = 0.52, Color = ""#D3DE32"" },
+        new() { X = ""Other Intermediate Products"", Y = 0.51, Color = ""#5FDDE5"" },
+        new() { X = ""Other Feeds, Meals & Fodders"", Y = 0.43, Color = ""#F6B53F"" },
+        new() { X = ""Ethanol"", Y = 0.42, Color = ""#F2C078"" },
+        new() { X = ""Fresh Fruit"", Y = 0.40, Color = ""#6FAAB0"" },
+        new() { X = ""Soybean Oil"", Y = 0.37, Color = ""#C4C24A"" },
+        new() { X = ""Cotton"", Y = 0.20, Color = ""#73946B"" }
+    };
 }";
 
     // --- Data Models and Helpers for Previews ---
@@ -1045,8 +1235,19 @@
     public class StackingGroupDataModel { public string X { get; set; } public double Y1 { get; set; } public double Y2 { get; set; } public double Y3 { get; set; } public double Y4 { get; set; } }
     public List<StackingGroupDataModel> stackingColumnGroupData = new() { new() { X = "2018", Y1 = 24.5, Y2 = 6.2, Y3 = 24.5, Y4 = 15.4 }, new() { X = "2019", Y1 = 25.6, Y2 = 15.6, Y3 = 23.2, Y4 = 21.1 } };
 
-    public class StackingColumnDataModel { public string X { get; set; } public double Y1 { get; set; } public double Y2 { get; set; } public double Y3 { get; set; } public double Total { get; set; } }
-    public static List<StackingColumnDataModel> Data = new() { new() { X = "2019", Y1 = 28.5, Y2 = 26.9, Y3 = 19.9, Total = 75.3 }, new() { X = "2020", Y1 = 27.5, Y2 = 29.3, Y3 = 14.6, Total = 71.4 }, new() { X = "2021", Y1 = 24.3, Y2 = 26.7, Y3 = 17.5, Total = 68.5 }, new() { X = "2022", Y1 = 26.3, Y2 = 30.8, Y3 = 14.5, Total = 71.6 }, new() { X = "2023", Y1 = 25.4, Y2 = 27.4, Y3 = 12.1, Total = 64.9 }, new() { X = "2024", Y1 = 25.0, Y2 = 31.0, Y3 = 14.4, Total = 70.4 } };
+    private void OnTooltipRender(TooltipRenderEventArgs args)
+    {
+        var dataPoint = Data.FirstOrDefault(d => d.X == args.Data.PointX.ToString());
+
+        if (dataPoint != null)
+        {
+            double total = dataPoint.Y1 + dataPoint.Y2 + dataPoint.Y3;
+
+            args.Text = $"{args.Data.PointX}<br/>Total: {total:F1} M";
+        }
+    }
+    public class StackingColumnDataModel { public string X { get; set; } public double Y1 { get; set; } public double Y2 { get; set; } public double Y3 { get; set; } }
+    public static List<StackingColumnDataModel> Data = new() { new() { X = "2019", Y1 = 28.5, Y2 = 26.9, Y3 = 19.9 }, new() { X = "2020", Y1 = 27.5, Y2 = 29.3, Y3 = 14.6 }, new() { X = "2021", Y1 = 24.3, Y2 = 26.7, Y3 = 17.5 }, new() { X = "2022", Y1 = 26.3, Y2 = 30.8, Y3 = 14.5 }, new() { X = "2023", Y1 = 25.4, Y2 = 27.4, Y3 = 12.1 }, new() { X = "2024", Y1 = 25.0, Y2 = 31.0, Y3 = 14.4 } };
 
     public class ColumnDataModel { public string Country { get; set; } public double Walnuts { get; set; } public double Almonds { get; set; } }
     private static List<ColumnDataModel> columnData = new() { new() { Country = "Chile", Walnuts = 175, Almonds = 11.3 }, new() { Country = "European Union", Walnuts = 140, Almonds = 135 }, new() { Country = "Turkey", Walnuts = 67, Almonds = 24 }, new() { Country = "India", Walnuts = 33, Almonds = 42 }, new() { Country = "Australia", Walnuts = 12, Almonds = 154 } };

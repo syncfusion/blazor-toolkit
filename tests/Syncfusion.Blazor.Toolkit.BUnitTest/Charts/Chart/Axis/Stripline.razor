@@ -11,8 +11,8 @@
         <SfChart ID="container" Height="400" Width="600">
             <ChartPrimaryXAxis Title="Sales Across Years">
                 <ChartStriplines>
-                    <ChartStripline StartFromAxis="false" Start="1" Size="4" VerticalAlignment="Anchor.End" Opacity="0.5" Color="Red" ZIndex="ZIndex.Behind" Text="Behind"></ChartStripline>
-                    <ChartStripline Start="6" End="8" Opacity="0.3" Color="Blue" Text="Over" ZIndex="ZIndex.Over">
+                    <ChartStripline StartFromAxis="false" Start="1" Size="4" VerticalAlignment="Anchor.End" Opacity="0.5" Color="Red" ZIndex="ZIndexPosition.Behind" Text="Behind"></ChartStripline>
+                    <ChartStripline Start="6" End="8" Opacity="0.3" Color="Blue" Text="Over" ZIndex="ZIndexPosition.Over">
                         <ChartStriplineTextStyle Color="#ffffff" />
                     </ChartStripline>
                 </ChartStriplines>
@@ -70,7 +70,7 @@
             </ChartPrimaryXAxis>
             <ChartPrimaryYAxis Title="Sales Amount in millions(USD)" RangePadding="ChartRangePadding.Additional">
                 <ChartStriplines>
-                    <ChartStripline Start="10" Size="23" Color="#663AB6" ZIndex="ZIndex.Over" Text="Behind"></ChartStripline>
+                    <ChartStripline Start="10" Size="23" Color="#663AB6" ZIndex="ZIndexPosition.Over" Text="Behind"></ChartStripline>
                     <ChartStripline Start="40" End="50" Color="#EB3F79">
                     </ChartStripline>
                 </ChartStriplines>
@@ -2855,7 +2855,7 @@
             <ChartPrimaryXAxis Title="Sales Across Years" ValueType="Syncfusion.Blazor.Toolkit.ValueType.Category" LabelPlacement="LabelPlacement.OnTicks">
             <ChartStriplines>
                 <ChartStripline StartFromAxis="true" Start="2" Size="3" Opacity="0.5" Color="Red" Text="Category Axis Behind"></ChartStripline>
-                <ChartStripline Start="4" End="6" Opacity="0.3" Color="Blue" Text="Category Axis Over" ZIndex="ZIndex.Over"></ChartStripline>
+                <ChartStripline Start="4" End="6" Opacity="0.3" Color="Blue" Text="Category Axis Over" ZIndex="ZIndexPosition.Over"></ChartStripline>
             </ChartStriplines>
             </ChartPrimaryXAxis>
             <ChartPrimaryYAxis Title="Sales Amount in millions(USD)" RangePadding="ChartRangePadding.Additional">
@@ -2919,7 +2919,7 @@
                                Minimum="new DateTime(2000, 06, 01)" Maximum="new DateTime(2010, 06, 01)">
             <ChartStriplines>
                 <ChartStripline Start="new DateTime(2001, 06, 01)" End="new DateTime(2004, 03, 06)" Size="90000000009" Opacity="0.5" Color="Red" Text="Date time Axis Behind"></ChartStripline>
-                <ChartStripline Start="new DateTime(2005, 01, 01)" End="new DateTime(2007, 01, 01)" Opacity="0.3" Color="Blue" Text="Date time Axis Over" ZIndex="ZIndex.Over"></ChartStripline>
+                <ChartStripline Start="new DateTime(2005, 01, 01)" End="new DateTime(2007, 01, 01)" Opacity="0.3" Color="Blue" Text="Date time Axis Over" ZIndex="ZIndexPosition.Over"></ChartStripline>
             </ChartStriplines>
             </ChartPrimaryXAxis>
             <ChartPrimaryYAxis Title="Sales Amount in millions(USD)" RangePadding="ChartRangePadding.Additional">
@@ -3044,8 +3044,8 @@
         <SfChart ID="container" Height="400" Width="600">
             <ChartPrimaryXAxis Title="Sales Across Years">
                 <ChartStriplines>
-                    <ChartStripline Visible="@visible" StartFromAxis="false" Start="1" Size="4" VerticalAlignment="Anchor.End" Opacity="0.5" Color="Red" ZIndex="ZIndex.Behind" Text="Behind"></ChartStripline>
-                    <ChartStripline Visible="@visible" Start="6" End="8" Opacity="0.3" Color="Blue" Text="Over" ZIndex="ZIndex.Over">
+                    <ChartStripline Visible="@visible" StartFromAxis="false" Start="1" Size="4" VerticalAlignment="Anchor.End" Opacity="0.5" Color="Red" ZIndex="ZIndexPosition.Behind" Text="Behind"></ChartStripline>
+                    <ChartStripline Visible="@visible" Start="6" End="8" Opacity="0.3" Color="Blue" Text="Over" ZIndex="ZIndexPosition.Over">
                         <ChartStriplineTextStyle Color="#ffffff" />
                     </ChartStripline>
                 </ChartStriplines>

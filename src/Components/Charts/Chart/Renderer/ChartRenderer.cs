@@ -57,7 +57,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts
         /// </summary>
         [Inject]
         [EditorBrowsable(EditorBrowsableState.Never)]
-        internal new SyncfusionBlazorService? SyncfusionService { get; set; }
+        internal new SyncfusionBlazorToolkitService? SyncfusionService { get; set; }
 
         /// <exclude />
         /// <summary>

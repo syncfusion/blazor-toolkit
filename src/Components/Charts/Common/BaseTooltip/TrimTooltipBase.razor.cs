@@ -14,8 +14,8 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
     public partial class TrimTooltipBase
     {
         #region Fields
-        CultureInfo _culture { get; set; } = CultureInfo.InvariantCulture;
-        Dictionary<string, object> _trimTooltipAttribute = [];
+        private CultureInfo _culture { get; set; } = CultureInfo.InvariantCulture;
+        private Dictionary<string, object> _trimTooltipAttribute = [];
         #endregion
 
         #region Properties
@@ -109,7 +109,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
 
         #region Private Methods
 
-        void updateStyleAttributes(string style)
+        private void updateStyleAttributes(string style)
         {
             _trimTooltipAttribute.Clear();
             _trimTooltipAttribute = [];

@@ -22,9 +22,9 @@ namespace Syncfusion.Blazor.Toolkit.Buttons
         /// The following example demonstrates how to handle the <see cref="Created"/> event.
         /// <code><![CDATA[
         /// <SfButtonGroup Created="@OnButtonGroupCreated">
-        ///   <ButtonGroupButton>Left</ButtonGroupButton>
-        ///   <ButtonGroupButton>Center</ButtonGroupButton>
-        ///   <ButtonGroupButton>Right</ButtonGroupButton>
+        ///   <Button>Left</Button>
+        ///   <Button>Center</Button>
+        ///   <Button>Right</Button>
         /// </SfButtonGroup>
         /// @code {
         ///     private void OnButtonGroupCreated()

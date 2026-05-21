@@ -111,6 +111,8 @@ namespace Syncfusion.Blazor.Toolkit.Calendars
         {
             get => BaseFloatLabelType; set => BaseFloatLabelType = value;
         }
+
+        /// <exclude />
         protected override FloatLabelType BaseFloatLabelType { get; set; }
 
         /// <summary>
@@ -194,6 +196,7 @@ namespace Syncfusion.Blazor.Toolkit.Calendars
         /// A dictionary of attribute name/value pairs that will be rendered on the DatePicker root element. Use the
         /// public <see cref="HtmlAttributes"/> parameter to read or set these values.
         /// </value>
+        /// <exclude />
         protected override Dictionary<string, object>? BaseHtmlAttributes { get; set; }
 
         /// <summary>
@@ -204,6 +207,7 @@ namespace Syncfusion.Blazor.Toolkit.Calendars
         /// that will be applied to the rendered input element. Use the public <see cref="InputAttributes"/> parameter to
         /// interact with these values.
         /// </value>
+        /// <exclude />
         protected override Dictionary<string, object>? BaseInputAttributes { get; set; }
 
         /// <summary>
@@ -232,6 +236,7 @@ namespace Syncfusion.Blazor.Toolkit.Calendars
         /// The placeholder text displayed in the input when it has no value. This value may be affected by
         /// the <see cref="FloatLabelType"/> setting which can change how and when the placeholder is shown.
         /// </value>
+        /// <exclude />
         protected override string BasePlaceholder { get; set; } = default!;
 
         /// <summary>
@@ -260,6 +265,7 @@ namespace Syncfusion.Blazor.Toolkit.Calendars
         /// When <c>true</c> the input element is rendered as read-only and user text entry is disallowed; when <c>false</c>
         /// the input may accept typed values (subject to <see cref="AllowEdit"/> and other settings).
         /// </value>
+        /// <exclude />
         protected override bool BaseReadOnly { get; set; }
 
         /// <summary>
@@ -268,6 +274,7 @@ namespace Syncfusion.Blazor.Toolkit.Calendars
         /// <value>
         /// <c>true</c> when the rendered input element should include read-only attributes and styling; otherwise <c>false</c>.
         /// </value>
+        /// <exclude />
         protected override bool BaseIsReadOnlyInput { get; set; }
 
         /// <summary>
@@ -297,6 +304,7 @@ namespace Syncfusion.Blazor.Toolkit.Calendars
         /// When <c>true</c>, the DatePicker will render a clear button that allows users to reset the input value.
         /// When <c>false</c>, the clear button is not rendered.
         /// </value>
+        /// <exclude />
         protected override bool BaseShowClearButton { get; set; }
 
         /// <summary>
@@ -343,6 +351,7 @@ namespace Syncfusion.Blazor.Toolkit.Calendars
         /// A CSS size string (for example, "280px" or "50%") that controls the rendered width of the DatePicker input and popup.
         /// When <c>null</c> the control will size automatically based on layout.
         /// </value>
+        /// <exclude />
         protected override string? BaseWidth { get; set; }
 
         /// <summary>
@@ -389,6 +398,7 @@ namespace Syncfusion.Blazor.Toolkit.Calendars
         /// An integer that determines the component's position in the page tab order. A value of <c>0</c> places the
         /// component in the natural tab sequence; positive values move it later in the order.
         /// </value>
+        /// <exclude />
         protected override int BaseTabIndex { get; set; }
 
         /// <summary>

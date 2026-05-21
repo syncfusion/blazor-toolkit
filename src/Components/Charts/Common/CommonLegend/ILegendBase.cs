@@ -1,8 +1,7 @@
 ﻿using Microsoft.AspNetCore.Components;
-using Syncfusion.Blazor.Toolkit.Charts.Internal;
 using System.ComponentModel;
 
-namespace Syncfusion.Blazor.Toolkit.Charts
+namespace Syncfusion.Blazor.Toolkit.Charts.Internal
 {
     /// <summary>
     /// Defines the core properties and configuration for chart legend rendering and behavior.

@@ -20,6 +20,9 @@ namespace Syncfusion.Blazor.Toolkit.Charts
         /// <value>
         /// The parent <see cref="SfChart"/> instance when available; otherwise <c>null</c>.
         /// </value>
+        /// <exclude />
+        [EditorBrowsable(EditorBrowsableState.Never)]
+        [Browsable(false)]
         [CascadingParameter]
         public SfChart? Owner { get; set; }
         #endregion

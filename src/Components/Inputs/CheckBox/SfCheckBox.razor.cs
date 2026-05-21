@@ -509,6 +509,7 @@ namespace Syncfusion.Blazor.Toolkit.Inputs
 
         #region Protected Methods
 
+        /// <exclude />
         /// <summary>
         /// Initializes the visual state and CSS classes for the component.
         /// </summary>

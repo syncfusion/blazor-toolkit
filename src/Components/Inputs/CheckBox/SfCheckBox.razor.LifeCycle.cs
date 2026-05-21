@@ -8,6 +8,7 @@ namespace Syncfusion.Blazor.Toolkit.Inputs
     {
         #region LifeCycle Methods
 
+        /// <exclude />
         /// <summary>
         /// Initializes the component state when the component is first created.
         /// </summary>
@@ -21,6 +22,7 @@ namespace Syncfusion.Blazor.Toolkit.Inputs
             }
         }
 
+        /// <exclude />
         /// <summary>
         /// Executes after each render to apply persisted state and initialize JavaScript interop.
         /// </summary>
@@ -79,6 +81,7 @@ namespace Syncfusion.Blazor.Toolkit.Inputs
             }
         }
 
+        /// <exclude />
         /// <summary>
         /// Disposes component resources and cleans up JavaScript interop handlers.
         /// </summary>

@@ -2177,6 +2177,7 @@ namespace Syncfusion.Blazor.Toolkit.Calendars
         /// from JavaScript, and updates the current value string and mask format accordingly.
         /// It's called when mask configuration changes or needs to be refreshed.
         /// </remarks>
+        /// <exclude/>
         protected async Task CreateMaskAsync()
         {
             TimePickerClientProps<TValue> options = GetClientProperties();
@@ -2198,6 +2199,7 @@ namespace Syncfusion.Blazor.Toolkit.Calendars
         /// maintains the current input value state. It applies min/max updates in strict mode
         /// and manages the strict value for invalid inputs during focused validation.
         /// </remarks>
+        /// <exclude/>
         protected override string FormatValueAsString(TValue? formatValue)
         {
             if (formatValue is not null)
@@ -2232,6 +2234,7 @@ namespace Syncfusion.Blazor.Toolkit.Calendars
         /// It supports multiple input formats, strict mode validation, and maintains proper state for invalid inputs.
         /// The method also handles TimeSpan-specific formatting and culture-specific input processing.
         /// </remarks>
+        /// <exclude/>
         protected override TValue FormatValue(string? genericValue = null)
         {
             if (string.IsNullOrEmpty(genericValue))
@@ -2327,6 +2330,7 @@ namespace Syncfusion.Blazor.Toolkit.Calendars
         /// This override processes input field changes, updates the current value string when masking is disabled,
         /// and marks the input as potentially invalid for validation purposes.
         /// </remarks>
+        /// <exclude/>
         protected override async Task InputHandlerAsync(ChangeEventArgs? args)
         {
             IsValideValue = false;
@@ -2351,6 +2355,7 @@ namespace Syncfusion.Blazor.Toolkit.Calendars
         /// float label adjustments, and optional popup opening based on OpenOnFocus setting.
         /// It also triggers the Focus event for subscribers.
         /// </remarks>
+        /// <exclude/>
         protected override async Task FocusHandlerAsync(Microsoft.AspNetCore.Components.Web.FocusEventArgs args)
         {
             if (ClientMaskValue is not null && (CurrentMaskFormat == ClientMaskValue.InputElementValue) && EnableMask)
@@ -2385,6 +2390,7 @@ namespace Syncfusion.Blazor.Toolkit.Calendars
         /// This override processes value changes from the input field and delegates to the KeyHandler
         /// method for further processing and validation.
         /// </remarks>
+        /// <exclude/>
         protected override async Task ChangeHandlerAsync(ChangeEventArgs? args)
         {
             IsChangeValue = true;
@@ -2402,6 +2408,7 @@ namespace Syncfusion.Blazor.Toolkit.Calendars
         /// This override manages blur behavior including mask value processing, strict mode updates,
         /// popup closing, validation updates, and float label adjustments. It also triggers the Blur event.
         /// </remarks>
+        /// <exclude/>
         protected override async Task FocusOutHandlerAsync(Microsoft.AspNetCore.Components.Web.FocusEventArgs args)
         {
             IsBlurred = true;
@@ -2556,7 +2563,6 @@ namespace Syncfusion.Blazor.Toolkit.Calendars
         /// timePicker.UpdateChildProperties(placeholders);
         /// ]]></code>
         /// </example>
-        /// <exclude/>
         public void UpdateChildProperties(object maskPlaceholderValue)
         {
             MaskPlaceholder = maskPlaceholderValue is null ? new TimePickerMaskPlaceholder() : (TimePickerMaskPlaceholder)maskPlaceholderValue;

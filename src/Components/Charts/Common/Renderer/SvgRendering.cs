@@ -13,9 +13,9 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
     public class SvgRendering
     {
         #region Constants
-        const string ELEMENT_GROUP = "g";
-        const string ELEMENT_DEFS = "defs";
-        const string ELEMENT_CLIP_PATH = "clipPath";
+        private const string ELEMENT_GROUP = "g";
+        private const string ELEMENT_DEFS = "defs";
+        private const string ELEMENT_CLIP_PATH = "clipPath";
         #endregion
 
         #region Properties
@@ -29,37 +29,37 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
         /// <summary>
         /// Gets or sets the collection of rendered SVG text elements.
         /// </summary>
-        internal List<SvgText>? TextElementList { get; set; } = new List<SvgText>();
+        internal List<SvgText>? TextElementList { get; set; } = [];
 
         /// <summary>
         /// Gets or sets the collection of rendered SVG path elements.
         /// </summary>
-        internal List<SvgPath>? PathElementList { get; set; } = new List<SvgPath>();
+        internal List<SvgPath>? PathElementList { get; set; } = [];
 
         /// <summary>
         /// Gets or sets the collection of rendered SVG ellipse elements.
         /// </summary>
-        internal List<SvgEllipse>? EllipseElementList { get; set; } = new List<SvgEllipse>();
+        internal List<SvgEllipse>? EllipseElementList { get; set; } = [];
 
         /// <summary>
         /// Gets or sets the collection of rendered SVG rectangle elements.
         /// </summary>
-        internal List<SvgRect>? RectElementList { get; set; } = new List<SvgRect>();
+        internal List<SvgRect>? RectElementList { get; set; } = [];
 
         /// <summary>
         /// Gets or sets the collection of rendered SVG image elements.
         /// </summary>
-        internal List<SvgImage>? ImageCollection { get; set; } = new List<SvgImage>();
+        internal List<SvgImage>? ImageCollection { get; set; } = [];
 
         /// <summary>
         /// Gets or sets the collection of rendered SVG circle elements.
         /// </summary>
-        internal List<SvgCircle>? CircleCollection { get; set; } = new List<SvgCircle>();
+        internal List<SvgCircle>? CircleCollection { get; set; } = [];
 
         /// <summary>
         /// Gets or sets the collection of group element references.
         /// </summary>
-        internal List<ElementReference>? GroupCollection { get; set; } = new List<ElementReference>();
+        internal List<ElementReference>? GroupCollection { get; set; } = [];
         #endregion
 
         #region Internal Methods

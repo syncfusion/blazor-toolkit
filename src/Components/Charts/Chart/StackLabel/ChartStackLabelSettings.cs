@@ -371,6 +371,9 @@ namespace Syncfusion.Blazor.Toolkit.Charts
         /// <remarks>
         /// Clears references to the parent chart, renderer, and child content, then forwards disposal to nested parts.
         /// </remarks>
+        /// <exclude />
+        [EditorBrowsable(EditorBrowsableState.Never)]
+        [Browsable(false)]
         protected override ValueTask DisposeAsyncCore()
         {
             chart = null;

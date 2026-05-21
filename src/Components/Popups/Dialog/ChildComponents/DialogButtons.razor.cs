@@ -81,6 +81,7 @@ namespace Syncfusion.Blazor.Toolkit.Popups
         /// When DisposeAsyncCore is called, this method clears the button collection, nullifies the child content,
         /// and removes the reference to the parent dialog component to prevent memory leaks.
         /// </remarks>
+        /// <exclude />
         protected override ValueTask DisposeAsyncCore()
         {
             Buttons?.Clear();

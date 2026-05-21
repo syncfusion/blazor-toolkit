@@ -36,7 +36,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts
             if (data is not null && data.Count > 0)
             {
                 GivenPattern = data;
-                InvokeAsync(StateHasChanged);
+                _ = InvokeAsync(StateHasChanged);
             }
         }
         #endregion

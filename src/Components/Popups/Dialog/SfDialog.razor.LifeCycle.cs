@@ -16,6 +16,7 @@ namespace Syncfusion.Blazor.Toolkit.Popups
         /// configures CSS classes, and initializes various properties like <see cref="AllowDragging"/>, <see cref="EnableResize"/>, and <see cref="IsModal"/>. 
         /// It also prepares the component for rendering, especially in server-side or prerendering scenarios.
         /// </remarks>
+        /// <exclude />
         protected override async Task OnInitializedAsync()
         {
             try
@@ -54,6 +55,7 @@ namespace Syncfusion.Blazor.Toolkit.Popups
         /// This method tracks changes in component parameters and updates the dialog's state accordingly. If any properties have changed, it calls the <c>ClientPropertyChangeHandler</c> 
         /// to apply these updates on the client side, ensuring that the dialog's appearance and behavior reflect the latest parameter values.
         /// </remarks>
+        /// <exclude />
         protected override async Task OnParametersSetAsync()
         {
             try
@@ -95,6 +97,7 @@ namespace Syncfusion.Blazor.Toolkit.Popups
         /// This method is responsible for handling tasks that must occur after the component's UI has been updated. It manages visibility changes and ensures that the dialog is correctly 
         /// initialized and displayed on the client side, particularly in scenarios involving prerendering.
         /// </remarks>
+        /// <exclude />
         protected override async Task OnAfterRenderAsync(bool firstRender)
         {
             try
@@ -239,6 +242,7 @@ namespace Syncfusion.Blazor.Toolkit.Popups
         /// This lifecycle method is responsible for cleaning up all resources used by the <see cref="SfDialog"/>. It destroys the client-side dialog instance, invokes the <c>Destroyed</c> event, 
         /// and disposes of all related objects to prevent memory leaks. It also includes error handling to manage exceptions that may occur during the disposal process.
         /// </remarks>
+        /// <exclude />
         protected override async ValueTask DisposeAsyncCore()
         {
             try

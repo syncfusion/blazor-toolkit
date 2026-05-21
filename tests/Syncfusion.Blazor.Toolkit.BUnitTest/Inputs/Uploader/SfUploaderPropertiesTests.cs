@@ -1063,12 +1063,12 @@ namespace Syncfusion.Blazor.Toolkit.Tests.Inputs.Uploader
                 .Add(a => a.SaveUrl, "/api/upload")
                 .Add(a => a.RemoveUrl, "/api/remove"));
 
-            var uploadedFiles = RenderComponent<UploaderFiles>(parameters => parameters
-                .AddChildContent<UploaderUploadedFiles>(file1 => file1
+            var uploadedFiles = RenderComponent<UploadedFiles>(parameters => parameters
+                .AddChildContent<UploadedFile>(file1 => file1
                     .Add(f => f.Name, "Document1")
                     .Add(f => f.Size, 1024000)
                     .Add(f => f.Type, "pdf"))
-                .AddChildContent<UploaderUploadedFiles>(file2 => file2
+                .AddChildContent<UploadedFile>(file2 => file2
                     .Add(f => f.Name, "Image1")
                     .Add(f => f.Size, 512000)
                     .Add(f => f.Type, "jpg")));
@@ -1360,12 +1360,12 @@ namespace Syncfusion.Blazor.Toolkit.Tests.Inputs.Uploader
                     .Add(a => a.RetryCount, 10)
                     .Add(a => a.RetryAfterDelay, 5000)));
 
-            var uploadedFiles = RenderComponent<UploaderFiles>(parameters => parameters
-            .AddChildContent<UploaderUploadedFiles>(f1 => f1
+            var uploadedFiles = RenderComponent<UploadedFiles>(parameters => parameters
+            .AddChildContent<UploadedFile>(f1 => f1
             .Add(f => f.Name, "PreloadedDoc1")
             .Add(f => f.Size, 2048000)
             .Add(f => f.Type, "pdf"))
-            .AddChildContent<UploaderUploadedFiles>(f2 => f2
+            .AddChildContent<UploadedFile>(f2 => f2
             .Add(f => f.Name, "PreloadedImage1")
             .Add(f => f.Size, 1024000)
             .Add(f => f.Type, "jpg")));

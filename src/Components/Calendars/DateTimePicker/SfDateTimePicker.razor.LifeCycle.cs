@@ -60,6 +60,7 @@ namespace Syncfusion.Blazor.Toolkit.Calendars
         /// and cleans up internal references to prevent memory leaks. It ensures proper cleanup of
         /// JavaScript interop resources and event handlers.
         /// </remarks>
+        /// <exclude/>
         protected override async ValueTask DisposeAsyncCore()
         {
             try

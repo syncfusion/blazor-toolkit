@@ -145,6 +145,7 @@ namespace Syncfusion.Blazor.Toolkit.Popups
         /// It's used internally to configure which JavaScript events should be wired up on the client side.
         /// Events include beforeRender, beforeCollision, beforeOpen, opened, beforeClose, and closed.
         /// </remarks>
+        /// <exclude />
         protected IDictionary<string, object> GetEventsList()
         {
             Dictionary<string, object> eventList = [];
@@ -167,6 +168,7 @@ namespace Syncfusion.Blazor.Toolkit.Popups
         /// It includes properties like target selectors, positioning, animation settings, content configuration, and behavioral flags.
         /// The method handles type conversions and conditional property inclusion based on current component state.
         /// </remarks>
+        /// <exclude />
         protected IDictionary<string, object> GetProperties()
         {
             Dictionary<string, object> properties = [];
@@ -189,6 +191,7 @@ namespace Syncfusion.Blazor.Toolkit.Popups
         /// This selective update approach optimizes performance by only sending changed properties to the client-side component.
         /// The content property is always included to ensure proper content synchronization.
         /// </remarks>
+        /// <exclude />
         protected IDictionary<string, object> GetPropertyChanges()
         {
             Dictionary<string, object> properties = [];
@@ -328,6 +331,7 @@ namespace Syncfusion.Blazor.Toolkit.Popups
         /// exceptions that may occur during the disposal process by notifying through the Destroyed event.
         /// It only executes cleanup operations if the component was previously rendered and not already destroyed.
         /// </remarks>
+        /// <exclude />
         protected override async ValueTask DisposeAsyncCore()
         {
             if (IsRendered && !_isDestroyed)

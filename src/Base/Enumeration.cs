@@ -780,6 +780,7 @@ namespace Syncfusion.Blazor.Toolkit
         /// Renders a numeric axis.
         /// </summary>
         Double,
+
         /// <summary>
         /// Renders a datetime axis.
         /// </summary>
@@ -871,7 +872,7 @@ namespace Syncfusion.Blazor.Toolkit
     /// <summary>
     /// Specifies the order of the strip line.
     /// </summary>
-    public enum ZIndex
+    public enum ZIndexPosition
     {
         /// <summary>
         /// Defines the strip line over the series elements.
@@ -1053,17 +1054,6 @@ namespace Syncfusion.Blazor.Toolkit
         /// Defines the interval of the axis in seconds.
         /// </summary>
         Seconds
-    }
-
-    /// <summary>
-    /// Specifies the area type of chart.
-    /// </summary>
-    public enum ChartAreaType
-    {
-        /// <summary>
-        /// Defines the cartesian axes area type.
-        /// </summary>
-        CartesianAxes
     }
 
     /// <summary>
@@ -2681,17 +2671,17 @@ namespace Syncfusion.Blazor.Toolkit
         /// <summary>
         /// Defines a path shape element.
         /// </summary>
-        path,
+        Path,
 
         /// <summary>
         /// Defines an ellipse shape element.
         /// </summary>
-        ellipse,
+        Ellipse,
 
         /// <summary>
         /// Defines an image shape element.
         /// </summary>
-        image
+        Image
     }
 
 

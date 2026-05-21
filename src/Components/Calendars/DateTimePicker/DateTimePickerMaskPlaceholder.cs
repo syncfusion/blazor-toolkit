@@ -42,38 +42,6 @@ namespace Syncfusion.Blazor.Toolkit.Calendars
     ///         Minute="mm" />
     /// </SfDateTimePicker>
     /// ]]></code>
-    /// <para>This example demonstrates usage in a data binding scenario with validation:</para>
-    /// <code><![CDATA[
-    /// @using System.ComponentModel.DataAnnotations
-    /// 
-    /// <EditForm Model="appointment">
-    ///     <DataAnnotationsValidator />
-    ///     
-    ///     <SfDateTimePicker @bind-Value="appointment.ScheduledTime" 
-    ///                       EnableMask="true" 
-    ///                       Format="MM/dd/yyyy HH:mm"
-    ///                       Placeholder="Select appointment time">
-    ///         <DateTimePickerMaskPlaceholder 
-    ///             Month="month" 
-    ///             Day="day" 
-    ///             Year="year" 
-    ///             Hour="hour" 
-    ///             Minute="min" />
-    ///     </SfDateTimePicker>
-    ///     
-    ///     <ValidationMessage For="@(() => appointment.ScheduledTime)" />
-    /// </EditForm>
-    /// 
-    /// @code {
-    ///     private AppointmentModel appointment = new();
-    ///     
-    ///     public class AppointmentModel
-    ///     {
-    ///         [Required(ErrorMessage = "Appointment time is required")]
-    ///         public DateTime ScheduledTime { get; set; } = DateTime.Now;
-    ///     }
-    /// }
-    /// ]]></code>
     /// </example>
     public class DateTimePickerMaskPlaceholder : DatePickerMaskPlaceholder
     {

@@ -97,15 +97,15 @@
             <label class="fw-bold d-block mb-2">Tick Placement</label>
 
             <SfButtonGroup Mode="SelectionMode.Single">
-                <ButtonGroupButton Selected="@IsOnTicks"
+                <Button Selected="@IsOnTicks"
                                    SelectedChanged="@(v => OnPlacementChanged(v, LabelPlacement.OnTicks))">
                     On Ticks
-                </ButtonGroupButton>
+                </Button>
 
-                <ButtonGroupButton Selected="@IsBetweenTicks"
+                <Button Selected="@IsBetweenTicks"
                                    SelectedChanged="@(v => OnPlacementChanged(v, LabelPlacement.BetweenTicks))">
                     Between Ticks
-                </ButtonGroupButton>
+                </Button>
             </SfButtonGroup>
         </div>
 
@@ -277,7 +277,7 @@
         </svg>
 
         <!-- Chart -->
-        <SfChart @key="@_currentTheme" Title="Indexed Category Comparison of GDP Growth Rate (%)" Theme="@_currentTheme">
+        <SfChart @key="(_currentTheme, IsIndexed)" Title="Indexed Category Comparison of GDP Growth Rate (%)" Theme="@_currentTheme">
             <ChartArea><ChartAreaBorder Width="0"></ChartAreaBorder></ChartArea>
             <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Toolkit.ValueType.Category"
             IsIndexed="@IsIndexed"
@@ -498,15 +498,15 @@
             <label class=""fw-bold d-block mb-2"">Tick Placement</label>
 
             <SfButtonGroup Mode=""SelectionMode.Single"">
-                <ButtonGroupButton Selected=""@IsOnTicks""
+                <Button Selected=""@IsOnTicks""
                                    SelectedChanged=""@(v => OnPlacementChanged(v, LabelPlacement.OnTicks))"">
                     On Ticks
-                </ButtonGroupButton>
+                </Button>
 
-                <ButtonGroupButton Selected=""@IsBetweenTicks""
+                <Button Selected=""@IsBetweenTicks""
                                    SelectedChanged=""@(v => OnPlacementChanged(v, LabelPlacement.BetweenTicks))"">
                     Between Ticks
-                </ButtonGroupButton>
+                </Button>
             </SfButtonGroup>
         </div>
 

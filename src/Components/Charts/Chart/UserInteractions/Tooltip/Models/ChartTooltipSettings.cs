@@ -370,6 +370,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts
         /// Called by the framework when the component is initialized.
         /// </remarks>
         /// <inheritdoc cref="ComponentBase.OnInitialized" />
+        /// <exclude />
         [EditorBrowsable(EditorBrowsableState.Never)]
         [Browsable(false)]
         protected override void OnInitialized()
@@ -385,6 +386,9 @@ namespace Syncfusion.Blazor.Toolkit.Charts
         /// <summary>
         /// Releases references to avoid memory leaks.
         /// </summary>
+        /// <exclude />
+        [EditorBrowsable(EditorBrowsableState.Never)]
+        [Browsable(false)]
         protected override ValueTask DisposeAsyncCore()
         {
             Parent = null;

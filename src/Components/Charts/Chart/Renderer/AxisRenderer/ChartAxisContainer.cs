@@ -250,12 +250,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
         /// </summary>
         private void CheckAreaType()
         {
-            ChartAreaType? areaType = Owner?.GetAreaType();
-
-            if (areaType == ChartAreaType.CartesianAxes)
-            {
-                AxisLayout = AxisLayout is CartesianAxisLayout ? AxisLayout : new CartesianAxisLayout();
-            }
+            AxisLayout = AxisLayout is CartesianAxisLayout ? AxisLayout : new CartesianAxisLayout();
         }
 
         /// <summary>

@@ -1,8 +1,7 @@
 ﻿@using Syncfusion.Blazor.Toolkit.Charts
+@using Syncfusion.Blazor.Toolkit.Charts.Internal
 @using Syncfusion.Blazor.Toolkit.Tests
 @using Syncfusion.Blazor.Toolkit.Data
-@using System.Dynamic
-@using System.Text.Json
 @using Bunit
 @using Xunit
 
@@ -199,7 +198,7 @@
         await chartObj.AddSeriesAsync(seriescollection);
         chartObj.RemoveSeries(chartObj._visibleSeriesRenderers[1].Series);
         chartObj.RemoveSeries(1);
-        chartObj.RemoveStripline((ChartStripline)chartObj._striplineBehindContainer.Elements[0], ZIndex.Behind);
+        chartObj.RemoveStripline((ChartStripline)chartObj._striplineBehindContainer.Elements[0], ZIndexPosition.Behind);
         chartObj.OnChartLongPress();
         List<PointXY> pointList = new List<PointXY> { new PointXY { PointIndex = 2, SeriesIndex = 0 } };
         chartObj.OnSelectionChange(pointList);

@@ -12,9 +12,8 @@ using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Forms;
 using System.Globalization;
 using System.Security.Cryptography;
-using Syncfusion.Blazor.Toolkit.Charts.Internal;
 
-namespace Syncfusion.Blazor.Toolkit
+namespace Syncfusion.Blazor.Toolkit.Data
 {
     /// <summary>
     /// A Base Component for all the Syncfusion Blazor UI components.
@@ -23,6 +22,7 @@ namespace Syncfusion.Blazor.Toolkit
     {
         #region properties
 
+        /// <exclude />
         /// <summary>
         /// Gets or sets the unique identifier for the instance.
         /// </summary>
@@ -110,30 +110,37 @@ namespace Syncfusion.Blazor.Toolkit
 
         #region protected properties
 
+        /// <exclude />
         /// <inheritdoc/>
         [Inject]
         protected IJSRuntime? JsRuntime { get; set; }
 
+        /// <exclude />
         /// <inheritdoc/>
         [JsonIgnore]
         [CascadingParameter]
         protected EditContext? EditContext { get; set; }
 
+        /// <exclude />
         /// <inheritdoc/>
         protected virtual string? NameSpace { get; set; }
 
+        /// <exclude />
         /// <inheritdoc/>
         protected virtual string? JsProperty { get; set; }
 
+        /// <exclude />
         /// <inheritdoc/>
         protected virtual BaseComponent? MainParent { get; set; }
 
+        /// <exclude />
         /// <inheritdoc/>
         protected virtual JSInteropAdaptor CreateJsAdaptor()
         {
             return default!;
         }
 
+        /// <exclude />
         /// <inheritdoc/>
         protected DotNetObjectReference<object>? DotNetObjectRef { get; set; }
         #endregion
@@ -176,7 +183,7 @@ namespace Syncfusion.Blazor.Toolkit
 
         [Inject]
         [JsonIgnore]
-        internal SyncfusionBlazorService? SyncfusionService { get; set; }
+        internal SyncfusionBlazorToolkitService? SyncfusionService { get; set; }
 
         [JsonIgnore]
         internal Dictionary<string, DataManager> DataManagerContainer { get; set; } = [];
@@ -232,6 +239,7 @@ namespace Syncfusion.Blazor.Toolkit
 
         #region life cycle methods
 
+        /// <exclude />
         /// <inheritdoc/>
         protected override async Task OnInitializedAsync()
         {
@@ -240,7 +248,7 @@ namespace Syncfusion.Blazor.Toolkit
             await base.OnInitializedAsync().ConfigureAwait(false);
             IsRerendering = false;
         }
-
+        /// <exclude />
         /// <inheritdoc/>
         protected override async Task OnAfterRenderAsync(bool firstRender)
         {
@@ -418,6 +426,7 @@ namespace Syncfusion.Blazor.Toolkit
             InvokedEvents = [];
         }
 
+        /// <exclude />
         /// <inheritdoc/>
         protected void ClearClientChanges(bool clearBindables = false)
         {
@@ -531,6 +540,7 @@ namespace Syncfusion.Blazor.Toolkit
             IsObservableCollectionChanged = true;
         }
 
+        /// <exclude />
         /// <inheritdoc/>
         protected virtual void WireObservableEvents(object collection)
         {
@@ -954,12 +964,14 @@ namespace Syncfusion.Blazor.Toolkit
             return JsonSerializer.Serialize(bindableProp, _serialiazeBindablePropJsonSettings);
         }
 
+        /// <exclude />
         /// <inheritdoc/>
         protected virtual string GetSerializedModel()
         {
             return JsonSerializer.Serialize(this, GetType(), GetJsonSerializerOptions());
         }
 
+        /// <exclude />
         /// <inheritdoc/>
         protected virtual string GetUpdateModel(bool isInit = false)
         {
@@ -999,11 +1011,12 @@ namespace Syncfusion.Blazor.Toolkit
         {
             Console.Error.WriteLine(message + "\n" + stack);
         }
-                
+
+        /// <exclude />
         /// <inheritdoc/>
         protected object GetDataManager(object dataSource, string? key = null)
         {
-            if (dataSource is SfDataManager or Toolkit.DataManager)
+            if (dataSource is SfDataManager or Data.DataManager)
             {
                 return dataSource;
             }

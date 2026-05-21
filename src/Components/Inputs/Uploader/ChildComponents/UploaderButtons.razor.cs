@@ -217,6 +217,7 @@ namespace Syncfusion.Blazor.Toolkit.Inputs
         /// <remarks>
         /// This method is called when the component is being disposed. It clears the parent reference to prevent memory leaks and ensure proper garbage collection.
         /// </remarks>
+        /// <exclude/>
         protected override ValueTask DisposeAsyncCore()
         {
             Parent = null;

@@ -7,19 +7,19 @@ namespace Syncfusion.Blazor.Toolkit.Buttons
     /// Represents a single button within a <see cref="SfButtonGroup"/>. The button can display text, an icon, or both, and triggers an action when clicked.
     /// </summary>
     /// <remarks>
-    /// The content for the <see cref="ButtonGroupButton"/> can be defined using the <see cref="Content"/> property or by placing markup inside the component tag.
+    /// The content for the <see cref="Button"/> can be defined using the <see cref="Content"/> property or by placing markup inside the component tag.
     /// </remarks>
     /// <example>
-    /// This example demonstrates how to create a basic <see cref="SfButtonGroup"/> with several <see cref="ButtonGroupButton"/> components.
+    /// This example demonstrates how to create a basic <see cref="SfButtonGroup"/> with several <see cref="Button"/> components.
     /// <code><![CDATA[
     /// <SfButtonGroup>
-    ///   <ButtonGroupButton Content="Left"></ButtonGroupButton>
-    ///   <ButtonGroupButton Content="Center"></ButtonGroupButton>
-    ///   <ButtonGroupButton Content="Right"></ButtonGroupButton>
+    ///   <Button Content="Left"></Button>
+    ///   <Button Content="Center"></Button>
+    ///   <Button Content="Right"></Button>
     /// </SfButtonGroup>
     /// ]]></code>
     /// </example>
-    public partial class ButtonGroupButton
+    public partial class Button
     {
 
         #region Fields
@@ -72,6 +72,7 @@ namespace Syncfusion.Blazor.Toolkit.Buttons
 
         #region Helper Methods
 
+        /// <exclude />
         /// <summary>
         /// Asynchronously updates the selection state of the button.
         /// </summary>

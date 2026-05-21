@@ -16,7 +16,7 @@ namespace Syncfusion.Blazor.Toolkit
         internal IJSRuntime? JSRuntime { get; set; }
 
         [Inject]
-        internal SyncfusionBlazorService? SyncfusionService { get; set; }
+        internal SyncfusionBlazorToolkitService? SyncfusionService { get; set; }
 
         internal IJSObjectReference? _baseJsModule;
         internal IJSInProcessObjectReference? _baseJsInProcessModule;
@@ -41,6 +41,7 @@ namespace Syncfusion.Blazor.Toolkit
 
         internal DotNetObjectReference<object>? DotnetObjectReference { get; set; }
 
+        /// <exclude />
         /// <summary>
         /// Gets a value determining if the component and associated services have been disposed.
         /// </summary>
@@ -49,6 +50,8 @@ namespace Syncfusion.Blazor.Toolkit
         #endregion
 
         #region life cycle methods
+
+        /// <exclude />
         /// <summary>
         /// Method invoked when the component is ready to start.
         /// </summary>
@@ -58,6 +61,8 @@ namespace Syncfusion.Blazor.Toolkit
             await base.OnInitializedAsync().ConfigureAwait(true);
             PropertyChanges = [];
         }
+
+        /// <exclude />
         /// <summary>
         /// Called after the component has finished rendering. When <paramref name="firstRender"/>
         /// is true, <see cref="OnAfterScriptRenderedAsync"/> is invoked for first-time initialization.
@@ -421,6 +426,7 @@ namespace Syncfusion.Blazor.Toolkit
             await InvokeVoidAsync(_baseJsModule, _baseJsInProcessModule, "disposeWindowsInstance", id).ConfigureAwait(true);
         }
 
+        /// <exclude />
         /// <summary>
         /// Override to release resources for derived components.
         /// </summary>

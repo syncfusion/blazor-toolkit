@@ -8,8 +8,8 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
     public partial class StyleElement
     {
         #region Fields
-        RenderFragment _templateContent { get; set; } = null!;
-        bool _allowStyles { get; set; }
+        private RenderFragment _templateContent { get; set; } = null!;
+        private bool _allowStyles { get; set; }
         #endregion
 
         #region Private Methods
@@ -19,10 +19,13 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
         /// </summary>
         /// <param name="styles">Raw CSS text to render.</param>
         /// <returns>A <see cref="RenderFragment"/> that renders the sanitized CSS inside a style tag.</returns>
-        static RenderFragment RenderStyles(string styles) => builder =>
+        private static RenderFragment RenderStyles(string styles)
         {
-            builder.AddMarkupContent(1, styles);
-        };
+            return builder =>
+            {
+                builder.AddMarkupContent(1, styles);
+            };
+        }
         #endregion
 
         #region Internal Methods
@@ -35,7 +38,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
         {
             _allowStyles = true;
             _templateContent = RenderStyles(styleContent);
-            InvokeAsync(StateHasChanged);
+            _ = InvokeAsync(StateHasChanged);
         }
         #endregion
     }

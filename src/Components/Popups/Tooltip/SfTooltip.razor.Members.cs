@@ -65,14 +65,15 @@ namespace Syncfusion.Blazor.Toolkit.Popups
         /// <example>
         /// <code><![CDATA[
         /// <SfTooltip Content="Let's go green to save the planet!!" Animation="@Animation">
-        ///  <SfButton Content="Show Tooltip"></SfButton>
+        /// <SfButton Content="Show Tooltip"></SfButton>
         /// </SfTooltip>
-        ///@code {
-                ///  public AnimationModel Animation { get; set; } = new AnimationModel
-                /// {
-                ///    Open = new TooltipAnimationSettings {Delay = 0, Duration = 500, Effect = Effect.ZoomIn },
-                ///    Close = new TooltipAnimationSettings{Delay=0,Duration=500,Effect=Effect.ZoomOut}
-                /// };
+        /// @code 
+        /// {
+        ///  public AnimationModel Animation { get; set; } = new AnimationModel
+        ///  {
+        ///    Open = new TooltipAnimationSettings {Delay = 0, Duration = 500, Effect = Effect.ZoomIn },
+        ///    Close = new TooltipAnimationSettings{Delay=0,Duration=500,Effect=Effect.ZoomOut}
+        ///  };
         /// }
         /// ]]></code>
         ///</example>

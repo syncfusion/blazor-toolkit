@@ -45,16 +45,19 @@ namespace Syncfusion.Blazor.Toolkit.Inputs
         /// <summary>
         /// Gets or sets the root CSS class for the <see cref="SfTextBox"/> component, which defines the base styling for the TextBox element.
         /// </summary>
+        /// <exclude/>
         protected override string RootClass { get; set; } = "e-control e-textbox e-lib";
 
         /// <summary>
         /// Gets or sets the container CSS class for the <see cref="SfTextBox"/> component, which is used to apply additional styling to the TextBox container element.
         /// </summary>
+        /// <exclude/>
         protected override string ContainerClass { get; set; } = string.Empty;
 
         /// <summary>
         /// Gets or sets the base autocomplete value for the <see cref="SfTextBox"/> component, which is used to specify the autocomplete behavior of the input element. The default value is determined by the Autocomplete property.
         /// </summary>
+        /// <exclude/>
         protected override string BaseAutocomplete { get; set; } = default!;
 
         #endregion
@@ -473,6 +476,7 @@ namespace Syncfusion.Blazor.Toolkit.Inputs
         /// </list>
         /// <para>The method provides both detailed focus information through FocusInEventArgs and standard focus event args for different use cases and backward compatibility.</para>
         /// </remarks>
+        /// <exclude/>
         protected override async Task FocusHandlerAsync(FocusEventArgs args)
         {
             if (OnFocus.HasDelegate && !_isClearIconClick)
@@ -505,6 +509,7 @@ namespace Syncfusion.Blazor.Toolkit.Inputs
         /// </list>
         /// <para>The change detection logic ensures that value changes are properly captured and notified even if they occurred during input without explicit change events being fired.</para>
         /// </remarks>
+        /// <exclude/>
         protected override async Task FocusOutHandlerAsync(FocusEventArgs args)
         {
             if (!(string.IsNullOrEmpty(_previousValue) && string.IsNullOrEmpty(Value) && string.IsNullOrEmpty(InputTextValue)) && _previousValue != InputTextValue)
@@ -540,6 +545,7 @@ namespace Syncfusion.Blazor.Toolkit.Inputs
         /// </list>
         /// <para>The method is part of the value formatting pipeline and ensures that all values displayed in the TextBox are properly converted to string representation.</para>
         /// </remarks>
+        /// <exclude/>
         protected override string? FormatValue(string? genericValue)
         {
             return genericValue == null ? default : (string)SfBaseUtils.ChangeType(genericValue, typeof(string))!;
@@ -564,6 +570,7 @@ namespace Syncfusion.Blazor.Toolkit.Inputs
         /// </list>
         /// <para>The input handler is essential for features that require real-time feedback, such as character counting, input validation, and dynamic content updates.</para>
         /// </remarks>
+        /// <exclude/>
         protected override async Task InputHandlerAsync(ChangeEventArgs? args)
         {
             if (OnInput.HasDelegate)
@@ -597,6 +604,7 @@ namespace Syncfusion.Blazor.Toolkit.Inputs
         /// </list>
         /// <para>Unlike the InputHandler which fires during real-time typing, the ChangeHandler fires when the value is considered "committed" by the browser, making it suitable for final value processing and validation.</para>
         /// </remarks>
+        /// <exclude/>
         protected override async Task ChangeHandlerAsync(ChangeEventArgs? args)
         {
             string? changeVal = args is not null ? args.Value as string : null;

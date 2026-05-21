@@ -68,6 +68,8 @@ namespace Syncfusion.Blazor.Toolkit.Inputs
         #endregion
 
         #region Protected Methods
+
+        /// <exclude />
         /// <inheritdoc />
         protected override void InitRender(bool isDynamic = false)
         {

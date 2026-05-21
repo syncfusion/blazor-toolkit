@@ -24,7 +24,7 @@ namespace Syncfusion.Blazor.Toolkit.Tests.Buttons
             var defaultBGComponent = RenderComponent<DefaultBG>();
             var buttonGroupComponents = defaultBGComponent.FindComponents<SfButtonGroup>();
             // Index 1 = second SfButtonGroup in DefaultBG (Mode=Single)
-            var singleGroupButtons = buttonGroupComponents[1].FindComponents<ButtonGroupButton>();
+            var singleGroupButtons = buttonGroupComponents[1].FindComponents<Button>();
             var labels = defaultBGComponent.FindAll("div.e-btn-group")[1].QuerySelectorAll("label");
             Assert.Equal(ExpectedButtonCount, singleGroupButtons.Count);
             for (var index = 0; index < ExpectedButtonCount; index++)
@@ -41,7 +41,7 @@ namespace Syncfusion.Blazor.Toolkit.Tests.Buttons
             var defaultBGComponent = RenderComponent<DefaultBG>();
             var buttonGroupComponents = defaultBGComponent.FindComponents<SfButtonGroup>();
             // Index 2 = third SfButtonGroup in DefaultBG (Mode=Multiple)
-            var multipleGroupButtons = buttonGroupComponents[2].FindComponents<ButtonGroupButton>();
+            var multipleGroupButtons = buttonGroupComponents[2].FindComponents<Button>();
             var group = defaultBGComponent.FindAll("div.e-btn-group")[2];
             var labels = group.QuerySelectorAll("label");
             var inputs = group.QuerySelectorAll("input");
@@ -77,7 +77,7 @@ namespace Syncfusion.Blazor.Toolkit.Tests.Buttons
 
             // Component-level default selection verification (single render, no duplicate)
             var buttonGroupComponents = defaultBGComponent.FindComponents<SfButtonGroup>();
-            var defaultChildren = buttonGroupComponents[3].FindComponents<ButtonGroupButton>();
+            var defaultChildren = buttonGroupComponents[3].FindComponents<Button>();
             Assert.True(defaultChildren[0].Instance.Selected);
             Assert.False(defaultChildren[1].Instance.Selected);
             Assert.False(defaultChildren[2].Instance.Selected);
@@ -133,17 +133,17 @@ namespace Syncfusion.Blazor.Toolkit.Tests.Buttons
             var buttonGroupComponents = othersBGComponent.FindComponents<SfButtonGroup>();
             // Index 1 = second group in OthersBG (Single mode; middle button disabled)
             var targetGroup  = buttonGroupComponents[1];
-            var childButtons = targetGroup.FindComponents<ButtonGroupButton>();
+            var childButtons = targetGroup.FindComponents<Button>();
 
             Assert.True(childButtons[1].Instance.Disabled);
 
             // Click disabled label — Selected must remain false (fix: was incorrectly Assert.True)
             childButtons[1].Find("label").Click();
-            Assert.False(targetGroup.FindComponents<ButtonGroupButton>()[1].Instance.Selected);
+            Assert.False(targetGroup.FindComponents<Button>()[1].Instance.Selected);
 
             // Click enabled label — it should become selected
             childButtons[2].Find("label").Click();
-            Assert.True(targetGroup.FindComponents<ButtonGroupButton>()[2].Instance.Selected);
+            Assert.True(targetGroup.FindComponents<Button>()[2].Instance.Selected);
         }
 
         [Trait("ButtonGroup", "Others")]
@@ -264,17 +264,17 @@ namespace Syncfusion.Blazor.Toolkit.Tests.Buttons
 
             // Single mode group (index 1)
             var singleGroupComponent = buttonGroupComponents[1];
-            var singleGroupButtons   = singleGroupComponent.FindComponents<ButtonGroupButton>();
+            var singleGroupButtons   = singleGroupComponent.FindComponents<Button>();
             Assert.True(singleGroupButtons.Count > 2, "Expected at least 3 child buttons in single group.");
             singleGroupButtons[2].Find("label").Click();
-            Assert.True(singleGroupComponent.FindComponents<ButtonGroupButton>()[2].Instance.Selected);
+            Assert.True(singleGroupComponent.FindComponents<Button>()[2].Instance.Selected);
 
             // Multiple mode group (index 2)
             var multiGroupComponent = buttonGroupComponents[2];
-            var multiGroupButtons   = multiGroupComponent.FindComponents<ButtonGroupButton>();
+            var multiGroupButtons   = multiGroupComponent.FindComponents<Button>();
             Assert.True(multiGroupButtons.Count > 2, "Expected at least 3 child buttons in multiple group.");
             multiGroupButtons[2].Find("label").Click();
-            Assert.True(multiGroupComponent.FindComponents<ButtonGroupButton>()[2].Instance.Selected);
+            Assert.True(multiGroupComponent.FindComponents<Button>()[2].Instance.Selected);
         }
 
         // Note: Multiple_LabelClick_TogglesSelected removed — fully subsumed by Multiple_Toggle_OnOff.
@@ -286,16 +286,16 @@ namespace Syncfusion.Blazor.Toolkit.Tests.Buttons
             var defaultBGComponent    = RenderComponent<DefaultBG>();
             var buttonGroupComponents = defaultBGComponent.FindComponents<SfButtonGroup>();
             var multiGroup   = buttonGroupComponents[2];
-            var childButtons = multiGroup.FindComponents<ButtonGroupButton>();
+            var childButtons = multiGroup.FindComponents<Button>();
             Assert.True(childButtons.Count > 0);
 
             // Toggle on
             childButtons[0].Find("label").Click();
-            Assert.True(multiGroup.FindComponents<ButtonGroupButton>()[0].Instance.Selected);
+            Assert.True(multiGroup.FindComponents<Button>()[0].Instance.Selected);
 
             // Toggle off
-            multiGroup.FindComponents<ButtonGroupButton>()[0].Find("label").Click();
-            Assert.False(multiGroup.FindComponents<ButtonGroupButton>()[0].Instance.Selected);
+            multiGroup.FindComponents<Button>()[0].Find("label").Click();
+            Assert.False(multiGroup.FindComponents<Button>()[0].Instance.Selected);
         }
 
         [Trait("ButtonGroup", "Clicking")]
@@ -305,7 +305,7 @@ namespace Syncfusion.Blazor.Toolkit.Tests.Buttons
             var defaultBGComponent    = RenderComponent<DefaultBG>();
             var buttonGroupComponents = defaultBGComponent.FindComponents<SfButtonGroup>();
             var singleGroup  = buttonGroupComponents[1];
-            var childButtons = singleGroup.FindComponents<ButtonGroupButton>();
+            var childButtons = singleGroup.FindComponents<Button>();
             Assert.True(childButtons.Count >= 3, "Expected at least three child buttons in single group.");
 
             // Initial: all unselected
@@ -314,14 +314,14 @@ namespace Syncfusion.Blazor.Toolkit.Tests.Buttons
 
             // Select first
             childButtons[0].Find("label").Click();
-            var r1 = singleGroup.FindComponents<ButtonGroupButton>();
+            var r1 = singleGroup.FindComponents<Button>();
             Assert.True(r1[0].Instance.Selected);
             Assert.False(r1[1].Instance.Selected);
             Assert.False(r1[2].Instance.Selected);
 
             // Select second — first must uncheck
             r1[1].Find("label").Click();
-            var r2 = singleGroup.FindComponents<ButtonGroupButton>();
+            var r2 = singleGroup.FindComponents<Button>();
             Assert.False(r2[0].Instance.Selected);
             Assert.True(r2[1].Instance.Selected);
             Assert.False(r2[2].Instance.Selected);
@@ -345,18 +345,18 @@ namespace Syncfusion.Blazor.Toolkit.Tests.Buttons
             var defaultBGComponent    = RenderComponent<DefaultBG>();
             var buttonGroupComponents = defaultBGComponent.FindComponents<SfButtonGroup>();
             var singleGroup  = buttonGroupComponents[1];
-            var childButtons = singleGroup.FindComponents<ButtonGroupButton>();
+            var childButtons = singleGroup.FindComponents<Button>();
             Assert.True(childButtons.Count >= 3);
 
             // Select first
             childButtons[0].Find("label").Click();
-            var r1 = singleGroup.FindComponents<ButtonGroupButton>();
+            var r1 = singleGroup.FindComponents<Button>();
             Assert.True(r1[0].Instance.Selected);
             Assert.False(r1[1].Instance.Selected);
 
             // Select second — first must uncheck
             r1[1].Find("label").Click();
-            var r2 = singleGroup.FindComponents<ButtonGroupButton>();
+            var r2 = singleGroup.FindComponents<Button>();
             Assert.False(r2[0].Instance.Selected);
             Assert.True(r2[1].Instance.Selected);
 
@@ -457,7 +457,7 @@ namespace Syncfusion.Blazor.Toolkit.Tests.Buttons
         public void ModeDefault_RendersSfButton()
         {
             var extraBGComponent = RenderComponent<ExtraBG>();
-            // Group 0: Mode=Default — ButtonGroupButton emits SfButton (button.e-btn), no input/label pairs
+            // Group 0: Mode=Default — Button emits SfButton (button.e-btn), no input/label pairs
             var defaultGroup = extraBGComponent.FindAll("div.e-btn-group")[0];
             var sfButtons    = defaultGroup.QuerySelectorAll(".e-btn");
             Assert.Equal(ExpectedButtonCount, sfButtons.Length);
@@ -529,7 +529,7 @@ namespace Syncfusion.Blazor.Toolkit.Tests.Buttons
             var extraBGComponent      = RenderComponent<ExtraBG>();
             var buttonGroupComponents = extraBGComponent.FindComponents<SfButtonGroup>();
             // Group 4: first child IsToggle=true, second IsToggle=false
-            var group4Buttons = buttonGroupComponents[4].FindComponents<ButtonGroupButton>();
+            var group4Buttons = buttonGroupComponents[4].FindComponents<Button>();
             Assert.Equal(2, group4Buttons.Count);
             Assert.True(group4Buttons[0].Instance.IsToggle);
             Assert.False(group4Buttons[1].Instance.IsToggle);

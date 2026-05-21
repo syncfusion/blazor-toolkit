@@ -465,8 +465,8 @@ namespace Syncfusion.Blazor.Toolkit.Tests.Inputs.Uploader
         {
             // Arrange & Act - Feature Group: Further customization
             var uploader = RenderComponent<SfUploader>(parameters => parameters
-                .AddChildContent<UploaderFiles>(files => files
-                    .AddChildContent<UploaderUploadedFiles>(file => file
+                .AddChildContent<UploadedFiles>(files => files
+                    .AddChildContent<UploadedFile>(file => file
                         .Add(f => f.Name, "Document")
                         .Add(f => f.Size, 1024000)
                         .Add(f => f.Type, "pdf"))));
@@ -481,12 +481,12 @@ namespace Syncfusion.Blazor.Toolkit.Tests.Inputs.Uploader
         {
             // Arrange & Act - Feature Group: Further customization
             var uploader = RenderComponent<SfUploader>(parameters => parameters
-                .AddChildContent<UploaderFiles>(files => files
-                    .AddChildContent<UploaderUploadedFiles>(file1 => file1
+                .AddChildContent<UploadedFiles>(files => files
+                    .AddChildContent<UploadedFile>(file1 => file1
                         .Add(f => f.Name, "Document1")
                         .Add(f => f.Size, 1024000)
                         .Add(f => f.Type, "pdf"))
-                    .AddChildContent<UploaderUploadedFiles>(file2 => file2
+                    .AddChildContent<UploadedFile>(file2 => file2
                         .Add(f => f.Name, "Image1")
                         .Add(f => f.Size, 512000)
                         .Add(f => f.Type, "jpg"))));
@@ -496,10 +496,10 @@ namespace Syncfusion.Blazor.Toolkit.Tests.Inputs.Uploader
         }
 
         [Fact(Timeout = 10000)]
-        public void UploaderUploadedFiles_DefaultValues()
+        public void UploadedFile_DefaultValues()
         {
             // Arrange & Act
-            var uploadedFile = new UploaderUploadedFiles();
+            var uploadedFile = new UploadedFile();
 
             // Assert
             Assert.Equal(string.Empty, uploadedFile.Name);
@@ -508,10 +508,10 @@ namespace Syncfusion.Blazor.Toolkit.Tests.Inputs.Uploader
         }
 
         [Fact(Timeout = 10000)]
-        public void UploaderUploadedFiles_SetProperties()
+        public void UploadedFile_SetProperties()
         {
             // Arrange & Act
-            var uploadedFile = new UploaderUploadedFiles
+            var uploadedFile = new UploadedFile
             {
                 Name = "Document",
                 Size = 2048576,
@@ -528,8 +528,8 @@ namespace Syncfusion.Blazor.Toolkit.Tests.Inputs.Uploader
         public void Uploader_WithSinglePreloadedFile()
         {
 
-            var uploadedFiles = RenderComponent<UploaderFiles>(parameters => parameters
-            .AddChildContent<UploaderUploadedFiles>(uploadedFile => uploadedFile
+            var uploadedFiles = RenderComponent<UploadedFiles>(parameters => parameters
+            .AddChildContent<UploadedFile>(uploadedFile => uploadedFile
             .Add(p => p.Name, "TestDocument")
             .Add(p => p.Size, 1024000)
             .Add(p => p.Type, "pdf")));
@@ -546,16 +546,16 @@ namespace Syncfusion.Blazor.Toolkit.Tests.Inputs.Uploader
         public void Uploader_WithMultiplePreloadedFiles()
         {
             // Arrange & Act
-            var uploadedFiles = RenderComponent<UploaderFiles>(parameters => parameters
-                .AddChildContent<UploaderUploadedFiles>(file1 => file1
+            var uploadedFiles = RenderComponent<UploadedFiles>(parameters => parameters
+                .AddChildContent<UploadedFile>(file1 => file1
                     .Add(p => p.Name, "Document1")
                     .Add(p => p.Size, 1024000)
                     .Add(p => p.Type, "pdf"))
-                .AddChildContent<UploaderUploadedFiles>(file2 => file2
+                .AddChildContent<UploadedFile>(file2 => file2
                     .Add(p => p.Name, "Image1")
                     .Add(p => p.Size, 512000)
                     .Add(p => p.Type, "jpg"))
-                .AddChildContent<UploaderUploadedFiles>(file3 => file3
+                .AddChildContent<UploadedFile>(file3 => file3
                     .Add(p => p.Name, "Spreadsheet1")
                     .Add(p => p.Size, 2048000)
                     .Add(p => p.Type, "xlsx")));
@@ -581,11 +581,11 @@ namespace Syncfusion.Blazor.Toolkit.Tests.Inputs.Uploader
         }
 
         [Fact(Timeout = 10000)]
-        public void UploaderUploadedFiles_LargeFileSize()
+        public void UploadedFile_LargeFileSize()
         {
             // Arrange & Act
-            var uploadedFiles = RenderComponent<UploaderFiles>(parameters => parameters
-                .AddChildContent<UploaderUploadedFiles>(uploadedFile => uploadedFile
+            var uploadedFiles = RenderComponent<UploadedFiles>(parameters => parameters
+                .AddChildContent<UploadedFile>(uploadedFile => uploadedFile
                     .Add(p => p.Name, "LargeVideo")
                     .Add(p => p.Size, 500 * 1024 * 1024) // 500 MB
                     .Add(p => p.Type, "mp4")));
@@ -597,23 +597,23 @@ namespace Syncfusion.Blazor.Toolkit.Tests.Inputs.Uploader
         }
 
         [Fact(Timeout = 10000)]
-        public void UploaderUploadedFiles_DifferentFileTypes()
+        public void UploadedFile_DifferentFileTypes()
         {
             // Arrange & Act
-            var uploadedFiles = RenderComponent<UploaderFiles>(parameters => parameters
-                .AddChildContent<UploaderUploadedFiles>(file1 => file1
+            var uploadedFiles = RenderComponent<UploadedFiles>(parameters => parameters
+                .AddChildContent<UploadedFile>(file1 => file1
                     .Add(p => p.Name, "TextFile")
                     .Add(p => p.Size, 1024)
                     .Add(p => p.Type, "txt"))
-                .AddChildContent<UploaderUploadedFiles>(file2 => file2
+                .AddChildContent<UploadedFile>(file2 => file2
                     .Add(p => p.Name, "ImageFile")
                     .Add(p => p.Size, 2048576)
                     .Add(p => p.Type, "png"))
-                .AddChildContent<UploaderUploadedFiles>(file3 => file3
+                .AddChildContent<UploadedFile>(file3 => file3
                     .Add(p => p.Name, "VideoFile")
                     .Add(p => p.Size, 10485760)
                     .Add(p => p.Type, "mp4"))
-                .AddChildContent<UploaderUploadedFiles>(file4 => file4
+                .AddChildContent<UploadedFile>(file4 => file4
                     .Add(p => p.Name, "AudioFile")
                     .Add(p => p.Size, 5242880)
                     .Add(p => p.Type, "mp3")));
@@ -630,18 +630,18 @@ namespace Syncfusion.Blazor.Toolkit.Tests.Inputs.Uploader
         }
 
         [Fact(Timeout = 10000)]
-        public void UploaderUploadedFiles_EmptyFile()
+        public void UploadedFile_EmptyFile()
         {
             // Arrange & Act
             var uploader = RenderComponent<SfUploader>(parameters => parameters
-                .AddChildContent<UploaderFiles>(files => files
-                    .AddChildContent<UploaderUploadedFiles>(uploadedFile => uploadedFile
+                .AddChildContent<UploadedFiles>(files => files
+                    .AddChildContent<UploadedFile>(uploadedFile => uploadedFile
                         .Add(p => p.Name, "EmptyFile")
                         .Add(p => p.Size, 0)
                         .Add(p => p.Type, "txt"))));
 
-            var uploadedFiles = RenderComponent<UploaderFiles>(parameters => parameters
-                .AddChildContent<UploaderUploadedFiles>(uploadedFile => uploadedFile
+            var uploadedFiles = RenderComponent<UploadedFiles>(parameters => parameters
+                .AddChildContent<UploadedFile>(uploadedFile => uploadedFile
                     .Add(p => p.Name, "EmptyFile")
                     .Add(p => p.Size, 0)
                     .Add(p => p.Type, "txt")));
@@ -653,10 +653,10 @@ namespace Syncfusion.Blazor.Toolkit.Tests.Inputs.Uploader
         }
 
         [Fact(Timeout = 10000)]
-        public void UploaderUploadedFiles_UpdateFileName()
+        public void UploadedFile_UpdateFileName()
         {
-            var uploadedFiles = RenderComponent<UploaderFiles>(parameters => parameters
-            .AddChildContent<UploaderUploadedFiles>(uploadedFile => uploadedFile
+            var uploadedFiles = RenderComponent<UploadedFiles>(parameters => parameters
+            .AddChildContent<UploadedFile>(uploadedFile => uploadedFile
             .Add(p => p.Name, "NewName")
             .Add(p => p.Size, 1024)
             .Add(p => p.Type, "txt")));
@@ -666,18 +666,18 @@ namespace Syncfusion.Blazor.Toolkit.Tests.Inputs.Uploader
         }
 
         [Fact(Timeout = 10000)]
-        public void UploaderUploadedFiles_FileNameWithSpecialCharacters()
+        public void UploadedFile_FileNameWithSpecialCharacters()
         {
             // Arrange & Act
             var uploader = RenderComponent<SfUploader>(parameters => parameters
-                .AddChildContent<UploaderFiles>(files => files
-                    .AddChildContent<UploaderUploadedFiles>(uploadedFile => uploadedFile
+                .AddChildContent<UploadedFiles>(files => files
+                    .AddChildContent<UploadedFile>(uploadedFile => uploadedFile
                         .Add(p => p.Name, "File-Name_With.Special@Characters")
                         .Add(p => p.Size, 2048)
                         .Add(p => p.Type, "pdf"))));
 
-            var uploadedFiles = RenderComponent<UploaderFiles>(parameters => parameters
-            .AddChildContent<UploaderUploadedFiles>(uploadedFile => uploadedFile
+            var uploadedFiles = RenderComponent<UploadedFiles>(parameters => parameters
+            .AddChildContent<UploadedFile>(uploadedFile => uploadedFile
             .Add(p => p.Name, "File-Name_With.Special@Characters")
             .Add(p => p.Size, 2048)
             .Add(p => p.Type, "pdf")));
@@ -688,13 +688,13 @@ namespace Syncfusion.Blazor.Toolkit.Tests.Inputs.Uploader
         }
 
         [Fact(Timeout = 10000)]
-        public void UploaderUploadedFiles_LongFileName()
+        public void UploadedFile_LongFileName()
         {
             // Arrange
             var longFileName = new string('A', 200);
 
-            var uploadedFiles = RenderComponent<UploaderFiles>(parameters => parameters
-            .AddChildContent<UploaderUploadedFiles>(uploadedFile => uploadedFile
+            var uploadedFiles = RenderComponent<UploadedFiles>(parameters => parameters
+            .AddChildContent<UploadedFile>(uploadedFile => uploadedFile
             .Add(p => p.Name, longFileName)
             .Add(p => p.Size, 1024)
             .Add(p => p.Type, "txt")));
@@ -705,18 +705,18 @@ namespace Syncfusion.Blazor.Toolkit.Tests.Inputs.Uploader
         }
 
         [Fact(Timeout = 10000)]
-        public void UploaderUploadedFiles_WithFullExtension()
+        public void UploadedFile_WithFullExtension()
         {
             // Arrange & Act
             var uploader = RenderComponent<SfUploader>(parameters => parameters
-                .AddChildContent<UploaderFiles>(files => files
-                    .AddChildContent<UploaderUploadedFiles>(uploadedFile => uploadedFile
+                .AddChildContent<UploadedFiles>(files => files
+                    .AddChildContent<UploadedFile>(uploadedFile => uploadedFile
                         .Add(p => p.Name, "Document")
                         .Add(p => p.Size, 1024000)
                         .Add(p => p.Type, "application/pdf"))));
 
-            var uploadedFiles = RenderComponent<UploaderFiles>(parameters => parameters
-            .AddChildContent<UploaderUploadedFiles>(uploadedFile => uploadedFile
+            var uploadedFiles = RenderComponent<UploadedFiles>(parameters => parameters
+            .AddChildContent<UploadedFile>(uploadedFile => uploadedFile
             .Add(p => p.Name, "Document")
             .Add(p => p.Size, 1024000)
             .Add(p => p.Type, "application/pdf")));
