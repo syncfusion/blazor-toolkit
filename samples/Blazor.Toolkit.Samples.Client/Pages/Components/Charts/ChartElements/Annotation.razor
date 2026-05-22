@@ -906,16 +906,14 @@
             </ContentTemplate>
         </ChartAnnotation>
     </ChartAnnotations>
-    <ChartSeriesCollection>
-        <ChartSeries DataSource=""@AnnotateData""
-                     XName=""Distance""
-                     YName=""Speed""
-                     Name=""Speed""
-                     Type=""ChartSeriesType.Area""
-                     Fill=""#6200EE""
-                     Border=""@(new ChartSeriesBorder { Width = 2.5, Color = ""#6200EE"" })"">
-        </ChartSeries>
-    </ChartSeriesCollection>
+    <ChartSeries DataSource=""@AnnotateData""
+                    XName=""Distance""
+                    YName=""Speed""
+                    Name=""Speed""
+                    Type=""ChartSeriesType.Area""
+                    Fill=""#6200EE""
+                    Border=""@(new ChartSeriesBorder { Width = 2.5, Color = ""#6200EE"" })"">
+    </ChartSeries>
 </SfChart>
 @code {
 
@@ -1005,16 +1003,13 @@
                     </ContentTemplate>
                 </ChartAnnotation>
             </ChartAnnotations>
-
-            <ChartSeriesCollection>
-                <ChartSeries DataSource=""@RainfallIndia""
-                             XName=""Month""
-                             YName=""Rainfall""
-                             Type=""ChartSeriesType.Column""
-                             Fill=""#3b82f6""
-                             Width=""2"">
-                </ChartSeries>
-            </ChartSeriesCollection>
+            <ChartSeries DataSource=""@RainfallIndia""
+                            XName=""Month""
+                            YName=""Rainfall""
+                            Type=""ChartSeriesType.Column""
+                            Fill=""#3b82f6""
+                            Width=""2"">
+            </ChartSeries>
         </SfChart>
 @code {
     [CascadingParameter]
@@ -1080,16 +1075,14 @@
                 </ChartAnnotation>
             </ChartAnnotations>
 
-            <ChartSeriesCollection>
-                <ChartSeries DataSource=""@BrentAnnual""
-                             XName=""Year""
-                             YName=""Price""
-                             Name=""Price""
-                             Type=""ChartSeriesType.Spline""
-                             Width=""3""
-                             Fill=""#82C100"">
-                </ChartSeries>
-            </ChartSeriesCollection>
+            <ChartSeries DataSource=""@BrentAnnual""
+                            XName=""Year""
+                            YName=""Price""
+                            Name=""Price""
+                            Type=""ChartSeriesType.Spline""
+                            Width=""3""
+                            Fill=""#82C100"">
+            </ChartSeries>
 
             <ChartTooltipSettings Enable=""true"" EnableHighlight=""true""
                                   EnableMarker=""true"" ShowNearestPoint=""true""
@@ -1175,16 +1168,13 @@
                 </ChartAnnotation>
             </ChartAnnotations>
 
-            <ChartSeriesCollection>
-                <ChartSeries DataSource=""@Data""
-                             XName=""X""
-                             YName=""Y""
-                             Type=""ChartSeriesType.Area""
-                             Fill=""rgba(250, 8, 8, 0.26)""
-                             Border=""@(new ChartSeriesBorder { Color = ""red"", Width = 2 })"">
-                </ChartSeries>
-
-            </ChartSeriesCollection>
+            <ChartSeries DataSource=""@Data""
+                            XName=""X""
+                            YName=""Y""
+                            Type=""ChartSeriesType.Area""
+                            Fill=""rgba(250, 8, 8, 0.26)""
+                            Border=""@(new ChartSeriesBorder { Color = ""red"", Width = 2 })"">
+            </ChartSeries>
 
             <ChartLegendSettings Visible=""false""></ChartLegendSettings>
         </SfChart>

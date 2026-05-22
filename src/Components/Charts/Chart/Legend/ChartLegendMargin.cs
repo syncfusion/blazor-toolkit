@@ -41,9 +41,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts
         /// <![CDATA[
         /// // This example demonstrates how to customize the chart's surrounding left side of the legend space.
         /// <SfChart>
-        ///     <ChartSeriesCollection>
-        ///         <ChartSeries DataSource="@MedalDetails" Name="Gold" XName="Country" YName="Gold" />
-        ///     </ChartSeriesCollection>
+        ///     <ChartSeries DataSource="@MedalDetails" Name="Gold" XName="Country" YName="Gold" />
         ///     <ChartLegendSettings Visible="true">
         ///         <ChartLegendBorder Color="blue" Width="2" />
         ///         <ChartLegendMargin Left="30" />
@@ -69,9 +67,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts
         /// <![CDATA[
         /// // This example demonstrates how to customize the chart's surrounding right side of the legend space.
         /// <SfChart>
-        ///     <ChartSeriesCollection>
-        ///         <ChartSeries DataSource="@MedalDetails" Name="Gold" XName="Country" YName="Gold" />
-        ///     </ChartSeriesCollection>
+        ///     <ChartSeries DataSource="@MedalDetails" Name="Gold" XName="Country" YName="Gold" />
         ///     <ChartLegendSettings Visible="true">
         ///         <ChartLegendBorder Color="blue" Width="2" />
         ///         <ChartLegendMargin Right="30" />
@@ -97,9 +93,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts
         /// <![CDATA[
         /// // This example demonstrates how to customize the chart's surrounding top side of the legend space.
         /// <SfChart>
-        ///     <ChartSeriesCollection>
-        ///         <ChartSeries DataSource="@MedalDetails" Name="Gold" XName="Country" YName="Gold" />
-        ///     </ChartSeriesCollection>
+        ///     <ChartSeries DataSource="@MedalDetails" Name="Gold" XName="Country" YName="Gold" />
         ///     <ChartLegendSettings Visible="true">
         ///         <ChartLegendBorder Color="blue" Width="2" />
         ///         <ChartLegendMargin Top="30" />
@@ -125,9 +119,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts
         /// <![CDATA[
         /// // This example demonstrates how to customize the chart's surrounding bottom side of the legend space.
         /// <SfChart>
-        ///     <ChartSeriesCollection>
-        ///         <ChartSeries DataSource="@MedalDetails" Name="Gold" XName="Country" YName="Gold" />
-        ///     </ChartSeriesCollection>
+        ///     <ChartSeries DataSource="@MedalDetails" Name="Gold" XName="Country" YName="Gold" />
         ///     <ChartLegendSettings Visible="true">
         ///         <ChartLegendBorder Color="blue" Width="2" />
         ///         <ChartLegendMargin Bottom="30" />

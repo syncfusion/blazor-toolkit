@@ -129,47 +129,45 @@
                 <ChartAxisMajorTickLines Width=""0"" />
             </ChartPrimaryYAxis>
             <!-- Series -->
-            <ChartSeriesCollection>
-                <!-- Household Income -->
-                <ChartSeries DataSource=""@DataLabelOverviewData""
-                             XName=""X""
-                             YName=""Y1""
-                             Type=""ChartSeriesType.Column""
-                             Name=""Household Income - Q1 2025""
-                             Fill=""#BA7DDA""
-                             ColumnSpacing=""0.2""
-                             CornerRadius=""@(new ChartCornerRadius { TopLeft = 5, TopRight = 5 })"">
+            <!-- Household Income -->
+            <ChartSeries DataSource=""@DataLabelOverviewData""
+                            XName=""X""
+                            YName=""Y1""
+                            Type=""ChartSeriesType.Column""
+                            Name=""Household Income - Q1 2025""
+                            Fill=""#BA7DDA""
+                            ColumnSpacing=""0.2""
+                            CornerRadius=""@(new ChartCornerRadius { TopLeft = 5, TopRight = 5 })"">
 
-                    <ChartMarker>
-                       
-                        <ChartDataLabel Visible=""true""
-                                        Format=""n2""
-                                        EnableRotation=""true""
-                                        Angle=""-90""
-                                        Font=""@(new ChartDataLabelFont { Color = DataLabelTextColor })"" />
-                    </ChartMarker>
-                </ChartSeries>
+                <ChartMarker>
+                    
+                    <ChartDataLabel Visible=""true""
+                                    Format=""n2""
+                                    EnableRotation=""true""
+                                    Angle=""-90""
+                                    Font=""@(new ChartDataLabelFont { Color = DataLabelTextColor })"" />
+                </ChartMarker>
+            </ChartSeries>
 
-                <!-- GDP -->
-                <ChartSeries DataSource=""@DataLabelOverviewData""
-                             XName=""X""
-                             YName=""Y2""
-                             Type=""ChartSeriesType.Column""
-                             Name=""GDP - Q1 2025""
-                             Fill=""#00C5BC""
-                             ColumnSpacing=""0.2""
-                             CornerRadius=""@(new ChartCornerRadius { TopLeft = 5, TopRight = 5 })"">
-                    <ChartMarker>
-                        <ChartDataLabel Visible=""true""
-                                        Format=""{value}k""
-                                            Position=""ChartLabelPosition.Top""
-                                        EnableRotation=""true""
-                                        Angle=""270""
-                                        LabelIntersectAction=""None""
-                                        Font=""@(new ChartDataLabelFont { Color = DataLabelTextColor })"" />
-                    </ChartMarker>
-                </ChartSeries>
-            </ChartSeriesCollection>
+            <!-- GDP -->
+            <ChartSeries DataSource=""@DataLabelOverviewData""
+                            XName=""X""
+                            YName=""Y2""
+                            Type=""ChartSeriesType.Column""
+                            Name=""GDP - Q1 2025""
+                            Fill=""#00C5BC""
+                            ColumnSpacing=""0.2""
+                            CornerRadius=""@(new ChartCornerRadius { TopLeft = 5, TopRight = 5 })"">
+                <ChartMarker>
+                    <ChartDataLabel Visible=""true""
+                                    Format=""{value}k""
+                                        Position=""ChartLabelPosition.Top""
+                                    EnableRotation=""true""
+                                    Angle=""270""
+                                    LabelIntersectAction=""None""
+                                    Font=""@(new ChartDataLabelFont { Color = DataLabelTextColor })"" />
+                </ChartMarker>
+            </ChartSeries>
             <!-- Tooltip -->
             <ChartTooltipSettings Enable=""true""
                                   Header=""${point.x}""
@@ -291,20 +289,18 @@
                 <ChartAxisLineStyle Width=""0"" />
                 <ChartAxisMajorTickLines Width=""0"" />
             </ChartPrimaryYAxis>
-            <ChartSeriesCollection>
-                <ChartSeries DataSource=""@DataLabelTextMappingData""
-                             XName=""X""
-                             YName=""Y""
-                             Type=""ChartSeriesType.Bar""
-                             Fill=""#A0D683""
-                             CornerRadius=""@(new ChartCornerRadius { TopRight = 5, BottomRight = 5 })""
-                >
-                    <ChartMarker>
-                        <ChartDataLabel Visible=""true"" Context=""Text"" Font=""@(new ChartDataLabelFont { Color = DataLabelTextColor })"" Format=""{value} kWh"" />
-                    </ChartMarker>
+            <ChartSeries DataSource=""@DataLabelTextMappingData""
+                            XName=""X""
+                            YName=""Y""
+                            Type=""ChartSeriesType.Bar""
+                            Fill=""#A0D683""
+                            CornerRadius=""@(new ChartCornerRadius { TopRight = 5, BottomRight = 5 })""
+            >
+                <ChartMarker>
+                    <ChartDataLabel Visible=""true"" Context=""Text"" Font=""@(new ChartDataLabelFont { Color = DataLabelTextColor })"" Format=""{value} kWh"" />
+                </ChartMarker>
 
-                </ChartSeries>
-            </ChartSeriesCollection>
+            </ChartSeries>
             <ChartTooltipSettings Enable=""true""
                                   Header=""Coal Production""
                                       Format=""${point.x} : <b>${point.y} kWh</b>"" />
@@ -438,23 +434,21 @@
                 <ChartAxisLineStyle Width=""0"" />
                 <ChartAxisMajorTickLines Width=""0"" />
             </ChartPrimaryYAxis>
-            <ChartSeriesCollection>
-                <ChartSeries DataSource=""@LabelCustomData""
-                             XName=""Country""
-                             YName=""Gold""
-                             Type=""ChartSeriesType.Column""
-                             Fill=""#A0D683""
-                             ColumnWidth=""0.4""
-                             CornerRadius=""@(new ChartCornerRadius { TopLeft = 5, TopRight = 5 })"">
-                    <ChartMarker>
-                        <ChartDataLabel Visible=""true""
-                                        Format=""n2""
-                                        EnableRotation=""true""
-                                        Angle=""-90""
-                                        Font=""@(new ChartDataLabelFont { Color = DataLabelTextColor })"" />
-                    </ChartMarker>
-                </ChartSeries>
-            </ChartSeriesCollection>
+            <ChartSeries DataSource=""@LabelCustomData""
+                            XName=""Country""
+                            YName=""Gold""
+                            Type=""ChartSeriesType.Column""
+                            Fill=""#A0D683""
+                            ColumnWidth=""0.4""
+                            CornerRadius=""@(new ChartCornerRadius { TopLeft = 5, TopRight = 5 })"">
+                <ChartMarker>
+                    <ChartDataLabel Visible=""true""
+                                    Format=""n2""
+                                    EnableRotation=""true""
+                                    Angle=""-90""
+                                    Font=""@(new ChartDataLabelFont { Color = DataLabelTextColor })"" />
+                </ChartMarker>
+            </ChartSeries>
         </SfChart>
 
 @code {
@@ -548,22 +542,20 @@
                 <ChartAxisLineStyle Width=""0"" />
                 <ChartAxisMajorTickLines Width=""0"" />
             </ChartPrimaryYAxis>
-            <ChartSeriesCollection>
-                <ChartSeries DataSource=""@LabelCustomData""
-                             XName=""Country""
-                             YName=""Gold""
-                             Type=""ChartSeriesType.Column""
-                             Fill=""#A0D683""
-                             ColumnWidth=""0.4""
-                             CornerRadius=""@(new ChartCornerRadius { TopLeft = 5, TopRight = 5 })"">
-                    <ChartMarker>
-                        <ChartDataLabel Visible=""true""
-                                        LabelIntersectAction=""None""
-                                        Margin=""@(new ChartDataLabelMargin { Left = 30, Right = 30, Top = 30, Bottom = 30})""
- 										Font=""@(new ChartDataLabelFont { Color = DataLabelTextColor })""/>
-                    </ChartMarker>
-                </ChartSeries>
-            </ChartSeriesCollection>
+            <ChartSeries DataSource=""@LabelCustomData""
+                            XName=""Country""
+                            YName=""Gold""
+                            Type=""ChartSeriesType.Column""
+                            Fill=""#A0D683""
+                            ColumnWidth=""0.4""
+                            CornerRadius=""@(new ChartCornerRadius { TopLeft = 5, TopRight = 5 })"">
+                <ChartMarker>
+                    <ChartDataLabel Visible=""true""
+                                    LabelIntersectAction=""None""
+                                    Margin=""@(new ChartDataLabelMargin { Left = 30, Right = 30, Top = 30, Bottom = 30})""
+                                    Font=""@(new ChartDataLabelFont { Color = DataLabelTextColor })""/>
+                </ChartMarker>
+            </ChartSeries>
         </SfChart>
  
 @code {
@@ -654,25 +646,23 @@
                 <ChartAxisLineStyle Width=""0"" />
                 <ChartAxisMajorTickLines Width=""0"" />
             </ChartPrimaryYAxis>
-            <ChartSeriesCollection>
-                <ChartSeries DataSource=""@DataLabelRotationData""
-                             XName=""X""
-                             YName=""Y""
-                             Type=""ChartSeriesType.Column""
-                             Fill=""#A0D683""
-                             CornerRadius=""@(new ChartCornerRadius { TopLeft = 5, TopRight = 5 })"">
-                    <ChartMarker>
-                        <ChartDataLabel Visible=""true""
-                                        Format=""{value}k""
-                                        Position=""ChartLabelPosition.Top""
-                                        EnableRotation=""true""
-                                        Angle=""270""
-                                        LabelIntersectAction=""None""
-                                        Font=""@(new ChartDataLabelFont { Color = DataLabelTextColor })"" />
-                    </ChartMarker>
-                    <ChartDataLabel Visible=""true"" Format=""<b>${point.y}k</b> Billion cubic meter per year""></ChartDataLabel>
-                </ChartSeries>
-            </ChartSeriesCollection>
+            <ChartSeries DataSource=""@DataLabelRotationData""
+                            XName=""X""
+                            YName=""Y""
+                            Type=""ChartSeriesType.Column""
+                            Fill=""#A0D683""
+                            CornerRadius=""@(new ChartCornerRadius { TopLeft = 5, TopRight = 5 })"">
+                <ChartMarker>
+                    <ChartDataLabel Visible=""true""
+                                    Format=""{value}k""
+                                    Position=""ChartLabelPosition.Top""
+                                    EnableRotation=""true""
+                                    Angle=""270""
+                                    LabelIntersectAction=""None""
+                                    Font=""@(new ChartDataLabelFont { Color = DataLabelTextColor })"" />
+                </ChartMarker>
+                <ChartDataLabel Visible=""true"" Format=""<b>${point.y}k</b> Billion cubic meter per year""></ChartDataLabel>
+            </ChartSeries>
                 <ChartTooltipSettings Enable=""true"" ShowHeaderLine =""true""
                                       Format=""<b>${point.y}k</b> Billion cubic meter per year"" />
         </SfChart>
@@ -805,39 +795,37 @@
                 <ChartAxisLineStyle Width=""0"" />
                 <ChartAxisMajorTickLines Width=""0"" />
             </ChartPrimaryYAxis>
-            <ChartSeriesCollection>
-                <ChartSeries DataSource=""@LabelTemplateData""
-                             XName=""Sports""
-                             YName=""Boys""
-                             Name=""Boys""
-                             Type=""ChartSeriesType.Column""
-                             Fill=""#05B3DA""
-                             ColumnSpacing=""0.5""
-                             ColumnWidth=""0.75""
-                             CornerRadius=""@(new ChartCornerRadius { TopLeft = 5, TopRight = 5 })"">
-                    <ChartMarker>
-                        <ChartDataLabel Visible=""true""
-                                        Position=""ChartLabelPosition.Outer""
-                                        Template=""@BoysTemplate"" />
-                    </ChartMarker>
-                </ChartSeries>
-                <ChartSeries DataSource=""@LabelTemplateData""
-                             XName=""Sports""
-                             YName=""Girls""
-                             Name=""Girls""
-                             Type=""ChartSeriesType.Column""
-                             Fill=""#E77A16""
-                             ColumnSpacing=""0.5""
-                             ColumnWidth=""0.75""
-                             CornerRadius=""@(new ChartCornerRadius { TopLeft = 5, TopRight = 5 })"">
-                    <ChartMarker>
-                        <ChartDataLabel Visible=""true""
-                                        Position=""ChartLabelPosition.Outer""
-                                        Template=""@GirlsTemplate"" />
-                    </ChartMarker>
-                </ChartSeries>
-                  <ChartTooltipSettings Enable=""true"" Format=""<b>Price : ${point.y}</b>""></ChartTooltipSettings>
-            </ChartSeriesCollection>
+            <ChartSeries DataSource=""@LabelTemplateData""
+                            XName=""Sports""
+                            YName=""Boys""
+                            Name=""Boys""
+                            Type=""ChartSeriesType.Column""
+                            Fill=""#05B3DA""
+                            ColumnSpacing=""0.5""
+                            ColumnWidth=""0.75""
+                            CornerRadius=""@(new ChartCornerRadius { TopLeft = 5, TopRight = 5 })"">
+                <ChartMarker>
+                    <ChartDataLabel Visible=""true""
+                                    Position=""ChartLabelPosition.Outer""
+                                    Template=""@BoysTemplate"" />
+                </ChartMarker>
+            </ChartSeries>
+            <ChartSeries DataSource=""@LabelTemplateData""
+                            XName=""Sports""
+                            YName=""Girls""
+                            Name=""Girls""
+                            Type=""ChartSeriesType.Column""
+                            Fill=""#E77A16""
+                            ColumnSpacing=""0.5""
+                            ColumnWidth=""0.75""
+                            CornerRadius=""@(new ChartCornerRadius { TopLeft = 5, TopRight = 5 })"">
+                <ChartMarker>
+                    <ChartDataLabel Visible=""true""
+                                    Position=""ChartLabelPosition.Outer""
+                                    Template=""@GirlsTemplate"" />
+                </ChartMarker>
+            </ChartSeries>
+            <ChartTooltipSettings Enable=""true"" Format=""<b>Price : ${point.y}</b>""></ChartTooltipSettings>
         </SfChart>
 
 @code {
@@ -992,20 +980,18 @@
                 <ChartAxisLineStyle Width=""0"" />
                 <ChartAxisMajorTickLines Width=""0"" />
             </ChartPrimaryYAxis>
-           <ChartSeriesCollection>
-                <ChartSeries DataSource=""@LineLabelData""
-                             XName=""X""
-                             YName=""Y""
-                             Type=""ChartSeriesType.Line""
-                             Fill=""#0A97B0"">
-                    <ChartMarker Visible=""true"" IsFilled=""false"">
-                        <ChartDataLabel Visible=""true""
-                                        Fill=""#0A97B0""
-                                        Border=""@(new ChartDataLabelBorder { Width = 2, Color = ""#005F6A"", })""
-                                        Font=""@(new ChartDataLabelFont { Color = DataLabelTextColor, FontFamily = ""Roboto"", FontWeight = ""600"", Size = ""12px"" })"" />
-                    </ChartMarker>
-                </ChartSeries>
-            </ChartSeriesCollection>
+            <ChartSeries DataSource=""@LineLabelData""
+                            XName=""X""
+                            YName=""Y""
+                            Type=""ChartSeriesType.Line""
+                            Fill=""#0A97B0"">
+                <ChartMarker Visible=""true"" IsFilled=""false"">
+                    <ChartDataLabel Visible=""true""
+                                    Fill=""#0A97B0""
+                                    Border=""@(new ChartDataLabelBorder { Width = 2, Color = ""#005F6A"", })""
+                                    Font=""@(new ChartDataLabelFont { Color = DataLabelTextColor, FontFamily = ""Roboto"", FontWeight = ""600"", Size = ""12px"" })"" />
+                </ChartMarker>
+            </ChartSeries>
                 <!-- Tooltip -->
                 <ChartTooltipSettings Enable=""true"" Header=""${point.x}""
                                       Format=""<b>Price : ${point.y}</b>"" />

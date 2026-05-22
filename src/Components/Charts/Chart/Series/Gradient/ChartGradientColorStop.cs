@@ -20,18 +20,16 @@ namespace Syncfusion.Blazor.Toolkit.Charts
     /// @using Syncfusion.Blazor.Toolkit.Charts
     ///
     /// <SfChart>
-    ///     <ChartSeriesCollection>
-    ///         <ChartSeries Type="ChartSeriesType.Area"
-    ///                      XName="Category"
-    ///                      YName="Value">
-    ///             <ChartRadialGradient Cx="0.5" Cy="0.5" Fx="0.5" Fy="0.5" R="0.6">
-    ///                 <ChartGradientColorStops>
-    ///                     <ChartGradientColorStop Offset="0"   Color="#FFE082" Opacity="1" />
-    ///                     <ChartGradientColorStop Offset="100" Color="#FFCA28" Opacity="1" />
-    ///                 </ChartGradientColorStops>
-    ///             </ChartRadialGradient>
-    ///         </ChartSeries>
-    ///     </ChartSeriesCollection>
+    ///     <ChartSeries Type="ChartSeriesType.Area"
+    ///                  XName="Category"
+    ///                  YName="Value">
+    ///         <ChartRadialGradient Cx="0.5" Cy="0.5" Fx="0.5" Fy="0.5" R="0.6">
+    ///             <ChartGradientColorStops>
+    ///                 <ChartGradientColorStop Offset="0"   Color="#FFE082" Opacity="1" />
+    ///                 <ChartGradientColorStop Offset="100" Color="#FFCA28" Opacity="1" />
+    ///             </ChartGradientColorStops>
+    ///         </ChartRadialGradient>
+    ///     </ChartSeries>
     /// </SfChart>
     /// ]]></code>
     /// </example>

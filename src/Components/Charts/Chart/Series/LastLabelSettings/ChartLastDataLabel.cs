@@ -17,20 +17,18 @@ namespace Syncfusion.Blazor.Toolkit.Charts
     /// <code>
     /// <![CDATA[
     /// <SfChart>
-    ///   <ChartSeriesCollection>
-    ///     <ChartSeries XName="X" YName="Y" DataSource="@StockData" Type="ChartSeriesType.Line">
+    ///   <ChartSeries XName="X" YName="Y" DataSource="@StockData" Type="ChartSeriesType.Line">
     ///       <ChartLastDataLabel ShowLabel="true"
-    ///                            Background="rgba(0,0,0,0.5)"
-    ///                            LineColor="black"
-    ///                            LineWidth="1"
-    ///                            DashArray="4,2"
-    ///                            Rx="6"
-    ///                            Ry="6">
+    ///                        Background="rgba(0,0,0,0.5)"
+    ///                        LineColor="black"
+    ///                        LineWidth="1"
+    ///                        DashArray="4,2"
+    ///                        Rx="6"
+    ///                        Ry="6">
     ///         <ChartLastDataLabelBorder Color="white" Width="1" />
     ///         <ChartLastDataLabelFont Size="12px" FontWeight="600" Color="white" />
     ///       </ChartLastDataLabel>
-    ///     </ChartSeries>
-    ///   </ChartSeriesCollection>
+    ///   </ChartSeries>
     /// </SfChart>
     /// ]]>
     /// </code>

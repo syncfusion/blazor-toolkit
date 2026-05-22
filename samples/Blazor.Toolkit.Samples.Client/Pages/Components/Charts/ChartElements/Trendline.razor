@@ -88,28 +88,26 @@
                                  ShapeHeight=""15""
                                  ShapeWidth=""15"">
             </ChartLegendSettings>
-            <ChartSeriesCollection>
-                <ChartSeries DataSource=""@Sp500Data""
-                             XName=""Year""
-                             YName=""Value""
-                             Name=""S&P 500""
-                             Type=""ChartSeriesType.Column""
-                             ColumnWidth=""0.6""
-                             Fill=""#7bd5d1""
-                             Animation=""new ChartSeriesAnimation { Enable = false }"">
+            <ChartSeries DataSource=""@Sp500Data""
+                            XName=""Year""
+                            YName=""Value""
+                            Name=""S&P 500""
+                            Type=""ChartSeriesType.Column""
+                            ColumnWidth=""0.6""
+                            Fill=""#7bd5d1""
+                            Animation=""new ChartSeriesAnimation { Enable = false }"">
 
-                    <ChartTrendlines>
-                        <ChartTrendline Type=""TrendlineTypes.Exponential""
-                                        Name=""Trend""
-                                        Width=""3""
-                                        Fill=""#ff6961""
-                                        EnableTooltip=""false""
-                                        Animation=""new ChartTrendlineAnimation { Enable = false }"">
-                        </ChartTrendline>
-                    </ChartTrendlines>
+                <ChartTrendlines>
+                    <ChartTrendline Type=""TrendlineTypes.Exponential""
+                                    Name=""Trend""
+                                    Width=""3""
+                                    Fill=""#ff6961""
+                                    EnableTooltip=""false""
+                                    Animation=""new ChartTrendlineAnimation { Enable = false }"">
+                    </ChartTrendline>
+                </ChartTrendlines>
 
-                </ChartSeries>
-            </ChartSeriesCollection>
+            </ChartSeries>
         </SfChart>
 @code {
     private Theme _currentTheme = Theme.Fluent;
@@ -268,33 +266,31 @@
                                  ShapeWidth=""15"">
             </ChartLegendSettings>
 
-            <ChartSeriesCollection>
-                <ChartSeries DataSource=""@TrendlineLinearData""
-                             XName=""Year""
-                             YName=""Value""
-                             Name=""S&P 500""
-                             Type=""ChartSeriesType.Line""
-                             Width=""2""
-                             Fill=""#2E7D32""
-                             Animation=""new ChartSeriesAnimation { Enable = false }"">
-                    <ChartMarker Visible=""true""
-                                 Width=""8""
-                                 Height=""8""
-                                 Shape=""ChartShape.Diamond"">
-                    </ChartMarker>
-                    <ChartTrendlines>
-                        <ChartTrendline Type=""TrendlineTypes.Linear""
-                                        Name=""Market Trend""
-                                        Width=""3""
-                                        DashArray=""5,5""
-                                        Fill=""#FF6F00""
-                                        EnableTooltip=""false""
-                                        Animation=""new ChartTrendlineAnimation { Enable = false }"">
-                        </ChartTrendline>
-                    </ChartTrendlines>
+            <ChartSeries DataSource=""@TrendlineLinearData""
+                            XName=""Year""
+                            YName=""Value""
+                            Name=""S&P 500""
+                            Type=""ChartSeriesType.Line""
+                            Width=""2""
+                            Fill=""#2E7D32""
+                            Animation=""new ChartSeriesAnimation { Enable = false }"">
+                <ChartMarker Visible=""true""
+                                Width=""8""
+                                Height=""8""
+                                Shape=""ChartShape.Diamond"">
+                </ChartMarker>
+                <ChartTrendlines>
+                    <ChartTrendline Type=""TrendlineTypes.Linear""
+                                    Name=""Market Trend""
+                                    Width=""3""
+                                    DashArray=""5,5""
+                                    Fill=""#FF6F00""
+                                    EnableTooltip=""false""
+                                    Animation=""new ChartTrendlineAnimation { Enable = false }"">
+                    </ChartTrendline>
+                </ChartTrendlines>
 
-                </ChartSeries>
-            </ChartSeriesCollection>
+            </ChartSeries>
         </SfChart>
 @code {
     private Theme _currentTheme = Theme.Fluent;
@@ -463,36 +459,34 @@
                                  ShapeWidth=""15"">
             </ChartLegendSettings>
 
-            <ChartSeriesCollection>
-                <ChartSeries DataSource=""@TrendlineExponentialData""
-                             XName=""Year""
-                             YName=""Users""
-                             Name=""Internet Users""
-                             Type=""ChartSeriesType.Spline""
-                             Width=""2.5""
-                             Fill=""#1976D2"">
+            <ChartSeries DataSource=""@TrendlineExponentialData""
+                            XName=""Year""
+                            YName=""Users""
+                            Name=""Internet Users""
+                            Type=""ChartSeriesType.Spline""
+                            Width=""2.5""
+                            Fill=""#1976D2"">
 
-                    <ChartSeriesAnimation Enable=""false""></ChartSeriesAnimation>
+                <ChartSeriesAnimation Enable=""false""></ChartSeriesAnimation>
 
-                    <ChartMarker Visible=""true""
-                                 Width=""7""
-                                 Height=""7""
-                                 Shape=""ChartShape.Circle"">
-                    </ChartMarker>
+                <ChartMarker Visible=""true""
+                                Width=""7""
+                                Height=""7""
+                                Shape=""ChartShape.Circle"">
+                </ChartMarker>
 
-                    <ChartTrendlines>
-                        <ChartTrendline Type=""TrendlineTypes.Exponential""
-                                        Name=""Exponential Trend""
-                                        Width=""3""
-                                        DashArray=""5,5""
-                                        Fill=""#D32F2F""
-                                        EnableTooltip=""false"">
-                            <ChartTrendlineAnimation Enable=""false""></ChartTrendlineAnimation>
-                        </ChartTrendline>
-                    </ChartTrendlines>
+                <ChartTrendlines>
+                    <ChartTrendline Type=""TrendlineTypes.Exponential""
+                                    Name=""Exponential Trend""
+                                    Width=""3""
+                                    DashArray=""5,5""
+                                    Fill=""#D32F2F""
+                                    EnableTooltip=""false"">
+                        <ChartTrendlineAnimation Enable=""false""></ChartTrendlineAnimation>
+                    </ChartTrendline>
+                </ChartTrendlines>
 
-                </ChartSeries>
-            </ChartSeriesCollection>
+            </ChartSeries>
         </SfChart>
 @code {
     private Theme _currentTheme = Theme.Fluent;
@@ -683,33 +677,31 @@
                                  ShapeHeight=""15""
                                  ShapeWidth=""15"" />
 
-            <ChartSeriesCollection>
-                <ChartSeries DataSource=""@TrendlineLogarithmicData""
-                             XName=""Year""
-                             YName=""Value""
-                             Name=""Mobile Subscriptions""
-                             Type=""ChartSeriesType.Line""
-                             Width=""2""
-                             Fill=""#00796B"">
-                    <ChartSeriesAnimation Enable=""false"" />
+            <ChartSeries DataSource=""@TrendlineLogarithmicData""
+                            XName=""Year""
+                            YName=""Value""
+                            Name=""Mobile Subscriptions""
+                            Type=""ChartSeriesType.Line""
+                            Width=""2""
+                            Fill=""#00796B"">
+                <ChartSeriesAnimation Enable=""false"" />
 
-                    <ChartMarker Visible=""true""
-                                 Width=""8""
-                                 Height=""8""
-                                 Shape=""ChartShape.Circle"" />
-                    <ChartTrendlines>
-                        <ChartTrendline Type=""TrendlineTypes.Logarithmic""
-                                        Name=""Logarithmic Trend""
-                                        Width=""3""
-                                        DashArray=""5,5""
-                                        Fill=""#8E24AA""
-                                        EnableTooltip=""false"">
-                            <ChartTrendlineAnimation Enable=""false"" />
-                        </ChartTrendline>
-                    </ChartTrendlines>
+                <ChartMarker Visible=""true""
+                                Width=""8""
+                                Height=""8""
+                                Shape=""ChartShape.Circle"" />
+                <ChartTrendlines>
+                    <ChartTrendline Type=""TrendlineTypes.Logarithmic""
+                                    Name=""Logarithmic Trend""
+                                    Width=""3""
+                                    DashArray=""5,5""
+                                    Fill=""#8E24AA""
+                                    EnableTooltip=""false"">
+                        <ChartTrendlineAnimation Enable=""false"" />
+                    </ChartTrendline>
+                </ChartTrendlines>
 
-                </ChartSeries>
-            </ChartSeriesCollection>
+            </ChartSeries>
         </SfChart>
 @code {
     private Theme _currentTheme = Theme.Fluent;
@@ -857,29 +849,27 @@
             <ChartLegendSettings Visible=""true""
                                  ShapeHeight=""15""
                                  ShapeWidth=""15"" />
-            <ChartSeriesCollection>
-                <ChartSeries DataSource=""@TrendlinePolynomialData""
-                             XName=""Year""
-                             YName=""Value""
-                             Name=""Life Expectancy""
-                             Type=""ChartSeriesType.Column""
-                             Fill=""#6A1B9A"">
+            <ChartSeries DataSource=""@TrendlinePolynomialData""
+                            XName=""Year""
+                            YName=""Value""
+                            Name=""Life Expectancy""
+                            Type=""ChartSeriesType.Column""
+                            Fill=""#6A1B9A"">
 
-                    <ChartSeriesAnimation Enable=""false"" />
+                <ChartSeriesAnimation Enable=""false"" />
 
-                    <ChartTrendlines>
-                        <ChartTrendline Type=""TrendlineTypes.Polynomial""
-                                        Name=""Polynomial Trend""
-                                        Width=""3""
-                                        PolynomialOrder=""3""
-                                        Fill=""#FFD700""
-                                        EnableTooltip=""false"">
-                            <ChartTrendlineAnimation Enable=""false"" />
-                        </ChartTrendline>
-                    </ChartTrendlines>
+                <ChartTrendlines>
+                    <ChartTrendline Type=""TrendlineTypes.Polynomial""
+                                    Name=""Polynomial Trend""
+                                    Width=""3""
+                                    PolynomialOrder=""3""
+                                    Fill=""#FFD700""
+                                    EnableTooltip=""false"">
+                        <ChartTrendlineAnimation Enable=""false"" />
+                    </ChartTrendline>
+                </ChartTrendlines>
 
-                </ChartSeries>
-            </ChartSeriesCollection>
+            </ChartSeries>
         </SfChart>
 @code {
     private Theme _currentTheme = Theme.Fluent;
@@ -1031,34 +1021,32 @@
             <ChartLegendSettings Visible=""true""
                                  ShapeHeight=""15""
                                  ShapeWidth=""15"" />
-            <ChartSeriesCollection>
-                <ChartSeries DataSource=""@TrendlinePowerData""
-                             XName=""Year""
-                             YName=""Value""
-                             Name=""Solar Cost""
-                             Type=""ChartSeriesType.Scatter""
-                             Fill=""#FF9800"">
+            <ChartSeries DataSource=""@TrendlinePowerData""
+                            XName=""Year""
+                            YName=""Value""
+                            Name=""Solar Cost""
+                            Type=""ChartSeriesType.Scatter""
+                            Fill=""#FF9800"">
 
-                    <ChartSeriesAnimation Enable=""false"" />
-                    <ChartMarker Visible=""true""
-                                 Width=""10""
-                                 Height=""10""
-                                 Shape=""ChartShape.Circle""
-                                 Fill=""#FF9800"">
-                    </ChartMarker>
+                <ChartSeriesAnimation Enable=""false"" />
+                <ChartMarker Visible=""true""
+                                Width=""10""
+                                Height=""10""
+                                Shape=""ChartShape.Circle""
+                                Fill=""#FF9800"">
+                </ChartMarker>
 
-                    <ChartTrendlines>
-                        <ChartTrendline Type=""TrendlineTypes.Power""
-                                        Name=""Power Law Trend""
-                                        Width=""2""
-                                        Fill=""#1565C0""
-                                        EnableTooltip=""false"">
-                            <ChartTrendlineAnimation Enable=""false"" />
-                        </ChartTrendline>
-                    </ChartTrendlines>
+                <ChartTrendlines>
+                    <ChartTrendline Type=""TrendlineTypes.Power""
+                                    Name=""Power Law Trend""
+                                    Width=""2""
+                                    Fill=""#1565C0""
+                                    EnableTooltip=""false"">
+                        <ChartTrendlineAnimation Enable=""false"" />
+                    </ChartTrendline>
+                </ChartTrendlines>
 
-                </ChartSeries>
-            </ChartSeriesCollection>
+            </ChartSeries>
         </SfChart>
 @code {
     private Theme _currentTheme = Theme.Fluent;
@@ -1206,35 +1194,33 @@
             <ChartLegendSettings Visible=""true""
                                  ShapeHeight=""15""
                                  ShapeWidth=""15"" />
-            <ChartSeriesCollection>
-                <ChartSeries DataSource=""@TrendlineMovingAverageData""
-                             XName=""Month""
-                             YName=""Price""
-                             Name=""Bitcoin Price""
-                             Type=""ChartSeriesType.Line""
-                             Width=""2""
-                             Fill=""#F7931A"">
+            <ChartSeries DataSource=""@TrendlineMovingAverageData""
+                            XName=""Month""
+                            YName=""Price""
+                            Name=""Bitcoin Price""
+                            Type=""ChartSeriesType.Line""
+                            Width=""2""
+                            Fill=""#F7931A"">
 
-                    <ChartSeriesAnimation Enable=""false"" />
-                    <ChartMarker Visible=""true""
-                                 Width=""7""
-                                 Height=""7""
-                                 Shape=""ChartShape.Circle""
-                                 Fill=""#F7931A"" />
+                <ChartSeriesAnimation Enable=""false"" />
+                <ChartMarker Visible=""true""
+                                Width=""7""
+                                Height=""7""
+                                Shape=""ChartShape.Circle""
+                                Fill=""#F7931A"" />
 
-                    <ChartTrendlines>
-                        <ChartTrendline Type=""TrendlineTypes.MovingAverage""
-                                        Name=""3-Month Moving Average""
-                                        Width=""3""
-                                        Period=""3""
-                                        Fill=""#00ACC1""
-                                        EnableTooltip=""false"">
-                            <ChartTrendlineAnimation Enable=""false"" />
-                        </ChartTrendline>
-                    </ChartTrendlines>
+                <ChartTrendlines>
+                    <ChartTrendline Type=""TrendlineTypes.MovingAverage""
+                                    Name=""3-Month Moving Average""
+                                    Width=""3""
+                                    Period=""3""
+                                    Fill=""#00ACC1""
+                                    EnableTooltip=""false"">
+                        <ChartTrendlineAnimation Enable=""false"" />
+                    </ChartTrendline>
+                </ChartTrendlines>
 
-                </ChartSeries>
-            </ChartSeriesCollection>
+            </ChartSeries>
         </SfChart>
 @code {
     private Theme _currentTheme = Theme.Fluent;
@@ -1396,35 +1382,33 @@
             <ChartLegendSettings Visible=""true""
                                  ShapeHeight=""15""
                                  ShapeWidth=""15"" />
-            <ChartSeriesCollection>
-                <ChartSeries DataSource=""@DataLabelData""
-                             XName=""Year""
-                             YName=""Sales""
-                             Name=""EV Sales""
-                             Type=""ChartSeriesType.Area""
-                             Fill=""rgba(124, 77, 255, 0.6)""
-                             Border=""@(new ChartSeriesBorder { Width = 2, Color = ""#7C4DFF"" })"">
-                        <ChartSeriesAnimation Enable=""false"" />
-                        <ChartMarker Visible=""true""
-                                     Width=""7""
-                                     Height=""7""
-                                     Shape=""ChartShape.Circle""
-                                     Fill=""#7C4DFF"">
-                            <ChartDataLabel Visible=""true""></ChartDataLabel>
-                        </ChartMarker>
-                        <ChartTrendlines>
-                            <ChartTrendline Type=""TrendlineTypes.Exponential""
-                                            Name=""Exponential Growth""
-                                            Width=""2""
-                                            Fill=""#00E676""
-                                            EnableTooltip=""false"" >
+            <ChartSeries DataSource=""@DataLabelData""
+                            XName=""Year""
+                            YName=""Sales""
+                            Name=""EV Sales""
+                            Type=""ChartSeriesType.Area""
+                            Fill=""rgba(124, 77, 255, 0.6)""
+                            Border=""@(new ChartSeriesBorder { Width = 2, Color = ""#7C4DFF"" })"">
+                    <ChartSeriesAnimation Enable=""false"" />
+                    <ChartMarker Visible=""true""
+                                    Width=""7""
+                                    Height=""7""
+                                    Shape=""ChartShape.Circle""
+                                    Fill=""#7C4DFF"">
+                        <ChartDataLabel Visible=""true""></ChartDataLabel>
+                    </ChartMarker>
+                    <ChartTrendlines>
+                        <ChartTrendline Type=""TrendlineTypes.Exponential""
+                                        Name=""Exponential Growth""
+                                        Width=""2""
+                                        Fill=""#00E676""
+                                        EnableTooltip=""false"" >
 
-                                <ChartTrendlineAnimation Enable=""false"" />
-                                <ChartTrendlineMarker Visible=""true"" Height=""10"" Width=""10"" Shape=""ChartShape.Triangle"" Fill=""#00E676""></ChartTrendlineMarker>
-                           </ChartTrendline>
-                        </ChartTrendlines>
-                </ChartSeries>
-            </ChartSeriesCollection>
+                            <ChartTrendlineAnimation Enable=""false"" />
+                            <ChartTrendlineMarker Visible=""true"" Height=""10"" Width=""10"" Shape=""ChartShape.Triangle"" Fill=""#00E676""></ChartTrendlineMarker>
+                        </ChartTrendline>
+                    </ChartTrendlines>
+            </ChartSeries>
         </SfChart>
 @code {
     private Theme _currentTheme = Theme.Fluent;
@@ -1572,34 +1556,32 @@
             <ChartLegendSettings Visible=""true""
                                  ShapeHeight=""15""
                                  ShapeWidth=""15"" />
-            <ChartSeriesCollection>
-                <ChartSeries DataSource=""@TrendlineCustomizationData""
-                             XName=""Year""
-                             YName=""Area""
-                             Name=""Forest Coverage""
-                             Type=""ChartSeriesType.Line""
-                             Width=""2.5""
-                             Fill=""#2E7D32"">
-                    <ChartSeriesAnimation Enable=""false"" />
-                    <ChartMarker Visible=""true""
-                                 Width=""8""
-                                 Height=""8""
-                                 Shape=""ChartShape.Diamond""
-                                 Fill=""#2E7D32"">
-                    </ChartMarker>
-                    <ChartTrendlines>
-                        <ChartTrendline Type=""TrendlineTypes.Linear""
-                                        Name=""Deforestation Trend""
-                                        Width=""6""
-                                        DashArray=""8,4,2,4""
-                                        Intercept=""4150""
-                                        Fill=""#FFB300""
-                                        EnableTooltip=""false"">
-                            <ChartTrendlineAnimation Enable=""false"" />
-                        </ChartTrendline>
-                    </ChartTrendlines>
-                </ChartSeries>
-            </ChartSeriesCollection>
+            <ChartSeries DataSource=""@TrendlineCustomizationData""
+                            XName=""Year""
+                            YName=""Area""
+                            Name=""Forest Coverage""
+                            Type=""ChartSeriesType.Line""
+                            Width=""2.5""
+                            Fill=""#2E7D32"">
+                <ChartSeriesAnimation Enable=""false"" />
+                <ChartMarker Visible=""true""
+                                Width=""8""
+                                Height=""8""
+                                Shape=""ChartShape.Diamond""
+                                Fill=""#2E7D32"">
+                </ChartMarker>
+                <ChartTrendlines>
+                    <ChartTrendline Type=""TrendlineTypes.Linear""
+                                    Name=""Deforestation Trend""
+                                    Width=""6""
+                                    DashArray=""8,4,2,4""
+                                    Intercept=""4150""
+                                    Fill=""#FFB300""
+                                    EnableTooltip=""false"">
+                        <ChartTrendlineAnimation Enable=""false"" />
+                    </ChartTrendline>
+                </ChartTrendlines>
+            </ChartSeries>
         </SfChart>
 @code {
     private Theme _currentTheme = Theme.Fluent;

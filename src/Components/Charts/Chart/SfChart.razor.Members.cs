@@ -290,9 +290,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts
         /// <![CDATA[
         /// // This example demonstrates how to render a transposed column chart.
         /// <SfChart IsTransposed="true">
-        ///     <ChartSeriesCollection>
-        ///         <ChartSeries DataSource="@Data" XName="XValue" YName="YValue" Type="ChartSeriesType.Column" />
-        ///     </ChartSeriesCollection>
+        ///     <ChartSeries DataSource="@Data" XName="XValue" YName="YValue" Type="ChartSeriesType.Column" />
         /// </SfChart>
         /// ]]>
         /// </code>
@@ -323,10 +321,8 @@ namespace Syncfusion.Blazor.Toolkit.Charts
         /// <![CDATA[
         /// // This example demonstrates how to apply a custom color palette to a Syncfusion Blazor Chart.
         /// <SfChart Palettes='new string[]{"red", "blue"}'>
-        ///     <ChartSeriesCollection>
-        ///         <ChartSeries DataSource="@WeatherReports" XName="X" YName="Y" Type="ChartSeriesType.Column" />
-        ///         <ChartSeries DataSource="@WeatherReports" XName="X" YName="Y1" />
-        ///     </ChartSeriesCollection>
+        ///    <ChartSeries DataSource="@WeatherReports" XName="X" YName="Y" Type="ChartSeriesType.Column" />
+        ///    <ChartSeries DataSource="@WeatherReports" XName="X" YName="Y1" />
         /// </SfChart>
         /// ]]>
         /// </code>
@@ -348,9 +344,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts
         /// <![CDATA[
         /// // This example demonstrates how to bind a data source directly to the SfChart component in a Syncfusion Blazor Chart.
         /// <SfChart DataSource="@WeatherReports">
-        ///     <ChartSeriesCollection>
-        ///         <ChartSeries XName="X" YName="Y" Type="ChartSeriesType.Column" />
-        ///     </ChartSeriesCollection>
+        ///     <ChartSeries XName="X" YName="Y" Type="ChartSeriesType.Column" />
         /// </SfChart>
         /// ]]>
         /// </code>
@@ -406,10 +400,8 @@ namespace Syncfusion.Blazor.Toolkit.Charts
         /// <![CDATA[
         /// // This example demonstrates how to disable side-by-side placement for column series in a chart.
         /// <SfChart EnableSideBySidePlacement="false">
-        ///     <ChartSeriesCollection>
-        ///         <ChartSeries DataSource="@Data" XName="XValue" YName="YValue" Type="ChartSeriesType.Column" />
-        ///         <ChartSeries DataSource="@Data" XName="XValue" YName="Y1Value" Type="ChartSeriesType.Column" />
-        ///     </ChartSeriesCollection>
+        ///     <ChartSeries DataSource="@Data" XName="XValue" YName="YValue" Type="ChartSeriesType.Column" />
+        ///     <ChartSeries DataSource="@Data" XName="XValue" YName="Y1Value" Type="ChartSeriesType.Column" />
         /// </SfChart>
         /// ]]>
         /// </code>
@@ -433,9 +425,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts
         /// // This example demonstrates how to enable automatic interval adjustment on both axes.
         /// <SfChart EnableAutoIntervalOnBothAxis="true">
         ///     <ChartZoomSettings ToolbarDisplayMode="ToolbarMode.Always"></ChartZoomSettings>
-        ///     <ChartSeriesCollection>
-        ///         <ChartSeries DataSource="@WeatherReports" XName="X" YName="Y" Type="ChartSeriesType.Column" />
-        ///     </ChartSeriesCollection>
+        ///     <ChartSeries DataSource="@WeatherReports" XName="X" YName="Y" Type="ChartSeriesType.Column" />
         /// </SfChart>
         /// ]]>
         /// </code>
@@ -479,9 +469,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts
         /// <![CDATA[
         /// // This example demonstrates how to enable series highlight color in a Syncfusion Blazor Chart.
         /// <SfChart HighlightColor="blue" HighlightMode="HighlightMode.Series">
-        ///     <ChartSeriesCollection>
-        ///         <ChartSeries DataSource="@WeatherReports" XName="X" YName="Y" Type="ChartSeriesType.Column" />
-        ///     </ChartSeriesCollection>
+        ///     <ChartSeries DataSource="@WeatherReports" XName="X" YName="Y" Type="ChartSeriesType.Column" />
         /// </SfChart>
         /// ]]>
         /// </code>
@@ -510,9 +498,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts
         /// <![CDATA[
         /// // This example demonstrates how to enable drag-to-select functionality in a Syncfusion Blazor Chart.
         /// <SfChart SelectionMode="ChartSelectionMode.DragXY">
-        ///     <ChartSeriesCollection>
-        ///         <ChartSeries DataSource="@WeatherReports" XName="X" YName="Y" Type="ChartSeriesType.Column" />
-        ///     </ChartSeriesCollection>
+        ///     <ChartSeries DataSource="@WeatherReports" XName="X" YName="Y" Type="ChartSeriesType.Column" />
         /// </SfChart>
         /// ]]>
         /// </code>
@@ -541,9 +527,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts
         /// <![CDATA[
         /// // This example demonstrates how to enable series highlighting in a Syncfusion Blazor Chart.
         /// <SfChart HighlightColor="true" HighlightMode="HighlightMode.Series">
-        ///     <ChartSeriesCollection>
-        ///         <ChartSeries DataSource="@WeatherReports" XName="X" YName="Y" Type="ChartSeriesType.Column" />
-        ///     </ChartSeriesCollection>
+        ///     <ChartSeries DataSource="@WeatherReports" XName="X" YName="Y" Type="ChartSeriesType.Column" />
         /// </SfChart>
         /// ]]>
         /// </code>
@@ -578,9 +562,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts
         /// <![CDATA[
         /// // This example demonstrates how to apply a triangle selection pattern to a series in a Syncfusion Blazor Chart.
         /// <SfChart SelectionMode="ChartSelectionMode.Series" SelectionPattern="SelectionPattern.Triangle">
-        ///     <ChartSeriesCollection>
-        ///         <ChartSeries DataSource="@WeatherReports" XName="X" YName="Y" Type="ChartSeriesType.Column" />
-        ///     </ChartSeriesCollection>
+        ///     <ChartSeries DataSource="@WeatherReports" XName="X" YName="Y" Type="ChartSeriesType.Column" />
         /// </SfChart>
         /// ]]>
         /// </code>
@@ -603,9 +585,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts
         /// <![CDATA[
         /// // This example demonstrates how to highlight a series with a triangle pattern in a Syncfusion Blazor Chart.
         /// <SfChart HighlightMode="HighlightMode.Series" HighlightPattern="SelectionPattern.Triangle">
-        ///     <ChartSeriesCollection>
-        ///         <ChartSeries DataSource="@WeatherReports" XName="X" YName="Y" Type="ChartSeriesType.Column" />
-        ///     </ChartSeriesCollection>
+        ///     <ChartSeries DataSource="@WeatherReports" XName="X" YName="Y" Type="ChartSeriesType.Column" />
         /// </SfChart>
         /// ]]>
         /// </code>
@@ -628,9 +608,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts
         /// <![CDATA[
         /// // This example demonstrates how to enable multiple series selection with a triangle pattern in a Syncfusion Blazor Chart.
         /// <SfChart SelectionMode="ChartSelectionMode.Series" SelectionPattern="SelectionPattern.Triangle" AllowMultiSelection="true">
-        ///     <ChartSeriesCollection>
-        ///         <ChartSeries DataSource="@WeatherReports" XName="X" YName="Y" Type="ChartSeriesType.Column" />
-        ///     </ChartSeriesCollection>
+        ///     <ChartSeries DataSource="@WeatherReports" XName="X" YName="Y" Type="ChartSeriesType.Column" />
         /// </SfChart>
         /// ]]>
         /// </code>
@@ -653,9 +631,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts
         /// <![CDATA[
         /// // This example demonstrates how to use grouping separators for numeric values in a Syncfusion Blazor Chart.
         /// <SfChart UseGroupingSeparator="true">
-        ///     <ChartSeriesCollection>
-        ///         <ChartSeries DataSource="@WeatherReports" XName="X" YName="Y" />
-        ///     </ChartSeriesCollection>
+        ///     <ChartSeries DataSource="@WeatherReports" XName="X" YName="Y" />
         /// </SfChart>
         /// ]]>
         /// </code>
@@ -677,9 +653,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts
         /// <![CDATA[
         /// // This example demonstrates how to set the tab index of a Syncfusion Blazor Chart component.
         /// <SfChart TabIndex="1">
-        ///     <ChartSeriesCollection>
-        ///         <ChartSeries DataSource="@WeatherReports" XName="X" YName="Y" Type="ChartSeriesType.Column" />
-        ///     </ChartSeriesCollection>
+        ///     <ChartSeries DataSource="@WeatherReports" XName="X" YName="Y" Type="ChartSeriesType.Column" />
         /// </SfChart>
         /// ]]>
         /// </code>
@@ -701,9 +675,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts
         /// <![CDATA[
         /// // This example demonstrates how to enable animation in a Syncfusion Blazor Chart.
         /// <SfChart EnableAnimation="true">
-        ///     <ChartSeriesCollection>
-        ///         <ChartSeries DataSource="@WeatherReports" XName="X" YName="Y" Type="ChartSeriesType.Column" />
-        ///     </ChartSeriesCollection>
+        ///     <ChartSeries DataSource="@WeatherReports" XName="X" YName="Y" Type="ChartSeriesType.Column" />
         /// </SfChart>
         /// ]]>
         /// </code>
@@ -755,9 +727,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts
         /// <![CDATA[
         /// // This example demonstrates how to enable adaptive rendering in a Syncfusion Blazor Chart.
         /// <SfChart EnableAdaptiveRendering="true" Height="300" Width="300" Title="chart">
-        ///     <ChartSeriesCollection>
-        ///         <ChartSeries DataSource="@WeatherReports" XName="X" YName="Y" Type="ChartSeriesType.Column" />
-        ///     </ChartSeriesCollection>
+        ///     <ChartSeries DataSource="@WeatherReports" XName="X" YName="Y" Type="ChartSeriesType.Column" />
         /// </SfChart>
         /// ]]>
         /// </code>

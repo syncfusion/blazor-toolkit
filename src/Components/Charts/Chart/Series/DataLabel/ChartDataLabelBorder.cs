@@ -32,15 +32,13 @@ namespace Syncfusion.Blazor.Toolkit.Charts
         /// <![CDATA[
         /// // The following example demonstrates setting the width of the data label border to 2:
         /// <SfChart>
-        ///     <ChartSeriesCollection>
-        ///         <ChartSeries DataSource="@WeatherReports" XName="X" YName="Y">
-        ///             <ChartMarker>
-        ///                 <ChartDataLabel Visible="true">
-        ///                     <ChartDataLabelBorder Width="2" Color="#1b49cc"></ChartDataLabelBorder>
-        ///                 </ChartDataLabel>
-        ///             </ChartMarker>
-        ///         </ChartSeries>
-        ///     </ChartSeriesCollection>
+        ///     <ChartSeries DataSource="@WeatherReports" XName="X" YName="Y">
+        ///         <ChartMarker>
+        ///             <ChartDataLabel Visible="true">
+        ///                 <ChartDataLabelBorder Width="2" Color="#1b49cc"></ChartDataLabelBorder>
+        ///             </ChartDataLabel>
+        ///         </ChartMarker>
+        ///     </ChartSeries>
         /// </SfChart>
         /// ]]>
         /// </code>

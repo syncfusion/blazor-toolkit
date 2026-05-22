@@ -37,9 +37,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts
         ///             </ChartStripline>
         ///         </ChartStriplines>
         ///     </ChartPrimaryYAxis>
-        ///     <ChartSeriesCollection>
-        ///         <ChartSeries DataSource="@Data" XName="XValue" YName="YValue" />
-        ///     </ChartSeriesCollection>
+        ///     <ChartSeries DataSource="@Data" XName="XValue" YName="YValue" />
         /// </SfChart>
         /// ]]>
         /// </code>
@@ -68,9 +66,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts
         ///             </ChartStripline>
         ///         </ChartStriplines>
         ///     </ChartPrimaryYAxis>
-        ///     <ChartSeriesCollection>
-        ///         <ChartSeries DataSource="@Data" XName="XValue" YName="YValue" />
-        ///     </ChartSeriesCollection>
+        ///     <ChartSeries DataSource="@Data" XName="XValue" YName="YValue" />
         /// </SfChart>
         /// ]]>
         /// </code>
@@ -99,9 +95,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts
         ///             </ChartStripline>
         ///         </ChartStriplines>
         ///     </ChartPrimaryYAxis>
-        ///     <ChartSeriesCollection>
-        ///         <ChartSeries DataSource="@Data" XName="XValue" YName="YValue" />
-        ///     </ChartSeriesCollection>
+        ///     <ChartSeries DataSource="@Data" XName="XValue" YName="YValue" />
         /// </SfChart>
         /// ]]>
         /// </code>
@@ -130,9 +124,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts
         ///             </ChartStripline>
         ///         </ChartStriplines>
         ///     </ChartPrimaryYAxis>
-        ///     <ChartSeriesCollection>
-        ///         <ChartSeries DataSource="@Data" XName="XValue" YName="YValue" />
-        ///     </ChartSeriesCollection>
+        ///     <ChartSeries DataSource="@Data" XName="XValue" YName="YValue" />
         /// </SfChart>
         /// ]]>
         /// </code>

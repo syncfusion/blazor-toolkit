@@ -37,15 +37,13 @@ namespace Syncfusion.Blazor.Toolkit.Charts
         /// <![CDATA[
         /// // The following example demonstrates how to set a custom font size for data label text:
         /// <SfChart>
-        ///     <ChartSeriesCollection>
-        ///         <ChartSeries DataSource="@WeatherReports" XName="X" YName="Y">
-        ///             <ChartMarker>
-        ///                 <ChartDataLabel Visible="true">
-        ///                     <ChartDataLabelFont Size="20px"></ChartDataLabelFont>
-        ///                 </ChartDataLabel>
-        ///             </ChartMarker>
-        ///         </ChartSeries>
-        ///     </ChartSeriesCollection>
+        ///     <ChartSeries DataSource="@WeatherReports" XName="X" YName="Y">
+        ///         <ChartMarker>
+        ///             <ChartDataLabel Visible="true">
+        ///                 <ChartDataLabelFont Size="20px"></ChartDataLabelFont>
+        ///             </ChartDataLabel>
+        ///         </ChartMarker>
+        ///     </ChartSeries>
         /// </SfChart>
         /// ]]>
         /// </code>
@@ -67,15 +65,13 @@ namespace Syncfusion.Blazor.Toolkit.Charts
         /// <![CDATA[
         /// // The following example demonstrates how to set a custom color for data label text:
         /// <SfChart>
-        ///     <ChartSeriesCollection>
-        ///         <ChartSeries DataSource="@WeatherReports" XName="X" YName="Y">
-        ///             <ChartMarker>
-        ///                 <ChartDataLabel Visible="true">
-        ///                     <ChartDataLabelFont Color="#c0faf4"></ChartDataLabelFont>
-        ///                 </ChartDataLabel>
-        ///             </ChartMarker>
-        ///         </ChartSeries>
-        ///     </ChartSeriesCollection>
+        ///     <ChartSeries DataSource="@WeatherReports" XName="X" YName="Y">
+        ///         <ChartMarker>
+        ///              <ChartDataLabel Visible="true">
+        ///                 <ChartDataLabelFont Color="#c0faf4"></ChartDataLabelFont>
+        ///             </ChartDataLabel>
+        ///         </ChartMarker>
+        ///     </ChartSeries>
         /// </SfChart>
         /// ]]>
         /// </code>
@@ -97,15 +93,13 @@ namespace Syncfusion.Blazor.Toolkit.Charts
         /// <![CDATA[
         /// // The following example demonstrates how to set a custom font family for data label text:
         /// <SfChart>
-        ///     <ChartSeriesCollection>
-        ///         <ChartSeries DataSource="@WeatherReports" XName="X" YName="Y">
-        ///             <ChartMarker>
-        ///                 <ChartDataLabel Visible="true">
-        ///                     <ChartDataLabelFont FontFamily="Arial"></ChartDataLabelFont>
-        ///                 </ChartDataLabel>
-        ///             </ChartMarker>
-        ///         </ChartSeries>
-        ///     </ChartSeriesCollection>
+        ///     <ChartSeries DataSource="@WeatherReports" XName="X" YName="Y">
+        ///         <ChartMarker>
+        ///             <ChartDataLabel Visible="true">
+        ///                 <ChartDataLabelFont FontFamily="Arial"></ChartDataLabelFont>
+        ///             </ChartDataLabel>
+        ///         </ChartMarker>
+        ///     </ChartSeries>
         /// </SfChart>
         /// ]]>
         /// </code>
@@ -127,15 +121,13 @@ namespace Syncfusion.Blazor.Toolkit.Charts
         /// <![CDATA[
         /// // The following example demonstrates how to set a custom font weight for data label text:
         /// <SfChart>
-        ///     <ChartSeriesCollection>
-        ///         <ChartSeries DataSource="@WeatherReports" XName="X" YName="Y">
-        ///             <ChartMarker>
-        ///                 <ChartDataLabel Visible="true">
-        ///                     <ChartDataLabelFont FontWeight="bold"></ChartDataLabelFont>
-        ///                 </ChartDataLabel>
-        ///             </ChartMarker>
-        ///         </ChartSeries>
-        ///     </ChartSeriesCollection>
+        ///     <ChartSeries DataSource="@WeatherReports" XName="X" YName="Y">
+        ///         <ChartMarker>
+        ///             <ChartDataLabel Visible="true">
+        ///                 <ChartDataLabelFont FontWeight="bold"></ChartDataLabelFont>
+        ///             </ChartDataLabel>
+        ///         </ChartMarker>
+        ///     </ChartSeries>
         /// </SfChart>
         /// ]]>
         /// </code>

@@ -53,9 +53,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts
         /// <![CDATA[
         /// // This example demonstrates how to customize the legend text size in a chart.
         /// <SfChart>
-        ///     <ChartSeriesCollection>
-        ///         <ChartSeries DataSource="@MedalDetails" Name="Gold" XName="Country" YName="Gold" />
-        ///     </ChartSeriesCollection>
+        ///     <ChartSeries DataSource="@MedalDetails" Name="Gold" XName="Country" YName="Gold" />
         ///     <ChartLegendSettings Visible="true">
         ///         <ChartLegendTextStyle Size="14px" />
         ///     </ChartLegendSettings>
@@ -81,9 +79,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts
         /// <![CDATA[
         /// // This example demonstrates how to customize the legend text font family in a chart.
         /// <SfChart>
-        ///     <ChartSeriesCollection>
-        ///         <ChartSeries DataSource="@MedalDetails" Name="Gold" XName="Country" YName="Gold" />
-        ///     </ChartSeriesCollection>
+        ///     <ChartSeries DataSource="@MedalDetails" Name="Gold" XName="Country" YName="Gold" />
         ///     <ChartLegendSettings Visible="true">
         ///         <ChartLegendTextStyle FontFamily="Roboto"  />
         ///     </ChartLegendSettings>
@@ -109,9 +105,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts
         /// <![CDATA[
         /// // This example demonstrates how to customize the legend text font weight in a chart.
         /// <SfChart>
-        ///     <ChartSeriesCollection>
-        ///         <ChartSeries DataSource="@MedalDetails" Name="Gold" XName="Country" YName="Gold" />
-        ///     </ChartSeriesCollection>
+        ///     <ChartSeries DataSource="@MedalDetails" Name="Gold" XName="Country" YName="Gold" />
         ///     <ChartLegendSettings Visible="true">
         ///         <ChartLegendTextStyle FontWeight="400"  />
         ///     </ChartLegendSettings>

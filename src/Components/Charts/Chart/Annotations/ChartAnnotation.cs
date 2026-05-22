@@ -103,9 +103,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts
         ///             </ContentTemplate>
         ///         </ChartAnnotation>
         ///     </ChartAnnotations>
-        ///     <ChartSeriesCollection>
-        ///         <ChartSeries DataSource="@MedalDetails" XName="Country" YName="Gold"/>
-        ///     </ChartSeriesCollection>
+        ///     <ChartSeries DataSource="@MedalDetails" XName="Country" YName="Gold"/>
         /// </SfChart>
         /// 
         /// @code{
@@ -162,9 +160,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts
         ///             </ContentTemplate>
         ///         </ChartAnnotation>
         ///     </ChartAnnotations>
-        ///     <ChartSeriesCollection>
-        ///         <ChartSeries DataSource="@WeatherReports" XName="X" YName="Y"/>
-        ///     </ChartSeriesCollection>
+        ///     <ChartSeries DataSource="@WeatherReports" XName="X" YName="Y"/>
         /// </SfChart>
         /// ]]>
         /// </code>
@@ -197,9 +193,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts
         ///             </ContentTemplate>
         ///         </ChartAnnotation>
         ///     </ChartAnnotations>
-        ///     <ChartSeriesCollection>
-        ///         <ChartSeries DataSource="@WeatherReports" XName="X" YName="Y"/>
-        ///     </ChartSeriesCollection>
+        ///     <ChartSeries DataSource="@WeatherReports" XName="X" YName="Y"/>
         /// </SfChart>
         /// ]]>
         /// </code>
@@ -221,9 +215,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts
         /// <![CDATA[
         /// // This example demonstrates how to render a chart with an annotation aligned to a specific X axis:
         /// <SfChart>
-        ///     <ChartAxes>
-        ///         <ChartAxis Name="XAxis" OpposedPosition="true"/>
-        ///     </ChartAxes>
+        ///     <ChartAxis Name="XAxis" OpposedPosition="true"/>
         ///     <ChartAnnotations>
         ///         <ChartAnnotation X="100" Y="65" XAxisName="XAxis">
         ///             <ContentTemplate>
@@ -231,10 +223,8 @@ namespace Syncfusion.Blazor.Toolkit.Charts
         ///             </ContentTemplate>
         ///         </ChartAnnotation>
         ///     </ChartAnnotations>
-        ///     <ChartSeriesCollection>
-        ///         <ChartSeries DataSource="@WeatherReports" XName="X" YName="Y"/>
-        ///         <ChartSeries DataSource="@WeatherReports1" XName="X" YName="Y" XAxisName="XAxis"/>
-        ///     </ChartSeriesCollection>
+        ///     <ChartSeries DataSource="@WeatherReports" XName="X" YName="Y"/>
+        ///     <ChartSeries DataSource="@WeatherReports1" XName="X" YName="Y" XAxisName="XAxis"/>
         /// </SfChart>
         /// ]]>
         /// </code>
@@ -267,9 +257,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts
         ///             </ContentTemplate>
         ///         </ChartAnnotation>
         ///     </ChartAnnotations>
-        ///     <ChartSeriesCollection>
-        ///         <ChartSeries DataSource="@WeatherReports" XName="X" YName="Y"/>
-        ///     </ChartSeriesCollection>
+        ///     <ChartSeries DataSource="@WeatherReports" XName="X" YName="Y"/>
         /// </SfChart>
         /// ]]>
         /// </code>
@@ -291,9 +279,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts
         /// <![CDATA[
         /// // This example demonstrates how to render a chart with an annotation aligned to a specific Y axis:
         /// <SfChart>
-        ///     <ChartAxes>
-        ///         <ChartAxis Name="YAxis" OpposedPosition="true"/>
-        ///     </ChartAxes>
+        ///     <ChartAxis Name="YAxis" OpposedPosition="true"/>
         ///     <ChartAnnotations>
         ///         <ChartAnnotation X="100" Y="65" YAxisName="YAxis">
         ///             <ContentTemplate>
@@ -301,10 +287,8 @@ namespace Syncfusion.Blazor.Toolkit.Charts
         ///             </ContentTemplate>
         ///         </ChartAnnotation>
         ///     </ChartAnnotations>
-        ///     <ChartSeriesCollection>
-        ///         <ChartSeries DataSource="@WeatherReports" XName="X" YName="Y"/>
-        ///         <ChartSeries DataSource="@WeatherReports1" XName="X" YName="Y" YAxisName="YAxis"/>
-        ///     </ChartSeriesCollection>
+        ///     <ChartSeries DataSource="@WeatherReports" XName="X" YName="Y"/>
+        ///     <ChartSeries DataSource="@WeatherReports1" XName="X" YName="Y" YAxisName="YAxis"/>
         /// </SfChart>
         /// ]]>
         /// </code>

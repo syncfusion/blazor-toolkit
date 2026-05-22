@@ -89,25 +89,23 @@
             <ChartPrimaryYAxis Title=""Value"">
                 <ChartAxisLineStyle Width=""0"" />
             </ChartPrimaryYAxis>
-            <ChartSeriesCollection>
-                <ChartSeries DataSource=""@MarkerOverviewData""
-                             XName=""Year""
-                             YName=""China""
-                             Name=""China""
-                             Type=""ChartSeriesType.Line"">
-                    <ChartMarker Visible=""true"" Width=""10"" Height=""10"">
-                    </ChartMarker>
-                </ChartSeries>
+            <ChartSeries DataSource=""@MarkerOverviewData""
+                            XName=""Year""
+                            YName=""China""
+                            Name=""China""
+                            Type=""ChartSeriesType.Line"">
+                <ChartMarker Visible=""true"" Width=""10"" Height=""10"">
+                </ChartMarker>
+            </ChartSeries>
 
-                <ChartSeries DataSource=""@MarkerOverviewData""
-                             XName=""Year""
-                             YName=""UnitedStates""
-                             Name=""United States""
-                             Type=""ChartSeriesType.Line"">
-                    <ChartMarker Visible=""true"" Width=""10"" Height=""10"">
-                    </ChartMarker>
-                </ChartSeries>
-            </ChartSeriesCollection>
+            <ChartSeries DataSource=""@MarkerOverviewData""
+                            XName=""Year""
+                            YName=""UnitedStates""
+                            Name=""United States""
+                            Type=""ChartSeriesType.Line"">
+                <ChartMarker Visible=""true"" Width=""10"" Height=""10"">
+                </ChartMarker>
+            </ChartSeries>
                 <!-- Tooltip -->
                 <ChartTooltipSettings Enable=""true"" Shared =""true""
                                       Header=""${point.x}""
@@ -277,19 +275,17 @@
                                Maximum=""100"">
                 <ChartAxisLineStyle Width=""0"" />
             </ChartPrimaryYAxis>
-            <ChartSeriesCollection>
-                <ChartSeries DataSource=""@MarkerShapeData""
-                             XName=""Year""
-                             YName=""Value""
-                             Name=""Growth""
-                             Type=""ChartSeriesType.Line"">
-                    <ChartMarker Visible=""true""
-                                 Shape=""@chartShape""
-                                 Width=""10""
-                                 Height=""10"">
-                    </ChartMarker>
-                </ChartSeries>
-            </ChartSeriesCollection>
+            <ChartSeries DataSource=""@MarkerShapeData""
+                            XName=""Year""
+                            YName=""Value""
+                            Name=""Growth""
+                            Type=""ChartSeriesType.Line"">
+                <ChartMarker Visible=""true""
+                                Shape=""@chartShape""
+                                Width=""10""
+                                Height=""10"">
+                </ChartMarker>
+            </ChartSeries>
                 <!-- Tooltip -->
                 <ChartTooltipSettings Enable=""true"" 
                                       Header=""${point.x}""
@@ -438,20 +434,18 @@
                 <ChartAxisLineStyle Width=""0"" />
             </ChartPrimaryYAxis>
 
-            <ChartSeriesCollection>
-                <ChartSeries DataSource=""@TemperatureData""
-                             XName=""Month""
-                             YName=""Avg""
-                             Name=""Average Temperature""
-                             Type=""ChartSeriesType.Line"">
-                    <ChartMarker Visible=""true""
-                                 Width=""16""
-                                 Height=""16""
-                                 Shape=""ChartShape.Image""
-                                 ImageUrl=""@(new Uri(""images/charts/cloudy.png"", UriKind.Relative))"">
-                    </ChartMarker>
-                </ChartSeries>
-            </ChartSeriesCollection>
+            <ChartSeries DataSource=""@TemperatureData""
+                            XName=""Month""
+                            YName=""Avg""
+                            Name=""Average Temperature""
+                            Type=""ChartSeriesType.Line"">
+                <ChartMarker Visible=""true""
+                                Width=""16""
+                                Height=""16""
+                                Shape=""ChartShape.Image""
+                                ImageUrl=""@(new Uri(""images/charts/cloudy.png"", UriKind.Relative))"">
+                </ChartMarker>
+            </ChartSeries>
                 <!-- Tooltip -->
                 <ChartTooltipSettings Enable=""true""
                                       Header=""Average""
@@ -601,47 +595,45 @@
             <ChartPrimaryYAxis Title=""Temperature (°F)"">
                 <ChartAxisLineStyle Width=""0"" />
             </ChartPrimaryYAxis>
-            <ChartSeriesCollection>
-                <ChartSeries DataSource=""@TemperatureData""
-                             XName=""Month""
-                             YName=""Min""
-                             Name=""Minimum""
-                             Type=""ChartSeriesType.Line"">
-                    <ChartMarker Visible=""true""
-                                 Shape=""ChartShape.Circle""
-                                 Width=""10""
-                                 Height=""10""
-                                 Fill=""#1976D2""
-                                 Border=""@(new ChartMarkerBorder { Width = 2, Color = ""#0D47A1"" })"">
-                    </ChartMarker>
-                </ChartSeries>
-                <ChartSeries DataSource=""@TemperatureData""
-                             XName=""Month""
-                             YName=""Avg""
-                             Name=""Average""
-                             Type=""ChartSeriesType.Line"">
-                    <ChartMarker Visible=""true""
-                                 Shape=""ChartShape.Diamond""
-                                 Width=""10""
-                                 Height=""10""
-                                 Fill=""#388E3C""
-                                 Border=""@(new ChartMarkerBorder { Width = 2, Color = ""#1B5E20"" })"">
-                    </ChartMarker>
-                </ChartSeries>
-                <ChartSeries DataSource=""@TemperatureData""
-                             XName=""Month""
-                             YName=""Max""
-                             Name=""Maximum""
-                             Type=""ChartSeriesType.Line"">
-                    <ChartMarker Visible=""true""
-                                 Shape=""ChartShape.Triangle""
-                                 Width=""10""
-                                 Height=""10""
-                                 Fill=""#D32F2F""
-                                 Border=""@(new ChartMarkerBorder { Width = 2, Color = ""#B71C1C""})"">
-                    </ChartMarker>
-                </ChartSeries>
-            </ChartSeriesCollection>
+            <ChartSeries DataSource=""@TemperatureData""
+                            XName=""Month""
+                            YName=""Min""
+                            Name=""Minimum""
+                            Type=""ChartSeriesType.Line"">
+                <ChartMarker Visible=""true""
+                                Shape=""ChartShape.Circle""
+                                Width=""10""
+                                Height=""10""
+                                Fill=""#1976D2""
+                                Border=""@(new ChartMarkerBorder { Width = 2, Color = ""#0D47A1"" })"">
+                </ChartMarker>
+            </ChartSeries>
+            <ChartSeries DataSource=""@TemperatureData""
+                            XName=""Month""
+                            YName=""Avg""
+                            Name=""Average""
+                            Type=""ChartSeriesType.Line"">
+                <ChartMarker Visible=""true""
+                                Shape=""ChartShape.Diamond""
+                                Width=""10""
+                                Height=""10""
+                                Fill=""#388E3C""
+                                Border=""@(new ChartMarkerBorder { Width = 2, Color = ""#1B5E20"" })"">
+                </ChartMarker>
+            </ChartSeries>
+            <ChartSeries DataSource=""@TemperatureData""
+                            XName=""Month""
+                            YName=""Max""
+                            Name=""Maximum""
+                            Type=""ChartSeriesType.Line"">
+                <ChartMarker Visible=""true""
+                                Shape=""ChartShape.Triangle""
+                                Width=""10""
+                                Height=""10""
+                                Fill=""#D32F2F""
+                                Border=""@(new ChartMarkerBorder { Width = 2, Color = ""#B71C1C""})"">
+                </ChartMarker>
+            </ChartSeries>
                 <!-- Tooltip -->
                 <ChartTooltipSettings Enable=""true"" Shared=""true""
                                       Header=""${point.x}""
@@ -753,32 +745,30 @@
                 <ChartAxisLineStyle Width=""0"" />
             </ChartPrimaryYAxis>
 
-            <ChartSeriesCollection>
-                <ChartSeries DataSource=""@MarkerOverviewData""
-                             XName=""Year""
-                             YName=""China""
-                             Name=""China""
-                             Type=""ChartSeriesType.Line"">
-                    <ChartMarker Visible=""true""
-                                 Shape=""ChartShape.Circle""
-                                 Width=""10""
-                                 Height=""10""
-                                     IsFilled=""true"">
-                    </ChartMarker>
-                </ChartSeries>
-                <ChartSeries DataSource=""@MarkerOverviewData""
-                             XName=""Year""
-                             YName=""UnitedStates""
-                             Name=""United States""
-                             Type=""ChartSeriesType.Line"">
-                    <ChartMarker Visible=""true""
-                                 Shape=""ChartShape.Circle""
-                                 Width=""10""
-                                 Height=""10""
-                                IsFilled=""true"">
-                    </ChartMarker>
-                </ChartSeries>
-            </ChartSeriesCollection>
+            <ChartSeries DataSource=""@MarkerOverviewData""
+                            XName=""Year""
+                            YName=""China""
+                            Name=""China""
+                            Type=""ChartSeriesType.Line"">
+                <ChartMarker Visible=""true""
+                                Shape=""ChartShape.Circle""
+                                Width=""10""
+                                Height=""10""
+                                    IsFilled=""true"">
+                </ChartMarker>
+            </ChartSeries>
+            <ChartSeries DataSource=""@MarkerOverviewData""
+                            XName=""Year""
+                            YName=""UnitedStates""
+                            Name=""United States""
+                            Type=""ChartSeriesType.Line"">
+                <ChartMarker Visible=""true""
+                                Shape=""ChartShape.Circle""
+                                Width=""10""
+                                Height=""10""
+                            IsFilled=""true"">
+                </ChartMarker>
+            </ChartSeries>
 
                 <!-- Tooltip -->
                 <ChartTooltipSettings Enable=""true"" Shared=""true""

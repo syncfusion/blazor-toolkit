@@ -46,12 +46,10 @@ namespace Syncfusion.Blazor.Toolkit.Charts
         /// <![CDATA[
         /// // This example shows how to enable data editing in a chart by setting the ChartDataEditSettings.
         /// <SfChart>
-        ///     <ChartSeriesCollection>
-        ///         <ChartSeries DataSource="@Data" Name="England" XName="XValue" YName="YValue">
-        ///             <ChartDataEditSettings Enable="true"></ChartDataEditSettings>
-        ///             <ChartMarker Visible="true" Width="10" Height="10" />
-        ///         </ChartSeries>
-        ///     </ChartSeriesCollection>
+        ///     <ChartSeries DataSource="@Data" Name="England" XName="XValue" YName="YValue">
+        ///         <ChartDataEditSettings Enable="true"></ChartDataEditSettings>
+        ///         <ChartMarker Visible="true" Width="10" Height="10" />
+        ///     </ChartSeries>
         /// </SfChart>
         /// ]]>
         /// </code>
@@ -76,12 +74,10 @@ namespace Syncfusion.Blazor.Toolkit.Charts
         /// <![CDATA[
         /// // This example demonstrates enabling data editing in a column chart and setting the fill color of edited points.
         /// <SfChart>
-        ///     <ChartSeriesCollection>
-        ///         <ChartSeries DataSource="@Data" Name="England" XName="XValue" YName="YValue" Type="ChartSeriesType.Column">
-        ///             <ChartDataEditSettings Enable="true" Fill="red"></ChartDataEditSettings>
-        ///             <ChartMarker Visible="true" Width="10" Height="10" />
-        ///         </ChartSeries>
-        ///     </ChartSeriesCollection>
+        ///     <ChartSeries DataSource="@Data" Name="England" XName="XValue" YName="YValue" Type="ChartSeriesType.Column">
+        ///         <ChartDataEditSettings Enable="true" Fill="red"></ChartDataEditSettings>
+        ///         <ChartMarker Visible="true" Width="10" Height="10" />
+        ///     </ChartSeries>
         /// </SfChart>
         /// ]]>
         /// </code>
@@ -104,12 +100,10 @@ namespace Syncfusion.Blazor.Toolkit.Charts
         /// // This example demonstrates how to enable data editing in a column chart
         /// // and limit the maximum editable Y-value to 20 using MaxY property.
         /// <SfChart>
-        ///     <ChartSeriesCollection>
-        ///         <ChartSeries DataSource="@Data" Name="England" XName="XValue" YName="YValue" Type="ChartSeriesType.Column">
-        ///             <ChartDataEditSettings Enable="true" MaxY="20"></ChartDataEditSettings>
-        ///             <ChartMarker Visible="true" Width="10" Height="10" />
-        ///         </ChartSeries>
-        ///     </ChartSeriesCollection>
+        ///     <ChartSeries DataSource="@Data" Name="England" XName="XValue" YName="YValue" Type="ChartSeriesType.Column">
+        ///         <ChartDataEditSettings Enable="true" MaxY="20"></ChartDataEditSettings>
+        ///         <ChartMarker Visible="true" Width="10" Height="10" />
+        ///     </ChartSeries>
         /// </SfChart>
         /// ]]>
         /// </code>
@@ -132,12 +126,10 @@ namespace Syncfusion.Blazor.Toolkit.Charts
         /// // This example demonstrates how to enable data editing in a column chart
         /// // and restrict the minimum editable Y-value to 30 using the MinY property.
         /// <SfChart>
-        ///     <ChartSeriesCollection>
-        ///         <ChartSeries DataSource="@Data" Name="England" XName="XValue" YName="YValue" Type="ChartSeriesType.Column">
-        ///             <ChartDataEditSettings Enable="true" MinY="30"></ChartDataEditSettings>
-        ///             <ChartMarker Visible="true" Width="10" Height="10" />
-        ///         </ChartSeries>
-        ///     </ChartSeriesCollection>
+        ///     <ChartSeries DataSource="@Data" Name="England" XName="XValue" YName="YValue" Type="ChartSeriesType.Column">
+        ///         <ChartDataEditSettings Enable="true" MinY="30"></ChartDataEditSettings>
+        ///         <ChartMarker Visible="true" Width="10" Height="10" />
+        ///     </ChartSeries>
         /// </SfChart>
         /// ]]>
         /// </code>

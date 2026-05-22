@@ -20,9 +20,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts
     /// <code>
     /// <![CDATA[
     /// <SfChart>
-    ///     <ChartSeriesCollection>
-    ///         <ChartSeries DataSource="@Data" XName="X" YName="Y" Type="ChartSeriesType.Line" />
-    ///     </ChartSeriesCollection>
+    ///     <ChartSeries DataSource="@Data" XName="X" YName="Y" Type="ChartSeriesType.Line" />
     /// </SfChart>
     /// ]]>
     /// </code>
@@ -56,31 +54,29 @@ namespace Syncfusion.Blazor.Toolkit.Charts
 
         #region Properties
 
-       /// <summary>
-       /// Gets or sets the custom template used to render the content of the legend item for the current <see cref="ChartSeries"/>.
-       /// </summary>
-       /// <value>Specifies any valid HTML or Blazor content that defines the legend item's appearance for this series.</value>
-       /// <remarks>
-       /// When set, this property displays the provided template in place of the default legend item text and shape for the current series.
-       /// If both <see cref="LegendItemTemplate"/> and the <see cref="Name"/> are unset, no legend item will be displayed.
-       /// </remarks>
-       /// <example>  
-       /// <code>  
-       /// <![CDATA[  
-       /// <SfChart> 
-       ///     <ChartSeriesCollection> 
-       ///         <ChartSeries> 
-       ///             <LegendItemTemplate> 
-       ///                 <div>Profit</div> 
-       ///             </LegendItemTemplate> 
-       ///         </ChartSeries> 
-       ///     </ChartSeriesCollection> 
-       ///     <ChartLegendSettings Visible="true"/> 
-       /// </SfChart> 
-       /// ]]> 
-       /// </code> 
-       /// </example>
-       [Parameter]
+        /// <summary>
+        /// Gets or sets the custom template used to render the content of the legend item for the current <see cref="ChartSeries"/>.
+        /// </summary>
+        /// <value>Specifies any valid HTML or Blazor content that defines the legend item's appearance for this series.</value>
+        /// <remarks>
+        /// When set, this property displays the provided template in place of the default legend item text and shape for the current series.
+        /// If both <see cref="LegendItemTemplate"/> and the <see cref="Name"/> are unset, no legend item will be displayed.
+        /// </remarks>
+        /// <example>  
+        /// <code>  
+        /// <![CDATA[  
+        /// <SfChart> 
+        ///     <ChartSeries> 
+        ///         <LegendItemTemplate> 
+        ///             <div>Profit</div> 
+        ///         </LegendItemTemplate> 
+        ///     </ChartSeries> 
+        ///     <ChartLegendSettings Visible="true"/> 
+        /// </SfChart> 
+        /// ]]> 
+        /// </code> 
+        /// </example>
+        [Parameter]
         public RenderFragment LegendItemTemplate { get; set; } = null!;
 
         /// <summary>
@@ -95,9 +91,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts
         /// <![CDATA[
         /// // This example demonstrates how to render a line chart type in a chart.
         /// <SfChart>
-        ///     <ChartSeriesCollection>
-        ///         <ChartSeries DataSource="@Data" XName="XValue" YName="YValue" Type="ChartSeriesType.Line" />
-        ///     </ChartSeriesCollection>
+        ///     <ChartSeries DataSource="@Data" XName="XValue" YName="YValue" Type="ChartSeriesType.Line" />
         /// </SfChart>
         /// ]]>
         /// </code>
@@ -160,9 +154,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts
         /// <![CDATA[
         /// // This example demonstrates how to hide a chart series using the 'Visible' property.
         /// <SfChart>
-        ///     <ChartSeriesCollection>
-        ///         <ChartSeries DataSource="@Data" XName="XValue" YName="YValue" Visible="false" />
-        ///     </ChartSeriesCollection>
+        ///     <ChartSeries DataSource="@Data" XName="XValue" YName="YValue" Visible="false" />
         /// </SfChart>
         /// ]]>
         /// </code>
@@ -227,9 +219,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts
         /// <![CDATA[
         /// // This example demonstrates how to set the width of a chart series.
         /// <SfChart>
-        ///     <ChartSeriesCollection>
-        ///         <ChartSeries DataSource="@Data" XName="XValue" YName="YValue" Width="20" />
-        ///     </ChartSeriesCollection>
+        ///     <ChartSeries DataSource="@Data" XName="XValue" YName="YValue" Width="20" />
         /// </SfChart>
         /// ]]>
         /// </code>
@@ -270,13 +260,9 @@ namespace Syncfusion.Blazor.Toolkit.Charts
         /// <![CDATA[
         /// // This example demonstrates how to assign secondary x axis to the chart series.
         /// <SfChart>
-        ///     <ChartAxes>
-        ///         <ChartAxis Name="XAxis" />
-        ///     </ChartAxes>
-        ///     <ChartSeriesCollection>
-        ///         <ChartSeries DataSource="@WeatherReports" XName="X" YName="Y" />
-        ///         <ChartSeries DataSource="@WeatherReports" XName="X" YName="Y1" XAxisName="XAxis" />
-        ///     </ChartSeriesCollection>
+        ///     <ChartAxis Name="XAxis" />
+        ///     <ChartSeries DataSource="@WeatherReports" XName="X" YName="Y" />
+        ///     <ChartSeries DataSource="@WeatherReports" XName="X" YName="Y1" XAxisName="XAxis" />
         /// </SfChart>
         /// ]]>
         /// </code>
@@ -296,9 +282,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts
         /// <![CDATA[
         /// // This example demonstrates how to set the accessibility description for a chart series.
         /// <SfChart>
-        ///     <ChartSeriesCollection>
-        ///         <ChartSeries DataSource="@Data" XName="XValue" YName="YValue" AccessibilityDescription="This is a sample series" />
-        ///     </ChartSeriesCollection>
+        ///     <ChartSeries DataSource="@Data" XName="XValue" YName="YValue" AccessibilityDescription="This is a sample series" />
         /// </SfChart>
         /// ]]>
         /// </code>
@@ -330,9 +314,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts
         /// <![CDATA[
         /// // This example demonstrates how to set the accessibility description format for a chart series.
         /// <SfChart>
-        ///     <ChartSeriesCollection>
-        ///         <ChartSeries DataSource="@Data" XName="XValue" YName="YValue" AccessibilityDescriptionFormat="${series.name} : ${point.x}" />
-        ///     </ChartSeriesCollection>
+        ///     <ChartSeries DataSource="@Data" XName="XValue" YName="YValue" AccessibilityDescriptionFormat="${series.name} : ${point.x}" />
         /// </SfChart>
         /// ]]>
         /// </code>
@@ -352,9 +334,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts
         /// <![CDATA[
         /// // This example demonstrates how to set the accessibility role for a chart series.
         /// <SfChart>
-        ///     <ChartSeriesCollection>
-        ///         <ChartSeries DataSource="@Data" XName="XValue" YName="YValue" AccessibilityRole="region" />
-        ///     </ChartSeriesCollection>
+        ///     <ChartSeries DataSource="@Data" XName="XValue" YName="YValue" AccessibilityRole="region" />
         /// </SfChart>
         /// ]]>
         /// </code>
@@ -374,9 +354,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts
         /// <![CDATA[
         /// // This example demonstrates how to enable focusable behavior on a chart series.
         /// <SfChart>
-        ///     <ChartSeriesCollection>
-        ///         <ChartSeries DataSource="@Data" XName="XValue" YName="YValue" Focusable="true" />
-        ///     </ChartSeriesCollection>
+        ///     <ChartSeries DataSource="@Data" XName="XValue" YName="YValue" Focusable="true" />
         /// </SfChart>
         /// ]]>
         /// </code>
@@ -396,9 +374,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts
         /// <![CDATA[
         /// // This example demonstrates how to bind a field from for data source to X axis.
         /// <SfChart>
-        ///     <ChartSeriesCollection>
-        ///         <ChartSeries DataSource="@Data" XName="XValue" YName="YValue" />
-        ///     </ChartSeriesCollection>
+        ///     <ChartSeries DataSource="@Data" XName="XValue" YName="YValue" />
         /// </SfChart>
         /// ]]>
         /// </code>
@@ -419,13 +395,9 @@ namespace Syncfusion.Blazor.Toolkit.Charts
         /// <![CDATA[
         /// // This example demonstrates how to assign secondary y axis to the chart series.
         /// <SfChart>
-        ///     <ChartAxes>
-        ///         <ChartAxis Name="YAxis" />
-        ///     </ChartAxes>
-        ///     <ChartSeriesCollection>
-        ///         <ChartSeries DataSource="@WeatherReports" XName="X" YName="Y" />
-        ///         <ChartSeries DataSource="@WeatherReports" XName="X" YName="Y1" YAxisName="YAxis" />
-        ///     </ChartSeriesCollection>
+        ///     <ChartAxis Name="YAxis" />
+        ///     <ChartSeries DataSource="@WeatherReports" XName="X" YName="Y" />
+        ///     <ChartSeries DataSource="@WeatherReports" XName="X" YName="Y1" YAxisName="YAxis" />
         /// </SfChart>
         /// ]]>
         /// </code>
@@ -445,9 +417,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts
         /// <![CDATA[
         /// // This example demonstrates how to bind a field from for data source to y axis.
         /// <SfChart>
-        ///     <ChartSeriesCollection>
-        ///         <ChartSeries DataSource="@Data" XName="XValue" YName="YValue" />
-        ///     </ChartSeriesCollection>
+        ///     <ChartSeries DataSource="@Data" XName="XValue" YName="YValue" />
         /// </SfChart>
         /// ]]>
         /// </code>
@@ -468,16 +438,14 @@ namespace Syncfusion.Blazor.Toolkit.Charts
         /// <![CDATA[
         /// // This example demonstrates how to render a HiloOpenClose series in a chart using the High property.
         /// <SfChart>
-        ///     <ChartSeriesCollection>
-        ///         <ChartSeries DataSource="@StockDetails" 
-        ///                      XName="X" 
-        ///                      High="High" 
-        ///                      Low="Low" 
-        ///                      Open="Open" 
-        ///                      Close="Close" 
-        ///                      Type="ChartSeriesType.HiloOpenClose">
-        ///         </ChartSeries>
-        ///     </ChartSeriesCollection>
+        ///     <ChartSeries DataSource="@StockDetails" 
+        ///                  XName="X" 
+        ///                  High="High" 
+        ///                  Low="Low" 
+        ///                  Open="Open" 
+        ///                  Close="Close" 
+        ///                  Type="ChartSeriesType.HiloOpenClose">
+        ///     </ChartSeries>
         /// </SfChart>
         /// ]]>
         /// </code>
@@ -497,16 +465,14 @@ namespace Syncfusion.Blazor.Toolkit.Charts
         /// <![CDATA[
         /// // This example demonstrates how to render a HiloOpenClose series in a chart using the Low property.
         /// <SfChart>
-        ///     <ChartSeriesCollection>
-        ///         <ChartSeries DataSource="@StockDetails" 
-        ///                      XName="X" 
-        ///                      High="High" 
-        ///                      Low="Low" 
-        ///                      Open="Open" 
-        ///                      Close="Close" 
-        ///                      Type="ChartSeriesType.HiloOpenClose">
+        ///     <ChartSeries DataSource="@StockDetails" 
+        ///                  XName="X" 
+        ///                  High="High" 
+        ///                  Low="Low" 
+        ///                  Open="Open" 
+        ///                  Close="Close" 
+        ///                  Type="ChartSeriesType.HiloOpenClose">
         ///         </ChartSeries>
-        ///     </ChartSeriesCollection>
         /// </SfChart>
         /// ]]>
         /// </code>
@@ -528,12 +494,10 @@ namespace Syncfusion.Blazor.Toolkit.Charts
         /// <SfChart>
         ///     <ChartPrimaryXAxis ValueType="@Syncfusion.Blazor.Toolkit.ValueType.Category" Interval="1">
         ///     </ChartPrimaryXAxis>
-        ///     <ChartSeriesCollection>
-        ///         <ChartSeries DataSource="@ChartPoints" XName="Year" YName="USA_Total" GroupName="USA" Type="ChartSeriesType.Column" />
-        ///         <ChartSeries DataSource="@ChartPoints" XName="Year" YName="USA_Gold" GroupName="USA" Type="ChartSeriesType.Column" />
-        ///         <ChartSeries DataSource="@ChartPoints" XName="Year" YName="UK_Total" GroupName="UK" Type="ChartSeriesType.Column" />
-        ///         <ChartSeries DataSource="@ChartPoints" XName="Year" YName="UK_Gold" GroupName="UK" Type="ChartSeriesType.Column" />
-        ///     </ChartSeriesCollection>
+        ///     <ChartSeries DataSource="@ChartPoints" XName="Year" YName="USA_Total" GroupName="USA" Type="ChartSeriesType.Column" />
+        ///     <ChartSeries DataSource="@ChartPoints" XName="Year" YName="USA_Gold" GroupName="USA" Type="ChartSeriesType.Column" />
+        ///     <ChartSeries DataSource="@ChartPoints" XName="Year" YName="UK_Total" GroupName="UK" Type="ChartSeriesType.Column" />
+        ///     <ChartSeries DataSource="@ChartPoints" XName="Year" YName="UK_Gold" GroupName="UK" Type="ChartSeriesType.Column" />
         /// </SfChart>
         /// ]]>
         /// </code>
@@ -553,16 +517,14 @@ namespace Syncfusion.Blazor.Toolkit.Charts
         /// <![CDATA[
         /// // This example demonstrates how to render a HiloOpenClose series in a chart using the Open property.
         /// <SfChart>
-        ///     <ChartSeriesCollection>
-        ///         <ChartSeries DataSource="@StockDetails" 
-        ///                      XName="X" 
-        ///                      High="High" 
-        ///                      Low="Low" 
-        ///                      Open="Open" 
-        ///                      Close="Close" 
-        ///                      Type="ChartSeriesType.HiloOpenClose">
-        ///         </ChartSeries>
-        ///     </ChartSeriesCollection>
+        ///     <ChartSeries DataSource="@StockDetails" 
+        ///                  XName="X" 
+        ///                  High="High" 
+        ///                  Low="Low" 
+        ///                  Open="Open" 
+        ///                  Close="Close" 
+        ///                  Type="ChartSeriesType.HiloOpenClose">
+        ///     </ChartSeries>
         /// </SfChart>
         /// ]]>
         /// </code>
@@ -582,16 +544,14 @@ namespace Syncfusion.Blazor.Toolkit.Charts
         /// <![CDATA[
         /// // This example demonstrates how to render a HiloOpenClose series in a chart using the Close property.
         /// <SfChart>
-        ///     <ChartSeriesCollection>
-        ///         <ChartSeries DataSource="@StockDetails" 
-        ///                      XName="X" 
-        ///                      High="High" 
-        ///                      Low="Low" 
-        ///                      Open="Open" 
-        ///                      Close="Close" 
-        ///                      Type="ChartSeriesType.HiloOpenClose">
-        ///         </ChartSeries>
-        ///     </ChartSeriesCollection>
+        ///     <ChartSeries DataSource="@StockDetails" 
+        ///                  XName="X" 
+        ///                  High="High" 
+        ///                  Low="Low" 
+        ///                  Open="Open" 
+        ///                  Close="Close" 
+        ///                  Type="ChartSeriesType.HiloOpenClose">
+        ///     </ChartSeries>
         /// </SfChart>
         /// ]]>
         /// </code>
@@ -616,19 +576,17 @@ namespace Syncfusion.Blazor.Toolkit.Charts
         ///                         IntervalType="IntervalType.Months">
         ///     </ChartPrimaryXAxis>
         ///     
-        ///     <ChartSeriesCollection>
-        ///         <ChartSeries DataSource="@StockDetails" 
-        ///                      Name="Apple Inc" 
-        ///                      XName="X" 
-        ///                      Low="Low" 
-        ///                      High="High" 
-        ///                      Close="Close" 
-        ///                      Volume="Volume" 
-        ///                      Open="Open" 
-        ///                      Width="2" 
-        ///                      Type="ChartSeriesType.Candle">
-        ///         </ChartSeries>
-        ///     </ChartSeriesCollection>
+        ///     <ChartSeries DataSource="@StockDetails" 
+        ///                  Name="Apple Inc" 
+        ///                  XName="X" 
+        ///                  Low="Low" 
+        ///                  High="High" 
+        ///                  Close="Close" 
+        ///                  Volume="Volume" 
+        ///                  Open="Open" 
+        ///                  Width="2" 
+        ///                  Type="ChartSeriesType.Candle">
+        ///     </ChartSeries>
         /// </SfChart>
         /// ]]>
         /// </code>
@@ -648,12 +606,10 @@ namespace Syncfusion.Blazor.Toolkit.Charts
         /// <![CDATA[
         /// // This example demonstrates how to assign a name to a chart series.
         /// <SfChart>
-        ///     <ChartSeriesCollection>
-        ///         <ChartSeries DataSource="@Data" 
-        ///                      XName="XValue" 
-        ///                      YName="YValue" 
-        ///                      Name="chartData" />
-        ///     </ChartSeriesCollection>
+        ///     <ChartSeries DataSource="@Data" 
+        ///                  XName="XValue" 
+        ///                  YName="YValue" 
+        ///                  Name="chartData" />
         /// </SfChart>
         /// ]]>
         /// </code>
@@ -697,12 +653,10 @@ namespace Syncfusion.Blazor.Toolkit.Charts
         /// <![CDATA[
         /// // This example demonstrates how to use zorder in chart series.
         /// <SfChart>
-        ///     <ChartSeriesCollection>
-        ///         <ChartSeries DataSource="@Data" XName="XValue" YName="YValue" Type="ChartSeriesType.Column" ZOrder="1">
-        ///         </ChartSeries>
-        ///         <ChartSeries DataSource="@Data" XName="XValue" YName="Y1Value" Type="ChartSeriesType.Column">
-        ///         </ChartSeries>
-        ///     </ChartSeriesCollection>
+        ///     <ChartSeries DataSource="@Data" XName="XValue" YName="YValue" Type="ChartSeriesType.Column" ZOrder="1">
+        ///     </ChartSeries>
+        ///     <ChartSeries DataSource="@Data" XName="XValue" YName="Y1Value" Type="ChartSeriesType.Column">
+        ///     </ChartSeries>
         /// </SfChart>
         /// ]]>
         /// </code>
@@ -726,12 +680,10 @@ namespace Syncfusion.Blazor.Toolkit.Charts
         /// <![CDATA[
         /// // This example demonstrates how to set the fill color of a chart series.
         /// <SfChart>
-        ///     <ChartSeriesCollection>
-        ///         <ChartSeries DataSource="@Data" 
-        ///                      XName="XValue" 
-        ///                      YName="YValue" 
-        ///                      Fill="blue" Type="ChartSeriesType.Column"/>
-        ///     </ChartSeriesCollection>
+        ///     <ChartSeries DataSource="@Data" 
+        ///                  XName="XValue" 
+        ///                  YName="YValue" 
+        ///                  Fill="blue" Type="ChartSeriesType.Column"/>
         /// </SfChart>
         /// ]]>
         /// </code>
@@ -785,9 +737,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts
         /// <![CDATA[
         /// // This example demonstrates how to bind the datasource in chart series.
         /// <SfChart>
-        ///     <ChartSeriesCollection>
-        ///         <ChartSeries DataSource="@Data" XName="XValue" YName="YValue" />
-        ///     </ChartSeriesCollection>
+        ///     <ChartSeries DataSource="@Data" XName="XValue" YName="YValue" />
         /// </SfChart>
         /// @code {
         ///     public class ChartData
@@ -898,10 +848,8 @@ namespace Syncfusion.Blazor.Toolkit.Charts
         /// // This example demonstrates how to bind complex object properties as Y-values in a column chart.
         /// <SfChart>
         ///     <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Toolkit.ValueType.Category" />
-        ///     <ChartSeriesCollection>
-        ///         <ChartSeries DataSource="@medalData" XName="Country" YName="Silver.Count" Type="ChartSeriesType.Column" EnableComplexProperty="true" />
-        ///         <ChartSeries DataSource="@medalData" XName="Country" YName="Gold.Count" EnableComplexProperty="true" />
-        ///     </ChartSeriesCollection>
+        ///     <ChartSeries DataSource="@medalData" XName="Country" YName="Silver.Count" Type="ChartSeriesType.Column" EnableComplexProperty="true" />
+        ///     <ChartSeries DataSource="@medalData" XName="Country" YName="Gold.Count" EnableComplexProperty="true" />
         /// </SfChart>
         /// ]]>
         /// </code>
@@ -935,9 +883,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts
         /// // This example demonstrates how to disable the tooltip for a chart series.
         /// <SfChart>
         ///     <ChartTooltipSettings Enable="true"></ChartTooltipSettings>
-        ///     <ChartSeriesCollection>
-        ///         <ChartSeries DataSource="@Data" XName="XValue" YName="YValue" EnableTooltip="false" />
-        ///     </ChartSeriesCollection>
+        ///     <ChartSeries DataSource="@Data" XName="XValue" YName="YValue" EnableTooltip="false" />
         /// </SfChart>
         /// ]]>
         /// </code>
@@ -975,9 +921,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts
         /// // This example demonstrates how to enable and show the nearest tooltip on both the chart and series.
         /// <SfChart>
         ///     <ChartTooltipSettings Enable="true" ShowNearestTooltip="true"></ChartTooltipSettings>
-        ///     <ChartSeriesCollection>
-        ///         <ChartSeries DataSource="@Data" XName="XValue" YName="YValue" ShowNearestTooltip="true" />
-        ///     </ChartSeriesCollection>
+        ///     <ChartSeries DataSource="@Data" XName="XValue" YName="YValue" ShowNearestTooltip="true" />
         /// </SfChart>
         /// ]]>
         /// </code>
@@ -1010,9 +954,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts
         /// // This example demonstrates how to enable tooltip with custom format.
         /// <SfChart>
         ///     <ChartTooltipSettings Enable="true"></ChartTooltipSettings>
-        ///     <ChartSeriesCollection>
-        ///         <ChartSeries DataSource="@Data" XName="XValue" YName="YValue" TooltipFormat="${point.x}" />
-        ///     </ChartSeriesCollection>
+        ///     <ChartSeries DataSource="@Data" XName="XValue" YName="YValue" TooltipFormat="${point.x}" />
         /// </SfChart>
         /// ]]>
         /// </code>
@@ -1044,9 +986,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts
         /// <![CDATA[
         /// // This example demonstrates how to use PointColorMapping in a column chart to apply different colors to each data point.
         /// <SfChart>
-        ///     <ChartSeriesCollection>
-        ///         <ChartSeries DataSource="@Data" XName="XValue" YName="YValue" Type="ChartSeriesType.Column" PointColorMapping="Color"/>
-        ///     </ChartSeriesCollection>
+        ///     <ChartSeries DataSource="@Data" XName="XValue" YName="YValue" Type="ChartSeriesType.Column" PointColorMapping="Color"/>
         /// </SfChart>
         /// @code {
         ///     public class ChartData
@@ -1095,9 +1035,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts
         /// <![CDATA[
         /// // This example demonstrates how to render a bubble chart using Size property.
         /// <SfChart>
-        ///     <ChartSeriesCollection>
-        ///         <ChartSeries DataSource="@Data" XName="XValue" YName="YValue" Type="ChartSeriesType.Bubble" Size="BubbleSize"/>
-        ///     </ChartSeriesCollection>
+        ///     <ChartSeries DataSource="@Data" XName="XValue" YName="YValue" Type="ChartSeriesType.Bubble" Size="BubbleSize"/>
         /// </SfChart>
         /// @code {
         ///     public class ChartData
@@ -1132,9 +1070,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts
         /// <![CDATA[
         /// // This example demonstrates how to apply a dashed line style to a chart series in Chart.
         /// <SfChart>
-        ///     <ChartSeriesCollection>
-        ///         <ChartSeries DataSource="@Data" XName="XValue" YName="YValue" DashArray="5,3" />
-        ///     </ChartSeriesCollection>
+        ///     <ChartSeries DataSource="@Data" XName="XValue" YName="YValue" DashArray="5,3" />
         /// </SfChart>
         /// ]]>
         /// </code>
@@ -1168,9 +1104,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts
         /// <![CDATA[
         /// // This example demonstrates how to set the opacity of a chart series in Chart.
         /// <SfChart>
-        ///     <ChartSeriesCollection>
-        ///         <ChartSeries DataSource="@Data" XName="XValue" YName="YValue" Type="ChartSeriesType.Column" Fill="red" Opacity="0.5" />
-        ///     </ChartSeriesCollection>
+        ///     <ChartSeries DataSource="@Data" XName="XValue" YName="YValue" Type="ChartSeriesType.Column" Fill="red" Opacity="0.5" />
         /// </SfChart>
         /// ]]>
         /// </code>
@@ -1204,11 +1138,9 @@ namespace Syncfusion.Blazor.Toolkit.Charts
         /// <![CDATA[
         /// // This example demonstrates how to render a column chart with a custom border.
         /// <SfChart>
-        ///     <ChartSeriesCollection>
-        ///         <ChartSeries DataSource="@Data" XName="XValue" YName="YValue" Type="ChartSeriesType.Column">
-        ///             <ChartSeriesBorder Width="10" Color="blue"></ChartSeriesBorder>
-        ///         </ChartSeries>
-        ///     </ChartSeriesCollection>
+        ///     <ChartSeries DataSource="@Data" XName="XValue" YName="YValue" Type="ChartSeriesType.Column">
+        ///         <ChartSeriesBorder Width="10" Color="blue"></ChartSeriesBorder>
+        ///     </ChartSeries>
         /// </SfChart>
         /// ]]>
         /// </code>
@@ -1228,10 +1160,8 @@ namespace Syncfusion.Blazor.Toolkit.Charts
         /// <![CDATA[
         /// // This example demonstrates how to render a chart with a custom legend shape.
         /// <SfChart>
-        ///     <ChartSeriesCollection>
-        ///         <ChartSeries DataSource="@Data" XName="XValue" YName="YValue" LegendShape="LegendShape.Rectangle" Name="chart">
-        ///         </ChartSeries>
-        ///     </ChartSeriesCollection>
+        ///     <ChartSeries DataSource="@Data" XName="XValue" YName="YValue" LegendShape="LegendShape.Rectangle" Name="chart">
+        ///     </ChartSeries>
         /// </SfChart>
         /// ]]>
         /// </code>
@@ -1269,11 +1199,9 @@ namespace Syncfusion.Blazor.Toolkit.Charts
         /// <![CDATA[
         /// // This example demonstrates how to render a chart with visible data point markers.
         /// <SfChart>
-        ///     <ChartSeriesCollection>
-        ///         <ChartSeries DataSource="@Data" XName="XValue" YName="YValue">
-        ///             <ChartMarker Visible="true"></ChartMarker>
-        ///         </ChartSeries>
-        ///     </ChartSeriesCollection>
+        ///     <ChartSeries DataSource="@Data" XName="XValue" YName="YValue">
+        ///         <ChartMarker Visible="true"></ChartMarker>
+        ///     </ChartSeries>
         /// </SfChart>
         /// ]]>
         /// </code>
@@ -1347,11 +1275,9 @@ namespace Syncfusion.Blazor.Toolkit.Charts
         /// // This example demonstrates how to handle empty points in a column chart by averaging them,
         /// // and setting a custom fill color for the empty points.
         /// <SfChart>
-        ///     <ChartSeriesCollection>
-        ///         <ChartSeries DataSource="@Data" XName="XValue" YName="YValue" Type="ChartSeriesType.Column">
-        ///             <ChartEmptyPointSettings Mode="EmptyPointMode.Average" Fill="red"></ChartEmptyPointSettings>
-        ///         </ChartSeries>
-        ///     </ChartSeriesCollection>
+        ///     <ChartSeries DataSource="@Data" XName="XValue" YName="YValue" Type="ChartSeriesType.Column">
+        ///         <ChartEmptyPointSettings Mode="EmptyPointMode.Average" Fill="red"></ChartEmptyPointSettings>
+        ///     </ChartSeries>
         /// </SfChart>
         /// ]]>
         /// </code>
@@ -1371,10 +1297,8 @@ namespace Syncfusion.Blazor.Toolkit.Charts
         /// <![CDATA[
         /// // This example demonstrates how to render a column chart with custom column spacing.
         /// <SfChart>
-        ///     <ChartSeriesCollection>
-        ///         <ChartSeries DataSource="@Data" XName="XValue" YName="YValue" 
-        ///                       Type="ChartSeriesType.Column" ColumnSpacing="10" />
-        ///     </ChartSeriesCollection>
+        ///     <ChartSeries DataSource="@Data" XName="XValue" YName="YValue" 
+        ///                  Type="ChartSeriesType.Column" ColumnSpacing="10" />
         /// </SfChart>
         /// ]]>
         /// </code>
@@ -1412,12 +1336,10 @@ namespace Syncfusion.Blazor.Toolkit.Charts
         /// <![CDATA[
         /// // This example demonstrates how to render a column chart with rounded corners.
         /// <SfChart>
-        ///     <ChartSeriesCollection>
-        ///         <ChartSeries DataSource="@Data" XName="XValue" YName="YValue" Type="ChartSeriesType.Column">
-        ///             <ChartCornerRadius BottomLeft="20" BottomRight="20" TopLeft="20" TopRight="20">
-        ///             </ChartCornerRadius>
-        ///         </ChartSeries>
-        ///     </ChartSeriesCollection>
+        ///     <ChartSeries DataSource="@Data" XName="XValue" YName="YValue" Type="ChartSeriesType.Column">
+        ///         <ChartCornerRadius BottomLeft="20" BottomRight="20" TopLeft="20" TopRight="20">
+        ///         </ChartCornerRadius>
+        ///     </ChartSeries>
         /// </SfChart>
         /// ]]>
         /// </code>
@@ -1437,10 +1359,8 @@ namespace Syncfusion.Blazor.Toolkit.Charts
         /// <![CDATA[
         /// // This example demonstrates how to render a column chart with a custom column width.
         /// <SfChart>
-        ///     <ChartSeriesCollection>
-        ///         <ChartSeries DataSource="@Data" XName="XValue" YName="YValue"
-        ///                       Type="ChartSeriesType.Column" ColumnWidth="10" />
-        ///     </ChartSeriesCollection>
+        ///     <ChartSeries DataSource="@Data" XName="XValue" YName="YValue"
+        ///                  Type="ChartSeriesType.Column" ColumnWidth="10" />
         /// </SfChart>
         /// ]]>
         /// </code>
@@ -1478,10 +1398,8 @@ namespace Syncfusion.Blazor.Toolkit.Charts
         /// <![CDATA[
         /// // This example demonstrates how to render a column chart with a fixed column width in pixels.
         /// <SfChart>
-        ///     <ChartSeriesCollection>
-        ///         <ChartSeries DataSource="@Data" XName="XValue" YName="YValue"
-        ///                       Type="ChartSeriesType.Column" ColumnWidthInPixel="30" />
-        ///     </ChartSeriesCollection>
+        ///     <ChartSeries DataSource="@Data" XName="XValue" YName="YValue"
+        ///                   Type="ChartSeriesType.Column" ColumnWidthInPixel="30" />
         /// </SfChart>
         /// ]]>
         /// </code>
@@ -1519,12 +1437,10 @@ namespace Syncfusion.Blazor.Toolkit.Charts
         /// <![CDATA[
         /// // This example demonstrates how to render a stacking bar chart with multiple groupings.
         /// <SfChart>
-        ///     <ChartSeriesCollection>
-        ///         <ChartSeries DataSource="@Data" XName="XValue" YName="YValue" 
-        ///                       Type="ChartSeriesType.StackingBar" StackingGroup="Group1" />
-        ///         <ChartSeries DataSource="@Data" XName="XValue" YName="Y1Value" 
-        ///                       Type="ChartSeriesType.StackingBar" StackingGroup="Group2" />
-        ///     </ChartSeriesCollection>
+        ///     <ChartSeries DataSource="@Data" XName="XValue" YName="YValue" 
+        ///                   Type="ChartSeriesType.StackingBar" StackingGroup="Group1" />
+        ///     <ChartSeries DataSource="@Data" XName="XValue" YName="Y1Value" 
+        ///                   Type="ChartSeriesType.StackingBar" StackingGroup="Group2" />
         /// </SfChart>
         /// ]]>
         /// </code>
@@ -1554,10 +1470,8 @@ namespace Syncfusion.Blazor.Toolkit.Charts
         /// <![CDATA[
         /// // This example demonstrates how to render a SplineArea chart with cardinal spline tension.
         /// <SfChart>
-        ///     <ChartSeriesCollection>
-        ///         <ChartSeries DataSource="@Data" XName="XValue" YName="YValue"
-        ///                       Type="ChartSeriesType.SplineArea" CardinalSplineTension="1" />
-        ///     </ChartSeriesCollection>
+        ///     <ChartSeries DataSource="@Data" XName="XValue" YName="YValue"
+        ///                   Type="ChartSeriesType.SplineArea" CardinalSplineTension="1" />
         /// </SfChart>
         /// ]]>
         /// </code>
@@ -1589,10 +1503,8 @@ namespace Syncfusion.Blazor.Toolkit.Charts
         /// <![CDATA[
         /// // This example demonstrates how to render a SplineArea chart using the Cardinal spline type.
         /// <SfChart>
-        ///     <ChartSeriesCollection>
-        ///         <ChartSeries DataSource="@Data" XName="XValue" YName="YValue"
-        ///                       Type="ChartSeriesType.SplineArea" SplineType="SplineType.Cardinal" />
-        ///     </ChartSeriesCollection>
+        ///     <ChartSeries DataSource="@Data" XName="XValue" YName="YValue"
+        ///                   Type="ChartSeriesType.SplineArea" SplineType="SplineType.Cardinal" />
         /// </SfChart>
         /// ]]>
         /// </code>
@@ -1624,10 +1536,8 @@ namespace Syncfusion.Blazor.Toolkit.Charts
         /// <![CDATA[
         /// // This example demonstrates how to render a StepLine chart with the step position set to 'Right'.
         /// <SfChart>
-        ///     <ChartSeriesCollection>
-        ///         <ChartSeries DataSource="@Data" XName="XValue" YName="YValue"
-        ///                       Type="ChartSeriesType.StepLine" StepPosition="StepPosition.Right" />
-        ///     </ChartSeriesCollection>
+        ///     <ChartSeries DataSource="@Data" XName="XValue" YName="YValue"
+        ///                   Type="ChartSeriesType.StepLine" StepPosition="StepPosition.Right" />
         /// </SfChart>
         /// ]]>
         /// </code>
@@ -1659,10 +1569,8 @@ namespace Syncfusion.Blazor.Toolkit.Charts
         /// <![CDATA[
         /// // This example demonstrates how to render a bubble chart with a maximum radius of 30.
         /// <SfChart>
-        ///     <ChartSeriesCollection>
-        ///         <ChartSeries DataSource="@Data" XName="XValue" YName="YValue"
-        ///                      Type="ChartSeriesType.Bubble" MaxRadius="30" />
-        ///     </ChartSeriesCollection>
+        ///     <ChartSeries DataSource="@Data" XName="XValue" YName="YValue"
+        ///                  Type="ChartSeriesType.Bubble" MaxRadius="30" />
         /// </SfChart>
         /// ]]>
         /// </code>
@@ -1682,10 +1590,8 @@ namespace Syncfusion.Blazor.Toolkit.Charts
         /// <![CDATA[
         /// // This example demonstrates how to render a bubble chart with a minimum radius of 30.
         /// <SfChart>
-        ///     <ChartSeriesCollection>
-        ///         <ChartSeries DataSource="@Data" XName="XValue" YName="YValue"
-        ///                      Type="ChartSeriesType.Bubble" MinRadius="30" />
-        ///     </ChartSeriesCollection>
+        ///     <ChartSeries DataSource="@Data" XName="XValue" YName="YValue"
+        ///                  Type="ChartSeriesType.Bubble" MinRadius="30" />
         /// </SfChart>
         /// ]]>
         /// </code>
@@ -1706,11 +1612,9 @@ namespace Syncfusion.Blazor.Toolkit.Charts
         /// // This example demonstrates how to render a scatter chart with tooltip mapping for additional data.
         /// <SfChart DataSource="@Data">
         ///     <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Toolkit.ValueType.Category"></ChartPrimaryXAxis>
-        ///     <ChartSeriesCollection>
-        ///         <ChartSeries TooltipMappingName="Additional" XName="BS" YName="Rank" Type="ChartSeriesType.Scatter">
-        ///             <ChartMarker Width="10" Height="10"></ChartMarker>
-        ///         </ChartSeries>
-        ///     </ChartSeriesCollection>
+        ///     <ChartSeries TooltipMappingName="Additional" XName="BS" YName="Rank" Type="ChartSeriesType.Scatter">
+        ///         <ChartMarker Width="10" Height="10"></ChartMarker>
+        ///     </ChartSeries>
         ///     <ChartTooltipSettings Enable=true Format="BS : ${point.x} <br> Rank : ${point.y} <br> Additional : ${point.tooltip}"></ChartTooltipSettings>
         /// </SfChart>
         /// ]]>
@@ -1732,15 +1636,13 @@ namespace Syncfusion.Blazor.Toolkit.Charts
         /// // This example demonstrates how to add a trendline in chart
         /// // and enable markers for it in a chart.
         /// <SfChart>
-        ///     <ChartSeriesCollection>
-        ///         <ChartSeries DataSource="@Data" XName="XValue" YName="YValue">
-        ///             <ChartTrendlines>
-        ///                 <ChartTrendline Period="5" Type="TrendlineTypes.MovingAverage">
-        ///                     <ChartTrendlineMarker Visible="true" />
-        ///                 </ChartTrendline>
-        ///             </ChartTrendlines>
-        ///         </ChartSeries>
-        ///     </ChartSeriesCollection>
+        ///     <ChartSeries DataSource="@Data" XName="XValue" YName="YValue">
+        ///         <ChartTrendlines>
+        ///             <ChartTrendline Period="5" Type="TrendlineTypes.MovingAverage">
+        ///                 <ChartTrendlineMarker Visible="true" />
+        ///             </ChartTrendline>
+        ///         </ChartTrendlines>
+        ///     </ChartSeries>
         /// </SfChart>
         /// ]]>
         /// </code>
@@ -1760,13 +1662,11 @@ namespace Syncfusion.Blazor.Toolkit.Charts
         /// <![CDATA[
         /// // This example demonstrates how to set the segments for a multicolored series.
         /// <SfChart>
-        ///     <ChartSeriesCollection>
-        ///         <ChartSeries DataSource="@Data" XName="XValue" YName="YValue" Type="ChartSeriesType.MultiColoredArea">
-        ///             <ChartSegments>
-        ///                 <ChartSegment Value="30" Color="blue" />
-        ///             </ChartSegments>
-        ///         </ChartSeries>
-        ///     </ChartSeriesCollection>
+        ///     <ChartSeries DataSource="@Data" XName="XValue" YName="YValue" Type="ChartSeriesType.MultiColoredArea">
+        ///         <ChartSegments>
+        ///             <ChartSegment Value="30" Color="blue" />
+        ///         </ChartSegments>
+        ///     </ChartSeries>
         /// </SfChart>
         /// ]]>
         /// </code>
@@ -1786,11 +1686,9 @@ namespace Syncfusion.Blazor.Toolkit.Charts
         /// <![CDATA[
         /// // This example demonstrates how to enable animation on a chart series with a specific duration and delay.
         /// <SfChart>
-        ///     <ChartSeriesCollection>
-        ///         <ChartSeries DataSource="@Data" XName="XValue" YName="YValue">
-        ///             <ChartSeriesAnimation Enable="true" Duration="3000" Delay="1000" />
-        ///         </ChartSeries>
-        ///     </ChartSeriesCollection>
+        ///     <ChartSeries DataSource="@Data" XName="XValue" YName="YValue">
+        ///         <ChartSeriesAnimation Enable="true" Duration="3000" Delay="1000" />
+        ///     </ChartSeries>
         /// </SfChart>
         /// ]]>
         /// </code>
@@ -1815,10 +1713,8 @@ namespace Syncfusion.Blazor.Toolkit.Charts
         /// }
         /// </style>
         /// <SfChart SelectionMode="SelectionMode.Point">
-        ///     <ChartSeriesCollection>
-        ///         <ChartSeries DataSource="@Data" XName="XValue" YName="YValue" 
-        ///                      Type="ChartSeriesType.Column" SelectionStyle="selection" />
-        ///     </ChartSeriesCollection>
+        ///     <ChartSeries DataSource="@Data" XName="XValue" YName="YValue" 
+        ///                  Type="ChartSeriesType.Column" SelectionStyle="selection" />
         /// </SfChart>
         /// ]]>
         /// </code>
@@ -1846,10 +1742,8 @@ namespace Syncfusion.Blazor.Toolkit.Charts
         /// }
         /// </style>
         /// <SfChart SelectionMode="SelectionMode.Point">
-        ///     <ChartSeriesCollection>
-        ///         <ChartSeries DataSource="@Data" XName="XValue" YName="YValue" 
-        ///                      Type="ChartSeriesType.Column" SelectionStyle="selection" UnSelectedStyle="unselection" />
-        ///     </ChartSeriesCollection>
+        ///     <ChartSeries DataSource="@Data" XName="XValue" YName="YValue" 
+        ///                  Type="ChartSeriesType.Column" SelectionStyle="selection" UnSelectedStyle="unselection" />
         /// </SfChart>
         /// ]]>
         /// </code>
@@ -1877,10 +1771,8 @@ namespace Syncfusion.Blazor.Toolkit.Charts
         /// }
         /// </style>
         /// <SfChart SelectionMode="SelectionMode.Point">
-        ///     <ChartSeriesCollection>
-        ///         <ChartSeries DataSource="@Data" XName="XValue" YName="YValue" 
-        ///                      Type="ChartSeriesType.Column" HighlightStyle="selection" NonHighlightStyle="unselection" />
-        ///     </ChartSeriesCollection>
+        ///     <ChartSeries DataSource="@Data" XName="XValue" YName="YValue" 
+        ///                  Type="ChartSeriesType.Column" HighlightStyle="selection" NonHighlightStyle="unselection" />
         /// </SfChart>
         /// ]]>
         /// </code>
@@ -1905,10 +1797,8 @@ namespace Syncfusion.Blazor.Toolkit.Charts
         /// }
         /// </style>
         /// <SfChart SelectionMode="SelectionMode.Point">
-        ///     <ChartSeriesCollection>
-        ///         <ChartSeries DataSource="@Data" XName="XValue" YName="YValue" 
-        ///                      Type="ChartSeriesType.Column" HighlightStyle="selection" />
-        ///     </ChartSeriesCollection>
+        ///     <ChartSeries DataSource="@Data" XName="XValue" YName="YValue" 
+        ///                  Type="ChartSeriesType.Column" HighlightStyle="selection" />
         /// </SfChart>
         /// ]]>
         /// </code>
@@ -1929,12 +1819,10 @@ namespace Syncfusion.Blazor.Toolkit.Charts
         /// // This example demonstrates how to enable data editing in a column chart
         /// // and restrict the minimum editable Y-value to 30 using the MinY property.
         /// <SfChart>
-        ///     <ChartSeriesCollection>
-        ///         <ChartSeries DataSource="@Data" Name="England" XName="XValue" YName="YValue" Type="ChartSeriesType.Column">
-        ///             <ChartDataEditSettings Enable="true" MinY="30"></ChartDataEditSettings>
-        ///             <ChartMarker Visible="true" Width="10" Height="10" />
-        ///         </ChartSeries>
-        ///     </ChartSeriesCollection>
+        ///     <ChartSeries DataSource="@Data" Name="England" XName="XValue" YName="YValue" Type="ChartSeriesType.Column">
+        ///         <ChartDataEditSettings Enable="true" MinY="30"></ChartDataEditSettings>
+        ///         <ChartMarker Visible="true" Width="10" Height="10" />
+        ///     </ChartSeries>
         /// </SfChart>
         /// ]]>
         /// </code>

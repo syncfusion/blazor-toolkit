@@ -49,11 +49,9 @@ namespace Syncfusion.Blazor.Toolkit.Charts
         /// <![CDATA[
         /// // The following example demonstrates how to set the empty point mode to Average:
         /// <SfChart>
-        ///     <ChartSeriesCollection>
-        ///         <ChartSeries DataSource="@WeatherReports" XName="X" YName="Y" Type="ChartSeriesType.Column">
-        ///             <ChartEmptyPointSettings Mode="EmptyPointMode.Average" />
-        ///         </ChartSeries>
-        ///     </ChartSeriesCollection>
+        ///     <ChartSeries DataSource="@WeatherReports" XName="X" YName="Y" Type="ChartSeriesType.Column">
+        ///         <ChartEmptyPointSettings Mode="EmptyPointMode.Average" />
+        ///     </ChartSeries>
         /// </SfChart>
         /// @code {
         /// public class ChartData
@@ -90,11 +88,9 @@ namespace Syncfusion.Blazor.Toolkit.Charts
         /// // This example demonstrates how to handle empty points in a column chart by averaging them,
         /// // and setting a custom fill color for the empty points.
         /// <SfChart>
-        ///     <ChartSeriesCollection>
-        ///         <ChartSeries DataSource="@Data" XName="XValue" YName="YValue" Type="ChartSeriesType.Column">
-        ///             <ChartEmptyPointSettings Mode="EmptyPointMode.Average" Fill="red"></ChartEmptyPointSettings>
-        ///         </ChartSeries>
-        ///     </ChartSeriesCollection>
+        ///     <ChartSeries DataSource="@Data" XName="XValue" YName="YValue" Type="ChartSeriesType.Column">
+        ///         <ChartEmptyPointSettings Mode="EmptyPointMode.Average" Fill="red"></ChartEmptyPointSettings>
+        ///     </ChartSeries>
         /// </SfChart>
         /// ]]>
         /// </code>
@@ -117,13 +113,11 @@ namespace Syncfusion.Blazor.Toolkit.Charts
         /// <![CDATA[
         /// // This example demonstrates how to apply a custom border color to the empty points.
         /// <SfChart>
-        ///     <ChartSeriesCollection>
-        ///         <ChartSeries DataSource="@Data" XName="XValue" YName="YValue" Type="ChartSeriesType.Column">
-        ///             <ChartEmptyPointSettings Mode="EmptyPointMode.Average">
-        ///                 <ChartEmptyPointBorder Width="2" Color="blue"></ChartEmptyPointBorder>
-        ///             </ChartEmptyPointSettings>
-        ///         </ChartSeries>
-        ///     </ChartSeriesCollection>
+        ///     <ChartSeries DataSource="@Data" XName="XValue" YName="YValue" Type="ChartSeriesType.Column">
+        ///         <ChartEmptyPointSettings Mode="EmptyPointMode.Average">
+        ///             <ChartEmptyPointBorder Width="2" Color="blue"></ChartEmptyPointBorder>
+        ///         </ChartEmptyPointSettings>
+        ///     </ChartSeries>
         /// </SfChart>
         /// ]]>
         /// </code>

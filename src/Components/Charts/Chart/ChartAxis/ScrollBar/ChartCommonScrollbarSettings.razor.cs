@@ -39,9 +39,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts
         ///     <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Toolkit.ValueType.DateTime">
         ///         <ChartAxisScrollbarSettings Enable="true" PointsLength="30" />
         ///     </ChartPrimaryXAxis>
-        ///     <ChartSeriesCollection>
-        ///         <ChartSeries DataSource="@dataSource" XName="x" YName="y" />
-        ///     </ChartSeriesCollection>
+        ///     <ChartSeries DataSource="@dataSource" XName="x" YName="y" />
         /// </SfChart>
         /// ]]>
         /// </code>
@@ -66,9 +64,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts
         ///     <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Toolkit.ValueType.DateTime">
         ///         <ChartAxisScrollbarSettings Enable="true" PointsLength="30" />
         ///     </ChartPrimaryXAxis>
-        ///     <ChartSeriesCollection>
-        ///         <ChartSeries DataSource="@dataSource" XName="x" YName="y" />
-        ///     </ChartSeriesCollection>
+        ///     <ChartSeries DataSource="@dataSource" XName="x" YName="y" />
         /// </SfChart>
         /// ]]>
         /// </code>
@@ -229,9 +225,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts
         ///     <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Toolkit.ValueType.DateTime">
         ///         <ChartAxisScrollbarSettings Enable="true" Range="@settingsRange" />
         ///     </ChartPrimaryXAxis>
-        ///     <ChartSeriesCollection>
-        ///         <ChartSeries DataSource="@dataSource" XName="x" YName="y" />
-        ///     </ChartSeriesCollection>
+        ///     <ChartSeries DataSource="@dataSource" XName="x" YName="y" />
         /// </SfChart>
         /// ]]>
         /// </code>

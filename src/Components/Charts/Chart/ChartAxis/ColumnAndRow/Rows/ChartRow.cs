@@ -50,13 +50,9 @@ namespace Syncfusion.Blazor.Toolkit.Charts
         ///         <ChartRow Height="50%" BorderColor="red"/>
         ///         <ChartRow Height="50%" BorderColor="blue" />
         ///     </ChartRows>
-        ///     <ChartAxes>
-        ///         <ChartAxis RowIndex="1" Name="YAxis" OpposedPosition="true" />
-        ///     </ChartAxes>
-        ///     <ChartSeriesCollection>
-        ///         <ChartSeries DataSource="@WeatherReports" XName="X" YName="Y" />
-        ///         <ChartSeries DataSource="@WeatherReports" XName="X" YName="Y1" YAxisName="YAxis" />
-        ///     </ChartSeriesCollection>
+        ///     <ChartAxis RowIndex="1" Name="YAxis" OpposedPosition="true" />
+        ///     <ChartSeries DataSource="@WeatherReports" XName="X" YName="Y" />
+        ///     <ChartSeries DataSource="@WeatherReports" XName="X" YName="Y1" YAxisName="YAxis" />
         /// </SfChart>
         /// ]]>
         /// </code>
@@ -82,13 +78,9 @@ namespace Syncfusion.Blazor.Toolkit.Charts
         ///         <ChartRow Height="50%" BorderColor="red" BorderWidth="2" />
         ///         <ChartRow Height="50%" BorderColor="blue" BorderWidth="2" />
         ///     </ChartRows>
-        ///     <ChartAxes>
-        ///         <ChartAxis RowIndex="1" Name="YAxis" OpposedPosition="true"/>
-        ///     </ChartAxes>
-        ///     <ChartSeriesCollection>
-        ///         <ChartSeries DataSource="@WeatherReports" XName="X" YName="Y" />
-        ///         <ChartSeries DataSource="@WeatherReports" XName="X" YName="Y1" YAxisName="YAxis" />
-        ///     </ChartSeriesCollection>
+        ///     <ChartAxis RowIndex="1" Name="YAxis" OpposedPosition="true"/>
+        ///     <ChartSeries DataSource="@WeatherReports" XName="X" YName="Y" />
+        ///     <ChartSeries DataSource="@WeatherReports" XName="X" YName="Y1" YAxisName="YAxis" />
         /// </SfChart>
         /// ]]>
         /// </code>
@@ -114,13 +106,9 @@ namespace Syncfusion.Blazor.Toolkit.Charts
         ///         <ChartRow Height="50%" />
         ///         <ChartRow Height="50%" />
         ///     </ChartRows>
-        ///     <ChartAxes>
-        ///         <ChartAxis RowIndex="1" Name="YAxis" />
-        ///     </ChartAxes>
-        ///     <ChartSeriesCollection>
-        ///         <ChartSeries DataSource="@WeatherReports" XName="X" YName="Y" />
-        ///         <ChartSeries DataSource="@WeatherReports" XName="X" YName="Y1" YAxisName="YAxis" />
-        ///     </ChartSeriesCollection>
+        ///     <ChartAxis RowIndex="1" Name="YAxis" />
+        ///     <ChartSeries DataSource="@WeatherReports" XName="X" YName="Y" />
+        ///     <ChartSeries DataSource="@WeatherReports" XName="X" YName="Y1" YAxisName="YAxis" />
         /// </SfChart>
         /// ]]>
         /// </code>

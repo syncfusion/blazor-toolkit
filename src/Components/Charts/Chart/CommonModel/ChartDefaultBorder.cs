@@ -58,20 +58,18 @@ namespace Syncfusion.Blazor.Toolkit.Charts
         ///     <ChartCrosshairSettings Enable="true">
         ///         <ChartCrosshairLine Width="2" Color="green"></ChartCrosshairLine>
         ///     </ChartCrosshairSettings>
-        ///     <ChartSeriesCollection>
-        ///         <ChartSeries DataSource="@MedalDetails" Name="Gold" XName="Country" YName="Gold" Type="ChartSeriesType.Column">
-        ///             <ChartEmptyPointSettings Mode="EmptyPointMode.Average">
-        ///                 <ChartEmptyPointBorder Width="1" Color="brown"></ChartEmptyPointBorder>
-        ///             </ChartEmptyPointSettings>
-        ///             <ChartSeriesBorder Width="1" Color="black"></ChartSeriesBorder>
-        ///             <ChartMarker Visible="true">
-        ///                 <ChartMarkerBorder Width="2" Color="red"></ChartMarkerBorder>
-        ///                 <ChartDataLabel Visible="true">
-        ///                     <ChartDataLabelBorder Width="2" Color="red"></ChartDataLabelBorder>
-        ///                 </ChartDataLabel>
-        ///             </ChartMarker>
-        ///         </ChartSeries>
-        ///     </ChartSeriesCollection>
+        ///     <ChartSeries DataSource="@MedalDetails" Name="Gold" XName="Country" YName="Gold" Type="ChartSeriesType.Column">
+        ///         <ChartEmptyPointSettings Mode="EmptyPointMode.Average">
+        ///             <ChartEmptyPointBorder Width="1" Color="brown"></ChartEmptyPointBorder>
+        ///         </ChartEmptyPointSettings>
+        ///         <ChartSeriesBorder Width="1" Color="black"></ChartSeriesBorder>
+        ///         <ChartMarker Visible="true">
+        ///             <ChartMarkerBorder Width="2" Color="red"></ChartMarkerBorder>
+        ///             <ChartDataLabel Visible="true">
+        ///                 <ChartDataLabelBorder Width="2" Color="red"></ChartDataLabelBorder>
+        ///             </ChartDataLabel>
+        ///         </ChartMarker>
+        ///     </ChartSeries>
         ///     <ChartLegendSettings Visible="true">
         ///         <ChartLegendBorder Color="red" Width="2" />
         ///      </ChartLegendSettings>
@@ -116,20 +114,18 @@ namespace Syncfusion.Blazor.Toolkit.Charts
         ///     <ChartCrosshairSettings Enable="true">
         ///         <ChartCrosshairLine Width="2" Color="green"></ChartCrosshairLine>
         ///     </ChartCrosshairSettings>
-        ///     <ChartSeriesCollection>
-        ///         <ChartSeries DataSource="@MedalDetails" Name="Gold" XName="Country" YName="Gold" Type="ChartSeriesType.Column">
-        ///             <ChartEmptyPointSettings Mode="EmptyPointMode.Average">
-        ///                 <ChartEmptyPointBorder Width="1" Color="brown"></ChartEmptyPointBorder>
-        ///             </ChartEmptyPointSettings>
-        ///             <ChartSeriesBorder Width="1" Color="black"></ChartSeriesBorder>
-        ///             <ChartMarker Visible="true">
-        ///                 <ChartMarkerBorder Width="2" Color="red"></ChartMarkerBorder>
-        ///                 <ChartDataLabel Visible="true">
-        ///                     <ChartDataLabelBorder Width="2" Color="red"></ChartDataLabelBorder>
-        ///                 </ChartDataLabel>
-        ///             </ChartMarker>
-        ///         </ChartSeries>
-        ///     </ChartSeriesCollection>
+        ///     <ChartSeries DataSource="@MedalDetails" Name="Gold" XName="Country" YName="Gold" Type="ChartSeriesType.Column">
+        ///         <ChartEmptyPointSettings Mode="EmptyPointMode.Average">
+        ///             <ChartEmptyPointBorder Width="1" Color="brown"></ChartEmptyPointBorder>
+        ///         </ChartEmptyPointSettings>
+        ///         <ChartSeriesBorder Width="1" Color="black"></ChartSeriesBorder>
+        ///         <ChartMarker Visible="true">
+        ///             <ChartMarkerBorder Width="2" Color="red"></ChartMarkerBorder>
+        ///             <ChartDataLabel Visible="true">
+        ///                 <ChartDataLabelBorder Width="2" Color="red"></ChartDataLabelBorder>
+        ///             </ChartDataLabel>
+        ///         </ChartMarker>
+        ///     </ChartSeries>
         ///     <ChartLegendSettings Visible="true">
         ///         <ChartLegendBorder Color="red" Width="2" />
         ///      </ChartLegendSettings>

@@ -45,13 +45,11 @@ namespace Syncfusion.Blazor.Toolkit.Charts
         /// <![CDATA[
         /// // This example demonstrates how to render a MultiColoredArea chart with a custom segment value pattern.
         /// <SfChart>
-        ///     <ChartSeriesCollection>
-        ///         <ChartSeries DataSource="@Data" XName="XValue" YName="YValue" Type="ChartSeriesType.MultiColoredArea">
-        ///             <ChartSegments>
-        ///                 <ChartSegment Value="30" Color="blue" />
-        ///             </ChartSegments>
-        ///         </ChartSeries>
-        ///     </ChartSeriesCollection>
+        ///     <ChartSeries DataSource="@Data" XName="XValue" YName="YValue" Type="ChartSeriesType.MultiColoredArea">
+        ///         <ChartSegments>
+        ///             <ChartSegment Value="30" Color="blue" />
+        ///         </ChartSegments>
+        ///     </ChartSeries>
         /// </SfChart>
         /// ]]>
         /// </code>
@@ -86,13 +84,11 @@ namespace Syncfusion.Blazor.Toolkit.Charts
         /// <![CDATA[
         /// // This example demonstrates how to render a MultiColoredArea chart with a custom segment color.
         /// <SfChart>
-        ///     <ChartSeriesCollection>
-        ///         <ChartSeries DataSource="@Data" XName="XValue" YName="YValue" Type="ChartSeriesType.MultiColoredArea">
-        ///             <ChartSegments>
-        ///                 <ChartSegment Value="30" Color="blue" DashArray="4,3" />
-        ///             </ChartSegments>
-        ///         </ChartSeries>
-        ///     </ChartSeriesCollection>
+        ///     <ChartSeries DataSource="@Data" XName="XValue" YName="YValue" Type="ChartSeriesType.MultiColoredArea">
+        ///         <ChartSegments>
+        ///             <ChartSegment Value="30" Color="blue" DashArray="4,3" />
+        ///         </ChartSegments>
+        ///     </ChartSeries>
         /// </SfChart>
         /// ]]>
         /// </code>
@@ -127,13 +123,11 @@ namespace Syncfusion.Blazor.Toolkit.Charts
         /// <![CDATA[
         /// // This example demonstrates how to render a MultiColoredArea chart with a custom segment dash pattern.
         /// <SfChart>
-        ///     <ChartSeriesCollection>
-        ///         <ChartSeries DataSource="@Data" XName="XValue" YName="YValue" Type="ChartSeriesType.MultiColoredArea">
-        ///             <ChartSegments>
-        ///                 <ChartSegment Value="30" Color="blue" DashArray="4,3" />
-        ///             </ChartSegments>
-        ///         </ChartSeries>
-        ///     </ChartSeriesCollection>
+        ///     <ChartSeries DataSource="@Data" XName="XValue" YName="YValue" Type="ChartSeriesType.MultiColoredArea">
+        ///         <ChartSegments>
+        ///             <ChartSegment Value="30" Color="blue" DashArray="4,3" />
+        ///         </ChartSegments>
+        ///     </ChartSeries>
         /// </SfChart>
         /// ]]>
         /// </code>
