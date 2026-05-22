@@ -134,10 +134,8 @@ namespace Syncfusion.Blazor.Toolkit.Charts
         /// // This example demonstrates how to enable indexed category axis:
         /// <SfChart>
         ///     <ChartPrimaryXAxis IsIndexed="true" ValueType="Syncfusion.Blazor.Toolkit.ValueType.Category" />
-        ///     <ChartSeriesCollection>
-        ///         <ChartSeries DataSource="@WeatherReports1" XName="X" YName="Y" />
-        ///         <ChartSeries DataSource="@WeatherReports2" XName="X" YName="Y" />
-        ///     </ChartSeriesCollection>
+        ///     <ChartSeries DataSource="@WeatherReports1" XName="X" YName="Y" />
+        ///     <ChartSeries DataSource="@WeatherReports2" XName="X" YName="Y" />
         /// </SfChart>
         /// ]]>
         /// </code>
@@ -222,13 +220,9 @@ namespace Syncfusion.Blazor.Toolkit.Charts
         /// <![CDATA[
         /// // This example demonstrates how to set the name of the axis:
         /// <SfChart>
-        ///     <ChartAxes>
-        ///         <ChartAxis OpposedPosition="true" RowIndex="1" Name="YAxis" />
-        ///     </ChartAxes>
-        ///     <ChartSeriesCollection>
-        ///         <ChartSeries DataSource="@WeatherReports" XName="X" YName="Y"/>
-        ///         <ChartSeries DataSource="@WeatherReports" XName="X" YName="Y1" YAxisName="YAxis" />
-        ///     </ChartSeriesCollection>
+        ///     <ChartAxis OpposedPosition="true" RowIndex="1" Name="YAxis" />
+        ///     <ChartSeries DataSource="@WeatherReports" XName="X" YName="Y"/>
+        ///     <ChartSeries DataSource="@WeatherReports" XName="X" YName="Y1" YAxisName="YAxis" />
         /// </SfChart>
         /// ]]>
         /// </code>
@@ -358,9 +352,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts
         /// // The following code demonstrates how to set the value type to the axis:
         /// <SfChart>
         ///     <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Toolkit.ValueType.Category"/>
-        ///     <ChartSeriesCollection>
-        ///         <ChartSeries DataSource="@MedalDetails" XName="Country" YName="Gold"/>
-        ///     </ChartSeriesCollection>
+        ///     <ChartSeries DataSource="@MedalDetails" XName="Country" YName="Gold"/>
         /// </SfChart>
         /// @code{
         ///     public class ChartData
@@ -458,9 +450,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts
         /// // The following code demonstrates how to set the radius for polar and radar series charts:
         /// <SfChart>
         ///     <ChartPrimaryXAxis Coefficient="60" />
-        ///     <ChartSeriesCollection>
-        ///         <ChartSeries DataSource="@WeatherReports" XName="X" YName="Y" Type="ChartSeriesType.Polar" />
-        ///     </ChartSeriesCollection>
+        ///     <ChartSeries DataSource="@WeatherReports" XName="X" YName="Y" Type="ChartSeriesType.Polar" />
         /// </SfChart>
         /// ]]>
         /// </code>
@@ -487,13 +477,9 @@ namespace Syncfusion.Blazor.Toolkit.Charts
         ///         <ChartColumn Width="50%" />
         ///         <ChartColumn Width="50%" />
         ///     </ChartColumns>
-        ///     <ChartAxes>
-        ///         <ChartAxis ColumnIndex="1" Name="XAxis" />
-        ///     </ChartAxes>
-        ///     <ChartSeriesCollection>
-        ///         <ChartSeries DataSource="@WeatherReports" XName="X" YName="Y" />
-        ///         <ChartSeries DataSource="@WeatherReports" XName="X" YName="Y1" XAxisName="XAxis" />
-        ///     </ChartSeriesCollection>
+        ///     <ChartAxis ColumnIndex="1" Name="XAxis" />
+        ///     <ChartSeries DataSource="@WeatherReports" XName="X" YName="Y" />
+        ///     <ChartSeries DataSource="@WeatherReports" XName="X" YName="Y1" XAxisName="XAxis" />
         /// </SfChart>
         /// ]]>
         /// </code>
@@ -516,13 +502,9 @@ namespace Syncfusion.Blazor.Toolkit.Charts
         /// // This example demonstrates how to create a chart with a secondary Y-axis that crosses at zero:
         /// <SfChart>
         ///     <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Toolkit.ValueType.Category" />
-        ///     <ChartAxes>
-        ///         <ChartAxis Minimum="-10" Maximum="10" Interval="1" OpposedPosition="true" RowIndex="1" Name="YAxis" CrossesAt="0" />
-        ///     </ChartAxes>
-        ///     <ChartSeriesCollection>
-        ///         <ChartSeries DataSource="@WeatherReports" XName="X" YName="Y" Type="ChartSeriesType.Column" />
-        ///         <ChartSeries DataSource="@WeatherReports" XName="X" YName="Y1" YAxisName="YAxis" />
-        ///     </ChartSeriesCollection>
+        ///     <ChartAxis Minimum="-10" Maximum="10" Interval="1" OpposedPosition="true" RowIndex="1" Name="YAxis" CrossesAt="0" />
+        ///     <ChartSeries DataSource="@WeatherReports" XName="X" YName="Y" Type="ChartSeriesType.Column" />
+        ///     <ChartSeries DataSource="@WeatherReports" XName="X" YName="Y1" YAxisName="YAxis" />
         /// </SfChart>
         /// ]]>
         /// </code>
@@ -567,13 +549,9 @@ namespace Syncfusion.Blazor.Toolkit.Charts
         /// <![CDATA[
         /// // This example demonstrates how to create a chart with a secondary Y-axis named "YAxis" that crosses the primary X-axis at zero:
         /// <SfChart>
-        ///     <ChartAxes>
-        ///         <ChartAxis Minimum="-10" Maximum="10" Interval="1" OpposedPosition="true" RowIndex="1" Name="YAxis" CrossesAt="0" />
-        ///     </ChartAxes>
-        ///     <ChartSeriesCollection>
-        ///         <ChartSeries DataSource="@WeatherReports" XName="X" YName="Y" Type="ChartSeriesType.Column" />
-        ///         <ChartSeries DataSource="@WeatherReports" XName="X" YName="Y1" YAxisName="YAxis" />
-        ///     </ChartSeriesCollection>
+        ///     <ChartAxis Minimum="-10" Maximum="10" Interval="1" OpposedPosition="true" RowIndex="1" Name="YAxis" CrossesAt="0" />
+        ///     <ChartSeries DataSource="@WeatherReports" XName="X" YName="Y" Type="ChartSeriesType.Column" />
+        ///     <ChartSeries DataSource="@WeatherReports" XName="X" YName="Y1" YAxisName="YAxis" />
         /// </SfChart>
         /// ]]>
         /// </code>
@@ -619,9 +597,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts
         /// // The following code demonstrates how to set the desired number of intervals on the X-axis:
         /// <SfChart>
         ///     <ChartPrimaryXAxis DesiredIntervals="1" />
-        ///     <ChartSeriesCollection>
-        ///         <ChartSeries DataSource="@WeatherReports" XName="X" YName="Y" />
-        ///     </ChartSeriesCollection>
+        ///     <ChartSeries DataSource="@WeatherReports" XName="X" YName="Y" />
         /// </SfChart>
         /// ]]>
         /// </code>
@@ -704,9 +680,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts
         /// // This example demonstrates how to set the EnableAutoIntervalOnZooming for the axis:
         /// <SfChart>
         ///     <ChartPrimaryXAxis EnableAutoIntervalOnZooming="true/>
-        ///     <ChartSeriesCollection>
-        ///         <ChartSeries DataSource="@WeatherReports" XName="X" YName="Y"/>
-        ///     </ChartSeriesCollection>
+        ///     <ChartSeries DataSource="@WeatherReports" XName="X" YName="Y"/>
         ///     <ChartZoomSettings EnableSelectionZooming="true"></ChartZoomSettings>
         /// </SfChart>
         /// ]]>
@@ -731,9 +705,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts
         /// // This example demonstrates how to set the EnableScrollbarOnZooming for the axis:
         /// <SfChart>
         ///     <ChartPrimaryXAxis EnableScrollbarOnZooming="true" />
-        ///     <ChartSeriesCollection>
-        ///         <ChartSeries DataSource="@WeatherReports" XName="X" YName="Y"/>
-        ///     </ChartSeriesCollection>
+        ///     <ChartSeries DataSource="@WeatherReports" XName="X" YName="Y"/>
         ///     <ChartZoomSettings EnableSelectionZooming="true"></ChartZoomSettings>
         /// </SfChart>
         /// ]]>
@@ -757,9 +729,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts
         /// // This example demonstrates how to trim long labels on the axis and restrict them to a maximum width in a chart:
         /// <SfChart>
         ///     <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Toolkit.ValueType.Category" MaximumLabelWidth="20" EnableTrim="true" />
-        ///     <ChartSeriesCollection>
-        ///         <ChartSeries DataSource="@MedalDetails" XName="X" YName="YValue" />
-        ///     </ChartSeriesCollection>
+        ///     <ChartSeries DataSource="@MedalDetails" XName="X" YName="YValue" />
         /// </SfChart>
         /// ]]>
         /// </code>
@@ -848,9 +818,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts
         /// // This example demonstrates how to set a custom interval of 2 for the axis in a chart:
         /// <SfChart>
         ///     <ChartPrimaryXAxis Interval="2" />
-        ///     <ChartSeriesCollection>
-        ///         <ChartSeries DataSource="@WeatherReports" XName="X" YName="Y" />
-        ///     </ChartSeriesCollection>
+        ///     <ChartSeries DataSource="@WeatherReports" XName="X" YName="Y" />
         /// </SfChart>
         /// ]]>
         /// </code>
@@ -944,9 +912,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts
         /// // This example demonstrates how to position the axis labels on the tick:
         /// <SfChart>
         ///     <ChartPrimaryXAxis LabelPlacement="LabelPlacement.OnTicks" ValueType="Syncfusion.Blazor.Toolkit.ValueType.Category" />
-        ///     <ChartSeriesCollection>
-        ///         <ChartSeries DataSource="@MedalDetails" XName="X" YName="Y" />
-        ///     </ChartSeriesCollection>
+        ///     <ChartSeries DataSource="@MedalDetails" XName="X" YName="Y" />
         /// </SfChart>
         /// ]]>
         /// </code>
@@ -1279,9 +1245,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts
         /// // This example demonstrates how to position the axis labels inside the chart area.
         /// <SfChart>
         ///     <ChartPrimaryXAxis LabelPosition="AxisPosition.Inside" />
-        ///     <ChartSeriesCollection>
-        ///         <ChartSeries DataSource="@WeatherReports" XName="X" YName="Y" />
-        ///     </ChartSeriesCollection>
+        ///     <ChartSeries DataSource="@WeatherReports" XName="X" YName="Y" />
         /// </SfChart>
         /// ]]>
         /// </code>
@@ -1362,9 +1326,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts
         ///             FontStyle="Normal" 
         ///             Size="12px" />
         ///     </ChartPrimaryXAxis>
-        ///     <ChartSeriesCollection>
-        ///         <ChartSeries DataSource="@WeatherReports" XName="X" YName="Y" />
-        ///     </ChartSeriesCollection>
+        ///     <ChartSeries DataSource="@WeatherReports" XName="X" YName="Y" />
         /// </SfChart>
         /// ]]>
         /// </code>
@@ -1526,9 +1488,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts
         /// // This example demonstrates how to trim long labels on the axis and restrict them to a maximum width in a chart.
         /// <SfChart>
         ///     <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Toolkit.ValueType.Category" MaximumLabelWidth="20" EnableTrim="true" />
-        ///     <ChartSeriesCollection>
-        ///         <ChartSeries DataSource="@MedalDetails" XName="X" YName="YValue" />
-        ///     </ChartSeriesCollection>
+        ///     <ChartSeries DataSource="@MedalDetails" XName="X" YName="YValue" />
         /// </SfChart>
         /// ]]>
         /// </code>
@@ -1671,13 +1631,9 @@ namespace Syncfusion.Blazor.Toolkit.Charts
         /// // This example demonstrates how to create a chart with a secondary Y-axis that crosses at zero and is placed next to the axis line.
         /// <SfChart>
         ///     <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Toolkit.ValueType.Category" />
-        ///     <ChartAxes>
-        ///         <ChartAxis Minimum="-10" Maximum="10" Interval="1" OpposedPosition="true" RowIndex="1" Name="YAxis" CrossesAt="0" PlaceNextToAxisLine="true" />
-        ///     </ChartAxes>
-        ///     <ChartSeriesCollection>
-        ///         <ChartSeries DataSource="@WeatherReports" XName="X" YName="Y" Type="ChartSeriesType.Column" />
-        ///         <ChartSeries DataSource="@WeatherReports" XName="X" YName="Y1" YAxisName="YAxis" />
-        ///     </ChartSeriesCollection>
+        ///     <ChartAxis Minimum="-10" Maximum="10" Interval="1" OpposedPosition="true" RowIndex="1" Name="YAxis" CrossesAt="0" PlaceNextToAxisLine="true" />
+        ///     <ChartSeries DataSource="@WeatherReports" XName="X" YName="Y" Type="ChartSeriesType.Column" />
+        ///     <ChartSeries DataSource="@WeatherReports" XName="X" YName="Y1" YAxisName="YAxis" />
         /// </SfChart>
         /// ]]>
         /// </code>
@@ -1846,9 +1802,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts
         /// // to match the actual minimum and maximum of the data values.
         /// <SfChart>
         ///     <ChartPrimaryYAxis RangePadding="ChartRangePadding.None" />
-        ///     <ChartSeriesCollection>
-        ///         <ChartSeries DataSource="@Data" XName="XValue" YName="YValue" />
-        ///     </ChartSeriesCollection>
+        ///     <ChartSeries DataSource="@Data" XName="XValue" YName="YValue" />
         /// </SfChart>
         /// ]]>
         /// </code>
@@ -1928,13 +1882,9 @@ namespace Syncfusion.Blazor.Toolkit.Charts
         ///         <ChartRow Height="50%" />
         ///         <ChartRow Height="50%" />
         ///     </ChartRows>
-        ///     <ChartAxes>
-        ///         <ChartAxis RowIndex="1" Name="YAxis" />
-        ///     </ChartAxes>
-        ///     <ChartSeriesCollection>
-        ///         <ChartSeries DataSource="@WeatherReports" XName="X" YName="Y" />
-        ///         <ChartSeries DataSource="@WeatherReports" XName="X" YName="Y1" YAxisName="YAxis" />
-        ///     </ChartSeriesCollection>
+        ///     <ChartAxis RowIndex="1" Name="YAxis" />
+        ///     <ChartSeries DataSource="@WeatherReports" XName="X" YName="Y" />
+        ///     <ChartSeries DataSource="@WeatherReports" XName="X" YName="Y1" YAxisName="YAxis" />
         /// </SfChart>
         /// ]]>
         /// </code>
@@ -1960,9 +1910,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts
         /// // such as "1 Jan 2025". The ValueType is set to DateTimeCategory to properly handle the date data.
         /// <SfChart>
         ///     <ChartPrimaryXAxis Format="d MMM yyyy" ValueType="Syncfusion.Blazor.Toolkit.Charts.ValueType.DateTimeCategory" />
-        ///     <ChartSeriesCollection>
-        ///         <ChartSeries DataSource="@WeatherReports" XName="XValue" YName="YValue" />
-        ///     </ChartSeriesCollection>
+        ///     <ChartSeries DataSource="@WeatherReports" XName="XValue" YName="YValue" />
         /// </SfChart>
         /// ]]>
         /// </code>
@@ -2005,13 +1953,9 @@ namespace Syncfusion.Blazor.Toolkit.Charts
         ///         <ChartRow Height="50%" />
         ///         <ChartRow Height="50%" />
         ///     </ChartRows>
-        ///     <ChartAxes>
-        ///         <ChartAxis Minimum="24" Maximum="36" Interval="2" OpposedPosition="true" RowIndex="1" Name="YAxis" LabelFormat="{value}°C" />
-        ///     </ChartAxes>
-        ///     <ChartSeriesCollection>
-        ///         <ChartSeries DataSource="@WeatherReports" XName="X" YName="Y" Type="ChartSeriesType.Column" />
-        ///         <ChartSeries DataSource="@WeatherReports" XName="X" YName="Y1" YAxisName="YAxis" />
-        ///     </ChartSeriesCollection>
+        ///     <ChartAxis Minimum="24" Maximum="36" Interval="2" OpposedPosition="true" RowIndex="1" Name="YAxis" LabelFormat="{value}°C" />
+        ///     <ChartSeries DataSource="@WeatherReports" XName="X" YName="Y" Type="ChartSeriesType.Column" />
+        ///     <ChartSeries DataSource="@WeatherReports" XName="X" YName="Y1" YAxisName="YAxis" />
         /// </SfChart>
         /// ]]>
         /// </code>
@@ -2035,10 +1979,8 @@ namespace Syncfusion.Blazor.Toolkit.Charts
         /// // The 'StartAngle' is set to 270 degrees, which rotates the chart so the first point starts at the bottom.
         /// <SfChart>
         ///     <ChartPrimaryXAxis StartAngle="270" ValueType="Syncfusion.Blazor.Toolkit.ValueType.Category" />
-        ///     <ChartSeriesCollection>
-        ///         <ChartSeries DataSource="@SalesReports" XName="X" YName="Y"
-        ///                      Type="ChartSeriesType.Polar" DrawType="ChartDrawType.Line" />
-        ///     </ChartSeriesCollection>
+        ///     <ChartSeries DataSource="@SalesReports" XName="X" YName="Y"
+        ///                  Type="ChartSeriesType.Polar" DrawType="ChartDrawType.Line" />
         /// </SfChart>
         /// ]]>
         /// </code>
@@ -2090,9 +2032,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts
         /// // When 'StartFromZero' is set to 'false', the axis will not automatically start from zero.
         /// <SfChart>
         ///     <ChartPrimaryXAxis StartFromZero="false"></ChartPrimaryXAxis>
-        ///     <ChartSeriesCollection>
-        ///         <ChartSeries DataSource="@Data" XName="XValue" YName="YValue" />
-        ///     </ChartSeriesCollection>
+        ///     <ChartSeries DataSource="@Data" XName="XValue" YName="YValue" />
         /// </SfChart>
         /// ]]>
         /// </code>
@@ -2187,9 +2127,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts
         ///             <ChartStripline Start="32" End="35" Color="blue" />
         ///         </ChartStriplines>
         ///     </ChartPrimaryYAxis>
-        ///     <ChartSeriesCollection>
-        ///         <ChartSeries DataSource="@Data" XName="XValue" YName="YValue" />
-        ///     </ChartSeriesCollection>
+        ///     <ChartSeries DataSource="@Data" XName="XValue" YName="YValue" />
         /// </SfChart>
         /// ]]>
         /// </code>
@@ -2223,9 +2161,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts
         ///             </ChartMultiLevelLabel>
         ///         </ChartMultiLevelLabels>
         ///     </ChartPrimaryXAxis>
-        ///     <ChartSeriesCollection>
-        ///         <ChartSeries DataSource="@Data" XName="XValue" YName="YValue" />
-        ///     </ChartSeriesCollection>
+        ///     <ChartSeries DataSource="@Data" XName="XValue" YName="YValue" />
         /// </SfChart>
         /// ]]>
         /// </code>
@@ -2277,9 +2213,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts
         ///     <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Toolkit.Charts.ValueType.DateTime">
         ///         <ChartAxisScrollbarSettings Enable="true" PointsLength="30" />
         ///     </ChartPrimaryXAxis>
-        ///     <ChartSeriesCollection>
-        ///         <ChartSeries DataSource="@dataSource" XName="x" YName="y" />
-        ///     </ChartSeriesCollection>
+        ///     <ChartSeries DataSource="@dataSource" XName="x" YName="y" />
         /// </SfChart>
         /// ]]>
         /// </code>
@@ -2318,9 +2252,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts
         ///         <ChartAxisCrosshairTooltip Enable="true" Fill="red" />
         ///     </ChartPrimaryXAxis>
         ///     <ChartCrosshairSettings Enable="true" />
-        ///     <ChartSeriesCollection>
-        ///         <ChartSeries DataSource="@Data" XName="XValue" YName="YValue" />
-        ///     </ChartSeriesCollection>
+        ///     <ChartSeries DataSource="@Data" XName="XValue" YName="YValue" />
         /// </SfChart>
         /// ]]>
         /// </code>

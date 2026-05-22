@@ -94,9 +94,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts
         ///             </ChartMultiLevelLabel>
         ///         </ChartMultiLevelLabels>
         ///     </ChartPrimaryXAxis>
-        ///     <ChartSeriesCollection>
-        ///         <ChartSeries DataSource="@Data" XName="XValue" YName="YValue" />
-        ///     </ChartSeriesCollection>
+        ///     <ChartSeries DataSource="@Data" XName="XValue" YName="YValue" />
         /// </SfChart>
         /// ]]>
         /// </code>
@@ -128,9 +126,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts
         ///             </ChartMultiLevelLabel>
         ///         </ChartMultiLevelLabels>
         ///     </ChartPrimaryXAxis>
-        ///     <ChartSeriesCollection>
-        ///         <ChartSeries DataSource="@Data" XName="XValue" YName="YValue" />
-        ///     </ChartSeriesCollection>
+        ///     <ChartSeries DataSource="@Data" XName="XValue" YName="YValue" />
         /// </SfChart>
         /// ]]>
         /// </code>
@@ -161,9 +157,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts
         ///             </ChartMultiLevelLabel>
         ///         </ChartMultiLevelLabels>
         ///     </ChartPrimaryXAxis>
-        ///     <ChartSeriesCollection>
-        ///         <ChartSeries DataSource="@Data" XName="XValue" YName="YValue" />
-        ///     </ChartSeriesCollection>
+        ///     <ChartSeries DataSource="@Data" XName="XValue" YName="YValue" />
         /// </SfChart>
         /// ]]>
         /// </code>
@@ -196,9 +190,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts
         ///             </ChartMultiLevelLabel>
         ///         </ChartMultiLevelLabels>
         ///     </ChartPrimaryXAxis>
-        ///     <ChartSeriesCollection>
-        ///         <ChartSeries DataSource="@Data" XName="XValue" YName="YValue" />
-        ///     </ChartSeriesCollection>
+        ///     <ChartSeries DataSource="@Data" XName="XValue" YName="YValue" />
         /// </SfChart>
         /// ]]>
         /// </code>
@@ -238,9 +230,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts
         ///             </ChartMultiLevelLabel>
         ///         </ChartMultiLevelLabels>
         ///     </ChartPrimaryXAxis>
-        ///     <ChartSeriesCollection>
-        ///         <ChartSeries DataSource="@Data" XName="XValue" YName="YValue" />
-        ///     </ChartSeriesCollection>
+        ///     <ChartSeries DataSource="@Data" XName="XValue" YName="YValue" />
         /// </SfChart>
         /// ]]>
         /// </code>

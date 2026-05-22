@@ -21,16 +21,14 @@ namespace Syncfusion.Blazor.Toolkit.Charts
     /// <code>
     /// <![CDATA[
     /// <SfChart>
-    ///     <ChartSeriesCollection>
-    ///         <ChartSeries DataSource="@Data" XName="X" YName="Y">
-    ///             <ChartTrendlines>
-    ///                 <ChartTrendline Name="Linear" Type="TrendlineTypes.Linear" Width="2" DashArray="5,1">
-    ///                     <ChartTrendlineMarker Visible="true" />
-    ///                     <ChartTrendlineAnimation Enable="true" Duration="800" />
-    ///                 </ChartTrendline>
-    ///             </ChartTrendlines>
-    ///         </ChartSeries>
-    ///     </ChartSeriesCollection>
+    ///     <ChartSeries DataSource="@Data" XName="X" YName="Y">
+    ///         <ChartTrendlines>
+    ///             <ChartTrendline Name="Linear" Type="TrendlineTypes.Linear" Width="2" DashArray="5,1">
+    ///                 <ChartTrendlineMarker Visible="true" />
+    ///                 <ChartTrendlineAnimation Enable="true" Duration="800" />
+    ///             </ChartTrendline>
+    ///         </ChartTrendlines>
+    ///     </ChartSeries>
     /// </SfChart>
     /// ]]>
     /// </code>
@@ -55,13 +53,11 @@ namespace Syncfusion.Blazor.Toolkit.Charts
         /// <![CDATA[
         /// // This example demonstrates how to add a name property to a trendline.
         /// <SfChart>
-        ///     <ChartSeriesCollection>
-        ///         <ChartSeries DataSource="@Data" XName="XValue" YName="YValue">
-        ///             <ChartTrendlines>
-        ///                 <ChartTrendline Name="Linear" />
-        ///             </ChartTrendlines>
-        ///         </ChartSeries>
-        ///     </ChartSeriesCollection>
+        ///     <ChartSeries DataSource="@Data" XName="XValue" YName="YValue">
+        ///         <ChartTrendlines>
+        ///             <ChartTrendline Name="Linear" />
+        ///         </ChartTrendlines>
+        ///     </ChartSeries>
         /// </SfChart>
         /// ]]>
         /// </code>
@@ -97,13 +93,11 @@ namespace Syncfusion.Blazor.Toolkit.Charts
         /// <![CDATA[
         /// // This example demonstrates how to add a dashed trendline to a chart.
         /// <SfChart>
-        ///     <ChartSeriesCollection>
-        ///         <ChartSeries DataSource="@Data" XName="XValue" YName="YValue">
-        ///             <ChartTrendlines>
-        ///                 <ChartTrendline DashArray="5,1" />
-        ///             </ChartTrendlines>
-        ///         </ChartSeries>
-        ///     </ChartSeriesCollection>
+        ///     <ChartSeries DataSource="@Data" XName="XValue" YName="YValue">
+        ///         <ChartTrendlines>
+        ///             <ChartTrendline DashArray="5,1" />
+        ///         </ChartTrendlines>
+        ///     </ChartSeries>
         /// </SfChart>
         /// ]]>
         /// </code>
@@ -134,13 +128,11 @@ namespace Syncfusion.Blazor.Toolkit.Charts
         /// <![CDATA[
         /// // This example demonstrates how to add a visible trendline to a chart.
         /// <SfChart>
-        ///     <ChartSeriesCollection>
-        ///         <ChartSeries DataSource="@Data" XName="XValue" YName="YValue">
-        ///             <ChartTrendlines>
-        ///                 <ChartTrendline Visible="true" />
-        ///             </ChartTrendlines>
-        ///         </ChartSeries>
-        ///     </ChartSeriesCollection>
+        ///     <ChartSeries DataSource="@Data" XName="XValue" YName="YValue">
+        ///         <ChartTrendlines>
+        ///             <ChartTrendline Visible="true" />
+        ///         </ChartTrendlines>
+        ///     </ChartSeries>
         /// </SfChart>
         /// ]]>
         /// </code>
@@ -184,13 +176,11 @@ namespace Syncfusion.Blazor.Toolkit.Charts
         /// <![CDATA[
         /// // This example demonstrates how to add a power trendline to a chart.
         /// <SfChart>
-        ///     <ChartSeriesCollection>
-        ///         <ChartSeries DataSource="@Data" XName="XValue" YName="YValue">
-        ///             <ChartTrendlines>
-        ///                 <ChartTrendline Type="TrendlineTypes.Power" />
-        ///             </ChartTrendlines>
-        ///         </ChartSeries>
-        ///     </ChartSeriesCollection>
+        ///     <ChartSeries DataSource="@Data" XName="XValue" YName="YValue">
+        ///         <ChartTrendlines>
+        ///             <ChartTrendline Type="TrendlineTypes.Power" />
+        ///         </ChartTrendlines>
+        ///     </ChartSeries>
         /// </SfChart>
         /// ]]>
         /// </code>
@@ -231,13 +221,11 @@ namespace Syncfusion.Blazor.Toolkit.Charts
         /// <![CDATA[
         /// // This example demonstrates how to add a power trendline with an accessibility description to a chart.
         /// <SfChart>
-        ///     <ChartSeriesCollection>
-        ///         <ChartSeries DataSource="@Data" XName="XValue" YName="YValue">
-        ///             <ChartTrendlines>
-        ///                 <ChartTrendline AccessibilityDescription="Power trendline" />
-        ///             </ChartTrendlines>
-        ///         </ChartSeries>
-        ///     </ChartSeriesCollection>
+        ///     <ChartSeries DataSource="@Data" XName="XValue" YName="YValue">
+        ///         <ChartTrendlines>
+        ///             <ChartTrendline AccessibilityDescription="Power trendline" />
+        ///         </ChartTrendlines>
+        ///     </ChartSeries>
         /// </SfChart>
         /// ]]>
         /// </code>
@@ -255,13 +243,11 @@ namespace Syncfusion.Blazor.Toolkit.Charts
         /// <![CDATA[
         /// // This example demonstrates how to add a power trendline with an accessibility description format to a chart.
         /// <SfChart>
-        ///     <ChartSeriesCollection>
-        ///         <ChartSeries DataSource="@Data" XName="XValue" YName="YValue">
-        ///             <ChartTrendlines>
-        ///                 <ChartTrendline AccessibilityDescriptionFormat="Power trendline" />
-        ///             </ChartTrendlines>
-        ///         </ChartSeries>
-        ///     </ChartSeriesCollection>
+        ///     <ChartSeries DataSource="@Data" XName="XValue" YName="YValue">
+        ///         <ChartTrendlines>
+        ///             <ChartTrendline AccessibilityDescriptionFormat="Power trendline" />
+        ///         </ChartTrendlines>
+        ///     </ChartSeries>
         /// </SfChart>
         /// ]]>
         /// </code>
@@ -278,13 +264,11 @@ namespace Syncfusion.Blazor.Toolkit.Charts
         /// <![CDATA[
         /// // This example demonstrates how to add a power trendline with an accessibility role to a chart.
         /// <SfChart>
-        ///     <ChartSeriesCollection>
-        ///         <ChartSeries DataSource="@Data" XName="XValue" YName="YValue">
-        ///             <ChartTrendlines>
-        ///                 <ChartTrendline AccessibilityRole="Trendline" />
-        ///             </ChartTrendlines>
-        ///         </ChartSeries>
-        ///     </ChartSeriesCollection>
+        ///     <ChartSeries DataSource="@Data" XName="XValue" YName="YValue">
+        ///         <ChartTrendlines>
+        ///             <ChartTrendline AccessibilityRole="Trendline" />
+        ///         </ChartTrendlines>
+        ///     </ChartSeries>
         /// </SfChart>
         /// ]]>
         /// </code>
@@ -301,13 +285,11 @@ namespace Syncfusion.Blazor.Toolkit.Charts
         /// <![CDATA[
         /// // This example demonstrates how to make a trendline focusable in a chart.
         /// <SfChart>
-        ///     <ChartSeriesCollection>
-        ///         <ChartSeries DataSource="@Data" XName="XValue" YName="YValue">
-        ///             <ChartTrendlines>
-        ///                 <ChartTrendline Focusable="true" />
-        ///             </ChartTrendlines>
-        ///         </ChartSeries>
-        ///     </ChartSeriesCollection>
+        ///     <ChartSeries DataSource="@Data" XName="XValue" YName="YValue">
+        ///         <ChartTrendlines>
+        ///             <ChartTrendline Focusable="true" />
+        ///         </ChartTrendlines>
+        ///     </ChartSeries>
         /// </SfChart>
         /// ]]>
         /// </code>
@@ -325,15 +307,13 @@ namespace Syncfusion.Blazor.Toolkit.Charts
         /// // This example demonstrates how to add a Moving Average trendline with a specified period
         /// // and enable markers for it in a chart.
         /// <SfChart>
-        ///     <ChartSeriesCollection>
-        ///         <ChartSeries DataSource="@Data" XName="XValue" YName="YValue">
-        ///             <ChartTrendlines>
-        ///                 <ChartTrendline Period="5" Type="TrendlineTypes.MovingAverage">
-        ///                     <ChartTrendlineMarker Visible="true" />
-        ///                 </ChartTrendline>
-        ///             </ChartTrendlines>
-        ///         </ChartSeries>
-        ///     </ChartSeriesCollection>
+        ///     <ChartSeries DataSource="@Data" XName="XValue" YName="YValue">
+        ///         <ChartTrendlines>
+        ///             <ChartTrendline Period="5" Type="TrendlineTypes.MovingAverage">
+        ///                 <ChartTrendlineMarker Visible="true" />
+        ///             </ChartTrendline>
+        ///         </ChartTrendlines>
+        ///     </ChartSeries>
         /// </SfChart>
         /// ]]>
         /// </code>
@@ -363,13 +343,11 @@ namespace Syncfusion.Blazor.Toolkit.Charts
         /// <![CDATA[
         /// // This example demonstrates how to add a polynomial trendline with order 1 to a chart.
         /// <SfChart>
-        ///     <ChartSeriesCollection>
-        ///         <ChartSeries DataSource="@Data" XName="XValue" YName="YValue">
-        ///             <ChartTrendlines>
-        ///                 <ChartTrendline PolynomialOrder="1" Type="TrendlineTypes.Polynomial" />
-        ///             </ChartTrendlines>
-        ///         </ChartSeries>
-        ///     </ChartSeriesCollection>
+        ///     <ChartSeries DataSource="@Data" XName="XValue" YName="YValue">
+        ///         <ChartTrendlines>
+        ///             <ChartTrendline PolynomialOrder="1" Type="TrendlineTypes.Polynomial" />
+        ///         </ChartTrendlines>
+        ///     </ChartSeries>
         /// </SfChart>
         /// ]]>
         /// </code>
@@ -399,13 +377,11 @@ namespace Syncfusion.Blazor.Toolkit.Charts
         /// <![CDATA[
         /// // This example demonstrates how to apply a trendline with a backward forecast of 5 to a chart.
         /// <SfChart>
-        ///     <ChartSeriesCollection>
-        ///         <ChartSeries DataSource="@Data" XName="XValue" YName="YValue">
-        ///             <ChartTrendlines>
-        ///                 <ChartTrendline BackwardForecast="5" />
-        ///             </ChartTrendlines>
-        ///         </ChartSeries>
-        ///     </ChartSeriesCollection>
+        ///     <ChartSeries DataSource="@Data" XName="XValue" YName="YValue">
+        ///         <ChartTrendlines>
+        ///             <ChartTrendline BackwardForecast="5" />
+        ///         </ChartTrendlines>
+        ///     </ChartSeries>
         /// </SfChart>
         /// ]]>
         /// </code>
@@ -435,13 +411,11 @@ namespace Syncfusion.Blazor.Toolkit.Charts
         /// <![CDATA[
         /// // This example demonstrates how to apply a trendline with a forward forecast of 10 to a chart.
         /// <SfChart>
-        ///     <ChartSeriesCollection>
-        ///         <ChartSeries DataSource="@Data" XName="XValue" YName="YValue">
-        ///             <ChartTrendlines>
-        ///                 <ChartTrendline ForwardForecast="10" />
-        ///             </ChartTrendlines>
-        ///         </ChartSeries>
-        ///     </ChartSeriesCollection>
+        ///     <ChartSeries DataSource="@Data" XName="XValue" YName="YValue">
+        ///         <ChartTrendlines>
+        ///             <ChartTrendline ForwardForecast="10" />
+        ///         </ChartTrendlines>
+        ///     </ChartSeries>
         /// </SfChart>
         /// ]]>
         /// </code>
@@ -472,15 +446,13 @@ namespace Syncfusion.Blazor.Toolkit.Charts
         /// // This example demonstrates how to enable tooltips for trendlines and display trendline markers.
         /// <SfChart>
         ///     <ChartTooltipSettings Enable="true"></ChartTooltipSettings>
-        ///     <ChartSeriesCollection>
-        ///         <ChartSeries DataSource="@Data" XName="XValue" YName="YValue">
-        ///             <ChartTrendlines>
-        ///                 <ChartTrendline EnableTooltip="true">
-        ///                     <ChartTrendlineMarker Visible="true" />
-        ///                 </ChartTrendline>
-        ///             </ChartTrendlines>
-        ///         </ChartSeries>
-        ///     </ChartSeriesCollection>
+        ///     <ChartSeries DataSource="@Data" XName="XValue" YName="YValue">
+        ///         <ChartTrendlines>
+        ///             <ChartTrendline EnableTooltip="true">
+        ///                <ChartTrendlineMarker Visible="true" />
+        ///             </ChartTrendline>
+        ///         </ChartTrendlines>
+        ///     </ChartSeries>
         /// </SfChart>
         /// ]]>
         /// </code>
@@ -510,13 +482,11 @@ namespace Syncfusion.Blazor.Toolkit.Charts
         /// <![CDATA[
         /// // This example demonstrates how to apply a trendline with an intercept of 30 to a chart.
         /// <SfChart>
-        ///     <ChartSeriesCollection>
-        ///         <ChartSeries DataSource="@Data" XName="XValue" YName="YValue">
-        ///             <ChartTrendlines>
-        ///                 <ChartTrendline Intercept="30" />
-        ///             </ChartTrendlines>
-        ///         </ChartSeries>
-        ///     </ChartSeriesCollection>
+        ///     <ChartSeries DataSource="@Data" XName="XValue" YName="YValue">
+        ///         <ChartTrendlines>
+        ///             <ChartTrendline Intercept="30" />
+        ///         </ChartTrendlines>
+        ///     </ChartSeries>
         /// </SfChart>
         /// ]]>
         /// </code>
@@ -546,13 +516,11 @@ namespace Syncfusion.Blazor.Toolkit.Charts
         /// <![CDATA[
         /// // This example demonstrates how to set the fill color of a trendline to green.
         /// <SfChart>
-        ///     <ChartSeriesCollection>
-        ///         <ChartSeries DataSource="@Data" XName="XValue" YName="YValue">
-        ///             <ChartTrendlines>
-        ///                 <ChartTrendline Fill="green" />
-        ///             </ChartTrendlines>
-        ///         </ChartSeries>
-        ///     </ChartSeriesCollection>
+        ///     <ChartSeries DataSource="@Data" XName="XValue" YName="YValue">
+        ///         <ChartTrendlines>
+        ///             <ChartTrendline Fill="green" />
+        ///         </ChartTrendlines>
+        ///     </ChartSeries>
         /// </SfChart>
         /// ]]>
         /// </code>
@@ -582,13 +550,11 @@ namespace Syncfusion.Blazor.Toolkit.Charts
         /// <![CDATA[
         /// // This example demonstrates how to set the width of a trendline to 20.
         /// <SfChart>
-        ///     <ChartSeriesCollection>
-        ///         <ChartSeries DataSource="@Data" XName="XValue" YName="YValue">
-        ///             <ChartTrendlines>
-        ///                 <ChartTrendline Width="20" />
-        ///             </ChartTrendlines>
-        ///         </ChartSeries>
-        ///     </ChartSeriesCollection>
+        ///     <ChartSeries DataSource="@Data" XName="XValue" YName="YValue">
+        ///         <ChartTrendlines>
+        ///             <ChartTrendline Width="20" />
+        ///         </ChartTrendlines>
+        ///     </ChartSeries>
         /// </SfChart>
         /// ]]>
         /// </code>
@@ -618,15 +584,13 @@ namespace Syncfusion.Blazor.Toolkit.Charts
         /// <![CDATA[
         /// // This example demonstrates how to customize the legend shape of a trendline and enable markers in a chart.
         /// <SfChart>
-        ///     <ChartSeriesCollection>
-        ///         <ChartSeries DataSource="@Data" XName="XValue" YName="YValue">
-        ///             <ChartTrendlines>
-        ///                 <ChartTrendline LegendShape="LegendShape.Rectangle" Name="Triangle">
-        ///                     <ChartTrendlineMarker Visible="true" />
-        ///                 </ChartTrendline>
-        ///             </ChartTrendlines>
-        ///         </ChartSeries>
-        ///     </ChartSeriesCollection>
+        ///     <ChartSeries DataSource="@Data" XName="XValue" YName="YValue">
+        ///         <ChartTrendlines>
+        ///             <ChartTrendline LegendShape="LegendShape.Rectangle" Name="Triangle">
+        ///                 <ChartTrendlineMarker Visible="true" />
+        ///             </ChartTrendline>
+        ///         </ChartTrendlines>
+        ///     </ChartSeries>
         /// </SfChart>
         /// ]]>
         /// </code>
@@ -656,15 +620,13 @@ namespace Syncfusion.Blazor.Toolkit.Charts
         /// <![CDATA[
         /// // This example demonstrates how to display trendline markers on a chart.
         /// <SfChart>
-        ///     <ChartSeriesCollection>
-        ///         <ChartSeries DataSource="@Data" XName="XValue" YName="YValue">
-        ///             <ChartTrendlines>
-        ///                 <ChartTrendline>
-        ///                     <ChartTrendlineMarker Visible="true" />
-        ///                 </ChartTrendline>
-        ///             </ChartTrendlines>
-        ///         </ChartSeries>
-        ///     </ChartSeriesCollection>
+        ///     <ChartSeries DataSource="@Data" XName="XValue" YName="YValue">
+        ///         <ChartTrendlines>
+        ///             <ChartTrendline>
+        ///                 <ChartTrendlineMarker Visible="true" />
+        ///             </ChartTrendline>
+        ///         </ChartTrendlines>
+        ///     </ChartSeries>
         /// </SfChart>
         /// ]]>
         /// </code>
@@ -725,15 +687,13 @@ namespace Syncfusion.Blazor.Toolkit.Charts
         /// <![CDATA[
         /// // This example demonstrates how to enable animation for a trendline with a duration of 2000ms.
         /// <SfChart>
-        ///     <ChartSeriesCollection>
-        ///         <ChartSeries DataSource="@Data" XName="XValue" YName="YValue">
-        ///             <ChartTrendlines>
-        ///                 <ChartTrendline>
-        ///                     <ChartTrendlineAnimation Enable="true" Duration="2000" />
-        ///                 </ChartTrendline>
-        ///             </ChartTrendlines>
-        ///         </ChartSeries>
-        ///     </ChartSeriesCollection>
+        ///     <ChartSeries DataSource="@Data" XName="XValue" YName="YValue">
+        ///         <ChartTrendlines>
+        ///             <ChartTrendline>
+        ///                 <ChartTrendlineAnimation Enable="true" Duration="2000" />
+        ///             </ChartTrendline>
+        ///         </ChartTrendlines>
+        ///     </ChartSeries>
         /// </SfChart>
         /// ]]>
         /// </code>

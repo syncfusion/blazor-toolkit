@@ -308,20 +308,18 @@
                     <ChartStripline Start=""25"" End=""35"" Text=""Fresh Breeze"" Color=""@FreshBreezeStriplineColor"" Opacity=""0.6"" HorizontalAlignment=""Anchor.Start"" />
                 </ChartStriplines>
             </ChartPrimaryYAxis>
-            <ChartSeriesCollection>
-                <ChartSeries DataSource=""@WindSeriesData""
-                             XName=""Date""
-                             YName=""Gust""
-                             Name=""Wind Gust (km/h)""
-                             Type=""ChartSeriesType.Spline"">
-                </ChartSeries>
-                <ChartSeries DataSource=""@WindSeriesData""
-                             XName=""Date""
-                             YName=""Wind""
-                             Name=""Wind Speed (km/h)""
-                             Type=""ChartSeriesType.Spline"">
-                </ChartSeries>
-            </ChartSeriesCollection>
+            <ChartSeries DataSource=""@WindSeriesData""
+                            XName=""Date""
+                            YName=""Gust""
+                            Name=""Wind Gust (km/h)""
+                            Type=""ChartSeriesType.Spline"">
+            </ChartSeries>
+            <ChartSeries DataSource=""@WindSeriesData""
+                            XName=""Date""
+                            YName=""Wind""
+                            Name=""Wind Speed (km/h)""
+                            Type=""ChartSeriesType.Spline"">
+            </ChartSeries>
             <ChartTooltipSettings Enable=""true"" EnableHighlight=""true""
                                   EnableMarker=""true""
                                   ShowNearestTooltip=""true""
@@ -453,29 +451,27 @@
                 </ChartStriplines>
             </ChartPrimaryYAxis>
 
-            <ChartSeriesCollection>
-                <ChartSeries DataSource=""@AllSourcesData""
-                             XName=""Year""
-                             YName=""Value""
-                             Name=""All sources""
-                             Type=""ChartSeriesType.Column""
-                             Fill=""#00C58D""
-                             ColumnWidth=""0.8""
-                             ColumnSpacing=""0.2""
-                             CornerRadius=""new ChartCornerRadius {TopLeft = 5, TopRight = 5}"">
-                </ChartSeries>
+            <ChartSeries DataSource=""@AllSourcesData""
+                            XName=""Year""
+                            YName=""Value""
+                            Name=""All sources""
+                            Type=""ChartSeriesType.Column""
+                            Fill=""#00C58D""
+                            ColumnWidth=""0.8""
+                            ColumnSpacing=""0.2""
+                            CornerRadius=""new ChartCornerRadius {TopLeft = 5, TopRight = 5}"">
+            </ChartSeries>
 
-                <ChartSeries DataSource=""@AutosData""
-                             XName=""Year""
-                             YName=""Value""
-                             Name=""Autos & Light Trucks""
-                             Type=""ChartSeriesType.Column""
-                             Fill=""#DA7DD4""
-                             ColumnWidth=""0.8""
-                             ColumnSpacing=""0.2""
-                             CornerRadius=""new ChartCornerRadius {TopLeft = 5, TopRight = 5}"">
-                </ChartSeries>
-            </ChartSeriesCollection>
+            <ChartSeries DataSource=""@AutosData""
+                            XName=""Year""
+                            YName=""Value""
+                            Name=""Autos & Light Trucks""
+                            Type=""ChartSeriesType.Column""
+                            Fill=""#DA7DD4""
+                            ColumnWidth=""0.8""
+                            ColumnSpacing=""0.2""
+                            CornerRadius=""new ChartCornerRadius {TopLeft = 5, TopRight = 5}"">
+            </ChartSeries>
         </SfChart>
 @code {
     private Theme _currentTheme = Theme.Fluent;
@@ -705,25 +701,23 @@
             </ChartPrimaryYAxis>
 
             <!-- Series -->
-            <ChartSeriesCollection>
-                <ChartSeries DataSource=""@WindSpeedData""
-                             XName=""Date""
-                             YName=""Wind""
-                             Name=""Wind Speed (km/h)""
-                             Type=""ChartSeriesType.Spline""
-                             Width=""2""
-                             Fill=""#01A725""
-                             LegendShape=""LegendShape.HorizontalLine"" />
+            <ChartSeries DataSource=""@WindSpeedData""
+                            XName=""Date""
+                            YName=""Wind""
+                            Name=""Wind Speed (km/h)""
+                            Type=""ChartSeriesType.Spline""
+                            Width=""2""
+                            Fill=""#01A725""
+                            LegendShape=""LegendShape.HorizontalLine"" />
 
-                <ChartSeries DataSource=""@WindGustData""
-                             XName=""Date""
-                             YName=""Gust""
-                             Name=""Wind Gust (km/h)""
-                             Type=""ChartSeriesType.Spline""
-                             Width=""2""
-                             Fill=""#FF8225""
-                             LegendShape=""LegendShape.HorizontalLine"" />
-            </ChartSeriesCollection>
+            <ChartSeries DataSource=""@WindGustData""
+                            XName=""Date""
+                            YName=""Gust""
+                            Name=""Wind Gust (km/h)""
+                            Type=""ChartSeriesType.Spline""
+                            Width=""2""
+                            Fill=""#FF8225""
+                            LegendShape=""LegendShape.HorizontalLine"" />
             <!-- Tooltip -->
             <ChartTooltipSettings Enable=""true"" EnableHighlight=""true""
                                   EnableMarker=""true""
@@ -871,26 +865,24 @@
                                Title=""Wind Speed and Gust (km/h)"">
                 <ChartAxisLineStyle Width=""0"" />
             </ChartPrimaryYAxis>
-            <ChartSeriesCollection>
-                <ChartSeries DataSource=""@WindSpeedData""
-                             XName=""Date""
-                             YName=""Wind""
-                             Name=""Wind Speed (km/h)""
-                             Type=""ChartSeriesType.Spline""
-                             Width=""2""
-                             Fill=""#01A725""
-                             LegendShape=""LegendShape.HorizontalLine"">
-                </ChartSeries>
-                <ChartSeries DataSource=""@WindGustData""
-                             XName=""Date""
-                             YName=""Gust""
-                             Name=""Wind Gust (km/h)""
-                             Type=""ChartSeriesType.Spline""
-                             Width=""2""
-                             Fill=""#FF8225""
-                             LegendShape=""LegendShape.HorizontalLine"">
-                </ChartSeries>
-            </ChartSeriesCollection>
+            <ChartSeries DataSource=""@WindSpeedData""
+                            XName=""Date""
+                            YName=""Wind""
+                            Name=""Wind Speed (km/h)""
+                            Type=""ChartSeriesType.Spline""
+                            Width=""2""
+                            Fill=""#01A725""
+                            LegendShape=""LegendShape.HorizontalLine"">
+            </ChartSeries>
+            <ChartSeries DataSource=""@WindGustData""
+                            XName=""Date""
+                            YName=""Gust""
+                            Name=""Wind Gust (km/h)""
+                            Type=""ChartSeriesType.Spline""
+                            Width=""2""
+                            Fill=""#FF8225""
+                            LegendShape=""LegendShape.HorizontalLine"">
+            </ChartSeries>
             <ChartTooltipSettings Enable=""true""
                                   ShowNearestTooltip=""true""
                                   EnableHighlight=""true"" EnableMarker=""true""

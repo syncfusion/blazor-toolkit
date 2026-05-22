@@ -39,9 +39,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts
         ///     <ChartPrimaryYAxis>
         ///         <ChartAxisLineStyle Width="3" Color="red" />
         ///     </ChartPrimaryYAxis>
-        ///     <ChartSeriesCollection>
-        ///         <ChartSeries DataSource="@WeatherReports" XName="X" YName="Y" />
-        ///     </ChartSeriesCollection>
+        ///     <ChartSeries DataSource="@WeatherReports" XName="X" YName="Y" />
         /// </SfChart>
         /// ]]>
         /// </code>
@@ -70,9 +68,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts
         ///     <ChartPrimaryYAxis>
         ///         <ChartAxisLineStyle Width="3" DashArray="5,1" />
         ///     </ChartPrimaryYAxis>
-        ///     <ChartSeriesCollection>
-        ///         <ChartSeries DataSource="@WeatherReports" XName="X" YName="Y" />
-        ///     </ChartSeriesCollection>
+        ///     <ChartSeries DataSource="@WeatherReports" XName="X" YName="Y" />
         /// </SfChart>
         /// ]]>
         /// </code>
@@ -100,9 +96,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts
         ///     <ChartPrimaryYAxis>
         ///         <ChartAxisLineStyle Width="3" />
         ///     </ChartPrimaryYAxis>
-        ///     <ChartSeriesCollection>
-        ///         <ChartSeries DataSource="@WeatherReports" XName="X" YName="Y" />
-        ///     </ChartSeriesCollection>
+        ///     <ChartSeries DataSource="@WeatherReports" XName="X" YName="Y" />
         /// </SfChart>
         /// ]]>
         /// </code>

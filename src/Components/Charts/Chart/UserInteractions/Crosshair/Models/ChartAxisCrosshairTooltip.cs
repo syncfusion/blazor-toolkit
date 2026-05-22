@@ -19,10 +19,8 @@ namespace Syncfusion.Blazor.Toolkit.Charts
     ///         <ChartAxisCrosshairTooltip Enable="true"></ChartAxisCrosshairTooltip>
     ///     </ChartPrimaryXAxis>
     ///     <ChartCrosshairSettings Enable="true" />
-    ///     <ChartSeriesCollection>
-    ///         <ChartSeries DataSource="@Data" XName="XValue" YName="YValue">
-    ///         </ChartSeries>
-    ///     </ChartSeriesCollection>
+    ///     <ChartSeries DataSource="@Data" XName="XValue" YName="YValue">
+    ///     </ChartSeries>
     /// </SfChart>
     /// ]]>
     /// </code>

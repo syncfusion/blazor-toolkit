@@ -34,16 +34,14 @@ namespace Syncfusion.Blazor.Toolkit.Charts
         /// <![CDATA[
         /// // Example demonstrating how to set a custom bottom margin for a data label:
         /// <SfChart>
-        ///     <ChartSeriesCollection>
-        ///         <ChartSeries DataSource="@WeatherReports" XName="X" YName="Y">
-        ///             <ChartMarker>
-        ///                 <ChartDataLabel Visible="true">
-        ///                     <ChartDataLabelBorder Width="1" Color="black"></ChartDataLabelBorder>
-        ///                     <ChartDataLabelMargin Bottom="20"></ChartDataLabelMargin>
-        ///                 </ChartDataLabel>
-        ///             </ChartMarker>
-        ///         </ChartSeries>
-        ///     </ChartSeriesCollection>
+        ///     <ChartSeries DataSource="@WeatherReports" XName="X" YName="Y">
+        ///         <ChartMarker>
+        ///             <ChartDataLabel Visible="true">
+        ///                 <ChartDataLabelBorder Width="1" Color="black"></ChartDataLabelBorder>
+        ///                 <ChartDataLabelMargin Bottom="20"></ChartDataLabelMargin>
+        ///             </ChartDataLabel>
+        ///         </ChartMarker>
+        ///     </ChartSeries>
         /// </SfChart>
         /// ]]>
         /// </code>
@@ -65,16 +63,14 @@ namespace Syncfusion.Blazor.Toolkit.Charts
         /// <![CDATA[
         /// // Example demonstrating how to set a custom left margin for a data label:
         /// <SfChart>
-        ///     <ChartSeriesCollection>
-        ///         <ChartSeries DataSource="@WeatherReports" XName="X" YName="Y">
-        ///             <ChartMarker>
-        ///                 <ChartDataLabel Visible="true">
-        ///                     <ChartDataLabelBorder Width="1" Color="black"></ChartDataLabelBorder>
-        ///                     <ChartDataLabelMargin Left="20"></ChartDataLabelMargin>
-        ///                 </ChartDataLabel>
-        ///             </ChartMarker>
-        ///         </ChartSeries>
-        ///     </ChartSeriesCollection>
+        ///     <ChartSeries DataSource="@WeatherReports" XName="X" YName="Y">
+        ///         <ChartMarker>
+        ///             <ChartDataLabel Visible="true">
+        ///                 <ChartDataLabelBorder Width="1" Color="black"></ChartDataLabelBorder>
+        ///                 <ChartDataLabelMargin Left="20"></ChartDataLabelMargin>
+        ///             </ChartDataLabel>
+        ///         </ChartMarker>
+        ///     </ChartSeries>
         /// </SfChart>
         /// ]]>
         /// </code>
@@ -96,16 +92,14 @@ namespace Syncfusion.Blazor.Toolkit.Charts
         /// <![CDATA[
         /// // Example demonstrating how to set a custom right margin for a data label:
         /// <SfChart>
-        ///     <ChartSeriesCollection>
-        ///         <ChartSeries DataSource="@WeatherReports" XName="X" YName="Y">
-        ///             <ChartMarker>
-        ///                 <ChartDataLabel Visible="true">
-        ///                     <ChartDataLabelBorder Width="1" Color="black"></ChartDataLabelBorder>
-        ///                     <ChartDataLabelMargin Right="20"></ChartDataLabelMargin>
-        ///                 </ChartDataLabel>
-        ///             </ChartMarker>
-        ///         </ChartSeries>
-        ///     </ChartSeriesCollection>
+        ///     <ChartSeries DataSource="@WeatherReports" XName="X" YName="Y">
+        ///         <ChartMarker>
+        ///             <ChartDataLabel Visible="true">
+        ///                 <ChartDataLabelBorder Width="1" Color="black"></ChartDataLabelBorder>
+        ///                 <ChartDataLabelMargin Right="20"></ChartDataLabelMargin>
+        ///             </ChartDataLabel>
+        ///         </ChartMarker>
+        ///     </ChartSeries>
         /// </SfChart>
         /// ]]>
         /// </code>
@@ -127,16 +121,14 @@ namespace Syncfusion.Blazor.Toolkit.Charts
         /// <![CDATA[
         /// // Example demonstrating how to set a custom top margin for a data label:
         /// <SfChart>
-        ///     <ChartSeriesCollection>
-        ///         <ChartSeries DataSource="@WeatherReports" XName="X" YName="Y">
-        ///             <ChartMarker>
-        ///                 <ChartDataLabel Visible="true">
-        ///                     <ChartDataLabelBorder Width="1" Color="black"></ChartDataLabelBorder>
-        ///                     <ChartDataLabelMargin Top="20"></ChartDataLabelMargin>
-        ///                 </ChartDataLabel>
-        ///             </ChartMarker>
-        ///         </ChartSeries>
-        ///     </ChartSeriesCollection>
+        ///     <ChartSeries DataSource="@WeatherReports" XName="X" YName="Y">
+        ///         <ChartMarker>
+        ///             <ChartDataLabel Visible="true">
+        ///                 <ChartDataLabelBorder Width="1" Color="black"></ChartDataLabelBorder>
+        ///                 <ChartDataLabelMargin Top="20"></ChartDataLabelMargin>
+        ///             </ChartDataLabel>
+        ///         </ChartMarker>
+        ///     </ChartSeries>
         /// </SfChart>
         /// ]]>
         /// </code>

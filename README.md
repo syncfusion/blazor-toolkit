@@ -182,7 +182,7 @@ public class ChartDataPoint
 
 ## Support
 
-For any other queries, reach our [Syncfusion support team](https://blazortoolkit.syncfusion.com).
+For any other queries, reach our [Syncfusion support team](https://blazortoolkit.syncfusion.com/support/tickets/) through ticket.
 
 ## Contributing
 

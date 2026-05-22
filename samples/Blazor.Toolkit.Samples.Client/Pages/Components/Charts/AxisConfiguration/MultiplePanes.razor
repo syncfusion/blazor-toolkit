@@ -13,7 +13,7 @@
 
         In this sample, monthly precipitation is displayed in the top pane, while
         average temperature is visualized in a separate pane below using a secondary
-        Y‑axis. The secondary axis is added to the <code>ChartAxes</code> collection using the <code>ChartAxis</code> component, and the <code>RowIndex</code> property of the axis assigns it to a specific pane. Additionally, a series is explicitly bound to its corresponding axis using the <code>YAxisName</code> property. This layout allows different units and ranges to be compared clearly without visual overlap.
+        Y‑axis. The secondary axis is added to the <code>ChartAxis</code> component, and the <code>RowIndex</code> property of the axis assigns it to a specific pane. Additionally, a series is explicitly bound to its corresponding axis using the <code>YAxisName</code> property. This layout allows different units and ranges to be compared clearly without visual overlap.
     </Content>
 </Description>
 
@@ -44,20 +44,18 @@
             </ChartRows>
 
             <!-- SECONDARY Y AXIS (TEMPERATURE) -->
-            <ChartAxes>
-                <ChartAxis Title="Temperature, °F"
-                           Name="TemperatureAxis"
-                           Minimum="20"
-                           Maximum="100"
-                           Interval="20"
-                           RowIndex="1"
-                           OpposedPosition="true">
-                    <ChartAxisLineStyle Width="0" />
-                    <ChartAxisMajorGridLines Width="0" />
-                    <ChartAxisMajorTickLines Width="0" />
-                    <ChartAxisMinorTickLines Width="0" />                    
-                </ChartAxis>
-            </ChartAxes>
+            <ChartAxis Title="Temperature, °F"
+                        Name="TemperatureAxis"
+                        Minimum="20"
+                        Maximum="100"
+                        Interval="20"
+                        RowIndex="1"
+                        OpposedPosition="true">
+                <ChartAxisLineStyle Width="0" />
+                <ChartAxisMajorGridLines Width="0" />
+                <ChartAxisMajorTickLines Width="0" />
+                <ChartAxisMinorTickLines Width="0" />                    
+            </ChartAxis>
 
             <!-- SERIES -->
             
@@ -181,20 +179,18 @@
             </ChartRows>
 
             <!-- SECONDARY Y AXIS (TEMPERATURE) -->
-            <ChartAxes>
-                <ChartAxis Title=""Temperature, °F""
-                           Name=""TemperatureAxis""
-                           Minimum=""20""
-                           Maximum=""100""
-                           Interval=""20""
-                           RowIndex=""1""
-                           OpposedPosition=""true"">
-                    <ChartAxisLineStyle Width=""0"" />
-                    <ChartAxisMajorGridLines Width=""0"" />
-                    <ChartAxisMajorTickLines Width=""0"" />
-                    <ChartAxisMinorTickLines Width=""0"" />                    
-                </ChartAxis>
-            </ChartAxes>
+            <ChartAxis Title=""Temperature, °F""
+                        Name=""TemperatureAxis""
+                        Minimum=""20""
+                        Maximum=""100""
+                        Interval=""20""
+                        RowIndex=""1""
+                        OpposedPosition=""true"">
+                <ChartAxisLineStyle Width=""0"" />
+                <ChartAxisMajorGridLines Width=""0"" />
+                <ChartAxisMajorTickLines Width=""0"" />
+                <ChartAxisMinorTickLines Width=""0"" />
+            </ChartAxis>
 
             <!-- SERIES -->
             

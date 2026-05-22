@@ -16,11 +16,9 @@ namespace Syncfusion.Blazor.Toolkit.Charts
     /// <![CDATA[
     /// // This example demonstrates how to render a column chart with rounded corners.
     /// <SfChart>
-    ///     <ChartSeriesCollection>
-    ///         <ChartSeries DataSource="@Data" XName="XValue" YName="YValue" Type="ChartSeriesType.Column">
-    ///             <ChartCornerRadius TopLeft="10" TopRight="10" BottomLeft="4" BottomRight="4" />
-    ///         </ChartSeries>
-    ///     </ChartSeriesCollection>
+    ///     <ChartSeries DataSource="@Data" XName="XValue" YName="YValue" Type="ChartSeriesType.Column">
+    ///         <ChartCornerRadius TopLeft="10" TopRight="10" BottomLeft="4" BottomRight="4" />
+    ///     </ChartSeries>
     /// </SfChart>
     /// ]]>
     /// </code>

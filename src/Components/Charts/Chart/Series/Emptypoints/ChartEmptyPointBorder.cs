@@ -11,13 +11,11 @@ namespace Syncfusion.Blazor.Toolkit.Charts
     /// <![CDATA[
     /// // This example demonstrates how to apply a custom border color and width to the empty points.
     /// <SfChart>
-    ///     <ChartSeriesCollection>
-    ///         <ChartSeries DataSource="@Data" XName="XValue" YName="YValue" Type="ChartSeriesType.Column">
-    ///             <ChartEmptyPointSettings Mode="EmptyPointMode.Average">
-    ///                 <ChartEmptyPointBorder Width="2" Color="blue"></ChartEmptyPointBorder>
-    ///             </ChartEmptyPointSettings>
-    ///         </ChartSeries>
-    ///     </ChartSeriesCollection>
+    ///     <ChartSeries DataSource="@Data" XName="XValue" YName="YValue" Type="ChartSeriesType.Column">
+    ///         <ChartEmptyPointSettings Mode="EmptyPointMode.Average">
+    ///             <ChartEmptyPointBorder Width="2" Color="blue"></ChartEmptyPointBorder>
+    ///         </ChartEmptyPointSettings>
+    ///     </ChartSeries>
     /// </SfChart>
     /// ]]>
     /// </code>
@@ -55,13 +53,11 @@ namespace Syncfusion.Blazor.Toolkit.Charts
         /// <![CDATA[
         /// // This example demonstrates how to apply a custom border color to the empty points.
         /// <SfChart>
-        ///     <ChartSeriesCollection>
-        ///         <ChartSeries DataSource="@Data" XName="XValue" YName="YValue" Type="ChartSeriesType.Column">
-        ///             <ChartEmptyPointSettings Mode="EmptyPointMode.Average">
-        ///                 <ChartEmptyPointBorder Width="2" Color="blue"></ChartEmptyPointBorder>
-        ///             </ChartEmptyPointSettings>
-        ///         </ChartSeries>
-        ///     </ChartSeriesCollection>
+        ///     <ChartSeries DataSource="@Data" XName="XValue" YName="YValue" Type="ChartSeriesType.Column">
+        ///         <ChartEmptyPointSettings Mode="EmptyPointMode.Average">
+        ///             <ChartEmptyPointBorder Width="2" Color="blue"></ChartEmptyPointBorder>
+        ///         </ChartEmptyPointSettings>
+        ///     </ChartSeries>
         /// </SfChart>
         /// ]]>
         /// </code>
@@ -83,13 +79,11 @@ namespace Syncfusion.Blazor.Toolkit.Charts
         /// <![CDATA[
         /// // This example demonstrates how to apply a custom border width to the empty points.
         /// <SfChart>
-        ///     <ChartSeriesCollection>
-        ///         <ChartSeries DataSource="@Data" XName="XValue" YName="YValue" Type="ChartSeriesType.Column">
-        ///             <ChartEmptyPointSettings Mode="EmptyPointMode.Average">
-        ///                 <ChartEmptyPointBorder Width="2" Color="blue"></ChartEmptyPointBorder>
-        ///             </ChartEmptyPointSettings>
-        ///         </ChartSeries>
-        ///     </ChartSeriesCollection>
+        ///     <ChartSeries DataSource="@Data" XName="XValue" YName="YValue" Type="ChartSeriesType.Column">
+        ///         <ChartEmptyPointSettings Mode="EmptyPointMode.Average">
+        ///             <ChartEmptyPointBorder Width="2" Color="blue"></ChartEmptyPointBorder>
+        ///         </ChartEmptyPointSettings>
+        ///     </ChartSeries>
         /// </SfChart>
         /// ]]>
         /// </code>

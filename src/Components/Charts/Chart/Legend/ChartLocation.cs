@@ -40,9 +40,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts
         /// <![CDATA[
         /// // This example demonstrates how to determine the x location of a legend based on its position in a chart.
         /// <SfChart>
-        ///     <ChartSeriesCollection>
-        ///         <ChartSeries DataSource="@MedalDetails" Name="Gold" XName="Country" YName="Gold" />
-        ///     </ChartSeriesCollection>
+        ///     <ChartSeries DataSource="@MedalDetails" Name="Gold" XName="Country" YName="Gold" />
         ///     <ChartLegendSettings Visible="true" Position="LegendPosition.Custom">
         ///         <ChartLocation X="30" />
         ///     </ChartLegendSettings>
@@ -67,9 +65,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts
         /// <![CDATA[
         /// // This example demonstrates how to determine the y location of a legend based on its position in a chart.
         /// <SfChart>
-        ///     <ChartSeriesCollection>
-        ///         <ChartSeries DataSource="@MedalDetails" Name="Gold" XName="Country" YName="Gold" />
-        ///     </ChartSeriesCollection>
+        ///     <ChartSeries DataSource="@MedalDetails" Name="Gold" XName="Country" YName="Gold" />
         ///     <ChartLegendSettings Visible="true" Position="LegendPosition.Custom">
         ///         <ChartLocation Y="40" />
         ///     </ChartLegendSettings>

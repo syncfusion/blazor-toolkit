@@ -45,15 +45,13 @@ namespace Syncfusion.Blazor.Toolkit.Charts
         ///     <ChartTooltipSettings Enable="true">
         ///         <ChartTooltipTextStyle Color="green"></ChartTooltipTextStyle>
         ///     </ChartTooltipSettings>
-        ///     <ChartSeriesCollection>
-        ///         <ChartSeries DataSource="@MedalDetails" Name="Gold" XName="Country" YName="Gold" Type="ChartSeriesType.Column">
-        ///             <ChartMarker>
-        ///                 <ChartDataLabel Visible="true">
-        ///                     <ChartDataLabelFont Color="yellow"></ChartDataLabelFont>
-        ///                 </ChartDataLabel>
-        ///             </ChartMarker>
-        ///         </ChartSeries>
-        ///     </ChartSeriesCollection>
+        ///     <ChartSeries DataSource="@MedalDetails" Name="Gold" XName="Country" YName="Gold" Type="ChartSeriesType.Column">
+        ///         <ChartMarker>
+        ///             <ChartDataLabel Visible="true">
+        ///                 <ChartDataLabelFont Color="yellow"></ChartDataLabelFont>
+        ///             </ChartDataLabel>
+        ///         </ChartMarker>
+        ///     </ChartSeries>
         ///     <ChartLegendSettings Visible="true">
         ///         <ChartLegendTextStyle Color="blue"></ChartLegendTextStyle>
         ///      </ChartLegendSettings>
@@ -98,15 +96,13 @@ namespace Syncfusion.Blazor.Toolkit.Charts
         ///     <ChartTooltipSettings Enable="true">
         ///         <ChartTooltipTextStyle FontFamily="Arial"></ChartTooltipTextStyle>
         ///     </ChartTooltipSettings>
-        ///     <ChartSeriesCollection>
-        ///         <ChartSeries DataSource="@MedalDetails" Name="Gold" XName="Country" YName="Gold" Type="ChartSeriesType.Column">
-        ///             <ChartMarker>
-        ///                 <ChartDataLabel Visible="true">
-        ///                     <ChartDataLabelFont FontFamily="Arial"></ChartDataLabelFont>
-        ///                 </ChartDataLabel>
-        ///             </ChartMarker>
-        ///         </ChartSeries>
-        ///     </ChartSeriesCollection>
+        ///     <ChartSeries DataSource="@MedalDetails" Name="Gold" XName="Country" YName="Gold" Type="ChartSeriesType.Column">
+        ///         <ChartMarker>
+        ///             <ChartDataLabel Visible="true">
+        ///                 <ChartDataLabelFont FontFamily="Arial"></ChartDataLabelFont>
+        ///             </ChartDataLabel>
+        ///         </ChartMarker>
+        ///     </ChartSeries>
         ///     <ChartLegendSettings Visible="true">
         ///         <ChartLegendTextStyle FontFamily="Arial"></ChartLegendTextStyle>
         ///      </ChartLegendSettings>
@@ -151,15 +147,13 @@ namespace Syncfusion.Blazor.Toolkit.Charts
         ///     <ChartTooltipSettings Enable="true">
         ///         <ChartTooltipTextStyle FontStyle="bold"></ChartTooltipTextStyle>
         ///     </ChartTooltipSettings>
-        ///     <ChartSeriesCollection>
-        ///         <ChartSeries DataSource="@MedalDetails" Name="Gold" XName="Country" YName="Gold" Type="ChartSeriesType.Column">
-        ///             <ChartMarker>
-        ///                 <ChartDataLabel Visible="true">
-        ///                     <ChartDataLabelFont FontStyle="bold"></ChartDataLabelFont>
-        ///                 </ChartDataLabel>
-        ///             </ChartMarker>
-        ///         </ChartSeries>
-        ///     </ChartSeriesCollection>
+        ///     <ChartSeries DataSource="@MedalDetails" Name="Gold" XName="Country" YName="Gold" Type="ChartSeriesType.Column">
+        ///         <ChartMarker>
+        ///             <ChartDataLabel Visible="true">
+        ///                 <ChartDataLabelFont FontStyle="bold"></ChartDataLabelFont>
+        ///             </ChartDataLabel>
+        ///         </ChartMarker>
+        ///     </ChartSeries>
         ///     <ChartLegendSettings Visible="true">
         ///         <ChartLegendTextStyle FontStyle="bold"></ChartLegendTextStyle>
         ///      </ChartLegendSettings>
@@ -204,15 +198,13 @@ namespace Syncfusion.Blazor.Toolkit.Charts
         ///     <ChartTooltipSettings Enable="true">
         ///         <ChartTooltipTextStyle FontWeight="600"></ChartTooltipTextStyle>
         ///     </ChartTooltipSettings>
-        ///     <ChartSeriesCollection>
-        ///         <ChartSeries DataSource="@MedalDetails" Name="Gold" XName="Country" YName="Gold" Type="ChartSeriesType.Column">
-        ///             <ChartMarker>
-        ///                 <ChartDataLabel Visible="true">
-        ///                     <ChartDataLabelFont FontWeight="600"></ChartDataLabelFont>
-        ///                 </ChartDataLabel>
-        ///             </ChartMarker>
-        ///         </ChartSeries>
-        ///     </ChartSeriesCollection>
+        ///     <ChartSeries DataSource="@MedalDetails" Name="Gold" XName="Country" YName="Gold" Type="ChartSeriesType.Column">
+        ///         <ChartMarker>
+        ///            <ChartDataLabel Visible="true">
+        ///                 <ChartDataLabelFont FontWeight="600"></ChartDataLabelFont>
+        ///             </ChartDataLabel>
+        ///         </ChartMarker>
+        ///     </ChartSeries>
         ///     <ChartLegendSettings Visible="true">
         ///         <ChartLegendTextStyle FontWeight="600"></ChartLegendTextStyle>
         ///      </ChartLegendSettings>
@@ -257,18 +249,13 @@ namespace Syncfusion.Blazor.Toolkit.Charts
         ///     <ChartTooltipSettings Enable="true">
         ///         <ChartTooltipTextStyle Opacity=0.5></ChartTooltipTextStyle>
         ///     </ChartTooltipSettings>
-        ///     <ChartSeriesCollection>
-        ///         <ChartSeries DataSource="@MedalDetails" Name="Gold" XName="Country" YName="Gold" Type="ChartSeriesType.Column">
-        ///             <ChartMarker>
-        ///                 <ChartDataLabel Visible="true">
-        ///                     <ChartDataLabelFont Opacity=0.5></ChartDataLabelFont>
-        ///                 </ChartDataLabel>
-        ///             </ChartMarker>
-        ///         </ChartSeries>
-        ///     </ChartSeriesCollection>
-        ///     <ChartLegendSettings Visible="true">
-        ///         <ChartLegendTextStyle Opacity=0.5></ChartLegendTextStyle>
-        ///      </ChartLegendSettings>
+        ///     <ChartSeries DataSource="@MedalDetails" Name="Gold" XName="Country" YName="Gold" Type="ChartSeriesType.Column">
+        ///         <ChartMarker>
+        ///             <ChartDataLabel Visible="true">
+        ///                 <ChartDataLabelFont Opacity=0.5></ChartDataLabelFont>
+        ///             </ChartDataLabel>
+        ///         </ChartMarker>
+        ///     </ChartSeries>
         /// </SfChart>
         /// ]]>
         /// </code>
@@ -310,15 +297,13 @@ namespace Syncfusion.Blazor.Toolkit.Charts
         ///     <ChartTooltipSettings Enable="true">
         ///         <ChartTooltipTextStyle Size="16px"></ChartTooltipTextStyle>
         ///     </ChartTooltipSettings>
-        ///     <ChartSeriesCollection>
-        ///         <ChartSeries DataSource="@MedalDetails" Name="Gold" XName="Country" YName="Gold" Type="ChartSeriesType.Column">
-        ///             <ChartMarker>
-        ///                 <ChartDataLabel Visible="true">
-        ///                     <ChartDataLabelFont Size="16px"></ChartDataLabelFont>
-        ///                 </ChartDataLabel>
-        ///             </ChartMarker>
-        ///         </ChartSeries>
-        ///     </ChartSeriesCollection>
+        ///     <ChartSeries DataSource="@MedalDetails" Name="Gold" XName="Country" YName="Gold" Type="ChartSeriesType.Column">
+        ///         <ChartMarker>
+        ///             <ChartDataLabel Visible="true">
+        ///                 <ChartDataLabelFont Size="16px"></ChartDataLabelFont>
+        ///             </ChartDataLabel>
+        ///         </ChartMarker>
+        ///     </ChartSeries>
         ///     <ChartLegendSettings Visible="true">
         ///         <ChartLegendTextStyle Size="14px"></ChartLegendTextStyle>
         ///      </ChartLegendSettings>
@@ -371,15 +356,13 @@ namespace Syncfusion.Blazor.Toolkit.Charts
         ///     <ChartTooltipSettings Enable="true">
         ///         <ChartTooltipTextStyle TextAlignment="Alignment.Far"></ChartTooltipTextStyle>
         ///     </ChartTooltipSettings>
-        ///     <ChartSeriesCollection>
-        ///         <ChartSeries DataSource="@MedalDetails" Name="Gold" XName="Country" YName="Gold" Type="ChartSeriesType.Column">
-        ///             <ChartMarker>
-        ///                 <ChartDataLabel Visible="true">
-        ///                     <ChartDataLabelFont TextAlignment="Alignment.Far"></ChartDataLabelFont>
-        ///                 </ChartDataLabel>
-        ///             </ChartMarker>
-        ///         </ChartSeries>
-        ///     </ChartSeriesCollection>
+        ///     <ChartSeries DataSource="@MedalDetails" Name="Gold" XName="Country" YName="Gold" Type="ChartSeriesType.Column">
+        ///         <ChartMarker>
+        ///            <ChartDataLabel Visible="true">
+        ///                 <ChartDataLabelFont TextAlignment="Alignment.Far"></ChartDataLabelFont>
+        ///             </ChartDataLabel>
+        ///         </ChartMarker>
+        ///     </ChartSeries>
         ///     <ChartLegendSettings Visible="true">
         ///         <ChartLegendTextStyle TextAlignment="Alignment.Far"></ChartLegendTextStyle>
         ///      </ChartLegendSettings>
@@ -431,15 +414,13 @@ namespace Syncfusion.Blazor.Toolkit.Charts
         ///     <ChartTooltipSettings Enable="true">
         ///         <ChartTooltipTextStyle TextOverflow="TextOverflow.None"></ChartTooltipTextStyle>
         ///     </ChartTooltipSettings>
-        ///     <ChartSeriesCollection>
-        ///         <ChartSeries DataSource="@MedalDetails" Name="Gold" XName="Country" YName="Gold" Type="ChartSeriesType.Column">
-        ///             <ChartMarker>
-        ///                 <ChartDataLabel Visible="true">
-        ///                     <ChartDataLabelFont TextOverflow="TextOverflow.None"></ChartDataLabelFont>
-        ///                 </ChartDataLabel>
-        ///             </ChartMarker>
-        ///         </ChartSeries>
-        ///     </ChartSeriesCollection>
+        ///     <ChartSeries DataSource="@MedalDetails" Name="Gold" XName="Country" YName="Gold" Type="ChartSeriesType.Column">
+        ///         <ChartMarker>
+        ///             <ChartDataLabel Visible="true">
+        ///                 <ChartDataLabelFont TextOverflow="TextOverflow.None"></ChartDataLabelFont>
+        ///             </ChartDataLabel>
+        ///         </ChartMarker>
+        ///     </ChartSeries>
         ///     <ChartLegendSettings Visible="true">
         ///         <ChartLegendTextStyle TextOverflow="TextOverflow.None"></ChartLegendTextStyle>
         ///      </ChartLegendSettings>

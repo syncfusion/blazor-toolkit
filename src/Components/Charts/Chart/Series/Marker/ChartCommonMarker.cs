@@ -16,20 +16,18 @@ namespace Syncfusion.Blazor.Toolkit.Charts
     /// <code>
     /// <![CDATA[
     /// <SfChart>
-    ///     <ChartSeriesCollection>
-    ///         <ChartSeries DataSource="@Data" XName="XValue" YName="YValue" Name="Series A">
-    ///             <ChartMarker Visible="true"
-    ///                          Shape="ChartShape.Circle"
-    ///                          Height="8"
-    ///                          Width="8"
-    ///                          Fill="#3B82F6"
-    ///                          Opacity="0.9">
-    ///                 <ChartMarkerBorder Color="#1E40AF" Width="2"></ChartMarkerBorder>
-    ///                 <ChartMarkerOffset X="2" Y="-2" />
-    ///                 <ChartDataLabel Visible="true" />
-    ///             </ChartMarker>
-    ///         </ChartSeries>
-    ///     </ChartSeriesCollection>
+    ///     <ChartSeries DataSource="@Data" XName="XValue" YName="YValue" Name="Series A">
+    ///         <ChartMarker Visible="true"
+    ///                      Shape="ChartShape.Circle"
+    ///                      Height="8"
+    ///                      Width="8"
+    ///                      Fill="#3B82F6"
+    ///                      Opacity="0.9">
+    ///             <ChartMarkerBorder Color="#1E40AF" Width="2"></ChartMarkerBorder>
+    ///             <ChartMarkerOffset X="2" Y="-2" />
+    ///             <ChartDataLabel Visible="true" />
+    ///         </ChartMarker>
+    ///     </ChartSeries>
     /// </SfChart>
     /// ]]>
     /// </code>

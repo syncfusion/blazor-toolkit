@@ -25,20 +25,18 @@ namespace Syncfusion.Blazor.Toolkit.Charts
     /// 
     /// <SfChart>
     ///     <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Toolkit.ValueType.Category" />
-    ///     <ChartSeriesCollection>
-    ///         <ChartSeries Type="ChartSeriesType.Line"
-    ///                      DataSource="@Data"
-    ///                      XName="Month"
-    ///                      YName="Value"
-    ///                      Name="Sales">
-    ///             <ChartLinearGradient X1="0" Y1="0" X2="0" Y2="1">
-    ///                 <ChartGradientColorStops>
-    ///                     <ChartGradientColorStop Offset="0"   Color="#4F46E5" Opacity="1" />
-    ///                     <ChartGradientColorStop Offset="100" Color="#22D3EE" Opacity="1" />
-    ///                 </ChartGradientColorStops>
-    ///             </ChartLinearGradient>
-    ///         </ChartSeries>
-    ///     </ChartSeriesCollection>
+    ///     <ChartSeries Type="ChartSeriesType.Line"
+    ///                  DataSource="@Data"
+    ///                  XName="Month"
+    ///                  YName="Value"
+    ///                  Name="Sales">
+    ///         <ChartLinearGradient X1="0" Y1="0" X2="0" Y2="1">
+    ///             <ChartGradientColorStops>
+    ///                 <ChartGradientColorStop Offset="0"   Color="#4F46E5" Opacity="1" />
+    ///                 <ChartGradientColorStop Offset="100" Color="#22D3EE" Opacity="1" />
+    ///             </ChartGradientColorStops>
+    ///         </ChartLinearGradient>
+    ///     </ChartSeries>
     /// </SfChart>
     /// 
     /// @code {

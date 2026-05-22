@@ -18,11 +18,10 @@ namespace Syncfusion.Blazor.Toolkit.Charts
     /// @using Syncfusion.Blazor.Toolkit.Charts
     ///
     /// <SfChart>
-    ///   <ChartSeriesCollection>
-    ///     <ChartSeries DataSource="@WeatherReports"
-    ///                  XName="X"
-    ///                  YName="Y"
-    ///                  Type="ChartSeriesType.Column">
+    ///   <ChartSeries DataSource="@WeatherReports"
+    ///                XName="X"
+    ///                YName="Y"
+    ///                Type="ChartSeriesType.Column">
     ///       <ChartMarker>
     ///         <ChartDataLabel Visible="true"
     ///                          Format="{value}°C"
@@ -35,8 +34,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts
     ///           <ChartDataLabelFont Size="12px" FontFamily="Segoe UI" Color="white" FontWeight="600" />
     ///         </ChartDataLabel>
     ///       </ChartMarker>
-    ///     </ChartSeries>
-    ///   </ChartSeriesCollection>
+    ///   </ChartSeries>
     /// </SfChart>
     ///
     /// @code {

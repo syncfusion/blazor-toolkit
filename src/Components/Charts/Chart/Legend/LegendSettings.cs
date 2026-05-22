@@ -82,9 +82,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts
         /// <![CDATA[
         /// // The following code snippet demonstrates how to set the visibility of the legend in an chart:
         /// <SfChart>        
-        ///     <ChartSeriesCollection>
-        ///         <ChartSeries DataSource="@MedalDetails" Name="Gold" XName="Country" YName="Gold" />
-        ///     </ChartSeriesCollection>
+        ///     <ChartSeries DataSource="@MedalDetails" Name="Gold" XName="Country" YName="Gold" />
         ///     <ChartLegendSettings Visible="true" />
         ///</SfChart>
         /// ]]>
@@ -123,9 +121,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts
         /// <![CDATA[
         /// // The following code snippet demonstrates how hovering over a legend item highlights the corresponding series in the chart.
         /// <SfChart>
-        ///     <ChartSeriesCollection>
-        ///         <ChartSeries DataSource="@MedalDetails" Name="Gold" XName="Country" YName="Gold" />
-        ///     </ChartSeriesCollection>
+        ///     <ChartSeries DataSource="@MedalDetails" Name="Gold" XName="Country" YName="Gold" />
         ///     <ChartLegendSettings Visible="true" EnableHighlight="true" />
         /// </SfChart>
         /// ]]>
@@ -159,11 +155,9 @@ namespace Syncfusion.Blazor.Toolkit.Charts
         /// <![CDATA[
         /// // This example demonstrates how to set the width for a legend in a chart:
         /// <SfChart>
-        ///     <ChartSeriesCollection>
-        ///         <ChartSeries DataSource="@MedalDetails" Name="Gold" XName="Country" YName="Gold" />
-        ///         <ChartSeries DataSource="@MedalDetails" Name="Silver" XName="Country" YName="Silver" />
-        ///         <ChartSeries DataSource="@MedalDetails" Name="Bronze" XName="Country" YName="Bronze" />
-        ///     </ChartSeriesCollection>
+        ///     <ChartSeries DataSource="@MedalDetails" Name="Gold" XName="Country" YName="Gold" />
+        ///     <ChartSeries DataSource="@MedalDetails" Name="Silver" XName="Country" YName="Silver" />
+        ///     <ChartSeries DataSource="@MedalDetails" Name="Bronze" XName="Country" YName="Bronze" />
         ///     <ChartLegendSettings Visible="true" Width="60px" />
         /// </SfChart>
         /// ]]>
@@ -198,11 +192,9 @@ namespace Syncfusion.Blazor.Toolkit.Charts
         /// <![CDATA[
         /// // This example demonstrates how to set the height for a legend in a chart:
         /// <SfChart>
-        ///     <ChartSeriesCollection>
-        ///         <ChartSeries DataSource="@MedalDetails" Name="Gold" XName="Country" YName="Gold" />
-        ///         <ChartSeries DataSource="@MedalDetails" Name="Silver" XName="Country" YName="Silver" />
-        ///         <ChartSeries DataSource="@MedalDetails" Name="Bronze" XName="Country" YName="Bronze" />
-        ///     </ChartSeriesCollection>
+        ///     <ChartSeries DataSource="@MedalDetails" Name="Gold" XName="Country" YName="Gold" />
+        ///     <ChartSeries DataSource="@MedalDetails" Name="Silver" XName="Country" YName="Silver" />
+        ///     <ChartSeries DataSource="@MedalDetails" Name="Bronze" XName="Country" YName="Bronze" />
         ///     <ChartLegendSettings Visible="true" Height="60px" />
         /// </SfChart>
         /// ]]>
@@ -239,11 +231,9 @@ namespace Syncfusion.Blazor.Toolkit.Charts
         /// <![CDATA[
         /// // This example demonstrates how to set the accessibility description format for the legend items in a chart.
         /// <SfChart>
-        ///     <ChartSeriesCollection>
-        ///         <ChartSeries DataSource="@MedalDetails" Name="Gold" XName="Country" YName="Gold" />
-        ///         <ChartSeries DataSource="@MedalDetails" Name="Silver" XName="Country" YName="Silver" />
-        ///         <ChartSeries DataSource="@MedalDetails" Name="Bronze" XName="Country" YName="Bronze" />
-        ///     </ChartSeriesCollection>
+        ///     <ChartSeries DataSource="@MedalDetails" Name="Gold" XName="Country" YName="Gold" />
+        ///     <ChartSeries DataSource="@MedalDetails" Name="Silver" XName="Country" YName="Silver" />
+        ///     <ChartSeries DataSource="@MedalDetails" Name="Bronze" XName="Country" YName="Bronze" />
         ///     <ChartLegendSettings Visible="true" AccessibilityDescriptionFormat="Selected the ${value} legend" />
         /// </SfChart>
         /// ]]>
@@ -266,11 +256,9 @@ namespace Syncfusion.Blazor.Toolkit.Charts
         /// <![CDATA[
         /// // This example demonstrates how to set the accessibility rolefor the legend items in a chart.
         /// <SfChart>
-        ///     <ChartSeriesCollection>
-        ///         <ChartSeries DataSource="@MedalDetails" Name="Gold" XName="Country" YName="Gold" />
-        ///         <ChartSeries DataSource="@MedalDetails" Name="Silver" XName="Country" YName="Silver" />
-        ///         <ChartSeries DataSource="@MedalDetails" Name="Bronze" XName="Country" YName="Bronze" />
-        ///     </ChartSeriesCollection>
+        ///     <ChartSeries DataSource="@MedalDetails" Name="Gold" XName="Country" YName="Gold" />
+        ///     <ChartSeries DataSource="@MedalDetails" Name="Silver" XName="Country" YName="Silver" />
+        ///     <ChartSeries DataSource="@MedalDetails" Name="Bronze" XName="Country" YName="Bronze" />
         ///     <ChartLegendSettings Visible="true" AccessibilityRole="Legend" />
         /// </SfChart>
         /// ]]>
@@ -293,9 +281,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts
         /// <![CDATA[
         /// // This example demonstrates how to enable keyboard navigation for focusable UI elements.
         /// <SfChart>
-        ///     <ChartSeriesCollection>
-        ///         <ChartSeries DataSource="@MedalDetails" Name="Gold" XName="Country" YName="Gold" />
-        ///     </ChartSeriesCollection>
+        ///     <ChartSeries DataSource="@MedalDetails" Name="Gold" XName="Country" YName="Gold" />
         ///     <ChartLegendSettings Visible="true" Focusable="true" />
         /// </SfChart>
         /// ]]>
@@ -319,9 +305,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts
         /// <![CDATA[
         /// // This example demonstrates how to determine the x and y location of a legend based on its position in a chart.
         /// <SfChart>
-        ///     <ChartSeriesCollection>
-        ///         <ChartSeries DataSource="@MedalDetails" Name="Gold" XName="Country" YName="Gold" />
-        ///     </ChartSeriesCollection>
+        ///     <ChartSeries DataSource="@MedalDetails" Name="Gold" XName="Country" YName="Gold" />
         ///     <ChartLegendSettings Visible="true" Position="LegendPosition.Custom">
         ///         <ChartLocation X="30" Y="40" />
         ///     </ChartLegendSettings>
@@ -365,9 +349,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts
         /// <![CDATA[
         /// // This example demonstrates how to set the legend position in a chart.
         /// <SfChart>
-        ///     <ChartSeriesCollection>
-        ///         <ChartSeries DataSource="@MedalDetails" Name="Gold" XName="Country" YName="Gold" />
-        ///     </ChartSeriesCollection>
+        ///     <ChartSeries DataSource="@MedalDetails" Name="Gold" XName="Country" YName="Gold" />
         ///     <ChartLegendSettings Visible="true" Position="LegendPosition.Top" />
         /// </SfChart>
         /// ]]>
@@ -405,10 +387,8 @@ namespace Syncfusion.Blazor.Toolkit.Charts
         /// <![CDATA[
         /// // This example demonstrates how to adjust the space around the legend collection in a chart.
         /// <SfChart>
-        ///     <ChartSeriesCollection>
-        ///         <ChartSeries DataSource="@MedalDetails" Name="Gold" XName="Country" YName="Gold" />
-        ///         <ChartSeries DataSource="@MedalDetails" Name="Silver" XName="Country" YName="Silver" />
-        ///     </ChartSeriesCollection>
+        ///     <ChartSeries DataSource="@MedalDetails" Name="Gold" XName="Country" YName="Gold" />
+        ///     <ChartSeries DataSource="@MedalDetails" Name="Silver" XName="Country" YName="Silver" />
         ///     <ChartLegendSettings Visible="true" Padding="50" />
         /// </SfChart>
         /// ]]>
@@ -442,10 +422,8 @@ namespace Syncfusion.Blazor.Toolkit.Charts
         /// <![CDATA[
         /// // This example demonstrates how to set the spacing between items in the legend of a chart.
         /// <SfChart>
-        ///     <ChartSeriesCollection>
-        ///         <ChartSeries DataSource="@MedalDetails" Name="Gold" XName="Country" YName="Gold" />
-        ///         <ChartSeries DataSource="@MedalDetails" Name="Silver" XName="Country" YName="Silver" />
-        ///     </ChartSeriesCollection>
+        ///     <ChartSeries DataSource="@MedalDetails" Name="Gold" XName="Country" YName="Gold" />
+        ///     <ChartSeries DataSource="@MedalDetails" Name="Silver" XName="Country" YName="Silver" />
         ///     <ChartLegendSettings Visible="true" ItemPadding="50" />
         /// </SfChart>
         /// ]]>
@@ -489,9 +467,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts
         /// <![CDATA[
         /// // This example demonstrates how to set the alignment of the legend of a chart.
         /// <SfChart>
-        ///     <ChartSeriesCollection>
-        ///         <ChartSeries DataSource="@MedalDetails" Name="Gold" XName="Country" YName="Gold" />
-        ///     </ChartSeriesCollection>
+        ///     <ChartSeries DataSource="@MedalDetails" Name="Gold" XName="Country" YName="Gold" />
         ///     <ChartLegendSettings Visible="true" Alignment="Alignment.Far" />
         /// </SfChart>
         /// ]]>
@@ -540,9 +516,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts
         /// <![CDATA[
         /// // This example demonstrates how to customize the legend text in a chart.
         /// <SfChart>
-        ///     <ChartSeriesCollection>
-        ///         <ChartSeries DataSource="@MedalDetails" Name="Gold" XName="Country" YName="Gold" />
-        ///     </ChartSeriesCollection>
+        ///     <ChartSeries DataSource="@MedalDetails" Name="Gold" XName="Country" YName="Gold" />
         ///     <ChartLegendSettings Visible="true">
         ///         <ChartLegendTextStyle 
         ///             Size="14px" 
@@ -586,9 +560,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts
         /// <![CDATA[
         /// // This example demonstrates how to customize the legend shape width in a chart.
         /// <SfChart>
-        ///     <ChartSeriesCollection>
-        ///         <ChartSeries DataSource="@MedalDetails" Name="Gold" XName="Country" YName="Gold" />
-        ///     </ChartSeriesCollection>
+        ///     <ChartSeries DataSource="@MedalDetails" Name="Gold" XName="Country" YName="Gold" />
         ///     <ChartLegendSettings Visible="true" ShapeWidth="30" />
         /// </SfChart>
         /// ]]>
@@ -624,9 +596,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts
         /// <![CDATA[
         /// // This example demonstrates how to customize the legend shape height in a chart.
         /// <SfChart>
-        ///     <ChartSeriesCollection>
-        ///         <ChartSeries DataSource="@MedalDetails" Name="Gold" XName="Country" YName="Gold" />
-        ///     </ChartSeriesCollection>
+        ///     <ChartSeries DataSource="@MedalDetails" Name="Gold" XName="Country" YName="Gold" />
         ///     <ChartLegendSettings Visible="true" ShapeHeight="30" />
         /// </SfChart>
         /// ]]>
@@ -661,9 +631,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts
         /// <![CDATA[
         /// // This example demonstrates how to set the legend's border in a chart.
         /// <SfChart>
-        ///     <ChartSeriesCollection>
-        ///         <ChartSeries DataSource="@MedalDetails" Name="Gold" XName="Country" YName="Gold" />
-        ///     </ChartSeriesCollection>
+        ///     <ChartSeries DataSource="@MedalDetails" Name="Gold" XName="Country" YName="Gold" />
         ///     <ChartLegendSettings Visible="true">
         ///         <ChartLegendBorder Color="blue" Width="2" />
         ///     </ChartLegendSettings>
@@ -700,9 +668,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts
         /// <![CDATA[
         /// // This example demonstrates how to customize the chart's surrounding space of the legend.
         /// <SfChart>
-        ///     <ChartSeriesCollection>
-        ///         <ChartSeries DataSource="@MedalDetails" Name="Gold" XName="Country" YName="Gold" />
-        ///     </ChartSeriesCollection>
+        ///     <ChartSeries DataSource="@MedalDetails" Name="Gold" XName="Country" YName="Gold" />
         ///     <ChartLegendSettings Visible="true">
         ///         <ChartLegendBorder Color="blue" Width="2" />
         ///         <ChartLegendMargin Left="30" Bottom="30" Right="30" Top="30" />
@@ -739,10 +705,8 @@ namespace Syncfusion.Blazor.Toolkit.Charts
         /// <![CDATA[
         /// // This example demonstrates how to set the padding between the legend shape and legend text in a chart.
         /// <SfChart>
-        ///     <ChartSeriesCollection>
-        ///         <ChartSeries DataSource="@MedalDetails" Name="Gold" XName="Country" YName="Gold" />
-        ///     </ChartSeriesCollection>
-        ///     <ChartLegendSettings Visible="true" ShapePadding="20"> />
+        ///     <ChartSeries DataSource="@MedalDetails" Name="Gold" XName="Country" YName="Gold" />
+        ///     <ChartLegendSettings Visible="true" ShapePadding="20" />
         /// </SfChart>
         /// ]]>
         /// </code>
@@ -776,9 +740,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts
         /// <![CDATA[
         /// // This example demonstrates how to set the background color of the chart legend area.
         /// <SfChart>
-        ///     <ChartSeriesCollection>
-        ///         <ChartSeries DataSource="@MedalDetails" Name="Gold" XName="Country" YName="Gold" />
-        ///     </ChartSeriesCollection>
+        ///     <ChartSeries DataSource="@MedalDetails" Name="Gold" XName="Country" YName="Gold" />
         ///     <ChartLegendSettings Visible="true" Background="lightgray" />
         /// </SfChart>
         /// ]]>
@@ -812,9 +774,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts
         /// <![CDATA[
         /// // This example demonstrates how to set the opacity of the legend background in a chart.
         /// <SfChart>
-        ///     <ChartSeriesCollection>
-        ///         <ChartSeries DataSource="@MedalDetails" Name="Gold" XName="Country" YName="Gold" />
-        ///     </ChartSeriesCollection>
+        ///     <ChartSeries DataSource="@MedalDetails" Name="Gold" XName="Country" YName="Gold" />
         ///     <ChartLegendSettings Visible="true" Background="lightgray" Opacity="0.5" />
         /// </SfChart>
         /// ]]>
@@ -848,9 +808,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts
         /// <![CDATA[
         /// // This example demonstrates how to set the visibility of chart series by clicking on the corresponding legend item.
         /// <SfChart>
-        ///     <ChartSeriesCollection>
-        ///         <ChartSeries DataSource="@MedalDetails" Name="Gold" XName="Country" YName="Gold" />
-        ///     </ChartSeriesCollection>
+        ///     <ChartSeries DataSource="@MedalDetails" Name="Gold" XName="Country" YName="Gold" />
         ///     <ChartLegendSettings Visible="true" ToggleVisibility="true" />
         /// </SfChart>
         /// ]]>
@@ -884,9 +842,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts
         /// <![CDATA[
         /// // This example demonstrates how to set the tabindex value of the legend for accessibility purposes.
         /// <SfChart>
-        ///     <ChartSeriesCollection>
-        ///         <ChartSeries DataSource="@MedalDetails" Name="Gold" XName="Country" YName="Gold" />
-        ///     </ChartSeriesCollection>
+        ///     <ChartSeries DataSource="@MedalDetails" Name="Gold" XName="Country" YName="Gold" />
         ///     <ChartLegendSettings Visible="true" TabIndex="0" />
         /// </SfChart>
         /// ]]>
@@ -920,9 +876,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts
         /// <![CDATA[
         /// // This example demonstrates how to set the legend the text before the associated shape.
         /// <SfChart>
-        ///     <ChartSeriesCollection>
-        ///         <ChartSeries DataSource="@MedalDetails" Name="Gold" XName="Country" YName="Gold" />
-        ///     </ChartSeriesCollection>
+        ///     <ChartSeries DataSource="@MedalDetails" Name="Gold" XName="Country" YName="Gold" />
         ///     <ChartLegendSettings Visible="true" IsInversed="true" />
         /// </SfChart>
         /// ]]>
@@ -956,10 +910,8 @@ namespace Syncfusion.Blazor.Toolkit.Charts
         /// <![CDATA[
         /// // This example demonstrates how to set the legend items should be reversed.
         /// <SfChart>
-        ///     <ChartSeriesCollection>
-        ///         <ChartSeries DataSource="@MedalDetails" Name="Gold" XName="Country" YName="Gold" />
-        ///         <ChartSeries DataSource="@MedalDetails" Name="Silver" XName="Country" YName="Silver" />
-        ///     </ChartSeriesCollection>
+        ///     <ChartSeries DataSource="@MedalDetails" Name="Gold" XName="Country" YName="Gold" />
+        ///     <ChartSeries DataSource="@MedalDetails" Name="Silver" XName="Country" YName="Silver" />
         ///     <ChartLegendSettings Visible="true" Reverse="true" />
         /// </SfChart>
         /// ]]>
@@ -999,10 +951,8 @@ namespace Syncfusion.Blazor.Toolkit.Charts
         /// <![CDATA[
         /// // This example demonstrates how to set the text overflow behavior to employ when the individual legend text overflows the legend bounds or MaximumLabelWidth.
         /// <SfChart>
-        ///     <ChartSeriesCollection>
-        ///         <ChartSeries DataSource="@MedalDetails" Name="Gold" XName="Country" YName="Gold" />
-        ///         <ChartSeries DataSource="@MedalDetails" Name="Silver" XName="Country" YName="Silver" />
-        ///     </ChartSeriesCollection>
+        ///     <ChartSeries DataSource="@MedalDetails" Name="Gold" XName="Country" YName="Gold" />
+        ///     <ChartSeries DataSource="@MedalDetails" Name="Silver" XName="Country" YName="Silver" />
         ///     <ChartLegendSettings Visible="true" TextOverflow="Syncfusion.Blazor.LabelOverflow.Ellipse" MaximumLabelWidth="20" />
         /// </SfChart>
         /// ]]>
@@ -1026,9 +976,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts
         /// <![CDATA[
         /// // This example demonstrates how to set the text wrap behavior when the individual legend text overflows the legend bounds or MaximumLabelWidth.
         /// <SfChart>
-        ///     <ChartSeriesCollection>
-        ///         <ChartSeries DataSource="@MedalDetails" Name="Gold" XName="Country" YName="Gold" />
-        ///     </ChartSeriesCollection>
+        ///     <ChartSeries DataSource="@MedalDetails" Name="Gold" XName="Country" YName="Gold" />
         ///     <ChartLegendSettings Visible="true" TextWrap="Syncfusion.Blazor.TextWrap.Normal" MaximumLabelWidth="20" />
         /// </SfChart>
         /// ]]>
@@ -1062,9 +1010,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts
         /// <![CDATA[
         /// // This example demonstrates how to set the text wrap behavior when the individual legend text overflows the legend bounds or MaximumLabelWidth.
         /// <SfChart>
-        ///     <ChartSeriesCollection>
-        ///         <ChartSeries DataSource="@MedalDetails" Name="Gold" XName="Country" YName="Gold" />
-        ///     </ChartSeriesCollection>
+        ///     <ChartSeries DataSource="@MedalDetails" Name="Gold" XName="Country" YName="Gold" />
         ///     <ChartLegendSettings Visible="true" MaximumLabelWidth="20" />
         /// </SfChart>
         /// ]]>

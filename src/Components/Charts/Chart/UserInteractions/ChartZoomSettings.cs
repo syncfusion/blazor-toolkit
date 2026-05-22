@@ -58,11 +58,9 @@ namespace Syncfusion.Blazor.Toolkit.Charts
         /// // This example demonstrates how to enable selection zooming with deferred zooming in a chart.
         /// <SfChart>
         ///     <ChartZoomSettings EnableDeferredZooming="true" EnableSelectionZooming="true" />
-        ///     <ChartSeriesCollection>
-        ///         <ChartSeries DataSource="@Data" Name="England" XName="XValue" YName="YValue">
-        ///             <ChartMarker Visible="true" Width="10" Height="10" />
-        ///         </ChartSeries>
-        ///     </ChartSeriesCollection>
+        ///     <ChartSeries DataSource="@Data" Name="England" XName="XValue" YName="YValue">
+        ///         <ChartMarker Visible="true" Width="10" Height="10" />
+        ///     </ChartSeries>
         /// </SfChart>
         /// ]]>
         /// </code>
@@ -86,11 +84,9 @@ namespace Syncfusion.Blazor.Toolkit.Charts
         /// // This example demonstrates how to enable mouse wheel zooming in a chart.
         /// <SfChart>
         ///     <ChartZoomSettings EnableMouseWheelZooming="true" />
-        ///     <ChartSeriesCollection>
-        ///         <ChartSeries DataSource="@Data" Name="England" XName="XValue" YName="YValue">
-        ///             <ChartMarker Visible="true" Width="10" Height="10" />
-        ///         </ChartSeries>
-        ///     </ChartSeriesCollection>
+        ///     <ChartSeries DataSource="@Data" Name="England" XName="XValue" YName="YValue">
+        ///         <ChartMarker Visible="true" Width="10" Height="10" />
+        ///     </ChartSeries>
         /// </SfChart>
         /// ]]>
         /// </code>
@@ -114,11 +110,9 @@ namespace Syncfusion.Blazor.Toolkit.Charts
         /// // This example demonstrates how to enable pan functionality in a chart.
         /// <SfChart>
         ///     <ChartZoomSettings EnablePan="true" />
-        ///     <ChartSeriesCollection>
-        ///         <ChartSeries DataSource="@Data" Name="England" XName="XValue" YName="YValue">
-        ///             <ChartMarker Visible="true" Width="10" Height="10" />
-        ///         </ChartSeries>
-        ///     </ChartSeriesCollection>
+        ///     <ChartSeries DataSource="@Data" Name="England" XName="XValue" YName="YValue">
+        ///         <ChartMarker Visible="true" Width="10" Height="10" />
+        ///     </ChartSeries>
         /// </SfChart>
         /// ]]>
         /// </code>
@@ -142,11 +136,9 @@ namespace Syncfusion.Blazor.Toolkit.Charts
         /// // This example demonstrates how to enable pinch zooming in a chart.
         /// <SfChart>
         ///     <ChartZoomSettings EnablePinchZooming="true" />
-        ///     <ChartSeriesCollection>
-        ///         <ChartSeries DataSource="@Data" Name="England" XName="XValue" YName="YValue">
-        ///             <ChartMarker Visible="true" Width="10" Height="10" />
-        ///         </ChartSeries>
-        ///     </ChartSeriesCollection>
+        ///     <ChartSeries DataSource="@Data" Name="England" XName="XValue" YName="YValue">
+        ///         <ChartMarker Visible="true" Width="10" Height="10" />
+        ///     </ChartSeries>
         /// </SfChart>
         /// ]]>
         /// </code>
@@ -170,11 +162,9 @@ namespace Syncfusion.Blazor.Toolkit.Charts
         /// // This example demonstrates how to enable the scrollbar in a chart.
         /// <SfChart>
         ///     <ChartZoomSettings EnableScrollbar="true" ToolbarDisplayMode="ToolbarMode.Always" />
-        ///     <ChartSeriesCollection>
-        ///         <ChartSeries DataSource="@Data" Name="England" XName="XValue" YName="YValue">
-        ///             <ChartMarker Visible="true" Width="10" Height="10" />
-        ///         </ChartSeries>
-        ///     </ChartSeriesCollection>
+        ///     <ChartSeries DataSource="@Data" Name="England" XName="XValue" YName="YValue">
+        ///         <ChartMarker Visible="true" Width="10" Height="10" />
+        ///     </ChartSeries>
         /// </SfChart>
         /// ]]>
         /// </code>
@@ -198,11 +188,9 @@ namespace Syncfusion.Blazor.Toolkit.Charts
         /// // This example demonstrates how to enable selection zooming in a chart.
         /// <SfChart>
         ///     <ChartZoomSettings EnableSelectionZooming="true" ToolbarDisplayMode="ToolbarMode.Always" />
-        ///     <ChartSeriesCollection>
-        ///         <ChartSeries DataSource="@Data" Name="England" XName="XValue" YName="YValue">
-        ///             <ChartMarker Visible="true" Width="10" Height="10" />
-        ///         </ChartSeries>
-        ///     </ChartSeriesCollection>
+        ///     <ChartSeries DataSource="@Data" Name="England" XName="XValue" YName="YValue">
+        ///         <ChartMarker Visible="true" Width="10" Height="10" />
+        ///     </ChartSeries>
         /// </SfChart>
         /// ]]>
         /// </code>
@@ -231,11 +219,9 @@ namespace Syncfusion.Blazor.Toolkit.Charts
         /// // This example demonstrates how to enable zooming only along the Y-axis in a chart.
         /// <SfChart>
         ///     <ChartZoomSettings Mode="ZoomMode.Y" ToolbarDisplayMode="ToolbarMode.Always" />
-        ///     <ChartSeriesCollection>
-        ///         <ChartSeries DataSource="@Data" Name="England" XName="XValue" YName="YValue">
-        ///             <ChartMarker Visible="true" Width="10" Height="10" />
-        ///         </ChartSeries>
-        ///     </ChartSeriesCollection>
+        ///     <ChartSeries DataSource="@Data" Name="England" XName="XValue" YName="YValue">
+        ///         <ChartMarker Visible="true" Width="10" Height="10" />
+        ///     </ChartSeries>
         /// </SfChart>
         /// ]]>
         /// </code>
@@ -264,11 +250,9 @@ namespace Syncfusion.Blazor.Toolkit.Charts
         /// // This example demonstrates how to display the zoom toolbar always in a chart.
         /// <SfChart>
         ///     <ChartZoomSettings ToolbarDisplayMode="ToolbarMode.Always" />
-        ///     <ChartSeriesCollection>
-        ///         <ChartSeries DataSource="@Data" Name="England" XName="XValue" YName="YValue">
-        ///             <ChartMarker Visible="true" Width="10" Height="10" />
-        ///         </ChartSeries>
-        ///     </ChartSeriesCollection>
+        ///     <ChartSeries DataSource="@Data" Name="England" XName="XValue" YName="YValue">
+        ///         <ChartMarker Visible="true" Width="10" Height="10" />
+        ///     </ChartSeries>
         /// </SfChart>
         /// ]]>
         /// </code>
@@ -299,11 +283,9 @@ namespace Syncfusion.Blazor.Toolkit.Charts
         /// <SfChart>
         ///     <ChartZoomSettings ToolbarDisplayMode="ToolbarMode.Always"
         ///                        ToolbarItems="new List<ToolbarItems>() { ToolbarItems.Zoom, ToolbarItems.Reset, ToolbarItems.Pan }" />
-        ///     <ChartSeriesCollection>
-        ///         <ChartSeries DataSource="@Data" Name="England" XName="XValue" YName="YValue">
-        ///             <ChartMarker Visible="true" Width="10" Height="10" />
-        ///         </ChartSeries>
-        ///     </ChartSeriesCollection>
+        ///     <ChartSeries DataSource="@Data" Name="England" XName="XValue" YName="YValue">
+        ///         <ChartMarker Visible="true" Width="10" Height="10" />
+        ///     </ChartSeries>
         /// </SfChart>
         /// ]]>
         /// </code>
@@ -335,11 +317,9 @@ namespace Syncfusion.Blazor.Toolkit.Charts
         /// // This example demonstrates how to configure the accessibility description format for the toolbar items in a chart's zoom settings.
         /// <SfChart>
         ///     <ChartZoomSettings ToolbarDisplayMode="ToolbarMode.Always" AccessibilityDescriptionFormat="Selected the ${value} option" />
-        ///     <ChartSeriesCollection>
-        ///         <ChartSeries DataSource="@Data" Name="England" XName="XValue" YName="YValue">
-        ///             <ChartMarker Visible="true" Width="10" Height="10" />
-        ///         </ChartSeries>
-        ///     </ChartSeriesCollection>
+        ///     <ChartSeries DataSource="@Data" Name="England" XName="XValue" YName="YValue">
+        ///         <ChartMarker Visible="true" Width="10" Height="10" />
+        ///     </ChartSeries>
         /// </SfChart>
         /// ]]>
         /// </code>
@@ -362,11 +342,9 @@ namespace Syncfusion.Blazor.Toolkit.Charts
         /// // This example demonstrates how to configure the accessibility role for the toolbar items in a chart's zoom settings.
         /// <SfChart>
         ///     <ChartZoomSettings ToolbarDisplayMode="ToolbarMode.Always" AccessibilityRole="button" />
-        ///     <ChartSeriesCollection>
-        ///         <ChartSeries DataSource="@Data" Name="England" XName="XValue" YName="YValue">
-        ///             <ChartMarker Visible="true" Width="10" Height="10" />
-        ///         </ChartSeries>
-        ///     </ChartSeriesCollection>
+        ///     <ChartSeries DataSource="@Data" Name="England" XName="XValue" YName="YValue">
+        ///         <ChartMarker Visible="true" Width="10" Height="10" />
+        ///     </ChartSeries>
         /// </SfChart>
         /// ]]>
         /// </code>
@@ -389,11 +367,9 @@ namespace Syncfusion.Blazor.Toolkit.Charts
         /// // This example demonstrates how to configure zoom settings to be focusable in the chart.
         /// <SfChart>
         ///     <ChartZoomSettings ToolbarDisplayMode="ToolbarMode.Always" Focusable="true" />
-        ///     <ChartSeriesCollection>
-        ///         <ChartSeries DataSource="@Data" Name="England" XName="XValue" YName="YValue">
-        ///             <ChartMarker Visible="true" Width="10" Height="10" />
-        ///         </ChartSeries>
-        ///     </ChartSeriesCollection>
+        ///     <ChartSeries DataSource="@Data" Name="England" XName="XValue" YName="YValue">
+        ///         <ChartMarker Visible="true" Width="10" Height="10" />
+        ///     </ChartSeries>
         /// </SfChart>
         /// ]]>
         /// </code>

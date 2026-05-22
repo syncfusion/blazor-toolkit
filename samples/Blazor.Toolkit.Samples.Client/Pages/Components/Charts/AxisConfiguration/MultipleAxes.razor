@@ -9,7 +9,7 @@
     </Header>
     <Content>
         Multiple axes allow different datasets to be visualized within a single Chart
-        using independent value ranges and units. Add multiple axes to the Chart by defining them within the <code>ChartAxes</code> collection using the <code>ChartAxis</code> component.
+        using independent value ranges and units. Add multiple axes to the Chart by using the <code>ChartAxis</code> component.
 
         In this sample, temperature readings are displayed in both Fahrenheit and
         Celsius. The primary Y-axis represents Fahrenheit values, while a secondary
@@ -45,19 +45,17 @@
             </ChartPrimaryYAxis>
 
             <!-- SECONDARY Y AXIS (°C) -->
-            <ChartAxes>
-                <ChartAxis Name="yAxis2"
-                           Minimum="24"
-                           Maximum="36"
-                           Interval="2"
-                           OpposedPosition="true"
-                           RowIndex="0"
-                           LabelFormat="{value}°C">
-                    <ChartAxisMajorGridLines Width="0" />
-                    <ChartAxisLineStyle Width="0" />
-                    <ChartAxisMajorTickLines Width="0" />
-                </ChartAxis>
-            </ChartAxes>
+            <ChartAxis Name="yAxis2"
+                        Minimum="24"
+                        Maximum="36"
+                        Interval="2"
+                        OpposedPosition="true"
+                        RowIndex="0"
+                        LabelFormat="{value}°C">
+                <ChartAxisMajorGridLines Width="0" />
+                <ChartAxisLineStyle Width="0" />
+                <ChartAxisMajorTickLines Width="0" />
+            </ChartAxis>
 
             <!-- SERIES -->
             
@@ -159,19 +157,17 @@
             </ChartPrimaryYAxis>
 
             <!-- SECONDARY Y AXIS (°C) -->
-            <ChartAxes>
-                <ChartAxis Name=""yAxis2""
-                           Minimum=""24""
-                           Maximum=""36""
-                           Interval=""2""
-                           OpposedPosition=""true""
-                           RowIndex=""0""
-                           LabelFormat=""{value}°C"">
-                    <ChartAxisMajorGridLines Width=""0"" />
-                    <ChartAxisLineStyle Width=""0"" />
-                    <ChartAxisMajorTickLines Width=""0"" />
-                </ChartAxis>
-            </ChartAxes>
+            <ChartAxis Name=""yAxis2""
+                        Minimum=""24""
+                        Maximum=""36""
+                        Interval=""2""
+                        OpposedPosition=""true""
+                        RowIndex=""0""
+                        LabelFormat=""{value}°C"">
+                <ChartAxisMajorGridLines Width=""0"" />
+                <ChartAxisLineStyle Width=""0"" />
+                <ChartAxisMajorTickLines Width=""0"" />
+            </ChartAxis>
 
             <!-- SERIES -->
             

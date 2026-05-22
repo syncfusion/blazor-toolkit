@@ -22,9 +22,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts
         /// // This example demonstrates how to customize axis labels using the OnAxisLabelRender event.
         /// <SfChart OnAxisLabelRender="AxisLabelEvent">
         ///     <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Toolkit.ValueType.Category" />
-        ///     <ChartSeriesCollection>
-        ///         <ChartSeries DataSource="@Sales" XName="Month" YName="SalesValue" />
-        ///     </ChartSeriesCollection>
+        ///     <ChartSeries DataSource="@Sales" XName="Month" YName="SalesValue" />
         /// </SfChart>
         ///
         /// @code {
@@ -52,12 +50,10 @@ namespace Syncfusion.Blazor.Toolkit.Charts
         /// // This example demonstrates how to handle the AxisActualRangeCalculated event in the chart.
         /// <SfChart OnAxisActualRangeCalculated="AxisActualRangeEvent">
         ///     <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Toolkit.ValueType.Category"></ChartPrimaryXAxis>
-        ///     <ChartSeriesCollection>
-        ///         <ChartSeries DataSource="@Sales" XName="Month" YName="SalesValue" Type="ChartSeriesType.Column">
-        ///             <ChartMarker Visible="true">
-        ///             </ChartMarker>
-        ///         </ChartSeries>
-        ///     </ChartSeriesCollection>
+        ///     <ChartSeries DataSource="@Sales" XName="Month" YName="SalesValue" Type="ChartSeriesType.Column">
+        ///         <ChartMarker Visible="true">
+        ///         </ChartMarker>
+        ///     </ChartSeries>
         /// </SfChart>
         ///
         /// @code {
@@ -86,12 +82,10 @@ namespace Syncfusion.Blazor.Toolkit.Charts
         /// // This example demonstrates how to use the PointRender event in a Syncfusion Blazor Chart.
         /// <SfChart OnPointRender="PointRenderEvent">
         ///     <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Toolkit.ValueType.Category"></ChartPrimaryXAxis>
-        ///     <ChartSeriesCollection>
-        ///         <ChartSeries DataSource="@Sales" XName="Month" YName="SalesValue" Type="ChartSeriesType.Column">
-        ///             <ChartMarker Visible="true">
-        ///             </ChartMarker>
-        ///         </ChartSeries>
-        ///     </ChartSeriesCollection>
+        ///     <ChartSeries DataSource="@Sales" XName="Month" YName="SalesValue" Type="ChartSeriesType.Column">
+        ///         <ChartMarker Visible="true">
+        ///         </ChartMarker>
+        ///     </ChartSeries>
         /// </SfChart>
         ///
         /// @code {
@@ -120,13 +114,11 @@ namespace Syncfusion.Blazor.Toolkit.Charts
         /// // This example demonstrates how to use the DataLabelRender event in a Syncfusion Blazor Chart.
         /// <SfChart OnDataLabelRender="DataLabelEvent">
         ///     <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Toolkit.ValueType.Category"></ChartPrimaryXAxis>
-        ///     <ChartSeriesCollection>
-        ///         <ChartSeries DataSource="@Sales" XName="Month" YName="SalesValue" Type="ChartSeriesType.Column">
-        ///             <ChartMarker>
-        ///                 <ChartDataLabel Visible="true"></ChartDataLabel>
-        ///             </ChartMarker>
-        ///         </ChartSeries>
-        ///     </ChartSeriesCollection>
+        ///     <ChartSeries DataSource="@Sales" XName="Month" YName="SalesValue" Type="ChartSeriesType.Column">
+        ///         <ChartMarker>
+        ///             <ChartDataLabel Visible="true"></ChartDataLabel>
+        ///         </ChartMarker>
+        ///     </ChartSeries>
         /// </SfChart>
         ///
         /// @code {
@@ -155,10 +147,8 @@ namespace Syncfusion.Blazor.Toolkit.Charts
         /// // This example demonstrates how to use the ChartMouseClick event in a Syncfusion Blazor Chart.
         /// <SfChart ChartMouseClick="OnMouseEvent">
         ///     <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Toolkit.ValueType.Category"></ChartPrimaryXAxis>
-        ///     <ChartSeriesCollection>
-        ///         <ChartSeries DataSource="@Sales" XName="Month" YName="SalesValue" Type="ChartSeriesType.Column">
-        ///         </ChartSeries>
-        ///     </ChartSeriesCollection>
+        ///     <ChartSeries DataSource="@Sales" XName="Month" YName="SalesValue" Type="ChartSeriesType.Column">
+        ///     </ChartSeries>
         ///     <ChartZoomSettings EnableSelectionZooming="true"></ChartZoomSettings>
         /// </SfChart>
         ///
@@ -188,10 +178,8 @@ namespace Syncfusion.Blazor.Toolkit.Charts
         /// // This example demonstrates how to use the ChartMouseDown event in a Syncfusion Blazor Chart.
         /// <SfChart ChartMouseDown="OnMouseEvent">
         ///     <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Toolkit.ValueType.Category"></ChartPrimaryXAxis>
-        ///     <ChartSeriesCollection>
-        ///         <ChartSeries DataSource="@Sales" XName="Month" YName="SalesValue" Type="ChartSeriesType.Column">
-        ///         </ChartSeries>
-        ///     </ChartSeriesCollection>
+        ///     <ChartSeries DataSource="@Sales" XName="Month" YName="SalesValue" Type="ChartSeriesType.Column">
+        ///     </ChartSeries>
         ///     <ChartZoomSettings EnableSelectionZooming="true"></ChartZoomSettings>
         /// </SfChart>
         ///
@@ -221,10 +209,8 @@ namespace Syncfusion.Blazor.Toolkit.Charts
         /// // This example demonstrates how to use the ChartMouseUp event in a Syncfusion Blazor Chart.
         /// <SfChart ChartMouseUp="OnMouseEvent">
         ///     <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Toolkit.ValueType.Category"></ChartPrimaryXAxis>
-        ///     <ChartSeriesCollection>
-        ///         <ChartSeries DataSource="@Sales" XName="Month" YName="SalesValue" Type="ChartSeriesType.Column">
-        ///         </ChartSeries>
-        ///     </ChartSeriesCollection>
+        ///     <ChartSeries DataSource="@Sales" XName="Month" YName="SalesValue" Type="ChartSeriesType.Column">
+        ///     </ChartSeries>
         ///     <ChartZoomSettings EnableSelectionZooming="true"></ChartZoomSettings>
         /// </SfChart>
         ///
@@ -254,10 +240,8 @@ namespace Syncfusion.Blazor.Toolkit.Charts
         /// // This example demonstrates how to use the ChartMouseMove event in a Syncfusion Blazor Chart.
         /// <SfChart ChartMouseMove="OnMouseEvent">
         ///     <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Toolkit.ValueType.Category"></ChartPrimaryXAxis>
-        ///     <ChartSeriesCollection>
-        ///         <ChartSeries DataSource="@Sales" XName="Month" YName="SalesValue" Type="ChartSeriesType.Column">
-        ///         </ChartSeries>
-        ///     </ChartSeriesCollection>
+        ///     <ChartSeries DataSource="@Sales" XName="Month" YName="SalesValue" Type="ChartSeriesType.Column">
+        ///     </ChartSeries>
         ///     <ChartZoomSettings EnableSelectionZooming="true"></ChartZoomSettings>
         /// </SfChart>
         ///
@@ -287,10 +271,8 @@ namespace Syncfusion.Blazor.Toolkit.Charts
         /// // This example demonstrates how to use the OnSeriesRender event in a Syncfusion Blazor Chart.
         /// <SfChart OnSeriesRender="OnSeriesRenderEvent">
         ///     <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Toolkit.ValueType.Category"></ChartPrimaryXAxis>
-        ///     <ChartSeriesCollection>
-        ///         <ChartSeries DataSource="@Sales" XName="Month" YName="SalesValue" Type="ChartSeriesType.Column">
-        ///         </ChartSeries>
-        ///     </ChartSeriesCollection>
+        ///     <ChartSeries DataSource="@Sales" XName="Month" YName="SalesValue" Type="ChartSeriesType.Column">
+        ///     </ChartSeries>
         ///     <ChartZoomSettings EnableSelectionZooming="true"></ChartZoomSettings>
         /// </SfChart>
         ///
@@ -320,12 +302,10 @@ namespace Syncfusion.Blazor.Toolkit.Charts
         /// // This example demonstrates how to use the OnLegendItemRender event in a Syncfusion Blazor Chart.
         /// <SfChart OnLegendItemRender="LegendEvent">
         ///     <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Toolkit.ValueType.Category"></ChartPrimaryXAxis>
-        ///     <ChartSeriesCollection>
-        ///         <ChartSeries DataSource="@Sales" Name="Column" XName="Month" YName="SalesValue" Type="ChartSeriesType.Column">
-        ///         </ChartSeries>
-        ///         <ChartSeries DataSource="@Sales" Name="Line" XName="Month" YName="SalesValue" Type="ChartSeriesType.Line">
-        ///         </ChartSeries>
-        ///     </ChartSeriesCollection>
+        ///     <ChartSeries DataSource="@Sales" Name="Column" XName="Month" YName="SalesValue" Type="ChartSeriesType.Column">
+        ///     </ChartSeries>
+        ///     <ChartSeries DataSource="@Sales" Name="Line" XName="Month" YName="SalesValue" Type="ChartSeriesType.Line">
+        ///     </ChartSeries>
         /// </SfChart>
         ///
         /// @code {
@@ -364,12 +344,10 @@ namespace Syncfusion.Blazor.Toolkit.Charts
         ///             </ChartMultiLevelLabel>
         ///         </ChartMultiLevelLabels>
         ///     </ChartPrimaryXAxis>
-        ///     <ChartSeriesCollection>
-        ///         <ChartSeries DataSource="@Sales" XName="Month" YName="SalesValue" Type="ChartSeriesType.Column">
-        ///             <ChartMarker Visible="true">
-        ///             </ChartMarker>
-        ///         </ChartSeries>
-        ///     </ChartSeriesCollection>
+        ///     <ChartSeries DataSource="@Sales" XName="Month" YName="SalesValue" Type="ChartSeriesType.Column">
+        ///         <ChartMarker Visible="true">
+        ///         </ChartMarker>
+        ///     </ChartSeries>
         /// </SfChart>
         ///
         /// @code {
@@ -403,10 +381,8 @@ namespace Syncfusion.Blazor.Toolkit.Charts
         ///     <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Toolkit.ValueType.Category" ZoomFactor="0.5" ZoomPosition="0.2">
         ///         <ChartAxisScrollbarSettings Enable="true"></ChartAxisScrollbarSettings>
         ///     </ChartPrimaryXAxis>
-        ///     <ChartSeriesCollection>
-        ///         <ChartSeries DataSource="@Sales" XName="Month" YName="SalesValue" Type="ChartSeriesType.Column">
-        ///         </ChartSeries>
-        ///     </ChartSeriesCollection>
+        ///     <ChartSeries DataSource="@Sales" XName="Month" YName="SalesValue" Type="ChartSeriesType.Column">
+        ///     </ChartSeries>
         /// </SfChart>
         ///
         /// @code {
@@ -435,10 +411,8 @@ namespace Syncfusion.Blazor.Toolkit.Charts
         /// // This example demonstrates how to handle the OnZoomStart event in a Syncfusion Blazor Chart.
         /// <SfChart OnZoomStart="OnZoomingEvent">
         ///     <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Toolkit.ValueType.Category"></ChartPrimaryXAxis>
-        ///     <ChartSeriesCollection>
-        ///         <ChartSeries DataSource="@Sales" XName="Month" YName="SalesValue" Type="ChartSeriesType.Column">
-        ///         </ChartSeries>
-        ///     </ChartSeriesCollection>
+        ///     <ChartSeries DataSource="@Sales" XName="Month" YName="SalesValue" Type="ChartSeriesType.Column">
+        ///     </ChartSeries>
         ///     <ChartZoomSettings EnableSelectionZooming="true"></ChartZoomSettings>
         /// </SfChart>
         ///
@@ -468,10 +442,8 @@ namespace Syncfusion.Blazor.Toolkit.Charts
         /// // This example demonstrates how to handle the OnZoomStart event in a Syncfusion Blazor Chart.
         /// <SfChart OnZoomStart="OnZoomingEvent">
         ///     <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Toolkit.ValueType.Category"></ChartPrimaryXAxis>
-        ///     <ChartSeriesCollection>
-        ///         <ChartSeries DataSource="@Sales" XName="Month" YName="SalesValue" Type="ChartSeriesType.Column">
-        ///         </ChartSeries>
-        ///     </ChartSeriesCollection>
+        ///     <ChartSeries DataSource="@Sales" XName="Month" YName="SalesValue" Type="ChartSeriesType.Column">
+        ///     </ChartSeries>
         ///     <ChartZoomSettings EnableSelectionZooming="true"></ChartZoomSettings>
         /// </SfChart>
         /// 
@@ -501,10 +473,8 @@ namespace Syncfusion.Blazor.Toolkit.Charts
         /// // This example demonstrates how to handle the OnZoomEnd event in a Syncfusion Blazor Chart.
         /// <SfChart OnZoomEnd="OnZoomingEvent">
         ///     <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Toolkit.ValueType.Category"></ChartPrimaryXAxis>
-        ///     <ChartSeriesCollection>
-        ///         <ChartSeries DataSource="@Sales" XName="Month" YName="SalesValue" Type="ChartSeriesType.Column">
-        ///         </ChartSeries>
-        ///     </ChartSeriesCollection>
+        ///     <ChartSeries DataSource="@Sales" XName="Month" YName="SalesValue" Type="ChartSeriesType.Column">
+        ///     </ChartSeries>
         ///     <ChartZoomSettings EnableSelectionZooming="true"></ChartZoomSettings>
         /// </SfChart>
         /// 
@@ -533,12 +503,10 @@ namespace Syncfusion.Blazor.Toolkit.Charts
         /// // This example demonstrates how to handle the OnLegendClick event in a Syncfusion Blazor Chart.
         /// <SfChart OnLegendClick="LegendClickEvent">
         ///     <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Toolkit.ValueType.Category"></ChartPrimaryXAxis>
-        ///     <ChartSeriesCollection>
-        ///         <ChartSeries DataSource="@Sales" Name="Column" XName="Month" YName="SalesValue" Type="ChartSeriesType.Column">
-        ///         </ChartSeries>
-        ///         <ChartSeries DataSource="@Sales" Name="Line" XName="Month" YName="SalesValue" Type="ChartSeriesType.Line">
-        ///         </ChartSeries>
-        ///     </ChartSeriesCollection>
+        ///     <ChartSeries DataSource="@Sales" Name="Column" XName="Month" YName="SalesValue" Type="ChartSeriesType.Column">
+        ///     </ChartSeries>
+        ///     <ChartSeries DataSource="@Sales" Name="Line" XName="Month" YName="SalesValue" Type="ChartSeriesType.Line">
+        ///     </ChartSeries>
         /// </SfChart>
         /// 
         /// @code {
@@ -579,10 +547,8 @@ namespace Syncfusion.Blazor.Toolkit.Charts
         ///     <ChartCrosshairSettings Enable="true">
         ///         <ChartCrosshairLine Width="2" Color="green"></ChartCrosshairLine>
         ///     </ChartCrosshairSettings>
-        ///     <ChartSeriesCollection>
-        ///         <ChartSeries DataSource="@SalesDetails" XName="X" YName="Y" Type="ChartSeriesType.Line">
-        ///         </ChartSeries>
-        ///     </ChartSeriesCollection>
+        ///     <ChartSeries DataSource="@SalesDetails" XName="X" YName="Y" Type="ChartSeriesType.Line">
+        ///     </ChartSeries>
         /// </SfChart>
         /// 
         /// @code {
@@ -612,14 +578,12 @@ namespace Syncfusion.Blazor.Toolkit.Charts
         /// <SfChart OnDataEditCompleted="OnDataEditCompleted">
         ///     <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Toolkit.ValueType.DateTime" />
         ///     <ChartPrimaryYAxis LabelFormat="{value}%" RangePadding="ChartRangePadding.None" Minimum="0" Maximum="100" Interval="20" />
-        ///     <ChartSeriesCollection>
-        ///         <ChartSeries DataSource="@ConsumerDetails" XName="XValue" Width="2"
-        ///                      Opacity="1" YName="YValue" Type="ChartSeriesType.Column">
-        ///             <ChartMarker Visible="true" Width="10" Height="10">
-        ///             </ChartMarker>
-        ///             <ChartDataEditSettings Enable="true"></ChartDataEditSettings>
-        ///         </ChartSeries>
-        ///     </ChartSeriesCollection>
+        ///     <ChartSeries DataSource="@ConsumerDetails" XName="XValue" Width="2"
+        ///                  Opacity="1" YName="YValue" Type="ChartSeriesType.Column">
+        ///         <ChartMarker Visible="true" Width="10" Height="10">
+        ///         </ChartMarker>
+        ///         <ChartDataEditSettings Enable="true"></ChartDataEditSettings>
+        ///     </ChartSeries>
         /// </SfChart>
         /// 
         /// @code {
@@ -649,14 +613,12 @@ namespace Syncfusion.Blazor.Toolkit.Charts
         /// <SfChart OnDataEdit="OnDataEdit">
         ///     <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Toolkit.ValueType.DateTime" />
         ///     <ChartPrimaryYAxis LabelFormat="{value}%" RangePadding="ChartRangePadding.None" Minimum="0" Maximum="100" Interval="20" />
-        ///     <ChartSeriesCollection>
-        ///         <ChartSeries DataSource="@ConsumerDetails" XName="XValue" Width="2"
-        ///                      Opacity="1" YName="YValue" Type="ChartSeriesType.Column">
-        ///             <ChartMarker Visible="true" Width="10" Height="10">
-        ///             </ChartMarker>
-        ///             <ChartDataEditSettings Enable="true"></ChartDataEditSettings>
-        ///         </ChartSeries>
-        ///     </ChartSeriesCollection>
+        ///     <ChartSeries DataSource="@ConsumerDetails" XName="XValue" Width="2"
+        ///                  Opacity="1" YName="YValue" Type="ChartSeriesType.Column">
+        ///         <ChartMarker Visible="true" Width="10" Height="10">
+        ///         </ChartMarker>
+        ///         <ChartDataEditSettings Enable="true"></ChartDataEditSettings>
+        ///     </ChartSeries>
         /// </SfChart>
         /// 
         /// @code {
@@ -688,10 +650,8 @@ namespace Syncfusion.Blazor.Toolkit.Charts
         ///     </ChartPrimaryXAxis>
         ///     <ChartLegendSettings Visible="true" ToggleVisibility="true">
         ///     </ChartLegendSettings>
-        ///     <ChartSeriesCollection>
-        ///         <ChartSeries DataSource="@MedalDetails" XName="Country" YName="Gold"
-        ///                      Type="ChartSeriesType.Column" SelectionStyle="chartSelection1" />
-        ///     </ChartSeriesCollection>
+        ///     <ChartSeries DataSource="@MedalDetails" XName="Country" YName="Gold"
+        ///                  Type="ChartSeriesType.Column" SelectionStyle="chartSelection1" />
         /// </SfChart>
         /// 
         /// <style>
@@ -726,10 +686,8 @@ namespace Syncfusion.Blazor.Toolkit.Charts
         /// // This example demonstrates how to handle the SizeChanged event in a Syncfusion Blazor Chart.
         /// <SfChart SizeChanged="@SizeChangedEvent">
         ///     <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Toolkit.ValueType.Category"></ChartPrimaryXAxis>
-        ///     <ChartSeriesCollection>
-        ///         <ChartSeries DataSource="@Sales" XName="Month" YName="SalesValue" Type="ChartSeriesType.Column">
-        ///         </ChartSeries>
-        ///     </ChartSeriesCollection>
+        ///     <ChartSeries DataSource="@Sales" XName="Month" YName="SalesValue" Type="ChartSeriesType.Column">
+        ///     </ChartSeries>
         /// </SfChart>
         ///
         /// @code {
@@ -757,10 +715,8 @@ namespace Syncfusion.Blazor.Toolkit.Charts
         /// // This example demonstrates how to handle the TooltipRender event in a Syncfusion Blazor Chart.
         /// <SfChart TooltipRender="TooltipEvent">
         ///     <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Toolkit.ValueType.Category" />
-        ///     <ChartSeriesCollection>
-        ///         <ChartSeries DataSource="@Sales" XName="Month" YName="SalesValue" Type="ChartSeriesType.Column">
-        ///         </ChartSeries>
-        ///     </ChartSeriesCollection>
+        ///     <ChartSeries DataSource="@Sales" XName="Month" YName="SalesValue" Type="ChartSeriesType.Column">
+        ///     </ChartSeries>
         ///     <ChartTooltipSettings Enable="true"></ChartTooltipSettings>
         /// </SfChart>
         ///
@@ -786,12 +742,10 @@ namespace Syncfusion.Blazor.Toolkit.Charts
         /// // This example demonstrates how to handle the SharedTooltipRender event in a Syncfusion Blazor Chart.
         /// <SfChart SharedTooltipRender="SharedTooltipEvent">
         ///     <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Toolkit.ValueType.Category"></ChartPrimaryXAxis>
-        ///     <ChartSeriesCollection>
-        ///         <ChartSeries DataSource="@Sales" XName="Month" YName="SalesValue" Type="ChartSeriesType.Column">
-        ///         </ChartSeries>
-        ///         <ChartSeries DataSource="@Sales" XName="Month" YName="SalesValue" Type="ChartSeriesType.Column">
-        ///         </ChartSeries>
-        ///     </ChartSeriesCollection>
+        ///     <ChartSeries DataSource="@Sales" XName="Month" YName="SalesValue" Type="ChartSeriesType.Column">
+        ///     </ChartSeries>
+        ///     <ChartSeries DataSource="@Sales" XName="Month" YName="SalesValue" Type="ChartSeriesType.Column">
+        ///     </ChartSeries>
         ///     <ChartTooltipSettings Enable="true" Shared="true"></ChartTooltipSettings>
         /// </SfChart>
         ///
@@ -820,10 +774,8 @@ namespace Syncfusion.Blazor.Toolkit.Charts
         /// // This example demonstrates how to handle the OnPointClick event in a Syncfusion Blazor Chart.
         /// <SfChart OnPointClick="PointClickEvent">
         ///     <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Toolkit.ValueType.Category"></ChartPrimaryXAxis>
-        ///     <ChartSeriesCollection>
-        ///         <ChartSeries DataSource="@Sales" XName="Month" YName="SalesValue" Type="ChartSeriesType.Column">
-        ///         </ChartSeries>
-        ///     </ChartSeriesCollection>
+        ///     <ChartSeries DataSource="@Sales" XName="Month" YName="SalesValue" Type="ChartSeriesType.Column">
+        ///     </ChartSeries>
         /// </SfChart>
         ///
         /// @code {
@@ -860,11 +812,9 @@ namespace Syncfusion.Blazor.Toolkit.Charts
         ///             </ChartMultiLevelLabel>
         ///         </ChartMultiLevelLabels>
         ///     </ChartPrimaryXAxis>
-        ///     <ChartSeriesCollection>
-        ///         <ChartSeries DataSource="@Sales" XName="Month" YName="SalesValue" Type="ChartSeriesType.Column">
-        ///             <ChartMarker Visible="true"></ChartMarker>
-        ///         </ChartSeries>
-        ///     </ChartSeriesCollection>
+        ///     <ChartSeries DataSource="@Sales" XName="Month" YName="SalesValue" Type="ChartSeriesType.Column">
+        ///         <ChartMarker Visible="true"></ChartMarker>
+        ///     </ChartSeries>
         /// </SfChart>
         ///
         /// @code {
@@ -893,10 +843,8 @@ namespace Syncfusion.Blazor.Toolkit.Charts
         /// // This example demonstrates how to handle the Loaded event in a Syncfusion Blazor Chart.
         /// <SfChart Loaded="LoadedEvent">
         ///     <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Toolkit.ValueType.Category"></ChartPrimaryXAxis>
-        ///     <ChartSeriesCollection>
-        ///         <ChartSeries DataSource="@Sales" XName="Month" YName="SalesValue" Type="ChartSeriesType.Column">
-        ///         </ChartSeries>
-        ///     </ChartSeriesCollection>
+        ///     <ChartSeries DataSource="@Sales" XName="Month" YName="SalesValue" Type="ChartSeriesType.Column">
+        ///     </ChartSeries>
         /// </SfChart>
         ///
         /// @code {
@@ -925,10 +873,8 @@ namespace Syncfusion.Blazor.Toolkit.Charts
         /// // This example demonstrates how to handle the AxisLabelClick event in a Syncfusion Blazor Chart.
         /// <SfChart OnAxisLabelClick="AxisLabelClickEvent">
         ///     <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Toolkit.ValueType.Category"></ChartPrimaryXAxis>
-        ///     <ChartSeriesCollection>
-        ///         <ChartSeries DataSource="@Sales" XName="Month" YName="SalesValue" Type="ChartSeriesType.Column">
-        ///         </ChartSeries>
-        ///     </ChartSeriesCollection>
+        ///     <ChartSeries DataSource="@Sales" XName="Month" YName="SalesValue" Type="ChartSeriesType.Column">
+        ///     </ChartSeries>
         /// </SfChart>
         ///
         /// @code {

@@ -214,13 +214,11 @@
             <ChartPrimaryYAxis Title=""Bust Chest Circumference (cm)"" minimum=""70"" maximum=""140"" Interval=""20"" RangePadding=""ChartRangePadding.None"">
                 <ChartAxisLabelStyle Color=""@TextColor"" />
             </ChartPrimaryYAxis>
-            <ChartSeriesCollection>
-                <ChartSeries DataSource=""cluster1Value"" Name=""18-20 Years"" LegendShape=""LegendShape.Circle"" Fill=""#2CAFFE"" Opacity=""0.5"" XName=""Breadth"" YName=""Circumference"" Type=""ChartSeriesType.Scatter""></ChartSeries>
-                <ChartSeries DataSource=""cluster2Value"" Name=""21-25 Years"" LegendShape=""LegendShape.Circle"" Fill=""#635DE5"" Opacity=""0.5"" XName=""Breadth"" YName=""Circumference"" Type=""ChartSeriesType.Scatter""></ChartSeries>
-                <ChartSeries DataSource=""cluster3Value"" Name=""26-30 Years"" LegendShape=""LegendShape.Circle"" Fill=""#FFA330"" Opacity=""0.5"" XName=""Breadth"" YName=""Circumference"" Type=""ChartSeriesType.Scatter""></ChartSeries>
-                <ChartSeries DataSource=""cluster4Value"" Name=""31-35 years"" LegendShape=""LegendShape.Circle"" Fill=""#FE6C38"" Opacity=""0.5"" XName=""Breadth"" YName=""Circumference"" Type=""ChartSeriesType.Scatter""></ChartSeries>
-                <ChartSeries DataSource=""cluster5Value"" Name=""36+ Years"" LegendShape=""LegendShape.Circle"" Fill=""#7D9CCF"" Opacity=""0.5"" XName=""Breadth"" YName=""Circumference"" Type=""ChartSeriesType.Scatter""></ChartSeries>
-            </ChartSeriesCollection>
+            <ChartSeries DataSource=""cluster1Value"" Name=""18-20 Years"" LegendShape=""LegendShape.Circle"" Fill=""#2CAFFE"" Opacity=""0.5"" XName=""Breadth"" YName=""Circumference"" Type=""ChartSeriesType.Scatter""></ChartSeries>
+            <ChartSeries DataSource=""cluster2Value"" Name=""21-25 Years"" LegendShape=""LegendShape.Circle"" Fill=""#635DE5"" Opacity=""0.5"" XName=""Breadth"" YName=""Circumference"" Type=""ChartSeriesType.Scatter""></ChartSeries>
+            <ChartSeries DataSource=""cluster3Value"" Name=""26-30 Years"" LegendShape=""LegendShape.Circle"" Fill=""#FFA330"" Opacity=""0.5"" XName=""Breadth"" YName=""Circumference"" Type=""ChartSeriesType.Scatter""></ChartSeries>
+            <ChartSeries DataSource=""cluster4Value"" Name=""31-35 years"" LegendShape=""LegendShape.Circle"" Fill=""#FE6C38"" Opacity=""0.5"" XName=""Breadth"" YName=""Circumference"" Type=""ChartSeriesType.Scatter""></ChartSeries>
+            <ChartSeries DataSource=""cluster5Value"" Name=""36+ Years"" LegendShape=""LegendShape.Circle"" Fill=""#7D9CCF"" Opacity=""0.5"" XName=""Breadth"" YName=""Circumference"" Type=""ChartSeriesType.Scatter""></ChartSeries>
                 <ChartTooltipSettings Enable=""true"" Header=""${series.name}"" Format=""Shoulder Breadth: <b>${point.x} cm</b><br/>Bust Chest Circumference: <b>${point.y} cm</b>"" />
         </SfChart>
 @code {
@@ -731,14 +729,11 @@
             <ChartPrimaryYAxis Title=""Weight (kg)"" minimum=""50"" maximum=""160"" Interval=""20"" RangePadding=""ChartRangePadding.None"">
                 <ChartAxisLabelStyle Color=""@TextColor"" />
             </ChartPrimaryYAxis>
-            <ChartSeriesCollection>
-                <ChartSeries DataSource=""scatterLabelData"" Name=""18-20 Years"" LegendShape=""LegendShape.Circle"" Fill=""#807BFF"" EnableTooltip=""true"" Opacity=""0.5"" XName=""Height"" YName=""Weight"" Type=""ChartSeriesType.Scatter"">
-                    <ChartMarker Visible=""true"" Shape=""ChartShape.Diamond"" Height=""15"" Width=""15"">
-                        <ChartDataLabel Name=""Name"" Visible=""true""/>
-                    </ChartMarker>
-                </ChartSeries>
-
-            </ChartSeriesCollection>
+            <ChartSeries DataSource=""scatterLabelData"" Name=""18-20 Years"" LegendShape=""LegendShape.Circle"" Fill=""#807BFF"" EnableTooltip=""true"" Opacity=""0.5"" XName=""Height"" YName=""Weight"" Type=""ChartSeriesType.Scatter"">
+                <ChartMarker Visible=""true"" Shape=""ChartShape.Diamond"" Height=""15"" Width=""15"">
+                    <ChartDataLabel Name=""Name"" Visible=""true""/>
+                </ChartMarker>
+            </ChartSeries>
         </SfChart>
 @code {
      private Theme _currentTheme = Theme.Fluent;
@@ -785,21 +780,18 @@
             <ChartPrimaryYAxis Title=""Bust Chest Circumference (cm)"" minimum=""70"" maximum=""140"" Interval=""20"" RangePadding=""ChartRangePadding.None"">
                 <ChartAxisLabelStyle Color=""@TextColor"" />
             </ChartPrimaryYAxis>
-            <ChartSeriesCollection>
-
-                <ChartSeries DataSource=""shape2Value"" Name=""21-25 Years"" LegendShape=""LegendShape.Circle"" Fill=""#5853C6"" EnableTooltip=""true"" Opacity=""0.5"" XName=""Breadth"" YName=""Circumference"" Type=""ChartSeriesType.Scatter"">
-                    <ChartMarker Visible=""true"" Shape=""ChartShape.Rectangle"" Height=""10"" Width=""10"">
-                    </ChartMarker>
-                </ChartSeries>
-                <ChartSeries DataSource=""shape3Value"" Name=""26-30 Years"" LegendShape=""LegendShape.Circle"" Fill=""#FF9B1D"" EnableTooltip=""true"" Opacity=""0.5"" XName=""Breadth"" YName=""Circumference"" Type=""ChartSeriesType.Scatter"">
-                    <ChartMarker Visible=""true"" Shape=""ChartShape.Pentagon"" Height=""10"" Width=""10"">
-                    </ChartMarker>
-                </ChartSeries>
-                <ChartSeries DataSource=""shape4Value"" Name=""31-35 years"" LegendShape=""LegendShape.Circle"" Fill=""#FE6C38"" EnableTooltip=""true"" Opacity=""0.5"" XName=""Breadth"" YName=""Circumference"" Type=""ChartSeriesType.Scatter"">
-                    <ChartMarker Visible=""true"" Shape=""ChartShape.Diamond"" Height=""10"" Width=""10"">
-                    </ChartMarker>
-                </ChartSeries>
-            </ChartSeriesCollection>
+            <ChartSeries DataSource=""shape2Value"" Name=""21-25 Years"" LegendShape=""LegendShape.Circle"" Fill=""#5853C6"" EnableTooltip=""true"" Opacity=""0.5"" XName=""Breadth"" YName=""Circumference"" Type=""ChartSeriesType.Scatter"">
+                <ChartMarker Visible=""true"" Shape=""ChartShape.Rectangle"" Height=""10"" Width=""10"">
+                </ChartMarker>
+            </ChartSeries>
+            <ChartSeries DataSource=""shape3Value"" Name=""26-30 Years"" LegendShape=""LegendShape.Circle"" Fill=""#FF9B1D"" EnableTooltip=""true"" Opacity=""0.5"" XName=""Breadth"" YName=""Circumference"" Type=""ChartSeriesType.Scatter"">
+                <ChartMarker Visible=""true"" Shape=""ChartShape.Pentagon"" Height=""10"" Width=""10"">
+                </ChartMarker>
+            </ChartSeries>
+            <ChartSeries DataSource=""shape4Value"" Name=""31-35 years"" LegendShape=""LegendShape.Circle"" Fill=""#FE6C38"" EnableTooltip=""true"" Opacity=""0.5"" XName=""Breadth"" YName=""Circumference"" Type=""ChartSeriesType.Scatter"">
+                <ChartMarker Visible=""true"" Shape=""ChartShape.Diamond"" Height=""10"" Width=""10"">
+                </ChartMarker>
+            </ChartSeries>
         </SfChart>
 @code {
 
@@ -1081,17 +1073,14 @@
             <ChartPrimaryYAxis Title=""Bust Chest Circumference (cm)"" minimum=""70"" maximum=""140"" Interval=""20"" RangePadding=""ChartRangePadding.None"">
                 <ChartAxisLabelStyle Color=""@TextColor"" />
             </ChartPrimaryYAxis>
-            <ChartSeriesCollection>
-                <ChartSeries DataSource=""shape2Value"" Name=""11-26 Years"" LegendShape=""LegendShape.Circle"" Fill=""#635DE5"" EnableTooltip=""true"" Opacity=""0.4"" XName=""Breadth"" YName=""Circumference"" Type=""ChartSeriesType.Scatter"">
-                    <ChartMarker Visible=""true"" Shape=""ChartShape.Circle"" Height=""18"" Width=""18"">
-                    </ChartMarker>
-                </ChartSeries>
-                <ChartSeries DataSource=""shape3Value"" Name=""26-30 years"" LegendShape=""LegendShape.Circle"" Fill=""#FFA330"" EnableTooltip=""true"" Opacity=""0.4"" XName=""Breadth"" YName=""Circumference"" Type=""ChartSeriesType.Scatter"">
-                    <ChartMarker Visible=""true"" Shape=""ChartShape.Circle"" Height=""8"" Width=""8"">
-                    </ChartMarker>
-                </ChartSeries>
-
-            </ChartSeriesCollection>
+            <ChartSeries DataSource=""shape2Value"" Name=""11-26 Years"" LegendShape=""LegendShape.Circle"" Fill=""#635DE5"" EnableTooltip=""true"" Opacity=""0.4"" XName=""Breadth"" YName=""Circumference"" Type=""ChartSeriesType.Scatter"">
+                <ChartMarker Visible=""true"" Shape=""ChartShape.Circle"" Height=""18"" Width=""18"">
+                </ChartMarker>
+            </ChartSeries>
+            <ChartSeries DataSource=""shape3Value"" Name=""26-30 years"" LegendShape=""LegendShape.Circle"" Fill=""#FFA330"" EnableTooltip=""true"" Opacity=""0.4"" XName=""Breadth"" YName=""Circumference"" Type=""ChartSeriesType.Scatter"">
+                <ChartMarker Visible=""true"" Shape=""ChartShape.Circle"" Height=""8"" Width=""8"">
+                </ChartMarker>
+            </ChartSeries>
         </SfChart>
 @code {
 
@@ -1319,28 +1308,26 @@
             <ChartPrimaryYAxis Title=""Bust Chest Circumference (cm)"" minimum=""70"" maximum=""140"" Interval=""20"" RangePadding=""ChartRangePadding.None"">
                 <ChartAxisLabelStyle Color=""@TextColor"" />
             </ChartPrimaryYAxis>
-            <ChartSeriesCollection>
-                <ChartSeries DataSource=""shape1Value"" Name=""18-20 Years"" LegendShape=""LegendShape.Circle"" Fill=""#2CAFFE"" EnableTooltip=""true"" Opacity=""0.5"" XName=""Breadth"" YName=""Circumference"" Type=""ChartSeriesType.Scatter"">
-                    <ChartMarker Visible=""true"" Shape=""ChartShape.Circle"" Height=""10"" Width=""10"" Opacity=""0.4"">
-                    </ChartMarker>
-                </ChartSeries>
-                <ChartSeries DataSource=""shape2Value"" Name=""21-25 Years"" LegendShape=""LegendShape.Circle"" Fill=""#5853C6"" EnableTooltip=""true"" Opacity=""0.5"" XName=""Breadth"" YName=""Circumference"" Type=""ChartSeriesType.Scatter"">
-                    <ChartMarker Visible=""true"" Shape=""ChartShape.Rectangle"" Height=""10"" Width=""10"">
-                    </ChartMarker>
-                </ChartSeries>
-                <ChartSeries DataSource=""shape3Value"" Name=""26-30 Years"" LegendShape=""LegendShape.Circle"" Fill=""#FF9B1D"" EnableTooltip=""true"" Opacity=""0.5"" XName=""Breadth"" YName=""Circumference"" Type=""ChartSeriesType.Scatter"">
-                    <ChartMarker Visible=""true"" Shape=""ChartShape.Diamond"" Height=""10"" Width=""10"">
-                    </ChartMarker>
-                </ChartSeries>
-                <ChartSeries DataSource=""shape4Value"" Name=""31-35 years"" LegendShape=""LegendShape.Circle"" Fill=""#FE6C38"" EnableTooltip=""true"" Opacity=""0.5"" XName=""Breadth"" YName=""Circumference"" Type=""ChartSeriesType.Scatter"">
-                    <ChartMarker Visible=""true"" Shape=""ChartShape.Rectangle"" Height=""10"" Width=""10"">
-                    </ChartMarker>
-                </ChartSeries>
-                <ChartSeries DataSource=""shape5Value"" Name=""36+ years"" LegendShape=""LegendShape.Circle"" Fill=""#7D9CCF"" EnableTooltip=""true"" Opacity=""0.5"" XName=""Breadth"" YName=""Circumference"" Type=""ChartSeriesType.Scatter"">
-                    <ChartMarker Visible=""true"" Shape=""ChartShape.Pentagon"" Height=""10"" Width=""10"">
-                    </ChartMarker>
-                </ChartSeries>
-            </ChartSeriesCollection>
+            <ChartSeries DataSource=""shape1Value"" Name=""18-20 Years"" LegendShape=""LegendShape.Circle"" Fill=""#2CAFFE"" EnableTooltip=""true"" Opacity=""0.5"" XName=""Breadth"" YName=""Circumference"" Type=""ChartSeriesType.Scatter"">
+                <ChartMarker Visible=""true"" Shape=""ChartShape.Circle"" Height=""10"" Width=""10"" Opacity=""0.4"">
+                </ChartMarker>
+            </ChartSeries>
+            <ChartSeries DataSource=""shape2Value"" Name=""21-25 Years"" LegendShape=""LegendShape.Circle"" Fill=""#5853C6"" EnableTooltip=""true"" Opacity=""0.5"" XName=""Breadth"" YName=""Circumference"" Type=""ChartSeriesType.Scatter"">
+                <ChartMarker Visible=""true"" Shape=""ChartShape.Rectangle"" Height=""10"" Width=""10"">
+                </ChartMarker>
+            </ChartSeries>
+            <ChartSeries DataSource=""shape3Value"" Name=""26-30 Years"" LegendShape=""LegendShape.Circle"" Fill=""#FF9B1D"" EnableTooltip=""true"" Opacity=""0.5"" XName=""Breadth"" YName=""Circumference"" Type=""ChartSeriesType.Scatter"">
+                <ChartMarker Visible=""true"" Shape=""ChartShape.Diamond"" Height=""10"" Width=""10"">
+                </ChartMarker>
+            </ChartSeries>
+            <ChartSeries DataSource=""shape4Value"" Name=""31-35 years"" LegendShape=""LegendShape.Circle"" Fill=""#FE6C38"" EnableTooltip=""true"" Opacity=""0.5"" XName=""Breadth"" YName=""Circumference"" Type=""ChartSeriesType.Scatter"">
+                <ChartMarker Visible=""true"" Shape=""ChartShape.Rectangle"" Height=""10"" Width=""10"">
+                </ChartMarker>
+            </ChartSeries>
+            <ChartSeries DataSource=""shape5Value"" Name=""36+ years"" LegendShape=""LegendShape.Circle"" Fill=""#7D9CCF"" EnableTooltip=""true"" Opacity=""0.5"" XName=""Breadth"" YName=""Circumference"" Type=""ChartSeriesType.Scatter"">
+                <ChartMarker Visible=""true"" Shape=""ChartShape.Pentagon"" Height=""10"" Width=""10"">
+                </ChartMarker>
+            </ChartSeries>
         </SfChart>
 @code {
      

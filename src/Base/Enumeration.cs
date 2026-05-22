@@ -1342,9 +1342,7 @@ namespace Syncfusion.Blazor.Toolkit
     /// <code>
     /// <![CDATA[
     /// <SfChart Title="Sales Data" Theme="Theme.Fluent">
-    ///     <ChartSeriesCollection>
-    ///         <ChartSeries DataSource="@SalesData" XName="Month" YName="Revenue" Type="ChartSeriesType.Column" />
-    ///     </ChartSeriesCollection>
+    ///     <ChartSeries DataSource="@SalesData" XName="Month" YName="Revenue" Type="ChartSeriesType.Column" />
     /// </SfChart>
     /// ]]>
     /// </code>
