@@ -5,7 +5,7 @@
 @using System.Linq
 @inject IJSRuntime JS
 
-<PageTitle>Explore Components | ASP.NET Core Blazor OSS Components</PageTitle>
+<PageTitle>Explore Blazor Components | Syncfusion Toolkit</PageTitle>
 
 <div class="explore-page container">
     <!-- Main heading: larger, consistent font size -->
@@ -215,23 +215,23 @@
         box-sizing: border-box;
     }
 
-    .explore-page .text-muted {
-        color: var(--muted-color) !important;
-        transition: color 160ms ease;
-        font-size: 13px;
-    }
+        .explore-page .text-muted {
+            color: var(--muted-color) !important;
+            transition: color 160ms ease;
+            font-size: 13px;
+        }
 
-    .explore-page h2 {
-        font-size: 20px;
-        margin-bottom: 6px;
-        color: var(--text-color);
-    }
+        .explore-page h2 {
+            font-size: 20px;
+            margin-bottom: 6px;
+            color: var(--text-color);
+        }
 
-    .explore-page h4 {
-        font-size: 16px;
-        margin-bottom: 6px;
-        color: var(--text-color);
-    }
+        .explore-page h4 {
+            font-size: 16px;
+            margin-bottom: 6px;
+            color: var(--text-color);
+        }
 
     .category-section {
         margin: 15px 0;
@@ -242,10 +242,10 @@
         gap: 1rem;
     }
 
-    .component-grid.Inputs {
-        display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-    }
+        .component-grid.Inputs {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+        }
 
     .component-tile {
         display: flex;
@@ -264,11 +264,11 @@
         width: 200px;
     }
 
-    .component-tile:hover {
-        transform: translateY(-2px);
-        border-color: var(--card-hover-border);
-        box-shadow: var(--card-hover-shadow);
-    }
+        .component-tile:hover {
+            transform: translateY(-2px);
+            border-color: var(--card-hover-border);
+            box-shadow: var(--card-hover-shadow);
+        }
 
     .component-icon-box {
         display: flex;
@@ -304,10 +304,21 @@
         color: var(--title-color);
     }
 
-    .explore-page p.small { margin-top: -6px; }
-    .right-panel { display: none; }
-    .explore-page .h2-title { margin-bottom: 10px; }
-    .explore-page .h4 { font-size: 20px; }
+    .explore-page p.small {
+        margin-top: -6px;
+    }
+
+    .right-panel {
+        display: none;
+    }
+
+    .explore-page .h2-title {
+        margin-bottom: 10px;
+    }
+
+    .explore-page .h4 {
+        font-size: 20px;
+    }
 
     @@media (max-width: 640px) {
         .component-grid {

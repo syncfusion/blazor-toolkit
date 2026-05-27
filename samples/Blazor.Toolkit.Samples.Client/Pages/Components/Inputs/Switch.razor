@@ -6,8 +6,7 @@
 @using System.ComponentModel.DataAnnotations
 @using Syncfusion.Blazor.Toolkit.Inputs
 
-
-<PageTitle>Switch | ASP.NET Core Blazor OSS Components</PageTitle>
+<PageTitle>Blazor Switch Demo | Syncfusion Toolkit</PageTitle>
 
 <Description>
     <Header>
@@ -72,7 +71,7 @@
         The Switch component supports both external labels and built‑in state labels.
         External labels (using the <code>label</code> element) describe what the switch controls.
         Built‑in labels, configured using the <code>OnLabel</code> and <code>OffLabel</code> properties, display text inside the switch to indicate its ON or OFF state.
-   </Content>
+    </Content>
 </Description>
 
 <CodePreview CodeSection="@LabelCode">
@@ -125,14 +124,14 @@
 <CodePreview CodeSection="@FormCode">
     <PreviewSection>
         <EditForm Model="contactModel" OnValidSubmit="OnSubmit" class="form-example">
-            <DataAnnotationsValidator />    
+            <DataAnnotationsValidator />
             <div class="form-group">
                 <label>Name</label>
-                <SfTextBox  @bind-Value="@contactModel.Name" Placeholder="Enter your name"></SfTextBox>
+                <SfTextBox @bind-Value="@contactModel.Name" Placeholder="Enter your name"></SfTextBox>
                 <ValidationMessage For="() => contactModel.Name" class="text-danger" />
             </div>
             <div class="form-group mt-3">
-                <label>Email</label>   
+                <label>Email</label>
                 <SfTextBox @bind-Value="contactModel.Email" Placeholder="Enter your email"></SfTextBox>
                 <ValidationMessage For="() => contactModel.Email" class="text-danger" />
             </div>

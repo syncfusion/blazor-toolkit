@@ -1,6 +1,6 @@
 ﻿@page "/inputs/numerictextbox"
 
-<PageTitle>NumericTextBox | ASP.NET Core Blazor OSS Components</PageTitle>
+<PageTitle>Blazor NumericTextBox Demo | Syncfusion Toolkit</PageTitle>
 
 @using Syncfusion.Blazor.Toolkit.Inputs
 
@@ -28,13 +28,13 @@
 
 <CodePreview CodeSection="@OneWayBindingCode">
     <PreviewSection>
-         <div class="num-sample-wrapper">
+        <div class="num-sample-wrapper">
             <div class="d-flex align-items-center gap-2">
                 <SfNumericTextBox TValue="int?" Value="@OneWayValue" Min="0" Max="100" Step="5" Width="220px" />
                 <button class="btn btn-primary btn-sm" @onclick="UpdateOneWay">Set 75</button>
             </div>
             <div class="mt-2 example-label"><b>Value:</b> @OneWayValue</div>
-         </div>
+        </div>
     </PreviewSection>
 </CodePreview>
 
@@ -306,6 +306,7 @@
     .num-sample-wrapper {
         width: 300px;
     }
+
     .example-label {
         font-size: 14px;
         margin-bottom: 6px;

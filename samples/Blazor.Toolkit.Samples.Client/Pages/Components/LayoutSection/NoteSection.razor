@@ -1,60 +1,60 @@
 ﻿@using Microsoft.AspNetCore.Components
 
 <section class="note-section" role="note" aria-label="@Heading">
-	<div class="note-section__header">
-		<span class="sb-icons e-circle-info" aria-hidden="true"></span>
-		<span class="note-section__heading">@Heading</span>
-	</div>
+    <div class="note-section__header">
+        <span class="sb-icons e-circle-info" aria-hidden="true"></span>
+        <span class="note-section__heading">@Heading</span>
+    </div>
 
-	@if (Content is not null)
-	{
-		<div class="note-section__content">
-			@Content
-		</div>
-	}
+    @if (Content is not null)
+    {
+        <div class="note-section__content">
+            @Content
+        </div>
+    }
 </section>
 
 @code {
-	[Parameter]
-	public string Heading { get; set; } = "NOTE";
+    [Parameter]
+    public string Heading { get; set; } = "NOTE";
 
-	[Parameter]
-	public RenderFragment? Content { get; set; }
+    [Parameter]
+    public RenderFragment? Content { get; set; }
 }
 
 <style>
-	.note-section {
-		border-radius: 10px;
-		padding: 15px 20px;
-		background: linear-gradient(180deg, #f3ddff 0%, #ecd0ff 100%);
-		color: #2f2434;
-	}
+    .note-section {
+        border-radius: 10px;
+        padding: 15px 20px;
+        background: linear-gradient(180deg, #f3ddff 0%, #ecd0ff 100%);
+        color: #2f2434;
+    }
 
-	.note-section__header {
-		display: flex;
-		align-items: center;
-		gap: 8px;
-		margin-bottom: 10px;
-		padding-bottom: 10px;
-		font-size: 1.05rem;
-		font-weight: 700;
-		letter-spacing: 0.02em;
-		text-transform: uppercase;
-		border-bottom: 1px solid #998a8a;
-	}
+    .note-section__header {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        margin-bottom: 10px;
+        padding-bottom: 10px;
+        font-size: 1.05rem;
+        font-weight: 700;
+        letter-spacing: 0.02em;
+        text-transform: uppercase;
+        border-bottom: 1px solid #998a8a;
+    }
 
-	.note-section .e-circle-info {
-		padding-top: 4px;
-		font-weight: 600;
-	}
+    .note-section .e-circle-info {
+        padding-top: 4px;
+        font-weight: 600;
+    }
 
-	.note-section__content {
-		font-size: 1.02rem;
-		line-height: 1.7;
-		color: #3c3240;
-	}
+    .note-section__content {
+        font-size: 1.02rem;
+        line-height: 1.7;
+        color: #3c3240;
+    }
 
-	.page-rtl .note-section__header {
-		direction: rtl;
-	}
+    .page-rtl .note-section__header {
+        direction: rtl;
+    }
 </style>

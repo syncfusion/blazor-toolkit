@@ -1,35 +1,35 @@
 @page "/charts/marker"
-
 @using Syncfusion.Blazor.Toolkit.Buttons
 @using Syncfusion.Blazor.Toolkit.Charts
 @using ValueType = Syncfusion.Blazor.Toolkit.ValueType
 
+<PageTitle>Blazor Chart Marker Demo | Syncfusion Toolkit</PageTitle>
+
 <Description>
-  
     <Header>
         <h5><b>Overview</b></h5>
     </Header>
     <Content>
         Markers are used to highlight individual data points in a Chart series.
         This sample demonstrates markers enabled in a Line Chart to visualize
-        year-wise values for China and the United States by setting the <code>Visible</code> property 
+        year-wise values for China and the United States by setting the <code>Visible</code> property
         of the <code>ChartMarker</code> component to <code>true</code>.
     </Content>
 </Description>
 
 <VirtualizeSection MinHeightPx="600px">
     <CodePreview IsFullWidth="true" CodeSection="@MarkerOverviewCode">
-    <PreviewSection>
-        <SfChart @key="@_currentTheme" Title="Marker Overview" Theme="@_currentTheme">
-            <ChartPrimaryXAxis ValueType="ValueType.Double"
-                               Title="Year">
-                <ChartAxisMajorTickLines Width="0"/>
-                <ChartAxisMajorGridLines Width="0"/>
-            </ChartPrimaryXAxis>
+        <PreviewSection>
+            <SfChart @key="@_currentTheme" Title="Marker Overview" Theme="@_currentTheme">
+                <ChartPrimaryXAxis ValueType="ValueType.Double"
+                                   Title="Year">
+                    <ChartAxisMajorTickLines Width="0" />
+                    <ChartAxisMajorGridLines Width="0" />
+                </ChartPrimaryXAxis>
 
-            <ChartPrimaryYAxis Title="Value">
-                <ChartAxisLineStyle Width="0" />
-            </ChartPrimaryYAxis>
+                <ChartPrimaryYAxis Title="Value">
+                    <ChartAxisLineStyle Width="0" />
+                </ChartPrimaryYAxis>
 
             
                 <ChartSeries DataSource="@MarkerOverviewData"
@@ -49,15 +49,15 @@
                     <ChartMarker Visible="true" Width="10" Height="10">
                     </ChartMarker>
                 </ChartSeries>
-            
 
+            
                 <!-- Tooltip -->
-                <ChartTooltipSettings Enable="true" Shared ="true"
+                <ChartTooltipSettings Enable="true" Shared="true"
                                       Header="${point.x}"
                                       Format="${series.name} : <b>${point.y}°C</b>" />
-        </SfChart>
-    </PreviewSection>
-</CodePreview>
+            </SfChart>
+        </PreviewSection>
+    </CodePreview>
 </VirtualizeSection>
 
 @code {
@@ -194,28 +194,28 @@
 
 <VirtualizeSection MinHeightPx="600px">
     <CodePreview IsFullWidth="true" CodeSection="@MarkerShapeCode">
-    <PreviewSection>
-        <div>
-            <label>Shape: </label>
-            <SfButtonGroup Mode="Syncfusion.Blazor.Toolkit.SelectionMode.Single">
+        <PreviewSection>
+            <div>
+                <label>Shape: </label>
+                <SfButtonGroup Mode="Syncfusion.Blazor.Toolkit.SelectionMode.Single">
                     <Button Selected="IsSelected(ChartShape.Circle)" SelectedChanged="@(v => OnMarkerShapeSelected(v, ChartShape.Circle))">Circle</Button>
                     <Button Selected="IsSelected(ChartShape.Diamond)" SelectedChanged="@(v => OnMarkerShapeSelected(v, ChartShape.Diamond))">Diamond</Button>
                     <Button Selected="IsSelected(ChartShape.Rectangle)" SelectedChanged="@(v => OnMarkerShapeSelected(v, ChartShape.Rectangle))">Rectangle</Button>
                     <Button Selected="IsSelected(ChartShape.Triangle)" SelectedChanged="@(v => OnMarkerShapeSelected(v, ChartShape.Triangle))">Triangle</Button>
-            </SfButtonGroup>
-        </div>
-        <SfChart Title="Marker Shape Example" Theme="@_currentTheme" @key="@_currentTheme">
-            <ChartPrimaryXAxis ValueType="ValueType.Double"
-                               Title="Year">
-                <ChartAxisLineStyle Width="0" />
-                <ChartAxisMajorGridLines Width="0" />
-            </ChartPrimaryXAxis>
+                </SfButtonGroup>
+            </div>
+            <SfChart Title="Marker Shape Example" Theme="@_currentTheme" @key="@_currentTheme">
+                <ChartPrimaryXAxis ValueType="ValueType.Double"
+                                   Title="Year">
+                    <ChartAxisLineStyle Width="0" />
+                    <ChartAxisMajorGridLines Width="0" />
+                </ChartPrimaryXAxis>
 
-            <ChartPrimaryYAxis Title="Percentage (%)"
-                               Minimum="75"
-                               Maximum="100">
-                <ChartAxisLineStyle Width="0" />
-            </ChartPrimaryYAxis>
+                <ChartPrimaryYAxis Title="Percentage (%)"
+                                   Minimum="75"
+                                   Maximum="100">
+                    <ChartAxisLineStyle Width="0" />
+                </ChartPrimaryYAxis>
 
             
                 <ChartSeries DataSource="@MarkerShapeData"
@@ -229,15 +229,15 @@
                                  Height="10">
                     </ChartMarker>
                 </ChartSeries>
-            
 
+            
                 <!-- Tooltip -->
-                <ChartTooltipSettings Enable="true" 
+                <ChartTooltipSettings Enable="true"
                                       Header="${point.x}"
                                       Format="World : <b>${point.y}% of population</b>" />
-        </SfChart>
-    </PreviewSection>
-</CodePreview>
+            </SfChart>
+        </PreviewSection>
+    </CodePreview>
 </VirtualizeSection>
 
 @code {
@@ -370,7 +370,8 @@
 }
 
 <Description>
-    <Header><code></code> and setting the <code>Shape</code> property to <code>ChartShapeImage</code>.
+    <Header>
+        <code></code> and setting the <code>Shape</code> property to <code>ChartShapeImage</code>.
         <h5><b>Marker As Image</b></h5>
     </Header>
     <Content>
@@ -384,17 +385,17 @@
 
 <VirtualizeSection MinHeightPx="600px">
     <CodePreview IsFullWidth="true" CodeSection="@MarkerAsImageCode">
-    <PreviewSection>
-        <SfChart Title="Monthly Average Temperature" Theme="@_currentTheme">
-            <ChartPrimaryXAxis ValueType="ValueType.Category"
-                               Title="Month">
-                <ChartAxisLineStyle Width="0" />
-                <ChartAxisMajorGridLines Width="0" />
-            </ChartPrimaryXAxis>
+        <PreviewSection>
+            <SfChart Title="Monthly Average Temperature" Theme="@_currentTheme">
+                <ChartPrimaryXAxis ValueType="ValueType.Category"
+                                   Title="Month">
+                    <ChartAxisLineStyle Width="0" />
+                    <ChartAxisMajorGridLines Width="0" />
+                </ChartPrimaryXAxis>
 
-            <ChartPrimaryYAxis Title="Temperature (°F)">
-                <ChartAxisLineStyle Width="0" />
-            </ChartPrimaryYAxis>
+                <ChartPrimaryYAxis Title="Temperature (°F)">
+                    <ChartAxisLineStyle Width="0" />
+                </ChartPrimaryYAxis>
 
             
                 <ChartSeries DataSource="@TemperatureData"
@@ -409,15 +410,15 @@
                                  ImageUrl="@(new Uri("images/charts/cloudy.png", UriKind.Relative))">
                     </ChartMarker>
                 </ChartSeries>
-            
 
+            
                 <!-- Tooltip -->
                 <ChartTooltipSettings Enable="true"
                                       Header="Average"
                                       Format="${point.x} : <b>${point.y}</b>" />
-        </SfChart>
-    </PreviewSection>
-</CodePreview>
+            </SfChart>
+        </PreviewSection>
+    </CodePreview>
 </VirtualizeSection>
 
 @code {
@@ -511,24 +512,24 @@
         Marker customization allows you to control the appearance of markers by
         configuring properties such as <code>Shape</code>, <code>Width</code>, <code>Height</code>, <code>Fill</code>, and <code>Border</code>.
         This example demonstrates customized markers for minimum, average,
-        and maximum monthly temperature values in a Line Chart by utilizing the <code>ChartMarkerBorder</code> 
+        and maximum monthly temperature values in a Line Chart by utilizing the <code>ChartMarkerBorder</code>
         component within the <code>ChartMarker</code>.
     </Content>
 </Description>
 
 <VirtualizeSection MinHeightPx="600px">
     <CodePreview IsFullWidth="true" CodeSection="@MarkerCustomizationCode">
-    <PreviewSection>
-        <SfChart Title="Monthly Temperature Variations" Theme="@_currentTheme">
-            <ChartPrimaryXAxis ValueType="ValueType.Category"
-                               Title="Month">
-                <ChartAxisLineStyle Width="0" />
-                <ChartAxisMajorGridLines Width="0" />
-            </ChartPrimaryXAxis>
+        <PreviewSection>
+            <SfChart Title="Monthly Temperature Variations" Theme="@_currentTheme">
+                <ChartPrimaryXAxis ValueType="ValueType.Category"
+                                   Title="Month">
+                    <ChartAxisLineStyle Width="0" />
+                    <ChartAxisMajorGridLines Width="0" />
+                </ChartPrimaryXAxis>
 
-            <ChartPrimaryYAxis Title="Temperature (°F)">
-                <ChartAxisLineStyle Width="0" />
-            </ChartPrimaryYAxis>
+                <ChartPrimaryYAxis Title="Temperature (°F)">
+                    <ChartAxisLineStyle Width="0" />
+                </ChartPrimaryYAxis>
 
             
                 <ChartSeries DataSource="@TemperatureData"
@@ -572,18 +573,18 @@
                                  Border="@(new ChartMarkerBorder { Width = 2, Color = "#B71C1C"})">
                     </ChartMarker>
                 </ChartSeries>
-            
 
+            
                 <!-- Tooltip -->
                 <ChartTooltipSettings Enable="true" Shared="true"
                                       Header="${point.x}"
                                       Format="${series.name} : <b>${point.y}</b>" />
-        </SfChart>
-    </PreviewSection>
-</CodePreview>
+            </SfChart>
+        </PreviewSection>
+    </CodePreview>
 </VirtualizeSection>
 
-@code{
+@code {
     private string MarkerCustomizationCode => @"@using Syncfusion.Blazor.Toolkit.Charts
     <SfChart Title=""Monthly Temperature Variations"" Theme=""@_currentTheme"">
             <ChartPrimaryXAxis ValueType=""ValueType.Category""
@@ -682,17 +683,17 @@
 
 <VirtualizeSection MinHeightPx="600px">
     <CodePreview IsFullWidth="true" CodeSection="@FilledMarkerCode">
-    <PreviewSection>
-        <SfChart Title="Filled Marker Example" Theme="@_currentTheme">
-            <ChartPrimaryXAxis ValueType="ValueType.Double"
-                               Title="Year">
-                <ChartAxisLineStyle Width="0" />
-                <ChartAxisMajorGridLines Width="0" />
-            </ChartPrimaryXAxis>
+        <PreviewSection>
+            <SfChart Title="Filled Marker Example" Theme="@_currentTheme">
+                <ChartPrimaryXAxis ValueType="ValueType.Double"
+                                   Title="Year">
+                    <ChartAxisLineStyle Width="0" />
+                    <ChartAxisMajorGridLines Width="0" />
+                </ChartPrimaryXAxis>
 
-            <ChartPrimaryYAxis Title="Value">
-                <ChartAxisLineStyle Width="0" />
-            </ChartPrimaryYAxis>
+                <ChartPrimaryYAxis Title="Value">
+                    <ChartAxisLineStyle Width="0" />
+                </ChartPrimaryYAxis>
 
             
                 <ChartSeries DataSource="@MarkerOverviewData"
@@ -704,7 +705,7 @@
                                  Shape="ChartShape.Circle"
                                  Width="10"
                                  Height="10"
-                                     IsFilled="true">
+                                 IsFilled="true">
                     </ChartMarker>
                 </ChartSeries>
 
@@ -717,21 +718,21 @@
                                  Shape="ChartShape.Circle"
                                  Width="10"
                                  Height="10"
-                                IsFilled="true">
+                                 IsFilled="true">
                     </ChartMarker>
                 </ChartSeries>
-            
 
+            
                 <!-- Tooltip -->
                 <ChartTooltipSettings Enable="true" Shared="true"
                                       Header="${point.x}"
                                       Format="${series.name} : <b>${point.y}°C</b>" />
-        </SfChart>
-    </PreviewSection>
-</CodePreview>
+            </SfChart>
+        </PreviewSection>
+    </CodePreview>
 </VirtualizeSection>
 
-@code{
+@code {
     private string FilledMarkerCode => @"@using Syncfusion.Blazor.Toolkit.Charts
 
  <SfChart Title=""Filled Marker Example"" Theme=""@_currentTheme"">

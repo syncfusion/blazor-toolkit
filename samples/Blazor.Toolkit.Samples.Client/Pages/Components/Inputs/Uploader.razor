@@ -1,6 +1,6 @@
 ﻿@page "/inputs/uploader"
 
-<PageTitle>File Uploader | ASP.NET Core Blazor OSS Components</PageTitle>
+<PageTitle>Blazor File Upload Demo | Syncfusion Toolkit</PageTitle>
 
 @using Syncfusion.Blazor.Toolkit.Inputs
 @using Syncfusion.Blazor.Toolkit.Buttons
@@ -117,23 +117,23 @@
         <h5><b>Chunk Upload</b></h5>
     </Header>
     <Content>
-        Chunk Upload in the Syncfusion Blazor File Upload component allows you to upload large 
-        files by splitting them into smaller, manageable chunks. This process significantly 
-        improves reliability, especially over unreliable networks, by reducing 
+        Chunk Upload in the Syncfusion Blazor File Upload component allows you to upload large
+        files by splitting them into smaller, manageable chunks. This process significantly
+        improves reliability, especially over unreliable networks, by reducing
         the impact of network interruptions.
     </Content>
 </Description>
 
 <CodePreview CodeSection="@ChunkUploadCode">
     <PreviewSection>
-        <SfUploader CssClass="e-custom-uploader" ID="UploadFiles" @ref="UploaderObj" OnResume="@OnResumeHandler" Paused="@PausedHandler" >
-    <UploaderAsyncSettings SaveUrl="https://blazor.syncfusion.com/services/production/api/FileUploader/Save" RemoveUrl="https://blazor.syncfusion.com/services/production/api/FileUploader/Remove" ChunkSize="500000">
-</UploaderAsyncSettings>
-</SfUploader>
-<div class="mt-3">
-    <SfButton @onclick="PauseUpload">Pause Upload</SfButton>
-    <SfButton @onclick="ResumeUpload">Resume Upload</SfButton>
-</div>
+        <SfUploader CssClass="e-custom-uploader" ID="UploadFiles" @ref="UploaderObj" OnResume="@OnResumeHandler" Paused="@PausedHandler">
+            <UploaderAsyncSettings SaveUrl="https://blazor.syncfusion.com/services/production/api/FileUploader/Save" RemoveUrl="https://blazor.syncfusion.com/services/production/api/FileUploader/Remove" ChunkSize="500000">
+            </UploaderAsyncSettings>
+        </SfUploader>
+        <div class="mt-3">
+            <SfButton @onclick="PauseUpload">Pause Upload</SfButton>
+            <SfButton @onclick="ResumeUpload">Resume Upload</SfButton>
+        </div>
 
 
 @code {
@@ -165,7 +165,7 @@
         }
     }
 }
-    </PreviewSection>
+</PreviewSection>
 </CodePreview>
 
 <!-- Template -->
@@ -239,11 +239,11 @@
                     OnFileListRender="OnFileListRender"
                     OnResume="OnResume"
                     Paused="OnPaused">
-            <UploaderAsyncSettings SaveUrl="@saveUrl" 
-                    RemoveUrl="@removeUrl" 
-                    ChunkSize="500000" 
-                    RetryCount="3" 
-                    RetryAfterDelay="1000" />
+            <UploaderAsyncSettings SaveUrl="@saveUrl"
+                                   RemoveUrl="@removeUrl"
+                                   ChunkSize="500000"
+                                   RetryCount="3"
+                                   RetryAfterDelay="1000" />
         </SfUploader>
 
         <SfButton class="mt-3" @onclick="ClearEventLog">Clear Log</SfButton>
@@ -257,74 +257,74 @@
             }
         </div>
 
-        @code {
-            private string saveUrl = "https://blazor.syncfusion.com/services/production/api/FileUploader/Save";
-            private string removeUrl = "https://blazor.syncfusion.com/services/production/api/FileUploader/Remove";
+@code {
+    private string saveUrl = "https://blazor.syncfusion.com/services/production/api/FileUploader/Save";
+    private string removeUrl = "https://blazor.syncfusion.com/services/production/api/FileUploader/Remove";
 
-            private List<LogEntry> eventLog = new();
+    private List<LogEntry> eventLog = new();
 
-            private void AddLog(string name, string message)
-            {
-                eventLog.Insert(0, new LogEntry { EventName = name, Message = message });
-                if (eventLog.Count > 100) eventLog.RemoveAt(eventLog.Count - 1);
-                StateHasChanged();
-            }
+    private void AddLog(string name, string message)
+    {
+        eventLog.Insert(0, new LogEntry { EventName = name, Message = message });
+        if (eventLog.Count > 100) eventLog.RemoveAt(eventLog.Count - 1);
+        StateHasChanged();
+    }
 
-            private void ClearEventLog()
-            {
-                eventLog.Clear();
-            }
+    private void ClearEventLog()
+    {
+        eventLog.Clear();
+    }
 
-            private void OnCreated(object args) => AddLog("Created", "Uploader initialized");
+    private void OnCreated(object args) => AddLog("Created", "Uploader initialized");
 
-            private void OnFileSelected(SelectedEventArgs args)
-            {
-                var names = string.Join(", ", args.FilesData.Select(f => f.Name));
-                AddLog("FileSelected", $"Selected: {names}");
-            }
+    private void OnFileSelected(SelectedEventArgs args)
+    {
+        var names = string.Join(", ", args.FilesData.Select(f => f.Name));
+        AddLog("FileSelected", $"Selected: {names}");
+    }
 
-            private void OnBeforeUpload(BeforeUploadEventArgs args)
-            {
-                var names = string.Join(", ", args.FilesData.Select(f => f.Name));
-                AddLog("BeforeUpload", $"Before upload: {names}");
-            }
+    private void OnBeforeUpload(BeforeUploadEventArgs args)
+    {
+        var names = string.Join(", ", args.FilesData.Select(f => f.Name));
+        AddLog("BeforeUpload", $"Before upload: {names}");
+    }
 
-            private void OnBeforeRemove(BeforeRemoveEventArgs args)
-            {
-                var name = args.FilesData.FirstOrDefault()?.Name;
-                AddLog("BeforeRemove", $"Before remove: {name}");
-            }
+    private void OnBeforeRemove(BeforeRemoveEventArgs args)
+    {
+        var name = args.FilesData.FirstOrDefault()?.Name;
+        AddLog("BeforeRemove", $"Before remove: {name}");
+    }
 
-            private void OnSuccess(SuccessEventArgs args)
-            {
-                AddLog("Success", args.File?.Name ?? "(unknown)");
-            }
+    private void OnSuccess(SuccessEventArgs args)
+    {
+        AddLog("Success", args.File?.Name ?? "(unknown)");
+    }
 
-            private void OnFailure(FailureEventArgs args)
-            {
-                AddLog("Failure", args.File?.Name ?? "(unknown)");
-            }
+    private void OnFailure(FailureEventArgs args)
+    {
+        AddLog("Failure", args.File?.Name ?? "(unknown)");
+    }
 
-            private void OnActionComplete(ActionCompleteEventArgs args) => AddLog("ActionComplete", "Action completed");
-            private void OnUploadStart(UploadingEventArgs args) => AddLog("UploadStart", args.FileData?.Name ?? "(unknown)");
-            private void OnClear(ClearingEventArgs args) => AddLog("Clear", "Cleared file list");
-            private void OnRemove(RemovingEventArgs args) => AddLog("Remove", args.FilesData.FirstOrDefault()?.Name ?? "(unknown)");
-            private void OnValueChange(UploadChangeEventArgs args) => AddLog("ValueChange", "Value changed");
-            private void OnCancel(CancelEventArgs args) => AddLog("Cancel", args.FileData?.Name ?? "(unknown)");
-            private void OnChunkSuccess(SuccessEventArgs args) => AddLog("ChunkSuccess", args.File?.Name ?? "(unknown)");
-            private void OnChunkFailure(FailureEventArgs args) => AddLog("ChunkFailure", args.File?.Name ?? "(unknown)");
-            private void OnChunkUploadStart(UploadingEventArgs args) => AddLog("ChunkUploadStart", args.FileData?.Name ?? "(unknown)");
-            private void OnFileListRender(FileListRenderingEventArgs args) => AddLog("FileListRender", "Rendering file list");
-            private void OnResume(PauseResumeEventArgs args) => AddLog("Resume", args.File?.Name ?? "(unknown)");
-            private void OnPaused(PauseResumeEventArgs args) => AddLog("Paused", args.File?.Name ?? "(unknown)");
+    private void OnActionComplete(ActionCompleteEventArgs args) => AddLog("ActionComplete", "Action completed");
+    private void OnUploadStart(UploadingEventArgs args) => AddLog("UploadStart", args.FileData?.Name ?? "(unknown)");
+    private void OnClear(ClearingEventArgs args) => AddLog("Clear", "Cleared file list");
+    private void OnRemove(RemovingEventArgs args) => AddLog("Remove", args.FilesData.FirstOrDefault()?.Name ?? "(unknown)");
+    private void OnValueChange(UploadChangeEventArgs args) => AddLog("ValueChange", "Value changed");
+    private void OnCancel(CancelEventArgs args) => AddLog("Cancel", args.FileData?.Name ?? "(unknown)");
+    private void OnChunkSuccess(SuccessEventArgs args) => AddLog("ChunkSuccess", args.File?.Name ?? "(unknown)");
+    private void OnChunkFailure(FailureEventArgs args) => AddLog("ChunkFailure", args.File?.Name ?? "(unknown)");
+    private void OnChunkUploadStart(UploadingEventArgs args) => AddLog("ChunkUploadStart", args.FileData?.Name ?? "(unknown)");
+    private void OnFileListRender(FileListRenderingEventArgs args) => AddLog("FileListRender", "Rendering file list");
+    private void OnResume(PauseResumeEventArgs args) => AddLog("Resume", args.File?.Name ?? "(unknown)");
+    private void OnPaused(PauseResumeEventArgs args) => AddLog("Paused", args.File?.Name ?? "(unknown)");
 
-            private class LogEntry
-            {
-                public string EventName { get; set; } = string.Empty;
-                public string Message { get; set; } = string.Empty;
-            }
-        }
-    </PreviewSection>
+    private class LogEntry
+    {
+        public string EventName { get; set; } = string.Empty;
+        public string Message { get; set; } = string.Empty;
+    }
+}
+</PreviewSection>
 </CodePreview>
 
 <!-- Drop Effect -->
@@ -333,7 +333,7 @@
         <h5><b>Drop Effect</b></h5>
     </Header>
     <Content>
-        The File Upload exposes a DropEffect property that controls the cursor feedback and allowed drop operation during drag-and-drop. 
+        The File Upload exposes a DropEffect property that controls the cursor feedback and allowed drop operation during drag-and-drop.
         Set this property to <b>Default</b>, <b>Copy</b>, <b>Move</b>, <b>Link</b>, or <b>None</b>.
     </Content>
 </Description>
@@ -400,7 +400,7 @@
 @code {
 
     // Code strings for CodeSection panes
-    private string BasicCode => 
+    private string BasicCode =>
     @"<SfUploader ID=""UploadFiles"">
             <UploaderAsyncSettings SaveUrl=""https://blazor.syncfusion.com/services/production/api/FileUploader/Save"" 
                                    RemoveUrl=""https://blazor.syncfusion.com/services/production/api/FileUploader/Remove""/>
@@ -415,13 +415,13 @@
     </UploadedFiles>
 </SfUploader>";
 
-    private string MultipleCode => 
+    private string MultipleCode =>
     @"<SfUploader AllowMultiple=""true"" ID=""UploadFiles"">
             <UploaderAsyncSettings SaveUrl=""https://blazor.syncfusion.com/services/production/api/FileUploader/Save""
                                    RemoveUrl=""https://blazor.syncfusion.com/services/production/api/FileUploader/Remove"" />
 </SfUploader>";
 
-    private string AutoUploadCode => 
+    private string AutoUploadCode =>
     @"<SfUploader AutoUpload=""true"" ID=""UploadFiles"">
             <UploaderAsyncSettings SaveUrl=""https://blazor.syncfusion.com/services/production/api/FileUploader/Save""
                                    RemoveUrl=""https://blazor.syncfusion.com/services/production/api/FileUploader/Remove"" />

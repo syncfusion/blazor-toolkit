@@ -1,57 +1,57 @@
 @page "/common/state-persistence"
 
-<PageTitle>State Persistence | ASP.NET Core Blazor OSS Components</PageTitle>
+<PageTitle>Blazor State Persistence Demo | Syncfusion Toolkit</PageTitle>
 
 <Description>
-  <Header>
-    <h4>State persistence</h4>
-  </Header>
-  <Content>
-    <p>
-      Several Toolkit components support persisting their UI state across page reloads or
-      navigation by enabling the <strong>EnablePersistence</strong> property. Typical persisted
-      data includes values, selected items, open/closed state and paging settings (component
-      support varies).
-    </p>
-  </Content>
+    <Header>
+        <h4>State persistence</h4>
+    </Header>
+    <Content>
+        <p>
+            Several Toolkit components support persisting their UI state across page reloads or
+            navigation by enabling the <strong>EnablePersistence</strong> property. Typical persisted
+            data includes values, selected items, open/closed state and paging settings (component
+            support varies).
+        </p>
+    </Content>
 </Description>
 
 <Description>
-  <Header>
-    <h5>How It Works</h5>
-  </Header>
-  <Content>
-    <p>
-      When <code>EnablePersistence="true"</code> is set on a component, the control stores
-      its state in browser storage (usually <code>localStorage</code>). The storage key is derived
-      from the component <code>ID</code>. Ensure components that should persist have a stable ID.
-    </p>
-  </Content>
+    <Header>
+        <h5>How It Works</h5>
+    </Header>
+    <Content>
+        <p>
+            When <code>EnablePersistence="true"</code> is set on a component, the control stores
+            its state in browser storage (usually <code>localStorage</code>). The storage key is derived
+            from the component <code>ID</code>. Ensure components that should persist have a stable ID.
+        </p>
+    </Content>
 </Description>
 
 <Description>
-  <Header>
-    <h5>TextBox Example</h5>
-  </Header>
-  <Content>
-    <p>The following sample demonstrates persisting the TextBox value across page reloads using <code>EnablePersistence</code>:</p>
-    <CodePreview FileName="Example.razor" IsCodeAlone="true" CodeSection="@persistenceExample"></CodePreview>
-  </Content>
+    <Header>
+        <h5>TextBox Example</h5>
+    </Header>
+    <Content>
+        <p>The following sample demonstrates persisting the TextBox value across page reloads using <code>EnablePersistence</code>:</p>
+        <CodePreview FileName="Example.razor" IsCodeAlone="true" CodeSection="@persistenceExample"></CodePreview>
+    </Content>
 </Description>
 
 <Description>
-  <Header>
-    <h5>Storage, Security, And Best Practices</h5>
-  </Header>
-  <Content>
-    <ul>
-        <li><strong>Storage location:</strong> Component state is saved to browser storage (typically <code>localStorage</code>) when the page unloads or the component is destroyed, and restored automatically on the next page load.</li>
-        <li><strong>Key derivation:</strong> The storage key is derived from the component <code>ID</code>. For example, a TextBox with <code>ID="defaultTextBox"</code> stores its value under the key <code>defaultTextBox</code> in browser storage. Ensure each component that persists state has a unique and stable <code>ID</code>.</li>
-        <li><strong>Security considerations:</strong> Do not persist sensitive data (passwords, authentication tokens, personal information) using <code>EnablePersistence</code>. Browser storage is accessible to client-side JavaScript and may be visible in browser developer tools. Always handle sensitive data securely on the server side.</li>
-        <li><strong>Storage limits:</strong> Browser storage typically has a size limit (usually 5-10MB per domain). Avoid persisting large amounts of data to prevent storage quota exceeded errors.</li>
-        <li><strong>Cross-tab synchronization:</strong> Storage changes in one browser tab may not automatically refresh other open tabs. Users should refresh the page to see updates from other tabs.</li>
-    </ul>
-  </Content>
+    <Header>
+        <h5>Storage, Security, And Best Practices</h5>
+    </Header>
+    <Content>
+        <ul>
+            <li><strong>Storage location:</strong> Component state is saved to browser storage (typically <code>localStorage</code>) when the page unloads or the component is destroyed, and restored automatically on the next page load.</li>
+            <li><strong>Key derivation:</strong> The storage key is derived from the component <code>ID</code>. For example, a TextBox with <code>ID="defaultTextBox"</code> stores its value under the key <code>defaultTextBox</code> in browser storage. Ensure each component that persists state has a unique and stable <code>ID</code>.</li>
+            <li><strong>Security considerations:</strong> Do not persist sensitive data (passwords, authentication tokens, personal information) using <code>EnablePersistence</code>. Browser storage is accessible to client-side JavaScript and may be visible in browser developer tools. Always handle sensitive data securely on the server side.</li>
+            <li><strong>Storage limits:</strong> Browser storage typically has a size limit (usually 5-10MB per domain). Avoid persisting large amounts of data to prevent storage quota exceeded errors.</li>
+            <li><strong>Cross-tab synchronization:</strong> Storage changes in one browser tab may not automatically refresh other open tabs. Users should refresh the page to see updates from other tabs.</li>
+        </ul>
+    </Content>
 </Description>
 
 @code {
