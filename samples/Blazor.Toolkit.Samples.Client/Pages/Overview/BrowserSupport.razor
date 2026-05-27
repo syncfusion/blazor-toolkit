@@ -1,55 +1,53 @@
 ﻿@page "/browser-support"
 
-<PageTitle>Browser compatibility | ASP.NET Core Blazor OSS Components</PageTitle>
+<PageTitle>Browser Compatibility | Syncfusion Blazor Toolkit</PageTitle>
 
 <style>
-:root {
-	/* Table-specific variables (light defaults) */
-	--table-bg: var(--panel-bg);
-	--table-border: rgba(0,0,0,0.06);
-	--table-border-radius: 6px;
-	--table-header-bg: rgba(0,0,0,0.02);
-	--table-header-color: var(--top-text);
-	--table-row-bg: #ffffff; /* light theme rows: white */
-	--table-row-border: rgba(0,0,0,0.04);
-}
+    :root {
+        /* Table-specific variables (light defaults) */
+        --table-bg: var(--panel-bg);
+        --table-border: rgba(0,0,0,0.06);
+        --table-border-radius: 6px;
+        --table-header-bg: rgba(0,0,0,0.02);
+        --table-header-color: var(--top-text);
+        --table-row-bg: #ffffff;
+        --table-row-border: rgba(0,0,0,0.04);
+    }
 
-.dark {
-	/* Dark overrides for table variables */
-	--table-bg: var(--panel-bg);
-	--table-border: rgba(255,255,255,0.10); /* lighten border for better visibility */
-	--table-header-bg: rgba(255,255,255,0.04); /* slightly brighter header */
-	--table-header-color: var(--top-text);
-	--table-row-bg: rgba(255,255,255,0.01); /* subtle difference for cells */
-	--table-row-border: rgba(255,255,255,0.04);
-}
+    .dark {
+        --table-bg: var(--panel-bg);
+        --table-border: rgba(255,255,255,0.10);
+        --table-header-bg: rgba(255,255,255,0.04);
+        --table-header-color: var(--top-text);
+        --table-row-bg: rgba(255,255,255,0.01);
+        --table-row-border: rgba(255,255,255,0.04);
+    }
 
-/* Table styling: use theme variables, with sensible fallbacks */
-.table {
-	background-color: var(--table-bg, #ffffff);
-	color: var(--text-color, #111827);
-	border: 1px solid var(--table-border, rgba(0,0,0,0.06));
-	border-radius: var(--table-border-radius, 6px);
-	overflow: hidden;
-	border-collapse: separate;
-	border-spacing: 0;
-}
+    .table {
+        background-color: var(--table-bg, #ffffff);
+        color: var(--text-color, #111827);
+        border: 1px solid var(--table-border, rgba(0,0,0,0.06));
+        border-radius: var(--table-border-radius, 6px);
+        overflow: hidden;
+        border-collapse: separate;
+        border-spacing: 0;
+    }
 
-.table thead th {
-	background-color: var(--table-header-bg, rgba(0,0,0,0.02));
-	color: var(--table-header-color, var(--top-text, #111827));
-	padding: 0.75rem 1rem;
-	text-align: left;
-	font-weight: 600;
-	border-bottom: 1px solid var(--table-row-border, rgba(0,0,0,0.04));
-}
+    .table thead th {
+        background-color: var(--table-header-bg, rgba(0,0,0,0.02));
+        color: var(--table-header-color, var(--top-text, #111827));
+        padding: 0.75rem 1rem;
+        text-align: left;
+        font-weight: 600;
+        border-bottom: 1px solid var(--table-row-border, rgba(0,0,0,0.04));
+    }
 
-.table tbody td {
-	padding: 0.75rem 1rem;
-	border-top: 1px solid var(--table-row-border, rgba(0,0,0,0.04));
-	background-color: var(--table-row-bg, #ffffff);
-	color: var(--text-color, #111827);
-}
+    .table tbody td {
+        padding: 0.75rem 1rem;
+        border-top: 1px solid var(--table-row-border, rgba(0,0,0,0.04));
+        background-color: var(--table-row-bg, #ffffff);
+        color: var(--text-color, #111827);
+    }
 
 </style>
 
@@ -58,128 +56,53 @@
         <h4>Browser Support</h4>
     </Header>
     <Content>
-        <p>Syncfusion<sup style="font-size:70%">&reg;</sup> Blazor Toolkit UI components are supported by modern web browsers on desktop and mobile devices running Windows, Linux, or macOS.</p>
+        <p><a href="https://www.syncfusion.com/blazor-toolkit" target="_blank" rel="noreferrer noopener">Syncfusion<sup style="font-size:70%">&reg;</sup> Toolkit for Blazor</a> components are fully supported in modern browsers on both desktop and mobile devices running Windows, Linux, or macOS. The following table shows the specific browser versions required for optimal compatibility with Syncfusion Blazor Toolkit.</p>
     </Content>
 </Description>
 
 <Description>
-	<Header>
-		<h5>General Blazor Apps</h5>
-	</Header>
-	<Content>
-		<p>Supported browsers (latest stable versions):</p>
-		<table class="table">
-			<thead>
-				<tr>
-					<th>Browser</th>
-					<th>Versions</th>
-				</tr>
-			</thead>
-			<tbody>
-				<tr>
-					<td>Google Chrome (including Android &amp; iOS)</td>
-					<td>Latest Version</td>
-				</tr>
-				<tr>
-					<td>Mozilla Firefox</td>
-					<td>Latest Version</td>
-				</tr>
-				<tr>
-					<td>Microsoft Edge</td>
-					<td>Latest Version</td>
-				</tr>
-				<tr>
-					<td>Apple Safari (including iOS)</td>
-					<td>Latest Version</td>
-				</tr>
-			</tbody>
-		</table>
-	</Content>
+    <Header>
+        <h5>Supported browsers:</h5>
+    </Header>
+    <Content>
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Browser</th>
+                    <th>Versions</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>Google Chrome (including Android &amp; iOS)</td>
+                    <td>Latest Version</td>
+                </tr>
+                <tr>
+                    <td>Mozilla Firefox</td>
+                    <td>Latest Version</td>
+                </tr>
+                <tr>
+                    <td>Microsoft Edge</td>
+                    <td>Latest Version</td>
+                </tr>
+                <tr>
+                    <td>Apple Safari (including iOS)</td>
+                    <td>Latest Version</td>
+                </tr>
+            </tbody>
+        </table>
+    </Content>
 </Description>
 
 <Description>
-	<Header>
-		<h5>Blazor WebAssembly</h5>
-	</Header>
-	<Content>
-		<p>Supported browsers (latest stable versions):</p>
-		<table class="table">
-			<thead>
-				<tr>
-					<th>Browser</th>
-					<th>Versions</th>
-				</tr>
-			</thead>
-			<tbody>
-				<tr>
-					<td>Google Chrome (including Android &amp; iOS)</td>
-					<td>Latest Version</td>
-				</tr>
-				<tr>
-					<td>Mozilla Firefox</td>
-					<td>Latest Version</td>
-				</tr>
-				<tr>
-					<td>Microsoft Edge</td>
-					<td>Latest Version</td>
-				</tr>
-				<tr>
-					<td>Apple Safari (including iOS)</td>
-					<td>Latest Version</td>
-				</tr>
-				<tr>
-					<td>Microsoft Internet Explorer</td>
-					<td>Not Supported</td>
-				</tr>
-			</tbody>
-		</table>
-	</Content>
-</Description>
-
-<Description>
-	<Header>
-		<h5>Blazor Server</h5>
-	</Header>
-	<Content>
-		<p>Supported browsers (latest stable versions):</p>
-		<table class="table">
-			<thead>
-				<tr>
-					<th>Browser</th>
-					<th>Versions</th>
-				</tr>
-			</thead>
-			<tbody>
-				<tr>
-					<td>Google Chrome (including Android &amp; iOS)</td>
-					<td>Latest Version</td>
-				</tr>
-				<tr>
-					<td>Mozilla Firefox</td>
-					<td>Latest Version</td>
-				</tr>
-				<tr>
-					<td>Microsoft Edge</td>
-					<td>Latest Version</td>
-				</tr>
-				<tr>
-					<td>Apple Safari (including iOS)</td>
-					<td>Latest Version</td>
-				</tr>
-				<tr>
-					<td>Microsoft Internet Explorer</td>
-					<td>11</td>
-				</tr>
-			</tbody>
-		</table>
-	</Content>
-</Description>
-
-<Description>
-	<Header>
-		<h5>See also</h5>
-	</Header>
-	<Content>
-		<p><strong>See also:</strong> <a href="https://learn.microsoft.com/en-us/aspnet/core/blazor/supported-platforms" target="_blank">ASP.NET Core Blazor supported platforms</a></p>
-	</Content>
+    <Header>
+        <h5>See also</h5>
+    </Header>
+    <Content>
+        <ul>
+            <li><a href="/system-requirements">System Requirements</a> — IDE and .NET SDK prerequisites</li>
+            <li><a href="https://learn.microsoft.com/en-us/aspnet/core/blazor/supported-platforms" target="_blank" rel="noreferrer noopener">ASP.NET Core Blazor Supported Platforms</a> — Microsoft official documentation</li>
+            <li><a href="https://blazor.syncfusion.com/demos/toolkit" target="_blank" rel="noreferrer noopener">Syncfusion Blazor Toolkit Live Demos</a> — Test components in supported browsers</li>
+        </ul>
+    </Content>
 </Description>

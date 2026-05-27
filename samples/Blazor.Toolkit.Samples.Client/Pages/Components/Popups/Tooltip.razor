@@ -1,6 +1,6 @@
 ﻿@page "/popups/tooltip"
 
-<PageTitle>Tooltip | ASP.NET Core Blazor OSS Components</PageTitle>
+<PageTitle>Blazor Tooltip Demo | Syncfusion Toolkit</PageTitle>
 
 @using Syncfusion.Blazor.Toolkit.Buttons
 @using Syncfusion.Blazor.Toolkit.Inputs
@@ -42,45 +42,45 @@
 </Description>
 <CodePreview CodeSection="@PositionCode">
     <PreviewSection>
-            <div class="toolbarContainer" style="display:flex;align-items:center;width:100%;gap:200px;justify-content:space-around">
-                <div class="col-lg-8 control-section" style="flex:0;text-align:center;min-width:220px;">
-                    <SfTooltip class="tooltip_style" Position="@Position" Content="@_content">
-                        <SfButton Content="Show Tooltip"></SfButton>
-                    </SfTooltip>
-                </div>
-                <div style="flex:0 0 auto;min-width:50px;">
-                    <label style="display:block;font-weight:600;">Tooltip Position</label>
-                    <select class="tooltip-select" value="@index" @onchange="OnPositionChanged">
-                        @for (int i = 0; i < PositionData.Count; i++)
-                        {
-                            <option value="@i" selected="@(i == index)">@PositionData[i].Text</option>
-                        }
-                    </select>
-                </div>
+        <div class="toolbarContainer" style="display:flex;align-items:center;width:100%;gap:200px;justify-content:space-around">
+            <div class="col-lg-8 control-section" style="flex:0;text-align:center;min-width:220px;">
+                <SfTooltip class="tooltip_style" Position="@Position" Content="@_content">
+                    <SfButton Content="Show Tooltip"></SfButton>
+                </SfTooltip>
             </div>
-            <style>
-    /* Sample specific styles */
-    /* Avoid absolute positioning on the tooltip wrapper to prevent layout issues.
-       Use inline-block so the wrapped button flows with the document layout. */
-    .tooltip_style {
-        position: static;
-        left: calc( 50% - 60px);
-        top: 45%;
-        display: inline-block;
-        margin: 0 auto;
-    }
+            <div style="flex:0 0 auto;min-width:50px;">
+                <label style="display:block;font-weight:600;">Tooltip Position</label>
+                <select class="tooltip-select" value="@index" @onchange="OnPositionChanged">
+                    @for (int i = 0; i < PositionData.Count; i++)
+                    {
+                        <option value="@i" selected="@(i == index)">@PositionData[i].Text</option>
+                    }
+                </select>
+            </div>
+        </div>
+        <style>
+                    /* Sample specific styles */
+                    /* Avoid absolute positioning on the tooltip wrapper to prevent layout issues.
+                           Use inline-block so the wrapped button flows with the document layout. */
+                    .tooltip_style {
+                        position: static;
+                        left: calc( 50% - 60px);
+                        top: 45%;
+                        display: inline-block;
+                        margin: 0 auto;
+                    }
 
-    .tooltip-select {
-        width: 130px;
-        padding: 3px;
-        max-height: 250px;
-        overflow-y: scroll;
-        border: 1px solid var(--bs-border-color, lightgrey);
-        background-color: var(--bs-body-bg);
-        color: var(--bs-body-color);
-        color-scheme: light dark;
-    }
-</style>
+                    .tooltip-select {
+                        width: 130px;
+                        padding: 3px;
+                        max-height: 250px;
+                        overflow-y: scroll;
+                        border: 1px solid var(--bs-border-color, lightgrey);
+                        background-color: var(--bs-body-bg);
+                        color: var(--bs-body-color);
+                        color-scheme: light dark;
+                    }
+        </style>
 @code {
     // Specifies the tooltip's position.
     private Position Position = Position.TopCenter;
@@ -127,7 +127,7 @@
 
     
 }
-    </PreviewSection>
+</PreviewSection>
 </CodePreview>
 
 <Description>
@@ -139,7 +139,7 @@
     </Content>
 </Description>
 <CodePreview CodeSection="@HtmlTemplateCode">
-        <PreviewSection>
+    <PreviewSection>
         <div id="custom" class="col-lg-12 control-section customization" style="width:100%;max-width:740px;height:260px;position:relative;overflow:hidden;">
             @* Initializes the Button component *@
             <SfButton CssClass="e-outline" IsPrimary="true" Content="HTML Template" id="btn" aria-label="Open HTML Template Tooltip"></SfButton>
@@ -160,32 +160,32 @@
             </ContentTemplate>
         </SfTooltip>
         <style>
-            /* Specifies styles for the HTML content */
-            .customization {
-                position: static;
-                margin: 24px auto 0;
-                text-align: left;
-            }
+                    /* Specifies styles for the HTML content */
+                    .customization {
+                        position: static;
+                        margin: 24px auto 0;
+                        text-align: left;
+                    }
 
-            @@media only screen and (max-width: 500px) {
-                .customization {
-                    display: table;
-                    margin: 0 auto;
-                }
-            }
+                    @@media only screen and (max-width: 500px) {
+                        .customization {
+                            display: table;
+                            margin: 0 auto;
+                        }
+                    }
 
-            .content {
-                padding: 0 10px;
-            }
+                    .content {
+                        padding: 0 10px;
+                    }
 
-            .content hr {
-                margin: 10px 0;
-                border-color: grey;
-            }
+                        .content hr {
+                            margin: 10px 0;
+                            border-color: grey;
+                        }
 
-            .content a {
-                color: #2FA1E3;
-            }
+                        .content a {
+                            color: #2FA1E3;
+                        }
         </style>
     </PreviewSection>
 </CodePreview>
@@ -219,67 +219,102 @@
         </div>
 
         <style type="text/css">
-            /* Sample specific styles for native toolbar */
-            .toolbarContainer {
-                margin: 18px auto;
-                text-align: center;
-                padding-top: 50px;
-                padding-bottom: 50px;
-            }
-            .native-toolbar { display: inline-flex; gap: 8px; align-items: center; padding-top: 8px; }
-            .toolbar-btn { min-width:34px; height:34px; border-radius:4px; border:1px solid #ccc; cursor:pointer;}
-            .toolbar-separator { width:1px; height:24px; background:#ddd; display:inline-block; margin:0 8px; }
-            .e-tooltip-wrap p { margin: 0; }
-            .e-tooltip-wrap h6 { margin: 3px 0 6px 0; font-size:12px; font-weight:500; }
-            @@media screen and (max-width: 420px) {
-                .native-toolbar { gap:6px; }
-                .toolbar-btn { min-width:30px; height:30px; }
-            }
+                    /* Sample specific styles for native toolbar */
+                    .toolbarContainer {
+                        margin: 18px auto;
+                        text-align: center;
+                        padding-top: 50px;
+                        padding-bottom: 50px;
+                    }
+
+                    .native-toolbar {
+                        display: inline-flex;
+                        gap: 8px;
+                        align-items: center;
+                        padding-top: 8px;
+                    }
+
+                    .toolbar-btn {
+                        min-width: 34px;
+                        height: 34px;
+                        border-radius: 4px;
+                        border: 1px solid #ccc;
+                        cursor: pointer;
+                    }
+
+                    .toolbar-separator {
+                        width: 1px;
+                        height: 24px;
+                        background: #ddd;
+                        display: inline-block;
+                        margin: 0 8px;
+                    }
+
+                    .e-tooltip-wrap p {
+                        margin: 0;
+                    }
+
+                    .e-tooltip-wrap h6 {
+                        margin: 3px 0 6px 0;
+                        font-size: 12px;
+                        font-weight: 500;
+                    }
+
+                    @@media screen and (max-width: 420px) {
+                        .native-toolbar {
+                            gap: 6px;
+                        }
+
+                        .toolbar-btn {
+                            min-width: 30px;
+                            height: 30px;
+                        }
+                    }
         </style>
     </PreviewSection>
 </CodePreview>
 
 <Description>
-<Header>
-<h5>API</h5>
-</Header>
-<Content>
-    The Tooltip component exposes several key properties for customization: <code>Position</code> controls where the tooltip appears, <code>OpensOn</code> determines the trigger event (Hover, Focus, Click, Auto) <code>IsSticky</code> keeps the tooltip visible until manually dismissed, and <code>Content</code> sets the tooltip text. This example provides interactive controls to dynamically change these properties and see real-time updates.
-</Content>
+    <Header>
+        <h5>API</h5>
+    </Header>
+    <Content>
+        The Tooltip component exposes several key properties for customization: <code>Position</code> controls where the tooltip appears, <code>OpensOn</code> determines the trigger event (Hover, Focus, Click, Auto) <code>IsSticky</code> keeps the tooltip visible until manually dismissed, and <code>Content</code> sets the tooltip text. This example provides interactive controls to dynamically change these properties and see real-time updates.
+    </Content>
 </Description>
 <CodePreview CodeSection="@ApiCode">
     <PreviewSection>
         <div style="display:flex;align-items:center;width:100%;gap:200px;justify-content:space-around">
             <div class="col-lg-8 control-section" style="flex:0;text-align:center;min-width:220px;">
-                     <SfTooltip Position="Position.TopCenter" IsSticky="@_propIsSticky" OpensOn="@_propOpensOn" Content="@_tooltipContent">
-                        <SfButton Content="Show Tooltip"></SfButton>
-                    </SfTooltip>
-                </div>
-                <div style="flex:0 0 auto;min-width:50px;">
-                    <label style="display:block;font-weight:600;">Open Mode</label>
-                    <select @bind="_propOpensOn" class="tooltip-select">
-                        @foreach (var val in OpensOnOptions)
-                        {
-                            <option value="@val">@val</option>
-                        }
-                    </select>
-                    
-                    <label style="display:block;font-weight:600;padding:3px;">Tooltip Text</label>
-                     <SfTextBox @bind-Value="_tooltipContent" Width="130px" Placeholder="Enter tooltip text" />
+                <SfTooltip Position="Position.TopCenter" IsSticky="@_propIsSticky" OpensOn="@_propOpensOn" Content="@_tooltipContent">
+                    <SfButton Content="Show Tooltip"></SfButton>
+                </SfTooltip>
+            </div>
+            <div style="flex:0 0 auto;min-width:50px;">
+                <label style="display:block;font-weight:600;">Open Mode</label>
+                <select @bind="_propOpensOn" class="tooltip-select">
+                    @foreach (var val in OpensOnOptions)
+                    {
+                        <option value="@val">@val</option>
+                    }
+                </select>
 
-                    <label style="display:block;align-items:center;gap:8px;margin-top:8px;">
-                        <input type="checkbox" @bind="_propIsSticky" /> Sticky Mode
-                    </label> 
-                </div>
+                <label style="display:block;font-weight:600;padding:3px;">Tooltip Text</label>
+                <SfTextBox @bind-Value="_tooltipContent" Width="130px" Placeholder="Enter tooltip text" />
+
+                <label style="display:block;align-items:center;gap:8px;margin-top:8px;">
+                    <input type="checkbox" @bind="_propIsSticky" /> Sticky Mode
+                </label>
+            </div>
         </div>
-     
-        @code{
-            private string _tooltipContent = "This is a tooltip";
-            private string _propOpensOn = "Auto";
-            private static readonly string[] OpensOnOptions = { "Auto", "Hover", "Click", "Focus" };
 
-        }
-    </PreviewSection>
+@code {
+    private string _tooltipContent = "This is a tooltip";
+    private string _propOpensOn = "Auto";
+    private static readonly string[] OpensOnOptions = { "Auto", "Hover", "Click", "Focus" };
+
+}
+</PreviewSection>
 </CodePreview>
 <Description>
     <Header>
@@ -331,34 +366,34 @@
                 @*Initialize Tooltip component*@
             </div>
         </div>
-                @code {
-            //Specifies the Id of the user name Textbox.
-            private string InputId = "userName";
-            //Specifies the Id of the password Textbox.
-            private string PassId = "passwordId";
-            //Specifies the value of user name Textbox.
-            private string UserName = "";
-            //Specifies the value of password Textbox.
-            private string Password = "";
-                    // Component references for focusing without JS interop
-                    private SfTextBox? _userNameTextBox;
-                    private SfTextBox? _passwordTextBox;
-            // Specifies the click event handler for the submit button to showcase the Tooltip.
-            public async Task OnClick()
-            {
-                        if (string.IsNullOrEmpty(UserName))
-                        {
-                            if (_userNameTextBox is not null)
-                                await _userNameTextBox.FocusAsync();
-                        }
-                        else if (Password?.Length < 8)
-                        {
-                            if (_passwordTextBox is not null)
-                                await _passwordTextBox.FocusAsync();
-                        }
-            }
+@code {
+    //Specifies the Id of the user name Textbox.
+    private string InputId = "userName";
+    //Specifies the Id of the password Textbox.
+    private string PassId = "passwordId";
+    //Specifies the value of user name Textbox.
+    private string UserName = "";
+    //Specifies the value of password Textbox.
+    private string Password = "";
+    // Component references for focusing without JS interop
+    private SfTextBox? _userNameTextBox;
+    private SfTextBox? _passwordTextBox;
+    // Specifies the click event handler for the submit button to showcase the Tooltip.
+    public async Task OnClick()
+    {
+        if (string.IsNullOrEmpty(UserName))
+        {
+            if (_userNameTextBox is not null)
+                await _userNameTextBox.FocusAsync();
         }
-        <style>
+        else if (Password?.Length < 8)
+        {
+            if (_passwordTextBox is not null)
+                await _passwordTextBox.FocusAsync();
+        }
+    }
+}
+<style>
             /* Sample specific styles */
             .control_wrapper {
                 max-width: 500px;
@@ -394,71 +429,71 @@
                 display: inline-block;
                 width: 70px;
             }
-        </style>
-    </PreviewSection>
+</style>
+</PreviewSection>
 </CodePreview>
 <Description>
     <Header>
-    <h5>Dynamic Content and Context Menu</h5>
+        <h5>Dynamic Content and Context Menu</h5>
     </Header>
     <Content>
         This advanced example demonstrates a dynamic tooltip that displays different menu content based on which button is clicked. The tooltip acts as a context menu showing wireless, device, or personal settings. The <code>OnRender</code> event refreshes the tooltip position, When <code>OpensOn</code> is set to <code>Click</code>, the tooltip triggers on button click, and the content updates dynamically based on user selection through event handlers.
     </Content>
-    </Description>
+</Description>
 
 <CodePreview CodeSection="@ToolbarMenuCode">
     <PreviewSection>
-            <div class="control-section">
-    <div class="toolbarContainer1">
-        @*Initialize the Tooltip component*@
-        <SfTooltip @ref="tooltipInstance" IsSticky="true" Width="130px" ID="tooltip-menu" Target=".custom" OnRender="OnTooltipRender" OpensOn="Click" CssClass="e-tooltip-menu-settings">
-            <ContentTemplate>
-                @if (DynamicContent == "Wireless")
-                {
-                    <div class="tooltipMenu-list">
-                        @foreach (var item in ConnectionData)
+        <div class="control-section">
+            <div class="toolbarContainer1">
+                @*Initialize the Tooltip component*@
+                <SfTooltip @ref="tooltipInstance" IsSticky="true" Width="130px" ID="tooltip-menu" Target=".custom" OnRender="OnTooltipRender" OpensOn="Click" CssClass="e-tooltip-menu-settings">
+                    <ContentTemplate>
+                        @if (DynamicContent == "Wireless")
                         {
-                            <div class="e-list-item" role="listitem" @onclick="() => CloseTooltipItem(item.Id)">
-                                <span class="e-list-icon @item.IconCss" aria-hidden="true"></span>
-                                <span class="e-list-text">@item.Text</span>
+                            <div class="tooltipMenu-list">
+                                @foreach (var item in ConnectionData)
+                                {
+                                    <div class="e-list-item" role="listitem" @onclick="() => CloseTooltipItem(item.Id)">
+                                        <span class="e-list-icon @item.IconCss" aria-hidden="true"></span>
+                                        <span class="e-list-text">@item.Text</span>
+                                    </div>
+                                }
                             </div>
                         }
-                    </div>
-                }
-                else if (DynamicContent == "Device")
-                {
-                    <div class="tooltipMenu-list">
-                        @foreach (var item in SettingsData)
+                        else if (DynamicContent == "Device")
                         {
-                            <div class="e-list-item" role="listitem" @onclick="() => CloseTooltipItem(item.Id)">
-                                <span class="e-list-icon @item.IconCss" aria-hidden="true"></span>
-                                <span class="e-list-text">@item.Text</span>
+                            <div class="tooltipMenu-list">
+                                @foreach (var item in SettingsData)
+                                {
+                                    <div class="e-list-item" role="listitem" @onclick="() => CloseTooltipItem(item.Id)">
+                                        <span class="e-list-icon @item.IconCss" aria-hidden="true"></span>
+                                        <span class="e-list-text">@item.Text</span>
+                                    </div>
+                                }
                             </div>
                         }
-                    </div>
-                }
-                else if (DynamicContent == "Personal")
-                {
-                    <div class="tooltipMenu-list">
-                        @foreach (var item in PesonalData)
+                        else if (DynamicContent == "Personal")
                         {
-                            <div class="e-list-item" role="listitem" @onclick="() => CloseTooltipItem(item.Id)">
-                                <span class="e-list-icon @item.IconCss" aria-hidden="true"></span>
-                                <span class="e-list-text">@item.Text</span>
+                            <div class="tooltipMenu-list">
+                                @foreach (var item in PesonalData)
+                                {
+                                    <div class="e-list-item" role="listitem" @onclick="() => CloseTooltipItem(item.Id)">
+                                        <span class="e-list-icon @item.IconCss" aria-hidden="true"></span>
+                                        <span class="e-list-text">@item.Text</span>
+                                    </div>
+                                }
                             </div>
                         }
-                    </div>
-                }
-            </ContentTemplate>
-            @*Initialize the Toolbar component*@
-            <ChildContent>
-                    <SfButton class="toolbar-btn custom" id="Wireless" Type="ButtonType.Button" @onmousedown="@(() => DynamicContent = "Wireless")">Wireless</SfButton>
-                    <SfButton class="toolbar-btn custom" id="Device" Type="ButtonType.Button" @onmousedown="@(() => DynamicContent = "Device")">Device</SfButton>
-                    <SfButton class="toolbar-btn custom" id="Personal" Type="ButtonType.Button" @onmousedown="@(() => DynamicContent = "Personal")">Personal</SfButton>
-            </ChildContent>
-        </SfTooltip>
-    </div>
-</div>
+                    </ContentTemplate>
+                    @*Initialize the Toolbar component*@
+                    <ChildContent>
+                        <SfButton class="toolbar-btn custom" id="Wireless" Type="ButtonType.Button" @onmousedown="@(() => DynamicContent = "Wireless")">Wireless</SfButton>
+                        <SfButton class="toolbar-btn custom" id="Device" Type="ButtonType.Button" @onmousedown="@(() => DynamicContent = "Device")">Device</SfButton>
+                        <SfButton class="toolbar-btn custom" id="Personal" Type="ButtonType.Button" @onmousedown="@(() => DynamicContent = "Personal")">Personal</SfButton>
+                    </ChildContent>
+                </SfTooltip>
+            </div>
+        </div>
 @code {
     // Specifies the instance of Tooltip component.
     public SfTooltip? tooltipInstance;
@@ -503,7 +538,7 @@
     {
         if (tooltipInstance != null)
         {
-            tooltipInstance.RefreshPositionAsync().ConfigureAwait(true);         
+            tooltipInstance.RefreshPositionAsync().ConfigureAwait(true);
         }
     }
     // Specifies the event handler to close the tooltip when selecting a native item.
@@ -516,80 +551,97 @@
     }
 }
 <style type="text/css">
-    /* Icon specific styles for toolbar and menu items */
-    @@font-face {
-        font-family: 'e-tooltip-menu-icons';
-        src: url(data:application/x-font-ttf;charset=utf-8;base64,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) format('truetype');
-        font-weight: normal;
-        font-style: normal;
-    }
-    .e-rtl .tooltipMenu-list{
-        margin-right: 0px;      
-    }
-    .tooltipMenu-list .e-list-icon {
-        float: right;
-        height: inherit;
-        width: inherit;
-        font-family: 'e-tooltip-menu-icons';
-    }
-    .e-toolbar .e-toolbar-items .e-toolbar-item .e-tbar-btn.e-btn.e-tbtn-txt .e-btn-icon {
-        font-family: 'e-tooltip-menu-icons';
-    }
-    .tooltipMenu-list .wifi:before,
-    #toolbar-menu .e-wifi:before {
-        content: "\e700";
-    }
-    .tooltipMenu-list .bluetooth:before {
-        content: "\e702";
-    }
-    .tooltipMenu-list .sim:before {
-        content: "\e705";
-    }
-    .tooltipMenu-list .display:before {
-        content: "\e704";
-    }
-    .tooltipMenu-list .sound:before {
-        content: "\e703";
-    }
-    .tooltipMenu-list .battery:before,
-    #toolbar-menu .e-battery:before {
-        content: "\e711";
-    }
-    .tooltipMenu-list .user:before {
-        content: "\e707";
-    }
-    .tooltipMenu-list .location:before {
-        content: "\e708";
-    }
-    .tooltipMenu-list .security:before,
-    #toolbar-menu .e-security:before {
-        content: "\e709";
-    }
-    .tooltipMenu-list .language:before {
-        content: "\e710";
-    }
-    .e-rtl .tooltipMenu-list .e-list-item,
-    [dir="rtl"] .tooltipMenu-list .e-list-item {
-        flex-direction: row-reverse;
-        text-align:  inherit;
-        margin-right: 0px;
-        text-wrap : nowrap;
-    }
+            /* Icon specific styles for toolbar and menu items */
+            @@font-face {
+                font-family: 'e-tooltip-menu-icons';
+                src: url(data:application/x-font-ttf;charset=utf-8;base64,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) format('truetype');
+                font-weight: normal;
+                font-style: normal;
+            }
 
-  .toolbarContainer1 {
-        text-align: center;
-        padding-top: 30px;
-        padding-bottom: 130px;
-    }
-    #tooltip-menu, #toolbar-menu {
-        display: inline-block;
-    }
-    .e-tooltip-menu-settings .e-listview {
-        border-radius: 0;
-    }
-    .tooltipMenu-list .e-list-item:last-child {
-        border-bottom: 0;
-    }
+            .e-rtl .tooltipMenu-list {
+                margin-right: 0px;
+            }
+
+            .tooltipMenu-list .e-list-icon {
+                float: right;
+                height: inherit;
+                width: inherit;
+                font-family: 'e-tooltip-menu-icons';
+            }
+
+            .e-toolbar .e-toolbar-items .e-toolbar-item .e-tbar-btn.e-btn.e-tbtn-txt .e-btn-icon {
+                font-family: 'e-tooltip-menu-icons';
+            }
+
+            .tooltipMenu-list .wifi:before,
+            #toolbar-menu .e-wifi:before {
+                content: "\e700";
+            }
+
+            .tooltipMenu-list .bluetooth:before {
+                content: "\e702";
+            }
+
+            .tooltipMenu-list .sim:before {
+                content: "\e705";
+            }
+
+            .tooltipMenu-list .display:before {
+                content: "\e704";
+            }
+
+            .tooltipMenu-list .sound:before {
+                content: "\e703";
+            }
+
+            .tooltipMenu-list .battery:before,
+            #toolbar-menu .e-battery:before {
+                content: "\e711";
+            }
+
+            .tooltipMenu-list .user:before {
+                content: "\e707";
+            }
+
+            .tooltipMenu-list .location:before {
+                content: "\e708";
+            }
+
+            .tooltipMenu-list .security:before,
+            #toolbar-menu .e-security:before {
+                content: "\e709";
+            }
+
+            .tooltipMenu-list .language:before {
+                content: "\e710";
+            }
+
+            .e-rtl .tooltipMenu-list .e-list-item,
+            [dir="rtl"] .tooltipMenu-list .e-list-item {
+                flex-direction: row-reverse;
+                text-align: inherit;
+                margin-right: 0px;
+                text-wrap: nowrap;
+            }
+
+            .toolbarContainer1 {
+                text-align: center;
+                padding-top: 30px;
+                padding-bottom: 130px;
+            }
+
+            #tooltip-menu, #toolbar-menu {
+                display: inline-block;
+            }
+
+            .e-tooltip-menu-settings .e-listview {
+                border-radius: 0;
+            }
+
+            .tooltipMenu-list .e-list-item:last-child {
+                border-bottom: 0;
+            }
 </style>
 </PreviewSection>
 </CodePreview>
@@ -608,7 +660,7 @@
         <div style="display:flex;justify-content:center;gap:40px;align-items:center;flex-wrap:wrap;padding:40px;">
             <div>
                 <p style="text-align:center;margin-bottom:16px;"> <strong>Fast</strong></p>
-                <SfTooltip Content="Shows quickly" OpenDelay="100" CloseDelay="100"Animation="@Animation">
+                <SfTooltip Content="Shows quickly" OpenDelay="100" CloseDelay="100" Animation="@Animation">
                     <SfButton Content="Fast Tooltip"></SfButton>
                 </SfTooltip>
             </div>
@@ -625,14 +677,14 @@
                 </SfTooltip>
             </div>
         </div>
-@code{
+@code {
     public AnimationModel Animation { get; set; } = new AnimationModel
     {
-        Open = new TooltipAnimationSettings {Delay = 0, Duration = 1000, Effect = Effect.ZoomIn },
-        Close = new TooltipAnimationSettings{Delay=0,Duration=500,Effect=Effect.ZoomOut}
+        Open = new TooltipAnimationSettings { Delay = 0, Duration = 1000, Effect = Effect.ZoomIn },
+        Close = new TooltipAnimationSettings { Delay = 0, Duration = 500, Effect = Effect.ZoomOut }
     };
- }
-    </PreviewSection>
+}
+</PreviewSection>
 </CodePreview>
 
 <Description>
@@ -951,7 +1003,7 @@
                 await _passwordTextBox.FocusAsync();
         }
     }
-}"; 
+}";
 
     private string ToolbarMenuCode => @"<div class=""control-section"">
     <div class=""toolbarContainer1"">

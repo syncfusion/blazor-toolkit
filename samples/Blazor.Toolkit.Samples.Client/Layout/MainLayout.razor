@@ -14,10 +14,14 @@
         @if (IsMobile)
         {
             <div class="top-layout-title">
-                <div class="brand-icon">
-                    <div class="syncfusion-logo"></div>
-                </div>
-                <div class="brand-name">Blazor Toolkit</div>
+                <a href="https://www.syncfusion.com" target="_blank" rel="noreferrer noopener" class="brand-link" aria-label="Syncfusion home">
+                    <div class="brand-icon">
+                        <div class="syncfusion-logo"></div>
+                    </div>
+                </a>
+                <a href="https://www.syncfusion.com/blazor-toolkit" target="_blank" rel="noreferrer noopener" class="brand-link" aria-label="Blazor Toolkit product page">
+                    <div class="brand-name">Blazor Toolkit</div>
+                </a>
             </div>
         }
         <div class="top-layout-inner">
@@ -34,10 +38,14 @@
                 <div class="brand-section">
                     @if (!IsMobile)
                     {
-                        <div class="brand-icon">
-                            <div class="syncfusion-logo"></div>
-                        </div>
-                        <div class="brand-name">Blazor Toolkit</div>
+                        <a href="https://www.syncfusion.com" target="_blank" rel="noreferrer noopener" class="brand-link" aria-label="Syncfusion home">
+                            <div class="brand-icon">
+                                <div class="syncfusion-logo"></div>
+                            </div>
+                        </a>
+                        <a href="https://www.syncfusion.com/blazor-toolkit" target="_blank" rel="noreferrer noopener" class="brand-link" aria-label="Blazor Toolkit product page">
+                            <div class="brand-name">Blazor Toolkit</div>
+                        </a>
                     }
                 </div>
             </div>
@@ -634,6 +642,24 @@
     }
     .brand-icon {
         padding: 0 5px;
+    }
+    /* Brand navigation links */
+    .brand-section .brand-link {
+        text-decoration: none;
+        color: var(--top-text);
+        display: flex;
+        align-items: center;
+        transition: opacity 0.2s ease;
+    }
+
+    .brand-section .brand-link:hover {
+        opacity: 0.8;
+    }
+
+    .brand-section .brand-link:focus-visible {
+        outline: 2px solid var(--accent);
+        outline-offset: 2px;
+        border-radius: 4px;
     }
     .page-rtl .right-panel,
     .page-rtl .top-left,

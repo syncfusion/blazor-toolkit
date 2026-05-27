@@ -1,92 +1,92 @@
 ﻿@page "/getting-started"
 
-<PageTitle>Getting Started | ASP.NET Core Blazor OSS Components</PageTitle>
+<PageTitle>Blazor Quick Start | Syncfusion Toolkit</PageTitle>
 
 <Description>
-	<Header>
-		<h4>Getting Started</h4>
-	</Header>
-	<Content>
-		The Syncfusion Blazor Toolkit provides a collection of lightweight, high-performance UI components for building modern Blazor Server and WebAssembly applications. This guide gives a quick setup and minimal usage example to get you producing UI quickly.
-	</Content>
+    <Header>
+        <h4>Getting Started</h4>
+    </Header>
+    <Content>
+        The Syncfusion Blazor Toolkit provides a collection of lightweight, high-performance UI components for building modern Blazor Server and WebAssembly applications. This guide gives a quick setup and minimal usage example to get you producing UI quickly.
+    </Content>
 </Description>
 
 <Description>
-	<Header>
-		<h5>Prerequisites</h5>
-	</Header>
-	<Content>
-		<ul>
-			<li>.NET 8.0 or later</li>
-			<li>Developer tooling such as Visual Studio or Visual Studio Code</li>
-		</ul>
-	</Content>
+    <Header>
+        <h5>Prerequisites</h5>
+    </Header>
+    <Content>
+        <ul>
+            <li>.NET 8.0 or later</li>
+            <li>Developer tooling such as Visual Studio or Visual Studio Code</li>
+        </ul>
+    </Content>
 </Description>
 
 <Description>
-	<Header>
-		<h5>Install</h5>
-	</Header>
-	<Content>
-		<p>Install the NuGet package into your project:</p>
-		<CodePreview FileName="terminal" IsCodeAlone="true" CodeSection="dotnet add package Syncfusion.Blazor.Toolkit"></CodePreview>
-	</Content>
+    <Header>
+        <h5>Install</h5>
+    </Header>
+    <Content>
+        <p>Install the NuGet package into your project:</p>
+        <CodePreview FileName="terminal" IsCodeAlone="true" CodeSection="dotnet add package Syncfusion.Blazor.Toolkit"></CodePreview>
+    </Content>
 </Description>
 
 <Description>
-	<Header>
-		<h5>Register services (Program.cs)</h5>
-	</Header>
-	<Content>
-		<p>Add the toolkit services to your application's program file. Example for a Server-hosted app:</p>
-		<CodePreview FileName="Program.cs" IsCodeAlone="true" CodeSection="@ProgamCode"></CodePreview>
-		<p>For WebAssembly projects, register the corresponding interactive/webassembly services in the client project's Program.cs.</p>
-	</Content>
+    <Header>
+        <h5>Register services (Program.cs)</h5>
+    </Header>
+    <Content>
+        <p>Add the toolkit services to your application's program file. Example for a Server-hosted app:</p>
+        <CodePreview FileName="Program.cs" IsCodeAlone="true" CodeSection="@ProgamCode"></CodePreview>
+        <p>For WebAssembly projects, register the corresponding interactive/webassembly services in the client project's Program.cs.</p>
+    </Content>
 </Description>
 
 <Description>
-	<Header>
-		<h5>Include assets</h5>
-	</Header>
-	<Content>
-		If your app requires theme CSS or initialization scripts, include them in your layout or host page. Refer to the component docs for theme names and required files.
-	</Content>
+    <Header>
+        <h5>Include assets</h5>
+    </Header>
+    <Content>
+        If your app requires theme CSS or initialization scripts, include them in your layout or host page. Refer to the component docs for theme names and required files.
+    </Content>
 </Description>
 
 <Description>
-	<Header>
-		<h5>Usage example</h5>
-	</Header>
-	<Content>
-		<p>Use components directly in Razor files. Example button usage:</p>
-		<CodePreview FileName="Button.razor" IsCodeAlone="true" CodeSection="@UsageExample"></CodePreview>
-	</Content>
+    <Header>
+        <h5>Usage example</h5>
+    </Header>
+    <Content>
+        <p>Use components directly in Razor files. Example button usage:</p>
+        <CodePreview FileName="Button.razor" IsCodeAlone="true" CodeSection="@UsageExample"></CodePreview>
+    </Content>
 </Description>
 
 <Description>
-	<Header>
-		<h5>Next steps</h5>
-	</Header>
-	<Content>
-		<ul>
-			<li>Explore the controls list in the repository README for available components.</li>
-			<li>Open component-specific pages for detailed API, events, and samples.</li>
-			<li>Run the sample app included in this repo to see components in action.</li>
-		</ul>
-	</Content>
+    <Header>
+        <h5>Next steps</h5>
+    </Header>
+    <Content>
+        <ul>
+            <li>Explore the controls list in the repository README for available components.</li>
+            <li>Open component-specific pages for detailed API, events, and samples.</li>
+            <li>Run the sample app included in this repo to see components in action.</li>
+        </ul>
+    </Content>
 </Description>
 
 <Description>
-	<Header>
-		<h5>Support & Contributing</h5>
-	</Header>
-	<Content>
-		For issues or questions, see the repository README. Contributions are welcome — check CONTRIBUTING.md for guidelines.
-	</Content>
+    <Header>
+        <h5>Support & Contributing</h5>
+    </Header>
+    <Content>
+        For issues or questions, see the repository README. Contributions are welcome — check CONTRIBUTING.md for guidelines.
+    </Content>
 </Description>
 
-@code{
-	private string ProgamCode = @"@using Syncfusion.Blazor.Toolkit;
+@code {
+    private string ProgamCode = @"@using Syncfusion.Blazor.Toolkit;
 
 var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddRazorComponents().AddInteractiveServerComponents();
@@ -95,7 +95,7 @@ builder.Services.AddRazorComponents().AddInteractiveServerComponents();
 builder.Services.AddSyncfusionBlazorToolkit();
 var app = builder.Build(); ";
 
-	private string UsageExample = @"@using Syncfusion.Blazor.Toolkit
+    private string UsageExample = @"@using Syncfusion.Blazor.Toolkit
 
 <SfButton CssClass=""e-primary"">Primary Button></SfButton>";
 }

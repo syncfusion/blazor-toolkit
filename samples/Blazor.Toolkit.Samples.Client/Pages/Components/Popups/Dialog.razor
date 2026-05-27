@@ -1,6 +1,6 @@
 ﻿@page "/popups/dialog"
 
-<PageTitle>Dialog | ASP.NET Core Blazor OSS Components</PageTitle>
+<PageTitle>Blazor Dialog Demo | Syncfusion Toolkit</PageTitle>
 
 @using Syncfusion.Blazor.Toolkit.Buttons
 @using Syncfusion.Blazor.Toolkit.Inputs
@@ -25,9 +25,9 @@
             <SfDialog Target="#target" Width="250px" @bind-Visible="@IsVisible" Header="Dialog Header" Content="Here Dialog with Content property." ShowCloseIcon="true"></SfDialog>
         </div>
         <style>
-            #target {
-                height: 200px;
-            }
+                    #target {
+                        height: 200px;
+                    }
         </style>
     </PreviewSection>
 </CodePreview>
@@ -42,7 +42,7 @@
 </Description>
 
 <CodePreview CodeSection="@ModalCode">
-	<PreviewSection>
+    <PreviewSection>
         <div id="modaltarget">
             <div>
                 <SfButton @onclick="@OpenModalDialog">Open Modal Dialog</SfButton>
@@ -50,11 +50,11 @@
             <SfDialog Target="#modaltarget" Width="250px" IsModal="true" @bind-Visible="@IsModalVisible" Header="Modal Dialog" Content="This is a modal Dialog" ShowCloseIcon="true"></SfDialog>
         </div>
         <style>
-            #modaltarget {
-                height: 200px;
-            }
+                    #modaltarget {
+                        height: 200px;
+                    }
         </style>
-	</PreviewSection>
+    </PreviewSection>
 </CodePreview>
 
 <Description>
@@ -95,26 +95,30 @@
             </SfDialog>
         </div>
         <style>
-            #template-target {
-                height: 350px;
-                display: flex;
-                align-items: center;
-                justify-content: center;
-            }
-            .custom-header {
-                font-size: 17px;
-                color: #0078d4;
-            }
-            .custom-content {
-                padding: 10px;
-            }
-            .custom-footer {
-                padding: 10px;
-                text-align: right;
-            }
-            .custom-header .sb-icons.e-settings {
-               vertical-align: sub;
-            }
+                    #template-target {
+                        height: 350px;
+                        display: flex;
+                        align-items: center;
+                        justify-content: center;
+                    }
+
+                    .custom-header {
+                        font-size: 17px;
+                        color: #0078d4;
+                    }
+
+                    .custom-content {
+                        padding: 10px;
+                    }
+
+                    .custom-footer {
+                        padding: 10px;
+                        text-align: right;
+                    }
+
+                    .custom-header .sb-icons.e-settings {
+                        vertical-align: sub;
+                    }
         </style>
     </PreviewSection>
 </CodePreview>
@@ -140,10 +144,10 @@
         </div>
 
         <style>
-             #target-Position {
-                height: 200px;
-                width: 700px;
-            }
+                    #target-Position {
+                        height: 200px;
+                        width: 700px;
+                    }
         </style>
     </PreviewSection>
 </CodePreview>
@@ -168,10 +172,10 @@
         </div>
 
         <style>
-             #target-resize {
-                height: 400px;
-                width: 700px;
-            }
+                    #target-resize {
+                        height: 400px;
+                        width: 700px;
+                    }
         </style>
     </PreviewSection>
 </CodePreview>
@@ -196,10 +200,10 @@
         </div>
 
         <style>
-            #target-draggable {
-                height: 400px;
-                width: 900px;
-            }
+                    #target-draggable {
+                        height: 400px;
+                        width: 900px;
+                    }
         </style>
     </PreviewSection>
 </CodePreview>
@@ -231,11 +235,11 @@
         </div>
 
         <style>
-             #btn-target {
-                min-height: 400px;
-                height: 100%;
-                position: relative;
-            }
+                    #btn-target {
+                        min-height: 400px;
+                        height: 100%;
+                        position: relative;
+                    }
         </style>
     </PreviewSection>
 </CodePreview>
@@ -271,28 +275,31 @@
             </DialogButtons>
         </SfDialog>
         <style>
-            .full-screen-dialog-header {
-                font-size: 1.15rem;
-                font-weight: 600;
-                color: #0f172a;
-                padding: 4px 0;
-                letter-spacing: 0.2px;
-            }
-            .full-screen-dialog-header::after {
-                content: '';
-                display: block;
-                width: 72px;
-                height: 3px;
-                margin-top: 8px;
-                border-radius: 999px;
-                background: linear-gradient(90deg, #2563eb, #38bdf8);
-            }
-            .custom-full-screen .e-dlg-closeicon-btn {
-                margin: 9px;
-            }
-            .dark .full-screen-dialog-header {
-                color: #fff;
-            }
+                    .full-screen-dialog-header {
+                        font-size: 1.15rem;
+                        font-weight: 600;
+                        color: #0f172a;
+                        padding: 4px 0;
+                        letter-spacing: 0.2px;
+                    }
+
+                        .full-screen-dialog-header::after {
+                            content: '';
+                            display: block;
+                            width: 72px;
+                            height: 3px;
+                            margin-top: 8px;
+                            border-radius: 999px;
+                            background: linear-gradient(90deg, #2563eb, #38bdf8);
+                        }
+
+                    .custom-full-screen .e-dlg-closeicon-btn {
+                        margin: 9px;
+                    }
+
+                    .dark .full-screen-dialog-header {
+                        color: #fff;
+                    }
         </style>
     </PreviewSection>
 </CodePreview>
@@ -713,9 +720,11 @@
         #target-Position {
             width: 600px;
         }
+
         #target-resize {
             width: auto;
         }
+
         #target-draggable {
             width: 500px;
         }
@@ -725,6 +734,7 @@
         #target-Position {
             width: 260px;
         }
+
         #target-draggable {
             width: 200px;
         }

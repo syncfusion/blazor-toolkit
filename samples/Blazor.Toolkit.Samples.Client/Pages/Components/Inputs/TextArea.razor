@@ -1,6 +1,6 @@
 ﻿@page "/inputs/textarea"
 
-<PageTitle>TextArea | ASP.NET Core Blazor OSS Components</PageTitle>
+<PageTitle>Blazor TextArea Demo | Syncfusion Toolkit</PageTitle>
 
 @using Syncfusion.Blazor.Toolkit.Inputs
 @using Syncfusion.Blazor.Toolkit.Buttons;
@@ -18,10 +18,10 @@
 @* Default TextArea example code *@
 
 <CodePreview CodeSection="@DefaultCode">
-	<PreviewSection>
-		<div class="mt-1 mb-1 p-1 example-label">About me</div>
+    <PreviewSection>
+        <div class="mt-1 mb-1 p-1 example-label">About me</div>
         <SfTextArea Placeholder="Tell us a little bit about yourself..." Width="300px"></SfTextArea>
-	</PreviewSection>
+    </PreviewSection>
 </CodePreview>
 
 @* Variants (Filled, Outlined) example code *@
@@ -36,14 +36,14 @@
 </Description>
 
 <CodePreview CodeSection="@VariantCode">
-	<PreviewSection>
-		<div class="mt-1 mb-1 p-1 example-label">Filled TextArea</div>
+    <PreviewSection>
+        <div class="mt-1 mb-1 p-1 example-label">Filled TextArea</div>
         <SfTextArea Placeholder="Tell us a little bit about yourself..." CssClass="e-filled" Width="300px">
         </SfTextArea>
         <div class="mt-1 mb-1 p-1 example-label">Outlined TextArea</div>
         <SfTextArea Placeholder="Tell us a little bit about yourself..." CssClass="e-outlined" Width="300px">
         </SfTextArea>
-	</PreviewSection>
+    </PreviewSection>
 </CodePreview>
 
 <Description>
@@ -52,16 +52,17 @@
     </Header>
     <Content>
         Customize the <code>width</code> of the TextArea using the <a href="https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.Inputs.SfTextArea.html#Syncfusion_Blazor_Inputs_SfTextArea_Width" target="_blank" rel="noreferrer noopener">
-        Width </a> property. This property allows precise adjustment of the TextArea’s width according to the specific layout requirements of the application.
-    </Content>
+        Width
+    </a> property. This property allows precise adjustment of the TextArea’s width according to the specific layout requirements of the application.
+</Content>
 </Description>
 
 @* Width customization example code *@
 
 <CodePreview CodeSection="@WidthCode">
-	<PreviewSection>
-		<SfTextArea Placeholder="Enter the Address" Width="500px"></SfTextArea>
-	</PreviewSection>
+    <PreviewSection>
+        <SfTextArea Placeholder="Enter the Address" Width="500px"></SfTextArea>
+    </PreviewSection>
 </CodePreview>
 
 @* Floating label example code *@
@@ -72,19 +73,20 @@
     </Header>
     <Content>
         The <b>floating label</b> functionality supports three modes: <a href="https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.Inputs.FloatLabelType.html#Syncfusion_Blazor_Inputs_FloatLabelType_Never" target="_blank" rel="noreferrer noopener">
-        Never</a>, <a href="https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.Inputs.FloatLabelType.html#Syncfusion_Blazor_Inputs_FloatLabelType_Auto" target="_blank" rel="noreferrer noopener">Auto</a>, and<a href="http://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.Inputs.FloatLabelType.html#Syncfusion_Blazor_Inputs_FloatLabelType_Always" target="_blank" rel="noreferrer noopener"> Always</a>.
-    </Content>
+        Never
+    </a>, <a href="https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.Inputs.FloatLabelType.html#Syncfusion_Blazor_Inputs_FloatLabelType_Auto" target="_blank" rel="noreferrer noopener">Auto</a>, and<a href="http://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.Inputs.FloatLabelType.html#Syncfusion_Blazor_Inputs_FloatLabelType_Always" target="_blank" rel="noreferrer noopener"> Always</a>.
+</Content>
 </Description>
 
 <CodePreview CodeSection="@FloatingLabelCode">
-	<PreviewSection>
-		<div class="mt-1 mb-1 p-1 example-label">Never TextArea</div>
+    <PreviewSection>
+        <div class="mt-1 mb-1 p-1 example-label">Never TextArea</div>
         <SfTextArea Placeholder="Never" FloatLabelType="FloatLabelType.Never" Width="300px"></SfTextArea>
         <div class="mt-1 mb-1 p-1 example-label">Auto TextArea</div>
         <SfTextArea Placeholder="Auto" FloatLabelType="FloatLabelType.Auto" Width="300px"></SfTextArea>
         <div class="mt-1 mb-1 p-1 example-label">Always TextArea</div>
         <SfTextArea Placeholder="Always" FloatLabelType="FloatLabelType.Always" Width="300px"></SfTextArea>
-	</PreviewSection>
+    </PreviewSection>
 </CodePreview>
 
 @* Disabled TextArea example code *@
@@ -95,15 +97,16 @@
     </Header>
     <Content>
         When the <a href="https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.Inputs.SfTextArea.html#Syncfusion_Blazor_Inputs_SfTextArea_Disabled" target="_blank" rel="noreferrer noopener">
-        Disabled</a> property is set to <b>true</b>, the TextArea cannot be focused or edited.
-    </Content>
+        Disabled
+    </a> property is set to <b>true</b>, the TextArea cannot be focused or edited.
+</Content>
 </Description>
 
 <CodePreview CodeSection="@DisabledCode">
-	<PreviewSection>
+    <PreviewSection>
         <SfTextArea Placeholder="Disabled textarea" FloatLabelType="FloatLabelType.Always" Disabled="true"
                     Width="300px"></SfTextArea>
-	</PreviewSection>
+    </PreviewSection>
 </CodePreview>
 
 @* RowCount property example code *@
@@ -114,15 +117,16 @@
     </Header>
     <Content>
         The <a href="https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.Inputs.SfTextArea.html#Syncfusion_Blazor_Inputs_SfTextArea_RowCount" target="_blank" rel="noreferrer noopener">
-        RowCount</a> property defines the initial number of visible text lines in the TextArea, controlling its vertical size and improving usability for inputs such as addresses or comments.
-    </Content>
+        RowCount
+    </a> property defines the initial number of visible text lines in the TextArea, controlling its vertical size and improving usability for inputs such as addresses or comments.
+</Content>
 </Description>
 
 <CodePreview CodeSection="@RowCountCode">
-	<PreviewSection>
-		<SfTextArea Placeholder="TextArea 3 rows" RowCount="3" FloatLabelType="FloatLabelType.Always" Width="300px">
+    <PreviewSection>
+        <SfTextArea Placeholder="TextArea 3 rows" RowCount="3" FloatLabelType="FloatLabelType.Always" Width="300px">
         </SfTextArea>
-	</PreviewSection>
+    </PreviewSection>
 </CodePreview>
 
 @* ColumnCount property example code *@
@@ -133,16 +137,17 @@
     </Header>
     <Content>
         The <a href="https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.Inputs.SfTextArea.html#Syncfusion_Blazor_Inputs_SfTextArea_ColumnCount" target="_blank" rel="noreferrer noopener">
-        ColumnCount</a> property specifies the TextArea's initial width in terms of the approximate number of characters per line, allowing you to size the control appropriately for short or long inputs.
-    </Content>
+        ColumnCount
+    </a> property specifies the TextArea's initial width in terms of the approximate number of characters per line, allowing you to size the control appropriately for short or long inputs.
+</Content>
 </Description>
 
 <CodePreview CodeSection="@ColumnCountCode">
-	<PreviewSection>
-		<SfTextArea Placeholder="TextArea 30 columns" ColumnCount="30" FloatLabelType="FloatLabelType.Always"
+    <PreviewSection>
+        <SfTextArea Placeholder="TextArea 30 columns" ColumnCount="30" FloatLabelType="FloatLabelType.Always"
                     Width="300px">
-		</SfTextArea>
-	</PreviewSection>
+        </SfTextArea>
+    </PreviewSection>
 </CodePreview>
 
 @* ResizeMode property example code *@
@@ -153,15 +158,16 @@
     </Header>
     <Content>
         The TextArea component offers flexible resizing options through the <a href="https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.Inputs.SfTextArea.html#Syncfusion_Blazor_Inputs_SfTextArea_ResizeMode" target="_blank" rel="noreferrer noopener">
-        ResizeMode</a> property, including <code>Both</code>, <code>Horizontal</code>, <code>Vertical</code>, and <code>None</code>. This option enables the TextArea to be resized in any direction.
-    </Content>
+        ResizeMode
+    </a> property, including <code>Both</code>, <code>Horizontal</code>, <code>Vertical</code>, and <code>None</code>. This option enables the TextArea to be resized in any direction.
+</Content>
 </Description>
 
 <CodePreview CodeSection="@ResizeModeCode">
-	<PreviewSection>
-		<SfTextArea Placeholder="Both side resizable" ResizeMode="Resize.Both" FloatLabelType="FloatLabelType.Always">
+    <PreviewSection>
+        <SfTextArea Placeholder="Both side resizable" ResizeMode="Resize.Both" FloatLabelType="FloatLabelType.Always">
         </SfTextArea>
-	</PreviewSection>
+    </PreviewSection>
 </CodePreview>
 
 @* MaxLength property example code *@
@@ -172,16 +178,17 @@
     </Header>
     <Content>
         Use the <a href="https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.Inputs.SfTextArea.html#Syncfusion_Blazor_Inputs_SfTextArea_MaxLength" target="_blank" rel="noreferrer noopener">
-        MaxLength</a> property to enforce a maximum character limit in the TextArea. This defines the highest number of characters that can be entered, helping control input length and maintain data quality.
-    </Content>
+        MaxLength
+    </a> property to enforce a maximum character limit in the TextArea. This defines the highest number of characters that can be entered, helping control input length and maintain data quality.
+</Content>
 </Description>
 
 <CodePreview CodeSection="@MaxLengthCode">
-	<PreviewSection>
-		<SfTextArea Placeholder="Maximum length of 20 characters" MaxLength="20" FloatLabelType="FloatLabelType.Always"
+    <PreviewSection>
+        <SfTextArea Placeholder="Maximum length of 20 characters" MaxLength="20" FloatLabelType="FloatLabelType.Always"
                     Width="300px">
-		</SfTextArea>
-	</PreviewSection>
+        </SfTextArea>
+    </PreviewSection>
 </CodePreview>
 
 @* Form validation with submit and reset example code *@
@@ -192,13 +199,14 @@
     </Header>
     <Content>
         Use the <a href="https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.Inputs.SfTextArea.html#Syncfusion_Blazor_Inputs_SfTextArea_MaxLength" target="_blank" rel="noreferrer noopener">
-        MaxLength</a> property to enforce a maximum character limit in the TextArea. This defines the highest number of characters that can be entered, helping control input length and maintain data quality.
+        MaxLength
+    </a> property to enforce a maximum character limit in the TextArea. This defines the highest number of characters that can be entered, helping control input length and maintain data quality.
 </Content>
 </Description>
 
 <CodePreview CodeSection="@TextAreaValidation">
-	<PreviewSection>
-		<div id="validation" class="control-section col-lg-12">
+    <PreviewSection>
+        <div id="validation" class="control-section col-lg-12">
             <div class="control-wrapper">
                 @if (string.IsNullOrEmpty(_message))
                 {
@@ -230,35 +238,35 @@
             </div>
         </div>
         <style>
-            .control-wrapper {
-                width: 70%;
-                margin: 0 auto;
-                min-width: 85px;
-            }
+                    .control-wrapper {
+                        width: 70%;
+                        margin: 0 auto;
+                        min-width: 85px;
+                    }
 
-            .example-label {
-                font-size: 14px;
-                margin-bottom: 6px;
-            }
+                    .example-label {
+                        font-size: 14px;
+                        margin-bottom: 6px;
+                    }
 
-            .example-content {
-                padding: 15px 0px;
-            }
+                    .example-content {
+                        padding: 15px 0px;
+                    }
 
-            .example-content:last-child {
-                padding: 15px 0px;
-            }
+                        .example-content:last-child {
+                            padding: 15px 0px;
+                        }
 
-            .validation-message {
-                color: red;
-                padding: 5px 0px 0px;
-            }
+                    .validation-message {
+                        color: red;
+                        padding: 5px 0px 0px;
+                    }
 
-            #validation .e-multi-line-input {
-                max-width: 100%;
-            }
+                    #validation .e-multi-line-input {
+                        max-width: 100%;
+                    }
         </style>
-	</PreviewSection>
+    </PreviewSection>
 </CodePreview>
 
 @* TextArea events example code *@
@@ -274,14 +282,14 @@
 </Description>
 
 <CodePreview CodeSection="@EventsCode">
-	<PreviewSection>
-		<SfTextArea ID="Events" Placeholder="Enter your comments" FloatLabelType="FloatLabelType.Auto" Width="300px"
+    <PreviewSection>
+        <SfTextArea ID="Events" Placeholder="Enter your comments" FloatLabelType="FloatLabelType.Auto" Width="300px"
                     OnBlur="@BlurHandler" ValueChange="@ChangeHandler" Created="@CreatedHandler" OnInput="@InputHandler"
                     OnFocus="@FocusHandler"></SfTextArea>
         <div class="mt-3">
             <p><b>Event:</b> @_eventMessage</p>
         </div>
-	</PreviewSection>
+    </PreviewSection>
 </CodePreview>
 
 <!-- Accessiblity -->
@@ -501,7 +509,7 @@
 
 
     @* Disabled TextArea example code *@
-	
+
     private string DisabledCode => @"<SfTextArea Placeholder=""Disabled textarea""
                                  FloatLabelType=""FloatLabelType.Always""
                                  Disabled=""true""
@@ -667,30 +675,30 @@
         overflow: hidden;
     }
 
-    .property-panel-table thead th {
-        text-align: left;
-        padding: 10px 10px;
-        font-size: 15px;
-        font-weight: 600;
-        border-bottom: 1px solid #ced4da;
-        background: #ced4da;
-        color: #333;
-        vertical-align: middle;
-    }
+        .property-panel-table thead th {
+            text-align: left;
+            padding: 10px 10px;
+            font-size: 15px;
+            font-weight: 600;
+            border-bottom: 1px solid #ced4da;
+            background: #ced4da;
+            color: #333;
+            vertical-align: middle;
+        }
 
-    .property-panel-table thead th + th {
-        border-left: 1px solid #ced4da;
-    }
+            .property-panel-table thead th + th {
+                border-left: 1px solid #ced4da;
+            }
 
-    .property-panel-table tbody td {
-        padding: 10px 10px;
-        vertical-align: middle;
-        border-bottom: 1px solid #ced4da;
-    }
+        .property-panel-table tbody td {
+            padding: 10px 10px;
+            vertical-align: middle;
+            border-bottom: 1px solid #ced4da;
+        }
 
-    .property-panel-table tbody td + td {
-        border-left: 1px solid #ced4da;
-    }
+            .property-panel-table tbody td + td {
+                border-left: 1px solid #ced4da;
+            }
 
     .e-dark-mode .property-panel-table tbody tr:hover {
         color: #1a1a1a;
@@ -706,9 +714,9 @@
         text-decoration: none;
     }
 
-    .property-panel-table a:hover {
-        text-decoration: underline;
-    }
+        .property-panel-table a:hover {
+            text-decoration: underline;
+        }
 
     .property-panel-table img {
         width: 22px;

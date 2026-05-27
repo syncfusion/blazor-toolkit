@@ -2,7 +2,7 @@
 @using Syncfusion.Blazor.Toolkit.Buttons
 @using Syncfusion.Blazor.Toolkit.Spinner
 
-<PageTitle>Spinner | ASP.NET Core Blazor OSS Components</PageTitle>
+<PageTitle>Blazor Spinner Demo | Syncfusion Toolkit</PageTitle>
 
 <Description>
     <Header>
@@ -21,13 +21,13 @@
     </Content>
 </Description>
 
-    <CodePreview CodeSection="@BasicsCode">
-        <PreviewSection>
-                <div class="spinner-item">
-                    <SfSpinner Visible="true" />
-                </div>
-        </PreviewSection>
-    </CodePreview>
+<CodePreview CodeSection="@BasicsCode">
+    <PreviewSection>
+        <div class="spinner-item">
+            <SfSpinner Visible="true" />
+        </div>
+    </PreviewSection>
+</CodePreview>
 
 <Description>
     <Header>
@@ -40,70 +40,70 @@
     </Content>
 </Description>
 
-    <CodePreview CodeSection="@SizeCode">
-        <PreviewSection>
-                <div class="spinner-item">
-                    <SfSpinner Size="24" Visible="true" />
-                </div>
-                <div class="spinner-item">
-                    <SfSpinner Size="36" Visible="true" />
-                </div>
-                <div class="spinner-item">
-                    <SfSpinner Size="48" Visible="true" />
-                </div>
-        </PreviewSection>
-    </CodePreview>
+<CodePreview CodeSection="@SizeCode">
+    <PreviewSection>
+        <div class="spinner-item">
+            <SfSpinner Size="24" Visible="true" />
+        </div>
+        <div class="spinner-item">
+            <SfSpinner Size="36" Visible="true" />
+        </div>
+        <div class="spinner-item">
+            <SfSpinner Size="48" Visible="true" />
+        </div>
+    </PreviewSection>
+</CodePreview>
 
-    <h5><b>Thickness</b></h5>
+<h5><b>Thickness</b></h5>
 <p>The Spinner component's stroke width can be customized to change its visual prominence. By adjusting the thickness (stroke width) using <code>Thickness</code> property, you can make the spinner more or less prominent in your interface based on your design requirements and the importance of the loading indicator.</p>
-    <CodePreview CodeSection="@ThicknessCode">
-        <PreviewSection>
-                <div class="spinner-item">
-                    <SfSpinner Thickness="2" Visible="true" />
-                </div>
-                <div class="spinner-item">
-                    <SfSpinner Thickness="4" Visible="true" />
-                </div>
-                <div class="spinner-item">
-                    <SfSpinner Thickness="6" Visible="true" />
-                </div>
-        </PreviewSection>
-    </CodePreview>
+<CodePreview CodeSection="@ThicknessCode">
+    <PreviewSection>
+        <div class="spinner-item">
+            <SfSpinner Thickness="2" Visible="true" />
+        </div>
+        <div class="spinner-item">
+            <SfSpinner Thickness="4" Visible="true" />
+        </div>
+        <div class="spinner-item">
+            <SfSpinner Thickness="6" Visible="true" />
+        </div>
+    </PreviewSection>
+</CodePreview>
 
 <Description>
     <Header><h5><b>Color</b></h5></Header>
     <Content><p>The default appearance of the Blazor Spinner can be customized by changing its color and stroke width. You can customize the spinner's color by applying custom CSS classes or using the <code>CssClass</code> property to match your application's color scheme and design theme.</p></Content>
 </Description>
-    <CodePreview CodeSection="@ColorCode">
-        <PreviewSection>
-                <div class="spinner-item">
-                    <SfSpinner CssClass="spin-red" Visible="true" />
-                </div>
-                <div class="spinner-item">
-                    <SfSpinner CssClass="spin-blue" Visible="true" />
-                </div>
-                <div class="spinner-item">
-                    <SfSpinner CssClass="spin-yellow" Visible="true" />
-                </div>
-                <div class="spinner-item">
-                    <SfSpinner CssClass="spin-green" Visible="true" />
-                </div>
-                <div class="spinner-item">
-                    <SfSpinner CssClass="spin-violet" Visible="true" />
-                </div>
-        </PreviewSection>
-    </CodePreview>
+<CodePreview CodeSection="@ColorCode">
+    <PreviewSection>
+        <div class="spinner-item">
+            <SfSpinner CssClass="spin-red" Visible="true" />
+        </div>
+        <div class="spinner-item">
+            <SfSpinner CssClass="spin-blue" Visible="true" />
+        </div>
+        <div class="spinner-item">
+            <SfSpinner CssClass="spin-yellow" Visible="true" />
+        </div>
+        <div class="spinner-item">
+            <SfSpinner CssClass="spin-green" Visible="true" />
+        </div>
+        <div class="spinner-item">
+            <SfSpinner CssClass="spin-violet" Visible="true" />
+        </div>
+    </PreviewSection>
+</CodePreview>
 
 
-    <h5><b>Label</b></h5>
+<h5><b>Label</b></h5>
 <p>Include labels with the Blazor Spinner component that give additional, meaningful information about the task currently running using the <code>Label</code> property. Descriptive labels enhance accessibility and improve the user experience by clearly communicating what is loading or being processed.</p>
-    <CodePreview CodeSection="@LabelCode">
-        <PreviewSection>
-                <div class="spinner-item">
-                    <SfSpinner Label="Loading…" Visible="true" />
-                </div>
-        </PreviewSection>
-    </CodePreview>
+<CodePreview CodeSection="@LabelCode">
+    <PreviewSection>
+        <div class="spinner-item">
+            <SfSpinner Label="Loading…" Visible="true" />
+        </div>
+    </PreviewSection>
+</CodePreview>
 
 <Description>
     <Header>
@@ -115,12 +115,12 @@
 </Description>
 
 <CodePreview CodeSection="@OverlayCode">
-    <PreviewSection>       
-           <SfButton @onclick="@ShowModalSpinner" CssClass="e-primary">Show Modal Spinner</SfButton>
-            <div id="modalContainer" style="position: relative; height: 200px; margin-top: 20px; border: 2px solid ; padding: 20px;">
-                <p>This is sample content. Spinner will overlay this area.</p>
-                <SfSpinner @bind-Visible="@showModalSpinner" CssClass="e-spin-overlay"></SfSpinner>
-            </div>
+    <PreviewSection>
+        <SfButton @onclick="@ShowModalSpinner" CssClass="e-primary">Show Modal Spinner</SfButton>
+        <div id="modalContainer" style="position: relative; height: 200px; margin-top: 20px; border: 2px solid ; padding: 20px;">
+            <p>This is sample content. Spinner will overlay this area.</p>
+            <SfSpinner @bind-Visible="@showModalSpinner" CssClass="e-spin-overlay"></SfSpinner>
+        </div>
     </PreviewSection>
 </CodePreview>
 <Description>
@@ -131,151 +131,151 @@
 </Description>
 <CodePreview CodeSection="@TemplateCode">
     <PreviewSection>
-            <div class="spinner-item">
-                <SfSpinner Visible="true">
-                    <SpinnerTemplates>
-                        <Template>
-                            <div class="sf-spin-custom">
-                                <div class="bars">
-                                    <span></span><span></span><span></span><span></span><span></span>
-                                </div>
-                                <div class="label-bar">Loading</div>
+        <div class="spinner-item">
+            <SfSpinner Visible="true">
+                <SpinnerTemplates>
+                    <Template>
+                        <div class="sf-spin-custom">
+                            <div class="bars">
+                                <span></span><span></span><span></span><span></span><span></span>
                             </div>
-                            <style>
-                                .sf-spin-custom {
-                                    display: flex;
-                                    flex-direction: column;
-                                    align-items: center;
-                                    gap: 10px;
-                                    color: #0F6CBD;
-                                    transform: scale(.75);
-                                    transform-origin: center center;
-                                }
+                            <div class="label-bar">Loading</div>
+                        </div>
+                        <style>
+                                                    .sf-spin-custom {
+                                                        display: flex;
+                                                        flex-direction: column;
+                                                        align-items: center;
+                                                        gap: 10px;
+                                                        color: #0F6CBD;
+                                                        transform: scale(.75);
+                                                        transform-origin: center center;
+                                                    }
 
-                                .bars {
-                                    display: flex;
-                                    gap: 4px;
-                                    height: 26px;
-                                    align-items: flex-end;
-                                }
+                                                    .bars {
+                                                        display: flex;
+                                                        gap: 4px;
+                                                        height: 26px;
+                                                        align-items: flex-end;
+                                                    }
 
-                                    .bars span {
-                                        width: 4px;
-                                        background: #0F6CBD;
-                                        border-radius: 2px;
-                                        height: 8px;
-                                        animation: barGrow 1s infinite ease-in-out;
-                                    }
+                                                        .bars span {
+                                                            width: 4px;
+                                                            background: #0F6CBD;
+                                                            border-radius: 2px;
+                                                            height: 8px;
+                                                            animation: barGrow 1s infinite ease-in-out;
+                                                        }
 
-                                        .bars span:nth-child(1) {
-                                            animation-delay: 0.00s;
-                                        }
+                                                            .bars span:nth-child(1) {
+                                                                animation-delay: 0.00s;
+                                                            }
 
-                                        .bars span:nth-child(2) {
-                                            animation-delay: 0.10s;
-                                        }
+                                                            .bars span:nth-child(2) {
+                                                                animation-delay: 0.10s;
+                                                            }
 
-                                        .bars span:nth-child(3) {
-                                            animation-delay: 0.20s;
-                                        }
+                                                            .bars span:nth-child(3) {
+                                                                animation-delay: 0.20s;
+                                                            }
 
-                                        .bars span:nth-child(4) {
-                                            animation-delay: 0.30s;
-                                        }
+                                                            .bars span:nth-child(4) {
+                                                                animation-delay: 0.30s;
+                                                            }
 
-                                        .bars span:nth-child(5) {
-                                            animation-delay: 0.40s;
-                                        }
+                                                            .bars span:nth-child(5) {
+                                                                animation-delay: 0.40s;
+                                                            }
 
-                                @@keyframes barGrow {
-                                    0%, 100% {
-                                        height: 8px;
-                                        opacity: .6;
-                                    }
+                                                    @@keyframes barGrow {
+                                                        0%, 100% {
+                                                            height: 8px;
+                                                            opacity: .6;
+                                                        }
 
-                                    50% {
-                                        height: 26px;
-                                        opacity: 1;
-                                    }
-                                }
+                                                        50% {
+                                                            height: 26px;
+                                                            opacity: 1;
+                                                        }
+                                                    }
 
-                                .label-bar {
-                                    font-size: 16px;
-                                    color: #0F6CBD;
-                                    margin-top: 8px;
-                                }
-                            </style>
-                        </Template>
-                    </SpinnerTemplates>
-                </SfSpinner>
-            </div>
-            <div class="spinner-item">
-                <SfSpinner Visible="true">
-                    <SpinnerTemplates>
-                        <Template>
-                            <div class="sf-spin-custom">
-                                <div class="dots">
-                                    <span></span><span></span><span></span>
-                                </div>
-                                <div class="label-dot">Loading</div>
+                                                    .label-bar {
+                                                        font-size: 16px;
+                                                        color: #0F6CBD;
+                                                        margin-top: 8px;
+                                                    }
+                        </style>
+                    </Template>
+                </SpinnerTemplates>
+            </SfSpinner>
+        </div>
+        <div class="spinner-item">
+            <SfSpinner Visible="true">
+                <SpinnerTemplates>
+                    <Template>
+                        <div class="sf-spin-custom">
+                            <div class="dots">
+                                <span></span><span></span><span></span>
                             </div>
-                            <style>
-                                .sf-spin-custom {
-                                    display: flex;
-                                    flex-direction: column;
-                                    align-items: center;
-                                    gap: 10px;
-                                    color: #0F6CBD;
-                                    transform: scale(.75);
-                                    transform-origin: center center;
-                                }
+                            <div class="label-dot">Loading</div>
+                        </div>
+                        <style>
+                                                    .sf-spin-custom {
+                                                        display: flex;
+                                                        flex-direction: column;
+                                                        align-items: center;
+                                                        gap: 10px;
+                                                        color: #0F6CBD;
+                                                        transform: scale(.75);
+                                                        transform-origin: center center;
+                                                    }
 
-                                .dots {
-                                    display: flex;
-                                    gap: 8px;
-                                    align-items: center;
-                                    margin-top: 20px;
-                                }
+                                                    .dots {
+                                                        display: flex;
+                                                        gap: 8px;
+                                                        align-items: center;
+                                                        margin-top: 20px;
+                                                    }
 
-                                    .dots span {
-                                        width: 8px;
-                                        height: 8px;
-                                        border-radius: 50%;
-                                        background: #0F6CBD;
-                                        opacity: 0.35;
-                                        animation: dotPulse 1.2s infinite ease-in-out;
-                                    }
+                                                        .dots span {
+                                                            width: 8px;
+                                                            height: 8px;
+                                                            border-radius: 50%;
+                                                            background: #0F6CBD;
+                                                            opacity: 0.35;
+                                                            animation: dotPulse 1.2s infinite ease-in-out;
+                                                        }
 
-                                        .dots span:nth-child(2) {
-                                            animation-delay: 0.15s;
-                                        }
+                                                            .dots span:nth-child(2) {
+                                                                animation-delay: 0.15s;
+                                                            }
 
-                                        .dots span:nth-child(3) {
-                                            animation-delay: 0.30s;
-                                        }
+                                                            .dots span:nth-child(3) {
+                                                                animation-delay: 0.30s;
+                                                            }
 
-                                @@keyframes dotPulse {
-                                    0%, 80%, 100% {
-                                        transform: scale(0.75);
-                                        opacity: 0.35;
-                                    }
+                                                    @@keyframes dotPulse {
+                                                        0%, 80%, 100% {
+                                                            transform: scale(0.75);
+                                                            opacity: 0.35;
+                                                        }
 
-                                    40% {
-                                        transform: scale(1.15);
-                                        opacity: 1;
-                                    }
-                                }
+                                                        40% {
+                                                            transform: scale(1.15);
+                                                            opacity: 1;
+                                                        }
+                                                    }
 
-                                .label-dot {
-                                    font-size: 16px;
-                                    color: #0F6CBD;
-                                    margin-top: 8px;
-                                }
-                            </style>
-                        </Template>
-                    </SpinnerTemplates>
-                </SfSpinner>
-            </div>
+                                                    .label-dot {
+                                                        font-size: 16px;
+                                                        color: #0F6CBD;
+                                                        margin-top: 8px;
+                                                    }
+                        </style>
+                    </Template>
+                </SpinnerTemplates>
+            </SfSpinner>
+        </div>
     </PreviewSection>
 </CodePreview>
 

@@ -3,6 +3,7 @@
 @using Syncfusion.Blazor.Toolkit.Charts
 @using ValueType = Syncfusion.Blazor.Toolkit.ValueType
 
+<PageTitle>Blazor Chart Annotation Demo | Syncfusion Toolkit</PageTitle>
 <Description>
     <Header>
         <h5><b>Overview</b></h5>
@@ -19,121 +20,121 @@
 
 <VirtualizeSection MinHeightPx="600px">
     <CodePreview IsFullWidth="true" CodeSection="@AnnotationOverviewCode">
-    <PreviewSection>
-        <SfChart @key="@_currentTheme" Height="420px"
-         Width="100%"
-         Title="Speed Data Plot for Interlagos Circuit"
-         Theme="@_currentTheme">
+        <PreviewSection>
+            <SfChart @key="@_currentTheme" Height="420px"
+                     Width="100%"
+                     Title="Speed Data Plot for Interlagos Circuit"
+                     Theme="@_currentTheme">
 
-    <!-- Hide legend (React parity) -->
-    <ChartLegendSettings Visible="false" />
+                <!-- Hide legend (React parity) -->
+                <ChartLegendSettings Visible="false" />
 
-    <!-- X Axis -->
-            <ChartPrimaryXAxis ValueType="ValueType.Double" Title="Distance"
-                       LabelFormat="{value:0.00} KM">
-                <ChartAxisMajorGridLines Width="0" />
-                <ChartAxisMajorTickLines Width="0" />
-    </ChartPrimaryXAxis>
+                <!-- X Axis -->
+                <ChartPrimaryXAxis ValueType="ValueType.Double" Title="Distance"
+                                   LabelFormat="{value:0.00} KM">
+                    <ChartAxisMajorGridLines Width="0" />
+                    <ChartAxisMajorTickLines Width="0" />
+                </ChartPrimaryXAxis>
 
-    <!-- Y Axis -->
-    <ChartPrimaryYAxis Minimum="50" Title="Speed (KM/H)"
-                       Maximum="400">
-        <ChartAxisLineStyle Width="0" />
-        <ChartAxisMajorTickLines Width="0" />
-    </ChartPrimaryYAxis>
+                <!-- Y Axis -->
+                <ChartPrimaryYAxis Minimum="50" Title="Speed (KM/H)"
+                                   Maximum="400">
+                    <ChartAxisLineStyle Width="0" />
+                    <ChartAxisMajorTickLines Width="0" />
+                </ChartPrimaryYAxis>
 
-    <!-- ✅ Annotations -->
-    <ChartAnnotations>
+                <!-- ✅ Annotations -->
+                <ChartAnnotations>
 
-        <ChartAnnotation CoordinateUnits="Units.Point" X="0.36" Y="80">
-            <ContentTemplate>
-                @((MarkupString)SpeedCallout("Senna S", "Top", false))
-            </ContentTemplate>
-        </ChartAnnotation>
+                    <ChartAnnotation CoordinateUnits="Units.Point" X="0.36" Y="80">
+                        <ContentTemplate>
+                            @((MarkupString)SpeedCallout("Senna S", "Top", false))
+                        </ContentTemplate>
+                    </ChartAnnotation>
 
-        <ChartAnnotation CoordinateUnits="Units.Point" X="0.90" Y="158">
-            <ContentTemplate>
-                @((MarkupString)SpeedCallout("Curva do Sol", "Left", false))
-            </ContentTemplate>
-        </ChartAnnotation>
+                    <ChartAnnotation CoordinateUnits="Units.Point" X="0.90" Y="158">
+                        <ContentTemplate>
+                            @((MarkupString)SpeedCallout("Curva do Sol", "Left", false))
+                        </ContentTemplate>
+                    </ChartAnnotation>
 
-        <ChartAnnotation CoordinateUnits="Units.Point" X="1.40" Y="120">
-            <ContentTemplate>
-                @((MarkupString)SpeedCallout("Descida do Lago", "Top", false))
-            </ContentTemplate>
-        </ChartAnnotation>
+                    <ChartAnnotation CoordinateUnits="Units.Point" X="1.40" Y="120">
+                        <ContentTemplate>
+                            @((MarkupString)SpeedCallout("Descida do Lago", "Top", false))
+                        </ContentTemplate>
+                    </ChartAnnotation>
 
-        <ChartAnnotation CoordinateUnits="Units.Point" X="2.10" Y="200">
-            <ContentTemplate>
-                @((MarkupString)SpeedCallout("Ferradura", "Top", false))
-            </ContentTemplate>
-        </ChartAnnotation>
+                    <ChartAnnotation CoordinateUnits="Units.Point" X="2.10" Y="200">
+                        <ContentTemplate>
+                            @((MarkupString)SpeedCallout("Ferradura", "Top", false))
+                        </ContentTemplate>
+                    </ChartAnnotation>
 
-        <ChartAnnotation CoordinateUnits="Units.Point" X="2.72" Y="80">
-            <ContentTemplate>
-                @((MarkupString)SpeedCallout("Bico de Pato", "Top", false))
-            </ContentTemplate>
-        </ChartAnnotation>
+                    <ChartAnnotation CoordinateUnits="Units.Point" X="2.72" Y="80">
+                        <ContentTemplate>
+                            @((MarkupString)SpeedCallout("Bico de Pato", "Top", false))
+                        </ContentTemplate>
+                    </ChartAnnotation>
 
-        <ChartAnnotation CoordinateUnits="Units.Point" X="3.27" Y="98">
-            <ContentTemplate>
-                @((MarkupString)SpeedCallout("Juncao", "Top", false))
-            </ContentTemplate>
-        </ChartAnnotation>
+                    <ChartAnnotation CoordinateUnits="Units.Point" X="3.27" Y="98">
+                        <ContentTemplate>
+                            @((MarkupString)SpeedCallout("Juncao", "Top", false))
+                        </ContentTemplate>
+                    </ChartAnnotation>
 
-        <ChartAnnotation CoordinateUnits="Units.Point" X="0.70" Y="304">
-            <ContentTemplate>
-                @((MarkupString)SpeedCallout("Reta Oposta", "Bottom", true))
-            </ContentTemplate>
-        </ChartAnnotation>
+                    <ChartAnnotation CoordinateUnits="Units.Point" X="0.70" Y="304">
+                        <ContentTemplate>
+                            @((MarkupString)SpeedCallout("Reta Oposta", "Bottom", true))
+                        </ContentTemplate>
+                    </ChartAnnotation>
 
-        <ChartAnnotation CoordinateUnits="Units.Point" X="3.136" Y="288">
-            <ContentTemplate>
-                @((MarkupString)SpeedCallout("Mergulho", "Bottom", true))
-            </ContentTemplate>
-        </ChartAnnotation>
+                    <ChartAnnotation CoordinateUnits="Units.Point" X="3.136" Y="288">
+                        <ContentTemplate>
+                            @((MarkupString)SpeedCallout("Mergulho", "Bottom", true))
+                        </ContentTemplate>
+                    </ChartAnnotation>
 
-        <ChartAnnotation CoordinateUnits="Units.Point" X="3.82" Y="312">
-            <ContentTemplate>
-                @((MarkupString)SpeedCallout("Subida dos Boxes", "Bottom", true))
-            </ContentTemplate>
-        </ChartAnnotation>
+                    <ChartAnnotation CoordinateUnits="Units.Point" X="3.82" Y="312">
+                        <ContentTemplate>
+                            @((MarkupString)SpeedCallout("Subida dos Boxes", "Bottom", true))
+                        </ContentTemplate>
+                    </ChartAnnotation>
 
-        <!-- Plain HTML annotation -->
-        <ChartAnnotation CoordinateUnits="Units.Point" X="1.65" Y="330">
-            <ContentTemplate>
-                <div style="font-family:Inter;font-weight:600;color:@TextColor">
-                    Max, acceleration<br />5.00 g at 5th gear
-                </div>
-            </ContentTemplate>
-        </ChartAnnotation>
+                    <!-- Plain HTML annotation -->
+                    <ChartAnnotation CoordinateUnits="Units.Point" X="1.65" Y="330">
+                        <ContentTemplate>
+                            <div style="font-family:Inter;font-weight:600;color:@TextColor">
+                                Max, acceleration<br />5.00 g at 5th gear
+                            </div>
+                        </ContentTemplate>
+                    </ChartAnnotation>
 
-        <ChartAnnotation CoordinateUnits="Units.Point" X="2.50" Y="260">
-            <ContentTemplate>
-                <div style="font-family:Inter;font-weight:600;color:@TextColor">
-                    Max, acceleration<br />4.58 g at 5th gear
-                </div>
-            </ContentTemplate>
-        </ChartAnnotation>
+                    <ChartAnnotation CoordinateUnits="Units.Point" X="2.50" Y="260">
+                        <ContentTemplate>
+                            <div style="font-family:Inter;font-weight:600;color:@TextColor">
+                                Max, acceleration<br />4.58 g at 5th gear
+                            </div>
+                        </ContentTemplate>
+                    </ChartAnnotation>
 
-    </ChartAnnotations>
+                </ChartAnnotations>
 
-    <!-- ✅ Series -->
+                <!-- ✅ Series -->
+
+                <ChartSeries DataSource="@AnnotateData"
+                             XName="Distance"
+                             YName="Speed"
+                             Name="Speed"
+                             Type="ChartSeriesType.Area"
+                             Fill="#6200EE"
+                             Border="@(new ChartSeriesBorder { Width = 2.5, Color = "#6200EE" })">
+                </ChartSeries>
+
     
-        <ChartSeries DataSource="@AnnotateData"
-                     XName="Distance"
-                     YName="Speed"
-                     Name="Speed"
-                     Type="ChartSeriesType.Area"
-                     Fill="#6200EE"
-                     Border="@(new ChartSeriesBorder { Width = 2.5, Color = "#6200EE" })">
-        </ChartSeries>
-    
+            </SfChart>
 
-</SfChart>
-
-    </PreviewSection>
-</CodePreview>
+        </PreviewSection>
+    </CodePreview>
 </VirtualizeSection>
 
 <Description>
@@ -143,7 +144,7 @@
     <Content>
         Point annotations allow you to place custom content at specific
         data points in the Chart. This example demonstrates callout-style
-        data points in the Chart by setting the <code>CoordinateUnits</code> property to <code>Units.Point</code>. 
+        data points in the Chart by setting the <code>CoordinateUnits</code> property to <code>Units.Point</code>.
         This example demonstrates callout-style
         annotations positioned at known peak and transition months in
         all-India monthly rainfall data.
@@ -152,44 +153,44 @@
 
 <VirtualizeSection MinHeightPx="600px">
     <CodePreview IsFullWidth="true" CodeSection="@AnnotationPointCode">
-    <PreviewSection>
-        <SfChart @key="@_currentTheme" Height="440px" Title="All-India Monthly Rainfall (mm, 1901-2000 normals)"
-                 SubTitle="Source: India Meteorological Department" Theme="@_currentTheme">
+        <PreviewSection>
+            <SfChart @key="@_currentTheme" Height="440px" Title="All-India Monthly Rainfall (mm, 1901-2000 normals)"
+                     SubTitle="Source: India Meteorological Department" Theme="@_currentTheme">
 
-            <ChartLegendSettings Visible="false"></ChartLegendSettings>
+                <ChartLegendSettings Visible="false"></ChartLegendSettings>
 
-            <ChartPrimaryXAxis ValueType="ValueType.Category" Interval="1">
-                <ChartAxisMajorGridLines Width="0" />
-                <ChartAxisMajorTickLines Width="0" />
-            </ChartPrimaryXAxis>
+                <ChartPrimaryXAxis ValueType="ValueType.Category" Interval="1">
+                    <ChartAxisMajorGridLines Width="0" />
+                    <ChartAxisMajorTickLines Width="0" />
+                </ChartPrimaryXAxis>
 
-            <ChartPrimaryYAxis Minimum="0" Maximum="340" Title="Precipitation (mm)" Interval="100">
-                <ChartAxisLineStyle Width="0" />
-                <ChartAxisMajorTickLines Width="0" />
-            </ChartPrimaryYAxis>
+                <ChartPrimaryYAxis Minimum="0" Maximum="340" Title="Precipitation (mm)" Interval="100">
+                    <ChartAxisLineStyle Width="0" />
+                    <ChartAxisMajorTickLines Width="0" />
+                </ChartPrimaryYAxis>
 
-            <ChartAnnotations>
-                <ChartAnnotation X="@((object)"Jun")" Y="195"
-                                 CoordinateUnits="Units.Point">
-                    <ContentTemplate>
-                        @((MarkupString)RainfallCallout("SW monsoon onset month nationally (~167 mm)", "#0f766e", "#eafff6"))
-                    </ContentTemplate>
-                </ChartAnnotation>
+                <ChartAnnotations>
+                    <ChartAnnotation X="@((object)"Jun")" Y="195"
+                                     CoordinateUnits="Units.Point">
+                        <ContentTemplate>
+                            @((MarkupString)RainfallCallout("SW monsoon onset month nationally (~167 mm)", "#0f766e", "#eafff6"))
+                        </ContentTemplate>
+                    </ChartAnnotation>
 
-                <ChartAnnotation X="@((object)"Jul")" Y="317"
-                                 CoordinateUnits="Units.Point">
-                    <ContentTemplate>
-                        @((MarkupString)RainfallCallout("Peak monsoon — July averages ~289 mm", "#1e3a8a", "#ffffff"))
-                    </ContentTemplate>
-                </ChartAnnotation>
+                    <ChartAnnotation X="@((object)"Jul")" Y="317"
+                                     CoordinateUnits="Units.Point">
+                        <ContentTemplate>
+                            @((MarkupString)RainfallCallout("Peak monsoon — July averages ~289 mm", "#1e3a8a", "#ffffff"))
+                        </ContentTemplate>
+                    </ChartAnnotation>
 
-                <ChartAnnotation X="@((object)"Oct")" Y="115"
-                                 CoordinateUnits="Units.Point">
-                    <ContentTemplate>
-                        @((MarkupString)RainfallCallout("Retreating monsoon - October (~85 mm)", "#7c2d12", "#fff7ed"))
-                    </ContentTemplate>
-                </ChartAnnotation>
-            </ChartAnnotations>
+                    <ChartAnnotation X="@((object)"Oct")" Y="115"
+                                     CoordinateUnits="Units.Point">
+                        <ContentTemplate>
+                            @((MarkupString)RainfallCallout("Retreating monsoon - October (~85 mm)", "#7c2d12", "#fff7ed"))
+                        </ContentTemplate>
+                    </ChartAnnotation>
+                </ChartAnnotations>
 
             
                 <ChartSeries DataSource="@RainfallIndia"
@@ -199,10 +200,10 @@
                              Fill="#3b82f6"
                              Width="2">
                 </ChartSeries>
-            
-        </SfChart>
-    </PreviewSection>
-</CodePreview>
+
+            </SfChart>
+        </PreviewSection>
+    </CodePreview>
 </VirtualizeSection>
 
 <Description>
@@ -220,29 +221,29 @@
 
 <VirtualizeSection MinHeightPx="600px">
     <CodePreview IsFullWidth="true" CodeSection="@AnnotationPixelCode">
-    <PreviewSection>
-        <SfChart @key="@_currentTheme" Height="420px" Width="100%" Title="Brent Crude Oil Price Trends (2015-2023)" 
-                 SubTitle="Source: U.S. EIA-Europe Brent Spot Price FOB (Annual Averages)" Theme="@_currentTheme">
-            <ChartLegendSettings Visible="false"></ChartLegendSettings>
+        <PreviewSection>
+            <SfChart @key="@_currentTheme" Height="420px" Width="100%" Title="Brent Crude Oil Price Trends (2015-2023)"
+                     SubTitle="Source: U.S. EIA-Europe Brent Spot Price FOB (Annual Averages)" Theme="@_currentTheme">
+                <ChartLegendSettings Visible="false"></ChartLegendSettings>
 
-            <ChartPrimaryXAxis ValueType="ValueType.DateTime" Format="yyyy">
-                <ChartAxisMajorGridLines Width="0" />
-                <ChartAxisMajorTickLines Width="0"/>
-            </ChartPrimaryXAxis>
+                <ChartPrimaryXAxis ValueType="ValueType.DateTime" Format="yyyy">
+                    <ChartAxisMajorGridLines Width="0" />
+                    <ChartAxisMajorTickLines Width="0" />
+                </ChartPrimaryXAxis>
 
-            <ChartPrimaryYAxis Interval="20" Title="Price (USD per Barrel)">
-                <ChartAxisLineStyle Width="0" />
-                <ChartAxisMajorTickLines Width="0" />
-            </ChartPrimaryYAxis>
+                <ChartPrimaryYAxis Interval="20" Title="Price (USD per Barrel)">
+                    <ChartAxisLineStyle Width="0" />
+                    <ChartAxisMajorTickLines Width="0" />
+                </ChartPrimaryYAxis>
 
-            <ChartAnnotations>
-                <ChartAnnotation X="@((object)"60%")" Y="@((string)"60%".ToString())"
-                                 CoordinateUnits="Units.Pixel">
-                    <ContentTemplate>
-                        @((MarkupString)WatermarkHtml("Annual Averages (2015-2023)"))
-                    </ContentTemplate>
-                </ChartAnnotation>
-            </ChartAnnotations>
+                <ChartAnnotations>
+                    <ChartAnnotation X="@((object)"60%")" Y="@((string)"60%".ToString())"
+                                     CoordinateUnits="Units.Pixel">
+                        <ContentTemplate>
+                            @((MarkupString)WatermarkHtml("Annual Averages (2015-2023)"))
+                        </ContentTemplate>
+                    </ChartAnnotation>
+                </ChartAnnotations>
 
             
                 <ChartSeries DataSource="@BrentAnnual"
@@ -253,14 +254,14 @@
                              Width="3"
                              Fill="#82C100">
                 </ChartSeries>
-            
 
-            <ChartTooltipSettings Enable="true" EnableHighlight="true"
-                                  EnableMarker="true" ShowNearestPoint="true"
-                                  Format="${point.x}<br/>${series.name}: <b>${point.y}</b>" />
-        </SfChart>
-    </PreviewSection>
-</CodePreview>
+            
+                <ChartTooltipSettings Enable="true" EnableHighlight="true"
+                                      EnableMarker="true" ShowNearestPoint="true"
+                                      Format="${point.x}<br/>${series.name}: <b>${point.y}</b>" />
+            </SfChart>
+        </PreviewSection>
+    </CodePreview>
 </VirtualizeSection>
 
 <Description>
@@ -271,7 +272,7 @@
         Alignment properties allow you to control how annotation content is positioned
         relative to its anchor point. This example demonstrates horizontal and vertical
         alignment options applied to annotations highlighting maximum, minimum, and
-        relative to its anchor point using the <code>HorizontalAlignment</code> and <code>VerticalAlignment</code> properties. 
+        relative to its anchor point using the <code>HorizontalAlignment</code> and <code>VerticalAlignment</code> properties.
         This example demonstrates horizontal and vertical alignment options applied to annotations highlighting maximum, minimum, and
         average values in a time series.
     </Content>
@@ -279,46 +280,46 @@
 
 <VirtualizeSection MinHeightPx="600px">
     <CodePreview IsFullWidth="true" CodeSection="@AnnotationAlignmentCode">
-    <PreviewSection>
-        <SfChart Title="Bitcoin (BTC) vs USD — Monthly Close (Jun 2022–Oct 2024)" Theme="@_currentTheme">
+        <PreviewSection>
+            <SfChart Title="Bitcoin (BTC) vs USD — Monthly Close (Jun 2022–Oct 2024)" Theme="@_currentTheme">
 
-            <ChartPrimaryXAxis ValueType="ValueType.DateTime"
-                               IntervalType="IntervalType.Months" LabelFormat="MMM yy"
-                               Interval="4">
-                <ChartAxisMajorGridLines Width="0" />
-                <ChartAxisMajorTickLines Width="0" />
-            </ChartPrimaryXAxis>
+                <ChartPrimaryXAxis ValueType="ValueType.DateTime"
+                                   IntervalType="IntervalType.Months" LabelFormat="MMM yy"
+                                   Interval="4">
+                    <ChartAxisMajorGridLines Width="0" />
+                    <ChartAxisMajorTickLines Width="0" />
+                </ChartPrimaryXAxis>
 
-            <ChartPrimaryYAxis Interval="20000" Title="Price in USD">
-                <ChartAxisLineStyle Width="0" />
-                <ChartAxisMajorTickLines Width="0" />
-            </ChartPrimaryYAxis>
+                <ChartPrimaryYAxis Interval="20000" Title="Price in USD">
+                    <ChartAxisLineStyle Width="0" />
+                    <ChartAxisMajorTickLines Width="0" />
+                </ChartPrimaryYAxis>
 
-            <ChartAnnotations>
-                <ChartAnnotation X="@Stats.MaxPoint.X"
-                                 Y="@(Stats.MaxPoint.Y.ToString())"
-                                 CoordinateUnits="Units.Point">
-                    <ContentTemplate>
-                        @((MarkupString)GlassBox($"📈 Max ${FmtUSD(Stats.MaxVal)}"))
-                    </ContentTemplate>
-                </ChartAnnotation>
+                <ChartAnnotations>
+                    <ChartAnnotation X="@Stats.MaxPoint.X"
+                                     Y="@(Stats.MaxPoint.Y.ToString())"
+                                     CoordinateUnits="Units.Point">
+                        <ContentTemplate>
+                            @((MarkupString)GlassBox($"📈 Max ${FmtUSD(Stats.MaxVal)}"))
+                        </ContentTemplate>
+                    </ChartAnnotation>
 
-                <ChartAnnotation X="@Stats.MinPoint.X"
-                                 Y="@(Stats.MinPoint.Y.ToString())"
-                                 CoordinateUnits="Units.Point">
-                    <ContentTemplate>
-                        @((MarkupString)GlassBox($"📉 Min ${FmtUSD(Stats.MinVal)}"))
-                    </ContentTemplate>
-                </ChartAnnotation>
+                    <ChartAnnotation X="@Stats.MinPoint.X"
+                                     Y="@(Stats.MinPoint.Y.ToString())"
+                                     CoordinateUnits="Units.Point">
+                        <ContentTemplate>
+                            @((MarkupString)GlassBox($"📉 Min ${FmtUSD(Stats.MinVal)}"))
+                        </ContentTemplate>
+                    </ChartAnnotation>
 
-                <ChartAnnotation X="@Stats.MidPoint.X"
-                                 Y="@(Stats.AvgVal.ToString())"
-                                 CoordinateUnits="Units.Point">
-                    <ContentTemplate>
-                        @((MarkupString)GlassBox($"⚖ Avg ${FmtUSD(Stats.AvgVal)}"))
-                    </ContentTemplate>
-                </ChartAnnotation>
-            </ChartAnnotations>
+                    <ChartAnnotation X="@Stats.MidPoint.X"
+                                     Y="@(Stats.AvgVal.ToString())"
+                                     CoordinateUnits="Units.Point">
+                        <ContentTemplate>
+                            @((MarkupString)GlassBox($"⚖ Avg ${FmtUSD(Stats.AvgVal)}"))
+                        </ContentTemplate>
+                    </ChartAnnotation>
+                </ChartAnnotations>
 
             
                 <ChartSeries DataSource="@Data"
@@ -331,10 +332,10 @@
 
             
 
-            <ChartLegendSettings Visible="false"></ChartLegendSettings>
-        </SfChart>
-    </PreviewSection>
-</CodePreview>
+                <ChartLegendSettings Visible="false"></ChartLegendSettings>
+            </SfChart>
+        </PreviewSection>
+    </CodePreview>
 </VirtualizeSection>
 
 @code {

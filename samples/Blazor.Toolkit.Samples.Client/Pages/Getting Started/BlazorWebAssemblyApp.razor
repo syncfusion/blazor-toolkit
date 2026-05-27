@@ -1,163 +1,163 @@
 @page "/blazor-webassembly-app"
 
-<PageTitle>Blazor WebAssembly App | ASP.NET Core Blazor OSS Components</PageTitle>
+<PageTitle>Blazor WebAssembly Quick Start | Syncfusion Toolkit</PageTitle>
 
 <Description>
-	<Header>
-		<h4>Getting Started With Blazor WebAssembly App</h4>
-	</Header>
-	<Content>
-		This article provides step-by-step instructions for building a Blazor WebAssembly App with the Syncfusion® Blazor Toolkit component using Visual Studio, Visual Studio Code, and the .NET CLI.
-	</Content>
+    <Header>
+        <h4>Getting Started With Blazor WebAssembly App</h4>
+    </Header>
+    <Content>
+        This article provides step-by-step instructions for building a Blazor WebAssembly App with the Syncfusion® Blazor Toolkit component using Visual Studio, Visual Studio Code, and the .NET CLI.
+    </Content>
 </Description>
 
 <Description>
-	<Header>
-		<h5>Prerequisites</h5>
-	</Header>
-	<Content>
-		<ul>
-			<li>.NET SDK: Version 8.0 or later</li>
-			<li>IDE: Visual Studio 2022 17.8+ or Visual Studio Code</li>
-			<li>Operating System: Windows, macOS, or Linux</li>
-		</ul>
-	</Content>
+    <Header>
+        <h5>Prerequisites</h5>
+    </Header>
+    <Content>
+        <ul>
+            <li>.NET SDK: Version 8.0 or later</li>
+            <li>IDE: Visual Studio 2022 17.8+ or Visual Studio Code</li>
+            <li>Operating System: Windows, macOS, or Linux</li>
+        </ul>
+    </Content>
 </Description>
 
 <Description>
-	<Header>
-		<h5>Create a New Blazor WebAssembly App</h5>
-	</Header>
-	<Content>
-		<p>Create a new Blazor WebAssembly App project using the <b>dotnet new blazorwasm</b> command or through Visual Studio. For detailed instructions, refer to the <a href="https://learn.microsoft.com/aspnet/core/blazor/tooling" target="_blank">Microsoft Blazor documentation</a>.</p>
-		<p><b>Visual Studio Code / .NET CLI</b></p>
-		<CodePreview FileName="terminal" IsCodeAlone="true" CodeSection="dotnet new blazorwasm -o BlazorWebAssemblyApp
-cd BlazorWebAssemblyApp"></CodePreview>
-	</Content>
+    <Header>
+        <h5>Create a New Blazor WebAssembly App</h5>
+    </Header>
+    <Content>
+        <p>Create a new Blazor WebAssembly App project using the <b>dotnet new blazorwasm</b> command or through Visual Studio. For detailed instructions, refer to the <a href="https://learn.microsoft.com/aspnet/core/blazor/tooling" target="_blank">Microsoft Blazor documentation</a>.</p>
+        <p><b>Visual Studio Code / .NET CLI</b></p>
+        <CodePreview FileName="terminal" IsCodeAlone="true" CodeSection="dotnet new blazorwasm -o BlazorWebAssemblyApp
+        cd BlazorWebAssemblyApp"></CodePreview>
+    </Content>
 </Description>
 
 <Description>
-	<Header>
-		<h5>Install Syncfusion Blazor Toolkit Package</h5>
-	</Header>
-	<Content>
-		<p>Install the Syncfusion.Blazor.Toolkit NuGet package in your WebAssembly project using one of the following methods:</p>
-		<p><b>NuGet Package Manager (Visual Studio)</b></p>
-		<p>Install the <code>Syncfusion.Blazor.Toolkit</code> package from the <a href="https://www.nuget.org/packages/Syncfusion.Blazor.Toolkit" target="_blank">NuGet Gallery</a>.</p>
-		<p><b>Package Manager Console</b></p>
-		<CodePreview FileName="terminal" IsCodeAlone="true" CodeSection="Install-Package Syncfusion.Blazor.Toolkit"></CodePreview>
-	</Content>
+    <Header>
+        <h5>Install Syncfusion Blazor Toolkit Package</h5>
+    </Header>
+    <Content>
+        <p>Install the Syncfusion.Blazor.Toolkit NuGet package in your WebAssembly project using one of the following methods:</p>
+        <p><b>NuGet Package Manager (Visual Studio)</b></p>
+        <p>Install the <code>Syncfusion.Blazor.Toolkit</code> package from the <a href="https://www.nuget.org/packages/Syncfusion.Blazor.Toolkit" target="_blank">NuGet Gallery</a>.</p>
+        <p><b>Package Manager Console</b></p>
+        <CodePreview FileName="terminal" IsCodeAlone="true" CodeSection="Install-Package Syncfusion.Blazor.Toolkit"></CodePreview>
+    </Content>
 </Description>
 
 <Description>
-	<Content>
-		<p><b>.NET CLI / VS Code Terminal</b></p>
-		<CodePreview FileName="terminal" IsCodeAlone="true" CodeSection="dotnet add package Syncfusion.Blazor.Toolkit"></CodePreview>
-	</Content>
+    <Content>
+        <p><b>.NET CLI / VS Code Terminal</b></p>
+        <CodePreview FileName="terminal" IsCodeAlone="true" CodeSection="dotnet add package Syncfusion.Blazor.Toolkit"></CodePreview>
+    </Content>
 </Description>
 
 <Description>
-	<Header>
-		<h5>Add Import Namespaces</h5>
-	</Header>
-	<Content>
-		<p>After installing the package, add the required namespaces to your <code>~/_Imports.razor</code> file:</p>
-		<CodePreview FileName="_Imports.razor" IsCodeAlone="true" CodeSection="@ImportsCode"></CodePreview>
-	</Content>
+    <Header>
+        <h5>Add Import Namespaces</h5>
+    </Header>
+    <Content>
+        <p>After installing the package, add the required namespaces to your <code>~/_Imports.razor</code> file:</p>
+        <CodePreview FileName="_Imports.razor" IsCodeAlone="true" CodeSection="@ImportsCode"></CodePreview>
+    </Content>
 </Description>
 
 <Description>
-	<Header>
-		<h5>Register Syncfusion Blazor Toolkit Service</h5>
-	</Header>
-	<Content>
-		<p>Register the Syncfusion Blazor Toolkit service in the Program.cs file of your WebAssembly project:</p>
-		<CodePreview FileName="Program.cs" IsCodeAlone="true" CodeSection="@ProgamCode"></CodePreview>
-	</Content>
+    <Header>
+        <h5>Register Syncfusion Blazor Toolkit Service</h5>
+    </Header>
+    <Content>
+        <p>Register the Syncfusion Blazor Toolkit service in the Program.cs file of your WebAssembly project:</p>
+        <CodePreview FileName="Program.cs" IsCodeAlone="true" CodeSection="@ProgamCode"></CodePreview>
+    </Content>
 </Description>
 
 <Description>
-	<Header>
-		<h5>Add Stylesheet Reference</h5>
-	</Header>
-	<Content>
-		<p>Add the Syncfusion Blazor Toolkit theme stylesheet reference to the <code>Head</code> section in your <code>index.html</code> file</p>
-		<p><b>Common Stylesheet (All Components)</b></p>
-		<p>Use the combined common stylesheet <code>fluent.min.css</code> which contains base styles and utilities shared across all components. This is the recommended stylesheet for most applications.</p>
-		<CodePreview FileName="index.html (Common)" IsCodeAlone="true" CodeSection="@IndexHeadCommon"></CodePreview>
-	</Content>
+    <Header>
+        <h5>Add Stylesheet Reference</h5>
+    </Header>
+    <Content>
+        <p>Add the Syncfusion Blazor Toolkit theme stylesheet reference to the <code>Head</code> section in your <code>index.html</code> file</p>
+        <p><b>Common Stylesheet (All Components)</b></p>
+        <p>Use the combined common stylesheet <code>fluent.min.css</code> which contains base styles and utilities shared across all components. This is the recommended stylesheet for most applications.</p>
+        <CodePreview FileName="index.html (Common)" IsCodeAlone="true" CodeSection="@IndexHeadCommon"></CodePreview>
+    </Content>
 </Description>
 
 <Description>
-	<Content>
-		<p><b>Individual Component Stylesheets (Optional)</b></p>
-		<p>For better performance or to reduce bundle size, you can load only the specific component stylesheets you need. Available individual component stylesheets include:</p>
-		<ul>
-			<li><code>button.min.css</code> - Button component styles</li>
-			<li><code>calendar.min.css</code> - Calendar component styles</li>
-			<li><code>chart.min.css</code> - Chart component styles</li>
-			<li><code>checkbox.min.css</code> - Checkbox component styles</li>
-			<li><code>dialog.min.css</code> - Dialog component styles</li>
-			<li><code>dropdown.min.css</code> - Dropdown component styles</li>
-			<li><code>input.min.css</code> - Input base styles</li>
-			<li><code>spinner.min.css</code> - Spinner component styles</li>
-			<li><code>textbox.min.css</code> - TextBox component styles</li>
-			<li><code>tooltip.min.css</code> - Tooltip component styles</li>
-		</ul>
-		<p>And many more in the <code>_content/Syncfusion.Blazor.Toolkit/styles/</code> directory.</p>
-		<CodePreview FileName="index.html (Individual)" IsCodeAlone="true" CodeSection="@IndexHeadIndividual"></CodePreview>
-	</Content>
+    <Content>
+        <p><b>Individual Component Stylesheets (Optional)</b></p>
+        <p>For better performance or to reduce bundle size, you can load only the specific component stylesheets you need. Available individual component stylesheets include:</p>
+        <ul>
+            <li><code>button.min.css</code> - Button component styles</li>
+            <li><code>calendar.min.css</code> - Calendar component styles</li>
+            <li><code>chart.min.css</code> - Chart component styles</li>
+            <li><code>checkbox.min.css</code> - Checkbox component styles</li>
+            <li><code>dialog.min.css</code> - Dialog component styles</li>
+            <li><code>dropdown.min.css</code> - Dropdown component styles</li>
+            <li><code>input.min.css</code> - Input base styles</li>
+            <li><code>spinner.min.css</code> - Spinner component styles</li>
+            <li><code>textbox.min.css</code> - TextBox component styles</li>
+            <li><code>tooltip.min.css</code> - Tooltip component styles</li>
+        </ul>
+        <p>And many more in the <code>_content/Syncfusion.Blazor.Toolkit/styles/</code> directory.</p>
+        <CodePreview FileName="index.html (Individual)" IsCodeAlone="true" CodeSection="@IndexHeadIndividual"></CodePreview>
+    </Content>
 </Description>
 
 <Description>
-	<Content>
-		<NoteSection>
-			<Content>
-				The Syncfusion Blazor Toolkit uses a scoped stylesheet approach. The theme CSS is automatically served from the NuGet package via the static web asset handler. The <code>fluent.min.css</code> is the combined/common stylesheet that provides styling for all components.
-			</Content>
-		</NoteSection>
-	</Content>
+    <Content>
+        <NoteSection>
+            <Content>
+                The Syncfusion Blazor Toolkit uses a scoped stylesheet approach. The theme CSS is automatically served from the NuGet package via the static web asset handler. The <code>fluent.min.css</code> is the combined/common stylesheet that provides styling for all components.
+            </Content>
+        </NoteSection>
+    </Content>
 </Description>
 
 <Description>
-	<Header>
-		<h5>Add Syncfusion Blazor Component</h5>
-	</Header>
-	<Content>
-		<p>This section demonstrates how to add a Syncfusion Blazor Toolkit component to your Blazor WebAssembly application using the Button component as an example.</p>
-		<p>Add the render mode declaration at the top of your <code>.razor</code> page:</p>
-		<CodePreview FileName="Home.razor" IsCodeAlone="true" CodeSection="@HomeRendermode"></CodePreview>
-		<p>Add the following code to your page:</p>
-		<CodePreview FileName="Home.razor" IsCodeAlone="true" CodeSection="@UsageExample">
-			<PreviewSection>
-				<div class="d-flex gap-5 flex-wrap">
-					<SfButton>Default</SfButton>
-					<SfButton CssClass="e-primary">Primary</SfButton>
-					<SfButton CssClass="e-success">Success</SfButton>
-					<SfButton CssClass="e-info">Info</SfButton>
-					<SfButton CssClass="e-warning">Warning</SfButton>
-					<SfButton CssClass="e-danger">Danger</SfButton>
-				</div>
-			</PreviewSection>
-		</CodePreview>
-	</Content>
+    <Header>
+        <h5>Add Syncfusion Blazor Component</h5>
+    </Header>
+    <Content>
+        <p>This section demonstrates how to add a Syncfusion Blazor Toolkit component to your Blazor WebAssembly application using the Button component as an example.</p>
+        <p>Add the render mode declaration at the top of your <code>.razor</code> page:</p>
+        <CodePreview FileName="Home.razor" IsCodeAlone="true" CodeSection="@HomeRendermode"></CodePreview>
+        <p>Add the following code to your page:</p>
+        <CodePreview FileName="Home.razor" IsCodeAlone="true" CodeSection="@UsageExample">
+            <PreviewSection>
+                <div class="d-flex gap-5 flex-wrap">
+                    <SfButton>Default</SfButton>
+                    <SfButton CssClass="e-primary">Primary</SfButton>
+                    <SfButton CssClass="e-success">Success</SfButton>
+                    <SfButton CssClass="e-info">Info</SfButton>
+                    <SfButton CssClass="e-warning">Warning</SfButton>
+                    <SfButton CssClass="e-danger">Danger</SfButton>
+                </div>
+            </PreviewSection>
+        </CodePreview>
+    </Content>
 </Description>
 
 <Description>
-	<Header>
-		<h5>Run the Application</h5>
-	</Header>
-	<Content>
-		<ul>
-			<li><b>Visual Studio</b>: Press Ctrl+F5 to run without debugging, or F5 to run with debugging.</li>
-			<li><b>Visual Studio Code / .NET CLI</b>: Run the <code>dotnet run</code> command in the integrated terminal.</li>
-		</ul>
-		<p>The Blazor WebAssembly app will compile and launch in your default web browser. The Syncfusion Blazor Toolkit Button component will render after the WebAssembly runtime loads.</p>
-	</Content>
+    <Header>
+        <h5>Run the Application</h5>
+    </Header>
+    <Content>
+        <ul>
+            <li><b>Visual Studio</b>: Press Ctrl+F5 to run without debugging, or F5 to run with debugging.</li>
+            <li><b>Visual Studio Code / .NET CLI</b>: Run the <code>dotnet run</code> command in the integrated terminal.</li>
+        </ul>
+        <p>The Blazor WebAssembly app will compile and launch in your default web browser. The Syncfusion Blazor Toolkit Button component will render after the WebAssembly runtime loads.</p>
+    </Content>
 </Description>
 
-@code{
-	private string ProgamCode = @"using Microsoft.AspNetCore.Components.Web;
+@code {
+    private string ProgamCode = @"using Microsoft.AspNetCore.Components.Web;
 using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
 using Syncfusion.Blazor.Toolkit;
 
@@ -169,7 +169,7 @@ builder.Services.AddSyncfusionBlazorToolkit();
 var host = builder.Build();
 await host.RunAsync();";
 
-	private string UsageExample = @"@using Syncfusion.Blazor.Toolkit.Buttons
+    private string UsageExample = @"@using Syncfusion.Blazor.Toolkit.Buttons
 
 <div class=""d-flex gap-5 flex-wrap"">
     <SfButton>Default</SfButton>
@@ -180,21 +180,21 @@ await host.RunAsync();";
     <SfButton CssClass=""e-danger"">Danger</SfButton>
 </div>";
 
-	// index.html head example (common)
-	private string IndexHeadCommon = @"<head>
+    // index.html head example (common)
+    private string IndexHeadCommon = @"<head>
     <link href=""_content/Syncfusion.Blazor.Toolkit/styles/fluent.min.css"" rel='stylesheet' />
 </head>";
 
-	// index.html head example (individual)
-	private string IndexHeadIndividual = @"<head>
+    // index.html head example (individual)
+    private string IndexHeadIndividual = @"<head>
     <link href=""_content/Syncfusion.Blazor.Toolkit/styles/button.min.css"" rel='stylesheet' />
     <link href=""_content/Syncfusion.Blazor.Toolkit/styles/calendar.min.css"" rel='stylesheet' />
 </head>";
 
-	// _Imports.razor sample (use a string to avoid Razor parsing within attributes)
-	private string ImportsCode = @"@using Syncfusion.Blazor.Toolkit";
+    // _Imports.razor sample (use a string to avoid Razor parsing within attributes)
+    private string ImportsCode = @"@using Syncfusion.Blazor.Toolkit";
 
-	// Home.razor render-mode declaration (use a string to avoid Razor parsing)
-	private string HomeRendermode = @"@page ""/""
+    // Home.razor render-mode declaration (use a string to avoid Razor parsing)
+    private string HomeRendermode = @"@page ""/""
 @rendermode InteractiveWebAssembly";
 }

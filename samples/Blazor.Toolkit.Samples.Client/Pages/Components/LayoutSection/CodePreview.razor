@@ -2,191 +2,215 @@
 @inject IJSRuntime JSRuntime
 
 <div class="code-preview-wrapper">
-	<div class="code-preview-header">
-		@{
-			Tab = IsCodeAlone ? TabSection.Code : Tab;
-		}
-		<div class="code-preview-title"> @(Tab == TabSection.Output ? string.Empty : FileName)</div>
-		@if (!IsCodeAlone)
-		{
-			<div class="code-preview-buttons">
-				@if (Tab == TabSection.Output)
-				{
-					<button class="icon-btn" title="Code" @onclick="() => SetTab(TabSection.Code)">
-						<!-- code icon -->
-						<svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-							<polyline points="16 18 22 12 16 6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
-							<polyline points="8 6 2 12 8 18" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
-						</svg>
-					</button>
-				}
-				else
-				{
-					<button class="icon-btn" title="Preview" @onclick="() => SetTab(TabSection.Output)">
-						<!-- eye icon -->
-						<svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-							<path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8S1 12 1 12z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
-							<circle cx="12" cy="12" r="3" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
-						</svg>
-					</button>
-				}
-			</div>
-		}
-	</div>
+    <div class="code-preview-header">
+        @{
+            Tab = IsCodeAlone ? TabSection.Code : Tab;
+        }
+        <div class="code-preview-title"> @(Tab == TabSection.Output ? string.Empty : FileName)</div>
+        @if (!IsCodeAlone)
+        {
+            <div class="code-preview-buttons">
+                @if (Tab == TabSection.Output)
+                {
+                    <button class="icon-btn" title="Code" @onclick="() => SetTab(TabSection.Code)">
+                        <!-- code icon -->
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                            <polyline points="16 18 22 12 16 6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+                            <polyline points="8 6 2 12 8 18" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+                        </svg>
+                    </button>
+                }
+                else
+                {
+                    <button class="icon-btn" title="Preview" @onclick="() => SetTab(TabSection.Output)">
+                        <!-- eye icon -->
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                            <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8S1 12 1 12z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+                            <circle cx="12" cy="12" r="3" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+                        </svg>
+                    </button>
+                }
+            </div>
+        }
+    </div>
 
-	@if (Tab == TabSection.Output && !IsCodeAlone)
-	{
-		<div>
-			<div class="mb-2 preview-section">
-				<div style="@GetWidthStyle()">
-					@PreviewSection
-				</div>
-			</div>
-		</div>
+    @if (Tab == TabSection.Output && !IsCodeAlone)
+    {
+        <div>
+            <div class="mb-2 preview-section">
+                <div style="@GetWidthStyle()">
+                    @PreviewSection
+                </div>
+            </div>
+        </div>
 
-	}
-	else
-	{
-		<div class="code-wrapper">
-			<SfButton IconCss="sb-icons e-copy" CssClass="copy-btn e-flat" OnClick="@CopyCodeAsync"></SfButton>
-			<pre class="code-section" @ref="_codeElement">@CodeSection</pre>
-		</div>
-	}
+    }
+    else
+    {
+        <div class="code-wrapper">
+            <SfButton IconCss="sb-icons e-copy" CssClass="copy-btn e-flat" OnClick="@CopyCodeAsync"></SfButton>
+            <pre class="code-section" @ref="_codeElement">@CodeSection</pre>
+        </div>
+    }
 </div>
 
 
 @code {
-	enum TabSection { Output, Code }
+    enum TabSection { Output, Code }
 
-	private TabSection Tab { get; set; } = TabSection.Output;
-	private void SetTab(TabSection tab) => Tab = tab;
+    private TabSection Tab { get; set; } = TabSection.Output;
+    private void SetTab(TabSection tab) => Tab = tab;
 
-	[Parameter]
-	public RenderFragment PreviewSection { get; set; } = default!;
+    [Parameter]
+    public RenderFragment PreviewSection { get; set; } = default!;
 
-	[Parameter]
-	public string CodeSection { get; set; } = default!;
+    [Parameter]
+    public string CodeSection { get; set; } = default!;
 
-	[Parameter]
-	public string FileName { get; set; } = "Razor";
+    [Parameter]
+    public string FileName { get; set; } = "Razor";
 
-	[Parameter]
-	public bool IsCodeAlone { get; set; }
+    [Parameter]
+    public bool IsCodeAlone { get; set; }
 
-	[Parameter]
-	public bool IsFullWidth { get; set; }
+    [Parameter]
+    public bool IsFullWidth { get; set; }
 
-	private ElementReference _codeElement;
+    private ElementReference _codeElement;
 
-	private async Task CopyCodeAsync()
-	{
-		await JSRuntime.InvokeVoidAsync("copyCode", CodeSection);
-	}
+    private async Task CopyCodeAsync()
+    {
+        await JSRuntime.InvokeVoidAsync("copyCode", CodeSection);
+    }
 
-	private string GetWidthStyle()
-	{
-		return IsFullWidth ? "width:100%" : "width:auto";
-	}
+    private string GetWidthStyle()
+    {
+        return IsFullWidth ? "width:100%" : "width:auto";
+    }
 
-	protected override async Task OnAfterRenderAsync(bool firstRender)
-	{
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
         if (TabSection.Code == Tab)
         {
-			var sourceCode = ExtractSampleCode(CodeSection);
-			await JSRuntime.InvokeVoidAsync("refreshTab", sourceCode, _codeElement);
+            var sourceCode = ExtractSampleCode(CodeSection);
+            await JSRuntime.InvokeVoidAsync("refreshTab", sourceCode, _codeElement);
         }
-	}
+    }
 
-	public static string ExtractSampleCode(string rawSourceCode)
-	{
-		if (string.IsNullOrWhiteSpace(rawSourceCode))
-		{
-			return string.Empty;
-		}
-		string code = rawSourceCode;
-		// 6️⃣ Encode for HTML rendering
-		code = code.Replace("<", "&lt;").Replace(">", "&gt;");
-		return code;
-	}
+    public static string ExtractSampleCode(string rawSourceCode)
+    {
+        if (string.IsNullOrWhiteSpace(rawSourceCode))
+        {
+            return string.Empty;
+        }
+        string code = rawSourceCode;
+        // 6️⃣ Encode for HTML rendering
+        code = code.Replace("<", "&lt;").Replace(">", "&gt;");
+        return code;
+    }
 }
 
 <style>
-	/* Theme-aware variables for this component. Root-level variables are defined in MainLayout.razor; these provide fine-grained fallbacks. */
-	:root {
-		--preview-header-bg: rgba(103,80,164,0.04);
-		--preview-border-light: rgba(0,0,0,0.06);
-		--icon-active-bg-light: rgba(0,0,0,0.04);
-		--code-text-color: #000;
-	}
-	.dark {
-		--preview-header-bg: rgba(139,92,246,0.06);
-		--preview-border-light: rgba(255,255,255,0.06);
-		--icon-active-bg-light: rgba(255,255,255,0.06);
-		--code-text-color: #fff;
-	}
+    /* Theme-aware variables for this component. Root-level variables are defined in MainLayout.razor; these provide fine-grained fallbacks. */
+    :root {
+        --preview-header-bg: rgba(103,80,164,0.04);
+        --preview-border-light: rgba(0,0,0,0.06);
+        --icon-active-bg-light: rgba(0,0,0,0.04);
+        --code-text-color: #000;
+    }
 
-	.code-preview-header {
-		background-color: var(--preview-header-bg);
-	}
-	.code-section {
-		padding: 10px;
-		margin-bottom: 0;
-		background-color: transparent;
-		color: var(--code-text-color);
-	}
-	.code-preview-wrapper {
-		border-radius: 10px;
-		border-width: 1px;
-		border: 1px solid var(--preview-border-light);
-		background-color: var(--panel-bg);
-		color: var(--text-color);
-		transition: background-color .18s ease, color .18s ease, border-color .18s ease;
-	}
-	.code-preview-wrapper .preview-section {
-		background-color: var(--bg-color);
-		padding: 20px;
-		display: flex;              /* Turn it into a flex container */
-		justify-content: center; /* Center horizontally */
-		align-items: center;
-		overflow: auto;
-		color: var(--text-color);
-	}
-	.code-preview-title {
-		border-bottom: 1px solid var(--accent);
-	}
-	.code-preview-header {
-		display:flex;
-		align-items:center;
-		justify-content:space-between;
-		padding:8px 12px;
-	}
-	.code-preview-buttons{display:flex;gap:8px}
-	.icon-btn{background:transparent;border:1px solid transparent;padding:6px;border-radius:6px;cursor:pointer;color:var(--text-color)}
+    .dark {
+        --preview-header-bg: rgba(139,92,246,0.06);
+        --preview-border-light: rgba(255,255,255,0.06);
+        --icon-active-bg-light: rgba(255,255,255,0.06);
+        --code-text-color: #fff;
+    }
 
-	.page-rtl .code-section {
-		direction: ltr;
-	}
+    .code-preview-header {
+        background-color: var(--preview-header-bg);
+    }
 
-	/* wrapper to position copy button */
-	.code-wrapper { position: relative; }
-	.copy-btn {
-		position: absolute;
-		top: 8px;
-		right: 8px;
-		background: transparent;
-		border: 1px solid transparent;
-		padding: 6px;
-		border-radius: 6px;
-		cursor: pointer;
-		color: var(--text-color);
-	}
-	.copy-btn:hover { background: var(--icon-active-bg-light); }
+    .code-section {
+        padding: 10px;
+        margin-bottom: 0;
+        background-color: transparent;
+        color: var(--code-text-color);
+    }
 
-	.sb-label {
-		font-family: Segoe UI, Segoe UI Variable Text, -apple-system, BlinkMacSystemFont, Helvetica Neue, Helvetica, Arial, sans-serif;
-		display: block;
-		font-size: 16px;
-		font-weight: 600;
-		margin-bottom: 8px;
-	}
+    .code-preview-wrapper {
+        border-radius: 10px;
+        border-width: 1px;
+        border: 1px solid var(--preview-border-light);
+        background-color: var(--panel-bg);
+        color: var(--text-color);
+        transition: background-color .18s ease, color .18s ease, border-color .18s ease;
+    }
+
+        .code-preview-wrapper .preview-section {
+            background-color: var(--bg-color);
+            padding: 20px;
+            display: flex; /* Turn it into a flex container */
+            justify-content: center; /* Center horizontally */
+            align-items: center;
+            overflow: auto;
+            color: var(--text-color);
+        }
+
+    .code-preview-title {
+        border-bottom: 1px solid var(--accent);
+    }
+
+    .code-preview-header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 8px 12px;
+    }
+
+    .code-preview-buttons {
+        display: flex;
+        gap: 8px
+    }
+
+    .icon-btn {
+        background: transparent;
+        border: 1px solid transparent;
+        padding: 6px;
+        border-radius: 6px;
+        cursor: pointer;
+        color: var(--text-color)
+    }
+
+    .page-rtl .code-section {
+        direction: ltr;
+    }
+
+    /* wrapper to position copy button */
+    .code-wrapper {
+        position: relative;
+    }
+
+    .copy-btn {
+        position: absolute;
+        top: 8px;
+        right: 8px;
+        background: transparent;
+        border: 1px solid transparent;
+        padding: 6px;
+        border-radius: 6px;
+        cursor: pointer;
+        color: var(--text-color);
+    }
+
+        .copy-btn:hover {
+            background: var(--icon-active-bg-light);
+        }
+
+    .sb-label {
+        font-family: Segoe UI, Segoe UI Variable Text, -apple-system, BlinkMacSystemFont, Helvetica Neue, Helvetica, Arial, sans-serif;
+        display: block;
+        font-size: 16px;
+        font-weight: 600;
+        margin-bottom: 8px;
+    }
 </style>

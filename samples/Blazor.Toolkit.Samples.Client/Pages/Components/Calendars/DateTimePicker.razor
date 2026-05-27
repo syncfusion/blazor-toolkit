@@ -1,70 +1,70 @@
 ﻿@page "/calendars/datetimepicker"
 
-<PageTitle>DateTimePicker | ASP.NET Core Blazor OSS Components</PageTitle>
+<PageTitle>Blazor DateTimePicker Demo | Syncfusion Toolkit</PageTitle>
 
 @using Syncfusion.Blazor.Toolkit.Calendars
 @using System.Globalization
 
 <Description>
-	<Header>
-		<h4>Blazor Toolkit DateTimePicker Component</h4>
-	</Header>
-	<Content>
+    <Header>
+        <h4>Blazor Toolkit DateTimePicker Component</h4>
+    </Header>
+    <Content>
         The Blazor <code>DateTimePicker</code> component provides a seamless interface for choosing both date and time in a single, unified control. It supports multiple display modes, customizable formats, validation rules, and accessibility features for precise date‑time input.
-	</Content>
+    </Content>
 </Description>
 
 <CodePreview CodeSection="@DefaultCode">
-	<PreviewSection>
-		<SfDateTimePicker TValue="DateTime?" Width="300px" Placeholder='Select a date and time' ShowClearButton="true"></SfDateTimePicker>
-	</PreviewSection>
+    <PreviewSection>
+        <SfDateTimePicker TValue="DateTime?" Width="300px" Placeholder='Select a date and time' ShowClearButton="true"></SfDateTimePicker>
+    </PreviewSection>
 </CodePreview>
 
 <Description>
-	<Header>
-		<h5>Disabled Dates</h5>
-	</Header>
-	<Content>
-		<p>
+    <Header>
+        <h5>Disabled Dates</h5>
+    </Header>
+    <Content>
+        <p>
             This sample demonstrates disabled dates functionality in the <code>DateTimePicker</code> component. All weekends (Saturday and Sunday) of a month are disabled and restricted from selection.
-		</p>
-		<p>
-			The Disabled Dates example shows how to disable specific dates in the DateTimePicker using the DayCellRendering event. This event triggers on each day cell element creation, allowing customization or disabling of specific dates.
-			In this example, weekend dates are disabled using the <code>DayCellRendering</code> event by adding appropriate CSS classes to restrict selection.
-		</p>
-	</Content>
+        </p>
+        <p>
+            The Disabled Dates example shows how to disable specific dates in the DateTimePicker using the DayCellRendering event. This event triggers on each day cell element creation, allowing customization or disabling of specific dates.
+            In this example, weekend dates are disabled using the <code>DayCellRendering</code> event by adding appropriate CSS classes to restrict selection.
+        </p>
+    </Content>
 </Description>
 
 <CodePreview CodeSection="@DisabledDatesCode">
-	<PreviewSection>
-        <SfDateTimePicker TValue="DateTime ?" Width="300px" @ref="@DateTimePickerObj" ShowClearButton="true" DayCellRendering="@DisableDate" Placeholder="Select a date and time" />
-	</PreviewSection>
+    <PreviewSection>
+        <SfDateTimePicker TValue="DateTime?" Width="300px" @ref="@DateTimePickerObj" ShowClearButton="true" DayCellRendering="@DisableDate" Placeholder="Select a date and time" />
+    </PreviewSection>
 </CodePreview>
 
 <Description>
-	<Header>
-		<h5>Special Dates</h5>
-	</Header>
-	<Content>
-		<p>
-			This sample demonstrates how to highlight specific dates in the calendar popup of the DateTimePicker component with custom styling.
-		</p>
-		<p>
-			The Special Dates example shows how to customize specific dates using the DayCellRendering event. This event triggers on each day cell element creation, allowing custom styling and customization.
-			In this example, weekend dates are disabled using the <code>DayCellRendering</code> event by adding appropriate CSS classes to restrict selection.
-		</p>
-	</Content>
+    <Header>
+        <h5>Special Dates</h5>
+    </Header>
+    <Content>
+        <p>
+            This sample demonstrates how to highlight specific dates in the calendar popup of the DateTimePicker component with custom styling.
+        </p>
+        <p>
+            The Special Dates example shows how to customize specific dates using the DayCellRendering event. This event triggers on each day cell element creation, allowing custom styling and customization.
+            In this example, weekend dates are disabled using the <code>DayCellRendering</code> event by adding appropriate CSS classes to restrict selection.
+        </p>
+    </Content>
 </Description>
 
 <CodePreview CodeSection="@SpecialDatesCode">
-	<PreviewSection>
-		<div class="control-wrapper">
-			<SfDateTimePicker TValue="DateTime?" Width="300px" ShowClearButton="true" @bind-Value="@SelectedDate" Placeholder="Select date and time" DayCellRendering="CustomDates" ValueChange="OnChange" Created="CreatedHandler" />
-		</div>
-		<div class="display-date">
-		    <span class="example-label">Selected date is: <b>@SelectedValue</b></span>
-		</div>	
-	</PreviewSection>
+    <PreviewSection>
+        <div class="control-wrapper">
+            <SfDateTimePicker TValue="DateTime?" Width="300px" ShowClearButton="true" @bind-Value="@SelectedDate" Placeholder="Select date and time" DayCellRendering="CustomDates" ValueChange="OnChange" Created="CreatedHandler" />
+        </div>
+        <div class="display-date">
+            <span class="example-label">Selected date is: <b>@SelectedValue</b></span>
+        </div>
+    </PreviewSection>
 </CodePreview>
 
 <Description>
@@ -235,8 +235,8 @@
     <Content>
         <p>
             The <code>StrictMode</code> property controls how typed input is validated against the configured Min and Max range.
-            When enabled, only valid date and time values within the specified range are accepted. 
-            If the entered value is invalid, the component retains the previous valid value. 
+            When enabled, only valid date and time values within the specified range are accepted.
+            If the entered value is invalid, the component retains the previous valid value.
             If the entered value is out of range, the component clamps the value to the nearest boundary (Min or Max).
         </p>
         <p>
@@ -321,7 +321,7 @@
     private string DefaultCode => @"<SfDateTimePicker TValue=""DateTime?"" Width=""300px"" Placeholder=""Select a date and time"" ShowClearButton=""true""></SfDateTimePicker>";
 
     //DisabledDates
-    private string DisabledDatesCode => 
+    private string DisabledDatesCode =>
 @"<SfDateTimePicker TValue=""DateTime?"" Width=""300px"" @ref=""@DateTimePickerObj"" ShowClearButton=""true"" DayCellRendering=""@DisableDate"" Placeholder=""Select a date and time"" />
 
 @code {
@@ -352,7 +352,7 @@
     }
 
     //SpecialDates
-    private string SpecialDatesCode => 
+    private string SpecialDatesCode =>
 @"<div class=""control-wrapper"">
 	<SfDateTimePicker TValue=""DateTime?"" Width=""300px"" ShowClearButton=""true"" @bind-Value=""@SelectedDate"" Placeholder=""Select date and time"" DayCellRendering=""CustomDates"" ValueChange=""OnChange"" Created=""CreatedHandler""/>
 </div>
@@ -510,7 +510,7 @@ code {
     }
 
     //DateTimeRangeRestriction
-    private string RangeRestrictionCode => 
+    private string RangeRestrictionCode =>
 @"<SfDateTimePicker TValue=""DateTime?"" Width=""300px"" Value=""@DateTimeValue"" Min=""@MinDate"" Max=""@MaxDate"" MinTime=""@MinTime"" MaxTime=""@MaxTime"" ShowClearButton=""true"" Placeholder=""Select a date and time"" />
 
 code {
@@ -535,7 +535,7 @@ code {
     public DateTime? FormattedDateValue { get; set; } = new DateTime(2026, 12, 11, 11, 30, 00);
 
     //Mask
-    private string MaskCode => 
+    private string MaskCode =>
 @"<SfDateTimePicker TValue=""DateTime?"" Width=""300px"" Format=""yyyy-MM-dd hh:mm:ss"" EnableMask=""true"" @bind-Value=""@MaskDateValue"" ShowClearButton=""true"" Placeholder=""Select a date and time"">
     <DateTimePickerMaskPlaceholder Day=""day"" Month=""month"" Year=""year"" Hour=""hour"" Minute=""minute"" Second=""second"" DayOfWeek=""weekday""></DateTimePickerMaskPlaceholder>
 </SfDateTimePicker>
@@ -599,7 +599,7 @@ code {
     private string IslamicCalendarCode => @"<SfDateTimePicker TValue=""DateTime?"" Width=""300px"" CalendarMode=""CalendarType.Islamic"" ShowClearButton=""true"" Placeholder=""Select a date and time"" />";
 
     //StrictMode
-    private string StrictModeCode => 
+    private string StrictModeCode =>
 @"<SfDateTimePicker TValue=""DateTime?"" Width=""300px"" Min=""@StrictModeMinDate"" Max=""@StrictModeMaxDate"" StrictMode=true Value=""@StrictModeDateValue"" Placeholder=""Select a date and time"" />
 
 code{
@@ -623,27 +623,32 @@ code{
         margin: 0 auto;
         padding: 50px 0px 0px;
     }
+
     .example-label {
         font-size: 14px;
         margin-bottom: 6px;
     }
+
     .display-date {
         max-width: 275px;
         margin: 0 auto;
         padding: 15px 0px;
     }
+
     .e-calendar .e-content .e-cell.personal-appointment span.e-day,
     .e-calendar .e-content td:hover.e-cell.personal-appointment span.e-day,
     .e-calendar .e-content td.e-selected.e-focused-date.e-cell.personal-appointment span.e-day {
         color: #28a745;
         font-weight: 800;
     }
+
     .e-calendar .e-content .e-cell.official-appointment span.e-day,
     .e-calendar .e-content td:hover.e-cell.official-appointment span.e-day,
     .e-calendar .e-content td.e-selected.e-focused-date.e-cell.official-appointment span.e-day {
         color: #dc3545;
         font-weight: 800;
     }
+
     .e-calendar .e-content td.e-selected.e-focused-date.e-cell.personal-appointment span.e-day,
     .e-calendar .e-content td.e-selected.e-focused-date.e-cell.official-appointment span.e-day {
         background-color: rgb(255 255 0 / 90%);

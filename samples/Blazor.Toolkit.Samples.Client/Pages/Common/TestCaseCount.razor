@@ -1,6 +1,6 @@
 @page "/common/test-case-count"
 
-<PageTitle>Component Test Matrix | ASP.NET Core Blazor OSS Components</PageTitle>
+<PageTitle>Testing and Automation | Syncfusion Blazor Toolkit</PageTitle>
 
 <style>
     :root {
@@ -36,21 +36,21 @@
         width: 100%;
     }
 
-    .table thead th {
-        background-color: var(--table-header-bg, rgba(0,0,0,0.02));
-        color: var(--table-header-color, var(--top-text, #111827));
-        padding: 0.75rem 1rem;
-        text-align: left;
-        font-weight: 600;
-        border-bottom: 1px solid var(--table-row-border, rgba(0,0,0,0.04));
-    }
+        .table thead th {
+            background-color: var(--table-header-bg, rgba(0,0,0,0.02));
+            color: var(--table-header-color, var(--top-text, #111827));
+            padding: 0.75rem 1rem;
+            text-align: left;
+            font-weight: 600;
+            border-bottom: 1px solid var(--table-row-border, rgba(0,0,0,0.04));
+        }
 
-    .table tbody td {
-        padding: 0.75rem 1rem;
-        border-top: 1px solid var(--table-row-border, rgba(0,0,0,0.04));
-        background-color: var(--table-row-bg, #ffffff);
-        color: var(--text-color, #111827);
-    }
+        .table tbody td {
+            padding: 0.75rem 1rem;
+            border-top: 1px solid var(--table-row-border, rgba(0,0,0,0.04));
+            background-color: var(--table-row-bg, #ffffff);
+            color: var(--text-color, #111827);
+        }
 
     .summary-grid {
         display: grid;
@@ -67,21 +67,29 @@
         text-align: center;
     }
 
-    .summary-card .number {
-        font-size: 2rem;
-        font-weight: 700;
-        margin-bottom: 0.25rem;
-    }
+        .summary-card .number {
+            font-size: 2rem;
+            font-weight: 700;
+            margin-bottom: 0.25rem;
+        }
 
-    .summary-card .label {
-        font-size: 0.875rem;
-        color: var(--text-color);
-        opacity: 0.7;
-    }
+        .summary-card .label {
+            font-size: 0.875rem;
+            color: var(--text-color);
+            opacity: 0.7;
+        }
 
-    .summary-card.accessibility .number { color: #2563eb; }
-    .summary-card.playwright .number   { color: #059669; }
-    .summary-card.bunit .number        { color: #7c3aed; }
+        .summary-card.accessibility .number {
+            color: #2563eb;
+        }
+
+        .summary-card.playwright .number {
+            color: #059669;
+        }
+
+        .summary-card.bunit .number {
+            color: #7c3aed;
+        }
 
 </style>
 

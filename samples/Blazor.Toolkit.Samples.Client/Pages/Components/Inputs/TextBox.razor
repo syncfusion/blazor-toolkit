@@ -4,25 +4,25 @@
 @using System.ComponentModel.DataAnnotations
 @using Microsoft.AspNetCore.Components.Forms
 
-<PageTitle>TextBox | ASP.NET Core Blazor OSS Components</PageTitle>
+<PageTitle>Blazor TextBox Demo | Syncfusion Toolkit</PageTitle>
 
 <!-- ======================================================
 					   Default
 ======================================================= -->
 <Description>
-	<Header>
-		<h4><b>Blazor Toolkit TextBox Component</b></h4>
-	</Header>
-	<Content>
-		<p>The <b>TextBox</b> component is an input element that allows users to enter, edit, and display text values. It provides various customization options including floating labels, clear button, multiline support, and input validation.</p>
-		<p>Add the TextBox component in the application as shown in the below code example.</p>
-	</Content>
+    <Header>
+        <h4><b>Blazor Toolkit TextBox Component</b></h4>
+    </Header>
+    <Content>
+        <p>The <b>TextBox</b> component is an input element that allows users to enter, edit, and display text values. It provides various customization options including floating labels, clear button, multiline support, and input validation.</p>
+        <p>Add the TextBox component in the application as shown in the below code example.</p>
+    </Content>
 </Description>
 
 <CodePreview CodeSection="@DefaultCode">
-	<PreviewSection>
-		<SfTextBox Placeholder="Enter text"></SfTextBox>
-	</PreviewSection>
+    <PreviewSection>
+        <SfTextBox Placeholder="Enter text"></SfTextBox>
+    </PreviewSection>
 </CodePreview>
 
 <!-- ======================================================
@@ -30,102 +30,102 @@
 ======================================================= -->
 
 <Description>
-	<Header>
-		<h5><b>Variants</b></h5>
-	</Header>
-	<Content>
-		The TextBox component offers two visual variants: <code>Filled</code>, and <code>Outlined</code>
-	</Content>
+    <Header>
+        <h5><b>Variants</b></h5>
+    </Header>
+    <Content>
+        The TextBox component offers two visual variants: <code>Filled</code>, and <code>Outlined</code>
+    </Content>
 </Description>
 
 <CodePreview CodeSection="@VariantCode">
-	<PreviewSection>
-		<div class="preview-container" style="margin-top: 16px;">
-			<SfTextBox Placeholder="Filled TextBox" CssClass="e-filled" FloatLabelType="FloatLabelType.Auto"></SfTextBox>
-			<SfTextBox Placeholder="Outlined TextBox" CssClass="e-outlined" FloatLabelType="FloatLabelType.Auto"></SfTextBox>
-		</div>
-	</PreviewSection>
+    <PreviewSection>
+        <div class="preview-container" style="margin-top: 16px;">
+            <SfTextBox Placeholder="Filled TextBox" CssClass="e-filled" FloatLabelType="FloatLabelType.Auto"></SfTextBox>
+            <SfTextBox Placeholder="Outlined TextBox" CssClass="e-outlined" FloatLabelType="FloatLabelType.Auto"></SfTextBox>
+        </div>
+    </PreviewSection>
 </CodePreview>
 
 <!-- ======================================================
 					   Disabled
 ======================================================= -->
 <Description>
-	<Header>
-		<h5><b>Disabled</b></h5>
-	</Header>
-	<Content>
-		When the <code>Disabled</code> property is set to true, the TextBox component cannot be edited or focused.
-	</Content>
+    <Header>
+        <h5><b>Disabled</b></h5>
+    </Header>
+    <Content>
+        When the <code>Disabled</code> property is set to true, the TextBox component cannot be edited or focused.
+    </Content>
 </Description>
 
 <CodePreview CodeSection="@DisabledCode">
-	<PreviewSection>
-		<div class="preview-container">
-			<SfTextBox Placeholder="Disabled" Disabled="true" FloatLabelType="FloatLabelType.Auto"></SfTextBox>
-			<SfTextBox Placeholder="Disabled" CssClass="e-filled" Disabled="true" FloatLabelType="FloatLabelType.Auto"></SfTextBox>
-		</div>
-	</PreviewSection>
+    <PreviewSection>
+        <div class="preview-container">
+            <SfTextBox Placeholder="Disabled" Disabled="true" FloatLabelType="FloatLabelType.Auto"></SfTextBox>
+            <SfTextBox Placeholder="Disabled" CssClass="e-filled" Disabled="true" FloatLabelType="FloatLabelType.Auto"></SfTextBox>
+        </div>
+    </PreviewSection>
 </CodePreview>
 
 <!-- ======================================================
 					   ReadOnly
 ======================================================= -->
 <Description>
-	<Header>
-		<h5><b>Read-Only</b></h5>
-	</Header>
-	<Content>
-		When the <code>ReadOnly</code> property is set to true, the TextBox component cannot be edited.
-	</Content>
+    <Header>
+        <h5><b>Read-Only</b></h5>
+    </Header>
+    <Content>
+        When the <code>ReadOnly</code> property is set to true, the TextBox component cannot be edited.
+    </Content>
 </Description>
 
 <CodePreview CodeSection="@ReadOnlyCode">
-	<PreviewSection>
-		<div class="preview-container">
-			<SfTextBox Placeholder="ReadOnly" ReadOnly="true"></SfTextBox>
-			<SfTextBox Placeholder="ReadOnly" CssClass="e-filled" ReadOnly="true"></SfTextBox>
-		</div>
-	</PreviewSection>
+    <PreviewSection>
+        <div class="preview-container">
+            <SfTextBox Placeholder="ReadOnly" ReadOnly="true"></SfTextBox>
+            <SfTextBox Placeholder="ReadOnly" CssClass="e-filled" ReadOnly="true"></SfTextBox>
+        </div>
+    </PreviewSection>
 </CodePreview>
 
 <!-- ======================================================
 					   Icons
 ======================================================= -->
 <Description>
-	<Header>
-		<h5><b>Icons</b></h5>
-	</Header>
-	<Content>
-		The TextBox component allows for icon integration, with the ability to place icons at the start or end of the input using the <code>AddIconAsync</code> method.
-	</Content>
+    <Header>
+        <h5><b>Icons</b></h5>
+    </Header>
+    <Content>
+        The TextBox component allows for icon integration, with the ability to place icons at the start or end of the input using the <code>AddIconAsync</code> method.
+    </Content>
 </Description>
 
 <CodePreview CodeSection="@IconsCode">
-	<PreviewSection>
-		<div class="preview-container">
-			<SfTextBox @ref="@TextBoxSearchObj" Placeholder="Search" FloatLabelType="FloatLabelType.Auto" Created="@OnCreateSearch"></SfTextBox>
-			<SfTextBox @ref="@TextBoxDateObj" Placeholder="Select date" FloatLabelType="FloatLabelType.Auto" Created="@OnCreateDate"></SfTextBox>
-		</div>
-	</PreviewSection>
+    <PreviewSection>
+        <div class="preview-container">
+            <SfTextBox @ref="@TextBoxSearchObj" Placeholder="Search" FloatLabelType="FloatLabelType.Auto" Created="@OnCreateSearch"></SfTextBox>
+            <SfTextBox @ref="@TextBoxDateObj" Placeholder="Select date" FloatLabelType="FloatLabelType.Auto" Created="@OnCreateDate"></SfTextBox>
+        </div>
+    </PreviewSection>
 </CodePreview>
 
 <!-- ======================================================
 					   Customization
 ======================================================= -->
 <Description>
-	<Header>
-		<h5><b>Customization</b></h5>
-	</Header>
-	<Content>
-		<p>Use CSS to customize the TextBox component's appearance. To prevent hierarchy conflicts, add extra class names. Here are some customization examples.</p>
-	</Content>
+    <Header>
+        <h5><b>Customization</b></h5>
+    </Header>
+    <Content>
+        <p>Use CSS to customize the TextBox component's appearance. To prevent hierarchy conflicts, add extra class names. Here are some customization examples.</p>
+    </Content>
 </Description>
 
 <CodePreview CodeSection="@CustomizationCode">
-	<PreviewSection>
-		<SfTextBox Placeholder='Enter Name' CssClass="e-custom" Value="John Kennedy"></SfTextBox>
-	</PreviewSection>
+    <PreviewSection>
+        <SfTextBox Placeholder='Enter Name' CssClass="e-custom" Value="John Kennedy"></SfTextBox>
+    </PreviewSection>
 </CodePreview>
 
 <!-- ======================================================
@@ -133,480 +133,480 @@
 ======================================================= -->
 
 <Description>
-	<Header>
-		<h5><b>Adaptive Rendering</b></h5>
-	</Header>
-	<Content>
-		The TextBox component implements context-sensitive rendering behavior through its <code>Type</code> property.
-	</Content>
+    <Header>
+        <h5><b>Adaptive Rendering</b></h5>
+    </Header>
+    <Content>
+        The TextBox component implements context-sensitive rendering behavior through its <code>Type</code> property.
+    </Content>
 </Description>
 
 <CodePreview CodeSection="@AdaptiveRenderingCode">
-	<PreviewSection>
-		<div class="preview-container">
-			<SfTextBox Type="InputType.Text" Placeholder="Default type"></SfTextBox>
-			<SfTextBox Type="InputType.Email" Placeholder="Email type"></SfTextBox>
-			<SfTextBox Type="InputType.Password" Placeholder="Password type"></SfTextBox>
-			<SfTextBox Type="InputType.Tel" Placeholder="+1 234 567 8900"></SfTextBox>
-			<SfTextBox Type="InputType.URL" Placeholder="URL type"></SfTextBox>
-			<SfTextBox Type="InputType.Search" Placeholder="Search type"></SfTextBox>
-		</div>
-	</PreviewSection>
+    <PreviewSection>
+        <div class="preview-container">
+            <SfTextBox Type="InputType.Text" Placeholder="Default type"></SfTextBox>
+            <SfTextBox Type="InputType.Email" Placeholder="Email type"></SfTextBox>
+            <SfTextBox Type="InputType.Password" Placeholder="Password type"></SfTextBox>
+            <SfTextBox Type="InputType.Tel" Placeholder="+1 234 567 8900"></SfTextBox>
+            <SfTextBox Type="InputType.URL" Placeholder="URL type"></SfTextBox>
+            <SfTextBox Type="InputType.Search" Placeholder="Search type"></SfTextBox>
+        </div>
+    </PreviewSection>
 </CodePreview>
 
 <!-- ======================================================
 					   Color
 ======================================================= -->
 <Description>
-	<Header>
-		<h5><b>Color</b></h5>
-	</Header>
-	<Content>
-		The TextBox component offers validation styles by adding <code>e-success</code>, <code>e-warning</code> and <code>e-error</code> classes to the <code>CssClass</code> property.
-	</Content>
+    <Header>
+        <h5><b>Color</b></h5>
+    </Header>
+    <Content>
+        The TextBox component offers validation styles by adding <code>e-success</code>, <code>e-warning</code> and <code>e-error</code> classes to the <code>CssClass</code> property.
+    </Content>
 </Description>
 
 <CodePreview CodeSection="@ColorCode">
-	<PreviewSection>
-		<div class="preview-container">
-			<SfTextBox Placeholder="Success" CssClass="e-success"></SfTextBox>
-			<SfTextBox Placeholder="Error" CssClass="e-error"></SfTextBox>
-			<SfTextBox Placeholder="Warning" CssClass="e-warning"></SfTextBox>
-		</div>
-	</PreviewSection>
+    <PreviewSection>
+        <div class="preview-container">
+            <SfTextBox Placeholder="Success" CssClass="e-success"></SfTextBox>
+            <SfTextBox Placeholder="Error" CssClass="e-error"></SfTextBox>
+            <SfTextBox Placeholder="Warning" CssClass="e-warning"></SfTextBox>
+        </div>
+    </PreviewSection>
 </CodePreview>
 
 <!-- ======================================================
 					   Float Label
 ======================================================= -->
 <Description>
-	<Header>
-		<h5><b>Float Label</b></h5>
-	</Header>
-	<Content>
-		The floating label functionality offers three distinct behavioral modes: <code>Never</code>, <code>Auto</code>, and <code>Always</code>.
-	</Content>
+    <Header>
+        <h5><b>Float Label</b></h5>
+    </Header>
+    <Content>
+        The floating label functionality offers three distinct behavioral modes: <code>Never</code>, <code>Auto</code>, and <code>Always</code>.
+    </Content>
 </Description>
 
 <CodePreview CodeSection="@FloatLabelCode">
-	<PreviewSection>
-		<div class="preview-container">
-			<SfTextBox Placeholder="Auto" FloatLabelType="FloatLabelType.Auto"></SfTextBox>
-			<SfTextBox Placeholder="Always" FloatLabelType="FloatLabelType.Always"></SfTextBox>
-			<SfTextBox Placeholder="Never" FloatLabelType="FloatLabelType.Never"></SfTextBox>
-		</div>
-	</PreviewSection>
+    <PreviewSection>
+        <div class="preview-container">
+            <SfTextBox Placeholder="Auto" FloatLabelType="FloatLabelType.Auto"></SfTextBox>
+            <SfTextBox Placeholder="Always" FloatLabelType="FloatLabelType.Always"></SfTextBox>
+            <SfTextBox Placeholder="Never" FloatLabelType="FloatLabelType.Never"></SfTextBox>
+        </div>
+    </PreviewSection>
 </CodePreview>
 
 <!-- ======================================================
 					   Clear Button
 ======================================================= -->
 <Description>
-	<Header>
-		<h5><b>Clear Button</b></h5>
-	</Header>
-	<Content>
-		When the <code>ShowClearButton</code> property is set to true, the TextBox component displays the clear button while typing.
-	</Content>
+    <Header>
+        <h5><b>Clear Button</b></h5>
+    </Header>
+    <Content>
+        When the <code>ShowClearButton</code> property is set to true, the TextBox component displays the clear button while typing.
+    </Content>
 </Description>
 
 <CodePreview CodeSection="@ClearButtonCode">
-	<PreviewSection>
-		<div class="preview-container">
-			<SfTextBox Placeholder="Type something..." ShowClearButton="true" FloatLabelType="FloatLabelType.Auto"></SfTextBox>
-		</div>
-	</PreviewSection>
+    <PreviewSection>
+        <div class="preview-container">
+            <SfTextBox Placeholder="Type something..." ShowClearButton="true" FloatLabelType="FloatLabelType.Auto"></SfTextBox>
+        </div>
+    </PreviewSection>
 </CodePreview>
 
 <!-- ======================================================
 					   Multiline TextArea
 ======================================================= -->
 <Description>
-	<Header>
-		<h5><b>Multiline Text Area</b></h5>
-	</Header>
-	<Content>
-		The TextBox component offers a multiline mode to create a textarea for capturing longer text content such as comments, descriptions, or addresses by setting the <code>Multiline</code> property as true.
-	</Content>
+    <Header>
+        <h5><b>Multiline Text Area</b></h5>
+    </Header>
+    <Content>
+        The TextBox component offers a multiline mode to create a textarea for capturing longer text content such as comments, descriptions, or addresses by setting the <code>Multiline</code> property as true.
+    </Content>
 </Description>
 
 <CodePreview CodeSection="@MultilineCode">
-	<PreviewSection>
-		<SfTextBox Placeholder="Enter your description" Multiline="true" FloatLabelType="FloatLabelType.Auto"></SfTextBox>
-	</PreviewSection>
+    <PreviewSection>
+        <SfTextBox Placeholder="Enter your description" Multiline="true" FloatLabelType="FloatLabelType.Auto"></SfTextBox>
+    </PreviewSection>
 </CodePreview>
 
 <!-- ======================================================
 					   Form Support
 ======================================================= -->
 <Description>
-	<Header>
-		<h5><b>Form Support</b></h5>
-	</Header>
-	<Content>
-		The TextBox component integrates seamlessly with the form, as shown below.
-	</Content>
+    <Header>
+        <h5><b>Form Support</b></h5>
+    </Header>
+    <Content>
+        The TextBox component integrates seamlessly with the form, as shown below.
+    </Content>
 </Description>
 
 <CodePreview CodeSection="@FormSupportCode">
-	<PreviewSection>
-		<div class="form-wrapper">
-			<div class="form-content">
-				<h3>Registration Form</h3>
-				<EditForm Model="@validationModel" OnValidSubmit="@OnValidSubmit" FormName="TextBoxValidationForm">
-					<DataAnnotationsValidator></DataAnnotationsValidator>
-					<div class="form-group">
-						<SfTextBox @bind-Value="@validationModel.FullName" Placeholder="Full Name (Required)" FloatLabelType="FloatLabelType.Auto"></SfTextBox>
-						<ValidationMessage For="@(() => validationModel.FullName)"></ValidationMessage>
-					</div>
-					<div class="form-group">
-						<SfTextBox @bind-Value="@validationModel.Email" Type="InputType.Email" Placeholder="Email Address" FloatLabelType="FloatLabelType.Auto"></SfTextBox>
-						<ValidationMessage For="@(() => validationModel.Email)"></ValidationMessage>
-					</div>
-					<div class="form-group">
-						<SfTextBox @bind-Value="@validationModel.Phone" Type="InputType.Tel" Placeholder="Phone Number" FloatLabelType="FloatLabelType.Auto"></SfTextBox>
-						<ValidationMessage For="@(() => validationModel.Phone)"></ValidationMessage>
-					</div>
-					<div class="form-group">
-						<SfTextBox @bind-Value="@validationModel.Comments" Placeholder="Comments (Max 200 characters)" Multiline="true" FloatLabelType="FloatLabelType.Auto" InputAttributes="@validationAttrs"></SfTextBox>
-						<ValidationMessage For="@(() => validationModel.Comments)"></ValidationMessage>
-					</div>
-					<div class="form-buttons">
-						<button type="submit" class="e-btn e-primary">Submit</button>
-						<button type="button" class="e-btn e-outline" @onclick="ClearForm">Clear</button>
-					</div>
-					@if (!string.IsNullOrEmpty(validationMessage))
-					{
-						<p class="validation-success">@validationMessage</p>
-					}
-				</EditForm>
-			</div>
-		</div>
-	</PreviewSection>
+    <PreviewSection>
+        <div class="form-wrapper">
+            <div class="form-content">
+                <h3>Registration Form</h3>
+                <EditForm Model="@validationModel" OnValidSubmit="@OnValidSubmit" FormName="TextBoxValidationForm">
+                    <DataAnnotationsValidator></DataAnnotationsValidator>
+                    <div class="form-group">
+                        <SfTextBox @bind-Value="@validationModel.FullName" Placeholder="Full Name (Required)" FloatLabelType="FloatLabelType.Auto"></SfTextBox>
+                        <ValidationMessage For="@(() => validationModel.FullName)"></ValidationMessage>
+                    </div>
+                    <div class="form-group">
+                        <SfTextBox @bind-Value="@validationModel.Email" Type="InputType.Email" Placeholder="Email Address" FloatLabelType="FloatLabelType.Auto"></SfTextBox>
+                        <ValidationMessage For="@(() => validationModel.Email)"></ValidationMessage>
+                    </div>
+                    <div class="form-group">
+                        <SfTextBox @bind-Value="@validationModel.Phone" Type="InputType.Tel" Placeholder="Phone Number" FloatLabelType="FloatLabelType.Auto"></SfTextBox>
+                        <ValidationMessage For="@(() => validationModel.Phone)"></ValidationMessage>
+                    </div>
+                    <div class="form-group">
+                        <SfTextBox @bind-Value="@validationModel.Comments" Placeholder="Comments (Max 200 characters)" Multiline="true" FloatLabelType="FloatLabelType.Auto" InputAttributes="@validationAttrs"></SfTextBox>
+                        <ValidationMessage For="@(() => validationModel.Comments)"></ValidationMessage>
+                    </div>
+                    <div class="form-buttons">
+                        <button type="submit" class="e-btn e-primary">Submit</button>
+                        <button type="button" class="e-btn e-outline" @onclick="ClearForm">Clear</button>
+                    </div>
+                    @if (!string.IsNullOrEmpty(validationMessage))
+                    {
+                        <p class="validation-success">@validationMessage</p>
+                    }
+                </EditForm>
+            </div>
+        </div>
+    </PreviewSection>
 </CodePreview>
 
 <!-- ======================================================
 					   Events
 ======================================================= -->
 <Description>
-	<Header>
-		<h5><b>Events</b></h5>
-	</Header>
-	<Content>
-		The TextBox component supports the <code>OnInput</code>, <code>ValueChange</code>, <code>OnFocus</code>, and <code>OnBlur</code> events.
-	</Content>
+    <Header>
+        <h5><b>Events</b></h5>
+    </Header>
+    <Content>
+        The TextBox component supports the <code>OnInput</code>, <code>ValueChange</code>, <code>OnFocus</code>, and <code>OnBlur</code> events.
+    </Content>
 </Description>
 
 <CodePreview CodeSection="@EventsCode">
-	<PreviewSection>
-		<div class="event-item">
-			<SfTextBox Placeholder="Type here" OnInput="@OnInput" ValueChange="@OnValueChange" OnFocus="@OnFocus" OnBlur="@OnBlur" FloatLabelType="FloatLabelType.Auto"></SfTextBox>
-			<div class="mt-3">
-				<p><b>Event:</b> @_eventMessage</p>
-			</div>
-		</div>
-	</PreviewSection>
+    <PreviewSection>
+        <div class="event-item">
+            <SfTextBox Placeholder="Type here" OnInput="@OnInput" ValueChange="@OnValueChange" OnFocus="@OnFocus" OnBlur="@OnBlur" FloatLabelType="FloatLabelType.Auto"></SfTextBox>
+            <div class="mt-3">
+                <p><b>Event:</b> @_eventMessage</p>
+            </div>
+        </div>
+    </PreviewSection>
 </CodePreview>
 
 <!-- ======================================================
 					   Accessibility
 ======================================================= -->
 <Description>
-	<Header>
-		<h5><b>Accessibility</b></h5>
-	</Header>
-	<Content>
-		<p>The Blazor TextBox follows accessibility guidelines and standards commonly used to evaluate UI accessibility, including <a href="https://www.ada.gov/" target="_blank">ADA</a>, <a href="https://www.section508.gov/" target="_blank">Section 508</a>, <a href="https://www.w3.org/TR/WCAG22/" target="_blank">WCAG 2.2</a>, and <a href="https://www.w3.org/TR/wai-aria/" target="_blank">WAI‑ARIA</a>.</p>
-		<p>The accessibility compliance for the Blazor TextBox component is outlined below.</p>
-		<div class="accessibility-section">
-			<div class="accessibility-table">
-				<table>
-					<thead>
-						<tr>
-							<th>Accessibility Criteria</th>
-							<th>Compatibility</th>
-						</tr>
-					</thead>
-					<tbody>
-						<tr>
-							<td><a href="https://www.w3.org/TR/WCAG22/" target="_blank">WCAG 2.2</a> Support</td>
-							<td><img src="https://cdn.syncfusion.com/content/images/documentation/full.png" alt="Meets requirement"></td>
-						</tr>
-						<tr>
-							<td><a href="" target="_blank">Section 508</a> Support</td>
-							<td><img src="https://cdn.syncfusion.com/content/images/documentation/full.png" alt="Meets requirement"></td>
-						</tr>
-						<tr>
-							<td>Screen Reader Support</td>
-							<td><img src="https://cdn.syncfusion.com/content/images/documentation/full.png" alt="Meets requirement"></td>
-						</tr>
-						<tr>
-							<td>Right-To-Left Support</td>
-							<td><img src="https://cdn.syncfusion.com/content/images/documentation/full.png" alt="Meets requirement"></td>
-						</tr>
-						<tr>
-							<td>Color Contrast</td>
-							<td><img src="https://cdn.syncfusion.com/content/images/documentation/full.png" alt="Meets requirement"></td>
-						</tr>
-						<tr>
-							<td>Mobile Device Support</td>
-							<td><img src="https://cdn.syncfusion.com/content/images/documentation/full.png" alt="Meets requirement"></td>
-						</tr>
-						<tr>
-							<td>Keyboard Navigation Support</td>
-							<td><img src="https://cdn.syncfusion.com/content/images/documentation/full.png" alt="Meets requirement"></td>
-						</tr>
-					</tbody>
-				</table>
-			</div>
+    <Header>
+        <h5><b>Accessibility</b></h5>
+    </Header>
+    <Content>
+        <p>The Blazor TextBox follows accessibility guidelines and standards commonly used to evaluate UI accessibility, including <a href="https://www.ada.gov/" target="_blank">ADA</a>, <a href="https://www.section508.gov/" target="_blank">Section 508</a>, <a href="https://www.w3.org/TR/WCAG22/" target="_blank">WCAG 2.2</a>, and <a href="https://www.w3.org/TR/wai-aria/" target="_blank">WAI‑ARIA</a>.</p>
+        <p>The accessibility compliance for the Blazor TextBox component is outlined below.</p>
+        <div class="accessibility-section">
+            <div class="accessibility-table">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Accessibility Criteria</th>
+                            <th>Compatibility</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><a href="https://www.w3.org/TR/WCAG22/" target="_blank">WCAG 2.2</a> Support</td>
+                            <td><img src="https://cdn.syncfusion.com/content/images/documentation/full.png" alt="Meets requirement"></td>
+                        </tr>
+                        <tr>
+                            <td><a href="" target="_blank">Section 508</a> Support</td>
+                            <td><img src="https://cdn.syncfusion.com/content/images/documentation/full.png" alt="Meets requirement"></td>
+                        </tr>
+                        <tr>
+                            <td>Screen Reader Support</td>
+                            <td><img src="https://cdn.syncfusion.com/content/images/documentation/full.png" alt="Meets requirement"></td>
+                        </tr>
+                        <tr>
+                            <td>Right-To-Left Support</td>
+                            <td><img src="https://cdn.syncfusion.com/content/images/documentation/full.png" alt="Meets requirement"></td>
+                        </tr>
+                        <tr>
+                            <td>Color Contrast</td>
+                            <td><img src="https://cdn.syncfusion.com/content/images/documentation/full.png" alt="Meets requirement"></td>
+                        </tr>
+                        <tr>
+                            <td>Mobile Device Support</td>
+                            <td><img src="https://cdn.syncfusion.com/content/images/documentation/full.png" alt="Meets requirement"></td>
+                        </tr>
+                        <tr>
+                            <td>Keyboard Navigation Support</td>
+                            <td><img src="https://cdn.syncfusion.com/content/images/documentation/full.png" alt="Meets requirement"></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
 
-			<div class="accessibility-legend">
-			<div><img src="https://cdn.syncfusion.com/content/images/documentation/full.png" alt="Meets requirement"> - All features of the component meet the requirement.</div>
-			<div><img src="https://cdn.syncfusion.com/content/images/documentation/partial.png" alt="Partially meets requirement"> - Some features of the component do not meet the requirement.</div>
-			<div><img src="https://cdn.syncfusion.com/content/images/documentation/not-supported.png" alt="Not supported"> - The component does not meet the requirement.</div>
-		</div>
-		</div>
-	</Content>
+            <div class="accessibility-legend">
+                <div><img src="https://cdn.syncfusion.com/content/images/documentation/full.png" alt="Meets requirement"> - All features of the component meet the requirement.</div>
+                <div><img src="https://cdn.syncfusion.com/content/images/documentation/partial.png" alt="Partially meets requirement"> - Some features of the component do not meet the requirement.</div>
+                <div><img src="https://cdn.syncfusion.com/content/images/documentation/not-supported.png" alt="Not supported"> - The component does not meet the requirement.</div>
+            </div>
+        </div>
+    </Content>
 </Description>
 
 <Description>
-	<Header>
-		<h5><b>WAI-ARIA Attributes</b></h5>
-	</Header>
-	<Content>
-		<p>The Blazor TextBox is characterized with complete ARIA Accessibility support that helps to access through the on-screen readers and other assistive technology devices. This component is designed with the reference of the guidelines document given in <a href="https://www.w3.org/TR/wai-aria/#textbox" target="_blank">WAI ARAI Accessibility practices</a>.</p>
-		<p>The TextBox uses the <code>textbox</code> role and following ARIA properties for its element based on its state.</p>
+    <Header>
+        <h5><b>WAI-ARIA Attributes</b></h5>
+    </Header>
+    <Content>
+        <p>The Blazor TextBox is characterized with complete ARIA Accessibility support that helps to access through the on-screen readers and other assistive technology devices. This component is designed with the reference of the guidelines document given in <a href="https://www.w3.org/TR/wai-aria/#textbox" target="_blank">WAI ARAI Accessibility practices</a>.</p>
+        <p>The TextBox uses the <code>textbox</code> role and following ARIA properties for its element based on its state.</p>
 
-		<div class="accessibility-table">
-			<table>
-				<thead>
-					<tr>
-						<th>Property</th>
-						<th>Functionality</th>
-					</tr>
-				</thead>
-				<tbody>
-					<tr>
-						<td><code>aria-placeholder</code></td>
-						<td>The <code>aria-placeholder</code> is a short hint to help the users with data entry when the TextBox has no value.</td>
-					</tr>
-					<tr>
-						<td><code>aria-labelledby</code></td>
-						<td>The <code>aria-labelledby</code> property indicates the floating label element of the TextBox.</td>
-					</tr>
-				</tbody>
-			</table>
-		</div>
-	</Content>
+        <div class="accessibility-table">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Property</th>
+                        <th>Functionality</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><code>aria-placeholder</code></td>
+                        <td>The <code>aria-placeholder</code> is a short hint to help the users with data entry when the TextBox has no value.</td>
+                    </tr>
+                    <tr>
+                        <td><code>aria-labelledby</code></td>
+                        <td>The <code>aria-labelledby</code> property indicates the floating label element of the TextBox.</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </Content>
 </Description>
 
 <style>
-	.preview-container {
-		display: grid;
-		grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-		gap: 16px;
-		margin-bottom: 16px;
-		align-items: end;
-	}
+    .preview-container {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+        gap: 16px;
+        margin-bottom: 16px;
+        align-items: end;
+    }
 
-	.form-wrapper {
-		display: flex;
-		justify-content: center;
-		padding: 20px;
-	}
+    .form-wrapper {
+        display: flex;
+        justify-content: center;
+        padding: 20px;
+    }
 
-	.form-content {
-		border: 1px solid #e0e0e0;
-		border-radius: 8px;
-		padding: 40px;
-		width: 100%;
-		max-width: 450px;
-		box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
-	}
+    .form-content {
+        border: 1px solid #e0e0e0;
+        border-radius: 8px;
+        padding: 40px;
+        width: 100%;
+        max-width: 450px;
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
+    }
 
-	.form-content h3 {
-		text-align: center;
-		margin: 0 0 32px 0;
-		font-size: 20px;
-		font-weight: 600;
-	}
+        .form-content h3 {
+            text-align: center;
+            margin: 0 0 32px 0;
+            font-size: 20px;
+            font-weight: 600;
+        }
 
-	.form-group {
-		display: flex;
-		flex-direction: column;
-		gap: 4px;
-		margin-bottom: 24px;
-	}
+    .form-group {
+        display: flex;
+        flex-direction: column;
+        gap: 4px;
+        margin-bottom: 24px;
+    }
 
-	.form-group .e-float-input {
-		margin-bottom: 12px;
-	}
+        .form-group .e-float-input {
+            margin-bottom: 12px;
+        }
 
-	.form-buttons {
-		display: flex;
-		gap: 12px;
-		justify-content: center;
-		margin-top: 32px;
-	}
+    .form-buttons {
+        display: flex;
+        gap: 12px;
+        justify-content: center;
+        margin-top: 32px;
+    }
 
-	.form-buttons button {
-		flex: 0 1 auto;
-		min-width: 100px;
-	}
+        .form-buttons button {
+            flex: 0 1 auto;
+            min-width: 100px;
+        }
 
-	.form-buttons .e-outline {
-		background-color: transparent;
-		border: 1px solid;
-	}
+        .form-buttons .e-outline {
+            background-color: transparent;
+            border: 1px solid;
+        }
 
-	.event-item {
-		display: flex;
-		flex-direction: column;
-		gap: 8px;
-	}
+    .event-item {
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+    }
 
-	.event-item p {
-		margin: 0;
-		font-size: 14px;
-	}
+        .event-item p {
+            margin: 0;
+            font-size: 14px;
+        }
 
-	.validation-success {
-		color: #4caf50;
-		font-weight: 600;
-		text-align: center;
-		margin-top: 16px;
-	}
+    .validation-success {
+        color: #4caf50;
+        font-weight: 600;
+        text-align: center;
+        margin-top: 16px;
+    }
 
-	.accessibility-section {
-		display: flex;
-		flex-direction: column;
-		gap: 24px;
-	}
+    .accessibility-section {
+        display: flex;
+        flex-direction: column;
+        gap: 24px;
+    }
 
-	.accessibility-table {
-		overflow-x: auto;
-	}
+    .accessibility-table {
+        overflow-x: auto;
+    }
 
-	.accessibility-table table {
-		width: 100%;
-		border-collapse: collapse;
-		border: 1px solid #e0e0e0;
-	}
+        .accessibility-table table {
+            width: 100%;
+            border-collapse: collapse;
+            border: 1px solid #e0e0e0;
+        }
 
-	.accessibility-table thead {
-		background-color: #f5f5f5;
-	}
+        .accessibility-table thead {
+            background-color: #f5f5f5;
+        }
 
-	.accessibility-table th {
-		padding: 12px 16px;
-		text-align: left;
-		font-weight: 600;
-		border: 1px solid #e0e0e0;
-		color: #333;
-	}
+        .accessibility-table th {
+            padding: 12px 16px;
+            text-align: left;
+            font-weight: 600;
+            border: 1px solid #e0e0e0;
+            color: #333;
+        }
 
-	.accessibility-table td {
-		padding: 12px 16px;
-		border: 1px solid #e0e0e0;
-	}
+        .accessibility-table td {
+            padding: 12px 16px;
+            border: 1px solid #e0e0e0;
+        }
 
-	.accessibility-legend {
-		display: flex;
-		flex-direction: column;
-		gap: 12px;
-	}
+    .accessibility-legend {
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
+    }
 
-	.accessibility-legend div {
-		display: flex;
-		align-items: center;
-		gap: 12px;
-	}
+        .accessibility-legend div {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
 
-	.accessibility-legend img {
-		width: 20px;
-		height: 20px;
-		flex-shrink: 0;
-	}
+        .accessibility-legend img {
+            width: 20px;
+            height: 20px;
+            flex-shrink: 0;
+        }
 
-	.e-input-group.e-custom,
-	.e-float-input.e-input-group.e-custom,
-	.e-input-group.e-control-wrapper.e-custom,
-	.e-float-input.e-input-group.e-control-wrapper.e-custom {
-		border-radius: 40px !important;
-		border: 1px solid #C7CCD1 !important;
-		box-shadow: none !important;
-	}
+    .e-input-group.e-custom,
+    .e-float-input.e-input-group.e-custom,
+    .e-input-group.e-control-wrapper.e-custom,
+    .e-float-input.e-input-group.e-control-wrapper.e-custom {
+        border-radius: 40px !important;
+        border: 1px solid #C7CCD1 !important;
+        box-shadow: none !important;
+    }
 
-	.e-custom.e-input-group::before,
-	.e-custom.e-input-group::after,
-	.e-custom.e-control-wrapper::before,
-	.e-custom.e-control-wrapper::after,
-	.e-custom.e-float-input::before,
-	.e-custom.e-float-input::after {
-		background: transparent !important;
-	}
+    .e-custom.e-input-group::before,
+    .e-custom.e-input-group::after,
+    .e-custom.e-control-wrapper::before,
+    .e-custom.e-control-wrapper::after,
+    .e-custom.e-float-input::before,
+    .e-custom.e-float-input::after {
+        background: transparent !important;
+    }
 
-	.e-custom.e-input-group.e-input-focus,
-	.e-custom.e-float-input.e-input-focus,
-	.e-input-group.e-custom:focus-within,
-	.e-float-input.e-input-group.e-custom:focus-within {
-		border-color: #3B82F6 !important;
-		box-shadow: 0 0 0 4px rgba(59,130,246,0.25) !important;
-	}
+    .e-custom.e-input-group.e-input-focus,
+    .e-custom.e-float-input.e-input-focus,
+    .e-input-group.e-custom:focus-within,
+    .e-float-input.e-input-group.e-custom:focus-within {
+        border-color: #3B82F6 !important;
+        box-shadow: 0 0 0 4px rgba(59,130,246,0.25) !important;
+    }
 
-	.e-input-base-wrapper .e-float-input.e-control-wrapper input ~ label.e-label-top.e-float-text,
-	.e-input-base-wrapper .e-float-input.e-control-wrapper textarea:valid ~ label.e-float-text {
-		font-size: 15px;
-	}
+    .e-input-base-wrapper .e-float-input.e-control-wrapper input ~ label.e-label-top.e-float-text,
+    .e-input-base-wrapper .e-float-input.e-control-wrapper textarea:valid ~ label.e-float-text {
+        font-size: 15px;
+    }
 </style>
 
 @code {
 
-	#region Default
+    #region Default
 
-	private string DefaultCode => @"<SfTextBox Placeholder=""Enter text""></SfTextBox>";
+    private string DefaultCode => @"<SfTextBox Placeholder=""Enter text""></SfTextBox>";
 
-	#endregion
+    #endregion
 
-	#region Variants
+    #region Variants
 
-	private string VariantCode => @"<SfTextBox Placeholder=""Filled TextBox"" CssClass=""e-filled"" FloatLabelType=""FloatLabelType.Auto""></SfTextBox>
+    private string VariantCode => @"<SfTextBox Placeholder=""Filled TextBox"" CssClass=""e-filled"" FloatLabelType=""FloatLabelType.Auto""></SfTextBox>
 <SfTextBox Placeholder=""Outlined TextBox"" CssClass=""e-outlined"" FloatLabelType=""FloatLabelType.Auto""></SfTextBox>";
 
-	#endregion
+    #endregion
 
-	#region Disabled
+    #region Disabled
 
-	private string DisabledCode => @"<SfTextBox Placeholder=""Disabled"" Disabled=""true"" FloatLabelType=""FloatLabelType.Auto""></SfTextBox>
+    private string DisabledCode => @"<SfTextBox Placeholder=""Disabled"" Disabled=""true"" FloatLabelType=""FloatLabelType.Auto""></SfTextBox>
 <SfTextBox Placeholder=""Disabled"" CssClass=""e-filled"" Disabled=""true"" FloatLabelType=""FloatLabelType.Auto""></SfTextBox>";
 
-	#endregion
+    #endregion
 
-	#region  ReadOnly
+    #region  ReadOnly
 
-	private string ReadOnlyCode => @"<SfTextBox Placeholder=""ReadOnly"" ReadOnly=""true""></SfTextBox>
+    private string ReadOnlyCode => @"<SfTextBox Placeholder=""ReadOnly"" ReadOnly=""true""></SfTextBox>
 <SfTextBox Placeholder=""ReadOnly"" CssClass=""e-filled"" ReadOnly=""true""></SfTextBox>";
 
-	#endregion
+    #endregion
 
-	#region Icons
+    #region Icons
 
-	private SfTextBox? TextBoxSearchObj;
-	private SfTextBox? TextBoxDateObj;
+    private SfTextBox? TextBoxSearchObj;
+    private SfTextBox? TextBoxDateObj;
 
-	private async Task OnCreateSearch()
-	{
-		if (TextBoxSearchObj is not null)
-			await TextBoxSearchObj.AddIconAsync("append", "sb-icons e-search");
-	}
+    private async Task OnCreateSearch()
+    {
+        if (TextBoxSearchObj is not null)
+            await TextBoxSearchObj.AddIconAsync("append", "sb-icons e-search");
+    }
 
-	private async Task OnCreateDate()
-	{
-		if (TextBoxDateObj is not null)
-			await TextBoxDateObj.AddIconAsync("prepend", "e-toolkit-icons e-timeline-today");
-	}
+    private async Task OnCreateDate()
+    {
+        if (TextBoxDateObj is not null)
+            await TextBoxDateObj.AddIconAsync("prepend", "e-toolkit-icons e-timeline-today");
+    }
 
-	private string IconsCode => @"<SfTextBox @ref=""@TextBoxSearchObj"" Placeholder=""Search"" FloatLabelType=""FloatLabelType.Auto"" Created=""@OnCreateSearch""></SfTextBox>
+    private string IconsCode => @"<SfTextBox @ref=""@TextBoxSearchObj"" Placeholder=""Search"" FloatLabelType=""FloatLabelType.Auto"" Created=""@OnCreateSearch""></SfTextBox>
 <SfTextBox @ref=""@TextBoxDateObj"" Placeholder=""Select date"" FloatLabelType=""FloatLabelType.Auto"" Created=""@OnCreateDate""></SfTextBox>
 
 @code {
@@ -623,11 +623,11 @@
         await TextBoxDateObj.AddIconAsync(""prepend"", ""e-toolkit-icons e-timeline-today"");
     }
 }";
-	#endregion
+    #endregion
 
-	#region Customization
+    #region Customization
 
-	private string CustomizationCode => @"<SfTextBox Placeholder=""Enter Name"" CssClass=""e-custom"" Value=""John Kennedy""></SfTextBox>
+    private string CustomizationCode => @"<SfTextBox Placeholder=""Enter Name"" CssClass=""e-custom"" Value=""John Kennedy""></SfTextBox>
 
 <style>
 
@@ -659,66 +659,66 @@
 	}
 </style>";
 
-	#endregion
+    #endregion
 
-	#region Adaptive Rendering
+    #region Adaptive Rendering
 
-	private string AdaptiveRenderingCode => @"<SfTextBox Type=""InputType.Text"" Placeholder=""Default type""></SfTextBox>
+    private string AdaptiveRenderingCode => @"<SfTextBox Type=""InputType.Text"" Placeholder=""Default type""></SfTextBox>
 <SfTextBox Type=""InputType.Email"" Placeholder=""Email type""></SfTextBox>
 <SfTextBox Type=""InputType.Password"" Placeholder=""Password type""></SfTextBox>
 <SfTextBox Type=""InputType.Tel"" Placeholder=""+1 234 567 8900""></SfTextBox>
 <SfTextBox Type=""InputType.URL"" Placeholder=""URL type""></SfTextBox>
 <SfTextBox Type=""InputType.Search"" Placeholder=""Search type""></SfTextBox>";
 
-	#endregion
+    #endregion
 
-	#region Color
+    #region Color
 
-	private string ColorCode => @"<SfTextBox Placeholder=""Success"" CssClass=""e-success""></SfTextBox>
+    private string ColorCode => @"<SfTextBox Placeholder=""Success"" CssClass=""e-success""></SfTextBox>
 <SfTextBox Placeholder=""Error"" CssClass=""e-error""></SfTextBox>
 <SfTextBox Placeholder=""Warning"" CssClass=""e-warning""></SfTextBox>";
 
-	#endregion
+    #endregion
 
-	#region Float Label
+    #region Float Label
 
-	private string FloatLabelCode => @"<SfTextBox Placeholder=""Auto"" FloatLabelType=""FloatLabelType.Auto""></SfTextBox>
+    private string FloatLabelCode => @"<SfTextBox Placeholder=""Auto"" FloatLabelType=""FloatLabelType.Auto""></SfTextBox>
 <SfTextBox Placeholder=""Always"" FloatLabelType=""FloatLabelType.Always""></SfTextBox>
 <SfTextBox Placeholder=""Never"" FloatLabelType=""FloatLabelType.Never""></SfTextBox>";
 
-	#endregion
+    #endregion
 
-	#region Clear Button
+    #region Clear Button
 
-	private string ClearButtonCode => @"<SfTextBox Placeholder=""Type something..."" ShowClearButton=""true"" FloatLabelType=""FloatLabelType.Auto""></SfTextBox>";
+    private string ClearButtonCode => @"<SfTextBox Placeholder=""Type something..."" ShowClearButton=""true"" FloatLabelType=""FloatLabelType.Auto""></SfTextBox>";
 
-	#endregion
+    #endregion
 
-	#region Multiline TextArea
+    #region Multiline TextArea
 
-	private string MultilineCode => @"<SfTextBox Placeholder=""Enter your description"" Multiline=""true"" FloatLabelType=""FloatLabelType.Auto""></SfTextBox>";
+    private string MultilineCode => @"<SfTextBox Placeholder=""Enter your description"" Multiline=""true"" FloatLabelType=""FloatLabelType.Auto""></SfTextBox>";
 
-	#endregion
+    #endregion
 
-	#region Form Support
+    #region Form Support
 
-	private ValidationFormModel validationModel = new();
-	private Dictionary<string, object> validationAttrs => new() { { "rows", "3" }, { "maxlength", "200" } };
-	private string validationMessage = "";
+    private ValidationFormModel validationModel = new();
+    private Dictionary<string, object> validationAttrs => new() { { "rows", "3" }, { "maxlength", "200" } };
+    private string validationMessage = "";
 
-	private async Task OnValidSubmit(EditContext context)
-	{
-		validationMessage = "Form submitted successfully!";
-		await Task.Delay(0);
-	}
+    private async Task OnValidSubmit(EditContext context)
+    {
+        validationMessage = "Form submitted successfully!";
+        await Task.Delay(0);
+    }
 
-	private void ClearForm()
-	{
-		validationModel = new();
-		validationMessage = "";
-	}
+    private void ClearForm()
+    {
+        validationModel = new();
+        validationMessage = "";
+    }
 
-	private string FormSupportCode => @"<EditForm Model=""@validationModel"" OnValidSubmit=""@OnValidSubmit"" FormName=""TextBoxValidationForm"">
+    private string FormSupportCode => @"<EditForm Model=""@validationModel"" OnValidSubmit=""@OnValidSubmit"" FormName=""TextBoxValidationForm"">
 	<DataAnnotationsValidator></DataAnnotationsValidator>
 	<SfTextBox @bind-Value=""@validationModel.FullName""
 		Placeholder=""Full Name (Required)""
@@ -748,33 +748,33 @@
     }
 }";
 
-	#endregion
+    #endregion
 
-	#region Events
+    #region Events
 
-	private string? _eventMessage;
+    private string? _eventMessage;
 
-	private void OnInput(InputEventArgs args)
-	{
-		_eventMessage = "Input event triggered";
-	}
+    private void OnInput(InputEventArgs args)
+    {
+        _eventMessage = "Input event triggered";
+    }
 
-	private void OnValueChange(ChangedEventArgs args)
-	{
-		_eventMessage = "Changed event triggered";
-	}
+    private void OnValueChange(ChangedEventArgs args)
+    {
+        _eventMessage = "Changed event triggered";
+    }
 
-	private void OnFocus(FocusInEventArgs args)
-	{
-		_eventMessage = "FocusIn event triggered";
-	}
+    private void OnFocus(FocusInEventArgs args)
+    {
+        _eventMessage = "FocusIn event triggered";
+    }
 
-	private void OnBlur(FocusOutEventArgs args)
-	{
-		_eventMessage = "FocusOut event triggered";
-	}
+    private void OnBlur(FocusOutEventArgs args)
+    {
+        _eventMessage = "FocusOut event triggered";
+    }
 
-	private string EventsCode => @"<SfTextBox Placeholder=""Type here"" OnInput=""@OnInput"" ValueChange=""@OnValueChange"" OnFocus=""@OnFocus"" OnBlur=""@OnBlur"" FloatLabelType=""FloatLabelType.Auto""></SfTextBox>
+    private string EventsCode => @"<SfTextBox Placeholder=""Type here"" OnInput=""@OnInput"" ValueChange=""@OnValueChange"" OnFocus=""@OnFocus"" OnBlur=""@OnBlur"" FloatLabelType=""FloatLabelType.Auto""></SfTextBox>
 
 @code {
     private void OnInput(InputEventArgs args)
@@ -798,26 +798,26 @@
     }
 }";
 
-	#endregion
+    #endregion
 
-	#region Validation Model
+    #region Validation Model
 
-	public class ValidationFormModel
-	{
-		[Required(ErrorMessage = "Full Name is required")]
-		[StringLength(50, ErrorMessage = "Name cannot exceed 50 characters")]
-		public string FullName { get; set; } = "";
+    public class ValidationFormModel
+    {
+        [Required(ErrorMessage = "Full Name is required")]
+        [StringLength(50, ErrorMessage = "Name cannot exceed 50 characters")]
+        public string FullName { get; set; } = "";
 
-		[EmailAddress(ErrorMessage = "Invalid email address")]
-		public string Email { get; set; } = "";
+        [EmailAddress(ErrorMessage = "Invalid email address")]
+        public string Email { get; set; } = "";
 
-		[Phone(ErrorMessage = "Invalid phone number")]
-		public string Phone { get; set; } = "";
+        [Phone(ErrorMessage = "Invalid phone number")]
+        public string Phone { get; set; } = "";
 
-		[StringLength(200, ErrorMessage = "Comments cannot exceed 200 characters")]
-		public string Comments { get; set; } = "";
-	}
+        [StringLength(200, ErrorMessage = "Comments cannot exceed 200 characters")]
+        public string Comments { get; set; } = "";
+    }
 
-	#endregion
+    #endregion
 
 }
