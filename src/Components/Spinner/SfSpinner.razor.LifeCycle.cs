@@ -16,15 +16,15 @@ namespace Syncfusion.Blazor.Toolkit.Spinner
         #region Lifecycle Methods
 
         /// <summary>
-        /// Initializes the component when it is ready to start and sets up the initial state.
+        /// Initializes the spinner component, configuring initial CSS classes, visibility state, and accessibility attributes.
         /// </summary>
         /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
         /// <remarks>
-        /// This method is invoked by the Blazor framework when the component is first created. 
-        /// It sets up the initial state of the spinner, such as its style, visibility, and CSS class, 
-        /// based on the provided parameters. It also configures accessibility attributes like <c>role</c> and <c>aria-label</c>.
-        /// This is part of the component initialization process to ensure accessibility compliance.
+        /// This method is invoked by the Blazor framework when the spinner is first created. It sets up the initial
+        /// style with <see cref="ZIndex"/>, applies the <see cref="CssClass"/> if provided, and configures the
+        /// <c>aria-label</c> attribute based on the <see cref="Label"/> property for accessibility compliance.
         /// </remarks>
+        /// <exclude />
         protected override async Task OnInitializedAsync()
         {
             try
@@ -80,10 +80,11 @@ namespace Syncfusion.Blazor.Toolkit.Spinner
         /// </summary>
         /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
         /// <remarks>
-        /// This method is called when the component receives new or updated parameters. 
+        /// This method is called when the spinner receives new or updated parameters from its parent.
         /// It tracks changes to properties like <see cref="CssClass"/>, <see cref="Visible"/>, and <see cref="ZIndex"/>
         /// and triggers a state update if any of these properties have changed.
         /// </remarks>
+        /// <exclude />
         protected override async Task OnParametersSetAsync()
         {
             await base.OnParametersSetAsync().ConfigureAwait(false);
@@ -111,14 +112,14 @@ namespace Syncfusion.Blazor.Toolkit.Spinner
         }
 
         /// <summary>
-        /// Executes after the component has been rendered.
+        /// Executes after the spinner has been rendered.
         /// </summary>
-        /// <param name="firstRender">Indicates whether this is the first render cycle. When <see langword="true"/>, this is the initial render; when <see langword="false"/>, the component is being re-rendered.</param>
+        /// <param name="firstRender">Indicates whether this is the first render cycle. When <see langword="true"/>, this is the initial render; when <see langword="false"/>, the spinner is being re-rendered.</param>
         /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
         /// <remarks>
-        /// On the initial render, this method sets the <see cref="_isInitialLoad"/> flag to <see langword="false"/> and invokes the <see cref="Created"/> event if it has been subscribed.
-        /// This is part of the component's initialization sequence.
+        /// On the initial render, this method sets the internal load flag to <see langword="false"/> and invokes the <see cref="Created"/> event if it has been subscribed.
         /// </remarks>
+        /// <exclude />
         protected override async Task OnAfterRenderAsync(bool firstRender)
         {
             await base.OnAfterRenderAsync(firstRender).ConfigureAwait(true);
@@ -143,12 +144,13 @@ namespace Syncfusion.Blazor.Toolkit.Spinner
         }
 
         /// <summary>
-        /// Releases all resources associated with the component upon disposal.
+        /// Releases all resources associated with the spinner upon disposal.
         /// </summary>
         /// <remarks>
-        /// This method is called when the component is being removed from the UI. It clears child content, resets attributes,
+        /// This method is called when the spinner is being removed from the UI. It clears child content, resets attributes,
         /// and invokes the <see cref="Destroyed"/> event if subscribed, ensuring proper resource management and preventing memory leaks.
         /// </remarks>
+        /// <exclude />
         protected override async ValueTask DisposeAsyncCore()
         {
             // Skip disposal if component was never rendered

@@ -16,26 +16,45 @@ using System.Security.Cryptography;
 namespace Syncfusion.Blazor.Toolkit.Data
 {
     /// <summary>
-    /// A Base Component for all the Syncfusion Blazor UI components.
+    /// Serves as the base class for Syncfusion Blazor UI components that require data-binding,
+    /// JavaScript interop orchestration, and server-client synchronization.
     /// </summary>
+    /// <remarks>
+    /// <para><see cref="BaseComponent"/> provides data-management infrastructure for components that
+    /// communicate with Syncfusion JavaScript widgets via <see cref="SyncfusionInterop"/>. It handles:</para>
+    /// <list type="bullet">
+    /// <item><description>Two-way data binding between Blazor parameters and JavaScript widget properties.</description></item>
+    /// <item><description>Event callback invocation from JavaScript to .NET using <see cref="DotNetObjectReference{T}"/>.</description></item>
+    /// <item><description>Client-side change tracking and reconciliation via <see cref="ClientChanges"/>.</description></item>
+    /// <item><description>Serialization of bindable properties with culture-aware JSON converters.</description></item>
+    /// </list>
+    /// <para>Components that do not require data-binding should inherit from <see cref="SfBaseComponent"/> instead.</para>
+    /// </remarks>
     public abstract class BaseComponent : ComponentBase
     {
         #region properties
 
-        /// <exclude />
         /// <summary>
         /// Gets or sets the unique identifier for the instance.
         /// </summary>
         protected int _uniqueId { get; set; }
+
+        /// <summary>
+        /// Tracks parameter names passed directly to the component for change detection.
+        /// </summary>
         private readonly List<string> _directParamKeys = [];
 
-        //This property is used for InvokeMethod json serializer option.
+        /// <summary>
+        /// JSON serialization options for <see cref="InvokeMethod"/> return values.
+        /// </summary>
         private readonly JsonSerializerOptions _invokeMethodJsonSettings = new()
         {
             DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull
         };
 
-        //This property is used for Trigger method json serializer option.
+        /// <summary>
+        /// JSON serialization options for trigger event arguments with culture-aware date handling.
+        /// </summary>
         private readonly JsonSerializerOptions _triggerJsonSettings = new()
         {
             DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull,
@@ -44,7 +63,9 @@ namespace Syncfusion.Blazor.Toolkit.Data
                             }
         };
 
-        //This property is used for serialiazeBindableProp method json serializer option.
+        /// <summary>
+        /// JSON serialization options for serializing bindable properties with enum string conversion.
+        /// </summary>
         private readonly JsonSerializerOptions _serialiazeBindablePropJsonSettings = new()
         {
             WriteIndented = true,
@@ -62,14 +83,18 @@ namespace Syncfusion.Blazor.Toolkit.Data
                         }
         };
 
-        //This property is used for Insert method json serializer option
+        /// <summary>
+        /// JSON serialization options for the Insert method with preserved references.
+        /// </summary>
         private readonly JsonSerializerOptions _insert2JsonSettings = new()
         {
             WriteIndented = true,
             ReferenceHandler = ReferenceHandler.Preserve
         };
 
-        //This property is used for Update method for update record json serializer option
+        /// <summary>
+        /// JSON serialization options for Update method record serialization.
+        /// </summary>
         private readonly JsonSerializerOptions _update1JsonSettings = new()
         {
             Converters = {
@@ -77,21 +102,27 @@ namespace Syncfusion.Blazor.Toolkit.Data
                             }
         };
 
-        //This property is used for Update method for update result json serializer option
+        /// <summary>
+        /// JSON serialization options for Update method result serialization with preserved references.
+        /// </summary>
         private readonly JsonSerializerOptions _update2JsonSettings = new()
         {
             WriteIndented = true,
             ReferenceHandler = ReferenceHandler.Preserve
         };
 
-        //This property is used for Remove method json serializer option
+        /// <summary>
+        /// JSON serialization options for Remove method with preserved references.
+        /// </summary>
         private readonly JsonSerializerOptions _removeJsonSettings = new()
         {
             WriteIndented = true,
             ReferenceHandler = ReferenceHandler.Preserve
         };
 
-        //This property is used for BatchUpdate method json serializer option
+        /// <summary>
+        /// JSON serialization options for BatchUpdate method with date conversion.
+        /// </summary>
         private readonly JsonSerializerOptions _batchUpdateJsonSettings = new()
         {
             Converters = {
@@ -99,7 +130,9 @@ namespace Syncfusion.Blazor.Toolkit.Data
                             }
         };
 
-        //This property is used for BatchUpdate method save action json serializer option
+        /// <summary>
+        /// JSON serialization options for BatchUpdate save action with preserved references.
+        /// </summary>
         private readonly JsonSerializerOptions _batchUpdateSaveJsonSettings = new()
         {
             WriteIndented = true,
@@ -191,26 +224,68 @@ namespace Syncfusion.Blazor.Toolkit.Data
 
         #region public properties
 
-        /// <exclude/>
+        /// <summary>
+        /// Gets or sets the unique identifier for the component instance.
+        /// </summary>
+        /// <value>
+        /// A string value representing the component's identifier. Defaults to <c>null</c>.
+        /// When set, this value is passed to the JavaScript interop layer to identify the component instance.
+        /// </value>
         public virtual string? ID { get; set; }
 
-        /// <exclude/>
+        /// <summary>
+        /// Gets or sets a value indicating whether the component has been rendered to the client.
+        /// </summary>
+        /// <value>
+        /// <see langword="true"/> after the component's first render completes and the JavaScript widget is initialized;
+        /// otherwise <see langword="false"/>.
+        /// </value>
+        /// <remarks>
+        /// This flag is used internally to prevent re-initialization of components that have already been rendered.
+        /// </remarks>
         [JsonIgnore]
         public bool IsRendered { get; set; }
 
-        /// <exclude/>
+        /// <summary>
+        /// Gets or sets the model type associated with the component for data-binding operations.
+        /// </summary>
+        /// <value>
+        /// A <see cref="Type"/> representing the model type, or <c>null</c> if no model is assigned.
+        /// </value>
         [JsonIgnore]
         public virtual Type? ModelType { get; set; }
 
-        /// <exclude/>
+        /// <summary>
+        /// Gets or sets the data manager for this component, controlling data operations such as
+        /// querying, grouping, and filtering.
+        /// </summary>
+        /// <value>
+        /// A <see cref="Data.DataManager"/> instance, or <c>null</c> when no data manager is configured.
+        /// </value>
         [JsonIgnore]
         public DataManager? DataManager { get; set; }
 
-        /// <exclude/>
+        /// <summary>
+        /// Gets or sets a value indicating whether there are pending client-side template changes
+        /// that need to be synchronized with the server.
+        /// </summary>
+        /// <value>
+        /// <see langword="true"/> when client-side template changes are pending; otherwise <see langword="false"/>.
+        /// </value>
         [JsonIgnore]
         public bool TemplateClientChanges { get; set; }
 
-        /// <exclude/>
+        /// <summary>
+        /// Gets the unique identifier for the component, generated on first access from a random
+        /// integer between 1 and 100000.
+        /// </summary>
+        /// <value>
+        /// An integer value that is cached after first access. Subsequent calls return the same value.
+        /// </value>
+        /// <remarks>
+        /// This property is serialized as <c>"guid"</c> in JSON for communication with the JavaScript layer.
+        /// Unlike <see cref="ID"/>, this value is auto-generated and not user-configurable.
+        /// </remarks>
         [JsonPropertyName("guid")]
         public int UniqueId
         {
@@ -228,11 +303,28 @@ namespace Syncfusion.Blazor.Toolkit.Data
             }
         }
 
-        /// <exclude/>
+        /// <summary>
+        /// Gets or sets a dictionary holding data items keyed by their identity for fast lookup.
+        /// </summary>
+        /// <value>
+        /// A dictionary mapping string keys to object values. Defaults to an empty dictionary.
+        /// </value>
+        /// <remarks>
+        /// This dictionary is used internally to store data source items with generated GUID keys
+        /// for JavaScript-to-.NET synchronization.
+        /// </remarks>
         [JsonIgnore]
         public virtual Dictionary<string, object> DataContainer { get; set; } = [];
 
-        /// <exclude/>
+        /// <summary>
+        /// Gets or sets a dictionary for storing hash-based data lookup entries.
+        /// </summary>
+        /// <value>
+        /// A dictionary mapping string keys to object values. Defaults to an empty dictionary.
+        /// </value>
+        /// <remarks>
+        /// Used for hash-table style lookups of component data during client-server reconciliation.
+        /// </remarks>
         [JsonIgnore]
         public virtual Dictionary<string, object> DataHashTable { get; set; } = [];
         #endregion
@@ -297,7 +389,7 @@ namespace Syncfusion.Blazor.Toolkit.Data
             await Task.CompletedTask.ConfigureAwait(false);
         }
 
-        /// <exclude/>
+        /// <exclude />
         [EditorBrowsable(EditorBrowsableState.Never)]
         public async Task OnInitRenderAsync()
         {
@@ -331,7 +423,7 @@ namespace Syncfusion.Blazor.Toolkit.Data
             await InitialRenderedAsync().ConfigureAwait(false);
         }
 
-        /// <exclude/>
+        /// <exclude />
         public override Task SetParametersAsync(ParameterView parameters)
         {
             // parameters.SetParameterProperties(this);
@@ -375,7 +467,21 @@ namespace Syncfusion.Blazor.Toolkit.Data
             DotNetObjectRef?.Dispose();
         }
 
-        /// <inheritdoc/>
+        /// <summary>
+        /// Disposes the component, releasing JavaScript interop resources, data managers, and event handlers.
+        /// </summary>
+        /// <remarks>
+        /// <para>Calls <see cref="CommonDispose"/> to clear all internal dictionaries and event subscriptions,
+        /// then invokes the JavaScript <c>destroy</c> method if the component has been rendered.</para>
+        /// <para>Subclasses should override <see cref="ComponentDispose"/> to add component-specific cleanup logic
+        /// instead of replacing this method.</para>
+        /// </remarks>
+        /// <example>
+        /// <code><![CDATA[
+        /// // Dispose is called automatically by the Blazor framework when the component is removed from the tree.
+        /// // No explicit call is needed in most scenarios.
+        /// ]]></code>
+        /// </example>
         public virtual void Dispose()
         {
             CommonDispose();
@@ -389,7 +495,13 @@ namespace Syncfusion.Blazor.Toolkit.Data
             JsAdaptor = null!;
         }
 
-        /// <inheritdoc/>
+        /// <summary>
+        /// Refreshes the component by re-rendering the associated JavaScript widget.
+        /// </summary>
+        /// <remarks>
+        /// Calls the JavaScript <c>refresh</c> method for the component identified by <see cref="ID"/>.
+        /// Has no effect if the component has not been rendered yet.
+        /// </remarks>
         public async void Refresh()
         {
             if (NameSpace != null && IsRendered)
@@ -398,7 +510,7 @@ namespace Syncfusion.Blazor.Toolkit.Data
             }
         }
 
-        /// <exclude/>
+        /// <exclude />
         public async Task DataBindAsync(bool hasStateChanged = false)
         {
             _ = hasStateChanged;
@@ -427,7 +539,19 @@ namespace Syncfusion.Blazor.Toolkit.Data
         }
 
         /// <exclude />
-        /// <inheritdoc/>
+        /// <summary>
+        /// Clears client-side change tracking dictionaries when the component is not data-bound
+        /// or when <paramref name="clearBindables"/> is <c>true</c>.
+        /// </summary>
+        /// <param name="clearBindables">
+        /// If <c>true</c>, clears both <see cref="ClientChanges"/> and <see cref="BindableProperties"/>.
+        /// If <c>false</c>, only <see cref="ClientChanges"/> is cleared.
+        /// </param>
+        /// <remarks>
+        /// This method is called after <see cref="DataBindAsync"/> to reconcile pending client changes
+        /// with server-side state. The <paramref name="clearBindables"/> flag is set to <c>true</c> during
+        /// event-triggered updates to ensure bindable properties are also cleared.
+        /// </remarks>
         protected void ClearClientChanges(bool clearBindables = false)
         {
             if ((IsClientChanges && !IsDataBound) || clearBindables)
@@ -757,7 +881,7 @@ namespace Syncfusion.Blazor.Toolkit.Data
             }
         }
 
-        /// <exclude/>
+        /// <exclude />
         [JSInvokable]
         [EditorBrowsable(EditorBrowsableState.Never)]
         public virtual async Task<object> Trigger(string eventName, string arg)
@@ -795,7 +919,7 @@ namespace Syncfusion.Blazor.Toolkit.Data
             return property;
         }
 
-        /// <exclude/>
+        /// <exclude />
         [JSInvokable]
         [EditorBrowsable(EditorBrowsableState.Never)]
         public async Task UpdateModel(Dictionary<string, object> properties)
@@ -965,14 +1089,25 @@ namespace Syncfusion.Blazor.Toolkit.Data
         }
 
         /// <exclude />
-        /// <inheritdoc/>
+        /// <summary>
+        /// Returns a JSON-serialized representation of this component's public properties.
+        /// </summary>
+        /// <returns>A JSON string representing the component's current state.</returns>
+        /// <remarks>
+        /// Used internally to capture the initial component model for JavaScript interop initialization.
+        /// Subclasses can override to customize which properties are serialized.
+        /// </remarks>
         protected virtual string GetSerializedModel()
         {
             return JsonSerializer.Serialize(this, GetType(), GetJsonSerializerOptions());
         }
 
         /// <exclude />
-        /// <inheritdoc/>
+        /// <summary>
+        /// Returns a JSON-serialized model for updating the JavaScript widget.
+        /// </summary>
+        /// <param name="isInit">If <c>true</c>, returns the full model with defaults; if <c>false</c>, returns only bindable properties.</param>
+        /// <returns>A JSON string representing the component state to sync with JavaScript.</returns>
         protected virtual string GetUpdateModel(bool isInit = false)
         {
             if (isInit)
@@ -1004,7 +1139,7 @@ namespace Syncfusion.Blazor.Toolkit.Data
             }
         }
 
-        /// <exclude/>
+        /// <exclude />
         [JSInvokable]
         [EditorBrowsable(EditorBrowsableState.Never)]
         public static void ErrorHandling(string message, string stack)
@@ -1013,7 +1148,23 @@ namespace Syncfusion.Blazor.Toolkit.Data
         }
 
         /// <exclude />
-        /// <inheritdoc/>
+        /// <summary>
+        /// Converts a data source to a <see cref="DataManager"/> instance or returns an existing one,
+        /// wrapped in a <see cref="DefaultAdaptor"/> for DataManager operations.
+        /// </summary>
+        /// <param name="dataSource">The data source to convert, which can be an <see cref="IEnumerable"/>, an existing <see cref="DataManager"/>, or <c>null</c>.</param>
+        /// <param name="key">An optional key for storing the data manager in a parent component's container.</param>
+        /// <returns>
+        /// A <see cref="DataManager"/> wrapped in a <see cref="DefaultAdaptor"/>, or the original
+        /// <paramref name="dataSource"/> if it is already a <see cref="DataManager"/>.
+        /// </returns>
+        /// <remarks>
+        /// <para>If <paramref name="dataSource"/> is already a <see cref="DataManager"/>, it is returned unchanged.</para>
+        /// <para>Otherwise, the method creates a new <see cref="DataManager"/> with the data cast to <c>object[]</c>
+        /// and wraps it in a <see cref="DefaultAdaptor"/> using the provided <paramref name="key"/>.</para>
+        /// <para>If a <see cref="MainParent"/> exists, the created <see cref="DataManager"/> is also stored
+        /// in <see cref="MainParent"/>'s <see cref="DataManagerContainer"/> for later retrieval.</para>
+        /// </remarks>
         protected object GetDataManager(object dataSource, string? key = null)
         {
             if (dataSource is SfDataManager or Data.DataManager)
@@ -1146,6 +1297,7 @@ namespace Syncfusion.Blazor.Toolkit.Data
     /// </summary>
     internal static class GlobalizeJsonGenerator
     {
+        /// <exclude />
         private static readonly Dictionary<int, string> _positiveCurrencyMapper = new()
         {
             { 0, "$n" },
@@ -1154,6 +1306,8 @@ namespace Syncfusion.Blazor.Toolkit.Data
             { 3, "n $" }
         };
 
+        /// <exclude />
+        /// <exclude />
         private static readonly Dictionary<int, string> _negativeCurrencyMapper = new()
         {
             { 0, "($n)" },
@@ -1174,6 +1328,8 @@ namespace Syncfusion.Blazor.Toolkit.Data
             { 15, "(n $)" }
         };
 
+        /// <exclude />
+        /// <exclude />
         private static readonly Dictionary<int, string> _positivePercentMapper = new()
         {
             { 0, "n %" },
@@ -1182,6 +1338,8 @@ namespace Syncfusion.Blazor.Toolkit.Data
             { 3, "% n" }
         };
 
+        /// <exclude />
+        /// <exclude />
         private static readonly Dictionary<int, string> _numberNegativePattern = new()
         {
             { 0, "(n)" },
@@ -1191,6 +1349,8 @@ namespace Syncfusion.Blazor.Toolkit.Data
             { 4, "n-" }
         };
 
+        /// <exclude />
+        /// <exclude />
         private static readonly Dictionary<int, string> _negativePercentMapper = new()
         {
             { 0, "-n %" },
@@ -1206,6 +1366,9 @@ namespace Syncfusion.Blazor.Toolkit.Data
             { 10, "% -n" },
             { 11, "n- %" }
         };
+
+        /// <exclude />
+        private static readonly Dictionary<string, CultureInfo> _cultureCache = [];
 
         /// <summary>
         /// Returns the globalized JSON string.

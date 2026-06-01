@@ -4,10 +4,10 @@ namespace Syncfusion.Blazor.Toolkit.Inputs
     {
         #region LifeCycle Methods
 
-        /// <exclude />
         /// <summary>
         /// Initializes the component and generates a unique ID if not explicitly set.
         /// </summary>
+        /// <exclude/>
         protected override async Task OnInitializedAsync()
         {
             await base.OnInitializedAsync().ConfigureAwait(true);
@@ -17,10 +17,10 @@ namespace Syncfusion.Blazor.Toolkit.Inputs
             }
         }
 
-        /// <exclude />
         /// <summary>
         /// Handles parameter changes and loads persisted radio button state if enabled.
         /// </summary>
+        /// <exclude/>
         protected override async Task OnParametersSetAsync()
         {
             await base.OnParametersSetAsync().ConfigureAwait(true);
@@ -33,10 +33,10 @@ namespace Syncfusion.Blazor.Toolkit.Inputs
             }
         }
 
-        /// <exclude />
         /// <summary>
         /// Performs post-render initialization and restores persisted state after initial render.
         /// </summary>
+        /// <exclude/>
         protected override async Task OnAfterRenderAsync(bool firstRender)
         {
             await base.OnAfterRenderAsync(firstRender).ConfigureAwait(true);

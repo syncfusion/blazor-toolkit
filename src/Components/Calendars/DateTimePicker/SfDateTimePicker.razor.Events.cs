@@ -43,29 +43,7 @@ namespace Syncfusion.Blazor.Toolkit.Calendars
         /// <summary>
         /// Gets or sets an event callback that is triggered when a key is pressed down while the input element has focus.
         /// </summary>
-        /// <value>
-        /// An <see cref="EventCallback{KeyboardEventArgs}"/> that is invoked when a key down event occurs on the input element.
-        /// </value>
-        /// <remarks>
-        /// This event allows you to handle keyboard interactions such as navigation keys, Enter key for selection, 
-        /// and Escape key for closing popups. The event is particularly useful for implementing custom keyboard shortcuts
-        /// and navigation behavior in the DateTimePicker component.
-        /// </remarks>
-        /// <example>
-        /// Handling the OnKeyDown event:
-        /// <code><![CDATA[
-        /// <SfDateTimePicker TValue="DateTime" OnKeyDown="HandleKeyDown">
-        /// </SfDateTimePicker>
-        /// 
-        /// private async Task HandleKeyDown(KeyboardEventArgs args)
-        /// {
-        ///     if (args.Key == "F2")
-        ///     {
-        ///         // Custom functionality
-        ///     }
-        /// }
-        /// ]]></code>
-        /// </example>
+        /// <exclude />
         [Parameter]
         public EventCallback<KeyboardEventArgs> OnKeyDown { get; set; }
 

@@ -6,19 +6,29 @@ using Microsoft.CSharp.RuntimeBinder;
 namespace Syncfusion.Blazor.Toolkit
 {
     /// <summary>
-    /// An extension class which provides various extension methods to reflect the data from an object.
+    /// Provides extension methods for reflecting property values from static, dynamic,
+    /// and expando objects, including support for nested (dot-delimited) property paths.
     /// </summary>
     /// <exclude/>
     public static class ReflectionExtension
     {
         /// <summary>
-        /// Returns the property value of a specified object of any type includes static types, <see cref="DynamicObject"/> and <see cref="ExpandoObject"/> types.
+        /// Returns the property value of a specified object of any type, including static types,
+        /// <see cref="DynamicObject"/>, and <see cref="ExpandoObject"/> instances.
         /// </summary>
-        /// <param name="propertyName">The string containing the name of the public property.</param>
         /// <param name="obj">The object whose property value will be returned.</param>
-        /// <param name="reflectComplexProperty">true, if need to reflect complex property. </param>
-        /// <returns>The property value of the specified object. Also, returns null if <paramref name="obj"/> and <paramref name="propertyName"/> is null or empty.</returns>
-        /// <remarks>For accessing complex/nested property value, given the propertyName with field names delimited by dot(.).</remarks>
+        /// <param name="propertyName">The string containing the name of the public property.</param>
+        /// <param name="reflectComplexProperty">
+        /// <see langword="true"/> to resolve nested properties delimited by dot (<c>.</c>); otherwise <see langword="false"/>.
+        /// </param>
+        /// <returns>
+        /// The property value of the specified object, or <see langword="null"/> if
+        /// <paramref name="obj"/> or <paramref name="propertyName"/> is <see langword="null"/> or empty.
+        /// </returns>
+        /// <remarks>
+        /// For accessing complex or nested property values, provide the <paramref name="propertyName"/>
+        /// with field names delimited by a dot (for example, <c>"Address.City"</c>).
+        /// </remarks>
         public static object? GetValue(object obj, string propertyName, bool reflectComplexProperty = true)
         {
             if (string.IsNullOrEmpty(propertyName) || obj is null)
@@ -58,12 +68,21 @@ namespace Syncfusion.Blazor.Toolkit
         }
 
         /// <summary>
-        /// Returns the property value of a specified object of type <see cref="DynamicObject"/> or <see cref="ExpandoObject"/>.
+        /// Returns the property value of a specified dynamic or expando object.
         /// </summary>
-        /// <param name="propertyName">The string containing the name of the public property.</param>
         /// <param name="obj">The object whose property value will be returned.</param>
-        /// <param name="reflectComplexProperty">true, if need to reflect complex property. </param>
-        /// <returns>The property value of the specified object.</returns>
+        /// <param name="propertyName">The string containing the name of the public property.</param>
+        /// <param name="reflectComplexProperty">
+        /// <see langword="true"/> to resolve nested properties delimited by dot (<c>.</c>); otherwise <see langword="false"/>.
+        /// </param>
+        /// <returns>
+        /// The property value of the specified object, or <see langword="null"/> if <paramref name="obj"/> is <see langword="null"/>
+        /// or the property cannot be resolved.
+        /// </returns>
+        /// <remarks>
+        /// This method dispatches to <see cref="GetValueFromExpandoObject"/>, <see cref="GetValueFromDynamicObject"/>,
+        /// or <see cref="GetValueFromDynamicMetaObjectProvider"/> based on the runtime type of <paramref name="obj"/>.
+        /// </remarks>
         public static object? GetValueFromIDynamicMetaObject(object obj, string propertyName, bool reflectComplexProperty = false)
         {
             if (obj is ExpandoObject expandoObject)
@@ -85,11 +104,13 @@ namespace Syncfusion.Blazor.Toolkit
         }
 
         /// <summary>
-        /// Returns the property value of a specified object of type <see cref="DynamicObject"/>.
+        /// Returns the property value of a specified <see cref="DynamicObject"/>.
         /// </summary>
+        /// <param name="obj">The dynamic object whose property value will be returned.</param>
         /// <param name="propertyName">The string containing the name of the public property.</param>
-        /// <param name="obj">The object whose property value will be returned.</param>
-        /// <param name="reflectComplexProperty">true, if need to reflect complex property. </param>
+        /// <param name="reflectComplexProperty">
+        /// <see langword="true"/> to resolve nested properties delimited by dot (<c>.</c>); otherwise <see langword="false"/>.
+        /// </param>
         /// <returns>The property value of the specified object.</returns>
         public static object? GetValueFromDynamicObject(DynamicObject obj, string propertyName, bool reflectComplexProperty = false)
         {
@@ -131,11 +152,13 @@ namespace Syncfusion.Blazor.Toolkit
         }
 
         /// <summary>
-        /// Returns the property value of a specified object of type <see cref="IDynamicMetaObjectProvider"/>.
+        /// Returns the property value of a specified object implementing <see cref="IDynamicMetaObjectProvider"/>.
         /// </summary>
         /// <param name="obj">The object implementing <see cref="IDynamicMetaObjectProvider"/> whose property value will be returned.</param>
         /// <param name="propertyName">The string containing the name of the public property.</param>
-        /// <param name="reflectComplexProperty">true, if need to reflect complex property. </param>
+        /// <param name="reflectComplexProperty">
+        /// <see langword="true"/> to resolve nested properties delimited by dot (<c>.</c>); otherwise <see langword="false"/>.
+        /// </param>
         /// <returns>The property value of the specified object.</returns>
         public static object? GetValueFromDynamicMetaObjectProvider(IDynamicMetaObjectProvider obj, string propertyName, bool reflectComplexProperty = false)
         {
@@ -180,12 +203,14 @@ namespace Syncfusion.Blazor.Toolkit
         }
 
         /// <summary>
-        /// Returns the property value of a specified object of type <see cref="ExpandoObject"/>.
+        /// Returns the property value of a specified <see cref="ExpandoObject"/> (or any <see cref="IDictionary{TKey, TValue}"/> with string keys).
         /// </summary>
+        /// <param name="obj">The dictionary whose property value will be returned.</param>
         /// <param name="propertyName">The string containing the name of the public property.</param>
-        /// <param name="obj">The object whose property value will be returned.</param>
-        /// <param name="reflectComplexProperty">true, if need to reflect complex property. </param>
-        /// <returns>The property value of the specified object.</returns>
+        /// <param name="reflectComplexProperty">
+        /// <see langword="true"/> to resolve nested properties delimited by dot (<c>.</c>); otherwise <see langword="false"/>.
+        /// </param>
+        /// <returns>The property value of the specified object, or <see langword="null"/> if the key is not found.</returns>
         public static object? GetValueFromExpandoObject(IDictionary<string, object> obj, string propertyName, bool reflectComplexProperty = false)
         {
             if (obj is null || string.IsNullOrEmpty(propertyName))
@@ -224,11 +249,20 @@ namespace Syncfusion.Blazor.Toolkit
         }
 
         /// <summary>
-        /// Creates an instance of the specified type using that type's parameterless constructor.
+        /// Creates an instance of the specified type using its first available constructor.
+        /// Parameter values are initialized with default instances using recursion where necessary.
         /// </summary>
         /// <param name="type">The type of object to create.</param>
-        /// <param name="createSubtypes">true, if nested properties also should be initialized with instance.</param>
-        /// <returns>A reference to the newly created object.</returns>
+        /// <param name="createsubtypes">
+        /// <see langword="true"/> to also initialize writable, non-primitive nested properties with new instances; otherwise <see langword="false"/>.
+        /// </param>
+        /// <returns>
+        /// A reference to the newly created object, or <see langword="null"/> if creation fails due to an exception.
+        /// </returns>
+        /// <remarks>
+        /// When <paramref name="createsubtypes"/> is <see langword="true"/>, nested properties of interface or complex types are also
+        /// recursively initialized to facilitate deep-copy or factory scenarios.
+        /// </remarks>
         public static object? TryCreateInstance(Type type, bool createSubtypes = false)
         {
             try
@@ -315,7 +349,7 @@ namespace Syncfusion.Blazor.Toolkit
     }
 
     /// <summary>
-    /// Defines the data member binder for getting dynamic object property.
+    /// Provides a dynamic binder for retrieving member values from <see cref="DynamicObject"/> instances.
     /// </summary>
     /// <exclude/>
     internal class DataMemberBinder(string name, bool ignoreCase) : GetMemberBinder(name, ignoreCase)
@@ -327,7 +361,7 @@ namespace Syncfusion.Blazor.Toolkit
     }
 
     /// <summary>
-    /// Defines the data member binder for setting dynamic object property.
+    /// Provides a dynamic binder for setting member values on <see cref="DynamicObject"/> instances.
     /// </summary>
     /// <exclude/>
     internal class DataSetMemberBinder(string name, bool ignoreCase) : SetMemberBinder(name, ignoreCase)

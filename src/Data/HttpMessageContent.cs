@@ -9,10 +9,7 @@ namespace Syncfusion.Blazor.Toolkit.Data
     /// Derived HttpMessageContent class to prepare or modify the multipart type requests.
     /// Reference from the https://github.com/aspnet/AspNetWebStack/blob/master/src/System.Net.Http.Formatting/HttpMessageContent.cs to prepare a HttpContent extension.
     /// </summary>
-    /// <exclude/>
-    /// <summary>
-    /// Represents an <see cref="HttpContent"/> wrapper for serializing HTTP request and response messages.
-    /// </summary>
+    /// <exclude />
     internal class HttpMessageContent : HttpContent
     {
         private const string SP = " ";
@@ -25,6 +22,7 @@ namespace Syncfusion.Blazor.Toolkit.Data
         private const string DefaultRequestMsgType = "request";
         private const string DefaultResponseMsgType = "response";
 
+        /// <exclude />
         private static readonly HashSet<string> _singleValueHeaderFields = new(StringComparer.OrdinalIgnoreCase)
         {
             "Cookie",
@@ -32,13 +30,19 @@ namespace Syncfusion.Blazor.Toolkit.Data
             "X-Powered-By",
         };
 
+        /// <exclude />
         private static readonly HashSet<string> _spaceSeparatedValueHeaderFields = new(StringComparer.OrdinalIgnoreCase)
         {
             "User-Agent",
         };
 
+        /// <exclude />
         private bool _contentConsumed;
+
+        /// <exclude />
         private Lazy<Task<Stream>> _streamTask;
+
+        /// <exclude />
         private long? _cachedLength;
 
         /// <summary>
@@ -67,6 +71,7 @@ namespace Syncfusion.Blazor.Toolkit.Data
             InitializeStreamTask();
         }
 
+        /// <exclude />
         private HttpContent? Content => HttpRequestMessage != null ? HttpRequestMessage.Content : HttpResponseMessage.Content;
 
         /// <summary>
@@ -79,6 +84,7 @@ namespace Syncfusion.Blazor.Toolkit.Data
         /// </summary>
         public HttpResponseMessage HttpResponseMessage { get; private set; }
 
+        /// <exclude />
         private void InitializeStreamTask()
         {
             _streamTask = new Lazy<Task<Stream>>(() => Content == null ? null! : Content.ReadAsStreamAsync());

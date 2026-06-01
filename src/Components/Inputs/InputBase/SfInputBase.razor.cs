@@ -844,6 +844,7 @@ namespace Syncfusion.Blazor.Toolkit.Inputs
         /// <item><description>Manages clear button visibility</description></item>
         /// <item><description>Performs real-time validation when <see cref="ValidateOnInput"/> is enabled</description></item>
         /// <item><description>Calls virtual <see cref="InputHandlerAsync"/> for component-specific logic</description></item>
+        /// <item><description>Triggers the <c>OnInput</c> event callback</description></item>
         /// </list>
         /// </remarks>
         /// <exclude/>
@@ -928,7 +929,7 @@ namespace Syncfusion.Blazor.Toolkit.Inputs
         /// <exclude/>
         protected async Task WireClearBtnEventsAsync()
         {
-            if (InputHtmlAttributes is not null && !(InputHtmlAttributes[CLASS]?.ToString()?.Contains(DISABLE, StringComparison.Ordinal) == true || InputHtmlAttributes.ContainsKey(READONLY)))
+            if (!(Disabled || BaseReadOnly || BaseIsReadOnlyInput))
             {
                 IsClearButtonClicked = true;
                 InputTextValue = default;
@@ -1013,6 +1014,7 @@ namespace Syncfusion.Blazor.Toolkit.Inputs
         /// <item><description>Adds focus-specific CSS classes to the container for visual feedback</description></item>
         /// <item><description>Updates the internal focus state and floating label positioning</description></item>
         /// <item><description>Controls clear button visibility for non-readonly inputs</description></item>
+        /// <item><description>Calls virtual <see cref="FocusHandlerAsync"/> and triggers <c>OnFocus</c> event</description></item>
         /// </list>
         /// </remarks>
         internal async Task OnFocusHandlerAsync(FocusEventArgs args)
@@ -1045,6 +1047,7 @@ namespace Syncfusion.Blazor.Toolkit.Inputs
         /// <item><description>Removes focus-specific CSS classes from the container</description></item>
         /// <item><description>Updates floating label positioning based on Auto mode and current value</description></item>
         /// <item><description>Hides the clear button if configured</description></item>
+        /// <item><description>Calls virtual <see cref="FocusOutHandlerAsync"/> and triggers <c>OnBlur</c> event</description></item>
         /// <item><description>Invokes state change if no blur event delegate is configured</description></item>
         /// </list>
         /// </remarks>

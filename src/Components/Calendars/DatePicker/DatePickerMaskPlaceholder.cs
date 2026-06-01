@@ -21,6 +21,10 @@ namespace Syncfusion.Blazor.Toolkit.Calendars
     /// </example>
     public class DatePickerMaskPlaceholder : MaskPlaceholder
     {
+        /// <summary>
+        /// Gets or sets a cascading parameter that provides the parent mask placeholder component.
+        /// </summary>
+        /// <exclude/>
         [CascadingParameter]
         private IMaskPlaceholder? Parent { get; set; }
 

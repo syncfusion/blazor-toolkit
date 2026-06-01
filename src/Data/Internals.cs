@@ -125,8 +125,13 @@ namespace Syncfusion.Blazor.Toolkit.Data
         StringTyped
     }
 
+    /// <summary>
+    /// Internal utility for resolving enum values from their serialized member attributes.
+    /// </summary>
+    /// <exclude />
     internal class EnumerationValue
     {
+        /// <exclude />
         internal static object GetValueFromEnumMember(string description, Type EnumType)
         {
             Type type = EnumType;

@@ -20,7 +20,7 @@ namespace Syncfusion.Blazor.Toolkit.Calendars
         /// A <see cref="Task"/> representing the asynchronous operation.
         /// </returns>
         /// <remarks>
-        /// This method is called by the Blazor framework when the component is first initialized. It is primarily used to set up component state and apply default or configured values to all internal and dependent properties before the UI is rendered.
+        /// Sets the component ID, initializes CSS classes, and copies initial parameter values to internal state. Fires the <c>Created</c> event if a delegate is registered.
         /// </remarks>
         /// <example>
         /// <code><![CDATA[
@@ -63,7 +63,7 @@ namespace Syncfusion.Blazor.Toolkit.Calendars
         /// A <see cref="Task"/> representing the asynchronous operation.
         /// </returns>
         /// <remarks>
-        /// Use this lifecycle method to handle logic that depends on updated parameters, such as refreshing the display or updating dependent property values. This method is executed whenever a parent component re-renders and passes new parameter values to this component.
+        /// Recomputes CSS classes, updates internal state from changed parameters, and triggers re-rendering when properties like <see cref="SfCalendar{TValue}.Value"/>, <see cref="SfCalendar{TValue}.Min"/>, or <see cref="SfCalendar{TValue}.Max"/> are modified by the parent.
         /// </remarks>
         /// <example>
         /// <code><![CDATA[
@@ -138,7 +138,7 @@ namespace Syncfusion.Blazor.Toolkit.Calendars
         /// A <see cref="Task"/> representing the asynchronous operation performed after rendering.
         /// </returns>
         /// <remarks>
-        /// This method is mainly used to perform additional initialization, interact with JavaScript interop, and handle UI state persistence after the first render. It is also responsible for firing the <c>Created</c> event.
+        /// On first render, restores persisted state from local storage and invokes the <c>Created</c> event. Subsequent renders perform no additional logic.
         /// </remarks>
         /// <example>
         /// <code><![CDATA[
@@ -195,10 +195,6 @@ namespace Syncfusion.Blazor.Toolkit.Calendars
 
         /// <summary>
         /// Triggers while dynamically changing the properties of the component.
-        /// </summary>
-        /// <returns>Task.</returns>
-        /// <summary>
-        /// Handles property parameter updates and change notifications.
         /// </summary>
         /// <returns>A task representing the asynchronous operation.</returns>
         private async Task PropertyParametersSetAsync()

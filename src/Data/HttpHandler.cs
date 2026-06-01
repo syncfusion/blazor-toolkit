@@ -9,25 +9,26 @@ namespace Syncfusion.Blazor.Toolkit.Data
     /// <summary>
     /// Interface for http handler used by data manager.
     /// </summary>
-    /// <exclude/>
+    /// <exclude />
     internal interface IHttpHandler
     {
+        /// <exclude />
         HttpClient GetClient();
 
+        /// <exclude />
         Task<HttpResponseMessage> SendRequest(HttpRequestMessage data);
     }
 
     /// <summary>
     /// Bas class for http handler used by data manager.
     /// </summary>
-    /// <exclude/>
+    /// <exclude />
     /// <remarks>
-    /// 
+    ///
     /// </remarks>
     /// <param name="http"></param>
     internal class HttpHandlerBase(HttpClient http) : IHttpHandler
     {
-        private HttpClient Client { get; set; } = http;
         /// <summary>
         /// Returns http client.
         /// </summary>
@@ -37,26 +38,38 @@ namespace Syncfusion.Blazor.Toolkit.Data
             return Client ??= new HttpClient();
         }
 
+        /// <exclude />
         public virtual async Task<HttpResponseMessage> SendRequest(HttpRequestMessage data)
         {
             return await Task.FromResult<HttpResponseMessage>(null!).ConfigureAwait(true);
         }
+
+        /// <summary>
+        /// The HTTP client used by this handler.
+        /// </summary>
+        /// <exclude />
+        private HttpClient Client { get; set; } = http;
     }
 
     /// <summary>
     /// Handles HttpClient instance creation. Also build and sends HttpMessages request.
     /// </summary>
-    /// <exclude/>
+    /// <exclude />
     internal class HttpHandler(HttpClient client) : HttpHandlerBase(client)
     {
-        // Return a new mutable options instance each time
+        /// <summary>
+        /// Returns a new mutable options instance each time.
+        /// </summary>
+        /// <exclude />
         private static JsonSerializerOptions SerializeOptions => new()
         {
             WriteIndented = true,
         };
 
+        /// <exclude />
         public HttpClient? Client { get; set; }
 
+        /// <exclude />
         public override async Task<HttpResponseMessage> SendRequest(HttpRequestMessage data)
         {
             Client = GetClient();
@@ -90,6 +103,7 @@ namespace Syncfusion.Blazor.Toolkit.Data
             }
         }
 
+        /// <exclude />
         public static HttpRequestMessage PrepareRequest(RequestOptions options)
         {
             if (!options.Url!.StartsWith("http", StringComparison.Ordinal))
@@ -120,6 +134,7 @@ namespace Syncfusion.Blazor.Toolkit.Data
             return req;
         }
 
+        /// <exclude />
         public static HttpRequestMessage PrepareBatchRequest(RequestOptions options, Type? ModelType = null)
         {
             if (!options.Url!.StartsWith("http", StringComparison.Ordinal))

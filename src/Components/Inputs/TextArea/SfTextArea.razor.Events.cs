@@ -3,8 +3,12 @@
 namespace Syncfusion.Blazor.Toolkit.Inputs
 {
     /// <summary>
-    /// The TextArea is an textarea element that allows to get input from the user. It allows the user to edit or display the text value.
+    /// Represents the Toolkit TextArea component for Blazor applications, which provides a multiline text input element
+    /// that allows users to enter and edit multi-line text content.
     /// </summary>
+    /// <remarks>
+    /// This file contains the event callback parameters for the <see cref="SfTextArea"/> component.
+    /// </remarks>
     public partial class SfTextArea : SfInputBase<string>
     {
         /// <summary>

@@ -9,7 +9,7 @@ namespace Syncfusion.Blazor.Toolkit.Data
     /// <summary>
     /// A framework independent utility class for the new Nullable type in .NET Framework 2.0.
     /// </summary>
-    /// <exclude/>
+    /// <exclude />
     public static class NullableHelperInternal
     {
         /// <summary>
@@ -209,7 +209,7 @@ namespace Syncfusion.Blazor.Toolkit.Data
             return type == null! ? null! : Nullable.GetUnderlyingType(type)!;
         }
 
-        /// <exclude/>
+        /// <exclude />
         private class TypeConverterHelper
         {
             public static object ChangeType(object value, Type type)
@@ -336,6 +336,7 @@ namespace Syncfusion.Blazor.Toolkit.Data
             return (value == null || value is DBNull) && type == typeof(string) ? null! : value!;
         }
 
+        /// <exclude />
         private static Hashtable _cachedDefaultValues = [];
 
         /// <summary>

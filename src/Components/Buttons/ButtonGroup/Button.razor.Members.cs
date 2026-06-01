@@ -8,15 +8,6 @@ namespace Syncfusion.Blazor.Toolkit.Buttons
         #region Properties
 
         /// <exclude />
-        /// <summary>
-        /// Gets or sets the child content of the button, which can include custom HTML elements.
-        /// </summary>
-        /// <value>
-        /// A <see cref="RenderFragment"/> that represents the content rendered inside the button. The default is <c>null</c>.
-        /// </value>
-        /// <remarks>
-        /// When <see cref="ChildContent"/> is not specified, the button's content is rendered from the <see cref="Content"/> property.
-        /// </remarks>
         [Parameter]
         [EditorBrowsable(EditorBrowsableState.Never)]
         public RenderFragment? ChildContent { get; set; }
@@ -85,12 +76,13 @@ namespace Syncfusion.Blazor.Toolkit.Buttons
         /// </value>
         /// <remarks>
         /// This property is particularly useful when the parent <see cref="SfButtonGroup"/> is configured for single or multiple selection modes using the <see cref="SfButtonGroup.Mode"/> property.
+        /// Use <c>@bind-Selected</c> to enable two-way binding.
         /// </remarks>
         /// <example>
-        /// The following example demonstrates how to bind and toggle the <see cref="Selected"/> state from a parent component.
+        /// The following example demonstrates two-way binding of the <see cref="Selected"/> state.
         /// <code><![CDATA[
         /// <SfButtonGroup Mode="SelectionMode.Multiple">
-        ///   <Button Selected="@isSelected">Option</Button>
+        ///   <Button @bind-Selected="isSelected">Option</Button>
         /// </SfButtonGroup>
         /// @code {
         ///   bool isSelected = true;
@@ -208,26 +200,7 @@ namespace Syncfusion.Blazor.Toolkit.Buttons
         [Parameter]
         public IconPosition IconPosition { get; set; }
 
-        /// <exclude/>
-        /// <summary>
-        /// Gets or sets a collection of additional HTML attributes to apply to the button element.
-        /// </summary>
-        /// <value>
-        /// A <see cref="Dictionary{TKey, TValue}"/> where the key is the attribute name and the value is the attribute's value.
-        /// </value>
-        /// <remarks>
-        /// These attributes are "splatted" onto the root element of the component, allowing for custom attributes to be added.
-        /// </remarks>
-        /// <example>
-        /// The following example demonstrates how to apply a `style` attribute to a <see cref="Button"/>.
-        /// <code><![CDATA[
-        /// <SfButtonGroup>
-        ///   <Button style="width:200px">Left</Button>
-        ///   <Button>Center</Button>
-        ///   <Button>Right</Button>
-        /// </SfButtonGroup>
-        /// ]]></code>
-        /// </example>
+        /// <exclude />
         [Parameter(CaptureUnmatchedValues = true)]
         [EditorBrowsable(EditorBrowsableState.Never)]
         public Dictionary<string, object> HtmlAttributes

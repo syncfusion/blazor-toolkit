@@ -29,8 +29,11 @@ namespace Syncfusion.Blazor.Toolkit.Calendars
         internal const string CLASS = "class";
         internal const string LOCALSTORAGE_GET_ITEM = "getLocalStorageItem";
         internal const string LOCALSTORAGE_SET_ITEM = "setLocalStorageItem";
+        /// <exclude />
         private Dictionary<string, object>? _containerAttr = [];
+        /// <exclude />
         internal CalendarBaseRender<TValue>? CalendarBase { get; set; }
+        /// <exclude />
         private bool IsMultipleDatesProgrammaticallySet { get; set; }
 
         private void InitRender()
@@ -92,7 +95,7 @@ namespace Syncfusion.Blazor.Toolkit.Calendars
 
         private void ApplyContainerAttribute(KeyValuePair<string, object> item)
         {
-            string itemClass = item.Value is not null ? item.Key.ToString() : string.Empty;
+            string itemClass = item.Value is not null ? item.Value.ToString() ?? string.Empty : string.Empty;
             if (item.Key == CLASS)
             {
                 RootClass = SfBaseUtils.AddClass(RootClass, itemClass);
@@ -121,6 +124,7 @@ namespace Syncfusion.Blazor.Toolkit.Calendars
             RootClass = Disabled ? SfBaseUtils.AddClass(RootClass, DISABLE) : SfBaseUtils.RemoveClass(RootClass, DISABLE);
         }
 
+        /// <exclude />
         internal override async Task UpdateCalendarPropertyAsync(string key, object? dateValue)
         {
             if (!Disabled)
@@ -137,6 +141,7 @@ namespace Syncfusion.Blazor.Toolkit.Calendars
             }
         }
 
+        /// <exclude />
         internal override void BindNavigateEvent(NavigatedEventArgs eventArgs)
         {
             if (Navigated.HasDelegate)
@@ -145,6 +150,7 @@ namespace Syncfusion.Blazor.Toolkit.Calendars
             }
         }
 
+        /// <exclude />
         internal override async Task BindRenderDayEventAsync(RenderDayCellEventArgs eventArgs)
         {
             eventArgs.CurrentView = CurrentView();
@@ -204,11 +210,7 @@ namespace Syncfusion.Blazor.Toolkit.Calendars
             return temp;
         }
 
-        /// <summary>
-        /// Invokes the deselect event when a date is deselected.
-        /// </summary>
-        /// <param name="args">The deselection event arguments.</param>
-        /// <returns>A task representing the asynchronous operation.</returns>
+        /// <exclude />
         internal override async Task InvokeDeSelectEventAsync(DeSelectedEventArgs<TValue> args)
         {
             if (DeSelected.HasDelegate)
@@ -217,6 +219,7 @@ namespace Syncfusion.Blazor.Toolkit.Calendars
             }
         }
 
+        /// <exclude />
         internal override async Task InvokeSelectEventAsync(SelectedEventArgs<TValue> args)
         {
             if (Selected.HasDelegate)

@@ -6,9 +6,8 @@ using Syncfusion.Blazor.Toolkit.Data;
 namespace Syncfusion.Blazor.Toolkit.Data
 {
     /// <summary>
-    /// Provides enumerable extension.
+    /// Provides extension methods for enumerable collections to support parallel invocation and data operations.
     /// </summary>
-    /// <exclude/>
     public static class EnumerableExtensions
     {
         internal static IEnumerable InvokeParallel(this IEnumerable source, Predicate<object> func, Type sourceType)

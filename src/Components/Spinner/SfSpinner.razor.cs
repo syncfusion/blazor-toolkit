@@ -61,66 +61,79 @@ namespace Syncfusion.Blazor.Toolkit.Spinner
         /// <summary>
         /// Custom template for the spinner content.
         /// </summary>
+        /// <exclude />
         private RenderFragment? _spinnerTemplate;
 
         /// <summary>
         /// Flag indicating whether the spinner should be rendered.
         /// </summary>
+        /// <exclude />
         private bool _enableRender;
 
         /// <summary>
         /// Tracks the previous CSS class for proper removal.
         /// </summary>
+        /// <exclude />
         private string? _removedClass;
 
         /// <summary>
         /// Tracks the previous visibility state.
         /// </summary>
+        /// <exclude />
         private bool _previousVisible;
 
         /// <summary>
         /// Tracks the previous CSS class value for comparison.
         /// </summary>
+        /// <exclude />
         private string? _previousCssClass;
 
         /// <summary>
         /// Flag to track the initial load state.
         /// </summary>
+        /// <exclude />
         private bool _isInitialLoad = true;
 
         /// <summary>
         /// Inline style string for the spinner element.
         /// </summary>
+        /// <exclude />
         private string _style = string.Empty;
 
         /// <summary>
         /// Complete CSS class string for the spinner element.
         /// </summary>
+        /// <exclude />
         private string _spinnerClass = SpinnerClass;
 
         /// <summary>
         /// Dictionary of HTML attributes to apply to the spinner element.
         /// </summary>
+        /// <exclude />
         private readonly Dictionary<string, object> _attributes = [];
 
         /// <summary>
         /// Cached z-index value.
         /// </summary>
+        /// <exclude />
         private string? _zIndex;
 
         /// <summary>
         /// Cached CSS class value.
         /// </summary>
+        /// <exclude />
         private string? _cssClass;
 
         /// <summary>
         /// Cached visibility state.
         /// </summary>
+        /// <exclude />
         private bool _visible;
 
         /// <summary>
         /// Optional logger for error reporting. Allows errors during component lifecycle to be logged instead of silently discarded.
         /// </summary>
+        /// <exclude />
         [Inject]
         private ILogger<SfSpinner>? Logger { get; set; }
         #endregion
@@ -131,7 +144,7 @@ namespace Syncfusion.Blazor.Toolkit.Spinner
         /// </summary>
         /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
         /// <remarks>
-        /// This method triggers the OnBeforeOpen event, allowing subscribers to cancel the show operation.
+        /// This method triggers the <see cref="OnOpen"/> event, allowing subscribers to cancel the show operation.
         /// If not cancelled, it updates the CSS classes and triggers a component re-render.
         /// </remarks>
         private async Task ShowInternalAsync()
@@ -178,7 +191,7 @@ namespace Syncfusion.Blazor.Toolkit.Spinner
         /// </summary>
         /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
         /// <remarks>
-        /// This method triggers the OnBeforeClose event, allowing subscribers to cancel the hide operation.
+        /// This method triggers the <see cref="OnClose"/> event, allowing subscribers to cancel the hide operation.
         /// If not cancelled, it updates the CSS classes and triggers a component re-render.
         /// </remarks>
         private async Task HideInternalAsync()
@@ -208,7 +221,7 @@ namespace Syncfusion.Blazor.Toolkit.Spinner
         /// <param name="changedKeys">A <see cref="List{T}"/> of string values that specifies the names of the properties that have changed.</param>
         /// <returns>A <see cref="Task"/> that represents the asynchronous operation.</returns>
         /// <remarks>
-        /// This method is part of the component's lifecycle and is used to respond to changes in properties like <c>Visible</c>, <c>ZIndex</c>, and <c>CssClass</c>.
+        /// This method is part of the component's lifecycle and is used to respond to changes in properties like <see cref="Visible"/>, <see cref="ZIndex"/>, and <see cref="CssClass"/>.
         /// It dynamically updates the component's state and appearance based on the new property values.
         /// </remarks>
         private async Task OnPropertyChangeAsync(List<string>? changedKeys)

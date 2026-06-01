@@ -97,6 +97,7 @@ namespace Syncfusion.Blazor.Toolkit.Spinner
         /// <summary>
         /// Optional logger for error reporting during template initialization.
         /// </summary>
+        /// <exclude />
         [Inject]
         private ILogger<SpinnerTemplates>? Logger { get; set; }
 

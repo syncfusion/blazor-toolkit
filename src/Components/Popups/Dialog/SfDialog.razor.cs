@@ -40,17 +40,10 @@ namespace Syncfusion.Blazor.Toolkit.Popups
         private bool _allowMaxHeight = true;
         private bool DialogShown { get; set; }
         private Dictionary<string, object> ContainerAttribute { get; set; } = [];
+
+        /// <exclude />
         private Dictionary<string, object> OverlayAttribute { get; set; } = [];
 
-        /// <summary>
-        /// Gets a value indicating whether the target application is rendered with server-side rendering (SSR) none mode.
-        /// </summary>
-        /// <value>
-        /// A <see cref="bool"/> value indicating whether static server rendering is enabled. Returns <c>true</c> if the application is using static rendering; otherwise, <c>false</c>.
-        /// </value>
-        /// <remarks>
-        /// This property is used internally to determine the rendering mode of the application and adjust dialog behavior accordingly.
-        /// </remarks>
         /// <exclude />
         protected bool IsStaticRendering => IsStaticServerRendering();
         // Specifies whether the dialog component dynamically append to DOM element or not.
@@ -60,30 +53,42 @@ namespace Syncfusion.Blazor.Toolkit.Popups
         // AllowPrerender disabled state, ShowAsync public method with  single time re-render call on OnAfterRenderAsync handling required
         private bool _isShowCall;
         private BeforeCloseEventArgs _onClosedArgs = new();
+        /// <exclude />
         private string _dialogClass = "e-dialog e-lib e-blazor-hidden";
+        /// <exclude />
         private Dictionary<string, object> _changedProps = [];
+        /// <exclude />
         private Dictionary<string, object> _dialogAttribute = [];
+        /// <exclude />
         private Dictionary<string, object>? CloseIconAttributes { get; set; } = [];
         #endregion
         #region Internal variables
-
+        /// <exclude />
         internal string _dataId = Guid.NewGuid().ToString();
+        /// <exclude />
         internal RenderFragment? HeaderTemplate { get; set; }
+        /// <exclude />
         internal RenderFragment? ContentTemplate { get; set; }
+        /// <exclude />
         internal RenderFragment? FooterTemplates { get; set; }
+        /// <exclude />
         internal ElementReference DialogElement { get; set; }
+        /// <exclude />
         internal ElementReference ModalDialogElement { get; set; }
 
+        /// <exclude />
         internal IJSObjectReference? _dialogJsModule;
+        /// <exclude />
         internal IJSInProcessObjectReference? _dialogJsInProcessModule;
-
         internal IJSObjectReference? _draggableJsModule;
         internal IJSInProcessObjectReference? _draggableJsInModule;
-
+        /// <exclude />
         internal IJSObjectReference? _resizeJsModule;
+        /// <exclude />
         internal IJSInProcessObjectReference? _resizeJsInModule;
 
         [Inject]
+        /// <exclude />
         internal ILogger<SfDialog> Logger { get; set; } = default!;
         #endregion
 

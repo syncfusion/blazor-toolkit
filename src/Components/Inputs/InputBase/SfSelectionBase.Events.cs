@@ -80,7 +80,7 @@ namespace Syncfusion.Blazor.Toolkit.Inputs
     /// }
     /// ]]></code>
     /// </example>
-    public class CheckedChangeEventArgs<TChecked>
+    public class CheckedChangeEventArgs<TChecked> : EventArgs
     {
         /// <summary>
         /// Gets or sets the new checked value after the change occurred.

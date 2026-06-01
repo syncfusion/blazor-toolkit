@@ -8,14 +8,19 @@ using System.Reflection;
 
 namespace Syncfusion.Blazor.Toolkit.Data
 {
+    /// <summary>
+    /// Internal marker type used to identify asynchronous handlers.
+    /// </summary>
+    /// <exclude />
     internal class AsyncHandler
     {
     }
 
     /// <summary>
-    /// Used to convert the enum integer values into a string
+    /// Used to convert the enum integer values into a string.
     /// Also, ignores the string conversion of number enum.
     /// </summary>
+    /// <exclude />
     internal class NonFlagStringEnumConverter : JsonConverter<NonFlagStringEnumConverter>
     {
         /// <summary>
@@ -239,10 +244,15 @@ namespace Syncfusion.Blazor.Toolkit.Data
     }
 
     /// <summary>
-    /// Ignorable properties converter is used to remove the unedited fields while generating patch request.
+    /// Ignorable properties converter used to remove unedited fields while generating patch request.
     /// </summary>
+    /// <exclude />
     public class IgnorablePropertiesConverter<T> : JsonConverter<T>
     {
+        /// <summary>
+        /// Stores the ignore properties by type.
+        /// </summary>
+        /// <exclude />
         private readonly List<IgnorePropertiesByType> _ignorePropertiesByTypes;
 
         internal IgnorablePropertiesConverter(IEnumerable<IgnorePropertiesByType> ignorePropertiesByTypes)
@@ -351,9 +361,9 @@ namespace Syncfusion.Blazor.Toolkit.Data
     /// Used to get the package name for specific component script loading.
     /// </summary>
     /// <remarks>
-    /// Initializes a new instance of the <see cref="PackageNameAttribute"/> class.
+    /// Initializes a new instance of the <see cref="PackageNameAttribute"/> class with the specified package name.
     /// </remarks>
-    /// <param name="packageName">package name.</param>
+    /// <param name="packageName">The name of the package.</param>
     [AttributeUsage(AttributeTargets.Field)]
     internal sealed class PackageNameAttribute(string packageName) : Attribute
     {
@@ -363,9 +373,22 @@ namespace Syncfusion.Blazor.Toolkit.Data
         public string PackageName { get; } = packageName;
     }
 
+    /// <summary>
+    /// Tracks which properties to ignore for a given type during serialization.
+    /// </summary>
+    /// <exclude />
     internal class IgnorePropertiesByType(Type type, IEnumerable<string> properties)
     {
+        /// <summary>
+        /// The type whose properties should be ignored.
+        /// </summary>
+        /// <exclude />
         public Type Type { get; set; } = type;
+
+        /// <summary>
+        /// The set of property names to ignore.
+        /// </summary>
+        /// <exclude />
         public HashSet<string> Properties { get; set; } = new HashSet<string>(properties, StringComparer.OrdinalIgnoreCase);
     }
 }

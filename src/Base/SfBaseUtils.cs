@@ -10,15 +10,25 @@ using System.Text.RegularExpressions;
 namespace Syncfusion.Blazor.Toolkit.Internal
 {
     /// <summary>
-    /// Common utility methods which can be used in all the Syncfusion Blazor Toolkit components.
+    /// Common utility methods shared across all Syncfusion Blazor Toolkit components,
+    /// covering dictionary updates, equality comparison, CSS formatting, event invocation,
+    /// type conversion, class manipulation, unique ID generation, and two-way binding helpers.
     /// </summary>
     internal class SfBaseUtils
     {
+        /// <summary>
+        /// Hash set containing names of multidimensional array types used to identify multidimensional arrays during serialization comparison.
+        /// </summary>
+        /// <exclude />
         private static readonly HashSet<string> _multidimensionalArrayTypes =
         [
             typeof(int[,]).Name, typeof(double[,]).Name, typeof(int?[,]).Name, typeof(decimal[,]).Name
         ];
 
+        /// <summary>
+        /// JSON serializer options configured to ignore cycles and read-only properties.
+        /// </summary>
+        /// <exclude />
         private static readonly JsonSerializerOptions _jsonOptions = new()
         {
             ReferenceHandler = ReferenceHandler.IgnoreCycles,
@@ -41,12 +51,18 @@ namespace Syncfusion.Blazor.Toolkit.Internal
         }
 
         /// <summary>
-        /// Compares two values for equality. Uses JSON serialization for array comparison. 
+        /// Compares two values for equality, using JSON serialization for collection and array comparison.
         /// </summary>
         /// <typeparam name="T">The type of values being compared.</typeparam>
         /// <param name="oldValue">The original value.</param>
         /// <param name="newValue">The new value.</param>
-        /// <returns><c>true</c> if values are equal; otherwise, <c>false</c>.</returns>
+        /// <returns>
+        /// <see langword="true"/> if the values are equal; otherwise <see langword="false"/>.
+        /// </returns>
+        /// <remarks>
+        /// Array and collection types are serialized to JSON and compared as strings. Primitive types
+        /// use <see cref="EqualityComparer{T}.Default"/>.
+        /// </remarks>
         internal static bool Equals<T>(T oldValue, T newValue)
         {
             Type? valueType = oldValue?.GetType();
@@ -65,10 +81,13 @@ namespace Syncfusion.Blazor.Toolkit.Internal
         }
 
         /// <summary>
-        /// Function to normalize the units applied to the element.
+        /// Normalizes a CSS dimension string by appending <c>px</c> when no valid unit is present.
         /// </summary>
-        /// <param name="propertyValue">Value.</param>
-        /// <returns>Returns normalized unit value.</returns>
+        /// <param name="propertyValue">A raw dimension string such as <c>"100"</c>, <c>"100px"</c>, or <c>"50%"</c>.</param>
+        /// <returns>The input value if it already contains a recognized CSS unit; otherwise the value with <c>px</c> appended.</returns>
+        /// <remarks>
+        /// Recognized units include: <c>auto</c>, <c>%</c>, <c>px</c>, <c>vh</c>, <c>em</c>, <c>vw</c>, <c>rem</c>, <c>in</c>, <c>cm</c>, <c>fr</c>, <c>mm</c>, <c>pt</c>, <c>pc</c>, <c>ch</c>, <c>ex</c>, <c>ms</c>, <c>deg</c>, <c>s</c>, <c>rad</c>, <c>grad</c>, <c>vmin</c>, and <c>vmax</c>.
+        /// </remarks>
         internal static string FormatUnit(string propertyValue)
         {
             if (string.IsNullOrWhiteSpace(propertyValue))
@@ -82,13 +101,19 @@ namespace Syncfusion.Blazor.Toolkit.Internal
         }
 
         /// <summary>
-        /// Invokes event handler function of the corresponding event name with parameters.
+        /// Invokes the provided <see cref="EventCallback{T}"/> delegate if it has a subscriber.
         /// </summary>
-        /// <param name="eventFn">EventCallback to invoke the event handler method.</param>
-        /// <param name="eventArgs">Arguments of the event handler method.</param>
+        /// <typeparam name="T">The type of event arguments passed to the callback.</typeparam>
+        /// <param name="eventFn">The event callback as an <see cref="object"/>, expected to be an <see cref="EventCallback{T}"/>.</param>
+        /// <param name="eventArgs">The arguments to pass to the event handler.</param>
         /// <returns>
-        /// A task that completes when the event handler has finished executing, or immediately if no handler is assigned.
+        /// A task that completes when the event handler has finished executing, or immediately if
+        /// no handler is assigned.
         /// </returns>
+        /// <remarks>
+        /// This helper is used internally when the exact generic type of an <see cref="EventCallback"/>
+        /// is not known at compile time (for example, when invoking callbacks stored in a dictionary).
+        /// </remarks>
         internal static async Task InvokeEventAsync<T>(object eventFn, T eventArgs)
         {
             if (eventFn != null)
@@ -289,10 +314,11 @@ namespace Syncfusion.Blazor.Toolkit.Internal
         /// <summary>
         /// Retrieves the <see cref="EnumMemberAttribute.Value"/> associated with an enum member, if one is defined.
         /// </summary>
-        /// <param name="enumValue"> The enumeration value for which <see cref="EnumMemberAttribute"/> value is to be retrieved. </param>
-        /// <typeparam name="T"> The enumeration type. </typeparam>
+        /// <typeparam name="T">The enumeration type, constrained to value types that implement <see cref="IConvertible"/>.</typeparam>
+        /// <param name="enumValue">The enumeration member whose attribute value is to be retrieved.</param>
         /// <returns>
-        /// The string value defined in <see cref="EnumMemberAttribute.Value"/> for the specified enum member, or <c>null</c> if no such attribute is defined.
+        /// The string value defined in <see cref="EnumMemberAttribute.Value"/> for the specified enum member,
+        /// or <c>null</c> if no such attribute is defined.
         /// </returns>
         internal static string? GetEnumValue<T>(T enumValue)
             where T : struct, IConvertible

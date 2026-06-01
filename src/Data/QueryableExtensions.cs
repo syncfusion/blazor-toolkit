@@ -10,28 +10,19 @@ using System.Text.RegularExpressions;
 namespace Syncfusion.Blazor.Toolkit.Data
 {
     /// <summary>
-    /// Provides extension methods for Queryable source.
-    /// <para></para>
-    /// <para></para>
-    /// <para>var fonts = FontFamily.Families.AsQueryable();. </para>
-    /// <para></para>
-    /// <para></para>
-    /// <para>We would normally write Expressions as,. </para>
-    /// <para></para>
-    /// <code lang="C#">var names = new string[] {&quot;Tony&quot;, &quot;Al&quot;,
-    /// &quot;Sean&quot;, &quot;Elia&quot;}.AsQueryable();
-    /// names.OrderBy(n=&gt;n);</code>
-    /// <para></para>
-    /// <para></para>
-    /// <para>This would sort the names based on alphabetical order. Like so, the
-    /// Queryable extensions are a set of extension methods that define functions which
-    /// will generate expressions based on the supplied values to the functions.</para>
+    /// Provides extension methods for building dynamic LINQ queries against <see cref="IQueryable{T}"/> sources.
     /// </summary>
-    /// <exclude/>
+    /// <remarks>
+    /// These extensions enable runtime expression building for operations such as filtering, sorting, searching,
+    /// grouping, and aggregation. They generate expressions based on supplied values, allowing dynamic query construction
+    /// without compile-time type information.
+    /// </remarks>
     public static class QueryableExtensions
     {
+        /// <exclude />
         private static readonly Type[] _emptyTypes = Type.EmptyTypes;
 
+        /// <exclude />
         private static readonly string[] _stringSeparator = ["%3f"];
 
         /// <summary>
@@ -2468,27 +2459,36 @@ namespace Syncfusion.Blazor.Toolkit.Data
 
         // MethodInfo[] collection is calculated frequently whenever the summary value changes.
         // To prevent, this collection is calculated and it it used whenever the summary value changes.
+        /// <exclude />
         private static MethodInfo[]? _queryableSumMethod;
 
+        /// <exclude />
         private static MethodInfo[] QueryableSummethod => _queryableSumMethod ??= [.. typeof(Queryable).GetMethods().Where(m => m.Name == "Sum" && m.GetParameters().Length == 2)];
 
         // MethodInfo[] collection for Queryable extensions and hold the average methods other than Int32.
+        /// <exclude />
         private static MethodInfo[]? _queryableaverageMethod;
 
+        /// <exclude />
         private static MethodInfo[] QueryableAverageMethod => _queryableaverageMethod ??= [.. typeof(Queryable).GetMethods().Where(m => m.Name == "Average" && m.GetParameters().Length == 2)];
 
         // MethodInfo[] collection is calculated frequently whenever the summary value changes.
         // To prevent, this collection is calculated and it is used whenever the summary value changes.
+        /// <exclude />
         private static MethodInfo[]? _enumerablesummethods;
 
+        /// <exclude />
         private static MethodInfo[] EnumerableSumMethods => _enumerablesummethods ??=
                         [.. typeof(EnumerableExtensions).GetMethods().Where(static m => m.Name == "Sum" && m.GetParameters().Length == 2)];
 
         // MethodInfo[] collection for enumerable extensions and hold the average methods for Int32.
+        /// <exclude />
         private static MethodInfo[]? _enumerableaverageMethods;
 
+        /// <exclude />
         private static MethodInfo[] EnumerableAverageMethods => _enumerableaverageMethods ??= [.. typeof(EnumerableExtensions).GetMethods().Where(m => m.Name == "Average" && m.GetParameters().Length == 2)];
 
+        /// <exclude />
         private static readonly char[] _separator = ['.'];
 
         #region Sum

@@ -8,14 +8,8 @@ namespace Syncfusion.Blazor.Toolkit.Buttons
         #region Members
         /// <exclude />
         /// <summary>
-        /// Gets or sets the child content of the button, which can include custom HTML elements.
+        /// Gets or sets the content to be rendered inside the button.
         /// </summary>
-        /// <value>
-        /// A <see cref="RenderFragment"/> that represents the content rendered inside the button. The default is <c>null</c>.
-        /// </value>
-        /// <remarks>
-        /// When <see cref="ChildContent"/> is not specified, the button's content is rendered from the <see cref="Content"/> property.
-        /// </remarks>
         [Parameter]
         [EditorBrowsable(EditorBrowsableState.Never)]
         public RenderFragment? ChildContent { get; set; }
@@ -93,7 +87,7 @@ namespace Syncfusion.Blazor.Toolkit.Buttons
         /// Gets or sets how the icon is positioned relative to button content.
         /// </summary>
         /// <value>
-        /// A <see cref="IconPosition"/> enumeration value specifying the icon position. The default is <see cref="IconPosition.Right"/>, <see cref="IconPosition.Top"/>, and <see cref="IconPosition.Bottom"/>.
+        /// A <see cref="IconPosition"/> enumeration value specifying the icon position. The default is <see cref="IconPosition.Left"/>.
         /// </value>
         /// <remarks>
         /// Position options include <see cref="IconPosition.Left"/>, <see cref="IconPosition.Right"/>, <see cref="IconPosition.Top"/>, and <see cref="IconPosition.Bottom"/>.

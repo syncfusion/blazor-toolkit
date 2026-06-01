@@ -36,7 +36,7 @@ namespace Syncfusion.Blazor.Toolkit.Inputs
         /// Gets or sets the current entered value of the TextBox.
         /// </summary>
         /// <value>
-        /// A <see cref="string"/> representing the current value. This property is may be an empty string or <see langword="null"/> if no text is entered.
+        /// A <see cref="string"/> representing the current value. This property may be an empty string or <see langword="null"/> if no text is entered.
         /// </value>
         public string? Value { get; set; }
     }
@@ -92,7 +92,7 @@ namespace Syncfusion.Blazor.Toolkit.Inputs
         /// Gets or sets the current entered value of the TextBox when focus is lost.
         /// </summary>
         /// <value>
-        /// A <see cref="string"/> representing the current value at the time focus was lost. This property is may be an empty string or <see langword="null"/> if no text is entered.
+        /// A <see cref="string"/> representing the current value at the time focus was lost. This property may be an empty string or <see langword="null"/> if no text is entered.
         /// </value>
         public string? Value { get; set; }
     }

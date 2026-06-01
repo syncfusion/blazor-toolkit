@@ -14,14 +14,15 @@ namespace Syncfusion.Blazor.Toolkit.Inputs
     /// clear button functionality, and various styling options.
     /// </summary>
     /// <remarks>
-    /// The SfTextBox component extends the standard HTML input element with additional functionality including:
-    /// - Support for floating labels (Auto, Always, Never)
-    /// - Built-in clear button with customizable behavior
-    /// - Input validation with visual feedback
-    /// - Accessibility features with ARIA support
-    /// - Integration with Blazor's EditForm validation
-    /// - Persistence support for maintaining state across browser sessions
-    /// - Customizable styling and theming options
+    /// <para>The <see cref="SfTextBox"/> component extends the standard HTML input element with additional functionality including:</para>
+    /// <list type="bullet">
+    /// <item><description>Support for floating labels (<see cref="FloatLabelType.Auto"/>, <see cref="FloatLabelType.Always"/>, <see cref="FloatLabelType.Never"/>).</description></item>
+    /// <item><description>Built-in clear button with customizable behavior through <see cref="ShowClearButton"/>.</description></item>
+    /// <item><description>Input validation with visual feedback integrated with Blazor's <see cref="Microsoft.AspNetCore.Components.Forms.EditContext"/>.</description></item>
+    /// <item><description>Accessibility features with ARIA support, including a default <c>aria-label</c> of <c>"textbox"</c>.</description></item>
+    /// <item><description>State persistence across browser sessions when <see cref="SfInputBase{TValue}.EnablePersistence"/> is enabled.</description></item>
+    /// <item><description>Customizable styling and theming through <see cref="SfInputBase{TValue}.CssClass"/> and supported themes.</description></item>
+    /// </list>
     /// </remarks>
     public partial class SfTextBox : SfInputBase<string>
     {
@@ -42,21 +43,15 @@ namespace Syncfusion.Blazor.Toolkit.Inputs
 
         #region Protected variables
 
-        /// <summary>
-        /// Gets or sets the root CSS class for the <see cref="SfTextBox"/> component, which defines the base styling for the TextBox element.
-        /// </summary>
+        /// <inheritdoc/>
         /// <exclude/>
         protected override string RootClass { get; set; } = "e-control e-textbox e-lib";
 
-        /// <summary>
-        /// Gets or sets the container CSS class for the <see cref="SfTextBox"/> component, which is used to apply additional styling to the TextBox container element.
-        /// </summary>
+        /// <inheritdoc/>
         /// <exclude/>
         protected override string ContainerClass { get; set; } = string.Empty;
 
-        /// <summary>
-        /// Gets or sets the base autocomplete value for the <see cref="SfTextBox"/> component, which is used to specify the autocomplete behavior of the input element. The default value is determined by the Autocomplete property.
-        /// </summary>
+        /// <inheritdoc/>
         /// <exclude/>
         protected override string BaseAutocomplete { get; set; } = default!;
 
@@ -191,10 +186,10 @@ namespace Syncfusion.Blazor.Toolkit.Inputs
         /// <remarks>
         /// <para>This method conditionally attaches an input event handler based on the following conditions:</para>
         /// <list type="bullet">
-        /// <item><description><see cref="FloatLabelType"/> is set to <see cref="FloatLabelType.Auto"/> or <see cref="FloatLabelType.Always"/> (requires real-time input monitoring)</description></item>
-        /// <item><description><see cref="ShowClearButton"/> is enabled (requires input value tracking)</description></item>
-        /// <item><description>OnInput or <see cref="OnInput"/> event callbacks are registered (custom input handling)</description></item>
-        /// <item><description>ValidateOnInput is enabled (requires real-time validation)</description></item>
+        /// <item><description><see cref="FloatLabelType"/> is set to <see cref="FloatLabelType.Auto"/> or <see cref="FloatLabelType.Always"/> (requires real-time input monitoring).</description></item>
+        /// <item><description><see cref="ShowClearButton"/> is enabled (requires input value tracking).</description></item>
+        /// <item><description>An <see cref="OnInput"/> event callback is registered (custom input handling).</description></item>
+        /// <item><description><see cref="SfInputBase{TValue}.ValidateOnInput"/> is enabled (requires real-time validation).</description></item>
         /// </list>
         /// <para>The input event handler enables real-time updates and provides immediate feedback for interactive features without waiting for the change event or focus loss.</para>
         /// </remarks>
@@ -299,22 +294,15 @@ namespace Syncfusion.Blazor.Toolkit.Inputs
         /// <remarks>
         /// <para>This method performs the following clear button operations:</para>
         /// <list type="bullet">
-        /// <item><description>Clears the current input value by setting CurrentValueAsString to <see langword="null"/></description></item>
-        /// <item><description>Applies a time delay to ensure proper value clearing timing</description></item>
-        /// <para><strong>Delay Rationale:</strong> The delay is necessary to ensure proper sequencing in Blazor's rendering pipeline:</para>
-        /// <list type="number">
-        /// <item><description>Setting CurrentValueAsString to <see langword="null"/> triggers a component re-render, updating the DOM with an empty input field</description></item>
-        /// <item><description>The delay allows the browser to complete the DOM update and visual refresh cycle</description></item>
-        /// <item><description>SetValueAsync() is then called with a clean slate, synchronizing internal state with the cleared DOM</description></item>
-        /// <item><description>Without this delay, state inconsistencies can occur where SetValueAsync() executes before the DOM update completes</description></item>
-        /// <item><description>This ensures EditContext validation state, floating labels, and CSS classes all synchronize correctly</description></item>
+        /// <item><description>Clears the current input value by setting <c>CurrentValueAsString</c> to <see langword="null"/>.</description></item>
+        /// <item><description>Applies a short delay (100&#160;ms) to allow the DOM update to complete before synchronizing internal state.</description></item>
+        /// <item><description>Updates the component value using <c>SetValueAsync</c> with the current <see cref="FloatLabelType"/> and <see cref="ShowClearButton"/> configuration.</description></item>
+        /// <item><description>Invokes the <see cref="OnInput"/> event callback with the cleared value information.</description></item>
+        /// <item><description>Raises the change event to notify external subscribers via <see cref="ValueChange"/>.</description></item>
+        /// <item><description>Updates previous value tracking for subsequent change detection.</description></item>
+        /// <item><description>Restores focus to the input element for continued interaction.</description></item>
         /// </list>
-        /// <item><description>Updates the component value using SetValue with current configuration</description></item>
-        /// <item><description>Invokes <see cref="OnInput"/> event callbacks with cleared value information</description></item>
-        /// <item><description>Raises change events to notify external subscribers</description></item>
-        /// <item><description>Updates previous value tracking for change detection</description></item>
-        /// <item><description>Restores focus to the input element for continued interaction</description></item>
-        /// </list>
+        /// <para>The delay is necessary to ensure proper sequencing in Blazor's rendering pipeline. Setting <c>CurrentValueAsString</c> to <see langword="null"/> triggers a re-render that updates the DOM with an empty input field; the delay allows the browser to complete the DOM update and visual refresh cycle. Without it, <c>SetValueAsync</c> may execute before the DOM update completes, leading to state inconsistencies in <see cref="Microsoft.AspNetCore.Components.Forms.EditContext"/> validation, floating labels, and CSS classes.</para>
         /// </remarks>
         private async Task InvokeClearBtnEventAsync(EventArgs args)
         {
@@ -468,13 +456,8 @@ namespace Syncfusion.Blazor.Toolkit.Inputs
         /// A <see cref="Task"/> representing the asynchronous focus event handling operation that completes when all focus event callbacks finish.
         /// </returns>
         /// <remarks>
-        /// <para>This method processes focus events by:</para>
-        /// <list type="bullet">
-        /// <item><description>Creating <see cref="FocusInEventArgs"/> with current component state and event information</description></item>
-        /// <item><description>Invoking the <see cref="OnFocus"/> event callback if registered, providing detailed focus context</description></item>
-        /// <item><description>Invoking the OnFocus event callback if registered for additional focus handling</description></item>
-        /// </list>
-        /// <para>The method provides both detailed focus information through FocusInEventArgs and standard focus event args for different use cases and backward compatibility.</para>
+        /// <para>This method processes focus events by creating a <see cref="FocusInEventArgs"/> with the current component state and event information, then invoking the <see cref="OnFocus"/> event callback if registered.</para>
+        /// <para>Focus events that occur as a side effect of clicking the clear button are suppressed to avoid duplicate focus notifications.</para>
         /// </remarks>
         /// <exclude/>
         protected override async Task FocusHandlerAsync(FocusEventArgs args)

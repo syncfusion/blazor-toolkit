@@ -8,10 +8,7 @@ namespace Syncfusion.Blazor.Toolkit.Inputs
     {
         #region Public members
 
-        /// <summary>
-        /// Specifies the content that has to be passed.
-        /// </summary>
-        /// <exclude/>
+        /// <exclude />
         [EditorBrowsable(EditorBrowsableState.Never)]
         [Parameter]
         public RenderFragment ChildContent { get; set; } = default!;
@@ -43,17 +40,7 @@ namespace Syncfusion.Blazor.Toolkit.Inputs
         [Parameter]
         public TValue? Value { get; set; }
 
-        /// <summary>
-        /// Gets or sets the expression that identifies the bound value for validation and form binding purposes.
-        /// </summary>
-        /// <value>
-        /// An <see cref="Expression{TDelegate}"/> representing the property or field being bound to this component. The default value is <see langword="null"/>.
-        /// </value>
-        /// <remarks>
-        /// This expression is used by the Blazor form validation system to identify which property is being validated.
-        /// It is automatically set when using the @bind-Value directive in Razor components.
-        /// </remarks>
-        /// <exclude/>
+        /// <exclude />
         [Parameter]
         public Expression<Func<TValue>>? ValueExpression { get; set; }
 
@@ -85,6 +72,10 @@ namespace Syncfusion.Blazor.Toolkit.Inputs
         /// <c>true</c> if the component is disabled; otherwise, <c>false</c>.
         /// The default value is <c>false</c>.
         /// </value>
+        /// <remarks>
+        /// When <c>Disabled</c> is <c>true</c>, user interactions (such as typing or clicking)
+        /// are blocked.
+        /// </remarks>
         [Parameter]
         public bool Disabled { get; set; } = false;
 
@@ -99,6 +90,14 @@ namespace Syncfusion.Blazor.Toolkit.Inputs
         /// <para>When <see langword="false"/> (default behavior), validation occurs only when the component loses focus, which is the standard form validation pattern.</para>
         /// <para>Note: The ValueChanged event will still be fired after the component loses focus regardless of this setting.</para>
         /// </remarks>
+        /// <example>
+        /// <code><![CDATA[
+        /// <SfTextBox @bind-Value="userName" ValidateOnInput="true" />
+        /// @code {
+        ///     private string userName = string.Empty;
+        /// }
+        /// ]]></code>
+        /// </example>
         [Parameter]
         public bool ValidateOnInput { get; set; }
 

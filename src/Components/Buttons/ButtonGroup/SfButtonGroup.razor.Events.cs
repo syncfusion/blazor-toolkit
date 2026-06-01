@@ -13,10 +13,10 @@ namespace Syncfusion.Blazor.Toolkit.Buttons
         /// Gets or sets an event callback that is raised after the <see cref="SfButtonGroup"/> component has been rendered for the first time.
         /// </summary>
         /// <value>
-        /// An <see cref="EventCallback{TValue}"/> of type <see cref="object"/>.
+        /// An <see cref="EventCallback{Object}"/> that fires after the initial render.
         /// </value>
         /// <remarks>
-        /// This event is triggered when the component is first created, allowing for custom logic to be executed.
+        /// Use this event to perform custom logic when the ButtonGroup is first rendered in the DOM.
         /// </remarks>
         /// <example>
         /// The following example demonstrates how to handle the <see cref="Created"/> event.
@@ -27,10 +27,9 @@ namespace Syncfusion.Blazor.Toolkit.Buttons
         ///   <Button>Right</Button>
         /// </SfButtonGroup>
         /// @code {
-        ///     private void OnButtonGroupCreated()
+        ///     private void OnButtonGroupCreated(object args)
         ///     {
         ///         // Custom logic to execute after the ButtonGroup is created.
-        ///         Console.WriteLine("ButtonGroup has been created.");
         ///     }
         /// }
         /// ]]></code>

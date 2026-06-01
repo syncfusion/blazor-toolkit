@@ -119,6 +119,7 @@ namespace Syncfusion.Blazor.Toolkit.Calendars
             await ApplyMultiSelectionChangesAsync(updatedValues).ConfigureAwait(false);
         }
 
+        /// <exclude />
         private List<DateTime> BuildUpdatedDateList(DateTime[] dates)
         {
             List<DateTime> copyValues = [.. CopyValues(Values)];
@@ -132,12 +133,14 @@ namespace Syncfusion.Blazor.Toolkit.Calendars
             return copyValues;
         }
 
+        /// <exclude />
         private async Task ApplyMultiSelectionChangesAsync(List<DateTime> updatedValues)
         {
             _ = NotifyPropertyChanges(nameof(Value), GenericValue(updatedValues.LastOrDefault()), CalendarBase_Value);
             await UpdateDateValuesAsync([.. updatedValues]).ConfigureAwait(false);
         }
 
+        /// <exclude />
         private async Task UpdateDateValuesAsync(DateTime[] copyDateValue)
         {
             IsMultipleDatesProgrammaticallySet = true;
@@ -180,11 +183,13 @@ namespace Syncfusion.Blazor.Toolkit.Calendars
             await UpdateDateValuesAsync([.. updatedValues]).ConfigureAwait(false);
         }
 
+        /// <exclude />
         private bool CanRemoveDates(DateTime[]? dates)
         {
             return IsMultiSelection && Values is not null && Values.Length > 0 && dates is not null && dates.Length > 0;
         }
 
+        /// <exclude />
         private List<DateTime> RemoveDatesFromList(DateTime[] dates)
         {
             List<DateTime> copyValues = [.. CopyValues(Values)];

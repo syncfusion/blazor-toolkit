@@ -4,16 +4,17 @@ using System.Reflection;
 namespace Syncfusion.Blazor.Toolkit
 {
     /// <summary>
-    /// An extension class which provides various extension methods to reflect the data from an object by storing the accessors for faster reflection.
+    /// Provides extension methods to create cached property accessors for faster reflection,
+    /// using compiled delegates instead of runtime reflection on each get operation.
     /// </summary>
     /// <exclude/>
     public static class FastReflectionExtension
     {
         /// <summary>
-        /// Creates and returns <see cref="IPropertyAccessor"/> that stores the property accessor of a specfied property.
+        /// Creates and returns an <see cref="IPropertyAccessor"/> that stores the property accessor of a specified property.
         /// </summary>
-        /// <param name="propertyInfo">The info that provides access to property metadata.</param>
-        /// <returns><see cref="IPropertyAccessor"/></returns>
+        /// <param name="propertyInfo">The metadata that provides access to the property.</param>
+        /// <returns>An <see cref="IPropertyAccessor"/> that can read the property value from an object.</returns>
         /// <exception cref="ArgumentNullException">Thrown when <paramref name="propertyInfo"/> is null.</exception>
         /// <remarks>This method throws <see cref="ArgumentNullException"/> if <paramref name="propertyInfo"/> is null.</remarks>
         public static IPropertyAccessor CreateAccessor(PropertyInfo propertyInfo)
@@ -23,12 +24,14 @@ namespace Syncfusion.Blazor.Toolkit
         }
 
         /// <summary>
-        /// Creates and returns <see cref="IPropertyAccessor"/> that stores the property accessor of a specfied property.
+        /// Creates and returns an <see cref="IPropertyAccessor"/> that stores the property accessor of a specified property.
         /// </summary>
-        /// <param name="objectType">Type of object.</param>
-        /// <param name="propertyName">The string containing the name of the public property.</param>
-        /// <returns><see cref="IPropertyAccessor"/></returns>
-        /// <remarks>If <paramref name="propertyName"/> is null, empty, or the property cannot be found on <paramref name="objectType"/>,
+        /// <param name="objectType">The type that declares the property.</param>
+        /// <param name="propertyName">The name of the public property to access.</param>
+        /// <returns>An <see cref="IPropertyAccessor"/> that can read the property value from an object.</returns>
+        /// <remarks>
+        /// If <paramref name="propertyName"/> is <c>null</c> or empty, a no-op accessor is returned.
+        /// </remarks>
         /// this method returns a non-functional accessor of type <c>PropertyAccessor&lt;object, object&gt;</c> whose `GetValue` returns null.</remarks>
         public static IPropertyAccessor CreateAccessor(Type objectType, string propertyName)
         {
@@ -47,18 +50,18 @@ namespace Syncfusion.Blazor.Toolkit
     }
 
     /// <summary>
-    /// Interface stores the property accessor for static types.
+    /// Defines a cached property accessor that reads values from an object using a compiled delegate.
     /// </summary>
     /// <exclude/>
     public interface IPropertyAccessor : IDisposable
     {
         /// <summary>
-        /// Gets or sets the info that provides access to property metadata.
+        /// Gets the metadata that provides access to the reflected property.
         /// </summary>
         PropertyInfo PropertyInfo { get; }
 
         /// <summary>
-        /// Returns the property value of a specified object.
+        /// Returns the property value of the specified object.
         /// </summary>
         /// <param name="obj">The object whose property value will be returned.</param>
         /// <returns>The property value of the specified object.</returns>
@@ -66,17 +69,23 @@ namespace Syncfusion.Blazor.Toolkit
     }
 
     /// <summary>
-    /// A class that holds get and set accessor of a property which is used to retrive the field values using reflection.
+    /// Implements <see cref="IPropertyAccessor"/> by compiling a strongly-typed delegate
+    /// for reading a property value, avoiding repeated runtime reflection overhead.
     /// </summary>
-    /// <typeparam name="TObject">Type of object.</typeparam>
-    /// <typeparam name="TValue">Type of property. </typeparam>
+    /// <typeparam name="TValue">The type of the property value.</typeparam>
+    /// <typeparam name="TObject">The type that declares the property.</typeparam>
     /// <remarks>
-    /// Use <see cref="FastReflectionExtension.CreateAccessor(PropertyInfo)"/> to create accessor based on type.
+    /// Use <see cref="FastReflectionExtension.CreateAccessor(PropertyInfo)"/> to create an accessor based on type metadata.
     /// </remarks>
     internal class PropertyAccessor<TObject, TValue> : IPropertyAccessor
     {
         private Func<TObject, TValue>? _getMethod;
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="PropertyAccessor{TObject, TValue}"/> class
+        /// and compiles the getter delegate for the specified property.
+        /// </summary>
+        /// <param name="propertyInfo">The metadata of the property to reflect.</param>
         public PropertyAccessor(PropertyInfo propertyInfo)
         {
             PropertyInfo = propertyInfo;
@@ -97,17 +106,28 @@ namespace Syncfusion.Blazor.Toolkit
             }
         }
 
+        /// <summary>
+        /// Returns the property value from the specified source object.
+        /// </summary>
+        /// <param name="source">The instance to read the property from.</param>
+        /// <returns>The property value, or <see langword="null"/> if the getter is unavailable.</returns>
         public object GetValue(object source)
         {
             return _getMethod is null ? null : _getMethod((TObject)source);
         }
 
+         /// <summary>
+        /// Releases references to the compiled delegate and property metadata.
+        /// </summary>
         public void Dispose()
         {
             PropertyInfo = null;
             _getMethod = null;
         }
 
+        /// <summary>
+        /// Gets the metadata that provides access to the reflected property.
+        /// </summary>
         [AllowNull]
         public PropertyInfo PropertyInfo { get; private set; }
     }

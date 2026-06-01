@@ -110,190 +110,163 @@ namespace Syncfusion.Blazor.Toolkit.Calendars
         /// <summary>
         /// Gets or sets the CSS class for the time icon displayed in the input field.
         /// </summary>
-        /// <value>A string representing the CSS class for the time icon.</value>
-        /// <remarks>This property controls the styling and visibility of the time icon that triggers the popup.</remarks>
+        /// <exclude />
         private string TimeIcon { get; set; } = default!;
 
         /// <summary>
         /// Gets or sets the CSS class for the popup container element.
         /// </summary>
-        /// <value>A string representing the CSS class for the popup container.</value>
-        /// <remarks>This property is used to style the container that holds the time selection popup.</remarks>
+        /// <exclude />
         private string PopupContainer { get; set; } = default!;
 
         /// <summary>
         /// Gets or sets the previous value of the input element for change detection.
         /// </summary>
-        /// <value>A string representing the previous input value.</value>
-        /// <remarks>This property is used internally to track value changes and trigger events accordingly.</remarks>
+        /// <exclude />
         private string? PreviousElementValue { get; set; }
 
         /// <summary>
         /// Gets or sets a value indicating whether the component is running on a mobile device.
         /// </summary>
-        /// <value>true if the component is on a mobile device; otherwise, false.</value>
-        /// <remarks>This property affects the popup behavior and styling for mobile-specific interactions.</remarks>
+        /// <exclude />
         private bool IsDevice { get; set; }
 
         /// <summary>
         /// Gets or sets the mask placeholder configuration for input formatting.
         /// </summary>
-        /// <value>A TimePickerMaskPlaceholder object containing placeholder settings.</value>
-        /// <remarks>This property is used when EnableMask is true to configure input field placeholders.</remarks>
+        /// <exclude />
         private TimePickerMaskPlaceholder? MaskPlaceholder { get; set; }
 
         /// <summary>
         /// Gets or sets a value indicating whether keyboard navigation is active in the popup.
         /// </summary>
-        /// <value>true if navigation is active; otherwise, false.</value>
-        /// <remarks>This property is used internally to handle keyboard navigation states in the time list popup.</remarks>
+        /// <exclude />
         private bool Navigated { get; set; }
 
         /// <summary>
         /// Gets or sets a value indicating whether to stop propagation of clear button events.
         /// </summary>
-        /// <value>true to stop event propagation; otherwise, false.</value>
-        /// <remarks>This property is used internally to control event bubbling for the clear button functionality.</remarks>
+        /// <exclude />
         private bool ClearBtnStopPropagation { get; set; }
 
         /// <summary>
         /// Gets or sets a value indicating whether the input value was cleared.
         /// </summary>
-        /// <value>true if the value was cleared; otherwise, false.</value>
-        /// <remarks>This property tracks the clear operation state for proper event handling and masking.</remarks>
+        /// <exclude />
         private bool IsCleared { get; set; }
 
         /// <summary>
         /// Gets or sets a value indicating whether to show the popup list.
         /// </summary>
-        /// <value>true to show the popup; otherwise, false.</value>
-        /// <remarks>This property controls the visibility state of the time selection popup.</remarks>
+        /// <exclude />
         private bool ShowPopupList { get; set; }
 
         /// <summary>
         /// Gets or sets a value indicating whether the list has been rendered.
         /// </summary>
-        /// <value>true if the list is rendered; otherwise, false.</value>
-        /// <remarks>This property tracks the rendering state of the time list for optimization purposes.</remarks>
+        /// <exclude />
         private bool IsListRendered { get; set; }
 
         /// <summary>
         /// Gets or sets a value indicating whether the list is currently being rendered.
         /// </summary>
-        /// <value>true if the list is being rendered; otherwise, false.</value>
-        /// <remarks>This property manages the rendering lifecycle of the popup time list.</remarks>
+        /// <exclude />
         private bool IsListRender { get; set; }
 
         /// <summary>
         /// Gets or sets the popup event arguments for open/close operations.
         /// </summary>
-        /// <value>A DatePickerPopupArgs object containing popup event data.</value>
-        /// <remarks>This property holds event arguments passed to popup-related event handlers.</remarks>
+        /// <exclude />
         private DatePickerPopupArgs PopupEventArgs { get; set; } = new();
 
         /// <summary>
         /// Gets or sets a value indicating whether the time icon was clicked.
         /// </summary>
-        /// <value>true if the time icon was clicked; otherwise, false.</value>
-        /// <remarks>This property tracks time icon click state for proper focus and popup management.</remarks>
+        /// <exclude />
         private bool IsTimeIconClicked { get; set; }
 
         /// <summary>
         /// Gets or sets the current culture information for formatting and localization.
         /// </summary>
-        /// <value>A CultureInfo object representing the current culture.</value>
-        /// <remarks>This property determines how dates, times, and numbers are formatted and displayed.</remarks>
+        /// <exclude />
         private CultureInfo CurrentCulture { get; set; } = default!;
 
         /// <summary>
         /// Gets or sets a value indicating whether the time list has been updated.
         /// </summary>
-        /// <value>true if the list was updated; otherwise, false.</value>
-        /// <remarks>This property tracks when the time list data has been refreshed or regenerated.</remarks>
+        /// <exclude />
         private bool ListUpdated { get; set; }
 
         /// <summary>
         /// Gets or sets the date part used for time calculations.
         /// </summary>
-        /// <value>A DateTime representing the date portion for time operations.</value>
-        /// <remarks>This property provides the date context when working with time-only values.</remarks>
+        /// <exclude />
         private DateTime DatePart { get; set; }
 
         /// <summary>
         /// Gets or sets the list of time options displayed in the popup.
         /// </summary>
-        /// <value>A list of ListOptions containing time values and display information.</value>
-        /// <remarks>This property contains all time options generated based on the Step property and min/max constraints.</remarks>
+        /// <exclude />
         private List<ListOptions<TValue>>? ListData { get; set; }
 
         /// <summary>
         /// Gets or sets the client-side mask values and formatting information.
         /// </summary>
-        /// <value>A ClientMaskValues object containing mask-related data.</value>
-        /// <remarks>This property holds mask formatting information received from JavaScript interop when EnableMask is true.</remarks>
+        /// <exclude />
         private ClientMaskValues? ClientMaskValue { get; set; } = new ClientMaskValues();
 
         /// <summary>
         /// Gets or sets the index of the currently active item in the popup list.
         /// </summary>
-        /// <value>An integer representing the active item index, or null if no item is active.</value>
-        /// <remarks>This property tracks which item is currently highlighted or selected during keyboard navigation.</remarks>
+        /// <exclude />
         private int? ActiveIndex { get; set; }
 
         /// <summary>
         /// Gets or sets the previous datetime value for change detection.
         /// </summary>
-        /// <value>A TValue representing the previous datetime value.</value>
-        /// <remarks>This property is used to detect value changes and trigger appropriate events.</remarks>
+        /// <exclude />
         private TValue? PreviousDateTime { get; set; }
 
         /// <summary>
         /// Gets or sets the validation CSS class applied to the component.
         /// </summary>
-        /// <value>A string representing the validation CSS class.</value>
-        /// <remarks>This property contains validation-related CSS classes based on the current validation state.</remarks>
+        /// <exclude />
         private string? ValidClass { get; set; }
 
         /// <summary>
         /// Gets or sets a value indicating whether keyboard navigation is active.
         /// </summary>
-        /// <value>true if navigation is active; otherwise, false.</value>
-        /// <remarks>This property tracks whether the user is navigating through the time list using keyboard keys.</remarks>
+        /// <exclude />
         private bool IsNavigate { get; set; }
 
         /// <summary>
         /// Gets or sets the current input value as a string.
         /// </summary>
-        /// <value>A string representing the current input value.</value>
-        /// <remarks>This property holds the raw string value currently displayed in the input field.</remarks>
+        /// <exclude />
         private string? CurrentInputValue { get; set; }
 
         /// <summary>
         /// Gets or sets the strict mode value when validation fails.
         /// </summary>
-        /// <value>A string representing the value under strict mode validation.</value>
-        /// <remarks>This property is used in strict mode to handle invalid input values appropriately.</remarks>
+        /// <exclude />
         private string? StrictValue { get; set; }
 
         /// <summary>
         /// Gets or sets a value indicating whether the current value is valid.
         /// </summary>
-        /// <value>true if the value is valid; otherwise, false.</value>
-        /// <remarks>This property tracks the validation state of the current input value.</remarks>
+        /// <exclude />
         private bool IsValideValue { get; set; }
 
         /// <summary>
         /// Gets or sets the ID of the currently active descendant for ARIA accessibility.
         /// </summary>
-        /// <value>A string representing the active descendant ID.</value>
-        /// <remarks>This property is used for accessibility to indicate which popup item is currently active.</remarks>
+        /// <exclude />
         private string? AriaActiveDescendantID { get; set; }
 
         /// <summary>
         /// Gets or sets a value indicating whether the component is in a blurred state.
         /// </summary>
-        /// <value>true if the component is blurred; otherwise, false.</value>
-        /// <remarks>This property tracks whether the input field has lost focus for proper event handling.</remarks>
+        /// <exclude />
         private bool IsBlurred { get; set; }
 
         [GeneratedRegex("^[F/U/u/O/o/d/D/f/g/G/m/M/R/r/s/t/T/y/Y]*$", RegexOptions.CultureInvariant)]

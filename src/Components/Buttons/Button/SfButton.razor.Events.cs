@@ -11,10 +11,11 @@ namespace Syncfusion.Blazor.Toolkit.Buttons
         /// Gets or sets an event callback that is invoked when the button rendering is completed.
         /// </summary>
         /// <value>
-        /// An <see cref="EventCallback{Object}"/> that fires after component render.
+        /// An <see cref="EventCallback{Object}"/> that fires after the component renders for the first time.
         /// </value>
         /// <remarks>
-        /// You can use this event to perform custom logic or initialization when the button component is rendered in the DOM for the first time.
+        /// Use this event to perform custom logic or initialization when the button is first rendered in the DOM.
+        /// The callback is invoked only once on the initial render.
         /// </remarks>
         /// <example>
         /// <code><![CDATA[
@@ -31,14 +32,13 @@ namespace Syncfusion.Blazor.Toolkit.Buttons
         public EventCallback<object> Created { get; set; }
 
         /// <summary>
-        /// Gets or sets an event callback raised when the button is clicked through UI interaction.
+        /// Gets or sets an event callback that is invoked when the button is clicked through UI interaction.
         /// </summary>
         /// <value>
         /// An <see cref="EventCallback{MouseEventArgs}"/> representing the click event handler.
         /// </value>
         /// <remarks>
         /// The <see cref="OnClick"/> event is triggered for user-initiated clicks on the button.
-        /// Programmatic invocations can call the <see cref="HandleClickAsync"/> helper instead.
         /// </remarks>
         /// <example>
         /// <code><![CDATA[

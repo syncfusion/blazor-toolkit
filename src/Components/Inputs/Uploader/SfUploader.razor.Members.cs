@@ -216,11 +216,15 @@ namespace Syncfusion.Blazor.Toolkit.Inputs
         private DropEffect _dropEffect;
 
         /// <summary>
-        /// Gets or sets a value indicating whether the file upload state should be persisted on page reload. If enabled, the state of uploaded or selected files will be maintained.
+        /// Gets or sets a value indicating whether the file upload state should be persisted across page reloads.
         /// </summary>
         /// <value>
-        /// <c>true</c> if persistence is enabled; otherwise, <c>false</c>. The default value is <c>false</c>.
+        /// <c>true</c> if upload state is persisted; otherwise, <c>false</c>. The default value is <c>false</c>.
         /// </value>
+        /// <remarks>
+        /// When enabled, the component saves the state of uploaded or selected files and restores it on page reload.
+        /// This feature uses browser storage to maintain file selection state between sessions.
+        /// </remarks>
         [Parameter]
         public bool EnablePersistence { get; set; } = false;
 
