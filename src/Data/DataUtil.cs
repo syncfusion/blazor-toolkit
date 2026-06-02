@@ -14,8 +14,16 @@ namespace Syncfusion.Blazor.Toolkit.Data
     /// </summary>
     public static class DataUtil
     {
+        /// <summary>
+        /// Tracks which fields should be ignored during operations.
+        /// </summary>
+        /// <exclude />
         private static List<string> IgnoredFields { get; set; } = [];
 
+        /// <summary>
+        /// Indicates whether complex fields should be treated as nullable.
+        /// </summary>
+        /// <exclude />
         internal static bool IsNullableComplexField { get; set; }
 
         /// <summary>
@@ -142,6 +150,7 @@ namespace Syncfusion.Blazor.Toolkit.Data
             return DistinctCollections.AsEnumerable();
         }
 
+        /// <exclude />
         internal static IDictionary<string, string> _odUniOperator = new Dictionary<string, string>()
         {
             { "$=", "endswith" },
@@ -159,6 +168,7 @@ namespace Syncfusion.Blazor.Toolkit.Data
             { "wildcard", "wildcard" }
         };
 
+        /// <exclude />
         internal static IDictionary<string, string> _odBiOperator = new Dictionary<string, string>()
         {
             { "<", " lt " },
@@ -180,6 +190,7 @@ namespace Syncfusion.Blazor.Toolkit.Data
 
         };
 
+        /// <exclude />
         internal static IDictionary<string, string> _odv4UniOperator = new Dictionary<string, string>()
         {
             { "$=", "endswith" },
@@ -197,6 +208,7 @@ namespace Syncfusion.Blazor.Toolkit.Data
             { "wildcard", "wildcard" }
         };
 
+        /// <exclude />
         internal static IDictionary<string, string> _consts = new Dictionary<string, string>()
         {
             { "GroupGuid", "{271bbba0-1ee7}" }
@@ -429,7 +441,7 @@ namespace Syncfusion.Blazor.Toolkit.Data
         /// <summary>
         /// Returns enum column type.
         /// </summary>
-        /// <exclude/>
+        /// <exclude />
         internal static Type GetEnumType(string fieldName, Type type)
         {
             string[]? Fields = fieldName.Contains('.', StringComparison.InvariantCulture) ? fieldName.Split(".") : null;
@@ -503,7 +515,7 @@ namespace Syncfusion.Blazor.Toolkit.Data
         /// <summary>
         /// Returns the field name to be ignored in Patch request.
         /// </summary>
-        /// <exclude/>
+        /// <exclude />
         internal static List<IgnorePropertiesByType> _ignoredPropertiesPerType = [];
 
         internal static List<IgnorePropertiesByType> GetPropertiesToRemove()

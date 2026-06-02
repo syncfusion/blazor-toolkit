@@ -72,11 +72,16 @@ namespace Syncfusion.Blazor.Toolkit.Inputs
         /// <remarks>
         /// This <see cref="Checked"/> property controls the selection state of the component and determines whether it is rendered as checked or selected.
         /// Changing this value updates the visual state and can trigger two-way binding updates.
+        /// Use <c>@bind-Checked</c> to enable two-way binding.
         /// </remarks>
         /// <example>
         /// <code><![CDATA[
         /// <SfCheckBox @bind-Checked="isAccepted" />
         /// <SfRadioButton TValue="string" @bind-Checked="selectedOption" Value="option1" />
+        /// @code {
+        ///     private bool isAccepted;
+        ///     private string selectedOption;
+        /// }
         /// ]]></code>
         /// </example>
         [Parameter]
@@ -119,15 +124,7 @@ namespace Syncfusion.Blazor.Toolkit.Inputs
         [Parameter]
         public bool EnablePersistence { get; set; }
 
-        /// <exclude/>
-        /// <summary>
-        /// Gets or sets the collection of additional HTML attributes applied to the component.
-        /// </summary>
-        /// <remarks>
-        /// This property captures unmatched attributes and applies them to the component's container element.
-        /// Use this to add custom HTML attributes such as data attributes, ARIA attributes, or other standard HTML attributes.
-        /// Component-specific properties take precedence over attributes with the same name.
-        /// </remarks>
+        /// <exclude />
         [Parameter(CaptureUnmatchedValues = true)]
         public Dictionary<string, object> HtmlAttributes
         {

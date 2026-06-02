@@ -8,26 +8,17 @@ using System.Text.RegularExpressions;
 namespace Syncfusion.Blazor.Toolkit.Data
 {
     /// <summary>
-    /// Provides extension methods for Queryable source.
-    /// <para></para>
-    /// <para></para>
-    /// <para>var fonts = FontFamily.Families.AsQueryable();. </para>
-    /// <para></para>
-    /// <para></para>
-    /// <para>We would normally write Expressions as,. </para>
-    /// <para></para>
-    /// <code lang="C#">var names = new string[] {&quot;Tony&quot;, &quot;Al&quot;,
-    /// &quot;Sean&quot;, &quot;Elia&quot;}.AsQueryable();
-    /// names.OrderBy(n=&gt;n);</code>
-    /// <para></para>
-    /// <para></para>
-    /// <para>This would sort the names based on alphabetical order. Like so, the
-    /// Queryable extensions are a set of extension methods that define functions which
-    /// will generate expressions based on the supplied values to the functions.</para>
+    /// Provides extension methods for building dynamic LINQ queries against <see cref="IQueryable{T}"/> sources,
+    /// with support for dynamic objects and runtime expression building.
     /// </summary>
-    /// <exclude/>
+    /// <remarks>
+    /// These extensions enable runtime expression building for operations such as filtering, sorting, searching,
+    /// grouping, and aggregation. They support <see cref="DynamicObject"/> and <see cref="ExpandoObject"/> types,
+    /// allowing dynamic query construction without compile-time type information.
+    /// </remarks>
     public static class DynamicQueryableExtensions
     {
+        /// <exclude />
         private static readonly string[] _stringSeparator = ["%3f"];
         /// <summary>
         /// Predicate is a Binary expression that needs to be built for a single or a series

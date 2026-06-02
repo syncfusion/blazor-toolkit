@@ -169,11 +169,11 @@ namespace Syncfusion.Blazor.Toolkit.Data
         }
 
         /// <summary>
-        /// Selected the given field names alone from the data source.
+        /// Selects the given field names alone from the data source.
         /// </summary>
         /// <param name="dataSource">Input data source.</param>
         /// <param name="select">List of fields to select.</param>
-        /// <returns>IEnumerale.</returns>
+        /// <returns>IEnumerable containing only the selected fields from each record.</returns>
         public static IEnumerable PerformSelect(IEnumerable dataSource, List<string> select)
         {
             return QueryableOperation.PerformSelect(dataSource.AsQueryable(), select);

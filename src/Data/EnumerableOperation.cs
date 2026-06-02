@@ -8,7 +8,7 @@ using System.Dynamic;
 namespace Syncfusion.Blazor.Toolkit.Data
 {
     /// <summary>
-    ///
+    /// Provides enumerable-based data operation implementations such as filtering, sorting, searching, grouping, and pagination for in-memory collections.
     /// </summary>
     public static class EnumerableOperation
     {
@@ -574,7 +574,7 @@ namespace Syncfusion.Blazor.Toolkit.Data
         /// <summary>
         /// Returns data type.
         /// </summary>
-        /// <exclude/>
+        /// <exclude />
         public static Type GetDataType(IEnumerable dataSource, Type type, string field)
         {
             string[] complexData = field != null ? field.Split('.') : [];
@@ -589,7 +589,7 @@ namespace Syncfusion.Blazor.Toolkit.Data
         /// <summary>
         /// Returns column type.
         /// </summary>
-        /// <exclude/>
+        /// <exclude />
         public static Type GetColumnType(IEnumerable dataSource, string filterString, Type type)
         {
             string[] complexData = filterString != null ? filterString.Split('.') : []; ;

@@ -437,6 +437,17 @@ namespace Syncfusion.Blazor.Toolkit.Calendars
         [Parameter]
         public Dictionary<string, object> KeyConfigs { get; set; } = default!;
 
+        /// <summary>
+        /// Gets or sets the locale for time formatting and parsing in the <see cref="SfTimePicker{TValue}"/>.
+        /// </summary>
+        /// <value>
+        /// A string representing the locale code (e.g., "en-US", "de-DE"). The default value is <c>null</c> (uses system locale).
+        /// </value>
+        /// <remarks>
+        /// This property determines the culture-specific formatting of time values, including AM/PM designators
+        /// and the order of hours, minutes, and seconds in the time string.
+        /// </remarks>
+        /// <exclude />
         internal string TimePickerLocale { get; set; } = default!;
 
         /// <summary>
@@ -748,21 +759,6 @@ namespace Syncfusion.Blazor.Toolkit.Calendars
 
         /// <summary>
         /// Gets or sets the <see cref="FloatLabelType"/> behavior of the TextBox that the <see cref="Placeholder"/> text floats above the TextBox based on the following values.
-        /// <para>Possible values are:</para>
-        /// <list type="bullet">
-        /// <item>
-        /// <term>Never</term>
-        /// <description>Never floats the label in the TextBox when the placeholder is available.</description>
-        /// </item>
-        /// <item>
-        /// <term>Always</term>
-        /// <description>The floating label always floats above the TextBox.</description>
-        /// </item>
-        /// <item>
-        /// <term>Auto</term>
-        /// <description>The floating label floats above the TextBox after focusing it or when enters the value in it.</description>
-        /// </item>
-        /// </list>
         /// </summary>
         /// <value>
         /// Accepts the string value. A string value representing the behavior of the floating label in the TextBox.

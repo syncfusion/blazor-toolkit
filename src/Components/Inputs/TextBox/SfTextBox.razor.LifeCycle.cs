@@ -188,13 +188,17 @@ namespace Syncfusion.Blazor.Toolkit.Inputs
         }
 
         /// <summary>
-        /// This method handles component disposal.
+        /// Asynchronously releases <see cref="SfTextBox"/>-specific resources when the component is disposed.
         /// </summary>
+        /// <returns>
+        /// A <see cref="ValueTask"/> representing the asynchronous disposal operation that completes when the <see cref="Destroyed"/> callback has been invoked and the TextBox JavaScript module has been released.
+        /// </returns>
         /// <remarks>
-        /// <para>The method performs the following disposal tasks:</para>
+        /// <para>This override performs the following cleanup steps before delegating to the base class implementation:</para>
         /// <list type="bullet">
-        /// <item><description>Checks if the component has been rendered to avoid cleanup on unrendered components.</description></item>
-        /// <item><description>Invokes the <see cref="Destroyed"/> event callback if registered to notify external code of disposal.</description></item>
+        /// <item><description>Invokes the <see cref="Destroyed"/> event callback (when registered and the component has rendered at least once) so consumers can release external resources tied to this instance.</description></item>
+        /// <item><description>Disposes the TextBox JavaScript interop modules (<see cref="IJSObjectReference"/> and <see cref="IJSInProcessObjectReference"/>) used for client-side functionality.</description></item>
+        /// <item><description>Swallows <see cref="JSDisconnectedException"/> when the circuit has already disconnected (for example, after a page reload), preventing noisy errors during teardown.</description></item>
         /// </list>
         /// </remarks>
         /// <exclude/>

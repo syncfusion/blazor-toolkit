@@ -16,7 +16,7 @@ namespace Syncfusion.Blazor.Toolkit.Spinner
         /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
         /// <remarks>
         /// This method displays the spinner, making it visible to the user. It is useful for indicating a loading or processing state in the application.
-        /// Calling this method triggers the <see cref="OnBeforeOpen"/> event, which can be used to cancel the operation.
+        /// Calling this method triggers the <see cref="OnOpen"/> event, which can be used to cancel the operation.
         /// </remarks>
         /// <example>
         /// The following example demonstrates how to use the <see cref="ShowAsync"/> and <see cref="HideAsync"/> methods.
@@ -46,7 +46,7 @@ namespace Syncfusion.Blazor.Toolkit.Spinner
         /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
         /// <remarks>
         /// This method hides the spinner, removing it from display. It should be called after the associated loading or processing task is complete.
-        /// Calling this method triggers the <see cref="OnBeforeClose"/> event, which can be used to cancel the operation.
+        /// Calling this method triggers the <see cref="OnClose"/> event, which can be used to cancel the operation.
         /// </remarks>
         /// <example>
         /// The following example demonstrates how to use the <see cref="ShowAsync"/> and <see cref="HideAsync"/> methods.

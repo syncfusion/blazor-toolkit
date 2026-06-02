@@ -7,29 +7,38 @@ using System.Text.RegularExpressions;
 namespace Syncfusion.Blazor.Toolkit.Inputs
 {
     /// <summary>
-    /// The TextArea is a multiline text input element that allows users to enter and edit multi-line text content with advanced features like resizing, floating labels, and validation.
+    /// Represents the Toolkit TextArea component for Blazor applications, which provides a multiline text input element
+    /// that allows users to enter and edit multi-line text content with advanced features like resizing, floating labels,
+    /// clear button functionality, validation, and various styling options.
     /// </summary>
+    /// <remarks>
+    /// The SfTextArea component extends the standard HTML textarea element with additional functionality including:
+    /// <list type="bullet">
+    /// <item><description>Support for floating labels (Auto, Always, Never)</description></item>
+    /// <item><description>Built-in clear button with customizable behavior</description></item>
+    /// <item><description>Input validation with visual feedback through Blazor's EditForm integration</description></item>
+    /// <item><description>Resizable text area with configurable resize modes (None, Horizontal, Vertical, Both)</description></item>
+    /// <item><description>Accessibility features with ARIA support</description></item>
+    /// <item><description>Persistence support for maintaining state across browser sessions</description></item>
+    /// <item><description>Customizable styling and theming options</description></item>
+    /// </list>
+    /// </remarks>
     /// <example>
-    /// A basic TextArea component.
+    /// A basic TextArea component with floating label.
     /// <code><![CDATA[
-    /// <SfTextArea @bind-Value="@textValue" 
+    /// <SfTextArea @bind-Value="@textValue"
     ///             Placeholder="Enter your message..."
     ///             RowCount="4"
     ///             ColumnCount="50"
     ///             MaxLength="500"
     ///             ResizeMode="Resize.Both">
     /// </SfTextArea>
-    /// 
+    ///
     /// @code {
     ///     private string textValue = string.Empty;
     /// }
     /// ]]></code>
     /// </example>
-    /// <remarks>
-    /// The SfTextArea component provides a rich multiline text input experience with support for floating labels, 
-    /// clear buttons, validation, resizing options, and various input modes. It extends the base input functionality 
-    /// to handle multiline text scenarios effectively.
-    /// </remarks>
     public partial class SfTextArea : SfInputBase<string>
     {
         #region Constants

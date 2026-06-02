@@ -23,15 +23,38 @@ namespace Syncfusion.Blazor.Toolkit.Buttons
     {
 
         #region Fields
+        /// <exclude />
+        /// <summary>
+        /// Tracks whether the button has been clicked at least once.
+        /// </summary>
         private bool _isFirstClick = true;
+
+        /// <exclude />
+        /// <summary>
+        /// Internal backing field for the selected state used during two-way binding updates.
+        /// </summary>
         private bool _selected;
+
+        /// <exclude />
+        /// <summary>
+        /// Tracks the target selected state during click handling for single-selection mode.
+        /// </summary>
         private bool _buttonSelected;
+
+        /// <exclude />
+        /// <summary>
+        /// Additional HTML attributes applied to the input element when the ButtonGroup uses selection mode.
+        /// </summary>
         internal Dictionary<string, object> _inputAttributes = [];
 
         #endregion
 
         #region Internal properties
 
+        /// <exclude />
+        /// <summary>
+        /// Reference to the parent <see cref="SfButtonGroup"/> that contains this button.
+        /// </summary>
         [CascadingParameter]
         internal SfButtonGroup? ButtonGroup { get; set; }
 
@@ -39,6 +62,10 @@ namespace Syncfusion.Blazor.Toolkit.Buttons
 
         #region Event Handlers
 
+        /// <exclude />
+        /// <summary>
+        /// Handles click interaction and coordinates selection state with the parent group.
+        /// </summary>
         private async Task ClickHandlerAsync()
         {
             if (ButtonGroup is null || Disabled || ButtonGroup._buttonItems is null)

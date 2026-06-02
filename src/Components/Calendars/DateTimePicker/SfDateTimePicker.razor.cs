@@ -8,18 +8,6 @@ namespace Syncfusion.Blazor.Toolkit.Calendars
     /// <summary>
     /// The DateTimePicker is a graphical user interface component that allows users to select both date and time values through an interactive popup interface.
     /// </summary>
-    /// <remarks>
-    /// The SfDateTimePicker component extends the functionality of a standard DatePicker by providing additional time selection capabilities.
-    /// It supports features like time step intervals, minimum and maximum time constraints, Islamic calendar mode, and various formatting options.
-    /// The component provides separate popups for date and time selection, making it easy for users to specify precise date-time values.
-    /// </remarks>
-    /// <example>
-    /// Basic usage of the DateTimePicker component:
-    /// <code><![CDATA[
-    /// <SfDateTimePicker TValue="DateTime" Value="DateTime.Now" Format="dd/MM/yyyy HH:mm">
-    /// </SfDateTimePicker>
-    /// ]]></code>
-    /// </example>
     public partial class SfDateTimePicker<TValue> : SfDatePicker<TValue>
     {
         #region Constants
@@ -82,49 +70,25 @@ namespace Syncfusion.Blazor.Toolkit.Calendars
         /// <summary>
         /// Gets or sets the list of time options available for selection in the time popup.
         /// </summary>
-        /// <value>
-        /// A <see cref="List{ListOptions}"/> containing time options generated based on the step interval and time constraints.
-        /// </value>
-        /// <remarks>
-        /// This property stores the dynamically generated list of time options that are displayed in the time selection popup.
-        /// The list is generated based on the Step property, MinTime, MaxTime, and other time-related constraints.
-        /// </remarks>
+        /// <exclude />
         private List<ListOptions<TValue>>? ListData { get; set; }
 
         /// <summary>
         /// Gets or sets a value indicating whether the time popup list should be displayed.
         /// </summary>
-        /// <value>
-        /// A <c>bool</c> value that is <c>true</c> if the time popup list should be shown; otherwise, <c>false</c>.
-        /// </value>
-        /// <remarks>
-        /// This property controls the visibility state of the time selection popup list and is used
-        /// to coordinate popup display logic with other component states.
-        /// </remarks>
+        /// <exclude />
         private bool ShowPopupList { get; set; }
 
         /// <summary>
         /// Gets or sets a value indicating whether the time list has been rendered on the client side.
         /// </summary>
-        /// <value>
-        /// A <c>bool</c> value that is <c>true</c> if the time list has been rendered; otherwise, <c>false</c>.
-        /// </value>
-        /// <remarks>
-        /// This property helps track the rendering state of the time list to prevent duplicate rendering
-        /// and ensure proper synchronization between server and client states.
-        /// </remarks>
+       /// <exclude />
         private bool IsListRendered { get; set; }
 
         /// <summary>
         /// Gets or sets the ARIA active descendant ID for accessibility support in the time list.
         /// </summary>
-        /// <value>
-        /// A <c>string</c> containing the ID of the currently active time list item, or <c>null</c> if no item is active.
-        /// </value>
-        /// <remarks>
-        /// This property supports keyboard navigation and screen reader functionality by maintaining
-        /// the ID of the currently focused time list item for proper ARIA compliance.
-        /// </remarks>
+        /// <exclude />
         private string? AriaActiveDescendantID { get; set; }
 
         #endregion
@@ -140,13 +104,6 @@ namespace Syncfusion.Blazor.Toolkit.Calendars
         /// <summary>
         /// Gets or sets the CSS class string for the time icon displayed in the component.
         /// </summary>
-        /// <value>
-        /// A string representing the CSS classes applied to the time icon. The default value is derived from TIME_ICON constant.
-        /// </value>
-        /// <remarks>
-        /// This property controls the appearance and styling of the time icon that users click to open the time selection popup.
-        /// The icon's visual state can change based on user interactions and component state.
-        /// </remarks>
         /// <exclude/>
         protected string TimeIcon { get; set; } = string.Empty;
 

@@ -73,7 +73,8 @@ namespace Syncfusion.Blazor.Toolkit.Inputs
         /// </para>
         /// <para>
         /// Setting <see cref="Indeterminate"/> to <c>true</c> visually displays the checkbox in the indeterminate state 
-        /// and sets the <c>aria-checked</c> attribute to "mixed" for accessibility.
+        /// and sets the native HTML <c>indeterminate</c> property, which is properly announced by assistive technologies 
+        /// as "mixed" or "partially checked" across supported platforms and environments.
         /// </para>
         /// <para>
         /// When the user clicks an indeterminate checkbox, it transitions based on the <see cref="EnableTriState"/> setting.
@@ -101,13 +102,7 @@ namespace Syncfusion.Blazor.Toolkit.Inputs
         [Parameter]
         public bool Indeterminate { get; set; }
 
-        /// <exclude/>
-        /// <summary>
-        /// Event callback invoked when the <see cref="Indeterminate"/> property changes.
-        /// </summary>
-        /// <remarks>
-        /// This is used internally for two-way binding support. Use <c>@bind-Indeterminate</c> for two-way binding.
-        /// </remarks>
+        /// <exclude />
         [Parameter]
         [EditorBrowsable(EditorBrowsableState.Never)]
         public EventCallback<bool> IndeterminateChanged { get; set; }

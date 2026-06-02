@@ -55,8 +55,9 @@ namespace Syncfusion.Blazor.Toolkit.Calendars
         /// <summary>
         /// Performs cleanup operations when the component is being disposed.
         /// </summary>
+        /// <returns>A <see cref="ValueTask"/> representing the asynchronous disposal operation.</returns>
         /// <remarks>
-        /// This method handles the disposal of client-side resources, invokes the Destroyed event callback,
+        /// This method handles the disposal of client-side resources, invokes the <see cref="SfDatePicker{TValue}.Destroyed"/> event callback,
         /// and cleans up internal references to prevent memory leaks. It ensures proper cleanup of
         /// JavaScript interop resources and event handlers.
         /// </remarks>

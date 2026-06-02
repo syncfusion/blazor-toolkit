@@ -1,13 +1,8 @@
 ﻿namespace Syncfusion.Blazor.Toolkit.Data
 {
     /// <summary>
-    ///  Defines the direction and the property name to be used as the criteria for
-    ///  sorting a collection.
+    /// Defines the direction and the property name to be used as the criteria for sorting a collection.
     /// </summary>
-    /// <exclude/>
-    /// <remarks>
-    /// Initializes a new instance of the System.ComponentModel.SortDescription structure.
-    /// </remarks>
     /// <param name="propertyName">The name of the property to sort the list by.</param>
     /// <param name="direction">The sort order.</param>
     public struct SortDescription(string propertyName, ListSortDirection direction) : IEquatable<SortDescription>

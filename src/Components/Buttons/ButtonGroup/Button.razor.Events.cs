@@ -6,10 +6,13 @@ namespace Syncfusion.Blazor.Toolkit.Buttons
     {
         #region Events
 
-        /// <exclude/>
+        /// <exclude />
         /// <summary>
         /// Gets or sets a callback that fires when the <see cref="Selected"/> property changes.
         /// </summary>
+        /// <remarks>
+        /// Enables two-way binding via <c>@bind-Selected</c>.
+        /// </remarks>
         [Parameter]
         public EventCallback<bool> SelectedChanged { get; set; }
 

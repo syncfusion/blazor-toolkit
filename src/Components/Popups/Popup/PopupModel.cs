@@ -34,13 +34,13 @@ namespace Syncfusion.Blazor.Toolkit.Popups
         /// Gets or sets the horizontal position value for the popup element.
         /// </summary>
         /// <value>
-        /// A <c>string</c> value that specifies the horizontal positioning. This can be alignment keywords like "left", "center", "right" or numeric pixel values. The default value is <c>null</c>.
+        /// A <c>string</c> value that specifies the horizontal positioning. This can be alignment keywords like "left", "center", "right" or numeric pixel values. The default is <c>string.Empty</c>.
         /// </value>
         /// <remarks>
         /// This property defines the horizontal alignment or offset for the popup element.
         /// Supported alignment values include "left", "center", and "right".
         /// Numeric string values are treated as pixel offsets from the reference point.
-        /// If <c>null</c>, the default horizontal positioning behavior will be applied.
+        /// When <c>string.Empty</c>, the default horizontal positioning behavior is applied.
         /// </remarks>
         [JsonPropertyName("X")]
         public string X { get; set; } = string.Empty;
@@ -49,13 +49,13 @@ namespace Syncfusion.Blazor.Toolkit.Popups
         /// Gets or sets the vertical position value for the popup element.
         /// </summary>
         /// <value>
-        /// A <c>string</c> value that specifies the vertical positioning. This can be alignment keywords like "top", "center", "bottom" or numeric pixel values. The default value is <c>null</c>.
+        /// A <c>string</c> value that specifies the vertical positioning. This can be alignment keywords like "top", "center", "bottom" or numeric pixel values. The default is <c>string.Empty</c>.
         /// </value>
         /// <remarks>
         /// This property defines the vertical alignment or offset for the popup element.
         /// Supported alignment values include "top", "center", and "bottom".
         /// Numeric string values are treated as pixel offsets from the reference point.
-        /// If <c>null</c>, the default vertical positioning behavior will be applied.
+        /// When <c>string.Empty</c>, the default vertical positioning behavior is applied.
         /// </remarks>
         [JsonPropertyName("Y")]
         public string Y { get; set; } = string.Empty;

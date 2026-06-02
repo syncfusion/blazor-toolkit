@@ -103,6 +103,23 @@ namespace Syncfusion.Blazor.Toolkit.Inputs
 
         #endregion
 
+        #region Helper Types
+
+        /// <summary>
+        /// Internal representation of checkbox state transitions for managing visual and logical states.
+        /// </summary>
+        private enum CheckboxState
+        {
+            /// <summary>The checkbox is in the checked state.</summary>
+            Checked,
+
+            /// <summary>The checkbox is in the unchecked state.</summary>
+            Unchecked,
+
+            /// <summary>The checkbox is in the indeterminate (mixed) state.</summary>
+            Indeterminate
+        }
+        #endregion
 
         #region Private Methods
         /// <summary>
@@ -501,7 +518,6 @@ namespace Syncfusion.Blazor.Toolkit.Inputs
             catch (Exception ex)
             {
                 _logErrorProcessingClick(Logger, ex);
-                throw;
             }
         }
 

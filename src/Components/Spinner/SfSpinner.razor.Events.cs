@@ -161,11 +161,11 @@ namespace Syncfusion.Blazor.Toolkit.Spinner
     /// <example>
     /// The following example demonstrates how to use <see cref="SpinnerEventArgs"/> in an event handler to cancel the spinner's visibility change.
     /// <code><![CDATA[
-    /// <SfSpinner @bind-Visible="@IsVisible" OnBeforeOpen="HandleBeforeOpenAsync">
+    /// <SfSpinner @bind-Visible="@IsVisible" OnOpen="HandleBeforeOpenAsync">
     /// </SfSpinner>
     /// @code {
     ///     private bool IsVisible { get; set; } = true;
-    ///     
+    ///
     ///     private void HandleBeforeOpenAsync(SpinnerEventArgs args)
     ///     {
     ///         // Cancel the spinner from being shown based on custom condition

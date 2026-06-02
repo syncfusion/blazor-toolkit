@@ -28,10 +28,7 @@ namespace Syncfusion.Blazor.Toolkit.Calendars
         /// Initializes the component and updates the parent with its properties.
         /// </summary>
         /// <returns>A <see cref="Task"/> representing the asynchronous initialization operation.</returns>
-        /// <remarks>
-        /// This method is called by the Blazor framework when the component is first initialized.
-        /// </remarks>
-        /// <exclude/>
+        /// <exclude />
         protected override async Task OnInitializedAsync()
         {
             await base.OnInitializedAsync().ConfigureAwait(true);

@@ -2,14 +2,20 @@
 using Microsoft.Extensions.Logging;
 using Microsoft.AspNetCore.Components;
 using Syncfusion.Blazor.Toolkit.Internal;
+
 namespace Syncfusion.Blazor.Toolkit.Inputs
 {
     /// <summary>
-    /// The TextArea is an textarea element that allows to get input from the user. It allows the user to edit or display the text value.
+    /// Represents the Toolkit TextArea component for Blazor applications, which provides a multiline text input element
+    /// that allows users to enter and edit multi-line text content.
     /// </summary>
+    /// <remarks>
+    /// This file contains the lifecycle methods for the <see cref="SfTextArea"/> component.
+    /// </remarks>
     public partial class SfTextArea : SfInputBase<string>
     {
         #region Injected Services
+
         /// <summary>
         /// Gets the logger instance used for recording component errors.
         /// </summary>

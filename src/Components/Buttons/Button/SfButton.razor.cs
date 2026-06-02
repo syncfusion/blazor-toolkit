@@ -31,31 +31,37 @@ namespace Syncfusion.Blazor.Toolkit.Buttons
     public partial class SfButton
     {
         #region Constants
+        /// <exclude />
         /// <summary>
         /// Space character used for CSS class concatenation.
         /// </summary>
         private const char Space = ' ';
 
+        /// <exclude />
         /// <summary>
         /// CSS class for right-to-left (RTL) direction support.
         /// </summary>
         private const string RtlClass = "e-rtl";
 
+        /// <exclude />
         /// <summary>
         /// CSS class applied when the button is in an active/toggled state.
         /// </summary>
         private const string ActiveClass = "e-active";
 
+        /// <exclude />
         /// <summary>
         /// CSS class for primary button styling.
         /// </summary>
         private const string PrimaryClass = "e-primary";
 
+        /// <exclude />
         /// <summary>
         /// CSS class for button icon elements.
         /// </summary>
         private const string IconClass = "e-btn-icon";
 
+        /// <exclude />
         /// <summary>
         /// Root CSS classes applied to all button instances.
         /// </summary>
@@ -65,43 +71,50 @@ namespace Syncfusion.Blazor.Toolkit.Buttons
         #region Fields
 
         /// <summary>
-        /// Additional HTML attributes applied to the root button element.
-        /// Captures unmatched attributes like `title`, `data-*`, etc.
+        /// Gets or sets additional HTML attributes applied to the root button element.
+        /// Captures unmatched attributes like <c>title</c>, <c>data-*</c>, and other standard or custom attributes.
         /// </summary>
+        /// <value>
+        /// A <see cref="Dictionary{String, Object}"/> containing attribute name-value pairs. The default is an empty dictionary.
+        /// </value>
         /// <remarks>
-        /// This property has a public setter to support Blazor's component parameter binding mechanism,
-        /// which requires writable properties for parameter updates. This is an architectural requirement
-        /// of the Blazor framework and is not considered a code smell in this context.
+        /// This property supports Blazor's component parameter binding mechanism. Use it to pass native HTML attributes not exposed as component parameters.
+        /// <para>When the <c>class</c> attribute is specified, its value is merged with the component's computed CSS classes.</para>
         /// </remarks>
         [Parameter(CaptureUnmatchedValues = true)]
         public Dictionary<string, object> HtmlAttributes { get => _htmlAttributes; set => _htmlAttributes = value; }
 
+        /// <exclude />
         /// <summary>
-        /// Computed CSS classes for icon positioning (e.g., "e-btn-icon e-icon-left").
+        /// Computed CSS classes for icon positioning (for example, "e-btn-icon e-icon-left").
         /// </summary>
         internal string _iconCssModifier = string.Empty;
 
+        /// <exclude />
         /// <summary>
         /// Fully computed CSS class string applied to the button element at render time.
         /// </summary>
         internal string _buttonCssClass = string.Empty;
 
+        /// <exclude />
         /// <summary>
         /// Tracks the active/toggled state for toggle buttons to support ARIA attributes and visual feedback.
         /// </summary>
         private bool _isActive;
 
+        /// <exclude />
         private Dictionary<string, object> _htmlAttributes = [];
         #endregion
 
 
         #region Private Methods
+        /// <exclude />
         /// <summary>
         /// Initializes and composes the CSS classes and state used for rendering.
         /// </summary>
         /// <remarks>
-        /// Performance: Uses StringBuilder for efficient string concatenation during CSS class composition,
-        /// reducing memory allocations compared to string concatenation.
+        /// Uses <see cref="StringBuilder"/> for efficient string concatenation during CSS class composition,
+        /// reducing memory allocations compared to standard string concatenation.
         /// </remarks>
         private void InitRender()
         {
@@ -116,6 +129,7 @@ namespace Syncfusion.Blazor.Toolkit.Buttons
             _buttonCssClass = buttonCss.ToString();
         }
 
+        /// <exclude />
         /// <summary>
         /// Applies the toggle state based on current settings.
         /// </summary>
@@ -132,6 +146,7 @@ namespace Syncfusion.Blazor.Toolkit.Buttons
             }
         }
 
+        /// <exclude />
         /// <summary>
         /// Applies any custom CSS classes passed via <see cref="CssClass"/>.
         /// </summary>
@@ -144,6 +159,7 @@ namespace Syncfusion.Blazor.Toolkit.Buttons
             }
         }
 
+        /// <exclude />
         /// <summary>
         /// Applies the primary style when <see cref="IsPrimary"/> is enabled.
         /// </summary>
@@ -156,6 +172,7 @@ namespace Syncfusion.Blazor.Toolkit.Buttons
             }
         }
 
+        /// <exclude />
         /// <summary>
         /// Applies RTL classes based on component or global options.
         /// </summary>
@@ -168,6 +185,7 @@ namespace Syncfusion.Blazor.Toolkit.Buttons
             }
         }
 
+        /// <exclude />
         /// <summary>
         /// Applies icon-related classes and layout classes when icon and position are specified.
         /// </summary>
@@ -196,6 +214,7 @@ namespace Syncfusion.Blazor.Toolkit.Buttons
             }
         }
 
+        /// <exclude />
         /// <summary>
         /// Merges user-defined CSS classes from <see cref="HtmlAttributes"/>.
         /// </summary>
@@ -208,13 +227,14 @@ namespace Syncfusion.Blazor.Toolkit.Buttons
             }
         }
 
+        /// <exclude />
         /// <summary>
         /// Toggles the active state for toggle buttons.
         /// </summary>
         /// <remarks>
         /// <para>
-        /// The active state (`_isActive`) is the single source of truth. CSS classes are a projection
-        /// computed during the next render cycle by `InitRender()` and should not be mutated here.
+        /// The active state is the single source of truth. CSS classes are a projection
+        /// computed during the next render cycle and should not be mutated here.
         /// </para>
         /// </remarks>
         private void ToggleActiveState()
@@ -222,24 +242,29 @@ namespace Syncfusion.Blazor.Toolkit.Buttons
             _isActive = !_isActive;
         }
 
+        /// <exclude />
         /// <summary>
         /// Returns the ARIA disabled attribute value based on the button's disabled state.
         /// </summary>
-        /// <returns>"true" if the button is disabled; otherwise, "false".</returns>
+        /// <returns><c>true</c> if the button is disabled; otherwise, <c>false</c>.</returns>
         /// <remarks>
-        /// This method ensures the aria-disabled attribute always has a valid string value rather than null.
+        /// This method ensures the <c>aria-disabled</c> attribute always has a valid string value rather than <see langword="null"/>.
         /// </remarks>
         private string GetAriaDisabled()
         {
             return Disabled ? "true" : "false";
         }
 
-        // Returns "true"/"false" only for toggle buttons; otherwise omits the attribute.
+        /// <exclude />
+        /// <summary>
+        /// Returns the ARIA pressed attribute value for toggle buttons.
+        /// </summary>
+        /// <returns><c>true</c> or <c>false</c> when <see cref="IsToggle"/> is enabled; otherwise, <see langword="null"/> to omit the attribute.</returns>
         private string? GetAriaPressed()
         {
             if (!IsToggle)
             {
-                return null; // Blazor omits the attribute when null
+                return null;
             }
             return _isActive ? "true" : "false";
         }
@@ -248,6 +273,7 @@ namespace Syncfusion.Blazor.Toolkit.Buttons
         #endregion
 
         #region Event Handlers
+        /// <exclude />
         /// <summary>
         /// Handles click events, toggles state when applicable, and raises <see cref="OnClick"/>.
         /// </summary>

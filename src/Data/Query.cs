@@ -429,7 +429,7 @@ namespace Syncfusion.Blazor.Toolkit.Data
     /// <summary>
     /// Converts Query class to and from string respectively.
     /// </summary>
-    /// <exclude/>
+    /// <exclude />
     public class QueryConverter : JsonConverter<Query>
     {
         //This variable is for Write methos json serialize options

@@ -133,8 +133,11 @@ namespace Syncfusion.Blazor.Toolkit.Calendars
         [Parameter]
         public Dictionary<string, object> HtmlAttributes { get; set; } = default!;
 
+        /// <exclude />
         private string Calendar_CssClass { get; set; } = string.Empty;
+        /// <exclude />
         private DateTime[]? Calendar_Values { get; set; }
+        /// <exclude />
         internal bool Calendar_Disabled { get; set; }
     }
 }

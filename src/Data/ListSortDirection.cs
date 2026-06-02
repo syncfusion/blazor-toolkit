@@ -63,12 +63,12 @@ namespace Syncfusion.Blazor.Toolkit.Data
         [JsonPropertyName("direction")]
         [DefaultValue(SortOrder.Ascending)]
         [JsonConverter(typeof(JsonStringEnumConverter))]
-
         public SortOrder Direction { get; set; } = SortOrder.Ascending;
 
         /// <summary>
-        /// Gets the sort comparer
+        /// Gets the sort comparer.
         /// </summary>
+        /// <exclude />
         public object? Comparer { get; set; }
     }
 }

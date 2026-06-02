@@ -69,8 +69,11 @@ namespace Syncfusion.Blazor.Toolkit.Inputs
 
         #region Protected Methods
 
-        /// <exclude />
-        /// <inheritdoc />
+        /// <summary>
+        /// Initializes the render tree with the radio button's CSS classes and checked state.
+        /// </summary>
+        /// <param name="isDynamic">Indicates whether the component is being rendered dynamically.</param>
+        /// <exclude/>
         protected override void InitRender(bool isDynamic = false)
         {
             _rootClass = RootClass;

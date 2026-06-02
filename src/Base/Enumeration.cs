@@ -30,17 +30,17 @@ namespace Syncfusion.Blazor.Toolkit
 
 
     /// <summary> 
-    /// Specifies text overflow options when the text overflowing the container. 
+    /// Specifies text overflow options when text overflows its container. 
     /// </summary> 
     public enum LabelOverflow
     {
         /// <summary> 
-        /// Specifies an ellipsis (�...�) to the clipped text. 
+        /// Appends an ellipsis (...) to clipped text.
         /// </summary>     
         Ellipse,
 
         /// <summary> 
-        /// Specifies the text is clipped and not accessible. 
+        /// Clips the text without appending any indicator.
         /// </summary> 
         Clip
     }
@@ -2847,42 +2847,64 @@ namespace Syncfusion.Blazor.Toolkit
 
 
     /// <summary>
-    /// Supported marker shapes used inside tooltips.
+    /// Specifies marker shapes supported inside tooltip visual elements.
     /// </summary>
     [JsonConverter(typeof(JsonStringEnumConverter))]
     public enum TooltipShape
     {
-        // Circle marker.
+        /// <summary>
+        /// Renders a circular marker.
+        /// </summary>
         [EnumMember(Value = "Circle")]
         Circle,
-        // Rectangle marker.
+        /// <summary>
+        /// Renders a rectangular marker.
+        /// </summary>
         [EnumMember(Value = "Rectangle")]
         Rectangle,
-        // Triangle marker.
+        /// <summary>
+        /// Renders a triangular marker.
+        /// </summary>
         [EnumMember(Value = "Triangle")]
         Triangle,
-        // Diamond marker.
+        /// <summary>
+        /// Renders a diamond-shaped marker.
+        /// </summary>
         [EnumMember(Value = "Diamond")]
         Diamond,
-        // Cross marker.
+        /// <summary>
+        /// Renders a cross-shaped marker.
+        /// </summary>
         [EnumMember(Value = "Cross")]
         Cross,
-        // Horizontal line marker.
+        /// <summary>
+        /// Renders a horizontal line marker.
+        /// </summary>
         [EnumMember(Value = "HorizontalLine")]
         HorizontalLine,
-        // Vertical line marker.
+        /// <summary>
+        /// Renders a vertical line marker.
+        /// </summary>
         [EnumMember(Value = "VerticalLine")]
         VerticalLine,
-        // Pentagon marker.
+        /// <summary>
+        /// Renders a pentagonal marker.
+        /// </summary>
         [EnumMember(Value = "Pentagon")]
         Pentagon,
-        // Inverted triangle marker.
+        /// <summary>
+        /// Renders an inverted triangular marker.
+        /// </summary>
         [EnumMember(Value = "InvertedTriangle")]
         InvertedTriangle,
-        // Image marker.
+        /// <summary>
+        /// Renders an image-based marker.
+        /// </summary>
         [EnumMember(Value = "Image")]
         Image,
-        // No marker.
+        /// <summary>
+        /// Disables the marker.
+        /// </summary>
         [EnumMember(Value = "None")]
         None
     }

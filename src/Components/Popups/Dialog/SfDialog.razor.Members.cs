@@ -2,6 +2,29 @@ using Microsoft.AspNetCore.Components;
 
 namespace Syncfusion.Blazor.Toolkit.Popups
 {
+    /// <summary>
+    /// Represents a dialog component that displays a popup window overlaying the page content.
+    /// </summary>
+    /// <remarks>
+    /// The <see cref="SfDialog"/> component supports modal and modeless modes, drag-and-drop repositioning,
+    /// resizing, custom headers and footers, and animation effects. It provides accessibility support
+    /// with ARIA attributes and keyboard navigation (Escape to close).
+    /// </remarks>
+    /// <example>
+    /// <code><![CDATA[
+    /// @using Syncfusion.Blazor.Toolkit.Popups
+    /// <SfDialog @bind-Visible="IsOpen" Width="500px" Header="Dialog Header">
+    ///   <DialogTemplates>
+    ///     <Content>
+    ///       <p>Dialog content goes here.</p>
+    ///     </Content>
+    ///   </DialogTemplates>
+    /// </SfDialog>
+    /// @code {
+    ///   private bool IsOpen { get; set; } = true;
+    /// }
+    /// ]]></code>
+    /// </example>
     public partial class SfDialog : SfBaseComponent
     {
         #region Private variables
@@ -65,9 +88,6 @@ namespace Syncfusion.Blazor.Toolkit.Popups
         /// <summary>
         /// Gets or sets the child content of the <see cref="SfDialog"/> component.
         /// </summary>
-        /// <value>
-        /// A <see cref="RenderFragment"/> representing the content to be displayed within the dialog.
-        /// </value>
         /// <exclude />
         [Parameter]
         public RenderFragment ChildContent { get; set; } = default!;
@@ -106,6 +126,7 @@ namespace Syncfusion.Blazor.Toolkit.Popups
 
         internal DialogAnimationSettings AnimationSettingsValue { get; set; } = default!;
 
+        /// <exclude />
         internal List<DialogButton>? ButtonsValue { get; set; }
 
         /// <summary>
@@ -373,6 +394,7 @@ namespace Syncfusion.Blazor.Toolkit.Popups
             set => HtmlAttributesValue = value;
         }
 
+        /// <exclude />
         internal Dictionary<string, object> HtmlAttributesValue { get; set; } = default!;
 
         /// <summary>
@@ -430,6 +452,7 @@ namespace Syncfusion.Blazor.Toolkit.Popups
         [Parameter]
         public string MinHeight { get; set; } = string.Empty;
 
+        /// <exclude />
         internal DialogPositionData? PositionValue { get; set; }
 
         /// <summary>

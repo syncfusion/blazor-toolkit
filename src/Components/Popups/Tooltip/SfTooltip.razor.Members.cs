@@ -14,7 +14,7 @@ namespace Syncfusion.Blazor.Toolkit.Popups
     /// <example>
     /// <code><![CDATA[
     /// <SfTooltip Content="Let's go green to save the planet!!">
-    ///  <SfButton Content="Show Tooltip"></SfButton>
+    /// <SfButton Content="Show Tooltip"></SfButton>
     /// </SfTooltip>
     /// ]]></code>
     ///</example>
@@ -65,14 +65,14 @@ namespace Syncfusion.Blazor.Toolkit.Popups
         /// <example>
         /// <code><![CDATA[
         /// <SfTooltip Content="Let's go green to save the planet!!" Animation="@Animation">
-        /// <SfButton Content="Show Tooltip"></SfButton>
+        ///  <SfButton Content="Show Tooltip"></SfButton>
         /// </SfTooltip>
         /// @code 
         /// {
         ///  public AnimationModel Animation { get; set; } = new AnimationModel
         ///  {
-        ///    Open = new TooltipAnimationSettings {Delay = 0, Duration = 500, Effect = Effect.ZoomIn },
-        ///    Close = new TooltipAnimationSettings{Delay=0,Duration=500,Effect=Effect.ZoomOut}
+        ///    Open = new TooltipAnimationSettings {Delay = 0, Duration = 500, Effect = Effect.ZoomIn },
+        ///    Close = new TooltipAnimationSettings{Delay=0,Duration=500,Effect=Effect.ZoomOut}
         ///  };
         /// }
         /// ]]></code>
@@ -157,13 +157,20 @@ namespace Syncfusion.Blazor.Toolkit.Popups
         /// <summary>
         /// Gets or sets a value indicating whether to set the collision target element as the page viewport (window) or the Tooltip element, when using the target.
         /// </summary>
-        /// <remarks>
-        /// The WindowCollision property is used to enable or disable the collision calculation between the target elements and viewport (window) instead of the Tooltip element. 
-        /// If the value is set to <c>true</c>, the collision will be calculated between the target and the viewport (window). Otherwise, the collision will be calculated between the target and the Tooltip element.
-        /// </remarks>
         /// <value>
         /// <c>true</c>, if the window collision can be enabled; otherwise, <c>false</c>. The default value is <c>false</c>.
         /// </value>
+        /// <remarks>
+        /// The WindowCollision property is used to enable or disable the collision calculation between the target elements and viewport (window) instead of the Tooltip element.
+        /// If the value is set to <c>true</c>, the collision will be calculated between the target and the viewport (window). Otherwise, the collision will be calculated between the target and the Tooltip element.
+        /// </remarks>
+        /// <example>
+        /// <code><![CDATA[
+        /// <SfTooltip Content="Let's go green to save the planet!!" WindowCollision="true">
+        ///  <SfButton Content="Show Tooltip"></SfButton>
+        /// </SfTooltip>
+        /// ]]></code>
+        /// </example>
         [Parameter]
         [JsonPropertyName("WindowCollision")]
         public bool WindowCollision { get; set; } = false;
@@ -194,14 +201,21 @@ namespace Syncfusion.Blazor.Toolkit.Popups
         /// <summary>
         /// Gets or sets a value indicating whether the Tooltip should be displayed in an open state until it is closed manually.
         /// </summary>
-        /// <remarks>
-        /// The IsSticky property is used to set the behavior of the Tooltip when it is displayed.
-        /// If the value is set to true, the Tooltip will be displayed in an open state until it is closed manually, regardless of the user interaction that triggered the Tooltip. 
-        /// If the value is set to false, the Tooltip will be displayed for a specified duration based on the Animation property and then automatically closed.
-        ///</remarks>
         /// <value>
         /// <c>true</c>, if the Tooltip should be displayed in an open state until it is closed manually. Otherwise, <c>false</c>. The default value is <c>false</c>.
         /// </value>
+        /// <remarks>
+        /// The IsSticky property is used to set the behavior of the Tooltip when it is displayed.
+        /// If the value is set to <c>true</c>, the Tooltip will be displayed in an open state until it is closed manually, regardless of the user interaction that triggered the Tooltip.
+        /// If the value is set to <c>false</c>, the Tooltip will be displayed for a specified duration based on the Animation property and then automatically closed.
+        /// </remarks>
+        /// <example>
+        /// <code><![CDATA[
+        /// <SfTooltip Content="Let's go green to save the planet!!" IsSticky="true">
+        ///  <SfButton Content="Show Tooltip"></SfButton>
+        /// </SfTooltip>
+        /// ]]></code>
+        /// </example>
         [Parameter]
         [JsonPropertyName("isSticky")]
         public bool IsSticky { get; set; }
@@ -216,6 +230,13 @@ namespace Syncfusion.Blazor.Toolkit.Popups
         /// The MouseTrail property enables the Tooltip to dynamically follow the mouse cursor position when the user moves the mouse over the target element.
         /// When enabled, the Tooltip position will continuously update based on the mouse coordinates, creating a trailing effect.
         /// </remarks>
+        /// <example>
+        /// <code><![CDATA[
+        /// <SfTooltip Content="Let's go green to save the planet!!" MouseTrail="true">
+        ///  <SfButton Content="Show Tooltip"></SfButton>
+        /// </SfTooltip>
+        /// ]]></code>
+        /// </example>
         [Parameter]
         [JsonPropertyName("mouseTrail")]
         public bool MouseTrail { get; set; }
@@ -280,7 +301,7 @@ namespace Syncfusion.Blazor.Toolkit.Popups
         ///  <SfButton Content="Show Tooltip"></SfButton>
         /// </SfTooltip>
         /// ]]></code>
-        ///</example>
+        /// </example>
         [Parameter]
         [JsonPropertyName("openDelay")]
         public double OpenDelay { get; set; }
@@ -345,8 +366,15 @@ namespace Syncfusion.Blazor.Toolkit.Popups
         /// <remarks>
         /// The ShowTipPointer property controls the visibility of the small arrow or pointer that connects the Tooltip to its target element.
         /// The tip pointer provides a visual connection between the Tooltip and the element that triggered it, improving the user experience.
-        /// When set to false, the Tooltip will appear without the pointing arrow.
+        /// When set to <c>false</c>, the Tooltip will appear without the pointing arrow.
         /// </remarks>
+        /// <example>
+        /// <code><![CDATA[
+        /// <SfTooltip Content="Let's go green to save the planet!!" ShowTipPointer="false">
+        ///  <SfButton Content="Show Tooltip"></SfButton>
+        /// </SfTooltip>
+        /// ]]></code>
+        /// </example>
         [Parameter]
         [JsonPropertyName("showTipPointer")]
         public bool ShowTipPointer { get; set; } = true;
@@ -382,8 +410,7 @@ namespace Syncfusion.Blazor.Toolkit.Popups
         /// Gets or sets the CSS selector for a container where target elements will automatically have tooltips applied.
         /// </summary>
         /// <value>
-        /// A string representing a CSS selector for the container.
-        /// The default value is <c>null</c>. If the target elements reside within a specific container, provide its selector as the value; otherwise, tooltip element will be considered as target container.
+        /// A string value representing a valid CSS selector. The default value is <see cref="string.Empty"/>.
         /// </value>
         /// <remarks>
         /// Use this property to attach tooltips to multiple target elements within a specific container or across the entire body element.
@@ -393,9 +420,6 @@ namespace Syncfusion.Blazor.Toolkit.Popups
         /// when accepting user input to prevent potential DOM manipulation issues.
         /// </para>
         /// </remarks>
-        /// <value>
-        /// A string value representing a valid CSS selector. The default value is <see cref="string.Empty"/>.
-        /// </value>
         [Parameter]
         [JsonPropertyName("targetContainer")]
         public string TargetContainer { get; set; } = string.Empty;

@@ -5,23 +5,27 @@ namespace Syncfusion.Blazor.Toolkit.Internal
     /// <summary>
     /// Represents a Hijri date.
     /// </summary>
+    /// <exclude />
     internal class HijriDate
     {
         /// <summary>
         /// Gets or sets the year of the Hijri date.
         /// </summary>
+        /// <exclude />
         [JsonPropertyName("year")]
         internal int Year { get; set; }
 
         /// <summary>
         /// Gets or sets the month of the Hijri date.
         /// </summary>
+        /// <exclude />
         [JsonPropertyName("month")]
         internal int Month { get; set; }
 
         /// <summary>
         /// Gets or sets the day of the Hijri date.
         /// </summary>
+        /// <exclude />
         [JsonPropertyName("date")]
         internal int Date { get; set; }
     }
@@ -30,35 +34,56 @@ namespace Syncfusion.Blazor.Toolkit.Internal
     /// Provides utility methods for converting between Hijri (Islamic) and Gregorian calendar dates.
     /// Uses astronomical algorithms and correction tables for accurate date conversions.
     /// </summary>
+    /// <exclude />
     internal static class HijriParser
     {
         /// <summary>
         /// Constants for Julian date calculations used when converting between Gregorian and Julian day counts.
         /// </summary>
+        /// <exclude />
         private const double JULIAN_EPOCH_OFFSET = 1867216.25;
+        /// <exclude />
         private const double JULIAN_CENTURY_DAYS = 36524.25;
+        /// <exclude />
         private const double GREGORIAN_YEAR_DAYS = 365.25;
+        /// <exclude />
         private const double MONTH_APPROXIMATION = 30.6001;
+        /// <exclude />
         private const int JULIAN_CALENDAR_ADJUSTMENT = 1524;
+        /// <exclude />
         private const int GREGORIAN_CALENDAR_BASE = 122;
+        /// <exclude />
         private const int YEAR_BASE_OFFSET = 4716;
+        /// <exclude />
         private const int MODIFIED_JULIAN_DATE_OFFSET = 2400000;
 
         /// <summary>
         /// Constants used for Hijri (Islamic) calendar calculations, including
         /// cycle lengths, epoch offsets and approximations used by the algorithms.
         /// </summary>
+        /// <exclude />
         private const double HIJRI_CYCLE_DAYS = 10631.0;
+        /// <exclude />
         private const int HIJRI_CYCLE_YEARS = 30;
+        /// <exclude />
         private const int HIJRI_EPOCH_OFFSET = 1948084;
+        /// <exclude />
         private const double HIJRI_MONTH_APPROXIMATION = 29.5;
+        /// <exclude />
         private const double HIJRI_CALCULATION_OFFSET = 0.1335;
+        /// <exclude />
         private const double HIJRI_MONTH_OFFSET = 28.5001;
+        /// <exclude />
         private const double HIJRI_DAY_OFFSET = 29.5001;
+        /// <exclude />
         private const int HIJRI_LUNAR_NUMBER_OFFSET = 16260;
+        /// <exclude />
         private const int MONTHS_PER_YEAR = 12;
+        /// <exclude />
         private const int MAX_MONTH_VALUE = 13;
+        /// <exclude />
         private const int MARCH_MONTH = 3;
+        /// <exclude />
         private const int MAX_DAY_DIGITS = 2;
 
         /// <summary>
@@ -201,6 +226,7 @@ namespace Syncfusion.Blazor.Toolkit.Internal
         /// </summary>
         /// <param name="hijriDate">The Hijri date to convert.</param>
         /// <returns>A <see cref="DateTime"/> representing the Gregorian calendar date.</returns>
+        /// <exception cref="ArgumentNullException">Thrown when <paramref name="hijriDate"/> is <see langword="null"/>.</exception>
         internal static DateTime ToGregorian(HijriDate hijriDate)
         {
             ArgumentNullException.ThrowIfNull(hijriDate);

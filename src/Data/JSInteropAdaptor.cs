@@ -40,6 +40,10 @@ namespace Syncfusion.Blazor.Toolkit.Data
             DotnetRef = Create();
         }
 
+        /// <summary>
+        /// Holds the cached DotNetObjectReference for this adaptor instance.
+        /// </summary>
+        /// <exclude />
         private DotNetObjectReference<object>? DotnetRef { get; set; }
 
         /// <inheritdoc/>
@@ -61,9 +65,9 @@ namespace Syncfusion.Blazor.Toolkit.Data
         }
 
         /// <summary>
-        /// Dispose method for JSInteropAdaptor class
+        /// Releases the <see cref="DotNetObjectReference{T}"/> held by this adaptor.
         /// </summary>
-        /// <param name="disposing"></param>
+        /// <param name="disposing">When <c>true</c>, disposes the underlying DotNetObjectReference.</param>
         protected virtual void Dispose(bool disposing)
         {
             if (disposing)
@@ -73,6 +77,10 @@ namespace Syncfusion.Blazor.Toolkit.Data
         }
     }
 
+    /// <summary>
+    /// Internal utility class for Syncfusion JavaScript interop calls.
+    /// </summary>
+    /// <exclude />
     internal static class SyncfusionInterop
     {
         internal static async ValueTask<T> HandleInteropCallAsync<T>(IJSRuntime jsRuntime, Func<ValueTask<T>> jsInteropCall, string nameSpace, string elementId = "")
@@ -145,6 +153,10 @@ namespace Syncfusion.Blazor.Toolkit.Data
         }
     }
 
+    /// <summary>
+    /// Internal DTO for serializing JavaScript error payloads.
+    /// </summary>
+    /// <exclude />
     internal class ErrorMessage
     {
         [JsonPropertyName("message")]

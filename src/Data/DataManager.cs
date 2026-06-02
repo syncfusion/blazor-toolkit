@@ -18,26 +18,34 @@ namespace Syncfusion.Blazor.Toolkit.Data
     {
         /// <summary>
         /// JavaScript runtime for invoking JS interop from this component.
-        /// Use `JsRuntime` to call browser APIs or helper scripts required by the DataManager.
+        /// Use <see cref="JsRuntime"/> to call browser APIs or helper scripts required by the DataManager.
         /// </summary>
+        /// <exclude />
         [Inject]
         protected IJSRuntime JsRuntime { get; set; }
 
+        /// <summary>
+        /// HTTP client for remote data requests.
+        /// </summary>
+        /// <exclude />
         [Inject]
         internal HttpClient HttpClient { get; set; }
 
-        /// <exclude/>
+        /// <exclude />
         [JsonIgnore]
         [Inject]
         public IServiceProvider ServiceProvider { get; set; }
 
-        /// <exclude/>
+        /// <exclude />
         [JsonIgnore]
         public BaseAdaptor BaseAdaptor { get; set; }
 
         /// <summary>
         /// Specifies the HttpClient instance to be used  by DataManager.
         /// </summary>
+        /// <value>
+        /// An <see cref="HttpClient"/> instance. When not specified, the injected HttpClient is used.
+        /// </value>
         /// <remarks>Use HttpClientInstance property to inject named HttpClient into DataManager.</remarks>
         [Parameter]
         [JsonIgnore]
@@ -46,6 +54,9 @@ namespace Syncfusion.Blazor.Toolkit.Data
         /// <summary>
         /// Specifies the endpoint URL. DataManager requests this URL when data is needed.
         /// </summary>
+        /// <value>
+        /// A <see cref="string"/> representing the URL endpoint. Defaults to an empty string.
+        /// </value>
         [Parameter]
         [DefaultValue("")]
         [JsonPropertyName("url")]
@@ -54,9 +65,14 @@ namespace Syncfusion.Blazor.Toolkit.Data
         /// <summary>
         /// Specifies the custom adaptor class type. DataManager uses this type value to instantiate custom adaptor class.
         /// </summary>
-        /// <remarks>DataManager uses Activator.CreateInstance method to create custom adaptor instance.
-        /// Injecting services into custom adaptor class, is not supported while using this approach.
-        /// To inject and use services, provide custom adaptor as a Blazor component by extending DataAdaptor class.</remarks>
+        /// <value>
+        /// A <see cref="Type"/> that derives from <see cref="DataAdaptor"/>. When not specified, the default <see cref="BlazorAdaptor"/> is used.
+        /// </value>
+        /// <remarks>
+        /// DataManager uses the <c>Activator.CreateInstance</c> method to create the custom adaptor instance.
+        /// Injecting services into a custom adaptor class is not supported when using this approach.
+        /// To inject and use services, provide a custom adaptor as a Blazor component by extending the <see cref="DataAdaptor"/> class.
+        /// </remarks>
         [Parameter]
         [JsonIgnore]
         [JsonPropertyName("adaptorInstance")]
@@ -70,10 +86,15 @@ namespace Syncfusion.Blazor.Toolkit.Data
 
         /// <summary>
         /// Gets or sets the active adaptor instance used by the DataManager to perform data operations.
-        /// The adaptor encapsulates the behavior for reading, inserting, updating and removing data
-        /// and may be a local or remote implementation. When set, DataManager delegates CRUD
-        /// operations to this instance.
         /// </summary>
+        /// <value>
+        /// An <see cref="IAdaptor"/> implementation that handles data operations such as reading, inserting, updating, and removing data.
+        /// This may be a local or remote implementation. When set, DataManager delegates CRUD operations to this instance.
+        /// </value>
+        /// <remarks>
+        /// The adaptor encapsulates the behavior for data operations. Set this property to use a custom adaptor,
+        /// such as <see cref="BlazorAdaptor"/> for local data or a remote service adaptor for server-side operations.
+        /// </remarks>
         [Parameter]
         [JsonIgnore]
         [JsonPropertyName("dataAdaptor")]
@@ -81,15 +102,20 @@ namespace Syncfusion.Blazor.Toolkit.Data
 
         /// <summary>
         /// Reference to a .NET object that can be passed to JavaScript for callback invocation.
-        /// This reference is created when DataManager exposes .NET methods to JS and is disposed
-        /// during component cleanup to avoid memory leaks.
         /// </summary>
+        /// <value>
+        /// A <see cref="DotNetObjectReference{T}"/> instance. This reference is created when DataManager exposes .NET methods to JavaScript
+        /// and is disposed during component cleanup to avoid memory leaks. Defaults to <c>null</c>.
+        /// </value>
         [JsonIgnore]
         public DotNetObjectReference<object> DotNetObjectRef { get; set; }
 
         /// <summary>
         /// Specifies the IEnumerable collection. This data could be queried and manipulated.
         /// </summary>
+        /// <value>
+        /// An <see cref="IEnumerable"/> collection that serves as the in-memory data source. Defaults to <c>null</c>.
+        /// </value>
         [Parameter]
         [JsonPropertyName("json")]
         public IEnumerable<object> Json { get; set; }
@@ -97,9 +123,12 @@ namespace Syncfusion.Blazor.Toolkit.Data
         /// <summary>
         /// Specifies the key/value pair of headers.
         /// </summary>
+        /// <value>
+        /// An <see cref="IDictionary{TKey, TValue}"/> containing header key/value pairs. Defaults to <c>null</c>.
+        /// </value>
         /// <remarks>
         /// Use Headers to add any custom headers to the request made by DataManager.
-        /// Users can also send authentication bearer token using Headers property.
+        /// Users can also send authentication bearer token using the Headers property.
         /// </remarks>
         [Parameter]
         [JsonPropertyName("headers")]
@@ -108,15 +137,20 @@ namespace Syncfusion.Blazor.Toolkit.Data
         /// <summary>
         /// Specifies the accept type.
         /// </summary>
+        /// <value>
+        /// <c>true</c> to indicate the client accepts JSON responses; otherwise, <c>false</c>. Defaults to <c>false</c>.
+        /// </value>
         [Parameter]
         [JsonPropertyName("accept")]
         public bool Accept { get; set; }
 
         /// <summary>
         /// The in-memory data source used by the DataManager when operating in local mode.
-        /// Provide an <see cref="IEnumerable{T}"/> or any collection that the DataManager will
-        /// query and manipulate on the client side.
         /// </summary>
+        /// <value>
+        /// An <see cref="object"/> that represents the data source. Accepts an <see cref="IEnumerable{T}"/> or any collection
+        /// that the DataManager will query and manipulate on the client side. Defaults to <c>null</c>.
+        /// </value>
         [Parameter]
         [JsonPropertyName("data")]
         public object Data { get; set; }
@@ -124,6 +158,9 @@ namespace Syncfusion.Blazor.Toolkit.Data
         /// <summary>
         /// Specifies the time limit to clear the cached data.
         /// </summary>
+        /// <value>
+        /// An <see cref="int"/> representing the time in milliseconds after which cached data expires. A value of <c>0</c> means no expiration. Defaults to <c>0</c>.
+        /// </value>
         [Parameter]
         [JsonPropertyName("timeTillExpiration")]
         public int TimeTillExpiration { get; set; }
@@ -131,6 +168,9 @@ namespace Syncfusion.Blazor.Toolkit.Data
         /// <summary>
         /// Specifies the caching page size.
         /// </summary>
+        /// <value>
+        /// An <see cref="int"/> representing the number of records to cache per page. A value of <c>0</c> means no caching is performed. Defaults to <c>0</c>.
+        /// </value>
         [Parameter]
         [JsonPropertyName("cachingPageSize")]
         public int CachingPageSize { get; set; }
@@ -138,14 +178,21 @@ namespace Syncfusion.Blazor.Toolkit.Data
         /// <summary>
         /// Enables data caching.
         /// </summary>
+        /// <value>
+        /// <c>true</c> to enable caching of data pages; otherwise, <c>false</c>. Defaults to <c>false</c>.
+        /// When enabled, DataManager caches fetched data to reduce redundant network requests.
+        /// </value>
         [Parameter]
         [JsonPropertyName("enableCaching")]
         public bool EnableCaching { get; set; }
 
         /// <summary>
         /// The HTTP request method type used when sending data to the server (for example, "GET" or "POST").
-        /// Remote adaptors use this value when constructing outgoing requests.
         /// </summary>
+        /// <value>
+        /// A <see cref="string"/> representing the HTTP method. Remote adaptors use this value when constructing outgoing requests.
+        /// When not specified, the adaptor determines the appropriate method based on the operation.
+        /// </value>
         [Parameter]
         [JsonPropertyName("requestType")]
         public string RequestType { get; set; }
@@ -153,66 +200,97 @@ namespace Syncfusion.Blazor.Toolkit.Data
         /// <summary>
         /// Specifies the primary key value.
         /// </summary>
+        /// <value>
+        /// A <see cref="string"/> representing the field name that uniquely identifies each record in the data source.
+        /// Used by remote adaptors to locate records during update and delete operations. Defaults to an empty string.
+        /// </value>
         [Parameter]
         [JsonPropertyName("key")]
         public string Key { get; set; }
 
         /// <summary>
-        /// When true, then indicates that the request is a cross-domain request.
+        /// When <c>true</c>, indicates that the request is a cross-domain request.
         /// </summary>
+        /// <value>
+        /// <c>true</c> if the request targets a different domain, subdomain, or protocol; otherwise, <c>false</c>.
+        /// Defaults to <c>false</c>. When enabled, adaptors may use JSONP or cross-origin techniques.
+        /// </value>
         [Parameter]
         [JsonPropertyName("crossDomain")]
         public bool CrossDomain { get; set; }
 
         /// <summary>
         /// When set, enables JSONP-style requests by specifying the callback parameter name.
-        /// Use this only for cross-domain scenarios that require JSONP responses.
         /// </summary>
+        /// <value>
+        /// A <see cref="string"/> representing the JSONP callback parameter name. Set this to enable JSONP requests
+        /// for cross-domain scenarios that require JSONP responses. When not specified, standard HTTP requests are used.
+        /// </value>
+        /// <remarks>Use this only for cross-domain scenarios that require JSONP responses.</remarks>
         [Parameter]
         [JsonPropertyName("jsonp")]
         public string Jsonp { get; set; }
 
         /// <summary>
         /// Expected response data type for remote requests (for example "json" or "jsonp").
-        /// Remote adaptors may use this value to adjust request/response handling.
         /// </summary>
+        /// <value>
+        /// A <see cref="string"/> representing the expected response format. Common values include <c>"json"</c> and <c>"jsonp"</c>.
+        /// Remote adaptors may use this value to adjust request/response handling. Defaults to <c>null</c>.
+        /// </value>
         [Parameter]
         [JsonPropertyName("dataType")]
         public string DataType { get; set; }
 
         /// <summary>
-        /// Enables offline mode in datamanager.
+        /// Enables offline mode in DataManager.
         /// </summary>
+        /// <value>
+        /// <c>true</c> to enable offline mode; otherwise, <c>false</c>. Defaults to <c>false</c>.
+        /// </value>
         /// <remarks>
-        /// Applicable for remote data source. If offline is true then initial request will be made to fetch
-        /// data. Further actions will be handled at the in-memory data and no more request will be made to the service.
-        /// Cached data is stored in the JSON property.
+        /// Applicable for remote data sources. If <c>true</c>, an initial request fetches data, and subsequent operations
+        /// are handled in-memory with no additional server requests. Cached data is stored in the <see cref="Json"/> property.
         /// </remarks>
         [Parameter]
         [JsonPropertyName("offline")]
         public bool Offline { get; set; }
 
         /// <summary>
-        /// Sepcifies requires format.
+        /// Specifies whether data formatting is required.
         /// </summary>
+        /// <value>
+        /// <c>true</c> when formatting is required before sending data to the server; otherwise, <c>false</c>.
+        /// Defaults to <c>false</c>. When enabled, adaptors may apply additional processing to format request data.
+        /// </value>
         [Parameter]
         [JsonPropertyName("requiresFormat")]
         public bool RequiresFormat { get; set; }
 
+        /// <summary>
+        /// Indicates whether this instance is a DataManager.
+        /// </summary>
+        /// <value>
+        /// <c>true</c> when this instance represents a fully initialized DataManager; otherwise, <c>false</c>.
+        /// This property is set during the <see cref="OnInitializedAsync"/> lifecycle.
+        /// </value>
         [DefaultValue(false)]
         [JsonPropertyName("isDataManager")]
         internal bool IsDataManager { get; set; }
 
         /// <summary>
-        /// unique identifier.
+        /// A lazily-initialized random integer identifier assigned on first access.
         /// </summary>
         /// <exclude/>
         private int Guid { get; set; }
-
         /// <summary>
-        /// unique identifier
+        /// Unique identifier for this DataManager instance.
         /// </summary>
-        /// <exclude/>
+        /// <value>
+        /// An <see cref="int"/> value that uniquely identifies this DataManager instance within a request.
+        /// The value is randomly generated between 1 and 100000 on first access. Subsequent accesses return the same value.
+        /// </value>
+        /// <exclude />
         [JsonPropertyName("guid")]
         public int UniqueGuid
         {
@@ -242,9 +320,13 @@ namespace Syncfusion.Blazor.Toolkit.Data
         protected BaseComponent BaseParent { get; set; }
 
         /// <summary>
-        /// Child content to be rendered inside the DataManager component. Adaptors or child components
-        /// may supply elements here to participate in data operations or provide UI for configuration.
+        /// Gets or sets the child content to be rendered inside the DataManager component.
         /// </summary>
+        /// <value>
+        /// A <see cref="RenderFragment"/> that represents the content rendered inside the DataManager.
+        /// Adaptors or child components may supply elements here to participate in data operations or provide UI for configuration.
+        /// Defaults to <c>null</c>.
+        /// </value>
         [Parameter]
         [JsonIgnore]
         public RenderFragment ChildContent { get; set; }
@@ -252,7 +334,7 @@ namespace Syncfusion.Blazor.Toolkit.Data
         /// <summary>
         /// Gets navigation manager to get base url.
         /// </summary>
-        /// <exclude/>
+        /// <exclude />
         [Inject]
         [JsonIgnore]
         private NavigationManager UriHelper { get; set; }
@@ -266,7 +348,7 @@ namespace Syncfusion.Blazor.Toolkit.Data
         /// <summary>
         /// Specifies the http client handler.
         /// </summary>
-        /// <exclude/>
+        /// <exclude />
         [JsonIgnore]
         internal HttpHandler _httpHandler;
 
@@ -283,6 +365,7 @@ namespace Syncfusion.Blazor.Toolkit.Data
         /// DI-dependent resources (for example the internal HttpHandler), computing the
         /// <see cref="BaseUri"/>, and wiring this DataManager into its parent component if present.
         /// </summary>
+        /// <exclude />
         protected override async Task OnInitializedAsync()
         {
             await base.OnInitializedAsync().ConfigureAwait(false);
@@ -338,7 +421,7 @@ namespace Syncfusion.Blazor.Toolkit.Data
         /// <typeparam name="T">Type of the model class.</typeparam>
         /// <param name="query">Query class which will be executed against data source.</param>
         /// <returns>Task.</returns>
-        /// <exclude/>
+        /// <exclude />
         [EditorBrowsable(EditorBrowsableState.Never)]
         public async Task<object> ExecuteQuery<T>(Query query)
         {
@@ -363,7 +446,7 @@ namespace Syncfusion.Blazor.Toolkit.Data
         /// <typeparam name="T">Type of the model class</typeparam>
         /// <param name="queries">Query class which will be executed against data source.</param>
         /// <returns>Task</returns>
-        /// <exclude/>
+        /// <exclude />
         [EditorBrowsable(EditorBrowsableState.Never)]
         public async Task<object> ExecuteQuery<T>(DataManagerRequest queries)
         {
@@ -401,6 +484,11 @@ namespace Syncfusion.Blazor.Toolkit.Data
             return await ExecuteQuery<T>(queries).ConfigureAwait(false);
         }
 
+        /// <summary>
+        /// Handles offline mode data processing: fetches remote data, caches it in <see cref="Json"/>,
+        /// switches to a local <see cref="BlazorAdaptor"/>, then re-executes the query against the cached data.
+        /// </summary>
+        /// <exclude />
         internal async Task<object> ProcessOfflineAsync<T>(DataManagerRequest queries)
         {
             // Fetch remote data
@@ -444,6 +532,10 @@ namespace Syncfusion.Blazor.Toolkit.Data
             }
         }
 
+        /// <summary>
+        /// Initializes the default <see cref="BlazorAdaptor"/> for this DataManager.
+        /// </summary>
+        /// <exclude />
         internal void InitDataManagerAdaptor()
         {
             DataAdaptor = new BlazorAdaptor(this);
@@ -477,117 +569,208 @@ namespace Syncfusion.Blazor.Toolkit.Data
         /// <summary>
         /// Specifies the records to skip.
         /// </summary>
+        /// <value>
+        /// An <see cref="int"/> representing the number of records to skip from the beginning of the result set.
+        /// Use with <see cref="Take"/> to implement pagination. Defaults to <c>0</c>.
+        /// </value>
         [JsonPropertyName("skip")]
         public int Skip { get; set; }
 
         /// <summary>
         /// Specifies the records to take.
         /// </summary>
+        /// <value>
+        /// An <see cref="int"/> representing the maximum number of records to return. Use with <see cref="Skip"/> to implement pagination.
+        /// A value of <c>0</c> means return all records. Defaults to <c>0</c>.
+        /// </value>
         [JsonPropertyName("take")]
         public int Take { get; set; }
 
         /// <summary>
         /// Specifies the anti-forgery key.
         /// </summary>
-        /// <exclude/>
+        /// <exclude />
         [JsonPropertyName("antiForgery")]
         public string AntiForgery { get; set; }
 
         /// <summary>
-        /// Sepcifies that the count is required in response.
+        /// Specifies that the count of records is required in the response.
         /// </summary>
+        /// <value>
+        /// <c>true</c> when the response should include the total count of matching records; otherwise, <c>false</c>.
+        /// Use this to enable pagination total display. Defaults to <c>false</c>.
+        /// </value>
         [JsonPropertyName("requiresCounts")]
         public bool RequiresCounts { get; set; }
 
         /// <summary>
         /// Specifies the table name.
         /// </summary>
+        /// <value>The name of the table to query. This is used when the data source is a relational database.</value>
+        /// <remarks>
+        /// When the <see cref="DataManager"/> connects to a remote data source, this property specifies
+        /// the table or view name to query. For OData services, this corresponds to the entity set name.
+        /// </remarks>
         [JsonPropertyName("table")]
         public string Table { get; set; }
 
         /// <summary>
         /// Specifies the parent id mapping value.
         /// </summary>
+        /// <value>The name of the foreign key column that maps parent records to child records in hierarchical data.</value>
+        /// <remarks>
+        /// Use this property when working with self-referential data or tree structures where records
+        /// have a parent-child relationship. The mapping enables operations like flatting hierarchical data
+        /// or building parent-child relationships in the resulting dataset.
+        /// </remarks>
         [JsonPropertyName("IdMapping")]
         public string IdMapping { get; set; }
 
         /// <summary>
         /// Specifies the grouped column details.
         /// </summary>
+        /// <value>An array of field names by which records are grouped in the result set.</value>
+        /// <remarks>
+        /// When performing remote group operations, this property contains the column names
+        /// that specify which fields to group by. Use this to organize records into hierarchical
+        /// structures based on common field values.
+        /// </remarks>
         [JsonPropertyName("group")]
         public List<string> Group { get; set; }
 
         /// <summary>
         /// Specifies the select column details.
         /// </summary>
+        /// <value>An array of field names to include in the result, enabling projection of specific columns.</value>
+        /// <remarks>
+        /// Use this property to specify which columns to retrieve from the data source. This is useful
+        /// for reducing bandwidth when you only need specific fields rather than entire records.
+        /// </remarks>
         [JsonPropertyName("select")]
         public List<string> Select { get; set; }
 
         /// <summary>
         /// Specifies the relational table names to be eagerloaded.
         /// </summary>
+        /// <value>An array of related table or navigation property names to include in the query.</value>
+        /// <remarks>
+        /// Use this property to perform eager loading of related entities. This reduces the number
+        /// of database queries by including related data in a single query using joins or expansions.
+        /// </remarks>
         [JsonPropertyName("expand")]
         public List<string> Expand { get; set; }
 
         /// <summary>
-        /// Speccifies the sort criteria.
+        /// Specifies the sort criteria.
         /// </summary>
+        /// <value>A list of <see cref="Sort"/> objects defining the sort order for the result set.</value>
+        /// <remarks>
+        /// Use this property to define one or more sort operations to apply to the data.
+        /// Each <see cref="Sort"/> specifies a field name and whether to sort in ascending or descending order.
+        /// </remarks>
         [JsonPropertyName("sorted")]
         public List<Sort> Sorted { get; set; }
 
         /// <summary>
         /// Specifies the search criteria.
         /// </summary>
+        /// <value>A list of <see cref="SearchFilter"/> objects defining search conditions to apply.</value>
+        /// <remarks>
+        /// Use this property to define search operations that filter records based on text matching.
+        /// Each <see cref="SearchFilter"/> specifies the field name, operator, and value to search for.
+        /// </remarks>
         [JsonPropertyName("search")]
         public List<SearchFilter> Search { get; set; }
 
         /// <summary>
         /// Specifies the filter criteria.
         /// </summary>
+        /// <value>A list of <see cref="WhereFilter"/> objects defining the conditions for filtering records.</value>
+        /// <remarks>
+        /// Use this property to define complex filter expressions that combine multiple conditions using
+        /// logical operators. Each <see cref="WhereFilter"/> specifies a field, operator, and value to filter by.
+        /// </remarks>
         [JsonPropertyName("where")]
         public List<WhereFilter> Where { get; set; }
 
         /// <summary>
         /// Specifies the aggregate details.
         /// </summary>
+        /// <value>A list of <see cref="Aggregate"/> objects defining the aggregation functions to compute.</value>
+        /// <remarks>
+        /// Use this property to specify aggregate operations like sum, average, count, min, or max
+        /// to compute over the result set. Aggregates are computed after filtering and sorting.
+        /// </remarks>
         [JsonPropertyName("aggregates")]
         public List<Aggregate> Aggregates { get; set; }
 
         /// <summary>
         /// Specifies additional parameters.
         /// </summary>
+        /// <value>A dictionary of custom key-value pairs to include with the data request.</value>
+        /// <remarks>
+        /// Use this property to pass additional custom parameters that the data source may require.
+        /// These parameters are sent along with the request and can be used for authentication,
+        /// pagination, or any other custom server-side logic.
+        /// </remarks>
         [JsonPropertyName("params")]
         public IDictionary<string, object> Params { get; set; }
 
         /// <summary>
         /// Specifies the field names to find distinct values.
         /// </summary>
+        /// <value>An array of field names for which distinct values should be returned.</value>
+        /// <remarks>
+        /// Use this property to retrieve only unique values for specified fields from the data source.
+        /// This is useful for populating dropdown lists or eliminating duplicate entries.
+        /// </remarks>
         [JsonPropertyName("distinct")]
         public List<string> Distinct { get; set; }
 
         /// <summary>
         /// Holds field and format method to handle group by format.
         /// </summary>
+        /// <value>A dictionary mapping field names to format method strings for custom group formatting.</value>
+        /// <remarks>
+        /// Use this property to define custom formatting logic for grouped data. The key is the field
+        /// name and the value is the format method to apply when rendering group headers or values.
+        /// </remarks>
         public IDictionary<string, string> GroupByFormatter { get; set; }
 
         /// <summary>
         /// Specifies that perform in-built grouping.
         /// </summary>
+        /// <value>
+        /// <c>true</c> to enable built-in grouping functionality; <c>false</c> to use custom grouping.
+        /// When <c>true</c>, the <see cref="DataManager"/> handles group operations automatically. Defaults to <c>true</c>.
+        /// </value>
         public bool ServerSideGroup { get; set; } = true;
 
         /// <summary>
-        /// Sepcifies that the filtered records is required in response.
+        /// Specifies that the filtered records is required in response.
         /// </summary>
+        /// <value>
+        /// <c>true</c> when the response should include filtered records; otherwise, <c>false</c>.
+        /// Enable this when you need both the filtered result set and the total count of matching records.
+        /// </value>
         public bool RequiresFilteredRecords { get; set; }
 
         /// <summary>
         /// Specifies that perform lazy load grouping.
         /// </summary>
+        /// <value>
+        /// <c>true</c> to enable lazy load grouping; <c>false</c> to load all grouped data at once.
+        /// When enabled, child groups are loaded on-demand as the parent group is expanded. Defaults to <c>false</c>.
+        /// </value>
         public bool LazyLoad { get; set; }
 
         /// <summary>
         /// Specifies that to perform expand all for lazy load grouping.
         /// </summary>
+        /// <value>
+        /// <c>true</c> to expand all groups initially; <c>false</c> to collapse all groups.
+        /// When <see cref="LazyLoad"/> is enabled, this property controls whether groups start expanded or collapsed. Defaults to <c>false</c>.
+        /// </value>
         public bool LazyExpandAllGroup { get; set; }
     }
 
@@ -599,14 +782,23 @@ namespace Syncfusion.Blazor.Toolkit.Data
     /// <see cref="OwningComponentBase"></see> so that
     /// services can be accessed from <see cref="OwningComponentBase.ScopedServices"/> property.
     /// </remarks>
+    /// <exclude />
     public abstract class DataAdaptor : OwningComponentBase, IDataAdaptor
     {
+        /// <summary>
+        /// JSON serializer options used for serializing adaptor data.
+        /// </summary>
+        /// <exclude />
         internal static JsonSerializerOptions _serializeOptions = new()
         {
             WriteIndented = true,
             ReferenceHandler = ReferenceHandler.Preserve
         };
 
+        /// <summary>
+        /// Reference to the parent BaseComponent that owns this adaptor.
+        /// </summary>
+        /// <exclude />
         internal BaseComponent? _parent;
 
         /// <summary>
@@ -618,12 +810,17 @@ namespace Syncfusion.Blazor.Toolkit.Data
             _parent = parent;
         }
 
+        /// <summary>
+        /// Cascading parameter providing access to the parent SfDataManager instance.
+        /// </summary>
+        /// <exclude />
         [CascadingParameter]
         internal SfDataManager? DataManager { get; set; }
 
         /// <summary>
         /// Performs component initialization for the data adaptor.
         /// </summary>
+        /// <exclude />
         protected override async Task OnInitializedAsync()
         {
             if (DataManager!.AdaptorInstance == null)
@@ -655,16 +852,29 @@ namespace Syncfusion.Blazor.Toolkit.Data
     /// <see cref="OwningComponentBase{TService}"></see> so that
     /// services can be accessed from <see cref="OwningComponentBase{TService}.Service"/> property.
     /// </remarks>
+    /// <exclude />
     public abstract class DataAdaptor<T> : OwningComponentBase<T>, IDataAdaptor
     {
+        /// <summary>
+        /// JSON serializer options used for serializing adaptor data.
+        /// </summary>
+        /// <exclude />
         internal static JsonSerializerOptions _serializeOptions = new()
         {
             WriteIndented = true,
             ReferenceHandler = ReferenceHandler.Preserve
         };
 
+        /// <summary>
+        /// Reference to the parent BaseComponent that owns this adaptor.
+        /// </summary>
+        /// <exclude />
         internal BaseComponent? Parent { get; set; }
 
+        /// <summary>
+        /// Cascading parameter providing access to the parent SfDataManager instance.
+        /// </summary>
+        /// <exclude />
         [CascadingParameter]
         internal SfDataManager DataManager { get; set; }
 
@@ -680,6 +890,7 @@ namespace Syncfusion.Blazor.Toolkit.Data
         /// <summary>
         /// Performs component initialization for the data adaptor.
         /// </summary>
+        /// <exclude />
         protected override async Task OnInitializedAsync()
         {
             await base.OnInitializedAsync().ConfigureAwait(false);
@@ -697,18 +908,31 @@ namespace Syncfusion.Blazor.Toolkit.Data
     }
     internal class ForeignKeySortManager : IComparer<object>
     {
+        /// <exclude />
         [JsonIgnore]
         internal string ForeignKeyField { get; }
+
+        /// <exclude />
         [JsonIgnore]
         internal string ForeignKeyValue { get; }
+
+        /// <exclude />
         [JsonIgnore]
         internal IEnumerable<object> ForeignKeyDataSource { get; }
 
+        /// <exclude />
         private readonly Dictionary<string, ConcurrentDictionary<object?, object?>> _lookups = [];
+
+        /// <exclude />
         private readonly Dictionary<string, Func<object, object?>> _fieldGetters = [];
+
+        /// <exclude />
         private readonly Dictionary<string, Func<object, object?>> _valueGetters = [];
+
+        /// <exclude />
         private Func<object, object?>? _displayGetter;
 
+        /// <exclude />
         private static readonly ConcurrentDictionary<string, Func<object?, object?>> _getterCache = new();
 
         internal ForeignKeySortManager(string foreignKeyField, string foreignKeyValue, IEnumerable<object> foreignKeyDataSource)
@@ -848,16 +1072,22 @@ namespace Syncfusion.Blazor.Toolkit.Data
         /// <summary>
         /// Gets the field name.
         /// </summary>
+        /// <value>The name of the data field to sort by.</value>
         public string Name { get; set; }
 
         /// <summary>
         /// Gets the sort direction.
         /// </summary>
+        /// <value>
+        /// The sort direction: "ascending" for A-Z order, "descending" for Z-A order.
+        /// Defaults to "ascending" when not specified.
+        /// </value>
         public string Direction { get; set; }
 
         /// <summary>
-        /// Gets the sort comparer
+        /// Gets the sort comparer.
         /// </summary>
+        /// <exclude />
         public object Comparer { get; set; }
     }
 
@@ -869,21 +1099,31 @@ namespace Syncfusion.Blazor.Toolkit.Data
         /// <summary>
         /// Collection of fields to search.
         /// </summary>
+        /// <value>An array of field names to search across. Multiple fields allow searching in multiple columns simultaneously.</value>
         public List<string> Fields { get; set; }
 
         /// <summary>
         /// Specifies the search key.
         /// </summary>
+        /// <value>The search term to match against the specified fields.</value>
         public string Key { get; set; }
 
         /// <summary>
         /// Specifies the search operator. By default, contains operator will be used.
         /// </summary>
+        /// <value>
+        /// The operator used for the search comparison. Defaults to "contains" if not specified.
+        /// Common operators include "startswith", "endswith", "equals", "contains".
+        /// </value>
         public string Operator { get; set; }
 
         /// <summary>
         /// Specifies that incasesensitive search to be done.
         /// </summary>
+        /// <value>
+        /// <c>true</c> to perform case-insensitive search; <c>false</c> for case-sensitive.
+        /// Defaults to <c>false</c>. Only applies when the field type is string.
+        /// </value>
         public bool IgnoreCase { get; set; }
         /// <summary>
         /// Gets or sets a value indicating whether to ignore accent marks and diacritic characters during search operations.
@@ -925,42 +1165,81 @@ namespace Syncfusion.Blazor.Toolkit.Data
         /// <summary>
         /// Specifies the field name.
         /// </summary>
+        /// <value>
+        /// The name of the data field to filter on. Use dot notation for nested properties.
+        /// </value>
         [JsonPropertyName("field")]
         public string Field { get; set; }
 
         /// <summary>
-        /// Specifies that filter should be incasesensitive.
-        /// </summary>
-        [JsonPropertyName("ignoreCase")]
-        public bool IgnoreCase { get; set; }
+            /// Specifies that filter should be incasesensitive.
+            /// </summary>
+            /// <value>
+            /// <c>true</c> to perform case-insensitive string comparison; <c>false</c> for case-sensitive.
+            /// Defaults to <c>false</c>. Only applies when the field type is string.
+            /// </value>
+            /// <remarks>
+            /// When filtering string fields, enable this property to ignore character casing during comparison.
+            /// For example, filtering with "apple" would match "Apple", "APPLE", and "apple".
+            /// </remarks>
+            [JsonPropertyName("ignoreCase")]
+            public bool IgnoreCase { get; set; }
 
         /// <summary>
         /// Specifies that ignore accent/diacritic letters while searching.
         /// </summary>
+        /// <value>
+        /// <c>true</c> to ignore accent marks and diacritic letters; <c>false</c> for exact matching.
+        /// Defaults to <c>false</c>. Enable this for locale-aware text filtering.
+        /// </value>
+        /// <remarks>
+        /// When enabled, characters like 'é' would match 'e', 'ñ' would match 'n', etc.
+        /// Useful for search functionality in applications that support multiple languages.
+        /// </remarks>
         [JsonPropertyName("ignoreAccent")]
         public bool IgnoreAccent { get; set; }
 
         /// <summary>
-        /// When true it specifies that the filter criteria is a complex one.
+        /// Indicates whether this filter contains nested predicates.
         /// </summary>
+        /// <value>
+        /// <c>true</c> when the filter has child predicates; otherwise <c>false</c>.
+        /// </value>
         [JsonPropertyName("isComplex")]
         public bool IsComplex { get; set; }
 
         /// <summary>
         /// Gets the filter operator.
         /// </summary>
+        /// <value>The operator used to compare the field value. Common operators include "equals", "contains", "greaterthan", "lessthan".</value>
+        /// <remarks>
+        /// Supported operators vary by data source type. For remote data, OData operators like "eq", "contains", "startswith" are used.
+        /// Local data operations support operators like "equals", "notequal", "contains", "startswith", "endswith".
+        /// </remarks>
         [JsonPropertyName("operator")]
         public string Operator { get; set; }
 
         /// <summary>
         /// Provides the complex filter merge condition.
         /// </summary>
+        /// <value>
+        /// The logical operator to combine predicates: "and" or "or". Defaults to "and" when combining multiple conditions.
+        /// </value>
+        /// <remarks>
+        /// This property is used when <see cref="IsComplex"/> is <c>true</c> to determine how multiple
+        /// filter conditions in <see cref="Predicates"/> are combined.
+        /// </remarks>
         [JsonPropertyName("condition")]
         public string Condition { get; set; }
 
         /// <summary>
         /// Specifies the filter value.
         /// </summary>
+        /// <value>The value to compare against the field. The type should match the data type of the field.</value>
+        /// <remarks>
+        /// For numeric fields, this should be a number. For string fields, it should be a string.
+        /// For date fields, use a DateTime value. Complex types can be used for advanced filtering scenarios.
+        /// </remarks>
         [JsonPropertyName("value")]
         public object value { get; set; }
 
@@ -1423,7 +1702,7 @@ namespace Syncfusion.Blazor.Toolkit.Data
     /// <summary>
     /// Provide adaptor information which sends to client side.
     /// </summary>
-    /// <exclude/>
+    /// <exclude />
     public class DefaultAdaptor
     {
         /// <summary>
@@ -1531,7 +1810,7 @@ namespace Syncfusion.Blazor.Toolkit.Data
     /// <summary>
     /// Handles custom adaptor logic.
     /// </summary>
-    /// <exclude/>
+    /// <exclude />
     public class BaseAdaptor
     {
         /// <summary>

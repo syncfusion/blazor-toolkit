@@ -22,19 +22,29 @@ namespace Syncfusion.Blazor.Toolkit.Buttons
     {
         #region Fields
 
-        // Unique name used for input elements when none is provided by the consumer.
+        /// <exclude />
+        /// <summary>
+        /// Unique name used for input elements when none is provided by the consumer.
+        /// </summary>
         internal readonly string _inputName = SfBaseUtils.GenerateID("SfButtonGroup");
 
-        // Registered child buttons in the group.
+        /// <exclude />
+        /// <summary>
+        /// Registered child buttons in the group.
+        /// </summary>
         internal List<Button>? _buttonItems = [];
 
-        // Indicates that a click originated from a child and is being processed.
+        /// <exclude />
+        /// <summary>
+        /// Indicates that a click originated from a child and is being processed.
+        /// </summary>
         internal bool _isClicked;
 
         #endregion
 
         #region Helper Methods
 
+        /// <exclude />
         /// <summary>
         /// Registers a child <see cref="Button"/> with this group.
         /// </summary>
@@ -61,6 +71,7 @@ namespace Syncfusion.Blazor.Toolkit.Buttons
             }
         }
 
+        /// <exclude />
         /// <summary>
         /// Unregisters a child <see cref="Button"/> from this group.
         /// </summary>
@@ -84,6 +95,7 @@ namespace Syncfusion.Blazor.Toolkit.Buttons
             }
         }
 
+        /// <exclude />
         /// <summary>
         /// Builds the CSS class string for the ButtonGroup based on configuration.
         /// </summary>
@@ -113,6 +125,7 @@ namespace Syncfusion.Blazor.Toolkit.Buttons
             return string.Join(" ", classes);
         }
 
+        /// <exclude />
         /// <summary>
         /// Merges HTML attributes with default attributes for the root element.
         /// </summary>

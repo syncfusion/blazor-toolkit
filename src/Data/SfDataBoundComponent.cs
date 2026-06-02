@@ -22,13 +22,25 @@ namespace Syncfusion.Blazor.Toolkit.Data
         /// </summary>
         protected virtual SfBaseComponent? MainParent { get; set; }
 
+        /// <summary>
+        /// Tracks parameter keys passed directly to the component for change detection.
+        /// </summary>
+        /// <exclude />
         internal List<string> DirectParamKeys { get; set; } = [];
 
+        /// <summary>
+        /// Stores parameter values passed directly to the component.
+        /// </summary>
+        /// <exclude />
         internal Dictionary<string, object> DirectParameters { get; set; } = [];
 
+        /// <summary>
+        /// Indicates whether the component is in a re-rendering cycle.
+        /// </summary>
+        /// <exclude />
         internal bool IsRerendering { get; set; }
 
-        /// <exclude/>
+        /// <exclude />
         public override Task SetParametersAsync(ParameterView parameters)
         {
             parameters.SetParameterProperties(this);
@@ -119,6 +131,7 @@ namespace Syncfusion.Blazor.Toolkit.Data
             }
         }
 
+        /// <exclude />
         internal async Task OnPropertyChangedAsync()
         {
             await OnParametersSetAsync().ConfigureAwait(false);
