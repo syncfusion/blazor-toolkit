@@ -36,19 +36,38 @@ namespace Syncfusion.Blazor.Toolkit.Charts
 
         #region Private Fields
 
-        private int _pendingParametersSetCount;
-        private string _svgCursor = "auto";
-        private bool _shouldChartRender = true;
-        private bool _isSizeSet;
-        private bool _updateDataSource = true;
-        private Size _availableSize = new(600, 450);
-        private Rect? _initialRect;
-        private List<ChartSelectedDataIndex>? _selectedDataIndexes;
-        private DateTime _previousMouseMoveReqTime = DateTime.MinValue;
-        private DateTime _previousRequestTime = DateTime.MinValue;
+        internal class InteractionState
+        {
+            public string SvgCursor { get; set; } = "auto";
+            public DateTime PreviousMouseMoveReqTime { get; set; } = DateTime.MinValue;
+        }
 
-        private IJSObjectReference? _svgJsModule;
-        private IJSInProcessObjectReference? _svgJsInProcessModule;
+        internal class RenderState
+        {
+            public bool ShouldChartRender { get; set; } = true;
+            public bool IsSizeSet { get; set; }
+            public Size AvailableSize { get; set; } = new(600, 450);
+            public Rect? InitialRect { get; set; }
+        }
+
+        internal class DataState
+        {
+            public bool UpdateDataSource { get; set; } = true;
+            public List<ChartSelectedDataIndex>? SelectedDataIndexes { get; set; }
+        }
+
+        internal class JsInteropState
+        {
+            public int PendingParametersSetCount { get; set; }
+            public DateTime PreviousRequestTime { get; set; } = DateTime.MinValue;
+            public IJSObjectReference? SvgJsModule { get; set; }
+            public IJSInProcessObjectReference? SvgJsInProcessModule { get; set; }
+        }
+
+        private readonly InteractionState _interaction = new();
+        private readonly RenderState _render = new();
+        private readonly DataState _currentData = new();
+        private readonly JsInteropState _interop = new();
 
         #endregion
 
@@ -240,13 +259,13 @@ namespace Syncfusion.Blazor.Toolkit.Charts
         /// </summary>
         internal Size AvailableSize
         {
-            get => _availableSize;
+            get => _render.AvailableSize;
             set
             {
-                if (_availableSize != value)
+                if (_render.AvailableSize != value)
                 {
-                    _availableSize = value;
-                    _isSizeSet = true;
+                    _render.AvailableSize = value;
+                    _render.IsSizeSet = true;
                 }
             }
         }
@@ -256,13 +275,13 @@ namespace Syncfusion.Blazor.Toolkit.Charts
         /// </summary>
         internal Rect InitialRect
         {
-            get => _initialRect ?? null!;
+            get => _render.InitialRect ?? null!;
             set
             {
-                if (_initialRect != value)
+                if (_render.InitialRect != value)
                 {
-                    _initialRect = value;
-                    _isSizeSet = true;
+                    _render.InitialRect = value;
+                    _render.IsSizeSet = true;
                 }
             }
         }
@@ -661,7 +680,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts
         {
             if (_shouldAnimateSeries && !IsDisposed)
             {
-                _previousRequestTime = DateTime.Now;
+                _interop.PreviousRequestTime = DateTime.Now;
                 await Task.Delay(UpdateThresholdMs).ConfigureAwait(true);
                 List<InitialAnimationInfo> animationInfo = [];
                 _seriesContainer?.PerformAnimation(animationInfo);
@@ -678,8 +697,8 @@ namespace Syncfusion.Blazor.Toolkit.Charts
         {
             if (_selectionModule is not null)
             {
-                _selectedDataIndexes = [];
-                _selectedDataIndexes = _selectionModule.SelectedDataIndexes.GetRange(0, _selectionModule.SelectedDataIndexes.Count);
+                _currentData.SelectedDataIndexes = [];
+                _currentData.SelectedDataIndexes = _selectionModule.SelectedDataIndexes.GetRange(0, _selectionModule.SelectedDataIndexes.Count);
 
                 _selectionModule.InvokeSelection();
                 _selectionModule.AppendSelectionPattern();
@@ -691,9 +710,9 @@ namespace Syncfusion.Blazor.Toolkit.Charts
                 _highlightModule.AppendSelectionPattern();
             }
 
-            if (_selectionModule is not null && _selectedDataIndexes?.Count > 0)
+            if (_selectionModule is not null && _currentData.SelectedDataIndexes?.Count > 0)
             {
-                _selectionModule.SelectedDataIndexes = _selectedDataIndexes.GetRange(0, _selectedDataIndexes.Count);
+                _selectionModule.SelectedDataIndexes = _currentData.SelectedDataIndexes.GetRange(0, _currentData.SelectedDataIndexes.Count);
                 _ = _selectionModule.RedrawSelectionAsync();
             }
         }
@@ -974,7 +993,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts
         /// </summary>
         void ISubcomponentTracker.PushSubcomponent()
         {
-            _pendingParametersSetCount++;
+            _interop.PendingParametersSetCount++;
         }
 
         /// <summary>
@@ -982,8 +1001,8 @@ namespace Syncfusion.Blazor.Toolkit.Charts
         /// </summary>
         void ISubcomponentTracker.PopSubcomponent()
         {
-            _pendingParametersSetCount--;
-            if (_pendingParametersSetCount == 0)
+            _interop.PendingParametersSetCount--;
+            if (_interop.PendingParametersSetCount == 0)
             {
                 RenderFrame();
             }
@@ -1286,10 +1305,10 @@ namespace Syncfusion.Blazor.Toolkit.Charts
         {
             _neededRenderers.Clear();
             InitiAxis();
-            if (_isSizeSet && _pendingParametersSetCount == 0)
+            if (_render.IsSizeSet && _interop.PendingParametersSetCount == 0)
             {
                 ProcessData();
-                await GetOtherLanguageCharSizeAsync(_updateDataSource).ConfigureAwait(true);
+                await GetOtherLanguageCharSizeAsync(_currentData.UpdateDataSource).ConfigureAwait(true);
                 SetContainerSize();
                 Rect initialClipRect = InitialRect;
 
@@ -1677,7 +1696,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts
         {
             try
             {
-                if (!_isSizeSet)
+                if (!_render.IsSizeSet)
                 {
                     CalculateAvailableSize();
                     SetInitialRect();
@@ -1763,9 +1782,9 @@ namespace Syncfusion.Blazor.Toolkit.Charts
         /// <returns>A task that represents the asynchronous operation.</returns>
         internal async Task PerformRedrawAnimationAsync()
         {
-            if (_redraw && !IsDisposed && (_previousRequestTime == DateTime.MinValue || (DateTime.Now - _previousRequestTime).TotalMilliseconds > UpdateThresholdMs))
+            if (_redraw && !IsDisposed && (_interop.PreviousRequestTime == DateTime.MinValue || (DateTime.Now - _interop.PreviousRequestTime).TotalMilliseconds > UpdateThresholdMs))
             {
-                _previousRequestTime = DateTime.Now;
+                _interop.PreviousRequestTime = DateTime.Now;
                 await Task.Delay(UpdateThresholdMs).ConfigureAwait(true);
                 _redraw = false;
                 await InvokeVoidAsync(_chartJsModule!, _chartJsInProcessModule!, "doDynamicAnimation", [_pathAnimationElements.Values.ToArray(), _rectAnimationElements, _textAnimationElements.Values.ToArray(), _dynamicLastLabels]).ConfigureAwait(true);
@@ -2015,9 +2034,9 @@ namespace Syncfusion.Blazor.Toolkit.Charts
         internal async Task DelayLayoutChangeAsync(bool isZoom = false)
         {
             _isLayoutChange = true;
-            if (!IsDisposed && (_previousRequestTime == DateTime.MinValue || (DateTime.Now - _previousRequestTime).TotalMilliseconds > UpdateThresholdMs))
+            if (!IsDisposed && (_interop.PreviousRequestTime == DateTime.MinValue || (DateTime.Now - _interop.PreviousRequestTime).TotalMilliseconds > UpdateThresholdMs))
             {
-                _previousRequestTime = DateTime.Now;
+                _interop.PreviousRequestTime = DateTime.Now;
                 await Task.Delay(UpdateThresholdMs).ConfigureAwait(true);
                 if (isZoom && _zoomingModule is not null)
                 {
@@ -2041,7 +2060,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts
         /// <param name="skip">Whether to skip secondary element position calculation and tooltip updates.</param>
         internal void OnLayoutChange(bool skip = false)
         {
-            if (_isSizeSet && _isChartFirstRender)
+            if (_render.IsSizeSet && _isChartFirstRender)
             {
                 UpdateRenderers(skip);
                 ApplyZoomkit();
@@ -2241,7 +2260,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts
             {
                 return;
             }
-            _svgCursor = cursor;
+            _interaction.SvgCursor = cursor;
             _ = SetAttributeAsync(SvgId(), "cursor", cursor, isKeyboardFocused ? ID : string.Empty);
         }
 
@@ -2295,9 +2314,9 @@ namespace Syncfusion.Blazor.Toolkit.Charts
         {
             const int UPDATETHRESHOLD = 10;
             _isLayoutChange = true;
-            if (!IsDisposed && IsRendered && (_previousRequestTime == DateTime.MinValue || (DateTime.Now - _previousRequestTime).TotalMilliseconds > UPDATETHRESHOLD))
+            if (!IsDisposed && IsRendered && (_interop.PreviousRequestTime == DateTime.MinValue || (DateTime.Now - _interop.PreviousRequestTime).TotalMilliseconds > UPDATETHRESHOLD))
             {
-                _previousRequestTime = DateTime.Now;
+                _interop.PreviousRequestTime = DateTime.Now;
                 if (JSRuntime is not JSInProcessRuntime || !_isLiveChart)
                 {
                     await Task.Delay(UPDATETHRESHOLD).ConfigureAwait(true);
@@ -2324,7 +2343,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts
                 InitiAxis();
                 _seriesContainer?.InitSeriesRendererFields();
                 ProcessData();
-                await GetOtherLanguageCharSizeAsync(_updateDataSource).ConfigureAwait(true);
+                await GetOtherLanguageCharSizeAsync(_currentData.UpdateDataSource).ConfigureAwait(true);
                 _isRefreshed = true;
                 UpdateRenderers();
                 PerformSelection();

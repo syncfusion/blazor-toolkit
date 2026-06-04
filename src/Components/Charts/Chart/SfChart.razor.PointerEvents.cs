@@ -150,9 +150,9 @@ namespace Syncfusion.Blazor.Toolkit.Charts
                 await HandleLegendClickAsync(args).ConfigureAwait(true);
             }
 
-            if (!_isTouch && !_isLegendClick && (_previousMouseMoveReqTime == DateTime.MinValue || (DateTime.Now - _previousMouseMoveReqTime).TotalMilliseconds >= Constants.UpdateThersholdMs))
+            if (!_isTouch && !_isLegendClick && (_interaction.PreviousMouseMoveReqTime == DateTime.MinValue || (DateTime.Now - _interaction.PreviousMouseMoveReqTime).TotalMilliseconds >= Constants.UpdateThersholdMs))
             {
-                _previousMouseMoveReqTime = DateTime.Now;
+                _interaction.PreviousMouseMoveReqTime = DateTime.Now;
                 _isLegendClick = true;
             }
         }

@@ -137,12 +137,14 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
             if (rangePadding == ChartRangePadding.Round)
             {
                 Min = GetTime(new DateTime(minimum.Year, minimum.Month, minimum.Day, hour, 0, 0));
-                Max = GetTime(new DateTime(maximum.Year, maximum.Month, maximum.Day, endHour, 59, 59));
+                Max = GetTime(new DateTime(maximum.Year, maximum.Month, maximum.Day, Math.Min(endHour, 23), 59, 59));
             }
             else
             {
-                Min = GetTime(new DateTime(minimum.Year, minimum.Month, minimum.Day, hour + (int)-interval, 0, 0));
-                Max = GetTime(new DateTime(maximum.Year, maximum.Month, maximum.Day, endHour + (int)interval, 0, 0));
+                DateTime minDateTime = new DateTime(minimum.Year, minimum.Month, minimum.Day, hour, 0, 0).AddHours((int)-interval);
+                DateTime maxDateTime = new DateTime(maximum.Year, maximum.Month, maximum.Day, endHour, 0, 0).AddHours((int)interval);
+                Min = GetTime(minDateTime);
+                Max = GetTime(maxDateTime);
             }
         }
 
@@ -194,12 +196,14 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
             if (rangePadding == ChartRangePadding.Round)
             {
                 Min = GetTime(new DateTime(minimum.Year, minimum.Month, minimum.Day, minimum.Hour, minute, 0));
-                Max = GetTime(new DateTime(maximum.Year, maximum.Month, minimum.Day, maximum.Hour, endMinute, 59));
+                Max = GetTime(new DateTime(maximum.Year, maximum.Month, minimum.Day, maximum.Hour, Math.Min(endMinute, 59), 59));
             }
             else
             {
-                Min = GetTime(new DateTime(minimum.Year, maximum.Month, minimum.Day, minimum.Hour, minute + (int)-interval, 0));
-                Max = GetTime(new DateTime(maximum.Year, maximum.Month, maximum.Day, maximum.Hour, endMinute + (int)interval, 0));
+                DateTime minDateTime = new DateTime(minimum.Year, minimum.Month, minimum.Day, minimum.Hour, minute, 0).AddMinutes((int)-interval);
+                DateTime maxDateTime = new DateTime(maximum.Year, maximum.Month, maximum.Day, maximum.Hour, endMinute, 0).AddMinutes((int)interval);
+                Min = GetTime(minDateTime);
+                Max = GetTime(maxDateTime);
             }
         }
 
@@ -214,12 +218,14 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
             if (rangePadding == ChartRangePadding.Round)
             {
                 Min = GetTime(new DateTime(minimum.Year, minimum.Month, minimum.Day, minimum.Hour, minimum.Minute, second, 0));
-                Max = GetTime(new DateTime(maximum.Year, maximum.Month, maximum.Day, maximum.Hour, maximum.Minute, endSecond, 0));
+                Max = GetTime(new DateTime(maximum.Year, maximum.Month, maximum.Day, maximum.Hour, maximum.Minute, Math.Min(endSecond, 59), 0));
             }
             else
             {
-                Min = GetTime(new DateTime(minimum.Year, minimum.Month, minimum.Day, minimum.Hour, minimum.Minute, second + (int)-interval, 0));
-                Max = GetTime(new DateTime(maximum.Year, maximum.Month, maximum.Day, maximum.Hour, maximum.Minute, endSecond + (int)interval, 0));
+                DateTime minDateTime = new DateTime(minimum.Year, minimum.Month, minimum.Day, minimum.Hour, minimum.Minute, second, 0).AddSeconds((int)-interval);
+                DateTime maxDateTime = new DateTime(maximum.Year, maximum.Month, maximum.Day, maximum.Hour, maximum.Minute, endSecond, 0).AddSeconds((int)interval);
+                Min = GetTime(minDateTime);
+                Max = GetTime(maxDateTime);
             }
         }
 

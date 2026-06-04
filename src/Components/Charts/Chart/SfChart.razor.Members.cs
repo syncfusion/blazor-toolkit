@@ -18,23 +18,43 @@ namespace Syncfusion.Blazor.Toolkit.Charts
 
         #region Fields
 
-        private string _highlightColor = null!;
-        private string _background = string.Empty;
-        private string _title = string.Empty;
-        private string _subTitle = string.Empty;
-        private string _height = DefaultHeight;
-        private string _width = DefaultWidth;
-        private string[] _palettes = [];
-        private bool _isMultiSelect;
-        private bool _isTransposed;
-        private bool _enableSideBySidePlacement = true;
-        private bool _updateLayout;
-        private HighlightMode _highlightMode;
-        private ChartSelectionMode _selectionMode;
-        private SelectionPattern _selectionPattern;
-        private SelectionPattern _highlightPattern;
-        private IEnumerable<object> _dataSource = null!;
-        private Theme _theme = Theme.Fluent;
+        internal class AppearanceState
+        {
+            public string HighlightColor { get; set; } = null!;
+            public string Background { get; set; } = string.Empty;
+            public string Title { get; set; } = string.Empty;
+            public string SubTitle { get; set; } = string.Empty;
+            public string Height { get; set; } = DefaultHeight;
+            public string Width { get; set; } = DefaultWidth;
+            public string[] Palettes { get; set; } = [];
+            public Theme Theme { get; set; } = Theme.Fluent;
+        }
+
+        internal class LayoutState
+        {
+            public bool IsTransposed { get; set; }
+            public bool EnableSideBySidePlacement { get; set; } = true;
+            public bool UpdateLayout { get; set; }
+        }
+
+        internal class SelectionState
+        {
+            public bool IsMultiSelect { get; set; }
+            public HighlightMode HighlightMode { get; set; }
+            public ChartSelectionMode SelectionMode { get; set; }
+            public SelectionPattern SelectionPattern { get; set; }
+            public SelectionPattern HighlightPattern { get; set; }
+        }
+
+        internal class ChartDataState
+        {
+            public IEnumerable<object> DataSource { get; set; } = null!;
+        }
+
+        private readonly AppearanceState _appearance = new();
+        private readonly LayoutState _layout = new();
+        private readonly SelectionState _selection = new();
+        private readonly ChartDataState _data = new();
 
         #endregion
 
@@ -63,7 +83,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts
         /// </code>
         /// </example>
         [Parameter]
-        public string Height { get; set; } = null!;
+        public string Height { get; set; } = DefaultHeight;
 
         /// <summary> 
         /// Gets or sets the width of the chart as a string. 
@@ -542,7 +562,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts
                 await InvokeVoidAsync(_chartJsModule!, _chartJsInProcessModule!, Constants.SetHighlightSelectionOptions, [_dataId, GetSelectionHighlightOptions()]).ConfigureAwait(false);
                 if (is_selectionModule)
                 {
-                    await InvokeVoidAsync(_chartJsModule!, _chartJsInProcessModule!, Constants.SelectDataIndex, [_dataId, _selectedDataIndexes?.ToArray() ?? []]).ConfigureAwait(false);
+                    await InvokeVoidAsync(_chartJsModule!, _chartJsInProcessModule!, Constants.SelectDataIndex, [_dataId, _currentData.SelectedDataIndexes?.ToArray() ?? []]).ConfigureAwait(false);
                 }
             }
         }

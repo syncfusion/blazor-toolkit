@@ -128,7 +128,9 @@
                                  Fill="#0FAF9C"
                                  Type="ChartSeriesType.StepLine">
                         <ChartMarker IsFilled="true">
-                            <ChartDataLabel Visible="true" />
+                            <ChartDataLabel Visible="true">
+                                <ChartDataLabelFont Color="@TextColor"></ChartDataLabelFont>
+                            </ChartDataLabel>
                         </ChartMarker>
                     </ChartSeries>
                 
@@ -571,6 +573,7 @@
     private string AustraliaColor => IsDarkTheme ? "#EE884E" : "#E3651D";
     private string CustomizedSeriesColor =>
     IsDarkTheme ? "#F44F80" : "#D71D55";
+    private string TextColor => IsDarkTheme ? "#E6EEF8" : "#0B1F3B";
 
     // Current step position
     private StepPosition CurrentStepPosition { get; set; } = StepPosition.Left;

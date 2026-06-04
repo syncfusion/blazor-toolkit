@@ -9,20 +9,6 @@ namespace Syncfusion.Blazor.Toolkit.Charts
         #region Public Methods
 
         /// <summary>
-        /// The method is used to add the axes in chart.
-        /// </summary>
-        /// <param name="axisCollection">Specifies the chart axis collection.</param>
-        /// <exclude/>
-        [EditorBrowsable(EditorBrowsableState.Never)]
-        public static void AddAxes(List<ChartAxis> axisCollection)
-        {
-            if (axisCollection is null)
-            {
-                return;
-            }
-        }
-
-        /// <summary>
         /// The method is used to re-render the chart.
         /// </summary>
         /// <param name="shouldAnimate">Specifies whether the chart should animate during refresh.</param>
@@ -383,7 +369,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts
         /// </remarks>
         public void ClearSelection()
         {
-            if (_selectionModule is not null && _selectionMode != ChartSelectionMode.None)
+            if (_selectionModule is not null && _selection.SelectionMode != ChartSelectionMode.None)
             {
                 _selectionModule.PerformClearSelection();
             }
@@ -393,7 +379,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts
         /// Prevents the Chart render. This method will internally sets value to be returned from ShouldRender method.
         /// </summary>
         /// <param name="preventRender">Default value is true. Once PreventRender(true) called, component won't re-render until PreventRender(false) called.</param>
-        public void PreventRender(bool preventRender = true) => _shouldChartRender = !preventRender;
+        public void PreventRender(bool preventRender = true) => _render.ShouldChartRender = !preventRender;
 
         #endregion
     }

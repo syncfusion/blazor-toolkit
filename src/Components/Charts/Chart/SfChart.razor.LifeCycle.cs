@@ -38,24 +38,24 @@ namespace Syncfusion.Blazor.Toolkit.Charts
         /// <exclude />
         [EditorBrowsable(EditorBrowsableState.Never)]
         [Browsable(false)]
-        protected override void OnParametersSet()
+        protected override async Task OnParametersSetAsync()
         {
-            base.OnParametersSet();
+            await base.OnParametersSetAsync();
             ChartThemeStyle themeStyle = ChartHelper.GetChartThemeStyle(Theme.ToString());
             if (_chartThemeStyle != themeStyle)
             {
                 _chartThemeStyle = themeStyle;
             }
-            if (_updateLayout)
+            if (_layout.UpdateLayout)
             {
-                _updateLayout = false;
-                _ = OnDimensionChangedAsync();
+                _layout.UpdateLayout = false;
+                await OnDimensionChangedAsync();
             }
 
-            if (_isMultiSelect != AllowMultiSelection)
+            if (_selection.IsMultiSelect != AllowMultiSelection)
             {
-                _isMultiSelect = AllowMultiSelection;
-                _ = CallJSInteropForSelectionHighlightOptionAsync(_selectionModule is not null && _isScriptLoaded);
+                _selection.IsMultiSelect = AllowMultiSelection;
+                await CallJSInteropForSelectionHighlightOptionAsync(_selectionModule is not null && _isScriptLoaded);
                 if (_selectionModule is not null)
                 {
                     _selectionModule.ClearDraggedRects();
@@ -64,10 +64,10 @@ namespace Syncfusion.Blazor.Toolkit.Charts
                 }
             }
 
-            if (_highlightPattern != HighlightPattern)
+            if (_selection.HighlightPattern != HighlightPattern)
             {
-                _highlightPattern = HighlightPattern;
-                _ = CallJSInteropForSelectionHighlightOptionAsync();
+                _selection.HighlightPattern = HighlightPattern;
+                await CallJSInteropForSelectionHighlightOptionAsync();
                 if (_highlightModule is not null)
                 {
                     _highlightModule.CallSeriesStyles(false);
@@ -75,10 +75,10 @@ namespace Syncfusion.Blazor.Toolkit.Charts
                 }
             }
 
-            if (_selectionPattern != SelectionPattern)
+            if (_selection.SelectionPattern != SelectionPattern)
             {
-                _selectionPattern = SelectionPattern;
-                _ = CallJSInteropForSelectionHighlightOptionAsync();
+                _selection.SelectionPattern = SelectionPattern;
+                await CallJSInteropForSelectionHighlightOptionAsync();
                 if (_selectionModule is not null)
                 {
                     _selectionModule.CallSeriesStyles();
@@ -86,10 +86,10 @@ namespace Syncfusion.Blazor.Toolkit.Charts
                 }
             }
 
-            if (_highlightMode != HighlightMode)
+            if (_selection.HighlightMode != HighlightMode)
             {
-                _highlightMode = HighlightMode;
-                _ = CallJSInteropForSelectionHighlightOptionAsync(_selectionModule is not null && _isScriptLoaded);
+                _selection.HighlightMode = HighlightMode;
+                await CallJSInteropForSelectionHighlightOptionAsync(_selectionModule is not null && _isScriptLoaded);
                 if (_highlightModule is null && _isScriptLoaded)
                 {
                     _highlightModule = new Highlight(this)
@@ -104,10 +104,10 @@ namespace Syncfusion.Blazor.Toolkit.Charts
                 _highlightModule?.PropertyChanged();
             }
 
-            if (_selectionMode != SelectionMode)
+            if (_selection.SelectionMode != SelectionMode)
             {
-                _selectionMode = SelectionMode;
-                _ = CallJSInteropForSelectionHighlightOptionAsync(_selectionModule is null && _isScriptLoaded);
+                _selection.SelectionMode = SelectionMode;
+                await CallJSInteropForSelectionHighlightOptionAsync(_selectionModule is null && _isScriptLoaded);
                 if (_selectionModule is null && _isScriptLoaded)
                 {
                     _selectionModule = new Selection(this)
@@ -121,57 +121,57 @@ namespace Syncfusion.Blazor.Toolkit.Charts
                 _selectionModule?.ChartSelectionModeChanged();
             }
 
-            if (_enableSideBySidePlacement != EnableSideBySidePlacement)
+            if (_layout.EnableSideBySidePlacement != EnableSideBySidePlacement)
             {
-                _enableSideBySidePlacement = EnableSideBySidePlacement;
-                _updateLayout = true;
+                _layout.EnableSideBySidePlacement = EnableSideBySidePlacement;
+                _layout.UpdateLayout = true;
             }
 
-            if (_theme != Theme)
+            if (_appearance.Theme != Theme)
             {
-                _theme = Theme;
+                _appearance.Theme = Theme;
                 if (IsRendered)
                 {
-                    _chartThemeStyle = ChartHelper.GetChartThemeStyle(_theme.ToString());
+                    _chartThemeStyle = ChartHelper.GetChartThemeStyle(_appearance.Theme.ToString());
                     OnThemeChanged();
                 }
             }
 
-            if (_isTransposed != IsTransposed)
+            if (_layout.IsTransposed != IsTransposed)
             {
-                _isTransposed = IsTransposed;
+                _layout.IsTransposed = IsTransposed;
                 if (IsRendered)
                 {
                     InitiAxis();
-                    _updateLayout = IsRendered;
+                    _layout.UpdateLayout = IsRendered;
                 }
             }
 
-            if (_subTitle != SubTitle)
+            if (_appearance.SubTitle != SubTitle)
             {
-                _subTitle = SubTitle;
+                _appearance.SubTitle = SubTitle;
                 TitleChanged();
             }
 
-            if (_title != Title)
+            if (_appearance.Title != Title)
             {
-                _title = Title;
+                _appearance.Title = Title;
                 TitleChanged();
             }
 
-            if (_width != Width)
+            if (_appearance.Width != Width)
             {
-                _width = Width;
-                _updateLayout = IsRendered;
+                _appearance.Width = Width;
+                _layout.UpdateLayout = IsRendered;
             }
-            if (_height != Height)
+            if (_appearance.Height != Height)
             {
-                _height = Height;
-                _updateLayout = IsRendered;
+                _appearance.Height = Height;
+                _layout.UpdateLayout = IsRendered;
             }
-            if (_background != Background)
+            if (_appearance.Background != Background)
             {
-                _background = Background;
+                _appearance.Background = Background;
                 if (IsRendered && _chartBorderRenderer is not null)
                 {
                     _chartBorderRenderer.RendererShouldRender = true;
@@ -179,23 +179,23 @@ namespace Syncfusion.Blazor.Toolkit.Charts
                 }
             }
 
-            if (_highlightColor != HighlightColor)
+            if (_appearance.HighlightColor != HighlightColor)
             {
-                _highlightColor = HighlightColor;
-                _ = CallJSInteropForSelectionHighlightOptionAsync();
+                _appearance.HighlightColor = HighlightColor;
+                await CallJSInteropForSelectionHighlightOptionAsync();
                 _highlightModule?.CallSeriesStyles(false);
             }
 
-            if (_dataSource != DataSource)
+            if (_data.DataSource != DataSource)
             {
-                _dataSource = DataSource;
-                if (_dataSource is INotifyCollectionChanged notifyCollectionChanged)
+                _data.DataSource = DataSource;
+                if (_data.DataSource is INotifyCollectionChanged notifyCollectionChanged)
                 {
                     notifyCollectionChanged.CollectionChanged += DataCollectionChanged;
 
-                    if (_dataSource.Any() && _dataSource.First() is INotifyPropertyChanged)
+                    if (_data.DataSource.Any() && _data.DataSource.First() is INotifyPropertyChanged)
                     {
-                        foreach (INotifyPropertyChanged item in _dataSource.Cast<INotifyPropertyChanged>())
+                        foreach (INotifyPropertyChanged item in _data.DataSource.Cast<INotifyPropertyChanged>())
                         {
                             if (item is INotifyPropertyChanged notifyPropertyChanged)
                             {
@@ -206,14 +206,14 @@ namespace Syncfusion.Blazor.Toolkit.Charts
                 }
             }
 
-            if (!_palettes.SequenceEqual(Palettes))
+            if (!_appearance.Palettes.SequenceEqual(Palettes))
             {
                 if (Palettes is null)
                 {
                     return;
                 }
 
-                _palettes = Palettes.Clone() as string[] ?? [];
+                _appearance.Palettes = Palettes.Clone() as string[] ?? [];
             }
         }
 
@@ -240,7 +240,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts
                     return;
                 }
                 await ImportComponentModuleAsync().ConfigureAwait(true);
-                if (!_isSizeSet)
+                if (!_render.IsSizeSet)
                 {
                     await HandleInitialRenderAsync(firstRender).ConfigureAwait(true);
                 }
@@ -289,16 +289,16 @@ namespace Syncfusion.Blazor.Toolkit.Charts
         {
             if (IsRendered)
             {
-                _ = UnWireEventsAsync();
+                await UnWireEventsAsync();
                 _svgRenderer?.Dispose();
                 _pathAnimationElements?.Clear();
                 _textAnimationElements?.Clear();
                 _rectAnimationElements?.Clear();
                 _noDataTemplateContainer = null;
 
-                await DisposeJsModuleAsync(_svgJsModule, _svgJsInProcessModule).ConfigureAwait(false);
-                _svgJsModule = null;
-                _svgJsInProcessModule = null;
+                await DisposeJsModuleAsync(_interop.SvgJsModule, _interop.SvgJsInProcessModule).ConfigureAwait(false);
+                _interop.SvgJsModule = null;
+                _interop.SvgJsInProcessModule = null;
 
                 await DisposeJsModuleAsync(_chartJsModule, _chartJsInProcessModule).ConfigureAwait(false);
                 _chartJsModule = null;
@@ -382,14 +382,14 @@ namespace Syncfusion.Blazor.Toolkit.Charts
             UpdateClientSideScrollbar();
             if (!firstRender && _isLegendRendered)
             {
-                _ = UpdateLegendTemplateAsync();
+                await UpdateLegendTemplateAsync();
             }
             if (_zoomingModule is not null && !string.IsNullOrEmpty(_zoomingKeyboardFocusTarget))
             {
                 await InvokeVoidAsync(_chartJsModule, _chartJsInProcessModule, Constants.FocusTarget, [_zoomingKeyboardFocusTarget]).ConfigureAwait(true);
                 _zoomingKeyboardFocusTarget = string.Empty;
             }
-            if (!firstRender && _isSizeSet && _selectionModule is not null && SelectedDataIndexes.Count > 0)
+            if (!firstRender && _render.IsSizeSet && _selectionModule is not null && SelectedDataIndexes.Count > 0)
             {
                 await _selectionModule.RemoveSelectedElementsAsync().ConfigureAwait(true);
                 _selectionModule.InvokeSelection();
@@ -404,11 +404,11 @@ namespace Syncfusion.Blazor.Toolkit.Charts
 
             JsModuleReference svgJsModuleReference = await ImportModuleAsync(
                 "./_content/Syncfusion.Blazor.Toolkit/scripts/svgbase.js",
-                _svgJsModule,
-                _svgJsInProcessModule
+                _interop.SvgJsModule,
+                _interop.SvgJsInProcessModule
             ).ConfigureAwait(true);
-            _svgJsModule = svgJsModuleReference.AsyncRef;
-            _svgJsInProcessModule = svgJsModuleReference.InProcessRef;
+            _interop.SvgJsModule = svgJsModuleReference.AsyncRef;
+            _interop.SvgJsInProcessModule = svgJsModuleReference.InProcessRef;
 			
             await LoadAnimationScriptAsync().ConfigureAwait(true);
 			
@@ -469,7 +469,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts
 
             if (_isLegendRendered)
             {
-                _ = UpdateLegendTemplateAsync();
+                await UpdateLegendTemplateAsync();
             }
 
             if (_tooltip.Enable || _crosshair.Enable || _markerExplode is not null)
