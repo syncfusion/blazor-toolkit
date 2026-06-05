@@ -17,7 +17,7 @@ namespace Syncfusion.Blazor.Toolkit.Tests
         public virtual void BeforeEachRun()
         {
             JSInterop.Mode = JSRuntimeMode.Loose;
-            Services.AddSyncfusionBlazorToolkit();
+            Services.AddSyncfusionBlazorToolkit(); 
             var options = Options.Create<GlobalOptions>(new GlobalOptions() {  });
             SyncfusionBlazorToolkitService serv = new SyncfusionBlazorToolkitService(options);
             serv.GetType().GetProperty("IsScriptRendered", BindingFlags.Instance | BindingFlags.NonPublic).SetValue(serv, true);
