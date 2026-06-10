@@ -1098,12 +1098,29 @@ namespace Syncfusion.Blazor.Toolkit.Charts
             const string RENDERER = "_renderer";
             const string DISPOSED = "_disposed";
 
-            FieldInfo field = GetType().BaseType?.BaseType?.BaseType?.BaseType?.BaseType?.GetField(RENDERHANDLE, BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.Static) ?? null!;
-            RenderHandle renderHandler = (RenderHandle)(field.GetValue(this) ?? null!);
-            FieldInfo rendererInfo = renderHandler.GetType().GetField(RENDERER, BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.Static) ?? null!;
-            object renderer = rendererInfo.GetValue(renderHandler) ?? null!;
-            FieldInfo diposedInfo = renderer.GetType().BaseType?.GetField(DISPOSED, BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.Static) ?? null!;
-            return diposedInfo is not null && (bool)(diposedInfo.GetValue(renderer) ?? false);
+            try
+            {
+                FieldInfo field = GetType().BaseType?.BaseType?.BaseType?.BaseType?.BaseType?.GetField(RENDERHANDLE, BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.Static);
+                if (field == null) return false;
+
+                object renderHandlerObj = field.GetValue(this);
+                if (renderHandlerObj == null) return false;
+
+                RenderHandle renderHandler = (RenderHandle)renderHandlerObj;
+                FieldInfo rendererInfo = renderHandler.GetType().GetField(RENDERER, BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.Static);
+                if (rendererInfo == null) return false;
+
+                object renderer = rendererInfo.GetValue(renderHandler);
+                if (renderer == null) return false;
+
+                FieldInfo disposedInfo = renderer.GetType().BaseType?.GetField(DISPOSED, BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.Static);
+                return disposedInfo is not null && (bool)(disposedInfo.GetValue(renderer) ?? false);
+            }
+            catch
+            {
+                // In test environments (like BUnit), reflection might not work as expected
+                return false;
+            }
         }
 
         /// <summary>
@@ -1810,7 +1827,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts
             }
 
             string methodName = "getCharCollectionSize";
-            string result = await InvokeAsync<string>(_chartJsModule!, _chartJsInProcessModule!, methodName, [uniqueKeys]).ConfigureAwait(true);
+            string result = await InvokeAsync<string>(_chartJsModule!, _chartJsInProcessModule!, methodName, false, [uniqueKeys]).ConfigureAwait(true);
             if (result is null)
             {
                 return;

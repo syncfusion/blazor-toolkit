@@ -11,7 +11,7 @@
     <ComponentUnderTest>
         <SfChart ID="container" Title="Olympic Medals">
             <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Toolkit.ValueType.Category" />
-            <ChartSeriesCollection>
+            
                 <ChartSeries DataSource="@MedalDetails" Name="Gold" XName="Country" Width="2" Opacity="1" YName="Gold" Type="ChartSeriesType.Column">
                     <LegendItemTemplate>
                         <div>
@@ -33,7 +33,7 @@
                         </div>
                     </LegendItemTemplate>
                 </ChartSeries>
-            </ChartSeriesCollection>
+            
             <ChartLegendSettings Visible="true" Width="400px" Height="50px" IsInversed="true" ItemPadding="35" Padding="10" ShapeHeight="15" ShapeWidth="15" ShapePadding="9" Background="gray" Opacity="0.8" ToggleVisibility="false" AccessibilityDescriptionFormat="chart legend template" TabIndex="1">
                 <ChartLegendBorder Width="2" Color="red"></ChartLegendBorder>
             </ChartLegendSettings>
@@ -66,11 +66,11 @@
         Assert.True(legend2.ChildElementCount == 0);
         var legendTemplate0 = cut.Find("#container_chart_legend_template_0");
         // Note: Values may vary slightly depending on screen resolution.
-        Assert.True(legendTemplate0.GetAttribute("style") == "position: absolute; visibility: hidden; left: 216.625px; top: 399.75px; pointer-events: bounding-box; cursor: default; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;");
+        Assert.True(legendTemplate0.GetAttribute("style") == "position: absolute; visibility: hidden; left: 224.25px; top: 399.75px; pointer-events: bounding-box; cursor: default; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;");
         var legendTemplate1 = cut.Find("#container_chart_legend_template_1");
-        Assert.True(legendTemplate1.GetAttribute("style") == "position: absolute; visibility: hidden; left: 280px; top: 399.75px; pointer-events: bounding-box; cursor: default; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;");
+        Assert.True(legendTemplate1.GetAttribute("style") == "position: absolute; visibility: hidden; left: 283.5px; top: 399.75px; pointer-events: bounding-box; cursor: default; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;");
         var legendTemplate2 = cut.Find("#container_chart_legend_template_2");
-        Assert.True(legendTemplate2.GetAttribute("style") == "position: absolute; visibility: hidden; left: 349.5px; top: 399.75px; pointer-events: bounding-box; cursor: default; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;");
+        Assert.True(legendTemplate2.GetAttribute("style") == "position: absolute; visibility: hidden; left: 348px; top: 399.75px; pointer-events: bounding-box; cursor: default; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;");
         cut.SetParametersAndRender();
     }
 
@@ -99,7 +99,7 @@
     <ComponentUnderTest>
         <SfChart ID="container" Title="Olympic Medals">
             <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Toolkit.ValueType.Category" />
-            <ChartSeriesCollection>
+            
                 <ChartSeries DataSource="@MedalDetails" Name="Gold" XName="Country" Width="2" Opacity="1" YName="Gold" Type="ChartSeriesType.Column">
                     <LegendItemTemplate>
                         <div style="border: 2px solid #4CAF50; background-color: #E8F5E9; padding: 5px; border-radius: 4px;">
@@ -121,7 +121,7 @@
                         </div>
                     </LegendItemTemplate>
                 </ChartSeries>
-            </ChartSeriesCollection>
+            
             <ChartLegendSettings Visible="true" Position="LegendPosition.Right" />
         </SfChart>
     </ComponentUnderTest>
@@ -134,11 +134,11 @@
         await Task.Delay(200);
         var legendTemplate0 = cut.Find("#container_chart_legend_template_0");
         // Note: Values may vary slightly depending on screen resolution.
-        Assert.True(legendTemplate0.GetAttribute("style") == "position: absolute; visibility: hidden; left: 539.125px; top: 207.60000000000002px; pointer-events: bounding-box; cursor: pointer; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;");
+        Assert.True(legendTemplate0.GetAttribute("style") == "position: absolute; visibility: hidden; left: 545.25px; top: 210.2px; pointer-events: bounding-box; cursor: pointer; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;");
         var legendTemplate1 = cut.Find("#container_chart_legend_template_1");
-        Assert.True(legendTemplate1.GetAttribute("style") == "position: absolute; visibility: hidden; left: 539.125px; top: 233.8px; pointer-events: bounding-box; cursor: pointer; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;");
+        Assert.True(legendTemplate1.GetAttribute("style") == "position: absolute; visibility: hidden; left: 545.25px; top: 233.79999999999998px; pointer-events: bounding-box; cursor: pointer; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;");
         var legendTemplate2 = cut.Find("#container_chart_legend_template_2");
-        Assert.True(legendTemplate2.GetAttribute("style") == "position: absolute; visibility: hidden; left: 539.125px; top: 260px; pointer-events: bounding-box; cursor: pointer; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;");
+        Assert.True(legendTemplate2.GetAttribute("style") == "position: absolute; visibility: hidden; left: 545.25px; top: 257.4px; pointer-events: bounding-box; cursor: pointer; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;");
         cut.SetParametersAndRender();
     }
 }
@@ -147,7 +147,7 @@
     <ComponentUnderTest>
         <SfChart ID="container" Title="Olympic Medals">
             <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Toolkit.ValueType.Category" />
-            <ChartSeriesCollection>
+            
                 <ChartSeries DataSource="@MedalDetails" Name="Gold" XName="Country" Width="2" Opacity="1" YName="Gold" Type="ChartSeriesType.Column">
                     <LegendItemTemplate>
                         <div style="border: 2px solid #4CAF50; background-color: #E8F5E9; padding: 5px; border-radius: 4px;">
@@ -169,7 +169,7 @@
                         </div>
                     </LegendItemTemplate>
                 </ChartSeries>
-            </ChartSeriesCollection>
+            
             <ChartLegendSettings Visible="true" Position="LegendPosition.Left" />
         </SfChart>
     </ComponentUnderTest>
@@ -182,11 +182,11 @@
         await Task.Delay(200);
         var legendTemplate0 = cut.Find("#container_chart_legend_template_0");
         // Note: Values may vary slightly depending on screen resolution.
-        Assert.True(legendTemplate0.GetAttribute("style") == "position: absolute; visibility: hidden; left: 18px; top: 207.60000000000002px; pointer-events: bounding-box; cursor: pointer; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;");
+        Assert.True(legendTemplate0.GetAttribute("style") == "position: absolute; visibility: hidden; left: 18px; top: 210.2px; pointer-events: bounding-box; cursor: pointer; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;");
         var legendTemplate1 = cut.Find("#container_chart_legend_template_1");
-        Assert.True(legendTemplate1.GetAttribute("style") == "position: absolute; visibility: hidden; left: 18px; top: 233.8px; pointer-events: bounding-box; cursor: pointer; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;");
+        Assert.True(legendTemplate1.GetAttribute("style") == "position: absolute; visibility: hidden; left: 18px; top: 233.79999999999998px; pointer-events: bounding-box; cursor: pointer; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;");
         var legendTemplate2 = cut.Find("#container_chart_legend_template_2");
-        Assert.True(legendTemplate2.GetAttribute("style") == "position: absolute; visibility: hidden; left: 18px; top: 260px; pointer-events: bounding-box; cursor: pointer; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;");
+        Assert.True(legendTemplate2.GetAttribute("style") == "position: absolute; visibility: hidden; left: 18px; top: 257.4px; pointer-events: bounding-box; cursor: pointer; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;");
         cut.SetParametersAndRender();
     }
 }
@@ -195,7 +195,7 @@
     <ComponentUnderTest>
         <SfChart ID="container" Title="Olympic Medals">
             <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Toolkit.ValueType.Category" />
-            <ChartSeriesCollection>
+            
                 <ChartSeries DataSource="@MedalDetails" Name="Gold" XName="Country" Width="2" Opacity="1" YName="Gold" Type="ChartSeriesType.Column">
                     <LegendItemTemplate>
                         <div style="border: 2px solid #4CAF50; background-color: #E8F5E9; padding: 5px; border-radius: 4px;">
@@ -217,7 +217,7 @@
                         </div>
                     </LegendItemTemplate>
                 </ChartSeries>
-            </ChartSeriesCollection>
+            
             <ChartLegendSettings Visible="true" Position="LegendPosition.Top" />
         </SfChart>
     </ComponentUnderTest>
@@ -230,11 +230,11 @@
         await Task.Delay(200);
         var legendTemplate0 = cut.Find("#container_chart_legend_template_0");
         // Note: Values may vary slightly depending on screen resolution.
-        Assert.True(legendTemplate0.GetAttribute("style") == "position: absolute; visibility: hidden; left: 226.625px; top: 54.3px; pointer-events: bounding-box; cursor: pointer; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;");
+        Assert.True(legendTemplate0.GetAttribute("style") == "position: absolute; visibility: hidden; left: 234.25px; top: 51.7px; pointer-events: bounding-box; cursor: pointer; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;");
         var legendTemplate1 = cut.Find("#container_chart_legend_template_1");
-        Assert.True(legendTemplate1.GetAttribute("style") == "position: absolute; visibility: hidden; left: 275px; top: 54.3px; pointer-events: bounding-box; cursor: pointer; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;");
+        Assert.True(legendTemplate1.GetAttribute("style") == "position: absolute; visibility: hidden; left: 278.5px; top: 51.7px; pointer-events: bounding-box; cursor: pointer; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;");
         var legendTemplate2 = cut.Find("#container_chart_legend_template_2");
-        Assert.True(legendTemplate2.GetAttribute("style") == "position: absolute; visibility: hidden; left: 329.5px; top: 54.3px; pointer-events: bounding-box; cursor: pointer; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;");
+        Assert.True(legendTemplate2.GetAttribute("style") == "position: absolute; visibility: hidden; left: 328px; top: 51.7px; pointer-events: bounding-box; cursor: pointer; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;");
         cut.SetParametersAndRender();
     }
 }
@@ -243,7 +243,7 @@
     <ComponentUnderTest>
         <SfChart ID="container" Title="Olympic Medals">
             <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Toolkit.ValueType.Category" />
-            <ChartSeriesCollection>
+            
                 <ChartSeries DataSource="@MedalDetails" Name="Gold" XName="Country" Width="2" Opacity="1" YName="Gold" Type="ChartSeriesType.Column">
                     <LegendItemTemplate>
                         <div style="border: 2px solid #4CAF50; background-color: #E8F5E9; padding: 5px; border-radius: 4px;">
@@ -265,7 +265,7 @@
                         </div>
                     </LegendItemTemplate>
                 </ChartSeries>
-            </ChartSeriesCollection>
+            
             <ChartLegendSettings Visible="true" Position="LegendPosition.Custom">
                 <ChartLocation X="500" Y="20"></ChartLocation>
             </ChartLegendSettings>
@@ -280,11 +280,11 @@
         await Task.Delay(200);
         var legendTemplate0 = cut.Find("#container_chart_legend_template_0");
         // Note: Values may vary slightly depending on screen resolution.
-        Assert.True(legendTemplate0.GetAttribute("style") == "position: absolute; visibility: hidden; left: 508px; top: 28px; pointer-events: bounding-box; cursor: pointer; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;");
+        Assert.True(legendTemplate0.GetAttribute("style") == "position: absolute; visibility: hidden; left: 508px; top: 27.999999999999996px; pointer-events: bounding-box; cursor: pointer; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;");
         var legendTemplate1 = cut.Find("#container_chart_legend_template_1");
-        Assert.True(legendTemplate1.GetAttribute("style") == "position: absolute; visibility: hidden; left: 556.375px; top: 28px; pointer-events: bounding-box; cursor: pointer; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;");
+        Assert.True(legendTemplate1.GetAttribute("style") == "position: absolute; visibility: hidden; left: 552.25px; top: 27.999999999999996px; pointer-events: bounding-box; cursor: pointer; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;");
         var legendTemplate2 = cut.Find("#container_chart_legend_template_2");
-        Assert.True(legendTemplate2.GetAttribute("style") == "position: absolute; visibility: hidden; left: 508px; top: 62.199999999999996px; pointer-events: bounding-box; cursor: pointer; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;");
+        Assert.True(legendTemplate2.GetAttribute("style") == "position: absolute; visibility: hidden; left: 508px; top: 59.60000000000001px; pointer-events: bounding-box; cursor: pointer; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;");
         cut.SetParametersAndRender();
     }
 }
@@ -293,7 +293,7 @@
     <ComponentUnderTest>
         <SfChart ID="container" Title="Olympic Medals">
             <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Toolkit.ValueType.Category" />
-            <ChartSeriesCollection>
+            
                 <ChartSeries DataSource="@MedalDetails" Name="Gold" XName="Country" Width="2" Opacity="1" YName="Gold" Type="ChartSeriesType.Column">
                     <LegendItemTemplate>
                         <div style="border: 2px solid #4CAF50; background-color: #E8F5E9; padding: 5px; border-radius: 4px;">
@@ -315,7 +315,7 @@
                         </div>
                     </LegendItemTemplate>
                 </ChartSeries>
-            </ChartSeriesCollection>
+            
             <ChartLegendSettings Visible="true" Reverse="true"/>
         </SfChart>
     </ComponentUnderTest>
@@ -339,7 +339,7 @@
     <ComponentUnderTest>
         <SfChart ID="container" Title="Olympic Medals">
             <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Toolkit.ValueType.Category" />
-            <ChartSeriesCollection>
+            
                 <ChartSeries DataSource="@MedalDetails" Name="Gold" XName="Country" Width="2" Opacity="1" YName="Gold" Type="ChartSeriesType.Column">
                     <LegendItemTemplate>
                         <div style="border: 2px solid #4CAF50; background-color: #E8F5E9; padding: 5px; border-radius: 4px;">
@@ -361,7 +361,7 @@
                         </div>
                     </LegendItemTemplate>
                 </ChartSeries>
-            </ChartSeriesCollection>
+            
             <ChartLegendSettings Visible="true" Alignment="Alignment.Near" />
         </SfChart>
     </ComponentUnderTest>
@@ -374,11 +374,11 @@
         await Task.Delay(200);
         var legendTemplate0 = cut.Find("#container_chart_legend_template_0");
         // Note: Values may vary slightly depending on screen resolution.
-        Assert.True(legendTemplate0.GetAttribute("style") == "position: absolute; visibility: hidden; left: 18px; top: 413.55px; pointer-events: bounding-box; cursor: pointer; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;");
+        Assert.True(legendTemplate0.GetAttribute("style") == "position: absolute; visibility: hidden; left: 18px; top: 416.15px; pointer-events: bounding-box; cursor: pointer; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;");
         var legendTemplate1 = cut.Find("#container_chart_legend_template_1");
-        Assert.True(legendTemplate1.GetAttribute("style") == "position: absolute; visibility: hidden; left: 66.375px; top: 413.55px; pointer-events: bounding-box; cursor: pointer; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;");
+        Assert.True(legendTemplate1.GetAttribute("style") == "position: absolute; visibility: hidden; left: 62.25px; top: 416.15px; pointer-events: bounding-box; cursor: pointer; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;");
         var legendTemplate2 = cut.Find("#container_chart_legend_template_2");
-        Assert.True(legendTemplate2.GetAttribute("style") == "position: absolute; visibility: hidden; left: 120.875px; top: 413.55px; pointer-events: bounding-box; cursor: pointer; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;");
+        Assert.True(legendTemplate2.GetAttribute("style") == "position: absolute; visibility: hidden; left: 111.75px; top: 416.15px; pointer-events: bounding-box; cursor: pointer; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;");
         cut.SetParametersAndRender();
     }
 }
@@ -387,7 +387,7 @@
     <ComponentUnderTest>
         <SfChart ID="container" Title="Olympic Medals">
             <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Toolkit.ValueType.Category" />
-            <ChartSeriesCollection>
+            
                 <ChartSeries DataSource="@MedalDetails" Name="Gold" XName="Country" Width="2" Opacity="1" YName="Gold" Type="ChartSeriesType.Column">
                     <LegendItemTemplate>
                         <div style="border: 2px solid #4CAF50; background-color: #E8F5E9; padding: 5px; border-radius: 4px;">
@@ -409,7 +409,7 @@
                         </div>
                     </LegendItemTemplate>
                 </ChartSeries>
-            </ChartSeriesCollection>
+            
             <ChartLegendSettings Visible="true" Alignment="Alignment.Far" />
         </SfChart>
     </ComponentUnderTest>
@@ -422,11 +422,11 @@
         await Task.Delay(200);
         var legendTemplate0 = cut.Find("#container_chart_legend_template_0");
         // Note: Values may vary slightly depending on screen resolution.
-        Assert.True(legendTemplate0.GetAttribute("style") == "position: absolute; visibility: hidden; left: 435.25px; top: 413.55px; pointer-events: bounding-box; cursor: pointer; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;");
+        Assert.True(legendTemplate0.GetAttribute("style") == "position: absolute; visibility: hidden; left: 450.5px; top: 416.15px; pointer-events: bounding-box; cursor: pointer; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;");
         var legendTemplate1 = cut.Find("#container_chart_legend_template_1");
-        Assert.True(legendTemplate1.GetAttribute("style") == "position: absolute; visibility: hidden; left: 483.625px; top: 413.55px; pointer-events: bounding-box; cursor: pointer; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;");
+        Assert.True(legendTemplate1.GetAttribute("style") == "position: absolute; visibility: hidden; left: 494.75px; top: 416.15px; pointer-events: bounding-box; cursor: pointer; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;");
         var legendTemplate2 = cut.Find("#container_chart_legend_template_2");
-        Assert.True(legendTemplate2.GetAttribute("style") == "position: absolute; visibility: hidden; left: 538.125px; top: 413.55px; pointer-events: bounding-box; cursor: pointer; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;");
+        Assert.True(legendTemplate2.GetAttribute("style") == "position: absolute; visibility: hidden; left: 544.25px; top: 416.15px; pointer-events: bounding-box; cursor: pointer; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;");
         cut.SetParametersAndRender();
     }
 }
@@ -435,7 +435,7 @@
     <ComponentUnderTest>
         <SfChart ID="container" Title="Olympic Medals">
             <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Toolkit.ValueType.Category" />
-            <ChartSeriesCollection>
+            
                 <ChartSeries DataSource="@MedalDetails" Name="Gold" XName="Country" Width="2" Opacity="1" YName="Gold" Type="ChartSeriesType.Column">
                     <LegendItemTemplate>
                         <div style="border: 2px solid #4CAF50; background-color: #E8F5E9; padding: 5px; border-radius: 4px;">
@@ -457,7 +457,7 @@
                         </div>
                     </LegendItemTemplate>
                 </ChartSeries>
-            </ChartSeriesCollection>
+            
             <ChartLegendSettings Visible="true" Width="100px" Background="red"/>
         </SfChart>
     </ComponentUnderTest>

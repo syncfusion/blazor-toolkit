@@ -11,11 +11,11 @@
         <SfChart ID="container">
             <ChartPrimaryXAxis Title="PrimaryXAxis" ValueType="Syncfusion.Blazor.Toolkit.ValueType.Category"></ChartPrimaryXAxis>
             <ChartPrimaryYAxis Title="PrimaryYaxis" RangePadding="ChartRangePadding.None"></ChartPrimaryYAxis>
-            <ChartSeriesCollection>
+            
                 <ChartSeries DataSource="@Sales" XName="Month" YName="SalesValue" Type="ChartSeriesType.Column" Name="Gold" Fill="Red">
                     <ChartSeriesAnimation Enable="false"></ChartSeriesAnimation>
                 </ChartSeries>
-            </ChartSeriesCollection>
+            
         </SfChart>
     </ComponentUnderTest>
 </SfFixture>
@@ -63,9 +63,9 @@
             <ChartColumns>
                 <ChartColumn Width="90%" BorderWidth="3" BorderColor="red"/>
             </ChartColumns>
-            <ChartSeriesCollection>
+            
                 <ChartSeries DataSource="@WeatherReports" XName="X" YName="Y" Type="ChartSeriesType.Column" />
-            </ChartSeriesCollection>
+            
         </SfChart>
     </ComponentUnderTest>
 </SfFixture>

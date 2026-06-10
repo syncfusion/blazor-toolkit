@@ -21,7 +21,7 @@
     </ChartPrimaryYAxis>
     <ChartTooltipSettings Enable="true" Shared="true"></ChartTooltipSettings>
     <ChartCrosshairSettings Enable="true" LineType="LineType.Vertical"></ChartCrosshairSettings>
-    <ChartSeriesCollection>
+    
         <ChartSeries DataSource="@ChartPoints" Name="John" XName="Period" Width="2" Opacity="1" YName="JohnRevenue" Type="ChartSeriesType.Line">
             <ChartMarker Visible="true" Width="7" Height="7" IsFilled="true"></ChartMarker>
         </ChartSeries>
@@ -40,7 +40,7 @@
                 </ChartDataLabel>
             </ChartMarker>
         </ChartSeries>
-    </ChartSeriesCollection>
+    
     <ChartLegendSettings EnableHighlight="true"></ChartLegendSettings>
         </SfChart>
         </div>
@@ -154,7 +154,7 @@
     <SfChart ID="columnchart" @ref="chart2" Title="Average Sales per Person" Width="900px" Height="450px" OnPointClick="PointClickEvent2">
     <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Toolkit.ValueType.DateTime">
     </ChartPrimaryXAxis>
-    <ChartSeriesCollection>
+    
                     <ChartSeries DataSource="@ChartDataPoints" Name="John" XName="Period" YName="JohnRevenue" Type="ChartSeriesType.Column">
                         <ChartDataEditSettings Enable="true"></ChartDataEditSettings>
         </ChartSeries>
@@ -164,7 +164,7 @@
                     <ChartSeries DataSource="@ChartDataPoints" Name="Thomas" XName="Period" YName="ThamosRevenue" Type="ChartSeriesType.Column">
                         <ChartDataEditSettings Enable="true"></ChartDataEditSettings>
         </ChartSeries>
-    </ChartSeriesCollection>
+    
         </SfChart>
         </div>
     </ComponentUnderTest>
@@ -236,7 +236,7 @@
             <SfChart ID="columnchart" @ref="chart3" Title="Average Sales per Person" Width="900px" Height="450px">
                 <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Toolkit.ValueType.DateTime">
                 </ChartPrimaryXAxis>
-                <ChartSeriesCollection>
+                
                     <ChartSeries DataSource="@ChartPoints" Name="John" XName="Period" YName="JohnRevenue" Type="ChartSeriesType.Column">
                         <ChartDataEditSettings Enable="true"></ChartDataEditSettings>
                     </ChartSeries>
@@ -246,7 +246,7 @@
                     <ChartSeries DataSource="@ChartPoints" Name="Thomas" XName="Period" YName="ThamosRevenue" Type="ChartSeriesType.Column">
                         <ChartDataEditSettings Enable="true"></ChartDataEditSettings>
                     </ChartSeries>
-                </ChartSeriesCollection>
+                
                 <ChartTooltipSettings Enable="true" Shared="true"></ChartTooltipSettings>
             </SfChart>
         </div>

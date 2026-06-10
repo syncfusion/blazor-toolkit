@@ -11,7 +11,7 @@
             <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Toolkit.ValueType.Category" Title="Year"></ChartPrimaryXAxis>
             <ChartPrimaryYAxis Title="Efficiency" LabelFormat="{value}%"></ChartPrimaryYAxis>
             <ChartTooltipSettings Enable="true"></ChartTooltipSettings>
-            <ChartSeriesCollection>
+            
                 <ChartSeries DataSource="@ProductionDetails" XName="X" YName="Y" Type="ChartSeriesType.Column">
                     <ChartLastDataLabel ShowLabel="@showLabel" Background="yellow" LineColor="black" LineWidth="2" DashArray="5,5" Rx="5" Ry="5">
                         <ChartLastDataLabelBorder Color="red" Width="2"></ChartLastDataLabelBorder>
@@ -21,7 +21,7 @@
                         <ChartDataLabel Visible="true"></ChartDataLabel>
                     </ChartMarker>
                 </ChartSeries>
-            </ChartSeriesCollection>
+            
         </SfChart>
     </ComponentUnderTest>
 </SfFixture>

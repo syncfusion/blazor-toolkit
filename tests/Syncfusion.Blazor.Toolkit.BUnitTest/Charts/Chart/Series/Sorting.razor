@@ -16,7 +16,7 @@
              <ChartSorting PropertyName="Y" Direction="ListSortDirection.Descending"></ChartSorting>
             <ChartPrimaryXAxis Title="PrimaryXAxis" ValueType="Syncfusion.Blazor.Toolkit.ValueType.DateTimeCategory"></ChartPrimaryXAxis>
             <ChartPrimaryYAxis Title="PrimaryYAxis"></ChartPrimaryYAxis>
-            <ChartSeriesCollection>
+            
                 <ChartSeries DataSource="@columns" Type="ChartSeriesType.Column" XName="x" YName="y" Name="Column Series">
                     <ChartSeriesAnimation Enable="false"></ChartSeriesAnimation>
                     <ChartMarker Visible="true" Width="20" Height="20" Fill="Green" Opacity="0.1" Shape="ChartShape.Circle">
@@ -25,7 +25,7 @@
                         <ChartMarkerOffset X="0" Y="0"></ChartMarkerOffset>
                     </ChartMarker>
                 </ChartSeries>
-            </ChartSeriesCollection>
+            
         </SfChart>
     </ComponentUnderTest>
 </SfFixture>
@@ -66,7 +66,7 @@
              <ChartSorting PropertyName="X" Direction="ListSortDirection.Descending"></ChartSorting>
             <ChartPrimaryXAxis Title="PrimaryXAxis" ValueType="Syncfusion.Blazor.Toolkit.ValueType.DateTimeCategory"></ChartPrimaryXAxis>
             <ChartPrimaryYAxis Title="PrimaryYAxis"></ChartPrimaryYAxis>
-            <ChartSeriesCollection>
+            
                 <ChartSeries DataSource="@columns1" Type="ChartSeriesType.Column" XName="x" YName="y" Name="Column Series">
                     <ChartSeriesAnimation Enable="false"></ChartSeriesAnimation>
                     <ChartMarker Visible="true" Width="20" Height="20" Fill="Green" Opacity="0.1" Shape="ChartShape.Circle">
@@ -75,7 +75,7 @@
                         <ChartMarkerOffset X="0" Y="0"></ChartMarkerOffset>
                     </ChartMarker>
                 </ChartSeries>
-            </ChartSeriesCollection>
+            
         </SfChart>
     </ComponentUnderTest>
 </SfFixture>
@@ -118,7 +118,7 @@
              <ChartSorting PropertyName="Custom" Direction="ListSortDirection.Ascending"></ChartSorting>
              <ChartPrimaryXAxis Title="PrimaryXAxis" ValueType="Syncfusion.Blazor.Toolkit.ValueType.DateTimeCategory" Format="dd/MM/yyyy"></ChartPrimaryXAxis>
              <ChartPrimaryYAxis Title="PrimaryYAxis"></ChartPrimaryYAxis>
-             <ChartSeriesCollection>
+             
                  <ChartSeries DataSource="@columns2" Type="ChartSeriesType.Column" XName="x" YName="y" Name="Column Series">
                      <ChartSeriesAnimation Enable="false"></ChartSeriesAnimation>
                      <ChartMarker Visible="true" Width="20" Height="20" Fill="Green" Opacity="0.1" Shape="ChartShape.Circle">
@@ -127,7 +127,7 @@
                          <ChartMarkerOffset X="0" Y="0"></ChartMarkerOffset>
                      </ChartMarker>
                  </ChartSeries>
-             </ChartSeriesCollection>
+             
        </SfChart>
     </ComponentUnderTest>
 </SfFixture>
@@ -170,7 +170,7 @@
              <ChartSorting PropertyName="Y" Direction="ListSortDirection.Descending"></ChartSorting>
              <ChartPrimaryXAxis Title="PrimaryXAxis" ValueType="Syncfusion.Blazor.Toolkit.ValueType.DateTimeCategory" Format="dd/MM/yyyy"></ChartPrimaryXAxis>
              <ChartPrimaryYAxis Title="PrimaryYAxis"></ChartPrimaryYAxis>
-             <ChartSeriesCollection>
+             
                  <ChartSeries DataSource="@columns3" Type="ChartSeriesType.Column" XName="x" YName="y" Name="Column Series">
                      <ChartSeriesAnimation Enable="false"></ChartSeriesAnimation>
                      <ChartMarker Visible="true" Width="20" Height="20" Fill="Green" Opacity="0.1" Shape="ChartShape.Circle">
@@ -187,7 +187,7 @@
                         <ChartMarkerOffset X="0" Y="0"></ChartMarkerOffset>
                     </ChartMarker>
                 </ChartSeries>
-             </ChartSeriesCollection>
+             
        </SfChart>
     </ComponentUnderTest>
 </SfFixture>
@@ -201,9 +201,9 @@
         var cut = fixture3.GetComponentUnderTest<SfChart>();
         await Task.Delay(200);
         var point1 = cut.Find("#container_Series_1_Point_0");
-        Assert.True(point1.GetAttribute("data-point") == "0,50,#09AF74,Column,1,,,,True,0,Series,XY,Circle,,/Column Series/,True,False,False,1,PrimaryXAxis,PrimaryYAxis,,,0,5,Gap,True,True,1");
+        Assert.True(point1.GetAttribute("data-point") == "0,50,#09AF74,Column,1,,,,True,0,Series,XY,Circle,,/Column Series/,True,,False,1,PrimaryXAxis,PrimaryYAxis,,,0,5,Gap,True,True,1");
         var point2 = cut.Find("#container_Series_0_Point_0");
-        Assert.True(point2.GetAttribute("data-point") == "0,85,#6200EE,Column,0,,,,True,0,Series,XY,Circle,,/Column Series/,True,False,False,1,PrimaryXAxis,PrimaryYAxis,,,0,5,Gap,True,True,1");
+        Assert.True(point2.GetAttribute("data-point") == "0,85,#6200EE,Column,0,,,,True,0,Series,XY,Circle,,/Column Series/,True,,False,1,PrimaryXAxis,PrimaryYAxis,,,0,5,Gap,True,True,1");
         cut.SetParametersAndRender();
     }
     public class ColumnData3
@@ -234,7 +234,7 @@
              <ChartSorting PropertyName="Y" Direction="ListSortDirection.Ascending"></ChartSorting>
              <ChartPrimaryXAxis Title="PrimaryXAxis" ValueType="Syncfusion.Blazor.Toolkit.ValueType.DateTimeCategory" Format="dd/MM/yyyy"></ChartPrimaryXAxis>
              <ChartPrimaryYAxis Title="PrimaryYAxis"></ChartPrimaryYAxis>
-             <ChartSeriesCollection>
+             
                  <ChartSeries DataSource="@Bubble" Type="ChartSeriesType.Bubble" XName="x" YName="y" Name="Bubble Series">
                      <ChartSeriesAnimation Enable="false"></ChartSeriesAnimation>
                      <ChartMarker Visible="true" Width="20" Height="20" Fill="Green" Opacity="0.1" Shape="ChartShape.Circle">
@@ -243,7 +243,7 @@
                          <ChartMarkerOffset X="0" Y="0"></ChartMarkerOffset>
                      </ChartMarker>
                  </ChartSeries>
-             </ChartSeriesCollection>
+             
        </SfChart>
     </ComponentUnderTest>
 </SfFixture>
@@ -256,7 +256,7 @@
         var cut = fixture5.GetComponentUnderTest<SfChart>();
         await Task.Delay(200);
         var point = cut.Find("#container_Series_0_Point_0");
-        Assert.True(point.GetAttribute("data-point") == "0,-65,#6200EE,Bubble,0,,,,True,0,Series,XY,Circle,,/Bubble Series/,True,False,False,1,PrimaryXAxis,PrimaryYAxis,,,0,5,Gap,True,True,1");
+        Assert.True(point.GetAttribute("data-point") == "0,-65,#6200EE,Bubble,0,,,,True,0,Series,XY,Circle,,/Bubble Series/,True,,False,1,PrimaryXAxis,PrimaryYAxis,,,0,5,Gap,True,True,1");
         cut.SetParametersAndRender();
     }
     public class BubbleData
@@ -293,7 +293,7 @@
             <ChartAxes>
                 <ChartAxis Minimum="24" Maximum="36" Interval="2" OpposedPosition="true" RowIndex="1" Name="YAxis" LabelFormat="{value}°C"/>
             </ChartAxes>
-            <ChartSeriesCollection>
+            
                 <ChartSeries DataSource="@WeatherReports" XName="X" YName="Y" Type="ChartSeriesType.Column">
                     <ChartSeriesAnimation Enable="false"></ChartSeriesAnimation>
                     <ChartMarker Visible="true" Width="20" Height="20" Fill="Green" Opacity="0.1" Shape="ChartShape.Circle">
@@ -310,7 +310,7 @@
                         <ChartMarkerOffset X="0" Y="0"></ChartMarkerOffset>
                     </ChartMarker>
                 </ChartSeries>
-            </ChartSeriesCollection>
+            
         </SfChart>
     </ComponentUnderTest>
 </SfFixture>
@@ -361,7 +361,7 @@
             <ChartAxes>
                 <ChartAxis Minimum="24" Maximum="36" Interval="2" OpposedPosition="true" RowIndex="1" Name="YAxis" LabelFormat="{value}°C" />
             </ChartAxes>
-            <ChartSeriesCollection>
+            
                 <ChartSeries DataSource="@WeatherReports1" XName="X" YName="Y" Type="ChartSeriesType.Column">
                     <ChartSeriesAnimation Enable="false"></ChartSeriesAnimation>
                     <ChartMarker Visible="true" Width="20" Height="20" Fill="Green" Opacity="0.1" Shape="ChartShape.Circle">
@@ -378,7 +378,7 @@
                         <ChartMarkerOffset X="0" Y="0"></ChartMarkerOffset>
                     </ChartMarker>
                 </ChartSeries>
-            </ChartSeriesCollection>
+            
         </SfChart>
     </ComponentUnderTest>
 </SfFixture>

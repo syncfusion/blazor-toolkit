@@ -14,11 +14,11 @@
             <ChartMargin Top="5" Bottom="5" Left="5" Right="5"></ChartMargin>
             <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Toolkit.ValueType.Category" RangePadding="ChartRangePadding.Normal"></ChartPrimaryXAxis>
             <ChartPrimaryYAxis Title="PrimaryYaxis"></ChartPrimaryYAxis>
-            <ChartSeriesCollection>
+            
                 <ChartSeries DataSource="@Sales" XName="Month" YName="SalesValue" Type="ChartSeriesType.Column" Name="Gold" Fill="Red">
                     <ChartSeriesAnimation Enable="false"></ChartSeriesAnimation>
                 </ChartSeries>
-            </ChartSeriesCollection>
+            
         </SfChart>
     </ComponentUnderTest>
 </SfFixture>
@@ -78,10 +78,10 @@
             <ChartTitleStyle FontFamily="Arial" FontStyle="italic" FontWeight="regular" Size="23px" Color="red"></ChartTitleStyle>
             <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Toolkit.ValueType.Category">
             </ChartPrimaryXAxis>
-            <ChartSeriesCollection>
+            
                 <ChartSeries DataSource="@MedalDetails" XName="Country" YName="Gold" Type="ChartSeriesType.Column">
                 </ChartSeries>
-            </ChartSeriesCollection>
+            
         </SfChart>
     </ComponentUnderTest>
 </SfFixture>
@@ -134,7 +134,7 @@
     <ComponentUnderTest>
         <SfChart ID="container" @ref="chartObj" Title="Medal Details" Height="400" Width="900" EnableAnimation="false" DataSource="@dataSource"
                  HighlightMode="HighlightMode.Point" Palettes="@palettes" SelectionPattern="SelectionPattern.Dots" HighlightPattern="SelectionPattern.Dots" AllowMultiSelection="true"
-                 Background="blue" EnableRtl="true" BackgroundImage="@backgroundImage" UseGroupingSeparator="true" AccessibilityDescription="Medal details with line Chart" TabIndex="0" CustomClass="@customClass">
+                 Background="blue" BackgroundImage="@backgroundImage" UseGroupingSeparator="true" AccessibilityDescription="Medal details with line Chart" TabIndex="0" CustomClass="@customClass">
 
             <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Toolkit.ValueType.Category" RangePadding="ChartRangePadding.Normal"></ChartPrimaryXAxis>
             <ChartPrimaryYAxis Title="PrimaryYaxis">
@@ -143,14 +143,14 @@
                     <ChartStripline Start="45" End="65" Color="blue" />
                 </ChartStriplines>
             </ChartPrimaryYAxis>
-            <ChartSeriesCollection>
+            
                 <ChartSeries DataSource="@MedalDetails" Name="Gold" XName="Country" Width="2" Opacity="1" YName="Gold" Type="ChartSeriesType.Line">
                 </ChartSeries>
                 <ChartSeries DataSource="@MedalDetails" Name="Silver" XName="Country" Width="2" Opacity="1" YName="Silver" Type="ChartSeriesType.Spline">
                 </ChartSeries>
                 <ChartSeries DataSource="@MedalDetails" Name="bronze" XName="Country" Width="2" Opacity="1" YName="Bronze" Type="ChartSeriesType.Column">
                 </ChartSeries>
-            </ChartSeriesCollection>
+            
             <ChartCrosshairSettings Enable="true"></ChartCrosshairSettings>
             <ChartLegendSettings Visible="true"></ChartLegendSettings>
             <ChartZoomSettings EnableMouseWheelZooming="true" EnableSelectionZooming="true"></ChartZoomSettings>
@@ -265,12 +265,12 @@
 <SfFixture @ref="fixture3" TestAsync="CheckingDyanmicUpdateProperties_Area" Description="CheckingDyanmicUpdateProperties_Area">
     <ComponentUnderTest>
         <SfChart ID="container" Title="Sales Report over the year 2025" Width="800">
-            <ChartSeriesCollection>
+            
                 <ChartSeries DataSource="@SalesDetails" XName="X" YName="Y" Type="ChartSeriesType.Area" Name="India" Fill="@SeriesFill" Opacity="@SeriesOpacity" Width="@SeriesWidth" DashArray="@SeriesDashArray">
                     <ChartSeriesAnimation Enable="false"></ChartSeriesAnimation>
                     <ChartSeriesBorder Width="@SeriesBorderWidth" Color="@SeriesBorderColor"></ChartSeriesBorder>
                 </ChartSeries>
-            </ChartSeriesCollection>
+            
         </SfChart>
     </ComponentUnderTest>
 </SfFixture>

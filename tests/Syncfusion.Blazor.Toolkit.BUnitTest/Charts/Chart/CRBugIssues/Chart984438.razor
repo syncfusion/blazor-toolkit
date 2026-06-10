@@ -7,13 +7,13 @@
     <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Toolkit.ValueType.Category" Title="Customer ID" />
     <ChartPrimaryYAxis ValueType="Syncfusion.Blazor.Toolkit.ValueType.Double" Title="Order Count" />
 
-    <ChartSeriesCollection>
+    
         <ChartSeries DataSource="@GroupedAccounts"
                      XName="CustomerID"
                      YName="CustomerCount"
                      Type="ChartSeriesType.Column"
                      TooltipMappingName="AccountID" />
-    </ChartSeriesCollection>
+    
 
     <ChartTooltipSettings Enable="true"
                           Format="<b>${point.x} : ${point.y} <br>${point.tooltip}"
