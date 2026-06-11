@@ -189,7 +189,7 @@ const SfChart = (function () {
     SfChart.prototype.getElementSize = function (id) {
         const element = document.getElementById(id);
         if (element) {
-            const tooltipTemplate = document.getElementById('tooltip_template');
+            const tooltipTemplate = document.getElementById(this.element.id + 'tooltip_template');
             if (tooltipTemplate) {
                 element.innerHTML = '';
                 element.appendChild(tooltipTemplate);
