@@ -5,20 +5,19 @@
 {
     if (ChildContent is null && string.IsNullOrEmpty(Content))
     {
-        <SfButton CssClass="@CssClass" IconCss="@IconCss" Disabled="Disabled" IsToggle="IsToggle" @attributes="@HtmlAttributes"></SfButton>
+        <SfButton CssClass="@CssClass" IconCss="@IconCss" IconPosition="@IconPosition" Disabled="Disabled" IsToggle="IsToggle" @attributes="@HtmlAttributes"></SfButton>
     }
     else if (ChildContent is not null)
     {
-        <SfButton CssClass="@CssClass" IconCss="@IconCss" Disabled="Disabled" IsToggle="IsToggle" Content="@Content" @attributes="@HtmlAttributes">@ChildContent</SfButton>
+        <SfButton CssClass="@CssClass" IconCss="@IconCss" IconPosition="@IconPosition" Disabled="Disabled" IsToggle="IsToggle" Content="@Content" @attributes="@HtmlAttributes">@ChildContent</SfButton>
     }
     else
     {
-        <SfButton CssClass="@CssClass" IconCss="@IconCss" Disabled="Disabled" IsToggle="IsToggle" Content="@Content" @attributes="@HtmlAttributes"></SfButton>
+        <SfButton CssClass="@CssClass" IconCss="@IconCss" IconPosition="@IconPosition" Disabled="Disabled" IsToggle="IsToggle" Content="@Content" @attributes="@HtmlAttributes"></SfButton>
     }
 }
 else
 {
-    var id = SfBaseUtils.GenerateID("SfButtonGroup"); 
     string title = "";
     if (HtmlAttributes is not null && HtmlAttributes.TryGetValue("title", out var titleValue))
     {
@@ -28,14 +27,14 @@ else
     string inputType = ButtonGroup?.Mode == SelectionMode.Single ? "radio" : "checkbox";
 
     <input type="@inputType"
-           id="@id"
+           id="@InputId"
            name="@(string.IsNullOrEmpty(Name) ? ButtonGroup?._inputName : Name)"
-           value="@(string.IsNullOrEmpty(Value) ? id : Value)"
+           value="@(string.IsNullOrEmpty(Value) ? InputId : Value)"
            checked="@Selected"
            disabled="@Disabled"
            @attributes="HtmlAttributes">
        
-       <label for="@id" class=@(string.IsNullOrEmpty(CssClass) ? "e-btn" : "e-btn " + CssClass) @onclick="ClickHandlerAsync" title="@title">
+       <label for="@InputId" class=@(string.IsNullOrEmpty(CssClass) ? "e-btn" : "e-btn " + CssClass) @onclick="ClickHandlerAsync" title="@title">
         @if (!string.IsNullOrEmpty(IconCss) && (IconPosition == IconPosition.Left || IconPosition == IconPosition.Top))
         {
             <span class="@IconCss e-btn-icon"></span>

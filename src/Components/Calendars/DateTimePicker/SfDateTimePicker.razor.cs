@@ -394,30 +394,27 @@ namespace Syncfusion.Blazor.Toolkit.Calendars
                 {
                     listItem.ListClass = SfBaseUtils.RemoveClass(listItem.ListClass, HOVER);
                 }
-                // Remove HOVER from NAVIGATION items
-                if (listItem.ListClass.Contains(NAVIGATION, StringComparison.CurrentCulture))
-                {
-                    listItem.ListClass = SfBaseUtils.RemoveClass(listItem.ListClass, HOVER);
-                    // Track last NAVIGATION item for aria
-                    currentNavItem = listItem;
-                    currentNavIndex = i;
-                }
-                // Remove existing selected class
+                // Remove selected/navigation class from items before applying to the new item
                 if (listItem.ListClass.Contains(className, StringComparison.CurrentCulture))
                 {
                     listItem.ListClass = SfBaseUtils.RemoveClass(listItem.ListClass, className);
                 }
-                // Apply new class to matching item
+                // Apply new class to matching item and track for aria when adding NAVIGATION
                 if (SfBaseUtils.Equals(listItem.ItemData, item))
                 {
                     listItem.ListClass = SfBaseUtils.AddClass(listItem.ListClass, className);
+                    if (className == NAVIGATION)
+                    {
+                        currentNavItem = listItem;
+                        currentNavIndex = i;
+                    }
                 }
             }
-            // Update aria active descendant
+            // Update aria active descendant with the item that gained NAVIGATION
             AriaActiveDescendantID = currentNavItem is not null ? ID + "_" + currentNavIndex.ToString(CultureInfo.CurrentCulture) : null;
             if (IsListRender && ShowPopupList && !string.IsNullOrEmpty(AriaActiveDescendantID))
             {
-                _ = SfBaseUtils.UpdateDictionary(ARIAACTIVEDESCENDANT, AriaActiveDescendantID, InputHtmlAttributes);
+                SfBaseUtils.UpdateDictionary(ARIAACTIVEDESCENDANT, AriaActiveDescendantID, InputHtmlAttributes);
             }
         }
 
@@ -444,7 +441,7 @@ namespace Syncfusion.Blazor.Toolkit.Calendars
                         IsInteracted = args is not null,
                         Element = InputElement
                     };
-                    _ = InvokeAsync(() => ValueChange.InvokeAsync(changedEventArgs));
+                    await InvokeAsync(() => ValueChange.InvokeAsync(changedEventArgs)).ConfigureAwait(false);
                 }
                 if (EnablePersistence)
                 {
@@ -797,7 +794,7 @@ namespace Syncfusion.Blazor.Toolkit.Calendars
                 await Task.Delay(10).ConfigureAwait(false); // set the delay for prevent the icon click action.
                 if (IsDevice)
                 {
-                    _ = SfBaseUtils.UpdateDictionary(READONLYATTR, true, InputHtmlAttributes);
+                    SfBaseUtils.UpdateDictionary(READONLYATTR, true, InputHtmlAttributes);
                     await FocusOutAsync().ConfigureAwait(false);
                 }
                 else
@@ -854,11 +851,11 @@ namespace Syncfusion.Blazor.Toolkit.Calendars
         /// The method ensures proper event propagation and state management for value changes.
         /// </remarks>
         /// <exclude/>
-        protected override void ChangeEvent(EventArgs? args, bool isSelection = false)
+        protected override async Task ChangeEventAsync(EventArgs? args, bool isSelection = false)
         {
             if (!SfBaseUtils.Equals(Value, PreviousDate))
             {
-                _ = SelectCalendarAsync();
+                await SelectCalendarAsync().ConfigureAwait(false);
                 if (ValueChange.HasDelegate && !(Disabled || Readonly))
                 {
                     ChangedEventArgs = new ChangedEventArgs<TValue>()
@@ -867,11 +864,11 @@ namespace Syncfusion.Blazor.Toolkit.Calendars
                         Event = args is null ? new() : args,
                         IsInteracted = args is not null
                     };
-                    _ = InvokeAsync(() => ValueChange.InvokeAsync(ChangedEventArgs));
+                    await InvokeAsync(() => ValueChange.InvokeAsync(ChangedEventArgs)).ConfigureAwait(false);
                 }
                 if (EnablePersistence)
                 {
-                    _ = SetLocalStorageAsync(ID, Value!);
+                    await SetLocalStorageAsync(ID, Value!).ConfigureAwait(false);
                 }
 
                 PreviousDate = Value;
@@ -898,10 +895,10 @@ namespace Syncfusion.Blazor.Toolkit.Calendars
             IsListRender = ShowPopupList = IsListRendered = isOpen;
             if (isOpen)
             {
-                _ = SfBaseUtils.UpdateDictionary(ARIAEXPANDED, TRUE, InputHtmlAttributes);
+                SfBaseUtils.UpdateDictionary(ARIAEXPANDED, TRUE, InputHtmlAttributes);
                 if (!string.IsNullOrEmpty(AriaActiveDescendantID))
                 {
-                    _ = SfBaseUtils.UpdateDictionary(ARIAACTIVEDESCENDANT, AriaActiveDescendantID, InputHtmlAttributes);
+                    SfBaseUtils.UpdateDictionary(ARIAACTIVEDESCENDANT, AriaActiveDescendantID, InputHtmlAttributes);
                 }
             }
             else
@@ -1126,11 +1123,11 @@ namespace Syncfusion.Blazor.Toolkit.Calendars
         /// to calendar navigation actions.
         /// </remarks>
         /// <exclude/>
-        internal override void BindNavigateEvent(NavigatedEventArgs eventArgs)
+        internal override async Task BindNavigateEventAsync(NavigatedEventArgs eventArgs)
         {
             if (Navigated.HasDelegate)
             {
-                _ = Navigated.InvokeAsync(eventArgs);
+                await Navigated.InvokeAsync(eventArgs).ConfigureAwait(false);
             }
         }
 

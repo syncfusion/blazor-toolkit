@@ -86,13 +86,18 @@ namespace Syncfusion.Blazor.Toolkit.Inputs
             }
 
             bool shouldApplyRtl = SyncfusionService?._options?.EnableRtl ?? false;
-            _labelClass = LabelPosition == LabelPosition.Before
-                ? Right + Space + Rtl
-                : shouldApplyRtl
-                    ? Rtl
-                    : LabelPosition == LabelPosition.Before
-                        ? Right
-                        : null;
+            if (LabelPosition == LabelPosition.Before && shouldApplyRtl)
+            {
+                _labelClass = Right + Space + Rtl;
+            } 
+            else if (shouldApplyRtl)
+            {
+                _labelClass = Rtl;
+            }
+            else if (LabelPosition == LabelPosition.Before)
+            {
+                _labelClass = Right;
+            }
         }
         #endregion
     }

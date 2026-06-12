@@ -175,7 +175,7 @@ namespace Syncfusion.Blazor.Toolkit.Inputs
                         {
                             return;
                         }
-                        _ = PropertyChanges?.Remove(nameof(Value));
+                        PropertyChanges?.Remove(nameof(Value));
                         await ChangeValueAsync(value: (Value is null) ? default : StrictMode ? TrimValue(Value) : Value).ConfigureAwait(true);
                         if (prop.Key == "Value")
                         {
@@ -425,7 +425,7 @@ namespace Syncfusion.Blazor.Toolkit.Inputs
         {
             PreviousStep = NotifyPropertyChanges(STEP, Step, PreviousStep);
             PreviousDecimals = NotifyPropertyChanges(DECIMALS, Decimals, PreviousDecimals);
-            _ = NotifyPropertyChanges(nameof(CssClass), CssClass, ContainerCssClass);
+            NotifyPropertyChanges(nameof(CssClass), CssClass, ContainerCssClass);
             PreviousMax = NotifyPropertyChanges(MAX, Max, PreviousMax);
             PreviousMin = NotifyPropertyChanges(MIN, Min, PreviousMin);
             PreviousFormat = NotifyPropertyChanges(nameof(Format), Format, PreviousFormat);
@@ -580,7 +580,7 @@ namespace Syncfusion.Blazor.Toolkit.Inputs
             ContainerClass = IsValidState
                 ? ContainerClass.Replace(ERROR_CLASS, string.Empty, StringComparison.Ordinal)
                 : ContainerClass.Contains(ERROR_CLASS, StringComparison.Ordinal) ? ContainerClass : ContainerClass + " " + ERROR_CLASS;
-            _ = SfBaseUtils.UpdateDictionary(ARIA_INVALID, IsValidState ? FALSE : TRUE, InputHtmlAttributes);
+            SfBaseUtils.UpdateDictionary(ARIA_INVALID, IsValidState ? FALSE : TRUE, InputHtmlAttributes);
         }
 
         /// <summary>
@@ -633,7 +633,7 @@ namespace Syncfusion.Blazor.Toolkit.Inputs
             {
 
                 await SetValueAsync(null, FloatLabelType, ShowClearButton).ConfigureAwait(true);
-                _ = InputHtmlAttributes.Remove(ARIA_VALUE_NOW);
+                InputHtmlAttributes.Remove(ARIA_VALUE_NOW);
             }
         }
 
@@ -745,7 +745,7 @@ namespace Syncfusion.Blazor.Toolkit.Inputs
             }
             else
             {
-                _ = InputHtmlAttributes.Remove(ARIA_VALUE_MAX);
+                InputHtmlAttributes.Remove(ARIA_VALUE_MAX);
             }
             if (isMin)
             {
@@ -753,7 +753,7 @@ namespace Syncfusion.Blazor.Toolkit.Inputs
             }
             else
             {
-                _ = InputHtmlAttributes.Remove(ARIA_VALUE_MIN);
+                InputHtmlAttributes.Remove(ARIA_VALUE_MIN);
             }
         }
 
@@ -1251,20 +1251,20 @@ namespace Syncfusion.Blazor.Toolkit.Inputs
                 {
                     if (c is >= '０' and <= '９')
                     {
-                        _ = sb.Append((char)(c - '０' + '0'));
+                        sb.Append((char)(c - '０' + '0'));
                     }
                     else if ((c == '-' || (negativeSignStr.Length == 1 && c.ToString() == negativeSignStr)) && isFirstChar && !hasNegativeProcessed)
                     {
-                        _ = sb.Append(negativeSignStr);
+                        sb.Append(negativeSignStr);
                         hasNegativeProcessed = true;
                     }
                     else if (char.IsDigit(c))
                     {
-                        _ = sb.Append(c);
+                        sb.Append(c);
                     }
                     else if (c.ToString() == decimalSeparator)
                     {
-                        _ = sb.Append(decimalSeparator);
+                        sb.Append(decimalSeparator);
                     }
                     else if (c.ToString() == thousandSeparator)
                     {

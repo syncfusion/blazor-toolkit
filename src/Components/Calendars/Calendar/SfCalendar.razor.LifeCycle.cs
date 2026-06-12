@@ -180,7 +180,7 @@ namespace Syncfusion.Blazor.Toolkit.Calendars
             {
                 return false;
             }
-            _ = NotifyPropertyChanges(nameof(Value), persistValue, CalendarBase_Value);
+            NotifyPropertyChanges(nameof(Value), persistValue, CalendarBase_Value);
             await UpdateCalendarPropertyAsync(nameof(Value), persistValue).ConfigureAwait(false);
             return true;
         }
@@ -204,8 +204,8 @@ namespace Syncfusion.Blazor.Toolkit.Calendars
             CalendarBase_FirstDayOfWeek = NotifyPropertyChanges(nameof(FirstDayOfWeek), FirstDayOfWeek, CalendarBase_FirstDayOfWeek);
             CalendarBase_Min = NotifyPropertyChanges(nameof(Min), Min, CalendarBase_Min);
             CalendarBase_Max = NotifyPropertyChanges(nameof(Max), Max, CalendarBase_Max);
-            _ = NotifyPropertyChanges(nameof(Disabled), Disabled, Calendar_Disabled);
-            _ = NotifyPropertyChanges(nameof(CssClass), CssClass, Calendar_CssClass);
+            NotifyPropertyChanges(nameof(Disabled), Disabled, Calendar_Disabled);
+            NotifyPropertyChanges(nameof(CssClass), CssClass, Calendar_CssClass);
             CalendarBase_Value = NotifyPropertyChanges(nameof(Value), Value, CalendarBase_Value);
             Calendar_Values = NotifyPropertyChanges(nameof(Values), Values, Calendar_Values);
             await Task.CompletedTask.ConfigureAwait(false);

@@ -246,7 +246,7 @@ namespace Syncfusion.Blazor.Toolkit.Inputs
         /// </remarks>
         private void PropertyUpdate()
         {
-            _ = NotifyPropertyChanges(nameof(CssClass), CssClass, _cssClass);
+            NotifyPropertyChanges(nameof(CssClass), CssClass, _cssClass);
             InternalValue = NotifyPropertyChanges(nameof(Value), Value, InternalValue);
             _resizeMode = NotifyPropertyChanges(nameof(ResizeMode), ResizeMode, _resizeMode);
             _maxLength = NotifyPropertyChanges(nameof(MaxLength), MaxLength, _maxLength);

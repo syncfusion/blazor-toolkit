@@ -36,8 +36,8 @@
         <h5><b>Types</b></h5>
     </Header>
     <Content>
-        Common CheckBox states include <b>Checked</b>, <b>Unchecked</b>, <b>Disabled</b>, and <b>Indeterminate</b>.
-        Use <code>Disabled</code> to prevent interaction, and enable tri‑state using <code>EnableTriState</code> to support the <b>Indeterminate</b> state.
+        Common CheckBox states include <code>Checked</code>, <code>Unchecked</code>, <code>Disabled</code>, and <code>Indeterminate</code>.
+        Use <code><a href="https://help.syncfusion.com/cr/blazor-toolkit/Syncfusion.Blazor.Toolkit.Inputs.SfSelectionBase-1.html#Syncfusion_Blazor_Toolkit_Inputs_SfSelectionBase_1_Disabled" target="_blank" rel="noreferrer noopener">Disabled</a></code> to prevent interaction, and enable tri‑state using <code><a href="https://help.syncfusion.com/cr/blazor-toolkit/Syncfusion.Blazor.Toolkit.Inputs.SfCheckBox-1.html#Syncfusion_Blazor_Toolkit_Inputs_SfCheckBox_1_EnableTriState" target="_blank" rel="noreferrer noopener">EnableTriState</a></code> to support the <code>Indeterminate</code> state.
     </Content>
 </Description>
 
@@ -60,7 +60,7 @@
         <h5><b>Binding Value</b></h5>
     </Header>
     <Content>
-        Bind the checked state using Blazor’s <code>bind-Checked</code> for two‑way binding. When you need custom logic during updates,
+        Bind the checked state using Blazor's <code><a href="https://help.syncfusion.com/cr/blazor-toolkit/Syncfusion.Blazor.Toolkit.Inputs.SfSelectionBase-1.html#Syncfusion_Blazor_Toolkit_Inputs_SfSelectionBase_1_Checked" target="_blank" rel="noreferrer noopener">bind-Checked</a></code> for two‑way binding. When you need custom logic during updates,
         use the explicit pattern with <code>Checked</code> and <code>CheckedChanged</code>.
     </Content>
 </Description>
@@ -90,7 +90,7 @@
         <h5><b>Label & Placement</b></h5>
     </Header>
     <Content>
-        Provide context using the <code>Label</code> property and choose its position with <code>LabelPosition</code> (<code>Before</code> or <code>After</code>).
+        Provide context using the <code><a href="https://help.syncfusion.com/cr/blazor-toolkit/Syncfusion.Blazor.Toolkit.Inputs.SfCheckBox-1.html#Syncfusion_Blazor_Toolkit_Inputs_SfCheckBox_1_Label" target="_blank" rel="noreferrer noopener">Label</a></code> property and choose its position with <code><a href="https://help.syncfusion.com/cr/blazor-toolkit/Syncfusion.Blazor.Toolkit.Inputs.SfCheckBox-1.html#Syncfusion_Blazor_Toolkit_Inputs_SfCheckBox_1_LabelPosition" target="_blank" rel="noreferrer noopener">LabelPosition</a></code> (<code>Before</code> or <code>After</code>).
         The positioning adapts to RTL when enabled.
     </Content>
 </Description>
@@ -247,7 +247,7 @@
                             Label="I accept the terms" />
                 <ValidationMessage For="() => formModel.Accept" />
             </div>
-            <SfButton CssClass="e-primary" Disabled="@(!formModel.Accept)">Submit</SfButton>
+            <SfButton CssClass="e-primary" Disabled="@(!formModel.Accept)" Type="ButtonType.Submit">Submit</SfButton>
 
             @if (formSubmitted)
             {
@@ -266,8 +266,8 @@
     </Header>
     <Content>
         The parent checkbox reflects group status:
-        <b>Checked</b> (all), <b>Unchecked</b> (none), and <b>Indeterminate</b> (some). Clicking the parent only performs
-        two states (check all / uncheck all); the <b>Indeterminate</b> state is shown programmatically based on child selections.
+        <code>Checked</code> (all), <code>Unchecked</code> (none), and <code>Indeterminate</code> (some). Clicking the parent only performs
+        two states (check all / uncheck all); the <code>Indeterminate</code> state is shown programmatically based on child selections.
     </Content>
 </Description>
 
@@ -521,7 +521,7 @@
                     Label=""I accept the terms"" />
         <ValidationMessage For=""() => formModel.Accept"" />
     </div>
-    <SfButton CssClass=""e-primary"" Disabled=""@(!formModel.Accept)"">Submit</SfButton>
+    <SfButton CssClass=""e-primary"" Disabled=""@(!formModel.Accept)"" Type=""ButtonType.Submit"">Submit</SfButton>
 
     @if (formSubmitted)
     {

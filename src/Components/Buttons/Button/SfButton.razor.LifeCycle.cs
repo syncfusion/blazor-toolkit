@@ -1,4 +1,5 @@
-﻿namespace Syncfusion.Blazor.Toolkit.Buttons
+﻿using System.Diagnostics;
+namespace Syncfusion.Blazor.Toolkit.Buttons
 {
     public partial class SfButton
     {
@@ -15,6 +16,24 @@
         {
             await base.OnParametersSetAsync().ConfigureAwait(false);
             InitRender();
+            CheckIconOnlyAccessibleName();
+        }
+
+        /// <exclude />
+        /// <summary>
+        /// Checks if the button is icon-only without accessible name and emits a debug warning.
+        /// </summary>
+        /// <remarks>
+        /// An icon-only button should have either <see cref="Content"/> or <see cref="ChildContent"/> set
+        /// to provide an accessible name for screen readers.
+        /// </remarks>
+        [Conditional("DEBUG")]
+        private void CheckIconOnlyAccessibleName()
+        {
+            if (!string.IsNullOrEmpty(IconCss) && string.IsNullOrEmpty(Content) && ChildContent is null)
+            {
+                Debug.WriteLine("Warning: Icon-only button lacks accessible name. Provide Content or ChildContent for screen readers.");
+            }
         }
 
         /// <exclude />

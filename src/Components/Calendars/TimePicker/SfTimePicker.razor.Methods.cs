@@ -123,10 +123,10 @@ namespace Syncfusion.Blazor.Toolkit.Calendars
                     ShowPopupList = true;
                     if (!string.IsNullOrEmpty(AriaActiveDescendantID))
                     {
-                        _ = SfBaseUtils.UpdateDictionary(ARIA_ACTIVE_DESCENDANT, AriaActiveDescendantID, InputHtmlAttributes);
+                        SfBaseUtils.UpdateDictionary(ARIA_ACTIVE_DESCENDANT, AriaActiveDescendantID, InputHtmlAttributes);
                     }
-                    _ = SfBaseUtils.UpdateDictionary(ARIA_EXPANDED, TRUE, InputHtmlAttributes);
-                    _ = SfBaseUtils.UpdateDictionary(ARIA_OWN, ID + POPUPS, InputHtmlAttributes);
+                    SfBaseUtils.UpdateDictionary(ARIA_EXPANDED, TRUE, InputHtmlAttributes);
+                    SfBaseUtils.UpdateDictionary(ARIA_OWN, ID + POPUPS, InputHtmlAttributes);
                     IsTimeIconClicked = false;
                     await InvokeAsync(StateHasChanged).ConfigureAwait(false);
                 }
@@ -187,7 +187,7 @@ namespace Syncfusion.Blazor.Toolkit.Calendars
                 {
                     BaseInputAttributes = RemoveAttributes(READ_ONLY, BaseInputAttributes);
                 }
-                _ = InputHtmlAttributes.Remove(ARIA_ACTIVE_DESCENDANT);
+                InputHtmlAttributes.Remove(ARIA_ACTIVE_DESCENDANT);
                 TimeIcon = SfBaseUtils.RemoveClass(TimeIcon, ACTIVE);
                 await InvokeVoidAsync(_timePickerJsModule!, _timePickerJsInProcessModule!, "closePopup", [DataId, PopupEventArgs, options]).ConfigureAwait(true);
                 IsListRender = false;

@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Web;
+using Microsoft.Extensions.Logging;
 
 namespace Syncfusion.Blazor.Toolkit.Popups
 {
@@ -35,6 +36,15 @@ namespace Syncfusion.Blazor.Toolkit.Popups
     /// </example>
     public partial class SfDialogProvider : ComponentBase, IDisposable
     {
+        /// <summary>
+        /// Gets or sets the logger instance for diagnostic and error logging purposes.
+        /// </summary>
+        /// <remarks>
+        /// This logger is injected via dependency injection and used to log errors during dialog operations.
+        /// </remarks>
+        [Inject]
+        internal ILogger<SfDialogProvider>? Logger { get; set; }
+
         /// <summary>
         /// Gets or sets the injected <see cref="SfDialogService"/> instance used for dialog operations.
         /// </summary>
@@ -129,12 +139,12 @@ namespace Syncfusion.Blazor.Toolkit.Popups
         /// For prompt dialogs, returns the input value or an empty string if no input was provided.
         /// For other dialog types (Alert, Confirm), returns false indicating cancellation.
         /// </remarks>
-        private void OnDialogClose(CloseEventArgs args)
+        private Task OnDialogClose(CloseEventArgs args)
         {
             ArgumentNullException.ThrowIfNull(args);
             InputValue ??= string.Empty;
             object result = DialogType == "Prompt" ? InputValue : false;
-            _ = CloseAsync(result);
+            return CloseAsync(result);
         }
 
         /// <summary>
@@ -153,7 +163,7 @@ namespace Syncfusion.Blazor.Toolkit.Popups
             TaskCompletionSource<dynamic>? task = CompleteTask?.LastOrDefault();
             if (task is not null && task.Task is not null && !task.Task.IsCompleted)
             {
-                _ = (CompleteTask?.Remove(task));
+                CompleteTask?.Remove(task);
                 task.SetResult(result);
             }
             return Task.CompletedTask;
@@ -245,14 +255,29 @@ namespace Syncfusion.Blazor.Toolkit.Popups
         /// <remarks>
         /// This method is invoked when the <see cref="SfDialogService"/> triggers the OnOpen event.
         /// It stores the dialog parameters and initiates the dialog opening process.
+        /// Note: This method uses fire-and-forget because it's subscribed to a .NET Action event
+        /// which requires void return. Exceptions are logged via ILogger when available, otherwise
+        /// they propagate to prevent silent failures that could mask runtime issues.
         /// </remarks>
-        private void OnOpen(string type, DialogOptions options, string content, string? title, List<TaskCompletionSource<dynamic>> tasks)
+        private async void OnOpen(string type, DialogOptions options, string content, string? title, List<TaskCompletionSource<dynamic>> tasks)
         {
             CompleteTask = tasks;
             DialogType = type;
             DialogContent = content;
             DialogTitle = title;
-            _ = OpenAsync(options).ConfigureAwait(false);
+            try
+            {
+                await OpenAsync(options).ConfigureAwait(false);
+            }
+            catch (Exception ex) when (Logger is not null)
+            {
+                Logger.LogError(ex, "Error in OnOpen");
+            }
+            catch (Exception)
+            {
+                // If logger is unavailable, re-throw to prevent silent failure in fire-and-forget context
+                throw;
+            }
         }
 
         /// <summary>
@@ -278,10 +303,10 @@ namespace Syncfusion.Blazor.Toolkit.Popups
         /// For confirm dialogs, returns false indicating cancellation/rejection.
         /// For alert dialogs, returns false (though alerts typically only have an OK button).
         /// </remarks>
-        private void OnCancelButtonClick(MouseEventArgs args)
+        private Task OnCancelButtonClick(MouseEventArgs args)
         {
             object? result = DialogType == "Prompt" ? default : (object)false;
-            _ = CloseAsync(result);
+            return CloseAsync(result);
         }
     }
 }

@@ -14,6 +14,17 @@
     </Content>
 </Description>
 
+<!-- Important note about saveUrl and removeUrl endpoints -->
+<Description>
+    <Content>
+        <NoteSection>
+            <Content>
+                <span><b>Disclaimer for all File Uploader samples:</b> The backend service endpoints (<code>saveUrl</code> and <code>removeUrl</code>) used throughout this documentation for file saving and removing operations are intended for demonstration purposes only. The uploaded files are subjected to thorough validation, including verification of file names and the application of security checks. Therefore, this service is not recommended for production use, and the configuration of a custom backend save and remove service is strongly advised.</span>
+            </Content>
+        </NoteSection>
+    </Content>
+</Description>
+
 <!-- Basic uploader -->
 <Description>
     <Header>
@@ -39,7 +50,7 @@
         <h5><b>Preloaded files</b></h5>
     </Header>
     <Content>
-        The FileUpload component supports displaying a list of files that are already available on the server as <b>UploadedFile</b>.
+        The FileUpload component supports displaying a list of files that are already available on the server as <code><a href="https://help.syncfusion.com/cr/blazor-toolkit/Syncfusion.Blazor.Toolkit.Inputs.UploadedFile.html" target="_blank" rel="noreferrer noopener">UploadedFile</a></code>.
         This is useful for editing scenarios where users need to see and potentially remove existing files before uploading new ones.
     </Content>
 </Description>
@@ -96,7 +107,7 @@
         <h5><b>Validation</b></h5>
     </Header>
     <Content>
-        Restrict file types and sizes using <b>AllowedExtensions</b>, <b>MaxFileSize</b> and <b>MinFileSize</b>.
+        Restrict file types and sizes using <code><a href="https://help.syncfusion.com/cr/blazor-toolkit/Syncfusion.Blazor.Toolkit.Inputs.SfUploader.html#Syncfusion_Blazor_Toolkit_Inputs_SfUploader_AllowedExtensions" target="_blank" rel="noreferrer noopener">AllowedExtensions</a></code>, <code><a href="https://help.syncfusion.com/cr/blazor-toolkit/Syncfusion.Blazor.Toolkit.Inputs.SfUploader.html#Syncfusion_Blazor_Toolkit_Inputs_SfUploader_MaxFileSize" target="_blank" rel="noreferrer noopener">MaxFileSize</a></code> and <code><a href="https://help.syncfusion.com/cr/blazor-toolkit/Syncfusion.Blazor.Toolkit.Inputs.SfUploader.html#Syncfusion_Blazor_Toolkit_Inputs_SfUploader_MinFileSize" target="_blank" rel="noreferrer noopener">MinFileSize</a></code>.
     </Content>
 </Description>
 
@@ -121,50 +132,18 @@
         files by splitting them into smaller, manageable chunks. This process significantly
         improves reliability, especially over unreliable networks, by reducing
         the impact of network interruptions.
+        Additionally, the uploader provides <b>inbuilt pause and resume functionality</b>,
+        enabling you to temporarily halt an ongoing chunk upload and resume it later from where it left off,
+        giving you greater control over the upload process.
     </Content>
 </Description>
 
 <CodePreview CodeSection="@ChunkUploadCode">
     <PreviewSection>
-        <SfUploader CssClass="e-custom-uploader" ID="UploadFiles" @ref="UploaderObj" OnResume="@OnResumeHandler" Paused="@PausedHandler">
+        <SfUploader CssClass="e-custom-uploader" ID="UploadFiles">
             <UploaderAsyncSettings SaveUrl="https://blazor.syncfusion.com/services/production/api/FileUploader/Save" RemoveUrl="https://blazor.syncfusion.com/services/production/api/FileUploader/Remove" ChunkSize="500000">
             </UploaderAsyncSettings>
         </SfUploader>
-        <div class="mt-3">
-            <SfButton @onclick="PauseUpload">Pause Upload</SfButton>
-            <SfButton @onclick="ResumeUpload">Resume Upload</SfButton>
-        </div>
-
-
-@code {
-    SfUploader? UploaderObj;
-
-    private void OnResumeHandler(PauseResumeEventArgs args)
-    {
-        // Custom logic to execute when an upload is resumed
-    }
-
-    private void PausedHandler(PauseResumeEventArgs args)
-    {
-        // Custom logic to execute when an upload is paused
-    }
-
-    private async Task PauseUpload()
-    {
-        if (UploaderObj != null)
-        {
-            await UploaderObj.PauseAsync();
-        }
-    }
-
-    private async Task ResumeUpload()
-    {
-        if (UploaderObj != null)
-        {
-            await UploaderObj.ResumeAsync();
-        }
-    }
-}
 </PreviewSection>
 </CodePreview>
 
@@ -333,8 +312,8 @@
         <h5><b>Drop Effect</b></h5>
     </Header>
     <Content>
-        The File Upload exposes a DropEffect property that controls the cursor feedback and allowed drop operation during drag-and-drop.
-        Set this property to <b>Default</b>, <b>Copy</b>, <b>Move</b>, <b>Link</b>, or <b>None</b>.
+        The File Upload exposes a <code><a href="https://help.syncfusion.com/cr/blazor-toolkit/Syncfusion.Blazor.Toolkit.Inputs.SfUploader.html#Syncfusion_Blazor_Toolkit_Inputs_SfUploader_DropEffect" target="_blank" rel="noreferrer noopener">DropEffect</a></code> property that controls the cursor feedback and allowed drop operation during drag-and-drop.
+        Set this property to <code>Default</code>, <code>Copy</code>, <code>Move</code>, <code>Link</code>, or <code>None</code>.
     </Content>
 </Description>
 
@@ -434,43 +413,11 @@
             <p><b>Maximum file size:</b> 10 MB</p>
         </div>";
 
-    private string ChunkUploadCode => @"<SfUploader ID=""UploadFiles"" @ref=""UploaderObj"" OnResume=""@OnResumeHandler"" Paused=""@PausedHandler"" >
+    private string ChunkUploadCode => @"<SfUploader ID=""UploadFiles"">
     <UploaderAsyncSettings SaveUrl=""https://blazor.syncfusion.com/services/production/api/FileUploader/Save"" RemoveUrl=""https://blazor.syncfusion.com/services/production/api/FileUploader/Remove"" ChunkSize=""500000"">
-</UploaderAsyncSettings>
+    </UploaderAsyncSettings>
 </SfUploader>
-
-<SfButton @onclick=""PauseUpload"">Pause Upload</SfButton>
-<SfButton @onclick=""ResumeUpload"">Resume Upload</SfButton>
-
-@code {
-    SfUploader? UploaderObj;
-
-    private void OnResumeHandler(PauseResumeEventArgs args)
-    {
-        // Custom logic to execute when an upload is resumed
-    }
-
-    private void PausedHandler(PauseResumeEventArgs args)
-    {
-        // Custom logic to execute when an upload is paused
-    }
-
-    private async Task PauseUpload()
-    {
-        if (UploaderObj != null)
-        {
-            await UploaderObj.PauseAsync();
-        }
-    }
-
-    private async Task ResumeUpload()
-    {
-        if (UploaderObj != null)
-        {
-            await UploaderObj.ResumeAsync();
-        }
-    }
-}";
+";
 
     private string TemplateCode => @"<SfUploader ID=""UploadFiles"" AutoUpload=""false"">
     <UploaderAsyncSettings SaveUrl=""https://blazor.syncfusion.com/services/production/api/FileUploader/Save""

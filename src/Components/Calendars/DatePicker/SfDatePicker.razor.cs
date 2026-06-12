@@ -418,7 +418,7 @@ namespace Syncfusion.Blazor.Toolkit.Calendars
         {
             InternalFormat = NotifyPropertyChanges(FORMAT, Format, InternalFormat);
             InternalInputFormats = NotifyPropertyChanges(INPUTFORMATS, InputFormats, InternalInputFormats);
-            _ = NotifyPropertyChanges(nameof(CssClass), CssClass, InternalCssClass);
+            NotifyPropertyChanges(nameof(CssClass), CssClass, InternalCssClass);
             InternalValue = NotifyPropertyChanges(nameof(Value), Value, InternalValue);
             CalendarBase_Max = NotifyPropertyChanges(MAX, Max, CalendarBase_Max);
             CalendarBase_Min = NotifyPropertyChanges(MIN, Min, CalendarBase_Min);
@@ -751,7 +751,7 @@ namespace Syncfusion.Blazor.Toolkit.Calendars
             if (ShowPopupCalendar)
             {
                 cellId = cellId is null ? string.Empty : cellId;
-                _ = SfBaseUtils.UpdateDictionary(ARIAACTIVEDESCENDANT, cellId, InputHtmlAttributes);
+                SfBaseUtils.UpdateDictionary(ARIAACTIVEDESCENDANT, cellId, InputHtmlAttributes);
                 await InvokeVoidAsync(_datePickerJsModule, _datePickerJsInProcessModule, "updateAriaActiveDescendant", [DataId, cellId]).ConfigureAwait(true);
             }
             await Task.CompletedTask.ConfigureAwait(false);
@@ -857,9 +857,9 @@ namespace Syncfusion.Blazor.Toolkit.Calendars
             IsCalendarRender = false;
             SetPopupVisibility(false);
             UpdateDateTimePopupState(false);
-            _ = SfBaseUtils.UpdateDictionary(ARIAEXPANDED, FALSE, InputHtmlAttributes);
-            _ = InputHtmlAttributes.Remove(ARIAACTIVEDESCENDANT);
-            _ = InputHtmlAttributes.Remove(ARIA_OWN);
+            SfBaseUtils.UpdateDictionary(ARIAEXPANDED, FALSE, InputHtmlAttributes);
+            InputHtmlAttributes.Remove(ARIAACTIVEDESCENDANT);
+            InputHtmlAttributes.Remove(ARIA_OWN);
             await Task.CompletedTask.ConfigureAwait(false);
         }
 
@@ -881,14 +881,14 @@ namespace Syncfusion.Blazor.Toolkit.Calendars
 
         private void UpdateAriaAttributes()
         {
-            _ = SfBaseUtils.UpdateDictionary(ARIA_LIVE, ASSERTIVE, InputHtmlAttributes);
-            _ = SfBaseUtils.UpdateDictionary(ARIA_AUTOMIC, TRUE, InputHtmlAttributes);
-            _ = SfBaseUtils.UpdateDictionary(ARIA_HAS_POPUP, GRID, InputHtmlAttributes);
-            _ = SfBaseUtils.UpdateDictionary(ROLE, COMBOBOX, InputHtmlAttributes);
-            _ = SfBaseUtils.UpdateDictionary(AUTO_CORRECT, OFF, InputHtmlAttributes);
-            _ = SfBaseUtils.UpdateDictionary(SPELL_CHECK, FALSE, InputHtmlAttributes);
-            _ = SfBaseUtils.UpdateDictionary(ARIAINVALID, FALSE, InputHtmlAttributes);
-            _ = SfBaseUtils.UpdateDictionary(ARIA_CONTROLS, ID, InputHtmlAttributes);
+            SfBaseUtils.UpdateDictionary(ARIA_LIVE, ASSERTIVE, InputHtmlAttributes);
+            SfBaseUtils.UpdateDictionary(ARIA_AUTOMIC, TRUE, InputHtmlAttributes);
+            SfBaseUtils.UpdateDictionary(ARIA_HAS_POPUP, GRID, InputHtmlAttributes);
+            SfBaseUtils.UpdateDictionary(ROLE, COMBOBOX, InputHtmlAttributes);
+            SfBaseUtils.UpdateDictionary(AUTO_CORRECT, OFF, InputHtmlAttributes);
+            SfBaseUtils.UpdateDictionary(SPELL_CHECK, FALSE, InputHtmlAttributes);
+            SfBaseUtils.UpdateDictionary(ARIAINVALID, FALSE, InputHtmlAttributes);
+            SfBaseUtils.UpdateDictionary(ARIA_CONTROLS, ID, InputHtmlAttributes);
         }
         private static string RemoveCultureDigits(bool isArabic, string dateValue)
         {
@@ -1200,7 +1200,7 @@ namespace Syncfusion.Blazor.Toolkit.Calendars
             {
                 await InvokeAsync(() => OnChange.InvokeAsync(new ChangeEventArgs() { Value = string.Empty })).ConfigureAwait(false);
             }
-            ChangeEvent(args);
+            await ChangeEventAsync(args).ConfigureAwait(false);
             if (IsCalendarRender)
             {
                 await HidePopupAsync(args).ConfigureAwait(false);
@@ -1336,7 +1336,7 @@ namespace Syncfusion.Blazor.Toolkit.Calendars
                 {
                     // Delay for read only attributes update in device mode before FocusOut
                     await Task.Delay(DEVICE_READONLY_DELAY_MS).ConfigureAwait(false);
-                    _ = SfBaseUtils.UpdateDictionary(READONLYATTR, true, InputHtmlAttributes);
+                    SfBaseUtils.UpdateDictionary(READONLYATTR, true, InputHtmlAttributes);
                     await FocusOutAsync().ConfigureAwait(false);
                 }
                 IsDateIconClicked = true;
@@ -1438,7 +1438,7 @@ namespace Syncfusion.Blazor.Toolkit.Calendars
         /// <param name="args">The args<see cref="EventArgs"/>.</param>
         /// <param name="isSelection">Determines whether selection is made using the mouse or keyboard</param>
         /// <exclude/>
-        protected override void ChangeEvent(EventArgs? args, bool isSelection = false)
+        protected override async Task ChangeEventAsync(EventArgs? args, bool isSelection = false)
         {
             // Guard against disposed state during event handling
             if (IsDisposed)
@@ -1448,11 +1448,11 @@ namespace Syncfusion.Blazor.Toolkit.Calendars
 
             if (!SfBaseUtils.Equals(Value, PreviousDate))
             {
-                _ = SelectCalendarAsync(isSelection);
+                await SelectCalendarAsync(isSelection).ConfigureAwait(false);
 
                 if (EnablePersistence)
                 {
-                    _ = SetLocalStorageAsync(ID, Value!);
+                    await SetLocalStorageAsync(ID, Value!).ConfigureAwait(false);
                 }
                 if (ValueChange.HasDelegate && !(Disabled || Readonly))
                 {
@@ -1462,7 +1462,7 @@ namespace Syncfusion.Blazor.Toolkit.Calendars
                         Event = args is null ? new ChangeEventArgs() : args,
                         IsInteracted = args is not null
                     };
-                    _ = InvokeAsync(() => ValueChange.InvokeAsync(ChangedEventArgs));
+                    await InvokeAsync(() => ValueChange.InvokeAsync(ChangedEventArgs)).ConfigureAwait(false);
                 }
                 PreviousDate = Value;
                 PreviousElementValue = CurrentValueAsString;
@@ -1691,11 +1691,11 @@ namespace Syncfusion.Blazor.Toolkit.Calendars
                 InputHtmlAttributes : SfBaseUtils.UpdateDictionary(READONLYATTR, true, InputHtmlAttributes);
         }
 
-        internal override void BindNavigateEvent(NavigatedEventArgs eventArgs)
+        internal override async Task BindNavigateEventAsync(NavigatedEventArgs eventArgs)
         {
             if (Navigated.HasDelegate)
             {
-                _ = InvokeAsync(() => Navigated.InvokeAsync(eventArgs));
+                await InvokeAsync(() => Navigated.InvokeAsync(eventArgs)).ConfigureAwait(false);
             }
         }
 
@@ -1710,7 +1710,7 @@ namespace Syncfusion.Blazor.Toolkit.Calendars
         }
         private static Dictionary<string, object> RemoveAttr(string removeClass, Dictionary<string, object> attr)
         {
-            _ = attr.Remove(removeClass);
+            attr.Remove(removeClass);
             return attr;
         }
 
@@ -1822,7 +1822,7 @@ namespace Syncfusion.Blazor.Toolkit.Calendars
             await ProcessEnterKeyAsync(args).ConfigureAwait(false);
             if (args.TargetClassList == "e-day e-title")
             {
-                HandleTitleNavigation();
+                await HandleTitleNavigationAsync().ConfigureAwait(false);
             }
             else
             {
@@ -1848,9 +1848,12 @@ namespace Syncfusion.Blazor.Toolkit.Calendars
             }
         }
 
-        private void HandleTitleNavigation()
+        private async Task HandleTitleNavigationAsync()
         {
-            CalendarBaseInstance?.NavigateTitle();
+            if (CalendarBaseInstance is not null)
+            {
+                await CalendarBaseInstance.NavigateTitleAsync().ConfigureAwait(false);
+            }
         }
 
         private async Task HandleDateSelectionAsync(KeyActions args, string[] targetClasses)

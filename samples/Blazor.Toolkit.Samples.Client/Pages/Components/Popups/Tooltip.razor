@@ -19,7 +19,7 @@
         <h5>Default Tooltip</h5>
     </Header>
     <Content>
-        The simplest way to use the Tooltip component is to wrap any element with <code>SfTooltip</code> and provide <code>Content</code>. The tooltip appears on hover by default. This basic pattern works with any element - buttons, text, icons, or custom content. The <code>Position</code> property controls where the tooltip displays relative to the target element.
+        The simplest way to use the Tooltip component is to wrap any element with <code><a href="https://help.syncfusion.com/cr/blazor-toolkit/Syncfusion.Blazor.Toolkit.Popups.SfTooltip.html" target="_blank" rel="noreferrer noopener">SfTooltip</a></code> and provide <code><a href="https://help.syncfusion.com/cr/blazor-toolkit/Syncfusion.Blazor.Toolkit.Popups.SfTooltip.html#Syncfusion_Blazor_Toolkit_Popups_SfTooltip_Content" target="_blank" rel="noreferrer noopener">Content</a></code>. The tooltip appears on hover by default. This basic pattern works with any element - buttons, text, icons, or custom content. The <code><a href="https://help.syncfusion.com/cr/blazor-toolkit/Syncfusion.Blazor.Toolkit.Popups.SfTooltip.html#Syncfusion_Blazor_Toolkit_Popups_SfTooltip_Position" target="_blank" rel="noreferrer noopener">Position</a></code> property controls where the tooltip displays relative to the target element.
     </Content>
 </Description>
 <CodePreview CodeSection="@DefaultTooltipCode">
@@ -37,7 +37,7 @@
         <h5>Position</h5>
     </Header>
     <Content>
-        The Tooltip component supports various positioning options to control where the tooltip appears relative to the target element. You can set the <code>Position</code> property to one of the predefined values, such as <code>TopLeft</code>, <code>TopCenter</code>, <code>TopRight</code>, <code>BottomLeft</code>, <code>BottomCenter</code>, <code>BottomRight</code>, <code>LeftTop</code>, <code>LeftCenter</code>, <code>LeftBottom</code>, <code>RightTop</code>, <code>RightCenter</code>, or <code>RightBottom</code>.
+        The Tooltip component supports various positioning options to control where the tooltip appears relative to the target element. You can set the <code><a href="https://help.syncfusion.com/cr/blazor-toolkit/Syncfusion.Blazor.Toolkit.Popups.SfTooltip.html#Syncfusion_Blazor_Toolkit_Popups_SfTooltip_Position" target="_blank" rel="noreferrer noopener">Position</a></code> property to one of the predefined values, such as <code>TopLeft</code>, <code>TopCenter</code>, <code>TopRight</code>, <code>BottomLeft</code>, <code>BottomCenter</code>, <code>BottomRight</code>, <code>LeftTop</code>, <code>LeftCenter</code>, <code>LeftBottom</code>, <code>RightTop</code>, <code>RightCenter</code>, or <code>RightBottom</code>.
     </Content>
 </Description>
 <CodePreview CodeSection="@PositionCode">
@@ -135,7 +135,7 @@
         <h5>HTML Template</h5>
     </Header>
     <Content>
-        The Tooltip component supports rich HTML content through the <code>ContentTemplate</code> property. This allows you to display formatted text, images, links, and other HTML elements inside the tooltip. The example demonstrates displaying an image with descriptive text and hyperlinks within the tooltip using a custom template.
+        The Tooltip component supports rich HTML content through the <code><a href="https://help.syncfusion.com/cr/blazor-toolkit/Syncfusion.Blazor.Toolkit.Popups.SfTooltip.html#Syncfusion_Blazor_Toolkit_Popups_SfTooltip_ContentTemplate" target="_blank" rel="noreferrer noopener">ContentTemplate</a></code> property. This allows you to display formatted text, images, links, and other HTML elements inside the tooltip. The example demonstrates displaying an image with descriptive text and hyperlinks within the tooltip using a custom template.
     </Content>
 </Description>
 <CodePreview CodeSection="@HtmlTemplateCode">
@@ -194,24 +194,24 @@
         <h5>Target-based Tooltip</h5>
     </Header>
     <Content>
-        The Tooltip component can be attached to multiple elements using CSS selectors via the <code>Target</code> property. This example demonstrates a toolbar where each button automatically displays a tooltip when hovered. The <code>ShowTipPointer</code> property displays an arrow pointer, and <code>Width</code> controls the tooltip size. This approach is efficient for applying tooltips to multiple similar elements.
+        The Tooltip component can be attached to multiple elements using CSS selectors via the <code><a href="https://help.syncfusion.com/cr/blazor-toolkit/Syncfusion.Blazor.Toolkit.Popups.SfTooltip.html#Syncfusion_Blazor_Toolkit_Popups_SfTooltip_Target" target="_blank" rel="noreferrer noopener">Target</a></code> property. This example demonstrates a toolbar where each button automatically displays a tooltip when hovered. The <code><a href="https://help.syncfusion.com/cr/blazor-toolkit/Syncfusion.Blazor.Toolkit.Popups.SfTooltip.html#Syncfusion_Blazor_Toolkit_Popups_SfTooltip_ShowTipPointer" target="_blank" rel="noreferrer noopener">ShowTipPointer</a></code> property displays an arrow pointer, and <code><a href="https://help.syncfusion.com/cr/blazor-toolkit/Syncfusion.Blazor.Toolkit.Popups.SfTooltip.html#Syncfusion_Blazor_Toolkit_Popups_SfTooltip_Width" target="_blank" rel="noreferrer noopener">Width</a></code> controls the tooltip size. This approach is efficient for applying tooltips to multiple similar elements.
     </Content>
 </Description>
 <CodePreview CodeSection="@TemplateCode">
     <PreviewSection>
         <div id="targetContainer" class="col-lg-12 control-section">
             @* Native toolbar with SfTooltip targeting buttons *@
-            <SfTooltip Width="200px" ID="Tooltip" ShowTipPointer="true" Position="Position.TopCenter" Target="#nativeToolbar button">
+            <SfTooltip Width="200px" ID="Tooltip" ShowTipPointer="true" Position="Position.TopCenter" Target="#nativeToolbar .e-btn">
                 <ChildContent>
                     <div id="nativeToolbar" class="toolbarContainer">
                         <div class="native-toolbar">
-                            <button class="toolbar-btn" aria-label="Cut" title="Cut - Remove the selection (Ctrl+X)">✂</button>
-                            <button class="toolbar-btn" aria-label="Copy" title="Copy - Copy selection (Ctrl+C)">📋</button>
-                            <button class="toolbar-btn" aria-label="Paste" title="Paste - Paste from clipboard (Ctrl+V)">📥</button>
+                            <SfButton CssClass="toolbar-btn" aria-label="Cut" title="Cut - Remove the selection (Ctrl+X)">✂</SfButton>
+                            <SfButton CssClass="toolbar-btn" aria-label="Copy" title="Copy - Copy selection (Ctrl+C)">📋</SfButton>
+                            <SfButton CssClass="toolbar-btn" aria-label="Paste" title="Paste - Paste from clipboard (Ctrl+V)">📥</SfButton>
                             <span class="toolbar-separator" aria-hidden="true"></span>
-                            <button class="toolbar-btn" aria-label="Bold" title="Bold - Make text bold (Ctrl+B)"><strong>B</strong></button>
-                            <button class="toolbar-btn" aria-label="Underline" title="Underline - Underline text (Ctrl+U)"><u>U</u></button>
-                            <button class="toolbar-btn" aria-label="Italic" title="Italic - Italicize text (Ctrl+I)"><em>I</em></button>
+                            <SfButton CssClass="toolbar-btn" aria-label="Bold" title="Bold - Make text bold (Ctrl+B)"><strong>B</strong></SfButton>
+                            <SfButton CssClass="toolbar-btn" aria-label="Underline" title="Underline - Underline text (Ctrl+U)"><u>U</u></SfButton>
+                            <SfButton CssClass="toolbar-btn" aria-label="Italic" title="Italic - Italicize text (Ctrl+I)"><em>I</em></SfButton>
                         </div>
                     </div>
                 </ChildContent>
@@ -279,7 +279,7 @@
         <h5>API</h5>
     </Header>
     <Content>
-        The Tooltip component exposes several key properties for customization: <code>Position</code> controls where the tooltip appears, <code>OpensOn</code> determines the trigger event (Hover, Focus, Click, Auto) <code>IsSticky</code> keeps the tooltip visible until manually dismissed, and <code>Content</code> sets the tooltip text. This example provides interactive controls to dynamically change these properties and see real-time updates.
+        The Tooltip component exposes several key properties for customization: <code><a href="https://help.syncfusion.com/cr/blazor-toolkit/Syncfusion.Blazor.Toolkit.Popups.SfTooltip.html#Syncfusion_Blazor_Toolkit_Popups_SfTooltip_Position" target="_blank" rel="noreferrer noopener">Position</a></code> controls where the tooltip appears, <code><a href="https://help.syncfusion.com/cr/blazor-toolkit/Syncfusion.Blazor.Toolkit.Popups.SfTooltip.html#Syncfusion_Blazor_Toolkit_Popups_SfTooltip_OpensOn" target="_blank" rel="noreferrer noopener">OpensOn</a></code> determines the trigger event (Hover, Focus, Click, Auto) <code><a href="https://help.syncfusion.com/cr/blazor-toolkit/Syncfusion.Blazor.Toolkit.Popups.SfTooltip.html#Syncfusion_Blazor_Toolkit_Popups_SfTooltip_IsSticky" target="_blank" rel="noreferrer noopener">IsSticky</a></code> keeps the tooltip visible until manually dismissed, and <code><a href="https://help.syncfusion.com/cr/blazor-toolkit/Syncfusion.Blazor.Toolkit.Popups.SfTooltip.html#Syncfusion_Blazor_Toolkit_Popups_SfTooltip_Content" target="_blank" rel="noreferrer noopener">Content</a></code> sets the tooltip text. This example provides interactive controls to dynamically change these properties and see real-time updates.
     </Content>
 </Description>
 <CodePreview CodeSection="@ApiCode">
@@ -321,7 +321,7 @@
         <h5>Keyboard Navigation and Focus Management</h5>
     </Header>
     <Content>
-        This example demonstrates tooltip integration with form validation using keyboard navigation. The tooltip appears when form fields receive focus, providing validation hints. The <code>OpensOn</code> property is set to <code>Focus</code>, which triggers tooltips on keyboard focus, and the <code>Created</code> event handler uses component references to manage focus programmatically without requiring JavaScript interop.
+        This example demonstrates tooltip integration with form validation using keyboard navigation. The tooltip appears when form fields receive focus, providing validation hints. The <code><a href="https://help.syncfusion.com/cr/blazor-toolkit/Syncfusion.Blazor.Toolkit.Popups.SfTooltip.html#Syncfusion_Blazor_Toolkit_Popups_SfTooltip_OpensOn" target="_blank" rel="noreferrer noopener">OpensOn</a></code> property is set to <code><a href="https://help.syncfusion.com/cr/blazor-toolkit/Syncfusion.Blazor.Toolkit.Popups.SfTooltip.html#Syncfusion_Blazor_Toolkit_Popups_SfTooltip_Opened" target="_blank" rel="noreferrer noopener">Focus</a></code>, which triggers tooltips on keyboard focus, and the <code><a href="https://help.syncfusion.com/cr/blazor-toolkit/Syncfusion.Blazor.Toolkit.Popups.SfTooltip.html#Syncfusion_Blazor_Toolkit_Popups_SfTooltip_Created" target="_blank" rel="noreferrer noopener">Created</a></code> event handler uses component references to manage focus programmatically without requiring JavaScript interop.
     </Content>
 </Description>
 <CodePreview CodeSection="@KeyboardNavigationCode">
@@ -437,7 +437,7 @@
         <h5>Dynamic Content and Context Menu</h5>
     </Header>
     <Content>
-        This advanced example demonstrates a dynamic tooltip that displays different menu content based on which button is clicked. The tooltip acts as a context menu showing wireless, device, or personal settings. The <code>OnRender</code> event refreshes the tooltip position, When <code>OpensOn</code> is set to <code>Click</code>, the tooltip triggers on button click, and the content updates dynamically based on user selection through event handlers.
+        This advanced example demonstrates a dynamic tooltip that displays different menu content based on which button is clicked. The tooltip acts as a context menu showing wireless, device, or personal settings. The <code><a href="https://help.syncfusion.com/cr/blazor-toolkit/Syncfusion.Blazor.Toolkit.Popups.SfTooltip.html#Syncfusion_Blazor_Toolkit_Popups_SfTooltip_OnRender" target="_blank" rel="noreferrer noopener">OnRender</a></code> event refreshes the tooltip position, When <code><a href="https://help.syncfusion.com/cr/blazor-toolkit/Syncfusion.Blazor.Toolkit.Popups.SfTooltip.html#Syncfusion_Blazor_Toolkit_Popups_SfTooltip_OpensOn" target="_blank" rel="noreferrer noopener">OpensOn</a></code> is set to <code>Click</code>, the tooltip triggers on button click, and the content updates dynamically based on user selection through event handlers.
     </Content>
 </Description>
 
@@ -652,40 +652,94 @@
         <h5>Delay & Animation</h5>
     </Header>
     <Content>
-        Control tooltip visibility timing using <code>ShowDelay</code> and <code>HideDelay</code> properties (in milliseconds). The <code>Animation</code> property with <code>Effect</code> defines entrance/exit animations. Common effects include <code>FadeIn</code>, <code>FadeOut</code>, <code>ZoomIn</code>, <code>ZoomOut</code>, and <code>None</code>. This example demonstrates configurable delays and smooth animations for better UX.
+        Control tooltip visibility timing using <code><a href="https://help.syncfusion.com/cr/blazor-toolkit/Syncfusion.Blazor.Toolkit.Popups.SfTooltip.html#Syncfusion_Blazor_Toolkit_Popups_SfTooltip_OpenDelay" target="_blank" rel="noreferrer noopener">OpenDelay</a></code> and <code><a href="https://help.syncfusion.com/cr/blazor-toolkit/Syncfusion.Blazor.Toolkit.Popups.SfTooltip.html#Syncfusion_Blazor_Toolkit_Popups_SfTooltip_CloseDelay" target="_blank" rel="noreferrer noopener">CloseDelay</a></code> properties (in milliseconds). The <code><a href="https://help.syncfusion.com/cr/blazor-toolkit/Syncfusion.Blazor.Toolkit.Popups.SfTooltip.html#Syncfusion_Blazor_Toolkit_Popups_SfTooltip_Animation" target="_blank" rel="noreferrer noopener">Animation</a></code> property with <code><a href="https://help.syncfusion.com/cr/blazor-toolkit/Syncfusion.Blazor.Toolkit.Popups.TooltipAnimationSettings.html#Syncfusion_Blazor_Toolkit_Popups_TooltipAnimationSettings_Effect" target="_blank" rel="noreferrer noopener">Effect</a></code> defines entrance/exit animations. This example demonstrates how Delay controls when the tooltip appears, while Animation controls how it appears.
     </Content>
 </Description>
 <CodePreview CodeSection="@DelayAnimationCode">
     <PreviewSection>
-        <div style="display:flex;justify-content:center;gap:40px;align-items:center;flex-wrap:wrap;padding:40px;">
-            <div>
-                <p style="text-align:center;margin-bottom:16px;"> <strong>Fast</strong></p>
-                <SfTooltip Content="Shows quickly" OpenDelay="100" CloseDelay="100" Animation="@Animation">
-                    <SfButton Content="Fast Tooltip"></SfButton>
-                </SfTooltip>
+        <div class="delay-animation-demo">
+            <div class="demo-section">
+                <h6>Animation Effects (Same Delay: 300ms)</h6>
+                <p class="demo-hint">Hover and notice how each tooltip appears differently</p>
+                <div class="button-group">
+                    <SfTooltip Content="Fade In effect - smooth opacity transition" OpenDelay="300" CloseDelay="200" Animation="@FadeAnimation">
+                        <SfButton Content="Fade In"></SfButton>
+                    </SfTooltip>
+                    <SfTooltip Content="Zoom In effect - scales from center" OpenDelay="300" CloseDelay="200" Animation="@ZoomAnimation">
+                        <SfButton Content="Zoom In"></SfButton>
+                    </SfTooltip>
+                    <SfTooltip Content="No Animation - instantaneous appearance" OpenDelay="300" CloseDelay="200" Animation="@NoAnimation">
+                        <SfButton Content="No Animation"></SfButton>
+                    </SfTooltip>
+                </div>
             </div>
-            <div>
-                <p style="text-align:center;margin-bottom:16px;"> <strong>Medium</strong></p>
-                <SfTooltip Content="Shows with slight delay" OpenDelay="500" CloseDelay="300" Animation="@Animation">
-                    <SfButton Content="Medium Tooltip"></SfButton>
-                </SfTooltip>
-            </div>
-            <div>
-                <p style="text-align:center;margin-bottom:16px;"> <strong>Slow</strong></p>
-                <SfTooltip Content="Shows after delay" OpenDelay="1000" CloseDelay="500" Animation="@Animation">
-                    <SfButton Content="Slow Tooltip"></SfButton>
-                </SfTooltip>
+            <div class="demo-section">
+                <h6>Delay Variations (Same Animation: Zoom In)</h6>
+                <p class="demo-hint">Hover and notice how long it takes before each tooltip appears</p>
+                <div class="button-group">
+                    <SfTooltip Content="Short delay: 100ms - appears almost immediately" OpenDelay="100" CloseDelay="100" Animation="@ZoomAnimation">
+                        <SfButton Content="100ms Delay"></SfButton>
+                    </SfTooltip>
+                    <SfTooltip Content="Medium delay: 500ms - noticeable pause" OpenDelay="500" CloseDelay="300" Animation="@ZoomAnimation">
+                        <SfButton Content="500ms Delay"></SfButton>
+                    </SfTooltip>
+                    <SfTooltip Content="Long delay: 1500ms - clearly shows the wait time" OpenDelay="1500" CloseDelay="500" Animation="@ZoomAnimation">
+                        <SfButton Content="1500ms Delay"></SfButton>
+                    </SfTooltip>
+                </div>
             </div>
         </div>
 @code {
-    public AnimationModel Animation { get; set; } = new AnimationModel
+    public AnimationModel FadeAnimation { get; set; } = new AnimationModel
     {
-        Open = new TooltipAnimationSettings { Delay = 0, Duration = 1000, Effect = Effect.ZoomIn },
-        Close = new TooltipAnimationSettings { Delay = 0, Duration = 500, Effect = Effect.ZoomOut }
+        Open = new TooltipAnimationSettings { Delay = 0, Duration = 300, Effect = Effect.FadeIn },
+        Close = new TooltipAnimationSettings { Delay = 0, Duration = 200, Effect = Effect.FadeOut }
+    };
+
+    public AnimationModel ZoomAnimation { get; set; } = new AnimationModel
+    {
+        Open = new TooltipAnimationSettings { Delay = 0, Duration = 300, Effect = Effect.ZoomIn },
+        Close = new TooltipAnimationSettings { Delay = 0, Duration = 200, Effect = Effect.ZoomOut }
+    };
+
+    public AnimationModel NoAnimation { get; set; } = new AnimationModel
+    {
+        Open = new TooltipAnimationSettings { Delay = 0, Duration = 0, Effect = Effect.None },
+        Close = new TooltipAnimationSettings { Delay = 0, Duration = 0, Effect = Effect.None }
     };
 }
 </PreviewSection>
 </CodePreview>
+<style>
+    .delay-animation-demo {
+        padding: 20px;
+        max-width: 800px;
+        margin: 0 auto;
+    }
+    .demo-section {
+        margin-bottom: 30px;
+        padding: 20px;
+        background: #f8f9fa;
+        border-radius: 8px;
+    }
+    .demo-section h6 {
+        margin: 0 0 8px 0;
+        color: #333;
+        font-size: 14px;
+    }
+    .demo-hint {
+        margin: 0 0 16px 0;
+        color: #666;
+        font-size: 13px;
+        font-style: italic;
+    }
+    .delay-animation-demo .button-group {
+        display: flex;
+        gap: 20px;
+        flex-wrap: wrap;
+        justify-content: center;
+    }
+</style>
 
 <Description>
     <Header>
@@ -722,7 +776,7 @@
         <h5>Follow Cursor Behavior</h5>
     </Header>
     <Content>
-        When <code>MouseTrail</code> is set to <code>true</code>, the tooltip follows the mouse cursor within the target element. This creates an interactive experience, with the tooltip's position updating dynamically as the user moves the mouse. When <code>OpensOn</code> is set to <code>Hover</code>, the tooltip appears on hover and follows the pointer, providing contextual information.
+        When <code><a href="https://help.syncfusion.com/cr/blazor-toolkit/Syncfusion.Blazor.Toolkit.Popups.SfTooltip.html#Syncfusion_Blazor_Toolkit_Popups_SfTooltip_MouseTrail" target="_blank" rel="noreferrer noopener">MouseTrail</a></code> is set to <code>true</code>, the tooltip follows the mouse cursor within the target element. This creates an interactive experience, with the tooltip's position updating dynamically as the user moves the mouse. When <code><a href="https://help.syncfusion.com/cr/blazor-toolkit/Syncfusion.Blazor.Toolkit.Popups.SfTooltip.html#Syncfusion_Blazor_Toolkit_Popups_SfTooltip_OpensOn" target="_blank" rel="noreferrer noopener">OpensOn</a></code> is set to <code>Hover</code>, the tooltip appears on hover and follows the pointer, providing contextual information.
     </Content>
 </Description>
 <CodePreview CodeSection="@FollowCursorCode">
@@ -867,17 +921,17 @@
 
     private string TemplateCode => @"<div id=""targetContainer"" Position=""Position.TopCenter"" class=""col-lg-12 control-section"">
     @* Native toolbar with SfTooltip targeting buttons *@
-    <SfTooltip Width=""200px"" ID=""Tooltip"" ShowTipPointer=""true"" Target=""#nativeToolbar button"">
+    <SfTooltip Width=""200px"" ID=""Tooltip"" ShowTipPointer=""true"" Target=""#nativeToolbar .e-btn"">
         <ChildContent>
             <div id=""nativeToolbar"" class=""toolbarContainer"">
                 <div class=""native-toolbar"">
-                    <button class=""toolbar-btn"" aria-label=""Cut"" title=""Cut - Remove the selection (Ctrl+X)"">✂</button>
-                    <button class=""toolbar-btn"" aria-label=""Copy"" title=""Copy - Copy selection (Ctrl+C)"">📋</button>
-                    <button class=""toolbar-btn"" aria-label=""Paste"" title=""Paste - Paste from clipboard (Ctrl+V)"">📥</button>
+                    <SfButton CssClass=""toolbar-btn"" aria-label=""Cut"" title=""Cut - Remove the selection (Ctrl+X)"">✂</SfButton>
+                    <SfButton CssClass=""toolbar-btn"" aria-label=""Copy"" title=""Copy - Copy selection (Ctrl+C)"">📋</SfButton>
+                    <SfButton CssClass=""toolbar-btn"" aria-label=""Paste"" title=""Paste - Paste from clipboard (Ctrl+V)"">📥</SfButton>
                     <span class=""toolbar-separator"" aria-hidden=""true""></span>
-                    <button class=""toolbar-btn"" aria-label=""Bold"" title=""Bold - Make text bold (Ctrl+B)""><strong>B</strong></button>
-                    <button class=""toolbar-btn"" aria-label=""Underline"" title=""Underline - Underline text (Ctrl+U)""><u>U</u></button>
-                    <button class=""toolbar-btn"" aria-label=""Italic"" title=""Italic - Italicize text (Ctrl+I)""><em>I</em></button>
+                    <SfButton CssClass=""toolbar-btn"" aria-label=""Bold"" title=""Bold - Make text bold (Ctrl+B)""><strong>B</strong></SfButton>
+                    <SfButton CssClass=""toolbar-btn"" aria-label=""Underline"" title=""Underline - Underline text (Ctrl+U)""><u>U</u></SfButton>
+                    <SfButton CssClass=""toolbar-btn"" aria-label=""Italic"" title=""Italic - Italicize text (Ctrl+I)""><em>I</em></SfButton>
                 </div>
             </div>
         </ChildContent>
@@ -1216,34 +1270,58 @@
 
 ;
 
-    private string DelayAnimationCode => @"<div style=""display:flex;justify-content:center;gap:40px;align-items:center;flex-wrap:wrap;padding:40px;"">
-    <div>
-        <h6 style=""text-align:center;margin-bottom:16px;"">Fast</h6>
-        <SfTooltip Content=""Shows quickly"" ShowDelay=""100"" HideDelay=""100"" Animation=""@Animation"">
-            <SfButton Content=""Fast Tooltip""></SfButton>
-        </SfTooltip>
+    private string DelayAnimationCode => @"<div class=""delay-animation-demo"">
+    <div class=""demo-section"">
+        <h6>Animation Effects (Same Delay: 300ms)</h6>
+        <p class=""demo-hint"">Hover and notice how each tooltip appears differently</p>
+        <div class=""button-group"">
+            <SfTooltip Content=""Fade In effect - smooth opacity transition"" OpenDelay=""300"" CloseDelay=""200"" Animation=""@FadeAnimation"">
+                <SfButton Content=""Fade In""></SfButton>
+            </SfTooltip>
+            <SfTooltip Content=""Zoom In effect - scales from center"" OpenDelay=""300"" CloseDelay=""200"" Animation=""@ZoomAnimation"">
+                <SfButton Content=""Zoom In""></SfButton>
+            </SfTooltip>
+            <SfTooltip Content=""No Animation - instantaneous appearance"" OpenDelay=""300"" CloseDelay=""200"" Animation=""@NoAnimation"">
+                <SfButton Content=""No Animation""></SfButton>
+            </SfTooltip>
+        </div>
     </div>
-    <div>
-        <h6 style=""text-align:center;margin-bottom:16px;"" >Medium</h6>
-        <SfTooltip Content=""Shows with slight delay"" ShowDelay=""500"" HideDelay=""300"" Animation=""@Animation"">
-            <SfButton Content=""Medium Tooltip""></SfButton>
-        </SfTooltip>
-    </div>
-    <div>
-        <h6 style=""text-align:center;margin-bottom:16px;"" >Slow</h6>
-        <SfTooltip Content=""Shows after delay"" ShowDelay=""1000"" HideDelay=""500"" Animation=""@Animation"">
-            <SfButton Content=""Slow Tooltip""></SfButton>
-        </SfTooltip>
+    <div class=""demo-section"">
+        <h6>Delay Variations (Same Animation: Zoom In)</h6>
+        <p class=""demo-hint"">Hover and notice how long it takes before each tooltip appears</p>
+        <div class=""button-group"">
+            <SfTooltip Content=""Short delay: 100ms - appears almost immediately"" OpenDelay=""100"" CloseDelay=""100"" Animation=""@ZoomAnimation"">
+                <SfButton Content=""100ms Delay""></SfButton>
+            </SfTooltip>
+            <SfTooltip Content=""Medium delay: 500ms - noticeable pause"" OpenDelay=""500"" CloseDelay=""300"" Animation=""@ZoomAnimation"">
+                <SfButton Content=""500ms Delay""></SfButton>
+            </SfTooltip>
+            <SfTooltip Content=""Long delay: 1500ms - clearly shows the wait time"" OpenDelay=""1500"" CloseDelay=""500"" Animation=""@ZoomAnimation"">
+                <SfButton Content=""1500ms Delay""></SfButton>
+            </SfTooltip>
+        </div>
     </div>
 </div>
-
-@code{
-    public AnimationModel Animation { get; set; } = new AnimationModel
+@code {
+    public AnimationModel FadeAnimation { get; set; } = new AnimationModel
     {
-        Open = new TooltipAnimationSettings {Delay = 0, Duration = 1000, Effect = Effect.ZoomIn },
-        Close = new TooltipAnimationSettings{Delay=0,Duration=500,Effect=Effect.ZoomOut}
+        Open = new TooltipAnimationSettings { Delay = 0, Duration = 300, Effect = Effect.FadeIn },
+        Close = new TooltipAnimationSettings { Delay = 0, Duration = 200, Effect = Effect.FadeOut }
     };
- }";
+
+    public AnimationModel ZoomAnimation { get; set; } = new AnimationModel
+    {
+        Open = new TooltipAnimationSettings { Delay = 0, Duration = 300, Effect = Effect.ZoomIn },
+        Close = new TooltipAnimationSettings { Delay = 0, Duration = 200, Effect = Effect.ZoomOut }
+    };
+
+    public AnimationModel NoAnimation { get; set; } = new AnimationModel
+    {
+        Open = new TooltipAnimationSettings { Delay = 0, Duration = 0, Effect = Effect.None },
+        Close = new TooltipAnimationSettings { Delay = 0, Duration = 0, Effect = Effect.None }
+    };
+}
+";
 
     private string DisabledElementsCode => @"<div style=""display:flex;justify-content:center;gap:30px;flex-wrap:wrap;padding:40px;"">
     <div style=""text-align:center;"">

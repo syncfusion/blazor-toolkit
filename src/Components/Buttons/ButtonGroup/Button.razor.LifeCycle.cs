@@ -1,3 +1,5 @@
+using Syncfusion.Blazor.Toolkit.Internal;
+
 namespace Syncfusion.Blazor.Toolkit.Buttons
 {
     /// <summary>
@@ -33,6 +35,7 @@ namespace Syncfusion.Blazor.Toolkit.Buttons
             await base.OnInitializedAsync().ConfigureAwait(false);
             _selected = Selected;
             _buttonSelected = Selected;
+            InputId = SfBaseUtils.GenerateID("SfButtonGroup");
             ButtonGroup?.UpdateChildProperty(this);
             if (Selected)
             {

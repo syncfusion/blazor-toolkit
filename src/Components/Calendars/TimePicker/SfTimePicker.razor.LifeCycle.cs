@@ -43,7 +43,7 @@ namespace Syncfusion.Blazor.Toolkit.Calendars
             CurrentCulture = GetDefaultCulture();
             PreviousDateTime = Value;
             IsValideValue = true;
-            _ = SfBaseUtils.UpdateDictionary(ARIA_EXPANDED, FALSE, InputHtmlAttributes);
+            SfBaseUtils.UpdateDictionary(ARIA_EXPANDED, FALSE, InputHtmlAttributes);
             if (string.IsNullOrEmpty(ID))
             {
                 ID = SfBaseUtils.GenerateID(TIME_PICKER);

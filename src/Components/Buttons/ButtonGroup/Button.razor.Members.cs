@@ -208,6 +208,12 @@ namespace Syncfusion.Blazor.Toolkit.Buttons
             get => _inputAttributes; set => _inputAttributes = value;
         }
 
+        /// <exclude />
+        /// <summary>
+        /// Internal cached ID for the input element to maintain stable for attribute linkage.
+        /// </summary>
+        internal string InputId { get; private set; } = string.Empty;
+
         #endregion
     }
 }

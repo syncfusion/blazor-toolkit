@@ -350,6 +350,143 @@ class EventHandler {
 }
 
 /**
+ * KeyboardEvents class enables you to bind key actions to desired key combinations
+ * (e.g., Ctrl+A, Delete, Alt+Space).
+ */
+class KeyboardEvents {
+    /**
+     * Initializes the KeyboardEvents
+     * @param {HTMLElement} element - Target element
+     * @param {object} options - Configuration options { keyConfigs, keyAction, eventName }
+     */
+    constructor(element, options) {
+        this.element = element;
+        this.options = options || {};
+        this.keyConfigs = this.options.keyConfigs || {};
+        this.keyAction = this.options.keyAction;
+        this.eventName = this.options.eventName || 'keyup'; // default to keyup
+        this.keyPressHandler = this.keyPressHandler.bind(this);
+        this.bind();
+    }
+
+    /**
+     * Handles a key press event and maps to configured actions
+     * @param {KeyboardEvent} e
+     */
+    keyPressHandler(e) {
+        const isAltKey = e.altKey;
+        const isCtrlKey = e.ctrlKey;
+        const isShiftKey = e.shiftKey;
+        const curkeyCode = e.which;
+        const keys = Object.keys(this.keyConfigs);
+
+        for (const key of keys) {
+            const configCollection = this.keyConfigs[key].split(',');
+            for (const rconfig of configCollection) {
+                const rKeyObj = KeyboardEvents.getKeyConfigData(rconfig.trim());
+                if (isAltKey === rKeyObj.altKey &&
+                    isCtrlKey === rKeyObj.ctrlKey &&
+                    isShiftKey === rKeyObj.shiftKey &&
+                    curkeyCode === rKeyObj.keyCode) {
+                    e.action = key;
+                    if (this.keyAction) {
+                        this.keyAction(e);
+                    }
+                }
+            }
+        }
+    }
+
+    /**
+     * Wire event handlers
+     */
+    wireEvents() {
+        this.element.addEventListener(this.eventName, this.keyPressHandler);
+    }
+
+    /**
+     * Unwire event handlers
+     */
+    unwireEvents() {
+        this.element.removeEventListener(this.eventName, this.keyPressHandler);
+    }
+
+    /**
+     * Bind events
+     */
+    bind() {
+        this.wireEvents();
+    }
+
+    /**
+     * Destroy the instance
+     */
+    destroy() {
+        this.unwireEvents();
+    }
+
+    /**
+     * Module name
+     */
+    getModuleName() {
+        return 'keyboard';
+    }
+
+    /**
+     * To get the key configuration data
+     * @param {string} config - configuration string (e.g., "ctrl+a")
+     * @returns {object} KeyData
+     */
+    static getKeyConfigData(config) {
+        if (config in this.configCache) {
+            return this.configCache[config];
+        }
+        const keys = config.toLowerCase().split('+');
+        const keyData = {
+            altKey: keys.indexOf('alt') !== -1,
+            ctrlKey: keys.indexOf('ctrl') !== -1,
+            shiftKey: keys.indexOf('shift') !== -1,
+            keyCode: null
+        };
+        if (keys[keys.length - 1].length > 1 && !!Number(keys[keys.length - 1])) {
+            keyData.keyCode = Number(keys[keys.length - 1]);
+        } else {
+            keyData.keyCode = KeyboardEvents.getKeyCode(keys[keys.length - 1]);
+        }
+        this.configCache[config] = keyData;
+        return keyData;
+    }
+
+    /**
+     * Return the keycode value
+     * @param {string} keyVal
+     * @returns {number}
+     */
+    static getKeyCode(keyVal) {
+        return this.keyCodeMap[keyVal] || keyVal.toUpperCase().charCodeAt(0);
+    }
+}
+
+// Static cache for configs
+KeyboardEvents.configCache = {};
+
+// Basic keyCode map (extend as needed)
+KeyboardEvents.keyCodeMap = {
+    enter: 13,
+    escape: 27,
+    tab: 9,
+    home: 36,
+    end: 35,
+    left: 37,
+    right: 39,
+    up: 38,
+    down: 40,
+    delete: 46,
+    backspace: 8,
+    space: 32
+};
+
+/**
  * Specifies the CLDR data loaded for internationalization functionalities.
  */
 var cldrData = {};
@@ -3896,6 +4033,7 @@ const baseExports = {
     remove,
 
     EventHandler,
+    KeyboardEvents,
     setCompInstance,
     getCompInstance,
     disposeWindowsInstance,
@@ -3938,6 +4076,7 @@ export {
     remove,
 
     EventHandler,
+    KeyboardEvents,
     setCompInstance,
     getCompInstance,
     disposeWindowsInstance,

@@ -142,11 +142,11 @@ namespace Syncfusion.Blazor.Toolkit.Calendars
         }
 
         /// <exclude />
-        internal override void BindNavigateEvent(NavigatedEventArgs eventArgs)
+        internal override async Task BindNavigateEventAsync(NavigatedEventArgs eventArgs)
         {
             if (Navigated.HasDelegate)
             {
-                _ = InvokeAsync(() => Navigated.InvokeAsync(eventArgs));
+                await InvokeAsync(() => Navigated.InvokeAsync(eventArgs)).ConfigureAwait(false);
             }
         }
 
@@ -170,14 +170,14 @@ namespace Syncfusion.Blazor.Toolkit.Calendars
         /// </remarks>
         /// <example>
         /// <code><![CDATA[
-        /// protected override void ChangeEvent(EventArgs? args, bool isSelection = false)
+        /// protected override async Task ChangeEventAsync(EventArgs? args, bool isSelection = false)
         /// {
         ///     // Custom logic on value change
         /// }
         /// ]]></code>
         /// </example>
         /// <exclude />
-        protected override void ChangeEvent(EventArgs? args, bool isSelection = false)
+        protected override async Task ChangeEventAsync(EventArgs? args, bool isSelection = false)
         {
             if (Disabled)
             {
@@ -185,12 +185,12 @@ namespace Syncfusion.Blazor.Toolkit.Calendars
             }
             if (EnablePersistence)
             {
-                _ = SetLocalStorageAsync(ID, Value!);
+                await SetLocalStorageAsync(ID, Value!).ConfigureAwait(false);
             }
             if (ValueChange.HasDelegate)
             {
                 ChangedArgs.Name = VALUECHANGE_EVENT;
-                _ = ValueChange.InvokeAsync(ChangedArgs);
+                await ValueChange.InvokeAsync(ChangedArgs).ConfigureAwait(false);
             }
             PreviousDate = (TValue)SfBaseUtils.ChangeType(Value!, typeof(TValue));
         }

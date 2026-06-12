@@ -48,7 +48,7 @@ namespace Syncfusion.Blazor.Toolkit.Calendars
             await base.OnInitializedAsync().ConfigureAwait(false);
             PropertyInitialized();
             IsValideValue = true;
-            _ = SfBaseUtils.UpdateDictionary(ARIAEXPANDED, FALSE, InputHtmlAttributes);
+            SfBaseUtils.UpdateDictionary(ARIAEXPANDED, FALSE, InputHtmlAttributes);
         }
 
         private void InitializeComponentId()
@@ -119,7 +119,7 @@ namespace Syncfusion.Blazor.Toolkit.Calendars
             UpdateValidateClass();
             if (PropertyChanges is not null)
             {
-                _ = PropertyChanges.Remove(nameof(Value));
+                PropertyChanges.Remove(nameof(Value));
             }
         }
 

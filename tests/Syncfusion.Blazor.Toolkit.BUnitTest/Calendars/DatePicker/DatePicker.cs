@@ -1167,8 +1167,8 @@ namespace Syncfusion.Blazor.Toolkit.Tests.Calendars.DatePicker
             var calendar = RenderComponent<SfDatePicker<DateTime>>(parameters =>
             parameters.Add(calendar => calendar.Value, new DateTime(2020, 1, 1)));
             await calendar.Instance.ShowPopupAsync();
-            calendar.Instance.ScrollToNextSection();
-            calendar.Instance.ScrollToNextSection(true);
+            calendar.Instance.ScrollToNextSectionAsync();
+            calendar.Instance.ScrollToNextSectionAsync(true);
             Assert.Equal(new DateTime(2020, 1, 1), calendar.Instance.Value);
         }
 

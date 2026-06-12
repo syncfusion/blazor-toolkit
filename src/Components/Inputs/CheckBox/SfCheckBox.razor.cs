@@ -545,7 +545,7 @@ namespace Syncfusion.Blazor.Toolkit.Inputs
                 if (_inputAttributes is not null && _inputAttributes.TryGetValue(AriaLabelAttribute, out object? ariaLabel))
                 {
                     _labelAttributes = new() { { AriaLabelAttribute, ariaLabel } };
-                    _ = _inputAttributes.Remove(AriaLabelAttribute);
+                    _inputAttributes.Remove(AriaLabelAttribute);
                 }
                 else if (_labelAttributes.Count == 0)
                 {
@@ -555,7 +555,7 @@ namespace Syncfusion.Blazor.Toolkit.Inputs
             }
 
             // Determine initial visual state
-            _ = TryConvertToBool(Checked, out bool? state);
+            TryConvertToBool(Checked, out bool? state);
             bool isChecked = state.GetValueOrDefault(false);
             UpdateVisualState(isChecked ? CheckboxState.Checked : CheckboxState.Unchecked);
 
@@ -592,7 +592,7 @@ namespace Syncfusion.Blazor.Toolkit.Inputs
                 // Remove onchange attribute if not explicitly set by user
                 if (_inputAttributes is not null && _inputAttributes.ContainsKey(OnChangeAttribute) && !HasOnChangeEvent)
                 {
-                    _ = _inputAttributes.Remove(OnChangeAttribute);
+                    _inputAttributes.Remove(OnChangeAttribute);
                 }
             }
 

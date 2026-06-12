@@ -226,7 +226,7 @@ namespace Syncfusion.Blazor.Toolkit.Inputs
             {
                 foreach (KeyValuePair<string, object> attr in InputAttributes)
                 {
-                    _ = SfBaseUtils.UpdateDictionary(attr.Key, attr.Value, _inputAttr);
+                    SfBaseUtils.UpdateDictionary(attr.Key, attr.Value, _inputAttr);
                 }
             }
         }
@@ -393,8 +393,8 @@ namespace Syncfusion.Blazor.Toolkit.Inputs
             else
             {
                 ContainerClass = SfBaseUtils.RemoveClass(ContainerClass, DISABLED_CLASS);
-                _ = _inputAttr.Remove("disabled");
-                _ = _inputAttr.Remove("aria-disabled");
+                _inputAttr.Remove("disabled");
+                _inputAttr.Remove("aria-disabled");
             }
         }
 
@@ -412,8 +412,8 @@ namespace Syncfusion.Blazor.Toolkit.Inputs
             }
             else
             {
-                _ = _inputAttr.Remove("directory");
-                _ = _inputAttr.Remove("webkitdirectory");
+                _inputAttr.Remove("directory");
+                _inputAttr.Remove("webkitdirectory");
             }
         }
 
@@ -477,7 +477,7 @@ namespace Syncfusion.Blazor.Toolkit.Inputs
             }
             else
             {
-                _ = _inputAttr.Remove("multiple");
+                _inputAttr.Remove("multiple");
             }
         }
 
@@ -494,7 +494,7 @@ namespace Syncfusion.Blazor.Toolkit.Inputs
             }
             else
             {
-                _ = _inputAttr.Remove("accept");
+                _inputAttr.Remove("accept");
             }
         }
 
@@ -722,7 +722,7 @@ namespace Syncfusion.Blazor.Toolkit.Inputs
             }
             finally
             {
-                _ = FileSemaphore.Release();
+                FileSemaphore.Release();
             }
         }
 
@@ -1024,7 +1024,7 @@ namespace Syncfusion.Blazor.Toolkit.Inputs
         {
             InitializeUploadSession();
             UploadChangeEventArgs eventArgs = CreateUploadChangeEventArgs();
-            _ = await ProcessAllFilesAsync(files, eventArgs).ConfigureAwait(true);
+            await ProcessAllFilesAsync(files, eventArgs).ConfigureAwait(true);
 
             await HandleEmptyFileListAsync(files, eventArgs).ConfigureAwait(true);
             await FinalizeUploadSessionAsync().ConfigureAwait(true);
@@ -1290,7 +1290,7 @@ namespace Syncfusion.Blazor.Toolkit.Inputs
             }
             else
             {
-                _ = _actionBtnAttr.Remove("disabled");
+                _actionBtnAttr.Remove("disabled");
                 EnableUploadButton = true;
             }
         }
@@ -1369,7 +1369,7 @@ namespace Syncfusion.Blazor.Toolkit.Inputs
                 }
                 else
                 {
-                    _ = _actionBtnAttr.Remove("disabled");
+                    _actionBtnAttr.Remove("disabled");
                 }
             }
         }
@@ -1387,7 +1387,7 @@ namespace Syncfusion.Blazor.Toolkit.Inputs
             }
             else
             {
-                _ = _actionBtnAttr.Remove("disabled");
+                _actionBtnAttr.Remove("disabled");
                 EnableUploadButton = true;
             }
 
@@ -1516,7 +1516,7 @@ namespace Syncfusion.Blazor.Toolkit.Inputs
             {
                 if (_actionBtnAttr.ContainsKey(DISABLED_CLASS) && !AutoUpload)
                 {
-                    _ = _actionBtnAttr.Remove("disabled");
+                    _actionBtnAttr.Remove("disabled");
                 }
 
                 UploadStatus = string.Empty;

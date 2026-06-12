@@ -6,12 +6,12 @@
 @inherits CalendarBase<TValue>
 
 <div class="@this.ContentHeader">
-    <div class="@TitleClass" tabindex="0" aria-atomic="true" role="button" aria-label="title @(CultureInfo.CurrentCulture.TextInfo.ToTitleCase(this.HeaderTitle ?? string.Empty))" @onclick="@NavigateTitle">@(CultureInfo.CurrentCulture.TextInfo.ToTitleCase(this.HeaderTitle ?? string.Empty))</div>
+    <div class="@TitleClass" tabindex="0" aria-atomic="true" role="button" aria-label="title @(CultureInfo.CurrentCulture.TextInfo.ToTitleCase(this.HeaderTitle ?? string.Empty))" @onclick="@NavigateTitleAsync">@(CultureInfo.CurrentCulture.TextInfo.ToTitleCase(this.HeaderTitle ?? string.Empty))</div>
     <div class="@ICON_CONTAINER">
-        <button tabindex="0" class="@this.PrevIconClass" type="button" @attributes="@this.PrevIconAttr" aria-label="previous month" @onclick="@((args) => NavigatePreviousHandler(args, false))">
+        <button tabindex="0" class="@this.PrevIconClass" type="button" @attributes="@this.PrevIconAttr" aria-label="previous month" @onclick="@((args) => NavigatePreviousHandlerAsync(args, false))">
             <span class="@(PREV_SPAN + SPACE + ICON)"></span>
         </button>
-        <button tabindex="0" class="@this.NextIconClass" type="button" @attributes="@this.NextIconAttr" aria-label="next month" @onclick="@((args) => NavigateNextHandler(args, false))">
+        <button tabindex="0" class="@this.NextIconClass" type="button" @attributes="@this.NextIconAttr" aria-label="next month" @onclick="@((args) => NavigateNextHandlerAsync(args, false))">
             <span class="@(NEXT_SPAN + SPACE + ICON)"></span>
         </button>
     </div>

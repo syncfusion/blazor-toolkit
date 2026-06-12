@@ -1,6 +1,9 @@
+using System.Threading.Tasks;
 using AngleSharp.Dom;
 using Bunit;
 using Microsoft.AspNetCore.Components.Web;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Options;
 using Syncfusion.Blazor.Toolkit.Tests;
 using System.Threading.Tasks;
 using Xunit;
@@ -305,6 +308,7 @@ namespace Syncfusion.Blazor.Toolkit.Tests.Inputs
         [Fact(Timeout = 10000, DisplayName = "Other - rtl")]
         public void Other_RTL()
         {
+            Services.AddScoped(_ => new SyncfusionBlazorToolkitService(Options.Create(new GlobalOptions { EnableRtl = true })));
             var renderedComponent = RenderComponent<SwitchComposite>();
             var inputElement = renderedComponent.FindAll("div.e-switch-wrapper", true);
             Assert.True(inputElement[1].ClassList.Contains("e-rtl"));
@@ -336,12 +340,21 @@ namespace Syncfusion.Blazor.Toolkit.Tests.Inputs
         [Fact(Timeout = 10000, DisplayName = "RTL")]
         public void PropertyChanges_RTL()
         {
+            Services.AddScoped(_ => new SyncfusionBlazorToolkitService(Options.Create(new GlobalOptions { EnableRtl = true })));
             var renderedComponent = RenderComponent<SwitchComposite>();
             var inputElement = renderedComponent.FindAll("div.e-switch-wrapper", true);
             Assert.True(inputElement[1].ClassList.Contains("e-rtl"));
             Assert.True(inputElement[1].Children[1].ClassList.Contains("e-switch-active"));
             Assert.True(inputElement[1].Children[2].ClassList.Contains("e-switch-active"));
-            renderedComponent.SetParametersAndRender<SwitchComposite>((nameof(SwitchComposite.rtl), false));
+        }
+
+        [Trait("Switch", "Property Changes")]
+        [Fact(DisplayName = "RTL Disabled removes e-rtl")]
+        public void RTL_Disabled_RemovesClass()
+        {
+            Services.AddScoped(_ => new SyncfusionBlazorToolkitService(Options.Create(new GlobalOptions { EnableRtl = false })));
+            var renderedComponent = RenderComponent<SwitchComposite>();
+            var inputElement = renderedComponent.FindAll("div.e-switch-wrapper", true);
             Assert.False(inputElement[1].ClassList.Contains("e-rtl"));
             Assert.True(inputElement[1].Children[1].ClassList.Contains("e-switch-active"));
             Assert.True(inputElement[1].Children[2].ClassList.Contains("e-switch-active"));
@@ -767,6 +780,7 @@ namespace Syncfusion.Blazor.Toolkit.Tests.Inputs
         [Fact(Timeout = 10000, DisplayName = "Edge - RTL Class Persistence")]
         public void Edge_RTLClassPersistence()
         {
+            Services.AddScoped(_ => new SyncfusionBlazorToolkitService(Options.Create(new GlobalOptions { EnableRtl = true })));
             var renderedComponent = RenderComponent<SwitchComposite>();
             var inputElement = renderedComponent.FindAll("div.e-switch-wrapper", true);
 
