@@ -137,8 +137,8 @@ namespace Syncfusion.Blazor.Toolkit.Buttons
         {
             if (IsToggle && _isActive)
             {
-                _ = buttonCss.Append(Space);
-                _ = buttonCss.Append(ActiveClass);
+                buttonCss.Append(Space);
+                buttonCss.Append(ActiveClass);
             }
             else if (!IsToggle)
             {
@@ -154,8 +154,8 @@ namespace Syncfusion.Blazor.Toolkit.Buttons
         {
             if (!string.IsNullOrWhiteSpace(CssClass))
             {
-                _ = buttonClass.Append(Space);
-                _ = buttonClass.Append(CssClass);
+                buttonClass.Append(Space);
+                buttonClass.Append(CssClass);
             }
         }
 
@@ -167,8 +167,8 @@ namespace Syncfusion.Blazor.Toolkit.Buttons
         {
             if (IsPrimary)
             {
-                _ = buttonCss.Append(Space);
-                _ = buttonCss.Append(PrimaryClass);
+                buttonCss.Append(Space);
+                buttonCss.Append(PrimaryClass);
             }
         }
 
@@ -180,8 +180,8 @@ namespace Syncfusion.Blazor.Toolkit.Buttons
         {
             if (SyncfusionService?._options?.EnableRtl ?? false)
             {
-                _ = buttonCss.Append(Space);
-                _ = buttonCss.Append(RtlClass);
+                buttonCss.Append(Space);
+                buttonCss.Append(RtlClass);
             }
         }
 
@@ -196,8 +196,8 @@ namespace Syncfusion.Blazor.Toolkit.Buttons
                 _iconCssModifier = IconClass;
                 if (string.IsNullOrEmpty(Content) && ChildContent is null)
                 {
-                    _ = buttonCss.Append(Space);
-                    _ = buttonCss.Append(IconClass);
+                    buttonCss.Append(Space);
+                    buttonCss.Append(IconClass);
                 }
                 else
                 {
@@ -205,10 +205,10 @@ namespace Syncfusion.Blazor.Toolkit.Buttons
                     _iconCssModifier += " e-icon-" + iconPosition;
                     if (IconPosition is IconPosition.Top or IconPosition.Bottom)
                     {
-                        _ = buttonCss.Append(Space);
-                        _ = buttonCss.Append("e-");
-                        _ = buttonCss.Append(iconPosition);
-                        _ = buttonCss.Append("-icon-btn");
+                        buttonCss.Append(Space);
+                        buttonCss.Append("e-");
+                        buttonCss.Append(iconPosition);
+                        buttonCss.Append("-icon-btn");
                     }
                 }
             }
@@ -222,8 +222,8 @@ namespace Syncfusion.Blazor.Toolkit.Buttons
         {
             if (HtmlAttributes.TryGetValue("class", out object? valueClass) && valueClass is not null)
             {
-                _ = buttonCss.Append(Space);
-                _ = buttonCss.Append(valueClass.ToString());
+                buttonCss.Append(Space);
+                buttonCss.Append(valueClass.ToString());
             }
         }
 
@@ -289,6 +289,7 @@ namespace Syncfusion.Blazor.Toolkit.Buttons
             if (IsToggle)
             {
                 ToggleActiveState();
+                InitRender();
             }
             await SfBaseUtils.InvokeEventAsync(OnClick, args).ConfigureAwait(false);
         }

@@ -4,6 +4,8 @@ using Microsoft.AspNetCore.Components.Web;
 using Syncfusion.Blazor.Toolkit.Buttons;
 using Microsoft.AspNetCore.Components;
 using Syncfusion.Blazor.Toolkit.Inputs;
+using Microsoft.Extensions.Options;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace Syncfusion.Blazor.Toolkit.Tests.Inputs
 {
@@ -279,13 +281,21 @@ namespace Syncfusion.Blazor.Toolkit.Tests.Inputs
 
         // Verifies toggling RTL parameter updates wrapper CSS.
         [Trait("SfCheckBox", "PropertyChanges")]
-        [Fact(Timeout = 10000, DisplayName="PropertyChanges_RTL")]
-        public void PropertyChanges_RTL()
+        [Fact(DisplayName = "RTL Enabled adds e-rtl")]
+        public void RTL_Enabled_AddsClass()
         {
+            Services.AddScoped(_ => new SyncfusionBlazorToolkitService(Options.Create(new GlobalOptions { EnableRtl = true })));
             var renderedComponent = RenderComponent<Variants>();
-            var inputElement = renderedComponent.FindAll("input",true);
+            var inputElement = renderedComponent.FindAll("input", true);
             Assert.True(inputElement[1].ParentElement.ParentElement.ClassList.Contains("e-rtl"));
-            renderedComponent.SetParametersAndRender((nameof(Variants.rtl),false));
+        }
+
+        [Fact(DisplayName = "RTL Disabled removes e-rtl")]
+        public void RTL_Disabled_RemovesClass()
+        {
+            Services.AddScoped(_ => new SyncfusionBlazorToolkitService(Options.Create(new GlobalOptions { EnableRtl = false })));
+            var renderedComponent = RenderComponent<Variants>();
+            var inputElement = renderedComponent.FindAll("input", true);
             Assert.False(inputElement[1].ParentElement.ParentElement.ClassList.Contains("e-rtl"));
         }
 

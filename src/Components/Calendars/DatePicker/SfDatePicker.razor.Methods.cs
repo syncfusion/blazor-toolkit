@@ -128,8 +128,8 @@ namespace Syncfusion.Blazor.Toolkit.Calendars
                         IsCalendarRendered = true;
                         SetPopupVisibility(true);
                     }
-                    _ = SfBaseUtils.UpdateDictionary(ARIAEXPANDED, TRUE, InputHtmlAttributes);
-                    _ = SfBaseUtils.UpdateDictionary(ARIA_OWN, ID + POPUPS, InputHtmlAttributes);
+                    SfBaseUtils.UpdateDictionary(ARIAEXPANDED, TRUE, InputHtmlAttributes);
+                    SfBaseUtils.UpdateDictionary(ARIA_OWN, ID + POPUPS, InputHtmlAttributes);
                 }
                 await InvokeAsync(StateHasChanged).ConfigureAwait(false);
             }
@@ -202,7 +202,7 @@ namespace Syncfusion.Blazor.Toolkit.Calendars
                 {
                     DateIcon = SfBaseUtils.RemoveClass(DateIcon, ACTIVE);
                 }
-                _ = InputHtmlAttributes.Remove(ARIAACTIVEDESCENDANT);
+                InputHtmlAttributes.Remove(ARIAACTIVEDESCENDANT);
                 await InvokeVoidAsync(_datePickerJsModule, _datePickerJsInProcessModule, "closePopup", [DataId, PopupEventArgs, options]).ConfigureAwait(true);
                 IsCalendarRender = false;
             }
@@ -279,15 +279,18 @@ namespace Syncfusion.Blazor.Toolkit.Calendars
         /// <exclude/>
         [EditorBrowsable(EditorBrowsableState.Never)]
         [JSInvokable]
-        public void ScrollToNextSection(bool IsUpward = false)
+        public async Task ScrollToNextSectionAsync(bool IsUpward = false)
         {
-            if (IsUpward)
+            if (CalendarBaseInstance is not null) 
             {
-                CalendarBaseInstance?.NavigateNextHandler(null, true);
-            }
-            else
-            {
-                CalendarBaseInstance?.NavigatePreviousHandler(null, true);
+                if (IsUpward)
+                {
+                    await CalendarBaseInstance.NavigateNextHandlerAsync(null, true).ConfigureAwait(false);
+                }
+                else
+                {
+                    await CalendarBaseInstance.NavigatePreviousHandlerAsync(null, true).ConfigureAwait(false);
+                }
             }
         }
 

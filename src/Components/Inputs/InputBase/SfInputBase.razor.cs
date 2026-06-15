@@ -670,7 +670,7 @@ namespace Syncfusion.Blazor.Toolkit.Inputs
         internal TValue? InputTextValue
         {
             get => Value;
-            set => _ = SetInputTextValueAsync(value);
+            set => _ = SetInputTextValueAsync(value).ConfigureAwait(false);
         }
 
         /// <summary>
@@ -964,7 +964,7 @@ namespace Syncfusion.Blazor.Toolkit.Inputs
             {
                 ContainerClass = ContainerClass.Replace(DISABLE, string.Empty, StringComparison.Ordinal);
                 InputHtmlAttributes[CLASS] = InputHtmlAttributes[CLASS].ToString()!.Replace(DISABLE, string.Empty, StringComparison.Ordinal);
-                _ = InputHtmlAttributes.Remove(DISABLEDATTRIBUTE);
+                InputHtmlAttributes.Remove(DISABLEDATTRIBUTE);
                 InputHtmlAttributes = SfBaseUtils.UpdateDictionary(ARIADISABLED, "false", InputHtmlAttributes);
             }
         }
@@ -1276,8 +1276,8 @@ namespace Syncfusion.Blazor.Toolkit.Inputs
             }
             else
             {
-                _ = InputHtmlAttributes.Remove(READONLY);
-                _ = InputHtmlAttributes.Remove(ARIA_READONLY);
+                InputHtmlAttributes.Remove(READONLY);
+                InputHtmlAttributes.Remove(ARIA_READONLY);
             }
         }
 
@@ -1297,7 +1297,7 @@ namespace Syncfusion.Blazor.Toolkit.Inputs
         {
             if (BaseFloatLabelType is FloatLabelType.Auto or FloatLabelType.Always)
             {
-                _ = InputHtmlAttributes.Remove(PLACE_HOLDER);
+                InputHtmlAttributes.Remove(PLACE_HOLDER);
             }
 
             if (BaseFloatLabelType == FloatLabelType.Auto && !ContainerClass.Contains(INPUTFOCUS, StringComparison.Ordinal) && !IsFocused)
@@ -1318,13 +1318,17 @@ namespace Syncfusion.Blazor.Toolkit.Inputs
         /// <summary>
         /// Updates the input element's HTML attributes by merging base input attributes into the input attribute dictionary.
         /// </summary>
+        /// <remarks>
+        /// This method relies on the side-effect of <see cref="SfBaseUtils.UpdateDictionary(string, object, Dictionary{string, object})"/>
+        /// which mutates the dictionary in-place. The return value is intentionally ignored to emphasize the side-effect nature.
+        /// </remarks>
         private void UpdateInputAttr()
         {
             if (BaseInputAttributes?.Count > 0)
             {
                 foreach (KeyValuePair<string, object> attr in BaseInputAttributes)
                 {
-                    _ = SfBaseUtils.UpdateDictionary(attr.Key, attr.Value, InputHtmlAttributes);
+                    SfBaseUtils.UpdateDictionary(attr.Key, attr.Value, InputHtmlAttributes);
                 }
             }
         }

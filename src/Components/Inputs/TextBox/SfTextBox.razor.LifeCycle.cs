@@ -176,7 +176,7 @@ namespace Syncfusion.Blazor.Toolkit.Inputs
                         await Created.InvokeAsync(null).ConfigureAwait(true);
                     }
                 }
-                if (ContainerClass.Contains(OUTLINE, StringComparison.Ordinal))
+                if (ContainerClass.Contains(OUTLINE, StringComparison.Ordinal) || FloatLabelType != FloatLabelType.Never)
                 {
                     await InvokeVoidAsync(_textBoxJsModule!, _textBoxJsInProcessModule!, "calculateWidth", InputElement, DotnetObjectReference!, ContainerElement).ConfigureAwait(true);
                 }

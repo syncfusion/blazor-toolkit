@@ -91,7 +91,32 @@ namespace Syncfusion.Blazor.Toolkit.Buttons
 
             if (_buttonItems.Contains(button))
             {
-                _ = _buttonItems.Remove(button);
+                _buttonItems.Remove(button);
+            }
+        }
+
+        /// <exclude />
+        /// <summary>
+        /// Clears the selection state of all sibling buttons in the group, except the specified button.
+        /// </summary>
+        /// <param name="except">The button to exclude from clearing.</param>
+        /// <remarks>
+        /// This method properly invokes UpdateButtonStateAsync on siblings to ensure SelectedChanged
+        /// is fired for each sibling, maintaining proper two-way binding behavior.
+        /// </remarks>
+        internal async Task ClearSiblingsAsync(Button except)
+        {
+            if (_buttonItems is null)
+            {
+                return;
+            }
+
+            foreach (var item in _buttonItems)
+            {
+                if (!SfBaseUtils.Equals(item, except) && item.Selected)
+                {
+                    await item.UpdateButtonStateAsync(false).ConfigureAwait(false);
+                }
             }
         }
 

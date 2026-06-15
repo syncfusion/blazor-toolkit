@@ -247,7 +247,7 @@ namespace Syncfusion.Blazor.Toolkit.Inputs
         {
             if (fileData == null || fileData.Length == 0)
             {
-                _ = ClearAllHandlerAsync();
+                await ClearAllHandlerAsync().ConfigureAwait(false);
                 return;
             }
 
@@ -440,9 +440,9 @@ namespace Syncfusion.Blazor.Toolkit.Inputs
         /// <exclude/>
         [JSInvokable]
         [EditorBrowsable(EditorBrowsableState.Never)]
-        public void ClearAllFile()
+        public async Task ClearAllFileAsync()
         {
-            _ = ClearAllHandlerAsync();
+            await ClearAllHandlerAsync().ConfigureAwait(false);
         }
 
         /// <summary>

@@ -188,7 +188,7 @@ namespace Syncfusion.Blazor.Toolkit.Calendars.Internal
         {
             if (Parent as SfCalendar<TValue> is not null && Parent.PropertyChanges is not null)
             {
-                _ = Parent.PropertyChanges.Remove(key);
+                Parent.PropertyChanges.Remove(key);
             }
         }
 
@@ -222,7 +222,7 @@ namespace Syncfusion.Blazor.Toolkit.Calendars.Internal
                 await MinMaxUpdateAsync(Parent.Value!).ConfigureAwait(false);
             }
             int currentView = GetViewNumber(CurrentView());
-            SwitchView(currentView);
+            await SwitchViewAsync(currentView).ConfigureAwait(false);
         }
 
         /// <summary>
@@ -252,7 +252,7 @@ namespace Syncfusion.Blazor.Toolkit.Calendars.Internal
             ApplyIslamicCalendarDefaults();
             await ValidateAndUpdateCalendarAsync().ConfigureAwait(false);
             CreateHeader();
-            CreateContent();
+            await CreateContentAsync().ConfigureAwait(false);
         }
 
         /// <summary>
@@ -505,34 +505,34 @@ namespace Syncfusion.Blazor.Toolkit.Calendars.Internal
             UpdateMinMax(val);
         }
 
-        private void CreateContentBody()
+        private async Task CreateContentBodyAsync()
         {
             switch (Parent?.Start)
             {
                 case CalendarView.Year:
-                    RenderYears();
+                    await RenderYearsAsync().ConfigureAwait(false);
                     break;
                 case CalendarView.Decade:
-                    RenderDecades();
+                    await RenderDecadesAsync().ConfigureAwait(false);
                     break;
                 case CalendarView.Month:
-                    RenderMonths();
+                    await RenderMonthsAsync().ConfigureAwait(false);
                     break;
                 default:
                     break;
             }
         }
 
-        internal void RenderMonths(MouseEventArgs? args = null)
+        internal async Task RenderMonthsAsync(MouseEventArgs? args = null)
         {
             LocalMainDate = [];
             CalendarView = CalendarView.Month;
             NumCells = WEEK_NUMBER;
             RenderDays(CurrentDate);
-            RenderTemplate(NumCells, MONTH, args);
+            await RenderTemplateAsync(NumCells, MONTH, args).ConfigureAwait(false);
         }
 
-        private void RenderYears(MouseEventArgs? args = null)
+        private async Task RenderYearsAsync(MouseEventArgs? args = null)
         {
             LocalMainDate = [];
             CalendarView = CalendarView.Year;
@@ -540,10 +540,10 @@ namespace Syncfusion.Blazor.Toolkit.Calendars.Internal
             NumCells = CELL_ROW;
             LocalDate = new DateTime(CurrentDate.Year, FIRST_MONTH_OF_YEAR, CurrentDate.Day, CurrentDate.Hour, CurrentDate.Minute, CurrentDate.Second, CurrentDate.Millisecond);
             TitleUpdate(CurrentDate, MONTHS);
-            RenderTemplate(NumCells, YEAR, args);
+            await RenderTemplateAsync(NumCells, YEAR, args).ConfigureAwait(false);
         }
 
-        private void RenderDecades(MouseEventArgs? args = null)
+        private async Task RenderDecadesAsync(MouseEventArgs? args = null)
         {
             LocalMainDate = [];
             CalendarView = CalendarView.Decade;
@@ -551,7 +551,7 @@ namespace Syncfusion.Blazor.Toolkit.Calendars.Internal
             NumCells = CELL_ROW;
             LocalDate = new DateTime(CurrentDate.Year, FIRST_MONTH_OF_YEAR, FIRST_DAY_OF_MONTH, CurrentDate.Hour, CurrentDate.Minute, CurrentDate.Second, CurrentDate.Millisecond);
             UpdateDecadeTitle();
-            RenderTemplate(DECADE_CELL_COUNT, DECADE, args);
+            await RenderTemplateAsync(DECADE_CELL_COUNT, DECADE, args).ConfigureAwait(false);
         }
 
         /// <summary>
@@ -764,7 +764,7 @@ namespace Syncfusion.Blazor.Toolkit.Calendars.Internal
             return firstDate.Year == secondDate.Year && firstDate.Month == secondDate.Month;
         }
 
-        private void RenderTemplate(int count, string classNm, MouseEventArgs? args = null)
+        private async Task RenderTemplateAsync(int count, string classNm, MouseEventArgs? args = null)
         {
             ContentElementClass = CONTENT + SPACE + classNm;
             ContentHeader = HEADER + SPACE + classNm;
@@ -777,7 +777,7 @@ namespace Syncfusion.Blazor.Toolkit.Calendars.Internal
             }
             TValue? tempValue = Parent.Value is null ? default : (TValue)SfBaseUtils.ChangeType(Parent!.Value!, PropertyType!);
             Parent.ChangedArgs = new ChangedEventArgs<TValue> { Value = tempValue!, Values = MultiValues };
-            Parent.ChangeHandler(args, MultiValues, MultiSelection);
+            await Parent.ChangeHandlerAsync(args, MultiValues, MultiSelection).ConfigureAwait(false);
         }
 
         private void IconHandler()
@@ -838,11 +838,11 @@ namespace Syncfusion.Blazor.Toolkit.Calendars.Internal
             return (stringVal == MONTH_VIEW) ? MONTH_VIEW_VAL : (stringVal == YEAR_VIEW) ? YEAR_VIEW_VAL : DECADE_VIEW_VAL;
         }
 
-        internal void CreateContent()
+        internal async Task CreateContentAsync()
         {
             ContentElement = true;
             ContentElementClass = CONTENT;
-            CreateContentBody();
+            await CreateContentBodyAsync().ConfigureAwait(false);
             if ((Parent is not null) && Parent.ShowTodayButton)
             {
                 CreateContentFooter();
@@ -857,7 +857,7 @@ namespace Syncfusion.Blazor.Toolkit.Calendars.Internal
             {
                 await MinMaxUpdateAsync(Parent.Value!).ConfigureAwait(false);
             }
-            CreateContentBody();
+            await CreateContentBodyAsync().ConfigureAwait(false);
         }
 
         /// <summary>
@@ -943,25 +943,25 @@ namespace Syncfusion.Blazor.Toolkit.Calendars.Internal
             }
         }
 
-        internal void NavigatePreviousHandler(MouseEventArgs? args = null, bool isScroll = false)
+        internal async Task NavigatePreviousHandlerAsync(MouseEventArgs? args = null, bool isScroll = false)
         {
             if (!Disabled && (args is not null || isScroll) && Parent is not null)
             {
                 Parent.IsTodayClick = false;
-                NextPrevIconHandler(false);
+                await NextPrevIconHandlerAsync(false).ConfigureAwait(false);
             }
         }
 
-        internal void NavigateNextHandler(MouseEventArgs? args = null, bool IsScroll = false)
+        internal async Task NavigateNextHandlerAsync(MouseEventArgs? args = null, bool IsScroll = false)
         {
             if (!Disabled && (args is not null || IsScroll) && Parent is not null)
             {
                 Parent.IsTodayClick = false;
-                NextPrevIconHandler(true);
+                await NextPrevIconHandlerAsync(true).ConfigureAwait(false);
             }
         }
 
-        private void TriggerNavigate(MouseEventArgs? args)
+        private async Task TriggerNavigateAsync(MouseEventArgs? args)
         {
             NavigatedEventArgs eventArgs = new()
             {
@@ -971,7 +971,10 @@ namespace Syncfusion.Blazor.Toolkit.Calendars.Internal
                 Name = NAVIGATED,
             };
             IsSelect = false;
-            Parent?.BindNavigateEvent(eventArgs);
+            if (Parent is not null)
+            {
+                await Parent.BindNavigateEventAsync(eventArgs).ConfigureAwait(false);
+            }
         }
 
         internal void AddMonths(DateTime date, int index)
@@ -1067,36 +1070,36 @@ namespace Syncfusion.Blazor.Toolkit.Calendars.Internal
                 : (currentVal <= Parent.Max ? currentVal : Parent.Max);
         }
 
-        internal void SwitchView(int view, MouseEventArgs? args = null)
+        internal async Task SwitchViewAsync(int view, MouseEventArgs? args = null)
         {
             switch (view)
             {
                 case MONTH_VIEW_VAL:
                     IsNavigation = true;
-                    RenderMonths(args);
+                    await RenderMonthsAsync(args).ConfigureAwait(false);
                     break;
                 case YEAR_VIEW_VAL:
                     IsNavigation = true;
-                    RenderYears(args);
-                    SetAnimation();
+                    await RenderYearsAsync(args).ConfigureAwait(false);
+                    await SetAnimationAsync().ConfigureAwait(false);
                     break;
                 case DECADE_VIEW_VAL:
                     IsNavigation = true;
-                    RenderDecades(args);
-                    SetAnimation();
+                    await RenderDecadesAsync(args).ConfigureAwait(false);
+                    await SetAnimationAsync().ConfigureAwait(false);
                     break;
                 default:
                     break;
             }
-            _ = InvokeAsync(StateHasChanged);
-            TriggerNavigate(args);
+            await InvokeAsync(StateHasChanged).ConfigureAwait(false);
+            await TriggerNavigateAsync(args).ConfigureAwait(false);
         }
 
-        private void SetAnimation()
+        private async Task SetAnimationAsync()
         {
             if ((Parent is not null) && !Parent.IsTodayClick && !IsKeyboardSelect)
             {
-                _ = InvokeVoidAsync(Parent._animationJsModule, Parent._animationJsInProcessModule, "animate", [TableBodyEle, Animate]).ConfigureAwait(true);
+                await InvokeVoidAsync(Parent._animationJsModule, Parent._animationJsInProcessModule, "animate", [TableBodyEle, Animate]).ConfigureAwait(true);
             }
         }
 
@@ -1104,7 +1107,7 @@ namespace Syncfusion.Blazor.Toolkit.Calendars.Internal
         /// Handles the next/previous navigation icon click logic.
         /// </summary>
         /// <param name="isNext">True to navigate forward; false to navigate backward.</param>
-        private void NextPrevIconHandler(bool isNext)
+        private async Task NextPrevIconHandlerAsync(bool isNext)
         {
             int currentView = GetViewNumber(CurrentView());
             string view = CurrentView();
@@ -1112,15 +1115,15 @@ namespace Syncfusion.Blazor.Toolkit.Calendars.Internal
             {
                 case MONTH_VIEW:
                     HandleMonthViewNavigation(isNext);
-                    SwitchView(currentView);
+                    await SwitchViewAsync(currentView).ConfigureAwait(false);
                     break;
                 case YEAR_VIEW:
                     AddYears(CurrentDate, isNext ? 1 : -1);
-                    SwitchView(currentView);
+                    await SwitchViewAsync(currentView).ConfigureAwait(false);
                     break;
                 case DECADE_VIEW:
                     AddYears(CurrentDate, isNext ? 10 : -10);
-                    SwitchView(currentView);
+                    await SwitchViewAsync(currentView).ConfigureAwait(false);
                     break;
                 default:
                     break;
@@ -1155,14 +1158,14 @@ namespace Syncfusion.Blazor.Toolkit.Calendars.Internal
             CurrentDate = HijriParser.ToGregorian(hijriDate);
         }
 
-        internal void NavigateTitle()
+        internal async Task NavigateTitleAsync()
         {
             if (!Disabled)
             {
                 IsSelect = false;
                 int currentView = GetViewNumber(CurrentView());
                 IsKeyboardSelect = false;
-                SwitchView(++currentView);
+                await SwitchViewAsync(++currentView).ConfigureAwait(false);
             }
         }
 
@@ -1284,12 +1287,12 @@ namespace Syncfusion.Blazor.Toolkit.Calendars.Internal
             if (MultiSelection && Parent is not null && !Parent.CheckPresentDate(curDate, MultiValues))
             {
                 HandleMultiSelectionAdd(curDate, copyValues);
-                Parent.ChangeHandler(args.EventArgs, MultiValues, MultiSelection);
+                await Parent.ChangeHandlerAsync(args.EventArgs, MultiValues, MultiSelection).ConfigureAwait(false);
             }
             else if (Parent is not null && ShouldRemoveFromSelection(curDate))
             {
                 RemoveFromSelection(curDate, copyValues);
-                Parent.ChangeHandler(args.EventArgs, MultiValues, MultiSelection);
+                await Parent.ChangeHandlerAsync(args.EventArgs, MultiValues, MultiSelection).ConfigureAwait(false);
             }
             await UpdateCalendarValuesAsync(copyValues).ConfigureAwait(false);
         }
@@ -1359,8 +1362,8 @@ namespace Syncfusion.Blazor.Toolkit.Calendars.Internal
         {
             await InvokeVoidAsync(Parent!._animationJsModule!, Parent._animationJsInProcessModule!, "animate", [TableBodyEle, Animate]).ConfigureAwait(true);
             IsNavigation = true;
-            RenderMonths(eventArgs);
-            TriggerNavigate(eventArgs);
+            await RenderMonthsAsync(eventArgs).ConfigureAwait(false);
+            await TriggerNavigateAsync(eventArgs).ConfigureAwait(false);
         }
 
         private async Task HandleYearViewClickAsync(CellDetails args, DateTime curDate, bool isDepthView)
@@ -1399,8 +1402,8 @@ namespace Syncfusion.Blazor.Toolkit.Calendars.Internal
         {
             await InvokeVoidAsync(Parent!._animationJsModule!, Parent._animationJsInProcessModule!, "animate", [TableBodyEle, Animate]).ConfigureAwait(true);
             IsNavigation = true;
-            RenderYears();
-            TriggerNavigate(eventArgs);
+            await RenderYearsAsync().ConfigureAwait(false);
+            await TriggerNavigateAsync(eventArgs).ConfigureAwait(false);
         }
 
         private async Task SetDateDecadeAsync(DateTime date, int year)
@@ -1482,7 +1485,7 @@ namespace Syncfusion.Blazor.Toolkit.Calendars.Internal
                 await HandleMonthViewSelectionAsync(date, multiSelection, values).ConfigureAwait(false);
             }
             await HandleMultiSelectionRemovalAsync(date, multiSelection, values).ConfigureAwait(false);
-            FinalizeSelection(events, date, multiSelection, isSelection);
+            await FinalizeSelectionAsync(events, date, multiSelection, isSelection).ConfigureAwait(false);
         }
 
         private async Task HandleMonthViewSelectionAsync(DateTime date, bool multiSelection, DateTime[]? values)
@@ -1600,7 +1603,7 @@ namespace Syncfusion.Blazor.Toolkit.Calendars.Internal
             Parent.PreviousDeSelectedDate = deselectedValue;
         }
 
-        private void FinalizeSelection(MouseEventArgs? events, DateTime date, bool multiSelection, bool isSelection)
+        private async Task FinalizeSelectionAsync(MouseEventArgs? events, DateTime date, bool multiSelection, bool isSelection)
         {
             IsSelect = true;
             IsNavigation = true;
@@ -1609,7 +1612,7 @@ namespace Syncfusion.Blazor.Toolkit.Calendars.Internal
             {
                 UpdateDecadeSelection();
             }
-            InvokeChangeHandler(events, multiSelection, isSelection);
+            await InvokeChangeHandlerAsync(events, multiSelection, isSelection).ConfigureAwait(false);
         }
 
         private void UpdateDecadeSelection()
@@ -1618,7 +1621,7 @@ namespace Syncfusion.Blazor.Toolkit.Calendars.Internal
             UpdateDecadeTitle();
         }
 
-        private void InvokeChangeHandler(MouseEventArgs? events, bool multiSelection, bool isSelection)
+        private async Task InvokeChangeHandlerAsync(MouseEventArgs? events, bool multiSelection, bool isSelection)
         {
             if (Parent is null)
             {
@@ -1626,7 +1629,7 @@ namespace Syncfusion.Blazor.Toolkit.Calendars.Internal
             }
             TValue? tempValue = IsNullValue(Parent.Value!) ? default! : (TValue)SfBaseUtils.ChangeType(Parent.Value!, PropertyType);
             Parent.ChangedArgs = new ChangedEventArgs<TValue> { Value = tempValue!, Values = MultiValues };
-            Parent.ChangeHandler(events, MultiValues, multiSelection, isSelection);
+            await Parent.ChangeHandlerAsync(events, MultiValues, multiSelection, isSelection).ConfigureAwait(false);
         }
 
         private static bool IsNullValue(TValue DateValue)
@@ -1751,7 +1754,7 @@ namespace Syncfusion.Blazor.Toolkit.Calendars.Internal
             await MinMaxUpdateAsync(Parent.Value!).ConfigureAwait(false);
             UpdateCurrentDateWithinBounds(date);
             CalendarView effectiveView = DetermineEffectiveView(view);
-            SwitchView(GetViewNumber(effectiveView.ToString()), args);
+            await SwitchViewAsync(GetViewNumber(effectiveView.ToString()), args).ConfigureAwait(false);
         }
 
         /// <summary>
@@ -1881,26 +1884,26 @@ namespace Syncfusion.Blazor.Toolkit.Calendars.Internal
             {
                 case MOVE_LEFT:
                 case MOVE_RIGHT:
-                    HandleLeftRightKeys(args, view);
+                    await HandleLeftRightKeysAsync(args, view).ConfigureAwait(false);
                     break;
                 case MOVE_UP:
                 case MOVE_DOWN:
-                    HandleUpDownKeys(args, view);
+                    await HandleUpDownKeysAsync(args, view).ConfigureAwait(false);
                     break;
                 case SELECT:
                     await HandleSelectKeyAsync(args, eventArgs, levelRestrict, view).ConfigureAwait(false);
                     break;
                 case CONTROL_UP:
-                    NavigateTitle();
+                    await NavigateTitleAsync().ConfigureAwait(false);
                     break;
                 case CONTROL_DOWN:
                     await ControlDownKeyActionAsync(args, levelRestrict, eventArgs, view).ConfigureAwait(false);
                     break;
                 case HOME:
-                    HandleHomeKey(view, args.DateValue);
+                    await HandleHomeKeyAsync(view, args.DateValue).ConfigureAwait(false);
                     break;
                 case END:
-                    HandleEndKey(view);
+                    await HandleEndKeyAsync(view).ConfigureAwait(false);
                     break;
                 case PAGE_UP:
                 case PAGE_DOWN:
@@ -1919,22 +1922,22 @@ namespace Syncfusion.Blazor.Toolkit.Calendars.Internal
             }
         }
 
-        private void HandleLeftRightKeys(KeyActions args, int view)
+        private async Task HandleLeftRightKeysAsync(KeyActions args, int view)
         {
             if (args.TargetClassList is not null && args.TargetClassList.Contains(CONTENT_TABLE, StringComparison.Ordinal))
             {
                 int mouseNavValue = args.Action == MOVE_LEFT ? -1 : 1;
-                KeyboardNavigate(mouseNavValue, view);
+                await KeyboardNavigateAsync(mouseNavValue, view).ConfigureAwait(false);
             }
         }
 
-        private void HandleUpDownKeys(KeyActions args, int view)
+        private async Task HandleUpDownKeysAsync(KeyActions args, int view)
         {
             if (args.TargetClassList is not null && args.TargetClassList.Contains(CONTENT_TABLE, StringComparison.Ordinal))
             {
                 int cellRow = args.Action == MOVE_UP ? -CELL_ROW : CELL_ROW;
                 int weekNumber = args.Action == MOVE_UP ? -WEEK_NUMBER : WEEK_NUMBER;
-                KeyboardNavigate((view == 0) ? weekNumber : cellRow, view);
+                await KeyboardNavigateAsync((view == 0) ? weekNumber : cellRow, view).ConfigureAwait(false);
             }
         }
 
@@ -1946,27 +1949,27 @@ namespace Syncfusion.Blazor.Toolkit.Calendars.Internal
             }
         }
 
-        private void HandleHomeKey(int view, string dateValue)
+        private async Task HandleHomeKeyAsync(int view, string dateValue)
         {
             if (CalendarMode == CalendarType.Islamic)
             {
-                IslamicHomeKeyAction(view, dateValue);
+                await IslamicHomeKeyActionAsync(view, dateValue).ConfigureAwait(false);
             }
             else
             {
-                HomeKeyAction(view);
+                await HomeKeyActionAsync(view).ConfigureAwait(false);
             }
         }
 
-        private void HandleEndKey(int view)
+        private async Task HandleEndKeyAsync(int view)
         {
             if (CalendarMode == CalendarType.Islamic)
             {
-                IslamicEndKeyAction(view);
+                await IslamicEndKeyActionAsync(view).ConfigureAwait(false);
             }
             else
             {
-                EndKeyAction(view);
+                await EndKeyActionAsync(view).ConfigureAwait(false);
             }
         }
 
@@ -2039,24 +2042,24 @@ namespace Syncfusion.Blazor.Toolkit.Calendars.Internal
             }
         }
 
-        private void HomeKeyAction(int view)
+        private async Task HomeKeyActionAsync(int view)
         {
             int localYr = CurrentDate.Year;
             localYr = localYr < 10 ? 10 : localYr;
             int startYr = localYr - (localYr % 10);
             DateTime homeDatetime = view == 1 ? new DateTime(CurrentDate.Year, 1, 1) : view == 2 ? new DateTime(startYr, 1, 1) : new DateTime(CurrentDate.Year, CurrentDate.Month, 1);
             CurrentDate = homeDatetime;
-            SwitchView(view);
+            await SwitchViewAsync(view).ConfigureAwait(false);
         }
 
-        private void IslamicHomeKeyAction(int view, string? dateValue)
+        private async Task IslamicHomeKeyActionAsync(int view, string? dateValue)
         {
             DateTime homeDate = GetHijriStartDate(view);
             CurrentDate = homeDate;
-            SwitchView(view);
+            await SwitchViewAsync(view).ConfigureAwait(false);
         }
 
-        private void EndKeyAction(int view)
+        private async Task EndKeyActionAsync(int view)
         {
             DateTime firstDayOfNextMonth = new DateTime(CurrentDate.Year, CurrentDate.Month, 1).AddMonths(1);
             DateTime lastDayThisMonth = firstDayOfNextMonth.AddDays(-1);
@@ -2066,14 +2069,14 @@ namespace Syncfusion.Blazor.Toolkit.Calendars.Internal
             int endYr = startYear + (10 - 1);
             DateTime yearView = view == 1 ? new DateTime(CurrentDate.Year, 12, 1) : view == 2 ? new DateTime(endYr, 1, 1) : lastDayThisMonth;
             CurrentDate = yearView;
-            SwitchView(view);
+            await SwitchViewAsync(view).ConfigureAwait(false);
         }
 
-        private void IslamicEndKeyAction(int view)
+        private async Task IslamicEndKeyActionAsync(int view)
         {
             DateTime endDate = GetHijriEndDate(view);
             CurrentDate = endDate;
-            SwitchView(view);
+            await SwitchViewAsync(view).ConfigureAwait(false);
         }
 
         private DateTime GetHijriStartDate(int view)
@@ -2110,15 +2113,15 @@ namespace Syncfusion.Blazor.Toolkit.Calendars.Internal
             }
             else if (args.TargetClassList is not null && args.TargetClassList.Contains(TitleClass, StringComparison.Ordinal))
             {
-                NavigateTitle();
+                await NavigateTitleAsync().ConfigureAwait(false);
             }
             else if (args.TargetClassList is not null && args.TargetClassList.Contains(PrevIconClass, StringComparison.Ordinal))
             {
-                NavigatePreviousHandler(null, true);
+                await NavigatePreviousHandlerAsync(null, true).ConfigureAwait(false);
             }
             else if (args.TargetClassList is not null && args.TargetClassList.Contains(NextIconClass, StringComparison.Ordinal))
             {
-                NavigateNextHandler(null, true);
+                await NavigateNextHandlerAsync(null, true).ConfigureAwait(false);
             }
             else
             {
@@ -2286,7 +2289,7 @@ namespace Syncfusion.Blazor.Toolkit.Calendars.Internal
             }
         }
 
-        internal void KeyboardNavigate(int number, int currentView)
+        internal async Task KeyboardNavigateAsync(int number, int currentView)
         {
             DateTime date = CurrentDate;
             switch (currentView)
@@ -2310,7 +2313,7 @@ namespace Syncfusion.Blazor.Toolkit.Calendars.Internal
                     CurrentDate = (addDate.Date >= Parent?.Min.Date && addDate.Date <= Parent.Max.Date) ? addDate : date;
                     if (date.Date >= Parent?.Min.Date && date.Date <= Parent.Max.Date)
                     {
-                        SwitchView(0);
+                        await SwitchViewAsync(0).ConfigureAwait(false);
                     }
 
                     break;
@@ -2468,11 +2471,11 @@ namespace Syncfusion.Blazor.Toolkit.Calendars.Internal
                     if (character is >= '\u0660' and <= '\u0669')
                     {
                         char westernDigit = (char)(character - '\u0660' + '0');
-                        _ = result.Append(westernDigit);
+                        result.Append(westernDigit);
                     }
                     else
                     {
-                        _ = result.Append(character);
+                        result.Append(character);
                     }
                 }
                 return result.ToString();

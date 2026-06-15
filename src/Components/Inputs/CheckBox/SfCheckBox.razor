@@ -23,6 +23,7 @@
 
 <div @ref="_container" 
      class="@_checkboxClass"
+     aria-disabled="@Disabled.ToString().ToLower()"
      @attributes="@containerAttributes">
     <label for="@_idValue" @attributes="@_labelAttributes" >
         <input @ref="_input"

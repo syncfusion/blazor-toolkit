@@ -329,16 +329,16 @@ namespace Syncfusion.Blazor.Toolkit.Calendars
             return false;
         }
 
-        internal void ChangeHandler(MouseEventArgs? args = null, DateTime[]? values = null, bool? isMultiSelection = null, bool isSelection = false)
+        internal async Task ChangeHandlerAsync(MouseEventArgs? args = null, DateTime[]? values = null, bool? isMultiSelection = null, bool isSelection = false)
         {
             UpdateChangedEventArgs(args);
             if (ShouldTriggerSingleSelectionChange(isMultiSelection))
             {
-                ChangeEvent(args, isSelection);
+                await ChangeEventAsync(args, isSelection).ConfigureAwait(false);
             }
             else if (values is not null && PreviousValues != values.Length)
             {
-                ChangeEvent(args, isSelection);
+                await ChangeEventAsync(args, isSelection).ConfigureAwait(false);
                 PreviousValues = values.Length;
             }
         }
@@ -423,8 +423,9 @@ namespace Syncfusion.Blazor.Toolkit.Calendars
             return dateTimeOffset.DateTime;
         }
 
-        internal virtual void BindNavigateEvent(NavigatedEventArgs eventArgs)
+        internal virtual async Task BindNavigateEventAsync(NavigatedEventArgs eventArgs)
         {
+            await Task.CompletedTask;
         }
 
         internal virtual async Task UpdateAriaActiveDescendantAsync(string? cellId)
@@ -448,8 +449,9 @@ namespace Syncfusion.Blazor.Toolkit.Calendars
         /// <param name="args">Specifies the <see cref="EventArgs"> arguments</see>.</param>
         /// <param name="isSelection">Determines whether selection is made using the mouse or keyboard.</param>
         /// <exclude />
-        protected virtual void ChangeEvent(EventArgs? args, bool isSelection = false)
+        protected virtual async Task ChangeEventAsync(EventArgs? args, bool isSelection = false)
         {
+            await Task.CompletedTask;
         }
 
         internal virtual bool IsMultipleDatesSetProgrammatically()

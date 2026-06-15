@@ -80,19 +80,11 @@ namespace Syncfusion.Blazor.Toolkit.Buttons
                 return;
             }
 
-            _buttonSelected = (ButtonGroup.Mode == SelectionMode.Single && !_isFirstClick) || !Selected;
-
-            for (int i = 0; i < ButtonGroup._buttonItems.Count; i++)
+            if (ButtonGroup.Mode == SelectionMode.Single)
             {
-                if (!SfBaseUtils.Equals(this, ButtonGroup._buttonItems[i]))
-                {
-                    ButtonGroup._buttonItems[i]._buttonSelected = false;
-                    ButtonGroup._buttonItems[i].Selected = false;
-                }
+                await ButtonGroup.ClearSiblingsAsync(this).ConfigureAwait(false);
+                await UpdateButtonStateAsync(true).ConfigureAwait(false);
             }
-
-            await UpdateButtonStateAsync(_buttonSelected).ConfigureAwait(false);
-            _isFirstClick = false;
         }
 
         #endregion
@@ -104,9 +96,9 @@ namespace Syncfusion.Blazor.Toolkit.Buttons
         /// Asynchronously updates the selection state of the button.
         /// </summary>
         /// <param name="state">The new selection state to apply.</param>
-        protected async Task UpdateButtonStateAsync(bool state)
+        internal async Task UpdateButtonStateAsync(bool state)
         {
-            Selected = _selected = await SfBaseUtils.UpdatePropertyAsync(state, _selected, SelectedChanged).ConfigureAwait(false);
+            Selected = _selected = _buttonSelected = await SfBaseUtils.UpdatePropertyAsync(state, _selected, SelectedChanged).ConfigureAwait(false);
         }
 
         #endregion

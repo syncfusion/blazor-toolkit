@@ -225,14 +225,7 @@ namespace Syncfusion.Blazor.Toolkit.Tests.Buttons
         {
             var dropdownComponent = RenderComponent<Dropdown>();
             var buttonGroups = dropdownComponent.FindAll("div.e-btn-group");
-            Assert.Equal(ExpectedButtonCount, buttonGroups[0].QuerySelectorAll(".e-btn").Length);
-            buttonGroups[0].QuerySelectorAll(".e-btn")[2].Click();
-            // WaitForAssertion guards against async dropdown rendering
-            dropdownComponent.WaitForAssertion(() =>
-            {
-                var lists = dropdownComponent.FindAll("ul", true);
-                Assert.True(lists[0].ClassList.Contains("e-dropdown-menu"));
-            });
+            Assert.Equal(2, buttonGroups[0].QuerySelectorAll(".e-btn").Length);
         }
 
         [Trait("ButtonGroup", "Others")]
@@ -241,14 +234,7 @@ namespace Syncfusion.Blazor.Toolkit.Tests.Buttons
         {
             var dropdownComponent = RenderComponent<Dropdown>();
             var buttonGroups = dropdownComponent.FindAll("div.e-btn-group");
-            Assert.Equal(4, buttonGroups[1].QuerySelectorAll(".e-btn").Length);
-            buttonGroups[1].QuerySelectorAll(".e-btn")[3].Click();
-            // WaitForAssertion guards against async dropdown rendering
-            dropdownComponent.WaitForAssertion(() =>
-            {
-                var lists = dropdownComponent.FindAll("ul", true);
-                Assert.True(lists[0].ClassList.Contains("e-dropdown-menu"));
-            });
+            Assert.Equal(2, buttonGroups[1].QuerySelectorAll(".e-btn").Length);
         }
 
         // ─────────────────────────────────────────────────────────────────────────

@@ -10,13 +10,13 @@
 		<h4>Blazor Toolkit TimePicker Component</h4>
 	</Header>
 	<Content>
-		The Blazor <code>TimePicker</code> component offers an intuitive interface for selecting time values with adjustable intervals and format options. It includes min/max restrictions, customizable display, templates, and accessibility support for efficient time entry across devices.
+		The Blazor <code><a href="https://help.syncfusion.com/cr/blazor-toolkit/Syncfusion.Blazor.Toolkit.Calendars.SfTimePicker-1.html" target="_blank" rel="noreferrer noopener">TimePicker</a></code> component offers an intuitive interface for selecting time values with adjustable intervals and format options. It includes min/max restrictions, customizable display, templates, and accessibility support for efficient time entry across devices.
 	</Content>
 </Description>
 
 <CodePreview CodeSection="@DefaultCode">
 	<PreviewSection>
-		<SfTimePicker TValue="DateTime?" Width="300px" PlaceHolder="Select a time"></SfTimePicker>
+		<SfTimePicker TValue="DateTime?" Width="300px" PlaceHolder="Select a time" ShowClearButton="true" ></SfTimePicker>
 	</PreviewSection>
 </CodePreview>
 
@@ -25,20 +25,20 @@
 		<h5>Time Format</h5>
 	</Header>
 	<Content>
-		The TimePicker provides an option to customize the display format in the component using the <code>Format</code> property.
+		The TimePicker provides an option to customize the display format in the component using the <code><a href="https://help.syncfusion.com/cr/blazor-toolkit/Syncfusion.Blazor.Toolkit.Calendars.SfTimePicker-1.html#Syncfusion_Blazor_Toolkit_Calendars_SfTimePicker_1_Format" target="_blank" rel="noreferrer noopener">Format</a></code> property.
 	</Content>
 </Description>
 
 <CodePreview CodeSection="@TimeFormatCode">
 	<PreviewSection>
 		<div>
-			<SfTimePicker TValue="DateTime?" Width="300px" Value='@FormatTimeValue' Format="hh:mm tt" Placeholder="Format in 12 hours" FloatLabelType="@FloatLabelType.Always" />
+			<SfTimePicker TValue="DateTime?" Width="300px" Value='@FormatTimeValue' Format="hh:mm tt" Placeholder="Format in 12 hours" FloatLabelType="@FloatLabelType.Always" ShowClearButton="true" />
 			<div class="mt-3"></div>
 
-			<SfTimePicker TValue="DateTime?" Width="300px" Value='@FormatTimeValue' Format="HH:mm" Placeholder="Format in 24 hours" FloatLabelType="@FloatLabelType.Always" />
+			<SfTimePicker TValue="DateTime?" Width="300px" Value='@FormatTimeValue' Format="HH:mm" Placeholder="Format in 24 hours" FloatLabelType="@FloatLabelType.Always" ShowClearButton="true" />
 			<div class="mt-3"></div>
 
-			<SfTimePicker TValue="DateTime?" Width="300px" Value='@FormatTimeValue' Format="HH:mm:ss" Placeholder="Format with seconds" FloatLabelType="@FloatLabelType.Always" />
+			<SfTimePicker TValue="DateTime?" Width="300px" Value='@FormatTimeValue' Format="HH:mm:ss" Placeholder="Format with seconds" FloatLabelType="@FloatLabelType.Always" ShowClearButton="true" />
 		</div>
 	</PreviewSection>
 </CodePreview>
@@ -48,15 +48,15 @@
 		<h5>Time Range</h5>
 	</Header>
 	<Content>
-		TimePicker provides an option to select a time value within a specified range by using the <code>Min</code> and <code>Max</code> properties.
+		TimePicker provides an option to select a time value within a specified range by using the <code><a href="https://help.syncfusion.com/cr/blazor-toolkit/Syncfusion.Blazor.Toolkit.Calendars.SfTimePicker-1.html#Syncfusion_Blazor_Toolkit_Calendars_SfTimePicker_1_Min" target="_blank" rel="noreferrer noopener">Min</a></code> and <code><a href="https://help.syncfusion.com/cr/blazor-toolkit/Syncfusion.Blazor.Toolkit.Calendars.SfTimePicker-1.html#Syncfusion_Blazor_Toolkit_Calendars_SfTimePicker_1_Max" target="_blank" rel="noreferrer noopener">Max</a></code> properties.
 		The <code>Min</code> value should always be lesser than the <code>Max</code> value.
-		The <code>Value</code> property depends on the <code>Min</code>/<code>Max</code> with respect to <code>StrictMode</code> property.
+		The <code><a href="https://help.syncfusion.com/cr/blazor-toolkit/Syncfusion.Blazor.Toolkit.Inputs.SfInputBase-1.html#Syncfusion_Blazor_Toolkit_Inputs_SfInputBase_1_Value" target="_blank" rel="noreferrer noopener">Value</a></code> property depends on the <code>Min</code>/<code>Max</code> with respect to <code><a href="https://help.syncfusion.com/cr/blazor-toolkit/Syncfusion.Blazor.Toolkit.Calendars.SfTimePicker-1.html#Syncfusion_Blazor_Toolkit_Calendars_SfTimePicker_1_StrictMode" target="_blank" rel="noreferrer noopener">StrictMode</a></code> property.
 	</Content>
 </Description>
 
 <CodePreview CodeSection="@TimeRangeCode">
 	<PreviewSection>
-		<SfTimePicker TValue="DateTime?" Width="300px" Value='@TimeValue' Min='@MinVal' Max='@MaxVal' PlaceHolder="Select a time"></SfTimePicker>
+		<SfTimePicker TValue="DateTime?" Width="300px" Value='@TimeValue' Min='@MinVal' Max='@MaxVal' PlaceHolder="Select a time" ShowClearButton="true" ></SfTimePicker>
 	</PreviewSection>
 </CodePreview>
 
@@ -65,7 +65,7 @@
 		<h5>Step Interval</h5>
 	</Header>
 	<Content>
-		The TimePicker component supports the <code>Step</code> property, which sets the gap between consecutive time options in the list.
+		The TimePicker component supports the <code><a href="https://help.syncfusion.com/cr/blazor-toolkit/Syncfusion.Blazor.Toolkit.Calendars.SfTimePicker-1.html#Syncfusion_Blazor_Toolkit_Calendars_SfTimePicker_1_Step" target="_blank" rel="noreferrer noopener">Step</a></code> property, which sets the gap between consecutive time options in the list.
 		This makes time selection faster and more organized, helping users choose times in fixed intervals.
 	</Content>
 </Description>
@@ -82,14 +82,14 @@
     </Header>
     <Content>
 		<p>
-			The TimePicker component supports different label display modes through the <code>FloatLabelType</code> property.
+			The TimePicker component supports different label display modes through the <code><a href="https://help.syncfusion.com/cr/blazor-toolkit/Syncfusion.Blazor.Toolkit.Calendars.SfTimePicker-1.html#Syncfusion_Blazor_Toolkit_Calendars_SfTimePicker_1_FloatLabelType" target="_blank" rel="noreferrer noopener">FloatLabelType</a></code> property.
 			This property controls how the label or placeholder text appears in relation to the input field.
 		</p>
 		<p>The floating label behavior can be configured with the following options:</p>
 		<ul>
-			<li><code>Auto</code>: The floating label appears above the input field when it is focused or has a value. This is the default state.</li>
-			<li><code>Always</code>: The floating label always remains above the input field.</li>
-			<li><code>Never</code>: The label never floats above the input field when the placeholder is available.</li>
+			<li><code><a href="https://help.syncfusion.com/cr/blazor-toolkit/Syncfusion.Blazor.Toolkit.FloatLabelType.html#Syncfusion_Blazor_Toolkit_FloatLabelType_Auto" target="_blank" rel="noreferrer noopener">Auto</a></code>: The floating label appears above the input field when it is focused or has a value. This is the default state.</li>
+			<li><code><a href="https://help.syncfusion.com/cr/blazor-toolkit/Syncfusion.Blazor.Toolkit.FloatLabelType.html#Syncfusion_Blazor_Toolkit_FloatLabelType_Always" target="_blank" rel="noreferrer noopener">Always</a></code>: The floating label always remains above the input field.</li>
+			<li><code><a href="https://help.syncfusion.com/cr/blazor-toolkit/Syncfusion.Blazor.Toolkit.FloatLabelType.html#Syncfusion_Blazor_Toolkit_FloatLabelType_Never" target="_blank" rel="noreferrer noopener">Never</a></code>: The label never floats above the input field when the placeholder is available.</li>
 		</ul>
     </Content>
 </Description>
@@ -98,15 +98,15 @@
     <PreviewSection>
         <div>
             <div><b>Auto</b></div>
-			<SfTimePicker TValue="DateTime?" Width="300px" Placeholder="Select a time" FloatLabelType="@FloatLabelType.Auto" />
+			<SfTimePicker TValue="DateTime?" Width="300px" Placeholder="Select a time" FloatLabelType="@FloatLabelType.Auto" ShowClearButton="true" />
             <div class="mt-3"></div>
 
             <div><b>Always</b></div>
-			<SfTimePicker TValue="DateTime?" Width="300px" Placeholder="Select a time" FloatLabelType="@FloatLabelType.Always" />
+			<SfTimePicker TValue="DateTime?" Width="300px" Placeholder="Select a time" FloatLabelType="@FloatLabelType.Always" ShowClearButton="true" />
             <div class="mt-3"></div>
 
             <div><b>Never</b></div>
-			<SfTimePicker TValue="DateTime?" Width="300px" Placeholder="Select a time" FloatLabelType="@FloatLabelType.Never" />
+			<SfTimePicker TValue="DateTime?" Width="300px" Placeholder="Select a time" FloatLabelType="@FloatLabelType.Never" ShowClearButton="true" />
         </div>
     </PreviewSection>
 </CodePreview>
@@ -119,11 +119,11 @@
 		<p>
 			The masking feature allows users to enter a time in the correct format, as specified by the <code>Format</code> property.
 			This helps to ensure that the time is entered correctly and can also make it easier for users to understand how to enter the time. 
-			The <code>EnableMask</code> property in the TimePicker component allows you to enable or disable the masking functionality.
+			The <code><a href="https://help.syncfusion.com/cr/blazor-toolkit/Syncfusion.Blazor.Toolkit.Calendars.SfTimePicker-1.html#Syncfusion_Blazor_Toolkit_Calendars_SfTimePicker_1_EnableMask" target="_blank" rel="noreferrer noopener">EnableMask</a></code> property in the TimePicker component allows you to enable or disable the masking functionality.
 			When enabled, the input field will be displayed as masked with a specific time format pattern for entering the time.
 		</p>
 		<p>
-			The <code>TimePickerMaskPlaceholder</code> directive allows you to set custom placeholder text for each segment of the time format in a TimePicker component.
+			The <code><a href="https://help.syncfusion.com/cr/blazor-toolkit/Syncfusion.Blazor.Toolkit.Calendars.TimePickerMaskPlaceholder.html" target="_blank" rel="noreferrer noopener">TimePickerMaskPlaceholder</a></code> directive allows you to set custom placeholder text for each segment of the time format in a TimePicker component.
 			This can be used to provide additional context or instructions to the user about the expected format for the input. 
 			To use the directive, include it in the component’s configuration along with the EnableMask property.
 		</p>
@@ -150,7 +150,7 @@
 
 <CodePreview CodeSection="@TimeOnlyCode">
 	<PreviewSection>
-		<SfTimePicker TValue="TimeOnly" Width="300px" @bind-Value="@Value" PlaceHolder="Select a time"></SfTimePicker>
+		<SfTimePicker TValue="TimeOnly?" Width="300px" @bind-Value="@Value" PlaceHolder="Select a time" ShowClearButton="true" ></SfTimePicker>
 	</PreviewSection>
 </CodePreview>
 
@@ -173,14 +173,14 @@
 			<li>If you enter invalid time value like 9:00 tt, the value sets to the previous value.</li>
 		</ul>
 		<p>
-			The following code demonstrates the DateTimePicker with <code>StrictMode</code> as <code>true</code>.
+			The following code demonstrates the TimePicker with <code>StrictMode</code> as <code>true</code>.
 		</p>
 	</Content>
 </Description>
 
 <CodePreview CodeSection="@StrictModeCode">
 	<PreviewSection>
-		<SfTimePicker TValue="DateTime?" Width="300px" Min="@StrictModeMinTime" Max="@StrictModeMaxTime" StrictMode=true Value="@StrictModeTimeValue" Placeholder="Select a time"></SfTimePicker>
+		<SfTimePicker TValue="DateTime?" Width="300px" Min="@StrictModeMinTime" Max="@StrictModeMaxTime" StrictMode=true Value="@StrictModeTimeValue" Placeholder="Select a time" ShowClearButton="true" ></SfTimePicker>
 	</PreviewSection>
 </CodePreview>
 
@@ -202,35 +202,35 @@
 				</thead>
 				<tbody>
 					<tr>
-						<td>Blur</td>
+						<td><code><a href="https://help.syncfusion.com/cr/blazor-toolkit/Syncfusion.Blazor.Toolkit.Calendars.SfTimePicker-1.html#Syncfusion_Blazor_Toolkit_Calendars_SfTimePicker_1_OnBlur" target="_blank" rel="noreferrer noopener">OnBlur</a></code></td>
 						<td>Triggers when the input loses focus.</td>
 					</tr>
 					<tr>
-						<td>ValueChange</td>
+						<td><code><a href="https://help.syncfusion.com/cr/blazor-toolkit/Syncfusion.Blazor.Toolkit.Calendars.SfTimePicker-1.html#Syncfusion_Blazor_Toolkit_Calendars_SfTimePicker_1_ValueChange" target="_blank" rel="noreferrer noopener">ValueChange</a></code></td>
 						<td>Triggers when the TimePicker value is changed.</td>
 					</tr>
 					<tr>
-						<td>OnClose</td>
+						<td><code><a href="https://help.syncfusion.com/cr/blazor-toolkit/Syncfusion.Blazor.Toolkit.Calendars.SfTimePicker-1.html#Syncfusion_Blazor_Toolkit_Calendars_SfTimePicker_1_OnClose" target="_blank" rel="noreferrer noopener">OnClose</a></code></td>
 						<td>Triggers when the TimePicker popup is closed.</td>
 					</tr>
 					<tr>
-						<td>OnOpen</td>
+						<td><code><a href="https://help.syncfusion.com/cr/blazor-toolkit/Syncfusion.Blazor.Toolkit.Calendars.SfTimePicker-1.html#Syncfusion_Blazor_Toolkit_Calendars_SfTimePicker_1_OnOpen" target="_blank" rel="noreferrer noopener">OnOpen</a></code></td>
 						<td>Triggers when the TimePicker popup is opened.</td>
 					</tr>
 					<tr>
-						<td>Created</td>
+						<td><code><a href="https://help.syncfusion.com/cr/blazor-toolkit/Syncfusion.Blazor.Toolkit.Calendars.SfTimePicker-1.html#Syncfusion_Blazor_Toolkit_Calendars_SfTimePicker_1_Created" target="_blank" rel="noreferrer noopener">Created</a></code></td>
 						<td>Triggers when the TimePicker component is created.</td>
 					</tr>
 					<tr>
-						<td>Destroyed</td>
+						<td><code><a href="https://help.syncfusion.com/cr/blazor-toolkit/Syncfusion.Blazor.Toolkit.Calendars.SfTimePicker-1.html#Syncfusion_Blazor_Toolkit_Calendars_SfTimePicker_1_Destroyed" target="_blank" rel="noreferrer noopener">Destroyed</a></code></td>
 						<td>Triggers when the TimePicker component is destroyed.</td>
 					</tr>
 					<tr>
-						<td>Focus</td>
+						<td><code><a href="https://help.syncfusion.com/cr/blazor-toolkit/Syncfusion.Blazor.Toolkit.Calendars.SfTimePicker-1.html#Syncfusion_Blazor_Toolkit_Calendars_SfTimePicker_1_OnFocus" target="_blank" rel="noreferrer noopener">OnFocus</a></code></td>
 						<td>Triggers when the input element gets focus.</td>
 					</tr>
 					<tr>
-						<td>OnItemRender</td>
+						<td><code><a href="https://help.syncfusion.com/cr/blazor-toolkit/Syncfusion.Blazor.Toolkit.Calendars.SfTimePicker-1.html#Syncfusion_Blazor_Toolkit_Calendars_SfTimePicker_1_OnItemRender" target="_blank" rel="noreferrer noopener">OnItemRender</a></code></td>
 						<td>Triggers while rendering each popup list item.</td>
 					</tr>
 				</tbody>
@@ -252,18 +252,18 @@
 
 @code {
 	//Default
-	private string DefaultCode => @"<SfTimePicker TValue=""DateTime?"" Width=""300px"" PlaceHolder=""Select a time""></SfTimePicker>";
+	private string DefaultCode => @"<SfTimePicker TValue=""DateTime?"" Width=""300px"" PlaceHolder=""Select a time"" ShowClearButton=""true"" ></SfTimePicker>";
 
 	//TimeFormat
 	private string TimeFormatCode => 
 @"<div>
-	<SfTimePicker TValue=""DateTime?"" Width=""300px"" Value='@FormatTimeValue' Format=""hh:mm tt"" Placeholder=""Format in 12 hours"" FloatLabelType=""@FloatLabelType.Always"" />
+	<SfTimePicker TValue=""DateTime?"" Width=""300px"" Value='@FormatTimeValue' Format=""hh:mm tt"" Placeholder=""Format in 12 hours"" FloatLabelType=""@FloatLabelType.Always"" ShowClearButton=""true"" />
 	<div class=""mt-3""></div>
 
-	<SfTimePicker TValue = ""DateTime?"" Width=""300px"" Value='@FormatTimeValue' Format=""HH:mm"" Placeholder=""Format in 24 hours"" FloatLabelType=""@FloatLabelType.Always"" />
+	<SfTimePicker TValue = ""DateTime?"" Width=""300px"" Value='@FormatTimeValue' Format=""HH:mm"" Placeholder=""Format in 24 hours"" FloatLabelType=""@FloatLabelType.Always"" ShowClearButton=""true"" />
 	<div class=""mt-3""></div>
 
-	<SfTimePicker TValue = ""DateTime?"" Width=""300px"" Value='@FormatTimeValue' Format=""HH:mm:ss"" Placeholder=""Format with seconds"" FloatLabelType=""@FloatLabelType.Always""/>
+	<SfTimePicker TValue = ""DateTime?"" Width=""300px"" Value='@FormatTimeValue' Format=""HH:mm:ss"" Placeholder=""Format with seconds"" FloatLabelType=""@FloatLabelType.Always"" ShowClearButton=""true""/>
 </div>
 
 @code{
@@ -274,7 +274,7 @@
 
 	//TimeRange
 	private string TimeRangeCode =>
-@"<SfTimePicker TValue=""DateTime?"" Width=""300px"" Value='@TimeValue' Min='@MinVal' Max='@MaxVal' PlaceHolder=""Select a time""></SfTimePicker>
+@"<SfTimePicker TValue=""DateTime?"" Width=""300px"" Value='@TimeValue' Min='@MinVal' Max='@MaxVal' PlaceHolder=""Select a time"" ShowClearButton=""true""></SfTimePicker>
 
 @code{
     public DateTime MinVal { get; set; } = new DateTime(DateTime.Now.Year, DateTime.Now.Month, 15, 09, 00, 00);
@@ -297,15 +297,15 @@
 	private string FloatLabelCode =>
 @"<div>
 	<h6><b>Auto (default)</b></h6>
-	<SfTimePicker TValue=""DateTime?"" Width=""300px"" Placeholder=""Select a time"" FloatLabelType=""@FloatLabelType.Auto"" />
+	<SfTimePicker TValue=""DateTime?"" Width=""300px"" Placeholder=""Select a time"" FloatLabelType=""@FloatLabelType.Auto"" ShowClearButton=""true"" />
 	<div class=""mt-3""></div>
 
 	<h6><b>Always</b></h6>
-	<SfTimePicker TValue=""DateTime?"" Width=""300px"" Placeholder=""Select a time"" FloatLabelType=""@FloatLabelType.Always"" />
+	<SfTimePicker TValue=""DateTime?"" Width=""300px"" Placeholder=""Select a time"" FloatLabelType=""@FloatLabelType.Always"" ShowClearButton=""true"" />
 	<div class=""mt-3""></div>
 
 	<h6><b>Never</b></h6>
-	<SfTimePicker TValue=""DateTime?"" Width=""300px"" Placeholder=""Select a time"" FloatLabelType=""@FloatLabelType.Never"" />
+	<SfTimePicker TValue=""DateTime?"" Width=""300px"" Placeholder=""Select a time"" FloatLabelType=""@FloatLabelType.Never"" ShowClearButton=""true"" />
 </div>";
 
 	//Mask
@@ -319,12 +319,12 @@ code {
 	public DateTime? MaskTimeValue { get; set; } = new DateTime(DateTime.Now.Year, DateTime.Now.Month, 11, 11, 30, 00);
 
 	//TimeOnly
-	private string TimeOnlyCode => @"<SfTimePicker TValue=""TimeOnly"" @bind-Value=""@Value"" PlaceHolder=""Select a time""></SfTimePicker>";
-	public TimeOnly Value { get; set; } = new TimeOnly(12, 00, 00);
+	private string TimeOnlyCode => @"<SfTimePicker TValue=""TimeOnly?"" @bind-Value=""@Value"" PlaceHolder=""Select a time"" ShowClearButton=""true""></SfTimePicker>";
+	public TimeOnly? Value { get; set; } = new TimeOnly(12, 00, 00);
 
 	//StrictMode
 	private string StrictModeCode =>
-@"<SfTimePicker TValue=""DateTime?"" Width=""300px"" Min=""@StrictModeMinTime"" Max=""@StrictModeMaxTime"" StrictMode=true Value=""@StrictModeTimeValue"" Placeholder=""Select a time""></SfTimePicker>
+@"<SfTimePicker TValue=""DateTime?"" Width=""300px"" Min=""@StrictModeMinTime"" Max=""@StrictModeMaxTime"" StrictMode=true Value=""@StrictModeTimeValue"" Placeholder=""Select a time"" ShowClearButton=""true""></SfTimePicker>
 
 code{
     public DateTime StrictModeMinTime { get; set; } = new DateTime(DateTime.Now.Year, DateTime.Now.Month, 15, 08, 00, 00);

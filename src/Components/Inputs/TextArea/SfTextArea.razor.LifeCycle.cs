@@ -92,7 +92,7 @@ namespace Syncfusion.Blazor.Toolkit.Inputs
         /// This method is called whenever the component's parameters are updated. It processes property changes,
         /// updates the component state accordingly, and ensures validation classes are properly applied.
         /// </remarks>
-        /// <exclude/>
+        /// <exclude />
         /// <inheritdoc/>
         protected override async Task OnParametersSetAsync()
         {
@@ -167,7 +167,7 @@ namespace Syncfusion.Blazor.Toolkit.Inputs
                         await Created.InvokeAsync(null).ConfigureAwait(true);
                     }
                 }
-                if (ContainerClass.Contains(OUTLINE, StringComparison.Ordinal))
+                if (ContainerClass.Contains(OUTLINE, StringComparison.Ordinal) || FloatLabelType != FloatLabelType.Never)
                 {
                     await InvokeVoidAsync(_textAreaJsModule, _textAreaJsInProcessModule, "calculateWidth", [DataId ?? string.Empty, InputElement]).ConfigureAwait(true);
                 }
@@ -191,7 +191,7 @@ namespace Syncfusion.Blazor.Toolkit.Inputs
         /// Destroyed event, ensuring proper cleanup sequencing and preventing potential memory leaks.
         /// The method is part of the component lifecycle and should not be called directly.
         /// </remarks>
-        /// <exclude/>
+        /// <exclude />
         protected override async ValueTask DisposeAsyncCore()
         {
             try

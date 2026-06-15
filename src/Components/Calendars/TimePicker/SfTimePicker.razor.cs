@@ -461,15 +461,15 @@ namespace Syncfusion.Blazor.Toolkit.Calendars
         /// </remarks>
         private void UpdateAriaAttributes()
         {
-            _ = SfBaseUtils.UpdateDictionary(ARIA_HAS_POPUP, TRUE, InputHtmlAttributes);
-            _ = SfBaseUtils.UpdateDictionary(ARIA_AUTOCOMPLETE, LIST, InputHtmlAttributes);
-            _ = SfBaseUtils.UpdateDictionary(ROLE, COMBOBOX, InputHtmlAttributes);
-            _ = SfBaseUtils.UpdateDictionary(AUTO_CORRECT, OFF, InputHtmlAttributes);
-            _ = SfBaseUtils.UpdateDictionary(AUTO_CAPITAL, FALSE, InputHtmlAttributes);
-            _ = SfBaseUtils.UpdateDictionary(SPELL_CHECK, FALSE, InputHtmlAttributes);
-            _ = SfBaseUtils.UpdateDictionary(ARIA_INVALID, FALSE, InputHtmlAttributes);
-            _ = SfBaseUtils.UpdateDictionary(ARIA_LABEL, TIMEPICKER, InputHtmlAttributes);
-            _ = SfBaseUtils.UpdateDictionary(ARIA_CONTROLS, $"{ID}_popup", InputHtmlAttributes);
+            SfBaseUtils.UpdateDictionary(ARIA_HAS_POPUP, TRUE, InputHtmlAttributes);
+            SfBaseUtils.UpdateDictionary(ARIA_AUTOCOMPLETE, LIST, InputHtmlAttributes);
+            SfBaseUtils.UpdateDictionary(ROLE, COMBOBOX, InputHtmlAttributes);
+            SfBaseUtils.UpdateDictionary(AUTO_CORRECT, OFF, InputHtmlAttributes);
+            SfBaseUtils.UpdateDictionary(AUTO_CAPITAL, FALSE, InputHtmlAttributes);
+            SfBaseUtils.UpdateDictionary(SPELL_CHECK, FALSE, InputHtmlAttributes);
+            SfBaseUtils.UpdateDictionary(ARIA_INVALID, FALSE, InputHtmlAttributes);
+            SfBaseUtils.UpdateDictionary(ARIA_LABEL, TIMEPICKER, InputHtmlAttributes);
+            SfBaseUtils.UpdateDictionary(ARIA_CONTROLS, $"{ID}_popup", InputHtmlAttributes);
         }
 
         /// <summary>
@@ -574,7 +574,7 @@ namespace Syncfusion.Blazor.Toolkit.Calendars
         /// </remarks>
         private static Dictionary<string, object> RemoveAttributes(string removeClass, Dictionary<string, object> attr)
         {
-            _ = attr.Remove(removeClass);
+            attr.Remove(removeClass);
             return attr;
         }
 
@@ -627,7 +627,7 @@ namespace Syncfusion.Blazor.Toolkit.Calendars
             InternalStep = NotifyPropertyChanges(nameof(Step), Step, InternalStep);
             InternalWidth = NotifyPropertyChanges(nameof(Width), Width, InternalWidth);
             InternalZIndex = NotifyPropertyChanges(nameof(ZIndex), ZIndex, InternalZIndex);
-            _ = NotifyPropertyChanges(nameof(CssClass), CssClass, InternalCssClass);
+            NotifyPropertyChanges(nameof(CssClass), CssClass, InternalCssClass);
             InternalValue = NotifyPropertyChanges(nameof(Value), Value, InternalValue);
             InternalReadonly = NotifyPropertyChanges(nameof(READ_ONLY), Readonly, InternalReadonly);
             await Task.CompletedTask.ConfigureAwait(false);
@@ -802,7 +802,7 @@ namespace Syncfusion.Blazor.Toolkit.Calendars
             await ChangeTriggerAsync(args).ConfigureAwait(false);
             await HidePopupAsync(args).ConfigureAwait(false);
             AriaActiveDescendantID = null;
-            _ = InputHtmlAttributes.Remove(ARIA_ACTIVE_DESCENDANT);
+            InputHtmlAttributes.Remove(ARIA_ACTIVE_DESCENDANT);
             if (EnableMask)
             {
                 IsCleared = false;
@@ -838,7 +838,7 @@ namespace Syncfusion.Blazor.Toolkit.Calendars
                 await Task.Delay(ICON_CLICK_DELAY_MS).ConfigureAwait(false); // set the delay for prevent the icon click action.
                 if (IsDevice)
                 {
-                    _ = SfBaseUtils.UpdateDictionary(READ_ONLY, string.Empty, InputHtmlAttributes);
+                    SfBaseUtils.UpdateDictionary(READ_ONLY, string.Empty, InputHtmlAttributes);
                     await FocusOutAsync().ConfigureAwait(false);
                 }
 
@@ -969,7 +969,10 @@ namespace Syncfusion.Blazor.Toolkit.Calendars
         /// </remarks>
         private CultureInfo GetDefaultCulture()
         {
-            _ = string.IsNullOrEmpty(TimePickerLocale) ? string.Empty : TimePickerLocale;
+            if (!string.IsNullOrEmpty(TimePickerLocale))
+            {
+                return new CultureInfo(TimePickerLocale);
+            }
             return Intl.GetCulture();
         }
 
@@ -994,7 +997,7 @@ namespace Syncfusion.Blazor.Toolkit.Calendars
             {
                 InputHtmlAttributes = RemoveAttributes(READ_ONLY, InputHtmlAttributes);
             }
-            _ = SfBaseUtils.UpdateDictionary(ARIA_EXPANDED, FALSE, InputHtmlAttributes);
+            SfBaseUtils.UpdateDictionary(ARIA_EXPANDED, FALSE, InputHtmlAttributes);
             InputHtmlAttributes = RemoveAttributes(ARIA_OWN, InputHtmlAttributes);
         }
 
@@ -1164,7 +1167,7 @@ namespace Syncfusion.Blazor.Toolkit.Calendars
                         IsInteracted = args is not null,
                         Text = inputValue ?? string.Empty,
                     };
-                    _ = InvokeAsync(() => ValueChange.InvokeAsync(changedEventArgs));
+                    await InvokeAsync(() => ValueChange.InvokeAsync(changedEventArgs)).ConfigureAwait(false);
                 }
                 PreviousElementValue = inputValue;
                 PreviousDateTime = Value;
@@ -1297,7 +1300,15 @@ namespace Syncfusion.Blazor.Toolkit.Calendars
         /// </remarks>
         private void UpdateValue(object? timeValue)
         {
-            TValue tempValue = (TValue)SfBaseUtils.ChangeType(timeValue!, typeof(TValue));
+            TValue tempValue;
+            if (timeValue == null)
+            {
+                tempValue = default(TValue);
+            }
+            else
+            {
+                tempValue = (TValue)SfBaseUtils.ChangeType(timeValue!, typeof(TValue));
+            }
             InputTextValue = tempValue;
         }
 
@@ -1861,7 +1872,7 @@ namespace Syncfusion.Blazor.Toolkit.Calendars
             AriaActiveDescendantID = activeIndex != -1 ? ID + "_" + activeIndex.ToString(CultureInfo.CurrentCulture) : null;
             if (IsListRender && ShowPopupList && !string.IsNullOrEmpty(AriaActiveDescendantID))
             {
-                _ = SfBaseUtils.UpdateDictionary(ARIA_ACTIVE_DESCENDANT, AriaActiveDescendantID, InputHtmlAttributes);
+                SfBaseUtils.UpdateDictionary(ARIA_ACTIVE_DESCENDANT, AriaActiveDescendantID, InputHtmlAttributes);
             }
         }
 
@@ -2419,7 +2430,7 @@ namespace Syncfusion.Blazor.Toolkit.Calendars
             }
             if (OnBlur.HasDelegate)
             {
-                _ = InvokeAsync(() => OnBlur.InvokeAsync(new BlurEventArgs()));
+                await InvokeAsync(() => OnBlur.InvokeAsync(new BlurEventArgs())).ConfigureAwait(false);
             }
 
             IsBlurred = false;

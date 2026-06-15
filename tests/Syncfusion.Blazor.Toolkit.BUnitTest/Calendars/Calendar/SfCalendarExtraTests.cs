@@ -119,5 +119,30 @@ namespace Syncfusion.Blazor.Toolkit.Tests.Calendars.Calendar
             Assert.Contains("base-class", parentContainer?.ClassName);
             Assert.Equal("1", parentContainer?.GetAttribute("data-test"));
         }
+
+        [Fact(Timeout = 10000, DisplayName = "HtmlAttributes: 'class' key value applied to root, not key name")]
+        public void HtmlAttributes_ClassValue_AppliedCorrectly()
+        {
+            var htmlAttr = new Dictionary<string, object>() { { "class", "custom-cal" } };
+            var calendar = RenderComponent<SfCalendar<DateTime>>(parameters =>
+                parameters.Add(p => p.HtmlAttributes, htmlAttr)
+            );
+            var tableElement = calendar.Find("table");
+            var root = tableElement?.ParentElement?.ParentElement;
+            Assert.Contains("custom-cal", root?.ClassName);
+            Assert.DoesNotContain(" class ", " " + root?.ClassName + " ");
+        }
+
+        [Fact(Timeout = 10000, DisplayName = "HtmlAttributes: 'title' key value applied as attribute")]
+        public void HtmlAttributes_TitleValue_AppliedCorrectly()
+        {
+            var htmlAttr = new Dictionary<string, object>() { { "title", "Calendar title" } };
+            var calendar = RenderComponent<SfCalendar<DateTime>>(parameters =>
+                parameters.Add(p => p.HtmlAttributes, htmlAttr)
+            );
+            var tableElement = calendar.Find("table");
+            var root = tableElement?.ParentElement?.ParentElement;
+            Assert.Equal("Calendar title", root?.GetAttribute("title"));
+        }
     }
 }

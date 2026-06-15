@@ -511,7 +511,7 @@ namespace Syncfusion.Blazor.Toolkit.Inputs
         {
             if (!string.Equals(currentValue, previousValue, StringComparison.Ordinal))
             {
-                _ = SfBaseUtils.UpdateDictionary(propertyName, currentValue!, PropertyChanges);
+                SfBaseUtils.UpdateDictionary(propertyName, currentValue!, PropertyChanges);
                 return true;
             }
             return false;
@@ -528,7 +528,7 @@ namespace Syncfusion.Blazor.Toolkit.Inputs
         {
             if (currentValue != previousValue)
             {
-                _ = SfBaseUtils.UpdateDictionary(propertyName, currentValue, PropertyChanges);
+                SfBaseUtils.UpdateDictionary(propertyName, currentValue, PropertyChanges);
                 return true;
             }
             return false;
@@ -547,7 +547,7 @@ namespace Syncfusion.Blazor.Toolkit.Inputs
         {
             if (!SfBaseUtils.Equals(currentValue, previousValue))
             {
-                _ = SfBaseUtils.UpdateDictionary(propertyName, currentValue!, PropertyChanges);
+                SfBaseUtils.UpdateDictionary(propertyName, currentValue!, PropertyChanges);
                 return true;
             }
             return false;

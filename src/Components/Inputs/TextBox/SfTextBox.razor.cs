@@ -173,7 +173,7 @@ namespace Syncfusion.Blazor.Toolkit.Inputs
         /// </remarks>
         private async Task PropertyUpdateAsync()
         {
-            _ = NotifyPropertyChanges(nameof(CssClass), CssClass, _cssClass);
+            NotifyPropertyChanges(nameof(CssClass), CssClass, _cssClass);
             _autocomplete = NotifyPropertyChanges(nameof(Autocomplete), Autocomplete, _autocomplete);
             _type = NotifyPropertyChanges(nameof(Type), Type, _type);
             InternalValue = NotifyPropertyChanges(nameof(Value), Value, InternalValue);

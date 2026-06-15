@@ -652,7 +652,7 @@ namespace Syncfusion.Blazor.Toolkit.Calendars.Internal
                     }
                     else if (customClasses is not null && customClasses.Count == 0 && Parent is not null && Parent.CustomizedDates.ContainsKey(dateString))
                     {
-                        _ = Parent.CustomizedDates.Remove(dateString);
+                        Parent.CustomizedDates.Remove(dateString);
                     }
                 }
             }
@@ -957,8 +957,8 @@ namespace Syncfusion.Blazor.Toolkit.Calendars.Internal
             if (Parent is not null)
             {
                 string id = LocalDates.Ticks + "_" + Cells;
-                _ = (Parent.CellDetailsData?.RemoveAll(c => c.CellID == id));
-                _ = (Parent.PreviousCellListData?.RemoveAll(c => c.CellID == id));
+                Parent.CellDetailsData?.RemoveAll(c => c.CellID == id);
+                Parent.PreviousCellListData?.RemoveAll(c => c.CellID == id);
             }
             Parent = null;
             return base.DisposeAsyncCore();

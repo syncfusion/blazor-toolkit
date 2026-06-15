@@ -1,5 +1,7 @@
 using AngleSharp.Dom;
 using Bunit;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Options;
 using Syncfusion.Blazor.Toolkit.Buttons;
 using Syncfusion.Blazor.Toolkit.Inputs;
 using Xunit;
@@ -315,6 +317,7 @@ namespace Syncfusion.Blazor.Toolkit.Tests.Inputs
         [Fact(Timeout = 10000, DisplayName="RTL")]
         public void RTL()
         {
+            Services.AddScoped(_ => new SyncfusionBlazorToolkitService(Options.Create(new GlobalOptions { EnableRtl = true })));
             var cut = RenderComponent<OtherRadio>();
             var inputElem = cut.FindAll("input",true);
              Assert.True(inputElem[4].NextElementSibling.ClassList.Contains("e-rtl")); 
@@ -360,15 +363,24 @@ namespace Syncfusion.Blazor.Toolkit.Tests.Inputs
         }
 
         [Trait("SfRadioButton", "Property Changes")]
-        [Fact(Timeout = 10000, DisplayName="PropertyChanges RTL")]
-        public void PropertyChanges_RTL()
+        [Fact(DisplayName="PropertyChanges RTL Enabled adds e-rtl")]
+        public void RTL_Enabled_AddsClass()
         {
+            Services.AddScoped(_ => new SyncfusionBlazorToolkitService(Options.Create(new GlobalOptions { EnableRtl = true })));
             var cut = RenderComponent<OtherRadio>();
             var inputElem = cut.FindAll("input",true);
-            Assert.True(inputElem[4].NextElementSibling.ClassList.Contains("e-rtl")); 
-            cut.SetParametersAndRender((nameof(OtherRadio.rtl),false));
-            Assert.Null(inputElem[4].QuerySelector(".e-rtl")); 
+            Assert.True(inputElem[4].NextElementSibling.ClassList.Contains("e-rtl"));
         }
+        [Trait("SfRadioButton", "Property Changes")]
+        [Fact(DisplayName="PropertyChanges RTL Disabled removes e-rtl")]
+        public void RTL_Disabled_RemovesClass()
+        {
+            Services.AddScoped(_ => new SyncfusionBlazorToolkitService(Options.Create(new GlobalOptions { EnableRtl = false })));
+            var cut = RenderComponent<OtherRadio>();
+            var inputElem = cut.FindAll("input", true);
+
+            Assert.False(inputElem[4].NextElementSibling.ClassList.Contains("e-rtl"));
+        }    
         [Trait("SfRadioButton", "Property Changes")]
         [Fact(Timeout = 10000, DisplayName="PropertyChanges Label")]
         public void PropertyChanges_Label()
@@ -481,6 +493,7 @@ namespace Syncfusion.Blazor.Toolkit.Tests.Inputs
         [Fact(DisplayName = "Before + RTL yields 'e-right e-rtl' on label")]
         public void Before_RTL_Label_Class()
         {
+            Services.AddScoped(_ => new SyncfusionBlazorToolkitService(Options.Create(new GlobalOptions { EnableRtl = true })));
             var cut = RenderComponent<RtlRadio>();
             var label = cut.Find("label");
 

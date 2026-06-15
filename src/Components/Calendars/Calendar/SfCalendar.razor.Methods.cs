@@ -136,7 +136,7 @@ namespace Syncfusion.Blazor.Toolkit.Calendars
         /// <exclude />
         private async Task ApplyMultiSelectionChangesAsync(List<DateTime> updatedValues)
         {
-            _ = NotifyPropertyChanges(nameof(Value), GenericValue(updatedValues.LastOrDefault()), CalendarBase_Value);
+            NotifyPropertyChanges(nameof(Value), GenericValue(updatedValues.LastOrDefault()), CalendarBase_Value);
             await UpdateDateValuesAsync([.. updatedValues]).ConfigureAwait(false);
         }
 
@@ -151,7 +151,7 @@ namespace Syncfusion.Blazor.Toolkit.Calendars
             }
             TValue? tempValue = Value is null ? default! : (TValue)SfBaseUtils.ChangeType(Value, typeof(TValue));
             ChangedArgs = new ChangedEventArgs<TValue> { Value = tempValue!, Values = Values };
-            ChangeHandler(null, Values, IsMultiSelection);
+            await ChangeHandlerAsync(null, Values, IsMultiSelection).ConfigureAwait(false);
             await InvokeAsync(StateHasChanged).ConfigureAwait(false);
         }
 

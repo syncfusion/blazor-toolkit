@@ -70,7 +70,7 @@ namespace Syncfusion.Blazor.Toolkit.Inputs
                             TChecked? persistValue = (TChecked?)(object?)null;
                             Checked = PreviousCheckedValue = await SfBaseUtils.UpdatePropertyAsync(persistValue, PreviousCheckedValue, CheckedChanged!, CascadedEditContext, CheckedExpression!).ConfigureAwait(true);
                         }
-                        else if (string.IsNullOrEmpty(Name))
+                        else
                         {
                             TChecked persistValue = (TChecked)SfBaseUtils.ChangeType(localStorageValue!, typeof(TChecked))!;
                             Checked = PreviousCheckedValue = await SfBaseUtils.UpdatePropertyAsync(persistValue, PreviousCheckedValue, CheckedChanged!, CascadedEditContext, CheckedExpression!).ConfigureAwait(true);
