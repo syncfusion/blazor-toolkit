@@ -6755,6 +6755,10 @@ export function onZoomingMouseEnd(e, chart) {
     chart.userInteractionBase.disableTrackTooltip = false;
     chart.zoomToolkitBase.isReset = false;
     chart.zoomBase.zoomingModule.zoomAxes = [];
+    const zoomKitElement = getElement(chart.element.id + chart.zoomBase.zoomToolkitId);
+    if (zoomKitElement) {
+        zoomKitElement.style.visibility = 'visible';
+    }
 }
 
 export function onZoomingMouseDown(e, pageX, pageY, chart) {
