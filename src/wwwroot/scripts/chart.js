@@ -7529,6 +7529,7 @@ export function removeTooltipCrosshairOnZoom(chart) {
     const axisGroup = getElement(chart.element.id + '_crosshair_axis');
     if (tooltip) {
         tooltip.remove();
+        removeHighlight(chart);
     }
     removeMarker(chart);
     if (crosshair && crosshair.getAttribute('opacity') !== '0') {
