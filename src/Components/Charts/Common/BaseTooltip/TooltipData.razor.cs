@@ -71,7 +71,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
                 if (GivenContent is not null)
                 {
                     builder.OpenElement(seq++, "div");
-                    builder.AddAttribute(seq++, "id", "tooltip_template");
+                    builder.AddAttribute(seq++, "id", _owner?.ID + "tooltip_template");
 
                     if (_sharedTemplate)
                     {

@@ -111,7 +111,7 @@
             <ChartPrimaryYAxis Title="Production (60KG Bags)" Interval="20">
                 <ChartAxisLineStyle Width="0"/>
             </ChartPrimaryYAxis>
-            <ChartTooltipSettings Enable="true" Header="${point.x}" Format="Total: ${point.stackedValue}" />
+            <ChartTooltipSettings Enable="true" Header="" Format="Total: ${point.stackedValue}" />
             
                 <ChartSeries DataSource="Data" XName="X" YName="Y1" Name="India" Type="ChartSeriesType.StackingColumn" Fill="#5C6BC0" ColumnWidth="0.4"></ChartSeries>
                 <ChartSeries DataSource="Data" XName="X" YName="Y2" Name="China" Type="ChartSeriesType.StackingColumn" Fill="#00796B" ColumnWidth="0.4"></ChartSeries>
@@ -137,7 +137,7 @@
     <CodePreview IsFullWidth="true" CodeSection="@stackingLabelCode">
     <PreviewSection>
         <SfChart @key="@_currentTheme" Title="Global Cotton Production by Country (2019–2024)" Theme="@_currentTheme">
-            <ChartTooltipSettings Enable="true" Header="${point.x}"/>
+            <ChartTooltipSettings Enable="true" Header=""/>
             <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Toolkit.ValueType.Category" Interval="1"></ChartPrimaryXAxis>
             <ChartPrimaryYAxis Interval="20"><ChartAxisLineStyle Width="0"/></ChartPrimaryYAxis>
             <ChartStackLabelSettings Visible="true"></ChartStackLabelSettings>
@@ -510,7 +510,7 @@
                         <ChartCornerRadius TopLeft="8" TopRight="8"></ChartCornerRadius>
                     </ChartSeries>
                 
-                <ChartTooltipSettings Enable="true" Header="${point.x}" Format="${point.x} : <b>${point.y}</b>" />
+                <ChartTooltipSettings Enable="true" Header="" Format="${point.x} : <b>${point.y}</b>" />
             </SfChart>
         </PreviewSection>
     </CodePreview>
@@ -669,7 +669,7 @@
         <ChartSeries DataSource=""@Data"" XName=""X"" YName=""Y2"" Name=""China"" Type=""ChartSeriesType.StackingColumn"" Fill=""#00796B"" ColumnWidth=""0.4""></ChartSeries>
         <ChartSeries DataSource=""@Data"" XName=""X"" YName=""Y3"" Name=""United States"" Type=""ChartSeriesType.StackingColumn"" Fill=""#B71C1C"" ColumnWidth=""0.4""></ChartSeries>
     
-    <ChartTooltipSettings Enable=""true"" Header=""${point.x}"" Format=""Total: ${point.tooltip}"" />
+    <ChartTooltipSettings Enable=""true"" Header="""" Format=""Total: ${point.tooltip}"" />
 </SfChart>
 
 @code {
@@ -690,7 +690,7 @@
 }";
 
     public string stackingLabelCode = @" <SfChart @key=""@_currentTheme"" Title=""Global Cotton Production by Country (2019–2024)"" Theme=""@_currentTheme"">
-            <ChartTooltipSettings Enable=""true"" Header=""${point.x}""/>
+            <ChartTooltipSettings Enable=""true"" Header=""""/>
             <ChartPrimaryXAxis ValueType=""Syncfusion.Blazor.Toolkit.ValueType.Category"" Interval=""1""></ChartPrimaryXAxis>
             <ChartPrimaryYAxis Interval=""20""><ChartAxisLineStyle Width=""0""/></ChartPrimaryYAxis>
             <ChartStackLabelSettings Visible=""true""></ChartStackLabelSettings>
@@ -1040,7 +1040,7 @@
                         <ChartCornerRadius TopLeft=""8"" TopRight=""8""></ChartCornerRadius>
                     </ChartSeries>
                 
-                <ChartTooltipSettings Enable=""true"" Header=""${point.x}"" Format=""${point.x} : <b>${point.y}</b>"" />
+                <ChartTooltipSettings Enable=""true"" Header="""" Format=""${point.x} : <b>${point.y}</b>"" />
             </SfChart>
 
 @code {

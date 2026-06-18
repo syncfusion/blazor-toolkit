@@ -189,7 +189,7 @@ const SfChart = (function () {
     SfChart.prototype.getElementSize = function (id) {
         const element = document.getElementById(id);
         if (element) {
-            const tooltipTemplate = document.getElementById('tooltip_template');
+            const tooltipTemplate = document.getElementById(this.element.id + 'tooltip_template');
             if (tooltipTemplate) {
                 element.innerHTML = '';
                 element.appendChild(tooltipTemplate);
@@ -6755,6 +6755,10 @@ export function onZoomingMouseEnd(e, chart) {
     chart.userInteractionBase.disableTrackTooltip = false;
     chart.zoomToolkitBase.isReset = false;
     chart.zoomBase.zoomingModule.zoomAxes = [];
+    const zoomKitElement = getElement(chart.element.id + chart.zoomBase.zoomToolkitId);
+    if (zoomKitElement) {
+        zoomKitElement.style.visibility = 'visible';
+    }
 }
 
 export function onZoomingMouseDown(e, pageX, pageY, chart) {
@@ -7525,6 +7529,7 @@ export function removeTooltipCrosshairOnZoom(chart) {
     const axisGroup = getElement(chart.element.id + '_crosshair_axis');
     if (tooltip) {
         tooltip.remove();
+        removeHighlight(chart);
     }
     removeMarker(chart);
     if (crosshair && crosshair.getAttribute('opacity') !== '0') {
