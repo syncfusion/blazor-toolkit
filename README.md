@@ -5,8 +5,15 @@ The [**Syncfusion® Toolkit for Blazor**](https://www.syncfusion.com/blazor-tool
 Built with community collaboration in mind, the toolkit incorporates user feedback and contributions to deliver practical, high-quality components that integrate seamlessly with the broader Syncfusion Blazor ecosystem. We welcome contributions across components, documentation, tests, accessibility, and performance.
 
 [![NuGet](https://img.shields.io/nuget/v/Syncfusion.Blazor.Toolkit.svg?style=flat-square)](https://www.nuget.org/packages/Syncfusion.Blazor.Toolkit)
-[![GitHub license](https://img.shields.io/github/license/syncfusion/blazor-toolkit?style=flat-square)](https://github.com/syncfusion/blazor-toolkit/blob/main/LICENSE)
-[![GitHub stars](https://img.shields.io/github/stars/syncfusion/blazor-toolkit?style=flat-square)](https://github.com/syncfusion/blazor-toolkit/stargazers)
+[![GitHub license](https://img.shields.io/badge/license-syncfusion/blazor-toolkit?style=flat-square&color=green)](https://github.com/syncfusion/blazor-toolkit/blob/main/LICENSE.txt)
+[![GitHub stars](https://badgen.net/github/stars/syncfusion/blazor-toolkit?color=blue)](https://github.com/syncfusion/blazor-toolkit/stargazers)
+[![Total Downloads](https://img.shields.io/nuget/dt/Syncfusion.Blazor.Toolkit?style=flat-square&color=green)](https://www.nuget.org/packages/Syncfusion.Blazor.Toolkit)
+![Platforms](https://img.shields.io/badge/platform-Blazor-blue)
+[![.NET 8](https://img.shields.io/badge/.NET%208%20%7C%20.NET%209%20%7C%20.NET%2010-5C2D91?logo=.net&logoColor=white)](https://dotnet.microsoft.com/en-us/download/dotnet)
+[![Contributors](https://img.shields.io/github/contributors/syncfusion/blazor-toolkit?style=flat-square&color=blue&label=Contributors)](https://github.com/syncfusion/blazor-toolkit/graphs/contributors)
+[![GitHub issues](https://img.shields.io/github/issues/syncfusion/blazor-toolkit?style=flat-square)](https://github.com/syncfusion/blazor-toolkit/issues)
+[![GitHub pull requests](https://img.shields.io/github/issues-pr/syncfusion/blazor-toolkit?style=flat-square)](https://github.com/syncfusion/blazor-toolkit/pulls)
+
 <!-- Build, test, and issues badges require GitHub Actions workflows to be configured.
      When CI workflows exist, uncomment these lines:
      [![Build](https://img.shields.io/github/actions/workflow/status/syncfusion/blazor-toolkit/build.yml?style=flat-square)](https://github.com/syncfusion/blazor-toolkit/actions)
@@ -276,6 +283,12 @@ Contributions are welcome! If you'd like to contribute, check out our [contribut
 See the [Development Guide](./.github/DEVELOPMENT.md) for more details about this repository and project structure.
 
 Review our [Code of Conduct](./.github/CODE_OF_CONDUCT.md) — all community interactions are expected to follow it.
+
+## Contributors
+
+This project exists thanks to all the people who contribute.
+
+<img src="https://contrib.rocks/image?repo=syncfusion/blazor-toolkit" alt="Contributors">
 
 ## About Syncfusion®
 
