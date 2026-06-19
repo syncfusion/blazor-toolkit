@@ -238,6 +238,7 @@
                                LabelFormat="{value}B"
                                LabelPosition="@CurrentLabelPosition"
                                LabelIntersectAction="LabelIntersectAction.Rotate90">
+                <ChartAxisLabelStyle Color="@LabelColor" />
                 <ChartAxisMajorGridLines Width="0" />
                 <ChartAxisMajorTickLines Width="0" />
                 <ChartAxisMinorTickLines Width="0" />
@@ -679,6 +680,11 @@
             CurrentLabelPosition = position;
         }
     }
+
+    private string LabelColor =>
+        CurrentLabelPosition == Syncfusion.Blazor.Toolkit.AxisPosition.Inside
+            ? "black"
+            : null;
     
     // EDGE LABEL STATE
     private EdgeLabelPlacement CurrentEdgePlacement { get; set; }
@@ -964,6 +970,7 @@
                                LabelFormat=""{value}B""
                                LabelPosition=""@CurrentLabelPosition""
                                LabelIntersectAction=""LabelIntersectAction.Rotate90"">
+                <ChartAxisLabelStyle Color=""@LabelColor"" />
                 <ChartAxisMajorGridLines Width=""0"" />
                 <ChartAxisMajorTickLines Width=""0"" />
                 <ChartAxisMinorTickLines Width=""0"" />
@@ -1006,6 +1013,11 @@
                     CurrentLabelPosition = position;
                 }
             }
+
+            private string LabelColor =>
+                CurrentLabelPosition == Syncfusion.Blazor.Toolkit.AxisPosition.Inside
+                    ? ""black""
+                    : null;
    
           private List<PopulationPoint> PopulationData = new()
           {

@@ -364,7 +364,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts
                         _isResizeTemplate = true;
                         _ = UpdateLegendTemplateAsync();
                     }
-                    if (_isSizeSet && _selectionModule is not null)
+                    if (_render.IsSizeSet && _selectionModule is not null)
                     {
                         _ = _selectionModule.RemoveSelectedElementsAsync();
                         _selectionModule.InvokeSelection();

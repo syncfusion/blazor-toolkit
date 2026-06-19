@@ -1147,7 +1147,10 @@ const SfChart = (function () {
                         this.currentSeriesIndex = seriesIndexes.indexOf(this.currentSeriesIndex) + (e.code === 'ArrowRight' ? 1 : -1);
                         this.currentSeriesIndex = seriesIndexes[getActualIndex(this.currentSeriesIndex, seriesIndexes.length)];
                         currentSeries = getCurrentSeries(this, targetId, this.currentSeriesIndex);
-                        while (!currentSeries.focusable) {
+                        const maxAttempts = seriesIndexes.length;
+                        let attempts = 0;
+                        while ((!currentSeries || !currentSeries.focusable || !currentSeries.visible || 
+                                currentSeries.index !== this.currentSeriesIndex) && attempts < maxAttempts) {
                             this.currentSeriesIndex = seriesIndexes.indexOf(this.currentSeriesIndex) + (e.code === 'ArrowRight' ? 1 : -1);
                             this.currentSeriesIndex = seriesIndexes[getActualIndex(this.currentSeriesIndex, seriesIndexes.length)];
                             currentSeries = getCurrentSeries(this, targetId, this.currentSeriesIndex);
@@ -2539,6 +2542,13 @@ export function getCurrentSeries(chart, targetId, seriesIndex) {
             currentSeries = series;
         }
     });
+    if (sfBlazorToolkit.base.isNullOrUndefined(currentSeries)) {
+        targetSeries.forEach((series) => {
+            if (series.focusable && series.visible && series.type.indexOf("Stacking") > -1) {
+                currentSeries = series;
+            }
+        });
+    }
     return currentSeries;
 }
 

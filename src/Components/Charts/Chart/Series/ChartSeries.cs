@@ -1411,11 +1411,11 @@ namespace Syncfusion.Blazor.Toolkit.Charts
             get => _columnWidthInPixel;
             set
             {
-                if (Math.Abs(_columnWidthInPixel - value) > double.Epsilon)
+                if (_columnWidthInPixel != value)
                 {
                     _columnWidthInPixel = value;
 
-                    if (Renderer is not null && Renderer.Series is not null && Renderer.Series.Visible)
+                    if (Renderer != null && Renderer.Series != null && Renderer.Series.Visible)
                     {
                         Renderer?.UpdateDirection();
                     }
