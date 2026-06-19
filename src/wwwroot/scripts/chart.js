@@ -852,6 +852,10 @@ const SfChart = (function () {
             else if (chart.toggleVisibility && chart.enableHighlight) {
                 chart.isLegendHighlighting = false;
                 chart.prevHighlightedSeriesIndex = -1;
+                const elements = Array.from(document.getElementsByClassName(chart.unSelected));
+                elements.forEach(element => {
+                    removeSvgClass(element, element.getAttribute('class'));
+                });
                 storeToggledLegendIndexes(target, chart, e);
             }
         }
