@@ -210,7 +210,6 @@
         await chartObj.HideCrosshairAsync();
         chartObj.Sort("Gold", ListSortDirection.Descending);
         chartObj.ClearSort();
-        SfChart.AddAxes(null);
         await chartObj.GetBooleanValuesAsync();
         await chartObj.PerformRedrawAnimationAsync();
         VisibleRangeModel axisRange = new VisibleRangeModel()
