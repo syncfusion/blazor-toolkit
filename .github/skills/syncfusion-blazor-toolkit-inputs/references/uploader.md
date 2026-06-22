@@ -45,7 +45,7 @@
 | `ShowFileList` | `bool` | `true` | Display file list |
 | `ShowProgressBar` | `bool` | `true` | Show progress bar during upload |
 | `EnableHtmlSanitizer` | `bool` | `true` | Sanitize filenames for XSS |
-| `EnablePersistence` | `bool` | `false` | Persist upload state across page reloads |
+| `EnablePersistence` | `bool` | `false` | Persist upload state to localStorage using the component's ID |
 | `TabIndex` | `int` | `0` | Tab order |
 | `HttpClientInstance` | `HttpClient` | `new()` | Custom HttpClient for upload requests |
 
@@ -59,7 +59,7 @@
 
 ```razor
 <SfUploader ID="UploadFiles" AutoUpload="false" AllowedExtensions=".jpg,.png,.pdf">
-    <UploaderAsyncSettings SaveUrl="/api/upload/save" RemoveUrl="/api/upload/remove" />
+    <UploaderAsyncSettings SaveUrl="https://blazor.syncfusion.com/services/production/api/FileUploader/save" RemoveUrl="https://blazor.syncfusion.com/services/production/api/FileUploader/remove" />
 </SfUploader>
 ```
 
@@ -116,7 +116,7 @@ The FileUpload component supports displaying a list of files that are already av
 
 ```razor
 <SfUploader ID="UploadFiles" AutoUpload="true" AllowedExtensions=".jpg,.png,.pdf">
-    <UploaderAsyncSettings SaveUrl="/api/upload/save" RemoveUrl="/api/upload/remove" />
+    <UploaderAsyncSettings SaveUrl="https://blazor.syncfusion.com/services/production/api/FileUploader/save" RemoveUrl="https://blazor.syncfusion.com/services/production/api/FileUploader/remove" />
 </SfUploader>
 ```
 
@@ -124,7 +124,7 @@ The FileUpload component supports displaying a list of files that are already av
 
 ```razor
 <SfUploader ID="UploadFiles" AutoUpload="true" AllowedExtensions=".jpg,.png,.pdf" MaxFileSize="10485760">
-    <UploaderAsyncSettings SaveUrl="/api/upload/save" RemoveUrl="/api/upload/remove" />
+    <UploaderAsyncSettings SaveUrl="https://blazor.syncfusion.com/services/production/api/FileUploader/save" RemoveUrl="https://blazor.syncfusion.com/services/production/api/FileUploader/remove" />
 </SfUploader>
 ```
 
@@ -336,6 +336,18 @@ Control whether the progress bar is displayed:
 </div>
 ```
 
+### State Persistence
+
+The `EnablePersistence` property allows the uploader's state to be persisted in browser localStorage across page reloads.
+
+```razor
+<SfUploader ID="FileUploader" EnablePersistence="true" AutoUpload="false" AllowedExtensions=".jpg,.png,.pdf">
+    <UploaderAsyncSettings SaveUrl="https://blazor.syncfusion.com/services/production/api/FileUploader/save" RemoveUrl="https://blazor.syncfusion.com/services/production/api/FileUploader/remove" />
+</SfUploader>
+```
+
+**Important:** When using `EnablePersistence`, you must also set an `ID` property on the component. The persistence mechanism uses the component's `ID` as the storage key in localStorage. Without a unique `ID`, the persistence behavior may not work correctly across multiple component instances.
+
 ## Uploader Templates
 
 ### File List Template
@@ -344,8 +356,8 @@ The File Upload component allows for the customization of the file list items by
 
 ```razor
 <SfUploader ID="UploadFiles" AutoUpload="false">
-    <UploaderAsyncSettings SaveUrl="/api/upload/save"
-                           RemoveUrl="/api/upload/remove"></UploaderAsyncSettings>
+    <UploaderAsyncSettings SaveUrl="https://blazor.syncfusion.com/services/production/api/FileUploader/save"
+                           RemoveUrl="https://blazor.syncfusion.com/services/production/api/FileUploader/remove"></UploaderAsyncSettings>
     <UploaderTemplates>
         <Template Context="context">
             <div style="padding: 10px;">
@@ -388,7 +400,7 @@ Fired before uploading starts:
 
 ```razor
 <SfUploader ID="UploadFiles" OnUploadStart="@OnUploading" AutoUpload="false">
-    <UploaderAsyncSettings SaveUrl="/api/upload/save" RemoveUrl="/api/upload/remove" />
+    <UploaderAsyncSettings SaveUrl="https://blazor.syncfusion.com/services/production/api/FileUploader/save" RemoveUrl="https://blazor.syncfusion.com/services/production/api/FileUploader/remove" />
 </SfUploader>
 
 @code {
@@ -405,7 +417,7 @@ Fired when upload completes successfully:
 
 ```razor
 <SfUploader ID="UploadFiles" Success="@OnUploadSuccess" AutoUpload="true">
-    <UploaderAsyncSettings SaveUrl="/api/upload/save" RemoveUrl="/api/upload/remove" />
+    <UploaderAsyncSettings SaveUrl="https://blazor.syncfusion.com/services/production/api/FileUploader/save" RemoveUrl="https://blazor.syncfusion.com/services/production/api/FileUploader/remove" />
 </SfUploader>
 
 @code {
@@ -422,7 +434,7 @@ Fired when upload fails:
 
 ```razor
 <SfUploader OnFailure="@OnUploadFailure" AutoUpload="true">
-    <UploaderAsyncSettings SaveUrl="/api/upload/save" RemoveUrl="/api/upload/remove" />
+    <UploaderAsyncSettings SaveUrl="https://blazor.syncfusion.com/services/production/api/FileUploader/save" RemoveUrl="https://blazor.syncfusion.com/services/production/api/FileUploader/remove" />
 </SfUploader>
 
 <p class="error-message">@errorMessage</p>
@@ -445,7 +457,7 @@ Fired when upload fails:
 ```razor
 <div class="progress-demo">
     <SfUploader @ref="uploader" ID="UploadFiles" Progressing="@OnUploadProgress" AutoUpload="false">
-        <UploaderAsyncSettings SaveUrl="/api/upload/save" RemoveUrl="/api/upload/remove" />
+        <UploaderAsyncSettings SaveUrl="https://blazor.syncfusion.com/services/production/api/FileUploader/save" RemoveUrl="https://blazor.syncfusion.com/services/production/api/FileUploader/remove" />
     </SfUploader>
 
     <div class="progress-info">
@@ -458,7 +470,7 @@ Fired when upload fails:
     private SfUploader uploader = new();
     private int uploadedPercent = 0;
 
-    private void OnUploadProgress(Syncfusion.Blazor.Toolkit.Inputs.ProgressEventArgs args)
+    private void OnUploadProgress(ProgressEventArgs args)
     {
         if (args.Total > 0)
         {
@@ -474,7 +486,7 @@ Fired when upload fails:
 ```razor
 <div class="pause-resume-demo">
     <SfUploader @ref="uploader" ID="UploadFiles" Paused="@OnPaused" OnResume="@OnResumed" AutoUpload="false">
-        <UploaderAsyncSettings SaveUrl="/api/upload/save" RemoveUrl="/api/upload/remove" ChunkSize="500000" />
+        <UploaderAsyncSettings SaveUrl="https://blazor.syncfusion.com/services/production/api/FileUploader/save" RemoveUrl="https://blazor.syncfusion.com/services/production/api/FileUploader/remove" ChunkSize="500000" />
     </SfUploader>
 
     <button @onclick="PauseUpload">Pause</button>
@@ -518,7 +530,7 @@ Fired when each chunk upload starts (requires ChunkSize to be set):
 
 ```razor
 <SfUploader ID="UploadFiles" OnChunkUploadStart="@OnChunkStart" AutoUpload="false">
-    <UploaderAsyncSettings SaveUrl="/api/upload/save" RemoveUrl="/api/upload/remove" ChunkSize="500000" />
+    <UploaderAsyncSettings SaveUrl="https://blazor.syncfusion.com/services/production/api/FileUploader/save" RemoveUrl="https://blazor.syncfusion.com/services/production/api/FileUploader/remove" ChunkSize="500000" />
 </SfUploader>
 
 @code {
@@ -537,7 +549,7 @@ Fired when each chunk uploads successfully:
 
 ```razor
 <SfUploader ID="UploadFiles" OnChunkSuccess="@OnChunkSuccess" AutoUpload="false">
-    <UploaderAsyncSettings SaveUrl="/api/upload/save" RemoveUrl="/api/upload/remove" ChunkSize="500000" />
+    <UploaderAsyncSettings SaveUrl="https://blazor.syncfusion.com/services/production/api/FileUploader/save" RemoveUrl="https://blazor.syncfusion.com/services/production/api/FileUploader/remove" ChunkSize="500000" />
 </SfUploader>
 
 @code {
@@ -554,7 +566,7 @@ Fired when a chunk upload fails:
 
 ```razor
 <SfUploader ID="UploadFiles" OnChunkFailure="@OnChunkFailure" AutoUpload="false">
-    <UploaderAsyncSettings SaveUrl="/api/upload/save" RemoveUrl="/api/upload/remove" ChunkSize="500000" />
+    <UploaderAsyncSettings SaveUrl="https://blazor.syncfusion.com/services/production/api/FileUploader/save" RemoveUrl="https://blazor.syncfusion.com/services/production/api/FileUploader/remove" ChunkSize="500000" />
 </SfUploader>
 
 @code {
@@ -571,7 +583,7 @@ Fired when all upload/remove operations complete:
 
 ```razor
 <SfUploader ID="UploadFiles" OnActionComplete="@OnComplete" AutoUpload="true">
-    <UploaderAsyncSettings SaveUrl="/api/upload/save" RemoveUrl="/api/upload/remove" />
+    <UploaderAsyncSettings SaveUrl="https://blazor.syncfusion.com/services/production/api/FileUploader/save" RemoveUrl="https://blazor.syncfusion.com/services/production/api/FileUploader/remove" />
 </SfUploader>
 
 @code {
@@ -591,7 +603,7 @@ Fired when the uploader component is created:
 
 ```razor
 <SfUploader ID="UploadFiles" Created="@OnCreated" AutoUpload="false">
-    <UploaderAsyncSettings SaveUrl="/api/upload/save" RemoveUrl="/api/upload/remove" />
+    <UploaderAsyncSettings SaveUrl="https://blazor.syncfusion.com/services/production/api/FileUploader/save" RemoveUrl="https://blazor.syncfusion.com/services/production/api/FileUploader/remove" />
 </SfUploader>
 
 @code {
@@ -608,7 +620,7 @@ Fired before clearing all files from the list:
 
 ```razor
 <SfUploader ID="UploadFiles" OnClear="@OnClear" AutoUpload="false">
-    <UploaderAsyncSettings SaveUrl="/api/upload/save" RemoveUrl="/api/upload/remove" />
+    <UploaderAsyncSettings SaveUrl="https://blazor.syncfusion.com/services/production/api/FileUploader/save" RemoveUrl="https://blazor.syncfusion.com/services/production/api/FileUploader/remove" />
 </SfUploader>
 
 @code {
@@ -675,7 +687,7 @@ Use the `FileSelected` event to validate files when they are selected. Set `args
 
 ```razor
 <SfUploader OnFailure="@OnUploadFailure" AutoUpload="true">
-    <UploaderAsyncSettings SaveUrl="/api/upload/save" RemoveUrl="/api/upload/remove" />
+    <UploaderAsyncSettings SaveUrl="https://blazor.syncfusion.com/services/production/api/FileUploader/save" RemoveUrl="https://blazor.syncfusion.com/services/production/api/FileUploader/remove" />
 </SfUploader>
 
 <div class="upload-status">

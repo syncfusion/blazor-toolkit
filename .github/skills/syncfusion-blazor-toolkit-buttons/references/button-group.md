@@ -5,13 +5,15 @@
 2. [Selection Modes](#selection-modes)
 3. [Vertical Orientation](#vertical-orientation)
 4. [Button Component](#button-component)
-5. [IconCss and Icons](#iconcss-and-icons)
-6. [CssClass and Styling](#cssclass-and-styling)
-7. [Disabled State](#disabled-state)
-8. [Toggle Button](#toggle-button)
-9. [Single Selection Pattern](#single-selection-pattern)
-10. [Multiple Selection Pattern](#multiple-selection-pattern)
-11. [Real-World Use Cases](#real-world-use-cases)
+5. [Button Name and Value Properties](#button-name-and-value-properties)
+6. [Button IsToggle Property](#button-istoggle-property)
+7. [IconCss and Icons](#iconcss-and-icons)
+8. [CssClass and Styling](#cssclass-and-styling)
+9. [Disabled State](#disabled-state)
+10. [Toggle Button](#toggle-button)
+11. [Single Selection Pattern](#single-selection-pattern)
+12. [Multiple Selection Pattern](#multiple-selection-pattern)
+13. [Real-World Use Cases](#real-world-use-cases)
 
 ## SfButtonGroup Overview
 
@@ -72,7 +74,7 @@ With `Multiple` mode:
 - Each button toggles independently
 - Useful for combined options
 
-### No Selection
+### No Selection (Default)
 ```razor
 <!-- Default: Buttons without selection tracking -->
 <SfButtonGroup>
@@ -86,16 +88,20 @@ With `Multiple` mode:
 }
 ```
 
-Without explicit `SelectionMode`, buttons work as a styled group without selection state.
+With default `SelectionMode.None`:
+- Buttons work as a styled group without automatic selection state management
+- Click events still fire normally
+- Use `SelectedChanged` callback to track state manually if needed
 
 ### SfButtonGroup Properties
 
-| Property | Type | Purpose |
-|----------|------|---------|
-| `Mode` | SelectionMode | Selection behavior (None, Single, Multiple). Default: `None` |
-| `IsVertical` | bool | Vertical layout arrangement |
-| `CssClass` | string | Custom CSS classes |
-| `HtmlAttributes` | Dictionary<string, object> | Capture additional HTML attributes |
+| Property | Type | Purpose | Default |
+|----------|------|---------|---------|
+| `Mode` | SelectionMode | Selection behavior (None, Single, Multiple) | None |
+| `IsVertical` | bool | Vertical layout arrangement | false |
+| `CssClass` | string | Custom CSS classes | "" |
+| `HtmlAttributes` | Dictionary<string, object> | Additional HTML attributes | {} |
+| `Created` | EventCallback<object> | Lifecycle event after render | - |
 
 ### Group with HTML Attributes
 ```razor
@@ -185,27 +191,28 @@ The `IsVertical` property stacks buttons vertically instead of horizontally. Thi
 </SfButtonGroup>
 ```
 
-### Properties
+### Button Component Properties
 
-| Property | Type | Purpose |
-|----------|------|---------|
-| `Content` | string | Button text |
-| `IconCss` | string | Icon CSS classes |
-| `CssClass` | string | Custom CSS classes |
-| `Disabled` | bool | Enable/disable state |
-| `Selected` | bool | Current selection state |
-| `Name` | string | Name attribute for underlying input |
-| `Value` | string | Value attribute for form submission |
-| `IconPosition` | IconPosition | Icon placement (Left, Right, Top, Bottom) |
-| `IsToggle` | bool | Enable toggle behavior |
-| `HtmlAttributes` | Dictionary<string, object> | Capture additional HTML attributes |
+| Property | Type | Purpose | Default |
+|----------|------|---------|---------|
+| `Content` | string | Button text | "" |
+| `IconCss` | string | Icon CSS classes | "" |
+| `IconPosition` | IconPosition | Icon placement (Left, Right, Top, Bottom) | Left |
+| `CssClass` | string | Custom CSS classes | "" |
+| `Disabled` | bool | Enable/disable state | false |
+| `Selected` | bool | Current selection state | false |
+| `SelectedChanged` | EventCallback<bool> | Selection changed event | - |
+| `Name` | string | Name attribute for underlying input | "" |
+| `Value` | string | Value attribute for form submission | "" |
+| `IsToggle` | bool | Enable toggle behavior | false |
+| `HtmlAttributes` | Dictionary<string, object> | Additional HTML attributes (internal use) | {} |
 
 ### Complete Example
 ```razor
 <SfButtonGroup Mode="@SelectionMode.Multiple">
-    <Button IconCss="e-icons e-bold" CssClass="e-primary" Disabled="false">Bold</Button>
-    <Button IconCss="e-icons e-italic" CssClass="e-info" Disabled="false">Italic</Button>
-    <Button IconCss="e-icons e-underline" CssClass="e-success" Disabled="false">Underline</Button>
+    <Button IconCss="e-icons e-bold" CssClass="e-primary">Bold</Button>
+    <Button IconCss="e-icons e-italic" CssClass="e-info">Italic</Button>
+    <Button IconCss="e-icons e-underline" CssClass="e-success">Underline</Button>
     <Button IconCss="e-icons e-strikethrough" CssClass="e-warning" Disabled="true">Strikethrough</Button>
 </SfButtonGroup>
 ```
@@ -218,6 +225,70 @@ The `IsVertical` property stacks buttons vertically instead of horizontally. Thi
     <Button Name="priority" Value="high">High Priority</Button>
 </SfButtonGroup>
 ```
+
+### Button Name and Value Properties
+
+The `Name` and `Value` properties allow buttons within a group to function as radio button alternatives for form submission.
+
+| Property | Type | Purpose |
+|----------|------|---------|
+| `Name` | string | Groups buttons as radio inputs (same name = same group) |
+| `Value` | string | The value submitted when this button is selected |
+
+**Example: Priority Selection Form**
+```razor
+<EditForm Model="@formModel" OnValidSubmit="HandleSubmit">
+    <SfButtonGroup Mode="@SelectionMode.Single">
+        <Button Name="priority" Value="low">Low</Button>
+        <Button Name="priority" Value="medium">Medium</Button>
+        <Button Name="priority" Value="high">High</Button>
+    </SfButtonGroup>
+    <SfButton Type="ButtonType.Submit" Content="Submit" IsPrimary="true" />
+</EditForm>
+
+@code {
+    private FormModel formModel = new();
+
+    private void HandleSubmit(EditContext editContext)
+    {
+        Console.WriteLine($"Selected priority: {editContext.Model}");
+    }
+
+    public class FormModel
+    {
+        public string Priority { get; set; } = "medium";
+    }
+}
+```
+
+### Button IsToggle Property
+
+The `IsToggle` property enables a button to act as a two-state toggle button. When enabled, the button visually toggles between selected and unselected states.
+
+| Property | Type | Purpose | Default |
+|----------|------|---------|---------|
+| `IsToggle` | bool | Enable toggle behavior | false |
+
+**Example: Toggle Button States**
+```razor
+<SfButtonGroup Mode="@SelectionMode.Multiple">
+    <Button IsToggle="true" 
+            Selected="@isBold" 
+            SelectedChanged="@(v => isBold = v)"
+            CssClass="@(isBold ? "e-primary" : "e-outline")">
+        Bold
+    </Button>
+</SfButtonGroup>
+
+@code {
+    private bool isBold;
+}
+```
+
+**Note:** When using `IsToggle`, you must:
+1. Manually track the `Selected` state in your code
+2. Sync via `SelectedChanged` callback
+3. Apply appropriate CSS classes based on the selected state
 
 ## IconCss and Icons
 
@@ -343,17 +414,28 @@ The `CssClass` property allows you to apply custom CSS classes to individual but
 ### Mixed Styling in Single Group
 ```razor
 <SfButtonGroup Mode="@SelectionMode.Multiple">
-    <Button CssClass="e-primary" Selected="@selected1" SelectedChanged="@(v => OnToggle(v, ref selected1))">Primary Action</Button>
-    <Button CssClass="e-success e-flat" Selected="@selected2" SelectedChanged="@(v => OnToggle(v, ref selected2))">Success Action</Button>
-    <Button CssClass="e-warning e-outline" Selected="@selected3" SelectedChanged="@(v => OnToggle(v, ref selected3))">Warning Action</Button>
+    <Button CssClass="e-primary" Selected="@selected1" SelectedChanged="@(v => OnToggle(v, 1))">Primary Action</Button>
+    <Button CssClass="e-success e-flat" Selected="@selected2" SelectedChanged="@(v => OnToggle(v, 2))">Success Action</Button>
+    <Button CssClass="e-warning e-outline" Selected="@selected3" SelectedChanged="@(v => OnToggle(v, 3))">Warning Action</Button>
 </SfButtonGroup>
 
 @code {
     private bool selected1, selected2, selected3;
 
-    private void OnToggle(bool value, ref bool state)
+    private void OnToggle(bool value, int buttonNumber)
     {
-        state = value;
+        switch (buttonNumber)
+        {
+            case 1:
+                selected1 = value;
+                break;
+            case 2:
+                selected2 = value;
+                break;
+            case 3:
+                selected3 = value;
+                break;
+        }
     }
 }
 ```
@@ -412,6 +494,8 @@ The `Disabled` property disables individual buttons or an entire button group. D
 ## Toggle Button
 
 The `IsToggle` property enables individual buttons within a group to act as toggle buttons, allowing them to switch between selected and unselected states.
+
+**Note:** When using `IsToggle` with `SelectionMode.Multiple` or `SelectionMode.Single`, you typically need to manually track the `Selected` state and sync via `SelectedChanged` callback. The `IsToggle` property enables the toggle behavior, but you control the visual selected state through `CssClass`.
 
 ### Toggle Button in Group
 ```razor
@@ -662,8 +746,10 @@ The `IsToggle` property enables individual buttons within a group to act as togg
     private void OnSortChanged(bool selected, string sortOption)
     {
         if (selected)
+        {
             currentSort = sortOption;
             // Apply sorting logic here
+        }
     }
 }
 ```
@@ -731,7 +817,7 @@ The `IsToggle` property enables individual buttons within a group to act as togg
         if (!selected) return;
 
         selectedPeriod = period;
-		// Fetch data for selected period
+        // Fetch data for selected period
         isToday = period == "Today";
         isWeek = period == "Week";
         isMonth = period == "Month";

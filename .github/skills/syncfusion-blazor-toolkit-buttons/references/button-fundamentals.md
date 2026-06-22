@@ -23,6 +23,11 @@ A button can exist in different states depending on user interaction and applica
 
 The Syncfusion button component automatically handles hover and pressed states through CSS.
 
+> **Note:** For button components with icons or enum values like `IconPosition` and `ButtonType`, add the buttons namespace to your page or component:
+> ```razor
+> @using Syncfusion.Blazor.Toolkit.Buttons
+> ```
+
 ## Disabled State
 
 ### Basic Disabled Button
@@ -221,7 +226,25 @@ These attributes are applied to the underlying `<button>` HTML element.
           OnClick="OnClick" />
 ```
 
-## Icon Support
+### SfButton Properties
+
+| Property | Type | Purpose | Default |
+|----------|------|---------|---------|
+| `Content` | string | Button text | "" |
+| `CssClass` | string | Custom CSS classes | "" |
+| `Disabled` | bool | Enable/disable state | false |
+| `HtmlAttributes` | Dictionary<string, object> | Capture HTML attributes (title, data-*, aria-*) | {} |
+| `IconCss` | string | Icon CSS classes | "" |
+| `IconPosition` | IconPosition | Icon placement (Left, Right, Top, Bottom) | Left |
+| `IsPrimary` | bool | Primary styling | false |
+| `IsToggle` | bool | Enable toggle behavior | false |
+| `Type` | ButtonType | Form button type (Button, Submit, Reset) | Button |
+| `OnClick` | EventCallback<MouseEventArgs> | Click event handler | - |
+| `Created` | EventCallback<object> | Lifecycle event after first render | - |
+
+> **Note:** The `ChildContent` parameter is available but marked as an internal API (`[EditorBrowsable(EditorBrowsableState.Never)]`). For simple text content, prefer using the `Content` property instead.
+
+### Icon Support
 
 The `IconCss` property allows you to add icons to buttons for better visual representation of actions.
 
@@ -239,7 +262,7 @@ Use `IconPosition` to control icon placement.
 ```razor
 <SfButton Content="Send" IconCss="e-icons e-send" IconPosition="IconPosition.Right" />
 <SfButton Content="Export" IconCss="e-icons e-export" IconPosition="IconPosition.Left" />
-<SfButton Content="Upload" IconCss="e-icons e-upload-1" IconPosition="IconPosition.Top" />
+<SfButton Content="Upload" IconCss="e-icons e-upload" IconPosition="IconPosition.Top" />
 ```
 
 ### Icon Only Button
@@ -253,13 +276,11 @@ Use `IconPosition` to control icon placement.
 
 ## Toggle Button
 
-The `IsToggle` property enables a button to act as a toggle (two-state button).
+The `IsToggle` property enables a button to act as a toggle (two-state button). Toggle buttons automatically manage their `aria-pressed` attribute for accessibility.
 
 ### Basic Toggle
 ```razor
-<SfButton IsToggle="true" OnClick="ToggleState">
-    Toggle Me
-</SfButton>
+<SfButton IsToggle="true" Content="Toggle Me" OnClick="ToggleState" />
 
 @code {
     private bool isOn;
@@ -271,16 +292,13 @@ The `IsToggle` property enables a button to act as a toggle (two-state button).
 }
 ```
 
----
-
 ### Toggle with Visual State
 ```razor
 <SfButton IsToggle="true"
+          Content="@(isBold ? "Bold On" : "Bold Off")"
           OnClick="ToggleBold"
           CssClass="@(isBold ? "e-primary" : "e-outline")"
-          IconCss="e-icons e-bold">
-    @(isBold ? "Bold On" : "Bold Off")
-</SfButton>
+          IconCss="e-icons e-bold" />
 
 @code {
     private bool isBold;
@@ -292,16 +310,13 @@ The `IsToggle` property enables a button to act as a toggle (two-state button).
 }
 ```
 
----
-
 ### Icon-only Toggle
 ```razor
 <SfButton IsToggle="true"
           IconCss="e-icons e-settings"
           CssClass="@(isSettingsOn ? "e-primary" : "e-outline")"
           OnClick="ToggleSettings"
-          aria-label="Settings">
-</SfButton>
+          aria-label="Settings" />
 
 @code {
     private bool isSettingsOn;
@@ -312,6 +327,9 @@ The `IsToggle` property enables a button to act as a toggle (two-state button).
     }
 }
 ```
+
+### Toggle Button Accessibility
+Toggle buttons automatically apply `aria-pressed="true"` or `aria-pressed="false"` based on their internal state. The component handles this automatically, but you should use `aria-label` for icon-only toggle buttons to provide a meaningful name.
 
 ## Form Button Types
 
@@ -335,7 +353,7 @@ The `Type` property controls how the button behaves in HTML forms. It accepts va
 @code {
     private FormModel formModel = new();
 
-    private void HandleSubmit()
+    private void HandleSubmit(EditContext editContext)
     {
         Console.WriteLine($"Form submitted: {formModel.Name}");
     }
@@ -358,12 +376,12 @@ The `Type` property controls how the button behaves in HTML forms. It accepts va
 @code {
     private FormModel formModel = new();
 
-    private void HandleSubmit()
+    private void HandleSubmit(EditContext editContext)
     {
         Console.WriteLine($"Form submitted: {formModel.Name}");
     }
 
-    private void HandleReset()
+    private void HandleReset(EditContext editContext)
     {
         formModel = new FormModel();
         Console.WriteLine("Form reset");
@@ -553,6 +571,15 @@ Custom CSS might not override Syncfusion styles due to specificity:
 
 <!-- Better: Use more specific selectors -->
 <style>
-    :deep(.e-btn.my-color) { color: red; } /* Higher specificity */
+    /* Use !important as a last resort */
+    .e-btn.my-color { color: red !important; }
+    
+    /* Or target the specific component */
+    .my-custom-button { 
+        background-color: #ff6b6b !important;
+        border-radius: 20px;
+    }
 </style>
 ```
+
+**Note:** The exact approach may vary depending on your CSS scoping strategy. For Blazor CSS isolation, you may need to use the `::deep` selector or target the component's scoped CSS file directly.

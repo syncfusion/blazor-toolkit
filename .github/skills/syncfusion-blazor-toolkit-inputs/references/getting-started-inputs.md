@@ -311,7 +311,7 @@ Triggered when the component value changes:
 <div>
     <div style="display: flex; align-items: center; gap: 10px;">
         <label style="margin: 0;">Show Advanced Options:</label>
-        <SfSwitch @bind-Checked="@isEnabled" OnLabel="ON" OffLabel="OFF" />
+        <SfSwitch TChecked="bool" @bind-Checked="@isEnabled" OnLabel="ON" OffLabel="OFF" />
     </div>
 
     @if (isEnabled)

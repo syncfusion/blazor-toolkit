@@ -60,9 +60,13 @@ The TimePicker component provides time-only selection with support for various t
 
 | Property | Type | Default | Description |
 |----------|------|---------|-------------|
+| `ID` | `string` | `null` | Unique identifier for the component |
+| `ValidateOnInput` | `bool` | `true` | Validate input on keystroke events |
 | `Disabled` | `bool` | `false` | Disable the component interactions |
 | `CssClass` | `string` | `null` | Custom CSS class for styling |
 | `EnablePersistence` | `bool` | `false` | Persist component state in browser localStorage |
+
+> **Important:** When using `EnablePersistence`, you must also set an `ID` property on the component. The persistence mechanism uses the component's `ID` as the storage key in localStorage. Without a unique `ID`, the persistence behavior may not work correctly across multiple component instances.
 
 ## Two-Way Binding
 
@@ -414,7 +418,7 @@ Enable strict mode to validate and reset invalid entries:
 
 - Use appropriate `Step` value to avoid excessive list items
 - Use `Min` and `Max` to limit selectable range
-- Consider `ReadOnly` for display-only scenarios
+- Consider `Readonly` for display-only scenarios
 - Batch time value updates when possible
 
 ## See Also

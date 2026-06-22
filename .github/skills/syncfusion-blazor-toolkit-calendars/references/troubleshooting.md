@@ -143,7 +143,7 @@ Ensure the following namespaces are included at the top of the Razor page:
 <button @onclick="FocusDatePicker">Focus DatePicker</button>
 
 @code {
-    private SfDatePicker datePickerRef;
+    private SfDatePicker<DateTime?> datePickerRef;
     
     private async Task FocusDatePicker()
     {
@@ -176,6 +176,8 @@ Ensure the following namespaces are included at the top of the Razor page:
 1. **Use DayCellRendering event for custom disabling:**
 ```razor
 <!-- Use DayCellRendering to disable specific dates -->
+@using Syncfusion.Blazor.Toolkit.Calendars
+
 <SfCalendar TValue="DateTime"
     DayCellRendering="@DisableWeekends">
 </SfCalendar>

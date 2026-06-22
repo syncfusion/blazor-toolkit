@@ -44,6 +44,12 @@ The `IconCss` property accepts space-separated CSS class names for icon styling:
 
 ## Icon Positioning
 
+### Default Values
+| Property | Default Value |
+|----------|---------------|
+| `IconCss` | `""` (empty string) |
+| `IconPosition` | `IconPosition.Left` |
+
 ### Position Enum Values
 The `IconPosition` parameter accepts:
 - `Left` — Icon before text (default)
@@ -130,9 +136,12 @@ The Syncfusion icon library is included with theme CSS. To use icons:
 
 ## Content vs ChildContent
 
-### Content Property (Text Only)
+### Content Property (Recommended)
+
+The `Content` property is the **recommended** way to set button text content.
+
 ```razor
-<!-- For simple text strings -->
+<!-- Simple text strings -->
 <SfButton Content="Simple Button" />
 <SfButton Content="@buttonLabel" />
 ```
@@ -142,9 +151,20 @@ Use `Content` for:
 - Dynamic text from variables
 - Simple expressions
 
-### ChildContent (Complex HTML)
+**Example: Content with Dynamic Values**
 ```razor
-<!-- For complex content with HTML elements -->
+<SfButton Content="@(isLoading ? "Processing..." : "Submit")" />
+<SfButton Content="@GetButtonText()" />
+```
+
+### ⚠️ Warning: ChildContent is Internal API
+
+> **⚠️ Critical:** `ChildContent` is marked `[EditorBrowsable(EditorBrowsableState.Never)]` in the source code, indicating it's a **hidden/internal API**. Using it means you're relying on an unsupported API that could break in future releases without notice. For simple text content, **always prefer the `Content` property instead.**
+
+The `ChildContent` parameter allows complex HTML content but should be avoided:
+
+```razor
+<!-- ChildContent allows HTML elements (but this is an internal API) -->
 <SfButton>
     <strong>Bold</strong> and <em>Italic</em>
 </SfButton>
@@ -156,38 +176,41 @@ ChildContent allows:
 - Nested components
 - Mixed text and elements
 
+### When to Use Each
+
+| Approach | Use Case | Status |
+|----------|----------|--------|
+| `Content` property | Simple text, dynamic text | ✅ Recommended |
+| `ChildContent` | Complex HTML, icons with text | ⚠️ Internal API - Avoid |
+
 ### Practical Comparison
 
 ```razor
-<!-- Content: Simple -->
+<!-- ✅ Content: Recommended for simple text -->
 <SfButton Content="Click Me" />
 
-<!-- ChildContent: Complex -->
+<!-- ✅ Content: With icon using IconCss and Content properties (recommended) -->
+<SfButton Content="Edit Item" IconCss="e-icons e-edit" IconPosition="IconPosition.Left" />
+
+<!-- ❌ ChildContent: Complex content with HTML (internal API - avoid) -->
 <SfButton>
     <span class="custom-style">
         <strong>Advanced</strong> Button
     </span>
 </SfButton>
 
-<!-- ChildContent: Icon + Text -->
+<!-- ❌ ChildContent: Icon + Text (internal API - avoid) -->
 <SfButton>
     <i class="e-icons e-edit" style="margin-right: 4px;"></i>
     Edit This Item
 </SfButton>
 ```
 
-### When to Use Each
+**Best Practice:** For buttons with icons and text, use the `Content` and `IconCss` properties together:
 
-**Use Content:**
-- Simple text buttons
-- Performance-critical scenarios
-- Dynamic text binding
-
-**Use ChildContent:**
-- Formatted text
-- Icon + text combinations
-- Complex styling
-- Custom elements
+```razor
+<SfButton Content="Edit" IconCss="e-icons e-edit" IconPosition="IconPosition.Left" />
+```
 
 ## Complex Content Patterns
 
@@ -323,12 +346,12 @@ Always include `title` attribute for accessibility with icon-only buttons.
 
 ## Edge Cases and Gotchas
 
-### Gotcha 1: Icon Class Spacing
+### Gotcha 1: Correct Character Encoding in Icon Classes
 ```razor
-<!-- Wrong: No space between icon library and icon -->
+<!-- Wrong: Uses Cyrillic е (U+0435) instead of ASCII e (U+0065) -->
 <SfButton IconCss="e-icons е-plus" />
 
-<!-- Correct: Space separates library and icon -->
+<!-- Correct: Uses ASCII e (U+0065) in both parts -->
 <SfButton IconCss="e-icons e-plus" />
 ```
 

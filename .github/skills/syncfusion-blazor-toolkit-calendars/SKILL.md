@@ -1,6 +1,6 @@
 ---
 name: syncfusion-blazor-toolkit-calendars
-description: Build and customize calendar-based components in Syncfusion Blazor Toolkit. Covers Calendar, DatePicker, DateTimePicker, and TimePicker. Use when implementing date/time selection features, handling date range selection, formatting dates, managing calendar events, validating dates, or customizing calendar appearance. Trigger for date picker UI implementation, time selection logic, date range functionality, calendar styling, or date validation workflows.
+description: Build and customize calendar-based components in Syncfusion Blazor Toolkit. Covers Calendar, DatePicker, DateTimePicker, and TimePicker. Use when implementing date/time selection features, handling date range restriction, formatting dates, managing calendar events, validating dates, or customizing calendar appearance. Trigger for date picker UI implementation, time selection logic, date range functionality, calendar styling, or date validation workflows.
 metadata:
   author: "Syncfusion Inc"
   version: "1.0.0"
@@ -28,7 +28,7 @@ The Syncfusion Blazor Toolkit provides a comprehensive suite of calendar and dat
 
 ### Core Features
 📄 **Read:** [references/features.md](references/features.md)
-- Date selection, time selection, range selection, date formatting, validation
+- Date selection, time selection, date formatting, validation
 
 ### Component-Specific Guides
 📄 **Read:** [references/calendar.md](references/calendar.md) - Calendar component with selection modes
@@ -97,10 +97,26 @@ The Syncfusion Blazor Toolkit provides a comprehensive suite of calendar and dat
 }
 ```
 
+### Pattern 3: Multi-Date Selection
+Enable multiple date selection with the `IsMultiSelection` property:
+
+```razor
+<SfCalendar TValue="DateTime" 
+    IsMultiSelection="true"
+    Values="@selectedDates">
+</SfCalendar>
+
+@code {
+    private DateTime[] selectedDates = new DateTime[] { DateTime.Now, DateTime.Now.AddDays(7) };
+}
+```
+
 ### Pattern 4: Disable Specific Dates
 Use the `DayCellRendering` event to customize cell appearance and disable dates:
 
 ```razor
+@using Syncfusion.Blazor.Toolkit.Calendars
+
 <SfCalendar TValue="DateTime" DayCellRendering="@OnDayCellRendering"></SfCalendar>
 
 @code {

@@ -69,9 +69,13 @@ The DatePicker component provides single date selection with an optional popup c
 
 | Property | Type | Default | Description |
 |----------|------|---------|-------------|
+| `ID` | `string` | `null` | Unique identifier for the component |
+| `ValidateOnInput` | `bool` | `true` | Validate input on keystroke events |
 | `Disabled` | `bool` | `false` | Disable the component interactions |
 | `CssClass` | `string` | `null` | Custom CSS class for styling |
 | `EnablePersistence` | `bool` | `false` | Persist component state in browser localStorage |
+
+> **Important:** When using `EnablePersistence`, you must also set an `ID` property on the component. The persistence mechanism uses the component's `ID` as the storage key in localStorage. Without a unique `ID`, the persistence behavior may not work correctly across multiple component instances.
 
 ## Two-Way Binding
 
@@ -139,6 +143,8 @@ Selected date: @selectedDate?.ToString("MMM dd, yyyy")
 The calendar supports disabling specific dates via the `DayCellRendering` event:
 
 ```razor
+@using Syncfusion.Blazor.Toolkit.Calendars
+
 <SfDatePicker TValue="DateTime?"
     DayCellRendering="@OnDayCellRendering">
 </SfDatePicker>
