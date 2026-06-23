@@ -1,6 +1,8 @@
 @page "/charts/legend"
 @using Syncfusion.Blazor.Toolkit.Charts
 @using ValueType = Syncfusion.Blazor.Toolkit.ValueType
+@using Blazor.Toolkit.Samples.Client.Services
+@inject SampleService SampleService
 
 <PageTitle>Blazor Chart Legend Demo | Syncfusion Toolkit</PageTitle>
 
@@ -279,7 +281,7 @@
 
             <ChartLegendSettings Visible="true"
                                  Position="LegendPosition.Custom"
-                                 Location="new ChartLocation { X = 400, Y = 80 }">
+                                 Location="@LegendLocation">
             </ChartLegendSettings>
 
         </SfChart>
@@ -801,13 +803,19 @@
     [CascadingParameter]
     private Theme CurrentTheme { get; set; } = Theme.Fluent;
 
+    [CascadingParameter]
+    public bool IsDevice { get; set; }
+
     private Theme _currentTheme = Theme.Fluent;
 
     private string _prevThemeName = string.Empty;
 
+    private ChartLocation LegendLocation;
+
     protected override void OnInitialized()
     {
         _currentTheme = CurrentTheme;
+        LegendLocation = IsDevice ? new ChartLocation { X = 80, Y = 80} : new ChartLocation { X = 400, Y = 80};
     }
 
     protected override void OnParametersSet()
@@ -823,6 +831,9 @@
         {
             _currentTheme = CurrentTheme;
         }
+
+        // Update legend location when IsDevice changes
+        LegendLocation = IsDevice ? new ChartLocation { X = 80, Y = 80} : new ChartLocation { X = 400, Y = 80};
     }
 
     private bool IsDarkTheme => CurrentTheme.ToString().Contains("Dark") || CurrentTheme.ToString().Contains("HighContrast");
