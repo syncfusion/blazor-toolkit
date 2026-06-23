@@ -4,54 +4,13 @@
 - [Positioning](#positioning)
 - [Drag and Resize Functionality](#drag-and-resize-functionality)
 - [Custom Templates and Content](#custom-templates-and-content)
-- [Dialog Service and Providers](#dialog-service-and-providers)
 - [Complex Event Handling](#complex-event-handling)
-- [Dynamic Dialog Creation](#dynamic-dialog-creation)
 - [State Management Patterns](#state-management-patterns)
 - [Advanced Scenarios](#advanced-scenarios)
 
 ---
 
 ## Positioning
-
-<!-- ### Dialog Positioning - Numeric Offset
-
-Positions the dialog at exact pixel offsets (e.g., 100px from the left, 150px from the top) using the `DialogPositionData` component:
-
-```razor
-<div id="target-Numeric">
-    <SfButton Content="Open Numeric Dialog" @onclick="@OpenNumericDialog"></SfButton>
-
-    <SfDialog Target="#target-Numeric"
-              Width="400px"
-              Header="Numeric Position"
-              ShowCloseIcon="true"
-              @bind-Visible="@NumericVisibility">
-        <DialogTemplates>
-            <Content>
-                <p>Dialog positioned with numeric offsets</p>
-            </Content>
-        </DialogTemplates>
-        <DialogPositionData X="100px" Y="150px"></DialogPositionData>
-    </SfDialog>
-</div>
-
-<style>
-    #target-Numeric {
-        height: 200px;
-        width: 700px;
-    }
-</style>
-
-@code {
-    private bool NumericVisibility { get; set; } = false;
-
-    private void OpenNumericDialog()
-    {
-        NumericVisibility = true;
-    }
-}
-``` -->
 
 ### Dialog Positioning - Keyword Alignment
 
@@ -135,18 +94,18 @@ The `EnableResize` property allows users to dynamically adjust the size of a dia
     <div>
         <SfButton Content="Open Resize Dialog" @onclick="@OpenResizeDialog"></SfButton>
     </div>
-        <SfDialog Target="#target-resize" 
-                  Width="300px" 
-                  ShowCloseIcon="true" 
-                  EnableResize="true" 
-                  ResizeHandles="@dialogResizeDirections" 
-                  @bind-Visible="@IsResizeVisible" 
-                  Header="Resize Dialog" 
-                  Content="This is a resizing Dialog" 
-                  OnResizeStart="@OnResizeStart"
-                  Resizing="@OnResizing"
-                  OnResizeStop="@OnResizeStop">
-        </SfDialog>
+        <SfDialog Target="#target-resize"
+              Width="300px"
+              ShowCloseIcon="true"
+              EnableResize="true"
+              ResizeHandles="@dialogResizeDirections"
+              @bind-Visible="@IsResizeVisible"
+              Header="Resize Dialog"
+              Content="This is a resizing Dialog"
+              OnResizeStart="@OnResizeStart"
+              Resizing="@OnResizing"
+              OnResizeStop="@OnResizeStop">
+    </SfDialog>
     </div>
 
 <style>
@@ -186,6 +145,8 @@ The `EnableResize` property allows users to dynamically adjust the size of a dia
 To enable dragging capabilities, set the `AllowDragging` property to true on the Dialog component. When enabled, users can drag the Dialog by clicking and holding the Dialog header area.
 
 ```razor
+@using Syncfusion.Blazor.Toolkit.Popups
+
 <div id="target-draggable">
     <div>
         <SfButton Content="Open Draggable Dialog" @onclick="@OpenDraggableDialog"></SfButton>
@@ -220,17 +181,17 @@ To enable dragging capabilities, set the `AllowDragging` property to true on the
         IsDraggableVisible = true;
     }
 
-    private void OnDragStart(Syncfusion.Blazor.Toolkit.Popups.DragStartEventArgs args)
+    private void OnDragStart(DragStartEventArgs args)
     {
         Console.WriteLine($"Drag started at X: {args.Event.ClientX}, Y: {args.Event.ClientY}");
     }
 
-    private void OnDrag(Syncfusion.Blazor.Toolkit.Popups.DragEventArgs args)
+    private void OnDrag(DragEventArgs args)
     {
         Console.WriteLine($"Dragging at X: {args.Event.ClientX}, Y: {args.Event.ClientY}");
     }
 
-    private void OnDragStop(Syncfusion.Blazor.Toolkit.Popups.DragStopEventArgs args)
+    private void OnDragStop(DragStopEventArgs args)
     {
         Console.WriteLine($"Drag stopped at X: {args.Event.ClientX}, Y: {args.Event.ClientY}");
     }
@@ -386,68 +347,6 @@ When you need more complex layouts — such as multiple elements, styled section
     }
 }
 ```
-<!-- ---
-
-## Dialog Service and Providers
-
-### Using SfDialogService
-
-SfDialogService is a class that represents the dialog utility service which is used to configure and display built-in dialog boxes such as alert, confirmation, and prompt dialogs.
-
-```razor
-@page "/dialog-service-demo"
-@inject SfDialogService DialogService
-
-<SfButton class="e-btn" @onclick="OpenDialogViaService">Open via Service</SfButton>
-
-@code {
-    private async Task OpenDialogViaService()
-    {
-        var result = await DialogService.OpenAsync<DialogContent>(
-            "Dialog Title",
-            new Dictionary<string, object>
-            {
-                { "Message", "This dialog was opened via service" }
-            },
-            new DialogOptions { Width = "500px", Height = "auto" }
-        );
-    }
-}
-
-@* DialogContent Component *@
-<div>
-    <p>@Message</p>
-</div>
-
-@code {
-    [Parameter]
-    public string Message { get; set; }
-}
-```
-
-### Dialog Provider Pattern
-
-```razor
-@* Main Layout *@
-<SfDialogProvider />
-
-@* Any component can use the service *@
-<button class="e-btn" @onclick="ShowDialog">Show Dynamic Dialog</button>
-
-@code {
-    @inject SfDialogService DialogService;
-    
-    private async Task ShowDialog()
-    {
-        await DialogService.OpenAsync<UserForm>(
-            "Edit User",
-            new Dictionary<string, object> { { "UserId", 123 } }
-        );
-    }
-}
-```
-
---- -->
 
 ## Complex Event Handling
 
@@ -601,63 +500,6 @@ When the modal overlay (backdrop) is clicked, `OnOverlayModalClick` is triggered
 
 ---
 
-## Dynamic Dialog Creation
-
-<!-- ### Creating Dialogs Programmatically
-
-```razor
-<SfButton class="e-btn" @onclick="CreateDialog">Create Dynamic Dialog</SfButton>
-
-@foreach(var dialog in openDialogs)
-{
-    var dialogId = dialog.Id; // Capture value to avoid closure issue
-    <SfDialog @bind-Visible="@dialog.IsVisible"
-              Width="400px"
-              Header="@dialog.Title"
-              ShowCloseIcon="true"
-              OnClose="@((args) => RemoveDialog(dialogId))">
-        <DialogTemplates>
-            <Content>
-                <p>@dialog.Content</p>
-            </Content>
-        </DialogTemplates>
-    </SfDialog>
-}
-
-@code {
-    private class DialogInstance
-    {
-        public string Id { get; set; }
-        public string Title { get; set; }
-        public string Content { get; set; }
-        public bool IsVisible { get; set; }
-    }
-    
-    private List<DialogInstance> openDialogs = new();
-    private int dialogCount = 0;
-
-    private void CreateDialog()
-    {
-        var newDialog = new DialogInstance
-        {
-            Id = Guid.NewGuid().ToString(),
-            Title = $"Dialog {++dialogCount}",
-            Content = $"This is dynamically created dialog #{dialogCount}",
-            IsVisible = true
-        };
-        
-        openDialogs.Add(newDialog);
-    }
-
-    private void RemoveDialog(string dialogId)
-    {
-        openDialogs.RemoveAll(d => d.Id == dialogId);
-    }
-}
-``` -->
-
----
-
 ## State Management Patterns
 
 ### Dialog State in Parent Component
@@ -760,6 +602,7 @@ When the modal overlay (backdrop) is clicked, `OnOverlayModalClick` is triggered
     private bool showDialog1 = false;
     private bool showDialog2 = false;
 }
+```
 
 ### Dialog with Loading State
 
@@ -820,9 +663,3 @@ When the modal overlay (backdrop) is clicked, `OnOverlayModalClick` is triggered
 - Use service for every dialog (prefer direct binding)
 - Forget to cleanup dialog state
 - Create inaccessible forms in dialogs
-
----
-
-## Next: Popups and Positioning
-
-See [popup-positioning.md](popup-positioning.md) for lightweight popup positioning and targeting.

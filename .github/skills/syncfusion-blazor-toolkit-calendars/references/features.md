@@ -91,6 +91,8 @@ Calendar components support standard date format strings:
 Disable specific days using the `DayCellRendering` event:
 
 ```razor
+@using Syncfusion.Blazor.Toolkit.Calendars
+
 <SfCalendar TValue="DateTime"
     DayCellRendering="@DisableWeekends">
 </SfCalendar>
@@ -110,6 +112,8 @@ Disable specific days using the `DayCellRendering` event:
 
 ### Custom Validation
 ```razor
+@using Syncfusion.Blazor.Toolkit.Calendars
+
 <SfDatePicker TValue="DateTime?"
     ValueChange="@ValidateDate">
 </SfDatePicker>
@@ -173,7 +177,11 @@ Key events for calendar components:
 
 | Event | Fired When |
 |-------|-----------|
-| `ValueChange` | Date value changes |
+| `ValueChange` | Date value changes (via selection or programmatic) |
+| `ValuesChanged` | Multiple dates selected/deselected (multi-selection mode) |
+| `Navigated` | Calendar view navigation occurs |
+| `Selected` | Date selected from calendar |
+| `DayCellRendering` | Day cell is being rendered (for customization) |
 | `Created` | Component initialized |
 | `Destroyed` | Component destroyed |
 

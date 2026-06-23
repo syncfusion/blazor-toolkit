@@ -6,9 +6,9 @@
 - [Content Configuration](#content-configuration)
 - [Position and Arrow Indicators](#position-and-arrow-indicators)
 - [Animation Settings](#animation-settings)
-- [Open Modes](#Open-modes)
+- [Open Modes](#open-modes)
 - [Sticky Mode and Mouse Trail](#sticky-mode-and-mouse-trail)
-- [Delays, Window Collision and TargetContainer APIs](#Delays, Window Collision and TargetContainer APIs)
+- [Delays Window Collision and TargetContainer APIs](#delays-window-collision-and-targetcontainer-apis)
 - [Event Handling](#event-handling)
 - [Tooltip Programmatic Methods](#tooltip-programmatic-methods)
 - [Keyboard Accessibility](#keyboard-accessibility)
@@ -42,7 +42,7 @@ SfTooltip is a lightweight component that displays contextual help text or infor
 ### Minimal Tooltip Example
 
 ```razor
-@using Syncfusion.Blazor.Popups
+@using Syncfusion.Blazor.Toolkit.Popups
 
 <SfTooltip Content="This is a tooltip">
     <span>Hover over me</span>
@@ -137,6 +137,8 @@ Ensure Syncfusion CSS is included in `_Host.cshtml` or `App.razor`:
 ### Position Options
 
 ```razor
+@using Syncfusion.Blazor.Toolkit
+
 <div style="display: flex; gap: 20px; flex-wrap: wrap;">
     @foreach(var position in positions)
     {
@@ -170,6 +172,8 @@ Ensure Syncfusion CSS is included in `_Host.cshtml` or `App.razor`:
 ### Arrow Positioning
 
 ```razor
+@using Syncfusion.Blazor.Toolkit
+
 <SfTooltip Content="Tooltip with arrow"
            Position=Position.TopCenter
            TipPointerPosition=TipPointerPosition.End>
@@ -215,22 +219,42 @@ Ensure Syncfusion CSS is included in `_Host.cshtml` or `App.razor`:
 ### Basic Animation
 
 ```razor
+@using Syncfusion.Blazor.Toolkit
+@using Syncfusion.Blazor.Toolkit.Popups
+
 <SfTooltip Content="Let's go green to save the planet!!" Animation="@Animation">
-<SfButton Content="Show Tooltip"></SfButton>
+    <SfButton Content="Show Tooltip"></SfButton>
 </SfTooltip>
+
 @code 
 {
- public AnimationModel Animation { get; set; } = new AnimationModel
- {
- Open = new TooltipAnimationSettings {Delay = 0, Duration = 500, Effect = Effect.ZoomIn },
-  Close = new TooltipAnimationSettings{Delay=0,Duration=500,Effect=Effect.ZoomOut}
- };
+    public AnimationModel Animation { get; set; } = new AnimationModel
+    {
+        Open = new TooltipAnimationSettings { Delay = 0, Duration = 500, Effect = Effect.ZoomIn },
+        Close = new TooltipAnimationSettings { Delay = 0, Duration = 500, Effect = Effect.ZoomOut }
+    };
 }
 ```
 
 ### Available Effects
 
 The available effects include fade, slide, zoom, and other predefined animation types.
+
+| Effect | Behavior |
+|--------|----------|
+| `Effect.FadeIn` | Fade in effect for opening |
+| `Effect.FadeOut` | Fade out effect for closing |
+| `Effect.ZoomIn` | Zoom in effect for opening |
+| `Effect.ZoomOut` | Zoom out effect for closing |
+| `Effect.SlideLeftIn` | Slide from right to left for opening |
+| `Effect.SlideLeftOut` | Slide from left to right for closing |
+| `Effect.SlideRightIn` | Slide from left to right for opening |
+| `Effect.SlideRightOut` | Slide from right to left for closing |
+| `Effect.SlideTopIn` | Slide from bottom to top for opening |
+| `Effect.SlideTopOut` | Slide from top to bottom for closing |
+| `Effect.SlideBottomIn` | Slide from top to bottom for opening |
+| `Effect.SlideBottomOut` | Slide from bottom to top for closing |
+| `Effect.None` | No animation effect |
 
 ---
 
@@ -335,7 +359,7 @@ The `OpensOn` property determines the event that triggers the Tooltip to appear.
 
 ---
 
-## Delays, Window Collision and TargetContainer APIs
+## Delays Window Collision and TargetContainer APIs
 
 ### Open and Close Delays
 
@@ -380,6 +404,37 @@ The `OpensOn` property determines the event that triggers the Tooltip to appear.
 </SfTooltip>
 ```
 
+### Size Properties (Height and Width)
+
+```razor
+<SfTooltip Content="Fixed size tooltip" Height="100px" Width="200px">
+    <SfButton Content="Hover me"></SfButton>
+</SfTooltip>
+```
+
+### Offset Properties
+
+```razor
+<SfTooltip Content="Offset from target" OffsetX="20" OffsetY="10">
+    <SfButton Content="Hover me"></SfButton>
+</SfTooltip>
+```
+
+### HtmlAttributes
+
+```razor
+<SfTooltip Content="With custom attributes" HtmlAttributes="@TooltipAttributes">
+    <SfButton Content="Hover me"></SfButton>
+</SfTooltip>
+
+@code {
+    private Dictionary<string, object> TooltipAttributes = new()
+    {
+        { "aria-label", "Custom tooltip" }
+    };
+}
+```
+
 ---
 
 ## Event Handling
@@ -387,6 +442,8 @@ The `OpensOn` property determines the event that triggers the Tooltip to appear.
 ### Lifecycle Events
 
 ```razor
+@using Syncfusion.Blazor.Toolkit.Popups
+
 <SfTooltip Content="Event handling demo"
            Opened="@OnTooltipOpened"
            Closed="@OnTooltipClosed"
@@ -479,6 +536,26 @@ The `OpensOn` property determines the event that triggers the Tooltip to appear.
 }
 ```
 
+### Collision Detection
+
+```razor
+@using Syncfusion.Blazor.Toolkit.Popups
+<SfTooltip Content="Collision detection demo"
+           Colliding="@OnCollision">
+    <span style="text-decoration: underline; cursor: help;">
+        Hover to see collision handling
+    </span>
+</SfTooltip>
+
+@code {
+    private void OnCollision(TooltipEventArgs args)
+    {
+        // Contains collision information for custom positioning logic
+        Console.WriteLine("Collision detected");
+    }
+}
+```
+
 ### Creation and Destruction Events
 
 ```razor
@@ -512,6 +589,8 @@ The `OpensOn` property determines the event that triggers the Tooltip to appear.
 These methods allow programmatic control over showing and hiding the tooltip with optional animation settings and target element specification.
 
 ```razor
+@using Syncfusion.Blazor.Toolkit.Popups
+
 <SfTooltip @ref="tooltip" Content="Animated tooltip" OpensOn="Custom">
     <SfButton class="e-btn" @onclick="ShowTooltip">
         Show Tooltip
@@ -832,4 +911,4 @@ The `CssClass` property is used to apply custom CSS class names that define spec
 - Create tooltips with excessive text (use dialogs instead)
 - Overuse animations (performance impact)
 - Forget to make tooltips accessible (keyboard support)
-- Use `Position.Custom` as there's no custom positioning enum value
+- Use fixed positioning without considering collision handling

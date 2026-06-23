@@ -656,6 +656,24 @@ The `CssClass="e-spin-overlay"` can be combined with `ZIndex` for full-container
 <SfSpinner @bind-Visible="@showSpinner" CssClass="e-spin-overlay" ZIndex="1000"></SfSpinner>
 ```
 
+**Note:** The `e-spin-overlay` class is a **user-defined** CSS class that you need to define in your own styles. The `e-` prefix is a Syncfusion naming convention indicating it should be added to the element for specific behavior. You must provide the overlay styles yourself:
+
+```css
+/* User-defined overlay styles - e-spin-overlay is a naming convention */
+/* You must define these styles in your CSS */
+.e-spin-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(255,255,255,0.8);
+}
+```
+
 ### Programmatic Control with ShowAsync/HideAsync
 For direct programmatic control outside of property binding:
 
@@ -733,10 +751,7 @@ Different themes available through CSS:
 
 ### Issue 3: Event Handling
 ```csharp
-<!-- ❌ Not handling events properly -->
-<SfSpinner Visible="true" OnOpen="HandleOpen"></SfSpinner>
-
-<!-- ✅ Proper event handler -->
+<!-- ✅ Valid event handler with explicit lambda -->
 <SfSpinner Visible="true" OnOpen="@HandleOpen"></SfSpinner>
 
 @code {

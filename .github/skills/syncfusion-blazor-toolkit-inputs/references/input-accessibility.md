@@ -193,6 +193,7 @@ Syncfusion input components support WCAG 2.1 Level AA standards:
         <h3 id="notification-legend">Notification Options:</h3>
         
         <SfCheckBox 
+            TChecked="bool"
             @bind-Checked="@emailNotif"
             Label="Email Notifications"
             aria-describedby="email-desc">
@@ -200,6 +201,7 @@ Syncfusion input components support WCAG 2.1 Level AA standards:
         <span id="email-desc">Receive updates via email</span>
 
         <SfCheckBox 
+            TChecked="bool"
             @bind-Checked="@pushNotif"
             Label="Push Notifications"
             aria-describedby="push-desc">
@@ -207,6 +209,7 @@ Syncfusion input components support WCAG 2.1 Level AA standards:
         <span id="push-desc">Receive alerts on your device</span>
 
         <SfCheckBox 
+            TChecked="bool"
             @bind-Checked="@smsNotif"
             Label="SMS Notifications"
             aria-describedby="sms-desc">
@@ -482,7 +485,7 @@ Syncfusion input components support WCAG 2.1 Level AA standards:
     private string usernameError = "";
     private bool usernameValid = false;
 
-    private void OnUsernameInput(ChangeEventArgs args)
+    private void OnUsernameInput(InputEventArgs args)
     {
         username = args.Value.ToString();
         
@@ -553,6 +556,7 @@ Syncfusion input components support WCAG 2.1 Level AA standards:
         <h3 id="frequency-legend">How often would you like to hear from us?</h3>
 
         <SfRadioButton 
+            TChecked="string"
             @bind-Checked="@frequency"
             Value="weekly" 
             Label="Weekly"
@@ -560,6 +564,7 @@ Syncfusion input components support WCAG 2.1 Level AA standards:
         </SfRadioButton>
 
         <SfRadioButton 
+            TChecked="string"
             @bind-Checked="@frequency"
             Value="monthly" 
             Label="Monthly"
@@ -567,6 +572,7 @@ Syncfusion input components support WCAG 2.1 Level AA standards:
         </SfRadioButton>
 
         <SfRadioButton 
+            TChecked="string"
             @bind-Checked="@frequency"
             Value="never" 
             Label="Never"
@@ -578,6 +584,7 @@ Syncfusion input components support WCAG 2.1 Level AA standards:
         <legend>Notification Types (Select all that apply):</legend>
 
         <SfCheckBox 
+            TChecked="bool"
             @bind-Checked="@notifEmail"
             Label="Email"
             aria-describedby="email-desc">
@@ -585,6 +592,7 @@ Syncfusion input components support WCAG 2.1 Level AA standards:
         <span id="email-desc">Get updates via email</span>
 
         <SfCheckBox 
+            TChecked="bool"
             @bind-Checked="@notifPush"
             Label="Push"
             aria-describedby="push-desc">

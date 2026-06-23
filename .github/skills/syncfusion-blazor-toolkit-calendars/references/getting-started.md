@@ -9,7 +9,7 @@
 
 ## Overview
 
-The Syncfusion Blazor Toolkit provides five calendar-based components for different date/time selection scenarios:
+The Syncfusion Blazor Toolkit provides four calendar-based components for different date/time selection scenarios:
 
 | Component | Purpose | Use Case |
 |-----------|---------|----------|
@@ -66,7 +66,7 @@ A calendar control that displays dates in a grid format with selection modes.
 ```
 
 **Key Features:**
-- Multiple selection modes (Single, Multiple, Range)
+- Multiple selection modes (Single, Multiple)
 - Keyboard navigation
 - Customizable first day of week
 
@@ -141,6 +141,8 @@ This calendar starts in the decade view (showing a grid of years) and only allow
 Use the `DayCellRendering` event to disable dates:
 
 ```razor
+@using Syncfusion.Blazor.Toolkit.Calendars
+
 <SfCalendar TValue="DateTime"
     DayCellRendering="@DisableSundays">
 </SfCalendar>
@@ -163,7 +165,7 @@ Use the `DayCellRendering` event to disable dates:
 
 ### Readonly State
 ```razor
-<SfDatePicker TValue="DateTime?" ReadOnly="true"></SfDatePicker>
+<SfDatePicker TValue="DateTime?" Readonly="true"></SfDatePicker>
 ```
 
 ## Next Steps

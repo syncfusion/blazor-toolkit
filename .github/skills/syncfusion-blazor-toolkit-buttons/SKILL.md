@@ -1,7 +1,7 @@
 ---
 name: syncfusion-blazor-toolkit-buttons
 description: Implement interactive Blazor button components with Syncfusion Toolkit. Covers SfButton, SfButtonGroup with styling and accessibility.
-compatibility: .NET Core 3.1+, .NET 5+, .NET 6+, .NET 7+, .NET 8+
+compatibility: .NET 8+
 metadata:
   author: "Syncfusion Inc"
   version: "1.0.0"
@@ -188,8 +188,29 @@ When you need interactive buttons, use the appropriate component from this skill
 | SfButton | CssClass | Custom CSS | string | "" |
 | SfButton | Type | Form button type | ButtonType | Button |
 | SfButton | HtmlAttributes | Capture HTML attributes | Dictionary<string, object> | {} |
+| SfButton | OnClick | Click event handler | EventCallback<MouseEventArgs> | - |
+| SfButton | Created | Lifecycle event | EventCallback<object> | - |
 | SfButtonGroup | Mode | Selection type | SelectionMode | None |
 | SfButtonGroup | IsVertical | Vertical layout | bool | false |
+| SfButtonGroup | CssClass | Custom CSS | string | "" |
+| SfButtonGroup | HtmlAttributes | Additional HTML attributes | Dictionary<string, object> | {} |
+| SfButtonGroup | Created | Lifecycle event | EventCallback<object> | - |
+
+### Button (in SfButtonGroup) Properties
+
+| Property | Type | Purpose | Default |
+|----------|------|---------|---------|
+| Button | Content | Button text | string | "" |
+| Button | IconCss | Icon classes | string | "" |
+| Button | IconPosition | Icon placement | IconPosition | Left |
+| Button | CssClass | Custom CSS | string | "" |
+| Button | Disabled | Enable/disable | bool | false |
+| Button | Selected | Selection state | bool | false |
+| Button | SelectedChanged | Selection changed event | EventCallback<bool> | - |
+| Button | IsToggle | Toggle behavior | bool | false |
+| Button | Name | Form input name | string | "" |
+| Button | Value | Form input value | string | "" |
+| Button | HtmlAttributes | Additional HTML attributes | Dictionary<string, object> | {} |
 
 ---
 
@@ -226,4 +247,4 @@ When implementing custom HTML attributes or complex content, ensure you maintain
 3. **Add Interactivity:** Learn event handling in [events-and-callbacks.md](references/events-and-callbacks.md)
 4. **Expand:** Explore [button-group.md](references/button-group.md) for grouping buttons
 
-**Documentation:** Syncfusion Blazor Toolkit official documentation at https://www.syncfusion.com/blazor-components/
+**Demo:** Syncfusion Blazor Toolkit official demo at https://blazor.syncfusion.com/demos/toolkit/buttons/button

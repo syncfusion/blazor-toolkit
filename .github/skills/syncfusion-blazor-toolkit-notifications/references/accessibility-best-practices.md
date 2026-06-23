@@ -304,12 +304,17 @@ else
 [Test]
 public async Task SpinnerIsAccessible()
 {
-	// Verify spinner has role and aria attributes
-	var role = await page.GetAttributeAsync(".e-spinner", "role");
+	// Verify spinner has correct role attribute on root element
+	// Note: .e-spinner-pane is the root element, not .e-spinner
+	var spinnerPane = page.Locator(".e-spinner-pane");
+	var role = await spinnerPane.GetAttributeAsync("role");
 	Assert.That(role, Is.EqualTo("status"));
-	
-	var ariaLive = await page.GetAttributeAsync(".e-spinner", "aria-live");
-	Assert.That(ariaLive, Is.EqualTo("polite"));
+
+	// The role="status" attribute provides implicit aria-live="polite" behavior
+	// per WAI-ARIA specifications, so an explicit aria-live attribute is not needed.
+	// The aria-busy attribute indicates the loading state
+	var ariaBusy = await spinnerPane.GetAttributeAsync("aria-busy");
+	Assert.That(ariaBusy, Is.EqualTo("true"));
 }
 ```
 

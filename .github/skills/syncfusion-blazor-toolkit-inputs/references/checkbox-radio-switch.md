@@ -32,7 +32,7 @@
 ### With Label
 
 ```razor
-<SfCheckBox @bind-Checked="@agreeTerms" Label="I agree to the terms and conditions"></SfCheckBox>
+<SfCheckBox TChecked="bool" @bind-Checked="@agreeTerms" Label="I agree to the terms and conditions"></SfCheckBox>
 
 @code {
     private bool agreeTerms = false;
@@ -258,8 +258,8 @@ Bind the checked state using Blazor’s `bind-Checked` for two‑way binding. Wh
 ### Basic Implementation
 
 ```razor
-<SfRadioButton @bind-Checked="@gender" Value="male" Label="Male" Name="gender"></SfRadioButton>
-<SfRadioButton @bind-Checked="@gender" Value="female" Label="Female" Name="gender"></SfRadioButton>
+<SfRadioButton TChecked="string" @bind-Checked="@gender" Value="male" Label="Male" Name="gender"></SfRadioButton>
+<SfRadioButton TChecked="string" @bind-Checked="@gender" Value="female" Label="Female" Name="gender"></SfRadioButton>
 
 @code {
     private string gender = "";
@@ -285,8 +285,8 @@ The `Label` property provides contextual text next to the Radio Button. Use the 
 
 ```razor
 
-<SfRadioButton Name="labelpos" Label="Label First" Value="Before" LabelPosition="LabelPosition.Before" @bind-Checked="labelPosPick" />
-<SfRadioButton Name="labelpos" Label="Label Last"  Value="After"  LabelPosition="LabelPosition.After"  @bind-Checked="labelPosPick" />
+<SfRadioButton TChecked="string" Name="labelpos" Label="Label First" Value="Before" LabelPosition="LabelPosition.Before" @bind-Checked="labelPosPick" />
+<SfRadioButton TChecked="string" Name="labelpos" Label="Label Last"  Value="After"  LabelPosition="LabelPosition.After"  @bind-Checked="labelPosPick" />
 @code {
     private string? labelPosPick = "After";
 }
@@ -298,8 +298,8 @@ The `Label` property provides contextual text next to the Radio Button. Use the 
 Customize the appearance of Radio Buttons using built‑in theme color classes such as `e-success`, `e-info`, `e-warning`, and `e-danger`. These semantic color utilities help visually differentiate important selections or highlight specific actions. Additional styling can be applied using custom CSS targeting the Radio Button wrapper and its state indicators.
 
 ```razor
-<SfRadioButton Name="colors" CssClass="e-success" Label="Success" Value="Success" @bind-Checked="colorPick" />
-<SfRadioButton Name="colors" Label="Info" Value="Info" @bind-Checked="colorPick" />
+<SfRadioButton TChecked="string" Name="colors" CssClass="e-success" Label="Success" Value="Success" @bind-Checked="colorPick" />
+<SfRadioButton TChecked="string" Name="colors" Label="Info" Value="Info" @bind-Checked="colorPick" />
 
 @code {
     private string? colorPick = "Success";
@@ -321,21 +321,21 @@ Customize the appearance of Radio Buttons using built‑in theme color classes s
 <div class="radio-group">
     <h3>Select Shipping Method:</h3>
 
-    <SfRadioButton 
+    <SfRadioButton TChecked="string" 
         @bind-Checked="@selectedShipping"
         Value="standard" 
         Label="Standard (5-7 days)" 
         Name="shipping">
     </SfRadioButton>
 
-    <SfRadioButton 
+    <SfRadioButton TChecked="string" 
         @bind-Checked="@selectedShipping"
         Value="express" 
         Label="Express (2-3 days)" 
         Name="shipping">
     </SfRadioButton>
 
-    <SfRadioButton 
+    <SfRadioButton TChecked="string" 
         @bind-Checked="@selectedShipping"
         Value="overnight" 
         Label="Overnight (1 day)" 
@@ -358,21 +358,21 @@ Disabled radio buttons prevent user selection, typically used for unavailable op
 <div class="radio-disabled-demo">
     <h3>Select Payment Method:</h3>
 
-    <SfRadioButton 
+    <SfRadioButton TChecked="string" 
         @bind-Checked="@selectedPayment"
         Value="credit-card" 
         Label="Credit Card" 
         Name="payment">
     </SfRadioButton>
 
-    <SfRadioButton 
+    <SfRadioButton TChecked="string" 
         @bind-Checked="@selectedPayment"
         Value="debit-card" 
         Label="Debit Card" 
         Name="payment">
     </SfRadioButton>
 
-    <SfRadioButton 
+    <SfRadioButton TChecked="string" 
         @bind-Checked="@selectedPayment"
         Value="cash" 
         Label="Cash on Delivery" 
@@ -397,7 +397,7 @@ Disabled radio buttons prevent user selection, typically used for unavailable op
     @foreach (var plan in plans)
     {
         <div class="plan-option">
-            <SfRadioButton 
+            <SfRadioButton TChecked="string" 
                 @bind-Checked="@selectedPlanId"
                 Value="@plan.Id" 
                 Label="@plan.Name" 
@@ -432,7 +432,7 @@ Disabled radio buttons prevent user selection, typically used for unavailable op
 ### ValueChange Event
 
 ```razor
-<SfRadioButton 
+<SfRadioButton TChecked="string" 
     @bind-Checked="@paymentMethod"
     Value="credit-card" 
     Label="Credit Card"
@@ -440,7 +440,7 @@ Disabled radio buttons prevent user selection, typically used for unavailable op
     ValueChange="@((ChangeArgs<string> args) => OnPaymentChanged(args))">
 </SfRadioButton>
 
-<SfRadioButton 
+<SfRadioButton TChecked="string" 
     @bind-Checked="@paymentMethod"
     Value="paypal" 
     Label="PayPal"
@@ -476,7 +476,7 @@ Disabled radio buttons prevent user selection, typically used for unavailable op
 ### Basic Implementation
 
 ```razor
-<SfSwitch @bind-Checked="@darkMode"></SfSwitch>
+<SfSwitch TChecked="bool" @bind-Checked="@darkMode"></SfSwitch>
 
 @code {
     private bool darkMode = false;
@@ -488,7 +488,7 @@ Disabled radio buttons prevent user selection, typically used for unavailable op
 ```razor
 <div style="display: flex; align-items: center; gap: 10px;">
     <label style="margin: 0;">Email Notifications:</label>
-    <SfSwitch @bind-Checked="@notifications" OnLabel="ON" OffLabel="OFF" />
+    <SfSwitch TChecked="bool" @bind-Checked="@notifications" OnLabel="ON" OffLabel="OFF" />
 </div>
 
 @code {
@@ -516,17 +516,17 @@ Disabled radio buttons prevent user selection, typically used for unavailable op
 
     <div style="display: flex; align-items: center; gap: 10px;">
         <label style="margin: 0;">Email Notifications:</label>
-        <SfSwitch @bind-Checked="@emailNotifications" OnLabel="ON" OffLabel="OFF" />
+        <SfSwitch TChecked="bool" @bind-Checked="@emailNotifications" OnLabel="ON" OffLabel="OFF" />
     </div>
 
     <div style="display: flex; align-items: center; gap: 10px;">
         <label style="margin: 0;">Push Notifications:</label>
-        <SfSwitch @bind-Checked="@pushNotifications" OnLabel="ON" OffLabel="OFF" />
+        <SfSwitch TChecked="bool" @bind-Checked="@pushNotifications" OnLabel="ON" OffLabel="OFF" />
     </div>
 
     <div style="display: flex; align-items: center; gap: 10px;">
         <label style="margin: 0;">Two-Factor Authentication:</label>
-        <SfSwitch @bind-Checked="@twoFactorAuth" OnLabel="ON" OffLabel="OFF" />
+        <SfSwitch TChecked="bool" @bind-Checked="@twoFactorAuth" OnLabel="ON" OffLabel="OFF" />
     </div>
 </div>
 
@@ -547,18 +547,18 @@ Disabled switches prevent user interaction, typically used when a feature is una
 
     <div style="display: flex; align-items: center; gap: 10px;">
         <label style="margin: 0;">Cloud Storage (50GB):</label>
-        <SfSwitch @bind-Checked="@cloudStorage" OnLabel="ON" OffLabel="OFF" />
+        <SfSwitch TChecked="bool" @bind-Checked="@cloudStorage" OnLabel="ON" OffLabel="OFF" />
     </div>
 
     <div style="display: flex; align-items: center; gap: 10px;">
         <label style="margin: 0;">Advanced Analytics:</label>
-        <SfSwitch @bind-Checked="@advancedAnalytics" OnLabel="ON" OffLabel="OFF" Disabled="true" />
+        <SfSwitch TChecked="bool" @bind-Checked="@advancedAnalytics" OnLabel="ON" OffLabel="OFF" Disabled="true" />
         <small>(Premium feature)</small>
     </div>
 
     <div style="display: flex; align-items: center; gap: 10px;">
         <label style="margin: 0;">Priority Support:</label>
-        <SfSwitch @bind-Checked="@prioritySupport" OnLabel="ON" OffLabel="OFF" Disabled="true" />
+        <SfSwitch TChecked="bool" @bind-Checked="@prioritySupport" OnLabel="ON" OffLabel="OFF" Disabled="true" />
         <small>(Enterprise only)</small>
     </div>
 </div>
@@ -579,7 +579,7 @@ Use `CheckedChanged` for explicit two-way binding when you need custom logic dur
 ```razor
 <div style="display: flex; align-items: center; gap: 10px;">
     <label style="margin: 0;">Dark Mode:</label>
-    <SfSwitch 
+    <SfSwitch TChecked="bool" 
         Checked="@darkMode"
         CheckedChanged="@(EventCallback.Factory.Create<bool>(this, OnDarkModeChanged))"
         OnLabel="ON" 
@@ -605,7 +605,7 @@ Use `CheckedChanged` for explicit two-way binding when you need custom logic dur
 ```razor
 <div style="display: flex; align-items: center; gap: 10px;">
     <label style="margin: 0;">Dark Mode:</label>
-    <SfSwitch @bind-Checked="@darkMode" OnLabel="ON" OffLabel="OFF" ValueChange="@((CheckedChangeEventArgs<bool> e) => OnDarkModeToggled(e))" />
+    <SfSwitch TChecked="bool" @bind-Checked="@darkMode" OnLabel="ON" OffLabel="OFF" ValueChange="@((CheckedChangeEventArgs<bool> e) => OnDarkModeToggled(e))" />
 </div>
 
 <p>@themeStatus</p>
@@ -630,7 +630,7 @@ Use `CheckedChanged` for explicit two-way binding when you need custom logic dur
 
     <div style="display: flex; align-items: center; gap: 10px;">
         <label style="margin: 0;">Show Advanced Options:</label>
-        <SfSwitch @bind-Checked="@advancedMode" OnLabel="ON" OffLabel="OFF" ValueChange="@((CheckedChangeEventArgs<bool> e) => OnAdvancedModeChanged(e))" />
+        <SfSwitch TChecked="bool" @bind-Checked="@advancedMode" OnLabel="ON" OffLabel="OFF" ValueChange="@((CheckedChangeEventArgs<bool> e) => OnAdvancedModeChanged(e))" />
     </div>
 
     @if (advancedMode)
@@ -676,6 +676,7 @@ Use `CheckedChanged` for explicit two-way binding when you need custom logic dur
 
         <div class="form-group">
             <SfCheckBox 
+                TChecked="bool"
                 @bind-Checked="@signUpModel.AgreeTerms" 
                 Label="I agree to the Terms of Service">
             </SfCheckBox>
@@ -687,6 +688,7 @@ Use `CheckedChanged` for explicit two-way binding when you need custom logic dur
 
         <div class="form-group">
             <SfCheckBox 
+                TChecked="bool"
                 @bind-Checked="@signUpModel.NewsletterOptIn" 
                 Label="I want to receive marketing emails">
             </SfCheckBox>
@@ -751,16 +753,16 @@ Use `CheckedChanged` for explicit two-way binding when you need custom logic dur
 
     <div class="question-2">
         <h3>2. Which features did you use? (Select all that apply)</h3>
-        <SfCheckBox @bind-Checked="@features[0]" Label="Feature A" Name="features"></SfCheckBox>
-        <SfCheckBox @bind-Checked="@features[1]" Label="Feature B" Name="features"></SfCheckBox>
-        <SfCheckBox @bind-Checked="@features[2]" Label="Feature C" Name="features"></SfCheckBox>
+        <SfCheckBox TChecked="bool" @bind-Checked="@features[0]" Label="Feature A" Name="features"></SfCheckBox>
+        <SfCheckBox TChecked="bool" @bind-Checked="@features[1]" Label="Feature B" Name="features"></SfCheckBox>
+        <SfCheckBox TChecked="bool" @bind-Checked="@features[2]" Label="Feature C" Name="features"></SfCheckBox>
     </div>
 
     <div class="question-3">
         <h3>3. Would you recommend us to others?</h3>
         <div style="display: flex; align-items: center; gap: 10px;">
             <label style="margin: 0;">Would recommend:</label>
-            <SfSwitch @bind-Checked="@wouldRecommend" OnLabel="Yes" OffLabel="No" />
+            <SfSwitch TChecked="bool" @bind-Checked="@wouldRecommend" OnLabel="Yes" OffLabel="No" />
         </div>
     </div>
 
@@ -794,17 +796,17 @@ Use `CheckedChanged` for explicit two-way binding when you need custom logic dur
 
         <div style="display: flex; align-items: center; gap: 10px;">
             <label style="margin: 0;">Email Notifications:</label>
-            <SfSwitch @bind-Checked="@emailNotifications" OnLabel="ON" OffLabel="OFF" ValueChange="@((CheckedChangeEventArgs<bool> e) => OnSettingChanged(e))" />
+            <SfSwitch TChecked="bool" @bind-Checked="@emailNotifications" OnLabel="ON" OffLabel="OFF" ValueChange="@((CheckedChangeEventArgs<bool> e) => OnSettingChanged(e))" />
         </div>
 
         <div style="display: flex; align-items: center; gap: 10px;">
             <label style="margin: 0;">Push Notifications:</label>
-            <SfSwitch @bind-Checked="@pushNotifications" OnLabel="ON" OffLabel="OFF" ValueChange="@((CheckedChangeEventArgs<bool> e) => OnSettingChanged(e))" />
+            <SfSwitch TChecked="bool" @bind-Checked="@pushNotifications" OnLabel="ON" OffLabel="OFF" ValueChange="@((CheckedChangeEventArgs<bool> e) => OnSettingChanged(e))" />
         </div>
 
         <div style="display: flex; align-items: center; gap: 10px;">
             <label style="margin: 0;">SMS Alerts:</label>
-            <SfSwitch @bind-Checked="@smsAlerts" OnLabel="ON" OffLabel="OFF" ValueChange="@((CheckedChangeEventArgs<bool> e) => OnSettingChanged(e))" />
+            <SfSwitch TChecked="bool" @bind-Checked="@smsAlerts" OnLabel="ON" OffLabel="OFF" ValueChange="@((CheckedChangeEventArgs<bool> e) => OnSettingChanged(e))" />
         </div>
     </div>
 

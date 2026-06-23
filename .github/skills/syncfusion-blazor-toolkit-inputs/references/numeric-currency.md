@@ -1,7 +1,7 @@
 # NumericTextBox Component - Numeric and Currency Formatting
 
 ## Table of Contents
-- [SfNumericTextBox Overview](#sfdnumerictextbox-overview)
+- [SfNumericTextBox Overview](#sfnumerictextbox-overview)
 - [Generic Type Implementation](#generic-type-implementation)
 - [Basic Properties](#basic-properties)
 - [Currency Formatting](#currency-formatting)
@@ -559,6 +559,107 @@ Real-time event fired on every value change during typing:
         [Required(ErrorMessage = "Price is required")]
         [Range(0.01, 999999.99, ErrorMessage = "Price must be between 0.01 and 999999.99")]
         public decimal Price { get; set; }
+    }
+}
+```
+
+## Public Methods
+
+SfNumericTextBox provides the following public methods for programmatic control:
+
+### IncrementAsync
+
+Increments the value by the specified step amount:
+
+```razor
+<SfNumericTextBox @ref="numericRef" TValue="int" @bind-Value="@quantity" Min="0" Max="100" Step="1"></SfNumericTextBox>
+<button @onclick="IncrementValue">+ Increment</button>
+
+@code {
+    private SfNumericTextBox<int> numericRef = new();
+    private int quantity = 0;
+
+    private async Task IncrementValue()
+    {
+        await numericRef.IncrementAsync(1);
+    }
+}
+```
+
+### DecrementAsync
+
+Decrements the value by the specified step amount:
+
+```razor
+<SfNumericTextBox @ref="numericRef" TValue="int" @bind-Value="@quantity" Min="0" Max="100" Step="1"></SfNumericTextBox>
+<button @onclick="DecrementValue">- Decrement</button>
+
+@code {
+    private SfNumericTextBox<int> numericRef = new();
+    private int quantity = 0;
+
+    private async Task DecrementValue()
+    {
+        await numericRef.DecrementAsync(1);
+    }
+}
+```
+
+### FocusAsync
+
+Sets focus to the NumericTextBox for user interaction:
+
+```razor
+<SfNumericTextBox @ref="numericRef" TValue="decimal" @bind-Value="@price" Format="C2"></SfNumericTextBox>
+<button @onclick="FocusNumeric">Focus Input</button>
+
+@code {
+    private SfNumericTextBox<decimal> numericRef = new();
+    private decimal price = 0m;
+
+    private async Task FocusNumeric()
+    {
+        await numericRef.FocusAsync();
+    }
+}
+```
+
+### FocusOutAsync
+
+Removes focus from the NumericTextBox:
+
+```razor
+<SfNumericTextBox @ref="numericRef" TValue="decimal" @bind-Value="@price" Format="C2"></SfNumericTextBox>
+<button @onclick="BlurNumeric">Blur Input</button>
+
+@code {
+    private SfNumericTextBox<decimal> numericRef = new();
+    private decimal price = 0m;
+
+    private async Task BlurNumeric()
+    {
+        await numericRef.FocusOutAsync();
+    }
+}
+```
+
+### GetFormattedText
+
+Gets the formatted text representation of the current value:
+
+```razor
+<SfNumericTextBox @ref="numericRef" TValue="decimal" @bind-Value="@price" Format="C2" Min="0"></SfNumericTextBox>
+<button @onclick="ShowFormatted">Show Formatted</button>
+<p>Formatted: @formattedText</p>
+
+@code {
+    private SfNumericTextBox<decimal> numericRef = new();
+    private decimal price = 29.99m;
+    private string formattedText = "";
+
+    private void ShowFormatted()
+    {
+        formattedText = numericRef.GetFormattedText() ?? "";
     }
 }
 ```

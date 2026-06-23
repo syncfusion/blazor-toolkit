@@ -158,7 +158,7 @@ The Syncfusion Blazor Toolkit provides a comprehensive collection of input compo
 
 <div style="display: flex; align-items: center; gap: 10px;">
     <label style="margin: 0;">Enable Notifications:</label>
-    <SfSwitch @bind-Checked="@notificationsEnabled" OnLabel="ON" OffLabel="OFF" />
+    <SfSwitch TChecked="bool" @bind-Checked="@notificationsEnabled" OnLabel="ON" OffLabel="OFF" />
 </div>
 
 @code {

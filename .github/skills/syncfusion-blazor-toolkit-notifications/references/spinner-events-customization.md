@@ -21,8 +21,8 @@ The Spinner component provides four event callbacks for lifecycle management:
 | Event | Callback Type | When Triggered | Use Case |
 |-------|--------------|---------------|---------|
 | `Created` | `EventCallback<object>` | After first render | Initialize spinner |
-| `OnOpen` | `EventCallback<SpinnerEventArgs>` | Before spinner shows | Pre-display logic |
-| `OnClose` | `EventCallback<SpinnerEventArgs>` | Before spinner hides | Cleanup operations |
+| `OnOpen` | `EventCallback<SpinnerEventArgs>` | Before spinner shows | Pre-display logic, can cancel via `args.Cancel` |
+| `OnClose` | `EventCallback<SpinnerEventArgs>` | Before spinner hides | Cleanup operations, can cancel via `args.Cancel` |
 | `Destroyed` | `EventCallback<object>` | After removal from DOM | Resource cleanup |
 
 ### SpinnerEventArgs Reference
@@ -42,7 +42,7 @@ public class SpinnerEventArgs
 
 ### Usage Pattern
 ```csharp
-private async Task HandleSpinnerEvent(SpinnerEventArgs args)
+private async Task HandleOpenAsync(SpinnerEventArgs args)
 {
     // Check some condition
     if (someCondition)
@@ -128,14 +128,14 @@ Fired before the spinner becomes visible. Can be used to prevent showing or prep
 
 ### Cancel Opening
 ```csharp
-<SfSpinner OnOpen="@BeforeOpen" @bind-Visible="@showSpinner"></SfSpinner>
+<SfSpinner OnOpen="@HandleOpenAsync" @bind-Visible="@showSpinner"></SfSpinner>
 
 <button @onclick="@ToggleSpinner" style="position: relative; z-index: 10;">Show Spinner</button>
 
 @code {
 	private bool showSpinner = false;
 
-	private async Task BeforeOpen(SpinnerEventArgs args)
+	private async Task HandleOpenAsync(SpinnerEventArgs args)
 	{
 		// Check condition before allowing open
 		if (!IsOperationAllowed())

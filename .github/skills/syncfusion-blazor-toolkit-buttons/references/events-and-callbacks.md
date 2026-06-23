@@ -104,7 +104,7 @@ When the button is clicked, the `OnClick` method executes.
 
 <SfButton Content="@Content" 
           IsPrimary="@IsPrimary" 
-          @onclick="HandleClick" />
+          OnClick="HandleClick" />
 
 @code {
     [Parameter]
@@ -157,7 +157,7 @@ The `Created` event fires after the component has finished rendering in the DOM.
 
 @code {
     private string buttonLabel = "Loading...";
-    
+
     private async void OnButtonCreated(object args)
     {
         // Perform initialization after render
@@ -165,6 +165,22 @@ The `Created` event fires after the component has finished rendering in the DOM.
         buttonLabel = "Ready!";
 
         await InvokeAsync(StateHasChanged);
+    }
+}
+```
+
+### Created Event on SfButtonGroup
+The `Created` event also works on `SfButtonGroup`:
+```razor
+<SfButtonGroup Created="@OnGroupCreated">
+    <Button>Option 1</Button>
+    <Button>Option 2</Button>
+</SfButtonGroup>
+
+@code {
+    private void OnGroupCreated(object args)
+    {
+        Console.WriteLine("ButtonGroup has been created");
     }
 }
 ```
@@ -491,7 +507,7 @@ The `MouseEventArgs` object contains:
     private int clickCount = 0;
     private bool debugMode = false;
     
-    private void ConditionalLog()
+    private void ConditionalLog(MouseEventArgs args)
     {
         clickCount++;
         

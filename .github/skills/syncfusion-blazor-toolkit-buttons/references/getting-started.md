@@ -14,7 +14,7 @@
 
 The Syncfusion Blazor Toolkit button components are part of the main toolkit package. Ensure you have:
 
-- **.NET SDK:** .NET Core 3.1 or later
+- **.NET SDK:** .NET 8 or later
 - **Blazor Project:** WebAssembly or Server-side
 - **NuGet Package:** `Syncfusion.Blazor.Toolkit` latest version
 - **CSS Files:** Theme CSS imported in your layout
@@ -45,8 +45,12 @@ In `_Host.cshtml` or `index.html`, add the theme stylesheet:
 ### 4. Add Global Imports
 In `_Imports.razor`, add:
 ```razor
-@using Syncfusion.Blazor
 @using Syncfusion.Blazor.Toolkit
+```
+
+For button components with icons or enum values like `IconPosition`, add the buttons namespace to your page or component:
+```razor
+@using Syncfusion.Blazor.Toolkit.Buttons
 ```
 
 ## First Button Component
@@ -128,7 +132,7 @@ The `Content` property accepts any string value and displays it as button text.
 @code {
     private FormModel formModel = new();
     
-    private void HandleSubmit()
+    private void HandleSubmit(EditContext editContext)
     {
         Console.WriteLine($"Form submitted: {formModel.Name}");
     }

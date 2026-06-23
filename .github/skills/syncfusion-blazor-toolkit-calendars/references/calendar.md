@@ -59,11 +59,15 @@ The Calendar component displays a calendar view with date selection capabilities
 
 | Property | Type | Default | Description |
 |----------|------|---------|-------------|
+| `ID` | `string` | `null` | Unique identifier for the component |
+| `ValidateOnInput` | `bool` | `true` | Validate input on keystroke events |
 | `Disabled` | `bool` | `false` | Disable the component interactions |
 | `CssClass` | `string` | `null` | Custom CSS class for styling |
 | `EnablePersistence` | `bool` | `false` | Persist component state in browser localStorage |
 
-> **Note:** `SfCalendar` inherits from `CalendarBase<TValue>`, which inherits from `SfInputBase<TValue>`. Properties like `Min`, `Max`, `FirstDayOfWeek`, `Depth`, `Start`, `WeekNumber`, `DayHeaderFormat`, `WeekRule`, `ShowTodayButton`, `CalendarMode`, and `KeyConfigs` are defined in `CalendarBase<T>`, while `Disabled`, `CssClass`, and `EnablePersistence` come from `SfInputBase<T>.
+> **Important:** When using `EnablePersistence`, you must also set an `ID` property on the component. The persistence mechanism uses the component's `ID` as the storage key in localStorage. Without a unique `ID`, the persistence behavior may not work correctly across multiple component instances.
+
+> **Note:** `SfCalendar` inherits from `CalendarBase<TValue>`, which inherits from `SfInputBase<TValue>`. Properties like `Min`, `Max`, `FirstDayOfWeek`, `Depth`, `Start`, `WeekNumber`, `DayHeaderFormat`, `WeekRule`, `ShowTodayButton`, `CalendarMode`, and `KeyConfigs` are defined in `CalendarBase<T>`, while `ID`, `ValidateOnInput`, `Disabled`, `CssClass`, and `EnablePersistence` come from `SfInputBase<T>.
 
 ## Selection Modes
 
@@ -184,6 +188,7 @@ Control the calendar view display and navigation:
 
 <!-- Specify week rule -->
 @using System.Globalization
+@using Syncfusion.Blazor.Toolkit.Calendars
 
 <SfCalendar TValue="DateTime"
     WeekNumber="true"
@@ -219,6 +224,8 @@ Control the calendar view display and navigation:
 | `RemoveDatesAsync(DateTime[] dates)` | `Task` | Removes dates from selection in multi-selection mode |
 
 ```razor
+@using Syncfusion.Blazor.Toolkit.Calendars
+
 <SfCalendar TValue="DateTime"
     ValueChange="@OnValueChanged"
     Navigated="@OnNavigated"
@@ -273,7 +280,6 @@ Control the calendar view display and navigation:
 | `.e-disabled` | Disabled date cell |
 | `.e-today` | Today's date cell |
 | `.e-week-number` | Week number column |
-| `.e-rtl` | Right-to-left layout |
 
 ### Custom Styling
 

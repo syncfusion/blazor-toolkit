@@ -138,6 +138,71 @@ Use the `Multiline` property for multi-line text input (textarea behavior):
 }
 ```
 
+## TextBox Public Methods
+
+### AddIconAsync
+
+Adds icons to the TextBox at the specified position (prepend or append):
+
+```razor
+<SfTextBox @ref="textBoxRef" Placeholder="Enter Date"></SfTextBox>
+<button @onclick="AddDateIcon">Add Date Icon</button>
+
+@code {
+    private SfTextBox textBoxRef = new();
+
+    private async Task AddDateIcon()
+    {
+        var iconEvents = new Dictionary<string, object>()
+        {
+            { "onclick", new Action(OnIconClick) }
+        };
+        await textBoxRef.AddIconAsync("prepend", "e-date-icon", iconEvents);
+    }
+
+    private void OnIconClick()
+    {
+        Console.WriteLine("Date icon clicked");
+    }
+}
+```
+
+### FocusAsync
+
+Sets focus to the TextBox programmatically:
+
+```razor
+<SfTextBox @ref="textBoxRef" Placeholder="Enter your text"></SfTextBox>
+<button @onclick="FocusTextBox">Focus Input</button>
+
+@code {
+    private SfTextBox textBoxRef = new();
+
+    private async Task FocusTextBox()
+    {
+        await textBoxRef.FocusAsync();
+    }
+}
+```
+
+### FocusOutAsync
+
+Removes focus from the TextBox:
+
+```razor
+<SfTextBox @ref="textBoxRef" Placeholder="Enter your text"></SfTextBox>
+<button @onclick="BlurTextBox">Blur Input</button>
+
+@code {
+    private SfTextBox textBoxRef = new();
+
+    private async Task BlurTextBox()
+    {
+        await textBoxRef.FocusOutAsync();
+    }
+}
+```
+
 ## SfTextBox Events
 
 ### ValueChange Event

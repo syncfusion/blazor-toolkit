@@ -9,7 +9,7 @@
 - [Animation and Effects](#animation-and-effects)
 - [Button Configuration](#button-configuration)
 - [Basic Event Handling](#basic-event-handling)
-- [Content,AllowPrerender and CloseOnEscape APIs](#content-allowprerender-closeonescape-apis)
+- [Content AllowPrerender and CloseOnEscape APIs](#content-allowprerender-and-closeonescape-apis)
 - [Programmatic Methods in Dialog](#programmatic-methods-in-dialog)
 - [Common Scenarios](#common-scenarios)
 
@@ -155,8 +155,8 @@ In `_Host.cshtml` or `App.razor`:
 
 | Property | Type | Default | Purpose |
 |----------|------|---------|---------|
-| `Visible` | bool | false | Show/hide the dialog |
-| `Header` | string | "Dialog" | Dialog header text |
+| `Visible` | bool | true | Show/hide the dialog |
+| `Header` | string | null | Dialog header text |
 | `Width` | string | "100%" | Dialog width (px, %, em, etc.) |
 | `Height` | string | "auto" | Dialog height |
 | `AllowDragging` | bool | false | Enable dragging the dialog |
@@ -172,8 +172,8 @@ In `_Host.cshtml` or `App.razor`:
 | `VisibleChanged` | EventCallback<bool> | - | Two-way binding callback, invoked when Visible changes |
 | `Created` | EventCallback<object> | - | Component created event |
 | `Destroyed` | EventCallback<object> | - | Component destroyed event |
-| `EnablePersistence` | bool | false | Persist dialog position and size to localStorage |
-| `ID` | string | null | seful for targeting the dialog element with CSS or JavaScript |
+| `EnablePersistence` | bool | false | Persist dialog position and size to localStorage using the component's ID |
+| `ID` | string | null | Unique identifier for the component (required when EnablePersistence is true) |
 | `HtmlAttributes` | Dictionary<string, object> | null | allows to add custom attributes like id, title, or aria- attributes to the dialog element |
 
 ### Sizing Options
@@ -201,6 +201,20 @@ In `_Host.cshtml` or `App.razor`:
     private SfDialog dialog;
 }
 ```
+
+### State Persistence
+
+The `EnablePersistence` property allows the dialog's position and size to be persisted in browser localStorage across page reloads.
+
+```razor
+<SfDialog ID="SettingsDialog" EnablePersistence="true" Width="500px" Height="400px">
+    <DialogTemplates>
+        <Content><p>Dialog content</p></Content>
+    </DialogTemplates>
+</SfDialog>
+```
+
+**Important:** When using `EnablePersistence`, you must also set an `ID` property on the component. The persistence mechanism uses the component's `ID` as the storage key in localStorage. Without a unique `ID`, the persistence behavior may not work correctly across multiple component instances.
 
 ---
 
@@ -271,16 +285,14 @@ User can interact with background content:
 
 ```razor
 <SfDialog Width="500px" @bind-Visible="isDialogOpen">
-  <DialogTemplates>
-    <Content>
-        <p>
-           Dialog content
-          </p>
-      </Content>
-  </DialogTemplates>
-    <DialogAnimationSettings Delay="400" Effect="DialogEffect.SlideBottom">
-   </DialogAnimationSettings>
-  </SfDialog>
+    <DialogTemplates>
+        <Content>
+            <p>Dialog content</p>
+        </Content>
+    </DialogTemplates>
+    <DialogAnimationSettings Delay="400" Effect="DialogEffect.SlideBottom" />
+</SfDialog>
+
 <SfButton class="e-btn" @onclick="OpenDialog">Open Dialog</SfButton>
 
 @code {
@@ -317,23 +329,14 @@ User can interact with background content:
 ### Custom Animation
 
 ```razor
-<SfDialog @bind-Visible="isDialogOpen"
-          AnimationSettings="@customAnimation">
+<SfDialog @bind-Visible="isDialogOpen">
     <DialogTemplates>
         <Content>
             <p>Custom animation</p>
         </Content>
     </DialogTemplates>
+    <DialogAnimationSettings Effect="DialogEffect.Zoom" Duration="800" Delay="100" />
 </SfDialog>
-
-@code {
-    private DialogAnimationSettings customAnimation = new()
-    {
-        Effect = DialogEffect.Zoom,
-        Duration = 800,
-        Delay = 100
-    };
-}
 ```
 
 ---
@@ -543,7 +546,7 @@ public class OverlayModalClickEventArgs
 ```
 ---
 
-## Content,AllowPrerender and CloseOnEscape APIs
+## Content AllowPrerender and CloseOnEscape APIs
 
 ### Content property
 

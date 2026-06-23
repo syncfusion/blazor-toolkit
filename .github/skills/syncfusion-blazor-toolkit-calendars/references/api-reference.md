@@ -1,13 +1,54 @@
 # API Reference
 
 ## Table of Contents
-- [InputBase Component (Base Class)](#input-component-base-class)
+- [InputBase Component (Base Class)](#inputbase-component-base-class)
 - [CalendarBase Component (Base Class)](#calendarbase-component-base-class)
+- [Range Restriction](#range-restriction)
 - [Calendar Component](#calendar-component)
 - [DatePicker Component](#datepicker-component)
 - [DateTimePicker Component](#datetimepicker-component)
 - [TimePicker Component](#timepicker-component)
 - [Common Event Args](#common-event-args)
+
+## Range Restriction
+
+All calendar components support date range restriction through `Min` and `Max` properties. These properties define the boundaries of selectable dates.
+
+### Properties
+
+| Property | Type | Default | Description |
+|----------|------|---------|-------------|
+| `Min` | `DateTime` | `01-Jan-1900` | Minimum selectable date |
+| `Max` | `DateTime` | `31-Dec-2099` | Maximum selectable date |
+
+### Basic Usage
+
+```csharp
+// Restrict to year 2026
+<SfDatePicker TValue="DateTime?"
+    Min="@(new DateTime(2026, 1, 1))"
+    Max="@(new DateTime(2026, 12, 31))">
+</SfDatePicker>
+```
+
+### Component-Specific Notes
+
+- **SfCalendar**: `Min`/`Max` restrict all date navigation
+- **SfDatePicker**: `Min`/`Max` restrict both input and popup selection
+- **SfDateTimePicker**: `Min`/`Max` restrict date portion; use `MinTime`/`MaxTime` for time restrictions
+- **SfTimePicker**: `Min`/`Max` restrict time selection range
+
+### TimePicker Time Restrictions
+
+```csharp
+// Restrict business hours (9 AM to 5 PM)
+<SfTimePicker TValue="DateTime?"
+    Min="@(new DateTime(2026, 1, 1, 9, 0, 0))"
+    Max="@(new DateTime(2026, 1, 1, 17, 0, 0))">
+</SfTimePicker>
+```
+
+---
 
 ## InputBase Component (Base Class)
 
@@ -28,9 +69,13 @@ public string CssClass { get; set; }                      // Custom CSS class
 
 | Property | Type | Default | Description |
 |----------|------|---------|-------------|
+| `ID` | `string` | `null` | Unique identifier for the component |
+| `ValidateOnInput` | `bool` | `true` | Validate input on keystroke events |
 | `Disabled` | `bool` | `false` | Disable the component interactions |
 | `CssClass` | `string` | `null` | Custom CSS class for styling |
 | `EnablePersistence` | `bool` | `false` | Persist component state in browser localStorage |
+
+> **Important:** When using `EnablePersistence`, you must also set an `ID` property on the component. The persistence mechanism uses the component's `ID` as the storage key in localStorage. Without a unique `ID`, the persistence behavior may not work correctly across multiple component instances.
 
 ## CalendarBase Component (Base Class)
 
@@ -198,6 +243,7 @@ public class SfDatePicker<TValue>
     public bool AllowEdit { get; set; }
     public bool StrictMode { get; set; }
     public FloatLabelType FloatLabelType { get; set; }
+    public bool ValidateOnInput { get; set; }
 
     // Popup
     public bool OpenOnFocus { get; set; }
@@ -333,6 +379,7 @@ public class SfTimePicker<TValue>
     public string[] InputFormats { get; set; }
     public bool AllowEdit { get; set; }
     public bool EnableMask { get; set; }
+    public bool ValidateOnInput { get; set; }
 
     // Range Restrictions
     public DateTime Min { get; set; }
