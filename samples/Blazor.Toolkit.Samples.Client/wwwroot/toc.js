@@ -103,30 +103,4 @@ window.toc = window.toc || {};
     };
 
     ns.disconnectObserver = function(){ if (ns._observer){ ns._observer.disconnect(); ns._observer = null; } };
-
-    // Get h2/h3 headings (used by Release Notes page)
-    ns.getHeadingsH2H3 = function(containerSelector){
-        try {
-            var container = document.querySelector(containerSelector) || document;
-            var nodes = container.querySelectorAll('h2,h3');
-            var arr = [];
-            nodes.forEach(function(n){
-                var id = n.id;
-                if (!id || id.trim() === ''){
-                    var base = n.textContent.trim().toLowerCase().replace(/[^a-z0-9]+/g,'-').replace(/^\-+|\-+$/g,'');
-                    if (!base) base = 'heading';
-                    id = base;
-                    var i = 1;
-                    while(document.getElementById(id)){
-                        id = base + '-' + (i++);
-                    }
-                    n.id = id;
-                }
-                arr.push({ id: n.id, text: n.textContent.trim(), tag: n.tagName, level: parseInt(n.tagName.substring(1)) });
-            });
-            return arr;
-        } catch(e){
-            return [];
-        }
-    };
 })(window.toc);
