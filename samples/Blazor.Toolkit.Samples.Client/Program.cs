@@ -10,9 +10,6 @@ var builder = WebAssemblyHostBuilder.CreateDefault(args);
 
 builder.Services.AddScoped<RenderModeService>();
 
-// Add HttpClient for Release Notes and other HTTP requests
-builder.Services.AddScoped(sp => new HttpClient { BaseAddress = new Uri(builder.HostEnvironment.BaseAddress) });
-
 // Add Syncfusion Blazor services
 builder.Services.AddSyncfusionBlazorToolkit();
 
