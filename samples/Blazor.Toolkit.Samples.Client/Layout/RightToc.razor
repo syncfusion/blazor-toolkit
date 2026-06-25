@@ -62,7 +62,7 @@
                 // ensure we have a DotNetObjectReference
                 if (_dotNetRef == null) _dotNetRef = DotNetObjectReference.Create(this);
                 await JS.InvokeVoidAsync("toc.disconnectObserver");
-                await JS.InvokeVoidAsync("toc.observeVisibleHeading", ".page-content", _dotNetRef);             
+                await JS.InvokeVoidAsync("toc.observeVisibleHeading", ".page-content", _dotNetRef);
                 // update currently visible heading
                 var vid = await JS.InvokeAsync<string?>("toc.getVisibleHeading", ".page-content");
                 if (!string.IsNullOrEmpty(vid)) activeHeadingId = vid;
