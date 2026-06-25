@@ -11,19 +11,19 @@ var SfTextArea = /** @class */ (function () {
         window.sfBlazorToolkit.base.setCompInstance(this);
     }
     SfTextArea.prototype.calculateWidth = function () {
-        var label = document.getElementsByClassName('e-float-text');
-        if (!label || label.length === 0) return;
-        var isOutline = this.container.classList.contains('e-outline');
-        var isPrepend = this.container.classList.contains('e-prepend');
-        for (var i = 0; i < label.length; i++) {
-            if (isOutline && isPrepend && label[i].classList.contains('e-label-top')) {
-                var left = this.container.clientWidth - this.element.clientWidth;
-                label[i].style.left = -left.toString() + 'px';
-                label[i].style.width = 'auto';
-            }
-            else {
-                label[i].style.left = '0px';
-            }
+        var label = this.container.querySelector('.e-float-text');
+        if (!label) {
+            return;
+        }
+        
+        if (this.container.classList.contains('e-outline') && this.container.classList.contains('e-prepend') &&
+            label.classList.contains('e-label-top')) {
+            var left = this.container.clientWidth - this.element.clientWidth;
+            label.style.left = -left.toString() + 'px';
+            label.style.width = 'auto';
+        }
+        else {
+            label.style.left = '0px';
         }
     };
     return SfTextArea;

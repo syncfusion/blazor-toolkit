@@ -1,6 +1,7 @@
 using AngleSharp.Dom;
 using AngleSharp.Html.Dom;
 using Bunit;
+using Microsoft.AspNetCore.Components.Web;
 using Syncfusion.Blazor.Toolkit.Tests;
 using System.Linq;
 using System.Threading.Tasks;
@@ -567,6 +568,79 @@ namespace Syncfusion.Blazor.Toolkit.Tests.Buttons
             var btn = extraBGComponent.FindAll("div.e-btn-group")[7].QuerySelector(".e-btn");
             Assert.NotNull(btn);
             Assert.Equal("btn-attr-test", btn!.GetAttribute("data-testid"));
+        }
+
+        // ─────────────────────────────────────────────────────────────────────────
+        // Keyboard Accessibility
+        // ─────────────────────────────────────────────────────────────────────────
+
+        [Trait("ButtonGroup", "Keyboard")]
+        [Fact(Timeout = 10000, DisplayName = "Space key activates focused button in Single selection mode")]
+        public void SpaceKey_ActivatesButton_SingleMode()
+        {
+            var defaultBGComponent = RenderComponent<DefaultBG>();
+            var buttonGroupComponents = defaultBGComponent.FindComponents<SfButtonGroup>();
+            // Index 1 = second SfButtonGroup in DefaultBG (Mode=Single)
+            var singleGroup = buttonGroupComponents[1];
+            var childButtons = singleGroup.FindComponents<Button>();
+
+            // Initial state: all unselected
+            Assert.False(childButtons[0].Instance.Selected);
+            Assert.False(childButtons[1].Instance.Selected);
+            Assert.False(childButtons[2].Instance.Selected);
+
+            // Press Space on the first input
+            var firstInput = childButtons[0].Find("input");
+            firstInput.KeyDown(new KeyboardEventArgs { Key = " ", Code = "Space" });
+
+            // Button should be selected via Space key
+            Assert.True(singleGroup.FindComponents<Button>()[0].Instance.Selected);
+        }
+
+        [Trait("ButtonGroup", "Keyboard")]
+        [Fact(Timeout = 10000, DisplayName = "Space key toggles button in Multiple selection mode")]
+        public void SpaceKey_TogglesButton_MultipleMode()
+        {
+            var defaultBGComponent = RenderComponent<DefaultBG>();
+            var buttonGroupComponents = defaultBGComponent.FindComponents<SfButtonGroup>();
+            // Index 2 = third SfButtonGroup in DefaultBG (Mode=Multiple)
+            var multiGroup = buttonGroupComponents[2];
+            var childButtons = multiGroup.FindComponents<Button>();
+
+            // Initial state: unselected
+            Assert.False(childButtons[0].Instance.Selected);
+
+            // Press Space on the first input to toggle on
+            var firstInput = childButtons[0].Find("input");
+            firstInput.KeyDown(new KeyboardEventArgs { Key = " ", Code = "Space" });
+
+            Assert.True(multiGroup.FindComponents<Button>()[0].Instance.Selected);
+
+            // Press Space again to toggle off
+            firstInput.KeyDown(new KeyboardEventArgs { Key = " ", Code = "Space" });
+
+            Assert.False(multiGroup.FindComponents<Button>()[0].Instance.Selected);
+        }
+
+        [Trait("ButtonGroup", "Keyboard")]
+        [Fact(Timeout = 10000, DisplayName = "Space key does not activate disabled button")]
+        public void SpaceKey_DoesNotActivate_DisabledButton()
+        {
+            var othersBGComponent = RenderComponent<OthersBG>();
+            var buttonGroupComponents = othersBGComponent.FindComponents<SfButtonGroup>();
+            // Index 1 = second group in OthersBG (Single mode; middle button disabled)
+            var targetGroup = buttonGroupComponents[1];
+            var childButtons = targetGroup.FindComponents<Button>();
+
+            // Verify middle button is disabled
+            Assert.True(childButtons[1].Instance.Disabled);
+
+            // Press Space on disabled input
+            var disabledInput = childButtons[1].Find("input");
+            disabledInput.KeyDown(new KeyboardEventArgs { Key = " ", Code = "Space" });
+
+            // Disabled button should remain unselected
+            Assert.False(childButtons[1].Instance.Selected);
         }
     }
 }

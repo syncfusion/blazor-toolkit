@@ -42,4 +42,44 @@ test.describe('ButtonGroup - Selection Modes', () => {
     const checkboxCount = await checkboxButtons.count();
     expect(checkboxCount).toBeGreaterThan(0);
   });
+
+  test('Space key activates focused button in Single selection mode', async ({ page }) => {
+    const singleGroup = page.locator('#bg-single-mode').first();
+    const firstRadio = singleGroup.locator('input[type="radio"]').first();
+
+    // Focus the first radio button
+    await firstRadio.focus();
+
+    // Verify no button is initially selected (second button has Selected="true" initially)
+    // Press Space to select first button
+    await page.keyboard.press('Space');
+
+    // Verify first button is now selected
+    const isChecked = await firstRadio.isChecked();
+    expect(isChecked).toBeTruthy();
+  });
+
+  test('Space key toggles button in Multiple selection mode', async ({ page }) => {
+    const multiGroup = page.locator('#bg-multi-mode').first();
+    const firstCheckbox = multiGroup.locator('input[type="checkbox"]').first();
+
+    // Focus the first checkbox
+    await firstCheckbox.focus();
+
+    // Initial state - checkbox should not be checked
+    let isChecked = await firstCheckbox.isChecked();
+    expect(isChecked).toBeFalsy();
+
+    // Press Space to check - wait for Blazor to process
+    await page.keyboard.press('Space');
+    await page.waitForTimeout(100);
+    isChecked = await firstCheckbox.isChecked();
+    expect(isChecked).toBeTruthy();
+
+    // Press Space again to uncheck - wait for Blazor to process
+    await page.keyboard.press('Space');
+    await page.waitForTimeout(100);
+    isChecked = await firstCheckbox.isChecked();
+    expect(isChecked).toBeFalsy();
+  });
 });

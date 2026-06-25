@@ -1,4 +1,5 @@
 using Microsoft.AspNetCore.Components;
+using Microsoft.AspNetCore.Components.Web;
 using Syncfusion.Blazor.Toolkit.Internal;
 
 namespace Syncfusion.Blazor.Toolkit.Buttons
@@ -61,6 +62,23 @@ namespace Syncfusion.Blazor.Toolkit.Buttons
         #endregion
 
         #region Event Handlers
+
+        /// <exclude />
+        /// <summary>
+        /// Handles keyboard interactions on the input element, specifically Space key activation.
+        /// </summary>
+        /// <remarks>
+        /// Space key activation is necessary because native radio/checkbox inputs respond to Enter,
+        /// not Space. This handler ensures the button activates when Space is pressed while focused.
+        /// </remarks>
+        /// <param name="args">The keyboard event arguments.</param>
+        private async Task HandleInputKeyDownAsync(KeyboardEventArgs args)
+        {
+            if (args.Code == "Space" || args.Key == " ")
+            {
+                await ClickHandlerAsync().ConfigureAwait(false);
+            }
+        }
 
         /// <exclude />
         /// <summary>

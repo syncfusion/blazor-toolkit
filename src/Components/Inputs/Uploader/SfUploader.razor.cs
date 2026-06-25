@@ -101,7 +101,118 @@ namespace Syncfusion.Blazor.Toolkit.Inputs
         /// Event arguments received when the input file element changes.
         /// Contains information about the selected files.
         /// </summary>
-        private InputFileChangeEventArgs? InputFileChangeEvent { get; set; }
+        private InputFileChangeEventArgs? _inputFileChangeEvent;
+
+        /// <summary>
+        /// Caches file data immediately upon selection to prevent stale file references.
+        /// Each entry maps a file name to its cached byte data for reliable access during upload.
+        /// This is the PRIMARY fix for "There is no file with ID" errors.
+        /// </summary>
+        private Dictionary<string, byte[]> _cachedFileData = new();
+
+        /// <summary>
+        /// Gets the current input file change event arguments for file access.
+        /// Ensures the reference is not stale by checking for null and valid file count.
+        /// </summary>
+        private InputFileChangeEventArgs? InputFileChangeEvent
+        {
+            get
+            {
+                if (_inputFileChangeEvent == null)
+                {
+                    return null;
+                }
+
+                try
+                {
+                    return _inputFileChangeEvent.FileCount > 0 ? _inputFileChangeEvent : GetLatestValidInputFileEvent();
+                }
+                catch (ObjectDisposedException)
+                {
+                    return GetLatestValidInputFileEvent();
+                }
+            }
+        }
+
+        /// <summary>
+        /// Gets the most recent valid InputFileChangeEventArgs from the accumulated list.
+        /// This ensures we always have a valid reference to files.
+        /// </summary>
+        private InputFileChangeEventArgs? GetLatestValidInputFileEvent()
+        {
+            if (_inputFiles.Count == 0)
+            {
+                return null;
+            }
+
+            for (int i = _inputFiles.Count - 1; i >= 0; i--)
+            {
+                try
+                {
+                    var eventArgs = _inputFiles[i];
+                    return eventArgs.FileCount > 0 ? eventArgs : null;
+                }
+                catch (ObjectDisposedException)
+                {
+                    // Continue to the next one
+                }
+            }
+
+            return null;
+        }
+
+        /// <summary>
+        /// Gets cached file data for the specified file name.
+        /// This prevents stale file reference errors by accessing pre-buffered data.
+        /// </summary>
+        /// <param name="fileName">The name of the file to retrieve data for.</param>
+        /// <returns>The cached byte array for the file, or null if not found.</returns>
+        private byte[]? GetCachedFileData(string fileName)
+        {
+            return _cachedFileData.TryGetValue(fileName, out var data) ? data : null;
+        }
+
+        /// <summary>
+        /// Caches all files from the given InputFileChangeEventArgs by reading their data into memory.
+        /// This MUST be called immediately after file selection to prevent stale reference errors.
+        /// </summary>
+        /// <param name="args">The file change event arguments containing files to cache.</param>
+        /// <returns>A task representing the asynchronous caching operation.</returns>
+        private async Task CacheFilesAsync(InputFileChangeEventArgs args)
+        {
+            try
+            {
+                var files = args.GetMultipleFiles(args.FileCount);
+                if (files == null || files.Count == 0)
+                {
+                    return;
+                }
+
+                foreach (var file in files)
+                {
+                    if (_cachedFileData.ContainsKey(file.Name) || file.Size == 0 || file.Size >= MaxFileSize)
+                    {
+                        continue;
+                    }
+
+                    try
+                    {
+                        using var stream = file.OpenReadStream(file.Size);
+                        using var memoryStream = new MemoryStream();
+                        await stream.CopyToAsync(memoryStream).ConfigureAwait(true);
+                        _cachedFileData[file.Name] = memoryStream.ToArray();
+                    }
+                    catch
+                    {
+                        // If caching fails for a specific file, continue with others
+                    }
+                }
+            }
+            catch (ObjectDisposedException)
+            {
+                // The args have been disposed, cannot cache
+            }
+        }
 
         private string? FileListClass { get; set; }
 
@@ -357,12 +468,17 @@ namespace Syncfusion.Blazor.Toolkit.Inputs
         /// Handles the change event for the input file element when files are selected.
         /// This method stores the file change event arguments for processing and maintains
         /// a collection of all file inputs for later use in upload operations.
+        /// CRITICAL: Files are cached immediately to prevent stale reference errors.
         /// </summary>
         /// <param name="args">The event arguments containing information about the selected files.</param>
-        private void OnChange(InputFileChangeEventArgs args)
+        private async void OnChange(InputFileChangeEventArgs args)
         {
             _inputFiles.Add(args);
-            InputFileChangeEvent = args;
+            _inputFileChangeEvent = args;
+
+            // CRITICAL FIX: Cache file data immediately to prevent "There is no file with ID" errors
+            // This ensures we have the file data in memory before Blazor can dispose of the references
+            await CacheFilesAsync(args).ConfigureAwait(true);
         }
 
         /// <summary>
@@ -645,33 +761,68 @@ namespace Syncfusion.Blazor.Toolkit.Inputs
         /// <returns>The matching IBrowserFile or null if not found.</returns>
         private IBrowserFile? GetBrowserFileForUpload(FileInfo fileInfo, int index, int emptyFileCount)
         {
-            if (InputFileChangeEvent == null || fileInfo == null)
+            if (fileInfo == null)
             {
                 return null;
             }
 
-            IReadOnlyList<IBrowserFile>? browserFiles = InputFileChangeEvent.GetMultipleFiles(InputFileChangeEvent.FileCount);
-            IBrowserFile? currentFile = browserFiles?.FirstOrDefault(i => SfBaseUtils.Equals(i.Name, fileInfo.Name));
+            // Try to get from current event first
+            IBrowserFile? currentFile = TryGetFileFromCurrentEvent(fileInfo, index, emptyFileCount);
 
-            if (fileInfo.FileSource == "paste")
+            // If not found, search in all accumulated input files
+            if (currentFile == null)
             {
-                string fileName = fileInfo.Name.Split('_')[0];
-                currentFile = browserFiles?.FirstOrDefault(i => SfBaseUtils.Equals(i.Name, fileName + "." + fileInfo.Type));
+                currentFile = FindFileInInputCollection(fileInfo);
             }
-
-            if (DirectoryUpload && browserFiles != null && (index - emptyFileCount >= 0)
-                && (index - emptyFileCount < browserFiles.Count) && browserFiles[index - emptyFileCount] != null)
-            {
-                currentFile = browserFiles[index - emptyFileCount];
-            }
-
-            currentFile ??= FindFileInInputCollection(fileInfo);
 
             return currentFile;
         }
 
         /// <summary>
-        /// Searches for a file in the input files collection.
+        /// Attempts to retrieve a file from the current InputFileChangeEvent.
+        /// </summary>
+        private IBrowserFile? TryGetFileFromCurrentEvent(FileInfo fileInfo, int index, int emptyFileCount)
+        {
+            if (InputFileChangeEvent == null)
+            {
+                return null;
+            }
+
+            try
+            {
+                IReadOnlyList<IBrowserFile>? browserFiles = InputFileChangeEvent.GetMultipleFiles(InputFileChangeEvent.FileCount);
+                if (browserFiles == null || browserFiles.Count == 0)
+                {
+                    return null;
+                }
+
+                IBrowserFile? currentFile = browserFiles.FirstOrDefault(i => SfBaseUtils.Equals(i.Name, fileInfo.Name));
+
+                if (fileInfo.FileSource == "paste")
+                {
+                    string fileName = fileInfo.Name.Split('_')[0];
+                    currentFile = browserFiles.FirstOrDefault(i => SfBaseUtils.Equals(i.Name, fileName + "." + fileInfo.Type));
+                }
+
+                if (DirectoryUpload && (index - emptyFileCount >= 0)
+                    && (index - emptyFileCount < browserFiles.Count) && browserFiles[index - emptyFileCount] != null)
+                {
+                    currentFile = browserFiles[index - emptyFileCount];
+                }
+
+                return currentFile;
+            }
+            catch (ObjectDisposedException)
+            {
+                // The InputFileChangeEvent has been disposed by Blazor
+                // This can happen when the component re-renders during file selection
+                return null;
+            }
+        }
+
+        /// <summary>
+        /// Searches for a file in the accumulated input files collection.
+        /// Validates that each InputFileChangeEventArgs is still valid before accessing.
         /// </summary>
         /// <param name="fileInfo">The file information to search for.</param>
         /// <returns>The matching IBrowserFile or null if not found.</returns>
@@ -682,10 +833,24 @@ namespace Syncfusion.Blazor.Toolkit.Inputs
                 return null;
             }
 
-            foreach (InputFileChangeEventArgs obj in _inputFiles)
+            foreach (InputFileChangeEventArgs inputFileArgs in _inputFiles)
             {
-                IReadOnlyList<IBrowserFile> files = obj.GetMultipleFiles(obj.FileCount);
-                IBrowserFile? currentFile = files?.FirstOrDefault(i =>
+                IReadOnlyList<IBrowserFile>? files = null;
+                try
+                {
+                    files = inputFileArgs.FileCount > 0 ? inputFileArgs.GetMultipleFiles(inputFileArgs.FileCount) : null;
+                }
+                catch (ObjectDisposedException)
+                {
+                    continue;
+                }
+
+                if (files == null || files.Count == 0)
+                {
+                    continue;
+                }
+
+                IBrowserFile? currentFile = files.FirstOrDefault(i =>
                     SfBaseUtils.Equals(i.Name, fileInfo.Name) ||
                     SfBaseUtils.Equals(i.Name, string.Concat(fileInfo.Id.AsSpan(0, fileInfo.Id.LastIndexOf('_')), ".", fileInfo.Type)));
                 if (currentFile != null)
@@ -728,25 +893,60 @@ namespace Syncfusion.Blazor.Toolkit.Inputs
 
         /// <summary>
         /// Processes the file stream in chunks and reports progress.
+        /// Uses cached file data when available to prevent stale IBrowserFile references.
         /// </summary>
         /// <param name="currentFile">The browser file to process.</param>
         /// <param name="index">The current file index.</param>
         /// <returns>A task representing the asynchronous operation.</returns>
         private async Task ProcessFileStreamAsync(IBrowserFile currentFile, int index)
         {
-            using Stream fileStream = currentFile.OpenReadStream(long.MaxValue);
-            byte[] bufferSize = new byte[BufferSize];
-            int totalLength;
             UploadFileDetails uploadingFile = FileData[index];
+            Stream fileStream;
 
-            while ((totalLength = await fileStream.ReadAsync(bufferSize).ConfigureAwait(true)) != 0)
+            // CRITICAL FIX: Use cached file data to prevent "There is no file with ID" errors
+            // When cached data is available, use MemoryStream instead of IBrowserFile.OpenReadStream
+            byte[]? cachedData = GetCachedFileData(uploadingFile.Name);
+            if (cachedData != null)
             {
-                if (!ShouldContinueUpload(uploadingFile))
+                fileStream = new MemoryStream(cachedData);
+            }
+            else
+            {
+                // Fallback to IBrowserFile stream if cache miss
+                try
                 {
-                    break;
+                    fileStream = currentFile.OpenReadStream(long.MaxValue);
                 }
+                catch (ObjectDisposedException)
+                {
+                    // Try to get from cache again as last resort
+                    cachedData = GetCachedFileData(uploadingFile.Name);
+                    if (cachedData != null)
+                    {
+                        fileStream = new MemoryStream(cachedData);
+                    }
+                    else
+                    {
+                        // Cannot recover, throw to handled at higher level
+                        throw;
+                    }
+                }
+            }
 
-                await UpdateUploadProgressAsync(fileStream, index).ConfigureAwait(true);
+            using (fileStream)
+            {
+                byte[] bufferSize = new byte[BufferSize];
+                int totalLength;
+
+                while ((totalLength = await fileStream.ReadAsync(bufferSize).ConfigureAwait(true)) != 0)
+                {
+                    if (!ShouldContinueUpload(uploadingFile))
+                    {
+                        break;
+                    }
+
+                    await UpdateUploadProgressAsync(fileStream, index).ConfigureAwait(true);
+                }
             }
         }
 
@@ -1591,6 +1791,18 @@ namespace Syncfusion.Blazor.Toolkit.Inputs
             FileData = [];
             UploadedFileData = [];
             UploadedFilesInfo = [];
+            ClearInputFileReferences();
+        }
+
+        /// <summary>
+        /// Clears accumulated input file references to prevent stale file reference errors.
+        /// This should be called when the upload session ends or component resets.
+        /// </summary>
+        private void ClearInputFileReferences()
+        {
+            _inputFiles.Clear();
+            _inputFileChangeEvent = null;
+            _cachedFileData.Clear();
         }
 
         /// <summary>

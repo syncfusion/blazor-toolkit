@@ -442,29 +442,41 @@
 
 <style>
     :root {
+        /* Core Colors */
         --bg-color: #ffffff;
-        --text-color: #111827;
+        --text-color: #1f2937;
+        --text-color-secondary: #6b7280;
         --top-bg: #ffffff;
-        --top-text: #111827;
+        --top-text: #1f2937;
         --sidebar-bg: #ffffff;
-        --panel-bg: #f7f7fa;
+        --panel-bg: #f9fafb;
         --scroll-bg: #ffffff;
         --accent: #6750a4;
         --accent-foreground: #ffffff;
         --li-hover: #f1f5f9;
         --topsidebar-color: rgba(245,245,245,1);
+        
+        /* Typography Scale */
+        --font-family: "Inter", "Segoe UI", Roboto, system-ui, -apple-system, sans-serif;
+        --font-right-sidebar: 13px;
+        --font-left-sidebar: 14px;
+        --font-page-title: 26px;
+        --font-section-header: 18px;
+        --font-body: 15px;
+        --font-line-height: 1.6;
     }
     .dark {
         --bg-color: #0b1020;
         --text-color: #e5e7eb;
+        --text-color-secondary: #9ca3af;
         --top-bg: #071028;
         --top-text: #e5e7eb;
         --sidebar-bg: #071028;
-        --panel-bg: #071028;
+        --panel-bg: #0f172a;
         --scroll-bg: #071028;
-        --accent: #8b5cf6;
+        --accent: #a78bfa;
         --accent-foreground: #001223;
-        --li-hover: #082037;
+        --li-hover: #1e293b;
         --topsidebar-color: rgba(21,21,33,1);
     }
 
@@ -553,16 +565,50 @@
     .mobile-sidebar.rtl.open {
         transform: translateX(0);
     }
-    .right-panel,
-    .right-toc {
-        background-color: var(--panel-bg);
-        color: var(--text-color);
-    }
 
     /* Navigation links */
     .sidebar .nav-link,
     .sidebar .menu-summary {
         color: var(--text-color);
+    }
+
+    .content-row {
+        display: flex;
+        min-height: calc(100vh - 64px);
+    }
+
+    .sidebar {
+        min-width: 280px;
+        flex-shrink: 0;
+        border-inline-end: 1px solid rgba(0, 0, 0, 0.06);
+    }
+
+    .main-area {
+        flex: 1;
+        max-width: calc(100% - 600px);
+        padding: 32px 48px;
+        background-color: var(--bg-color);
+    }
+
+    .page-content {
+        margin: 0 auto;
+    }
+
+    .right-panel {
+        width: 240px;
+        min-width: 240px;
+        flex-shrink: 0;
+        padding: 24px 16px;
+        background-color: var(--panel-bg);
+        border-inline-start: 1px solid rgba(0, 0, 0, 0.04);
+    }
+
+    /* Right panel - Secondary Navigation (visually lighter) */
+    .right-panel,
+    .right-toc {
+        background-color: var(--panel-bg);
+        color: var(--text-color-secondary);
+        font-size: var(--font-right-sidebar);
     }
 
     /* Accent for hover states */
