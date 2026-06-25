@@ -196,5 +196,33 @@ namespace Syncfusion.Blazor.Toolkit.Tests.Calendars.TimePicker
 
             Assert.Null(timeInstance.Instance.Value);
         }
+
+        [Fact(Timeout = 10000)]
+        public void StrictMode_With_MinMax_Allows_Smooth_Editing()
+        {
+            var today = DateTime.Now;
+            var minTime = new DateTime(today.Year, today.Month, today.Day, 08, 00, 00);
+            var maxTime = new DateTime(today.Year, today.Month, today.Day, 16, 00, 00);
+            var initialValue = new DateTime(today.Year, today.Month, today.Day, 08, 00, 00);
+            var timeInstance = RenderComponent<SfTimePicker<DateTime?>>(parameters => parameters
+                .Add(p => p.StrictMode, true)
+                .Add(p => p.Min, minTime)
+                .Add(p => p.Max, maxTime)
+                .Add(p => p.Value, initialValue)
+                .Add(p => p.Format, "h:mm tt")
+            );
+            Assert.True(timeInstance.Instance.StrictMode);
+            Assert.Equal(minTime, timeInstance.Instance.Min);
+            Assert.Equal(maxTime, timeInstance.Instance.Max);
+            Assert.Equal(initialValue, timeInstance.Instance.Value);
+            var input = timeInstance.Find("input");
+            input.Input("11:30 AM");
+            input.Blur();
+            Assert.NotNull(timeInstance.Instance.Value);
+            var expectedValue = new DateTime(today.Year, today.Month, today.Day, 11, 30, 00);
+            Assert.Equal(expectedValue, timeInstance.Instance.Value);
+            Assert.True(timeInstance.Instance.Value >= minTime);
+            Assert.True(timeInstance.Instance.Value <= maxTime);
+        }
     }
 }

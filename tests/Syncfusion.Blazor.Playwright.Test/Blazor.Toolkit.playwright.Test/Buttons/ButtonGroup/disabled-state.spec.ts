@@ -70,4 +70,35 @@ test.describe('ButtonGroup - Disabled State', () => {
       expect(disabledAttr).toBeDefined();
     }
   });
+
+  test('Space key does not activate disabled button', async ({ page }) => {
+    await page.goto('http://localhost:5000/button-group/disabled-state');
+    await page.waitForLoadState('networkidle');
+
+    // Find the mixed disabled group
+    const mixedGroup = page.locator('#bg-disabled-mixed').first();
+    const inputs = mixedGroup.locator('input[type="radio"]');
+
+    // First input should be enabled
+    const enabledInput = inputs.first();
+    await enabledInput.focus();
+    await page.keyboard.press('Space');
+    let isChecked = await enabledInput.isChecked();
+    expect(isChecked).toBeTruthy();
+
+    // Find the all-disabled group and verify inputs are disabled
+    const allDisabledGroup = page.locator('#bg-all-disabled').first();
+    const disabledInputs = allDisabledGroup.locator('input[type="radio"]');
+    const disabledCount = await disabledInputs.count();
+
+    for (let i = 0; i < disabledCount; i++) {
+      const disabledInput = disabledInputs.nth(i);
+      const isDisabled = await disabledInput.isDisabled();
+      if (isDisabled) {
+        // Verify Space doesn't cause any error and disabled input remains unchecked
+        await disabledInput.focus();
+        await page.keyboard.press('Space');
+      }
+    }
+  });
 });

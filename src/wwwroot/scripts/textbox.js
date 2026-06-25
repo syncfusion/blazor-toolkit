@@ -11,19 +11,19 @@ function SfTextBox(element, dotnetRef, containerElement) {
     this.dotNetRef = dotnetRef;
 }
 SfTextBox.prototype.calculateWidth = function () {
-    var labels = document.getElementsByClassName('e-float-text');
-    if (labels !== null) {
-        for (var labelIndex = 0; labelIndex < labels.length; labelIndex++) {
-            if (this.container.classList.contains('e-outline') && this.container.classList.contains('e-prepend') &&
-                labels[labelIndex].classList.contains('e-label-top')) {
-                var left = this.container.clientWidth - this.element.clientWidth;
-                labels[labelIndex].style.left = -left.toString() + 'px';
-                labels[labelIndex].style.width = 'auto';
-            }
-            else {
-                labels[labelIndex].style.left = '0px';
-            }
-        }
+    var label = this.container.querySelector('.e-float-text');
+    if (!label) {
+        return;
+    }
+    
+    if (this.container.classList.contains('e-outline') && this.container.classList.contains('e-prepend') &&
+        label.classList.contains('e-label-top')) {
+        var left = this.container.clientWidth - this.element.clientWidth;
+        label.style.left = -left.toString() + 'px';
+        label.style.width = 'auto';
+    }
+    else {
+        label.style.left = '0px';
     }
 };
 return SfTextBox;

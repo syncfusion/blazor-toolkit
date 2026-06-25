@@ -116,54 +116,104 @@
 }
 
 <style>
-    .toc-loading,
-    .toc-empty{
-        padding-left: 16px;
+    
+    .right-toc {
+        font-family: var(--font-family);
+        font-size: var(--font-right-sidebar);
+        color: var(--text-color-secondary);
+        padding-top: 8px;
+        position: sticky;
     }
+
+    .toc-inner {
+        padding: 0;
+    }
+
+    .toc-heading {
+        /* Small caps / uppercase styling */
+        text-transform: uppercase;
+        font-size: 12px;
+        font-weight: 600;
+        letter-spacing: 0.8px;
+        line-height: 1.5;
+        padding: 0 0 12px 0;
+        color: var(--text-color-secondary);
+        margin-bottom: 8px;
+    }
+
+    .toc-list {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+    }
+
     .toc-item {
         list-style: none;
-        border-left: 3px solid transparent;
+        border-left: 2px solid transparent;
+        transition: border-color .2s ease;
     }
+    
     html:not(.page-rtl) .toc-item:hover {
-        border-left: 3px solid var(--accent);
+        border-left-color: var(--accent);
     }
+    
     .page-rtl .toc-item:hover {
-        border-right: 3px solid var(--accent);
+        border-right: 2px solid var(--accent);
     }
-    .toc-item.level-5 {
+
+    .toc-item.level-2,
+    .toc-item.level-3 {
         padding-left: 0;
     }
+    
+    .toc-item.level-4 {
+        padding-left: 0.5rem;
+    }
+    
+    .toc-item.level-5,
     .toc-item.level-6 {
-        padding-left: .5rem;
+        padding-left: 1rem;
     }
-    .toc-item.visible { border-left-color: var(--accent); }
-    .page-rtl .toc-item.visible { border-right: 3px solid var(--accent); border-left-color: transparent; }
-    .toc-list {
-        padding-left: 0;
+
+    .toc-item.visible { 
+        border-left-color: var(--accent); 
     }
+    
+    .page-rtl .toc-item.visible { 
+        border-right: 2px solid var(--accent); 
+        border-left-color: transparent; 
+    }
+
     a.toc-link {
-        color: var(--text-color);
+        /* Smaller, lighter font for secondary navigation */
+        color: var(--text-color-secondary);
         white-space: normal;
         word-break: break-word;
-        letter-spacing: .24px;
-        padding: 6px 15px;
-        font-size: .8125rem;
+        letter-spacing: 0.2px;
+        padding: 5px 12px;
+        font-size: 14px;
         font-weight: 400;
-        line-height: 20px;
+        line-height: 18px;
         text-decoration: none;
-        transition: color .2s;
+        transition: color .2s ease;
         display: block;
+        border-radius: 4px;
     }
-    .right-toc {
-        font-family: Segoe UI,Segoe UI Variable Text,-apple-system,BlinkMacSystemFont,Helvetica Neue,Helvetica,Arial,sans-serif;
-        padding-top: 5px;
-    }
-    .toc-heading {
-        text-transform: uppercase;
-        font-size: .6875rem;
-        font-weight: 700;
-        line-height: 1.5;
-        padding-left: 15px;
+
+    a.toc-link:hover {
         color: var(--text-color);
+        text-decoration: none;
+    }
+
+    .toc-item.visible a.toc-link {
+        color: var(--accent);
+        font-weight: 500;
+    }
+
+    .toc-loading,
+    .toc-empty {
+        padding-left: 12px;
+        font-size: 12px;
+        color: var(--text-color-secondary);
     }
 </style>

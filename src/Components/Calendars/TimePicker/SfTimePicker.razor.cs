@@ -2239,7 +2239,7 @@ namespace Syncfusion.Blazor.Toolkit.Calendars
                 bool isTryParse = false;
                 if (IsTryParse(inputValue!, format!))
                 {
-                    if (StrictMode)
+                    if (StrictMode && !(IsFocused && ValidateOnInput))
                     {
                         MinMaxUpdates(Value!);
                     }
@@ -2252,7 +2252,7 @@ namespace Syncfusion.Blazor.Toolkit.Calendars
                     {
                         if (IsTryParse(inputValue!, inputFormat))
                         {
-                            if (StrictMode)
+                            if (StrictMode && !(IsFocused && ValidateOnInput))
                             {
                                 MinMaxUpdates(Value!);
                             }
@@ -2313,6 +2313,7 @@ namespace Syncfusion.Blazor.Toolkit.Calendars
         /// <remarks>
         /// This override processes input field changes, updates the current value string when masking is disabled,
         /// and marks the input as potentially invalid for validation purposes.
+        /// In StrictMode, CurrentValueAsString is deferred during focused editing to preserve cursor position.
         /// </remarks>
         /// <exclude/>
         protected override async Task InputHandlerAsync(ChangeEventArgs? args)
@@ -2324,7 +2325,12 @@ namespace Syncfusion.Blazor.Toolkit.Calendars
             }
             if (!EnableMask)
             {
-                CurrentValueAsString = args is not null && args.Value is not null ? (string)args.Value : null;
+                // In StrictMode while focused, defer CurrentValueAsString update to preserve cursor position
+                // The value will be updated on blur through FocusOutHandlerAsync and StrictModeUpdateAsync
+                if (!(StrictMode && IsFocused && !ValidateOnInput))
+                {
+                    CurrentValueAsString = args is not null && args.Value is not null ? (string)args.Value : null;
+                }
                 await Task.CompletedTask.ConfigureAwait(false);
             }
         }
@@ -2420,6 +2426,12 @@ namespace Syncfusion.Blazor.Toolkit.Calendars
             if ((StrictMode && Value is null && (FloatLabelType != FloatLabelType.Always) && !string.IsNullOrEmpty(Placeholder) && EnableMask) || (!EnableMask && Value is null && StrictMode))
             {
                 await UpdateInputValueAsync(null).ConfigureAwait(false);
+            }
+
+            // In StrictMode without mask, update CurrentValueAsString on blur to reflect validated value
+            if (StrictMode && !EnableMask && CurrentInputValue is not null)
+            {
+                CurrentValueAsString = CurrentInputValue;
             }
 
             await UpdateInputAsync(true).ConfigureAwait(false);

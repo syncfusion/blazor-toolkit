@@ -5,7 +5,7 @@ This page contains the steps to build and run the Syncfusion Toolkit for Blazor 
 ## Initial setup
    ### Windows
    - Install Visual Studio 2022 (v17.10 or newer) with ASP.NET and web development workload.
-   - Install [.NET 8 SDK](https://dotnet.microsoft.com/download/dotnet/8.0) or latest version .NET SDK.
+   - Install [.NET 8 SDK](https://dotnet.microsoft.com/download/dotnet/8.0).
    - Clone the repository:
      ```shell
      git clone https://github.com/syncfusion/blazor-toolkit.git

@@ -81,7 +81,19 @@ var SfTimePicker = /** @class */ (function () {
          * @returns {void}
          */
         SfTimePicker.prototype.initialize = function () {
-            sfBlazorToolkit.base.EventHandler.add(this.containerElement, 'keydown', this.inputHandler, this);
+            this.keyConfigure = {
+                enter: 'enter', escape: 'escape', end: 'end', tab: 'tab', home: 'home',
+                down: 'downarrow', up: 'uparrow', left: 'leftarrow', right: 'rightarrow',
+                open: 'alt+downarrow', close: 'alt+uparrow'
+            };
+            if (!sfBlazorToolkit.base.Browser.isDevice) {
+                this.keyConfigure = sfBlazorToolkit.base.extend(this.keyConfigure, this.options.keyConfigs);
+                new sfBlazorToolkit.base.KeyboardEvents(this.containerElement, {
+                    keyAction: this.inputHandler.bind(this),
+                    keyConfigs: this.keyConfigure,
+                    eventName: 'keydown'
+                });
+            }
             sfBlazorToolkit.base.EventHandler.add(window, 'resize', this.updateFloatLabelSize, this);
             this.updateFloatLabelSize();
         };

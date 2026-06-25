@@ -1,87 +1,121 @@
-﻿body {
-}
-/* ============================================================
-   GLOBAL FONT STACK AND TYPOGRAPHY STANDARDS
+﻿/* ============================================================
+   GLOBAL TYPOGRAPHY SYSTEM - MODERN DOCUMENTATION UI
    ============================================================
-   This file defines the unified font family and typography
-   standards across all pages in the Blazor Toolkit Samples.
-   Reference standard: Explore.razor
+   A unified typography system designed for:
+   - Clean visual hierarchy (Left → Center → Right)
+   - Maximum readability in main content
+   - WCAG 2.1 AA accessibility compliance
+   - Consistent spacing and rhythm
    ============================================================ */
 
+/* Font Family - Inter with system fallbacks */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+
 :root {
-    /* Font Family Stack - Inter as primary, with system fallbacks */
-    --font-family: "Inter", system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
-    /* Font Sizes - Standardized across all pages */
-    --font-small: 13px; /* Sidebar/meta text, small labels */
-    --font-base: 15px; /* Body text, tile labels, general content */
-    --font-subheading: 16px; /* Section subheadings (h5) */
-    --font-heading: 20px; /* Main page headings (h4) */
+    /* Font Family Stack */
+    --font-family: "Inter", "Segoe UI", Roboto, system-ui, -apple-system, BlinkMacSystemFont, "Helvetica Neue", Arial, sans-serif;
+    
+    /* Typography Scale - 4.5:1+ contrast ratios */
+    --font-size-xs: 12px;     /* Right sidebar (secondary) */
+    --font-size-sm: 13px;     /* Small labels, meta */
+    --font-size-base: 15px;   /* Body text, main content */
+    --font-size-md: 16px;     /* Subheadings (h5, h6) */
+    --font-size-lg: 18px;     /* Section headers (h4) */
+    --font-size-xl: 20px;     /* Page subheadings (h3) */
+    --font-size-2xl: 22px;   /* Page headings (h2) */
+    --font-size-3xl: 26px;   /* Page title (h1) */
+    
+    /* Font Weights */
+    --font-weight-normal: 400;
+    --font-weight-medium: 500;
+    --font-weight-semibold: 600;
+    --font-weight-bold: 700;
+    
     /* Line Heights - for consistent vertical rhythm */
-    --line-height-tight: 1.4;
+    --line-height-tight: 1.35;
     --line-height-normal: 1.6;
-    --line-height-relaxed: 1.8;
+    --line-height-relaxed: 1.7;
+    
     /* Letter Spacing */
+    --letter-spacing-tight: -0.01em;
     --letter-spacing-normal: 0;
-    --letter-spacing-wide: 0.5px;
+    --letter-spacing-wide: 0.02em;
+    --letter-spacing-wider: 0.05em;
 }
 
 /* ============================================================
-   BODY AND BASE ELEMENTS
+   BASE TYPOGRAPHY
    ============================================================ */
 
 body, html {
     font-family: var(--font-family);
-    font-size: var(--font-base);
+    font-size: var(--font-size-base);
     line-height: var(--line-height-normal);
+    font-weight: var(--font-weight-normal);
     letter-spacing: var(--letter-spacing-normal);
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
 }
 
 /* ============================================================
-   HEADING HIERARCHY
+   HEADING HIERARCHY - Clear Visual Priority
    ============================================================ */
 
-h1 {
-    font-size: calc(var(--font-heading) + 4px); /* 24px */
-    font-weight: 700;
+h1, .h1 {
+    font-size: var(--font-size-3xl);
+    font-weight: var(--font-weight-semibold);
     line-height: var(--line-height-tight);
-    margin-bottom: 0.5rem;
+    letter-spacing: var(--letter-spacing-tight);
+    color: var(--text-color);
+    margin-bottom: 1rem;
+    margin-top: 0;
 }
 
-h2 {
-    font-size: calc(var(--font-heading) + 2px); /* 22px */
-    font-weight: 700;
+h2, .h2 {
+    font-size: var(--font-size-2xl);
+    font-weight: var(--font-weight-semibold);
     line-height: var(--line-height-tight);
-    margin-bottom: 0.5rem;
+    letter-spacing: var(--letter-spacing-tight);
+    color: var(--text-color);
+    margin-bottom: 0.75rem;
+    margin-top: 2rem;
 }
 
-h3 {
-    font-size: calc(var(--font-heading) + 1px); /* 21px */
-    font-weight: 600;
+h3, .h3 {
+    font-size: var(--font-size-xl);
+    font-weight: var(--font-weight-semibold);
     line-height: var(--line-height-tight);
-    margin-bottom: 0.5rem;
+    color: var(--text-color);
+    margin-bottom: 0.6rem;
+    margin-top: 1.5rem;
 }
 
-h4 {
-    font-size: var(--font-heading); /* 20px */
-    font-weight: 600;
+h4, .h4 {
+    font-size: var(--font-size-lg);
+    font-weight: var(--font-weight-semibold);
     line-height: var(--line-height-tight);
+    color: var(--text-color);
     margin-bottom: 0.5rem;
+    margin-top: 1.25rem;
 }
 
-h5 {
-    font-size: var(--font-subheading); /* 16px */
-    font-weight: 600;
+h5, .h5 {
+    font-size: var(--font-size-md);
+    font-weight: var(--font-weight-semibold);
     line-height: var(--line-height-normal);
+    color: var(--text-color);
     margin-bottom: 0.5rem;
+    margin-top: 1rem;
 }
 
-h6 {
-    font-size: var(--font-base); /* 15px */
-    font-weight: 600;
+h6, .h6 {
+    font-size: var(--font-size-base);
+    font-weight: var(--font-weight-semibold);
     line-height: var(--line-height-normal);
+    color: var(--text-color);
     margin-bottom: 0.5rem;
+    margin-top: 1rem;
 }
 
 /* ============================================================
@@ -89,126 +123,143 @@ h6 {
    ============================================================ */
 
 p {
-    font-size: var(--font-base);
-    line-height: var(--line-height-normal);
+    font-size: var(--font-size-base);
+    line-height: var(--line-height-relaxed);
     margin-bottom: 1rem;
+    color: var(--text-color);
 }
 
-    p.small {
-        font-size: var(--font-small);
-        line-height: var(--line-height-normal);
-    }
+/* Better paragraph spacing for documentation */
+p + p {
+    margin-top: 0;
+}
 
 .text-muted {
-    font-size: var(--font-small);
-    opacity: 0.7;
+    font-size: var(--font-size-sm);
+    color: var(--text-color-secondary);
+}
+
+.text-secondary {
+    color: var(--text-color-secondary);
+}
+
+/* ============================================================
+   LINKS - Accessible and Visible
+   ============================================================ */
+
+a {
+    color: #6750a4;
+    text-decoration: none;
+    transition: color .2s ease, text-decoration .2s ease;
+}
+
+a:hover {
+    color: #5a4190;
+}
+
+a:focus-visible {
+    outline: 2px solid var(--accent);
+    outline-offset: 2px;
+    border-radius: 2px;
 }
 
 /* ============================================================
    CODE AND MONOSPACE
    ============================================================ */
 
-code, pre {
-    font-family: "Fira Code", "Courier New", monospace;
+code {
+    font-family: "Fira Code", "Cascadia Code", "JetBrains Mono", Consolas, monospace;
     font-size: 14px;
     line-height: var(--line-height-relaxed);
-}
-
-code {
     padding: 2px 6px;
     border-radius: 4px;
     background-color: rgba(0, 0, 0, 0.05);
+    color: #c7254e;
 }
 
 pre {
+    font-family: "Fira Code", "Cascadia Code", "JetBrains Mono", Consolas, monospace;
+    font-size: 14px;
+    line-height: var(--line-height-relaxed);
     padding: 1rem;
     border-radius: 6px;
     overflow-x: auto;
+    background-color: rgba(0, 0, 0, 0.05);
+    margin: 1rem 0;
+}
+
+pre code {
+    padding: 0;
+    background: transparent;
+    color: inherit;
 }
 
 .dark code {
-    background-color: rgba(255, 255, 255, 0.08);
+    background-color: rgba(255, 255, 255, 0.1);
+    color: #f97583;
+}
+
+.dark pre {
+    background-color: rgba(255, 255, 255, 0.05);
 }
 
 /* ============================================================
-   UTILITY CLASSES FOR CONSISTENT TEXT STYLING
+   LISTS - Improved Spacing for Documentation
    ============================================================ */
 
-.font-base {
-    font-size: var(--font-base);
+ul, ol {
+    padding-left: 1.5rem;
+    margin-bottom: 1rem;
 }
 
-.font-small {
-    font-size: var(--font-small);
-}
-
-.font-heading {
-    font-size: var(--font-heading);
-}
-
-.font-subheading {
-    font-size: var(--font-subheading);
-}
-
-.font-weight-normal {
-    font-weight: 400;
-}
-
-.font-weight-medium {
-    font-weight: 500;
-}
-
-.font-weight-semibold {
-    font-weight: 600;
-}
-
-.font-weight-bold {
-    font-weight: 700;
-}
-
-.line-height-tight {
-    line-height: var(--line-height-tight);
-}
-
-.line-height-normal {
-    line-height: var(--line-height-normal);
-}
-
-.line-height-relaxed {
+li {
+    margin-bottom: 0.5rem;
     line-height: var(--line-height-relaxed);
 }
 
-/* ============================================================
-   DARK MODE ADJUSTMENTS
-   ============================================================ */
-
-.dark {
-    /* Dark mode color adjustments inherit from main theme */
-    /* Font stack remains the same */
+li:last-child {
+    margin-bottom: 0;
 }
 
 /* ============================================================
-   RESPONSIVE TYPOGRAPHY (Optional)
+   UTILITY CLASSES
+   ============================================================ */
+
+.font-xs { font-size: var(--font-size-xs); }
+.font-sm { font-size: var(--font-size-sm); }
+.font-base { font-size: var(--font-size-base); }
+.font-md { font-size: var(--font-size-md); }
+.font-lg { font-size: var(--font-size-lg); }
+.font-xl { font-size: var(--font-size-xl); }
+.font-2xl { font-size: var(--font-size-2xl); }
+.font-3xl { font-size: var(--font-size-3xl); }
+
+.font-normal { font-weight: var(--font-weight-normal); }
+.font-medium { font-weight: var(--font-weight-medium); }
+.font-semibold { font-weight: var(--font-weight-semibold); }
+.font-bold { font-weight: var(--font-weight-bold); }
+
+.line-height-tight { line-height: var(--line-height-tight); }
+.line-height-normal { line-height: var(--line-height-normal); }
+.line-height-relaxed { line-height: var(--line-height-relaxed); }
+
+/* ============================================================
+   RESPONSIVE TYPOGRAPHY
    ============================================================ */
 
 @media (max-width: 768px) {
-    h1 {
-        font-size: calc(var(--font-heading) + 2px);
+    :root {
+        --font-size-3xl: 22px;
+        --font-size-2xl: 20px;
+        --font-size-xl: 18px;
+        --font-size-lg: 16px;
     }
-
-    h2 {
-        font-size: var(--font-heading);
+    
+    body {
+        font-size: var(--font-size-sm);
     }
-
-    h3 {
-        font-size: var(--font-subheading);
-    }
-
-    h4 {
-        font-size: var(--font-subheading);
-    }
-
-    h5 {
-        font-size: var(--font-base);
+    
+    .main-area {
+        padding: 20px 16px !important;
     }
 }
