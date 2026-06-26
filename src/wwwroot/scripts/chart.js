@@ -4004,7 +4004,7 @@ export function getData(chart) {
                         mouseY = series.y_Axis.isAxisInverse ? mouseY - markerHeight : mouseY + markerHeight;
                     }
                 }
-                if (series.visible && !sfBlazorToolkit.base.isNullOrUndefined(series.clipRect) && svgbase.withInAreaBounds(mouseX, mouseY, new svgbase.Rect(series.clipRect.x - (!series.chartIsTransposed ? series.x_Axis.plotOffset / 2 : 0), series.clipRect.y - (series.chartIsTransposed ? series.x_Axis.plotOffset / 2 : 0), series.clipRect.w, series.clipRect.h), width, height)) {
+                if (series.visible && (!chart.isChartKeyDown || series.index === chart.currentSeriesIndex) && !sfBlazorToolkit.base.isNullOrUndefined(series.clipRect) && svgbase.withInAreaBounds(mouseX, mouseY, new svgbase.Rect(series.clipRect.x - (!series.chartIsTransposed ? series.x_Axis.plotOffset / 2 : 0), series.clipRect.y - (series.chartIsTransposed ? series.x_Axis.plotOffset / 2 : 0), series.clipRect.w, series.clipRect.h), width, height)) {
                     point = getRectPoint(series, series.clipRect, mouseX, mouseY, chart);
                 }
                 if (point) {
