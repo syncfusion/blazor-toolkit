@@ -99,6 +99,21 @@ details[open] > .menu-summary::before {
     content: "";
 }
 
+.dark .sidebar,
+[data-theme="dark"] .sidebar {
+    --text-color: #e6eef8;
+    --sidebar-list-text: #f1f5f9;
+    --li-hover: rgba(167, 139, 250, 0.12);
+    --accent: #a78bfa;
+    --accent-foreground: #ffffff;
+    --selected-bg: rgba(167, 139, 250, 0.15);
+    --selected-fg: #f1f5f9;
+    --selected-border: #a78bfa;
+    --sidebar-border: rgba(255, 255, 255, 0.1);
+    --sidebar-surface: rgba(10, 14, 24, 0.9);
+    --sidebar-caret: #94a3b8;
+}
+
 /* Dropdown content container */
 .menu-group > ul {
     margin: 0;
