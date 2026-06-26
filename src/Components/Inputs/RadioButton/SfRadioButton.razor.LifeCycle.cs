@@ -1,3 +1,5 @@
+using Syncfusion.Blazor.Toolkit.Internal;
+
 namespace Syncfusion.Blazor.Toolkit.Inputs
 {
     public partial class SfRadioButton<TChecked>
@@ -15,6 +17,8 @@ namespace Syncfusion.Blazor.Toolkit.Inputs
             {
                 _idValue = "radiobutton-" + Guid.NewGuid().ToString();
             }
+            // Initialize tracking field early to prevent spurious save after _isFirstLoad becomes true
+            _initialCheckedValueForPersistence = Checked;
         }
 
         /// <summary>
@@ -24,11 +28,13 @@ namespace Syncfusion.Blazor.Toolkit.Inputs
         protected override async Task OnParametersSetAsync()
         {
             await base.OnParametersSetAsync().ConfigureAwait(true);
-            if (EnablePersistence && Checked is not null && _isFirstLoad)
+            // Only update localStorage if the value has actually changed to avoid redundant writes
+            if (EnablePersistence && Checked is not null && _isFirstLoad && _initialCheckedValueForPersistence is not null && !SfBaseUtils.Equals(Checked, _initialCheckedValueForPersistence))
             {
                 if (_baseJsModule is not null && _baseJsInProcessModule is not null)
                 {
                     await InvokeVoidAsync(_baseJsModule, _baseJsInProcessModule, "setLocalStorageItem", [_idValue, Checked!]).ConfigureAwait(true);
+                    _initialCheckedValueForPersistence = Checked;
                 }
             }
         }

@@ -46,14 +46,7 @@ namespace Syncfusion.Blazor.Toolkit.Inputs
                     await ValueChange.InvokeAsync(new ChangeArgs<TChecked> { Value = Checked, Event = args }).ConfigureAwait(true);
                 }
             }
-            catch (InvalidOperationException ex)
-            {
-                if (Logger != null)
-                {
-                    _logHandleClickError(Logger, ex.Message, ex);
-                }
-            }
-            catch (OperationCanceledException ex)
+            catch (Exception ex)
             {
                 if (Logger != null)
                 {
@@ -71,7 +64,8 @@ namespace Syncfusion.Blazor.Toolkit.Inputs
         /// <returns>The parsed value as <typeparamref name="TChecked"/>.</returns>
         private static TChecked TryParseValueFromString(string value)
         {
-            TChecked parsedValue = (typeof(TChecked) is { Name: "Boolean" } or { Name: "Nullable`1" })
+            bool isBoolType = typeof(TChecked) == typeof(bool) || Nullable.GetUnderlyingType(typeof(TChecked)) == typeof(bool);
+            TChecked parsedValue = isBoolType
                 ? (TChecked)(object)Convert.ToBoolean(value, CultureInfo.InvariantCulture)
                 : (BindConverter.TryConvertTo(value, CultureInfo.CurrentCulture, out TChecked? result) ? result : default)!;
 

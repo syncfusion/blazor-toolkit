@@ -57,6 +57,9 @@ namespace Syncfusion.Blazor.Toolkit.Inputs
 
         /// <summary>Tracks whether this is the first load to handle persistence restoration.</summary>
         private bool _isFirstLoad;
+
+        /// <summary>Tracks the initial checked value for persistence to detect changes and avoid unnecessary localStorage updates.</summary>
+        private TChecked? _initialCheckedValueForPersistence;
         #endregion
 
         #region Injected Services
