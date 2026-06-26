@@ -12,7 +12,7 @@
     value="@Value"
     checked="@_isChecked"
     disabled="@Disabled"
-    @onclick="HandleClickAsync"
+    @onclick="@(Disabled ? null : HandleClickAsync)"
     @attributes="@_inputAttributes" />
     <label for="@_idValue" class="@_labelClass">
         <span class="@LabelClass">@Label</span>
