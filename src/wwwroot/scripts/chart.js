@@ -1140,7 +1140,8 @@ const SfChart = (function () {
                     let currentPoint = e.target;
                     targetElement.removeAttribute('tabindex');
                     targetElement.blur();
-                    if (e.code === 'ArrowRight' || e.code === 'ArrowLeft') {
+                    const seriesCollection = document.getElementById(this.element.id + 'SeriesCollection').querySelectorAll('[id*="SeriesGroup"]');
+                    if ((e.code === 'ArrowRight' || e.code === 'ArrowLeft') && seriesCollection.length > 1) {
                         const seriesIndexes = [];
                         for (let i = 0; i < groupElement.children.length; i++) {
                             if (groupElement.children[parseInt(i.toString(), 10)].id.indexOf('SeriesGroup') > -1) {
@@ -1183,7 +1184,7 @@ const SfChart = (function () {
                         }
                     }
                     else {
-                        this.currentPointIndex += e.code === 'ArrowUp' ? 1 : -1;
+                        this.currentPointIndex += e.code === 'ArrowUp' ? 1 : (e.code === 'ArrowDown' ? -1 : 0);
                         pointIndex = parseInt(targetId.split('_Series_')[1].replace('_Symbol', '').split('_Point_')[1], 10);
                         currentSeries = getCurrentSeries(this, targetId, this.currentSeriesIndex);
                         groupElement = getElement(this.element.id + (targetId.indexOf('_TrendLine_') > -1 ? 'TrendLineSeriesGroup' : 'SeriesGroup') + this.currentSeriesIndex);
@@ -1273,7 +1274,7 @@ const SfChart = (function () {
                             removeElement(this.element.id + '_Series_' + parseInt(this.seriesPathElement.id.split('_Series_')[1].split('_PointIndex_')[0], 10) + '_Point_' + parseInt(this.seriesPathElement.id.split('_Series_')[1].replace('_Symbol', '').split('_PointIndex_')[1], 10) + '_Trackball_1');
                             this.seriesPathElement = null;
                         }
-                        if (currentSeries.points[parseInt(pointIndex.toString(), 10)]) {
+                        if (currentSeries.points[parseInt(pointIndex.toString(), 10)] && (e.code == 'ArrowUp' || e.code == 'ArrowDown') ) {
                             this.seriesPathElement = this.userInteractionBase.svgRenderer.drawPath({
                                 'id': targetId,
                                 'stroke-width': 2,
