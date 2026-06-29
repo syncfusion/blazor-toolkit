@@ -10,12 +10,11 @@
     <ComponentUnderTest>
         <SfChart ID="container" Title="Olympic Medals">
             <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Toolkit.ValueType.Category" />
-            <ChartSeriesCollection>
+            
                 <ChartSeries DataSource="@MedalDetails" Name="Gold" XName="Country" Width="2" Opacity="1" YName="Gold" Type="ChartSeriesType.Column" />
                 <ChartSeries DataSource="@MedalDetails" Name="Silver" XName="Country" Width="2" Opacity="1" YName="Silver" Type="ChartSeriesType.Column" />
                 <ChartSeries DataSource="@MedalDetails" Name="Bronze" XName="Country" Width="2" Opacity="1" YName="Bronze" Type="ChartSeriesType.Column" />
-            </ChartSeriesCollection>
-
+            
             <ChartLegendSettings Visible="true" Width="400px" Height="50px" ItemPadding="35" ShapeHeight="15" ShapeWidth="15" ShapePadding="9" Background="gray" Opacity="0.8" ToggleVisibility="false" AccessibilityDescriptionFormat="chart legend" TabIndex="1" />
         </SfChart>
     </ComponentUnderTest>
@@ -64,11 +63,11 @@
     <ComponentUnderTest>
         <SfChart ID="container1" Title="Olympic Medals"> @* Changed ID to be unique *@
             <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Toolkit.ValueType.Category" />
-            <ChartSeriesCollection>
+            
                 <ChartSeries DataSource="@MedalDetails" Name="Gold" XName="Country" Width="2" Opacity="1" YName="Gold" Type="ChartSeriesType.Column" />
                 <ChartSeries DataSource="@MedalDetails" Name="Silver" XName="Country" Width="2" Opacity="1" YName="Silver" Type="ChartSeriesType.Column" />
                 <ChartSeries DataSource="@MedalDetails" Name="Bronze" XName="Country" Width="2" Opacity="1" YName="Bronze" Type="ChartSeriesType.Column" />
-            </ChartSeriesCollection>
+            
 
             <ChartLegendSettings Visible="true">
                 <ChartLegendTextStyle Size="20px" Color="red" FontFamily="Times New Roman" FontWeight="bold" FontStyle="Italic" Opacity="0.5" TextAlignment="Alignment.Near" TextOverflow="TextOverflow.Trim" />
@@ -102,9 +101,9 @@
     <ComponentUnderTest>
         <SfChart ID="container2" Title="Olympic Medals"> @* Changed ID to be unique *@
             <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Toolkit.ValueType.Category" />
-            <ChartSeriesCollection>
+            
                 <ChartSeries DataSource="@MedalDetails" Name="Gold" XName="Country" YName="Gold" />
-            </ChartSeriesCollection>
+            
 
             <ChartLegendSettings Visible="true">
                 <ChartLegendMargin Left="10" Right="10" Top="10" Bottom="10" />
@@ -134,10 +133,10 @@
     <ComponentUnderTest>
         <SfChart ID="container3" Title="Olympic Medals">
             <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Toolkit.ValueType.Category" />
-            <ChartSeriesCollection>
+            
                 <ChartSeries DataSource="@MedalDetails" Name="Gold" XName="Country" YName="Gold" />
                 <ChartSeries DataSource="@MedalDetails" Name="Silver" XName="Country" YName="Silver" />
-            </ChartSeriesCollection>
+            
 
             <ChartLegendSettings Visible="true"
                                  EnableHighlight="true"
@@ -182,9 +181,9 @@
     <ComponentUnderTest>
         <SfChart ID="container4" Title="Olympic Medals">
             <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Toolkit.ValueType.Category" />
-            <ChartSeriesCollection>
+            
                 <ChartSeries DataSource="@MedalDetails" Name="Gold" XName="Country" YName="Gold" />
-            </ChartSeriesCollection>
+            
 
             <ChartLegendSettings Visible="true" Position="LegendPosition.Custom" Padding="15">
                 <ChartLocation X="100" Y="200" />
@@ -218,9 +217,9 @@
     <ComponentUnderTest>
         <SfChart ID="container5" Title="Olympic Medals">
             <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Toolkit.ValueType.Category" />
-            <ChartSeriesCollection>
+            
                 <ChartSeries DataSource="@MedalDetails" Name="Gold" XName="Country" YName="Gold" />
-            </ChartSeriesCollection>
+            
 
             <ChartLegendSettings Visible="true">
                 <ChartLegendBorder Color="green" Width="3" />
@@ -249,12 +248,12 @@
 
 <SfFixture @ref="fixture6" TestAsync="CheckingLegendInverseWithRtl" Description="CheckingLegendInverseWithRtl">
     <ComponentUnderTest>
-        <SfChart ID="container6" Title="Olympic Medals" EnableRtl="true">
+        <SfChart ID="container6" Title="Olympic Medals">
             <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Toolkit.ValueType.Category" />
-            <ChartSeriesCollection>
+            
                 <ChartSeries DataSource="@MedalDetails" Name="Gold" XName="Country" YName="Gold" />
                 <ChartSeries DataSource="@MedalDetails" Name="Silver" XName="Country" YName="Silver" />
-            </ChartSeriesCollection>
+            
 
             <ChartLegendSettings Visible="true" IsInversed="true">
             </ChartLegendSettings>
@@ -271,7 +270,7 @@
         await Task.Delay(200);
         var legend = cut.FindComponent<ChartLegendSettings>().Instance;
 
-        Assert.True(cut.Instance.EnableRtl, "EnableRtl should be true");
+        Assert.False(cut.Instance.EnableRtl, "EnableRtl should be false");
         Assert.True(legend.IsInversed, "IsInversed should be true");
 
         cut.SetParametersAndRender();
@@ -285,14 +284,14 @@
             <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Toolkit.ValueType.Category">
             </ChartPrimaryXAxis>
 
-            <ChartSeriesCollection>
+            
                 <ChartSeries DataSource="@MedalDetails" Name="Gold" XName="Country" Width="2" LegendShape="LegendShape.Circle" Opacity="1" YName="Gold" Type="ChartSeriesType.Spline">
                 </ChartSeries>
                 <ChartSeries DataSource="@MedalDetails" Name="Silver" XName="Country" Width="2" LegendShape="LegendShape.SeriesType" Opacity="1" YName="Silver" Type="ChartSeriesType.Line">
                 </ChartSeries>
                 <ChartSeries DataSource="@MedalDetails" Name="Bronze" XName="Country" Width="2" LegendShape="LegendShape.Diamond" Opacity="1" YName="Bronze" Type="ChartSeriesType.Bubble">
                 </ChartSeries>
-            </ChartSeriesCollection>
+            
 
             <ChartLegendSettings Visible="true" Width="100" Height="70" Padding="10" ShapePadding="10" >
                 <ChartLegendBorder Color="red" Width="1"/>

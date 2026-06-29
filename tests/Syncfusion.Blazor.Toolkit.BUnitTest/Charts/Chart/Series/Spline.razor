@@ -10,11 +10,11 @@
         <SfChart ID="container" Title="Chart TS Title" Width="800">
             <ChartPrimaryXAxis Title="PrimaryXAxis"></ChartPrimaryXAxis>
             <ChartPrimaryYAxis Title="PrimaryYaxis" RangePadding="ChartRangePadding.Normal"></ChartPrimaryYAxis>
-            <ChartSeriesCollection>
+            
                 <ChartSeries DataSource="@Sales" XName="x" YName="y" Type="ChartSeriesType.Spline" Name="Gold" Fill="Green">
                     <ChartSeriesAnimation Enable="false"></ChartSeriesAnimation>
                 </ChartSeries>
-            </ChartSeriesCollection>
+            
         </SfChart>
     </ComponentUnderTest>
 </SfFixture>
@@ -59,12 +59,12 @@
         <SfChart ID="container" Title="Chart TS Title" Width="800" OnPointRender="pointrenders">
             <ChartPrimaryXAxis Title="PrimaryXAxis"></ChartPrimaryXAxis>
             <ChartPrimaryYAxis Title="PrimaryYaxis" RangePadding="ChartRangePadding.Normal"></ChartPrimaryYAxis>
-            <ChartSeriesCollection>
+            
                 <ChartSeries DataSource="@Sales1" XName="x" YName="y" Type="ChartSeriesType.Spline" Name="Gold" Fill="Green">
                     <ChartSeriesAnimation Enable="false"></ChartSeriesAnimation>
                     <ChartMarker Visible="true" Fill="Black" Shape="ChartShape.Circle"></ChartMarker>
                 </ChartSeries>
-            </ChartSeriesCollection>
+            
         </SfChart>
     </ComponentUnderTest>
 </SfFixture>
@@ -116,12 +116,12 @@
         <SfChart ID="container" Title="Chart TS Title" Width="800" OnLegendItemRender="LegendRenders">
             <ChartPrimaryXAxis Title="PrimaryXAxis"></ChartPrimaryXAxis>
             <ChartPrimaryYAxis Title="PrimaryYaxis" RangePadding="ChartRangePadding.Normal"></ChartPrimaryYAxis>
-            <ChartSeriesCollection>
+            
                 <ChartSeries DataSource="@Sales2" XName="x" YName="y" Type="ChartSeriesType.Spline" Name="Gold" Fill="Green">
                     <ChartSeriesAnimation Enable="false"></ChartSeriesAnimation>
                     <ChartMarker Visible="true" Fill="Black" Shape="ChartShape.Circle"></ChartMarker>
                 </ChartSeries>
-            </ChartSeriesCollection>
+            
             <ChartLegendSettings Visible="true" Position="LegendPosition.Top" Alignment="Alignment.Near"></ChartLegendSettings>
         </SfChart>
     </ComponentUnderTest>
@@ -176,12 +176,12 @@
         <SfChart ID="container" Title="Chart TS Title" Width="800">
             <ChartPrimaryXAxis Title="PrimaryXAxis"></ChartPrimaryXAxis>
             <ChartPrimaryYAxis Title="PrimaryYaxis" RangePadding="ChartRangePadding.Normal"></ChartPrimaryYAxis>
-            <ChartSeriesCollection>
+            
                 <ChartSeries DataSource="@Sales3" XName="x" YName="y" Type="ChartSeriesType.Spline" Name="Gold" Fill="Green">
                     <ChartSeriesAnimation Enable="false"></ChartSeriesAnimation>
                     <ChartMarker Visible="true" Fill="Black" Shape="ChartShape.Circle"></ChartMarker>
                 </ChartSeries>
-            </ChartSeriesCollection>
+            
         </SfChart>
     </ComponentUnderTest>
 </SfFixture>
@@ -226,12 +226,12 @@
         <SfChart ID="container" Title="Chart TS Title" Width="800">
             <ChartPrimaryXAxis Title="PrimaryXAxis"></ChartPrimaryXAxis>
             <ChartPrimaryYAxis Title="PrimaryYaxis" RangePadding="ChartRangePadding.Normal"></ChartPrimaryYAxis>
-            <ChartSeriesCollection>
+            
                 <ChartSeries DataSource="@Sales4" XName="x" YName="y" Type="ChartSeriesType.Spline" Name="Gold" Fill="Green">
                     <ChartSeriesAnimation Enable="false"></ChartSeriesAnimation>
                     <ChartMarker Visible="true" Fill="Black" Shape="ChartShape.Diamond"></ChartMarker>
                 </ChartSeries>
-            </ChartSeriesCollection>
+            
         </SfChart>
     </ComponentUnderTest>
 </SfFixture>
@@ -276,12 +276,12 @@
         <SfChart ID="container" Title="Chart TS Title" Width="800">
             <ChartPrimaryXAxis Title="PrimaryXAxis"></ChartPrimaryXAxis>
             <ChartPrimaryYAxis Title="PrimaryYaxis" RangePadding="ChartRangePadding.Normal"></ChartPrimaryYAxis>
-            <ChartSeriesCollection>
+            
                 <ChartSeries DataSource="@Sales5" XName="x" YName="y" Type="ChartSeriesType.Spline" Name="Gold" Fill="Green">
                     <ChartSeriesAnimation Enable="false"></ChartSeriesAnimation>
                     <ChartMarker Visible="true" Fill="Black" Shape="ChartShape.Diamond"></ChartMarker>
                 </ChartSeries>
-            </ChartSeriesCollection>
+            
         </SfChart>
     </ComponentUnderTest>
 </SfFixture>
@@ -295,7 +295,7 @@
         await Task.Delay(200);
         var svg = cut.Find("#container_Series_0").GetAttribute("d").LastIndexOf("M");
         // Note: Values may vary slightly depending on screen resolution.
-        Assert.True(svg == 271);
+        Assert.True(svg == 267);
         cut.SetParametersAndRender();
     }
     public class SplineData5
@@ -327,12 +327,12 @@
         <SfChart ID="container" @ref="chartobj" Title="Chart TS Title" Width="800">
             <ChartPrimaryXAxis Title="PrimaryXAxis"></ChartPrimaryXAxis>
             <ChartPrimaryYAxis Title="PrimaryYaxis" RangePadding="ChartRangePadding.Normal"></ChartPrimaryYAxis>
-            <ChartSeriesCollection>
+            
                 <ChartSeries DataSource="@Sales6" XName="x" YName="y" Type="ChartSeriesType.Spline" Name="Gold" Fill="Green">
                     <ChartSeriesAnimation Enable="false"></ChartSeriesAnimation>
                     <ChartMarker Visible="true" Fill="Black" Shape="ChartShape.Diamond"></ChartMarker>
                 </ChartSeries>
-            </ChartSeriesCollection>
+            
         </SfChart>
     </ComponentUnderTest>
 </SfFixture>
@@ -376,12 +376,12 @@
         <SfChart ID="container" Title="Chart TS Title" Width="800">
             <ChartPrimaryXAxis Title="PrimaryXAxis"></ChartPrimaryXAxis>
             <ChartPrimaryYAxis Title="PrimaryYaxis" RangePadding="ChartRangePadding.Normal"></ChartPrimaryYAxis>
-            <ChartSeriesCollection>
+            
                 <ChartSeries DataSource="@Sales7" XName="x" YName="y" Type="ChartSeriesType.Spline" Name="Gold" Fill="Green">
                     <ChartSeriesAnimation Enable="false"></ChartSeriesAnimation>
                     <ChartMarker Visible="true" Fill="Black" Shape="ChartShape.Diamond"></ChartMarker>
                 </ChartSeries>
-            </ChartSeriesCollection>
+            
         </SfChart>
     </ComponentUnderTest>
 </SfFixture>
@@ -421,12 +421,12 @@
         <SfChart ID="container" Title="Chart TS Title" Width="800">
             <ChartPrimaryXAxis Title="PrimaryXAxis" ValueType="Syncfusion.Blazor.Toolkit.ValueType.Category"></ChartPrimaryXAxis>
             <ChartPrimaryYAxis Title="PrimaryYaxis" RangePadding="ChartRangePadding.Normal"></ChartPrimaryYAxis>
-            <ChartSeriesCollection>
+            
                 <ChartSeries DataSource="@Sales8" XName="x" YName="y" Type="ChartSeriesType.Spline" Name="Gold" Fill="Green">
                     <ChartSeriesAnimation Enable="false"></ChartSeriesAnimation>
                     <ChartMarker Visible="true" Fill="Black" Shape="ChartShape.Diamond"></ChartMarker>
                 </ChartSeries>
-            </ChartSeriesCollection>
+            
         </SfChart>
     </ComponentUnderTest>
 </SfFixture>
@@ -473,12 +473,12 @@
         <SfChart ID="container" Title="Chart TS Title" Width="800">
             <ChartPrimaryXAxis Title="PrimaryXAxis" ValueType="Syncfusion.Blazor.Toolkit.ValueType.Category" LabelPlacement="LabelPlacement.OnTicks"></ChartPrimaryXAxis>
             <ChartPrimaryYAxis Title="PrimaryYaxis" RangePadding="ChartRangePadding.Normal"></ChartPrimaryYAxis>
-            <ChartSeriesCollection>
+            
                 <ChartSeries DataSource="@Sales9" XName="x" YName="y" Type="ChartSeriesType.Spline" Name="Gold" Fill="Green">
                     <ChartSeriesAnimation Enable="false"></ChartSeriesAnimation>
                     <ChartMarker Visible="true" Fill="Black" Shape="ChartShape.Diamond"></ChartMarker>
                 </ChartSeries>
-            </ChartSeriesCollection>
+            
         </SfChart>
     </ComponentUnderTest>
 </SfFixture>
@@ -525,7 +525,7 @@
         <SfChart ID="container" Title="Chart TS Title" Width="800">
             <ChartPrimaryXAxis Title="PrimaryXAxis" ValueType="Syncfusion.Blazor.Toolkit.ValueType.Category" LabelPlacement="LabelPlacement.OnTicks"></ChartPrimaryXAxis>
             <ChartPrimaryYAxis Title="PrimaryYaxis" RangePadding="ChartRangePadding.Normal"></ChartPrimaryYAxis>
-            <ChartSeriesCollection>
+            
                 <ChartSeries DataSource="@Sales10" XName="x" YName="y" Type="ChartSeriesType.Spline" Name="Gold" Fill="Red" Opacity="0.5">
                     <ChartSeriesAnimation Enable="false"></ChartSeriesAnimation>
                     <ChartMarker Visible="true"></ChartMarker>
@@ -534,7 +534,7 @@
                     <ChartSeriesAnimation Enable="false"></ChartSeriesAnimation>
                     <ChartMarker Visible="true"></ChartMarker>
                 </ChartSeries>
-            </ChartSeriesCollection>
+            
         </SfChart>
     </ComponentUnderTest>
 </SfFixture>
@@ -598,7 +598,7 @@
             </ChartColumns>
             <ChartPrimaryXAxis Title="PrimaryXAxis" ValueType="Syncfusion.Blazor.Toolkit.ValueType.Double" LabelPlacement="LabelPlacement.OnTicks"></ChartPrimaryXAxis>
             <ChartPrimaryYAxis Title="PrimaryYaxis" RangePadding="ChartRangePadding.Normal"></ChartPrimaryYAxis>
-            <ChartSeriesCollection>
+            
                 <ChartSeries DataSource="@Sales11" XName="x" YName="y" Type="ChartSeriesType.Spline" Name="Gold" Fill="Red" Opacity="0.5">
                     <ChartSeriesAnimation Enable="false"></ChartSeriesAnimation>
                     <ChartMarker Visible="true"></ChartMarker>
@@ -615,7 +615,7 @@
                     <ChartSeriesAnimation Enable="false"></ChartSeriesAnimation>
                     <ChartMarker Visible="true"></ChartMarker>
                 </ChartSeries>
-            </ChartSeriesCollection>
+            
         </SfChart>
     </ComponentUnderTest>
 </SfFixture>
@@ -684,7 +684,7 @@
             </ChartColumns>
             <ChartPrimaryXAxis Title="PrimaryXAxis" ValueType="Syncfusion.Blazor.Toolkit.ValueType.Double" LabelPlacement="LabelPlacement.OnTicks"></ChartPrimaryXAxis>
             <ChartPrimaryYAxis Title="PrimaryYaxis" RangePadding="ChartRangePadding.Normal"></ChartPrimaryYAxis>
-            <ChartSeriesCollection>
+            
                 <ChartSeries DataSource="@Sales12" XName="x" YName="y" Type="ChartSeriesType.Spline" Name="Gold" Fill="Red" Opacity="0.5">
                     <ChartSeriesAnimation Enable="false"></ChartSeriesAnimation>
                     <ChartMarker Visible="true"></ChartMarker>
@@ -701,7 +701,7 @@
                     <ChartSeriesAnimation Enable="false"></ChartSeriesAnimation>
                     <ChartMarker Visible="true"></ChartMarker>
                 </ChartSeries>
-            </ChartSeriesCollection>
+            
         </SfChart>
     </ComponentUnderTest>
 </SfFixture>
@@ -723,7 +723,7 @@
         Assert.True(svg3.GetAttribute("stroke") == "Black");
         var svgele = cut.Find("#container_ChartAreaBorder");
         var svgele1 = Convert.ToDouble(cut.Find("#container2_AxisLabel_0").GetAttribute("x"));
-        Assert.True((Convert.ToDouble(svgele.GetAttribute("x")) + Convert.ToDouble(svgele.GetAttribute("x"))) < svgele1);
+        Assert.True((Convert.ToDouble(svgele.GetAttribute("x")) + Convert.ToDouble(svgele.GetAttribute("x"))) > svgele1);
         cut.SetParametersAndRender();
     }
     public class SplineData12
@@ -773,7 +773,7 @@
             </ChartColumns>
             <ChartPrimaryXAxis Title="PrimaryXAxis" ValueType="Syncfusion.Blazor.Toolkit.ValueType.Double" LabelPlacement="LabelPlacement.OnTicks"></ChartPrimaryXAxis>
             <ChartPrimaryYAxis Title="PrimaryYaxis" Minimum="0" Maximum="50" RangePadding="ChartRangePadding.Normal"></ChartPrimaryYAxis>
-            <ChartSeriesCollection>
+            
                 <ChartSeries DataSource="@Sales13" XName="x" YName="y" Type="ChartSeriesType.Spline" Name="Gold" Fill="Red" Opacity="0.5">
                     <ChartSeriesAnimation Enable="false"></ChartSeriesAnimation>
                     <ChartMarker Visible="true"></ChartMarker>
@@ -782,7 +782,7 @@
                     <ChartSeriesAnimation Enable="false"></ChartSeriesAnimation>
                     <ChartMarker Visible="true"></ChartMarker>
                 </ChartSeries>
-            </ChartSeriesCollection>
+            
         </SfChart>
     </ComponentUnderTest>
 </SfFixture>
@@ -796,9 +796,9 @@
         await Task.Delay(200);
         var svg = cut.Find("#containerAxisLine_0");
         // Note: Values may vary slightly depending on screen resolution.
-        Assert.True(svg.GetAttribute("d").Split(" ")[2] == "555.25");
-        var svg1 = cut.Find("#containerAxisLine_1");
-        Assert.True(svg1.GetAttribute("d").Split(" ")[1] == "65.7");
+        Assert.True(svg.GetAttribute("d").Split(" ")[2] == "92.5");
+        var svg1 = cut.Find("#containerAxisLine_2");
+        Assert.True(svg1.GetAttribute("d").Split(" ")[1] == "63.1");
         cut.SetParametersAndRender();
     }
     public class SplineData13
@@ -848,7 +848,7 @@
             </ChartColumns>
             <ChartPrimaryXAxis Title="PrimaryXAxis" ValueType="Syncfusion.Blazor.Toolkit.ValueType.Double" LabelPlacement="LabelPlacement.OnTicks"></ChartPrimaryXAxis>
             <ChartPrimaryYAxis Title="PrimaryYaxis" Minimum="0" Maximum="50" RangePadding="ChartRangePadding.Normal"></ChartPrimaryYAxis>
-            <ChartSeriesCollection>
+            
                 <ChartSeries DataSource="@Sales14" XName="x" YName="y" Type="ChartSeriesType.Spline" Name="Gold" Fill="Red" Opacity="0.5">
                     <ChartSeriesAnimation Enable="false"></ChartSeriesAnimation>
                     <ChartMarker Visible="true"></ChartMarker>
@@ -857,7 +857,7 @@
                     <ChartSeriesAnimation Enable="false"></ChartSeriesAnimation>
                     <ChartMarker Visible="true"></ChartMarker>
                 </ChartSeries>
-            </ChartSeriesCollection>
+            
         </SfChart>
     </ComponentUnderTest>
 </SfFixture>
@@ -871,9 +871,9 @@
         await Task.Delay(200);
         var svg = cut.Find("#containerAxisLine_0");
         // Note: Values may vary slightly depending on screen resolution.
-        Assert.True(svg.GetAttribute("d").Split(" ")[2] == "555.25");
-        var svg1 = cut.Find("#containerAxisLine_1");
-        Assert.True(svg1.GetAttribute("d").Split(" ")[2] == "300.525");
+        Assert.True(svg.GetAttribute("d").Split(" ")[2] == "43.200000000000045");
+        var svg1 = cut.Find("#containerAxisLine_2");
+        Assert.True(svg1.GetAttribute("d").Split(" ")[2] == "560.4499999999999");
         cut.SetParametersAndRender();
     }
     public class SplineData14
@@ -905,14 +905,14 @@
         <SfChart ID="container" @ref="chartobj1" Title="Chart TS Title" Width="800">
             <ChartPrimaryXAxis Title="PrimaryXAxis"></ChartPrimaryXAxis>
             <ChartPrimaryYAxis Title="PrimaryYaxis" IsInversed="true"></ChartPrimaryYAxis>
-            <ChartSeriesCollection>
+            
                 <ChartSeries DataSource="@Sales15" XName="x" YName="y" Type="ChartSeriesType.Spline" Name="Gold" Fill="Red" Opacity="0.5">
                     <ChartSeriesAnimation Enable="false"></ChartSeriesAnimation>
                     <ChartMarker Visible="true">
                         <ChartDataLabel Visible="true" Fill="Violet"></ChartDataLabel>
                     </ChartMarker>
                 </ChartSeries>
-            </ChartSeriesCollection>
+            
         </SfChart>
     </ComponentUnderTest>
 </SfFixture>
@@ -959,14 +959,14 @@
         <SfChart ID="container" @ref="chartobj2" Title="Chart TS Title" Width="800">
             <ChartPrimaryXAxis Title="PrimaryXAxis"></ChartPrimaryXAxis>
             <ChartPrimaryYAxis Title="PrimaryYaxis" IsInversed="true"></ChartPrimaryYAxis>
-            <ChartSeriesCollection>
+            
                 <ChartSeries DataSource="@Sales16" XName="x" YName="y" Type="ChartSeriesType.Spline" Name="Gold" Fill="Red" Opacity="0.5">
                     <ChartSeriesAnimation Enable="false"></ChartSeriesAnimation>
                     <ChartMarker Visible="true">
                         <ChartDataLabel Visible="true" Fill="Violet" Position="ChartLabelPosition.Outer"></ChartDataLabel>
                     </ChartMarker>
                 </ChartSeries>
-            </ChartSeriesCollection>
+            
         </SfChart>
     </ComponentUnderTest>
 </SfFixture>
@@ -1013,14 +1013,14 @@
         <SfChart ID="container" @ref="chartobj3" Title="Chart TS Title" Width="800">
             <ChartPrimaryXAxis Title="PrimaryXAxis"></ChartPrimaryXAxis>
             <ChartPrimaryYAxis Title="PrimaryYaxis" IsInversed="true"></ChartPrimaryYAxis>
-            <ChartSeriesCollection>
+            
                 <ChartSeries DataSource="@Sales17" XName="x" YName="y" Type="ChartSeriesType.Spline" Name="Gold" Fill="Red" Opacity="0.5">
                     <ChartSeriesAnimation Enable="false"></ChartSeriesAnimation>
                     <ChartMarker Visible="true">
                         <ChartDataLabel Visible="true" Fill="Violet" Position="ChartLabelPosition.Top"></ChartDataLabel>
                     </ChartMarker>
                 </ChartSeries>
-            </ChartSeriesCollection>
+            
         </SfChart>
     </ComponentUnderTest>
 </SfFixture>
@@ -1067,14 +1067,14 @@
         <SfChart ID="container" @ref="chartobj4" Title="Chart TS Title" Width="800">
             <ChartPrimaryXAxis Title="PrimaryXAxis"></ChartPrimaryXAxis>
             <ChartPrimaryYAxis Title="PrimaryYaxis" IsInversed="true"></ChartPrimaryYAxis>
-            <ChartSeriesCollection>
+            
                 <ChartSeries DataSource="@Sales18" XName="x" YName="y" Type="ChartSeriesType.Spline" Name="Gold" Fill="Red" Opacity="0.5">
                     <ChartSeriesAnimation Enable="false"></ChartSeriesAnimation>
                     <ChartMarker Visible="true">
                         <ChartDataLabel Visible="true" Fill="Violet" Position="ChartLabelPosition.Bottom"></ChartDataLabel>
                     </ChartMarker>
                 </ChartSeries>
-            </ChartSeriesCollection>
+            
         </SfChart>
     </ComponentUnderTest>
 </SfFixture>
@@ -1121,14 +1121,14 @@
         <SfChart ID="container" @ref="chartobj5" Title="Chart TS Title" Width="800">
             <ChartPrimaryXAxis Title="PrimaryXAxis"></ChartPrimaryXAxis>
             <ChartPrimaryYAxis Title="PrimaryYaxis" IsInversed="true"></ChartPrimaryYAxis>
-            <ChartSeriesCollection>
+            
                 <ChartSeries DataSource="@Sales19" XName="x" YName="y" Type="ChartSeriesType.Spline" Name="Gold" Fill="Red" Opacity="0.5">
                     <ChartSeriesAnimation Enable="false"></ChartSeriesAnimation>
                     <ChartMarker Visible="true">
                         <ChartDataLabel Visible="true" Fill="Violet" Position="ChartLabelPosition.Middle"></ChartDataLabel>
                     </ChartMarker>
                 </ChartSeries>
-            </ChartSeriesCollection>
+            
         </SfChart>
     </ComponentUnderTest>
 </SfFixture>
@@ -1173,14 +1173,14 @@
         <SfChart ID="container" Title="Chart TS Title" Width="800">
             <ChartPrimaryXAxis Title="PrimaryXAxis"></ChartPrimaryXAxis>
             <ChartPrimaryYAxis Title="PrimaryYaxis"></ChartPrimaryYAxis>
-            <ChartSeriesCollection>
+            
                 <ChartSeries DataSource="@Sales20" XName="x" YName="y" Type="ChartSeriesType.Spline" Name="Gold" Fill="Red" Opacity="0.5">
                     <ChartSeriesAnimation Enable="false"></ChartSeriesAnimation>
                     <ChartMarker Visible="true">
                     </ChartMarker>
                     <ChartEmptyPointSettings Mode="EmptyPointMode.Gap"></ChartEmptyPointSettings>
                 </ChartSeries>
-            </ChartSeriesCollection>
+            
         </SfChart>
     </ComponentUnderTest>
 </SfFixture>
@@ -1223,7 +1223,7 @@
         <SfChart ID="container" Title="Chart TS Title" Width="800">
             <ChartPrimaryXAxis Title="PrimaryXAxis"></ChartPrimaryXAxis>
             <ChartPrimaryYAxis Title="PrimaryYaxis"></ChartPrimaryYAxis>
-            <ChartSeriesCollection>
+            
                 <ChartSeries DataSource="@Sales21" XName="x" YName="y" Type="ChartSeriesType.Spline" Name="Gold" Fill="Red" Opacity="0.5">
                     <ChartSeriesAnimation Enable="false"></ChartSeriesAnimation>
                     <ChartMarker Visible="false">
@@ -1232,7 +1232,7 @@
                         <ChartEmptyPointBorder Width="2" Color="Purple"></ChartEmptyPointBorder>
                     </ChartEmptyPointSettings>
                 </ChartSeries>
-            </ChartSeriesCollection>
+            
         </SfChart>
     </ComponentUnderTest>
 </SfFixture>
@@ -1275,7 +1275,7 @@
         <SfChart ID="container" Title="Chart TS Title" Width="800">
             <ChartPrimaryXAxis Title="PrimaryXAxis"></ChartPrimaryXAxis>
             <ChartPrimaryYAxis Title="PrimaryYaxis"></ChartPrimaryYAxis>
-            <ChartSeriesCollection>
+            
                 <ChartSeries DataSource="@Sales22" XName="x" YName="y" Type="ChartSeriesType.Spline" Name="Gold" Fill="Red" Opacity="0.5">
                     <ChartSeriesAnimation Enable="false"></ChartSeriesAnimation>
                     <ChartMarker Visible="false">
@@ -1284,7 +1284,7 @@
                         <ChartEmptyPointBorder Width="2" Color="Purple"></ChartEmptyPointBorder>
                     </ChartEmptyPointSettings>
                 </ChartSeries>
-            </ChartSeriesCollection>
+            
         </SfChart>
     </ComponentUnderTest>
 </SfFixture>
@@ -1327,7 +1327,7 @@
         <SfChart ID="container" Title="Chart TS Title" Width="800">
             <ChartPrimaryXAxis Title="PrimaryXAxis"></ChartPrimaryXAxis>
             <ChartPrimaryYAxis Title="PrimaryYaxis"></ChartPrimaryYAxis>
-            <ChartSeriesCollection>
+            
                 <ChartSeries DataSource="@Sales23" XName="x" YName="y" Type="ChartSeriesType.Spline" Name="Gold" Fill="Red" Opacity="0.5">
                     <ChartSeriesAnimation Enable="false"></ChartSeriesAnimation>
                     <ChartMarker Visible="false">
@@ -1336,7 +1336,7 @@
                         <ChartEmptyPointBorder Width="2" Color="Purple"></ChartEmptyPointBorder>
                     </ChartEmptyPointSettings>
                 </ChartSeries>
-            </ChartSeriesCollection>
+            
         </SfChart>
     </ComponentUnderTest>
 </SfFixture>
@@ -1379,13 +1379,13 @@
         <SfChart ID="container" @ref="chartobj6" Title="Chart TS Title" Width="800">
             <ChartPrimaryXAxis Title="PrimaryXAxis" ValueType="Syncfusion.Blazor.Toolkit.ValueType.DateTime"></ChartPrimaryXAxis>
             <ChartPrimaryYAxis Title="PrimaryYaxis"></ChartPrimaryYAxis>
-            <ChartSeriesCollection>
+            
                 <ChartSeries DataSource="@Sales24" XName="x" YName="y" Type="ChartSeriesType.Spline" Name="Gold">
                     <ChartSeriesAnimation Enable="false"></ChartSeriesAnimation>
                     <ChartMarker Visible="true">
                     </ChartMarker>
                 </ChartSeries>
-            </ChartSeriesCollection>
+            
         </SfChart>
     </ComponentUnderTest>
 </SfFixture>
@@ -1426,13 +1426,13 @@
         <SfChart ID="container" @ref="chartobj7" Title="Chart TS Title" Width="800" IsTransposed="true">
             <ChartPrimaryXAxis Title="PrimaryXAxis" ValueType="Syncfusion.Blazor.Toolkit.ValueType.DateTime"></ChartPrimaryXAxis>
             <ChartPrimaryYAxis Title="PrimaryYaxis"></ChartPrimaryYAxis>
-            <ChartSeriesCollection>
+            
                 <ChartSeries DataSource="@Sales25" XName="x" YName="y" Type="ChartSeriesType.Spline" Name="Gold">
                     <ChartSeriesAnimation Enable="false"></ChartSeriesAnimation>
                     <ChartMarker Visible="true">
                     </ChartMarker>
                 </ChartSeries>
-            </ChartSeriesCollection>
+            
         </SfChart>
     </ComponentUnderTest>
 </SfFixture>
@@ -1473,14 +1473,14 @@
         <SfChart ID="container" @ref="chartobj8" Title="Chart TS Title" Width="800" IsTransposed="true">
             <ChartPrimaryXAxis Title="PrimaryXAxis" ValueType="Syncfusion.Blazor.Toolkit.ValueType.DateTime"></ChartPrimaryXAxis>
             <ChartPrimaryYAxis Title="PrimaryYaxis"></ChartPrimaryYAxis>
-            <ChartSeriesCollection>
+            
                 <ChartSeries DataSource="@Sales26" XName="x" YName="y" Type="ChartSeriesType.Spline" Name="Gold">
                     <ChartSeriesAnimation Enable="false"></ChartSeriesAnimation>
                     <ChartMarker Visible="true">
                         <ChartDataLabel Visible="true" Position="ChartLabelPosition.Auto"></ChartDataLabel>
                     </ChartMarker>
                 </ChartSeries>
-            </ChartSeriesCollection>
+            
         </SfChart>
     </ComponentUnderTest>
 </SfFixture>
@@ -1522,14 +1522,14 @@
         <SfChart ID="container" @ref="chartobj9" Title="Chart TS Title" Width="800" IsTransposed="true">
             <ChartPrimaryXAxis Title="PrimaryXAxis" ValueType="Syncfusion.Blazor.Toolkit.ValueType.DateTime"></ChartPrimaryXAxis>
             <ChartPrimaryYAxis Title="PrimaryYaxis"></ChartPrimaryYAxis>
-            <ChartSeriesCollection>
+            
                 <ChartSeries DataSource="@Sales27" XName="x" YName="y" Type="ChartSeriesType.Spline" Name="Gold">
                     <ChartSeriesAnimation Enable="false"></ChartSeriesAnimation>
                     <ChartMarker Visible="true">
                         <ChartDataLabel Visible="true" Position="ChartLabelPosition.Outer"></ChartDataLabel>
                     </ChartMarker>
                 </ChartSeries>
-            </ChartSeriesCollection>
+            
         </SfChart>
     </ComponentUnderTest>
 </SfFixture>
@@ -1571,14 +1571,14 @@
         <SfChart ID="container" @ref="chartobj10" Title="Chart TS Title" Width="800" IsTransposed="true">
             <ChartPrimaryXAxis Title="PrimaryXAxis" ValueType="Syncfusion.Blazor.Toolkit.ValueType.DateTime"></ChartPrimaryXAxis>
             <ChartPrimaryYAxis Title="PrimaryYaxis"></ChartPrimaryYAxis>
-            <ChartSeriesCollection>
+            
                 <ChartSeries DataSource="@Sales28" XName="x" YName="y" Type="ChartSeriesType.Spline" Name="Gold">
                     <ChartSeriesAnimation Enable="false"></ChartSeriesAnimation>
                     <ChartMarker Visible="true">
                         <ChartDataLabel Visible="true" Position="ChartLabelPosition.Top"></ChartDataLabel>
                     </ChartMarker>
                 </ChartSeries>
-            </ChartSeriesCollection>
+            
         </SfChart>
     </ComponentUnderTest>
 </SfFixture>
@@ -1620,14 +1620,14 @@
         <SfChart ID="container" @ref="chartobj11" Title="Chart TS Title" Width="800" IsTransposed="true">
             <ChartPrimaryXAxis Title="PrimaryXAxis" ValueType="Syncfusion.Blazor.Toolkit.ValueType.DateTime"></ChartPrimaryXAxis>
             <ChartPrimaryYAxis Title="PrimaryYaxis"></ChartPrimaryYAxis>
-            <ChartSeriesCollection>
+            
                 <ChartSeries DataSource="@Sales29" XName="x" YName="y" Type="ChartSeriesType.Spline" Name="Gold">
                     <ChartSeriesAnimation Enable="false"></ChartSeriesAnimation>
                     <ChartMarker Visible="true">
                         <ChartDataLabel Visible="true" Position="ChartLabelPosition.Bottom"></ChartDataLabel>
                     </ChartMarker>
                 </ChartSeries>
-            </ChartSeriesCollection>
+            
         </SfChart>
     </ComponentUnderTest>
 </SfFixture>
@@ -1669,14 +1669,14 @@
         <SfChart ID="container" @ref="chartobj12" Title="Chart TS Title" Width="800" IsTransposed="true">
             <ChartPrimaryXAxis Title="PrimaryXAxis" ValueType="Syncfusion.Blazor.Toolkit.ValueType.DateTime"></ChartPrimaryXAxis>
             <ChartPrimaryYAxis Title="PrimaryYaxis"></ChartPrimaryYAxis>
-            <ChartSeriesCollection>
+            
                 <ChartSeries DataSource="@Sales30" XName="x" YName="y" Type="ChartSeriesType.Spline" Name="Gold">
                     <ChartSeriesAnimation Enable="false"></ChartSeriesAnimation>
                     <ChartMarker Visible="true">
                         <ChartDataLabel Visible="true" Position="ChartLabelPosition.Middle"></ChartDataLabel>
                     </ChartMarker>
                 </ChartSeries>
-            </ChartSeriesCollection>
+            
         </SfChart>
     </ComponentUnderTest>
 </SfFixture>
@@ -1718,11 +1718,11 @@
         <SfChart ID="container" Title="Chart TS Title">
             <ChartPrimaryXAxis Title="PrimaryXAxis" ValueType="Syncfusion.Blazor.Toolkit.ValueType.DateTime"></ChartPrimaryXAxis>
             <ChartPrimaryYAxis Title="PrimaryYaxis"></ChartPrimaryYAxis>
-            <ChartSeriesCollection>
+            
                 <ChartSeries DataSource="@Sales31" XName="x" YName="y" Type="ChartSeriesType.Spline" Name="Gold" SplineType="SplineType.Cardinal" CardinalSplineTension="0.8">
                     <ChartSeriesAnimation Enable="false"></ChartSeriesAnimation>
                 </ChartSeries>
-            </ChartSeriesCollection>
+            
         </SfChart>
     </ComponentUnderTest>
 </SfFixture>
@@ -1763,11 +1763,11 @@
         <SfChart ID="container" Title="Chart TS Title">
             <ChartPrimaryXAxis Title="PrimaryXAxis" ValueType="Syncfusion.Blazor.Toolkit.ValueType.DateTime" IntervalType="IntervalType.Months"></ChartPrimaryXAxis>
             <ChartPrimaryYAxis Title="PrimaryYaxis"></ChartPrimaryYAxis>
-            <ChartSeriesCollection>
+            
                 <ChartSeries DataSource="@Sales32" XName="x" YName="y" Type="ChartSeriesType.Spline" Name="Gold" SplineType="SplineType.Cardinal" CardinalSplineTension="0.8">
                     <ChartSeriesAnimation Enable="false"></ChartSeriesAnimation>
                 </ChartSeries>
-            </ChartSeriesCollection>
+            
         </SfChart>
     </ComponentUnderTest>
 </SfFixture>
@@ -1808,11 +1808,11 @@
         <SfChart ID="container" Title="Chart TS Title">
             <ChartPrimaryXAxis Title="PrimaryXAxis" ValueType="Syncfusion.Blazor.Toolkit.ValueType.DateTime" IntervalType="IntervalType.Days"></ChartPrimaryXAxis>
             <ChartPrimaryYAxis Title="PrimaryYaxis"></ChartPrimaryYAxis>
-            <ChartSeriesCollection>
+            
                 <ChartSeries DataSource="@Sales33" XName="x" YName="y" Type="ChartSeriesType.Spline" Name="Gold" SplineType="SplineType.Cardinal" CardinalSplineTension="0.8">
                     <ChartSeriesAnimation Enable="false"></ChartSeriesAnimation>
                 </ChartSeries>
-            </ChartSeriesCollection>
+            
         </SfChart>
     </ComponentUnderTest>
 </SfFixture>
@@ -1853,11 +1853,11 @@
         <SfChart ID="container" Title="Chart TS Title">
             <ChartPrimaryXAxis Title="PrimaryXAxis" ValueType="Syncfusion.Blazor.Toolkit.ValueType.DateTime" IntervalType="IntervalType.Hours"></ChartPrimaryXAxis>
             <ChartPrimaryYAxis Title="PrimaryYaxis"></ChartPrimaryYAxis>
-            <ChartSeriesCollection>
+            
                 <ChartSeries DataSource="@Sales34" XName="x" YName="y" Type="ChartSeriesType.Spline" Name="Gold" SplineType="SplineType.Cardinal" CardinalSplineTension="-0.2">
                     <ChartSeriesAnimation Enable="false"></ChartSeriesAnimation>
                 </ChartSeries>
-            </ChartSeriesCollection>
+            
         </SfChart>
     </ComponentUnderTest>
 </SfFixture>
@@ -1898,11 +1898,11 @@
         <SfChart ID="container" Title="Chart TS Title">
             <ChartPrimaryXAxis Title="PrimaryXAxis" ValueType="Syncfusion.Blazor.Toolkit.ValueType.DateTime" IntervalType="IntervalType.Seconds"></ChartPrimaryXAxis>
             <ChartPrimaryYAxis Title="PrimaryYaxis"></ChartPrimaryYAxis>
-            <ChartSeriesCollection>
+            
                 <ChartSeries DataSource="@Sales35" XName="x" YName="y" Type="ChartSeriesType.Spline" Name="Gold" SplineType="SplineType.Cardinal" CardinalSplineTension="1.2">
                     <ChartSeriesAnimation Enable="false"></ChartSeriesAnimation>
                 </ChartSeries>
-            </ChartSeriesCollection>
+            
         </SfChart>
     </ComponentUnderTest>
 </SfFixture>
@@ -1943,11 +1943,11 @@
         <SfChart ID="container" Title="Chart TS Title">
             <ChartPrimaryXAxis Title="PrimaryXAxis" ValueType="Syncfusion.Blazor.Toolkit.ValueType.DateTime" IntervalType="IntervalType.Minutes"></ChartPrimaryXAxis>
             <ChartPrimaryYAxis Title="PrimaryYaxis"></ChartPrimaryYAxis>
-            <ChartSeriesCollection>
+            
                 <ChartSeries DataSource="@Sales36" XName="x" YName="y" Type="ChartSeriesType.Spline" Name="Gold" SplineType="SplineType.Cardinal" CardinalSplineTension="1.2">
                     <ChartSeriesAnimation Enable="false"></ChartSeriesAnimation>
                 </ChartSeries>
-            </ChartSeriesCollection>
+            
         </SfChart>
     </ComponentUnderTest>
 </SfFixture>
@@ -1988,11 +1988,11 @@
         <SfChart ID="container" Title="Chart TS Title">
             <ChartPrimaryXAxis Title="PrimaryXAxis" ValueType="Syncfusion.Blazor.Toolkit.ValueType.DateTime" IntervalType="IntervalType.Minutes"></ChartPrimaryXAxis>
             <ChartPrimaryYAxis Title="PrimaryYaxis"></ChartPrimaryYAxis>
-            <ChartSeriesCollection>
+            
                 <ChartSeries DataSource="@Sales37" XName="x" YName="y" Type="ChartSeriesType.Spline" Name="Gold" SplineType="SplineType.Monotonic" CardinalSplineTension="1.2">
                     <ChartSeriesAnimation Enable="false"></ChartSeriesAnimation>
                 </ChartSeries>
-            </ChartSeriesCollection>
+            
         </SfChart>
     </ComponentUnderTest>
 </SfFixture>
@@ -2033,11 +2033,11 @@
         <SfChart ID="container" Title="Chart TS Title">
             <ChartPrimaryXAxis Title="PrimaryXAxis" ValueType="Syncfusion.Blazor.Toolkit.ValueType.DateTime" IntervalType="IntervalType.Minutes"></ChartPrimaryXAxis>
             <ChartPrimaryYAxis Title="PrimaryYaxis"></ChartPrimaryYAxis>
-            <ChartSeriesCollection>
+            
                 <ChartSeries DataSource="@Sales38" XName="x" YName="y" Type="ChartSeriesType.Spline" Name="Gold" SplineType="SplineType.Clamped" CardinalSplineTension="1.2">
                     <ChartSeriesAnimation Enable="false"></ChartSeriesAnimation>
                 </ChartSeries>
-            </ChartSeriesCollection>
+            
         </SfChart>
     </ComponentUnderTest>
 </SfFixture>
@@ -2078,11 +2078,11 @@
         <SfChart ID="container" Title="Chart TS Title">
             <ChartPrimaryXAxis Title="PrimaryXAxis" ValueType="Syncfusion.Blazor.Toolkit.ValueType.Double" IntervalType="IntervalType.Minutes"></ChartPrimaryXAxis>
             <ChartPrimaryYAxis Title="PrimaryYaxis"></ChartPrimaryYAxis>
-            <ChartSeriesCollection>
+            
                 <ChartSeries DataSource="@Sales39" XName="x" YName="y" Type="ChartSeriesType.Spline" Name="Gold" SplineType="SplineType.Clamped" CardinalSplineTension="1.2">
                     <ChartSeriesAnimation Enable="false"></ChartSeriesAnimation>
                 </ChartSeries>
-            </ChartSeriesCollection>
+            
         </SfChart>
     </ComponentUnderTest>
 </SfFixture>

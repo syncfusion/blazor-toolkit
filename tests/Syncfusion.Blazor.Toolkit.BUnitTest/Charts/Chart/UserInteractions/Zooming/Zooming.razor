@@ -16,7 +16,7 @@
     </ChartArea>
     <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Toolkit.ValueType.DateTime" LabelFormat="yyyy" IntervalType="IntervalType.Years" EdgeLabelPlacement="EdgeLabelPlacement.Shift">
     </ChartPrimaryXAxis>
-    <ChartSeriesCollection>
+    
         <ChartSeries DataSource="@ChartPoints" Name="John" XName="Period" Width="2" Opacity="1" YName="JohnRevenue" Type="ChartSeriesType.Line">
             <ChartMarker Visible="true" Width="7" Height="7" IsFilled="true"></ChartMarker>
         </ChartSeries>
@@ -26,7 +26,7 @@
         <ChartSeries DataSource="@ChartPoints" Name="Thomas" XName="Period" Width="2" Opacity="1" YName="ThamosRevenue" Type="ChartSeriesType.Line">
             <ChartMarker Visible="true" Width="7" Height="7" IsFilled="true"></ChartMarker>
         </ChartSeries>
-    </ChartSeriesCollection>
+    
     <ChartZoomSettings EnableSelectionZooming="true" EnableMouseWheelZooming="true" EnablePinchZooming="true" Mode="ZoomMode.XY"></ChartZoomSettings>
         </SfChart>
         </div>
@@ -158,11 +158,11 @@
                 </ChartArea>
                 <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Toolkit.ValueType.DateTime" LabelFormat="yyyy" IntervalType="IntervalType.Years" EdgeLabelPlacement="EdgeLabelPlacement.Shift">
                 </ChartPrimaryXAxis>
-                <ChartSeriesCollection>
+                
                     <ChartSeries DataSource="@ChartPoints" Name="John" XName="Period" Width="2" Opacity="1" YName="JohnRevenue" Type="ChartSeriesType.Line">
                         <ChartMarker Visible="true" Width="7" Height="7" IsFilled="true"></ChartMarker>
                     </ChartSeries>
-                </ChartSeriesCollection>
+                
                 <ChartZoomSettings EnableSelectionZooming="true" EnableMouseWheelZooming="true"
                                    EnablePinchZooming="true" Mode="ZoomMode.XY"
                                    EnableDeferredZooming="false"
@@ -217,9 +217,9 @@
         <SfChart ID="container">
             <ChartPrimaryXAxis ValueType="Toolkit.ValueType.Category"></ChartPrimaryXAxis>
 
-            <ChartSeriesCollection>
+            
                 <ChartSeries DataSource="@SalesReports" XName="X" YName="YValue" Type="ChartSeriesType.Column"></ChartSeries>
-            </ChartSeriesCollection>
+            
 
             <ChartZoomSettings EnableSelectionZooming="true" EnableMouseWheelZooming="true" EnablePinchZooming="true" ToolbarDisplayMode="ToolbarMode.Always">
                 <ChartZoomToolbarPosition HorizontalAlign="HorizontalAlign.Left" VerticalAlign="VerticalAlign.Top" X="10" Y="5">

@@ -7,6 +7,7 @@ using System.Globalization;
 using Microsoft.AspNetCore.Components;
 using Syncfusion.Blazor.Toolkit.Internal;
 using System.Collections.ObjectModel;
+using System.Collections.Concurrent;
 
 namespace Syncfusion.Blazor.Toolkit.Charts.Internal
 {
@@ -30,7 +31,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
         /// <summary>
         /// Gets or sets a thread-safe cache of measured character sizes indexed by font characteristics.
         /// </summary>
-        internal static Dictionary<string, Size> SizePerCharacter { get; set; } = new Dictionary<string, Size>();
+        internal static ConcurrentDictionary<string, Size> SizePerCharacter { get; set; } = new ConcurrentDictionary<string, Size>();
 
         /// <summary>
         /// Gets or sets a list of cached font keys used for performance optimization.
@@ -107,23 +108,34 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
         /// <returns>The measured character size.</returns>
         private static Size GetCharSize(char character, ChartFontOptions font)
         {
-            Size? charSize = new Size();
             string key = character + Constants.Underscore + font.FontWeight + Constants.Underscore + font.FontStyle + Constants.Underscore + font.FontFamily;
-
-            if (!SizePerCharacter.TryGetValue(key, out charSize))
+            try
             {
-                double charWidth;
-                const double DEFAULT_CHAR_WIDTH = 7.0;
-                if (!FontWidthLookup.TryGetValue(character, out charWidth))
+                if (SizePerCharacter.TryGetValue(key, out Size? charSize))
                 {
-                    charWidth = DEFAULT_CHAR_WIDTH;
+                    return charSize ?? null!;
                 }
-
-                SizePerCharacter[key] = new Size { Width = charWidth * 6.25, Height = 130 };
-                SizePerCharacter.TryGetValue(key, out charSize);
+                double charWidth;
+                if (FontWidthLookup.TryGetValue(character, out charWidth))
+                {
+                    // Create the new size for this character
+                    Size newSize = new Size { Width = charWidth * 6.25, Height = 130 };
+                    // Thread-safe add operation using GetOrAdd (available in all .NET versions)
+                    Size result = SizePerCharacter.GetOrAdd(key, newSize);
+                    return result ?? null!;
+                }
+                else
+                {
+                    // Default size for characters not in Font dictionary
+                    Size defaultSize = new Size { Width = 50, Height = 130 };
+                    Size result = SizePerCharacter.GetOrAdd(key, defaultSize);
+                    return result ?? null!;
+                }
             }
-
-            return charSize ?? null!;
+            catch
+            {
+                throw;
+            }
         }
 
         /// <summary>

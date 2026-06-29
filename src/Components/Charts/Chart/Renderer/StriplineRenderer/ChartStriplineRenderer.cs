@@ -275,7 +275,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
             string direction = CalculatePixelPathDirection();
             direction = ChartHelper.AppendPathElements(Owner ?? null!, direction, id);
 
-            if (!isUpdateDirection && Stripline?.DashArray is not null)
+            if (!isUpdateDirection)
             {
                 _striplinePath = new PathOptions
                 {

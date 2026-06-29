@@ -4,9 +4,9 @@
 <SfChart @ref="chartObj" Title="@title" ID="container">
     <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Toolkit.ValueType.Category"></ChartPrimaryXAxis>
     <ChartTooltipSettings Enable="@enable"></ChartTooltipSettings>
-    <ChartSeriesCollection>
+    
         <ChartSeries Width="2" DataSource="@Sales" XName="Month" YName="SalesValue"></ChartSeries>
-    </ChartSeriesCollection>
+    
 </SfChart>
 
 @code {
