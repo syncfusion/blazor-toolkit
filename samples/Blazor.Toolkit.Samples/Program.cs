@@ -26,6 +26,7 @@ builder.Services.AddSingleton<IStringLocalizer>(sp =>
 });
 
 builder.Services.AddScoped<SfDialogService>();
+builder.Services.AddScoped<SampleService>();
 // Register RenderModeService for components that need to switch render mode
 builder.Services.AddScoped<RenderModeService>();
 // Make HttpContext available to components during server prerender

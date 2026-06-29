@@ -1,5 +1,7 @@
 ﻿@inherits LayoutComponentBase
 @implements IAsyncDisposable
+@using Blazor.Toolkit.Samples.Client.Services
+@inject SampleService SampleService
 
 @using Microsoft.AspNetCore.Components.Web
 @using Syncfusion.Blazor.Toolkit.Buttons
@@ -160,8 +162,10 @@
 
         <main class="main-area">
             <article class="page-content">
-                <CascadingValue Value="CurrentChartTheme">
-                    @Body
+                <CascadingValue Value="@SampleService.IsDevice">
+                    <CascadingValue Value="CurrentChartTheme">
+                        @Body
+                    </CascadingValue>
                 </CascadingValue>
             </article>
         </main>
@@ -268,6 +272,15 @@
 
             // Register this instance with the helper
             await JS.InvokeVoidAsync("responsiveBlazor.register", _dotNetRef);
+
+            // Initialize device detection immediately
+            try
+            {
+                bool isDevice = await JS.InvokeAsync<bool>("isDevice");
+                UpdateDeviceMode(isDevice);
+            }
+            catch { }
+
             try
             {
                 var currentTheme = await JS.InvokeAsync<string>("mainLayout.initTheme");
@@ -288,10 +301,32 @@
         }
     }
 
+    // JSInvokable: receives device mode and tablet status updates from JavaScript
+    [JSInvokable]
+    public void UpdateDeviceMode(bool isDevice)
+    {
+        SampleService.IsDevice = isDevice;
+
+        // Update screen size based on device detection
+        var newSize = isDevice ? ScreenSize.Mobile : ScreenSize.Desktop;
+    
+        if (newSize != CurrentScreen)
+        {
+            CurrentScreen = newSize;
+            if (CurrentScreen == ScreenSize.Desktop)
+            {
+                OverlayLeftIsOpen = false;
+            }
+            InvokeAsync(StateHasChanged);
+        }
+    }
+
     // JSInvokable: receives width and updates internal screen size state.
     [JSInvokable]
     public Task NotifyResize(int width)
     {
+        bool isDevice = width <= 640;
+        SampleService.IsDevice = isDevice;
         // Determine new logical screen size
         var newSize = width <= 640 ? ScreenSize.Mobile : (width <= 1024 ? ScreenSize.Tablet : ScreenSize.Desktop);
         // Only trigger a render when the logical size changes to minimize re-renders
