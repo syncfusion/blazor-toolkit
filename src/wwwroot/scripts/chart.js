@@ -1322,9 +1322,11 @@ const SfChart = (function () {
                             }
                         });
                     }
-                    tooltipMousemovehandler(this);
+                    if (currentSeries.enableTooltip) {
+                        tooltipMousemovehandler(this);
+                    }
                     crosshairMousemoveHandler(this);
-                    if (this.markerExplodeBase.markerExploded) {
+                    if (this.markerExplodeBase.markerExploded && currentSeries.marker.vS) {
                         markerMove(this, false);
                     }
                 }
