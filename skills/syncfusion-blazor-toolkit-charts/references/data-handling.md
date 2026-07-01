@@ -51,13 +51,11 @@ Complete guide to data handling, binding, manipulation, and optimization pattern
 ### Basic Data Binding with List<T>
 
 ```razor
-@using Syncfusion.Blazor.Charts
+@using Syncfusion.Blazor.Toolkit.Charts
 
 <SfChart>
-    <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Charts.ValueType.Category"/>
-    <ChartSeriesCollection>
-        <ChartSeries DataSource="@salesData" XName="Month" YName="Sales" Type="Syncfusion.Blazor.Charts.ChartSeriesType.Column"/>
-    </ChartSeriesCollection>
+    <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Toolkit.ValueType.Category"/>
+        <ChartSeries DataSource="@salesData" XName="Month" YName="Sales" Type="Syncfusion.Blazor.Toolkit.ChartSeriesType.Column"/>
 </SfChart>
 
 @code {
@@ -82,9 +80,7 @@ Complete guide to data handling, binding, manipulation, and optimization pattern
 
 ```razor
 <SfChart>
-    <ChartSeriesCollection>
-        <ChartSeries DataSource="@GetChartData()" XName="X" YName="Y" Type="Syncfusion.Blazor.Charts.ChartSeriesType.Line"/>
-    </ChartSeriesCollection>
+        <ChartSeries DataSource="@GetChartData()" XName="X" YName="Y" Type="Syncfusion.Blazor.Toolkit.ChartSeriesType.Line"/>
 </SfChart>
 
 @code {
@@ -109,12 +105,10 @@ Complete guide to data handling, binding, manipulation, and optimization pattern
 
 ```razor
 <SfChart>
-    <ChartSeriesCollection>
-        <ChartSeries DataSource="@actualData" XName="Date" YName="Value" Name="Actual" Type="Syncfusion.Blazor.Charts.ChartSeriesType.Line"/>
-        <ChartSeries DataSource="@forecastData" XName="Date" YName="Value" Name="Forecast" Type="Syncfusion.Blazor.Charts.ChartSeriesType.Line">
+        <ChartSeries DataSource="@actualData" XName="Date" YName="Value" Name="Actual" Type="Syncfusion.Blazor.Toolkit.ChartSeriesType.Line"/>
+        <ChartSeries DataSource="@forecastData" XName="Date" YName="Value" Name="Forecast" Type="Syncfusion.Blazor.Toolkit.ChartSeriesType.Line">
             <ChartSeriesAnimation Enable="true"/>
         </ChartSeries>
-    </ChartSeriesCollection>
 </SfChart>
 
 @code {
@@ -156,16 +150,14 @@ Complete guide to data handling, binding, manipulation, and optimization pattern
 ### Remote Data Binding
 
 ```razor
-@using Syncfusion.Blazor.Charts
+@using Syncfusion.Blazor.Toolkit.Charts
 @using Syncfusion.Blazor.Data
 
 <SfChart>
-    <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Charts.ValueType.Category"/>
-    <ChartSeriesCollection>
-        <ChartSeries XName="ProductName" YName="Price" Type="Syncfusion.Blazor.Charts.ChartSeriesType.Column">
+    <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Toolkit.ValueType.Category"/>
+        <ChartSeries XName="ProductName" YName="Price" Type="Syncfusion.Blazor.Toolkit.ChartSeriesType.Column">
             <SfDataManager Url="https://api.example.com/products" Adaptor="Adaptors.WebApiAdaptor"/>
         </ChartSeries>
-    </ChartSeriesCollection>
 </SfChart>
 ```
 
@@ -175,11 +167,9 @@ Complete guide to data handling, binding, manipulation, and optimization pattern
 @using Syncfusion.Blazor.Data
 
 <SfChart>
-    <ChartSeriesCollection>
-        <ChartSeries XName="Category" YName="Amount" Type="Syncfusion.Blazor.Charts.ChartSeriesType.Bar">
+        <ChartSeries XName="Category" YName="Amount" Type="Syncfusion.Blazor.Toolkit.ChartSeriesType.Bar">
             <SfDataManager Json="@products"/>
         </ChartSeries>
-    </ChartSeriesCollection>
 </SfChart>
 
 @code {
@@ -197,8 +187,7 @@ Complete guide to data handling, binding, manipulation, and optimization pattern
 
 ```razor
 <SfChart>
-    <ChartSeriesCollection>
-        <ChartSeries XName="Name" YName="Value" Type="Syncfusion.Blazor.Charts.ChartSeriesType.Column">
+        <ChartSeries XName="Name" YName="Value" Type="Syncfusion.Blazor.Toolkit.ChartSeriesType.Column">
             <SfDataManager Json="@allData">
                 <Query>
                     @{
@@ -209,7 +198,6 @@ Complete guide to data handling, binding, manipulation, and optimization pattern
                 </Query>
             </SfDataManager>
         </ChartSeries>
-    </ChartSeriesCollection>
 </SfChart>
 
 @code {
@@ -240,9 +228,7 @@ Complete guide to data handling, binding, manipulation, and optimization pattern
 
 ```razor
 <SfChart @ref="chart">
-    <ChartSeriesCollection>
-        <ChartSeries DataSource="@chartData" XName="Time" YName="Value" Type="Syncfusion.Blazor.Charts.ChartSeriesType.Line"/>
-    </ChartSeriesCollection>
+        <ChartSeries DataSource="@chartData" XName="Time" YName="Value" Type="Syncfusion.Blazor.Toolkit.ChartSeriesType.Line"/>
 </SfChart>
 
 <button @onclick="AddDataPoint">Add Point</button>
@@ -356,11 +342,9 @@ Complete guide to data handling, binding, manipulation, and optimization pattern
 
 ```razor
 <SfChart>
-    <ChartSeriesCollection>
-        <ChartSeries DataSource="@editableData" XName="X" YName="Y" Type="Syncfusion.Blazor.Charts.ChartSeriesType.Column">
+        <ChartSeries DataSource="@editableData" XName="X" YName="Y" Type="Syncfusion.Blazor.Toolkit.ChartSeriesType.Column">
             <ChartDataEditSettings Enable="true"/>
         </ChartSeries>
-    </ChartSeriesCollection>
 </SfChart>
 
 @code {
@@ -384,11 +368,9 @@ Complete guide to data handling, binding, manipulation, and optimization pattern
 ```razor
 <SfChart>
     <ChartEvents OnPointDragComplete="HandleDragComplete"/>
-    <ChartSeriesCollection>
-        <ChartSeries DataSource="@dragData" XName="Month" YName="Sales" Type="Syncfusion.Blazor.Charts.ChartSeriesType.Column">
+        <ChartSeries DataSource="@dragData" XName="Month" YName="Sales" Type="Syncfusion.Blazor.Toolkit.ChartSeriesType.Column">
             <ChartDataEditSettings Enable="true" Mode="EditMode.Y"/>
         </ChartSeries>
-    </ChartSeriesCollection>
 </SfChart>
 
 <div>Last Edit: @lastEditMessage</div>
@@ -417,11 +399,9 @@ Complete guide to data handling, binding, manipulation, and optimization pattern
 
 ```razor
 <SfChart>
-    <ChartSeriesCollection>
-        <ChartSeries DataSource="@unsortedData" XName="Category" YName="Value" Type="Syncfusion.Blazor.Charts.ChartSeriesType.Column">
+        <ChartSeries DataSource="@unsortedData" XName="Category" YName="Value" Type="Syncfusion.Blazor.Toolkit.ChartSeriesType.Column">
             <ChartSeriesSort Enable="true" Direction="SortDirection.Ascending"/>
         </ChartSeries>
-    </ChartSeriesCollection>
 </SfChart>
 
 @code {
@@ -444,11 +424,9 @@ Complete guide to data handling, binding, manipulation, and optimization pattern
 
 ```razor
 <SfChart>
-    <ChartSeriesCollection>
-        <ChartSeries DataSource="@salesByRegion" XName="Region" YName="Revenue" Type="Syncfusion.Blazor.Charts.ChartSeriesType.Bar">
+        <ChartSeries DataSource="@salesByRegion" XName="Region" YName="Revenue" Type="Syncfusion.Blazor.Toolkit.ChartSeriesType.Bar">
             <ChartSeriesSort Enable="true" Direction="SortDirection.Descending"/>
         </ChartSeries>
-    </ChartSeriesCollection>
 </SfChart>
 
 @code {
@@ -497,11 +475,9 @@ Complete guide to data handling, binding, manipulation, and optimization pattern
 
 ```razor
 <SfChart>
-    <ChartSeriesCollection>
-        <ChartSeries DataSource="@dataWithNulls" XName="X" YName="Y" Type="Syncfusion.Blazor.Charts.ChartSeriesType.Line">
+        <ChartSeries DataSource="@dataWithNulls" XName="X" YName="Y" Type="Syncfusion.Blazor.Toolkit.ChartSeriesType.Line">
             <ChartEmptyPointSettings Mode="EmptyPointMode.Gap"/>
         </ChartSeries>
-    </ChartSeriesCollection>
 </SfChart>
 
 @code {
@@ -525,7 +501,7 @@ Complete guide to data handling, binding, manipulation, and optimization pattern
 ### Average Mode for Empty Points
 
 ```razor
-<ChartSeries DataSource="@dataWithNulls" XName="X" YName="Y" Type="Syncfusion.Blazor.Charts.ChartSeriesType.Column">
+<ChartSeries DataSource="@dataWithNulls" XName="X" YName="Y" Type="Syncfusion.Blazor.Toolkit.ChartSeriesType.Column">
     <ChartEmptyPointSettings Mode="EmptyPointMode.Average" Fill="#FFA500"/>
 </ChartSeries>
 ```
@@ -533,7 +509,7 @@ Complete guide to data handling, binding, manipulation, and optimization pattern
 ### Zero Mode for Empty Points
 
 ```razor
-<ChartSeries DataSource="@dataWithNulls" XName="X" YName="Y" Type="Syncfusion.Blazor.Charts.ChartSeriesType.Area">
+<ChartSeries DataSource="@dataWithNulls" XName="X" YName="Y" Type="Syncfusion.Blazor.Toolkit.ChartSeriesType.Area">
     <ChartEmptyPointSettings Mode="EmptyPointMode.Zero"/>
 </ChartSeries>
 ```
@@ -541,7 +517,7 @@ Complete guide to data handling, binding, manipulation, and optimization pattern
 ### Drop Mode (Skip Empty Points)
 
 ```razor
-<ChartSeries DataSource="@dataWithNulls" XName="X" YName="Y" Type="Syncfusion.Blazor.Charts.ChartSeriesType.Line">
+<ChartSeries DataSource="@dataWithNulls" XName="X" YName="Y" Type="Syncfusion.Blazor.Toolkit.ChartSeriesType.Line">
     <ChartEmptyPointSettings Mode="EmptyPointMode.Drop"/>
     <ChartMarker Visible="true" Height="10" Width="10"/>
 </ChartSeries>
@@ -607,11 +583,9 @@ Complete guide to data handling, binding, manipulation, and optimization pattern
 @implements IDisposable
 
 <SfChart @ref="liveChart">
-    <ChartSeriesCollection>
-        <ChartSeries DataSource="@liveData" XName="Time" YName="Value" Type="Syncfusion.Blazor.Charts.ChartSeriesType.Line">
+        <ChartSeries DataSource="@liveData" XName="Time" YName="Value" Type="Syncfusion.Blazor.Toolkit.ChartSeriesType.Line">
             <ChartSeriesAnimation Enable="false"/>
         </ChartSeries>
-    </ChartSeriesCollection>
 </SfChart>
 
 @code {
@@ -675,9 +649,7 @@ Complete guide to data handling, binding, manipulation, and optimization pattern
 @implements IAsyncDisposable
 
 <SfChart @ref="signalChart">
-    <ChartSeriesCollection>
-        <ChartSeries DataSource="@signalData" XName="Timestamp" YName="Price" Type="Syncfusion.Blazor.Charts.ChartSeriesType.Line"/>
-    </ChartSeriesCollection>
+        <ChartSeries DataSource="@signalData" XName="Timestamp" YName="Price" Type="Syncfusion.Blazor.Toolkit.ChartSeriesType.Line"/>
 </SfChart>
 
 @code {
@@ -726,13 +698,11 @@ Complete guide to data handling, binding, manipulation, and optimization pattern
 
 ```razor
 <SfChart Height="400px">
-    <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Charts.ValueType.DateTime"/>
+    <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Toolkit.ValueType.DateTime"/>
     <ChartZoomSettings EnableScrollbar="true" EnableSelectionZooming="true"/>
-    <ChartSeriesCollection>
-        <ChartSeries DataSource="@largeDataset" XName="Date" YName="Value" Type="Syncfusion.Blazor.Charts.ChartSeriesType.Line">
+        <ChartSeries DataSource="@largeDataset" XName="Date" YName="Value" Type="Syncfusion.Blazor.Toolkit.ChartSeriesType.Line">
             <ChartSeriesAnimation Enable="false"/>
         </ChartSeries>
-    </ChartSeriesCollection>
 </SfChart>
 
 @code {
@@ -765,9 +735,7 @@ Complete guide to data handling, binding, manipulation, and optimization pattern
 ```razor
 <SfChart>
     <ChartEvents OnScrollEnd="HandleScrollEnd"/>
-    <ChartSeriesCollection>
-        <ChartSeries DataSource="@visibleData" XName="Index" YName="Value" Type="Syncfusion.Blazor.Charts.ChartSeriesType.Line"/>
-    </ChartSeriesCollection>
+        <ChartSeries DataSource="@visibleData" XName="Index" YName="Value" Type="Syncfusion.Blazor.Toolkit.ChartSeriesType.Line"/>
 </SfChart>
 
 @code {
@@ -844,7 +812,7 @@ Complete guide to data handling, binding, manipulation, and optimization pattern
 ### Disable Animations for Large Datasets
 
 ```razor
-<ChartSeries DataSource="@largeDataset" XName="X" YName="Y" Type="Syncfusion.Blazor.Charts.ChartSeriesType.Line">
+<ChartSeries DataSource="@largeDataset" XName="X" YName="Y" Type="Syncfusion.Blazor.Toolkit.ChartSeriesType.Line">
     <ChartSeriesAnimation Enable="false"/>
     <ChartMarker Visible="false"/>
 </ChartSeries>

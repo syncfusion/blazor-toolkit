@@ -57,12 +57,12 @@ The Syncfusion Blazor Chart component can be integrated into Blazor Server or We
 
 #### Step 2: Install NuGet Package
 1. Right-click project → **Manage NuGet Packages**
-2. Search for `Syncfusion.Blazor.Charts`
+2. Search for `Syncfusion.Blazor.Toolkit`
 3. Install the package
 
 **Or use Package Manager Console:**
 ```powershell
-Install-Package Syncfusion.Blazor.Toolkit.Charts
+Install-Package Syncfusion.Blazor.Toolkit
 ```
 
 ### Option 2: Visual Studio Code
@@ -193,13 +193,11 @@ This renders an empty chart container.
     <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Toolkit.ValueType.Category">
     </ChartPrimaryXAxis>
     
-    <ChartSeriesCollection>
         <ChartSeries DataSource="@SalesData" 
                      XName="Month" 
                      YName="SalesValue" 
                      Type="Syncfusion.Blazor.Toolkit.ChartSeriesType.Column">
         </ChartSeries>
-    </ChartSeriesCollection>
 </SfChart>
 ```
 
@@ -223,13 +221,11 @@ Add titles to the chart and axes for context:
     <ChartPrimaryYAxis Title="Sales in Dollar">
     </ChartPrimaryYAxis>
     
-    <ChartSeriesCollection>
         <ChartSeries DataSource="@SalesData" 
                      XName="Month" 
                      YName="SalesValue" 
                      Type="Syncfusion.Blazor.Toolkit.ChartSeriesType.Column">
         </ChartSeries>
-    </ChartSeriesCollection>
 </SfChart>
 ```
 
@@ -242,7 +238,6 @@ Display values on data points:
     <ChartPrimaryXAxis Title="Month" ValueType="Syncfusion.Blazor.Toolkit.ValueType.Category"></ChartPrimaryXAxis>
     <ChartPrimaryYAxis Title="Sales in Dollar"></ChartPrimaryYAxis>
     
-    <ChartSeriesCollection>
         <ChartSeries DataSource="@SalesData" 
                      XName="Month" 
                      YName="SalesValue" 
@@ -251,7 +246,6 @@ Display values on data points:
                 <ChartDataLabel Visible="true"></ChartDataLabel>
             </ChartMarker>
         </ChartSeries>
-    </ChartSeriesCollection>
 </SfChart>
 ```
 
@@ -266,13 +260,11 @@ Show data on hover:
     
     <ChartTooltipSettings Enable="true"></ChartTooltipSettings>
     
-    <ChartSeriesCollection>
         <ChartSeries DataSource="@SalesData" 
                      XName="Month" 
                      YName="SalesValue" 
                      Type="Syncfusion.Blazor.Toolkit.ChartSeriesType.Column">
         </ChartSeries>
-    </ChartSeriesCollection>
 </SfChart>
 ```
 
@@ -287,14 +279,12 @@ Enable legend for multi-series charts:
     
     <ChartLegendSettings Visible="true"></ChartLegendSettings>
     
-    <ChartSeriesCollection>
         <ChartSeries DataSource="@SalesData" 
                      Name="Sales"
                      XName="Month" 
                      YName="SalesValue" 
                      Type="Syncfusion.Blazor.Toolkit.ChartSeriesType.Column">
         </ChartSeries>
-    </ChartSeriesCollection>
 </SfChart>
 ```
 
@@ -324,7 +314,6 @@ Here's a complete working example combining all elements:
     <ChartTooltipSettings Enable="true"></ChartTooltipSettings>
     <ChartLegendSettings Visible="true"></ChartLegendSettings>
     
-    <ChartSeriesCollection>
         <ChartSeries DataSource="@SalesData" 
                      Name="Sales"
                      XName="Month" 
@@ -335,7 +324,6 @@ Here's a complete working example combining all elements:
                 <ChartDataLabel Visible="true"></ChartDataLabel>
             </ChartMarker>
         </ChartSeries>
-    </ChartSeriesCollection>
 </SfChart>
 
 @code {
@@ -381,7 +369,6 @@ To compare multiple datasets:
     <ChartLegendSettings Visible="true"></ChartLegendSettings>
     <ChartTooltipSettings Enable="true"></ChartTooltipSettings>
     
-    <ChartSeriesCollection>
         <ChartSeries DataSource="@Product1Data" 
                      Name="Product A"
                      XName="Month" 
@@ -395,7 +382,6 @@ To compare multiple datasets:
                      YName="Sales" 
                      Type="Syncfusion.Blazor.Toolkit.ChartSeriesType.Column">
         </ChartSeries>
-    </ChartSeriesCollection>
 </SfChart>
 
 @code {
@@ -461,9 +447,3 @@ After setting up your first chart:
 - Style with themes and custom colors
 - Add annotations and markers
 
-## Additional Resources
-
-- **NuGet Package:** [Syncfusion.Blazor.Charts](https://www.nuget.org/packages/Syncfusion.Blazor.Charts)
-- **API Documentation:** [Chart API Reference](https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.Charts.html)
-- **Live Demos:** [Blazor Chart Demos](https://blazor.syncfusion.com/demos/chart/line)
-- **GitHub Samples:** [Blazor Chart Examples](https://github.com/SyncfusionExamples/Blazor-Getting-Started-Examples/tree/main/Chart)

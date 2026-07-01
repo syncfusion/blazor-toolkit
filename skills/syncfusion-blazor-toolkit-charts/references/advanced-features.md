@@ -102,12 +102,10 @@ Multiple panes allow you to divide the chart area into separate plotting regions
                    RowIndex="1" Name="YAxis" LabelFormat="{value}°C"/>
     </ChartAxes>
     
-    <ChartSeriesCollection>
         <ChartSeries DataSource="@WeatherData" XName="Month" YName="TempF" 
                      Type="Syncfusion.Blazor.Toolkit.ChartSeriesType.Column"/>
         <ChartSeries DataSource="@WeatherData" XName="Month" YName="TempC" 
-                     YAxisName="YAxis" Type="Syncfusion.Blazor.Charts.ChartSeriesType.Line"/>
-    </ChartSeriesCollection>
+                     YAxisName="YAxis" Type="Syncfusion.Blazor.Toolkit.ChartSeriesType.Line"/>
 </SfChart>
 ```
 
@@ -115,7 +113,7 @@ Multiple panes allow you to divide the chart area into separate plotting regions
 
 ```razor
 <SfChart Title="Sales Analysis">
-    <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Charts.ValueType.Category"/>
+    <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Toolkit.ValueType.Category"/>
     <ChartPrimaryYAxis Title="Sales ($)"/>
     
     <ChartColumns>
@@ -125,15 +123,13 @@ Multiple panes allow you to divide the chart area into separate plotting regions
     
     <ChartAxes>
         <ChartAxis OpposedPosition="true" ColumnIndex="1" Name="XAxis2" 
-                   ValueType="Syncfusion.Blazor.Charts.ValueType.Category"/>
+                   ValueType="Syncfusion.Blazor.Toolkit.ValueType.Category"/>
     </ChartAxes>
     
-    <ChartSeriesCollection>
         <ChartSeries DataSource="@RegionData" XName="Quarter" YName="Sales" 
-                     Type="Syncfusion.Blazor.Charts.ChartSeriesType.Column"/>
+                     Type="Syncfusion.Blazor.Toolkit.ChartSeriesType.Column"/>
         <ChartSeries DataSource="@ProductData" XName="Quarter" YName="Revenue" 
-                     XAxisName="XAxis2" Type="Syncfusion.Blazor.Charts.ChartSeriesType.Area"/>
-    </ChartSeriesCollection>
+                     XAxisName="XAxis2" Type="Syncfusion.Blazor.Toolkit.ChartSeriesType.Area"/>
 </SfChart>
 ```
 
@@ -210,7 +206,7 @@ Trend lines visualize the direction and pace of data trends using mathematical r
 
 ```razor
 <ChartSeries DataSource="@SalesData" XName="Year" YName="Revenue" 
-             Type="Syncfusion.Blazor.Charts.ChartSeriesType.Scatter">
+             Type="Syncfusion.Blazor.Toolkit.ChartSeriesType.Scatter">
     <ChartMarker Visible="true" Width="10" Height="10"/>
     <ChartTrendlines>
         <ChartTrendline Type="TrendlineTypes.Linear" Width="3" 
@@ -309,7 +305,7 @@ Strip lines are horizontal or vertical bands that highlight specific ranges or t
 ### Vertical Strip Lines
 
 ```razor
-<ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Charts.ValueType.DateTime">
+<ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Toolkit.ValueType.DateTime">
     <ChartStriplines>
         <!-- Business Hours -->
         <ChartStripline Start="new DateTime(2024, 01, 01, 09, 0, 0)" 
@@ -322,7 +318,7 @@ Strip lines are horizontal or vertical bands that highlight specific ranges or t
 ### Segmented Strip Lines
 
 ```razor
-<ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Charts.ValueType.DateTime">
+<ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Toolkit.ValueType.DateTime">
     <ChartStriplines>
         <ChartStripline Start="new DateTime(2024, 01, 01, 08, 0, 0)" 
                         End="new DateTime(2024, 01, 01, 10, 0, 0)" 
@@ -382,7 +378,7 @@ Multiple axes enable displaying series with different scales or units on the sam
 
 ```razor
 <SfChart Title="Sales vs. Profit Analysis">
-    <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Charts.ValueType.Category"/>
+    <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Toolkit.ValueType.Category"/>
     
     <ChartPrimaryYAxis Title="Sales (Units)" LabelFormat="{value}K" 
                        Minimum="0" Maximum="100"/>
@@ -393,16 +389,14 @@ Multiple axes enable displaying series with different scales or units on the sam
                    Minimum="0" Maximum="50"/>
     </ChartAxes>
     
-    <ChartSeriesCollection>
         <ChartSeries DataSource="@BusinessData" XName="Product" YName="Sales" 
-                     Type="Syncfusion.Blazor.Charts.ChartSeriesType.Column" Name="Sales"/>
+                     Type="Syncfusion.Blazor.Toolkit.ChartSeriesType.Column" Name="Sales"/>
         
         <ChartSeries DataSource="@BusinessData" XName="Product" YName="Profit" 
-                     YAxisName="SecondaryY" Type="Syncfusion.Blazor.Charts.ChartSeriesType.Line" 
+                     YAxisName="SecondaryY" Type="Syncfusion.Blazor.Toolkit.ChartSeriesType.Line" 
                      Name="Profit Margin">
             <ChartMarker Visible="true" Height="10" Width="10"/>
         </ChartSeries>
-    </ChartSeriesCollection>
 </SfChart>
 ```
 
@@ -410,22 +404,20 @@ Multiple axes enable displaying series with different scales or units on the sam
 
 ```razor
 <SfChart>
-    <ChartPrimaryXAxis Name="XAxis1" ValueType="Syncfusion.Blazor.Charts.ValueType.Category"/>
+    <ChartPrimaryXAxis Name="XAxis1" ValueType="Syncfusion.Blazor.Toolkit.ValueType.Category"/>
     <ChartPrimaryYAxis Name="YAxis1" Title="Temperature (°C)"/>
     
     <ChartAxes>
         <ChartAxis Name="XAxis2" OpposedPosition="true" 
-                   ValueType="Syncfusion.Blazor.Charts.ValueType.Category"/>
+                   ValueType="Syncfusion.Blazor.Toolkit.ValueType.Category"/>
         <ChartAxis Name="YAxis2" OpposedPosition="true" 
                    Title="Humidity (%)"/>
     </ChartAxes>
     
-    <ChartSeriesCollection>
         <ChartSeries DataSource="@WeatherData" XName="Month" YName="Temp" 
                      XAxisName="XAxis1" YAxisName="YAxis1"/>
         <ChartSeries DataSource="@WeatherData" XName="Month" YName="Humidity" 
                      XAxisName="XAxis2" YAxisName="YAxis2"/>
-    </ChartSeriesCollection>
 </SfChart>
 ```
 
@@ -452,26 +444,24 @@ Data editing allows users to interactively drag and modify data points at runtim
 
 ```razor
 <SfChart Title="Interactive Sales Forecast">
-    <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Charts.ValueType.DateTime"/>
+    <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Toolkit.ValueType.DateTime"/>
     <ChartPrimaryYAxis LabelFormat="${value}K" Minimum="0" Maximum="100"/>
     
     <ChartTooltipSettings Enable="true"/>
     
-    <ChartSeriesCollection>
         <ChartSeries DataSource="@SalesData" XName="Date" YName="Value" 
-                     Type="Syncfusion.Blazor.Charts.ChartSeriesType.Column">
+                     Type="Syncfusion.Blazor.Toolkit.ChartSeriesType.Column">
             <ChartMarker Visible="true" Width="10" Height="10"/>
             <ChartDataEditSettings Enable="true" Fill="#FF6B6B" 
                                    MinY="0" MaxY="100"/>
         </ChartSeries>
         
         <ChartSeries DataSource="@ForecastData" XName="Date" YName="Value" 
-                     Type="Syncfusion.Blazor.Charts.ChartSeriesType.Line">
+                     Type="Syncfusion.Blazor.Toolkit.ChartSeriesType.Line">
             <ChartMarker Visible="true" Width="10" Height="10"/>
             <ChartDataEditSettings Enable="true" Fill="#4ECDC4" 
                                    MinY="0" MaxY="100"/>
         </ChartSeries>
-    </ChartSeriesCollection>
 </SfChart>
 ```
 
@@ -496,32 +486,30 @@ Handle missing or null data points with various rendering modes.
 
 ```razor
 <SfChart Title="Sales Data with Gaps">
-    <ChartSeriesCollection>
         <!-- Zero Mode: Shows null as zero -->
         <ChartSeries DataSource="@DataWithNulls" XName="Month" YName="Sales" 
-                     Type="Syncfusion.Blazor.Charts.ChartSeriesType.Column" Name="Zero Mode">
+                     Type="Syncfusion.Blazor.Toolkit.ChartSeriesType.Column" Name="Zero Mode">
             <ChartEmptyPointSettings Mode="EmptyPointMode.Zero" Fill="#E0E0E0"/>
         </ChartSeries>
         
         <!-- Average Mode: Interpolates with average -->
         <ChartSeries DataSource="@DataWithNulls" XName="Month" YName="Sales" 
-                     Type="Syncfusion.Blazor.Charts.ChartSeriesType.Line" Name="Average Mode">
+                     Type="Syncfusion.Blazor.Toolkit.ChartSeriesType.Line" Name="Average Mode">
             <ChartEmptyPointSettings Mode="EmptyPointMode.Average" Fill="#FFB6B9"/>
             <ChartMarker Visible="true"/>
         </ChartSeries>
         
         <!-- Gap Mode: Shows discontinuity -->
         <ChartSeries DataSource="@DataWithNulls" XName="Month" YName="Sales" 
-                     Type="Syncfusion.Blazor.Charts.ChartSeriesType.SplineArea" Name="Gap Mode">
+                     Type="Syncfusion.Blazor.Toolkit.ChartSeriesType.SplineArea" Name="Gap Mode">
             <ChartEmptyPointSettings Mode="EmptyPointMode.Gap"/>
         </ChartSeries>
         
         <!-- Drop Mode: Excludes empty points -->
         <ChartSeries DataSource="@DataWithNulls" XName="Month" YName="Sales" 
-                     Type="Syncfusion.Blazor.Charts.ChartSeriesType.Scatter" Name="Drop Mode">
+                     Type="Syncfusion.Blazor.Toolkit.ChartSeriesType.Scatter" Name="Drop Mode">
             <ChartEmptyPointSettings Mode="EmptyPointMode.Drop"/>
         </ChartSeries>
-    </ChartSeriesCollection>
 </SfChart>
 ```
 
@@ -546,14 +534,12 @@ Export rendered charts to various formats for reporting and sharing.
 ### Export to Image Formats
 
 ```razor
-@using Syncfusion.Blazor.Charts
+@using Syncfusion.Blazor.Toolkit.Charts
 @using Syncfusion.Blazor.Buttons
 
 <SfChart @ref="ChartRef" Title="Annual Report">
-    <ChartSeriesCollection>
         <ChartSeries DataSource="@ReportData" XName="Category" YName="Value" 
-                     Type="Syncfusion.Blazor.Charts.ChartSeriesType.Column"/>
-    </ChartSeriesCollection>
+                     Type="Syncfusion.Blazor.Toolkit.ChartSeriesType.Column"/>
 </SfChart>
 
 <div class="button-group">
@@ -691,9 +677,7 @@ Print charts directly from the browser with customization options.
 
 ```razor
 <SfChart @ref="ChartRef" Title="Sales Report">
-    <ChartSeriesCollection>
         <ChartSeries DataSource="@SalesData" XName="Month" YName="Sales"/>
-    </ChartSeriesCollection>
 </SfChart>
 
 <SfButton Content="Print Chart" @onclick="PrintChart" IsPrimary="true"/>
@@ -753,13 +737,11 @@ Right-to-left (RTL) rendering for internationalization in languages like Arabic 
 
 ```razor
 <SfChart EnableRtl="true" Title="مخطط المبيعات">
-    <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Charts.ValueType.Category"/>
+    <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Toolkit.ValueType.Category"/>
     <ChartPrimaryYAxis Title="القيمة"/>
     
-    <ChartSeriesCollection>
         <ChartSeries DataSource="@SalesData" XName="Category" YName="Value" 
-                     Type="Syncfusion.Blazor.Charts.ChartSeriesType.Column"/>
-    </ChartSeriesCollection>
+                     Type="Syncfusion.Blazor.Toolkit.ChartSeriesType.Column"/>
 </SfChart>
 ```
 
@@ -774,9 +756,7 @@ Right-to-left (RTL) rendering for internationalization in languages like Arabic 
     
     <ChartLegendSettings Position="LegendPosition.Right"/>
     
-    <ChartSeriesCollection>
         <ChartSeries DataSource="@Data" XName="Category" YName="Value"/>
-    </ChartSeriesCollection>
 </SfChart>
 ```
 
@@ -804,12 +784,10 @@ Right-to-left (RTL) rendering for internationalization in languages like Arabic 
         </ChartStriplines>
     </ChartPrimaryYAxis>
     
-    <ChartSeriesCollection>
         <ChartSeries DataSource="@PerformanceData" XName="Time" YName="CPU" 
-                     Type="Syncfusion.Blazor.Charts.ChartSeriesType.SplineArea" Name="CPU">
+                     Type="Syncfusion.Blazor.Toolkit.ChartSeriesType.SplineArea" Name="CPU">
             <ChartDataEditSettings Enable="true"/>
         </ChartSeries>
-    </ChartSeriesCollection>
 </SfChart>
 ```
 
@@ -824,10 +802,9 @@ Right-to-left (RTL) rendering for internationalization in languages like Arabic 
     
     <ChartAxes>
         <ChartAxis Name="SecondaryX" ColumnIndex="1" 
-                   ValueType="Syncfusion.Blazor.Charts.ValueType.Category"/>
+                   ValueType="Syncfusion.Blazor.Toolkit.ValueType.Category"/>
     </ChartAxes>
     
-    <ChartSeriesCollection>
         <ChartSeries DataSource="@RegionA" XName="Category" YName="Value">
             <ChartTrendlines>
                 <ChartTrendline Type="TrendlineTypes.Linear" ForwardForecast="3"/>
@@ -840,7 +817,6 @@ Right-to-left (RTL) rendering for internationalization in languages like Arabic 
                 <ChartTrendline Type="TrendlineTypes.Linear" ForwardForecast="3"/>
             </ChartTrendlines>
         </ChartSeries>
-    </ChartSeriesCollection>
 </SfChart>
 ```
 
@@ -895,13 +871,3 @@ Right-to-left (RTL) rendering for internationalization in languages like Arabic 
 | RTL | International applications | All types |
 
 ---
-
-## Reference Links
-
-- Syncfusion Blazor Charts Documentation: https://blazor.syncfusion.com/documentation/chart/getting-started
-- API Reference: https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.Charts.html
-- Live Demos: https://blazor.syncfusion.com/demos/chart/line
-
----
-
-*This reference is self-contained and requires no external dependencies beyond Syncfusion.Blazor.Charts package.*

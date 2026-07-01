@@ -74,16 +74,16 @@ Line charts visualize time-dependent data by connecting data points with lines, 
 ### Basic Implementation
 
 ```razor
+@using Syncfusion.Blazor.Toolkit.Charts
+
 <SfChart>
     <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Toolkit.ValueType.Category"></ChartPrimaryXAxis>
     
-    <ChartSeriesCollection>
     <ChartSeries DataSource="@SalesData" 
              XName="Month" 
              YName="Sales" 
              Type="Syncfusion.Blazor.Toolkit.ChartSeriesType.Line">
     </ChartSeries>
-    </ChartSeriesCollection>
 </SfChart>
 
 @code {
@@ -111,7 +111,7 @@ Line charts visualize time-dependent data by connecting data points with lines, 
 <ChartSeries DataSource="@SalesData" 
              XName="Month" 
              YName="Sales" 
-             Type="Syncfusion.Blazor.Charts.ChartSeriesType.Line"
+             Type="Syncfusion.Blazor.Toolkit.ChartSeriesType.Line"
              Fill="blue"
              Width="3">
 </ChartSeries>
@@ -122,7 +122,7 @@ Line charts visualize time-dependent data by connecting data points with lines, 
 <ChartSeries DataSource="@SalesData" 
              XName="Month" 
              YName="Sales" 
-             Type="Syncfusion.Blazor.Charts.ChartSeriesType.Line"
+             Type="Syncfusion.Blazor.Toolkit.ChartSeriesType.Line"
              DashArray="5,5"
              Width="2">
 </ChartSeries>
@@ -133,7 +133,7 @@ Line charts visualize time-dependent data by connecting data points with lines, 
 <ChartSeries DataSource="@SalesData" 
              XName="Month" 
              YName="Sales" 
-             Type="Syncfusion.Blazor.Charts.ChartSeriesType.Line"
+             Type="Syncfusion.Blazor.Toolkit.ChartSeriesType.Line"
              Fill="url(#lineGradient)">
 </ChartSeries>
 
@@ -156,7 +156,7 @@ Display different colors for each line segment:
              XName="Month" 
              YName="Value" 
              PointColorMapping="Color"
-             Type="Syncfusion.Blazor.Charts.ChartSeriesType.MultiColoredLine">
+             Type="Syncfusion.Blazor.Toolkit.ChartSeriesType.MultiColoredLine">
 </ChartSeries>
 
 @code {
@@ -190,13 +190,11 @@ Area charts fill the region below the line, emphasizing magnitude and trends ove
 <SfChart>
     <ChartPrimaryXAxis Minimum="1900" Maximum="2000" EdgeLabelPlacement="EdgeLabelPlacement.Shift"></ChartPrimaryXAxis>
     
-    <ChartSeriesCollection>
         <ChartSeries DataSource="@PopulationData" 
                      XName="Year" 
                      YName="Population" 
-                     Type="Syncfusion.Blazor.Charts.ChartSeriesType.Area">
+                     Type="Syncfusion.Blazor.Toolkit.ChartSeriesType.Area">
         </ChartSeries>
-    </ChartSeriesCollection>
 </SfChart>
 ```
 
@@ -207,7 +205,7 @@ Area charts fill the region below the line, emphasizing magnitude and trends ove
 <ChartSeries DataSource="@PopulationData" 
              XName="Year" 
              YName="Population" 
-             Type="Syncfusion.Blazor.Charts.ChartSeriesType.Area"
+             Type="Syncfusion.Blazor.Toolkit.ChartSeriesType.Area"
              Fill="#0066CC"
              Opacity="0.5">
 </ChartSeries>
@@ -218,7 +216,7 @@ Area charts fill the region below the line, emphasizing magnitude and trends ove
 <ChartSeries DataSource="@PopulationData" 
              XName="Year" 
              YName="Population" 
-             Type="Syncfusion.Blazor.Charts.ChartSeriesType.Area">
+             Type="Syncfusion.Blazor.Toolkit.ChartSeriesType.Area">
     <ChartSeriesBorder Width="2" Color="#0066CC"></ChartSeriesBorder>
 </ChartSeries>
 ```
@@ -228,7 +226,7 @@ Area charts fill the region below the line, emphasizing magnitude and trends ove
 <ChartSeries DataSource="@PopulationData" 
              XName="Year" 
              YName="Population" 
-             Type="Syncfusion.Blazor.Charts.ChartSeriesType.Area"
+             Type="Syncfusion.Blazor.Toolkit.ChartSeriesType.Area"
              Fill="url(#areaGradient)">
 </ChartSeries>
 
@@ -248,7 +246,7 @@ Area charts fill the region below the line, emphasizing magnitude and trends ove
 <ChartSeries DataSource="@SegmentData" 
              XName="Year" 
              YName="Value" 
-             Type="Syncfusion.Blazor.Charts.ChartSeriesType.MultiColoredArea">
+             Type="Syncfusion.Blazor.Toolkit.ChartSeriesType.MultiColoredArea">
     <ChartSegments>
         <ChartSegment Value="2007" Color="blue" />
         <ChartSegment Value="2009" Color="red" />
@@ -271,13 +269,11 @@ Column charts compare values across categories using vertical bars. Most common 
 <SfChart>
     <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Toolkit.ValueType.Category"></ChartPrimaryXAxis>
     
-    <ChartSeriesCollection>
         <ChartSeries DataSource="@SalesData" 
                      XName="Month" 
                      YName="Sales" 
-                     Type="Syncfusion.Blazor.Charts.ChartSeriesType.Column">
+                     Type="Syncfusion.Blazor.Toolkit.ChartSeriesType.Column">
         </ChartSeries>
-    </ChartSeriesCollection>
 </SfChart>
 ```
 
@@ -288,7 +284,7 @@ Column charts compare values across categories using vertical bars. Most common 
 <ChartSeries DataSource="@SalesData" 
              XName="Month" 
              YName="Sales" 
-             Type="Syncfusion.Blazor.Charts.ChartSeriesType.Column"
+             Type="Syncfusion.Blazor.Toolkit.ChartSeriesType.Column"
              Fill="#FF6347">
 </ChartSeries>
 ```
@@ -298,7 +294,7 @@ Column charts compare values across categories using vertical bars. Most common 
 <ChartSeries DataSource="@SalesData" 
              XName="Month" 
              YName="Sales" 
-             Type="Syncfusion.Blazor.Charts.ChartSeriesType.Column"
+             Type="Syncfusion.Blazor.Toolkit.ChartSeriesType.Column"
              ColumnSpacing="0.2"
              ColumnWidth="0.5">
 </ChartSeries>
@@ -309,7 +305,7 @@ Column charts compare values across categories using vertical bars. Most common 
 <ChartSeries DataSource="@SalesData" 
              XName="Month" 
              YName="Sales" 
-             Type="Syncfusion.Blazor.Charts.ChartSeriesType.Column"
+             Type="Syncfusion.Blazor.Toolkit.ChartSeriesType.Column"
              ColumnWidthInPixel="50">
 </ChartSeries>
 ```
@@ -320,7 +316,7 @@ Column charts compare values across categories using vertical bars. Most common 
 <ChartSeries DataSource="@SalesData" 
              XName="Month" 
              YName="Sales" 
-             Type="Syncfusion.Blazor.Charts.ChartSeriesType.Column">
+             Type="Syncfusion.Blazor.Toolkit.ChartSeriesType.Column">
     <ChartCornerRadius TopLeft="10" TopRight="10"></ChartCornerRadius>
 </ChartSeries>
 ```
@@ -332,13 +328,11 @@ Column charts compare values across categories using vertical bars. Most common 
     
     <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Toolkit.ValueType.Category"></ChartPrimaryXAxis>
     
-    <ChartSeriesCollection>
         <ChartSeries DataSource="@SalesData" 
                      XName="Month" 
                      YName="Sales" 
-                     Type="Syncfusion.Blazor.Charts.ChartSeriesType.Column">
+                     Type="Syncfusion.Blazor.Toolkit.ChartSeriesType.Column">
         </ChartSeries>
-    </ChartSeriesCollection>
 </SfChart>
 
 @code {
@@ -358,22 +352,20 @@ Column charts compare values across categories using vertical bars. Most common 
 Compare multiple series side-by-side:
 
 ```razor
-<ChartSeriesCollection>
     <ChartSeries DataSource="@Product1Data" 
                  XName="Quarter" 
                  YName="Sales" 
                  Name="Product A"
                  GroupName="Group1"
-                 Type="Syncfusion.Blazor.Charts.ChartSeriesType.Column">
+                 Type="Syncfusion.Blazor.Toolkit.ChartSeriesType.Column">
     </ChartSeries>
     <ChartSeries DataSource="@Product2Data" 
                  XName="Quarter" 
                  YName="Sales" 
                  Name="Product B"
                  GroupName="Group1"
-                 Type="Syncfusion.Blazor.Charts.ChartSeriesType.Column">
+                 Type="Syncfusion.Blazor.Toolkit.ChartSeriesType.Column">
     </ChartSeries>
-</ChartSeriesCollection>
 ```
 
 ---
@@ -390,13 +382,11 @@ Bar charts display horizontal bars for comparing categories. Ideal when category
 <SfChart>
     <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Toolkit.ValueType.Category"></ChartPrimaryXAxis>
     
-    <ChartSeriesCollection>
         <ChartSeries DataSource="@SalesData" 
                      XName="Product" 
                      YName="Sales" 
-                     Type="Syncfusion.Blazor.Charts.ChartSeriesType.Bar">
+                     Type="Syncfusion.Blazor.Toolkit.ChartSeriesType.Bar">
         </ChartSeries>
-    </ChartSeriesCollection>
 </SfChart>
 ```
 
@@ -413,7 +403,7 @@ Bar charts support the same customization options as column charts, including:
 <ChartSeries DataSource="@SalesData" 
              XName="Product" 
              YName="Sales" 
-             Type="Syncfusion.Blazor.Charts.ChartSeriesType.Bar">
+             Type="Syncfusion.Blazor.Toolkit.ChartSeriesType.Bar">
     <ChartCornerRadius TopRight="5" BottomRight="5"></ChartCornerRadius>
 </ChartSeries>
 ```
@@ -432,13 +422,11 @@ Spline charts draw smooth curves through data points using cubic spline interpol
 <SfChart>
     <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Toolkit.ValueType.Category"></ChartPrimaryXAxis>
     
-    <ChartSeriesCollection>
         <ChartSeries DataSource="@TemperatureData" 
                      XName="Month" 
                      YName="Temperature" 
-                     Type="Syncfusion.Blazor.Charts.ChartSeriesType.Spline">
+                     Type="Syncfusion.Blazor.Toolkit.ChartSeriesType.Spline">
         </ChartSeries>
-    </ChartSeriesCollection>
 </SfChart>
 ```
 
@@ -454,7 +442,7 @@ Spline charts support the same customization as line charts:
 <ChartSeries DataSource="@TemperatureData" 
              XName="Month" 
              YName="Temperature" 
-             Type="Syncfusion.Blazor.Charts.ChartSeriesType.Spline"
+             Type="Syncfusion.Blazor.Toolkit.ChartSeriesType.Spline"
              Fill="#FF6347"
              Width="3">
 </ChartSeries>
@@ -474,13 +462,11 @@ Combines smooth curves of spline charts with filled areas. Shows trends with smo
 <SfChart>
     <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Toolkit.ValueType.Category"></ChartPrimaryXAxis>
     
-    <ChartSeriesCollection>
         <ChartSeries DataSource="@Data" 
                      XName="Month" 
                      YName="Value" 
-                     Type="Syncfusion.Blazor.Charts.ChartSeriesType.SplineArea">
+                     Type="Syncfusion.Blazor.Toolkit.ChartSeriesType.SplineArea">
         </ChartSeries>
-    </ChartSeriesCollection>
 </SfChart>
 ```
 
@@ -505,13 +491,11 @@ Step line charts display data as a series of horizontal and vertical line segmen
 <SfChart>
     <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Toolkit.ValueType.Category"></ChartPrimaryXAxis>
     
-    <ChartSeriesCollection>
         <ChartSeries DataSource="@StockData" 
                      XName="Date" 
                      YName="Price" 
-                     Type="Syncfusion.Blazor.Charts.ChartSeriesType.StepLine">
+                     Type="Syncfusion.Blazor.Toolkit.ChartSeriesType.StepLine">
         </ChartSeries>
-    </ChartSeriesCollection>
 </SfChart>
 ```
 
@@ -529,13 +513,11 @@ Step area charts combine stepped lines with filled areas below. Shows discrete c
 <SfChart>
     <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Toolkit.ValueType.Category"></ChartPrimaryXAxis>
     
-    <ChartSeriesCollection>
         <ChartSeries DataSource="@Data" 
                      XName="Category" 
                      YName="Value" 
-                     Type="Syncfusion.Blazor.Charts.ChartSeriesType.StepArea">
+                     Type="Syncfusion.Blazor.Toolkit.ChartSeriesType.StepArea">
         </ChartSeries>
-    </ChartSeriesCollection>
 </SfChart>
 ```
 
@@ -564,7 +546,7 @@ All chart types support empty point handling for `null`, `double.NaN`, or `undef
 <ChartSeries DataSource="@DataWithGaps" 
              XName="Month" 
              YName="Value" 
-             Type="Syncfusion.Blazor.Charts.ChartSeriesType.Line">
+             Type="Syncfusion.Blazor.Toolkit.ChartSeriesType.Line">
     <ChartEmptyPointSettings Mode="EmptyPointMode.Average" 
                               Fill="red">
         <ChartEmptyPointBorder Color="green" Width="2"></ChartEmptyPointBorder>
@@ -666,23 +648,21 @@ Display multiple chart types together:
     <ChartLegendSettings Visible="true"></ChartLegendSettings>
     <ChartTooltipSettings Enable="true"></ChartTooltipSettings>
     
-    <ChartSeriesCollection>
         <ChartSeries DataSource="@ActualSales" 
                      Name="Actual"
                      XName="Month" 
                      YName="Sales" 
-                     Type="Syncfusion.Blazor.Charts.ChartSeriesType.Column">
+                     Type="Syncfusion.Blazor.Toolkit.ChartSeriesType.Column">
         </ChartSeries>
         
         <ChartSeries DataSource="@TargetSales" 
                      Name="Target"
                      XName="Month" 
                      YName="Sales" 
-                     Type="Syncfusion.Blazor.Charts.ChartSeriesType.Line"
+                     Type="Syncfusion.Blazor.Toolkit.ChartSeriesType.Line"
                      Width="3">
             <ChartMarker Visible="true" Width="10" Height="10"></ChartMarker>
         </ChartSeries>
-    </ChartSeriesCollection>
 </SfChart>
 ```
 

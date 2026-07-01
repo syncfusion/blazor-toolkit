@@ -34,7 +34,6 @@ A comprehensive guide to implementing specialized Syncfusion Blazor chart types 
 <SfChart>
     <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Toolkit.ValueType.Category" />
     
-    <ChartSeriesCollection>
         <ChartSeries DataSource="@RevenueData" 
                      XName="Year" 
                      YName="ProductA" 
@@ -51,7 +50,7 @@ A comprehensive guide to implementing specialized Syncfusion Blazor chart types 
                      Name="Product B"
                      Fill="blue" 
                      Opacity="0.7"
-                     Type="Syncfusion.Blazor.Charts.ChartSeriesType.StackingArea">
+                     Type="Syncfusion.Blazor.Toolkit.ChartSeriesType.StackingArea">
             <ChartSeriesBorder Width="2" Color="black" />
         </ChartSeries>
         
@@ -61,10 +60,9 @@ A comprehensive guide to implementing specialized Syncfusion Blazor chart types 
                      Name="Product C"
                      Fill="green" 
                      Opacity="0.7"
-                     Type="Syncfusion.Blazor.Charts.ChartSeriesType.StackingArea">
+                     Type="Syncfusion.Blazor.Toolkit.ChartSeriesType.StackingArea">
             <ChartSeriesBorder Width="2" Color="black" />
         </ChartSeries>
-    </ChartSeriesCollection>
     
     <ChartStackLabelSettings Visible="true" Format="{value}" Fill="#ADD8E6">
         <ChartStackLabelFont FontWeight="600" Color="blue" />
@@ -121,8 +119,7 @@ A comprehensive guide to implementing specialized Syncfusion Blazor chart types 
 <SfChart>
     <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Toolkit.ValueType.Category" />
     
-    <ChartSeriesCollection>
-        <ChartSeries DataSource="@ScatterData" 
+fix th         <ChartSeries DataSource="@ScatterData" 
                      XName="Country" 
                      YName="GoldMedals" 
                      Type="Syncfusion.Blazor.Toolkit.ChartSeriesType.Scatter"
@@ -139,7 +136,6 @@ A comprehensive guide to implementing specialized Syncfusion Blazor chart types 
                      Opacity="0.5">
             <ChartMarker Height="10" Width="10" Shape="ChartShape.Rectangle" />
         </ChartSeries>
-    </ChartSeriesCollection>
 </SfChart>
 ```
 
@@ -153,7 +149,6 @@ A comprehensive guide to implementing specialized Syncfusion Blazor chart types 
 
 ```cshtml
 <SfChart>
-    <ChartSeriesCollection>
         <ChartSeries DataSource="@PopulationData" 
                      XName="LiteracyRate" 
                      YName="GrowthRate" 
@@ -162,7 +157,6 @@ A comprehensive guide to implementing specialized Syncfusion Blazor chart types 
                      Fill="blue"
                      Opacity="0.5">
         </ChartSeries>
-    </ChartSeriesCollection>
 </SfChart>
 
 @code {
@@ -189,12 +183,10 @@ A comprehensive guide to implementing specialized Syncfusion Blazor chart types 
 **Apply to any chart type**:
 ```cshtml
 <SfChart IsTransposed="true">
-    <ChartSeriesCollection>
         <ChartSeries DataSource="@Data" 
                      XName="X" 
                      YName="Y" 
                      Type="Syncfusion.Blazor.Toolkit.ChartSeriesType.Spline" />
-    </ChartSeriesCollection>
 </SfChart>
 ```
 

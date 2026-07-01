@@ -48,14 +48,12 @@ Syncfusion Blazor Charts follow WAI-ARIA standards to provide semantic informati
     <ChartPrimaryXAxis Title="Months" />
     <ChartPrimaryYAxis Title="Revenue" />
     
-    <ChartSeriesCollection>
         <ChartSeries DataSource="@ChartData" XName="Month" YName="Sales" 
                      Type="Syncfusion.Blazor.Toolkit.ChartSeriesType.Column" Name="Revenue">
             <ChartMarker>
                 <ChartDataLabel Visible="true" />
             </ChartMarker>
         </ChartSeries>
-    </ChartSeriesCollection>
 </SfChart>
 
 @code {
@@ -110,10 +108,8 @@ Complete keyboard support following WCAG 2.2 guidelines.
         </ChartZoomToolbarButtons>
     </ChartZoomSettings>
     
-    <ChartSeriesCollection>
         <ChartSeries DataSource="@GrowthData" XName="Year" YName="Rate" 
-                     Type="Syncfusion.Blazor.Charts.ChartSeriesType.Line" Name="Growth Rate" />
-    </ChartSeriesCollection>
+                     Type="Syncfusion.Blazor.Toolkit.ChartSeriesType.Line" Name="Growth Rate" />
 </SfChart>
 
 @code {
@@ -150,7 +146,7 @@ Complete keyboard support following WCAG 2.2 guidelines.
 Optimize chart content for screen readers with descriptive labels.
 
 ```razor
-@using Syncfusion.Blazor.Charts
+@using Syncfusion.Blazor.Toolkit.Charts
 
 <SfChart Title="Quarterly Revenue Report" 
          Description="Bar chart showing quarterly revenue from Q1 to Q4">
@@ -160,16 +156,14 @@ Optimize chart content for screen readers with descriptive labels.
     <ChartTooltipSettings Enable="true" 
                           Format="${point.x}: ${point.y}" />
     
-    <ChartSeriesCollection>
         <ChartSeries DataSource="@RevenueData" XName="Quarter" YName="Amount" 
-                     Type="Syncfusion.Blazor.Charts.ChartSeriesType.Bar" Name="Revenue">
+                     Type="Syncfusion.Blazor.Toolkit.ChartSeriesType.Bar" Name="Revenue">
             <ChartMarker>
-                <ChartDataLabel Visible="true" Position="LabelPosition.Top">
+                <ChartDataLabel Visible="true" Position="ChartLabelPosition.Top">
                     <ChartDataLabelFont FontWeight="600" />
                 </ChartDataLabel>
             </ChartMarker>
         </ChartSeries>
-    </ChartSeriesCollection>
 </SfChart>
 
 @code {
@@ -194,18 +188,16 @@ Optimize chart content for screen readers with descriptive labels.
 Support system high contrast themes for improved visibility.
 
 ```razor
-@using Syncfusion.Blazor.Charts
+@using Syncfusion.Blazor.Toolkit.Charts
 
 <SfChart Title="High Contrast Chart" Theme="Theme.HighContrast">
     <ChartPrimaryXAxis Title="Categories" />
     <ChartPrimaryYAxis Title="Values" />
     
-    <ChartSeriesCollection>
         <ChartSeries DataSource="@ContrastData" XName="Category" YName="Value" 
-                     Type="Syncfusion.Blazor.Charts.ChartSeriesType.Column" Name="Series 1">
+                     Type="Syncfusion.Blazor.Toolkit.ChartSeriesType.Column" Name="Series 1">
             <ChartSeriesBorder Width="2" Color="#FFFFFF" />
         </ChartSeries>
-    </ChartSeriesCollection>
 </SfChart>
 
 @code {
@@ -226,28 +218,20 @@ Support system high contrast themes for improved visibility.
 
 ### Focus Management
 
-Implement proper focus indicators and management.
+Implement proper focus indicators and management by enabling selection on the chart.
 
 ```razor
-@using Syncfusion.Blazor.Charts
+@using Syncfusion.Blazor.Toolkit.Charts
 
-<SfChart Title="Focus Managed Chart">
+<SfChart Title="Focus Managed Chart" SelectionMode="SelectionMode.Point" SelectionPattern="SelectionPattern.Dots">
     <ChartPrimaryXAxis Title="Products" />
     <ChartPrimaryYAxis Title="Units Sold" />
     
-    <ChartSeriesCollection>
         <ChartSeries DataSource="@ProductData" XName="Product" YName="Units" 
-                     Type="Syncfusion.Blazor.Charts.ChartSeriesType.Column" Name="Sales">
+                     Type="ChartSeriesType.Column" Name="Sales">
             <ChartSeriesAnimation Enable="true" Duration="1000" />
             <ChartEmptyPointSettings Mode="EmptyPointMode.Gap" />
         </ChartSeries>
-    </ChartSeriesCollection>
-    
-    <ChartSelectionSettings Enable="true" Mode="Syncfusion.Blazor.Charts.SelectionMode.Point">
-        <ChartSelectionPattern>
-            <ChartSelectionPattern Type="SelectionPattern.Dots" />
-        </ChartSelectionPattern>
-    </ChartSelectionSettings>
 </SfChart>
 
 @code {
@@ -276,7 +260,7 @@ Configure chart to use specific locales for formatting.
 
 ```razor
 @using Syncfusion.Blazor
-@using Syncfusion.Blazor.Charts
+@using Syncfusion.Blazor.Toolkit.Charts
 @using System.Globalization
 
 <SfChart Title="International Sales" Locale="de-DE">
@@ -285,10 +269,8 @@ Configure chart to use specific locales for formatting.
     
     <ChartTooltipSettings Enable="true" Format="${point.x}: ${point.y}" />
     
-    <ChartSeriesCollection>
         <ChartSeries DataSource="@SalesData" XName="Month" YName="Sales" 
-                     Type="Syncfusion.Blazor.Charts.ChartSeriesType.Line" Name="Verkäufe" />
-    </ChartSeriesCollection>
+                     Type="Syncfusion.Blazor.Toolkit.ChartSeriesType.Line" Name="Verkäufe" />
 </SfChart>
 
 @code {
@@ -318,23 +300,21 @@ Configure chart to use specific locales for formatting.
 Apply culture-specific number formatting.
 
 ```razor
-@using Syncfusion.Blazor.Charts
+@using Syncfusion.Blazor.Toolkit.Charts
 @using System.Globalization
 
 <SfChart Title="Number Formatting Examples">
     <ChartPrimaryXAxis Title="Region" ValueType="Syncfusion.Blazor.Toolkit.ValueType.Category" />
     <ChartPrimaryYAxis Title="Population" LabelFormat="n0" />
     
-    <ChartSeriesCollection>
         <ChartSeries DataSource="@PopulationData" XName="Region" YName="Population" 
-                     Type="Syncfusion.Blazor.Charts.ChartSeriesType.Column" Name="Population">
+                     Type="Syncfusion.Blazor.Toolkit.ChartSeriesType.Column" Name="Population">
             <ChartMarker>
-                <ChartDataLabel Visible="true" Position="LabelPosition.Top">
+                <ChartDataLabel Visible="true" Position="ChartLabelPosition.Top">
                     <ChartDataLabelFont Size="10px" />
                 </ChartDataLabel>
             </ChartMarker>
         </ChartSeries>
-    </ChartSeriesCollection>
 </SfChart>
 
 @code {
@@ -358,7 +338,7 @@ Apply culture-specific number formatting.
 Format dates according to locale conventions.
 
 ```razor
-@using Syncfusion.Blazor.Charts
+@using Syncfusion.Blazor.Toolkit.Charts
 
 <SfChart Title="Date Time Formatting">
     <ChartPrimaryXAxis Title="Timeline" ValueType="Syncfusion.Blazor.Toolkit.ValueType.DateTime" 
@@ -367,12 +347,10 @@ Format dates according to locale conventions.
     
     <ChartTooltipSettings Enable="true" Format="${point.x}: ${point.y}°C" />
     
-    <ChartSeriesCollection>
         <ChartSeries DataSource="@TemperatureData" XName="Date" YName="Temp" 
-                     Type="Syncfusion.Blazor.Charts.ChartSeriesType.Spline" Name="Temperature">
+                     Type="Syncfusion.Blazor.Toolkit.ChartSeriesType.Spline" Name="Temperature">
             <ChartMarker Visible="true" Height="7" Width="7" />
         </ChartSeries>
-    </ChartSeriesCollection>
 </SfChart>
 
 @code {
@@ -397,7 +375,7 @@ Format dates according to locale conventions.
 Display currency using locale-specific symbols.
 
 ```razor
-@using Syncfusion.Blazor.Charts
+@using Syncfusion.Blazor.Toolkit.Charts
 @using System.Globalization
 
 <SfChart Title="Multi-Currency Revenue">
@@ -406,12 +384,10 @@ Display currency using locale-specific symbols.
     
     <ChartTooltipSettings Enable="true" Format="${series.name}<br/>${point.x}: ${point.y}" />
     
-    <ChartSeriesCollection>
         <ChartSeries DataSource="@UsdRevenue" XName="Quarter" YName="Amount" 
-                     Type="Syncfusion.Blazor.Charts.ChartSeriesType.Column" Name="USD Revenue" />
+                     Type="Syncfusion.Blazor.Toolkit.ChartSeriesType.Column" Name="USD Revenue" />
         <ChartSeries DataSource="@EurRevenue" XName="Quarter" YName="Amount" 
-                     Type="Syncfusion.Blazor.Charts.ChartSeriesType.Column" Name="EUR Revenue" />
-    </ChartSeriesCollection>
+                     Type="Syncfusion.Blazor.Toolkit.ChartSeriesType.Column" Name="EUR Revenue" />
 </SfChart>
 
 @code {
@@ -445,7 +421,7 @@ Translate chart text elements for different languages.
 
 ```razor
 @using Syncfusion.Blazor
-@using Syncfusion.Blazor.Charts
+@using Syncfusion.Blazor.Toolkit.Charts
 
 <SfChart Title="@GetLocalizedText("ChartTitle")">
     <ChartPrimaryXAxis Title="@GetLocalizedText("XAxisTitle")" />
@@ -453,10 +429,8 @@ Translate chart text elements for different languages.
     
     <ChartLegendSettings Visible="true" />
     
-    <ChartSeriesCollection>
         <ChartSeries DataSource="@LocalizedData" XName="Category" YName="Value" 
-                     Type="Syncfusion.Blazor.Charts.ChartSeriesType.Column" Name="@GetLocalizedText("SeriesName")" />
-    </ChartSeriesCollection>
+                     Type="Syncfusion.Blazor.Toolkit.ChartSeriesType.Column" Name="@GetLocalizedText("SeriesName")" />
 </SfChart>
 
 @code {
@@ -514,7 +488,7 @@ Translate chart text elements for different languages.
 Enable right-to-left layout for RTL languages.
 
 ```razor
-@using Syncfusion.Blazor.Charts
+@using Syncfusion.Blazor.Toolkit.Charts
 
 <SfChart Title="مخطط المبيعات" EnableRtl="true">
     <ChartPrimaryXAxis Title="المنتجات" />
@@ -522,14 +496,12 @@ Enable right-to-left layout for RTL languages.
     
     <ChartLegendSettings Visible="true" Position="LegendPosition.Top" />
     
-    <ChartSeriesCollection>
         <ChartSeries DataSource="@RtlData" XName="Product" YName="Sales" 
-                     Type="Syncfusion.Blazor.Charts.ChartSeriesType.Bar" Name="المبيعات الحالية">
+                     Type="Syncfusion.Blazor.Toolkit.ChartSeriesType.Bar" Name="المبيعات الحالية">
             <ChartMarker>
-                <ChartDataLabel Visible="true" Position="LabelPosition.Outer" />
+                <ChartDataLabel Visible="true" Position="ChartLabelPosition.Outer" />
             </ChartMarker>
         </ChartSeries>
-    </ChartSeriesCollection>
 </SfChart>
 
 @code {
@@ -553,17 +525,15 @@ Enable right-to-left layout for RTL languages.
 Define custom locale settings for specialized requirements.
 
 ```razor
-@using Syncfusion.Blazor.Charts
+@using Syncfusion.Blazor.Toolkit.Charts
 @using System.Globalization
 
 <SfChart Title="Custom Locale Chart">
     <ChartPrimaryXAxis Title="Period" />
     <ChartPrimaryYAxis Title="Metric" LabelFormat="{value}K" />
     
-    <ChartSeriesCollection>
         <ChartSeries DataSource="@MetricData" XName="Period" YName="Value" 
-                     Type="Syncfusion.Blazor.Charts.ChartSeriesType.Area" Name="Performance" Opacity="0.6" />
-    </ChartSeriesCollection>
+                     Type="Syncfusion.Blazor.Toolkit.ChartSeriesType.Area" Name="Performance" Opacity="0.6" />
 </SfChart>
 
 @code {
@@ -596,7 +566,7 @@ Load and apply locale data dynamically.
 
 ```razor
 @using Syncfusion.Blazor
-@using Syncfusion.Blazor.Charts
+@using Syncfusion.Blazor.Toolkit.Charts
 
 <div>
     <label>Select Language: </label>
@@ -611,10 +581,8 @@ Load and apply locale data dynamically.
     <ChartPrimaryXAxis Title="@XAxisTitle" />
     <ChartPrimaryYAxis Title="@YAxisTitle" LabelFormat="c0" />
     
-    <ChartSeriesCollection>
         <ChartSeries DataSource="@ChartData" XName="Month" YName="Sales" 
-                     Type="Syncfusion.Blazor.Charts.ChartSeriesType.Column" Name="@SeriesName" />
-    </ChartSeriesCollection>
+                     Type="Syncfusion.Blazor.Toolkit.ChartSeriesType.Column" Name="@SeriesName" />
 </SfChart>
 
 @code {
@@ -679,7 +647,7 @@ Load and apply locale data dynamically.
 Ensure color choices meet WCAG 2.2 Level AA standards.
 
 ```razor
-@using Syncfusion.Blazor.Charts
+@using Syncfusion.Blazor.Toolkit.Charts
 
 <SfChart Title="WCAG Compliant Chart">
     <ChartPrimaryXAxis Title="Categories" />
@@ -692,12 +660,10 @@ Ensure color choices meet WCAG 2.2 Level AA standards.
         <ChartPalette>#CC0000</ChartPalette>
     </ChartPalettes>
     
-    <ChartSeriesCollection>
         <ChartSeries DataSource="@ComplianceData" XName="Category" YName="Value" 
-                     Type="Syncfusion.Blazor.Charts.ChartSeriesType.Column" Name="Accessible Colors">
+                     Type="Syncfusion.Blazor.Toolkit.ChartSeriesType.Column" Name="Accessible Colors">
             <ChartSeriesBorder Width="2" Color="#FFFFFF" />
         </ChartSeries>
-    </ChartSeriesCollection>
 </SfChart>
 
 @code {
@@ -722,7 +688,7 @@ Ensure color choices meet WCAG 2.2 Level AA standards.
 Use palettes designed for various types of color blindness.
 
 ```razor
-@using Syncfusion.Blazor.Charts
+@using Syncfusion.Blazor.Toolkit.Charts
 
 <SfChart Title="Color-Blind Friendly Chart">
     <ChartPrimaryXAxis Title="Years" />
@@ -736,20 +702,18 @@ Use palettes designed for various types of color blindness.
         <ChartPalette>#CA9161</ChartPalette>
     </ChartPalettes>
     
-    <ChartSeriesCollection>
         <ChartSeries DataSource="@SeriesA" XName="Year" YName="Rate" 
-                     Type="Syncfusion.Blazor.Charts.ChartSeriesType.Line" Name="Product A">
+                     Type="Syncfusion.Blazor.Toolkit.ChartSeriesType.Line" Name="Product A">
             <ChartMarker Visible="true" Height="8" Width="8" Shape="ChartShape.Circle" />
         </ChartSeries>
         <ChartSeries DataSource="@SeriesB" XName="Year" YName="Rate" 
-                     Type="Syncfusion.Blazor.Charts.ChartSeriesType.Line" Name="Product B">
+                     Type="Syncfusion.Blazor.Toolkit.ChartSeriesType.Line" Name="Product B">
             <ChartMarker Visible="true" Height="8" Width="8" Shape="ChartShape.Triangle" />
         </ChartSeries>
         <ChartSeries DataSource="@SeriesC" XName="Year" YName="Rate" 
-                     Type="Syncfusion.Blazor.Charts.ChartSeriesType.Line" Name="Product C">
+                     Type="Syncfusion.Blazor.Toolkit.ChartSeriesType.Line" Name="Product C">
             <ChartMarker Visible="true" Height="8" Width="8" Shape="ChartShape.Diamond" />
         </ChartSeries>
-    </ChartSeriesCollection>
 </SfChart>
 
 @code {
@@ -787,7 +751,7 @@ Use palettes designed for various types of color blindness.
 Maintain proper contrast ratios between chart elements.
 
 ```razor
-@using Syncfusion.Blazor.Charts
+@using Syncfusion.Blazor.Toolkit.Charts
 
 <SfChart Title="High Contrast Chart" Background="#FFFFFF">
     <ChartPrimaryXAxis Title="Months">
@@ -799,17 +763,15 @@ Maintain proper contrast ratios between chart elements.
         <ChartAxisMajorGridLines Color="#CCCCCC" />
     </ChartPrimaryYAxis>
     
-    <ChartSeriesCollection>
         <ChartSeries DataSource="@ContrastData" XName="Month" YName="Revenue" 
-                     Fill="#0066CC" Type="Syncfusion.Blazor.Charts.ChartSeriesType.Column" Name="Revenue">
+                     Fill="#0066CC" Type="Syncfusion.Blazor.Toolkit.ChartSeriesType.Column" Name="Revenue">
             <ChartSeriesBorder Width="2" Color="#003366" />
             <ChartMarker>
-                <ChartDataLabel Visible="true" Position="LabelPosition.Top">
+                <ChartDataLabel Visible="true" Position="ChartLabelPosition.Top">
                     <ChartDataLabelFont Color="#000000" FontWeight="600" />
                 </ChartDataLabel>
             </ChartMarker>
         </ChartSeries>
-    </ChartSeriesCollection>
 </SfChart>
 
 @code {
@@ -830,37 +792,43 @@ Maintain proper contrast ratios between chart elements.
 
 ### Pattern Alternatives
 
-Provide pattern fills as alternatives to color coding.
+Provide pattern fills as alternatives to color coding for improved accessibility to color-blind users. Multiple series with different patterns help differentiate data.
 
 ```razor
-@using Syncfusion.Blazor.Charts
+@using Syncfusion.Blazor.Toolkit.Charts
 
-<SfChart Title="Pattern-Based Chart">
-    <ChartPrimaryXAxis Title="Segments" />
+<SfChart Title="Pattern-Based Chart" SelectionMode="SelectionMode.Series" SelectionPattern="SelectionPattern.DiagonalForward">
+    <ChartPrimaryXAxis Title="Segments" ValueType="Syncfusion.Blazor.Toolkit.ValueType.Category" />
     <ChartPrimaryYAxis Title="Market Share %" />
     
-    <ChartSeriesCollection>
-        <ChartSeries DataSource="@PatternData" XName="Segment" YName="Share" 
-                     Type="Syncfusion.Blazor.Charts.ChartSeriesType.Column" Name="Market Share">
+        <ChartSeries DataSource="@SegmentA" XName="Segment" YName="Share" 
+                     Type="ChartSeriesType.Column" Name="Segment A" Fill="#0066CC">
             <ChartSeriesBorder Width="2" Color="#000000" />
         </ChartSeries>
-    </ChartSeriesCollection>
-    
-    <ChartSelectionSettings Enable="true">
-        <ChartSelectionPattern>
-            <ChartSelectionPattern Type="SelectionPattern.Dots" />
-            <ChartSelectionPattern Type="SelectionPattern.DiagonalForward" />
-            <ChartSelectionPattern Type="SelectionPattern.Crosshatch" />
-        </ChartSelectionPattern>
-    </ChartSelectionSettings>
+        <ChartSeries DataSource="@SegmentB" XName="Segment" YName="Share" 
+                     Type="ChartSeriesType.Column" Name="Segment B" Fill="#00CC66">
+            <ChartSeriesBorder Width="2" Color="#000000" />
+        </ChartSeries>
+        <ChartSeries DataSource="@SegmentC" XName="Segment" YName="Share" 
+                     Type="ChartSeriesType.Column" Name="Segment C" Fill="#CC6600">
+            <ChartSeriesBorder Width="2" Color="#000000" />
+        </ChartSeries>
 </SfChart>
 
 @code {
-    public List<MarketData> PatternData = new List<MarketData>
+    public List<MarketData> SegmentA = new List<MarketData>
     {
-        new MarketData { Segment = "Segment A", Share = 35.5 },
-        new MarketData { Segment = "Segment B", Share = 28.2 },
-        new MarketData { Segment = "Segment C", Share = 36.3 }
+        new MarketData { Segment = "A", Share = 35.5 }
+    };
+    
+    public List<MarketData> SegmentB = new List<MarketData>
+    {
+        new MarketData { Segment = "B", Share = 28.2 }
+    };
+    
+    public List<MarketData> SegmentC = new List<MarketData>
+    {
+        new MarketData { Segment = "C", Share = 36.3 }
     };
     
     public class MarketData
@@ -880,7 +848,7 @@ Provide pattern fills as alternatives to color coding.
 Ensure touch targets meet minimum size requirements (44x44 pixels).
 
 ```razor
-@using Syncfusion.Blazor.Charts
+@using Syncfusion.Blazor.Toolkit.Charts
 
 <SfChart Title="Touch-Optimized Chart">
     <ChartPrimaryXAxis Title="Products" />
@@ -889,13 +857,11 @@ Ensure touch targets meet minimum size requirements (44x44 pixels).
     <ChartLegendSettings Visible="true" Height="50" Width="150" 
                          Padding="10" ShapeHeight="15" ShapeWidth="15" />
     
-    <ChartSeriesCollection>
         <ChartSeries DataSource="@TouchData" XName="Product" YName="Sales" 
-                     Type="Syncfusion.Blazor.Charts.ChartSeriesType.Column" Name="Q1 Sales">
+                     Type="Syncfusion.Blazor.Toolkit.ChartSeriesType.Column" Name="Q1 Sales">
             <ChartMarker Visible="true" Height="12" Width="12" 
                          Shape="ChartShape.Circle" />
         </ChartSeries>
-    </ChartSeriesCollection>
     
     <ChartTooltipSettings Enable="true" />
 </SfChart>
@@ -921,7 +887,7 @@ Ensure touch targets meet minimum size requirements (44x44 pixels).
 Optimize charts for mobile devices and touch interactions.
 
 ```razor
-@using Syncfusion.Blazor.Charts
+@using Syncfusion.Blazor.Toolkit.Charts
 
 <SfChart Title="Mobile Accessible Chart" Height="400px">
     <ChartPrimaryXAxis Title="Months" />
@@ -933,12 +899,10 @@ Optimize charts for mobile devices and touch interactions.
     
     <ChartTooltipSettings Enable="true" EnableAnimation="true" />
     
-    <ChartSeriesCollection>
         <ChartSeries DataSource="@MobileData" XName="Month" YName="Revenue" 
-                     Type="Syncfusion.Blazor.Charts.ChartSeriesType.Area" Opacity="0.6" Name="Revenue">
+                     Type="Syncfusion.Blazor.Toolkit.ChartSeriesType.Area" Opacity="0.6" Name="Revenue">
             <ChartMarker Visible="true" Height="10" Width="10" />
         </ChartSeries>
-    </ChartSeriesCollection>
 </SfChart>
 
 @code {
@@ -962,7 +926,7 @@ Optimize charts for mobile devices and touch interactions.
 Implement features that adapt to different screen sizes and orientations.
 
 ```razor
-@using Syncfusion.Blazor.Charts
+@using Syncfusion.Blazor.Toolkit.Charts
 
 <SfChart Title="Adaptive Layout Chart" Height="@ChartHeight">
     <ChartPrimaryXAxis Title="Categories" />
@@ -971,10 +935,8 @@ Implement features that adapt to different screen sizes and orientations.
     <ChartLegendSettings Visible="true" 
                          Position="@(IsSmallScreen ? LegendPosition.Bottom : LegendPosition.Right)" />
     
-    <ChartSeriesCollection>
         <ChartSeries DataSource="@AdaptiveData" XName="Category" YName="Value" 
-                     Type="Syncfusion.Blazor.Charts.ChartSeriesType.Column" Name="Data Series" />
-    </ChartSeriesCollection>
+                     Type="Syncfusion.Blazor.Toolkit.ChartSeriesType.Column" Name="Data Series" />
 </SfChart>
 
 @code {
@@ -1069,7 +1031,7 @@ Recommended tools for validating chart accessibility:
 
 ```razor
 <!-- Fix: Enable proper selection and zoom features -->
-<ChartSelectionSettings Enable="true" Mode="Syncfusion.Blazor.Charts.SelectionMode.Point" />
+<ChartSelectionSettings Enable="true" Mode="Syncfusion.Blazor.Toolkit.Charts.SelectionMode.Point" />
 <ChartZoomSettings EnableSelectionZooming="true" />
 ```
 

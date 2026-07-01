@@ -5,7 +5,7 @@ Comprehensive reference guide for all chart events organized by category.
 ## Table of Contents
 
 - [Chart Lifecycle Events](#chart-lifecycle-events)
-   - [OnChartLoaded (Loaded)](#onchartloaded-loaded)
+   - [Loaded](#loaded)
    - [SizeChanged](#sizechanged)
 - [Mouse and Touch Events](#mouse-and-touch-events)
    - [ChartMouseMove](#chartmousemove)
@@ -45,7 +45,7 @@ Comprehensive reference guide for all chart events organized by category.
 
 ## Chart Lifecycle Events
 
-### OnChartLoaded (Loaded)
+### Loaded
 
 Triggers after the chart has completed loading.
 
@@ -56,11 +56,9 @@ Triggers after the chart has completed loading.
 ```razor
 <SfChart>
     <ChartEvents Loaded="OnChartLoadedHandler"></ChartEvents>
-    <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Charts.ValueType.Category"></ChartPrimaryXAxis>
-    <ChartSeriesCollection>
-        <ChartSeries DataSource="@SalesData" XName="Month" YName="Sales" Type="Syncfusion.Blazor.Charts.ChartSeriesType.Column">
+    <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Toolkit.ValueType.Category"></ChartPrimaryXAxis>
+        <ChartSeries DataSource="@SalesData" XName="Month" YName="Sales" Type="Syncfusion.Blazor.Toolkit.ChartSeriesType.Column">
         </ChartSeries>
-    </ChartSeriesCollection>
 </SfChart>
 
 @code {
@@ -89,11 +87,9 @@ Triggers when the chart is resized.
 ```razor
 <SfChart>
     <ChartEvents SizeChanged="OnSizeChangedHandler"></ChartEvents>
-    <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Charts.ValueType.Category"></ChartPrimaryXAxis>
-    <ChartSeriesCollection>
-        <ChartSeries DataSource="@SalesData" XName="Month" YName="Sales" Type="Syncfusion.Blazor.Charts.ChartSeriesType.Column">
+    <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Toolkit.ValueType.Category"></ChartPrimaryXAxis>
+        <ChartSeries DataSource="@SalesData" XName="Month" YName="Sales" Type="Syncfusion.Blazor.Toolkit.ChartSeriesType.Column">
         </ChartSeries>
-    </ChartSeriesCollection>
 </SfChart>
 
 @code {
@@ -126,11 +122,9 @@ Triggers when the mouse moves over the chart area.
 ```razor
 <SfChart>
     <ChartEvents ChartMouseMove="OnMouseMoveHandler"></ChartEvents>
-    <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Charts.ValueType.Category"></ChartPrimaryXAxis>
-    <ChartSeriesCollection>
-        <ChartSeries DataSource="@SalesData" XName="Month" YName="Sales" Type="Syncfusion.Blazor.Charts.ChartSeriesType.Line">
+    <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Toolkit.ValueType.Category"></ChartPrimaryXAxis>
+        <ChartSeries DataSource="@SalesData" XName="Month" YName="Sales" Type="Syncfusion.Blazor.Toolkit.ChartSeriesType.Line">
         </ChartSeries>
-    </ChartSeriesCollection>
 </SfChart>
 
 @code {
@@ -160,11 +154,9 @@ Triggers when the chart is clicked.
 ```razor
 <SfChart>
     <ChartEvents ChartMouseClick="OnChartClickHandler"></ChartEvents>
-    <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Charts.ValueType.Category"></ChartPrimaryXAxis>
-    <ChartSeriesCollection>
-        <ChartSeries DataSource="@SalesData" XName="Month" YName="Sales" Type="Syncfusion.Blazor.Charts.ChartSeriesType.Column">
+    <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Toolkit.ValueType.Category"></ChartPrimaryXAxis>
+        <ChartSeries DataSource="@SalesData" XName="Month" YName="Sales" Type="Syncfusion.Blazor.Toolkit.ChartSeriesType.Column">
         </ChartSeries>
-    </ChartSeriesCollection>
 </SfChart>
 
 @code {
@@ -194,11 +186,9 @@ Triggers when the mouse button is pressed on the chart.
 ```razor
 <SfChart>
     <ChartEvents ChartMouseDown="OnMouseDownHandler"></ChartEvents>
-    <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Charts.ValueType.Category"></ChartPrimaryXAxis>
-    <ChartSeriesCollection>
-        <ChartSeries DataSource="@SalesData" XName="Month" YName="Sales" Type="Syncfusion.Blazor.Charts.ChartSeriesType.Area">
+    <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Toolkit.ValueType.Category"></ChartPrimaryXAxis>
+        <ChartSeries DataSource="@SalesData" XName="Month" YName="Sales" Type="Syncfusion.Blazor.Toolkit.ChartSeriesType.Area">
         </ChartSeries>
-    </ChartSeriesCollection>
 </SfChart>
 
 @code {
@@ -227,11 +217,9 @@ Triggers when the mouse button is released over the chart.
 ```razor
 <SfChart>
     <ChartEvents ChartMouseUp="OnMouseUpHandler"></ChartEvents>
-    <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Charts.ValueType.Category"></ChartPrimaryXAxis>
-    <ChartSeriesCollection>
-        <ChartSeries DataSource="@SalesData" XName="Month" YName="Sales" Type="Syncfusion.Blazor.Charts.ChartSeriesType.Spline">
+    <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Toolkit.ValueType.Category"></ChartPrimaryXAxis>
+        <ChartSeries DataSource="@SalesData" XName="Month" YName="Sales" Type="Syncfusion.Blazor.Toolkit.ChartSeriesType.Spline">
         </ChartSeries>
-    </ChartSeriesCollection>
 </SfChart>
 
 @code {
@@ -256,11 +244,9 @@ Triggers when the mouse leaves the chart area. This event has no specific argume
 ```razor
 <SfChart>
     <ChartEvents ChartMouseLeave="OnMouseLeaveHandler"></ChartEvents>
-    <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Charts.ValueType.Category"></ChartPrimaryXAxis>
-    <ChartSeriesCollection>
-        <ChartSeries DataSource="@SalesData" XName="Month" YName="Sales" Type="Syncfusion.Blazor.Charts.ChartSeriesType.Bar">
+    <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Toolkit.ValueType.Category"></ChartPrimaryXAxis>
+        <ChartSeries DataSource="@SalesData" XName="Month" YName="Sales" Type="Syncfusion.Blazor.Toolkit.ChartSeriesType.Bar">
         </ChartSeries>
-    </ChartSeriesCollection>
 </SfChart>
 
 @code {
@@ -296,11 +282,9 @@ Triggers when a data point is clicked.
 ```razor
 <SfChart>
     <ChartEvents OnPointClick="OnPointClickHandler"></ChartEvents>
-    <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Charts.ValueType.Category"></ChartPrimaryXAxis>
-    <ChartSeriesCollection>
-        <ChartSeries DataSource="@SalesData" XName="Month" YName="Sales" Type="Syncfusion.Blazor.Charts.ChartSeriesType.Column">
+    <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Toolkit.ValueType.Category"></ChartPrimaryXAxis>
+        <ChartSeries DataSource="@SalesData" XName="Month" YName="Sales" Type="Syncfusion.Blazor.Toolkit.ChartSeriesType.Column">
         </ChartSeries>
-    </ChartSeriesCollection>
 </SfChart>
 
 @code {
@@ -326,12 +310,10 @@ Triggers when the mouse hovers over a data point. Uses the same `PointEventArgs`
 ```razor
 <SfChart>
     <ChartEvents PointMove="OnPointMoveHandler"></ChartEvents>
-    <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Charts.ValueType.Category"></ChartPrimaryXAxis>
-    <ChartSeriesCollection>
-        <ChartSeries DataSource="@SalesData" XName="Month" YName="Sales" Type="Syncfusion.Blazor.Charts.ChartSeriesType.Line">
+    <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Toolkit.ValueType.Category"></ChartPrimaryXAxis>
+        <ChartSeries DataSource="@SalesData" XName="Month" YName="Sales" Type="Syncfusion.Blazor.Toolkit.ChartSeriesType.Line">
             <ChartMarker Visible="true"></ChartMarker>
         </ChartSeries>
-    </ChartSeriesCollection>
 </SfChart>
 
 @code {
@@ -370,11 +352,9 @@ Triggers before each data point is rendered.
 ```razor
 <SfChart>
     <ChartEvents OnPointRender="OnPointRenderHandler"></ChartEvents>
-    <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Charts.ValueType.Category"></ChartPrimaryXAxis>
-    <ChartSeriesCollection>
-        <ChartSeries DataSource="@SalesData" XName="Month" YName="Sales" Type="Syncfusion.Blazor.Charts.ChartSeriesType.Column">
+    <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Toolkit.ValueType.Category"></ChartPrimaryXAxis>
+        <ChartSeries DataSource="@SalesData" XName="Month" YName="Sales" Type="Syncfusion.Blazor.Toolkit.ChartSeriesType.Column">
         </ChartSeries>
-    </ChartSeriesCollection>
 </SfChart>
 
 @code {
@@ -410,14 +390,12 @@ Triggers before data labels are rendered.
 ```razor
 <SfChart>
     <ChartEvents OnDataLabelRender="OnDataLabelRenderHandler"></ChartEvents>
-    <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Charts.ValueType.Category"></ChartPrimaryXAxis>
-    <ChartSeriesCollection>
-        <ChartSeries DataSource="@SalesData" XName="Month" YName="Sales" Type="Syncfusion.Blazor.Charts.ChartSeriesType.Column">
+    <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Toolkit.ValueType.Category"></ChartPrimaryXAxis>
+        <ChartSeries DataSource="@SalesData" XName="Month" YName="Sales" Type="Syncfusion.Blazor.Toolkit.ChartSeriesType.Column">
             <ChartMarker>
                 <ChartDataLabel Visible="true"></ChartDataLabel>
             </ChartMarker>
         </ChartSeries>
-    </ChartSeriesCollection>
 </SfChart>
 
 @code {
@@ -449,11 +427,9 @@ Triggers before axis labels are rendered.
 ```razor
 <SfChart>
     <ChartEvents OnAxisLabelRender="OnAxisLabelRenderHandler"></ChartEvents>
-    <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Charts.ValueType.Category"></ChartPrimaryXAxis>
-    <ChartSeriesCollection>
-        <ChartSeries DataSource="@SalesData" XName="Month" YName="Sales" Type="Syncfusion.Blazor.Charts.ChartSeriesType.Line">
+    <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Toolkit.ValueType.Category"></ChartPrimaryXAxis>
+        <ChartSeries DataSource="@SalesData" XName="Month" YName="Sales" Type="Syncfusion.Blazor.Toolkit.ChartSeriesType.Line">
         </ChartSeries>
-    </ChartSeriesCollection>
 </SfChart>
 
 @code {
@@ -486,13 +462,11 @@ Triggers before legend items are rendered.
 ```razor
 <SfChart>
     <ChartEvents OnLegendItemRender="OnLegendRenderHandler"></ChartEvents>
-    <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Charts.ValueType.Category"></ChartPrimaryXAxis>
-    <ChartSeriesCollection>
-        <ChartSeries DataSource="@SalesData" Name="Q1 Sales" XName="Month" YName="Sales" Type="Syncfusion.Blazor.Charts.ChartSeriesType.Column">
+    <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Toolkit.ValueType.Category"></ChartPrimaryXAxis>
+        <ChartSeries DataSource="@SalesData" Name="Q1 Sales" XName="Month" YName="Sales" Type="Syncfusion.Blazor.Toolkit.ChartSeriesType.Column">
         </ChartSeries>
-        <ChartSeries DataSource="@TargetData" Name="Target" XName="Month" YName="Target" Type="Syncfusion.Blazor.Charts.ChartSeriesType.Line">
+        <ChartSeries DataSource="@TargetData" Name="Target" XName="Month" YName="Target" Type="Syncfusion.Blazor.Toolkit.ChartSeriesType.Line">
         </ChartSeries>
-    </ChartSeriesCollection>
 </SfChart>
 
 @code {
@@ -518,11 +492,9 @@ Triggers before each series is rendered. This event allows customization of seri
 ```razor
 <SfChart>
     <ChartEvents OnSeriesRender="OnSeriesRenderHandler"></ChartEvents>
-    <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Charts.ValueType.Category"></ChartPrimaryXAxis>
-    <ChartSeriesCollection>
-        <ChartSeries DataSource="@SalesData" XName="Month" YName="Sales" Type="Syncfusion.Blazor.Charts.ChartSeriesType.Column">
+    <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Toolkit.ValueType.Category"></ChartPrimaryXAxis>
+        <ChartSeries DataSource="@SalesData" XName="Month" YName="Sales" Type="Syncfusion.Blazor.Toolkit.ChartSeriesType.Column">
         </ChartSeries>
-    </ChartSeriesCollection>
 </SfChart>
 
 @code {
@@ -552,13 +524,11 @@ Triggers after point, series, or cluster selection is completed.
 **Example**:
 
 ```razor
-<SfChart SelectionMode="Syncfusion.Blazor.Charts.SelectionMode.Point">
+<SfChart SelectionMode="Syncfusion.Blazor.Toolkit.Charts.SelectionMode.Point">
     <ChartEvents OnSelectionChanged="OnSelectionChangedHandler"></ChartEvents>
-    <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Charts.ValueType.Category"></ChartPrimaryXAxis>
-    <ChartSeriesCollection>
-        <ChartSeries DataSource="@SalesData" XName="Month" YName="Sales" Type="Syncfusion.Blazor.Charts.ChartSeriesType.Column">
+    <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Toolkit.ValueType.Category"></ChartPrimaryXAxis>
+        <ChartSeries DataSource="@SalesData" XName="Month" YName="Sales" Type="Syncfusion.Blazor.Toolkit.ChartSeriesType.Column">
         </ChartSeries>
-    </ChartSeriesCollection>
 </SfChart>
 
 @code {
@@ -589,13 +559,11 @@ Triggers when a legend item is clicked.
 ```razor
 <SfChart>
     <ChartEvents OnLegendClick="OnLegendClickHandler"></ChartEvents>
-    <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Charts.ValueType.Category"></ChartPrimaryXAxis>
-    <ChartSeriesCollection>
-        <ChartSeries DataSource="@SalesData" Name="Sales" XName="Month" YName="Sales" Type="Syncfusion.Blazor.Charts.ChartSeriesType.Column">
+    <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Toolkit.ValueType.Category"></ChartPrimaryXAxis>
+        <ChartSeries DataSource="@SalesData" Name="Sales" XName="Month" YName="Sales" Type="Syncfusion.Blazor.Toolkit.ChartSeriesType.Column">
         </ChartSeries>
-        <ChartSeries DataSource="@TargetData" Name="Target" XName="Month" YName="Target" Type="Syncfusion.Blazor.Charts.ChartSeriesType.Line">
+        <ChartSeries DataSource="@TargetData" Name="Target" XName="Month" YName="Target" Type="Syncfusion.Blazor.Toolkit.ChartSeriesType.Line">
         </ChartSeries>
-    </ChartSeriesCollection>
 </SfChart>
 
 @code {
@@ -630,11 +598,9 @@ Triggers when an axis label is clicked.
 ```razor
 <SfChart>
     <ChartEvents OnAxisLabelClick="OnAxisLabelClickHandler"></ChartEvents>
-    <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Charts.ValueType.Category"></ChartPrimaryXAxis>
-    <ChartSeriesCollection>
-        <ChartSeries DataSource="@SalesData" XName="Month" YName="Sales" Type="Syncfusion.Blazor.Charts.ChartSeriesType.Bar">
+    <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Toolkit.ValueType.Category"></ChartPrimaryXAxis>
+        <ChartSeries DataSource="@SalesData" XName="Month" YName="Sales" Type="Syncfusion.Blazor.Toolkit.ChartSeriesType.Bar">
         </ChartSeries>
-    </ChartSeriesCollection>
 </SfChart>
 
 @code {
@@ -668,12 +634,10 @@ Triggers while dragging a data point (when data editing is enabled).
 ```razor
 <SfChart>
     <ChartEvents OnDataEdit="OnDataEditHandler"></ChartEvents>
-    <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Charts.ValueType.Category"></ChartPrimaryXAxis>
-    <ChartSeriesCollection>
-        <ChartSeries DataSource="@SalesData" XName="Month" YName="Sales" Type="Syncfusion.Blazor.Charts.ChartSeriesType.Column">
+    <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Toolkit.ValueType.Category"></ChartPrimaryXAxis>
+        <ChartSeries DataSource="@SalesData" XName="Month" YName="Sales" Type="Syncfusion.Blazor.Toolkit.ChartSeriesType.Column">
             <ChartDataEditSettings Enable="true"></ChartDataEditSettings>
         </ChartSeries>
-    </ChartSeriesCollection>
 </SfChart>
 
 @code {
@@ -701,12 +665,10 @@ Triggers when data point dragging is completed.
 ```razor
 <SfChart>
     <ChartEvents OnDataEditCompleted="OnDataEditCompletedHandler"></ChartEvents>
-    <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Charts.ValueType.Category"></ChartPrimaryXAxis>
-    <ChartSeriesCollection>
-        <ChartSeries DataSource="@SalesData" XName="Month" YName="Sales" Type="Syncfusion.Blazor.Charts.ChartSeriesType.Line">
+    <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Toolkit.ValueType.Category"></ChartPrimaryXAxis>
+        <ChartSeries DataSource="@SalesData" XName="Month" YName="Sales" Type="Syncfusion.Blazor.Toolkit.ChartSeriesType.Line">
             <ChartDataEditSettings Enable="true"></ChartDataEditSettings>
         </ChartSeries>
-    </ChartSeriesCollection>
 </SfChart>
 
 @code {
@@ -739,11 +701,9 @@ Triggers when zoom selection starts.
 ```razor
 <SfChart>
     <ChartEvents OnZoomStart="OnZoomStartHandler"></ChartEvents>
-    <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Charts.ValueType.Category"></ChartPrimaryXAxis>
-    <ChartSeriesCollection>
-        <ChartSeries DataSource="@SalesData" XName="Month" YName="Sales" Type="Syncfusion.Blazor.Charts.ChartSeriesType.Area">
+    <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Toolkit.ValueType.Category"></ChartPrimaryXAxis>
+        <ChartSeries DataSource="@SalesData" XName="Month" YName="Sales" Type="Syncfusion.Blazor.Toolkit.ChartSeriesType.Area">
         </ChartSeries>
-    </ChartSeriesCollection>
     <ChartZoomSettings EnableSelectionZooming="true"></ChartZoomSettings>
 </SfChart>
 
@@ -773,11 +733,9 @@ Triggers when zoom selection is completed.
 ```razor
 <SfChart>
     <ChartEvents OnZoomEnd="OnZoomEndHandler"></ChartEvents>
-    <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Charts.ValueType.Category"></ChartPrimaryXAxis>
-    <ChartSeriesCollection>
-        <ChartSeries DataSource="@SalesData" XName="Month" YName="Sales" Type="Syncfusion.Blazor.Charts.ChartSeriesType.Column">
+    <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Toolkit.ValueType.Category"></ChartPrimaryXAxis>
+        <ChartSeries DataSource="@SalesData" XName="Month" YName="Sales" Type="Syncfusion.Blazor.Toolkit.ChartSeriesType.Column">
         </ChartSeries>
-    </ChartSeriesCollection>
     <ChartZoomSettings EnableSelectionZooming="true"></ChartZoomSettings>
 </SfChart>
 
@@ -815,13 +773,11 @@ Triggers while scrolling the chart.
 ```razor
 <SfChart>
     <ChartEvents OnScrollChanged="OnScrollChangedHandler"></ChartEvents>
-    <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Charts.ValueType.Category" ZoomFactor="0.5" ZoomPosition="0.2">
+    <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Toolkit.ValueType.Category" ZoomFactor="0.5" ZoomPosition="0.2">
         <ChartAxisScrollbarSettings Enable="true"></ChartAxisScrollbarSettings>
     </ChartPrimaryXAxis>
-    <ChartSeriesCollection>
-        <ChartSeries DataSource="@SalesData" XName="Month" YName="Sales" Type="Syncfusion.Blazor.Charts.ChartSeriesType.Line">
+        <ChartSeries DataSource="@SalesData" XName="Month" YName="Sales" Type="Syncfusion.Blazor.Toolkit.ChartSeriesType.Line">
         </ChartSeries>
-    </ChartSeriesCollection>
 </SfChart>
 
 @code {
@@ -855,11 +811,9 @@ Triggers after chart export is completed.
 <button @onclick="ExportChart">Export</button>
 <SfChart @ref="chartRef">
     <ChartEvents OnExportComplete="OnExportCompleteHandler"></ChartEvents>
-    <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Charts.ValueType.Category"></ChartPrimaryXAxis>
-    <ChartSeriesCollection>
-        <ChartSeries DataSource="@SalesData" XName="Month" YName="Sales" Type="Syncfusion.Blazor.Charts.ChartSeriesType.Column">
+    <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Toolkit.ValueType.Category"></ChartPrimaryXAxis>
+        <ChartSeries DataSource="@SalesData" XName="Month" YName="Sales" Type="Syncfusion.Blazor.Toolkit.ChartSeriesType.Column">
         </ChartSeries>
-    </ChartSeriesCollection>
 </SfChart>
 
 @code {
@@ -893,11 +847,9 @@ Triggers after chart print is completed. This event has no specific arguments.
 <button @onclick="PrintChart">Print</button>
 <SfChart @ref="chartRef">
     <ChartEvents OnPrintComplete="OnPrintCompleteHandler"></ChartEvents>
-    <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Charts.ValueType.Category"></ChartPrimaryXAxis>
-    <ChartSeriesCollection>
-        <ChartSeries DataSource="@SalesData" XName="Month" YName="Sales" Type="Syncfusion.Blazor.Charts.ChartSeriesType.Bar">
+    <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Toolkit.ValueType.Category"></ChartPrimaryXAxis>
+        <ChartSeries DataSource="@SalesData" XName="Month" YName="Sales" Type="Syncfusion.Blazor.Toolkit.ChartSeriesType.Bar">
         </ChartSeries>
-    </ChartSeriesCollection>
 </SfChart>
 
 @code {
@@ -939,11 +891,9 @@ Triggers before each axis range is calculated.
 ```razor
 <SfChart>
     <ChartEvents OnAxisActualRangeCalculated="OnAxisRangeHandler"></ChartEvents>
-    <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Charts.ValueType.Category"></ChartPrimaryXAxis>
-    <ChartSeriesCollection>
-        <ChartSeries DataSource="@SalesData" XName="Month" YName="Sales" Type="Syncfusion.Blazor.Charts.ChartSeriesType.Column">
+    <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Toolkit.ValueType.Category"></ChartPrimaryXAxis>
+        <ChartSeries DataSource="@SalesData" XName="Month" YName="Sales" Type="Syncfusion.Blazor.Toolkit.ChartSeriesType.Column">
         </ChartSeries>
-    </ChartSeriesCollection>
 </SfChart>
 
 @code {
@@ -974,7 +924,7 @@ Triggers while rendering multi-level axis labels.
 ```razor
 <SfChart>
     <ChartEvents OnAxisMultiLevelLabelRender="OnMultiLevelLabelRenderHandler"></ChartEvents>
-    <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Charts.ValueType.Category">
+    <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Toolkit.ValueType.Category">
         <ChartMultiLevelLabels>
             <ChartMultiLevelLabel>
                 <ChartCategories>
@@ -984,10 +934,8 @@ Triggers while rendering multi-level axis labels.
             </ChartMultiLevelLabel>
         </ChartMultiLevelLabels>
     </ChartPrimaryXAxis>
-    <ChartSeriesCollection>
-        <ChartSeries DataSource="@SalesData" XName="Month" YName="Sales" Type="Syncfusion.Blazor.Charts.ChartSeriesType.Line">
+        <ChartSeries DataSource="@SalesData" XName="Month" YName="Sales" Type="Syncfusion.Blazor.Toolkit.ChartSeriesType.Line">
         </ChartSeries>
-    </ChartSeriesCollection>
 </SfChart>
 
 @code {
@@ -1021,7 +969,7 @@ Triggers when a multi-level axis label is clicked.
 ```razor
 <SfChart>
     <ChartEvents OnMultiLevelLabelClick="OnMultiLevelLabelClickHandler"></ChartEvents>
-    <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Charts.ValueType.Category">
+    <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Toolkit.ValueType.Category">
         <ChartMultiLevelLabels>
             <ChartMultiLevelLabel>
                 <ChartCategories>
@@ -1031,10 +979,8 @@ Triggers when a multi-level axis label is clicked.
             </ChartMultiLevelLabel>
         </ChartMultiLevelLabels>
     </ChartPrimaryXAxis>
-    <ChartSeriesCollection>
-        <ChartSeries DataSource="@SalesData" XName="Month" YName="Sales" Type="Syncfusion.Blazor.Charts.ChartSeriesType.Column">
+        <ChartSeries DataSource="@SalesData" XName="Month" YName="Sales" Type="Syncfusion.Blazor.Toolkit.ChartSeriesType.Column">
         </ChartSeries>
-    </ChartSeriesCollection>
 </SfChart>
 
 @code {
@@ -1068,11 +1014,9 @@ Triggers before a tooltip is rendered for a single series.
 ```razor
 <SfChart>
     <ChartEvents TooltipRender="OnTooltipRenderHandler"></ChartEvents>
-    <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Charts.ValueType.Category"></ChartPrimaryXAxis>
-    <ChartSeriesCollection>
-        <ChartSeries DataSource="@SalesData" XName="Month" YName="Sales" Type="Syncfusion.Blazor.Charts.ChartSeriesType.Line">
+    <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Toolkit.ValueType.Category"></ChartPrimaryXAxis>
+        <ChartSeries DataSource="@SalesData" XName="Month" YName="Sales" Type="Syncfusion.Blazor.Toolkit.ChartSeriesType.Line">
         </ChartSeries>
-    </ChartSeriesCollection>
     <ChartTooltipSettings Enable="true"></ChartTooltipSettings>
 </SfChart>
 
@@ -1102,13 +1046,11 @@ Triggers before a shared tooltip (multiple series) is rendered.
 ```razor
 <SfChart>
     <ChartEvents SharedTooltipRender="OnSharedTooltipRenderHandler"></ChartEvents>
-    <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Charts.ValueType.Category"></ChartPrimaryXAxis>
-    <ChartSeriesCollection>
-        <ChartSeries DataSource="@SalesData" Name="Sales" XName="Month" YName="Sales" Type="Syncfusion.Blazor.Charts.ChartSeriesType.Column">
+    <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Toolkit.ValueType.Category"></ChartPrimaryXAxis>
+        <ChartSeries DataSource="@SalesData" Name="Sales" XName="Month" YName="Sales" Type="Syncfusion.Blazor.Toolkit.ChartSeriesType.Column">
         </ChartSeries>
-        <ChartSeries DataSource="@TargetData" Name="Target" XName="Month" YName="Target" Type="Syncfusion.Blazor.Charts.ChartSeriesType.Line">
+        <ChartSeries DataSource="@TargetData" Name="Target" XName="Month" YName="Target" Type="Syncfusion.Blazor.Toolkit.ChartSeriesType.Line">
         </ChartSeries>
-    </ChartSeriesCollection>
     <ChartTooltipSettings Enable="true" Shared="true"></ChartTooltipSettings>
 </SfChart>
 

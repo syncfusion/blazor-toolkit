@@ -40,11 +40,9 @@ Enable markers by setting `Visible="true"` in the `ChartMarker` component:
 
 ```razor
 <SfChart>
-    <ChartSeriesCollection>
-        <ChartSeries DataSource="@ChartData" XName="X" YName="Y" Type="Syncfusion.Blazor.Charts.ChartSeriesType.Line">
+        <ChartSeries DataSource="@ChartData" XName="X" YName="Y" Type="Syncfusion.Blazor.Toolkit.ChartSeriesType.Line">
             <ChartMarker Visible="true" Height="10" Width="10"/>
         </ChartSeries>
-    </ChartSeriesCollection>
 </SfChart>
 
 @code {
@@ -85,17 +83,15 @@ When multiple series are present, set `Shape="ChartShape.Auto"` to automatically
 
 ```razor
 <SfChart>
-    <ChartSeriesCollection>
-        <ChartSeries DataSource="@Series1Data" XName="X" YName="Y" Type="Syncfusion.Blazor.Charts.ChartSeriesType.Line">
+        <ChartSeries DataSource="@Series1Data" XName="X" YName="Y" Type="Syncfusion.Blazor.Toolkit.ChartSeriesType.Line">
             <ChartMarker Visible="true" Height="10" Width="10" Shape="ChartShape.Auto" IsFilled="true"/>
         </ChartSeries>
-        <ChartSeries DataSource="@Series2Data" XName="X" YName="Y" Type="Syncfusion.Blazor.Charts.ChartSeriesType.Line">
+        <ChartSeries DataSource="@Series2Data" XName="X" YName="Y" Type="Syncfusion.Blazor.Toolkit.ChartSeriesType.Line">
             <ChartMarker Visible="true" Height="10" Width="10" Shape="ChartShape.Auto" IsFilled="true"/>
         </ChartSeries>
-        <ChartSeries DataSource="@Series3Data" XName="X" YName="Y" Type="Syncfusion.Blazor.Charts.ChartSeriesType.Line">
+        <ChartSeries DataSource="@Series3Data" XName="X" YName="Y" Type="Syncfusion.Blazor.Toolkit.ChartSeriesType.Line">
             <ChartMarker Visible="true" Height="10" Width="10" Shape="ChartShape.Auto" IsFilled="true"/>
         </ChartSeries>
-    </ChartSeriesCollection>
 </SfChart>
 ```
 
@@ -134,14 +130,12 @@ Enable data labels within the `ChartMarker` component:
 
 ```razor
 <SfChart>
-    <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Charts.ValueType.Category"/>
-    <ChartSeriesCollection>
-        <ChartSeries DataSource="@SalesData" XName="Month" YName="Sales" Type="Syncfusion.Blazor.Charts.ChartSeriesType.Column">
+    <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Toolkit.ValueType.Category"/>
+        <ChartSeries DataSource="@SalesData" XName="Month" YName="Sales" Type="Syncfusion.Blazor.Toolkit.ChartSeriesType.Column">
             <ChartMarker>
                 <ChartDataLabel Visible="true"/>
             </ChartMarker>
         </ChartSeries>
-    </ChartSeriesCollection>
 </SfChart>
 
 @code {
@@ -160,23 +154,23 @@ Enable data labels within the `ChartMarker` component:
 Control label placement using the `Position` property:
 
 ```razor
-<ChartDataLabel Visible="true" Position="LabelPosition.Top"/>
+<ChartDataLabel Visible="true" Position="ChartLabelPosition.Top"/>
 ```
 
 **Available Positions:**
-- `Top` - Above the data point
-- `Bottom` - Below the data point
-- `Middle` - Center of the data point
-- `Outer` - Outside the data point (for Column/Bar charts)
-- `Auto` - Intelligent positioning to avoid overlap
+- `ChartLabelPosition.Top` - Above the data point
+- `ChartLabelPosition.Bottom` - Below the data point
+- `ChartLabelPosition.Middle` - Center of the data point
+- `ChartLabelPosition.Outer` - Outside the data point (for Column/Bar charts)
+- `ChartLabelPosition.Auto` - Intelligent positioning to avoid overlap
 
 **Position by Chart Type:**
 
 ```razor
 <!-- Column Chart - Labels on top -->
-<ChartSeries Type="Syncfusion.Blazor.Charts.ChartSeriesType.Column">
+<ChartSeries Type="Syncfusion.Blazor.Toolkit.ChartSeriesType.Column">
     <ChartMarker>
-        <ChartDataLabel Visible="true" Position="LabelPosition.Top"/>
+        <ChartDataLabel Visible="true" Position="ChartLabelPosition.Top"/>
     </ChartMarker>
 </ChartSeries>
 
@@ -282,10 +276,10 @@ Customize label appearance with margins, borders, and fonts:
 **Complete Label Styling Example:**
 
 ```razor
-<ChartSeries DataSource="@ChartData" XName="X" YName="Y" Type="Syncfusion.Blazor.Charts.ChartSeriesType.Column">
+<ChartSeries DataSource="@ChartData" XName="X" YName="Y" Type="Syncfusion.Blazor.Toolkit.ChartSeriesType.Column">
     <ChartMarker>
         <ChartDataLabel Visible="true" 
-                        Position="LabelPosition.Top"
+                        Position="ChartLabelPosition.Top"
                         Format="N1"
                         Fill="#FFF4E6">
             <ChartDataLabelFont Size="12px" Color="#D84315" FontWeight="bold"/>
@@ -308,7 +302,7 @@ Use the `ChartAnnotations` collection to add annotations:
 
 ```razor
 <SfChart Title="Sales Analysis">
-    <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Charts.ValueType.Category"/>
+    <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Toolkit.ValueType.Category"/>
     
     <ChartAnnotations>
         <ChartAnnotation X="Mar" Y="75" CoordinateUnits="Units.Point">
@@ -318,9 +312,7 @@ Use the `ChartAnnotations` collection to add annotations:
         </ChartAnnotation>
     </ChartAnnotations>
     
-    <ChartSeriesCollection>
-        <ChartSeries DataSource="@SalesData" XName="Month" YName="Sales" Type="Syncfusion.Blazor.Charts.ChartSeriesType.Line"/>
-    </ChartSeriesCollection>
+        <ChartSeries DataSource="@SalesData" XName="Month" YName="Sales" Type="Syncfusion.Blazor.Toolkit.ChartSeriesType.Line"/>
 </SfChart>
 ```
 
@@ -428,101 +420,175 @@ Control horizontal and vertical alignment:
 
 ## Gradients
 
-Apply gradient fills to chart series for enhanced visual appeal.
+Apply gradient fills to chart series, trendlines, and technical indicators for enhanced visual appeal. Gradients can be linear or radial, with customizable color stops.
 
 ### Linear Gradients
 
-Create linear gradient fills using SVG definitions:
+A linear gradient blends colors along a straight path from a defined start point to an end point. Configure it by adding `ChartLinearGradient` inside the series and define one or more color stops using `ChartGradientColorStop`.
+
+**Linear Gradient Properties:**
+- `X1` - Horizontal start position (0 to 1)
+- `Y1` - Vertical start position (0 to 1)
+- `X2` - Horizontal end position (0 to 1)
+- `Y2` - Vertical end position (0 to 1)
+
+**Color Stop Properties:**
+- `Offset` - Position of the color stop (0 to 100)
+- `Color` - Color at the stop
+- `Opacity` - Transparency (0 to 1)
+- `Lighten` - Adjust lightness (positive values lighten, negative darken)
+- `Brighten` - Adjust brightness (positive increases, negative decreases)
+
+**Basic Vertical Linear Gradient (Series):**
 
 ```razor
-<SfChart>
-    <ChartSeriesCollection>
-        <ChartSeries DataSource="@ChartData" 
-                     XName="X" 
-                     YName="Y" 
-                     Type="Syncfusion.Blazor.Charts.ChartSeriesType.Column"
-                     Fill="url(#gradient1)">
+@using Syncfusion.Blazor.Toolkit.Charts
+
+<SfChart Title="Monthly Sales Performance">
+    <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Toolkit.ValueType.Category" />
+    <ChartPrimaryYAxis LabelFormat="${value}k" />
+
+        <ChartSeries Name="Sales" Type="ChartSeriesType.Column" DataSource="@SalesData" XName="Month" YName="Amount">
+            <ChartLinearGradient X1="0" Y1="0" X2="0" Y2="1">
+                <ChartGradientColorStops>
+                    <ChartGradientColorStop Offset="0" Color="#4F46E5" Opacity="1" Lighten="0" Brighten="1" />
+                    <ChartGradientColorStop Offset="100" Color="#22D3EE" Opacity="0.95" Lighten="-0.05" Brighten="0.9" />
+                </ChartGradientColorStops>
+            </ChartLinearGradient>
+
+            <ChartMarker Visible="true" IsFilled="true">
+                <ChartDataLabel Visible="true"></ChartDataLabel>
+            </ChartMarker>
         </ChartSeries>
-    </ChartSeriesCollection>
+
+    <ChartTooltipSettings Enable="true"></ChartTooltipSettings>
+    <ChartLegendSettings Visible="true"></ChartLegendSettings>
 </SfChart>
 
-<svg style="height: 0; width: 0;">
-    <defs>
-        <linearGradient id="gradient1" x1="0%" y1="0%" x2="0%" y2="100%">
-            <stop offset="0%" style="stop-color:#4CAF50;stop-opacity:1" />
-            <stop offset="100%" style="stop-color:#1B5E20;stop-opacity:1" />
-        </linearGradient>
-    </defs>
-</svg>
-```
-
-**Horizontal Gradient:**
-
-```razor
-<svg style="height: 0; width: 0;">
-    <defs>
-        <linearGradient id="horizontalGradient" x1="0%" y1="0%" x2="100%" y2="0%">
-            <stop offset="0%" style="stop-color:#2196F3;stop-opacity:1" />
-            <stop offset="100%" style="stop-color:#E91E63;stop-opacity:1" />
-        </linearGradient>
-    </defs>
-</svg>
-
-<ChartSeries Fill="url(#horizontalGradient)"/>
-```
-
-**Multi-Color Gradient:**
-
-```razor
-<linearGradient id="multiGradient" x1="0%" y1="0%" x2="0%" y2="100%">
-    <stop offset="0%" style="stop-color:#FF5722;stop-opacity:1" />
-    <stop offset="50%" style="stop-color:#FFC107;stop-opacity:1" />
-    <stop offset="100%" style="stop-color:#4CAF50;stop-opacity:1" />
-</linearGradient>
-```
-
-
-
-<svg style="height: 0; width: 0;">
-    <defs>
-        <radialGradient id="radialGradient">
-            <stop offset="0%" style="stop-color:#FFEB3B;stop-opacity:1" />
-            <stop offset="100%" style="stop-color:#FF9800;stop-opacity:1" />
-        </radialGradient>
-    </defs>
-</svg>
-```
-
-**Per-Point Gradients:**
-
-```razor
 @code {
-    public List<PointData> GradientData = new List<PointData>
+    public class SalesPoint
     {
-        new PointData { X = "A", Y = 35, Color = "url(#grad1)" },
-        new PointData { X = "B", Y = 42, Color = "url(#grad2)" },
-        new PointData { X = "C", Y = 28, Color = "url(#grad3)" }
+        public string Month { get; set; }
+        public double Amount { get; set; }
+    }
+
+    public List<SalesPoint> SalesData = new ()
+    {
+        new SalesPoint { Month = "Jan", Amount = 78 },
+        new SalesPoint { Month = "Feb", Amount = 88 },
+        new SalesPoint { Month = "Mar", Amount = 99 },
+        new SalesPoint { Month = "Apr", Amount = 92 },
+        new SalesPoint { Month = "May", Amount = 95 },
+        new SalesPoint { Month = "Jun", Amount = 102 },
+        new SalesPoint { Month = "Jul", Amount = 110 },
+        new SalesPoint { Month = "Aug", Amount = 105 }
     };
 }
+```
 
-<ChartSeries DataSource="@GradientData" XName="X" YName="Y" PointColorMapping="Color"/>
+**Horizontal Linear Gradient:**
 
-<svg style="height: 0; width: 0;">
-    <defs>
-        <linearGradient id="grad1">
-            <stop offset="0%" style="stop-color:#E3F2FD;stop-opacity:1" />
-            <stop offset="100%" style="stop-color:#1976D2;stop-opacity:1" />
-        </linearGradient>
-        <linearGradient id="grad2">
-            <stop offset="0%" style="stop-color:#F3E5F5;stop-opacity:1" />
-            <stop offset="100%" style="stop-color:#7B1FA2;stop-opacity:1" />
-        </linearGradient>
-        <linearGradient id="grad3">
-            <stop offset="0%" style="stop-color:#E8F5E9;stop-opacity:1" />
-            <stop offset="100%" style="stop-color:#388E3C;stop-opacity:1" />
-        </linearGradient>
-    </defs>
-</svg>
+```razor
+<ChartLinearGradient X1="0" Y1="0" X2="1" Y2="0">
+    <ChartGradientColorStops>
+        <ChartGradientColorStop Offset="0" Color="#2196F3" Opacity="1" />
+        <ChartGradientColorStop Offset="100" Color="#E91E63" Opacity="1" />
+    </ChartGradientColorStops>
+</ChartLinearGradient>
+```
+
+**Multi-Color Linear Gradient:**
+
+```razor
+<ChartLinearGradient X1="0" Y1="0" X2="0" Y2="1">
+    <ChartGradientColorStops>
+        <ChartGradientColorStop Offset="0" Color="#FF5722" Opacity="1" />
+        <ChartGradientColorStop Offset="50" Color="#FFC107" Opacity="1" />
+        <ChartGradientColorStop Offset="100" Color="#4CAF50" Opacity="1" />
+    </ChartGradientColorStops>
+</ChartLinearGradient>
+```
+
+**Linear Gradient on Trendline:**
+
+```razor
+<ChartTrendline Type="TrendlineTypes.Linear" Width="3" Name="Trend">
+    <ChartLinearGradient X1="0" Y1="0" X2="1" Y2="0">
+        <ChartGradientColorStops>
+            <ChartGradientColorStop Offset="0" Color="#F97316" Opacity="1" />
+            <ChartGradientColorStop Offset="100" Color="#4F46E5" Opacity="1" />
+        </ChartGradientColorStops>
+    </ChartLinearGradient>
+</ChartTrendline>
+```
+
+### Radial Gradients
+
+A radial gradient blends colors outward from a central point, creating a circular or elliptical color progression. Configure it by adding `ChartRadialGradient` inside the series and define one or more color stops.
+
+**Radial Gradient Properties:**
+- `Cx` - Horizontal center of gradient (0 to 1)
+- `Cy` - Vertical center of gradient (0 to 1)
+- `Fx` - Horizontal focal point (0 to 1)
+- `Fy` - Vertical focal point (0 to 1)
+- `R` - Radius of gradient circle (0 to 1)
+
+**Basic Radial Gradient (Series):**
+
+```razor
+@using Syncfusion.Blazor.Toolkit.Charts
+
+<SfChart Title="Monthly Sales Performance">
+    <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Toolkit.ValueType.Category" />
+    <ChartPrimaryYAxis LabelFormat="${value}k" />
+
+        <ChartSeries Name="Sales" Type="ChartSeriesType.Column" DataSource="@SalesData" XName="Month" YName="Amount">
+            <ChartRadialGradient Cx="0.5" Cy="0.5" Fx="0.5" Fy="0.5" R="0.5">
+                <ChartGradientColorStops>
+                    <ChartGradientColorStop Offset="0" Color="#FFFF00" Opacity="1" Lighten="0" Brighten="1" />
+                    <ChartGradientColorStop Offset="100" Color="#7C3AED" Opacity="0.95" Lighten="-0.05" Brighten="0.9" />
+                </ChartGradientColorStops>
+            </ChartRadialGradient>
+
+            <ChartMarker Visible="true" IsFilled="true">
+                <ChartDataLabel Visible="true"></ChartDataLabel>
+            </ChartMarker>
+        </ChartSeries>
+
+    <ChartTooltipSettings Enable="true"></ChartTooltipSettings>
+    <ChartLegendSettings Visible="true"></ChartLegendSettings>
+</SfChart>
+
+@code {
+    public class SalesPoint
+    {
+        public string Month { get; set; }
+        public double Amount { get; set; }
+    }
+
+    public List<SalesPoint> SalesData = new ()
+    {
+        new SalesPoint { Month = "Jan", Amount = 78 },
+        new SalesPoint { Month = "Feb", Amount = 88 },
+        new SalesPoint { Month = "Mar", Amount = 99 },
+        new SalesPoint { Month = "Apr", Amount = 92 },
+        new SalesPoint { Month = "May", Amount = 95 },
+        new SalesPoint { Month = "Jun", Amount = 102 },
+        new SalesPoint { Month = "Jul", Amount = 110 },
+        new SalesPoint { Month = "Aug", Amount = 105 }
+    };
+}
+```
+
+**Radial Gradient on Trendline or Indicator:**
+
+```razor
+<ChartRadialGradient Cx="0.5" Cy="0.5" Fx="0.5" Fy="0.5" R="0.5">
+    <ChartGradientColorStops>
+        <ChartGradientColorStop Offset="0" Color="#7C3AED" Opacity="1" />
+        <ChartGradientColorStop Offset="100" Color="#F59E0B" Opacity="1" />
+    </ChartGradientColorStops>
+</ChartRadialGradient>
 ```
 
 ---

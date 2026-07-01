@@ -931,13 +931,11 @@ public ToolbarItems[] ToolbarItems { get; set; }
     <ChartPrimaryXAxis ValueType="ValueType.Category" />
     <ChartPrimaryYAxis Title="Sales" />
     
-    <ChartSeriesCollection>
         <ChartSeries DataSource="@SalesData" 
                      XName="Month" 
                      YName="Sales" 
                      Type="ChartSeriesType.Column">
         </ChartSeries>
-    </ChartSeriesCollection>
 </SfChart>
 
 @code {
@@ -964,7 +962,6 @@ public ToolbarItems[] ToolbarItems { get; set; }
     
     <ChartLegendSettings Visible="true" />
     
-    <ChartSeriesCollection>
         <ChartSeries DataSource="@Data1" 
                      Name="Product A"
                      XName="X" 
@@ -977,7 +974,6 @@ public ToolbarItems[] ToolbarItems { get; set; }
                      YName="Y" 
                      Type="ChartSeriesType.Column">
         </ChartSeries>
-    </ChartSeriesCollection>
 </SfChart>
 ```
 
@@ -991,9 +987,7 @@ public ToolbarItems[] ToolbarItems { get; set; }
                        Mode="ZoomMode.XY">
     </ChartZoomSettings>
     
-    <ChartSeriesCollection>
         <!-- Series configuration -->
-    </ChartSeriesCollection>
 </SfChart>
 ```
 

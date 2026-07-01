@@ -67,10 +67,8 @@ Define exact chart dimensions in pixels for precise control:
 <SfChart Title="Sales Data" Width="800px" Height="400px">
     <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Toolkit.ValueType.Category" />
     
-    <ChartSeriesCollection>
         <ChartSeries DataSource="@SalesData" XName="Month" YName="Revenue" 
                      Type="Syncfusion.Blazor.Toolkit.ChartSeriesType.Column" />
-    </ChartSeriesCollection>
 </SfChart>
 
 @code {
@@ -96,15 +94,13 @@ Define exact chart dimensions in pixels for precise control:
 Use percentages to make charts responsive to their container:
 
 ```razor
-@using Syncfusion.Blazor.Charts
+@using Syncfusion.Blazor.Toolkit.Charts
 
 <SfChart Title="Revenue Analysis" Width="80%" Height="90%">
     <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Toolkit.ValueType.Category" />
     
-    <ChartSeriesCollection>
         <ChartSeries DataSource="@RevenueData" XName="Quarter" YName="Amount" 
-                     Type="Syncfusion.Blazor.Charts.ChartSeriesType.Line" />
-    </ChartSeriesCollection>
+                     Type="Syncfusion.Blazor.Toolkit.ChartSeriesType.Line" />
 </SfChart>
 
 @code {
@@ -129,16 +125,14 @@ Use percentages to make charts responsive to their container:
 Scale charts to fit within a container using CSS styles:
 
 ```razor
-@using Syncfusion.Blazor.Charts
+@using Syncfusion.Blazor.Toolkit.Charts
 
 <div style="width: 100%; height: 500px; background-color: #f5f5f5; padding: 20px;">
     <SfChart Title="Performance Metrics">
-        <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Charts.ValueType.Category" />
+        <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Toolkit.ValueType.Category" />
         
-        <ChartSeriesCollection>
             <ChartSeries DataSource="@MetricsData" XName="Metric" YName="Value" 
-                         Type="Syncfusion.Blazor.Charts.ChartSeriesType.Bar" />
-        </ChartSeriesCollection>
+                         Type="Syncfusion.Blazor.Toolkit.ChartSeriesType.Bar" />
     </SfChart>
 </div>
 
@@ -169,19 +163,17 @@ Control chart colors through color palettes, series-specific colors, and point-l
 Define a custom palette to apply colors consistently across all series:
 
 ```razor
-@using Syncfusion.Blazor.Charts
+@using Syncfusion.Blazor.Toolkit.Charts
 
 <SfChart Title="Olympic Medals" Palettes="@CustomPalette">
-    <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Charts.ValueType.Category" />
+    <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Toolkit.ValueType.Category" />
     
-    <ChartSeriesCollection>
         <ChartSeries DataSource="@MedalData" XName="Country" YName="Gold" 
-                     Type="Syncfusion.Blazor.Charts.ChartSeriesType.Column" />
+                     Type="Syncfusion.Blazor.Toolkit.ChartSeriesType.Column" />
         <ChartSeries DataSource="@MedalData" XName="Country" YName="Silver" 
-                     Type="Syncfusion.Blazor.Charts.ChartSeriesType.Column" />
+                     Type="Syncfusion.Blazor.Toolkit.ChartSeriesType.Column" />
         <ChartSeries DataSource="@MedalData" XName="Country" YName="Bronze" 
-                     Type="Syncfusion.Blazor.Charts.ChartSeriesType.Column" />
-    </ChartSeriesCollection>
+                     Type="Syncfusion.Blazor.Toolkit.ChartSeriesType.Column" />
 </SfChart>
 
 @code {
@@ -210,17 +202,15 @@ Define a custom palette to apply colors consistently across all series:
 Apply individual colors to each series using the Fill property:
 
 ```razor
-@using Syncfusion.Blazor.Charts
+@using Syncfusion.Blazor.Toolkit.Charts
 
 <SfChart Title="Product Sales Comparison">
-    <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Charts.ValueType.Category" />
+    <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Toolkit.ValueType.Category" />
     
-    <ChartSeriesCollection>
         <ChartSeries DataSource="@ProductData" XName="Product" YName="Sales" 
-                     Fill="#00bdae" Type="Syncfusion.Blazor.Charts.ChartSeriesType.Column" />
+                     Fill="#00bdae" Type="Syncfusion.Blazor.Toolkit.ChartSeriesType.Column" />
         <ChartSeries DataSource="@ProductData" XName="Product" YName="Target" 
-                     Fill="#e56590" Type="Syncfusion.Blazor.Charts.ChartSeriesType.Column" />
-    </ChartSeriesCollection>
+                     Fill="#e56590" Type="Syncfusion.Blazor.Toolkit.ChartSeriesType.Column" />
 </SfChart>
 
 @code {
@@ -245,15 +235,13 @@ Apply individual colors to each series using the Fill property:
 Customize individual data point colors:
 
 ```razor
-@using Syncfusion.Blazor.Charts
+@using Syncfusion.Blazor.Toolkit.Charts
 
 <SfChart Title="Project Status">
-    <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Charts.ValueType.Category" />
+    <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Toolkit.ValueType.Category" />
     
-    <ChartSeriesCollection>
         <ChartSeries DataSource="@ProjectData" XName="Phase" YName="Completion" 
-                     PointColorMapping="Color" Type="Syncfusion.Blazor.Charts.ChartSeriesType.Column" />
-    </ChartSeriesCollection>
+                     PointColorMapping="Color" Type="Syncfusion.Blazor.Toolkit.ChartSeriesType.Column" />
 </SfChart>
 
 @code {
@@ -285,15 +273,13 @@ Customize the overall appearance of your chart with background colors and border
 Set the chart background using the Background property:
 
 ```razor
-@using Syncfusion.Blazor.Charts
+@using Syncfusion.Blazor.Toolkit.Charts
 
 <SfChart Title="Temperature Analysis" Background="#E8F5E9">
-    <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Charts.ValueType.Category" />
+    <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Toolkit.ValueType.Category" />
     
-    <ChartSeriesCollection>
         <ChartSeries DataSource="@TemperatureData" XName="Month" YName="Temp" 
-                     Type="Syncfusion.Blazor.Charts.ChartSeriesType.Line" />
-    </ChartSeriesCollection>
+                     Type="Syncfusion.Blazor.Toolkit.ChartSeriesType.Line" />
 </SfChart>
 
 @code {
@@ -318,17 +304,15 @@ Set the chart background using the Background property:
 Add borders to your chart with customizable color and width:
 
 ```razor
-@using Syncfusion.Blazor.Charts
+@using Syncfusion.Blazor.Toolkit.Charts
 
 <SfChart Title="Revenue Growth" Background="#FFFFFF">
     <ChartBorder Color="#4A90E2" Width="3" />
     
-    <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Charts.ValueType.Category" />
+    <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Toolkit.ValueType.Category" />
     
-    <ChartSeriesCollection>
         <ChartSeries DataSource="@RevenueData" XName="Year" YName="Revenue" 
-                     Type="Syncfusion.Blazor.Charts.ChartSeriesType.Area" />
-    </ChartSeriesCollection>
+                     Type="Syncfusion.Blazor.Toolkit.ChartSeriesType.Area" />
 </SfChart>
 
 @code {
@@ -360,18 +344,16 @@ The chart area is the region where data is plotted. Customize its background, bo
 Set a distinct background for the plotting area:
 
 ```razor
-@using Syncfusion.Blazor.Charts
+@using Syncfusion.Blazor.Toolkit.Charts
 
 <SfChart Title="Sales Performance">
     <ChartArea Background="#F0F8FF">
     </ChartArea>
     
-    <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Charts.ValueType.Category" />
+    <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Toolkit.ValueType.Category" />
     
-    <ChartSeriesCollection>
         <ChartSeries DataSource="@SalesData" XName="Quarter" YName="Sales" 
-                     Type="Syncfusion.Blazor.Charts.ChartSeriesType.Column" />
-    </ChartSeriesCollection>
+                     Type="Syncfusion.Blazor.Toolkit.ChartSeriesType.Column" />
 </SfChart>
 
 @code {
@@ -396,19 +378,17 @@ Set a distinct background for the plotting area:
 Add a border around the chart plotting area:
 
 ```razor
-@using Syncfusion.Blazor.Charts
+@using Syncfusion.Blazor.Toolkit.Charts
 
 <SfChart Title="Customer Analytics">
     <ChartArea Background="#FFFACD">
         <ChartAreaBorder Color="#4169E1" Width="2" />
     </ChartArea>
     
-    <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Charts.ValueType.Category" />
+    <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Toolkit.ValueType.Category" />
     
-    <ChartSeriesCollection>
         <ChartSeries DataSource="@CustomerData" XName="Month" YName="Customers" 
-                     Type="Syncfusion.Blazor.Charts.ChartSeriesType.SplineArea" />
-    </ChartSeriesCollection>
+                     Type="Syncfusion.Blazor.Toolkit.ChartSeriesType.SplineArea" />
 </SfChart>
 
 @code {
@@ -433,19 +413,17 @@ Add a border around the chart plotting area:
 Control the width of the chart area as a percentage:
 
 ```razor
-@using Syncfusion.Blazor.Charts
+@using Syncfusion.Blazor.Toolkit.Charts
 
 <SfChart Title="Expense Distribution">
     <ChartArea Background="#FFF5EE" Width="70%">
         <ChartAreaBorder Color="#DC143C" Width="1" />
     </ChartArea>
     
-    <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Charts.ValueType.Category" />
+    <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Toolkit.ValueType.Category" />
     
-    <ChartSeriesCollection>
         <ChartSeries DataSource="@ExpenseData" XName="Category" YName="Amount" 
-                     Type="Syncfusion.Blazor.Charts.ChartSeriesType.Column" />
-    </ChartSeriesCollection>
+                     Type="Syncfusion.Blazor.Toolkit.ChartSeriesType.Column" />
 </SfChart>
 
 @code {
@@ -476,18 +454,16 @@ Configure spacing between the chart and its container using margin properties.
 Set uniform margins around the chart:
 
 ```razor
-@using Syncfusion.Blazor.Charts
+@using Syncfusion.Blazor.Toolkit.Charts
 
 <SfChart Title="Traffic Analysis" Background="#F5F5F5">
     <ChartMargin Left="40" Right="40" Top="40" Bottom="40" />
     <ChartBorder Color="#333333" Width="1" />
     
-    <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Charts.ValueType.Category" />
+    <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Toolkit.ValueType.Category" />
     
-    <ChartSeriesCollection>
         <ChartSeries DataSource="@TrafficData" XName="Hour" YName="Visitors" 
-                     Type="Syncfusion.Blazor.Charts.ChartSeriesType.Line" />
-    </ChartSeriesCollection>
+                     Type="Syncfusion.Blazor.Toolkit.ChartSeriesType.Line" />
 </SfChart>
 
 @code {
@@ -512,18 +488,16 @@ Set uniform margins around the chart:
 Apply different margins to each side:
 
 ```razor
-@using Syncfusion.Blazor.Charts
+@using Syncfusion.Blazor.Toolkit.Charts
 
 <SfChart Title="Investment Portfolio" Background="#E0F7FA">
     <ChartMargin Left="80" Right="20" Top="60" Bottom="40" />
     <ChartBorder Color="#0097A7" Width="2" />
     
-    <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Charts.ValueType.Category" />
+    <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Toolkit.ValueType.Category" />
     
-    <ChartSeriesCollection>
         <ChartSeries DataSource="@InvestmentData" XName="Asset" YName="Value" 
-                     Type="Syncfusion.Blazor.Charts.ChartSeriesType.Bar" />
-    </ChartSeriesCollection>
+                     Type="Syncfusion.Blazor.Toolkit.ChartSeriesType.Bar" />
 </SfChart>
 
 @code {
@@ -554,18 +528,16 @@ Customize chart titles and subtitles with font properties, colors, and positioni
 Apply custom styling to the chart title:
 
 ```razor
-@using Syncfusion.Blazor.Charts
+@using Syncfusion.Blazor.Toolkit.Charts
 
 <SfChart Title="Annual Revenue Report">
     <ChartTitleStyle Size="24px" Color="#1976D2" FontFamily="Segoe UI" 
                      FontWeight="600" FontStyle="normal" />
     
-    <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Charts.ValueType.Category" />
+    <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Toolkit.ValueType.Category" />
     
-    <ChartSeriesCollection>
         <ChartSeries DataSource="@AnnualData" XName="Year" YName="Revenue" 
-                     Type="Syncfusion.Blazor.Charts.ChartSeriesType.Column" />
-    </ChartSeriesCollection>
+                     Type="Syncfusion.Blazor.Toolkit.ChartSeriesType.Column" />
 </SfChart>
 
 @code {
@@ -590,7 +562,7 @@ Apply custom styling to the chart title:
 Add both title and subtitle with distinct styling:
 
 ```razor
-@using Syncfusion.Blazor.Charts
+@using Syncfusion.Blazor.Toolkit.Charts
 
 <SfChart Title="Employee Satisfaction Survey" SubTitle="2023 Annual Results">
     <ChartTitleStyle Size="22px" Color="#E91E63" FontFamily="Arial" 
@@ -598,12 +570,10 @@ Add both title and subtitle with distinct styling:
     <ChartSubTitleStyle Size="16px" Color="#757575" FontFamily="Arial" 
                         FontWeight="normal" FontStyle="italic" />
     
-    <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Charts.ValueType.Category" />
+    <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Toolkit.ValueType.Category" />
     
-    <ChartSeriesCollection>
         <ChartSeries DataSource="@SurveyData" XName="Department" YName="Score" 
-                     Type="Syncfusion.Blazor.Charts.ChartSeriesType.Column" />
-    </ChartSeriesCollection>
+                     Type="Syncfusion.Blazor.Toolkit.ChartSeriesType.Column" />
 </SfChart>
 
 @code {
@@ -628,18 +598,16 @@ Add both title and subtitle with distinct styling:
 Position the title at different locations:
 
 ```razor
-@using Syncfusion.Blazor.Charts
+@using Syncfusion.Blazor.Toolkit.Charts
 
 <SfChart Title="Monthly Website Traffic" SubTitle="Visitor Analytics">
-    <ChartTitleStyle Position="Syncfusion.Blazor.Charts.ChartTitlePosition.Bottom" Size="20px"
+    <ChartTitleStyle Position="Syncfusion.Blazor.Toolkit.ChartTitlePosition.Bottom" Size="20px"
                      Color="#2E7D32" FontFamily="Verdana" />
     
-    <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Charts.ValueType.Category" />
+    <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Toolkit.ValueType.Category" />
     
-    <ChartSeriesCollection>
         <ChartSeries DataSource="@TrafficData" XName="Month" YName="Visits" 
-                     Type="Syncfusion.Blazor.Charts.ChartSeriesType.SplineArea" />
-    </ChartSeriesCollection>
+                     Type="Syncfusion.Blazor.Toolkit.ChartSeriesType.SplineArea" />
 </SfChart>
 
 @code {
@@ -670,15 +638,13 @@ Syncfusion Blazor Charts support built-in themes and custom theme creation.
 Apply predefined themes by including the theme API:
 
 ```razor
-@using Syncfusion.Blazor.Charts
+@using Syncfusion.Blazor.Toolkit.Charts
 
 <SfChart Title="Product Performance" Theme="Syncfusion.Blazor.Theme.Bootstrap5">
-    <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Charts.ValueType.Category" />
+    <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Toolkit.ValueType.Category" />
     
-    <ChartSeriesCollection>
         <ChartSeries DataSource="@PerformanceData" XName="Product" YName="Rating" 
-                     Type="Syncfusion.Blazor.Charts.ChartSeriesType.Column" />
-    </ChartSeriesCollection>
+                     Type="Syncfusion.Blazor.Toolkit.ChartSeriesType.Column" />
 </SfChart>
 
 @code {
@@ -714,15 +680,13 @@ Apply predefined themes by including the theme API:
 Create a custom appearance by overriding default palette:
 
 ```razor
-@using Syncfusion.Blazor.Charts
+@using Syncfusion.Blazor.Toolkit.Charts
 
 <SfChart Title="Regional Sales" Palettes="@CustomThemePalette">
-    <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Charts.ValueType.Category" />
+    <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Toolkit.ValueType.Category" />
     
-    <ChartSeriesCollection>
         <ChartSeries Deries DataSource ource="@RegionalData" XName="Region" YName="Sales" 
-                     Type="Syncfusion.Blazor.Charts.ChartSeriesType.Column" />
-    </ChartSeriesCollection>
+                     Type="Syncfusion.Blazor.Toolkit.ChartSeriesType.Column" />
 </SfChart>
 
 @code {
@@ -759,17 +723,15 @@ Customize individual series appearance including fill colors, opacity, and borde
 Control series fill color and transparency:
 
 ```razor
-@using Syncfusion.Blazor.Charts
+@using Syncfusion.Blazor.Toolkit.Charts
 
 <SfChart Title="Quarterly Comparison">
-    <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Charts.ValueType.Category" />
+    <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Toolkit.ValueType.Category" />
     
-    <ChartSeriesCollection>
         <ChartSeries DataSource="@ComparisonData" XName="Quarter" YName="Current" 
-                     Fill="#FF5733" Opacity="0.8" Type="Syncfusion.Blazor.Charts.ChartSeriesType.Column" />
+                     Fill="#FF5733" Opacity="0.8" Type="Syncfusion.Blazor.Toolkit.ChartSeriesType.Column" />
         <ChartSeries DataSource="@ComparisonData" XName="Quarter" YName="Previous" 
-                     Fill="#33FF57" Opacity="0.6" Type="Syncfusion.Blazor.Charts.ChartSeriesType.Column" />
-    </ChartSeriesCollection>
+                     Fill="#33FF57" Opacity="0.6" Type="Syncfusion.Blazor.Toolkit.ChartSeriesType.Column" />
 </SfChart>
 
 @code {
@@ -795,17 +757,15 @@ Control series fill color and transparency:
 Add borders to series elements:
 
 ```razor
-@using Syncfusion.Blazor.Charts
+@using Syncfusion.Blazor.Toolkit.Charts
 
 <SfChart Title="Market Trends">
-    <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Charts.ValueType.Category" />
+    <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Toolkit.ValueType.Category" />
     
-    <ChartSeriesCollection>
         <ChartSeries DataSource="@TrendData" XName="Month" YName="Value" 
-                     Fill="#4A90E2" Type="Syncfusion.Blazor.Charts.ChartSeriesType.Column">
+                     Fill="#4A90E2" Type="Syncfusion.Blazor.Toolkit.ChartSeriesType.Column">
             <ChartSeriesBorder Color="#2E5C8A" Width="2" />
         </ChartSeries>
-    </ChartSeriesCollection>
 </SfChart>
 
 @code {
@@ -830,17 +790,15 @@ Add borders to series elements:
 Configure animation properties for series:
 
 ```razor
-@using Syncfusion.Blazor.Charts
+@using Syncfusion.Blazor.Toolkit.Charts
 
 <SfChart Title="Growth Analysis">
-    <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Charts.ValueType.Category" />
+    <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Toolkit.ValueType.Category" />
     
-    <ChartSeriesCollection>
         <ChartSeries DataSource="@GrowthData" XName="Year" YName="Growth" 
-                     Type="Syncfusion.Blazor.Charts.ChartSeriesType.Line" Width="3">
+                     Type="Syncfusion.Blazor.Toolkit.ChartSeriesType.Line" Width="3">
             <ChartSeriesAnimation Enable="true" Duration="2000" Delay="300" />
         </ChartSeries>
-    </ChartSeriesCollection>
 </SfChart>
 
 @code {
@@ -872,16 +830,14 @@ Ensure charts adapt to different screen sizes and orientations.
 Use percentage-based dimensions for automatic responsiveness:
 
 ```razor
-@using Syncfusion.Blazor.Charts
+@using Syncfusion.Blazor.Toolkit.Charts
 
 <div class="chart-container">
     <SfChart Title="Responsive Dashboard" Width="100%" Height="100%">
-        <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Charts.ValueType.Category" />
+        <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Toolkit.ValueType.Category" />
         
-        <ChartSeriesCollection>
             <ChartSeries DataSource="@DashboardData" XName="Metric" YName="Value" 
-                         Type="Syncfusion.Blazor.Charts.ChartSeriesType.Column" />
-        </ChartSeriesCollection>
+                         Type="Syncfusion.Blazor.Toolkit.ChartSeriesType.Column" />
     </SfChart>
 </div>
 
@@ -920,16 +876,14 @@ Use percentage-based dimensions for automatic responsiveness:
 Create fully responsive charts that adapt to parent container:
 
 ```razor
-@using Syncfusion.Blazor.Charts
+@using Syncfusion.Blazor.Toolkit.Charts
 
 <div style="width: 100%; max-width: 1200px; margin: 0 auto;">
     <SfChart Title="Flexible Chart Layout">
-        <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Charts.ValueType.Category" />
+        <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Toolkit.ValueType.Category" />
         
-        <ChartSeriesCollection>
             <ChartSeries DataSource="@FlexData" XName="Category" YName="Amount" 
-                         Type="Syncfusion.Blazor.Charts.ChartSeriesType.Area" />
-        </ChartSeriesCollection>
+                         Type="Syncfusion.Blazor.Toolkit.ChartSeriesType.Area" />
     </SfChart>
 </div>
 
@@ -978,15 +932,13 @@ Follow these guidelines for optimal chart appearance and performance.
 
 **Optimize Rendering:**
 ```razor
-@using Syncfusion.Blazor.Charts
+@using Syncfusion.Blazor.Toolkit.Charts
 
 <SfChart Title="Optimized Chart" EnableCanvas="true">
-    <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Charts.ValueType.Category" />
+    <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Toolkit.ValueType.Category" />
     
-    <ChartSeriesCollection>
         <ChartSeries DataSource="@OptimizedData" XName="Item" YName="Value" 
-                     Type="Syncfusion.Blazor.Charts.ChartSeriesType.Column" />
-    </ChartSeriesCollection>
+                     Type="Syncfusion.Blazor.Toolkit.ChartSeriesType.Column" />
 </SfChart>
 
 @code {
@@ -1013,11 +965,11 @@ Follow these guidelines for optimal chart appearance and performance.
 ### Accessibility Considerations
 
 ```razor
-@using Syncfusion.Blazor.Charts
+@using Syncfusion.Blazor.Toolkit.Charts
 
 <SfChart Title="Accessible Chart Design" 
          Palettes="@AccessiblePalette">
-    <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Charts.ValueType.Category">
+    <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Toolkit.ValueType.Category">
         <ChartAxisMajorGridLines Width="1" Color="#E0E0E0" />
     </ChartPrimaryXAxis>
     
@@ -1025,10 +977,8 @@ Follow these guidelines for optimal chart appearance and performance.
         <ChartAxisMajorGridLines Width="1" Color="#E0E0E0" />
     </ChartPrimaryYAxis>
     
-    <ChartSeriesCollection>
         <ChartSeries DataSource="@AccessibleData" XName="Label" YName="Value" 
-                     Type="Syncfusion.Blazor.Charts.ChartSeriesType.Column" />
-    </ChartSeriesCollection>
+                     Type="Syncfusion.Blazor.Toolkit.ChartSeriesType.Column" />
 </SfChart>
 
 @code {
@@ -1080,7 +1030,7 @@ Follow these guidelines for optimal chart appearance and performance.
 Here's a comprehensive example combining multiple styling techniques:
 
 ```razor
-@using Syncfusion.Blazor.Charts
+@using Syncfusion.Blazor.Toolkit.Charts
 
 <div style="width: 100%; max-width: 900px; margin: 20px auto; padding: 20px; background: #F9F9F9;">
     <SfChart Title="Complete Styling Example" 
@@ -1102,7 +1052,7 @@ Here's a comprehensive example combining multiple styling techniques:
             <ChartAreaBorder Color="#BDBDBD" Width="1" />
         </ChartArea>
         
-        <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Charts.ValueType.Category">
+        <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Toolkit.ValueType.Category">
             <ChartAxisMajorGridLines Width="1" Color="#E0E0E0" />
         </ChartPrimaryXAxis>
         
@@ -1110,17 +1060,15 @@ Here's a comprehensive example combining multiple styling techniques:
             <ChartAxisMajorGridLines Width="1" Color="#E0E0E0" />
         </ChartPrimaryYAxis>
         
-        <ChartSeriesCollection>
             <ChartSeries DataSource="@CompleteData" XName="Month" YName="Sales" 
-                         Name="Sales" Type="Syncfusion.Blazor.Charts.ChartSeriesType.Column" Opacity="0.9">
+                         Name="Sales" Type="Syncfusion.Blazor.Toolkit.ChartSeriesType.Column" Opacity="0.9">
                 <ChartSeriesBorder Color="#1976D2" Width="1" />
                 <ChartSeriesAnimation Enable="true" Duration="1500" />
             </ChartSeries>
             <ChartSeries DataSource="@CompleteData" XName="Month" YName="Target" 
-                         Name="Target" Type="Syncfusion.Blazor.Charts.ChartSeriesType.Line" Width="3">
+                         Name="Target" Type="Syncfusion.Blazor.Toolkit.ChartSeriesType.Line" Width="3">
                 <ChartSeriesAnimation Enable="true" Duration="1500" Delay="200" />
             </ChartSeries>
-        </ChartSeriesCollection>
         
         <ChartLegendSettings Visible="true" Position="LegendPosition.Bottom" />
     </SfChart>

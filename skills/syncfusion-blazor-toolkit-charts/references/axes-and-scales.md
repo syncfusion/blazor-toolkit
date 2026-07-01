@@ -62,11 +62,9 @@ Category axis is used to represent string values instead of numeric values.
     <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Toolkit.ValueType.Category">
     </ChartPrimaryXAxis>
 
-    <ChartSeriesCollection>
         <ChartSeries DataSource="@MedalDetails" XName="Country" YName="Medals" 
-                     Type="Syncfusion.Blazor.Charts.ChartSeriesType.Column">
+                     Type="Syncfusion.Blazor.Toolkit.ChartSeriesType.Column">
         </ChartSeries>
-    </ChartSeriesCollection>
 </SfChart>
 
 @code{
@@ -117,14 +115,12 @@ Use data source index values for rendering category axis.
                    ValueType="Syncfusion.Blazor.Toolkit.ValueType.Category">
 </ChartPrimaryXAxis>
 
-<ChartSeriesCollection>
     <ChartSeries DataSource="@WeatherReports1" XName="X" YName="Y" 
-                 Type="Syncfusion.Blazor.Charts.ChartSeriesType.Column">
+                 Type="Syncfusion.Blazor.Toolkit.ChartSeriesType.Column">
     </ChartSeries>
     <ChartSeries DataSource="@WeatherReports2" XName="X" YName="Y" 
-                 Type="Syncfusion.Blazor.Charts.ChartSeriesType.Column">
+                 Type="Syncfusion.Blazor.Toolkit.ChartSeriesType.Column">
     </ChartSeries>
-</ChartSeriesCollection>
 ```
 
 ---
@@ -139,10 +135,8 @@ Numeric axis uses double values and is the default axis type.
     <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Toolkit.ValueType.Double">
     </ChartPrimaryXAxis>
 
-    <ChartSeriesCollection>
         <ChartSeries DataSource="@Data" XName="XValue" YName="YValue">
         </ChartSeries>
-    </ChartSeriesCollection>
 </SfChart>
 
 @code{
@@ -237,11 +231,9 @@ Numeric axis uses double values and is the default axis type.
     <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Toolkit.ValueType.DateTime">
     </ChartPrimaryXAxis>
 
-    <ChartSeriesCollection>
         <ChartSeries DataSource="@WeatherReports" XName="Date" YName="Temperature" 
                      Type="Syncfusion.Blazor.Toolkit.ChartSeriesType.Line">
         </ChartSeries>
-    </ChartSeriesCollection>
 </SfChart>
 
 @code{
@@ -340,10 +332,8 @@ Displays date-time values with non-linear intervals.
     <ChartPrimaryYAxis ValueType="Syncfusion.Blazor.Toolkit.ValueType.Logarithmic">
     </ChartPrimaryYAxis>
 
-    <ChartSeriesCollection>
         <ChartSeries DataSource="@Data" XName="XValue" YName="YValue">
         </ChartSeries>
-    </ChartSeriesCollection>
 </SfChart>
 
 @code{
@@ -620,14 +610,12 @@ Handled automatically by `LabelIntersectAction` or can be customized in events.
         </ChartAxis>
     </ChartAxes>
 
-    <ChartSeriesCollection>
         <ChartSeries DataSource="@Data" XName="Month" YName="TempF" 
-                     Type="Syncfusion.Blazor.Charts.ChartSeriesType.Column">
+                     Type="Syncfusion.Blazor.Toolkit.ChartSeriesType.Column">
         </ChartSeries>
         <ChartSeries DataSource="@Data" XName="Month" YName="TempC" 
-                     YAxisName="YAxis1" Type="Syncfusion.Blazor.Charts.ChartSeriesType.Line">
+                     YAxisName="YAxis1" Type="Syncfusion.Blazor.Toolkit.ChartSeriesType.Line">
         </ChartSeries>
-    </ChartSeriesCollection>
 </SfChart>
 ```
 
@@ -828,7 +816,7 @@ Bind series to axis using `YAxisName` or `XAxisName`:
 ## Complete Working Example
 
 ```cshtml
-@using Syncfusion.Blazor.Charts
+@using Syncfusion.Blazor.Toolkit.Charts
 
 <SfChart Title="Multi-Axis Sales and Temperature Analysis" Width="100%" Height="450px">
     <!-- Primary X-Axis: Category -->
@@ -865,23 +853,21 @@ Bind series to axis using `YAxisName` or `XAxisName`:
     </ChartAxes>
 
     <!-- Series -->
-    <ChartSeriesCollection>
         <ChartSeries DataSource="@SalesData" 
                      XName="Month" 
                      YName="Sales" 
                      Name="Sales"
-                     Type="Syncfusion.Blazor.Charts.ChartSeriesType.Column">
+                     Type="Syncfusion.Blazor.Toolkit.ChartSeriesType.Column">
         </ChartSeries>
         <ChartSeries DataSource="@SalesData" 
                      XName="Month" 
                      YName="Temperature" 
                      Name="Temperature"
                      YAxisName="TempAxis"
-                     Type="Syncfusion.Blazor.Charts.ChartSeriesType.Line">
+                     Type="Syncfusion.Blazor.Toolkit.ChartSeriesType.Line">
             <ChartMarker Visible="true" Height="10" Width="10">
             </ChartMarker>
         </ChartSeries>
-    </ChartSeriesCollection>
 </SfChart>
 
 @code {

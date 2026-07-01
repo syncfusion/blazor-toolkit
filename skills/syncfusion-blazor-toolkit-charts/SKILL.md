@@ -416,24 +416,21 @@ The `SfChart` component provides several public methods for programmatic control
 
 **⚠️ Common Property Errors to Avoid:**
 
-#### ChartCrosshairLine - Limited Properties
+#### ChartCrosshairSettings - Supported Properties
 ```razor
-<!-- ✅ CORRECT - Only Width and Color supported -->
-<ChartCrosshairSettings Enable="true">
-    <ChartCrosshairLine Width="1" Color="#666"></ChartCrosshairLine>
+<ChartCrosshairSettings Enable="true" DashArray="2,3" LineType="LineType.Both">
+    <ChartCrosshairLine Width="1.5"></ChartCrosshairLine>
 </ChartCrosshairSettings>
-
-<!-- ❌ WRONG - DashArray NOT supported on ChartCrosshairLine -->
-<ChartCrosshairLine Width="1" Color="#666" DashArray="5,5"></ChartCrosshairLine>
 ```
+
+**Supported ChartCrosshairSettings Properties:**
+- `Enable` - Enable/disable crosshair (boolean)
+- `DashArray` - Dash pattern for dashed lines (e.g., "2,3")
+- `LineType` - Crosshair line type (Vertical, Horizontal, Both)
 
 **Supported ChartCrosshairLine Properties:**
 - `Width` - Line width (number)
 - `Color` - Line color (string)
-
-**NOT Supported:**
-- ❌ `DashArray` - Will cause runtime error
-- ❌ `Opacity` - Not available on this component
 
 #### Striplines - Use Plural Form
 ```razor
@@ -453,7 +450,7 @@ The `SfChart` component provides several public methods for programmatic control
 ### 3. Validation Checklist
 
 Before deploying, verify:
--- ✅ All enums use `Syncfusion.Blazor.Toolkit.` prefix
+- ✅ All enums use `Syncfusion.Blazor.Toolkit.` prefix
 - ✅ ChartCrosshairLine uses ONLY Width and Color
 - ✅ Striplines use `<ChartStriplines>` and `<ChartStripline>`
 - ✅ Component references use `@ref` for method access
@@ -478,7 +475,6 @@ Here's a minimal example to create a column chart with data:
     
     <ChartTooltipSettings Enable="true"></ChartTooltipSettings>
     
-    <ChartSeriesCollection>
         <ChartSeries DataSource="@SalesData" 
                      Name="Sales" 
                      XName="Month" 
@@ -488,7 +484,6 @@ Here's a minimal example to create a column chart with data:
                 <ChartDataLabel Visible="true"></ChartDataLabel>
             </ChartMarker>
         </ChartSeries>
-    </ChartSeriesCollection>
 </SfChart>
 
 @code {
@@ -526,14 +521,12 @@ Here's a minimal example to create a column chart with data:
 <SfChart Title="Product Sales Comparison">
     <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Toolkit.ValueType.Category"></ChartPrimaryXAxis>
     
-    <ChartSeriesCollection>
         <ChartSeries DataSource="@Product1Sales" XName="Month" YName="Sales" 
                      Name="Product 1" Type="Syncfusion.Blazor.Toolkit.ChartSeriesType.Column">
         </ChartSeries>
         <ChartSeries DataSource="@Product2Sales" XName="Month" YName="Sales" 
                      Name="Product 2" Type="Syncfusion.Blazor.Toolkit.ChartSeriesType.Column">
         </ChartSeries>
-    </ChartSeriesCollection>
     
     <ChartLegendSettings Visible="true"></ChartLegendSettings>
 </SfChart>
@@ -552,13 +545,11 @@ Here's a minimal example to create a column chart with data:
                        EnableMouseWheelZooming="true">
     </ChartZoomSettings>
     
-    <ChartSeriesCollection>
         <ChartSeries DataSource="@TimeSeriesData" 
                      XName="Date" 
                      YName="Value" 
                      Type="Syncfusion.Blazor.Toolkit.ChartSeriesType.Line">
         </ChartSeries>
-    </ChartSeriesCollection>
 </SfChart>
 ```
 
@@ -568,7 +559,6 @@ Here's a minimal example to create a column chart with data:
 <SfChart Title="Resource Allocation">
     <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Toolkit.ValueType.Category"></ChartPrimaryXAxis>
     
-    <ChartSeriesCollection>
         <ChartSeries DataSource="@ResourceData1" XName="Period" YName="Hours" 
                      Name="Development" Type="Syncfusion.Blazor.Toolkit.ChartSeriesType.StackingArea">
         </ChartSeries>
@@ -578,7 +568,6 @@ Here's a minimal example to create a column chart with data:
         <ChartSeries DataSource="@ResourceData3" XName="Period" YName="Hours" 
                      Name="Documentation" Type="Syncfusion.Blazor.Toolkit.ChartSeriesType.StackingArea">
         </ChartSeries>
-    </ChartSeriesCollection>
     
     <ChartLegendSettings Visible="true" Position="Syncfusion.Blazor.Toolkit.LegendPosition.Bottom">
     </ChartLegendSettings>
@@ -599,7 +588,7 @@ Here's a minimal example to create a column chart with data:
 - `HighlightMode` - Highlight mode (None, Series, Point, Cluster)
 
 ### Primary Axes (`ChartPrimaryXAxis`, `ChartPrimaryYAxis`)
-- `ValueType` - Axis type: `Syncfusion.Blazor.Charts.ValueType.Category`, `ValueType.Double`, `ValueType.DateTime`, `ValueType.Logarithmic`, `ValueType.DateTimeCategory`
+- `ValueType` - Axis type: `Syncfusion.Blazor.Toolkit.ValueType.Category`, `ValueType.Double`, `ValueType.DateTime`, `ValueType.Logarithmic`, `ValueType.DateTimeCategory`
 - `Title` - Axis title
 - `Minimum` / `Maximum` - Axis range
 - `Interval` - Spacing between labels
@@ -611,7 +600,7 @@ Here's a minimal example to create a column chart with data:
 ### Series (`ChartSeries`)
 - `DataSource` - Data collection (IEnumerable<object>)
 - `XName` / `YName` - Property names for X and Y values (case-sensitive)
-- `Type` - Chart type: `Syncfusion.Blazor.Charts.ChartSeriesType.Column`, `ChartSeriesType.Line`, etc. (see API reference)
+- `Type` - Chart type: `Syncfusion.Blazor.Toolkit.ChartSeriesType.Column`, `ChartSeriesType.Line`, etc. (see API reference)
 - `Name` - Series name for legend
 - `Fill` - Series color (CSS color string)
 - `Width` - Line/border width (pixels)
@@ -652,9 +641,3 @@ Here's a minimal example to create a column chart with data:
   - Support for text, images, and shapes
 
 ---
-
-## Additional Resources
-
-- **Official Documentation:** [Syncfusion Blazor Chart Documentation](https://blazor.syncfusion.com/documentation/chart/getting-started)
-- **API Reference:** [Chart API](https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.Charts.html)
-- **Live Demos:** [Blazor Chart Demos](https://blazor.syncfusion.com/demos/chart/line)

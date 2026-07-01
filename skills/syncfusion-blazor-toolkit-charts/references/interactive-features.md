@@ -46,18 +46,16 @@ Enable tooltips using `ChartTooltipSettings`:
 
 ```razor
 <SfChart Title="Product Sales">
-    <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Charts.ValueType.Category"/>
+    <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Toolkit.ValueType.Category"/>
     <ChartPrimaryYAxis LabelFormat="{value}M"/>
     
     <ChartTooltipSettings Enable="true"/>
     
-    <ChartSeriesCollection>
         <ChartSeries DataSource="@SalesData" 
                      Name="Sales" 
                      XName="Month" 
                      YName="Revenue" 
-                     Type="Syncfusion.Blazor.Charts.ChartSeriesType.Column"/>
-    </ChartSeriesCollection>
+                     Type="Syncfusion.Blazor.Toolkit.ChartSeriesType.Column"/>
 </SfChart>
 
 @code {
@@ -170,23 +168,21 @@ Display all series data points in a single tooltip:
 
 ```razor
 <SfChart Title="Quarterly Comparison">
-    <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Charts.ValueType.Category"/>
+    <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Toolkit.ValueType.Category"/>
     
     <ChartTooltipSettings Enable="true" 
                           Shared="true"
                           Format="<b>${point.x}</b><br/>${series.name}: ${point.y}"/>
     
-    <ChartSeriesCollection>
-        <ChartSeries DataSource="@Q1Data" Name="Q1" XName="Month" YName="Value" Type="Syncfusion.Blazor.Charts.ChartSeriesType.Line">
+        <ChartSeries DataSource="@Q1Data" Name="Q1" XName="Month" YName="Value" Type="Syncfusion.Blazor.Toolkit.ChartSeriesType.Line">
             <ChartMarker Visible="true"/>
         </ChartSeries>
-        <ChartSeries DataSource="@Q2Data" Name="Q2" XName="Month" YName="Value" Type="Syncfusion.Blazor.Charts.ChartSeriesType.Line">
+        <ChartSeries DataSource="@Q2Data" Name="Q2" XName="Month" YName="Value" Type="Syncfusion.Blazor.Toolkit.ChartSeriesType.Line">
             <ChartMarker Visible="true"/>
         </ChartSeries>
-        <ChartSeries DataSource="@Q3Data" Name="Q3" XName="Month" YName="Value" Type="Syncfusion.Blazor.Charts.ChartSeriesType.Line">
+        <ChartSeries DataSource="@Q3Data" Name="Q3" XName="Month" YName="Value" Type="Syncfusion.Blazor.Toolkit.ChartSeriesType.Line">
             <ChartMarker Visible="true"/>
         </ChartSeries>
-    </ChartSeriesCollection>
 </SfChart>
 ```
 
@@ -222,7 +218,7 @@ Enable crosshair using `ChartCrosshairSettings`:
 
 ```razor
 <SfChart>
-    <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Charts.ValueType.DateTime">
+    <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Toolkit.ValueType.DateTime">
         <ChartAxisCrosshairTooltip Enable="true"/>
     </ChartPrimaryXAxis>
     
@@ -232,9 +228,7 @@ Enable crosshair using `ChartCrosshairSettings`:
     
     <ChartCrosshairSettings Enable="true"/>
     
-    <ChartSeriesCollection>
-        <ChartSeries DataSource="@TimeSeriesData" XName="Date" YName="Value" Type="Syncfusion.Blazor.Charts.ChartSeriesType.Line"/>
-    </ChartSeriesCollection>
+        <ChartSeries DataSource="@TimeSeriesData" XName="Date" YName="Value" Type="Syncfusion.Blazor.Toolkit.ChartSeriesType.Line"/>
 </SfChart>
 ```
 
@@ -255,11 +249,11 @@ Make crosshair snap to nearest data point instead of exact mouse position:
 Customize crosshair line appearance and behavior:
 
 ```razor
-<ChartCrosshairSettings Enable="true" SnapToData="true">
-    <ChartCrosshairLine Width="2" Color="#2196F3" DashArray="5,5"/>
+<ChartCrosshairSettings Enable="true" SnapToData="true" DashArray="5,5">
+    <ChartCrosshairLine Width="2" Color="#2196F3"/>
 </ChartCrosshairSettings>
 
-<ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Charts.ValueType.Category">
+<ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Toolkit.ValueType.Category">
     <ChartAxisCrosshairTooltip Enable="true" Fill="#FF5722">
         <ChartCrosshairTextStyle Size="13px" Color="white" FontWeight="600"/>
     </ChartAxisCrosshairTooltip>
@@ -277,7 +271,7 @@ Customize crosshair line appearance and behavior:
 Configure axis-specific crosshair tooltips:
 
 ```razor
-<ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Charts.ValueType.DateTime">
+<ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Toolkit.ValueType.DateTime">
     <ChartAxisCrosshairTooltip Enable="true" 
                                 Fill="#37474F"
                                 Format="MM/dd/yyyy">
@@ -305,7 +299,7 @@ Enable trackball mode by combining crosshair with shared tooltips:
 
 ```razor
 <SfChart>
-    <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Charts.ValueType.DateTime"/>
+    <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Toolkit.ValueType.DateTime"/>
     
     <ChartCrosshairSettings Enable="true" SnapToData="true" LineType="LineType.Vertical"/>
     
@@ -313,14 +307,12 @@ Enable trackball mode by combining crosshair with shared tooltips:
                           Shared="true" 
                           Format="${series.name} : <b>${point.y}</b>"/>
     
-    <ChartSeriesCollection>
-        <ChartSeries DataSource="@Sales2023" Name="2023 Sales" XName="Date" YName="Amount" Type="Syncfusion.Blazor.Charts.ChartSeriesType.Line">
+        <ChartSeries DataSource="@Sales2023" Name="2023 Sales" XName="Date" YName="Amount" Type="Syncfusion.Blazor.Toolkit.ChartSeriesType.Line">
             <ChartMarker Visible="true" Height="8" Width="8"/>
         </ChartSeries>
-        <ChartSeries DataSource="@Sales2024" Name="2024 Sales" XName="Date" YName="Amount" Type="Syncfusion.Blazor.Charts.ChartSeriesType.Line">
+        <ChartSeries DataSource="@Sales2024" Name="2024 Sales" XName="Date" YName="Amount" Type="Syncfusion.Blazor.Toolkit.ChartSeriesType.Line">
             <ChartMarker Visible="true" Height="8" Width="8"/>
         </ChartSeries>
-    </ChartSeriesCollection>
 </SfChart>
 ```
 
@@ -329,8 +321,8 @@ Enable trackball mode by combining crosshair with shared tooltips:
 Customize trackball appearance and behavior:
 
 ```razor
-<ChartCrosshairSettings Enable="true" SnapToData="true">
-    <ChartCrosshairLine Width="1" Color="#757575" DashArray="3,3"/>
+<ChartCrosshairSettings Enable="true" SnapToData="true" DashArray="3,3">
+    <ChartCrosshairLine Width="1" Color="#757575"/>
 </ChartCrosshairSettings>
 
 <ChartTooltipSettings Enable="true" 
@@ -372,21 +364,19 @@ Allow users to select data points, series, or regions for highlighting or furthe
 Select individual data points:
 
 ```razor
-<SfChart Title="Product Performance" SelectionMode="Syncfusion.Blazor.Charts.SelectionMode.Point">
-    <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Charts.ValueType.Category"/>
+<SfChart Title="Product Performance" SelectionMode="Syncfusion.Blazor.Toolkit.Charts.SelectionMode.Point">
+    <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Toolkit.ValueType.Category"/>
     
     <ChartSelectionSettings Enable="true" 
-                             Mode="Syncfusion.Blazor.Charts.SelectionMode.Point"
+                             Mode="Syncfusion.Blazor.Toolkit.Charts.SelectionMode.Point"
                              Type="SelectionType.Highlight"
                              Pattern="SelectionPattern.Dots"/>
     
-    <ChartSeriesCollection>
         <ChartSeries DataSource="@ProductData" 
                      XName="Product" 
                      YName="Sales" 
-                     Type="Syncfusion.Blazor.Charts.ChartSeriesType.Column"
+                     Type="Syncfusion.Blazor.Toolkit.ChartSeriesType.Column"
                      SelectionStyle="@selectionStyle"/>
-    </ChartSeriesCollection>
 </SfChart>
 
 @code {
@@ -399,12 +389,10 @@ Select individual data points:
 Select entire series:
 
 ```razor
-<SfChart Title="Quarterly Sales" SelectionMode="Syncfusion.Blazor.Charts.SelectionMode.Series">
-    <ChartSeriesCollection>
-        <ChartSeries DataSource="@Q1Data" Name="Q1" XName="Month" YName="Revenue" Type="Syncfusion.Blazor.Charts.ChartSeriesType.Column"/>
-        <ChartSeries DataSource="@Q2Data" Name="Q2" XName="Month" YName="Revenue" Type="Syncfusion.Blazor.Charts.ChartSeriesType.Column"/>
-        <ChartSeries DataSource="@Q3Data" Name="Q3" XName="Month" YName="Revenue" Type="Syncfusion.Blazor.Charts.ChartSeriesType.Column"/>
-    </ChartSeriesCollection>
+<SfChart Title="Quarterly Sales" SelectionMode="Syncfusion.Blazor.Toolkit.Charts.SelectionMode.Series">
+        <ChartSeries DataSource="@Q1Data" Name="Q1" XName="Month" YName="Revenue" Type="Syncfusion.Blazor.Toolkit.ChartSeriesType.Column"/>
+        <ChartSeries DataSource="@Q2Data" Name="Q2" XName="Month" YName="Revenue" Type="Syncfusion.Blazor.Toolkit.ChartSeriesType.Column"/>
+        <ChartSeries DataSource="@Q3Data" Name="Q3" XName="Month" YName="Revenue" Type="Syncfusion.Blazor.Toolkit.ChartSeriesType.Column"/>
 </SfChart>
 ```
 
@@ -413,14 +401,12 @@ Select entire series:
 Select all points at the same index across series:
 
 ```razor
-<SfChart Title="Regional Comparison" SelectionMode="Syncfusion.Blazor.Charts.SelectionMode.Cluster">
-    <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Charts.ValueType.Category"/>
+<SfChart Title="Regional Comparison" SelectionMode="Syncfusion.Blazor.Toolkit.Charts.SelectionMode.Cluster">
+    <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Toolkit.ValueType.Category"/>
     
-    <ChartSeriesCollection>
-        <ChartSeries DataSource="@NorthRegion" Name="North" XName="Month" YName="Sales" Type="Syncfusion.Blazor.Charts.ChartSeriesType.Column"/>
-        <ChartSeries DataSource="@SouthRegion" Name="South" XName="Month" YName="Sales" Type="Syncfusion.Blazor.Charts.ChartSeriesType.Column"/>
-        <ChartSeries DataSource="@EastRegion" Name="East" XName="Month" YName="Sales" Type="Syncfusion.Blazor.Charts.ChartSeriesType.Column"/>
-    </ChartSeriesCollection>
+        <ChartSeries DataSource="@NorthRegion" Name="North" XName="Month" YName="Sales" Type="Syncfusion.Blazor.Toolkit.ChartSeriesType.Column"/>
+        <ChartSeries DataSource="@SouthRegion" Name="South" XName="Month" YName="Sales" Type="Syncfusion.Blazor.Toolkit.ChartSeriesType.Column"/>
+        <ChartSeries DataSource="@EastRegion" Name="East" XName="Month" YName="Sales" Type="Syncfusion.Blazor.Toolkit.ChartSeriesType.Column"/>
 </SfChart>
 ```
 
@@ -429,17 +415,15 @@ Select all points at the same index across series:
 Enable rectangular drag selection:
 
 ```razor
-<SfChart SelectionMode="Syncfusion.Blazor.Charts.SelectionMode.DragXY">
-    <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Charts.ValueType.DateTime"/>
+<SfChart SelectionMode="Syncfusion.Blazor.Toolkit.Charts.SelectionMode.DragXY">
+    <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Toolkit.ValueType.DateTime"/>
     
-    <ChartSeriesCollection>
         <ChartSeries DataSource="@ScatterData" 
                      XName="Date" 
                      YName="Value" 
-                     Type="Syncfusion.Blazor.Charts.ChartSeriesType.Scatter">
+                     Type="Syncfusion.Blazor.Toolkit.ChartSeriesType.Scatter">
             <ChartMarker Height="10" Width="10"/>
         </ChartSeries>
-    </ChartSeriesCollection>
 </SfChart>
 ```
 
@@ -453,14 +437,12 @@ Enable rectangular drag selection:
 Configure selection behavior and appearance:
 
 ```razor
-<SfChart SelectionMode="Syncfusion.Blazor.Charts.SelectionMode.Point">
-    <ChartSeriesCollection>
+<SfChart SelectionMode="Syncfusion.Blazor.Toolkit.Charts.SelectionMode.Point">
         <ChartSeries DataSource="@ChartData" 
                      XName="X" 
                      YName="Y" 
-                     Type="Syncfusion.Blazor.Charts.ChartSeriesType.Column"
+                     Type="Syncfusion.Blazor.Toolkit.ChartSeriesType.Column"
                      SelectionStyle="fill: #4CAF50; stroke: #2E7D32; stroke-width: 3"/>
-    </ChartSeriesCollection>
 </SfChart>
 ```
 
@@ -468,22 +450,18 @@ Configure selection behavior and appearance:
 
 ```razor
 <SfChart Title="Multi-Select Chart" 
-         SelectionMode="Syncfusion.Blazor.Charts.SelectionMode.Point" 
+         SelectionMode="Syncfusion.Blazor.Toolkit.Charts.SelectionMode.Point" 
          IsMultiSelect="true">
-    <ChartSeriesCollection>
-        <ChartSeries DataSource="@Data" XName="X" YName="Y" Type="Syncfusion.Blazor.Charts.ChartSeriesType.Column"/>
-    </ChartSeriesCollection>
+        <ChartSeries DataSource="@Data" XName="X" YName="Y" Type="Syncfusion.Blazor.Toolkit.ChartSeriesType.Column"/>
 </SfChart>
 ```
 
 **Selection Events:**
 
 ```razor
-<SfChart SelectionMode="Syncfusion.Blazor.Charts.SelectionMode.Point" 
+<SfChart SelectionMode="Syncfusion.Blazor.Toolkit.Charts.SelectionMode.Point" 
          OnSelectionComplete="HandleSelectionComplete">
-    <ChartSeriesCollection>
-        <ChartSeries DataSource="@ChartData" XName="X" YName="Y" Type="Syncfusion.Blazor.Charts.ChartSeriesType.Column"/>
-    </ChartSeriesCollection>
+        <ChartSeries DataSource="@ChartData" XName="X" YName="Y" Type="Syncfusion.Blazor.Toolkit.ChartSeriesType.Column"/>
 </SfChart>
 
 @code {
@@ -512,13 +490,11 @@ Enable selection-based zooming (drag to select region):
 
 ```razor
 <SfChart Title="Sales History">
-    <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Charts.ValueType.Category"/>
+    <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Toolkit.ValueType.Category"/>
     
     <ChartZoomSettings EnableSelectionZooming="true"/>
     
-    <ChartSeriesCollection>
-        <ChartSeries DataSource="@SalesData" XName="Month" YName="Sales" Type="Syncfusion.Blazor.Charts.ChartSeriesType.Column"/>
-    </ChartSeriesCollection>
+        <ChartSeries DataSource="@SalesData" XName="Month" YName="Sales" Type="Syncfusion.Blazor.Toolkit.ChartSeriesType.Column"/>
 </SfChart>
 ```
 
@@ -542,16 +518,14 @@ Enable pinch-to-zoom for touch devices:
 
 ```razor
 <SfChart Title="Comprehensive Zoom Example">
-    <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Charts.ValueType.Category"/>
+    <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Toolkit.ValueType.Category"/>
     
     <ChartZoomSettings EnableSelectionZooming="true"
                        EnableMouseWheelZooming="true"
                        EnablePinchZooming="true"
                        EnableScrollbar="true"/>
     
-    <ChartSeriesCollection>
-        <ChartSeries DataSource="@LargeDataset" XName="X" YName="Y" Type="Syncfusion.Blazor.Charts.ChartSeriesType.Line"/>
-    </ChartSeriesCollection>
+        <ChartSeries DataSource="@LargeDataset" XName="X" YName="Y" Type="Syncfusion.Blazor.Toolkit.ChartSeriesType.Line"/>
 </SfChart>
 ```
 
@@ -619,9 +593,7 @@ Enable panning after zooming:
 ```razor
 <SfChart @ref="chartObj">
     <ChartZoomSettings EnableSelectionZooming="true"/>
-    <ChartSeriesCollection>
-        <ChartSeries DataSource="@Data" XName="X" YName="Y" Type="Syncfusion.Blazor.Charts.ChartSeriesType.Line"/>
-    </ChartSeriesCollection>
+        <ChartSeries DataSource="@Data" XName="X" YName="Y" Type="Syncfusion.Blazor.Toolkit.ChartSeriesType.Line"/>
 </SfChart>
 
 <button @onclick="ZoomIn">Zoom In</button>

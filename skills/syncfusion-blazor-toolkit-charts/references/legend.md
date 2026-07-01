@@ -1,4 +1,6 @@
-﻿## Table of Contents
+﻿# Legend Reference
+
+## Table of Contents
 
 - [Basic Legend Implementation](#basic-legend-implementation)
 - [Legend Positioning](#legend-positioning)
@@ -43,8 +45,6 @@
    - [Too Many Legend Items](#too-many-legend-items)
    - [Legend Click Not Working](#legend-click-not-working)
 
-# Legend Reference
-
 Legend provides information about the series displayed in the chart, helping users identify and differentiate multiple data series.
 
 ## Basic Legend Implementation
@@ -53,13 +53,11 @@ Enable legend by setting `Visible="true"` in `ChartLegendSettings`:
 
 ```razor
 <SfChart Title="Olympic Medals">
-    <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Charts.ValueType.Category"/>
+    <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Toolkit.ValueType.Category"/>
     
-    <ChartSeriesCollection>
-        <ChartSeries DataSource="@MedalDetails" Name="Gold" XName="Country" YName="Gold" Type="Syncfusion.Blazor.Charts.ChartSeriesType.Column"/>
-        <ChartSeries DataSource="@MedalDetails" Name="Silver" XName="Country" YName="Silver" Type="Syncfusion.Blazor.Charts.ChartSeriesType.Column"/>
-        <ChartSeries DataSource="@MedalDetails" Name="Bronze" XName="Country" YName="Bronze" Type="Syncfusion.Blazor.Charts.ChartSeriesType.Column"/>
-    </ChartSeriesCollection>
+        <ChartSeries DataSource="@MedalDetails" Name="Gold" XName="Country" YName="Gold" Type="Syncfusion.Blazor.Toolkit.ChartSeriesType.Column"/>
+        <ChartSeries DataSource="@MedalDetails" Name="Silver" XName="Country" YName="Silver" Type="Syncfusion.Blazor.Toolkit.ChartSeriesType.Column"/>
+        <ChartSeries DataSource="@MedalDetails" Name="Bronze" XName="Country" YName="Bronze" Type="Syncfusion.Blazor.Toolkit.ChartSeriesType.Column"/>
     
     <ChartLegendSettings Visible="true"/>
 </SfChart>
@@ -300,12 +298,10 @@ Prevent series toggling when legend is clicked:
 This is useful when combined with selection modes:
 
 ```razor
-<SfChart SelectionMode="Syncfusion.Blazor.Charts.SelectionMode.Series">
-    <ChartSeriesCollection>
+<SfChart SelectionMode="Syncfusion.Blazor.Toolkit.Charts.SelectionMode.Series">
         <ChartSeries DataSource="@Data1" Name="Q1" XName="X" YName="Y"/>
         <ChartSeries DataSource="@Data2" Name="Q2" XName="X" YName="Y"/>
         <ChartSeries DataSource="@Data3" Name="Q3" XName="X" YName="Y"/>
-    </ChartSeriesCollection>
     
     <ChartLegendSettings Visible="true" ToggleVisibility="false"/>
 </SfChart>
@@ -318,11 +314,9 @@ This is useful when combined with selection modes:
 Exclude a series from legend by setting its `Name` to empty string:
 
 ```razor
-<ChartSeriesCollection>
     <ChartSeries DataSource="@Data1" Name="Visible Series" XName="X" YName="Y"/>
     <ChartSeries DataSource="@Data2" Name="" XName="X" YName="Y"/>  <!-- Hidden from legend -->
     <ChartSeries DataSource="@Data3" Name="Another Series" XName="X" YName="Y"/>
-</ChartSeriesCollection>
 
 <ChartLegendSettings Visible="true"/>
 ```
@@ -333,17 +327,16 @@ Create fully custom legend items using templates:
 
 ```razor
 <SfChart Title="Sales Performance">
-    <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Charts.ValueType.Category"/>
+    <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Toolkit.ValueType.Category"/>
     
     <ChartLegendSettings Visible="true"/>
     
-    <ChartSeriesCollection>
         <ChartSeries DataSource="@SalesData" 
                      Name="Q1 Sales" 
                      XName="Month" 
                      YName="Q1" 
                      Fill="#4CAF50"
-                     Type="Syncfusion.Blazor.Charts.ChartSeriesType.Column">
+                     Type="Syncfusion.Blazor.Toolkit.ChartSeriesType.Column">
             <LegendItemTemplate>
                 <div style="display: flex; align-items: center; gap: 10px; padding: 6px;">
                     <span style="font-size: 20px;">📊</span>
@@ -360,7 +353,7 @@ Create fully custom legend items using templates:
                      XName="Month" 
                      YName="Q2" 
                      Fill="#2196F3"
-                     Type="Syncfusion.Blazor.Charts.ChartSeriesType.Column">
+                     Type="Syncfusion.Blazor.Toolkit.ChartSeriesType.Column">
             <LegendItemTemplate>
                 <div style="display: flex; align-items: center; gap: 10px; padding: 6px;">
                     <span style="font-size: 20px;">📈</span>
@@ -371,7 +364,6 @@ Create fully custom legend items using templates:
                 </div>
             </LegendItemTemplate>
         </ChartSeries>
-    </ChartSeriesCollection>
 </SfChart>
 
 @code {
@@ -427,18 +419,16 @@ Create fully custom legend items using templates:
 
 ```razor
 <SfChart Title="Regional Performance">
-    <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Charts.ValueType.Category"/>
+    <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Toolkit.ValueType.Category"/>
     
-    <ChartSeriesCollection>
         <ChartSeries DataSource="@NorthData" Name="North Region" XName="Month" YName="Sales" 
-                     Type="Syncfusion.Blazor.Charts.ChartSeriesType.Line" LegendShape="LegendShape.Circle"/>
+                     Type="Syncfusion.Blazor.Toolkit.ChartSeriesType.Line" LegendShape="LegendShape.Circle"/>
         <ChartSeries DataSource="@SouthData" Name="South Region" XName="Month" YName="Sales" 
-                     Type="Syncfusion.Blazor.Charts.ChartSeriesType.Line" LegendShape="LegendShape.Triangle"/>
+                     Type="Syncfusion.Blazor.Toolkit.ChartSeriesType.Line" LegendShape="LegendShape.Triangle"/>
         <ChartSeries DataSource="@EastData" Name="East Region" XName="Month" YName="Sales" 
-                     Type="Syncfusion.Blazor.Charts.ChartSeriesType.Line" LegendShape="LegendShape.Diamond"/>
+                     Type="Syncfusion.Blazor.Toolkit.ChartSeriesType.Line" LegendShape="LegendShape.Diamond"/>
         <ChartSeries DataSource="@WestData" Name="West Region" XName="Month" YName="Sales" 
-                     Type="Syncfusion.Blazor.Charts.ChartSeriesType.Line" LegendShape="LegendShape.Pentagon"/>
-    </ChartSeriesCollection>
+                     Type="Syncfusion.Blazor.Toolkit.ChartSeriesType.Line" LegendShape="LegendShape.Pentagon"/>
     
     <ChartLegendSettings Visible="true" 
                          Position="LegendPosition.Top"
@@ -520,7 +510,7 @@ Create fully custom legend items using templates:
 ### Legend for Line Charts
 
 ```razor
-<ChartSeries Type="Syncfusion.Blazor.Charts.ChartSeriesType.Line" LegendShape="LegendShape.SeriesType">
+<ChartSeries Type="Syncfusion.Blazor.Toolkit.ChartSeriesType.Line" LegendShape="LegendShape.SeriesType">
     <ChartMarker Visible="true" Shape="ChartShape.Circle"/>
 </ChartSeries>
 ```
@@ -530,11 +520,9 @@ Create fully custom legend items using templates:
 ```razor
 <ChartLegendSettings Visible="true" Position="LegendPosition.Top"/>
 
-<ChartSeriesCollection>
-    <ChartSeries DataSource="@Data1" Name="Product A" XName="Month" YName="Sales" Type="Syncfusion.Blazor.Charts.ChartSeriesType.StackingColumn"/>
-    <ChartSeries DataSource="@Data2" Name="Product B" XName="Month" YName="Sales" Type="Syncfusion.Blazor.Charts.ChartSeriesType.StackingColumn"/>
-    <ChartSeries DataSource="@Data3" Name="Product C" XName="Month" YName="Sales" Type="Syncfusion.Blazor.Charts.ChartSeriesType.StackingColumn"/>
-</ChartSeriesCollection>
+    <ChartSeries DataSource="@Data1" Name="Product A" XName="Month" YName="Sales" Type="Syncfusion.Blazor.Toolkit.ChartSeriesType.StackingColumn"/>
+    <ChartSeries DataSource="@Data2" Name="Product B" XName="Month" YName="Sales" Type="Syncfusion.Blazor.Toolkit.ChartSeriesType.StackingColumn"/>
+    <ChartSeries DataSource="@Data3" Name="Product C" XName="Month" YName="Sales" Type="Syncfusion.Blazor.Toolkit.ChartSeriesType.StackingColumn"/>
 ```
 
 ## Troubleshooting Common Issues
