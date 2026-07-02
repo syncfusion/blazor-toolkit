@@ -327,9 +327,11 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
             bool isBottom = position == ChartLabelPosition.Bottom;
             ChartLabelPosition[] Test = [ChartLabelPosition.Outer, ChartLabelPosition.Top, ChartLabelPosition.Bottom, ChartLabelPosition.Middle, ChartLabelPosition.Auto];
             int positionIndex = Array.IndexOf(Test, position);
+            string? originalFontBackground = _fontBackground;   // capture "transparent"
 
             while (isOverLap && positionIndex < 4)
             {
+                _fontBackground = originalFontBackground; 
                 y_Location = CalculatePathPosition(y, rect, isminus, GetPosition(positionIndex), series, point, size, labelIndex);
                 Rect labelRect = ChartHelper.CalculateRect(new ChartEventLocation(_locationX, y_Location), size, _margin);
 
@@ -651,8 +653,8 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
             posY = (SeriesRenderer?.ClipRect?.Y ?? 0) + rect.Y;
             string left = Convert.ToString(posX, _culture) + "px";
             string top = Convert.ToString(posY, _culture) + "px";
-            Color rgbValue = Color.FromName(_fontBackground ?? string.Empty);
-            string color = string.IsNullOrEmpty(dataLabel.Font.Color) ? dataLabel.Font.Color : (Math.Round(Convert.ToDouble(((rgbValue.R * 299) + (rgbValue.G * 587) + (rgbValue.B * 114)) / 1000, _culture), 1) >= 128 ? "black" : "white");
+            double templateContrast = CalculateLuminanceContrast(_fontBackground ?? string.Empty);
+            string color = string.IsNullOrEmpty(dataLabel.Font.Color) ? dataLabel.Font.Color : (templateContrast >= 128 ? "black" : "white");
             bool isAnimation = ((series.Animation.Enable && SyncfusionService?._options.Animation == GlobalAnimationMode.Default) || (SyncfusionService?._options.Animation == GlobalAnimationMode.Enable)) && Owner is not null && Owner._shouldAnimateSeries;
             string visibility = !(pointTemplateSize.Count > 0) ? "hidden" : isAnimation ? "hidden" : "visible";
             string id;
@@ -1208,7 +1210,8 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
         }
 
         /// <summary>
-        /// Calculates the luminance contrast ratio for a background color.
+        /// Calculates the luminance contrast ratio for a background color, accounting for
+        /// semi-transparent (rgba) colors by blending them with the chart background.
         /// </summary>
         /// <param name="backgroundColor">The background color as a string (name, hex, or rgb).</param>
         /// <returns>
@@ -1217,8 +1220,48 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
         /// </returns>
         private double CalculateLuminanceContrast(string backgroundColor)
         {
-            Color rgbValue = ChartHelper.GetRBGValue(backgroundColor);
+            string effectiveColor = GetEffectiveBackgroundColor(backgroundColor);
+            Color rgbValue = ChartHelper.GetRBGValue(effectiveColor);
             return Math.Round(Convert.ToDouble(((rgbValue.R * 299) + (rgbValue.G * 587) + (rgbValue.B * 114)) / 1000, _culture), 1);
+        }
+
+        /// <summary>
+        /// Returns the effective opaque color for a background, blending semi-transparent
+        /// (rgba with alpha &lt; 1) colors with the chart background to produce the actual
+        /// visible color the text will be rendered over.
+        /// </summary>
+        /// <param name="backgroundColor">The background color string, possibly rgba.</param>
+        /// <returns>
+        /// A hex color string representing the effective opaque color; non-rgba values are returned unchanged.
+        /// </returns>
+        private string GetEffectiveBackgroundColor(string backgroundColor)
+        {
+            if (string.IsNullOrEmpty(backgroundColor) || !backgroundColor.StartsWith("rgba", StringComparison.InvariantCulture))
+            {
+                return backgroundColor ?? string.Empty;
+            }
+
+            int left = backgroundColor.IndexOf('(', StringComparison.InvariantCulture);
+            int right = backgroundColor.IndexOf(')', StringComparison.InvariantCulture);
+            if (left < 0 || right < 0)
+            {
+                return backgroundColor;
+            }
+
+            string[] parts = backgroundColor.Substring(left + 1, right - left - 1).Split(',');
+            if (parts.Length < 4 || !double.TryParse(parts[3].Trim(), NumberStyles.Float, CultureInfo.InvariantCulture, out double alpha) || alpha >= 1.0)
+            {
+                return backgroundColor;
+            }
+
+            Color chartBg = ChartHelper.GetRBGValue(_chartBackground ?? "white");
+            int r = int.Parse(parts[0], CultureInfo.InvariantCulture);
+            int g = int.Parse(parts[1], CultureInfo.InvariantCulture);
+            int b = int.Parse(parts[2], CultureInfo.InvariantCulture);
+            int effectiveR = (int)Math.Round((r * alpha) + (chartBg.R * (1 - alpha)), MidpointRounding.AwayFromZero);
+            int effectiveG = (int)Math.Round((g * alpha) + (chartBg.G * (1 - alpha)), MidpointRounding.AwayFromZero);
+            int effectiveB = (int)Math.Round((b * alpha) + (chartBg.B * (1 - alpha)), MidpointRounding.AwayFromZero);
+            return $"#{effectiveR:x2}{effectiveG:x2}{effectiveB:x2}";
         }
 
         /// <summary>

@@ -852,6 +852,10 @@ const SfChart = (function () {
             else if (chart.toggleVisibility && chart.enableHighlight) {
                 chart.isLegendHighlighting = false;
                 chart.prevHighlightedSeriesIndex = -1;
+                const elements = Array.from(document.getElementsByClassName(chart.unSelected));
+                elements.forEach(element => {
+                    removeSvgClass(element, element.getAttribute('class'));
+                });
                 storeToggledLegendIndexes(target, chart, e);
             }
         }
@@ -1136,7 +1140,8 @@ const SfChart = (function () {
                     let currentPoint = e.target;
                     targetElement.removeAttribute('tabindex');
                     targetElement.blur();
-                    if (e.code === 'ArrowRight' || e.code === 'ArrowLeft') {
+                    const seriesCollection = document.getElementById(this.element.id + 'SeriesCollection').querySelectorAll('[id*="SeriesGroup"]');
+                    if ((e.code === 'ArrowRight' || e.code === 'ArrowLeft') && seriesCollection.length > 1) {
                         const seriesIndexes = [];
                         for (let i = 0; i < groupElement.children.length; i++) {
                             if (groupElement.children[parseInt(i.toString(), 10)].id.indexOf('SeriesGroup') > -1) {
@@ -1179,7 +1184,7 @@ const SfChart = (function () {
                         }
                     }
                     else {
-                        this.currentPointIndex += e.code === 'ArrowUp' ? 1 : -1;
+                        this.currentPointIndex += e.code === 'ArrowUp' ? 1 : (e.code === 'ArrowDown' ? -1 : 0);
                         pointIndex = parseInt(targetId.split('_Series_')[1].replace('_Symbol', '').split('_Point_')[1], 10);
                         currentSeries = getCurrentSeries(this, targetId, this.currentSeriesIndex);
                         groupElement = getElement(this.element.id + (targetId.indexOf('_TrendLine_') > -1 ? 'TrendLineSeriesGroup' : 'SeriesGroup') + this.currentSeriesIndex);
@@ -1269,7 +1274,7 @@ const SfChart = (function () {
                             removeElement(this.element.id + '_Series_' + parseInt(this.seriesPathElement.id.split('_Series_')[1].split('_PointIndex_')[0], 10) + '_Point_' + parseInt(this.seriesPathElement.id.split('_Series_')[1].replace('_Symbol', '').split('_PointIndex_')[1], 10) + '_Trackball_1');
                             this.seriesPathElement = null;
                         }
-                        if (currentSeries.points[parseInt(pointIndex.toString(), 10)]) {
+                        if (currentSeries.points[parseInt(pointIndex.toString(), 10)] && (e.code == 'ArrowUp' || e.code == 'ArrowDown') ) {
                             this.seriesPathElement = this.userInteractionBase.svgRenderer.drawPath({
                                 'id': targetId,
                                 'stroke-width': 2,
@@ -1317,9 +1322,11 @@ const SfChart = (function () {
                             }
                         });
                     }
-                    tooltipMousemovehandler(this);
+                    if (currentSeries.enableTooltip) {
+                        tooltipMousemovehandler(this);
+                    }
                     crosshairMousemoveHandler(this);
-                    if (this.markerExplodeBase.markerExploded) {
+                    if (this.markerExplodeBase.markerExploded && currentSeries.marker.vS) {
                         markerMove(this, false);
                     }
                 }
@@ -3999,7 +4006,7 @@ export function getData(chart) {
                         mouseY = series.y_Axis.isAxisInverse ? mouseY - markerHeight : mouseY + markerHeight;
                     }
                 }
-                if (series.visible && !sfBlazorToolkit.base.isNullOrUndefined(series.clipRect) && svgbase.withInAreaBounds(mouseX, mouseY, new svgbase.Rect(series.clipRect.x - (!series.chartIsTransposed ? series.x_Axis.plotOffset / 2 : 0), series.clipRect.y - (series.chartIsTransposed ? series.x_Axis.plotOffset / 2 : 0), series.clipRect.w, series.clipRect.h), width, height)) {
+                if (series.visible && (!chart.isChartKeyDown || series.index === chart.currentSeriesIndex) && !sfBlazorToolkit.base.isNullOrUndefined(series.clipRect) && svgbase.withInAreaBounds(mouseX, mouseY, new svgbase.Rect(series.clipRect.x - (!series.chartIsTransposed ? series.x_Axis.plotOffset / 2 : 0), series.clipRect.y - (series.chartIsTransposed ? series.x_Axis.plotOffset / 2 : 0), series.clipRect.w, series.clipRect.h), width, height)) {
                     point = getRectPoint(series, series.clipRect, mouseX, mouseY, chart);
                 }
                 if (point) {
