@@ -1325,7 +1325,9 @@
                                      Height="7"
                                      Shape="ChartShape.Circle"
                                      Fill="#7C4DFF">
-                            <ChartDataLabel Visible="true"></ChartDataLabel>
+                            <ChartDataLabel Visible="true">
+                                <ChartDataLabelFont Color="@TextColor"></ChartDataLabelFont>
+                            </ChartDataLabel>
                         </ChartMarker>
 
                         <ChartTrendlines>
@@ -1395,7 +1397,9 @@
                                     Height=""7""
                                     Shape=""ChartShape.Circle""
                                     Fill=""#7C4DFF"">
-                        <ChartDataLabel Visible=""true""></ChartDataLabel>
+                        <ChartDataLabel Visible=""true"">
+                                <ChartDataLabelFont Color=""@TextColor""></ChartDataLabelFont>
+                        </ChartDataLabel>
                     </ChartMarker>
                     <ChartTrendlines>
                         <ChartTrendline Type=""TrendlineTypes.Exponential""
@@ -1412,6 +1416,8 @@
         </SfChart>
 @code {
     private Theme _currentTheme = Theme.Fluent;
+    private bool IsDarkTheme => _currentTheme.ToString().Contains(""Dark"") || _currentTheme.ToString().Contains(""HighContrast"");
+    private string TextColor => IsDarkTheme ? ""#E6EEF8"" : ""#0B1F3B"";
     public List<EvSalesPoint>DataLabelData = new ()
     {
         new () { Year = ""2015"", Sales = 0.55 },
