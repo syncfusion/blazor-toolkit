@@ -1,10 +1,10 @@
+using System.Globalization;
 using Blazor.Toolkit.Samples.Client.Services;
 using Blazor.Toolkit.Samples.Components;
 using Microsoft.AspNetCore.Localization;
 using Microsoft.Extensions.Localization;
 using Syncfusion.Blazor.Toolkit;
 using Syncfusion.Blazor.Toolkit.Popups;
-using System.Globalization;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -26,6 +26,7 @@ builder.Services.AddSingleton<IStringLocalizer>(sp =>
 });
 
 builder.Services.AddScoped<SfDialogService>();
+builder.Services.AddScoped<SampleService>();
 // Register RenderModeService for components that need to switch render mode
 builder.Services.AddScoped<RenderModeService>();
 // Make HttpContext available to components during server prerender
