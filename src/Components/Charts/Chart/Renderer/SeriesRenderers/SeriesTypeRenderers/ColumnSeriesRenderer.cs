@@ -35,7 +35,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
                 Point previousPoint = i - 1 > -1 ? Points?[i - 1] ?? null! : null!;
                 Point nextPoint = i + 1 < Points?.Count ? Points[i + 1] : null!;
 
-                if (point.Visible && ChartHelper.WithInRange(previousPoint, point, nextPoint, XAxisRenderer))
+                if (point.Visible && ChartHelper.WithInRange(previousPoint, point, nextPoint, XAxisRenderer) && ChartHelper.IsCurrentPointWithinVisibleRange(point, XAxisRenderer))
                 {
                     Rect rect = GetRectangle(point.XValue + sideBySideInfo.Start, point.YValue, point.XValue + sideBySideInfo.End, origin);
                     if (rect is not null && rect.Width < 1)

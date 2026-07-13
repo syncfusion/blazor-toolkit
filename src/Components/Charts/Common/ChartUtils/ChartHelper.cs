@@ -1,12 +1,12 @@
+using System.Collections.ObjectModel;
+using System.Drawing;
 using System.Dynamic;
+using System.Globalization;
 using System.Text.Json;
 using System.Text.RegularExpressions;
-using Microsoft.AspNetCore.Components.Rendering;
-using System.Drawing;
-using System.Globalization;
 using Microsoft.AspNetCore.Components;
+using Microsoft.AspNetCore.Components.Rendering;
 using Syncfusion.Blazor.Toolkit.Internal;
-using System.Collections.ObjectModel;
 
 namespace Syncfusion.Blazor.Toolkit.Charts.Internal
 {
@@ -1000,6 +1000,51 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
 
             return (previousX >= xStart && previousX <= xEnd) || (currentX >= xStart && currentX <= xEnd)
                 || (nextX >= xStart && nextX <= xEnd) || (xStart >= previousX && xStart <= nextX);
+        }
+
+         /// <summary>
+        /// Determines whether the supplied point's own X value lies within the visible range of the X-axis.
+        /// </summary>
+        /// <remarks>
+        /// Unlike <see cref="WithInRange(Point, Point, Point, ChartAxisRenderer)"/>, which returns <c>true</c> when any
+        /// of the previous / current / next points is in range (correct for line/area edge interpolation), this
+        /// helper returns <c>true</c> only when the current point's own X value is within the visible axis range.
+        /// It is used by the column-family renderers (Column, Bar, StackingColumn, StackingBar) to avoid emitting
+        /// SVG path elements for off-range points whose column would otherwise clip outside the visible chart area
+        /// when Minimum/Maximum are configured.
+        /// <para>
+        /// When the user has explicitly set <see cref="ChartAxis.Minimum"/> and <see cref="ChartAxis.Maximum"/>
+        /// (a fixed range — see <see cref="ChartAxisRenderer.IsFixedRange"/>), the range padding logic still
+        /// expands <see cref="ChartAxisRenderer.VisibleRange"/> outward by the between-ticks padding so that the
+        /// first/last visible categories are rendered with their full column width. That padding would otherwise
+        /// cause adjacent off-range points (e.g. the category just below Minimum or just above Maximum) to pass an
+        /// in-range check based on <see cref="ChartAxisRenderer.VisibleRange"/> alone. To keep the DOM clean, when
+        /// the axis is a fixed range this helper checks against the user-configured Minimum/Maximum instead of the
+        /// padded visible range, so columns strictly outside [Minimum, Maximum] are never rendered.
+        /// </para>
+        /// </remarks>
+        /// <param name="currentPoint">The point whose own X value is being tested.</param>
+        /// <param name="xAxis">The X-axis renderer containing visible range information.</param>
+        /// <returns><c>true</c> only when the current point's own X value falls within the visible axis range; otherwise, <c>false</c>.</returns>
+        internal static bool IsCurrentPointWithinVisibleRange(Point currentPoint, ChartAxisRenderer xAxis)
+        {
+            double currentX = xAxis.GetPointValue(currentPoint.XValue);
+            double xStart, xEnd;
+
+            if (xAxis.IsFixedRange())
+            {
+                // The user has explicitly restricted the visible categories via Minimum/Maximum. Use those exact
+                // bounds (not the padded VisibleRange) so off-range adjacent points stay out of the DOM.
+                xStart = Math.Floor(Convert.ToDouble(xAxis.Axis?.Minimum, null));
+                xEnd = Math.Ceiling(Convert.ToDouble(xAxis.Axis?.Maximum, null));
+            }
+            else
+            {
+                xStart = Math.Floor(xAxis.VisibleRange.Start);
+                xEnd = Math.Ceiling(xAxis.VisibleRange.End);
+            }
+
+            return currentX >= xStart && currentX <= xEnd;
         }
 
         /// <summary>

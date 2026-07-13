@@ -123,7 +123,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
                 Point previousPoint = pointColumn.Index - 1 > -1 ? Points?[pointColumn.Index - 1] ?? null! : null!;
                 Point nextPoint = pointColumn.Index + 1 < Points?.Count ? Points[pointColumn.Index + 1] : null!;
 
-                if (pointColumn.Visible && ChartHelper.WithInRange(previousPoint, pointColumn, nextPoint, Series?.Renderer.XAxisRenderer ?? null!) && Series?.Renderer.StackedValues is not null)
+                if (pointColumn.Visible && ChartHelper.WithInRange(previousPoint, pointColumn, nextPoint, Series?.Renderer.XAxisRenderer ?? null!) && ChartHelper.IsCurrentPointWithinVisibleRange(pointColumn, Series?.Renderer.XAxisRenderer ?? null!) && Series?.Renderer.StackedValues is not null)
                 {
                     double startValue = GetStackingStartValue(pointColumn.Index, GetVisibleSeriesIndex());
                     Rect rect = GetRectangle(pointColumn.XValue + sideBySideInfo.Start, (!Series.Visible && Series._isLegendClicked) ? startValue : Series.Renderer.StackedValues.EndValues[pointColumn.Index], pointColumn.XValue + sideBySideInfo.End, (!Series.Visible && Series._isLegendClicked) ? startValue : Series.Renderer.StackedValues.StartValues[pointColumn.Index]);

@@ -53,7 +53,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
             Point previousPoint = index - 1 > -1 ? Points[index - 1] : null!;
             Point nextPoint = index + 1 < Points.Count ? Points[index + 1] : null!;
 
-            if (pointBar.Visible && ChartHelper.WithInRange(previousPoint, pointBar, nextPoint, XAxisRenderer))
+            if (pointBar.Visible && ChartHelper.WithInRange(previousPoint, pointBar, nextPoint, XAxisRenderer) && ChartHelper.IsCurrentPointWithinVisibleRange(pointBar, XAxisRenderer))
             {
                 Rect rect = GetRectangle(pointBar.XValue + sideBySideInfo.Start, pointBar.YValue, pointBar.XValue + sideBySideInfo.End, origin);
                 rect = GetColumnWidthInPixelRect(rect);
