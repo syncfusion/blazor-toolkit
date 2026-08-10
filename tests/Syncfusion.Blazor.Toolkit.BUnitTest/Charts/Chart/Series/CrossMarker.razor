@@ -15,7 +15,7 @@
         <SfChart ID="container" Width="700">             
             <ChartPrimaryXAxis Title="PrimaryXAxis" ValueType="Syncfusion.Blazor.Toolkit.ValueType.DateTimeCategory"></ChartPrimaryXAxis>
             <ChartPrimaryYAxis Title="PrimaryYAxis"></ChartPrimaryYAxis>
-            <ChartSeriesCollection>
+            
                 <ChartSeries DataSource="@columns" Type="ChartSeriesType.Column" XName="x" YName="y" Name="Column Series">
                     <ChartSeriesAnimation Enable="false"></ChartSeriesAnimation>
                     <ChartMarker Visible="true" Width="20" Height="20" Fill="Green" Opacity="0.1" Shape="ChartShape.Cross">
@@ -24,7 +24,7 @@
                         <ChartMarkerOffset X="0" Y="0"></ChartMarkerOffset>
                     </ChartMarker>
                 </ChartSeries>
-            </ChartSeriesCollection>
+            
         </SfChart>
     </ComponentUnderTest>
 </SfFixture>
@@ -38,7 +38,7 @@
         await Task.Delay(200);
         var point = cut.Find("#container_Series_0_Point_0_Symbol");
         // Note: Values may vary slightly depending on screen resolution.
-        Assert.True(point.GetAttribute("d") == "M 41.525 162.625 L 61.525 182.625 M 41.525 182.625 L 61.525 162.625");
+        Assert.True(point.GetAttribute("d") == "M 41.74166666666666 165.225 L 61.74166666666666 185.225 M 41.74166666666666 185.225 L 61.74166666666666 165.225");
         cut.SetParametersAndRender();
     }
     public class ColumnData

@@ -15,13 +15,13 @@
             </NoDataTemplate>
             <ChildContent>
                 <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Toolkit.ValueType.Category" />
-                <ChartSeriesCollection>
+                
                     <ChartSeries DataSource="@SalesReports" XName="Month" YName="Value" Type="ChartSeriesType.Column">
                         <ChartMarker>
                             <ChartDataLabel Visible="true" Name="Text"/>
                         </ChartMarker>
                     </ChartSeries>
-                </ChartSeriesCollection>
+                
             </ChildContent>
         </SfChart>
     </ComponentUnderTest>

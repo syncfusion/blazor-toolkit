@@ -10,7 +10,7 @@
         <SfChart ID="container" Title="Chart Ts Title" Width="800">
             <ChartPrimaryXAxis Title="PrimaryXAxis" Minimum="2005" Maximum="2011" Interval="1"></ChartPrimaryXAxis>
             <ChartPrimaryYAxis Title="PrimaryYaxis" Minimum="25" Maximum="50" Interval="5" RangePadding="ChartRangePadding.None"></ChartPrimaryYAxis>
-            <ChartSeriesCollection>
+            
                 <ChartSeries DataSource="@Lines" XName="x" YName="y" Type="ChartSeriesType.Line" Name="India" Fill="#E94649">
                     <ChartSeriesAnimation Enable="false"></ChartSeriesAnimation>
                     <ChartMarker Visible="true"></ChartMarker>
@@ -27,7 +27,7 @@
                     <ChartSeriesAnimation Enable="false"></ChartSeriesAnimation>
                     <ChartMarker Visible="true"></ChartMarker>
                 </ChartSeries>
-            </ChartSeriesCollection>
+            
         </SfChart>
     </ComponentUnderTest>
 </SfFixture>
@@ -76,7 +76,7 @@
         <SfChart ID="container" Title="Chart Ts Title" Width="800">
             <ChartPrimaryXAxis Title="PrimaryXAxis" Minimum="2005" Maximum="2011" Interval="1"></ChartPrimaryXAxis>
             <ChartPrimaryYAxis Title="PrimaryYaxis" Minimum="25" Maximum="50" Interval="5" RangePadding="ChartRangePadding.None"></ChartPrimaryYAxis>
-            <ChartSeriesCollection>
+            
                 <ChartSeries DataSource="@Lines1" XName="x" YName="y" Type="ChartSeriesType.Line" Name="India" Fill="#E94649">
                     <ChartSeriesAnimation Enable="false"></ChartSeriesAnimation>
                     <ChartMarker Visible="true"></ChartMarker>
@@ -93,7 +93,7 @@
                     <ChartSeriesAnimation Enable="false"></ChartSeriesAnimation>
                     <ChartMarker Visible="true"></ChartMarker>
                 </ChartSeries>
-            </ChartSeriesCollection>
+            
         </SfChart>
     </ComponentUnderTest>
 </SfFixture>
@@ -137,7 +137,7 @@
         <SfChart ID="container" Title="Chart Ts Title" Width="800">
             <ChartPrimaryXAxis Title="PrimaryXAxis" Minimum="2005" Maximum="2011" Interval="1"></ChartPrimaryXAxis>
             <ChartPrimaryYAxis Title="PrimaryYaxis" Minimum="25" Maximum="50" Interval="5" RangePadding="ChartRangePadding.None"></ChartPrimaryYAxis>
-            <ChartSeriesCollection>
+            
                 <ChartSeries DataSource="@Lines2" XName="x" YName="y" Type="ChartSeriesType.Line" Name="India" Fill="#E94649">
                     <ChartSeriesAnimation Enable="false"></ChartSeriesAnimation>
                     <ChartMarker Visible="true" Width="10" Height="10">
@@ -156,7 +156,7 @@
                     <ChartSeriesAnimation Enable="false"></ChartSeriesAnimation>
                     <ChartMarker Visible="true"></ChartMarker>
                 </ChartSeries>
-            </ChartSeriesCollection>
+            
         </SfChart>
     </ComponentUnderTest>
 </SfFixture>
@@ -170,7 +170,7 @@
         // Note: Values may vary slightly depending on screen resolution.
         Assert.True(marker.GetAttribute("rx") == "5");
         Assert.True(marker.GetAttribute("ry") == "5");
-        Assert.True(marker.GetAttribute("cx") == "347.15");
+        Assert.True(marker.GetAttribute("cx") == "348.45");
         cut.SetParametersAndRender();
     }
     public class Linedata2
@@ -203,7 +203,7 @@
         <SfChart ID="container" Title="Chart Ts Title" Width="800">
             <ChartPrimaryXAxis Title="PrimaryXAxis" Minimum="2005" Maximum="2011" Interval="1"></ChartPrimaryXAxis>
             <ChartPrimaryYAxis Title="PrimaryYaxis" Minimum="25" Maximum="50" Interval="5" RangePadding="ChartRangePadding.None"></ChartPrimaryYAxis>
-            <ChartSeriesCollection>
+            
                 <ChartSeries DataSource="@Lines3" XName="x" YName="y" Type="ChartSeriesType.Line" Name="India" Fill="#E94649">
                     <ChartSeriesAnimation Enable="false"></ChartSeriesAnimation>
                     <ChartMarker Visible="true"Width="0" Height="0">
@@ -222,7 +222,7 @@
                     <ChartSeriesAnimation Enable="false"></ChartSeriesAnimation>
                     <ChartMarker Visible="true"></ChartMarker>
                 </ChartSeries>
-            </ChartSeriesCollection>
+            
         </SfChart>
     </ComponentUnderTest>
 </SfFixture>
@@ -267,7 +267,7 @@
         <SfChart ID="container" Title="Chart Ts Title" Width="800">
             <ChartPrimaryXAxis Title="PrimaryXAxis" Minimum="2005" Maximum="2011" Interval="1"></ChartPrimaryXAxis>
             <ChartPrimaryYAxis Title="PrimaryYaxis" Minimum="25" Maximum="50" Interval="5" RangePadding="ChartRangePadding.None"></ChartPrimaryYAxis>
-            <ChartSeriesCollection>
+            
                 <ChartSeries DataSource="@Lines4" XName="x" YName="y" Type="ChartSeriesType.Line" Name="India" Fill="#E94649">
                     <ChartSeriesAnimation Enable="false"></ChartSeriesAnimation>
                     <ChartMarker Visible="true" Fill="Violet"></ChartMarker>
@@ -286,7 +286,7 @@
                     <ChartSeriesAnimation Enable="false"></ChartSeriesAnimation>
                     <ChartMarker Visible="true"></ChartMarker>
                 </ChartSeries>
-            </ChartSeriesCollection>
+            
         </SfChart>
     </ComponentUnderTest>
 </SfFixture>
@@ -330,7 +330,7 @@
         <SfChart ID="container" Title="Chart Ts Title" Width="800">
             <ChartPrimaryXAxis Title="PrimaryXAxis" Minimum="2005" Maximum="2011" Interval="1"></ChartPrimaryXAxis>
             <ChartPrimaryYAxis Title="PrimaryYaxis" Minimum="25" Maximum="50" Interval="5" RangePadding="ChartRangePadding.None"></ChartPrimaryYAxis>
-            <ChartSeriesCollection>
+            
                 <ChartSeries DataSource="@Lines5" XName="x" YName="y" Type="ChartSeriesType.Column" Name="India" Fill="#E94649">
                     <ChartSeriesAnimation Enable="false"></ChartSeriesAnimation>
                     <ChartMarker Visible="true" Fill="Violet"></ChartMarker>
@@ -349,7 +349,7 @@
                     <ChartSeriesAnimation Enable="false"></ChartSeriesAnimation>
                     <ChartMarker Visible="true"></ChartMarker>
                 </ChartSeries>
-            </ChartSeriesCollection>
+            
         </SfChart>
     </ComponentUnderTest>
 </SfFixture>
@@ -393,7 +393,7 @@
         <SfChart ID="container" Title="Chart Ts Title" Width="800" OnPointRender="pointrenders">
             <ChartPrimaryXAxis Title="PrimaryXAxis" Minimum="2005" Maximum="2011" Interval="1"></ChartPrimaryXAxis>
             <ChartPrimaryYAxis Title="PrimaryYaxis" Minimum="25" Maximum="50" Interval="5" RangePadding="ChartRangePadding.None"></ChartPrimaryYAxis>
-            <ChartSeriesCollection>
+            
                 <ChartSeries DataSource="@Lines6" XName="x" YName="y" Type="ChartSeriesType.Line" Name="India" Fill="#E94649">
                     <ChartSeriesAnimation Enable="false"></ChartSeriesAnimation>
                     <ChartMarker Visible="true" Fill="Violet" Height="10" Width="10" Shape="ChartShape.Cross"></ChartMarker>
@@ -412,7 +412,7 @@
                     <ChartSeriesAnimation Enable="false"></ChartSeriesAnimation>
                     <ChartMarker Visible="true" Width="10" Height="10" Shape="ChartShape.InvertedTriangle"></ChartMarker>
                 </ChartSeries>
-            </ChartSeriesCollection>
+            
         </SfChart>
     </ComponentUnderTest>
 </SfFixture>
@@ -469,7 +469,7 @@
         <SfChart ID="container" Title="Chart Ts Title" Width="800" OnPointRender="pointrenders1">
             <ChartPrimaryXAxis Title="PrimaryXAxis" Minimum="2005" Maximum="2011" Interval="1"></ChartPrimaryXAxis>
             <ChartPrimaryYAxis Title="PrimaryYaxis" Minimum="25" Maximum="50" Interval="5" RangePadding="ChartRangePadding.None"></ChartPrimaryYAxis>
-            <ChartSeriesCollection>
+            
                 <ChartSeries DataSource="@Lines7" XName="x" YName="y" Type="ChartSeriesType.Line" Name="India" Fill="#E94649">
                     <ChartSeriesAnimation Enable="false"></ChartSeriesAnimation>
                     <ChartMarker Visible="true" Fill="Violet" Height="10" Width="10" Shape="ChartShape.Pentagon"></ChartMarker>
@@ -488,7 +488,7 @@
                     <ChartSeriesAnimation Enable="false"></ChartSeriesAnimation>
                     <ChartMarker Visible="true" Width="10" Height="10" Shape="ChartShape.VerticalLine"></ChartMarker>
                 </ChartSeries>
-            </ChartSeriesCollection>
+            
         </SfChart>
     </ComponentUnderTest>
 </SfFixture>
@@ -545,7 +545,7 @@
         <SfChart ID="container" Title="Chart Ts Title" Width="800" OnPointRender="pointrenders2">
             <ChartPrimaryXAxis Title="PrimaryXAxis" Minimum="2005" Maximum="2011" Interval="1"></ChartPrimaryXAxis>
             <ChartPrimaryYAxis Title="PrimaryYaxis" Minimum="25" Maximum="50" Interval="5" RangePadding="ChartRangePadding.None"></ChartPrimaryYAxis>
-            <ChartSeriesCollection>
+            
                 <ChartSeries DataSource="@Lines8" XName="x" YName="y" Type="ChartSeriesType.Line" Name="India" Fill="#E94649">
                     <ChartSeriesAnimation Enable="false"></ChartSeriesAnimation>
                     <ChartMarker Visible="true" Fill="Violet" Height="10" Width="10" Shape="ChartShape.Pentagon"></ChartMarker>
@@ -564,7 +564,7 @@
                     <ChartSeriesAnimation Enable="false"></ChartSeriesAnimation>
                     <ChartMarker Visible="true" Width="10" Height="10" Shape="ChartShape.VerticalLine"></ChartMarker>
                 </ChartSeries>
-            </ChartSeriesCollection>
+            
         </SfChart>
     </ComponentUnderTest>
 </SfFixture>
@@ -615,7 +615,7 @@
         <SfChart ID="container" Title="Chart Ts Title" Width="800" OnPointRender="pointrenders3">
             <ChartPrimaryXAxis Title="PrimaryXAxis" Minimum="2005" Maximum="2011" Interval="1"></ChartPrimaryXAxis>
             <ChartPrimaryYAxis Title="PrimaryYaxis" Minimum="25" Maximum="50" Interval="5" RangePadding="ChartRangePadding.None"></ChartPrimaryYAxis>
-            <ChartSeriesCollection>
+            
                 <ChartSeries DataSource="@Lines9" XName="x" YName="y" Type="ChartSeriesType.Line" Name="India" Fill="#E94649">
                     <ChartSeriesAnimation Enable="false"></ChartSeriesAnimation>
                     <ChartMarker Visible="true" Fill="Violet" Height="10" Width="10" Shape="ChartShape.Pentagon"></ChartMarker>
@@ -636,7 +636,7 @@
                     <ChartSeriesAnimation Enable="false"></ChartSeriesAnimation>
                     <ChartMarker Visible="true" Width="10" Height="10" Shape="ChartShape.VerticalLine"></ChartMarker>
                 </ChartSeries>
-            </ChartSeriesCollection>
+            
         </SfChart>
     </ComponentUnderTest>
 </SfFixture>
@@ -690,12 +690,12 @@
         <SfChart ID="container" Title="Chart Ts Title" Width="800">
             <ChartPrimaryXAxis Title="PrimaryXAxis" LabelFormat="c"></ChartPrimaryXAxis>
             <ChartPrimaryYAxis Title="PrimaryYaxis" RangePadding="ChartRangePadding.Normal"></ChartPrimaryYAxis>
-            <ChartSeriesCollection>
+            
                 <ChartSeries XName="x" YName="y" Type="ChartSeriesType.Line" Name="India" Fill="rgba(135,206,235,1)">
                     <ChartSeriesAnimation Enable="false"></ChartSeriesAnimation>
                     <ChartMarker Visible="false"></ChartMarker>
                 </ChartSeries>
-            </ChartSeriesCollection>
+            
         </SfChart>
     </ComponentUnderTest>
 </SfFixture>
@@ -722,12 +722,12 @@
         <SfChart ID="container" Title="Chart Ts Title" Width="800">
             <ChartPrimaryXAxis Title="PrimaryXAxis" LabelFormat="c"></ChartPrimaryXAxis>
             <ChartPrimaryYAxis Title="PrimaryYaxis" RangePadding="ChartRangePadding.Normal"></ChartPrimaryYAxis>
-            <ChartSeriesCollection>
+            
                 <ChartSeries DataSource="@Lines11" XName="x" YName="y" Type="ChartSeriesType.Line" Name="India" Fill="rgba(135,206,235,1)">
                     <ChartSeriesAnimation Enable="false"></ChartSeriesAnimation>
                     <ChartMarker Visible="false"></ChartMarker>
                 </ChartSeries>
-            </ChartSeriesCollection>
+            
         </SfChart>
     </ComponentUnderTest>
 </SfFixture>
@@ -761,12 +761,12 @@
         <SfChart ID="container" Title="Chart Ts Title" Width="800">
             <ChartPrimaryXAxis Title="PrimaryXAxis" Minimum="0" Maximum="2" Interval="1" LabelFormat="c"></ChartPrimaryXAxis>
             <ChartPrimaryYAxis Title="PrimaryYaxis" Minimum="8" Maximum="12" Interval="1" RangePadding="ChartRangePadding.Normal"></ChartPrimaryYAxis>
-            <ChartSeriesCollection>
+            
                 <ChartSeries DataSource="@Lines12" XName="x" YName="y" Type="ChartSeriesType.Line" Name="India" Fill="rgba(135,206,235,1)">
                     <ChartSeriesAnimation Enable="false"></ChartSeriesAnimation>
                     <ChartMarker Visible="false"></ChartMarker>
                 </ChartSeries>
-            </ChartSeriesCollection>
+            
         </SfChart>
     </ComponentUnderTest>
 </SfFixture>
@@ -807,12 +807,12 @@
         <SfChart ID="container" Title="Chart Ts Title" Width="800">
             <ChartPrimaryXAxis Title="PrimaryXAxis" LabelFormat="c"></ChartPrimaryXAxis>
             <ChartPrimaryYAxis Title="PrimaryYaxis" RangePadding="ChartRangePadding.Normal"></ChartPrimaryYAxis>
-            <ChartSeriesCollection>
+            
                 <ChartSeries Visible="true" DataSource="@Lines14" XName="x" YName="y" Type="ChartSeriesType.Line" Name="India" Fill="rgba(135,206,235,1)">
                     <ChartSeriesAnimation Enable="false"></ChartSeriesAnimation>
                     <ChartMarker Visible="false"></ChartMarker>
                 </ChartSeries>
-            </ChartSeriesCollection>
+            
         </SfChart>
     </ComponentUnderTest>
 </SfFixture>
@@ -853,12 +853,12 @@
         <SfChart ID="container" Title="Chart Ts Title" Width="800">
             <ChartPrimaryXAxis Title="PrimaryXAxis" Minimum="0" Maximum="10000" Interval="1000" LabelFormat="c"></ChartPrimaryXAxis>
             <ChartPrimaryYAxis Title="PrimaryYaxis" RangePadding="ChartRangePadding.Normal"></ChartPrimaryYAxis>
-            <ChartSeriesCollection>
+            
                 <ChartSeries Visible="true" DataSource="@Lines15" XName="x" YName="y" Type="ChartSeriesType.Line" Name="India" Fill="rgba(135,206,235,1)">
                     <ChartSeriesAnimation Enable="false"></ChartSeriesAnimation>
                     <ChartMarker Visible="false"></ChartMarker>
                 </ChartSeries>
-            </ChartSeriesCollection>
+            
         </SfChart>
     </ComponentUnderTest>
 </SfFixture>
@@ -899,12 +899,12 @@
         <SfChart ID="container" Title="Chart Ts Title" Width="800">
             <ChartPrimaryXAxis Title="PrimaryXAxis" LabelFormat="" ValueType="Syncfusion.Blazor.Toolkit.ValueType.DateTime"></ChartPrimaryXAxis>
             <ChartPrimaryYAxis Title="PrimaryYaxis" RangePadding="ChartRangePadding.Normal"></ChartPrimaryYAxis>
-            <ChartSeriesCollection>
+            
                 <ChartSeries Visible="true" DataSource="@Lines16" XName="x" YName="y" Type="ChartSeriesType.Line" Name="India" Fill="rgba(135,206,235,1)" Width="2">
                     <ChartSeriesAnimation Enable="false"></ChartSeriesAnimation>
                     <ChartMarker Visible="false"></ChartMarker>
                 </ChartSeries>
-            </ChartSeriesCollection>
+            
         </SfChart>
     </ComponentUnderTest>
 </SfFixture>
@@ -945,12 +945,12 @@
         <SfChart ID="container" Title="Chart Ts Title" Width="800">
             <ChartPrimaryXAxis Title="PrimaryXAxis" LabelFormat="" ValueType="Syncfusion.Blazor.Toolkit.ValueType.DateTime"></ChartPrimaryXAxis>
             <ChartPrimaryYAxis Title="PrimaryYaxis" RangePadding="ChartRangePadding.Normal"></ChartPrimaryYAxis>
-            <ChartSeriesCollection>
+            
                 <ChartSeries Visible="true" DataSource="@Lines17" DashArray="4" XName="x" YName="y" Type="ChartSeriesType.Line" Name="India" Fill="rgba(135,206,235,1)" Width="2">
                     <ChartSeriesAnimation Enable="false"></ChartSeriesAnimation>
                     <ChartMarker Visible="false"></ChartMarker>
                 </ChartSeries>
-            </ChartSeriesCollection>
+            
         </SfChart>
     </ComponentUnderTest>
 </SfFixture>
@@ -991,13 +991,13 @@
         <SfChart ID="container" Title="Chart Ts Title" Width="800">
             <ChartPrimaryXAxis Title="PrimaryXAxis" LabelFormat="" ValueType="Syncfusion.Blazor.Toolkit.ValueType.DateTime"></ChartPrimaryXAxis>
             <ChartPrimaryYAxis Title="PrimaryYaxis" RangePadding="ChartRangePadding.Normal"></ChartPrimaryYAxis>
-            <ChartSeriesCollection>
+            
                 <ChartSeries Visible="true" DataSource="@Lines18" XName="x" YName="y" Type="ChartSeriesType.Line" Name="India" Fill="Red" Width="10" Opacity="0.6">
                     <ChartSeriesAnimation Enable="false"></ChartSeriesAnimation>
                     <ChartMarker Visible="false"></ChartMarker>
                     <ChartSeriesBorder Width="4" Color="Green"></ChartSeriesBorder>
                 </ChartSeries>
-            </ChartSeriesCollection>
+            
         </SfChart>
     </ComponentUnderTest>
 </SfFixture>
@@ -1039,12 +1039,12 @@
         <SfChart ID="container" Title="Chart Ts Title" Width="800">
             <ChartPrimaryXAxis Title="PrimaryXAxis" LabelFormat="c"></ChartPrimaryXAxis>
             <ChartPrimaryYAxis Title="PrimaryYaxis" RangePadding="ChartRangePadding.Normal"></ChartPrimaryYAxis>
-            <ChartSeriesCollection>
+            
                 <ChartSeries XName="x" YName="y" Type="ChartSeriesType.Area" Name="India" Fill="rgba(135,206,235,1)">
                     <ChartSeriesAnimation Enable="false"></ChartSeriesAnimation>
                     <ChartMarker Visible="false"></ChartMarker>
                 </ChartSeries>
-            </ChartSeriesCollection>
+            
         </SfChart>
     </ComponentUnderTest>
 </SfFixture>
@@ -1071,12 +1071,12 @@
         <SfChart ID="container" Title="Chart Ts Title" Width="800">
             <ChartPrimaryXAxis Title="PrimaryXAxis" LabelFormat="c"></ChartPrimaryXAxis>
             <ChartPrimaryYAxis Title="PrimaryYaxis" RangePadding="ChartRangePadding.Normal"></ChartPrimaryYAxis>
-            <ChartSeriesCollection>
+            
                 <ChartSeries DataSource="@Lines20" XName="x" YName="y" Type="ChartSeriesType.Area" Name="India" Fill="rgba(135,206,235,1)">
                     <ChartSeriesAnimation Enable="false"></ChartSeriesAnimation>
                     <ChartMarker Visible="false"></ChartMarker>
                 </ChartSeries>
-            </ChartSeriesCollection>
+            
         </SfChart>
     </ComponentUnderTest>
 </SfFixture>
@@ -1110,12 +1110,12 @@
         <SfChart ID="container" Title="Chart Ts Title" Width="800">
             <ChartPrimaryXAxis Title="PrimaryXAxis" Minimum="0" Maximum="2" Interval="1" LabelFormat="c"></ChartPrimaryXAxis>
             <ChartPrimaryYAxis Title="PrimaryYaxis" Minimum="8" Maximum="12" Interval="1" RangePadding="ChartRangePadding.Normal"></ChartPrimaryYAxis>
-            <ChartSeriesCollection>
+            
                 <ChartSeries DataSource="@Lines21" XName="x" YName="y" Type="ChartSeriesType.Area" Name="India" Fill="rgba(135,206,235,1)">
                     <ChartSeriesAnimation Enable="false"></ChartSeriesAnimation>
                     <ChartMarker Visible="false"></ChartMarker>
                 </ChartSeries>
-            </ChartSeriesCollection>
+            
         </SfChart>
     </ComponentUnderTest>
 </SfFixture>
@@ -1153,12 +1153,12 @@
         <SfChart ID="container" Title="Chart Ts Title" Width="800">
             <ChartPrimaryXAxis Title="PrimaryXAxis" Minimum="20" Maximum="22" Interval="1" LabelFormat="c"></ChartPrimaryXAxis>
             <ChartPrimaryYAxis Title="PrimaryYaxis" Minimum="8" Maximum="12" Interval="1" RangePadding="ChartRangePadding.Normal"></ChartPrimaryYAxis>
-            <ChartSeriesCollection>
+            
                 <ChartSeries DataSource="@Lines22" XName="x" YName="y" Type="ChartSeriesType.Area" Name="India" Fill="rgba(135,206,235,1)">
                     <ChartSeriesAnimation Enable="false"></ChartSeriesAnimation>
                     <ChartMarker Visible="false"></ChartMarker>
                 </ChartSeries>
-            </ChartSeriesCollection>
+            
         </SfChart>
     </ComponentUnderTest>
 </SfFixture>
@@ -1192,12 +1192,12 @@
         <SfChart ID="container" Title="Chart Ts Title" Width="800">
             <ChartPrimaryXAxis Title="PrimaryXAxis" LabelFormat="c"></ChartPrimaryXAxis>
             <ChartPrimaryYAxis Title="PrimaryYaxis" RangePadding="ChartRangePadding.Normal"></ChartPrimaryYAxis>
-            <ChartSeriesCollection>
+            
                 <ChartSeries Visible="false" DataSource="@Lines23" XName="x" YName="y" Type="ChartSeriesType.Area" Name="India" Fill="rgba(135,206,235,1)">
                     <ChartSeriesAnimation Enable="false"></ChartSeriesAnimation>
                     <ChartMarker Visible="false"></ChartMarker>
                 </ChartSeries>
-            </ChartSeriesCollection>
+            
         </SfChart>
     </ComponentUnderTest>
 </SfFixture>
@@ -1231,12 +1231,12 @@
         <SfChart ID="container" Title="Chart Ts Title" Width="800">
             <ChartPrimaryXAxis Title="PrimaryXAxis" LabelFormat="c"></ChartPrimaryXAxis>
             <ChartPrimaryYAxis Title="PrimaryYaxis" RangePadding="ChartRangePadding.Normal"></ChartPrimaryYAxis>
-            <ChartSeriesCollection>
+            
                 <ChartSeries Visible="true" DataSource="@Lines24" XName="x" YName="y" Type="ChartSeriesType.Area" Name="India" Fill="rgba(135,206,235,1)">
                     <ChartSeriesAnimation Enable="false"></ChartSeriesAnimation>
                     <ChartMarker Visible="false"></ChartMarker>
                 </ChartSeries>
-            </ChartSeriesCollection>
+            
         </SfChart>
     </ComponentUnderTest>
 </SfFixture>
@@ -1277,12 +1277,12 @@
         <SfChart ID="container" Title="Chart Ts Title" Width="800">
             <ChartPrimaryXAxis Title="PrimaryXAxis" Minimum="0" Maximum="10000" Interval="1000" LabelFormat="c"></ChartPrimaryXAxis>
             <ChartPrimaryYAxis Title="PrimaryYaxis" RangePadding="ChartRangePadding.Normal"></ChartPrimaryYAxis>
-            <ChartSeriesCollection>
+            
                 <ChartSeries Visible="true" DataSource="@Lines25" XName="x" YName="y" Type="ChartSeriesType.Area" Name="India" Fill="rgba(135,206,235,1)">
                     <ChartSeriesAnimation Enable="false"></ChartSeriesAnimation>
                     <ChartMarker Visible="false"></ChartMarker>
                 </ChartSeries>
-            </ChartSeriesCollection>
+            
         </SfChart>
     </ComponentUnderTest>
 </SfFixture>
@@ -1323,12 +1323,12 @@
         <SfChart ID="container" Title="Chart Ts Title" Width="800">
             <ChartPrimaryXAxis Title="PrimaryXAxis" LabelFormat="" ValueType="Syncfusion.Blazor.Toolkit.ValueType.DateTime"></ChartPrimaryXAxis>
             <ChartPrimaryYAxis Title="PrimaryYaxis" RangePadding="ChartRangePadding.Normal"></ChartPrimaryYAxis>
-            <ChartSeriesCollection>
+            
                 <ChartSeries Visible="true" DataSource="@Lines26" XName="x" YName="y" Type="ChartSeriesType.Area" Name="India" Fill="rgba(135,206,235,1)" Width="2">
                     <ChartSeriesAnimation Enable="false"></ChartSeriesAnimation>
                     <ChartMarker Visible="false"></ChartMarker>
                 </ChartSeries>
-            </ChartSeriesCollection>
+            
         </SfChart>
     </ComponentUnderTest>
 </SfFixture>
@@ -1369,12 +1369,12 @@
         <SfChart ID="container" Title="Chart Ts Title" Width="800">
             <ChartPrimaryXAxis Title="PrimaryXAxis" LabelFormat="" ValueType="Syncfusion.Blazor.Toolkit.ValueType.DateTime"></ChartPrimaryXAxis>
             <ChartPrimaryYAxis Title="PrimaryYaxis" RangePadding="ChartRangePadding.Normal"></ChartPrimaryYAxis>
-            <ChartSeriesCollection>
+            
                 <ChartSeries Visible="true" DataSource="@Lines27" DashArray="4" XName="x" YName="y" Type="ChartSeriesType.Area" Name="India" Fill="rgba(135,206,235,1)" Width="2">
                     <ChartSeriesAnimation Enable="false"></ChartSeriesAnimation>
                     <ChartMarker Visible="false"></ChartMarker>
                 </ChartSeries>
-            </ChartSeriesCollection>
+            
         </SfChart>
     </ComponentUnderTest>
 </SfFixture>
@@ -1415,13 +1415,13 @@
         <SfChart ID="container" Title="Chart Ts Title" Width="800">
             <ChartPrimaryXAxis Title="PrimaryXAxis" LabelFormat="" ValueType="Syncfusion.Blazor.Toolkit.ValueType.DateTime"></ChartPrimaryXAxis>
             <ChartPrimaryYAxis Title="PrimaryYaxis" RangePadding="ChartRangePadding.Normal"></ChartPrimaryYAxis>
-            <ChartSeriesCollection>
+            
                 <ChartSeries Visible="true" DataSource="@Lines28" XName="x" YName="y" Type="ChartSeriesType.Area" Name="India" Fill="Red" Width="10" Opacity="0.6">
                     <ChartSeriesAnimation Enable="false"></ChartSeriesAnimation>
                     <ChartMarker Visible="false"></ChartMarker>
                     <ChartSeriesBorder Width="4" Color="Green"></ChartSeriesBorder>
                 </ChartSeries>
-            </ChartSeriesCollection>
+            
         </SfChart>
     </ComponentUnderTest>
 </SfFixture>
@@ -1463,13 +1463,13 @@
         <SfChart ID="container" Title="Chart Ts Title" Width="800">
             <ChartPrimaryXAxis Title="PrimaryXAxis" LabelFormat="" ValueType="Syncfusion.Blazor.Toolkit.ValueType.DateTime"></ChartPrimaryXAxis>
             <ChartPrimaryYAxis Title="PrimaryYaxis" RangePadding="ChartRangePadding.Normal"></ChartPrimaryYAxis>
-            <ChartSeriesCollection>
+            
                 <ChartSeries Visible="true" DataSource="@Lines29" XName="x" YName="y" Type="ChartSeriesType.Area" Name="India" Fill="Red" Width="10" Opacity="0.6">
                     <ChartSeriesAnimation Enable="false"></ChartSeriesAnimation>
                     <ChartMarker Visible="true"></ChartMarker>
                     <ChartSeriesBorder Width="4" Color="Green"></ChartSeriesBorder>
                 </ChartSeries>
-            </ChartSeriesCollection>
+            
         </SfChart>
     </ComponentUnderTest>
 </SfFixture>
@@ -1508,7 +1508,7 @@
         <SfChart ID="container" Title="Chart Ts Title" Width="800">
             <ChartPrimaryXAxis Title="PrimaryXAxis" ValueType="Syncfusion.Blazor.Toolkit.ValueType.DateTime"></ChartPrimaryXAxis>
             <ChartPrimaryYAxis Title="PrimaryYaxis" RangePadding="ChartRangePadding.None"></ChartPrimaryYAxis>
-            <ChartSeriesCollection>
+            
                 <ChartSeries Visible="true" DataSource="@Lines30" XName="x" YName="y" Type="ChartSeriesType.Line" Name="India" Fill="#E94649">
                     <ChartSeriesAnimation Enable="false"></ChartSeriesAnimation>
                     <ChartMarker Visible="false">
@@ -1516,7 +1516,7 @@
                     </ChartMarker>
                     <ChartSeriesBorder Width="4" Color="Green"></ChartSeriesBorder>
                 </ChartSeries>
-            </ChartSeriesCollection>
+            
         </SfChart>
     </ComponentUnderTest>
 </SfFixture>
@@ -1556,7 +1556,7 @@
         <SfChart ID="container" Title="Chart Ts Title" Width="800">
             <ChartPrimaryXAxis Title="PrimaryXAxis" ValueType="Syncfusion.Blazor.Toolkit.ValueType.DateTime"></ChartPrimaryXAxis>
             <ChartPrimaryYAxis Title="PrimaryYaxis" RangePadding="ChartRangePadding.None"></ChartPrimaryYAxis>
-            <ChartSeriesCollection>
+            
                 <ChartSeries Visible="true" DataSource="@Lines31" XName="x" YName="y" Type="ChartSeriesType.Line" Name="India" Fill="#E94649">
                     <ChartSeriesAnimation Enable="false"></ChartSeriesAnimation>
                     <ChartMarker Visible="false">
@@ -1564,7 +1564,7 @@
                     </ChartMarker>
                     <ChartSeriesBorder Width="4" Color="Green"></ChartSeriesBorder>
                 </ChartSeries>
-            </ChartSeriesCollection>
+            
         </SfChart>
     </ComponentUnderTest>
 </SfFixture>
@@ -1604,7 +1604,7 @@
         <SfChart ID="container" Title="Chart Ts Title" Width="800">
             <ChartPrimaryXAxis Title="PrimaryXAxis" ValueType="Syncfusion.Blazor.Toolkit.ValueType.DateTime"></ChartPrimaryXAxis>
             <ChartPrimaryYAxis Title="PrimaryYaxis" RangePadding="ChartRangePadding.None"></ChartPrimaryYAxis>
-            <ChartSeriesCollection>
+            
                 <ChartSeries Visible="true" DataSource="@Lines32" XName="x" YName="y" Type="ChartSeriesType.Line" Name="India" Fill="#E94649">
                     <ChartSeriesAnimation Enable="false"></ChartSeriesAnimation>
                     <ChartMarker Visible="false">
@@ -1612,7 +1612,7 @@
                     </ChartMarker>
                     <ChartSeriesBorder Width="4" Color="Green"></ChartSeriesBorder>
                 </ChartSeries>
-            </ChartSeriesCollection>
+            
         </SfChart>
     </ComponentUnderTest>
 </SfFixture>
@@ -1651,7 +1651,7 @@
         <SfChart ID="container" Title="Chart Ts Title" Width="800">
             <ChartPrimaryXAxis Title="PrimaryXAxis" ValueType="Syncfusion.Blazor.Toolkit.ValueType.DateTime"></ChartPrimaryXAxis>
             <ChartPrimaryYAxis Title="PrimaryYaxis" RangePadding="ChartRangePadding.None"></ChartPrimaryYAxis>
-            <ChartSeriesCollection>
+            
                 <ChartSeries Visible="true" DataSource="@Lines33" XName="x" YName="y" Type="ChartSeriesType.Line" Name="India" Fill="#E94649">
                     <ChartSeriesAnimation Enable="false"></ChartSeriesAnimation>
                     <ChartMarker Visible="true" Width="10" Height="10">
@@ -1659,7 +1659,7 @@
                     </ChartMarker>
                     <ChartSeriesBorder Width="4" Color="Green"></ChartSeriesBorder>
                 </ChartSeries>
-            </ChartSeriesCollection>
+            
         </SfChart>
     </ComponentUnderTest>
 </SfFixture>
@@ -1701,7 +1701,7 @@
         <SfChart ID="container" Title="Chart Ts Title" Width="800">
             <ChartPrimaryXAxis Title="PrimaryXAxis" ValueType="Syncfusion.Blazor.Toolkit.ValueType.DateTime"></ChartPrimaryXAxis>
             <ChartPrimaryYAxis Title="PrimaryYaxis" RangePadding="ChartRangePadding.None"></ChartPrimaryYAxis>
-            <ChartSeriesCollection>
+            
                 <ChartSeries Visible="true" DataSource="@Lines34" XName="x" YName="y" Type="ChartSeriesType.Line" Name="India" Fill="#E94649">
                     <ChartSeriesAnimation Enable="false"></ChartSeriesAnimation>
                     <ChartMarker Visible="true" Width="10" Height="10">
@@ -1709,7 +1709,7 @@
                     </ChartMarker>
                     <ChartSeriesBorder Width="4" Color="Green"></ChartSeriesBorder>
                 </ChartSeries>
-            </ChartSeriesCollection>
+            
         </SfChart>
     </ComponentUnderTest>
 </SfFixture>
@@ -1748,7 +1748,7 @@
         <SfChart ID="container" Title="Chart Ts Title" Width="800">
             <ChartPrimaryXAxis Title="PrimaryXAxis" ValueType="Syncfusion.Blazor.Toolkit.ValueType.DateTime"></ChartPrimaryXAxis>
             <ChartPrimaryYAxis Title="PrimaryYaxis" RangePadding="ChartRangePadding.None"></ChartPrimaryYAxis>
-            <ChartSeriesCollection>
+            
                 <ChartSeries Visible="true" DataSource="@Lines35" XName="x" YName="y" Type="ChartSeriesType.Line" Name="India" Fill="#E94649">
                     <ChartSeriesAnimation Enable="false"></ChartSeriesAnimation>
                     <ChartMarker Visible="false" Width="10" Height="10">
@@ -1756,7 +1756,7 @@
                     </ChartMarker>
                     <ChartSeriesBorder Width="4" Color="Green"></ChartSeriesBorder>
                 </ChartSeries>
-            </ChartSeriesCollection>
+            
         </SfChart>
     </ComponentUnderTest>
 </SfFixture>
@@ -1795,7 +1795,7 @@
         <SfChart ID="container" @ref="chartobj" Title="Chart Ts Title" Width="800">
             <ChartPrimaryXAxis Title="PrimaryXAxis" ValueType="Syncfusion.Blazor.Toolkit.ValueType.DateTime"></ChartPrimaryXAxis>
             <ChartPrimaryYAxis Title="PrimaryYaxis" RangePadding="ChartRangePadding.None"></ChartPrimaryYAxis>
-            <ChartSeriesCollection>
+            
                 <ChartSeries Visible="true" DataSource="@Lines36" XName="x" YName="y" Type="ChartSeriesType.Line" Name="India" Fill="#E94649">
                     <ChartSeriesAnimation Enable="false"></ChartSeriesAnimation>
                     <ChartMarker Visible="false" Width="10" Height="10">
@@ -1803,7 +1803,7 @@
                     </ChartMarker>
                     <ChartSeriesBorder Width="4" Color="Green"></ChartSeriesBorder>
                 </ChartSeries>
-            </ChartSeriesCollection>
+            
         </SfChart>
     </ComponentUnderTest>
 </SfFixture>
@@ -1858,7 +1858,7 @@
         <SfChart ID="container" @ref="chartobj1" Title="Chart Ts Title" Width="800">
             <ChartPrimaryXAxis Title="PrimaryXAxis" ValueType="Syncfusion.Blazor.Toolkit.ValueType.DateTime"></ChartPrimaryXAxis>
             <ChartPrimaryYAxis Title="PrimaryYaxis" RangePadding="ChartRangePadding.None"></ChartPrimaryYAxis>
-            <ChartSeriesCollection>
+            
                 <ChartSeries Visible="true" DataSource="@Lines37" XName="x" YName="y" Type="ChartSeriesType.Line" Name="India" Fill="#E94649">
                     <ChartSeriesAnimation Enable="false"></ChartSeriesAnimation>
                     <ChartMarker Visible="false" Width="10" Height="10">
@@ -1872,7 +1872,7 @@
                         <ChartDataLabel Visible="true"></ChartDataLabel>
                     </ChartMarker>
                 </ChartSeries>
-            </ChartSeriesCollection>
+            
         </SfChart>
     </ComponentUnderTest>
 </SfFixture>
@@ -1928,7 +1928,7 @@
         <SfChart ID="container" Title="Chart Ts Title" Width="800">
             <ChartPrimaryXAxis Title="PrimaryXAxis" ValueType="Syncfusion.Blazor.Toolkit.ValueType.DateTime"></ChartPrimaryXAxis>
             <ChartPrimaryYAxis Title="PrimaryYaxis" RangePadding="ChartRangePadding.None"></ChartPrimaryYAxis>
-            <ChartSeriesCollection>
+            
                 <ChartSeries Visible="true" DataSource="@Lines38" XName="x" YName="y" Type="ChartSeriesType.Line" Name="India" Fill="#E94649">
                     <ChartSeriesAnimation Enable="false"></ChartSeriesAnimation>
                     <ChartMarker Visible="false" Width="10" Height="10">
@@ -1944,7 +1944,7 @@
                         </ChartDataLabel>
                     </ChartMarker>
                 </ChartSeries>
-            </ChartSeriesCollection>
+            
         </SfChart>
     </ComponentUnderTest>
 </SfFixture>
@@ -1986,7 +1986,7 @@
             <ChartArea Background="Black"></ChartArea>
             <ChartPrimaryXAxis Title="PrimaryXAxis" ValueType="Syncfusion.Blazor.Toolkit.ValueType.DateTime"></ChartPrimaryXAxis>
             <ChartPrimaryYAxis Title="PrimaryYaxis" RangePadding="ChartRangePadding.None"></ChartPrimaryYAxis>
-            <ChartSeriesCollection>
+            
                 <ChartSeries Visible="true" DataSource="@Lines39" XName="x" YName="y" Type="ChartSeriesType.Line" Name="India" Fill="#E94649">
                     <ChartSeriesAnimation Enable="false"></ChartSeriesAnimation>
                     <ChartMarker Visible="false" Width="10" Height="10">
@@ -2002,7 +2002,7 @@
                         </ChartDataLabel>
                     </ChartMarker>
                 </ChartSeries>
-            </ChartSeriesCollection>
+            
         </SfChart>
     </ComponentUnderTest>
 </SfFixture>
@@ -2043,7 +2043,7 @@
             <ChartArea Background="White"></ChartArea>
             <ChartPrimaryXAxis Title="PrimaryXAxis" ValueType="Syncfusion.Blazor.Toolkit.ValueType.DateTime"></ChartPrimaryXAxis>
             <ChartPrimaryYAxis Title="PrimaryYaxis" RangePadding="ChartRangePadding.None"></ChartPrimaryYAxis>
-            <ChartSeriesCollection>
+            
                 <ChartSeries Visible="true" DataSource="@Lines40" XName="x" YName="y" Type="ChartSeriesType.Line" Name="India" Fill="#E94649">
                     <ChartSeriesAnimation Enable="false"></ChartSeriesAnimation>
                     <ChartMarker Visible="false" Width="10" Height="10">
@@ -2059,7 +2059,7 @@
                         </ChartDataLabel>
                     </ChartMarker>
                 </ChartSeries>
-            </ChartSeriesCollection>
+            
         </SfChart>
     </ComponentUnderTest>
 </SfFixture>
@@ -2100,7 +2100,7 @@
             <ChartArea Background="White"></ChartArea>
             <ChartPrimaryXAxis Title="PrimaryXAxis" ValueType="Syncfusion.Blazor.Toolkit.ValueType.DateTime"></ChartPrimaryXAxis>
             <ChartPrimaryYAxis Title="PrimaryYaxis" RangePadding="ChartRangePadding.None"></ChartPrimaryYAxis>
-            <ChartSeriesCollection>
+            
                 <ChartSeries Visible="true" DataSource="@Lines41" XName="x" YName="y" Type="ChartSeriesType.Line" Name="India" Fill="#E94649">
                     <ChartSeriesAnimation Enable="false"></ChartSeriesAnimation>
                     <ChartMarker Visible="false" Width="10" Height="10">
@@ -2116,7 +2116,7 @@
                         </ChartDataLabel>
                     </ChartMarker>
                 </ChartSeries>
-            </ChartSeriesCollection>
+            
         </SfChart>
     </ComponentUnderTest>
 </SfFixture>
@@ -2157,7 +2157,7 @@
             <ChartArea Background="White"></ChartArea>
             <ChartPrimaryXAxis Title="PrimaryXAxis" ValueType="Syncfusion.Blazor.Toolkit.ValueType.DateTime"></ChartPrimaryXAxis>
             <ChartPrimaryYAxis Title="PrimaryYaxis" RangePadding="ChartRangePadding.None"></ChartPrimaryYAxis>
-            <ChartSeriesCollection>
+            
                 <ChartSeries Visible="true" DataSource="@Lines42" XName="x" YName="y" Type="ChartSeriesType.Line" Name="India" Fill="#E94649">
                     <ChartSeriesAnimation Enable="false"></ChartSeriesAnimation>
                     <ChartMarker Visible="false" Width="10" Height="10">
@@ -2173,7 +2173,7 @@
                         </ChartDataLabel>
                     </ChartMarker>
                 </ChartSeries>
-            </ChartSeriesCollection>
+            
         </SfChart>
     </ComponentUnderTest>
 </SfFixture>
@@ -2214,7 +2214,7 @@
             <ChartArea Background="White"></ChartArea>
             <ChartPrimaryXAxis Title="PrimaryXAxis" ValueType="Syncfusion.Blazor.Toolkit.ValueType.DateTime"></ChartPrimaryXAxis>
             <ChartPrimaryYAxis Title="PrimaryYaxis" RangePadding="ChartRangePadding.None"></ChartPrimaryYAxis>
-            <ChartSeriesCollection>
+            
                 <ChartSeries Visible="true" DataSource="@Lines43" XName="x" YName="y" Type="ChartSeriesType.Line" Name="India" Fill="#E94649">
                     <ChartSeriesAnimation Enable="false"></ChartSeriesAnimation>
                     <ChartMarker Visible="false" Width="10" Height="10">
@@ -2230,7 +2230,7 @@
                         </ChartDataLabel>
                     </ChartMarker>
                 </ChartSeries>
-            </ChartSeriesCollection>
+            
         </SfChart>
     </ComponentUnderTest>
 </SfFixture>
@@ -2273,7 +2273,7 @@
             <ChartArea Background="White"></ChartArea>
             <ChartPrimaryXAxis Title="PrimaryXAxis" ValueType="Syncfusion.Blazor.Toolkit.ValueType.DateTime"></ChartPrimaryXAxis>
             <ChartPrimaryYAxis Title="PrimaryYaxis" RangePadding="ChartRangePadding.None"></ChartPrimaryYAxis>
-            <ChartSeriesCollection>
+            
                 <ChartSeries Visible="true" DataSource="@Lines44" XName="x" YName="y" Type="ChartSeriesType.Line" Name="India" Fill="#E94649">
                     <ChartSeriesAnimation Enable="false"></ChartSeriesAnimation>
                     <ChartMarker Visible="false" Width="10" Height="10">
@@ -2289,7 +2289,7 @@
                         </ChartDataLabel>
                     </ChartMarker>
                 </ChartSeries>
-            </ChartSeriesCollection>
+            
         </SfChart>
     </ComponentUnderTest>
 </SfFixture>
@@ -2330,7 +2330,7 @@
             <ChartArea Background="White"></ChartArea>
             <ChartPrimaryXAxis Title="PrimaryXAxis" ValueType="Syncfusion.Blazor.Toolkit.ValueType.DateTime"></ChartPrimaryXAxis>
             <ChartPrimaryYAxis Title="PrimaryYaxis" RangePadding="ChartRangePadding.None"></ChartPrimaryYAxis>
-            <ChartSeriesCollection>
+            
                 <ChartSeries Visible="true" DataSource="@Lines45" XName="x" YName="y" Type="ChartSeriesType.Line" Name="India" Fill="#E94649">
                     <ChartSeriesAnimation Enable="false"></ChartSeriesAnimation>
                     <ChartMarker Visible="false" Width="10" Height="10">
@@ -2348,7 +2348,7 @@
                         </ChartDataLabel>
                     </ChartMarker>
                 </ChartSeries>
-            </ChartSeriesCollection>
+            
         </SfChart>
     </ComponentUnderTest>
 </SfFixture>
@@ -2390,7 +2390,7 @@
             <ChartArea Background="White"></ChartArea>
             <ChartPrimaryXAxis Title="PrimaryXAxis" ValueType="Syncfusion.Blazor.Toolkit.ValueType.DateTime"></ChartPrimaryXAxis>
             <ChartPrimaryYAxis Title="PrimaryYaxis" LabelFormat="This is {value}" RangePadding="ChartRangePadding.None"></ChartPrimaryYAxis>
-            <ChartSeriesCollection>
+            
                 <ChartSeries Visible="true" DataSource="@Lines46" XName="x" YName="y" Type="ChartSeriesType.Line" Name="India" Fill="#E94649">
                     <ChartSeriesAnimation Enable="false"></ChartSeriesAnimation>
                     <ChartMarker Visible="false" Width="10" Height="10">
@@ -2408,7 +2408,7 @@
                         </ChartDataLabel>
                     </ChartMarker>
                 </ChartSeries>
-            </ChartSeriesCollection>
+            
         </SfChart>
     </ComponentUnderTest>
 </SfFixture>
@@ -2450,7 +2450,7 @@
             <ChartArea Background="White"></ChartArea>
             <ChartPrimaryXAxis Title="PrimaryXAxis" ValueType="Syncfusion.Blazor.Toolkit.ValueType.DateTime"></ChartPrimaryXAxis>
             <ChartPrimaryYAxis Title="PrimaryYaxis" LabelFormat="n2" RangePadding="ChartRangePadding.None"></ChartPrimaryYAxis>
-            <ChartSeriesCollection>
+            
                 <ChartSeries Visible="true" DataSource="@Lines47" XName="x" YName="y" Type="ChartSeriesType.Line" Name="India" Fill="#E94649">
                     <ChartSeriesAnimation Enable="false"></ChartSeriesAnimation>
                     <ChartMarker Visible="false" Width="10" Height="10">
@@ -2468,7 +2468,7 @@
                         </ChartDataLabel>
                     </ChartMarker>
                 </ChartSeries>
-            </ChartSeriesCollection>
+            
         </SfChart>
     </ComponentUnderTest>
 </SfFixture>
@@ -2510,7 +2510,7 @@
             <ChartArea Background="White"></ChartArea>
             <ChartPrimaryXAxis Title="PrimaryXAxis" ValueType="Syncfusion.Blazor.Toolkit.ValueType.DateTime"></ChartPrimaryXAxis>
             <ChartPrimaryYAxis Title="PrimaryYaxis" LabelFormat="n2" RangePadding="ChartRangePadding.None"></ChartPrimaryYAxis>
-            <ChartSeriesCollection>
+            
                 <ChartSeries Visible="true" DataSource="@Lines48" XName="x" YName="y" Type="ChartSeriesType.Line" Name="India" Fill="#E94649">
                     <ChartSeriesAnimation Enable="false"></ChartSeriesAnimation>
                     <ChartMarker Visible="false" Width="10" Height="10">
@@ -2528,7 +2528,7 @@
                         </ChartDataLabel>
                     </ChartMarker>
                 </ChartSeries>
-            </ChartSeriesCollection>
+            
         </SfChart>
     </ComponentUnderTest>
 </SfFixture>
@@ -2569,7 +2569,7 @@
             <ChartArea Background="White"></ChartArea>
             <ChartPrimaryXAxis Title="PrimaryXAxis" ValueType="Syncfusion.Blazor.Toolkit.ValueType.DateTime"></ChartPrimaryXAxis>
             <ChartPrimaryYAxis Title="PrimaryYaxis" LabelFormat="n2" RangePadding="ChartRangePadding.None"></ChartPrimaryYAxis>
-            <ChartSeriesCollection>
+            
                 <ChartSeries Visible="true" DataSource="@Lines49" XName="x" YName="y" Type="ChartSeriesType.Line" Name="India" Fill="#E94649">
                     <ChartSeriesAnimation Enable="false"></ChartSeriesAnimation>
                     <ChartMarker Visible="false" Width="10" Height="10">
@@ -2587,7 +2587,7 @@
                         </ChartDataLabel>
                     </ChartMarker>
                 </ChartSeries>
-            </ChartSeriesCollection>
+            
         </SfChart>
     </ComponentUnderTest>
 </SfFixture>
@@ -2628,7 +2628,7 @@
             <ChartArea Background="White"></ChartArea>
             <ChartPrimaryXAxis Title="PrimaryXAxis" ValueType="Syncfusion.Blazor.Toolkit.ValueType.DateTime"></ChartPrimaryXAxis>
             <ChartPrimaryYAxis Title="PrimaryYaxis" LabelFormat="n2" RangePadding="ChartRangePadding.None"></ChartPrimaryYAxis>
-            <ChartSeriesCollection>
+            
                 <ChartSeries Visible="true" DataSource="@Lines50" XName="x" YName="y" Type="ChartSeriesType.Line" Name="India" Fill="#E94649">
                     <ChartSeriesAnimation Enable="false"></ChartSeriesAnimation>
                     <ChartMarker Visible="false" Width="10" Height="10">
@@ -2646,7 +2646,7 @@
                         </ChartDataLabel>
                     </ChartMarker>
                 </ChartSeries>
-            </ChartSeriesCollection>
+            
         </SfChart>
     </ComponentUnderTest>
 </SfFixture>
@@ -2687,7 +2687,7 @@
             <ChartArea Background="White"></ChartArea>
             <ChartPrimaryXAxis Title="PrimaryXAxis" ValueType="Syncfusion.Blazor.Toolkit.ValueType.DateTime"></ChartPrimaryXAxis>
             <ChartPrimaryYAxis Title="PrimaryYaxis" LabelFormat="n2" RangePadding="ChartRangePadding.None"></ChartPrimaryYAxis>
-            <ChartSeriesCollection>
+            
                 <ChartSeries Visible="true" DataSource="@Lines51" XName="x" YName="y" Type="ChartSeriesType.Line" Name="India" Fill="#E94649">
                     <ChartSeriesAnimation Enable="false"></ChartSeriesAnimation>
                     <ChartMarker Visible="false" Width="10" Height="10">
@@ -2705,7 +2705,7 @@
                         </ChartDataLabel>
                     </ChartMarker>
                 </ChartSeries>
-            </ChartSeriesCollection>
+            
         </SfChart>
     </ComponentUnderTest>
 </SfFixture>
@@ -2750,7 +2750,7 @@
             <ChartArea Background="White"></ChartArea>
             <ChartPrimaryXAxis Title="PrimaryXAxis" ValueType="Syncfusion.Blazor.Toolkit.ValueType.DateTime"></ChartPrimaryXAxis>
             <ChartPrimaryYAxis Title="PrimaryYaxis" LabelFormat="n2" RangePadding="ChartRangePadding.None"></ChartPrimaryYAxis>
-            <ChartSeriesCollection>
+            
                 <ChartSeries Visible="true" DataSource="@Lines52" XName="x" YName="y" Type="ChartSeriesType.Line" Name="India" Fill="#E94649">
                     <ChartSeriesAnimation Enable="false"></ChartSeriesAnimation>
                     <ChartMarker Visible="false" Width="10" Height="10">
@@ -2768,7 +2768,7 @@
                         </ChartDataLabel>
                     </ChartMarker>
                 </ChartSeries>
-            </ChartSeriesCollection>
+            
         </SfChart>
     </ComponentUnderTest>
 </SfFixture>
@@ -2812,7 +2812,7 @@
             <ChartArea Background="White"></ChartArea>
             <ChartPrimaryXAxis Title="PrimaryXAxis" ValueType="Syncfusion.Blazor.Toolkit.ValueType.DateTime"></ChartPrimaryXAxis>
             <ChartPrimaryYAxis Title="PrimaryYaxis" LabelFormat="n2" RangePadding="ChartRangePadding.None"></ChartPrimaryYAxis>
-            <ChartSeriesCollection>
+            
                 <ChartSeries Visible="true" DataSource="@Lines53" XName="x" YName="y" Type="ChartSeriesType.Line" Name="India" Fill="#E94649">
                     <ChartSeriesAnimation Enable="false"></ChartSeriesAnimation>
                     <ChartMarker Visible="false" Width="10" Height="10">
@@ -2830,7 +2830,7 @@
                         </ChartDataLabel>
                     </ChartMarker>
                 </ChartSeries>
-            </ChartSeriesCollection>
+            
         </SfChart>
     </ComponentUnderTest>
 </SfFixture>
@@ -2873,7 +2873,7 @@
             <ChartArea Background="White"></ChartArea>
             <ChartPrimaryXAxis Title="PrimaryXAxis" ValueType="Syncfusion.Blazor.Toolkit.ValueType.DateTime"></ChartPrimaryXAxis>
             <ChartPrimaryYAxis Title="PrimaryYaxis" LabelFormat="n2" RangePadding="ChartRangePadding.None"></ChartPrimaryYAxis>
-            <ChartSeriesCollection>
+            
                 <ChartSeries Visible="true" DataSource="@Lines54" XName="x" YName="y" Type="ChartSeriesType.Line" Name="India" Fill="#E94649">
                     <ChartSeriesAnimation Enable="false"></ChartSeriesAnimation>
                     <ChartMarker Visible="false" Width="10" Height="10">
@@ -2891,7 +2891,7 @@
                         </ChartDataLabel>
                     </ChartMarker>
                 </ChartSeries>
-            </ChartSeriesCollection>
+            
         </SfChart>
     </ComponentUnderTest>
 </SfFixture>
@@ -2936,7 +2936,7 @@
             <ChartArea Background="White"></ChartArea>
             <ChartPrimaryXAxis Title="PrimaryXAxis" ValueType="Syncfusion.Blazor.Toolkit.ValueType.DateTime"></ChartPrimaryXAxis>
             <ChartPrimaryYAxis Title="PrimaryYaxis" LabelFormat="n2" RangePadding="ChartRangePadding.None"></ChartPrimaryYAxis>
-            <ChartSeriesCollection>
+            
                 <ChartSeries Visible="true" DataSource="@Lines55" XName="x" YName="y" Type="ChartSeriesType.Line" Name="India" Fill="#E94649">
                     <ChartSeriesAnimation Enable="false"></ChartSeriesAnimation>
                     <ChartMarker Visible="false" Width="10" Height="10">
@@ -2954,7 +2954,7 @@
                         </ChartDataLabel>
                     </ChartMarker>
                 </ChartSeries>
-            </ChartSeriesCollection>
+            
         </SfChart>
     </ComponentUnderTest>
 </SfFixture>
@@ -2999,7 +2999,7 @@
             <ChartArea Background="White"></ChartArea>
             <ChartPrimaryXAxis Title="PrimaryXAxis" ValueType="Syncfusion.Blazor.Toolkit.ValueType.DateTime"></ChartPrimaryXAxis>
             <ChartPrimaryYAxis Title="PrimaryYaxis" LabelFormat="n2" RangePadding="ChartRangePadding.None"></ChartPrimaryYAxis>
-            <ChartSeriesCollection>
+            
                 <ChartSeries Visible="true" DataSource="@Lines56" XName="x" YName="y" Type="ChartSeriesType.Line" Name="India" Fill="#E94649">
                     <ChartSeriesAnimation Enable="false"></ChartSeriesAnimation>
                     <ChartMarker Visible="false" Width="10" Height="10">
@@ -3017,7 +3017,7 @@
                         </ChartDataLabel>
                     </ChartMarker>
                 </ChartSeries>
-            </ChartSeriesCollection>
+            
         </SfChart>
     </ComponentUnderTest>
 </SfFixture>
@@ -3061,7 +3061,7 @@
             <ChartArea Background="White"></ChartArea>
             <ChartPrimaryXAxis Title="PrimaryXAxis" ValueType="Syncfusion.Blazor.Toolkit.ValueType.DateTime"></ChartPrimaryXAxis>
             <ChartPrimaryYAxis Title="PrimaryYaxis" LabelFormat="n2" RangePadding="ChartRangePadding.None"></ChartPrimaryYAxis>
-            <ChartSeriesCollection>
+            
                 <ChartSeries Visible="true" DataSource="@Lines57" XName="x" YName="y" Type="ChartSeriesType.Line" Name="India" Fill="#E94649">
                     <ChartSeriesAnimation Enable="false"></ChartSeriesAnimation>
                     <ChartMarker Visible="false" Width="10" Height="10">
@@ -3079,7 +3079,7 @@
                         </ChartDataLabel>
                     </ChartMarker>
                 </ChartSeries>
-            </ChartSeriesCollection>
+            
         </SfChart>
     </ComponentUnderTest>
 </SfFixture>
@@ -3123,7 +3123,7 @@
             <ChartArea Background="White"></ChartArea>
             <ChartPrimaryXAxis Title="PrimaryXAxis" ValueType="Syncfusion.Blazor.Toolkit.ValueType.DateTime"></ChartPrimaryXAxis>
             <ChartPrimaryYAxis Title="PrimaryYaxis" LabelFormat="n2" RangePadding="ChartRangePadding.None"></ChartPrimaryYAxis>
-            <ChartSeriesCollection>
+            
                 <ChartSeries Visible="true" DataSource="@Lines58" XName="x" YName="y" Type="ChartSeriesType.Line" Name="India" Fill="#E94649">
                     <ChartSeriesAnimation Enable="false"></ChartSeriesAnimation>
                     <ChartMarker Visible="false" Width="10" Height="10">
@@ -3141,7 +3141,7 @@
                         </ChartDataLabel>
                     </ChartMarker>
                 </ChartSeries>
-            </ChartSeriesCollection>
+            
         </SfChart>
     </ComponentUnderTest>
 </SfFixture>
@@ -3185,7 +3185,7 @@
             <ChartArea Background="White"></ChartArea>
             <ChartPrimaryXAxis Title="PrimaryXAxis" ValueType="Syncfusion.Blazor.Toolkit.ValueType.DateTime"></ChartPrimaryXAxis>
             <ChartPrimaryYAxis Title="PrimaryYaxis" LabelFormat="n2" RangePadding="ChartRangePadding.None"></ChartPrimaryYAxis>
-            <ChartSeriesCollection>
+            
                 <ChartSeries Visible="true" DataSource="@Lines59" XName="x" YName="y" Type="ChartSeriesType.Line" Name="India" Fill="#E94649">
                     <ChartSeriesAnimation Enable="false"></ChartSeriesAnimation>
                     <ChartMarker Visible="false" Width="10" Height="10">
@@ -3203,7 +3203,7 @@
                         </ChartDataLabel>
                     </ChartMarker>
                 </ChartSeries>
-            </ChartSeriesCollection>
+            
         </SfChart>
     </ComponentUnderTest>
 </SfFixture>
@@ -3246,7 +3246,7 @@
             <ChartArea Background="White"></ChartArea>
             <ChartPrimaryXAxis Title="PrimaryXAxis" ValueType="Syncfusion.Blazor.Toolkit.ValueType.DateTime"></ChartPrimaryXAxis>
             <ChartPrimaryYAxis Title="PrimaryYaxis" LabelFormat="n2" RangePadding="ChartRangePadding.None"></ChartPrimaryYAxis>
-            <ChartSeriesCollection>
+            
                 <ChartSeries Visible="true" DataSource="@Lines60" XName="x" YName="y" Type="ChartSeriesType.Line" Name="India" Fill="#E94649">
                     <ChartSeriesAnimation Enable="false"></ChartSeriesAnimation>
                     <ChartMarker Visible="false" Width="10" Height="10">
@@ -3265,7 +3265,7 @@
                         </ChartDataLabel>
                     </ChartMarker>
                 </ChartSeries>
-            </ChartSeriesCollection>
+            
         </SfChart>
     </ComponentUnderTest>
 </SfFixture>
@@ -3314,7 +3314,7 @@
             <ChartArea Background="White"></ChartArea>
             <ChartPrimaryXAxis Title="PrimaryXAxis" ValueType="Syncfusion.Blazor.Toolkit.ValueType.DateTime"></ChartPrimaryXAxis>
             <ChartPrimaryYAxis Title="PrimaryYaxis" LabelFormat="n2" RangePadding="ChartRangePadding.None"></ChartPrimaryYAxis>
-            <ChartSeriesCollection>
+            
                 <ChartSeries Visible="true" DataSource="@Lines61" XName="x" YName="y" Type="ChartSeriesType.Line" Name="India" Fill="#E94649">
                     <ChartSeriesAnimation Enable="false"></ChartSeriesAnimation>
                     <ChartMarker Visible="false" Width="10" Height="10">
@@ -3340,7 +3340,7 @@
                         </ChartDataLabel>
                     </ChartMarker>
                 </ChartSeries>
-            </ChartSeriesCollection>
+            
         </SfChart>
     </ComponentUnderTest>
 </SfFixture>
@@ -3381,7 +3381,7 @@
             <ChartArea Background="White"></ChartArea>
             <ChartPrimaryXAxis Title="PrimaryXAxis" ValueType="Syncfusion.Blazor.Toolkit.ValueType.DateTime"></ChartPrimaryXAxis>
             <ChartPrimaryYAxis Title="PrimaryYaxis" LabelFormat="n2" RangePadding="ChartRangePadding.None"></ChartPrimaryYAxis>
-            <ChartSeriesCollection>
+            
                 <ChartSeries Visible="true" DataSource="@Lines62" XName="x" YName="y" Type="ChartSeriesType.Column" Name="India" Fill="#E94649">
                     <ChartSeriesAnimation Enable="false"></ChartSeriesAnimation>
                     <ChartMarker Visible="false" Width="10" Height="10">
@@ -3407,7 +3407,7 @@
                         </ChartDataLabel>
                     </ChartMarker>
                 </ChartSeries>
-            </ChartSeriesCollection>
+            
         </SfChart>
     </ComponentUnderTest>
 </SfFixture>
@@ -3448,7 +3448,7 @@
             <ChartArea Background="White"></ChartArea>
             <ChartPrimaryXAxis Title="PrimaryXAxis" ValueType="Syncfusion.Blazor.Toolkit.ValueType.DateTime"></ChartPrimaryXAxis>
             <ChartPrimaryYAxis Title="PrimaryYaxis" LabelFormat="n2" RangePadding="ChartRangePadding.None"></ChartPrimaryYAxis>
-            <ChartSeriesCollection>
+            
                 <ChartSeries Visible="true" DataSource="@Lines63" XName="x" YName="y" Type="ChartSeriesType.Column" Name="India" Fill="#E94649">
                     <ChartSeriesAnimation Enable="false"></ChartSeriesAnimation>
                     <ChartMarker Visible="false" Width="10" Height="10">
@@ -3474,7 +3474,7 @@
                         </ChartDataLabel>
                     </ChartMarker>
                 </ChartSeries>
-            </ChartSeriesCollection>
+            
         </SfChart>
     </ComponentUnderTest>
 </SfFixture>
@@ -3520,7 +3520,7 @@
             <ChartArea Background="White"></ChartArea>
             <ChartPrimaryXAxis Title="PrimaryXAxis" ValueType="Syncfusion.Blazor.Toolkit.ValueType.DateTime"></ChartPrimaryXAxis>
             <ChartPrimaryYAxis Title="PrimaryYaxis" LabelFormat="n2" RangePadding="ChartRangePadding.None" Minimum="0" Maximum="97" Interval="44"></ChartPrimaryYAxis>
-            <ChartSeriesCollection>
+            
                 <ChartSeries Visible="true" DataSource="@Lines64" XName="x" YName="y" Type="ChartSeriesType.Line" Name="India" Fill="#E94649">
                     <ChartSeriesAnimation Enable="false"></ChartSeriesAnimation>
                     <ChartMarker Visible="false" Width="10" Height="10">
@@ -3546,7 +3546,7 @@
                         </ChartDataLabel>
                     </ChartMarker>
                 </ChartSeries>
-            </ChartSeriesCollection>
+            
         </SfChart>
     </ComponentUnderTest>
 </SfFixture>
@@ -3587,7 +3587,7 @@
             <ChartArea Background="White"></ChartArea>
             <ChartPrimaryXAxis Title="PrimaryXAxis" ValueType="Syncfusion.Blazor.Toolkit.ValueType.DateTime"></ChartPrimaryXAxis>
             <ChartPrimaryYAxis Title="PrimaryYaxis" LabelFormat="n2" RangePadding="ChartRangePadding.None" Minimum="0" Maximum="97" Interval="44"></ChartPrimaryYAxis>
-            <ChartSeriesCollection>
+            
                 <ChartSeries Visible="true" DataSource="@Lines65" XName="x" YName="y" Type="ChartSeriesType.Line" Name="India" Fill="#E94649">
                     <ChartSeriesAnimation Enable="false"></ChartSeriesAnimation>
                     <ChartMarker Visible="false" Width="10" Height="10">
@@ -3613,7 +3613,7 @@
                         </ChartDataLabel>
                     </ChartMarker>
                 </ChartSeries>
-            </ChartSeriesCollection>
+            
         </SfChart>
     </ComponentUnderTest>
 </SfFixture>
@@ -3654,7 +3654,7 @@
             <ChartArea Background="White"></ChartArea>
             <ChartPrimaryXAxis Title="PrimaryXAxis" ValueType="Syncfusion.Blazor.Toolkit.ValueType.Double"></ChartPrimaryXAxis>
             <ChartPrimaryYAxis Title="PrimaryYaxis" LabelFormat="n2" RangePadding="ChartRangePadding.None" Minimum="25" Maximum="50" Interval="5"></ChartPrimaryYAxis>
-            <ChartSeriesCollection>
+            
                 <ChartSeries Visible="true" DataSource="@Lines66" XName="x" YName="y" Type="ChartSeriesType.Line" Name="India" Fill="#E94649">
                     <ChartSeriesAnimation Enable="false"></ChartSeriesAnimation>
                     <ChartMarker Visible="false">
@@ -3663,7 +3663,7 @@
                     </ChartMarker>
                     <ChartSeriesBorder Width="4" Color="Green"></ChartSeriesBorder>
                 </ChartSeries>
-            </ChartSeriesCollection>
+            
         </SfChart>
     </ComponentUnderTest>
 </SfFixture>
@@ -3703,7 +3703,7 @@
             <ChartArea Background="White"></ChartArea>
             <ChartPrimaryXAxis Title="PrimaryXAxis" ValueType="Syncfusion.Blazor.Toolkit.ValueType.Double" Minimum="2004" Maximum="2014" Interval="2"></ChartPrimaryXAxis>
             <ChartPrimaryYAxis Title="PrimaryYaxis" LabelFormat="n2" RangePadding="ChartRangePadding.None" Minimum="0" Maximum="50" Interval="5"></ChartPrimaryYAxis>
-            <ChartSeriesCollection>
+            
                 <ChartSeries Visible="true" DataSource="@Lines67" XName="x" YName="y" Type="ChartSeriesType.StepLine" Name="India" Fill="#E94649">
                     <ChartSeriesAnimation Enable="false"></ChartSeriesAnimation>
                     <ChartMarker Visible="false">
@@ -3712,7 +3712,7 @@
                     </ChartMarker>
                     <ChartSeriesBorder Width="4" Color="Green"></ChartSeriesBorder>
                 </ChartSeries>
-            </ChartSeriesCollection>
+            
         </SfChart>
     </ComponentUnderTest>
 </SfFixture>
@@ -3769,7 +3769,7 @@
                 <ChartAxisLineStyle Width="2"></ChartAxisLineStyle>
             </ChartPrimaryXAxis>
             <ChartPrimaryYAxis Title="PrimaryYaxis" RangePadding="ChartRangePadding.None"></ChartPrimaryYAxis>
-            <ChartSeriesCollection>
+            
                 <ChartSeries Visible="true" DataSource="@Lines68" XName="x" YName="y" Type="ChartSeriesType.Line" Name="India" Fill="#663AB6" Width="1">
                     <ChartSeriesAnimation Enable="false"></ChartSeriesAnimation>
                     <ChartMarker Visible="true">
@@ -3778,7 +3778,7 @@
                     </ChartMarker>
                     <ChartSeriesBorder Width="4" Color="Green"></ChartSeriesBorder>
                 </ChartSeries>
-            </ChartSeriesCollection>
+            
         </SfChart>
     </ComponentUnderTest>
 </SfFixture>
@@ -3841,7 +3841,7 @@
                 <ChartAxisLineStyle Width="2"></ChartAxisLineStyle>
             </ChartPrimaryXAxis>
             <ChartPrimaryYAxis Title="PrimaryYaxis" RangePadding="ChartRangePadding.None" Minimum="9" Maximum="75"></ChartPrimaryYAxis>
-            <ChartSeriesCollection>
+            
                 <ChartSeries Visible="true" DataSource="@Lines69" XName="x" YName="y" Type="ChartSeriesType.Column" Name="India" Fill="Black" Width="1">
                     <ChartSeriesAnimation Enable="false"></ChartSeriesAnimation>
                     <ChartMarker Visible="false">
@@ -3850,7 +3850,7 @@
                     </ChartMarker>
                     <ChartSeriesBorder Width="4" Color="Green"></ChartSeriesBorder>
                 </ChartSeries>
-            </ChartSeriesCollection>
+            
         </SfChart>
     </ComponentUnderTest>
 </SfFixture>
@@ -3890,7 +3890,7 @@
             <ChartPrimaryXAxis Title="PrimaryXAxis">
             </ChartPrimaryXAxis>
             <ChartPrimaryYAxis Title="PrimaryYaxis" IsInversed="true"></ChartPrimaryYAxis>
-            <ChartSeriesCollection>
+            
                 <ChartSeries Visible="true" DataSource="@Lines70" XName="x" YName="y" Type="ChartSeriesType.Area" Name="India">
                     <ChartSeriesAnimation Enable="false"></ChartSeriesAnimation>
                     <ChartMarker Visible="false">
@@ -3899,7 +3899,7 @@
                     </ChartMarker>
                     <ChartSeriesBorder Width="4" Color="Green"></ChartSeriesBorder>
                 </ChartSeries>
-            </ChartSeriesCollection>
+            
         </SfChart>
     </ComponentUnderTest>
 </SfFixture>
@@ -3944,7 +3944,7 @@
             <ChartPrimaryXAxis Title="PrimaryXAxis">
             </ChartPrimaryXAxis>
             <ChartPrimaryYAxis Title="PrimaryYaxis" IsInversed="true"></ChartPrimaryYAxis>
-            <ChartSeriesCollection>
+            
                 <ChartSeries Visible="true" DataSource="@Lines71" XName="x" YName="y" Type="ChartSeriesType.Area" Name="India">
                     <ChartSeriesAnimation Enable="false"></ChartSeriesAnimation>
                     <ChartMarker Visible="false">
@@ -3953,7 +3953,7 @@
                     </ChartMarker>
                     <ChartSeriesBorder Width="4" Color="Green"></ChartSeriesBorder>
                 </ChartSeries>
-            </ChartSeriesCollection>
+            
         </SfChart>
     </ComponentUnderTest>
 </SfFixture>
@@ -4001,7 +4001,7 @@
             <ChartPrimaryXAxis Title="PrimaryXAxis">
             </ChartPrimaryXAxis>
             <ChartPrimaryYAxis Title="PrimaryYaxis" IsInversed="true"></ChartPrimaryYAxis>
-            <ChartSeriesCollection>
+            
                 <ChartSeries Visible="true" DataSource="@Lines72" XName="x" YName="y" Type="ChartSeriesType.Area" Name="India">
                     <ChartSeriesAnimation Enable="false"></ChartSeriesAnimation>
                     <ChartMarker Visible="false">
@@ -4010,7 +4010,7 @@
                     </ChartMarker>
                     <ChartSeriesBorder Width="4" Color="Green"></ChartSeriesBorder>
                 </ChartSeries>
-            </ChartSeriesCollection>
+            
         </SfChart>
     </ComponentUnderTest>
 </SfFixture>
@@ -4058,7 +4058,7 @@
             <ChartPrimaryXAxis Title="PrimaryXAxis">
             </ChartPrimaryXAxis>
             <ChartPrimaryYAxis Title="PrimaryYaxis" IsInversed="true"></ChartPrimaryYAxis>
-            <ChartSeriesCollection>
+            
                 <ChartSeries Visible="true" DataSource="@Lines73" XName="x" YName="y" Type="ChartSeriesType.Area" Name="India">
                     <ChartSeriesAnimation Enable="false"></ChartSeriesAnimation>
                     <ChartMarker Visible="false">
@@ -4067,7 +4067,7 @@
                     </ChartMarker>
                     <ChartSeriesBorder Width="4" Color="Green"></ChartSeriesBorder>
                 </ChartSeries>
-            </ChartSeriesCollection>
+            
         </SfChart>
     </ComponentUnderTest>
 </SfFixture>
@@ -4113,7 +4113,7 @@
             <ChartPrimaryXAxis Title="PrimaryXAxis" ValueType="Syncfusion.Blazor.Toolkit.ValueType.DateTime">
             </ChartPrimaryXAxis>
             <ChartPrimaryYAxis Title="PrimaryYaxis"></ChartPrimaryYAxis>
-            <ChartSeriesCollection>
+            
                 <ChartSeries Visible="true" DataSource="@Lines74" XName="x" YName="y" Type="ChartSeriesType.Area" Name="India">
                     <ChartMarker Visible="true">
                     </ChartMarker>
@@ -4122,7 +4122,7 @@
                     <ChartMarker Visible="true">
                     </ChartMarker>
                 </ChartSeries>
-            </ChartSeriesCollection>
+            
         </SfChart>
     </ComponentUnderTest>
 </SfFixture>
@@ -4164,7 +4164,7 @@
             <ChartPrimaryXAxis Title="PrimaryXAxis" ValueType="Syncfusion.Blazor.Toolkit.ValueType.DateTime">
             </ChartPrimaryXAxis>
             <ChartPrimaryYAxis Title="PrimaryYaxis"></ChartPrimaryYAxis>
-            <ChartSeriesCollection>
+            
                 <ChartSeries Visible="true" DataSource="@Lines75" XName="x" YName="y" Type="ChartSeriesType.Area" Name="India">
                     <ChartMarker Visible="true">
                     </ChartMarker>
@@ -4173,7 +4173,7 @@
                     <ChartMarker Visible="true">
                     </ChartMarker>
                 </ChartSeries>
-            </ChartSeriesCollection>
+            
         </SfChart>
     </ComponentUnderTest>
 </SfFixture>
@@ -4214,7 +4214,7 @@
             <ChartPrimaryXAxis Title="PrimaryXAxis" ValueType="Syncfusion.Blazor.Toolkit.ValueType.DateTime">
             </ChartPrimaryXAxis>
             <ChartPrimaryYAxis Title="PrimaryYaxis"></ChartPrimaryYAxis>
-            <ChartSeriesCollection>
+            
                 <ChartSeries Visible="true" DataSource="@Lines76" XName="x" YName="y" Type="ChartSeriesType.Area" Name="India">
                     <ChartMarker Visible="true">
                         <ChartDataLabel Visible="true"></ChartDataLabel>
@@ -4225,7 +4225,7 @@
                         <ChartDataLabel Visible="true"></ChartDataLabel>
                     </ChartMarker>
                 </ChartSeries>
-            </ChartSeriesCollection>
+            
         </SfChart>
     </ComponentUnderTest>
 </SfFixture>
@@ -4267,7 +4267,7 @@
             <ChartPrimaryXAxis Title="PrimaryXAxis" ValueType="Syncfusion.Blazor.Toolkit.ValueType.DateTime">
             </ChartPrimaryXAxis>
             <ChartPrimaryYAxis Title="PrimaryYaxis"></ChartPrimaryYAxis>
-            <ChartSeriesCollection>
+            
                 <ChartSeries Visible="true" DataSource="@Lines77" XName="x" YName="y" Type="ChartSeriesType.Area" Name="India">
                     <ChartMarker Visible="true">
                         <ChartDataLabel Visible="true" Position="ChartLabelPosition.Top"></ChartDataLabel>
@@ -4278,7 +4278,7 @@
                         <ChartDataLabel Visible="true"></ChartDataLabel>
                     </ChartMarker>
                 </ChartSeries>
-            </ChartSeriesCollection>
+            
         </SfChart>
     </ComponentUnderTest>
 </SfFixture>
@@ -4320,7 +4320,7 @@
             <ChartPrimaryXAxis Title="PrimaryXAxis" ValueType="Syncfusion.Blazor.Toolkit.ValueType.DateTime">
             </ChartPrimaryXAxis>
             <ChartPrimaryYAxis Title="PrimaryYaxis"></ChartPrimaryYAxis>
-            <ChartSeriesCollection>
+            
                 <ChartSeries Visible="true" DataSource="@Lines78" XName="x" YName="y" Type="ChartSeriesType.Area" Name="India">
                     <ChartMarker Visible="true">
                         <ChartDataLabel Visible="true" Position="ChartLabelPosition.Middle"></ChartDataLabel>
@@ -4331,7 +4331,7 @@
                         <ChartDataLabel Visible="true"></ChartDataLabel>
                     </ChartMarker>
                 </ChartSeries>
-            </ChartSeriesCollection>
+            
         </SfChart>
     </ComponentUnderTest>
 </SfFixture>
@@ -4374,7 +4374,7 @@
             <ChartPrimaryXAxis Title="PrimaryXAxis" ValueType="Syncfusion.Blazor.Toolkit.ValueType.DateTime">
             </ChartPrimaryXAxis>
             <ChartPrimaryYAxis Title="PrimaryYaxis"></ChartPrimaryYAxis>
-            <ChartSeriesCollection>
+            
                 <ChartSeries Visible="true" DataSource="@Lines79" XName="x" YName="y" Type="ChartSeriesType.Area" Name="India">
                     <ChartMarker Visible="true">
                         <ChartDataLabel Visible="true" Position="ChartLabelPosition.Bottom"></ChartDataLabel>
@@ -4385,7 +4385,7 @@
                         <ChartDataLabel Visible="true"></ChartDataLabel>
                     </ChartMarker>
                 </ChartSeries>
-            </ChartSeriesCollection>
+            
         </SfChart>
     </ComponentUnderTest>
 </SfFixture>
@@ -4428,7 +4428,7 @@
             <ChartPrimaryXAxis Title="PrimaryXAxis" ValueType="Syncfusion.Blazor.Toolkit.ValueType.Category">
             </ChartPrimaryXAxis>
             <ChartPrimaryYAxis Title="PrimaryYaxis"></ChartPrimaryYAxis>
-            <ChartSeriesCollection>
+            
                <ChartSeries DataSource="@Lines80" XName="x" YName="y" Fill="Red" Type="ChartSeriesType.Line" LegendShape="LegendShape.Circle">
                    <ChartMarker Visible="true">
                        <ChartDataLabel Visible="true" Angle="25" EnableRotation="true" Position="ChartLabelPosition.Outer">
@@ -4436,7 +4436,7 @@
                        </ChartDataLabel>
                    </ChartMarker>
                </ChartSeries>
-            </ChartSeriesCollection>
+            
             <ChartLegendSettings Visible="true"></ChartLegendSettings>
         </SfChart>
     </ComponentUnderTest>
@@ -4477,7 +4477,7 @@
     <ComponentUnderTest>
         <SfChart ID="container" Title="MultiColoredLine Chart">
         <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Toolkit.ValueType.Category"></ChartPrimaryXAxis>
-        <ChartSeriesCollection>
+        
             <ChartSeries DataSource="@SalesDetails" XName="X" YName="Y"
                         Type="ChartSeriesType.MultiColoredLine"
                         Name="India"
@@ -4488,7 +4488,7 @@
             <ChartSeriesAnimation Enable="false"></ChartSeriesAnimation>
             <ChartSeriesBorder Width="@SeriesBorderWidth" Color="@SeriesBorderColor"></ChartSeriesBorder>
             </ChartSeries>
-        </ChartSeriesCollection>
+        
         </SfChart>
     </ComponentUnderTest>
 </SfFixture>

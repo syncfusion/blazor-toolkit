@@ -21,7 +21,7 @@
                 <ChartLegendSettings Visible="true" Position="LegendPosition.Top">
 
                 </ChartLegendSettings>
-                <ChartSeriesCollection>
+                
                     <ChartSeries DataSource="@ChartData" XName="Period" Width="2"
                                 Opacity="1" YName="Banana_ProductionRate" Name="Orange" Type="ChartSeriesType.Line" DashArray="5">
                         <ChartMarker Visible="false" Width="7" Height="7" Shape="ChartShape.Diamond">
@@ -38,7 +38,7 @@
                         </ChartMarker>
                     </ChartSeries>
 
-                </ChartSeriesCollection>
+                
 
             </SfChart>
      </ComponentUnderTest>
@@ -134,14 +134,14 @@
                 </ChartPrimaryYAxis>
                 <ChartTooltipSettings Enable="true"></ChartTooltipSettings>
                 <ChartLegendSettings EnableHighlight="true" Position="LegendPosition.Bottom"></ChartLegendSettings>
-                <ChartSeriesCollection>
+                
                     <ChartSeries DataSource="@SplineData" Name="Max Temp" XName="Days" Width="2" DashArray="5"
                                  Opacity="1" YName="MaxTemp" Type="ChartSeriesType.Spline">
                         <ChartMarker Visible="true" Width="7" Height="7">
                         </ChartMarker>
                     </ChartSeries>
             
-                </ChartSeriesCollection>
+                
             </SfChart>
         </div>
 </ComponentUnderTest>
@@ -187,11 +187,11 @@
                     <ChartAxisMajorTickLines Width="0"></ChartAxisMajorTickLines>
                     <ChartAxisLineStyle Width="0"></ChartAxisLineStyle>
                 </ChartPrimaryYAxis>
-                <ChartSeriesCollection>
+                
                     <ChartSeries DataSource="@ChartPoints" Name="Bank Transfer" XName="Period" Width="2"
                                  Opacity="1" YName="OrganicSales" Type="ChartSeriesType.StackingArea">
                     </ChartSeries>
-                </ChartSeriesCollection>
+                
             </SfChart>
     </ComponentUnderTest>
     </SfFixture>
@@ -234,10 +234,10 @@
             <ChartAxisMajorTickLines Width="0"></ChartAxisMajorTickLines>
             <ChartAxisLineStyle Width="0"></ChartAxisLineStyle>
         </ChartPrimaryYAxis>
-        <ChartSeriesCollection>
+        
             <ChartSeries DataSource="@ChartPoints1" XName="Country" YName="GoldMedal" Name="Gold" ColumnSpacing="0.1" Type="ChartSeriesType.Column">
             </ChartSeries>
-        </ChartSeriesCollection>
+        
             <ChartLegendSettings Visible="true" EnableHighlight="true" Position="LegendPosition.Right"></ChartLegendSettings>
     </SfChart>
     </ComponentUnderTest>

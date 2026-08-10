@@ -23,10 +23,10 @@
                 </ChartAnnotation>
             </ChartAnnotations>
 
-            <ChartSeriesCollection>
+            
                 <ChartSeries DataSource="@MedalDetails" XName="Country" YName="Gold" Type="ChartSeriesType.Column">
                 </ChartSeries>
-            </ChartSeriesCollection>
+            
         </SfChart>
     </ComponentUnderTest>
 </SfFixture>
@@ -40,12 +40,13 @@
         var cut = fixture.GetComponentUnderTest<SfChart>();
         await Task.Delay(200);
         var annotation = cut.FindComponent<ChartAnnotation>();
+        var annotations = cut.FindComponent<ChartAnnotations>();
         Assert.True(annotation.Instance.ContentTemplate != null);
         Assert.True(annotation.Instance.Description == "chart annotation");
         Assert.True(annotation.Instance.Region == Regions.Series);
-        Assert.Equal("Medal count", cut.Instance.AccessibilityDescription);
-        Assert.Equal("count", cut.Instance.AccessibilityRole);
-        Assert.False(cut.Instance.Focusable);
+        Assert.Equal("Medal count", annotations.Instance.AccessibilityDescription);
+        Assert.Equal("count", annotations.Instance.AccessibilityRole);
+        Assert.False(annotations.Instance.Focusable);
         cut.SetParametersAndRender();
         await annotation.Instance.DisposeAsync();
     }
@@ -83,10 +84,10 @@
                 </ChartAnnotation>
             </ChartAnnotations>
 
-            <ChartSeriesCollection>
+            
                 <ChartSeries DataSource="@MedalDetails" XName="Country" YName="Gold" Type="ChartSeriesType.Column">
                 </ChartSeries>
-            </ChartSeriesCollection>
+            
         </SfChart>
     </ComponentUnderTest>
 </SfFixture>

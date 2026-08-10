@@ -139,17 +139,17 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
         /// </summary>
         private void RenderAllGradients(RenderTreeBuilder builder)
         {
-            if (SvgRenderer is null || Series is null)
+            if (SeriesRenderer == null || !(SeriesRenderer.Series?.Visible ?? false))
             {
                 return;
             }
-            ChartLinearGradient? seriesLinear = Series.LinearGradient;
+            ChartLinearGradient? seriesLinear = Series?.LinearGradient;
             if (seriesLinear?.RendererType is not null)
             {
                 RenderLinearGradient(builder, seriesLinear, SvgRenderer);
             }
 
-            ChartRadialGradient? seriesRadial = Series.RadialGradient;
+            ChartRadialGradient? seriesRadial = Series?.RadialGradient;
             if (seriesRadial?.RendererType is not null)
             {
                 RenderRadialGradient(builder, seriesRadial, SvgRenderer);

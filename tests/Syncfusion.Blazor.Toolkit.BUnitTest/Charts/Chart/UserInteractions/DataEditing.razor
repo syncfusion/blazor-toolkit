@@ -13,12 +13,12 @@
         <SfChart ID="container" @ref="chart" Title="Data Edit Test" Height="400" Width="800" OnDataEdit="OnDataEditTrigger" OnDataEditCompleted="OnDataEditCompletedTrigger">
             <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Toolkit.ValueType.Category"></ChartPrimaryXAxis>
             <ChartPrimaryYAxis></ChartPrimaryYAxis>
-            <ChartSeriesCollection>
+            
                 <ChartSeries DataSource="@Sales" XName="Month" YName="SalesValue" Type="ChartSeriesType.Column" Name="Series1" Fill="blue">
                     <ChartSeriesAnimation Enable="false"></ChartSeriesAnimation>
                     <ChartDataEditSettings Enable="true" Fill="green" MinY="0" MaxY="100"></ChartDataEditSettings>
                 </ChartSeries>
-            </ChartSeriesCollection>
+            
         </SfChart>
     </ComponentUnderTest>
 </SfFixture>

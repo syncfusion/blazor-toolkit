@@ -16,7 +16,7 @@
         <SfChart ID="container">
             <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Toolkit.ValueType.DateTimeCategory" Format="yyyy"></ChartPrimaryXAxis>
             <ChartPrimaryYAxis Interval="40"></ChartPrimaryYAxis>
-            <ChartSeriesCollection>
+            
                 <ChartSeries Name="Series1" DataSource="@ConsumerReports" XName="X" YName="Y1" Type="ChartSeriesType.Line">
                     <ChartMarker Visible="true" Height="10" Width="10" IsFilled="true" />
                 </ChartSeries>
@@ -35,7 +35,7 @@
                 <ChartSeries Name="Series6" DataSource="@ConsumerReports" XName="X" YName="Y6" Type="ChartSeriesType.Line">
                     <ChartMarker Visible="true" Height="10" Width="10" IsFilled="true" />
                 </ChartSeries>
-            </ChartSeriesCollection>
+            
         </SfChart>
     </ComponentUnderTest>
 </SfFixture>
@@ -83,7 +83,7 @@
         <SfChart ID="container">
             <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Toolkit.ValueType.DateTimeCategory" Format="yyyy"></ChartPrimaryXAxis>
             <ChartPrimaryYAxis Interval="40"></ChartPrimaryYAxis>
-            <ChartSeriesCollection>
+            
                 <ChartSeries Name="Series1" DataSource="@ConsumerReports1" XName="X" YName="Y1" Type="ChartSeriesType.Line">
                     <ChartMarker Visible="true" Height="10" Width="10" IsFilled="true" />
                 </ChartSeries>
@@ -102,7 +102,7 @@
                 <ChartSeries Name="Series6" DataSource="@ConsumerReports1" XName="X" YName="Y6" Type="ChartSeriesType.Line">
                     <ChartMarker Visible="true" Height="10" Width="10" IsFilled="true" />
                 </ChartSeries>
-            </ChartSeriesCollection>
+            
         </SfChart>
     </ComponentUnderTest>
 </SfFixture>
@@ -117,9 +117,9 @@
         // Note: Values may vary slightly depending on screen resolution.
         Assert.True(series.GetAttribute("rx") == "5");
         var series1 = cut.Find("#container_Series_1_Point_0_Symbol");
-        Assert.True(series1.GetAttribute("d") == "M 50.150000000000006 81.76041666666667 L 55.150000000000006 71.76041666666667 L 60.150000000000006 81.76041666666667 L 50.150000000000006 81.76041666666667 z");
+        Assert.True(series1.GetAttribute("d") == "M 50.150000000000006 82.30208333333334 L 55.150000000000006 72.30208333333334 L 60.150000000000006 82.30208333333334 L 50.150000000000006 82.30208333333334 z");
         var series2 = cut.Find("#container_Series_2_Point_0_Symbol");
-        Assert.True(series2.GetAttribute("d") == "M 50.150000000000006 322.39375 L 55.150000000000006 317.39375 L 60.150000000000006 322.39375 L 55.150000000000006 327.39375 L 50.150000000000006 322.39375 z");
+        Assert.True(series2.GetAttribute("d") == "M 50.150000000000006 324.66874999999993 L 55.150000000000006 319.66874999999993 L 60.150000000000006 324.66874999999993 L 55.150000000000006 329.66874999999993 L 50.150000000000006 324.66874999999993 z");
         cut.SetParametersAndRender();     
     }
     public class ChartData1

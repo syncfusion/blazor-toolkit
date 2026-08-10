@@ -10,14 +10,14 @@
 <SfFixture @ref="fixture" TestAsync="CheckingMarkerApi" Description="CheckingMarkerApi">
     <ComponentUnderTest>
         <SfChart ID="conatiner" @ref="chartObj">
-            <ChartSeriesCollection>
+            
                 <ChartSeries DataSource="@ConsumerReports" XName="X" YName="Y" Type="ChartSeriesType.Line">
                     <ChartMarker Visible="true" Height="10" Width="10" Fill="red">
                         <ChartDataLabel Visible="true"></ChartDataLabel>
                         <ChartMarkerBorder Width="2" Color="blue"></ChartMarkerBorder>
                     </ChartMarker>
                 </ChartSeries>
-            </ChartSeriesCollection>
+            
         </SfChart>
     </ComponentUnderTest>
 </SfFixture>
@@ -67,14 +67,14 @@
 <SfFixture @ref="fixture1" TestAsync="CheckingMarkerApiDynamicUpdate" Description="CheckingMarkerApiDynamicUpdate">
     <ComponentUnderTest>
         <SfChart ID="conatiner">
-            <ChartSeriesCollection>
+            
                 <ChartSeries DataSource="@ConsumerReports" XName="X" YName="Y" Type="ChartSeriesType.Line">
                     <ChartMarker Visible="true" Height="@MarkerHeight" Width="@MarkerWidth" Fill="@MarkerFill" Opacity="@MarkerOpacity">
                         <ChartDataLabel Visible="true"></ChartDataLabel>
                         <ChartMarkerBorder Width="@MarkerBorderWidth" Color="@MarkerBorderColor"></ChartMarkerBorder>
                     </ChartMarker>
                 </ChartSeries>
-            </ChartSeriesCollection>
+            
         </SfChart>
     </ComponentUnderTest>
 </SfFixture>

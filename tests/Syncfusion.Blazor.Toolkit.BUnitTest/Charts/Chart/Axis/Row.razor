@@ -24,14 +24,14 @@
                     <ChartBorder Width="4" Color="Blue"></ChartBorder>
                 </ChartRow>
             </ChartRows>
-            <ChartSeriesCollection>
+            
                 <ChartSeries DataSource="@rows" Type="ChartSeriesType.Line" Name="Gold" Fill="#ACE5FF" Width="2" XName="x" YName="y">
                     <ChartSeriesAnimation Enable="false"></ChartSeriesAnimation>
                 </ChartSeries>
                 <ChartSeries DataSource="@rows" Type="ChartSeriesType.Line" Name="Silver" Fill="Red" Width="2" XName="x" YName="y1" YAxisName="yAxis1">
                     <ChartSeriesAnimation Enable="false"></ChartSeriesAnimation>
                 </ChartSeries>
-            </ChartSeriesCollection>
+            
         </SfChart>
     </ComponentUnderTest>
 </SfFixture>
@@ -90,14 +90,14 @@
                     <ChartBorder Width="4" Color="Blue"></ChartBorder>
                 </ChartRow>
             </ChartRows>
-            <ChartSeriesCollection>
+            
                 <ChartSeries DataSource="@rows1" Type="ChartSeriesType.Line" Name="Gold" Fill="#ACE5FF" Width="2" XName="x" YName="y">
                     <ChartSeriesAnimation Enable="false"></ChartSeriesAnimation>
                 </ChartSeries>
                 <ChartSeries DataSource="@rows1" Type="ChartSeriesType.Line" Name="Silver" Fill="Red" Width="2" XName="x" YName="y1" YAxisName="yAxis1">
                     <ChartSeriesAnimation Enable="false"></ChartSeriesAnimation>
                 </ChartSeries>
-            </ChartSeriesCollection>
+            
         </SfChart>
     </ComponentUnderTest>
 </SfFixture>
@@ -113,13 +113,13 @@
         // Note: Values may vary slightly depending on screen resolution.
         //Assert.True(svg.GetAttribute("y") == "268.41499999999996");
         var svg1 = cut.Find("#container1_AxisLabel_0");
-        Assert.True(svg1.GetAttribute("y") == "504.9");
-        Assert.True(svg1.GetAttribute("x") == "126.9");
+        Assert.True(svg1.GetAttribute("y") == "509.9");
+        Assert.True(svg1.GetAttribute("x") == "124.30000000000001");
         var svg2 = cut.Find("#container_AxisTitle_2");
-        Assert.True(svg2.GetAttribute("y") == "382.38750000000005");
+        Assert.True(svg2.GetAttribute("y") == "385.63749999999993");
         var svg3 = cut.Find("#container2_AxisLabel_3");
-        Assert.True(svg3.GetAttribute("y") == "276.9");
-        Assert.True(svg3.GetAttribute("x") == "55.2");
+        Assert.True(svg3.GetAttribute("y") == "277.9");
+        Assert.True(svg3.GetAttribute("x") == "55.20000000000002");
         cut.SetParametersAndRender();
     }
     public class RowData1
@@ -167,7 +167,7 @@
                 <ChartRow Height="200">
                 </ChartRow>
             </ChartRows>
-            <ChartSeriesCollection>
+            
                 <ChartSeries DataSource="@rows2" Type="ChartSeriesType.Line" Name="Gold" Fill="#ACE5FF" Width="2" XName="x" YName="y">
                     <ChartSeriesAnimation Enable="false"></ChartSeriesAnimation>
                 </ChartSeries>
@@ -180,7 +180,7 @@
                 <ChartSeries DataSource="@rows2" Type="ChartSeriesType.Line" Name="Silver1" Fill="Blue" Width="2" XName="x" YName="y1" YAxisName="Axis4">
                     <ChartSeriesAnimation Enable="false"></ChartSeriesAnimation>
                 </ChartSeries>
-            </ChartSeriesCollection>
+            
         </SfChart>
     </ComponentUnderTest>
 </SfFixture>
@@ -194,7 +194,7 @@
         await Task.Delay(200);
         var svg = cut.Find("#container1_AxisLabel_6");
         // Note: Values may vary slightly depending on screen resolution.
-        Assert.True(svg.GetAttribute("y") == "138.9");
+        Assert.True(svg.GetAttribute("y") == "143.9");
         Assert.True(svg.GetAttribute("x") == "132.9");
         cut.SetParametersAndRender();
     }
@@ -243,7 +243,7 @@
                     <ChartAxisTitleStyle Size="14px" FontWeight="Regular" Color="#282828" FontFamily="Segoe UI" FontStyle="Normal"></ChartAxisTitleStyle>
                 </ChartAxis>
             </ChartAxes>
-            <ChartSeriesCollection>
+            
                 <ChartSeries DataSource="@rows3" Type="ChartSeriesType.Line" Name="Gold" Fill="#ACE5FF" Width="2" XName="x" YName="y">
                     <ChartSeriesAnimation Enable="false"></ChartSeriesAnimation>
                 </ChartSeries>
@@ -256,7 +256,7 @@
                 <ChartSeries DataSource="@rows3" Type="ChartSeriesType.Line" Name="Silver1" Fill="Blue" Width="2" XName="x" YName="y1" YAxisName="Axis4">
                     <ChartSeriesAnimation Enable="false"></ChartSeriesAnimation>
                 </ChartSeries>
-            </ChartSeriesCollection>
+            
         </SfChart>
     </ComponentUnderTest>
 </SfFixture>
@@ -270,8 +270,8 @@
         await Task.Delay(200);
         var svg = cut.Find("#container1_AxisLabel_6");
         // Note: Values may vary slightly depending on screen resolution.
-        Assert.True(svg.GetAttribute("y") == "138.9");
-        Assert.True(svg.GetAttribute("x") == "61.2");
+        Assert.True(svg.GetAttribute("y") == "143.9");
+        Assert.True(svg.GetAttribute("x") == "58.599999999999994");
         cut.SetParametersAndRender();
     }
     public class RowData3
@@ -314,14 +314,14 @@
                     <ChartBorder Width="4" Color="Blue"></ChartBorder>
                 </ChartRow>
             </ChartRows>
-            <ChartSeriesCollection>
+            
                 <ChartSeries DataSource="@rows4" Type="ChartSeriesType.Line" Name="Gold" Fill="#ACE5FF" Width="2" XName="x" YName="y">
                     <ChartSeriesAnimation Enable="false"></ChartSeriesAnimation>
                 </ChartSeries>
                 <ChartSeries DataSource="@rows4" Type="ChartSeriesType.Line" Name="Silver" Fill="Red" Width="2" XName="x" YName="y1" YAxisName="yAxis1">
                     <ChartSeriesAnimation Enable="false"></ChartSeriesAnimation>
                 </ChartSeries>
-            </ChartSeriesCollection>
+            
         </SfChart>
     </ComponentUnderTest>
 </SfFixture>
@@ -364,11 +364,11 @@
         <SfChart ID="container" Title="Financial Analysis" Height="450" Width="800">
             <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Toolkit.ValueType.Double"></ChartPrimaryXAxis>
             <ChartPrimaryYAxis CrossesAt="6"></ChartPrimaryYAxis>
-            <ChartSeriesCollection>
+            
                 <ChartSeries DataSource="@rows5" Type="ChartSeriesType.Line" Name="Gold" Fill="#ACE5FF" Width="2" XName="x" YName="y">
                     <ChartSeriesAnimation Enable="false"></ChartSeriesAnimation>
                 </ChartSeries>
-            </ChartSeriesCollection>
+            
         </SfChart>
     </ComponentUnderTest>
 </SfFixture>
@@ -410,11 +410,11 @@
         <SfChart ID="container" Title="Financial Analysis" Height="450" Width="800">
             <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Toolkit.ValueType.Double"></ChartPrimaryXAxis>
             <ChartPrimaryYAxis CrossesAt="3" OpposedPosition="true" PlaceNextToAxisLine="false"></ChartPrimaryYAxis>
-            <ChartSeriesCollection>
+            
                 <ChartSeries DataSource="@rows6" Type="ChartSeriesType.Line" Name="Gold" Fill="#ACE5FF" Width="2" XName="x" YName="y">
                     <ChartSeriesAnimation Enable="false"></ChartSeriesAnimation>
                 </ChartSeries>
-            </ChartSeriesCollection>
+            
         </SfChart>
     </ComponentUnderTest>
 </SfFixture>
@@ -462,14 +462,14 @@
             </ChartRows>
             <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Toolkit.ValueType.Category"></ChartPrimaryXAxis>
             <ChartPrimaryYAxis></ChartPrimaryYAxis>
-            <ChartSeriesCollection>
+            
                 <ChartSeries DataSource="@rows7" Type="ChartSeriesType.Line" Name="Gold" Fill="#ACE5FF" Width="2" XName="x" YName="y">
                     <ChartSeriesAnimation Enable="false"></ChartSeriesAnimation>
                 </ChartSeries>
                 <ChartSeries DataSource="@rows7" Type="ChartSeriesType.Line" Name="Gold" Fill="#ACE5FF" Width="2" XName="x" YName="y" YAxisName="yAxis1">
                     <ChartSeriesAnimation Enable="false"></ChartSeriesAnimation>
                 </ChartSeries>
-            </ChartSeriesCollection>
+            
         </SfChart>
     </ComponentUnderTest>
 </SfFixture>
@@ -481,9 +481,9 @@
     {
         var cut = fixture7.GetComponentUnderTest<SfChart>();
         await Task.Delay(200);
-        var svg = cut.Find("#containerAxisLabels0");
+        var svg = cut.Find("#containerAxisLabels1");
         Assert.True(svg.ChildElementCount == 5);
-        var svg1 = cut.Find("#container0_AxisLabel_1");
+        var svg1 = cut.Find("#containerAxisLabels0");
         Assert.True(svg1.ChildElementCount == 3);
         cut.SetParametersAndRender();
     }
@@ -517,14 +517,14 @@
                 <ChartRow Height="50%"></ChartRow>
             </ChartRows>
             <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Toolkit.ValueType.Category" OpposedPosition="true"></ChartPrimaryXAxis>
-            <ChartSeriesCollection>
+            
                 <ChartSeries DataSource="@rows8" Type="ChartSeriesType.Line" Name="Gold" Fill="#ACE5FF" Width="2" XName="x" YName="y">
                     <ChartSeriesAnimation Enable="false"></ChartSeriesAnimation>
                 </ChartSeries>
                 <ChartSeries DataSource="@rows8" Type="ChartSeriesType.Line" Name="Gold" Fill="#ACE5FF" Width="2" XName="x" YName="y" YAxisName="yAxis1">
                     <ChartSeriesAnimation Enable="false"></ChartSeriesAnimation>
                 </ChartSeries>
-            </ChartSeriesCollection>
+            
         </SfChart>
     </ComponentUnderTest>
 </SfFixture>
@@ -575,7 +575,7 @@
                 <ChartRow Height="33%"></ChartRow>
             </ChartRows>
             <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Toolkit.ValueType.Category" Interval="1" EnableTrim="true"></ChartPrimaryXAxis>
-            <ChartSeriesCollection>
+            
                 <ChartSeries DataSource="@rows9" Type="ChartSeriesType.Column" Name="Germany" XName="x" YName="y" YAxisName="yAxis">
                     <ChartSeriesAnimation Enable="false"></ChartSeriesAnimation>
                 </ChartSeries>
@@ -585,7 +585,7 @@
                 <ChartSeries DataSource="@rows9" Type="ChartSeriesType.Column" Name="japan" XName="x" YName="y" YAxisName="yAxis2">
                     <ChartSeriesAnimation Enable="false"></ChartSeriesAnimation>
                 </ChartSeries>
-            </ChartSeriesCollection>
+            
         </SfChart>
     </ComponentUnderTest>
 </SfFixture>
@@ -597,13 +597,13 @@
     {
         var cut = fixture9.GetComponentUnderTest<SfChart>();
         await Task.Delay(200);
-        var svg = cut.Find("#container_AxisTitle_2");
+        var svg = cut.Find("#container_AxisTitle_1");
         // Note: Values may vary slightly depending on screen resolution.
-        Assert.True(svg.TextContent.IndexOf("...") == 18);
-        var svg1 = cut.Find("#container_AxisTitle_3");
-        Assert.True(svg1.TextContent.IndexOf("...") == 18);
-        var svg2 = cut.Find("#container_AxisTitle_4");
-        Assert.True(svg2.TextContent.IndexOf("...") == 18);
+        Assert.True(svg.TextContent.IndexOf("...") == 21);
+        var svg1 = cut.Find("#container_AxisTitle_2");
+        Assert.True(svg1.TextContent.IndexOf("...") == 21);
+        var svg2 = cut.Find("#container_AxisTitle_3");
+        Assert.True(svg2.TextContent.IndexOf("...") == -1);
         cut.SetParametersAndRender();
     }
     public class RowData9
@@ -641,7 +641,7 @@
                 <ChartRow Height="33%"></ChartRow>
             </ChartRows>
             <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Toolkit.ValueType.Category" Interval="1" EnableTrim="true"></ChartPrimaryXAxis>
-            <ChartSeriesCollection>
+            
                 <ChartSeries DataSource="@rows10" Type="ChartSeriesType.Column" Name="Germany" XName="x" YName="y" YAxisName="yAxis">
                     <ChartSeriesAnimation Enable="false"></ChartSeriesAnimation>
                 </ChartSeries>
@@ -651,7 +651,7 @@
                 <ChartSeries DataSource="@rows10" Type="ChartSeriesType.Column" Name="japan" XName="x" YName="y" YAxisName="yAxis2">
                     <ChartSeriesAnimation Enable="false"></ChartSeriesAnimation>
                 </ChartSeries>
-            </ChartSeriesCollection>
+            
         </SfChart>
     </ComponentUnderTest>
 </SfFixture>
@@ -665,14 +665,14 @@
         await Task.Delay(200);
         var svg = cut.Find("#container_AxisTitle_2");
         // Note: Values may vary slightly depending on screen resolution.
-        Assert.True(svg.GetAttribute("x") == "28.700000000000003");
-        Assert.True(svg.GetAttribute("y") == "360.31275");
-        var svg1 = cut.Find("#container_AxisTitle_3");
-        Assert.True(svg1.GetAttribute("x") == "28.700000000000003");
-        Assert.True(svg1.GetAttribute("y") == "249.03825");
-        var svg2 = cut.Find("#container_AxisTitle_4");
-        Assert.True(svg2.GetAttribute("x") == "28.700000000000003");
-        Assert.True(svg2.GetAttribute("y") == "105.85050000000001");
+        Assert.True(svg.GetAttribute("x") == "26.099999999999994");
+        Assert.True(svg.GetAttribute("y") == "249.06424999999996");
+        var svg1 = cut.Find("#container_AxisTitle_1");
+        Assert.True(svg1.GetAttribute("x") == "26.099999999999994");
+        Assert.True(svg1.GetAttribute("y") == "362.05474999999996");
+        var svg2 = cut.Find("#container_AxisTitle_3");
+        Assert.True(svg2.GetAttribute("x") == "26.099999999999994");
+        Assert.True(svg2.GetAttribute("y") == "104.13449999999997");
         cut.SetParametersAndRender();
     }
     public class RowData10
@@ -703,9 +703,9 @@
             <ChartRows>
                 <ChartRow Height="90%" BorderColor="gray" BorderWidth="3" />
             </ChartRows>
-            <ChartSeriesCollection>
+            
                 <ChartSeries DataSource="@WeatherReports" XName="X" YName="Y" Type="ChartSeriesType.Column" />
-            </ChartSeriesCollection>
+            
         </SfChart>
     </ComponentUnderTest>
 </SfFixture>

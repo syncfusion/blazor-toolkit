@@ -17,11 +17,11 @@
                 </ChartArea>
                 <ChartPrimaryXAxis ZoomFactor="0.5" ZoomPosition="0.5" ValueType="Syncfusion.Blazor.Toolkit.ValueType.DateTime" LabelFormat="yyyy" IntervalType="IntervalType.Years" EdgeLabelPlacement="EdgeLabelPlacement.Shift">
                 </ChartPrimaryXAxis>
-                <ChartSeriesCollection>
+                
                     <ChartSeries DataSource="@ChartPoints" Name="John" XName="Period" YName="JohnRevenue" Type="ChartSeriesType.Column">
                         <ChartSeriesAnimation Enable="false"></ChartSeriesAnimation>
                     </ChartSeries>
-                </ChartSeriesCollection>
+                
                 <ChartZoomSettings EnableScrollbar="true" EnableSelectionZooming="true" Mode="ZoomMode.XY"></ChartZoomSettings>
             </SfChart>
         </div>
@@ -101,10 +101,10 @@
                 <ChartZoomSettings EnableMouseWheelZooming="true" EnableScrollbar="true" EnablePinchZooming="true"
                                    EnableSelectionZooming="true"></ChartZoomSettings>
 
-                <ChartSeriesCollection>
+                
                     <ChartSeries DataSource="@SalesDetails" XName="X" YName="Y" Type="ChartSeriesType.Area">
                     </ChartSeries>
-                </ChartSeriesCollection>
+                
 
             </SfChart>
     </ComponentUnderTest>

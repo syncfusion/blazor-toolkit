@@ -11,11 +11,11 @@
             <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Toolkit.ValueType.DateTime" Title="Sales Across Years" IntervalType="IntervalType.Years"
                                Minimum="new DateTime(2000, 06, 01)" Maximum="new DateTime(2010, 06, 01)" Interval="1"></ChartPrimaryXAxis>
             <ChartPrimaryYAxis Title="Sales Amount in millions(USD)" RangePadding="ChartRangePadding.Additional"></ChartPrimaryYAxis>
-            <ChartSeriesCollection>
+            
                 <ChartSeries DataSource="@DateValue" XName="X" YName="Y" Name="series1" Type="ChartSeriesType.Line" Fill="#ACE5FF" Width="2">
                     <ChartSeriesAnimation Enable="false"></ChartSeriesAnimation>
                 </ChartSeries>
-            </ChartSeriesCollection>
+            
             <ChartLegendSettings Visible="false"></ChartLegendSettings>
         </SfChart>
     </ComponentUnderTest>
@@ -68,11 +68,11 @@
             <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Toolkit.ValueType.DateTime" Title="Sales Across Years" LabelIntersectAction="LabelIntersectAction.None"
                                RangePadding="ChartRangePadding.Additional"></ChartPrimaryXAxis>
 
-            <ChartSeriesCollection>
+            
                 <ChartSeries DataSource="@DateValue1" XName="X" YName="Y" Name="series1" Type="ChartSeriesType.Line" Fill="#ACE5FF" Width="2">
                     <ChartSeriesAnimation Enable="false"></ChartSeriesAnimation>
                 </ChartSeries>
-            </ChartSeriesCollection>
+            
             <ChartLegendSettings Visible="false"></ChartLegendSettings>
         </SfChart>
     </ComponentUnderTest>
@@ -115,11 +115,11 @@
             <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Toolkit.ValueType.DateTime" Title="Sales Across Years" LabelIntersectAction="LabelIntersectAction.Hide"
                                RangePadding="ChartRangePadding.None" ZoomFactor="0.7" ZoomPosition="0.2"></ChartPrimaryXAxis>
             <ChartPrimaryYAxis RangePadding="ChartRangePadding.Normal"></ChartPrimaryYAxis>
-            <ChartSeriesCollection>
+            
                 <ChartSeries DataSource="@DateValue2" XName="X" YName="Y" Name="series1" Type="ChartSeriesType.Line" Fill="#ACE5FF" Width="2">
                     <ChartSeriesAnimation Enable="false"></ChartSeriesAnimation>
                 </ChartSeries>
-            </ChartSeriesCollection>
+            
             <ChartLegendSettings Visible="false"></ChartLegendSettings>
         </SfChart>
     </ComponentUnderTest>
@@ -162,11 +162,11 @@
             <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Toolkit.ValueType.DateTime"
                                RangePadding="ChartRangePadding.Round" ZoomFactor="1" ZoomPosition="0"></ChartPrimaryXAxis>
             <ChartPrimaryYAxis RangePadding="ChartRangePadding.Normal"></ChartPrimaryYAxis>
-            <ChartSeriesCollection>
+            
                 <ChartSeries DataSource="@DateValue3" XName="X" YName="Y" Name="series1" Type="ChartSeriesType.Line" Fill="#ACE5FF" Width="2">
                     <ChartSeriesAnimation Enable="false"></ChartSeriesAnimation>
                 </ChartSeries>
-            </ChartSeriesCollection>
+            
             <ChartLegendSettings Visible="false"></ChartLegendSettings>
         </SfChart>
     </ComponentUnderTest>
@@ -205,11 +205,11 @@
         <SfChart ID="container" Height="450">
             <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Toolkit.ValueType.DateTime"
                                RangePadding="ChartRangePadding.Round"></ChartPrimaryXAxis>
-            <ChartSeriesCollection>
+            
                 <ChartSeries DataSource="@DateValue4" XName="X" YName="Y" Name="series1" Type="ChartSeriesType.Line" Fill="#ACE5FF" Width="2">
                     <ChartSeriesAnimation Enable="false"></ChartSeriesAnimation>
                 </ChartSeries>
-            </ChartSeriesCollection>
+            
             <ChartLegendSettings Visible="false"></ChartLegendSettings>
         </SfChart>
     </ComponentUnderTest>
@@ -248,11 +248,11 @@
         <SfChart ID="container" Height="450">
             <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Toolkit.ValueType.DateTime"
                                RangePadding="ChartRangePadding.Round"></ChartPrimaryXAxis>
-            <ChartSeriesCollection>
+            
                 <ChartSeries DataSource="@DateValue5" XName="X" YName="Y" Name="series1" Type="ChartSeriesType.Line" Fill="#ACE5FF" Width="2">
                     <ChartSeriesAnimation Enable="false"></ChartSeriesAnimation>
                 </ChartSeries>
-            </ChartSeriesCollection>
+            
             <ChartLegendSettings Visible="false"></ChartLegendSettings>
         </SfChart>
     </ComponentUnderTest>
@@ -291,11 +291,11 @@
         <SfChart @ref="chart6" ID="container" Height="600" Width="900">
             <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Toolkit.ValueType.DateTime" Title="Sales Across Years" IntervalType="IntervalType.Months"
                                Minimum="new DateTime(2000, 06, 01)" Maximum="new DateTime(2005, 07, 01)"></ChartPrimaryXAxis>
-            <ChartSeriesCollection>
+            
                 <ChartSeries DataSource="@DateValue6" XName="X" YName="Y" Name="series1" Type="ChartSeriesType.Line" Fill="#ACE5FF" Width="2">
                     <ChartSeriesAnimation Enable="false"></ChartSeriesAnimation>
                 </ChartSeries>
-            </ChartSeriesCollection>
+            
             <ChartLegendSettings Visible="false"></ChartLegendSettings>
         </SfChart>
     </ComponentUnderTest>
@@ -352,11 +352,11 @@
         <SfChart @ref="chart7" ID="container" Height="600" Width="900">
             <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Toolkit.ValueType.DateTime" Title="Sales Across Years" IntervalType="IntervalType.Days"
                                Minimum="new DateTime(2000, 06, 01)" Maximum="new DateTime(2000, 09, 01)"></ChartPrimaryXAxis>
-            <ChartSeriesCollection>
+            
                 <ChartSeries DataSource="@DateValue7" XName="X" YName="Y" Name="series1" Type="ChartSeriesType.Line" Fill="#ACE5FF" Width="2">
                     <ChartSeriesAnimation Enable="false"></ChartSeriesAnimation>
                 </ChartSeries>
-            </ChartSeriesCollection>
+            
             <ChartLegendSettings Visible="false"></ChartLegendSettings>
         </SfChart>
     </ComponentUnderTest>
@@ -413,11 +413,11 @@
         <SfChart @ref="chart8" ID="container" Height="600" Width="900">
             <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Toolkit.ValueType.DateTime" Title="Sales Across Years" IntervalType="IntervalType.Hours"
                                Minimum="new DateTime(2000, 06, 01, 03, 00, 00)" Maximum="new DateTime(2000, 07, 01, 00, 00, 00)"></ChartPrimaryXAxis>
-            <ChartSeriesCollection>
+            
                 <ChartSeries DataSource="@DateValue8" XName="X" YName="Y" Name="series1" Type="ChartSeriesType.Line" Fill="#ACE5FF" Width="2">
                     <ChartSeriesAnimation Enable="false"></ChartSeriesAnimation>
                 </ChartSeries>
-            </ChartSeriesCollection>
+            
             <ChartLegendSettings Visible="false"></ChartLegendSettings>
         </SfChart>
     </ComponentUnderTest>
@@ -469,11 +469,11 @@
         <SfChart @ref="chart9" ID="container" Height="600" Width="900">
             <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Toolkit.ValueType.DateTime" Title="Sales Across Years" IntervalType="IntervalType.Minutes"
                                Minimum="new DateTime(2000, 06, 01, 04, 00, 00)" Maximum="new DateTime(2000, 06, 01, 06, 00, 00)"></ChartPrimaryXAxis>
-            <ChartSeriesCollection>
+            
                 <ChartSeries DataSource="@DateValue9" XName="X" YName="Y" Name="series1" Type="ChartSeriesType.Line" Fill="#ACE5FF" Width="2">
                     <ChartSeriesAnimation Enable="false"></ChartSeriesAnimation>
                 </ChartSeries>
-            </ChartSeriesCollection>
+            
             <ChartLegendSettings Visible="false"></ChartLegendSettings>
         </SfChart>
     </ComponentUnderTest>
@@ -530,11 +530,11 @@
         <SfChart @ref="chart10"  ID="container" Height="600" Width="900">
             <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Toolkit.ValueType.DateTime" Title="Sales Across Years" IntervalType="IntervalType.Seconds"
                                Minimum="new DateTime(2000, 06, 01, 01, 00, 00)" Maximum="new DateTime(2000, 06, 01, 02, 00, 00)"></ChartPrimaryXAxis>
-            <ChartSeriesCollection>
+            
                 <ChartSeries DataSource="@DateValue10" XName="X" YName="Y" Name="series1" Type="ChartSeriesType.Line" Fill="#ACE5FF" Width="2">
                     <ChartSeriesAnimation Enable="false"></ChartSeriesAnimation>
                 </ChartSeries>
-            </ChartSeriesCollection>
+            
             <ChartLegendSettings Visible="false"></ChartLegendSettings>
         </SfChart>
     </ComponentUnderTest>
@@ -586,11 +586,11 @@
         <SfChart @ref="chart11" ID="container" Height="600" Width="900">
             <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Toolkit.ValueType.DateTime" Title="Sales Across Years" IntervalType="IntervalType.Years"
                                RangePadding="ChartRangePadding.Additional" ZoomFactor="1" ZoomPosition="0"></ChartPrimaryXAxis>
-            <ChartSeriesCollection>
+            
                 <ChartSeries DataSource="@DateValue11" XName="X" YName="Y" Name="series1" Type="ChartSeriesType.Line" Fill="#ACE5FF" Width="2">
                     <ChartSeriesAnimation Enable="false"></ChartSeriesAnimation>
                 </ChartSeries>
-            </ChartSeriesCollection>
+            
             <ChartLegendSettings Visible="false"></ChartLegendSettings>
         </SfChart>
     </ComponentUnderTest>
@@ -643,11 +643,11 @@
         <SfChart ID="container" Height="600" Width="900">
             <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Toolkit.ValueType.DateTime" Title="Sales Across Years"
                                RangePadding="ChartRangePadding.Round"></ChartPrimaryXAxis>
-            <ChartSeriesCollection>
+            
                 <ChartSeries DataSource="@DateValue12" XName="X" YName="Y" Name="series1" Type="ChartSeriesType.Line" Fill="#ACE5FF" Width="2">
                     <ChartSeriesAnimation Enable="false"></ChartSeriesAnimation>
                 </ChartSeries>
-            </ChartSeriesCollection>
+            
             <ChartLegendSettings Visible="false"></ChartLegendSettings>
         </SfChart>
     </ComponentUnderTest>
@@ -687,11 +687,11 @@
         <SfChart ID="container" Height="600" Width="900">
             <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Toolkit.ValueType.DateTime" Title="Sales Across Years" IntervalType="IntervalType.Months"
                                RangePadding="ChartRangePadding.Additional"></ChartPrimaryXAxis>
-            <ChartSeriesCollection>
+            
                 <ChartSeries DataSource="@DateValue13" XName="X" YName="Y" Name="series1" Type="ChartSeriesType.Line" Fill="#ACE5FF" Width="2">
                     <ChartSeriesAnimation Enable="false"></ChartSeriesAnimation>
                 </ChartSeries>
-            </ChartSeriesCollection>
+            
             <ChartLegendSettings Visible="false"></ChartLegendSettings>
         </SfChart>
     </ComponentUnderTest>
@@ -732,11 +732,11 @@
         <SfChart ID="container" Height="600" Width="900">
             <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Toolkit.ValueType.DateTime" Title="Sales Across Years" IntervalType="IntervalType.Months"
                                RangePadding="ChartRangePadding.Round"></ChartPrimaryXAxis>
-            <ChartSeriesCollection>
+            
                 <ChartSeries DataSource="@DateValue14" XName="X" YName="Y" Name="series1" Type="ChartSeriesType.Line" Fill="#ACE5FF" Width="2">
                     <ChartSeriesAnimation Enable="false"></ChartSeriesAnimation>
                 </ChartSeries>
-            </ChartSeriesCollection>
+            
             <ChartLegendSettings Visible="false"></ChartLegendSettings>
         </SfChart>
     </ComponentUnderTest>
@@ -777,11 +777,11 @@
 <SfChart @ref="chart" ID="container" Height="600" Width="900">
 <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Toolkit.ValueType.DateTime" Title="Sales Across Years" IntervalType="IntervalType.Days"
 RangePadding="ChartRangePadding.Additional"></ChartPrimaryXAxis>
-<ChartSeriesCollection>
+
 <ChartSeries DataSource="@DateValue15" XName="X" YName="Y" Name="series1" Type="ChartSeriesType.Line" Fill="#ACE5FF" Width="2">
 <ChartSeriesAnimation Enable="false"></ChartSeriesAnimation>
 </ChartSeries>
-</ChartSeriesCollection>
+
 <ChartLegendSettings Visible="false"></ChartLegendSettings>
 </SfChart>
 </ComponentUnderTest>
@@ -838,11 +838,11 @@ new DateTimeData15{ X = new DateTime(2000, 09, 21, 00, 00, 00), Y = 45}
         <SfChart @ref="chart16" ID="container" Height="600" Width="900">
             <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Toolkit.ValueType.DateTime" Title="Sales Across Years" IntervalType="IntervalType.Days"
                                RangePadding="ChartRangePadding.Round"></ChartPrimaryXAxis>
-            <ChartSeriesCollection>
+            
                 <ChartSeries DataSource="@DateValue16" XName="X" YName="Y" Name="series1" Type="ChartSeriesType.Line" Fill="#ACE5FF" Width="2">
                     <ChartSeriesAnimation Enable="false"></ChartSeriesAnimation>
                 </ChartSeries>
-            </ChartSeriesCollection>
+            
             <ChartLegendSettings Visible="false"></ChartLegendSettings>
         </SfChart>
     </ComponentUnderTest>
@@ -895,11 +895,11 @@ new DateTimeData15{ X = new DateTime(2000, 09, 21, 00, 00, 00), Y = 45}
         <SfChart ID="container" Height="600" Width="900">
             <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Toolkit.ValueType.DateTime" Title="Sales Across Years" EdgeLabelPlacement="EdgeLabelPlacement.Hide"
                                LabelIntersectAction="LabelIntersectAction.Rotate90" IntervalType="IntervalType.Months"></ChartPrimaryXAxis>
-            <ChartSeriesCollection>
+            
                 <ChartSeries DataSource="@DateValue17" XName="X" YName="Y" Name="series1" Type="ChartSeriesType.Line" Fill="#ACE5FF" Width="2">
                     <ChartSeriesAnimation Enable="false"></ChartSeriesAnimation>
                 </ChartSeries>
-            </ChartSeriesCollection>
+            
             <ChartLegendSettings Visible="false"></ChartLegendSettings>
         </SfChart>
     </ComponentUnderTest>
@@ -941,11 +941,11 @@ new DateTimeData15{ X = new DateTime(2000, 09, 21, 00, 00, 00), Y = 45}
             <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Toolkit.ValueType.DateTime" ZoomFactor="0.7" Title="Sales Across Years" RangePadding="ChartRangePadding.Auto"
                                EnableAutoIntervalOnZooming="false"></ChartPrimaryXAxis>
             <ChartPrimaryYAxis RangePadding="ChartRangePadding.Auto"></ChartPrimaryYAxis>
-            <ChartSeriesCollection>
+            
                 <ChartSeries DataSource="@DateValue18" XName="X" YName="Y" Name="series1" Type="ChartSeriesType.Bar" Fill="#ACE5FF" Width="2">
                     <ChartSeriesAnimation Enable="false"></ChartSeriesAnimation>
                 </ChartSeries>
-            </ChartSeriesCollection>
+            
             <ChartLegendSettings Visible="false"></ChartLegendSettings>
         </SfChart>
     </ComponentUnderTest>
@@ -990,11 +990,11 @@ new DateTimeData15{ X = new DateTime(2000, 09, 21, 00, 00, 00), Y = 45}
             <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Toolkit.ValueType.DateTime" LabelRotation="-45" Title="Sales Across Years"></ChartPrimaryXAxis>
 
             <ChartPrimaryYAxis RangePadding="ChartRangePadding.Auto"></ChartPrimaryYAxis>
-            <ChartSeriesCollection>
+            
                 <ChartSeries DataSource="@DateValue19" XName="X" YName="Y" Name="series1" Type="ChartSeriesType.Line" Fill="#ACE5FF" Width="2">
                     <ChartSeriesAnimation Enable="false"></ChartSeriesAnimation>
                 </ChartSeries>
-            </ChartSeriesCollection>
+            
             <ChartLegendSettings Visible="false"></ChartLegendSettings>
         </SfChart>
     </ComponentUnderTest>
@@ -1039,11 +1039,11 @@ new DateTimeData15{ X = new DateTime(2000, 09, 21, 00, 00, 00), Y = 45}
         <SfChart ID="container">
             <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Toolkit.ValueType.DateTime" EdgeLabelPlacement="EdgeLabelPlacement.Shift" Title="Sales Across Years"></ChartPrimaryXAxis>
 
-            <ChartSeriesCollection>
+            
                 <ChartSeries DataSource="@DateValue20" XName="X" YName="Y" Name="series1" Type="ChartSeriesType.Line" Fill="#ACE5FF" Width="2">
                     <ChartSeriesAnimation Enable="false"></ChartSeriesAnimation>
                 </ChartSeries>
-            </ChartSeriesCollection>
+            
             <ChartLegendSettings Visible="false"></ChartLegendSettings>
         </SfChart>
     </ComponentUnderTest>
@@ -1088,11 +1088,11 @@ new DateTimeData15{ X = new DateTime(2000, 09, 21, 00, 00, 00), Y = 45}
             <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Toolkit.ValueType.DateTime" EdgeLabelPlacement="EdgeLabelPlacement.Shift" Title="Sales Across Years"
                                LabelRotation="0" MinorTicksPerInterval="3"></ChartPrimaryXAxis>
 
-            <ChartSeriesCollection>
+            
                 <ChartSeries DataSource="@DateValue21" XName="X" YName="Y" Name="series1" Type="ChartSeriesType.Line" Fill="#ACE5FF" Width="2">
                     <ChartSeriesAnimation Enable="false"></ChartSeriesAnimation>
                 </ChartSeries>
-            </ChartSeriesCollection>
+            
             <ChartLegendSettings Visible="false"></ChartLegendSettings>
         </SfChart>
     </ComponentUnderTest>
@@ -1138,11 +1138,11 @@ new DateTimeData15{ X = new DateTime(2000, 09, 21, 00, 00, 00), Y = 45}
             <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Toolkit.ValueType.DateTime" EdgeLabelPlacement="EdgeLabelPlacement.Shift" Title="Sales Across Years"
                                LabelIntersectAction="LabelIntersectAction.Rotate45" Interval="7" MinorTicksPerInterval="0"></ChartPrimaryXAxis>
 
-            <ChartSeriesCollection>
+            
                 <ChartSeries DataSource="@DateValue22" XName="X" YName="Y" Name="series1" Type="ChartSeriesType.Line" Fill="#ACE5FF" Width="2">
                     <ChartSeriesAnimation Enable="false"></ChartSeriesAnimation>
                 </ChartSeries>
-            </ChartSeriesCollection>
+            
             <ChartLegendSettings Visible="false"></ChartLegendSettings>
         </SfChart>
     </ComponentUnderTest>
@@ -1193,11 +1193,11 @@ new DateTimeData15{ X = new DateTime(2000, 09, 21, 00, 00, 00), Y = 45}
         <SfChart @ref="chart23" ID="container">
             <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Toolkit.ValueType.DateTime" Title="Sales Across Years" IsInversed="true"></ChartPrimaryXAxis>
 
-            <ChartSeriesCollection>
+            
                 <ChartSeries DataSource="@DateValue23" XName="X" YName="Y" Name="Gold" Type="ChartSeriesType.Line" Fill="rgba(135,206,235,1)" Width="2">
                     <ChartSeriesAnimation Enable="false"></ChartSeriesAnimation>
                 </ChartSeries>
-            </ChartSeriesCollection>
+            
             <ChartLegendSettings Visible="false"></ChartLegendSettings>
         </SfChart>
     </ComponentUnderTest>
@@ -1243,11 +1243,11 @@ new DateTimeData15{ X = new DateTime(2000, 09, 21, 00, 00, 00), Y = 45}
         <SfChart ID="container" Width="900" Height="600">
             <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Toolkit.ValueType.DateTime" LabelFormat="dd<br>MMM<br>yyyy" Title="Sales Across Years"></ChartPrimaryXAxis>
             <ChartPrimaryYAxis></ChartPrimaryYAxis>
-            <ChartSeriesCollection>
+            
                 <ChartSeries DataSource="@DateValue24" XName="X" YName="Y" Name="Gold" Type="ChartSeriesType.Line">
                     <ChartSeriesAnimation Enable="false"></ChartSeriesAnimation>
                 </ChartSeries>
-            </ChartSeriesCollection>
+            
             <ChartLegendSettings Visible="false"></ChartLegendSettings>
         </SfChart>
     </ComponentUnderTest>
@@ -1294,11 +1294,11 @@ new DateTimeData15{ X = new DateTime(2000, 09, 21, 00, 00, 00), Y = 45}
         <SfChart ID="container" Width="900" Height="600">
             <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Toolkit.ValueType.DateTime" LabelFormat="dd<br>MMM<br>yyyy" Title="Sales Across Years" IsInversed="true"></ChartPrimaryXAxis>
             <ChartPrimaryYAxis></ChartPrimaryYAxis>
-            <ChartSeriesCollection>
+            
                 <ChartSeries DataSource="@DateValue25" XName="X" YName="Y" Name="Gold" Type="ChartSeriesType.Line">
                     <ChartSeriesAnimation Enable="false"></ChartSeriesAnimation>
                 </ChartSeries>
-            </ChartSeriesCollection>
+            
             <ChartLegendSettings Visible="false"></ChartLegendSettings>
         </SfChart>
     </ComponentUnderTest>
@@ -1344,11 +1344,11 @@ new DateTimeData15{ X = new DateTime(2000, 09, 21, 00, 00, 00), Y = 45}
         <SfChart ID="container" Width="900" Height="600">
             <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Toolkit.ValueType.DateTime" LabelFormat="dd<br>MMM<br>yyyy" Title="Sales Across Years" IsInversed="false" OpposedPosition="true"></ChartPrimaryXAxis>
             <ChartPrimaryYAxis></ChartPrimaryYAxis>
-            <ChartSeriesCollection>
+            
                 <ChartSeries DataSource="@DateValue26" XName="X" YName="Y" Name="Gold" Type="ChartSeriesType.Line">
                     <ChartSeriesAnimation Enable="false"></ChartSeriesAnimation>
                 </ChartSeries>
-            </ChartSeriesCollection>
+            
             <ChartLegendSettings Visible="false"></ChartLegendSettings>
         </SfChart>
     </ComponentUnderTest>
@@ -1396,11 +1396,11 @@ new DateTimeData15{ X = new DateTime(2000, 09, 21, 00, 00, 00), Y = 45}
             <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Toolkit.ValueType.DateTime" Title="Sales Across Years"
                                IntervalType="IntervalType.Years" Minimum="new DateTime(2000, 06, 01)" Maximum="new DateTime(2010, 06,01)" Interval="1.4"></ChartPrimaryXAxis>
             <ChartPrimaryYAxis Title="Sales Amount in millions(USD)"></ChartPrimaryYAxis>
-            <ChartSeriesCollection>
+            
                 <ChartSeries DataSource="@DateValue27" XName="X" YName="Y" Name="Gold" Type="ChartSeriesType.Line">
                     <ChartSeriesAnimation Enable="false"></ChartSeriesAnimation>
                 </ChartSeries>
-            </ChartSeriesCollection>
+            
             <ChartLegendSettings Visible="false"></ChartLegendSettings>
         </SfChart>
     </ComponentUnderTest>
@@ -1446,11 +1446,11 @@ new DateTimeData15{ X = new DateTime(2000, 09, 21, 00, 00, 00), Y = 45}
             <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Toolkit.ValueType.DateTime" Title="Sales Across Years"
                                IntervalType="IntervalType.Months" Minimum="new DateTime(2000, 01, 01)" Maximum="new DateTime(2000, 11, 01)" Interval="0.5"></ChartPrimaryXAxis>
             <ChartPrimaryYAxis Title="Sales Amount in millions(USD)"></ChartPrimaryYAxis>
-            <ChartSeriesCollection>
+            
                 <ChartSeries DataSource="@DateValue28" XName="X" YName="Y" Name="Gold" Type="ChartSeriesType.Line">
                     <ChartSeriesAnimation Enable="false"></ChartSeriesAnimation>
                 </ChartSeries>
-            </ChartSeriesCollection>
+            
             <ChartLegendSettings Visible="false"></ChartLegendSettings>
         </SfChart>
     </ComponentUnderTest>
@@ -1491,10 +1491,10 @@ new DateTimeData15{ X = new DateTime(2000, 09, 21, 00, 00, 00), Y = 45}
             <ChartPrimaryXAxis RangePadding="ChartRangePadding.Round" ValueType="Syncfusion.Blazor.Toolkit.ValueType.DateTime" IntervalType="IntervalType.Minutes">
             </ChartPrimaryXAxis>
 
-            <ChartSeriesCollection>
+            
                 <ChartSeries DataSource="@WeatherReports" XName="XValue" YName="YValue" Type="ChartSeriesType.Line">
                 </ChartSeries>
-            </ChartSeriesCollection>
+            
         </SfChart>
     </ComponentUnderTest>
 </SfFixture>
@@ -1529,10 +1529,10 @@ new DateTimeData15{ X = new DateTime(2000, 09, 21, 00, 00, 00), Y = 45}
             <ChartPrimaryXAxis RangePadding="ChartRangePadding.Round" ValueType="Syncfusion.Blazor.Toolkit.ValueType.DateTime" IntervalType="IntervalType.Seconds">
             </ChartPrimaryXAxis>
 
-            <ChartSeriesCollection>
+            
                 <ChartSeries DataSource="@WeatherReports" XName="XValue" YName="YValue" Type="ChartSeriesType.Line">
                 </ChartSeries>
-            </ChartSeriesCollection>
+            
         </SfChart>
     </ComponentUnderTest>
 </SfFixture>

@@ -10,7 +10,7 @@
         <SfChart ID="container" Title="Chart Ts Title">
             <ChartPrimaryXAxis Title="PrimaryXAxis"></ChartPrimaryXAxis>
             <ChartPrimaryYAxis Title="PrimaryYAxis"></ChartPrimaryYAxis>
-            <ChartSeriesCollection>
+            
                 <ChartSeries DataSource="@Sales" XName="x" YName="y" Type="ChartSeriesType.StackingLine">
                     <ChartEmptyPointSettings Mode="EmptyPointMode.Average"></ChartEmptyPointSettings>
                     <ChartSeriesAnimation Enable="false"></ChartSeriesAnimation>
@@ -39,7 +39,7 @@
                         <ChartDataLabel Visible="true"></ChartDataLabel>
                     </ChartMarker>
                 </ChartSeries>
-            </ChartSeriesCollection>
+            
         </SfChart>
     </ComponentUnderTest>
 </SfFixture>
@@ -90,7 +90,7 @@
         <SfChart ID="container" Title="Chart Ts Title">
             <ChartPrimaryXAxis Title="PrimaryXAxis"></ChartPrimaryXAxis>
             <ChartPrimaryYAxis Title="PrimaryYAxis"></ChartPrimaryYAxis>
-            <ChartSeriesCollection>
+            
                 <ChartSeries DataSource="@Sales1" XName="x" YName="y" Type="ChartSeriesType.StackingLine100">
                     <ChartEmptyPointSettings Mode="EmptyPointMode.Average"></ChartEmptyPointSettings>
                     <ChartSeriesAnimation Enable="false"></ChartSeriesAnimation>
@@ -119,7 +119,7 @@
                         <ChartDataLabel Visible="true"></ChartDataLabel>
                     </ChartMarker>
                 </ChartSeries>
-            </ChartSeriesCollection>
+            
         </SfChart>
     </ComponentUnderTest>
 </SfFixture>

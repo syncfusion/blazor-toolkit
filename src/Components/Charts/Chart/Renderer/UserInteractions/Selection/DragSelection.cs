@@ -304,11 +304,14 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
         /// <param name="selectedPointValues">The list of selected point values.</param>
         private void InvokeSelectionChangedEvent(List<PointXY> selectedPointValues)
         {
-            _chartInstance?.OnSelectionChanged.Invoke(new SelectionCompleteEventArgs
+            if (_chartInstance?.OnSelectionChanged != null)
             {
-                SelectedDataValues = selectedPointValues,
-                Name = Constants.OnSelectionChanged
-            });
+                _chartInstance?.OnSelectionChanged.Invoke(new SelectionCompleteEventArgs
+                {
+                    SelectedDataValues = selectedPointValues,
+                    Name = Constants.OnSelectionChanged
+                });
+            }
 
         }
 

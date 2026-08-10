@@ -9,11 +9,11 @@
     <ComponentUnderTest>
         <SfChart ID="container" Title="Step Position Customization" IsTransposed="false">
             <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Toolkit.ValueType.Category" LabelPlacement="LabelPlacement.OnTicks"/>
-            <ChartSeriesCollection>
+            
                 <ChartSeries DataSource="@MedalDetails" Name="StepLine" XName="X" YName="Y" Type="ChartSeriesType.StepLine" StepPosition="StepPosition.Left">
                     <ChartMarker Visible="true"></ChartMarker>
                 </ChartSeries>
-            </ChartSeriesCollection>
+            
         </SfChart>
     </ComponentUnderTest>
 </SfFixture>
@@ -28,11 +28,11 @@
         var marker = cut.Find("#container_Series_0_Point_1_Symbol");
         // Note: Values may vary slightly depending on screen resolution.
         Assert.True(marker.GetAttribute("cx") == "50.68181818181818");
-        Assert.True(marker.GetAttribute("cy") == "231.42935714285713");
+        Assert.True(marker.GetAttribute("cy") == "235.0470714285714");
         var series = cut.Find("#container_Series_0");
         var pathDirection = series.GetAttribute("d").Split("L");
-        Assert.True(pathDirection[2].Trim() == "50.68181818181818 145.41557142857144");
-        Assert.True(pathDirection[3].Trim() == "50.68181818181818 231.42935714285713");
+        Assert.True(pathDirection[2].Trim() == "50.68181818181818 147.68871428571427");
+        Assert.True(pathDirection[3].Trim() == "50.68181818181818 235.0470714285714");
         cut.SetParametersAndRender();
     }
 
@@ -68,11 +68,11 @@
     <ComponentUnderTest>
         <SfChart ID="container" Title="Step Position Customization" IsTransposed="false">
             <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Toolkit.ValueType.Category" LabelPlacement="LabelPlacement.OnTicks" />
-            <ChartSeriesCollection>
+            
                 <ChartSeries DataSource="@MedalDetails1" Name="StepLine" XName="X" YName="Y" Type="ChartSeriesType.StepLine" StepPosition="StepPosition.Right">
                     <ChartMarker Visible="true"></ChartMarker>
                 </ChartSeries>
-            </ChartSeriesCollection>
+            
         </SfChart>
     </ComponentUnderTest>
 </SfFixture>
@@ -86,11 +86,11 @@
         var marker = cut.Find("#container_Series_0_Point_1_Symbol");
         // Note: Values may vary slightly depending on screen resolution.
         Assert.True(marker.GetAttribute("cx") == "50.68181818181818");
-        Assert.True(marker.GetAttribute("cy") == "231.42935714285713");
+        Assert.True(marker.GetAttribute("cy") == "235.0470714285714");
         var series = cut.Find("#container_Series_0");
         var pathDirection = series.GetAttribute("d").Split("L");
-        Assert.True(pathDirection[2].Trim() == "0 231.42935714285713");
-        Assert.True(pathDirection[3].Trim() == "50.68181818181818 231.42935714285713");
+        Assert.True(pathDirection[2].Trim() == "0 235.0470714285714");
+        Assert.True(pathDirection[3].Trim() == "50.68181818181818 235.0470714285714");
         cut.SetParametersAndRender();
     }
 
@@ -126,11 +126,11 @@
     <ComponentUnderTest>
         <SfChart ID="container" Title="Step Position Customization" IsTransposed="false">
             <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Toolkit.ValueType.Category" LabelPlacement="LabelPlacement.OnTicks" />
-            <ChartSeriesCollection>
+            
                 <ChartSeries DataSource="@MedalDetails2" Name="StepLine" XName="X" YName="Y" Type="ChartSeriesType.StepLine" StepPosition="StepPosition.Center">
                     <ChartMarker Visible="true"></ChartMarker>
                 </ChartSeries>
-            </ChartSeriesCollection>
+            
         </SfChart>
     </ComponentUnderTest>
 </SfFixture>
@@ -144,12 +144,12 @@
         var marker = cut.Find("#container_Series_0_Point_1_Symbol");
         // Note: Values may vary slightly depending on screen resolution.
         Assert.True(marker.GetAttribute("cx") == "50.68181818181818");
-        Assert.True(marker.GetAttribute("cy") == "231.42935714285713");
+        Assert.True(marker.GetAttribute("cy") == "235.0470714285714");
         var series = cut.Find("#container_Series_0");
         var pathDirection = series.GetAttribute("d").Split("L");
-        Assert.True(pathDirection[2].Trim() == "25.34090909090909 145.41557142857144");
-        Assert.True(pathDirection[3].Trim() == "25.34090909090909 231.42935714285713");
-        Assert.True(pathDirection[4].Trim() == "50.68181818181818 231.42935714285713");
+        Assert.True(pathDirection[2].Trim() == "25.34090909090909 147.68871428571427");
+        Assert.True(pathDirection[3].Trim() == "25.34090909090909 235.0470714285714");
+        Assert.True(pathDirection[4].Trim() == "50.68181818181818 235.0470714285714");
         cut.SetParametersAndRender();
     }
 
@@ -185,11 +185,11 @@
     <ComponentUnderTest>
         <SfChart ID="container" Title="Step Position Customization" IsTransposed="false">
             <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Toolkit.ValueType.Category" LabelPlacement="LabelPlacement.OnTicks" />
-            <ChartSeriesCollection>
+            
                 <ChartSeries DataSource="@MedalDetails3" XName="X" YName="Y" Type="ChartSeriesType.StepArea" StepPosition="StepPosition.Left">
                     <ChartMarker Visible="true"></ChartMarker>
                 </ChartSeries>
-            </ChartSeriesCollection>
+            
         </SfChart>
     </ComponentUnderTest>
 </SfFixture>
@@ -203,9 +203,9 @@
         var series = cut.Find("#container_Series_0");
         var pathDirection = series.GetAttribute("d").Split("L");
         // Note: Values may vary slightly depending on screen resolution.
-        Assert.True(pathDirection[3].Trim() == "50.68181818181818 160.803");
-        Assert.True(pathDirection[4].Trim() == "50.68181818181818 255.9185");
-        Assert.True(pathDirection[5].Trim() == "101.36363636363636 255.9185");
+        Assert.True(pathDirection[3].Trim() == "50.68181818181818 161.93957142857144");
+        Assert.True(pathDirection[4].Trim() == "50.68181818181818 257.72735714285716");
+        Assert.True(pathDirection[5].Trim() == "101.36363636363636 257.72735714285716");
         cut.SetParametersAndRender();
     }
 
@@ -241,11 +241,11 @@
     <ComponentUnderTest>
         <SfChart ID="container" Title="Step Position Customization" IsTransposed="false">
             <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Toolkit.ValueType.Category" LabelPlacement="LabelPlacement.OnTicks" />
-            <ChartSeriesCollection>
+            
                 <ChartSeries DataSource="@MedalDetails4" XName="X" YName="Y" Type="ChartSeriesType.StepArea" StepPosition="StepPosition.Right">
                     <ChartMarker Visible="true"></ChartMarker>
                 </ChartSeries>
-            </ChartSeriesCollection>
+            
         </SfChart>
     </ComponentUnderTest>
 </SfFixture>
@@ -259,11 +259,11 @@
         var marker = cut.Find("#container_Series_0_Point_1_Symbol");
         // Note: Values may vary slightly depending on screen resolution.
         Assert.True(marker.GetAttribute("cx") == "50.68181818181818");
-        Assert.True(marker.GetAttribute("cy") == "255.9185");
+        Assert.True(marker.GetAttribute("cy") == "257.72735714285716");
         var series = cut.Find("#container_Series_0");
         var pathDirection = series.GetAttribute("d").Split("L");
-        Assert.True(pathDirection[5].Trim() == "50.68181818181818 313.198");
-        Assert.True(pathDirection[6].Trim() == "101.36363636363636 313.198");
+        Assert.True(pathDirection[5].Trim() == "50.68181818181818 315.41171428571425");
+        Assert.True(pathDirection[6].Trim() == "101.36363636363636 315.41171428571425");
         cut.SetParametersAndRender();
     }
 
@@ -299,11 +299,11 @@
     <ComponentUnderTest>
         <SfChart ID="container" Title="Step Position Customization" IsTransposed="false">
             <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Toolkit.ValueType.Category" LabelPlacement="LabelPlacement.OnTicks" />
-            <ChartSeriesCollection>
+            
                 <ChartSeries DataSource="@MedalDetails5" XName="X" YName="Y" Type="ChartSeriesType.StepArea" StepPosition="StepPosition.Center">
                     <ChartMarker Visible="true"></ChartMarker>
                 </ChartSeries>
-            </ChartSeriesCollection>
+            
         </SfChart>
     </ComponentUnderTest>
 </SfFixture>
@@ -317,12 +317,12 @@
         var marker = cut.Find("#container_Series_0_Point_1_Symbol");
         // Note: Values may vary slightly depending on screen resolution.
         Assert.True(marker.GetAttribute("cx") == "50.68181818181818");
-        Assert.True(marker.GetAttribute("cy") == "255.9185");
+        Assert.True(marker.GetAttribute("cy") == "257.72735714285716");
         var series = cut.Find("#container_Series_0");
         var pathDirection = series.GetAttribute("d").Split("L");
-        Assert.True(pathDirection[6].Trim() == "76.02272727272727 255.9185");
-        Assert.True(pathDirection[7].Trim() == "76.02272727272727 313.198");
-        Assert.True(pathDirection[8].Trim() == "101.36363636363636 313.198");
+        Assert.True(pathDirection[6].Trim() == "76.02272727272727 257.72735714285716");
+        Assert.True(pathDirection[7].Trim() == "76.02272727272727 315.41171428571425");
+        Assert.True(pathDirection[8].Trim() == "101.36363636363636 315.41171428571425");
         cut.SetParametersAndRender();
     }
 
@@ -357,14 +357,14 @@
     <ComponentUnderTest>
         <SfChart ID="container" Title="Step Position Customization" IsTransposed="false">
             <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Toolkit.ValueType.Category" LabelPlacement="LabelPlacement.OnTicks" />
-            <ChartSeriesCollection>
+            
                 <ChartSeries DataSource="@MedalDetails9" XName="X" YName="Y" Type="ChartSeriesType.StackingStepArea" StepPosition="StepPosition.Left">
                     <ChartMarker Visible="true"></ChartMarker>
                 </ChartSeries>
                 <ChartSeries DataSource="@MedalDetails9" XName="X" YName="Z" Type="ChartSeriesType.StackingStepArea" StepPosition="StepPosition.Left">
                     <ChartMarker Visible="true"></ChartMarker>
                 </ChartSeries>
-            </ChartSeriesCollection>
+            
         </SfChart>
     </ComponentUnderTest>
 </SfFixture>
@@ -378,9 +378,9 @@
         var series = cut.Find("#container_Series_1");
         var pathDirection = series.GetAttribute("d").Split("L");
         // Note: Values may vary slightly depending on screen resolution.
-        Assert.True(pathDirection[3].Trim() == "50.13636363636364 184.12936111111108");
-        Assert.True(pathDirection[4].Trim() == "50.13636363636364 153.67955555555554");
-        Assert.True(pathDirection[5].Trim() == "100.27272727272728 153.67955555555554");
+        Assert.True(pathDirection[3].Trim() == "50.13636363636364 185.43080555555554");
+        Assert.True(pathDirection[4].Trim() == "50.13636363636364 154.76577777777777");
+        Assert.True(pathDirection[5].Trim() == "100.27272727272728 154.76577777777777");
         cut.SetParametersAndRender();
     }
 
@@ -416,14 +416,14 @@
     <ComponentUnderTest>
         <SfChart ID="container" Title="Step Position Customization" IsTransposed="false">
             <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Toolkit.ValueType.Category" LabelPlacement="LabelPlacement.OnTicks" />
-            <ChartSeriesCollection>
+            
                 <ChartSeries DataSource="@MedalDetails10" XName="X" YName="Y" Type="ChartSeriesType.StackingStepArea" StepPosition="StepPosition.Right">
                     <ChartMarker Visible="true"></ChartMarker>
                 </ChartSeries>
                 <ChartSeries DataSource="@MedalDetails10" XName="X" YName="Z" Type="ChartSeriesType.StackingStepArea" StepPosition="StepPosition.Right">
                     <ChartMarker Visible="true"></ChartMarker>
                 </ChartSeries>
-            </ChartSeriesCollection>
+            
         </SfChart>
     </ComponentUnderTest>
 </SfFixture>
@@ -437,9 +437,9 @@
         var series = cut.Find("#container_Series_1");
         var pathDirection = series.GetAttribute("d").Split("L");
         // Note: Values may vary slightly depending on screen resolution.
-        Assert.True(pathDirection[3].Trim() == "0 153.67955555555554");
-        Assert.True(pathDirection[4].Trim() == "50.13636363636364 153.67955555555554");
-        Assert.True(pathDirection[5].Trim() == "50.13636363636364 218.87074999999996");
+        Assert.True(pathDirection[3].Trim() == "0 154.76577777777777");
+        Assert.True(pathDirection[4].Trim() == "50.13636363636364 154.76577777777777");
+        Assert.True(pathDirection[5].Trim() == "50.13636363636364 220.41774999999998");
         cut.SetParametersAndRender();
     }
 
@@ -475,14 +475,14 @@
     <ComponentUnderTest>
         <SfChart ID="container" Title="Step Position Customization" IsTransposed="false">
             <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Toolkit.ValueType.Category" LabelPlacement="LabelPlacement.OnTicks" />
-            <ChartSeriesCollection>
+            
                 <ChartSeries DataSource="@MedalDetails11" XName="X" YName="Y" Type="ChartSeriesType.StackingStepArea" StepPosition="StepPosition.Center">
                     <ChartMarker Visible="true"></ChartMarker>
                 </ChartSeries>
                 <ChartSeries DataSource="@MedalDetails11" XName="X" YName="Z" Type="ChartSeriesType.StackingStepArea" StepPosition="StepPosition.Center">
                     <ChartMarker Visible="true"></ChartMarker>
                 </ChartSeries>
-            </ChartSeriesCollection>
+            
         </SfChart>
     </ComponentUnderTest>
 </SfFixture>
@@ -496,9 +496,9 @@
         var series = cut.Find("#container_Series_1");
         var pathDirection = series.GetAttribute("d").Split("L");
         // Note: Values may vary slightly depending on screen resolution.
-        Assert.True(pathDirection[3].Trim() == "25.06818181818182 184.12936111111108");
-        Assert.True(pathDirection[4].Trim() == "25.06818181818182 153.67955555555554");
-        Assert.True(pathDirection[5].Trim() == "50.13636363636364 153.67955555555554");
+        Assert.True(pathDirection[3].Trim() == "25.06818181818182 185.43080555555554");
+        Assert.True(pathDirection[4].Trim() == "25.06818181818182 154.76577777777777");
+        Assert.True(pathDirection[5].Trim() == "50.13636363636364 154.76577777777777");
         cut.SetParametersAndRender();
     }
 
@@ -533,11 +533,11 @@
     <ComponentUnderTest>
         <SfChart ID="container" Title="Step Position Customization" IsTransposed="false">
             <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Toolkit.ValueType.Category" LabelPlacement="LabelPlacement.BetweenTicks" />
-            <ChartSeriesCollection>
+            
                 <ChartSeries DataSource="@MedalDetails12" XName="X" YName="Y" Type="ChartSeriesType.StepArea" StepPosition="StepPosition.Right">
                     <ChartMarker Visible="true"></ChartMarker>
                 </ChartSeries>
-            </ChartSeriesCollection>
+            
         </SfChart>
     </ComponentUnderTest>
 </SfFixture>
@@ -551,11 +551,11 @@
         var marker = cut.Find("#container_Series_0_Point_0_Symbol");
         // Note: Values may vary slightly depending on screen resolution.
         Assert.True(marker.GetAttribute("cx") == "23.229166666666664");
-        Assert.True(marker.GetAttribute("cy") == "160.803");
+        Assert.True(marker.GetAttribute("cy") == "161.93957142857144");
         var series = cut.Find("#container_Series_0");
         var pathDirection = series.GetAttribute("d").Split("L");
-        Assert.True(pathDirection[3].Trim() == "23.229166666666664 255.9185");
-        Assert.True(pathDirection[4].Trim() == "69.6875 255.9185");
+        Assert.True(pathDirection[3].Trim() == "23.229166666666664 257.72735714285716");
+        Assert.True(pathDirection[4].Trim() == "69.6875 257.72735714285716");
         cut.SetParametersAndRender();
     }
 
@@ -591,11 +591,11 @@
     <ComponentUnderTest>
         <SfChart ID="container" Title="Step Position Customization" IsTransposed="false">
             <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Toolkit.ValueType.Category" LabelPlacement="LabelPlacement.OnTicks" />
-            <ChartSeriesCollection>
+            
                 <ChartSeries DataSource="@MedalDetails13" XName="X" YName="Y" Type="ChartSeriesType.StepLine" StepPosition="StepPosition.Left">
                     <ChartMarker Visible="true"></ChartMarker>
                 </ChartSeries>
-            </ChartSeriesCollection>
+            
         </SfChart>
     </ComponentUnderTest>
 </SfFixture>
@@ -609,8 +609,8 @@
         var series = cut.Find("#container_Series_0");
         var pathDirection = series.GetAttribute("d").Split("L");
         // Note: Values may vary slightly depending on screen resolution.
-        Assert.True(pathDirection[3].Trim() == "50.68181818181818 255.9185 M 152.04545454545453 262.2245");
-        Assert.True(pathDirection[4].Trim() == "152.04545454545453 262.2245");
+        Assert.True(pathDirection[3].Trim() == "50.68181818181818 257.72735714285716 M 152.04545454545453 264.0779285714286");
+        Assert.True(pathDirection[4].Trim() == "152.04545454545453 264.0779285714286");
         cut.SetParametersAndRender();
     }
 
@@ -646,11 +646,11 @@
     <ComponentUnderTest>
         <SfChart ID="container" Title="Step Position Customization" IsTransposed="false">
             <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Toolkit.ValueType.Category" LabelPlacement="LabelPlacement.OnTicks" />
-            <ChartSeriesCollection>
+            
                 <ChartSeries DataSource="@MedalDetails14" XName="X" YName="Y" Type="ChartSeriesType.StepLine" StepPosition="StepPosition.Right">
                     <ChartMarker Visible="true"></ChartMarker>
                 </ChartSeries>
-            </ChartSeriesCollection>
+            
         </SfChart>
     </ComponentUnderTest>
 </SfFixture>
@@ -664,8 +664,8 @@
         var series = cut.Find("#container_Series_0");
         var pathDirection = series.GetAttribute("d").Split("L");
         // Note: Values may vary slightly depending on screen resolution.
-        Assert.True(pathDirection[3].Trim() == "50.68181818181818 255.9185 M 152.04545454545453 262.2245");
-        Assert.True(pathDirection[4].Trim() == "152.04545454545453 262.2245");
+        Assert.True(pathDirection[3].Trim() == "50.68181818181818 257.72735714285716 M 152.04545454545453 264.0779285714286");
+        Assert.True(pathDirection[4].Trim() == "152.04545454545453 264.0779285714286");
         cut.SetParametersAndRender();
     }
 
@@ -701,11 +701,11 @@
     <ComponentUnderTest>
         <SfChart ID="container" Title="Step Position Customization" IsTransposed="false">
             <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Toolkit.ValueType.Category" LabelPlacement="LabelPlacement.BetweenTicks" />
-            <ChartSeriesCollection>
+            
                 <ChartSeries DataSource="@MedalDetails15" XName="X" YName="Y" Type="ChartSeriesType.StepArea" StepPosition="StepPosition.Center">
                     <ChartMarker Visible="true"></ChartMarker>
                 </ChartSeries>
-            </ChartSeriesCollection>
+            
         </SfChart>
     </ComponentUnderTest>
 </SfFixture>
@@ -719,11 +719,11 @@
         var marker = cut.Find("#container_Series_0_Point_1_Symbol");
         // Note: Values may vary slightly depending on screen resolution.
         Assert.True(marker.GetAttribute("cx") == "69.6875");
-        Assert.True(marker.GetAttribute("cy") == "255.9185");
+        Assert.True(marker.GetAttribute("cy") == "257.72735714285716");
         var series = cut.Find("#container_Series_0");
         var pathDirection = series.GetAttribute("d").Split("L");
-        Assert.True(pathDirection[6].Trim() == "93 368M 139 368");
-        Assert.True(pathDirection[7].Trim() == "139 262");
+        Assert.True(pathDirection[6].Trim() == "93 370M 139 370");
+        Assert.True(pathDirection[7].Trim() == "139 264");
         cut.SetParametersAndRender();
     }
 
@@ -758,14 +758,14 @@
     <ComponentUnderTest>
         <SfChart ID="container" Title="Step Position Customization" IsTransposed="false">
             <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Toolkit.ValueType.Category" LabelPlacement="LabelPlacement.BetweenTicks" />
-            <ChartSeriesCollection>
+            
                 <ChartSeries DataSource="@MedalDetails17" XName="X" YName="Y" Type="ChartSeriesType.StackingStepArea" StepPosition="StepPosition.Right">
                     <ChartMarker Visible="true"></ChartMarker>
                 </ChartSeries>
                 <ChartSeries DataSource="@MedalDetails17" XName="X" YName="Z" Type="ChartSeriesType.StackingStepArea" StepPosition="StepPosition.Right">
                     <ChartMarker Visible="true"></ChartMarker>
                 </ChartSeries>
-            </ChartSeriesCollection>
+            
         </SfChart>
     </ComponentUnderTest>
 </SfFixture>
@@ -779,8 +779,8 @@
         var series = cut.Find("#container_Series_1");
         var pathDirection = series.GetAttribute("d").Split("L");
         // Note: Values may vary slightly depending on screen resolution.
-        Assert.True(pathDirection[7].Trim() == "22.979166666666664 287.3317222222222 M 137.875 287.3317222222222");
-        Assert.True(pathDirection[8].Trim() == "137.875 211.51374999999996");
+        Assert.True(pathDirection[7].Trim() == "22.979166666666664 289.3626111111111 M 137.875 289.3626111111111");
+        Assert.True(pathDirection[8].Trim() == "137.875 213.00874999999996");
         cut.SetParametersAndRender();
     }
 
@@ -816,13 +816,13 @@
     <ComponentUnderTest>
         <SfChart ID="container" Title="Step Position Customization" IsTransposed="false">
             <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Toolkit.ValueType.Category" LabelPlacement="LabelPlacement.OnTicks" />
-            <ChartSeriesCollection>
+            
                 <ChartSeries DataSource="@MedalDetails18" Name="StepLine" XName="X" YName="Y" Type="ChartSeriesType.StepLine" StepPosition="StepPosition.Left">
                     <ChartMarker Visible="true">
                         <ChartDataLabel Visible="true" />
                     </ChartMarker>
                 </ChartSeries>
-            </ChartSeriesCollection>
+            
         </SfChart>
     </ComponentUnderTest>
 </SfFixture>
@@ -836,7 +836,7 @@
         var dataLabel = cut.Find("#container_Series_0_Point_1_Text_0");
         // Note: Values may vary slightly depending on screen resolution.
         Assert.True(dataLabel.GetAttribute("x") == "50.68181818181818");
-        Assert.True(dataLabel.GetAttribute("y") == "250.62935714285712");
+        Assert.True(dataLabel.GetAttribute("y") == "254.2470714285714");
         var content = dataLabel.TextContent;
         Assert.True(dataLabel.TextContent == "21.3\n    ");
         cut.SetParametersAndRender();
@@ -874,13 +874,13 @@
     <ComponentUnderTest>
         <SfChart ID="container" Title="Step Position Customization" IsTransposed="false">
             <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Toolkit.ValueType.Category" LabelPlacement="LabelPlacement.OnTicks" />
-            <ChartSeriesCollection>
+            
                 <ChartSeries DataSource="@MedalDetails19" Name="StepLine" XName="X" YName="Y" Type="ChartSeriesType.StepLine" StepPosition="StepPosition.Right">
                     <ChartMarker Visible="true">
                         <ChartDataLabel Visible="true" />
                     </ChartMarker>
                 </ChartSeries>
-            </ChartSeriesCollection>
+            
         </SfChart>
     </ComponentUnderTest>
 </SfFixture>
@@ -894,7 +894,7 @@
         var dataLabel = cut.Find("#container_Series_0_Point_1_Text_0");
         // Note: Values may vary slightly depending on screen resolution.
         Assert.True(dataLabel.GetAttribute("x") == "50.68181818181818");
-        Assert.True(dataLabel.GetAttribute("y") == "250.62935714285712");
+        Assert.True(dataLabel.GetAttribute("y") == "254.2470714285714");
         var content = dataLabel.TextContent;
         Assert.True(dataLabel.TextContent == "21.3\n    ");
         cut.SetParametersAndRender();
@@ -932,13 +932,13 @@
     <ComponentUnderTest>
         <SfChart ID="container" Title="Step Position Customization" IsTransposed="false">
             <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Toolkit.ValueType.Category" LabelPlacement="LabelPlacement.OnTicks" />
-            <ChartSeriesCollection>
+            
                 <ChartSeries DataSource="@MedalDetails20" Name="StepLine" XName="X" YName="Y" Type="ChartSeriesType.StepLine" StepPosition="StepPosition.Center">
                     <ChartMarker Visible="true">
                         <ChartDataLabel Visible="true" />
                     </ChartMarker>
                 </ChartSeries>
-            </ChartSeriesCollection>
+            
         </SfChart>
     </ComponentUnderTest>
 </SfFixture>
@@ -952,7 +952,7 @@
         var dataLabel = cut.Find("#container_Series_0_Point_1_Text_0");
         // Note: Values may vary slightly depending on screen resolution.
         Assert.True(dataLabel.GetAttribute("x") == "50.68181818181818");
-        Assert.True(dataLabel.GetAttribute("y") == "250.62935714285712");
+        Assert.True(dataLabel.GetAttribute("y") == "254.2470714285714");
         var content = dataLabel.TextContent;
         Assert.True(dataLabel.TextContent == "21.3\n    ");
         cut.SetParametersAndRender();

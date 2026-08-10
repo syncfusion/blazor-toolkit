@@ -18,9 +18,9 @@
                 </ChartStriplines>
             </ChartPrimaryXAxis>
             <ChartPrimaryYAxis Title="Sales Amount in millions(USD)" RangePadding="ChartRangePadding.Additional"></ChartPrimaryYAxis>
-            <ChartSeriesCollection>
+            
                 <ChartSeries DataSource="@chartsvalue" XName="X" YName="Y"></ChartSeries>
-            </ChartSeriesCollection>
+            
         </SfChart>
     </ComponentUnderTest>
 </SfFixture>
@@ -75,9 +75,9 @@
                     </ChartStripline>
                 </ChartStriplines>
             </ChartPrimaryYAxis>
-            <ChartSeriesCollection>
+            
                 <ChartSeries DataSource="@chartsvalue1" XName="X" YName="Y"></ChartSeries>
-            </ChartSeriesCollection>
+            
         </SfChart>
     </ComponentUnderTest>
 </SfFixture>
@@ -131,9 +131,9 @@
             </ChartPrimaryXAxis>
             <ChartPrimaryYAxis Title="Sales Amount in millions(USD)" RangePadding="ChartRangePadding.Additional">
             </ChartPrimaryYAxis>
-            <ChartSeriesCollection>
+            
                 <ChartSeries DataSource="@chartsvalue2" XName="X" YName="Y"></ChartSeries>
-            </ChartSeriesCollection>
+            
         </SfChart>
     </ComponentUnderTest>
 </SfFixture>
@@ -147,11 +147,11 @@
         await Task.Delay(200);
         var striplineelement = cut.Find("#container_stripline_Behind_rect_PrimaryXAxis_0");
         // Note: Values may vary slightly depending on screen resolution.
-        Assert.True(striplineelement.GetAttribute("width") == "174.76666666666665");
-        Assert.True(striplineelement.GetAttribute("x") == "65.7");
+        Assert.True(striplineelement.GetAttribute("width") == "175.63333333333333");
+        Assert.True(striplineelement.GetAttribute("x") == "63.1");
         var striplineelement1 = cut.Find("#container_stripline_Behind_rect_PrimaryXAxis_1");
-        Assert.True(striplineelement1.GetAttribute("width") == "116.51111111111109");
-        Assert.True(striplineelement1.GetAttribute("x") == "356.97777777777776");
+        Assert.True(striplineelement1.GetAttribute("width") == "117.08888888888887");
+        Assert.True(striplineelement1.GetAttribute("x") == "355.82222222222225");
         cut.SetParametersAndRender();
     }
     public class ChartData2
@@ -192,9 +192,9 @@
                     <ChartStripline End="110" Size="10"></ChartStripline>
                 </ChartStriplines>
             </ChartPrimaryYAxis>
-            <ChartSeriesCollection>
+            
                 <ChartSeries DataSource="@chartsvalue3" XName="X" YName="Y"></ChartSeries>
-            </ChartSeriesCollection>
+            
         </SfChart>
     </ComponentUnderTest>
 </SfFixture>
@@ -208,20 +208,20 @@
         await Task.Delay(200);
         var striplineelement = cut.Find("#container_stripline_Behind_rect_PrimaryYAxis_0");
         // Note: Values may vary slightly depending on screen resolution.
-        Assert.True(striplineelement.GetAttribute("height") == "33.044999999999995");
-        Assert.True(striplineelement.GetAttribute("y") == "241.315");
-        Assert.True(striplineelement.GetAttribute("width") == "518.3");
-        Assert.True(striplineelement.GetAttribute("x") == "71.7");
+        Assert.True(striplineelement.GetAttribute("height") == "33.30499999999999");
+        Assert.True(striplineelement.GetAttribute("y") == "243.135");
+        Assert.True(striplineelement.GetAttribute("width") == "520.9");
+        Assert.True(striplineelement.GetAttribute("x") == "69.1");
         var striplineelement1 = cut.Find("#container_stripline_Behind_rect_PrimaryYAxis_1");
-        Assert.True(striplineelement1.GetAttribute("height") == "99.135");
-        Assert.True(striplineelement1.GetAttribute("y") == "43.045000000000016");
-        Assert.True(striplineelement1.GetAttribute("width") == "518.3");
-        Assert.True(striplineelement1.GetAttribute("x") == "71.7");
+        Assert.True(striplineelement1.GetAttribute("height") == "99.91500000000002");
+        Assert.True(striplineelement1.GetAttribute("y") == "43.30500000000001");
+        Assert.True(striplineelement1.GetAttribute("width") == "520.9");
+        Assert.True(striplineelement1.GetAttribute("x") == "69.1");
         var striplineelement2 = cut.Find("#container_stripline_Behind_rect_PrimaryYAxis_2");
-        Assert.True(striplineelement2.GetAttribute("height") == "33.045");
-        Assert.True(striplineelement2.GetAttribute("y") == "307.405");
-        Assert.True(striplineelement2.GetAttribute("width") == "518.3");
-        Assert.True(striplineelement2.GetAttribute("x") == "71.7");
+        Assert.True(striplineelement2.GetAttribute("height") == "33.305");
+        Assert.True(striplineelement2.GetAttribute("y") == "309.745");
+        Assert.True(striplineelement2.GetAttribute("width") == "520.9");
+        Assert.True(striplineelement2.GetAttribute("x") == "69.1");
         cut.SetParametersAndRender();
     }
     public class ChartData3
@@ -259,9 +259,9 @@
                     <ChartStripline Start="10" Color="#663AB6" Size="3" DashArray="10,2"></ChartStripline>
                 </ChartStriplines>
             </ChartPrimaryYAxis>
-            <ChartSeriesCollection>
+            
                 <ChartSeries DataSource="@chartsvalue4" XName="X" YName="Y"></ChartSeries>
-            </ChartSeriesCollection>
+            
         </SfChart>
     </ComponentUnderTest>
 </SfFixture>
@@ -313,9 +313,9 @@
                     <ChartStripline Start="0" End="50" Color="#663AB6" DashArray="10,2"></ChartStripline>
                 </ChartStriplines>
             </ChartPrimaryYAxis>
-            <ChartSeriesCollection>
+            
                 <ChartSeries DataSource="@chartsvalue5" XName="X" YName="Y"></ChartSeries>
-            </ChartSeriesCollection>
+            
         </SfChart>
     </ComponentUnderTest>
 </SfFixture>
@@ -332,8 +332,10 @@
         // Note: Values may vary slightly depending on screen resolution.
         Assert.True(Convert.ToDouble(cut.Find("#container_stripline_Behind_rect_PrimaryYAxis_0").GetAttribute("height")) >= 0);
         Assert.True((cut.Find("#container_stripline_Behind_rect_PrimaryYAxis_0").GetAttribute("y")) != "528.3");
-        Assert.True(cut.Find("#container_stripline_Behind_rect_PrimaryYAxis_0").GetAttribute("width") == "518.3");
-        Assert.True(cut.Find("#container_stripline_Behind_rect_PrimaryYAxis_0").GetAttribute("stroke-dasharray") == null);
+        var striplineElement2 = cut.Find("#container_stripline_Behind_rect_PrimaryYAxis_0");
+        var striplineElement3 = cut.Find("#container_stripline_Behind_rect_PrimaryYAxis_0");
+        Assert.True(striplineElement2.GetAttribute("width") == "520.9");
+        Assert.True(striplineElement3.GetAttribute("stroke-dasharray") == null);
         cut.SetParametersAndRender();
     }
     public class ChartData5
@@ -372,9 +374,9 @@
             </ChartPrimaryXAxis>
             <ChartPrimaryYAxis Title="Sales Amount in millions(USD)" RangePadding="ChartRangePadding.Additional">
             </ChartPrimaryYAxis>
-            <ChartSeriesCollection>
+            
                 <ChartSeries DataSource="@chartsvalue6" XName="X" YName="Y"></ChartSeries>
-            </ChartSeriesCollection>
+            
         </SfChart>
     </ComponentUnderTest>
 </SfFixture>
@@ -432,9 +434,9 @@
                     <ChartStripline Start="30" End="50"></ChartStripline>
                 </ChartStriplines>
             </ChartPrimaryYAxis>
-            <ChartSeriesCollection>
+            
                 <ChartSeries DataSource="@chartsvalue7" XName="X" YName="Y"></ChartSeries>
-            </ChartSeriesCollection>
+            
         </SfChart>
     </ComponentUnderTest>
 </SfFixture>
@@ -448,15 +450,15 @@
         await Task.Delay(200);
         var striplineelement = cut.Find("#container_stripline_Behind_rect_PrimaryYAxis_1");
         // Note: Values may vary slightly depending on screen resolution.
-        Assert.True(Convert.ToDouble(striplineelement.GetAttribute("x")) == 71.7);
-        Assert.True(Convert.ToDouble(striplineelement.GetAttribute("y")) == 76.089999999999975);
-        Assert.True(Convert.ToDouble(striplineelement.GetAttribute("height")) == 66.09000000000002);
-        Assert.True(Convert.ToDouble(striplineelement.GetAttribute("width")) == 518.3);
+        Assert.True(Convert.ToDouble(striplineelement.GetAttribute("x")) == 69.1);
+        Assert.True(Convert.ToDouble(striplineelement.GetAttribute("y")) == 76.61000000000001);
+        Assert.True(Convert.ToDouble(striplineelement.GetAttribute("height")) == 66.61000000000003);
+        Assert.True(Convert.ToDouble(striplineelement.GetAttribute("width")) == 520.9);
         var striplineelement1 = cut.Find("#container_stripline_Behind_rect_PrimaryXAxis_0");
-        Assert.True(Convert.ToDouble(striplineelement1.GetAttribute("x")) == 302.05555555555554);
+        Assert.True(Convert.ToDouble(striplineelement1.GetAttribute("x")) == 300.6111111111111);
         Assert.True(Convert.ToDouble(striplineelement1.GetAttribute("y")) == 10);
-        Assert.True(Convert.ToDouble(striplineelement1.GetAttribute("height")) == 330.45);
-        Assert.True(Convert.ToDouble(striplineelement1.GetAttribute("width")) == 287.94444444444446);
+        Assert.True(Convert.ToDouble(striplineelement1.GetAttribute("height")) == 333.05);
+        Assert.True(Convert.ToDouble(striplineelement1.GetAttribute("width")) == 289.3888888888889);
         cut.SetParametersAndRender();
     }
     public class ChartData7
@@ -497,11 +499,11 @@
             <ChartArea>
                 <ChartAreaBorder Width="1" Color="Blue"></ChartAreaBorder>
             </ChartArea>
-            <ChartSeriesCollection>
+            
                 <ChartSeries DataSource="@chartsvalue8" XName="X" YName="Y" Type="ChartSeriesType.Line">
                     <ChartMarker Visible="true" Width="5" Height="5"></ChartMarker>
                 </ChartSeries>
-            </ChartSeriesCollection>
+            
             <ChartLegendSettings Visible="true">
                 <ChartLegendBorder Width="1" Color="Red"></ChartLegendBorder>
             </ChartLegendSettings>
@@ -556,11 +558,11 @@
             <ChartArea>
                 <ChartAreaBorder Width="1" Color="Blue"></ChartAreaBorder>
             </ChartArea>
-            <ChartSeriesCollection>
+            
                 <ChartSeries DataSource="@chartsvalue9" XName="X" YName="Y" Type="ChartSeriesType.Line">
                     <ChartMarker Visible="true" Width="5" Height="5"></ChartMarker>
                 </ChartSeries>
-            </ChartSeriesCollection>
+            
             <ChartLegendSettings Visible="true">
                 <ChartLegendBorder Width="1" Color="Red"></ChartLegendBorder>
             </ChartLegendSettings>
@@ -621,11 +623,11 @@
             <ChartArea>
                 <ChartAreaBorder Width="1" Color="Blue"></ChartAreaBorder>
             </ChartArea>
-            <ChartSeriesCollection>
+            
                 <ChartSeries DataSource="@chartsvalue10" XName="X" YName="Y" Type="ChartSeriesType.Line">
                     <ChartMarker Visible="true" Width="5" Height="5"></ChartMarker>
                 </ChartSeries>
-            </ChartSeriesCollection>
+            
             <ChartLegendSettings Visible="true">
                 <ChartLegendBorder Width="1" Color="Red"></ChartLegendBorder>
             </ChartLegendSettings>
@@ -642,7 +644,7 @@
         await Task.Delay(200);
         var striplineelement = cut.Find("#container_stripline_Behind_path_PrimaryXAxis_1");
         // Note: Values may vary slightly depending on screen resolution.
-        Assert.True(striplineelement.GetAttribute("d") == "M218.24851665905982 10 L218.24851665905982 390.45");
+        Assert.True(striplineelement.GetAttribute("d") == "M590 10 L590 393.05");
         cut.SetParametersAndRender();
     }
     public class ChartData10
@@ -685,11 +687,11 @@
             <ChartArea>
                 <ChartAreaBorder Width="1" Color="Blue"></ChartAreaBorder>
             </ChartArea>
-            <ChartSeriesCollection>
+            
                 <ChartSeries DataSource="@chartsvalue11" XName="X" YName="Y" Type="ChartSeriesType.Line">
                     <ChartMarker Visible="true" Width="5" Height="5"></ChartMarker>
                 </ChartSeries>
-            </ChartSeriesCollection>
+            
             <ChartLegendSettings Visible="true">
                 <ChartLegendBorder Width="1" Color="Red"></ChartLegendBorder>
             </ChartLegendSettings>
@@ -706,7 +708,7 @@
         await Task.Delay(200);
         var striplineelement = cut.Find("#container_stripline_Behind_rect_PrimaryXAxis_0");
         // Note: Values may vary slightly depending on screen resolution.
-        Assert.True(Convert.ToDouble(striplineelement.GetAttribute("height")) == 380.45);
+        Assert.True(Convert.ToDouble(striplineelement.GetAttribute("height")) == 383.05);
         Assert.True(Convert.ToDouble(striplineelement.GetAttribute("width")) == 92.8742583295299);
         Assert.True(Convert.ToDouble(striplineelement.GetAttribute("x")) == 32.5);
         Assert.True(Convert.ToDouble(striplineelement.GetAttribute("y")) == 10);
@@ -752,11 +754,11 @@
             <ChartArea>
                 <ChartAreaBorder Width="1" Color="Blue"></ChartAreaBorder>
             </ChartArea>
-            <ChartSeriesCollection>
+            
                 <ChartSeries DataSource="@chartsvalue12" XName="X" YName="Y" Type="ChartSeriesType.Line">
                     <ChartMarker Visible="true" Width="5" Height="5"></ChartMarker>
                 </ChartSeries>
-            </ChartSeriesCollection>
+            
             <ChartLegendSettings Visible="true">
                 <ChartLegendBorder Width="1" Color="Red"></ChartLegendBorder>
             </ChartLegendSettings>
@@ -773,8 +775,8 @@
         await Task.Delay(200);
         var striplineelement = cut.Find("#container_stripline_Behind_rect_PrimaryXAxis_0");
         // Note: Values may vary slightly depending on screen resolution.
-        Assert.True(Convert.ToDouble(striplineelement.GetAttribute("height")) == 380.45);
-        Assert.True(Convert.ToDouble(striplineelement.GetAttribute("width")) == 7.8879507074395256);
+        Assert.True(Convert.ToDouble(striplineelement.GetAttribute("height")) == 383.05);
+        Assert.True(Convert.ToDouble(striplineelement.GetAttribute("width")) == 7.887950707439526);
         Assert.True(Convert.ToDouble(striplineelement.GetAttribute("x")) == 32.5);
         Assert.True(Convert.ToDouble(striplineelement.GetAttribute("y")) == 10);
         cut.SetParametersAndRender();
@@ -819,11 +821,11 @@
             <ChartArea>
                 <ChartAreaBorder Width="1" Color="Blue"></ChartAreaBorder>
             </ChartArea>
-            <ChartSeriesCollection>
+            
                 <ChartSeries DataSource="@chartsvalue13" XName="X" YName="Y" Type="ChartSeriesType.Line">
                     <ChartMarker Visible="true" Width="5" Height="5"></ChartMarker>
                 </ChartSeries>
-            </ChartSeriesCollection>
+            
             <ChartLegendSettings Visible="true">
                 <ChartLegendBorder Width="1" Color="Red"></ChartLegendBorder>
             </ChartLegendSettings>
@@ -840,12 +842,12 @@
         await Task.Delay(200);
         var striplineelement = cut.Find("#container_stripline_Behind_rect_PrimaryXAxis_0");
         // Note: Values may vary slightly depending on screen resolution.
-        Assert.True(Convert.ToDouble(striplineelement.GetAttribute("height")) == 380.45);
-        Assert.True(Convert.ToDouble(striplineelement.GetAttribute("width")) == 7.6335006846188884);
-        Assert.True(Convert.ToDouble(striplineelement.GetAttribute("x")) == 404.25148334094018);
+        Assert.True(Convert.ToDouble(striplineelement.GetAttribute("height")) == 383.05);
+        Assert.True(Convert.ToDouble(striplineelement.GetAttribute("width")) == 7.633500684618888);
+        Assert.True(Convert.ToDouble(striplineelement.GetAttribute("x")) == 404.2514833409402);
         Assert.True(Convert.ToDouble(striplineelement.GetAttribute("y")) == 10);
         var striplineelement1 = cut.Find("#container_stripline_Behind_rect_PrimaryXAxis_1");
-        Assert.True(Convert.ToDouble(striplineelement1.GetAttribute("height")) == 380.45);
+        Assert.True(Convert.ToDouble(striplineelement1.GetAttribute("height")) == 383.05);
         Assert.True(Convert.ToDouble(striplineelement1.GetAttribute("width")) == 100.25330899132817);
         Assert.True(Convert.ToDouble(striplineelement1.GetAttribute("x")) == 32.5);
         Assert.True(Convert.ToDouble(striplineelement1.GetAttribute("y")) == 10);
@@ -890,11 +892,11 @@
             <ChartArea>
                 <ChartAreaBorder Width="1" Color="Blue"></ChartAreaBorder>
             </ChartArea>
-            <ChartSeriesCollection>
+            
                 <ChartSeries DataSource="@chartsvalue14" XName="X" YName="Y" Type="ChartSeriesType.Line">
                     <ChartMarker Visible="true" Width="5" Height="5"></ChartMarker>
                 </ChartSeries>
-            </ChartSeriesCollection>
+            
             <ChartLegendSettings Visible="true">
                 <ChartLegendBorder Width="1" Color="Red"></ChartLegendBorder>
             </ChartLegendSettings>
@@ -911,7 +913,7 @@
         await Task.Delay(200);
         var striplineelement = cut.Find("#container_stripline_Behind_rect_PrimaryXAxis_0");
         // Note: Values may vary slightly depending on screen resolution.
-        Assert.True(Convert.ToDouble(striplineelement.GetAttribute("height")) == 380.45);
+        Assert.True(Convert.ToDouble(striplineelement.GetAttribute("height")) == 383.05);
         Assert.True(Convert.ToDouble(striplineelement.GetAttribute("width")) == 7.6335006846188955);
         Assert.True(Convert.ToDouble(striplineelement.GetAttribute("x")) == 32.5);
         Assert.True(Convert.ToDouble(striplineelement.GetAttribute("y")) == 10);
@@ -955,11 +957,11 @@
             <ChartArea>
                 <ChartAreaBorder Width="1" Color="Blue"></ChartAreaBorder>
             </ChartArea>
-            <ChartSeriesCollection>
+            
                 <ChartSeries DataSource="@chartsvalue15" XName="X" YName="Y" Type="ChartSeriesType.Line">
                     <ChartMarker Visible="true" Width="5" Height="5"></ChartMarker>
                 </ChartSeries>
-            </ChartSeriesCollection>
+            
             <ChartLegendSettings Visible="true">
                 <ChartLegendBorder Width="1" Color="Red"></ChartLegendBorder>
             </ChartLegendSettings>
@@ -976,7 +978,7 @@
         await Task.Delay(200);
         var striplineelement = cut.Find("#container_stripline_Behind_rect_PrimaryXAxis_0");
         // Note: Values may vary slightly depending on screen resolution.
-        Assert.True(Convert.ToDouble(striplineelement.GetAttribute("height")) == 380.45);
+        Assert.True(Convert.ToDouble(striplineelement.GetAttribute("height")) == 383.05);
         Assert.True(Convert.ToDouble(striplineelement.GetAttribute("width")) == 7.6335006846188955);
         Assert.True(Convert.ToDouble(striplineelement.GetAttribute("x")) == 32.5);
         Assert.True(Convert.ToDouble(striplineelement.GetAttribute("y")) == 10);
@@ -1022,11 +1024,11 @@
             <ChartArea>
                 <ChartAreaBorder Width="1" Color="Blue"></ChartAreaBorder>
             </ChartArea>
-            <ChartSeriesCollection>
+            
                 <ChartSeries DataSource="@chartsvalue16" XName="X" YName="Y" Type="ChartSeriesType.Line">
                     <ChartMarker Visible="true" Width="5" Height="5"></ChartMarker>
                 </ChartSeries>
-            </ChartSeriesCollection>
+            
             <ChartLegendSettings Visible="true">
                 <ChartLegendBorder Width="1" Color="Red"></ChartLegendBorder>
             </ChartLegendSettings>
@@ -1043,7 +1045,7 @@
         await Task.Delay(200);
         var striplineelement = cut.Find("#container_stripline_Behind_rect_PrimaryXAxis_0");
         // Note: Values may vary slightly depending on screen resolution.
-        Assert.True(Convert.ToDouble(striplineelement.GetAttribute("height")) == 380.45);
+        Assert.True(Convert.ToDouble(striplineelement.GetAttribute("height")) == 383.05);
         Assert.True(Convert.ToDouble(striplineelement.GetAttribute("width")) == 7.6335006846188955);
         Assert.True(Convert.ToDouble(striplineelement.GetAttribute("x")) == 32.5);
         Assert.True(Convert.ToDouble(striplineelement.GetAttribute("y")) == 10);  
@@ -1088,11 +1090,11 @@
             <ChartArea>
                 <ChartAreaBorder Width="1" Color="Blue"></ChartAreaBorder>
             </ChartArea>
-            <ChartSeriesCollection>
+            
                 <ChartSeries DataSource="@chartsvalue17" XName="X" YName="Y" Type="ChartSeriesType.Line">
                     <ChartMarker Visible="true" Width="5" Height="5"></ChartMarker>
                 </ChartSeries>
-            </ChartSeriesCollection>
+            
             <ChartLegendSettings Visible="true">
                 <ChartLegendBorder Width="1" Color="Red"></ChartLegendBorder>
             </ChartLegendSettings>
@@ -1109,7 +1111,7 @@
         await Task.Delay(200);
         var striplineelement = cut.Find("#container_stripline_Behind_rect_PrimaryXAxis_0");
         // Note: Values may vary slightly depending on screen resolution.
-        Assert.True(Convert.ToDouble(striplineelement.GetAttribute("height")) == 380.45);
+        Assert.True(Convert.ToDouble(striplineelement.GetAttribute("height")) == 383.05);
         Assert.True(Convert.ToDouble(striplineelement.GetAttribute("width")) == 154.70561387494294);
         Assert.True(Convert.ToDouble(striplineelement.GetAttribute("x")) == 32.5);
         Assert.True(Convert.ToDouble(striplineelement.GetAttribute("y")) == 10);
@@ -1152,11 +1154,11 @@
                     <ChartStripline Start="4" End="8" IsSegmented="true" SegmentStart="3" SegmentEnd="6" Color="Green"></ChartStripline>
                 </ChartStriplines>
             </ChartPrimaryYAxis>
-            <ChartSeriesCollection>
+            
                 <ChartSeries DataSource="@chartsvalue27" XName="X" YName="Y" Type="ChartSeriesType.Line">
                     <ChartMarker Visible="true" Width="5" Height="5"></ChartMarker>
                 </ChartSeries>
-            </ChartSeriesCollection>
+            
         </SfChart>
     </ComponentUnderTest>
 </SfFixture>
@@ -1171,8 +1173,8 @@
         var striplineelement = cut.Find("#container_stripline_Behind_rect_PrimaryYAxis_0");
         // Note: Values may vary slightly depending on screen resolution.
         Assert.True((striplineelement.GetAttribute("x")) == "91.18421052631578");
-        Assert.True((striplineelement.GetAttribute("y")) == "250.16111111111113");
-        Assert.True((striplineelement.GetAttribute("height")) == "81.74444444444443");
+        Assert.True((striplineelement.GetAttribute("y")) == "249.00555555555556");
+        Assert.True((striplineelement.GetAttribute("height")) == "82.32222222222221");
         Assert.True((striplineelement.GetAttribute("width")) == "88.02631578947368");
         cut.SetParametersAndRender();
     }
@@ -1225,11 +1227,11 @@
                     <ChartStripline Start="1" Size="1" IsSegmented="false" SegmentEnd="2" SegmentStart="1"></ChartStripline>
                 </ChartStriplines>
             </ChartPrimaryYAxis>
-            <ChartSeriesCollection>
+            
                 <ChartSeries DataSource="@chartsvalue28" XName="X" YName="Y" Type="ChartSeriesType.Line">
                     <ChartMarker Visible="true" Width="5" Height="5"></ChartMarker>
                 </ChartSeries>
-            </ChartSeriesCollection>
+            
         </SfChart>
     </ComponentUnderTest>
 </SfFixture>
@@ -1244,30 +1246,30 @@
         var striplineelement = cut.Find("#container_stripline_Behind_rect_PrimaryXAxis_1");
         // Note: Values may vary slightly depending on screen resolution.
         Assert.True(Convert.ToDouble(striplineelement.GetAttribute("x")) == 171.875);
-        Assert.True(Convert.ToDouble(striplineelement.GetAttribute("y")) == 45.8);
-        Assert.True(Convert.ToDouble(striplineelement.GetAttribute("height")) == 367.84999999999997);
+        Assert.True(Convert.ToDouble(striplineelement.GetAttribute("y")) == 43.2);
+        Assert.True(Convert.ToDouble(striplineelement.GetAttribute("height")) == 370.45);
         Assert.True(Convert.ToDouble(striplineelement.GetAttribute("width")) == 92.91666666666667);
         Assert.True(striplineelement.GetAttribute("fill") == "Blue");
         Assert.True(striplineelement.GetAttribute("stroke-width") == "1");
         var striplineelement1 = cut.Find("#container_stripline_Behind_rect_PrimaryXAxis_0");
         Assert.True(Convert.ToDouble(striplineelement1.GetAttribute("x")) == 450.625);
-        Assert.True(Convert.ToDouble(striplineelement1.GetAttribute("y")) == 364.6033333333333);
-        Assert.True(Convert.ToDouble(striplineelement1.GetAttribute("height")) == 12.261666666666663);
+        Assert.True(Convert.ToDouble(striplineelement1.GetAttribute("y")) == 364.25666666666666);
+        Assert.True(Convert.ToDouble(striplineelement1.GetAttribute("height")) == 12.348333333333331);
         Assert.True(Convert.ToDouble(striplineelement1.GetAttribute("width")) == 92.91666666666664);
         Assert.True(striplineelement1.GetAttribute("fill") == "Red");
         Assert.True(striplineelement1.GetAttribute("stroke-width") == "1");
 
         var striplineelementY = cut.Find("#container_stripline_Behind_rect_PrimaryYAxis_2");
         Assert.True(Convert.ToDouble(striplineelementY.GetAttribute("x")) == 357.70833333333337);
-        Assert.True(Convert.ToDouble(striplineelementY.GetAttribute("y")) == 291.0333333333333);
-        Assert.True(Convert.ToDouble(striplineelementY.GetAttribute("height")) ==61.30833333333332);
+        Assert.True(Convert.ToDouble(striplineelementY.GetAttribute("y")) == 290.16666666666663);
+        Assert.True(Convert.ToDouble(striplineelementY.GetAttribute("height")) == 61.74166666666666);
         Assert.True(Convert.ToDouble(striplineelementY.GetAttribute("width")) == 92.91666666666664);
         Assert.True(striplineelementY.GetAttribute("fill") == "Green");
         Assert.True(striplineelementY.GetAttribute("stroke-width") == "1");
         var striplineelementY1 = cut.Find("#container_stripline_Behind_rect_PrimaryYAxis_3");
         Assert.True(Convert.ToDouble(striplineelementY1.GetAttribute("x")) == 32.5);
-        Assert.True(Convert.ToDouble(striplineelementY1.GetAttribute("y")) == 389.12666666666667);
-        Assert.True(Convert.ToDouble(striplineelementY1.GetAttribute("height")) == 12.261666666666665);
+        Assert.True(Convert.ToDouble(striplineelementY1.GetAttribute("y")) == 388.9533333333333);
+        Assert.True(Convert.ToDouble(striplineelementY1.GetAttribute("height")) == 12.348333333333333);
         Assert.True(Convert.ToDouble(striplineelementY1.GetAttribute("width")) == 557.5);
         Assert.True(striplineelementY1.GetAttribute("fill") == "#808080");
         Assert.True(striplineelementY1.GetAttribute("stroke-width") == "1");
@@ -1303,11 +1305,11 @@
             </ChartPrimaryXAxis>
             <ChartPrimaryYAxis>
             </ChartPrimaryYAxis>
-            <ChartSeriesCollection>
+            
                 <ChartSeries DataSource="@chartsvalue29" XName="X" YName="Y" Type="ChartSeriesType.Line">
                     <ChartMarker Visible="true" Width="5" Height="5"></ChartMarker>
                 </ChartSeries>
-            </ChartSeriesCollection>
+            
         </SfChart>
     </ComponentUnderTest>
 </SfFixture>
@@ -1322,8 +1324,8 @@
         var striplineelement = cut.Find("#container_stripline_Behind_rect_PrimaryXAxis_0");
         // Note: Values may vary slightly depending on screen resolution.
         Assert.True((striplineelement.GetAttribute("x")) == "171.875");
-        Assert.True((striplineelement.GetAttribute("y")) == "45.8");
-        Assert.True((striplineelement.GetAttribute("height")) == "367.84999999999997");
+        Assert.True((striplineelement.GetAttribute("y")) == "43.2");
+        Assert.True((striplineelement.GetAttribute("height")) == "370.45");
         Assert.True((striplineelement.GetAttribute("width")) == "92.91666666666667");
         cut.SetParametersAndRender();
     }
@@ -1360,11 +1362,11 @@
                     <ChartStripline Start="40" End="60" IsSegmented="true" SegmentStart="new DateTime(2007, 12, 01)" SegmentEnd="new DateTime(2010, 12, 01)" Color="Green"></ChartStripline>
                 </ChartStriplines>
             </ChartPrimaryYAxis>
-            <ChartSeriesCollection>
+            
                 <ChartSeries DataSource="@chartsvalue30" XName="X" YName="Y" Type="ChartSeriesType.Line">
                     <ChartMarker Visible="true" Width="5" Height="5"></ChartMarker>
                 </ChartSeries>
-            </ChartSeriesCollection>
+            
         </SfChart>
     </ComponentUnderTest>
 </SfFixture>
@@ -1379,8 +1381,8 @@
         var striplineelement = cut.Find("#container_stripline_Behind_rect_PrimaryXAxis_0");
         // Note: Values may vary slightly depending on screen resolution.
         Assert.True((striplineelement.GetAttribute("x")) == "32.5");
-        Assert.True((striplineelement.GetAttribute("y")) == "45.8");
-        Assert.True((striplineelement.GetAttribute("height")) == "367.84999999999997");
+        Assert.True((striplineelement.GetAttribute("y")) == "43.2");
+        Assert.True((striplineelement.GetAttribute("height")) == "370.45");
         Assert.True((striplineelement.GetAttribute("width")) == "92.8742583295299");
         cut.SetParametersAndRender();
     }
@@ -1415,11 +1417,11 @@
             </ChartPrimaryXAxis>
             <ChartPrimaryYAxis>
             </ChartPrimaryYAxis>
-            <ChartSeriesCollection>
+            
                 <ChartSeries DataSource="@chartsvalue31" XName="X" YName="Y" Type="ChartSeriesType.Line">
                     <ChartMarker Visible="true" Width="5" Height="5"></ChartMarker>
                 </ChartSeries>
-            </ChartSeriesCollection>
+            
         </SfChart>
     </ComponentUnderTest>
 </SfFixture>
@@ -1434,8 +1436,8 @@
         var striplineelement = cut.Find("#container_stripline_Behind_rect_PrimaryXAxis_0");
         // Note: Values may vary slightly depending on screen resolution.
         Assert.True((striplineelement.GetAttribute("x")) == "296.57894736842104");
-        Assert.True((striplineelement.GetAttribute("y")) == "127.54444444444442");
-        Assert.True((striplineelement.GetAttribute("height")) == "81.74444444444443");
+        Assert.True((striplineelement.GetAttribute("y")) == "125.52222222222218");
+        Assert.True((striplineelement.GetAttribute("height")) == "82.32222222222221");
         Assert.True((striplineelement.GetAttribute("width")) == "117.3684210526316");
         cut.SetParametersAndRender();
     }
@@ -1483,11 +1485,11 @@
             </ChartPrimaryXAxis>
             <ChartPrimaryYAxis ValueType="Syncfusion.Blazor.Toolkit.ValueType.Logarithmic">
             </ChartPrimaryYAxis>
-            <ChartSeriesCollection>
+            
                 <ChartSeries DataSource="@chartsvalue32" XName="X" YName="Y" Type="ChartSeriesType.Line">
                     <ChartMarker Visible="true" Width="5" Height="5"></ChartMarker>
                 </ChartSeries>
-            </ChartSeriesCollection>
+            
         </SfChart>
     </ComponentUnderTest>
 </SfFixture>
@@ -1502,8 +1504,8 @@
         var striplineelement = cut.Find("#container_stripline_Behind_rect_PrimaryXAxis_0");
         // Note: Values may vary slightly depending on screen resolution.
         Assert.True((striplineelement.GetAttribute("x")) == "220.75");
-        Assert.True((striplineelement.GetAttribute("y")) == "119.37");
-        Assert.True((striplineelement.GetAttribute("height")) == "147.14");
+        Assert.True((striplineelement.GetAttribute("y")) == "117.28999999999996");
+        Assert.True((striplineelement.GetAttribute("height")) == "148.18");
         Assert.True((striplineelement.GetAttribute("width")) == "105.5");
         cut.SetParametersAndRender();
     }
@@ -1540,14 +1542,14 @@
             </ChartPrimaryXAxis>
             <ChartPrimaryYAxis>
             </ChartPrimaryYAxis>
-            <ChartSeriesCollection>
+            
                 <ChartSeries DataSource="@chartsvalue33" XName="X" YName="Y" Type="ChartSeriesType.Line">
                     <ChartMarker Visible="true" Width="5" Height="5"></ChartMarker>
                 </ChartSeries>
                 <ChartSeries DataSource="@chartsvalue33" YAxisName="yAxis1" XName="X" YName="Y" Type="ChartSeriesType.Scatter">
                     <ChartMarker Visible="true" Width="5" Height="5"></ChartMarker>
                 </ChartSeries>
-            </ChartSeriesCollection>
+            
         </SfChart>
     </ComponentUnderTest>
 </SfFixture>
@@ -1562,8 +1564,8 @@
         var striplineelement = cut.Find("#container_stripline_Behind_rect_PrimaryXAxis_0");
         // Note: Values may vary slightly depending on screen resolution.
         Assert.True((striplineelement.GetAttribute("x")) == "145.1315789473684");
-        Assert.True((striplineelement.GetAttribute("y")) == "209.28888888888886");
-        Assert.True((striplineelement.GetAttribute("height")) == "102.18055555555556");
+        Assert.True((striplineelement.GetAttribute("y")) == "207.8444444444444");
+        Assert.True((striplineelement.GetAttribute("height")) == "102.90277777777779");
         Assert.True((striplineelement.GetAttribute("width")) == "140.78947368421052");
         cut.SetParametersAndRender();
     }
@@ -1614,11 +1616,11 @@
                     <ChartStripline Start="3" End="6" IsSegmented="true" SegmentStart="4" SegmentEnd="5" Color="Red"></ChartStripline>
                 </ChartStriplines>
             </ChartPrimaryYAxis>
-            <ChartSeriesCollection>
+            
                 <ChartSeries DataSource="@chartsvalue34" XName="X" YName="Y" Type="ChartSeriesType.Line">
                     <ChartMarker Visible="true" Width="5" Height="5"></ChartMarker>
                 </ChartSeries>
-            </ChartSeriesCollection>
+            
         </SfChart>
     </ComponentUnderTest>
 </SfFixture>
@@ -1671,11 +1673,11 @@
             </ChartPrimaryXAxis>
             <ChartPrimaryYAxis ValueType="Syncfusion.Blazor.Toolkit.ValueType.Double">
             </ChartPrimaryYAxis>
-            <ChartSeriesCollection>
+            
                 <ChartSeries DataSource="@chartsvalue35" XName="X" YName="Y" Type="ChartSeriesType.Line">
                     <ChartMarker Visible="true" Width="5" Height="5"></ChartMarker>
                 </ChartSeries>
-            </ChartSeriesCollection>
+            
         </SfChart>
     </ComponentUnderTest>
 </SfFixture>
@@ -1690,13 +1692,13 @@
         var striplineelement = cut.Find("#container_stripline_Behind_rect_PrimaryXAxis_0");
         // Note: Values may vary slightly depending on screen resolution.
         Assert.True(Convert.ToDouble(striplineelement.GetAttribute("x")) == 60.375);
-        Assert.True(Convert.ToDouble(striplineelement.GetAttribute("y")) == 183.74375);
-        Assert.True(Convert.ToDouble(striplineelement.GetAttribute("height")) == 137.94375);
+        Assert.True(Convert.ToDouble(striplineelement.GetAttribute("y")) == 182.11874999999998);
+        Assert.True(Convert.ToDouble(striplineelement.GetAttribute("height")) == 138.91875);
         Assert.True(Convert.ToDouble(striplineelement.GetAttribute("width")) == 55.74999999999999);
         var striplineelement1 = cut.Find("#container_stripline_Behind_rect_PrimaryXAxis_1");
         Assert.True(Convert.ToDouble(striplineelement1.GetAttribute("x")) == 116.125);
-        Assert.True(Convert.ToDouble(striplineelement1.GetAttribute("y")) == 183.74375);
-        Assert.True(Convert.ToDouble(striplineelement1.GetAttribute("height")) == 137.94375);
+        Assert.True(Convert.ToDouble(striplineelement1.GetAttribute("y")) == 182.11874999999998);
+        Assert.True(Convert.ToDouble(striplineelement1.GetAttribute("height")) == 138.91875);
         Assert.True(Convert.ToDouble(striplineelement1.GetAttribute("width")) == 55.75);
         cut.SetParametersAndRender();
     }
@@ -1751,14 +1753,14 @@
                     </ChartStriplines>
                 </ChartAxis>
             </ChartAxes>
-            <ChartSeriesCollection>
+            
                 <ChartSeries DataSource="@chartsvalue36" XName="X" YName="Y" Type="ChartSeriesType.Line" Name="series1" Fill="#ACE5FF" Width="2" XAxisName="xAxis1">
                     <ChartMarker Visible="true" Width="5" Height="5"></ChartMarker>
                 </ChartSeries>
                 <ChartSeries DataSource="@chartsvalue36" XName="X" YName="Y1" Type="ChartSeriesType.Line" Name="series2" Fill="Red" Width="2" YAxisName="yAxis1">
                     <ChartMarker Visible="true" Width="5" Height="5"></ChartMarker>
                 </ChartSeries>
-            </ChartSeriesCollection>
+            
         </SfChart>
     </ComponentUnderTest>
 </SfFixture>
@@ -1772,15 +1774,15 @@
         await Task.Delay(200);
         var striplineelement = cut.Find("#container_stripline_Behind_text_yAxis1_0");
         // Note: Values may vary slightly depending on screen resolution.
-        Assert.True(Convert.ToDouble(striplineelement.GetAttribute("x")) == 330.84999999999997);
-        Assert.True(Convert.ToDouble(striplineelement.GetAttribute("y")) == 90.34750000000001);
+        Assert.True(Convert.ToDouble(striplineelement.GetAttribute("x")) == 329.54999999999995);
+        Assert.True(Convert.ToDouble(striplineelement.GetAttribute("y")) == 92.0375);
         Assert.True((striplineelement.GetAttribute("text-anchor")) == "Middle");
-        Assert.True((striplineelement.GetAttribute("transform")) == "rotate(0,330.84999999999997,90.34750000000001)");
+        Assert.True((striplineelement.GetAttribute("transform")) == "rotate(0,329.54999999999995,92.0375)");
         var striplineelement1 = cut.Find("#container_stripline_Behind_text_xAxis1_1");
-        Assert.True(Convert.ToDouble(striplineelement1.GetAttribute("x")) == 444.93125);
-        Assert.True(Convert.ToDouble(striplineelement1.GetAttribute("y")) == 175.52499999999998);
+        Assert.True(Convert.ToDouble(striplineelement1.GetAttribute("x")) == 443.46875000000006);
+        Assert.True(Convert.ToDouble(striplineelement1.GetAttribute("y")) == 176.825);
         Assert.True((striplineelement1.GetAttribute("text-anchor")) == "Middle");
-        Assert.True((striplineelement1.GetAttribute("transform")) == "rotate(-90,444.93125,175.52499999999998)");
+        Assert.True((striplineelement1.GetAttribute("transform")) == "rotate(-90,443.46875000000006,176.825)");
         cut.SetParametersAndRender();
     }
     public class ChartData36
@@ -1830,14 +1832,14 @@
                     </ChartStriplines>
                 </ChartAxis>
             </ChartAxes>
-            <ChartSeriesCollection>
+            
                 <ChartSeries DataSource="@chartsvalue37" XName="X" YName="Y" Type="ChartSeriesType.Line" Name="series1" Fill="#ACE5FF" Width="2" XAxisName="xAxis1">
                     <ChartMarker Visible="true" Width="5" Height="5"></ChartMarker>
                 </ChartSeries>
                 <ChartSeries DataSource="@chartsvalue37" XName="X" YName="Y1" Type="ChartSeriesType.Line" Name="series2" Fill="Red" Width="2" YAxisName="yAxis1">
                     <ChartMarker Visible="true" Width="5" Height="5"></ChartMarker>
                 </ChartSeries>
-            </ChartSeriesCollection>
+            
         </SfChart>
     </ComponentUnderTest>
 </SfFixture>
@@ -1851,17 +1853,17 @@
         await Task.Delay(200);
         var striplineelement = cut.Find("#container_stripline_Behind_rect_yAxis1_0");
         // Note: Values may vary slightly depending on screen resolution.
-        Assert.True(Convert.ToDouble(striplineelement.GetAttribute("x")) == 71.7);
-        Assert.True(Convert.ToDouble(striplineelement.GetAttribute("y")) == 77.58000000000001);
-        Assert.True(Convert.ToDouble(striplineelement.GetAttribute("height")) == 23.834999999999997);
-        Assert.True(Convert.ToDouble(striplineelement.GetAttribute("width")) == 518.3);
+        Assert.True(Convert.ToDouble(striplineelement.GetAttribute("x")) == 69.1);
+        Assert.True(Convert.ToDouble(striplineelement.GetAttribute("y")) == 78.1);
+        Assert.True(Convert.ToDouble(striplineelement.GetAttribute("height")) == 26.175);
+        Assert.True(Convert.ToDouble(striplineelement.GetAttribute("width")) == 520.9);
         var striplineelement1 = cut.Find("#container_stripline_Behind_rect_xAxis1_1");
         var tickLine = cut.Find("#container_MajorTickLine_3_1");
         Assert.True(Convert.ToDouble(tickLine.GetAttribute("d").Split(" ")[1]) == Convert.ToDouble(striplineelement1.GetAttribute("x")));
-        Assert.True(Convert.ToDouble(striplineelement1.GetAttribute("x")) == 388.775);
-        Assert.True(Convert.ToDouble(striplineelement1.GetAttribute("y")) == 45.8);
-        Assert.True(Convert.ToDouble(striplineelement1.GetAttribute("height")) == 259.45);
-        Assert.True(Convert.ToDouble(striplineelement1.GetAttribute("width")) == 100.61249999999998);
+        Assert.True(Convert.ToDouble(striplineelement1.GetAttribute("x")) == 386.82500000000005);
+        Assert.True(Convert.ToDouble(striplineelement1.GetAttribute("y")) == 43.2);
+        Assert.True(Convert.ToDouble(striplineelement1.GetAttribute("height")) == 267.25);
+        Assert.True(Convert.ToDouble(striplineelement1.GetAttribute("width")) == 101.58749999999999);
         cut.SetParametersAndRender();
     }
     public class ChartData37
@@ -1911,14 +1913,14 @@
                     </ChartStriplines>
                 </ChartAxis>
             </ChartAxes>
-            <ChartSeriesCollection>
+            
                 <ChartSeries DataSource="@chartsvalue38" XName="X" YName="Y" Type="ChartSeriesType.Line" Name="series1" Fill="#ACE5FF" Width="2" XAxisName="xAxis1">
                     <ChartMarker Visible="true" Width="5" Height="5"></ChartMarker>
                 </ChartSeries>
                 <ChartSeries DataSource="@chartsvalue38" XName="X" YName="Y1" Type="ChartSeriesType.Line" Name="series2" Fill="Red" Width="2" YAxisName="yAxis1">
                     <ChartMarker Visible="true" Width="5" Height="5"></ChartMarker>
                 </ChartSeries>
-            </ChartSeriesCollection>
+            
         </SfChart>
     </ComponentUnderTest>
 </SfFixture>
@@ -1932,15 +1934,15 @@
         await Task.Delay(200);
         var striplineelement = cut.Find("#container_stripline_Behind_rect_yAxis1_0");
         // Note: Values may vary slightly depending on screen resolution.
-        Assert.True(Convert.ToDouble(striplineelement.GetAttribute("x")) == 71.7);
-        Assert.True(Convert.ToDouble(striplineelement.GetAttribute("y")) == 77.58000000000001);
-        Assert.True(Convert.ToDouble(striplineelement.GetAttribute("height")) == 23.834999999999997);
-        Assert.True(Convert.ToDouble(striplineelement.GetAttribute("width")) == 518.3);
+        Assert.True(Convert.ToDouble(striplineelement.GetAttribute("x")) == 69.1);
+        Assert.True(Convert.ToDouble(striplineelement.GetAttribute("y")) == 78.1);
+        Assert.True(Convert.ToDouble(striplineelement.GetAttribute("height")) == 26.175);
+        Assert.True(Convert.ToDouble(striplineelement.GetAttribute("width")) == 520.9);
         var striplineelement1 = cut.Find("#container_stripline_Behind_rect_xAxis1_1");
-        Assert.True(Convert.ToDouble(striplineelement1.GetAttribute("x")) == 388.775);
-        Assert.True(Convert.ToDouble(striplineelement1.GetAttribute("y")) == 45.8);
-        Assert.True(Convert.ToDouble(striplineelement1.GetAttribute("height")) == 259.45);
-        Assert.True(Convert.ToDouble(striplineelement1.GetAttribute("width")) == 100.61249999999998);
+        Assert.True(Convert.ToDouble(striplineelement1.GetAttribute("x")) == 386.82500000000005);
+        Assert.True(Convert.ToDouble(striplineelement1.GetAttribute("y")) == 43.2);
+        Assert.True(Convert.ToDouble(striplineelement1.GetAttribute("height")) == 267.25);
+        Assert.True(Convert.ToDouble(striplineelement1.GetAttribute("width")) == 101.58749999999999);
         cut.SetParametersAndRender();
     }
     public class ChartData38
@@ -1990,14 +1992,14 @@
                     </ChartStriplines>
                 </ChartAxis>
             </ChartAxes>
-            <ChartSeriesCollection>
+            
                 <ChartSeries DataSource="@chartsvalue39" XName="X" YName="Y" Type="ChartSeriesType.Line" Name="series1" Fill="#ACE5FF" Width="2" XAxisName="xAxis1">
                     <ChartMarker Visible="true" Width="5" Height="5"></ChartMarker>
                 </ChartSeries>
                 <ChartSeries DataSource="@chartsvalue39" XName="X" YName="Y1" Type="ChartSeriesType.Line" Name="series2" Fill="Red" Width="2" YAxisName="yAxis1">
                     <ChartMarker Visible="true" Width="5" Height="5"></ChartMarker>
                 </ChartSeries>
-            </ChartSeriesCollection>
+            
         </SfChart>
     </ComponentUnderTest>
 </SfFixture>
@@ -2012,17 +2014,17 @@
         var striplineelement = cut.Find("#container_stripline_Behind_text_yAxis1_0");
         var striplineelement1 = cut.Find("#container_stripline_Behind_text_xAxis1_1");
         // Note: Values may vary slightly depending on screen resolution.
-        Assert.True((striplineelement.GetAttribute("x")) == "330.84999999999997");
-        Assert.True((striplineelement.GetAttribute("y")) == "90.3475");
-        Assert.True((striplineelement.GetAttribute("fill")) == "rgba(158, 158, 158, 1)");
+        Assert.True((striplineelement.GetAttribute("x")) == "329.54999999999995");
+        Assert.True((striplineelement.GetAttribute("y")) == "92.0375");
+        Assert.True((striplineelement.GetAttribute("fill")) == "#616161");
         Assert.True((striplineelement.GetAttribute("text-anchor")) == "Middle");
-        Assert.True((striplineelement.GetAttribute("transform")) == "rotate(0,330.84999999999997,90.3475)");
+        Assert.True((striplineelement.GetAttribute("transform")) == "rotate(0,329.54999999999995,92.0375)");
         
-        Assert.True((striplineelement1.GetAttribute("x")) == "444.93125");
-        Assert.True((striplineelement1.GetAttribute("y")) == "175.52499999999998");
-        Assert.True((striplineelement1.GetAttribute("fill")) == "rgba(158, 158, 158, 1)");
+        Assert.True((striplineelement1.GetAttribute("x")) == "443.46875000000006");
+        Assert.True((striplineelement1.GetAttribute("y")) == "176.825");
+        Assert.True((striplineelement1.GetAttribute("fill")) == "#616161");
         Assert.True((striplineelement1.GetAttribute("text-anchor")) == "Middle");
-        Assert.True((striplineelement1.GetAttribute("transform")) == "rotate(-90,444.93125,175.52499999999998)");
+        Assert.True((striplineelement1.GetAttribute("transform")) == "rotate(-90,443.46875000000006,176.825)");
         cut.SetParametersAndRender();
     }
     public class ChartData39
@@ -2072,14 +2074,14 @@
                     </ChartStriplines>
                 </ChartAxis>
             </ChartAxes>
-            <ChartSeriesCollection>
+            
                 <ChartSeries DataSource="@chartsvalue40" XName="X" YName="Y" Type="ChartSeriesType.Line" Name="series1" Fill="#ACE5FF" Width="2" XAxisName="xAxis1">
                     <ChartMarker Visible="true" Width="5" Height="5"></ChartMarker>
                 </ChartSeries>
                 <ChartSeries DataSource="@chartsvalue40" XName="X" YName="Y1" Type="ChartSeriesType.Line" Name="series2" Fill="Red" Width="2" YAxisName="yAxis1">
                     <ChartMarker Visible="true" Width="5" Height="5"></ChartMarker>
                 </ChartSeries>
-            </ChartSeriesCollection>
+            
         </SfChart>
     </ComponentUnderTest>
 </SfFixture>
@@ -2093,17 +2095,17 @@
         await Task.Delay(200);
         var striplineelement = cut.Find("#container_stripline_Behind_text_yAxis1_0");
         // Note: Values may vary slightly depending on screen resolution.
-        Assert.True((striplineelement.GetAttribute("x")) == "76.69999999999999");
-        Assert.True((striplineelement.GetAttribute("y")) == "73.38999999999999");
-        Assert.True((striplineelement.GetAttribute("fill")) == "rgba(158, 158, 158, 1)");
+        Assert.True((striplineelement.GetAttribute("x")) == "74.09999999999997");
+        Assert.True((striplineelement.GetAttribute("y")) == "72.35");
+        Assert.True((striplineelement.GetAttribute("fill")) == "#616161");
         Assert.True((striplineelement.GetAttribute("text-anchor")) == "Start");
-        Assert.True((striplineelement.GetAttribute("transform")) == "rotate(0,76.69999999999999,73.38999999999999)");
+        Assert.True((striplineelement.GetAttribute("transform")) == "rotate(0,74.09999999999997,72.35)");
         var striplineelement1 = cut.Find("#container_stripline_Behind_text_xAxis1_1");
-        Assert.True((striplineelement1.GetAttribute("x")) == "400.625");
-        Assert.True((striplineelement1.GetAttribute("y")) == "50.79999999999998");
-        Assert.True((striplineelement1.GetAttribute("fill")) == "rgba(158, 158, 158, 1)");
+        Assert.True((striplineelement1.GetAttribute("x")) == "398.67500000000007");
+        Assert.True((striplineelement1.GetAttribute("y")) == "48.19999999999999");
+        Assert.True((striplineelement1.GetAttribute("fill")) == "#616161");
         Assert.True((striplineelement1.GetAttribute("text-anchor")) == "End");
-        Assert.True((striplineelement1.GetAttribute("transform")) == "rotate(-90,400.625,50.79999999999998)");
+        Assert.True((striplineelement1.GetAttribute("transform")) == "rotate(-90,398.67500000000007,48.19999999999999)");
         cut.SetParametersAndRender();
     }
     public class ChartData40
@@ -2153,14 +2155,14 @@
                     </ChartStriplines>
                 </ChartAxis>
             </ChartAxes>
-            <ChartSeriesCollection>
+            
                 <ChartSeries DataSource="@chartsvalue41" XName="X" YName="Y" Type="ChartSeriesType.Line" Name="series1" Fill="#ACE5FF" Width="2" XAxisName="xAxis1">
                     <ChartMarker Visible="true" Width="5" Height="5"></ChartMarker>
                 </ChartSeries>
                 <ChartSeries DataSource="@chartsvalue41" XName="X" YName="Y1" Type="ChartSeriesType.Line" Name="series2" Fill="Red" Width="2" YAxisName="yAxis1">
                     <ChartMarker Visible="true" Width="5" Height="5"></ChartMarker>
                 </ChartSeries>
-            </ChartSeriesCollection>
+            
         </SfChart>
     </ComponentUnderTest>
 </SfFixture>
@@ -2174,17 +2176,17 @@
         await Task.Delay(200);
         var striplineelement = cut.Find("#container_stripline_Behind_text_yAxis1_0");
         // Note: Values may vary slightly depending on screen resolution.
-        Assert.True((striplineelement.GetAttribute("x")) == "76.69999999999999");
-        Assert.True((striplineelement.GetAttribute("y")) == "90.3475");
-        Assert.True((striplineelement.GetAttribute("fill")) == "rgba(158, 158, 158, 1)");
+        Assert.True((striplineelement.GetAttribute("x")) == "74.09999999999997");
+        Assert.True((striplineelement.GetAttribute("y")) == "92.0375");
+        Assert.True((striplineelement.GetAttribute("fill")) == "#616161");
         Assert.True((striplineelement.GetAttribute("text-anchor")) == "Start");
-        Assert.True((striplineelement.GetAttribute("transform")) == "rotate(0,76.69999999999999,90.3475)");
+        Assert.True((striplineelement.GetAttribute("transform")) == "rotate(0,74.09999999999997,92.0375)");
         var striplineelement1 = cut.Find("#container_stripline_Behind_text_xAxis1_1");
-        Assert.True((striplineelement1.GetAttribute("x")) == "400.625");
-        Assert.True((striplineelement1.GetAttribute("y")) == "175.52499999999998");
-        Assert.True((striplineelement1.GetAttribute("fill")) == "rgba(158, 158, 158, 1)");
+        Assert.True((striplineelement1.GetAttribute("x")) == "398.67500000000007");
+        Assert.True((striplineelement1.GetAttribute("y")) == "176.825");
+        Assert.True((striplineelement1.GetAttribute("fill")) == "#616161");
         Assert.True((striplineelement1.GetAttribute("text-anchor")) == "Middle");
-        Assert.True((striplineelement1.GetAttribute("transform")) == "rotate(-90,400.625,175.52499999999998)");
+        Assert.True((striplineelement1.GetAttribute("transform")) == "rotate(-90,398.67500000000007,176.825)");
         cut.SetParametersAndRender();
     }
     public class ChartData41
@@ -2234,14 +2236,14 @@
                     </ChartStriplines>
                 </ChartAxis>
             </ChartAxes>
-            <ChartSeriesCollection>
+            
                 <ChartSeries DataSource="@chartsvalue42" XName="X" YName="Y" Type="ChartSeriesType.Line" Name="series1" Fill="#ACE5FF" Width="2" XAxisName="xAxis1">
                     <ChartMarker Visible="true" Width="5" Height="5"></ChartMarker>
                 </ChartSeries>
                 <ChartSeries DataSource="@chartsvalue42" XName="X" YName="Y1" Type="ChartSeriesType.Line" Name="series2" Fill="Red" Width="2" YAxisName="yAxis1">
                     <ChartMarker Visible="true" Width="5" Height="5"></ChartMarker>
                 </ChartSeries>
-            </ChartSeriesCollection>
+            
         </SfChart>
     </ComponentUnderTest>
 </SfFixture>
@@ -2255,17 +2257,17 @@
         await Task.Delay(200);
         var striplineelement = cut.Find("#container_stripline_Behind_text_yAxis1_0");
         // Note: Values may vary slightly depending on screen resolution.
-        Assert.True((striplineelement.GetAttribute("x")) == "76.69999999999999");
-        Assert.True((striplineelement.GetAttribute("y")) == "107.305");
-        Assert.True((striplineelement.GetAttribute("fill")) == "rgba(158, 158, 158, 1)");
+        Assert.True((striplineelement.GetAttribute("x")) == "74.09999999999997");
+        Assert.True((striplineelement.GetAttribute("y")) == "111.725");
+        Assert.True((striplineelement.GetAttribute("fill")) == "#616161");
         Assert.True((striplineelement.GetAttribute("text-anchor")) == "Start");
-        Assert.True((striplineelement.GetAttribute("transform")) == "rotate(0,76.69999999999999,107.305)");
+        Assert.True((striplineelement.GetAttribute("transform")) == "rotate(0,74.09999999999997,111.725)");
         var striplineelement1 = cut.Find("#container_stripline_Behind_text_xAxis1_1");
-        Assert.True((striplineelement1.GetAttribute("x")) == "400.625");
-        Assert.True((striplineelement1.GetAttribute("y")) == "300.25");
-        Assert.True((striplineelement1.GetAttribute("fill")) == "rgba(158, 158, 158, 1)");
+        Assert.True((striplineelement1.GetAttribute("x")) == "398.67500000000007");
+        Assert.True((striplineelement1.GetAttribute("y")) == "305.45");
+        Assert.True((striplineelement1.GetAttribute("fill")) == "#616161");
         Assert.True((striplineelement1.GetAttribute("text-anchor")) == "Start");
-        Assert.True((striplineelement1.GetAttribute("transform")) == "rotate(-90,400.625,300.25)");
+        Assert.True((striplineelement1.GetAttribute("transform")) == "rotate(-90,398.67500000000007,305.45)");
         cut.SetParametersAndRender();
     }
     public class ChartData42
@@ -2315,14 +2317,14 @@
                     </ChartStriplines>
                 </ChartAxis>
             </ChartAxes>
-            <ChartSeriesCollection>
+            
                 <ChartSeries DataSource="@chartsvalue43" XName="X" YName="Y" Type="ChartSeriesType.Line" Name="series1" Fill="#ACE5FF" Width="2" XAxisName="xAxis1">
                     <ChartMarker Visible="true" Width="5" Height="5"></ChartMarker>
                 </ChartSeries>
                 <ChartSeries DataSource="@chartsvalue43" XName="X" YName="Y1" Type="ChartSeriesType.Line" Name="series2" Fill="Red" Width="2" YAxisName="yAxis1">
                     <ChartMarker Visible="true" Width="5" Height="5"></ChartMarker>
                 </ChartSeries>
-            </ChartSeriesCollection>
+            
         </SfChart>
     </ComponentUnderTest>
 </SfFixture>
@@ -2336,17 +2338,17 @@
         await Task.Delay(200);
         var striplineelement = cut.Find("#container_stripline_Behind_text_yAxis1_0");
         // Note: Values may vary slightly depending on screen resolution.
-        Assert.True((striplineelement.GetAttribute("x")) == "330.84999999999997");
-        Assert.True((striplineelement.GetAttribute("y")) == "107.305");
-        Assert.True((striplineelement.GetAttribute("fill")) == "rgba(158, 158, 158, 1)");
+        Assert.True((striplineelement.GetAttribute("x")) == "329.54999999999995");
+        Assert.True((striplineelement.GetAttribute("y")) == "111.725");
+        Assert.True((striplineelement.GetAttribute("fill")) == "#616161");
         Assert.True((striplineelement.GetAttribute("text-anchor")) == "Middle");
-        Assert.True((striplineelement.GetAttribute("transform")) == "rotate(0,330.84999999999997,107.305)");
+        Assert.True((striplineelement.GetAttribute("transform")) == "rotate(0,329.54999999999995,111.725)");
         var striplineelement1 = cut.Find("#container_stripline_Behind_text_xAxis1_1");
-        Assert.True((striplineelement1.GetAttribute("x")) == "444.93125");
-        Assert.True((striplineelement1.GetAttribute("y")) == "300.25");
-        Assert.True((striplineelement1.GetAttribute("fill")) == "rgba(158, 158, 158, 1)");
+        Assert.True((striplineelement1.GetAttribute("x")) == "443.46875000000006");
+        Assert.True((striplineelement1.GetAttribute("y")) == "305.45");
+        Assert.True((striplineelement1.GetAttribute("fill")) == "#616161");
         Assert.True((striplineelement1.GetAttribute("text-anchor")) == "Start");
-        Assert.True((striplineelement1.GetAttribute("transform")) == "rotate(-90,444.93125,300.25)");
+        Assert.True((striplineelement1.GetAttribute("transform")) == "rotate(-90,443.46875000000006,305.45)");
         cut.SetParametersAndRender();
     }
     public class ChartData43
@@ -2396,14 +2398,14 @@
                     </ChartStriplines>
                 </ChartAxis>
             </ChartAxes>
-            <ChartSeriesCollection>
+            
                 <ChartSeries DataSource="@chartsvalue44" XName="X" YName="Y" Type="ChartSeriesType.Line" Name="series1" Fill="#ACE5FF" Width="2" XAxisName="xAxis1">
                     <ChartMarker Visible="true" Width="5" Height="5"></ChartMarker>
                 </ChartSeries>
                 <ChartSeries DataSource="@chartsvalue44" XName="X" YName="Y1" Type="ChartSeriesType.Line" Name="series2" Fill="Red" Width="2" YAxisName="yAxis1">
                     <ChartMarker Visible="true" Width="5" Height="5"></ChartMarker>
                 </ChartSeries>
-            </ChartSeriesCollection>
+            
         </SfChart>
     </ComponentUnderTest>
 </SfFixture>
@@ -2417,17 +2419,17 @@
         await Task.Delay(200);
         var striplineelement = cut.Find("#container_stripline_Behind_text_yAxis1_0");
         // Note: Values may vary slightly depending on screen resolution.
-        Assert.True((striplineelement.GetAttribute("x")) == "330.84999999999997");
-        Assert.True((striplineelement.GetAttribute("y")) == "90.3475");
-        Assert.True((striplineelement.GetAttribute("fill")) == "rgba(158, 158, 158, 1)");
+        Assert.True((striplineelement.GetAttribute("x")) == "329.54999999999995");
+        Assert.True((striplineelement.GetAttribute("y")) == "92.0375");
+        Assert.True((striplineelement.GetAttribute("fill")) == "#616161");
         Assert.True((striplineelement.GetAttribute("text-anchor")) == "Middle");
-        Assert.True((striplineelement.GetAttribute("transform")) == "rotate(0,330.84999999999997,90.3475)");
+        Assert.True((striplineelement.GetAttribute("transform")) == "rotate(0,329.54999999999995,92.0375)");
         var striplineelement1 = cut.Find("#container_stripline_Behind_text_xAxis1_1");
-        Assert.True((striplineelement1.GetAttribute("x")) == "444.93125");
-        Assert.True((striplineelement1.GetAttribute("y")) == "175.52499999999998");
-        Assert.True((striplineelement1.GetAttribute("fill")) == "rgba(158, 158, 158, 1)");
+        Assert.True((striplineelement1.GetAttribute("x")) == "443.46875000000006");
+        Assert.True((striplineelement1.GetAttribute("y")) == "176.825");
+        Assert.True((striplineelement1.GetAttribute("fill")) == "#616161");
         Assert.True((striplineelement1.GetAttribute("text-anchor")) == "Middle");
-        Assert.True((striplineelement1.GetAttribute("transform")) == "rotate(-90,444.93125,175.52499999999998)");
+        Assert.True((striplineelement1.GetAttribute("transform")) == "rotate(-90,443.46875000000006,176.825)");
         cut.SetParametersAndRender();
     }
     public class ChartData44
@@ -2477,14 +2479,14 @@
                     </ChartStriplines>
                 </ChartAxis>
             </ChartAxes>
-            <ChartSeriesCollection>
+            
                 <ChartSeries DataSource="@chartsvalue45" XName="X" YName="Y" Type="ChartSeriesType.Line" Name="series1" Fill="#ACE5FF" Width="2" XAxisName="xAxis1">
                     <ChartMarker Visible="true" Width="5" Height="5"></ChartMarker>
                 </ChartSeries>
                 <ChartSeries DataSource="@chartsvalue45" XName="X" YName="Y1" Type="ChartSeriesType.Line" Name="series2" Fill="Red" Width="2" YAxisName="yAxis1">
                     <ChartMarker Visible="true" Width="5" Height="5"></ChartMarker>
                 </ChartSeries>
-            </ChartSeriesCollection>
+            
         </SfChart>
     </ComponentUnderTest>
 </SfFixture>
@@ -2498,17 +2500,17 @@
         await Task.Delay(200);
         var striplineelement = cut.Find("#container_stripline_Behind_text_yAxis1_0");
         // Note: Values may vary slightly depending on screen resolution.
-        Assert.True((striplineelement.GetAttribute("x")) == "330.84999999999997");
-        Assert.True((striplineelement.GetAttribute("y")) == "73.38999999999999");
-        Assert.True((striplineelement.GetAttribute("fill")) == "rgba(158, 158, 158, 1)");
+        Assert.True((striplineelement.GetAttribute("x")) == "329.54999999999995");
+        Assert.True((striplineelement.GetAttribute("y")) == "72.35");
+        Assert.True((striplineelement.GetAttribute("fill")) == "#616161");
         Assert.True((striplineelement.GetAttribute("text-anchor")) == "Middle");
-        Assert.True((striplineelement.GetAttribute("transform")) == "rotate(0,330.84999999999997,73.38999999999999)");
+        Assert.True((striplineelement.GetAttribute("transform")) == "rotate(0,329.54999999999995,72.35)");
         var striplineelement1 = cut.Find("#container_stripline_Behind_text_xAxis1_1");
-        Assert.True((striplineelement1.GetAttribute("x")) == "444.93125");
-        Assert.True((striplineelement1.GetAttribute("y")) == "50.79999999999998");
-        Assert.True((striplineelement1.GetAttribute("fill")) == "rgba(158, 158, 158, 1)");
+        Assert.True((striplineelement1.GetAttribute("x")) == "443.46875000000006");
+        Assert.True((striplineelement1.GetAttribute("y")) == "48.19999999999999");
+        Assert.True((striplineelement1.GetAttribute("fill")) == "#616161");
         Assert.True((striplineelement1.GetAttribute("text-anchor")) == "End");
-        Assert.True((striplineelement1.GetAttribute("transform")) == "rotate(-90,444.93125,50.79999999999998)");
+        Assert.True((striplineelement1.GetAttribute("transform")) == "rotate(-90,443.46875000000006,48.19999999999999)");
         cut.SetParametersAndRender();
     }
     public class ChartData45
@@ -2558,14 +2560,14 @@
                     </ChartStriplines>
                 </ChartAxis>
             </ChartAxes>
-            <ChartSeriesCollection>
+            
                 <ChartSeries DataSource="@chartsvalue46" XName="X" YName="Y" Type="ChartSeriesType.Line" Name="series1" Fill="#ACE5FF" Width="2" XAxisName="xAxis1">
                     <ChartMarker Visible="true" Width="5" Height="5"></ChartMarker>
                 </ChartSeries>
                 <ChartSeries DataSource="@chartsvalue46" XName="X" YName="Y1" Type="ChartSeriesType.Line" Name="series2" Fill="Red" Width="2" YAxisName="yAxis1">
                     <ChartMarker Visible="true" Width="5" Height="5"></ChartMarker>
                 </ChartSeries>
-            </ChartSeriesCollection>
+            
         </SfChart>
     </ComponentUnderTest>
 </SfFixture>
@@ -2580,16 +2582,16 @@
         var striplineelement = cut.Find("#container_stripline_Behind_text_yAxis1_0");
         // Note: Values may vary slightly depending on screen resolution.
         Assert.True((striplineelement.GetAttribute("x")) == "585");
-        Assert.True((striplineelement.GetAttribute("y")) == "73.38999999999999");
-        Assert.True((striplineelement.GetAttribute("fill")) == "rgba(158, 158, 158, 1)");
+        Assert.True((striplineelement.GetAttribute("y")) == "72.35");
+        Assert.True((striplineelement.GetAttribute("fill")) == "#616161");
         Assert.True((striplineelement.GetAttribute("text-anchor")) == "End");
-        Assert.True((striplineelement.GetAttribute("transform")) == "rotate(0,585,73.38999999999999)");
+        Assert.True((striplineelement.GetAttribute("transform")) == "rotate(0,585,72.35)");
         var striplineelement1 = cut.Find("#container_stripline_Behind_text_xAxis1_1");
-        Assert.True((striplineelement1.GetAttribute("x")) == "489.23749999999995");
-        Assert.True((striplineelement1.GetAttribute("y")) == "50.79999999999998");
-        Assert.True((striplineelement1.GetAttribute("fill")) == "rgba(158, 158, 158, 1)");
+        Assert.True((striplineelement1.GetAttribute("x")) == "488.26250000000005");
+        Assert.True((striplineelement1.GetAttribute("y")) == "48.19999999999999");
+        Assert.True((striplineelement1.GetAttribute("fill")) == "#616161");
         Assert.True((striplineelement1.GetAttribute("text-anchor")) == "End");
-        Assert.True((striplineelement1.GetAttribute("transform")) == "rotate(-90,489.23749999999995,50.79999999999998)");
+        Assert.True((striplineelement1.GetAttribute("transform")) == "rotate(-90,488.26250000000005,48.19999999999999)");
         cut.SetParametersAndRender();
     }
     public class ChartData46
@@ -2639,14 +2641,14 @@
                     </ChartStriplines>
                 </ChartAxis>
             </ChartAxes>
-            <ChartSeriesCollection>
+            
                 <ChartSeries DataSource="@chartsvalue47" XName="X" YName="Y" Type="ChartSeriesType.Line" Name="series1" Fill="#ACE5FF" Width="2" XAxisName="xAxis1">
                     <ChartMarker Visible="true" Width="5" Height="5"></ChartMarker>
                 </ChartSeries>
                 <ChartSeries DataSource="@chartsvalue47" XName="X" YName="Y1" Type="ChartSeriesType.Line" Name="series2" Fill="Red" Width="2" YAxisName="yAxis1">
                     <ChartMarker Visible="true" Width="5" Height="5"></ChartMarker>
                 </ChartSeries>
-            </ChartSeriesCollection>
+            
         </SfChart>
     </ComponentUnderTest>
 </SfFixture>
@@ -2661,16 +2663,16 @@
         var striplineelement = cut.Find("#container_stripline_Behind_text_yAxis1_0");
         // Note: Values may vary slightly depending on screen resolution.
         Assert.True((striplineelement.GetAttribute("x")) == "585");
-        Assert.True((striplineelement.GetAttribute("y")) == "90.3475");
-        Assert.True((striplineelement.GetAttribute("fill")) == "rgba(158, 158, 158, 1)");
+        Assert.True((striplineelement.GetAttribute("y")) == "92.0375");
+        Assert.True((striplineelement.GetAttribute("fill")) == "#616161");
         Assert.True((striplineelement.GetAttribute("text-anchor")) == "End");
-        Assert.True((striplineelement.GetAttribute("transform")) == "rotate(0,585,90.3475)");
+        Assert.True((striplineelement.GetAttribute("transform")) == "rotate(0,585,92.0375)");
         var striplineelement1 = cut.Find("#container_stripline_Behind_text_xAxis1_1");
-        Assert.True((striplineelement1.GetAttribute("x")) == "489.23749999999995");
-        Assert.True((striplineelement1.GetAttribute("y")) == "175.52499999999998");
-        Assert.True((striplineelement1.GetAttribute("fill")) == "rgba(158, 158, 158, 1)");
+        Assert.True((striplineelement1.GetAttribute("x")) == "488.26250000000005");
+        Assert.True((striplineelement1.GetAttribute("y")) == "176.825");
+        Assert.True((striplineelement1.GetAttribute("fill")) == "#616161");
         Assert.True((striplineelement1.GetAttribute("text-anchor")) == "Middle");
-        Assert.True((striplineelement1.GetAttribute("transform")) == "rotate(-90,489.23749999999995,175.52499999999998)");
+        Assert.True((striplineelement1.GetAttribute("transform")) == "rotate(-90,488.26250000000005,176.825)");
         cut.SetParametersAndRender();
     }
     public class ChartData47
@@ -2720,14 +2722,14 @@
                     </ChartStriplines>
                 </ChartAxis>
             </ChartAxes>
-            <ChartSeriesCollection>
+            
                 <ChartSeries DataSource="@chartsvalue48" XName="X" YName="Y" Type="ChartSeriesType.Line" Name="series1" Fill="#ACE5FF" Width="2" XAxisName="xAxis1">
                     <ChartMarker Visible="true" Width="5" Height="5"></ChartMarker>
                 </ChartSeries>
                 <ChartSeries DataSource="@chartsvalue48" XName="X" YName="Y1" Type="ChartSeriesType.Line" Name="series2" Fill="Red" Width="2" YAxisName="yAxis1">
                     <ChartMarker Visible="true" Width="5" Height="5"></ChartMarker>
                 </ChartSeries>
-            </ChartSeriesCollection>
+            
         </SfChart>
     </ComponentUnderTest>
 </SfFixture>
@@ -2742,16 +2744,16 @@
         var striplineelement = cut.Find("#container_stripline_Behind_text_yAxis1_0");
         // Note: Values may vary slightly depending on screen resolution.
         Assert.True((striplineelement.GetAttribute("x")) == "585");
-        Assert.True((striplineelement.GetAttribute("y")) == "107.305");
-        Assert.True((striplineelement.GetAttribute("fill")) == "rgba(158, 158, 158, 1)");
+        Assert.True((striplineelement.GetAttribute("y")) == "111.725");
+        Assert.True((striplineelement.GetAttribute("fill")) == "#616161");
         Assert.True((striplineelement.GetAttribute("text-anchor")) == "End");
-        Assert.True((striplineelement.GetAttribute("transform")) == "rotate(0,585,107.305)");
+        Assert.True((striplineelement.GetAttribute("transform")) == "rotate(0,585,111.725)");
         var striplineelement1 = cut.Find("#container_stripline_Behind_text_xAxis1_1");
-        Assert.True((striplineelement1.GetAttribute("x")) == "489.23749999999995");
-        Assert.True((striplineelement1.GetAttribute("y")) == "300.25");
-        Assert.True((striplineelement1.GetAttribute("fill")) == "rgba(158, 158, 158, 1)");
+        Assert.True((striplineelement1.GetAttribute("x")) == "488.26250000000005");
+        Assert.True((striplineelement1.GetAttribute("y")) == "305.45");
+        Assert.True((striplineelement1.GetAttribute("fill")) == "#616161");
         Assert.True((striplineelement1.GetAttribute("text-anchor")) == "Start");
-        Assert.True((striplineelement1.GetAttribute("transform")) == "rotate(-90,489.23749999999995,300.25)");
+        Assert.True((striplineelement1.GetAttribute("transform")) == "rotate(-90,488.26250000000005,305.45)");
         cut.SetParametersAndRender();
     }
     public class ChartData48
@@ -2801,14 +2803,14 @@
                     </ChartStriplines>
                 </ChartAxis>
             </ChartAxes>
-            <ChartSeriesCollection>
+            
                 <ChartSeries DataSource="@chartsvalue49" XName="X" YName="Y" Type="ChartSeriesType.Line" Name="series1" Fill="#ACE5FF" Width="2" XAxisName="xAxis1">
                     <ChartMarker Visible="true" Width="5" Height="5"></ChartMarker>
                 </ChartSeries>
                 <ChartSeries DataSource="@chartsvalue49" XName="X" YName="Y1" Type="ChartSeriesType.Line" Name="series2" Fill="Red" Width="2" YAxisName="yAxis1">
                     <ChartMarker Visible="true" Width="5" Height="5"></ChartMarker>
                 </ChartSeries>
-            </ChartSeriesCollection>
+            
         </SfChart>
     </ComponentUnderTest>
 </SfFixture>
@@ -2823,9 +2825,9 @@
         var striplineelement1 = cut.Find("#container_stripline_Behind_text_yAxis1_0");
         // Note: Values may vary slightly depending on screen resolution.
         Assert.True(Convert.ToDouble(striplineelement1.GetAttribute("x")) == 585);
-        Assert.True(Convert.ToDouble(striplineelement1.GetAttribute("y")) == 91.41500000000002);
+        Assert.True(Convert.ToDouble(striplineelement1.GetAttribute("y")) == 94.275);
         Assert.True((striplineelement1.GetAttribute("text-anchor")) == "End");
-        Assert.True((striplineelement1.GetAttribute("transform")) == "rotate(-30,585,91.41500000000002)");
+        Assert.True((striplineelement1.GetAttribute("transform")) == "rotate(-30,585,94.275)");
         cut.SetParametersAndRender();
     }
     public class ChartData49
@@ -2868,11 +2870,11 @@
                 <ChartColumn Width="250"></ChartColumn>
                 <ChartColumn Width="250"></ChartColumn>
             </ChartColumns>            
-            <ChartSeriesCollection>
+            
                 <ChartSeries DataSource="@chartsvalue50" XName="X" YName="Y" Type="ChartSeriesType.Line" Name="series1" Fill="#ACE5FF" Width="2">
                     <ChartMarker Visible="true" Width="5" Height="5"></ChartMarker>
                 </ChartSeries>
-            </ChartSeriesCollection>
+            
         </SfChart>
     </ComponentUnderTest>
 </SfFixture>
@@ -2932,11 +2934,11 @@
                 <ChartColumn Width="250"></ChartColumn>
                 <ChartColumn Width="250"></ChartColumn>
             </ChartColumns>            
-            <ChartSeriesCollection>
+            
                 <ChartSeries DataSource="@chartsvalue51" XName="X" YName="Y" Type="ChartSeriesType.Line" Name="series1" Fill="#ACE5FF" Width="2">
                     <ChartMarker Visible="true" Width="5" Height="5"></ChartMarker>
                 </ChartSeries>
-            </ChartSeriesCollection>
+            
         </SfChart>
     </ComponentUnderTest>
 </SfFixture>
@@ -2984,9 +2986,9 @@
                 </ChartStriplines>
             </ChartPrimaryXAxis>
             <ChartPrimaryYAxis Title="Sales Amount in millions(USD)" RangePadding="ChartRangePadding.Additional"></ChartPrimaryYAxis>
-            <ChartSeriesCollection>
+            
                 <ChartSeries DataSource="@chartsvalue53" XName="X" YName="Y"></ChartSeries>
-            </ChartSeriesCollection>
+            
         </SfChart>
     </ComponentUnderTest>
 </SfFixture>
@@ -3051,9 +3053,9 @@
                 </ChartStriplines>
             </ChartPrimaryXAxis>
             <ChartPrimaryYAxis Title="Sales Amount in millions(USD)" RangePadding="ChartRangePadding.Additional"></ChartPrimaryYAxis>
-            <ChartSeriesCollection>
+            
                 <ChartSeries DataSource="@chartsvalue" XName="X" YName="Y"></ChartSeries>
-            </ChartSeriesCollection>
+            
         </SfChart>
     </ComponentUnderTest>
 </SfFixture>

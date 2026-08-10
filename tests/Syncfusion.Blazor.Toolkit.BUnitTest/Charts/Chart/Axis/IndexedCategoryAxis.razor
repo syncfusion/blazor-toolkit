@@ -11,11 +11,11 @@
         <SfChart ID="container" Height="400" Width="900">
             <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Toolkit.ValueType.Category" IsIndexed="true" LabelIntersectAction="LabelIntersectAction.Hide"></ChartPrimaryXAxis>
             <ChartPrimaryYAxis Title="PrimaryYaxis" RangePadding="ChartRangePadding.None"></ChartPrimaryYAxis>
-            <ChartSeriesCollection>
+            
                 <ChartSeries DataSource="@Sales" XName="x" YName="y" Type="ChartSeriesType.Column" Name="Gold">
                     <ChartSeriesAnimation Enable="false"></ChartSeriesAnimation>
                 </ChartSeries>
-            </ChartSeriesCollection>
+            
         </SfChart>
     </ComponentUnderTest>
 </SfFixture>
@@ -62,11 +62,11 @@
         <SfChart ID="container" Height="400" Width="900">
             <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Toolkit.ValueType.Category" IsIndexed="false" LabelIntersectAction="LabelIntersectAction.Hide"></ChartPrimaryXAxis>
             <ChartPrimaryYAxis Title="PrimaryYaxis" RangePadding="ChartRangePadding.None"></ChartPrimaryYAxis>
-            <ChartSeriesCollection>
+            
                 <ChartSeries DataSource="@Sales1" XName="x" YName="y" Type="ChartSeriesType.Column" Name="Gold">
                     <ChartSeriesAnimation Enable="false"></ChartSeriesAnimation>
                 </ChartSeries>
-            </ChartSeriesCollection>
+            
         </SfChart>
     </ComponentUnderTest>
 </SfFixture>
@@ -110,14 +110,14 @@
         <SfChart ID="container" Height="400" Width="900">
             <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Toolkit.ValueType.Category" IsIndexed="true" LabelIntersectAction="LabelIntersectAction.Hide"></ChartPrimaryXAxis>
             <ChartPrimaryYAxis Title="PrimaryYaxis" RangePadding="ChartRangePadding.None"></ChartPrimaryYAxis>
-            <ChartSeriesCollection>
+            
                 <ChartSeries DataSource="@Sales2" XName="x" YName="y" Type="ChartSeriesType.Column" Name="Gold">
                     <ChartSeriesAnimation Enable="false"></ChartSeriesAnimation>
                 </ChartSeries>
                 <ChartSeries DataSource="@Sales2" XName="x" YName="y" Type="ChartSeriesType.Column" Name="Silver">
                     <ChartSeriesAnimation Enable="false"></ChartSeriesAnimation>
                 </ChartSeries>
-            </ChartSeriesCollection>
+            
         </SfChart>
     </ComponentUnderTest>
 </SfFixture>
@@ -172,14 +172,14 @@
             </ChartAxes>
             <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Toolkit.ValueType.Category" IsIndexed="true" LabelIntersectAction="LabelIntersectAction.Hide"></ChartPrimaryXAxis>
             <ChartPrimaryYAxis Title="PrimaryYaxis" RangePadding="ChartRangePadding.None"></ChartPrimaryYAxis>
-            <ChartSeriesCollection>
+            
                 <ChartSeries DataSource="@Sales3" XName="x" YName="y" YAxisName="yAxis" Type="ChartSeriesType.Column" Name="Gold">
                     <ChartSeriesAnimation Enable="false"></ChartSeriesAnimation>
                 </ChartSeries>
                 <ChartSeries DataSource="@Sales3" XName="x" YName="y" Type="ChartSeriesType.Column" Name="Silver">
                     <ChartSeriesAnimation Enable="false"></ChartSeriesAnimation>
                 </ChartSeries>
-            </ChartSeriesCollection>
+            
         </SfChart>
     </ComponentUnderTest>
 </SfFixture>
@@ -190,11 +190,11 @@
     {
         var cut = fixture3.GetComponentUnderTest<SfChart>();
         await Task.Delay(200);
-        var svg = cut.Find("#containerAxisLabels0");
+        var svg = cut.Find("#containerAxisLabels1");
         Assert.True(svg.ChildNodes.Length == 7);
         var svg1 = cut.Find("#container0_AxisLabel_0");
-        Assert.True(svg1.TextContent == "Monday, Monday\n    ");
-        var svg2 = cut.Find("#container0_AxisLabel_6");
+        Assert.True(svg1.TextContent == "0\n    ");
+        var svg2 = cut.Find("#container1_AxisLabel_6");
         Assert.True(svg2.TextContent == "Monday, Monday\n    ");
         cut.SetParametersAndRender();
     }
@@ -234,14 +234,14 @@
             </ChartAxes>
             <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Toolkit.ValueType.Category" IsIndexed="true" LabelIntersectAction="LabelIntersectAction.Hide"></ChartPrimaryXAxis>
             <ChartPrimaryYAxis Title="PrimaryYaxis" RangePadding="ChartRangePadding.None"></ChartPrimaryYAxis>
-            <ChartSeriesCollection>
+            
                 <ChartSeries DataSource="@Sales4" XName="x" YName="y" XAxisName="xAxis" Type="ChartSeriesType.Column" Name="Gold">
                     <ChartSeriesAnimation Enable="false"></ChartSeriesAnimation>
                 </ChartSeries>
                 <ChartSeries DataSource="@Sales4" XName="x" YName="y" Type="ChartSeriesType.Column" Name="Silver">
                     <ChartSeriesAnimation Enable="false"></ChartSeriesAnimation>
                 </ChartSeries>
-            </ChartSeriesCollection>
+            
         </SfChart>
     </ComponentUnderTest>
 </SfFixture>
@@ -252,11 +252,11 @@
     {
         var cut = fixture4.GetComponentUnderTest<SfChart>();
         await Task.Delay(200);
-        var svg = cut.Find("#containerAxisLabels0");
+        var svg = cut.Find("#containerAxisLabels1");
         Assert.True(svg.ChildNodes.Length == 7);
         var svg1 = cut.Find("#container0_AxisLabel_0");
         Assert.True(svg1.TextContent == "Monday\n    ");
-        var svg2 = cut.Find("#container0_AxisLabel_6");
+        var svg2 = cut.Find("#container1_AxisLabel_6");
         Assert.True(svg2.TextContent == "Monday\n    ");
         cut.SetParametersAndRender();
     }
@@ -296,7 +296,7 @@
             </ChartAxes>
             <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Toolkit.ValueType.Category" IsIndexed="true" LabelIntersectAction="LabelIntersectAction.Hide"></ChartPrimaryXAxis>
             <ChartPrimaryYAxis Title="PrimaryYaxis" RangePadding="ChartRangePadding.None"></ChartPrimaryYAxis>
-            <ChartSeriesCollection>
+            
                 <ChartSeries DataSource="@Sales5" XName="x" YName="y" XAxisName="xAxis" Type="ChartSeriesType.Column" Name="Gold">
                     <ChartSeriesAnimation Enable="false"></ChartSeriesAnimation>
                 </ChartSeries>
@@ -309,7 +309,7 @@
                 <ChartSeries DataSource="@Sales5" XName="x" YName="y" Type="ChartSeriesType.Column" Name="Silver1">
                     <ChartSeriesAnimation Enable="false"></ChartSeriesAnimation>
                 </ChartSeries>
-            </ChartSeriesCollection>
+            
         </SfChart>
     </ComponentUnderTest>
 </SfFixture>
@@ -321,9 +321,9 @@
         var cut = fixture5.GetComponentUnderTest<SfChart>();
         await Task.Delay(200);
         var svg1 = cut.Find("#container0_AxisLabel_0");
-        Assert.True(svg1.TextContent == "Monday, Monday\n    ");
+        Assert.True(svg1.TextContent == "Monday\n    ");
         var svg2 = cut.Find("#container2_AxisLabel_0");
-        Assert.True(svg2.TextContent == "Monday\n    ");
+        Assert.True(svg2.TextContent == "30\n    ");
         cut.SetParametersAndRender();
     }
     public class SalesInfo5
@@ -362,7 +362,7 @@
             </ChartAxes>
             <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Toolkit.ValueType.Category" IsIndexed="true" LabelIntersectAction="LabelIntersectAction.Hide"></ChartPrimaryXAxis>
             <ChartPrimaryYAxis Title="PrimaryYaxis" RangePadding="ChartRangePadding.None"></ChartPrimaryYAxis>
-            <ChartSeriesCollection>
+            
                 <ChartSeries DataSource="@Sales6" XName="x" YName="y" XAxisName="xAxis" Type="ChartSeriesType.Column" Name="Gold">
                     <ChartSeriesAnimation Enable="false"></ChartSeriesAnimation>
                 </ChartSeries>
@@ -375,7 +375,7 @@
                 <ChartSeries DataSource="@Sales6" XName="x" YName="y" Type="ChartSeriesType.Column" Name="Silver1">
                     <ChartSeriesAnimation Enable="false"></ChartSeriesAnimation>
                 </ChartSeries>
-            </ChartSeriesCollection>
+            
         </SfChart>
     </ComponentUnderTest>
 </SfFixture>
@@ -387,7 +387,7 @@
         var cut = fixture6.GetComponentUnderTest<SfChart>();
         await Task.Delay(200);
         var svg1 = cut.Find("#container2_AxisLabel_0");
-        Assert.True(svg1.TextContent == "Monday, Monday\n    ");
+        Assert.True(svg1.TextContent == "30\n    ");
         cut.SetParametersAndRender();
     }
     public class SalesInfo6
@@ -426,7 +426,7 @@
             </ChartAxes>
             <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Toolkit.ValueType.Category" IsIndexed="true" LabelIntersectAction="LabelIntersectAction.Hide" Span="2"></ChartPrimaryXAxis>
             <ChartPrimaryYAxis Title="PrimaryYaxis" RangePadding="ChartRangePadding.None"></ChartPrimaryYAxis>
-            <ChartSeriesCollection>
+            
                 <ChartSeries DataSource="@Sales7" XName="x" YName="y" XAxisName="xAxis" Type="ChartSeriesType.Column" Name="Gold">
                     <ChartSeriesAnimation Enable="false"></ChartSeriesAnimation>
                 </ChartSeries>
@@ -439,7 +439,7 @@
                 <ChartSeries DataSource="@Sales7" XName="x" YName="y" Type="ChartSeriesType.Column" Name="Silver1">
                     <ChartSeriesAnimation Enable="false"></ChartSeriesAnimation>
                 </ChartSeries>
-            </ChartSeriesCollection>
+            
         </SfChart>
     </ComponentUnderTest>
 </SfFixture>
@@ -451,7 +451,7 @@
         var cut = fixture7.GetComponentUnderTest<SfChart>();
         await Task.Delay(200);
         var svg1 = cut.Find("#container2_AxisLabel_0");
-        Assert.True(svg1.TextContent == "Monday, Monday\n    ");
+        Assert.True(svg1.TextContent == "30\n    ");
         cut.SetParametersAndRender();
     }
     public class SalesInfo7
@@ -492,7 +492,7 @@
             </ChartAxes>
             <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Toolkit.ValueType.Category" IsIndexed="true" LabelIntersectAction="LabelIntersectAction.Hide" Span="2"></ChartPrimaryXAxis>
             <ChartPrimaryYAxis Title="PrimaryYaxis" RangePadding="ChartRangePadding.None"></ChartPrimaryYAxis>
-            <ChartSeriesCollection>
+            
                 <ChartSeries DataSource="@Sales8" XName="x" YName="y" XAxisName="xAxis" Type="ChartSeriesType.Column" Name="Gold">
                     <ChartSeriesAnimation Enable="false"></ChartSeriesAnimation>
                 </ChartSeries>
@@ -505,7 +505,7 @@
                 <ChartSeries DataSource="@Sales8" XName="x" YName="y" Type="ChartSeriesType.Column" Name="Silver1">
                     <ChartSeriesAnimation Enable="false"></ChartSeriesAnimation>
                 </ChartSeries>
-            </ChartSeriesCollection>
+            
         </SfChart>
     </ComponentUnderTest>
 </SfFixture>
@@ -550,11 +550,11 @@
     <ComponentUnderTest>
         <SfChart ID="container">
             <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Toolkit.ValueType.Category" IsIndexed="true"></ChartPrimaryXAxis>
-            <ChartSeriesCollection>
+            
                 <ChartSeries DataSource="@Sales9" XName="x" YName="y" Type="ChartSeriesType.Column" Name="Gold">
                     <ChartSeriesAnimation Enable="false"></ChartSeriesAnimation>
                 </ChartSeries>
-            </ChartSeriesCollection>
+            
         </SfChart>
     </ComponentUnderTest>
 </SfFixture>
@@ -599,11 +599,11 @@
     <ComponentUnderTest>
         <SfChart ID="container">
             <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Toolkit.ValueType.Category" IsIndexed="true" IsInversed="true"></ChartPrimaryXAxis>
-            <ChartSeriesCollection>
+            
                 <ChartSeries DataSource="@Sales10" XName="x" YName="y" Type="ChartSeriesType.Column" Name="Gold">
                     <ChartSeriesAnimation Enable="false"></ChartSeriesAnimation>
                 </ChartSeries>
-            </ChartSeriesCollection>
+            
         </SfChart>
     </ComponentUnderTest>
 </SfFixture>
@@ -648,11 +648,11 @@
     <ComponentUnderTest>
         <SfChart ID="container">
             <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Toolkit.ValueType.Category" IsIndexed="true" IsInversed="false" OpposedPosition="true"></ChartPrimaryXAxis>
-            <ChartSeriesCollection>
+            
                 <ChartSeries DataSource="@Sales11" XName="x" YName="y" Type="ChartSeriesType.Column" Name="Gold">
                     <ChartSeriesAnimation Enable="false"></ChartSeriesAnimation>
                 </ChartSeries>
-            </ChartSeriesCollection>
+            
         </SfChart>
     </ComponentUnderTest>
 </SfFixture>

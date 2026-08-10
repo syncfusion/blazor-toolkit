@@ -17,10 +17,10 @@
                 <ChartTooltipTextStyle Color="Black" Size="12px" FontFamily="Aerial" FontWeight="600"></ChartTooltipTextStyle>
             </ChartTooltipSettings>
 
-            <ChartSeriesCollection>
+            
                 <ChartSeries DataSource="@SalesReports" XName="X" YName="Y" Type="ChartSeriesType.Column">
                 </ChartSeries>
-            </ChartSeriesCollection>
+            
         </SfChart>
     </ComponentUnderTest>
 </SfFixture>
@@ -68,10 +68,10 @@
 
             <ChartTooltipSettings Enable="true" ShowNearestPoint="false" Opacity="0.75" EnableTextWrap="false" TextStyle="@textStyle" Border="@border"></ChartTooltipSettings>
 
-            <ChartSeriesCollection>
+            
                 <ChartSeries DataSource="@SalesReports2" XName="X" YName="Y" Type="ChartSeriesType.Column">
                 </ChartSeries>
-            </ChartSeriesCollection>
+            
         </SfChart>
     </ComponentUnderTest>
 </SfFixture>
@@ -120,7 +120,7 @@
             <SfChart @ref="chartRef" TooltipRender="TooltipEventTrigger">
             <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Toolkit.ValueType.Category"></ChartPrimaryXAxis>
 
-            <ChartSeriesCollection>
+            
                 <ChartSeries DataSource="@StackedDataList" XName="X" YName="Y" Type="ChartSeriesType.StackingColumn">
                 </ChartSeries>
                 <ChartSeries DataSource="@StackedDataList" XName="X" YName="Y1" Type="ChartSeriesType.StackingColumn">
@@ -129,7 +129,7 @@
                 </ChartSeries>
                 <ChartSeries DataSource="@StackedDataList" XName="X" YName="Y3" Type="ChartSeriesType.StackingColumn">
                 </ChartSeries>
-            </ChartSeriesCollection>
+            
             <ChartTooltipSettings Enable="true">
             </ChartTooltipSettings>
         </SfChart>
@@ -180,10 +180,10 @@
         <SfChart @ref="chartRefTitle" ID="container" Title="Inflation - Consumer Price For the year 2025-2026" Width="350px">
             <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Toolkit.ValueType.Category"></ChartPrimaryXAxis>
 
-            <ChartSeriesCollection>
+            
                 <ChartSeries DataSource="@ConsumerDetails" XName="X" YName="YValue" Type="ChartSeriesType.Column">
                 </ChartSeries>
-            </ChartSeriesCollection>
+            
             <ChartTooltipSettings Enable="true" />
         </SfChart>
     </ComponentUnderTest>
@@ -224,10 +224,10 @@
         <SfChart @ref="chartRefAxisLabel" ID="container" Title="Inflation - Consumer Price For the year 2025-2026" Width="350px">
             <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Toolkit.ValueType.Category"></ChartPrimaryXAxis>
 
-            <ChartSeriesCollection>
+            
                 <ChartSeries DataSource="@ConsumerDetails1" XName="X" YName="YValue" Type="ChartSeriesType.Column">
                 </ChartSeries>
-            </ChartSeriesCollection>
+            
             <ChartTooltipSettings Enable="true" />
         </SfChart>
     </ComponentUnderTest>

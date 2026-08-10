@@ -24,14 +24,14 @@
                 </ChartMultiLevelLabels>
                 <ChartAxisScrollbarSettings Enable="true"></ChartAxisScrollbarSettings>
             </ChartPrimaryXAxis>
-            <ChartSeriesCollection>
+            
                 <ChartSeries Name="Sales" DataSource="@Sales" XName="Month" YName="SalesValue" Type="ChartSeriesType.Column">
                     <ChartMarker Visible="true">
                         <ChartDataLabel Visible="true"/>
                     </ChartMarker>
                     <ChartDataEditSettings Enable="true"></ChartDataEditSettings>
                 </ChartSeries>
-            </ChartSeriesCollection>
+            
             <ChartLegendSettings Visible="true"></ChartLegendSettings>
             <ChartCrosshairSettings Enable="true"></ChartCrosshairSettings>
 	        <ChartTooltipSettings Enable="true" Shared="true"></ChartTooltipSettings>
@@ -469,11 +469,11 @@
         <SfChart ID="container" @ref="chartRef" Title="Olympic Medals" OnPointClick="PointClickTrigger">
             <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Toolkit.ValueType.Category"/>    
 
-            <ChartSeriesCollection>
+            
                 <ChartSeries DataSource="@MedalDetails" Name="Gold" XName="Country" Width="2" Opacity="1" YName="Gold" Type="ChartSeriesType.Column"/>      
                 <ChartSeries DataSource="@MedalDetails" Name="Silver" XName="Country" Width="2" Opacity="1" YName="Silver" Type="ChartSeriesType.Column"/>     
                 <ChartSeries DataSource="@MedalDetails" Name="Bronze" XName="Country" Width="2" Opacity="1" YName="Bronze" Type="ChartSeriesType.Column"/>      
-            </ChartSeriesCollection>
+            
 
             <ChartLegendSettings Visible="true"/>
             <ChartZoomSettings EnableMouseWheelZooming="true" EnablePinchZooming="true" EnableSelectionZooming="true" ToolbarDisplayMode="ToolbarMode.Always"></ChartZoomSettings>

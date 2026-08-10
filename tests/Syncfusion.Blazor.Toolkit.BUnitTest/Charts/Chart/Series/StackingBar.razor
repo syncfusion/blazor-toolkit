@@ -10,7 +10,7 @@
         <SfChart ID="container" Title="x wise Sales Report" Width="800">
             <ChartPrimaryXAxis Title="PrimaryXAxis" RangePadding="ChartRangePadding.Normal"></ChartPrimaryXAxis>
             <ChartPrimaryYAxis Title="PrimaryYaxis"></ChartPrimaryYAxis>
-            <ChartSeriesCollection>
+            
                 <ChartSeries DataSource="@Sales" XName="x" YName="y" Type="ChartSeriesType.StackingBar" Name="Gold" Fill="rgba(135,206,235,1)">
                     <ChartSeriesAnimation Enable="false"></ChartSeriesAnimation>
                 </ChartSeries>
@@ -20,7 +20,7 @@
                 <ChartSeries DataSource="@Sales" XName="x" YName="y1" Type="ChartSeriesType.StackingBar" Name="Ruby" Fill="rgba(135,206,235,1)">
                     <ChartSeriesAnimation Enable="false"></ChartSeriesAnimation>
                 </ChartSeries>
-            </ChartSeriesCollection>
+            
         </SfChart>
     </ComponentUnderTest>
 </SfFixture>
@@ -70,7 +70,7 @@
         <SfChart ID="container" @ref="chartobj" Title="x wise Sales Report" Width="800">
             <ChartPrimaryXAxis Title="PrimaryXAxis" RangePadding="ChartRangePadding.Normal"></ChartPrimaryXAxis>
             <ChartPrimaryYAxis Title="PrimaryYaxis"></ChartPrimaryYAxis>
-            <ChartSeriesCollection>
+            
                 <ChartSeries DataSource="@Sales1" XName="x" YName="y" Type="ChartSeriesType.StackingBar" Name="Gold" Fill="rgba(135,206,235,1)">
                     <ChartSeriesAnimation Enable="false"></ChartSeriesAnimation>
                 </ChartSeries>
@@ -80,7 +80,7 @@
                 <ChartSeries DataSource="@Sales1" XName="x" YName="y1" Type="ChartSeriesType.StackingBar" Name="Ruby" Fill="rgba(135,206,235,1)">
                     <ChartSeriesAnimation Enable="false"></ChartSeriesAnimation>
                 </ChartSeries>
-            </ChartSeriesCollection>
+            
         </SfChart>
     </ComponentUnderTest>
 </SfFixture>
@@ -126,7 +126,7 @@
         <SfChart ID="container" Title="x wise Sales Report" Width="800">
             <ChartPrimaryXAxis Title="PrimaryXAxis" RangePadding="ChartRangePadding.Normal"></ChartPrimaryXAxis>
             <ChartPrimaryYAxis Title="PrimaryYaxis"></ChartPrimaryYAxis>
-            <ChartSeriesCollection>
+            
                 <ChartSeries DataSource="@Sales2" XName="x" YName="y" Type="ChartSeriesType.StackingBar" Name="Gold" Fill="rgba(135,206,235,1)">
                     <ChartSeriesAnimation Enable="false"></ChartSeriesAnimation>
                 </ChartSeries>
@@ -136,7 +136,7 @@
                 <ChartSeries DataSource="@Sales2" XName="x" YName="y1" Type="ChartSeriesType.StackingBar" Name="Ruby" Fill="rgba(135,206,235,1)">
                     <ChartSeriesAnimation Enable="false"></ChartSeriesAnimation>
                 </ChartSeries>
-            </ChartSeriesCollection>
+            
         </SfChart>
     </ComponentUnderTest>
 </SfFixture>
@@ -181,7 +181,7 @@
         <SfChart ID="container" Title="x wise Sales Report" Width="800">
             <ChartPrimaryXAxis Title="PrimaryXAxis" RangePadding="ChartRangePadding.Additional" ValueType="Syncfusion.Blazor.Toolkit.ValueType.Double"></ChartPrimaryXAxis>
             <ChartPrimaryYAxis Title="PrimaryYaxis"></ChartPrimaryYAxis>
-            <ChartSeriesCollection>
+            
                 <ChartSeries DataSource="@Sales3" XName="x" YName="y" Type="ChartSeriesType.StackingBar" Name="Gold" Fill="rgba(135,206,235,1)">
                     <ChartSeriesAnimation Enable="false"></ChartSeriesAnimation>
                 </ChartSeries>
@@ -191,7 +191,7 @@
                 <ChartSeries DataSource="@Sales3" XName="x" YName="y1" Type="ChartSeriesType.StackingBar" Name="Ruby" Fill="rgba(135,206,235,1)">
                     <ChartSeriesAnimation Enable="false"></ChartSeriesAnimation>
                 </ChartSeries>
-            </ChartSeriesCollection>
+            
         </SfChart>
     </ComponentUnderTest>
 </SfFixture>
@@ -205,11 +205,11 @@
         await Task.Delay(200);
         // Note: Values may vary slightly depending on screen resolution.
         var series1 = Convert.ToDouble(cut.Find("#container_Series_1_Point_0").GetAttribute("d").Split(" ")[2]);
-        Assert.True(series1 == 187.88035714285724);
+        Assert.True(series1 == 192.61607142857153);
         var series0 = Convert.ToDouble(cut.Find("#container_Series_0_Point_0").GetAttribute("d").Split(" ")[2]);
-        Assert.True(series0 == 187.88035714285724);
+        Assert.True(series0 == 192.61607142857153);
         var series2 = Convert.ToDouble(cut.Find("#container_Series_2_Point_0").GetAttribute("d").Split(" ")[2]);
-        Assert.True(series2 == 187.88035714285724);
+        Assert.True(series2 == 192.61607142857153);
         cut.SetParametersAndRender();
     }
     public class BarData3
@@ -233,7 +233,7 @@
         <SfChart ID="container" Title="x wise Sales Report" Width="800">
             <ChartPrimaryXAxis Title="PrimaryXAxis" RangePadding="ChartRangePadding.Additional" ValueType="Syncfusion.Blazor.Toolkit.ValueType.Double"></ChartPrimaryXAxis>
             <ChartPrimaryYAxis Title="PrimaryYaxis"></ChartPrimaryYAxis>
-            <ChartSeriesCollection>
+            
                 <ChartSeries DataSource="@Sales4" XName="x" YName="y" Type="ChartSeriesType.StackingBar100" Name="Gold" Fill="rgba(135,206,235,1)">
                     <ChartSeriesAnimation Enable="false"></ChartSeriesAnimation>
                 </ChartSeries>
@@ -243,7 +243,7 @@
                 <ChartSeries DataSource="@Sales4" XName="x" YName="y1" Type="ChartSeriesType.StackingBar" Name="Ruby" Fill="rgba(135,206,235,1)">
                     <ChartSeriesAnimation Enable="false"></ChartSeriesAnimation>
                 </ChartSeries>
-            </ChartSeriesCollection>
+            
         </SfChart>
     </ComponentUnderTest>
 </SfFixture>
@@ -257,11 +257,11 @@
         await Task.Delay(200);
         // Note: Values may vary slightly depending on screen resolution.
         var series1 = Convert.ToDouble(cut.Find("#container_Series_1_Point_0").GetAttribute("d").Split(" ")[2]);
-        Assert.True(series1 == 187.88035714285724);
+        Assert.True(series1 == 192.61607142857153);
         var series0 = Convert.ToDouble(cut.Find("#container_Series_0_Point_0").GetAttribute("d").Split(" ")[2]);
-        Assert.True(series0 == 187.88035714285724);
+        Assert.True(series0 == 192.61607142857153);
         var series2 = Convert.ToDouble(cut.Find("#container_Series_2_Point_0").GetAttribute("d").Split(" ")[2]);
-        Assert.True(series2 == 187.88035714285724);
+        Assert.True(series2 == 192.61607142857153);
         cut.SetParametersAndRender();
     }
     public class BarData4
@@ -285,7 +285,7 @@
         <SfChart ID="container" @ref="chartobj1" Title="x wise Sales Report" Width="800">
             <ChartPrimaryXAxis Title="PrimaryXAxis" RangePadding="ChartRangePadding.Additional" ValueType="Syncfusion.Blazor.Toolkit.ValueType.Double"></ChartPrimaryXAxis>
             <ChartPrimaryYAxis Title="PrimaryYaxis"></ChartPrimaryYAxis>
-            <ChartSeriesCollection>
+            
                 <ChartSeries DataSource="@Sales5" XName="x" YName="y" Type="ChartSeriesType.StackingBar" Name="Gold" Fill="rgba(135,206,235,1)">
                     <ChartSeriesAnimation Enable="false"></ChartSeriesAnimation>
                 </ChartSeries>
@@ -295,7 +295,7 @@
                 <ChartSeries DataSource="@Sales5" XName="x" YName="y1" Type="ChartSeriesType.StackingBar" Name="Ruby" Fill="rgba(135,206,235,1)">
                     <ChartSeriesAnimation Enable="false"></ChartSeriesAnimation>
                 </ChartSeries>
-            </ChartSeriesCollection>
+            
         </SfChart>
     </ComponentUnderTest>
 </SfFixture>
@@ -340,7 +340,7 @@
         <SfChart ID="container" @ref="chartobj2" Title="x wise Sales Report" Width="800">
             <ChartPrimaryXAxis Title="PrimaryXAxis" RangePadding="ChartRangePadding.Additional" ValueType="Syncfusion.Blazor.Toolkit.ValueType.Double"></ChartPrimaryXAxis>
             <ChartPrimaryYAxis Title="PrimaryYaxis"></ChartPrimaryYAxis>
-            <ChartSeriesCollection>
+            
                 <ChartSeries DataSource="@Sales6" XName="x" YName="y" Type="ChartSeriesType.StackingBar" Name="Gold" Fill="rgba(135,206,235,1)" StackingGroup="a">
                     <ChartSeriesAnimation Enable="false"></ChartSeriesAnimation>
                 </ChartSeries>
@@ -350,7 +350,7 @@
                 <ChartSeries DataSource="@Sales6" XName="x" YName="y1" Type="ChartSeriesType.StackingBar" Name="Ruby" Fill="rgba(135,206,235,1)">
                     <ChartSeriesAnimation Enable="false"></ChartSeriesAnimation>
                 </ChartSeries>
-            </ChartSeriesCollection>
+            
         </SfChart>
     </ComponentUnderTest>
 </SfFixture>
@@ -395,7 +395,7 @@
         <SfChart ID="container" Title="x wise Sales Report" Width="800">
             <ChartPrimaryXAxis Title="PrimaryXAxis" RangePadding="ChartRangePadding.Additional" ValueType="Syncfusion.Blazor.Toolkit.ValueType.Double"></ChartPrimaryXAxis>
             <ChartPrimaryYAxis Title="PrimaryYaxis"></ChartPrimaryYAxis>
-            <ChartSeriesCollection>
+            
                 <ChartSeries DataSource="@Sales7" XName="x" YName="y" Type="ChartSeriesType.StackingBar" Name="Gold" Fill="rgba(135,206,235,1)" StackingGroup="a">
                     <ChartSeriesAnimation Enable="false"></ChartSeriesAnimation>
                 </ChartSeries>
@@ -405,7 +405,7 @@
                 <ChartSeries DataSource="@Sales7" XName="x" YName="y1" Type="ChartSeriesType.StackingBar" Name="Ruby" Fill="rgba(135,206,235,1)">
                     <ChartSeriesAnimation Enable="false"></ChartSeriesAnimation>
                 </ChartSeries>
-            </ChartSeriesCollection>
+            
         </SfChart>
     </ComponentUnderTest>
 </SfFixture>
@@ -419,7 +419,7 @@
         await Task.Delay(200);
         var legends = cut.Find("#container_chart_legend_element").GetAttribute("x");
         // Note: Values may vary slightly depending on screen resolution.
-        Assert.True(legends == "297.3125");
+        Assert.True(legends == "304.125");
         cut.SetParametersAndRender();
     }
     public class BarData7
@@ -450,7 +450,7 @@
         <SfChart ID="container" Title="x wise Sales Report" Width="800">
             <ChartPrimaryXAxis Title="PrimaryXAxis" RangePadding="ChartRangePadding.Additional" ValueType="Syncfusion.Blazor.Toolkit.ValueType.Category"></ChartPrimaryXAxis>
             <ChartPrimaryYAxis Title="PrimaryYaxis"></ChartPrimaryYAxis>
-            <ChartSeriesCollection>
+            
                 <ChartSeries DataSource="@Sales8" XName="x" YName="y" Type="ChartSeriesType.StackingBar" Name="Gold" Fill="rgba(135,206,235,1)">
                     <ChartSeriesAnimation Enable="false"></ChartSeriesAnimation>
                 </ChartSeries>
@@ -460,7 +460,7 @@
                 <ChartSeries DataSource="@Sales8" XName="x" YName="y1" Type="ChartSeriesType.StackingBar" Name="Ruby" Fill="rgba(135,206,235,1)">
                     <ChartSeriesAnimation Enable="false"></ChartSeriesAnimation>
                 </ChartSeries>
-            </ChartSeriesCollection>
+            
         </SfChart>
     </ComponentUnderTest>
 </SfFixture>
@@ -508,7 +508,7 @@
         <SfChart ID="container" Title="x wise Sales Report" Width="800">
             <ChartPrimaryXAxis Title="PrimaryXAxis" ValueType="Syncfusion.Blazor.Toolkit.ValueType.DateTime"></ChartPrimaryXAxis>
             <ChartPrimaryYAxis Title="PrimaryYaxis"></ChartPrimaryYAxis>
-            <ChartSeriesCollection>
+            
                 <ChartSeries DataSource="@Sales9" XName="x" YName="y" Type="ChartSeriesType.StackingBar" Name="Gold" Fill="rgba(135,206,235,1)">
                     <ChartSeriesAnimation Enable="false"></ChartSeriesAnimation>
                 </ChartSeries>
@@ -518,7 +518,7 @@
                 <ChartSeries DataSource="@Sales9" XName="x" YName="y1" Type="ChartSeriesType.StackingBar" Name="Ruby" Fill="rgba(135,206,235,1)">
                     <ChartSeriesAnimation Enable="false"></ChartSeriesAnimation>
                 </ChartSeries>
-            </ChartSeriesCollection>
+            
         </SfChart>
     </ComponentUnderTest>
 </SfFixture>
@@ -574,7 +574,7 @@
             </ChartColumns>
             <ChartPrimaryXAxis Title="PrimaryXAxis" RangePadding="ChartRangePadding.Normal"></ChartPrimaryXAxis>
             <ChartPrimaryYAxis Title="PrimaryYaxis"></ChartPrimaryYAxis>
-            <ChartSeriesCollection>
+            
                 <ChartSeries DataSource="@Sales10" XName="x" YName="y" Type="ChartSeriesType.StackingBar" Name="Gold" Fill="Red">
                     <ChartSeriesAnimation Enable="false"></ChartSeriesAnimation>
                 </ChartSeries>
@@ -587,7 +587,7 @@
                 <ChartSeries DataSource="@Sales10" XName="x" YName="y1" Type="ChartSeriesType.StackingBar" Name="Pearl" Fill="rgba(135,206,235,1)">
                     <ChartSeriesAnimation Enable="false"></ChartSeriesAnimation>
                 </ChartSeries>
-            </ChartSeriesCollection>
+            
         </SfChart>
     </ComponentUnderTest>
 </SfFixture>
@@ -637,7 +637,7 @@
         <SfChart ID="container" @ref="chartobj3" Title="x wise Sales Report" Width="800">
             <ChartPrimaryXAxis Title="PrimaryXAxis" RangePadding="ChartRangePadding.Normal"></ChartPrimaryXAxis>
             <ChartPrimaryYAxis Title="PrimaryYaxis" RangePadding="ChartRangePadding.Normal"></ChartPrimaryYAxis>
-            <ChartSeriesCollection>
+            
                 <ChartSeries DataSource="@Sales11" XName="x" YName="y" Type="ChartSeriesType.StackingBar" Name="Gold" Fill="rgba(135,206,235,1)" StackingGroup="a">
                     <ChartSeriesAnimation Enable="false"></ChartSeriesAnimation>
                     <ChartMarker Visible="false">
@@ -656,7 +656,7 @@
                         <ChartDataLabel Visible="true" Fill="Black"></ChartDataLabel>
                     </ChartMarker>
                 </ChartSeries>
-            </ChartSeriesCollection>
+            
         </SfChart>
     </ComponentUnderTest>
 </SfFixture>
@@ -706,7 +706,7 @@
         <SfChart ID="container" @ref="chartobj4" Title="x wise Sales Report" Width="800">
             <ChartPrimaryXAxis Title="PrimaryXAxis" RangePadding="ChartRangePadding.Normal"></ChartPrimaryXAxis>
             <ChartPrimaryYAxis Title="PrimaryYaxis" RangePadding="ChartRangePadding.Normal"></ChartPrimaryYAxis>
-            <ChartSeriesCollection>
+            
                 <ChartSeries DataSource="@Sales12" XName="x" YName="y" Type="ChartSeriesType.StackingBar100" Name="Gold" Fill="rgba(135,206,235,1)" StackingGroup="a">
                     <ChartSeriesAnimation Enable="false"></ChartSeriesAnimation>
                     <ChartMarker Visible="false">
@@ -725,7 +725,7 @@
                         <ChartDataLabel Visible="true" Fill="Black"></ChartDataLabel>
                     </ChartMarker>
                 </ChartSeries>
-            </ChartSeriesCollection>
+            
         </SfChart>
     </ComponentUnderTest>
 </SfFixture>
@@ -775,7 +775,7 @@
         <SfChart ID="container" @ref="chartobj5" Title="x wise Sales Report" Width="800">
             <ChartPrimaryXAxis Title="PrimaryXAxis" RangePadding="ChartRangePadding.Normal"></ChartPrimaryXAxis>
             <ChartPrimaryYAxis Title="PrimaryYaxis" RangePadding="ChartRangePadding.Normal"></ChartPrimaryYAxis>
-            <ChartSeriesCollection>
+            
                 <ChartSeries DataSource="@Sales13" XName="x" YName="y" Type="ChartSeriesType.StackingBar100" Name="Gold" Fill="rgba(135,206,235,1)" StackingGroup="a">
                     <ChartSeriesAnimation Enable="false"></ChartSeriesAnimation>
                     <ChartMarker Visible="false">
@@ -794,7 +794,7 @@
                         <ChartDataLabel Visible="true" Fill="Black" Position="ChartLabelPosition.Top"></ChartDataLabel>
                     </ChartMarker>
                 </ChartSeries>
-            </ChartSeriesCollection>
+            
         </SfChart>
     </ComponentUnderTest>
 </SfFixture>
@@ -844,7 +844,7 @@
         <SfChart ID="container" @ref="chartobj6" Title="x wise Sales Report" Width="800">
             <ChartPrimaryXAxis Title="PrimaryXAxis" RangePadding="ChartRangePadding.Normal"></ChartPrimaryXAxis>
             <ChartPrimaryYAxis Title="PrimaryYaxis" RangePadding="ChartRangePadding.Normal"></ChartPrimaryYAxis>
-            <ChartSeriesCollection>
+            
                 <ChartSeries DataSource="@Sales14" XName="x" YName="y" Type="ChartSeriesType.StackingBar" Name="Gold" Fill="rgba(135,206,235,1)" StackingGroup="a">
                     <ChartSeriesAnimation Enable="false"></ChartSeriesAnimation>
                     <ChartMarker Visible="false">
@@ -863,7 +863,7 @@
                         <ChartDataLabel Visible="true" Fill="Black" Position="ChartLabelPosition.Top"></ChartDataLabel>
                     </ChartMarker>
                 </ChartSeries>
-            </ChartSeriesCollection>
+            
         </SfChart>
     </ComponentUnderTest>
 </SfFixture>
@@ -912,7 +912,7 @@
         <SfChart ID="container" @ref="chartobj7" Title="x wise Sales Report" Width="800">
             <ChartPrimaryXAxis Title="PrimaryXAxis" RangePadding="ChartRangePadding.Normal"></ChartPrimaryXAxis>
             <ChartPrimaryYAxis Title="PrimaryYaxis" RangePadding="ChartRangePadding.Normal"></ChartPrimaryYAxis>
-            <ChartSeriesCollection>
+            
                 <ChartSeries DataSource="@Sales15" XName="x" YName="y" Type="ChartSeriesType.StackingBar" Name="Gold" Fill="rgba(135,206,235,1)" StackingGroup="a">
                     <ChartSeriesAnimation Enable="false"></ChartSeriesAnimation>
                     <ChartMarker Visible="false">
@@ -931,7 +931,7 @@
                         <ChartDataLabel Visible="true" Fill="Black" Position="ChartLabelPosition.Top"></ChartDataLabel>
                     </ChartMarker>
                 </ChartSeries>
-            </ChartSeriesCollection>
+            
         </SfChart>
     </ComponentUnderTest>
 </SfFixture>
@@ -980,7 +980,7 @@
         <SfChart ID="container" @ref="chartobj8" Title="x wise Sales Report" Width="800">
             <ChartPrimaryXAxis Title="PrimaryXAxis" RangePadding="ChartRangePadding.Normal"></ChartPrimaryXAxis>
             <ChartPrimaryYAxis Title="PrimaryYaxis" RangePadding="ChartRangePadding.Normal"></ChartPrimaryYAxis>
-            <ChartSeriesCollection>
+            
                 <ChartSeries DataSource="@Sales16" XName="x" YName="y" Type="ChartSeriesType.StackingBar100" Name="Gold" Fill="rgba(135,206,235,1)" StackingGroup="a">
                     <ChartSeriesAnimation Enable="false"></ChartSeriesAnimation>
                     <ChartMarker Visible="false">
@@ -999,7 +999,7 @@
                         <ChartDataLabel Visible="true" Fill="Black" Position="ChartLabelPosition.Top"></ChartDataLabel>
                     </ChartMarker>
                 </ChartSeries>
-            </ChartSeriesCollection>
+            
         </SfChart>
     </ComponentUnderTest>
 </SfFixture>
@@ -1048,7 +1048,7 @@
         <SfChart ID="container" @ref="chartobj9" Title="x wise Sales Report" Width="800">
             <ChartPrimaryXAxis Title="PrimaryXAxis" RangePadding="ChartRangePadding.Normal"></ChartPrimaryXAxis>
             <ChartPrimaryYAxis Title="PrimaryYaxis" RangePadding="ChartRangePadding.Normal"></ChartPrimaryYAxis>
-            <ChartSeriesCollection>
+            
                 <ChartSeries DataSource="@Sales17" XName="x" YName="y" Type="ChartSeriesType.StackingBar100" Name="Gold" Fill="rgba(135,206,235,1)" StackingGroup="a">
                     <ChartSeriesAnimation Enable="false"></ChartSeriesAnimation>
                     <ChartMarker Visible="false">
@@ -1067,7 +1067,7 @@
                         <ChartDataLabel Visible="true" Fill="Black" Position="ChartLabelPosition.Top"></ChartDataLabel>
                     </ChartMarker>
                 </ChartSeries>
-            </ChartSeriesCollection>
+            
         </SfChart>
     </ComponentUnderTest>
 </SfFixture>
@@ -1116,7 +1116,7 @@
         <SfChart ID="container" @ref="chartobj10" Title="x wise Sales Report" Width="800">
             <ChartPrimaryXAxis Title="PrimaryXAxis" RangePadding="ChartRangePadding.Normal"></ChartPrimaryXAxis>
             <ChartPrimaryYAxis Title="PrimaryYaxis" RangePadding="ChartRangePadding.Normal"></ChartPrimaryYAxis>
-            <ChartSeriesCollection>
+            
                 <ChartSeries DataSource="@Sales18" XName="x" YName="y" Type="ChartSeriesType.StackingBar" Name="Gold" Fill="rgba(135,206,235,1)" StackingGroup="a">
                     <ChartSeriesAnimation Enable="false"></ChartSeriesAnimation>
                     <ChartMarker Visible="false">
@@ -1135,7 +1135,7 @@
                         <ChartDataLabel Visible="true" Fill="Black" Position="ChartLabelPosition.Top"></ChartDataLabel>
                     </ChartMarker>
                 </ChartSeries>
-            </ChartSeriesCollection>
+            
         </SfChart>
     </ComponentUnderTest>
 </SfFixture>
@@ -1184,7 +1184,7 @@
         <SfChart ID="container" @ref="chartobj11" Title="x wise Sales Report" Width="800">
             <ChartPrimaryXAxis Title="PrimaryXAxis" RangePadding="ChartRangePadding.Normal"></ChartPrimaryXAxis>
             <ChartPrimaryYAxis Title="PrimaryYaxis" RangePadding="ChartRangePadding.Normal"></ChartPrimaryYAxis>
-            <ChartSeriesCollection>
+            
                 <ChartSeries DataSource="@Sales19" XName="x" YName="y" Type="ChartSeriesType.StackingBar" Name="Gold" Fill="rgba(135,206,235,1)" StackingGroup="a">
                     <ChartSeriesAnimation Enable="false"></ChartSeriesAnimation>
                     <ChartMarker Visible="false">
@@ -1203,7 +1203,7 @@
                         <ChartDataLabel Visible="true" Fill="Black" Position="ChartLabelPosition.Bottom"></ChartDataLabel>
                     </ChartMarker>
                 </ChartSeries>
-            </ChartSeriesCollection>
+            
         </SfChart>
     </ComponentUnderTest>
 </SfFixture>
@@ -1252,7 +1252,7 @@
         <SfChart ID="container" @ref="chartobj12" Title="x wise Sales Report" Width="800">
             <ChartPrimaryXAxis Title="PrimaryXAxis" RangePadding="ChartRangePadding.Normal"></ChartPrimaryXAxis>
             <ChartPrimaryYAxis Title="PrimaryYaxis" RangePadding="ChartRangePadding.Normal"></ChartPrimaryYAxis>
-            <ChartSeriesCollection>
+            
                 <ChartSeries DataSource="@Sales20" XName="x" YName="y" Type="ChartSeriesType.StackingBar100" Name="Gold" Fill="rgba(135,206,235,1)" StackingGroup="a">
                     <ChartSeriesAnimation Enable="false"></ChartSeriesAnimation>
                     <ChartMarker Visible="false">
@@ -1271,7 +1271,7 @@
                         <ChartDataLabel Visible="true" Fill="Black" Position="ChartLabelPosition.Bottom"></ChartDataLabel>
                     </ChartMarker>
                 </ChartSeries>
-            </ChartSeriesCollection>
+            
         </SfChart>
     </ComponentUnderTest>
 </SfFixture>
@@ -1320,7 +1320,7 @@
         <SfChart ID="container" @ref="chartobj13" Title="x wise Sales Report" Width="800">
             <ChartPrimaryXAxis Title="PrimaryXAxis" RangePadding="ChartRangePadding.Normal"></ChartPrimaryXAxis>
             <ChartPrimaryYAxis Title="PrimaryYaxis" RangePadding="ChartRangePadding.Normal"></ChartPrimaryYAxis>
-            <ChartSeriesCollection>
+            
                 <ChartSeries DataSource="@Sales21" XName="x" YName="y" Type="ChartSeriesType.StackingBar100" Name="Gold" Fill="rgba(135,206,235,1)" StackingGroup="a">
                     <ChartSeriesAnimation Enable="false"></ChartSeriesAnimation>
                     <ChartMarker Visible="false">
@@ -1339,7 +1339,7 @@
                         <ChartDataLabel Visible="true" Fill="Black" Position="ChartLabelPosition.Middle"></ChartDataLabel>
                     </ChartMarker>
                 </ChartSeries>
-            </ChartSeriesCollection>
+            
         </SfChart>
     </ComponentUnderTest>
 </SfFixture>
@@ -1385,7 +1385,7 @@
         <SfChart ID="container" @ref="chartobj14" Title="x wise Sales Report" Width="800">
             <ChartPrimaryXAxis Title="PrimaryXAxis" RangePadding="ChartRangePadding.Normal"></ChartPrimaryXAxis>
             <ChartPrimaryYAxis Title="PrimaryYaxis" RangePadding="ChartRangePadding.Normal"></ChartPrimaryYAxis>
-            <ChartSeriesCollection>
+            
                 <ChartSeries DataSource="@Sales22" XName="x" YName="y" Type="ChartSeriesType.StackingBar" Name="Gold" Fill="rgba(135,206,235,1)" StackingGroup="a">
                     <ChartSeriesAnimation Enable="false"></ChartSeriesAnimation>
                     <ChartMarker Visible="false">
@@ -1404,7 +1404,7 @@
                         <ChartDataLabel Visible="true" Fill="Black" Position="ChartLabelPosition.Middle"></ChartDataLabel>
                     </ChartMarker>
                 </ChartSeries>
-            </ChartSeriesCollection>
+            
         </SfChart>
     </ComponentUnderTest>
 </SfFixture>
@@ -1451,7 +1451,7 @@
         <SfChart ID="container" Title="x wise Sales Report" Width="800">
             <ChartPrimaryXAxis Title="PrimaryXAxis" RangePadding="ChartRangePadding.Normal"></ChartPrimaryXAxis>
             <ChartPrimaryYAxis Title="PrimaryYaxis" RangePadding="ChartRangePadding.Normal"></ChartPrimaryYAxis>
-            <ChartSeriesCollection>
+            
                 <ChartSeries DataSource="@Sales23" XName="x" YName="y" Type="ChartSeriesType.StackingBar" Name="Gold" Fill="rgba(135,206,235,1)" StackingGroup="a">
                     <ChartSeriesAnimation Enable="false"></ChartSeriesAnimation>
                     <ChartMarker Visible="false">
@@ -1470,7 +1470,7 @@
                         <ChartDataLabel Visible="true" Fill="Black" Position="ChartLabelPosition.Middle"></ChartDataLabel>
                     </ChartMarker>
                 </ChartSeries>
-            </ChartSeriesCollection>
+            
         </SfChart>
     </ComponentUnderTest>
 </SfFixture>
@@ -1515,7 +1515,7 @@
         <SfChart ID="container" Title="x wise Sales Report" Width="800">
             <ChartPrimaryXAxis Title="PrimaryXAxis" RangePadding="ChartRangePadding.Normal"></ChartPrimaryXAxis>
             <ChartPrimaryYAxis Title="PrimaryYaxis" RangePadding="ChartRangePadding.Normal"></ChartPrimaryYAxis>
-            <ChartSeriesCollection>
+            
                 <ChartSeries DataSource="@Sales24" XName="x" YName="y" Type="ChartSeriesType.StackingBar" Name="Gold" Fill="rgba(135,206,235,1)" StackingGroup="a">
                     <ChartSeriesAnimation Enable="false"></ChartSeriesAnimation>
                     <ChartMarker Visible="false">
@@ -1534,7 +1534,7 @@
                         <ChartDataLabel Visible="true" Fill="Black" Position="ChartLabelPosition.Middle"></ChartDataLabel>
                     </ChartMarker>
                 </ChartSeries>
-            </ChartSeriesCollection>
+            
         </SfChart>
     </ComponentUnderTest>
 </SfFixture>
@@ -1581,7 +1581,7 @@
             </ChartArea>
             <ChartPrimaryXAxis Title="PrimaryXAxis" RangePadding="ChartRangePadding.Normal"></ChartPrimaryXAxis>
             <ChartPrimaryYAxis Title="PrimaryYaxis" RangePadding="ChartRangePadding.Normal"></ChartPrimaryYAxis>
-            <ChartSeriesCollection>
+            
                 <ChartSeries DataSource="@Sales25" XName="x" YName="y" Type="ChartSeriesType.StackingBar" Name="Gold" Fill="rgba(135,206,235,1)" StackingGroup="a">
                     <ChartSeriesAnimation Enable="false"></ChartSeriesAnimation>
                     <ChartMarker Visible="false">
@@ -1600,7 +1600,7 @@
                         <ChartDataLabel Visible="true" Fill="Black" Position="ChartLabelPosition.Middle"></ChartDataLabel>
                     </ChartMarker>
                 </ChartSeries>
-            </ChartSeriesCollection>
+            
         </SfChart>
     </ComponentUnderTest>
 </SfFixture>
@@ -1647,7 +1647,7 @@
             </ChartArea>
             <ChartPrimaryXAxis Title="PrimaryXAxis" RangePadding="ChartRangePadding.Normal"></ChartPrimaryXAxis>
             <ChartPrimaryYAxis Title="PrimaryYaxis" RangePadding="ChartRangePadding.Normal"></ChartPrimaryYAxis>
-            <ChartSeriesCollection>
+            
                 <ChartSeries DataSource="@Sales26" XName="x" YName="y" Type="ChartSeriesType.StackingBar" Name="Gold" Fill="rgba(135,206,235,1)" StackingGroup="a">
                     <ChartSeriesAnimation Enable="false"></ChartSeriesAnimation>
                     <ChartMarker Visible="true">
@@ -1666,7 +1666,7 @@
                         <ChartDataLabel Visible="true" Fill="Black" Position="ChartLabelPosition.Middle"></ChartDataLabel>
                     </ChartMarker>
                 </ChartSeries>
-            </ChartSeriesCollection>
+            
         </SfChart>
     </ComponentUnderTest>
 </SfFixture>
@@ -1722,7 +1722,7 @@
         <SfChart ID="container" @ref="chartobj15" Title="x wise Sales Report" Width="800">
             <ChartPrimaryXAxis Title="PrimaryXAxis"></ChartPrimaryXAxis>
             <ChartPrimaryYAxis Title="PrimaryYaxis" RangePadding="ChartRangePadding.Normal" IsInversed="true"></ChartPrimaryYAxis>
-            <ChartSeriesCollection>
+            
                 <ChartSeries DataSource="@Sales27" XName="x" YName="y" Type="ChartSeriesType.StackingBar" Name="Gold">
                     <ChartSeriesAnimation Enable="false"></ChartSeriesAnimation>
                     <ChartMarker Visible="false">
@@ -1735,7 +1735,7 @@
                         <ChartDataLabel Visible="true" Fill="Violet" Position="ChartLabelPosition.Auto"></ChartDataLabel>
                     </ChartMarker>
                 </ChartSeries>
-            </ChartSeriesCollection>
+            
         </SfChart>
     </ComponentUnderTest>
 </SfFixture>
@@ -1784,7 +1784,7 @@
         <SfChart ID="container" @ref="chartobj16" Title="x wise Sales Report" Width="800">
             <ChartPrimaryXAxis Title="PrimaryXAxis"></ChartPrimaryXAxis>
             <ChartPrimaryYAxis Title="PrimaryYaxis" RangePadding="ChartRangePadding.Normal" IsInversed="true"></ChartPrimaryYAxis>
-            <ChartSeriesCollection>
+            
                 <ChartSeries DataSource="@Sales28" XName="x" YName="y" Type="ChartSeriesType.StackingBar" Name="Gold">
                     <ChartSeriesAnimation Enable="false"></ChartSeriesAnimation>
                     <ChartMarker Visible="false">
@@ -1797,7 +1797,7 @@
                         <ChartDataLabel Visible="true" Fill="Violet" Position="ChartLabelPosition.Outer"></ChartDataLabel>
                     </ChartMarker>
                 </ChartSeries>
-            </ChartSeriesCollection>
+            
         </SfChart>
     </ComponentUnderTest>
 </SfFixture>
@@ -1846,7 +1846,7 @@
         <SfChart ID="container" @ref="chartobj17" Title="x wise Sales Report" Width="800">
             <ChartPrimaryXAxis Title="PrimaryXAxis"></ChartPrimaryXAxis>
             <ChartPrimaryYAxis Title="PrimaryYaxis" RangePadding="ChartRangePadding.Normal" IsInversed="true"></ChartPrimaryYAxis>
-            <ChartSeriesCollection>
+            
                 <ChartSeries DataSource="@Sales29" XName="x" YName="y" Type="ChartSeriesType.StackingBar" Name="Gold">
                     <ChartSeriesAnimation Enable="false"></ChartSeriesAnimation>
                     <ChartMarker Visible="false">
@@ -1859,7 +1859,7 @@
                         <ChartDataLabel Visible="true" Fill="Violet" Position="ChartLabelPosition.Top"></ChartDataLabel>
                     </ChartMarker>
                 </ChartSeries>
-            </ChartSeriesCollection>
+            
         </SfChart>
     </ComponentUnderTest>
 </SfFixture>
@@ -1908,7 +1908,7 @@
         <SfChart ID="container" @ref="chartobj18" Title="x wise Sales Report" Width="800">
             <ChartPrimaryXAxis Title="PrimaryXAxis"></ChartPrimaryXAxis>
             <ChartPrimaryYAxis Title="PrimaryYaxis" RangePadding="ChartRangePadding.Normal" IsInversed="true"></ChartPrimaryYAxis>
-            <ChartSeriesCollection>
+            
                 <ChartSeries DataSource="@Sales30" XName="x" YName="y" Type="ChartSeriesType.StackingBar" Name="Gold">
                     <ChartSeriesAnimation Enable="false"></ChartSeriesAnimation>
                     <ChartMarker Visible="false">
@@ -1921,7 +1921,7 @@
                         <ChartDataLabel Visible="true" Fill="Violet" Position="ChartLabelPosition.Bottom"></ChartDataLabel>
                     </ChartMarker>
                 </ChartSeries>
-            </ChartSeriesCollection>
+            
         </SfChart>
     </ComponentUnderTest>
 </SfFixture>
@@ -1973,7 +1973,7 @@
         <SfChart ID="container" @ref="chartobj19" Title="Chart TS Title" Width="800">
             <ChartPrimaryXAxis Title="PrimaryXAxis" ValueType="Syncfusion.Blazor.Toolkit.ValueType.DateTime"></ChartPrimaryXAxis>
             <ChartPrimaryYAxis Title="PrimaryYaxis"></ChartPrimaryYAxis>
-            <ChartSeriesCollection>
+            
                 <ChartSeries DataSource="@Sales31" XName="x" YName="y" Type="ChartSeriesType.StackingBar" Name="Gold">
                     <ChartSeriesAnimation Enable="false"></ChartSeriesAnimation>
                     <ChartMarker Visible="true">
@@ -1984,7 +1984,7 @@
                     <ChartMarker Visible="true">
                     </ChartMarker>
                 </ChartSeries>
-            </ChartSeriesCollection>
+            
         </SfChart>
     </ComponentUnderTest>
 </SfFixture>
@@ -2026,7 +2026,7 @@
         <SfChart ID="container" @ref="chartobj20" Title="Chart TS Title" Width="800" IsTransposed="true">
             <ChartPrimaryXAxis Title="PrimaryXAxis" ValueType="Syncfusion.Blazor.Toolkit.ValueType.DateTime"></ChartPrimaryXAxis>
             <ChartPrimaryYAxis Title="PrimaryYaxis"></ChartPrimaryYAxis>
-            <ChartSeriesCollection>
+            
                 <ChartSeries DataSource="@Sales32" XName="x" YName="y" Type="ChartSeriesType.StackingBar" Name="Gold">
                     <ChartSeriesAnimation Enable="false"></ChartSeriesAnimation>
                     <ChartMarker Visible="true">
@@ -2037,7 +2037,7 @@
                     <ChartMarker Visible="true">
                     </ChartMarker>
                 </ChartSeries>
-            </ChartSeriesCollection>
+            
         </SfChart>
     </ComponentUnderTest>
 </SfFixture>
@@ -2079,7 +2079,7 @@
         <SfChart ID="container" @ref="chartobj21" Title="Chart TS Title" Width="800" IsTransposed="true">
             <ChartPrimaryXAxis Title="PrimaryXAxis" ValueType="Syncfusion.Blazor.Toolkit.ValueType.DateTime"></ChartPrimaryXAxis>
             <ChartPrimaryYAxis Title="PrimaryYaxis"></ChartPrimaryYAxis>
-            <ChartSeriesCollection>
+            
                 <ChartSeries DataSource="@Sales33" XName="x" YName="y" Type="ChartSeriesType.StackingBar" Name="Gold">
                     <ChartSeriesAnimation Enable="false"></ChartSeriesAnimation>
                     <ChartMarker Visible="true">
@@ -2092,7 +2092,7 @@
                         <ChartDataLabel Visible="true" Position="ChartLabelPosition.Auto"></ChartDataLabel>
                     </ChartMarker>
                 </ChartSeries>
-            </ChartSeriesCollection>
+            
         </SfChart>
     </ComponentUnderTest>
 </SfFixture>
@@ -2138,7 +2138,7 @@
         <SfChart ID="container" @ref="chartobj22" Title="Chart TS Title" Width="800" IsTransposed="true">
             <ChartPrimaryXAxis Title="PrimaryXAxis" ValueType="Syncfusion.Blazor.Toolkit.ValueType.DateTime"></ChartPrimaryXAxis>
             <ChartPrimaryYAxis Title="PrimaryYaxis"></ChartPrimaryYAxis>
-            <ChartSeriesCollection>
+            
                 <ChartSeries DataSource="@Sales34" XName="x" YName="y" Type="ChartSeriesType.StackingBar" Name="Gold">
                     <ChartSeriesAnimation Enable="false"></ChartSeriesAnimation>
                     <ChartMarker Visible="true">
@@ -2151,7 +2151,7 @@
                         <ChartDataLabel Visible="true" Position="ChartLabelPosition.Outer"></ChartDataLabel>
                     </ChartMarker>
                 </ChartSeries>
-            </ChartSeriesCollection>
+            
         </SfChart>
     </ComponentUnderTest>
 </SfFixture>
@@ -2197,7 +2197,7 @@
         <SfChart ID="container" @ref="chartobj23" Title="Chart TS Title" Width="800" IsTransposed="true">
             <ChartPrimaryXAxis Title="PrimaryXAxis" ValueType="Syncfusion.Blazor.Toolkit.ValueType.DateTime"></ChartPrimaryXAxis>
             <ChartPrimaryYAxis Title="PrimaryYaxis"></ChartPrimaryYAxis>
-            <ChartSeriesCollection>
+            
                 <ChartSeries DataSource="@Sales35" XName="x" YName="y" Type="ChartSeriesType.StackingBar" Name="Gold">
                     <ChartSeriesAnimation Enable="false"></ChartSeriesAnimation>
                     <ChartMarker Visible="true">
@@ -2210,7 +2210,7 @@
                         <ChartDataLabel Visible="true" Position="ChartLabelPosition.Top"></ChartDataLabel>
                     </ChartMarker>
                 </ChartSeries>
-            </ChartSeriesCollection>
+            
         </SfChart>
     </ComponentUnderTest>
 </SfFixture>
@@ -2256,7 +2256,7 @@
         <SfChart ID="container" @ref="chartobj24" Title="Chart TS Title" Width="800" IsTransposed="true">
             <ChartPrimaryXAxis Title="PrimaryXAxis" ValueType="Syncfusion.Blazor.Toolkit.ValueType.DateTime"></ChartPrimaryXAxis>
             <ChartPrimaryYAxis Title="PrimaryYaxis"></ChartPrimaryYAxis>
-            <ChartSeriesCollection>
+            
                 <ChartSeries DataSource="@Sales36" XName="x" YName="y" Type="ChartSeriesType.StackingBar" Name="Gold">
                     <ChartSeriesAnimation Enable="false"></ChartSeriesAnimation>
                     <ChartMarker Visible="true">
@@ -2269,7 +2269,7 @@
                         <ChartDataLabel Visible="true" Position="ChartLabelPosition.Bottom"></ChartDataLabel>
                     </ChartMarker>
                 </ChartSeries>
-            </ChartSeriesCollection>
+            
         </SfChart>
     </ComponentUnderTest>
 </SfFixture>
@@ -2315,7 +2315,7 @@
         <SfChart ID="container" @ref="chartobj25" Title="Chart TS Title" Width="800" IsTransposed="true">
             <ChartPrimaryXAxis Title="PrimaryXAxis" ValueType="Syncfusion.Blazor.Toolkit.ValueType.DateTime"></ChartPrimaryXAxis>
             <ChartPrimaryYAxis Title="PrimaryYaxis"></ChartPrimaryYAxis>
-            <ChartSeriesCollection>
+            
                 <ChartSeries DataSource="@Sales37" XName="x" YName="y" Type="ChartSeriesType.StackingBar" Name="Gold">
                     <ChartSeriesAnimation Enable="false"></ChartSeriesAnimation>
                     <ChartMarker Visible="true">
@@ -2328,7 +2328,7 @@
                         <ChartDataLabel Visible="true" Position="ChartLabelPosition.Middle"></ChartDataLabel>
                     </ChartMarker>
                 </ChartSeries>
-            </ChartSeriesCollection>
+            
         </SfChart>
     </ComponentUnderTest>
 </SfFixture>

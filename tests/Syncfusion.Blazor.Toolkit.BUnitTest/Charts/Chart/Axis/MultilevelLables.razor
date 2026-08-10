@@ -20,11 +20,11 @@
                 </ChartMultiLevelLabels>
             </ChartPrimaryXAxis>
             <ChartPrimaryYAxis Title="PrimaryYaxis" RangePadding="ChartRangePadding.None"></ChartPrimaryYAxis>
-            <ChartSeriesCollection>
+            
                 <ChartSeries DataSource="@Sales" XName="x" YName="y" Type="ChartSeriesType.Line" Name="Gold" Fill="Green">
                     <ChartSeriesAnimation Enable="false"></ChartSeriesAnimation>
                 </ChartSeries>
-            </ChartSeriesCollection>
+            
         </SfChart>
     </ComponentUnderTest>
 </SfFixture>
@@ -38,8 +38,8 @@
         await Task.Delay(200);
         var svg = cut.Find("#container0_Axis_MultiLevelLabel_Level_0_Text_0");
         // Note: Values may vary slightly depending on screen resolution.
-        Assert.True(svg.GetAttribute("x") == "164.00625");
-        Assert.True(svg.GetAttribute("y") == "371.05");
+        Assert.True(svg.GetAttribute("x") == "161.89374999999998");
+        Assert.True(svg.GetAttribute("y") == "376.25");
         var multiLevelLabels = cut.FindComponent<ChartMultiLevelLabels>();
         var multiLevelLabel = cut.FindComponent<ChartMultiLevelLabel>();
         multiLevelLabels.Instance.MultiLevelLabels = new List<ChartMultiLevelLabel>();
@@ -85,11 +85,11 @@
                 </ChartMultiLevelLabels>
             </ChartPrimaryXAxis>
             <ChartPrimaryYAxis Title="PrimaryYaxis" RangePadding="ChartRangePadding.None"></ChartPrimaryYAxis>
-            <ChartSeriesCollection>
+            
                 <ChartSeries DataSource="@Sales1" XName="x" YName="y" Type="ChartSeriesType.Line" Name="Gold" Fill="Green">
                     <ChartSeriesAnimation Enable="false"></ChartSeriesAnimation>
                 </ChartSeries>
-            </ChartSeriesCollection>
+            
         </SfChart>
     </ComponentUnderTest>
 </SfFixture>
@@ -103,8 +103,8 @@
         await Task.Delay(200);
         var svg = cut.Find("#container0_Axis_MultiLevelLabel_Level_0_Text_0");
         // Note: Values may vary slightly depending on screen resolution.
-        Assert.True(svg.GetAttribute("x") == "140.6");
-        Assert.True(svg.GetAttribute("y") == "371.05");
+        Assert.True(svg.GetAttribute("x") == "138.37142857142857");
+        Assert.True(svg.GetAttribute("y") == "376.25");
         cut.SetParametersAndRender();
     }
     public class SalesInfo1
@@ -146,11 +146,11 @@
                 </ChartMultiLevelLabels>
             </ChartPrimaryXAxis>
             <ChartPrimaryYAxis Title="PrimaryYaxis" RangePadding="ChartRangePadding.None"></ChartPrimaryYAxis>
-            <ChartSeriesCollection>
+            
                 <ChartSeries DataSource="@Sales2" XName="x" YName="y" Type="ChartSeriesType.Line" Name="Gold" Fill="Green">
                     <ChartSeriesAnimation Enable="false"></ChartSeriesAnimation>
                 </ChartSeries>
-            </ChartSeriesCollection>
+            
         </SfChart>
     </ComponentUnderTest>
 </SfFixture>
@@ -164,8 +164,8 @@
         await Task.Delay(200);
         var svg = cut.Find("#container0_Axis_MultiLevelLabel_Level_0_Text_0");
         // Note: Values may vary slightly depending on screen resolution.
-        Assert.True(svg.GetAttribute("x") == "491.69374999999997");
-        Assert.True(svg.GetAttribute("y") == "371.05");
+        Assert.True(svg.GetAttribute("x") == "491.20625");
+        Assert.True(svg.GetAttribute("y") == "376.25");
         cut.SetParametersAndRender();
     }
     public class SalesInfo2
@@ -206,11 +206,11 @@
                 </ChartMultiLevelLabels>
             </ChartPrimaryXAxis>
             <ChartPrimaryYAxis Title="PrimaryYaxis" RangePadding="ChartRangePadding.None"></ChartPrimaryYAxis>
-            <ChartSeriesCollection>
+            
                 <ChartSeries DataSource="@Sales3" XName="x" YName="y" Type="ChartSeriesType.Line" Name="Gold" Fill="Green">
                     <ChartSeriesAnimation Enable="false"></ChartSeriesAnimation>
                 </ChartSeries>
-            </ChartSeriesCollection>
+            
         </SfChart>
     </ComponentUnderTest>
 </SfFixture>
@@ -224,8 +224,8 @@
         await Task.Delay(300);
         var svg = cut.Find("#container0_Axis_MultiLevelLabel_Level_0_Text_0");
         // Note: Values may vary slightly depending on screen resolution.
-        Assert.True(svg.GetAttribute("x") == "71.94999999999999");
-        Assert.True(svg.GetAttribute("y") == "294.415625");
+        Assert.True(svg.GetAttribute("x") == "69.35");
+        Assert.True(svg.GetAttribute("y") == "298.640625");
         cut.SetParametersAndRender();
     }
     public class SalesInfo3
@@ -272,11 +272,11 @@
                 </ChartMultiLevelLabels>
             </ChartPrimaryXAxis>
             <ChartPrimaryYAxis Title="PrimaryYaxis" RangePadding="ChartRangePadding.None"></ChartPrimaryYAxis>
-            <ChartSeriesCollection>
+            
                 <ChartSeries DataSource="@Sales4" XName="x" YName="y" Type="ChartSeriesType.Line" Name="Gold" Fill="Green">
                     <ChartSeriesAnimation Enable="false"></ChartSeriesAnimation>
                 </ChartSeries>
-            </ChartSeriesCollection>
+            
         </SfChart>
     </ComponentUnderTest>
 </SfFixture>
@@ -290,8 +290,8 @@
         await Task.Delay(200);
         var svg = cut.Find("#container0_Axis_MultiLevelLabel_Level_0_Text_0");
         // Note: Values may vary slightly depending on screen resolution.
-        Assert.True(svg.GetAttribute("x") == "164.00625");
-        Assert.True(svg.GetAttribute("y") == "343.45000000000005");
+        Assert.True(svg.GetAttribute("x") == "161.89374999999998");
+        Assert.True(svg.GetAttribute("y") == "348.65000000000003");
         var elements = Convert.ToDouble(cut.Find("#container0_Axis_MultiLevelLabel_Level_1_Text_1").GetAttribute("y"));
         Assert.True(elements > Convert.ToDouble(svg.GetAttribute("y")));
         cut.SetParametersAndRender();
@@ -338,11 +338,11 @@
                 </ChartMultiLevelLabels>
             </ChartPrimaryXAxis>
             <ChartPrimaryYAxis Title="PrimaryYaxis" RangePadding="ChartRangePadding.None"></ChartPrimaryYAxis>
-            <ChartSeriesCollection>
+            
                 <ChartSeries DataSource="@Sales5" XName="x" YName="y" Type="ChartSeriesType.Line" Name="Gold" Fill="Green">
                     <ChartSeriesAnimation Enable="false"></ChartSeriesAnimation>
                 </ChartSeries>
-            </ChartSeriesCollection>
+            
             <ChartLegendSettings Visible="true"></ChartLegendSettings>
         </SfChart>
     </ComponentUnderTest>
@@ -357,8 +357,8 @@
         await Task.Delay(200);
         var svg = cut.Find("#container0_Axis_MultiLevelLabel_Level_0_Text_0");
         // Note: Values may vary slightly depending on screen resolution.
-        Assert.True(svg.GetAttribute("x") == "262.3125");
-        Assert.True(svg.GetAttribute("y") == "371.05");
+        Assert.True(svg.GetAttribute("x") == "260.6875");
+        Assert.True(svg.GetAttribute("y") == "376.25");
         cut.SetParametersAndRender();
     }
     public class SalesInfo5
@@ -404,11 +404,11 @@
                 </ChartMultiLevelLabels>
             </ChartPrimaryXAxis>
             <ChartPrimaryYAxis Title="PrimaryYaxis" RangePadding="ChartRangePadding.None"></ChartPrimaryYAxis>
-            <ChartSeriesCollection>
+            
                 <ChartSeries DataSource="@Sales6" XName="x" YName="y" Type="ChartSeriesType.Line" Name="Gold" Fill="Green">
                     <ChartSeriesAnimation Enable="false"></ChartSeriesAnimation>
                 </ChartSeries>
-            </ChartSeriesCollection>
+            
             <ChartLegendSettings Visible="true"></ChartLegendSettings>
         </SfChart>
     </ComponentUnderTest>
@@ -468,11 +468,11 @@
                 </ChartMultiLevelLabels>
             </ChartPrimaryXAxis>
             <ChartPrimaryYAxis Title="PrimaryYaxis" RangePadding="ChartRangePadding.None"></ChartPrimaryYAxis>
-            <ChartSeriesCollection>
+            
                 <ChartSeries DataSource="@Sales7" XName="x" YName="y" Type="ChartSeriesType.Line" Name="Gold" Fill="Green">
                     <ChartSeriesAnimation Enable="false"></ChartSeriesAnimation>
                 </ChartSeries>
-            </ChartSeriesCollection>
+            
             <ChartLegendSettings Visible="true"></ChartLegendSettings>
         </SfChart>
     </ComponentUnderTest>
@@ -487,8 +487,8 @@
         await Task.Delay(200);
         var svg = cut.Find("#container0_Axis_MultiLevelLabel_Level_0_Text_0");
         // Note: Values may vary slightly depending on screen resolution.
-        Assert.True(svg.GetAttribute("x") == "262.3125");
-        Assert.True(svg.GetAttribute("y") == "371.05");
+        Assert.True(svg.GetAttribute("x") == "260.6875");
+        Assert.True(svg.GetAttribute("y") == "376.25");
         cut.SetParametersAndRender();
     }
     public class SalesInfo7
@@ -535,11 +535,11 @@
                 </ChartMultiLevelLabels>
             </ChartPrimaryXAxis>
             <ChartPrimaryYAxis Title="PrimaryYaxis" RangePadding="ChartRangePadding.None"></ChartPrimaryYAxis>
-            <ChartSeriesCollection>
+            
                 <ChartSeries DataSource="@Sales8" XName="x" YName="y" Type="ChartSeriesType.Line" Name="Gold" Fill="Green">
                     <ChartSeriesAnimation Enable="false"></ChartSeriesAnimation>
                 </ChartSeries>
-            </ChartSeriesCollection>
+            
             <ChartLegendSettings Visible="true"></ChartLegendSettings>
         </SfChart>
     </ComponentUnderTest>
@@ -554,8 +554,8 @@
         await Task.Delay(200);
         var svg = cut.Find("#container0_Axis_MultiLevelLabel_Level_0_Text_0");
         // Note: Values may vary slightly depending on screen resolution.
-        Assert.True(svg.GetAttribute("x") == "262.3125");
-        Assert.True(svg.GetAttribute("y") == "313.05");
+        Assert.True(svg.GetAttribute("x") == "260.6875");
+        Assert.True(svg.GetAttribute("y") == "318.24999999999994");
         cut.SetParametersAndRender();
     }
     public class SalesInfo8
@@ -602,11 +602,11 @@
                 </ChartMultiLevelLabels>
             </ChartPrimaryXAxis>
             <ChartPrimaryYAxis Title="PrimaryYaxis" RangePadding="ChartRangePadding.None"></ChartPrimaryYAxis>
-            <ChartSeriesCollection>
+            
                 <ChartSeries DataSource="@Sales9" XName="x" YName="y" Type="ChartSeriesType.Line" Name="Gold" Fill="Green">
                     <ChartSeriesAnimation Enable="false"></ChartSeriesAnimation>
                 </ChartSeries>
-            </ChartSeriesCollection>
+            
             <ChartLegendSettings Visible="true"></ChartLegendSettings>
         </SfChart>
     </ComponentUnderTest>
@@ -621,8 +621,8 @@
         await Task.Delay(200);
         var svg = cut.Find("#container0_Axis_MultiLevelLabel_Level_0_Text_0");
         // Note: Values may vary slightly depending on screen resolution.
-        Assert.True(svg.GetAttribute("x") == "262.3125");
-        Assert.True(svg.GetAttribute("y") == "109.5");
+        Assert.True(svg.GetAttribute("x") == "260.6875");
+        Assert.True(svg.GetAttribute("y") == "106.89999999999999");
         cut.SetParametersAndRender();
     }
     public class SalesInfo9
@@ -669,11 +669,11 @@
                 </ChartMultiLevelLabels>
             </ChartPrimaryXAxis>
             <ChartPrimaryYAxis Title="PrimaryYaxis" RangePadding="ChartRangePadding.None"></ChartPrimaryYAxis>
-            <ChartSeriesCollection>
+            
                 <ChartSeries DataSource="@Sales10" XName="x" YName="y" Type="ChartSeriesType.Line" Name="Gold" Fill="Green">
                     <ChartSeriesAnimation Enable="false"></ChartSeriesAnimation>
                 </ChartSeries>
-            </ChartSeriesCollection>
+            
             <ChartLegendSettings Visible="true"></ChartLegendSettings>
         </SfChart>
     </ComponentUnderTest>
@@ -688,8 +688,8 @@
         await Task.Delay(200);
         var svg = cut.Find("#container0_Axis_MultiLevelLabel_Level_0_Text_0");
         // Note: Values may vary slightly depending on screen resolution.
-        Assert.True(svg.GetAttribute("x") == "262.3125");
-        Assert.True(svg.GetAttribute("y") == "51.50000000000001");
+        Assert.True(svg.GetAttribute("x") == "260.6875");
+        Assert.True(svg.GetAttribute("y") == "48.899999999999984");
         cut.SetParametersAndRender();
     }
     public class SalesInfo10
@@ -731,11 +731,11 @@
                 </ChartMultiLevelLabels>
             </ChartPrimaryXAxis>
             <ChartPrimaryYAxis Title="PrimaryYaxis" RangePadding="ChartRangePadding.None"></ChartPrimaryYAxis>
-            <ChartSeriesCollection>
+            
                 <ChartSeries DataSource="@Sales11" XName="x" YName="y" Type="ChartSeriesType.Line" Name="Gold" Fill="Green">
                     <ChartSeriesAnimation Enable="false"></ChartSeriesAnimation>
                 </ChartSeries>
-            </ChartSeriesCollection>
+            
             <ChartLegendSettings Visible="true"></ChartLegendSettings>
         </SfChart>
     </ComponentUnderTest>
@@ -750,8 +750,8 @@
         await Task.Delay(200);
         var svg = cut.Find("#container0_Axis_MultiLevelLabel_Level_0_Text_0");
         // Note: Values may vary slightly depending on screen resolution.
-        Assert.True(svg.GetAttribute("x") == "256.8125");
-        Assert.True(svg.GetAttribute("y") == "51.5");
+        Assert.True(svg.GetAttribute("x") == "255.1875");
+        Assert.True(svg.GetAttribute("y") == "48.900000000000006");
         cut.SetParametersAndRender();
     }
     public class SalesInfo11
@@ -793,11 +793,11 @@
                 </ChartMultiLevelLabels>
             </ChartPrimaryXAxis>
             <ChartPrimaryYAxis Title="PrimaryYaxis" RangePadding="ChartRangePadding.None"></ChartPrimaryYAxis>
-            <ChartSeriesCollection>
+            
                 <ChartSeries DataSource="@Sales12" XName="x" YName="y" Type="ChartSeriesType.Line" Name="Gold" Fill="Green">
                     <ChartSeriesAnimation Enable="false"></ChartSeriesAnimation>
                 </ChartSeries>
-            </ChartSeriesCollection>
+            
             <ChartLegendSettings Visible="true"></ChartLegendSettings>
         </SfChart>
     </ComponentUnderTest>
@@ -812,8 +812,8 @@
         await Task.Delay(200);
         var svg = cut.Find("#container0_Axis_MultiLevelLabel_Level_0_Text_0");
         // Note: Values may vary slightly depending on screen resolution.
-        Assert.True(svg.GetAttribute("x") == "256.8125");
-        Assert.True(svg.GetAttribute("y") == "51.50000000000001");
+        Assert.True(svg.GetAttribute("x") == "255.1875");
+        Assert.True(svg.GetAttribute("y") == "48.899999999999984");
         cut.SetParametersAndRender();
     }
     public class SalesInfo12
@@ -856,11 +856,11 @@
                 </ChartMultiLevelLabels>
             </ChartPrimaryXAxis>
             <ChartPrimaryYAxis Title="PrimaryYaxis" RangePadding="ChartRangePadding.None"></ChartPrimaryYAxis>
-            <ChartSeriesCollection>
+            
                 <ChartSeries DataSource="@Sales13" XName="x" YName="y" Type="ChartSeriesType.Line" Name="Gold" Fill="Green">
                     <ChartSeriesAnimation Enable="false"></ChartSeriesAnimation>
                 </ChartSeries>
-            </ChartSeriesCollection>
+            
             <ChartLegendSettings Visible="true"></ChartLegendSettings>
         </SfChart>
     </ComponentUnderTest>
@@ -875,8 +875,8 @@
         await Task.Delay(200);
         var svg = cut.Find("#container0_Axis_MultiLevelLabel_Level_0_Text_0");
         // Note: Values may vary slightly depending on screen resolution.
-        Assert.True(svg.GetAttribute("x") == "71.2");
-        Assert.True(svg.GetAttribute("y") == "51.5");
+        Assert.True(svg.GetAttribute("x") == "68.6");
+        Assert.True(svg.GetAttribute("y") == "48.900000000000006");
         cut.SetParametersAndRender();
     }
     public class SalesInfo13
@@ -919,11 +919,11 @@
                 </ChartMultiLevelLabels>
             </ChartPrimaryXAxis>
             <ChartPrimaryYAxis Title="PrimaryYaxis" RangePadding="ChartRangePadding.None"></ChartPrimaryYAxis>
-            <ChartSeriesCollection>
+            
                 <ChartSeries DataSource="@Sales14" XName="x" YName="y" Type="ChartSeriesType.Line" Name="Gold" Fill="Green">
                     <ChartSeriesAnimation Enable="false"></ChartSeriesAnimation>
                 </ChartSeries>
-            </ChartSeriesCollection>
+            
             <ChartLegendSettings Visible="true"></ChartLegendSettings>
         </SfChart>
     </ComponentUnderTest>
@@ -938,8 +938,8 @@
         await Task.Delay(300);
         var svg = cut.Find("#container0_Axis_MultiLevelLabel_Level_0_Text_0");
         // Note: Values may vary slightly depending on screen resolution.
-        Assert.True(svg.GetAttribute("x") == "164.00625");
-        Assert.True(svg.GetAttribute("y") == "51.50000000000001");
+        Assert.True(svg.GetAttribute("x") == "161.89374999999998");
+        Assert.True(svg.GetAttribute("y") == "48.899999999999984");
         cut.SetParametersAndRender();
     }
     public class SalesInfo14
@@ -982,11 +982,11 @@
                 </ChartMultiLevelLabels>
             </ChartPrimaryXAxis>
             <ChartPrimaryYAxis Title="PrimaryYaxis" RangePadding="ChartRangePadding.None"></ChartPrimaryYAxis>
-            <ChartSeriesCollection>
+            
                 <ChartSeries DataSource="@Sales15" XName="x" YName="y" Type="ChartSeriesType.Line" Name="Gold" Fill="Green">
                     <ChartSeriesAnimation Enable="false"></ChartSeriesAnimation>
                 </ChartSeries>
-            </ChartSeriesCollection>
+            
             <ChartLegendSettings Visible="true"></ChartLegendSettings>
         </SfChart>
     </ComponentUnderTest>
@@ -1001,8 +1001,8 @@
         await Task.Delay(300);
         var svg = cut.Find("#container0_Axis_MultiLevelLabel_Level_0_Text_0");
         // Note: Values may vary slightly depending on screen resolution.
-        Assert.True(svg.GetAttribute("x") == "256.8125");
-        Assert.True(svg.GetAttribute("y") == "51.50000000000001");
+        Assert.True(svg.GetAttribute("x") == "255.1875");
+        Assert.True(svg.GetAttribute("y") == "48.899999999999984");
         cut.SetParametersAndRender();
     }
     public class SalesInfo15
@@ -1045,11 +1045,11 @@
                 </ChartMultiLevelLabels>
             </ChartPrimaryXAxis>
             <ChartPrimaryYAxis Title="PrimaryYaxis" RangePadding="ChartRangePadding.None"></ChartPrimaryYAxis>
-            <ChartSeriesCollection>
+            
                 <ChartSeries DataSource="@Sales16" XName="x" YName="y" Type="ChartSeriesType.Line" Name="Gold" Fill="Green">
                     <ChartSeriesAnimation Enable="false"></ChartSeriesAnimation>
                 </ChartSeries>
-            </ChartSeriesCollection>
+            
             <ChartLegendSettings Visible="true"></ChartLegendSettings>
         </SfChart>
     </ComponentUnderTest>
@@ -1064,8 +1064,8 @@
         await Task.Delay(300);
         var svg = cut.Find("#container0_Axis_MultiLevelLabel_Level_0_Text_0");
         // Note: Values may vary slightly depending on screen resolution.
-        Assert.True(svg.GetAttribute("x") == "71.2");
-        Assert.True(svg.GetAttribute("y") == "51.50000000000001");
+        Assert.True(svg.GetAttribute("x") == "68.6");
+        Assert.True(svg.GetAttribute("y") == "48.899999999999984");
         cut.SetParametersAndRender();
     }
     public class SalesInfo16
@@ -1108,11 +1108,11 @@
                 </ChartMultiLevelLabels>
             </ChartPrimaryXAxis>
             <ChartPrimaryYAxis Title="PrimaryYaxis" RangePadding="ChartRangePadding.None"></ChartPrimaryYAxis>
-            <ChartSeriesCollection>
+            
                 <ChartSeries DataSource="@Sales17" XName="x" YName="y" Type="ChartSeriesType.Line" Name="Gold" Fill="Green">
                     <ChartSeriesAnimation Enable="false"></ChartSeriesAnimation>
                 </ChartSeries>
-            </ChartSeriesCollection>
+            
             <ChartLegendSettings Visible="true"></ChartLegendSettings>
         </SfChart>
     </ComponentUnderTest>
@@ -1127,8 +1127,8 @@
         await Task.Delay(300);
         var svg = cut.Find("#container0_Axis_MultiLevelLabel_Level_0_Text_0");
         // Note: Values may vary slightly depending on screen resolution.
-        Assert.True(svg.GetAttribute("x") == "164.00625");
-        Assert.True(svg.GetAttribute("y") == "371.05");
+        Assert.True(svg.GetAttribute("x") == "161.89374999999998");
+        Assert.True(svg.GetAttribute("y") == "376.25");
         cut.SetParametersAndRender();
     }
     public class SalesInfo17
@@ -1171,11 +1171,11 @@
                 </ChartMultiLevelLabels>
             </ChartPrimaryXAxis>
             <ChartPrimaryYAxis Title="PrimaryYaxis" RangePadding="ChartRangePadding.None"></ChartPrimaryYAxis>
-            <ChartSeriesCollection>
+            
                 <ChartSeries DataSource="@Sales18" XName="x" YName="y" Type="ChartSeriesType.Line" Name="Gold" Fill="Green">
                     <ChartSeriesAnimation Enable="false"></ChartSeriesAnimation>
                 </ChartSeries>
-            </ChartSeriesCollection>
+            
             <ChartLegendSettings Visible="true"></ChartLegendSettings>
         </SfChart>
     </ComponentUnderTest>
@@ -1232,11 +1232,11 @@
                 </ChartMultiLevelLabels>
             </ChartPrimaryXAxis>
             <ChartPrimaryYAxis Title="PrimaryYaxis" RangePadding="ChartRangePadding.None"></ChartPrimaryYAxis>
-            <ChartSeriesCollection>
+            
                 <ChartSeries DataSource="@Sales19" XName="x" YName="y" Type="ChartSeriesType.Line" Name="Gold" Fill="Green">
                     <ChartSeriesAnimation Enable="false"></ChartSeriesAnimation>
                 </ChartSeries>
-            </ChartSeriesCollection>
+            
             <ChartLegendSettings Visible="true"></ChartLegendSettings>
         </SfChart>
     </ComponentUnderTest>
@@ -1252,8 +1252,8 @@
         var svg = cut.Find("#container0_Axis_MultiLevelLabel_Level_0_Text_0");
         Assert.True(svg != null);
         // Note: Values may vary slightly depending on screen resolution.
-        Assert.True(svg.GetAttribute("x") == "164.00625");
-        Assert.True(svg.GetAttribute("y") == "371.05");
+        Assert.True(svg.GetAttribute("x") == "161.89374999999998");
+        Assert.True(svg.GetAttribute("y") == "376.25");
         cut.SetParametersAndRender();
     }
     public class SalesInfo19
@@ -1296,11 +1296,11 @@
                 </ChartMultiLevelLabels>
             </ChartPrimaryXAxis>
             <ChartPrimaryYAxis Title="PrimaryYaxis" RangePadding="ChartRangePadding.None"></ChartPrimaryYAxis>
-            <ChartSeriesCollection>
+            
                 <ChartSeries DataSource="@Sales20" XName="x" YName="y" Type="ChartSeriesType.Line" Name="Gold" Fill="Green">
                     <ChartSeriesAnimation Enable="false"></ChartSeriesAnimation>
                 </ChartSeries>
-            </ChartSeriesCollection>
+            
             <ChartLegendSettings Visible="true"></ChartLegendSettings>
         </SfChart>
     </ComponentUnderTest>
@@ -1316,8 +1316,8 @@
         var svg = cut.Find("#container0_Axis_MultiLevelLabel_Level_0_Text_0");
         Assert.True(svg != null);
         // Note: Values may vary slightly depending on screen resolution.
-        Assert.True(svg.GetAttribute("x") == "164.00625");
-        Assert.True(svg.GetAttribute("y") == "371.05");
+        Assert.True(svg.GetAttribute("x") == "161.89374999999998");
+        Assert.True(svg.GetAttribute("y") == "376.25");
         cut.SetParametersAndRender();
     }
     public class SalesInfo20
@@ -1360,11 +1360,11 @@
                 </ChartMultiLevelLabels>
             </ChartPrimaryXAxis>
             <ChartPrimaryYAxis Title="PrimaryYaxis" RangePadding="ChartRangePadding.None"></ChartPrimaryYAxis>
-            <ChartSeriesCollection>
+            
                 <ChartSeries DataSource="@Sales21" XName="x" YName="y" Type="ChartSeriesType.Line" Name="Gold" Fill="Green">
                     <ChartSeriesAnimation Enable="false"></ChartSeriesAnimation>
                 </ChartSeries>
-            </ChartSeriesCollection>
+            
             <ChartLegendSettings Visible="true"></ChartLegendSettings>
         </SfChart>
     </ComponentUnderTest>
@@ -1380,8 +1380,8 @@
         var svg = cut.Find("#container0_Axis_MultiLevelLabel_Level_0_Text_0");
         Assert.True(svg != null);
         // Note: Values may vary slightly depending on screen resolution.
-        Assert.True(svg.GetAttribute("x") == "164.00625");
-        Assert.True(svg.GetAttribute("y") == "51.50000000000001");
+        Assert.True(svg.GetAttribute("x") == "161.89374999999998");
+        Assert.True(svg.GetAttribute("y") == "48.899999999999984");
         cut.SetParametersAndRender();
     }
     public class SalesInfo21
@@ -1424,11 +1424,11 @@
                 </ChartMultiLevelLabels>
             </ChartPrimaryXAxis>
             <ChartPrimaryYAxis Title="PrimaryYaxis" RangePadding="ChartRangePadding.None"></ChartPrimaryYAxis>
-            <ChartSeriesCollection>
+            
                 <ChartSeries DataSource="@Sales22" XName="x" YName="y" Type="ChartSeriesType.Line" Name="Gold" Fill="Green">
                     <ChartSeriesAnimation Enable="false"></ChartSeriesAnimation>
                 </ChartSeries>
-            </ChartSeriesCollection>
+            
             <ChartLegendSettings Visible="true"></ChartLegendSettings>
         </SfChart>
     </ComponentUnderTest>
@@ -1444,8 +1444,8 @@
         var svg = cut.Find("#container0_Axis_MultiLevelLabel_Level_0_Text_0");
         Assert.True(svg != null);
         // Note: Values may vary slightly depending on screen resolution.
-        Assert.True(svg.GetAttribute("x") == "164.00625");
-        Assert.True(svg.GetAttribute("y") == "51.50000000000001");
+        Assert.True(svg.GetAttribute("x") == "161.89374999999998");
+        Assert.True(svg.GetAttribute("y") == "48.899999999999984");
         cut.SetParametersAndRender();
     }
     public class SalesInfo22
@@ -1488,11 +1488,11 @@
                 </ChartMultiLevelLabels>
             </ChartPrimaryXAxis>
             <ChartPrimaryYAxis Title="PrimaryYaxis" RangePadding="ChartRangePadding.None"></ChartPrimaryYAxis>
-            <ChartSeriesCollection>
+            
                 <ChartSeries DataSource="@Sales23" XName="x" YName="y" Type="ChartSeriesType.Line" Name="Gold" Fill="Green">
                     <ChartSeriesAnimation Enable="false"></ChartSeriesAnimation>
                 </ChartSeries>
-            </ChartSeriesCollection>
+            
             <ChartLegendSettings Visible="true"></ChartLegendSettings>
         </SfChart>
     </ComponentUnderTest>
@@ -1549,11 +1549,11 @@
                 </ChartMultiLevelLabels>
             </ChartPrimaryXAxis>
             <ChartPrimaryYAxis Title="PrimaryYaxis" RangePadding="ChartRangePadding.None"></ChartPrimaryYAxis>
-            <ChartSeriesCollection>
+            
                 <ChartSeries DataSource="@Sales24" XName="x" YName="y" Type="ChartSeriesType.Line" Name="Gold" Fill="Green">
                     <ChartSeriesAnimation Enable="false"></ChartSeriesAnimation>
                 </ChartSeries>
-            </ChartSeriesCollection>
+            
             <ChartLegendSettings Visible="true"></ChartLegendSettings>
         </SfChart>
     </ComponentUnderTest>
@@ -1610,11 +1610,11 @@
                 </ChartMultiLevelLabels>
             </ChartPrimaryXAxis>
             <ChartPrimaryYAxis Title="PrimaryYaxis" RangePadding="ChartRangePadding.None"></ChartPrimaryYAxis>
-            <ChartSeriesCollection>
+            
                 <ChartSeries DataSource="@Sales25" XName="x" YName="y" Type="ChartSeriesType.Line" Name="Gold" Fill="Green">
                     <ChartSeriesAnimation Enable="false"></ChartSeriesAnimation>
                 </ChartSeries>
-            </ChartSeriesCollection>
+            
             <ChartLegendSettings Visible="true"></ChartLegendSettings>
         </SfChart>
     </ComponentUnderTest>
@@ -1671,11 +1671,11 @@
                 </ChartMultiLevelLabels>
             </ChartPrimaryXAxis>
             <ChartPrimaryYAxis Title="PrimaryYaxis" RangePadding="ChartRangePadding.None"></ChartPrimaryYAxis>
-            <ChartSeriesCollection>
+            
                 <ChartSeries DataSource="@Sales26" XName="x" YName="y" Type="ChartSeriesType.Line" Name="Gold" Fill="Green">
                     <ChartSeriesAnimation Enable="false"></ChartSeriesAnimation>
                 </ChartSeries>
-            </ChartSeriesCollection>
+            
             <ChartLegendSettings Visible="true"></ChartLegendSettings>
         </SfChart>
     </ComponentUnderTest>
@@ -1691,8 +1691,8 @@
         var svg = cut.Find("#container0_Axis_MultiLevelLabel_Level_0_Text_0");
         Assert.True(svg != null);
         // Note: Values may vary slightly depending on screen resolution.
-        Assert.True(svg.GetAttribute("x") == "164.00625");
-        Assert.True(svg.GetAttribute("y") == "119.5");
+        Assert.True(svg.GetAttribute("x") == "161.89374999999998");
+        Assert.True(svg.GetAttribute("y") == "116.89999999999999");
         Assert.True(cut.Find("#container0_Axis_MultiLevelLabel_Rect_0_0") != null);
         cut.SetParametersAndRender();
     }
@@ -1736,11 +1736,11 @@
                 </ChartMultiLevelLabels>
             </ChartPrimaryXAxis>
             <ChartPrimaryYAxis Title="PrimaryYaxis" RangePadding="ChartRangePadding.None"></ChartPrimaryYAxis>
-            <ChartSeriesCollection>
+            
                 <ChartSeries DataSource="@Sales27" XName="x" YName="y" Type="ChartSeriesType.Line" Name="Gold" Fill="Green">
                     <ChartSeriesAnimation Enable="false"></ChartSeriesAnimation>
                 </ChartSeries>
-            </ChartSeriesCollection>
+            
             <ChartLegendSettings Visible="true"></ChartLegendSettings>
         </SfChart>
     </ComponentUnderTest>
@@ -1756,8 +1756,8 @@
         var svg = cut.Find("#container0_Axis_MultiLevelLabel_Level_0_Text_0");
         Assert.True(svg != null);
         // Note: Values may vary slightly depending on screen resolution.
-        Assert.True(svg.GetAttribute("x") == "256.8125");
-        Assert.True(svg.GetAttribute("y") == "119.5");
+        Assert.True(svg.GetAttribute("x") == "255.1875");
+        Assert.True(svg.GetAttribute("y") == "116.89999999999999");
         Assert.True(cut.Find("#container0_Axis_MultiLevelLabel_Rect_0_0") != null);
         cut.SetParametersAndRender();
     }
@@ -1801,11 +1801,11 @@
                 </ChartMultiLevelLabels>
             </ChartPrimaryXAxis>
             <ChartPrimaryYAxis Title="PrimaryYaxis" RangePadding="ChartRangePadding.None"></ChartPrimaryYAxis>
-            <ChartSeriesCollection>
+            
                 <ChartSeries DataSource="@Sales28" XName="x" YName="y" Type="ChartSeriesType.Line" Name="Gold" Fill="Green">
                     <ChartSeriesAnimation Enable="false"></ChartSeriesAnimation>
                 </ChartSeries>
-            </ChartSeriesCollection>
+            
             <ChartLegendSettings Visible="true"></ChartLegendSettings>
         </SfChart>
     </ComponentUnderTest>
@@ -1821,8 +1821,8 @@
         var svg = cut.Find("#container0_Axis_MultiLevelLabel_Level_0_Text_0");
         Assert.True(svg != null);
         // Note: Values may vary slightly depending on screen resolution.
-        Assert.True(svg.GetAttribute("x") == "71.2");
-        Assert.True(svg.GetAttribute("y") == "119.5");
+        Assert.True(svg.GetAttribute("x") == "68.6");
+        Assert.True(svg.GetAttribute("y") == "116.89999999999999");
         Assert.True(cut.Find("#container0_Axis_MultiLevelLabel_Rect_0_0") != null);
         cut.SetParametersAndRender();
     }
@@ -1866,11 +1866,11 @@
                 </ChartMultiLevelLabels>
             </ChartPrimaryXAxis>
             <ChartPrimaryYAxis Title="PrimaryYaxis" RangePadding="ChartRangePadding.None"></ChartPrimaryYAxis>
-            <ChartSeriesCollection>
+            
                 <ChartSeries DataSource="@Sales29" XName="x" YName="y" Type="ChartSeriesType.Line" Name="Gold" Fill="Green">
                     <ChartSeriesAnimation Enable="false"></ChartSeriesAnimation>
                 </ChartSeries>
-            </ChartSeriesCollection>
+            
             <ChartLegendSettings Visible="true"></ChartLegendSettings>
         </SfChart>
     </ComponentUnderTest>
@@ -1886,8 +1886,8 @@
         var svg = cut.Find("#container0_Axis_MultiLevelLabel_Level_0_Text_0");
         Assert.True(svg != null);
         // Note: Values may vary slightly depending on screen resolution.
-        Assert.True(svg.GetAttribute("x") == "71.2");
-        Assert.True(svg.GetAttribute("y") == "298.05");
+        Assert.True(svg.GetAttribute("x") == "68.6");
+        Assert.True(svg.GetAttribute("y") == "303.24999999999994");
         Assert.True(cut.Find("#container0_Axis_MultiLevelLabel_Rect_0_0") != null);
         cut.SetParametersAndRender();
     }
@@ -1927,11 +1927,11 @@
                 </ChartMultiLevelLabels>
             </ChartPrimaryXAxis>
             <ChartPrimaryYAxis Title="PrimaryYaxis" RangePadding="ChartRangePadding.None"></ChartPrimaryYAxis>
-            <ChartSeriesCollection>
+            
                 <ChartSeries DataSource="@Sales30" XName="x" YName="y" Type="ChartSeriesType.Line" Name="Gold" Fill="Green">
                     <ChartSeriesAnimation Enable="false"></ChartSeriesAnimation>
                 </ChartSeries>
-            </ChartSeriesCollection>
+            
             <ChartLegendSettings Visible="true"></ChartLegendSettings>
         </SfChart>
     </ComponentUnderTest>
@@ -1947,8 +1947,8 @@
         var svg = cut.Find("#container0_Axis_MultiLevelLabel_Level_0_Text_0");
         Assert.True(svg != null);
         // Note: Values may vary slightly depending on screen resolution.
-        Assert.True(svg.GetAttribute("x") == "170.93072289156623");
-        Assert.True(svg.GetAttribute("y") == "371.05");
+        Assert.True(svg.GetAttribute("x") == "168.81626506024094");
+        Assert.True(svg.GetAttribute("y") == "376.25");
         Assert.True(cut.Find("#container0_Axis_MultiLevelLabel_Rect_0_0") != null);
         cut.SetParametersAndRender();
     }
@@ -1986,11 +1986,11 @@
                 </ChartMultiLevelLabels>
             </ChartPrimaryXAxis>
             <ChartPrimaryYAxis Title="PrimaryYaxis" RangePadding="ChartRangePadding.None"></ChartPrimaryYAxis>
-            <ChartSeriesCollection>
+            
                 <ChartSeries DataSource="@Sales31" XName="x" YName="y" Type="ChartSeriesType.Line" Name="Gold" Fill="Green">
                     <ChartSeriesAnimation Enable="false"></ChartSeriesAnimation>
                 </ChartSeries>
-            </ChartSeriesCollection>
+            
             <ChartLegendSettings Visible="true"></ChartLegendSettings>
         </SfChart>
     </ComponentUnderTest>
@@ -2006,8 +2006,8 @@
         var svg = cut.Find("#container0_Axis_MultiLevelLabel_Level_0_Text_0");
         Assert.True(svg != null);
         // Note: Values may vary slightly depending on screen resolution.
-        Assert.True(svg.GetAttribute("x") == "493.7692771084337");
-        Assert.True(svg.GetAttribute("y") == "371.05");
+        Assert.True(svg.GetAttribute("x") == "493.28373493975903");
+        Assert.True(svg.GetAttribute("y") == "376.25");
         Assert.True(cut.Find("#container0_Axis_MultiLevelLabel_Rect_0_0") != null);
         cut.SetParametersAndRender();
     }
@@ -2050,11 +2050,11 @@
                 </ChartMultiLevelLabels>
             </ChartPrimaryXAxis>
             <ChartPrimaryYAxis Title="PrimaryYaxis" RangePadding="ChartRangePadding.None"></ChartPrimaryYAxis>
-            <ChartSeriesCollection>
+            
                 <ChartSeries DataSource="@Sales32" XName="x" YName="y" Type="ChartSeriesType.Line" Name="Gold" Fill="Green">
                     <ChartSeriesAnimation Enable="false"></ChartSeriesAnimation>
                 </ChartSeries>
-            </ChartSeriesCollection>
+            
             <ChartLegendSettings Visible="true"></ChartLegendSettings>
         </SfChart>
     </ComponentUnderTest>
@@ -2070,8 +2070,8 @@
         var svg = cut.Find("#container0_Axis_MultiLevelLabel_Level_0_Text_0");
         Assert.True(svg != null);
         // Note: Values may vary slightly depending on screen resolution.
-        Assert.True(svg.GetAttribute("x") == "493.7692771084337");
-        Assert.True(svg.GetAttribute("y") == "343.45000000000005");
+        Assert.True(svg.GetAttribute("x") == "493.28373493975903");
+        Assert.True(svg.GetAttribute("y") == "348.65000000000003");
         var svg1 = Convert.ToDouble(cut.Find("#container0_Axis_MultiLevelLabel_Level_1_Text_0").GetAttribute("y"));
         Assert.True((Convert.ToDouble(cut.Find("#container0_Axis_MultiLevelLabel_Level_0_Text_0").GetAttribute("y")) < svg1));
         cut.SetParametersAndRender();
@@ -2111,11 +2111,11 @@
                 </ChartMultiLevelLabels>
             </ChartPrimaryXAxis>
             <ChartPrimaryYAxis Title="PrimaryYaxis" RangePadding="ChartRangePadding.None"></ChartPrimaryYAxis>
-            <ChartSeriesCollection>
+            
                 <ChartSeries DataSource="@Sales33" XName="x" YName="y" Type="ChartSeriesType.Line" Name="Gold" Fill="Green">
                     <ChartSeriesAnimation Enable="false"></ChartSeriesAnimation>
                 </ChartSeries>
-            </ChartSeriesCollection>
+            
             <ChartLegendSettings Visible="true"></ChartLegendSettings>
         </SfChart>
     </ComponentUnderTest>
@@ -2131,8 +2131,8 @@
         var svg = cut.Find("#container0_Axis_MultiLevelLabel_Level_0_Text_0");
         Assert.True(svg != null);
         // Note: Values may vary slightly depending on screen resolution.
-        Assert.True(svg.GetAttribute("x") == "153.08333333333331");
-        Assert.True(svg.GetAttribute("y") == "371.05");
+        Assert.True(svg.GetAttribute("x") == "150.91666666666666");
+        Assert.True(svg.GetAttribute("y") == "376.25");
         cut.SetParametersAndRender();
     }
     public class SalesInfo33
@@ -2174,11 +2174,11 @@
                 </ChartMultiLevelLabels>
             </ChartPrimaryXAxis>
             <ChartPrimaryYAxis Title="PrimaryYaxis" RangePadding="ChartRangePadding.None"></ChartPrimaryYAxis>
-            <ChartSeriesCollection>
+            
                 <ChartSeries DataSource="@Sales34" XName="x" YName="y" Type="ChartSeriesType.Line" Name="Gold" Fill="Green">
                     <ChartSeriesAnimation Enable="false"></ChartSeriesAnimation>
                 </ChartSeries>
-            </ChartSeriesCollection>
+            
             <ChartLegendSettings Visible="true"></ChartLegendSettings>
         </SfChart>
     </ComponentUnderTest>
@@ -2194,8 +2194,8 @@
         var svg = cut.Find("#container0_Axis_MultiLevelLabel_Level_0_Text_0");
         Assert.True(svg != null);
         // Note: Values may vary slightly depending on screen resolution.
-        Assert.True(svg.GetAttribute("x") == "502.6166666666667");
-        Assert.True(svg.GetAttribute("y") == "371.05");
+        Assert.True(svg.GetAttribute("x") == "502.1833333333334");
+        Assert.True(svg.GetAttribute("y") == "376.25");
         cut.SetParametersAndRender();
     }
     public class SalesInfo34
@@ -2242,11 +2242,11 @@
 </ChartMultiLevelLabels>
             </ChartPrimaryXAxis>
             <ChartPrimaryYAxis Title="PrimaryYaxis" RangePadding="ChartRangePadding.None"></ChartPrimaryYAxis>
-            <ChartSeriesCollection>
+            
                 <ChartSeries DataSource="@Sales35" XName="x" YName="y" Type="ChartSeriesType.Line" Name="Gold" Fill="Green">
                     <ChartSeriesAnimation Enable="false"></ChartSeriesAnimation>
                 </ChartSeries>
-            </ChartSeriesCollection>
+            
             <ChartLegendSettings Visible="true"></ChartLegendSettings>
         </SfChart>
     </ComponentUnderTest>
@@ -2262,8 +2262,8 @@
         var svg = cut.Find("#container0_Axis_MultiLevelLabel_Level_0_Text_0");
         Assert.True(svg != null);
         // Note: Values may vary slightly depending on screen resolution.
-        Assert.True(svg.GetAttribute("x") == "153.08333333333331");
-        Assert.True(svg.GetAttribute("y") == "343.45000000000005");
+        Assert.True(svg.GetAttribute("x") == "150.91666666666666");
+        Assert.True(svg.GetAttribute("y") == "348.65000000000003");
         var svg1 = Convert.ToDouble(cut.Find("#container0_Axis_MultiLevelLabel_Level_1_Text_0").GetAttribute("y"));
         Assert.True((Convert.ToDouble(cut.Find("#container0_Axis_MultiLevelLabel_Level_0_Text_0").GetAttribute("y")) < svg1));
         cut.SetParametersAndRender();
@@ -2314,11 +2314,11 @@
                 </ChartMultiLevelLabels>
             </ChartPrimaryXAxis>
             <ChartPrimaryYAxis Title="PrimaryYaxis" RangePadding="ChartRangePadding.None"></ChartPrimaryYAxis>
-            <ChartSeriesCollection>
+            
                 <ChartSeries DataSource="@Sales36" XName="x" YName="y" Type="ChartSeriesType.Line" Name="Gold" Fill="Green">
                     <ChartSeriesAnimation Enable="false"></ChartSeriesAnimation>
                 </ChartSeries>
-            </ChartSeriesCollection>
+            
             <ChartLegendSettings Visible="true"></ChartLegendSettings>
         </SfChart>
     </ComponentUnderTest>
@@ -2381,11 +2381,11 @@
                 </ChartMultiLevelLabels>
             </ChartPrimaryXAxis>
             <ChartPrimaryYAxis Title="PrimaryYaxis" RangePadding="ChartRangePadding.None"></ChartPrimaryYAxis>
-            <ChartSeriesCollection>
+            
                 <ChartSeries DataSource="@Sales37" XName="x" YName="y" Type="ChartSeriesType.Line" Name="Gold" Fill="Green">
                     <ChartSeriesAnimation Enable="false"></ChartSeriesAnimation>
                 </ChartSeries>
-            </ChartSeriesCollection>
+            
             <ChartLegendSettings Visible="true"></ChartLegendSettings>
         </SfChart>
     </ComponentUnderTest>
@@ -2448,11 +2448,11 @@
                 </ChartMultiLevelLabels>
             </ChartPrimaryXAxis>
             <ChartPrimaryYAxis Title="PrimaryYaxis" RangePadding="ChartRangePadding.None"></ChartPrimaryYAxis>
-            <ChartSeriesCollection>
+            
                 <ChartSeries DataSource="@Sales38" XName="x" YName="y" Type="ChartSeriesType.Line" Name="Gold" Fill="Green">
                     <ChartSeriesAnimation Enable="false"></ChartSeriesAnimation>
                 </ChartSeries>
-            </ChartSeriesCollection>
+            
             <ChartLegendSettings Visible="true"></ChartLegendSettings>
         </SfChart>
     </ComponentUnderTest>
@@ -2516,11 +2516,11 @@
                 </ChartMultiLevelLabels>
             </ChartPrimaryXAxis>
             <ChartPrimaryYAxis Title="PrimaryYaxis" RangePadding="ChartRangePadding.None"></ChartPrimaryYAxis>
-            <ChartSeriesCollection>
+            
                 <ChartSeries DataSource="@Sales39" XName="x" YName="y" Type="ChartSeriesType.Line" Name="Gold" Fill="Green">
                     <ChartSeriesAnimation Enable="false"></ChartSeriesAnimation>
                 </ChartSeries>
-            </ChartSeriesCollection>
+            
             <ChartLegendSettings Visible="true"></ChartLegendSettings>
         </SfChart>
     </ComponentUnderTest>
@@ -2610,7 +2610,7 @@
                 <ChartColumn Width="50%"></ChartColumn>
                 <ChartColumn Width="50%"></ChartColumn>
             </ChartColumns>
-            <ChartSeriesCollection>
+            
                 <ChartSeries DataSource="@Sales40" XName="x" YName="y" XAxisName="xAxis1" YAxisName="yAxis1" Type="ChartSeriesType.Line">
                     <ChartSeriesAnimation Enable="false"></ChartSeriesAnimation>
                     <ChartSeriesBorder Width="2" Color="Black"></ChartSeriesBorder>
@@ -2631,7 +2631,7 @@
                 <ChartSeries DataSource="@Sales40" XName="x" YName="y" XAxisName="xAxis6" YAxisName="yAxis4" Type="ChartSeriesType.Line">
                     <ChartSeriesAnimation Enable="false"></ChartSeriesAnimation>
                 </ChartSeries>
-            </ChartSeriesCollection>
+            
         </SfChart>
     </ComponentUnderTest>
 </SfFixture>
@@ -2701,11 +2701,11 @@
                     </ChartMultiLevelLabel>
                 </ChartMultiLevelLabels>
             </ChartPrimaryYAxis>
-            <ChartSeriesCollection>
+            
                 <ChartSeries DataSource="@Sales41" XName="x" YName="y" Type="ChartSeriesType.Line" Name="Gold" Fill="Green">
                     <ChartSeriesAnimation Enable="false"></ChartSeriesAnimation>
                 </ChartSeries>
-            </ChartSeriesCollection>
+            
             <ChartLegendSettings Visible="false"></ChartLegendSettings>
         </SfChart>
     </ComponentUnderTest>
@@ -2721,8 +2721,8 @@
         var svg = cut.Find("#container1_Axis_MultiLevelLabel_Level_0_Text_0");
         Assert.True(svg != null);
         // Note: Values may vary slightly depending on screen resolution.
-        Assert.True(svg.GetAttribute("x") == "118.69999999999999");
-        Assert.True(svg.GetAttribute("y") == "330.9416666666666");
+        Assert.True(svg.GetAttribute("x") == "116.1");
+        Assert.True(svg.GetAttribute("y") == "333.10833333333335");
         var svg1 = Convert.ToDouble(cut.Find("#container1_Axis_MultiLevelLabel_Level_1_Text_0").GetAttribute("x"));
         Assert.True(svg1 < Convert.ToDouble(cut.Find("#container1_Axis_MultiLevelLabel_Level_0_Text_0").GetAttribute("x")));
         cut.SetParametersAndRender();
@@ -2768,11 +2768,11 @@
                     </ChartMultiLevelLabel>
                 </ChartMultiLevelLabels>
             </ChartPrimaryYAxis>
-            <ChartSeriesCollection>
+            
                 <ChartSeries DataSource="@Sales42" XName="x" YName="y" Type="ChartSeriesType.Line" Name="Gold" Fill="Green">
                     <ChartSeriesAnimation Enable="false"></ChartSeriesAnimation>
                 </ChartSeries>
-            </ChartSeriesCollection>
+            
             <ChartLegendSettings Visible="false"></ChartLegendSettings>
         </SfChart>
     </ComponentUnderTest>
@@ -2788,7 +2788,7 @@
         var svg = cut.Find("#container1_Axis_MultiLevelLabel_Level_0_Text_0");
         Assert.True(svg != null);
         // Note: Values may vary slightly depending on screen resolution.
-        Assert.True(svg.GetAttribute("x") == "68.2");
+        Assert.True(svg.GetAttribute("x") == "65.6");
         Assert.True(svg.GetAttribute("y") == "13.9");
         cut.SetParametersAndRender();
     }
@@ -2835,11 +2835,11 @@
                     </ChartMultiLevelLabel>
                 </ChartMultiLevelLabels>
             </ChartPrimaryYAxis>
-            <ChartSeriesCollection>
+            
                 <ChartSeries DataSource="@Sales43" XName="x" YName="y" Type="ChartSeriesType.Line" Name="Gold" Fill="Green">
                     <ChartSeriesAnimation Enable="false"></ChartSeriesAnimation>
                 </ChartSeries>
-            </ChartSeriesCollection>
+            
             <ChartLegendSettings Visible="false"></ChartLegendSettings>
         </SfChart>
     </ComponentUnderTest>
@@ -2899,11 +2899,11 @@
                     </ChartMultiLevelLabel>
                 </ChartMultiLevelLabels>
             </ChartPrimaryYAxis>
-            <ChartSeriesCollection>
+            
                 <ChartSeries DataSource="@Sales44" XName="x" YName="y" Type="ChartSeriesType.Line" Name="Gold" Fill="Green">
                     <ChartSeriesAnimation Enable="false"></ChartSeriesAnimation>
                 </ChartSeries>
-            </ChartSeriesCollection>
+            
             <ChartLegendSettings Visible="false"></ChartLegendSettings>
         </SfChart>
     </ComponentUnderTest>
@@ -2962,11 +2962,11 @@
                     </ChartMultiLevelLabel>
                 </ChartMultiLevelLabels>
             </ChartPrimaryYAxis>
-            <ChartSeriesCollection>
+            
                 <ChartSeries DataSource="@Sales45" XName="x" YName="y" Type="ChartSeriesType.Line" Name="Gold" Fill="Green">
                     <ChartSeriesAnimation Enable="false"></ChartSeriesAnimation>
                 </ChartSeries>
-            </ChartSeriesCollection>
+            
             <ChartLegendSettings Visible="false"></ChartLegendSettings>
         </SfChart>
     </ComponentUnderTest>
@@ -3026,11 +3026,11 @@
                     </ChartMultiLevelLabel>
                 </ChartMultiLevelLabels>
             </ChartPrimaryYAxis>
-            <ChartSeriesCollection>
+            
                 <ChartSeries DataSource="@Sales46" XName="x" YName="y" Type="ChartSeriesType.Line" Name="Gold" Fill="Green">
                     <ChartSeriesAnimation Enable="false"></ChartSeriesAnimation>
                 </ChartSeries>
-            </ChartSeriesCollection>
+            
             <ChartLegendSettings Visible="false"></ChartLegendSettings>
         </SfChart>
     </ComponentUnderTest>
@@ -3089,11 +3089,11 @@
                     </ChartMultiLevelLabel>
                 </ChartMultiLevelLabels>
             </ChartPrimaryYAxis>
-            <ChartSeriesCollection>
+            
                 <ChartSeries DataSource="@Sales47" XName="x" YName="y" Type="ChartSeriesType.Line" Name="Gold" Fill="Green">
                     <ChartSeriesAnimation Enable="false"></ChartSeriesAnimation>
                 </ChartSeries>
-            </ChartSeriesCollection>
+            
             <ChartLegendSettings Visible="false"></ChartLegendSettings>
         </SfChart>
     </ComponentUnderTest>
@@ -3109,8 +3109,8 @@
         var svg = cut.Find("#container1_Axis_MultiLevelLabel_Level_0_Text_0");
         Assert.True(svg != null);
         // Note: Values may vary slightly depending on screen resolution.
-        Assert.True(svg.GetAttribute("x") == "90.2");
-        Assert.True(svg.GetAttribute("y") == "204.125");
+        Assert.True(svg.GetAttribute("x") == "87.6");
+        Assert.True(svg.GetAttribute("y") == "205.425");
         cut.SetParametersAndRender();
     }
     public class SalesInfo47
@@ -3155,11 +3155,11 @@
                     </ChartMultiLevelLabel>
                 </ChartMultiLevelLabels>
             </ChartPrimaryYAxis>
-            <ChartSeriesCollection>
+            
                 <ChartSeries DataSource="@Sales48" XName="x" YName="y" Type="ChartSeriesType.Line" Name="Gold" Fill="Green">
                     <ChartSeriesAnimation Enable="false"></ChartSeriesAnimation>
                 </ChartSeries>
-            </ChartSeriesCollection>
+            
             <ChartLegendSettings Visible="false"></ChartLegendSettings>
         </SfChart>
     </ComponentUnderTest>
@@ -3175,8 +3175,8 @@
         var svg = cut.Find("#container1_Axis_MultiLevelLabel_Level_0_Text_0");
         Assert.True(svg != null);
         // Note: Values may vary slightly depending on screen resolution.
-        Assert.True(svg.GetAttribute("x") == "90.2");
-        Assert.True(svg.GetAttribute("y") == "204.125");
+        Assert.True(svg.GetAttribute("x") == "87.6");
+        Assert.True(svg.GetAttribute("y") == "205.425");
         cut.SetParametersAndRender();
     }
     public class SalesInfo48
@@ -3221,11 +3221,11 @@
                     </ChartMultiLevelLabel>
                 </ChartMultiLevelLabels>
             </ChartPrimaryYAxis>
-            <ChartSeriesCollection>
+            
                 <ChartSeries DataSource="@Sales49" XName="x" YName="y" Type="ChartSeriesType.Line" Name="Gold" Fill="Green">
                     <ChartSeriesAnimation Enable="false"></ChartSeriesAnimation>
                 </ChartSeries>
-            </ChartSeriesCollection>
+            
             <ChartLegendSettings Visible="false"></ChartLegendSettings>
         </SfChart>
     </ComponentUnderTest>
@@ -3241,8 +3241,8 @@
         var svg = cut.Find("#container1_Axis_MultiLevelLabel_Level_0_Text_0");
         Assert.True(svg != null);
         // Note: Values may vary slightly depending on screen resolution.
-        Assert.True(svg.GetAttribute("x") == "509.79999999999995");
-        Assert.True(svg.GetAttribute("y") == "204.125");
+        Assert.True(svg.GetAttribute("x") == "512.4");
+        Assert.True(svg.GetAttribute("y") == "205.425");
         cut.SetParametersAndRender();
     }
     public class SalesInfo49
@@ -3287,11 +3287,11 @@
                     </ChartMultiLevelLabel>
                 </ChartMultiLevelLabels>
             </ChartPrimaryYAxis>
-            <ChartSeriesCollection>
+            
                 <ChartSeries DataSource="@Sales50" XName="x" YName="y" Type="ChartSeriesType.Line" Name="Gold" Fill="Green">
                     <ChartSeriesAnimation Enable="false"></ChartSeriesAnimation>
                 </ChartSeries>
-            </ChartSeriesCollection>
+            
             <ChartLegendSettings Visible="false"></ChartLegendSettings>
         </SfChart>
     </ComponentUnderTest>
@@ -3307,8 +3307,8 @@
         var svg = cut.Find("#container1_Axis_MultiLevelLabel_Level_0_Text_0");
         Assert.True(svg != null);
         // Note: Values may vary slightly depending on screen resolution.
-        Assert.True(svg.GetAttribute("x") == "531.8");
-        Assert.True(svg.GetAttribute("y") == "204.125");
+        Assert.True(svg.GetAttribute("x") == "534.4");
+        Assert.True(svg.GetAttribute("y") == "205.425");
         cut.SetParametersAndRender();
     }
     public class SalesInfo50
@@ -3353,11 +3353,11 @@
                     </ChartMultiLevelLabel>
                 </ChartMultiLevelLabels>
             </ChartPrimaryYAxis>
-            <ChartSeriesCollection>
+            
                 <ChartSeries DataSource="@Sales51" XName="x" YName="y" Type="ChartSeriesType.Line" Name="Gold" Fill="Green">
                     <ChartSeriesAnimation Enable="false"></ChartSeriesAnimation>
                 </ChartSeries>
-            </ChartSeriesCollection>
+            
             <ChartLegendSettings Visible="false"></ChartLegendSettings>
         </SfChart>
     </ComponentUnderTest>
@@ -3373,8 +3373,8 @@
         var svg = cut.Find("#container1_Axis_MultiLevelLabel_Level_0_Text_0");
         Assert.True(svg != null);
         // Note: Values may vary slightly depending on screen resolution.
-        Assert.True(svg.GetAttribute("x") == "68.2");
-        Assert.True(svg.GetAttribute("y") == "204.125");
+        Assert.True(svg.GetAttribute("x") == "65.6");
+        Assert.True(svg.GetAttribute("y") == "205.425");
         cut.SetParametersAndRender();
     }
     public class SalesInfo51
@@ -3419,11 +3419,11 @@
                     </ChartMultiLevelLabel>
                 </ChartMultiLevelLabels>
             </ChartPrimaryYAxis>
-            <ChartSeriesCollection>
+            
                 <ChartSeries DataSource="@Sales52" XName="x" YName="y" Type="ChartSeriesType.Line" Name="Gold" Fill="Green">
                     <ChartSeriesAnimation Enable="false"></ChartSeriesAnimation>
                 </ChartSeries>
-            </ChartSeriesCollection>
+            
             <ChartLegendSettings Visible="false"></ChartLegendSettings>
         </SfChart>
     </ComponentUnderTest>
@@ -3439,8 +3439,8 @@
         var svg = cut.Find("#container1_Axis_MultiLevelLabel_Level_0_Text_0");
         Assert.True(svg != null);
         // Note: Values may vary slightly depending on screen resolution.
-        Assert.True(svg.GetAttribute("x") == "90.2");
-        Assert.True(svg.GetAttribute("y") == "204.125");
+        Assert.True(svg.GetAttribute("x") == "87.6");
+        Assert.True(svg.GetAttribute("y") == "205.425");
         cut.SetParametersAndRender();
     }
     public class SalesInfo52
@@ -3485,11 +3485,11 @@
                     </ChartMultiLevelLabel>
                 </ChartMultiLevelLabels>
             </ChartPrimaryYAxis>
-            <ChartSeriesCollection>
+            
                 <ChartSeries DataSource="@Sales53" XName="x" YName="y" Type="ChartSeriesType.Line" Name="Gold" Fill="Green">
                     <ChartSeriesAnimation Enable="false"></ChartSeriesAnimation>
                 </ChartSeries>
-            </ChartSeriesCollection>
+            
             <ChartLegendSettings Visible="false"></ChartLegendSettings>
         </SfChart>
     </ComponentUnderTest>
@@ -3505,8 +3505,8 @@
         var svg = cut.Find("#container1_Axis_MultiLevelLabel_Level_0_Text_0");
         Assert.True(svg != null);
         // Note: Values may vary slightly depending on screen resolution.
-        Assert.True(svg.GetAttribute("x") == "531.8");
-        Assert.True(svg.GetAttribute("y") == "204.125");
+        Assert.True(svg.GetAttribute("x") == "534.4");
+        Assert.True(svg.GetAttribute("y") == "205.425");
         cut.SetParametersAndRender();
     }
     public class SalesInfo53
@@ -3551,11 +3551,11 @@
                     </ChartMultiLevelLabel>
                 </ChartMultiLevelLabels>
             </ChartPrimaryYAxis>
-            <ChartSeriesCollection>
+            
                 <ChartSeries DataSource="@Sales54" XName="x" YName="y" Type="ChartSeriesType.Line" Name="Gold" Fill="Green">
                     <ChartSeriesAnimation Enable="false"></ChartSeriesAnimation>
                 </ChartSeries>
-            </ChartSeriesCollection>
+            
             <ChartLegendSettings Visible="false"></ChartLegendSettings>
         </SfChart>
     </ComponentUnderTest>
@@ -3571,8 +3571,8 @@
         var svg = cut.Find("#container1_Axis_MultiLevelLabel_Level_0_Text_0");
         Assert.True(svg != null);
         // Note: Values may vary slightly depending on screen resolution.
-        Assert.True(svg.GetAttribute("x") == "509.79999999999995");
-        Assert.True(svg.GetAttribute("y") == "204.125");
+        Assert.True(svg.GetAttribute("x") == "512.4");
+        Assert.True(svg.GetAttribute("y") == "205.425");
         cut.SetParametersAndRender();
     }
     public class SalesInfo54
@@ -3617,11 +3617,11 @@
                     </ChartMultiLevelLabel>
                 </ChartMultiLevelLabels>
             </ChartPrimaryYAxis>
-            <ChartSeriesCollection>
+            
                 <ChartSeries DataSource="@Sales55" XName="x" YName="y" Type="ChartSeriesType.Line" Name="Gold" Fill="Green">
                     <ChartSeriesAnimation Enable="false"></ChartSeriesAnimation>
                 </ChartSeries>
-            </ChartSeriesCollection>
+            
             <ChartLegendSettings Visible="false"></ChartLegendSettings>
         </SfChart>
     </ComponentUnderTest>
@@ -3637,8 +3637,8 @@
         var svg = cut.Find("#container1_Axis_MultiLevelLabel_Level_0_Text_0");
         Assert.True(svg != null);
         // Note: Values may vary slightly depending on screen resolution.
-        Assert.True(svg.GetAttribute("x") == "100.2");
-        Assert.True(svg.GetAttribute("y") == "204.125");
+        Assert.True(svg.GetAttribute("x") == "97.6");
+        Assert.True(svg.GetAttribute("y") == "205.425");
         cut.SetParametersAndRender();
     }
     public class SalesInfo55
@@ -3683,11 +3683,11 @@
                     </ChartMultiLevelLabel>
                 </ChartMultiLevelLabels>
             </ChartPrimaryYAxis>
-            <ChartSeriesCollection>
+            
                 <ChartSeries DataSource="@Sales56" XName="x" YName="y" Type="ChartSeriesType.Line" Name="Gold" Fill="Green">
                     <ChartSeriesAnimation Enable="false"></ChartSeriesAnimation>
                 </ChartSeries>
-            </ChartSeriesCollection>
+            
             <ChartLegendSettings Visible="false"></ChartLegendSettings>
         </SfChart>
     </ComponentUnderTest>
@@ -3703,8 +3703,8 @@
         var svg = cut.Find("#container1_Axis_MultiLevelLabel_Level_0_Text_0");
         Assert.True(svg != null);
         // Note: Values may vary slightly depending on screen resolution.
-        Assert.True(svg.GetAttribute("x") == "100.2");
-        Assert.True(svg.GetAttribute("y") == "382.65");
+        Assert.True(svg.GetAttribute("x") == "97.6");
+        Assert.True(svg.GetAttribute("y") == "385.25");
         cut.SetParametersAndRender();
     }
     public class SalesInfo56
@@ -3749,11 +3749,11 @@
                     </ChartMultiLevelLabel>
                 </ChartMultiLevelLabels>
             </ChartPrimaryYAxis>
-            <ChartSeriesCollection>
+            
                 <ChartSeries DataSource="@Sales57" XName="x" YName="y" Type="ChartSeriesType.Line" Name="Gold" Fill="Green">
                     <ChartSeriesAnimation Enable="false"></ChartSeriesAnimation>
                 </ChartSeries>
-            </ChartSeriesCollection>
+            
             <ChartLegendSettings Visible="false"></ChartLegendSettings>
         </SfChart>
     </ComponentUnderTest>
@@ -3769,7 +3769,7 @@
         var svg = cut.Find("#container1_Axis_MultiLevelLabel_Level_0_Text_0");
         Assert.True(svg != null);
         // Note: Values may vary slightly depending on screen resolution.
-        Assert.True(svg.GetAttribute("x") == "100.2");
+        Assert.True(svg.GetAttribute("x") == "97.6");
         Assert.True(svg.GetAttribute("y") == "25.6");
         cut.SetParametersAndRender();
     }
@@ -3815,11 +3815,11 @@
                     </ChartMultiLevelLabel>
                 </ChartMultiLevelLabels>
             </ChartPrimaryYAxis>
-            <ChartSeriesCollection>
+            
                 <ChartSeries DataSource="@Sales58" XName="x" YName="y" Type="ChartSeriesType.Line" Name="Gold" Fill="Green">
                     <ChartSeriesAnimation Enable="false"></ChartSeriesAnimation>
                 </ChartSeries>
-            </ChartSeriesCollection>
+            
             <ChartLegendSettings Visible="false"></ChartLegendSettings>
         </SfChart>
     </ComponentUnderTest>
@@ -3835,8 +3835,8 @@
         var svg = cut.Find("#container1_Axis_MultiLevelLabel_Level_0_Text_0");
         Assert.True(svg != null);
         // Note: Values may vary slightly depending on screen resolution.
-        Assert.True(svg.GetAttribute("x") == "100.2");
-        Assert.True(svg.GetAttribute("y") == "204.125");
+        Assert.True(svg.GetAttribute("x") == "97.6");
+        Assert.True(svg.GetAttribute("y") == "205.425");
         cut.SetParametersAndRender();
     }
     public class SalesInfo58
@@ -3881,11 +3881,11 @@
                     </ChartMultiLevelLabel>
                 </ChartMultiLevelLabels>
             </ChartPrimaryYAxis>
-            <ChartSeriesCollection>
+            
                 <ChartSeries DataSource="@Sales59" XName="x" YName="y" Type="ChartSeriesType.Line" Name="Gold" Fill="Green">
                     <ChartSeriesAnimation Enable="false"></ChartSeriesAnimation>
                 </ChartSeries>
-            </ChartSeriesCollection>
+            
             <ChartLegendSettings Visible="false"></ChartLegendSettings>
         </SfChart>
     </ComponentUnderTest>
@@ -3901,8 +3901,8 @@
         var svg = cut.Find("#container1_Axis_MultiLevelLabel_Level_0_Text_0");
         Assert.True(svg != null);
         // Note: Values may vary slightly depending on screen resolution.
-        Assert.True(svg.GetAttribute("x") == "541.8");
-        Assert.True(svg.GetAttribute("y") == "204.125");
+        Assert.True(svg.GetAttribute("x") == "544.4");
+        Assert.True(svg.GetAttribute("y") == "205.425");
         cut.SetParametersAndRender();
     }
     public class SalesInfo59
@@ -3947,11 +3947,11 @@
                     </ChartMultiLevelLabel>
                 </ChartMultiLevelLabels>
             </ChartPrimaryYAxis>
-            <ChartSeriesCollection>
+            
                 <ChartSeries DataSource="@Sales60" XName="x" YName="y" Type="ChartSeriesType.Line" Name="Gold" Fill="Green">
                     <ChartSeriesAnimation Enable="false"></ChartSeriesAnimation>
                 </ChartSeries>
-            </ChartSeriesCollection>
+            
             <ChartLegendSettings Visible="false"></ChartLegendSettings>
         </SfChart>
     </ComponentUnderTest>
@@ -3967,8 +3967,8 @@
         var svg = cut.Find("#container1_Axis_MultiLevelLabel_Level_0_Text_0");
         Assert.True(svg != null);
         // Note: Values may vary slightly depending on screen resolution.
-        Assert.True(svg.GetAttribute("x") == "499.79999999999995");
-        Assert.True(svg.GetAttribute("y") == "204.125");
+        Assert.True(svg.GetAttribute("x") == "502.4");
+        Assert.True(svg.GetAttribute("y") == "205.425");
         cut.SetParametersAndRender();
     }
     public class SalesInfo60
@@ -4013,11 +4013,11 @@
                     </ChartMultiLevelLabel>
                 </ChartMultiLevelLabels>
             </ChartPrimaryYAxis>
-            <ChartSeriesCollection>
+            
                 <ChartSeries DataSource="@Sales61" XName="x" YName="y" Type="ChartSeriesType.Line" Name="Gold" Fill="Green">
                     <ChartSeriesAnimation Enable="false"></ChartSeriesAnimation>
                 </ChartSeries>
-            </ChartSeriesCollection>
+            
             <ChartLegendSettings Visible="false"></ChartLegendSettings>
         </SfChart>
     </ComponentUnderTest>
@@ -4033,8 +4033,8 @@
         var svg = cut.Find("#container1_Axis_MultiLevelLabel_Level_0_Text_0");
         Assert.True(svg != null);
         // Note: Values may vary slightly depending on screen resolution.
-        Assert.True(svg.GetAttribute("x") == "499.79999999999995");
-        Assert.True(svg.GetAttribute("y") == "204.125");
+        Assert.True(svg.GetAttribute("x") == "502.4");
+        Assert.True(svg.GetAttribute("y") == "205.425");
         cut.SetParametersAndRender();
     }
     public class SalesInfo61
@@ -4079,11 +4079,11 @@
                     </ChartMultiLevelLabel>
                 </ChartMultiLevelLabels>
             </ChartPrimaryYAxis>
-            <ChartSeriesCollection>
+            
                 <ChartSeries DataSource="@Sales62" XName="x" YName="y" Type="ChartSeriesType.Line" Name="Gold" Fill="Green">
                     <ChartSeriesAnimation Enable="false"></ChartSeriesAnimation>
                 </ChartSeries>
-            </ChartSeriesCollection>
+            
             <ChartLegendSettings Visible="false"></ChartLegendSettings>
         </SfChart>
     </ComponentUnderTest>
@@ -4099,8 +4099,8 @@
         var svg = cut.Find("#container1_Axis_MultiLevelLabel_Level_0_Text_0");
         Assert.True(svg != null);
         // Note: Values may vary slightly depending on screen resolution.
-        Assert.True(svg.GetAttribute("x") == "509.79999999999995");
-        Assert.True(svg.GetAttribute("y") == "204.125");
+        Assert.True(svg.GetAttribute("x") == "512.4");
+        Assert.True(svg.GetAttribute("y") == "205.425");
         cut.SetParametersAndRender();
     }
     public class SalesInfo62
@@ -4145,11 +4145,11 @@
                     </ChartMultiLevelLabel>
                 </ChartMultiLevelLabels>
             </ChartPrimaryYAxis>
-            <ChartSeriesCollection>
+            
                 <ChartSeries DataSource="@Sales63" XName="x" YName="y" Type="ChartSeriesType.Line" Name="Gold" Fill="Green">
                     <ChartSeriesAnimation Enable="false"></ChartSeriesAnimation>
                 </ChartSeries>
-            </ChartSeriesCollection>
+            
             <ChartLegendSettings Visible="false"></ChartLegendSettings>
         </SfChart>
     </ComponentUnderTest>
@@ -4165,8 +4165,8 @@
         var svg = cut.Find("#container1_Axis_MultiLevelLabel_Level_0_Text_0");
         Assert.True(svg != null);
         // Note: Values may vary slightly depending on screen resolution.
-        Assert.True(svg.GetAttribute("x") == "499.79999999999995");
-        Assert.True(svg.GetAttribute("y") == "204.125");
+        Assert.True(svg.GetAttribute("x") == "502.4");
+        Assert.True(svg.GetAttribute("y") == "205.425");
         cut.SetParametersAndRender();
     }
     public class SalesInfo63
@@ -4211,11 +4211,11 @@
                     </ChartMultiLevelLabel>
                 </ChartMultiLevelLabels>
             </ChartPrimaryYAxis>
-            <ChartSeriesCollection>
+            
                 <ChartSeries DataSource="@Sales64" XName="x" YName="y" Type="ChartSeriesType.Line" Name="Gold" Fill="Green">
                     <ChartSeriesAnimation Enable="false"></ChartSeriesAnimation>
                 </ChartSeries>
-            </ChartSeriesCollection>
+            
             <ChartLegendSettings Visible="false"></ChartLegendSettings>
         </SfChart>
     </ComponentUnderTest>
@@ -4274,11 +4274,11 @@
                     </ChartMultiLevelLabel>
                 </ChartMultiLevelLabels>
             </ChartPrimaryYAxis>
-            <ChartSeriesCollection>
+            
                 <ChartSeries DataSource="@Sales65" XName="x" YName="y" Type="ChartSeriesType.Line" Name="Gold" Fill="Green">
                     <ChartSeriesAnimation Enable="false"></ChartSeriesAnimation>
                 </ChartSeries>
-            </ChartSeriesCollection>
+            
             <ChartLegendSettings Visible="false"></ChartLegendSettings>
         </SfChart>
     </ComponentUnderTest>
@@ -4332,11 +4332,11 @@
             </ChartPrimaryXAxis>
             <ChartPrimaryYAxis>
             </ChartPrimaryYAxis>
-            <ChartSeriesCollection>
+            
                 <ChartSeries DataSource="@Sales66" XName="x" YName="y" Type="ChartSeriesType.Line" Name="Gold">
                     <ChartSeriesAnimation Enable="false"></ChartSeriesAnimation>
                 </ChartSeries>
-            </ChartSeriesCollection>
+            
             <ChartLegendSettings Visible="false"></ChartLegendSettings>
         </SfChart>
     </ComponentUnderTest>
@@ -4393,11 +4393,11 @@
             </ChartPrimaryXAxis>
             <ChartPrimaryYAxis>
             </ChartPrimaryYAxis>
-            <ChartSeriesCollection>
+            
                 <ChartSeries DataSource="@Sales67" XName="x" YName="y" Type="ChartSeriesType.Line" Name="Gold">
                     <ChartSeriesAnimation Enable="false"></ChartSeriesAnimation>
                 </ChartSeries>
-            </ChartSeriesCollection>
+            
             <ChartLegendSettings Visible="false"></ChartLegendSettings>
         </SfChart>
     </ComponentUnderTest>
@@ -4454,11 +4454,11 @@
             </ChartPrimaryXAxis>
             <ChartPrimaryYAxis>
             </ChartPrimaryYAxis>
-            <ChartSeriesCollection>
+            
                 <ChartSeries DataSource="@Sales68" XName="x" YName="y" Type="ChartSeriesType.Line" Name="Gold">
                     <ChartSeriesAnimation Enable="false"></ChartSeriesAnimation>
                 </ChartSeries>
-            </ChartSeriesCollection>
+            
             <ChartLegendSettings Visible="false"></ChartLegendSettings>
         </SfChart>
     </ComponentUnderTest>
@@ -4515,11 +4515,11 @@
             </ChartPrimaryXAxis>
             <ChartPrimaryYAxis>
             </ChartPrimaryYAxis>
-            <ChartSeriesCollection>
+            
                 <ChartSeries DataSource="@Sales69" XName="x" YName="y" Type="ChartSeriesType.Line" Name="Gold">
                     <ChartSeriesAnimation Enable="false"></ChartSeriesAnimation>
                 </ChartSeries>
-            </ChartSeriesCollection>
+            
             <ChartLegendSettings Visible="false"></ChartLegendSettings>
         </SfChart>
     </ComponentUnderTest>
@@ -4577,11 +4577,11 @@
             </ChartPrimaryXAxis>
             <ChartPrimaryYAxis>
             </ChartPrimaryYAxis>
-            <ChartSeriesCollection>
+            
                 <ChartSeries DataSource="@Sales70" XName="x" YName="y" Type="ChartSeriesType.Line" Name="Gold">
                     <ChartSeriesAnimation Enable="false"></ChartSeriesAnimation>
                 </ChartSeries>
-            </ChartSeriesCollection>
+            
             <ChartLegendSettings Visible="false"></ChartLegendSettings>
         </SfChart>
     </ComponentUnderTest>
@@ -4655,7 +4655,7 @@
             </ChartPrimaryXAxis>
             <ChartPrimaryYAxis LabelFormat="{value}B" EdgeLabelPlacement="EdgeLabelPlacement.Shift">
             </ChartPrimaryYAxis>
-            <ChartSeriesCollection>
+            
                 <ChartSeries DataSource="@Sales71" XName="x" YName="y" Type="ChartSeriesType.Bar" Name="Imports" Width="2">
                     <ChartSeriesAnimation Enable="false"></ChartSeriesAnimation>
                     <ChartMarker>
@@ -4672,7 +4672,7 @@
                         </ChartDataLabel>
                     </ChartMarker>
                 </ChartSeries>
-            </ChartSeriesCollection>
+            
             <ChartLegendSettings Visible="false"></ChartLegendSettings>
         </SfChart>
     </ComponentUnderTest>
@@ -4742,7 +4742,7 @@
             </ChartPrimaryXAxis>
             <ChartPrimaryYAxis LabelFormat="{value}B" EdgeLabelPlacement="EdgeLabelPlacement.Shift">
             </ChartPrimaryYAxis>
-            <ChartSeriesCollection>
+            
                 <ChartSeries DataSource="@Sales72" XName="x" YName="y" Type="ChartSeriesType.Bar" Name="Imports" Width="2">
                     <ChartSeriesAnimation Enable="false"></ChartSeriesAnimation>
                     <ChartMarker>
@@ -4759,7 +4759,7 @@
                         </ChartDataLabel>
                     </ChartMarker>
                 </ChartSeries>
-            </ChartSeriesCollection>
+            
             <ChartLegendSettings Visible="false"></ChartLegendSettings>
         </SfChart>
     </ComponentUnderTest>
