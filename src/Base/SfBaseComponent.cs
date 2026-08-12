@@ -1,7 +1,6 @@
 ﻿using Microsoft.AspNetCore.Components;
 using Microsoft.JSInterop;
 using Syncfusion.Blazor.Toolkit.Internal;
-using System.Text.Json;
 
 namespace Syncfusion.Blazor.Toolkit
 {

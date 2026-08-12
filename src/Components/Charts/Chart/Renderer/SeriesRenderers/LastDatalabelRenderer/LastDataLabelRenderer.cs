@@ -27,9 +27,9 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
         private string _transformValue = string.Empty;
         private string _previousTransform = string.Empty;
         private string ElementId { get; set; } = string.Empty;
-        private List<RectOptions> _rectOptions = [];
-        private List<TextOptions> _textOptions = [];
-        private List<PathOptions> _pathOptions = [];
+        private readonly List<RectOptions> _rectOptions = [];
+        private readonly List<TextOptions> _textOptions = [];
+        private readonly List<PathOptions> _pathOptions = [];
         private CultureInfo Culture { get; set; } = CultureInfo.InvariantCulture;
         #endregion
 

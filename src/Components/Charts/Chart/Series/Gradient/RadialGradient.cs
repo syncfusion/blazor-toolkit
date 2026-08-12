@@ -1,4 +1,5 @@
 using System.ComponentModel;
+using System.Diagnostics.CodeAnalysis;
 using Microsoft.AspNetCore.Components;
 using Syncfusion.Blazor.Toolkit.Charts.Internal;
 
@@ -51,6 +52,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts
         /// <exclude />
         [EditorBrowsable(EditorBrowsableState.Never)]
         [Browsable(false)]
+        [DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.All)]
         public Type RendererType { get; set; } = null!;
 
         /// <summary>

@@ -8,8 +8,8 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
     public partial class SvgSelectionRectCollection
     {
         #region Fields
-        private List<SvgSelectionRect> _tempRectsReference = [];
-        private List<SvgSelectionPath> _tempPathsReference = [];
+        private readonly List<SvgSelectionRect> _tempRectsReference = [];
+        private readonly List<SvgSelectionPath> _tempPathsReference = [];
         #endregion
 
         #region Properties

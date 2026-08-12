@@ -251,7 +251,8 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
         {
             object selectedPointX = GetFormattedXValue(currentPoint);
 
-            _ = SelectionChartAsync(ChartSelectedDataIndex.CreateSelectedData(currentPoint.Index, seriesRenderer.Index));
+            using ChartSelectedDataIndex index = ChartSelectedDataIndex.CreateSelectedData(currentPoint.Index, seriesRenderer.Index);
+            _ = SelectionChartAsync(index);
             selectedPointValues.Add(new PointXY
             {
                 X = selectedPointX,

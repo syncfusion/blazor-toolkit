@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Rendering;
 using Syncfusion.Blazor.Toolkit.Internal;
+using System.Diagnostics.CodeAnalysis;
 using System.Dynamic;
 using System.Globalization;
 using System.Reflection;
@@ -2252,6 +2253,8 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
         /// <param name="point">The point for which chart data is to be processed. The <paramref name="point"/> parameter must specify a
         /// valid index within the chart points collection.</param>
         /// <exception cref="InvalidOperationException">Thrown if an error occurs while processing or serializing the chart data for the specified point.</exception>
+        [UnconditionalSuppressMessage("Trimming", "IL2026", Justification = "ChartPoints are user-defined types. The toolkit intentionally uses reflection-based JSON serialization here to keep the public API stable; trimming/AOT users are advised to add explicit trim annotations to their data types.")]
+        [UnconditionalSuppressMessage("AOT", "IL3050", Justification = "ChartPoints are user-defined types. The toolkit intentionally uses reflection-based JSON serialization here to keep the public API stable; trimming/AOT users are advised to add explicit trim annotations to their data types.")]
         internal virtual void GetChartData(Point point)
         {
             try

@@ -1,4 +1,4 @@
-﻿using System.Runtime.InteropServices;
+using System.Runtime.InteropServices;
 
 namespace Syncfusion.Blazor.Toolkit.Charts.Internal
 {
@@ -23,18 +23,18 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
 
         #region Fields
 
-        private SfChart? _chartInstance;
-        private StringComparison _stringCulture = StringComparison.InvariantCulture;
+        private readonly SfChart? _chartInstance;
+        private readonly StringComparison _stringCulture = StringComparison.InvariantCulture;
         private string _closeIconId = string.Empty;
         private string? _draggedRect;
-        private List<SvgClass> _previousSelectedElements = [];
+        private readonly List<SvgClass> _previousSelectedElements = [];
         private bool _dragging;
         private bool _lassoDownCompleted;
         private Rect _rectPoints = new();
-        private Dictionary<string, Rect> _dragRectArray = [];
-        private Dictionary<string, Rect> _filterArray = [];
-        private Dictionary<string, string> _lassoPaths = [];
-        private Dictionary<string, CircleOptions> _closeCircleArray = [];
+        private readonly Dictionary<string, Rect> _dragRectArray = [];
+        private readonly Dictionary<string, Rect> _filterArray = [];
+        private readonly Dictionary<string, string> _lassoPaths = [];
+        private readonly Dictionary<string, CircleOptions> _closeCircleArray = [];
         private int _targetIndex;
         private bool _rectGrabbing;
         private bool _isdrawRect = true;
@@ -135,9 +135,9 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
                 }
                 await SfBaseComponent.InvokeVoidAsync(_chartInstance._chartJsModule, _chartInstance._chartJsInProcessModule, Constants.SelectDataIndex, [.. new object[] { _chartInstance._dataId, SelectedDataIndexes.Concat(_chartInstance.SelectedDataIndexes).ToList() }]).ConfigureAwait(true);
             }
-            catch (Exception exception)
+            catch (InvalidOperationException exception)
             {
-                Console.Error.WriteLine(exception);
+                await Console.Error.WriteLineAsync(exception).ConfigureAwait(true);
             }
         }
 
@@ -311,9 +311,9 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
                 }
                 await SfBaseComponent.InvokeVoidAsync(_chartInstance._chartJsModule, _chartInstance._chartJsInProcessModule, "selectionChart", [.. new object[] { _chartInstance._dataId, index }]).ConfigureAwait(true);
             }
-            catch (Exception exception)
+            catch (InvalidOperationException exception)
             {
-                Console.Error.WriteLine(exception);
+                await Console.Error.WriteLineAsync(exception).ConfigureAwait(true);
             }
         }
 
@@ -330,9 +330,9 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
                 }
                 await SfBaseComponent.InvokeVoidAsync(_chartInstance._chartJsModule, _chartInstance._chartJsInProcessModule, "invokeBlurEffect", [.. new object[] { _chartInstance._dataId }]).ConfigureAwait(true);
             }
-            catch (Exception exception)
+            catch (InvalidOperationException exception)
             {
-                Console.Error.WriteLine(exception);
+                await Console.Error.WriteLineAsync(exception).ConfigureAwait(true);
             }
         }
         #endregion
@@ -375,9 +375,9 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
                 }
                 await SfBaseComponent.InvokeVoidAsync(_chartInstance._chartJsModule, _chartInstance._chartJsInProcessModule, "redrawSelection", [.. new object[] { _chartInstance._dataId }]).ConfigureAwait(true);
             }
-            catch (Exception exception)
+            catch (InvalidOperationException exception)
             {
-                Console.Error.WriteLine(exception);
+                await Console.Error.WriteLineAsync(exception).ConfigureAwait(true);
             }
         }
 
@@ -394,9 +394,9 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
                 }
                 await SfBaseComponent.InvokeVoidAsync(_chartInstance._chartJsModule, _chartInstance._chartJsInProcessModule, "removeSelectionStyles", [.. new object[] { _chartInstance._dataId }]).ConfigureAwait(true);
             }
-            catch (Exception exception)
+            catch (InvalidOperationException exception)
             {
-                Console.Error.WriteLine(exception);
+                await Console.Error.WriteLineAsync(exception).ConfigureAwait(true);
             }
         }
 
@@ -413,9 +413,9 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
                 }
                 await SfBaseComponent.InvokeVoidAsync(_chartInstance._chartJsModule, _chartInstance._chartJsInProcessModule, "invokeRemoveSelectedElements", [.. new object[] { _chartInstance._dataId }]).ConfigureAwait(true);
             }
-            catch (Exception exception)
+            catch (InvalidOperationException exception)
             {
-                Console.Error.WriteLine(exception);
+                await Console.Error.WriteLineAsync(exception).ConfigureAwait(true);
             }
         }
 

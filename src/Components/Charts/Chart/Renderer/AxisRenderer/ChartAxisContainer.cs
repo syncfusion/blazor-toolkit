@@ -549,13 +549,13 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
                 }
                 else if (renderer.GetType().Equals(typeof(PrimaryXAxisRenderer)))
                 {
-                    ChartAxis axis = new ChartPrimaryXAxis();
+                    using ChartAxis axis = new ChartPrimaryXAxis();
                     OnElementAdded(axis);
                     OnRendererAdded(renderer, axis);
                 }
                 else if (renderer.GetType().Equals(typeof(PrimaryYAxisRenderer)))
                 {
-                    ChartAxis axis = new ChartPrimaryYAxis();
+                    using ChartAxis axis = new ChartPrimaryYAxis();
                     OnElementAdded(axis);
                     OnRendererAdded(renderer, axis);
                 }

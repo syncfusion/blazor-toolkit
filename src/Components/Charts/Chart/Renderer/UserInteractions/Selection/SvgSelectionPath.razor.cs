@@ -13,8 +13,8 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
     public partial class SvgSelectionPath
     {
         #region Fields
-        private string _cursorStyle = "cursor:move";
-        private CultureInfo _culture = CultureInfo.InvariantCulture;
+        private readonly string _cursorStyle = "cursor:move";
+        private readonly CultureInfo _culture = CultureInfo.InvariantCulture;
         internal bool _isDrawCloseIcon;
         #endregion
 

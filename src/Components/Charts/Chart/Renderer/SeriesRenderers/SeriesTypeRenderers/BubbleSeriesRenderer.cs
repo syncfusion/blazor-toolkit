@@ -1,4 +1,5 @@
 using Microsoft.AspNetCore.Components.Rendering;
+using System.Diagnostics.CodeAnalysis;
 using System.Text.Json;
 using System.Dynamic;
 
@@ -14,7 +15,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
     internal class BubbleSeriesRenderer : ChartSeriesRenderer
     {
         #region Fields
-        private List<SymbolOptions> _symbolOptions = [];
+        private readonly List<SymbolOptions> _symbolOptions = [];
         #endregion
 
         #region Private Methods
@@ -674,6 +675,8 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
         /// Retrieves and appends chart data for a specific point to the data collection.
         /// </summary>
         /// <param name="point">The point to serialize and append.</param>
+        [UnconditionalSuppressMessage("Trimming", "IL2026", Justification = "BubblePoint is a user-defined type. The toolkit intentionally uses reflection-based JSON serialization to keep the public API stable.")]
+        [UnconditionalSuppressMessage("AOT", "IL3050", Justification = "BubblePoint is a user-defined type. The toolkit intentionally uses reflection-based JSON serialization to keep the public API stable.")]
         internal override void GetChartData(Point point)
         {
             _ = ChartData?.Append(JsonSerializer.Serialize(Series?.Renderer.ChartPoints?[point.Index] as IBubblePoint, _jsonOptions));

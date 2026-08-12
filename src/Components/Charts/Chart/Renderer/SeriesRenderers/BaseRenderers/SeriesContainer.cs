@@ -21,8 +21,8 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
         private int _paretoLineSeriesRendererCount;
         private int _paretoLineSeriesRendererIndex;
 
-        private List<string> _seriesType = [];
-        private List<string> _drawTypes = [];
+        private readonly List<string> _seriesType = [];
+        private readonly List<string> _drawTypes = [];
         private ChartSeries ParetoSeries { get; set; } = null!;
         private ChartSeries DefaultSeries { get; set; } = null!;
 

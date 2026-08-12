@@ -17,7 +17,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
         private double[]? _y_AxisPrevHeight;
         private double[]? _x_AxisMultiLabelHeight;
         private double[]? _x_AxisPrevHeight;
-        private CultureInfo _culture = CultureInfo.InvariantCulture;
+        private readonly CultureInfo _culture = CultureInfo.InvariantCulture;
         private ChartAxis? _axis;
         private ChartAxisRenderer? _axisRenderer;
         private SfChart? _chart;

@@ -2,9 +2,9 @@ using Microsoft.AspNetCore.Components;
 using Syncfusion.Blazor.Toolkit.Charts.Internal;
 using Syncfusion.Blazor.Toolkit.Data;
 using Syncfusion.Blazor.Toolkit.Internal;
-using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.ComponentModel;
+using System.Diagnostics.CodeAnalysis;
 using System.Globalization;
 
 namespace Syncfusion.Blazor.Toolkit.Charts
@@ -1862,6 +1862,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts
         /// <exclude />
         [EditorBrowsable(EditorBrowsableState.Never)]
         [Browsable(false)]
+        [DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.All)]
         public Type RendererType { get; set; } = null!;
 
         internal IEnumerable<object> CurrentViewData { get; set; } = [];

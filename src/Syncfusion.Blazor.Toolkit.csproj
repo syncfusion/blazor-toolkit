@@ -30,6 +30,11 @@
 	<!-- IL Linker may break reflection; uncomment if trimming issues occur -->
 	<!--<BlazorWebAssemblyEnableLinking>false</BlazorWebAssemblyEnableLinking>-->
 
+	<!-- Mark the assembly as trim-safe for the .NET IL trimmer. -->
+	<IsTrimmable>true</IsTrimmable>
+	<!-- Treat the assembly as AOT-safe as well. -->
+	<IsAotCompatible>true</IsAotCompatible>
+
     <!-- Compiler and code analysis configuration -->
 	<Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>

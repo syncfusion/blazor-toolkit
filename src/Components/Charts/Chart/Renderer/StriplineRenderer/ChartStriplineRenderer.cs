@@ -19,11 +19,11 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
         #region Fields
         private Rect? _rect;
         private Rect? _seriesClipRect;
-        private CultureInfo _culture = CultureInfo.InvariantCulture;
+        private readonly CultureInfo _culture = CultureInfo.InvariantCulture;
         private ChartAxisRenderer? _axisRenderer;
         private ChartAxis? _axis;
         private PathOptions? _striplinePath;
-        private List<TextOptions> _striplineText = [];
+        private readonly List<TextOptions> _striplineText = [];
         #endregion
 
         #region Properties

@@ -151,7 +151,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
         /// <summary>
         /// Calculates the interval value for a specific X-axis point.
         /// </summary>
-        private double CalculateXAxisInterval(ChartAxis axis, List<VisibleLabels> visibleLabels, int index, double ticksBetweenLabel)
+        private static double CalculateXAxisInterval(ChartAxis axis, List<VisibleLabels> visibleLabels, int index, double ticksBetweenLabel)
         {
             return axis.ValueType != ValueType.DateTimeCategory
                 ? index < visibleLabels.Count
@@ -714,9 +714,8 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
         /// <param name="angle">The label rotation angle in degrees.</param>
         /// <param name="intervalLength">The spacing between labels.</param>
         /// <param name="labelWidth">The measured label width.</param>
-        /// <param name="label">The visible label information.</param>
         /// <returns>The calculated label width.</returns>
-        private static double CalculateLabelWidth(ChartAxis axis, LabelIntersectAction? labelIntersectAction, double angle, double intervalLength, double labelWidth, VisibleLabels label)
+        private static double CalculateLabelWidth(ChartAxis axis, LabelIntersectAction? labelIntersectAction, double angle, double intervalLength, double labelWidth)
         {
             return (labelIntersectAction == LabelIntersectAction.Trim || labelIntersectAction == LabelIntersectAction.Wrap) && angle == 0 && labelWidth > intervalLength
                 ? intervalLength
@@ -835,7 +834,6 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
         /// <param name="isWrappedText">Indicates if the label text is wrapped.</param>
         /// <param name="labelIntersectAction">The action to take when labels intersect.</param>
         /// <param name="width">The total width of the label.</param>
-        /// <param name="isOpposed">Indicates if the axis is in opposed position.</param>
         /// <param name="chartBorderStartX">The left edge of the chart border.</param>
         /// <param name="chartBorderEndX">The right edge of the chart border.</param>
         /// <param name="labelIndex">The current label index.</param>
@@ -846,7 +844,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
         /// <see langword="true"/> if the label should be skipped; otherwise <see langword="false"/>.
         /// </returns>
         private bool ProcessEdgeLabelPlacementZeroAngle(ChartAxis axis, ChartAxisRenderer axisRenderer, Rect rect, ref double intervalLength, ref double labelWidth, ref double pointX, ref double previousEnd, VisibleLabels label, ChartFontOptions labelStyle,
-            bool isWrappedText, LabelIntersectAction? labelIntersectAction, double width, bool isOpposed, double chartBorderStartX, double chartBorderEndX, int labelIndex, int totalLabels, TextOptions options, double longestTextWidth)
+            bool isWrappedText, LabelIntersectAction? labelIntersectAction, double width, double chartBorderStartX, double chartBorderEndX, int labelIndex, int totalLabels, TextOptions options, double longestTextWidth)
         {
             switch (axisRenderer.EdgeLabelPlacement)
             {
@@ -999,7 +997,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
         /// <param name="previousEnd">The end position of the previous label (modified by reference).</param>
         /// <param name="options">The text rendering options.</param>
         /// <param name="pointY">The Y-coordinate.</param>
-        private void HandleRotatedEdgeLabelShift(ChartAxis axis, Rect rect, VisibleLabels label, ChartFontOptions labelStyle, double angle, bool isWrappedText, double longestTextWidth,
+        private void HandleRotatedEdgeLabelShift(ChartAxis axis, VisibleLabels label, ChartFontOptions labelStyle, double angle, bool isWrappedText,
             int longestTextIndex, double chartBorderStartX, double chartBorderEndX, int labelIndex, int totalLabels, ref double pointX, ref double previousEnd, TextOptions options, double pointY)
         {
             double rotateLabelwidth = ChartHelper.RotateTextSize(labelStyle, isWrappedText ? label.TextArr[longestTextIndex] : label.Text, angle).Width;
@@ -1049,7 +1047,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
         /// <param name="labelIntersectAction">The action to take when labels intersect.</param>
         /// <param name="labelIndex">The current label index.</param>
         /// <param name="options">The text rendering options (modified by reference).</param>
-        private void ApplyRotationOptions(ChartAxis axis, VisibleLabels label, double labelHeight, double angle, bool isOpposed, double pointX, double pointY,
+        private void ApplyRotationOptions(ChartAxis axis, VisibleLabels label, double angle, bool isOpposed, double pointX, double pointY,
             ref bool isRotatedLabelIntersect, List<ChartEventLocation[]> newPoints, LabelIntersectAction? labelIntersectAction, int labelIndex, TextOptions options)
         {
             options.Transform = "rotate(" + angle.ToString(Culture) + "," + pointX.ToString(Culture) + "," + pointY.ToString(Culture) + ')';
@@ -1172,7 +1170,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
         /// <param name="intervalLength">The spacing between labels.</param>
         /// <param name="label">The visible label information.</param>
         /// <param name="options">The text rendering options.</param>
-        private void AddAxisLabelTemplate(ChartAxis axis, int index, int labelIndex, Rect rect, double angle, bool isLabelInside, bool isOpposed, double intervalLength, VisibleLabels label, TextOptions options)
+        private void AddAxisLabelTemplate(ChartAxis axis, int index, int labelIndex, double angle, bool isLabelInside, bool isOpposed, double intervalLength, VisibleLabels label, TextOptions options)
         {
             string templateY = options.Y;
             if (angle != 0 && ((isLabelInside && !isOpposed) || (isOpposed && !isLabelInside)))
@@ -1619,7 +1617,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
                 double pointX = (ChartHelper.ValueToCoefficient(label.Value, axisRenderer) * rect.Width) + rect.X;
 
                 labelWidth = isAxisBreakLabel ? label.BreakLabelSize.Width : label.Size.Width;
-                double width = CalculateLabelWidth(axis, labelIntersectAction, angle, intervalLength, labelWidth, label);
+                double width = CalculateLabelWidth(axis, labelIntersectAction, angle, intervalLength, labelWidth);
 
                 label.Size.Height = axis.LabelTemplate is not null ? (axis.Renderer?.MaxLabelSize.Height < label.Size.Height ? axis.Renderer.MaxLabelSize.Height : label.Size.Height) : label.Size.Height;
                 double labelHeight = label.Size.Height / 4;
@@ -1642,7 +1640,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
                 if (angle == 0)
                 {
                     bool skip = ProcessEdgeLabelPlacementZeroAngle(axis, axisRenderer, rect, ref intervalLength, ref labelWidth, ref pointX, ref previousEnd, label,
-                        labelStyle, isWrappedText, labelIntersectAction, width, isOpposed, chartBorderStartX, chartBorderEndX, i, len, options, longestTextWidth);
+                        labelStyle, isWrappedText, labelIntersectAction, width, chartBorderStartX, chartBorderEndX, i, len, options, longestTextWidth);
 
                     if (skip)
                     {
@@ -1651,7 +1649,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
                 }
                 else if (axisRenderer.EdgeLabelPlacement == EdgeLabelPlacement.Shift)
                 {
-                    HandleRotatedEdgeLabelShift(axis, rect, label, labelStyle, angle, isWrappedText, longestTextWidth, longestTextIndex, chartBorderStartX,
+                    HandleRotatedEdgeLabelShift(axis, label, labelStyle, angle, isWrappedText, longestTextIndex, chartBorderStartX,
                         chartBorderEndX, i, len, ref pointX, ref previousEnd, options, pointY);
                 }
 
@@ -1674,7 +1672,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
 
                 if (angle != 0)
                 {
-                    ApplyRotationOptions(axis, label, labelHeight, angle, isOpposed, pointX, pointY, ref isRotatedLabelIntersect, newPoints, labelIntersectAction, i, options);
+                    ApplyRotationOptions(axis, label, angle, isOpposed, pointX, pointY, ref isRotatedLabelIntersect, newPoints, labelIntersectAction, i, options);
                 }
 
                 if (angle != 90 && axisRenderer.EdgeLabelPlacement == EdgeLabelPlacement.Hide)
@@ -1709,7 +1707,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
 
                 if (axis.LabelTemplate is not null)
                 {
-                    AddAxisLabelTemplate(axis, index, i, rect, angle, islabelInside, isOpposed, intervalLength, label, options);
+                    AddAxisLabelTemplate(axis, index, i, angle, islabelInside, isOpposed, intervalLength, label, options);
                 }
             }
 

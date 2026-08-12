@@ -10,7 +10,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
     {
         #region Fields
         private string _cursorStyle = "cursor:move";
-        private CultureInfo _culture = CultureInfo.InvariantCulture;
+        private readonly CultureInfo _culture = CultureInfo.InvariantCulture;
         internal bool _isDrawCloseIcon;
         #endregion
 

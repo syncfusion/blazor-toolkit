@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Components.Rendering;
+﻿using System.Diagnostics.CodeAnalysis;
+using Microsoft.AspNetCore.Components.Rendering;
 
 namespace Syncfusion.Blazor.Toolkit.Charts.Internal
 {
@@ -17,6 +18,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
         /// Gets or sets the renderer component type for this element.
         /// </summary>
         /// <value>The <see cref="Type"/> of the renderer component.</value>
+        [DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.All)]
         Type RendererType { get; set; }
     }
 
@@ -26,7 +28,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
     public class ChartRendererContainer : ChartRenderer
     {
         #region Fields
-        private Queue<IChartElementRenderer> _rendererQueue = new();
+        private readonly Queue<IChartElementRenderer> _rendererQueue = new();
         private bool _firstRender = true;
         #endregion
 
