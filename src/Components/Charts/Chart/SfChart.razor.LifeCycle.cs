@@ -193,12 +193,18 @@ namespace Syncfusion.Blazor.Toolkit.Charts
                 {
                     notifyCollectionChanged.CollectionChanged += DataCollectionChanged;
 
-                    if (_data.DataSource.Any() && _data.DataSource.First() is INotifyPropertyChanged)
+                    // PERF-17: replaced LINQ chain (Any + First + Cast) with a single foreach
+                    // over a snapshotted list to avoid three enumerator allocations per
+                    // parameter-set cycle.
+                    if (_data.DataSource is not null)
                     {
-                        foreach (INotifyPropertyChanged item in _data.DataSource.Cast<INotifyPropertyChanged>())
+                        List<object>? snapshot = null;
+                        foreach (object item in _data.DataSource)
                         {
                             if (item is INotifyPropertyChanged notifyPropertyChanged)
                             {
+                                snapshot ??= new List<object>(_data.DataSource is ICollection<object> col ? col.Count : 4);
+                                snapshot.Add(notifyPropertyChanged);
                                 notifyPropertyChanged.PropertyChanged += PropertyChanged;
                             }
                         }

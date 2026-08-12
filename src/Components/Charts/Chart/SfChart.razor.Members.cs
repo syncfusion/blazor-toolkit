@@ -107,12 +107,12 @@ namespace Syncfusion.Blazor.Toolkit.Charts
         [Parameter]
         public string Width { get; set; } = DefaultWidth;
 
-        /// <summary> 
-        /// Gets or sets the title of the chart component. 
-        /// </summary> 
-        /// <value> 
-        /// A string representing the title of the chart. The default value is an empty string. 
-        /// </value> 
+        /// <summary>
+        /// Gets or sets the title of the chart component.
+        /// </summary>
+        /// <value>
+        /// A string representing the title of the chart. The default value is an empty string.
+        /// </value>
         /// <remarks>
         /// This property is used to provide a title for the chart component, which will be displayed above the chart by default.
         /// </remarks>

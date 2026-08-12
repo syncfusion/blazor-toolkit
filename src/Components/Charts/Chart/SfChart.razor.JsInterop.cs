@@ -21,6 +21,11 @@ namespace Syncfusion.Blazor.Toolkit.Charts
         private ZoomingEventArgs? _onZoomStartArgs;
         private ZoomingEventArgs? _onZoomingArgs;
 
+        // CQ-25: extract duplicate literal substrings so renames stay consistent
+        // and the same string is not allocated multiple times.
+        private const string LegendSubstring = "_legend_";
+        private const string ZoomingSubstring = "_Zooming_";
+
         #endregion
 
         #region Internal Properties
@@ -175,45 +180,47 @@ namespace Syncfusion.Blazor.Toolkit.Charts
         [JSInvokable]
         public async Task OnChartKeyboardNavigationsAsync(string actionKey, string targetId)
         {
-            if (!string.IsNullOrEmpty(targetId))
+            if (string.IsNullOrEmpty(targetId))
             {
-                ChartInternalMouseEventArgs args = new() { Target = targetId };
-                switch (actionKey)
-                {
-                    case "Enter":
-                        MouseClick?.Invoke(this, args);
-                        _legendRenderer?.ProcessNavigationLegendEnter(args.Target);
-                        if (OnPointClick.HasDelegate)
-                        {
-                            TriggerPointEvent(Constants.PointerClick, OnPointClick, args);
-                        }
-                        if (_legendRenderer is not null)
-                        {
-                            _legendRenderer.KeyboardFocusTarget = targetId.Contains("_legend_", StringComparison.InvariantCulture) ? targetId : string.Empty;
-                        }
-                        if (_zoomingModule is not null)
-                        {
-                            _zoomingKeyboardFocusTarget = targetId.Contains("_Zooming_", StringComparison.InvariantCulture) ? targetId : string.Empty;
-                        }
-                        if (!string.IsNullOrEmpty(_zoomingKeyboardFocusTarget))
-                        {
-                            await InvokeVoidAsync(_chartJsModule!, _chartJsInProcessModule!, Constants.FocusTarget, [_zoomingKeyboardFocusTarget]).ConfigureAwait(false);
-                        }
-                        if (!string.IsNullOrEmpty(_legendRenderer?.KeyboardFocusTarget))
-                        {
-                            await InvokeVoidAsync(_chartJsModule!, _chartJsInProcessModule!, Constants.FocusTarget, [_legendRenderer.KeyboardFocusTarget]).ConfigureAwait(false);
-                        }
-                        break;
-                    case "Equal":
-                    case "Minus":
-                        if (_legendRenderer is not null)
-                        {
-                            _legendRenderer.KeyboardFocusTarget = string.Empty;
-                        }
-                        break;
-                    default:
-                        break;
-                }
+                return;
+            }
+            ChartInternalMouseEventArgs args = new() { Target = targetId };
+            switch (actionKey)
+            {
+                case "Enter":
+                    MouseClick?.Invoke(this, args);
+                    _legendRenderer?.ProcessNavigationLegendEnter(args.Target);
+                    if (OnPointClick.HasDelegate)
+                    {
+                        TriggerPointEvent(Constants.PointerClick, OnPointClick, args);
+                    }
+                    if (_legendRenderer is not null)
+                    {
+                        _legendRenderer.KeyboardFocusTarget = targetId.Contains(LegendSubstring, StringComparison.InvariantCulture) ? targetId : string.Empty;
+                    }
+                    if (_zoomingModule is not null)
+                    {
+                        _zoomingKeyboardFocusTarget = targetId.Contains(ZoomingSubstring, StringComparison.InvariantCulture) ? targetId : string.Empty;
+                    }
+                    if (!string.IsNullOrEmpty(_zoomingKeyboardFocusTarget))
+                    {
+                        await InvokeVoidAsync(_chartJsModule!, _chartJsInProcessModule!, Constants.FocusTarget, [_zoomingKeyboardFocusTarget]).ConfigureAwait(false);
+                    }
+                    if (!string.IsNullOrEmpty(_legendRenderer?.KeyboardFocusTarget))
+                    {
+                        await InvokeVoidAsync(_chartJsModule!, _chartJsInProcessModule!, Constants.FocusTarget, [_legendRenderer.KeyboardFocusTarget]).ConfigureAwait(false);
+                    }
+                    break;
+                case "Equal":
+                case "Minus":
+                    if (_legendRenderer is not null)
+                    {
+                        _legendRenderer.KeyboardFocusTarget = string.Empty;
+                    }
+                    break;
+                default:
+                    // Any other key: explicitly do nothing rather than silently swallowing.
+                    break;
             }
         }
 
