@@ -43,3 +43,15 @@ As a general rule:
 
 - *Blazor.Toolkit.Samples*: Full gallery sample with all of the controls and features of the Syncfusion Blazor Toolkit.
 - *Blazor.Toolkit.Samples.Client*: Client-side Blazor WebAssembly sample project.
+
+## Security Review Cycle
+
+The threat model and security posture are reviewed on a structured schedule:
+
+| Trigger | Activity |
+|---|---|
+| Every **major release** (`x.0.0`) | Full review of [THREAT-MODEL.md](THREAT-MODEL.md): reassess all threats, verify mitigations, update or re-ratify the accepted-risks table. |
+| Every **minor release** (`x.y.0`) | Review the accepted-risks table; escalate any entry whose circumstances have changed. |
+| **Monthly servicing** | Dependency review and CVE triage per [SECURITY.md §3.3](SECURITY.md). |
+
+The outcome of each structured review is recorded by updating the "Security Self-Attestation" date in [SECURITY.md](SECURITY.md) and the accepted-risks table in [THREAT-MODEL.md](THREAT-MODEL.md).

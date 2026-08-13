@@ -98,6 +98,15 @@ Mitigations:
 - validate release artifacts before publishing to NuGet
 - maintain a clear audit trail in the repository history
 
+## Accepted risks
+
+The following risks have been reviewed and accepted by the maintainers. Each entry includes the rationale and the date of acceptance. Accepted risks are re-evaluated at every major release.
+
+| # | Risk | Rationale | Owner | Accepted |
+|---|---|---|---|---|
+| AR-1 | Local development builds are not strong-name signed when `sf.snk` is absent | Signing is enforced in CI. Local unsigned builds are development-only and are never published. Risk is limited to the individual developer's machine. | Syncfusion Maintainers | 2026-08-13 |
+| AR-2 | Authenticode signing of the DLL is not performed | NuGet package signing (enforced in CI via `NuGetKeyVaultSignTool`) provides equivalent supply-chain assurance for a library distributed via NuGet. Authenticode signing of the inner DLL adds operational cost for minimal incremental benefit in this distribution model. | Syncfusion Maintainers | 2026-08-13 |
+
 ## Current security posture
 
 The project currently emphasizes:

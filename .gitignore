@@ -1,0 +1,14 @@
+# Strong-name key — never commit; store as STRONG_NAME_KEY_BASE64 GitHub Secret
+*.snk
+
+# Build outputs
+bin/
+obj/
+nupkg/
+
+# Node
+node_modules/
+
+# IDE
+.vs/
+*.user

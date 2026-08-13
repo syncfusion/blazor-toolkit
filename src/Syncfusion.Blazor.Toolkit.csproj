@@ -1,11 +1,9 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk.Razor">
 
   <PropertyGroup>
-	<!-- NuGet / strong-name signing (commented out).
-		To enable signing, un-comment the two lines below, provide a
-		secure strong-name key file (for example: sf.snk). -->
-	<!--<SignAssembly>true</SignAssembly>
-	<AssemblyOriginatorKeyFile>sf.snk</AssemblyOriginatorKeyFile>-->
+	<!-- Active when sf.snk is present; CI decodes it from STRONG_NAME_KEY_BASE64 secret. -->
+	<SignAssembly Condition="Exists('sf.snk')">true</SignAssembly>
+	<AssemblyOriginatorKeyFile>sf.snk</AssemblyOriginatorKeyFile>
 	<!-- NuGet package metadata and assembly (DLL) properties -->
 	<Version>1.0.0</Version>
 	<PackageId>Syncfusion.Blazor.Toolkit</PackageId>
@@ -24,7 +22,9 @@
 	<PackageProjectUrl>https://github.com/syncfusion/blazor-toolkit</PackageProjectUrl>
 	<RepositoryUrl>https://github.com/syncfusion/blazor-toolkit.git</RepositoryUrl>
 	<RepositoryType>git</RepositoryType>
-	<RepositoryCommit Condition="'$(SourceRevisionId)' != ''">$(SourceRevisionId)</RepositoryCommit>
+	<RepositoryCommit>$(SourceRevisionId)</RepositoryCommit>
+	<PublishRepositoryUrl>true</PublishRepositoryUrl>
+	<EmbedUntrackedSources>true</EmbedUntrackedSources>
 	<!-- Release notes (uncomment when available) -->
 	<!--<PackageReleaseNotes></PackageReleaseNotes>-->
 	<PackageTags>
@@ -66,6 +66,7 @@
 	<ItemGroup>
 		<PackageReference Include="Microsoft.AspNetCore.Components.Web" Version="$(ComponentsPackageVersion)" />
 		<PackageReference Include="Microsoft.Extensions.Localization" Version="$(ComponentsPackageVersion)" />
+		<PackageReference Include="Microsoft.SourceLink.GitHub" Version="8.0.0" PrivateAssets="All" />
 	</ItemGroup>
 
   <Target Name="RunGulpOnceBeforeBuild" BeforeTargets="BeforeBuild" Condition="$(TargetFramework) == $(TargetFrameworks.Split(';')[0]) AND !Exists('wwwroot/styles/fluent.min.css')">
