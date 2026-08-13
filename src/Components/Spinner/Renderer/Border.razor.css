@@ -1,0 +1,10 @@
+.e-spin-fluent {
+    width: var(--spinner-size, 30px);
+    height: var(--spinner-size, 30px);
+    transform-origin: center;
+}
+
+.e-path-circle,
+.e-path-arc {
+    stroke-width: var(--spinner-thickness, 4px);
+}

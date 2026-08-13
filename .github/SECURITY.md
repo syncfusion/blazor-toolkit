@@ -6,7 +6,7 @@ We prioritize our project’s security and encourage the community to responsibl
 
 ## 2. Reporting a Vulnerability
 
-We take the security of our Syncfusion .NET MAUI Toolkit project very seriously. If you discover a security vulnerability, please report it responsibly using the steps outlined below.
+We take the security of our Syncfusion Blazor Toolkit project very seriously. If you discover a security vulnerability, please report it responsibly using the steps outlined below.
 
 ### 2.1 How to Report
 
@@ -31,3 +31,9 @@ We take the security of our Syncfusion .NET MAUI Toolkit project very seriously.
 The resolution will be included in the next available release. If necessary, a security patch will be issued immediately.
 
 Affected users will be notified in the GitHub repository's **Releases** page and other relevant channels.
+
+## 4. Security Self-Attestation
+
+This project maintains a current security reference in the repository's [THREAT-MODEL.md](../THREAT-MODEL.md) document. The project team has reviewed the current architecture, package surface, and release flow and has documented the principal risks and mitigations in good faith.
+
+This attestation reflects the project’s current understanding as of 2026-08-12 and is intended to be updated as the toolkit evolves.

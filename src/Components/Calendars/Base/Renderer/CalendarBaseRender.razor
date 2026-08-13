@@ -39,7 +39,7 @@
             <tbody @ref="@this.TableBodyEle">
                 @for (int dayCells = 0; dayCells < rowCount; dayCells++)
                 {
-                    <tr class="@(rowEleClass)" @attributes="@RowAttr">
+                    <tr @key="dayCells" class="@(rowEleClass)" @attributes="@RowAttr">
                     @for (rowIterator = 0 + rowIterator; (rowIterator < this.Row) && !(IsMaxDateReached(rowIterator,this.LocalDate)); rowIterator++)
                         {
                             DateTime localCalDate = default;
@@ -76,7 +76,7 @@
 
                             if (isValid)
                             {
-                                <CalendarDayCell @ref="@CalDayCell" CellClass="@cellClass" LocalDates="localCalDate" CurrentCellDate="this.CurrentDate" TCalendarCell="TValue" Cells="rowIterator" TodayCellDate="this.TodayDate" IsNavigation="IsNavigation" CalendarMode="@this.CalendarMode"
+                                <CalendarDayCell @key="localCalDate.Ticks" @ref="@CalDayCell" CellClass="@cellClass" LocalDates="localCalDate" CurrentCellDate="this.CurrentDate" TCalendarCell="TValue" Cells="rowIterator" TodayCellDate="this.TodayDate" IsNavigation="IsNavigation" CalendarMode="@this.CalendarMode"
                                                  CalendarRenderView="CalendarView" OnCellClick="this.ClickHandlerAsync" IsSelect="IsSelect" IsMultiSelect="this.MultiSelection" MultiselectValues="this.MultiValues" IsFocusTodayDate="@IsFocusTodayCell">
                                 </CalendarDayCell>
                             }

@@ -8,8 +8,8 @@
 	],
 	"repository": {
 		"type": "git",
-		"url": "https://gitea.syncfusion.com/essential-studio/blazor-toolkit.git"
-	},	
+		"url": "https://github.com/syncfusion/blazor-toolkit.git"
+	},
 	"devDependencies": {
 		"gulp": "^4.0.2",        
 		"shelljs": "^0.8.5",		

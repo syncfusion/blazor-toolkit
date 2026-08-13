@@ -112,24 +112,21 @@ namespace Syncfusion.Blazor.Toolkit.Spinner.Internal
 
                 // Calculate diameter and build style attributes
                 int diameter = _radius * 2;
-                string transformOrigin = $"{diameter / 2}px";
 
                 // Build SVG path data
                 _pathCircleData = BuildCirclePath(_radius, _radius);
                 _pathArcData = BuildArcPath(_radius, _radius, StartArcValue, EndArcValue);
 
-                // Set SVG viewBox and styles
+                // Set SVG viewBox and CSS variables so the component stylesheet controls sizing and thickness.
                 ViewBox = $"0 0 {diameter} {diameter}";
-                SvgStyle = $"width: {diameter}px; height: {diameter}px; transform-origin: {transformOrigin} {transformOrigin} {transformOrigin};";
 
-                // Set the circle border thickness
                 string thickness = BaseParent?.Thickness ?? "4px";
-                // Only append px if the thickness is a bare number
                 if (!string.IsNullOrEmpty(thickness) && !thickness.Any(c => char.IsLetter(c) || c == '%'))
                 {
                     thickness = $"{thickness}px";
                 }
-                _strokeWidth = $"stroke-width: {thickness};";
+
+                SvgStyle = $"--spinner-size: {diameter}px; --spinner-thickness: {thickness};";
 
 
                 await base.OnInitializedAsync().ConfigureAwait(false);

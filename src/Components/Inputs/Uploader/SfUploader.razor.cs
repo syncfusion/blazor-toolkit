@@ -18,7 +18,7 @@ namespace Syncfusion.Blazor.Toolkit.Inputs
     /// It supports both synchronous and asynchronous upload operations with comprehensive event handling
     /// and customizable UI templates.
     /// </summary>
-    public partial class SfUploader : SfBaseComponent
+    public partial class SfUploader : SfBaseComponent, IAsyncDisposable
     {
         internal IJSObjectReference? _uploaderJsModule;
         internal IJSInProcessObjectReference? _uploaderJsInProcessModule;

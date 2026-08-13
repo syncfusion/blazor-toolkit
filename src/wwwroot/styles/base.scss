@@ -218,6 +218,82 @@
   --color-sf-skeleton-bg-color: #e6e6e6;
 }
 
+@media (forced-colors: active) {
+  :root {
+    color-scheme: light dark;
+  }
+
+  .e-btn,
+  .e-btn.e-flat,
+  .e-btn.e-outline,
+  .e-checkbox-wrapper,
+  .e-radio-wrapper,
+  .e-switch-wrapper,
+  .e-input,
+  .e-textbox,
+  .e-textarea,
+  .e-datepicker,
+  .e-datetimepicker,
+  .e-timepicker,
+  .e-dialog,
+  .e-popup,
+  .e-tooltip,
+  .e-calendar,
+  .e-spinner {
+    border-color: CanvasText;
+    background-color: Canvas;
+    color: CanvasText;
+  }
+
+  .e-btn.e-primary,
+  .e-btn.e-success,
+  .e-btn.e-warning,
+  .e-btn.e-danger,
+  .e-btn.e-info {
+    background-color: Highlight;
+    border-color: Highlight;
+    color: HighlightText;
+  }
+
+  .e-btn:disabled,
+  .e-checkbox-wrapper.e-disabled,
+  .e-radio-wrapper.e-disabled,
+  .e-switch-wrapper.e-disabled,
+  .e-input:disabled,
+  .e-textbox:disabled,
+  .e-textarea:disabled,
+  .e-datepicker.e-disabled,
+  .e-datetimepicker.e-disabled,
+  .e-timepicker.e-disabled {
+    opacity: 1;
+    border-color: GrayText;
+    background-color: Canvas;
+    color: GrayText;
+  }
+
+  .e-btn:focus,
+  .e-btn:focus-visible,
+  .e-checkbox-wrapper:focus-within,
+  .e-radio-wrapper:focus-within,
+  .e-switch-wrapper:focus-within,
+  .e-textbox:focus,
+  .e-textarea:focus,
+  .e-input:focus,
+  .e-datepicker:focus,
+  .e-datetimepicker:focus,
+  .e-timepicker:focus {
+    outline: 2px solid Highlight;
+    outline-offset: 2px;
+  }
+
+  .e-popup,
+  .e-dialog,
+  .e-tooltip,
+  .e-calendar {
+    box-shadow: none;
+  }
+}
+
 :root,
 .e-dark-mode {
   --e-font-name: 'Segoe UI', -apple-system, BlinkMacSystemFont, 'Roboto', 'Helvetica Neue', sans-serif;
