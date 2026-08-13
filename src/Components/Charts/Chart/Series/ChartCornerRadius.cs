@@ -31,7 +31,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts
         private double _bottomRight;
         private double _topLeft;
         private double _topRight;
-        private bool _isPropertyChanged;
+        private new bool _isPropertyChanged;
 
         #endregion
 

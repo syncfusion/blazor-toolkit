@@ -69,7 +69,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts
         /// ]]>
         /// </code>
         /// </example>
-        public override string Color { get; set; } = string.Empty;
+        public override string? Color { get; set; } = string.Empty;
 
         #endregion
 

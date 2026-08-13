@@ -271,7 +271,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
 
             string fill = !string.IsNullOrEmpty(Trendline?.Fill) ? Trendline.Fill : "blue";
             LegendShape legendShape = LegendShape.HorizontalLine;
-            using ChartSeriesBorder border = new() { };
+            ChartSeriesBorder border = new() { };
 
             _trendLineSeries.SetTrendlineValues
             (
@@ -578,7 +578,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
             double tlOrderRaw = tlOrderNullable ?? 0d;
             double orderForTrendline = DetermineOrderForTrendlineSetter(_points?.Count, tlOrderNullable);
 
-            using ChartTrendline chartTrendline = new();
+            ChartTrendline chartTrendline = new();
             chartTrendline.PolynomialOrderValue(orderForTrendline);
             int slopesLen = Convert.ToInt32(tlOrderRaw + 1);
             _polynomialSlopes = new double?[slopesLen];
@@ -877,7 +877,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
         /// </summary>
         internal void UpdateTrendlineMarker()
         {
-            using ChartMarker marker = new();
+            ChartMarker marker = new();
             marker.SetMarkerValues(Trendline?.Marker ?? null!);
             _trendLineSeries?.UpdateSeriesProperties("Marker", marker);
         }
@@ -887,7 +887,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
         /// </summary>
         internal void UpdateTrendlineAnimation()
         {
-            using ChartDefaultAnimation animation = new();
+            ChartDefaultAnimation animation = new();
             bool enableAnimation = SyncfusionService is not null ? (SyncfusionService._options.Animation == GlobalAnimationMode.Enable || (SyncfusionService._options.Animation == GlobalAnimationMode.Default && Trendline is not null && Trendline.Animation.Enable)) : Trendline is not null && Trendline.Animation.Enable;
             animation.SetTrendlineAnimation(enableAnimation, Trendline?.Animation.Duration ?? 1000, Trendline?.Animation.Delay ?? 0);
         }

@@ -354,7 +354,7 @@ namespace Syncfusion.Blazor.Toolkit
     /// <exclude/>
     internal class DataMemberBinder(string name, bool ignoreCase) : GetMemberBinder(name, ignoreCase)
     {
-        public override DynamicMetaObject FallbackGetMember(DynamicMetaObject target, DynamicMetaObject errorSuggestion)
+        public override DynamicMetaObject FallbackGetMember(DynamicMetaObject target, DynamicMetaObject? errorSuggestion)
         {
             throw new NotImplementedException();
         }
@@ -366,7 +366,7 @@ namespace Syncfusion.Blazor.Toolkit
     /// <exclude/>
     internal class DataSetMemberBinder(string name, bool ignoreCase) : SetMemberBinder(name, ignoreCase)
     {
-        public override DynamicMetaObject FallbackSetMember(DynamicMetaObject target, DynamicMetaObject value, DynamicMetaObject errorSuggestion)
+        public override DynamicMetaObject FallbackSetMember(DynamicMetaObject target, DynamicMetaObject value, DynamicMetaObject? errorSuggestion)
         {
             throw new NotImplementedException();
         }

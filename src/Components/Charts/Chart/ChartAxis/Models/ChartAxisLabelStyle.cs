@@ -21,7 +21,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts
         private string _fontWeight = string.Empty;
         private string _fontStyle = "Normal";
 
-        internal bool _isPropertyChanged;
+        internal new bool _isPropertyChanged;
         #endregion
 
         #region Properties

@@ -137,7 +137,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
             }
             catch (InvalidOperationException exception)
             {
-                await Console.Error.WriteLineAsync(exception).ConfigureAwait(true);
+                await Console.Error.WriteLineAsync(exception.ToString()).ConfigureAwait(false);
             }
         }
 
@@ -313,7 +313,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
             }
             catch (InvalidOperationException exception)
             {
-                await Console.Error.WriteLineAsync(exception).ConfigureAwait(true);
+                await Console.Error.WriteLineAsync(exception.ToString()).ConfigureAwait(false);
             }
         }
 
@@ -332,7 +332,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
             }
             catch (InvalidOperationException exception)
             {
-                await Console.Error.WriteLineAsync(exception).ConfigureAwait(true);
+                await Console.Error.WriteLineAsync(exception.ToString()).ConfigureAwait(false);
             }
         }
         #endregion
@@ -377,7 +377,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
             }
             catch (InvalidOperationException exception)
             {
-                await Console.Error.WriteLineAsync(exception).ConfigureAwait(true);
+                await Console.Error.WriteLineAsync(exception.ToString()).ConfigureAwait(false);
             }
         }
 
@@ -396,7 +396,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
             }
             catch (InvalidOperationException exception)
             {
-                await Console.Error.WriteLineAsync(exception).ConfigureAwait(true);
+                await Console.Error.WriteLineAsync(exception.ToString()).ConfigureAwait(false);
             }
         }
 
@@ -415,7 +415,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
             }
             catch (InvalidOperationException exception)
             {
-                await Console.Error.WriteLineAsync(exception).ConfigureAwait(true);
+                await Console.Error.WriteLineAsync(exception.ToString()).ConfigureAwait(false);
             }
         }
 

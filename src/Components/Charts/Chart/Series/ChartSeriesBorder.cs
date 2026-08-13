@@ -16,7 +16,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts
 
         private string _color = string.Empty;
         private double _width = 1;
-        private bool _isPropertyChanged;
+        private new bool _isPropertyChanged;
 
         #endregion
 

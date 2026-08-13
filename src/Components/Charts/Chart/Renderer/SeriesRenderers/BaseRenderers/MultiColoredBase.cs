@@ -218,19 +218,21 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
         /// <param name="isXSegment">Whether segmentation occurs on the X axis.</param>
         /// <param name="segments">List of configured segments.</param>
         /// <returns>True when color changed compared to the previous point (used for boundary detection).</returns>
-        /// <summary>
-        /// Sets the fill/stroke color for the current point using the segment list or point color mapping.
-        /// </summary>
-        /// <param name="point">Point being colored.</param>
-        /// <param name="color">Default series color.</param>
-        /// <returns>The resolved color for the point.</returns>
         public override string SetPointColor(Point point, string color)
         {
             return point is not null && !string.IsNullOrEmpty(point.Interior) ? point.Interior : color;
         }
 
 
+        /// <summary>
+        /// Sets the fill/stroke color for the current point using the segment list or point color mapping.
         /// </summary>
+        /// <param name="currentPoint">Point being colored.</param>
+        /// <param name="previous">Previous point for comparison when using point color mapping.</param>
+        /// <param name="series">Series metadata.</param>
+        /// <param name="isXSegment">Whether segmentation occurs on the X axis.</param>
+        /// <param name="segments">List of configured segments.</param>
+        /// <returns>True when color changed compared to the previous point (used for boundary detection).</returns>
         internal bool SetPointColor(Point currentPoint, Point previous, ChartSeries series, bool isXSegment, List<ChartSegment> segments)
         {
             if (string.IsNullOrEmpty(series.PointColorMapping))

@@ -13,7 +13,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts
     {
         #region Fields
 
-        private bool _isPropertyChanged;
+        private new bool _isPropertyChanged;
         private object? _start;
         private object? _end;
         private string _text = string.Empty;

@@ -420,7 +420,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts
         [JSInvokable]
         public void OnChartLongPress()
         {
-            _startMove = _startMove;
+            // Intentionally empty: JS-invoked handler kept for compatibility.
         }
 
         /// <summary>

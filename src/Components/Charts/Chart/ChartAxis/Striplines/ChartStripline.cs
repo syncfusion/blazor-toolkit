@@ -14,7 +14,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts
     public class ChartStripline : ChartSubComponent, IChartElement
     {
         #region Fields
-        private bool _isPropertyChanged;
+        private new bool _isPropertyChanged;
         private bool _isUpdateDirection;
         private string _color = "#808080";
         private object? _start;

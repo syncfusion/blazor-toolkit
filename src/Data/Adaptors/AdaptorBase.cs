@@ -215,7 +215,7 @@
         /// </summary>
         /// <param name="obj">The instance to compare.</param>
         /// <returns>true.</returns>
-        public override readonly bool Equals(object obj)
+        public override readonly bool Equals(object? obj)
         {
             return true;
         }

@@ -16,7 +16,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts
         private string _horizontalAxisName = null!;
         private string _yCoordinate = "0";
         private string _verticalAxisName = null!;
-        private bool _isPropertyChanged;
+        private new bool _isPropertyChanged;
         private Units _coordinateUnits;
         private Regions _region;
         private object _xCoordinate = "0";

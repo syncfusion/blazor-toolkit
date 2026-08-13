@@ -685,7 +685,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts
 
         /// <exclude />
         [EditorBrowsable(EditorBrowsableState.Never)]
-        public override bool Equals(object obj)
+        public override bool Equals(object? obj)
         {
             if (ReferenceEquals(this, obj))
             {

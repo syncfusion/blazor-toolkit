@@ -853,7 +853,7 @@ namespace Syncfusion.Blazor.Toolkit.Data
     /// services can be accessed from <see cref="OwningComponentBase{TService}.Service"/> property.
     /// </remarks>
     /// <exclude />
-    public abstract class DataAdaptor<T> : OwningComponentBase<T>, IDataAdaptor
+    public abstract class DataAdaptor<T> : OwningComponentBase<T>, IDataAdaptor where T : notnull
     {
         /// <summary>
         /// JSON serializer options used for serializing adaptor data.
@@ -921,7 +921,7 @@ namespace Syncfusion.Blazor.Toolkit.Data
         internal IEnumerable<object> ForeignKeyDataSource { get; }
 
         /// <exclude />
-        private readonly Dictionary<string, ConcurrentDictionary<object?, object?>> _lookups = [];
+        private readonly Dictionary<string, ConcurrentDictionary<object, object?>> _lookups = [];
 
         /// <exclude />
         private readonly Dictionary<string, Func<object, object?>> _fieldGetters = [];
@@ -946,7 +946,7 @@ namespace Syncfusion.Blazor.Toolkit.Data
             _fieldGetters[foreignKeyField] = fieldGetter;
             _valueGetters[foreignKeyField] = valueGetter;
 
-            ConcurrentDictionary<object?, object?> lookup = new();
+            ConcurrentDictionary<object, object?> lookup = new();
 
             _ = Parallel.ForEach(foreignKeyDataSource, item =>
             {
@@ -1014,7 +1014,7 @@ namespace Syncfusion.Blazor.Toolkit.Data
                         return null;
                     }
 
-                    if (_lookups.TryGetValue(ForeignKeyField, out ConcurrentDictionary<object?, object?>? lookup) && lookup.TryGetValue(foreignkeyValue, out object? displayValue))
+                    if (_lookups.TryGetValue(ForeignKeyField, out ConcurrentDictionary<object, object?>? lookup) && lookup.TryGetValue(foreignkeyValue, out object? displayValue))
                     {
                         return displayValue;
                     }
@@ -1027,7 +1027,7 @@ namespace Syncfusion.Blazor.Toolkit.Data
                 return null;
             }
 
-            foreach (ConcurrentDictionary<object?, object?> lookup in _lookups.Values)
+            foreach (ConcurrentDictionary<object, object?> lookup in _lookups.Values)
             {
                 if (lookup.TryGetValue(fkValueFromDisplay, out object? displayValue))
                 {
@@ -1037,7 +1037,7 @@ namespace Syncfusion.Blazor.Toolkit.Data
 
             return null;
         }
-        public int Compare(object x, object y)
+        public int Compare(object? x, object? y)
         {
             object? xDisplayValue = GetDisplayName(x);
             object? yDisplayValue = GetDisplayName(y);

@@ -39,7 +39,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts
         /// </code>
         /// </example>
         [Parameter]
-        public override string Color
+        public override string? Color
         {
             get => _color ?? base.Color;
             set

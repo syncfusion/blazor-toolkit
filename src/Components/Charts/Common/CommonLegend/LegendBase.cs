@@ -585,7 +585,6 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
         /// <returns>Computed start point for legend items.</returns>
         private ChartEventLocation SetupStartAndPagingMetrics(int firstLegend, out double textPadding, out string pointerValue)
         {
-            int count = 0;
             double x_Align = 0;
 
             if (!string.IsNullOrEmpty(Legend?.Width) && MaxRowWidth < LegendBounds.Width && !IsVertical)
