@@ -82,7 +82,23 @@ namespace Syncfusion.Blazor.Toolkit.Charts
         /// </code>
         /// </example>
         [Parameter]
+        [EditorRequired]
         public string PropertyName { get; set; } = null!;
+
+        /// <summary>
+        /// Gets the effective sort key (property name) currently in use by the chart.
+        /// Reads from the backing field so imperative updates via <see cref="SetSortKeyAndDirection"/>
+        /// or <see cref="ClearSortKey"/> are visible to renderers without mutating the
+        /// <see cref="PropertyName"/> parameter.
+        /// </summary>
+        internal string SortKey => _propertyName;
+
+        /// <summary>
+        /// Gets the effective sort direction currently in use by the chart.
+        /// Reads from the backing field so imperative updates via <see cref="SetSortKeyAndDirection"/>
+        /// are visible to renderers without mutating the <see cref="Direction"/> parameter.
+        /// </summary>
+        internal ListSortDirection SortDirection => _direction;
 
         #endregion
 
@@ -134,24 +150,25 @@ namespace Syncfusion.Blazor.Toolkit.Charts
 
         /// <summary>
         /// Sets the sort key and direction programmatically without triggering multiple refresh cycles.
+        /// Only updates the backing fields — the <see cref="PropertyName"/> and <see cref="Direction"/>
+        /// parameters are owned by the parent and are not mutated here.
         /// </summary>
         /// <param name="sortKey">The data member name used for sorting.</param>
         /// <param name="sortDirection">The desired <see cref="ListSortDirection"/>.</param>
         internal void SetSortKeyAndDirection(string sortKey, ListSortDirection sortDirection)
         {
             _propertyName = sortKey;
-            PropertyName = sortKey;
             _direction = sortDirection;
-            Direction = sortDirection;
         }
 
         /// <summary>
         /// Clears the configured sort key.
+        /// Only updates the backing field — the <see cref="PropertyName"/> parameter is owned by the
+        /// parent and is not mutated here.
         /// </summary>
         internal void ClearSortKey()
         {
             _propertyName = null!;
-            PropertyName = null!;
         }
 
         #endregion

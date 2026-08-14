@@ -29,14 +29,32 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
         #region Properties
 
         /// <summary>
-        /// Gets or sets a thread-safe cache of measured character sizes indexed by font characteristics.
+        /// Gets a process-wide, thread-safe cache of measured character sizes indexed by font characteristics.
         /// </summary>
-        internal static ConcurrentDictionary<string, Size> SizePerCharacter { get; set; } = new ConcurrentDictionary<string, Size>();
+        /// <remarks>
+        /// <para>
+        /// Glyph metrics for a given <c>(character, FontWeight, FontStyle, FontFamily)</c> tuple are deterministic
+        /// for the lifetime of the process (the JavaScript side measures the actual rendered glyph), so the cache
+        /// is shared across all circuits and chart instances on this process to avoid redundant JS interop.
+        /// </para>
+        /// <para>
+        /// Do NOT clear this cache on chart disposal: clearing on one chart's teardown would invalidate entries
+        /// still in use by every other live chart on the process, forcing them to re-measure. The cache is
+        /// intrinsically bounded by the set of characters &#215; font weights &#215; font styles &#215; font families
+        /// the process ever renders, which is small in practice.
+        /// </para>
+        /// </remarks>
+        internal static ConcurrentDictionary<string, Size> SizePerCharacter { get; } = new ConcurrentDictionary<string, Size>();
 
         /// <summary>
-        /// Gets or sets a list of cached font keys used for performance optimization.
+        /// Gets the set of font keys for which character sizes have already been requested from JavaScript.
         /// </summary>
-        internal static List<string> ChartFontKeys { get; set; } = new List<string>();
+        /// <remarks>
+        /// Mirrors <see cref="SizePerCharacter"/> keys minus the character prefix; used to short-circuit
+        /// duplicate JS-interop requests on the same circuit. See the remarks on <see cref="SizePerCharacter"/>
+        /// for why this is process-wide and not cleared per-chart.
+        /// </remarks>
+        internal static List<string> ChartFontKeys { get; } = new List<string>();
 
         /// <summary>
         /// Gets a read-only lookup table mapping characters to their approximate pixel widths.
@@ -2372,10 +2390,18 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
         /// <summary>
         /// Clears static font measurement caches.
         /// </summary>
+        /// <remarks>
+        /// Previously called from <c>SfChart.UnWireEventsAsync</c> on chart teardown. That call was removed:
+        /// clearing a process-wide cache from a single chart's disposal evicted entries still in use by every
+        /// other live chart on the process, forcing them to re-measure via JS interop. The cache is now left
+        /// in place for the lifetime of the process and is bounded by the (character &#215; font) tuple space.
+        /// </remarks>
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+        [System.ComponentModel.Browsable(false)]
         internal static void ClearStaticStorage()
         {
-            SizePerCharacter?.Clear();
-            ChartFontKeys?.Clear();
+            SizePerCharacter.Clear();
+            ChartFontKeys.Clear();
         }
 
         #endregion
