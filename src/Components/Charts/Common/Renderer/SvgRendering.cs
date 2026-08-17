@@ -170,11 +170,30 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
             renderTreeBuilder.AddAttribute(Seq++, "id", id);
             renderTreeBuilder.AddAttribute(Seq++, "transform", transform);
             renderTreeBuilder.AddAttribute(Seq++, "clip-path", clippath);
-            renderTreeBuilder.AddAttribute(Seq++, "tabindex", tabIndex);
-            renderTreeBuilder.AddAttribute(Seq++, "aria-label", accessText);
-            renderTreeBuilder.AddAttribute(Seq++, "aria-hidden", ariaHidden);
-            renderTreeBuilder.AddAttribute(Seq++, "data-point", dataPoints);
-            renderTreeBuilder.AddAttribute(Seq++, "role", role);
+            if (!string.IsNullOrEmpty(tabIndex))
+            {
+                renderTreeBuilder.AddAttribute(Seq++, "tabindex", tabIndex);
+            }
+
+            if (!string.IsNullOrEmpty(accessText))
+            {
+                renderTreeBuilder.AddAttribute(Seq++, "aria-label", accessText);
+            }
+
+            if (!string.IsNullOrEmpty(ariaHidden))
+            {
+                renderTreeBuilder.AddAttribute(Seq++, "aria-hidden", ariaHidden);
+            }
+
+            if (!string.IsNullOrEmpty(dataPoints))
+            {
+                renderTreeBuilder.AddAttribute(Seq++, "data-point", dataPoints);
+            }
+
+            if (!string.IsNullOrEmpty(role))
+            {
+                renderTreeBuilder.AddAttribute(Seq++, "role", role);
+            }
 
             if (!string.IsNullOrEmpty(svgStyleClass))
             {
