@@ -236,7 +236,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
             for (int j = 0, pointsLength = visiblePoints.Count; j < pointsLength; j++)
             {
                 double lastValue,
-                y_Value = (series.Container?._sorting.SortKey is not null) ? series.Renderer.Points?[j].YValue ?? 0 : double.IsNaN(series.Renderer.YData[j]) ? 0 : series.Renderer.YData[j],
+                y_Value = !string.IsNullOrEmpty(series.Container?._sorting.SortKey) ? series.Renderer.Points?[j].YValue ?? 0 : double.IsNaN(series.Renderer.YData[j]) ? 0 : series.Renderer.YData[j],
                 pos = visiblePoints[j].XValue;
                 if (!lastPositive[stackingGroup].TryGetValue(pos, out double _))
                 {
