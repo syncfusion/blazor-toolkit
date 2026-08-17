@@ -382,6 +382,7 @@ namespace Syncfusion.Blazor.Toolkit.Tests.Spinner
             // Assert
             var svgElement = spinner.Find("svg");
             Assert.Equal("0 0 30 30", svgElement.GetAttribute("viewBox"));
+            
             var style = svgElement.GetAttribute("style");
             Assert.Contains("--spinner-size: 30px", style);
             Assert.Contains("--spinner-thickness:", style);
