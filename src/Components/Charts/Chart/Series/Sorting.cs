@@ -26,7 +26,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts
     {
         #region Fields
 
-        private string _propertyName = null!;
+        private string _propertyName = string.Empty;
         private ListSortDirection _direction;
 
         #endregion
@@ -69,7 +69,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts
         /// Gets or sets the property name used as the sorting criterion.
         /// </summary>
         /// <value>
-        /// A <see cref="string"/> specifying the property name for sorting, such as the <c>X</c>, <c>Y</c>, <c>High</c>, <c>Low</c>, <c>Open</c>, <c>Close</c>, or <c>Size</c> fields in the chart's data source. The default value is <c>null</c>.
+        /// A <see cref="string"/> specifying the property name for sorting, such as the <c>X</c>, <c>Y</c>, <c>High</c>, <c>Low</c>, <c>Open</c>, <c>Close</c>, or <c>Size</c> fields in the chart's data source. The default value is <see cref="string.Empty"/>.
         /// </value>
         /// <remarks>
         /// This determines the field by which the chart data is sorted.
@@ -82,7 +82,23 @@ namespace Syncfusion.Blazor.Toolkit.Charts
         /// </code>
         /// </example>
         [Parameter]
-        public string PropertyName { get; set; } = null!;
+        [EditorRequired]
+        public string PropertyName { get; set; } = string.Empty;
+
+        /// <summary>
+        /// Gets the effective sort key (property name) currently in use by the chart.
+        /// Reads from the backing field so imperative updates via <see cref="SetSortKeyAndDirection"/>
+        /// or <see cref="ClearSortKey"/> are visible to renderers without mutating the
+        /// <see cref="PropertyName"/> parameter.
+        /// </summary>
+        internal string SortKey => _propertyName;
+
+        /// <summary>
+        /// Gets the effective sort direction currently in use by the chart.
+        /// Reads from the backing field so imperative updates via <see cref="SetSortKeyAndDirection"/>
+        /// are visible to renderers without mutating the <see cref="Direction"/> parameter.
+        /// </summary>
+        internal ListSortDirection SortDirection => _direction;
 
         #endregion
 
@@ -134,24 +150,25 @@ namespace Syncfusion.Blazor.Toolkit.Charts
 
         /// <summary>
         /// Sets the sort key and direction programmatically without triggering multiple refresh cycles.
+        /// Only updates the backing fields — the <see cref="PropertyName"/> and <see cref="Direction"/>
+        /// parameters are owned by the parent and are not mutated here.
         /// </summary>
         /// <param name="sortKey">The data member name used for sorting.</param>
         /// <param name="sortDirection">The desired <see cref="ListSortDirection"/>.</param>
         internal void SetSortKeyAndDirection(string sortKey, ListSortDirection sortDirection)
         {
             _propertyName = sortKey;
-            PropertyName = sortKey;
             _direction = sortDirection;
-            Direction = sortDirection;
         }
 
         /// <summary>
         /// Clears the configured sort key.
+        /// Only updates the backing field — the <see cref="PropertyName"/> parameter is owned by the
+        /// parent and is not mutated here.
         /// </summary>
         internal void ClearSortKey()
         {
-            _propertyName = null!;
-            PropertyName = null!;
+            _propertyName = string.Empty;
         }
 
         #endregion

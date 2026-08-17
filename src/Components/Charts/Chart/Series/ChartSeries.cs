@@ -380,6 +380,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts
         /// </code>
         /// </example>
         [Parameter]
+        [EditorRequired]
         public string XName { get; set; } = string.Empty;
 
         /// <summary>
@@ -423,6 +424,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts
         /// </code>
         /// </example>
         [Parameter]
+        [EditorRequired]
         public string YName { get; set; } = string.Empty;
 
         /// <summary>

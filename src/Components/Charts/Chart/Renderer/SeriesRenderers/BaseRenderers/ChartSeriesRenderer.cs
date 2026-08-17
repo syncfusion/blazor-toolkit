@@ -635,7 +635,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
                 return;
             }
 
-            bool isSortingEnabled = !string.IsNullOrEmpty(Owner?._sorting.PropertyName) && !Owner._sorting.PropertyName.Equals("X", StringComparison.OrdinalIgnoreCase);
+            bool isSortingEnabled = !string.IsNullOrEmpty(Owner?._sorting.SortKey) && !Owner._sorting.SortKey.Equals("X", StringComparison.OrdinalIgnoreCase);
 
             foreach (object data in currentViewData)
             {
@@ -659,7 +659,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
 
                 if (isSortingEnabled)
                 {
-                    FindExpandoObjectDataSortingValue(Owner?._sorting.PropertyName ?? null!, expandoData, point.X?.ToString() ?? string.Empty, point);
+                    FindExpandoObjectDataSortingValue(Owner?._sorting.SortKey ?? null!, expandoData, point.X?.ToString() ?? string.Empty, point);
                 }
                 index++;
             }
@@ -679,7 +679,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
                 return;
             }
 
-            bool isSortingEnabled = !string.IsNullOrEmpty(Owner?._sorting.PropertyName) && !Owner._sorting.PropertyName.Equals("X", StringComparison.OrdinalIgnoreCase);
+            bool isSortingEnabled = !string.IsNullOrEmpty(Owner?._sorting.SortKey) && !Owner._sorting.SortKey.Equals("X", StringComparison.OrdinalIgnoreCase);
 
             foreach (object data in currentViewData)
             {
@@ -699,7 +699,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
 
                 if (isSortingEnabled)
                 {
-                    FindDynamicObjectDataSortingValue(Owner?._sorting.PropertyName ?? string.Empty, dynamicObject ?? null!, point.X?.ToString() ?? string.Empty, point);
+                    FindDynamicObjectDataSortingValue(Owner?._sorting.SortKey ?? string.Empty, dynamicObject ?? null!, point.X?.ToString() ?? string.Empty, point);
                 }
                 index++;
             }
@@ -719,7 +719,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
                 return;
             }
 
-            bool isSortingEnabled = !string.IsNullOrEmpty(Owner?._sorting.PropertyName) && !Owner._sorting.PropertyName.Equals("X", StringComparison.OrdinalIgnoreCase);
+            bool isSortingEnabled = !string.IsNullOrEmpty(Owner?._sorting.SortKey) && !Owner._sorting.SortKey.Equals("X", StringComparison.OrdinalIgnoreCase);
 
             foreach (object data in currentViewData.ToArray())
             {
@@ -740,7 +740,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
                     SetEmptyPoint(point, chartPoint, index, firstDataType);
                     if (isSortingEnabled)
                     {
-                        FindJObjectDataSortingValue(Owner?._sorting.PropertyName ?? string.Empty, jsonObject, point.X.ToString() ?? string.Empty, point);
+                        FindJObjectDataSortingValue(Owner?._sorting.SortKey ?? string.Empty, jsonObject, point.X.ToString() ?? string.Empty, point);
                     }
                     index++;
                 }
@@ -762,14 +762,14 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
             using IPropertyAccessor pointColor = FastReflectionExtension.CreateAccessor(firstDataType, Series.PointColorMapping);
             using IPropertyAccessor textMapping = FastReflectionExtension.CreateAccessor(firstDataType, GetTextMapping());
             using IPropertyAccessor tooltipMapping = FastReflectionExtension.CreateAccessor(firstDataType, Series.TooltipMappingName);
-            using IPropertyAccessor sortingInfo = FastReflectionExtension.CreateAccessor(firstDataType, Owner._sorting.PropertyName);
+            using IPropertyAccessor sortingInfo = FastReflectionExtension.CreateAccessor(firstDataType, Owner._sorting.SortKey);
 
             int index = 0;
             XAxisRenderer.IsDateOnly = x.PropertyInfo.PropertyType.Name == "DateOnly";
             XAxisRenderer.IsTimeOnly = x.PropertyInfo.PropertyType.Name == "TimeOnly";
             IsDateTimeOffset = x.PropertyInfo.PropertyType.Name == "DateTimeOffset";
 
-            bool isSortingEnabled = !string.IsNullOrEmpty(Owner?._sorting.PropertyName) && !Owner._sorting.PropertyName.Equals("X", StringComparison.OrdinalIgnoreCase);
+            bool isSortingEnabled = !string.IsNullOrEmpty(Owner?._sorting.SortKey) && !Owner._sorting.SortKey.Equals("X", StringComparison.OrdinalIgnoreCase);
             object[] tempArray = [.. currentViewData];
             XData = new double[tempArray.Length].ToList();
 
@@ -840,7 +840,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
         /// </summary>
         protected virtual bool IsPointValueMapped<T>(T point, out double sortValue)
         {
-            string sortKey = Owner?._sorting.PropertyName.ToUpperInvariant() ?? string.Empty;
+            string sortKey = Owner?._sorting.SortKey.ToUpperInvariant() ?? string.Empty;
             sortValue = 0.0;
             if (sortKey == "Y")
             {
@@ -861,7 +861,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
             }
             else
             {
-                object sortObject = sortingInfo?.PropertyInfo is not null ? sortingInfo.GetValue(data) : GetPropertyValue(data, Owner?._sorting.PropertyName ?? string.Empty);
+                object sortObject = sortingInfo?.PropertyInfo is not null ? sortingInfo.GetValue(data) : GetPropertyValue(data, Owner?._sorting.SortKey ?? string.Empty);
                 double sortValue = (sortObject is not null) ? Convert.ToDouble(sortObject, null) : 0;
                 FindSumOfSameIndex(FindSeriesAxisKey() + x, sortValue, false);
             }
