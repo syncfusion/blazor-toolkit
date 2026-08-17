@@ -109,7 +109,7 @@ namespace Syncfusion.Blazor.Toolkit.Buttons
         /// <remarks>
         /// Primary buttons highlight important actions in the UI using distinctive styling.
         /// <para>This property is <c>virtual</c> to allow derived components to override the default behavior.
-        /// <see cref="SfFab"/> overrides this property to return <c>true</c> by default, reflecting the
+        /// The <c>SfFab</c> component overrides this property to return <c>true</c> by default, reflecting the
         /// FAB design convention of always rendering as a primary action button.</para>
         /// </remarks>
         /// <example>

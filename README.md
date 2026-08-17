@@ -100,6 +100,15 @@ For full details on commit style, PR requirements, and review criteria, see the 
 - [Syncfusion Blazor Toolkit Documentation](https://blazor.syncfusion.com/documentation/toolkit/overview) (in active development — contributor-focused docs in [DEVELOPMENT.md](./.github/DEVELOPMENT.md))
 - [Development Guide](./.github/DEVELOPMENT.md)
 
+## Framework Compatibility
+
+| .NET Version | Blazor Server | Blazor WebAssembly | Blazor Auto | Support Policy |
+|---|:---:|:---:|:---:|---|
+| .NET 8 | ✅ | ✅ | ✅ | LTS — [see .NET support policy](https://dotnet.microsoft.com/en-us/platform/support/policy/dotnet-core) |
+| .NET 9 | ✅ | ✅ | ✅ | STS — [see .NET support policy](https://dotnet.microsoft.com/en-us/platform/support/policy/dotnet-core) |
+| .NET 10 | ✅ | ✅ | ✅ | LTS — [see .NET support policy](https://dotnet.microsoft.com/en-us/platform/support/policy/dotnet-core) |
+
+
 ## Components
 
 | Category | Control | Description |

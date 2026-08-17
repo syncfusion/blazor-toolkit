@@ -6,7 +6,7 @@ namespace Syncfusion.Blazor.Toolkit.Inputs
     /// <remarks>
     /// <para>This event is triggered after the value has been changed and the component has lost focus.</para>
     /// </remarks>
-    public class ChangedEventArgs
+    public class ChangedEventArgs : EventArgs
     {
         /// <summary>
         /// Gets or sets the event parameters from the TextBox component.
@@ -47,7 +47,7 @@ namespace Syncfusion.Blazor.Toolkit.Inputs
     /// <remarks>
     /// <para>This event is triggered when the user clicks on the TextBox or navigates to it using keyboard navigation (Tab key).</para>
     /// </remarks>
-    public class FocusInEventArgs
+    public class FocusInEventArgs : EventArgs
     {
         /// <summary>
         /// Gets or sets the event parameters from the TextBox component.
@@ -75,7 +75,7 @@ namespace Syncfusion.Blazor.Toolkit.Inputs
     /// <remarks>
     /// <para>This event is triggered when the user clicks outside the TextBox or navigates away from it using keyboard navigation.</para>
     /// </remarks>
-    public class FocusOutEventArgs
+    public class FocusOutEventArgs : EventArgs
     {
         /// <summary>
         /// Gets or sets the event parameters from the TextBox component.
@@ -103,7 +103,7 @@ namespace Syncfusion.Blazor.Toolkit.Inputs
     /// <remarks>
     /// <para>This event is triggered while the user is typing, providing immediate feedback for each character entered or deleted.</para>
     /// </remarks>
-    public class InputEventArgs
+    public class InputEventArgs : EventArgs
     {
         /// <summary>
         /// Gets or sets the event parameters from the TextBox component.

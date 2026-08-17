@@ -6,6 +6,7 @@ using System.ComponentModel;
 using Microsoft.AspNetCore.Components.Forms;
 using Microsoft.Extensions.Localization;
 using System.Collections.ObjectModel;
+using System.Diagnostics.CodeAnalysis;
 
 namespace Syncfusion.Blazor.Toolkit.Inputs
 {
@@ -963,8 +964,11 @@ namespace Syncfusion.Blazor.Toolkit.Inputs
             else
             {
                 ContainerClass = ContainerClass.Replace(DISABLE, string.Empty, StringComparison.Ordinal);
-                InputHtmlAttributes[CLASS] = InputHtmlAttributes[CLASS].ToString()!.Replace(DISABLE, string.Empty, StringComparison.Ordinal);
-                InputHtmlAttributes.Remove(DISABLEDATTRIBUTE);
+                // Read the existing class attribute as a string, strip the DISABLE token, then write it back.
+                // The intermediate string local avoids the chained LHS indexer GET whose value would be discarded.
+                string currentClass = (InputHtmlAttributes.TryGetValue(CLASS, out object? classValue) ? classValue?.ToString() : string.Empty)!.Replace(DISABLE, string.Empty, StringComparison.Ordinal);
+                InputHtmlAttributes[CLASS] = currentClass;
+                _ = InputHtmlAttributes.Remove(DISABLEDATTRIBUTE);
                 InputHtmlAttributes = SfBaseUtils.UpdateDictionary(ARIADISABLED, "false", InputHtmlAttributes);
             }
         }
@@ -1149,7 +1153,10 @@ namespace Syncfusion.Blazor.Toolkit.Inputs
         /// <para>Supported types include all standard .NET numeric types (Int32, Int64, Single, Double, Decimal, etc.) including their nullable versions.</para>
         /// </remarks>
         [EditorBrowsable(EditorBrowsableState.Never)]
-        internal static T GetNumericValue<T>(string property)
+        // T is a well-known primitive numeric value type (int, decimal, double, ...) accessed via reflection only in the fallback arm
+        // for type names that do not match the explicit cases above. In practice, T is always one of those explicit cases,
+        // and the MinValue/MaxValue public fields of BCL primitive types are never trimmed.
+        internal static T GetNumericValue<[DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicFields)] T>(string property)
         {
             Type? propertyType = typeof(T);
             bool isNullable = propertyType.IsGenericType && propertyType.GetGenericTypeDefinition() == typeof(Nullable<>);
@@ -1276,8 +1283,9 @@ namespace Syncfusion.Blazor.Toolkit.Inputs
             }
             else
             {
-                InputHtmlAttributes.Remove(READONLY);
-                InputHtmlAttributes.Remove(ARIA_READONLY);
+                // Remove returns bool; discard is intentional because the dictionary mutation is the side-effect.
+                _ = InputHtmlAttributes.Remove(READONLY);
+                _ = InputHtmlAttributes.Remove(ARIA_READONLY);
             }
         }
 
@@ -1297,7 +1305,8 @@ namespace Syncfusion.Blazor.Toolkit.Inputs
         {
             if (BaseFloatLabelType is FloatLabelType.Auto or FloatLabelType.Always)
             {
-                InputHtmlAttributes.Remove(PLACE_HOLDER);
+                // Remove returns bool; discard is intentional because the dictionary mutation is the side-effect.
+                _ = InputHtmlAttributes.Remove(PLACE_HOLDER);
             }
 
             if (BaseFloatLabelType == FloatLabelType.Auto && !ContainerClass.Contains(INPUTFOCUS, StringComparison.Ordinal) && !IsFocused)
@@ -1328,7 +1337,8 @@ namespace Syncfusion.Blazor.Toolkit.Inputs
             {
                 foreach (KeyValuePair<string, object> attr in BaseInputAttributes)
                 {
-                    SfBaseUtils.UpdateDictionary(attr.Key, attr.Value, InputHtmlAttributes);
+                    // UpdateDictionary mutates the dictionary in-place and returns it; discard the return value.
+                    _ = SfBaseUtils.UpdateDictionary(attr.Key, attr.Value, InputHtmlAttributes);
                 }
             }
         }

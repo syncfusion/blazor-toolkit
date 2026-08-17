@@ -343,7 +343,7 @@ namespace Syncfusion.Blazor.Toolkit.Popups
         {
             if (Parent is not null)
             {
-                Parent.Buttons.Remove(this);
+                _ = Parent.Buttons.Remove(this);
                 List<DialogButton> btns = Parent.Buttons;
                 if (btns is not null)
                 {

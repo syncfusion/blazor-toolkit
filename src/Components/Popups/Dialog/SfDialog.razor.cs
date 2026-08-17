@@ -56,7 +56,7 @@ namespace Syncfusion.Blazor.Toolkit.Popups
         /// <exclude />
         private string _dialogClass = "e-dialog e-lib e-blazor-hidden";
         /// <exclude />
-        private Dictionary<string, object> _changedProps = [];
+        private readonly Dictionary<string, object> _changedProps = [];
         /// <exclude />
         private Dictionary<string, object> _dialogAttribute = [];
         /// <exclude />
@@ -87,8 +87,8 @@ namespace Syncfusion.Blazor.Toolkit.Popups
         /// <exclude />
         internal IJSInProcessObjectReference? _resizeJsInModule;
 
-        [Inject]
         /// <exclude />
+        [Inject]
         internal ILogger<SfDialog> Logger { get; set; } = default!;
         #endregion
 
@@ -250,7 +250,7 @@ namespace Syncfusion.Blazor.Toolkit.Popups
         /// </summary>
         /// <param name="resizeDirection">The resize direction to map.</param>
         /// <returns>The string representation of the resize direction.</returns>
-        private string MapResizeDirectionToString(ResizeDirection resizeDirection)
+        private static string MapResizeDirectionToString(ResizeDirection resizeDirection)
         {
             return resizeDirection switch
             {
@@ -620,7 +620,7 @@ namespace Syncfusion.Blazor.Toolkit.Popups
         /// <param name="action">The action that triggered the close operation.</param>
         /// <param name="args">The optional event arguments.</param>
         /// <returns>The prepared <see cref="BeforeCloseEventArgs"/>.</returns>
-        private BeforeCloseEventArgs PrepareCloseEvent(string? action, BeforeCloseEventArgs? args)
+        private static BeforeCloseEventArgs PrepareCloseEvent(string? action, BeforeCloseEventArgs? args)
         {
             return new BeforeCloseEventArgs()
             {

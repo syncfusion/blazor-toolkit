@@ -92,7 +92,7 @@ namespace Syncfusion.Blazor.Toolkit.Inputs
             if (LabelPosition == LabelPosition.Before && shouldApplyRtl)
             {
                 _labelClass = Right + Space + Rtl;
-            } 
+            }
             else if (shouldApplyRtl)
             {
                 _labelClass = Rtl;

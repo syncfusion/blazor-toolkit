@@ -1,9 +1,8 @@
+using System.Globalization;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Web;
 using Microsoft.Extensions.Logging;
 using Microsoft.JSInterop;
-using System.Globalization;
-using Syncfusion.Blazor.Toolkit;
 
 namespace Syncfusion.Blazor.Toolkit.Inputs
 {
@@ -515,9 +514,16 @@ namespace Syncfusion.Blazor.Toolkit.Inputs
                 await UpdateCheckedStateAsync(next).ConfigureAwait(false);
                 await PersistAndNotifyAsync(args).ConfigureAwait(false);
             }
-            catch (Exception ex)
+            catch (Exception ex) when (Logger is not null)
             {
+                // Logger is wired up: capture the exception for diagnostics and prevent the failure
+                // from surfacing to Blazor's error boundary (which would tear down the circuit).
                 _logErrorProcessingClick(Logger, ex);
+            }
+            catch (Exception)
+            {
+                // No logger is configured: rethrow so the developer is alerted to the failure.
+                throw;
             }
         }
 
@@ -545,7 +551,7 @@ namespace Syncfusion.Blazor.Toolkit.Inputs
                 if (_inputAttributes is not null && _inputAttributes.TryGetValue(AriaLabelAttribute, out object? ariaLabel))
                 {
                     _labelAttributes = new() { { AriaLabelAttribute, ariaLabel } };
-                    _inputAttributes.Remove(AriaLabelAttribute);
+                    _ = _inputAttributes.Remove(AriaLabelAttribute);
                 }
                 else if (_labelAttributes.Count == 0)
                 {
@@ -555,7 +561,7 @@ namespace Syncfusion.Blazor.Toolkit.Inputs
             }
 
             // Determine initial visual state
-            TryConvertToBool(Checked, out bool? state);
+            _ = TryConvertToBool(Checked, out bool? state);
             bool isChecked = state.GetValueOrDefault(false);
             UpdateVisualState(isChecked ? CheckboxState.Checked : CheckboxState.Unchecked);
 
@@ -592,7 +598,7 @@ namespace Syncfusion.Blazor.Toolkit.Inputs
                 // Remove onchange attribute if not explicitly set by user
                 if (_inputAttributes is not null && _inputAttributes.ContainsKey(OnChangeAttribute) && !HasOnChangeEvent)
                 {
-                    _inputAttributes.Remove(OnChangeAttribute);
+                    _ = _inputAttributes.Remove(OnChangeAttribute);
                 }
             }
 
@@ -633,6 +639,24 @@ namespace Syncfusion.Blazor.Toolkit.Inputs
                 LogLevel.Error,
                 new EventId(1004, nameof(_logErrorDuringPersistenceOrNotify)),
                 "Error during persistence or ValueChange notification.");
+
+        private static readonly Action<ILogger, Exception?> _logErrorApplyingPersistedCheckedState =
+            LoggerMessage.Define(
+                LogLevel.Error,
+                new EventId(1005, nameof(_logErrorApplyingPersistedCheckedState)),
+                "Error applying persisted checked state in OnAfterRenderAsync.");
+
+        private static readonly Action<ILogger, Exception?> _logErrorInitializingCheckBoxInterop =
+            LoggerMessage.Define(
+                LogLevel.Error,
+                new EventId(1006, nameof(_logErrorInitializingCheckBoxInterop)),
+                "Error initializing CheckBox interop in OnAfterScriptRendered.");
+
+        private static readonly Action<ILogger, Exception?> _logErrorDestroyingCheckBoxInterop =
+            LoggerMessage.Define(
+                LogLevel.Error,
+                new EventId(1007, nameof(_logErrorDestroyingCheckBoxInterop)),
+                "Error destroying CheckBox interop in DisposeAsyncCore.");
     }
 }
 

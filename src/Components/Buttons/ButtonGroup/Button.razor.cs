@@ -26,12 +26,6 @@ namespace Syncfusion.Blazor.Toolkit.Buttons
         #region Fields
         /// <exclude />
         /// <summary>
-        /// Tracks whether the button has been clicked at least once.
-        /// </summary>
-        private bool _isFirstClick = true;
-
-        /// <exclude />
-        /// <summary>
         /// Internal backing field for the selected state used during two-way binding updates.
         /// </summary>
         private bool _selected;

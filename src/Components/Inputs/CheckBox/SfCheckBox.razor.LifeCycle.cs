@@ -1,5 +1,4 @@
-﻿using Microsoft.Extensions.Logging;
-using Microsoft.JSInterop;
+﻿using Microsoft.JSInterop;
 using System.Globalization;
 
 namespace Syncfusion.Blazor.Toolkit.Inputs
@@ -42,9 +41,16 @@ namespace Syncfusion.Blazor.Toolkit.Inputs
                     bool isChecked = Convert.ToBoolean(Checked, CultureInfo.InvariantCulture);
                     UpdateVisualState(isChecked ? CheckboxState.Checked : CheckboxState.Unchecked);
                 }
-                catch (Exception ex)
+                catch (Exception ex) when (Logger is not null)
                 {
-                    Logger?.LogError(ex, "Error applying persisted checked state in OnAfterRenderAsync.");
+                    // Logger is wired up: capture the exception for diagnostics and prevent the failure
+                    // from surfacing to Blazor's error boundary (which would tear down the circuit).
+                    _logErrorApplyingPersistedCheckedState(Logger, ex);
+                }
+                catch (Exception)
+                {
+                    // No logger is configured: rethrow so the developer is alerted to the failure.
+                    throw;
                 }
             }
         }
@@ -73,11 +79,18 @@ namespace Syncfusion.Blazor.Toolkit.Inputs
             await base.OnAfterScriptRenderedAsync().ConfigureAwait(true);
             try
             {
-                await InvokeVoidAsync(_checkBoxJsModule!, _checkBoxInProcessModule!, "initialize", _input, _container).ConfigureAwait(true);
+                await InvokeVoidAsync(_checkBoxJsModule, _checkBoxInProcessModule, "initialize", _input, _container).ConfigureAwait(true);
             }
-            catch (Exception ex)
+            catch (Exception ex) when (Logger is not null)
             {
-                Logger?.LogError(ex, "Error initializing CheckBox interop in OnAfterScriptRendered.");
+                // Logger is wired up: capture the exception for diagnostics and prevent the failure
+                // from surfacing to Blazor's error boundary (which would tear down the circuit).
+                _logErrorInitializingCheckBoxInterop(Logger, ex);
+            }
+            catch (Exception)
+            {
+                // No logger is configured: rethrow so the developer is alerted to the failure.
+                throw;
             }
         }
 
@@ -98,9 +111,16 @@ namespace Syncfusion.Blazor.Toolkit.Inputs
                 {
                     await InvokeVoidAsync(_checkBoxJsModule, _checkBoxInProcessModule, "destroy", _input).ConfigureAwait(false);
                 }
-                catch (Exception ex)
+                catch (Exception ex) when (Logger is not null)
                 {
-                    Logger?.LogError(ex, "Error destroying CheckBox interop in DisposeAsyncCore.");
+                    // Logger is wired up: capture the exception for diagnostics and prevent the failure
+                    // from surfacing to Blazor's error boundary (which would tear down the circuit).
+                    _logErrorDestroyingCheckBoxInterop(Logger, ex);
+                }
+                catch (Exception)
+                {
+                    // No logger is configured: rethrow so the developer is alerted to the failure.
+                    throw;
                 }
             }
             try

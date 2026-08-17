@@ -1,9 +1,6 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk.Razor">
 
   <PropertyGroup>
-	<!-- Active when sf.snk is present; CI decodes it from STRONG_NAME_KEY_BASE64 secret. -->
-	<SignAssembly Condition="Exists('sf.snk')">true</SignAssembly>
-	<AssemblyOriginatorKeyFile>sf.snk</AssemblyOriginatorKeyFile>
 	<!-- NuGet package metadata and assembly (DLL) properties -->
 	<Version>1.0.0</Version>
 	<PackageId>Syncfusion.Blazor.Toolkit</PackageId>

@@ -136,6 +136,8 @@ namespace Syncfusion.Blazor.Toolkit.Spinner
         /// <exclude />
         [Inject]
         private ILogger<SfSpinner>? Logger { get; set; }
+
+        private static readonly Action<ILogger, Exception?> _logInvokeDestroyedError = LoggerMessage.Define(LogLevel.Error, new EventId(3001, "InvokeDestroyedError"), "Error invoking Destroyed event");
         #endregion
 
         #region Helper Methods
@@ -351,7 +353,10 @@ namespace Syncfusion.Blazor.Toolkit.Spinner
             }
             catch (ObjectDisposedException ex)
             {
-                Logger?.LogError(ex, "Error invoking Destroyed event");
+                if (Logger is not null)
+                {
+                    _logInvokeDestroyedError(Logger, ex);
+                }
             }
         }
         #endregion

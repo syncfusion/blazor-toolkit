@@ -83,7 +83,7 @@ namespace Syncfusion.Blazor.Toolkit.Buttons
         /// Gets or sets the selection mode of the <see cref="SfButtonGroup"/>.
         /// </summary>
         /// <value>
-        /// One of the <see cref="SelectionMode"/> enumeration values. The default value is <see cref="SelectionMode.Default"/>.
+        /// One of the <see cref="SelectionMode"/> enumeration values. The default value is <see cref="SelectionMode.None"/>.
         /// </value>
         /// <remarks>
         /// The selection mode determines how buttons are selected within the group:
