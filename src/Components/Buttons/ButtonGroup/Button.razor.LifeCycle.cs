@@ -37,10 +37,6 @@ namespace Syncfusion.Blazor.Toolkit.Buttons
             _buttonSelected = Selected;
             InputId = SfBaseUtils.GenerateID("SfButtonGroup");
             ButtonGroup?.UpdateChildProperty(this);
-            if (Selected)
-            {
-                _isFirstClick = false;
-            }
         }
 
         /// <exclude />

@@ -10,6 +10,11 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
     {
         #region Fields
         private string _cursorStyle = "cursor:move";
+
+        /// <summary>
+        /// Inline style applied to the close-icon &lt;g&gt;. Pointer cursor is fixed for a dismiss button.
+        /// </summary>
+        private const string _closeCursorStyle = "cursor:pointer";
         private CultureInfo _culture = CultureInfo.InvariantCulture;
         internal bool _isDrawCloseIcon;
         #endregion

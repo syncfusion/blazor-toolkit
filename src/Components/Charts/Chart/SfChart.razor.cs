@@ -1295,7 +1295,6 @@ namespace Syncfusion.Blazor.Toolkit.Charts
         {
             if (IsRendered && !IsDisposed)
             {
-                ChartHelper.ClearStaticStorage();
                 await InvokeVoidAsync(_chartJsModule!, _chartJsInProcessModule!, "destroy", [_dataId]).ConfigureAwait(true);
                 await WindowInstanceDisposeAsync(_dataId).ConfigureAwait(true);
             }

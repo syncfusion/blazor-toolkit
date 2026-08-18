@@ -107,7 +107,7 @@
 			{
 				@if (icon.Position == position)
 				{
-					<span @attributes="icon._events" class="@(GROUPICON + SPACE + icon.Icon)"></span>
+					<span @key="icon" @attributes="icon._events" class="@(GROUPICON + SPACE + icon.Icon)"></span>
 				}
 			}
 		}

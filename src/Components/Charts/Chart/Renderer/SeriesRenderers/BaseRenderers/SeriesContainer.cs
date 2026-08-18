@@ -118,28 +118,28 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
 
             if (seriesRenderer.XAxisRenderer.Axis?.ValueType == ValueType.DateTimeCategory)
             {
-                if (Owner?._sorting.Direction == ListSortDirection.Descending)
+                if (Owner?._sorting.SortDirection == ListSortDirection.Descending)
                 {
-                    sortedPoints = (!Owner._sorting.PropertyName.Equals("X", StringComparison.OrdinalIgnoreCase)) ? seriesRenderer.Points?.OrderByDescending(y => y.SumOfSameIndex).ToList() : seriesRenderer.Points?.OrderByDescending(y => ChartHelper.GetTime(Convert.ToDateTime(y.X, CultureInfo.InvariantCulture))).ToList();
-                    seriesRenderer.ChartPoints = (!Owner._sorting.PropertyName.Equals("X", StringComparison.OrdinalIgnoreCase)) ? seriesRenderer.ChartPoints?.OrderByDescending(y => y.SumOfSameIndex).ToList() : seriesRenderer.ChartPoints?.OrderByDescending(y => ChartHelper.GetTime(Convert.ToDateTime(y.X, CultureInfo.InvariantCulture))).ToList();
+                    sortedPoints = (!Owner._sorting.SortKey.Equals("X", StringComparison.OrdinalIgnoreCase)) ? seriesRenderer.Points?.OrderByDescending(y => y.SumOfSameIndex).ToList() : seriesRenderer.Points?.OrderByDescending(y => ChartHelper.GetTime(Convert.ToDateTime(y.X, CultureInfo.InvariantCulture))).ToList();
+                    seriesRenderer.ChartPoints = (!Owner._sorting.SortKey.Equals("X", StringComparison.OrdinalIgnoreCase)) ? seriesRenderer.ChartPoints?.OrderByDescending(y => y.SumOfSameIndex).ToList() : seriesRenderer.ChartPoints?.OrderByDescending(y => ChartHelper.GetTime(Convert.ToDateTime(y.X, CultureInfo.InvariantCulture))).ToList();
                 }
                 else
                 {
-                    sortedPoints = (Owner is not null && !Owner._sorting.PropertyName.Equals("X", StringComparison.OrdinalIgnoreCase)) ? seriesRenderer.Points?.OrderBy(y => y.SumOfSameIndex).ToList() : seriesRenderer.Points?.OrderBy(y => ChartHelper.GetTime(Convert.ToDateTime(y.X, CultureInfo.InvariantCulture))).ToList();
-                    seriesRenderer.ChartPoints = (Owner is not null && !Owner._sorting.PropertyName.Equals("X", StringComparison.OrdinalIgnoreCase)) ? seriesRenderer.ChartPoints?.OrderBy(y => y.SumOfSameIndex).ToList() : seriesRenderer.ChartPoints?.OrderBy(y => ChartHelper.GetTime(Convert.ToDateTime(y.X, CultureInfo.InvariantCulture))).ToList();
+                    sortedPoints = (Owner is not null && !Owner._sorting.SortKey.Equals("X", StringComparison.OrdinalIgnoreCase)) ? seriesRenderer.Points?.OrderBy(y => y.SumOfSameIndex).ToList() : seriesRenderer.Points?.OrderBy(y => ChartHelper.GetTime(Convert.ToDateTime(y.X, CultureInfo.InvariantCulture))).ToList();
+                    seriesRenderer.ChartPoints = (Owner is not null && !Owner._sorting.SortKey.Equals("X", StringComparison.OrdinalIgnoreCase)) ? seriesRenderer.ChartPoints?.OrderBy(y => y.SumOfSameIndex).ToList() : seriesRenderer.ChartPoints?.OrderBy(y => ChartHelper.GetTime(Convert.ToDateTime(y.X, CultureInfo.InvariantCulture))).ToList();
                 }
             }
             else
             {
-                if (Owner?._sorting.Direction == ListSortDirection.Descending)
+                if (Owner?._sorting.SortDirection == ListSortDirection.Descending)
                 {
-                    sortedPoints = (!Owner._sorting.PropertyName.Equals("X", StringComparison.OrdinalIgnoreCase)) ? seriesRenderer.Points?.OrderByDescending(y => y.SumOfSameIndex).ToList() : seriesRenderer.Points?.OrderByDescending(y => y.X.ToString()).ToList();
-                    seriesRenderer.ChartPoints = (!Owner._sorting.PropertyName.Equals("X", StringComparison.OrdinalIgnoreCase)) ? seriesRenderer.ChartPoints?.OrderByDescending(y => y.SumOfSameIndex).ToList() : seriesRenderer.ChartPoints?.OrderByDescending(y => y.X.ToString()).ToList();
+                    sortedPoints = (!Owner._sorting.SortKey.Equals("X", StringComparison.OrdinalIgnoreCase)) ? seriesRenderer.Points?.OrderByDescending(y => y.SumOfSameIndex).ToList() : seriesRenderer.Points?.OrderByDescending(y => y.X.ToString()).ToList();
+                    seriesRenderer.ChartPoints = (!Owner._sorting.SortKey.Equals("X", StringComparison.OrdinalIgnoreCase)) ? seriesRenderer.ChartPoints?.OrderByDescending(y => y.SumOfSameIndex).ToList() : seriesRenderer.ChartPoints?.OrderByDescending(y => y.X.ToString()).ToList();
                 }
                 else
                 {
-                    sortedPoints = (Owner is not null && !Owner._sorting.PropertyName.Equals("X", StringComparison.OrdinalIgnoreCase)) ? seriesRenderer.Points?.OrderBy(y => y.SumOfSameIndex).ToList() : seriesRenderer.Points?.OrderBy(y => y.X.ToString()).ToList();
-                    seriesRenderer.ChartPoints = (Owner is not null && !Owner._sorting.PropertyName.Equals("X", StringComparison.OrdinalIgnoreCase)) ? seriesRenderer.ChartPoints?.OrderBy(y => y.SumOfSameIndex).ToList() : seriesRenderer.ChartPoints?.OrderBy(y => y.X.ToString()).ToList();
+                    sortedPoints = (Owner is not null && !Owner._sorting.SortKey.Equals("X", StringComparison.OrdinalIgnoreCase)) ? seriesRenderer.Points?.OrderBy(y => y.SumOfSameIndex).ToList() : seriesRenderer.Points?.OrderBy(y => y.X.ToString()).ToList();
+                    seriesRenderer.ChartPoints = (Owner is not null && !Owner._sorting.SortKey.Equals("X", StringComparison.OrdinalIgnoreCase)) ? seriesRenderer.ChartPoints?.OrderBy(y => y.SumOfSameIndex).ToList() : seriesRenderer.ChartPoints?.OrderBy(y => y.X.ToString()).ToList();
                 }
             }
 
@@ -236,7 +236,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
             for (int j = 0, pointsLength = visiblePoints.Count; j < pointsLength; j++)
             {
                 double lastValue,
-                y_Value = (series.Container?._sorting.PropertyName is not null) ? series.Renderer.Points?[j].YValue ?? 0 : double.IsNaN(series.Renderer.YData[j]) ? 0 : series.Renderer.YData[j],
+                y_Value = !string.IsNullOrEmpty(series.Container?._sorting.SortKey) ? series.Renderer.Points?[j].YValue ?? 0 : double.IsNaN(series.Renderer.YData[j]) ? 0 : series.Renderer.YData[j],
                 pos = visiblePoints[j].XValue;
                 if (!lastPositive[stackingGroup].TryGetValue(pos, out double _))
                 {
@@ -340,7 +340,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
                             frequencies[stackingGroup].Add(xVal, 0);
                         }
 
-                        if (!string.IsNullOrEmpty(series.Container?._sorting.PropertyName))
+                        if (!string.IsNullOrEmpty(series.Container?._sorting.SortKey))
                         {
                             frequencies[stackingGroup][xVal] += (Convert.ToDouble(series.Renderer.Points?[j].Y, CultureInfo.InvariantCulture) > 0 ? 1 : -1) * Convert.ToDouble(series.Renderer.Points?[j].Y, CultureInfo.InvariantCulture);
                         }
@@ -840,9 +840,9 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
                 {
                     seriesRenderer.SetCurrentViewData(_data);
 
-                    if (!string.IsNullOrEmpty(Owner?._sorting.PropertyName) && seriesRenderer.XAxisRenderer.Axis?.ValueType == ValueType.Double)
+                    if (!string.IsNullOrEmpty(Owner?._sorting.SortKey) && seriesRenderer.XAxisRenderer.Axis?.ValueType == ValueType.Double)
                     {
-                        seriesRenderer.XAxisRenderer.Axis.SetIsInversed(Owner._sorting.Direction == ListSortDirection.Descending);
+                        seriesRenderer.XAxisRenderer.Axis.SetIsInversed(Owner._sorting.SortDirection == ListSortDirection.Descending);
                     }
 
                     seriesRenderer.ProcessData();
@@ -865,7 +865,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
         /// </summary>
         internal void Sorting()
         {
-            if (string.IsNullOrEmpty(Owner?._sorting.PropertyName))
+            if (string.IsNullOrEmpty(Owner?._sorting.SortKey))
             {
                 return;
             }

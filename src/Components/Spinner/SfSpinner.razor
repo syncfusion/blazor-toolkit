@@ -7,7 +7,7 @@
      role="status"
      aria-busy="@_enableRender.ToString().ToLower()">
     <div class="@SpinnerInnerClass">
-        <CascadingValue Value="@this">
+        <CascadingValue Value="@this" IsFixed="true">
             @ChildContent
             @if (_enableRender)
             {

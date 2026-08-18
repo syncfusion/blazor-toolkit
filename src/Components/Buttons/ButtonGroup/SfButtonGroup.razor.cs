@@ -53,8 +53,8 @@ namespace Syncfusion.Blazor.Toolkit.Buttons
         /// Child components register automatically during initialization. For testing or advanced scenarios you can register
         /// a button instance manually:
         /// <code><![CDATA[
-        /// var group = new SfButtonGroup();
-        /// var button = new Button();
+        /// SfButtonGroup group = new();
+        /// Button button = new();
         /// group.UpdateChildProperty(button);
         /// ]]></code>
         /// </example>
@@ -89,10 +89,7 @@ namespace Syncfusion.Blazor.Toolkit.Buttons
                 return;
             }
 
-            if (_buttonItems.Contains(button))
-            {
-                _buttonItems.Remove(button);
-            }
+            _ = _buttonItems.Remove(button);
         }
 
         /// <exclude />
@@ -111,7 +108,7 @@ namespace Syncfusion.Blazor.Toolkit.Buttons
                 return;
             }
 
-            foreach (var item in _buttonItems)
+            foreach (Button item in _buttonItems)
             {
                 if (!SfBaseUtils.Equals(item, except) && item.Selected)
                 {

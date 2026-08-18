@@ -7,7 +7,7 @@
 @code {
     private RenderFragment DialogInner => __builder =>
     {
-        <CascadingValue Value="@this">
+        <CascadingValue Value="@this" IsFixed="true">
             @if (IsHeaderContentExist() || ShowCloseIcon)
             {
                 <div id="@(ID)_dialog-header" class="@HEADERCONTENT">

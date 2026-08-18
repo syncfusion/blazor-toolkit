@@ -101,6 +101,9 @@ namespace Syncfusion.Blazor.Toolkit.Spinner
         [Inject]
         private ILogger<SpinnerTemplates>? Logger { get; set; }
 
+        private static readonly Action<ILogger, Exception?> _logTemplatesInitError = LoggerMessage.Define(LogLevel.Error, new EventId(5001, "SpinnerTemplatesInitError"), "Error during SpinnerTemplates initialization");
+        private static readonly Action<ILogger, Exception?> _logTemplatesDisposeError = LoggerMessage.Define(LogLevel.Error, new EventId(5002, "SpinnerTemplatesDisposeError"), "Error during SpinnerTemplates disposal");
+
         #endregion
 
         #region Lifecycle Methods
@@ -123,7 +126,10 @@ namespace Syncfusion.Blazor.Toolkit.Spinner
             }
             catch (Exception ex)
             {
-                Logger?.LogError(ex, "Error during SpinnerTemplates initialization");
+                if (Logger is not null)
+                {
+                    _logTemplatesInitError(Logger, ex);
+                }
                 throw;
             }
         }
@@ -151,7 +157,10 @@ namespace Syncfusion.Blazor.Toolkit.Spinner
             }
             catch (ObjectDisposedException ex)
             {
-                Logger?.LogError(ex, "Error during SpinnerTemplates disposal");
+                if (Logger is not null)
+                {
+                    _logTemplatesDisposeError(Logger, ex);
+                }
             }
 
             return base.DisposeAsyncCore();

@@ -2,8 +2,7 @@
 
   <PropertyGroup>
     <SignAssembly>true</SignAssembly>
-	<AssemblyName>Syncfusion.Blazor.Tests</AssemblyName>  
-	<AssemblyOriginatorKeyFile>..\..\sf.snk</AssemblyOriginatorKeyFile>
+	<AssemblyName>Syncfusion.Blazor.Tests</AssemblyName>
     <TargetFramework>net8.0</TargetFramework>
     <IsPackable>false</IsPackable>
   </PropertyGroup>

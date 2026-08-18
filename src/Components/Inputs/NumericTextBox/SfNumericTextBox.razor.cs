@@ -23,7 +23,7 @@ namespace Syncfusion.Blazor.Toolkit.Inputs
     /// <SfNumericTextBox TValue="int" Value="10" Min="0" Max="100" Step="1"></SfNumericTextBox>
     /// ]]></code>
     /// </example>
-    public partial class SfNumericTextBox<TValue> : SfInputBase<TValue>
+    public partial class SfNumericTextBox<TValue> : SfInputBase<TValue>, IAsyncDisposable
     {
         private const string INVALID = "invalid";
         private const string MODIFIED_INVALID = "modified invalid";

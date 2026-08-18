@@ -41,7 +41,7 @@ namespace Syncfusion.Blazor.Toolkit.Popups
     /// <remarks>
     /// This event is triggered when the user clicks on the overlay of a modal dialog.
     /// </remarks>
-    public class OverlayModalClickEventArgs
+    public class OverlayModalClickEventArgs : EventArgs
     {
         /// <summary>
         /// Gets the mouse event arguments associated with the overlay click.
@@ -72,7 +72,7 @@ namespace Syncfusion.Blazor.Toolkit.Popups
     /// <remarks>
     /// This event can be used to perform actions or validations before the dialog is closed. The closing process can be canceled by setting the <see cref="Cancel"/> property to <c>true</c>.
     /// </remarks>
-    public class BeforeCloseEventArgs
+    public class BeforeCloseEventArgs : EventArgs
     {
         /// <summary>
         /// Gets or sets a value indicating whether the closing of the dialog should be canceled.
@@ -170,7 +170,7 @@ namespace Syncfusion.Blazor.Toolkit.Popups
     /// <remarks>
     /// This event allows for customization or cancellation of the dialog before it is displayed.
     /// </remarks>
-    public class BeforeOpenEventArgs
+    public class BeforeOpenEventArgs : EventArgs
     {
         /// <summary>
         /// Gets or sets a value indicating whether the opening of the dialog should be canceled.
@@ -201,7 +201,7 @@ namespace Syncfusion.Blazor.Toolkit.Popups
     /// <remarks>
     /// This event can be used to execute code after the dialog is no longer visible.
     /// </remarks>
-    public class CloseEventArgs
+    public class CloseEventArgs : EventArgs
     {
         /// <summary>
         /// Gets or sets a value indicating whether a subsequent action should be canceled. This property is not typically used in the <c>Closed</c> event.
@@ -265,7 +265,7 @@ namespace Syncfusion.Blazor.Toolkit.Popups
     /// <remarks>
     /// This event fires continuously as the user moves the dialog across the screen.
     /// </remarks>
-    public class DragEventArgs
+    public class DragEventArgs : EventArgs
     {
         /// <summary>
         /// Gets the browser's mouse event arguments for the drag action.
@@ -299,7 +299,7 @@ namespace Syncfusion.Blazor.Toolkit.Popups
     /// <remarks>
     /// This event can be used to prepare for the drag operation or to prevent it by canceling the event if applicable.
     /// </remarks>
-    public class DragStartEventArgs
+    public class DragStartEventArgs : EventArgs
     {
         /// <summary>
         /// Gets the browser's mouse event arguments for the drag start action.
@@ -333,7 +333,7 @@ namespace Syncfusion.Blazor.Toolkit.Popups
     /// <remarks>
     /// This event is useful for performing actions after the dialog has been moved to a new position.
     /// </remarks>
-    public class DragStopEventArgs
+    public class DragStopEventArgs : EventArgs
     {
         /// <summary>
         /// Gets the browser's mouse event arguments for the drag stop action.
@@ -367,7 +367,7 @@ namespace Syncfusion.Blazor.Toolkit.Popups
     /// <remarks>
     /// This event is useful for executing code after the dialog is visible and fully rendered.
     /// </remarks>
-    public class OpenEventArgs
+    public class OpenEventArgs : EventArgs
     {
         /// <summary>
         /// Gets or sets a value indicating whether a subsequent action should be canceled. This is not typically used in the <c>Opened</c> event.

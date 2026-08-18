@@ -1,7 +1,6 @@
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Web;
 using Syncfusion.Blazor.Toolkit.Internal;
-using System.Globalization;
 using System.Text;
 
 namespace Syncfusion.Blazor.Toolkit.Buttons
@@ -82,7 +81,7 @@ namespace Syncfusion.Blazor.Toolkit.Buttons
         /// <para>When the <c>class</c> attribute is specified, its value is merged with the component's computed CSS classes.</para>
         /// </remarks>
         [Parameter(CaptureUnmatchedValues = true)]
-        public Dictionary<string, object> HtmlAttributes { get => _htmlAttributes; set => _htmlAttributes = value; }
+        public Dictionary<string, object> HtmlAttributes { get; set; } = new();
 
         /// <exclude />
         /// <summary>
@@ -102,8 +101,6 @@ namespace Syncfusion.Blazor.Toolkit.Buttons
         /// </summary>
         private bool _isActive;
 
-        /// <exclude />
-        private Dictionary<string, object> _htmlAttributes = [];
         #endregion
 
 
@@ -137,8 +134,8 @@ namespace Syncfusion.Blazor.Toolkit.Buttons
         {
             if (IsToggle && _isActive)
             {
-                buttonCss.Append(Space);
-                buttonCss.Append(ActiveClass);
+                _ = buttonCss.Append(Space);
+                _ = buttonCss.Append(ActiveClass);
             }
             else if (!IsToggle)
             {
@@ -154,8 +151,8 @@ namespace Syncfusion.Blazor.Toolkit.Buttons
         {
             if (!string.IsNullOrWhiteSpace(CssClass))
             {
-                buttonClass.Append(Space);
-                buttonClass.Append(CssClass);
+                _ = buttonClass.Append(Space);
+                _ = buttonClass.Append(CssClass);
             }
         }
 
@@ -167,8 +164,8 @@ namespace Syncfusion.Blazor.Toolkit.Buttons
         {
             if (IsPrimary)
             {
-                buttonCss.Append(Space);
-                buttonCss.Append(PrimaryClass);
+                _ = buttonCss.Append(Space);
+                _ = buttonCss.Append(PrimaryClass);
             }
         }
 
@@ -180,8 +177,8 @@ namespace Syncfusion.Blazor.Toolkit.Buttons
         {
             if (SyncfusionService?._options?.EnableRtl ?? false)
             {
-                buttonCss.Append(Space);
-                buttonCss.Append(RtlClass);
+                _ = buttonCss.Append(Space);
+                _ = buttonCss.Append(RtlClass);
             }
         }
 
@@ -196,19 +193,19 @@ namespace Syncfusion.Blazor.Toolkit.Buttons
                 _iconCssModifier = IconClass;
                 if (string.IsNullOrEmpty(Content) && ChildContent is null)
                 {
-                    buttonCss.Append(Space);
-                    buttonCss.Append(IconClass);
+                    _ = buttonCss.Append(Space);
+                    _ = buttonCss.Append(IconClass);
                 }
                 else
                 {
-                    string iconPosition = IconPosition.ToString().ToLower(CultureInfo.InvariantCulture);
+                    string iconPosition = IconPosition.ToString().ToLowerInvariant();
                     _iconCssModifier += " e-icon-" + iconPosition;
                     if (IconPosition is IconPosition.Top or IconPosition.Bottom)
                     {
-                        buttonCss.Append(Space);
-                        buttonCss.Append("e-");
-                        buttonCss.Append(iconPosition);
-                        buttonCss.Append("-icon-btn");
+                        _ = buttonCss.Append(Space);
+                        _ = buttonCss.Append("e-");
+                        _ = buttonCss.Append(iconPosition);
+                        _ = buttonCss.Append("-icon-btn");
                     }
                 }
             }
@@ -222,8 +219,8 @@ namespace Syncfusion.Blazor.Toolkit.Buttons
         {
             if (HtmlAttributes.TryGetValue("class", out object? valueClass) && valueClass is not null)
             {
-                buttonCss.Append(Space);
-                buttonCss.Append(valueClass.ToString());
+                _ = buttonCss.Append(Space);
+                _ = buttonCss.Append(valueClass.ToString());
             }
         }
 
@@ -262,11 +259,7 @@ namespace Syncfusion.Blazor.Toolkit.Buttons
         /// <returns><c>true</c> or <c>false</c> when <see cref="IsToggle"/> is enabled; otherwise, <see langword="null"/> to omit the attribute.</returns>
         private string? GetAriaPressed()
         {
-            if (!IsToggle)
-            {
-                return null;
-            }
-            return _isActive ? "true" : "false";
+            return IsToggle ? (_isActive ? "true" : "false") : null;
         }
 
 

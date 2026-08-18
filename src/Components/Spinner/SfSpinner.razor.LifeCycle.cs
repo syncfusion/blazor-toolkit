@@ -1,5 +1,4 @@
 using Microsoft.Extensions.Logging;
-using Microsoft.JSInterop;
 using Syncfusion.Blazor.Toolkit.Internal;
 
 namespace Syncfusion.Blazor.Toolkit.Spinner
@@ -13,6 +12,8 @@ namespace Syncfusion.Blazor.Toolkit.Spinner
     /// </remarks>
     public partial class SfSpinner : SfBaseComponent
     {
+        private static readonly Action<ILogger, Exception?> _logInitError = LoggerMessage.Define(LogLevel.Error, new EventId(3002, "SfSpinnerInitError"), "Error during SfSpinner initialization");
+        private static readonly Action<ILogger, Exception?> _logDisposeError = LoggerMessage.Define(LogLevel.Error, new EventId(3003, "SfSpinnerDisposeError"), "Unexpected error during SfSpinner disposal");
         #region Lifecycle Methods
 
         /// <summary>
@@ -52,25 +53,18 @@ namespace Syncfusion.Blazor.Toolkit.Spinner
                 _previousVisible = Visible;
 
                 // Enable rendering if initially visible
-                if (Visible)
-                {
-                    _enableRender = true;
-                }
+                _enableRender = Visible;
 
                 // Set aria-label for accessibility based on Label parameter
-                if (!string.IsNullOrEmpty(Label))
-                {
-                    _attributes[AriaLabel] = Label;
-                }
-                else
-                {
-                    _attributes[AriaLabel] = Loading;
-                }
+                _attributes[AriaLabel] = string.IsNullOrEmpty(Label) ? Loading : Label;
             }
             catch (Exception ex)
             {
                 // Log or handle initialization errors
-                Logger?.LogError(ex, "Error during SfSpinner initialization");
+                if (Logger is not null)
+                {
+                    _logInitError(Logger, ex);
+                }
                 throw;
             }
         }
@@ -183,8 +177,10 @@ namespace Syncfusion.Blazor.Toolkit.Spinner
             }
             catch (Exception ex)
             {
-                // Log unexpected exceptions but do not rethrow in async void to prevent unobserved exceptions
-                Logger?.LogError(ex, "Unexpected error during SfSpinner disposal");
+                if (Logger is not null)
+                {
+                    _logDisposeError(Logger, ex);
+                }
             }
             await base.DisposeAsyncCore().ConfigureAwait(true);
         }

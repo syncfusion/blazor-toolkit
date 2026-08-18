@@ -320,7 +320,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
         /// <returns><see langword="true"/> if sorting is enabled and not by X axis; otherwise <see langword="false"/>.</returns>
         private bool IsDataSortingEnabled()
         {
-            return !string.IsNullOrEmpty(Owner?._sorting.PropertyName) && !Owner._sorting.PropertyName.Equals("X", StringComparison.OrdinalIgnoreCase);
+            return !string.IsNullOrEmpty(Owner?._sorting.SortKey) && !Owner._sorting.SortKey.Equals("X", StringComparison.OrdinalIgnoreCase);
         }
 
         /// <summary>
@@ -350,7 +350,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
 
             if (isSortingEnabled)
             {
-                FindExpandoObjectDataSortingValue(Owner?._sorting.PropertyName ?? string.Empty, expandoData, point.X.ToString() ?? string.Empty, point);
+                FindExpandoObjectDataSortingValue(Owner?._sorting.SortKey ?? string.Empty, expandoData, point.X.ToString() ?? string.Empty, point);
             }
         }
 
@@ -375,7 +375,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
 
             if (isSortingEnabled)
             {
-                FindDynamicObjectDataSortingValue(Owner?._sorting.PropertyName ?? string.Empty, dynamicObject ?? null!, point.X?.ToString() ?? null!, point);
+                FindDynamicObjectDataSortingValue(Owner?._sorting.SortKey ?? string.Empty, dynamicObject ?? null!, point.X?.ToString() ?? null!, point);
             }
         }
 
@@ -400,7 +400,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
 
             if (isSortingEnabled)
             {
-                FindJObjectDataSortingValue(Owner?._sorting.PropertyName ?? string.Empty, jsonObject, point.X.ToString() ?? string.Empty, point);
+                FindJObjectDataSortingValue(Owner?._sorting.SortKey ?? string.Empty, jsonObject, point.X.ToString() ?? string.Empty, point);
             }
         }
 
@@ -523,7 +523,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
             using IPropertyAccessor pointColor = FastReflectionExtension.CreateAccessor(firstDataType, Series.PointColorMapping);
             using IPropertyAccessor textMapping = FastReflectionExtension.CreateAccessor(firstDataType, GetTextMapping());
             using IPropertyAccessor tooltipMapping = FastReflectionExtension.CreateAccessor(firstDataType, Series.TooltipMappingName);
-            using IPropertyAccessor sortingInfo = FastReflectionExtension.CreateAccessor(firstDataType, Owner._sorting.PropertyName);
+            using IPropertyAccessor sortingInfo = FastReflectionExtension.CreateAccessor(firstDataType, Owner._sorting.SortKey);
 
             bool isSortingEnabled = IsDataSortingEnabled();
             int index = 0;
@@ -584,7 +584,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
         /// <returns><see langword="true"/> if a custom sort value was mapped; otherwise <see langword="false"/>.</returns>
         protected override bool IsPointValueMapped<T>(T point, out double sortValue)
         {
-            string sortKey = Owner?._sorting.PropertyName.ToUpperInvariant() ?? string.Empty;
+            string sortKey = Owner?._sorting.SortKey.ToUpperInvariant() ?? string.Empty;
             bool isPointValueMapped = base.IsPointValueMapped(point, out sortValue);
 
             if (!isPointValueMapped)

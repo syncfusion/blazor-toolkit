@@ -60,7 +60,9 @@ namespace Syncfusion.Blazor.Toolkit.Inputs
                 // Restore persisted state if enabled.
                 if (EnablePersistence)
                 {
-                    string? localStorageValue = await InvokeAsync<string>(_baseJsModule, _baseJsInProcessModule, "getLocalStorageItem", [_idValue]).ConfigureAwait(true);
+                    // _baseJsModule and _baseJsInProcessModule are guaranteed non-null here:
+                    // base.OnAfterRenderAsync awaited ImportComponentModuleAsync before this code runs.
+                    string? localStorageValue = await InvokeAsync<string>(_baseJsModule!, _baseJsInProcessModule!, "getLocalStorageItem", [_idValue]).ConfigureAwait(true);
                     localStorageValue = string.IsNullOrEmpty(localStorageValue) ? null : localStorageValue;
 
                     if (!(localStorageValue == null && Checked != null))

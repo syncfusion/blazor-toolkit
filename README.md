@@ -100,6 +100,15 @@ For full details on commit style, PR requirements, and review criteria, see the 
 - [Syncfusion Blazor Toolkit Documentation](https://blazor.syncfusion.com/documentation/toolkit/overview) (in active development — contributor-focused docs in [DEVELOPMENT.md](./.github/DEVELOPMENT.md))
 - [Development Guide](./.github/DEVELOPMENT.md)
 
+## Framework Compatibility
+
+| .NET Version | Blazor Server | Blazor WebAssembly | Blazor Auto | Support Policy |
+|---|:---:|:---:|:---:|---|
+| .NET 8 | ✅ | ✅ | ✅ | LTS — [see .NET support policy](https://dotnet.microsoft.com/en-us/platform/support/policy/dotnet-core) |
+| .NET 9 | ✅ | ✅ | ✅ | STS — [see .NET support policy](https://dotnet.microsoft.com/en-us/platform/support/policy/dotnet-core) |
+| .NET 10 | ✅ | ✅ | ✅ | LTS — [see .NET support policy](https://dotnet.microsoft.com/en-us/platform/support/policy/dotnet-core) |
+
+
 ## Components
 
 | Category | Control | Description |
@@ -124,7 +133,7 @@ For full details on commit style, PR requirements, and review criteria, see the 
 
 ## Installation
 
-Install the Syncfusion Blazor Toolkit via NuGet:
+Install the Syncfusion Blazor Toolkit via NuGet: [Syncfusion.Blazor.Toolkit on NuGet](https://www.nuget.org/packages/Syncfusion.Blazor.Toolkit)
 
 ```bash
 dotnet add package Syncfusion.Blazor.Toolkit
@@ -135,6 +144,19 @@ Alternatively, add it directly in your `.csproj` file:
 ```xml
 <PackageReference Include="Syncfusion.Blazor.Toolkit" Version="x.x.x" />
 ```
+
+## Skills and Component Guidance
+
+The repository includes specialized skill files that document component usage patterns and implementation guidance for the major toolkit areas:
+
+- [Buttons skill](.github/skills/syncfusion-blazor-toolkit-buttons/SKILL.md)
+- [Calendars skill](.github/skills/syncfusion-blazor-toolkit-calendars/SKILL.md)
+- [Charts skill](.github/skills/syncfusion-blazor-toolkit-charts/SKILL.md)
+- [Inputs skill](.github/skills/syncfusion-blazor-toolkit-inputs/SKILL.md)
+- [Notifications skill](.github/skills/syncfusion-blazor-toolkit-notifications/SKILL.md)
+- [Popups skill](.github/skills/syncfusion-blazor-toolkit-popups/SKILL.md)
+
+These skill files are intended to help contributors and maintainers understand the supported patterns, accessibility expectations, and implementation conventions for each toolkit area.
 
 ## Setup in Your Blazor App
 

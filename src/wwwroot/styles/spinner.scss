@@ -125,7 +125,7 @@ $spinner-full-height: 100% !default;
                 .e-path-arc,
                 .e-path-circle {
                     fill: none;
-                    stroke-width: $spin-stroke-width;
+                    stroke-width: var(--spinner-thickness, #{$spin-stroke-width});
                 }
             }
         }

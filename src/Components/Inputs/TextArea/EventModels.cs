@@ -7,7 +7,7 @@
     /// This class contains information about the value change event, including the old and new values,
     /// and whether the change was triggered by user interaction or programmatically.
     /// </remarks>
-    public class TextAreaValueChangeEventArgs
+    public class TextAreaValueChangeEventArgs : EventArgs
     {
         /// <summary> 
         /// Gets or sets a value indicating whether the event is triggered by user interaction. 
@@ -54,7 +54,7 @@
     /// This class contains information about the input event that occurs while the user is typing
     /// or entering text in the TextArea. This event is fired for every character input or deletion.
     /// </remarks>
-    public class TextAreaInputEventArgs
+    public class TextAreaInputEventArgs : EventArgs
     {
         /// <summary>
         /// Gets or sets the event parameters from the TextArea component.
@@ -100,7 +100,7 @@
     /// This class contains information about the focus in event that occurs when the TextArea
     /// receives focus, typically when a user clicks on it or navigates to it using keyboard navigation.
     /// </remarks>
-    public class TextAreaFocusInEventArgs
+    public class TextAreaFocusInEventArgs : EventArgs
     {
         /// <summary>
         /// Gets or sets the event parameters from the TextArea component.
@@ -135,7 +135,7 @@
     /// loses focus, typically when a user clicks elsewhere or navigates away using keyboard navigation.
     /// This event is commonly used for validation or saving data.
     /// </remarks>
-    public class TextAreaFocusOutEventArgs
+    public class TextAreaFocusOutEventArgs : EventArgs
     {
         /// <summary>
         /// Gets or sets the event parameters from the TextArea component.

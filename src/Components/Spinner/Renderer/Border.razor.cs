@@ -53,11 +53,6 @@ namespace Syncfusion.Blazor.Toolkit.Spinner.Internal
         private string? _pathCircleData;
 
         /// <summary>
-        /// Computed inline CSS style for stroke width.
-        /// </summary>
-        private string? _strokeWidth;
-
-        /// <summary>
         /// SVG path data for the rotating arc.
         /// </summary>
         private string? _pathArcData;
@@ -72,6 +67,9 @@ namespace Syncfusion.Blazor.Toolkit.Spinner.Internal
         /// </summary>
         [Inject]
         private ILogger<Border>? Logger { get; set; }
+
+        private static readonly Action<ILogger, Exception?> _logBorderInitError = LoggerMessage.Define(LogLevel.Error, new EventId(4001, "BorderInitError"), "Error during Border initialization");
+        private static readonly Action<ILogger, Exception?> _logBorderDisposeError = LoggerMessage.Define(LogLevel.Error, new EventId(4002, "BorderDisposeError"), "Error during Border disposal");
 
         #endregion
 
@@ -112,31 +110,31 @@ namespace Syncfusion.Blazor.Toolkit.Spinner.Internal
 
                 // Calculate diameter and build style attributes
                 int diameter = _radius * 2;
-                string transformOrigin = $"{diameter / 2}px";
 
                 // Build SVG path data
                 _pathCircleData = BuildCirclePath(_radius, _radius);
                 _pathArcData = BuildArcPath(_radius, _radius, StartArcValue, EndArcValue);
 
-                // Set SVG viewBox and styles
+                // Set SVG viewBox and CSS variables so the component stylesheet controls sizing and thickness.
                 ViewBox = $"0 0 {diameter} {diameter}";
-                SvgStyle = $"width: {diameter}px; height: {diameter}px; transform-origin: {transformOrigin} {transformOrigin} {transformOrigin};";
 
-                // Set the circle border thickness
                 string thickness = BaseParent?.Thickness ?? "4px";
-                // Only append px if the thickness is a bare number
                 if (!string.IsNullOrEmpty(thickness) && !thickness.Any(c => char.IsLetter(c) || c == '%'))
                 {
                     thickness = $"{thickness}px";
                 }
-                _strokeWidth = $"stroke-width: {thickness};";
+
+                SvgStyle = $"--spinner-size: {diameter}px; --spinner-thickness: {thickness};";
 
 
                 await base.OnInitializedAsync().ConfigureAwait(false);
             }
             catch (Exception ex)
             {
-                Logger?.LogError(ex, "Error during Border initialization");
+                if (Logger is not null)
+                {
+                    _logBorderInitError(Logger, ex);
+                }
                 throw;
             }
         }
@@ -206,7 +204,10 @@ namespace Syncfusion.Blazor.Toolkit.Spinner.Internal
             }
             catch (ObjectDisposedException ex)
             {
-                Logger?.LogError(ex, "Error during Border disposal");
+                if (Logger is not null)
+                {
+                    _logBorderDisposeError(Logger, ex);
+                }
             }
 
             return base.DisposeAsyncCore();

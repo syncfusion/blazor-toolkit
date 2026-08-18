@@ -1,4 +1,3 @@
-using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Web;
 using Microsoft.Extensions.Logging;
 using System.Globalization;
@@ -26,6 +25,11 @@ namespace Syncfusion.Blazor.Toolkit.Inputs
         /// <returns>A task that represents the asynchronous operation.</returns>
         private async Task HandleClickAsync(MouseEventArgs args)
         {
+            if (Disabled)
+            {
+                return;
+            }
+
             try
             {
                 TChecked state = Value is NullLocalStorageValue
@@ -46,12 +50,16 @@ namespace Syncfusion.Blazor.Toolkit.Inputs
                     await ValueChange.InvokeAsync(new ChangeArgs<TChecked> { Value = Checked, Event = args }).ConfigureAwait(true);
                 }
             }
-            catch (Exception ex)
+            catch (Exception ex) when (Logger is not null)
             {
-                if (Logger != null)
-                {
-                    _logHandleClickError(Logger, ex.Message, ex);
-                }
+                // Logger is wired up: capture the exception for diagnostics and prevent the failure
+                // from surfacing to Blazor's error boundary (which would tear down the circuit).
+                _logHandleClickError(Logger, ex.Message, ex);
+            }
+            catch (Exception)
+            {
+                // No logger is configured: rethrow so the developer is alerted to the failure.
+                throw;
             }
         }
         #endregion
@@ -65,11 +73,9 @@ namespace Syncfusion.Blazor.Toolkit.Inputs
         private static TChecked TryParseValueFromString(string value)
         {
             bool isBoolType = typeof(TChecked) == typeof(bool) || Nullable.GetUnderlyingType(typeof(TChecked)) == typeof(bool);
-            TChecked parsedValue = isBoolType
+            return isBoolType
                 ? (TChecked)(object)Convert.ToBoolean(value, CultureInfo.InvariantCulture)
-                : (BindConverter.TryConvertTo(value, CultureInfo.CurrentCulture, out TChecked? result) ? result : default)!;
-
-            return parsedValue;
+                : (TChecked)Convert.ChangeType(value, typeof(TChecked), CultureInfo.CurrentCulture);
         }
         #endregion
     }

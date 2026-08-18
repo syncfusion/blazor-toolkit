@@ -33,7 +33,7 @@ namespace Syncfusion.Blazor.Toolkit.Inputs
             {
                 if (_baseJsModule is not null && _baseJsInProcessModule is not null)
                 {
-                    await InvokeVoidAsync(_baseJsModule, _baseJsInProcessModule, "setLocalStorageItem", [_idValue, Checked!]).ConfigureAwait(true);
+                    await InvokeVoidAsync(_baseJsModule, _baseJsInProcessModule, "setLocalStorageItem", [_idValue, Checked]).ConfigureAwait(true);
                     _initialCheckedValueForPersistence = Checked;
                 }
             }

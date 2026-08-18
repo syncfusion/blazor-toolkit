@@ -131,9 +131,9 @@ namespace Syncfusion.Blazor.Toolkit.Tests.Spinner
             Assert.Equal("z-index: auto;", spinnerPane.GetAttribute("style"));
 
             var svgElement = spinner.Find("svg");
-            Assert.Contains("width:", svgElement.GetAttribute("style"));
-            Assert.Contains("height:", svgElement.GetAttribute("style"));
-            Assert.Contains("transform-origin:", svgElement.GetAttribute("style"));
+            var style = svgElement.GetAttribute("style");
+            Assert.Contains("--spinner-size:", style);
+            Assert.Contains("--spinner-thickness:", style);
         }
 
         /// <summary>
@@ -364,8 +364,9 @@ namespace Syncfusion.Blazor.Toolkit.Tests.Spinner
             // Assert
             var svgElement = spinner.Find("svg");
             Assert.Equal("0 0 50 50", svgElement.GetAttribute("viewBox"));
-            Assert.Contains("width: 50px", svgElement.GetAttribute("style"));
-            Assert.Contains("height: 50px", svgElement.GetAttribute("style"));
+            var style = svgElement.GetAttribute("style");
+            Assert.Contains("--spinner-size: 50px", style);
+            Assert.Contains("--spinner-thickness:", style);
         }
 
         /// <summary>
@@ -381,8 +382,10 @@ namespace Syncfusion.Blazor.Toolkit.Tests.Spinner
             // Assert
             var svgElement = spinner.Find("svg");
             Assert.Equal("0 0 30 30", svgElement.GetAttribute("viewBox"));
-            Assert.Contains("width: 30px", svgElement.GetAttribute("style"));
-            Assert.Contains("height: 30px", svgElement.GetAttribute("style"));
+            
+            var style = svgElement.GetAttribute("style");
+            Assert.Contains("--spinner-size: 30px", style);
+            Assert.Contains("--spinner-thickness:", style);
         }
 
         /// <summary>

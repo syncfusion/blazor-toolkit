@@ -206,7 +206,7 @@ namespace Syncfusion.Blazor.Toolkit.Inputs
                 _rootClass = _rootClass.Replace(Space + DisabledClass, string.Empty, StringComparison.Ordinal);
                 if (_inputAttributes is not null && _inputAttributes.ContainsKey("onchange"))
                 {
-                    _inputAttributes.Remove("onchange");
+                    _ = _inputAttributes.Remove("onchange");
                 }
             }
 
