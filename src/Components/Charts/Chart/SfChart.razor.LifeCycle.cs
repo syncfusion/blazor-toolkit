@@ -304,6 +304,12 @@ namespace Syncfusion.Blazor.Toolkit.Charts
                 _chartJsModule = null;
                 _chartJsInProcessModule = null;
             }
+
+            // Clear instance-level font measurement caches to prevent memory retention
+            // after the chart is disposed. This ensures per-circuit/per-chart isolation.
+            _fontSizeCache?.Clear();
+            _requestedFontKeys?.Clear();
+
             await base.DisposeAsyncCore().ConfigureAwait(true);
         }
 
