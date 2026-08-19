@@ -68,17 +68,19 @@ namespace Syncfusion.Blazor.Toolkit.Tests.Buttons
             Assert.Equal("readonly", wrapperElement.GetAttribute("readonly"));
         }
 
-        // Verifies Disabled property reflects on wrapper aria-disabled attribute.
+        // Verifies Disabled property reflects on input disabled attribute (native HTML disabled used as the ARIA-disabled equivalent for the input control).
         [Trait("SfCheckBox", "Accessibility")]
         [Fact(DisplayName = "aria-disabled reflects Disabled state")]
         public void AriaDisabled_Reflects_Disabled()
         {
             var renderedComponent = RenderComponent<SfCheckBox<bool>>(componentParameters => componentParameters.Add(component => component.Disabled, true));
-            var wrapperElement = renderedComponent.Find(".e-checkbox-wrapper");
-            Assert.Equal("true", wrapperElement.GetAttribute("aria-disabled"));
+            var inputElement = renderedComponent.Find("input");
+            // When Disabled is true, the native disabled attribute is present on the input.
+            Assert.True(inputElement.HasAttribute("disabled"));
 
             renderedComponent.SetParametersAndRender(componentParameters => componentParameters.Add(component => component.Disabled, false));
-            Assert.Equal("false", wrapperElement.GetAttribute("aria-disabled"));
+            // When Disabled is false, the native disabled attribute is removed.
+            Assert.False(inputElement.HasAttribute("disabled"));
         }
 
         // Verifies click does not toggle when Disabled = true (disabled state behavior).

@@ -1,4 +1,6 @@
 ﻿using Microsoft.AspNetCore.Components;
+using Microsoft.AspNetCore.Components.Web;
+using Microsoft.Extensions.Localization;
 using Microsoft.Extensions.Logging;
 using Microsoft.JSInterop;
 using Syncfusion.Blazor.Toolkit.Internal;
@@ -131,6 +133,10 @@ namespace Syncfusion.Blazor.Toolkit.Popups
         [Inject]
         protected ILogger<SfTooltip>? Logger { get; set; }
 
+        /// <exclude/>
+        [Inject]
+        protected IStringLocalizer? Localizer { get; set; }
+
         #endregion
 
         #region Protected Methods
@@ -257,6 +263,23 @@ namespace Syncfusion.Blazor.Toolkit.Popups
             if (_isScriptRendered && await IsTooltipJsAvailableAsync().ConfigureAwait(true))
             {
                 await InvokeVoidAsync(_tooltipJsModule, _tooltipInProcessModule, HIDETOOLTIP, _dataId, Animation.Close!, isClick).ConfigureAwait(true);
+            }
+        }
+
+        /// <summary>
+        /// Handles keyboard activation (Enter or Space) on the sticky tooltip close button.
+        /// </summary>
+        /// <param name="args">The keyboard event arguments containing the pressed key.</param>
+        /// <exclude/>
+        protected async Task StickyCloseKeyDownAsync(KeyboardEventArgs args)
+        {
+            if (args == null)
+            {
+                return;
+            }
+            if (args.Key == "Enter" || args.Key == " " || args.Key == "Spacebar")
+            {
+                await StickyCloseAsync().ConfigureAwait(true);
             }
         }
         #endregion

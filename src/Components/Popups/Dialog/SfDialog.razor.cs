@@ -227,6 +227,27 @@ namespace Syncfusion.Blazor.Toolkit.Popups
         }
 
         /// <summary>
+        /// Returns the <c>id</c> of the element that should be referenced by the dialog's
+        /// <c>aria-labelledby</c> attribute. Honors the explicit <see cref="AriaLabelledBy"/>
+        /// parameter, then the built-in header id when a <see cref="Header"/> is supplied.
+        /// </summary>
+        /// <returns>The labelling element id, or <see langword="null"/> when none applies.</returns>
+        private string? GetAriaLabelledBy()
+        {
+            if (!string.IsNullOrWhiteSpace(AriaLabelledBy))
+            {
+                return AriaLabelledBy;
+            }
+
+            if (!string.IsNullOrEmpty(Header) || HeaderTemplate is not null)
+            {
+                return $"{ID}_title";
+            }
+
+            return null;
+        }
+
+        /// <summary>
         /// Builds the resize direction string from the resize handles array.
         /// </summary>
         /// <returns>A space-separated string of resize directions.</returns>
@@ -290,7 +311,21 @@ namespace Syncfusion.Blazor.Toolkit.Popups
         private bool IsHeaderContentExist()
         {
             bool hasHeader = (HeaderTemplate is not null && string.IsNullOrEmpty(Header)) || (HeaderTemplate is null && !string.IsNullOrEmpty(Header));
-            _dialogAttribute = SfBaseUtils.UpdateDictionary("aria-labelledby", hasHeader ? $"{ID}_title" : $"{ID}_dialog-content", _dialogAttribute);
+            // WCAG 4.1.2 Name, Role, Value — the dialog must have an accessible name.
+            // Prefer the title; when no header exists, fall back to a localized aria-label
+            // (set in UpdateHtmlAttributes) and avoid colliding with aria-describedby
+            // which always points at the content element.
+            if (hasHeader)
+            {
+                _dialogAttribute = SfBaseUtils.UpdateDictionary("aria-labelledby", $"{ID}_title", _dialogAttribute);
+            }
+            else if (_dialogAttribute is not null && !_dialogAttribute.ContainsKey("aria-label"))
+            {
+                // No header: drop the colliding aria-labelledby so the localized
+                // aria-label (set below in UpdateHtmlAttributes) becomes the name
+                // and aria-describedby remains pointing at the content element.
+                _dialogAttribute.Remove("aria-labelledby");
+            }
             return hasHeader;
         }
         private void UpdateHtmlAttributes()
@@ -323,7 +358,9 @@ namespace Syncfusion.Blazor.Toolkit.Popups
             }
             if (_dialogAttribute is not null && !_dialogAttribute.ContainsKey("aria-label"))
             {
-                _dialogAttribute = SfBaseUtils.UpdateDictionary("aria-label", "dialog", _dialogAttribute);
+                // WCAG 4.1.2 Name, Role, Value — when no header is provided, fall back to
+                // a localized dialog label rather than the literal English "dialog".
+                _dialogAttribute = SfBaseUtils.UpdateDictionary("aria-label", Localizer["Dialog"]?.Value ?? "Dialog", _dialogAttribute);
             }
             if (_dialogAttribute is not null && Visible && IsModal && IsStaticRendering)
             {

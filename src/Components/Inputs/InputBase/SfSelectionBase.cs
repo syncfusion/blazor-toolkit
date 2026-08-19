@@ -99,12 +99,25 @@ namespace Syncfusion.Blazor.Toolkit.Inputs
 
         /// <summary>
         /// Updates internal HTML attributes by extracting the ID value from the HtmlAttributes dictionary.
+        /// Also propagates the public <see cref="AriaLabel"/> parameter to the
+        /// <c>aria-label</c> attribute on the rendered input so that
+        /// assistive technologies announce the supplied label when no
+        /// visible <c>&lt;label&gt;</c> is associated.
         /// </summary>
         private void UpdateHTMLAttributes()
         {
             if (HtmlAttributes != null && HtmlAttributes.TryGetValue("id", out object? idAttribute))
             {
                 _idValue = idAttribute?.ToString() ?? string.Empty;
+            }
+
+            if (!string.IsNullOrWhiteSpace(AriaLabel))
+            {
+                if (_inputAttributes is null)
+                {
+                    _inputAttributes = [];
+                }
+                _inputAttributes["aria-label"] = AriaLabel;
             }
         }
 

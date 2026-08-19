@@ -552,5 +552,25 @@ namespace Syncfusion.Blazor.Toolkit.Inputs
             }
             return false;
         }
+
+        /// <summary>
+        /// Gets or sets the accessible name for the uploader's file input and drop zone.
+        /// </summary>
+        /// <value>
+        /// A <see cref="string"/> announced by screen readers for the file input and drop region.
+        /// The default value is <see langword="null"/>, in which case the localized "Drop or browse files" string is used.
+        /// </value>
+        /// <remarks>
+        /// Use this property to provide a meaningful accessible name for assistive technologies, for example
+        /// "Upload profile picture". When unset, the component falls back to a localized default to ensure
+        /// every drop zone has a non-empty <c>aria-label</c>.
+        /// </remarks>
+        /// <example>
+        /// <code><![CDATA[
+        /// <SfUploader AriaLabel="Upload profile picture" />
+        /// ]]></code>
+        /// </example>
+        [Parameter]
+        public string? AriaLabel { get; set; }
     }
 }

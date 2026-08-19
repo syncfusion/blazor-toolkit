@@ -224,7 +224,8 @@ namespace Syncfusion.Blazor.Toolkit.Tests.Inputs.TextBox
             var inputElement = textBox.Find("input");
             clearIconElement = containerElement.Children[1];
             Assert.Contains("textbox", inputElement.GetAttribute("role"));
-            Assert.Contains("button", clearIconElement.GetAttribute("role"));
+            // Clear icon is now a native <button> so role is implicit; check tag name instead
+            Assert.Equal("BUTTON", clearIconElement.TagName);
         }
 
         #endregion

@@ -178,15 +178,6 @@ namespace Syncfusion.Blazor.Toolkit.Calendars
         private bool IsMinMax { get; set; }
         private DatePickerMaskPlaceholder? MaskPlaceholder { get; set; }
         private bool IsDateIconClicked { get; set; }
-        private static readonly char[] _separator = ['_'];
-
-        // Hoisted target classes to avoid allocating a new array on each Enter key handling
-        private static readonly string[] _calendarTargetClasses = [
-            "e-calendar-content-table",
-            "e-calendar e-lib e-keyboard",
-            "e-calendar e-lib e-week-number e-keyboard",
-            "e-calendar e-lib e-rtl e-keyboard"
-        ];
 
         // Generated regex for better AOT/trimming compatibility and performance
         [GeneratedRegex(@"^[F/U/u/O/o/d/D/f/g/G/m/M/R/r/s/t/T/y/Y]*$")]
@@ -418,7 +409,7 @@ namespace Syncfusion.Blazor.Toolkit.Calendars
         {
             InternalFormat = NotifyPropertyChanges(FORMAT, Format, InternalFormat);
             InternalInputFormats = NotifyPropertyChanges(INPUTFORMATS, InputFormats, InternalInputFormats);
-            NotifyPropertyChanges(nameof(CssClass), CssClass, InternalCssClass);
+            _ = NotifyPropertyChanges(nameof(CssClass), CssClass, InternalCssClass);
             InternalValue = NotifyPropertyChanges(nameof(Value), Value, InternalValue);
             CalendarBase_Max = NotifyPropertyChanges(MAX, Max, CalendarBase_Max);
             CalendarBase_Min = NotifyPropertyChanges(MIN, Min, CalendarBase_Min);
@@ -438,7 +429,7 @@ namespace Syncfusion.Blazor.Toolkit.Calendars
         {
             if (!(Nullable.GetUnderlyingType(typeof(TValue)) is null && dateValue is null))
             {
-                TValue? tempValue = dateValue is null ? default : (TValue)SfBaseUtils.ChangeType(dateValue!, typeof(TValue));
+                TValue? tempValue = dateValue is null ? default : (TValue?)SfBaseUtils.ChangeType(dateValue!, typeof(TValue));
                 await InvokeAsync(() =>
                 {
                     InputTextValue = tempValue;
@@ -562,7 +553,7 @@ namespace Syncfusion.Blazor.Toolkit.Calendars
             bool isTryParse = false;
             if (IsTryParse(inputValue, format))
             {
-                date = ParseDate(inputValue, format);
+                date = ParseDate(inputValue, format)!;
                 isTryParse = true;
             }
             else if (InputFormats is not null)
@@ -579,7 +570,7 @@ namespace Syncfusion.Blazor.Toolkit.Calendars
                 if (IsTryParse(inputValue, inputFormat))
                 {
                     success = true;
-                    return ParseDate(inputValue, inputFormat);
+                    return ParseDate(inputValue, inputFormat)!;
                 }
             }
             success = false;
@@ -659,7 +650,7 @@ namespace Syncfusion.Blazor.Toolkit.Calendars
             string? inputString = PrepareStrictModeInput();
             string inputValue = inputString ?? string.Empty;
             TValue? date = await ParseStrictModeDateAsync(inputValue, format, isInit).ConfigureAwait(false);
-            await ApplyStrictModeLogicAsync(date, inputValue, format, isInit).ConfigureAwait(false);
+            await ApplyStrictModeLogicAsync(date, inputValue, format).ConfigureAwait(false);
             if (StrictMode && EnableMask && IsRendered)
             {
                 await CreateMaskAsync().ConfigureAwait(false);
@@ -682,9 +673,9 @@ namespace Syncfusion.Blazor.Toolkit.Calendars
             return inputValue;
         }
 
-        private async Task<TValue> ParseStrictModeDateAsync(string inputValue, string format, bool isInit)
+        private async Task<TValue?> ParseStrictModeDateAsync(string inputValue, string format, bool isInit)
         {
-            TValue? date = default!;
+            TValue? date = default;
             if (IsTryParse(inputValue, format) && CalendarMode != CalendarType.Islamic)
             {
                 date = ParseDate(inputValue, format);
@@ -718,7 +709,7 @@ namespace Syncfusion.Blazor.Toolkit.Calendars
             }
         }
 
-        private async Task ApplyStrictModeLogicAsync(TValue date, string inputValue, string format, bool isInit)
+        private async Task ApplyStrictModeLogicAsync(TValue? date, string inputValue, string format)
         {
             if (StrictMode && !(IsFocused && ValidateOnInput) && date is not null)
             {
@@ -751,7 +742,7 @@ namespace Syncfusion.Blazor.Toolkit.Calendars
             if (ShowPopupCalendar)
             {
                 cellId = cellId is null ? string.Empty : cellId;
-                SfBaseUtils.UpdateDictionary(ARIAACTIVEDESCENDANT, cellId, InputHtmlAttributes);
+                _ = SfBaseUtils.UpdateDictionary(ARIAACTIVEDESCENDANT, cellId, InputHtmlAttributes);
                 await InvokeVoidAsync(_datePickerJsModule, _datePickerJsInProcessModule, "updateAriaActiveDescendant", [DataId, cellId]).ConfigureAwait(true);
             }
             await Task.CompletedTask.ConfigureAwait(false);
@@ -779,7 +770,7 @@ namespace Syncfusion.Blazor.Toolkit.Calendars
             DateTimeOffset date = DateTimeOffset.ParseExact(dateValue, format, effectiveCulture);
             return date;
         }
-        private TValue ParseDate(string dateValue, string format)
+        private TValue? ParseDate(string dateValue, string format)
         {
             Type type = typeof(TValue);
             CultureInfo cultureInfo = new(CultureInfo.CurrentCulture.Name);
@@ -798,7 +789,7 @@ namespace Syncfusion.Blazor.Toolkit.Calendars
                         cultureInfo.Calendar.TwoDigitYearMax = 1999;
                     }
                 }
-                return (TValue)SfBaseUtils.ChangeType(DateTime.ParseExact(dateValue, format, cultureInfo, DateTimeStyles.AssumeLocal), type);
+                return (TValue?)SfBaseUtils.ChangeType(DateTime.ParseExact(dateValue, format, cultureInfo, DateTimeStyles.AssumeLocal), type);
             }
             else if (IsDateOnlyType())
             {
@@ -814,7 +805,7 @@ namespace Syncfusion.Blazor.Toolkit.Calendars
                         cultureInfo.Calendar.TwoDigitYearMax = 1999;
                     }
                 }
-                return (TValue)SfBaseUtils.ChangeType(DateOnly.ParseExact(dateValue, format, cultureInfo), type);
+                return (TValue?)SfBaseUtils.ChangeType(DateOnly.ParseExact(dateValue, format, cultureInfo), type);
             }
             else
             {
@@ -831,7 +822,7 @@ namespace Syncfusion.Blazor.Toolkit.Calendars
                     }
                 }
                 //The below fix included for BLAZ-20489
-                return (TValue)SfBaseUtils.ChangeType(DateTimeOffset.ParseExact(dateValue, format, cultureInfo, DateTimeStyles.AssumeLocal), type);
+                return (TValue?)SfBaseUtils.ChangeType(DateTimeOffset.ParseExact(dateValue, format, cultureInfo, DateTimeStyles.AssumeLocal), type);
             }
         }
 
@@ -857,9 +848,9 @@ namespace Syncfusion.Blazor.Toolkit.Calendars
             IsCalendarRender = false;
             SetPopupVisibility(false);
             UpdateDateTimePopupState(false);
-            SfBaseUtils.UpdateDictionary(ARIAEXPANDED, FALSE, InputHtmlAttributes);
-            InputHtmlAttributes.Remove(ARIAACTIVEDESCENDANT);
-            InputHtmlAttributes.Remove(ARIA_OWN);
+            _ = SfBaseUtils.UpdateDictionary(ARIAEXPANDED, FALSE, InputHtmlAttributes);
+            _ = InputHtmlAttributes.Remove(ARIAACTIVEDESCENDANT);
+            _ = InputHtmlAttributes.Remove(ARIA_OWN);
             await Task.CompletedTask.ConfigureAwait(false);
         }
 
@@ -881,14 +872,14 @@ namespace Syncfusion.Blazor.Toolkit.Calendars
 
         private void UpdateAriaAttributes()
         {
-            SfBaseUtils.UpdateDictionary(ARIA_LIVE, ASSERTIVE, InputHtmlAttributes);
-            SfBaseUtils.UpdateDictionary(ARIA_AUTOMIC, TRUE, InputHtmlAttributes);
-            SfBaseUtils.UpdateDictionary(ARIA_HAS_POPUP, GRID, InputHtmlAttributes);
-            SfBaseUtils.UpdateDictionary(ROLE, COMBOBOX, InputHtmlAttributes);
-            SfBaseUtils.UpdateDictionary(AUTO_CORRECT, OFF, InputHtmlAttributes);
-            SfBaseUtils.UpdateDictionary(SPELL_CHECK, FALSE, InputHtmlAttributes);
-            SfBaseUtils.UpdateDictionary(ARIAINVALID, FALSE, InputHtmlAttributes);
-            SfBaseUtils.UpdateDictionary(ARIA_CONTROLS, ID, InputHtmlAttributes);
+            _ = SfBaseUtils.UpdateDictionary(ARIA_LIVE, ASSERTIVE, InputHtmlAttributes);
+            _ = SfBaseUtils.UpdateDictionary(ARIA_AUTOMIC, TRUE, InputHtmlAttributes);
+            _ = SfBaseUtils.UpdateDictionary(ARIA_HAS_POPUP, GRID, InputHtmlAttributes);
+            _ = SfBaseUtils.UpdateDictionary(ROLE, COMBOBOX, InputHtmlAttributes);
+            _ = SfBaseUtils.UpdateDictionary(AUTO_CORRECT, OFF, InputHtmlAttributes);
+            _ = SfBaseUtils.UpdateDictionary(SPELL_CHECK, FALSE, InputHtmlAttributes);
+            _ = SfBaseUtils.UpdateDictionary(ARIAINVALID, FALSE, InputHtmlAttributes);
+            _ = SfBaseUtils.UpdateDictionary(ARIA_CONTROLS, ID, InputHtmlAttributes);
         }
         private static string RemoveCultureDigits(bool isArabic, string dateValue)
         {
@@ -1336,7 +1327,7 @@ namespace Syncfusion.Blazor.Toolkit.Calendars
                 {
                     // Delay for read only attributes update in device mode before FocusOut
                     await Task.Delay(DEVICE_READONLY_DELAY_MS).ConfigureAwait(false);
-                    SfBaseUtils.UpdateDictionary(READONLYATTR, true, InputHtmlAttributes);
+                    _ = SfBaseUtils.UpdateDictionary(READONLYATTR, true, InputHtmlAttributes);
                     await FocusOutAsync().ConfigureAwait(false);
                 }
                 IsDateIconClicked = true;
@@ -1710,7 +1701,7 @@ namespace Syncfusion.Blazor.Toolkit.Calendars
         }
         private static Dictionary<string, object> RemoveAttr(string removeClass, Dictionary<string, object> attr)
         {
-            attr.Remove(removeClass);
+            _ = attr.Remove(removeClass);
             return attr;
         }
 
@@ -1930,7 +1921,7 @@ namespace Syncfusion.Blazor.Toolkit.Calendars
                 int day = dynamicDateValue.Day;
                 TimeSpan offset = dynamicDateValue.Offset;
                 DateTimeOffset offsetValue = new(year, month, day, dateValue.Hour, dateValue.Minute, dateValue.Second, dateValue.Millisecond, offset);
-                return (TValue)SfBaseUtils.ChangeType(offsetValue, typeof(TValue));
+                return (TValue)SfBaseUtils.ChangeType(offsetValue, typeof(TValue))!;
             }
             else if (IsDateOnlyType())
             {
@@ -1938,11 +1929,11 @@ namespace Syncfusion.Blazor.Toolkit.Calendars
                 int month = DateOnly.FromDateTime(dateValue).Month;
                 int day = DateOnly.FromDateTime(dateValue).Day;
                 DateOnly dateOnlyValue = new(year, month, day);
-                return (TValue)SfBaseUtils.ChangeType(dateOnlyValue, typeof(TValue));
+                return (TValue)SfBaseUtils.ChangeType(dateOnlyValue, typeof(TValue))!;
             }
             else
             {
-                return (TValue)SfBaseUtils.ChangeType(dateValue, typeof(TValue));
+                return (TValue)SfBaseUtils.ChangeType(dateValue, typeof(TValue))!;
             }
         }
 

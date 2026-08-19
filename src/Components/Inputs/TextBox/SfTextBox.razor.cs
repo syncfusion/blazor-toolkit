@@ -38,6 +38,8 @@ namespace Syncfusion.Blazor.Toolkit.Inputs
         private const string AUTOCOMPLETE = "autocomplete";
         private const string OUTLINE = "e-outline";
         private const string ARIA_LABEL = "aria-label";
+        private const string ARIA_LABELLEDBY = "aria-labelledby";
+        private const string ARIA_DESCRIBEDBY = "aria-describedby";
 
         #endregion
 

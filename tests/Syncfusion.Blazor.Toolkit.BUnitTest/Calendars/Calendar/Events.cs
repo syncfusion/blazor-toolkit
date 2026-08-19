@@ -213,7 +213,8 @@ namespace Syncfusion.Blazor.Toolkit.Tests.Calendars.Calendar
             // Navigating current view using icons
             var ButtonList = Calendar.FindAll("button");
             Assert.Equal(new DateTime(1900, 1, 1).ToString("yyyy"), parentContainer?.QuerySelector(".e-header")?.FirstElementChild?.TextContent);
-            ButtonList[1].Click();
+            // buttonList[0]=title, buttonList[1]=prev, buttonList[2]=next, buttonList[3]=today
+            ButtonList[2].Click();
             tableElement = Calendar.Find("table");
             parentContainer = tableElement?.ParentElement?.ParentElement;
             Assert.Equal(new DateTime(1900, 1, 1).AddYears(1).ToString("yyyy"), parentContainer?.QuerySelector(".e-header")?.FirstElementChild?.TextContent);

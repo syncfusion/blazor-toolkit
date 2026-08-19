@@ -133,6 +133,24 @@ namespace Syncfusion.Blazor.Toolkit.Calendars
         [Parameter]
         public Dictionary<string, object> HtmlAttributes { get; set; } = default!;
 
+        /// <summary>
+        /// Gets or sets the accessible name for the calendar component.
+        /// </summary>
+        /// <value>
+        /// A <see cref="string"/> announced by screen readers for the calendar grid. The default value is <see langword="null"/>.
+        /// </value>
+        /// <remarks>
+        /// Use this property to provide a meaningful accessible name for assistive technologies, for example
+        /// "Date picker". When set, the value is applied as <c>aria-label</c> on the calendar's root element.
+        /// </remarks>
+        /// <example>
+        /// <code><![CDATA[
+        /// <SfCalendar TValue="DateTime" AriaLabel="Event date" />
+        /// ]]></code>
+        /// </example>
+        [Parameter]
+        public string? AriaLabel { get; set; }
+
         /// <exclude />
         private string Calendar_CssClass { get; set; } = string.Empty;
         /// <exclude />

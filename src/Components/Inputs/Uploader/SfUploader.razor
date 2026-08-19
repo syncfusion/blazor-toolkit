@@ -12,22 +12,20 @@
         <div class="@DROP_CONTAINER">
             <button class="e-css e-btn e-upload-browse-btn" type="button" @attributes="@_browseBtnAttr">@this.BrowseBtnContent</button>
             <span class="@InputContainer">
-                <InputFile id="@ID" @ref="FileElement" aria-label="uploader" @attributes="@_inputAttr" OnChange="@OnChange"></InputFile>
+                <InputFile id="@ID" @ref="FileElement" aria-label="@(string.IsNullOrWhiteSpace(AriaLabel) ? Localizer[DROP_FILE_KEY] : AriaLabel)" @attributes="@_inputAttr" OnChange="@OnChange"></InputFile>
                 <CascadingValue Value="@this">
                     @ChildContent
                 </CascadingValue>
             </span>
             <span class="@DROP_AREA"
                 role="region"
-                aria-label="@(Localizer[DROP_FILE_KEY])"
-                aria-live="polite"
-                aria-dropeffect="copy">@FileDropAreaContent</span>
+                aria-label="@(string.IsNullOrWhiteSpace(AriaLabel) ? Localizer[DROP_FILE_KEY] : AriaLabel)">@FileDropAreaContent</span>
         </div>
         @if (this.ShouldRenderFileList)
         {
             this._isActionButtonsHidden = false;
             var listIndex = 0;
-            <ul class="@LIST_PARENT" @ref="@UlElementRef">
+            <ul class="@LIST_PARENT" @ref="@UlElementRef" aria-live="polite" aria-relevant="additions text">
                 @foreach (var filedata in this.FileData)
                 {
                     @if (this.Template == null)

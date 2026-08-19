@@ -70,6 +70,22 @@ namespace Syncfusion.Blazor.Toolkit.Inputs
                 UpdateValidateClass();
                 InputHtmlAttributes = SfBaseUtils.UpdateDictionary(ROLE, SPIN_BUTTON, InputHtmlAttributes);
                 InputHtmlAttributes = SfBaseUtils.UpdateDictionary(ARIA_LIVE, ASSERTIVE, InputHtmlAttributes);
+                if (!InputHtmlAttributes.ContainsKey(ARIA_LABEL))
+                {
+                    // Use the public AriaLabel parameter when supplied, otherwise fall back to a
+                    // generic "numeric textbox" name so that screen readers still announce the
+                    // input even when no visible <label> is provided.
+                    string defaultAriaLabel = string.IsNullOrWhiteSpace(AriaLabel) ? "numeric textbox" : AriaLabel;
+                    InputHtmlAttributes = SfBaseUtils.UpdateDictionary(ARIA_LABEL, defaultAriaLabel, InputHtmlAttributes);
+                }
+                if (!string.IsNullOrWhiteSpace(AriaLabelledBy) && !InputHtmlAttributes.ContainsKey(ARIA_LABELLEDBY))
+                {
+                    InputHtmlAttributes = SfBaseUtils.UpdateDictionary(ARIA_LABELLEDBY, AriaLabelledBy, InputHtmlAttributes);
+                }
+                if (!string.IsNullOrWhiteSpace(AriaDescribedBy) && !InputHtmlAttributes.ContainsKey(ARIA_DESCRIBEDBY))
+                {
+                    InputHtmlAttributes = SfBaseUtils.UpdateDictionary(ARIA_DESCRIBEDBY, AriaDescribedBy, InputHtmlAttributes);
+                }
                 if (InputHtmlAttributes.TryGetValue("type", out object? value))
                 {
                     if (value.Equals("number") && Format != "f")

@@ -17,7 +17,8 @@ namespace Syncfusion.Blazor.Toolkit.Tests.Calendars.Calendar
             var selectedDate = component.Find("table").QuerySelector("td.e-selected");
             Assert.Null(selectedDate);
             var buttonList = component.FindAll("button");
-            buttonList[2].Click();
+            // buttonList[0]=title, buttonList[1]=prev, buttonList[2]=next, buttonList[3]=today
+            buttonList[3].Click();
             tableElement = component.Find("table");
             Assert.Equal(1, tableElement.QuerySelectorAll("td.e-selected").Length);
             Assert.Equal(DateTime.Now.Day.ToString(), tableElement?.QuerySelector("td.e-selected")?.FirstElementChild?.TextContent);
@@ -36,7 +37,8 @@ namespace Syncfusion.Blazor.Toolkit.Tests.Calendars.Calendar
             var selectedDate = component.Find("table").QuerySelector("td.e-selected");
             Assert.Null(selectedDate);
             var buttonList = component.FindAll("button");
-            buttonList[2].Click();
+            // buttonList[0]=title, buttonList[1]=prev, buttonList[2]=next, buttonList[3]=today
+            buttonList[3].Click();
             tableElement = component.Find("table");
             Assert.Equal(1, tableElement.QuerySelectorAll("td.e-selected").Length);
             Assert.Equal(DateTime.Now.Day.ToString(), tableElement?.QuerySelector("td.e-selected")?.FirstElementChild?.TextContent);
@@ -60,7 +62,8 @@ namespace Syncfusion.Blazor.Toolkit.Tests.Calendars.Calendar
             parentContainer?.QuerySelector(".e-title")?.Click();
             Assert.Equal("Year", component.Instance.CurrentView());
             var buttonList = component.FindAll("button");
-            buttonList[2].Click();
+            // buttonList[0]=title, buttonList[1]=prev, buttonList[2]=next, buttonList[3]=today
+            buttonList[3].Click();
             tableElement = component.Find("table");
             Assert.Equal(1, tableElement.QuerySelectorAll("td.e-selected").Length);
             Assert.Equal(DateTime.Now.Day.ToString(), tableElement?.QuerySelector("td.e-selected")?.FirstElementChild?.TextContent);
@@ -74,7 +77,7 @@ namespace Syncfusion.Blazor.Toolkit.Tests.Calendars.Calendar
             parentContainer = tableElement?.ParentElement?.ParentElement;
             parentContainer?.QuerySelector(".e-title")?.Click();
             Assert.Equal("Decade", component.Instance.CurrentView());
-            buttonList[2].Click();
+            buttonList[3].Click();
             tableElement = component.Find("table");
             Assert.Equal("Month", component.Instance.CurrentView());
             Assert.Equal(1, tableElement.QuerySelectorAll("td.e-selected").Length);
@@ -98,7 +101,8 @@ namespace Syncfusion.Blazor.Toolkit.Tests.Calendars.Calendar
             Assert.Null(selectedDate);
             Assert.Equal("Year", component.Instance.CurrentView());
             var buttonList = component.FindAll("button");
-            buttonList[2].Click();
+            // buttonList[0]=title, buttonList[1]=prev, buttonList[2]=next, buttonList[3]=today
+            buttonList[3].Click();
             Assert.Equal("Year", component.Instance.CurrentView());
             Assert.Equal(1, tableElement?.QuerySelectorAll("td.e-selected").Length);
             Assert.Equal(DateTime.Now.ToString("MMM"), tableElement?.QuerySelector("td.e-selected")?.FirstElementChild?.TextContent);
@@ -120,7 +124,8 @@ namespace Syncfusion.Blazor.Toolkit.Tests.Calendars.Calendar
             Assert.Null(selectedDate);
             Assert.Equal("Decade", component.Instance.CurrentView());
             var buttonList = component.FindAll("button");
-            buttonList[2].Click();
+            // buttonList[0]=title, buttonList[1]=prev, buttonList[2]=next, buttonList[3]=today
+            buttonList[3].Click();
             Assert.Equal("Decade", component.Instance.CurrentView());
             Assert.Equal(1, tableElement?.QuerySelectorAll("td.e-selected").Length);
             Assert.Equal(DateTime.Now.ToString("yyyy"), tableElement?.QuerySelector("td.e-selected")?.FirstElementChild?.TextContent);

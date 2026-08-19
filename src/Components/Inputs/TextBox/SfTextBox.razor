@@ -27,10 +27,11 @@
 					<label class="@FloatLabel?.Trim()" id="label_@(ID)" for="@(ID)">@this.Placeholder</label>
 					@if (this.ShowClearButton)
 					{
-						<span class="@(ClearIconClass)" aria-label="close" role="button" @onclick="@WireClearBtnEventsAsync"
-							  @onmousedown="@BindClearBtnEventsAsync" @ontouchstart="@BindClearBtnTouchEventsAsync"
-							  @onmousedown:preventDefault="@ClickStopPropagation"
-							  @ontouchstart:preventDefault="@ClickStopPropagation"></span>
+						<button type="button" class="@(ClearIconClass)" aria-label="@Localizer["Clear"]" title="@Localizer["Clear"]"
+								@onclick="@WireClearBtnEventsAsync"
+								@onmousedown="@BindClearBtnEventsAsync" @ontouchstart="@BindClearBtnTouchEventsAsync"
+								@onmousedown:preventDefault="@ClickStopPropagation"
+								@ontouchstart:preventDefault="@ClickStopPropagation"></button>
 					}
 					@RenderIconButtons(APPEND)
 				</span>
@@ -54,10 +55,11 @@
 				<label class="@FloatLabel?.Trim()" id="label_@(ID)" for="@(ID)">@this.Placeholder</label>
 				@if (this.ShowClearButton)
 				{
-					<span class="@(ClearIconClass)" aria-label="close" role="button" @onclick="@WireClearBtnEventsAsync"
-						  @onmousedown="@BindClearBtnEventsAsync" @ontouchstart="@BindClearBtnTouchEventsAsync"
-						  @onmousedown:preventDefault="@ClickStopPropagation"
-						  @ontouchstart:preventDefault="@ClickStopPropagation"></span>
+					<button type="button" class="@(ClearIconClass)" aria-label="@Localizer["Clear"]" title="@Localizer["Clear"]"
+							@onclick="@WireClearBtnEventsAsync"
+							@onmousedown="@BindClearBtnEventsAsync" @ontouchstart="@BindClearBtnTouchEventsAsync"
+							@onmousedown:preventDefault="@ClickStopPropagation"
+							@ontouchstart:preventDefault="@ClickStopPropagation"></button>
 				}
 				@RenderIconButtons(APPEND)
 			</div>
@@ -80,10 +82,11 @@
 			}
 			@if (this.ShowClearButton)
 			{
-				<span class="@(ClearIconClass)" aria-label="close" role="button" @onclick="@WireClearBtnEventsAsync"
-					  @onmousedown="@BindClearBtnEventsAsync" @ontouchstart="@BindClearBtnTouchEventsAsync"
-					  @onmousedown:preventDefault="@ClickStopPropagation"
-					  @ontouchstart:preventDefault="@ClickStopPropagation"></span>
+				<button type="button" class="@(ClearIconClass)" aria-label="@Localizer["Clear"]" title="@Localizer["Clear"]"
+						@onclick="@WireClearBtnEventsAsync"
+						@onmousedown="@BindClearBtnEventsAsync" @ontouchstart="@BindClearBtnTouchEventsAsync"
+						@onmousedown:preventDefault="@ClickStopPropagation"
+						@ontouchstart:preventDefault="@ClickStopPropagation"></button>
 			}
 			@RenderIconButtons(APPEND)
 		</span>

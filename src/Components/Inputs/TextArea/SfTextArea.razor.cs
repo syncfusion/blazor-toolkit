@@ -61,6 +61,8 @@ namespace Syncfusion.Blazor.Toolkit.Inputs
         private const string ARIA_MULTILINE = "aria-multiline";
         private const string OUTLINE = "e-outline";
         private const string ARIA_LABEL = "aria-label";
+        private const string ARIA_LABELLEDBY = "aria-labelledby";
+        private const string ARIA_DESCRIBEDBY = "aria-describedby";
         private const string NULL_STRING = "null";
 
         #endregion

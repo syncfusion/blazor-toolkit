@@ -1,7 +1,6 @@
 @using Microsoft.AspNetCore.Components;
 @using Microsoft.AspNetCore.Components.Web;
 @using Syncfusion.Blazor.Toolkit.Inputs;
-@using Syncfusion.Blazor.Toolkit.Buttons;
 @using Syncfusion.Blazor.Toolkit.Calendars.Internal;
 @namespace Syncfusion.Blazor.Toolkit.Calendars
 @typeparam TValue
@@ -12,25 +11,25 @@
         @if (this.FloatLabelType == FloatLabelType.Auto || this.FloatLabelType == FloatLabelType.Always)
         {
             <div @ref="@ContainerElement" class="@ContainerClass?.Trim()" @attributes="ContainerHtmlAttributes">
-                <input @ref="@InputElement" id="@ID" @attributes="InputHtmlAttributes" aria-label="datepicker" value="@( CalendarMode == CalendarType.Islamic ? IslamicValueAsString :CurrentValueAsString)" @onchange="@OnChangeHandlerAsync" @onfocus="@OnFocusHandlerAsync" @oninput="@OnInputHandlerAsync" @onkeydown="@OnInputKeyDownAsync" @onblur="@OnBlurHandlerAsync"/>
+                <input @ref="@InputElement" id="@ID" @attributes="InputHtmlAttributes" aria-haspopup="true" aria-label="@AriaLabel" value="@( CalendarMode == CalendarType.Islamic ? IslamicValueAsString :CurrentValueAsString)" @onchange="@OnChangeHandlerAsync" @onfocus="@OnFocusHandlerAsync" @oninput="@OnInputHandlerAsync" @onkeydown="@OnInputKeyDownAsync" @onblur="@OnBlurHandlerAsync"/>
                 <span class="e-float-line"></span>
                 <label class="@FloatLabel?.Trim()" id="label_@(ID)" for="@(ID)">@this.Placeholder</label>
                 @if (this.ShowClearButton && !this.Readonly)
                 {
-                    <span class="@(ClearIconClass)" aria-label="@Localizer["Close"]" role="button" @onclick="@WireClearBtnEventsAsync" @onmousedown="@InvokeClearBtnEventAsync" @ontouchstart="@InvokeClearBtnEventAsync" @onmousedown:preventDefault="@ClickStopPropagation" @ontouchstart:preventDefault="@ClickStopPropagation"></span>
+                    <button type="button" class="@(ClearIconClass)" aria-label="@Localizer["Close"]" title="@Localizer["Close"]" @onclick="@WireClearBtnEventsAsync" @onmousedown="@InvokeClearBtnEventAsync" @ontouchstart="@InvokeClearBtnEventAsync" @onmousedown:preventDefault="@ClickStopPropagation" @ontouchstart:preventDefault="@ClickStopPropagation"></button>
                 }
-                <span class="@(GROUPICON + SPACE + DateIcon)" @onmousedown="@((args) => MouseIconHandlerAsync(args, DATEICONCLASS))" @onmousedown:preventDefault=@(!IsDevice)></span>
+                <button type="button" class="@(GROUPICON + SPACE + DateIcon)" aria-label="@Localizer["OpenCalendar"]" title="@Localizer["OpenCalendar"]" @onmousedown="@((args) => MouseIconHandlerAsync(args, DATEICONCLASS))" @onmousedown:preventDefault=@(!IsDevice)></button>
             </div>
         }
         else
         {
             <span @ref="@ContainerElement" class="@ContainerClass?.Trim()" @attributes="ContainerHtmlAttributes" >
-                <input @ref="@InputElement" id="@ID" @attributes="InputHtmlAttributes" aria-label="datepicker" value="@( CalendarMode == CalendarType.Islamic ? IslamicValueAsString :CurrentValueAsString)" @onchange="@OnChangeHandlerAsync" @onfocus="@OnFocusHandlerAsync" @oninput="@OnInputHandlerAsync" @onkeydown="@OnInputKeyDownAsync" @onblur="@OnBlurHandlerAsync" />
+                <input @ref="@InputElement" id="@ID" @attributes="InputHtmlAttributes" aria-haspopup="true" aria-label="@AriaLabel" value="@( CalendarMode == CalendarType.Islamic ? IslamicValueAsString :CurrentValueAsString)" @onchange="@OnChangeHandlerAsync" @onfocus="@OnFocusHandlerAsync" @oninput="@OnInputHandlerAsync" @onkeydown="@OnInputKeyDownAsync" @onblur="@OnBlurHandlerAsync" />
                 @if (this.ShowClearButton && !this.Readonly)
                 {
-                    <span class="@(ClearIconClass)" aria-label="@Localizer["Close"]" role="button" @onclick="@WireClearBtnEventsAsync" @onmousedown="@InvokeClearBtnEventAsync" @ontouchstart="@InvokeClearBtnEventAsync" @onmousedown:preventDefault="@ClickStopPropagation" @ontouchstart:preventDefault="@ClickStopPropagation"></span>
+                    <button type="button" class="@(ClearIconClass)" aria-label="@Localizer["Close"]" title="@Localizer["Close"]" @onclick="@WireClearBtnEventsAsync" @onmousedown="@InvokeClearBtnEventAsync" @ontouchstart="@InvokeClearBtnEventAsync" @onmousedown:preventDefault="@ClickStopPropagation" @ontouchstart:preventDefault="@ClickStopPropagation"></button>
                 }
-                <span class="@(GROUPICON + SPACE + DateIcon)" @onmousedown="@((args) => MouseIconHandlerAsync(args, DATEICONCLASS))" @onmousedown:preventDefault=@(!IsDevice)></span>
+                <button type="button" class="@(GROUPICON + SPACE + DateIcon)" aria-label="@Localizer["OpenCalendar"]" title="@Localizer["OpenCalendar"]" @onmousedown="@((args) => MouseIconHandlerAsync(args, DATEICONCLASS))" @onmousedown:preventDefault=@(!IsDevice)></button>
             </span>
         }
         @ChildContent
@@ -40,21 +39,21 @@
 {
     <CascadingValue Value="@this">
         <div @ref="@PopupHolderEle" class="@POPUPHOLDER">
-            <div @ref="@PopupElement" class="@RootClass @PopupContainer @POPUP" id="@(ID)_popup" role="dialog" aria-label="datepicker" aria-modal='@(IsDevice && !IsExtendedDevicePopup() ? "true" : null)'>
+            <div @ref="@PopupElement" class="@RootClass @PopupContainer @POPUP" id="@(ID)_popup" role="dialog" aria-label="@Localizer["Datepicker"]" aria-modal='@(IsDevice && !IsExtendedDevicePopup() ? "true" : null)'>
                 <div class="@CalendarClass">
                     @if (this.IsDevice)
                     {
                         <div class="@MODELHEADER">
                             @if(this.IsExtendedDevicePopup())
                             {
-                                <SfButton IconCss="e-popup-close e-toolkit-icons e-close" CssClass="e-mobile-clear e-flat" aria-label="@Localizer["Close"]" @onclick="@PopupCloseHandlerAsync"></SfButton>
+                                <button type="button" class="e-popup-close e-toolkit-icons e-close e-mobile-clear e-flat" aria-label="@Localizer["Close"]" title="@Localizer["Close"]" @onclick="@PopupCloseHandlerAsync"></button>
                                 <div class="e-day-wrapper">
                                     <span class="@MODELDAYCLASS">@this.ModelDay </span>
                                     <span class="@MODELMONTHCLASS">@this.ModelMonth</span>
                                 </div>
                             }
                             else {
-                                <h1 class="@MODELYEARCLASS">@this.ModelYear</h1>
+                                <div class="@MODELYEARCLASS">@this.ModelYear</div>
                                 <div>
                                     <span class="@MODELDAYCLASS">@this.ModelDay </span>
                                     <span class="@MODELMONTHCLASS">@this.ModelMonth</span>

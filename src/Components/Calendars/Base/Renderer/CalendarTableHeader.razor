@@ -6,11 +6,11 @@
     <tr>
         @if (this.Parent is not null && this.Parent.WeekNumber && CalendarRenderView == CalendarView.Month)
         {
-            <th class="@WEEK_NUMBER" aria-hidden="true"></th>
+            <th class="@WEEK_NUMBER" scope="row"></th>
         }
         @for (int days = 0; days < this.DaysCount; days++)
         {
-            <th @key="days">@(CultureInfo.CurrentCulture.TextInfo.ToTitleCase(this.ShortNames[days]))</th>
+            <th scope="col" @key="days">@(CultureInfo.CurrentCulture.TextInfo.ToTitleCase(this.ShortNames[days]))</th>
         }
     </tr>
 </thead>

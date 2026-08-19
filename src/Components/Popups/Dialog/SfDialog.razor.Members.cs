@@ -93,6 +93,47 @@ namespace Syncfusion.Blazor.Toolkit.Popups
         public RenderFragment ChildContent { get; set; } = default!;
 
         /// <summary>
+        /// Gets or sets the accessible name for the dialog.
+        /// </summary>
+        /// <value>
+        /// A <see cref="string"/> announced by screen readers for the dialog container.
+        /// The default value is <see langword="null"/>.
+        /// </value>
+        /// <remarks>
+        /// Use this property to provide a meaningful accessible name for assistive technologies, for example
+        /// "Confirm deletion". The value is applied as <c>aria-label</c> on the dialog's root element. When a
+        /// <see cref="Header"/> is also supplied, the header continues to act as the primary reference and
+        /// <see cref="AriaLabel"/> is announced as a complementary description.
+        /// </remarks>
+        /// <example>
+        /// <code><![CDATA[
+        /// <SfDialog AriaLabel="Confirm deletion" IsModal="true" />
+        /// ]]></code>
+        /// </example>
+        [Parameter]
+        public string? AriaLabel { get; set; }
+
+        /// <summary>
+        /// Gets or sets the <c>id</c> of the element that labels the dialog for assistive technologies.
+        /// </summary>
+        /// <value>
+        /// A <see cref="string"/> referencing the labeling element by id. The default value is <see langword="null"/>.
+        /// </value>
+        /// <remarks>
+        /// When set, the value is applied as <c>aria-labelledby</c> on the dialog's root element. If left
+        /// empty and a <see cref="Header"/> is supplied, the built-in header element id is used so screen
+        /// readers can announce the dialog title.
+        /// </remarks>
+        /// <example>
+        /// <code><![CDATA[
+        /// <h2 id="dlg-title">Confirm deletion</h2>
+        /// <SfDialog AriaLabelledBy="dlg-title" IsModal="true" />
+        /// ]]></code>
+        /// </example>
+        [Parameter]
+        public string? AriaLabelledBy { get; set; }
+
+        /// <summary>
         /// Gets or sets a value indicating whether the <see cref="SfDialog"/> can be dragged by the user.
         /// </summary>
         /// <value>

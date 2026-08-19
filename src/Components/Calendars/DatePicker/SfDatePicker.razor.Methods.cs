@@ -104,7 +104,7 @@ namespace Syncfusion.Blazor.Toolkit.Calendars
                 if (IsDevice)
                 {
                     CalendarClass = SfBaseUtils.AddClass(CalendarClass, DEVICE);
-                    TValue? modelValue = (TValue)SfBaseUtils.ChangeType(Value!, typeof(TValue));
+                    TValue? modelValue = Value is null ? default : (TValue?)SfBaseUtils.ChangeType(Value, typeof(TValue));
                     if (modelValue is not null)
                     {
                         ModelYear = Intl.GetDateFormat(modelValue, FORMAT_YEAR);
@@ -128,8 +128,8 @@ namespace Syncfusion.Blazor.Toolkit.Calendars
                         IsCalendarRendered = true;
                         SetPopupVisibility(true);
                     }
-                    SfBaseUtils.UpdateDictionary(ARIAEXPANDED, TRUE, InputHtmlAttributes);
-                    SfBaseUtils.UpdateDictionary(ARIA_OWN, ID + POPUPS, InputHtmlAttributes);
+                    _ = SfBaseUtils.UpdateDictionary(ARIAEXPANDED, TRUE, InputHtmlAttributes);
+                    _ = SfBaseUtils.UpdateDictionary(ARIA_OWN, ID + POPUPS, InputHtmlAttributes);
                 }
                 await InvokeAsync(StateHasChanged).ConfigureAwait(false);
             }
@@ -202,7 +202,7 @@ namespace Syncfusion.Blazor.Toolkit.Calendars
                 {
                     DateIcon = SfBaseUtils.RemoveClass(DateIcon, ACTIVE);
                 }
-                InputHtmlAttributes.Remove(ARIAACTIVEDESCENDANT);
+                _ = InputHtmlAttributes.Remove(ARIAACTIVEDESCENDANT);
                 await InvokeVoidAsync(_datePickerJsModule, _datePickerJsInProcessModule, "closePopup", [DataId, PopupEventArgs, options]).ConfigureAwait(true);
                 IsCalendarRender = false;
             }
@@ -281,7 +281,7 @@ namespace Syncfusion.Blazor.Toolkit.Calendars
         [JSInvokable]
         public async Task ScrollToNextSectionAsync(bool IsUpward = false)
         {
-            if (CalendarBaseInstance is not null) 
+            if (CalendarBaseInstance is not null)
             {
                 if (IsUpward)
                 {

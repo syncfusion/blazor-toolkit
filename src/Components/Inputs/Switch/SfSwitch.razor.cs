@@ -146,11 +146,6 @@ namespace Syncfusion.Blazor.Toolkit.Inputs
         /// </summary>
         internal string? Label { get; set; }
 
-        /// <summary>
-        /// Gets or sets the optional accessible name for the switch when no visible label is supplied.
-        /// </summary>
-        internal string? AriaLabel { get; set; }
-
         /// <exclude />
         /// <summary>
         /// Logger instance for diagnostic and error logging.

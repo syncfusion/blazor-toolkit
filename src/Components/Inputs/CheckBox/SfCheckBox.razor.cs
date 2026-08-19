@@ -151,6 +151,47 @@ namespace Syncfusion.Blazor.Toolkit.Inputs
         }
 
         /// <summary>
+        /// Returns the ARIA checked state announced by assistive technologies.
+        /// Reflects the <c>indeterminate</c>, <c>checked</c>, and <c>unchecked</c> states as
+        /// <c>mixed</c>, <c>true</c>, and <c>false</c> respectively.
+        /// </summary>
+        /// <returns><c>mixed</c> when <see cref="Indeterminate"/> is <see langword="true"/>; otherwise
+        /// <c>true</c> or <c>false</c> based on <see cref="SfSelectionBase{TChecked}.Checked"/>.</returns>
+        private string GetAriaChecked()
+        {
+            if (Indeterminate)
+            {
+                return "mixed";
+            }
+
+            return GetIsChecked() ? "true" : "false";
+        }
+
+        /// <summary>
+        /// Returns the accessible name for the checkbox input element.
+        /// Uses the explicit <see cref="SfSelectionBase{TChecked}.AriaLabel"/> when supplied;
+        /// otherwise returns <see langword="null"/> so the wrapping <c>&lt;label&gt;</c> is the
+        /// accessible name. Returns <c>"Checkbox"</c> only when no label, no child content, and
+        /// no <see cref="SfSelectionBase{TChecked}.AriaLabel"/> are provided.
+        /// </summary>
+        private string? GetAriaLabelValue()
+        {
+            if (!string.IsNullOrWhiteSpace(AriaLabel))
+            {
+                return AriaLabel;
+            }
+
+            // When a visible label or child content is present, the wrapping <label> provides the
+            // accessible name and we must not double-announce it.
+            if (!string.IsNullOrWhiteSpace(Label) || ChildContent is not null)
+            {
+                return null;
+            }
+
+            return "Checkbox";
+        }
+
+        /// <summary>
         /// Converts the generic checked value to a nullable boolean.
         /// </summary>
         /// <param name="value">The generic value to convert.</param>
@@ -548,7 +589,14 @@ namespace Syncfusion.Blazor.Toolkit.Inputs
             // Handle ARIA label extraction for unlabeled checkboxes
             if (string.IsNullOrEmpty(Label) && ChildContent == null)
             {
-                if (_inputAttributes is not null && _inputAttributes.TryGetValue(AriaLabelAttribute, out object? ariaLabel))
+                // 1. The explicit AriaLabel parameter on the component
+                //    (inherited from SfSelectionBase<TChecked>) takes
+                //    precedence when supplied.
+                if (!string.IsNullOrWhiteSpace(AriaLabel))
+                {
+                    _labelAttributes = new() { { AriaLabelAttribute, AriaLabel } };
+                }
+                else if (_inputAttributes is not null && _inputAttributes.TryGetValue(AriaLabelAttribute, out object? ariaLabel))
                 {
                     _labelAttributes = new() { { AriaLabelAttribute, ariaLabel } };
                     _ = _inputAttributes.Remove(AriaLabelAttribute);

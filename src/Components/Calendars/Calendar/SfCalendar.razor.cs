@@ -131,7 +131,7 @@ namespace Syncfusion.Blazor.Toolkit.Calendars
             {
                 if (key == nameof(Value))
                 {
-                    TValue tempValue = (TValue)SfBaseUtils.ChangeType(dateValue!, typeof(TValue));
+                    TValue? tempValue = (TValue?)SfBaseUtils.ChangeType(dateValue!, typeof(TValue));
                     Value = CalendarBase_Value = await SfBaseUtils.UpdatePropertyAsync(tempValue!, CalendarBase_Value!, ValueChanged, CalendarEditContext!, ValueExpression);
                 }
                 else
@@ -192,7 +192,7 @@ namespace Syncfusion.Blazor.Toolkit.Calendars
                 ChangedArgs.Name = VALUECHANGE_EVENT;
                 await ValueChange.InvokeAsync(ChangedArgs).ConfigureAwait(false);
             }
-            PreviousDate = (TValue)SfBaseUtils.ChangeType(Value!, typeof(TValue));
+            PreviousDate = (TValue?)SfBaseUtils.ChangeType(Value!, typeof(TValue));
         }
 
         /// <summary>

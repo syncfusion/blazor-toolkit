@@ -92,7 +92,7 @@
 {
     @if (AllowPrerender || (!AllowPrerender && IsPreRender))
     {
-        <div @ref="DialogElement" id="@ID" class="@_dialogClass" role="dialog" aria-describedby="@(ID)_dialog-content" @attributes="@_dialogAttribute">
+        <div @ref="DialogElement" id="@ID" class="@_dialogClass" role="dialog" aria-label="@AriaLabel" aria-labelledby="@GetAriaLabelledBy()" aria-describedby="@(ID)_dialog-content" @attributes="@_dialogAttribute">
             @DialogInner
         </div>
     }
@@ -102,13 +102,13 @@ else
     @if (AllowPrerender || (!AllowPrerender && IsPreRender))
     {
         <div id="@(MODAL + "-" + ID)" class="@(CONTAINER + " " + CssClass)" @attributes="@ContainerAttribute">
-            <div @ref="ModalDialogElement" id="@ID" class="@_dialogClass" aria-modal="true" role="dialog" aria-describedby="@(ID)_dialog-content" @attributes="@_dialogAttribute">
+            <div @ref="ModalDialogElement" id="@ID" class="@_dialogClass" aria-modal="true" role="dialog" aria-label="@AriaLabel" aria-labelledby="@GetAriaLabelledBy()" aria-describedby="@(ID)_dialog-content" @attributes="@_dialogAttribute">
                 <!-- Render shared DialogInner -->
                 @DialogInner
             </div>
             @if (IsModal)
             {
-                <div id="@(ID)_overlay" class="@OVERLAY" @attributes="@OverlayAttribute" @onclick="@OverlayClickHandlerAsync"></div>
+                <div id="@(ID)_overlay" class="@OVERLAY" aria-hidden="true" @attributes="@OverlayAttribute" @onclick="@OverlayClickHandlerAsync"></div>
             }
         </div>
     }

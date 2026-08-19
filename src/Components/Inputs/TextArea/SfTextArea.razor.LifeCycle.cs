@@ -106,7 +106,19 @@ namespace Syncfusion.Blazor.Toolkit.Inputs
                 await base.OnParametersSetAsync().ConfigureAwait(true);
                 if (!InputHtmlAttributes.ContainsKey(ARIA_LABEL))
                 {
-                    InputHtmlAttributes = SfBaseUtils.UpdateDictionary(ARIA_LABEL, "textarea", InputHtmlAttributes);
+                    // Use the public AriaLabel parameter when supplied, otherwise fall back to a
+                    // generic "textarea" name so that screen readers still announce the input
+                    // even when no visible <label> is provided.
+                    string defaultAriaLabel = string.IsNullOrWhiteSpace(AriaLabel) ? "textarea" : AriaLabel;
+                    InputHtmlAttributes = SfBaseUtils.UpdateDictionary(ARIA_LABEL, defaultAriaLabel, InputHtmlAttributes);
+                }
+                if (!string.IsNullOrWhiteSpace(AriaLabelledBy) && !InputHtmlAttributes.ContainsKey(ARIA_LABELLEDBY))
+                {
+                    InputHtmlAttributes = SfBaseUtils.UpdateDictionary(ARIA_LABELLEDBY, AriaLabelledBy, InputHtmlAttributes);
+                }
+                if (!string.IsNullOrWhiteSpace(AriaDescribedBy) && !InputHtmlAttributes.ContainsKey(ARIA_DESCRIBEDBY))
+                {
+                    InputHtmlAttributes = SfBaseUtils.UpdateDictionary(ARIA_DESCRIBEDBY, AriaDescribedBy, InputHtmlAttributes);
                 }
                 UpdateValidationClass();
             }
@@ -221,6 +233,31 @@ namespace Syncfusion.Blazor.Toolkit.Inputs
 
             try
             {
+                // Release the JS-side instance from the base registry
+                // before disposing the module. This is a no-op when no
+                // instance was ever registered (e.g., the module never
+                // finished loading).
+                if (_textAreaJsModule is not null || _textAreaJsInProcessModule is not null)
+                {
+                    try
+                    {
+                        await InvokeVoidAsync(_textAreaJsModule, _textAreaJsInProcessModule, "destroy", [DataId ?? string.Empty]).ConfigureAwait(true);
+                    }
+                    catch (JSDisconnectedException)
+                    {
+                        // Ignore: The circuit disconnected (e.g., page reload) before JS disposal could complete.
+                    }
+                    catch (JSException)
+                    {
+                        // Ignore: a JS-side error during destroy must not
+                        // prevent the module from being disposed.
+                    }
+                    catch (InvalidOperationException)
+                    {
+                        // Ignore: the JS interop circuit is no longer
+                        // available (e.g., prerendering teardown).
+                    }
+                }
                 if (_textAreaJsModule is not null)
                 {
                     await _textAreaJsModule.DisposeAsync().ConfigureAwait(true);

@@ -1,4 +1,4 @@
-﻿using Xunit;
+using Xunit;
 using Bunit;
 using Syncfusion.Blazor.Toolkit.Calendars;
 using Syncfusion.Blazor.Toolkit.Inputs;
@@ -94,9 +94,11 @@ namespace Syncfusion.Blazor.Toolkit.Tests.Calendars.DatePicker
             Assert.Contains("e-month", parentContainer?.Children[1].ClassName);
             Assert.Contains("e-footer-container", parentContainer?.Children[2].ClassName);
             var buttonList = popupElement.QuerySelectorAll("button");
-            var prevButton = buttonList[0];
-            var nextButton = buttonList[1];
-            var todayButton = buttonList[2];
+            // Index 0 is the title button (e-day e-title) introduced when the
+            // calendar title element was converted from a <div> to a <button>.
+            var prevButton = buttonList[1];
+            var nextButton = buttonList[2];
+            var todayButton = buttonList[3];
             Assert.Contains("e-prev", prevButton.ClassName);
             Assert.Contains("e-next", nextButton.ClassName);
             Assert.Contains("e-today", todayButton.ClassName);
@@ -159,12 +161,12 @@ namespace Syncfusion.Blazor.Toolkit.Tests.Calendars.DatePicker
             var enabledCells = tableElement?.QuerySelectorAll("td:not(.e-disabled)");
             Assert.Equal(3, disabledCells?.Length);
             Assert.Equal(totalCells?.Length, (disabledCells?.Length + enabledCells?.Length));
-            Assert.Contains("e-prev", buttons?[0].ClassName);
-            Assert.Contains("e-disabled", buttons?[0].ClassName);
-            Assert.Contains("e-next", buttons?[1].ClassName);
-            Assert.DoesNotContain("e-disabled", buttons?[1].ClassName);
+            Assert.Contains("e-prev", buttons?[1].ClassName);
+            Assert.Contains("e-disabled", buttons?[1].ClassName);
+            Assert.Contains("e-next", buttons?[2].ClassName);
+            Assert.DoesNotContain("e-disabled", buttons?[2].ClassName);
         }
-       
+
         [Fact(Timeout = 10000, DisplayName = "MaxValue - Enforces Max date and disables next navigation for DateTime")]
         public async Task MaxValue()
         {
@@ -182,10 +184,11 @@ namespace Syncfusion.Blazor.Toolkit.Tests.Calendars.DatePicker
             var enabledCells = tableElement?.QuerySelectorAll("td:not(.e-disabled)");
             Assert.Equal(38, disabledCells?.Length);
             Assert.Equal(totalCells?.Length, (disabledCells?.Length + enabledCells?.Length));
-            Assert.Contains("e-prev", buttons?[0].ClassName);
-            Assert.DoesNotContain("e-disabled", buttons?[0].ClassName);
-            Assert.Contains("e-next", buttons?[1].ClassName);
-            Assert.Contains("e-disabled", buttons?[1].ClassName);
+            // buttons[0]=title, buttons[1]=prev, buttons[2]=next, buttons[3]=today
+            Assert.Contains("e-prev", buttons?[1].ClassName);
+            Assert.DoesNotContain("e-disabled", buttons?[1].ClassName);
+            Assert.Contains("e-next", buttons?[2].ClassName);
+            Assert.Contains("e-disabled", buttons?[2].ClassName);
         }
 
         [Fact(Timeout = 10000, DisplayName = "MaxValueWithStrictModeTrue - Enforces Max with StrictMode and prevents invalid assignment")]
@@ -262,10 +265,11 @@ namespace Syncfusion.Blazor.Toolkit.Tests.Calendars.DatePicker
             var enabledCells = tableElement?.QuerySelectorAll("td:not(.e-disabled)");
             Assert.Equal(38, disabledCells?.Length);
             Assert.Equal(totalCells?.Length, (disabledCells?.Length + enabledCells?.Length));
-            Assert.Contains("e-prev", buttons?[0].ClassName);
-            Assert.DoesNotContain("e-disabled", buttons?[0].ClassName);
-            Assert.Contains("e-next", buttons?[1].ClassName);
-            Assert.Contains("e-disabled", buttons?[1].ClassName);
+            // buttons[0]=title, buttons[1]=prev, buttons[2]=next, buttons[3]=today
+            Assert.Contains("e-prev", buttons?[1].ClassName);
+            Assert.DoesNotContain("e-disabled", buttons?[1].ClassName);
+            Assert.Contains("e-next", buttons?[2].ClassName);
+            Assert.Contains("e-disabled", buttons?[2].ClassName);
         }
                
         [Fact(Timeout = 10000, DisplayName = "DynamicValueBinding - Updates UI when DateTime Value parameter changes at runtime")]

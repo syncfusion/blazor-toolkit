@@ -115,6 +115,7 @@ namespace Syncfusion.Blazor.Toolkit.Popups
         private string? DialogTitle { get; set; }
 
         private readonly string _id = $"dialog-{Guid.NewGuid()}";
+        private readonly string _promptInputId = $"dialog-input-{Guid.NewGuid()}";
 
         /// <summary>
         /// Opens a dialog with the specified options.

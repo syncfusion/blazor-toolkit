@@ -115,7 +115,19 @@ namespace Syncfusion.Blazor.Toolkit.Inputs
                 await base.OnParametersSetAsync().ConfigureAwait(true);
                 if (!InputHtmlAttributes.ContainsKey(ARIA_LABEL))
                 {
-                    InputHtmlAttributes = SfBaseUtils.UpdateDictionary(ARIA_LABEL, "textbox", InputHtmlAttributes);
+                    // Use the public AriaLabel parameter when supplied, otherwise fall back to a
+                    // generic "textbox" name so that screen readers still announce the input
+                    // even when no visible <label> is provided.
+                    string defaultAriaLabel = string.IsNullOrWhiteSpace(AriaLabel) ? "textbox" : AriaLabel;
+                    InputHtmlAttributes = SfBaseUtils.UpdateDictionary(ARIA_LABEL, defaultAriaLabel, InputHtmlAttributes);
+                }
+                if (!string.IsNullOrWhiteSpace(AriaLabelledBy) && !InputHtmlAttributes.ContainsKey(ARIA_LABELLEDBY))
+                {
+                    InputHtmlAttributes = SfBaseUtils.UpdateDictionary(ARIA_LABELLEDBY, AriaLabelledBy, InputHtmlAttributes);
+                }
+                if (!string.IsNullOrWhiteSpace(AriaDescribedBy) && !InputHtmlAttributes.ContainsKey(ARIA_DESCRIBEDBY))
+                {
+                    InputHtmlAttributes = SfBaseUtils.UpdateDictionary(ARIA_DESCRIBEDBY, AriaDescribedBy, InputHtmlAttributes);
                 }
                 await PropertyUpdateAsync().ConfigureAwait(true);
                 if (PropertyChanges?.Count > 0)
@@ -213,6 +225,31 @@ namespace Syncfusion.Blazor.Toolkit.Inputs
             }
             try
             {
+                // Release the JS-side back-pointer and instance state
+                // before disposing the module. This is a no-op when no
+                // instance was ever registered (e.g., the module never
+                // finished loading).
+                if (_textBoxJsModule is not null || _textBoxJsInProcessModule is not null)
+                {
+                    try
+                    {
+                        await InvokeVoidAsync(_textBoxJsModule!, _textBoxJsInProcessModule!, "destroy", InputElement).ConfigureAwait(true);
+                    }
+                    catch (JSDisconnectedException)
+                    {
+                        // Ignore: The circuit disconnected (e.g., page reload) before JS disposal could complete.
+                    }
+                    catch (JSException)
+                    {
+                        // Ignore: a JS-side error during destroy must not
+                        // prevent the module from being disposed.
+                    }
+                    catch (InvalidOperationException)
+                    {
+                        // Ignore: the JS interop circuit is no longer
+                        // available (e.g., prerendering teardown).
+                    }
+                }
                 if (_textBoxJsModule is not null)
                 {
                     await _textBoxJsModule.DisposeAsync().ConfigureAwait(true);

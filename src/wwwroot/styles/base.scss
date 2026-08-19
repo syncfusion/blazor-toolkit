@@ -900,3 +900,18 @@ $imported-modules: () !default;
     color: $success-font-color;
   }
 }
+
+// WCAG 2.3.3 Animation from Interactions (Level AAA) / 2.2.2 Pause, Stop, Hide
+// (Level A): honor the user's OS-level "reduce motion" preference. Animations
+// and transitions across the toolkit are disabled so users with vestibular
+// disorders or who have explicitly opted out of motion are not exposed to
+// non-essential animation.
+@media (prefers-reduced-motion: reduce) {
+  .e-control,
+  .e-control * {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+    scroll-behavior: auto !important;
+  }
+}

@@ -4,7 +4,7 @@
 @inherits CalendarBase<TValue>
 @namespace Syncfusion.Blazor.Toolkit.Calendars
 
-<div id="@ID" @ref="Element" class="@RootClass" @attributes="_containerAttr" tabindex="@this.TabIndex">
+<div id="@ID" @ref="Element" class="@RootClass" role="application" aria-label="@AriaLabel" @attributes="_containerAttr" tabindex="@this.TabIndex">
     <CascadingValue Value="@this">
             <CalendarBaseRender @ref="@CalendarBase" TValue="TValue" CssClass="@this.CssClass" Disabled="@this.Disabled" MultiSelection="@this.IsMultiSelection" @bind-MultiValues="@this.Values" CalendarMode="@this.CalendarMode"></CalendarBaseRender>
         @ChildContent

@@ -1,4 +1,4 @@
-﻿@namespace Syncfusion.Blazor.Toolkit.Popups
+@namespace Syncfusion.Blazor.Toolkit.Popups
 @using Syncfusion.Blazor;
 @using Microsoft.AspNetCore.Components;
 @inherits SfBaseComponent
@@ -16,7 +16,7 @@
 @if (_renderWrapper)
 {
     <div id="@(ID)_content_placeholder" class="@TOOLTIPCONTENTPLACEHOLDER">
-        <div id="@(ID)_content" class="@TOOLTIPCONTENTCLASS @CssClass" role="tooltip" aria-hidden="false">
+        <div id="@(ID)_content" class="@TOOLTIPCONTENTCLASS @CssClass" role="tooltip" aria-hidden="false" aria-label="@AriaLabel" aria-labelledby="@AriaLabelledBy" aria-describedby="@AriaDescribedBy">
             <div class="@TOOLTIPCONTENT">
                 @if (!string.IsNullOrEmpty(Content))
                 {
@@ -36,7 +36,7 @@
             }
             @if (IsSticky)
             {
-                <div class="@CLOSEICON" @onclick="@StickyCloseAsync" role="button" aria-label="Close tooltip"></div>
+                <button type="button" class="@CLOSEICON" aria-label="@Localizer["CloseTooltip"]" title="@Localizer["CloseTooltip"]" @onclick="@StickyCloseAsync" @onkeydown="@StickyCloseKeyDownAsync"></button>
             }
         </div>
     </div>

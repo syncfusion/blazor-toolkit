@@ -22,7 +22,7 @@ namespace Syncfusion.Blazor.Toolkit.Tests.Calendars.TimePicker
             Assert.Contains("e-timepicker", inputElement.ClassName);
             Assert.Equal(2, parentContainer.ChildElementCount);
             Assert.Equal("INPUT", parentContainer.Children[0].TagName);
-            Assert.Equal("SPAN", parentContainer.Children[1].TagName);
+            Assert.Equal("BUTTON", parentContainer.Children[1].TagName);
             var timeIcon = parentContainer.Children[1];
             Assert.Contains("e-clock", timeIcon.ClassName);
         }
@@ -37,7 +37,7 @@ namespace Syncfusion.Blazor.Toolkit.Tests.Calendars.TimePicker
             Assert.Contains("e-timepicker", inputElement.ClassName);
             Assert.Equal(2, parentContainer.ChildElementCount);
             Assert.Equal("INPUT", parentContainer.Children[0].TagName);
-            Assert.Equal("SPAN", parentContainer.Children[1].TagName);
+            Assert.Equal("BUTTON", parentContainer.Children[1].TagName);
             var timeIcon = parentContainer.Children[1];
             Assert.Contains("e-clock", timeIcon.ClassName);
         }
@@ -1763,11 +1763,14 @@ namespace Syncfusion.Blazor.Toolkit.Tests.Calendars.TimePicker
             var popupEle = dateInstance.Find(".e-popup");
             var liCollec = popupEle.QuerySelectorAll("li");
             liCollec[2].Click();
-            // With "hh:MM tt", hour is two-digit; expect leading zero
-            var inputEle1 = dateInstance.Find("input");
-            var actual = inputEle1.GetAttribute("value").Replace('\u202F', ' ').Trim();
-            await Task.Delay(1000);
-            Assert.Contains("01:00 AM", actual);
+            // With "hh:MM tt", hour is two-digit; expect leading zero - wait for the
+            // async value update to propagate to the input before asserting.
+            dateInstance.WaitForAssertion(() =>
+            {
+                var inputEle1 = dateInstance.Find("input");
+                var actual = inputEle1.GetAttribute("value").Replace('\u202F', ' ').Trim();
+                Assert.Contains("01:00 AM", actual);
+            });
             // Kind remains Local after selection
             Assert.Equal(DateTimeKind.Local, dateInstance.Instance.Value!.Value.Kind);
         }

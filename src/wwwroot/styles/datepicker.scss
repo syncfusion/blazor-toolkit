@@ -531,7 +531,8 @@ $date-picker-popup-next-min-width: 55px !default;
   }
 
   .e-date-wrapper {
-    #{if(&, '&', '*')} span.e-input-group-icon {
+    #{if(&, '&', '*')} span.e-input-group-icon,
+    #{if(&, '&', '*')} button.e-input-group-icon {
       #{if(&, '&', '*')}.e-timeline-today.e-toolkit-icons.e-active {
         color: $datepicker-icon-color;
       }

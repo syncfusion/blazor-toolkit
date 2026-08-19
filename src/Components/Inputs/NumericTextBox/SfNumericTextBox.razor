@@ -16,22 +16,23 @@
                 <label class="@FloatLabel?.Trim()" id="label_@(ID)" for="@(ID)">@this.Placeholder</label>
                 @if (this.ShowClearButton)
                 {
-                    <span class="@(ClearIconClass)" aria-label="close" role="button" @onclick="@WireClearBtnEventsAsync"
-                          @onmousedown="@BindClearBtnEventsAsync" @ontouchstart="@BindClearBtnTouchEventsAsync"
-                          @onmousedown:preventDefault="@ClickStopPropagation"
-                          @ontouchstart:preventDefault="@ClickStopPropagation">
-                    </span>
+                    <button type="button" class="@(ClearIconClass)" aria-label="@Localizer["Clear"]" title="@Localizer["Clear"]"
+                            @onclick="@WireClearBtnEventsAsync"
+                            @onmousedown="@BindClearBtnEventsAsync" @ontouchstart="@BindClearBtnTouchEventsAsync"
+                            @onmousedown:preventDefault="@ClickStopPropagation"
+                            @ontouchstart:preventDefault="@ClickStopPropagation">
+                    </button>
                 }
                 @if (this.SpinButton)
                 {
-                    <span class="@(GROUPICON + SPACE + SPINDOWN)" title="@DecrementTitle" aria-label="@DecrementTitle"
-                          role="button" @onmousedown="@MouseDownOnSpinner" @onmouseup="@MouseUpOnSpinnerAsync"
-                          @onmousedown:preventDefault="@IsSpinButtonChanged"
-                          @onmouseup:preventDefault="@IsSpinButtonChanged"></span>
-                    <span class="@(GROUPICON + SPACE + SPINUP)" title="@IncrementTitle" aria-label="@IncrementTitle"
-                          role="button" @onmousedown="@MouseDownOnSpinner" @onmouseup="@MouseUpOnSpinnerAsync"
-                          @onmousedown:preventDefault="@IsSpinButtonChanged"
-                          @onmouseup:preventDefault="@IsSpinButtonChanged"></span>
+                    <button type="button" class="@(GROUPICON + SPACE + SPINDOWN)" title="@DecrementTitle" aria-label="@DecrementTitle"
+                            @onmousedown="@MouseDownOnSpinner" @onmouseup="@MouseUpOnSpinnerAsync"
+                            @onmousedown:preventDefault="@IsSpinButtonChanged"
+                            @onmouseup:preventDefault="@IsSpinButtonChanged"></button>
+                    <button type="button" class="@(GROUPICON + SPACE + SPINUP)" title="@IncrementTitle" aria-label="@IncrementTitle"
+                            @onmousedown="@MouseDownOnSpinner" @onmouseup="@MouseUpOnSpinnerAsync"
+                            @onmousedown:preventDefault="@IsSpinButtonChanged"
+                            @onmouseup:preventDefault="@IsSpinButtonChanged"></button>
                 }
             </div>
         }
@@ -43,21 +44,22 @@
                        @onchange="@OnChangeHandlerAsync" @onfocus="@OnFocusHandlerAsync" @onwheel="OnMouseWheelAsync" @onwheel:preventDefault @onblur="@OnBlurHandlerAsync" />
                 @if (this.ShowClearButton)
                 {
-                    <span class="@(ClearIconClass)" aria-label="close" role="button" @onclick="@WireClearBtnEventsAsync"
-                          @onmousedown="@BindClearBtnEventsAsync" @ontouchstart="@BindClearBtnTouchEventsAsync"
-                          @onmousedown:preventDefault="@ClickStopPropagation"
-                          @ontouchstart:preventDefault="@ClickStopPropagation"></span>
+                    <button type="button" class="@(ClearIconClass)" aria-label="@Localizer["Clear"]" title="@Localizer["Clear"]"
+                            @onclick="@WireClearBtnEventsAsync"
+                            @onmousedown="@BindClearBtnEventsAsync" @ontouchstart="@BindClearBtnTouchEventsAsync"
+                            @onmousedown:preventDefault="@ClickStopPropagation"
+                            @ontouchstart:preventDefault="@ClickStopPropagation"></button>
                 }
                 @if (this.SpinButton)
                 {
-                    <span class="@(GROUPICON + SPACE + SPINDOWN)" title="@DecrementTitle" aria-label="@DecrementTitle"
-                          role="button" @onmousedown="@MouseDownOnSpinner" @onmouseup="@MouseUpOnSpinnerAsync"
-                          @onmousedown:preventDefault="@IsSpinButtonChanged"
-                          @onmouseup:preventDefault="@IsSpinButtonChanged"></span>
-                    <span class="@(GROUPICON + SPACE + SPINUP)" title="@IncrementTitle" aria-label="@IncrementTitle"
-                          role="button" @onmousedown="@MouseDownOnSpinner" @onmouseup="@MouseUpOnSpinnerAsync"
-                          @onmousedown:preventDefault="@IsSpinButtonChanged"
-                          @onmouseup:preventDefault="@IsSpinButtonChanged"></span>
+                    <button type="button" class="@(GROUPICON + SPACE + SPINDOWN)" title="@DecrementTitle" aria-label="@DecrementTitle"
+                            @onmousedown="@MouseDownOnSpinner" @onmouseup="@MouseUpOnSpinnerAsync"
+                            @onmousedown:preventDefault="@IsSpinButtonChanged"
+                            @onmouseup:preventDefault="@IsSpinButtonChanged"></button>
+                    <button type="button" class="@(GROUPICON + SPACE + SPINUP)" title="@IncrementTitle" aria-label="@IncrementTitle"
+                            @onmousedown="@MouseDownOnSpinner" @onmouseup="@MouseUpOnSpinnerAsync"
+                            @onmousedown:preventDefault="@IsSpinButtonChanged"
+                            @onmouseup:preventDefault="@IsSpinButtonChanged"></button>
                 }
             </span>
         }

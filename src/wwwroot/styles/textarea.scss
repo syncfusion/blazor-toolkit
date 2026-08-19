@@ -37,4 +37,23 @@
     background: none;
 }
 
+// WCAG 2.1.1 Keyboard: visual parity after promoting the textarea clear
+// icon from <span> to <SfButton>. Strip default <button> styling on the
+// icon button so it renders as a transparent borderless icon.
+.e-input-group,
+.e-float-input,
+.e-input-group.e-control-wrapper,
+.e-float-input.e-control-wrapper {
+    button.e-toolkit-icons.e-close.e-clear-icon-hide {
+        background: transparent;
+        border: 0;
+        color: inherit;
+        cursor: pointer;
+        font: inherit;
+        margin: 0;
+        padding: 0;
+        text-transform: none;
+    }
+}
+
 /* stylelint-disable-line no-empty-source */
