@@ -1,0 +1,67 @@
+name: CodeQL
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+  schedule:
+    # Runs every Monday at 06:00 UTC
+    - cron: '0 6 * * 1'
+  workflow_dispatch:               # Allow manual runs
+
+concurrency:
+  group: codeql-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  analyze:
+    name: Analyze (csharp)
+    runs-on: ubuntu-latest
+    timeout-minutes: 360          # CodeQL can take longer on larger repos
+
+    permissions:
+      actions: read
+      contents: read
+      security-events: write       # Required to upload results to GitHub Security tab
+
+    strategy:
+      fail-fast: false
+      matrix:
+        language: ['csharp']
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0           # Full history improves analysis quality
+
+      - name: Initialize CodeQL
+        uses: github/codeql-action/init@v3
+        with:
+          languages: ${{ matrix.language }}
+          # Optional: add custom queries if needed later
+          # queries: +security-and-quality
+
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: |
+            8.x
+            9.x
+            10.x
+
+      - name: Autobuild
+        uses: github/codeql-action/autobuild@v3
+        # Autobuild works well for most .NET solutions.
+        # If it fails, replace this step with a manual build:
+
+        # - name: Manual build
+        #   run: |
+        #     dotnet restore ./Syncfusion.Blazor.Toolkit.slnx
+        #     dotnet build ./Syncfusion.Blazor.Toolkit.slnx -c Release --no-restore
+
+      - name: Perform CodeQL Analysis
+        uses: github/codeql-action/analyze@v3
+        with:
+          category: "/language:${{ matrix.language }}"
