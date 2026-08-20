@@ -14,9 +14,10 @@
     var ariaSelected = cellData.ClassList?.Contains(SELECTED, StringComparison.Ordinal).ToString().ToLower();
     var classList = cellData.ClassList ?? string.Empty;
     var isToday = classList.Contains(TODAY, StringComparison.Ordinal);
+    var isDisabled = classList.Contains(DISABLED, StringComparison.Ordinal);
     if (this.Parent is not null)
     {
-        <td @ref="_dayCell" class="@(CellClass is not null ? CellClass : this.TdEleClass)" id="@(LocalDates.Ticks + "_" + this.Cells)" aria-selected="@(ariaSelected)" aria-current="@(isToday ? "date" : null)" aria-label="@(Localizer["CalendarCell"] + " " + (this.DayLink ?? string.Empty))" @onclick="@((e) => OnCellClick.InvokeAsync(cellData))">
+        <td @ref="_dayCell" class="@(CellClass is not null ? CellClass : this.TdEleClass)" id="@(LocalDates.Ticks + "_" + this.Cells)" aria-selected="@(ariaSelected)" aria-disabled="@(isDisabled ? "true" : null)" aria-current="@(isToday ? "date" : null)" aria-label="@(Localizer["CalendarCell"] + " " + (this.DayLink ?? string.Empty) + (isDisabled ? ", " + Localizer["Disabled"] : string.Empty))" @onclick="@((e) => OnCellClick.InvokeAsync(cellData))">
             <span title="@this.DayTitle" class="@LINK">@this.DayLink</span>
         </td>
     }

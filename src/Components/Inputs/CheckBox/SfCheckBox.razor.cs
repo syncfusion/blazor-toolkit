@@ -79,6 +79,13 @@ namespace Syncfusion.Blazor.Toolkit.Inputs
         private string _checkboxClass = string.Empty;
         private readonly Dictionary<string, object> _htmlAttributes = [];
         private Dictionary<string, object> _labelAttributes = [];
+        // Tracks the last announced state so the live region only fires when the value
+        // actually changes. Helps suppress the "checked" announcement when transitioning
+        // out of the indeterminate state on some screen readers.
+        private CheckboxState? _lastAnnouncedState;
+        // Text rendered into the visually hidden live region. Updated on state change so
+        // assistive technologies announce the new state without re-reading the label.
+        private string _stateAnnouncement = string.Empty;
 
         // JS module references for JS isolation
         private IJSObjectReference? _checkBoxJsModule;
@@ -553,6 +560,7 @@ namespace Syncfusion.Blazor.Toolkit.Inputs
                 // Apply changes
                 UpdateVisualState(next);
                 await UpdateCheckedStateAsync(next).ConfigureAwait(false);
+                UpdateStateAnnouncement(next);
                 await PersistAndNotifyAsync(args).ConfigureAwait(false);
             }
             catch (Exception ex) when (Logger is not null)
@@ -566,6 +574,32 @@ namespace Syncfusion.Blazor.Toolkit.Inputs
                 // No logger is configured: rethrow so the developer is alerted to the failure.
                 throw;
             }
+        }
+
+        /// <summary>
+        /// Updates the visually hidden live-region text so the screen reader announces
+        /// the new state in isolation rather than the full label + state.
+        /// </summary>
+        /// <param name="newState">The new checkbox state that was just applied.</param>
+        /// <remarks>
+        /// Some assistive technologies (notably NVDA) mis-announce transitions out of the
+        /// indeterminate state. Writing a short, state-only message to a polite live region
+        /// gives the screen reader something explicit to read on every transition.
+        /// </remarks>
+        private void UpdateStateAnnouncement(CheckboxState newState)
+        {
+            if (_lastAnnouncedState.HasValue && _lastAnnouncedState.Value == newState)
+            {
+                return;
+            }
+
+            _lastAnnouncedState = newState;
+            _stateAnnouncement = newState switch
+            {
+                CheckboxState.Checked => "checked",
+                CheckboxState.Unchecked => "unchecked",
+                _ => "indeterminate"
+            };
         }
 
         #endregion

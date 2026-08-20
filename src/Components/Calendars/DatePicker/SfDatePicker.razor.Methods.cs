@@ -203,6 +203,8 @@ namespace Syncfusion.Blazor.Toolkit.Calendars
                     DateIcon = SfBaseUtils.RemoveClass(DateIcon, ACTIVE);
                 }
                 _ = InputHtmlAttributes.Remove(ARIAACTIVEDESCENDANT);
+                _ = SfBaseUtils.UpdateDictionary(ARIAEXPANDED, FALSE, InputHtmlAttributes);
+                _ = InputHtmlAttributes.Remove(ARIA_OWN);
                 await InvokeVoidAsync(_datePickerJsModule, _datePickerJsInProcessModule, "closePopup", [DataId, PopupEventArgs, options]).ConfigureAwait(true);
                 IsCalendarRender = false;
             }

@@ -188,6 +188,7 @@ namespace Syncfusion.Blazor.Toolkit.Calendars
                     BaseInputAttributes = RemoveAttributes(READ_ONLY, BaseInputAttributes);
                 }
                 _ = InputHtmlAttributes.Remove(ARIA_ACTIVE_DESCENDANT);
+                _ = SfBaseUtils.UpdateDictionary(ARIA_EXPANDED, FALSE, InputHtmlAttributes);
                 TimeIcon = SfBaseUtils.RemoveClass(TimeIcon, ACTIVE);
                 await InvokeVoidAsync(_timePickerJsModule!, _timePickerJsInProcessModule!, "closePopup", [DataId, PopupEventArgs, options]).ConfigureAwait(true);
                 IsListRender = false;

@@ -10,7 +10,7 @@
 </CascadingValue>
     <div class="@ContainerClass" @attributes="@_containerAttr">
         <div class="@DROP_CONTAINER">
-            <button class="e-css e-btn e-upload-browse-btn" type="button" @attributes="@_browseBtnAttr">@this.BrowseBtnContent</button>
+            <button class="e-css e-btn e-upload-browse-btn" type="button" tabindex="@this.TabIndex" @attributes="@_browseBtnAttr">@this.BrowseBtnContent</button>
             <span class="@InputContainer">
                 <InputFile id="@ID" @ref="FileElement" aria-label="@(string.IsNullOrWhiteSpace(AriaLabel) ? Localizer[DROP_FILE_KEY] : AriaLabel)" @attributes="@_inputAttr" OnChange="@OnChange"></InputFile>
                 <CascadingValue Value="@this">

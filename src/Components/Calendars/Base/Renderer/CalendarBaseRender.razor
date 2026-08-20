@@ -6,7 +6,7 @@
 @inherits CalendarBase<TValue>
 
 <div class="@this.ContentHeader">
-    <button type="button" class="@TitleClass" aria-atomic="true" aria-label="@(Localizer["CalendarViewTitle"] + " " + (CultureInfo.CurrentCulture.TextInfo.ToTitleCase(this.HeaderTitle ?? string.Empty)))" @onclick="@NavigateTitleAsync">@(CultureInfo.CurrentCulture.TextInfo.ToTitleCase(this.HeaderTitle ?? string.Empty))</button>
+    <button type="button" tabindex="0" class="@TitleClass" aria-atomic="true" aria-label="@(Localizer["CalendarViewTitle"] + " " + (CultureInfo.CurrentCulture.TextInfo.ToTitleCase(this.HeaderTitle ?? string.Empty)))" @onclick="@NavigateTitleAsync">@(CultureInfo.CurrentCulture.TextInfo.ToTitleCase(this.HeaderTitle ?? string.Empty))</button>
     <div class="@ICON_CONTAINER">
         <button tabindex="0" class="@this.PrevIconClass" type="button" @attributes="@this.PrevIconAttr" aria-label="@(Localizer["PreviousMonth"])" @onclick="@((args) => NavigatePreviousHandlerAsync(args, false))">
             <span class="@(PREV_SPAN + SPACE + ICON)"></span>

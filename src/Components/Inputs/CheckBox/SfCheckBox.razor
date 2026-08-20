@@ -7,13 +7,13 @@
 @{
     // Build container attributes with safe defaults and accessibility fallbacks
     Dictionary<string, object> containerAttributes = new Dictionary<string, object>();
-    
+
     // Handle title attribute
     if (_inputAttributes != null && _inputAttributes.ContainsKey(TitleAttribute))
     {
         containerAttributes = GetAttributes(_inputAttributes[TitleAttribute]);
     }
-    
+
     // Handle readonly attribute
     if (_inputAttributes != null && _inputAttributes.ContainsKey(ReadOnlyAttribute))
     {
@@ -63,4 +63,7 @@
             }
         }
     </label>
+    @* Hidden live region for state-change announcements. Using aria-live="polite" so only the
+       state change is announced instead of the entire label + state. *@
+    <span class="e-checkbox-status" role="status" aria-live="polite" style="position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0;">@_stateAnnouncement</span>
 </div>

@@ -285,4 +285,7 @@
   <data name="Datetimepicker" xml:space="preserve">
     <value>Date and time picker</value>
   </data>
+  <data name="Disabled" xml:space="preserve">
+    <value>disabled</value>
+  </data>
 </root>

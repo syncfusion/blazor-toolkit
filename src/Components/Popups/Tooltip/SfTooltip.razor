@@ -16,7 +16,7 @@
 @if (_renderWrapper)
 {
     <div id="@(ID)_content_placeholder" class="@TOOLTIPCONTENTPLACEHOLDER">
-        <div id="@(ID)_content" class="@TOOLTIPCONTENTCLASS @CssClass" role="tooltip" aria-hidden="false" aria-label="@AriaLabel" aria-labelledby="@AriaLabelledBy" aria-describedby="@AriaDescribedBy">
+        <div id="@(ID)_content" class="@TOOLTIPCONTENTCLASS @CssClass" role="tooltip" aria-hidden="false" aria-live="polite" aria-atomic="true" aria-label="@AriaLabel" aria-labelledby="@AriaLabelledBy" aria-describedby="@AriaDescribedBy">
             <div class="@TOOLTIPCONTENT">
                 @if (!string.IsNullOrEmpty(Content))
                 {

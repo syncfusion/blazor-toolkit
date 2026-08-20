@@ -103,6 +103,15 @@ namespace Syncfusion.Blazor.Toolkit.Inputs
 
         private string? ValidClass { get; set; }
 
+        // Last formatted value pushed into the hidden live region. Used to suppress duplicate
+        // announcements when the value is set to the same value (e.g. from external binding).
+        private string? _lastAnnouncedFormattedValue;
+
+        // Text rendered into the hidden live region. When the value changes (especially through
+        // the spinner buttons), this string is updated so screen readers re-announce the value
+        // without depending on focus being on the input.
+        internal string _valueAnnouncement = string.Empty;
+
         private string? FocusInputValue { get; set; }
 
         private bool IsDropValue { get; set; }
@@ -540,6 +549,10 @@ namespace Syncfusion.Blazor.Toolkit.Inputs
             }
 
             await ModifyTextAsync().ConfigureAwait(true);
+            // Update the hidden live region with the formatted value so screen readers
+            // announce the new value (especially after spinner interactions, where focus
+            // remains on the spinner button).
+            UpdateValueAnnouncement();
             if (!StrictMode)
             {
                 ValidateState();
@@ -549,6 +562,25 @@ namespace Syncfusion.Blazor.Toolkit.Inputs
                 await InvokeVoidAsync(_numericTextBoxJsModule, _numericTextBoxJsInProcessModule, "clearInvalid", [DataId, default!]).ConfigureAwait(true);
 
             }
+        }
+
+        /// <summary>
+        /// Updates the visually hidden live-region content with the current formatted value.
+        /// </summary>
+        /// <remarks>
+        /// The live region is only updated when the formatted value actually changes so
+        /// identical programmatic writes do not trigger redundant announcements.
+        /// </remarks>
+        private void UpdateValueAnnouncement()
+        {
+            string? formatted = FormatValueAsString(InputTextValue);
+            if (string.IsNullOrEmpty(formatted) || string.Equals(formatted, _lastAnnouncedFormattedValue, StringComparison.Ordinal))
+            {
+                return;
+            }
+
+            _lastAnnouncedFormattedValue = formatted;
+            _valueAnnouncement = formatted;
         }
 
         /// <summary>

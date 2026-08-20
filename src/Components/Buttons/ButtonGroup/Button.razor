@@ -33,9 +33,10 @@ else
            checked="@Selected"
            disabled="@Disabled"
            @onkeydown="HandleInputKeyDownAsync"
+           @onchange="HandleInputChangeAsync"
            @attributes="HtmlAttributes">
-       
-       <label for="@InputId" class=@(string.IsNullOrEmpty(CssClass) ? "e-btn" : "e-btn " + CssClass) @onclick="ClickHandlerAsync" title="@title">
+
+       <label for="@InputId" class="@(string.IsNullOrEmpty(CssClass) ? "e-btn" : "e-btn " + CssClass) @(Selected ? "e-active" : null)" @onclick="ClickHandlerAsync" title="@title">
         @if (!string.IsNullOrEmpty(IconCss) && (IconPosition == IconPosition.Left || IconPosition == IconPosition.Top))
         {
             <span class="@IconCss e-btn-icon"></span>
