@@ -1,0 +1,94 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+  workflow_dispatch:                # Allow manual runs from the Actions tab
+
+concurrency:
+  group: ci-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+env:
+  DOTNET_NOLOGO: true
+  DOTNET_CLI_TELEMETRY_OPTOUT: true
+  DOTNET_SKIP_FIRST_TIME_EXPERIENCE: true
+
+jobs:
+  build-and-test:
+    name: Build & Test
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: |
+            8.x
+            9.x
+            10.x
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+
+      - name: Install npm dependencies
+        run: npm ci
+
+      - name: Restore
+        run: dotnet restore ./Syncfusion.Blazor.Toolkit.slnx
+
+      - name: Build
+        run: dotnet build ./Syncfusion.Blazor.Toolkit.slnx -c Release --no-restore
+
+      - name: Run bUnit tests
+        run: |
+          dotnet test tests/Syncfusion.Blazor.Toolkit.BUnitTest/ \
+            -c Release \
+            --no-build \
+            --logger "trx;LogFileName=bunit-results.trx" \
+            --logger "html;LogFileName=bunit-results.html" \
+            --results-directory TestResults \
+            --collect:"XPlat Code Coverage"
+
+      # Uncomment the block below when Playwright tests are ready for CI
+      # - name: Install Playwright browsers
+      #   run: npx playwright install --with-deps
+      #
+      # - name: Run Playwright tests
+      #   run: |
+      #     dotnet test tests/Syncfusion.Blazor.Playwright.Test/ \
+      #       -c Release \
+      #       --no-build \
+      #       --logger "trx;LogFileName=playwright-results.trx" \
+      #       --results-directory TestResults
+
+      - name: Upload test results
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: test-results
+          path: |
+            TestResults/
+            **/coverage.cobertura.xml
+          retention-days: 14
+          if-no-files-found: ignore
+
+      - name: Publish test results
+        if: always()
+        uses: dorny/test-reporter@v1
+        with:
+          name: Test Results
+          path: 'TestResults/**/*.trx'
+          reporter: dotnet-trx
+          fail-on-error: true
