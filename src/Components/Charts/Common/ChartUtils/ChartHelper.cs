@@ -1,13 +1,13 @@
+using System.Collections.Concurrent;
+using System.Collections.ObjectModel;
+using System.Drawing;
 using System.Dynamic;
+using System.Globalization;
 using System.Text.Json;
 using System.Text.RegularExpressions;
-using Microsoft.AspNetCore.Components.Rendering;
-using System.Drawing;
-using System.Globalization;
 using Microsoft.AspNetCore.Components;
+using Microsoft.AspNetCore.Components.Rendering;
 using Syncfusion.Blazor.Toolkit.Internal;
-using System.Collections.ObjectModel;
-using System.Collections.Concurrent;
 
 namespace Syncfusion.Blazor.Toolkit.Charts.Internal
 {
@@ -33,27 +33,28 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
         /// </summary>
         /// <remarks>
         /// <para>
-        /// Glyph metrics for a given <c>(character, FontWeight, FontStyle, FontFamily)</c> tuple are deterministic
-        /// for the lifetime of the process (the JavaScript side measures the actual rendered glyph), so the cache
-        /// is shared across all circuits and chart instances on this process to avoid redundant JS interop.
+        /// <strong>DEPRECATED:</strong> This static cache causes unbounded memory growth on long-lived Blazor Server hosts.
+        /// New code should use <see cref="SfChart._fontSizeCache"/> (per-chart instance) and the overloaded
+        /// <see cref="MeasureText(string, ChartFontOptions, object)"/> method that accepts an SfChart parameter.
         /// </para>
         /// <para>
-        /// Do NOT clear this cache on chart disposal: clearing on one chart's teardown would invalidate entries
-        /// still in use by every other live chart on the process, forcing them to re-measure. The cache is
-        /// intrinsically bounded by the set of characters &#215; font weights &#215; font styles &#215; font families
-        /// the process ever renders, which is small in practice.
+        /// For backward compatibility, this cache is retained but not used by new SfChart rendering paths.
+        /// It will be removed in a future major version.
         /// </para>
         /// </remarks>
+        [System.Obsolete("Use SfChart._fontSizeCache and MeasureText(string, ChartFontOptions, object) overload instead. This static cache causes memory leaks on long-lived Blazor Server hosts.")]
         internal static ConcurrentDictionary<string, Size> SizePerCharacter { get; } = new ConcurrentDictionary<string, Size>();
 
         /// <summary>
         /// Gets the set of font keys for which character sizes have already been requested from JavaScript.
         /// </summary>
         /// <remarks>
-        /// Mirrors <see cref="SizePerCharacter"/> keys minus the character prefix; used to short-circuit
-        /// duplicate JS-interop requests on the same circuit. See the remarks on <see cref="SizePerCharacter"/>
-        /// for why this is process-wide and not cleared per-chart.
+        /// <para>
+        /// <strong>DEPRECATED:</strong> Use <see cref="SfChart._requestedFontKeys"/> instead. This static cache causes
+        /// unbounded memory growth on long-lived Blazor Server hosts and is not cleared per-circuit.
+        /// </para>
         /// </remarks>
+        [System.Obsolete("Use SfChart._requestedFontKeys instead. This static cache causes memory leaks on long-lived Blazor Server hosts.")]
         internal static List<string> ChartFontKeys { get; } = new List<string>();
 
         /// <summary>
@@ -119,6 +120,33 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
         }
 
         /// <summary>
+        /// Measures multi-line text (split by &lt;br&gt;) using a chart instance's cache to avoid process-wide memory leak.
+        /// </summary>
+        /// <param name="originalText">The text that may contain line breaks.</param>
+        /// <param name="font">The font settings used during measurement.</param>
+        /// <param name="chart">The chart instance owning the cache.</param>
+        /// <returns>The measured size encompassing all lines.</returns>
+        private static Size MeasureBreakText(string originalText, ChartFontOptions font, object chart)
+        {
+            originalText = originalText.Replace("<br/>", "<br>", StringComparison.InvariantCulture);
+            List<string> textCollection = originalText.Split("<br>").ToList();
+            double width = 0;
+            double height = 0;
+
+            foreach (string text in textCollection)
+            {
+                Size size = MeasureText(text, font, chart);
+                if (size is not null)
+                {
+                    width = Math.Max(width, size.Width);
+                    height += size.Height;
+                }
+            }
+
+            return new Size(width, height);
+        }
+
+        /// <summary>
         /// Retrieves the cached character size for a font and caches the value if missing.
         /// </summary>
         /// <param name="character">The character to measure.</param>
@@ -147,6 +175,51 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
                     // Default size for characters not in Font dictionary
                     Size defaultSize = new Size { Width = 50, Height = 130 };
                     Size result = SizePerCharacter.GetOrAdd(key, defaultSize);
+                    return result ?? null!;
+                }
+            }
+            catch
+            {
+                throw;
+            }
+        }
+
+        /// <summary>
+        /// Retrieves the cached character size from a chart-instance cache, or computes and caches the value if missing.
+        /// </summary>
+        /// <remarks>
+        /// This method uses instance-level caching (per SfChart) to avoid the process-wide memory leak of the static version.
+        /// The chart's own <c>_fontSizeCache</c> is used instead of the deprecated <see cref="SizePerCharacter"/>.
+        /// </remarks>
+        /// <param name="chart">The chart instance owning the cache.</param>
+        /// <param name="character">The character to measure.</param>
+        /// <param name="font">The font settings used during measurement.</param>
+        /// <returns>The measured character size.</returns>
+        private static Size GetCharSize(object chart, char character, ChartFontOptions font)
+        {
+            var sfChart = chart as Charts.SfChart;
+            if (sfChart is null)
+                return GetCharSize(character, font); // Fallback to process-wide cache if chart not available
+
+            var fontCache = sfChart._fontSizeCache;
+            string key = character + Constants.Underscore + font.FontWeight + Constants.Underscore + font.FontStyle + Constants.Underscore + font.FontFamily;
+            try
+            {
+                if (fontCache.TryGetValue(key, out Size? charSize))
+                {
+                    return charSize ?? null!;
+                }
+                double charWidth;
+                if (FontWidthLookup.TryGetValue(character, out charWidth))
+                {
+                    Size newSize = new Size { Width = charWidth * 6.25, Height = 130 };
+                    Size result = fontCache.GetOrAdd(key, newSize);
+                    return result ?? null!;
+                }
+                else
+                {
+                    Size defaultSize = new Size { Width = 50, Height = 130 };
+                    Size result = fontCache.GetOrAdd(key, defaultSize);
                     return result ?? null!;
                 }
             }
@@ -1176,6 +1249,51 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
             for (int i = 0; i < text.Length; i++)
             {
                 charSize = GetCharSize(text[i], font);
+                if (charSize is not null)
+                {
+                    width += charSize.Width > 0 ? charSize.Width : 100;
+                    height = Math.Max(charSize.Height, height);
+                }
+            }
+
+            return new Size((width * fontSize) / 100, (height * fontSize) / 100);
+        }
+
+        /// <summary>
+        /// Measures text using a chart instance's font cache to avoid process-wide memory accumulation.
+        /// </summary>
+        /// <remarks>
+        /// This overload uses the chart's instance-level <c>_fontSizeCache</c> instead of the deprecated
+        /// static <see cref="SizePerCharacter"/>, ensuring per-circuit/per-chart memory isolation.
+        /// </remarks>
+        /// <param name="text">The text to measure.</param>
+        /// <param name="font">The font options for the text.</param>
+        /// <param name="chart">The chart instance owning the cache.</param>
+        /// <returns>The measured text size.</returns>
+        internal static Size MeasureText(string text, ChartFontOptions font, object chart)
+        {
+            if (text.Contains("<br>", StringComparison.InvariantCulture) || text.Contains("<br/>", StringComparison.InvariantCulture))
+            {
+                return MeasureBreakText(text, font, chart);
+            }
+
+            double width = 0, height = 0, fontSize = PixelToNumber(font.Size);
+            Size charSize;
+
+            if (IsRTLText(text))
+            {
+                string key = text + Constants.Underscore + font.FontWeight + Constants.Underscore + font.FontStyle + Constants.Underscore + font.FontFamily;
+                var sfChart = chart as Charts.SfChart;
+                if (sfChart is not null && sfChart._fontSizeCache.TryGetValue(key, out Size? value))
+                {
+                    charSize = value;
+                    return new Size(charSize.Width * (fontSize / 100), charSize.Height * (fontSize / 100));
+                }
+            }
+
+            for (int i = 0; i < text.Length; i++)
+            {
+                charSize = GetCharSize(chart, text[i], font);
                 if (charSize is not null)
                 {
                     width += charSize.Width > 0 ? charSize.Width : 100;
@@ -2391,13 +2509,20 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
         /// Clears static font measurement caches.
         /// </summary>
         /// <remarks>
-        /// Previously called from <c>SfChart.UnWireEventsAsync</c> on chart teardown. That call was removed:
-        /// clearing a process-wide cache from a single chart's disposal evicted entries still in use by every
-        /// other live chart on the process, forcing them to re-measure via JS interop. The cache is now left
-        /// in place for the lifetime of the process and is bounded by the (character &#215; font) tuple space.
+        /// <para>
+        /// <strong>DEPRECATED:</strong> This method is no longer called by SfChart. New code should rely on
+        /// <see cref="SfChart.DisposeAsyncCore"/> which clears the instance-level <see cref="SfChart._fontSizeCache"/>
+        /// and <see cref="SfChart._requestedFontKeys"/>.
+        /// </para>
+        /// <para>
+        /// Historically, this method could not be called during chart disposal because clearing a process-wide cache
+        /// from a single chart's teardown evicted entries still in use by every other live chart on the process,
+        /// forcing them to re-measure via JS interop. The static caches are now deprecated in favor of per-instance caches.
+        /// </para>
         /// </remarks>
         [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
         [System.ComponentModel.Browsable(false)]
+        [System.Obsolete("No longer called. Use SfChart instance-level caches via DisposeAsyncCore instead.")]
         internal static void ClearStaticStorage()
         {
             SizePerCharacter.Clear();

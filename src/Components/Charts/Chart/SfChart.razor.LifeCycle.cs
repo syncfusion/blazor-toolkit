@@ -1,7 +1,7 @@
-﻿using Microsoft.JSInterop;
-using Syncfusion.Blazor.Toolkit.Charts.Internal;
-using System.Collections.Specialized;
+﻿using System.Collections.Specialized;
 using System.ComponentModel;
+using Microsoft.JSInterop;
+using Syncfusion.Blazor.Toolkit.Charts.Internal;
 
 namespace Syncfusion.Blazor.Toolkit.Charts
 {
@@ -304,6 +304,12 @@ namespace Syncfusion.Blazor.Toolkit.Charts
                 _chartJsModule = null;
                 _chartJsInProcessModule = null;
             }
+
+            // Clear instance-level font measurement caches to prevent memory retention
+            // after the chart is disposed. This ensures per-circuit/per-chart isolation.
+            _fontSizeCache?.Clear();
+            _requestedFontKeys?.Clear();
+            
             await base.DisposeAsyncCore().ConfigureAwait(true);
         }
 
