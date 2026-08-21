@@ -9,7 +9,8 @@
 	<IsTrimmable>true</IsTrimmable>
     <IsAotCompatible>true</IsAotCompatible>
 	<TargetFrameworks>net8.0;net9.0;net10.0</TargetFrameworks>
-	<Copyright>Copyright 2001 - 2026 Syncfusion® Inc.</Copyright>
+	<!-- Copyright year is derived from the build clock so the stamp advances automatically each year. -->
+	<Copyright>Copyright 2001 - $([System.DateTime]::UtcNow.Year) Syncfusion® Inc.</Copyright>
 	<Title>Syncfusion Blazor Toolkit Components</Title>
 	<PackageDescription>The Syncfusion® Toolkit for Blazor is a high-performance, open-source collection of lightweight UI components designed to accelerate Blazor application development (Server and WebAssembly). These controls help developers build modern, responsive, and feature-rich web applications faster, with clean code and excellent performance.</PackageDescription>
 	<PackageIcon>syncfusion_logo.png</PackageIcon>

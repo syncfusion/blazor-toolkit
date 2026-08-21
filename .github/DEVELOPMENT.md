@@ -22,6 +22,18 @@ This page contains the steps to build and run the Syncfusion Toolkit for Blazor 
     dotnet build ./Syncfusion.Blazor.Toolkit.slnx
     ```
 
+### Release sanity check (local)
+
+If you want to mimic what `.github/workflows/nuget-publish.yml` does on a release runner, pass `-p:ContinuousIntegrationBuild=true` so SourceLink and the package hash match what CI produces:
+
+```dotnetcli
+dotnet restore src/Syncfusion.Blazor.Toolkit.csproj -p:ContinuousIntegrationBuild=true
+dotnet build   src/Syncfusion.Blazor.Toolkit.csproj -c Release --no-restore -p:ContinuousIntegrationBuild=true
+dotnet pack    src/Syncfusion.Blazor.Toolkit.csproj -c Release --no-build -o nupkg -p:ContinuousIntegrationBuild=true
+```
+
+> **Note**: `dotnet pack` triggers a `BeforeBuild` target that runs `npm install` and `gulp blazor-toolkit-themes` if `src/wwwroot/styles/fluent.min.css` is absent. Make sure Node.js (LTS) is on `PATH`. The release workflow installs Node 22 explicitly to handle this.
+
 ## Running Samples
 
 - Open the `samples/Blazor.Toolkit.Samples.slnx` file in Visual Studio.

@@ -7,12 +7,23 @@ on:
       - 'v[0-9]+.[0-9]+.[0-9]+'
       - 'v[0-9]+.[0-9]+.[0-9]+-*'
 
+# Serialize runs that target the same ref so two re-tags don't race the sign+push steps.
+# Never cancel an in-flight publish — abandoning a half-signed package is worse than queueing.
+concurrency:
+  group: nuget-publish-${{ github.ref }}
+  cancel-in-progress: false
+
 jobs:
   publish:
     runs-on: ubuntu-latest
+    # Minimal permissions:
+    #   contents: read          — fetch sources for SourceLink
+    #   id-token: write         — NuGet.org trusted publishing AND Azure Workload Identity (separate token lifetimes)
+    #   attestations: write     — actions/attest-build-provenance for build provenance on nuget.org
     permissions:
       contents: read
-      id-token: write   # required for both NuGet OIDC trusted publishing and Azure Workload Identity
+      id-token: write
+      attestations: write
 
     steps:
       - name: Checkout
@@ -28,32 +39,98 @@ jobs:
             9.x
             10.x
 
+      # src/Syncfusion.Blazor.Toolkit.csproj has a BeforeBuild target that runs `npm install` + `gulp
+      # blazor-toolkit-themes` if wwwroot/styles/fluent.min.css is missing. We must satisfy that on
+      # a clean runner, otherwise the pack step dies with "npm: not found" instead of a clear failure.
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+
+      - name: Cache npm
+        uses: actions/cache@v4
+        with:
+          path: ~/.npm
+          key: npm-${{ runner.os }}-${{ hashFiles('**/package-lock.json') }}
+          restore-keys: |
+            npm-${{ runner.os }}-
+
+      - name: Install npm dependencies
+        run: |
+          if [ -f package-lock.json ] || [ -f npm-shrinkwrap.json ]; then
+            npm ci
+          else
+            npm install --no-fund --no-audit
+          fi
+
+      - name: Run gulp themes task
+        # Mirrors the BeforeBuild target on a fresh runner. Idempotent — a no-op when the CSS already exists.
+        run: npx gulp blazor-toolkit-themes
+
       # Decode the strong-name key stored as a base64 GitHub Secret.
       # To create the secret: certutil -encode sf.snk sf.snk.b64  (or base64 sf.snk)
       - name: Write strong-name key
         run: echo "${{ secrets.STRONG_NAME_KEY_BASE64 }}" | base64 --decode > src/sf.snk
 
       - name: Restore
-        run: dotnet restore src/Syncfusion.Blazor.Toolkit.csproj
+        run: dotnet restore src/Syncfusion.Blazor.Toolkit.csproj -p:ContinuousIntegrationBuild=true
 
       # Fail the release if any direct or transitive dependency has a known CVE.
+      # Gate is exit-code-driven (text changes in future SDKs can't silently flip this to
+      # always-pass or always-fail). The JSON is uploaded as 'vuln-report' so the run summary
+      # is diagnosable, and a plain-text version is captured alongside it for humans.
       - name: Dependency vulnerability scan
         run: |
-          dotnet list src/Syncfusion.Blazor.Toolkit.csproj package --vulnerable --include-transitive 2>&1 | tee vuln-report.txt
-          if grep -q "has the following vulnerable packages" vuln-report.txt; then
-            echo "::error::Vulnerable packages detected — release blocked. See vuln-report.txt for details."
+          set -euo pipefail
+          # Capture both formats. Exit non-zero captures the actual gate. Captures, gate, output.
+          set +e
+          dotnet list src/Syncfusion.Blazor.Toolkit.csproj package --vulnerable --include-transitive \
+            --format json > vuln-report.json
+          vuln_exit=$?
+          dotnet list src/Syncfusion.Blazor.Toolkit.csproj package --vulnerable --include-transitive \
+            > vuln-report.txt 2>&1 || true
+          set -e
+
+          if [ "$vuln_exit" -ne 0 ]; then
+            echo "::error::Vulnerable packages detected — release blocked. See 'vuln-report' artifact for details."
+            echo "::group::Vulnerability scan output"
+            cat vuln-report.txt
+            echo "::endgroup::"
             exit 1
           fi
 
+      - name: Upload vulnerability report
+        # Always run, even on success, so the run summary confirms the scan ran.
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: vuln-report
+          path: |
+            vuln-report.json
+            vuln-report.txt
+          retention-days: 14
+          if-no-files-found: ignore
+
       - name: Build
-        run: dotnet build src/Syncfusion.Blazor.Toolkit.csproj -c Release --no-restore
+        run: dotnet build src/Syncfusion.Blazor.Toolkit.csproj -c Release --no-restore -p:ContinuousIntegrationBuild=true
 
       - name: Pack
-        run: dotnet pack src/Syncfusion.Blazor.Toolkit.csproj -c Release --no-build -o nupkg
+        run: dotnet pack src/Syncfusion.Blazor.Toolkit.csproj -c Release --no-build -o nupkg -p:ContinuousIntegrationBuild=true
 
       - name: Remove strong-name key
         if: always()
         run: rm -f src/sf.snk
+
+      # Build provenance attestation — should appear BEFORE signing so the attestation's subjects are
+      # the un-signed packed archives (.nupkg / .snupkg), not the post-sign bytes that nuget.org sees.
+      # Scoped to the pushed tag ref so the audit trail matches exactly what consumers will resolve.
+      - name: Attest build provenance
+        uses: actions/attest-build-provenance@v2
+        with:
+          subject-path: |
+            nupkg/*.nupkg
+            nupkg/*.snupkg
+          provenance-repository-refs: ${{ github.ref }}
 
       - name: Install NuGetKeyVaultSignTool
         run: dotnet tool install --global NuGetKeyVaultSignTool
