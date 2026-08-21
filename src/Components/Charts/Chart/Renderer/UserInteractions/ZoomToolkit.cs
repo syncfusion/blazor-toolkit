@@ -59,10 +59,11 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
         {
             _elementId = Chart?.ID;
             // Resolve theme-aware color tokens for the zoom toolkit. High Contrast is treated as a third branch.
+            // The soft accessibility yellow (#FFD939) matches the selectionCircleStroke / tabColor tokens in ChartHelper.GetThemeStyle("HighContrast").
             bool isHighContrast = Chart?.Theme == Theme.HighContrast;
             bool isDark = Chart?.Theme == Theme.FluentDark;
-            _selectionColor = isHighContrast ? "#FFFF00" : (isDark ? "#D6D6D6" : "#424242");
-            _fillColor = isHighContrast ? "#FFFF00" : (isDark ? "#D6D6D6" : "#424242");
+            _selectionColor = isHighContrast ? "#FFD939" : (isDark ? "#D6D6D6" : "#424242");
+            _fillColor = isHighContrast ? "#FFD939" : (isDark ? "#D6D6D6" : "#424242");
             _iconRectOverFill = isHighContrast ? "#000000" : (isDark ? "#383838" : "#EBEBEB");
             _iconRectSelectionFill = isHighContrast ? "#000000" : (isDark ? "#383838" : "#EBEBEB");
             _iconRect = isHighContrast ? new Rect(0, 0, 16, 16) : (isDark ? new Rect(0, 0, 16, 16) : new Rect(-7, -8, 32, 32));
@@ -364,7 +365,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
                 Transform = "rotate(0," + 0 + ',' + 0 + ')',
                 DominantBaseline = "middle",
                 FontSize = "12px",
-                Fill = Chart?.Theme == Theme.HighContrast ? "#FFFF00" : (Chart?.Theme != Theme.FluentDark ? "black" : "white")
+                Fill = Chart?.Theme == Theme.HighContrast ? "#FFD939" : (Chart?.Theme != Theme.FluentDark ? "black" : "white")
             });
         }
 
