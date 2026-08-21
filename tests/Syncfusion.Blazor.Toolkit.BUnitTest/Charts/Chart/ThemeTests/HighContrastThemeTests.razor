@@ -1,0 +1,386 @@
+@using Syncfusion.Blazor.Toolkit.Charts
+@using Syncfusion.Blazor.Toolkit.Tests
+@using Syncfusion.Blazor.Toolkit.Charts.Internal
+@using Syncfusion.Blazor.Toolkit.Internal
+@using System.Reflection
+@using Bunit
+@using Xunit
+
+@inherits TestComponentBase
+
+@*
+    HighContrast theme token coverage.
+
+    Verifies the contract of:
+        ChartHelper.GetChartThemeStyle(theme)
+        ChartHelper.GetSeriesColor(theme)
+        ChartHelper.GetScrollbarThemeColor(theme)
+        SfChart.Theme = Theme.HighContrast derives a high-contrast _chartThemeStyle.
+
+    Mirror of the existing fixture-based razor tests (e.g. Scatter.razor, Legend.razor).
+*@
+
+<SfFixture @ref="hcBackgroundFixture"
+           TestAsync="GetChartThemeStyle_HighContrast_HasBlackBackground"
+           Description="GetChartThemeStyle returns a black Background (#000000) for HighContrast theme">
+    <ComponentUnderTest>
+        <SfChart ID="hcBackgroundChart" />
+    </ComponentUnderTest>
+</SfFixture>
+
+<SfFixture @ref="hcTextFixture"
+           TestAsync="GetChartThemeStyle_HighContrast_HasWhiteTextTokens"
+           Description="GetChartThemeStyle returns white AxisTitle / ChartTitle for HighContrast theme">
+    <ComponentUnderTest>
+        <SfChart ID="hcTextChart" />
+    </ComponentUnderTest>
+</SfFixture>
+
+<SfFixture @ref="hcFocusFixture"
+           TestAsync="GetChartThemeStyle_HighContrast_HasYellowFocusTokens"
+           Description="GetChartThemeStyle returns #FFD939 focus accents for HighContrast theme">
+    <ComponentUnderTest>
+        <SfChart ID="hcFocusChart" />
+    </ComponentUnderTest>
+</SfFixture>
+
+<SfFixture @ref="hcGridFixture"
+           TestAsync="GetChartThemeStyle_HighContrast_HasGrayGridLines"
+           Description="GetChartThemeStyle returns gray grid lines for HighContrast theme">
+    <ComponentUnderTest>
+        <SfChart ID="hcGridChart" />
+    </ComponentUnderTest>
+</SfFixture>
+
+<SfFixture @ref="hcAxisFixture"
+           TestAsync="GetChartThemeStyle_HighContrast_HasGrayAxisLabels"
+           Description="GetChartThemeStyle returns gray axis labels and legend labels for HighContrast theme">
+    <ComponentUnderTest>
+        <SfChart ID="hcAxisChart" />
+    </ComponentUnderTest>
+</SfFixture>
+
+<SfFixture @ref="hcTypeFixture"
+           TestAsync="GetChartThemeStyle_HighContrast_FontSizing"
+           Description="GetChartThemeStyle applies larger / lighter typography for HighContrast theme">
+    <ComponentUnderTest>
+        <SfChart ID="hcTypeChart" />
+    </ComponentUnderTest>
+</SfFixture>
+
+<SfFixture @ref="fluentFixture"
+           TestAsync="GetChartThemeStyle_Fluent_StillReturnsLightTokens"
+           Description="GetChartThemeStyle still returns light tokens for Fluent (no regression)">
+    <ComponentUnderTest>
+        <SfChart ID="fluentChart" />
+    </ComponentUnderTest>
+</SfFixture>
+
+<SfFixture @ref="fluentDarkFixture"
+           TestAsync="GetChartThemeStyle_FluentDark_StillReturnsDarkTokens"
+           Description="GetChartThemeStyle still returns dark tokens for FluentDark (no regression)">
+    <ComponentUnderTest>
+        <SfChart ID="fluentDarkChart" />
+    </ComponentUnderTest>
+</SfFixture>
+
+<SfFixture @ref="hcSeriesPrimaryFixture"
+           TestAsync="GetSeriesColor_HighContrast_ReturnsHighContrastPalette"
+           Description="GetSeriesColor returns the HighContrast palette for HighContrast theme">
+    <ComponentUnderTest>
+        <SfChart ID="hcSeriesPrimaryChart" />
+    </ComponentUnderTest>
+</SfFixture>
+
+<SfFixture @ref="hcSeriesDistinctFixture"
+           TestAsync="GetSeriesColor_HighContrast_PaletteHasDistinctColors"
+           Description="GetSeriesColor HighContrast palette contains the documented ten tokens">
+    <ComponentUnderTest>
+        <SfChart ID="hcSeriesDistinctChart" />
+    </ComponentUnderTest>
+</SfFixture>
+
+<SfFixture @ref="fluentSeriesFixture"
+           TestAsync="GetSeriesColor_Fluent_StillReturnsFluentPalette"
+           Description="GetSeriesColor still returns the Fluent palette when theme is Fluent">
+    <ComponentUnderTest>
+        <SfChart ID="fluentSeriesChart" />
+    </ComponentUnderTest>
+</SfFixture>
+
+<SfFixture @ref="fluentDarkSeriesFixture"
+           TestAsync="GetSeriesColor_FluentDark_StillReturnsDarkPalette"
+           Description="GetSeriesColor still returns the FluentDark palette when theme is FluentDark">
+    <ComponentUnderTest>
+        <SfChart ID="fluentDarkSeriesChart" />
+    </ComponentUnderTest>
+</SfFixture>
+
+<SfFixture @ref="hcScrollbarFixture"
+           TestAsync="GetScrollbarThemeColor_HighContrast_ReturnsHighContrastTokens"
+           Description="GetScrollbarThemeColor returns a yellow arrow / grip and black backRect for HighContrast theme">
+    <ComponentUnderTest>
+        <SfChart ID="hcScrollbarChart" />
+    </ComponentUnderTest>
+</SfFixture>
+
+<SfFixture @ref="fluentDarkScrollbarFixture"
+           TestAsync="GetScrollbarThemeColor_FluentDark_StillReturnsDarkTokens"
+           Description="GetScrollbarThemeColor still returns the dark variant when theme is FluentDark">
+    <ComponentUnderTest>
+        <SfChart ID="fluentDarkScrollbarChart" />
+    </ComponentUnderTest>
+</SfFixture>
+
+<SfFixture @ref="fluentScrollbarFixture"
+           TestAsync="GetScrollbarThemeColor_Fluent_StillReturnsLightTokens"
+           Description="GetScrollbarThemeColor still returns the light variant when theme is Fluent">
+    <ComponentUnderTest>
+        <SfChart ID="fluentScrollbarChart" />
+    </ComponentUnderTest>
+</SfFixture>
+
+<SfFixture @ref="hcSfChartFixture"
+           TestAsync="SfChart_HighContrast_AppliesHighContrastThemeStyle"
+           Description="SfChart with Theme=HighContrast derives a high-contrast _chartThemeStyle">
+    <ComponentUnderTest>
+        <SfChart ID="hcSfChart" Theme="Theme.HighContrast" />
+    </ComponentUnderTest>
+</SfFixture>
+
+<SfFixture @ref="themeSwitchFixture"
+           TestAsync="SfChart_ThemeParameter_UpdatesChartThemeStyle"
+           Description="SfChart switches from Fluent to HighContrast and updates _chartThemeStyle">
+    <ComponentUnderTest>
+        <SfChart ID="themeSwitchChart" />
+    </ComponentUnderTest>
+</SfFixture>
+
+@code {
+    SfFixture hcBackgroundFixture { get; set; }
+    SfFixture hcTextFixture { get; set; }
+    SfFixture hcFocusFixture { get; set; }
+    SfFixture hcGridFixture { get; set; }
+    SfFixture hcAxisFixture { get; set; }
+    SfFixture hcTypeFixture { get; set; }
+    SfFixture fluentFixture { get; set; }
+    SfFixture fluentDarkFixture { get; set; }
+    SfFixture hcSeriesPrimaryFixture { get; set; }
+    SfFixture hcSeriesDistinctFixture { get; set; }
+    SfFixture fluentSeriesFixture { get; set; }
+    SfFixture fluentDarkSeriesFixture { get; set; }
+    SfFixture hcScrollbarFixture { get; set; }
+    SfFixture fluentDarkScrollbarFixture { get; set; }
+    SfFixture fluentScrollbarFixture { get; set; }
+    SfFixture hcSfChartFixture { get; set; }
+    SfFixture themeSwitchFixture { get; set; }
+
+    const string HighContrast = "HighContrast";
+    const string Fluent = "Fluent";
+    const string FluentDark = "FluentDark";
+
+    #region ChartHelper.GetChartThemeStyle
+
+    async Task GetChartThemeStyle_HighContrast_HasBlackBackground(Fixture fixture)
+    {
+        await Task.Delay(50);
+        ChartThemeStyle style = ChartHelper.GetChartThemeStyle(HighContrast);
+        Assert.Equal("#000000", style.Background);
+    }
+
+    async Task GetChartThemeStyle_HighContrast_HasWhiteTextTokens(Fixture fixture)
+    {
+        await Task.Delay(50);
+        ChartThemeStyle style = ChartHelper.GetChartThemeStyle(HighContrast);
+
+        // Pure white text tokens: chart title and axis title.
+        Assert.Equal("#FFFFFF", style.ChartTitle);
+        Assert.Equal("#FFFFFF", style.AxisTitle);
+    }
+
+    async Task GetChartThemeStyle_HighContrast_HasYellowFocusTokens(Fixture fixture)
+    {
+        await Task.Delay(50);
+        ChartThemeStyle style = ChartHelper.GetChartThemeStyle(HighContrast);
+
+        // Soft accessibility yellow is the focus / selection accent.
+        Assert.Equal("#FFD939", style.SelectionCircleStroke);
+        Assert.Equal("#FFD939", style.TabColor);
+    }
+
+    async Task GetChartThemeStyle_HighContrast_HasGrayGridLines(Fixture fixture)
+    {
+        await Task.Delay(50);
+        ChartThemeStyle style = ChartHelper.GetChartThemeStyle(HighContrast);
+
+        // On a black background, grid lines use neutral grays.
+        Assert.Equal("#BFBFBF", style.MajorGridLine);
+        Assert.Equal("#969696", style.MinorGridLine);
+    }
+
+    async Task GetChartThemeStyle_HighContrast_HasGrayAxisLabels(Fixture fixture)
+    {
+        await Task.Delay(50);
+        ChartThemeStyle style = ChartHelper.GetChartThemeStyle(HighContrast);
+
+        // Axis labels and legend labels are intentionally the same neutral #969696.
+        Assert.Equal("#969696", style.AxisLabel);
+        Assert.Equal("#969696", style.LegendLabel);
+    }
+
+    async Task GetChartThemeStyle_HighContrast_FontSizing(Fixture fixture)
+    {
+        await Task.Delay(50);
+        ChartThemeStyle style = ChartHelper.GetChartThemeStyle(HighContrast);
+
+        Assert.Equal("16px", style.ChartTitleSize);
+        Assert.Equal("600", style.ChartTitleFontWeight);
+        Assert.Equal("14px", style.LegendTextSize);
+        Assert.Equal("400", style.LegendFontWeight);
+        Assert.Equal("14px", style.AxisTitleFontSize);
+        Assert.Equal("600", style.AxisTitleFontWeight);
+        Assert.Equal("12px", style.AxisLabelFontSize);
+        Assert.Equal("400", style.AxisLabelFontWeight);
+    }
+
+    async Task GetChartThemeStyle_Fluent_StillReturnsLightTokens(Fixture fixture)
+    {
+        await Task.Delay(50);
+        ChartThemeStyle style = ChartHelper.GetChartThemeStyle(Fluent);
+        Assert.Equal("#FFFFFF", style.Background);
+        // Fluent (light) AxisLabel is the first positional argument — #616161.
+        Assert.Equal("#616161", style.AxisLabel);
+    }
+
+    async Task GetChartThemeStyle_FluentDark_StillReturnsDarkTokens(Fixture fixture)
+    {
+        await Task.Delay(50);
+        ChartThemeStyle style = ChartHelper.GetChartThemeStyle(FluentDark);
+        Assert.Equal("#1c1b1f", style.Background);
+        // FluentDark AxisLabel is the first positional argument — #ADADAD.
+        Assert.Equal("#ADADAD", style.AxisLabel);
+    }
+
+    #endregion
+
+    #region ChartHelper.GetSeriesColor
+
+    async Task GetSeriesColor_HighContrast_ReturnsHighContrastPalette(Fixture fixture)
+    {
+        await Task.Delay(50);
+        string[] palette = ChartHelper.GetSeriesColor(HighContrast);
+        Assert.NotNull(palette);
+        Assert.NotEmpty(palette);
+        // First color is the canonical primary: cyan #79ECE4.
+        Assert.Equal("#79ECE4", palette[0]);
+    }
+
+    async Task GetSeriesColor_HighContrast_PaletteHasDistinctColors(Fixture fixture)
+    {
+        await Task.Delay(50);
+        string[] palette = ChartHelper.GetSeriesColor(HighContrast);
+        Assert.Equal(10, palette.Length);
+        // The HighContrast palette uses ten distinguishable accent tones.
+        Assert.Contains("#79ECE4", palette);
+        Assert.Contains("#E98272", palette);
+        Assert.Contains("#DFE6B6", palette);
+        Assert.Contains("#C6E773", palette);
+        Assert.Contains("#BA98FF", palette);
+        Assert.Contains("#FA83C3", palette);
+        Assert.Contains("#00C27A", palette);
+        Assert.Contains("#43ACEF", palette);
+        Assert.Contains("#D681EF", palette);
+        Assert.Contains("#D8BC6E", palette);
+    }
+
+    async Task GetSeriesColor_Fluent_StillReturnsFluentPalette(Fixture fixture)
+    {
+        await Task.Delay(50);
+        string[] palette = ChartHelper.GetSeriesColor(Fluent);
+        Assert.Equal("#6200EE", palette[0]);
+    }
+
+    async Task GetSeriesColor_FluentDark_StillReturnsDarkPalette(Fixture fixture)
+    {
+        await Task.Delay(50);
+        string[] palette = ChartHelper.GetSeriesColor(FluentDark);
+        Assert.Equal("#9BB449", palette[0]);
+    }
+
+    #endregion
+
+    #region ChartHelper.GetScrollbarThemeColor
+
+    async Task GetScrollbarThemeColor_HighContrast_ReturnsHighContrastTokens(Fixture fixture)
+    {
+        await Task.Delay(50);
+        ScrollbarThemeStyle style = ChartHelper.GetScrollbarThemeColor(HighContrast);
+        Assert.Equal("#000000", style.BackRect);
+        Assert.Equal("#FFFF00", style.Arrow);
+        Assert.Equal("#FFFF00", style.Grip);
+    }
+
+    async Task GetScrollbarThemeColor_FluentDark_StillReturnsDarkTokens(Fixture fixture)
+    {
+        await Task.Delay(50);
+        ScrollbarThemeStyle style = ChartHelper.GetScrollbarThemeColor(FluentDark);
+        Assert.Equal("#0A0A0A", style.BackRect);
+        Assert.Equal("#D6D6D6", style.Arrow);
+    }
+
+    async Task GetScrollbarThemeColor_Fluent_StillReturnsLightTokens(Fixture fixture)
+    {
+        await Task.Delay(50);
+        ScrollbarThemeStyle style = ChartHelper.GetScrollbarThemeColor(Fluent);
+        Assert.Equal("#F5F5F5", style.BackRect);
+        Assert.Equal("#424242", style.Arrow);
+    }
+
+    #endregion
+
+    #region SfChart parameter binding
+
+    async Task SfChart_HighContrast_AppliesHighContrastThemeStyle(Fixture fixture)
+    {
+        await Task.Delay(200);
+        IRenderedComponent<SfChart> cut = fixture.GetComponentUnderTest<SfChart>();
+        ChartThemeStyle? style = GetInternalChartThemeStyle(cut.Instance);
+        Assert.NotNull(style);
+        Assert.Equal("#000000", style!.Background);
+        // Former #FFFF00 ErrorBar is now neutralized to white in the high-contrast token set.
+        Assert.Equal("#ffffff", style.ErrorBar);
+    }
+
+    async Task SfChart_ThemeParameter_UpdatesChartThemeStyle(Fixture fixture)
+    {
+        await Task.Delay(200);
+        IRenderedComponent<SfChart> cut = fixture.GetComponentUnderTest<SfChart>();
+
+        // First render: default is Fluent → white background.
+        ChartThemeStyle? initialStyle = GetInternalChartThemeStyle(cut.Instance);
+        Assert.NotNull(initialStyle);
+        Assert.Equal("#FFFFFF", initialStyle!.Background);
+
+        // Switch to HighContrast → black background.
+        cut.SetParametersAndRender(parameters => parameters.Add(p => p.Theme, Theme.HighContrast));
+        ChartThemeStyle? highContrastStyle = GetInternalChartThemeStyle(cut.Instance);
+        Assert.NotNull(highContrastStyle);
+        Assert.Equal("#000000", highContrastStyle!.Background);
+        Assert.Equal("#ffffff", highContrastStyle.ErrorBar);
+        Assert.Equal("#969696", highContrastStyle.AxisLabel);
+    }
+
+    #endregion
+
+    /// <summary>
+    /// Reads the <c>_chartThemeStyle</c> field on the <see cref="SfChart"/> instance via reflection.
+    /// </summary>
+    static ChartThemeStyle? GetInternalChartThemeStyle(SfChart chart)
+    {
+        FieldInfo? field = typeof(SfChart).GetField(
+            "_chartThemeStyle",
+            BindingFlags.Instance | BindingFlags.NonPublic);
+        Assert.NotNull(field);
+        return field!.GetValue(chart) as ChartThemeStyle;
+    }
+}

@@ -1259,9 +1259,10 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
             }
             if (theme == "HighContrast")
             {
-                // High Contrast theme: black background, white text, yellow focus/selection (#FFFF00).
-                return GetThemeStyle("#FFFFFF", "#FFFFFF", "#FFFFFF", "#000000", "#000000", "#FFFFFF", "#FFFFFF", "#FFFFFF", "#FFFFFF", "#000000", "#FFFFFF", "#FFFF00", "#FFFF00", "rgba(255, 255, 255, 0.1)", "#000000", "#FFFFFF", "#000000", "#FFFFFF", "#FFFFFF", "#FFFFFF", "#FFFF00", "rgba(255, 255, 0, 0.4)", "#FFFF00", "#FFFF00", "#FFFFFF", "#FFFFFF",
-                "14px", "700", "Segoe UI", "12px", "700", "Segoe UI", "12px", "Segoe UI", "700", "12px", "Segoe UI", "700", "12px", "Segoe UI", "700", "12px", "Segoe UI", "700", "#FFFFFF", "12px", "Segoe UI", "700", "#FFFFFF", "Segoe UI", "12px", "700", "#FFFF00", "#FFFF00", "12px", "Segoe UI", "700");
+                // High Contrast theme: black background, light-gray axis labels, white chart title.
+                // Yellow (#FFD939) is used for focus/selection accents to remain visible on black.
+                return GetThemeStyle("#969696", "#FFFFFF", "#ffffff", "#BFBFBF", "#969696", "#BFBFBF", "#969696", "#FFFFFF", "#969696", "#000000", "#ffffff", "#ffffff", "#ffffff", "rgba(255, 255, 255, 0.1)", "#FFFFFF", "#000000", "#ffffff", "#000000", "#000000", "#969696", "#BFBFBF", "rgba(255, 217, 57, 0.3)", "#ffffff", "#FFD939", "#FFD939", "#ffffff",
+                        "16px", "600", "Segoe UI", "12px", "400", "Segoe UI", "14px", "Segoe UI", "400", "12px", "Segoe UI", "400", "12px", "Segoe UI", "400", "14px", "Segoe UI", "600", "#FFFFFF", "14px", "Segoe UI", "400", "#969696", "Segoe UI");
             }
             // Fluent (light) — default.
             return GetThemeStyle("#616161", "#242424", "#D2D0CE", "#EDEBE9", "#EDEBE9", "#D2D0CE", "#D2DOCE", "#242424", "#242424", "#FFFFFF", "#EDEBE9", "#A19F9D", "#A19F9D", "rgba(138, 136, 134, 0.1)", "#FFFFFF", "#242424", "#FFFFFF", "#242424", "#242424", "#D2D0CE", null!, "rgba(180, 214, 250, 0.1)", "#0F6CBD", "#0F6CBD", "#424242", "#A19F9D",
@@ -1280,8 +1281,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
             }
             if (theme == "HighContrast")
             {
-                // High Contrast palette: bright, fully saturated colors that remain distinguishable on a black background.
-                return new string[] { "#FFFF00", "#00FFFF", "#FF00FF", "#00FF00", "#FF8000", "#80FF00", "#00FF80", "#FF0080", "#FFFFFF", "#80FFFF" };
+                return new string[] { "#79ECE4", "#E98272", "#DFE6B6", "#C6E773", "#BA98FF", "#FA83C3", "#00C27A", "#43ACEF", "#D681EF", "#D8BC6E" };
             }
             // Fluent (light) — default.
             return new string[] { "#6200EE", "#09AF74", "#0076E5", "#CB3587", "#E7910F", "#0364DE", "#66CD15", "#F3A93C", "#107C10", "#C19C00" };
