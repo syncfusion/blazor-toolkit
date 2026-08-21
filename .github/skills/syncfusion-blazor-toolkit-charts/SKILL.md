@@ -581,11 +581,40 @@ Here's a minimal example to create a column chart with data:
 ### Chart Component (`SfChart`)
 - `Title` - Chart title text
 - `Width` / `Height` - Chart dimensions (accepts px or %, default: "100%")
-- `Theme` - Visual theme (see Theme enum in API reference)
+- `Theme` - Visual theme. One of `Theme.Fluent` (default), `Theme.FluentDark`, `Theme.HighContrast`. See the **Themes** section below.
 - `Background` - Chart background color
 - `EnableAnimation` - Enable/disable animation (default: true)
 - `SelectionMode` - Selection mode (None, Series, Point, Cluster, DragXY, DragX, DragY, Lasso)
 - `HighlightMode` - Highlight mode (None, Series, Point, Cluster)
+
+### Themes
+
+The chart's `Theme` parameter is bound to `Syncfusion.Blazor.Toolkit.Theme`:
+
+| Enum value | Background | Text | Focus / Selection | Use case |
+|---|---|---|---|---|
+| `Theme.Fluent` (default) | `#FFFFFF` | `#242424` | `#0F6CBD` | Light mode interfaces. |
+| `Theme.FluentDark` | `#1C1B1F` | `#FFFFFF` | `#115EA3` | Dark mode interfaces. |
+| `Theme.HighContrast` | `#000000` | `#FFFFFF` | `#FFFF00` | Accessibility scenarios; matches Microsoft High Contrast. |
+
+The theme flows into:
+- `ChartHelper.GetChartThemeStyle(...)` — tokens for axis lines, labels, grid lines, titles, legend, tooltips, crosshair, selection rectangles, error bars, stripline text, tooltip fill, and the scrollbar (`ChartHelper.GetScrollbarThemeColor`).
+- `ChartHelper.GetSeriesColor(...)` — the default series palette when `Palettes` is not supplied. The high-contrast palette uses fully saturated, easily distinguishable colors: `#FFFF00`, `#00FFFF`, `#FF00FF`, `#00FF00`, `#FF8000`, `#80FF00`, `#00FF80`, `#FF0080`, `#FFFFFF`, `#80FFFF`.
+- `ZoomToolkit` — the zoom toolbar icon colors and rectangle fill re-skin to match the active theme.
+
+**Example — High Contrast:**
+
+```razor
+@using Syncfusion.Blazor.Toolkit.Charts
+
+<SfChart Theme="Theme.HighContrast" Title="Sales Data">
+    <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Toolkit.ValueType.Category" />
+    <ChartSeries DataSource="@SalesData" XName="Month" YName="Revenue"
+                 Type="ChartSeriesType.Column" />
+</SfChart>
+```
+
+> The high-contrast theme provides maximum contrast and is recommended for users who have Windows High Contrast Mode (or an equivalent OS-level accessibility setting) enabled. When a custom `Background` or `Palettes` is supplied, those values always win over the theme defaults.
 
 ### Primary Axes (`ChartPrimaryXAxis`, `ChartPrimaryYAxis`)
 - `ValueType` - Axis type: `Syncfusion.Blazor.Toolkit.ValueType.Category`, `ValueType.Double`, `ValueType.DateTime`, `ValueType.Logarithmic`, `ValueType.DateTimeCategory`

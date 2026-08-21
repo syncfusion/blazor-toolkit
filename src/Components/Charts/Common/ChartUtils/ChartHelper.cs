@@ -1252,16 +1252,20 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
         /// <returns>The theme style configuration.</returns>
         internal static ChartThemeStyle GetChartThemeStyle(string theme)
         {
-            if(theme != "FluentDark")
-            {
-                return GetThemeStyle("#616161", "#242424", "#D2D0CE", "#EDEBE9", "#EDEBE9", "#D2D0CE", "#D2DOCE", "#242424", "#242424", "#FFFFFF", "#EDEBE9", "#A19F9D", "#A19F9D", "rgba(138, 136, 134, 0.1)", "#FFFFFF", "#242424", "#FFFFFF", "#242424", "#242424", "#D2D0CE", null!, "rgba(180, 214, 250, 0.1)", "#0F6CBD", "#0F6CBD", "#424242", "#A19F9D",
-                "14px", "600", "Segoe UI", "12px", "400", "Segoe UI", "12px", "Segoe UI", "400", "12px", "Segoe UI", "700", "12px", "Segoe UI", "400", "12px", "Segoe UI", "600", "#616161", "12px", "Segoe UI", "600", "#616161", "Segoe UI", "12px", "400", "#E7910F", "#0076E5", "12px", "Segoe UI", "600");                
-            }
-            else
+            if (theme == "FluentDark")
             {
                 return GetThemeStyle("#ADADAD", "#FFFFFF", "#3B3A39", "#292827", "#292827", "#3B3A39", "#3B3A39", "#FFFFFF", "#FFFFFF", "#1c1b1f", "#292827", "#8A8886", "#8A8886", "rgba(138, 136, 134, 0.1)", "#292929", "#FFFFFF", "#292929", "#FFFFFF", "#FFFFFF", "#3B3A39", null!, "rgba(14, 71, 117, 0.1)", "#115EA3", "#115EA3", "#D6D6D6", "#8A8886",
                 "14px", "600", "Segoe UI", "12px", "400", "Segoe UI", "12px", "Segoe UI", "400", "12px", "Segoe UI", "700", "12px", "Segoe UI", "400", "12px", "Segoe UI", "600", "#ADADAD", "12px", "Segoe UI", "600", "#ADADAD", "Segoe UI", "12px", "400", "#584EC6", "#43B786", "12px", "Segoe UI", "600");
             }
+            if (theme == "HighContrast")
+            {
+                // High Contrast theme: black background, white text, yellow focus/selection (#FFFF00).
+                return GetThemeStyle("#FFFFFF", "#FFFFFF", "#FFFFFF", "#000000", "#000000", "#FFFFFF", "#FFFFFF", "#FFFFFF", "#FFFFFF", "#000000", "#FFFFFF", "#FFFF00", "#FFFF00", "rgba(255, 255, 255, 0.1)", "#000000", "#FFFFFF", "#000000", "#FFFFFF", "#FFFFFF", "#FFFFFF", "#FFFF00", "rgba(255, 255, 0, 0.4)", "#FFFF00", "#FFFF00", "#FFFFFF", "#FFFFFF",
+                "14px", "700", "Segoe UI", "12px", "700", "Segoe UI", "12px", "Segoe UI", "700", "12px", "Segoe UI", "700", "12px", "Segoe UI", "700", "12px", "Segoe UI", "700", "#FFFFFF", "12px", "Segoe UI", "700", "#FFFFFF", "Segoe UI", "12px", "700", "#FFFF00", "#FFFF00", "12px", "Segoe UI", "700");
+            }
+            // Fluent (light) — default.
+            return GetThemeStyle("#616161", "#242424", "#D2D0CE", "#EDEBE9", "#EDEBE9", "#D2D0CE", "#D2DOCE", "#242424", "#242424", "#FFFFFF", "#EDEBE9", "#A19F9D", "#A19F9D", "rgba(138, 136, 134, 0.1)", "#FFFFFF", "#242424", "#FFFFFF", "#242424", "#242424", "#D2D0CE", null!, "rgba(180, 214, 250, 0.1)", "#0F6CBD", "#0F6CBD", "#424242", "#A19F9D",
+            "14px", "600", "Segoe UI", "12px", "400", "Segoe UI", "12px", "Segoe UI", "400", "12px", "Segoe UI", "700", "12px", "Segoe UI", "400", "12px", "Segoe UI", "600", "#616161", "12px", "Segoe UI", "600", "#616161", "Segoe UI", "12px", "400", "#E7910F", "#0076E5", "12px", "Segoe UI", "600");
         }
 
         /// <summary>
@@ -1270,14 +1274,17 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
         /// <returns>An array of color strings for the series.</returns>
         internal static string[] GetSeriesColor(string theme)
         {
-            if(theme != "FluentDark")
-            {
-                return new string[] { "#6200EE", "#09AF74", "#0076E5", "#CB3587", "#E7910F", "#0364DE", "#66CD15", "#F3A93C", "#107C10", "#C19C00" };
-            }
-            else
+            if (theme == "FluentDark")
             {
                 return new string[] { "#9BB449", "#2A72D5", "#43B786", "#3F579A", "#584EC6", "#E85F9C", "#6E7A89", "#EA6266", "#0B6A0B", "#C19C00" };
             }
+            if (theme == "HighContrast")
+            {
+                // High Contrast palette: bright, fully saturated colors that remain distinguishable on a black background.
+                return new string[] { "#FFFF00", "#00FFFF", "#FF00FF", "#00FF00", "#FF8000", "#80FF00", "#00FF80", "#FF0080", "#FFFFFF", "#80FFFF" };
+            }
+            // Fluent (light) — default.
+            return new string[] { "#6200EE", "#09AF74", "#0076E5", "#CB3587", "#E7910F", "#0364DE", "#66CD15", "#F3A93C", "#107C10", "#C19C00" };
         }
 
         /// <summary>
@@ -1966,14 +1973,16 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
         /// <returns>The scrollbar theme style.</returns>
         internal static ScrollbarThemeStyle GetScrollbarThemeColor(string theme)
         {
-            if(theme != "FluentDark")
-            {
-                return GetScrollbarStyle("#F5F5F5", "#F0F0F0", "#FAFAFA", "#FAFAFA", "#424242", "#424242");
-            }
-            else
+            if (theme == "FluentDark")
             {
                 return GetScrollbarStyle("#0A0A0A", "#141414", "#1F1F1F", "#1F1F1F", "#D6D6D6", "#D6D6D6");
             }
+            if (theme == "HighContrast")
+            {
+                return GetScrollbarStyle("#000000", "#000000", "#000000", "#000000", "#FFFF00", "#FFFF00");
+            }
+            // Fluent (light) — default.
+            return GetScrollbarStyle("#F5F5F5", "#F0F0F0", "#FAFAFA", "#FAFAFA", "#424242", "#424242");
         }
 
         /// <summary>
