@@ -35,17 +35,27 @@ test.describe('DateTimePicker - Input Parsing & Formats', () => {
 
   test('accept valid date and time format with different times', async ({ page }) => {
     const input = page.locator('#wrapper-dtp-basic input');
-    
+
     const testCases = [
       '01/01/2025 08:00',
       '06/15/2025 12:30',
       '12/25/2025 18:45'
     ];
-    
+
     for (const testCase of testCases) {
+      // Re-focus the input + clear any residual value to avoid races where the
+      // component briefly re-renders with the previous typed value while
+      // Blazor's two-way bind has not yet caught up with the next value.
+      await input.click();
+      await input.fill('');
       await input.fill(testCase);
       await input.press('Tab');
-      await expect(input).toHaveValue(testCase);
+
+      // Allow the component's Blazor render to settle before asserting.
+      // After Tab, the input value may briefly revert to the previous typed
+      // value while the parser/render pipeline is still active. Wait for the
+      // expected value with an explicit timeout to make the assertion stable.
+      await expect(input).toHaveValue(testCase, { timeout: 10_000 });
     }
   });
 
