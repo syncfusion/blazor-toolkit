@@ -11,7 +11,7 @@
         @if (this.FloatLabelType == FloatLabelType.Auto || this.FloatLabelType == FloatLabelType.Always)
         {
             <div @ref="@ContainerElement" class="@ContainerClass?.Trim()" @attributes="ContainerHtmlAttributes">
-                <input @ref="@InputElement" id="@ID" @attributes="InputHtmlAttributes" aria-haspopup="true" aria-label="@AriaLabel" value="@( CalendarMode == CalendarType.Islamic ? IslamicValueAsString : this.CurrentValueAsString)" @onchange="@OnChangeHandlerAsync" @onkeydown="@KeyActionHandlerAsync" @onfocus="@OnFocusHandlerAsync" @oninput="@OnInputHandlerAsync" @onblur="@OnBlurHandlerAsync" />
+                <input @ref="@InputElement" id="@ID" @attributes="InputHtmlAttributes" aria-haspopup="true" aria-label="@(string.IsNullOrWhiteSpace(AriaLabel) ? Localizer["Datetimepicker"] : AriaLabel)" value="@( CalendarMode == CalendarType.Islamic ? IslamicValueAsString : this.CurrentValueAsString)" @onchange="@OnChangeHandlerAsync" @onkeydown="@KeyActionHandlerAsync" @onfocus="@OnFocusHandlerAsync" @oninput="@OnInputHandlerAsync" @onblur="@OnBlurHandlerAsync" />
                 <span class="e-float-line"></span>
                 <label class="@FloatLabel?.Trim()" id="label_@(ID)" for="@(ID)">@this.Placeholder</label>
                 @if (this.ShowClearButton && !this.Readonly)
@@ -25,7 +25,7 @@
         else
         {
             <span @ref="@ContainerElement" class="@ContainerClass?.Trim()" @attributes="ContainerHtmlAttributes" >
-                <input @ref="@InputElement" id="@ID" @attributes="InputHtmlAttributes" aria-haspopup="true" aria-label="@AriaLabel" value="@( CalendarMode == CalendarType.Islamic ? IslamicValueAsString : this.CurrentValueAsString)" @onchange="@OnChangeHandlerAsync" @onkeydown="@KeyActionHandlerAsync" @onfocus="@OnFocusHandlerAsync" @oninput="@OnInputHandlerAsync" @onblur="@OnBlurHandlerAsync" />
+                <input @ref="@InputElement" id="@ID" @attributes="InputHtmlAttributes" aria-haspopup="true" aria-label="@(string.IsNullOrWhiteSpace(AriaLabel) ? Localizer["Datetimepicker"] : AriaLabel)" value="@( CalendarMode == CalendarType.Islamic ? IslamicValueAsString : this.CurrentValueAsString)" @onchange="@OnChangeHandlerAsync" @onkeydown="@KeyActionHandlerAsync" @onfocus="@OnFocusHandlerAsync" @oninput="@OnInputHandlerAsync" @onblur="@OnBlurHandlerAsync" />
                 @if (this.ShowClearButton && !this.Readonly)
                 {
                     <button type="button" class="@(ClearIconClass)" aria-label="@Localizer["Close"]" title="@Localizer["Close"]" @onclick="@WireClearBtnEventsAsync" @onmousedown="@InvokeClearBtnEventAsync" @ontouchstart="@InvokeClearBtnEventAsync" @onmousedown:preventDefault="@ClickStopPropagation" @ontouchstart:preventDefault="@ClickStopPropagation"></button>

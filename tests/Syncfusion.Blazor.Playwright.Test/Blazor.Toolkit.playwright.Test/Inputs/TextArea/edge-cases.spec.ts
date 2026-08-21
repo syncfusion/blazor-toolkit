@@ -418,7 +418,9 @@ test.describe('TextArea - Edge Cases', () => {
 
   test('TextArea focus while typing in another element', async ({ page }) => {
     const textarea = page.locator('textarea#defaultTextArea');
-    const button = page.locator('button').first();
+    // Use a visible button (the disabled-toggle button) instead of `page.locator('button').first()`,
+    // which would otherwise resolve to the (hidden) clear-icon button of the first textarea.
+    const button = page.locator('button:visible').first();
 
     await expect(textarea).toBeVisible();
     await expect(button).toBeVisible();
@@ -427,7 +429,7 @@ test.describe('TextArea - Edge Cases', () => {
     await textarea.fill('original');
     await page.waitForTimeout(300);
 
-    // Click button (focus moves away)
+    // Move focus to a different element
     await button.focus();
     await page.waitForTimeout(300);
 
