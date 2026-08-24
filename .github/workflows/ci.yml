@@ -28,6 +28,10 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 20
 
+    env:
+      TZ: UTC
+      LANG: en_US.UTF-8
+
     strategy:
       fail-fast: false
       matrix:
@@ -76,6 +80,16 @@ jobs:
 
       - name: Build
         run: dotnet build src/Syncfusion.Blazor.Toolkit.csproj -c Release --no-restore
+
+      - name: Set timezone and locale for deterministic tests
+        run: |
+          sudo ln -fs /usr/share/zoneinfo/UTC /etc/localtime
+          sudo apt-get update -y
+          sudo apt-get install -y locales
+          sudo locale-gen en_US.UTF-8
+          export LANG=en_US.UTF-8
+          export TZ=UTC
+        shell: bash
 
       - name: Run bUnit tests
         run: |
