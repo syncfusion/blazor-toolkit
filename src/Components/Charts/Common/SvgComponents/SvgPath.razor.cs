@@ -125,6 +125,25 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
         [Parameter]
         public string Title { get; set; } = "Path Element";
 
+        /// <summary>
+        /// Gets the effective tabindex value to emit on the element. When the path has no
+        /// accessible name (<see cref="AccessibilityText"/> is empty), the tabindex attribute
+        /// is suppressed so the node is not pulled into the keyboard tab order with no
+        /// accessible name.
+        /// </summary>
+        private string EffectiveTabIndex =>
+            string.IsNullOrEmpty(AccessibilityText) ? string.Empty : TabIndex;
+
+        /// <summary>
+        /// Gets the effective ARIA role to emit on the element. When the path has no
+        /// accessible name (<see cref="AccessibilityText"/> is empty), the <c>role="img"</c>
+        /// attribute is suppressed — advertising an image role on a node that has no
+        /// accessible name trips the axe <c>aria-allowed-attr</c> rule and creates an
+        /// unlabeled-image finding for screen-reader users.
+        /// </summary>
+        private string EffectiveRole =>
+            string.IsNullOrEmpty(AccessibilityText) ? string.Empty : "img";
+
         #endregion
 
         #region Fields

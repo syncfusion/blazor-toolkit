@@ -155,6 +155,23 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
         /// </summary>
         [Parameter]
         public string AccessibilityText { get; set; } = string.Empty;
+
+        /// <summary>
+        /// Gets the effective tabindex value to emit on the element. When the rectangle is hidden
+        /// from assistive technology (<see cref="AriaHidden"/> == "true"), the attribute is
+        /// suppressed so the node is not pulled into the keyboard tab order with no accessible name.
+        /// </summary>
+        private string EffectiveTabIndex =>
+            string.Equals(AriaHidden, "true", System.StringComparison.OrdinalIgnoreCase) ? string.Empty : TabIndex;
+
+        /// <summary>
+        /// Gets the effective ARIA role to emit on the element. When the rectangle is hidden
+        /// from assistive technology (<see cref="AriaHidden"/> == "true"), the <c>role="img"</c>
+        /// attribute is suppressed — advertising an image role on a node that is hidden from AT
+        /// is contradictory and trips the axe <c>aria-allowed-attr</c> rule.
+        /// </summary>
+        private string EffectiveRole =>
+            string.Equals(AriaHidden, "true", System.StringComparison.OrdinalIgnoreCase) ? string.Empty : "img";
         #endregion
     }
 }
