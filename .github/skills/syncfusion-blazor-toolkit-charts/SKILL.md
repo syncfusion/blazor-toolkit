@@ -1,643 +1,610 @@
 ---
+license: MIT
 name: syncfusion-blazor-toolkit-charts
-description: Implement Syncfusion Blazor Chart (SfChart) component for core data visualizations. Use this when creating line, area, column/bar, scatter, bubble, spline and stacking chart variants in Blazor applications.
+description: >
+  Implement the Syncfusion Blazor Toolkit SfChart component for data
+  visualizations that bind to List<T> or SfDataManager.
+  USE FOR: line, column, bar, area, scatter, bubble, spline, and stacking
+  series; category / numeric / DateTime / logarithmic axes; dual axes &
+  multiple panes; tooltips, crosshair, zoom, pan, selection; trend lines,
+  strip lines; accessibility (ARIA, keyboard, RTL, i18n); live data and
+  data editing.
+  DO NOT USE FOR: any control outside Syncfusion.Blazor.Toolkit (the Grid,
+  Scheduler, Diagram, etc. belong to packages outside this skill); date/time
+  input (use syncfusion-blazor-toolkit-calendars); form fields / checkbox /
+  radio (use syncfusion-blazor-toolkit-inputs); button styling only
+  (use syncfusion-blazor-toolkit-buttons); modal dialogs and tooltip labels
+  (use syncfusion-blazor-toolkit-popups).
+compatibility: .NET 8+, render-modes: Server, WebAssembly, Auto
 metadata:
   author: "Syncfusion Inc"
-  version: "1.0.0"
+  version: "1.1.0"
   category: "Data Visualization"
 ---
 
-# Implementing Syncfusion Blazor Charts
-
-**NuGet:** `Syncfusion.Blazor.Toolkit` + `Syncfusion.Blazor.Themes`  
-**Namespace:** `Syncfusion.Blazor.Toolkit`
-
-A comprehensive guide for implementing the Syncfusion Blazor Chart component to create interactive, feature-rich data visualizations in Blazor applications. The Chart component supports core series types (line, area, column/bar, scatter, bubble, spline) and stacking/step/spline variants, multiple axes, interactivity, and customization.
-
-## When to Use This Skill
-
-Use this skill when you need to:
-- **Create data visualizations** in Blazor applications (line, column, bar, area, etc.)
-- **Display comparative data** with stacked or grouped charts
-- **Add interactive features** like tooltips, zooming, crosshair, selection
-- **Customize chart appearance** with themes, gradients, annotations
-- **Handle dynamic data** with live updates and data editing
-- **Implement accessible charts** with ARIA support and internationalization
-
-## Component Overview
-
-The Syncfusion Blazor Chart component is a powerful data visualization tool that provides:
-
-- **33+ Chart Types:** Line, Column, Bar, Area, Spline, Scatter, Bubble, and more
-- **Multiple Axes:** Support for category, numeric, datetime, and logarithmic axes
-- **Rich Interactivity:** Zooming, panning, crosshair, trackball, tooltips, selection
-- **Data Binding:** Work with List, DataManager, dynamic updates, and live data
-- **Visual Elements:** Markers, data labels, annotations, legends, gradients
-- **Advanced Features:** Technical indicators, trend lines, strip lines, multiple panes
-- **Accessibility:** Full ARIA support, keyboard navigation, localization, RTL
-- **Customization:** Themes, responsive design, print support, adaptive layout
-
-## Documentation and Navigation Guide
-
-### Complete API Reference
-
-📄 **Read:** [references/api-reference.md](references/api-reference.md)
-
-**CRITICAL: Use this reference FIRST for all API-related questions**
-
-Use this authoritative API reference when:
-- Looking up correct enum values (ChartSeriesType, ValueType, SelectionMode, etc.)
-- Finding public method signatures (RefreshAsync, ExportAsync, ShowTooltip, etc.)
-- Verifying property names and types
-- Generating code samples
-- Troubleshooting API-related issues
-
-Topics covered:
-- Complete list of SfChart public methods with signatures
-- All chart enumerations with correct values
-- Key component classes and their properties
-- Method usage examples
-- Common patterns and best practices
-
-**Key Points:**
-- All enum values are **exact** - do not use variations
-- Method names follow C# conventions (e.g., `RefreshAsync` not `Refresh`)
-- Always use `@ref` to access chart instance for method calls
-- Namespace: `Syncfusion.Blazor.Toolkit.Charts`
-
----
-
-### Getting Started
-
-📄 **Read:** [references/getting-started.md](references/getting-started.md)
-
-Use this when:
-- Setting up a new Blazor Chart project
-- Installing NuGet packages and configuring services
-- Creating your first chart component
-- Understanding basic chart structure and data binding
-- Working with Visual Studio, VS Code, or .NET CLI
-
-Topics covered:
-- Installation and prerequisites
-- Package setup (Syncfusion.Blazor.Toolkit.Charts)
-- Namespace imports and service registration
-- Script references
-- Basic chart implementation
-- Simple data binding example
-
----
-
-### Chart Types
-
-#### Common Chart Types
-
-📄 **Read:** [references/chart-types-common.md](references/chart-types-common.md)
-
-Use this for frequently-used chart types:
-- Line charts for trend visualization
-- Area charts for showing magnitude over time
-- Column charts for categorical comparisons
-- Bar charts for horizontal comparisons
-- Spline charts for smooth curves
-- Step charts for stepped data progression
-
-Topics covered:
-- Line, Area, Column, Bar chart implementations
-- Spline and Spline Area variations
-- Step Line and Step Area patterns
-- When to use each chart type
-- Configuration and customization
-- Multi-series examples
-
-#### Specialized Chart Types
-
-📄 **Read:** [references/chart-types-specialized.md](references/chart-types-specialized.md)
-
-Use this for specialized visualization needs:
-- Stacked charts (Stack Area/Bar/Column/Line, 100% variants)
-- Scatter and Bubble charts
-- Multicolored Line / Multicolored Area
-- Vertical chart orientation
-
-Topics covered:
-- Financial chart patterns and configurations
-- Statistical analysis chart types
-- Stacking modes (normal vs 100%)
-- Range visualization techniques
-- Circular chart layouts
-- XY scatter relationships
-- Chart orientation options
-
----
-
-### Axes and Data Configuration
-
-📄 **Read:** [references/axes-and-scales.md](references/axes-and-scales.md)
-
-Use this when:
-- Configuring axis types (category, numeric, datetime, logarithmic)
-- Customizing axis appearance and behavior
-- Formatting axis labels and values
-- Working with multiple axes
-- Setting axis ranges and intervals
-
-Topics covered:
-- Category axis for discrete data
-- Numeric axis for continuous values
-- DateTime axis for time-series data
-- Logarithmic axis for exponential data
-- Axis customization (title, range, interval)
-- Label formatting, rotation, and positioning
-- Multiple axis configuration
-- Inverse and opposed axes
-
-📄 **Read:** [references/data-handling.md](references/data-handling.md)
-
-Use this when:
-- Binding data sources to charts
-- Adding, removing, or updating data dynamically
-- Enabling data editing
-- Sorting chart data
-- Working with live or streaming data
-
-Topics covered:
-- Data source binding (List, DataManager)
-- Dynamic data operations
-- Data editing functionality
-- Chart sorting options
-- Real-time data updates
-- Data serialization patterns
-
----
-
-### Visual Elements
-
-📄 **Read:** [references/visual-elements.md](references/visual-elements.md)
-
-Use this when:
-- Adding data markers to chart points
-- Displaying data labels on series
-- Creating custom label templates
-- Adding annotations (text, shapes, images)
-- Applying gradient fills
-
-Topics covered:
-- Data marker types and customization
-- Data label visibility and formatting
-- Label positioning strategies
-- Data label templates
-- Last data label highlighting
-- Chart annotations (text, shapes, images)
-- Gradient color fills
-
-📄 **Read:** [references/legend.md](references/legend.md)
-
-Use this when:
-- Enabling and configuring chart legend
-- Positioning legend (top, bottom, left, right)
-- Customizing legend appearance
-- Implementing legend click behavior
-- Creating custom legend templates
-
-Topics covered:
-- Legend visibility and positioning
-- Legend shape and text customization
-- Interactive legend (toggle series)
-- Legend pagination
-- Custom legend templates
-- Legend alignment options
-
----
-
-### Interactive Features
-
-📄 **Read:** [references/interactive-features.md](references/interactive-features.md)
-
-Use this when:
-- Enabling tooltips with custom formatting
-- Adding crosshair or trackball for data tracking
-- Implementing point, series, or cluster selection
-- Enabling zooming and panning
-- Creating interactive user experiences
-
-Topics covered:
-- Tooltip configuration and templates
-- Crosshair and trackball features
-- Selection modes and patterns
-- Zoom types (selection, pinch, mousewheel)
-- Zoom toolbar configuration
-- Pan functionality
-- User interaction events
-
----
-
-### Customization and Appearance
-
-📄 **Read:** [references/appearance-styling.md](references/appearance-styling.md)
-
-Use this when:
-- Customizing chart appearance and themes
-- Setting chart dimensions and sizing
-- Configuring responsive/adaptive layout
-- Enabling print functionality
-- Styling background, borders, and margins
-
-Topics covered:
-- Chart appearance customization
-- Theme configuration
-- Chart dimensions and sizing
-- Responsive design patterns
-- Adaptive layout for mobile
-- Print support
-- Background and border styling
-- Gradient customization
-
-📄 **Read:** [references/advanced-features.md](references/advanced-features.md)
-
-Use this when:
-- Adding technical indicators (EMA, SMA, RSI, etc.)
-- Implementing trend lines (linear, exponential, polynomial)
-- Creating strip lines (horizontal/vertical bands)
-- Using multiple panes (sub-charts)
-- Handling empty points
-
-Topics covered:
-- Technical indicators for financial charts
-- Trend line types and configuration
-- Strip line patterns
-- Multiple pane layouts
-- Empty point handling strategies
-- Row and column definitions
-
----
-
-### Accessibility and Internationalization
-
-📄 **Read:** [references/accessibility-internationalization.md](references/accessibility-internationalization.md)
-
-Use this when:
-- Implementing accessible charts (ARIA, keyboard nav)
-- Configuring advanced accessibility features
-- Enabling internationalization (i18n)
-- Setting up localization (l10n)
-- Supporting RTL layouts
-
-Topics covered:
-- Accessibility features and ARIA support
-- Keyboard navigation patterns
-- Advanced accessibility configuration
-- Internationalization setup
-- Localization resources
-- RTL support
-- Screen reader compatibility
-
----
-
-### Events
-
-📄 **Read:** [references/events.md](references/events.md)
-
-Use this when:
-- Handling chart lifecycle events
-- Responding to user interactions (clicks, mouse events)
-- Listening to axis, series, or point events
-- Implementing custom event handlers
-- Triggering actions on zoom, pan, or selection
-
-Topics covered:
-- Chart load and render events
-- Point and series events
-- Mouse events (click, move, leave)
-- Axis label render events
-- Legend events
-- Zoom and pan events
-- Selection events
-- Event handler patterns
-
----
-
-### Practical Examples and How-To Guides
-
-📄 **Read:** [references/practical-examples.md](references/practical-examples.md)
-
-Use this for common implementation scenarios:
-- Adding/removing series dynamically
-- Hiding axes programmatically
-- Converting milliseconds to datetime
-- Updating points dynamically
-- Implementing lazy loading
-- Creating live/real-time charts
-- Getting selected data
-- Synchronizing multiple charts
-- Adding threshold lines
-- Custom tooltip tables
-
-Topics covered:
-- Dynamic series management
-- Axis visibility control
-- Date conversion techniques
-- Dynamic point updates
-- Lazy loading patterns
-- Live chart implementation
-- Selection data retrieval
-- Chart synchronization
-- Threshold line implementation
-- Custom tooltip tables
-
----
-
-## Public Methods Reference
-
-The `SfChart` component provides several public methods for programmatic control. Always use `@ref` to access these methods:
-
-### Essential Methods
+# Syncfusion Blazor Toolkit — Charts
+
+**NuGet:** `Syncfusion.Blazor.Toolkit` *(the `Syncfusion.Blazor.Toolkit.Charts`
+package referenced in legacy docs does not exist — the namespace
+`Syncfusion.Blazor.Toolkit.Charts` lives inside `Syncfusion.Blazor.Toolkit`)*
+**Namespace:** `Syncfusion.Blazor.Toolkit.Charts`
+**Component:** `SfChart`
+
+## Purpose
+
+Implement `SfChart` to render any data visualization the `Syncfusion.Blazor.Toolkit`
+package supports. Outcome: a working chart in a Blazor Server, WebAssembly,
+or Auto app, bound to a `List<T>` or `SfDataManager`, with the common
+gotchas (enum fully-qualified, `ChartStriplines` plural, `ChartCrosshairLine`
+narrow surface) already handled.
+
+## When NOT to use this skill
+
+Skill conflicts and routing errors are the #1 source of bad agent output.
+Re-route before you start.
+
+| If the task is… | Use this skill instead |
+|-----------------|------------------------|
+| Single date/time picker (`SfDatePicker`, `SfCalendar`, `SfTimePicker`) | `syncfusion-blazor-toolkit-calendars` |
+| TextBox, NumericTextBox, CheckBox, Radio, Switch | `syncfusion-blazor-toolkit-inputs` |
+| Buttons, button groups, toggle buttons | `syncfusion-blazor-toolkit-buttons` |
+| Modal dialogs (SfDialog) or hover tooltips (SfTooltip) | `syncfusion-blazor-toolkit-popups` |
+| Loading spinners overlaid on a chart (SfSpinner) | `syncfusion-blazor-toolkit-notifications` |
+| Grid, Scheduler, Diagram, Maps, Kanban (different Syncfusion products) | No skill in this repo — stop and ask |
+
+If the task mixes a chart + another control, load this skill **and** the
+sibling — never start a chart inside a `SfDialog` without reading
+`syncfusion-blazor-toolkit-popups`.
+
+## Step 1 — Read project instructions
+
+Before scaffolding or modifying `SfChart`, read `codestudio-instructions.md`
+at the repo root. Then read these four files under `.codestudio/knowledge/`
+in order:
+
+1. `.codestudio/knowledge/architecture.md` — module layout, per-component
+   partial-class split, JS interop pattern, SCSS pipeline.
+2. `.codestudio/knowledge/conventions.md` — naming, Allman braces, no
+   `private`, doc-comments, file organization.
+3. `.codestudio/knowledge/stack.md` — `net8.0` / `net9.0` / `net10.0`
+   targets, bUnit + Playwright test stack.
+4. `.codestudio/knowledge/boundaries.md` — Always do / Ask first / Never
+   do rules. **Hard-refuse any action that violates the "Never do" list.**
+   These rules supersede anything in this skill.
+
+(Readers of this skill from a consumer-app workspace — i.e. writing a Blazor
+app that *uses* `Syncfusion.Blazor.Toolkit` rather than modifying the toolkit
+itself — can skip this step.)
+
+## Step 2 — Pick the right series type
+
+The `ChartSeriesType` enum currently exposes **22 members** (declared in
+order at `src/Base/Enumeration.cs`):
+
+`Line`, `Column`, `Area`, `Bar`, `StackingColumn`, `StackingArea`,
+`StackingLine`, `StackingBar`, `StackingStepArea`, `StepLine`, `StepArea`,
+`SplineArea`, `Scatter`, `Spline`, `StackingColumn100`, `StackingBar100`,
+`StackingLine100`, `StackingArea100`, `Bubble`, `MultiColoredLine`,
+`MultiColoredArea`.
+
+Pick from this discriminator, not from a marketing count:
+
+| Data shape | Pick | `ChartSeriesType` |
+|------------|------|-------------------|
+| Categorical comparison (one bar per item) | Column (vertical) or Bar (horizontal) | `Column`, `Bar` |
+| Trend over time/sequence | Line or Spline | `Line`, `Spline` |
+| Magnitude over time (filled) | Area or SplineArea | `Area`, `SplineArea` |
+| Step changes | Step Line / Step Area | `StepLine`, `StepArea` |
+| Step accumulations (filled, stepped) | Stacking Step Area | `StackingStepArea` |
+| Part-to-whole, stacked | StackingColumn/Bar/Area/Line + the `…100` variants | `StackingColumn`, `StackingBar`, `StackingArea`, `StackingLine`, `StackingColumn100`, `StackingBar100`, `StackingArea100`, `StackingLine100` |
+| Two-variable correlation, point cloud | Scatter | `Scatter` |
+| Three-variable (size matters) | Bubble | `Bubble` |
+| Per-segment color | MultiColoredLine / MultiColoredArea | `MultiColoredLine`, `MultiColoredArea` |
+
+Types in this repo today: **22** (line + column + area + bar + steps +
+splines + scatter + bubble + multi-coloured + stacking variants). Pie,
+candle / OHLC / HiLo, polar / radar, range / area-spline variants are
+**not** part of the current toolkit — if the task requires them, stop
+and confirm with the user before scaffolding. Detail lives in
+`references/chart-types-specialized.md`.
+
+## Step 3 — Pick render mode and register services
+
+> **`SfChart` SSR handling.** Static SSR renders the chart frame at
+> default 600×450 (see `SfChart.razor.OnInitialized`: `if
+> (IsStaticServerRendering()) { _svgWidth = "600"; _svgHeight = "450"; }`).
+> The JS module loader — `chart.js`, `svgbase.js`, `touch.js`,
+> `animation.js` from `_content/Syncfusion.Blazor.Toolkit/scripts/*` —
+> only runs once the interactive circuit is wired. Tooltip / crosshair /
+> zoom / selection are non-functional in pure Static SSR.
+> If you must keep the host page static, place the chart in an
+> interactive child component (per-page or per-component `@rendermode`).
+
+| Data source | Render mode | Why |
+|-------------|-------------|-----|
+| Static `List<T>` baked into the page | Server, WebAssembly, or Auto (interactive) | SSR renders the SVG frame at defaults (600×450); JS loads interactively for tooltips, zoom, export |
+| Pure SSR (no JS) | Works for static-frame rendering | Tooltip/crosshair/selection/zoom JS features need interactive |
+| `IQueryable` / live-streaming binding | Server, WebAssembly, or Auto | Needs `OnAfterRenderAsync` to apply updates — Static SSR can't refresh |
+| `SfDataManager` calling a remote API | Auto or WebAssembly | The API call crosses the runtime boundary |
+| Toolkit services available app-wide | Server (one DI container) / Auto (register in **both** projects) | Render-mode aware |
+
+Charts are interactive components. Register the toolkit services once at app
+startup so `SfChart` (and the rest of the toolkit) can resolve them:
+
+```csharp
+// Program.cs  (Server, WebAssembly, or both for Auto)
+// Equivalent sites confirmed in samples/Blazor.Toolkit.Samples/Program.cs
+// and samples/Blazor.Toolkit.Samples.Client/Program.cs.
+using Syncfusion.Blazor.Toolkit;
+
+var builder = WebApplication.CreateBuilder(args);
+// … AddRazorComponents / AddInteractiveServerComponents / AddInteractiveWebAssemblyComponents …
+builder.Services.AddSyncfusionBlazorToolkit(options =>
+{
+    options.EnableRtl = false;
+    options.Animation = GlobalAnimationMode.Enable;
+});
+```
+
+For Auto/WASM with prerendering, call `AddSyncfusionBlazorToolkit()` in
+**both** `Program.cs` files — the server bootstrap and the `.Client`
+bootstrap. Verified registration sites:
+
+- `samples/Blazor.Toolkit.Samples/Program.cs`
+- `samples/Blazor.Toolkit.Samples.Client/Program.cs`
+
+`AddSyncfusionBlazorToolkit` registers `SyncfusionBlazorToolkitService` as
+scoped (the service `SfBaseComponent` reaches for `IsDeviceMode` /
+`IsJsInProcess`). Detail: `references/getting-started.md` for the full
+walkthrough.
+
+## Step 3.5 — Apply a theme (C# enum, *not* CSS variables)
+
+`SfChart` has its own in-C# theme pipeline, declared in
+`src/Base/Enumeration.cs`. **Theme colors come from the C# `Theme`
+parameter** — there is no CSS-variable layer you can poke from the host
+page. The `Theme` enum currently exposes **two values** (verified at
+`src/Base/Enumeration.cs`):
+
+| `Theme` value | Visual | When to use |
+|---|---|---|
+| `Syncfusion.Blazor.Toolkit.Theme.Fluent` *(default)* | Light background, dark text, neutral accents | Light-mode app, default look |
+| `Syncfusion.Blazor.Toolkit.Theme.FluentDark` | Dark background, light text, adjusted accents | Dark-mode app, darkmode toggle |
 
 ```razor
-<SfChart @ref="ChartRef">
-    <!-- Configuration -->
+@using Syncfusion.Blazor.Toolkit.Charts
+
+<SfChart Title="Sales Analysis" Theme="Syncfusion.Blazor.Toolkit.Theme.FluentDark">
+    <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Toolkit.ValueType.Category" />
+    <ChartSeries DataSource="@SalesData"
+                 XName="Month" YName="Revenue"
+                 Type="Syncfusion.Blazor.Toolkit.ChartSeriesType.Column" />
 </SfChart>
-
-@code {
-    SfChart ChartRef;
-    
-    // Refresh the chart
-    async Task RefreshChart() => await ChartRef.RefreshAsync();
-    
-    // Export the chart
-    async Task ExportChart() => await ChartRef.ExportAsync(ExportType.PNG, "chart.png");
-    
-    // Print the chart
-    async Task PrintChart() => await ChartRef.PrintAsync();
-    
-    // Show/Hide tooltip
-    void ShowChartTooltip() => ChartRef.ShowTooltip("January", 35);
-    void HideChartTooltip() => ChartRef.HideTooltip();
-    
-    // Show/Hide crosshair
-    void ShowChartCrosshair() => ChartRef.ShowCrosshair(100, 50);
-    void HideChartCrosshair() => ChartRef.HideCrosshair();
-    
-    // Selection control
-    void ClearSelections() => ChartRef.ClearSelection();
-    
-    // Sorting
-    void SortData() => ChartRef.Sort("YValue", ListSortDirection.Descending);
-    void ClearChartSort() => ChartRef.ClearSort();
-}
 ```
 
-**See [references/api-reference.md](references/api-reference.md) for complete method documentation.**
+> **Older docs reference `Theme.Material`, `Theme.Bootstrap5`,
+> `Theme.Tailwind`, or `Theme.HighContrast`.** Those values are **not
+> part of `Syncfusion.Blazor.Toolkit.Theme`** in this repo. Using a
+> non-existent value compiles to silence and renders nothing — pick
+> `Theme.Fluent` or `Theme.FluentDark`.
 
----
-
-## ⚠️ CRITICAL: API Usage Guidelines
-
-### 1. Enum Names - MUST Use Full Namespace
-
-**Syncfusion Blazor Toolkit Charts requires FULLY QUALIFIED enum names:**
+### Runtime theme switching (light/dark toggle)
 
 ```razor
-<!-- ✅ CORRECT - Use full namespace -->
-<ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Toolkit.ValueType.Category" />
-<ChartSeries Type="Syncfusion.Blazor.Toolkit.ChartSeriesType.Column" />
-
-<!-- ❌ WRONG - Short form will cause errors -->
-<ChartPrimaryXAxis ValueType="ValueType.Category" />
-<ChartSeries Type="ChartSeriesType.Column" />
+<SfChart Theme="@(_isDark ? Syncfusion.Blazor.Toolkit.Theme.FluentDark
+                          : Syncfusion.Blazor.Toolkit.Theme.Fluent)">
+    …
+</SfChart>
 ```
 
-**Always use `Syncfusion.Blazor.Toolkit.` prefix for:**
-- `ValueType` (Category, Double, DateTime, etc.)
-- `ChartSeriesType` (Column, Line, Area, etc.)
-- `LegendPosition`, `SelectionMode`, `ZoomMode`, `ChartShape`, etc.
+Pair with `@code { private bool _isDark; }` bound to your host app's
+dark-mode signal. `Theme` re-renders the chart in place — no
+`RefreshAsync` call required.
 
-### 2. Component Property Restrictions
+### SCSS pipeline — still required, but for **focus / interaction** rules only
 
-**⚠️ Common Property Errors to Avoid:**
+`src/wwwroot/styles/chart.scss` **does** exist and is wired into the
+combined `fluent.scss` via `componentThemeOrder` in `gulpfile.js`. It
+provides the *interactive* styles that aren't theme colors:
 
-#### ChartCrosshairSettings - Supported Properties
-```razor
-<ChartCrosshairSettings Enable="true" DashArray="2,3" LineType="LineType.Both">
-    <ChartCrosshairLine Width="1.5"></ChartCrosshairLine>
-</ChartCrosshairSettings>
-```
+- `:focus-visible` outline (`.e-chart-focused`)
+- `.e-legend-cursor`, `.e-legend-pointer`
+- `.e-series-outline`, `.e-trendline-outline` (suppress default browser focus rectangles)
+- `.e-stacklabel-visible` / `.e-stacklabel-hidden`
+- `.e-lastlabel-visible` / `.e-lastlabel-hidden`
 
-**Supported ChartCrosshairSettings Properties:**
-- `Enable` - Enable/disable crosshair (boolean)
-- `DashArray` - Dash pattern for dashed lines (e.g., "2,3")
-- `LineType` - Crosshair line type (Vertical, Horizontal, Both)
+None of these are theme colors — `Theme` covers them. But the SCSS is
+still required to compile these structural rules. The first build runs
+`gulp blazor-toolkit-themes` automatically (see
+`codestudio-instructions.md` Build & Test Discipline); subsequent
+builds skip it. If chart focus / legend-cursor rules appear stale,
+run `gulp blazor-toolkit-themes` from the repo root once.
 
-**Supported ChartCrosshairLine Properties:**
-- `Width` - Line width (number)
-- `Color` - Line color (string)
+## Step 4 — Gather inputs
 
-#### Striplines - Use Plural Form
-```razor
-<!-- ✅ CORRECT - ChartStriplines (plural) -->
-<ChartPrimaryYAxis>
-    <ChartStriplines>
-        <ChartStripline Start="50" End="60" Color="red" />
-    </ChartStriplines>
-</ChartPrimaryYAxis>
+1. **Render mode**: SSR renders the SVG frame at default 600×450; the
+   JS module loader (chart.js, svgbase.js, touch.js, animation.js) is
+   wired in `SfChart.razor.LifeCycle.cs` and runs once an interactive
+   circuit is active. Tooltip / crosshair / zoom / selection only work
+   under Server, WebAssembly, or Auto render modes. A pure-Static-SSR
+   parent will render the chart frame but interactions stay inert.
+   If a host page is Static SSR, place the chart in an interactive
+   child component (per-page or per-component `@rendermode`).
+2. **`Program.cs` registration**: confirm `AddSyncfusionBlazorToolkit()`
+   has been added (Step 3).
+3. **NuGet**: `Syncfusion.Blazor.Toolkit` is referenced in the project
+   file. (The NuGet ID is *not* `Syncfusion.Blazor.Toolkit.Charts` —
+   that name only appears in the namespace.)
+4. **Import**: `using Syncfusion.Blazor.Toolkit.Charts` (typically via
+   `_Imports.razor`).
+5. **Where to drop it**: full-page route (`Pages/Foo.razor`) inside an
+   interactive render mode.
+6. **Data shape**: `record`/`class` with primitive `XName`/`YName`/`Size`
+   properties (case-sensitive). Property names must match the
+   `XName`/`YName` strings exactly.
+7. **Container size**: parent CSS usually needs an explicit height
+   (e.g. `height: 400px`); % sizes need a sized parent.
 
-<!-- ❌ WRONG - ChartAxisStripLineSettings does not exist -->
-<ChartAxisStripLineSettings>
-    <ChartAxisStripLine Start="50" End="60" />
-</ChartAxisStripLineSettings>
-```
+## Step 5 — Scaffold the chart
 
-### 3. Validation Checklist
+The order matters. After Steps 1–4, compose in this sequence:
 
-Before deploying, verify:
-- ✅ All enums use `Syncfusion.Blazor.Toolkit.` prefix
-- ✅ ChartCrosshairLine uses ONLY Width and Color
-- ✅ Striplines use `<ChartStriplines>` and `<ChartStripline>`
-- ✅ Component references use `@ref` for method access
-- ✅ Property names match official API exactly (case-sensitive)
-
----
-
-## Quick Start Example
-
-Here's a minimal example to create a column chart with data:
+1. `<SfChart>` + `<ChartPrimaryXAxis>` + `<ChartPrimaryYAxis>`.
+2. Set `ValueType` on every axis (Category / Double / DateTime / Logarithmic).
+3. Bind `<ChartSeries DataSource … XName … YName … Type …>`.
+4. Layer interactivity only when asked (Step 6).
+5. Validate (Step 8).
 
 ```razor
 @page "/chart-demo"
 @using Syncfusion.Blazor.Toolkit.Charts
 
 <SfChart Title="Sales Analysis">
-    <ChartPrimaryXAxis Title="Month" ValueType="Syncfusion.Blazor.Toolkit.ValueType.Category">
-    </ChartPrimaryXAxis>
-    
-    <ChartPrimaryYAxis Title="Sales in Dollar">
-    </ChartPrimaryYAxis>
-    
-    <ChartTooltipSettings Enable="true"></ChartTooltipSettings>
-    
-        <ChartSeries DataSource="@SalesData" 
-                     Name="Sales" 
-                     XName="Month" 
-                     YName="SalesValue" 
-                     Type="Syncfusion.Blazor.Toolkit.ChartSeriesType.Column">
-            <ChartMarker>
-                <ChartDataLabel Visible="true"></ChartDataLabel>
-            </ChartMarker>
-        </ChartSeries>
+    <ChartPrimaryXAxis Title="Month"
+                       ValueType="Syncfusion.Blazor.Toolkit.ValueType.Category" />
+    <ChartPrimaryYAxis Title="Sales in $" />
+
+    <ChartTooltipSettings Enable="true" />
+    <ChartLegendSettings Visible="true" />
+
+    <ChartSeries DataSource="@SalesData"
+                 XName="Month" YName="Revenue"
+                 Type="Syncfusion.Blazor.Toolkit.ChartSeriesType.Column">
+        <ChartMarker><ChartDataLabel Visible="true" /></ChartMarker>
+    </ChartSeries>
 </SfChart>
 
 @code {
-    public class SalesInfo
-    {
-        public string Month { get; set; }
-        public double SalesValue { get; set; }
-    }
+    public record SalesPoint(string Month, double Revenue);
 
-    public List<SalesInfo> SalesData = new List<SalesInfo>
+    private readonly List<SalesPoint> SalesData = new()
     {
-        new SalesInfo { Month = "Jan", SalesValue = 35 },
-        new SalesInfo { Month = "Feb", SalesValue = 28 },
-        new SalesInfo { Month = "Mar", SalesValue = 34 },
-        new SalesInfo { Month = "Apr", SalesValue = 32 },
-        new SalesInfo { Month = "May", SalesValue = 40 },
-        new SalesInfo { Month = "Jun", SalesValue = 32 }
+        new("Jan", 35), new("Feb", 28), new("Mar", 34),
+        new("Apr", 32), new("May", 40), new("Jun", 32)
     };
 }
 ```
 
-**Prerequisites:**
-1. Install `Syncfusion.Blazor.Toolkit.Charts` NuGet package
-2. Add `@using Syncfusion.Blazor.Toolkit.Charts` to `_Imports.razor`
-3. Register service: `builder.Services.AddSyncfusionBlazor();` in `Program.cs`
-4. Add script reference in `App.razor`
+## Step 6 — Layer interactivity only when asked
 
----
+Tooltips, crosshair, zoom, pan, selection, legend, and secondary axes are
+**not** part of the default chart. Add them only when the user explicitly
+asks for hover-info, follow-cursor, zoom/pan, click-to-highlight, etc.
 
-## Common Patterns
+| Setting element | Trigger phrase |
+|-----------------|----------------|
+| `<ChartTooltipSettings>` | "tooltip", "hover info", "labels on hover" |
+| `<ChartCrosshairSettings>` | vertical/horizontal follow-cursor line |
+| `<ChartZoomSettings>` | pinch / wheel zoom, or selection-zoom rectangle |
+| `SfChart.SelectionMode="ChartSelectionMode.Point"` (root parameter) | click-to-highlight a point or region |
+| `<ChartLegendSettings>` | 2+ series, each with a different `Name` |
 
-### Multi-Series Comparison Chart
+Detail: `references/interactive-features.md`. Visual fittings — markers,
+data labels, annotations, gradients: `references/visual-elements.md`.
+
+## Step 7 — Apply critical API rules (load before writing code)
+
+These contradict what an agent produces by default. Encode them once,
+re-read before every commit.
+
+### 7.1 Enums are always fully qualified
+
+The un-prefixed short names resolve correctly **only** if you also add
+`@using Syncfusion.Blazor.Toolkit;`. The prefix is required for the agent
+default where the chart namespace is the only one imported.
 
 ```razor
-<SfChart Title="Product Sales Comparison">
-    <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Toolkit.ValueType.Category"></ChartPrimaryXAxis>
-    
-        <ChartSeries DataSource="@Product1Sales" XName="Month" YName="Sales" 
-                     Name="Product 1" Type="Syncfusion.Blazor.Toolkit.ChartSeriesType.Column">
-        </ChartSeries>
-        <ChartSeries DataSource="@Product2Sales" XName="Month" YName="Sales" 
-                     Name="Product 2" Type="Syncfusion.Blazor.Toolkit.ChartSeriesType.Column">
-        </ChartSeries>
-    
-    <ChartLegendSettings Visible="true"></ChartLegendSettings>
+<!-- correct -->
+<ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Toolkit.ValueType.Category" />
+<ChartSeries Type="Syncfusion.Blazor.Toolkit.ChartSeriesType.Column" />
+
+<!-- wrong — fails compilation in the default sample layout -->
+<ChartSeries Type="ChartSeriesType.Column" />
+```
+
+Always use `Syncfusion.Blazor.Toolkit.` for `ValueType`, `ChartSeriesType`,
+`LegendPosition`, `ZoomMode`, `ChartShape`, `TrendlineTypes`, `Theme`,
+`EmptyPointMode`, `ToolbarMode`, `ZIndexPosition`, `ChartSelectionMode`,
+`HighlightMode`, `ChartRangePadding`, `EmptyPointMode`, `LineType`,
+`EdgeLabelPlacement`, `LabelPlacement`, `LabelIntersectAction`, `Units`,
+`Regions`, `Alignment`, `SplineType`, `StepPosition`, `Segment`,
+`Orientation`, `RangeIntervalType`, `ToolbarItems`, `SelectionPattern`.
+
+> `TextWrap` is the **odd one out**: it lives in the root
+> `Syncfusion.Blazor` namespace (not `Syncfusion.Blazor.Toolkit`). Pages
+> that set `TextWrap="…"` on `ChartLegendSettings` need either
+> `@using Syncfusion.Blazor;` or the fully qualified
+> `Syncfusion.Blazor.TextWrap.Wrap`. Used unqualified, with only the
+> toolkit usings in scope, the snippet will fail with **CS0103**.
+
+### 7.2 Striplines are plural: `<ChartStriplines>` → `<ChartStripline>`
+
+The non-existent `<ChartAxisStripLineSettings>` will compile to silence
+and render nothing. Always wrap in plural collection.
+
+### 7.3 `ChartCrosshairLine` only takes `Width` + `Color`
+
+DashArray, LineType, opacity are **not** on this child. Use the parent's
+`DashArray` / `LineType`.
+
+```razor
+<ChartCrosshairSettings Enable="true" DashArray="2,3" LineType="LineType.Both">
+    <ChartCrosshairLine Width="1.5" Color="#444" />
+</ChartCrosshairSettings>
+```
+
+### 7.4 Bubble uses `Size="PropertyName"` — not `ZName`
+
+```razor
+<ChartSeries DataSource="@PopulationData"
+             XName="LiteracyRate" YName="GrowthRate"
+             Size="Population"                              <!-- third dimension -->
+             Type="Syncfusion.Blazor.Toolkit.ChartSeriesType.Bubble" />
+```
+
+### 7.5 Use `@ref` for programmatic methods
+
+**Public** methods on `SfChart` (verified against
+`src/Components/Charts/Chart/SfChart.razor.Methods.cs`):
+
+- Async (`Task`): `RefreshAsync`, `ShowTooltipAsync`, `HideTooltipAsync`,
+  `ShowCrosshairAsync`, `HideCrosshairAsync`
+- Sync (`void`): `Sort`, `ClearSort`, `ClearSelection`, `PreventRender`
+
+Call them via `@ref="ChartRef"`.
+
+**`<exclude/>` internal surface** (decorated with
+`[EditorBrowsable(EditorBrowsableState.Never)]`, **not** in IntelliSense):
+`AddSeriesAsync`, `RemoveSeries`, `ClearSeries`, `RefreshLiveData`. They
+compile and run, but should not appear in user documentation unless you
+intend to publish them.
+
+```razor
+<SfChart @ref="ChartRef">…</SfChart>
+@code { SfChart ChartRef = default!; }
+```
+
+### 7.6 `@onclick` handlers can't be inside `<ChartSeries>`
+
+Hook `OnPointClick` / `OnSeriesClick` on `<ChartEvents>` instead.
+
+### 7.7 Accessibility surface uses `AccessibilityDescription` (not `Description`)
+
+The accessibility property on `<SfChart>` is `AccessibilityDescription`
+(verified at `src/Components/Charts/Chart/SfChart.razor.Members.cs:171`).
+A bare `Description="…"` is **not** a parameter on `SfChart` and will fail
+to compile. There is also a sibling `AccessibilityRole` (e.g. `"img"`,
+`"figure"`) you can set to override the implicit `presentation` role on
+the chart container.
+
+```razor
+<SfChart Title="Q4 Revenue"
+         AccessibilityDescription="Bar chart showing Q4 revenue by region"
+         AccessibilityRole="img">
+    …
 </SfChart>
 ```
 
-### Time-Series Line Chart with Zooming
+### 7.8 Every event — including per-axis callbacks — lives on a single root-level `<ChartEvents>`
+
+`OnAxisLabelRender`, `OnAxisMultiLevelLabelRender`, and
+`OnAxisActualRangeCalculated` are properties on `ChartEvents` and bind on
+a **single** child block of `<SfChart>`, not nested under
+`<ChartPrimaryXAxis>` / `<ChartPrimaryYAxis>`. Verified at
+`src/Components/Charts/Chart/ChartEvent/ChartEvents.razor.cs:38, 367, 674, 891`.
 
 ```razor
 <SfChart>
-    <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Toolkit.ValueType.DateTime" 
-                        Title="Date">
-    </ChartPrimaryXAxis>
-    
-    <ChartZoomSettings EnableSelectionZooming="true" 
-                       EnablePan="true" 
-                       EnableMouseWheelZooming="true">
-    </ChartZoomSettings>
-    
-        <ChartSeries DataSource="@TimeSeriesData" 
-                     XName="Date" 
-                     YName="Value" 
-                     Type="Syncfusion.Blazor.Toolkit.ChartSeriesType.Line">
-        </ChartSeries>
+    <ChartEvents OnAxisLabelRender="AxisLabelEvent"
+                 OnSeriesRender="SeriesRender"
+                 OnSelectionChanged="SelectionChanged" />
+    …
 </SfChart>
 ```
 
-### Stacked Area Chart with Legend
+## Common pitfalls
 
-```razor
-<SfChart Title="Resource Allocation">
-    <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Toolkit.ValueType.Category"></ChartPrimaryXAxis>
-    
-        <ChartSeries DataSource="@ResourceData1" XName="Period" YName="Hours" 
-                     Name="Development" Type="Syncfusion.Blazor.Toolkit.ChartSeriesType.StackingArea">
-        </ChartSeries>
-        <ChartSeries DataSource="@ResourceData2" XName="Period" YName="Hours" 
-                     Name="Testing" Type="Syncfusion.Blazor.Toolkit.ChartSeriesType.StackingArea">
-        </ChartSeries>
-        <ChartSeries DataSource="@ResourceData3" XName="Period" YName="Hours" 
-                     Name="Documentation" Type="Syncfusion.Blazor.Toolkit.ChartSeriesType.StackingArea">
-        </ChartSeries>
-    
-    <ChartLegendSettings Visible="true" Position="Syncfusion.Blazor.Toolkit.LegendPosition.Bottom">
-    </ChartLegendSettings>
-</SfChart>
-```
+| Symptom | Cause | Fix |
+|---------|-------|-----|
+| Chart renders empty | `XName`/`YName` casing mismatch with data class | Property name must match exactly (case-sensitive) |
+| `Ctors not found` on `ChartSeriesType` | Short enum (no prefix) | Use `Syncfusion.Blazor.Toolkit.ChartSeriesType.Column` |
+| Chart height collapses to zero | `%` on an unsized parent | Use static `height` value or sized container |
+| Legend isn't visible | `ChartLegendSettings.Visible="false"` is default | Set `Visible="true"` |
+| Strip line preview appears off-axis | Used singular element | Use `<ChartStriplines>` wrapper |
+| Crosshair draws but child line is invisible | Passed `DashArray` to `ChartCrosshairLine` | Move `DashArray` to `ChartCrosshairSettings` |
+| Bubble shows equal sizes | `Size` property not bound | Set `Size="PropertyName"` (not `ZName`) |
+| Tooltip missing on multi-series | Forgot `Shared="true"` | Set `<ChartTooltipSettings Shared="true" />` |
+| Multiple axes overlay | Two series with same default `Name` | Set `Name="…"` per series and per axis |
+| Screen reader doesn't announce the chart | Set `Description="…"` on `<SfChart>` | `Description` isn't a parameter — use `AccessibilityDescription="…"` and optionally `AccessibilityRole="img"` |
+| RTL flag "doesn't take" | Wrote `<SfChart EnableRtl="true" />` | `EnableRtl` is internal. Set `options.EnableRtl = true` on `AddSyncfusionBlazorToolkit(options => …)` once at startup |
+| `OnAxisLabelRender` "doesn't fire" | Put `<ChartEvents>` inside `<ChartPrimaryXAxis>` | All events live on a single `<ChartEvents>` block as a child of `<SfChart>` |
 
----
+## Step 8 — Validate
 
-## Key Configuration Properties
+1. **Build green**: `dotnet build ./src/Syncfusion.Blazor.Toolkit.slnx`
+   (covers net8.0, net9.0, net10.0).
+2. **BUnit tests**: `dotnet test ./tests/Syncfusion.Blazor.Toolkit.BUnitTest`.
+3. **Visual run** (manual): samples app at `samples/Blazor.Toolkit.Samples`
+   — chart renders with axis labels, legend, tooltip on hover.
+4. **Accessibility scan** (manual): keyboard `Tab` reaches the chart; hover
+   tooltip; high-contrast theme applies; `ChartPrimaryXAxis` has a `Title`
+   (screen reader announces it); for charts that replace a table,
+   `AccessibilityDescription` is set on `<SfChart>` (and `AccessibilityRole`
+   if the chart conveys unique information).
+5. **Final pre-commit checklist**:
+   - [ ] All enums use the `Syncfusion.Blazor.Toolkit.` prefix
+   - [ ] `<ChartStriplines>` (plural) wrapper used
+   - [ ] `ChartCrosshairLine` carries only `Width` + `Color`
+   - [ ] `XName` / `YName` match property casing
+   - [ ] Bubble uses `Size=` not `ZName=`
+   - [ ] `@ref` for any call to `ChartRef.RefreshAsync` / `ShowTooltipAsync` / `HideCrosshairAsync` etc.
+   - [ ] All event handlers are on a single root-level `<ChartEvents>` (no per-axis nesting)
+   - [ ] Accessibility uses `AccessibilityDescription` / `AccessibilityRole`; `EnableRtl` is set on global `AddSyncfusionBlazorToolkit(options => …)`
+   - [ ] Component reference matches repo conventions (see repo `AGENTS.md`)
 
-### Chart Component (`SfChart`)
-- `Title` - Chart title text
-- `Width` / `Height` - Chart dimensions (accepts px or %, default: "100%")
-- `Theme` - Visual theme (see Theme enum in API reference)
-- `Background` - Chart background color
-- `EnableAnimation` - Enable/disable animation (default: true)
-- `SelectionMode` - Selection mode (None, Series, Point, Cluster, DragXY, DragX, DragY, Lasso)
-- `HighlightMode` - Highlight mode (None, Series, Point, Cluster)
+## Don'ts
 
-### Primary Axes (`ChartPrimaryXAxis`, `ChartPrimaryYAxis`)
-- `ValueType` - Axis type: `Syncfusion.Blazor.Toolkit.ValueType.Category`, `ValueType.Double`, `ValueType.DateTime`, `ValueType.Logarithmic`, `ValueType.DateTimeCategory`
-- `Title` - Axis title
-- `Minimum` / `Maximum` - Axis range
-- `Interval` - Spacing between labels
-- `LabelFormat` - Format string for labels (e.g., "C0", "N2", "dd MMM")
-- `EdgeLabelPlacement` - Edge label handling (None, Hide, Shift)
-- `LabelIntersectAction` - Label intersection handling (None, Hide, Trim, Wrap, MultipleRows, Rotate45, Rotate90)
-- **Striplines** - Use `<ChartStriplines>` (plural) for horizontal/vertical bands
+- Don't shorten `Syncfusion.Blazor.Toolkit.ChartSeriesType.Column` —
+  it compiles only when `using Syncfusion.Blazor.Toolkit;` is also in
+  the same Razor file's imported namespaces. The default sample layout
+  imports only `Syncfusion.Blazor.Toolkit.Charts` (per
+  `samples/Blazor.Toolkit.Samples/Components/_Imports.razor`), so the
+  fully-qualified prefix is required.
+- Don't call a made-up extension like `AddSyncfusionToolkit()` — the
+  real registration extension is `AddSyncfusionBlazorToolkit()`.
+- Don't write `<ChartAxisStripLineSettings>` — it doesn't exist. Wrap
+  singular `<ChartStripline>` in `<ChartStriplines>` (plural).
+- Don't put `DashArray` / `LineType` on `<ChartCrosshairLine>` — its
+  only valid attributes are `Width` and `Color`. Move them to the
+  parent `<ChartCrosshairSettings>`.
+- Don't use `ZName` for bubble size — use `Size="PropertyName"`.
+- Don't call instance methods (`RefreshAsync`, `ShowTooltipAsync`,
+  `HideTooltipAsync`, `ShowCrosshairAsync`, `HideCrosshairAsync`,
+  `ClearSelection`, `Sort`, etc.) on `SfChart` without `@ref="ChartRef"`.
+- Don't put `@onclick` directly on `<ChartSeries>` — hook
+  `OnPointClick` / `OnSeriesClick` via `<ChartEvents>`.
+- Don't rely on percentage heights without an explicitly-sized parent
+  CSS container — the chart will collapse to zero height.
+- Don't place a chart inside a route page without first reading
+  `codestudio-instructions.md` (Step 1) — partial-class + JS-interop
+  conventions will catch you later.
+- Don't drop tooltips, crosshair, zoom, pan, selection, legend, or
+  secondary axes into the scaffold by default — add them in Step 6 only
+  when the user asks.
+- Don't expect tooltips, crosshair, zoom, or selection under a pure
+  Static-SSR render mode — the chart JS modules load from
+  `_content/Syncfusion.Blazor.Toolkit/scripts/*` and require an
+  interactive circuit. The SVG frame itself renders in Static SSR at
+  default 600×450; only the interactive features need Server /
+  WebAssembly / Auto. If you must keep the host page static, place
+  the chart in an interactive child component.
+- Don't pass a `Theme` value copied from older Syncfusion docs
+  (`Theme.Material`, `Theme.Bootstrap5`, `Theme.Tailwind`,
+  `Theme.HighContrast`). The `Syncfusion.Blazor.Toolkit.Theme` enum
+  has only `Fluent` and `FluentDark`; non-existent values compile to
+  silence and render nothing. See Step 3.5.
+- Don't call `AddSyncfusionBlazor()` to "register themes" — themes live
+  on `SfChart` itself; the toolkit is registered once via
+  `AddSyncfusionBlazorToolkit()` (Step 3).
+- Don't write `<SfChart EnableRtl="true" />` — `EnableRtl` is an
+  **internal** property on `SfChart`. Set the RTL flag once on the
+  global options at registration:
+  `builder.Services.AddSyncfusionBlazorToolkit(o => o.EnableRtl = true)`.
+- Don't write `<SfChart Description="…">` — that parameter doesn't
+  exist. Use `AccessibilityDescription="…"` (and optionally
+  `AccessibilityRole="…"`) instead. See § 7.7.
+- Don't put `<ChartEvents>` inside `<ChartPrimaryXAxis>` or
+  `<ChartPrimaryYAxis>` to capture `OnAxisLabelRender` /
+  `OnAxisMultiLevelLabelRender` / `OnSelectionChanged` etc. Every event
+  binds on a single `<ChartEvents>` child of `<SfChart>`. See § 7.8.
 
-### Series (`ChartSeries`)
-- `DataSource` - Data collection (IEnumerable<object>)
-- `XName` / `YName` - Property names for X and Y values (case-sensitive)
-- `Type` - Chart type: `Syncfusion.Blazor.Toolkit.ChartSeriesType.Column`, `ChartSeriesType.Line`, etc. (see API reference)
-- `Name` - Series name for legend
-- `Fill` - Series color (CSS color string)
-- `Width` - Line/border width (pixels)
-- `DashArray` - Dash pattern (e.g., "5,5")
-- `Opacity` - Transparency (0 to 1)
+## Which reference to load
 
-### Interactivity
-- `ChartTooltipSettings` - Tooltip configuration
-  - `Enable` - Show/hide tooltip
-  - `Shared` - Enable shared tooltip for multiple series
-  - `Format` - Custom tooltip format
-  - `Template` - Custom tooltip template (RenderFragment)
-- `ChartZoomSettings` - Zoom and pan options
-  - `EnableSelectionZooming` - Enable selection-based zoom
-  - `EnableMouseWheelZooming` - Enable mouse wheel zoom
-  - `EnablePinchZooming` - Enable pinch zoom (touch devices)
-  - `EnablePan` - Enable panning
-  - `Mode` - Zoom mode (X, Y, XY)
-- `SelectionMode` - Selection behavior (see SelectionMode enum)
-- `ChartCrosshairSettings` - Crosshair configuration
-  - `Enable` - Show/hide crosshair
-  - `LineType` - Crosshair line type (Vertical, Horizontal, Both)
-  - `ChartCrosshairLine` - Line style (Width, Color ONLY - NO DashArray)
+| If the agent is doing… | Read |
+|------------------------|------|
+| First-time setup, NuGet, Program.cs registration | `references/getting-started.md` |
+| Picking line / area / column / spline / step | `references/chart-types-common.md` |
+| Stacking / scatter / bubble / multi-color / vertical | `references/chart-types-specialized.md` |
+| Axis type, range, format, secondary axis | `references/axes-and-scales.md` |
+| Tooltip / crosshair / zoom / pan / selection | `references/interactive-features.md` |
+| Markers / data labels / annotations / gradients | `references/visual-elements.md` |
+| Legend position and customization | `references/legend.md` |
+| Theme, palette, dimensions, responsive, print | `references/appearance-styling.md` |
+| Indicators, trend lines, striplines, panes, empty points | `references/advanced-features.md` |
+| Dynamic data, sort, data manager, real-time | `references/data-handling.md` |
+| Lifecycle / click / hover / zoom / selection events | `references/events.md` (skim the top-of-file callout — per-axis callbacks like `OnAxisLabelRender` live on the **root** `<ChartEvents>`, not nested) |
+| ARIA, keyboard, RTL, i18n, l10n, color blindness | `references/accessibility-internationalization.md` |
+| Public method signatures + property tables | `references/api-reference.md` |
+| Drill-down, threshold lines, lazy load, sync | `references/practical-examples.md` |
 
-### Visual Elements
-- `ChartMarker` - Data point markers
-  - `Visible` - Show/hide markers
-  - `Shape` - Marker shape (see ChartShape enum)
-  - `Width` / `Height` - Marker dimensions
-- `ChartDataLabel` - Data labels on points
-  - `Visible` - Show/hide labels
-  - `Position` - Label position
-  - `Template` - Custom label template
-- `ChartLegendSettings` - Legend configuration
-  - `Visible` - Show/hide legend
-  - `Position` - Legend position (see LegendPosition enum)
-- `ChartAnnotations` - Custom annotations
-  - Support for text, images, and shapes
+**Read order rule** (`.NET/blazor` convention): read **at most two**
+references per task. If you still don't know which API to call, escalate
+to `references/api-reference.md` last, never first.
 
----
+## Documentation and Navigation Guide
+
+The canonical, external reference lives at the Syncfusion **Blazor Toolkit
+Charts overview demo**, which mirrors the live components shipped by this
+package:
+
+- **Toolkit Charts overview** — <https://blazor.syncfusion.com/demos/toolkit/charts/overview>
+  Use this to confirm any visual / API behaviour before relying on the
+  snippets in `references/`. The demo page is regenerated from the
+  published package, so when it diverges from this skill, **trust the
+  demo** for the exact surface and **trust this skill** for the
+  repo-specific gotchas (enum prefix, plural wrappers, `ChartCrosshairLine`
+  limits, etc.).
+
+### Internal references — read order
+
+The "Which reference to load" table above is the navigation map. The
+recommended staircase is:
+
+1. `references/getting-started.md` — first read when wiring a brand-new app.
+2. `references/chart-types-common.md` or `…specialized.md` — when choosing a
+   series.
+3. `references/axes-and-scales.md`, `interactive-features.md`,
+   `visual-elements.md`, `legend.md`, `appearance-styling.md` — when
+   deeper configuration is asked for.
+4. `references/data-handling.md`, `events.md`,
+   `accessibility-internationalization.md` — for live data, hooks, and
+   a11y.
+5. `references/advanced-features.md`, `practical-examples.md` — for
+   trend lines, panes, drill-down, lazy load.
+6. `references/api-reference.md` — last resort, never first; it is the
+   big property-and-method catalogue.
+
+## Next Steps
+
+Once validation (Step 8) is green, the natural follow-on tasks are:
+
+1. **Pick the next visual layer.** If the user asked for any of
+   tooltips, crosshair, zoom / pan, selection, or a secondary axis →
+   load `references/interactive-features.md` and apply Step 6.
+2. **Tune the visual.** Markers, data labels, annotations, gradients,
+   legend positioning → load `references/visual-elements.md` and
+   `references/legend.md`.
+3. **Confirm accessibility.** Run the accessibility scan in Step 8;
+   if anything is missing (`Title` on every axis, keyboard reach,
+   contrast for the chosen `Theme`), load
+   `references/accessibility-internationalization.md` and fix the gap.
+4. **Hook events.** If the user wants point-click, series-click, hover,
+   zoom-end, or selection callbacks → load `references/events.md` and
+   wire `<ChartEvents>` (do **not** put `@onclick` on `<ChartSeries>` —
+   rule 7.6).
+5. **Bind real data.** If `List<T>` is no longer enough or the user
+   needs paging / web-API backing → load `references/data-handling.md`
+   and migrate the `DataSource` to `SfDataManager`.
+6. **Composition with other controls.** If the chart needs a header
+   filter, a refresh button, an export-PNG button, a loading overlay
+   while data is fetching, or a confirm dialog → load the matching
+   sibling skill in the same folder:
+   `syncfusion-blazor-toolkit-buttons`, `syncfusion-blazor-toolkit-inputs`,
+   `syncfusion-blazor-toolkit-notifications`, or
+   `syncfusion-blazor-toolkit-popups`. The chart skill is the source of
+   truth for the chart itself; the sibling skills own the surrounding
+   controls.
+7. **Cross-check against the live demo.** Re-verify any behaviour the
+   user will see against the Syncfusion Toolkit Charts overview
+   (`https://blazor.syncfusion.com/demos/toolkit/charts/overview`)
+   before declaring done.

@@ -1,4 +1,4 @@
-﻿## Table of Contents
+## Table of Contents
 
 - [Overview](#overview)
 - [Prerequisites](#prerequisites)
@@ -25,11 +25,17 @@
 - [Common Setup Issues](#common-setup-issues)
    - [Issue: Chart Not Rendering](#issue-chart-not-rendering)
    - [Issue: No Data Displayed](#issue-no-data-displayed)
-   - [Issue: Interactive Mode Error](#issue-interactive-mode-error)
+   - [Issue: Interactive Features Inactive Under Static SSR](#issue-interactive-features-inactive-under-static-ssr)
 - [Next Steps](#next-steps)
 - [Additional Resources](#additional-resources)
 
 # Getting Started with Blazor Chart Component
+
+> **Verified against source** — enum members cross-checked against
+> `src/Base/Enumeration.cs`; method surface and render-mode behaviour
+> cross-checked against `src/Components/.../SfChart.razor.*.cs`. When
+> this and the source code disagree, **source wins** — file a backlog
+> task to update this file. Last source audit: **2026-08-24**.
 
 This guide covers everything you need to set up and create your first Blazor Chart component, including installation, configuration, and basic chart implementation.
 
@@ -75,7 +81,7 @@ cd BlazorChartApp
 
 #### Step 2: Install NuGet Package
 ```bash
-dotnet add package Syncfusion.Blazor.Toolkit.Charts
+dotnet add package Syncfusion.Blazor.Toolkit
 dotnet restore
 ```
 
@@ -94,7 +100,7 @@ cd BlazorChartApp
 
 #### Step 3: Install Package
 ```bash
-dotnet add package Syncfusion.Blazor.Toolkit.Charts
+dotnet add package Syncfusion.Blazor.Toolkit
 dotnet restore
 ```
 
@@ -105,16 +111,18 @@ dotnet restore
 Open `_Imports.razor` and add:
 
 ```razor
-@using Syncfusion.Blazor
+@using Syncfusion.Blazor.Toolkit
 @using Syncfusion.Blazor.Toolkit.Charts
 ```
 
 ### Step 2: Register Syncfusion Services
 
-In `Program.cs`, add the Syncfusion Blazor service:
+In `Program.cs`, register the toolkit once. The chart (and any other
+toolkit components used in the same app) depend on this registration;
+do **not** add any separate component-package registration.
 
 ```csharp
-using Syncfusion.Blazor;
+using Syncfusion.Blazor.Toolkit;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -122,28 +130,27 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddRazorComponents()
     .AddInteractiveServerComponents();
 
-// Register Syncfusion Blazor Service
-builder.Services.AddSyncfusionBlazor();
+// Register the Syncfusion Blazor Toolkit (one call per project — for Auto/WASM,
+// register in BOTH the server Program.cs and .Client Program.cs).
+builder.Services.AddSyncfusionBlazorToolkit();
 
 var app = builder.Build();
 ```
 
-### Step 3: Add Script Reference
-
-In `App.razor` (or `_Layout.cshtml` for older templates), add the script reference before the closing `</body>` tag:
-
-```html
-<body>
-    <!-- Other content -->
-    
-    <script src="_content/Syncfusion.Blazor.Core/scripts/syncfusion-blazor.min.js" type="text/javascript"></script>
-</body>
-```
-
-**Note:** The Chart component script is included in `syncfusion-blazor.min.js`. For individual component scripts:
-```html
-<script src="_content/Syncfusion.Blazor.Toolkit.Charts/scripts/sf-chart.min.js" type="text/javascript"></script>
-```
+> **JS modules are loaded by the chart itself.** Once `Chart.OnAfterRenderAsync`
+> runs, the chart imports these modules from the NuGet static content
+> (served by the host's static-files middleware, NOT by
+> `_framework/blazor.web.js`):
+>
+> - `_content/Syncfusion.Blazor.Toolkit/scripts/svgbase.js`
+> - `_content/Syncfusion.Blazor.Toolkit/scripts/touch.js`
+> - `_content/Syncfusion.Blazor.Toolkit/scripts/animation.js`
+> - `_content/Syncfusion.Blazor.Toolkit/scripts/chart.js`
+>
+> Do **not** add manual `<script>` tags for `syncfusion-blazor.min.js`,
+> `sf-chart.min.js`, or anything under `_content/Syncfusion.Blazor.*`.
+> For Auto/WASM with prerendering, call `AddSyncfusionBlazorToolkit()` in
+> **both** `Program.cs` files (the server bootstrap and the `.Client` bootstrap).
 
 ## Creating Your First Chart
 
@@ -167,21 +174,14 @@ This renders an empty chart container.
 
 ```razor
 @code {
-    public class SalesInfo
-    {
-        public string Month { get; set; }
-        public double SalesValue { get; set; }
-    }
+    // Records are recommended for chart row types — they're immutable,
+    // concise, and readable. Class-with-mutable-strings still works.
+    public record SalesInfo(string Month, double SalesValue);
 
-    public List<SalesInfo> SalesData = new List<SalesInfo>
+    private readonly List<SalesInfo> SalesData = new()
     {
-        new SalesInfo { Month = "Jan", SalesValue = 35 },
-        new SalesInfo { Month = "Feb", SalesValue = 28 },
-        new SalesInfo { Month = "Mar", SalesValue = 34 },
-        new SalesInfo { Month = "Apr", SalesValue = 32 },
-        new SalesInfo { Month = "May", SalesValue = 40 },
-        new SalesInfo { Month = "Jun", SalesValue = 32 },
-        new SalesInfo { Month = "Jul", SalesValue = 35 }
+        new("Jan", 35), new("Feb", 28), new("Mar", 34),
+        new("Apr", 32), new("May", 40), new("Jun", 32), new("Jul", 35)
     };
 }
 ```
@@ -193,7 +193,7 @@ This renders an empty chart container.
     <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Toolkit.ValueType.Category">
     </ChartPrimaryXAxis>
     
-        <ChartSeries DataSource="@SalesData" 
+    <ChartSeries DataSource="@SalesData" 
                      XName="Month" 
                      YName="SalesValue" 
                      Type="Syncfusion.Blazor.Toolkit.ChartSeriesType.Column">
@@ -221,7 +221,7 @@ Add titles to the chart and axes for context:
     <ChartPrimaryYAxis Title="Sales in Dollar">
     </ChartPrimaryYAxis>
     
-        <ChartSeries DataSource="@SalesData" 
+    <ChartSeries DataSource="@SalesData" 
                      XName="Month" 
                      YName="SalesValue" 
                      Type="Syncfusion.Blazor.Toolkit.ChartSeriesType.Column">
@@ -238,7 +238,7 @@ Display values on data points:
     <ChartPrimaryXAxis Title="Month" ValueType="Syncfusion.Blazor.Toolkit.ValueType.Category"></ChartPrimaryXAxis>
     <ChartPrimaryYAxis Title="Sales in Dollar"></ChartPrimaryYAxis>
     
-        <ChartSeries DataSource="@SalesData" 
+    <ChartSeries DataSource="@SalesData" 
                      XName="Month" 
                      YName="SalesValue" 
                      Type="Syncfusion.Blazor.Toolkit.ChartSeriesType.Column">
@@ -260,7 +260,7 @@ Show data on hover:
     
     <ChartTooltipSettings Enable="true"></ChartTooltipSettings>
     
-        <ChartSeries DataSource="@SalesData" 
+    <ChartSeries DataSource="@SalesData" 
                      XName="Month" 
                      YName="SalesValue" 
                      Type="Syncfusion.Blazor.Toolkit.ChartSeriesType.Column">
@@ -279,7 +279,7 @@ Enable legend for multi-series charts:
     
     <ChartLegendSettings Visible="true"></ChartLegendSettings>
     
-        <ChartSeries DataSource="@SalesData" 
+    <ChartSeries DataSource="@SalesData" 
                      Name="Sales"
                      XName="Month" 
                      YName="SalesValue" 
@@ -314,7 +314,7 @@ Here's a complete working example combining all elements:
     <ChartTooltipSettings Enable="true"></ChartTooltipSettings>
     <ChartLegendSettings Visible="true"></ChartLegendSettings>
     
-        <ChartSeries DataSource="@SalesData" 
+    <ChartSeries DataSource="@SalesData" 
                      Name="Sales"
                      XName="Month" 
                      YName="SalesValue" 
@@ -327,21 +327,12 @@ Here's a complete working example combining all elements:
 </SfChart>
 
 @code {
-    public class SalesInfo
-    {
-        public string Month { get; set; }
-        public double SalesValue { get; set; }
-    }
+    public record SalesInfo(string Month, double SalesValue);
 
-    public List<SalesInfo> SalesData = new List<SalesInfo>
+    private readonly List<SalesInfo> SalesData = new()
     {
-        new SalesInfo { Month = "Jan", SalesValue = 35 },
-        new SalesInfo { Month = "Feb", SalesValue = 28 },
-        new SalesInfo { Month = "Mar", SalesValue = 34 },
-        new SalesInfo { Month = "Apr", SalesValue = 32 },
-        new SalesInfo { Month = "May", SalesValue = 40 },
-        new SalesInfo { Month = "Jun", SalesValue = 32 },
-        new SalesInfo { Month = "Jul", SalesValue = 35 }
+        new("Jan", 35), new("Feb", 28), new("Mar", 34),
+        new("Apr", 32), new("May", 40), new("Jun", 32), new("Jul", 35)
     };
 }
 ```
@@ -369,14 +360,14 @@ To compare multiple datasets:
     <ChartLegendSettings Visible="true"></ChartLegendSettings>
     <ChartTooltipSettings Enable="true"></ChartTooltipSettings>
     
-        <ChartSeries DataSource="@Product1Data" 
+    <ChartSeries DataSource="@Product1Data" 
                      Name="Product A"
                      XName="Month" 
                      YName="Sales" 
                      Type="Syncfusion.Blazor.Toolkit.ChartSeriesType.Column">
         </ChartSeries>
         
-        <ChartSeries DataSource="@Product2Data" 
+    <ChartSeries DataSource="@Product2Data" 
                      Name="Product B"
                      XName="Month" 
                      YName="Sales" 
@@ -385,38 +376,31 @@ To compare multiple datasets:
 </SfChart>
 
 @code {
-    public class ProductSales
-    {
-        public string Month { get; set; }
-        public double Sales { get; set; }
-    }
+    public record ProductSales(string Month, double Sales);
 
-    public List<ProductSales> Product1Data = new List<ProductSales>
+    private readonly List<ProductSales> Product1Data = new()
     {
-        new ProductSales { Month = "Jan", Sales = 35 },
-        new ProductSales { Month = "Feb", Sales = 28 },
-        new ProductSales { Month = "Mar", Sales = 34 }
+        new("Jan", 35), new("Feb", 28), new("Mar", 34)
     };
 
-    public List<ProductSales> Product2Data = new List<ProductSales>
+    private readonly List<ProductSales> Product2Data = new()
     {
-        new ProductSales { Month = "Jan", Sales = 20 },
-        new ProductSales { Month = "Feb", Sales = 35 },
-        new ProductSales { Month = "Mar", Sales = 30 }
+        new("Jan", 20), new("Feb", 35), new("Mar", 30)
     };
 }
 ```
 
 ## Common Setup Issues
 
-### Issue: Chart Not Rendering
+### Issue: Chart Not Rendering (truly empty container)
 
-**Cause:** Missing service registration or script reference
+**Cause:** Missing service registration, wrong render mode, or missing namespace
 
-**Solution:** 
-1. Verify `AddSyncfusionBlazor()` in `Program.cs`
-2. Check script reference in `App.razor`
-3. Ensure namespaces in `_Imports.razor`
+**Solution:**
+1. Verify `AddSyncfusionBlazorToolkit()` (not `AddSyncfusionBlazor`) is in `Program.cs`
+2. For Auto/WASM with prerender, call it in **both** `Program.cs` files
+3. Verify `using Syncfusion.Blazor.Toolkit.Charts;` is in `_Imports.razor` (or `@using` at top of page)
+4. Confirm the hosting page uses an **interactive** render mode (`InteractiveServer`, `InteractiveWebAssembly`, or `InteractiveAuto`) for JS-driven features (tooltip, zoom, crosshair, selection, export). The SVG frame renders in Static SSR at 600×450 — only interactivity requires Server/WASM/Auto. If the host stays Static, place the chart in an interactive child component. See `../SKILL.md` Step 3.
 
 ### Issue: No Data Displayed
 
@@ -426,16 +410,17 @@ To compare multiple datasets:
 - Verify `XName` and `YName` match data model properties exactly (case-sensitive)
 - Ensure `DataSource` is populated before rendering
 
-### Issue: Interactive Mode Error
+### Issue: Interactive Features Inactive Under Static SSR
 
-**Cause:** Component requires interactivity
+**Cause:** The JS modules that drive tooltip/crosshair/zoom/selection
+only load once an interactive circuit is active (`OnAfterRenderAsync`
+runs interop imports). In pure Static SSR the chart renders the SVG
+frame, but interactivity never wires.
 
-**Solution:** Add render mode at page top:
-```razor
-@rendermode InteractiveServer
-```
-
-Or configure globally in `App.razor`.
+**Solution:** Either switch the host page to an interactive render mode
+(`@rendermode InteractiveServer`, `InteractiveWebAssembly`, or
+`InteractiveAuto`), or wrap the chart in an interactive child component
+so the parent's static-render behaviour doesn't block JS module load.
 
 ## Next Steps
 

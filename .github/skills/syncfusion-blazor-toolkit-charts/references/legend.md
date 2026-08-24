@@ -1,4 +1,9 @@
-﻿# Legend Reference
+# Legend Reference
+
+> **Verified against source** — `LegendShape` (13 members in
+> `src/Base/Enumeration.cs:2780–2848`), distinct from `ChartShape`.
+> `ChartSelectionMode`/`SelectionPattern` enum references verified.
+> Last source audit: **2026-08-24**.
 
 ## Table of Contents
 
@@ -24,7 +29,6 @@
    - [Disable Toggle Visibility](#disable-toggle-visibility)
 - [Hiding Legend Items](#hiding-legend-items)
    - [Hide Specific Series from Legend](#hide-specific-series-from-legend)
-- [Legend Templates](#legend-templates)
 - [Practical Legend Patterns](#practical-legend-patterns)
    - [Multi-Series with Custom Shapes](#multi-series-with-custom-shapes)
    - [Styled Legend with Border](#styled-legend-with-border)
@@ -55,9 +59,9 @@ Enable legend by setting `Visible="true"` in `ChartLegendSettings`:
 <SfChart Title="Olympic Medals">
     <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Toolkit.ValueType.Category"/>
     
-        <ChartSeries DataSource="@MedalDetails" Name="Gold" XName="Country" YName="Gold" Type="Syncfusion.Blazor.Toolkit.ChartSeriesType.Column"/>
-        <ChartSeries DataSource="@MedalDetails" Name="Silver" XName="Country" YName="Silver" Type="Syncfusion.Blazor.Toolkit.ChartSeriesType.Column"/>
-        <ChartSeries DataSource="@MedalDetails" Name="Bronze" XName="Country" YName="Bronze" Type="Syncfusion.Blazor.Toolkit.ChartSeriesType.Column"/>
+    <ChartSeries DataSource="@MedalDetails" Name="Gold" XName="Country" YName="Gold" Type="Syncfusion.Blazor.Toolkit.ChartSeriesType.Column"/>
+    <ChartSeries DataSource="@MedalDetails" Name="Silver" XName="Country" YName="Silver" Type="Syncfusion.Blazor.Toolkit.ChartSeriesType.Column"/>
+    <ChartSeries DataSource="@MedalDetails" Name="Bronze" XName="Country" YName="Bronze" Type="Syncfusion.Blazor.Toolkit.ChartSeriesType.Column"/>
     
     <ChartLegendSettings Visible="true"/>
 </SfChart>
@@ -88,10 +92,13 @@ Enable legend by setting `Visible="true"` in `ChartLegendSettings`:
 Position legend at different locations using the `Position` property:
 
 ```razor
+<!-- Auto (default) — chart auto-positions based on size/dimensions -->
+<ChartLegendSettings Visible="true" Position="LegendPosition.Auto"/>
+
 <!-- Top position -->
 <ChartLegendSettings Visible="true" Position="LegendPosition.Top"/>
 
-<!-- Bottom position (default) -->
+<!-- Bottom position -->
 <ChartLegendSettings Visible="true" Position="LegendPosition.Bottom"/>
 
 <!-- Left position -->
@@ -100,6 +107,10 @@ Position legend at different locations using the `Position` property:
 <!-- Right position -->
 <ChartLegendSettings Visible="true" Position="LegendPosition.Right"/>
 ```
+
+> Source order for `LegendPosition` (verified at
+> `src/Base/Enumeration.cs:2692`): `Auto, Bottom, Top, Left, Right, Custom`.
+> The chart's default is `Auto`.
 
 ### Custom Positioning
 
@@ -117,21 +128,21 @@ Control alignment within the legend area:
 
 ```razor
 <!-- Left/Near alignment -->
-<ChartLegendSettings Visible="true" Alignment="Alignment.Near"/>
+<ChartLegendSettings Visible="true" Alignment="Syncfusion.Blazor.Toolkit.Alignment.Near"/>
 
 <!-- Center alignment (default) -->
-<ChartLegendSettings Visible="true" Alignment="Alignment.Center"/>
+<ChartLegendSettings Visible="true" Alignment="Syncfusion.Blazor.Toolkit.Alignment.Center"/>
 
 <!-- Right/Far alignment -->
-<ChartLegendSettings Visible="true" Alignment="Alignment.Far"/>
+<ChartLegendSettings Visible="true" Alignment="Syncfusion.Blazor.Toolkit.Alignment.Center"/>
 ```
 
 **Position and Alignment Combined:**
 
 ```razor
-<ChartLegendSettings Visible="true" 
-                     Position="LegendPosition.Top" 
-                     Alignment="Alignment.Far"/>
+<ChartLegendSettings Visible="true"
+                     Position="LegendPosition.Top"
+                     Alignment="Syncfusion.Blazor.Toolkit.Alignment.Far"/>
 ```
 
 ## Legend Order and Reversal
@@ -158,17 +169,26 @@ Customize legend icon shape per series using `LegendShape`:
 <ChartSeries DataSource="@Data3" Name="Series 3" XName="X" YName="Y" LegendShape="LegendShape.Triangle"/>
 ```
 
-**Available Legend Shapes:**
-- `SeriesType` - Matches the series type (default)
-- `Circle` - Circular icon
-- `Rectangle` - Rectangular icon
-- `Diamond` - Diamond-shaped icon
-- `Triangle` - Triangular icon
-- `InvertedTriangle` - Inverted triangle
-- `Pentagon` - Five-sided icon
-- `Cross` - Cross/plus icon
-- `HorizontalLine` - Horizontal line
-- `VerticalLine` - Vertical line
+**Available Legend Shapes:** (verified against `src/Base/Enumeration.cs`,
+`LegendShape` enum, lines 2780–2848)
+
+> Note: `LegendShape` is a **different enum from `ChartShape`**. The
+> `LegendShape` enum exists specifically to control icon appearance in
+> the legend. Do not import `ChartShape` here.
+
+- `Circle` - Filled circular icon (default for many series)
+- `Rectangle` - Filled rectangular icon
+- `Triangle` - Filled upright triangle icon
+- `Diamond` - Filled diamond icon
+- `Cross` - Cross (+) symbol icon
+- `Multiply` - Multiply (×) symbol icon
+- `ActualRect` - Rectangle matching the series actual dimensions
+- `TargetRect` - Target-style rectangle icon
+- `HorizontalLine` - Horizontal line icon
+- `VerticalLine` - Vertical line icon
+- `Pentagon` - Filled pentagon icon
+- `InvertedTriangle` - Filled inverted (downward-pointing) triangle
+- `SeriesType` - Shape auto-determined by the underlying series type
 
 ### Legend Size
 
@@ -249,6 +269,28 @@ When legend items exceed available space, automatic paging enables navigation bu
 
 Paging is enabled automatically when content overflows. Users can navigate using arrow buttons.
 
+## Other Legend Properties (verified at `src/Components/Charts/Chart/Legend/LegendSettings.cs`)
+
+| Property | Type | Default | Purpose |
+|----------|------|---------|---------|
+| `Background` | `string` | `"transparent"` | Inline color or gradient string (`"#FAFAFA"`) |
+| `Opacity` | `double` | `1` | 0–1, applied to the legend container |
+| `EnableHighlight` | `bool` | `false` | Hover the legend to highlight that series |
+| `TabIndex` | `double` | `3` | Keyboard tab order for legend items |
+| `IsInversed` | `bool` | `false` | Render items reversed relative to series order (independent of `Reverse`) |
+
+These are real, public properties — not covered above but useful in
+production. Enable highlight, e.g.:
+
+```razor
+<ChartLegendSettings Visible="true" EnableHighlight="true" />
+```
+
+> The `Shape` property does **not** exist on `ChartLegendSettings`. The
+> per-series icon shape is set on `<ChartSeries LegendShape="LegendShape.Circle" />`,
+> not on the legend settings. The `api-reference.md` table that lists
+> `public LegendShape Shape` on `ChartLegendSettings` is wrong.
+
 ## Legend Text Handling
 
 ### Text Wrapping
@@ -256,8 +298,8 @@ Paging is enabled automatically when content overflows. Users can navigate using
 Wrap legend text when it exceeds the container:
 
 ```razor
-<ChartLegendSettings Visible="true" 
-                     TextWrap="TextWrap.Wrap" 
+<ChartLegendSettings Visible="true"
+                     TextWrap="Syncfusion.Blazor.TextWrap.Wrap"
                      MaximumLabelWidth="80"/>
 ```
 
@@ -269,9 +311,9 @@ Wrap legend text when it exceeds the container:
 **With Maximum Width:**
 
 ```razor
-<ChartLegendSettings Visible="true" 
+<ChartLegendSettings Visible="true"
                      Position="LegendPosition.Right"
-                     TextWrap="TextWrap.Wrap" 
+                     TextWrap="Syncfusion.Blazor.TextWrap.Wrap"
                      MaximumLabelWidth="60">
     <ChartLegendBorder Width="1" Color="#BDBDBD"/>
 </ChartLegendSettings>
@@ -298,10 +340,10 @@ Prevent series toggling when legend is clicked:
 This is useful when combined with selection modes:
 
 ```razor
-<SfChart SelectionMode="Syncfusion.Blazor.Toolkit.Charts.SelectionMode.Series">
-        <ChartSeries DataSource="@Data1" Name="Q1" XName="X" YName="Y"/>
-        <ChartSeries DataSource="@Data2" Name="Q2" XName="X" YName="Y"/>
-        <ChartSeries DataSource="@Data3" Name="Q3" XName="X" YName="Y"/>
+<SfChart SelectionMode="Syncfusion.Blazor.Toolkit.ChartSelectionMode.Series">
+    <ChartSeries DataSource="@Data1" Name="Q1" XName="X" YName="Y"/>
+    <ChartSeries DataSource="@Data2" Name="Q2" XName="X" YName="Y"/>
+    <ChartSeries DataSource="@Data3" Name="Q3" XName="X" YName="Y"/>
     
     <ChartLegendSettings Visible="true" ToggleVisibility="false"/>
 </SfChart>
@@ -323,95 +365,24 @@ Exclude a series from legend by setting its `Name` to empty string:
 
 ## Legend Templates
 
-Create fully custom legend items using templates:
-
-```razor
-<SfChart Title="Sales Performance">
-    <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Toolkit.ValueType.Category"/>
-    
-    <ChartLegendSettings Visible="true"/>
-    
-        <ChartSeries DataSource="@SalesData" 
-                     Name="Q1 Sales" 
-                     XName="Month" 
-                     YName="Q1" 
-                     Fill="#4CAF50"
-                     Type="Syncfusion.Blazor.Toolkit.ChartSeriesType.Column">
-            <LegendItemTemplate>
-                <div style="display: flex; align-items: center; gap: 10px; padding: 6px;">
-                    <span style="font-size: 20px;">📊</span>
-                    <div style="display: flex; flex-direction: column; line-height: 1.2;">
-                        <span style="font-weight: bold; color: #4CAF50;">Q1 Sales</span>
-                        <span style="font-size: 11px; color: #757575;">Total: $@Q1Total M</span>
-                    </div>
-                </div>
-            </LegendItemTemplate>
-        </ChartSeries>
-        
-        <ChartSeries DataSource="@SalesData" 
-                     Name="Q2 Sales" 
-                     XName="Month" 
-                     YName="Q2" 
-                     Fill="#2196F3"
-                     Type="Syncfusion.Blazor.Toolkit.ChartSeriesType.Column">
-            <LegendItemTemplate>
-                <div style="display: flex; align-items: center; gap: 10px; padding: 6px;">
-                    <span style="font-size: 20px;">📈</span>
-                    <div style="display: flex; flex-direction: column; line-height: 1.2;">
-                        <span style="font-weight: bold; color: #2196F3;">Q2 Sales</span>
-                        <span style="font-size: 11px; color: #757575;">Total: $@Q2Total M</span>
-                    </div>
-                </div>
-            </LegendItemTemplate>
-        </ChartSeries>
-</SfChart>
-
-@code {
-    public List<QuarterData> SalesData = new List<QuarterData>
-    {
-        new QuarterData { Month = "Jan", Q1 = 35, Q2 = 42 },
-        new QuarterData { Month = "Feb", Q1 = 28, Q2 = 38 },
-        new QuarterData { Month = "Mar", Q1 = 42, Q2 = 45 }
-    };
-    
-    public double Q1Total => SalesData.Sum(x => x.Q1);
-    public double Q2Total => SalesData.Sum(x => x.Q2);
-}
-```
-
-**Template with Badges:**
-
-```razor
-<LegendItemTemplate>
-    <div style="display: flex; align-items: center; gap: 8px; padding: 4px 8px; background: #F5F5F5; border-radius: 4px;">
-        <span style="width: 12px; height: 12px; background: @context.Fill; border-radius: 50%;"></span>
-        <span style="font-weight: 600;">@context.Name</span>
-        <span style="background: #FFC107; color: white; padding: 2px 6px; border-radius: 3px; font-size: 10px;">NEW</span>
-    </div>
-</LegendItemTemplate>
-```
-
-**Template with Icons and Statistics:**
-
-```razor
-<LegendItemTemplate>
-    @{
-        var series = context as ChartSeries;
-        var total = CalculateSeriesTotal(series);
-        var avg = CalculateSeriesAverage(series);
-    }
-    <div style="border: 1px solid #E0E0E0; padding: 8px; border-radius: 4px; min-width: 150px;">
-        <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 4px;">
-            <div style="width: 16px; height: 16px; background: @series.Fill; border-radius: 2px;"></div>
-            <span style="font-weight: bold; font-size: 13px;">@series.Name</span>
-        </div>
-        <div style="font-size: 11px; color: #757575;">
-            <div>Total: @total.ToString("N0")</div>
-            <div>Avg: @avg.ToString("N1")</div>
-        </div>
-    </div>
-</LegendItemTemplate>
-```
+> **Not supported in this toolkit.** `ChartLegendSettings` does **not**
+> expose a `Template` / `RenderFragment` property at the public surface
+> in `Syncfusion.Blazor.Toolkit.Charts` (verified at
+> `src/Components/Charts/Chart/Legend/LegendSettings.cs:986`). The
+> internal `LegendOption.LegendTemplate` is `[EditorBrowsable(Never)]`
+> and is not callable from user code.
+>
+> Likewise, `<ChartSeries>` does **not** accept a `<LegendItemTemplate>`
+> child element. Prior versions of this reference showed one — those
+> snippets **do not compile**. To customise the legend today, use the
+> built-in `LegendShape`, `LegendTextStyle`, `Background`, `Opacity`, and
+> `EnableHighlight` properties on `<ChartLegendSettings>`; they cover
+> the typical legend look-and-feel without rendering bespoke HTML.
+>
+> If a fully custom legend is required, render one in plain HTML next
+> to the chart and call `ChartRef.RefreshAsync()` from the host
+> component on legend-click — but that path is currently out of scope
+> for this skill.
 
 ## Practical Legend Patterns
 
@@ -421,18 +392,18 @@ Create fully custom legend items using templates:
 <SfChart Title="Regional Performance">
     <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Toolkit.ValueType.Category"/>
     
-        <ChartSeries DataSource="@NorthData" Name="North Region" XName="Month" YName="Sales" 
+    <ChartSeries DataSource="@NorthData" Name="North Region" XName="Month" YName="Sales" 
                      Type="Syncfusion.Blazor.Toolkit.ChartSeriesType.Line" LegendShape="LegendShape.Circle"/>
-        <ChartSeries DataSource="@SouthData" Name="South Region" XName="Month" YName="Sales" 
+    <ChartSeries DataSource="@SouthData" Name="South Region" XName="Month" YName="Sales" 
                      Type="Syncfusion.Blazor.Toolkit.ChartSeriesType.Line" LegendShape="LegendShape.Triangle"/>
-        <ChartSeries DataSource="@EastData" Name="East Region" XName="Month" YName="Sales" 
+    <ChartSeries DataSource="@EastData" Name="East Region" XName="Month" YName="Sales" 
                      Type="Syncfusion.Blazor.Toolkit.ChartSeriesType.Line" LegendShape="LegendShape.Diamond"/>
-        <ChartSeries DataSource="@WestData" Name="West Region" XName="Month" YName="Sales" 
+    <ChartSeries DataSource="@WestData" Name="West Region" XName="Month" YName="Sales" 
                      Type="Syncfusion.Blazor.Toolkit.ChartSeriesType.Line" LegendShape="LegendShape.Pentagon"/>
     
     <ChartLegendSettings Visible="true" 
                          Position="LegendPosition.Top"
-                         Alignment="Alignment.Center"
+                         Alignment="Syncfusion.Blazor.Toolkit.Alignment.Center"
                          ShapeHeight="12"
                          ShapeWidth="12"
                          ItemPadding="20"/>
@@ -510,8 +481,8 @@ Create fully custom legend items using templates:
 ### Legend for Line Charts
 
 ```razor
-<ChartSeries Type="Syncfusion.Blazor.Toolkit.ChartSeriesType.Line" LegendShape="LegendShape.SeriesType">
-    <ChartMarker Visible="true" Shape="ChartShape.Circle"/>
+<ChartSeries Type="Syncfusion.Blazor.Toolkit.ChartSeriesType.Line" LegendShape="Syncfusion.Blazor.Toolkit.LegendShape.SeriesType">
+    <ChartMarker Visible="true" Shape="Syncfusion.Blazor.Toolkit.ChartShape.Circle"/>
 </ChartSeries>
 ```
 
@@ -541,7 +512,7 @@ Create fully custom legend items using templates:
 **Solution:**
 ```razor
 <ChartLegendSettings Visible="true" 
-                     TextWrap="TextWrap.Wrap" 
+                     TextWrap="Syncfusion.Blazor.TextWrap.Wrap"
                      MaximumLabelWidth="100"/>
 ```
 
@@ -559,8 +530,8 @@ Create fully custom legend items using templates:
 **Solution:**
 - Enable paging by constraining legend size
 - Group related series
-- Hide non-essential series from legend
-- Use hierarchical legend templates
+- Hide non-essential series from legend (empty `Name="…"` on a series; see
+  [Hiding Legend Items](#hiding-legend-items))
 
 ### Legend Click Not Working
 

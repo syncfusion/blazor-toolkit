@@ -1,4 +1,7 @@
-﻿# Common Chart Types
+# Common Chart Types
+
+> **Verified against source** — series-type & shape enums verified
+> against `src/Base/Enumeration.cs`. Last source audit: **2026-08-24**.
 
 ## Table of Contents
 
@@ -87,19 +90,12 @@ Line charts visualize time-dependent data by connecting data points with lines, 
 </SfChart>
 
 @code {
-    public class ChartData
+    public record ChartData(string Month, double Sales);
+
+    private readonly List<ChartData> SalesData = new()
     {
-        public string Month { get; set; }
-        public double Sales { get; set; }
-    }
-    
-    public List<ChartData> SalesData = new List<ChartData>
-    {
-        new ChartData { Month = "Jan", Sales = 35 },
-        new ChartData { Month = "Feb", Sales = 28 },
-        new ChartData { Month = "Mar", Sales = 34 },
-        new ChartData { Month = "Apr", Sales = 32 },
-        new ChartData { Month = "May", Sales = 40 }
+        new("Jan", 35), new("Feb", 28), new("Mar", 34),
+        new("Apr", 32), new("May", 40)
     };
 }
 ```
@@ -160,18 +156,13 @@ Display different colors for each line segment:
 </ChartSeries>
 
 @code {
-    public class ColoredChartData
+    public record ColoredChartData(string Month, double Value, string Color);
+
+    private readonly List<ColoredChartData> ColoredData = new()
     {
-        public string Month { get; set; }
-        public double Value { get; set; }
-        public string Color { get; set; }
-    }
-    
-    public List<ColoredChartData> ColoredData = new List<ColoredChartData>
-    {
-        new ColoredChartData { Month = "Jan", Value = 35, Color = "#1f77b4" },
-        new ColoredChartData { Month = "Feb", Value = 28, Color = "#ff7f0e" },
-        new ColoredChartData { Month = "Mar", Value = 34, Color = "#2ca02c" }
+        new("Jan", 35, "#1f77b4"),
+        new("Feb", 28, "#ff7f0e"),
+        new("Mar", 34, "#2ca02c")
     };
 }
 ```
@@ -190,7 +181,7 @@ Area charts fill the region below the line, emphasizing magnitude and trends ove
 <SfChart>
     <ChartPrimaryXAxis Minimum="1900" Maximum="2000" EdgeLabelPlacement="EdgeLabelPlacement.Shift"></ChartPrimaryXAxis>
     
-        <ChartSeries DataSource="@PopulationData" 
+    <ChartSeries DataSource="@PopulationData" 
                      XName="Year" 
                      YName="Population" 
                      Type="Syncfusion.Blazor.Toolkit.ChartSeriesType.Area">
@@ -248,9 +239,9 @@ Area charts fill the region below the line, emphasizing magnitude and trends ove
              YName="Value" 
              Type="Syncfusion.Blazor.Toolkit.ChartSeriesType.MultiColoredArea">
     <ChartSegments>
-        <ChartSegment Value="2007" Color="blue" />
-        <ChartSegment Value="2009" Color="red" />
-        <ChartSegment Color="green"></ChartSegment>
+    <ChartSegment Value="2007" Color="blue" />
+    <ChartSegment Value="2009" Color="red" />
+    <ChartSegment Color="green"></ChartSegment>
     </ChartSegments>
 </ChartSeries>
 ```
@@ -269,7 +260,7 @@ Column charts compare values across categories using vertical bars. Most common 
 <SfChart>
     <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Toolkit.ValueType.Category"></ChartPrimaryXAxis>
     
-        <ChartSeries DataSource="@SalesData" 
+    <ChartSeries DataSource="@SalesData" 
                      XName="Month" 
                      YName="Sales" 
                      Type="Syncfusion.Blazor.Toolkit.ChartSeriesType.Column">
@@ -328,7 +319,7 @@ Column charts compare values across categories using vertical bars. Most common 
     
     <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Toolkit.ValueType.Category"></ChartPrimaryXAxis>
     
-        <ChartSeries DataSource="@SalesData" 
+    <ChartSeries DataSource="@SalesData" 
                      XName="Month" 
                      YName="Sales" 
                      Type="Syncfusion.Blazor.Toolkit.ChartSeriesType.Column">
@@ -382,7 +373,7 @@ Bar charts display horizontal bars for comparing categories. Ideal when category
 <SfChart>
     <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Toolkit.ValueType.Category"></ChartPrimaryXAxis>
     
-        <ChartSeries DataSource="@SalesData" 
+    <ChartSeries DataSource="@SalesData" 
                      XName="Product" 
                      YName="Sales" 
                      Type="Syncfusion.Blazor.Toolkit.ChartSeriesType.Bar">
@@ -422,7 +413,7 @@ Spline charts draw smooth curves through data points using cubic spline interpol
 <SfChart>
     <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Toolkit.ValueType.Category"></ChartPrimaryXAxis>
     
-        <ChartSeries DataSource="@TemperatureData" 
+    <ChartSeries DataSource="@TemperatureData" 
                      XName="Month" 
                      YName="Temperature" 
                      Type="Syncfusion.Blazor.Toolkit.ChartSeriesType.Spline">
@@ -462,7 +453,7 @@ Combines smooth curves of spline charts with filled areas. Shows trends with smo
 <SfChart>
     <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Toolkit.ValueType.Category"></ChartPrimaryXAxis>
     
-        <ChartSeries DataSource="@Data" 
+    <ChartSeries DataSource="@Data" 
                      XName="Month" 
                      YName="Value" 
                      Type="Syncfusion.Blazor.Toolkit.ChartSeriesType.SplineArea">
@@ -491,7 +482,7 @@ Step line charts display data as a series of horizontal and vertical line segmen
 <SfChart>
     <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Toolkit.ValueType.Category"></ChartPrimaryXAxis>
     
-        <ChartSeries DataSource="@StockData" 
+    <ChartSeries DataSource="@StockData" 
                      XName="Date" 
                      YName="Price" 
                      Type="Syncfusion.Blazor.Toolkit.ChartSeriesType.StepLine">
@@ -513,7 +504,7 @@ Step area charts combine stepped lines with filled areas below. Shows discrete c
 <SfChart>
     <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Toolkit.ValueType.Category"></ChartPrimaryXAxis>
     
-        <ChartSeries DataSource="@Data" 
+    <ChartSeries DataSource="@Data" 
                      XName="Category" 
                      YName="Value" 
                      Type="Syncfusion.Blazor.Toolkit.ChartSeriesType.StepArea">
@@ -547,19 +538,20 @@ All chart types support empty point handling for `null`, `double.NaN`, or `undef
              XName="Month" 
              YName="Value" 
              Type="Syncfusion.Blazor.Toolkit.ChartSeriesType.Line">
-    <ChartEmptyPointSettings Mode="EmptyPointMode.Average" 
+    <ChartEmptyPointSettings Mode="Syncfusion.Blazor.Toolkit.EmptyPointMode.Average" 
                               Fill="red">
-        <ChartEmptyPointBorder Color="green" Width="2"></ChartEmptyPointBorder>
+    <ChartEmptyPointBorder Color="green" Width="2"></ChartEmptyPointBorder>
     </ChartEmptyPointSettings>
     <ChartMarker Visible="true" Width="7" Height="7"></ChartMarker>
 </ChartSeries>
 ```
 
-**Empty Point Modes:**
+**Empty Point Modes:** (source order — verified at
+`src/Base/Enumeration.cs:1062`)
 - `Gap` (default) - Leave gap in series
 - `Zero` - Plot as zero value
-- `Average` - Use average of adjacent points
 - `Drop` - Drop the point entirely
+- `Average` - Use average of adjacent points
 
 ---
 
@@ -648,14 +640,14 @@ Display multiple chart types together:
     <ChartLegendSettings Visible="true"></ChartLegendSettings>
     <ChartTooltipSettings Enable="true"></ChartTooltipSettings>
     
-        <ChartSeries DataSource="@ActualSales" 
+    <ChartSeries DataSource="@ActualSales" 
                      Name="Actual"
                      XName="Month" 
                      YName="Sales" 
                      Type="Syncfusion.Blazor.Toolkit.ChartSeriesType.Column">
         </ChartSeries>
         
-        <ChartSeries DataSource="@TargetSales" 
+    <ChartSeries DataSource="@TargetSales" 
                      Name="Target"
                      XName="Month" 
                      YName="Sales" 

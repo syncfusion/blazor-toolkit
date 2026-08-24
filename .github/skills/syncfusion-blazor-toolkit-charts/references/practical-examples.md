@@ -1,17 +1,21 @@
-﻿# Practical Examples for Syncfusion Blazor Charts
+# Practical Examples for Syncfusion Blazor Charts
+
+> **Verified against source** — all enum values and method calls in the
+> examples below have been cross-checked against `src/Base/Enumeration.cs`
+> and `src/Components/Charts/Chart/SfChart.razor.Methods.cs`. Print and
+> export calls are placeholders — those methods don't exist yet. Last
+> source audit: **2026-08-24**.
 
 Complete, copy-paste-ready real-world examples demonstrating common chart implementation scenarios.
 
 ## Table of Contents
 
 - [1. Sales Dashboard](#1-sales-dashboard)
-- [2. Financial Stock Chart](#2-financial-stock-chart)
-- [3. Performance Comparison](#3-performance-comparison)
-- [4. Trend Analysis](#4-trend-analysis)
-- [5. Regional Distribution](#5-regional-distribution)
-- [6. Real-Time Monitoring](#6-real-time-monitoring)
-- [7. Interactive Report](#7-interactive-report)
-- [8. Responsive Analytics](#8-responsive-analytics)
+- [2. Performance Comparison](#2-performance-comparison)
+- [3. Trend Analysis](#3-trend-analysis)
+- [4. Real-Time Monitoring](#4-real-time-monitoring)
+- [5. Interactive Report](#5-interactive-report)
+- [6. Responsive Analytics](#6-responsive-analytics)
 - [Summary](#summary)
 
 
@@ -30,46 +34,46 @@ Complete, copy-paste-ready real-world examples demonstrating common chart implem
 <div class="dashboard-container">
     <h2>Sales Performance Dashboard</h2>
     <SfChart Title="Monthly Sales Comparison" Width="100%" Height="450px">
-        <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Toolkit.ValueType.Category" 
+    <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Toolkit.ValueType.Category" 
                            Title="Months">
             <ChartAxisMajorGridLines Width="0"></ChartAxisMajorGridLines>
         </ChartPrimaryXAxis>
-        <ChartPrimaryYAxis Title="Sales (in thousands)" 
+    <ChartPrimaryYAxis Title="Sales (in thousands)" 
                            Minimum="0" Maximum="100" Interval="20" 
                            LabelFormat="${value}K">
         </ChartPrimaryYAxis>
-        <ChartTooltipSettings Enable="true" 
+    <ChartTooltipSettings Enable="true" 
                               Format="<b>${point.x}</b><br/>${series.name}: <b>${point.y}K</b>">
         </ChartTooltipSettings>
-        <ChartLegendSettings Visible="true" Position="LegendPosition.Top">
+    <ChartLegendSettings Visible="true" Position="LegendPosition.Top">
         </ChartLegendSettings>
             <ChartSeries DataSource="@SalesData" Name="Product A" 
                          XName="Month" YName="ProductA" 
                          Type="Syncfusion.Blazor.Toolkit.ChartSeriesType.Line" Width="3" 
                          Fill="#0066CC">
                 <ChartMarker Visible="true" Width="10" Height="10" 
-                             Shape="ChartShape.Circle">
-                    <ChartDataLabel Visible="true" Position="ChartLabelPosition.Top">
+                             Shape="Syncfusion.Blazor.Toolkit.ChartShape.Circle">
+                    <ChartDataLabel Visible="true" Position="Syncfusion.Blazor.Toolkit.ChartLabelPosition.Top">
                     </ChartDataLabel>
                 </ChartMarker>
             </ChartSeries>
-            <ChartSeries DataSource="@SalesData" Name="Product B" 
-                         XName="Month" YName="ProductB" 
-                         Type="Syncfusion.Blazor.Toolkit.ChartSeriesType.Line" Width="3" 
+            <ChartSeries DataSource="@SalesData" Name="Product B"
+                         XName="Month" YName="ProductB"
+                         Type="Syncfusion.Blazor.Toolkit.ChartSeriesType.Line" Width="3"
                          Fill="#FF6B35">
-                <ChartMarker Visible="true" Width="10" Height="10" 
-                             Shape="ChartShape.Diamond">
-                    <ChartDataLabel Visible="true" Position="ChartLabelPosition.Top">
+                <ChartMarker Visible="true" Width="10" Height="10"
+                             Shape="Syncfusion.Blazor.Toolkit.ChartShape.Diamond">
+                    <ChartDataLabel Visible="true" Position="Syncfusion.Blazor.Toolkit.ChartLabelPosition.Top">
                     </ChartDataLabel>
                 </ChartMarker>
             </ChartSeries>
-            <ChartSeries DataSource="@SalesData" Name="Product C" 
-                         XName="Month" YName="ProductC" 
-                         Type="Syncfusion.Blazor.Toolkit.ChartSeriesType.Line" Width="3" 
+            <ChartSeries DataSource="@SalesData" Name="Product C"
+                         XName="Month" YName="ProductC"
+                         Type="Syncfusion.Blazor.Toolkit.ChartSeriesType.Line" Width="3"
                          Fill="#28A745">
-                <ChartMarker Visible="true" Width="10" Height="10" 
-                             Shape="ChartShape.Triangle">
-                    <ChartDataLabel Visible="true" Position="ChartLabelPosition.Top">
+                <ChartMarker Visible="true" Width="10" Height="10"
+                             Shape="Syncfusion.Blazor.Toolkit.ChartShape.Triangle">
+                    <ChartDataLabel Visible="true" Position="Syncfusion.Blazor.Toolkit.ChartLabelPosition.Top">
                     </ChartDataLabel>
                 </ChartMarker>
             </ChartSeries>
@@ -77,41 +81,29 @@ Complete, copy-paste-ready real-world examples demonstrating common chart implem
 </div>
 
 @code {
-    public class SalesInfo
-    {
-        public string Month { get; set; }
-        public double ProductA { get; set; }
-        public double ProductB { get; set; }
-        public double ProductC { get; set; }
-    }
+    public record SalesInfo(string Month, double ProductA, double ProductB, double ProductC);
 
-    public List<SalesInfo> SalesData = new List<SalesInfo>
+    private readonly List<SalesInfo> SalesData = new()
     {
-        new SalesInfo { Month = "Jan", ProductA = 35, ProductB = 28, ProductC = 42 },
-        new SalesInfo { Month = "Feb", ProductA = 42, ProductB = 35, ProductC = 48 },
-        new SalesInfo { Month = "Mar", ProductA = 48, ProductB = 42, ProductC = 55 },
-        new SalesInfo { Month = "Apr", ProductA = 55, ProductB = 48, ProductC = 62 },
-        new SalesInfo { Month = "May", ProductA = 62, ProductB = 55, ProductC = 68 },
-        new SalesInfo { Month = "Jun", ProductA = 68, ProductB = 62, ProductC = 75 },
-        new SalesInfo { Month = "Jul", ProductA = 75, ProductB = 68, ProductC = 82 },
-        new SalesInfo { Month = "Aug", ProductA = 72, ProductB = 65, ProductC = 78 },
-        new SalesInfo { Month = "Sep", ProductA = 78, ProductB = 72, ProductC = 85 },
-        new SalesInfo { Month = "Oct", ProductA = 85, ProductB = 78, ProductC = 92 },
-        new SalesInfo { Month = "Nov", ProductA = 88, ProductB = 82, ProductC = 95 },
-        new SalesInfo { Month = "Dec", ProductA = 92, ProductB = 88, ProductC = 98 }
+        new("Jan", 35, 28, 42),
+        new("Feb", 42, 35, 48),
+        new("Mar", 48, 42, 55),
+        new("Apr", 55, 48, 62),
+        new("May", 62, 55, 68),
+        new("Jun", 68, 62, 75),
+        new("Jul", 75, 68, 82),
+        new("Aug", 72, 65, 78),
+        new("Sep", 78, 72, 85),
+        new("Oct", 85, 78, 92),
+        new("Nov", 88, 82, 95),
+        new("Dec", 92, 88, 98)
     };
 }
 ```
 
 ---
 
-## 2. Financial Stock Chart (removed)
-
-Note: Financial chart examples (candlestick, HILO, OHLC) have been removed — these chart types are not available in this build.
-
----
-
-## 3. Performance Comparison
+## 2. Performance Comparison
 
 **Scenario:** Compare performance metrics across multiple teams and quarters.
 
@@ -126,46 +118,46 @@ Note: Financial chart examples (candlestick, HILO, OHLC) have been removed — t
 <div class="performance-container">
     <h2>Quarterly Performance Comparison</h2>
     <SfChart Title="Team Performance Metrics" Width="100%" Height="450px" 
-             SelectionMode="Syncfusion.Blazor.Toolkit.Charts.SelectionMode.Point">
-        <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Toolkit.ValueType.Category" 
+             SelectionMode="Syncfusion.Blazor.Toolkit.ChartSelectionMode.Point">
+    <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Toolkit.ValueType.Category" 
                            Title="Quarters">
         </ChartPrimaryXAxis>
-        <ChartPrimaryYAxis Title="Performance Score" Minimum="0" Maximum="100" 
+    <ChartPrimaryYAxis Title="Performance Score" Minimum="0" Maximum="100" 
                            Interval="20">
         </ChartPrimaryYAxis>
-        <ChartTooltipSettings Enable="true" 
+    <ChartTooltipSettings Enable="true" 
                               Format="<b>${point.x}</b><br/>${series.name}: <b>${point.y}%</b>">
         </ChartTooltipSettings>
-        <ChartLegendSettings Visible="true" Position="LegendPosition.Top">
+    <ChartLegendSettings Visible="true" Position="LegendPosition.Top">
         </ChartLegendSettings>
-        <ChartEvents OnPointClick="OnPointClick"></ChartEvents>
+    <ChartEvents OnPointClick="OnPointClick"></ChartEvents>
             <ChartSeries DataSource="@PerformanceData" Name="Team Alpha" 
                          XName="Quarter" YName="TeamAlpha" 
                          Type="Syncfusion.Blazor.Toolkit.ChartSeriesType.Column" 
                          ColumnWidth="0.6" ColumnSpacing="0.2" 
                          Fill="#6366F1">
                 <ChartMarker>
-                    <ChartDataLabel Visible="true" Position="ChartLabelPosition.Top">
+                    <ChartDataLabel Visible="true" Position="Syncfusion.Blazor.Toolkit.ChartLabelPosition.Top">
                     </ChartDataLabel>
                 </ChartMarker>
             </ChartSeries>
-            <ChartSeries DataSource="@PerformanceData" Name="Team Beta" 
-                         XName="Quarter" YName="TeamBeta" 
-                         Type="Syncfusion.Blazor.Toolkit.ChartSeriesType.Column" 
-                         ColumnWidth="0.6" ColumnSpacing="0.2" 
+            <ChartSeries DataSource="@PerformanceData" Name="Team Beta"
+                         XName="Quarter" YName="TeamBeta"
+                         Type="Syncfusion.Blazor.Toolkit.ChartSeriesType.Column"
+                         ColumnWidth="0.6" ColumnSpacing="0.2"
                          Fill="#EC4899">
                 <ChartMarker>
-                    <ChartDataLabel Visible="true" Position="ChartLabelPosition.Top">
+                    <ChartDataLabel Visible="true" Position="Syncfusion.Blazor.Toolkit.ChartLabelPosition.Top">
                     </ChartDataLabel>
                 </ChartMarker>
             </ChartSeries>
-            <ChartSeries DataSource="@PerformanceData" Name="Team Gamma" 
-                         XName="Quarter" YName="TeamGamma" 
-                         Type="Syncfusion.Blazor.Toolkit.ChartSeriesType.Column" 
-                         ColumnWidth="0.6" ColumnSpacing="0.2" 
+            <ChartSeries DataSource="@PerformanceData" Name="Team Gamma"
+                         XName="Quarter" YName="TeamGamma"
+                         Type="Syncfusion.Blazor.Toolkit.ChartSeriesType.Column"
+                         ColumnWidth="0.6" ColumnSpacing="0.2"
                          Fill="#10B981">
                 <ChartMarker>
-                    <ChartDataLabel Visible="true" Position="ChartLabelPosition.Top">
+                    <ChartDataLabel Visible="true" Position="Syncfusion.Blazor.Toolkit.ChartLabelPosition.Top">
                     </ChartDataLabel>
                 </ChartMarker>
             </ChartSeries>
@@ -181,20 +173,14 @@ Note: Financial chart examples (candlestick, HILO, OHLC) have been removed — t
 @code {
     public string SelectedInfo = "";
 
-    public class PerformanceMetric
-    {
-        public string Quarter { get; set; }
-        public double TeamAlpha { get; set; }
-        public double TeamBeta { get; set; }
-        public double TeamGamma { get; set; }
-    }
+    public record PerformanceMetric(string Quarter, double TeamAlpha, double TeamBeta, double TeamGamma);
 
-    public List<PerformanceMetric> PerformanceData = new List<PerformanceMetric>
+    private readonly List<PerformanceMetric> PerformanceData = new()
     {
-        new PerformanceMetric { Quarter = "Q1 2025", TeamAlpha = 75, TeamBeta = 70, TeamGamma = 80 },
-        new PerformanceMetric { Quarter = "Q2 2025", TeamAlpha = 80, TeamBeta = 75, TeamGamma = 85 },
-        new PerformanceMetric { Quarter = "Q3 2025", TeamAlpha = 85, TeamBeta = 82, TeamGamma = 88 },
-        new PerformanceMetric { Quarter = "Q4 2025", TeamAlpha = 90, TeamBeta = 88, TeamGamma = 92 }
+        new("Q1 2025", 75, 70, 80),
+        new("Q2 2025", 80, 75, 85),
+        new("Q3 2025", 85, 82, 88),
+        new("Q4 2025", 90, 88, 92)
     };
 
     public void OnPointClick(PointEventArgs args)
@@ -207,7 +193,7 @@ Note: Financial chart examples (candlestick, HILO, OHLC) have been removed — t
 
 ---
 
-## 4. Trend Analysis
+## 3. Trend Analysis
 
 **Scenario:** Analyze sales trends with forecasting and key milestone annotations.
 
@@ -222,13 +208,13 @@ Note: Financial chart examples (candlestick, HILO, OHLC) have been removed — t
 <div class="trend-container">
     <h2>Sales Trend Analysis with Forecast</h2>
     <SfChart Title="Revenue Trend & Forecast" Width="100%" Height="450px">
-        <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Toolkit.ValueType.Category" 
+    <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Toolkit.ValueType.Category" 
                            Title="Months">
         </ChartPrimaryXAxis>
-        <ChartPrimaryYAxis Title="Revenue (in millions)" Minimum="0" Maximum="150" 
+    <ChartPrimaryYAxis Title="Revenue (in millions)" Minimum="0" Maximum="150" 
                            LabelFormat="${value}M">
         </ChartPrimaryYAxis>
-        <ChartTooltipSettings Enable="true">
+    <ChartTooltipSettings Enable="true">
         </ChartTooltipSettings>
             <ChartSeries DataSource="@TrendData" Name="Actual Revenue" 
                          XName="Month" YName="Revenue" 
@@ -237,20 +223,20 @@ Note: Financial chart examples (candlestick, HILO, OHLC) have been removed — t
                 <ChartSeriesBorder Width="2" Color="#6366F1" />
                 <ChartMarker Visible="true" Width="8" Height="8">
                 </ChartMarker>
-                <ChartTrendline Type="TrendlineTypes.Linear" Width="3" 
+                <ChartTrendline Type="Syncfusion.Blazor.Toolkit.TrendlineTypes.Linear" Width="3"
                                Name="Growth Trend" Fill="#FF6B35" 
                                ForwardForecast="3" BackwardForecast="0">
                 </ChartTrendline>
             </ChartSeries>
-        <ChartAnnotations>
-            <ChartAnnotation X="Jun" Y="95" CoordinateUnits="Units.Point">
+    <ChartAnnotations>
+            <ChartAnnotation X="Jun" Y="95" CoordinateUnits="Syncfusion.Blazor.Toolkit.Units.Point">
                 <ContentTemplate>
                     <div style="background: #FFA500; color: white; padding: 5px; border-radius: 5px;">
                         <b>Product Launch</b>
                     </div>
                 </ContentTemplate>
             </ChartAnnotation>
-            <ChartAnnotation X="Dec" Y="120" CoordinateUnits="Units.Point">
+            <ChartAnnotation X="Dec" Y="120" CoordinateUnits="Syncfusion.Blazor.Toolkit.Units.Point">
                 <ContentTemplate>
                     <div style="background: #28A745; color: white; padding: 5px; border-radius: 5px;">
                         <b>Holiday Peak</b>
@@ -262,42 +248,20 @@ Note: Financial chart examples (candlestick, HILO, OHLC) have been removed — t
 </div>
 
 @code {
-    public class TrendInfo
-    {
-        public string Month { get; set; }
-        public double Revenue { get; set; }
-    }
+    public record TrendInfo(string Month, double Revenue);
 
-    public List<TrendInfo> TrendData = new List<TrendInfo>
+    private readonly List<TrendInfo> TrendData = new()
     {
-        new TrendInfo { Month = "Jan", Revenue = 45 },
-        new TrendInfo { Month = "Feb", Revenue = 52 },
-        new TrendInfo { Month = "Mar", Revenue = 58 },
-        new TrendInfo { Month = "Apr", Revenue = 65 },
-        new TrendInfo { Month = "May", Revenue = 72 },
-        new TrendInfo { Month = "Jun", Revenue = 95 },
-        new TrendInfo { Month = "Jul", Revenue = 88 },
-        new TrendInfo { Month = "Aug", Revenue = 92 },
-        new TrendInfo { Month = "Sep", Revenue = 98 },
-        new TrendInfo { Month = "Oct", Revenue = 105 },
-        new TrendInfo { Month = "Nov", Revenue = 112 },
-        new TrendInfo { Month = "Dec", Revenue = 120 }
+        new("Jan", 45), new("Feb", 52), new("Mar", 58), new("Apr", 65),
+        new("May", 72), new("Jun", 95), new("Jul", 88), new("Aug", 92),
+        new("Sep", 98), new("Oct", 105), new("Nov", 112), new("Dec", 120)
     };
 }
 ```
 
 ---
 
-## 5. Regional Distribution
-
-**Regional Distribution (removed)**
-
-Note: Accumulation/Pie/Doughnut charts are not available in this build; regional-distribution examples have been removed.
-
-
----
-
-## 6. Real-Time Monitoring
+## 4. Real-Time Monitoring
 
 **Scenario:** Monitor live metrics with auto-updating data stream.
 
@@ -317,13 +281,13 @@ Note: Accumulation/Pie/Doughnut charts are not available in this build; regional
         @(isMonitoring ? "Stop Monitoring" : "Start Monitoring")
     </button>
     <SfChart @ref="liveChart" Title="CPU Usage (%)" Width="100%" Height="450px">
-        <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Toolkit.ValueType.DateTime" 
+    <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Toolkit.ValueType.DateTime" 
                            LabelFormat="HH:mm:ss" Title="Time">
             <ChartAxisMajorGridLines Width="0"></ChartAxisMajorGridLines>
         </ChartPrimaryXAxis>
-        <ChartPrimaryYAxis Title="CPU (%)" Minimum="0" Maximum="100" Interval="20">
+    <ChartPrimaryYAxis Title="CPU (%)" Minimum="0" Maximum="100" Interval="20">
         </ChartPrimaryYAxis>
-        <ChartTooltipSettings Enable="true" Format="<b>${point.x}</b><br/>CPU: <b>${point.y}%</b>">
+    <ChartTooltipSettings Enable="true" Format="<b>${point.x}</b><br/>CPU: <b>${point.y}%</b>">
         </ChartTooltipSettings>
             <ChartSeries DataSource="@LiveData" Name="CPU Usage" 
                          XName="Timestamp" YName="Value" 
@@ -421,13 +385,15 @@ Note: Accumulation/Pie/Doughnut charts are not available in this build; regional
 
 ---
 
-## 7. Interactive Report
+## 5. Interactive Report
 
 **Scenario:** Create interactive chart with drill-down and export capabilities.
 
 **When to use:** Business reports, executive dashboards, data exploration.
 
-**Key features:** Drill-down, export to PDF/Excel, print support, point click events.
+**Key features:** Drill-down only — point click events drive category
+selection; a single `RefreshAsync` on the report chart is shown so the
+chart re-renders after navigation.
 
 ```razor
 @page "/interactive-report"
@@ -436,29 +402,27 @@ Note: Accumulation/Pie/Doughnut charts are not available in this build; regional
 <div class="report-container">
     <h2>Interactive Sales Report</h2>
     <div class="toolbar">
-        <button class="btn btn-secondary" @onclick="ExportToPDF">Export PDF</button>
-        <button class="btn btn-secondary" @onclick="ExportToExcel">Export Excel</button>
-        <button class="btn btn-secondary" @onclick="PrintChart">Print</button>
+        <button class="btn btn-secondary" @onclick="RefreshAsync">Refresh</button>
         @if (isDrilledDown)
         {
             <button class="btn btn-primary" @onclick="DrillUp">← Back to Categories</button>
         }
     </div>
     <SfChart @ref="reportChart" Title="@ChartTitle" Width="100%" Height="450px">
-        <ChartEvents OnPointClick="OnDrillDown"></ChartEvents>
-        <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Toolkit.ValueType.Category" 
+    <ChartEvents OnPointClick="OnDrillDown"></ChartEvents>
+    <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Toolkit.ValueType.Category" 
                            Title="@XAxisTitle">
         </ChartPrimaryXAxis>
-        <ChartPrimaryYAxis Title="Sales (in thousands)" LabelFormat="${value}K">
+    <ChartPrimaryYAxis Title="Sales (in thousands)" LabelFormat="${value}K">
         </ChartPrimaryYAxis>
-        <ChartTooltipSettings Enable="true">
+    <ChartTooltipSettings Enable="true">
         </ChartTooltipSettings>
             <ChartSeries DataSource="@CurrentData" XName="Category" YName="Sales" 
                          Type="Syncfusion.Blazor.Toolkit.ChartSeriesType.Column" 
                          ColumnWidth="0.7" 
                          Fill="#6366F1">
                 <ChartMarker>
-                    <ChartDataLabel Visible="true" Position="ChartLabelPosition.Top">
+                    <ChartDataLabel Visible="true" Position="Syncfusion.Blazor.Toolkit.ChartLabelPosition.Top">
                     </ChartDataLabel>
                 </ChartMarker>
             </ChartSeries>
@@ -466,8 +430,7 @@ Note: Accumulation/Pie/Doughnut charts are not available in this build; regional
 </div>
 
 @code {
-    private SfChart reportChart;
-    private bool isDrilledDown = false;
+    private SfChart reportChart;    private bool isDrilledDown = false;
     private string selectedCategory = "";
 
     public string ChartTitle => isDrilledDown ? $"{selectedCategory} - Product Details" : "Sales by Category";
@@ -534,26 +497,13 @@ Note: Accumulation/Pie/Doughnut charts are not available in this build; regional
         StateHasChanged();
     }
 
-    private async Task ExportToPDF()
-    {
-        await reportChart.ExportAsync(ExportType.PDF, "SalesReport");
-    }
-
-    private async Task ExportToExcel()
-    {
-        await reportChart.ExportAsync(ExportType.CSV, "SalesReport");
-    }
-
-    private async Task PrintChart()
-    {
-        await reportChart.PrintAsync();
-    }
+    private async Task RefreshAsync() => await reportChart.RefreshAsync();
 }
 ```
 
 ---
 
-## 8. Responsive Analytics
+## 6. Responsive Analytics
 
 **Scenario:** Mobile-friendly analytics dashboard with adaptive layout.
 
@@ -592,7 +542,7 @@ Note: Accumulation/Pie/Doughnut charts are not available in this build; regional
                              Type="Syncfusion.Blazor.Toolkit.ChartSeriesType.Bar" 
                              Fill="#10B981">
                     <ChartMarker>
-                        <ChartDataLabel Visible="true" Position="ChartLabelPosition.Top">
+                        <ChartDataLabel Visible="true" Position="Syncfusion.Blazor.Toolkit.ChartLabelPosition.Top">
                         </ChartDataLabel>
                     </ChartMarker>
                 </ChartSeries>
@@ -625,33 +575,18 @@ Note: Accumulation/Pie/Doughnut charts are not available in this build; regional
 </style>
 
 @code {
-    public class AnalyticsData
-    {
-        public string Month { get; set; }
-        public double Visitors { get; set; }
-    }
+    public record AnalyticsData(string Month, double Visitors);
+    public record DeviceStats(string Device, double Users);
 
-    public class DeviceStats
+    private readonly List<AnalyticsData> VisitorData = new()
     {
-        public string Device { get; set; }
-        public double Users { get; set; }
-    }
-
-    public List<AnalyticsData> VisitorData = new List<AnalyticsData>
-    {
-        new AnalyticsData { Month = "Jan", Visitors = 45 },
-        new AnalyticsData { Month = "Feb", Visitors = 52 },
-        new AnalyticsData { Month = "Mar", Visitors = 68 },
-        new AnalyticsData { Month = "Apr", Visitors = 75 },
-        new AnalyticsData { Month = "May", Visitors = 82 },
-        new AnalyticsData { Month = "Jun", Visitors = 95 }
+        new("Jan", 45), new("Feb", 52), new("Mar", 68),
+        new("Apr", 75), new("May", 82), new("Jun", 95)
     };
 
-    public List<DeviceStats> DeviceData = new List<DeviceStats>
+    private readonly List<DeviceStats> DeviceData = new()
     {
-        new DeviceStats { Device = "Desktop", Users = 125 },
-        new DeviceStats { Device = "Mobile", Users = 185 },
-        new DeviceStats { Device = "Tablet", Users = 65 }
+        new("Desktop", 125), new("Mobile", 185), new("Tablet", 65)
     };
 }
 ```

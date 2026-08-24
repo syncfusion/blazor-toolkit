@@ -1,671 +1,221 @@
-# Interactive Features Reference
+# Interactive Features
 
-## Table of Contents
+> **Verified against source** — `ChartTooltipSettings`, `ChartZoomSettings`,
+> `ChartSelectionMode`, `SelectionPattern`, and `ToolbarMode` verified
+> against `src/Base/Enumeration.cs` and the corresponding
+> `src/Components/Charts/Chart/UserInteractions/*.cs`. Last source
+> audit: **2026-08-24**.
 
-- [Tooltips](#tooltips)
-   - [Basic Tooltip](#basic-tooltip)
-   - [Tooltip Formatting](#tooltip-formatting)
-   - [Custom Tooltip Templates](#custom-tooltip-templates)
-   - [Shared Tooltips](#shared-tooltips)
-- [Crosshair](#crosshair)
-   - [Enabling Crosshair](#enabling-crosshair)
-   - [Snap to Data](#snap-to-data)
-   - [Crosshair Customization](#crosshair-customization)
-   - [Crosshair Tooltips](#crosshair-tooltips)
-- [Trackball](#trackball)
-   - [Enabling Trackball](#enabling-trackball)
-   - [Trackball Customization](#trackball-customization)
-- [Selection](#selection)
-   - [Point Selection](#point-selection)
-   - [Series Selection](#series-selection)
-   - [Cluster Selection](#cluster-selection)
-   - [Drag Selection](#drag-selection)
-   - [Selection Modes](#selection-modes)
-- [Zooming and Panning](#zooming-and-panning)
-   - [Selection Zooming](#selection-zooming)
-   - [Mouse Wheel Zooming](#mouse-wheel-zooming)
-   - [Pinch Zooming](#pinch-zooming)
-   - [Zoom Modes](#zoom-modes)
-   - [Zoom Toolbar](#zoom-toolbar)
-   - [Panning](#panning)
-- [Interactive Best Practices](#interactive-best-practices)
-   - [Tooltip Guidelines](#tooltip-guidelines)
-   - [Crosshair Best Practices](#crosshair-best-practices)
-   - [Selection Recommendations](#selection-recommendations)
-   - [Zooming Best Practices](#zooming-best-practices)
-   - [Performance Tips](#performance-tips)
-   - [Accessibility Considerations](#accessibility-considerations)
+Tooltips, crosshair, trackball, selection, zoom, pan, and the related public
+methods on `SfChart`. Each section leads with the property shape and finishes
+with the public method that pairs with it.
 
-## Tooltips
+> **Sample data** — see [`_includes/sample-data.md`](_includes/sample-data.md).
+> This file's snippets bind to `Data : List<SeriesPoint>` where
+> `SeriesPoint(string X, double Y)`.
 
-Tooltips display information about data points on mouse hover or touch.
+## Table of contents
 
-### Basic Tooltip
+- Tooltip (single + shared, custom templates, render-event)
+- Crosshair / trackball
+- Selection (modes + patterns)
+- Highlight
+- Zoom and pan (mouse, selection, pinch, toolbar)
+- Programmatic show/hide of tooltip + crosshair
+- Common pitfalls
 
-Enable tooltips using `ChartTooltipSettings`:
+## Tooltip
 
 ```razor
-<SfChart Title="Product Sales">
-    <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Toolkit.ValueType.Category"/>
-    <ChartPrimaryYAxis LabelFormat="{value}M"/>
-    
-    <ChartTooltipSettings Enable="true"/>
-    
-        <ChartSeries DataSource="@SalesData" 
-                     Name="Sales" 
-                     XName="Month" 
-                     YName="Revenue" 
-                     Type="Syncfusion.Blazor.Toolkit.ChartSeriesType.Column"/>
-</SfChart>
+<ChartTooltipSettings Enable="true" Shared="true"
+                      Format="${series.name} : ${point.y}"
+                      Header="${point.x}" />
+
+<ChartEvents TooltipRender="OnTip" />
 
 @code {
-    public List<SalesInfo> SalesData = new List<SalesInfo>
+    void OnTip(TooltipRenderEventArgs a)
     {
-        new SalesInfo { Month = "Jan", Revenue = 35 },
-        new SalesInfo { Month = "Feb", Revenue = 28 },
-        new SalesInfo { Month = "Mar", Revenue = 42 },
-        new SalesInfo { Month = "Apr", Revenue = 38 }
-    };
-}
-```
-
-### Tooltip Formatting
-
-Customize tooltip content using the `Format` property:
-
-```razor
-<!-- Basic format -->
-<ChartTooltipSettings Enable="true" Format="${point.x} : ${point.y}"/>
-
-<!-- With series name -->
-<ChartTooltipSettings Enable="true" 
-                      Header="Sales Information"
-                      Format="<b>${series.name}</b><br/>Month: ${point.x}<br/>Revenue: $${point.y}M"/>
-
-<!-- With custom header -->
-<ChartTooltipSettings Enable="true" 
-                      Header="${point.x}"
-                      Format="<b>Revenue: $${point.y}M</b>"/>
-```
-
-**Format Placeholders:**
-- `${point.x}` - X-axis value
-- `${point.y}` - Y-axis value
-- `${series.name}` - Series name
-- `${point.index}` - Point index
-- HTML tags supported for formatting
-
-### Custom Tooltip Templates
-
-Create fully custom tooltips with Razor templates:
-
-```razor
-<ChartTooltipSettings Enable="true">
-    <Template>
-        @{
-            var data = context as ChartTooltipInfo;
-            <div style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); 
-                        padding: 10px; 
-                        border-radius: 6px; 
-                        color: white; 
-                        box-shadow: 0 4px 6px rgba(0,0,0,0.3);">
-                <div style="font-weight: bold; margin-bottom: 5px;">@data.Series.Name</div>
-                <div>Month: @data.X</div>
-                <div>Revenue: $@($"{data.Y:N2}")M</div>
-            </div>
-        }
-    </Template>
-</ChartTooltipSettings>
-```
-
-**Template with Conditional Styling:**
-
-```razor
-<ChartTooltipSettings Enable="true">
-    <Template>
-        @{
-            var data = context as ChartTooltipInfo;
-            var bgColor = data.Y > 40 ? "#4CAF50" : "#F44336";
-            var status = data.Y > 40 ? "Above Target" : "Below Target";
-            
-            <div style="background-color: @bgColor; color: white; padding: 8px; border-radius: 4px;">
-                <b>@data.X</b><br/>
-                Revenue: $@data.Y M<br/>
-                <span style="font-size: 0.9em;">@status</span>
-            </div>
-        }
-    </Template>
-</ChartTooltipSettings>
-```
-
-**Multi-Series Tooltip Template:**
-
-```razor
-<ChartTooltipSettings Enable="true" Shared="true">
-    <Template>
-        @{
-            var data = context as List<ChartTooltipInfo>;
-            <div style="background: white; border: 2px solid #2196F3; padding: 10px; border-radius: 4px;">
-                <div style="font-weight: bold; border-bottom: 1px solid #ccc; margin-bottom: 5px;">
-                    @data[0].X
-                </div>
-                @foreach (var item in data)
-                {
-                    <div style="margin: 3px 0;">
-                        <span style="color: @item.Series.Fill;">●</span>
-                        <b>@item.Series.Name:</b> @item.Y
-                    </div>
-                }
-            </div>
-        }
-    </Template>
-</ChartTooltipSettings>
-```
-
-### Shared Tooltips
-
-Display all series data points in a single tooltip:
-
-```razor
-<SfChart Title="Quarterly Comparison">
-    <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Toolkit.ValueType.Category"/>
-    
-    <ChartTooltipSettings Enable="true" 
-                          Shared="true"
-                          Format="<b>${point.x}</b><br/>${series.name}: ${point.y}"/>
-    
-        <ChartSeries DataSource="@Q1Data" Name="Q1" XName="Month" YName="Value" Type="Syncfusion.Blazor.Toolkit.ChartSeriesType.Line">
-            <ChartMarker Visible="true"/>
-        </ChartSeries>
-        <ChartSeries DataSource="@Q2Data" Name="Q2" XName="Month" YName="Value" Type="Syncfusion.Blazor.Toolkit.ChartSeriesType.Line">
-            <ChartMarker Visible="true"/>
-        </ChartSeries>
-        <ChartSeries DataSource="@Q3Data" Name="Q3" XName="Month" YName="Value" Type="Syncfusion.Blazor.Toolkit.ChartSeriesType.Line">
-            <ChartMarker Visible="true"/>
-        </ChartSeries>
-</SfChart>
-```
-
-**Tooltip Appearance Customization:**
-
-```razor
-<ChartTooltipSettings Enable="true"
-                      Fill="#37474F"
-                      Opacity="0.95"
-                      EnableMarker="true"
-                      TextStyle="@tooltipStyle"/>
-
-@code {
-    ChartCommonFont tooltipStyle = new ChartCommonFont
-    {
-        Size = "13px",
-        Color = "#FFFFFF",
-        FontWeight = "500",
-        FontFamily = "Segoe UI"
-    };
-}
-```
-
----
-
-## Crosshair
-
-Crosshair displays vertical and horizontal lines to precisely identify data point coordinates.
-
-### Enabling Crosshair
-
-Enable crosshair using `ChartCrosshairSettings`:
-
-```razor
-<SfChart>
-    <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Toolkit.ValueType.DateTime">
-        <ChartAxisCrosshairTooltip Enable="true"/>
-    </ChartPrimaryXAxis>
-    
-    <ChartPrimaryYAxis>
-        <ChartAxisCrosshairTooltip Enable="true"/>
-    </ChartPrimaryYAxis>
-    
-    <ChartCrosshairSettings Enable="true"/>
-    
-        <ChartSeries DataSource="@TimeSeriesData" XName="Date" YName="Value" Type="Syncfusion.Blazor.Toolkit.ChartSeriesType.Line"/>
-</SfChart>
-```
-
-### Snap to Data
-
-Make crosshair snap to nearest data point instead of exact mouse position:
-
-```razor
-<ChartCrosshairSettings Enable="true" SnapToData="true" DashArray="5,5"/>
-
-<ChartTooltipSettings Enable="true" 
-                      Shared="true" 
-                      Format="<b>${point.x}</b> : ${point.y}"/>
-```
-
-### Crosshair Customization
-
-Customize crosshair line appearance and behavior:
-
-```razor
-<ChartCrosshairSettings Enable="true" SnapToData="true" DashArray="5,5">
-    <ChartCrosshairLine Width="2" Color="#2196F3"/>
-</ChartCrosshairSettings>
-
-<ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Toolkit.ValueType.Category">
-    <ChartAxisCrosshairTooltip Enable="true" Fill="#FF5722">
-        <ChartCrosshairTextStyle Size="13px" Color="white" FontWeight="600"/>
-    </ChartAxisCrosshairTooltip>
-</ChartPrimaryXAxis>
-
-<ChartPrimaryYAxis>
-    <ChartAxisCrosshairTooltip Enable="true" Fill="#4CAF50">
-        <ChartCrosshairTextStyle Size="13px" Color="white" FontWeight="600"/>
-    </ChartAxisCrosshairTooltip>
-</ChartPrimaryYAxis>
-```
-
-### Crosshair Tooltips
-
-Configure axis-specific crosshair tooltips:
-
-```razor
-<ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Toolkit.ValueType.DateTime">
-    <ChartAxisCrosshairTooltip Enable="true" 
-                                Fill="#37474F"
-                                Format="MM/dd/yyyy">
-        <ChartCrosshairTextStyle Color="#FFFFFF" Size="12px"/>
-    </ChartAxisCrosshairTooltip>
-</ChartPrimaryXAxis>
-
-<ChartPrimaryYAxis LabelFormat="${value}">
-    <ChartAxisCrosshairTooltip Enable="true" 
-                                Fill="#37474F">
-        <ChartCrosshairTextStyle Color="#FFFFFF" Size="12px"/>
-    </ChartAxisCrosshairTooltip>
-</ChartPrimaryYAxis>
-```
-
----
-
-## Trackball
-
-Trackball is similar to crosshair but displays tooltips for all series at the crosshair position.
-
-### Enabling Trackball
-
-Enable trackball mode by combining crosshair with shared tooltips:
-
-```razor
-<SfChart>
-    <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Toolkit.ValueType.DateTime"/>
-    
-    <ChartCrosshairSettings Enable="true" SnapToData="true" LineType="LineType.Vertical"/>
-    
-    <ChartTooltipSettings Enable="true" 
-                          Shared="true" 
-                          Format="${series.name} : <b>${point.y}</b>"/>
-    
-        <ChartSeries DataSource="@Sales2023" Name="2023 Sales" XName="Date" YName="Amount" Type="Syncfusion.Blazor.Toolkit.ChartSeriesType.Line">
-            <ChartMarker Visible="true" Height="8" Width="8"/>
-        </ChartSeries>
-        <ChartSeries DataSource="@Sales2024" Name="2024 Sales" XName="Date" YName="Amount" Type="Syncfusion.Blazor.Toolkit.ChartSeriesType.Line">
-            <ChartMarker Visible="true" Height="8" Width="8"/>
-        </ChartSeries>
-</SfChart>
-```
-
-### Trackball Customization
-
-Customize trackball appearance and behavior:
-
-```razor
-<ChartCrosshairSettings Enable="true" SnapToData="true" DashArray="3,3">
-    <ChartCrosshairLine Width="1" Color="#757575"/>
-</ChartCrosshairSettings>
-
-<ChartTooltipSettings Enable="true" 
-                      Shared="true"
-                      EnableMarker="true"
-                      Fill="#263238"
-                      Opacity="0.9">
-    <Template>
-        @{
-            var data = context as List<ChartTooltipInfo>;
-            <div style="padding: 10px; background: #263238; color: white; border-radius: 4px;">
-                <div style="font-weight: bold; margin-bottom: 8px; border-bottom: 1px solid #546E7A; padding-bottom: 4px;">
-                    @data[0].X.ToString("MMM dd, yyyy")
-                </div>
-                @foreach (var item in data)
-                {
-                    <div style="margin: 4px 0; display: flex; justify-content: space-between; gap: 15px;">
-                        <span>
-                            <span style="color: @item.Series.Fill; font-size: 16px;">●</span>
-                            @item.Series.Name
-                        </span>
-                        <span style="font-weight: bold;">$@($"{item.Y:N2}")</span>
-                    </div>
-                }
-            </div>
-        }
-    </Template>
-</ChartTooltipSettings>
-```
-
----
-
-## Selection
-
-Allow users to select data points, series, or regions for highlighting or further analysis.
-
-### Point Selection
-
-Select individual data points:
-
-```razor
-<SfChart Title="Product Performance" SelectionMode="Syncfusion.Blazor.Toolkit.Charts.SelectionMode.Point">
-    <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Toolkit.ValueType.Category"/>
-    
-    <ChartSelectionSettings Enable="true" 
-                             Mode="Syncfusion.Blazor.Toolkit.Charts.SelectionMode.Point"
-                             Type="SelectionType.Highlight"
-                             Pattern="SelectionPattern.Dots"/>
-    
-        <ChartSeries DataSource="@ProductData" 
-                     XName="Product" 
-                     YName="Sales" 
-                     Type="Syncfusion.Blazor.Toolkit.ChartSeriesType.Column"
-                     SelectionStyle="@selectionStyle"/>
-</SfChart>
-
-@code {
-    string selectionStyle = "fill: #FF5722; opacity: 1;";
-}
-```
-
-### Series Selection
-
-Select entire series:
-
-```razor
-<SfChart Title="Quarterly Sales" SelectionMode="Syncfusion.Blazor.Toolkit.Charts.SelectionMode.Series">
-        <ChartSeries DataSource="@Q1Data" Name="Q1" XName="Month" YName="Revenue" Type="Syncfusion.Blazor.Toolkit.ChartSeriesType.Column"/>
-        <ChartSeries DataSource="@Q2Data" Name="Q2" XName="Month" YName="Revenue" Type="Syncfusion.Blazor.Toolkit.ChartSeriesType.Column"/>
-        <ChartSeries DataSource="@Q3Data" Name="Q3" XName="Month" YName="Revenue" Type="Syncfusion.Blazor.Toolkit.ChartSeriesType.Column"/>
-</SfChart>
-```
-
-### Cluster Selection
-
-Select all points at the same index across series:
-
-```razor
-<SfChart Title="Regional Comparison" SelectionMode="Syncfusion.Blazor.Toolkit.Charts.SelectionMode.Cluster">
-    <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Toolkit.ValueType.Category"/>
-    
-        <ChartSeries DataSource="@NorthRegion" Name="North" XName="Month" YName="Sales" Type="Syncfusion.Blazor.Toolkit.ChartSeriesType.Column"/>
-        <ChartSeries DataSource="@SouthRegion" Name="South" XName="Month" YName="Sales" Type="Syncfusion.Blazor.Toolkit.ChartSeriesType.Column"/>
-        <ChartSeries DataSource="@EastRegion" Name="East" XName="Month" YName="Sales" Type="Syncfusion.Blazor.Toolkit.ChartSeriesType.Column"/>
-</SfChart>
-```
-
-### Drag Selection
-
-Enable rectangular drag selection:
-
-```razor
-<SfChart SelectionMode="Syncfusion.Blazor.Toolkit.Charts.SelectionMode.DragXY">
-    <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Toolkit.ValueType.DateTime"/>
-    
-        <ChartSeries DataSource="@ScatterData" 
-                     XName="Date" 
-                     YName="Value" 
-                     Type="Syncfusion.Blazor.Toolkit.ChartSeriesType.Scatter">
-            <ChartMarker Height="10" Width="10"/>
-        </ChartSeries>
-</SfChart>
-```
-
-**Drag Selection Modes:**
-- `DragXY` - Rectangle selection in both directions
-- `DragX` - Horizontal selection only
-- `DragY` - Vertical selection only
-
-### Selection Modes
-
-Configure selection behavior and appearance:
-
-```razor
-<SfChart SelectionMode="Syncfusion.Blazor.Toolkit.Charts.SelectionMode.Point">
-        <ChartSeries DataSource="@ChartData" 
-                     XName="X" 
-                     YName="Y" 
-                     Type="Syncfusion.Blazor.Toolkit.ChartSeriesType.Column"
-                     SelectionStyle="fill: #4CAF50; stroke: #2E7D32; stroke-width: 3"/>
-</SfChart>
-```
-
-**Multi-Select with Ctrl Key:**
-
-```razor
-<SfChart Title="Multi-Select Chart" 
-         SelectionMode="Syncfusion.Blazor.Toolkit.Charts.SelectionMode.Point" 
-         IsMultiSelect="true">
-        <ChartSeries DataSource="@Data" XName="X" YName="Y" Type="Syncfusion.Blazor.Toolkit.ChartSeriesType.Column"/>
-</SfChart>
-```
-
-**Selection Events:**
-
-```razor
-<SfChart SelectionMode="Syncfusion.Blazor.Toolkit.Charts.SelectionMode.Point" 
-         OnSelectionComplete="HandleSelectionComplete">
-        <ChartSeries DataSource="@ChartData" XName="X" YName="Y" Type="Syncfusion.Blazor.Toolkit.ChartSeriesType.Column"/>
-</SfChart>
-
-@code {
-    private void HandleSelectionComplete(SelectionCompleteEventArgs args)
-    {
-        var selectedPoints = args.SelectedDataValues;
-        Console.WriteLine($"Selected {selectedPoints.Count} points");
-        
-        foreach (var point in selectedPoints)
-        {
-            Console.WriteLine($"X: {point.X}, Y: {point.Y}");
-        }
+        if (a.Data.Point.Y < 30) a.Text += " (low)";
     }
 }
 ```
 
----
+| Option | Effect |
+|--------|--------|
+| `Shared="true"` | One tool-tip aggregates all series at the hovered X |
+| `Format` | Inline format string with template placeholders `${point.x}`/`${point.y}`/`${series.name}` |
+| `Template` | A `<RenderFragment>` for fully custom markup |
+| `Enable="true"` | Required for any tooltip to render — there's no auto-show |
 
-## Zooming and Panning
+If `Shared` is `false` (default), only the *topmost* series' value appears at
+the hover; multi-series users should set this `true` first.
 
-Enable users to zoom into chart regions and pan across data.
-
-### Selection Zooming
-
-Enable selection-based zooming (drag to select region):
+## Crosshair
 
 ```razor
-<SfChart Title="Sales History">
-    <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Toolkit.ValueType.Category"/>
-    
-    <ChartZoomSettings EnableSelectionZooming="true"/>
-    
-        <ChartSeries DataSource="@SalesData" XName="Month" YName="Sales" Type="Syncfusion.Blazor.Toolkit.ChartSeriesType.Column"/>
+<ChartCrosshairSettings Enable="true" DashArray="2,3" LineType="Syncfusion.Blazor.Toolkit.LineType.Both">
+    <ChartCrosshairLine Width="1.5" Color="#333" />
+</ChartCrosshairSettings>
+
+<ChartEvents OnSeriesRender="SeriesRender" />
+
+@code {
+    void SeriesRender(SeriesRenderEventArgs _) { /* indicate intersect per series */ }
+}
+```
+
+`LineType` values: `Vertical`, `Horizontal`, `Both`. Reminder (also in
+SKILL.md): `ChartCrosshairLine` only carries `Width` + `Color`.
+
+### Show / hide programmatically
+
+These are `Task`-returning methods (`*Async`) — always `await` them:
+
+```razor
+@code {
+    SfChart ChartRef = default!;
+
+    async Task Explore() =>
+        await ChartRef.ShowCrosshairAsync(100, 50);   // pixel coords
+
+    async Task Reset() => await ChartRef.HideCrosshairAsync();
+}
+```
+
+## Selection
+
+Selection is configured directly on `<SfChart>` (there is no
+`<ChartSelectionSettings>` child component in this repo).
+
+```razor
+<SfChart @* SelectionMode lives in Syncfusion.Blazor.Toolkit *@
+         SelectionMode="Syncfusion.Blazor.Toolkit.ChartSelectionMode.Point"
+         SelectionPattern="Syncfusion.Blazor.Toolkit.SelectionPattern.Dots">
+    <ChartSeries … />
 </SfChart>
+
+@code {
+    SfChart ChartRef = default!;
+
+    void Clear() => ChartRef.ClearSelection();
+}
 ```
 
-### Mouse Wheel Zooming
+> The enum type is `Syncfusion.Blazor.Toolkit.ChartSelectionMode` (NOT
+> `SelectionMode.Point`), per `src/Base/Enumeration.cs`. Qualify fully —
+> the un-qualified short name only resolves when
+`@using Syncfusion.Blazor.Toolkit;` is in the same file. Same rule applies
+to `SelectionPattern`, `ZoomMode`, `ToolbarItems`, `ToolbarMode`, and
+`HighlightMode` (all under `Syncfusion.Blazor.Toolkit`).
 
-Enable zoom with mouse wheel:
+| `ChartSelectionMode` | What gets selected |
+|-----------------------|--------------------|
+| `None` (default) | — |
+| `Series` | Whole series when one of its points is clicked |
+| `Point` | Single point |
+| `Cluster` | All points under the same category |
+| `DragXY` / `DragX` / `DragY` | Rectangle-drag in either axis |
+| `Lasso` | Freehand lasso |
+
+`SelectionPattern` values: `None`, `Chessboard`, `Dots`, `DiagonalForward`,
+`Crosshatch`, `Pacman`, `DiagonalBackward`, `Grid`, `Turquoise`, `Star`,
+`Triangle`, `Circle`, `Tile`, `HorizontalDash`, `VerticalDash`,
+`Rectangle`, `Box`, `VerticalStripe`, `HorizontalStripe`, `Bubble`
+(20 members — full list in `references/api-reference.md`).
+
+## Highlight
 
 ```razor
-<ChartZoomSettings EnableMouseWheelZooming="true"/>
+<SfChart HighlightMode="Syncfusion.Blazor.Toolkit.HighlightMode.Point" />
 ```
 
-### Pinch Zooming
+Set `HighlightMode` separately from `SelectionMode`. Highlights grey out
+other series; selection marks only what's chosen.
 
-Enable pinch-to-zoom for touch devices:
-
-```razor
-<ChartZoomSettings EnablePinchZooming="true"/>
-```
-
-**All Zoom Modes Combined:**
-
-```razor
-<SfChart Title="Comprehensive Zoom Example">
-    <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Toolkit.ValueType.Category"/>
-    
-    <ChartZoomSettings EnableSelectionZooming="true"
-                       EnableMouseWheelZooming="true"
-                       EnablePinchZooming="true"
-                       EnableScrollbar="true"/>
-    
-        <ChartSeries DataSource="@LargeDataset" XName="X" YName="Y" Type="Syncfusion.Blazor.Toolkit.ChartSeriesType.Line"/>
-</SfChart>
-```
-
-### Zoom Modes
-
-Control zoom direction:
-
-```razor
-<!-- Horizontal zoom only -->
-<ChartZoomSettings EnableSelectionZooming="true" Mode="ZoomMode.X"/>
-
-<!-- Vertical zoom only -->
-<ChartZoomSettings EnableSelectionZooming="true" Mode="ZoomMode.Y"/>
-
-<!-- Both directions (default) -->
-<ChartZoomSettings EnableSelectionZooming="true" Mode="ZoomMode.XY"/>
-```
-
-### Zoom Toolbar
-
-Customize the zoom toolbar that appears after zooming:
+## Zoom and pan
 
 ```razor
 <ChartZoomSettings EnableSelectionZooming="true"
                    EnableMouseWheelZooming="true"
-                   ToolbarItems="@zoomToolbarItems"/>
-
-@code {
-    private List<ToolbarItems> zoomToolbarItems = new List<ToolbarItems>
-    {
-        ToolbarItems.Zoom,
-        ToolbarItems.ZoomIn,
-        ToolbarItems.ZoomOut,
-        ToolbarItems.Pan,
-        ToolbarItems.Reset
-    };
-}
+                   EnablePinchZooming="true"
+                   EnablePan="true"
+                   Mode="Syncfusion.Blazor.Toolkit.ZoomMode.X"
+                   ToolboxMode="Syncfusion.Blazor.Toolkit.ToolbarMode.OnDemand"
+                   ToolbarItems="@(new List<Syncfusion.Blazor.Toolkit.ToolbarItems> {
+                       Syncfusion.Blazor.Toolkit.ToolbarItems.Zoom,
+                       Syncfusion.Blazor.Toolkit.ToolbarItems.ZoomIn,
+                       Syncfusion.Blazor.Toolkit.ToolbarItems.ZoomOut,
+                       Syncfusion.Blazor.Toolkit.ToolbarItems.Pan,
+                       Syncfusion.Blazor.Toolkit.ToolbarItems.Reset
+                   })" />
 ```
 
-**Hide Specific Toolbar Items:**
+| `ZoomMode` | Effect |
+|-----------|--------|
+| `X` | Horizontal only (default) |
+| `Y` | Vertical only |
+| `XY` | Both axes |
+
+Toolbar item commands live on `Syncfusion.Blazor.Toolkit.ToolbarItems`
+(verify with `src/Base/Enumeration.cs:1135`): `Zoom`, `ZoomIn`, `ZoomOut`,
+`Pan`, `Reset`. Assign via `ChartZoomSettings.ToolbarItems` as
+`List<Syncfusion.Blazor.Toolkit.ToolbarItems>`. Toolbar visibility is
+driven by `Syncfusion.Blazor.Toolkit.ToolbarMode`
+(`OnDemand` | `Always` | `None`). There is **no `ToolBarCommand` enum** in
+this toolkit — pass `ToolText` on the chart-level settings if you need a
+label override.
+
+## Programmatic tooltip / crosshair / selection
 
 ```razor
 @code {
-    private List<ToolbarItems> customToolbar = new List<ToolbarItems>
-    {
-        ToolbarItems.Reset,
-        ToolbarItems.Pan
-    };
-}
+    SfChart ChartRef = default!;
 
-<ChartZoomSettings EnableSelectionZooming="true" ToolbarItems="@customToolbar"/>
-```
+    async Task ShowAt() =>
+        await ChartRef.ShowTooltipAsync("Mar", 34);   // data coords (xName, y)
+    async Task Hide() => await ChartRef.HideTooltipAsync();
 
-### Panning
+    void ResetSelection() => ChartRef.ClearSelection();   // sync, void
 
-Enable panning after zooming:
-
-```razor
-<ChartZoomSettings EnableSelectionZooming="true"
-                   EnablePan="true"/>
-```
-
-**Programmatic Zoom:**
-
-```razor
-<SfChart @ref="chartObj">
-    <ChartZoomSettings EnableSelectionZooming="true"/>
-        <ChartSeries DataSource="@Data" XName="X" YName="Y" Type="Syncfusion.Blazor.Toolkit.ChartSeriesType.Line"/>
-</SfChart>
-
-<button @onclick="ZoomIn">Zoom In</button>
-<button @onclick="ZoomOut">Zoom Out</button>
-<button @onclick="ResetZoom">Reset</button>
-
-@code {
-    private SfChart chartObj;
-    
-    private void ZoomIn()
-    {
-        chartObj.ZoomByFactor(1.5);
-    }
-    
-    private void ZoomOut()
-    {
-        chartObj.ZoomByFactor(0.5);
-    }
-    
-    private void ResetZoom()
-    {
-        chartObj.ZoomByRange(new DateTime(2020, 1, 1), new DateTime(2024, 12, 31));
-    }
+    async Task ShowCrosshair() => await ChartRef.ShowCrosshairAsync(300, 120);
+    async Task HideCrosshair() => await ChartRef.HideCrosshairAsync();
 }
 ```
 
----
+Verified method surface (from `src/Components/Charts/Chart/SfChart.razor.Methods.cs`):
 
-## Interactive Best Practices
+| Method | Returns | Notes |
+|--------|---------|-------|
+| `RefreshAsync(bool shouldAnimate = true)` | `Task` | |
+| `ShowTooltipAsync(object, double, bool = true)` | `Task` | |
+| `HideTooltipAsync()` | `Task` | |
+| `ShowCrosshairAsync(double, double)` | `Task` | |
+| `HideCrosshairAsync()` | `Task` | |
+| `AddSeriesAsync(List<ChartSeries>)` | `Task` | `<exclude/>` — not in IntelliSense |
+| `RemoveSeries(int)` / `ClearSeries()` | `void` | `<exclude/>` — not in IntelliSense |
+| `RefreshLiveData()` | `void` | `<exclude/>` — not in IntelliSense |
+| `Sort(string, ListSortDirection)` | `void` | |
+| `ClearSort()` | `void` | |
+| `ClearSelection()` | `void` | |
+| `PreventRender(bool = true)` | `void` | |
+| `RefreshLiveData()` | `void` | internal-only |
 
-### Tooltip Guidelines
+## Events — see `events.md`
 
-1. **Keep tooltips concise** - Display only essential information
-2. **Use formatting** - Format numbers consistently (currency, decimals)
-3. **Enable shared tooltips** for multi-series comparisons
-4. **Add visual cues** - Use colors, icons, or markers in templates
-5. **Test on mobile** - Ensure tooltips work well with touch interactions
+`OnPointClick`, `OnSeriesClick`, `OnSelectionChanged`, `OnZoomStart`,
+`OnZoomEnd`, `OnScrollChanged`, `TooltipRender`, `SharedTooltipRender` all
+bind via `<ChartEvents … />`. Positioning and source lives in
+`references/events.md`.
 
-### Crosshair Best Practices
+## Pitfalls
 
-1. **Use with line charts** - Most effective for time-series or continuous data
-2. **Enable snap-to-data** - Provides precise data point information
-3. **Customize colors** - Match crosshair to chart theme
-4. **Combine with tooltips** - Provide complete data context
-
-### Selection Recommendations
-
-1. **Choose appropriate mode** - Point for detail, Series for comparison, Cluster for correlation
-2. **Provide visual feedback** - Use distinct selection colors
-3. **Enable multi-select** when users need to compare multiple points
-4. **Handle selection events** - Implement actions based on user selections
-
-### Zooming Best Practices
-
-1. **Enable multiple zoom methods** - Selection, mouse wheel, and pinch for accessibility
-2. **Set appropriate zoom modes** - X for time-series, XY for scatter plots
-3. **Always include reset** - Allow users to return to original view
-4. **Consider data volume** - Enable scrollbar for large datasets
-5. **Test zoom limits** - Prevent excessive zoom that obscures data
-
-### Performance Tips
-
-1. **Limit tooltip complexity** - Avoid heavy computations in tooltip templates
-2. **Throttle crosshair updates** on large datasets
-3. **Use selection judiciously** - Avoid enabling all selection modes simultaneously
-4. **Optimize zoom rendering** - Consider virtualization for very large datasets
-5. **Test on target devices** - Ensure smooth interactions on mobile and desktop
-
-### Accessibility Considerations
-
-1. **Provide keyboard navigation** for selection and zooming
-2. **Ensure tooltip contrast** - Maintain WCAG AA compliance
-3. **Support screen readers** - Use ARIA labels where appropriate
-4. **Test with assistive technologies** - Verify all interactive features are accessible
-5. **Offer alternative data access** - Provide data tables or exports for users who cannot use interactive features
+| Symptom | Likely cause |
+|---------|--------------|
+| Tooltip never appears | `Enable="false"` (default) — set `Enable="true"` |
+| Multi-series tooltip only shows one row | Set `Shared="true"` |
+| Crosshair child line not visible | Passing `DashArray` to `ChartCrosshairLine` (it doesn't accept it) |
+| Zoom disables click | `EnableSelectionZooming="true"` swipes → click isn't a click any more; pick wheel or drag |
+| Pan doesn't work | Missing `EnablePan="true"` on `<ChartZoomSettings>` |
+| Toolbar buttons don't render | `ToolbarItems` is unset (or contains no members) |
+| `ChartMouseClick` fires multiple times | Subscribed in both `ChartEvents` and code — choose one |
