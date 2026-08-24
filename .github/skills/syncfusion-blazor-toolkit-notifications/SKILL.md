@@ -1,7 +1,21 @@
 ---
+license: MIT
 name: syncfusion-blazor-toolkit-notifications
-description: Implement loading indicator components in Syncfusion Blazor Toolkit. Covers Spinner (activity indicators) with customization, animation effects, accessibility, and real-world patterns for indicating loading states.
-compatibility: .NET 8+, Blazor WebAssembly/Server
+description: >
+  Implement Syncfusion Blazor Toolkit loading and activity indicators —
+  SfSpinner.
+  USE FOR: form submission and async-operation feedback, content loading
+  decorations, overlay compositions with z-index stacking, accessibility-
+  compliant loading announcements (aria-live), programmatic visibility
+  toggles via @bind-Visible or VisibleChanged, and cancelable open/close
+  events.
+  REQUIRES interactive render mode (Server, WebAssembly, or Auto @
+  .NET 8+). Overlay patterns require JS interop for body scroll lock.
+  DO NOT USE FOR: full-page skeleton loaders (use SfSkeleton — not in
+  this skill), action-bearing toast notifications (use SfToast — not in
+  this skill), or progress bars with explicit percent (use
+  SfProgressBar — not in this skill).
+compatibility: .NET 8+, render-modes: Server, WebAssembly, Auto
 metadata:
   author: "Syncfusion Inc"
   version: "1.0.0"
@@ -9,56 +23,175 @@ metadata:
 
 # Syncfusion Blazor Toolkit: Notifications & Loading Indicators
 
+> ⚙️ **Render mode:** `SfSpinner` requires an **interactive** render mode (Server, WebAssembly, or Auto @ .NET 8+). In **Static SSR**, prefer the built-in `[StreamRendering]` attribute on the page (no `SfSpinner` needed) — see `references/spinner-overlay.md` for the static-mode escape hatch. Read `AGENTS.md` before picking a strategy.
+
 The Notifications components provide visual feedback during asynchronous operations and content loading scenarios. This skill guides you through implementing the **Spinner** component for indicating background processing.
 
-## Component Overview
+## Core Rules
 
-### SfSpinner Component
-The **SfSpinner** component displays a rotating activity indicator to show that a process is ongoing. It's lightweight, customizable, and fully accessible.
+1. **Use `@bind-Visible` for state OR use `Visible` + `VisibleChanged`** —
+   never both. Combine = re-render storms and "stuck open" spinners.
+2. **`OnOpen` and `OnClose` `args.Cancel` aborts the action**; they run *before*
+   the visible change fires. Don't expect the spinner to hide synchronously
+   after `OnClose` returns.
+3. **`Label` is announced via aria-live automatically.** Either:
+   - Set `Label="Loading…"` and don't put text inside `<Template>`, OR
+   - Use `<Template>` and add `aria-hidden="true"` on the visual nodes.
+   Never both.
+4. **Spinner renders inline.** For overlay positioning, supply `CssClass`
+   with `position: absolute/fixed` rules.
+5. **body scroll lock requires JS interop (`IJSRuntime`).** It's not
+   free — wire `IAsyncDisposable.DisposeAsync()` to release the lock.
+6. **`VisibleChanged` is `EventCallback<bool>`** — fire-and-forget handlers
+   will swallow exceptions. Use `async Task` handlers.
+7. **Render the overlay via `InvokeAsync(StateHasChanged)` BEFORE the
+   long-running `await`**, otherwise the overlay renders after the await
+   and serves no purpose.
+8. **Don't inset `SfSpinner` inside an interactive button** — that defeats
+   the click target. Use a custom button replacement or `aria-hidden`.
 
-- **Use Case:** Indicate background operations, form submissions, API calls
-- **Best For:** Quick loading indicators, overlay states, modal dialogs
-- **Customization:** Size, color, label, templates
+## Don'ts
 
----
+| Anti-pattern | Symptom | Fix |
+|---|---|---|
+| `Visible="@_busy" @bind-Visible VisibleChanged="@(v => _busy = v)"` | Re-render storm; spinner "stuck open" or "stuck closed" | Pick exactly one: `@bind-Visible="@_busy"` |
+| Using `SfSpinner` for confirmation ("are you sure?") | User double-clicks the button before the spinner fades out; double-commit | Use `Syncfusion.Blazor.Toolkit.Popups.SfDialog` with `IsModal="true"` |
+| `position: fixed` overlay inside a Static SSR page | `JS` not available pre-interactivity; overlay renders without scroll lock | Either upgrade to interactive render mode, or rely on element-level overlay (don't lock body scroll) |
+| `<SfSpinner>` nested inside `<SfButton>` | Pointer events pass through; user clicks the button while spinner is "showing" | Use `Disabled="@_busy"` on the button, and place `<SfSpinner>` *adjacent to* (not inside) the button |
+| No `role="alert"` / `aria-busy="true"` on the parent overlay element | Screen readers don't know the page is busy; user confused | Wrap with `<div role="alert" aria-busy="true">` while the spinner is up |
+| `Label=""` (or omitted) | WCAG 2.1 violation; spinner announces nothing visually either | Always set `Label="Loading…"` with at least 3 chars / aria-friendly text |
+| Disabling the parent button to "pause interaction" | Confusing — button looks inert but no feedback | Use a visible spinner overlay with explicit `pointer-events: none`, or render the button as "Saving…" text while disabled |
+| `OnClose` setting `args.Cancel = true` and then mutating `Visible` directly | `OnClose` runs sync; race condition opens the spinner | `args.Cancel = true` only; let the binding decide visibility |
+| Two `SfSpinner` instances bound to the same `bool` | Two overlay layers stacked; performance + z-index fights | One spinner; resize via `CssClass` |
+| `OnOpen = async void` | Exceptions silently escape | `OnOpen = async Task …` or use `ValueTask` |
 
-## Documentation and Navigation Guide
+## Anti-Pattern Workflows
 
-### Spinner Implementation
-📄 **Read:** [references/spinner-implementation.md](references/spinner-implementation.md)
-- Basic Spinner setup
-- Visibility and binding
-- Label text and accessibility
-- CSS class customization
-- Child content support
-- Size and positioning
+### Workflow 1 — Agent wires three visibility bindings
 
-### Spinner Customization & Events
-📄 **Read:** [references/spinner-events-customization.md](references/spinner-events-customization.md)
-- Event callbacks: Created, OnOpen, OnClose, Destroyed
-- SpinnerEventArgs and Cancel functionality
-- Template-based customization
-- Custom styling and themes
-- Performance considerations
+**Bad:**
+```razor
+<SfSpinner @ref="spinner"
+           Visible="@_busy"
+           @bind-Visible="@_busy"
+           VisibleChanged="@(v => _busy = v)"
+           Label="Saving…" />
+<!-- infinite re-renders -->
+```
 
-### Accessibility & Best Practices
-📄 **Read:** [references/accessibility-best-practices.md](references/accessibility-best-practices.md)
-- ARIA labels and screen reader support
-- Keyboard navigation
-- WCAG 2.1 AA compliance
-- Semantic HTML
-- Common pitfalls and solutions
-- Testing accessibility
+**Fix:** pick exactly one. `@bind-Visible` is enough:
 
----
+```razor
+<SfSpinner @bind-Visible="@_busy" Label="Saving…" />
+```
 
-## Quick Start Examples
+### Workflow 2 — Agent's overlay renders AFTER the await
 
-### Basic Spinner
-```csharp
+**Bad:**
+```razor
+private async Task Submit()
+{
+    _busy = true;
+    await SaveAsync();  // overlay exists in markup but block is synchronous on first render
+    _busy = false;
+}
+```
+
+**Why it fails:** even though `_busy = true` triggers a render, the
+async method starts the `SaveAsync` call immediately and **re-renders again**
+only when awaited. Browser paints on the second invocation, *after* completion.
+
+**Fix:** force a render first, then await:
+
+```razor
+private async Task Submit()
+{
+    _busy = true;
+    await InvokeAsync(StateHasChanged);   // paint overlay NOW
+    try   { await SaveAsync(); }
+    finally { _busy = false; }
+}
+```
+
+### Workflow 3 — Agent wants confirmation "do you really want to save?" with a spinner
+
+**Anti-pattern:** raise the spinner for 3s before commit, hoping the user
+will click away.
+
+**Fix:** use a modal dialog (load
+[syncfusion-blazor-toolkit-dialog](../syncfusion-blazor-toolkit-popups/dialog/SKILL.md)).
+
+```razor
+<SfDialog @bind-Visible="_confirm" IsModal="true" Header="Confirm Save">
+    <DialogButtons>
+        <DialogButton Content="Yes" OnClick="@ConfirmYes" />
+        <DialogButton Content="No"  />
+    </DialogButtons>
+</SfDialog>
+
+@code {
+    private async Task ConfirmYes() { _confirm = false; _busy = true; await InvokeAsync(StateHasChanged); await SaveAsync(); _busy = false; }
+}
+```
+
+Spinner for *post-confirmation* (during actual save); dialog gates *user input*.
+
+### Workflow 4 — Agent's overlay uses `body { overflow: hidden }` but never clears
+
+**Bad:**
+```razor
+@if (_busy) <SfSpinner @bind-Visible="@_busy" />
+@code { protected override void OnAfterRender(bool _) { if (_busy) JS.InvokeVoidAsync("lockBody"); } }
+<!-- user navigates away; lock persists -->
+```
+
+**Fix:** centralize lock/unlock in `IAsyncDisposable`:
+
+```razor
+@implements IAsyncDisposable
+@code {
+    protected override void OnAfterRender(bool _) { if (_busy) JS.InvokeVoidAsync("lockBody"); }
+    public async ValueTask DisposeAsync() { try { await JS.InvokeVoidAsync("unlockBody"); } catch { } }
+}
+```
+
+### Workflow 5 — Agent nests `SfSpinner` inside `SfButton` for a submit button
+
+**Anti-pattern:**
+```razor
+<SfButton Disabled="@_busy" OnClick="SubmitAsync">
+    @if (_busy) <SfSpinner Visible="true" Size="14" />
+    Submit
+</SfButton>
+```
+
+**Why it fails:** in Static SSR, the spinner DOM never mounts; pointer events
+on the button area conflict with the inner spinner's wrapper.
+
+**Fix #1 — label swap (simplest):**
+```razor
+<SfButton Disabled="@_busy" OnClick="SubmitAsync">
+    @(_busy ? "Saving…" : "Submit")
+</SfButton>
+```
+
+**Fix #2 — external spinner overlay around the whole form:**
+see [references/spinner-overlay.md §2.5](references/spinner-overlay.md#25-form-submission-spinner-editform--sfspinner)
+for the canonical EditForm + form-overlay composition pattern.
+
+> See also: [references/spinner-template.md](references/spinner-template.md)
+> (custom visuals + composition) and
+> [references/spinner-overlay.md](references/spinner-overlay.md)
+> (full-page, region, modal overlays).
+
+## Minimal Example
+
+```razor
+@using Syncfusion.Blazor.Toolkit
+
 @if (isLoading)
 {
-    <SfSpinner @bind-Visible="@isLoading" Label="Loading data..."></SfSpinner>
+    <SfSpinner @bind-Visible="@isLoading" Label="Loading data..." />
 }
 
 @code {
@@ -66,113 +199,26 @@ The **SfSpinner** component displays a rotating activity indicator to show that 
 }
 ```
 
-### Spinner with Events
-```csharp
-<SfSpinner @bind-Visible="@showSpinner" 
-           Label="Processing..."
-           OnOpen="@HandleOpen"
-           OnClose="@HandleClose">
-</SfSpinner>
-
-@code {
-    private bool showSpinner = false;
-
-    private async Task HandleOpen(SpinnerEventArgs args)
-    {
-        // Execute before spinner opens
-    }
-
-    private async Task HandleClose(SpinnerEventArgs args)
-    {
-        // Execute before spinner closes
-    }
-}
-```
+For installation, services, visibility control, labels, CSS classes, and
+size/positioning see [references/spinner-implementation.md](references/spinner-implementation.md).
 
 ---
 
-## Common Implementation Patterns
+## Documentation and Navigation Guide
 
-### Pattern 1: Form Submission with Spinner Overlay
-Show spinner while form is being processed.
-
-```csharp
-<div class="form-container">
-    <EditForm Model="formData" OnSubmit="@HandleSubmit">
-        <InputText @bind-Value="formData.Name" placeholder="Enter name" />
-        <button type="submit" disabled="@isSubmitting">Submit</button>
-    </EditForm>
-    
-    @if (isSubmitting)
-    {
-        <SfSpinner @bind-Visible="@isSubmitting" Label="Submitting form..."></SfSpinner>
-    }
-</div>
-
-@code {
-    private FormModel formData = new();
-    private bool isSubmitting = false;
-
-    private async Task HandleSubmit()
-    {
-        isSubmitting = true;
-        try
-        {
-            // Simulate API call
-            await Task.Delay(2000);
-        }
-        finally
-        {
-            isSubmitting = false;
-        }
-    }
-
-    private class FormModel
-    {
-        public string Name { get; set; }
-    }
-}
-```
-
----
-
-## Key Properties Summary
-
-### SfSpinner Key Properties
-| Property | Type | Default | Purpose |
-|----------|------|---------|---------|
-| `Visible` | bool | false | Show/hide the spinner |
-| `Label` | string? | null | Display text below spinner |
-| `CssClass` | string? | null | Custom CSS classes |
-| `ChildContent` | RenderFragment? | null | Nested content within spinner |
-| `Size` | string? | null | Spinner size (e.g., "24", "36px", "48") |
-| `Thickness` | string? | null | Stroke width (e.g., "2", "4", "6px") |
-| `ZIndex` | string | "auto" | CSS z-index for stacking order |
-| `VisibleChanged` | EventCallback<bool> | - | Two-way binding for Visible |
-
-### SfSpinner Key Events
-| Event | Callback Type | Purpose |
-|-------|--------------|---------|
-| `Created` | EventCallback<object> | Fired after spinner is rendered |
-| `OnOpen` | EventCallback<SpinnerEventArgs> | Before spinner shows (can cancel via args.Cancel) |
-| `OnClose` | EventCallback<SpinnerEventArgs> | Before spinner hides (can cancel via args.Cancel) |
-| `Destroyed` | EventCallback<object> | After spinner is removed |
-
----
-
-## Common Use Cases
-
-1. **Form Processing**: Indicate ongoing submission with spinner
-2. **Async Operations**: Spinner for API calls, calculations
-3. **Real-time Updates**: Toggle spinner state during live refresh
-4. **Modal/Dialog Loading**: Display spinner during background operations
-5. **Overlay Patterns**: Show spinner over content during processing
+| Need | Read |
+|---|---|
+| Setup, services, theme, visibility, labels, CSS, sizing | [references/spinner-implementation.md](references/spinner-implementation.md) |
+| `OnOpen` / `OnClose` / `Created` / `Destroyed`, cancellation, templates | [references/spinner-events-customization.md](references/spinner-events-customization.md) |
+| WCAG / keyboard / screen reader | [references/accessibility-best-practices.md](references/accessibility-best-practices.md) |
+| Branded visuals, `SpinType`, CSS variables | [references/spinner-template.md](references/spinner-template.md) |
+| Overlay patterns (page / region / modal / scroll-lock) | [references/spinner-overlay.md](references/spinner-overlay.md) |
 
 ---
 
 ## Next Steps
 
-Start with [Spinner Implementation](references/spinner-implementation.md) to understand basic usage, then explore specific features based on your use case.
+1. **Setup:** [references/spinner-implementation.md](references/spinner-implementation.md)
+2. **Overlay patterns:** [references/spinner-overlay.md](references/spinner-overlay.md)
 
-**For Spinner configuration:** Focus on [Spinner Customization & Events](references/spinner-events-customization.md)  
-**For advanced usage:** See [Accessibility & Best Practices](references/accessibility-best-practices.md)
+**Demo:** https://blazor.syncfusion.com/demos/toolkit/spinner
