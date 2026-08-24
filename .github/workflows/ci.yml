@@ -18,7 +18,7 @@ env:
 
 jobs:
   # =========================================================
-  # Job 1: Build + bUnit (matrix across .NET versions)
+  # Job 1: bUnit (matrix)
   # =========================================================
   bunit:
     name: bUnit (.NET ${{ matrix.dotnet-version }})
@@ -39,12 +39,11 @@ jobs:
         with:
           dotnet-version: ${{ matrix.dotnet-version }}
 
-      # ---------- Caching (best practices) ----------
       - name: Cache NuGet packages
         uses: actions/cache@v4
         with:
           path: ~/.nuget/packages
-          key: nuget-${{ runner.os }}-${{ matrix.dotnet-version }}-${{ hashFiles('**/*.*proj', '**/packages.lock.json') }}
+          key: nuget-${{ runner.os }}-${{ matrix.dotnet-version }}-${{ hashFiles('**/*.*proj') }}
           restore-keys: |
             nuget-${{ runner.os }}-${{ matrix.dotnet-version }}-
             nuget-${{ runner.os }}-
@@ -59,8 +58,7 @@ jobs:
         with:
           path: ~/.npm
           key: npm-${{ runner.os }}-${{ hashFiles('**/package.json') }}
-          restore-keys: |
-            npm-${{ runner.os }}-
+          restore-keys: npm-${{ runner.os }}-
 
       - name: Install npm dependencies
         run: |
@@ -79,9 +77,10 @@ jobs:
       - name: Run bUnit tests
         run: |
           mkdir -p TestResults
+          # Force the correct framework and do NOT use --no-build
           dotnet test tests/Syncfusion.Blazor.Toolkit.BUnitTest/ \
             -c Release \
-            --no-build \
+            -f net8.0 \
             --logger "trx;LogFileName=bunit-${{ matrix.dotnet-version }}.trx" \
             --logger "html;LogFileName=bunit-${{ matrix.dotnet-version }}.html" \
             --results-directory TestResults \
@@ -110,7 +109,7 @@ jobs:
           fail-on-error: false
 
   # =========================================================
-  # Job 2: Playwright (runs in parallel)
+  # Job 2: Playwright
   # =========================================================
   playwright:
     name: Playwright
@@ -133,9 +132,8 @@ jobs:
         uses: actions/cache@v4
         with:
           path: ~/.nuget/packages
-          key: nuget-${{ runner.os }}-${{ hashFiles('**/*.*proj', '**/packages.lock.json') }}
-          restore-keys: |
-            nuget-${{ runner.os }}-
+          key: nuget-${{ runner.os }}-${{ hashFiles('**/*.*proj') }}
+          restore-keys: nuget-${{ runner.os }}-
 
       - name: Setup Node.js
         uses: actions/setup-node@v4
@@ -147,8 +145,7 @@ jobs:
         with:
           path: ~/.npm
           key: npm-${{ runner.os }}-${{ hashFiles('**/package.json') }}
-          restore-keys: |
-            npm-${{ runner.os }}-
+          restore-keys: npm-${{ runner.os }}-
 
       - name: Install npm dependencies
         run: |
@@ -158,7 +155,6 @@ jobs:
             npm install --no-fund --no-audit
           fi
 
-      # Playwright browser cache (best practice)
       - name: Cache Playwright browsers
         uses: actions/cache@v4
         id: playwright-cache
@@ -170,7 +166,7 @@ jobs:
         if: steps.playwright-cache.outputs.cache-hit != 'true'
         run: npx playwright install --with-deps chromium
 
-      - name: Install Playwright system deps (when cache hit)
+      - name: Install Playwright system deps
         if: steps.playwright-cache.outputs.cache-hit == 'true'
         run: npx playwright install-deps chromium
 
@@ -180,17 +176,12 @@ jobs:
       - name: Build
         run: dotnet build ./Syncfusion.Blazor.Toolkit.slnx -c Release --no-restore
 
-      - name: Run Playwright tests (with coverage)
-        run: |
-          npx playwright test \
-            --reporter=html,line,json \
-            --output=test-results
+      - name: Run Playwright tests
+        run: npx playwright test --reporter=html,line
         env:
           CI: true
-          # Enable coverage if your tests support it (Playwright + istanbul/c8 style)
-          # PLAYWRIGHT_COVERAGE: true
 
-      - name: Upload Playwright artifacts
+      - name: Upload Playwright report
         if: always()
         uses: actions/upload-artifact@v4
         with:
@@ -202,7 +193,7 @@ jobs:
           if-no-files-found: ignore
 
   # =========================================================
-  # Job 3: Summary – posts combined status comment
+  # Job 3: Summary
   # =========================================================
   summary:
     name: CI Summary
@@ -211,39 +202,40 @@ jobs:
     if: always()
 
     steps:
-      - name: Checkout (for comment context)
-        uses: actions/checkout@v4
+      - name: Check results and fail if needed
+        run: |
+          echo "bUnit result: ${{ needs.bunit.result }}"
+          echo "Playwright result: ${{ needs.playwright.result }}"
 
-      - name: Create combined status comment
+          if [[ "${{ needs.bunit.result }}" != "success" || "${{ needs.playwright.result }}" != "success" ]]; then
+            echo "One or more jobs failed → failing the workflow"
+            exit 1
+          fi
+
+          echo "All jobs succeeded"
+
+      - name: Post summary comment (PRs only)
+        if: github.event_name == 'pull_request'
         uses: actions/github-script@v7
         with:
           script: |
-            const bunitJobs = ${{ toJSON(needs.bunit) }};
-            const playwright = ${{ toJSON(needs.playwright) }};
-
-            const bunitSuccess = bunitJobs.result === 'success';
-            const playwrightSuccess = playwright.result === 'success';
-
-            const overall = bunitSuccess && playwrightSuccess ? '✅ All checks passed' : '❌ Some checks failed';
+            const bunitOk = '${{ needs.bunit.result }}' === 'success';
+            const pwOk = '${{ needs.playwright.result }}' === 'success';
+            const overall = bunitOk && pwOk ? '✅ All checks passed' : '❌ Some checks failed';
 
             const body = `### CI Summary
 
             | Job | Status |
             |-----|--------|
-            | **bUnit** (.NET 8 / 9 / 10) | ${bunitSuccess ? '✅ Passed' : '❌ Failed'} |
-            | **Playwright** | ${playwrightSuccess ? '✅ Passed' : '❌ Failed'} |
+            | **bUnit** (.NET 8 / 9 / 10) | ${bunitOk ? '✅ Passed' : '❌ Failed'} |
+            | **Playwright** | ${pwOk ? '✅ Passed' : '❌ Failed'} |
 
             **Overall:** ${overall}
             `;
 
-            // Only post on pull requests
-            if (context.eventName === 'pull_request') {
-              github.rest.issues.createComment({
-                issue_number: context.issue.number,
-                owner: context.repo.owner,
-                repo: context.repo.repo,
-                body: body
-              });
-            } else {
-              console.log(body);
-            }
+            github.rest.issues.createComment({
+              issue_number: context.issue.number,
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              body
+            });
