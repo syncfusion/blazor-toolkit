@@ -82,14 +82,14 @@ namespace Syncfusion.Blazor.Toolkit.Tests.Calendars.DatePicker
             var dateInstance = RenderComponent<SfDatePicker<DateTime?>>(parameters => parameters.Add(p => p.Readonly, true));
             var containerElement = dateInstance.Find("input").ParentElement;
             var iconElement = containerElement?.QuerySelector(".e-timeline-today");
-            iconElement?.MouseDown();
+            iconElement?.Click();
             await Task.Delay(70);
             var readonlyPopupEle = dateInstance.FindAll(".e-popup");
             Assert.Equal(0, readonlyPopupEle.Count);
             dateInstance.SetParametersAndRender(("Readonly", false));
             containerElement = dateInstance.Find("input").ParentElement;
             iconElement = containerElement?.QuerySelector(".e-timeline-today");
-            iconElement?.MouseDown();
+            iconElement?.Click();
             await Task.Delay(200);
             var popupElement = dateInstance.Find(".e-popup");
             Assert.NotNull(popupElement);
@@ -281,7 +281,7 @@ namespace Syncfusion.Blazor.Toolkit.Tests.Calendars.DatePicker
             Assert.Equal(new DateTime(1900, 1, 1), dateInstance.Instance.Value);
             var containerElement = dateInstance.Find("input").ParentElement;
             var dateIcon = containerElement?.QuerySelector(".e-timeline-today");
-            dateIcon?.MouseDown();
+            dateIcon?.Click();
             await Task.Delay(200);
             var popupElement = dateInstance.Find(".e-popup");
             Assert.Contains("e-popup", popupElement.ClassName);
@@ -1207,7 +1207,7 @@ namespace Syncfusion.Blazor.Toolkit.Tests.Calendars.DatePicker
             Assert.Equal(new DateTime(1900, 1, 1), dateInstance.Instance.Value);
             var containerElement = dateInstance.Find("input").ParentElement;
             var dateIcon = containerElement?.QuerySelector(".e-timeline-today");
-            dateIcon?.MouseDown();
+            dateIcon?.Click();
             await Task.Delay(200);
             var popupElement = dateInstance.Find(".e-popup");
             Assert.Contains("e-popup", popupElement.ClassName);
@@ -1239,7 +1239,7 @@ namespace Syncfusion.Blazor.Toolkit.Tests.Calendars.DatePicker
             Assert.Equal(new DateTime(1900, 1, 1), dateInstance.Instance.Value);
             var containerElement = dateInstance.Find("input").ParentElement;
             var dateIcon = containerElement?.QuerySelector(".e-timeline-today");
-            dateIcon?.MouseDown();
+            dateIcon?.Click();
             await Task.Delay(200);
             var popupElement = dateInstance.Find(".e-popup");
             Assert.False(dateInstance.Instance.FullScreen);

@@ -19,12 +19,12 @@
                     @if (DialogType == "Prompt")
                     {
                         <div>
-                            <div id="@_id">@DialogContent</div>
+                            <label for="@_promptInputId" class="e-sr-only">@DialogContent</label>
                             <SfInputBase>
                                 <span class="e-input-group">
-                                    <label for="@_promptInputId" class="e-input-label">@Localizer["Required"]</label>
-                                    <input id="@_promptInputId" role="textbox" tabindex="0" type="text"
-                                           required="true" aria-required="true" aria-labelledby="@_id"
+                                    <input id="@_promptInputId" tabindex="0" type="text"
+                                           required aria-required="true"
+                                           aria-label="@DialogContent"
                                            @bind-value="InputValue" class="e-input">
                                 </span>
                             </SfInputBase>

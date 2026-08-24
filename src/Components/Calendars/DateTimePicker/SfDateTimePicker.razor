@@ -11,29 +11,29 @@
         @if (this.FloatLabelType == FloatLabelType.Auto || this.FloatLabelType == FloatLabelType.Always)
         {
             <div @ref="@ContainerElement" class="@ContainerClass?.Trim()" @attributes="ContainerHtmlAttributes">
-                <input @ref="@InputElement" id="@ID" @attributes="InputHtmlAttributes" aria-haspopup="true" aria-label="@(string.IsNullOrWhiteSpace(AriaLabel) ? Localizer["Datetimepicker"] : AriaLabel)" value="@( CalendarMode == CalendarType.Islamic ? IslamicValueAsString : this.CurrentValueAsString)" @onchange="@OnChangeHandlerAsync" @onkeydown="@KeyActionHandlerAsync" @onfocus="@OnFocusHandlerAsync" @oninput="@OnInputHandlerAsync" @onblur="@OnBlurHandlerAsync" />
+                <input @ref="@InputElement" id="@ID" @attributes="InputHtmlAttributes" aria-haspopup="dialog" aria-label="@(string.IsNullOrWhiteSpace(AriaLabel) ? Localizer["Datetimepicker"] : AriaLabel)" value="@( CalendarMode == CalendarType.Islamic ? IslamicValueAsString : this.CurrentValueAsString)" @onchange="@OnChangeHandlerAsync" @onkeydown="@KeyActionHandlerAsync" @onfocus="@OnFocusHandlerAsync" @oninput="@OnInputHandlerAsync" @onblur="@OnBlurHandlerAsync" />
                 <span class="e-float-line"></span>
                 <label class="@FloatLabel?.Trim()" id="label_@(ID)" for="@(ID)">@this.Placeholder</label>
                 @if (this.ShowClearButton && !this.Readonly)
                 {
                     <button type="button" class="@(ClearIconClass)" aria-label="@Localizer["Close"]" title="@Localizer["Close"]" @onclick="@WireClearBtnEventsAsync" @onmousedown="@InvokeClearBtnEventAsync" @ontouchstart="@InvokeClearBtnEventAsync" @onmousedown:preventDefault="@ClickStopPropagation" @ontouchstart:preventDefault="@ClickStopPropagation"></button>
                 }
-                <button type="button" class="@(GROUPICON + SPACE + DateIcon)" aria-label="@Localizer["OpenCalendar"]" title="@Localizer["OpenCalendar"]" @onmousedown="@((args) => MouseIconHandlerAsync(args, DATEICONCLASS))" @onmousedown:preventDefault=@(!IsDevice)></button>
-                <button type="button" class="@(GROUPICON + SPACE + TimeIcon)" aria-label="@Localizer["OpenTime"]" title="@Localizer["OpenTime"]" @onmousedown="@((args) => MouseIconHandlerAsync(args, TIME_ICON))" @onmousedown:preventDefault=@(!IsDevice)></button>
+                <button type="button" class="@(GROUPICON + SPACE + DateIcon)" aria-label="@Localizer["OpenCalendar"]" title="@Localizer["OpenCalendar"]" @onclick="@((args) => MouseIconHandlerAsync(args, DATEICONCLASS))"></button>
+                <button type="button" class="@(GROUPICON + SPACE + TimeIcon)" aria-label="@Localizer["OpenTime"]" title="@Localizer["OpenTime"]" @onclick="@((args) => MouseIconHandlerAsync(args, TIME_ICON))"></button>
             </div>
         }
         else
         {
             <span @ref="@ContainerElement" class="@ContainerClass?.Trim()" @attributes="ContainerHtmlAttributes" >
-                <input @ref="@InputElement" id="@ID" @attributes="InputHtmlAttributes" aria-haspopup="true" aria-label="@(string.IsNullOrWhiteSpace(AriaLabel) ? Localizer["Datetimepicker"] : AriaLabel)" value="@( CalendarMode == CalendarType.Islamic ? IslamicValueAsString : this.CurrentValueAsString)" @onchange="@OnChangeHandlerAsync" @onkeydown="@KeyActionHandlerAsync" @onfocus="@OnFocusHandlerAsync" @oninput="@OnInputHandlerAsync" @onblur="@OnBlurHandlerAsync" />
+                <input @ref="@InputElement" id="@ID" @attributes="InputHtmlAttributes" aria-haspopup="dialog" aria-label="@(string.IsNullOrWhiteSpace(AriaLabel) ? Localizer["Datetimepicker"] : AriaLabel)" value="@( CalendarMode == CalendarType.Islamic ? IslamicValueAsString : this.CurrentValueAsString)" @onchange="@OnChangeHandlerAsync" @onkeydown="@KeyActionHandlerAsync" @onfocus="@OnFocusHandlerAsync" @oninput="@OnInputHandlerAsync" @onblur="@OnBlurHandlerAsync" />
                 @if (this.ShowClearButton && !this.Readonly)
                 {
                     <button type="button" class="@(ClearIconClass)" aria-label="@Localizer["Close"]" title="@Localizer["Close"]" @onclick="@WireClearBtnEventsAsync" @onmousedown="@InvokeClearBtnEventAsync" @ontouchstart="@InvokeClearBtnEventAsync" @onmousedown:preventDefault="@ClickStopPropagation" @ontouchstart:preventDefault="@ClickStopPropagation"></button>
                 }
-                <button type="button" class="@(GROUPICON + SPACE + DateIcon)" aria-label="@Localizer["OpenCalendar"]" title="@Localizer["OpenCalendar"]" @onmousedown="@((args) => MouseIconHandlerAsync(args, DATEICONCLASS))" @onmousedown:preventDefault=@(!IsDevice)></button>
-                <button type="button" class="@(GROUPICON + SPACE + TimeIcon)" aria-label="@Localizer["OpenTime"]" title="@Localizer["OpenTime"]" @onmousedown="@((args) => MouseIconHandlerAsync(args, TIME_ICON))" @onmousedown:preventDefault=@(!IsDevice)></button>
+                <button type="button" class="@(GROUPICON + SPACE + DateIcon)" aria-label="@Localizer["OpenCalendar"]" title="@Localizer["OpenCalendar"]" @onclick="@((args) => MouseIconHandlerAsync(args, DATEICONCLASS))"></button>
+                <button type="button" class="@(GROUPICON + SPACE + TimeIcon)" aria-label="@Localizer["OpenTime"]" title="@Localizer["OpenTime"]" @onclick="@((args) => MouseIconHandlerAsync(args, TIME_ICON))"></button>
             </span>
-        } 
+        }
         @ChildContent
         @if (this.ShowPopupCalendar)
         {
@@ -57,7 +57,7 @@
                                 }
                                 else
                                 {
-                                    <div class="@MODELYEARCLASS" role="text">@this.ModelYear</div>
+                                    <div class="@MODELYEARCLASS">@this.ModelYear</div>
                                     <div>
                                         <span class="@MODELDAYCLASS">@this.ModelDay </span>
                                         <span class="@MODELMONTHCLASS">@this.ModelMonth</span>

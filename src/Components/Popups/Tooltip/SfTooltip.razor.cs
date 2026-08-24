@@ -135,7 +135,7 @@ namespace Syncfusion.Blazor.Toolkit.Popups
 
         /// <exclude/>
         [Inject]
-        protected IStringLocalizer? Localizer { get; set; }
+        protected IStringLocalizer Localizer { get; set; } = default!;
 
         #endregion
 

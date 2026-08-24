@@ -288,4 +288,19 @@
   <data name="Disabled" xml:space="preserve">
     <value>disabled</value>
   </data>
+  <data name="Calendar" xml:space="preserve">
+    <value>Calendar</value>
+  </data>
+  <data name="Checked" xml:space="preserve">
+    <value>checked</value>
+  </data>
+  <data name="Unchecked" xml:space="preserve">
+    <value>unchecked</value>
+  </data>
+  <data name="Indeterminate" xml:space="preserve">
+    <value>indeterminate</value>
+  </data>
+  <data name="PromptInput" xml:space="preserve">
+    <value>Prompt input</value>
+  </data>
 </root>

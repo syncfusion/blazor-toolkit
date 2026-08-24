@@ -9,7 +9,7 @@
         {
             <div @ref="@ContainerElement" class="@ContainerClass?.Trim()" @attributes="ContainerHtmlAttributes">
                 <input @ref="@InputElement" id="@ID" @attributes="InputHtmlAttributes" value="@(this.CurrentValueAsString)"
-                       aria-haspopup="true" aria-label="@AriaLabel"
+                       aria-haspopup="dialog" aria-label="@AriaLabel"
                        @onchange="@OnChangeHandlerAsync" @onfocus="@OnFocusHandlerAsync" @oninput="@OnInputHandlerAsync" @onblur="@OnBlurHandlerAsync" @onkeydown="OnHandleKeyDownAsync" />
                 <span class="e-float-line"></span>
                 <label class="@FloatLabel?.Trim()" id="label_@(ID)" for="@(ID)">@this.Placeholder</label>
@@ -22,15 +22,14 @@
                             @ontouchstart:preventDefault="@ClickStopPropagation"></button>
                 }
                 <button type="button" class="@(GROUPICON + SPACE + TimeIcon)" aria-label="@Localizer["OpenTime"]" title="@Localizer["OpenTime"]"
-                        @onmousedown="@((args) => MouseIconHandlerAsync(args))"
-                        @onmousedown:preventDefault=@(!IsDevice)></button>
+                        @onclick="@((args) => MouseIconHandlerAsync(args))"></button>
             </div>
         }
         else
         {
             <span @ref="@ContainerElement" class="@ContainerClass?.Trim()" @attributes="ContainerHtmlAttributes">
                 <input @ref="@InputElement" id="@ID" @attributes="InputHtmlAttributes" value="@(this.CurrentValueAsString)"
-                       aria-haspopup="true" aria-label="@AriaLabel"
+                       aria-haspopup="dialog" aria-label="@AriaLabel"
                        @onchange="@OnChangeHandlerAsync" @oninput="@OnInputHandlerAsync" @onfocus="@OnFocusHandlerAsync" @onblur="@OnBlurHandlerAsync" @onkeydown="OnHandleKeyDownAsync" />
                 @if (this.ShowClearButton && !this.Readonly)
                 {
@@ -41,8 +40,7 @@
                             @ontouchstart:preventDefault="@ClickStopPropagation"></button>
                 }
                 <button type="button" class="@(GROUPICON + SPACE + TimeIcon)" aria-label="@Localizer["OpenTime"]" title="@Localizer["OpenTime"]"
-                        @onmousedown="@((args) => MouseIconHandlerAsync(args))"
-                        @onmousedown:preventDefault=@(!IsDevice)></button>
+                        @onclick="@((args) => MouseIconHandlerAsync(args))"></button>
             </span>
         }
         @ChildContent

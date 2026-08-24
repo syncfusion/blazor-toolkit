@@ -113,21 +113,15 @@ namespace Syncfusion.Blazor.Toolkit.Inputs
                     }
                 }
                 await base.OnParametersSetAsync().ConfigureAwait(true);
-                if (!InputHtmlAttributes.ContainsKey(ARIA_LABEL))
+                // SfInputBase.PreRender now forwards AriaLabel / AriaLabelledBy / AriaDescribedBy
+                // centrally for every input. No need to repeat the wiring here.
+                if (!InputHtmlAttributes.ContainsKey(ARIA_LABEL) && !string.IsNullOrWhiteSpace(AriaLabel))
                 {
-                    // Use the public AriaLabel parameter when supplied, otherwise fall back to a
-                    // generic "textbox" name so that screen readers still announce the input
-                    // even when no visible <label> is provided.
-                    string defaultAriaLabel = string.IsNullOrWhiteSpace(AriaLabel) ? "textbox" : AriaLabel;
-                    InputHtmlAttributes = SfBaseUtils.UpdateDictionary(ARIA_LABEL, defaultAriaLabel, InputHtmlAttributes);
-                }
-                if (!string.IsNullOrWhiteSpace(AriaLabelledBy) && !InputHtmlAttributes.ContainsKey(ARIA_LABELLEDBY))
-                {
-                    InputHtmlAttributes = SfBaseUtils.UpdateDictionary(ARIA_LABELLEDBY, AriaLabelledBy, InputHtmlAttributes);
-                }
-                if (!string.IsNullOrWhiteSpace(AriaDescribedBy) && !InputHtmlAttributes.ContainsKey(ARIA_DESCRIBEDBY))
-                {
-                    InputHtmlAttributes = SfBaseUtils.UpdateDictionary(ARIA_DESCRIBEDBY, AriaDescribedBy, InputHtmlAttributes);
+                    // Forward the public AriaLabel parameter to the input. When no AriaLabel is
+                    // supplied we deliberately do NOT add a generic "textbox" placeholder: the
+                    // native <input type="text"> already exposes an implicit "textbox" role, and
+                    // screen readers would otherwise announce "textbox, edit" twice.
+                    InputHtmlAttributes = SfBaseUtils.UpdateDictionary(ARIA_LABEL, AriaLabel, InputHtmlAttributes);
                 }
                 await PropertyUpdateAsync().ConfigureAwait(true);
                 if (PropertyChanges?.Count > 0)

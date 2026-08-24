@@ -1,5 +1,4 @@
 using Microsoft.AspNetCore.Components;
-using Microsoft.Extensions.Localization;
 using Syncfusion.Blazor.Toolkit.Internal;
 
 namespace Syncfusion.Blazor.Toolkit.Buttons
@@ -41,12 +40,6 @@ namespace Syncfusion.Blazor.Toolkit.Buttons
         /// Indicates that a click originated from a child and is being processed.
         /// </summary>
         internal bool _isClicked;
-
-        /// <summary>
-        /// Gets or sets the localization service used to retrieve strings for accessible labels.
-        /// </summary>
-        [Inject]
-        internal IStringLocalizer Localizer { get; set; } = default!;
 
         #endregion
 

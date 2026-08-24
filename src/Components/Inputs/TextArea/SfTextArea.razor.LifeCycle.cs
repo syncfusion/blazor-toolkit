@@ -104,22 +104,14 @@ namespace Syncfusion.Blazor.Toolkit.Inputs
                     await OnPropertyChangeAsync(PropertyChanges).ConfigureAwait(true);
                 }
                 await base.OnParametersSetAsync().ConfigureAwait(true);
-                if (!InputHtmlAttributes.ContainsKey(ARIA_LABEL))
+                if (!InputHtmlAttributes.ContainsKey(ARIA_LABEL) && !string.IsNullOrWhiteSpace(AriaLabel))
                 {
-                    // Use the public AriaLabel parameter when supplied, otherwise fall back to a
-                    // generic "textarea" name so that screen readers still announce the input
-                    // even when no visible <label> is provided.
-                    string defaultAriaLabel = string.IsNullOrWhiteSpace(AriaLabel) ? "textarea" : AriaLabel;
-                    InputHtmlAttributes = SfBaseUtils.UpdateDictionary(ARIA_LABEL, defaultAriaLabel, InputHtmlAttributes);
+                    // When AriaLabel is explicitly supplied, forward it. We no longer emit a
+                    // "textarea" placeholder when no label is provided: the implicit textbox role
+                    // on the native <textarea> is announced automatically by screen readers.
+                    InputHtmlAttributes = SfBaseUtils.UpdateDictionary(ARIA_LABEL, AriaLabel, InputHtmlAttributes);
                 }
-                if (!string.IsNullOrWhiteSpace(AriaLabelledBy) && !InputHtmlAttributes.ContainsKey(ARIA_LABELLEDBY))
-                {
-                    InputHtmlAttributes = SfBaseUtils.UpdateDictionary(ARIA_LABELLEDBY, AriaLabelledBy, InputHtmlAttributes);
-                }
-                if (!string.IsNullOrWhiteSpace(AriaDescribedBy) && !InputHtmlAttributes.ContainsKey(ARIA_DESCRIBEDBY))
-                {
-                    InputHtmlAttributes = SfBaseUtils.UpdateDictionary(ARIA_DESCRIBEDBY, AriaDescribedBy, InputHtmlAttributes);
-                }
+                // AriaLabelledBy / AriaDescribedBy are now wired centrally in SfInputBase.PreRender.
                 UpdateValidationClass();
             }
             catch (Exception ex)

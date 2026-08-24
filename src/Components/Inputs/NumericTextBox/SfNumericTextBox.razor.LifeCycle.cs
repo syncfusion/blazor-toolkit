@@ -70,22 +70,17 @@ namespace Syncfusion.Blazor.Toolkit.Inputs
                 UpdateValidateClass();
                 InputHtmlAttributes = SfBaseUtils.UpdateDictionary(ROLE, SPIN_BUTTON, InputHtmlAttributes);
                 InputHtmlAttributes = SfBaseUtils.UpdateDictionary(ARIA_LIVE, ASSERTIVE, InputHtmlAttributes);
-                if (!InputHtmlAttributes.ContainsKey(ARIA_LABEL))
+                if (!InputHtmlAttributes.ContainsKey(ARIA_LABEL) && !string.IsNullOrWhiteSpace(AriaLabel))
                 {
-                    // Use the public AriaLabel parameter when supplied, otherwise fall back to a
-                    // generic "numeric textbox" name so that screen readers still announce the
-                    // input even when no visible <label> is provided.
-                    string defaultAriaLabel = string.IsNullOrWhiteSpace(AriaLabel) ? "numeric textbox" : AriaLabel;
-                    InputHtmlAttributes = SfBaseUtils.UpdateDictionary(ARIA_LABEL, defaultAriaLabel, InputHtmlAttributes);
+                    // When AriaLabel is explicitly supplied, forward it. We deliberately do NOT
+                    // add a generic "numeric textbox" placeholder when no AriaLabel is supplied —
+                    // visible labels already carry the accessible name, and a hardcoded fallback
+                    // creates redundant screen-reader announcements.
+                    InputHtmlAttributes = SfBaseUtils.UpdateDictionary(ARIA_LABEL, AriaLabel, InputHtmlAttributes);
                 }
-                if (!string.IsNullOrWhiteSpace(AriaLabelledBy) && !InputHtmlAttributes.ContainsKey(ARIA_LABELLEDBY))
-                {
-                    InputHtmlAttributes = SfBaseUtils.UpdateDictionary(ARIA_LABELLEDBY, AriaLabelledBy, InputHtmlAttributes);
-                }
-                if (!string.IsNullOrWhiteSpace(AriaDescribedBy) && !InputHtmlAttributes.ContainsKey(ARIA_DESCRIBEDBY))
-                {
-                    InputHtmlAttributes = SfBaseUtils.UpdateDictionary(ARIA_DESCRIBEDBY, AriaDescribedBy, InputHtmlAttributes);
-                }
+                // AriaLabelledBy / AriaDescribedBy are wired centrally in SfInputBase.PreRender,
+                // so every input honors the public accessibility parameters without subclass
+                // boilerplate.
                 if (InputHtmlAttributes.TryGetValue("type", out object? value))
                 {
                     if (value.Equals("number") && Format != "f")

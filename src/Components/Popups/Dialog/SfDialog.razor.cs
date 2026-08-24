@@ -310,23 +310,11 @@ namespace Syncfusion.Blazor.Toolkit.Popups
 
         private bool IsHeaderContentExist()
         {
-            bool hasHeader = (HeaderTemplate is not null && string.IsNullOrEmpty(Header)) || (HeaderTemplate is null && !string.IsNullOrEmpty(Header));
-            // WCAG 4.1.2 Name, Role, Value — the dialog must have an accessible name.
-            // Prefer the title; when no header exists, fall back to a localized aria-label
-            // (set in UpdateHtmlAttributes) and avoid colliding with aria-describedby
-            // which always points at the content element.
-            if (hasHeader)
-            {
-                _dialogAttribute = SfBaseUtils.UpdateDictionary("aria-labelledby", $"{ID}_title", _dialogAttribute);
-            }
-            else if (_dialogAttribute is not null && !_dialogAttribute.ContainsKey("aria-label"))
-            {
-                // No header: drop the colliding aria-labelledby so the localized
-                // aria-label (set below in UpdateHtmlAttributes) becomes the name
-                // and aria-describedby remains pointing at the content element.
-                _dialogAttribute.Remove("aria-labelledby");
-            }
-            return hasHeader;
+            // Pure read — does not mutate _dialogAttribute anymore.
+            // All dictionary writes happen in UpdateHtmlAttributes() to keep a single
+            // source of truth for the dialog's WCAG 4.1.2 Name, Role, Value attributes.
+            return (HeaderTemplate is not null && string.IsNullOrEmpty(Header))
+                || (HeaderTemplate is null && !string.IsNullOrEmpty(Header));
         }
         private void UpdateHtmlAttributes()
         {
@@ -356,11 +344,26 @@ namespace Syncfusion.Blazor.Toolkit.Popups
                     }
                 }
             }
+            // WCAG 4.1.2 Name, Role, Value — aria-label is the single source of truth.
+            // Honor the explicit AriaLabel parameter; otherwise fall back to a localized
+            // "Dialog" string only when the dictionary (and the consumer's HtmlAttributes)
+            // hasn't already supplied one.
             if (_dialogAttribute is not null && !_dialogAttribute.ContainsKey("aria-label"))
             {
-                // WCAG 4.1.2 Name, Role, Value — when no header is provided, fall back to
-                // a localized dialog label rather than the literal English "dialog".
-                _dialogAttribute = SfBaseUtils.UpdateDictionary("aria-label", Localizer["Dialog"]?.Value ?? "Dialog", _dialogAttribute);
+                string resolvedAriaLabel = !string.IsNullOrWhiteSpace(AriaLabel)
+                    ? AriaLabel
+                    : (Localizer["Dialog"]?.Value ?? "Dialog");
+                _dialogAttribute = SfBaseUtils.UpdateDictionary("aria-label", resolvedAriaLabel, _dialogAttribute);
+            }
+            // aria-labelledby takes precedence over aria-label; only fall back when the
+            // dictionary and consumer-supplied attributes haven't pinned it down.
+            if (_dialogAttribute is not null && !_dialogAttribute.ContainsKey("aria-labelledby"))
+            {
+                string? labelledBy = GetAriaLabelledBy();
+                if (!string.IsNullOrWhiteSpace(labelledBy))
+                {
+                    _dialogAttribute = SfBaseUtils.UpdateDictionary("aria-labelledby", labelledBy, _dialogAttribute);
+                }
             }
             if (_dialogAttribute is not null && Visible && IsModal && IsStaticRendering)
             {

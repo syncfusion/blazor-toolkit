@@ -1,6 +1,7 @@
 using System.Globalization;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Web;
+using Microsoft.Extensions.Localization;
 using Microsoft.Extensions.Logging;
 using Microsoft.JSInterop;
 
@@ -54,6 +55,19 @@ namespace Syncfusion.Blazor.Toolkit.Inputs
     /// <typeparam name="TChecked">The type of the checked value. Supported types: bool, bool?, byte, byte?</typeparam>
     public partial class SfCheckBox<TChecked> : SfSelectionBase<TChecked>
     {
+        #region Injected services
+
+        /// <summary>
+        /// Localizer used to source the cached announcement strings (Checked / Unchecked /
+        /// Indeterminate) that appear in the visually hidden live region when the checkbox
+        /// crosses the indeterminate boundary. <see cref="SfSelectionBase{TChecked}"/> does
+        /// not inherit a Localizer, so the dependency is injected directly on the CheckBox.
+        /// </summary>
+        [Inject]
+        private IStringLocalizer Localizer { get; set; } = default!;
+
+        #endregion
+
         #region Constants
 
         private const string Space = " ";
@@ -79,13 +93,6 @@ namespace Syncfusion.Blazor.Toolkit.Inputs
         private string _checkboxClass = string.Empty;
         private readonly Dictionary<string, object> _htmlAttributes = [];
         private Dictionary<string, object> _labelAttributes = [];
-        // Tracks the last announced state so the live region only fires when the value
-        // actually changes. Helps suppress the "checked" announcement when transitioning
-        // out of the indeterminate state on some screen readers.
-        private CheckboxState? _lastAnnouncedState;
-        // Text rendered into the visually hidden live region. Updated on state change so
-        // assistive technologies announce the new state without re-reading the label.
-        private string _stateAnnouncement = string.Empty;
 
         // JS module references for JS isolation
         private IJSObjectReference? _checkBoxJsModule;
@@ -158,28 +165,28 @@ namespace Syncfusion.Blazor.Toolkit.Inputs
         }
 
         /// <summary>
-        /// Returns the ARIA checked state announced by assistive technologies.
-        /// Reflects the <c>indeterminate</c>, <c>checked</c>, and <c>unchecked</c> states as
-        /// <c>mixed</c>, <c>true</c>, and <c>false</c> respectively.
+        /// Returns the ARIA checked annotation emitted alongside the native <c>checked</c> property.
         /// </summary>
-        /// <returns><c>mixed</c> when <see cref="Indeterminate"/> is <see langword="true"/>; otherwise
-        /// <c>true</c> or <c>false</c> based on <see cref="SfSelectionBase{TChecked}.Checked"/>.</returns>
-        private string GetAriaChecked()
+        /// <returns><c>"mixed"</c> when <see cref="Indeterminate"/> is <see langword="true"/>;
+        /// otherwise <see langword="null"/>, because the DOM <c>checked</c> property is the
+        /// authoritative source of truth for the checked/unchecked state and assistive
+        /// technologies must not see a duplicated state annotation (which would double-announce).</returns>
+        /// <remarks>
+        /// The native <c>checked</c> DOM property is the authoritative source of truth for the
+        /// checked/unchecked state. We only emit <c>aria-checked="mixed"</c> for the indeterminate
+        /// case, because the native checkbox has no DOM representation for the mixed state and
+        /// assistive technologies rely on the explicit annotation to surface it.
+        /// </remarks>
+        private string? GetAriaChecked()
         {
-            if (Indeterminate)
-            {
-                return "mixed";
-            }
-
-            return GetIsChecked() ? "true" : "false";
+            return Indeterminate ? "mixed" : null;
         }
 
         /// <summary>
         /// Returns the accessible name for the checkbox input element.
         /// Uses the explicit <see cref="SfSelectionBase{TChecked}.AriaLabel"/> when supplied;
         /// otherwise returns <see langword="null"/> so the wrapping <c>&lt;label&gt;</c> is the
-        /// accessible name. Returns <c>"Checkbox"</c> only when no label, no child content, and
-        /// no <see cref="SfSelectionBase{TChecked}.AriaLabel"/> are provided.
+        /// accessible name and the screen reader does not double-announce a placeholder word.
         /// </summary>
         private string? GetAriaLabelValue()
         {
@@ -188,14 +195,11 @@ namespace Syncfusion.Blazor.Toolkit.Inputs
                 return AriaLabel;
             }
 
-            // When a visible label or child content is present, the wrapping <label> provides the
-            // accessible name and we must not double-announce it.
-            if (!string.IsNullOrWhiteSpace(Label) || ChildContent is not null)
-            {
-                return null;
-            }
-
-            return "Checkbox";
+            // When a visible label, child content, or no label is present, return null so the
+            // wrapping <label> (or no label at all) is what screen readers announce. The implicit
+            // role of the native checkbox already conveys "checkbox" — a hardcoded placeholder
+            // adds noise such as "Checkbox, edit".
+            return null;
         }
 
         /// <summary>
@@ -555,12 +559,12 @@ namespace Syncfusion.Blazor.Toolkit.Inputs
                 }
 
                 bool isChecked = current ?? false;
+                bool wasIndeterminate = Indeterminate;
                 CheckboxState next = DetermineNextState(isChecked, Indeterminate, EnableTriState);
 
                 // Apply changes
                 UpdateVisualState(next);
                 await UpdateCheckedStateAsync(next).ConfigureAwait(false);
-                UpdateStateAnnouncement(next);
                 await PersistAndNotifyAsync(args).ConfigureAwait(false);
             }
             catch (Exception ex) when (Logger is not null)
@@ -574,32 +578,6 @@ namespace Syncfusion.Blazor.Toolkit.Inputs
                 // No logger is configured: rethrow so the developer is alerted to the failure.
                 throw;
             }
-        }
-
-        /// <summary>
-        /// Updates the visually hidden live-region text so the screen reader announces
-        /// the new state in isolation rather than the full label + state.
-        /// </summary>
-        /// <param name="newState">The new checkbox state that was just applied.</param>
-        /// <remarks>
-        /// Some assistive technologies (notably NVDA) mis-announce transitions out of the
-        /// indeterminate state. Writing a short, state-only message to a polite live region
-        /// gives the screen reader something explicit to read on every transition.
-        /// </remarks>
-        private void UpdateStateAnnouncement(CheckboxState newState)
-        {
-            if (_lastAnnouncedState.HasValue && _lastAnnouncedState.Value == newState)
-            {
-                return;
-            }
-
-            _lastAnnouncedState = newState;
-            _stateAnnouncement = newState switch
-            {
-                CheckboxState.Checked => "checked",
-                CheckboxState.Unchecked => "unchecked",
-                _ => "indeterminate"
-            };
         }
 
         #endregion

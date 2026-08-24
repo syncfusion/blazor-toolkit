@@ -78,14 +78,14 @@ namespace Syncfusion.Blazor.Toolkit.Tests.Calendars.DateTimePicker
             var dateInstance = RenderComponent<SfDateTimePicker<DateTime?>>(parameters => parameters.Add(p => p.Readonly, true));
             var containerEle = dateInstance.Find("input").ParentElement;
             var iconEle = containerEle.QuerySelector(".e-timeline-today");
-            iconEle.MouseDown();
+            iconEle.Click();
             await Task.Delay(70);
             var readonlyPopupEle = dateInstance.FindAll(".e-popup");
             Assert.Equal(0, readonlyPopupEle.Count);
             dateInstance.SetParametersAndRender(("Readonly", false));
             containerEle = dateInstance.Find("input").ParentElement;
             iconEle = containerEle.QuerySelector(".e-timeline-today");
-            iconEle.MouseDown();
+            iconEle.Click();
             await Task.Delay(200);
             var popupElement = dateInstance.Find(".e-popup");
             Assert.NotNull(popupElement);
@@ -271,7 +271,7 @@ namespace Syncfusion.Blazor.Toolkit.Tests.Calendars.DateTimePicker
             Assert.Equal(default(DateTime), dateInstance.Instance.Value);
             var containerEle = dateInstance.Find("input").ParentElement;
             var dateIcon = containerEle.QuerySelector(".e-timeline-today");
-            dateIcon.MouseDown();
+            dateIcon.Click();
             await Task.Delay(200);
             var popupEle = dateInstance.Find(".e-popup");
             Assert.Contains("e-popup", popupEle.ClassName);
@@ -989,7 +989,7 @@ namespace Syncfusion.Blazor.Toolkit.Tests.Calendars.DateTimePicker
             Assert.False(dateInstance.Instance.AllowEdit);
             var containerEle = dateInstance.Find("input").ParentElement;
             var dateIcon = containerEle.QuerySelector(".e-timeline-today");
-            dateIcon.MouseDown();
+            dateIcon.Click();
             await Task.Delay(300);
             var popupEle = dateInstance.Find(".e-popup");
             Assert.Contains("e-popup", popupEle.ClassName);
@@ -1257,7 +1257,7 @@ namespace Syncfusion.Blazor.Toolkit.Tests.Calendars.DateTimePicker
             Assert.Equal(default(DateTime), dateInstance.Instance.Value);
             var containerEle = dateInstance.Find("input").ParentElement;
             var dateIcon = containerEle.QuerySelector(".e-clock");
-            dateIcon.MouseDown();
+            dateIcon.Click();
             await Task.Delay(200);
             var popupEle = dateInstance.Find(".e-popup");
             Assert.Contains("e-popup", popupEle.ClassName);
@@ -1549,7 +1549,7 @@ namespace Syncfusion.Blazor.Toolkit.Tests.Calendars.DateTimePicker
             Assert.True(holders.Count == 0 || holders.All(h => string.IsNullOrWhiteSpace(h.TextContent)));
             var container = comp.Find("input").ParentElement;
             var timeIcon = container.QuerySelector(".e-clock");
-            timeIcon.MouseDown();
+            timeIcon.Click();
             Assert.Equal(0, comp.FindAll(".e-popup-holder").Count);
             Assert.Equal(0, changeCount);
         }
@@ -1560,7 +1560,7 @@ namespace Syncfusion.Blazor.Toolkit.Tests.Calendars.DateTimePicker
             var comp = RenderComponent<SfDateTimePicker<DateTime>>();
             var container = comp.Find("input").ParentElement;
             var dateIcon = container.QuerySelector(".e-timeline-today");
-            dateIcon.MouseDown();
+            dateIcon.Click();
             comp.WaitForAssertion(() =>
             {
                 var popup = comp.FindAll(".e-popup-holder");

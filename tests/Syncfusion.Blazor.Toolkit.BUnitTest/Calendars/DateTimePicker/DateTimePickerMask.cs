@@ -278,7 +278,7 @@ namespace Syncfusion.Blazor.Toolkit.Tests.Calendars.DateTimePicker
             Assert.False(dateInstance.Instance.AllowEdit);
             var containerEle = dateInstance.Find("input").ParentElement;
             var dateIcon = containerEle.QuerySelector(".e-timeline-today");
-            dateIcon.MouseDown();
+            dateIcon.Click();
             await Task.Delay(300);
             var popupEle = dateInstance.Find(".e-popup");
             Assert.Contains("e-popup", popupEle.ClassName);

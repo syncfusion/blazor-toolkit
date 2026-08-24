@@ -76,19 +76,32 @@ namespace Syncfusion.Blazor.Toolkit.Calendars
 
         private void ProcessHtmlAttributes()
         {
-            if (HtmlAttributes is null)
+            if (HtmlAttributes is not null)
             {
-                return;
-            }
-            foreach (KeyValuePair<string, object> item in HtmlAttributes)
-            {
-                if (ContainerAttributes is not null && _containerAttr is not null && !ContainerAttributes.Contains(item.Key))
+                foreach (KeyValuePair<string, object> item in HtmlAttributes)
                 {
-                    _containerAttr = SfBaseUtils.UpdateDictionary(item.Key, item.Value, _containerAttr);
+                    if (ContainerAttributes is not null && _containerAttr is not null && !ContainerAttributes.Contains(item.Key))
+                    {
+                        _containerAttr = SfBaseUtils.UpdateDictionary(item.Key, item.Value, _containerAttr);
+                    }
+                    else
+                    {
+                        ApplyContainerAttribute(item);
+                    }
                 }
-                else
+            }
+            // WCAG 1.3.1 / 4.1.2 — surface the public AriaLabelledBy/AriaDescribedBy parameters
+            // on the calendar root. Without this, the parameters are documented public API
+            // but are silently ignored, breaking assistive technology integrations.
+            if (_containerAttr is not null)
+            {
+                if (!string.IsNullOrWhiteSpace(AriaLabelledBy) && !_containerAttr.ContainsKey("aria-labelledby"))
                 {
-                    ApplyContainerAttribute(item);
+                    _containerAttr = SfBaseUtils.UpdateDictionary("aria-labelledby", AriaLabelledBy!, _containerAttr);
+                }
+                if (!string.IsNullOrWhiteSpace(AriaDescribedBy) && !_containerAttr.ContainsKey("aria-describedby"))
+                {
+                    _containerAttr = SfBaseUtils.UpdateDictionary("aria-describedby", AriaDescribedBy!, _containerAttr);
                 }
             }
         }

@@ -47,14 +47,14 @@ namespace Syncfusion.Blazor.Toolkit.Tests.Calendars.DatePicker
             var dateInstance = RenderComponent<SfDatePicker<DateOnly>>(parameters => parameters.Add(p => p.Readonly, true).Add(p => p.EnableMask, true));
             var containerElement = dateInstance.Find("input").ParentElement;
             var iconElement = containerElement?.QuerySelector(".e-timeline-today");
-            iconElement?.MouseDown();
+            iconElement?.Click();
             await Task.Delay(70);
             var readonlyPopupElements = dateInstance.FindAll(".e-popup");
             Assert.Equal(0, readonlyPopupElements.Count);
             dateInstance.SetParametersAndRender(("Readonly", false));
             containerElement = dateInstance.Find("input").ParentElement;
             iconElement = containerElement?.QuerySelector(".e-timeline-today");
-            iconElement?.MouseDown();
+            iconElement?.Click();
             await Task.Delay(200);
             var popupElement = dateInstance.Find(".e-popup");
             Assert.NotNull(popupElement);
@@ -130,7 +130,7 @@ namespace Syncfusion.Blazor.Toolkit.Tests.Calendars.DatePicker
             Assert.Equal(new DateOnly(1900, 1, 1), dateInstance.Instance.Value);
             var containerElement = dateInstance.Find("input").ParentElement;
             var dateIcon = containerElement?.QuerySelector(".e-timeline-today");
-            dateIcon?.MouseDown();
+            dateIcon?.Click();
             await Task.Delay(200);
             var popupElement = dateInstance.Find(".e-popup");
             Assert.Contains("e-popup", popupElement.ClassName);

@@ -33,6 +33,7 @@
                value="@Value"
                disabled="@Disabled"
                checked="@GetIsChecked()"
+               aria-label="@GetAriaLabelValue()"
                aria-readonly="@GetAriaReadOnly()"
                aria-checked="@GetAriaChecked()"
                indeterminate="@Indeterminate"
@@ -63,7 +64,4 @@
             }
         }
     </label>
-    @* Hidden live region for state-change announcements. Using aria-live="polite" so only the
-       state change is announced instead of the entire label + state. *@
-    <span class="e-checkbox-status" role="status" aria-live="polite" style="position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0;">@_stateAnnouncement</span>
 </div>

@@ -14,7 +14,7 @@
 					@if (this.MultilineInput)
 					{
 						<textarea @ref="@InputElement" id="@ID" value="@(FormatValueAsString(InputTextValue))"
-								  @attributes="InputHtmlAttributes" role="textbox" @onchange="@OnChangeHandlerAsync" @onblur="OnBlurHandlerAsync"
+								  @attributes="InputHtmlAttributes" @onchange="@OnChangeHandlerAsync" @onblur="OnBlurHandlerAsync"
 								  @onfocus="@OnFocusHandlerAsync" @oninput="@OnInputHandlerAsync"></textarea>
 					}
 					else
@@ -27,7 +27,7 @@
 					<label class="@FloatLabel?.Trim()" id="label_@(ID)" for="@(ID)">@this.Placeholder</label>
 					@if (this.ShowClearButton)
 					{
-						<button type="button" class="@(ClearIconClass)" aria-label="@Localizer["Clear"]" title="@Localizer["Clear"]"
+						<button type="button" class="@(ClearIconClass)" aria-label="@Localizer["Clear"]"
 								@onclick="@WireClearBtnEventsAsync"
 								@onmousedown="@BindClearBtnEventsAsync" @ontouchstart="@BindClearBtnTouchEventsAsync"
 								@onmousedown:preventDefault="@ClickStopPropagation"
@@ -43,7 +43,7 @@
 				@if (this.MultilineInput)
 				{
 					<textarea @ref="@InputElement" id="@ID" value="@(FormatValueAsString(InputTextValue))"
-							  @attributes="InputHtmlAttributes" role="textbox" @onchange="@OnChangeHandlerAsync"
+							  @attributes="InputHtmlAttributes" @onchange="@OnChangeHandlerAsync"
 							  @onfocus="@OnFocusHandlerAsync" @onblur="OnBlurHandlerAsync" @oninput="@OnInputHandlerAsync"></textarea>
 				}
 				else
@@ -55,7 +55,7 @@
 				<label class="@FloatLabel?.Trim()" id="label_@(ID)" for="@(ID)">@this.Placeholder</label>
 				@if (this.ShowClearButton)
 				{
-					<button type="button" class="@(ClearIconClass)" aria-label="@Localizer["Clear"]" title="@Localizer["Clear"]"
+					<button type="button" class="@(ClearIconClass)" aria-label="@Localizer["Clear"]"
 							@onclick="@WireClearBtnEventsAsync"
 							@onmousedown="@BindClearBtnEventsAsync" @ontouchstart="@BindClearBtnTouchEventsAsync"
 							@onmousedown:preventDefault="@ClickStopPropagation"
@@ -72,7 +72,7 @@
 			@if (this.MultilineInput)
 			{
 				<textarea @ref="@InputElement" id="@ID" value="@(FormatValueAsString(InputTextValue))"
-						  @attributes="InputHtmlAttributes" role="textbox" @onchange="@OnChangeHandlerAsync"
+						  @attributes="InputHtmlAttributes" @onchange="@OnChangeHandlerAsync"
 						  @onfocus="@OnFocusHandlerAsync" @onblur="OnBlurHandlerAsync" @oninput="@OnInputHandlerAsync"></textarea>
 			}
 			else
@@ -82,7 +82,7 @@
 			}
 			@if (this.ShowClearButton)
 			{
-				<button type="button" class="@(ClearIconClass)" aria-label="@Localizer["Clear"]" title="@Localizer["Clear"]"
+				<button type="button" class="@(ClearIconClass)" aria-label="@Localizer["Clear"]"
 						@onclick="@WireClearBtnEventsAsync"
 						@onmousedown="@BindClearBtnEventsAsync" @ontouchstart="@BindClearBtnTouchEventsAsync"
 						@onmousedown:preventDefault="@ClickStopPropagation"

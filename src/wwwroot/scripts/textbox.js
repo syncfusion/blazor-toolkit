@@ -5,9 +5,9 @@
  *
  * The SfTextBox uses a very small JS surface:
  *
- *   - `initialize(element, dotnetRef, containerElement)` is exposed
- *     for symmetry with the other components but is not currently
- *     invoked from C#.
+ *   - `initialize(element, dotnetRef, containerElement)` is called
+ *     from C# (SfInputBase.OnAfterScriptRenderedAsync) to wire up
+ *     fieldset-aware disabled-state propagation.
  *   - `calculateWidth(element, dotnetRef, containerElement)`
  *     repositions the floating label and is called on every render.
  *     It caches the SfTextBox instance on the underlying input
@@ -57,11 +57,9 @@ var SfTextBox = /** @class */ (function () {
 }());
 
 /**
- * Initializes a SfTextBox JS instance.
- *
- * Kept for symmetry with the other components; the current SfTextBox
- * C# lifecycle invokes `calculateWidth` directly without an
- * `initialize` call, so this entry-point is a defensive convenience.
+ * Initializes a SfTextBox JS instance and wires up fieldset-aware
+ * disabled-state propagation. Called from the C# lifecycle in
+ * `SfInputBase.OnAfterScriptRenderedAsync`.
  */
 export function initialize(element, dotnetRef, containerElement) {
     if (!element) {

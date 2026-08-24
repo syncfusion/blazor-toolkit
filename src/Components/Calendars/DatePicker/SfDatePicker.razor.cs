@@ -880,6 +880,9 @@ namespace Syncfusion.Blazor.Toolkit.Calendars
             _ = SfBaseUtils.UpdateDictionary(SPELL_CHECK, FALSE, InputHtmlAttributes);
             _ = SfBaseUtils.UpdateDictionary(ARIAINVALID, FALSE, InputHtmlAttributes);
             _ = SfBaseUtils.UpdateDictionary(ARIA_CONTROLS, ID, InputHtmlAttributes);
+
+            // AriaLabelledBy / AriaDescribedBy are now wired centrally in
+            // SfInputBase.PreRender so every picker / input honors them automatically.
         }
         private static string RemoveCultureDigits(bool isArabic, string dateValue)
         {

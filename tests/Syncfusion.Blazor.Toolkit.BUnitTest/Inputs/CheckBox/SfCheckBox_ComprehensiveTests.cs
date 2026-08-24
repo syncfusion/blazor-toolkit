@@ -11,16 +11,18 @@ namespace Syncfusion.Blazor.Toolkit.Tests.Buttons
     {
         #region Default Rendering
 
-        // Verifies wrapper label gets default aria-label when no Label or ChildContent provided.
+        // Verifies wrapper label does not carry a redundant aria-label fallback when no Label or ChildContent is provided.
+        // The native <input type="checkbox"> already exposes an implicit "checkbox" role; emitting an
+        // aria-label="checkbox" placeholder caused screen readers to announce "checkbox, checkbox, check box".
         [Trait("SfCheckBox", "Rendering")]
-        [Fact(DisplayName = "No Label/Content => aria-label defaults to 'checkbox'")]
+        [Fact(DisplayName = "No Label/Content => no aria-label placeholder on input")]
         public void Default_AriaLabel_When_NoLabel_And_NoContent()
         {
             var renderedComponent = RenderComponent<SfCheckBox<bool>>();
             var wrapperElement = renderedComponent.Find(".e-checkbox-wrapper");
-            var labelElement = wrapperElement.QuerySelector("label");
-            Assert.NotNull(labelElement);
-            Assert.Equal("checkbox", labelElement.GetAttribute("aria-label"));
+            var inputElement = wrapperElement.QuerySelector("input");
+            Assert.NotNull(inputElement);
+            Assert.Null(inputElement.GetAttribute("aria-label"));
         }
 
         #endregion

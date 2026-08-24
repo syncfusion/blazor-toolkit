@@ -1433,7 +1433,7 @@ namespace Syncfusion.Blazor.Toolkit.Tests.Calendars.TimePicker
             );
             var containerEle = Timepicker.Find("input").ParentElement;
             var dateIcon = containerEle.QuerySelector(".e-clock");
-            dateIcon.MouseDown();
+            dateIcon.Click();
             await Task.Delay(200);
             var popupEle = Timepicker.Find(".e-popup");
             Assert.Contains("e-popup", popupEle.ClassName);
@@ -1450,7 +1450,7 @@ namespace Syncfusion.Blazor.Toolkit.Tests.Calendars.TimePicker
             );
             var containerEle = Timepicker.Find("input").ParentElement;
             var dateIcon = containerEle.QuerySelector(".e-clock");
-            dateIcon.MouseDown();
+            dateIcon.Click();
             await Task.Delay(100);
             await Timepicker.Instance.ClosePopupAsync();
             await Task.Delay(100);

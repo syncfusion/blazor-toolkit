@@ -16,7 +16,7 @@
 	<PackageLicenseExpression>MIT</PackageLicenseExpression>
 	<PackageReadmeFile>README.md</PackageReadmeFile>
 	<ProjectUrl>https://github.com/syncfusion/blazor-toolkit</ProjectUrl>
-	<PackageProjectUrl>https://github.com/syncfusion/blazor-toolkit</PackageProjectUrl>
+	<PackageProjectUrl>https://www.syncfusion.com/blazor-toolkit</PackageProjectUrl>
 	<RepositoryUrl>https://github.com/syncfusion/blazor-toolkit.git</RepositoryUrl>
 	<RepositoryType>git</RepositoryType>
 	<RepositoryCommit>$(SourceRevisionId)</RepositoryCommit>

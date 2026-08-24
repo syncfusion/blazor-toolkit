@@ -1,4 +1,4 @@
-﻿@using Syncfusion.Blazor.Toolkit.Internal;
+@using Syncfusion.Blazor.Toolkit.Internal;
 @namespace Syncfusion.Blazor.Toolkit.Inputs
 @inherits SfInputBase<string>
 
@@ -16,7 +16,7 @@
 
 		@if (this.ShowClearButton)
 		{
-			<button type="button" class="@(ClearIconClass)" aria-label="@Localizer["Clear"]" title="@Localizer["Clear"]"
+			<button type="button" class="@(ClearIconClass)" aria-label="@Localizer["Clear"]"
 					@onclick="@WireClearBtnEventsAsync"
 					@onmousedown="@BindClearBtnEventsAsync" @ontouchstart="@BindClearBtnTouchEventsAsync"
 					@onmousedown:preventDefault="@ClickStopPropagation"

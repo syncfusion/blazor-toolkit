@@ -58,6 +58,8 @@ namespace Syncfusion.Blazor.Toolkit.Calendars
         private const string LIST = "list";
         private const string AUTO_CAPITAL = "autocapitalize";
         private const string ARIA_EXPANDED = "aria-expanded";
+        private const string ARIA_LABELLEDBY = "aria-labelledby";
+        private const string ARIA_DESCRIBEDBY = "aria-describedby";
         private const string POPUP_CONTENT = "e-content";
         private const string DISABLED = "e-disabled";
         private const string RTL = "e-rtl";
@@ -470,6 +472,9 @@ namespace Syncfusion.Blazor.Toolkit.Calendars
             _ = SfBaseUtils.UpdateDictionary(ARIA_INVALID, FALSE, InputHtmlAttributes);
             _ = SfBaseUtils.UpdateDictionary(ARIA_LABEL, TIMEPICKER, InputHtmlAttributes);
             _ = SfBaseUtils.UpdateDictionary(ARIA_CONTROLS, $"{ID}_popup", InputHtmlAttributes);
+
+            // AriaLabelledBy / AriaDescribedBy are now wired centrally in SfInputBase.PreRender
+            // so this picker honors them automatically without subclass boilerplate.
         }
 
         /// <summary>

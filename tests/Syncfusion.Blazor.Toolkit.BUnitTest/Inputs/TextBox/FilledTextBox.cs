@@ -214,13 +214,14 @@ namespace Syncfusion.Blazor.Toolkit.Tests.Inputs.TextBox
             var containerElement = inputElement.ParentElement;
             Assert.NotNull(containerElement);
             var clearIconElement = containerElement.Children[1];
-            Assert.Contains("textbox", inputElement.GetAttribute("role"));
-            // Clear icon is now a native <button> so role is implicit; check tag name instead
+            // Native <input type="text"> already exposes the implicit textbox role. The redundant
+            // role="textbox" attribute was removed so screen readers do not get the
+            // "textbox, edit" announcement twice.
+            Assert.Null(inputElement.GetAttribute("role"));
             Assert.Equal("BUTTON", clearIconElement.TagName);
             textBox.SetParametersAndRender(("Multiline", true));
             var textAreaElement = textBox.Find("textarea");
-            Assert.True(textAreaElement.HasAttribute("role"));
-            Assert.Contains("textbox", textAreaElement.GetAttribute("role"));
+            Assert.Null(textAreaElement.GetAttribute("role"));
         }
 
         #endregion
