@@ -1,15 +1,16 @@
-﻿using Microsoft.AspNetCore.Components;
-using Microsoft.AspNetCore.Components.Rendering;
-using Microsoft.JSInterop;
-using Syncfusion.Blazor.Toolkit.Charts.Internal;
+﻿using System.Collections.Concurrent;
+using System.ComponentModel;
 using System.Globalization;
+using System.Reflection;
+using System.Runtime.CompilerServices;
 using System.Text.Json;
 using System.Text.Json.Serialization;
-using System.Reflection;
-using System.ComponentModel;
-using Syncfusion.Blazor.Toolkit.Data;
+using Microsoft.AspNetCore.Components;
+using Microsoft.AspNetCore.Components.Rendering;
 using Microsoft.Extensions.Localization;
-using System.Runtime.CompilerServices;
+using Microsoft.JSInterop;
+using Syncfusion.Blazor.Toolkit.Charts.Internal;
+using Syncfusion.Blazor.Toolkit.Data;
 
 [assembly: InternalsVisibleTo("Syncfusion.Blazor.Toolkit.BUnitTest")]
 namespace Syncfusion.Blazor.Toolkit.Charts
@@ -178,6 +179,10 @@ namespace Syncfusion.Blazor.Toolkit.Charts
         internal List<IChartEventBorder> _seriesBorders = [];
         internal List<IAxis> _axes = [];
         internal List<PatternOptions> _highLightPatternCollection = [];
+        // Instance-level font measurement caches (replaces process-wide static SizePerCharacter and ChartFontKeys)
+        // See: ChartHelper.cs remarks for why this was moved from static to instance
+        internal ConcurrentDictionary<string, Size> _fontSizeCache = new();
+        internal List<string> _requestedFontKeys = new();
         internal ChartAnnotations _annotations = new();
         internal DomRect _elementOffset = new();
         /*To store the SVGElement's dimensions value.*/
@@ -1271,7 +1276,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts
             Dictionary<string, SymbolLocation> charSizeList = JsonSerializer.Deserialize<Dictionary<string, SymbolLocation>>(result) ?? null!;
             foreach (KeyValuePair<string, SymbolLocation> charSize in charSizeList)
             {
-                _ = ChartHelper.SizePerCharacter.TryAdd(charSize.Key, new Size { Width = charSize.Value.X, Height = charSize.Value.Y });
+                _ = _fontSizeCache.TryAdd(charSize.Key, new Size { Width = charSize.Value.X, Height = charSize.Value.Y });
             }
         }
 
@@ -1832,10 +1837,10 @@ namespace Syncfusion.Blazor.Toolkit.Charts
             List<string> uniqueKeys = [];
             foreach (string fontKey in fontKeys)
             {
-                if (!ChartHelper.ChartFontKeys.Contains(fontKey))
+                if (!_requestedFontKeys.Contains(fontKey))
                 {
                     uniqueKeys.Add(fontKey);
-                    ChartHelper.ChartFontKeys.Add(fontKey);
+                    _requestedFontKeys.Add(fontKey);
                 }
             }
 
@@ -1855,7 +1860,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts
             int i = 33, j = 0;
             foreach (string width in result_2)
             {
-                _ = ChartHelper.SizePerCharacter.TryAdd(Convert.ToChar(i) + Constants.Underscore + uniqueKeys[j], new Size { Width = Convert.ToInt16(width, null), Height = 133 });
+                _ = _fontSizeCache.TryAdd(Convert.ToChar(i) + Constants.Underscore + uniqueKeys[j], new Size { Width = Convert.ToInt16(width, null), Height = 133 });
                 i++;
                 if (i > 590)
                 {
@@ -2588,17 +2593,6 @@ namespace Syncfusion.Blazor.Toolkit.Charts
             base.OnParametersSet();
 
             PushSubcomponent();
-        }
-
-        /// <summary>
-        /// Performs cleanup operations when the component is being disposed.
-        /// </summary>
-        /// <exclude />
-        [EditorBrowsable(EditorBrowsableState.Never)]
-        [Browsable(false)]
-        protected override ValueTask DisposeAsyncCore()
-        {
-            return base.DisposeAsyncCore();
         }
 
         #endregion

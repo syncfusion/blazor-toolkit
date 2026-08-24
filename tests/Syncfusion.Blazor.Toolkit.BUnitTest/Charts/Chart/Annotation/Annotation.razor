@@ -15,7 +15,7 @@
             <ChartPrimaryXAxis ValueType="Toolkit.ValueType.Category">
             </ChartPrimaryXAxis>
 	
-            <ChartAnnotations AccessibilityDescription="Medal count" AccessibilityRole="count" Focusable=false>
+            <ChartAnnotations AccessibilityDescription="Medal count" AccessibilityRole="status" Focusable=false>
                 <ChartAnnotation X="@data" Y="65" CoordinateUnits="Units.Point" Description="chart annotation" XAxisName="PrimaryXAxis" YAxisName="PrimaryYAxis" Region="Regions.Series">
                     <ContentTemplate>
                         <div style="color: firebrick; font-size: medium; font-style: italic">Highest Medal Count</div>
@@ -45,7 +45,7 @@
         Assert.True(annotation.Instance.Description == "chart annotation");
         Assert.True(annotation.Instance.Region == Regions.Series);
         Assert.Equal("Medal count", annotations.Instance.AccessibilityDescription);
-        Assert.Equal("count", annotations.Instance.AccessibilityRole);
+        Assert.Equal("status", annotations.Instance.AccessibilityRole);
         Assert.False(annotations.Instance.Focusable);
         cut.SetParametersAndRender();
         await annotation.Instance.DisposeAsync();

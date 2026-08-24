@@ -1820,7 +1820,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
                         foreach (PathOptions option in axisGridOptions)
                         {
                             option.Stroke = Axis?.MajorGridLines.Color ?? string.Empty;
-                            option.StrokeWidth = Axis?.Renderer?.MajorGridLinesWidth ?? 0;
+                            option.StrokeWidth = Axis?.MajorGridLines.Width ?? 0;
                             option.StrokeDashArray = Axis?.MajorGridLines.DashArray ?? string.Empty;
                         }
                     }
@@ -1829,7 +1829,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
                         foreach (CircleOptions option in AxisRenderInfo.MajorGridCircleOptions)
                         {
                             option.Stroke = Axis?.MajorGridLines.Color ?? string.Empty;
-                            option.StrokeWidth = Axis?.Renderer?.MajorGridLinesWidth ?? 0;
+                            option.StrokeWidth = Axis?.MajorGridLines.Width ?? 0;
                             option.StrokeDashArray = Axis?.MajorGridLines.DashArray ?? string.Empty;
                         }
                     }
