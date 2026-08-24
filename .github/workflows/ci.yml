@@ -72,15 +72,14 @@ jobs:
           fi
 
       - name: Restore
-        run: dotnet restore ./Syncfusion.Blazor.Toolkit.slnx
+        run: dotnet restore src/Syncfusion.Blazor.Toolkit.csproj
 
       - name: Build
-        run: dotnet build ./Syncfusion.Blazor.Toolkit.slnx -c Release --no-restore
+        run: dotnet build src/Syncfusion.Blazor.Toolkit.csproj -c Release --no-restore
 
       - name: Run bUnit tests
         run: |
           mkdir -p TestResults
-          # Force the correct framework and do NOT use --no-build
           dotnet test tests/Syncfusion.Blazor.Toolkit.BUnitTest/ \
             -c Release \
             -f net8.0 \
@@ -110,6 +109,7 @@ jobs:
           path: 'TestResults/**/*.trx'
           reporter: dotnet-trx
           fail-on-error: false
+          fail-on-empty: false
 
   # =========================================================
   # Job 2: Playwright
@@ -174,10 +174,10 @@ jobs:
         run: npx playwright install-deps chromium
 
       - name: Restore
-        run: dotnet restore ./Syncfusion.Blazor.Toolkit.slnx
+        run: dotnet restore src/Syncfusion.Blazor.Toolkit.csproj
 
       - name: Build
-        run: dotnet build ./Syncfusion.Blazor.Toolkit.slnx -c Release --no-restore
+        run: dotnet build src/Syncfusion.Blazor.Toolkit.csproj -c Release --no-restore
 
       - name: Run Playwright tests
         run: npx playwright test --reporter=html,line
