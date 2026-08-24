@@ -68,9 +68,66 @@ namespace Syncfusion.Blazor.Toolkit.Buttons
         /// <param name="args">The keyboard event arguments.</param>
         private async Task HandleInputKeyDownAsync(KeyboardEventArgs args)
         {
-            if (args.Code == "Space" || args.Key == " ")
+            if (args is null || string.IsNullOrEmpty(args.Key))
+            {
+                return;
+            }
+
+            // Native radio/checkbox inputs respond to Space (toggle) and Enter (default click on a
+            // wrapping label). Both should trigger the same selection flow.
+            if (args.Code == "Space" || args.Key == " " || args.Key == "Enter")
             {
                 await ClickHandlerAsync().ConfigureAwait(false);
+            }
+        }
+
+        /// <exclude />
+        /// <summary>
+        /// Handles native <c>change</c> events from the underlying input element so the selection state
+        /// is kept in sync with the DOM in scenarios where the browser changes the input state without
+        /// going through <see cref="ClickHandlerAsync"/> (e.g., assistive technology interactions).
+        /// </summary>
+        /// <param name="args">The change event arguments from the input.</param>
+        private async Task HandleInputChangeAsync(ChangeEventArgs args)
+        {
+            if (ButtonGroup is null || Disabled || ButtonGroup._buttonItems is null)
+            {
+                return;
+            }
+
+            if (args?.Value is null)
+            {
+                return;
+            }
+
+            bool newValue;
+            try
+            {
+                newValue = Convert.ToBoolean(args.Value, System.Globalization.CultureInfo.InvariantCulture);
+            }
+            catch (InvalidCastException)
+            {
+                return;
+            }
+            catch (FormatException)
+            {
+                return;
+            }
+
+            // Only update the state when the DOM-driven value diverges from the current value.
+            // This avoids re-entering the click flow and keeps two-way binding stable.
+            if (newValue != Selected)
+            {
+                ButtonGroup._isClicked = true;
+                if (ButtonGroup.Mode == SelectionMode.Multiple)
+                {
+                    await UpdateButtonStateAsync(newValue).ConfigureAwait(false);
+                }
+                else if (ButtonGroup.Mode == SelectionMode.Single && newValue)
+                {
+                    await ButtonGroup.ClearSiblingsAsync(this).ConfigureAwait(false);
+                    await UpdateButtonStateAsync(true).ConfigureAwait(false);
+                }
             }
         }
 

@@ -8,11 +8,14 @@ test.describe('SfCalendar - Accessibility', () => {
   });
 
   test('day cells include ARIA attributes and unique ids', async ({ page }) => {
-    const cells = page.locator('td[aria-label="calendar cell"]');
+    // The actual aria-label includes the day number (e.g. "Calendar cell 1") and the
+    // word "disabled" suffix for disabled cells. Use a substring match so the test
+    // is robust to those variations.
+    const cells = page.locator('td[aria-label*="calendar cell" i]');
     const count = await cells.count();
     expect(count).toBeGreaterThan(0);
     const first = cells.nth(0);
-    await expect(first).toHaveAttribute('aria-label', /calendar cell/);
+    await expect(first).toHaveAttribute('aria-label', /calendar cell/i);
     const id = await first.getAttribute('id');
     expect(id).toBeTruthy();
   });

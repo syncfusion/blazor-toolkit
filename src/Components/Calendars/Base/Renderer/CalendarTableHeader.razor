@@ -10,7 +10,7 @@
         }
         @for (int days = 0; days < this.DaysCount; days++)
         {
-            <th @key="days">@(CultureInfo.CurrentCulture.TextInfo.ToTitleCase(this.ShortNames[days]))</th>
+            <th scope="col" @key="days">@(CultureInfo.CurrentCulture.TextInfo.ToTitleCase(this.ShortNames[days]))</th>
         }
     </tr>
 </thead>

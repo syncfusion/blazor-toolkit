@@ -104,10 +104,14 @@ namespace Syncfusion.Blazor.Toolkit.Inputs
                     await OnPropertyChangeAsync(PropertyChanges).ConfigureAwait(true);
                 }
                 await base.OnParametersSetAsync().ConfigureAwait(true);
-                if (!InputHtmlAttributes.ContainsKey(ARIA_LABEL))
+                if (!InputHtmlAttributes.ContainsKey(ARIA_LABEL) && !string.IsNullOrWhiteSpace(AriaLabel))
                 {
-                    InputHtmlAttributes = SfBaseUtils.UpdateDictionary(ARIA_LABEL, "textarea", InputHtmlAttributes);
+                    // When AriaLabel is explicitly supplied, forward it. We no longer emit a
+                    // "textarea" placeholder when no label is provided: the implicit textbox role
+                    // on the native <textarea> is announced automatically by screen readers.
+                    InputHtmlAttributes = SfBaseUtils.UpdateDictionary(ARIA_LABEL, AriaLabel, InputHtmlAttributes);
                 }
+                // AriaLabelledBy / AriaDescribedBy are now wired centrally in SfInputBase.PreRender.
                 UpdateValidationClass();
             }
             catch (Exception ex)
@@ -221,6 +225,31 @@ namespace Syncfusion.Blazor.Toolkit.Inputs
 
             try
             {
+                // Release the JS-side instance from the base registry
+                // before disposing the module. This is a no-op when no
+                // instance was ever registered (e.g., the module never
+                // finished loading).
+                if (_textAreaJsModule is not null || _textAreaJsInProcessModule is not null)
+                {
+                    try
+                    {
+                        await InvokeVoidAsync(_textAreaJsModule, _textAreaJsInProcessModule, "destroy", [DataId ?? string.Empty]).ConfigureAwait(true);
+                    }
+                    catch (JSDisconnectedException)
+                    {
+                        // Ignore: The circuit disconnected (e.g., page reload) before JS disposal could complete.
+                    }
+                    catch (JSException)
+                    {
+                        // Ignore: a JS-side error during destroy must not
+                        // prevent the module from being disposed.
+                    }
+                    catch (InvalidOperationException)
+                    {
+                        // Ignore: the JS interop circuit is no longer
+                        // available (e.g., prerendering teardown).
+                    }
+                }
                 if (_textAreaJsModule is not null)
                 {
                     await _textAreaJsModule.DisposeAsync().ConfigureAwait(true);

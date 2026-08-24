@@ -45,8 +45,8 @@ namespace Syncfusion.Blazor.Toolkit.Tests.Tooltip
         }
 
         // Events / Accessibility
-        [Fact(Timeout = 10000, DisplayName = "Tooltip - dynamic wrapper has role and aria attributes")]
-        public async Task DynamicWrapper_HasRoleAndAriaHidden()
+        [Fact(Timeout = 10000, DisplayName = "Tooltip - dynamic wrapper has role attribute")]
+        public async Task DynamicWrapper_HasRole()
         {
             var tooltip = RenderComponent<SfTooltip>(parameters => parameters
                 .Add(p => p.ID, "tt2")
@@ -56,10 +56,11 @@ namespace Syncfusion.Blazor.Toolkit.Tests.Tooltip
             // Simulate JS callback that creates the wrapper
             await tooltip.Instance.CreateTooltipAsync(true);
 
-            // The dynamic wrapper carries the role attribute
+            // The dynamic wrapper carries the role attribute. The previous aria-hidden="false"
+            // was a no-op and has been removed; tooltip.js toggles the e-hidden class on show/hide.
             var wrapper = tooltip.Find(".e-tooltip-wrap");
             Assert.Equal("tooltip", wrapper.GetAttribute("role"));
-            Assert.Equal("false", wrapper.GetAttribute("aria-hidden"));
+            Assert.Null(wrapper.GetAttribute("aria-hidden"));
         }
     }
 }

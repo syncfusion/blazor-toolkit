@@ -240,4 +240,67 @@
   <data name="ResetZoom" xml:space="preserve">
     <value>Reset Zoom</value>
   </data>
+  <data name="OpenCalendar" xml:space="preserve">
+    <value>Open calendar</value>
+  </data>
+  <data name="OpenTime" xml:space="preserve">
+    <value>Open time picker</value>
+  </data>
+  <data name="CalendarViewTitle" xml:space="preserve">
+    <value>Calendar view title</value>
+  </data>
+  <data name="PreviousMonth" xml:space="preserve">
+    <value>Previous month</value>
+  </data>
+  <data name="NextMonth" xml:space="preserve">
+    <value>Next month</value>
+  </data>
+  <data name="CalendarCell" xml:space="preserve">
+    <value>Calendar cell</value>
+  </data>
+  <data name="CloseTooltip" xml:space="preserve">
+    <value>Close tooltip</value>
+  </data>
+  <data name="Dialog" xml:space="preserve">
+    <value>Dialog</value>
+  </data>
+  <data name="Required" xml:space="preserve">
+    <value>Required</value>
+  </data>
+  <data name="ButtonGroup" xml:space="preserve">
+    <value>Button group</value>
+  </data>
+  <data name="ButtonGroupSingle" xml:space="preserve">
+    <value>Button group with single selection mode</value>
+  </data>
+  <data name="ButtonGroupMultiple" xml:space="preserve">
+    <value>Button group with multiple selection mode</value>
+  </data>
+  <data name="Datepicker" xml:space="preserve">
+    <value>Date picker</value>
+  </data>
+  <data name="Timepicker" xml:space="preserve">
+    <value>Time picker</value>
+  </data>
+  <data name="Datetimepicker" xml:space="preserve">
+    <value>Date and time picker</value>
+  </data>
+  <data name="Disabled" xml:space="preserve">
+    <value>disabled</value>
+  </data>
+  <data name="Calendar" xml:space="preserve">
+    <value>Calendar</value>
+  </data>
+  <data name="Checked" xml:space="preserve">
+    <value>checked</value>
+  </data>
+  <data name="Unchecked" xml:space="preserve">
+    <value>unchecked</value>
+  </data>
+  <data name="Indeterminate" xml:space="preserve">
+    <value>indeterminate</value>
+  </data>
+  <data name="PromptInput" xml:space="preserve">
+    <value>Prompt input</value>
+  </data>
 </root>

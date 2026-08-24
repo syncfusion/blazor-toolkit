@@ -18,14 +18,14 @@ namespace Syncfusion.Blazor.Toolkit.Tests.Calendars.Calendar
             // Calendar Title Accessibility
             var headerElement = parentContainer?.QuerySelector(".e-title");
             Assert.Equal("true", headerElement?.GetAttribute("aria-atomic"));
-            Assert.Equal(("title "+ formattedDate), headerElement?.GetAttribute("aria-label"));
+            Assert.Equal(("Calendar view title "+ formattedDate), headerElement?.GetAttribute("aria-label"));
             // Previous button next button Accessibility
-            Assert.Equal("false", buttonList[0].GetAttribute("aria-disabled"));
-            Assert.Equal("previous month", buttonList[0].GetAttribute("aria-label"));
             Assert.Equal("false", buttonList[1].GetAttribute("aria-disabled"));
-            Assert.Equal("next month", buttonList[1].GetAttribute("aria-label"));
+            Assert.Equal("Previous month", buttonList[1].GetAttribute("aria-label"));
+            Assert.Equal("false", buttonList[2].GetAttribute("aria-disabled"));
+            Assert.Equal("Next month", buttonList[2].GetAttribute("aria-label"));
             // Today button Accessibility
-            Assert.Equal("Today", buttonList[2].GetAttribute("aria-label"));
+            Assert.Equal("Today", buttonList[3].GetAttribute("aria-label"));
             // Calendar Table Accessibility
             Assert.Equal("grid", tableElement?.GetAttribute("role"));
         }
@@ -37,26 +37,26 @@ namespace Syncfusion.Blazor.Toolkit.Tests.Calendars.Calendar
             var tableElement = Calendar.Find("table");
             var ParentContainer = tableElement?.ParentElement?.ParentElement;
             var ButtonList = ParentContainer?.QuerySelectorAll("button");
-            // Default values when initial loading
-            Assert.Equal("false", ButtonList?[0].GetAttribute("aria-disabled"));
-            Assert.Equal("previous month", ButtonList?[0].GetAttribute("aria-label"));
+            // Default values when initial loading (buttonList[0] = title, buttonList[1] = prev, buttonList[2] = next)
             Assert.Equal("false", ButtonList?[1].GetAttribute("aria-disabled"));
-            Assert.Equal("next month", ButtonList?[1].GetAttribute("aria-label"));
+            Assert.Equal("Previous month", ButtonList?[1].GetAttribute("aria-label"));
+            Assert.Equal("false", ButtonList?[2].GetAttribute("aria-disabled"));
+            Assert.Equal("Next month", ButtonList?[2].GetAttribute("aria-label"));
             // Navigating to next month
+            ButtonList?[2].Click();
+            tableElement = Calendar.Find("table");
+            ParentContainer = tableElement?.ParentElement?.ParentElement;
+            ButtonList = ParentContainer?.QuerySelectorAll("button");
+            Assert.DoesNotContain("e-disabled", ButtonList?[1].ClassName);
+            Assert.Equal("false", ButtonList?[1].GetAttribute("aria-disabled"));
+            Assert.Equal("false", ButtonList?[2].GetAttribute("aria-disabled"));
+            // Navigating to previous month
             ButtonList?[1].Click();
             tableElement = Calendar.Find("table");
             ParentContainer = tableElement?.ParentElement?.ParentElement;
             ButtonList = ParentContainer?.QuerySelectorAll("button");
-            Assert.DoesNotContain("e-disabled", ButtonList?[0].ClassName);
-            Assert.Equal("false", ButtonList?[0].GetAttribute("aria-disabled"));
             Assert.Equal("false", ButtonList?[1].GetAttribute("aria-disabled"));
-            // Navigating to previous month
-            ButtonList?[0].Click();
-            tableElement = Calendar.Find("table");
-            ParentContainer = tableElement?.ParentElement?.ParentElement;
-            ButtonList = ParentContainer?.QuerySelectorAll("button");
-            Assert.Equal("false", ButtonList?[0].GetAttribute("aria-disabled"));
-            Assert.Equal("false", ButtonList?[1].GetAttribute("aria-disabled"));
+            Assert.Equal("false", ButtonList?[2].GetAttribute("aria-disabled"));
         }
         
         [Fact(Timeout = 10000, DisplayName = "Accessibility: table attributes when a date is selected")]

@@ -108,7 +108,7 @@ else
             </div>
             @if (IsModal)
             {
-                <div id="@(ID)_overlay" class="@OVERLAY" @attributes="@OverlayAttribute" @onclick="@OverlayClickHandlerAsync"></div>
+                <div id="@(ID)_overlay" class="@OVERLAY" aria-hidden="true" @attributes="@OverlayAttribute" @onclick="@OverlayClickHandlerAsync"></div>
             }
         </div>
     }

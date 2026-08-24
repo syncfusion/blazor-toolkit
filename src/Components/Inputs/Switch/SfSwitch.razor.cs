@@ -144,12 +144,12 @@ namespace Syncfusion.Blazor.Toolkit.Inputs
         /// <summary>
         /// Gets or sets the optional visible text label rendered next to the switch.
         /// </summary>
-        internal string? Label { get; set; }
-
-        /// <summary>
-        /// Gets or sets the optional accessible name for the switch when no visible label is supplied.
-        /// </summary>
-        internal string? AriaLabel { get; set; }
+        /// <remarks>
+        /// When supplied, the label is rendered as a <c>&lt;label&gt;</c> element and is
+        /// associated with the underlying input via <c>aria-labelledby</c> for screen readers.
+        /// </remarks>
+        [Parameter]
+        public string? Label { get; set; }
 
         /// <exclude />
         /// <summary>

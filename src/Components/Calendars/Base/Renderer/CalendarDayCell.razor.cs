@@ -2,6 +2,7 @@ using Microsoft.AspNetCore.Components;
 using System.Globalization;
 using Syncfusion.Blazor.Toolkit.Internal;
 using Microsoft.AspNetCore.Components.Web;
+using Microsoft.Extensions.Localization;
 
 namespace Syncfusion.Blazor.Toolkit.Calendars.Internal
 {
@@ -11,6 +12,9 @@ namespace Syncfusion.Blazor.Toolkit.Calendars.Internal
     /// <typeparam name="TCalendarCell">Specifies the type of CalendarDayCell.</typeparam>
     public partial class CalendarDayCell<TCalendarCell> : CalendarBase<TCalendarCell>
     {
+        [Inject]
+        private IStringLocalizer Localizer { get; set; } = default!;
+
         internal const string OTHERMONTH = "e-other-month";
         internal const string OTHERDECADE = "e-other-year";
         internal const string DISABLED = "e-disabled";

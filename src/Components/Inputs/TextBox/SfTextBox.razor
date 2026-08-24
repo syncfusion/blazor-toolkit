@@ -14,7 +14,7 @@
 					@if (this.MultilineInput)
 					{
 						<textarea @ref="@InputElement" id="@ID" value="@(FormatValueAsString(InputTextValue))"
-								  @attributes="InputHtmlAttributes" role="textbox" @onchange="@OnChangeHandlerAsync" @onblur="OnBlurHandlerAsync"
+								  @attributes="InputHtmlAttributes" @onchange="@OnChangeHandlerAsync" @onblur="OnBlurHandlerAsync"
 								  @onfocus="@OnFocusHandlerAsync" @oninput="@OnInputHandlerAsync"></textarea>
 					}
 					else
@@ -27,10 +27,11 @@
 					<label class="@FloatLabel?.Trim()" id="label_@(ID)" for="@(ID)">@this.Placeholder</label>
 					@if (this.ShowClearButton)
 					{
-						<span class="@(ClearIconClass)" aria-label="close" role="button" @onclick="@WireClearBtnEventsAsync"
-							  @onmousedown="@BindClearBtnEventsAsync" @ontouchstart="@BindClearBtnTouchEventsAsync"
-							  @onmousedown:preventDefault="@ClickStopPropagation"
-							  @ontouchstart:preventDefault="@ClickStopPropagation"></span>
+						<button type="button" class="@(ClearIconClass)" aria-label="@Localizer["Clear"]"
+								@onclick="@WireClearBtnEventsAsync"
+								@onmousedown="@BindClearBtnEventsAsync" @ontouchstart="@BindClearBtnTouchEventsAsync"
+								@onmousedown:preventDefault="@ClickStopPropagation"
+								@ontouchstart:preventDefault="@ClickStopPropagation"></button>
 					}
 					@RenderIconButtons(APPEND)
 				</span>
@@ -42,7 +43,7 @@
 				@if (this.MultilineInput)
 				{
 					<textarea @ref="@InputElement" id="@ID" value="@(FormatValueAsString(InputTextValue))"
-							  @attributes="InputHtmlAttributes" role="textbox" @onchange="@OnChangeHandlerAsync"
+							  @attributes="InputHtmlAttributes" @onchange="@OnChangeHandlerAsync"
 							  @onfocus="@OnFocusHandlerAsync" @onblur="OnBlurHandlerAsync" @oninput="@OnInputHandlerAsync"></textarea>
 				}
 				else
@@ -54,10 +55,11 @@
 				<label class="@FloatLabel?.Trim()" id="label_@(ID)" for="@(ID)">@this.Placeholder</label>
 				@if (this.ShowClearButton)
 				{
-					<span class="@(ClearIconClass)" aria-label="close" role="button" @onclick="@WireClearBtnEventsAsync"
-						  @onmousedown="@BindClearBtnEventsAsync" @ontouchstart="@BindClearBtnTouchEventsAsync"
-						  @onmousedown:preventDefault="@ClickStopPropagation"
-						  @ontouchstart:preventDefault="@ClickStopPropagation"></span>
+					<button type="button" class="@(ClearIconClass)" aria-label="@Localizer["Clear"]"
+							@onclick="@WireClearBtnEventsAsync"
+							@onmousedown="@BindClearBtnEventsAsync" @ontouchstart="@BindClearBtnTouchEventsAsync"
+							@onmousedown:preventDefault="@ClickStopPropagation"
+							@ontouchstart:preventDefault="@ClickStopPropagation"></button>
 				}
 				@RenderIconButtons(APPEND)
 			</div>
@@ -70,7 +72,7 @@
 			@if (this.MultilineInput)
 			{
 				<textarea @ref="@InputElement" id="@ID" value="@(FormatValueAsString(InputTextValue))"
-						  @attributes="InputHtmlAttributes" role="textbox" @onchange="@OnChangeHandlerAsync"
+						  @attributes="InputHtmlAttributes" @onchange="@OnChangeHandlerAsync"
 						  @onfocus="@OnFocusHandlerAsync" @onblur="OnBlurHandlerAsync" @oninput="@OnInputHandlerAsync"></textarea>
 			}
 			else
@@ -80,10 +82,11 @@
 			}
 			@if (this.ShowClearButton)
 			{
-				<span class="@(ClearIconClass)" aria-label="close" role="button" @onclick="@WireClearBtnEventsAsync"
-					  @onmousedown="@BindClearBtnEventsAsync" @ontouchstart="@BindClearBtnTouchEventsAsync"
-					  @onmousedown:preventDefault="@ClickStopPropagation"
-					  @ontouchstart:preventDefault="@ClickStopPropagation"></span>
+				<button type="button" class="@(ClearIconClass)" aria-label="@Localizer["Clear"]"
+						@onclick="@WireClearBtnEventsAsync"
+						@onmousedown="@BindClearBtnEventsAsync" @ontouchstart="@BindClearBtnTouchEventsAsync"
+						@onmousedown:preventDefault="@ClickStopPropagation"
+						@ontouchstart:preventDefault="@ClickStopPropagation"></button>
 			}
 			@RenderIconButtons(APPEND)
 		</span>

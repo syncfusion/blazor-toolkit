@@ -1,7 +1,6 @@
 @using Microsoft.AspNetCore.Components;
 @using Syncfusion.Blazor.Toolkit.Calendars.Internal
 @using Syncfusion.Blazor.Toolkit.Inputs;
-@using Syncfusion.Blazor.Toolkit.Buttons;
 @using Syncfusion.Blazor.Toolkit.Internal;
 @namespace Syncfusion.Blazor.Toolkit.Calendars
 @typeparam TValue
@@ -12,29 +11,29 @@
         @if (this.FloatLabelType == FloatLabelType.Auto || this.FloatLabelType == FloatLabelType.Always)
         {
             <div @ref="@ContainerElement" class="@ContainerClass?.Trim()" @attributes="ContainerHtmlAttributes">
-                <input @ref="@InputElement" id="@ID" @attributes="InputHtmlAttributes" aria-label="datetimepicker" value="@( CalendarMode == CalendarType.Islamic ? IslamicValueAsString : this.CurrentValueAsString)" @onchange="@OnChangeHandlerAsync" @onkeydown="@KeyActionHandlerAsync" @onfocus="@OnFocusHandlerAsync" @oninput="@OnInputHandlerAsync" @onblur="@OnBlurHandlerAsync" />
+                <input @ref="@InputElement" id="@ID" @attributes="InputHtmlAttributes" aria-haspopup="dialog" aria-label="@(string.IsNullOrWhiteSpace(AriaLabel) ? Localizer["Datetimepicker"] : AriaLabel)" value="@( CalendarMode == CalendarType.Islamic ? IslamicValueAsString : this.CurrentValueAsString)" @onchange="@OnChangeHandlerAsync" @onkeydown="@KeyActionHandlerAsync" @onfocus="@OnFocusHandlerAsync" @oninput="@OnInputHandlerAsync" @onblur="@OnBlurHandlerAsync" />
                 <span class="e-float-line"></span>
                 <label class="@FloatLabel?.Trim()" id="label_@(ID)" for="@(ID)">@this.Placeholder</label>
                 @if (this.ShowClearButton && !this.Readonly)
                 {
-                    <span class="@(ClearIconClass)" aria-label="@Localizer["Close"]" role="button" @onclick="@WireClearBtnEventsAsync" @onmousedown="@InvokeClearBtnEventAsync" @ontouchstart="@InvokeClearBtnEventAsync" @onmousedown:preventDefault="@ClickStopPropagation" @ontouchstart:preventDefault="@ClickStopPropagation"></span>
+                    <button type="button" class="@(ClearIconClass)" aria-label="@Localizer["Close"]" title="@Localizer["Close"]" @onclick="@WireClearBtnEventsAsync" @onmousedown="@InvokeClearBtnEventAsync" @ontouchstart="@InvokeClearBtnEventAsync" @onmousedown:preventDefault="@ClickStopPropagation" @ontouchstart:preventDefault="@ClickStopPropagation"></button>
                 }
-                <span class="@(GROUPICON + SPACE + DateIcon)" @onmousedown="@((args) => MouseIconHandlerAsync(args, DATEICONCLASS))" @onmousedown:preventDefault=@(!IsDevice)></span>
-                <span class="@(GROUPICON + SPACE + TimeIcon)" @onmousedown="@((args) => MouseIconHandlerAsync(args, TIME_ICON))" @onmousedown:preventDefault=@(!IsDevice)></span>
+                <button type="button" class="@(GROUPICON + SPACE + DateIcon)" aria-label="@Localizer["OpenCalendar"]" title="@Localizer["OpenCalendar"]" @onclick="@((args) => MouseIconHandlerAsync(args, DATEICONCLASS))"></button>
+                <button type="button" class="@(GROUPICON + SPACE + TimeIcon)" aria-label="@Localizer["OpenTime"]" title="@Localizer["OpenTime"]" @onclick="@((args) => MouseIconHandlerAsync(args, TIME_ICON))"></button>
             </div>
         }
         else
         {
             <span @ref="@ContainerElement" class="@ContainerClass?.Trim()" @attributes="ContainerHtmlAttributes" >
-                <input @ref="@InputElement" id="@ID" @attributes="InputHtmlAttributes" aria-label="datetimepicker" value="@( CalendarMode == CalendarType.Islamic ? IslamicValueAsString : this.CurrentValueAsString)" @onchange="@OnChangeHandlerAsync" @onkeydown="@KeyActionHandlerAsync" @onfocus="@OnFocusHandlerAsync" @oninput="@OnInputHandlerAsync" @onblur="@OnBlurHandlerAsync" />
+                <input @ref="@InputElement" id="@ID" @attributes="InputHtmlAttributes" aria-haspopup="dialog" aria-label="@(string.IsNullOrWhiteSpace(AriaLabel) ? Localizer["Datetimepicker"] : AriaLabel)" value="@( CalendarMode == CalendarType.Islamic ? IslamicValueAsString : this.CurrentValueAsString)" @onchange="@OnChangeHandlerAsync" @onkeydown="@KeyActionHandlerAsync" @onfocus="@OnFocusHandlerAsync" @oninput="@OnInputHandlerAsync" @onblur="@OnBlurHandlerAsync" />
                 @if (this.ShowClearButton && !this.Readonly)
                 {
-                    <span class="@(ClearIconClass)" aria-label="@Localizer["Close"]" role="button" @onclick="@WireClearBtnEventsAsync" @onmousedown="@InvokeClearBtnEventAsync" @ontouchstart="@InvokeClearBtnEventAsync" @onmousedown:preventDefault="@ClickStopPropagation" @ontouchstart:preventDefault="@ClickStopPropagation"></span>
+                    <button type="button" class="@(ClearIconClass)" aria-label="@Localizer["Close"]" title="@Localizer["Close"]" @onclick="@WireClearBtnEventsAsync" @onmousedown="@InvokeClearBtnEventAsync" @ontouchstart="@InvokeClearBtnEventAsync" @onmousedown:preventDefault="@ClickStopPropagation" @ontouchstart:preventDefault="@ClickStopPropagation"></button>
                 }
-                <span class="@(GROUPICON + SPACE + DateIcon)" @onmousedown="@((args) => MouseIconHandlerAsync(args, DATEICONCLASS))" @onmousedown:preventDefault=@(!IsDevice)></span>
-                <span class="@(GROUPICON + SPACE + TimeIcon)" @onmousedown="@((args) => MouseIconHandlerAsync(args, TIME_ICON))" @onmousedown:preventDefault=@(!IsDevice)></span>
+                <button type="button" class="@(GROUPICON + SPACE + DateIcon)" aria-label="@Localizer["OpenCalendar"]" title="@Localizer["OpenCalendar"]" @onclick="@((args) => MouseIconHandlerAsync(args, DATEICONCLASS))"></button>
+                <button type="button" class="@(GROUPICON + SPACE + TimeIcon)" aria-label="@Localizer["OpenTime"]" title="@Localizer["OpenTime"]" @onclick="@((args) => MouseIconHandlerAsync(args, TIME_ICON))"></button>
             </span>
-        } 
+        }
         @ChildContent
         @if (this.ShowPopupCalendar)
         {
@@ -43,22 +42,22 @@
                 RootClass = SfBaseUtils.RemoveClass(RootClass ?? default!, "e-datetimepicker") ?? default!;
             }
             <div @ref="@PopupHolderEle" class="e-datetimepicker e-popup-holder">
-                <div @ref="@PopupElement" class="@RootClass @PopupContainer @POPUP" id="@(ID)_popup" role="dialog" aria-label="datetimepicker">
+                <div @ref="@PopupElement" class="@RootClass @PopupContainer @POPUP" id="@(ID)_popup" role="dialog" aria-label="@Localizer["Datetimepicker"]">
                     <div class="@CalendarClass">
                         @if (this.IsDevice)
                         {
                             <div class="@MODELHEADER">
                                 @if (this.IsExtendedDevicePopup())
                                 {
-                                    <SfButton CssClass="e-popup-close e-flat" aria-label="@Localizer["Close"]" @onclick="@PopupCloseHandlerAsync"></SfButton>
+                                    <button type="button" class="e-popup-close e-flat" aria-label="@Localizer["Close"]" title="@Localizer["Close"]" @onclick="@PopupCloseHandlerAsync"></button>
                                     <div class="e-day-wrapper">
                                         <span class="@MODELDAYCLASS">@this.ModelDay </span>
                                         <span class="@MODELMONTHCLASS">@this.ModelMonth</span>
                                     </div>
                                 }
-                                else 
+                                else
                                 {
-                                    <h1 class="@MODELYEARCLASS">@this.ModelYear</h1>
+                                    <div class="@MODELYEARCLASS">@this.ModelYear</div>
                                     <div>
                                         <span class="@MODELDAYCLASS">@this.ModelDay </span>
                                         <span class="@MODELMONTHCLASS">@this.ModelMonth</span>
@@ -88,14 +87,14 @@
         {
             @if (this.IsDevice && this.IsExtendedDevicePopup())
             {
-                PopupContainer = PopupContainer is not null ? SfBaseUtils.RemoveClass(PopupContainer, "e-datepicker") : PopupContainer;
-                RootClass = RootClass is not null ? SfBaseUtils.AddClass(RootClass, "e-datetimepicker") : RootClass;
+                PopupContainer = PopupContainer is not null ? SfBaseUtils.RemoveClass(PopupContainer, "e-datepicker")! : PopupContainer!;
+                RootClass = RootClass is not null ? SfBaseUtils.AddClass(RootClass, "e-datetimepicker")! : RootClass!;
 
                 <div @ref="@PopupHolderEle" class="e-datetimepicker e-popup-holder" id="@(ID)_popupholder">
-                    <div @ref="@PopupElement" class="@RootClass @PopupContainer @POPUP e-timepicker" id="@(ID)_popup" aria-label="timepicker" role="dialog">
+                    <div @ref="@PopupElement" class="@RootClass @PopupContainer @POPUP e-timepicker" id="@(ID)_popup" aria-label="@Localizer["Timepicker"]" role="dialog">
                         <div class="e-datetime-mob-popup-wrap">
                             <div class="@MODELHEADER">
-                                <SfButton CssClass="e-popup-close e-flat" aria-label="@Localizer["Close"]" @onclick="@PopupCloseHandlerAsync"></SfButton>
+                                <button type="button" class="e-popup-close e-flat" aria-label="@Localizer["Close"]" title="@Localizer["Close"]" @onclick="@PopupCloseHandlerAsync"></button>
                                 <span class="e-model-title">Select time</span>
                             </div>
                         <div class="e-content">
@@ -120,7 +119,7 @@
             else
             {
                 <div @ref="@PopupHolderEle" class="e-datetimepicker e-popup-holder" id="@(ID)_popupholder">
-                    <div @ref="@PopupElement" class="@RootClass @PopupContainer @POPUP e-timepicker" id="@(ID)_popup" aria-label="timepicker" role="dialog">
+                    <div @ref="@PopupElement" class="@RootClass @PopupContainer @POPUP e-timepicker" id="@(ID)_popup" aria-label="@Localizer["Timepicker"]" role="dialog">
                         <div class="e-content">
                             @if (this.ListData is not null && this.ListData.Count > 0)
                             {

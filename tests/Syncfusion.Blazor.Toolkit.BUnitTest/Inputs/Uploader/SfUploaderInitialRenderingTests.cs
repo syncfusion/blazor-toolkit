@@ -50,7 +50,7 @@ namespace Syncfusion.Blazor.Toolkit.Tests.Inputs.Uploader
             
             // Verify input attributes
             Assert.Equal("-1", input.GetAttribute("tabindex"));
-            Assert.Equal("uploader", input.GetAttribute("aria-label"));
+            Assert.Equal("Or drop files here", input.GetAttribute("aria-label"));
         }
 
         [Fact(Timeout = 10000)]
@@ -196,7 +196,7 @@ namespace Syncfusion.Blazor.Toolkit.Tests.Inputs.Uploader
             var input = uploader.Find("input");
             // InputFile doesn't have a type attribute in Blazor, but we can verify it's an InputFile
             Assert.NotNull(input);
-            Assert.Equal("uploader", input.GetAttribute("aria-label"));
+            Assert.Equal("Or drop files here", input.GetAttribute("aria-label"));
         }
 
         #endregion

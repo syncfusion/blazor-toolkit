@@ -16,14 +16,14 @@
 	<PackageLicenseExpression>MIT</PackageLicenseExpression>
 	<PackageReadmeFile>README.md</PackageReadmeFile>
 	<ProjectUrl>https://github.com/syncfusion/blazor-toolkit</ProjectUrl>
-	<PackageProjectUrl>https://github.com/syncfusion/blazor-toolkit</PackageProjectUrl>
+	<PackageProjectUrl>https://www.syncfusion.com/blazor-toolkit</PackageProjectUrl>
 	<RepositoryUrl>https://github.com/syncfusion/blazor-toolkit.git</RepositoryUrl>
 	<RepositoryType>git</RepositoryType>
 	<RepositoryCommit>$(SourceRevisionId)</RepositoryCommit>
 	<PublishRepositoryUrl>true</PublishRepositoryUrl>
 	<EmbedUntrackedSources>true</EmbedUntrackedSources>
-	<!-- Release notes (uncomment when available) -->
-	<!--<PackageReleaseNotes></PackageReleaseNotes>-->
+	<!-- Release notes point to the GitHub release page; see DEVELOPMENT.md §Versioning and API stability. -->
+	<PackageReleaseNotes>See https://github.com/syncfusion/blazor-toolkit/releases for the full release notes for this version.</PackageReleaseNotes>
 	<PackageTags>
 		syncfusion;blazor;toolkit
 	</PackageTags>

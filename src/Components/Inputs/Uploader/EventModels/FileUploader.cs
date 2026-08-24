@@ -263,20 +263,6 @@ namespace Syncfusion.Blazor.Toolkit.Inputs
         public bool Cancel { get; set; }
 
         /// <summary>
-        /// Gets or sets the original event arguments associated with the cancel operation.
-        /// </summary>
-        /// <value>
-        /// An object containing the original event arguments for the current event, or <c>null</c> if no event arguments are available.
-        /// </value>
-        /// <remarks>
-        /// This property provides access to the underlying event arguments that triggered the cancel operation.
-        /// <strong>Note:</strong> This property is obsolete and should no longer be used in new implementations.
-        /// </remarks>
-        [Obsolete("The Event property is obsolete and will be removed in a future version. Use the specific event argument properties (Cancel, FileData) instead to access cancellation information.", false)]
-        [JsonPropertyName("event")]
-        public object? Event { get; set; }
-
-        /// <summary>
         /// Gets or sets the details of the file that was canceled during upload.
         /// </summary>
         /// <value>
@@ -632,21 +618,6 @@ namespace Syncfusion.Blazor.Toolkit.Inputs
         public double ChunkSize { get; set; }
 
         /// <summary>
-        /// Gets or sets the original event arguments associated with the pause or resume operation.
-        /// </summary>
-        /// <value>
-        /// An <see cref="EventArgs"/> object containing the original event arguments, or <c>null</c> if no event arguments are available.
-        /// </value>
-        /// <remarks>
-        /// This property provides access to the underlying event arguments that triggered the pause or resume
-        /// operation. <strong>Note:</strong> This property is obsolete and should no longer be used in new
-        /// implementations. Use other properties of this class for accessing pause/resume information.
-        /// </remarks>
-        [Obsolete("The Event property is obsolete and will be removed in a future version. Use the specific event argument properties (ChunkCount, ChunkIndex, ChunkSize, File) instead to access pause/resume information.", false)]
-        [JsonPropertyName("event")]
-        public EventArgs Event { get; set; } = new();
-
-        /// <summary>
         /// Gets or sets the details of the file that is being paused or resumed.
         /// </summary>
         /// <value>
@@ -672,21 +643,6 @@ namespace Syncfusion.Blazor.Toolkit.Inputs
     /// </remarks>
     public class ProgressEventArgs
     {
-        /// <summary>
-        /// Gets or sets the original event arguments associated with the progress event.
-        /// </summary>
-        /// <value>
-        /// An object containing the original event arguments, or <c>null</c> if no event arguments are available.
-        /// </value>
-        /// <remarks>
-        /// This property provides access to the underlying event arguments that triggered the progress event.
-        /// <strong>Note:</strong> This property is obsolete and should no longer be used in new implementations.
-        /// Use other properties of this class for accessing progress information.
-        /// </remarks>
-        [Obsolete("The E property is obsolete and will be removed in a future version. Use the specific event argument properties (LengthComputable, Loaded, Total, File) instead to access progress information.", false)]
-        [JsonPropertyName("e")]
-        public object E { get; set; } = new();
-
         /// <summary>
         /// Gets or sets a value indicating whether the file upload progress is computable.
         /// </summary>
@@ -844,21 +800,6 @@ namespace Syncfusion.Blazor.Toolkit.Inputs
         [DefaultValue(null)]
         [JsonPropertyName("customFormData")]
         public object? CustomFormData { get; set; }
-
-        /// <summary>
-        /// Gets or sets the original event arguments associated with the removal operation.
-        /// </summary>
-        /// <value>
-        /// An object containing the original event arguments for the current event, or <c>null</c> if no event arguments are available.
-        /// </value>
-        /// <remarks>
-        /// This property provides access to the underlying event arguments that triggered the removal operation.
-        /// <strong>Note:</strong> This property is obsolete and should no longer be used in new implementations.
-        /// Use other properties of this class for accessing removal information.
-        /// </remarks>
-        [Obsolete("The Event property is obsolete and will be removed in a future version. Use the specific event argument properties (Cancel, FilesData, CurrentRequest, CustomFormData) instead to access removal information.", false)]
-        [JsonPropertyName("event")]
-        public object? Event { get; set; }
 
         /// <summary>
         /// Gets or sets the list of file details that will be removed from the server.
@@ -1040,21 +981,6 @@ namespace Syncfusion.Blazor.Toolkit.Inputs
         public object? CustomFormData { get; set; }
 
         /// <summary>
-        /// Gets or sets the original event arguments associated with the file selection operation.
-        /// </summary>
-        /// <value>
-        /// An object containing the original event arguments for the current event, or <c>null</c> if no event arguments are available.
-        /// </value>
-        /// <remarks>
-        /// This property provides access to the underlying event arguments that triggered the file selection.
-        /// <strong>Note:</strong> This property is obsolete and should no longer be used in new implementations.
-        /// Use other properties of this class for accessing file selection information.
-        /// </remarks>
-        [Obsolete("The Event property is obsolete and will be removed in a future version. Use the specific event argument properties (Cancel, FilesData, ModifiedFilesData, IsCanceled, IsModified) instead to access file selection information.", false)]
-        [JsonPropertyName("event")]
-        public object? Event { get; set; }
-
-        /// <summary>
         /// Gets or sets the list of files selected for uploading.
         /// </summary>
         /// <value>
@@ -1125,20 +1051,6 @@ namespace Syncfusion.Blazor.Toolkit.Inputs
         [JsonPropertyName("progressInterval")]
         public string ProgressInterval { get; set; } = string.Empty;
 
-        /// <summary>
-        /// Gets or sets the type of the original event that triggered the file selection.
-        /// </summary>
-        /// <value>
-        /// A string representing the event type, or <c>null</c> if no type is specified.
-        /// </value>
-        /// <remarks>
-        /// This property indicates the type of user interaction that triggered the file selection, such as
-        /// drag-and-drop, browse button click, or programmatic selection. <strong>Note:</strong> This property
-        /// is obsolete and should no longer be used in new implementations.
-        /// </remarks>
-        [Obsolete("The Type property is obsolete and will be removed in a future version. The event type information is no longer needed as the selection context is available through other properties.", false)]
-        [JsonPropertyName("type")]
-        public string Type { get; set; } = string.Empty;
     }
 
     /// <summary>
@@ -1181,36 +1093,6 @@ namespace Syncfusion.Blazor.Toolkit.Inputs
         /// </remarks>
         [JsonPropertyName("chunkSize")]
         public double ChunkSize { get; set; }
-
-        /// <summary>
-        /// Gets or sets the original event arguments associated with the success event.
-        /// </summary>
-        /// <value>
-        /// An object containing the original event arguments, or <c>null</c> if no event arguments are available.
-        /// </value>
-        /// <remarks>
-        /// This property provides access to the underlying event arguments that triggered the success event.
-        /// <strong>Note:</strong> This property is obsolete and should no longer be used in new implementations.
-        /// Use other properties of this class for accessing success information.
-        /// </remarks>
-        [Obsolete("The E property is obsolete and will be removed in a future version. Use the specific event argument properties (File, Response, ChunkIndex, TotalChunk, Operation) instead to access success information.", false)]
-        [JsonPropertyName("e")]
-        public object? E { get; set; }
-
-        /// <summary>
-        /// Gets or sets the original event arguments for the upload success operation.
-        /// </summary>
-        /// <value>
-        /// An object containing the original event arguments for the current event, or <c>null</c> if no event arguments are available.
-        /// </value>
-        /// <remarks>
-        /// This property provides access to the underlying event arguments that triggered the upload success.
-        /// <strong>Note:</strong> This property is obsolete and should no longer be used in new implementations.
-        /// Use other properties of this class for accessing upload success information.
-        /// </remarks>
-        [Obsolete("The Event property is obsolete and will be removed in a future version. Use the specific event argument properties (File, Response, ChunkIndex, TotalChunk, Operation) instead to access upload success information.", false)]
-        [JsonPropertyName("event")]
-        public object? Event { get; set; }
 
         /// <summary>
         /// Gets or sets the details about the successfully uploaded file.
@@ -1295,20 +1177,6 @@ namespace Syncfusion.Blazor.Toolkit.Inputs
     /// </remarks>
     public class UploadFiles
     {
-        /// <summary>
-        /// Gets the memory stream containing the selected file data.
-        /// </summary>
-        /// <value>
-        /// A <see cref="MemoryStream"/> containing the file data, or <c>null</c> if no stream is available.
-        /// </value>
-        /// <remarks>
-        /// This property provides access to the file content as a memory stream. <strong>Note:</strong> This property
-        /// is obsolete and will be removed in a future version. Use the <see cref="File"/> property instead to access
-        /// the uploaded file's stream through the <c>OpenReadStream()</c> method.
-        /// </remarks>
-        [Obsolete("The Stream property is obsolete and will be removed in a future version. Use the File property instead to access the uploaded file's stream via File.OpenReadStream().", false)]
-        public MemoryStream Stream { get; internal set; } = new();
-
         /// <summary>
         /// Gets the detailed information about the selected file.
         /// </summary>

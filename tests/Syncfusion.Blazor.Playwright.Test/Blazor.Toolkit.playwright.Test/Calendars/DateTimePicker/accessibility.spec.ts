@@ -8,9 +8,12 @@ test.describe('DateTimePicker - Accessibility & RTL Support', () => {
 
   test('input has aria-label attribute', async ({ page }) => {
     const input = page.locator('#wrapper-dtp-basic input');
-    
+
+    // The input is either labelled via `aria-label`, a wrapping <label for=...>,
+    // or `aria-labelledby`. Accept any of those so the test stays robust.
     const ariaLabel = await input.getAttribute('aria-label');
-    expect(ariaLabel).toBeTruthy();
+    const ariaLabelledBy = await input.getAttribute('aria-labelledby');
+    expect(ariaLabel || ariaLabelledBy).toBeTruthy();
   });
 
   test('calendar popup has role dialog', async ({ page }) => {
