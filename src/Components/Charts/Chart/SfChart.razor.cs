@@ -179,10 +179,10 @@ namespace Syncfusion.Blazor.Toolkit.Charts
         internal List<IChartEventBorder> _seriesBorders = [];
         internal List<IAxis> _axes = [];
         internal List<PatternOptions> _highLightPatternCollection = [];
-        // Instance-level font measurement caches
+        // Instance-level font measurement caches (replaces process-wide static SizePerCharacter and ChartFontKeys)
         // See: ChartHelper.cs remarks for why this was moved from static to instance
         internal ConcurrentDictionary<string, Size> _fontSizeCache = new();
-        internal ConcurrentDictionary<string, byte> _requestedFontKeys = [];
+        internal List<string> _requestedFontKeys = new();
         internal ChartAnnotations _annotations = new();
         internal DomRect _elementOffset = new();
         /*To store the SVGElement's dimensions value.*/
@@ -1249,9 +1249,9 @@ namespace Syncfusion.Blazor.Toolkit.Charts
         /// <param name="text">The text to analyze.</param>
         /// <param name="font">The font options for the text.</param>
         /// <param name="distinctKeys">The collection to populate with distinct character keys.</param>
-        private void GetDistinctCharacter(string text, ChartFontOptions font, List<string> distinctKeys)
+        private static void GetDistinctCharacter(string text, ChartFontOptions font, List<string> distinctKeys)
         {
-            ChartHelper.GetDistinctCharacter(text, font, distinctKeys, this);
+            ChartHelper.GetDistinctCharacter(text, font, distinctKeys);
         }
 
         /// <summary>
@@ -1276,9 +1276,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts
             Dictionary<string, SymbolLocation> charSizeList = JsonSerializer.Deserialize<Dictionary<string, SymbolLocation>>(result) ?? null!;
             foreach (KeyValuePair<string, SymbolLocation> charSize in charSizeList)
             {
-                Size size = new() { Width = charSize.Value.X, Height = charSize.Value.Y };
-                _ = _fontSizeCache.TryAdd(charSize.Key, size);
-                ChartHelper.CacheSharedFontSize(charSize.Key, size);
+                _ = _fontSizeCache.TryAdd(charSize.Key, new Size { Width = charSize.Value.X, Height = charSize.Value.Y });
             }
         }
 
@@ -1839,9 +1837,10 @@ namespace Syncfusion.Blazor.Toolkit.Charts
             List<string> uniqueKeys = [];
             foreach (string fontKey in fontKeys)
             {
-                if (_requestedFontKeys.TryAdd(fontKey, 0))
+                if (!_requestedFontKeys.Contains(fontKey))
                 {
                     uniqueKeys.Add(fontKey);
+                    _requestedFontKeys.Add(fontKey);
                 }
             }
 

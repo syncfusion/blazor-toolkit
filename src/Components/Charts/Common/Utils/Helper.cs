@@ -81,7 +81,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
         #region Nested Validator
 
         /// <summary>
-        /// Validates a string value against the WAI-ARIA 1.2 abstract role list, ignoring case.
+        /// Validates a string value against the WAI-ARIA 1.2 abstract role list.
         /// </summary>
         /// <remarks>
         /// <para>
