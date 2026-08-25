@@ -79,6 +79,7 @@ namespace Syncfusion.Blazor.Toolkit.Internal
                 {
                     return string.Empty;
                 }
+                dateCulture = dateCulture.Replace('\u202F', ' ');
                 dateCulture = GetNativeDigits(dateCulture, currentCulture.NumberFormat.NativeDigits);
                 return dateCulture;
             }
