@@ -179,10 +179,9 @@ namespace Syncfusion.Blazor.Toolkit.Charts
         internal List<IChartEventBorder> _seriesBorders = [];
         internal List<IAxis> _axes = [];
         internal List<PatternOptions> _highLightPatternCollection = [];
-        // Instance-level font measurement caches (replaces process-wide static SizePerCharacter and ChartFontKeys)
-        // See: ChartHelper.cs remarks for why this was moved from static to instance
+        // Instance-level font measurement caches
         internal ConcurrentDictionary<string, Size> _fontSizeCache = new();
-        internal List<string> _requestedFontKeys = new();
+        internal ConcurrentDictionary<string, byte> _requestedFontKeys = new();
         internal ChartAnnotations _annotations = new();
         internal DomRect _elementOffset = new();
         /*To store the SVGElement's dimensions value.*/
@@ -1249,9 +1248,9 @@ namespace Syncfusion.Blazor.Toolkit.Charts
         /// <param name="text">The text to analyze.</param>
         /// <param name="font">The font options for the text.</param>
         /// <param name="distinctKeys">The collection to populate with distinct character keys.</param>
-        private static void GetDistinctCharacter(string text, ChartFontOptions font, List<string> distinctKeys)
+        private void GetDistinctCharacter(string text, ChartFontOptions font, List<string> distinctKeys)
         {
-            ChartHelper.GetDistinctCharacter(text, font, distinctKeys);
+            ChartHelper.GetDistinctCharacter(text, font, distinctKeys, this);
         }
 
         /// <summary>
@@ -1837,10 +1836,9 @@ namespace Syncfusion.Blazor.Toolkit.Charts
             List<string> uniqueKeys = [];
             foreach (string fontKey in fontKeys)
             {
-                if (!_requestedFontKeys.Contains(fontKey))
+                if (_requestedFontKeys.TryAdd(fontKey, 0))
                 {
                     uniqueKeys.Add(fontKey);
-                    _requestedFontKeys.Add(fontKey);
                 }
             }
 

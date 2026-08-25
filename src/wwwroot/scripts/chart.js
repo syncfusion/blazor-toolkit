@@ -1849,12 +1849,6 @@ export function initialize(_dataId, element, dotnetRef, isZooming, isScrollbar, 
         ejSVGTooltipElements.forEach((ejSVGTooltip) => {
             sfBlazorToolkit.base.setStyleAttribute(ejSVGTooltip, { position: 'absolute', zIndex: '1', pointerEvents: 'none' });
         });
-        // A11Y-004: mark every tooltip placeholder in this chart as a polite ARIA
-        // live region. This handles pages where the tooltip is never actually
-        // rendered (no hoverable data points) but the placeholder container still
-        // exists in the DOM. Render-time inserts are caught by the document-wide
-        // MutationObserver that applyTooltipLiveRegion installs.
-        applyTooltipLiveRegion(element.id);
     }
     instance.render();
 }
@@ -4538,85 +4532,6 @@ export function findColor(data, series) {
     return (data.point.i !== '' ? data.point.i : (series.marker.f !== '' ? series.marker.f : series.interior));
 }
 
-// A11Y-004: marks every tooltip element under the chart root as a polite ARIA live
-// region so screen readers (NVDA, JAWS, VoiceOver) announce the tooltip text
-// when it appears on hover/focus, satisfying WCAG 2.1 SC 4.1.3 (Status Messages).
-// The attributes are idempotent — repeated calls are safe.
-//
-// Implementation: a single MutationObserver attached to `document.body` that
-// catches any inserted `.e-tooltip` element anywhere in the document. This
-// covers every chart on the page (single or multi-chart demos), template
-// tooltips, and any future svgbase re-renders. Plus a one-shot tagged
-// immediate run so the first tooltip is marked without waiting for the
-// observer to fire.
-const _tooltipLiveApplied = new WeakSet();
-let _tooltipLiveObserver = null;
-function _markTooltipLiveRegion(node) {
-    if (!node || node.nodeType !== 1 || _tooltipLiveApplied.has(node)) {
-        return;
-    }
-    node.setAttribute('role', 'status');
-    node.setAttribute('aria-live', 'polite');
-    node.setAttribute('aria-atomic', 'true');
-    _tooltipLiveApplied.add(node);
-}
-function _scanDocumentForTooltips(root) {
-    if (!root || !root.querySelectorAll) {
-        return;
-    }
-    // Two selectors: the fully rendered tooltip (`.e-tooltip` added by
-    // svgbase.Tooltip after appendTo) and the chart's own tooltip placeholder
-    // container (`.ejSVGTooltip` added when the chart initialises).
-    const found = root.querySelectorAll('.e-tooltip, .ejSVGTooltip');
-    for (let i = 0; i < found.length; i++) {
-        _markTooltipLiveRegion(found[i]);
-    }
-}
-function _ensureTooltipLiveObserver() {
-    if (_tooltipLiveObserver) {
-        return;
-    }
-    _tooltipLiveObserver = new MutationObserver(function (mutations) {
-        for (let i = 0; i < mutations.length; i++) {
-            const added = mutations[i].addedNodes;
-            for (let j = 0; j < added.length; j++) {
-                const node = added[j];
-                if (node.nodeType !== 1) {
-                    continue;
-                }
-                if (node.classList && node.classList.contains('e-tooltip')) {
-                    _markTooltipLiveRegion(node);
-                }
-                if (node.querySelectorAll) {
-                    const descendants = node.querySelectorAll('.e-tooltip, .ejSVGTooltip');
-                    for (let k = 0; k < descendants.length; k++) {
-                        _markTooltipLiveRegion(descendants[k]);
-                    }
-                }
-            }
-        }
-    });
-    _tooltipLiveObserver.observe(document.body, { childList: true, subtree: true });
-}
-function applyTooltipLiveRegion(tooltipHostId) {
-    // Run both an immediate scan (in case the tooltip is already in the DOM)
-    // and set up the document-wide observer to catch future insertions.
-    setTimeout(function () {
-        const tooltipHost = document.getElementById(tooltipHostId);
-        if (tooltipHost) {
-            if (tooltipHost.classList && tooltipHost.classList.contains('e-tooltip')) {
-                _markTooltipLiveRegion(tooltipHost);
-            }
-            const chartContainer = tooltipHost.parentElement;
-            if (chartContainer) {
-                _scanDocumentForTooltips(chartContainer);
-            }
-        }
-        _scanDocumentForTooltips(document.body);
-        _ensureTooltipLiveObserver();
-    }, 0);
-}
-
 export function renderTooltip(tooltipOptions, elementId, chart) {
     const svgElement = document.getElementById(elementId + '_svg');
     const firstRender = svgElement && parseInt(svgElement.getAttribute('opacity'), 10) > 0 ? false : true;
@@ -4626,9 +4541,6 @@ export function renderTooltip(tooltipOptions, elementId, chart) {
         currentInstance.tooltip = new svgbase.Tooltip(options);
         currentInstance.tooltip.enableRTL = options.enableRTL;
         currentInstance.tooltip.appendTo('#' + elementId);
-        // A11Y-004: mark the tooltip as a polite live region so screen readers
-        // announce its content when it appears (WCAG 4.1.3 Status Messages).
-        applyTooltipLiveRegion(elementId);
     }
     else if (!sfBlazorToolkit.base.isNullOrUndefined(currentInstance.tooltip)) {
         currentInstance.tooltip.location = new svgbase.TooltipLocation(options.location.x, options.location.y);
@@ -4649,9 +4561,6 @@ export function renderTooltip(tooltipOptions, elementId, chart) {
         currentInstance.tooltip.clipBounds = new svgbase.TooltipLocation(options.clipBounds.x, options.clipBounds.y);
         currentInstance.tooltip.arrowPadding = options.arrowPadding;
         currentInstance.tooltip.dataBind();
-        // A11Y-004: re-apply the live-region attributes after dataBind() in case
-        // svgbase rebuilt the inner tooltip DOM during the update.
-        applyTooltipLiveRegion(elementId);
     }
 }
 
@@ -8198,8 +8107,6 @@ export function renderStriplineTooltip(tooltipOptions, showHeaderLine, elementId
     currentInstance.striplineTooltip.enableRTL = tooltipOptions.enableRTL;
     currentInstance.striplineTooltip.showHeaderLine = showHeaderLine;
     currentInstance.striplineTooltip.appendTo('#' + elementId);
-    // A11Y-004: mark the stripline tooltip as a polite live region.
-    applyTooltipLiveRegion(elementId);
     return true;
 }
 
