@@ -914,6 +914,28 @@ namespace Syncfusion.Blazor.Toolkit.Calendars
                 {
                     formatString = string.IsNullOrEmpty(Format) ? "HH:mm:ss" : formatString.Replace("hh", "HH", StringComparison.Ordinal);
                 }
+                if (DatePart == default)
+                {
+                    if (Value is not null && !IsTimeSpanType())
+                    {
+                        try
+                        {
+                            DateTime source = ConvertDate(Value);
+                            if (source != default)
+                            {
+                                DatePart = source.Date;
+                            }
+                        }
+                        catch
+                        {
+                            // Fall through to today's date
+                        }
+                    }
+                    if (DatePart == default)
+                    {
+                        DatePart = DateTime.Today;
+                    }
+                }
                 while (end >= start)
                 {
                     DateTime listDateTime = new(DatePart.Year, DatePart.Month, DatePart.Day, start.Hours, start.Minutes, start.Seconds, start.Milliseconds, DatePart.Kind);

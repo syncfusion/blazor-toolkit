@@ -1073,15 +1073,14 @@ namespace Syncfusion.Blazor.Toolkit.Calendars
                     TimeSpan offset = ((DateTimeOffset)dateTimeValue).Offset;
                     int hour = ((DateTimeOffset)dateTimeValue).Hour;
                     int minute = ((DateTimeOffset)dateTimeValue).Minute;
-                    int second = ((DateTimeOffset)dateTimeValue).Second;
-                    int milliSecond = ((DateTimeOffset)dateTimeValue).Millisecond;
-                    dateValue = new DateTimeOffset(year, month, day, hour, minute, second, milliSecond, offset);
+                    dateValue = new DateTimeOffset(year, month, day, hour, minute, 0, 0, offset);
                 }
                 else
                 {
                     if (dateTimeValue is not null)
                     {
-                        dateValue = new DateTime(((DateTime)dateTimeValue).Ticks, DateTimeKind.Local);
+                        DateTime dt = (DateTime)dateTimeValue;
+                        dateValue = new DateTime(dt.Year, dt.Month, dt.Day, dt.Hour, dt.Minute, 0, DateTimeKind.Local);
                     }
                 }
                 await UpdateValueAsync(dateValue).ConfigureAwait(false);
