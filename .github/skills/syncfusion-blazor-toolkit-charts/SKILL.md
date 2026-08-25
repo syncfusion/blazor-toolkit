@@ -2,23 +2,32 @@
 license: MIT
 name: syncfusion-blazor-toolkit-charts
 description: >
-  Implement the Syncfusion Blazor Toolkit SfChart component for data
-  visualizations that bind to List<T> or SfDataManager.
+  Implement the Syncfusion Blazor Toolkit SfChart component (namespace
+  Syncfusion.Blazor.Toolkit.Charts; shipped inside NuGet package
+  Syncfusion.Blazor.Toolkit — there is no separate
+  Syncfusion.Blazor.Toolkit.Charts package).
   USE FOR: line, column, bar, area, scatter, bubble, spline, and stacking
-  series; category / numeric / DateTime / logarithmic axes; dual axes &
-  multiple panes; tooltips, crosshair, zoom, pan, selection; trend lines,
-  strip lines; accessibility (ARIA, keyboard, RTL, i18n); live data and
+  series; category / numeric / DateTime / logarithmic axes; dual axes and
+  multiple panes; tooltip, crosshair, zoom, pan, selection; trend lines,
+  strip lines; ARIA, keyboard, RTL, i18n; live data via SfDataManager;
   data editing.
-  DO NOT USE FOR: any control outside Syncfusion.Blazor.Toolkit (the Grid,
-  Scheduler, Diagram, etc. belong to packages outside this skill); date/time
-  input (use syncfusion-blazor-toolkit-calendars); form fields / checkbox /
-  radio (use syncfusion-blazor-toolkit-inputs); button styling only
-  (use syncfusion-blazor-toolkit-buttons); modal dialogs and tooltip labels
-  (use syncfusion-blazor-toolkit-popups).
-compatibility: .NET 8+, render-modes: Server, WebAssembly, Auto
+  REQUIRES interactive render mode for tooltip / crosshair / zoom /
+  selection / live updates. Static SSR renders the SVG frame only
+  (default 600×450); for interactivity place the chart in an interactive
+  child component or switch the page to Server / WebAssembly / Auto.
+  Data binding requires List<T> (or SfDataManager) properties whose names
+  match the XName / YName / Size strings exactly (case-sensitive).
+  DO NOT USE FOR: any control outside Syncfusion.Blazor.Toolkit (Grid,
+  Scheduler, Diagram, Maps belong to other Syncfusion products — stop
+  and ask); date / time inputs (syncfusion-blazor-toolkit-calendars);
+  form fields, checkbox, radio, switch (syncfusion-blazor-toolkit-inputs);
+  buttons only (syncfusion-blazor-toolkit-buttons); SfDialog or
+  SfTooltip hosting a chart (syncfusion-blazor-toolkit-popups);
+  loading spinner overlay (syncfusion-blazor-toolkit-notifications).
+compatibility: .NET 8+. Render modes: Server, WebAssembly, Auto (interactive) — interactive features require an interactive circuit. Static SSR renders the SVG frame only.
 metadata:
   author: "Syncfusion Inc"
-  version: "1.1.0"
+  version: "1.0.0"
   category: "Data Visualization"
 ---
 
@@ -55,6 +64,21 @@ Re-route before you start.
 If the task mixes a chart + another control, load this skill **and** the
 sibling — never start a chart inside a `SfDialog` without reading
 `syncfusion-blazor-toolkit-popups`.
+
+### When you need to compose `SfChart` with another control
+
+| User phrase | Pair this skill with | Why the sibling is needed |
+|-------------|----------------------|--------------------------|
+| "Refresh the chart" / "Re-fetch button" | `syncfusion-blazor-toolkit-buttons` | `SfButton` with `OnClick="async () => await ChartRef.RefreshAsync()"` |
+| "PNG export" / "Download chart" | `syncfusion-blazor-toolkit-buttons` + `references/api-reference.md` | Toolbar item triggers a built-in export method via `@ref` |
+| "Show spinner while data loads" | `syncfusion-blazor-toolkit-notifications` | Overlay `SfSpinner` on the chart container; toggle via `Visible` |
+| "Filter the chart by date range" | `syncfusion-blazor-toolkit-calendars` | Two `SfDatePicker`s bound to filter parameters drive the data source |
+| "Confirm before deleting a series" | `syncfusion-blazor-toolkit-popups` | `SfDialog` hosts the chart and gates the destructive click |
+| "Search by name" | `syncfusion-blazor-toolkit-inputs` | `SfTextBox OnChange` filters the `List<T>` bound to `DataSource` |
+| "Light/dark mode toggle" | `references/appearance-styling.md` | Drives `Theme` on `SfChart` from a flag in `@code` (no extra control) |
+
+The chart is the source of truth for **`SfChart` itself**; the sibling
+skill owns the surrounding control. Load both.
 
 ## Step 1 — Read project instructions
 
@@ -110,35 +134,27 @@ and confirm with the user before scaffolding. Detail lives in
 
 ## Step 3 — Pick render mode and register services
 
-> **`SfChart` SSR handling.** Static SSR renders the chart frame at
-> default 600×450 (see `SfChart.razor.OnInitialized`: `if
-> (IsStaticServerRendering()) { _svgWidth = "600"; _svgHeight = "450"; }`).
-> The JS module loader — `chart.js`, `svgbase.js`, `touch.js`,
-> `animation.js` from `_content/Syncfusion.Blazor.Toolkit/scripts/*` —
-> only runs once the interactive circuit is wired. Tooltip / crosshair /
-> zoom / selection are non-functional in pure Static SSR.
-> If you must keep the host page static, place the chart in an
-> interactive child component (per-page or per-component `@rendermode`).
+Charts are interactive components: tooltip / crosshair / zoom / selection
+need an interactive circuit. Pick from the table below; for the
+`Program.cs` registration snippet and SCSS pipeline plumbing, load
+`references/getting-started.md`.
 
 | Data source | Render mode | Why |
 |-------------|-------------|-----|
 | Static `List<T>` baked into the page | Server, WebAssembly, or Auto (interactive) | SSR renders the SVG frame at defaults (600×450); JS loads interactively for tooltips, zoom, export |
-| Pure SSR (no JS) | Works for static-frame rendering | Tooltip/crosshair/selection/zoom JS features need interactive |
+| Pure SSR (no JS) | Works for static-frame rendering only | Tooltip / crosshair / selection / zoom JS features need interactive |
 | `IQueryable` / live-streaming binding | Server, WebAssembly, or Auto | Needs `OnAfterRenderAsync` to apply updates — Static SSR can't refresh |
 | `SfDataManager` calling a remote API | Auto or WebAssembly | The API call crosses the runtime boundary |
 | Toolkit services available app-wide | Server (one DI container) / Auto (register in **both** projects) | Render-mode aware |
 
-Charts are interactive components. Register the toolkit services once at app
-startup so `SfChart` (and the rest of the toolkit) can resolve them:
+Minimal registration (no JS script tags needed — the chart loads its JS
+modules from `_content/Syncfusion.Blazor.Toolkit/scripts/*` itself):
 
 ```csharp
-// Program.cs  (Server, WebAssembly, or both for Auto)
-// Equivalent sites confirmed in samples/Blazor.Toolkit.Samples/Program.cs
-// and samples/Blazor.Toolkit.Samples.Client/Program.cs.
+// Program.cs
 using Syncfusion.Blazor.Toolkit;
 
 var builder = WebApplication.CreateBuilder(args);
-// … AddRazorComponents / AddInteractiveServerComponents / AddInteractiveWebAssemblyComponents …
 builder.Services.AddSyncfusionBlazorToolkit(options =>
 {
     options.EnableRtl = false;
@@ -147,33 +163,23 @@ builder.Services.AddSyncfusionBlazorToolkit(options =>
 ```
 
 For Auto/WASM with prerendering, call `AddSyncfusionBlazorToolkit()` in
-**both** `Program.cs` files — the server bootstrap and the `.Client`
-bootstrap. Verified registration sites:
-
-- `samples/Blazor.Toolkit.Samples/Program.cs`
-- `samples/Blazor.Toolkit.Samples.Client/Program.cs`
-
-`AddSyncfusionBlazorToolkit` registers `SyncfusionBlazorToolkitService` as
-scoped (the service `SfBaseComponent` reaches for `IsDeviceMode` /
-`IsJsInProcess`). Detail: `references/getting-started.md` for the full
-walkthrough.
+**both** `Program.cs` files (server bootstrap and `.Client` bootstrap).
+Full walkthrough, including the JS-module loader and the SCSS pipeline
+notes: `references/getting-started.md`.
 
 ## Step 3.5 — Apply a theme (C# enum, *not* CSS variables)
 
 `SfChart` has its own in-C# theme pipeline, declared in
 `src/Base/Enumeration.cs`. **Theme colors come from the C# `Theme`
-parameter** — there is no CSS-variable layer you can poke from the host
-page. The `Theme` enum currently exposes **two values** (verified at
-`src/Base/Enumeration.cs`):
+parameter** — there is no CSS-variable layer. The `Theme` enum currently
+exposes **two values**:
 
-| `Theme` value | Visual | When to use |
-|---|---|---|
-| `Syncfusion.Blazor.Toolkit.Theme.Fluent` *(default)* | Light background, dark text, neutral accents | Light-mode app, default look |
-| `Syncfusion.Blazor.Toolkit.Theme.FluentDark` | Dark background, light text, adjusted accents | Dark-mode app, darkmode toggle |
+| `Theme` value | When to use |
+|---|---|
+| `Syncfusion.Blazor.Toolkit.Theme.Fluent` *(default)* | Light-mode app, default look |
+| `Syncfusion.Blazor.Toolkit.Theme.FluentDark` | Dark-mode app, darkmode toggle |
 
 ```razor
-@using Syncfusion.Blazor.Toolkit.Charts
-
 <SfChart Title="Sales Analysis" Theme="Syncfusion.Blazor.Toolkit.Theme.FluentDark">
     <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Toolkit.ValueType.Category" />
     <ChartSeries DataSource="@SalesData"
@@ -184,11 +190,11 @@ page. The `Theme` enum currently exposes **two values** (verified at
 
 > **Older docs reference `Theme.Material`, `Theme.Bootstrap5`,
 > `Theme.Tailwind`, or `Theme.HighContrast`.** Those values are **not
-> part of `Syncfusion.Blazor.Toolkit.Theme`** in this repo. Using a
-> non-existent value compiles to silence and renders nothing — pick
-> `Theme.Fluent` or `Theme.FluentDark`.
+> part of `Syncfusion.Blazor.Toolkit.Theme`**. Non-existent values
+> compile to silence and render nothing — pick `Theme.Fluent` or
+> `Theme.FluentDark`.
 
-### Runtime theme switching (light/dark toggle)
+Runtime theme switching (light/dark toggle):
 
 ```razor
 <SfChart Theme="@(_isDark ? Syncfusion.Blazor.Toolkit.Theme.FluentDark
@@ -197,28 +203,9 @@ page. The `Theme` enum currently exposes **two values** (verified at
 </SfChart>
 ```
 
-Pair with `@code { private bool _isDark; }` bound to your host app's
-dark-mode signal. `Theme` re-renders the chart in place — no
-`RefreshAsync` call required.
-
-### SCSS pipeline — still required, but for **focus / interaction** rules only
-
-`src/wwwroot/styles/chart.scss` **does** exist and is wired into the
-combined `fluent.scss` via `componentThemeOrder` in `gulpfile.js`. It
-provides the *interactive* styles that aren't theme colors:
-
-- `:focus-visible` outline (`.e-chart-focused`)
-- `.e-legend-cursor`, `.e-legend-pointer`
-- `.e-series-outline`, `.e-trendline-outline` (suppress default browser focus rectangles)
-- `.e-stacklabel-visible` / `.e-stacklabel-hidden`
-- `.e-lastlabel-visible` / `.e-lastlabel-hidden`
-
-None of these are theme colors — `Theme` covers them. But the SCSS is
-still required to compile these structural rules. The first build runs
-`gulp blazor-toolkit-themes` automatically (see
-`codestudio-instructions.md` Build & Test Discipline); subsequent
-builds skip it. If chart focus / legend-cursor rules appear stale,
-run `gulp blazor-toolkit-themes` from the repo root once.
+`Theme` re-renders the chart in place — no `RefreshAsync` call required.
+SCSS pipeline notes (`:focus-visible`, legend-cursor, stack-label rules)
+live in `references/getting-started.md`.
 
 ## Step 4 — Gather inputs
 
@@ -312,8 +299,8 @@ data labels, annotations, gradients: `references/visual-elements.md`.
 
 ## Step 7 — Apply critical API rules (load before writing code)
 
-These contradict what an agent produces by default. Encode them once,
-re-read before every commit.
+These contradict the agent default. Each rule cites the source it was
+verified against.
 
 ### 7.1 Enums are always fully qualified
 
@@ -372,20 +359,13 @@ DashArray, LineType, opacity are **not** on this child. Use the parent's
 
 ### 7.5 Use `@ref` for programmatic methods
 
-**Public** methods on `SfChart` (verified against
-`src/Components/Charts/Chart/SfChart.razor.Methods.cs`):
-
-- Async (`Task`): `RefreshAsync`, `ShowTooltipAsync`, `HideTooltipAsync`,
-  `ShowCrosshairAsync`, `HideCrosshairAsync`
-- Sync (`void`): `Sort`, `ClearSort`, `ClearSelection`, `PreventRender`
-
-Call them via `@ref="ChartRef"`.
-
-**`<exclude/>` internal surface** (decorated with
-`[EditorBrowsable(EditorBrowsableState.Never)]`, **not** in IntelliSense):
-`AddSeriesAsync`, `RemoveSeries`, `ClearSeries`, `RefreshLiveData`. They
-compile and run, but should not appear in user documentation unless you
-intend to publish them.
+Public async methods on `SfChart`: `RefreshAsync`, `ShowTooltipAsync`,
+`HideTooltipAsync`, `ShowCrosshairAsync`, `HideCrosshairAsync`. Public
+sync: `Sort`, `ClearSort`, `ClearSelection`, `PreventRender`. Call them
+through `@ref="ChartRef"`. Internal methods (`AddSeriesAsync`,
+`RemoveSeries`, `ClearSeries`, `RefreshLiveData`) are
+`[EditorBrowsable(EditorBrowsableState.Never)]` — do not document or
+rely on them. Full signatures: `references/api-reference.md`.
 
 ```razor
 <SfChart @ref="ChartRef">…</SfChart>
@@ -416,10 +396,10 @@ the chart container.
 ### 7.8 Every event — including per-axis callbacks — lives on a single root-level `<ChartEvents>`
 
 `OnAxisLabelRender`, `OnAxisMultiLevelLabelRender`, and
-`OnAxisActualRangeCalculated` are properties on `ChartEvents` and bind on
-a **single** child block of `<SfChart>`, not nested under
-`<ChartPrimaryXAxis>` / `<ChartPrimaryYAxis>`. Verified at
-`src/Components/Charts/Chart/ChartEvent/ChartEvents.razor.cs:38, 367, 674, 891`.
+`OnAxisActualRangeCalculated` are properties on `ChartEvents`. Bind them
+on a **single** `<ChartEvents>` child of `<SfChart>` — never nested
+inside `<ChartPrimaryXAxis>` or `<ChartPrimaryYAxis>` (verified at
+`src/Components/Charts/Chart/ChartEvent/ChartEvents.razor.cs`).
 
 ```razor
 <SfChart>
@@ -603,15 +583,11 @@ Once validation (Step 8) is green, the natural follow-on tasks are:
 5. **Bind real data.** If `List<T>` is no longer enough or the user
    needs paging / web-API backing → load `references/data-handling.md`
    and migrate the `DataSource` to `SfDataManager`.
-6. **Composition with other controls.** If the chart needs a header
-   filter, a refresh button, an export-PNG button, a loading overlay
-   while data is fetching, or a confirm dialog → load the matching
-   sibling skill in the same folder:
-   `syncfusion-blazor-toolkit-buttons`, `syncfusion-blazor-toolkit-inputs`,
-   `syncfusion-blazor-toolkit-notifications`, or
-   `syncfusion-blazor-toolkit-popups`. The chart skill is the source of
-   truth for the chart itself; the sibling skills own the surrounding
-   controls.
+6. **Compose with another control.** For the chart's neighbours (a
+   header filter, refresh button, export-PNG button, loading overlay,
+   or confirm dialog) load the matching sibling skill in the same
+   folder — decisions are tabled in the "When you need to compose"
+   section near the top of this skill.
 7. **Cross-check against the live demo.** Re-verify any behaviour the
    user will see against the Syncfusion Toolkit Charts overview
    (`https://blazor.syncfusion.com/demos/toolkit/charts/overview`)

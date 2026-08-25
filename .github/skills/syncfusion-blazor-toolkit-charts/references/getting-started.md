@@ -432,3 +432,65 @@ After setting up your first chart:
 - Style with themes and custom colors
 - Add annotations and markers
 
+## Toolkit Registers `SyncfusionBlazorToolkitService` as Scoped
+
+`AddSyncfusionBlazorToolkit()` registers
+`SyncfusionBlazorToolkitService` as **scoped** — the service
+`SfBaseComponent` reaches for `IsDeviceMode` and `IsJsInProcess`. Don't
+re-register it; one call per project is enough. Confirmed sites:
+
+- `samples/Blazor.Toolkit.Samples/Program.cs`
+- `samples/Blazor.Toolkit.Samples.Client/Program.cs`
+
+For Auto/WASM with prerendering, the registration must appear in **both**
+`Program.cs` files. The Server bootstrap provides the service during
+prerender; the `.Client` bootstrap re-provides it for the interactive
+circuit.
+
+## Render-mode matrix at a glance
+
+| Data source | Render mode | Why |
+|-------------|-------------|-----|
+| Static `List<T>` baked into the page | Server, WebAssembly, or Auto (interactive) | SSR renders the SVG frame at defaults (600×450); JS loads interactively for tooltips, zoom, export |
+| Pure SSR (no JS) | Static SSR (frame only) | Tooltip / crosshair / selection / zoom JS features need interactive |
+| `IQueryable` / live-streaming binding | Server, WebAssembly, or Auto | Needs `OnAfterRenderAsync` to apply updates — Static SSR can't refresh |
+| `SfDataManager` calling a remote API | Auto or WebAssembly | The API call crosses the runtime boundary |
+| Toolkit services available app-wide | Server (one DI container) / Auto (register in **both** projects) | Render-mode aware |
+
+`SfChart.razor.OnInitialized` short-circuits to `600×450` under
+`IsStaticServerRendering()`:
+
+```csharp
+// From SfChart.razor.OnInitialized
+if (IsStaticServerRendering())
+{
+    _svgWidth = "600";
+    _svgHeight = "450";
+}
+```
+
+The JS module loader (`chart.js`, `svgbase.js`, `touch.js`,
+`animation.js` under `_content/Syncfusion.Blazor.Toolkit/scripts/*`)
+runs only once the interactive circuit is wired. Tooltip, crosshair,
+zoom, and selection are inert until then. If the host page must stay
+Static SSR, place the chart in an interactive child component
+(per-page or per-component `@rendermode`).
+
+## SCSS pipeline — focus and interaction rules only
+
+`src/wwwroot/styles/chart.scss` is wired into the combined `fluent.scss`
+via `componentThemeOrder` in `gulpfile.js`. It provides **interactive /
+structural** styles that aren't theme colors:
+
+- `:focus-visible` outline (`.e-chart-focused`)
+- `.e-legend-cursor`, `.e-legend-pointer`
+- `.e-series-outline`, `.e-trendline-outline` (suppress default browser focus rectangles)
+- `.e-stacklabel-visible` / `.e-stacklabel-hidden`
+- `.e-lastlabel-visible` / `.e-lastlabel-hidden`
+
+Theme colors (`Fluent`, `FluentDark`) come from the `Theme` parameter,
+not from CSS variables. The first build runs `gulp blazor-toolkit-themes`
+automatically (see `codestudio-instructions.md` Build & Test Discipline);
+later builds skip it. If chart focus / legend-cursor rules appear stale,
+run `gulp blazor-toolkit-themes` once from the repo root.
+
