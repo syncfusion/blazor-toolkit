@@ -113,6 +113,7 @@ namespace Syncfusion.Blazor.Toolkit.Tests.Calendars.DateTimePicker
                 var currentCulture = CultureInfo.CurrentCulture;
                 IFormattable dateValue = date as IFormattable;
                 var dateCulture = dateValue.ToString(format, currentCulture);
+                dateCulture = dateCulture?.Replace('\u202F', ' ');
                 dateCulture = GetNativeDigits(dateCulture, currentCulture.NumberFormat.NativeDigits);
                 return dateCulture;
             }
