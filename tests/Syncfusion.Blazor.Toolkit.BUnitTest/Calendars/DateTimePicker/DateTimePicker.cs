@@ -1,4 +1,4 @@
-using AngleSharp.Css.Dom;
+﻿using AngleSharp.Css.Dom;
 using Bunit;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Web;
@@ -78,14 +78,14 @@ namespace Syncfusion.Blazor.Toolkit.Tests.Calendars.DateTimePicker
             var dateInstance = RenderComponent<SfDateTimePicker<DateTime?>>(parameters => parameters.Add(p => p.Readonly, true));
             var containerEle = dateInstance.Find("input").ParentElement;
             var iconEle = containerEle.QuerySelector(".e-timeline-today");
-            iconEle.MouseDown();
+            iconEle.Click();
             await Task.Delay(70);
             var readonlyPopupEle = dateInstance.FindAll(".e-popup");
             Assert.Equal(0, readonlyPopupEle.Count);
             dateInstance.SetParametersAndRender(("Readonly", false));
             containerEle = dateInstance.Find("input").ParentElement;
             iconEle = containerEle.QuerySelector(".e-timeline-today");
-            iconEle.MouseDown();
+            iconEle.Click();
             await Task.Delay(200);
             var popupElement = dateInstance.Find(".e-popup");
             Assert.NotNull(popupElement);
@@ -159,9 +159,12 @@ namespace Syncfusion.Blazor.Toolkit.Tests.Calendars.DateTimePicker
             Assert.Contains("e-month", parentContainer.Children[1].ClassName);
             Assert.Contains("e-footer-container", parentContainer.Children[2].ClassName);
             var buttonList = popupEle.QuerySelectorAll("button");
-            var prevButton = buttonList[0];
-            var nextButton = buttonList[1];
-            var todayButton = buttonList[2];
+            // Index 0: title button (.e-day.e-title), 1: prev, 2: next, 3: today
+            var titleButton = buttonList[0];
+            var prevButton = buttonList[1];
+            var nextButton = buttonList[2];
+            var todayButton = buttonList[3];
+            Assert.Contains("e-title", titleButton.ClassName);
             Assert.Contains("e-prev", prevButton.ClassName);
             Assert.Contains("e-next", nextButton.ClassName);
             Assert.Contains("e-today", todayButton.ClassName);
@@ -196,9 +199,12 @@ namespace Syncfusion.Blazor.Toolkit.Tests.Calendars.DateTimePicker
             Assert.Contains("e-month", parentContainer.Children[1].ClassName);
             Assert.Contains("e-footer-container", parentContainer.Children[2].ClassName);
             var buttonList = popupEle.QuerySelectorAll("button");
-            var prevButton = buttonList[0];
-            var nextButton = buttonList[1];
-            var todayButton = buttonList[2];
+            // Index 0: title button (.e-day.e-title), 1: prev, 2: next, 3: today
+            var titleButton = buttonList[0];
+            var prevButton = buttonList[1];
+            var nextButton = buttonList[2];
+            var todayButton = buttonList[3];
+            Assert.Contains("e-title", titleButton.ClassName);
             Assert.Contains("e-prev", prevButton.ClassName);
             Assert.Contains("e-next", nextButton.ClassName);
             Assert.Contains("e-today", todayButton.ClassName);
@@ -265,7 +271,7 @@ namespace Syncfusion.Blazor.Toolkit.Tests.Calendars.DateTimePicker
             Assert.Equal(default(DateTime), dateInstance.Instance.Value);
             var containerEle = dateInstance.Find("input").ParentElement;
             var dateIcon = containerEle.QuerySelector(".e-timeline-today");
-            dateIcon.MouseDown();
+            dateIcon.Click();
             await Task.Delay(200);
             var popupEle = dateInstance.Find(".e-popup");
             Assert.Contains("e-popup", popupEle.ClassName);
@@ -395,10 +401,10 @@ namespace Syncfusion.Blazor.Toolkit.Tests.Calendars.DateTimePicker
             var enabledCells = tableElement.QuerySelectorAll("td:not(.e-disabled)");
             Assert.Equal(3, disabledCells.Length);
             Assert.Equal(totalCells.Length, (disabledCells.Length + enabledCells.Length));
-            Assert.Contains("e-prev", buttons[0].ClassName);
-            Assert.Contains("e-disabled", buttons[0].ClassName);
-            Assert.Contains("e-next", buttons[1].ClassName);
-            Assert.DoesNotContain("e-disabled", buttons[1].ClassName);
+            Assert.Contains("e-prev", buttons[1].ClassName);
+            Assert.Contains("e-disabled", buttons[1].ClassName);
+            Assert.Contains("e-next", buttons[2].ClassName);
+            Assert.DoesNotContain("e-disabled", buttons[2].ClassName);
         }
         //[Fact(Timeout = 10000)]
         //public async Task NavigateCalendarToMonthviewWithMinValue()
@@ -437,10 +443,10 @@ namespace Syncfusion.Blazor.Toolkit.Tests.Calendars.DateTimePicker
             var enabledCells = tableElement.QuerySelectorAll("td:not(.e-disabled)");
             Assert.Equal(38, disabledCells.Length);
             Assert.Equal(totalCells.Length, (disabledCells.Length + enabledCells.Length));
-            Assert.Contains("e-prev", buttons[0].ClassName);
-            Assert.DoesNotContain("e-disabled", buttons[0].ClassName);
-            Assert.Contains("e-next", buttons[1].ClassName);
-            Assert.Contains("e-disabled", buttons[1].ClassName);
+            Assert.Contains("e-prev", buttons[1].ClassName);
+            Assert.DoesNotContain("e-disabled", buttons[1].ClassName);
+            Assert.Contains("e-next", buttons[2].ClassName);
+            Assert.Contains("e-disabled", buttons[2].ClassName);
         }
         [Fact(Timeout = 10000)]
         public async Task MinMaxValue()
@@ -474,10 +480,10 @@ namespace Syncfusion.Blazor.Toolkit.Tests.Calendars.DateTimePicker
             var enabledCells = tableElement.QuerySelectorAll("td:not(.e-disabled)");
             Assert.Equal(38, disabledCells.Length);
             Assert.Equal(totalCells.Length, (disabledCells.Length + enabledCells.Length));
-            Assert.Contains("e-prev", buttons[0].ClassName);
-            Assert.DoesNotContain("e-disabled", buttons[0].ClassName);
-            Assert.Contains("e-next", buttons[1].ClassName);
-            Assert.Contains("e-disabled", buttons[1].ClassName);
+            Assert.Contains("e-prev", buttons[1].ClassName);
+            Assert.DoesNotContain("e-disabled", buttons[1].ClassName);
+            Assert.Contains("e-next", buttons[2].ClassName);
+            Assert.Contains("e-disabled", buttons[2].ClassName);
         }
         [Fact(Timeout = 10000)]
         public async Task WeekNumber()
@@ -515,16 +521,16 @@ namespace Syncfusion.Blazor.Toolkit.Tests.Calendars.DateTimePicker
             var tableElement = popupEle.QuerySelector("table");
             var parentContainer = tableElement.ParentElement.ParentElement;
             var buttons = parentContainer.QuerySelectorAll("button");
-            Assert.Equal(3, buttons.Length);
-            Assert.Contains("e-today", buttons[2].ClassName);
-            Assert.Contains("e-btn", buttons[2].ClassName);
-            Assert.Equal("Today", buttons[2].TextContent);
+            Assert.Equal(4, buttons.Length);
+            Assert.Contains("e-today", buttons[3].ClassName);
+            Assert.Contains("e-btn", buttons[3].ClassName);
+            Assert.Equal("Today", buttons[3].TextContent);
             Calendar.SetParametersAndRender(("ShowTodayButton", false));
             Assert.False(Calendar.Instance.ShowTodayButton);
             tableElement = Calendar.Find("table");
             parentContainer = tableElement.ParentElement.ParentElement;
             buttons = parentContainer.QuerySelectorAll("button");
-            Assert.Equal(2, buttons.Length);
+            Assert.Equal(3, buttons.Length);
         }
         [Fact(Timeout = 10000)]
         public async Task WeekRules()
@@ -844,7 +850,7 @@ namespace Syncfusion.Blazor.Toolkit.Tests.Calendars.DateTimePicker
             var selectedDate = Calendar.Find("table").QuerySelector("td.e-selected");
             Assert.Null(selectedDate);
             var buttonList = Calendar.FindAll("button");
-            buttonList[2].Click();
+            buttonList[5].Click();
             await Calendar.Instance.ShowPopupAsync();
             tableElement = Calendar.Find("table");
             Assert.Equal(1, tableElement.QuerySelectorAll("td.e-selected").Length);
@@ -865,7 +871,7 @@ namespace Syncfusion.Blazor.Toolkit.Tests.Calendars.DateTimePicker
             var selectedDate = Calendar.Find("table").QuerySelector("td.e-selected");
             Assert.Null(selectedDate);
             var buttonList = Calendar.FindAll("button");
-            buttonList[2].Click();
+            buttonList[5].Click();
             await Calendar.Instance.ShowPopupAsync();
             popupEle = Calendar.Find(".e-popup");
             tableElement = popupEle.QuerySelector("table");
@@ -893,7 +899,7 @@ namespace Syncfusion.Blazor.Toolkit.Tests.Calendars.DateTimePicker
             var tContent = popupEle.QuerySelector(".e-content");
             Assert.Contains("e-year", tContent.ClassName);
             var buttonList = Calendar.FindAll("button");
-            buttonList[2].Click();
+            buttonList[5].Click();
             await Calendar.Instance.ShowPopupAsync();
             popupEle = Calendar.Find(".e-popup");
             tableElement = popupEle.QuerySelector("table");
@@ -910,7 +916,7 @@ namespace Syncfusion.Blazor.Toolkit.Tests.Calendars.DateTimePicker
             parentContainer = tableElement.ParentElement.ParentElement;
             parentContainer.QuerySelector(".e-title").Click(); tContent = popupEle.QuerySelector(".e-content");
             Assert.Contains("e-decade", tContent.ClassName);
-            buttonList[2].Click();
+            buttonList[5].Click();
             tableElement = Calendar.Find("table");
             tContent = popupEle.QuerySelector(".e-content");
             Assert.Contains("e-month", tContent.ClassName);
@@ -936,7 +942,7 @@ namespace Syncfusion.Blazor.Toolkit.Tests.Calendars.DateTimePicker
             Assert.Null(selectedDate);
             Assert.Equal("Year", Calendar.Instance.CurrentView());
             var buttonList = Calendar.FindAll("button");
-            buttonList[2].Click();
+            buttonList[5].Click();
             var tContent = popupEle.QuerySelector(".e-content");
             Assert.Contains("e-year", tContent.ClassName);
             tableElement = popupEle.QuerySelector("table");
@@ -961,7 +967,7 @@ namespace Syncfusion.Blazor.Toolkit.Tests.Calendars.DateTimePicker
             Assert.Null(selectedDate);
             Assert.Equal("Decade", Calendar.Instance.CurrentView());
             var buttonList = Calendar.FindAll("button");
-            buttonList[2].Click();
+            buttonList[5].Click();
             var tContent = popupEle.QuerySelector(".e-content");
             Assert.Contains("e-decade", tContent.ClassName);
             tableElement = popupEle.QuerySelector("table");
@@ -983,7 +989,7 @@ namespace Syncfusion.Blazor.Toolkit.Tests.Calendars.DateTimePicker
             Assert.False(dateInstance.Instance.AllowEdit);
             var containerEle = dateInstance.Find("input").ParentElement;
             var dateIcon = containerEle.QuerySelector(".e-timeline-today");
-            dateIcon.MouseDown();
+            dateIcon.Click();
             await Task.Delay(300);
             var popupEle = dateInstance.Find(".e-popup");
             Assert.Contains("e-popup", popupEle.ClassName);
@@ -1251,7 +1257,7 @@ namespace Syncfusion.Blazor.Toolkit.Tests.Calendars.DateTimePicker
             Assert.Equal(default(DateTime), dateInstance.Instance.Value);
             var containerEle = dateInstance.Find("input").ParentElement;
             var dateIcon = containerEle.QuerySelector(".e-clock");
-            dateIcon.MouseDown();
+            dateIcon.Click();
             await Task.Delay(200);
             var popupEle = dateInstance.Find(".e-popup");
             Assert.Contains("e-popup", popupEle.ClassName);
@@ -1364,7 +1370,7 @@ namespace Syncfusion.Blazor.Toolkit.Tests.Calendars.DateTimePicker
             Assert.Equal("1", component.Instance.DayOfWeek);
         }
 
-        [Fact(Timeout = 10000, DisplayName = "BLAZ-21402 - DateTimeKind is set to Unspecified in DateTimePicker’s value")]
+        [Fact(Timeout = 10000, DisplayName = "BLAZ-21402 - DateTimeKind is set to Unspecified in DateTimePickerâ€™s value")]
         public async Task DatTimeKindIssue()
         {
             var Val = new DateTime(2022, 3, 1, 10, 0, 0, DateTimeKind.Local);
@@ -1543,7 +1549,7 @@ namespace Syncfusion.Blazor.Toolkit.Tests.Calendars.DateTimePicker
             Assert.True(holders.Count == 0 || holders.All(h => string.IsNullOrWhiteSpace(h.TextContent)));
             var container = comp.Find("input").ParentElement;
             var timeIcon = container.QuerySelector(".e-clock");
-            timeIcon.MouseDown();
+            timeIcon.Click();
             Assert.Equal(0, comp.FindAll(".e-popup-holder").Count);
             Assert.Equal(0, changeCount);
         }
@@ -1554,7 +1560,7 @@ namespace Syncfusion.Blazor.Toolkit.Tests.Calendars.DateTimePicker
             var comp = RenderComponent<SfDateTimePicker<DateTime>>();
             var container = comp.Find("input").ParentElement;
             var dateIcon = container.QuerySelector(".e-timeline-today");
-            dateIcon.MouseDown();
+            dateIcon.Click();
             comp.WaitForAssertion(() =>
             {
                 var popup = comp.FindAll(".e-popup-holder");
@@ -1593,3 +1599,4 @@ namespace Syncfusion.Blazor.Toolkit.Tests.Calendars.DateTimePicker
         }
     }
 }
+

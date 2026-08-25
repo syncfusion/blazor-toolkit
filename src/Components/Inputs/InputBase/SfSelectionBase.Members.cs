@@ -132,6 +132,27 @@ namespace Syncfusion.Blazor.Toolkit.Inputs
             set => _inputAttributes = value;
         }
 
+        /// <summary>
+        /// Gets or sets the accessible name for the component when no visible <see cref="Label"/> is supplied.
+        /// </summary>
+        /// <value>
+        /// A <see cref="string"/> that is announced by screen readers in place of (or in addition to) the visible label.
+        /// The default value is <see langword="null"/>.
+        /// </value>
+        /// <remarks>
+        /// Use this property to provide a meaningful accessible name for assistive technologies when the
+        /// component is not accompanied by visible label text. When both <see cref="Label"/> and
+        /// <see cref="AriaLabel"/> are supplied, the visible label takes precedence for sighted users and the
+        /// component continues to use the visible label as its accessible name.
+        /// </remarks>
+        /// <example>
+        /// <code><![CDATA[
+        /// <SfCheckBox AriaLabel="Subscribe to newsletter" />
+        /// ]]></code>
+        /// </example>
+        [Parameter]
+        public string? AriaLabel { get; set; }
+
         #endregion
     }
 }

@@ -67,3 +67,32 @@ The threat model and security posture are reviewed on a structured schedule:
 | **Monthly servicing** | Dependency review and CVE triage per [SECURITY.md §3.3](SECURITY.md). |
 
 The outcome of each structured review is recorded by updating the "Security Self-Attestation" date in [SECURITY.md](SECURITY.md) and the accepted-risks table in [THREAT-MODEL.md](THREAT-MODEL.md).
+
+## Versioning and API stability
+
+The project follows [Semantic Versioning 2.0.0](https://semver.org/spec/v2.0.0.html).
+Release history lives on the GitHub release page:
+
+> **Release history:** <https://github.com/syncfusion/blazor-toolkit/releases>
+
+Every published tag has a release page on that URL that enumerates
+the added, changed, deprecated, and removed APIs for that version.
+Consumers should subscribe to the GitHub Releases feed (or watch
+the repo's releases-only notifications) to be notified of new
+versions.
+
+The short version of the policy is:
+
+- **Major (`x.0.0`)** — breaking public-API changes; the public
+  surface is re-baselined in `PublicAPI.Shipped.txt`.
+- **Minor (`x.y.0`)** — backwards-compatible additions only.
+- **Patch (`x.y.z`)** — backwards-compatible bug fixes only.
+
+Until the project ships a `1.0.0` release, the minor digit may
+include breaking changes per SemVer §4. The currently shipped
+version is `v1.0.1`.
+
+APIs marked `[Obsolete]` are retained for at least **two minor
+releases** before removal. APIs marked `[Experimental]` are not
+covered by the SemVer compatibility promise and may change in any
+release.

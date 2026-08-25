@@ -102,6 +102,18 @@ namespace Syncfusion.Blazor.Toolkit.Inputs
                 _labelClass = Right;
             }
         }
+
+        /// <summary>
+        /// Returns the accessible name for the radio input element.
+        /// Returns <see langword="null"/> in every case so the wrapping <c>&lt;label&gt;</c> or
+        /// the explicit <see cref="SfSelectionBase{TChecked}.AriaLabel"/> provides the accessible
+        /// name. The native <c>radio</c> role is announced automatically by screen readers, so a
+        /// hardcoded "Radio" placeholder would only add redundant noise.
+        /// </summary>
+        private string? GetAriaLabelValue()
+        {
+            return string.IsNullOrWhiteSpace(AriaLabel) ? null : AriaLabel;
+        }
         #endregion
     }
 }

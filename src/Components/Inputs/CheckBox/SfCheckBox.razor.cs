@@ -1,6 +1,7 @@
 using System.Globalization;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Web;
+using Microsoft.Extensions.Localization;
 using Microsoft.Extensions.Logging;
 using Microsoft.JSInterop;
 
@@ -54,6 +55,19 @@ namespace Syncfusion.Blazor.Toolkit.Inputs
     /// <typeparam name="TChecked">The type of the checked value. Supported types: bool, bool?, byte, byte?</typeparam>
     public partial class SfCheckBox<TChecked> : SfSelectionBase<TChecked>
     {
+        #region Injected services
+
+        /// <summary>
+        /// Localizer used to source the cached announcement strings (Checked / Unchecked /
+        /// Indeterminate) that appear in the visually hidden live region when the checkbox
+        /// crosses the indeterminate boundary. <see cref="SfSelectionBase{TChecked}"/> does
+        /// not inherit a Localizer, so the dependency is injected directly on the CheckBox.
+        /// </summary>
+        [Inject]
+        private IStringLocalizer Localizer { get; set; } = default!;
+
+        #endregion
+
         #region Constants
 
         private const string Space = " ";
@@ -148,6 +162,44 @@ namespace Syncfusion.Blazor.Toolkit.Inputs
             return _inputAttributes is not null && _inputAttributes.TryGetValue(ReadOnlyAttribute, out object? readOnly)
                 ? readOnly?.ToString()?.Equals("true", StringComparison.OrdinalIgnoreCase) == true ? "true" : "false"
                 : "false";
+        }
+
+        /// <summary>
+        /// Returns the ARIA checked annotation emitted alongside the native <c>checked</c> property.
+        /// </summary>
+        /// <returns><c>"mixed"</c> when <see cref="Indeterminate"/> is <see langword="true"/>;
+        /// otherwise <see langword="null"/>, because the DOM <c>checked</c> property is the
+        /// authoritative source of truth for the checked/unchecked state and assistive
+        /// technologies must not see a duplicated state annotation (which would double-announce).</returns>
+        /// <remarks>
+        /// The native <c>checked</c> DOM property is the authoritative source of truth for the
+        /// checked/unchecked state. We only emit <c>aria-checked="mixed"</c> for the indeterminate
+        /// case, because the native checkbox has no DOM representation for the mixed state and
+        /// assistive technologies rely on the explicit annotation to surface it.
+        /// </remarks>
+        private string? GetAriaChecked()
+        {
+            return Indeterminate ? "mixed" : null;
+        }
+
+        /// <summary>
+        /// Returns the accessible name for the checkbox input element.
+        /// Uses the explicit <see cref="SfSelectionBase{TChecked}.AriaLabel"/> when supplied;
+        /// otherwise returns <see langword="null"/> so the wrapping <c>&lt;label&gt;</c> is the
+        /// accessible name and the screen reader does not double-announce a placeholder word.
+        /// </summary>
+        private string? GetAriaLabelValue()
+        {
+            if (!string.IsNullOrWhiteSpace(AriaLabel))
+            {
+                return AriaLabel;
+            }
+
+            // When a visible label, child content, or no label is present, return null so the
+            // wrapping <label> (or no label at all) is what screen readers announce. The implicit
+            // role of the native checkbox already conveys "checkbox" — a hardcoded placeholder
+            // adds noise such as "Checkbox, edit".
+            return null;
         }
 
         /// <summary>
@@ -507,6 +559,7 @@ namespace Syncfusion.Blazor.Toolkit.Inputs
                 }
 
                 bool isChecked = current ?? false;
+                bool wasIndeterminate = Indeterminate;
                 CheckboxState next = DetermineNextState(isChecked, Indeterminate, EnableTriState);
 
                 // Apply changes
@@ -548,7 +601,14 @@ namespace Syncfusion.Blazor.Toolkit.Inputs
             // Handle ARIA label extraction for unlabeled checkboxes
             if (string.IsNullOrEmpty(Label) && ChildContent == null)
             {
-                if (_inputAttributes is not null && _inputAttributes.TryGetValue(AriaLabelAttribute, out object? ariaLabel))
+                // 1. The explicit AriaLabel parameter on the component
+                //    (inherited from SfSelectionBase<TChecked>) takes
+                //    precedence when supplied.
+                if (!string.IsNullOrWhiteSpace(AriaLabel))
+                {
+                    _labelAttributes = new() { { AriaLabelAttribute, AriaLabel } };
+                }
+                else if (_inputAttributes is not null && _inputAttributes.TryGetValue(AriaLabelAttribute, out object? ariaLabel))
                 {
                     _labelAttributes = new() { { AriaLabelAttribute, ariaLabel } };
                     _ = _inputAttributes.Remove(AriaLabelAttribute);

@@ -18,22 +18,17 @@
                 {
                     @if (DialogType == "Prompt")
                     {
-                        <table class="Table">
-                            <tbody>
-                                <tr>
-                                    <td id="@_id">@DialogContent</td>
-                                </tr>
-                                <tr>
-                                    <td>
-                                        <SfInputBase>
-                                            <span class="e-input-group">
-                                                <input role="textbox" tabindex="0" aria-labelledby="@_id" type="text" @bind-value="InputValue" name="Required" class="e-input">
-                                            </span>
-                                        </SfInputBase>
-                                    </td>
-                                </tr>
-                            </tbody>
-                        </table>
+                        <div>
+                            <label for="@_promptInputId" class="e-sr-only">@DialogContent</label>
+                            <SfInputBase>
+                                <span class="e-input-group">
+                                    <input id="@_promptInputId" tabindex="0" type="text"
+                                           required aria-required="true"
+                                           aria-label="@DialogContent"
+                                           @bind-value="InputValue" class="e-input">
+                                </span>
+                            </SfInputBase>
+                        </div>
                     }
                     else
                     {

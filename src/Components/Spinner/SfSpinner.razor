@@ -5,7 +5,9 @@
 <div class="@_spinnerClass"
      @attributes="@_attributes"
      role="status"
-     aria-busy="@_enableRender.ToString().ToLower()">
+     aria-busy="@_enableRender.ToString().ToLower()"
+     aria-live="@(string.IsNullOrWhiteSpace(AriaLive) ? "polite" : AriaLive)"
+     aria-label="@(string.IsNullOrWhiteSpace(AriaLabel) ? Loading : AriaLabel)">
     <div class="@SpinnerInnerClass">
         <CascadingValue Value="@this" IsFixed="true">
             @ChildContent

@@ -20,7 +20,7 @@
            aria-checked="@GetAriaPressed()"
            aria-disabled="@Disabled.ToString().ToLower()"
            aria-labelledby="@(!string.IsNullOrWhiteSpace(Label) ? $"{_idValue}-label" : null)"
-           aria-label="@(string.IsNullOrWhiteSpace(Label) ? (!string.IsNullOrWhiteSpace(AriaLabel) ? AriaLabel : "Switch") : null)"
+           aria-label="@(string.IsNullOrWhiteSpace(Label) ? (string.IsNullOrWhiteSpace(AriaLabel) ? null : AriaLabel) : null)"
            name="@Name"
            value="@Value"
            checked="@Checked"

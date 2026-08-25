@@ -1,5 +1,4 @@
 ﻿using Microsoft.AspNetCore.Components;
-using Microsoft.AspNetCore.Components.Forms;
 using Syncfusion.Blazor.Toolkit.Inputs;
 
 namespace Syncfusion.Blazor.Toolkit.Calendars
@@ -332,7 +331,7 @@ namespace Syncfusion.Blazor.Toolkit.Calendars
         /// Backing field for the public <see cref="Width"/> parameter.
         /// </summary>
         /// <exclude/>
-        protected override string? BaseWidth { get; set; } = default;
+        protected override string? BaseWidth { get; set; }
 
         /// <summary>
         /// Gets or sets the tab index order of the <see cref="SfTimePicker{TValue}"/> component for keyboard navigation.
@@ -621,12 +620,12 @@ namespace Syncfusion.Blazor.Toolkit.Calendars
     /// Specifies the type of the time value that the TimePicker component will handle.
     /// </typeparam>
     /// <remarks>
-    /// This internal class contains properties used for client-side communication and state management 
-    /// of the TimePicker component. It includes configuration, formatting, and state properties 
+    /// This internal class contains properties used for client-side communication and state management
+    /// of the TimePicker component. It includes configuration, formatting, and state properties
     /// that are synchronized between server and client sides.
     /// </remarks>
     /// <exclude/>
-    internal class TimePickerClientProps<TValue>
+    internal sealed class TimePickerClientProps<TValue>
     {
         /// <summary>
         /// Gets or sets a bool value <see cref="EnableRtl"/> to enable or disable rendering <see cref="SfTimePicker{TValue}"/> in right to left direction.

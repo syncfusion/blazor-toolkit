@@ -3149,20 +3149,27 @@ $float-bgr-label-top: -8px !default;
         .e-input-group.e-input-focus:not(.e-success):not(.e-warning):not(.e-error) .e-input:first-child:focus,
         .e-input-group.e-input-focus.e-rtl:not(.e-success):not(.e-warning):not(.e-error) span:last-child.e-input-group-icon,
         .e-input-group.e-control-wrapper.e-input-focus:not(.e-success):not(.e-warning):not(.e-error) .e-input:first-child:focus,
-        .e-input-group.e-control-wrapper.e-input-focus.e-rtl:not(.e-success):not(.e-warning):not(.e-error) span:last-child.e-input-group-icon {
+        .e-input-group.e-control-wrapper.e-input-focus.e-rtl:not(.e-success):not(.e-warning):not(.e-error) span:last-child.e-input-group-icon,
+        .e-input-group.e-control-wrapper.e-input-focus.e-rtl:not(.e-success):not(.e-warning):not(.e-error) button:last-child.e-input-group-icon {
             border-color: $input-group-border-right-focus;
         }
 
         .e-input-group.e-input-focus.e-rtl:not(.e-success):not(.e-warning):not(.e-error) span.e-input-group-icon,
+        .e-input-group.e-input-focus.e-rtl:not(.e-success):not(.e-warning):not(.e-error) button.e-input-group-icon,
         .e-input-group.e-input-focus.e-rtl:not(.e-success):not(.e-warning):not(.e-error) span:first-child.e-input-group-icon,
+        .e-input-group.e-input-focus.e-rtl:not(.e-success):not(.e-warning):not(.e-error) button:first-child.e-input-group-icon,
         .e-input-focus.e-rtl:not(.e-success):not(.e-warning):not(.e-error) .e-input:first-child:focus,
         .e-input-focus:not(.e-success):not(.e-warning):not(.e-error) .e-input:last-child:focus,
         .e-input-group.e-input-focus:not(.e-success):not(.e-warning):not(.e-error) span.e-input-group-icon,
+        .e-input-group.e-input-focus:not(.e-success):not(.e-warning):not(.e-error) button.e-input-group-icon,
         .e-input-group.e-control-wrapper.e-input-focus.e-rtl:not(.e-success):not(.e-warning):not(.e-error) span.e-input-group-icon,
+        .e-input-group.e-control-wrapper.e-input-focus.e-rtl:not(.e-success):not(.e-warning):not(.e-error) button.e-input-group-icon,
         .e-input-group.e-control-wrapper.e-input-focus.e-rtl:not(.e-success):not(.e-warning):not(.e-error) span:first-child.e-input-group-icon,
+        .e-input-group.e-control-wrapper.e-input-focus.e-rtl:not(.e-success):not(.e-warning):not(.e-error) button:first-child.e-input-group-icon,
         .e-input-focus.e-control-wrapper.e-rtl:not(.e-success):not(.e-warning):not(.e-error) .e-input:first-child:focus,
         .e-input-focus.e-control-wrapper:not(.e-success):not(.e-warning):not(.e-error) .e-input:last-child:focus,
-        .e-input-group.e-control-wrapper.e-input-focus:not(.e-success):not(.e-warning):not(.e-error) span.e-input-group-icon {
+        .e-input-group.e-control-wrapper.e-input-focus:not(.e-success):not(.e-warning):not(.e-error) span.e-input-group-icon,
+        .e-input-group.e-control-wrapper.e-input-focus:not(.e-success):not(.e-warning):not(.e-error) button.e-input-group-icon {
             border-color: $input-group-border-left-focus;
         }
 

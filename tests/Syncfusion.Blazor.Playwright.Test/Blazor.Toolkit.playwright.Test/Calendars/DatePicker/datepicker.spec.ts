@@ -7,8 +7,11 @@ test.describe('SfDatePicker - basic flows', () => {
   test('renders placeholder, opens popup, selects a date, clears value', async ({ page, baseURL }) => {
     await page.goto((baseURL ?? 'http://localhost:5000') + pagePath);
     await page.waitForLoadState('networkidle');
-    // input identified by ARIA label per component spec
-    const input = page.locator('input[aria-label="datepicker"]').first();
+    // The input is the first text input inside the basic wrapper. We avoid
+    // hard-coding the aria-label value here because the default AriaLabel is
+    // an implementation detail of the component; the test only cares that
+    // the input is present and editable.
+    const input = page.locator('#wrapper-dp-basic input').first();
     await expect(input).toBeVisible({ timeout: 5000 });
 
     // placeholder should be visible when no value

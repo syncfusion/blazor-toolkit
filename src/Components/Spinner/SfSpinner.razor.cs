@@ -38,8 +38,8 @@ namespace Syncfusion.Blazor.Toolkit.Spinner
         /// HTML attribute constants.
         /// </summary>
         private const string Style = "style";
-        private const string AriaLabel = "aria-label";
-        private const string Loading = "Loading";
+        private const string AriaLabelAttr = "aria-label";
+        internal const string Loading = "Loading";
         private const string Auto = "auto";
         private const string ZIndexStyle = "z-index";
 

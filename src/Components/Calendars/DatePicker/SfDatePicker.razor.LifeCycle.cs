@@ -48,7 +48,7 @@ namespace Syncfusion.Blazor.Toolkit.Calendars
             await base.OnInitializedAsync().ConfigureAwait(false);
             PropertyInitialized();
             IsValideValue = true;
-            SfBaseUtils.UpdateDictionary(ARIAEXPANDED, FALSE, InputHtmlAttributes);
+            _ = SfBaseUtils.UpdateDictionary(ARIAEXPANDED, FALSE, InputHtmlAttributes);
         }
 
         private void InitializeComponentId()
@@ -119,7 +119,7 @@ namespace Syncfusion.Blazor.Toolkit.Calendars
             UpdateValidateClass();
             if (PropertyChanges is not null)
             {
-                PropertyChanges.Remove(nameof(Value));
+                _ = PropertyChanges.Remove(nameof(Value));
             }
         }
 
@@ -280,7 +280,7 @@ namespace Syncfusion.Blazor.Toolkit.Calendars
             localStorageValue = (string.IsNullOrEmpty(localStorageValue) || localStorageValue == "null") ? null : localStorageValue;
             if (!(localStorageValue is null && Value is not null))
             {
-                TValue? persistValue = (TValue)SfBaseUtils.ChangeType(localStorageValue!, typeof(TValue));
+                TValue? persistValue = localStorageValue is null ? default : (TValue?)SfBaseUtils.ChangeType(localStorageValue, typeof(TValue));
                 InputTextValue = persistValue;
             }
             await UpdateInputAsync().ConfigureAwait(false);

@@ -56,7 +56,7 @@ namespace Syncfusion.Blazor.Toolkit.Spinner
                 _enableRender = Visible;
 
                 // Set aria-label for accessibility based on Label parameter
-                _attributes[AriaLabel] = string.IsNullOrEmpty(Label) ? Loading : Label;
+                _attributes[AriaLabelAttr] = string.IsNullOrEmpty(Label) ? Loading : Label;
             }
             catch (Exception ex)
             {
@@ -86,11 +86,11 @@ namespace Syncfusion.Blazor.Toolkit.Spinner
             // Sync aria-label to ensure it's always present for accessibility
             if (!string.IsNullOrEmpty(Label))
             {
-                _attributes[AriaLabel] = Label;
+                _attributes[AriaLabelAttr] = Label;
             }
-            else if (!_attributes.ContainsKey(AriaLabel))
+            else if (!_attributes.ContainsKey(AriaLabelAttr))
             {
-                _attributes[AriaLabel] = Loading;
+                _attributes[AriaLabelAttr] = Loading;
             }
 
             // Notify and track property changes

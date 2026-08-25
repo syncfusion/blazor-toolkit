@@ -520,6 +520,81 @@ namespace Syncfusion.Blazor.Toolkit.Popups
         [Parameter(CaptureUnmatchedValues = true)]
         [JsonPropertyName("htmlAttributes")]
         public Dictionary<string, object> HtmlAttributes { get; set; }
+
+        /// <summary>
+        /// Gets or sets an accessible name for the tooltip's target element.
+        /// </summary>
+        /// <value>
+        /// A <see cref="string"/> announced by screen readers for the tooltip target.
+        /// The default value is <see langword="null"/>.
+        /// </value>
+        /// <remarks>
+        /// When the tooltip is open, the value is forwarded to the rendered tooltip
+        /// content element as <c>aria-label</c> so assistive technologies announce
+        /// the tooltip text independently of the target's own label.
+        /// </remarks>
+        /// <example>
+        /// <code><![CDATA[
+        /// <SfTooltip Content="Saves changes" AriaLabel="Save tooltip">
+        ///     <SfButton Content="Save" />
+        /// </SfTooltip>
+        /// ]]></code>
+        /// </example>
+        [Parameter]
+        [JsonPropertyName("ariaLabel")]
+        public string? AriaLabel { get; set; }
+
+        /// <summary>
+        /// Gets or sets the <c>id</c> of the element that labels the tooltip's target.
+        /// </summary>
+        /// <value>
+        /// A <see cref="string"/> containing the <c>id</c> of one or more labeling
+        /// elements (space-separated). The default value is <see langword="null"/>.
+        /// </value>
+        /// <remarks>
+        /// Sets <c>aria-labelledby</c> on the rendered tooltip content, allowing
+        /// screen readers to use the referenced element as the tooltip's
+        /// accessible name.
+        /// </remarks>
+        /// <example>
+        /// <code><![CDATA[
+        /// <span id="save-label">Save</span>
+        /// <SfTooltip Content="Saves changes" AriaLabelledBy="save-label">
+        ///     <button>Save</button>
+        /// </SfTooltip>
+        /// ]]></code>
+        /// </example>
+        [Parameter]
+        [JsonPropertyName("ariaLabelledBy")]
+        public string? AriaLabelledBy { get; set; }
+
+        /// <summary>
+        /// Gets or sets the <c>id</c> of the element that describes the tooltip's target.
+        /// </summary>
+        /// <value>
+        /// A <see cref="string"/> containing the <c>id</c> of one or more
+        /// describing elements (space-separated). The default value is
+        /// <see langword="null"/>.
+        /// </value>
+        /// <remarks>
+        /// The JavaScript interop automatically adds <c>aria-describedby</c> on
+        /// the target element pointing to the tooltip content. Use this property
+        /// when the tooltip must be linked to an additional describing element,
+        /// for example a help text node. The value is forwarded to the
+        /// <c>data-tooltip-describedby</c> attribute on the target and the
+        /// tooltip content's <c>aria-describedby</c>.
+        /// </remarks>
+        /// <example>
+        /// <code><![CDATA[
+        /// <span id="save-hint">Saves the form</span>
+        /// <SfTooltip Content="Ctrl+S" AriaDescribedBy="save-hint">
+        ///     <button>Save</button>
+        /// </SfTooltip>
+        /// ]]></code>
+        /// </example>
+        [Parameter]
+        [JsonPropertyName("ariaDescribedBy")]
+        public string? AriaDescribedBy { get; set; }
         #endregion
     }
 }

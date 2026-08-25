@@ -94,12 +94,6 @@ blazor-toolkit/
 
 For full details on commit style, PR requirements, and review criteria, see the [Contributing Guide](./.github/CONTRIBUTING.md).
 
-## Getting Started
-
-- [Install .NET](https://dotnet.microsoft.com/download) (8.0 or later recommended)
-- [Syncfusion Blazor Toolkit Documentation](https://blazor.syncfusion.com/documentation/toolkit/overview) (in active development — contributor-focused docs in [DEVELOPMENT.md](./.github/DEVELOPMENT.md))
-- [Development Guide](./.github/DEVELOPMENT.md)
-
 ## Framework Compatibility
 
 | .NET Version | Blazor Server | Blazor WebAssembly | Blazor Auto | Support Policy |
@@ -131,20 +125,6 @@ For full details on commit style, PR requirements, and review criteria, see the 
 | Layout | Tooltip | Lightweight popup that displays contextual information when users hover over, focus on, or interact with a target element, with customizable positioning and animation support. |
 | Notification | Spinner | Loading indicator with customizable size, type, and overlay for async operations. |
 
-## Installation
-
-Install the Syncfusion Blazor Toolkit via NuGet: [Syncfusion.Blazor.Toolkit on NuGet](https://www.nuget.org/packages/Syncfusion.Blazor.Toolkit)
-
-```bash
-dotnet add package Syncfusion.Blazor.Toolkit
-```
-
-Alternatively, add it directly in your `.csproj` file:
-
-```xml
-<PackageReference Include="Syncfusion.Blazor.Toolkit" Version="x.x.x" />
-```
-
 ## Skills and Component Guidance
 
 The repository includes specialized skill files that document component usage patterns and implementation guidance for the major toolkit areas:
@@ -158,11 +138,67 @@ The repository includes specialized skill files that document component usage pa
 
 These skill files are intended to help contributors and maintainers understand the supported patterns, accessibility expectations, and implementation conventions for each toolkit area.
 
-## Setup in Your Blazor App
+## Getting Started
+
+There are two ways to get started with the Syncfusion Blazor Toolkit. Pick the option that best matches your workflow:
+
+| Option | When to use it | Get started |
+|--------|----------------|-------------|
+| 🚀 **[Using Templates](#using-templates-recommended)** | Starting a new Blazor project. Pre-configured with the toolkit, theming, and project structure so you can build immediately. | [Install templates →](#using-templates-recommended) |
+| 🔧 **[Manual Integration](#manual-integration)** | Adding the toolkit to an existing Blazor application. Five steps: install the package, register services, add the namespace import, link the theme CSS, and try a usage example. | [Manual setup →](#manual-integration) |
+
+**Prerequisites**
+
+- [Install .NET](https://dotnet.microsoft.com/download) (8.0 or later recommended)
+- [Syncfusion Blazor Toolkit Documentation](https://blazor.syncfusion.com/documentation/toolkit/overview) (in active development — contributor-focused docs in [DEVELOPMENT.md](./.github/DEVELOPMENT.md))
+- [Development Guide](./.github/DEVELOPMENT.md)
+
+### Using Templates (Recommended)
+
+The fastest way to get started is to scaffold a new Blazor application with the Syncfusion Blazor Toolkit using the [`Syncfusion.Blazor.Toolkit.Templates`](https://www.nuget.org/packages/Syncfusion.Blazor.Toolkit.Templates#readme-body-tab) NuGet package. The templates are pre-configured with the toolkit, theming, and a recommended project structure so you can start building immediately.
+
+Install the templates and create a project:
+
+```bash
+# Install the templates
+dotnet new install Syncfusion.Blazor.Toolkit.Templates
+
+# Create a Blazor Web App
+dotnet new blazortoolkitweb -o MyApp
+
+# Or create a standalone Blazor WebAssembly app
+dotnet new blazortoolkitwasm -o MyApp
+```
+
+After the project is created, run it from the root folder:
+
+```bash
+dotnet watch
+```
+
+For a full list of template options (interactive render mode, global interactivity, PWA support, and more), see the [`Syncfusion.Blazor.Toolkit.Templates`](https://www.nuget.org/packages/Syncfusion.Blazor.Toolkit.Templates#readme-body-tab) NuGet package README.
+
+### Manual Integration
+
+Use this option when you want to add the Syncfusion Blazor Toolkit to an existing Blazor application. The setup has five steps: install the NuGet package, register the toolkit services, add the namespace import, link the theme CSS, and try a usage example.
+
+#### 1. Install the package
+
+Install the Syncfusion Blazor Toolkit via NuGet: [Syncfusion.Blazor.Toolkit on NuGet](https://www.nuget.org/packages/Syncfusion.Blazor.Toolkit)
+
+```bash
+dotnet add package Syncfusion.Blazor.Toolkit
+```
+
+Alternatively, add it directly in your `.csproj` file:
+
+```xml
+<PackageReference Include="Syncfusion.Blazor.Toolkit" Version="x.x.x" />
+```
+
+#### 2. Register services in `Program.cs`
 
 To use the [Syncfusion® Blazor Toolkit](https://www.syncfusion.com/blazor-toolkit), register the Syncfusion Blazor Toolkit services in your `Program.cs` file as follows:
-
-**Program.cs**
 
 ```csharp
 using Syncfusion.Blazor.Toolkit;
@@ -182,7 +218,7 @@ var app = builder.Build();
 // ... rest of your app configuration
 ```
 
-### Add imports to _Imports.razor
+#### 3. Add imports to `_Imports.razor`
 
 Add the following imports to your `_Imports.razor` file:
 
@@ -190,7 +226,7 @@ Add the following imports to your `_Imports.razor` file:
 @using Syncfusion.Blazor.Toolkit
 ```
 
-### Add CSS to your App.razor
+#### 4. Add CSS to your `App.razor`
 
 Add the Syncfusion Blazor Toolkit styles to the `<head>` section of your `App.razor` file:
 
@@ -199,7 +235,7 @@ Add the Syncfusion Blazor Toolkit styles to the `<head>` section of your `App.ra
 <link id="syncfusion-theme" href="_content/Syncfusion.Blazor.Toolkit/styles/fluent.min.css" rel="stylesheet" />
 ```
 
-## Usage Example
+#### 5. Try a usage example
 
 Here's a quick example to get you started with one of the controls, such as the Chart:
 

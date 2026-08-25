@@ -19,7 +19,10 @@ namespace Syncfusion.Blazor.Toolkit.Inputs
     /// <item><description>Support for floating labels (<see cref="FloatLabelType.Auto"/>, <see cref="FloatLabelType.Always"/>, <see cref="FloatLabelType.Never"/>).</description></item>
     /// <item><description>Built-in clear button with customizable behavior through <see cref="ShowClearButton"/>.</description></item>
     /// <item><description>Input validation with visual feedback integrated with Blazor's <see cref="Microsoft.AspNetCore.Components.Forms.EditContext"/>.</description></item>
-    /// <item><description>Accessibility features with ARIA support, including a default <c>aria-label</c> of <c>"textbox"</c>.</description></item>
+    /// <item><description>Accessibility features with ARIA support. The native <c>textbox</c> role
+/// is announced by screen readers; the component forwards the public <see cref="SfInputBase{TValue}.AriaLabel"/>
+/// parameter to <c>aria-label</c> only when the caller supplies one. No generic fallback string is emitted
+/// to avoid redundant announcements such as "textbox, edit".</description></item>
     /// <item><description>State persistence across browser sessions when <see cref="SfInputBase{TValue}.EnablePersistence"/> is enabled.</description></item>
     /// <item><description>Customizable styling and theming through <see cref="SfInputBase{TValue}.CssClass"/> and supported themes.</description></item>
     /// </list>
@@ -38,6 +41,8 @@ namespace Syncfusion.Blazor.Toolkit.Inputs
         private const string AUTOCOMPLETE = "autocomplete";
         private const string OUTLINE = "e-outline";
         private const string ARIA_LABEL = "aria-label";
+        private const string ARIA_LABELLEDBY = "aria-labelledby";
+        private const string ARIA_DESCRIBEDBY = "aria-describedby";
 
         #endregion
 
