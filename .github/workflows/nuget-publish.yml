@@ -1,11 +1,14 @@
 name: Publish NuGet
 
+# Triggered by version tags: v1.0.0, v1.2.3-preview, etc.
 on:
   push:
     tags:
       - 'v[0-9]+.[0-9]+.[0-9]+'
       - 'v[0-9]+.[0-9]+.[0-9]+-*'
 
+# Serialize runs that target the same ref so two re-tags don't race the sign+push steps.
+# Never cancel an in-flight publish — abandoning a half-signed package is worse than queueing.
 concurrency:
   group: nuget-publish-${{ github.ref }}
   cancel-in-progress: false
@@ -13,6 +16,10 @@ concurrency:
 jobs:
   publish:
     runs-on: ubuntu-latest
+    # Minimal permissions:
+    #   contents: read          — fetch sources for SourceLink
+    #   id-token: write         — NuGet.org trusted publishing AND Azure Workload Identity (separate token lifetimes)
+    #   attestations: write     — actions/attest-build-provenance for build provenance on nuget.org
     permissions:
       contents: read
       id-token: write
@@ -22,7 +29,7 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
         with:
-          fetch-depth: 0
+          fetch-depth: 0   # full history required for SourceLink commit SHA
 
       - name: Setup .NET
         uses: actions/setup-dotnet@v4
@@ -32,6 +39,9 @@ jobs:
             9.x
             10.x
 
+      # src/Syncfusion.Blazor.Toolkit.csproj has a BeforeBuild target that runs `npm install` + `gulp
+      # blazor-toolkit-themes` if wwwroot/styles/fluent.min.css is missing. We must satisfy that on
+      # a clean runner, otherwise the pack step dies with "npm: not found" instead of a clear failure.
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
@@ -41,7 +51,7 @@ jobs:
         uses: actions/cache@v4
         with:
           path: ~/.npm
-          key: npm-${{ runner.os }}-${{ hashFiles('**/package-lock.json', '**/package.json') }}
+          key: npm-${{ runner.os }}-${{ hashFiles('**/package-lock.json') }}
           restore-keys: |
             npm-${{ runner.os }}-
 
@@ -54,23 +64,25 @@ jobs:
           fi
 
       - name: Run gulp themes task
+        # Mirrors the BeforeBuild target on a fresh runner. Idempotent — a no-op when the CSS already exists.
         run: npx gulp blazor-toolkit-themes
 
-      - name: Set version from git tag
-        run: |
-          VERSION=${GITHUB_REF_NAME#v}
-          echo "VERSION=$VERSION" >> $GITHUB_ENV
-          echo "Publishing version: $VERSION"
-
+      # Decode the strong-name key stored as a base64 GitHub Secret.
+      # To create the secret: certutil -encode sf.snk sf.snk.b64  (or base64 sf.snk)
       - name: Write strong-name key
         run: echo "${{ secrets.STRONG_NAME_KEY_BASE64 }}" | base64 --decode > src/sf.snk
 
       - name: Restore
         run: dotnet restore src/Syncfusion.Blazor.Toolkit.csproj -p:ContinuousIntegrationBuild=true
 
+      # Fail the release if any direct or transitive dependency has a known CVE.
+      # Gate is exit-code-driven (text changes in future SDKs can't silently flip this to
+      # always-pass or always-fail). The JSON is uploaded as 'vuln-report' so the run summary
+      # is diagnosable, and a plain-text version is captured alongside it for humans.
       - name: Dependency vulnerability scan
         run: |
           set -euo pipefail
+          # Capture both formats. Exit non-zero captures the actual gate. Captures, gate, output.
           set +e
           dotnet list src/Syncfusion.Blazor.Toolkit.csproj package --vulnerable --include-transitive \
             --format json > vuln-report.json
@@ -80,7 +92,7 @@ jobs:
           set -e
 
           if [ "$vuln_exit" -ne 0 ]; then
-            echo "::error::Vulnerable packages detected — release blocked."
+            echo "::error::Vulnerable packages detected — release blocked. See 'vuln-report' artifact for details."
             echo "::group::Vulnerability scan output"
             cat vuln-report.txt
             echo "::endgroup::"
@@ -88,6 +100,7 @@ jobs:
           fi
 
       - name: Upload vulnerability report
+        # Always run, even on success, so the run summary confirms the scan ran.
         if: always()
         uses: actions/upload-artifact@v4
         with:
@@ -98,27 +111,103 @@ jobs:
           retention-days: 14
           if-no-files-found: ignore
 
-      - name: Build
+      # Determine the package version to publish.
+      # The trigger tag only acts as a *signal* to publish — it does NOT pin the version.
+      # We always derive `next_version` by:
+      #   1. Fetching the latest published version from nuget.org (flat-container API).
+      #   2. Fetching the latest GitHub release tag for this repo (covers cases where
+      #      a release was tagged but the NuGet publish failed, e.g. transient infra issues).
+      #   3. Taking the numeric max of (1) and (2) — never ship a smaller version than
+      #      what's already out.
+      #   4. Incrementing the patch component by 1 (a maintenance/bugfix release).
+      # The result is fed into `dotnet pack` via `-p:Version=...`, which overrides the
+      # hardcoded `<Version>1.0.0</Version>` in src/Syncfusion.Blazor.Toolkit.csproj.
+      - name: Resolve next version
+        id: version
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          dotnet build src/Syncfusion.Blazor.Toolkit.csproj \
-            -c Release \
-            --no-restore \
-            -p:ContinuousIntegrationBuild=true \
-            -p:Version=$VERSION
+          set -euo pipefail
+
+          NUGET_PKG="Syncfusion.Blazor.Toolkit"
+          REPO="${GITHUB_REPOSITORY}"
+
+          # --- 1. Latest version on nuget.org (flat-container). ---
+          # flat-container returns absolute URLs to each version's .nupkg; we only need the
+          # list itself to compute the floor. A non-fatal warning is emitted if the lookup
+          # fails (e.g. transient CDN issue) so a stale GitHub-only floor still keeps the
+          # release moving.
+          nuget_latest="0.0.0"
+          if nuget_response=$(curl -fsS "https://api.nuget.org/v3-flatcontainer/${NUGET_PKG}/index.json" 2>/dev/null); then
+            nuget_latest=$(echo "$nuget_response" \
+              | jq -r '.versions[]?' \
+              | grep -E '^[0-9]+\.[0-9]+\.[0-9]+$' \
+              | sort -V \
+              | tail -n 1) || true
+            nuget_latest="${nuget_latest:-0.0.0}"
+          else
+            echo "::warning::Could not query nuget.org for latest version of ${NUGET_PKG} — falling back to '0.0.0'."
+          fi
+
+          # --- 2. Latest GitHub release tag for this repo. ---
+          # Fetched via the GitHub REST API. Drafts and prereleases are filtered out so a
+          # `v1.1.0-rc.1` tag never blocks a `v1.0.x` maintenance bump. Authenticated via
+          # the workflow's built-in GITHUB_TOKEN to lift the 60-req/hr anonymous rate limit.
+          releases_latest="0.0.0"
+          if releases_response=$(curl -fsS \
+                -H "Accept: application/vnd.github+json" \
+                -H "Authorization: Bearer ${GH_TOKEN}" \
+                -H "X-GitHub-Api-Version: 2022-11-28" \
+                "https://api.github.com/repos/${REPO}/releases?per_page=20" 2>/dev/null); then
+            releases_latest=$(echo "$releases_response" \
+              | jq -r '.[]? | select(.draft == false and .prerelease == false) | .tag_name' \
+              | sed 's/^v//' \
+              | grep -E '^[0-9]+\.[0-9]+\.[0-9]+$' \
+              | sort -V \
+              | tail -n 1) || true
+            releases_latest="${releases_latest:-0.0.0}"
+          else
+            echo "::warning::Could not query GitHub releases for ${REPO} — falling back to '0.0.0'."
+          fi
+
+          # --- 3. Pick the highest of the two floors. ---
+          # `sort -V` gives correct numeric ordering; `tail -n 1` picks the max.
+          floor=$(printf '%s\n%s\n' "${nuget_latest}" "${releases_latest}" | sort -V | tail -n 1)
+          floor="${floor:-0.0.0}"
+
+          # --- 4. Bump the patch component by 1. ---
+          # If both lookups returned 0.0.0 the result is 0.0.1 — safe because nuget.org
+          # would have rejected a republish under the hardcoded "1.0.0" anyway.
+          IFS='.' read -r f_major f_minor f_patch <<< "${floor}"
+          next_major="${f_major:-0}"
+          next_minor="${f_minor:-0}"
+          next_patch="$((${f_patch:-0} + 1))"
+          next_version="${next_major}.${next_minor}.${next_patch}"
+
+          echo "nuget_latest    = ${nuget_latest}"
+          echo "releases_latest = ${releases_latest}"
+          echo "floor           = ${floor}"
+          echo "next_version    = ${next_version}"
+          echo "next_version=${next_version}" >> "$GITHUB_OUTPUT"
+
+      - name: Build
+        # `PackageVersion` (not `Version`) is what controls the .nupkg filename and the
+        # manifest's <version> element. The hardcoded <Version>1.0.0</Version> in
+        # src/Syncfusion.Blazor.Toolkit.csproj would otherwise win over `-p:Version=...`,
+        # making the override a no-op. See https://learn.microsoft.com/nuget/reference/msbuild-targets
+        # (pack target inputs → PackageVersion: "Default is the value of $(Version)").
+        run: dotnet build src/Syncfusion.Blazor.Toolkit.csproj -c Release --no-restore -p:ContinuousIntegrationBuild=true -p:PackageVersion=${{ steps.version.outputs.next_version }}
 
       - name: Pack
-        run: |
-          dotnet pack src/Syncfusion.Blazor.Toolkit.csproj \
-            -c Release \
-            --no-build \
-            -o nupkg \
-            -p:ContinuousIntegrationBuild=true \
-            -p:Version=$VERSION
+        run: dotnet pack src/Syncfusion.Blazor.Toolkit.csproj -c Release --no-build -o nupkg -p:ContinuousIntegrationBuild=true -p:PackageVersion=${{ steps.version.outputs.next_version }}
 
       - name: Remove strong-name key
         if: always()
         run: rm -f src/sf.snk
 
+      # Build provenance attestation — should appear BEFORE signing so the attestation's subjects are
+      # the un-signed packed archives (.nupkg / .snupkg), not the post-sign bytes that nuget.org sees.
+      # Scoped to the pushed tag ref so the audit trail matches exactly what consumers will resolve.
       - name: Attest build provenance
         uses: actions/attest-build-provenance@v2
         with:
@@ -130,6 +219,10 @@ jobs:
       - name: Install NuGetKeyVaultSignTool
         run: dotnet tool install --global NuGetKeyVaultSignTool
 
+      # Log in to Azure using Workload Identity Federation — no client secret needed.
+      # Prerequisite: add a federated credential for this repo+workflow on the service principal in Azure.
+      # Non-secret config values (AZURE_CLIENT_ID, AZURE_TENANT_ID, AZURE_KEY_VAULT_URL,
+      # AZURE_KEY_VAULT_CERT_NAME) are stored as GitHub Actions repository *variables* (vars.*), not secrets.
       - name: Azure login (OIDC)
         uses: azure/login@v2
         with:
@@ -137,6 +230,7 @@ jobs:
           tenant-id: ${{ vars.AZURE_TENANT_ID }}
           allow-no-subscriptions: true
 
+      # DefaultAzureCredential picks up the ambient Workload Identity token set by azure/login above.
       - name: Sign NuGet packages
         run: |
           NuGetKeyVaultSignTool sign nupkg/*.nupkg \
@@ -146,6 +240,8 @@ jobs:
             --azure-key-vault-url "${{ vars.AZURE_KEY_VAULT_URL }}" \
             --azure-key-vault-certificate "${{ vars.AZURE_KEY_VAULT_CERT_NAME }}"
 
+      # Exchange the GitHub OIDC token for a short-lived NuGet.org API token (trusted publishing).
+      # Prerequisite: configure a trusted publisher on nuget.org for this repo + workflow file.
       - name: Push to NuGet.org
         run: |
           NUGET_TOKEN=$(curl -sS \
