@@ -198,14 +198,14 @@ Format data label values using the `Format` property:
 <ChartDataLabel Visible="true" Format="C0"/>
 
 <!-- Custom format -->
-<ChartDataLabel Visible="true" Format="${point.y}M"/>
+<ChartDataLabel Visible="true" Format="{value}M"/>
 ```
 
 **Format Specifiers:**
 - `N0`, `N1`, `N2` - Number with 0, 1, 2 decimal places
 - `C0`, `C1`, `C2` - Currency format
 - `P0`, `P1`, `P2` - Percentage format
-- `${point.x}`, `${point.y}` - Point value placeholders
+- `{value}` - Point-value placeholder; combine with a .NET format specifier (e.g. `{value:N1}`, `{value}°C`, `{value}%`). NOTE: `{value}` is the **data-label** surface; `${point.x}` / `${point.y}` belong to the **tooltip** (`ChartTooltipSettings.Format`, `ChartSeries.TooltipFormat`) and accessibility (`ChartSeries.AccessibilityDescriptionFormat`) — they are different surfaces.
 
 ### Text Mapping
 
@@ -458,7 +458,7 @@ A linear gradient blends colors along a straight path from a defined start point
 
 <SfChart Title="Monthly Sales Performance">
     <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Toolkit.ValueType.Category" />
-    <ChartPrimaryYAxis LabelFormat="${value}k" />
+    <ChartPrimaryYAxis LabelFormat="{value}k" />
 
     <ChartSeries Name="Sales" Type="ChartSeriesType.Column" DataSource="@SalesData" XName="Month" YName="Amount">
             <ChartLinearGradient X1="0" Y1="0" X2="0" Y2="1">
@@ -552,7 +552,7 @@ A radial gradient blends colors outward from a central point, creating a circula
 
 <SfChart Title="Monthly Sales Performance">
     <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Toolkit.ValueType.Category" />
-    <ChartPrimaryYAxis LabelFormat="${value}k" />
+    <ChartPrimaryYAxis LabelFormat="{value}k" />
 
     <ChartSeries Name="Sales" Type="ChartSeriesType.Column" DataSource="@SalesData" XName="Month" YName="Amount">
             <ChartRadialGradient Cx="0.5" Cy="0.5" Fx="0.5" Fy="0.5" R="0.5">

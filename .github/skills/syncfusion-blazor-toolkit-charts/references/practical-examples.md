@@ -38,9 +38,9 @@ Complete, copy-paste-ready real-world examples demonstrating common chart implem
                            Title="Months">
             <ChartAxisMajorGridLines Width="0"></ChartAxisMajorGridLines>
         </ChartPrimaryXAxis>
-    <ChartPrimaryYAxis Title="Sales (in thousands)" 
-                           Minimum="0" Maximum="100" Interval="20" 
-                           LabelFormat="${value}K">
+    <ChartPrimaryYAxis Title="Sales (in thousands)"
+                           Minimum="0" Maximum="100" Interval="20"
+                           LabelFormat="{value}K">
         </ChartPrimaryYAxis>
     <ChartTooltipSettings Enable="true" 
                               Format="<b>${point.x}</b><br/>${series.name}: <b>${point.y}K</b>">
@@ -212,7 +212,7 @@ Complete, copy-paste-ready real-world examples demonstrating common chart implem
                            Title="Months">
         </ChartPrimaryXAxis>
     <ChartPrimaryYAxis Title="Revenue (in millions)" Minimum="0" Maximum="150" 
-                           LabelFormat="${value}M">
+                           LabelFormat="{value}M">
         </ChartPrimaryYAxis>
     <ChartTooltipSettings Enable="true">
         </ChartTooltipSettings>
@@ -413,7 +413,7 @@ chart re-renders after navigation.
     <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Toolkit.ValueType.Category" 
                            Title="@XAxisTitle">
         </ChartPrimaryXAxis>
-    <ChartPrimaryYAxis Title="Sales (in thousands)" LabelFormat="${value}K">
+    <ChartPrimaryYAxis Title="Sales (in thousands)" LabelFormat="{value}K">
         </ChartPrimaryYAxis>
     <ChartTooltipSettings Enable="true">
         </ChartTooltipSettings>

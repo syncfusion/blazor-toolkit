@@ -134,6 +134,19 @@ A comprehensive guide to implementing specialized Syncfusion Blazor chart types 
             <ChartMarker Height="10" Width="10" Shape="Syncfusion.Blazor.Toolkit.ChartShape.Rectangle" />
         </ChartSeries>
 </SfChart>
+
+@code {
+    public record ScatterPoint(string Country, double GoldMedals, double SilverMedals);
+
+    private readonly List<ScatterPoint> ScatterData = new()
+    {
+        new("USA", 39, 41),
+        new("China", 38, 32),
+        new("Japan", 27, 14),
+        new("UK", 22, 20),
+        new("Australia", 17, 7)
+    };
+}
 ```
 
 ---

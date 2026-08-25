@@ -78,7 +78,7 @@ itself — can skip this step.)
 
 ## Step 2 — Pick the right series type
 
-The `ChartSeriesType` enum currently exposes **22 members** (declared in
+The `ChartSeriesType` enum currently exposes **21 members** (declared in
 order at `src/Base/Enumeration.cs`):
 
 `Line`, `Column`, `Area`, `Bar`, `StackingColumn`, `StackingArea`,
@@ -101,7 +101,7 @@ Pick from this discriminator, not from a marketing count:
 | Three-variable (size matters) | Bubble | `Bubble` |
 | Per-segment color | MultiColoredLine / MultiColoredArea | `MultiColoredLine`, `MultiColoredArea` |
 
-Types in this repo today: **22** (line + column + area + bar + steps +
+Types in this repo today: **21** (line + column + area + bar + steps +
 splines + scatter + bubble + multi-coloured + stacking variants). Pie,
 candle / OHLC / HiLo, polar / radar, range / area-spline variants are
 **not** part of the current toolkit — if the task requires them, stop
@@ -275,12 +275,20 @@ The order matters. After Steps 1–4, compose in this sequence:
 </SfChart>
 
 @code {
-    public record SalesPoint(string Month, double Revenue);
+    public class SalesPoint
+    {
+        public string Month { get; set; } = string.Empty;
+        public double Revenue { get; set; }
+    }
 
     private readonly List<SalesPoint> SalesData = new()
     {
-        new("Jan", 35), new("Feb", 28), new("Mar", 34),
-        new("Apr", 32), new("May", 40), new("Jun", 32)
+        new SalesPoint { Month = "Jan", Revenue = 35 },
+        new SalesPoint { Month = "Feb", Revenue = 28 },
+        new SalesPoint { Month = "Mar", Revenue = 34 },
+        new SalesPoint { Month = "Apr", Revenue = 32 },
+        new SalesPoint { Month = "May", Revenue = 40 },
+        new SalesPoint { Month = "Jun", Revenue = 32 }
     };
 }
 ```
@@ -325,7 +333,7 @@ default where the chart namespace is the only one imported.
 Always use `Syncfusion.Blazor.Toolkit.` for `ValueType`, `ChartSeriesType`,
 `LegendPosition`, `ZoomMode`, `ChartShape`, `TrendlineTypes`, `Theme`,
 `EmptyPointMode`, `ToolbarMode`, `ZIndexPosition`, `ChartSelectionMode`,
-`HighlightMode`, `ChartRangePadding`, `EmptyPointMode`, `LineType`,
+`HighlightMode`, `ChartRangePadding`, `LineType`,
 `EdgeLabelPlacement`, `LabelPlacement`, `LabelIntersectAction`, `Units`,
 `Regions`, `Alignment`, `SplineType`, `StepPosition`, `Segment`,
 `Orientation`, `RangeIntervalType`, `ToolbarItems`, `SelectionPattern`.

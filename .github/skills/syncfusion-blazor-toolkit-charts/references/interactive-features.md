@@ -29,7 +29,7 @@ with the public method that pairs with it.
 ```razor
 <ChartTooltipSettings Enable="true" Shared="true"
                       Format="${series.name} : ${point.y}"
-                      Header="${point.x}" />
+                      Header="Monthly Sales" />
 
 <ChartEvents TooltipRender="OnTip" />
 
@@ -44,7 +44,7 @@ with the public method that pairs with it.
 | Option | Effect |
 |--------|--------|
 | `Shared="true"` | One tool-tip aggregates all series at the hovered X |
-| `Format` | Inline format string with template placeholders `${point.x}`/`${point.y}`/`${series.name}` |
+| `Format` | Inline format string with template placeholders `${point.x}`/`${point.y}`/`${series.name}` (placeholder tokens are documented on `Format` only — `Header` is plain text) |
 | `Template` | A `<RenderFragment>` for fully custom markup |
 | `Enable="true"` | Required for any tooltip to render — there's no auto-show |
 
@@ -141,7 +141,7 @@ other series; selection marks only what's chosen.
                    EnablePinchZooming="true"
                    EnablePan="true"
                    Mode="Syncfusion.Blazor.Toolkit.ZoomMode.X"
-                   ToolboxMode="Syncfusion.Blazor.Toolkit.ToolbarMode.OnDemand"
+                   ToolbarDisplayMode="Syncfusion.Blazor.Toolkit.ToolbarMode.OnDemand"
                    ToolbarItems="@(new List<Syncfusion.Blazor.Toolkit.ToolbarItems> {
                        Syncfusion.Blazor.Toolkit.ToolbarItems.Zoom,
                        Syncfusion.Blazor.Toolkit.ToolbarItems.ZoomIn,
@@ -162,9 +162,11 @@ Toolbar item commands live on `Syncfusion.Blazor.Toolkit.ToolbarItems`
 `Pan`, `Reset`. Assign via `ChartZoomSettings.ToolbarItems` as
 `List<Syncfusion.Blazor.Toolkit.ToolbarItems>`. Toolbar visibility is
 driven by `Syncfusion.Blazor.Toolkit.ToolbarMode`
-(`OnDemand` | `Always` | `None`). There is **no `ToolBarCommand` enum** in
-this toolkit — pass `ToolText` on the chart-level settings if you need a
-label override.
+(`OnDemand` | `Always` | `None`) and is assigned to the **`ToolbarDisplayMode`**
+parameter on `<ChartZoomSettings>` (NOT `ToolboxMode` — that name does
+not exist; verified against `src/Components/Charts/Chart/UserInteractions/ChartZoomSettings.cs:261`).
+There is **no `ToolBarCommand` enum** in this toolkit — pass `ToolText`
+on the chart-level settings if you need a label override.
 
 ## Programmatic tooltip / crosshair / selection
 
