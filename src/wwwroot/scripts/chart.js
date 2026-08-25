@@ -4543,7 +4543,8 @@ export function findColor(data, series) {
 // when it appears on hover/focus, satisfying WCAG 2.1 SC 4.1.3 (Status Messages).
 // The attributes are idempotent — repeated calls are safe.
 //
-// Implementation: a single MutationObserver attached to `document.body` that
+// Implementation: one module-level singleton MutationObserver attached to
+// `document.body` that
 // catches any inserted `.e-tooltip` element anywhere in the document. This
 // covers every chart on the page (single or multi-chart demos), template
 // tooltips, and any future svgbase re-renders. Plus a one-shot tagged
@@ -4599,22 +4600,20 @@ function _ensureTooltipLiveObserver() {
     _tooltipLiveObserver.observe(document.body, { childList: true, subtree: true });
 }
 function applyTooltipLiveRegion(tooltipHostId) {
-    // Run both an immediate scan (in case the tooltip is already in the DOM)
-    // and set up the document-wide observer to catch future insertions.
-    setTimeout(function () {
-        const tooltipHost = document.getElementById(tooltipHostId);
-        if (tooltipHost) {
-            if (tooltipHost.classList && tooltipHost.classList.contains('e-tooltip')) {
-                _markTooltipLiveRegion(tooltipHost);
-            }
-            const chartContainer = tooltipHost.parentElement;
-            if (chartContainer) {
-                _scanDocumentForTooltips(chartContainer);
-            }
+    // Install the observer before scanning so a tooltip inserted during this
+    // call is covered, and mark existing nodes before returning to the caller.
+    _ensureTooltipLiveObserver();
+    const tooltipHost = document.getElementById(tooltipHostId);
+    if (tooltipHost) {
+        if (tooltipHost.classList && tooltipHost.classList.contains('e-tooltip')) {
+            _markTooltipLiveRegion(tooltipHost);
         }
-        _scanDocumentForTooltips(document.body);
-        _ensureTooltipLiveObserver();
-    }, 0);
+        const chartContainer = tooltipHost.parentElement;
+        if (chartContainer) {
+            _scanDocumentForTooltips(chartContainer);
+        }
+    }
+    _scanDocumentForTooltips(document.body);
 }
 
 export function renderTooltip(tooltipOptions, elementId, chart) {
