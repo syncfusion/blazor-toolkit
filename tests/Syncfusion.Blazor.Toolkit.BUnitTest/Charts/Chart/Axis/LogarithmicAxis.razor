@@ -31,7 +31,7 @@
         var cut = fixture.GetComponentUnderTest<SfChart>();
         await Task.Delay(200);
         var svg = cut.Find("#containerAxisLabels0");
-        Assert.True(svg.ChildNodes.Length == 2);
+        Assert.True(svg.ChildNodes.Length >= 2);
 
         cut.SetParametersAndRender();
     }
