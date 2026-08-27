@@ -83,13 +83,13 @@ namespace Syncfusion.Blazor.Toolkit.Tests.Calendars.DateTimePicker
             Assert.Equal(6, tRows.Length);
             var tCell = tRows[1].QuerySelectorAll("td");
             tCell[3].Click();
-            await Task.Delay(100);
+            await Task.Delay(200);
             Assert.NotNull(dateInstance.Find("input").GetAttribute("value"));
             Assert.NotNull(dateInstance.Instance.Value);
             containerEle = dateInstance.Find("input").ParentElement;
             clearEle = containerEle.Children[1];
             clearEle.MouseDown();
-            await Task.Delay(200);
+            await Task.Delay(300);
             Assert.Null(dateInstance.Find("input").GetAttribute("value"));
             Assert.Null(dateInstance.Instance.Value);
         }
@@ -108,10 +108,18 @@ namespace Syncfusion.Blazor.Toolkit.Tests.Calendars.DateTimePicker
         }
         private string GetDateFormat<T>(T date, string format = null, string culture = null)
         {
+            if (date == null)
+            {
+                return null;
+            }
             try
             {
                 var currentCulture = CultureInfo.CurrentCulture;
                 IFormattable dateValue = date as IFormattable;
+                if (dateValue == null)
+                {
+                    return null;
+                }
                 var dateCulture = dateValue.ToString(format, currentCulture);
                 dateCulture = dateCulture?.Replace('\u202F', ' ');
                 dateCulture = GetNativeDigits(dateCulture, currentCulture.NumberFormat.NativeDigits);

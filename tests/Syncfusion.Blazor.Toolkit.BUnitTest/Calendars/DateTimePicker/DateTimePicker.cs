@@ -241,10 +241,18 @@ namespace Syncfusion.Blazor.Toolkit.Tests.Calendars.DateTimePicker
         }
         private string GetDateFormat<T>(T date, string format = null, string culture = null)
         {
+            if (date == null)
+            {
+                return null;
+            }
             try
             {
                 var currentCulture = CultureInfo.CurrentCulture;
                 IFormattable dateValue = date as IFormattable;
+                if (dateValue == null)
+                {
+                    return null;
+                }
                 var dateCulture = dateValue.ToString(format, currentCulture);
                 dateCulture = dateCulture?.Replace('\u202F', ' ');
                 dateCulture = GetNativeDigits(dateCulture, currentCulture.NumberFormat.NativeDigits);
@@ -1124,10 +1132,14 @@ namespace Syncfusion.Blazor.Toolkit.Tests.Calendars.DateTimePicker
             var inputEle = dateInstance.Find("input");
             dateInstance.WaitForAssertion(() =>
             {
-                Assert.Contains("12:30", inputEle.GetAttribute("value").Replace('\u202F', ' ').Trim());
+                var inputVal = inputEle.GetAttribute("value")?.Replace('\u202F', ' ').Trim();
+                Assert.False(string.IsNullOrEmpty(inputVal));
+                Assert.Contains("12:30", inputVal ?? "");
                 Assert.NotNull(dateInstance.Instance.Value);
             });
-            Assert.Equal(new DateTime(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day, 0, 30, 0), dateInstance.Instance.Value);
+            var expected = new DateTime(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day, 0, 30, 0);
+            dateInstance.WaitForState(() => dateInstance.Instance.Value.HasValue && dateInstance.Instance.Value.Value.TimeOfDay == new TimeSpan(0, 30, 0), TimeSpan.FromSeconds(2));
+            Assert.Equal(expected, dateInstance.Instance.Value);
         }
         [Fact(Timeout = 10000)]
         public async Task StrictModeRange()
@@ -1157,7 +1169,7 @@ namespace Syncfusion.Blazor.Toolkit.Tests.Calendars.DateTimePicker
                 .Add(p => p.OnClick, buttonClickCallback)
             );
             var inputEle = dateInstance.Find("input");
-            Assert.Contains("10:00 AM", inputEle.GetAttribute("value").Replace('\u202F', ' ').Trim());
+            Assert.Contains("10:00 AM", inputEle.GetAttribute("value")?.Replace('\u202F', ' ').Trim() ?? "");
             inputEle.SetAttribute("value", "1/1/2020 10:00 AM");
             var buttonElem = button.Find("button");
             buttonElem.Click();
@@ -1171,7 +1183,8 @@ namespace Syncfusion.Blazor.Toolkit.Tests.Calendars.DateTimePicker
             var expectedTimeValueText = expectedTimeLi.GetAttribute("data-value")?.Replace('\u202F', ' ').Trim();
             Assert.Equal("12:30 AM", expectedTimeValueText);
             expectedTimeLi.Click();
-            await Task.Delay(50);
+            await Task.Delay(100);
+            dateInstance.WaitForState(() => dateInstance.Instance.Value.TimeOfDay == new TimeSpan(0, 30, 0), TimeSpan.FromSeconds(2));
             Assert.Equal(new TimeSpan(0, 30, 0), dateInstance.Instance.Value.TimeOfDay);
             var inputEle2 = dateInstance.Find("input");
             dateInstance.WaitForAssertion(() =>
