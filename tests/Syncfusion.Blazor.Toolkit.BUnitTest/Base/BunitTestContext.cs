@@ -6,18 +6,34 @@ namespace Syncfusion.Blazor.Toolkit.Tests
 {
     public class BunitTestContext : TestContext
     {
+        private static readonly CultureInfo TestCulture = BuildTestCulture();
+        private static CultureInfo BuildTestCulture()
+        {
+            var cultureInfo = (CultureInfo)CultureInfo.GetCultureInfo("en-US").Clone();
+            cultureInfo.DateTimeFormat.ShortDatePattern = "M/d/yyyy";
+            cultureInfo.DateTimeFormat.LongDatePattern = "dddd, MMMM d, yyyy";
+            cultureInfo.DateTimeFormat.ShortTimePattern = "h:mm tt";
+            cultureInfo.DateTimeFormat.LongTimePattern = "h:mm:ss tt";
+            cultureInfo.DateTimeFormat.FullDateTimePattern = "dddd, MMMM d, yyyy h:mm:ss tt";
+            cultureInfo.DateTimeFormat.ShortestDayNames = new[] { "S", "M", "T", "W", "T", "F", "S" };
+            return CultureInfo.ReadOnly(cultureInfo);
+        }
+
+        static BunitTestContext()
+        {
+            CultureInfo.DefaultThreadCurrentCulture = TestCulture;
+            CultureInfo.DefaultThreadCurrentUICulture = TestCulture;
+            CultureInfo.CurrentCulture = TestCulture;
+            CultureInfo.CurrentUICulture = TestCulture;
+        }
+
         public BunitTestContext()
         {
-            // Create a new culture based on en-US and set the ShortDatePattern
-            var cultureInfo = new CultureInfo("en-US");
-            cultureInfo.DateTimeFormat.ShortDatePattern = "M/d/yyyy";
-            cultureInfo.DateTimeFormat.ShortestDayNames = new[] { "S", "M", "T", "W", "T", "F", "S" };
-
-            // Apply this culture globally
-            CultureInfo.DefaultThreadCurrentCulture = cultureInfo;
-            CultureInfo.DefaultThreadCurrentUICulture = cultureInfo;
-
-            this.BeforeEachRun();
+            Thread.CurrentThread.CurrentCulture = TestCulture;
+            Thread.CurrentThread.CurrentUICulture = TestCulture;
+            CultureInfo.CurrentCulture = TestCulture;
+            CultureInfo.CurrentUICulture = TestCulture;
+            BeforeEachRun();
         }
 
         public virtual void BeforeEachRun()
@@ -27,10 +43,10 @@ namespace Syncfusion.Blazor.Toolkit.Tests
             Services.AddOptions();
         }
 
-        public void Dispose()
+        public new void Dispose()
         {
             base.Dispose();
-            this.AfterEachRun();
+            AfterEachRun();
         }
 
         public virtual void AfterEachRun() { }

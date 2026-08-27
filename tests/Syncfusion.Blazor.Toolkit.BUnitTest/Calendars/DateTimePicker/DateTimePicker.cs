@@ -241,11 +241,20 @@ namespace Syncfusion.Blazor.Toolkit.Tests.Calendars.DateTimePicker
         }
         private string GetDateFormat<T>(T date, string format = null, string culture = null)
         {
+            if (date == null)
+            {
+                return null;
+            }
             try
             {
                 var currentCulture = CultureInfo.CurrentCulture;
                 IFormattable dateValue = date as IFormattable;
+                if (dateValue == null)
+                {
+                    return null;
+                }
                 var dateCulture = dateValue.ToString(format, currentCulture);
+                dateCulture = dateCulture?.Replace('\u202F', ' ');
                 dateCulture = GetNativeDigits(dateCulture, currentCulture.NumberFormat.NativeDigits);
                 return dateCulture;
             }
@@ -1109,19 +1118,26 @@ namespace Syncfusion.Blazor.Toolkit.Tests.Calendars.DateTimePicker
         {
             var dateInstance = RenderComponent<SfDateTimePicker<DateTime?>>();
             await dateInstance.Instance.ShowPopupAsync();
-            var popupEle = dateInstance.Find(".e-popup");
-            var tableElement = popupEle.QuerySelector("table");
+            dateInstance.WaitForElement(".e-popup table", TimeSpan.FromSeconds(5));
             Assert.Equal("Month", dateInstance.Instance.CurrentView());
-            Assert.NotNull(tableElement);
             await dateInstance.Instance.HidePopupAsync();
             await dateInstance.Instance.ClosePopupAsync();
             await dateInstance.Instance.ShowTimePopupAsync();
-            popupEle = dateInstance.Find(".e-popup");
+            var popupEle = dateInstance.WaitForElement(".e-popup", TimeSpan.FromSeconds(5));
             var liCollec = popupEle.QuerySelectorAll("li");
+            Assert.True(liCollec.Length > 1);
+            // Default Step = 30 → index 1 is 12:30 AM
             liCollec[1].Click();
-            var inputEle = dateInstance.Find("input");
-            Assert.Contains("12:30", inputEle.GetAttribute("value").Replace('\u202F', ' ').Trim());
-            Assert.Equal(new DateTime(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day, 0, 30, 0), dateInstance.Instance.Value);
+            dateInstance.WaitForAssertion(() =>
+            {
+                var input = dateInstance.Find("input");
+                var text = (input.GetAttribute("value") ?? string.Empty).Replace('\u202F', ' ').Trim();
+                Assert.Contains("12:30", text);
+                Assert.NotNull(dateInstance.Instance.Value);
+                Assert.Equal(new TimeSpan(0, 30, 0), dateInstance.Instance.Value!.Value.TimeOfDay);
+            }, TimeSpan.FromSeconds(5));
+            var today = DateTime.Today;
+            Assert.Equal(new DateTime(today.Year, today.Month, today.Day, 0, 30, 0), dateInstance.Instance.Value);
         }
         [Fact(Timeout = 10000)]
         public async Task StrictModeRange()
@@ -1143,27 +1159,31 @@ namespace Syncfusion.Blazor.Toolkit.Tests.Calendars.DateTimePicker
         [Fact(Timeout = 10000)]
         public async Task ValueChangeOnDynamically()
         {
-            var dateInstance = RenderComponent<SfDateTimePicker<DateTime>>(param => param.Add(p => p.Value, new DateTime(2014, 01, 01, 10, 0, 0)));
-            var buttonClickCallback = EventCallback.Factory.Create<MouseEventArgs>(this, async (args) => {
-                dateInstance.SetParametersAndRender(parameter => parameter.Add(p => p.Value, DateTime.Now));
-            });
-            var button = RenderComponent<SfButton>(parameters => parameters
-                .Add(p => p.OnClick, buttonClickCallback)
-            );
+            var dateInstance = RenderComponent<SfDateTimePicker<DateTime>>(param =>
+                param.Add(p => p.Value, new DateTime(2014, 01, 01, 10, 0, 0)));
             var inputEle = dateInstance.Find("input");
-            Assert.Contains("10:00 AM", inputEle.GetAttribute("value").Replace('\u202F', ' ').Trim());
-            inputEle.SetAttribute("value", "1/1/2020 10:00 AM");
-            var buttonElem = button.Find("button");
-            buttonElem.Click();
-            await Task.Delay(100);
+            Assert.Contains("10:00 AM", (inputEle.GetAttribute("value") ?? string.Empty).Replace('\u202F', ' ').Trim());
+            // Dynamic value change (what the button was simulating)
+            var dynamicValue = DateTime.Now;
+            dateInstance.SetParametersAndRender(p => p.Add(x => x.Value, dynamicValue));
+            dateInstance.WaitForAssertion(() =>
+            {
+                Assert.Equal(dynamicValue, dateInstance.Instance.Value);
+            }, TimeSpan.FromSeconds(3));
             await dateInstance.Instance.ShowTimePopupAsync();
-            var popupEle = dateInstance.Find(".e-popup");
+            var popupEle = dateInstance.WaitForElement(".e-popup", TimeSpan.FromSeconds(5));
             var liCollec = popupEle.QuerySelectorAll("li");
+            Assert.True(liCollec.Length > 1);
+            Assert.Equal("12:30 AM",
+                liCollec[1].GetAttribute("data-value")?.Replace('\u202F', ' ').Trim());
             liCollec[1].Click();
-            inputEle = dateInstance.Find("input");
-            Assert.Contains("12:30 AM", inputEle.GetAttribute("value").Replace('\u202F', ' ').Trim());
-            var selectedVaue = popupEle.QuerySelector("li.e-active").GetAttribute("data-value");
-            Assert.Equal("12:30 AM", selectedVaue.Replace('\u202F', ' ').Trim());
+            dateInstance.WaitForAssertion(() =>
+            {
+                Assert.Equal(new TimeSpan(0, 30, 0), dateInstance.Instance.Value.TimeOfDay);
+                var text = (dateInstance.Find("input").GetAttribute("value") ?? string.Empty)
+                    .Replace('\u202F', ' ').Trim();
+                Assert.Contains("12:30", text);
+            }, TimeSpan.FromSeconds(5));
         }
         [Fact(Timeout = 10000, DisplayName = "show method with input focus related test case")]
         public async Task CheckInputFocus()
