@@ -29,7 +29,7 @@ var componentThemeOrder = [
     "dialog",
     "buttongroup",
     "timepicker"
-]
+];
 
 // To move the @use rule references to the top of the SCSS file
 function reorderUseRules(definitionFile) {
@@ -47,7 +47,7 @@ function reorderUseRules(definitionFile) {
 }
 
 // Match any custom @use(dependencies) content and remove that content
-function removeCustomUse(fileContent){
+function removeCustomUse(fileContent) {
     var regex = new RegExp("@(use)\\s+['\"][^'\"]+['\"][^;]*;", "g");
     var importedStyles = fileContent.match(regex) || [];
     const builtInUse = /^@use\s+['"]sass:(math|color|list|meta)['"]\s*;$/;
@@ -67,7 +67,9 @@ gulp.task('combined-scss', function (done) {
     var getFluentScss = '';
     // Place component styles as per styles order
     for (var themeOrder of componentThemeOrder) {
-        var paths = componentFiles.filter((value) => { return value.indexOf('styles/' + themeOrder) !== -1; });
+        var paths = componentFiles.filter((value) => {
+            return value.indexOf('styles/' + themeOrder) !== -1;
+        });
         if (paths.length) {
             getFluentScss += stripBom(fs.readFileSync(paths[0], 'utf8'));
         }
@@ -84,21 +86,24 @@ function stripBom(content) {
 
 // Compile SCSS to CSS.
 gulp.task('scss-to-css', function (done) {
-    return gulp.src(['./src/wwwroot/styles/combined-scss/*.scss', './src/wwwroot/styles/*.scss'], { ignore: ['./src/wwwroot/styles/icons.scss','./src/wwwroot/styles/animation.scss','./src/wwwroot/styles/base.scss'] }) // Select all SCSS files in the directory for compiling to css expect base and icons scss
-    .pipe(sass().on('error', function (error) {
-        // Handle SCSS compilation errors
-        fs.appendFileSync('./gulp_error.log', 'Failed scss-to-css task \nDetails:\n' + error.message + '\n');
-        console.error('Sass Compilation Error:', error.messageFormatted);
-        process.exit(1);
-    }))
-    // Minify and write only the .min.css files
-    .pipe(cleanCSS())
-    .pipe(rename({ suffix: '.min' }))
-    .pipe(gulp.dest('./src/wwwroot/styles'))
-    .on('end', function () {
-        console.log("SCSS to CSS compiled successfully");
-        done();
-    });
+    return gulp.src(
+        ['./src/wwwroot/styles/combined-scss/*.scss', './src/wwwroot/styles/*.scss'],
+        { ignore: ['./src/wwwroot/styles/icons.scss', './src/wwwroot/styles/animation.scss', './src/wwwroot/styles/base.scss'] }
+    ) // Select all SCSS files in the directory for compiling to css except base and icons scss
+        .pipe(sass().on('error', function (error) {
+            // Handle SCSS compilation errors
+            fs.appendFileSync('./gulp_error.log', 'Failed scss-to-css task \nDetails:\n' + error.message + '\n');
+            console.error('Sass Compilation Error:', error.messageFormatted);
+            process.exit(1);
+        }))
+        // Minify and write only the .min.css files
+        .pipe(cleanCSS())
+        .pipe(rename({ suffix: '.min' }))
+        .pipe(gulp.dest('./src/wwwroot/styles'))
+        .on('end', function () {
+            console.log("SCSS to CSS compiled successfully");
+            done();
+        });
 });
 
 gulp.task('blazor-toolkit-themes', gulp.series('combined-scss', 'scss-to-css'));
@@ -179,7 +184,7 @@ gulp.task('security-xss-scan', function (done) {
         let content;
         try {
             content = fs.readFileSync(file, 'utf8');
-        } catch (e) {
+        } catch {
             continue;
         }
         const lines = content.split(/\r?\n/);
@@ -204,9 +209,11 @@ gulp.task('security-xss-scan', function (done) {
     }
 
     if (findings.length) {
-        const grouped = {};
+        const grouped = Object.create(null);
         for (const f of findings) {
-            grouped[f.pattern] = grouped[f.pattern] || [];
+            if (!Object.prototype.hasOwnProperty.call(grouped, f.pattern)) {
+                grouped[f.pattern] = [];
+            }
             grouped[f.pattern].push(f);
         }
         console.error('=========================================================');
@@ -219,11 +226,13 @@ gulp.task('security-xss-scan', function (done) {
             }
         }
         try {
-            fs.writeFileSync('xss-scan-report.txt',
+            fs.writeFileSync(
+                'xss-scan-report.txt',
                 findings.map(f => `${f.file}:${f.line} [${f.pattern}] ${f.text}`).join('\n'),
-                'utf8');
-        } catch (e) {
-            console.error('Could not write xss-scan-report.txt: ' + e.message);
+                'utf8'
+            );
+        } catch (err) {
+            console.error('Could not write xss-scan-report.txt: ' + err.message);
         }
         process.exitCode = 1;
         return done(new Error(`${findings.length} XSS-related finding(s) - see xss-scan-report.txt`));
@@ -234,4 +243,3 @@ gulp.task('security-xss-scan', function (done) {
 });
 
 gulp.task('security', gulp.series('security-xss-scan'));
-
