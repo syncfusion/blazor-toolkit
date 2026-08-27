@@ -124,10 +124,12 @@
     async Task DateTimeCategoryCheckAutoIntervalWithHours(Fixture fixture2)
     {
         var cut = fixture2.GetComponentUnderTest<SfChart>();
-        await Task.Delay(200);
-        var svg = cut.Find("#containerAxisLabels0");
-        Assert.True(svg.ChildNodes.Length == 2);
-        Assert.True(svg.ChildNodes[0].TextContent == "12:00 AM\n    ");
+        cut.WaitForAssertion(() =>
+        {
+            var svg = cut.Find("#containerAxisLabels0");
+            Assert.Equal(2, svg.ChildNodes.Length);
+            Assert.Equal("12:00 AM", svg.ChildNodes[0].TextContent.Trim());
+        });
         cut.SetParametersAndRender();
     }
     public class DateTimeData2
@@ -171,10 +173,12 @@
     async Task DateTimeCategoryCheckAutoIntervalWithMinutes(Fixture fixture3)
     {
         var cut = fixture3.GetComponentUnderTest<SfChart>();
-        await Task.Delay(200);
-        var svg = cut.Find("#containerAxisLabels0");
-        Assert.True(svg.ChildNodes.Length == 2);
-        Assert.True(svg.ChildNodes[0].TextContent == "3:00:00 AM\n    ");
+        cut.WaitForAssertion(() =>
+        {
+            var svg = cut.Find("#containerAxisLabels0");
+            Assert.Equal(2, svg.ChildNodes.Length);
+            Assert.Equal("3:00:00 AM", svg.ChildNodes[0].TextContent.Trim());
+        });
         cut.SetParametersAndRender();
     }
     public class DateTimeData3
@@ -217,10 +221,12 @@
     async Task DateTimeCategoryCheckIntervalWithHours(Fixture fixture4)
     {
         var cut = fixture4.GetComponentUnderTest<SfChart>();
-        await Task.Delay(200);
-        var svg = cut.Find("#containerAxisLabels0");
-        Assert.True(svg.ChildNodes.Length == 2);
-        Assert.True(svg.ChildNodes[0].TextContent == "3:00 AM\n    ");
+        cut.WaitForAssertion(() =>
+        {
+            var svg = cut.Find("#containerAxisLabels0");
+            Assert.Equal(2, svg.ChildNodes.Length);
+            Assert.Equal("3:00 AM", svg.ChildNodes[0].TextContent.Trim());
+        });
         cut.SetParametersAndRender();
     }
     public class DateTimeData4
@@ -264,10 +270,12 @@
     async Task DateTimeCategoryCheckIntervalWithSeconds(Fixture fixture5)
     {
         var cut = fixture5.GetComponentUnderTest<SfChart>();
-        await Task.Delay(200);
-        var svg = cut.Find("#containerAxisLabels0");
-        Assert.True(svg.ChildNodes.Length == 2);
-        Assert.True(svg.ChildNodes[0].TextContent == "3:10:10 AM\n    ");
+        cut.WaitForAssertion(() =>
+        {
+            var svg = cut.Find("#containerAxisLabels0");
+            Assert.Equal(2, svg.ChildNodes.Length);
+            Assert.Equal("3:10:10 AM", svg.ChildNodes[0].TextContent.Trim());
+        });
         cut.SetParametersAndRender();
     }
     public class DateTimeData5
@@ -1863,9 +1871,11 @@
     async Task DateTimeCategoryAxisHoursWithSameType(Fixture fixture28)
     {
         var cut = fixture28.GetComponentUnderTest<SfChart>();
-        await Task.Delay(200);
-        var label = cut.Find("#containerAxisLabels1").ChildNodes[0];
-        Assert.True(label.TextContent == "1:02 AM\n    ");
+        cut.WaitForAssertion(() =>
+        {
+            var label = cut.Find("#containerAxisLabels1").ChildNodes[0];
+            Assert.Equal("1:02 AM", label.TextContent.Trim());
+        });
         cut.SetParametersAndRender();
     }
     public class DateTimeData50
@@ -1928,9 +1938,11 @@
     async Task DateTimeCategoryAxisMinutesWithSameType(Fixture fixture29)
     {
         var cut = fixture29.GetComponentUnderTest<SfChart>();
-        await Task.Delay(200);
-        var label = cut.Find("#containerAxisLabels1").ChildNodes[0];
-        Assert.True(label.TextContent == "2:02:12 AM\n    ");
+        cut.WaitForAssertion(() =>
+        {
+            var label = cut.Find("#containerAxisLabels1").ChildNodes[0];
+            Assert.Equal("2:02:12 AM", label.TextContent.Trim());
+        });
         cut.SetParametersAndRender();
     }
     public class DateTimeData52
@@ -1993,9 +2005,11 @@
     async Task DateTimeCategoryAxisSecondsWithSameType(Fixture fixture30)
     {
         var cut = fixture30.GetComponentUnderTest<SfChart>();
-        await Task.Delay(200);
-        var label = cut.Find("#containerAxisLabels1").ChildNodes[0];
-        Assert.True(label.TextContent == "2:02:12 AM\n    ");
+        cut.WaitForAssertion(() =>
+        {
+            var label = cut.Find("#containerAxisLabels1").ChildNodes[0];
+            Assert.Equal("2:02:12 AM", label.TextContent.Trim());
+        });
         cut.SetParametersAndRender();
     }
     public class DateTimeData54
