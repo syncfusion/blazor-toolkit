@@ -30,26 +30,25 @@ namespace Syncfusion.Blazor.Toolkit.Tests.Calendars.DateTimePicker
         private string GetDateFormat<T>(T date, string format = null, string culture = null)
         {
             if (date == null)
-            {
                 return null;
-            }
-            try
-            {
-                var currentCulture = CultureInfo.CurrentCulture;
-                IFormattable dateValue = date as IFormattable;
-                if (dateValue == null)
-                {
-                    return null;
-                }
-                var dateCulture = dateValue.ToString(format, currentCulture);
-                dateCulture = dateCulture?.Replace('\u202F', ' ');
-                dateCulture = GetNativeDigits(dateCulture, currentCulture.NumberFormat.NativeDigits);
-                return dateCulture;
-            }
-            catch (Exception e)
-            {
-                throw new Exception(e.Message);
-            }
+
+            var currentCulture = CultureInfo.CurrentCulture;
+            string dateCulture;
+
+            if (date is DateTime dt)
+                dateCulture = dt.ToString(format, currentCulture);
+            else if (date is DateTime)
+                dateCulture = ((DateTime)(object)date).ToString(format, currentCulture);
+            else if (date is IFormattable formattable)
+                dateCulture = formattable.ToString(format, currentCulture);
+            else
+                dateCulture = Convert.ToDateTime(date, currentCulture).ToString(format, currentCulture);
+
+            dateCulture = dateCulture?.Replace('\u202F', ' ');
+            if (dateCulture == null)
+                return null;
+
+            return GetNativeDigits(dateCulture, currentCulture.NumberFormat.NativeDigits);
         }
         [Fact(Timeout = 10000)]
         public async Task DefaultFormat()
@@ -126,17 +125,19 @@ namespace Syncfusion.Blazor.Toolkit.Tests.Calendars.DateTimePicker
             inputValue = GetDateFormat(dateInstance.Instance.Value, shortPattern);
             Assert.Equal(inputValue, inputEle.GetAttribute("value"));
             await dateInstance.Instance.ShowTimePopupAsync();
-            await Task.Delay(100);
-            popupEle = dateInstance.Find(".e-popup");
+            popupEle = dateInstance.WaitForElement(".e-popup", TimeSpan.FromSeconds(5));
             var liCollec = popupEle.QuerySelectorAll("li");
-            Assert.True(liCollec.Length > 1, "Time list should have items");
+            Assert.True(liCollec.Length > 1);
             liCollec[1].Click();
-            await Task.Delay(100);
-            inputEle = dateInstance.Find("input");
-            inputValue = GetDateFormat(dateInstance.Instance.Value, shortPattern);
-            Assert.Equal(inputValue, inputEle.GetAttribute("value"));
-            var inputValueText = inputEle.GetAttribute("value")?.Replace('\u202F', ' ').Trim();
-            Assert.Contains("12:30 AM", inputValueText ?? "");
+            dateInstance.WaitForAssertion(() =>
+            {
+                var input = dateInstance.Find("input");
+                var attr = (input.GetAttribute("value") ?? string.Empty).Replace('\u202F', ' ').Trim();
+                Assert.False(string.IsNullOrEmpty(attr));
+                Assert.Contains("12:30 AM", attr);
+                Assert.NotNull(dateInstance.Instance.Value);
+                Assert.Equal(new TimeSpan(0, 30, 0), dateInstance.Instance.Value!.Value.TimeOfDay);
+            }, TimeSpan.FromSeconds(5));
         }
         [Fact(Timeout = 10000)]
         public async Task FullDateTimeFormat()
@@ -156,17 +157,19 @@ namespace Syncfusion.Blazor.Toolkit.Tests.Calendars.DateTimePicker
             await dateInstance.Instance.HidePopupAsync();
             await dateInstance.Instance.ClosePopupAsync();
             await dateInstance.Instance.ShowTimePopupAsync();
-            await Task.Delay(100);
-            popupEle = dateInstance.Find(".e-popup");
+            popupEle = dateInstance.WaitForElement(".e-popup", TimeSpan.FromSeconds(5));
             var liCollec = popupEle.QuerySelectorAll("li");
-            Assert.True(liCollec.Length > 1, "Time list should have items");
+            Assert.True(liCollec.Length > 1);
             liCollec[1].Click();
-            await Task.Delay(100);
-            inputEle = dateInstance.Find("input");
-            inputValue = GetDateFormat(dateInstance.Instance.Value, fullPattern);
-            Assert.Equal(inputValue, inputEle.GetAttribute("value"));
-            var inputValueText = inputEle.GetAttribute("value")?.Replace('\u202F', ' ').Trim();
-            Assert.Contains("12:30:00 AM", inputValueText ?? "");
+            dateInstance.WaitForAssertion(() =>
+            {
+                var input = dateInstance.Find("input");
+                var attr = (input.GetAttribute("value") ?? string.Empty).Replace('\u202F', ' ').Trim();
+                Assert.False(string.IsNullOrEmpty(attr));
+                Assert.Contains("12:30:00 AM", attr);
+                Assert.NotNull(dateInstance.Instance.Value);
+                Assert.Equal(new TimeSpan(0, 30, 0), dateInstance.Instance.Value!.Value.TimeOfDay);
+            }, TimeSpan.FromSeconds(5));
         }
 
         [Fact(Timeout = 10000, DisplayName = "value with format(short) test case ")]

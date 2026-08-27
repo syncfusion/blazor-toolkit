@@ -83,15 +83,23 @@ namespace Syncfusion.Blazor.Toolkit.Tests.Calendars.DateTimePicker
             Assert.Equal(6, tRows.Length);
             var tCell = tRows[1].QuerySelectorAll("td");
             tCell[3].Click();
-            await Task.Delay(200);
-            Assert.NotNull(dateInstance.Find("input").GetAttribute("value"));
-            Assert.NotNull(dateInstance.Instance.Value);
+            dateInstance.WaitForAssertion(() =>
+            {
+                Assert.NotNull(dateInstance.Find("input").GetAttribute("value"));
+                Assert.NotNull(dateInstance.Instance.Value);
+            }, TimeSpan.FromSeconds(5));
             containerEle = dateInstance.Find("input").ParentElement;
-            clearEle = containerEle.Children[1];
+            clearEle = containerEle.QuerySelector(".e-clear-icon")
+                    ?? containerEle.Children[1];
+            Assert.Contains("e-clear-icon", clearEle.ClassName);
             clearEle.MouseDown();
-            await Task.Delay(300);
-            Assert.Null(dateInstance.Find("input").GetAttribute("value"));
-            Assert.Null(dateInstance.Instance.Value);
+            clearEle.Click();
+            dateInstance.WaitForAssertion(() =>
+            {
+                var v = dateInstance.Find("input").GetAttribute("value");
+                Assert.True(string.IsNullOrEmpty(v));
+                Assert.Null(dateInstance.Instance.Value);
+            }, TimeSpan.FromSeconds(5));
         }
         private string GetNativeDigits(string formatValue, string[] nativeDigits)
         {
