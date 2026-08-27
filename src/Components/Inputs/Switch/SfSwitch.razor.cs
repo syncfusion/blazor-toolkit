@@ -246,10 +246,46 @@ namespace Syncfusion.Blazor.Toolkit.Inputs
         }
 
         /// <summary>
-        /// Updates the CSS classes for the switch's visual state (inner track and handle).
-        /// Applies active state classes when checked, removes them when unchecked.
+        /// Computes the accessible name for the switch input. Exactly one source wins
+        /// (in priority order: <see cref="AriaLabel"/>, external <see cref="Label"/>,
+        /// then the currently-active <see cref="OnLabel"/> / <see cref="OffLabel"/>).
         /// </summary>
-        /// <param name="state">State token: use <c>CHECK</c> for checked state, <c>UNCHECK</c> for unchecked.</param>
+        /// <remarks>
+        /// Returning a single string — instead of joining multiple aria-labelledby ids —
+        /// eliminates the duplicate / cross-state announcements produced when both
+        /// state labels were present in the DOM (e.g. NVDA reading
+        /// "Open switch off, close switch off" on an off-to-on toggle).
+        /// </remarks>
+        private string GetAccessibleName()
+        {
+            if (!string.IsNullOrWhiteSpace(AriaLabel))
+            {
+                return AriaLabel;
+            }
+
+            if (!string.IsNullOrWhiteSpace(Label))
+            {
+                return Label;
+            }
+
+            // Only the active state label is announced — both at once caused the bug.
+            bool isChecked = false;
+            try
+            {
+                isChecked = Checked is not null && Convert.ToBoolean(Checked, CultureInfo.InvariantCulture);
+            }
+            catch (Exception)
+            {
+                // Falls through to the off-state label below.
+            }
+
+            string? active = isChecked ? OnLabel : OffLabel;
+            return string.IsNullOrWhiteSpace(active) ? string.Empty : active;
+        }
+
+        /// <summary>
+        /// Updates the CSS classes for the switch's visual state (inner track and handle).
+        /// </summary>
         private void ChangeState(string state)
         {
             _innerClass = Inner;

@@ -43,6 +43,9 @@ namespace Syncfusion.Blazor.Toolkit.Inputs
         private const string ARIA_LABEL = "aria-label";
         private const string ARIA_LABELLEDBY = "aria-labelledby";
         private const string ARIA_DESCRIBEDBY = "aria-describedby";
+        private const string ARIA_INVALID = "aria-invalid";
+        private const string TRUE = "true";
+        private const string ERROR_MESSAGE_ID_PREFIX = "err_";
 
         #endregion
 
@@ -444,6 +447,45 @@ namespace Syncfusion.Blazor.Toolkit.Inputs
                     ContainerClass = SfBaseUtils.RemoveClass(ContainerClass, ERROR_CLASS);
                     ContainerClass = SfBaseUtils.RemoveClass(ContainerClass, SUCCESS_CLASS);
                 }
+                SyncInvalidAriaState();
+            }
+        }
+
+        /// <summary>
+        /// Surfaces the EditContext field validity to assistive technology (NVDA, Narrator) by
+        /// setting <c>aria-invalid="true"</c> and <c>aria-describedby="err_&lt;ID&gt;"</c> on the
+        /// rendered input. The <c>err_&lt;ID&gt;</c> token is a deterministic id the consumer
+        /// honors by assigning the same id to the framework <c>&lt;ValidationMessage&gt;</c>
+        /// element, so the screen reader reads the actual error text on the next focus.
+        /// </summary>
+        /// <remarks>
+        /// Implements WCAG 3.3.1 (Error Identification) and 4.1.2 (Name, Role, Value).
+        /// When the field becomes valid, <c>aria-invalid</c> is removed entirely and any
+        /// <c>err_</c> token previously appended to <c>aria-describedby</c> is left in place
+        /// only if it was the sole value (a user-supplied <see cref="AriaDescribedBy"/> is
+        /// never overwritten).
+        /// </remarks>
+        private void SyncInvalidAriaState()
+        {
+            bool isInvalid = _validClass is INVALID or MODIFIED_INVALID;
+            if (isInvalid)
+            {
+                InputHtmlAttributes = SfBaseUtils.UpdateDictionary(ARIA_INVALID, TRUE, InputHtmlAttributes);
+                string errorId = ERROR_MESSAGE_ID_PREFIX + ID;
+                string existing = InputHtmlAttributes.TryGetValue(ARIA_DESCRIBEDBY, out object? v) && v is not null ? v.ToString() ?? string.Empty : string.Empty;
+                // Append the error id rather than overwriting any user-supplied
+                // AriaDescribedBy (e.g. a help-text id), but never duplicate it.
+                string merged = string.IsNullOrEmpty(existing) || existing.Contains(errorId, StringComparison.Ordinal)
+                    ? errorId
+                    : existing + SPACE + errorId;
+                InputHtmlAttributes = SfBaseUtils.UpdateDictionary(ARIA_DESCRIBEDBY, merged, InputHtmlAttributes);
+            }
+            else
+            {
+                // Use Dictionary.Remove so the attribute is fully omitted from
+                // the rendered input; UpdateDictionary would write the key
+                // back as null.
+                _ = InputHtmlAttributes.Remove(ARIA_INVALID);
             }
         }
 

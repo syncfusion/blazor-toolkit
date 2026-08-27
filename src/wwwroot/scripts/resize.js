@@ -32,7 +32,13 @@ const Resize = (function (exports) {
                 iconClass += 'e-resizer-right ';
             }
             if (dialogBorderResize.indexOf(d) >= 0) setBorderResizeElm(d);
-            else targetElement.appendChild(sfBlazorToolkit.base.createElement('div', { className: iconClass + RESIZE_HANDLER + ' e-' + d }));
+            else {
+                var handle = sfBlazorToolkit.base.createElement('div', { className: iconClass + RESIZE_HANDLER + ' e-' + d });
+                handle.setAttribute('aria-hidden', 'true');
+                handle.setAttribute('role', 'presentation');
+                handle.setAttribute('tabindex', '-1');
+                targetElement.appendChild(handle);
+            }
         });
         minHeight = args.minHeight; minWidth = args.minWidth; maxWidth = args.maxWidth; maxHeight = args.maxHeight;
         resizeCount++;
@@ -43,6 +49,9 @@ const Resize = (function (exports) {
         calculateValues();
         const span = sfBlazorToolkit.base.createElement('span', { className: 'e-dialog-border-resize e-' + direction });
         span.setAttribute('unselectable', 'on'); span.setAttribute('contenteditable', 'false');
+        span.setAttribute('aria-hidden', 'true');
+        span.setAttribute('role', 'presentation');
+        span.setAttribute('tabindex', '-1');
         if (direction === 'south' || direction === 'north') {
             Object.assign(span.style, { height: '2px', width: '100%', left: '0px' });
             span.style[direction === 'south' ? 'bottom' : 'top'] = '0px';

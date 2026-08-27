@@ -34,6 +34,7 @@ namespace Syncfusion.Blazor.Toolkit.Inputs
         protected override async Task OnAfterRenderAsync(bool firstRender)
         {
             await base.OnAfterRenderAsync(firstRender).ConfigureAwait(false);
+            await InvokeVoidAsync(_checkBoxJsModule, _checkBoxInProcessModule, "syncIndeterminate", _input, Indeterminate).ConfigureAwait(true);
             if (firstRender && EnablePersistence)
             {
                 try

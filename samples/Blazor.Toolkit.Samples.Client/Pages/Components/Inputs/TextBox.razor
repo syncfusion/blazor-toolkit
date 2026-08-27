@@ -256,20 +256,20 @@
                 <EditForm Model="@validationModel" OnValidSubmit="@OnValidSubmit" FormName="TextBoxValidationForm">
                     <DataAnnotationsValidator></DataAnnotationsValidator>
                     <div class="form-group">
-                        <SfTextBox @bind-Value="@validationModel.FullName" Placeholder="Full Name (Required)" FloatLabelType="FloatLabelType.Auto"></SfTextBox>
-                        <ValidationMessage For="@(() => validationModel.FullName)"></ValidationMessage>
+                        <SfTextBox @bind-Value="@validationModel.FullName" id="tb-fullname" Placeholder="Full Name (Required)" FloatLabelType="FloatLabelType.Auto"></SfTextBox>
+                        <ValidationMessage For="@(() => validationModel.FullName)" id="err_tb-fullname"></ValidationMessage>
                     </div>
                     <div class="form-group">
-                        <SfTextBox @bind-Value="@validationModel.Email" Type="InputType.Email" Placeholder="Email Address" FloatLabelType="FloatLabelType.Auto"></SfTextBox>
-                        <ValidationMessage For="@(() => validationModel.Email)"></ValidationMessage>
+                        <SfTextBox @bind-Value="@validationModel.Email" id="tb-email" Type="InputType.Email" Placeholder="Email Address" FloatLabelType="FloatLabelType.Auto"></SfTextBox>
+                        <ValidationMessage For="@(() => validationModel.Email)" id="err_tb-email"></ValidationMessage>
                     </div>
                     <div class="form-group">
-                        <SfTextBox @bind-Value="@validationModel.Phone" Type="InputType.Tel" Placeholder="Phone Number" FloatLabelType="FloatLabelType.Auto"></SfTextBox>
-                        <ValidationMessage For="@(() => validationModel.Phone)"></ValidationMessage>
+                        <SfTextBox @bind-Value="@validationModel.Phone" id="tb-phone" Type="InputType.Tel" Placeholder="Phone Number" FloatLabelType="FloatLabelType.Auto"></SfTextBox>
+                        <ValidationMessage For="@(() => validationModel.Phone)" id="err_tb-phone"></ValidationMessage>
                     </div>
                     <div class="form-group">
-                        <SfTextBox @bind-Value="@validationModel.Comments" Placeholder="Comments (Max 200 characters)" Multiline="true" FloatLabelType="FloatLabelType.Auto" InputAttributes="@validationAttrs"></SfTextBox>
-                        <ValidationMessage For="@(() => validationModel.Comments)"></ValidationMessage>
+                        <SfTextBox @bind-Value="@validationModel.Comments" id="tb-comments" Placeholder="Comments (Max 200 characters)" Multiline="true" FloatLabelType="FloatLabelType.Auto" InputAttributes="@validationAttrs"></SfTextBox>
+                        <ValidationMessage For="@(() => validationModel.Comments)" id="err_tb-comments"></ValidationMessage>
                     </div>
                     <div class="form-buttons">
                         <button type="submit" class="e-btn e-primary">Submit</button>
