@@ -244,8 +244,9 @@ jobs:
         run: |
           set -o pipefail
           dotnet list src/Syncfusion.Blazor.Toolkit.csproj package --vulnerable --include-transitive 2>&1 | tee vuln-report.txt
-          if grep -qiE "has the following vulnerable packages|^.*vulnerable packages" vuln-report.txt; then
+          if grep -qi "has the following vulnerable packages" vuln-report.txt; then
             echo "::error::Vulnerable NuGet packages detected (see artifact nuget-vuln-report)"
+            cat vuln-report.txt
             exit 1
           fi
           echo "No vulnerable packages found"
