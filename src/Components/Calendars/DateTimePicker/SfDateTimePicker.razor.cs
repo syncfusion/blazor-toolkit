@@ -734,9 +734,10 @@ namespace Syncfusion.Blazor.Toolkit.Calendars
             else if (ShowPopupList && IsListRendered)
             {
                 IsListRendered = false;
-                DatePickerClientProps<TValue> options = GetClientProperties();
-                await InvokeVoidAsync(_datePickerJsModule, _datePickerJsInProcessModule, "renderPopup", [DataId, PopupElement, PopupHolderEle, PopupEventArgs, options, Step, ScrollTo ?? default]).ConfigureAwait(true);
                 IsListRender = true;
+                DatePickerClientProps<TValue> options = GetClientProperties();
+                StateHasChanged();
+                await InvokeVoidAsync(_datePickerJsModule, _datePickerJsInProcessModule, "renderPopup", [DataId, PopupElement, PopupHolderEle, PopupEventArgs, options, Step, ScrollTo ?? default]).ConfigureAwait(true);
             }
         }
 

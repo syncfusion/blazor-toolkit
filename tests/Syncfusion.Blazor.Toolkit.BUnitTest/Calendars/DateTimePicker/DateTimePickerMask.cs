@@ -50,6 +50,8 @@ namespace Syncfusion.Blazor.Toolkit.Tests.Calendars.DateTimePicker
             var dateInstance = RenderComponent<SfDateTimePicker<DateTime?>>(param => param.Add(p => p.EnableMask, true));
             var containerEle = dateInstance.Find("input").ParentElement;
             dateInstance.SetParametersAndRender(("ShowClearButton", true));
+            dateInstance.WaitForState(() => containerEle.Children.Length >= 3);
+            // Re-read the container now that the third child exists.
             containerEle = dateInstance.Find("input").ParentElement;
             var clearEle = containerEle.Children[1];
             Assert.Contains("e-clear-icon", clearEle.ClassName);
@@ -81,16 +83,14 @@ namespace Syncfusion.Blazor.Toolkit.Tests.Calendars.DateTimePicker
             Assert.Equal(6, tRows.Length);
             var tCell = tRows[1].QuerySelectorAll("td");
             tCell[3].Click();
-            var inputEle = dateInstance.Find("input");
             await Task.Delay(100);
-            Assert.NotNull(inputEle.GetAttribute("value"));
+            Assert.NotNull(dateInstance.Find("input").GetAttribute("value"));
             Assert.NotNull(dateInstance.Instance.Value);
             containerEle = dateInstance.Find("input").ParentElement;
             clearEle = containerEle.Children[1];
             clearEle.MouseDown();
             await Task.Delay(200);
-            inputEle = dateInstance.Find("input");
-            Assert.Null(inputEle.GetAttribute("value"));
+            Assert.Null(dateInstance.Find("input").GetAttribute("value"));
             Assert.Null(dateInstance.Instance.Value);
         }
         private string GetNativeDigits(string formatValue, string[] nativeDigits)

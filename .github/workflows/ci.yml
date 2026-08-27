@@ -210,12 +210,131 @@ jobs:
           if-no-files-found: ignore
 
   # =========================================================
-  # Job 3: Summary
+  # Job 3: NuGet vulnerability scan
+  # =========================================================
+  vulnerability-scan:
+    name: NuGet vulnerability scan
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: |
+            8.x
+            9.x
+            10.x
+
+      - name: Cache NuGet packages
+        uses: actions/cache@v4
+        with:
+          path: ~/.nuget/packages
+          key: nuget-${{ runner.os }}-${{ hashFiles('**/*.*proj') }}
+          restore-keys: |
+            nuget-${{ runner.os }}-
+
+      - name: Restore (NuGetAudit is enabled in the csproj)
+        run: dotnet restore src/Syncfusion.Blazor.Toolkit.csproj
+
+      - name: Check for vulnerable packages
+        run: |
+          set -o pipefail
+          dotnet list src/Syncfusion.Blazor.Toolkit.csproj package --vulnerable --include-transitive 2>&1 | tee vuln-report.txt
+          if grep -qiE "has the following vulnerable packages|^.*vulnerable packages" vuln-report.txt; then
+            echo "::error::Vulnerable NuGet packages detected (see artifact nuget-vuln-report)"
+            exit 1
+          fi
+          echo "No vulnerable packages found"
+
+      - name: Upload NuGet vulnerability report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: nuget-vuln-report
+          path: vuln-report.txt
+          if-no-files-found: ignore
+          retention-days: 14
+
+  # =========================================================
+  # Job 4: ESLint security
+  # =========================================================
+  eslint-security:
+    name: ESLint security
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: npm
+
+      - name: Install dependencies
+        run: |
+          if [ -f package-lock.json ] || [ -f npm-shrinkwrap.json ]; then
+            npm ci
+          else
+            npm install --no-fund --no-audit
+          fi
+
+      - name: Run ESLint security scan
+        run: npm run lint:security
+
+  # =========================================================
+  # Job 5: XSS / unsafe markup scan (gulp)
+  # =========================================================
+  xss-scan:
+    name: XSS / unsafe markup scan
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: npm
+
+      - name: Install dependencies
+        run: |
+          if [ -f package-lock.json ] || [ -f npm-shrinkwrap.json ]; then
+            npm ci
+          else
+            npm install --no-fund --no-audit
+          fi
+
+      - name: Run XSS / unsafe markup scan
+        # The gulp task already writes xss-scan-report.txt on findings and
+        # exits non-zero, so we don't need any extra glue here.
+        run: npx gulp security-xss-scan
+
+      - name: Upload XSS scan report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: xss-scan-report
+          path: xss-scan-report.txt
+          if-no-files-found: ignore
+          retention-days: 14
+
+  # =========================================================
+  # Job 6: Summary
   # =========================================================
   summary:
     name: CI Summary
     runs-on: ubuntu-latest
-    needs: [bunit, playwright]
+    needs: [bunit, playwright, vulnerability-scan, eslint-security, xss-scan]
     if: always()
     permissions:
       contents: read
@@ -224,10 +343,17 @@ jobs:
     steps:
       - name: Check results and fail if needed
         run: |
-          echo "bUnit result: ${{ needs.bunit.result }}"
-          echo "Playwright result: ${{ needs.playwright.result }}"
+          echo "bUnit result:           ${{ needs.bunit.result }}"
+          echo "Playwright result:      ${{ needs.playwright.result }}"
+          echo "NuGet vuln scan result: ${{ needs.vulnerability-scan.result }}"
+          echo "ESLint security result: ${{ needs.eslint-security.result }}"
+          echo "XSS scan result:        ${{ needs.xss-scan.result }}"
 
-          if [[ "${{ needs.bunit.result }}" != "success" || "${{ needs.playwright.result }}" != "success" ]]; then
+          if [[ "${{ needs.bunit.result }}" != "success" \
+             || "${{ needs.playwright.result }}" != "success" \
+             || "${{ needs.vulnerability-scan.result }}" != "success" \
+             || "${{ needs.eslint-security.result }}" != "success" \
+             || "${{ needs.xss-scan.result }}" != "success" ]]; then
             echo "One or more jobs failed → failing the workflow"
             exit 1
           fi
@@ -241,7 +367,12 @@ jobs:
           script: |
             const bunitOk = '${{ needs.bunit.result }}' === 'success';
             const pwOk = '${{ needs.playwright.result }}' === 'success';
-            const overall = bunitOk && pwOk ? '✅ All checks passed' : '❌ Some checks failed';
+            const vulnOk = '${{ needs.vulnerability-scan.result }}' === 'success';
+            const eslintOk = '${{ needs.eslint-security.result }}' === 'success';
+            const xssOk = '${{ needs.xss-scan.result }}' === 'success';
+            const overall = (bunitOk && pwOk && vulnOk && eslintOk && xssOk)
+              ? '✅ All checks passed'
+              : '❌ Some checks failed';
 
             const body = `### CI Summary
 
@@ -249,10 +380,12 @@ jobs:
             |-----|--------|
             | **bUnit** (.NET 8 / 9 / 10) | ${bunitOk ? '✅ Passed' : '❌ Failed'} |
             | **Playwright** | ${pwOk ? '✅ Passed' : '❌ Failed'} |
+            | **NuGet vulnerability scan** | ${vulnOk ? '✅ Passed' : '❌ Failed'} |
+            | **ESLint security** | ${eslintOk ? '✅ Passed' : '❌ Failed'} |
+            | **XSS / unsafe markup scan** | ${xssOk ? '✅ Passed' : '❌ Failed'} |
 
             **Overall:** ${overall}
             `;
-
             github.rest.issues.createComment({
               issue_number: context.issue.number,
               owner: context.repo.owner,

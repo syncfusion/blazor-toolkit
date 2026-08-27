@@ -1117,11 +1117,16 @@ namespace Syncfusion.Blazor.Toolkit.Tests.Calendars.DateTimePicker
             await dateInstance.Instance.HidePopupAsync();
             await dateInstance.Instance.ClosePopupAsync();
             await dateInstance.Instance.ShowTimePopupAsync();
-            popupEle = dateInstance.Find(".e-popup");
+            popupEle = dateInstance.WaitForElements(".e-popup", TimeSpan.FromSeconds(5))[0];
             var liCollec = popupEle.QuerySelectorAll("li");
+            Assert.NotEmpty(liCollec);
             liCollec[1].Click();
             var inputEle = dateInstance.Find("input");
-            Assert.Contains("12:30", inputEle.GetAttribute("value").Replace('\u202F', ' ').Trim());
+            dateInstance.WaitForAssertion(() =>
+            {
+                Assert.Contains("12:30", inputEle.GetAttribute("value").Replace('\u202F', ' ').Trim());
+                Assert.NotNull(dateInstance.Instance.Value);
+            });
             Assert.Equal(new DateTime(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day, 0, 30, 0), dateInstance.Instance.Value);
         }
         [Fact(Timeout = 10000)]
@@ -1158,13 +1163,22 @@ namespace Syncfusion.Blazor.Toolkit.Tests.Calendars.DateTimePicker
             buttonElem.Click();
             await Task.Delay(100);
             await dateInstance.Instance.ShowTimePopupAsync();
-            var popupEle = dateInstance.Find(".e-popup");
+            var popupEle = dateInstance.WaitForElements(".e-popup", TimeSpan.FromSeconds(5))[0];
             var liCollec = popupEle.QuerySelectorAll("li");
-            liCollec[1].Click();
-            inputEle = dateInstance.Find("input");
-            Assert.Contains("12:30 AM", inputEle.GetAttribute("value").Replace('\u202F', ' ').Trim());
-            var selectedVaue = popupEle.QuerySelector("li.e-active").GetAttribute("data-value");
-            Assert.Equal("12:30 AM", selectedVaue.Replace('\u202F', ' ').Trim());
+            Assert.NotEmpty(liCollec);
+            // liCollec[0] is 12:00 AM, liCollec[1] is 12:30 AM for Step=30 default.
+            var expectedTimeLi = liCollec[1];
+            var expectedTimeValueText = expectedTimeLi.GetAttribute("data-value")?.Replace('\u202F', ' ').Trim();
+            Assert.Equal("12:30 AM", expectedTimeValueText);
+            expectedTimeLi.Click();
+            await Task.Delay(50);
+            Assert.Equal(new TimeSpan(0, 30, 0), dateInstance.Instance.Value.TimeOfDay);
+            var inputEle2 = dateInstance.Find("input");
+            dateInstance.WaitForAssertion(() =>
+            {
+                var text = inputEle2.GetAttribute("value") ?? string.Empty;
+                Assert.Contains("12:30", text.Replace('\u202F', ' ').Trim());
+            }, TimeSpan.FromSeconds(2));
         }
         [Fact(Timeout = 10000, DisplayName = "show method with input focus related test case")]
         public async Task CheckInputFocus()

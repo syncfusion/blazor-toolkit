@@ -6,16 +6,26 @@ namespace Syncfusion.Blazor.Toolkit.Tests
 {
     public class BunitTestContext : TestContext
     {
-        public BunitTestContext()
+        private static readonly CultureInfo TestCulture = BuildTestCulture();
+        private static CultureInfo BuildTestCulture()
         {
             // Create a new culture based on en-US and set the ShortDatePattern
             var cultureInfo = new CultureInfo("en-US");
             cultureInfo.DateTimeFormat.ShortDatePattern = "M/d/yyyy";
             cultureInfo.DateTimeFormat.ShortestDayNames = new[] { "S", "M", "T", "W", "T", "F", "S" };
+            return cultureInfo;
+        }
 
-            // Apply this culture globally
-            CultureInfo.DefaultThreadCurrentCulture = cultureInfo;
-            CultureInfo.DefaultThreadCurrentUICulture = cultureInfo;
+        static BunitTestContext()
+        {
+            CultureInfo.DefaultThreadCurrentCulture = TestCulture;
+            CultureInfo.DefaultThreadCurrentUICulture = TestCulture;
+        }
+
+        public BunitTestContext()
+        {
+            Thread.CurrentThread.CurrentCulture = TestCulture;
+            Thread.CurrentThread.CurrentUICulture = TestCulture;
 
             this.BeforeEachRun();
         }
