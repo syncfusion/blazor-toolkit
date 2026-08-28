@@ -78,7 +78,6 @@ gulp.task('combined-scss', function (done) {
     }
     getFluentScss = removeCustomUse(getFluentScss);
     fs.writeFileSync('./src/wwwroot/styles/combined-scss/fluent.scss', reorderUseRules(getFluentScss), 'utf8');
-.
     var hcBody = '';
     for (var hcOrder of componentThemeOrder) {
         var hcPaths = componentFiles.filter((value) => { return value.indexOf('styles/' + hcOrder) !== -1; });
