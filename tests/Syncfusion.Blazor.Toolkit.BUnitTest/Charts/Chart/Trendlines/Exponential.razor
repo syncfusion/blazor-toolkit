@@ -890,9 +890,9 @@
         var cut = fixture15.GetComponentUnderTest<SfChart>();
         await Task.Delay(200);
         var svg = cut.Find("#containerAxisLabels1").ChildNodes.Length;
-        Assert.True(svg == 3);
-        var svg1 = cut.Find("#containerAxisLabels0").ChildNodes.Length;
-        Assert.True(svg1 == 5);
+        Assert.Equal(svg, 3);
+        var svg1 = cut.Find("#containerAxisLabels2").ChildNodes.Length;
+        Assert.Equal(svg1, 6);
         cut.SetParametersAndRender();
     }
  }

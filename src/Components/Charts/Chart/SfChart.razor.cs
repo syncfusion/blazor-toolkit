@@ -1836,9 +1836,23 @@ namespace Syncfusion.Blazor.Toolkit.Charts
             List<string> uniqueKeys = [];
             foreach (string fontKey in fontKeys)
             {
-                if (_requestedFontKeys.TryAdd(fontKey, 0))
+                // Skip this font key if either:
+                //   - this chart already requested it (per-instance dedup), OR
+                //   - some other chart already populated the bounded process-wide cache
+                //     with measured sizes for it. We probe a single representative
+                //     character (char 33 = '!') to keep the check O(1) and avoid
+                //     scanning the whole font key range.
+                bool alreadyMeasuredGlobally = ChartHelper.IsSizePerCharacterEntryPresent(fontKey);
+                if (!alreadyMeasuredGlobally && _requestedFontKeys.TryAdd(fontKey, 0))
                 {
                     uniqueKeys.Add(fontKey);
+                }
+                else if (alreadyMeasuredGlobally)
+                {
+                    // Mirror the population in this chart's instance cache so the
+                    // instance-level MeasureText overload (and per-chart memory isolation
+                    // on dispose) still works for these font keys.
+                    _ = _requestedFontKeys.TryAdd(fontKey, 0);
                 }
             }
 
@@ -1858,7 +1872,14 @@ namespace Syncfusion.Blazor.Toolkit.Charts
             int i = 33, j = 0;
             foreach (string width in result_2)
             {
-                _ = _fontSizeCache.TryAdd(Convert.ToChar(i) + Constants.Underscore + uniqueKeys[j], new Size { Width = Convert.ToInt16(width, null), Height = 133 });
+                Size measuredSize = new() { Width = Convert.ToInt16(width, null), Height = 133 };
+                string key = Convert.ToChar(i) + Constants.Underscore + uniqueKeys[j];
+                _ = _fontSizeCache.TryAdd(key, measuredSize);
+                // Also populate the bounded process-wide cache so subsequent charts on the
+                // same page (or the 2-arg MeasureText callers) can reuse the precise
+                // browser-measured sizes without an extra JS interop call. The cache is
+                // bounded in ChartHelper to keep memory usage in check on long-lived hosts.
+                ChartHelper.AddToSizePerCharacterCache(key, measuredSize);
                 i++;
                 if (i > 590)
                 {

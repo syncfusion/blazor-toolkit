@@ -1,3 +1,4 @@
+using System.Collections.Concurrent;
 using System.Collections.ObjectModel;
 using System.Drawing;
 using System.Dynamic;
@@ -23,9 +24,43 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
         private const int RGB_HEX_CODE = 6;
         private const string DEFAULT_COLOR = "white";
         private const string SPACE = " ";
+
+        /// <summary>
+        /// Maximum number of entries kept in the bounded <see cref="SizePerCharacter"/> cache.
+        /// </summary>
+        /// <remarks>
+        /// The cache stores pure (deterministic) font-measurement results. Because every entry can be
+        /// recomputed from <see cref="FontWidthLookup"/> at the same cost as a cache hit, exceeding this
+        /// threshold simply clears the cache and lets it repopulate. The bound prevents the
+        /// unbounded process-wide growth that caused memory pressure on long-lived Blazor Server hosts
+        /// when the cache was unbounded.
+        /// </remarks>
+        private const int MAX_SIZE_PER_CHARACTER_CACHE_ENTRIES = 2048;
         #endregion
 
         #region Properties
+
+        /// <summary>
+        /// Gets a bounded, process-wide cache of measured character sizes indexed by
+        /// <c>(character, font)</c>.
+        /// </summary>
+        /// <remarks>
+        /// <para>
+        /// This cache is consulted by the 2-argument <see cref="MeasureText(string, ChartFontOptions)"/>
+        /// overload (and its helpers) to avoid recomputing the same deterministic character widths on
+        /// every render. The cache is bounded by <see cref="MAX_SIZE_PER_CHARACTER_CACHE_ENTRIES"/>;
+        /// once the bound is reached, the cache is cleared and allowed to repopulate. Clearing is safe
+        /// because every entry is a pure function of <see cref="FontWidthLookup"/> and can be
+        /// recomputed at the same cost as a hit.
+        /// </para>
+        /// <para>
+        /// This replaces the earlier unbounded process-wide cache that caused memory growth on
+        /// long-lived Blazor Server hosts. Per-chart memory isolation is still provided by
+        /// <see cref="SfChart._fontSizeCache"/> for callers that opt in via the 3-argument
+        /// <see cref="MeasureText(string, ChartFontOptions, object)"/> overload.
+        /// </para>
+        /// </remarks>
+        internal static readonly ConcurrentDictionary<string, Size> SizePerCharacter = new();
 
         /// <summary>
         /// Gets a read-only lookup table mapping characters to their approximate pixel widths.
@@ -61,6 +96,63 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
             element.PreLocationY = element.CurLocationY != locationY ? element.CurLocationY : locationY;
             element.CurLocationX = locationX;
             element.CurLocationY = locationY;
+        }
+
+        /// <summary>
+        /// Adds a single character-size entry to the bounded <see cref="SizePerCharacter"/> cache.
+        /// </summary>
+        /// <remarks>
+        /// <para>
+        /// Used by <see cref="SfChart.GetCharSizeListAsync"/> to share the precise
+        /// browser-measured sizes that one chart obtained via JS interop with every other
+        /// chart in the process. Sharing avoids a duplicate <c>getCharCollectionSize</c>
+        /// interop call for each chart that uses the same font, which would otherwise
+        /// noticeably slow down pages that host many charts.
+        /// </para>
+        /// <para>
+        /// The cache is bounded; if adding this entry would exceed the bound, the cache is
+        /// cleared (every entry is a deterministic function of the character and font and
+        /// can be recomputed at the same cost as a hit).
+        /// </para>
+        /// </remarks>
+        /// <param name="key">The cache key. Format: <c>character_fontWeight_fontStyle_fontFamily</c>.</param>
+        /// <param name="size">The measured size for that key.</param>
+        internal static void AddToSizePerCharacterCache(string key, Size size)
+        {
+            if (string.IsNullOrEmpty(key) || size is null)
+            {
+                return;
+            }
+
+            if (SizePerCharacter.Count >= MAX_SIZE_PER_CHARACTER_CACHE_ENTRIES)
+            {
+                SizePerCharacter.Clear();
+            }
+
+            SizePerCharacter[key] = size;
+        }
+
+        /// <summary>
+        /// Returns <see langword="true"/> when at least one character has already been
+        /// measured for the supplied font key in the process-wide <see cref="SizePerCharacter"/>
+        /// cache. Used to dedupe JS interop calls across charts on the same page.
+        /// </summary>
+        /// <remarks>
+        /// The probe uses a single representative character (char 33 = '!') to keep the
+        /// check O(1) — full font coverage in the cache is a sufficient condition for the
+        /// JS interop result to be reusable, because the interop measures every character
+        /// for the font key as a single batch.
+        /// </remarks>
+        /// <param name="fontKey">The font key (without any character prefix).</param>
+        /// <returns><see langword="true"/> if the cache already holds a measurement for that font key.</returns>
+        internal static bool IsSizePerCharacterEntryPresent(string fontKey)
+        {
+            if (string.IsNullOrEmpty(fontKey))
+            {
+                return false;
+            }
+
+            return SizePerCharacter.ContainsKey((char)33 + Constants.Underscore + fontKey);
         }
 
         /// <summary>
@@ -124,12 +216,32 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
         /// <returns>The measured character size.</returns>
         private static Size GetCharSize(char character, ChartFontOptions font)
         {
-            if (FontWidthLookup.TryGetValue(character, out double charWidth))
+            string key = character + Constants.Underscore + font.FontWeight + Constants.Underscore + font.FontStyle + Constants.Underscore + font.FontFamily;
+
+            if (SizePerCharacter.TryGetValue(key, out Size? cached))
             {
-                return new Size { Width = charWidth * 6.25, Height = 130 };
+                return cached ?? null!;
             }
 
-            return new Size { Width = 50, Height = 130 };
+            Size result;
+            if (FontWidthLookup.TryGetValue(character, out double charWidth))
+            {
+                result = new Size { Width = charWidth * 6.25, Height = 130 };
+            }
+            else
+            {
+                result = new Size { Width = 50, Height = 130 };
+            }
+
+            // Bound the process-wide cache. If we are about to exceed the limit, clear the cache and
+            // let it repopulate. This is safe because every entry is a pure function of
+            // FontWidthLookup and can be recomputed at the same cost as a hit.
+            if (SizePerCharacter.Count >= MAX_SIZE_PER_CHARACTER_CACHE_ENTRIES)
+            {
+                SizePerCharacter.Clear();
+            }
+
+            return SizePerCharacter.GetOrAdd(key, result) ?? null!;
         }
 
         /// <summary>
