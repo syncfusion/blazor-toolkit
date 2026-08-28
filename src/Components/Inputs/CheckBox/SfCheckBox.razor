@@ -33,6 +33,7 @@
                value="@Value"
                disabled="@Disabled"
                checked="@GetIsChecked()"
+               @onclick:preventDefault="true"
                aria-label="@GetAriaLabelValue()"
                aria-readonly="@GetAriaReadOnly()"
                aria-checked="@GetAriaChecked()"

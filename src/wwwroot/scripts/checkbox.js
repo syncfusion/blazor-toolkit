@@ -77,6 +77,12 @@ export function initialize(element, container) {
     instance.initialize();
 }
 
+export function syncIndeterminate(element, indeterminate) {
+    if (element) {
+        element.indeterminate = indeterminate === true;
+    }
+}
+
 export function destroy(element) {
     if (!element) return;
     const instance = element._blazorCheckBoxInstance;

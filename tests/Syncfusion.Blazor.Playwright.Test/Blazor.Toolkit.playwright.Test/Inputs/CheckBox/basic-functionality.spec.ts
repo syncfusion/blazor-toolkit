@@ -1,4 +1,5 @@
 import { test, expect } from '@playwright/test';
+import { checkCheckbox } from './checkbox-helpers';
 
 test.describe('Checkbox – Basic Functionality', () => {
 
@@ -23,8 +24,8 @@ test.describe('Checkbox – Basic Functionality', () => {
   test('Each checkbox maintains independent state', async ({ page }) => {
     const checkboxes = page.locator('input[type="checkbox"]');
 
-    await checkboxes.nth(0).check();
-    await checkboxes.nth(1).check();
+    await checkCheckbox(checkboxes.nth(0));
+    await checkCheckbox(checkboxes.nth(1));
 
     await expect(checkboxes.nth(0)).toBeChecked();
     await expect(checkboxes.nth(1)).toBeChecked();

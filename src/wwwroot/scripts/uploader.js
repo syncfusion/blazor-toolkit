@@ -1795,12 +1795,14 @@ var SfUploader = /** @class */ (function () {
         }
         fileContainer.appendChild(infoEle);
         if (sfBlazorToolkit.base.isNullOrUndefined(fileList.querySelector('.e-toolkit-icons'))) {
-            var iconElement = sfBlazorToolkit.base.createElement('span', { className: 'e-toolkit-icons', attrs: { 'tabindex': this.btnTabIndex } });
+            var iconElement = sfBlazorToolkit.base.createElement('span', { className: 'e-toolkit-icons' });
             if (this.browserName === 'msie') {
                 iconElement.classList.add('e-msie');
             }
+            iconElement.setAttribute('tabindex', this.btnTabIndex);
             iconElement.setAttribute('title', this.localizedTexts('remove'));
             iconElement.setAttribute('aria-label', this.localizedTexts('remove'));
+            iconElement.setAttribute('role', 'button');
             fileList.appendChild(fileContainer);
             fileList.appendChild(iconElement);
             sfBlazorToolkit.base.EventHandler.add(iconElement, 'click', this.removeFiles, this);
@@ -1969,12 +1971,12 @@ var SfUploader = /** @class */ (function () {
                     statusElement.innerHTML = listItem.status;
                     liElement.appendChild(textContainer);
                     var iconElement = sfBlazorToolkit.base.createElement('span', {
-                        className: ' e-toolkit-icons',
-                        attrs: { 'tabindex': this.btnTabIndex }
+                        className: ' e-toolkit-icons'
                     });
                     if (this.browserName === 'msie') {
                         iconElement.classList.add('e-msie');
                     }
+                    iconElement.setAttribute('tabindex', this.btnTabIndex);
                     iconElement.setAttribute('title', this.localizedTexts('remove'));
                     iconElement.setAttribute('aria-label', this.localizedTexts('remove'));
                     iconElement.setAttribute('role', 'button');
@@ -2264,8 +2266,9 @@ var SfUploader = /** @class */ (function () {
         deleteIcon.classList.add(REMOVE_ICON);
         deleteIcon.setAttribute('title', this.localizedTexts('remove'));
         deleteIcon.setAttribute('aria-label', this.localizedTexts('remove'));
-        this.pauseButton = sfBlazorToolkit.base.createElement('span', { className: 'e-toolkit-icons e-refresh', attrs: { 'tabindex': this.btnTabIndex } });
+        this.pauseButton = sfBlazorToolkit.base.createElement('span', { className: 'e-toolkit-icons e-refresh' });
         deleteIcon.parentElement.insertBefore(this.pauseButton, deleteIcon);
+        this.pauseButton.setAttribute('tabindex', this.btnTabIndex);
         this.pauseButton.setAttribute('title', this.localizedTexts('retry'));
         this.pauseButton.setAttribute('aria-label', this.localizedTexts('retry'));
         var retryElement = liElement.querySelector('.' + RETRY_ICON);
@@ -2672,9 +2675,10 @@ var SfUploader = /** @class */ (function () {
         liElement.querySelector('.' + STATUS).classList.add(UPLOAD_FAILED);
         eventArgs.fileData.statusCode = '5';
         eventArgs.fileData.status = this.localizedTexts('fileUploadCancel');
-        this.pauseButton = sfBlazorToolkit.base.createElement('span', { className: 'e-toolkit-icons e-refresh', attrs: { 'tabindex': this.btnTabIndex } });
+        this.pauseButton = sfBlazorToolkit.base.createElement('span', { className: 'e-toolkit-icons e-refresh' });
         var removeIcon = liElement.querySelector('.' + REMOVE_ICON);
         removeIcon.parentElement.insertBefore(this.pauseButton, removeIcon);
+        this.pauseButton.setAttribute('tabindex', this.btnTabIndex);
         this.pauseButton.setAttribute('title', this.localizedTexts('retry'));
         this.pauseButton.setAttribute('aria-label', this.localizedTexts('retry'));
         this.pauseButton.addEventListener('click', function (e) { _this.reloadcanceledFile(e, file, liElement); }, false);
@@ -3113,12 +3117,13 @@ var SfUploader = /** @class */ (function () {
         }
         if (sfBlazorToolkit.base.isNullOrUndefined(liElement.querySelector('.' + PAUSE_UPLOAD)) && sfBlazorToolkit.base.isNullOrUndefined(this.template)
             && sfBlazorToolkit.base.isNullOrUndefined(liElement.querySelector('.' + DELETE_ICON))) {
-            this.pauseButton = sfBlazorToolkit.base.createElement('span', { className: 'e-toolkit-icons e-pause', attrs: { 'tabindex': this.btnTabIndex } });
+            this.pauseButton = sfBlazorToolkit.base.createElement('span', { className: 'e-toolkit-icons e-pause' });
             if (this.browserName === 'msie') {
                 this.pauseButton.classList.add('e-msie');
             }
             var abortIcon = liElement.querySelector('.' + ABORT_ICON);
             abortIcon.parentElement.insertBefore(this.pauseButton, abortIcon);
+            this.pauseButton.setAttribute('tabindex', this.btnTabIndex);
             this.pauseButton.setAttribute('title', this.localizedTexts('pause'));
             this.pauseButton.setAttribute('aria-label', this.localizedTexts('pause'));
             this.pauseButton.addEventListener('click', function (e) { _this.checkPausePlayAction(e); }, false);

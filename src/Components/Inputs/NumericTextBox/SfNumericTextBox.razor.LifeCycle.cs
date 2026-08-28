@@ -69,7 +69,7 @@ namespace Syncfusion.Blazor.Toolkit.Inputs
                 await base.OnParametersSetAsync().ConfigureAwait(true);
                 UpdateValidateClass();
                 InputHtmlAttributes = SfBaseUtils.UpdateDictionary(ROLE, SPIN_BUTTON, InputHtmlAttributes);
-                InputHtmlAttributes = SfBaseUtils.UpdateDictionary(ARIA_LIVE, ASSERTIVE, InputHtmlAttributes);
+                //InputHtmlAttributes = SfBaseUtils.UpdateDictionary(ARIA_LIVE, ASSERTIVE, InputHtmlAttributes);
                 if (!InputHtmlAttributes.ContainsKey(ARIA_LABEL) && !string.IsNullOrWhiteSpace(AriaLabel))
                 {
                     // When AriaLabel is explicitly supplied, forward it. We deliberately do NOT

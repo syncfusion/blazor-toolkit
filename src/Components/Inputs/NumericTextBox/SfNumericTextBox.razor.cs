@@ -573,6 +573,10 @@ namespace Syncfusion.Blazor.Toolkit.Inputs
         /// </remarks>
         private void UpdateValueAnnouncement()
         {
+            if (IsFocus)
+            {
+                return;
+            }
             string? formatted = FormatValueAsString(InputTextValue);
             if (string.IsNullOrEmpty(formatted) || string.Equals(formatted, _lastAnnouncedFormattedValue, StringComparison.Ordinal))
             {
@@ -1031,6 +1035,7 @@ namespace Syncfusion.Blazor.Toolkit.Inputs
                 else
                 {
                     IsFocus = false;
+                    _lastAnnouncedFormattedValue = null;
                     string? inputValue = FocusInputValue;
                     if (string.IsNullOrEmpty(inputValue))
                     {
