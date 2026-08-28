@@ -1,0 +1,395 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ci-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+env:
+  DOTNET_NOLOGO: true
+  DOTNET_CLI_TELEMETRY_OPTOUT: true
+  DOTNET_SKIP_FIRST_TIME_EXPERIENCE: true
+
+jobs:
+  # =========================================================
+  # Job 1: bUnit (matrix)
+  # =========================================================
+  bunit:
+    name: bUnit (.NET ${{ matrix.dotnet-version }})
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+
+    env:
+      TZ: UTC
+      LANG: en_US.UTF-8
+
+    strategy:
+      fail-fast: false
+      matrix:
+        dotnet-version: ['8.0.x', '9.0.x', '10.0.x']
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup .NET ${{ matrix.dotnet-version }}
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: ${{ matrix.dotnet-version }}
+
+      - name: Cache NuGet packages
+        uses: actions/cache@v4
+        with:
+          path: ~/.nuget/packages
+          key: nuget-${{ runner.os }}-${{ matrix.dotnet-version }}-${{ hashFiles('**/*.*proj') }}
+          restore-keys: |
+            nuget-${{ runner.os }}-${{ matrix.dotnet-version }}-
+            nuget-${{ runner.os }}-
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+
+      - name: Cache npm
+        uses: actions/cache@v4
+        with:
+          path: ~/.npm
+          key: npm-${{ runner.os }}-${{ hashFiles('**/package.json') }}
+          restore-keys: npm-${{ runner.os }}-
+
+      - name: Install npm dependencies
+        run: |
+          if [ -f package-lock.json ] || [ -f npm-shrinkwrap.json ]; then
+            npm ci
+          else
+            npm install --no-fund --no-audit
+          fi
+
+      - name: Restore
+        run: dotnet restore src/Syncfusion.Blazor.Toolkit.csproj
+
+      - name: Build
+        run: dotnet build src/Syncfusion.Blazor.Toolkit.csproj -c Release --no-restore
+
+      - name: Set timezone and locale for deterministic tests
+        run: |
+          sudo ln -fs /usr/share/zoneinfo/UTC /etc/localtime
+          sudo apt-get update -y
+          sudo apt-get install -y locales
+          sudo locale-gen en_US.UTF-8
+          export LANG=en_US.UTF-8
+          export TZ=UTC
+        shell: bash
+
+      - name: Run bUnit tests
+        run: |
+          mkdir -p TestResults
+          dotnet test tests/Syncfusion.Blazor.Toolkit.BUnitTest/ \
+            -c Release \
+            -f net8.0 \
+            --logger "trx;LogFileName=bunit-${{ matrix.dotnet-version }}.trx" \
+            --logger "html;LogFileName=bunit-${{ matrix.dotnet-version }}.html" \
+            --results-directory TestResults \
+            --collect:"XPlat Code Coverage" \
+            --verbosity normal
+
+      - name: Upload bUnit results
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: bunit-results-${{ matrix.dotnet-version }}
+          path: |
+            TestResults/
+            **/coverage.cobertura.xml
+          retention-days: 14
+          if-no-files-found: ignore
+
+      - name: Publish bUnit test results
+        if: always()
+        uses: dorny/test-reporter@v1
+        continue-on-error: true
+        with:
+          name: bUnit (.NET ${{ matrix.dotnet-version }})
+          path: 'TestResults/**/*.trx'
+          reporter: dotnet-trx
+          fail-on-error: false
+          fail-on-empty: false
+
+  # =========================================================
+  # Job 2: Playwright
+  # =========================================================
+  playwright:
+    name: Playwright
+    runs-on: ubuntu-latest
+    timeout-minutes: 35
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: |
+            8.x
+            9.x
+            10.x
+
+      - name: Cache NuGet packages
+        uses: actions/cache@v4
+        with:
+          path: ~/.nuget/packages
+          key: nuget-${{ runner.os }}-${{ hashFiles('**/*.*proj') }}
+          restore-keys: nuget-${{ runner.os }}-
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+
+      - name: Cache npm
+        uses: actions/cache@v4
+        with:
+          path: ~/.npm
+          key: npm-${{ runner.os }}-${{ hashFiles('**/package.json') }}
+          restore-keys: npm-${{ runner.os }}-
+
+      - name: Install npm dependencies
+        run: |
+          if [ -f package-lock.json ] || [ -f npm-shrinkwrap.json ]; then
+            npm ci
+          else
+            npm install --no-fund --no-audit
+          fi
+
+      - name: Cache Playwright browsers
+        uses: actions/cache@v4
+        id: playwright-cache
+        with:
+          path: ~/.cache/ms-playwright
+          key: playwright-${{ runner.os }}-${{ hashFiles('**/package.json') }}
+
+      - name: Install Playwright browsers
+        if: steps.playwright-cache.outputs.cache-hit != 'true'
+        run: npx playwright install --with-deps chromium
+
+      - name: Install Playwright system deps
+        if: steps.playwright-cache.outputs.cache-hit == 'true'
+        run: npx playwright install-deps chromium
+
+      - name: Restore
+        run: dotnet restore src/Syncfusion.Blazor.Toolkit.csproj
+
+      - name: Build
+        run: dotnet build src/Syncfusion.Blazor.Toolkit.csproj -c Release --no-restore
+
+      - name: Run Playwright tests
+        run: npx playwright test --reporter=html,line
+        env:
+          CI: true
+
+      - name: Upload Playwright report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: playwright-report
+          path: |
+            playwright-report/
+            test-results/
+          retention-days: 14
+          if-no-files-found: ignore
+
+  # =========================================================
+  # Job 3: NuGet vulnerability scan
+  # =========================================================
+  vulnerability-scan:
+    name: NuGet vulnerability scan
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: |
+            8.x
+            9.x
+            10.x
+
+      - name: Cache NuGet packages
+        uses: actions/cache@v4
+        with:
+          path: ~/.nuget/packages
+          key: nuget-${{ runner.os }}-${{ hashFiles('**/*.*proj') }}
+          restore-keys: |
+            nuget-${{ runner.os }}-
+
+      - name: Restore (NuGetAudit is enabled in the csproj)
+        run: dotnet restore src/Syncfusion.Blazor.Toolkit.csproj
+
+      - name: Check for vulnerable packages
+        run: |
+          set -o pipefail
+          dotnet list src/Syncfusion.Blazor.Toolkit.csproj package --vulnerable --include-transitive 2>&1 | tee vuln-report.txt
+          if grep -qi "has the following vulnerable packages" vuln-report.txt; then
+            echo "::error::Vulnerable NuGet packages detected (see artifact nuget-vuln-report)"
+            cat vuln-report.txt
+            exit 1
+          fi
+          echo "No vulnerable packages found"
+
+      - name: Upload NuGet vulnerability report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: nuget-vuln-report
+          path: vuln-report.txt
+          if-no-files-found: ignore
+          retention-days: 14
+
+  # =========================================================
+  # Job 4: ESLint security
+  # =========================================================
+  eslint-security:
+    name: ESLint security
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: npm
+
+      - name: Install dependencies
+        run: |
+          if [ -f package-lock.json ] || [ -f npm-shrinkwrap.json ]; then
+            npm ci
+          else
+            npm install --no-fund --no-audit
+          fi
+
+      - name: Run ESLint security scan
+        run: npm run lint:security
+
+  # =========================================================
+  # Job 5: XSS / unsafe markup scan (gulp)
+  # =========================================================
+  xss-scan:
+    name: XSS / unsafe markup scan
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: npm
+
+      - name: Install dependencies
+        run: |
+          if [ -f package-lock.json ] || [ -f npm-shrinkwrap.json ]; then
+            npm ci
+          else
+            npm install --no-fund --no-audit
+          fi
+
+      - name: Run XSS / unsafe markup scan
+        # The gulp task already writes xss-scan-report.txt on findings and
+        # exits non-zero, so we don't need any extra glue here.
+        run: npx gulp security-xss-scan
+
+      - name: Upload XSS scan report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: xss-scan-report
+          path: xss-scan-report.txt
+          if-no-files-found: ignore
+          retention-days: 14
+
+  # =========================================================
+  # Job 6: Summary
+  # =========================================================
+  summary:
+    name: CI Summary
+    runs-on: ubuntu-latest
+    needs: [bunit, playwright, vulnerability-scan, eslint-security, xss-scan]
+    if: always()
+    permissions:
+      contents: read
+      pull-requests: write
+
+    steps:
+      - name: Check results and fail if needed
+        run: |
+          echo "bUnit result:           ${{ needs.bunit.result }}"
+          echo "Playwright result:      ${{ needs.playwright.result }}"
+          echo "NuGet vuln scan result: ${{ needs.vulnerability-scan.result }}"
+          echo "ESLint security result: ${{ needs.eslint-security.result }}"
+          echo "XSS scan result:        ${{ needs.xss-scan.result }}"
+
+          if [[ "${{ needs.bunit.result }}" != "success" \
+             || "${{ needs.playwright.result }}" != "success" \
+             || "${{ needs.vulnerability-scan.result }}" != "success" \
+             || "${{ needs.eslint-security.result }}" != "success" \
+             || "${{ needs.xss-scan.result }}" != "success" ]]; then
+            echo "One or more jobs failed → failing the workflow"
+            exit 1
+          fi
+
+          echo "All jobs succeeded"
+
+      - name: Post summary comment (PRs only)
+        if: github.event_name == 'pull_request'
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const bunitOk = '${{ needs.bunit.result }}' === 'success';
+            const pwOk = '${{ needs.playwright.result }}' === 'success';
+            const vulnOk = '${{ needs.vulnerability-scan.result }}' === 'success';
+            const eslintOk = '${{ needs.eslint-security.result }}' === 'success';
+            const xssOk = '${{ needs.xss-scan.result }}' === 'success';
+            const overall = (bunitOk && pwOk && vulnOk && eslintOk && xssOk)
+              ? '✅ All checks passed'
+              : '❌ Some checks failed';
+
+            const body = `### CI Summary
+
+            | Job | Status |
+            |-----|--------|
+            | **bUnit** (.NET 8 / 9 / 10) | ${bunitOk ? '✅ Passed' : '❌ Failed'} |
+            | **Playwright** | ${pwOk ? '✅ Passed' : '❌ Failed'} |
+            | **NuGet vulnerability scan** | ${vulnOk ? '✅ Passed' : '❌ Failed'} |
+            | **ESLint security** | ${eslintOk ? '✅ Passed' : '❌ Failed'} |
+            | **XSS / unsafe markup scan** | ${xssOk ? '✅ Passed' : '❌ Failed'} |
+
+            **Overall:** ${overall}
+            `;
+            github.rest.issues.createComment({
+              issue_number: context.issue.number,
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              body
+            });
