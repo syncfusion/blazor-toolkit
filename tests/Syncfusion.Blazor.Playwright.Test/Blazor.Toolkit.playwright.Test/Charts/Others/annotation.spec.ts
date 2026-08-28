@@ -32,7 +32,7 @@ test.describe('Chart - Annotation', () => {
     expect(ariaLabel).toBe('Medal count');
 
     const role = await firstAnnotation.getAttribute('role');
-    expect(role).toBe('count');
+    expect(role).toBe('status');
 
     // Verify annotation content is visible
     const annotationContent = firstAnnotation.locator('div');

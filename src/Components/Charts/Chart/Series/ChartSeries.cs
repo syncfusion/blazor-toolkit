@@ -1,11 +1,11 @@
-using Microsoft.AspNetCore.Components;
-using Syncfusion.Blazor.Toolkit.Charts.Internal;
-using Syncfusion.Blazor.Toolkit.Data;
-using Syncfusion.Blazor.Toolkit.Internal;
 using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.ComponentModel;
 using System.Globalization;
+using Microsoft.AspNetCore.Components;
+using Syncfusion.Blazor.Toolkit.Charts.Internal;
+using Syncfusion.Blazor.Toolkit.Data;
+using Syncfusion.Blazor.Toolkit.Internal;
 
 namespace Syncfusion.Blazor.Toolkit.Charts
 {
@@ -328,6 +328,10 @@ namespace Syncfusion.Blazor.Toolkit.Charts
         /// <value>A string that defines the accessibility role for the <see cref="ChartSeries"/>.</value>
         /// <remarks>
         /// Use this property to specify the accessibility role for the <see cref="ChartSeries"/> root element.
+        /// The value, if non-empty, must be a valid WAI-ARIA role (for example
+        /// <c>"region"</c>, <c>"img"</c>, <c>"list"</c>). Invalid values are
+        /// rejected at component initialization to prevent invalid <c>role</c>
+        /// attributes from reaching the DOM.
         /// </remarks>
         /// <example>
         /// <code>
@@ -340,7 +344,17 @@ namespace Syncfusion.Blazor.Toolkit.Charts
         /// </code>
         /// </example>
         [Parameter]
-        public string AccessibilityRole { get; set; } = string.Empty;
+        public string AccessibilityRole
+        {
+            get => _accessibilityRole;
+            set
+            {
+                DataVizCommonHelper.AriaRoleValidator.EnsureValidRole(value, nameof(AccessibilityRole));
+                _accessibilityRole = value;
+            }
+        }
+
+        private string _accessibilityRole = string.Empty;
 
         /// <summary>
         /// Gets or sets a value indicating whether the series root can receive keyboard focus.

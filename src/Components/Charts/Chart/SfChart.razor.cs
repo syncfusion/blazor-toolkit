@@ -1,15 +1,16 @@
-﻿using Microsoft.AspNetCore.Components;
-using Microsoft.AspNetCore.Components.Rendering;
-using Microsoft.JSInterop;
-using Syncfusion.Blazor.Toolkit.Charts.Internal;
+﻿using System.Collections.Concurrent;
+using System.ComponentModel;
 using System.Globalization;
+using System.Reflection;
+using System.Runtime.CompilerServices;
 using System.Text.Json;
 using System.Text.Json.Serialization;
-using System.Reflection;
-using System.ComponentModel;
-using Syncfusion.Blazor.Toolkit.Data;
+using Microsoft.AspNetCore.Components;
+using Microsoft.AspNetCore.Components.Rendering;
 using Microsoft.Extensions.Localization;
-using System.Runtime.CompilerServices;
+using Microsoft.JSInterop;
+using Syncfusion.Blazor.Toolkit.Charts.Internal;
+using Syncfusion.Blazor.Toolkit.Data;
 
 [assembly: InternalsVisibleTo("Syncfusion.Blazor.Toolkit.BUnitTest")]
 namespace Syncfusion.Blazor.Toolkit.Charts
@@ -178,6 +179,9 @@ namespace Syncfusion.Blazor.Toolkit.Charts
         internal List<IChartEventBorder> _seriesBorders = [];
         internal List<IAxis> _axes = [];
         internal List<PatternOptions> _highLightPatternCollection = [];
+        // Instance-level font measurement caches
+        internal ConcurrentDictionary<string, Size> _fontSizeCache = new();
+        internal ConcurrentDictionary<string, byte> _requestedFontKeys = new();
         internal ChartAnnotations _annotations = new();
         internal DomRect _elementOffset = new();
         /*To store the SVGElement's dimensions value.*/
@@ -1244,9 +1248,9 @@ namespace Syncfusion.Blazor.Toolkit.Charts
         /// <param name="text">The text to analyze.</param>
         /// <param name="font">The font options for the text.</param>
         /// <param name="distinctKeys">The collection to populate with distinct character keys.</param>
-        private static void GetDistinctCharacter(string text, ChartFontOptions font, List<string> distinctKeys)
+        private void GetDistinctCharacter(string text, ChartFontOptions font, List<string> distinctKeys)
         {
-            ChartHelper.GetDistinctCharacter(text, font, distinctKeys);
+            ChartHelper.GetDistinctCharacter(text, font, distinctKeys, this);
         }
 
         /// <summary>
@@ -1271,7 +1275,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts
             Dictionary<string, SymbolLocation> charSizeList = JsonSerializer.Deserialize<Dictionary<string, SymbolLocation>>(result) ?? null!;
             foreach (KeyValuePair<string, SymbolLocation> charSize in charSizeList)
             {
-                _ = ChartHelper.SizePerCharacter.TryAdd(charSize.Key, new Size { Width = charSize.Value.X, Height = charSize.Value.Y });
+                _ = _fontSizeCache.TryAdd(charSize.Key, new Size { Width = charSize.Value.X, Height = charSize.Value.Y });
             }
         }
 
@@ -1832,10 +1836,23 @@ namespace Syncfusion.Blazor.Toolkit.Charts
             List<string> uniqueKeys = [];
             foreach (string fontKey in fontKeys)
             {
-                if (!ChartHelper.ChartFontKeys.Contains(fontKey))
+                // Skip this font key if either:
+                //   - this chart already requested it (per-instance dedup), OR
+                //   - some other chart already populated the bounded process-wide cache
+                //     with measured sizes for it. We probe a single representative
+                //     character (char 33 = '!') to keep the check O(1) and avoid
+                //     scanning the whole font key range.
+                bool alreadyMeasuredGlobally = ChartHelper.IsSizePerCharacterEntryPresent(fontKey);
+                if (!alreadyMeasuredGlobally && _requestedFontKeys.TryAdd(fontKey, 0))
                 {
                     uniqueKeys.Add(fontKey);
-                    ChartHelper.ChartFontKeys.Add(fontKey);
+                }
+                else if (alreadyMeasuredGlobally)
+                {
+                    // Mirror the population in this chart's instance cache so the
+                    // instance-level MeasureText overload (and per-chart memory isolation
+                    // on dispose) still works for these font keys.
+                    _ = _requestedFontKeys.TryAdd(fontKey, 0);
                 }
             }
 
@@ -1855,7 +1872,14 @@ namespace Syncfusion.Blazor.Toolkit.Charts
             int i = 33, j = 0;
             foreach (string width in result_2)
             {
-                _ = ChartHelper.SizePerCharacter.TryAdd(Convert.ToChar(i) + Constants.Underscore + uniqueKeys[j], new Size { Width = Convert.ToInt16(width, null), Height = 133 });
+                Size measuredSize = new() { Width = Convert.ToInt16(width, null), Height = 133 };
+                string key = Convert.ToChar(i) + Constants.Underscore + uniqueKeys[j];
+                _ = _fontSizeCache.TryAdd(key, measuredSize);
+                // Also populate the bounded process-wide cache so subsequent charts on the
+                // same page (or the 2-arg MeasureText callers) can reuse the precise
+                // browser-measured sizes without an extra JS interop call. The cache is
+                // bounded in ChartHelper to keep memory usage in check on long-lived hosts.
+                ChartHelper.AddToSizePerCharacterCache(key, measuredSize);
                 i++;
                 if (i > 590)
                 {
@@ -2588,17 +2612,6 @@ namespace Syncfusion.Blazor.Toolkit.Charts
             base.OnParametersSet();
 
             PushSubcomponent();
-        }
-
-        /// <summary>
-        /// Performs cleanup operations when the component is being disposed.
-        /// </summary>
-        /// <exclude />
-        [EditorBrowsable(EditorBrowsableState.Never)]
-        [Browsable(false)]
-        protected override ValueTask DisposeAsyncCore()
-        {
-            return base.DisposeAsyncCore();
         }
 
         #endregion
