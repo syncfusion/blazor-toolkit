@@ -105,7 +105,7 @@ jobs:
 
       - name: Upload bUnit results
         if: always()
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: bunit-results-${{ matrix.dotnet-version }}
           path: |
@@ -200,7 +200,7 @@ jobs:
 
       - name: Upload Playwright report
         if: always()
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: playwright-report
           path: |
@@ -253,7 +253,7 @@ jobs:
 
       - name: Upload NuGet vulnerability report
         if: always()
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: nuget-vuln-report
           path: vuln-report.txt
@@ -322,7 +322,7 @@ jobs:
 
       - name: Upload XSS scan report
         if: always()
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: xss-scan-report
           path: xss-scan-report.txt
