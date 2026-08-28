@@ -1372,7 +1372,18 @@ namespace Syncfusion.Blazor.Toolkit
         /// (axis labels and grid lines in neutral grays <b>#969696</b> / <b>#BFBFBF</b>).
         /// It is designed for accessibility scenarios and environments where Windows High Contrast Mode (or an equivalent OS-level accessibility setting) is enabled.
         /// </remarks>
-        HighContrast
+        HighContrast,
+        /// <summary>
+        /// Applies the High Contrast Light theme to the chart, rendering with maximum-contrast colors for users who require stronger visual differentiation.
+        /// </summary>
+        /// <remarks>
+        /// The High Contrast theme uses a black background (<b>#000000</b>), white text (<b>#FFFFFF</b>),
+        /// a soft accessibility-yellow focus / selection color (<b>#FFD939</b>), and a high-contrast accent palette
+        /// (axis labels and grid lines in neutral grays <b>#969696</b> / <b>#BFBFBF</b>).
+        /// It is designed for accessibility scenarios and environments where Windows High Contrast Mode (or an equivalent OS-level accessibility setting) is enabled.
+        /// </remarks>
+        HighContrastLight
+
     }
 
     /// <summary> 

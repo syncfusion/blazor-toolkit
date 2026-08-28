@@ -596,6 +596,7 @@ The chart's `Theme` parameter is bound to `Syncfusion.Blazor.Toolkit.Theme`:
 | `Theme.Fluent` (default) | `#FFFFFF` | `#242424` | `#0F6CBD` | Light mode interfaces. |
 | `Theme.FluentDark` | `#1C1B1F` | `#FFFFFF` | `#115EA3` | Dark mode interfaces. |
 | `Theme.HighContrast` | `#000000` | `#FFFFFF` | `#FFFF00` | Accessibility scenarios; matches Microsoft High Contrast. |
+| `Theme.HighContrastLight` | `#000000` | `#FFFFFF` | `#FFFF00` | Accessibility scenarios; matches Microsoft High Contrast Light. |
 
 The theme flows into:
 - `ChartHelper.GetChartThemeStyle(...)` — tokens for axis lines, labels, grid lines, titles, legend, tooltips, crosshair, selection rectangles, error bars, stripline text, tooltip fill, and the scrollbar (`ChartHelper.GetScrollbarThemeColor`).

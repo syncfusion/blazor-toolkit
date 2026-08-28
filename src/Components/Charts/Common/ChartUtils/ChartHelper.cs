@@ -1257,7 +1257,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
                 return GetThemeStyle("#ADADAD", "#FFFFFF", "#3B3A39", "#292827", "#292827", "#3B3A39", "#3B3A39", "#FFFFFF", "#FFFFFF", "#1c1b1f", "#292827", "#8A8886", "#8A8886", "rgba(138, 136, 134, 0.1)", "#292929", "#FFFFFF", "#292929", "#FFFFFF", "#FFFFFF", "#3B3A39", null!, "rgba(14, 71, 117, 0.1)", "#115EA3", "#115EA3", "#D6D6D6", "#8A8886",
                 "14px", "600", "Segoe UI", "12px", "400", "Segoe UI", "12px", "Segoe UI", "400", "12px", "Segoe UI", "700", "12px", "Segoe UI", "400", "12px", "Segoe UI", "600", "#ADADAD", "12px", "Segoe UI", "600", "#ADADAD", "Segoe UI", "12px", "400", "#584EC6", "#43B786", "12px", "Segoe UI", "600");
             }
-            if (theme == "HighContrast")
+            if (theme == "HighContrast" || theme == "HighContrastLight")
             {
                 // High Contrast theme: black background, light-gray axis labels, white chart title.
                 // Yellow (#FFD939) is used for focus/selection accents to remain visible on black.
@@ -1279,7 +1279,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
             {
                 return new string[] { "#9BB449", "#2A72D5", "#43B786", "#3F579A", "#584EC6", "#E85F9C", "#6E7A89", "#EA6266", "#0B6A0B", "#C19C00" };
             }
-            if (theme == "HighContrast")
+            if (theme == "HighContrast" || theme == "HighContrastLight")
             {
                 return new string[] { "#79ECE4", "#E98272", "#DFE6B6", "#C6E773", "#BA98FF", "#FA83C3", "#00C27A", "#43ACEF", "#D681EF", "#D8BC6E" };
             }
@@ -1977,7 +1977,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
             {
                 return GetScrollbarStyle("#0A0A0A", "#141414", "#1F1F1F", "#1F1F1F", "#D6D6D6", "#D6D6D6");
             }
-            if (theme == "HighContrast")
+            if (theme == "HighContrast" || theme == "HighContrastLight")
             {
                 return GetScrollbarStyle("#000000", "#000000", "#000000", "#000000", "#FFFF00", "#FFFF00");
             }

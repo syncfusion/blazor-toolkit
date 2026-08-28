@@ -60,7 +60,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
             _elementId = Chart?.ID;
             // Resolve theme-aware color tokens for the zoom toolkit. High Contrast is treated as a third branch.
             // The soft accessibility yellow (#FFD939) matches the selectionCircleStroke / tabColor tokens in ChartHelper.GetThemeStyle("HighContrast").
-            bool isHighContrast = Chart?.Theme == Theme.HighContrast;
+            bool isHighContrast = Chart?.Theme == Theme.HighContrast || Chart?.Theme == Theme.HighContrastLight;
             bool isDark = Chart?.Theme == Theme.FluentDark;
             _selectionColor = isHighContrast ? "#FFD939" : (isDark ? "#D6D6D6" : "#424242");
             _fillColor = isHighContrast ? "#FFD939" : (isDark ? "#D6D6D6" : "#424242");
@@ -128,7 +128,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
             }
 
             toolboxItems = IsDevice() ? [ToolbarItems.Reset] : toolboxItems;
-            RectOptions rectOptions = new(_elementId + "_Zooming_Rect", 0, 0, width, height + (SPACING * 2), 1, Constants.Transparent, Chart?.Theme == Theme.HighContrast ? "#000000" : (Chart?.Theme != Theme.FluentDark ? "#fafafa" : "#1C1B1F"), 4, 4, 1);
+            RectOptions rectOptions = new(_elementId + "_Zooming_Rect", 0, 0, width, height + (SPACING * 2), 1, Constants.Transparent, Chart?.Theme == Theme.HighContrast || Chart?.Theme == Theme.HighContrastLight ? "#000000" : (Chart?.Theme != Theme.FluentDark ? "#fafafa" : "#1C1B1F"), 4, 4, 1);
             RenderZoomKit(builder, transX, transY, rectOptions, length, toolboxItems, iconSize);
         }
 
@@ -365,7 +365,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
                 Transform = "rotate(0," + 0 + ',' + 0 + ')',
                 DominantBaseline = "middle",
                 FontSize = "12px",
-                Fill = Chart?.Theme == Theme.HighContrast ? "#FFD939" : (Chart?.Theme != Theme.FluentDark ? "black" : "white")
+                Fill = (Chart?.Theme == Theme.HighContrast || Chart?.Theme == Theme.HighContrastLight) ? "#FFD939" : (Chart?.Theme != Theme.FluentDark ? "black" : "white")
             });
         }
 
