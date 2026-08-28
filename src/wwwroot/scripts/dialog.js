@@ -463,7 +463,7 @@ var SfDialog = (function () {
         this.dlgContainer.style.zIndex = zIndex.toString();
     };
     /**
-     * Move focus into the dialog content according to autofocus rules
+     * Move focus into the dialog content according to autofocus rules.
      */
     SfDialog.prototype.focusContent = function () {
         var element = this.getAutoFocusNode(this.element);
@@ -472,29 +472,21 @@ var SfDialog = (function () {
         this.hasFocusableNode = true;
     };
     /**
-     * Find the best candidate node to autofocus inside the dialog
+     * Find the best candidate node to autofocus inside the dialog.
      * @param {Element} container - Dialog container element
      * @returns {Element|null}
      */
     SfDialog.prototype.getAutoFocusNode = function (container) {
-        var node = container.querySelector('.' + DLG_CLOSE_ICON_BTN);
-        var value = '[autofocus]';
-        var items = container.querySelectorAll(value);
-        var validNode = this.getValidFocusNode(items);
         this.primaryButtonEle = this.element.getElementsByClassName(PRIMARY)[0];
+        var validNode = this.getValidFocusNode(container.querySelectorAll('[autofocus]'));
         if (!sfBlazorToolkit.base.isNullOrUndefined(validNode)) {
-            node = validNode;
+            return validNode;
         }
-        else {
-            validNode = this.focusableElements(this.contentEle);
-            if (!sfBlazorToolkit.base.isNullOrUndefined(validNode)) {
-                return node = validNode;
-            }
-            else if (!sfBlazorToolkit.base.isNullOrUndefined(this.primaryButtonEle)) {
-                return this.element.querySelector('.' + PRIMARY);
-            }
+        validNode = this.focusableElements(this.contentEle);
+        if (!sfBlazorToolkit.base.isNullOrUndefined(validNode)) {
+            return validNode;
         }
-        return node;
+        return null;
     };
     SfDialog.prototype.getValidFocusNode = function (items) {
         var node;

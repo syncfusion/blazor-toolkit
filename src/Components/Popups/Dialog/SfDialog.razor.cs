@@ -99,6 +99,7 @@ namespace Syncfusion.Blazor.Toolkit.Popups
             {
                 case nameof(Header):
                     HeaderTemplate = template;
+                    ResolveAccessibleName();
                     break;
                 case nameof(Content):
                     ContentTemplate = template;
@@ -108,6 +109,34 @@ namespace Syncfusion.Blazor.Toolkit.Popups
                     break;
                 default:
                     break;
+            }
+        }
+
+        /// <summary>
+        /// Sets <c>aria-labelledby</c> to the built-in title element id when a
+        /// header (text or template) exists, otherwise falls back to
+        /// <c>aria-label</c>. Always clears any previous values first so the
+        /// resolution is idempotent across re-renders.
+        /// </summary>
+        private void ResolveAccessibleName()
+        {
+            if (_dialogAttribute is null)
+            {
+                return;
+            }
+            _dialogAttribute.Remove("aria-labelledby");
+            _dialogAttribute.Remove("aria-label");
+            string? labelledById = GetAriaLabelledBy();
+            if (!string.IsNullOrWhiteSpace(labelledById))
+            {
+                _dialogAttribute = SfBaseUtils.UpdateDictionary("aria-labelledby", labelledById, _dialogAttribute);
+            }
+            else
+            {
+                string resolvedAriaLabel = !string.IsNullOrWhiteSpace(AriaLabel)
+                    ? AriaLabel
+                    : (Localizer["Dialog"]?.Value ?? "Dialog");
+                _dialogAttribute = SfBaseUtils.UpdateDictionary("aria-label", resolvedAriaLabel, _dialogAttribute);
             }
         }
 
@@ -344,26 +373,10 @@ namespace Syncfusion.Blazor.Toolkit.Popups
                     }
                 }
             }
-            // WCAG 4.1.2 Name, Role, Value — aria-label is the single source of truth.
-            // Honor the explicit AriaLabel parameter; otherwise fall back to a localized
-            // "Dialog" string only when the dictionary (and the consumer's HtmlAttributes)
-            // hasn't already supplied one.
-            if (_dialogAttribute is not null && !_dialogAttribute.ContainsKey("aria-label"))
+            if (_dialogAttribute is not null && !_dialogAttribute.ContainsKey("aria-labelledby") &&
+                !_dialogAttribute.ContainsKey("aria-label"))
             {
-                string resolvedAriaLabel = !string.IsNullOrWhiteSpace(AriaLabel)
-                    ? AriaLabel
-                    : (Localizer["Dialog"]?.Value ?? "Dialog");
-                _dialogAttribute = SfBaseUtils.UpdateDictionary("aria-label", resolvedAriaLabel, _dialogAttribute);
-            }
-            // aria-labelledby takes precedence over aria-label; only fall back when the
-            // dictionary and consumer-supplied attributes haven't pinned it down.
-            if (_dialogAttribute is not null && !_dialogAttribute.ContainsKey("aria-labelledby"))
-            {
-                string? labelledBy = GetAriaLabelledBy();
-                if (!string.IsNullOrWhiteSpace(labelledBy))
-                {
-                    _dialogAttribute = SfBaseUtils.UpdateDictionary("aria-labelledby", labelledBy, _dialogAttribute);
-                }
+                ResolveAccessibleName();
             }
             if (_dialogAttribute is not null && Visible && IsModal && IsStaticRendering)
             {

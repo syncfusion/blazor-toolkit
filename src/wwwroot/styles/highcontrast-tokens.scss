@@ -1,0 +1,396 @@
+
+@layer fluent, themes;
+
+@layer themes {
+
+:root {
+  // color-scheme drives native chrome (scrollbars, form controls, etc.)
+  // and is inherited by .e-control / .e-css sub-scopes below.
+  color-scheme: dark;
+
+  // === Brand === (matches the Microsoft HC standard for elements)
+  --color-sf-primary: #ffd939;
+  --color-sf-primary-text-color: #000;
+  --color-sf-primary-light: #ffd939;
+  --color-sf-primary-lighter: #685708;
+  --color-sf-primary-dark: #ffd939;
+
+  // === Semantic status colors ===
+  --color-sf-success: #166600;
+  --color-sf-info: #0056b3;
+  --color-sf-warning: #944000;
+  --color-sf-danger: #b30900;
+
+  // === Content backgrounds ===
+  --color-sf-content-bg-color: #333;
+  --color-sf-content-bg-color-alt1: #000;
+  --color-sf-content-bg-color-alt2: #1a1a1a;
+  --color-sf-content-bg-color-alt3: #262626;
+  --color-sf-content-bg-color-alt4: #0d0d0d;
+  --color-sf-content-bg-color-hover: #685708;
+  --color-sf-content-bg-color-pressed: #ffd939;
+  --color-sf-content-bg-color-focus: #685708;
+  --color-sf-content-bg-color-selected: #685708;
+
+  --color-sf-flyout-bg-color: #000;
+  --color-sf-flyout-bg-color-hover: #685708;
+  --color-sf-flyout-bg-color-pressed: #ffd939;
+  --color-sf-flyout-bg-color-selected: #685708;
+  --color-sf-flyout-bg-color-focus: #685708;
+  --color-sf-overlay-bg-color: rgba(0, 0, 0, .75);
+
+  // === Content text ===
+  --color-sf-content-text-color: #fff;
+  --color-sf-content-text-color-alt1: #fff;
+  --color-sf-content-text-color-alt2: #bfbfbf;
+  --color-sf-content-text-color-alt3: #969696;
+  --color-sf-content-text-color-hover: #fff;
+  --color-sf-content-text-color-selected: #000;
+  --color-sf-content-text-color-disabled: #757575;
+  --color-sf-placeholder-text-color: #bfbfbf;
+  --color-sf-flyout-text-color-selected: #000;
+  --color-sf-flyout-text-color-focus: #fff;
+  --color-sf-flyout-text-color-disabled: #757575;
+
+  // === Icons ===
+  --color-sf-icon-color: #fff;
+  --color-sf-icon-color-hover: #ffd939;
+  --color-sf-icon-color-pressed: #000;
+  --color-sf-icon-color-disabled: #757575;
+
+  // === Borders ===
+  --color-sf-border-light: #969696;
+  --color-sf-border: #969696;
+  --color-sf-border-alt: #fff;
+  --color-sf-border-dark: #fff;
+  --color-sf-border-hover: #fff;
+  --color-sf-border-pressed: #ffd939;
+  --color-sf-border-disabled: #757575;
+  --color-sf-border-warning: #ff7d1a;
+  --color-sf-border-error: #ff6161;
+  --color-sf-border-success: #2bc700;
+  --color-sf-flyout-border: #fff;
+
+  // === Primary button ===
+  --color-sf-primary-bg-color: #ffd939;
+  --color-sf-primary-border-color: #ffd939;
+  --color-sf-primary-text: #000;
+  --color-sf-primary-bg-color-hover: #685708;
+  --color-sf-primary-border-color-hover: #fff;
+  --color-sf-primary-text-hover: #fff;
+  --color-sf-primary-bg-color-pressed: #ffd939;
+  --color-sf-primary-border-color-pressed: #ffd939;
+  --color-sf-primary-text-pressed: #000;
+  --color-sf-primary-bg-color-focus: #685708;
+  --color-sf-primary-border-color-focus: #fff;
+  --color-sf-primary-text-focus: #fff;
+  --color-sf-primary-bg-color-disabled: #333;
+  --color-sf-primary-border-color-disabled: #757575;
+  --color-sf-primary-text-disabled: #757575;
+  --color-sf-primary-bg-color-selected: #685708;
+  --color-sf-primary-border-color-selected: #fff;
+  --color-sf-primary-text-selected: #fff;
+
+  // === Success ===
+  --color-sf-success-bg-color: #166600;
+  --color-sf-success-border-color: #166600;
+  --color-sf-success-text: #fff;
+  --color-sf-success-bg-color-hover: #685708;
+  --color-sf-success-border-color-hover: #fff;
+  --color-sf-success-text-hover: #fff;
+  --color-sf-success-bg-color-pressed: #166600;
+  --color-sf-success-border-color-pressed: #ffd939;
+  --color-sf-success-text-pressed: #fff;
+  --color-sf-success-bg-color-focus: #685708;
+  --color-sf-success-border-color-focus: #fff;
+  --color-sf-success-text-focus: #fff;
+  --color-sf-success-bg-color-disabled: #333;
+  --color-sf-success-border-color-disabled: #757575;
+  --color-sf-success-text-disabled: #757575;
+  --color-sf-success-bg-color-selected: #685708;
+  --color-sf-success-border-color-selected: #fff;
+  --color-sf-success-text-selected: #fff;
+
+  // === Warning ===
+  --color-sf-warning-bg-color: #944000;
+  --color-sf-warning-border-color: #944000;
+  --color-sf-warning-text: #fff;
+  --color-sf-warning-bg-color-hover: #685708;
+  --color-sf-warning-border-color-hover: #fff;
+  --color-sf-warning-text-hover: #fff;
+  --color-sf-warning-bg-color-pressed: #944000;
+  --color-sf-warning-border-color-pressed: #ffd939;
+  --color-sf-warning-text-pressed: #fff;
+  --color-sf-warning-bg-color-focus: #685708;
+  --color-sf-warning-border-color-focus: #fff;
+  --color-sf-warning-text-focus: #fff;
+  --color-sf-warning-bg-color-disabled: #333;
+  --color-sf-warning-border-color-disabled: #757575;
+  --color-sf-warning-text-disabled: #757575;
+  --color-sf-warning-bg-color-selected: #685708;
+  --color-sf-warning-border-color-selected: #fff;
+  --color-sf-warning-text-selected: #fff;
+
+  // === Info ===
+  --color-sf-info-bg-color: #0056b3;
+  --color-sf-info-border-color: #0056b3;
+  --color-sf-info-text: #fff;
+  --color-sf-info-bg-color-hover: #685708;
+  --color-sf-info-border-color-hover: #fff;
+  --color-sf-info-text-hover: #fff;
+  --color-sf-info-bg-color-pressed: #0056b3;
+  --color-sf-info-border-color-pressed: #ffd939;
+  --color-sf-info-text-pressed: #fff;
+  --color-sf-info-bg-color-focus: #685708;
+  --color-sf-info-border-color-focus: #fff;
+  --color-sf-info-text-focus: #fff;
+  --color-sf-info-bg-color-disabled: #333;
+  --color-sf-info-border-color-disabled: #757575;
+  --color-sf-info-text-disabled: #757575;
+  --color-sf-info-bg-color-selected: #685708;
+  --color-sf-info-border-color-selected: #fff;
+  --color-sf-info-text-selected: #fff;
+
+  // === Danger ===
+  --color-sf-danger-bg-color: #b30900;
+  --color-sf-danger-border-color: #b30900;
+  --color-sf-danger-text: #fff;
+  --color-sf-danger-bg-color-hover: #685708;
+  --color-sf-danger-border-color-hover: #fff;
+  --color-sf-danger-text-hover: #fff;
+  --color-sf-danger-bg-color-pressed: #b30900;
+  --color-sf-danger-border-color-pressed: #ffd939;
+  --color-sf-danger-text-pressed: #fff;
+  --color-sf-danger-bg-color-focus: #685708;
+  --color-sf-danger-border-color-focus: #fff;
+  --color-sf-danger-text-focus: #fff;
+  --color-sf-danger-bg-color-disabled: #333;
+  --color-sf-danger-border-color-disabled: #757575;
+  --color-sf-danger-text-disabled: #757575;
+  --color-sf-danger-bg-color-selected: #685708;
+  --color-sf-danger-border-color-selected: #fff;
+  --color-sf-danger-text-selected: #fff;
+
+  // === Secondary ===
+  --color-sf-secondary-bg-color: #333;
+  --color-sf-secondary-border-color: #969696;
+  --color-sf-secondary-text-color: #fff;
+  --color-sf-secondary-bg-color-hover: #685708;
+  --color-sf-secondary-border-color-hover: #fff;
+  --color-sf-secondary-text-color-hover: #fff;
+  --color-sf-secondary-bg-color-pressed: #ffd939;
+  --color-sf-secondary-border-color-pressed: #ffd939;
+  --color-sf-secondary-text-color-pressed: #000;
+  --color-sf-secondary-bg-color-focus: #685708;
+  --color-sf-secondary-border-color-focus: #fff;
+  --color-sf-secondary-text-color-focus: #fff;
+  --color-sf-secondary-bg-color-disabled: #333;
+  --color-sf-secondary-border-color-disabled: #757575;
+  --color-sf-secondary-text-color-disabled: #757575;
+  --color-sf-secondary-bg-color-selected: #685708;
+  --color-sf-secondary-border-color-selected: #fff;
+  --color-sf-secondary-text-color-selected: #fff;
+
+  // === Tooltip & shadow & link & skeleton & slider & switch ===
+  --color-sf-tooltip-bg-color: #000;
+  --color-sf-tooltip-border: #fff;
+  --color-sf-tooltip-text-color: #fff;
+  --color-sf-shadow-color: #fff;
+  --color-sf-shadow-color1: #000;
+  --color-sf-link-button: #8a8aff;
+
+  --color-sf-rating-selected-color: #ffd939;
+  --color-sf-rating-unrated-color: #fff;
+  --color-sf-rating-selected-disabled-color: #969696;
+  --color-sf-rating-unrated-disabled-color: #757575;
+  --color-sf-rating-selected-hover-color: #fff;
+  --color-sf-utility-primary-lighter: #685708;
+  --color-sf-skeleton-bg-color: #262626;
+
+  --color-sf-slider-shadow1: #000;
+  --color-sf-slider-shadow2: #969696;
+  --color-sf-slider-border-color: #ffffff00;
+  --color-sf-slider-bg-disabled: #262626;
+  --color-sf-toggle-switch-border-disabled: #262626;
+
+  // === Calendar / Dialog ===
+  --color-sf-calendar-icon-color: #ffd939;
+  --color-sf-calendar-header-text-color-pressed: #ffd939;
+  --color-sf-dialog-border: #000;
+
+  // === Secondary outline button text states (focus/hover/pressed/selected) ===
+  --color-sf-secondary-outline-button-text-color-hover: #fff;
+  --color-sf-secondary-outline-button-text-color-pressed: #fff;
+  --color-sf-secondary-outline-button-text-color-selected: #fff;
+  --color-sf-secondary-outline-button-text-color-focus: #fff;
+}
+
+// Reserve a separate scope for HC-light variant. Even though this currently
+// shadows nothing (same values as :root above), keeping it isolated gives us
+// a clean divergence point per the project requirement to support both
+// highcontrast AND highcontrast-light themes.
+html.highcontrast-light {
+  color-scheme: light;
+  --color-sf-content-bg-color: #cccccc;
+  --color-sf-content-bg-color-alt1: #ffffff;
+  --color-sf-content-bg-color-alt2: #f5f5f5;
+  --color-sf-content-bg-color-alt3: #ebebeb;
+  --color-sf-content-bg-color-alt4: #fafafa;
+  --color-sf-flyout-bg-color: #ffffff;
+  --color-sf-overlay-bg-color: rgba(255, 255, 255, .75);
+  --color-sf-content-text-color: #000;
+  --color-sf-content-text-color-alt1: #000;
+  --color-sf-content-text-color-alt2: #404040;
+  --color-sf-content-text-color-alt3: #666666;
+  --color-sf-placeholder-text-color: #666666;
+  --color-sf-icon-color: #000;
+  --color-sf-border-light: #666666;
+  --color-sf-border: #666666;
+  --color-sf-border-alt: #000;
+  --color-sf-border-dark: #000;
+  --color-sf-border-hover: #000;
+  --color-sf-flyout-border: #000;
+  --color-sf-flyout-bg-color-hover: #685708;
+  --color-sf-flyout-bg-color-pressed: #ffd939;
+  --color-sf-flyout-bg-color-selected: #685708;
+  --color-sf-flyout-bg-color-focus: #685708;
+  --color-sf-primary-border-color-hover: #000;
+  --color-sf-primary-bg-color-disabled: #cccccc;
+  --color-sf-primary-border-color-disabled: #757575;
+  --color-sf-primary-text-disabled: #757575;
+  --color-sf-secondary-bg-color: #ffffff;
+  --color-sf-secondary-border-color: #666666;
+  --color-sf-secondary-text-color: #000;
+  // HC-light outline button hover. The fluent rule sets background to
+  // transparent and uses --color-sf-secondary-border-color-hover for the
+  // border and --color-sf-secondary-outline-button-text-color-hover for
+  // the text. The HC-dark values (#fff/#fff) are invisible on a white
+  // page background, so force dark colors in HC-light.
+  --color-sf-secondary-bg-color-hover: #685708;
+  --color-sf-secondary-border-color-hover: #000;
+  --color-sf-secondary-outline-button-text-color-hover: #000;
+  --color-sf-secondary-outline-button-text-color-focus: #000;
+  --color-sf-secondary-outline-button-text-color-pressed: #000;
+  --color-sf-secondary-outline-button-text-color-selected: #000;
+  --color-sf-tooltip-bg-color: #ffffff;
+  --color-sf-tooltip-border: #000;
+  --color-sf-tooltip-text-color: #000;
+  --color-sf-shadow-color: #000;
+  --color-sf-shadow-color1: #fff;
+  --color-sf-calendar-icon-color: #ffd939;
+  --color-sf-skeleton-bg-color: #ebebeb;
+}
+
+} // end @layer themes
+
+// Unscoped component overrides (component-state corrections that var() tokens
+// alone can't express). These rules live OUTSIDE @layer themes on purpose so
+// they win by source order over the fluent component rules in the same sheet
+// (CSS layer priority puts unlayered styles above @layer'd ones, and the HC
+// sheet loads after the fluent sheet, so unlayered HC rules beat unlayered
+// fluent rules of equal specificity).
+
+.e-calendar .e-header .e-prev,
+.e-calendar .e-header .e-next {
+  background: transparent;
+  color: var(--color-sf-content-text-color-alt1);
+}
+.e-calendar .e-header .e-title {
+  color: var(--color-sf-content-text-color);
+}
+.e-calendar .e-header .e-arrow-up,
+.e-calendar .e-header .e-arrow-down {
+  color: var(--color-sf-icon-color);
+}
+.e-calendar .e-header .e-prev:hover,
+.e-calendar .e-header .e-prev:hover span,
+.e-calendar .e-header .e-next:hover,
+.e-calendar .e-header .e-next:hover span {
+  background: var(--color-sf-primary);
+  color: var(--color-sf-primary-text-color);
+}
+.e-calendar .e-header .e-title:hover,
+.e-calendar .e-header .e-title:focus,
+.e-calendar .e-header .e-title:active {
+  background: var(--color-sf-primary);
+  color: var(--color-sf-primary-text-color);
+}
+.e-calendar .e-content.e-decade td.e-selected > span.e-day,
+.e-calendar .e-content.e-year td.e-selected > span.e-day {
+  background: var(--color-sf-primary);
+  color: var(--color-sf-primary-text-color);
+}
+.e-timepicker.e-popup .e-list-parent.e-ul .e-list-item.e-active {
+  background: var(--color-sf-primary);
+  color: var(--color-sf-primary-text-color);
+}
+.e-dialog .e-popup .e-dlg-content,
+.e-dialog .e-popup .e-dlg-header-content {
+  color: var(--color-sf-content-text-color);
+}
+.e-checkbox-wrapper:hover .e-frame.e-check {
+  background-color: var(--color-sf-primary-bg-color-hover);
+  border-color: var(--color-sf-primary-border-color-hover);
+  color: var(--color-sf-content-text-color-hover);
+}
+
+// Forced-colors accessibility fallback (Windows HighContrast et al.).
+// When the OS forces colors, give every toolkit component a contrasting
+// outline and let the OS provide the actual fill colors.
+@media (forced-colors: active) {
+  :root {
+    color-scheme: light dark;
+  }
+
+  .e-btn,
+  .e-calendar,
+  .e-checkbox-wrapper,
+  .e-datepicker,
+  .e-datetimepicker,
+  .e-dialog,
+  .e-input,
+  .e-popup,
+  .e-radio-wrapper,
+  .e-spinner,
+  .e-switch-wrapper,
+  .e-textarea,
+  .e-textbox,
+  .e-timepicker,
+  .e-tooltip {
+    border-color: CanvasText;
+    background-color: Canvas;
+    color: CanvasText;
+  }
+
+  .e-btn.e-danger,
+  .e-btn.e-info,
+  .e-btn.e-primary,
+  .e-btn.e-success,
+  .e-btn.e-warning {
+    border-color: Highlight;
+    background-color: Highlight;
+    color: HighlightText;
+  }
+
+  .e-btn:focus,
+  .e-btn:focus-visible,
+  .e-checkbox-wrapper:focus-within,
+  .e-datepicker:focus,
+  .e-datetimepicker:focus,
+  .e-input:focus,
+  .e-radio-wrapper:focus-within,
+  .e-switch-wrapper:focus-within,
+  .e-textarea:focus,
+  .e-textbox:focus,
+  .e-timepicker:focus {
+    outline: 2px solid Highlight;
+    outline-offset: 2px;
+  }
+
+  .e-calendar,
+  .e-dialog,
+  .e-popup,
+  .e-tooltip {
+    box-shadow: none;
+  }
+}
