@@ -104,9 +104,10 @@ namespace Syncfusion.Blazor.Toolkit.Tests.Buttons
             Assert.Contains("e-check", frameElement.ClassList);
         }
 
-        // Verifies tri-state click cycle (checked -> indeterminate -> unchecked -> checked) when EnableTriState=true.
+        // Verifies tri-state click cycle (checked -> unchecked -> indeterminate -> checked) when EnableTriState=true.
+        // The tri-state cycle in the source is: Checked -> Unchecked -> Indeterminate -> Checked.
         [Trait("SfCheckBox", "TriState")]
-        [Fact(DisplayName = "TriState click cycle: checked -> indeterminate -> unchecked")]
+        [Fact(DisplayName = "TriState click cycle: checked -> unchecked -> indeterminate -> checked")]
         public void TriState_Click_Cycle()
         {
             // Start as checked
@@ -119,19 +120,19 @@ namespace Syncfusion.Blazor.Toolkit.Tests.Buttons
             var frameElement = inputElement.NextElementSibling;
             Assert.Contains("e-check", frameElement.ClassList);
 
-            // checked -> indeterminate
-            inputElement.Click();
-            frameElement = inputElement.NextElementSibling;
-            Assert.DoesNotContain("e-check", frameElement.ClassList);
-            Assert.Contains("e-stop", frameElement.ClassList);
-
-            // indeterminate -> unchecked
+            // checked -> unchecked
             inputElement.Click();
             frameElement = inputElement.NextElementSibling;
             Assert.DoesNotContain("e-check", frameElement.ClassList);
             Assert.DoesNotContain("e-stop", frameElement.ClassList);
 
-            // unchecked -> checked
+            // unchecked -> indeterminate
+            inputElement.Click();
+            frameElement = inputElement.NextElementSibling;
+            Assert.DoesNotContain("e-check", frameElement.ClassList);
+            Assert.Contains("e-stop", frameElement.ClassList);
+
+            // indeterminate -> checked
             inputElement.Click();
             frameElement = inputElement.NextElementSibling;
             Assert.Contains("e-check", frameElement.ClassList);
@@ -175,9 +176,10 @@ namespace Syncfusion.Blazor.Toolkit.Tests.Buttons
             Assert.Equal((byte)0, last);
         }
 
-        // Verifies TChecked=byte? with tri-state cycles 1 -> null -> 0 and raises ValueChange accordingly.
+        // Verifies TChecked=byte? with tri-state cycles 1 -> 0 -> null -> 1 and raises ValueChange accordingly.
+        // Tri-state cycle: Checked -> Unchecked -> Indeterminate -> Checked.
         [Trait("SfCheckBox", "TypeConversion")]
-        [Fact(DisplayName = "TChecked=byte? + TriState: ValueChange provides 1 -> null -> 0 cycle")]
+        [Fact(DisplayName = "TChecked=byte? + TriState: ValueChange provides 1 -> 0 -> null -> 1 cycle")]
         public void NullableByte_TriState_ValueChange()
         {
             byte? last = null;
@@ -189,15 +191,15 @@ namespace Syncfusion.Blazor.Toolkit.Tests.Buttons
 
             var inputElement = renderedComponent.Find("input");
 
-            // 1 -> null
-            inputElement.Click();
-            Assert.Null(last);
-
-            // null -> 0
+            // 1 -> 0 (Checked -> Unchecked)
             inputElement.Click();
             Assert.Equal((byte)0, last);
 
-            // 0 -> 1
+            // 0 -> null (Unchecked -> Indeterminate; Checked reset to default which is null for byte?)
+            inputElement.Click();
+            Assert.Null(last);
+
+            // null -> 1 (Indeterminate -> Checked)
             inputElement.Click();
             Assert.Equal((byte)1, last);
         }
@@ -243,15 +245,15 @@ namespace Syncfusion.Blazor.Toolkit.Tests.Buttons
                 .Add(component => component.ValueChange, (CheckedChangeEventArgs<bool?> e) => { callCount++; lastValueFromEvent = e.Checked; })
             );
 
-            // Programmatic change
+            // Programmatic change — should NOT fire ValueChange.
             renderedComponent.SetParametersAndRender(componentParameters => componentParameters.Add(component => component.Checked, true));
             Assert.Equal(0, callCount);
 
-            // UI click -> should fire
+            // UI click from Checked=true (tri-state cycle) -> transitions to Unchecked (Checked=false).
             var inputElement = renderedComponent.Find("input");
             inputElement.Click();
             Assert.Equal(1, callCount);
-            Assert.Null(lastValueFromEvent);
+            Assert.Equal(false, lastValueFromEvent);
         }
 
       

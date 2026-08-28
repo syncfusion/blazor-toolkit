@@ -77,10 +77,16 @@ namespace Syncfusion.Blazor.Toolkit.Tests.Inputs
         {
             var renderedComponent = RenderComponent<Inderminate>();
             var inputElement = renderedComponent.FindAll("input", true);
-            inputElement[3].Click();
-            Assert.False(inputElement[3].NextElementSibling.ClassList.Contains("e-check"));
+
             inputElement[3].Click();
             Assert.True(inputElement[3].NextElementSibling.ClassList.Contains("e-check"));
+
+            inputElement[3].Click();
+            Assert.False(inputElement[3].NextElementSibling.ClassList.Contains("e-check"));
+
+            inputElement[3].Click();
+            Assert.True(inputElement[3].NextElementSibling.ClassList.Contains("e-stop"));
+
             inputElement[4].Click();
         }
 
@@ -216,8 +222,12 @@ namespace Syncfusion.Blazor.Toolkit.Tests.Inputs
                 .Add(component => component.Checked, true)
                 .Add(component => component.IndeterminateChanged, EventCallback.Factory.Create<bool>(this, (bool value) => changes.Add(value))));
 
-            renderedComponent.Find("input").Click();
+            var inputElement = renderedComponent.Find("input");
 
+            inputElement.Click();
+            Assert.Empty(changes);
+
+            inputElement.Click();
             Assert.Equal(new[] { true }, changes);
         }
 
