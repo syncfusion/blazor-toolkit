@@ -1,4 +1,7 @@
-﻿# Specialized Blazor Chart Types Reference
+# Specialized Blazor Chart Types Reference
+
+> **Verified against source** — series-type & shape enums verified
+> against `src/Base/Enumeration.cs`. Last source audit: **2026-08-24**.
 
 A comprehensive guide to implementing specialized Syncfusion Blazor chart types including stacked, scatter, and bubble charts. This document is self-contained with complete examples and best practices.
 
@@ -34,7 +37,7 @@ A comprehensive guide to implementing specialized Syncfusion Blazor chart types 
 <SfChart>
     <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Toolkit.ValueType.Category" />
     
-        <ChartSeries DataSource="@RevenueData" 
+    <ChartSeries DataSource="@RevenueData" 
                      XName="Year" 
                      YName="ProductA" 
                      Name="Product A"
@@ -44,7 +47,7 @@ A comprehensive guide to implementing specialized Syncfusion Blazor chart types 
             <ChartSeriesBorder Width="2" Color="black" />
         </ChartSeries>
         
-        <ChartSeries DataSource="@RevenueData" 
+    <ChartSeries DataSource="@RevenueData" 
                      XName="Year" 
                      YName="ProductB" 
                      Name="Product B"
@@ -54,7 +57,7 @@ A comprehensive guide to implementing specialized Syncfusion Blazor chart types 
             <ChartSeriesBorder Width="2" Color="black" />
         </ChartSeries>
         
-        <ChartSeries DataSource="@RevenueData" 
+    <ChartSeries DataSource="@RevenueData" 
                      XName="Year" 
                      YName="ProductC" 
                      Name="Product C"
@@ -65,24 +68,18 @@ A comprehensive guide to implementing specialized Syncfusion Blazor chart types 
         </ChartSeries>
     
     <ChartStackLabelSettings Visible="true" Format="{value}" Fill="#ADD8E6">
-        <ChartStackLabelFont FontWeight="600" Color="blue" />
+    <ChartStackLabelFont FontWeight="600" Color="blue" />
     </ChartStackLabelSettings>
 </SfChart>
 
 @code {
-    public class StackedData
-    {
-        public double Year { get; set; }
-        public double ProductA { get; set; }
-        public double ProductB { get; set; }
-        public double ProductC { get; set; }
-    }
+    public record StackedData(double Year, double ProductA, double ProductB, double ProductC);
 
-    public List<StackedData> RevenueData = new List<StackedData>
+    private readonly List<StackedData> RevenueData = new()
     {
-        new StackedData { Year = 2020, ProductA = 0.61, ProductB = 0.03, ProductC = 0.48 },
-        new StackedData { Year = 2021, ProductA = 0.81, ProductB = 0.05, ProductC = 0.53 },
-        new StackedData { Year = 2022, ProductA = 0.91, ProductB = 0.06, ProductC = 0.57 }
+        new(2020, 0.61, 0.03, 0.48),
+        new(2021, 0.81, 0.05, 0.53),
+        new(2022, 0.91, 0.06, 0.57)
     };
 }
 ```
@@ -118,25 +115,38 @@ A comprehensive guide to implementing specialized Syncfusion Blazor chart types 
 ```cshtml
 <SfChart>
     <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Toolkit.ValueType.Category" />
-    
-fix th         <ChartSeries DataSource="@ScatterData" 
-                     XName="Country" 
-                     YName="GoldMedals" 
+
+    <ChartSeries DataSource="@ScatterData"
+                     XName="Country"
+                     YName="GoldMedals"
                      Type="Syncfusion.Blazor.Toolkit.ChartSeriesType.Scatter"
                      Fill="green"
                      Opacity="0.5">
-            <ChartMarker Height="10" Width="10" Shape="ChartShape.Triangle" />
+            <ChartMarker Height="10" Width="10" Shape="Syncfusion.Blazor.Toolkit.ChartShape.Triangle" />
         </ChartSeries>
-        
-        <ChartSeries DataSource="@ScatterData" 
-                     XName="Country" 
-                     YName="SilverMedals" 
+
+    <ChartSeries DataSource="@ScatterData"
+                     XName="Country"
+                     YName="SilverMedals"
                      Type="Syncfusion.Blazor.Toolkit.ChartSeriesType.Scatter"
                      Fill="blue"
                      Opacity="0.5">
-            <ChartMarker Height="10" Width="10" Shape="ChartShape.Rectangle" />
+            <ChartMarker Height="10" Width="10" Shape="Syncfusion.Blazor.Toolkit.ChartShape.Rectangle" />
         </ChartSeries>
 </SfChart>
+
+@code {
+    public record ScatterPoint(string Country, double GoldMedals, double SilverMedals);
+
+    private readonly List<ScatterPoint> ScatterData = new()
+    {
+        new("USA", 39, 41),
+        new("China", 38, 32),
+        new("Japan", 27, 14),
+        new("UK", 22, 20),
+        new("Australia", 17, 7)
+    };
+}
 ```
 
 ---
@@ -149,7 +159,7 @@ fix th         <ChartSeries DataSource="@ScatterData"
 
 ```cshtml
 <SfChart>
-        <ChartSeries DataSource="@PopulationData" 
+    <ChartSeries DataSource="@PopulationData" 
                      XName="LiteracyRate" 
                      YName="GrowthRate" 
                      Size="Population"
@@ -160,18 +170,12 @@ fix th         <ChartSeries DataSource="@ScatterData"
 </SfChart>
 
 @code {
-    public class BubbleData
-    {
-        public double LiteracyRate { get; set; }
-        public double GrowthRate { get; set; }
-        public double Population { get; set; }
-        public string Country { get; set; }
-    }
+    public record BubbleData(double LiteracyRate, double GrowthRate, double Population, string Country);
 
-    public List<BubbleData> PopulationData = new List<BubbleData>
+    private readonly List<BubbleData> PopulationData = new()
     {
-        new BubbleData { LiteracyRate = 92.2, GrowthRate = 7.8, Population = 1.347, Country = "China" },
-        new BubbleData { LiteracyRate = 74, GrowthRate = 6.5, Population = 1.241, Country = "India" }
+        new(92.2, 7.8, 1.347, "China"),
+        new(74.0, 6.5, 1.241, "India")
     };
 }
 ```
@@ -183,7 +187,7 @@ fix th         <ChartSeries DataSource="@ScatterData"
 **Apply to any chart type**:
 ```cshtml
 <SfChart IsTransposed="true">
-        <ChartSeries DataSource="@Data" 
+    <ChartSeries DataSource="@Data" 
                      XName="X" 
                      YName="Y" 
                      Type="Syncfusion.Blazor.Toolkit.ChartSeriesType.Spline" />
@@ -196,7 +200,7 @@ fix th         <ChartSeries DataSource="@ScatterData"
 
 ### Empty Point Handling
 ```cshtml
-<ChartEmptyPointSettings Mode="EmptyPointMode.Average" Fill="#FFDE59">
+<ChartEmptyPointSettings Mode="Syncfusion.Blazor.Toolkit.EmptyPointMode.Average" Fill="#FFDE59">
     <ChartEmptyPointBorder Color="red" Width="2" />
 </ChartEmptyPointSettings>
 ```
@@ -269,6 +273,6 @@ fix th         <ChartSeries DataSource="@ScatterData"
 
 ---
 
-**Document Version**: 1.0  
-**Last Updated**: March 2026  
-**Total Lines**: ~390
+**Document Version:** 1.1  
+**Last Source Audit:** 2026-08-24  
+**Total Lines:** ~388
