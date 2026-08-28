@@ -15,7 +15,7 @@ namespace Syncfusion.Blazor.Toolkit.Tests.Calendars.TimePicker
             Assert.Equal("combobox", inputElement.GetAttribute("role"));
             Assert.Equal("off", inputElement.GetAttribute("autocomplete"));
             Assert.Equal("false", inputElement.GetAttribute("aria-disabled"));
-            Assert.Equal("true", inputElement.GetAttribute("aria-haspopup"));
+            Assert.Equal("dialog", inputElement.GetAttribute("aria-haspopup"));
             Assert.Equal("list", inputElement.GetAttribute("aria-autocomplete"));
             Assert.Equal(null, inputElement.GetAttribute("aria-activedescendant"));
             //Assert.Equal(Timepicker.Instance.ID+"_options", inputElement.GetAttribute("aria-owns"));// Previous button next button Accessibility
@@ -45,7 +45,7 @@ namespace Syncfusion.Blazor.Toolkit.Tests.Calendars.TimePicker
             var popupEle = Timepicker.Find(".e-popup-wrapper");
             Assert.Contains("e-popup", popupEle.ClassName);
             Assert.Contains("e-timepicker", popupEle.ClassName);
-            Assert.Equal("true", inputElement.GetAttribute("aria-haspopup"));
+            Assert.Equal("dialog", inputElement.GetAttribute("aria-haspopup"));
             Assert.Equal("true", inputElement.GetAttribute("aria-expanded"));
         }
         [Fact(Timeout = 10000)]

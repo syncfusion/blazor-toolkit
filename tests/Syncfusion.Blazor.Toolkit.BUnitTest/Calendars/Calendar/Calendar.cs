@@ -26,9 +26,12 @@ namespace Syncfusion.Blazor.Toolkit.Tests.Calendars.Calendar
             Assert.Contains("e-month", parentContainer?.Children[1].ClassName);
             Assert.Contains("e-footer-container", parentContainer?.Children[2].ClassName);
             var buttonList = calendar.FindAll("button");
-            var previousButton = buttonList[0];
-            var nextButton = buttonList[1];
-            var todayButton = buttonList[2];
+            // Index 0: title button (.e-day.e-title), 1: prev, 2: next, 3: today
+            var titleButton = buttonList[0];
+            var previousButton = buttonList[1];
+            var nextButton = buttonList[2];
+            var todayButton = buttonList[3];
+            Assert.Contains("e-title", titleButton.ClassName);
             Assert.Contains("e-prev", previousButton.ClassName);
             Assert.Contains("e-next", nextButton.ClassName);
             Assert.Contains("e-today", todayButton.ClassName);
@@ -48,9 +51,12 @@ namespace Syncfusion.Blazor.Toolkit.Tests.Calendars.Calendar
             Assert.Contains("e-month", parentContainer?.Children[1].ClassName);
             Assert.Contains("e-footer-container", parentContainer?.Children[2].ClassName);
             var buttonList = calendar.FindAll("button");
-            var previousButton = buttonList[0];
-            var nextButton = buttonList[1];
-            var todayButton = buttonList[2];
+            // Index 0: title button (.e-day.e-title), 1: prev, 2: next, 3: today
+            var titleButton = buttonList[0];
+            var previousButton = buttonList[1];
+            var nextButton = buttonList[2];
+            var todayButton = buttonList[3];
+            Assert.Contains("e-title", titleButton.ClassName);
             Assert.Contains("e-prev", previousButton.ClassName);
             Assert.Contains("e-next", nextButton.ClassName);
             Assert.Contains("e-today", todayButton.ClassName);
@@ -369,10 +375,10 @@ namespace Syncfusion.Blazor.Toolkit.Tests.Calendars.Calendar
             var enabledCells = tableElement?.QuerySelectorAll("td:not(.e-disabled)");
             Assert.Equal(3, disabledCells?.Length);
             Assert.Equal(totalCells?.Length, (disabledCells?.Length + enabledCells?.Length));
-            Assert.Contains("e-prev", buttons?[0].ClassName);
-            Assert.Contains("e-disabled", buttons?[0].ClassName);
-            Assert.Contains("e-next", buttons?[1].ClassName);
-            Assert.DoesNotContain("e-disabled", buttons?[1].ClassName);
+            Assert.Contains("e-prev", buttons?[1].ClassName);
+            Assert.Contains("e-disabled", buttons?[1].ClassName);
+            Assert.Contains("e-next", buttons?[2].ClassName);
+            Assert.DoesNotContain("e-disabled", buttons?[2].ClassName);
         }
 
         [Fact(Timeout = 10000, DisplayName = "Min: nullable type navigation disables previous")]
@@ -392,10 +398,10 @@ namespace Syncfusion.Blazor.Toolkit.Tests.Calendars.Calendar
             var enabledCells = tableElement?.QuerySelectorAll("td:not(.e-disabled)");
             Assert.Equal(3, disabledCells?.Length);
             Assert.Equal(totalCells?.Length, (disabledCells?.Length + enabledCells?.Length));
-            Assert.Contains("e-prev", buttons?[0].ClassName);
-            Assert.Contains("e-disabled", buttons?[0].ClassName);
-            Assert.Contains("e-next", buttons?[1].ClassName);
-            Assert.DoesNotContain("e-disabled", buttons?[1].ClassName);
+            Assert.Contains("e-prev", buttons?[1].ClassName);
+            Assert.Contains("e-disabled", buttons?[1].ClassName);
+            Assert.Contains("e-next", buttons?[2].ClassName);
+            Assert.DoesNotContain("e-disabled", buttons?[2].ClassName);
         }
 
         [Fact(Timeout = 10000, DisplayName = "Navigation: navigate to month view with Min value")]
@@ -432,10 +438,10 @@ namespace Syncfusion.Blazor.Toolkit.Tests.Calendars.Calendar
             var enabledCells = tableElement?.QuerySelectorAll("td:not(.e-disabled)");
             Assert.Equal(38, disabledCells?.Length);
             Assert.Equal(totalCells?.Length, (disabledCells?.Length + enabledCells?.Length));
-            Assert.Contains("e-prev", buttons?[0].ClassName);
-            Assert.DoesNotContain("e-disabled", buttons?[0].ClassName);
-            Assert.Contains("e-next", buttons?[1].ClassName);
-            Assert.Contains("e-disabled", buttons?[1].ClassName);
+            Assert.Contains("e-prev", buttons?[1].ClassName);
+            Assert.DoesNotContain("e-disabled", buttons?[1].ClassName);
+            Assert.Contains("e-next", buttons?[2].ClassName);
+            Assert.Contains("e-disabled", buttons?[2].ClassName);
         }
 
         [Fact(Timeout = 10000, DisplayName = "Max: nullable type behavior")]
@@ -454,10 +460,10 @@ namespace Syncfusion.Blazor.Toolkit.Tests.Calendars.Calendar
             var enabledCells = tableElement?.QuerySelectorAll("td:not(.e-disabled)");
             Assert.Equal(38, disabledCells?.Length);
             Assert.Equal(totalCells?.Length, (disabledCells?.Length + enabledCells?.Length));
-            Assert.Contains("e-prev", buttons?[0].ClassName);
-            Assert.DoesNotContain("e-disabled", buttons?[0].ClassName);
-            Assert.Contains("e-next", buttons?[1].ClassName);
-            Assert.Contains("e-disabled", buttons?[1].ClassName);
+            Assert.Contains("e-prev", buttons?[1].ClassName);
+            Assert.DoesNotContain("e-disabled", buttons?[1].ClassName);
+            Assert.Contains("e-next", buttons?[2].ClassName);
+            Assert.Contains("e-disabled", buttons?[2].ClassName);
         }
 
         [Fact(Timeout = 10000, DisplayName = "WeekNumber: toggles week number column")]
@@ -492,18 +498,18 @@ namespace Syncfusion.Blazor.Toolkit.Tests.Calendars.Calendar
             var tableElement = Calendar.Find("table");
             var parentContainer = tableElement?.ParentElement?.ParentElement;
             var buttons = parentContainer?.QuerySelectorAll("button");
-            Assert.Equal(3, buttons?.Length);
-            Assert.Contains("e-today", buttons?[2].ClassName);
-            Assert.Contains("e-btn", buttons?[2].ClassName);
-            Assert.Equal("Today", buttons?[2].TextContent);
+            Assert.Equal(4, buttons?.Length);
+            Assert.Contains("e-today", buttons?[3].ClassName);
+            Assert.Contains("e-btn", buttons?[3].ClassName);
+            Assert.Equal("Today", buttons?[3].TextContent);
             Calendar.SetParametersAndRender(("ShowTodayButton", false));
             Assert.False(Calendar.Instance.ShowTodayButton);
             tableElement = Calendar.Find("table");
             parentContainer = tableElement?.ParentElement?.ParentElement;
             buttons = parentContainer?.QuerySelectorAll("button");
-            Assert.Equal(2, buttons?.Length);
+            Assert.Equal(3, buttons?.Length);
         }
-        
+
         [Fact(Timeout = 10000, DisplayName = "TodayButton: nullable type behavior")]
         public void TodayButtonWithNullable()
         {
@@ -512,16 +518,16 @@ namespace Syncfusion.Blazor.Toolkit.Tests.Calendars.Calendar
             var tableElement = Calendar.Find("table");
             var parentContainer = tableElement?.ParentElement?.ParentElement;
             var buttons = parentContainer?.QuerySelectorAll("button");
-            Assert.Equal(3, buttons?.Length);
-            Assert.Contains("e-today", buttons?[2].ClassName);
-            Assert.Contains("e-btn", buttons?[2].ClassName);
-            Assert.Equal("Today", buttons?[2].TextContent);
+            Assert.Equal(4, buttons?.Length);
+            Assert.Contains("e-today", buttons?[3].ClassName);
+            Assert.Contains("e-btn", buttons?[3].ClassName);
+            Assert.Equal("Today", buttons?[3].TextContent);
             Calendar.SetParametersAndRender(("ShowTodayButton", false));
             Assert.False(Calendar.Instance.ShowTodayButton);
             tableElement = Calendar.Find("table");
             parentContainer = tableElement?.ParentElement?.ParentElement;
             buttons = parentContainer?.QuerySelectorAll("button");
-            Assert.Equal(2, buttons?.Length);
+            Assert.Equal(3, buttons?.Length);
         }
 
         [Fact(Timeout = 10000, DisplayName = "WeekRules: configures week numbering")]
@@ -671,8 +677,8 @@ namespace Syncfusion.Blazor.Toolkit.Tests.Calendars.Calendar
             JSInterop.SetupVoid("window.localStorage.setItem").SetVoidResult();
             var calendar = RenderComponent<SfCalendar<DateTime>>(parameters => parameters.Add(p => p.EnablePersistence, true));
             var buttons = calendar.FindAll("button");
-            Assert.True(buttons.Count >= 3, "expected navigation + today buttons to be present");
-            buttons[2].Click();
+            Assert.True(buttons.Count >= 4, "expected navigation + today buttons to be present");
+            buttons[3].Click();
             Assert.True(JSInterop.Invocations.Any(i => i.Identifier == "setLocalStorageItem"), "Expected localStorage.setItem to be invoked");
         }
 

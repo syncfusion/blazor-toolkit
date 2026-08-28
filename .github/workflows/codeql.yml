@@ -1,0 +1,63 @@
+name: "CodeQL"
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+  schedule:
+    - cron: '0 6 * * 1'          # Every Monday 06:00 UTC
+  workflow_dispatch:
+
+concurrency:
+  group: codeql-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  analyze:
+    name: Analyze (${{ matrix.language }})
+    runs-on: ubuntu-latest
+    timeout-minutes: 360
+
+    permissions:
+      security-events: write
+      packages: read
+      actions: read
+      contents: read
+
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - language: csharp
+            build-mode: autobuild          # Best for .NET
+          - language: javascript-typescript
+            build-mode: none              # For gulp / package.json / Playwright
+          - language: actions
+            build-mode: none              # For .github/workflows/*.yml
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Initialize CodeQL
+        uses: github/codeql-action/init@v3
+        with:
+          languages: ${{ matrix.language }}
+          build-mode: ${{ matrix.build-mode }}
+          # Uncomment if you want extra queries later:
+          # queries: security-extended,security-and-quality
+
+      # Only needed when build-mode is "manual"
+      - name: Manual build (csharp)
+        if: matrix.build-mode == 'manual'
+        run: |
+          dotnet restore ./Syncfusion.Blazor.Toolkit.slnx
+          dotnet build ./Syncfusion.Blazor.Toolkit.slnx -c Release --no-restore
+
+      - name: Perform CodeQL Analysis
+        uses: github/codeql-action/analyze@v3
+        with:
+          category: "/language:${{ matrix.language }}"

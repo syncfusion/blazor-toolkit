@@ -1,7 +1,17 @@
 ---
+license: MIT
 name: syncfusion-blazor-toolkit-buttons
-description: Implement interactive Blazor button components with Syncfusion Toolkit. Covers SfButton, SfButtonGroup with styling and accessibility.
-compatibility: .NET 8+
+description: >
+  Implement Syncfusion Blazor Toolkit button components — SfButton,
+  SfButtonGroup, and inner Button.
+  USE FOR: primary/secondary clickable buttons, icon-only buttons, toggle
+  buttons, button groups (single/multi selection), event handlers, and
+  accessibility (keyboard, ARIA, focus).
+  DO NOT USE FOR: form input fields (use syncfusion-blazor-toolkit-inputs),
+  navigation menu UI (use SfMenu / SfToolbar — not in this skill),
+  icon-only controls that should suppress focus (use a styled
+  syncfusion-blazor-toolkit-notifications spinner instead).
+compatibility: .NET 8+, render-modes: Static SSR, Server, WebAssembly, Auto
 metadata:
   author: "Syncfusion Inc"
   version: "1.0.0"
@@ -9,242 +19,215 @@ metadata:
 
 # Syncfusion Blazor Toolkit Buttons
 
-## Component Overview
+> ✅ **Render mode:** Works in **all** render modes — `SfButton` is usable in Static SSR; only event handlers (`OnClick`) require interactivity. Read `AGENTS.md` to determine the project's interactivity mode before wiring event handlers.
 
-The Syncfusion Blazor Toolkit provides a comprehensive suite of button components for building interactive user interfaces. From basic buttons to button groups, these components support rich content, events, accessibility, and extensive customization.
+## Core Rules
 
-**Components Included:**
-- **SfButton** — Core interactive button component
-- **SfButtonGroup** — Group multiple buttons with selection modes
+1. **`SfButton` does not render a `<form>` wrapper.** Add `<EditForm>` or
+   `<form>` yourself if you need form-scoped submission.
+2. **`IsPrimary="true"` is presentational only.** It applies the active-theme
+   primary CSS class — pair with theme CSS to control actual visual weight.
+3. **`OnClick` is `EventCallback<MouseEventArgs>`**, fired after click; not
+   cancellable. Use the `Created` lifecycle event for initialization, not
+   `OnClick`.
+4. **`Disabled` is one-way.** The component does not auto-clear it after a
+   click; toggle the bound flag manually in your `@code` block.
+5. **`IconCss` accepts a Syncfusion icon class pair** (e.g. `e-icons e-add`).
+   Bare-prefix classes won't render.
+6. **`SfButtonGroup Mode="SelectionMode.Multiple"` allows empty selection.**
+   If you need mandatory selection, validate in code.
+7. **Inner `Button` components inside `SfButtonGroup` do not inherit
+   `CssClass`.** Re-apply at the inner level.
+8. **Keyboard activation is `Enter` and `Space`.** Don't override or you'll
+   break accessibility.
+9. **`HtmlAttributes` captures arbitrary HTML attributes** (id, data-*, role)
+   without exposing every one as a property.
 
-When you need interactive buttons, use the appropriate component from this skill based on your UI requirements.
+## Don'ts
+
+| Anti-pattern | Symptom | Fix |
+|---|---|---|
+| `async void OnClick = …` | Exceptions silently escape the dispatcher; spinner "sticks" with no error | `async Task OnClick(MouseEventArgs e)` — let Blazor handle re-rendering |
+| `<SfButton>` inside `<a>` | Two interactive roles; click intercepted; ARIA mis-announcement | Use `<SfButton>` with `CssClass="e-link"` instead, or a true `<a>` |
+| `Disabled="@(bool?)flag"` | Nullable binding throws on toggle; component treats as always-false | Bind to a `bool`, never `bool?` |
+| Override `:focus` without `:focus-visible` replacement | WCAG 2.4.7 violation; keyboard users lose focus visibility | Define `:focus-visible { outline: 2px solid var(--brand) }` |
+| `OnClick` for form submit with no surrounding `<EditForm>` | Validation skipped; data posted without `DataAnnotationsValidator` | Wrap in `<EditForm Model="…"><DataAnnotationsValidator/>` then call `OnValidSubmit` |
+
+## Anti-Pattern Workflows
+
+These are the four most common mistakes agents make; the workflow below each
+says exactly what to do instead.
+
+### Workflow 1 — Agent wants to wire `OnClick="@Save"`
+
+**Bad:**
+```razor
+<SfButton OnClick="@Save">Save</SfButton>
+@code { private async void Save(MouseEventArgs _) { /* ... */ } }
+```
+
+**Why it fails:** `async void` says "I will never await me" — Blazor's
+dispatcher can't catch exceptions, so the unhappy path dumps to console.
+Re-rendering also fights the awaited continuations.
+
+> This is a general Blazor rule across all click handlers (`SfButton`,
+> `<button @onclick>`, etc.) — see the
+> [`author-component`](https://github.com/dotnet/skills/blob/main/plugins/dotnet-blazor/skills/author-component/SKILL.md)
+> upstream skill for the broader rule set.
+
+**Correct:**
+```razor
+@using Syncfusion.Blazor.Toolkit.Buttons
+
+<SfButton OnClick="@SaveAsync">Save</SfButton>
+@code {
+    private bool _busy;
+    private async Task SaveAsync(MouseEventArgs _)
+    {
+        if (_busy) return;
+        _busy = true;
+        try   { await SaveService.SaveAsync(model); }
+        finally { _busy = false; }
+    }
+}
+```
+
+### Workflow 2 — Agent nests `SfButtonGroup` inside `<EditForm>` expecting `Disabled` to clear
+
+**Bad:**
+```razor
+<SfButtonGroup Mode="@SelectionMode.Multiple">
+    <Button>Bold</Button>
+    <Button>Italic</Button>
+</SfButtonGroup>
+```
+
+**Why it fails:** empty selection is valid `Multiple` mode. Form-validation
+won't catch "user selected nothing" unless you write a custom validator.
+
+**Correct:**
+```razor
+@using Syncfusion.Blazor.Toolkit.Buttons
+@using System.ComponentModel.DataAnnotations
+
+<EditForm Model="editor">
+    <DataAnnotationsValidator/>
+    <ValidationMessage For="@(() => editor.Selection)"/>
+    <SfButtonGroup Mode="@SelectionMode.Multiple"
+                   SelectedChanged="@SelectionChanged">
+        <Button>Bold</Button>
+        <Button>Italic</Button>
+    </SfButtonGroup>
+</EditForm>
+
+@code {
+    private void SelectionChanged(Syncfusion.Blazor.Toolkit.Buttons.SelectedItemsChangedEventArgs e)
+    {
+        editor.Selection = e.SelectedIndexes; // not empty after a click
+    }
+    public class EditorModel { [Required] public int[] Selection { get; set; } = Array.Empty<int>(); }
+}
+```
+
+### Workflow 3 — Agent places `<SfButton>` inside a `<a>` to make a card link
+
+**Bad:**
+```razor
+<a href="/detail/42">
+    <SfButton Content="Open" OnClick="OpenDetail" />  <!-- both click handlers fire -->
+</a>
+```
+
+**Why it fails:** clicking the button bubbles to the parent anchor and
+fires two navigations. ARIA reports two controls on one element.
+
+**Correct:**
+```razor
+@using Syncfusion.Blazor.Toolkit.Buttons
+
+<a href="/detail/42" role="link">
+    <SfButton Content="Open"
+              CssClass="e-link"
+              HtmlAttributes="@(new Dictionary<string, object> { ["aria-label"] = "Open detail 42" })"/>
+</a>
+```
+
+`CssClass="e-link"` re-skins the button as a link, removing the button
+semantics; the anchor remains the real interactive role.
+
+### Workflow 4 — Agent assumes `Disabled="@isProcessing"` clears via the button click
+
+**Bad:**
+```razor
+<SfButton Disabled="@_isProcessing" OnClick="SubmitAsync">Submit</SfButton>
+@code {
+    private async Task SubmitAsync(MouseEventArgs _) { _isProcessing = true; await DoWork(); }
+    // submit fires but `_isProcessing` is never set back to false ⇒ permanent lock
+}
+```
+
+**Why it fails:** `Disabled` is one-way; the click handler must clear the
+flag itself.
+
+**Correct:**
+```razor
+@using Syncfusion.Blazor.Toolkit.Buttons
+
+<SfButton Disabled="@_isProcessing" OnClick="SubmitAsync">Submit</SfButton>
+@code {
+    private bool _isProcessing;
+    private async Task SubmitAsync(MouseEventArgs _)
+    {
+        if (_isProcessing) return;
+        _isProcessing = true;
+        try   { await DoWork(); }
+        finally { _isProcessing = false; }   // mandatory clear
+    }
+}
+```
+
+**Or:** simpler, rely on the framework's `IsBusy`/`ButtonState` pattern or
+a wrapping `<SfSpinner>` overlay (see
+[syncfusion-blazor-toolkit-notifications](../syncfusion-blazor-toolkit-notifications/SKILL.md)).
+
+## Minimal Example
+
+```razor
+@using Syncfusion.Blazor.Toolkit.Buttons
+
+<SfButton Content="Save"
+          IsPrimary="true"
+          OnClick="@SaveAsync" />
+
+@code {
+    private async Task SaveAsync(MouseEventArgs _)
+    {
+        // your async work; see Workflow 1 for the busy-flag pattern
+    }
+}
+```
 
 ---
 
 ## Documentation and Navigation Guide
 
-### Getting Started
-📄 **Read:** [references/getting-started.md](references/getting-started.md)
-- Installation and package setup
-- Adding button component to your project
-- First button implementation
-- Basic click event handling
-- Content property usage
-- Testing in samples
+| Need | Read |
+|---|---|
+| First button / project setup | [references/getting-started.md](references/getting-started.md) |
+| Styling, `Disabled`, `CssClass` | [references/button-fundamentals.md](references/button-fundamentals.md) |
+| Icons, `Content` vs `ChildContent` | [references/icons-and-content.md](references/icons-and-content.md) |
+| Events, `EventCallback`, async patterns | [references/events-and-callbacks.md](references/events-and-callbacks.md) |
+| `SfButtonGroup`, selection modes | [references/button-group.md](references/button-group.md) |
 
-**When to read:** Start here for your first button component or to understand project setup.
-
-### Button Fundamentals
-📄 **Read:** [references/button-fundamentals.md](references/button-fundamentals.md)
-- Button states (enabled, disabled)
-- Disabled state implementation
-- Primary vs standard button styling
-- CSS class combinations
-- HTML attributes capture
-- Styling with CssClass property
-- Common styling patterns
-
-**When to read:** Need to style buttons, set disabled state, or apply custom CSS classes.
-
-### Icons and Content
-📄 **Read:** [references/icons-and-content.md](references/icons-and-content.md)
-- Icon CSS classes and icon library
-- Icon positioning (left, right, top, bottom)
-- Content vs ChildContent properties
-- Complex content patterns
-- SVG and custom icons
-- Icon-only buttons
-- Practical icon examples
-
-**When to read:** Want to add icons, position them, or create complex button content.
-
-### Events and Callbacks
-📄 **Read:** [references/events-and-callbacks.md](references/events-and-callbacks.md)
-- Click event handling
-- Created lifecycle event
-- EventCallback usage
-- Async event handling patterns
-- State management with events
-- Two-way binding
-- Debugging event issues
-
-**When to read:** Need to handle button clicks, lifecycle events, or implement event-driven logic.
-
-### Button Groups
-📄 **Read:** [references/button-group.md](references/button-group.md)
-- SfButtonGroup component
-- Selection modes (single, multiple)
-- SelectedChanged event
-- Button child component
-- Default selection
-- Real-world patterns
-
-**When to read:** Need to group buttons or implement selection patterns (radio group, multi-select toolbar).
-
----
-
-## Quick Start Example
-
-### Basic Button
-```razor
-<SfButton Content="Click Me" />
-```
-
-### Button with Click Handler
-```razor
-<SfButton Content="Submit" OnClick="OnClickHandler" />
-
-@code {
-    private void OnClickHandler(MouseEventArgs args)
-    {
-        Console.WriteLine("Button clicked!");
-    }
-}
-```
-
-### Button with Icon
-```razor
-<SfButton Content="Add" IconCss="e-icons e-add" IconPosition="IconPosition.Left" />
-```
-
-### Button with Form Integration
-```razor
-<SfButton Type="ButtonType.Submit" Content="Submit Form" IsPrimary="true" OnClick="SubmitForm" />
-<SfButton Type="ButtonType.Reset" Content="Clear Form" />
-
-@code {
-    private async Task SubmitForm(MouseEventArgs args)
-    {
-        // Handle form submission logic
-        Console.WriteLine("Form submitted!");
-    }
-}
-```
-
-### Primary Button with Event
-```razor
-<SfButton Content="Save" IsPrimary="true" OnClick="SaveData" />
-
-@code {
-    private async Task SaveData(MouseEventArgs args)
-    {
-        // Handle save logic
-    }
-}
-```
-
----
-
-## Common Patterns
-
-### Pattern 1: Disabled State Management
-```razor
-<SfButton Content="Submit" Disabled="@isProcessing" OnClick="Submit" />
-
-@code {
-    private bool isProcessing = false;
-    
-    private async Task Submit(MouseEventArgs args)
-    {
-        isProcessing = true;
-        await Task.Delay(2000); // Simulate work
-        isProcessing = false;
-    }
-}
-```
-
-### Pattern 2: Icon Positioning
-```razor
-<!-- Icon on the left -->
-<SfButton IconCss="e-icons e-edit" IconPosition="IconPosition.Left" Content="Edit" />
-
-<!-- Icon on top -->
-<SfButton IconCss="e-icons e-delete" IconPosition="IconPosition.Top" Content="Delete" />
-
-<!-- Icon only -->
-<SfButton IconCss="e-icons e-search" />
-```
-
-### Pattern 3: Button Group Selection
-```razor
-<SfButtonGroup Mode="@SelectionMode.Multiple">
-    <Button>Bold</Button>
-    <Button>Italic</Button>
-    <Button>Underline</Button>
-</SfButtonGroup>
-```
-
----
-
-## Key Properties Summary
-
-| Component | Key Property | Purpose | Type | Default |
-|-----------|--------------|---------|------|---------|
-| SfButton | Content | Button text | string | "" |
-| SfButton | Disabled | Enable/disable | bool | false |
-| SfButton | IsPrimary | Primary styling | bool | false |
-| SfButton | IconCss | Icon classes | string | "" |
-| SfButton | IconPosition | Icon placement | IconPosition | Left |
-| SfButton | CssClass | Custom CSS | string | "" |
-| SfButton | Type | Form button type | ButtonType | Button |
-| SfButton | HtmlAttributes | Capture HTML attributes | Dictionary<string, object> | {} |
-| SfButton | OnClick | Click event handler | EventCallback<MouseEventArgs> | - |
-| SfButton | Created | Lifecycle event | EventCallback<object> | - |
-| SfButtonGroup | Mode | Selection type | SelectionMode | None |
-| SfButtonGroup | IsVertical | Vertical layout | bool | false |
-| SfButtonGroup | CssClass | Custom CSS | string | "" |
-| SfButtonGroup | HtmlAttributes | Additional HTML attributes | Dictionary<string, object> | {} |
-| SfButtonGroup | Created | Lifecycle event | EventCallback<object> | - |
-
-### Button (in SfButtonGroup) Properties
-
-| Property | Type | Purpose | Default |
-|----------|------|---------|---------|
-| Button | Content | Button text | string | "" |
-| Button | IconCss | Icon classes | string | "" |
-| Button | IconPosition | Icon placement | IconPosition | Left |
-| Button | CssClass | Custom CSS | string | "" |
-| Button | Disabled | Enable/disable | bool | false |
-| Button | Selected | Selection state | bool | false |
-| Button | SelectedChanged | Selection changed event | EventCallback<bool> | - |
-| Button | IsToggle | Toggle behavior | bool | false |
-| Button | Name | Form input name | string | "" |
-| Button | Value | Form input value | string | "" |
-| Button | HtmlAttributes | Additional HTML attributes | Dictionary<string, object> | {} |
-
----
-
-## Button Component Decision Tree
-
-```
-Need a button?
-├─ Simple clickable button?
-│  └─ Use SfButton with Content and OnClick
-└─ Multiple related buttons?
-   └─ Use SfButtonGroup with Mode
-```
-
----
-
-## Accessibility Considerations
-
-All button components support accessibility best practices:
-
-- **Keyboard Navigation:** All buttons are keyboard accessible via Tab, Enter, and Space
-- **ARIA Support:** Proper ARIA attributes are applied automatically
-- **Screen Reader Support:** Buttons announce their content and state to screen readers
-- **Focus Indicators:** Clear focus indicators for keyboard navigation
-- **Disabled State:** Disabled buttons are properly announced and not focusable
-
-When implementing custom HTML attributes or complex content, ensure you maintain these accessibility standards.
+> Full property reference for `SfButton`, `SfButtonGroup`, and inner `Button` lives in `references/button-fundamentals.md` and `references/button-group.md`.
 
 ---
 
 ## Next Steps
 
-1. **Start Simple:** Read [getting-started.md](references/getting-started.md) to create your first button
-2. **Style and Configure:** Explore [button-fundamentals.md](references/button-fundamentals.md) for styling options
-3. **Add Interactivity:** Learn event handling in [events-and-callbacks.md](references/events-and-callbacks.md)
-4. **Expand:** Explore [button-group.md](references/button-group.md) for grouping buttons
+1. **Start Simple:** Read [references/getting-started.md](references/getting-started.md)
+2. **Style and Configure:** Explore [references/button-fundamentals.md](references/button-fundamentals.md)
+3. **Add Interactivity:** Learn [references/events-and-callbacks.md](references/events-and-callbacks.md)
+4. **Expand:** Grouping in [references/button-group.md](references/button-group.md)
 
-**Demo:** Syncfusion Blazor Toolkit official demo at https://blazor.syncfusion.com/demos/toolkit/buttons/button
+**Demo:** https://blazor.syncfusion.com/demos/toolkit/buttons/button

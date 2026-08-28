@@ -36,7 +36,7 @@ namespace Syncfusion.Blazor.Toolkit.Calendars
         {
             if (Value is not null)
             {
-                PreviousDate = (TValue)SfBaseUtils.ChangeType(Value, typeof(TValue));
+                PreviousDate = (TValue?)SfBaseUtils.ChangeType(Value, typeof(TValue));
             }
             await base.OnInitializedAsync().ConfigureAwait(false);
             Calendar_CssClass = CssClass;
@@ -63,7 +63,7 @@ namespace Syncfusion.Blazor.Toolkit.Calendars
         /// A <see cref="Task"/> representing the asynchronous operation.
         /// </returns>
         /// <remarks>
-        /// Recomputes CSS classes, updates internal state from changed parameters, and triggers re-rendering when properties like <see cref="SfCalendar{TValue}.Value"/>, <see cref="SfCalendar{TValue}.Min"/>, or <see cref="SfCalendar{TValue}.Max"/> are modified by the parent.
+        /// Recomputes CSS classes, updates internal state from changed parameters, and triggers re-rendering when properties like <c>Value</c>, <c>Min</c>, or <c>Max</c> are modified by the parent.
         /// </remarks>
         /// <example>
         /// <code><![CDATA[
@@ -175,12 +175,12 @@ namespace Syncfusion.Blazor.Toolkit.Calendars
                 return false;
             }
             string localValue = localStorageValue;
-            TValue? persistValue = (TValue)SfBaseUtils.ChangeType(localValue, typeof(TValue));
+            TValue? persistValue = (TValue?)SfBaseUtils.ChangeType(localValue, typeof(TValue));
             if (EqualityComparer<TValue>.Default.Equals(persistValue, CalendarBase_Value))
             {
                 return false;
             }
-            NotifyPropertyChanges(nameof(Value), persistValue, CalendarBase_Value);
+            _ = NotifyPropertyChanges(nameof(Value), persistValue, CalendarBase_Value);
             await UpdateCalendarPropertyAsync(nameof(Value), persistValue).ConfigureAwait(false);
             return true;
         }
@@ -204,8 +204,8 @@ namespace Syncfusion.Blazor.Toolkit.Calendars
             CalendarBase_FirstDayOfWeek = NotifyPropertyChanges(nameof(FirstDayOfWeek), FirstDayOfWeek, CalendarBase_FirstDayOfWeek);
             CalendarBase_Min = NotifyPropertyChanges(nameof(Min), Min, CalendarBase_Min);
             CalendarBase_Max = NotifyPropertyChanges(nameof(Max), Max, CalendarBase_Max);
-            NotifyPropertyChanges(nameof(Disabled), Disabled, Calendar_Disabled);
-            NotifyPropertyChanges(nameof(CssClass), CssClass, Calendar_CssClass);
+            _ = NotifyPropertyChanges(nameof(Disabled), Disabled, Calendar_Disabled);
+            _ = NotifyPropertyChanges(nameof(CssClass), CssClass, Calendar_CssClass);
             CalendarBase_Value = NotifyPropertyChanges(nameof(Value), Value, CalendarBase_Value);
             Calendar_Values = NotifyPropertyChanges(nameof(Values), Values, Calendar_Values);
             await Task.CompletedTask.ConfigureAwait(false);

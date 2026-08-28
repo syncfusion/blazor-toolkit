@@ -485,7 +485,7 @@ namespace Syncfusion.Blazor.Toolkit.Tests.Calendars.TimePicker
             Assert.Contains("e-timepicker", inputElement.ClassName);
             Assert.Equal(2, parentContainer.ChildElementCount);
             Assert.Equal("INPUT", parentContainer.Children[0].TagName);
-            Assert.Equal("SPAN", parentContainer.Children[1].TagName);
+            Assert.Equal("BUTTON", parentContainer.Children[1].TagName);
             var timeIcon = parentContainer.Children[1];
             Assert.Contains("e-clock", timeIcon.ClassName);
         }
@@ -500,7 +500,7 @@ namespace Syncfusion.Blazor.Toolkit.Tests.Calendars.TimePicker
             Assert.Contains("e-timepicker", inputElement.ClassName);
             Assert.Equal(2, parentContainer.ChildElementCount);
             Assert.Equal("INPUT", parentContainer.Children[0].TagName);
-            Assert.Equal("SPAN", parentContainer.Children[1].TagName);
+            Assert.Equal("BUTTON", parentContainer.Children[1].TagName);
             var timeIcon = parentContainer.Children[1];
             Assert.Contains("e-clock", timeIcon.ClassName);
         }

@@ -81,16 +81,17 @@ namespace Syncfusion.Blazor.Toolkit.Tests.Calendars.DatePicker
             var buttonList = popupElement.QuerySelectorAll("button");
             var parentContainer = tableElement?.ParentElement?.ParentElement;
             Assert.Equal(new DateTime(2021, 3, 5).ToString("MMMM yyyy"), parentContainer?.QuerySelector(".e-header")?.FirstElementChild?.TextContent);
-            Assert.Contains("e-prev", buttonList[0].ClassName);
-            Assert.Contains("e-next", buttonList[1].ClassName);
-            Assert.DoesNotContain("e-disabled", buttonList[1].ClassName);
+            // buttonList[0]=title, buttonList[1]=prev, buttonList[2]=next, buttonList[3]=today
+            Assert.Contains("e-prev", buttonList[1].ClassName);
+            Assert.Contains("e-next", buttonList[2].ClassName);
+            Assert.DoesNotContain("e-disabled", buttonList[2].ClassName);
             Assert.Equal(new DateTime(2021, 3, 5).Day.ToString(), tableElement?.QuerySelector(".e-selected")?.FirstElementChild?.TextContent);
             Assert.Equal(new DateTime(2021, 3, 5).ToString("dddd, MMMM d, yyyy"), tableElement?.QuerySelector(".e-selected")?.FirstElementChild?.GetAttribute("title"));
-            buttonList[1].Click();
+            buttonList[2].Click();
             buttonList = popupElement.QuerySelectorAll("button");
             tableElement = popupElement.QuerySelector("table");
             parentContainer = tableElement?.ParentElement?.ParentElement;
-            Assert.DoesNotContain("e-disabled", buttonList[0].ClassName);
+            Assert.DoesNotContain("e-disabled", buttonList[1].ClassName);
             Assert.Equal(new DateTime(2021, 4, 5).ToString("MMMM yyyy"), parentContainer?.QuerySelector(".e-header")?.FirstElementChild?.TextContent);
         }
 
@@ -113,9 +114,10 @@ namespace Syncfusion.Blazor.Toolkit.Tests.Calendars.DatePicker
             var buttonList = popupElement.QuerySelectorAll("button");
             var parentContainer = tableElement?.ParentElement?.ParentElement;
             Assert.Equal(new DateTime(2021, 3, 5).ToString("MMMM yyyy"), parentContainer?.QuerySelector(".e-header")?.FirstElementChild?.TextContent);
-            Assert.Contains("e-prev", buttonList[0].ClassName);
-            Assert.Contains("e-next", buttonList[1].ClassName);
-            Assert.DoesNotContain("e-disabled", buttonList[1].ClassName);
+            // buttonList[0]=title, buttonList[1]=prev, buttonList[2]=next, buttonList[3]=today
+            Assert.Contains("e-prev", buttonList[1].ClassName);
+            Assert.Contains("e-next", buttonList[2].ClassName);
+            Assert.DoesNotContain("e-disabled", buttonList[2].ClassName);
         }
 
         [Fact(Timeout = 10000, DisplayName = "PreventCloseEvent - Prevents popup close when OnClose sets Cancel")]

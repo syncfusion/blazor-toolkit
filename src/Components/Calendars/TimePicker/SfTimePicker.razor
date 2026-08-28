@@ -9,34 +9,38 @@
         {
             <div @ref="@ContainerElement" class="@ContainerClass?.Trim()" @attributes="ContainerHtmlAttributes">
                 <input @ref="@InputElement" id="@ID" @attributes="InputHtmlAttributes" value="@(this.CurrentValueAsString)"
+                       aria-haspopup="dialog" aria-label="@AriaLabel"
                        @onchange="@OnChangeHandlerAsync" @onfocus="@OnFocusHandlerAsync" @oninput="@OnInputHandlerAsync" @onblur="@OnBlurHandlerAsync" @onkeydown="OnHandleKeyDownAsync" />
                 <span class="e-float-line"></span>
                 <label class="@FloatLabel?.Trim()" id="label_@(ID)" for="@(ID)">@this.Placeholder</label>
                 @if (this.ShowClearButton && !this.Readonly)
                 {
-                    <span class="@(ClearIconClass)" aria-label="@CLOSE" role="button" @onclick="@WireClearBtnEventsAsync"
-                          @onmousedown="@InvokeClearBtnEventAsync" @ontouchstart="@InvokeClearBtnEventAsync"
-                          @onmousedown:preventDefault="@ClickStopPropagation"
-                          @ontouchstart:preventDefault="@ClickStopPropagation"></span>
+                    <button type="button" class="@(ClearIconClass)" aria-label="@Localizer["Clear"]" title="@Localizer["Clear"]"
+                            @onclick="@WireClearBtnEventsAsync"
+                            @onmousedown="@InvokeClearBtnEventAsync" @ontouchstart="@InvokeClearBtnEventAsync"
+                            @onmousedown:preventDefault="@ClickStopPropagation"
+                            @ontouchstart:preventDefault="@ClickStopPropagation"></button>
                 }
-                <span class="@(GROUPICON + SPACE + TimeIcon)" @onmousedown="@((args) => MouseIconHandlerAsync(args))"
-                      @onmousedown:preventDefault=@(!IsDevice)></span>
+                <button type="button" class="@(GROUPICON + SPACE + TimeIcon)" aria-label="@Localizer["OpenTime"]" title="@Localizer["OpenTime"]"
+                        @onclick="@((args) => MouseIconHandlerAsync(args))"></button>
             </div>
         }
         else
         {
             <span @ref="@ContainerElement" class="@ContainerClass?.Trim()" @attributes="ContainerHtmlAttributes">
                 <input @ref="@InputElement" id="@ID" @attributes="InputHtmlAttributes" value="@(this.CurrentValueAsString)"
+                       aria-haspopup="dialog" aria-label="@AriaLabel"
                        @onchange="@OnChangeHandlerAsync" @oninput="@OnInputHandlerAsync" @onfocus="@OnFocusHandlerAsync" @onblur="@OnBlurHandlerAsync" @onkeydown="OnHandleKeyDownAsync" />
                 @if (this.ShowClearButton && !this.Readonly)
                 {
-                    <span class="@(ClearIconClass)" aria-label="@CLOSE" role="button" @onclick="@WireClearBtnEventsAsync"
-                          @onmousedown="@InvokeClearBtnEventAsync" @ontouchstart="@InvokeClearBtnEventAsync"
-                          @onmousedown:preventDefault="@ClickStopPropagation"
-                          @ontouchstart:preventDefault="@ClickStopPropagation"></span>
+                    <button type="button" class="@(ClearIconClass)" aria-label="@Localizer["Clear"]" title="@Localizer["Clear"]"
+                            @onclick="@WireClearBtnEventsAsync"
+                            @onmousedown="@InvokeClearBtnEventAsync" @ontouchstart="@InvokeClearBtnEventAsync"
+                            @onmousedown:preventDefault="@ClickStopPropagation"
+                            @ontouchstart:preventDefault="@ClickStopPropagation"></button>
                 }
-                <span class="@(GROUPICON + SPACE + TimeIcon)" @onmousedown="@((args) => MouseIconHandlerAsync(args))"
-                      @onmousedown:preventDefault=@(!IsDevice)></span>
+                <button type="button" class="@(GROUPICON + SPACE + TimeIcon)" aria-label="@Localizer["OpenTime"]" title="@Localizer["OpenTime"]"
+                        @onclick="@((args) => MouseIconHandlerAsync(args))"></button>
             </span>
         }
         @ChildContent
@@ -44,12 +48,12 @@
         @if (this.ShowPopupList)
         {
             <div @ref="@PopupHolderEle" class="e-timepicker e-popup-holder" id="@(ID)_popupholder">
-                <div @ref="@PopupElement" class="@RootClass @PopupContainer @POPUP" id="@(ID)_popup" aria-label="@TIMEPICKER"
+                <div @ref="@PopupElement" class="@RootClass @PopupContainer @POPUP" id="@(ID)_popup" aria-label="@Localizer["Timepicker"]"
                      aria-modal='@(IsDevice && !IsExtendedDevicePopup() ? "true" : null)' role="dialog">
                     @if (this.IsDevice && this.IsExtendedDevicePopup())
                     {
                         <div class="@MODELHEADER">
-                            <span class="e-popup-close" aria-label="@CLOSE" role="button" @onclick="@PopupCloseHandlerAsync"></span>
+                            <button type="button" class="e-popup-close" aria-label="@Localizer["Close"]" title="@Localizer["Close"]" @onclick="@PopupCloseHandlerAsync"></button>
                             <span class="e-model-title">Select time</span>
                         </div>
                     }

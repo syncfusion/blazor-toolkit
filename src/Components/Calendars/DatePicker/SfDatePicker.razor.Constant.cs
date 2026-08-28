@@ -166,6 +166,18 @@ namespace Syncfusion.Blazor.Toolkit.Calendars
         protected const string ARIAEXPANDED = "aria-expanded";
 
         /// <summary>
+        /// The <c>aria-labelledby</c> attribute name used to reference the element(s) that label this input for assistive technologies.
+        /// </summary>
+        /// <exclude />
+        protected const string ARIA_LABELLEDBY = "aria-labelledby";
+
+        /// <summary>
+        /// The <c>aria-describedby</c> attribute name used to reference the element(s) that describe this input for assistive technologies.
+        /// </summary>
+        /// <exclude />
+        protected const string ARIA_DESCRIBEDBY = "aria-describedby";
+
+        /// <summary>
         /// Specifies the aria-true constant value used for accessibility state attributes.
         /// </summary>
         /// <value>

@@ -82,7 +82,7 @@ namespace Syncfusion.Blazor.Toolkit.Calendars
         /// <summary>
         /// Gets or sets a value indicating whether the time list has been rendered on the client side.
         /// </summary>
-       /// <exclude />
+        /// <exclude />
         private bool IsListRendered { get; set; }
 
         /// <summary>
@@ -414,7 +414,7 @@ namespace Syncfusion.Blazor.Toolkit.Calendars
             AriaActiveDescendantID = currentNavItem is not null ? ID + "_" + currentNavIndex.ToString(CultureInfo.CurrentCulture) : null;
             if (IsListRender && ShowPopupList && !string.IsNullOrEmpty(AriaActiveDescendantID))
             {
-                SfBaseUtils.UpdateDictionary(ARIAACTIVEDESCENDANT, AriaActiveDescendantID, InputHtmlAttributes);
+                _ = SfBaseUtils.UpdateDictionary(ARIAACTIVEDESCENDANT, AriaActiveDescendantID, InputHtmlAttributes);
             }
         }
 
@@ -734,9 +734,10 @@ namespace Syncfusion.Blazor.Toolkit.Calendars
             else if (ShowPopupList && IsListRendered)
             {
                 IsListRendered = false;
-                DatePickerClientProps<TValue> options = GetClientProperties();
-                await InvokeVoidAsync(_datePickerJsModule, _datePickerJsInProcessModule, "renderPopup", [DataId, PopupElement, PopupHolderEle, PopupEventArgs, options, Step, ScrollTo ?? default]).ConfigureAwait(true);
                 IsListRender = true;
+                DatePickerClientProps<TValue> options = GetClientProperties();
+                StateHasChanged();
+                await InvokeVoidAsync(_datePickerJsModule, _datePickerJsInProcessModule, "renderPopup", [DataId, PopupElement, PopupHolderEle, PopupEventArgs, options, Step, ScrollTo ?? default]).ConfigureAwait(true);
             }
         }
 
@@ -794,7 +795,7 @@ namespace Syncfusion.Blazor.Toolkit.Calendars
                 await Task.Delay(10).ConfigureAwait(false); // set the delay for prevent the icon click action.
                 if (IsDevice)
                 {
-                    SfBaseUtils.UpdateDictionary(READONLYATTR, true, InputHtmlAttributes);
+                    _ = SfBaseUtils.UpdateDictionary(READONLYATTR, true, InputHtmlAttributes);
                     await FocusOutAsync().ConfigureAwait(false);
                 }
                 else
@@ -895,10 +896,10 @@ namespace Syncfusion.Blazor.Toolkit.Calendars
             IsListRender = ShowPopupList = IsListRendered = isOpen;
             if (isOpen)
             {
-                SfBaseUtils.UpdateDictionary(ARIAEXPANDED, TRUE, InputHtmlAttributes);
+                _ = SfBaseUtils.UpdateDictionary(ARIAEXPANDED, TRUE, InputHtmlAttributes);
                 if (!string.IsNullOrEmpty(AriaActiveDescendantID))
                 {
-                    SfBaseUtils.UpdateDictionary(ARIAACTIVEDESCENDANT, AriaActiveDescendantID, InputHtmlAttributes);
+                    _ = SfBaseUtils.UpdateDictionary(ARIAACTIVEDESCENDANT, AriaActiveDescendantID, InputHtmlAttributes);
                 }
             }
             else
@@ -1036,11 +1037,11 @@ namespace Syncfusion.Blazor.Toolkit.Calendars
                 int day = dynamicDateValue.Day;
                 TimeSpan offset = dynamicDateValue.Offset;
                 DateTimeOffset offsetValue = new(year, month, day, dateValue.Hour, dateValue.Minute, dateValue.Second, dateValue.Millisecond, offset);
-                return (TValue)SfBaseUtils.ChangeType(offsetValue, typeof(TValue));
+                return (TValue)SfBaseUtils.ChangeType(offsetValue, typeof(TValue))!;
             }
             else
             {
-                return (TValue)SfBaseUtils.ChangeType(dateValue, typeof(TValue));
+                return (TValue)SfBaseUtils.ChangeType(dateValue, typeof(TValue))!;
             }
         }
 
@@ -1073,15 +1074,14 @@ namespace Syncfusion.Blazor.Toolkit.Calendars
                     TimeSpan offset = ((DateTimeOffset)dateTimeValue).Offset;
                     int hour = ((DateTimeOffset)dateTimeValue).Hour;
                     int minute = ((DateTimeOffset)dateTimeValue).Minute;
-                    int second = ((DateTimeOffset)dateTimeValue).Second;
-                    int milliSecond = ((DateTimeOffset)dateTimeValue).Millisecond;
-                    dateValue = new DateTimeOffset(year, month, day, hour, minute, second, milliSecond, offset);
+                    dateValue = new DateTimeOffset(year, month, day, hour, minute, 0, 0, offset);
                 }
                 else
                 {
                     if (dateTimeValue is not null)
                     {
-                        dateValue = new DateTime(((DateTime)dateTimeValue).Ticks, DateTimeKind.Local);
+                        DateTime dt = (DateTime)dateTimeValue;
+                        dateValue = new DateTime(dt.Year, dt.Month, dt.Day, dt.Hour, dt.Minute, 0, DateTimeKind.Local);
                     }
                 }
                 await UpdateValueAsync(dateValue).ConfigureAwait(false);

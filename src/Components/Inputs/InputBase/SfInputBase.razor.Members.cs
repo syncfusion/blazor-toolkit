@@ -101,6 +101,64 @@ namespace Syncfusion.Blazor.Toolkit.Inputs
         [Parameter]
         public bool ValidateOnInput { get; set; }
 
+        /// <summary>
+        /// Gets or sets the accessible name for the input element when no associated <c>&lt;label&gt;</c> is provided.
+        /// </summary>
+        /// <value>
+        /// A <see cref="string"/> that screen readers announce in place of a visible label. The default value is <see langword="null"/>.
+        /// </value>
+        /// <remarks>
+        /// Use this property to provide a meaningful accessible name for assistive technologies when the
+        /// component is not accompanied by a visible <c>&lt;label&gt;</c>. For elements that support a floating
+        /// label pattern, prefer an associated <c>&lt;label for="..."&gt;</c> for sighted users, and use
+        /// <see cref="AriaLabel"/> to override or supplement the announced name.
+        /// </remarks>
+        /// <example>
+        /// <code><![CDATA[
+        /// <SfTextBox AriaLabel="Email address" />
+        /// ]]></code>
+        /// </example>
+        [Parameter]
+        public string? AriaLabel { get; set; }
+
+        /// <summary>
+        /// Gets or sets the <c>id</c> of one or more elements (space-separated) that label this input for assistive technologies.
+        /// </summary>
+        /// <value>
+        /// A <see cref="string"/> containing the <c>id</c> of the labeling element(s). The default value is <see langword="null"/>.
+        /// </value>
+        /// <remarks>
+        /// Sets the <c>aria-labelledby</c> attribute on the rendered input, which lets screen readers
+        /// announce the content of the referenced element(s) as the input's accessible name.
+        /// </remarks>
+        /// <example>
+        /// <code><![CDATA[
+        /// <label id="email-label">Email</label>
+        /// <SfTextBox AriaLabelledBy="email-label" />
+        /// ]]></code>
+        /// </example>
+        [Parameter]
+        public string? AriaLabelledBy { get; set; }
+
+        /// <summary>
+        /// Gets or sets the <c>id</c> of one or more elements (space-separated) that describe this input for assistive technologies.
+        /// </summary>
+        /// <value>
+        /// A <see cref="string"/> containing the <c>id</c> of the describing element(s). The default value is <see langword="null"/>.
+        /// </value>
+        /// <remarks>
+        /// Sets the <c>aria-describedby</c> attribute on the rendered input, which lets screen readers
+        /// announce the content of the referenced element(s) as additional help text.
+        /// </remarks>
+        /// <example>
+        /// <code><![CDATA[
+        /// <span id="email-hint">We will never share your email.</span>
+        /// <SfTextBox AriaDescribedBy="email-hint" />
+        /// ]]></code>
+        /// </example>
+        [Parameter]
+        public string? AriaDescribedBy { get; set; }
+
         #endregion
     }
 }

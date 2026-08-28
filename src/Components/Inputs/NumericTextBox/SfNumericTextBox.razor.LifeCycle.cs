@@ -70,6 +70,17 @@ namespace Syncfusion.Blazor.Toolkit.Inputs
                 UpdateValidateClass();
                 InputHtmlAttributes = SfBaseUtils.UpdateDictionary(ROLE, SPIN_BUTTON, InputHtmlAttributes);
                 InputHtmlAttributes = SfBaseUtils.UpdateDictionary(ARIA_LIVE, ASSERTIVE, InputHtmlAttributes);
+                if (!InputHtmlAttributes.ContainsKey(ARIA_LABEL) && !string.IsNullOrWhiteSpace(AriaLabel))
+                {
+                    // When AriaLabel is explicitly supplied, forward it. We deliberately do NOT
+                    // add a generic "numeric textbox" placeholder when no AriaLabel is supplied —
+                    // visible labels already carry the accessible name, and a hardcoded fallback
+                    // creates redundant screen-reader announcements.
+                    InputHtmlAttributes = SfBaseUtils.UpdateDictionary(ARIA_LABEL, AriaLabel, InputHtmlAttributes);
+                }
+                // AriaLabelledBy / AriaDescribedBy are wired centrally in SfInputBase.PreRender,
+                // so every input honors the public accessibility parameters without subclass
+                // boilerplate.
                 if (InputHtmlAttributes.TryGetValue("type", out object? value))
                 {
                     if (value.Equals("number") && Format != "f")

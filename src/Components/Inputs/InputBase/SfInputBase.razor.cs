@@ -641,6 +641,7 @@ namespace Syncfusion.Blazor.Toolkit.Inputs
         private const string READONLY = "readonly";
         private const string ARIA_READONLY = "aria-readonly";
         private const string ARIA_LABEL_BY = "aria-labelledby";
+        private const string ARIA_DESCRIBED_BY = "aria-describedby";
         private const string TEXT_AREA = "e-textarea";
 
         #endregion
@@ -1217,10 +1218,9 @@ namespace Syncfusion.Blazor.Toolkit.Inputs
         {
             InputHtmlAttributes = SfBaseUtils.UpdateDictionary(CLASS, RootClass, InputHtmlAttributes);
             InputHtmlAttributes = SfBaseUtils.UpdateDictionary(NAME, ID, InputHtmlAttributes);
-            if (InputHtmlAttributes.Count > 0 && InputHtmlAttributes.TryGetValue("type", out object? value) && value.ToString() == "text")
-            {
-                InputHtmlAttributes = SfBaseUtils.UpdateDictionary(ROLE, TEXTBOX, InputHtmlAttributes);
-            }
+            // The native <input type="text"> / <textarea> already carry the implicit textbox role.
+            // Explicitly emitting role="textbox" adds redundant markup without any assistive-tech benefit
+            // and historically caused screen readers to announce "textbox, edit" twice.
             int tabIndex = !Disabled ? BaseTabIndex : -1;
             InputHtmlAttributes = SfBaseUtils.UpdateDictionary(TAB_INDEX, tabIndex, InputHtmlAttributes);
             if (BaseFloatLabelType == FloatLabelType.Never)
@@ -1255,6 +1255,18 @@ namespace Syncfusion.Blazor.Toolkit.Inputs
             CheckInputValue(BaseFloatLabelType, FormatValueAsString(InputTextValue));
             UpdateHtmlAttr();
             UpdateInputAttr();
+            // Forward the public AriaLabelledBy / AriaDescribedBy parameters to the rendered
+            // input element. Declared on SfInputBase so every picker, textbox, textarea and
+            // numeric-input component honors the same accessibility contract without each
+            // subclass having to re-implement the wiring.
+            if (!string.IsNullOrWhiteSpace(AriaLabelledBy))
+            {
+                InputHtmlAttributes = SfBaseUtils.UpdateDictionary(ARIA_LABEL_BY, AriaLabelledBy, InputHtmlAttributes);
+            }
+            if (!string.IsNullOrWhiteSpace(AriaDescribedBy))
+            {
+                InputHtmlAttributes = SfBaseUtils.UpdateDictionary(ARIA_DESCRIBED_BY, AriaDescribedBy, InputHtmlAttributes);
+            }
             if (SpinButton)
             {
                 LocalizedString incrementLocale = Localizer[INCREMENTHEADING];

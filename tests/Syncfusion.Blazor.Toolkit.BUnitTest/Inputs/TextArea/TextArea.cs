@@ -477,9 +477,18 @@ namespace Syncfusion.Blazor.Toolkit.Tests.Inputs.TextArea
         [Fact(Timeout = 10000, DisplayName = "Renders default aria-label")]
         public void Render_DefaultAriaLabel()
         {
+            // When no AriaLabel is supplied, no implicit aria-label is rendered:
+            // the native <textarea> element already exposes the implicit "textbox"
+            // role, and emitting a generic "textarea" placeholder would cause
+            // screen readers to announce "textarea, edit" twice.
             var textArea = RenderComponent<SfTextArea>();
             var ta = textArea.Find("textarea");
-            Assert.Equal("textarea", ta.GetAttribute("aria-label"));
+            Assert.Null(ta.GetAttribute("aria-label"));
+
+            // When a consumer does supply AriaLabel, it must be forwarded verbatim.
+            var labeled = RenderComponent<SfTextArea>(ps => ps.Add(p => p.AriaLabel, "Comments"));
+            var labeledTa = labeled.Find("textarea");
+            Assert.Equal("Comments", labeledTa.GetAttribute("aria-label"));
         }
 
         [Fact(Timeout = 10000, DisplayName = "Persistence read normalizes and preserves value")]

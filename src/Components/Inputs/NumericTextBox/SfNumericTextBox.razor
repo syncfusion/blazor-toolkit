@@ -16,22 +16,23 @@
                 <label class="@FloatLabel?.Trim()" id="label_@(ID)" for="@(ID)">@this.Placeholder</label>
                 @if (this.ShowClearButton)
                 {
-                    <span class="@(ClearIconClass)" aria-label="close" role="button" @onclick="@WireClearBtnEventsAsync"
-                          @onmousedown="@BindClearBtnEventsAsync" @ontouchstart="@BindClearBtnTouchEventsAsync"
-                          @onmousedown:preventDefault="@ClickStopPropagation"
-                          @ontouchstart:preventDefault="@ClickStopPropagation">
-                    </span>
+                    <button type="button" class="@(ClearIconClass)" aria-label="@Localizer["Clear"]" title="@Localizer["Clear"]"
+                            @onclick="@WireClearBtnEventsAsync"
+                            @onmousedown="@BindClearBtnEventsAsync" @ontouchstart="@BindClearBtnTouchEventsAsync"
+                            @onmousedown:preventDefault="@ClickStopPropagation"
+                            @ontouchstart:preventDefault="@ClickStopPropagation">
+                    </button>
                 }
                 @if (this.SpinButton)
                 {
-                    <span class="@(GROUPICON + SPACE + SPINDOWN)" title="@DecrementTitle" aria-label="@DecrementTitle"
-                          role="button" @onmousedown="@MouseDownOnSpinner" @onmouseup="@MouseUpOnSpinnerAsync"
-                          @onmousedown:preventDefault="@IsSpinButtonChanged"
-                          @onmouseup:preventDefault="@IsSpinButtonChanged"></span>
-                    <span class="@(GROUPICON + SPACE + SPINUP)" title="@IncrementTitle" aria-label="@IncrementTitle"
-                          role="button" @onmousedown="@MouseDownOnSpinner" @onmouseup="@MouseUpOnSpinnerAsync"
-                          @onmousedown:preventDefault="@IsSpinButtonChanged"
-                          @onmouseup:preventDefault="@IsSpinButtonChanged"></span>
+                    <button type="button" class="@(GROUPICON + SPACE + SPINDOWN)" title="@DecrementTitle" aria-label="@DecrementTitle"
+                            @onmousedown="@MouseDownOnSpinner" @onmouseup="@MouseUpOnSpinnerAsync"
+                            @onmousedown:preventDefault="@IsSpinButtonChanged"
+                            @onmouseup:preventDefault="@IsSpinButtonChanged"></button>
+                    <button type="button" class="@(GROUPICON + SPACE + SPINUP)" title="@IncrementTitle" aria-label="@IncrementTitle"
+                            @onmousedown="@MouseDownOnSpinner" @onmouseup="@MouseUpOnSpinnerAsync"
+                            @onmousedown:preventDefault="@IsSpinButtonChanged"
+                            @onmouseup:preventDefault="@IsSpinButtonChanged"></button>
                 }
             </div>
         }
@@ -43,24 +44,28 @@
                        @onchange="@OnChangeHandlerAsync" @onfocus="@OnFocusHandlerAsync" @onwheel="OnMouseWheelAsync" @onwheel:preventDefault @onblur="@OnBlurHandlerAsync" />
                 @if (this.ShowClearButton)
                 {
-                    <span class="@(ClearIconClass)" aria-label="close" role="button" @onclick="@WireClearBtnEventsAsync"
-                          @onmousedown="@BindClearBtnEventsAsync" @ontouchstart="@BindClearBtnTouchEventsAsync"
-                          @onmousedown:preventDefault="@ClickStopPropagation"
-                          @ontouchstart:preventDefault="@ClickStopPropagation"></span>
+                    <button type="button" class="@(ClearIconClass)" aria-label="@Localizer["Clear"]" title="@Localizer["Clear"]"
+                            @onclick="@WireClearBtnEventsAsync"
+                            @onmousedown="@BindClearBtnEventsAsync" @ontouchstart="@BindClearBtnTouchEventsAsync"
+                            @onmousedown:preventDefault="@ClickStopPropagation"
+                            @ontouchstart:preventDefault="@ClickStopPropagation"></button>
                 }
                 @if (this.SpinButton)
                 {
-                    <span class="@(GROUPICON + SPACE + SPINDOWN)" title="@DecrementTitle" aria-label="@DecrementTitle"
-                          role="button" @onmousedown="@MouseDownOnSpinner" @onmouseup="@MouseUpOnSpinnerAsync"
-                          @onmousedown:preventDefault="@IsSpinButtonChanged"
-                          @onmouseup:preventDefault="@IsSpinButtonChanged"></span>
-                    <span class="@(GROUPICON + SPACE + SPINUP)" title="@IncrementTitle" aria-label="@IncrementTitle"
-                          role="button" @onmousedown="@MouseDownOnSpinner" @onmouseup="@MouseUpOnSpinnerAsync"
-                          @onmousedown:preventDefault="@IsSpinButtonChanged"
-                          @onmouseup:preventDefault="@IsSpinButtonChanged"></span>
+                    <button type="button" class="@(GROUPICON + SPACE + SPINDOWN)" title="@DecrementTitle" aria-label="@DecrementTitle"
+                            @onmousedown="@MouseDownOnSpinner" @onmouseup="@MouseUpOnSpinnerAsync"
+                            @onmousedown:preventDefault="@IsSpinButtonChanged"
+                            @onmouseup:preventDefault="@IsSpinButtonChanged"></button>
+                    <button type="button" class="@(GROUPICON + SPACE + SPINUP)" title="@IncrementTitle" aria-label="@IncrementTitle"
+                            @onmousedown="@MouseDownOnSpinner" @onmouseup="@MouseUpOnSpinnerAsync"
+                            @onmousedown:preventDefault="@IsSpinButtonChanged"
+                            @onmouseup:preventDefault="@IsSpinButtonChanged"></button>
                 }
             </span>
         }
         @ChildContent
+        @* Visually hidden live region that announces the formatted value whenever the
+           spinner buttons or any other programmatic update changes the value. *@
+        <span role="status" aria-live="polite" aria-atomic="true" style="position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0;">@_valueAnnouncement</span>
     </CascadingValue>
 </SfInputBase>

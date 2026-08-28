@@ -129,6 +129,10 @@ This threat model should be reviewed when:
 
 ## Self-attestation
 
-This threat model was prepared as a current security reference for the Syncfusion Blazor Toolkit project and reflects the maintainers’ understanding of the project as of 2026-08-12. The project team intends to review and update this document as changes to the component library, assets, or build pipeline occur.
+This threat model was prepared as a current security reference for the Syncfusion Blazor Toolkit project and reflects the maintainers’ understanding of the project as of 2026-08-21. The project team intends to review and update this document as changes to the component library, assets, or build pipeline occur.
 
 The maintainers attest that the information provided here is a good-faith assessment of the project’s current security risks and mitigations based on the repository structure and package design at the time of publication.
+
+### Change since last review
+
+- **2026-08-21 — Hardened CD pipeline for nuget-publish.** Added SLSA build provenance attestation (`actions/attest-build-provenance`), deterministic builds via `ContinuousIntegrationBuild=true`, exit-code-driven vulnerability scan with downloadable `vuln-report` artifact, and concurrency guard for re-tagged same-version pushes. Accepted-risks entries AR-1 and AR-2 were reviewed and remain applicable; no new accepted risk was introduced.

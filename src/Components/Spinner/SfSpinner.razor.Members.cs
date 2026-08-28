@@ -155,6 +155,48 @@ namespace Syncfusion.Blazor.Toolkit.Spinner
         [Parameter]
         public string? Thickness { get; set; }
 
+        /// <summary>
+        /// Gets or sets the accessible name for the spinner.
+        /// </summary>
+        /// <value>
+        /// A <see cref="string"/> announced by screen readers for the spinner. The default value is <see langword="null"/>,
+        /// in which case the localized "Loading" string is used.
+        /// </value>
+        /// <remarks>
+        /// Use this property to provide a meaningful accessible name for assistive technologies, for example
+        /// "Loading user profile". The value is applied as <c>aria-label</c> on the spinner's root element,
+        /// complementing the <c>role="status"</c> and <c>aria-busy</c> attributes that are always emitted.
+        /// </remarks>
+        /// <example>
+        /// <code><![CDATA[
+        /// <SfSpinner AriaLabel="Loading user profile" Visible="true" />
+        /// ]]></code>
+        /// </example>
+        [Parameter]
+        public string? AriaLabel { get; set; }
+
+        /// <summary>
+        /// Gets or sets the ARIA live region politeness setting for the spinner.
+        /// </summary>
+        /// <value>
+        /// A <see cref="string"/> that controls how urgently screen readers announce spinner visibility changes.
+        /// Valid values are <c>"off"</c>, <c>"polite"</c>, or <c>"assertive"</c>. The default value is <see langword="null"/>,
+        /// in which case <c>"polite"</c> is used.
+        /// </value>
+        /// <remarks>
+        /// Setting <c>"polite"</c> (the default) tells assistive technologies to announce spinner visibility
+        /// changes when the user is idle. <c>"assertive"</c> interrupts the current announcement and should
+        /// only be used for blocking operations that require immediate user attention. <c>"off"</c> disables
+        /// announcements entirely.
+        /// </remarks>
+        /// <example>
+        /// <code><![CDATA[
+        /// <SfSpinner AriaLive="assertive" Visible="true" />
+        /// ]]></code>
+        /// </example>
+        [Parameter]
+        public string? AriaLive { get; set; }
+
         #endregion
     }
 }

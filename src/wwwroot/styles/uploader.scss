@@ -333,8 +333,16 @@ $uploader-actions-border-radius: $radius-0 $radius-0 $radius-6 $radius-6 !defaul
       margin: $select-file-margin;
       padding: $select-file-padding;
 
+      // WCAG 2.4.7 Focus Visible (Level AA) — restore a visible focus indicator
+      // on the file-list action icons. Previously these icons removed their outline
+      // on :focus, leaving keyboard users with no way to identify the active control.
       .e-toolkit-icons:focus {
         outline: none;
+      }
+
+      .e-toolkit-icons:focus-visible {
+        outline: 2px solid $uploader-icons-hover-radius; // visual focus ring
+        outline-offset: 2px;
       }
 
       .e-upload-file-list {

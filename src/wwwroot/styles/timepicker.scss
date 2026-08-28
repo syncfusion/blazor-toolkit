@@ -87,6 +87,7 @@ $timepicker-border: 1px !default;
   #{if(&, '&', '*')}.e-control-wrapper.e-time-wrapper {
     /* stylelint-disable property-no-vendor-prefix */
     -webkit-tap-highlight-color: transparent;
+    /* stylelint-enable property-no-vendor-prefix */
 
     #{if(&, '&', '*')} .e-clock.e-toolkit-icons {
       font-size: $timepicker-icon-normal-font-size;

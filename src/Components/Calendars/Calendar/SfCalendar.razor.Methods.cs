@@ -149,7 +149,7 @@ namespace Syncfusion.Blazor.Toolkit.Calendars
             {
                 await UpdateCalendarPropertyAsync(nameof(Value), GenericValue(copyDateValue[^1])).ConfigureAwait(false);
             }
-            TValue? tempValue = Value is null ? default! : (TValue)SfBaseUtils.ChangeType(Value, typeof(TValue));
+            TValue? tempValue = Value is null ? default! : (TValue?)SfBaseUtils.ChangeType(Value, typeof(TValue));
             ChangedArgs = new ChangedEventArgs<TValue> { Value = tempValue!, Values = Values };
             await ChangeHandlerAsync(null, Values, IsMultiSelection).ConfigureAwait(false);
             await InvokeAsync(StateHasChanged).ConfigureAwait(false);

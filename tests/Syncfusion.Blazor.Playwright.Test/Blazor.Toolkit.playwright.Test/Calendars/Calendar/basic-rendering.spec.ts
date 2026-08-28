@@ -16,9 +16,11 @@ test.describe('SfCalendar - Basic Rendering', () => {
   });
 
   test('day cells and headers exist with ARIA attributes', async ({ page }) => {
-    const day = page.locator('td[aria-label="calendar cell"]').first();
+    // Substring match (case-insensitive) so the test is robust to the day number
+    // and "disabled" suffix that the calendar appends to the accessible name.
+    const day = page.locator('td[aria-label*="calendar cell" i]').first();
     await expect(day).toBeVisible();
-    await expect(day).toHaveAttribute('aria-label', /calendar cell/);
+    await expect(day).toHaveAttribute('aria-label', /calendar cell/i);
     const id = await day.getAttribute('id');
     expect(id).toBeTruthy();
   });
