@@ -106,6 +106,50 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
                 SvgRenderer = Owner._svgRenderer;
             }
         }
+
+        /// <summary>
+        /// Builds the render tree for the axis container. In static SSR mode, sets
+        /// <see cref="ChartRendererContainer.ContainerUpdate"/> so child axis renderers
+        /// are actually emitted, and runs the container's <c>SetDefaultRendererValues</c>
+        /// synchronously so axis layout is computed before children render.
+        /// </summary>
+        /// <param name="builder">The render tree builder.</param>
+        protected override void BuildRenderTree(RenderTreeBuilder builder)
+        {
+            if (builder is null)
+            {
+                return;
+            }
+
+            if (IsStaticSSR())
+            {
+                // Without this flag, BuildRenderers skips emitting child axis
+                // renderers in SSR, leaving the chart without axes.
+                ContainerUpdate = true;
+
+                // Run the container's defaults synchronously so ComputePlotAreaBounds
+                // sets valid axis rectangles before axis renderers emit their SVG.
+                // The base method is gated by _firstRender and is safe to call here.
+                if (_firstRender)
+                {
+                    try
+                    {
+                        SetDefaultRendererValues();
+                    }
+                    catch
+                    {
+                        if (!IsDisposed)
+                        {
+                            throw;
+                        }
+                    }
+
+                    _firstRender = false;
+                }
+            }
+
+            base.BuildRenderTree(builder);
+        }
         #endregion
 
         #region Private Methods

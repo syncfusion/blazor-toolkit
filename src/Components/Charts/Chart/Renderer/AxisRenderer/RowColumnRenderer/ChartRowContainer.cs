@@ -33,6 +33,14 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
                 SvgRenderer = Owner._svgRenderer;
             }
         }
+
+        /// <summary>
+        /// Builds the render tree for the row container. In static SSR mode,
+        /// sets <see cref="ChartRendererContainer.ContainerUpdate"/> so child
+        /// row renderers are emitted in the single SSR render pass.
+        /// </summary>
+        /// <param name="builder">The render tree builder.</param>
+        // SSR hook is merged into the existing BuildRenderTree override below.
         #endregion
 
         #region Private Methods
@@ -114,6 +122,14 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
         protected override void BuildRenderTree(RenderTreeBuilder builder)
         {
             int seq = 0;
+
+            if (IsStaticSSR())
+            {
+                // In static SSR, ContainerUpdate is never set by the interactive
+                // pipeline, so flip it here so the container actually emits its
+                // children in the single SSR render pass.
+                ContainerUpdate = true;
+            }
 
             if (ContainerUpdate && Elements.Count > 0)
             {

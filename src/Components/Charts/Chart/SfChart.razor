@@ -45,6 +45,11 @@
             <ChartStriplineBehindContainer></ChartStriplineBehindContainer>
             <ChartIndicatorContainer></ChartIndicatorContainer>
             <g id="@(ID + "SeriesCollection")">
+                @* Render ChildContent (e.g. <ChartSeries>, <ChartPrimaryXAxis>) here
+                   so series/axis components register themselves with their containers
+                   BEFORE the containers render. This is required for static SSR where
+                   there is only a single render pass. *@
+                @ChildContent
                 <ChartSeriesRendererContainer></ChartSeriesRendererContainer>
                 <ChartStackLabelRenderer></ChartStackLabelRenderer>
             </g>
@@ -70,5 +75,7 @@
     <StyleElement @ref="@_selectionStyleInstance"></StyleElement>
     <StyleElement @ref="@_highlightStyleInstance"></StyleElement>
     <TooltipData @ref="_tooltipsData"></TooltipData>
-    @ChildContent
+    @* @ChildContent is rendered earlier (inside the SeriesCollection group) so
+       that series/axis elements register with their containers before the
+       containers emit their renderers in the single SSR pass. *@
 </CascadingValue>

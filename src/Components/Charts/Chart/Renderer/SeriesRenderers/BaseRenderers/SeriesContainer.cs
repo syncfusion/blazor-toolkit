@@ -72,6 +72,53 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
         }
 
         /// <summary>
+        /// Builds the render tree for the series container. In static SSR mode, runs
+        /// <see cref="SetDefaultRendererValues"/> so the container performs axis
+        /// assignment, data processing, and axis layout synchronously in the single
+        /// SSR render pass.
+        /// </summary>
+        /// <param name="builder">The render tree builder.</param>
+        protected override void BuildRenderTree(RenderTreeBuilder builder)
+        {
+            if (builder is null)
+            {
+                return;
+            }
+
+            if (IsStaticSSR())
+            {
+                // Ensure children are emitted during the first SSR pass. The
+                // base container's BuildRenderTree only renders when ContainerUpdate
+                // is true; in SSR that flag is never set, so we flip it here.
+                ContainerUpdate = true;
+
+                // Run container defaults once on the first SSR pass. The base
+                // SetDefaultRendererContainerValues would also gate this on
+                // _firstRender, but we want to make it explicit here so the
+                // series container's setup is guaranteed to run before its
+                // children (series renderers) build their own render trees.
+                if (_firstRender)
+                {
+                    try
+                    {
+                        SetDefaultRendererValues();
+                    }
+                    catch
+                    {
+                        if (!IsDisposed)
+                        {
+                            throw;
+                        }
+                    }
+
+                    _firstRender = false;
+                }
+            }
+
+            base.BuildRenderTree(builder);
+        }
+
+        /// <summary>
         /// Disposes unmanaged or referenced resources.
         /// </summary>
         protected override ValueTask DisposeAsyncCore()

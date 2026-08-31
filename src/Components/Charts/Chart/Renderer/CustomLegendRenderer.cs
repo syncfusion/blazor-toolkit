@@ -26,11 +26,12 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
         #region Protected Methods
 
         /// <summary>
-        /// Determines whether this renderer should render.
+        /// Determines whether this renderer should render. In static SSR, the first
+        /// render pass must always produce the legend SVG (no JS-driven re-render).
         /// </summary>
         protected override bool ShouldRender()
         {
-            return RendererShouldRender;
+            return RendererShouldRender || IsStaticSSR();
         }
 
         /// <summary>

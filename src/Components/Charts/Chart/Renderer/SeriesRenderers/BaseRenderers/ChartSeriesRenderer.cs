@@ -398,7 +398,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
             {
                 if (XAxisRenderer?.Axis?.ValueType == ValueType.DateTime)
                 {
-                    point.XValue = XAxisRenderer.IsDateOnly || XAxisRenderer.IsTimeOnly || IsDateTimeOffset
+                    point.XValue = (XAxisRenderer.IsDateOnly || XAxisRenderer.IsTimeOnly || IsDateTimeOffset)
                         ? ChartHelper.GetTime(Convert.ToDateTime(Convert.ToString(point.X, Culture), Culture))
                         : ChartHelper.GetTime(Convert.ToDateTime(point.X, Culture));
                 }
@@ -765,8 +765,17 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
             using IPropertyAccessor sortingInfo = FastReflectionExtension.CreateAccessor(firstDataType, Owner._sorting.SortKey);
 
             int index = 0;
-            XAxisRenderer.IsDateOnly = x.PropertyInfo.PropertyType.Name == "DateOnly";
-            XAxisRenderer.IsTimeOnly = x.PropertyInfo.PropertyType.Name == "TimeOnly";
+
+            // Guard renderer-specific writes so data processing continues during SSR
+            // when XAxisRenderer has not yet been assigned. The downstream pipeline
+            // (GetSetXValue / SetEmptyPoint -> Points.Add / ChartPoints.Add) must
+            // still execute to populate the collections required for series SVG.
+            if (XAxisRenderer is not null)
+            {
+                XAxisRenderer.IsDateOnly = x.PropertyInfo.PropertyType.Name == "DateOnly";
+                XAxisRenderer.IsTimeOnly = x.PropertyInfo.PropertyType.Name == "TimeOnly";
+            }
+
             IsDateTimeOffset = x.PropertyInfo.PropertyType.Name == "DateTimeOffset";
 
             bool isSortingEnabled = !string.IsNullOrEmpty(Owner?._sorting.SortKey) && !Owner._sorting.SortKey.Equals("X", StringComparison.OrdinalIgnoreCase);
@@ -824,9 +833,9 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
         /// <param name="yvalue">The Y-axis value.</param>
         protected virtual void SetXYMinMax(double xvalue, double yvalue)
         {
-            bool isLogAxis = YAxisRenderer.Axis?.ValueType == ValueType.Logarithmic || XAxisRenderer.Axis?.ValueType == ValueType.Logarithmic;
+            bool isLogAxis = YAxisRenderer?.Axis?.ValueType == ValueType.Logarithmic || XAxisRenderer?.Axis?.ValueType == ValueType.Logarithmic;
             bool isRectSeries = (Series?.SeriesType is not null && Series.SeriesType.Contains("Column", INVARIANT_COMPARISON)) || (Series?.SeriesType is not null && Series.SeriesType.Contains("Bar", INVARIANT_COMPARISON));
-            double ymin = (isLogAxis && isRectSeries && !ChartHelper.SetRange(YAxisRenderer.Axis ?? null!)) ? 1 : yvalue;
+            double ymin = (isLogAxis && isRectSeries && !ChartHelper.SetRange(YAxisRenderer?.Axis ?? null!)) ? 1 : yvalue;
 
             XMin = double.IsNaN(xvalue) ? XMin : Math.Min(XMin, xvalue);
             XMax = double.IsNaN(xvalue) ? XMax : Math.Max(XMax, xvalue);
@@ -1173,17 +1182,26 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
         /// <param name="index">The zero-based index of the point.</param>
         internal virtual void GetSetXValue(Point point, IChartPoint chartPoint, int index)
         {
-            if (XAxisRenderer.Axis?.ValueType == ValueType.Category)
+            if (XAxisRenderer?.Axis?.ValueType == ValueType.Category)
             {
                 PushCategoryData(point, index, point.X.ToString() ?? string.Empty);
             }
-            else if (XAxisRenderer.Axis?.ValueType is ValueType.DateTime or ValueType.DateTimeCategory)
+            else if (XAxisRenderer?.Axis?.ValueType is ValueType.DateTime or ValueType.DateTimeCategory)
             {
                 ProcessDateTimeValue(point, index);
             }
             else
             {
-                point.XValue = Convert.ToDouble(point.X, null);
+                // SSR-safe: the X-axis renderer may not be wired up yet during
+                // static rendering. Try the invariant numeric parse first; if the
+                // X value is a label (e.g. "Jan"), fall back to the point's index
+                // so the series still spreads along the X axis.
+                if (!double.TryParse(Convert.ToString(point.X, CultureInfo.InvariantCulture), NumberStyles.Any, CultureInfo.InvariantCulture, out double parsedX))
+                {
+                    parsedX = index;
+                }
+
+                point.XValue = parsedX;
             }
 
             PushData(point, index);
@@ -1263,7 +1281,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
         /// </summary>
         internal bool IsCategoryAxis()
         {
-            return XAxisRenderer.Axis?.ValueType is ValueType.Category or ValueType.DateTimeCategory;
+            return XAxisRenderer?.Axis?.ValueType is ValueType.Category or ValueType.DateTimeCategory;
         }
 
         /// <summary>

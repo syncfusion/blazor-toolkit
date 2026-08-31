@@ -27,7 +27,10 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
     {
         #region Fields
         private Queue<IChartElementRenderer> _rendererQueue = new();
-        private bool _firstRender = true;
+        // Marked protected so derived container classes (e.g. axis / series
+        // containers) can run their first-render-only setup synchronously
+        // during static SSR.
+        protected bool _firstRender = true;
         #endregion
 
         #region Properties

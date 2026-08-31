@@ -1195,9 +1195,18 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
         {
             SetDefaultStyle();
             HandleChartSizeChange(Owner?.InitialRect ?? null!);
+
+            // In static SSR there is no OnAfterRenderAsync pass to populate
+            // legend options, so compute them now so the legend SVG can render
+            // in the single SSR pass.
+            if (IsStaticSSR() && Owner?._visibleSeriesRenderers is not null && Owner._visibleSeriesRenderers.Count > 0)
+            {
+                GetLegendOptions();
+            }
+
             if (Owner?._customLegendRenderer is not null)
             {
-                Owner._customLegendRenderer.RendererShouldRender = RendererShouldRender;
+                Owner._customLegendRenderer.RendererShouldRender = RendererShouldRender || IsStaticSSR();
                 Owner._customLegendRenderer.ProcessRenderQueue();
             }
         }
