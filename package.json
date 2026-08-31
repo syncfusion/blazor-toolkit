@@ -21,7 +21,7 @@
     "gulp-clean-css": "^4.3.0",
     "gulp-rename": "^2.1.0",
     "gulp-sass": "5.1.0",
-    "sass": "1.51.0",
+    "sass": "1.103.1",
     "shelljs": "^0.10.0"
   }
 }
