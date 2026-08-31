@@ -204,6 +204,7 @@ const DatePickerInternal = (function () {
             this.popupObj.show(anim, this.options.zIndex === 1000 ? this.element : null);
             this.setOverlayIndex(this.mobilePopupContainer, this.popupObj.element, this.modal, sfBlazorToolkit.base.Browser.isDevice);
             sfBlazorToolkit.base.EventHandler.add(document, MOUSE_TOUCH_EVENT, this.documentHandler, this);
+            this.bindPopupTabHandler(); 
             if (this.popupContainer.classList.contains(CSS_CLASSES.POPUP_EXPAND)) {
                 var modelHeader = this.popupContainer.querySelector('.e-model-header');
                 var modelTodayButton = this.popupContainer.querySelector('button.e-today');
@@ -409,6 +410,7 @@ const DatePickerInternal = (function () {
         };
         SfDatePicker.prototype.closeEventCallback = function (eventArgs) {
             var preventArgs = eventArgs;
+            this.unbindPopupTabHandler();
             if (this.isCalendar() && !preventArgs.cancel && this.popupObj) {
                 if (this.popupContainer) {
                     var popupListItem = this.popupContainer.querySelectorAll('.e-list-item');
@@ -533,7 +535,46 @@ const DatePickerInternal = (function () {
                 }
             }
         };
+        SfDatePicker.prototype.bindPopupTabHandler = function () {
+            var _this = this;
+            if (this._popupTabHandlerBound) {
+                return;
+            }
+            this._popupTabHandler = function (e) {
+                if (!_this.popupObj || !_this.popupContainer) {
+                    return;
+                }
+                if (e.key !== 'Tab' || e.shiftKey) {
+                    return;
+                }
+                if (document.activeElement !== _this.element) {
+                    return;
+                }
+                e.preventDefault();
+                e.stopPropagation();
+                // focus title only — do not let browser Tab again
+                var title = _this.popupContainer.querySelector('.e-header .e-title')
+                        || _this.popupContainer.querySelector('.e-title');
+                if (_this.element) {
+                    _this.element.blur();
+                }
+                if (title) {
+                    title.focus({ preventScroll: true });
+                }
+            };
+            sfBlazorToolkit.base.EventHandler.add(this.element, 'keydown', this._popupTabHandler, this);
+            this._popupTabHandlerBound = true;
+        };
+
+        SfDatePicker.prototype.unbindPopupTabHandler = function () {
+            if (this._popupTabHandlerBound && this._popupTabHandler) {
+                sfBlazorToolkit.base.EventHandler.remove(this.element, 'keydown', this._popupTabHandler);
+                this._popupTabHandler = null;
+                this._popupTabHandlerBound = false;
+            }
+        };
         SfDatePicker.prototype.destroy = function () {
+            this.unbindPopupTabHandler();
             this.containerElement = null;
             this.element = null;
             if (this.enableMask) {
@@ -675,9 +716,26 @@ export function focusOut(dataId) {
 
 export function moveFocusToPopup(dataId) {
     var instance = window.sfBlazorToolkit.base.getCompInstance(dataId);
-    if (!sfBlazorToolkit.base.isNullOrUndefined(instance)) {
+    if (sfBlazorToolkit.base.isNullOrUndefined(instance) || !instance.popupContainer) {
+        return;
+    }
+    if (instance.element) {
         instance.element.blur();
-        instance.popupContainer.firstElementChild.firstElementChild.firstChild.focus();
+    }
+    var title = instance.popupContainer.querySelector('.e-header .e-title')
+             || instance.popupContainer.querySelector('.e-title');
+    if (title && typeof title.focus === 'function') {
+        title.focus({ preventScroll: true });
+        return;
+    }
+    var header = instance.popupContainer.querySelector('.e-header');
+    if (header) {
+        var focusable = header.querySelector(
+            'button:not([disabled]), [tabindex]:not([tabindex="-1"])'
+        );
+        if (focusable && typeof focusable.focus === 'function') {
+            focusable.focus({ preventScroll: true });
+        }
     }
 }
 
