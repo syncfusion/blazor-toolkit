@@ -210,6 +210,20 @@ namespace Syncfusion.Blazor.Toolkit.Charts
         internal ChartTrendlineContainer? _trendlineContainer;
         internal ChartRenderer? _chartRender;
 
+        // Pending element collections used in Static SSR mode. When @ChildContent
+        // (e.g. <ChartPrimaryXAxis>, <ChartSeries>) is processed BEFORE the
+        // <svg> block in SfChart.razor, the Blazor container components in <svg>
+        // have not been instantiated yet, so their OnInitialized has not run and
+        // their Elements lists are empty. AddAxis/AddSeries/etc. fall back to
+        // these pending lists so the data is not lost. The Blazor container
+        // adopts the pending data in its own OnInitialized via
+        // AdoptPendingElements.
+        internal List<ChartAxis> _pendingAxes = [];
+        internal List<ChartSeries> _pendingSeries = [];
+        internal List<ChartColumn> _pendingColumns = [];
+        internal List<ChartRow> _pendingRows = [];
+        internal List<ChartAnnotation> _pendingAnnotations = [];
+
         // Internal interactive feature settings and modules
         internal ChartTooltipSettings _tooltip = new();
         internal ChartSorting _sorting = new();
@@ -1890,72 +1904,140 @@ namespace Syncfusion.Blazor.Toolkit.Charts
         }
 
         /// <summary>
-        /// Adds an axis to the chart's axis container.
+        /// Adds an axis to the chart's axis container. In Static SSR, if the Blazor
+        /// axis container has not been instantiated yet, the axis is buffered in
+        /// <see cref="_pendingAxes"/> and adopted by the container on initialization.
         /// </summary>
         /// <param name="axis">The axis to add.</param>
         internal void AddAxis(ChartAxis axis)
         {
-            _axisContainer?.AddElement(axis);
+            if (_axisContainer is not null)
+            {
+                _axisContainer.AddElement(axis);
+            }
+            else
+            {
+                // Blazor axis container not yet instantiated (Static SSR renders
+                // @ChildContent before <svg>). Buffer the axis so it can be adopted
+                // when the container's OnInitialized runs.
+                if (!_pendingAxes.Contains(axis))
+                {
+                    _pendingAxes.Add(axis);
+                }
+            }
         }
 
         /// <summary>
-        /// Adds a column definition to the chart's column container.
+        /// Adds a column definition to the chart's column container. In Static SSR,
+        /// if the Blazor column container has not been instantiated yet, the column
+        /// is buffered in <see cref="_pendingColumns"/>.
         /// </summary>
         /// <param name="column">The column to add.</param>
         internal void AddColumn(ChartColumn column)
         {
-            _columnContainer?.AddElement(column);
+            if (_columnContainer is not null)
+            {
+                _columnContainer.AddElement(column);
+            }
+            else if (!_pendingColumns.Contains(column))
+            {
+                _pendingColumns.Add(column);
+            }
         }
 
         /// <summary>
-        /// Removes a column definition from the chart's column container.
+        /// Removes a column definition from the chart's column container or pending list.
         /// </summary>
         /// <param name="column">The column to remove.</param>
         internal void RemoveColumn(ChartColumn column)
         {
-            _columnContainer?.RemoveElement(column);
+            if (_columnContainer is not null)
+            {
+                _columnContainer.RemoveElement(column);
+            }
+            else
+            {
+                _ = _pendingColumns.Remove(column);
+            }
         }
 
         /// <summary>
-        /// Adds a row definition to the chart's row container.
+        /// Adds a row definition to the chart's row container. In Static SSR, if the
+        /// Blazor row container has not been instantiated yet, the row is buffered in
+        /// <see cref="_pendingRows"/>.
         /// </summary>
         /// <param name="row">The row to add.</param>
         internal void AddRow(ChartRow row)
         {
-            _rowContainer?.AddElement(row);
+            if (_rowContainer is not null)
+            {
+                _rowContainer.AddElement(row);
+            }
+            else if (!_pendingRows.Contains(row))
+            {
+                _pendingRows.Add(row);
+            }
         }
 
         /// <summary>
-        /// Removes a row definition from the chart's row container.
+        /// Removes a row definition from the chart's row container or pending list.
         /// </summary>
         /// <param name="row">The row to remove.</param>
         internal void RemoveRow(ChartRow row)
         {
-            _rowContainer?.RemoveElement(row);
+            if (_rowContainer is not null)
+            {
+                _rowContainer.RemoveElement(row);
+            }
+            else
+            {
+                _ = _pendingRows.Remove(row);
+            }
         }
 
         /// <summary>
-        /// Removes an axis from the chart's axis container.
+        /// Removes an axis from the chart's axis container or pending list.
         /// </summary>
         /// <param name="axis">The axis to remove.</param>
         internal void RemoveAxis(ChartAxis axis)
         {
-            _axisContainer?.RemoveElement(axis);
+            if (_axisContainer is not null)
+            {
+                _axisContainer.RemoveElement(axis);
+            }
+            else
+            {
+                _ = _pendingAxes.Remove(axis);
+            }
         }
 
         /// <summary>
-        /// Adds a series to the chart's series container.
+        /// Adds a series to the chart's series container. In Static SSR, if the Blazor
+        /// series container has not been instantiated yet, the series is buffered in
+        /// <see cref="_pendingSeries"/>.
         /// </summary>
         /// <param name="series">The series to add.</param>
         internal void AddSeries(ChartSeries series)
         {
-            ChartSeriesRenderer defaultRenderer = _seriesContainer?.Renderers.Find(renderer => renderer.GetType().Equals(typeof(DefaultSeriesRenderer))) as ChartSeriesRenderer ?? null!;
-            if (defaultRenderer is not null)
+            if (_seriesContainer is null)
             {
-                _seriesContainer?.RemoveRenderer(defaultRenderer);
+                // Blazor series container not yet instantiated (Static SSR renders
+                // @ChildContent before <svg>). Buffer the series so it can be adopted
+                // when the container's OnInitialized runs.
+                if (!_pendingSeries.Contains(series))
+                {
+                    _pendingSeries.Add(series);
+                }
+                return;
             }
 
-            if (_seriesContainer?.Elements.Count > 0 && !_seriesContainer.Elements.Contains(series))
+            ChartSeriesRenderer defaultRenderer = _seriesContainer.Renderers.Find(renderer => renderer.GetType().Equals(typeof(DefaultSeriesRenderer))) as ChartSeriesRenderer ?? null!;
+            if (defaultRenderer is not null)
+            {
+                _seriesContainer.RemoveRenderer(defaultRenderer);
+            }
+
+            if (_seriesContainer.Elements.Count > 0 && !_seriesContainer.Elements.Contains(series))
             {
                 bool isBar = series.Type is ChartSeriesType.Bar or ChartSeriesType.StackingBar or ChartSeriesType.StackingBar100;
                 switch (series.Type)
@@ -1978,7 +2060,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts
                         break;
                 }
             }
-            else if (_seriesContainer is not null && !_seriesContainer.Elements.Contains(series))
+            else if (!_seriesContainer.Elements.Contains(series))
             {
                 _seriesContainer.AddElement(series);
             }
@@ -1986,16 +2068,32 @@ namespace Syncfusion.Blazor.Toolkit.Charts
 
         internal void RemoveSeries(ChartSeries series)
         {
-            _seriesContainer?.RemoveElement(series);
+            if (_seriesContainer is not null)
+            {
+                _seriesContainer.RemoveElement(series);
+            }
+            else
+            {
+                _ = _pendingSeries.Remove(series);
+            }
         }
 
         /// <summary>
-        /// Adds an annotation to the chart.
+        /// Adds an annotation to the chart. In Static SSR, if the Blazor annotation
+        /// container has not been instantiated yet, the annotation is buffered in
+        /// <see cref="_pendingAnnotations"/>.
         /// </summary>
         /// <param name="annotation">The annotation to add.</param>
         internal void AddAnnotation(ChartAnnotation annotation)
         {
-            _annotationContainer?.AddElement(annotation);
+            if (_annotationContainer is not null)
+            {
+                _annotationContainer.AddElement(annotation);
+            }
+            else if (!_pendingAnnotations.Contains(annotation))
+            {
+                _pendingAnnotations.Add(annotation);
+            }
         }
 
         /// <summary>
@@ -2014,6 +2112,10 @@ namespace Syncfusion.Blazor.Toolkit.Charts
                 _annotationContainer.RemoveRenderer(annotation.Renderer ?? null!);
                 _annotationContainer.RemoveElement(annotation);
                 _annotationContainer.InvalidateRenderer();
+            }
+            else
+            {
+                _ = _pendingAnnotations.Remove(annotation);
             }
         }
 
@@ -2433,6 +2535,80 @@ namespace Syncfusion.Blazor.Toolkit.Charts
         }
         #endregion
 
+        #region Static SSR Fallback Renderers
+
+        /// <summary>
+        /// Fallback renderer used in Static SSR when the Blazor container components
+        /// inside <svg> cannot emit their child renderers in time. This delegate is
+        /// invoked directly from SfChart.razor's markup and reads from the pending
+        /// element collections (populated by @ChildContent which renders BEFORE the
+        /// <svg> block). For each pending axis it emits an OpenComponent of the
+        /// axis's RendererType so the framework instantiates the axis renderer in
+        /// the same SSR pass. A minimal ChartAxisRendererContainer is wrapped in a
+        /// CascadingValue so child renderers' [CascadingParameter] Container
+        /// receives a non-null reference and their OnInitialized (AddRenderer) can
+        /// set axis.Container back to this SfChart.
+        /// </summary>
+        internal RenderFragment RenderAxisRenderersForSSR => builder =>
+        {
+            if (builder is null) return;
+            SfChart self = this;
+            int seq = 0;
+
+            ChartAxisRendererContainer containerCascade = new() { Owner = self };
+
+            builder.OpenComponent<CascadingValue<ChartRendererContainer>>(seq++);
+            builder.AddAttribute(seq++, "Value", (ChartRendererContainer)containerCascade);
+            builder.AddAttribute(seq++, "IsFixed", true);
+            builder.AddAttribute(seq++, "ChildContent", (RenderFragment)((builder2) =>
+            {
+                if (builder2 is null) return;
+                int innerSeq = 0;
+                foreach (ChartAxis axis in self._pendingAxes)
+                {
+                    if (axis.RendererType is null) continue;
+                    builder2.OpenComponent(innerSeq++, axis.RendererType);
+                    builder2.SetKey(axis.RendererKey);
+                    builder2.AddAttribute(innerSeq++, "AxisName", axis.Name);
+                    builder2.CloseComponent();
+                }
+            }));
+            builder.CloseComponent();
+        };
+
+        /// <summary>
+        /// Fallback renderer used in Static SSR for series. See
+        /// <see cref="RenderAxisRenderersForSSR"/> for details.
+        /// </summary>
+        internal RenderFragment RenderSeriesRenderersForSSR => builder =>
+        {
+            if (builder is null) return;
+            SfChart self = this;
+            int seq = 0;
+
+            ChartSeriesRendererContainer containerCascade = new() { Owner = self };
+
+            builder.OpenComponent<CascadingValue<ChartRendererContainer>>(seq++);
+            builder.AddAttribute(seq++, "Value", (ChartRendererContainer)containerCascade);
+            builder.AddAttribute(seq++, "IsFixed", true);
+            builder.AddAttribute(seq++, "ChildContent", (RenderFragment)((builder2) =>
+            {
+                if (builder2 is null) return;
+                int innerSeq = 0;
+                int index = 0;
+                foreach (ChartSeries series in self._pendingSeries)
+                {
+                    if (series.RendererType is null) continue;
+                    builder2.OpenComponent(innerSeq++, series.RendererType);
+                    builder2.SetKey(series.RendererKey + "_Renderer");
+                    builder2.AddAttribute(innerSeq++, "RendererIndex", index++);
+                    builder2.CloseComponent();
+                }
+            }));
+            builder.CloseComponent();
+        };
+
+        #endregion
     }
 
     /// <summary>
@@ -2690,6 +2866,86 @@ namespace Syncfusion.Blazor.Toolkit.Charts
                 Tracker?.PushSubcomponent();
             }
         }
+        #endregion
+
+        #region Static SSR Fallback Renderers
+
+        /// <summary>
+        /// Fallback renderer used in Static SSR when the Blazor container components
+        /// inside <svg> cannot emit their child renderers in time. This delegate is
+        /// invoked directly from SfChart.razor's markup and reads from the pending
+        /// element collections that were populated by @ChildContent (which renders
+        /// BEFORE the <svg> block). For each pending axis element it emits an
+        /// OpenComponent of the element's RendererType with the correct parameters,
+        /// so the framework instantiates the axis renderer in the same SSR pass.
+        /// A minimal ChartAxisRendererContainer is created as a cascading value so
+        /// the child renderers' [CascadingParameter] Container receives a non-null
+        /// reference and their OnInitialized (AddRenderer) can set axis.Container
+        /// back to this SfChart.
+        /// </summary>
+        internal RenderFragment RenderAxisRenderersForSSR => builder =>
+        {
+            if (builder is null) return;
+            int seq = 0;
+
+            // Minimal container used ONLY as a cascading value target. It is never
+            // added to the render tree so its OnInitialized/BuildRenderTree are not
+            // invoked. Owner is set so that OnRendererAdded in the child axis
+            // renderer can set axis.Container = this SfChart.
+            ChartAxisRendererContainer containerCascade = new() { Owner = this };
+
+            builder.OpenComponent<CascadingValue<ChartRendererContainer>>(seq++);
+            builder.AddAttribute(seq++, "Value", (ChartRendererContainer)containerCascade);
+            builder.AddAttribute(seq++, "IsFixed", true);
+            builder.AddAttribute(seq++, "ChildContent", (RenderFragment)((builder2) =>
+            {
+                if (builder2 is null) return;
+                int innerSeq = 0;
+                foreach (ChartAxis axis in _pendingAxes)
+                {
+                    if (axis.RendererType is null) continue;
+                    builder2.OpenComponent(innerSeq++, axis.RendererType);
+                    builder2.SetKey(axis.RendererKey);
+                    builder2.AddAttribute(innerSeq++, "AxisName", axis.Name);
+                    builder2.CloseComponent();
+                }
+            }));
+            builder.CloseComponent();
+        };
+
+        /// <summary>
+        /// Fallback renderer used in Static SSR for series. See
+        /// <see cref="RenderAxisRenderersForSSR"/> for details.
+        /// </summary>
+        internal RenderFragment RenderSeriesRenderersForSSR => builder =>
+        {
+            if (builder is null) return;
+            int seq = 0;
+
+            // Minimal container used ONLY as a cascading value target. Owner is set
+            // so that OnRendererAdded can set series.Container = this SfChart.
+            ChartSeriesRendererContainer containerCascade = new() { Owner = this };
+
+            builder.OpenComponent<CascadingValue<ChartRendererContainer>>(seq++);
+            builder.AddAttribute(seq++, "Value", (ChartRendererContainer)containerCascade);
+            builder.AddAttribute(seq++, "IsFixed", true);
+            builder.AddAttribute(seq++, "ChildContent", (RenderFragment)((builder2) =>
+            {
+                if (builder2 is null) return;
+                int innerSeq = 0;
+                int index = 0;
+                foreach (ChartSeries series in _pendingSeries)
+                {
+                    if (series.RendererType is null) continue;
+                    builder2.OpenComponent(innerSeq++, series.RendererType);
+                    builder2.SetKey(series.RendererKey + "_Renderer");
+                    builder2.AddAttribute(innerSeq++, "RendererIndex", index++);
+                    builder2.CloseComponent();
+                }
+            }));
+            builder.CloseComponent();
+        };
+
         #endregion
     }
 }

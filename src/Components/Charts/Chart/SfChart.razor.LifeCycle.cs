@@ -27,6 +27,25 @@ namespace Syncfusion.Blazor.Toolkit.Charts
             {
                 _svgWidth = "600";
                 _svgHeight = "450";
+
+                // Static SSR has no DOM, so we cannot measure the actual element
+                // sizes via JavaScript interop. Initialise AvailableSize and
+                // InitialRect from the user-supplied Width / Height (or the
+                // chart defaults) so that axis/series renderers can compute a
+                // layout and emit SVG content in the same SSR pass.
+                double widthPx = ChartHelper.StringToNumber(Width ?? NullDimensionValue, ChartDefaultWidth);
+                double heightPx = ChartHelper.StringToNumber(Height ?? NullDimensionValue, ChartDefaultHeight);
+                double x = double.IsNaN(_margin.Left) ? 10 : _margin.Left;
+                double y = double.IsNaN(_margin.Top) ? 10 : _margin.Top;
+                AvailableSize = new Size(widthPx > 0 ? widthPx : ChartDefaultWidth, heightPx > 0 ? heightPx : ChartDefaultHeight);
+                InitialRect = new Rect()
+                {
+                    X = x,
+                    Y = y,
+                    Width = AvailableSize.Width - (x + (double.IsNaN(_margin.Right) ? 10 : _margin.Right)),
+                    Height = AvailableSize.Height - (y + (double.IsNaN(_margin.Bottom) ? 10 : _margin.Bottom))
+                };
+                _render.IsSizeSet = true;
             }
             base.OnInitialized();
         }
@@ -239,6 +258,19 @@ namespace Syncfusion.Blazor.Toolkit.Charts
                     _skipRendering = false;
                     return;
                 }
+
+                // Static SSR: JavaScript interop is unavailable. Skip the JS-dependent
+                // initialization paths (ImportComponentModuleAsync, HandleInitialRenderAsync,
+                // HandlePostRenderAsync) which would throw NullReferenceException when
+                // accessing chart dimensions, element offsets, or JS modules.
+                // The axis/series renderers are already emitted to the response HTML by
+                // the synchronous re-render triggered from
+                // ChartAxisContainer.OnElementAdded / ChartSeriesContainer.OnElementAdded.
+                if (IsStaticServerRendering())
+                {
+                    return;
+                }
+
                 await ImportComponentModuleAsync().ConfigureAwait(true);
                 if (!_render.IsSizeSet)
                 {

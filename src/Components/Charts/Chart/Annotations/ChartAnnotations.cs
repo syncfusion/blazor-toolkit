@@ -150,6 +150,32 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
                 return;
             }
             Owner._annotationContainer = this;
+            AdoptPendingElements();
+        }
+
+        /// <summary>
+        /// Adopts annotations buffered in <see cref="SfChart._pendingAnnotations"/>
+        /// (Static SSR) and marks the container for emission. No-op outside of
+        /// Static SSR or when pending list is empty.
+        /// </summary>
+        internal void AdoptPendingElements()
+        {
+            if (Owner is null || !Owner.IsStaticServerRendering() || Owner._pendingAnnotations.Count == 0)
+            {
+                return;
+            }
+
+            foreach (ChartAnnotation annotation in Owner._pendingAnnotations)
+            {
+                if (annotation is null || Elements.Contains(annotation))
+                {
+                    continue;
+                }
+                AddCustomElement(annotation);
+                OnElementAdded(annotation);
+            }
+            Owner._pendingAnnotations.Clear();
+            ContainerUpdate = true;
         }
         #endregion
 

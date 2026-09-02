@@ -47,6 +47,11 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
 
         /// <summary>
         /// Initializes component and registers the container with the owner/Chart.
+        /// In Static SSR mode, the user-declared ChildContent (e.g.
+        /// <c>&lt;ChartSeries&gt;</c>) is processed BEFORE the <c>&lt;svg&gt;</c>
+        /// block, so series are buffered in <see cref="SfChart._pendingSeries"/>.
+        /// Adopt them here so that the first BuildRenderTree already has populated
+        /// Elements and emits the renderer components in the same SSR pass.
         /// </summary>
         protected override void OnInitialized()
         {
@@ -55,8 +60,46 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
             if (Owner is { })
             {
                 Owner._seriesContainer = this;
+                AdoptPendingElements();
             }
             _palette = Owner?.Palettes.Length > 0 ? Owner.Palettes : ChartHelper.GetSeriesColor(Owner?.Theme.ToString() ?? string.Empty);
+        }
+
+        /// <summary>
+        /// Adopts series buffered in <see cref="SfChart._pendingSeries"/> (Static
+        /// SSR) and removes any default placeholder so that the first
+        /// BuildRenderTree emits the user-declared series in the same SSR pass.
+        /// No-op outside of Static SSR or when pending list is empty.
+        /// </summary>
+        internal void AdoptPendingElements()
+        {
+            if (Owner is null || !Owner.IsStaticServerRendering() || Owner._pendingSeries.Count == 0)
+            {
+                return;
+            }
+
+            // Drop any default placeholder so the user-declared series list takes over.
+            if (Elements.Count > 0)
+            {
+                Elements.Clear();
+            }
+            DefaultSeries = null!;
+            ParetoSeries = null!;
+
+            foreach (ChartSeries series in Owner._pendingSeries)
+            {
+                if (series is null || Elements.Contains(series))
+                {
+                    continue;
+                }
+                AddCustomElement(series);
+                OnElementAdded(series);
+            }
+            Owner._pendingSeries.Clear();
+            ContainerUpdate = true;
+            // Ensure ShouldRender() fires on the first render pass.
+            RendererShouldRender = true;
+            ContainerPrerender = false;
         }
 
         /// <summary>
@@ -636,14 +679,15 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
         }
 
         /// <summary>
-        /// Called when a new element is added; triggers UI update when initial rect is available.
+        /// Called when a new element is added; triggers UI update.
         /// </summary>
         /// <param name="element">Added element.</param>
         protected override void OnElementAdded(IChartElement element)
         {
-            if (Owner?.InitialRect is not null)
+            if (ContainerUpdate != true)
             {
-                _ = InvokeAsync(StateHasChanged);
+                ContainerUpdate = true;
+                StateHasChanged();
             }
         }
 
@@ -786,6 +830,10 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
                         CreateSeriesNestedElements(builder, element);
                     }
                 }
+
+                // Reset ContainerUpdate so subsequent renders don't re-emit the same
+                // default renderers. Prerender() will set it back to true when needed.
+                ContainerUpdate = false;
             }
         }
 
