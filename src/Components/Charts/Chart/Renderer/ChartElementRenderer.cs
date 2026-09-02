@@ -88,7 +88,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
         /// Allows derived classes to add custom element behavior when an element is added.
         /// </summary>
         /// <param name="element">The element that was added.</param>
-        protected virtual void OnElementAdded(IChartElement element)
+        protected internal virtual void OnElementAdded(IChartElement element)
         {
         }
 
@@ -105,7 +105,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
         /// </summary>
         /// <param name="renderer">The renderer that was added.</param>
         /// <param name="element">The associated element or <c>null</c>.</param>
-        protected virtual void OnRendererAdded(IChartElementRenderer renderer, IChartElement element)
+        protected internal virtual void OnRendererAdded(IChartElementRenderer renderer, IChartElement element)
         {
         }
 

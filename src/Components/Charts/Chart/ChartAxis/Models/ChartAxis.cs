@@ -2372,6 +2372,30 @@ namespace Syncfusion.Blazor.Toolkit.Charts
         [Browsable(false)]
         protected override void OnInitialized()
         {
+            // Seed the minimum visual defaults so the axis line, ticks and major
+            // grid lines actually emit on the very first render under Static
+            // SSR (where the JS-interop-driven layout pass that would normally
+            // compute these from theme styles has not yet run).  Under Server /
+            // Auto / Interactive modes the regular OnParametersSet / Initialize
+            // pipeline re-applies the user's configured styles on top of these
+            // seeds; the seed values only matter when the user did not set
+            // them explicitly.
+            if (LineStyle is null)
+            {
+                LineStyle = new ChartAxisLineStyle();
+            }
+            if (LineStyle.Width <= 0)
+            {
+                LineStyle.Width = 1;
+            }
+            if (MajorGridLines is null)
+            {
+                MajorGridLines = new ChartAxisMajorGridLines();
+            }
+            if (MajorGridLines.Width <= 0)
+            {
+                MajorGridLines.Width = 1;
+            }
             RendererType = ChartAxisRenderer.GetRendererType(ValueType);
         }
 

@@ -692,7 +692,27 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
         protected override void BuildRenderTree(RenderTreeBuilder builder)
         {
             base.BuildRenderTree(builder);
-            if (_availableRect is not null && builder is not null)
+            if (builder is null)
+            {
+                return;
+            }
+
+            // Static SSR may have skipped the HandleChartSizeChange that would
+            // normally populate _availableRect.  Derive one from the chart's
+            // AvailableSize so RenderTitle can be invoked and the <text>
+            // element is actually emitted.
+            if (_availableRect is null)
+            {
+                double w = Owner?.AvailableSize.Width ?? 0;
+                double h = Owner?.AvailableSize.Height ?? 0;
+                if (w > 0 && h > 0)
+                {
+                    UpdateAvailableRectIfChanged(new Rect(0, 0, w, h));
+                    HandleChartSizeChange(new Rect(0, 0, w, h));
+                }
+            }
+
+            if (_availableRect is not null)
             {
                 RenderTitle(builder);
                 RendererShouldRender = false;
@@ -767,6 +787,21 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
             {
                 return;
             }
+
+            // Static SSR may invoke this with a degenerate 0x0 rect (the fallback
+            // from SetDefaultRendererValues before InitialRect is populated).
+            // Substitute a default rect derived from the chart's AvailableSize so
+            // the title still gets a real layout and the <text> element is emitted.
+            if (rect.Width <= 0 || rect.Height <= 0)
+            {
+                double w = Owner?.AvailableSize.Width ?? 0;
+                double h = Owner?.AvailableSize.Height ?? 0;
+                if (w > 0 && h > 0)
+                {
+                    rect = new Rect(0, 0, w, h);
+                }
+            }
+
             if (IsTitleHandlingRequired(rect))
             {
                 IsRendererUpdate = true;
@@ -777,6 +812,14 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
 
                 ProcessSubtitleIfNeeded(rect, ref titleHeight);
                 AdjustRectForTitlePosition(ref rect, titleHeight);
+                UpdateAvailableRectIfChanged(rect);
+            }
+            else
+            {
+                // Even when the title is not "handled" (e.g. no Title text or
+                // small-width category), still publish an _availableRect so
+                // BuildRenderTree's _availableRect is not null gate is satisfied
+                // and the title module can render against a known area.
                 UpdateAvailableRectIfChanged(rect);
             }
 

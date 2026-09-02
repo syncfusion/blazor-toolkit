@@ -592,7 +592,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
         /// Called when a new element is added; triggers UI update when initial rect is available.
         /// </summary>
         /// <param name="element">Added element.</param>
-        protected override void OnElementAdded(IChartElement element)
+        protected internal override void OnElementAdded(IChartElement element)
         {
             if (Owner?.InitialRect is not null)
             {
@@ -621,7 +621,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
         /// </summary>
         /// <param name="renderer">Renderer instance.</param>
         /// <param name="element">Corresponding element.</param>
-        protected override void OnRendererAdded(IChartElementRenderer renderer, IChartElement element)
+        protected internal override void OnRendererAdded(IChartElementRenderer renderer, IChartElement element)
         {
             if (renderer is IRequireAxis)
             {

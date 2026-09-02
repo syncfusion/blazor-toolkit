@@ -1380,7 +1380,35 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
         protected override void BuildRenderTree(RenderTreeBuilder builder)
         {
             base.BuildRenderTree(builder);
-            if (_availableRect is not null && builder is not null)
+            if (builder is null)
+            {
+                return;
+            }
+
+            // Static SSR may have skipped the layout pass that would normally
+            // set Rect to a real value.  Self-heal: if Rect is the all-zeros
+            // default or NaN, substitute one derived from AvailableSize so the
+            // rendering methods produce visible content.
+            if (_availableRect is null)
+            {
+                double w = Owner?.AvailableSize.Width ?? 0;
+                double h = Owner?.AvailableSize.Height ?? 0;
+                if (w > 0 && h > 0)
+                {
+                    _availableRect = new Rect(0, 0, w, h);
+                }
+            }
+            if (Rect.Width <= 0 || Rect.Height <= 0 || double.IsNaN(Rect.Width) || double.IsNaN(Rect.Height))
+            {
+                double w = Owner?.AvailableSize.Width ?? 0;
+                double h = Owner?.AvailableSize.Height ?? 0;
+                if (w > 0 && h > 0)
+                {
+                    Rect = new Rect(0, 0, w, h);
+                }
+            }
+
+            if (_availableRect is not null)
             {
                 if (IsAxisRendererRect())
                 {

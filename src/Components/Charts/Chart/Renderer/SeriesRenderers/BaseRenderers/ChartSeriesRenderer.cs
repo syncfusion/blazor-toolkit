@@ -344,11 +344,46 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
             Owner._isLiveChart = false;
             Owner._axisContainer?.AssignAxisToSeries(Owner._seriesContainer?._elementsRequiredAxis ?? null!, true);
 
-            XAxisRenderer = Owner._axisContainer?.Axes[Series.XAxisName].Renderer ?? null!;
-            YAxisRenderer = Owner._axisContainer?.Axes[Series.YAxisName].Renderer ?? null!;
-            YAxisRenderer.IsStack100 = Series.SeriesType is not null && Series.SeriesType.Contains("100", INVARIANT_COMPARISON);
+            // Fall back to the default PrimaryXAxis / PrimaryYAxis renderers when the
+            // named axis has no entry in the axis dictionary (e.g. under Static SSR
+            // before any user-defined axes have been instantiated).  This keeps the
+            // series-level data path non-null and avoids NREs in GetSetXValue etc.
+            if (Owner._axisContainer?.Axes is { } axesDict)
+            {
+                XAxisRenderer = axesDict.TryGetValue(Series.XAxisName, out ChartAxis? xAxis) && xAxis?.Renderer is not null
+                    ? xAxis.Renderer
+                    : axesDict.TryGetValue("PrimaryXAxis", out ChartAxis? defaultX) ? defaultX?.Renderer ?? null! : null!;
+                YAxisRenderer = axesDict.TryGetValue(Series.YAxisName, out ChartAxis? yAxis) && yAxis?.Renderer is not null
+                    ? yAxis.Renderer
+                    : axesDict.TryGetValue("PrimaryYAxis", out ChartAxis? defaultY) ? defaultY?.Renderer ?? null! : null!;
 
-            if ((XAxisRenderer.Axis?.ValueType == ValueType.Category || XAxisRenderer.Axis?.ValueType == ValueType.DateTimeCategory) && XAxisRenderer.Axis.IsIndexed)
+                // Add this series to each axis renderer's SeriesRenderer list so the
+                // axis's CalculateActualRange can find the data and produce a real
+                // Min/Max range.  This is normally done by AssignXAxis/AssignYAxis;
+                // we do it inline here when those are no-ops (Static SSR bootstrap).
+                if (XAxisRenderer is not null && !XAxisRenderer.SeriesRenderer.Contains(this))
+                {
+                    XAxisRenderer.SeriesRenderer.Add(this);
+                }
+                if (YAxisRenderer is not null && !YAxisRenderer.SeriesRenderer.Contains(this))
+                {
+                    YAxisRenderer.SeriesRenderer.Add(this);
+                }
+            }
+            else
+            {
+                XAxisRenderer = null!;
+                YAxisRenderer = null!;
+            }
+
+            if (YAxisRenderer is not null)
+            {
+                YAxisRenderer.IsStack100 = Series.SeriesType is not null && Series.SeriesType.Contains("100", INVARIANT_COMPARISON);
+            }
+
+            if (XAxisRenderer is not null &&
+                (XAxisRenderer.Axis?.ValueType == ValueType.Category || XAxisRenderer.Axis?.ValueType == ValueType.DateTimeCategory) &&
+                XAxisRenderer.Axis.IsIndexed)
             {
                 UpdateCategoryData();
             }
@@ -525,6 +560,18 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
         /// </summary>
         private void AnimateRect(int index, Point point, List<InitialAnimationInfo> animationInfo, int animationInfoIndex)
         {
+            // Animation paths are not used under Static SSR, but defend against
+            // missing axis renderers so the call site can no-op safely.
+            if (XAxisRenderer is null || YAxisRenderer is null)
+            {
+                animationInfo[animationInfoIndex].PointIndex.Add(index);
+                animationInfo[animationInfoIndex].PointX.Add(point.Regions[0].X);
+                animationInfo[animationInfoIndex].PointY.Add(point.Regions[0].Y);
+                animationInfo[animationInfoIndex].PointWidth.Add(point.Regions[0].Width);
+                animationInfo[animationInfoIndex].PointHeight.Add(point.Regions[0].Height);
+                return;
+            }
+
             bool isPlot = point.YValue < 0;
             double x, y, centerX, centerY;
             double elementHeight = point.Regions[0].Height;
@@ -765,9 +812,15 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
             using IPropertyAccessor sortingInfo = FastReflectionExtension.CreateAccessor(firstDataType, Owner._sorting.SortKey);
 
             int index = 0;
-            XAxisRenderer.IsDateOnly = x.PropertyInfo.PropertyType.Name == "DateOnly";
-            XAxisRenderer.IsTimeOnly = x.PropertyInfo.PropertyType.Name == "TimeOnly";
-            IsDateTimeOffset = x.PropertyInfo.PropertyType.Name == "DateTimeOffset";
+            // Static SSR may not have an XAxisRenderer wired yet; skip the date-only
+            // metadata writes instead of NRE-ing.  The data is still safe to read.
+            if (XAxisRenderer is not null)
+            {
+                string xPropTypeName = x.PropertyInfo?.PropertyType.Name ?? string.Empty;
+                XAxisRenderer.IsDateOnly = xPropTypeName == "DateOnly";
+                XAxisRenderer.IsTimeOnly = xPropTypeName == "TimeOnly";
+                IsDateTimeOffset = xPropTypeName == "DateTimeOffset";
+            }
 
             bool isSortingEnabled = !string.IsNullOrEmpty(Owner?._sorting.SortKey) && !Owner._sorting.SortKey.Equals("X", StringComparison.OrdinalIgnoreCase);
             object[] tempArray = [.. currentViewData];
@@ -824,9 +877,12 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
         /// <param name="yvalue">The Y-axis value.</param>
         protected virtual void SetXYMinMax(double xvalue, double yvalue)
         {
-            bool isLogAxis = YAxisRenderer.Axis?.ValueType == ValueType.Logarithmic || XAxisRenderer.Axis?.ValueType == ValueType.Logarithmic;
+            // Static SSR may run before axis renderers are wired; treat that as a
+            // non-logarithmic numeric axis so the data path stays safe.
+            bool isLogAxis = (YAxisRenderer?.Axis?.ValueType == ValueType.Logarithmic) ||
+                             (XAxisRenderer?.Axis?.ValueType == ValueType.Logarithmic);
             bool isRectSeries = (Series?.SeriesType is not null && Series.SeriesType.Contains("Column", INVARIANT_COMPARISON)) || (Series?.SeriesType is not null && Series.SeriesType.Contains("Bar", INVARIANT_COMPARISON));
-            double ymin = (isLogAxis && isRectSeries && !ChartHelper.SetRange(YAxisRenderer.Axis ?? null!)) ? 1 : yvalue;
+            double ymin = (isLogAxis && isRectSeries && !ChartHelper.SetRange(YAxisRenderer?.Axis ?? null!)) ? 1 : yvalue;
 
             XMin = double.IsNaN(xvalue) ? XMin : Math.Min(XMin, xvalue);
             XMax = double.IsNaN(xvalue) ? XMax : Math.Max(XMax, xvalue);
@@ -1173,17 +1229,24 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
         /// <param name="index">The zero-based index of the point.</param>
         internal virtual void GetSetXValue(Point point, IChartPoint chartPoint, int index)
         {
-            if (XAxisRenderer.Axis?.ValueType == ValueType.Category)
+            // Static SSR may not have an XAxisRenderer wired yet.  Fall back to
+            // the original Category / DateTime / numeric logic so category X values
+            // (e.g. "Jan", "Feb") continue to be drawn as labels, not NaN.
+            if (IsCategoryAxis())
             {
-                PushCategoryData(point, index, point.X.ToString() ?? string.Empty);
+                PushCategoryData(point, index, point.X?.ToString() ?? string.Empty);
             }
-            else if (XAxisRenderer.Axis?.ValueType is ValueType.DateTime or ValueType.DateTimeCategory)
+            else if (XAxisRenderer?.Axis?.ValueType is ValueType.DateTime or ValueType.DateTimeCategory)
             {
                 ProcessDateTimeValue(point, index);
             }
+            else if (XAxisRenderer is not null)
+            {
+                point.XValue = TryParseXValue(point.X);
+            }
             else
             {
-                point.XValue = Convert.ToDouble(point.X, null);
+                point.XValue = TryParseXValue(point.X);
             }
 
             PushData(point, index);
@@ -1192,6 +1255,59 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
             chartPoint.Index = point.Index;
             ChartPoints?.Add(chartPoint);
             Points?.Add(point);
+        }
+
+        /// <summary>
+        /// Safely converts an arbitrary X value to <see cref="double"/>, returning <see cref="double.NaN"/>
+        /// when the value is <see langword="null"/> or not parseable as a number.  This avoids
+        /// <see cref="FormatException"/> from <see cref="Convert.ToDouble(object, IFormatProvider)"/>
+        /// when the X axis is numeric but the data is a non-numeric string (e.g. a DateTime
+        /// month abbreviation without a DateTime axis configured).
+        /// </summary>
+        /// <param name="value">The raw X value to convert.</param>
+        /// <returns>The parsed double, or <see cref="double.NaN"/> on failure.</returns>
+        private static double TryParseXValue(object? value)
+        {
+            if (value is null)
+            {
+                return double.NaN;
+            }
+            if (value is double d)
+            {
+                return d;
+            }
+            if (value is float f)
+            {
+                return f;
+            }
+            if (value is int i)
+            {
+                return i;
+            }
+            if (value is long l)
+            {
+                return l;
+            }
+            if (value is DateTime dt)
+            {
+                return ChartHelper.GetTime(dt);
+            }
+            if (value is IConvertible)
+            {
+                try
+                {
+                    return Convert.ToDouble(value, CultureInfo.InvariantCulture);
+                }
+                catch (FormatException)
+                {
+                    return double.NaN;
+                }
+                catch (InvalidCastException)
+                {
+                    return double.NaN;
+                }
+            }
+            return double.NaN;
         }
 
         /// <summary>
@@ -1263,7 +1379,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
         /// </summary>
         internal bool IsCategoryAxis()
         {
-            return XAxisRenderer.Axis?.ValueType is ValueType.Category or ValueType.DateTimeCategory;
+            return XAxisRenderer?.Axis?.ValueType is ValueType.Category or ValueType.DateTimeCategory;
         }
 
         /// <summary>
@@ -1271,6 +1387,10 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
         /// </summary>
         internal void PushCategoryData(Point point, int index, string pointX)
         {
+            if (XAxisRenderer is null)
+            {
+                return;
+            }
             if ((Series is not null && Series.Visible) || (Series is not null && Series._isLegendClicked && IsStackingSeries()))
             {
                 if (XAxisRenderer.Axis is not null && !XAxisRenderer.Axis.IsIndexed)
@@ -1846,12 +1966,14 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
                     Owner?._seriesContainer?.CalculateStackedValue(Series.SeriesType is not null && Series.SeriesType.Contains("100", INVARIANT_COMPARISON));
                 }
 
-                if ((!XAxisRenderer.IsFixedRange() && XMin < XAxisRenderer.ActualRange.Start) || XMax > XAxisRenderer.ActualRange.End)
+                if (XAxisRenderer is not null &&
+                    ((!XAxisRenderer.IsFixedRange() && XMin < XAxisRenderer.ActualRange.Start) || XMax > XAxisRenderer.ActualRange.End))
                 {
                     XAxisRenderer.ChangeAxisRange();
                 }
 
-                if ((!YAxisRenderer.IsFixedRange() && YMin < YAxisRenderer.ActualRange.Start) || YMax > YAxisRenderer.ActualRange.End)
+                if (YAxisRenderer is not null &&
+                    ((!YAxisRenderer.IsFixedRange() && YMin < YAxisRenderer.ActualRange.Start) || YMax > YAxisRenderer.ActualRange.End))
                 {
                     YAxisRenderer.ChangeAxisRange();
                 }
@@ -2073,6 +2195,10 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
         /// scenarios.</returns>
         internal virtual string CalCulateAccessibilityText(Point point)
         {
+            if (XAxisRenderer is null || YAxisRenderer is null)
+            {
+                return (point?.X?.ToString() ?? string.Empty) + ": " + (point?.Y?.ToString() ?? string.Empty) + ", " + Series?.Name;
+            }
             return XAxisRenderer.GetFormatText(GetPointXValue(point.X, XAxisRenderer.DateFormat ?? string.Empty)) + ": " + YAxisRenderer.GetFormatText(GetPointXValue(point.Y, YAxisRenderer.DateFormat ?? string.Empty)) + ", " + Series?.Name;
         }
 
@@ -2161,6 +2287,10 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
         internal virtual string GetTextValue(string regexValue, Point point, string text)
         {
             FinancialPoint financialPoint = point as FinancialPoint ?? null!;
+            if (XAxisRenderer is null || YAxisRenderer is null)
+            {
+                return text ?? string.Empty;
+            }
             switch (regexValue)
             {
                 case "${point.x}":
@@ -2213,7 +2343,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
         /// </summary>
         internal void UpdateCategoryData()
         {
-            XAxisRenderer.Labels.Clear();
+            XAxisRenderer?.Labels.Clear();
             if (Owner?._seriesContainer is not null)
             {
                 foreach (ChartSeriesRenderer renderer in Owner._seriesContainer.Renderers.Cast<ChartSeriesRenderer>())
@@ -2394,6 +2524,10 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
         /// <returns>true if the point is within the visible range of both axes; otherwise, false.</returns>
         internal bool IsPointWithInRange(Point currentPoint)
         {
+            if (XAxisRenderer is null || YAxisRenderer is null)
+            {
+                return true;
+            }
             if (XAxisRenderer.Axis?.ZoomFactor == 1 && YAxisRenderer.Axis?.ZoomFactor == 1 &&
                 XAxisRenderer.Axis.ZoomPosition == 0 && YAxisRenderer.Axis.ZoomPosition == 0)
             {

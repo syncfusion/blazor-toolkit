@@ -60,7 +60,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
         /// Triggered when an element is added to the container, requesting a UI update.
         /// </summary>
         /// <param name="element">The added chart element.</param>
-        protected override void OnElementAdded(IChartElement element)
+        protected internal override void OnElementAdded(IChartElement element)
         {
             StateHasChanged();
         }
@@ -86,7 +86,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
         /// </summary>
         /// <param name="renderer">The renderer being added. Must not be <c>null</c>.</param>
         /// <param name="element">The associated chart element; if <c>null</c>, a new <see cref="ChartRow"/> is created.</param>
-        protected override void OnRendererAdded(IChartElementRenderer renderer, IChartElement element)
+        protected internal override void OnRendererAdded(IChartElementRenderer renderer, IChartElement element)
         {
             if (renderer is not null)
             {

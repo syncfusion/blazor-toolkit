@@ -89,7 +89,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
         /// Called when a chart element is added to the container.
         /// </summary>
         /// <param name="element">The element that was added.</param>
-        protected override void OnElementAdded(IChartElement element)
+        protected internal override void OnElementAdded(IChartElement element)
         {
             if (Owner?.InitialRect is not null)
             {
@@ -115,7 +115,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
         /// </summary>
         /// <param name="renderer">Renderer instance added.</param>
         /// <param name="element">Associated chart element.</param>
-        protected override void OnRendererAdded(IChartElementRenderer renderer, IChartElement element)
+        protected internal override void OnRendererAdded(IChartElementRenderer renderer, IChartElement element)
         {
             ChartSeriesRenderer trendLineSeries = renderer as ChartSeriesRenderer ?? null!;
             if (trendLineSeries is not null && element is not null)

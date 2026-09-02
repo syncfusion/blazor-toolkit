@@ -59,7 +59,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
         /// Handles the addition of a new chart column element by triggering a component re-render.
         /// </summary>
         /// <param name="element">The chart column element that was added.</param>
-        protected override void OnElementAdded(IChartElement element)
+        protected internal override void OnElementAdded(IChartElement element)
         {
             StateHasChanged();
         }
@@ -85,7 +85,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
         /// </summary>
         /// <param name="renderer">Renderer instance.</param>
         /// <param name="element">Optional backing element.</param>
-        protected override void OnRendererAdded(IChartElementRenderer renderer, IChartElement element)
+        protected internal override void OnRendererAdded(IChartElementRenderer renderer, IChartElement element)
         {
             if (renderer is not null)
             {

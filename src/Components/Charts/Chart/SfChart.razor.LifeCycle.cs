@@ -27,8 +27,50 @@ namespace Syncfusion.Blazor.Toolkit.Charts
             {
                 _svgWidth = "600";
                 _svgHeight = "450";
+                EnsureStaticSsrRenderers();
             }
             base.OnInitialized();
+        }
+
+        /// <summary>
+        /// Bootstraps axis and series renderers in Static SSR so the chart can produce
+        /// a non-interactive server-rendered output without any JS interop.
+        /// </summary>
+        private void EnsureStaticSsrRenderers()
+        {
+            // 1) Make sure the renderer containers exist.
+            _axisContainer ??= new ChartAxisRendererContainer { Owner = this };
+            _seriesContainer ??= new ChartSeriesRendererContainer { Owner = this };
+
+            // 2) ChartAxisContainer.BuildRenderers iterates Elements and opens
+            //    <PrimaryXAxisRenderer> / <PrimaryYAxisRenderer> / <ChartAxisRenderer>
+            //    children — but ONLY when ContainerUpdate is true.  By default
+            //    ContainerUpdate is false; it flips to true only inside
+            //    Prerender(), which runs from HandleInitialRenderAsync AFTER the
+            //    first build pass has completed.  Under Static SSR that is too
+            //    late: StateHasChanged is a no-op because the response is
+            //    already buffered.  Force it to true here so the very first
+            //    build pass emits the axis children.
+            _axisContainer.ContainerUpdate = true;
+            _seriesContainer.ContainerUpdate = true;
+            if (_axisOutSideContainer is not null)
+            {
+                _axisOutSideContainer.ContainerUpdate = true;
+            }
+
+            // 3) Flag every renderer registered so far for re-render so the
+            //    children emit their inner content (axis line, ticks, labels).
+            foreach (IChartElementRenderer renderer in _axisContainer.Renderers)
+            {
+                if (renderer is ChartRenderer chartRenderer)
+                {
+                    chartRenderer.RendererShouldRender = true;
+                }
+            }
+
+            // 5) Mark size as already known so we don't try to measure via JS.
+            _render.AvailableSize = new Size(600, 450);
+            _render.IsSizeSet = true;
         }
 
         /// <summary>
@@ -239,6 +281,29 @@ namespace Syncfusion.Blazor.Toolkit.Charts
                     _skipRendering = false;
                     return;
                 }
+                if (IsStaticServerRendering())
+                {
+                    // No JS interop available under Static SSR.
+                    // The base OnAfterRenderAsync sets IsRendered and calls JS interop;
+                    // we can't go through that path, but we MUST still set IsRendered
+                    // so that IsRendered-gated updates (e.g. TitleChanged) actually fire
+                    // and the title (and other on-render elements) are emitted.
+                    if (firstRender)
+                    {
+                        IsRendered = true;
+                    }
+                    if (!_render.IsSizeSet)
+                    {
+                        await HandleInitialRenderAsync(firstRender).ConfigureAwait(true);
+                    }
+                    // Mark the title renderer for re-render and trigger a second build
+                    // so the <text> element for the title is included in the output.
+                    if (firstRender)
+                    {
+                        TitleChanged();
+                    }
+                    return;
+                }
                 await ImportComponentModuleAsync().ConfigureAwait(true);
                 if (!_render.IsSizeSet)
                 {
@@ -324,6 +389,48 @@ namespace Syncfusion.Blazor.Toolkit.Charts
         /// <returns>A task that represents the asynchronous operation.</returns>
         private async Task HandleInitialRenderAsync(bool firstRender)
         {
+            if (IsStaticServerRendering())
+            {
+                // No JS interop / DOM measurement available under Static SSR.
+                // Ensure renderers are wired and the size is known, then render the frame.
+                EnsureStaticSsrRenderers();
+                CalculateAvailableSize();
+                SetInitialRect();
+                InitModules();
+                RenderFrame();
+
+                // Force every series / axis / container renderer to flag itself
+                // for re-render and flush its render queue so the visual elements
+                // (paths, labels, ticks) actually appear in the output tree.
+                foreach (ChartRenderer renderer in _renderers)
+                {
+                    if (renderer is null)
+                    {
+                        continue;
+                    }
+                    renderer.RendererShouldRender = true;
+                    try
+                    {
+                        renderer.ProcessRenderQueue();
+                    }
+                    catch
+                    {
+                        // Defensive: a renderer that fails to process should not
+                        // break the entire Static SSR render.
+                    }
+                }
+
+                // A second RenderFrame ensures the freshly generated child
+                // elements are emitted by the next build pass.
+                RenderFrame();
+
+                if (firstRender)
+                {
+                    TriggerLoadedEvent();
+                }
+                return;
+            }
+
             await SetCharSizeAsync().ConfigureAwait(true);
             await GetElementOffsetAsync(Constants.GetParentElementBoundsById).ConfigureAwait(true);
             CalculateAvailableSize();

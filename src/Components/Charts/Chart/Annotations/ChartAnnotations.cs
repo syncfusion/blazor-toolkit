@@ -160,7 +160,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
         /// </summary>
         /// <param name="element">The chart element being added.</param>
         /// <remarks>Marks the container for re-render if the chart has been initialized.</remarks>
-        protected override void OnElementAdded(IChartElement element)
+        protected internal override void OnElementAdded(IChartElement element)
         {
             if (Owner?.InitialRect is not null)
             {

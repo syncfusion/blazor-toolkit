@@ -129,7 +129,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
             double subTitleHeight = ((Chart?._chartTitleRenderer?.SubTitleSize.Height ?? 0) * (Chart?._chartTitleRenderer?.SubTitleCollection.Count ?? 0)) + padding;
 
             SeriesClipRect.Width = chartAreaWidth;
-            double legendWidth = Chart?._legendRenderer?.CurrentLegendPosition == LegendPosition.Right ? Chart._legendRenderer.LegendBounds.Width : 0;
+            double legendWidth = Chart?._legendRenderer is { } legendRenderer && legendRenderer.CurrentLegendPosition == LegendPosition.Right ? legendRenderer.LegendBounds.Width : 0;
             double titleWidth = Chart?._chartTitleRenderer?.TitleStyle?.Position == ChartTitlePosition.Right ? (titleHeight + subTitleHeight) : 0;
 
             SeriesClipRect.X = (Chart?.AvailableSize.Width ?? 0) - (double.IsNaN(Chart?._margin.Right ?? 0) ? 0 : (Chart?._margin.Right ?? 0)) - chartAreaWidth - legendWidth - titleWidth;
@@ -478,7 +478,22 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
         /// <param name="rect">The rectangular bounds for the plot area.</param>
         internal override void ComputePlotAreaBounds(Rect rect)
         {
-            double chartAreaWidth = !string.IsNullOrEmpty(Chart?._chartAreaRenderer?.Area?.Width) ? DataVizCommonHelper.StringToNumber(Chart._chartAreaRenderer.Area.Width, Chart.AvailableSize.Width) : double.NaN;
+            // Static SSR may invoke this before InitialRect has been populated
+            // (e.g. via SetDefaultRendererValues -> HandleChartSizeChange(null)).
+            // Substitute a default rectangle derived from the chart's available
+            // size so the layout can complete without dereferencing a null rect.
+            if (rect is null)
+            {
+                double w = Chart?.AvailableSize.Width ?? 0;
+                double h = Chart?.AvailableSize.Height ?? 0;
+                rect = new Rect(0, 0, w, h);
+            }
+
+            // Static SSR may not have a chart-area renderer wired yet.  Treat that
+            // as "no fixed width override" so the layout can continue.
+            double chartAreaWidth = Chart?._chartAreaRenderer?.Area is { } area && !string.IsNullOrEmpty(area.Width)
+                ? DataVizCommonHelper.StringToNumber(area.Width, Chart.AvailableSize.Width)
+                : double.NaN;
 
             CrossAt();
             SeriesClipRect = new Rect() { X = rect.X, Y = rect.Y, Height = rect.Height, Width = rect.Width };

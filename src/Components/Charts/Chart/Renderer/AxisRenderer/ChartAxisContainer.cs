@@ -257,7 +257,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
         /// Assigns the X-axis renderer to a series.
         /// </summary>
         /// <param name="series">The series requiring axis assignment.</param>
-        private void AssignXAxis(IRequireAxis series)
+        internal void AssignXAxis(IRequireAxis series)
         {
             string axisName = series.XAxisName;
             if (Axes.TryGetValue(axisName, out ChartAxis? xAxis) && xAxis.Renderer is not null)
@@ -272,7 +272,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
         /// Assigns the Y-axis renderer to a series.
         /// </summary>
         /// <param name="series">The series requiring axis assignment.</param>
-        private void AssignYAxis(IRequireAxis series)
+        internal void AssignYAxis(IRequireAxis series)
         {
             string axisName = series.YAxisName;
             if (Axes.TryGetValue(axisName, out ChartAxis? yAxis) && yAxis.Renderer is not null)
@@ -361,7 +361,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
         /// Handles new axis element addition.
         /// </summary>
         /// <param name="element">The element added to the container.</param>
-        protected override void OnElementAdded(IChartElement element)
+        protected internal override void OnElementAdded(IChartElement element)
         {
             if (element is not null)
             {
@@ -383,7 +383,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
         /// </summary>
         /// <param name="renderer">The renderer added.</param>
         /// <param name="element">Associated chart element.</param>
-        protected override void OnRendererAdded(IChartElementRenderer renderer, IChartElement element)
+        protected internal override void OnRendererAdded(IChartElementRenderer renderer, IChartElement element)
         {
             if (renderer is IRequireSeries)
             {
