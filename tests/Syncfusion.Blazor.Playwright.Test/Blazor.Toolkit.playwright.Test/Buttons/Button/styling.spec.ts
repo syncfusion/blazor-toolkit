@@ -11,14 +11,16 @@ test.describe('Button Styling & Appearance', () => {
     await page.waitForLoadState('networkidle');
   });
 
-  test('Render default button without CSS classes', async ({ page }) => {
+  test('Render default button with root CSS classes', async ({ page }) => {
     const button = page.locator('#btn-default');
     await expect(button).toBeVisible();
-    
-    // Verify button element has e-control, e-btn, e-lib classes applied
+
+    // Real contract: SfButton always applies the root classes
+    // e-control, e-btn, e-lib on every button regardless of variant.
     const classes = await button.getAttribute('class');
     expect(classes).toContain('e-control');
     expect(classes).toContain('e-btn');
+    expect(classes).toContain('e-lib');
   });
 
   test('Render outlined button variant', async ({ page }) => {

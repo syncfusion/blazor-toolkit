@@ -167,8 +167,7 @@ namespace Syncfusion.Blazor.Toolkit.Spinner
             // Update CSS classes for visibility
             _spinnerClass = SfBaseUtils.RemoveClass(_spinnerClass, ClassHide);
             _spinnerClass = SfBaseUtils.AddClass(_spinnerClass, ClassShow);
-            // ConfigureAwait(true) required: UpdateVisibleAsync calls InvokeAsync(StateHasChanged) which must run on UI context
-            await UpdateVisibleAsync(true).ConfigureAwait(true);
+            await UpdateVisibleAsync(true).ConfigureAwait(false);
         }
 
         /// <summary>

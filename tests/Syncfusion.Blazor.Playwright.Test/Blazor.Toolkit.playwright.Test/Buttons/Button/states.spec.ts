@@ -79,41 +79,67 @@ test('Toggle button functionality with IsToggle property', async ({ page }) => {
 
   test('aria-pressed attribute for toggle button', async ({ page }) => {
     const button = page.locator('#btn-toggle');
-    
-    // Verify toggle button can be toggled
+
+    // Real contract: IsToggle buttons expose aria-pressed that toggles on click.
+    // Wait for the initial render to finish so the attribute is present.
+    await expect(button).toBeVisible();
+    await expect(button).toHaveAttribute('aria-pressed', 'false', { timeout: 5000 });
+
+    // First click flips aria-pressed to 'true'
     await button.click();
-    await expect(button).toBeTruthy();
+    await expect(button).toHaveAttribute('aria-pressed', 'true', { timeout: 5000 });
+
+    // Second click flips it back to 'false'
+    await button.click();
+    await expect(button).toHaveAttribute('aria-pressed', 'false', { timeout: 5000 });
   });
 
   test('Button hover state styling', async ({ page }) => {
     const button = page.locator('#btn-enabled');
-    
-    // Mouse hovers over button
+
+    // Real contract: an enabled Syncfusion button declares cursor:pointer,
+    // so the hover effect is suppressed for disabled controls and shown otherwise.
+    const cursor = await button.evaluate((el) => getComputedStyle(el).cursor);
+    expect(cursor).toBe('pointer');
+
+    // Hovering should not change the layout / visibility of the button.
     await button.hover();
-    
-    // Verify button can be hovered
     const boundingBox = await button.boundingBox();
-    expect(boundingBox).toBeTruthy();
+    expect(boundingBox).not.toBeNull();
+    expect(boundingBox!.width).toBeGreaterThan(0);
+    expect(boundingBox!.height).toBeGreaterThan(0);
   });
 
   test('Button focus state styling', async ({ page }) => {
     const button = page.locator('#btn-enabled');
-    
-    // Focus button via Tab key
+
+    // Focus the button via the real focus method, then verify focus styles.
     await button.focus();
-    
-    // Verify button receives focus
     const isFocused = await button.evaluate((el) => el === document.activeElement);
     expect(isFocused).toBe(true);
+
+    // Real contract: the focused button should have a visible focus indicator
+    // (outline width > 0 or a non-default box-shadow). Both are accepted.
+    const { outlineWidth, boxShadow } = await button.evaluate((el) => {
+      const s = getComputedStyle(el);
+      return { outlineWidth: s.outlineWidth, boxShadow: s.boxShadow };
+    });
+    const hasOutline = outlineWidth !== '0px';
+    const hasShadow = boxShadow !== 'none';
+    expect(hasOutline || hasShadow).toBe(true);
   });
 
   test('Button active/pressed state styling', async ({ page }) => {
-    const button = page.locator('#btn-enabled');
-    
-    // Click button
-    await button.click();
-    
-    // Verify button can be clicked and responds
-    await expect(button).toBeTruthy();
+    const toggleButton = page.locator('#btn-toggle');
+
+    // Real contract: a Syncfusion toggle button exposes its pressed state
+    // through aria-pressed and the e-active class.
+    await expect(toggleButton).toHaveAttribute('aria-pressed', 'false');
+
+    await toggleButton.click();
+
+    // The toggle button now carries the e-active class.
+    await expect(toggleButton).toHaveClass(/e-active/, { timeout: 5000 });
+    await expect(toggleButton).toHaveAttribute('aria-pressed', 'true', { timeout: 5000 });
   });
 });

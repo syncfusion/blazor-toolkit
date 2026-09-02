@@ -28,6 +28,15 @@ test.describe('Accessibility Support', () => {
   test('Toggle button has aria-pressed attribute', async ({ page }) => {
     const button = page.locator('#btn-toggle-aria');
     await expect(button).toBeVisible();
+
+    // Real contract: IsToggle buttons expose aria-pressed that toggles on click.
+    await expect(button).toHaveAttribute('aria-pressed', 'false', { timeout: 5000 });
+
+    await button.click();
+    await expect(button).toHaveAttribute('aria-pressed', 'true', { timeout: 5000 });
+
+    await button.click();
+    await expect(button).toHaveAttribute('aria-pressed', 'false', { timeout: 5000 });
   });
 
   test('Button supports keyboard navigation', async ({ page }) => {
@@ -39,11 +48,24 @@ test.describe('Accessibility Support', () => {
   });
 
   test('Button has visible focus indicator', async ({ page }) => {
-    const button = page.locator('#btn-focus-indicator');
+    const button = page.getByRole('button', { name: 'Focus Indicator' });
+
+    // FocusOnNavigate moves focus to the page heading after navigation.
+    // Wait for that operation to finish before testing button focus.
+    await page.waitForFunction(() => document.activeElement?.tagName === 'H1');
     await button.focus();
 
-    const isFocused = await button.evaluate(el => el === document.activeElement);
-    expect(isFocused).toBe(true);
+    await expect(button).toBeFocused();
+
+    // Real contract: a focused Syncfusion button exposes a visible focus
+    // indicator via a non-zero outline or a non-none box-shadow.
+    const { outlineWidth, boxShadow } = await button.evaluate((el) => {
+      const s = getComputedStyle(el);
+      return { outlineWidth: s.outlineWidth, boxShadow: s.boxShadow };
+    });
+    const hasOutline = outlineWidth !== '0px';
+    const hasShadow = boxShadow !== 'none';
+    expect(hasOutline || hasShadow).toBe(true);
   });
 
   test('Button label is properly associated for screen readers', async ({ page }) => {
@@ -105,9 +127,21 @@ test.describe('Edge Cases & Special Scenarios', () => {
   });
 
   test('Multiple buttons in sequence', async ({ page }) => {
-    const buttons = page.locator('div.button-group button');
+    // The sample renders three sequential buttons in a single .button-group div:
+    //   #btn-seq-1, #btn-seq-2, #btn-seq-3
+    const group = page.locator('div.button-group');
+    await expect(group).toBeVisible();
+
+    const buttons = group.locator('button');
     const count = await buttons.count();
-    expect(count).toBeGreaterThanOrEqual(0);
+    expect(count).toBeGreaterThanOrEqual(3);
+
+    // Each of the three explicit ids should be present and enabled.
+    for (const id of ['#btn-seq-1', '#btn-seq-2', '#btn-seq-3']) {
+      const btn = page.locator(id);
+      await expect(btn).toBeVisible();
+      await expect(btn).toBeEnabled();
+    }
   });
 
   test('Button with very long text content', async ({ page }) => {
@@ -118,7 +152,14 @@ test.describe('Edge Cases & Special Scenarios', () => {
   test('Button parameter changes after render', async ({ page }) => {
     const button = page.locator('#btn-toggle-disable');
     await expect(button).toBeVisible();
+
+    // The sample binds Disabled="@isDisabled" and flips it in @onclick.
+    // The button starts enabled.
+    await expect(button).toBeEnabled();
+
+    // Click flips isDisabled, so after the Blazor re-render the button must be disabled.
     await button.click();
+    await expect(button).toBeDisabled({ timeout: 5000 });
   });
 
   test('Nested button content', async ({ page }) => {

@@ -484,11 +484,6 @@ namespace Syncfusion.Blazor.Toolkit.Calendars
             await Task.CompletedTask.ConfigureAwait(false);
         }
 
-        internal override async Task OnAfterScriptRenderedAsync()
-        {
-            await Task.CompletedTask.ConfigureAwait(false);
-        }
-
         /// <summary>
         /// Converts a Gregorian <see cref="DateTime"/> object to a formatted Hijri date string.
         /// </summary>
@@ -519,7 +514,7 @@ namespace Syncfusion.Blazor.Toolkit.Calendars
             DateTime gregorianDateTime = ConvertDateValue(gregorianDate);
             HijriDate hijriDate = HijriParser.ToHijriDate(gregorianDateTime);
             DateTime finalDate = CreateHijriDateTime(hijriDate, gregorianDateTime);
-            string formattedDate = finalDate.ToString(format, CultureInfo.CurrentCulture);
+            string formattedDate = Intl.GetDateFormat(finalDate, format);
             return ReplaceMonthNamesIfNeeded(formattedDate, finalDate, format);
         }
 
@@ -864,6 +859,9 @@ namespace Syncfusion.Blazor.Toolkit.Calendars
                 ChangedArgs.IsInteracted = false;
             }
             Element = default;
+            // Release parameter-tracking state and cascading context owned by this base.
+            DirectParamKeys.Clear();
+            CalendarEditContext = null;
             return base.DisposeAsyncCore();
         }
     }

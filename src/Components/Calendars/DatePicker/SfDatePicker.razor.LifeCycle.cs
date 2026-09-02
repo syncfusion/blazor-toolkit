@@ -35,7 +35,11 @@ namespace Syncfusion.Blazor.Toolkit.Calendars
         /// <exclude/>
         protected override async Task OnInitializedAsync()
         {
-            await InitializeBasePropertiesAsync().ConfigureAwait(false);
+            PropertyInit();
+            await base.OnInitializedAsync().ConfigureAwait(false);
+            PropertyInitialized();
+            IsValideValue = true;
+            SfBaseUtils.UpdateDictionary(ARIAEXPANDED, FALSE, InputHtmlAttributes);
             InitializeComponentId();
             await InitializeValueAsync().ConfigureAwait(false);
             InitializeEventHandlers();
@@ -105,7 +109,7 @@ namespace Syncfusion.Blazor.Toolkit.Calendars
         protected override async Task OnParametersSetAsync()
         {
             await base.OnParametersSetAsync().ConfigureAwait(false);
-            await PropertyParametersSetAsync().ConfigureAwait(false);
+            PropertyParametersSet();
             SetRTL();
             CalendarClass = WeekNumber ? SfBaseUtils.AddClass(CalendarClass, WEEKNUMBER) : SfBaseUtils.RemoveClass(CalendarClass, WEEKNUMBER);
             SetDayHeaderFormat();
@@ -117,10 +121,6 @@ namespace Syncfusion.Blazor.Toolkit.Calendars
             }
             SetCssClass();
             UpdateValidateClass();
-            if (PropertyChanges is not null)
-            {
-                _ = PropertyChanges.Remove(nameof(Value));
-            }
         }
 
         private async Task OnPropertyChangeAsync(Dictionary<string, object> newProps)
@@ -301,6 +301,7 @@ namespace Syncfusion.Blazor.Toolkit.Calendars
         {
             DatePickerClientProps<TValue> options = GetClientProperties();
             MaskPlaceholderContent();
+            await base.OnAfterScriptRenderedAsync().ConfigureAwait(false);
             await UpdateIsDeviceModeAsync().ConfigureAwait(false);
             ClientMaskValue = await InvokeAsync<ClientMaskValues>(_datePickerJsModule!, _datePickerJsInProcessModule!, "initialize", [DataId, ContainerElement, InputElement, DotnetObjectReference!, options]).ConfigureAwait(false);
             if (EnableMask && ClientMaskValue is not null && !((FloatLabelType == FloatLabelType.Auto || FloatLabelType == FloatLabelType.Never) && !string.IsNullOrEmpty(Placeholder) && Value is null))
@@ -365,39 +366,42 @@ namespace Syncfusion.Blazor.Toolkit.Calendars
             await base.DisposeAsyncCore().ConfigureAwait(true);
         }
 
+        /// <summary>
+        /// Releases DatePicker-specific resources and invokes the <see cref="Destroyed"/> event during component disposal.
+        /// </summary>
+        /// <remarks>
+        /// Disposes the JavaScript interop modules, clears internal popup, mask, and validation state, and raises the <see cref="Destroyed"/> event when the component is torn down.
+        /// </remarks>
+        /// <exclude/>
         private async Task ComponentDisposeAsync()
         {
             if (!IsRendered)
             {
                 return;
             }
-            IsDisposed = true;
-            if (IsRendered)
+            try
             {
-                try
+                object[] destroyArgs = [DataId, null, null, new PopupEventArgs() { Cancel = false }, GetClientProperties()];
+                await InvokeVoidAsync(_datePickerJsModule!, _datePickerJsInProcessModule!, "destroy", destroyArgs).ConfigureAwait(false);
+            }
+            catch (JSDisconnectedException)
+            {
+                // Ignore: The circuit disconnected before JS disposal could complete.
+            }
+            catch (ObjectDisposedException)
+            {
+                // Ignore: Module already disposed
+            }
+            try
+            {
+                if (Destroyed.HasDelegate)
                 {
-                    object[] destroyArgs = [DataId, PopupElement, PopupHolderEle, new PopupEventArgs() { Cancel = false }, GetClientProperties()];
-                    await InvokeVoidAsync(_datePickerJsModule!, _datePickerJsInProcessModule!, "destroy", destroyArgs).ConfigureAwait(false);
+                    await InvokeAsync(() => Destroyed.InvokeAsync(null)).ConfigureAwait(false);
                 }
-                catch (JSDisconnectedException)
-                {
-                    // Ignore: The circuit disconnected before JS disposal could complete.
-                }
-                catch (ObjectDisposedException)
-                {
-                    // Ignore: Module already disposed
-                }
-                try
-                {
-                    if (Destroyed.HasDelegate)
-                    {
-                        await InvokeAsync(() => Destroyed.InvokeAsync(null)).ConfigureAwait(false);
-                    }
-                }
-                catch (JSDisconnectedException)
-                {
-                    // Ignore: The circuit disconnected before event could fire.
-                }
+            }
+            catch (JSDisconnectedException)
+            {
+                // Ignore: The circuit disconnected before event could fire.
             }
             try
             {

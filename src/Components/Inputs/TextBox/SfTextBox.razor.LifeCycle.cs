@@ -59,13 +59,10 @@ namespace Syncfusion.Blazor.Toolkit.Inputs
                 {
                     InputHtmlAttributes = SfBaseUtils.UpdateDictionary(AUTOCOMPLETE, autoCompleteEnumValue, InputHtmlAttributes);
                 }
-                if (!Multiline)
+                string? typeEnumValue = SfBaseUtils.GetEnumValue(Type);
+                if (typeEnumValue is not null)
                 {
-                    string? typeEnumValue = SfBaseUtils.GetEnumValue(Type);
-                    if (typeEnumValue is not null)
-                    {
-                        InputHtmlAttributes = SfBaseUtils.UpdateDictionary(TYPE, typeEnumValue, InputHtmlAttributes);
-                    }
+                    InputHtmlAttributes = SfBaseUtils.UpdateDictionary(TYPE, typeEnumValue, InputHtmlAttributes);
                 }
                 SetCssClass();
                 if (TextBoxParent is not null && Convert.ToString(TextBoxParent.Type, CultureInfo.CurrentCulture) == "Text")
@@ -91,7 +88,7 @@ namespace Syncfusion.Blazor.Toolkit.Inputs
         /// <para>This method handles property validation, updates input attributes, and triggers necessary re-rendering operations to reflect the changes in the component's state and appearance.</para>
         /// <para>The method performs the following parameter update tasks:</para>
         /// <list type="bullet">
-        /// <item><description>Validates and updates input type attributes for non-multiline text boxes.</description></item>
+        /// <item><description>Validates and updates the input type attribute.</description></item>
         /// <item><description>Ensures proper ARIA labeling for accessibility compliance.</description></item>
         /// <item><description>Processes property changes through the PropertyUpdate mechanism.</description></item>
         /// <item><description>Applies property-specific updates via OnPropertyChange method.</description></item>
@@ -104,7 +101,7 @@ namespace Syncfusion.Blazor.Toolkit.Inputs
         {
             try
             {
-                if (!Multiline && !InputHtmlAttributes.ContainsKey(TYPE))
+                if (!InputHtmlAttributes.ContainsKey(TYPE))
                 {
                     string? typeEnumValue = SfBaseUtils.GetEnumValue(Type);
                     if (typeEnumValue is not null)
@@ -196,16 +193,20 @@ namespace Syncfusion.Blazor.Toolkit.Inputs
         /// <summary>
         /// Asynchronously releases <see cref="SfTextBox"/>-specific resources when the component is disposed.
         /// </summary>
-        /// <returns>
-        /// A <see cref="ValueTask"/> representing the asynchronous disposal operation that completes when the <see cref="Destroyed"/> callback has been invoked and the TextBox JavaScript module has been released.
-        /// </returns>
+        /// <returns>A <see cref="ValueTask"/> that completes after disposal work is finished.</returns>
         /// <remarks>
-        /// <para>This override performs the following cleanup steps before delegating to the base class implementation:</para>
-        /// <list type="bullet">
-        /// <item><description>Invokes the <see cref="Destroyed"/> event callback (when registered and the component has rendered at least once) so consumers can release external resources tied to this instance.</description></item>
-        /// <item><description>Disposes the TextBox JavaScript interop modules (<see cref="IJSObjectReference"/> and <see cref="IJSInProcessObjectReference"/>) used for client-side functionality.</description></item>
-        /// <item><description>Swallows <see cref="JSDisconnectedException"/> when the circuit has already disconnected (for example, after a page reload), preventing noisy errors during teardown.</description></item>
-        /// </list>
+        /// <para>
+        /// This override invokes the <see cref="Destroyed"/> event callback (when registered and the
+        /// component has rendered at least once) so consumers can release external resources tied to
+        /// this instance, and then delegates to the base <see cref="SfInputBase{TValue}.DisposeAsyncCore"/>
+        /// for the rest of the cleanup.
+        /// </para>
+        /// <para>
+        /// JavaScript module disposal is owned by the base class, which disposes the shared
+        /// <c>_textBoxJsModule</c> and <c>_textBoxJsInProcessModule</c> references and swallows
+        /// <see cref="JSDisconnectedException"/> during teardown. The component does not own any
+        /// additional resources.
+        /// </para>
         /// </remarks>
         /// <exclude/>
         protected override async ValueTask DisposeAsyncCore()

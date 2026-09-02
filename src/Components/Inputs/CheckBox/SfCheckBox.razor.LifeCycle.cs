@@ -1,5 +1,5 @@
-﻿using Microsoft.JSInterop;
-using System.Globalization;
+﻿using Microsoft.Extensions.Logging;
+using Microsoft.JSInterop;
 
 namespace Syncfusion.Blazor.Toolkit.Inputs
 {
@@ -23,37 +23,18 @@ namespace Syncfusion.Blazor.Toolkit.Inputs
 
         /// <exclude />
         /// <summary>
-        /// Executes after each render to apply persisted state and initialize JavaScript interop.
+        /// Invokes the base implementation after each render; the checkbox requires no component-specific post-render work.
         /// </summary>
-        /// <param name="firstRender">Indicates whether this is the component's first render.</param>
-        /// <returns>A task representing the asynchronous operation.</returns>
+        /// <param name="firstRender"><see langword="true"/> when this is the first time the component has rendered; otherwise, <see langword="false"/>.</param>
+        /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
         /// <remarks>
-        /// On first render, if persistence is enabled, the component restores its state from local storage
-        /// and updates the visual display accordingly.
+        /// The <see cref="SfSelectionBase{TChecked}"/> base owns first-render JavaScript interop, persistence
+        /// restoration, and visual state recomputation.
         /// </remarks>
         protected override async Task OnAfterRenderAsync(bool firstRender)
         {
             await base.OnAfterRenderAsync(firstRender).ConfigureAwait(false);
             await InvokeVoidAsync(_checkBoxJsModule, _checkBoxInProcessModule, "syncIndeterminate", _input, Indeterminate).ConfigureAwait(true);
-            if (firstRender && EnablePersistence)
-            {
-                try
-                {
-                    bool isChecked = Convert.ToBoolean(Checked, CultureInfo.InvariantCulture);
-                    UpdateVisualState(isChecked ? CheckboxState.Checked : CheckboxState.Unchecked);
-                }
-                catch (Exception ex) when (Logger is not null)
-                {
-                    // Logger is wired up: capture the exception for diagnostics and prevent the failure
-                    // from surfacing to Blazor's error boundary (which would tear down the circuit).
-                    _logErrorApplyingPersistedCheckedState(Logger, ex);
-                }
-                catch (Exception)
-                {
-                    // No logger is configured: rethrow so the developer is alerted to the failure.
-                    throw;
-                }
-            }
         }
 
         /// <summary>

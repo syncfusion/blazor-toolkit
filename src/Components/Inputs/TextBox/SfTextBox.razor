@@ -11,18 +11,9 @@
 			<div @ref="@ContainerElement" class="@ContainerClass?.Trim()" @attributes="ContainerHtmlAttributes">
 				@RenderIconButtons(PREPEND)
 				<span class="e-input-in-wrap">
-					@if (this.MultilineInput)
-					{
-						<textarea @ref="@InputElement" id="@ID" value="@(FormatValueAsString(InputTextValue))"
-								  @attributes="InputHtmlAttributes" @onchange="@OnChangeHandlerAsync" @onblur="OnBlurHandlerAsync"
-								  @onfocus="@OnFocusHandlerAsync" @oninput="@OnInputHandlerAsync"></textarea>
-					}
-					else
-					{
-						<input @ref="@InputElement" id="@ID" @attributes="InputHtmlAttributes"
-							   value="@(FormatValueAsString(InputTextValue))" @onchange="@OnChangeHandlerAsync" @onfocus="@OnFocusHandlerAsync"
-							   @onblur="OnBlurHandlerAsync" @oninput="@OnInputHandlerAsync" />
-					}
+					<input @ref="@InputElement" id="@ID" @attributes="InputHtmlAttributes"
+							value="@(FormatValueAsString(InputTextValue))" @onchange="@OnChangeHandlerAsync" @onfocus="@OnFocusHandlerAsync"
+							@onblur="OnBlurHandlerAsync" @oninput="@OnInputHandlerAsync" />
 					<span class="e-float-line"></span>
 					<label class="@FloatLabel?.Trim()" id="label_@(ID)" for="@(ID)">@this.Placeholder</label>
 					@if (this.ShowClearButton)
@@ -40,17 +31,8 @@
 		else
 		{
 			<div @ref="@ContainerElement" class="@ContainerClass?.Trim()" @attributes="ContainerHtmlAttributes">
-				@if (this.MultilineInput)
-				{
-					<textarea @ref="@InputElement" id="@ID" value="@(FormatValueAsString(InputTextValue))"
-							  @attributes="InputHtmlAttributes" @onchange="@OnChangeHandlerAsync"
-							  @onfocus="@OnFocusHandlerAsync" @onblur="OnBlurHandlerAsync" @oninput="@OnInputHandlerAsync"></textarea>
-				}
-				else
-				{
-					<input @ref="@InputElement" id="@ID" @attributes="InputHtmlAttributes"
-						   value="@(FormatValueAsString(InputTextValue))" @onchange="@OnChangeHandlerAsync" @onfocus="@OnFocusHandlerAsync" @onblur="OnBlurHandlerAsync" @oninput="@OnInputHandlerAsync" />
-				}
+				<input @ref="@InputElement" id="@ID" @attributes="InputHtmlAttributes"
+						value="@(FormatValueAsString(InputTextValue))" @onchange="@OnChangeHandlerAsync" @onfocus="@OnFocusHandlerAsync" @onblur="OnBlurHandlerAsync" @oninput="@OnInputHandlerAsync" />
 				<span class="e-float-line"></span>
 				<label class="@FloatLabel?.Trim()" id="label_@(ID)" for="@(ID)">@this.Placeholder</label>
 				@if (this.ShowClearButton)
@@ -69,17 +51,8 @@
 	{
 		<span @ref="@ContainerElement" class="@ContainerClass?.Trim()" @attributes="ContainerHtmlAttributes">
 			@RenderIconButtons(PREPEND)
-			@if (this.MultilineInput)
-			{
-				<textarea @ref="@InputElement" id="@ID" value="@(FormatValueAsString(InputTextValue))"
-						  @attributes="InputHtmlAttributes" @onchange="@OnChangeHandlerAsync"
-						  @onfocus="@OnFocusHandlerAsync" @onblur="OnBlurHandlerAsync" @oninput="@OnInputHandlerAsync"></textarea>
-			}
-			else
-			{
-				<input @ref="@InputElement" id="@ID" @attributes="InputHtmlAttributes"
-					   value="@(FormatValueAsString(InputTextValue))" @onchange="@OnChangeHandlerAsync" @onfocus="@OnFocusHandlerAsync" @onblur="OnBlurHandlerAsync" @oninput="@OnInputHandlerAsync" />
-			}
+			<input @ref="@InputElement" id="@ID" @attributes="InputHtmlAttributes"
+					value="@(FormatValueAsString(InputTextValue))" @onchange="@OnChangeHandlerAsync" @onfocus="@OnFocusHandlerAsync" @onblur="OnBlurHandlerAsync" @oninput="@OnInputHandlerAsync" />
 			@if (this.ShowClearButton)
 			{
 				<button type="button" class="@(ClearIconClass)" aria-label="@Localizer["Clear"]"

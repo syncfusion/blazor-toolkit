@@ -106,6 +106,7 @@ namespace Syncfusion.Blazor.Toolkit.Popups
         private IJSObjectReference? _tooltipJsModule;
         private IJSInProcessObjectReference? _tooltipInProcessModule;
         private IJSInProcessObjectReference? _animationInProcessModule;
+        private List<string>? _pendingPropertyChanges;
         private static readonly Action<ILogger, Exception?> _jsRuntimeDisconnectedDuringDisposal =
             LoggerMessage.Define(LogLevel.Warning, new EventId(0, nameof(_jsRuntimeDisconnectedDuringDisposal)),
                 "JS runtime was disconnected during tooltip disposal.");
@@ -202,40 +203,44 @@ namespace Syncfusion.Blazor.Toolkit.Popups
         {
             Dictionary<string, object> properties = [];
 
-            if (PropertyChanges == null || PropertyChanges.Count == 0)
+            List<string>? changeKeys = _pendingPropertyChanges;
+            bool hasChanges = changeKeys is { Count: > 0 };
+            if (!hasChanges && (PropertyChanges == null || PropertyChanges.Count == 0))
             {
                 SfBaseUtils.UpdateDictionary("content", !string.IsNullOrEmpty(Content) || ContentTemplate != null, properties);
                 return properties;
             }
 
-            foreach (KeyValuePair<string, object> propertyChange in PropertyChanges)
+            if (changeKeys is not null)
             {
-                if (propertyChange.Key == null)
+                foreach (string key in changeKeys)
                 {
-                    continue;
-                }
+                    if (string.IsNullOrEmpty(key))
+                    {
+                        continue;
+                    }
 
-                // Route the change to the appropriate functional handler group.
-                if (HandleTargetingChange(propertyChange.Key, properties))
-                {
-                    continue;
-                }
-                if (HandlePositioningChange(propertyChange.Key, properties))
-                {
-                    continue;
-                }
-                if (HandleBehaviorChange(propertyChange.Key, properties))
-                {
-                    continue;
-
-                }
-                if (HandleTimingChange(propertyChange.Key, properties))
-                {
-                    continue;
-                }
-                if (HandleAppearanceChange(propertyChange.Key, properties))
-                {
-                    continue;
+                    // Route the change to the appropriate functional handler group.
+                    if (HandleTargetingChange(key, properties))
+                    {
+                        continue;
+                    }
+                    if (HandlePositioningChange(key, properties))
+                    {
+                        continue;
+                    }
+                    if (HandleBehaviorChange(key, properties))
+                    {
+                        continue;
+                    }
+                    if (HandleTimingChange(key, properties))
+                    {
+                        continue;
+                    }
+                    if (HandleAppearanceChange(key, properties))
+                    {
+                        continue;
+                    }
                 }
             }
 
@@ -359,11 +364,13 @@ namespace Syncfusion.Blazor.Toolkit.Popups
         {
             if (IsRendered && !_isDestroyed)
             {
+                _isDestroyed = true;
+
                 try
                 {
                     _classList = null!;
                     _attributes = null!;
-                    _isDestroyed = true;
+                    _pendingPropertyChanges = null;
 
                     // Only call JS destroy when the module is available.
                     if (await IsTooltipJsAvailableAsync().ConfigureAwait(true))
@@ -425,23 +432,31 @@ namespace Syncfusion.Blazor.Toolkit.Popups
                 }
                 catch (Exception ex)
                 {
-                    // Notify consumers about unexpected errors. Do NOT re-throw from async void —
+                    // Notify consumers about unexpected errors. Do NOT re-throw from async disposal —
                     // an unhandled exception here propagates directly to the SynchronizationContext
-                    // and will terminate the Blazor Server circuit or crash the WASM app.
-                    try
+                    // and will terminate the Blazor Server circuit or crash the WASM app. The disposal
+                    // path is best-effort: we log and report through the Destroyed callback, but never
+                    // throw out of DisposeAsyncCore. Exceptions from the Destroyed callback are
+                    // intentionally swallowed so they cannot mask the original failure.
+                    if (Logger != null)
                     {
-                        if (Destroyed.HasDelegate)
+                        Logger.LogError(ex, "Unexpected error during SfTooltip disposal.");
+                    }
+
+                    if (Destroyed.HasDelegate)
+                    {
+                        try
                         {
                             await Destroyed.InvokeAsync(ex).ConfigureAwait(true);
                         }
+                        catch (Exception callbackEx)
+                        {
+                            if (Logger != null)
+                            {
+                                Logger.LogError(callbackEx, "SfTooltip.Destroyed callback threw during disposal.");
+                            }
+                        }
                     }
-                    catch
-                    {
-                        throw;
-                        // Swallow exceptions from the Destroyed callback to avoid masking the original exception.
-                    }
-
-                    throw;
                 }
             }
             await base.DisposeAsyncCore().ConfigureAwait(true);

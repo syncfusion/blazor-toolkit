@@ -1585,24 +1585,34 @@ namespace Syncfusion.Blazor.Toolkit.Inputs
         /// Converts an object value to the component's generic type <typeparamref name="TValue"/>.
         /// </summary>
         /// <param name="value">The object value to be converted.</param>
-        /// <returns>The converted value of type <typeparamref name="TValue"/>, or the maximum value if conversion fails.</returns>
+        /// <returns>The converted value of type <typeparamref name="TValue"/>, or the default value if conversion fails.</returns>
         /// <remarks>
-        /// This method provides type-safe conversion of numeric values to the component's generic type. If the conversion fails for any reason, it returns the maximum allowed value as a fallback to prevent runtime errors.
+        /// This method provides type-safe conversion of numeric values to the component's generic type. If the conversion fails for any reason, it returns the default value as a fallback to prevent runtime errors.
         /// </remarks>
         private TValue ChangeType(object value)
         {
             try
             {
                 object? converted = SfBaseUtils.ChangeType(value, typeof(TValue), true);
-                return converted is null ? (Max ?? default!) : (TValue)converted;
+
+                if (converted is null)
+                {
+                    IsInValidNumber = true;
+                    return default!;
+                }
+
+                IsInValidNumber = false;
+                return (TValue)converted;
             }
             catch (InvalidCastException)
             {
-                return Max ?? default!;
+                IsInValidNumber = true;
+                return default!;
             }
             catch (FormatException)
             {
-                return Max ?? default!;
+                IsInValidNumber = true;
+                return default!;
             }
             catch (Exception)
             {
@@ -1965,7 +1975,6 @@ namespace Syncfusion.Blazor.Toolkit.Inputs
                 LogLevel.Error,
                 new EventId(2012, nameof(_logJsError)),
                 "JS error in OnInitializedAsync.");
-
         private static readonly Action<ILogger, Exception?> _logUnexpectedErrorOnParametersSet =
             LoggerMessage.Define(
                 LogLevel.Error,

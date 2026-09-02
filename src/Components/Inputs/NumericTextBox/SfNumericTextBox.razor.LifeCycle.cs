@@ -39,12 +39,10 @@ namespace Syncfusion.Blazor.Toolkit.Inputs
             catch (FormatException fe)
             {
                 _logFormattingIssue(Logger, fe);
-                throw;
             }
             catch (JSException jse)
             {
                 _logJsError(Logger, jse);
-                throw;
             }
         }
 
@@ -73,7 +71,7 @@ namespace Syncfusion.Blazor.Toolkit.Inputs
                 if (!InputHtmlAttributes.ContainsKey(ARIA_LABEL) && !string.IsNullOrWhiteSpace(AriaLabel))
                 {
                     // When AriaLabel is explicitly supplied, forward it. We deliberately do NOT
-                    // add a generic "numeric textbox" placeholder when no AriaLabel is supplied â€”
+                    // add a generic "numeric textbox" placeholder when no AriaLabel is supplied —
                     // visible labels already carry the accessible name, and a hardcoded fallback
                     // creates redundant screen-reader announcements.
                     InputHtmlAttributes = SfBaseUtils.UpdateDictionary(ARIA_LABEL, AriaLabel, InputHtmlAttributes);
@@ -97,7 +95,6 @@ namespace Syncfusion.Blazor.Toolkit.Inputs
             catch (Exception ex)
             {
                 _logUnexpectedErrorOnParametersSet(Logger, ex);
-                throw;
             }
         }
 
@@ -125,13 +122,16 @@ namespace Syncfusion.Blazor.Toolkit.Inputs
                     {
                         string? localStorageValue = await InvokeAsync<string>(_baseJsModule!, _baseJsInProcessModule!, "getLocalStorageItem", [ID]).ConfigureAwait(true);
                         localStorageValue = (string.IsNullOrEmpty(localStorageValue) || localStorageValue == "null") ? null : localStorageValue;
-                        if (!(localStorageValue is null && Value is not null))
+                        if (localStorageValue is not null)
                         {
                             TValue? persistValue = (TValue?)SfBaseUtils.ChangeType(localStorageValue, typeof(TValue), true);
                             InputTextValue = persistValue;
+                            await ChangeValueAsync(persistValue).ConfigureAwait(true);
                         }
-
-                        await ChangeValueAsync((Value is null) ? default : StrictMode ? TrimValue(Value) : Value).ConfigureAwait(true);
+                        else
+                        {
+                            await ChangeValueAsync((Value is null) ? default : StrictMode ? TrimValue(Value) : Value).ConfigureAwait(true);
+                        }
                     }
 
                     PrevValue = Value;
@@ -145,7 +145,6 @@ namespace Syncfusion.Blazor.Toolkit.Inputs
             catch (Exception ex)
             {
                 _logUnexpectedErrorOnAfterRender(Logger, ex);
-                throw;
             }
         }
 

@@ -78,7 +78,7 @@ namespace Syncfusion.Blazor.Toolkit.Calendars
         protected override async Task OnParametersSetAsync()
         {
             await base.OnParametersSetAsync().ConfigureAwait(false);
-            await PropertyParametersSetAsync().ConfigureAwait(false);
+            PropertyParametersSet();
             InitRender();
             await ProcessPropertyChangesAsync().ConfigureAwait(false);
             SetCssClass();
@@ -194,10 +194,13 @@ namespace Syncfusion.Blazor.Toolkit.Calendars
         }
 
         /// <summary>
-        /// Triggers while dynamically changing the properties of the component.
+        /// Synchronizes the calendar's internal parameter state with the latest public property values and records any detected changes.
         /// </summary>
-        /// <returns>A task representing the asynchronous operation.</returns>
-        private async Task PropertyParametersSetAsync()
+        /// <remarks>
+        /// Invoked from <see cref="OnParametersSetAsync"/> after the base parameter cycle assigns the new values. The method performs synchronous dictionary and value-equality comparisons against the cached <c>CalendarBase_*</c> fields to determine which parameters changed during the render pass.
+        /// </remarks>
+        /// <exclude />
+        private void PropertyParametersSet()
         {
             CalendarBase_Start = NotifyPropertyChanges(nameof(Start), Start, CalendarBase_Start);
             CalendarBase_Depth = NotifyPropertyChanges(nameof(Depth), Depth, CalendarBase_Depth);
@@ -208,7 +211,6 @@ namespace Syncfusion.Blazor.Toolkit.Calendars
             _ = NotifyPropertyChanges(nameof(CssClass), CssClass, Calendar_CssClass);
             CalendarBase_Value = NotifyPropertyChanges(nameof(Value), Value, CalendarBase_Value);
             Calendar_Values = NotifyPropertyChanges(nameof(Values), Values, Calendar_Values);
-            await Task.CompletedTask.ConfigureAwait(false);
         }
 
         internal override async Task ImportComponentModuleAsync()
@@ -245,7 +247,6 @@ namespace Syncfusion.Blazor.Toolkit.Calendars
             {
                 return;
             }
-            IsDisposed = true;
             try
             {
                 if (Destroyed.HasDelegate)

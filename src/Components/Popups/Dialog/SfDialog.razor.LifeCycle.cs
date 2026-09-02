@@ -114,8 +114,10 @@ namespace Syncfusion.Blazor.Toolkit.Popups
             }
             catch (Exception ex)
             {
+                // Lifecycle must not re-throw: doing so propagates to the SynchronizationContext
+                // and can terminate the Blazor Server circuit. Log and continue so the renderer
+                // remains alive for subsequent updates.
                 LogError("OnAfterRenderAsync", ex);
-                throw;
             }
         }
 
@@ -172,8 +174,9 @@ namespace Syncfusion.Blazor.Toolkit.Popups
             }
             catch (Exception ex)
             {
+                // Bootstrap-path safety: a failure here must not crash the Blazor Server circuit.
+                // The component remains usable; only the first-render JS init is affected.
                 LogError("OnAfterScriptRenderedAsync", ex);
-                throw;
             }
         }
 
@@ -235,15 +238,23 @@ namespace Syncfusion.Blazor.Toolkit.Popups
         /// <summary>
         /// Cleans up dialog resources by destroying the client-side instance, invoking the <see cref="Destroyed"/> event, and disposing JavaScript modules and render fragments.
         /// </summary>
+        /// <returns>A <see cref="ValueTask"/> that completes when all dialog resources have been released.</returns>
         /// <remarks>
-        /// This method safely handles <see cref="JSDisconnectedException"/> when the circuit disconnects before disposal completes. It clears all internal state including templates and event handlers.
+        /// Invoked by the framework when the component is being torn down. The method is guarded by an <c>_isDestroyed</c> flag so that re-entrant disposal calls become no-ops, ensuring the <see cref="Destroyed"/> event fires at most once and each JavaScript module is disposed at most once. When the component has rendered, the method destroys the client-side dialog instance, raises the <see cref="Destroyed"/> event when a delegate is registered, disposes the dialog, draggable, and resize JavaScript modules, and then clears component-owned state (templates, render fragments, dialog elements, attributes, and the buttons collection). <see cref="JSDisconnectedException"/>, <see cref="ObjectDisposedException"/>, <see cref="TaskCanceledException"/>, <see cref="OperationCanceledException"/>, and <see cref="InvalidOperationException"/> are caught and logged so that disposal completes safely without terminating the Blazor Server circuit.
         /// </remarks>
         /// <exclude />
         protected override async ValueTask DisposeAsyncCore()
         {
-            try
+            // Idempotency guard: prevent re-entrant disposal from racing framework DisposeAsync.
+            if (_isDestroyed)
             {
-                if (IsRendered)
+                return;
+            }
+            _isDestroyed = true;
+
+            if (IsRendered)
+            {
+                try
                 {
                     await InvokeVoidAsync(_dialogJsModule!, _dialogJsInProcessModule!, JS_DESTROY, new Dictionary<string, object> {
                             { "dataId", _dataId },
@@ -277,43 +288,43 @@ namespace Syncfusion.Blazor.Toolkit.Popups
                         // Ignore: The circuit disconnected (e.g., page reload) before JS disposal could complete.
                     }
                 }
-                ChildContent = default!;
-                AnimationSettingsValue = default!;
-                ResizeHandles = [ResizeDirection.SouthEast];
-                PositionValue = null;
-                _onClosedArgs = new BeforeCloseEventArgs();
-                ButtonsValue?.Clear();
-                ButtonsValue = null;
-                HeaderTemplate = null;
-                ContentTemplate = null;
-                FooterTemplates = null;
-                DialogElement = default;
-                ModalDialogElement = default;
-                _dialogAttribute?.Clear();
-                _dialogAttribute = [];
-                CloseIconAttributes?.Clear();
-                CloseIconAttributes = null;
+                catch (ObjectDisposedException ex)
+                {
+                    LogError("DisposeAsyncCore", ex);
+                }
+                catch (TaskCanceledException ex)
+                {
+                    LogError("DisposeAsyncCore", ex);
+                }
+                catch (InvalidOperationException ex)
+                {
+                    LogError("DisposeAsyncCore", ex);
+                }
+                catch (JSDisconnectedException ex)
+                {
+                    LogError("DisposeAsyncCore", ex);
+                }
+                catch (OperationCanceledException ex)
+                {
+                    LogError("DisposeAsyncCore", ex);
+                }
             }
-            catch (ObjectDisposedException ex)
-            {
-                LogError("DisposeAsyncCore", ex);
-            }
-            catch (TaskCanceledException ex)
-            {
-                LogError("DisposeAsyncCore", ex);
-            }
-            catch (InvalidOperationException ex)
-            {
-                LogError("DisposeAsyncCore", ex);
-            }
-            catch (JSDisconnectedException ex)
-            {
-                LogError("DisposeAsyncCore", ex);
-            }
-            catch (OperationCanceledException ex)
-            {
-                LogError("DisposeAsyncCore", ex);
-            }
+            ChildContent = default!;
+            AnimationSettingsValue = default!;
+            ResizeHandles = [ResizeDirection.SouthEast];
+            PositionValue = null;
+            _onClosedArgs = new BeforeCloseEventArgs();
+            ButtonsValue?.Clear();
+            ButtonsValue = null;
+            HeaderTemplate = null;
+            ContentTemplate = null;
+            FooterTemplates = null;
+            DialogElement = default;
+            ModalDialogElement = default;
+            _dialogAttribute?.Clear();
+            _dialogAttribute = [];
+            CloseIconAttributes?.Clear();
+            CloseIconAttributes = null;
             await base.DisposeAsyncCore().ConfigureAwait(true);
         }
     }

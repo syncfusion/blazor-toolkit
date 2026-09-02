@@ -32,7 +32,6 @@ namespace Syncfusion.Blazor.Toolkit.Tests.Inputs.TextBox
             Assert.Null(textBox.Instance.Width);
             Assert.Equal(FloatLabelType.Never, textBox.Instance.FloatLabelType);
             Assert.False(textBox.Instance.ReadOnly);
-            Assert.False(textBox.Instance.Multiline);
             Assert.False(textBox.Instance.ShowClearButton);
             Assert.False(textBox.Instance.EnablePersistence);
             Assert.False(textBox.Instance.Disabled);
@@ -216,9 +215,6 @@ namespace Syncfusion.Blazor.Toolkit.Tests.Inputs.TextBox
             // The redundant role="textbox" was removed so the elements are no longer over-annotated.
             Assert.Null(inputElement.GetAttribute("role"));
             Assert.Equal("BUTTON", clearIconElement.TagName);
-            textBox.SetParametersAndRender(("Multiline", true));
-            var textAreaElement = textBox.Find("textarea");
-            Assert.Null(textAreaElement.GetAttribute("role"));
         }
 
         #endregion
@@ -398,7 +394,7 @@ namespace Syncfusion.Blazor.Toolkit.Tests.Inputs.TextBox
         {
             Dictionary<string, object> htmlAttributes = new Dictionary<string, object>() { { "class", "e-text" } };
             Dictionary<string, object> inputAttributes = new Dictionary<string, object>() { { "name", "textbox" } };
-            var textBox = RenderComponent<SfTextBox>(parameter => parameter.Add(p => p.ID, "Text-1").Add(p => p.Autocomplete, AutoComplete.Off).Add(p => p.CssClass, "e-outline e-test").Add(p => p.EnablePersistence, true).Add(p => p.Placeholder, "Enter the value").Add(p => p.Disabled, false).Add(p => p.FloatLabelType, FloatLabelType.Always).Add(p => p.HtmlAttributes, htmlAttributes).Add(p => p.InputAttributes, inputAttributes).Add(p => p.Multiline, false).Add(p => p.ReadOnly, false).Add(p => p.ShowClearButton, true).Add(p => p.Value, "Test").Add(p => p.Width, "600px").Add(p => p.TabIndex, 1).Add(p => p.Type, InputType.Email));
+            var textBox = RenderComponent<SfTextBox>(parameter => parameter.Add(p => p.ID, "Text-1").Add(p => p.Autocomplete, AutoComplete.Off).Add(p => p.CssClass, "e-outline e-test").Add(p => p.EnablePersistence, true).Add(p => p.Placeholder, "Enter the value").Add(p => p.Disabled, false).Add(p => p.FloatLabelType, FloatLabelType.Always).Add(p => p.HtmlAttributes, htmlAttributes).Add(p => p.InputAttributes, inputAttributes).Add(p => p.ReadOnly, false).Add(p => p.ShowClearButton, true).Add(p => p.Value, "Test").Add(p => p.Width, "600px").Add(p => p.TabIndex, 1).Add(p => p.Type, InputType.Email)); textBox = RenderComponent<SfTextBox>(parameter => parameter.Add(p => p.ID, "Text-1").Add(p => p.Autocomplete, AutoComplete.Off).Add(p => p.CssClass, "e-outline e-test").Add(p => p.EnablePersistence, true).Add(p => p.Placeholder, "Enter the value").Add(p => p.Disabled, false).Add(p => p.FloatLabelType, FloatLabelType.Always).Add(p => p.HtmlAttributes, htmlAttributes).Add(p => p.InputAttributes, inputAttributes).Add(p => p.ReadOnly, false).Add(p => p.ShowClearButton, true).Add(p => p.Value, "Test").Add(p => p.Width, "600px").Add(p => p.TabIndex, 1).Add(p => p.Type, InputType.Email));
             var inputElement = textBox.Find("input");
             var containerElement = inputElement.ParentElement;
             Assert.NotNull(containerElement);
