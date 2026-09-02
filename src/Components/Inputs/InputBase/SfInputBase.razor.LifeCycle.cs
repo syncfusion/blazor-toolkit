@@ -22,14 +22,10 @@ namespace Syncfusion.Blazor.Toolkit.Inputs
         /// <exclude/>
         protected override async Task OnInitializedAsync()
         {
+            await base.OnInitializedAsync().ConfigureAwait(true);
             if (string.IsNullOrEmpty(ComponentReference))
             {
-                await base.OnInitializedAsync().ConfigureAwait(true);
                 ClearIconClass = CLEARICON;
-            }
-            else
-            {
-                await base.OnInitializedAsync().ConfigureAwait(true);
             }
         }
 

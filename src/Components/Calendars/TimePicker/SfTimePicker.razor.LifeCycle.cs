@@ -81,7 +81,7 @@ namespace Syncfusion.Blazor.Toolkit.Calendars
         protected override async Task OnParametersSetAsync()
         {
             await base.OnParametersSetAsync().ConfigureAwait(false);
-            await PropertyParametersSetAsync().ConfigureAwait(false);
+            PropertyParametersSet();
             SetRTL();
             SetTimeAllowEdit();
             UpdateAriaAttributes();
@@ -224,6 +224,13 @@ namespace Syncfusion.Blazor.Toolkit.Calendars
             await base.DisposeAsyncCore().ConfigureAwait(true);
         }
 
+        /// <summary>
+        /// Releases TimePicker-specific resources and invokes the <see cref="Destroyed"/> event during component disposal.
+        /// </summary>
+        /// <remarks>
+        /// Disposes the JavaScript interop modules, clears internal popup, mask, and time-list state, and raises the <see cref="Destroyed"/> event when the component is torn down.
+        /// </remarks>
+        /// <exclude/>
         private async Task ComponentDisposeAsync()
         {
             if (!IsRendered)

@@ -106,18 +106,11 @@ namespace Syncfusion.Blazor.Toolkit.Popups
         }
 
         /// <summary>
-        /// Asynchronously handles parameter changes in the SfTooltip component.
+        /// Diffs the tooltip's public properties against cached backing fields and queues the changed keys for client-side dispatch.
         /// </summary>
-        /// <returns>A task that represents the asynchronous parameter update operation.</returns>
+        /// <returns>A <see cref="Task"/> that completes when the parameter diff and queue update are finished.</returns>
         /// <remarks>
-        /// This method is called whenever component parameters are updated. It performs the following operations:
-        /// <list type="bullet">
-        /// <item><description>Compares new parameter values with existing values</description></item>
-        /// <item><description>Tracks property changes for efficient updates</description></item>
-        /// <item><description>Updates the JavaScript component if the component is already rendered</description></item>
-        /// <item><description>Ensures proper synchronization between Blazor properties and JavaScript tooltip instance</description></item>
-        /// </list>
-        /// The method uses the NotifyPropertyChanges mechanism to optimize updates by only processing changed properties.
+        /// Invoked by the framework after the base parameter cycle assigns the new values. The method uses <c>NotifyPropertyChanges</c> to compare each public property (such as <see cref="Content"/>, <see cref="CssClass"/>, <see cref="Position"/>, <see cref="OpensOn"/>, <see cref="Height"/>, <see cref="Width"/>, <see cref="Target"/>, <see cref="Container"/>, <see cref="OffsetX"/>, <see cref="OffsetY"/>, <see cref="IsSticky"/>, <see cref="WindowCollision"/>, <see cref="TipPointerPosition"/>, <see cref="ShowTipPointer"/>, <see cref="TargetContainer"/>, and the RTL option) against the cached <c>_tooltip*</c> fields, recording only the changes. The changed property keys are then captured into <c>_pendingPropertyChanges</c> so that <see cref="OnAfterRenderAsync"/> can dispatch a single <c>UPDATEPROPERTIES</c> call to the tooltip JavaScript module on the next render.
         /// </remarks>
         /// <exclude />
         protected override async Task OnParametersSetAsync()
@@ -142,29 +135,19 @@ namespace Syncfusion.Blazor.Toolkit.Popups
             _tooltipWidth = NotifyPropertyChanges(nameof(Width), Width, _tooltipWidth);
             _tooltipShowTip = NotifyPropertyChanges(nameof(ShowTipPointer), ShowTipPointer, _tooltipShowTip);
             _tooltipTargetContainer = NotifyPropertyChanges(nameof(TargetContainer), TargetContainer, _tooltipTargetContainer);
-            if (PropertyChanges!.Count > 0 && _isScriptRendered && !_isDestroyed)
+            if (PropertyChanges is not null && PropertyChanges.Count > 0)
             {
-                // Skip JS update when the module is not loaded.
-                if (await IsTooltipJsAvailableAsync().ConfigureAwait(true))
-                {
-                    await InvokeVoidAsync(_tooltipJsModule, _tooltipInProcessModule, UPDATEPROPERTIES, _dataId, GetPropertyChanges()).ConfigureAwait(true);
-                }
+                _pendingPropertyChanges = [.. PropertyChanges.Keys];
             }
         }
 
         /// <summary>
-        /// Asynchronously executes logic after the component has rendered.
+        /// Fires the <c>Created</c> event, dispatches pending property changes to the client, and refreshes the tooltip content after each render.
         /// </summary>
-        /// <param name="firstRender">True if this is the first time the component has rendered; otherwise, false.</param>
-        /// <returns>A task that represents the asynchronous post-render operation.</returns>
+        /// <param name="firstRender"><c>true</c> on the first render after the component is created; <c>false</c> on subsequent renders.</param>
+        /// <returns>A <see cref="Task"/> that completes when all post-render operations finish.</returns>
         /// <remarks>
-        /// This method handles post-render operations including:
-        /// <list type="bullet">
-        /// <item><description>Invoking the Created event callback on first render</description></item>
-        /// <item><description>Updating tooltip content after rendering</description></item>
-        /// <item><description>Ensuring proper synchronization between the rendered DOM and component state</description></item>
-        /// </list>
-        /// The firstRender parameter is used to determine if initialization-specific logic should be executed.
+        /// Invoked by the framework after each render cycle. On the first render, the <c>Created</c> event is raised when a delegate is registered. After the script is loaded, pending property changes recorded during <see cref="OnParametersSetAsync"/> are dispatched to the client through the tooltip JavaScript module, and the tooltip content is refreshed through <c>UpdatedTooltipContentAsync</c>. The pending-changes buffer is always cleared at the end of the call so that the next render pass starts from a clean state.
         /// </remarks>
         /// <exclude />
         protected override async Task OnAfterRenderAsync(bool firstRender)
@@ -175,6 +158,15 @@ namespace Syncfusion.Blazor.Toolkit.Popups
                 await Created.InvokeAsync(null).ConfigureAwait(true);
             }
 
+            if (!_isDestroyed
+                && _isScriptRendered
+                && _pendingPropertyChanges is { Count: > 0 }
+                && await IsTooltipJsAvailableAsync().ConfigureAwait(true))
+            {
+                await InvokeVoidAsync(_tooltipJsModule, _tooltipInProcessModule, UPDATEPROPERTIES, _dataId, GetPropertyChanges()).ConfigureAwait(true);
+            }
+
+            _pendingPropertyChanges = null;
             await UpdatedTooltipContentAsync().ConfigureAwait(true);
         }
 

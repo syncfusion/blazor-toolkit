@@ -156,22 +156,6 @@
     </div>
 </div>
 
-<!-- ================ MULTILINE ================ -->
-<h3>Multiline TextArea</h3>
-<div class="multiline-section">
-    <div>
-        <label>Multiline TextBox</label>
-        <SfTextBox id="multilineInput" Multiline="true" FloatLabelType="FloatLabelType.Auto" Placeholder="Enter multiple lines" @bind-Value="MultilineValue" />
-        <div class="mt-2"><b>Value:</b> @MultilineValue</div>
-    </div>
-
-    <div>
-        <label>Single Line TextBox</label>
-        <SfTextBox id="singleLineInput" Multiline="false" FloatLabelType="FloatLabelType.Auto" Placeholder="Single line only" @bind-Value="SingleLineValue" />
-        <div class="mt-2"><b>Value:</b> @SingleLineValue</div>
-    </div>
-</div>
-
 <!-- ================ WIDTH CONTROL ================ -->
 <h3>Width Control</h3>
 <div class="width-section">
@@ -378,13 +362,11 @@
         </div>
 
         <div class="form-group">
-            <label>Comments (Multiline)</label>
+            <label>Comments</label>
             <SfTextBox @bind-Value="@FormModel.Comments"
                        id="formCommentsInput"
-                       Multiline="true"
                        FloatLabelType="FloatLabelType.Auto"
-                       Placeholder="Enter your comments"
-                       InputAttributes="@FormMultilineAttrs" />
+                       Placeholder="Enter your comments" />
             <ValidationMessage For="@(() => FormModel.Comments)" />
         </div>
 
@@ -407,7 +389,7 @@
     .states-section,
     .variants-section,
     .color-section,
-    .multiline-section,
+    .textarea-section,
     .width-section,
     .icons-section,
     .events-section,
@@ -433,7 +415,7 @@
     .states-section > div,
     .variants-section > div,
     .color-section > div,
-    .multiline-section > div,
+    .textarea-section > div,
     .width-section > div,
     .icons-section > div,
     .events-section > div,
@@ -569,8 +551,8 @@
     private string ErrorColorValue { get; set; } = "";
     private string WarningColorValue { get; set; } = "";
 
-    /* ================ MULTILINE ================ */
-    private string MultilineValue { get; set; } = "";
+    /* ================ TEXTAREA (MULTI-LINE) ================ */
+    private string TextAreaValue { get; set; } = "";
     private string SingleLineValue { get; set; } = "";
 
     /* ================ WIDTH CONTROL ================ */
@@ -681,7 +663,6 @@
     /* ================ FORM VALIDATION ================ */
     private TextBoxValidationModel FormModel = new();
     private string FormSubmitMessage = "";
-    private Dictionary<string, object> FormMultilineAttrs => new() { { "rows", "3" }, { "maxlength", "200" } };
 
     private async Task HandleFormSubmit(EditContext context)
     {

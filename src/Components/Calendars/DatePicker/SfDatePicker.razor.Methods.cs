@@ -1,3 +1,4 @@
+using System.ComponentModel;
 using Microsoft.JSInterop;
 using Syncfusion.Blazor.Toolkit.Calendars.Internal;
 using Syncfusion.Blazor.Toolkit.Internal;
@@ -107,9 +108,18 @@ namespace Syncfusion.Blazor.Toolkit.Calendars
                     TValue? modelValue = Value is null ? default : (TValue?)SfBaseUtils.ChangeType(Value, typeof(TValue));
                     if (modelValue is not null)
                     {
-                        ModelYear = Intl.GetDateFormat(modelValue, FORMAT_YEAR);
-                        ModelDay = Intl.GetDateFormat(modelValue, FORMAT_DAY);
-                        ModelMonth = Intl.GetDateFormat(modelValue, FORMAT_MONTH);
+                        if (CalendarMode == CalendarType.Islamic)
+                        {
+                            ModelYear = ConvertToHijri(modelValue, FORMAT_YEAR);
+                            ModelDay = Intl.GetDateFormat(modelValue, FORMAT_DAY);
+                            ModelMonth = ConvertToHijri(modelValue, FORMAT_MONTH);
+                        }
+                        else
+                        {
+                            ModelYear = Intl.GetDateFormat(modelValue, FORMAT_YEAR);
+                            ModelDay = Intl.GetDateFormat(modelValue, FORMAT_DAY);
+                            ModelMonth = Intl.GetDateFormat(modelValue, FORMAT_MONTH);
+                        }
                     }
                 }
                 else

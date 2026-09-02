@@ -16,7 +16,7 @@
     <p>Button is @(isToggled ? "toggled" : "not toggled")</p>
 
     <h2>Toggle Button (IsToggle)</h2>
-    <SfButton id="btn-toggle" IsToggle="true" @onclick="HandleToggle">Toggle</SfButton>
+    <SfButton id="btn-toggle" IsToggle="true" OnClick="HandleToggle">Toggle</SfButton>
     <p>Toggle state: @(toggleValue ? "active" : "inactive")</p>
 
     <h2>Toggle Button with Initial Active State</h2>
@@ -59,7 +59,7 @@
         isToggled = !isToggled;
     }
 
-    private void HandleToggle()
+    private void HandleToggle(MouseEventArgs args)
     {
         toggleValue = !toggleValue;
     }

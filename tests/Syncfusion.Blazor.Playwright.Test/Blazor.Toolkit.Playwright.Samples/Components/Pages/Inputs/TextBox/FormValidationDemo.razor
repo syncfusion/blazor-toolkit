@@ -40,11 +40,11 @@
             <label for="min-length" style="display: block; margin-bottom: 5px; font-weight: bold;">
                 Message (Minimum 10 characters)
             </label>
-            <SfTextBox id="min-length" @bind-Value="formModel.Message" Multiline="true"
+            <SfTextBox id="min-length" @bind-Value="formModel.Message" 
                        Placeholder="Enter at least 10 characters"
                        FloatLabelType="@FloatLabelType.Auto"
                        data-testid="min-length"
-                       HtmlAttributes="@(new Dictionary<string, object> { { "aria-label", "Message" }, { "rows", 4 } })" />
+                       HtmlAttributes="@(new Dictionary<string, object> { { "aria-label", "Message" } })" />
             <ValidationMessage For="@(() => formModel.Message)"
                                style="color: #d9534f; font-size: 12px; margin-top: 5px;" />
         </div>

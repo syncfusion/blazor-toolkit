@@ -36,7 +36,6 @@ namespace Syncfusion.Blazor.Toolkit.Tests.Inputs.TextBox
             Assert.Null(textBox.Instance.Width);
             Assert.Equal(FloatLabelType.Never, textBox.Instance.FloatLabelType);
             Assert.False(textBox.Instance.ReadOnly);
-            Assert.False(textBox.Instance.Multiline);
             Assert.False(textBox.Instance.ShowClearButton);
             Assert.False(textBox.Instance.EnablePersistence);
             Assert.False(textBox.Instance.Disabled);
@@ -221,9 +220,6 @@ namespace Syncfusion.Blazor.Toolkit.Tests.Inputs.TextBox
             // role="textbox" was removed so the elements are no longer over-annotated.
             Assert.Null(inputElement.GetAttribute("role"));
             Assert.Equal("BUTTON", clearIconElement.TagName);
-            textBox.SetParametersAndRender(("Multiline", true));
-            var textAreaElement = textBox.Find("textarea");
-            Assert.Null(textAreaElement.GetAttribute("role"));
         }
 
         #endregion
@@ -473,13 +469,15 @@ namespace Syncfusion.Blazor.Toolkit.Tests.Inputs.TextBox
         }
 
         [Fact(Timeout = 10000)]
-        public void MultiLineTextBox()
+        public void SingleLineInput()
         {
-            var textBox = RenderComponent<SfTextBox>(parameter => parameter.Add(p => p.ID, "Multiline-ID").Add(p => p.Multiline, true));
-            var textAreaElement = textBox.Find("textarea");
-            Assert.Contains("Multiline-ID", textAreaElement.GetAttribute("id"));
-            Assert.NotNull(textAreaElement.ParentElement);
-            Assert.Contains("e-multi-line-input", textAreaElement.ParentElement.ClassName);
+            // Verifies that SfTextBox always renders a single-line <input> element
+            // and never a <textarea>. Multiline use cases are covered by SfTextArea.
+            var textBox = RenderComponent<SfTextBox>(parameter => parameter.Add(p => p.ID, "SingleLine-ID"));
+            var inputElement = textBox.Find("input");
+            Assert.Contains("SingleLine-ID", inputElement.GetAttribute("id"));
+            Assert.NotNull(inputElement.ParentElement);
+            Assert.DoesNotContain("e-multi-line-input", inputElement.ParentElement.ClassName);
         }
 
         #endregion
@@ -491,7 +489,7 @@ namespace Syncfusion.Blazor.Toolkit.Tests.Inputs.TextBox
         {
             Dictionary<string, object> htmlAttributes = new Dictionary<string, object>() { { "class", "e-text" } };
             Dictionary<string, object> inputAttributes = new Dictionary<string, object>() { { "name", "textbox" } };
-            var textBox = RenderComponent<SfTextBox>(parameter => parameter.Add(p => p.ID, "Text-1").Add(p => p.Autocomplete, AutoComplete.Off).Add(p => p.CssClass, "e-test").Add(p => p.EnablePersistence, true).Add(p => p.Placeholder, "Enter the value").Add(p => p.Disabled, false).Add(p => p.FloatLabelType, FloatLabelType.Always).Add(p => p.HtmlAttributes, htmlAttributes).Add(p => p.InputAttributes, inputAttributes).Add(p => p.Multiline, false).Add(p => p.ReadOnly, false).Add(p => p.ShowClearButton, true).Add(p => p.Value, "Test").Add(p => p.Width, "600px").Add(p => p.TabIndex, 1).Add(p => p.Type, InputType.Email));
+            var textBox = RenderComponent<SfTextBox>(parameter => parameter.Add(p => p.ID, "Text-1").Add(p => p.Autocomplete, AutoComplete.Off).Add(p => p.CssClass, "e-test").Add(p => p.EnablePersistence, true).Add(p => p.Placeholder, "Enter the value").Add(p => p.Disabled, false).Add(p => p.FloatLabelType, FloatLabelType.Always).Add(p => p.HtmlAttributes, htmlAttributes).Add(p => p.InputAttributes, inputAttributes).Add(p => p.ReadOnly, false).Add(p => p.ShowClearButton, true).Add(p => p.Value, "Test").Add(p => p.Width, "600px").Add(p => p.TabIndex, 1).Add(p => p.Type, InputType.Email));
             var inputElement = textBox.Find("input");
             var containerElement = inputElement.ParentElement;
             Assert.NotNull(containerElement);
@@ -525,7 +523,7 @@ namespace Syncfusion.Blazor.Toolkit.Tests.Inputs.TextBox
         {
             Dictionary<string, object> htmlAttributes = new Dictionary<string, object>() { { "name", "textbox" } };
             Dictionary<string, object> inputAttributes = new Dictionary<string, object>() { { "Value", "Forms Component" } };
-            var textBox = RenderComponent<SfTextBox>(parameter => parameter.Add(p => p.ID, "Multiline-ID").Add(p => p.HtmlAttributes, htmlAttributes).Add(p => p.InputAttributes, inputAttributes).Add(p => p.TabIndex, 0));
+            var textBox = RenderComponent<SfTextBox>(parameter => parameter.Add(p => p.ID, "Forms-Component-ID").Add(p => p.HtmlAttributes, htmlAttributes).Add(p => p.InputAttributes, inputAttributes).Add(p => p.TabIndex, 0));
             var inputElement = textBox.Find("input");
             var PersistData = await textBox.Instance.GetPersistDataAsync();
             Assert.Null(PersistData);
