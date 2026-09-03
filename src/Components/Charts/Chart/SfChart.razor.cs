@@ -588,7 +588,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts
         private void CalculateAvailableSize()
         {
             double height = Height != NullDimensionValue ? ChartHelper.StringToNumber(Height, _elementOffset.Height) : ChartDefaultHeight;
-            double width = Width != NullDimensionValue ? ChartHelper.StringToNumber(Width, _elementOffset.Width) : ChartDefaultHeight;
+            double width = Width != NullDimensionValue ? ChartHelper.StringToNumber(Width, _elementOffset.Width) : ChartDefaultWidth;
 
             AvailableSize = new Size(width > 0 ? width : AvailableSize.Width, height > 0 ? height : AvailableSize.Height);
             if (EnableAdaptiveRendering)
@@ -1718,16 +1718,26 @@ namespace Syncfusion.Blazor.Toolkit.Charts
             {
                 if (!_render.IsSizeSet)
                 {
+                    // Force defaults when no DOM measurement is possible
+                    if (_elementOffset.Width <= 0 || _elementOffset.Height <= 0)
+                    {
+                        _svgWidth  ??= ChartDefaultWidth.ToString(CultureInfo.InvariantCulture);
+                        _svgHeight ??= ChartDefaultHeight.ToString(CultureInfo.InvariantCulture);
+                    }
+
                     CalculateAvailableSize();
                     SetInitialRect();
+
+                    // Border initialization reaches this method before the normal layout pass;
+                    // process data first so the synchronous prerender sees populated renderers.
+                    // IsSizeSet keeps this SSR-only initialization from repeating.
+                    ProcessData();
+                    Prerender();
                 }
             }
-            catch
+            catch (Exception exception) when (IsDisposed)
             {
-                if (!IsDisposed)
-                {
-                    throw;
-                }
+                System.Diagnostics.Debug.WriteLine($"Static chart initialization failed during disposal: {exception}");
             }
         }
 

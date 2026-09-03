@@ -1215,6 +1215,14 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
         /// <returns>An array containing the string representation of X and Y coordinates.</returns>
         internal static string[] AppendTextElements(SfChart chart, string id, double locationX, double locationY, string x = "x", string y = "y")
         {
+            if (chart == null && chart.IsStaticServerRendering())
+            {
+                return new string[]
+                {
+                    locationX.ToString(CultureInfo.InvariantCulture),
+                    locationY.ToString(CultureInfo.InvariantCulture)
+                };
+            }
             bool redraw = chart._redraw;
 
             if (chart._textAnimationElements.TryGetValue(id, out DynamicTextAnimationOptions? existElement))
