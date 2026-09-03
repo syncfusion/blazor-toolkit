@@ -371,14 +371,13 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
         /// <summary>
         /// Creates nested renderer components for a given series element, such as marker renderer, data label renderer, error bar renderer, and gradient renderers, based on the presence of their respective RendererType properties. Each nested renderer is also assigned a unique key for Blazor's rendering system. This method ensures that all auxiliary renderers associated with a series are instantiated and linked to the series for proper rendering of markers, labels, error bars, and gradients as needed.
         /// </summary>
-        private static void CreateSeriesNestedElements(RenderTreeBuilder builder, ChartSeries element, SfChart Chart)
+        private static void CreateSeriesNestedElements(RenderTreeBuilder builder, ChartSeries element)
         {
             int seq = 0;
             ChartSeries series = element;
-            bool isStaticSsr = Chart != null && Chart.IsStaticServerRendering();
 
             bool shouldOpenMarker = series.Marker?.RendererType is not null &&
-                        (series.Marker.Visible || series.Marker.DataLabel.Visible || isStaticSsr);
+                        (series.Marker.Visible || series.Marker.DataLabel.Visible);
             if (shouldOpenMarker)
             {
                 builder.OpenComponent(seq++, series.Marker.RendererType);
@@ -710,7 +709,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
 
                 foreach (ChartSeries element in Elements.Cast<ChartSeries>())
                 {
-                    CreateSeriesNestedElements(builder, element, Owner ?? null!);
+                    CreateSeriesNestedElements(builder, element);
                 }
             }
             else
@@ -740,7 +739,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
                             continue;
                         }
 
-                        CreateSeriesNestedElements(builder, element, Owner ?? null!);
+                        CreateSeriesNestedElements(builder, element);
                     }
                 }
             }
@@ -987,12 +986,9 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
                     Owner?._striplineOverContainer?.SetDefaultRendererValues();
                 }
             }
-            catch
+            catch (Exception exception) when (IsDisposed)
             {
-                if (!IsDisposed)
-                {
-                    throw;
-                }
+                System.Diagnostics.Debug.WriteLine($"Chart series renderer initialization failed during disposal: {exception}");
             }
         }
 

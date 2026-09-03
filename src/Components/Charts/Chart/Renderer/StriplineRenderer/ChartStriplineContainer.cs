@@ -151,13 +151,14 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
         /// <param name="builder">RenderTreeBuilder instance.</param>
         protected override void BuildRenderers(RenderTreeBuilder builder)
         {
-            if (IsStaticSSR())
-            {
-                SetDefaultRendererValues();
-            }
             if (builder is null)
             {
                 return;
+            }
+
+            if (IsStaticSSR())
+            {
+                SetDefaultRendererValues();
             }
 
             Sequence = 0;
@@ -222,14 +223,14 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
         /// <param name="builder">RenderTreeBuilder instance.</param>
         protected override void BuildRenderers(RenderTreeBuilder builder)
         {
-            if (IsStaticSSR())
-            {
-                SetDefaultRendererValues();
-            }
-
             if (builder is null)
             {
                 return;
+            }
+
+            if (IsStaticSSR())
+            {
+                SetDefaultRendererValues();
             }
 
             Sequence = 0;

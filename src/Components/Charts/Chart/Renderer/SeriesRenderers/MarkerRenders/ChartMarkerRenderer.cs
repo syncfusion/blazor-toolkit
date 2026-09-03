@@ -13,6 +13,8 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
         #region Fields
         private string? _seriesIndex;
         private List<SymbolOptions> _symbolOptions = [];
+        // Static SSR is allowed once; subsequent passes use the normal renderer gate.
+        private bool _staticSSRRenderPending = true;
         #endregion
 
         #region Properties
@@ -359,12 +361,16 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
                 RenderMarkers(builder);
                 builder.CloseElement();
             }
+
+            if (IsStaticSSR())
+            {
+                _staticSSRRenderPending = false;
+            }
         }
 
         protected override bool ShouldRender()
         {
-            // Always allow the first SSR pass
-            return RendererShouldRender || IsStaticSSR();
+            return RendererShouldRender || (IsStaticSSR() && _staticSSRRenderPending);
         }
 
         #endregion

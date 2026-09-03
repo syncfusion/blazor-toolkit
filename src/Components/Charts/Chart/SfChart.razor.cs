@@ -1728,14 +1728,16 @@ namespace Syncfusion.Blazor.Toolkit.Charts
                     CalculateAvailableSize();
                     SetInitialRect();
 
-                    // Critical for SSR – process data & layout synchronously
+                    // Border initialization reaches this method before the normal layout pass;
+                    // process data first so the synchronous prerender sees populated renderers.
+                    // IsSizeSet keeps this SSR-only initialization from repeating.
                     ProcessData();
-                    Prerender();                     // series / axis / column / row / annotation
+                    Prerender();
                 }
             }
-            catch
+            catch (Exception exception) when (IsDisposed)
             {
-                if (!IsDisposed) throw;
+                System.Diagnostics.Debug.WriteLine($"Static chart initialization failed during disposal: {exception}");
             }
         }
 

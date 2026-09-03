@@ -114,26 +114,12 @@ namespace Syncfusion.Blazor.Toolkit.Charts
             // 1. Force the series container to run its layout / prerender
             Series.Container._seriesContainer?.Prerender();
 
-            // 2. If the marker renderer component already exists, force it to calculate symbols
+            // Recalculate symbols when the marker renderer component already exists.
             var markerRenderer = Series.Marker?.Renderer;
             if (markerRenderer != null)
             {
                 var rect = Series.Container.InitialRect ?? new Rect(0, 0, 0, 0);
                 markerRenderer.HandleChartSizeChange(rect);
-            }
-            else
-            {
-                // Renderer component has not been created yet.
-                // Just ask the series renderer to re-render; the OpenComponent will happen later.
-                try
-                {
-                    Series.Renderer.RendererShouldRender = true;
-                    Series.Renderer.ProcessRenderQueue();
-                }
-                catch
-                {
-                    // Ignore – under pure SSR ProcessRenderQueue may not be fully ready
-                }
             }
         }
 
