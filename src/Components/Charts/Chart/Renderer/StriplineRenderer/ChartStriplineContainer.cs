@@ -65,7 +65,9 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
             {
                 ClipRect = Owner._axisContainer.AxisLayout.SeriesClipRect ?? null!;
             }
+
             HandleChartSizeChange(Owner?.InitialRect ?? new Rect(0, 0, 0, 0));
+            RendererShouldRender = true;
         }
         #endregion
 
@@ -149,14 +151,13 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
         /// <param name="builder">RenderTreeBuilder instance.</param>
         protected override void BuildRenderers(RenderTreeBuilder builder)
         {
-            if (builder is null)
-            {
-                return;
-            }
-
             if (IsStaticSSR())
             {
                 SetDefaultRendererValues();
+            }
+            if (builder is null)
+            {
+                return;
             }
 
             Sequence = 0;
@@ -221,14 +222,14 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
         /// <param name="builder">RenderTreeBuilder instance.</param>
         protected override void BuildRenderers(RenderTreeBuilder builder)
         {
-            if (builder is null)
-            {
-                return;
-            }
-
             if (IsStaticSSR())
             {
                 SetDefaultRendererValues();
+            }
+
+            if (builder is null)
+            {
+                return;
             }
 
             Sequence = 0;

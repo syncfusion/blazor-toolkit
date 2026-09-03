@@ -371,11 +371,15 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
         /// <summary>
         /// Creates nested renderer components for a given series element, such as marker renderer, data label renderer, error bar renderer, and gradient renderers, based on the presence of their respective RendererType properties. Each nested renderer is also assigned a unique key for Blazor's rendering system. This method ensures that all auxiliary renderers associated with a series are instantiated and linked to the series for proper rendering of markers, labels, error bars, and gradients as needed.
         /// </summary>
-        private static void CreateSeriesNestedElements(RenderTreeBuilder builder, ChartSeries element)
+        private static void CreateSeriesNestedElements(RenderTreeBuilder builder, ChartSeries element, SfChart Chart)
         {
             int seq = 0;
             ChartSeries series = element;
-            if (series.Marker?.RendererType is not null)
+            bool isStaticSsr = Chart != null && Chart.IsStaticServerRendering();
+
+            bool shouldOpenMarker = series.Marker?.RendererType is not null &&
+                        (series.Marker.Visible || series.Marker.DataLabel.Visible || isStaticSsr);
+            if (shouldOpenMarker)
             {
                 builder.OpenComponent(seq++, series.Marker.RendererType);
                 builder.AddAttribute(seq++, "Series", series);
@@ -706,7 +710,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
 
                 foreach (ChartSeries element in Elements.Cast<ChartSeries>())
                 {
-                    CreateSeriesNestedElements(builder, element);
+                    CreateSeriesNestedElements(builder, element, Owner ?? null!);
                 }
             }
             else
@@ -736,7 +740,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
                             continue;
                         }
 
-                        CreateSeriesNestedElements(builder, element);
+                        CreateSeriesNestedElements(builder, element, Owner ?? null!);
                     }
                 }
             }
@@ -972,6 +976,16 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
                 ProcessData();
                 Owner?._legendRenderer?.SetDefaultRendererValues();
                 Owner?._axisContainer?.SetDefaultRendererContainerValues();
+                if (Owner?.InitialRect is not null)
+                {
+                    HandleChartSizeChange(Owner.InitialRect);
+                    foreach (var seriesRenderer in Renderers.OfType<ChartSeriesRenderer>())
+                    {
+                        seriesRenderer.Series?.Marker?.Renderer?.HandleChartSizeChange(Owner.InitialRect);
+                    }
+                    Owner?._striplineBehindContainer?.SetDefaultRendererValues();
+                    Owner?._striplineOverContainer?.SetDefaultRendererValues();
+                }
             }
             catch
             {
@@ -1098,6 +1112,19 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
             foreach (ChartRenderer renderer in Renderers.Cast<ChartRenderer>())
             {
                 renderer.HandleChartSizeChange(rect);
+            }
+
+            if (IsStaticSSR())
+            {
+                // Markers again if they were null during series pass
+                foreach (var seriesRenderer in Renderers.OfType<ChartSeriesRenderer>())
+                {
+                    seriesRenderer.Series?.Marker?.Renderer?.HandleChartSizeChange(rect);
+                }
+
+                // Striplines after axis + series clip are final
+                Owner?._striplineBehindContainer?.UpdateStriplineCollection();
+                Owner?._striplineOverContainer?.UpdateStriplineCollection();
             }
         }
 

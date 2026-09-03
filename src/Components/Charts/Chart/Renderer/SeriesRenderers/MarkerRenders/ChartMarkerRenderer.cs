@@ -361,6 +361,12 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
             }
         }
 
+        protected override bool ShouldRender()
+        {
+            // Always allow the first SSR pass
+            return RendererShouldRender || IsStaticSSR();
+        }
+
         #endregion
 
         #region Internal Methods
@@ -377,7 +383,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
         /// <returns>Calculated SymbolOptions instance.</returns>
         internal static SymbolOptions CalculateSymbol(ChartEventLocation location, string shape, Size size, string url, PathOptions option, SfChart chart)
         {
-            ChartEventLocation currentLocation = null!;
+            ChartEventLocation currentLocation = chart.IsStaticServerRendering() ? location : null!;
             if (chart is not null && shape == "Circle")
             {
                 string[] locations = ChartHelper.AppendTextElements(chart, option.Id, location.X, location.Y, "cx", "cy");
@@ -388,7 +394,10 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
 
             if (shapeoption.ShapeName == ShapeName.Path)
             {
-                shapeoption.PathOption.Direction = ChartHelper.AppendPathElements(chart ?? null!, shapeoption.PathOption.Direction, shapeoption.PathOption.Id);
+                if (chart != null)
+                {
+                    shapeoption.PathOption.Direction = ChartHelper.AppendPathElements(chart, shapeoption.PathOption.Direction, shapeoption.PathOption.Id);
+                }
                 shapeoption.PathOption.Visibility = option.Visibility;
             }
 
@@ -504,6 +513,20 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
                     symbolOption.PathOption.StrokeWidth = width;
                 }
             }
+        }
+
+        /// <summary>
+        /// SSR entry point – computes marker symbols when OnAfterRenderAsync is unavailable.
+        /// </summary>
+        internal override void SetDefaultRendererValues()
+        {
+            SeriesRenderer = Series?.Renderer;
+            if (SeriesRenderer != null && (Series?.Marker?.Visible ?? false))
+            {
+                CalculateRenderTreeBuilderOptions();   // fills _symbolOptions
+                SeriesRenderer.CalculateMarkerClipPath();
+            }
+            RendererShouldRender = true;
         }
 
         #endregion

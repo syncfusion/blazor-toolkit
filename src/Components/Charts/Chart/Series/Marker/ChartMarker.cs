@@ -1,6 +1,7 @@
-﻿using System.ComponentModel;
-using Microsoft.AspNetCore.Components;
+﻿using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Rendering;
+using Syncfusion.Blazor.Toolkit.Charts.Internal;
+using System.ComponentModel;
 
 namespace Syncfusion.Blazor.Toolkit.Charts
 {
@@ -99,9 +100,40 @@ namespace Syncfusion.Blazor.Toolkit.Charts
         /// </summary>
         private void SetDefaultRendererValues()
         {
-            if (Series?.Container is not null && Series.Renderer is not null && Series.Renderer.IsStaticSSR())
+            // Guard everything – any of these can still be null on the first SSR pass
+            if (Series == null || Series.Container == null || Series.Renderer == null)
             {
-                Series.Container._seriesContainer?.Prerender();
+                return;
+            }
+
+            if (!Series.Renderer.IsStaticSSR())
+            {
+                return;
+            }
+
+            // 1. Force the series container to run its layout / prerender
+            Series.Container._seriesContainer?.Prerender();
+
+            // 2. If the marker renderer component already exists, force it to calculate symbols
+            var markerRenderer = Series.Marker?.Renderer;
+            if (markerRenderer != null)
+            {
+                var rect = Series.Container.InitialRect ?? new Rect(0, 0, 0, 0);
+                markerRenderer.HandleChartSizeChange(rect);
+            }
+            else
+            {
+                // Renderer component has not been created yet.
+                // Just ask the series renderer to re-render; the OpenComponent will happen later.
+                try
+                {
+                    Series.Renderer.RendererShouldRender = true;
+                    Series.Renderer.ProcessRenderQueue();
+                }
+                catch
+                {
+                    // Ignore – under pure SSR ProcessRenderQueue may not be fully ready
+                }
             }
         }
 
