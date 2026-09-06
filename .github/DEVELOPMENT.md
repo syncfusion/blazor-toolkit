@@ -409,10 +409,23 @@ documented and not treated as defects:
 
 | Finding | Source | Rationale |
 |---|---|---|
-| `CA1014` / `CA1017` (assembly attributes) | applies to all TFM builds | We decline the suggestion to wrap the assembly with metadata attributes outside `csproj` because the `csproj` is the source of truth. |
-| `CA1305` (string IFormat) | applies to error/log message formatting | Acceptable suppression; safe in this codebase because the substituted values are not user-controlled. Suppressed in `src/Properties/GlobalSuppressions.cs` with a target on each `CA1305` violation. |
-| `CA1716` (identifier naming) | applies consistently across contributors | Acceptable suppression; naming conventions in this codebase are the documented PDF style guide. Suppressed in `src/Properties/GlobalSuppressions.cs`. |
+| Finding | Source | Rationale |
+|---|---|---|
+| `CA1014` / `CA1017` (assembly attributes) | applies to all TFM builds | The toolkit is a client-only Blazor component library; COM exposure and CLS-compliance enforcement are not consumer surfaces. Suppressed assembly-wide in `src/Properties/GlobalSuppressions.cs`. |
+| `CA1305` (string IFormat) | applies to error/log message formatting | Error/log message formatting in this codebase never substitutes user-controlled values. Suppressed assembly-wide in `src/Properties/GlobalSuppressions.cs`. |
+| `CA1716` (identifier naming) | applies consistently across contributors | Identifiers in the public Data namespace mirror .NET design-time naming (`Dynamic`, `Value`, etc.) required by the style guide. Suppressed assembly-wide in `src/Properties/GlobalSuppressions.cs`. |
 
 Suppressions are added via `src/Properties/GlobalSuppressions.cs` so
 they are visible to maintainers during code review and re-evaluated at
-each major release.
+each major release. The file's per-rule rationale is duplicated in
+`Justification` comments so each audit can be completed without
+referring back to this table.
+
+### Trim and AOT residual warnings
+
+Residual `ILLink` warnings from `-p:PublishTrimmed=true` against
+`samples/Blazor.Toolkit.Samples` and residual `ILCompiler` warnings
+from `-p:PublishAot=true` against
+`samples/Blazor.Toolkit.Samples.Client` are captured under the
+`trim-and-aot` label in the issues queue. Each issue lists the rule
+id, the symbol, and the planned remediation.

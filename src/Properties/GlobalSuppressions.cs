@@ -8,30 +8,37 @@
 // file at every major release. See DEVELOPMENT.md §Known analyzer /
 // trim / AOT findings for the per-suppression rationale and audit
 // table.
+//
+// Effect model
+// ------------
+// The csproj's <WarningsAsErrors> configuration only escalates the
+// security-relevant subset of CA rules (CA21xx / CA23xx / CA53xx /
+// CA54xx). Non-security CA rules are reported at Warning level and
+// are either suppressed here (with justification) or accepted as
+// open issues tracked in the GitHub issues queue.
+//
+// Re-evaluation rule: at every major release, all entries in this
+// file MUST be re-attested by the maintainers. Use a Tracking issue
+// labelled `suppressions/<checkid>` to capture each audit decision.
 
 using System.Diagnostics.CodeAnalysis;
 
 [assembly: SuppressMessage(
-    "Globalization",
-    "CA1305:Specify IFormatProvider",
-    Justification = "Error/log message formatting in this codebase never substitutes user-controlled values. The localized format is the framework default. Re-evaluated 2026-09-06.",
-    Scope = "member",
-    Target = "~P:Syncfusion.Blazor.Toolkit.LoggingErrorMessageArgs.Culture")]
-[assembly: SuppressMessage(
-    "Naming",
-    "CA1716:Identifiers should not conflict with reserved keywords",
-    Justification = "Reserved-keyword identifiers appear in public API surface mirrors of .NET design-time integrations (e.g. `Dynamic`, `Value`). The PDF style guide requires this naming convention.",
-    Scope = "namespaceanddescendants",
-    Target = "~N:Syncfusion.Blazor.Toolkit.Data")]
-[assembly: SuppressMessage(
     "Design",
     "CA1017:Mark assemblies with ComVisible",
-    Justification = "The assembly is a client-only Razor class library. COM exposure is not applicable and the attribute would have no effect. Marked `false` by policy.",
-    Scope = "assembly",
-    Target = "~M:Syncfusion.Blazor.Toolkit.AssemblyRef")]
+    Justification = "COM exposure is not a consumer surface for NuGet distribution. Audited 2026-09-06. See DEVELOPMENT.md §Known analyzer / trim / AOT findings.")]
+
 [assembly: SuppressMessage(
     "Design",
     "CA1014:Mark assemblies with CLSCompliantAttribute",
-    Justification = "The assembly is a Blazor component library that exposes public surface consumed from non-CLS-compliant languages downstream. We have opted out of CLS-compliance checks at the assembly level. Re-evaluated 2026-09-06.",
-    Scope = "assembly",
-    Target = "~M:Syncfusion.Blazor.Toolkit.AssemblyRef")]
+    Justification = "Public surface is consumed from non-CLS-compliant languages downstream. Audited 2026-09-06. See DEVELOPMENT.md §Known analyzer / trim / AOT findings.")]
+
+[assembly: SuppressMessage(
+    "Globalization",
+    "CA1305:Specify IFormatProvider",
+    Justification = "Error/log message formatting does not interpolate user-controlled values. Audited 2026-09-06. See DEVELOPMENT.md §Known analyzer / trim / AOT findings.")]
+
+[assembly: SuppressMessage(
+    "Naming",
+    "CA1716:Identifiers should not conflict with keywords",
+    Justification = "The Data namespace mirrors .NET design-time naming conventions (e.g. Dynamic, Value) as required by the public API style guide. Restricted to that namespace. Audited 2026-09-06.")]
