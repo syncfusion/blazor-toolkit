@@ -127,9 +127,58 @@ git cat-file -e <SHA>^{commit} \
   || { echo "ERROR: <SHA> is not on main"; exit 1; }
 ```
 
-- `Directory.Build.props` — `RepositoryCommit` default + branch resolution
-- `src/Syncfusion.Blazor.Toolkit.csproj` — `<RepositoryUrl>`, `<EmbedUntrackedSources>true</EmbedUntrackedSources>`, `<PublishRepositoryUrl>true</PublishRepositoryUrl>`
-- `.github/workflows/ci.yml` — `pack` job smoke-packs an unsigned `.nupkg` per TFM to confirm the wire-up
+### Release Checklist — RepositoryCommit resolution (MS-1.4(b) / LP-10)
+
+The `<RepositoryCommit>` field on the produced `.nuspec` is **never** a
+literal in the repository; it is populated automatically at `dotnet pack`
+time via `Microsoft.SourceLink.GitHub` + `Directory.Build.props`. The
+release maintainer MUST run the following checklist on every candidate
+build, **before** triggering Manual NuGet sign and publish (PI-01, PI-02)
+below.
+
+1. **Confirm the public commit SHA on disk matches the on-`main`
+   tag-candidate commit.**
+
+   ```sh
+   git rev-parse HEAD                 # local SHA
+   git ls-remote https://github.com/syncfusion/blazor-toolkit.git HEAD \
+     | awk '{print $1}'               # upstream SHA
+   test "$LOCAL_SHA" = "$UPSTREAM_SHA" \
+     || { echo "ERROR: HEAD is not on main"; exit 1; }
+   ```
+
+2. **Confirm `SourceRevisionId` (set by SourceLink during `dotnet
+   restore` for `EmbedUntrackedSources=true`) equals the local SHA.**
+
+   ```sh
+   dotnet restore src/Syncfusion.Blazor.Toolkit.csproj
+   git rev-parse HEAD                 # local SHA — must match
+   # SourceLink injects the SHA into the assembly metadata; the
+   # .nupkg's <repository> element will reflect it after pack.
+   ```
+
+3. **Smoke-pack the unsigned `.nupkg` per TFM and inspect the `<repository>`
+   element.**
+
+   ```sh
+   dotnet pack src/Syncfusion.Blazor.Toolkit.csproj \
+     -c Release \
+     -p:ContinuousIntegrationBuild=true \
+     -o ./verify-pkg
+   unzip -p verify-pkg/Syncfusion.Blazor.Toolkit.<Version>.nupkg \
+     Syncfusion.Blazor.Toolkit.nuspec \
+     | grep -E '<repository '
+   # Expected: an XML element whose 'commit' attribute equals the local SHA.
+   ```
+
+4. **Record the SHA + branch on the private release ticket.** This is
+   the same SHA the CI `pack` job echoes (`PACK_REPO_COMMIT=${github.event.pull_request.head.sha || github.sha}`);
+   the on-disk SHA MUST match it. If it does not, abort the release —
+   do not ad-hoc re-pack, do not bypass.
+
+   - `Directory.Build.props` — `RepositoryCommit` default + branch resolution (`<SourceRevision>` → `<RepositoryCommit>`)
+   - `src/Syncfusion.Blazor.Toolkit.csproj` — `<RepositoryUrl>`, `<EmbedUntrackedSources>true</EmbedUntrackedSources>`, `<PublishRepositoryUrl>true</PublishRepositoryUrl>`
+   - `.github/workflows/ci.yml` — `pack` job smoke-packs an unsigned `.nupkg` per TFM to confirm the wire-up
 
 ### D2 / PI-01 — Strong-name signing (manual)
 

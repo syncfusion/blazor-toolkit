@@ -1,4 +1,12 @@
 ﻿@namespace Syncfusion.Blazor.Toolkit.Charts.Internal
 @inherits SvgClass
 
+@*
+    MS-4.10 — The `style="@Style"` attribute is intentionally retained.
+    `Style` is a public `[Parameter]` on `SvgRect` that callers use to
+    append chart-driven runtime CSS (per-series fill, dash, animation
+    timing, etc.). Such per-instance data cannot be expressed
+    statically in `SvgRect.razor.css`. Static / theme rules that
+    apply on every render live in the colocated `.razor.css` file.
+*@
 <rect id="@Id" x=@X.ToString(_culture) y=@Y.ToString(_culture) tabindex="@(string.IsNullOrEmpty(EffectiveTabIndex) ? null : (object)EffectiveTabIndex)" height="@Height.ToString(_culture)" rx="@Rx.ToString(_culture)" ry="@Ry.ToString(_culture)" width="@Width.ToString(_culture)" stroke="@Stroke" fill="@Fill" stroke-width="@StrokeWidth.ToString(_culture)" opacity="@Opacity.ToString(_culture)" class="@Class" transform="@Transform" stroke-dasharray="@DashArray" visibility="@Visibility" style="@Style" filter="@Filter" role="@(string.IsNullOrEmpty(EffectiveRole) ? null : (object)EffectiveRole)" aria-hidden="@AriaHidden" title="@Title"></rect>

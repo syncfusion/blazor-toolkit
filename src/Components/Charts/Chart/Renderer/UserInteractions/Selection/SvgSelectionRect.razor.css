@@ -1,0 +1,20 @@
+/*
+ * MS-4.10 / LPS-13 — CSS isolation for SvgSelectionRect.
+ *
+ * Each runtime cursor value gets its own class so the original inline-style swap
+ * (`ChangeCursorAsync(string)`) becomes a class swap. New cursors must be added here.
+ */
+
+.svg-sel-rect-move       { cursor: move;     }
+.svg-sel-rect-pointer    { cursor: pointer;  }
+.svg-sel-rect-crosshair  { cursor: crosshair; }
+.svg-sel-rect-default    { cursor: default;  }
+.svg-sel-rect-text       { cursor: text;     }
+.svg-sel-rect_wait       { cursor: wait;     }
+.svg-sel-rect-not_allowed { cursor: not-allowed; }
+.svg-sel-rect_ew_resize  { cursor: ew-resize; }
+.svg-sel-rect_ns_resize  { cursor: ns-resize; }
+.svg-sel-rect-ew_resize  { cursor: ew-resize; }
+.svg-sel-rect-ns_resize  { cursor: ns-resize; }
+
+.svg-sel-rect-close      { cursor: pointer;  }

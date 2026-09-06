@@ -1,5 +1,14 @@
 ﻿@namespace Syncfusion.Blazor.Toolkit.Charts.Internal
 
+@*
+    MS-4.10 — The `style="@Style"` attribute is intentionally retained.
+    `Style` is a public `[Parameter]` on `SvgText` that callers use to
+    append chart-driven runtime CSS (per-axis / per-label overrides,
+    custom clip regions, animation timing). Such per-instance data
+    cannot be expressed statically in `SvgText.razor.css`. Static /
+    theme rules that apply on every render live in the colocated
+    `.razor.css` file.
+*@
 <text id="@Id" x=@X y=@Y opacity="@_opacity" fill="@Fill" font-size=@FontSize font-style=@FontStyle font-family=@FontFamily font-weight=@FontWeight text-anchor=@TextAnchor dominant-baseline="@DominantBaseline" transform="@Transform" tabindex="@TabIndex" aria-label="@AccessibilityText" role="@Role" style="@Style" clip-path="@ClipPath" title="@Title">
     @Text
     @ChildContent

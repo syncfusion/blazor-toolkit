@@ -1,0 +1,21 @@
+/*
+ * MS-4.10 / LPS-13 — CSS isolation for SvgSelectionPath.
+ *
+ * The path / close-icon `cursor` values are static and theme-invariant, so
+ * they live here as Blazor-CSS-isolation classes. See the companion
+ * `.razor.css` files on the related `SvgSelectionRect.razor`,
+ * `ChartTooltipComponent.razor`, `SvgRect.razor`, `SvgText.razor`, and
+ * `Border.razor` for the rest of the MS-4.10 sweep.
+ *
+ * Dynamic runtime styles (e.g. user-driven cursor changes on the rect
+ * side via `ChangeCursorAsync(string)`) remain on the host element so they
+ * can be tail-applied by the component instance.
+ */
+
+.svg-sel-path-move {
+    cursor: move;
+}
+
+.svg-sel-path-close {
+    cursor: pointer;
+}

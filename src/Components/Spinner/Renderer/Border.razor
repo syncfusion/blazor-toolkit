@@ -1,6 +1,16 @@
 ﻿@inherits SpinnerBase
 @namespace Syncfusion.Blazor.Toolkit.Spinner.Internal
 
+@*
+    MS-4.10 — The `style="@SvgStyle"` attribute is intentionally retained.
+    `SvgStyle` carries only CSS custom properties (`--spinner-size`,
+    `--spinner-thickness`) that are computed at runtime from the parent
+    `SfSpinner.Size` / `Thickness` parameters. CSS custom properties are
+    the canonical pattern for passing runtime values to a CSS-isolation
+    stylesheet — see `Border.razor.css` for the rule body
+    (`width: var(--spinner-size, 30px); …`).
+    All other visual rules live in `Border.razor.css`.
+*@
 <svg class="@SpinnerSvgClass"
      id="@SvgId"
      viewBox="@ViewBox"

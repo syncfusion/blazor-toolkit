@@ -1,0 +1,12 @@
+/*
+ * MS-4.10 / LPS-13 — CSS isolation for SvgRect.
+ *
+ * `style="@Style"` is preserved on the host because `Style` is a public
+ * `[Parameter]`; chart series pass runtime values (animation timing,
+ * per-series fill) that cannot be expressed statically. Only the static
+ * / theme-invariant defaults live here.
+ */
+
+rect[role="text"] {
+    pointer-events: none;
+}

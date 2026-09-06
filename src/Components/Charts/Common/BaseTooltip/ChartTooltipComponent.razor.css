@@ -1,0 +1,16 @@
+/*
+ * MS-4.10 / LPS-13 — CSS isolation for ChartTooltipComponent.
+ *
+ * Static, theme-invariant rules for the chart tooltip wrapper. Runtime
+ * positioning (`top` / `left` / `pointer-events` / `z-index` / `visibility`)
+ * is appended by the component's `Style` parameter because it varies
+ * with the chart's live geometry; see
+ * `ChartTooltipComponent.ChangeContent(ChartEventLocation location, ...)`.
+ */
+
+.e-tooltip-wrapper {
+    position: absolute;
+    z-index: 1;
+    pointer-events: none;
+    box-sizing: border-box;
+}

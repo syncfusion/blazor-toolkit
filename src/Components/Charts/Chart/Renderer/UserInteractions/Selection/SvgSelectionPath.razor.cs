@@ -15,15 +15,17 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
         #region Fields
 
         /// <summary>
-        /// Inline style applied to the lasso &lt;path&gt;. The path cursor is fixed at "move" and is
+        /// CSS class applied to the lasso &lt;path&gt;. The path cursor is fixed at "move" and is
         /// not re-themed at runtime (unlike the rect side, which has <see cref="ChangeCursorAsync"/>).
+        /// Style rule lives in <c>SvgSelectionPath.razor.css</c>.
         /// </summary>
-        private const string _cursorStyle = "cursor:move";
+        private const string _cursorClass = "svg-sel-path-move";
 
         /// <summary>
-        /// Inline style applied to the close-icon &lt;g&gt;. Pointer cursor is fixed for a dismiss button.
+        /// CSS class applied to the close-icon &lt;g&gt;. Pointer cursor is fixed for a dismiss button.
+        /// Style rule lives in <c>SvgSelectionPath.razor.css</c>.
         /// </summary>
-        private const string _closeCursorStyle = "cursor:pointer";
+        private const string _closeCursorClass = "svg-sel-path-close";
         private CultureInfo _culture = CultureInfo.InvariantCulture;
         internal bool _isDrawCloseIcon;
         #endregion
