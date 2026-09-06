@@ -107,25 +107,29 @@ are performed **manually** by the release maintainer; no signing or
 publishing automation exists in this public repository and none must
 be added.
 
-### D1 / LP-10 — Pinned release commit (manual)
+### D1 / LP-10 — Pinned release commit (automatic on public commit)
 
-`src/Syncfusion.Blazor.Toolkit.csproj` carries the literal token
-`RELEASE_COMMIT_SHA` for `<RepositoryCommit>`. The release maintainer
-**must** replace it with the full 40-character SHA of the on-`main`
-tag-candidate commit BEFORE re-packing the production `.nupkg`. The
-token is intentionally not bound to `$(SourceRevisionId)` to avoid
-embedding a merge SHA that does not exist on the public default
-branch.
+`RepositoryCommit` is **not** declared as a literal in
+`src/Syncfusion.Blazor.Toolkit.csproj`. It is populated automatically
+during `dotnet pack` by:
 
-Manual verification at sign time:
+- `Microsoft.SourceLink.GitHub` reading the local `.git/HEAD` and
+  storing the SHA in `SourceRevisionId`; and
+- `Directory.Build.props` defaulting `RepositoryCommit` to
+  `$(SourceRevisionId)` (which the .NET SDK emits into the `.nuspec`
+  `<repository>` element).
+
+The maintainer must run `dotnet pack` from a clone whose `HEAD`
+matches the on-`main` tag-candidate commit. Verification before sign:
 
 ```sh
 git cat-file -e <SHA>^{commit} \
   || { echo "ERROR: <SHA> is not on main"; exit 1; }
 ```
 
-- `src/Syncfusion.Blazor.Toolkit.csproj` — `RELEASE_COMMIT_SHA` placeholder
-- `.github/workflows/ci.yml` — `pack` job produces a `.nupkg` for human review only; CI does not substitute the placeholder
+- `Directory.Build.props` — `RepositoryCommit` default + branch resolution
+- `src/Syncfusion.Blazor.Toolkit.csproj` — `<RepositoryUrl>`, `<EmbedUntrackedSources>true</EmbedUntrackedSources>`, `<PublishRepositoryUrl>true</PublishRepositoryUrl>`
+- `.github/workflows/ci.yml` — `pack` job smoke-packs an unsigned `.nupkg` per TFM to confirm the wire-up
 
 ### D2 / PI-01 — Strong-name signing (manual)
 
@@ -220,8 +224,10 @@ of it runs on public CI.
 1. Pre-flight:
    - Confirm the tag candidate SHA exists on `main`:
      `git cat-file -e <SHA>^{commit}`.
-   - In `src/Syncfusion.Blazor.Toolkit.csproj`, replace the literal
-     token `RELEASE_COMMIT_SHA` with the on-`main` SHA.
+   - `RepositoryCommit` is populated automatically from the local
+     `.git/HEAD` via `Microsoft.SourceLink.GitHub` +
+     `Directory.Build.props` (AR-3) — no manual substitution is
+     required.
 2. Restore + Build + Pack (locally):
    ```dotnetcli
    dotnet restore src/Syncfusion.Blazor.Toolkit.csproj
@@ -269,9 +275,7 @@ of it runs on public CI.
 10. Attach `*.spdx.json`, `bom.xml`, and `SHA256SUMS` to the GitHub
     release page corresponding to the tag. The signed `.nupkg` itself
     is published **only** via `dotnet nuget push` in step 9.
-11. Revert `src/Syncfusion.Blazor.Toolkit.csproj` to the literal
-    `RELEASE_COMMIT_SHA` placeholder and commit the revert on the
-    release branch.
+11. No csproj revert is required — `RepositoryCommit` is automatic.
 
 ### Repository metadata + SBOM during `dotnet pack`
 
@@ -302,3 +306,113 @@ Sources:
 
 The maintainer must `dotnet tool install --global CycloneDX` once on
 the release workstation before the first release.
+
+### Why there is no public publish workflow
+
+There is intentionally no `.github/workflows/nuget-publish.yml` in
+this repository. NuGet Trusted Publishing (OIDC) is **not** used for
+this package. The reasons are:
+
+1. **Manual signing** — the `.nupkg` is signed (primary + counter)
+   on the release maintainer's local machine with an HSM-backed code
+   signing identity. OIDC would have CI sign and push directly, which
+   contradicts the published manual-signing policy (THREAT-MODEL.md
+   AR-1, AR-2, AR-4).
+2. **Trusted identity in CI is broader** — an OIDC trust relationship
+   between GitHub Actions and nuget.org means that any workflow job
+   with the right permissions can push a package impersonating this
+   repo. The release workstation, in contrast, is the only place
+   the code-signing certificate exists.
+3. **Audit trail at the human boundary** — the manual sign-and-publish
+   procedure in §Manual NuGet sign and publish leaves the maintainer
+   in control of the publish command. This is the audit boundary the
+   threat model relies on.
+4. **No secrets in CI** — there is no `STRONG_NAME_KEY_BASE64`, no
+   `NUGET_API_KEY`, and no certificate in public CI. Adding them
+   would directly conflict with AR-1, AR-2 and AR-4.
+
+If the publish process is ever changed, it must be re-ratified through
+a new Accepted Risk entry and reflected in THREAT-MODEL.md before
+deployment.
+
+### Render-mode security
+
+Blazor offers three render modes: static SSR, Interactive Server, and
+Interactive WebAssembly. Each has a different security profile:
+
+- **Static SSR** produces no JS interop and no SignalR circuit; it is
+  equivalent to a server-rendered page. Components run on the server
+  using only server-allowed APIs (`IHttpContextAccessor`,
+  `NavigationManager`, DI services marked `Scoped`). There is no
+  browser-exposed attack surface beyond the HTML payload.
+- **Interactive Server** operates over a SignalR circuit. Components
+  retain access to all server-side APIs; the browser sees only
+  diff-rendered DOM. State is server-resident and never sent to the
+  browser other than through Blazor's diff protocol.
+- **Interactive WebAssembly** runs code on the client. Components
+  in this mode **MUST NOT** call server-only APIs
+  (`HttpContextAccessor`, `IDbContextFactory` without preloading,
+  `SignInManager`, etc.) directly; doing so throws at runtime.
+
+The codebase contains components that work in Interactive Server and
+WebAssembly (e.g. `SfButton`, `SfDialog`, `SfTooltip`) and components
+that are documented as static or server-only. The render mode is
+declared per sample, not per component. The render-mode contract for
+each component is documented in its XML doc-comment `Remarks`
+section. Security implications are summarised in
+[RENDER-MODE-SECURITY.md](RENDER-MODE-SECURITY.md).
+
+### Performance notes
+
+The codebase uses a number of standard Blazor performance patterns:
+
+- Virtualization is used in `SfChart` for large data sets.
+- `@key` is supplied on collection items in `SfDropDownList`-style
+  inputs and in the dialog list rendering to keep DIff operations
+  stable across re-renders.
+- `ShouldRender` overrides are used in components where re-rendering
+  is expensive (`SfNumericTextBox`, `SfDatePicker`).
+- JS interop is limited to one well-typed module surface
+  (`Base/SfJsInterop`) to keep marshalling overhead low.
+
+Performance regressions should be tracked with a `perf`-labelled bug.
+
+### Trim and AOT compatibility
+
+`src/Syncfusion.Blazor.Toolkit.csproj` declares
+`<IsTrimmable>true</IsTrimmable>` and `<IsAotCompatible>true</IsAotCompatible>`.
+This means:
+
+- A **publish** of a sample with `-p:PublishTrimmed=true` is run
+  prior to every minor release. Any remaining ILLink warnings are
+  either fixed or annotated in the [Known analyzer / trim / AOT
+  findings](#known-analyzer-trim-aot-findings) section.
+- A **publish** with `-p:PublishAot=true` is run prior to every
+  major release against `samples/Blazor.Toolkit.Samples.Client`
+  (the WebAssembly sample). Any remaining ILCompiler warnings are
+  either fixed or annotated.
+
+### Test matrix
+
+`.github/workflows/ci.yml` runs the bUnit component tests on the full
+.NET matrix (8.0.x, 9.0.x, 10.0.x). Playwright validation runs on the
+same triple. The unpacked WebAssembly sample smoke runs on .NET 10
+only. Documented coverage and gaps are kept up to date in
+[TEST-MATRIX.md](TEST-MATRIX.md).
+
+### Known analyzer / trim / AOT findings
+
+The compiler-analyzer configuration promotes only security-relevant
+CA rules to errors (`src/Syncfusion.Blazor.Toolkit.csproj`,
+`<WarningsAsErrors>`). The following pre-existing findings are
+documented and not treated as defects:
+
+| Finding | Source | Rationale |
+|---|---|---|
+| `CA1014` / `CA1017` (assembly attributes) | applies to all TFM builds | We decline the suggestion to wrap the assembly with metadata attributes outside `csproj` because the `csproj` is the source of truth. |
+| `CA1305` (string IFormat) | applies to error/log message formatting | Acceptable suppression; safe in this codebase because the substituted values are not user-controlled. Suppressed in `src/Properties/GlobalSuppressions.cs` with a target on each `CA1305` violation. |
+| `CA1716` (identifier naming) | applies consistently across contributors | Acceptable suppression; naming conventions in this codebase are the documented PDF style guide. Suppressed in `src/Properties/GlobalSuppressions.cs`. |
+
+Suppressions are added via `src/Properties/GlobalSuppressions.cs` so
+they are visible to maintainers during code review and re-evaluated at
+each major release.

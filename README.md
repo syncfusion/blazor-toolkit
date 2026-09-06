@@ -92,7 +92,7 @@ blazor-toolkit/
 5. **Review** — Two maintainers review. We aim to respond within 5 business days
 6. **Merge** — PRs are merged after approval and passing CI checks
 
-For full details on commit style, PR requirements, and review criteria, see the [Contributing Guide](./.github/CONTRIBUTING.md).
+For full details on commit style, PR requirements, and review criteria, see the [Contributing Guide](https://github.com/syncfusion/blazor-toolkit/tree/main/.github/CONTRIBUTING.md).
 
 ## Framework Compatibility
 
@@ -129,12 +129,12 @@ For full details on commit style, PR requirements, and review criteria, see the 
 
 The repository includes specialized skill files that document component usage patterns and implementation guidance for the major toolkit areas:
 
-- [Buttons skill](.github/skills/syncfusion-blazor-toolkit-buttons/SKILL.md)
-- [Calendars skill](.github/skills/syncfusion-blazor-toolkit-calendars/SKILL.md)
-- [Charts skill](.github/skills/syncfusion-blazor-toolkit-charts/SKILL.md)
-- [Inputs skill](.github/skills/syncfusion-blazor-toolkit-inputs/SKILL.md)
-- [Notifications skill](.github/skills/syncfusion-blazor-toolkit-notifications/SKILL.md)
-- [Popups skill](.github/skills/syncfusion-blazor-toolkit-popups/SKILL.md)
+- [Buttons skill](https://github.com/syncfusion/blazor-toolkit/tree/main/.github/skills/syncfusion-blazor-toolkit-buttons/SKILL.md)
+- [Calendars skill](https://github.com/syncfusion/blazor-toolkit/tree/main/.github/skills/syncfusion-blazor-toolkit-calendars/SKILL.md)
+- [Charts skill](https://github.com/syncfusion/blazor-toolkit/tree/main/.github/skills/syncfusion-blazor-toolkit-charts/SKILL.md)
+- [Inputs skill](https://github.com/syncfusion/blazor-toolkit/tree/main/.github/skills/syncfusion-blazor-toolkit-inputs/SKILL.md)
+- [Notifications skill](https://github.com/syncfusion/blazor-toolkit/tree/main/.github/skills/syncfusion-blazor-toolkit-notifications/SKILL.md)
+- [Popups skill](https://github.com/syncfusion/blazor-toolkit/tree/main/.github/skills/syncfusion-blazor-toolkit-popups/SKILL.md)
 
 These skill files are intended to help contributors and maintainers understand the supported patterns, accessibility expectations, and implementation conventions for each toolkit area.
 
@@ -150,8 +150,8 @@ There are two ways to get started with the Syncfusion Blazor Toolkit. Pick the o
 **Prerequisites**
 
 - [Install .NET](https://dotnet.microsoft.com/download) (8.0 or later recommended)
-- [Syncfusion Blazor Toolkit Documentation](https://blazor.syncfusion.com/documentation/toolkit/overview) (in active development — contributor-focused docs in [DEVELOPMENT.md](./.github/DEVELOPMENT.md))
-- [Development Guide](./.github/DEVELOPMENT.md)
+- [Syncfusion Blazor Toolkit Documentation](https://blazor.syncfusion.com/documentation/toolkit/overview) (in active development — contributor-focused docs in [DEVELOPMENT.md](https://github.com/syncfusion/blazor-toolkit/tree/main/.github/DEVELOPMENT.md))
+- [Development Guide](https://github.com/syncfusion/blazor-toolkit/tree/main/.github/DEVELOPMENT.md)
 
 ### Using Templates (Recommended)
 
@@ -325,12 +325,13 @@ public class ChartDataPoint
 
 ## Support
 
-### Community Support (Open Source)
+For full support details (community channels, bug reports, security, code of conduct), see
+[`.github/SUPPORT.md`](https://github.com/syncfusion/blazor-toolkit/tree/main/.github/SUPPORT.md).
 
 - **[GitHub Issues](https://github.com/syncfusion/blazor-toolkit/issues)** — Bug reports and bug-fix PRs
 - **[GitHub Discussions](https://github.com/syncfusion/blazor-toolkit/discussions)** — Ideas, questions, and feature proposals before opening a PR
 
-Response time for community channels is best-effort; we aim to acknowledge within 5 business days.
+Response time for community channels is best-effort; we aim to acknowledge within **5 business days** as documented in [SUPPORT.md](https://github.com/syncfusion/blazor-toolkit/tree/main/.github/SUPPORT.md).
 
 ### Commercial Support
 
@@ -339,17 +340,23 @@ Response time for community channels is best-effort; we aim to acknowledge withi
 
 ## Contributing
 
-Contributions are welcome! If you'd like to contribute, check out our [contributing guide](./.github/CONTRIBUTING.md) for details on how to get started. Whether you find a bug, have a feature request, or want to submit code, we appreciate your help in improving the toolkit.
+Contributions are welcome! If you'd like to contribute, check out our [contributing guide](https://github.com/syncfusion/blazor-toolkit/tree/main/.github/CONTRIBUTING.md) for details on how to get started. Whether you find a bug, have a feature request, or want to submit code, we appreciate your help in improving the toolkit.
 
-See the [Development Guide](./.github/DEVELOPMENT.md) for more details about this repository and project structure.
+See the [Development Guide](https://github.com/syncfusion/blazor-toolkit/tree/main/.github/DEVELOPMENT.md) for more details about this repository and project structure.
 
-Review our [Code of Conduct](./.github/CODE_OF_CONDUCT.md) — all community interactions are expected to follow it.
+Review our [Code of Conduct](https://github.com/syncfusion/blazor-toolkit/tree/main/.github/CODE_OF_CONDUCT.md) — all community interactions are expected to follow it.
 
 ## Contributors
 
 This project exists thanks to all the people who contribute.
 
-<img src="https://contrib.rocks/image?repo=syncfusion/blazor-toolkit" alt="Contributors">
+<img src="https://contrib.rocks/image?repo=syncfusion/blazor-toolkit" alt="Syncfusion Blazor Toolkit contributors" loading="lazy" />
+
+## Accessibility
+
+The toolkit aims to conform to **WCAG 2.2 Level AA**. The current conformance statement and supporting evidence live in
+[`.github/ACCESSIBILITY.md`](https://github.com/syncfusion/blazor-toolkit/tree/main/.github/ACCESSIBILITY.md), with the latest screen-reader smoke matrix at
+[`.github/accessibility/screen-reader-smoke.md`](https://github.com/syncfusion/blazor-toolkit/tree/main/.github/accessibility/screen-reader-smoke.md). Known limitations are tracked as GitHub issues labelled `accessibility`.
 
 ## About Syncfusion®
 

@@ -56,6 +56,6 @@ On a **monthly cadence** (targeting the second Wednesday of each month), the mai
 
 ## 4. Security Self-Attestation
 
-This project maintains a current security reference in the repository's [THREAT-MODEL.md](../THREAT-MODEL.md) document. The project team has reviewed the current architecture, package surface, and release flow and has documented the principal risks and mitigations in good faith.
+This project maintains a current security reference in the repository's [THREAT-MODEL.md](THREAT-MODEL.md) document (sibling to this file in `.github/`). The project team has reviewed the current architecture, package surface, and release flow and has documented the principal risks and mitigations in good faith.
 
 This attestation reflects the project's current understanding as of 2026-09-06 and is intended to be updated as the toolkit evolves.
