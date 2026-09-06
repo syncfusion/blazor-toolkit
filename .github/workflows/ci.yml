@@ -326,16 +326,85 @@ jobs:
         with:
           name: xss-scan-report
           path: xss-scan-report.txt
-          if-no-files-found: ignore
-          retention-days: 14
+        if-no-files-found: ignore
+        retention-days: 14
 
   # =========================================================
-  # Job 6: Summary
+  # Job 6: Pack — D7 / CI-01
+  # -----------------------------------------------------------------
+  # Produces an unsigned .nupkg artifact per target framework as a
+  # smoke test of packaging metadata (and the D1 / LP-10
+  # `RepositoryCommit` placeholder). The artifact is provided for
+  # the internal release maintainer to download, verify the on-main
+  # SHA, substitute it into the csproj `RELEASE_COMMIT_SHA` placeholder,
+  # re-pack, sign, and push manually. CI must never attempt to sign
+  # or publish. See THREAT-MODEL.md AR-2 (PI-02 Authenticode manual),
+  # AR-1 (PI-01 strong-name manual), AR-3 (D1 commit freshness), and
+  # AR-4 (manual publish).
+  # =========================================================
+  pack:
+    name: Pack (.NET ${{ matrix.dotnet-version }})
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    needs: [bunit, playwright, vulnerability-scan, eslint-security, xss-scan]
+    strategy:
+      fail-fast: false
+      matrix:
+        dotnet-version: ['8.0.x', '9.0.x', '10.0.x']
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v7
+
+      - name: Setup .NET ${{ matrix.dotnet-version }}
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: ${{ matrix.dotnet-version }}
+
+      - name: Cache NuGet packages
+        uses: actions/cache@v6
+        with:
+          path: ~/.nuget/packages
+          key: nuget-${{ runner.os }}-${{ matrix.dotnet-version }}-${{ hashFiles('**/*.*proj') }}
+          restore-keys: |
+            nuget-${{ runner.os }}-${{ matrix.dotnet-version }}-
+            nuget-${{ runner.os }}-
+
+      - name: Restore
+        run: dotnet restore src/Syncfusion.Blazor.Toolkit.csproj
+
+      - name: Build
+        run: dotnet build src/Syncfusion.Blazor.Toolkit.csproj -c Release --no-restore
+
+      - name: Pack (D1 / LP-10 smoke, unsigned)
+        env:
+          PACK_REPO_COMMIT: ${{ github.event.pull_request.head.sha || github.sha }}
+        run: |
+          dotnet pack src/Syncfusion.Blazor.Toolkit.csproj \
+            -c Release --no-build \
+            -o ./unsigned-pkg \
+            -p:RepositoryCommit=${PACK_REPO_COMMIT} \
+            -p:ContinuousIntegrationBuild=true
+            # Strong-name signing is NOT applied. DLLs inside this .nupkg
+            # are intentionally unsigned. Strong-name + Authenticode signing
+            # are performed manually on the maintainer's machine in
+            # accordance with AR-1 and AR-2 (THREAT-MODEL.md).
+
+      - name: Upload unsigned .nupkg (for human review only)
+        uses: actions/upload-artifact@v7
+        with:
+          name: unsigned-pkg-${{ matrix.dotnet-version }}
+          path: unsigned-pkg/*.nupkg
+          retention-days: 14
+          if-no-files-found: error
+
+  # =========================================================
+  # Job 7: Summary
   # =========================================================
   summary:
     name: CI Summary
     runs-on: ubuntu-latest
-    needs: [bunit, playwright, vulnerability-scan, eslint-security, xss-scan]
+    needs: [bunit, playwright, vulnerability-scan, eslint-security, xss-scan, pack]
     if: always()
     permissions:
       contents: read
@@ -349,12 +418,14 @@ jobs:
           echo "NuGet vuln scan result: ${{ needs.vulnerability-scan.result }}"
           echo "ESLint security result: ${{ needs.eslint-security.result }}"
           echo "XSS scan result:        ${{ needs.xss-scan.result }}"
+          echo "Pack result:            ${{ needs.pack.result }}"
 
           if [[ "${{ needs.bunit.result }}" != "success" \
              || "${{ needs.playwright.result }}" != "success" \
              || "${{ needs.vulnerability-scan.result }}" != "success" \
              || "${{ needs.eslint-security.result }}" != "success" \
-             || "${{ needs.xss-scan.result }}" != "success" ]]; then
+             || "${{ needs.xss-scan.result }}" != "success" \
+             || "${{ needs.pack.result }}" != "success" ]]; then
             echo "One or more jobs failed → failing the workflow"
             exit 1
           fi
@@ -371,7 +442,8 @@ jobs:
             const vulnOk = '${{ needs.vulnerability-scan.result }}' === 'success';
             const eslintOk = '${{ needs.eslint-security.result }}' === 'success';
             const xssOk = '${{ needs.xss-scan.result }}' === 'success';
-            const overall = (bunitOk && pwOk && vulnOk && eslintOk && xssOk)
+            const packOk = '${{ needs.pack.result }}' === 'success';
+            const overall = (bunitOk && pwOk && vulnOk && eslintOk && xssOk && packOk)
               ? '✅ All checks passed'
               : '❌ Some checks failed';
 
@@ -384,6 +456,7 @@ jobs:
             | **NuGet vulnerability scan** | ${vulnOk ? '✅ Passed' : '❌ Failed'} |
             | **ESLint security** | ${eslintOk ? '✅ Passed' : '❌ Failed'} |
             | **XSS / unsafe markup scan** | ${xssOk ? '✅ Passed' : '❌ Failed'} |
+            | **Pack** (.NET 8/9/10, unsigned) | ${packOk ? '✅ Passed' : '❌ Failed'} |
 
             **Overall:** ${overall}
             `;

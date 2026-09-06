@@ -1,0 +1,80 @@
+<Project>
+
+  <!--
+    Directory.Build.targets (public repo)
+
+    SBOM generation (D6 / PI-06). Runs during a normal `dotnet pack`:
+
+      1. _GenerateCycloneDxSbom runs `dotnet CycloneDX` after the
+         kernel is built (before GenerateNuspec) and writes a CycloneDX
+         JSON file next to the compiled assembly. The mirror is also
+         written under <repo>/artifacts/sbom/<id>/<version>/<tfm>/ for
+         easy packaging + post-pack verification.
+
+      2. _PackCycloneDxSbomIntoNupkg adds the just-written SBOM as a
+         packaged None item under `_sbom/cyclonedx/<tfm>/` so it ships
+         inside the published .nupkg.
+
+    Tests and non-packable projects are skipped (Condition guards).
+
+    The maintainer must have installed the CycloneDX .NET tool once:
+
+        dotnet tool install --global CycloneDX
+  -->
+
+  <PropertyGroup>
+    <_SBOMSourceFile>$(AssemblyName).$(TargetFramework).cdx.json</_SBOMSourceFile>
+    <_SBOMMirrorDir>$(MSBuildThisFileDirectory)$(CycloneDxRelativeDir)\$(PackageId)\$(Version)\$(TargetFramework)</_SBOMMirrorDir>
+    <_SBOMMirrorPath>$(_SBOMMirrorDir)\$(AssemblyName).cdx.json</_SBOMMirrorPath>
+  </PropertyGroup>
+
+  <!-- 1) Generate the SBOM after the kernel is built, before the nuspec
+          is generated. Re-discovers the tool in case a local manifest is
+          present (dotnet tool restore / pinned toolset). The execute
+          pre-step ensures `dotnet CycloneDX` is resolvable.        -->
+  <Target Name="_GenerateCycloneDxSbom"
+          AfterTargets="Build"
+          BeforeTargets="GenerateNuspec"
+          Condition="'$(CycloneDxEnabled)' == 'true'
+                     AND '$(IsPackable)' == 'true'
+                     AND '$(IsTestProject)' != 'true'
+                     AND '$(TargetFramework)' != ''">
+
+    <Exec Command="dotnet --info"
+          Condition=" '$(SkipCycloneDxToolRestore)' != 'true' "
+          IgnoreExitCode="true" />
+
+    <Exec Command="dotnet tool restore"
+          Condition=" '$(SkipCycloneDxToolRestore)' != 'true' AND Exists('$(MSBuildThisFileDirectory).config\dotnet-tools.json') " />
+
+    <MakeDir Directories="$(_SBOMMirrorDir)" Condition="!Exists('$(_SBOMMirrorDir)')" />
+
+    <Exec Command="dotnet CycloneDX &quot;$(MSBuildProjectFullPath)&quot; -o &quot;$(_SBOMMirrorDir)&quot; -of JSON --framework &quot;$(TargetFramework)&quot; --no-restore"
+          StandardOutputImportance="High"
+          IgnoreExitCode="false" />
+
+    <Exec Command="dotnet CycloneDX &quot;$(MSBuildProjectFullPath)&quot; -o &quot;$(_SBOMMirrorDir)&quot; -of JSON --framework &quot;$(TargetFramework)&quot; --no-restore -rf"
+          StandardOutputImportance="High"
+          IgnoreExitCode="true"
+          ContinueOnError="true" />
+  </Target>
+
+  <!-- 2) Promote the per-TFM SBOM file into the .nupkg at
+          _sbom/cyclonedx/<tfm>/. The file is added to the None items so
+          the SDK packages it automatically.                       -->
+  <Target Name="_PackCycloneDxSbomIntoNupkg"
+          BeforeTargets="Pack"
+          Condition="'$(CycloneDxEnabled)' == 'true'
+                     AND '$(IsPackable)' == 'true'
+                     AND '$(IsTestProject)' != 'true'
+                     AND Exists('$(_SBOMMirrorPath)')">
+    <ItemGroup>
+      <None Include="$(_SBOMMirrorPath)">
+        <Pack>true</Pack>
+        <PackagePath>_sbom\cyclonedx\$(TargetFramework)</PackagePath>
+        <Visible>false</Visible>
+      </None>
+    </ItemGroup>
+  </Target>
+
+</Project>
