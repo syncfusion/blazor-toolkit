@@ -1,0 +1,21 @@
+/* SfTooltip.razor.css — CSS isolation for SfTooltip. */
+.e-tooltip-wrap {
+    position: absolute;
+    background: var(--e-bg, #333);
+    color: var(--e-fg, #fff);
+    padding: 0.25rem 0.5rem;
+    border-radius: var(--e-corner, 4px);
+    font-size: 0.875rem;
+    pointer-events: none;
+    z-index: 1000;
+    max-width: 20rem;
+}
+
+@media (forced-colors: active) {
+    .e-tooltip-wrap {
+        forced-color-adjust: none;
+        border: 1px solid ButtonText;
+        background: Field;
+        color: FieldText;
+    }
+}

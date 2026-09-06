@@ -1,0 +1,18 @@
+/* SfDateTimePicker.razor.css — CSS isolation for SfDateTimePicker. */
+.e-datetimepicker {
+    display: inline-block;
+    position: relative;
+}
+
+.e-datetimepicker input.e-control {
+    padding-right: 3rem;
+}
+
+@media (forced-colors: active) {
+    .e-datetimepicker input.e-control {
+        forced-color-adjust: none;
+        border: 1px solid ButtonText;
+        background: Field;
+        color: FieldText;
+    }
+}

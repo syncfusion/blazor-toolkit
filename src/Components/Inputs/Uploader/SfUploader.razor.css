@@ -1,0 +1,38 @@
+/* SfUploader.razor.css — CSS isolation for SfUploader. */
+.e-upload.e-control-wrapper {
+    display: block;
+    width: 100%;
+}
+
+.e-upload .e-upload-drag-drop {
+    border: 1px dashed var(--e-border, #999);
+    border-radius: var(--e-corner, 4px);
+    padding: 1.5rem;
+    text-align: center;
+    background: var(--e-bg, transparent);
+}
+
+.e-upload .e-upload-files {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.e-upload .e-upload-files .e-file-container {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.25rem 0;
+}
+
+.e-upload .e-upload-browse-btn:focus-visible {
+    outline: 2px solid Highlight;
+    outline-offset: 1px;
+}
+
+@media (forced-colors: active) {
+    .e-upload .e-upload-drag-drop {
+        forced-color-adjust: none;
+        border: 1px dashed ButtonText;
+    }
+}

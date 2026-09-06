@@ -1,0 +1,24 @@
+/* SfButtonGroup.razor.css — CSS isolation for SfButtonGroup. */
+.e-btn-group {
+    display: inline-flex;
+    align-items: stretch;
+}
+
+.e-btn-group .e-btn {
+    border-radius: 0;
+}
+
+.e-btn-group .e-btn:first-child {
+    border-top-left-radius: var(--e-corner, 4px);
+    border-bottom-left-radius: var(--e-corner, 4px);
+}
+
+.e-btn-group .e-btn:last-child {
+    border-top-right-radius: var(--e-corner, 4px);
+    border-bottom-right-radius: var(--e-corner, 4px);
+}
+
+@media (forced-colors: active) {
+    .e-btn-group { forced-color-adjust: none; }
+    .e-btn-group .e-btn { border: 1px solid ButtonText; }
+}

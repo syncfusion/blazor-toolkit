@@ -1,0 +1,26 @@
+/* SfTextArea.razor.css — CSS isolation for SfTextArea. */
+.e-input-group textarea.e-control.e-textarea {
+    border: 1px solid var(--e-border, #999);
+    border-radius: var(--e-corner, 4px);
+    padding: 0.5rem 0.75rem;
+    background: var(--e-bg, transparent);
+    color: var(--e-fg, inherit);
+    font-family: inherit;
+    font-size: inherit;
+    resize: vertical;
+    min-height: 4rem;
+}
+
+.e-input-group textarea.e-control.e-textarea:focus-visible {
+    outline: 2px solid Highlight;
+    outline-offset: 1px;
+}
+
+@media (forced-colors: active) {
+    .e-input-group textarea.e-control.e-textarea {
+        forced-color-adjust: none;
+        border: 1px solid ButtonText;
+        background: Field;
+        color: FieldText;
+    }
+}

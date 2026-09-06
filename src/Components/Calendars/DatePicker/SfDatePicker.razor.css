@@ -1,0 +1,28 @@
+/* SfDatePicker.razor.css — CSS isolation for SfDatePicker. */
+.e-datepicker {
+    display: inline-block;
+    position: relative;
+}
+
+.e-datepicker input.e-control {
+    padding-right: 2rem;
+}
+
+.e-datepicker .e-clear-icon,
+.e-datepicker .e-input-group-icon {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+}
+
+.e-datepicker .e-clear-icon { right: 1.75rem; }
+.e-datepicker .e-input-group-icon.e-date-icon { right: 0.5rem; }
+
+@media (forced-colors: active) {
+    .e-datepicker input.e-control {
+        forced-color-adjust: none;
+        border: 1px solid ButtonText;
+        background: Field;
+        color: FieldText;
+    }
+}

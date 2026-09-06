@@ -1,0 +1,38 @@
+/* SfCalendar.razor.css — CSS isolation for SfCalendar. */
+.e-calendar {
+    display: inline-block;
+    border: 1px solid var(--e-border, #999);
+    border-radius: var(--e-corner, 4px);
+    background: var(--e-bg, #fff);
+    color: var(--e-fg, inherit);
+}
+
+.e-calendar .e-content table {
+    border-collapse: collapse;
+    width: 100%;
+}
+
+.e-calendar .e-content th[scope="col"] {
+    text-align: center;
+    padding: 0.25rem;
+}
+
+.e-calendar .e-content td {
+    text-align: center;
+    padding: 0.25rem;
+}
+
+.e-calendar .e-content td:focus-visible,
+.e-calendar .e-title:focus-visible {
+    outline: 2px solid Highlight;
+    outline-offset: 1px;
+}
+
+@media (forced-colors: active) {
+    .e-calendar {
+        forced-color-adjust: none;
+        border: 1px solid ButtonText;
+        background: Field;
+        color: FieldText;
+    }
+}

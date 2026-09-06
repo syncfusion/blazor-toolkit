@@ -1,0 +1,48 @@
+/* SfDialog.razor.css — CSS isolation for SfDialog. */
+.e-dialog {
+    background: var(--e-bg, #fff);
+    color: var(--e-fg, inherit);
+    border-radius: var(--e-corner, 4px);
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
+    position: fixed;
+    inset: 0;
+    margin: auto;
+    max-width: min(90vw, 640px);
+    max-height: min(85vh, 480px);
+    display: flex;
+    flex-direction: column;
+}
+
+.e-dialog .e-dlg-header {
+    padding: 0.75rem 1rem;
+    font-weight: 600;
+    border-bottom: 1px solid var(--e-border, rgba(0, 0, 0, 0.1));
+}
+
+.e-dialog .e-dlg-content {
+    padding: 1rem;
+    overflow: auto;
+    flex: 1 1 auto;
+}
+
+.e-dialog .e-dlg-footer-content {
+    padding: 0.75rem 1rem;
+    border-top: 1px solid var(--e-border, rgba(0, 0, 0, 0.1));
+    display: flex;
+    gap: 0.5rem;
+    justify-content: flex-end;
+}
+
+.e-dialog:focus-visible {
+    outline: 2px solid Highlight;
+    outline-offset: 2px;
+}
+
+@media (forced-colors: active) {
+    .e-dialog {
+        forced-color-adjust: none;
+        border: 1px solid ButtonText;
+        background: Field;
+        color: FieldText;
+    }
+}

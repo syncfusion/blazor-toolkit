@@ -1,0 +1,31 @@
+/* SfSpinner.razor.css — CSS isolation for SfSpinner. */
+.e-spinner {
+    display: inline-block;
+    width: var(--e-spinner-size, 2rem);
+    height: var(--e-spinner-size, 2rem);
+}
+
+.e-spinner .e-spinner-pane {
+    border-radius: 50%;
+    border: 0.2rem solid var(--e-spinner-track, rgba(0, 0, 0, 0.1));
+    border-top-color: var(--e-spinner-active, currentColor);
+    animation: e-spinner-rotate 1s linear infinite;
+}
+
+@keyframes e-spinner-rotate {
+    to { transform: rotate(360deg); }
+}
+
+@media (forced-colors: active) {
+    .e-spinner .e-spinner-pane {
+        forced-color-adjust: none;
+        border: 0.2rem solid ButtonText;
+        border-top-color: Highlight;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .e-spinner .e-spinner-pane {
+        animation: none;
+    }
+}
