@@ -27,8 +27,8 @@
     (Condition guards). The maintainer must install the CycloneDX .NET
     tool once on the release workstation:
 
-        dotnet tool install --global CycloneDX
-        dotnet tool update  --global CycloneDX   # per major release
+        dotnet tool install -g CycloneDX
+        dotnet tool update  -g CycloneDX   # per major release
 
     To opt out for a specific build, pass -p:CycloneDxEnabled=false.
   -->
@@ -53,9 +53,9 @@
           AfterTargets="Build"
           BeforeTargets="GenerateNuspec"
           Condition="'$(CycloneDxEnabled)' == 'true'
-                     AND '$(IsPackable)' == 'true'
-                     AND '$(IsTestProject)' != 'true'
-                     AND '$(TargetFramework)' != ''">
+                    AND '$(IsPackable)' == 'true'
+                    AND '$(IsTestProject)' != 'true'
+                    AND '$(TargetFramework)' != ''">
 
     <Exec Command="dotnet tool restore"
           Condition="Exists('$(MSBuildThisFileDirectory).config\dotnet-tools.json')" />
@@ -66,10 +66,22 @@
                       Lines="[ { &quot;sbomFormat&quot;: &quot;cyclonedx-1.5/json&quot;, &quot;packageId&quot;: &quot;$(PackageId)&quot;, &quot;version&quot;: &quot;$(Version)&quot; } ]"
                       Overwrite="true" />
 
-    <!-- Primary run. -of Json is the default but explicit. --no-restore
-         prevents a second restore. -->
-    <Exec Command="dotnet CycloneDX &quot;$(MSBuildProjectFullPath)&quot; -o &quot;$(_CycloneDxMirrorDir)&quot; -of $(CycloneDxOutputFormat) --framework &quot;$(TargetFramework)&quot; --no-restore"
-          StandardOutputImportance="High" />
+    <!--
+      Use the real tool name + explicit working directory.
+      Prefer the global-tools path so MSBuild does not depend on PATH.
+      -F Json / -fn set format and expected filename for later targets.
+    -->
+    <PropertyGroup>
+      <_CycloneDxTool Condition="'$(OS)' == 'Windows_NT'">$(USERPROFILE)\.dotnet\tools\dotnet-CycloneDX.exe</_CycloneDxTool>
+      <_CycloneDxTool Condition="'$(OS)' != 'Windows_NT'">$(HOME)/.dotnet/tools/dotnet-CycloneDX</_CycloneDxTool>
+    </PropertyGroup>
+
+    <Exec Command="&quot;$(_CycloneDxTool)&quot; &quot;$(MSBuildProjectFullPath)&quot; -o &quot;$(_CycloneDxMirrorDir)&quot; -F $(CycloneDxOutputFormat) -fn &quot;$(AssemblyName).cdx.json&quot; --framework &quot;$(TargetFramework)&quot; -dpr"
+          WorkingDirectory="$(MSBuildProjectDirectory)"
+          StandardOutputImportance="Low"
+          StandardErrorImportance="High"
+          ConsoleToMSBuild="true"
+          LogStandardErrorAsError="false" />
   </Target>
 
   <!--
