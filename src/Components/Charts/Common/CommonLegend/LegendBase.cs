@@ -495,7 +495,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
         private void CreateLegendElements(RenderTreeBuilder builder, SvgRendering svgRenderer, ChartDefaultBorder legendBorder)
         {
             string clipPath = LegendID + "_clipPath";
-            RectOptions Option = new RectOptions(LegendID + "_element", LegendBounds.X, LegendBounds.Y, LegendBounds.Width, LegendBounds.Height, legendBorder.Width, legendBorder.Color, Legend?.Background ?? string.Empty, 0, 0, Legend?.Opacity ?? 1, string.Empty, "pointer-events: none; cursor: " + (Legend is not null && Legend.ToggleVisibility ? "default" : "pointer"));
+            RectOptions Option = new RectOptions(LegendID + "_element", LegendBounds.X, LegendBounds.Y, LegendBounds.Width, LegendBounds.Height, legendBorder.Width, legendBorder.Color ?? null!, Legend?.Background ?? string.Empty, 0, 0, Legend?.Opacity ?? 1, string.Empty, "pointer-events: none; cursor: " + (Legend is not null && Legend.ToggleVisibility ? "default" : "pointer"));
             svgRenderer.RenderRect(builder, Option);
             svgRenderer.OpenClipPath(builder, svgRenderer.Seq++, clipPath);
             Option.Id = clipPath + "_rect";
@@ -526,7 +526,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
         private string ResolveLegendMarkerFill(LegendOption legendOption, string defaultFill)
         {
             ChartSeries? series = Owner?._visibleSeriesRenderers?.ElementAtOrDefault((int)legendOption.SeriesIndex)?.Series;
-            if (ChartHelper.NeedsLegendHorizontalLineGradient(series))
+            if (ChartHelper.NeedsLegendHorizontalLineGradient(series ?? null!))
             {
                 return Owner?._visibleSeriesRenderers?.ElementAtOrDefault((int)legendOption.SeriesIndex)?.Interior ?? defaultFill;
             }
@@ -585,7 +585,6 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
         /// <returns>Computed start point for legend items.</returns>
         private ChartEventLocation SetupStartAndPagingMetrics(int firstLegend, out double textPadding, out string pointerValue)
         {
-            int count = 0;
             double x_Align = 0;
 
             if (!string.IsNullOrEmpty(Legend?.Width) && MaxRowWidth < LegendBounds.Width && !IsVertical)

@@ -489,7 +489,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts
             int textElement = int.TryParse(labelIndex.AsSpan(7), out int element) ? element : 0;
             ChartAxis axis = (_axisContainer?.Renderers[axisIndex] as ChartAxisRenderer ?? null!).Axis ?? null!;
             List<ChartCategory> categories = axis.MultiLevelLabels[int.TryParse(labelIndex.AsSpan(0, 1), out int index) ? index : 0].Categories;
-            MultiLevelLabelClickEventArgs multilevelclickArgs = new("OnMultiLevelLabelClick", false, categories[textElement].Text, axis, categories[textElement].CustomAttributes, categories[textElement].End, int.TryParse(labelIndex.AsSpan(0, 1), out int length) ? length : 0, categories[textElement].Start);
+            MultiLevelLabelClickEventArgs multilevelclickArgs = new("OnMultiLevelLabelClick", false, categories[textElement].Text, axis, categories[textElement].CustomAttributes, categories[textElement].End ?? null!, int.TryParse(labelIndex.AsSpan(0, 1), out int length) ? length : 0, categories[textElement].Start ?? null!);
             OnMultiLevelLabelClick.Invoke(multilevelclickArgs);
         }
 
@@ -944,7 +944,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts
                     _zoomingModule._wheelEndEventArgs = zoomingEventArgs;
                 }
             }
-            InvokeZoomingEvents(zoomingEventArgs);
+            InvokeZoomingEvents(zoomingEventArgs ?? null!);
 
             if ((_onZoomStartArgs is not null && !_onZoomStartArgs.Cancel) || (_onZoomingArgs is not null && !_onZoomingArgs.Cancel))
             {

@@ -71,12 +71,12 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
                 if (data.Index != 0)
                 {
                     int previous = GetPreviousIndex(points, data.Index - 1, Series ?? null!);
-                    ControlPoints pointValue = GetControlPoints(points[previous], data, _splinePoints[previous], _splinePoints[data.Index], Series ?? null!);
+                    ControlPoints pointValue = GetControlPoints(points[previous], data, _splinePoints[previous], _splinePoints[data.Index], Series ?? null!) ?? null!;
                     if (pointValue is not null)
                     {
                         DrawPoints.Add(pointValue);
                     }
-                    if (data.YValue != 0 && !double.IsNaN(data.YValue) && pointValue?.ControlPoint1.Y != 0 && !double.IsNaN(pointValue.ControlPoint1.Y) && pointValue.ControlPoint2.Y != 0 && !double.IsNaN(pointValue.ControlPoint2.Y) && Series is not null && (Series.Renderer.YMax - Series.Renderer.YMin) > 1)
+                    if (data.YValue != 0 && !double.IsNaN(data.YValue) && pointValue?.ControlPoint1.Y != 0 && !double.IsNaN(pointValue?.ControlPoint1.Y ?? 0) && pointValue?.ControlPoint2.Y != 0 && !double.IsNaN(pointValue?.ControlPoint2.Y ?? 0) && Series is not null && ((Series.Renderer?.YMax ?? 0) - (Series.Renderer?.YMin ?? 0)) > 1)
                     {
                         bool maxValue = Math.Abs(Series.Renderer.YMin - Math.Floor(Series.Renderer.YMin)) > double.Epsilon;
                         Series.Renderer.YMin = maxValue ? Series.Renderer.YMin : Math.Floor(Math.Min(Math.Min(Series.Renderer.YMin, data.YValue), Math.Min(pointValue.ControlPoint1.Y, pointValue.ControlPoint2.Y)));
@@ -99,7 +99,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
 
             for (int i = 0; i < count - 1; i++)
             {
-                series.Renderer.GetSplineTypePoints(points, i, SplineType.Monotonic, isLow);
+                series.Renderer?.GetSplineTypePoints(points, i, SplineType.Monotonic, isLow);
                 dx[i] = !double.IsNaN(points[i + 1].XValue - points[i].XValue) ? points[i + 1].XValue - points[i].XValue : 0;
                 dy[i] = !double.IsNaN(points[i + 1].YValue - points[i].YValue) ? points[i + 1].YValue - points[i].YValue : 0;
                 slope[i] = dy[i] / dx[i];

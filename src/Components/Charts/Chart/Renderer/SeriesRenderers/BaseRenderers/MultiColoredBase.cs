@@ -240,7 +240,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
                 {
                     if (compareValue <= GetAxisValue(segments[i].Value, isXSegment ? XAxisRenderer.Axis ?? null! : YAxisRenderer.Axis ?? null!) || segments[i].Value is null)
                     {
-                        if (series.Renderer.ChartPoints is not null)
+                        if (series.Renderer?.ChartPoints is not null)
                         {
                             currentPoint.Interior = series.Renderer.ChartPoints[currentPoint.Index].Interior = segments[i].Color;
                         }
@@ -292,7 +292,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
                     GetAxisValue(segment.Value, axis),
                     index,
                     series?.SegmentAxis == Segment.X,
-                    series?.Renderer.Index ?? 0
+                    series?.Renderer?.Index ?? 0
                 );
 
                 if (!string.IsNullOrEmpty(clipPath))
