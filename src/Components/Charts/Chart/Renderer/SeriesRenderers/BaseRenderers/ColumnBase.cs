@@ -298,7 +298,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
         /// <returns>Calculated <see cref="DoubleRange"/> representing the start and end offsets.</returns>
         protected DoubleRange GetSideBySideInfo()
         {
-            if (Series?.Container is not null && Series.Container.EnableSideBySidePlacement && (Series.Renderer.Position == 0 || double.IsNaN(Series.Renderer.Position)))
+            if (Series?.Container is not null && Series.Container.EnableSideBySidePlacement && (Series.Renderer?.Position == 0 || double.IsNaN(Series.Renderer?.Position ?? 0)))
             {
                 GetSideBySidePositions();
             }
@@ -308,7 +308,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
                 return new DoubleRange(0, 0);
             }
 
-            double rectCount = Series?.Container is not null && !Series.Container.EnableSideBySidePlacement ? 1 : Series?.Renderer.RectCount ?? 0;
+            double rectCount = Series?.Container is not null && !Series.Container.EnableSideBySidePlacement ? 1 : Series?.Renderer?.RectCount ?? 0;
 
             if (Owner is not null && XAxisRenderer is null)
             {
@@ -317,7 +317,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
 
             double minimumPointDelta = ChartHelper.GetMinPointsDelta(XAxisRenderer?.Axis ?? null!, Series?.Container?._seriesContainer?.Renderers.Cast<ChartSeriesRenderer>().ToList() ?? null!);
             double width = GetColumnWidth(minimumPointDelta);
-            double location = ((Series?.Container is not null && !Series.Container.EnableSideBySidePlacement ? 0 : Series?.Renderer.Position ?? 0) / rectCount) - 0.5;
+            double location = ((Series?.Container is not null && !Series.Container.EnableSideBySidePlacement ? 0 : Series?.Renderer?.Position ?? 0) / rectCount) - 0.5;
             DoubleRange doubleRange = new(location, location + (1 / rectCount));
 
             if (!(double.IsNaN(doubleRange.Start) || double.IsNaN(doubleRange.End)))
@@ -523,16 +523,16 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
             {
                 double columnWidth = Series.ColumnWidthInPixel;
                 bool isTransposed = Owner?.IsTransposed ?? false;
-                double halfColumnWidthAdjustment = columnWidth / 2 * (double.IsNaN(Series.Renderer.RectCount) ? 0 : Series.Renderer.RectCount);
-                double positionAdjustment = columnWidth * (double.IsNaN(Series.Renderer.Position) ? 0 : Series.Renderer.Position);
+                double halfColumnWidthAdjustment = columnWidth / 2 * (double.IsNaN(Series.Renderer?.RectCount ?? 0) ? 0 : Series.Renderer?.RectCount ?? 0);
+                double positionAdjustment = columnWidth * (double.IsNaN(Series.Renderer?.Position ?? 0) ? 0 : Series.Renderer?.Position ?? 0);
 
                 return Series.Type switch
                 {
                     ChartSeriesType.Bar or ChartSeriesType.StackingBar or ChartSeriesType.StackingBar100 => isTransposed
                                                 ? new Rect(rectangle.X - (halfColumnWidthAdjustment - positionAdjustment), rectangle.Y, columnWidth, rectangle.Height)
-                                                : new Rect(rectangle.X, rectangle.Y - (halfColumnWidthAdjustment - (columnWidth * ((double.IsNaN(Series.Renderer.RectCount) ? 0 : Series.Renderer.RectCount) - (double.IsNaN(Series.Renderer.Position) ? 0 : Series.Renderer.Position) - 1))), rectangle.Width, columnWidth),
+                                                : new Rect(rectangle.X, rectangle.Y - (halfColumnWidthAdjustment - (columnWidth * ((double.IsNaN(Series.Renderer?.RectCount ?? 0) ? 0 : Series.Renderer.RectCount) - (double.IsNaN(Series.Renderer.Position) ? 0 : Series.Renderer.Position) - 1))), rectangle.Width, columnWidth),
                     ChartSeriesType.Column or ChartSeriesType.StackingColumn or ChartSeriesType.StackingColumn100 => isTransposed
-                                                ? new Rect(rectangle.X, rectangle.Y - (halfColumnWidthAdjustment - (columnWidth * ((double.IsNaN(Series.Renderer.RectCount) ? 0 : Series.Renderer.RectCount) - (double.IsNaN(Series.Renderer.Position) ? 0 : Series.Renderer.Position) - 1))), rectangle.Width, columnWidth)
+                                                ? new Rect(rectangle.X, rectangle.Y - (halfColumnWidthAdjustment - (columnWidth * ((double.IsNaN(Series.Renderer?.RectCount ?? 0) ? 0 : Series.Renderer.RectCount) - (double.IsNaN(Series.Renderer.Position) ? 0 : Series.Renderer.Position) - 1))), rectangle.Width, columnWidth)
                                                 : new Rect(rectangle.X - (halfColumnWidthAdjustment - positionAdjustment), rectangle.Y, columnWidth, rectangle.Height),
                     ChartSeriesType.Line => new Rect(),
                     ChartSeriesType.Area => new Rect(),

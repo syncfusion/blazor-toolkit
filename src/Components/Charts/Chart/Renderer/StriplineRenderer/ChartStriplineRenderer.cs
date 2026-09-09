@@ -281,7 +281,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
                 {
                     Id = id,
                     Direction = direction,
-                    StrokeDashArray = Stripline.DashArray,
+                    StrokeDashArray = Stripline.DashArray ?? null!,
                     StrokeWidth = Stripline.Size != 0 ? Stripline.Size : 1,
                     Stroke = Stripline.Color,
                     Opacity = Stripline.Opacity

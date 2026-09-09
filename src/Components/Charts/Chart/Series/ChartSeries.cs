@@ -137,7 +137,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts
                         if (Container._legendRenderer is not null)
                         {
                             Container._legendRenderer.RendererShouldRender = Visible;
-                            Container._legendRenderer.UpdateLegendShape(Renderer);
+                            Container._legendRenderer.UpdateLegendShape(Renderer ?? null!);
                             Container._legendRenderer.ProcessRenderQueue();
                         }
                     }
@@ -648,7 +648,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts
 
                     {
                         Container._legendRenderer.RendererShouldRender = Visible;
-                        Container._legendRenderer.UpdateLegendShape(Renderer);
+                        Container._legendRenderer.UpdateLegendShape(Renderer ?? null!);
                         Container._legendRenderer.ProcessRenderQueue();
                     }
                 }
@@ -1196,7 +1196,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts
                     if (Container?._legendRenderer is not null)
                     {
                         Container._legendRenderer.RendererShouldRender = Visible;
-                        Container._legendRenderer.UpdateLegendShape(Renderer);
+                        Container._legendRenderer.UpdateLegendShape(Renderer ?? null!);
                         Container._legendRenderer.ProcessRenderQueue();
                     }
                 }
@@ -2193,7 +2193,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts
                 Container?._svgRenderer?.RefreshElementList();
 
                 Renderer.IsSeriesRender = false;
-                _ = SetDataManager<object>((DataSource is not null) ? DataSource : Container?.DataSource);
+                _ = SetDataManager<object>((DataSource is not null) ? DataSource : Container?.DataSource ?? null!);
                 Container?._seriesContainer?.AddToRenderQueue(Renderer);
                 UpdateDataSource = true;
 

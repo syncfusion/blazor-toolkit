@@ -364,7 +364,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
             {
                 X = chartPoint.X = ReflectionExtension.GetValueFromDynamicObject(dynamicObject, xName) ?? 0,
                 Y = chartPoint.Y = ReflectionExtension.GetValueFromDynamicObject(dynamicObject, yName) ?? 0,
-                Size = chartPoint.Size = !string.IsNullOrEmpty(size) ? ReflectionExtension.GetValueFromDynamicObject(dynamicObject, size) : null!,
+                Size = chartPoint.Size = !string.IsNullOrEmpty(size) ? ReflectionExtension.GetValueFromDynamicObject(dynamicObject, size) ?? null! : null!,
                 Interior = chartPoint.Interior = ChartHelper.GetDynamicStringValue(dynamicObject ?? null!, pointColor),
                 Text = chartPoint.Text = ChartHelper.GetDynamicStringValue(dynamicObject ?? null!, GetTextMapping()),
                 Tooltip = chartPoint.Tooltip = ChartHelper.GetDynamicStringValue(dynamicObject ?? null!, Series?.TooltipMappingName ?? null!)

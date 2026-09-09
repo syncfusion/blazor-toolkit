@@ -180,7 +180,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
                 }
             }
 
-            GivenContent = chart._tooltip.Template ?? (_ => builder => { });
+            GivenContent = chart._tooltip.Template;
         }
 
         /// <summary>

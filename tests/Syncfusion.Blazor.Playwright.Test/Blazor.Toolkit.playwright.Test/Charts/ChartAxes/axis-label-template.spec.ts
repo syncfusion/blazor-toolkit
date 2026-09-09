@@ -22,6 +22,7 @@ test.describe('Chart Axes – Axis Label Template', () => {
   test('X-axis label template with images renders', async ({ page }) => {
     // The sample uses custom label templates with country flags
     const images = page.locator('img[alt*="flag"]');
+    await expect(images.first()).toBeVisible();
     const count = await images.count();
     expect(count).toBeGreaterThan(0);
   });
@@ -52,6 +53,7 @@ test.describe('Chart Axes – Axis Label Template', () => {
 
   test('Y-axis has numeric labels', async ({ page }) => {
     const yAxisLabels = page.locator('svg text').filter({ hasText: /\d+/ });
+    await expect(yAxisLabels.first()).toBeVisible();
     const count = await yAxisLabels.count();
     expect(count).toBeGreaterThan(0);
   });
@@ -75,6 +77,7 @@ test.describe('Chart Axes – Axis Label Template', () => {
 
   test('All country flags load without error', async ({ page }) => {
     const images = page.locator('img[alt*="flag"]');
+    await expect(images.first()).toBeVisible();
     const count = await images.count();
     expect(count).toBeGreaterThanOrEqual(6); // At least 6 countries
   });
