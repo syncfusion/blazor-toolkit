@@ -1032,11 +1032,12 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
         {
             LegendCollectionRect = new List<Rect>();
             int firstLegend = FindFirstLegendPosition();
+            LegendOption firstLegendOption = LegendCollection[0];
 
-            MaxItemHeight = Math.Max(ChartHelper.MeasureText(LegendCollection[0].TextCollection?.Count != 0
-                ? (string.IsNullOrEmpty(LegendCollection[0].TextCollection[0]) ? "MeasureText" : LegendCollection[0].TextCollection?[0] ?? null!)
-                : (string.IsNullOrEmpty(LegendCollection[0].Text) ? "MeasureText" : LegendCollection[0].Text), LegendTextStyle ?? null!).Height,
-                (LegendCollection[0].LegendTemplate is null ? (Legend?.ShapeHeight ?? 0) : 0)
+            MaxItemHeight = Math.Max(ChartHelper.MeasureText(firstLegendOption.TextCollection is { Count: > 0 } textCollection
+                ? (string.IsNullOrEmpty(textCollection[0]) ? "MeasureText" : textCollection[0])
+                : (string.IsNullOrEmpty(firstLegendOption.Text) ? "MeasureText" : firstLegendOption.Text), LegendTextStyle ?? null!).Height,
+                firstLegendOption.LegendTemplate is null ? (Legend?.ShapeHeight ?? 0) : 0
             );
 
             ChartRowCount = 1;

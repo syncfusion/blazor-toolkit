@@ -58,7 +58,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
         {
             Direction = new System.Text.StringBuilder();
             ChartData = new System.Text.StringBuilder();
-            List<Point> points = Series?.Renderer.Points ?? null!;
+            List<Point> points = Series?.Renderer?.Points ?? null!;
             bool isInverted = Owner is not null && Owner._requireInvertedAxis;
             string startPoint = "M";
             Point firstPoint = null!;

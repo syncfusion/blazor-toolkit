@@ -44,7 +44,10 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
 
             for (int i = 0; i < seriesCollection.Count; i++)
             {
-                seriesCollection[i].Renderer.RectCount = visibleSeries.RectCount;
+                if (seriesCollection[i].Renderer is { } renderer)
+                {
+                    renderer.RectCount = visibleSeries.RectCount;
+                }
             }
         }
 
@@ -58,6 +61,11 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
         {
             for (int i = 0; i < seriesCollection.Count; i++)
             {
+                if (seriesCollection[i].Renderer is not { } renderer)
+                {
+                    continue;
+                }
+
                 string seriesType = seriesCollection[i].SeriesType ?? null!;
                 if (seriesType.Contains("Stacking", StringComparison.InvariantCulture) || !string.IsNullOrEmpty(seriesCollection[i].GroupName))
                 {
@@ -71,30 +79,30 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
 
                         if (double.IsNaN(groupingValues[groupName]))
                         {
-                            seriesCollection[i].Renderer.Position = visibleSeries.RectCount;
+                            renderer.Position = visibleSeries.RectCount;
                             groupingValues[groupName] = visibleSeries.RectCount++;
                         }
                         else
                         {
-                            seriesCollection[i].Renderer.Position = groupingValues[groupName];
+                            renderer.Position = groupingValues[groupName];
                         }
                     }
                     else
                     {
                         if (double.IsNaN(visibleSeries.Position))
                         {
-                            seriesCollection[i].Renderer.Position = visibleSeries.RectCount;
+                            renderer.Position = visibleSeries.RectCount;
                             visibleSeries.Position = visibleSeries.RectCount++;
                         }
                         else
                         {
-                            seriesCollection[i].Renderer.Position = visibleSeries.Position;
+                            renderer.Position = visibleSeries.Position;
                         }
                     }
                 }
                 else
                 {
-                    seriesCollection[i].Renderer.Position = visibleSeries.RectCount++;
+                    renderer.Position = visibleSeries.RectCount++;
                 }
             }
         }
@@ -530,9 +538,9 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
                 {
                     ChartSeriesType.Bar or ChartSeriesType.StackingBar or ChartSeriesType.StackingBar100 => isTransposed
                                                 ? new Rect(rectangle.X - (halfColumnWidthAdjustment - positionAdjustment), rectangle.Y, columnWidth, rectangle.Height)
-                                                : new Rect(rectangle.X, rectangle.Y - (halfColumnWidthAdjustment - (columnWidth * ((double.IsNaN(Series.Renderer?.RectCount ?? 0) ? 0 : Series.Renderer.RectCount) - (double.IsNaN(Series.Renderer.Position) ? 0 : Series.Renderer.Position) - 1))), rectangle.Width, columnWidth),
+                                                : new Rect(rectangle.X, rectangle.Y - (halfColumnWidthAdjustment - (columnWidth * ((double.IsNaN(Series.Renderer?.RectCount ?? 0) ? 0 : Series.Renderer?.RectCount ?? 0) - (double.IsNaN(Series.Renderer?.Position ?? 0) ? 0 : Series.Renderer?.Position ?? 0) - 1))), rectangle.Width, columnWidth),
                     ChartSeriesType.Column or ChartSeriesType.StackingColumn or ChartSeriesType.StackingColumn100 => isTransposed
-                                                ? new Rect(rectangle.X, rectangle.Y - (halfColumnWidthAdjustment - (columnWidth * ((double.IsNaN(Series.Renderer?.RectCount ?? 0) ? 0 : Series.Renderer.RectCount) - (double.IsNaN(Series.Renderer.Position) ? 0 : Series.Renderer.Position) - 1))), rectangle.Width, columnWidth)
+                                                ? new Rect(rectangle.X, rectangle.Y - (halfColumnWidthAdjustment - (columnWidth * ((double.IsNaN(Series.Renderer?.RectCount ?? 0) ? 0 : Series.Renderer?.RectCount ?? 0) - (double.IsNaN(Series.Renderer?.Position ?? 0) ? 0 : Series.Renderer?.Position ?? 0) - 1))), rectangle.Width, columnWidth)
                                                 : new Rect(rectangle.X - (halfColumnWidthAdjustment - positionAdjustment), rectangle.Y, columnWidth, rectangle.Height),
                     ChartSeriesType.Line => new Rect(),
                     ChartSeriesType.Area => new Rect(),

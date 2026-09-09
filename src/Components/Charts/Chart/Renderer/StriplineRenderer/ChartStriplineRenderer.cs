@@ -281,10 +281,10 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
                 {
                     Id = id,
                     Direction = direction,
-                    StrokeDashArray = Stripline.DashArray ?? null!,
-                    StrokeWidth = Stripline.Size != 0 ? Stripline.Size : 1,
-                    Stroke = Stripline.Color,
-                    Opacity = Stripline.Opacity
+                    StrokeDashArray = Stripline?.DashArray ?? null!,
+                    StrokeWidth = Stripline?.Size != 0 ? Stripline?.Size ?? 0 : 1,
+                    Stroke = Stripline?.Color ?? "#808080",
+                    Opacity = Stripline?.Opacity ?? 1
                 };
             }
             else if (_striplinePath is { })

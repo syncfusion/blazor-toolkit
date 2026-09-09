@@ -348,11 +348,11 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
 
                         if (!string.IsNullOrEmpty(series.Container?._sorting.SortKey))
                         {
-                            frequencies[stackingGroup][xVal] += (Convert.ToDouble(series.Renderer.Points?[j].Y, CultureInfo.InvariantCulture) > 0 ? 1 : -1) * Convert.ToDouble(series.Renderer.Points?[j].Y, CultureInfo.InvariantCulture);
+                            frequencies[stackingGroup][xVal] += (Convert.ToDouble(series.Renderer?.Points?[j].Y, CultureInfo.InvariantCulture) > 0 ? 1 : -1) * Convert.ToDouble(series.Renderer?.Points?[j].Y, CultureInfo.InvariantCulture);
                         }
                         else
                         {
-                            frequencies[stackingGroup][xVal] += (series.Renderer.YData[j] > 0 ? 1 : -1) * series.Renderer.YData[j];
+                            frequencies[stackingGroup][xVal] += (series.Renderer?.YData[j] > 0 ? 1 : -1) * (series.Renderer?.YData[j] ?? 1);
                         }
                     }
                 }

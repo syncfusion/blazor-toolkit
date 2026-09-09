@@ -1,7 +1,7 @@
 ﻿@namespace Syncfusion.Blazor.Toolkit.Charts.Internal
 
 <pattern id="@Id" height="@Height" width="@Width" patternUnits="@PatternUnits">
-    @foreach (object shape in ShapeOptions)
+    @foreach (object shape in ShapeOptions ?? [])
     {
         if (shape is RectOptions)
         {
