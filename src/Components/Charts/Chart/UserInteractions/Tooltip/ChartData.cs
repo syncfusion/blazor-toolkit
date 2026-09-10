@@ -176,7 +176,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
         private bool RectRegion(double x, double y, Point point, Rect rect, ChartSeries series)
         {
             double xOffset = 0, yOffset = 0, width = 20, height = 20;
-            bool isInversed = series.Renderer.YAxisRenderer.Axis is not null && series.Renderer.YAxisRenderer.Axis.IsAxisInverse;
+            bool isInversed = series.Renderer?.YAxisRenderer.Axis is not null && series.Renderer.YAxisRenderer.Axis.IsAxisInverse;
 
             if (isInversed && Chart is not null && Chart.IsTransposed)
             {
@@ -246,7 +246,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
         /// <returns>Tuple of (halfWidth, halfHeight) for hit testing.</returns>
         private static (double halfWidth, double halfHeight) GetMarkerHalfSize(ChartSeries series)
         {
-            bool needsMarkerHit = series.Type == ChartSeriesType.Scatter || (!series.Renderer.IsRectSeries() && series.Marker.Visible);
+            bool needsMarkerHit = series.Type == ChartSeriesType.Scatter || (series.Renderer != null && !series.Renderer.IsRectSeries() && series.Marker.Visible);
 
             if (!needsMarkerHit)
             {

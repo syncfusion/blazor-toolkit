@@ -548,7 +548,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
                 baseOverlap = labelRect.Y < 0 || (!_isRotationEnabled && _labelAngle == 0 && ChartHelper.IsCollide(labelRect, dataLabelCollection, SeriesRenderer?.ClipRect ?? null!)) || labelRect.Y + labelRect.Height > SeriesRenderer?.ClipRect?.Height;
                 if (Series.Marker.DataLabel.Template is null && !baseOverlap && position != ChartLabelPosition.Outer)
                 {
-                    baseOverlap = ((labelRect.Y / 2) + size.Height + point?.Regions[0].Height - (2 * extraSpace)) > series.Renderer.ClipRect?.Height;
+                    baseOverlap = ((labelRect.Y / 2) + size.Height + point?.Regions[0].Height - (2 * extraSpace)) > series.Renderer?.ClipRect?.Height;
                 }
             }
             else
@@ -652,7 +652,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
             string left = Convert.ToString(posX, _culture) + "px";
             string top = Convert.ToString(posY, _culture) + "px";
             Color rgbValue = Color.FromName(_fontBackground ?? string.Empty);
-            string color = string.IsNullOrEmpty(dataLabel.Font.Color) ? dataLabel.Font.Color : (Math.Round(Convert.ToDouble(((rgbValue.R * 299) + (rgbValue.G * 587) + (rgbValue.B * 114)) / 1000, _culture), 1) >= 128 ? "black" : "white");
+            string color = string.IsNullOrEmpty(dataLabel.Font?.Color) ? dataLabel.Font?.Color ?? "black" : (Math.Round(Convert.ToDouble(((rgbValue.R * 299) + (rgbValue.G * 587) + (rgbValue.B * 114)) / 1000, _culture), 1) >= 128 ? "black" : "white");
             bool isAnimation = ((series.Animation.Enable && SyncfusionService?._options.Animation == GlobalAnimationMode.Default) || (SyncfusionService?._options.Animation == GlobalAnimationMode.Enable)) && Owner is not null && Owner._shouldAnimateSeries;
             string visibility = !(pointTemplateSize.Count > 0) ? "hidden" : isAnimation ? "hidden" : "visible";
             string id;
@@ -704,7 +704,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
 
             string transform = string.Empty, clipPath = string.Empty;
             transform = "translate(" + SeriesRenderer?.ClipRect?.X.ToString(_culture) + "," + SeriesRenderer?.ClipRect?.Y.ToString(_culture) + ")";
-            clipPath = "url(#" + Owner.ID + "_ChartSeriesClipRect_" + SeriesIndex() + ')';
+            clipPath = "url(#" + Owner?.ID + "_ChartSeriesClipRect_" + SeriesIndex() + ')';
 
             List<RectOptions> stackLabelRects = Owner?._stackLabelRenderer?._rectOptions ?? [];
 
@@ -778,7 +778,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
             return new RenderingState
             {
                 Inverted = Owner is not null && Owner._requireInvertedAxis,
-                YAxisInversed = series.Renderer.YAxisRenderer.Axis is not null && series.Renderer.YAxisRenderer.Axis.IsAxisInverse,
+                YAxisInversed = series.Renderer?.YAxisRenderer.Axis is not null && series.Renderer.YAxisRenderer.Axis.IsAxisInverse,
                 TemplateId = Owner?.ID + "_Series_" + (SeriesRenderer?.Index != 0 ? SeriesRenderer?.Category().ToString() : SeriesRenderer.Index.ToString(CultureInfo.InvariantCulture)) + "_DataLabelCollections",
                 LabelAngle = dataLabel.LabelIntersectAction == "Rotate90" ? 90 : dataLabel.Angle,
                 IsRotationEnabled = dataLabel.LabelIntersectAction == "Rotate90" || dataLabel.EnableRotation
@@ -802,7 +802,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
                 ? visiblePoints.FirstOrDefault(point => point.TemplateSize is not null && point.TemplateSize.Count > 0)?.TemplateSize ?? null!
                 : [];
 
-            font = dataLabel.Font.GetFontOptions(Owner?._chartThemeStyle ?? null!);
+            font = dataLabel.Font?.GetFontOptions(Owner?._chartThemeStyle ?? null!) ?? null!;
             ApplyAdaptiveRotationIfNeeded(series, visiblePoints!, font, ref state);
             _isRotationEnabled = state.IsRotationEnabled;
             _labelAngle = state.LabelAngle;
@@ -825,7 +825,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
         {
             if (Owner is not null && Owner.EnableAdaptiveRendering
                 && !(state.IsRotationEnabled && (state.LabelAngle == 90 || state.LabelAngle == -90))
-                && !series.Renderer.IsPathSeries()
+                && series.Renderer is not null && !series.Renderer.IsPathSeries()
                 && series.Type != ChartSeriesType.Bubble
                 && series.SeriesType is not null
                 && !series.SeriesType.Contains("Bar", StringComparison.InvariantCulture)
@@ -874,10 +874,10 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
         {
             _margin = new ChartEventMargin
             {
-                Left = dataLabel.Margin.Left,
-                Right = dataLabel.Margin.Right,
-                Bottom = dataLabel.Margin.Bottom,
-                Top = dataLabel.Margin.Top
+                Left = dataLabel.Margin?.Left ?? 5,
+                Right = dataLabel.Margin?.Right ?? 5,
+                Bottom = dataLabel.Margin?.Bottom ?? 5,
+                Top = dataLabel.Margin?.Top ?? 5
             };
 
             if (!ShouldProcessPoint(point, series))
@@ -903,7 +903,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
         {
             return point.SymbolLocations.Count != 0
                 && point.SymbolLocations[0] is not null
-                && series.Renderer.IsPointWithInRange(point);
+                && series.Renderer is not null && series.Renderer.IsPointWithInRange(point);
         }
 
         /// <summary>
@@ -995,9 +995,9 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
                 labelLocation,
                 text,
                 dataLabel.Fill,
-                new BorderModel() { Width = dataLabel.Border.Width, Color = dataLabel.Border.Color! },
+                new BorderModel() { Width = dataLabel.Border?.Width ?? double.NaN, Color = dataLabel.Border?.Color ?? null! },
                 dataLabel.Template,
-                dataLabel.Font.GetChartDefaultFont(Owner?._chartThemeStyle ?? null!),
+                dataLabel.Font?.GetChartDefaultFont(Owner?._chartThemeStyle ?? null!) ?? null!,
                 SeriesRenderer?.Index ?? 0);
         }
 
@@ -1247,8 +1247,8 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
 
             if (angle != 0 && state.IsRotationEnabled)
             {
-                xValue = xPos - ((_isShape ? dataLabel.Margin.Left : 5) / 2) + ((_isShape ? dataLabel.Margin.Right : 5) / 2);
-                yValue = yPos - ((_isShape ? dataLabel.Margin.Top : 5) / 2) - (textSize.Height / (_isShape ? dataLabel.Margin.Top : 5)) + ((_isShape ? dataLabel.Margin.Bottom : 5) / 2);
+                xValue = xPos - ((_isShape ? dataLabel.Margin?.Left ?? 5 : 5) / 2) + ((_isShape ? dataLabel.Margin?.Right ?? 5 : 5) / 2);
+                yValue = yPos - ((_isShape ? dataLabel.Margin?.Top ?? 5 : 5) / 2) - (textSize.Height / (_isShape ? dataLabel.Margin?.Top ?? 5 : 5)) + ((_isShape ? dataLabel.Margin?.Bottom ?? 5 : 5) / 2);
                 degree = (angle > 360) ? angle - 360 : (angle < -360) ? angle + 360 : angle;
             }
             else
@@ -1281,7 +1281,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
         private void AdjustPositionForClipping(ref double xPos, ref double yPos, Size textSize, Rect clip, ChartSeries series)
         {
             xPos -= xPos + (textSize.Width / 2) > clip.Width
-                ? (!Owner._requireInvertedAxis && xPos > clip.Width) ? 0 : xPos + (textSize.Width / 2) - clip.Width
+                ? (Owner is not null && !Owner._requireInvertedAxis && xPos > clip.Width) ? 0 : xPos + (textSize.Width / 2) - clip.Width
                 : 0;
 
             yPos -= (yPos + textSize.Height > clip.Y + clip.Height
@@ -1365,7 +1365,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
                 posInfo.XPos.ToString(_culture),
                 posInfo.YPos.ToString(_culture),
                 color,
-                dataLabel.Font.GetFontOptions(Owner?._chartThemeStyle ?? null!),
+                dataLabel.Font?.GetFontOptions(Owner?._chartThemeStyle ?? null!) ?? null!,
                 argsData.Text,
                 anchor,
                 _commonId + point.Index + "_Text_" + labelIndex,
@@ -1535,7 +1535,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
             _dataLabelActualRectOptions.Clear();
             RendererShouldRender = Series.Marker.DataLabel.Visible;
             SeriesRenderer = Series.Renderer;
-            if (RendererShouldRender && SeriesRenderer.Series is not null && SeriesRenderer.Series.Visible && Owner is not null && Owner._shouldRenderDataLabel)
+            if (RendererShouldRender && SeriesRenderer?.Series is not null && SeriesRenderer.Series.Visible && Owner is not null && Owner._shouldRenderDataLabel)
             {
                 CalculateRenderTreeBuilderOptions(Series, Series.Marker.DataLabel);
             }

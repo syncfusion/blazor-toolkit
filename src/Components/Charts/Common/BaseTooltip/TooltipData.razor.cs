@@ -161,7 +161,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
             {
                 ChartSeries series = chart._visibleSeriesRenderers[i].Series ?? null!;
 
-                if (!series.Visible || !(series.Renderer.Points?.Count > 0))
+                if (!series.Visible || !(series.Renderer?.Points?.Count > 0))
                 {
                     continue;
                 }
