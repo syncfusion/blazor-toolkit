@@ -52,7 +52,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
                 }
             }
 
-            if (Series?.Renderer.Points?.Count > 1 && Direction.Length != 0)
+            if (Series?.Renderer?.Points?.Count > 1 && Direction.Length != 0)
             {
                 GetAreaPathDirection(Series.Renderer.Points[^1].XValue, _origin, Series, Owner?._requireInvertedAxis ?? false, null!, "L");
             }
@@ -111,14 +111,14 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
                 Stroke = Series?.Border.Color ?? string.Empty,
                 Opacity = Series?.Opacity ?? 1,
                 StrokeDashArray = Series?.DashArray ?? string.Empty,
-                Direction = Series?.Renderer.Points?.Count > 1 && Direction.Length != 0 ? Direction.ToString() : string.Empty,
+                Direction = Series?.Renderer?.Points?.Count > 1 && Direction.Length != 0 ? Direction.ToString() : string.Empty,
                 DataPoint = _datapoints ?? string.Empty,
             };
 
             bool isAnimationDefault = Series is not null && Series.Animation.Enable && SyncfusionService?._options.Animation == GlobalAnimationMode.Default;
             if (Owner is not null && Owner._shouldAnimateSeries && (isAnimationDefault || (SyncfusionService?._options.Animation == GlobalAnimationMode.Enable)))
             {
-                AnimationOptions = new AnimationOptions(Series?.Renderer.ClipRectId() ?? null!, AnimationType.Linear);
+                AnimationOptions = new AnimationOptions(Series?.Renderer?.ClipRectId() ?? null!, AnimationType.Linear);
             }
         }
 
