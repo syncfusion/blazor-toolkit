@@ -1601,10 +1601,10 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
             y = yAxis.ValueType == ValueType.Logarithmic ? LogBase(y > 1 ? y : 1, yAxis.LogBase) : y;
             x += xAxis.ValueType == ValueType.Category && xAxis.LabelPlacement == LabelPlacement.BetweenTicks ? 0.5 : 0;
 
-            radius = (series.Renderer.Owner?._axisContainer?.AxisLayout.Radius ?? 0) * ValueToCoefficient(y, yAxis.Renderer ?? null!);
+            radius = (series.Renderer?.Owner?._axisContainer?.AxisLayout.Radius ?? 0) * ValueToCoefficient(y, yAxis.Renderer ?? null!);
             ChartEventLocation point = CoefficientToVector(ValueToPolarCoefficient(x, xAxis.Renderer ?? null!), xAxis.StartAngle);
-            return new ChartEventLocation((((series.Renderer.ClipRect?.Width ?? 0) / 2) + (series.Renderer.ClipRect?.X ?? 0)) + (radius * point.X),
-                (((series.Renderer.ClipRect?.Height ?? 0) / 2) + (series.Renderer.ClipRect?.Y ?? 0)) + (radius * point.Y));
+            return new ChartEventLocation(((series.Renderer?.ClipRect?.Width ?? 0) / 2) + (series.Renderer?.ClipRect?.X ?? 0) + (radius * point.X),
+                ((series.Renderer?.ClipRect?.Height ?? 0) / 2) + (series.Renderer?.ClipRect?.Y ?? 0) + (radius * point.Y));
         }
 
         /// <summary>
@@ -1616,7 +1616,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
         internal static ChartEventLocation CoefficientToVector(double coefficient, double startAngle)
         {
             startAngle = startAngle < 0 ? startAngle + 360 : startAngle;
-            double angle = (Math.PI * (1.5 - (2 * coefficient))) + (startAngle * Math.PI) / 180;
+            double angle = (Math.PI * (1.5 - (2 * coefficient))) + (startAngle * Math.PI / 180);
             return new ChartEventLocation(Math.Cos(angle), Math.Sin(angle));
         }
 

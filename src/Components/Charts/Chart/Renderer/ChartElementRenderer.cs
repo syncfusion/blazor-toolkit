@@ -273,7 +273,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
         /// <param name="renderer">The renderer instance to remove.</param>
         public void RemoveRenderer(IChartElementRenderer renderer)
         {
-            if (Renderers.Contains(renderer))
+            if (renderer != null && Renderers.Contains(renderer))
             {
                 ContainerPrerender = false;
                 RendererShouldRender = true;

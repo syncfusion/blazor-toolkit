@@ -1,4 +1,5 @@
 ﻿using System.Runtime.InteropServices;
+using Microsoft.JSInterop;
 
 namespace Syncfusion.Blazor.Toolkit.Charts.Internal
 {
@@ -135,9 +136,13 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
                 }
                 await SfBaseComponent.InvokeVoidAsync(_chartInstance._chartJsModule, _chartInstance._chartJsInProcessModule, Constants.SelectDataIndex, [.. new object[] { _chartInstance._dataId, SelectedDataIndexes.Concat(_chartInstance.SelectedDataIndexes).ToList() }]).ConfigureAwait(true);
             }
-            catch (Exception exception)
+            catch (JSException ex)
             {
-                Console.Error.WriteLine(exception);
+                await Console.Error.WriteLineAsync(ex.ToString()).ConfigureAwait(true); ;
+            }
+            catch (ObjectDisposedException ex)
+            {
+                await Console.Error.WriteLineAsync(ex.ToString()).ConfigureAwait(true); ;
             }
         }
 
@@ -311,9 +316,13 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
                 }
                 await SfBaseComponent.InvokeVoidAsync(_chartInstance._chartJsModule, _chartInstance._chartJsInProcessModule, "selectionChart", [.. new object[] { _chartInstance._dataId, index }]).ConfigureAwait(true);
             }
-            catch (Exception exception)
+            catch (JSException ex)
             {
-                Console.Error.WriteLine(exception);
+                await Console.Error.WriteLineAsync(ex.ToString()).ConfigureAwait(true); ;
+            }
+            catch (ObjectDisposedException ex)
+            {
+                await Console.Error.WriteLineAsync(ex.ToString()).ConfigureAwait(true); ;
             }
         }
 
@@ -330,9 +339,13 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
                 }
                 await SfBaseComponent.InvokeVoidAsync(_chartInstance._chartJsModule, _chartInstance._chartJsInProcessModule, "invokeBlurEffect", [.. new object[] { _chartInstance._dataId }]).ConfigureAwait(true);
             }
-            catch (Exception exception)
+            catch (JSException ex)
             {
-                Console.Error.WriteLine(exception);
+                await Console.Error.WriteLineAsync(ex.ToString()).ConfigureAwait(true); ;
+            }
+            catch (ObjectDisposedException ex)
+            {
+                await Console.Error.WriteLineAsync(ex.ToString()).ConfigureAwait(true); ;
             }
         }
         #endregion
@@ -375,9 +388,13 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
                 }
                 await SfBaseComponent.InvokeVoidAsync(_chartInstance._chartJsModule, _chartInstance._chartJsInProcessModule, "redrawSelection", [.. new object[] { _chartInstance._dataId }]).ConfigureAwait(true);
             }
-            catch (Exception exception)
+            catch (JSException ex)
             {
-                Console.Error.WriteLine(exception);
+                await Console.Error.WriteLineAsync(ex.ToString()).ConfigureAwait(true); ;
+            }
+            catch (ObjectDisposedException ex)
+            {
+                await Console.Error.WriteLineAsync(ex.ToString()).ConfigureAwait(true); ;
             }
         }
 
@@ -394,9 +411,13 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
                 }
                 await SfBaseComponent.InvokeVoidAsync(_chartInstance._chartJsModule, _chartInstance._chartJsInProcessModule, "removeSelectionStyles", [.. new object[] { _chartInstance._dataId }]).ConfigureAwait(true);
             }
-            catch (Exception exception)
+            catch (JSException ex)
             {
-                Console.Error.WriteLine(exception);
+                await Console.Error.WriteLineAsync(ex.ToString()).ConfigureAwait(true); ;
+            }
+            catch (ObjectDisposedException ex)
+            {
+                await Console.Error.WriteLineAsync(ex.ToString()).ConfigureAwait(true); ;
             }
         }
 
@@ -413,9 +434,13 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
                 }
                 await SfBaseComponent.InvokeVoidAsync(_chartInstance._chartJsModule, _chartInstance._chartJsInProcessModule, "invokeRemoveSelectedElements", [.. new object[] { _chartInstance._dataId }]).ConfigureAwait(true);
             }
-            catch (Exception exception)
+            catch (JSException ex)
             {
-                Console.Error.WriteLine(exception);
+                await Console.Error.WriteLineAsync(ex.ToString()).ConfigureAwait(true); ;
+            }
+            catch (ObjectDisposedException ex)
+            {
+                await Console.Error.WriteLineAsync(ex.ToString()).ConfigureAwait(true); ;
             }
         }
 
