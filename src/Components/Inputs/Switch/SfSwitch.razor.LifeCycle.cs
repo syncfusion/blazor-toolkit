@@ -1,5 +1,4 @@
 ﻿using Microsoft.JSInterop;
-using System.Globalization;
 
 namespace Syncfusion.Blazor.Toolkit.Inputs
 {
@@ -14,17 +13,17 @@ namespace Syncfusion.Blazor.Toolkit.Inputs
 
         /// <exclude />
         /// <summary>
-        /// Called after each render; on first render, reapplies persisted state if enabled.
+        /// Invokes the base implementation after each render; the switch requires no component-specific post-render work.
         /// </summary>
-        /// <param name="firstRender">True if this is the initial render.</param>
+        /// <param name="firstRender"><see langword="true"/> when this is the first time the component has rendered; otherwise, <see langword="false"/>.</param>
+        /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
+        /// <remarks>
+        /// The <see cref="SfSelectionBase{TChecked}"/> base owns first-render JavaScript interop, persistence
+        /// restoration, and visual state recomputation.
+        /// </remarks>
         protected override async Task OnAfterRenderAsync(bool firstRender)
         {
             await base.OnAfterRenderAsync(firstRender).ConfigureAwait(false);
-            if (firstRender && EnablePersistence)
-            {
-                bool isChecked = Convert.ToBoolean(Checked, CultureInfo.InvariantCulture);
-                ChangeState(isChecked ? Check : UnCheck);
-            }
         }
 
         /// <summary>

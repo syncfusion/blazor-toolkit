@@ -22,8 +22,26 @@ namespace Syncfusion.Blazor.Toolkit.Inputs
         }
 
         /// <summary>
-        /// Handles parameter changes and loads persisted radio button state if enabled.
+        /// Reacts to parameter changes for the radio button after the initial render, persisting
+        /// user-driven <see cref="SfSelectionBase{TChecked}.Checked"/> updates to local storage when
+        /// <see cref="EnablePersistence"/> is enabled.
         /// </summary>
+        /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
+        /// <remarks>
+        /// <para>
+        /// On the first parameter pass after the initial render — once <c>_isFirstLoad</c> is set
+        /// to <see langword="true"/> in <see cref="OnAfterRenderAsync(bool)"/> — the method compares the
+        /// current <see cref="SfSelectionBase{TChecked}.Checked"/> value against the value captured
+        /// during initialization (<c>_initialCheckedValueForPersistence</c>). When the two values
+        /// differ, the new value is written to local storage via the shared
+        /// <see cref="SfSelectionBase{TChecked}.SetLocalStorageAsync(string, TChecked)"/> helper,
+        /// using <c>SfBaseUtils.Equals</c> to avoid redundant writes for value-equal updates.
+        /// </para>
+        /// <para>
+        /// Persistence is performed only when <see cref="EnablePersistence"/> is <see langword="true"/>
+        /// and both the current and initial checked values are non-null.
+        /// </para>
+        /// </remarks>
         /// <exclude/>
         protected override async Task OnParametersSetAsync()
         {

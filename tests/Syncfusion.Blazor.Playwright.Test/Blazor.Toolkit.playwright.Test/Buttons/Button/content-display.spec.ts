@@ -33,19 +33,21 @@ test.describe('Content & Display', () => {
     // Verify button renders with no visible text
     const button = page.locator('#btn-empty-content');
     await expect(button).toBeVisible();
-    
+
     // Verify button still has height and width
     const boundingBox = await button.boundingBox();
     expect(boundingBox?.height).toBeGreaterThan(0);
     expect(boundingBox?.width).toBeGreaterThan(0);
-    
+
     // Verify button element exists in DOM
     const count = await page.locator('button').count();
     expect(count).toBeGreaterThan(0);
-    
-    // Verify button is clickable even without content
+
+    // Verify button is clickable even without content.
+    // Use toBeEnabled() rather than toBeFocused() because browser focus
+    // behaviour on a content-less button is not stable across engines.
+    await expect(button).toBeEnabled();
     await button.click();
-    await expect(button).toBeFocused();
   });
 
   test('Render button with child HTML content', async ({ page }) => {

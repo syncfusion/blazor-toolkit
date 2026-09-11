@@ -60,12 +60,9 @@ namespace Syncfusion.Blazor.Toolkit.Inputs
             try
             {
                 await base.OnAfterRenderAsync(firstRender).ConfigureAwait(true);
-                if (firstRender)
+                if (firstRender && Created.HasDelegate)
                 {
-                    if (Created.HasDelegate)
-                    {
-                        await Created.InvokeAsync(null).ConfigureAwait(true);
-                    }
+                    await Created.InvokeAsync(null).ConfigureAwait(true);
                 }
             }
             catch (Exception ex)
@@ -112,8 +109,27 @@ namespace Syncfusion.Blazor.Toolkit.Inputs
         }
 
         /// <summary>
-        /// Disposes the uploader component.
+        /// Asynchronously releases the uploader-specific resources when the component is removed
+        /// from the render tree.
         /// </summary>
+        /// <returns>A <see cref="ValueTask"/> that completes after disposal work is finished.</returns>
+        /// <exception cref="InvalidOperationException">Thrown when an unhandled exception occurs while disposing uploader resources (file semaphore, JS modules, or destroy interop).</exception>
+        /// <remarks>
+        /// <para>
+        /// This override owns disposal of the file semaphore, the uploader-specific JavaScript
+        /// modules (<c>uploader.js</c>, <c>ajax.js</c>, and the optional
+        /// <c>sanitize-html-helper.js</c>), and the client-side <c>destroy</c> interop call when
+        /// the component has been rendered. The base <see cref="SfBaseComponent.DisposeAsyncCore"/>
+        /// handles the shared <c>base.js</c>, <c>animation.js</c>, <c>popup.js</c>, and
+        /// <c>touch.js</c> modules plus the <see cref="DotNetObjectReference{T}"/> bridge.
+        /// </para>
+        /// <para>
+        /// <see cref="JSDisconnectedException"/> and <see cref="ObjectDisposedException"/> are
+        /// caught and ignored during teardown because the Blazor circuit may disconnect (for
+        /// example, after a page reload) or a module reference may have already been released
+        /// before the asynchronous disposal finishes.
+        /// </para>
+        /// </remarks>
         /// <exclude/>
         protected override async ValueTask DisposeAsyncCore()
         {
@@ -121,7 +137,18 @@ namespace Syncfusion.Blazor.Toolkit.Inputs
             {
                 if (IsRendered)
                 {
-                    await InvokeVoidAsync(_uploaderJsModule, _uploaderJsInProcessModule, "destroy", [DataId]).ConfigureAwait(true);
+                    try
+                    {
+                        await InvokeVoidAsync(_uploaderJsModule, _uploaderJsInProcessModule, "destroy", [DataId]).ConfigureAwait(true);
+                    }
+                    catch (JSDisconnectedException)
+                    {
+                        // Ignore: The circuit disconnected (e.g., page reload) before JS destroy could complete.
+                    }
+                    catch (ObjectDisposedException)
+                    {
+                        // Ignore: JS module reference was disposed before destroy could complete.
+                    }
                 }
                 FileSemaphore?.Dispose();
                 try
@@ -146,6 +173,10 @@ namespace Syncfusion.Blazor.Toolkit.Inputs
                 catch (JSDisconnectedException)
                 {
                     // Ignore: The circuit disconnected (e.g., page reload) before JS disposal could complete.
+                }
+                catch (ObjectDisposedException)
+                {
+                    // Ignore: Module reference was already disposed.
                 }
             }
             catch (Exception ex)

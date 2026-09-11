@@ -44,7 +44,7 @@
                     @if (this.IsDevice)
                     {
                         <div class="@MODELHEADER">
-                            @if(this.IsExtendedDevicePopup())
+                            @if (this.IsExtendedDevicePopup())
                             {
                                 <button type="button" class="e-popup-close e-toolkit-icons e-close e-mobile-clear e-flat" aria-label="@Localizer["Close"]" title="@Localizer["Close"]" @onclick="@PopupCloseHandlerAsync"></button>
                                 <div class="e-day-wrapper">
@@ -61,7 +61,7 @@
                             }
                         </div>
                     }
-                    @if(this.IsExtendedDevicePopup())
+                    @if (this.IsExtendedDevicePopup())
                     {
                         <div class="@CALENDARCELLCONTAINER">
                             <CascadingValue Value="@this" Name="ParentComponent">

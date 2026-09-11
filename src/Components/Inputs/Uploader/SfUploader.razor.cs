@@ -465,13 +465,20 @@ namespace Syncfusion.Blazor.Toolkit.Inputs
         }
 
         /// <summary>
-        /// Handles the change event for the input file element when files are selected.
-        /// This method stores the file change event arguments for processing and maintains
-        /// a collection of all file inputs for later use in upload operations.
-        /// CRITICAL: Files are cached immediately to prevent stale reference errors.
+        /// Handles the change event of the input file element when the user selects one or
+        /// more files.
         /// </summary>
-        /// <param name="args">The event arguments containing information about the selected files.</param>
-        private async void OnChange(InputFileChangeEventArgs args)
+        /// <param name="args">The event arguments that contain the selected files.</param>
+        /// <returns>A <see cref="Task"/> representing the asynchronous change-handling operation.</returns>
+        /// <remarks>
+        /// Stores the file change event arguments for later processing, appends
+        /// the event to the internal input file collection, and immediately buffers the
+        /// selected files into <c>_cachedFileData</c>. Caching runs synchronously after
+        /// selection so that subsequent upload work can rely on in-memory byte arrays
+        /// rather than on the <see cref="IBrowserFile"/> stream, which Blazor may dispose
+        /// before the upload completes.
+        /// </remarks>
+        private async Task OnChangeAsync(InputFileChangeEventArgs args)
         {
             _inputFiles.Add(args);
             _inputFileChangeEvent = args;
@@ -664,7 +671,7 @@ namespace Syncfusion.Blazor.Toolkit.Inputs
             UpdateDirectoryAttr();
             SetRTL();
             SetExtensions();
-            await HandleCssClassChangeAsync().ConfigureAwait(true);
+            HandleCssClassChange();
             await HandleUploadedFilesChangeAsync().ConfigureAwait(true);
             SetEnabled();
             UpdatePrivateProperty();
@@ -672,10 +679,16 @@ namespace Syncfusion.Blazor.Toolkit.Inputs
         }
 
         /// <summary>
-        /// Handles CSS class changes and updates the container styling.
+        /// Recomputes the container CSS class when the user-supplied <see cref="CssClass"/>
+        /// value changes.
         /// </summary>
-        /// <returns>A task representing the asynchronous operation.</returns>
-        private async Task HandleCssClassChangeAsync()
+        /// <remarks>
+        /// Removes the previously applied CSS class from <c>ContainerClass</c>,
+        /// updates the cached class value, and reapplies the new class via
+        /// <c>SetCssClass</c>. It is synchronous because the work is in-memory CSS class
+        /// manipulation only — no I/O, no JavaScript interop, and no async dependencies.
+        /// </remarks>
+        private void HandleCssClassChange()
         {
             if (IsPropertyChanged() && !string.Equals(CssClass, _cssClass, StringComparison.Ordinal))
             {
@@ -685,7 +698,6 @@ namespace Syncfusion.Blazor.Toolkit.Inputs
                 _cssClass = CssClass;
                 SetCssClass();
             }
-            await Task.CompletedTask.ConfigureAwait(true);
         }
 
         /// <summary>
@@ -1098,7 +1110,7 @@ namespace Syncfusion.Blazor.Toolkit.Inputs
                 return;
             }
 
-            IBrowserFile? currentFile = await AcquireBrowserFileAsync(fileInfo, index, emptyFileCount).ConfigureAwait(true);
+            IBrowserFile? currentFile = AcquireBrowserFile(fileInfo, index, emptyFileCount);
             UpdateEventArgsWithFile(eventArgs, fileInfo, currentFile);
 
             if (ShouldShowProgress(currentFile))
@@ -1128,15 +1140,21 @@ namespace Syncfusion.Blazor.Toolkit.Inputs
         }
 
         /// <summary>
-        /// Acquires the browser file reference for the specified file information.
+        /// Acquires the <see cref="IBrowserFile"/> reference that corresponds to the
+        /// specified <see cref="FileInfo"/> entry.
         /// </summary>
-        /// <param name="fileInfo">The file information to match.</param>
-        /// <param name="index">The current file index.</param>
-        /// <param name="emptyFileCount">The count of empty files encountered.</param>
-        /// <returns>The browser file reference if found; otherwise, null.</returns>
-        private async Task<IBrowserFile?> AcquireBrowserFileAsync(FileInfo fileInfo, int index, int emptyFileCount)
+        /// <param name="fileInfo">The file information to match against the accumulated input change events.</param>
+        /// <param name="index">The zero-based file index used for directory upload lookups.</param>
+        /// <param name="emptyFileCount">The number of empty or invalid files encountered so far.</param>
+        /// <returns>The matching <see cref="IBrowserFile"/> reference, or <see langword="null"/> if no match is found.</returns>
+        /// <remarks>
+        /// The method is synchronous because the underlying
+        /// <see cref="GetBrowserFileForUpload(FileInfo, int, int)"/> performs only in-memory
+        /// collection lookups; it does not perform I/O or JavaScript interop.
+        /// </remarks>
+        private IBrowserFile? AcquireBrowserFile(FileInfo fileInfo, int index, int emptyFileCount)
         {
-            return await Task.FromResult(GetBrowserFileForUpload(fileInfo, index, emptyFileCount)).ConfigureAwait(true);
+            return GetBrowserFileForUpload(fileInfo, index, emptyFileCount);
         }
 
         /// <summary>

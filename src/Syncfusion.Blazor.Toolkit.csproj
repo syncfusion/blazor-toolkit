@@ -89,7 +89,7 @@
 	<ItemGroup>
 		<PackageReference Include="Microsoft.AspNetCore.Components.Web" Version="$(ComponentsPackageVersion)" />
 		<PackageReference Include="Microsoft.Extensions.Localization" Version="$(ComponentsPackageVersion)" />
-		<PackageReference Include="Microsoft.SourceLink.GitHub" Version="8.0.0" PrivateAssets="All" />
+		<PackageReference Include="Microsoft.SourceLink.GitHub" Version="10.0.303" PrivateAssets="All" />
 	</ItemGroup>
 
   <Target Name="RunGulpOnceBeforeBuild" BeforeTargets="BeforeBuild" Condition="$(TargetFramework) == $(TargetFrameworks.Split(';')[0]) AND !Exists('wwwroot/styles/fluent.min.css')">
