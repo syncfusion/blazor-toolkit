@@ -1,8 +1,8 @@
-﻿using Microsoft.AspNetCore.Components;
-using Syncfusion.Blazor.Toolkit.Internal;
+﻿using System.Collections.Specialized;
 using System.ComponentModel;
+using Microsoft.AspNetCore.Components;
 using Syncfusion.Blazor.Toolkit.Charts.Internal;
-using System.Collections.Specialized;
+using Syncfusion.Blazor.Toolkit.Internal;
 
 namespace Syncfusion.Blazor.Toolkit.Charts
 {
@@ -178,6 +178,10 @@ namespace Syncfusion.Blazor.Toolkit.Charts
         /// </value>
         /// <remarks>
         /// Use this property to provide an accessibility role for the <see cref="SfChart">Chart</see> component.
+        /// The value, if non-empty, must be a valid WAI-ARIA role (for example
+        /// <c>"region"</c>, <c>"figure"</c>, <c>"img"</c>). Invalid values are
+        /// rejected at component initialization to prevent invalid <c>role</c>
+        /// attributes from reaching the DOM.
         /// </remarks>
         /// <example>
         /// <code>
@@ -189,7 +193,17 @@ namespace Syncfusion.Blazor.Toolkit.Charts
         /// </code>
         /// </example>
         [Parameter]
-        public string AccessibilityRole { get; set; } = string.Empty;
+        public string AccessibilityRole
+        {
+            get => _accessibilityRole;
+            set
+            {
+                DataVizCommonHelper.AriaRoleValidator.EnsureValidRole(value, nameof(AccessibilityRole));
+                _accessibilityRole = value;
+            }
+        }
+
+        private string _accessibilityRole = string.Empty;
 
         /// <summary>
         /// Gets or sets the accessibility keyboard navigation focus option for the <see cref="SfChart">Chart</see> component.

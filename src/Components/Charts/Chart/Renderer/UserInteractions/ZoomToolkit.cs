@@ -58,11 +58,15 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
         protected override void OnInitialized()
         {
             _elementId = Chart?.ID;
-            _selectionColor = Chart?.Theme != Theme.FluentDark ? "#424242" : "#D6D6D6";
-            _fillColor = Chart?.Theme != Theme.FluentDark ? "#424242" : "#D6D6D6";
-            _iconRectOverFill = Chart?.Theme != Theme.FluentDark ? "#EBEBEB" : "#383838";
-            _iconRectSelectionFill = Chart?.Theme != Theme.FluentDark ? "#EBEBEB" : "#383838";
-            _iconRect = Chart?.Theme != Theme.FluentDark ? new Rect(-7, -8, 32, 32) : new Rect(0, 0, 16, 16);
+            // Resolve theme-aware color tokens for the zoom toolkit. High Contrast is treated as a third branch.
+            // The soft accessibility yellow (#FFD939) matches the selectionCircleStroke / tabColor tokens in ChartHelper.GetThemeStyle("HighContrast").
+            bool isHighContrast = Chart?.Theme == Theme.HighContrast || Chart?.Theme == Theme.HighContrastLight;
+            bool isDark = Chart?.Theme == Theme.FluentDark;
+            _selectionColor = isHighContrast ? "#FFD939" : (isDark ? "#D6D6D6" : "#424242");
+            _fillColor = isHighContrast ? "#FFD939" : (isDark ? "#D6D6D6" : "#424242");
+            _iconRectOverFill = isHighContrast ? "#000000" : (isDark ? "#383838" : "#EBEBEB");
+            _iconRectSelectionFill = isHighContrast ? "#000000" : (isDark ? "#383838" : "#EBEBEB");
+            _iconRect = isHighContrast ? new Rect(0, 0, 16, 16) : (isDark ? new Rect(0, 0, 16, 16) : new Rect(-7, -8, 32, 32));
             _zoomkitOpacity = 1;
         }
 
@@ -124,7 +128,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
             }
 
             toolboxItems = IsDevice() ? [ToolbarItems.Reset] : toolboxItems;
-            RectOptions rectOptions = new(_elementId + "_Zooming_Rect", 0, 0, width, height + (SPACING * 2), 1, Constants.Transparent, Chart?.Theme != Theme.FluentDark ? "#fafafa" : "#1C1B1F", 4, 4, 1);
+            RectOptions rectOptions = new(_elementId + "_Zooming_Rect", 0, 0, width, height + (SPACING * 2), 1, Constants.Transparent, Chart?.Theme == Theme.HighContrast || Chart?.Theme == Theme.HighContrastLight ? "#000000" : (Chart?.Theme != Theme.FluentDark ? "#fafafa" : "#1C1B1F"), 4, 4, 1);
             RenderZoomKit(builder, transX, transY, rectOptions, length, toolboxItems, iconSize);
         }
 
@@ -361,7 +365,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
                 Transform = "rotate(0," + 0 + ',' + 0 + ')',
                 DominantBaseline = "middle",
                 FontSize = "12px",
-                Fill = Chart?.Theme != Theme.FluentDark ? "black" : "white"
+                Fill = (Chart?.Theme == Theme.HighContrast || Chart?.Theme == Theme.HighContrastLight) ? "#FFD939" : (Chart?.Theme != Theme.FluentDark ? "black" : "white")
             });
         }
 

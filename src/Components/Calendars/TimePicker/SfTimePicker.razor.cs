@@ -615,14 +615,13 @@ namespace Syncfusion.Blazor.Toolkit.Calendars
         }
 
         /// <summary>
-        /// Notifies the component of parameter changes and updates internal tracking variables.
+        /// Synchronizes the TimePicker's internal parameter state with the latest public property values and records any detected changes.
         /// </summary>
-        /// <returns>A <see cref="Task"/> representing the asynchronous parameter notification operation.</returns>
         /// <remarks>
-        /// This method uses the NotifyPropertyChanges method to detect which properties have changed
-        /// and updates the corresponding internal tracking fields for change detection.
+        /// Invoked from <see cref="SfTimePicker{TValue}.OnParametersSetAsync"/> after the base parameter cycle assigns the new values. The method performs synchronous dictionary and value-equality comparisons against the cached <c>Internal*</c> fields to determine which parameters changed during the render pass.
         /// </remarks>
-        private async Task PropertyParametersSetAsync()
+        /// <exclude />
+        private void PropertyParametersSet()
         {
             InternalFormat = NotifyPropertyChanges(nameof(Format), Format, InternalFormat);
             InternalInputFormats = NotifyPropertyChanges(nameof(InputFormats), InputFormats, InternalInputFormats);
@@ -635,7 +634,6 @@ namespace Syncfusion.Blazor.Toolkit.Calendars
             NotifyPropertyChanges(nameof(CssClass), CssClass, InternalCssClass);
             InternalValue = NotifyPropertyChanges(nameof(Value), Value, InternalValue);
             InternalReadonly = NotifyPropertyChanges(nameof(READ_ONLY), Readonly, InternalReadonly);
-            await Task.CompletedTask.ConfigureAwait(false);
         }
 
         /// <summary>

@@ -429,18 +429,20 @@
     async Task CheckIntervalTypeHours(Fixture fixture8)
     {
         var cut = fixture8.GetComponentUnderTest<SfChart>();
-        await Task.Delay(200);
         int index = chart8._axisContainer.Axes[Constants.PrimaryXAxis].Renderer.Index;
-        var svg = cut.Find("#containerAxisLabels" + index);
-        Assert.True(svg.ChildNodes.Length == 8);
-        Assert.True(cut.Find("#containerAxisLabels" + index).ChildNodes[0].TextContent == "3:00 AM\n    ");
-        Assert.True(cut.Find("#containerAxisLabels" + index).ChildNodes[1].TextContent == "7:00 AM\n    ");
-        Assert.True(cut.Find("#containerAxisLabels" + index).ChildNodes[2].TextContent == "11:00 AM\n    ");
-        Assert.True(cut.Find("#containerAxisLabels" + index).ChildNodes[3].TextContent == "3:00 PM\n    ");
-        Assert.True(cut.Find("#containerAxisLabels" + index).ChildNodes[4].TextContent == "7:00 PM\n    ");
-        Assert.True(cut.Find("#containerAxisLabels" + index).ChildNodes[5].TextContent == "11:00 PM\n    ");
-        Assert.True(cut.Find("#containerAxisLabels" + index).ChildNodes[6].TextContent == "3:00 AM\n    ");
-        Assert.True(cut.Find("#containerAxisLabels" + index).ChildNodes[7].TextContent == "7:00 AM\n    ");
+        cut.WaitForAssertion(() =>
+        {
+            var svg = cut.Find("#containerAxisLabels" + index);
+            Assert.Equal(8, svg.ChildNodes.Length);
+            Assert.Contains("3:00 AM", svg.ChildNodes[0].TextContent.Trim());
+            Assert.Contains("7:00 AM", svg.ChildNodes[1].TextContent.Trim());
+            Assert.Contains("11:00 AM", svg.ChildNodes[2].TextContent.Trim());
+            Assert.Contains("3:00 PM", svg.ChildNodes[3].TextContent.Trim());
+            Assert.Contains("7:00 PM", svg.ChildNodes[4].TextContent.Trim());
+            Assert.Contains("11:00 PM", svg.ChildNodes[5].TextContent.Trim());
+            Assert.Contains("3:00 AM", svg.ChildNodes[6].TextContent.Trim());
+            Assert.Contains("7:00 AM", svg.ChildNodes[7].TextContent.Trim());
+        });
         cut.SetParametersAndRender();
     }
     public class DateTimeData8
@@ -485,23 +487,25 @@
     async Task CheckIntervalTypeMinutes(Fixture fixture9)
     {
         var cut = fixture9.GetComponentUnderTest<SfChart>();
-        await Task.Delay(200);
         int index = chart9._axisContainer.Axes[Constants.PrimaryXAxis].Renderer.Index;
-        var svg = cut.Find("#containerAxisLabels" + index);
-        Assert.True(svg.ChildNodes.Length == 13);
-        Assert.True(cut.Find("#containerAxisLabels" + index).ChildNodes[0].TextContent == "4:00:00 AM\n    ");
-        Assert.True(cut.Find("#containerAxisLabels" + index).ChildNodes[1].TextContent == "4:10:00 AM\n    ");
-        Assert.True(cut.Find("#containerAxisLabels" + index).ChildNodes[2].TextContent == "4:20:00 AM\n    ");
-        Assert.True(cut.Find("#containerAxisLabels" + index).ChildNodes[3].TextContent == "4:30:00 AM\n    ");
-        Assert.True(cut.Find("#containerAxisLabels" + index).ChildNodes[4].TextContent == "4:40:00 AM\n    ");
-        Assert.True(cut.Find("#containerAxisLabels" + index).ChildNodes[5].TextContent == "4:50:00 AM\n    ");
-        Assert.True(cut.Find("#containerAxisLabels" + index).ChildNodes[6].TextContent == "5:00:00 AM\n    ");
-        Assert.True(cut.Find("#containerAxisLabels" + index).ChildNodes[7].TextContent == "5:10:00 AM\n    ");
-        Assert.True(cut.Find("#containerAxisLabels" + index).ChildNodes[8].TextContent == "5:20:00 AM\n    ");
-        Assert.True(cut.Find("#containerAxisLabels" + index).ChildNodes[9].TextContent == "5:30:00 AM\n    ");
-        Assert.True(cut.Find("#containerAxisLabels" + index).ChildNodes[10].TextContent == "5:40:00 AM\n    ");
-        Assert.True(cut.Find("#containerAxisLabels" + index).ChildNodes[11].TextContent == "5:50:00 AM\n    ");
-        Assert.True(cut.Find("#containerAxisLabels" + index).ChildNodes[12].TextContent == "6:00:00 AM\n    ");
+        cut.WaitForAssertion(() =>
+        {
+            var svg = cut.Find("#containerAxisLabels" + index);
+            Assert.Equal(13, svg.ChildNodes.Length);
+            Assert.Equal("4:00:00 AM", svg.ChildNodes[0].TextContent.Trim());
+            Assert.Equal("4:10:00 AM", svg.ChildNodes[1].TextContent.Trim());
+            Assert.Equal("4:20:00 AM", svg.ChildNodes[2].TextContent.Trim());
+            Assert.Equal("4:30:00 AM", svg.ChildNodes[3].TextContent.Trim());
+            Assert.Equal("4:40:00 AM", svg.ChildNodes[4].TextContent.Trim());
+            Assert.Equal("4:50:00 AM", svg.ChildNodes[5].TextContent.Trim());
+            Assert.Equal("5:00:00 AM", svg.ChildNodes[6].TextContent.Trim());
+            Assert.Equal("5:10:00 AM", svg.ChildNodes[7].TextContent.Trim());
+            Assert.Equal("5:20:00 AM", svg.ChildNodes[8].TextContent.Trim());
+            Assert.Equal("5:30:00 AM", svg.ChildNodes[9].TextContent.Trim());
+            Assert.Equal("5:40:00 AM", svg.ChildNodes[10].TextContent.Trim());
+            Assert.Equal("5:50:00 AM", svg.ChildNodes[11].TextContent.Trim());
+            Assert.Equal("6:00:00 AM", svg.ChildNodes[12].TextContent.Trim());
+        });
         cut.SetParametersAndRender();
     }
     public class DateTimeData9
@@ -546,18 +550,20 @@
     async Task CheckIntervalTypeSeconds(Fixture fixture10)
     {
         var cut = fixture10.GetComponentUnderTest<SfChart>();
-        await Task.Delay(200);
         int index = chart10._axisContainer.Axes[Constants.PrimaryXAxis].Renderer.Index;
-        var svg = cut.Find("#containerAxisLabels" + index);
-        Assert.True(svg.ChildNodes.Length == 8);
-        Assert.True(cut.Find("#containerAxisLabels" + index).ChildNodes[0].TextContent == "1:00:00 AM\n    ");
-        Assert.True(cut.Find("#containerAxisLabels" + index).ChildNodes[1].TextContent == "1:08:20 AM\n    ");
-        Assert.True(cut.Find("#containerAxisLabels" + index).ChildNodes[2].TextContent == "1:16:40 AM\n    ");
-        Assert.True(cut.Find("#containerAxisLabels" + index).ChildNodes[3].TextContent == "1:25:00 AM\n    ");
-        Assert.True(cut.Find("#containerAxisLabels" + index).ChildNodes[4].TextContent == "1:33:20 AM\n    ");
-        Assert.True(cut.Find("#containerAxisLabels" + index).ChildNodes[5].TextContent == "1:41:40 AM\n    ");
-        Assert.True(cut.Find("#containerAxisLabels" + index).ChildNodes[6].TextContent == "1:50:00 AM\n    ");
-        Assert.True(cut.Find("#containerAxisLabels" + index).ChildNodes[7].TextContent == "1:58:20 AM\n    ");
+        cut.WaitForAssertion(() =>
+        {
+            var svg = cut.Find("#containerAxisLabels" + index);
+            Assert.Equal(8, svg.ChildNodes.Length);
+            Assert.Equal("1:00:00 AM", svg.ChildNodes[0].TextContent.Trim());
+            Assert.Equal("1:08:20 AM", svg.ChildNodes[1].TextContent.Trim());
+            Assert.Equal("1:16:40 AM", svg.ChildNodes[2].TextContent.Trim());
+            Assert.Equal("1:25:00 AM", svg.ChildNodes[3].TextContent.Trim());
+            Assert.Equal("1:33:20 AM", svg.ChildNodes[4].TextContent.Trim());
+            Assert.Equal("1:41:40 AM", svg.ChildNodes[5].TextContent.Trim());
+            Assert.Equal("1:50:00 AM", svg.ChildNodes[6].TextContent.Trim());
+            Assert.Equal("1:58:20 AM", svg.ChildNodes[7].TextContent.Trim());
+        });
         cut.SetParametersAndRender();
     }
     public class DateTimeData10

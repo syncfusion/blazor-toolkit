@@ -1,4 +1,5 @@
 import { test, expect } from '@playwright/test';
+import { checkCheckbox } from './checkbox-helpers';
 
 test.describe('Performance & State Persistence', () => {
   test.beforeEach(async ({ page }) => {
@@ -12,8 +13,8 @@ test.describe('Performance & State Persistence', () => {
     const count = await checkboxes.count();
     expect(count).toBeGreaterThan(10);
 
-    await checkboxes.nth(0).check();
-    await checkboxes.nth(5).check();
+    await checkCheckbox(checkboxes.nth(0));
+    await checkCheckbox(checkboxes.nth(5));
 
     await expect(checkboxes.nth(0)).toBeChecked();
     await expect(checkboxes.nth(5)).toBeChecked();
@@ -63,8 +64,8 @@ test.describe('Performance & State Persistence', () => {
   test('Multiple checkboxes maintain independent state', async ({ page }) => {
     const checkboxes = page.locator('input[type="checkbox"]');
 
-    await checkboxes.nth(1).check();
-    await checkboxes.nth(3).check();
+    await checkCheckbox(checkboxes.nth(1));
+    await checkCheckbox(checkboxes.nth(3));
 
     await expect(checkboxes.nth(1)).toBeChecked();
     await expect(checkboxes.nth(3)).toBeChecked();

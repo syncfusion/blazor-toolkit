@@ -470,7 +470,7 @@ namespace Syncfusion.Blazor.Toolkit.Inputs
         /// <returns>The next <see cref="CheckboxState"/> to transition to.</returns>
         /// <remarks>
         /// <para>
-        /// When tri-state is enabled, the cycle is: Checked → Indeterminate → Unchecked → Checked.
+        /// When tri-state is enabled, the cycle is: Checked → Unchecked → Indeterminate → Checked.
         /// </para>
         /// <para>
         /// When tri-state is disabled, the cycle is: Checked ⇄ Unchecked (standard two-state toggle).
@@ -480,10 +480,10 @@ namespace Syncfusion.Blazor.Toolkit.Inputs
         {
             if (allowTriState)
             {
-                // Tri-state cycle: Checked → Indeterminate → Unchecked → Checked
-                return isChecked && !isIndeterminate
-                    ? CheckboxState.Indeterminate
-                    : isIndeterminate ? CheckboxState.Unchecked : CheckboxState.Checked;
+                // Tri-state cycle: Checked → Unchecked → Indeterminate → Checked
+                return isIndeterminate
+                    ? CheckboxState.Checked
+                    : isChecked ? CheckboxState.Unchecked : CheckboxState.Indeterminate;
             }
 
             // Two-state toggle: handle indeterminate as a transition state

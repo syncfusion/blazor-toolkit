@@ -1,8 +1,9 @@
 // spec: specs/checkbox-component-test-plan.md
 // Test Suite: Edge Cases & Special Scenarios
-// Tests the REAL Syncfusion Checkbox component from the Blazor sample app
+// Tests the REAL Syncfusion Checkbox component from the Blazor sample app.
 
 import { test, expect } from '@playwright/test';
+import { checkCheckbox, uncheckCheckbox } from './checkbox-helpers';
 
 test.describe('Edge Cases & Special Scenarios', () => {
   test.beforeEach(async ({ page }) => {
@@ -72,15 +73,16 @@ test.describe('Edge Cases & Special Scenarios', () => {
     const checkboxes = page.locator('input[type="checkbox"]');
     const firstCheckbox = checkboxes.first();
 
-    // 1. Toggle state multiple times
+    // 1. Toggle state multiple times. Use expect().toBeChecked() /
+    //    not.toBeChecked() (which auto-retry) instead of a one-shot
+    //    isChecked() read. The latter races the Blazor re-render that
+    //    SfCheckBox's HandleClickAsync triggers after a click.
     await firstCheckbox.click();
-    let isChecked = await firstCheckbox.isChecked();
-    expect(isChecked).toBe(true);
+    await expect(firstCheckbox).toBeChecked();
 
     await firstCheckbox.click();
-    isChecked = await firstCheckbox.isChecked();
-    expect(isChecked).toBe(false);
-    
+    await expect(firstCheckbox).not.toBeChecked();
+
     // Expect: Checkbox is functional again
     await expect(firstCheckbox).toBeEnabled();
   });
@@ -97,9 +99,9 @@ test.describe('Edge Cases & Special Scenarios', () => {
     // Expect: Each maintains independent state
     const firstThree = Math.min(3, count);
     for (let i = 0; i < firstThree; i++) {
-      await allCheckboxes.nth(i).check();
+      await checkCheckbox(allCheckboxes.nth(i));
     }
-    
+
     // Verify they're checked
     for (let i = 0; i < firstThree; i++) {
       await expect(allCheckboxes.nth(i)).toBeChecked();
@@ -107,7 +109,7 @@ test.describe('Edge Cases & Special Scenarios', () => {
 
     // 3. Uncheck them to verify independence
     // Expect: Each binding updates correctly without affecting others
-    await allCheckboxes.nth(0).uncheck();
+    await uncheckCheckbox(allCheckboxes.nth(0));
     await expect(allCheckboxes.nth(0)).not.toBeChecked();
     await expect(allCheckboxes.nth(1)).toBeChecked();
     await expect(allCheckboxes.nth(2)).toBeChecked();
@@ -155,7 +157,7 @@ test.describe('Edge Cases & Special Scenarios', () => {
     const indicesToCheck = [0, 2];
     for (const idx of indicesToCheck) {
       if (idx < count) {
-        await allCheckboxes.nth(idx).check();
+        await checkCheckbox(allCheckboxes.nth(idx));
       }
     }
 
@@ -186,10 +188,10 @@ test.describe('Edge Cases & Special Scenarios', () => {
     
     // 3. Test checkbox functionality
     // Expect: Checkbox can be checked/unchecked
-    await checkbox.check();
+    await checkCheckbox(checkbox);
     await expect(checkbox).toBeChecked();
-    
-    await checkbox.uncheck();
+
+    await uncheckCheckbox(checkbox);
     await expect(checkbox).not.toBeChecked();
   });
 
@@ -211,7 +213,7 @@ test.describe('Edge Cases & Special Scenarios', () => {
     // Expect: Component works correctly with custom attributes
     await checkbox.click();
     await expect(checkbox).toBeChecked();
-    
+
     // Verify state toggle
     await checkbox.click();
     await expect(checkbox).not.toBeChecked();

@@ -101,19 +101,6 @@ namespace Syncfusion.Blazor.Toolkit.Inputs
         protected virtual Dictionary<string, object>? BaseInputAttributes { get; set; } = [];
 
         /// <summary>
-        /// Gets or sets a value indicating whether the input component supports multiple lines of text.
-        /// </summary>
-        /// <value>
-        /// A <see cref="bool"/> indicating whether the input supports multiple lines. The default value is <see langword="false"/> but may be overridden in derived implementations.
-        /// </value>
-        /// <remarks>
-        /// This property determines whether the component renders as a single-line input or a multi-line textarea element.
-        /// When <see langword="true"/>, additional styling and behavior for multi-line text handling will be applied.
-        /// </remarks>
-        /// <exclude/>
-        protected virtual bool MultilineInput { get; set; }
-
-        /// <summary>
         /// Gets or sets the placeholder text displayed in the input when no value is present.
         /// </summary>
         /// <value>
@@ -476,12 +463,6 @@ namespace Syncfusion.Blazor.Toolkit.Inputs
         /// </summary>
         /// <exclude/>
         protected const string CLEARICONHIDE = "e-clear-icon-hide";
-
-        /// <summary>
-        /// The CSS class name applied to the input element when it is configured to support multiple lines of text, typically rendering as a textarea.
-        /// </summary>
-        /// <exclude/>
-        protected const string MULTILINE = "e-multi-line-input";
 
         /// <summary>
         /// The CSS class name applied to the input element when it is in a disabled state, used to visually indicate that the input is not interactive.
@@ -1230,19 +1211,9 @@ namespace Syncfusion.Blazor.Toolkit.Inputs
             }
 
             ContainerHtmlAttributes = SfBaseUtils.UpdateDictionary(STYLE, "width:" + BaseWidth + ";", ContainerHtmlAttributes);
-            if (!MultilineInput)
-            {
-                ContainerClass = SfBaseUtils.AddClass(ContainerClass, INPUTGROUP);
-                ContainerClass = SfBaseUtils.AddClass(ContainerClass, CONTROLCONTAINER);
-                ContainerClass = SfBaseUtils.AddClass(ContainerClass, CONTROLOLDCONTAINER);
-            }
-            else
-            {
-                ContainerClass = SfBaseUtils.AddClass(ContainerClass, CONTROLCONTAINER);
-                ContainerClass = SfBaseUtils.AddClass(ContainerClass, CONTROLOLDCONTAINER);
-                ContainerClass = SfBaseUtils.AddClass(ContainerClass, MULTILINE);
-                ContainerClass = SfBaseUtils.AddClass(ContainerClass, INPUTGROUP);
-            }
+            ContainerClass = SfBaseUtils.AddClass(ContainerClass, INPUTGROUP);
+            ContainerClass = SfBaseUtils.AddClass(ContainerClass, CONTROLCONTAINER);
+            ContainerClass = SfBaseUtils.AddClass(ContainerClass, CONTROLOLDCONTAINER);
             if (RootClass is not null && !RootClass.Contains(TEXT_AREA, StringComparison.Ordinal))
             {
                 InputHtmlAttributes = SfBaseUtils.UpdateDictionary("autocomplete", BaseAutocomplete, InputHtmlAttributes);

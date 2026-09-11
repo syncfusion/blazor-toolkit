@@ -148,7 +148,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
         /// </summary>
         private void GeneratePathOption(List<PathOptions> _options, ChartSeries series, Point point, string direction, string id)
         {
-            _options.Add(new PathOptions(Owner?.ID + "_Series_" + series.Renderer.Index + id, direction, series.DashArray, series.Border.Width, series.Border.Color, series.Opacity, SetPointColor(point, Interior ?? null!), "", "", "", "", "", GetDataPoints(point.XValue, point.YValue)));
+            _options.Add(new PathOptions(Owner?.ID + "_Series_" + series.Renderer?.Index + id, direction, series.DashArray, series.Border.Width, series.Border.Color, series.Opacity, SetPointColor(point, Interior ?? null!), "", "", "", "", "", GetDataPoints(point.XValue, point.YValue)));
         }
 
         #endregion

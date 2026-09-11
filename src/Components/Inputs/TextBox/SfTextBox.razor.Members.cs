@@ -4,12 +4,13 @@ namespace Syncfusion.Blazor.Toolkit.Inputs
 {
     /// <summary>
     /// Represents the Toolkit TextBox component, which is an input element that allows users to enter, edit, and display text values.
-    /// The TextBox provides various customization options including floating labels, clear button, multiline support, and input validation.
+    /// The TextBox provides various customization options including floating labels, clear button, and input validation.
     /// </summary>
     /// <remarks>
-    /// The <see cref="SfTextBox"/> component supports both single-line and multiline input modes. It can be configured with
+    /// The <see cref="SfTextBox"/> component is a single-line input control. It can be configured with
     /// floating labels, placeholder text, clear button functionality, and various input types. The component inherits from
-    /// <see cref="SfInputBase{TValue}"/> providing base functionality for text input operations.
+    /// <see cref="SfInputBase{TValue}"/> providing base functionality for text input operations. For multi-line text input,
+    /// use the dedicated <c>SfTextArea</c> component.
     /// </remarks>
     /// <example>
     /// The following code example demonstrates how to create a basic TextBox with floating label and clear button:
@@ -203,41 +204,6 @@ namespace Syncfusion.Blazor.Toolkit.Inputs
         }
 
         /// <summary>
-        /// Gets or sets a value indicating whether the <see cref="SfTextBox"/> operates in multiline mode (textarea).
-        /// </summary>
-        /// <value>
-        /// A <see cref="bool"/> value indicating whether multiline mode is enabled. When <see langword="true"/>, the component renders as a textarea element; when <see langword="false"/>, it renders as a single-line input element. The default value is <see langword="false"/>.
-        /// </value>
-        /// <remarks>
-        /// <para>When multiline mode is enabled, the TextBox transforms into a textarea element that supports:</para>
-        /// <list type="bullet">
-        /// <item><description>Multiple lines of text input</description></item>
-        /// <item><description>Line breaks and paragraph formatting</description></item>
-        /// <item><description>Scrolling when content exceeds the visible area</description></item>
-        /// <item><description>Resizable functionality (browser-dependent)</description></item>
-        /// </list>
-        /// <para>This mode is particularly useful for capturing longer text content such as comments, descriptions, addresses, or any scenario requiring multi-line input.</para>
-        /// </remarks>
-        /// <example>
-        /// <code><![CDATA[
-        /// <SfTextBox @bind-Value="@description" 
-        ///           Multiline="true" 
-        ///           Placeholder="Enter your description" 
-        ///           FloatLabelType="FloatLabelType.Auto">
-        /// </SfTextBox>
-        /// 
-        /// @code {
-        ///     private string description = "";
-        /// }
-        /// ]]></code>
-        /// </example>
-        [Parameter]
-        public bool Multiline
-        {
-            get => MultilineInput; set => MultilineInput = value;
-        }
-
-        /// <summary>
         /// Gets or sets a collection of additional HTML attributes that will be applied to the outer wrapper element of the <see cref="SfTextBox"/> component.
         /// </summary>
         /// <value>
@@ -380,10 +346,6 @@ namespace Syncfusion.Blazor.Toolkit.Inputs
         /// <inheritdoc/>
         /// <exclude/>
         protected override FloatLabelType BaseFloatLabelType { get; set; }
-
-        /// <inheritdoc/>
-        /// <exclude/>
-        protected override bool MultilineInput { get; set; }
 
         /// <inheritdoc/>
         /// <exclude/>

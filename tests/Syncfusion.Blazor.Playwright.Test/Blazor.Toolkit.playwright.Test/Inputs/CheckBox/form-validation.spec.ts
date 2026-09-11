@@ -1,4 +1,5 @@
 import { test, expect } from '@playwright/test';
+import { checkCheckbox } from './checkbox-helpers';
 
 test.describe('Checkbox – Form Validation', () => {
 
@@ -25,7 +26,7 @@ test.describe('Checkbox – Form Validation', () => {
 
     await expect(submit).toBeDisabled();
 
-    await checkbox.check();
+    await checkCheckbox(checkbox);
 
     await expect(submit).toBeEnabled();
   });

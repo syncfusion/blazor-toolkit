@@ -283,13 +283,25 @@ namespace Syncfusion.Blazor.Toolkit.Tests.Inputs.TextBox
             var containerElement = inputElement.ParentElement;
             Assert.NotNull(containerElement);
             Assert.NotNull(containerElement.ParentElement);
+
+            // Real DOM structure of the e-input-in-wrap span (with 2 append icons
+            // and ShowClearButton=true). Blazor preserves the whitespace text nodes
+            // between the rendered elements, so the indices skip the text nodes:
+            //   [0] <input>                (Element)
+            //   [1] "\n\t\t"                (Text - whitespace after the input)
+            //   [2] <span.e-float-line>    (Element)
+            //   [3] "\n\t\t"                (Text - whitespace after the float-line)
+            //   [4] <label>                (Element)
+            //   [5] <button clear>         (Element)
+            //   [6] <span.e-input-group-icon> (Element - first append icon)
+            //   [7] <span.e-input-group-icon> (Element - second append icon)
             var iconElement1 = containerElement.ParentElement.ChildNodes[0];
             var iconElement2 = containerElement.ParentElement.ChildNodes[1];
-            var floatLineElement = containerElement.ChildNodes[1];
-            var floatLabelElement = containerElement.ChildNodes[3];
-            var clearIconElement = containerElement.ChildNodes[4];
-            var iconElement3 = containerElement.ChildNodes[5];
-            var iconElement4 = containerElement.ChildNodes[6];
+            var floatLineElement = containerElement.ChildNodes[2];
+            var floatLabelElement = containerElement.ChildNodes[4];
+            var clearIconElement = containerElement.ChildNodes[5];
+            var iconElement3 = containerElement.ChildNodes[6];
+            var iconElement4 = containerElement.ChildNodes[7];
             Assert.Contains("e-input-group-icon", iconElement1.ToMarkup());
             Assert.Contains("e-date-icon", iconElement1.ToMarkup());
             Assert.Contains("e-input-group-icon", iconElement2.ToMarkup());
@@ -301,7 +313,7 @@ namespace Syncfusion.Blazor.Toolkit.Tests.Inputs.TextBox
             Assert.Contains("e-close", clearIconElement.ToMarkup());
             Assert.Contains("e-clear-icon-hide", clearIconElement.ToMarkup());
             Assert.Contains("e-label-top", floatLabelElement.ToMarkup());
-            Assert.Equal(7, containerElement.ChildNodes.Count());
+            Assert.Equal(8, containerElement.ChildNodes.Count());
             await Task.CompletedTask;
         }
 
@@ -324,13 +336,25 @@ namespace Syncfusion.Blazor.Toolkit.Tests.Inputs.TextBox
             var containerElement = inputElement.ParentElement;
             Assert.NotNull(containerElement);
             Assert.NotNull(containerElement.ParentElement);
+
+            // Real DOM structure of the e-input-in-wrap span (with 2 append icons
+            // and ShowClearButton=true). Blazor preserves the whitespace text nodes
+            // between the rendered elements, so the indices skip the text nodes:
+            //   [0] <input>                (Element)
+            //   [1] "\n\t\t"                (Text - whitespace after the input)
+            //   [2] <span.e-float-line>    (Element)
+            //   [3] "\n\t\t"                (Text - whitespace after the float-line)
+            //   [4] <label>                (Element)
+            //   [5] <button clear>         (Element)
+            //   [6] <span.e-input-group-icon> (Element - first append icon)
+            //   [7] <span.e-input-group-icon> (Element - second append icon)
             var iconElement1 = containerElement.ParentElement.ChildNodes[0];
             var iconElement2 = containerElement.ParentElement.ChildNodes[1];
-            var floatLineElement = containerElement.ChildNodes[1];
-            var floatLabelElement = containerElement.ChildNodes[3];
-            var clearIconElement = containerElement.ChildNodes[4];
-            var iconElement3 = containerElement.ChildNodes[5];
-            var iconElement4 = containerElement.ChildNodes[6];
+            var floatLineElement = containerElement.ChildNodes[2];
+            var floatLabelElement = containerElement.ChildNodes[4];
+            var clearIconElement = containerElement.ChildNodes[5];
+            var iconElement3 = containerElement.ChildNodes[6];
+            var iconElement4 = containerElement.ChildNodes[7];
             Assert.Contains("e-input-group-icon", iconElement1.ToMarkup());
             Assert.Contains("e-date-icon", iconElement1.ToMarkup());
             Assert.Contains("e-input-group-icon", iconElement2.ToMarkup());
@@ -342,7 +366,7 @@ namespace Syncfusion.Blazor.Toolkit.Tests.Inputs.TextBox
             Assert.Contains("e-close", clearIconElement.ToMarkup());
             Assert.Contains("e-clear-icon-hide", clearIconElement.ToMarkup());
             Assert.Contains("e-label-top", floatLabelElement.ToMarkup());
-            Assert.Equal(7, containerElement.ChildNodes.Count());
+            Assert.Equal(8, containerElement.ChildNodes.Count());
             await Task.CompletedTask;
         }
 

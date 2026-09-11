@@ -19,8 +19,7 @@
            role="switch"
            aria-checked="@GetAriaPressed()"
            aria-disabled="@Disabled.ToString().ToLower()"
-           aria-labelledby="@(!string.IsNullOrWhiteSpace(Label) ? $"{_idValue}-label" : null)"
-           aria-label="@(string.IsNullOrWhiteSpace(Label) ? (string.IsNullOrWhiteSpace(AriaLabel) ? null : AriaLabel) : null)"
+           aria-label="@GetAccessibleName()"
            name="@Name"
            value="@Value"
            checked="@Checked"
@@ -34,9 +33,4 @@
     </span>
 
     <span class="@_handleClass"></span>
-
-    @if (!string.IsNullOrWhiteSpace(Label))
-    {
-        <label id="@($"{_idValue}-label")" class="e-switch-label" for="@_idValue">@Label</label>
-    }
 </div>

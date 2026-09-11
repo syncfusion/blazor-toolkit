@@ -147,7 +147,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts
 
             for (int i = 0; i < axisCount; i++)
             {
-                string currentAxisName = axisNames[i].Replace("_", "", StringComparison.OrdinalIgnoreCase);
+                string currentAxisName = axisNames != null ? axisNames[i].Replace("_", "", StringComparison.OrdinalIgnoreCase) : string.Empty;
                 ChartAxisRenderer? axisRenderer = _axisContainer?.Renderers.FirstOrDefault(r =>
                     string.Equals((r as ChartAxisRenderer)?.Axis?.Name.Replace("_", "", StringComparison.OrdinalIgnoreCase), currentAxisName, StringComparison.OrdinalIgnoreCase)) as ChartAxisRenderer;
 
@@ -429,7 +429,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts
             PointData pointData = new ChartData(this).GetData();
             if (pointData.Series is not null && pointData.Point is not null)
             {
-                PointEventArgs pointEvent = new(eventName, false, evt.ClientX, evt.ClientY, pointData.Point, pointData.Point.Index, pointData.Series, pointData.Series.Renderer.Index, evt.MouseX, evt.MouseY, isRightClick);
+                PointEventArgs pointEvent = new(eventName, false, evt.ClientX, evt.ClientY, pointData.Point, pointData.Point.Index, pointData.Series, pointData.Series.Renderer?.Index ?? 0, evt.MouseX, evt.MouseY, isRightClick);
                 _ = InvokeDelegateAsync(action, pointEvent);
             }
         }
@@ -489,7 +489,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts
             int textElement = int.TryParse(labelIndex.AsSpan(7), out int element) ? element : 0;
             ChartAxis axis = (_axisContainer?.Renderers[axisIndex] as ChartAxisRenderer ?? null!).Axis ?? null!;
             List<ChartCategory> categories = axis.MultiLevelLabels[int.TryParse(labelIndex.AsSpan(0, 1), out int index) ? index : 0].Categories;
-            MultiLevelLabelClickEventArgs multilevelclickArgs = new("OnMultiLevelLabelClick", false, categories[textElement].Text, axis, categories[textElement].CustomAttributes, categories[textElement].End, int.TryParse(labelIndex.AsSpan(0, 1), out int length) ? length : 0, categories[textElement].Start);
+            MultiLevelLabelClickEventArgs multilevelclickArgs = new("OnMultiLevelLabelClick", false, categories[textElement].Text, axis, categories[textElement].CustomAttributes, categories[textElement].End ?? null!, int.TryParse(labelIndex.AsSpan(0, 1), out int length) ? length : 0, categories[textElement].Start ?? null!);
             OnMultiLevelLabelClick.Invoke(multilevelclickArgs);
         }
 
@@ -818,7 +818,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts
                     .Where(seriesRenderer => seriesRenderer is not null && seriesRenderer.Index == args.Data.SeriesIndex)
                     .Select(seriesRenderer => seriesRenderer.Series)
                     .FirstOrDefault() ?? null!;
-                int pointsCount = series.Renderer.Points?.Count ?? 0;
+                int pointsCount = series.Renderer?.Points?.Count ?? 0;
                 if (series is null || series.Renderer is null || pointsCount == 0 || args.Data.PointIndex < 0 || (pointsCount > 0 && args.Data.PointIndex > pointsCount))
                 {
                     return;
@@ -944,15 +944,15 @@ namespace Syncfusion.Blazor.Toolkit.Charts
                     _zoomingModule._wheelEndEventArgs = zoomingEventArgs;
                 }
             }
-            InvokeZoomingEvents(zoomingEventArgs);
+            InvokeZoomingEvents(zoomingEventArgs ?? null!);
 
             if ((_onZoomStartArgs is not null && !_onZoomStartArgs.Cancel) || (_onZoomingArgs is not null && !_onZoomingArgs.Cancel))
             {
-                UpdateAxisZoomValues(zoomingEventArgs.AxisCollection, zoomingStates?.IsChartPanning ?? false);
+                UpdateAxisZoomValues(zoomingEventArgs?.AxisCollection ?? null!, zoomingStates?.IsChartPanning ?? false);
             }
             else if (_onZoomingArgs is null && _onZoomStartArgs is null)
             {
-                UpdateAxisZoomValues(zoomingEventArgs.AxisCollection, zoomingStates?.IsChartPanning ?? false);
+                UpdateAxisZoomValues(zoomingEventArgs?.AxisCollection ?? null!, zoomingStates?.IsChartPanning ?? false);
             }
             OnLayoutChange(_zoomingModule?.IsWheelZoom ?? false);
             if (_zoomingModule is not null)
@@ -1050,9 +1050,9 @@ namespace Syncfusion.Blazor.Toolkit.Charts
                         currentRange.SetMinMax(scrollEventsArgs.CurrentRangeMin, scrollEventsArgs.CurrentRangeMax);
                     }
                 }
-                if (axis.Renderer is not null && OnScrollChanged is not null)
+                if (axis.Renderer is { } renderer && OnScrollChanged is not null)
                 {
-                    DataVizCommonHelper.InvokeEvent(OnScrollChanged, GetScrollArguments(scrollEventsArgs.Name, axis, axis.Renderer.VisibleRange, scrollEventsArgs.ZoomPosition, scrollEventsArgs.ZoomFactor, currentRange, axis.Renderer.VisibleInterval));
+                    DataVizCommonHelper.InvokeEvent(OnScrollChanged, GetScrollArguments(scrollEventsArgs?.Name ?? string.Empty, axis, renderer.VisibleRange, scrollEventsArgs?.ZoomPosition ?? 0, scrollEventsArgs?.ZoomFactor ?? 0, currentRange, renderer.VisibleInterval));
                 }
             }
         }
@@ -1142,7 +1142,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts
         [EditorBrowsable(EditorBrowsableState.Never)]
         public static ScrollEventArgs GetScrollArguments(string eventName, ChartAxis axis, DoubleRange range = new DoubleRange(), double zoomPosition = double.NaN, double zoomFactor = double.NaN, ChartAxisScrollbarSettingsRange currentRange = null!, double previousInterval = double.NaN)
         {
-            currentRange = currentRange is not null ? currentRange : GetStartEnd(axis?.Renderer?.VisibleRange.Start ?? 0, axis.Renderer?.VisibleRange.End ?? 0, axis.ValueType);
+            currentRange = currentRange is not null ? currentRange : GetStartEnd(axis?.Renderer?.VisibleRange.Start ?? 0, axis?.Renderer?.VisibleRange.End ?? 0, axis?.ValueType ?? ValueType.Double);
             VisibleRangeModel rangeModel = new();
             if (axis?.Renderer is not null)
             {
@@ -1150,7 +1150,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts
             }
             VisibleRangeModel previousRange = ChartHelper.GetVisibleRangeModel(range, previousInterval);
 
-            return new ScrollEventArgs(eventName, axis ?? new(), currentRange, previousRange, zoomFactor, zoomPosition, rangeModel, axis.ZoomFactor, axis.ZoomPosition);
+            return new ScrollEventArgs(eventName, axis ?? new(), currentRange, previousRange, zoomFactor, zoomPosition, rangeModel, axis?.ZoomFactor ?? 1, axis?.ZoomPosition ?? 0);
         }
         #endregion
     }

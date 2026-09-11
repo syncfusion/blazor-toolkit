@@ -1,4 +1,5 @@
 import { test, expect } from '@playwright/test';
+import { checkCheckbox } from './checkbox-helpers';
 
 test.describe('Checkbox – Value Binding', () => {
 
@@ -15,9 +16,9 @@ test.describe('Checkbox – Value Binding', () => {
       'p:has-text("Bound Value") strong'
     ).first();
 
-    await checkbox.check();
-
+    await checkCheckbox(checkbox);
     await expect(boundValue).toHaveText('True');
+    await expect(checkbox).toBeChecked();
   });
 
 test('Nullable bool displays null initially', async ({ page }) => {
@@ -32,8 +33,9 @@ test('Nullable bool displays null initially', async ({ page }) => {
     const sfCheckbox = page.locator('input[type="checkbox"]').nth(2);
     const nativeCheckbox = page.locator('input[type="checkbox"]').nth(3);
 
-    await sfCheckbox.check();
+    await checkCheckbox(sfCheckbox);
 
+    await expect(sfCheckbox).toBeChecked();
     await expect(nativeCheckbox).toBeChecked();
   });
 

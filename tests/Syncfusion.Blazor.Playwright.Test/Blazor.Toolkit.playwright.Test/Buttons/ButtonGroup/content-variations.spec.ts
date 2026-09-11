@@ -10,19 +10,19 @@ test.describe('ButtonGroup - Content Variations', () => {
   });
 
   test('Icon and text buttons render both icon and text', async ({ page }) => {
-    // Check Cut button with icon and text
+    // The Cut button (default mode) renders an <SfButton> child with IconCss="e-icons e-cut".
+    // The component therefore renders a <span class="e-icons e-cut e-btn-icon"> inside it.
     const cutBtn = page.locator('#btn-cut').first();
     await expect(cutBtn).toBeVisible();
 
-    // Should have text content
-    const textContent = await cutBtn.textContent();
+    // Text content is preserved.
+    const textContent = (await cutBtn.textContent()) ?? '';
     expect(textContent).toContain('Cut');
 
-    // Should have icon element (icon class typically applies to span inside)
-    const iconContainer = cutBtn.locator('.e-icons').first();
-    const iconExists = await iconContainer.count() > 0;
-    // Icon may or may not be visible depending on CSS
-  })
+    // The icon element is attached and has the IconCss classes.
+    const icon = cutBtn.locator('span.e-icons.e-cut');
+    await expect(icon).toBeAttached();
+  });
 
   test('Different content types coexist in same page', async ({ page }) => {
     // Text-only group exists

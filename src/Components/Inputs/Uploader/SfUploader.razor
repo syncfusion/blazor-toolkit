@@ -12,7 +12,7 @@
         <div class="@DROP_CONTAINER">
             <button class="e-css e-btn e-upload-browse-btn" type="button" tabindex="@this.TabIndex" @attributes="@_browseBtnAttr">@this.BrowseBtnContent</button>
             <span class="@InputContainer">
-                <InputFile id="@ID" @ref="FileElement" aria-label="@(string.IsNullOrWhiteSpace(AriaLabel) ? Localizer[DROP_FILE_KEY] : AriaLabel)" @attributes="@_inputAttr" OnChange="@OnChange"></InputFile>
+                <InputFile id="@ID" @ref="FileElement" aria-label="@(string.IsNullOrWhiteSpace(AriaLabel) ? Localizer[DROP_FILE_KEY] : AriaLabel)" @attributes="@_inputAttr" OnChange="@OnChangeAsync"></InputFile>
                 <CascadingValue Value="@this">
                     @ChildContent
                 </CascadingValue>

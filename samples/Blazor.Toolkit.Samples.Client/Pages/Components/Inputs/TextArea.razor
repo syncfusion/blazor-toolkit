@@ -213,14 +213,14 @@
                     <EditForm Model="@_annotation" OnValidSubmit="@OnValidSubmit" OnInvalidSubmit="@OnInvalidSubmit">
                         <DataAnnotationsValidator />
                         <div class="form-group">
-                            <SfTextBox @bind-Value="@_annotation.Name" FloatLabelType="FloatLabelType.Auto"
-                                       Placeholder="Enter a Name"></SfTextBox>
-                            <ValidationMessage For="@(() => _annotation.Name)" />
+                            <SfTextBox @bind-Value="@_annotation.Name" id="tb-name"
+                                       FloatLabelType="FloatLabelType.Auto" Placeholder="Enter a Name"></SfTextBox>
+                            <ValidationMessage For="@(() => _annotation.Name)" id="err_tb-name" />
                             <div class="example-content">
-                                <SfTextArea @bind-Value="@_annotation.Comments" RowCount="5"
+                                <SfTextArea @bind-Value="@_annotation.Comments" id="tb-comments" RowCount="5"
                                             FloatLabelType="FloatLabelType.Auto" Placeholder="Enter your Comments"
                                             ColumnCount="250"></SfTextArea>
-                                <ValidationMessage For="@(() => _annotation.Comments)" />
+                                <ValidationMessage For="@(() => _annotation.Comments)" id="err_tb-comments" />
                             </div>
                         </div>
                         <div class="d-flex justify-content-center gap-3 mt-4">

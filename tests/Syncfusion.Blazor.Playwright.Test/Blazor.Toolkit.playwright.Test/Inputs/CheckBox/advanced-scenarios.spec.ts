@@ -1,4 +1,5 @@
 import { test, expect } from '@playwright/test';
+import { checkCheckbox, uncheckCheckbox } from './checkbox-helpers';
 
 test.describe('Label Accessibility & Special Cases', () => {
   test.beforeEach(async ({ page }) => {
@@ -66,10 +67,10 @@ test.describe('Custom Attributes & Advanced Properties', () => {
 
     await expect(checkbox).toBeVisible();
 
-    await checkbox.check();
+    await checkCheckbox(checkbox);
     await expect(checkbox).toBeChecked();
 
-    await checkbox.uncheck();
+    await uncheckCheckbox(checkbox);
     await expect(checkbox).not.toBeChecked();
   });
 });

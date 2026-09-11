@@ -463,7 +463,7 @@ var SfDialog = (function () {
         this.dlgContainer.style.zIndex = zIndex.toString();
     };
     /**
-     * Move focus into the dialog content according to autofocus rules
+     * Move focus into the dialog content according to autofocus rules.
      */
     SfDialog.prototype.focusContent = function () {
         var element = this.getAutoFocusNode(this.element);
@@ -472,29 +472,21 @@ var SfDialog = (function () {
         this.hasFocusableNode = true;
     };
     /**
-     * Find the best candidate node to autofocus inside the dialog
+     * Find the best candidate node to autofocus inside the dialog.
      * @param {Element} container - Dialog container element
      * @returns {Element|null}
      */
     SfDialog.prototype.getAutoFocusNode = function (container) {
-        var node = container.querySelector('.' + DLG_CLOSE_ICON_BTN);
-        var value = '[autofocus]';
-        var items = container.querySelectorAll(value);
-        var validNode = this.getValidFocusNode(items);
         this.primaryButtonEle = this.element.getElementsByClassName(PRIMARY)[0];
+        var validNode = this.getValidFocusNode(container.querySelectorAll('[autofocus]'));
         if (!sfBlazorToolkit.base.isNullOrUndefined(validNode)) {
-            node = validNode;
+            return validNode;
         }
-        else {
-            validNode = this.focusableElements(this.contentEle);
-            if (!sfBlazorToolkit.base.isNullOrUndefined(validNode)) {
-                return node = validNode;
-            }
-            else if (!sfBlazorToolkit.base.isNullOrUndefined(this.primaryButtonEle)) {
-                return this.element.querySelector('.' + PRIMARY);
-            }
+        validNode = this.focusableElements(this.contentEle);
+        if (!sfBlazorToolkit.base.isNullOrUndefined(validNode)) {
+            return validNode;
         }
-        return node;
+        return null;
     };
     SfDialog.prototype.getValidFocusNode = function (items) {
         var node;
@@ -534,7 +526,6 @@ var SfDialog = (function () {
      * @returns {string|null}
      */
     SfDialog.prototype.getMaxHeight = function () {
-        this.storeActiveElement = document.activeElement;
         if (!sfBlazorToolkit.base.isNullOrUndefined(this.element) && !sfBlazorToolkit.base.isNullOrUndefined(this.element.style)) {
             return this.element.style.maxHeight;
         }
@@ -616,6 +607,24 @@ var SfDialog = (function () {
             }
         }
     };
+    SfDialog.prototype.captureActiveElement = function () {
+        if (this.preventFocus) {
+            return;
+        }
+        var active = document.activeElement;
+        if (sfBlazorToolkit.base.isNullOrUndefined(active) || active === document.body) {
+            return;
+        }
+        if (!document.contains(active)) {
+            return;
+        }
+        if (!sfBlazorToolkit.base.isNullOrUndefined(this.storeActiveElement)
+            && this.storeActiveElement !== document.body
+            && document.contains(this.storeActiveElement)) {
+            return;
+        }
+        this.storeActiveElement = active;
+    };
     /**
      * Show the dialog (opens popup and applies animation)
      * @param {boolean} [isFullScreen] - Whether to open in fullscreen mode
@@ -624,6 +633,7 @@ var SfDialog = (function () {
     SfDialog.prototype.show = function (isFullScreen, maxHeight) {
         this.isOpenFullScreen = isFullScreen;
         if (!this.element.classList.contains(POPUP_OPEN) || !sfBlazorToolkit.base.isNullOrUndefined(isFullScreen)) {
+            this.captureActiveElement();
             if (!sfBlazorToolkit.base.isNullOrUndefined(isFullScreen)) {
                 this.fullScreen(isFullScreen);
             }
@@ -639,6 +649,8 @@ var SfDialog = (function () {
                 this.dlgOverlay.style.display = 'block';
                 this.dlgContainer.style.display = 'flex';
                 sfBlazorToolkit.base.removeClass(this.dlgOverlay, FADE);
+                this.dlgOverlay.setAttribute('tabindex', '-1');
+                this.dlgOverlay.setAttribute('aria-hidden', 'true');
                 if (!sfBlazorToolkit.base.isNullOrUndefined(this.targetEle)) {
                     if (this.targetEle === document.body) {
                         this.dlgContainer.style.position = 'fixed';
@@ -740,6 +752,7 @@ var SfDialog = (function () {
     SfDialog.prototype.destroy = function (dlgObj, isClientApp) {
         if (this.element instanceof Element || this.element instanceof HTMLElement) {
             this.updateContext(dlgObj);
+            this.popupCloseHandler();
             var attrs = ['role', 'aria-modal', 'aria-labelledby', 'aria-describedby', 'aria-grabbed', 'tabindex', 'style'];
             if (!sfBlazorToolkit.base.isNullOrUndefined(this.cssClass) && this.cssClass !== '') {
                 var classes = this.cssClass.split(' ');
@@ -854,13 +867,17 @@ var SfDialog = (function () {
     };
     /* Event handlers begin */
     SfDialog.prototype.popupCloseHandler = function () {
-        var activeEle = document.activeElement;
-        if (!this.preventFocus && !sfBlazorToolkit.base.isNullOrUndefined(activeEle) && !sfBlazorToolkit.base.isNullOrUndefined(activeEle.blur)) {
-            activeEle.blur();
+        if (this.preventFocus) {
+            this.storeActiveElement = null;
+            return;
         }
-        if (!this.preventFocus && !sfBlazorToolkit.base.isNullOrUndefined(this.storeActiveElement) && !sfBlazorToolkit.base.isNullOrUndefined(this.storeActiveElement.focus)) {
+        if (!sfBlazorToolkit.base.isNullOrUndefined(this.storeActiveElement)
+            && !sfBlazorToolkit.base.isNullOrUndefined(this.storeActiveElement.focus)
+            && document.contains(this.storeActiveElement)
+            && (sfBlazorToolkit.base.isNullOrUndefined(this.element) || !this.element.contains(this.storeActiveElement))) {
             this.storeActiveElement.focus();
         }
+        this.storeActiveElement = null;
     };
     SfDialog.prototype.windowResizeHandler = function () {
         sfBlazorToolkit.Resize.setMaxWidth(this.targetEle.clientWidth);
@@ -911,31 +928,31 @@ var SfDialog = (function () {
     SfDialog.prototype.keyDown = function (e) {
         var _this = this;
         if (e.keyCode === TAB && this.isModal) {
-            var btn = void 0;
-            var btns = void 0;
-            var footer = this.element.querySelector('.' + FOOTER_CONTENT);
-            if (!sfBlazorToolkit.base.isNullOrUndefined(footer)) {
-                btns = footer.querySelectorAll('button');
-                if (!sfBlazorToolkit.base.isNullOrUndefined(btn) && btns.length > 0) {
-                    btn = btns[btns.length - 1];
-                }
-                if (sfBlazorToolkit.base.isNullOrUndefined(btn) && footer.childNodes.length > 0) {
-                    btn = this.getFocusElement(footer);
-                }
-            }
-            if (sfBlazorToolkit.base.isNullOrUndefined(footer) && !sfBlazorToolkit.base.isNullOrUndefined(this.contentEle)) {
-                btn = this.getFocusElement(this.contentEle);
-            }
-            if (!sfBlazorToolkit.base.isNullOrUndefined(btn) && document.activeElement === btn && !e.shiftKey) {
+            // WCAG 2.4.3 / WAI-ARIA modal-dialog: trap focus inside the dialog.
+            var focusableSelector = 'input:not([disabled]):not([type=\"hidden\"]),select:not([disabled]),textarea:not([disabled]),button:not([disabled]),a[href],[contenteditable=\"true\"],[tabindex]:not([tabindex=\"-1\"])';
+            var focusable = Array.prototype.slice.call(this.element.querySelectorAll(focusableSelector))
+                .filter(function (el) {
+                    return el.offsetWidth > 0 || el.offsetHeight > 0 || el === document.activeElement;
+                });
+            if (focusable.length === 0) {
                 e.preventDefault();
-                this.focusableElements(this.element).focus();
+                this.element.focus();
+                return;
             }
-            if (document.activeElement === this.focusableElements(this.element) && e.shiftKey) {
-                e.preventDefault();
-                if (!sfBlazorToolkit.base.isNullOrUndefined(btn)) {
-                    btn.focus();
+            var first = focusable[0];
+            var last = focusable[focusable.length - 1];
+            var active = document.activeElement;
+            if (e.shiftKey) {
+                if (active === first || !this.element.contains(active)) {
+                    e.preventDefault();
+                    last.focus();
                 }
             }
+            else if (active === last || !this.element.contains(active)) {
+                e.preventDefault();
+                first.focus();
+            }
+            return;
         }
         if (e.keyCode === ESCAPE && this.closeOnEscape) {
             // 'document.querySelector' is used to find the elements rendered based on body
@@ -945,6 +962,7 @@ var SfDialog = (function () {
                     repeat: e.repeat, shiftKey: e.shiftKey, metaKey: e.metaKey, type: e.type
                 });
             }
+            return;
         }
         if (this.hasFocusableNode) {
             var element = document.activeElement;

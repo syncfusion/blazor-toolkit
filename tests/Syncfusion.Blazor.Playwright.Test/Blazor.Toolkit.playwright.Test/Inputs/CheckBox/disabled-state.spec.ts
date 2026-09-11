@@ -1,4 +1,5 @@
 import { test, expect } from '@playwright/test';
+import { checkCheckbox } from './checkbox-helpers';
 
 test.describe('Checkbox – Disabled State', () => {
 
@@ -16,10 +17,12 @@ test.describe('Checkbox – Disabled State', () => {
   });
 
   test('Dynamically disabled checkbox stops interaction', async ({ page }) => {
-    const toggleBtn = page.locator('button:has-text("Disable")');
+    const toggleBtn = page.getByRole('button', { name: 'Disable Checkbox' });
     const checkbox = page.locator('input[type="checkbox"]').nth(2);
 
-    await checkbox.check();
+    await checkCheckbox(checkbox);
+    await expect(checkbox).toBeChecked();
+
     await toggleBtn.click();
 
     await expect(checkbox).toBeDisabled();

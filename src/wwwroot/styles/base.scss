@@ -10,6 +10,11 @@
   @return var(#{'--e-'+  $pallete-name});
 }
 
+// Layer priority declaration. Must match the order in highcontrast-tokens.scss
+@layer fluent, themes;
+
+@layer fluent {
+
 :root {
   --color-sf-primary: #0f6cbd;
   --color-sf-primary-text-color: #fff;
@@ -216,6 +221,8 @@
   --color-sf-dialog-border: #{#fafafa};
 
   --color-sf-skeleton-bg-color: #e6e6e6;
+}
+
 }
 
 @media (forced-colors: active) {
