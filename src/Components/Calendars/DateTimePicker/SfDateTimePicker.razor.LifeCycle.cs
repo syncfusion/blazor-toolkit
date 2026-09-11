@@ -7,32 +7,16 @@ namespace Syncfusion.Blazor.Toolkit.Calendars
     public partial class SfDateTimePicker<TValue> : SfDatePicker<TValue>
     {
         /// <summary>
-        /// Triggers during the initial rendering of the component and sets up default configurations.
+        /// Performs one-time setup for the <see cref="SfDateTimePicker{TValue}"/> on top of the shared <see cref="SfDatePicker{TValue}"/> initialization.
         /// </summary>
         /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
         /// <remarks>
-        /// This method initializes the component by setting up the component ID, configuring Islamic calendar settings if needed,
-        /// updating input values, and establishing parent-child relationships for nested DateTimePicker scenarios.
-        /// It also handles initial value formatting and calendar mode-specific configurations.
+        /// Invoked by the framework during the first render. The method assigns the time-icon class, registers the component reference with the parent composite control when the parent is a <c>DateTime</c> type, and adjusts <see cref="SfCalendar{TValue}.Min"/> and <see cref="SfCalendar{TValue}.Max"/> to the supported Islamic (Hijri) range when <see cref="SfCalendar{TValue}.CalendarMode"/> is <see cref="CalendarType.Islamic"/>.
         /// </remarks>
         /// <exclude/>
         protected override async Task OnInitializedAsync()
         {
             await base.OnInitializedAsync().ConfigureAwait(true);
-            if (string.IsNullOrEmpty(ID))
-            {
-                ID = "datetimepicker-" + Guid.NewGuid().ToString();
-            }
-            DataId = ID;
-            if (Value != null)
-            {
-                if (CalendarMode == CalendarType.Islamic)
-                {
-                    IslamicValueAsString = ConvertToHijri(Value, GetDefaultFormat());
-                }
-                await UpdateInputAsync().ConfigureAwait(false);
-            }
-
             TimeIcon = TIME_ICON;
             if (DateTimePickerParent != null && Convert.ToString(DateTimePickerParent?.Type, CultureInfo.CurrentCulture) == "DateTime")
             {
@@ -53,13 +37,11 @@ namespace Syncfusion.Blazor.Toolkit.Calendars
         }
 
         /// <summary>
-        /// Performs cleanup operations when the component is being disposed.
+        /// Releases DateTimePicker-specific resources and delegates the remaining disposal to the base <see cref="SfDatePicker{TValue}"/>.
         /// </summary>
         /// <returns>A <see cref="ValueTask"/> representing the asynchronous disposal operation.</returns>
         /// <remarks>
-        /// This method handles the disposal of client-side resources, invokes the <see cref="SfDatePicker{TValue}.Destroyed"/> event callback,
-        /// and cleans up internal references to prevent memory leaks. It ensures proper cleanup of
-        /// JavaScript interop resources and event handlers.
+        /// Invoked by the framework when the component is being torn down. The override calls <c>ComponentDisposeAsync</c> to clear the time-icon state, popup event arguments, and time-popup list data, then delegates to <see cref="SfDatePicker{TValue}.DisposeAsyncCore"/> for the rest of the cleanup. <see cref="JSDisconnectedException"/> and <see cref="ObjectDisposedException"/> are caught so that disposal completes safely when the Blazor circuit has already been torn down.
         /// </remarks>
         /// <exclude/>
         protected override async ValueTask DisposeAsyncCore()
@@ -85,43 +67,12 @@ namespace Syncfusion.Blazor.Toolkit.Calendars
             {
                 return;
             }
-            IsDisposed = true;
-            if (IsRendered)
-            {
-                try
-                {
-                    object[] destroyArgs = [DataId, PopupElement, PopupHolderEle, new PopupEventArgs() { Cancel = false }, GetClientProperties()];
-                    await InvokeVoidAsync(_datePickerJsModule!, _datePickerJsInProcessModule!, "destroy", destroyArgs).ConfigureAwait(false);
-                }
-                catch (JSDisconnectedException)
-                {
-                    // Ignore: The circuit disconnected before JS disposal could complete.
-                }
-                catch (ObjectDisposedException)
-                {
-                    // Ignore: Module already disposed
-                }
-                try
-                {
-                    if (Destroyed.HasDelegate)
-                    {
-                        await InvokeAsync(() => Destroyed.InvokeAsync(null)).ConfigureAwait(false);
-                    }
-                }
-                catch (JSDisconnectedException)
-                {
-                    // Ignore: The circuit disconnected before event could fire.
-                }
-            }
             try
             {
-                if (_datePickerJsModule is not null)
-                {
-                    await _datePickerJsModule.DisposeAsync().ConfigureAwait(false);
-                    _datePickerJsModule = null;
-                }
-                _datePickerJsInProcessModule?.Dispose();
-                _datePickerJsInProcessModule = null;
+                DateIcon = string.Empty;
+                TimeIcon = string.Empty;
+                PopupEventArgs = default!;
+                ListData = null;
             }
             catch (JSDisconnectedException)
             {
@@ -131,10 +82,7 @@ namespace Syncfusion.Blazor.Toolkit.Calendars
             {
                 // Ignore: Already disposed
             }
-            DateIcon = string.Empty;
-            TimeIcon = string.Empty;
-            PopupEventArgs = default!;
-            ListData = null;
+            await Task.CompletedTask.ConfigureAwait(false);
         }
     }
 }

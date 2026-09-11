@@ -28,6 +28,11 @@ namespace Syncfusion.Blazor.Toolkit.Popups
     public partial class SfDialog : SfBaseComponent
     {
         #region Private variables
+        // Lifecycle guard: ensures DisposeAsyncCore runs its body exactly once. Prevents
+        // re-entrant disposal (e.g. when both the framework DisposeAsync and a manual
+        // disposal path race). Mirrors SfTooltip._isDestroyed to align with the
+        // Async-First lifecycle standard.
+        private bool _isDestroyed;
         private bool _allowDragging;
         private bool _closeOnEscape;
         private string? _cssClass;

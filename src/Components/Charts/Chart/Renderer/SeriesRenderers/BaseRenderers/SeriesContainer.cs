@@ -158,11 +158,11 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
                     return;
                 }
 
-                if (item.Renderer.Points is not null)
+                if (item.Renderer?.Points is not null)
                 {
                     foreach (Point point in ChartHelper.GetVisiblePoints(item.Renderer.Points))
                     {
-                        if (item.Renderer.ChartPoints is not null)
+                        if (item.Renderer?.ChartPoints is not null)
                         {
                             point.Percentage = item.Renderer.ChartPoints[point.Index].Percentage = Convert.ToDouble(Math.Abs(Convert.ToDouble(point.Y, null) / values[point.Index] * 100).ToString("N2", null), null);
                         }
@@ -187,13 +187,14 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
             {
                 if (series.SeriesType is not null && series.SeriesType.Contains("Stacking", StringComparison.InvariantCulture))
                 {
-                    series.Renderer.StackedPointValues = [];
+                    if (series.Renderer is not null)
+                        series.Renderer.StackedPointValues = [];
                     string stackingGroup = GetStackingGroup(series);
 
                     EnsureStackingDictionaries(lastPositive, lastNegative, stackingGroup);
 
                     stackingSeries.Add(series);
-                    List<Point> visiblePoints = ChartHelper.GetVisiblePoints(series.Renderer.Points ?? null!);
+                    List<Point> visiblePoints = ChartHelper.GetVisiblePoints(series.Renderer?.Points ?? null!);
 
                     ProcessSeriesStacking(series, isStacking100, lastPositive, lastNegative, frequencies, stackedValues, visiblePoints);
                 }
@@ -236,7 +237,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
             for (int j = 0, pointsLength = visiblePoints.Count; j < pointsLength; j++)
             {
                 double lastValue,
-                y_Value = !string.IsNullOrEmpty(series.Container?._sorting.SortKey) ? series.Renderer.Points?[j].YValue ?? 0 : double.IsNaN(series.Renderer.YData[j]) ? 0 : series.Renderer.YData[j],
+                y_Value = !string.IsNullOrEmpty(series.Container?._sorting.SortKey) ? series.Renderer?.Points?[j].YValue ?? 0 : double.IsNaN(series.Renderer?.YData[j] ?? 0) ? 0 : series.Renderer?.YData[j] ?? 0,
                 pos = visiblePoints[j].XValue;
                 if (!lastPositive[stackingGroup].TryGetValue(pos, out double _))
                 {
@@ -252,7 +253,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
                 {
                     y_Value = y_Value / frequencies[stackingGroup][pos] * 100;
                     y_Value = !double.IsNaN(y_Value) ? y_Value : 0;
-                    if (series.Renderer.ChartPoints is not null)
+                    if (series.Renderer?.ChartPoints is not null)
                     {
                         visiblePoints[j].Percentage = series.Renderer.ChartPoints[j].Percentage = Convert.ToDouble(y_Value.ToString("N2", null), null);
                     }
@@ -287,25 +288,29 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
                     endValues[j] = 100;
                 }
             }
-
-            series.Renderer.StackedValues = new StackValues(startValues, endValues);
-            series.Renderer.StackedPointValues = lastPositive[stackingGroup];
-
+            if (series.Renderer != null)
+            {
+                series.Renderer.StackedValues = new StackValues(startValues, endValues);
+                series.Renderer.StackedPointValues = lastPositive[stackingGroup];
+            }
             double startMin = startValues.Count > 0 ? startValues.Min() : 0;
             double startMax = startValues.Count > 0 ? startValues.Max() : 0;
             double endMin = endValues.Count > 0 ? endValues.Min() : 0;
             double endMax = endValues.Count > 0 ? endValues.Max() : 0;
 
-            series.Renderer.YMin = startMin;
-            series.Renderer.YMax = endMax;
-            if (series.Renderer.YMin > endMin)
+            if (series.Renderer != null)
             {
-                series.Renderer.YMin = isStacking100 ? -100 : endMin;
-            }
+                series.Renderer.YMin = startMin;
+                series.Renderer.YMax = endMax;
+                if (series.Renderer.YMin > endMin)
+                {
+                    series.Renderer.YMin = isStacking100 ? -100 : endMin;
+                }
 
-            if (series.Renderer.YMax < startMax)
-            {
-                series.Renderer.YMax = 0;
+                if (series.Renderer.YMax < startMax)
+                {
+                    series.Renderer.YMax = 0;
+                }
             }
         }
 
@@ -317,8 +322,9 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
             Dictionary<string, Dictionary<double, double>> frequencies = [];
             foreach (ChartSeries series in seriesCollection)
             {
-                series.Renderer.YAxisRenderer.IsStack100 = series.SeriesType is not null && series.SeriesType.Contains("100", StringComparison.InvariantCulture);
-                List<Point> visiblePoints = ChartHelper.GetVisiblePoints(series.Renderer.Points ?? null!);
+                if (series.Renderer != null)
+                    series.Renderer.YAxisRenderer.IsStack100 = series.SeriesType is not null && series.SeriesType.Contains("100", StringComparison.InvariantCulture);
+                List<Point> visiblePoints = ChartHelper.GetVisiblePoints(series.Renderer?.Points ?? null!);
                 if (series.SeriesType is not null && series.SeriesType.Contains("Stacking", StringComparison.InvariantCulture))
                 {
                     string stackingGroup = GetStackingGroup(series);
@@ -342,11 +348,11 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
 
                         if (!string.IsNullOrEmpty(series.Container?._sorting.SortKey))
                         {
-                            frequencies[stackingGroup][xVal] += (Convert.ToDouble(series.Renderer.Points?[j].Y, CultureInfo.InvariantCulture) > 0 ? 1 : -1) * Convert.ToDouble(series.Renderer.Points?[j].Y, CultureInfo.InvariantCulture);
+                            frequencies[stackingGroup][xVal] += (Convert.ToDouble(series.Renderer?.Points?[j].Y, CultureInfo.InvariantCulture) > 0 ? 1 : -1) * Convert.ToDouble(series.Renderer?.Points?[j].Y, CultureInfo.InvariantCulture);
                         }
                         else
                         {
-                            frequencies[stackingGroup][xVal] += (series.Renderer.YData[j] > 0 ? 1 : -1) * series.Renderer.YData[j];
+                            frequencies[stackingGroup][xVal] += (series.Renderer?.YData[j] > 0 ? 1 : -1) * (series.Renderer?.YData[j] ?? 1);
                         }
                     }
                 }
@@ -608,7 +614,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
         {
             if (element is not null)
             {
-                RemoveRenderer((element as ChartSeries ?? null!).Renderer);
+                RemoveRenderer((element as ChartSeries ?? null!).Renderer ?? null!);
                 if (Owner is not null && !Owner.ChartDisposed())
                 {
                     _ = InvokeAsync(StateHasChanged);
@@ -698,7 +704,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
                     {
                         element.NeedRendererRemove = false;
                         element.UpdateDataSource = false;
-                        RemoveRenderer(element.Renderer);
+                        RemoveRenderer(element.Renderer ?? null!);
                     }
 
                     CreateSeriesElements(builder, element);
@@ -906,7 +912,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
             string type;
             foreach (ChartSeriesRenderer renderer in Renderers.Cast<ChartSeriesRenderer>())
             {
-                if (renderer.Series is not null && renderer.Series.Visible)
+                if (renderer.Series is not null && renderer.Series.Renderer is not null && renderer.Series.Visible)
                 {
                     renderer.Series.Renderer.RectCount = renderer.Series.Renderer.Position = 0;
                 }

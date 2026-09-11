@@ -5,26 +5,15 @@ namespace Syncfusion.Blazor.Toolkit.Buttons
     /// </content>
     public partial class SfButtonGroup
     {
-        #region Fields
-
-        private bool _previousIsVertical;
-
-        #endregion
-
         #region Lifecycle Methods
 
         /// <exclude />
         /// <summary>
         /// Executes when component parameters are set.
         /// </summary>
-        protected override void OnParametersSet()
+        protected override async Task OnParametersSetAsync()
         {
-            base.OnParametersSet();
-            // Trigger re-render if IsVertical property changes
-            if (_previousIsVertical != IsVertical)
-            {
-                _previousIsVertical = IsVertical;
-            }
+            await base.OnParametersSetAsync().ConfigureAwait(false);
         }
 
         /// <exclude />
@@ -50,7 +39,6 @@ namespace Syncfusion.Blazor.Toolkit.Buttons
             _buttonItems?.Clear();
             _buttonItems = null;
             HtmlAttributes.Clear();
-            _previousIsVertical = false;
             return base.DisposeAsyncCore();
         }
 

@@ -405,7 +405,14 @@ namespace Syncfusion.Blazor.Toolkit.Calendars
             InternalReadOnly = Readonly;
         }
 
-        private async Task PropertyParametersSetAsync()
+        /// <summary>
+        /// Synchronizes the DatePicker's internal parameter state with the latest public property values and records any detected changes.
+        /// </summary>
+        /// <remarks>
+        /// Invoked from <see cref="SfDatePicker{TValue}.OnParametersSetAsync"/> after the base parameter cycle assigns the new values. The method performs synchronous dictionary and value-equality comparisons against the cached <c>CalendarBase_*</c> and <c>Internal*</c> fields to determine which parameters changed during the render pass.
+        /// </remarks>
+        /// <exclude />
+        private void PropertyParametersSet()
         {
             InternalFormat = NotifyPropertyChanges(FORMAT, Format, InternalFormat);
             InternalInputFormats = NotifyPropertyChanges(INPUTFORMATS, InputFormats, InternalInputFormats);
@@ -416,7 +423,6 @@ namespace Syncfusion.Blazor.Toolkit.Calendars
             CalendarBase_Depth = NotifyPropertyChanges(DEPTH, Depth, CalendarBase_Depth);
             DateStrictMode = NotifyPropertyChanges(nameof(StrictMode), StrictMode, DateStrictMode);
             InternalReadOnly = NotifyPropertyChanges(nameof(READONLYATTR), Readonly, InternalReadOnly);
-            await Task.CompletedTask.ConfigureAwait(false);
         }
 
         /// <summary>
@@ -1462,7 +1468,11 @@ namespace Syncfusion.Blazor.Toolkit.Calendars
                 PreviousElementValue = CurrentValueAsString;
                 if (CalendarMode == CalendarType.Islamic)
                 {
-                    PreviousElementValue = IslamicValueAsString;
+                    bool isArabicCulture = CurrentCulture?.Name.StartsWith(ARABIC, StringComparison.Ordinal) ?? false;
+                    bool isThailandCulture = CurrentCulture?.Name.StartsWith(THAILAND, StringComparison.Ordinal) ?? false;
+                    PreviousElementValue = (isArabicCulture || isThailandCulture) && IslamicValueAsString is not null
+                        ? RemoveCultureDigits(isArabicCulture, IslamicValueAsString)
+                        : IslamicValueAsString;
                 }
                 IsChangeValue = true;
             }

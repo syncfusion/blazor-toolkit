@@ -49,14 +49,16 @@ test.describe('ButtonGroup - Selection Modes', () => {
 
     // Focus the first radio button
     await firstRadio.focus();
+    await expect(firstRadio).toBeFocused();
 
-    // Verify no button is initially selected (second button has Selected="true" initially)
-    // Press Space to select first button
+    // The second radio is initially Selected="true" in the sample, so the
+    // first one is initially unchecked.
+    await expect(firstRadio).not.toBeChecked();
+
+    // Press Space to select the first button. Use the auto-retrying matcher
+    // so the test waits for Blazor's two-way binding to apply the change.
     await page.keyboard.press('Space');
-
-    // Verify first button is now selected
-    const isChecked = await firstRadio.isChecked();
-    expect(isChecked).toBeTruthy();
+    await expect(firstRadio).toBeChecked({ timeout: 5000 });
   });
 
   test('Space key toggles button in Multiple selection mode', async ({ page }) => {
@@ -65,21 +67,18 @@ test.describe('ButtonGroup - Selection Modes', () => {
 
     // Focus the first checkbox
     await firstCheckbox.focus();
+    await expect(firstCheckbox).toBeFocused();
 
     // Initial state - checkbox should not be checked
-    let isChecked = await firstCheckbox.isChecked();
-    expect(isChecked).toBeFalsy();
+    await expect(firstCheckbox).not.toBeChecked();
 
-    // Press Space to check - wait for Blazor to process
+    // Press Space to check. Use the auto-retrying matcher so the test waits
+    // for Blazor's two-way binding to apply the change.
     await page.keyboard.press('Space');
-    await page.waitForTimeout(100);
-    isChecked = await firstCheckbox.isChecked();
-    expect(isChecked).toBeTruthy();
+    await expect(firstCheckbox).toBeChecked({ timeout: 5000 });
 
-    // Press Space again to uncheck - wait for Blazor to process
+    // Press Space again to uncheck. Same auto-retrying behaviour.
     await page.keyboard.press('Space');
-    await page.waitForTimeout(100);
-    isChecked = await firstCheckbox.isChecked();
-    expect(isChecked).toBeFalsy();
+    await expect(firstCheckbox).not.toBeChecked({ timeout: 5000 });
   });
 });

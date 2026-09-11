@@ -14,7 +14,7 @@
         <h4><b>Blazor Toolkit TextBox Component</b></h4>
     </Header>
     <Content>
-        <p>The <code><a href="https://help.syncfusion.com/cr/blazor-toolkit/Syncfusion.Blazor.Toolkit.Inputs.SfTextBox.html" target="_blank" rel="noreferrer noopener">TextBox</a></code> component is an input element that allows users to enter, edit, and display text values. It provides various customization options including floating labels, clear button, multiline support, and input validation.</p>
+        <p>The <code><a href="https://help.syncfusion.com/cr/blazor-toolkit/Syncfusion.Blazor.Toolkit.Inputs.SfTextBox.html" target="_blank" rel="noreferrer noopener">TextBox</a></code> component is an input element that allows users to enter, edit, and display text values. It provides various customization options including floating labels, clear button, and input validation.</p>
         <p>Add the TextBox component in the application as shown in the below code example.</p>
     </Content>
 </Description>
@@ -219,24 +219,6 @@
 </CodePreview>
 
 <!-- ======================================================
-					   Multiline TextArea
-======================================================= -->
-<Description>
-    <Header>
-        <h5><b>Multiline Text Area</b></h5>
-    </Header>
-    <Content>
-        The TextBox component offers a multiline mode to create a textarea for capturing longer text content such as comments, descriptions, or addresses by setting the <code><a href="https://help.syncfusion.com/cr/blazor-toolkit/Syncfusion.Blazor.Toolkit.Inputs.SfTextBox.html#Syncfusion_Blazor_Toolkit_Inputs_SfTextBox_Multiline" target="_blank" rel="noreferrer noopener">Multiline</a></code> property as true.
-    </Content>
-</Description>
-
-<CodePreview CodeSection="@MultilineCode">
-    <PreviewSection>
-        <SfTextBox Placeholder="Enter your description" Multiline="true" FloatLabelType="FloatLabelType.Auto"></SfTextBox>
-    </PreviewSection>
-</CodePreview>
-
-<!-- ======================================================
 					   Form Support
 ======================================================= -->
 <Description>
@@ -268,7 +250,7 @@
                         <ValidationMessage For="@(() => validationModel.Phone)" id="err_tb-phone"></ValidationMessage>
                     </div>
                     <div class="form-group">
-                        <SfTextBox @bind-Value="@validationModel.Comments" id="tb-comments" Placeholder="Comments (Max 200 characters)" Multiline="true" FloatLabelType="FloatLabelType.Auto" InputAttributes="@validationAttrs"></SfTextBox>
+                        <SfTextBox @bind-Value="@validationModel.Comments" id="tb-comments" Placeholder="Comments (Max 200 characters)" FloatLabelType="FloatLabelType.Auto" InputAttributes="@validationAttrs"></SfTextBox>
                         <ValidationMessage For="@(() => validationModel.Comments)" id="err_tb-comments"></ValidationMessage>
                     </div>
                     <div class="form-buttons">
@@ -691,12 +673,6 @@
     #region Clear Button
 
     private string ClearButtonCode => @"<SfTextBox Placeholder=""Type something..."" ShowClearButton=""true"" FloatLabelType=""FloatLabelType.Auto""></SfTextBox>";
-
-    #endregion
-
-    #region Multiline TextArea
-
-    private string MultilineCode => @"<SfTextBox Placeholder=""Enter your description"" Multiline=""true"" FloatLabelType=""FloatLabelType.Auto""></SfTextBox>";
 
     #endregion
 
