@@ -607,7 +607,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
             RendererShouldRender = true;
             FindClipRect();
 
-            if (Series?.Renderer.Container is not null && !Series.Renderer.Container.IsTrendLine)
+            if (Series?.Renderer?.Container is not null && !Series.Renderer.Container.IsTrendLine)
             {
                 GetSeriesFocusIndex();
             }
@@ -1448,7 +1448,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
         {
             return Series is not null && !Series.Visible && Series._isLegendClicked && seriesIndex >= 0 && seriesIndex < Owner?._visibleSeriesRenderers.Count && Owner._visibleSeriesRenderers[seriesIndex].StackedValues is not null &&
                 pointIndex < Owner._visibleSeriesRenderers[seriesIndex].StackedValues?.StartValues?.Count && pointIndex < Owner._visibleSeriesRenderers[seriesIndex].StackedValues?.EndValues?.Count
-                ? Index > 0 ? Owner._visibleSeriesRenderers[seriesIndex].StackedValues?.EndValues[pointIndex] ?? 0 : Series.Renderer.StackedValues?.StartValues[pointIndex] ?? 0
+                ? Index > 0 ? Owner._visibleSeriesRenderers[seriesIndex].StackedValues?.EndValues[pointIndex] ?? 0 : Series.Renderer?.StackedValues?.StartValues[pointIndex] ?? 0
                 : 0;
         }
 
@@ -1873,7 +1873,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
                 Height = ClipRect?.Height ?? 0
             };
 
-            double plotOffset = Series?.Renderer.XAxisRenderer.Axis is not null ? Series.Renderer.XAxisRenderer.Axis.PlotOffset : 0;
+            double plotOffset = Series?.Renderer?.XAxisRenderer.Axis is not null ? Series.Renderer.XAxisRenderer.Axis.PlotOffset : 0;
             double halfPlotOffset = plotOffset != 0 ? -(plotOffset / 2) : 0;
 
             if (Owner is not null && Owner._requireInvertedAxis)
@@ -1920,7 +1920,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
                 animationInfo.Add(new InitialAnimationInfo { Type = animationType, ElementId = options.Id, ClipPathId = ClipRectId(), Duration = duration, Delay = delay, IsInvertedAxis = Owner?._requireInvertedAxis ?? false });
                 int animationInfoIndex = animationInfo.Count - 1;
                 int count = Category() == SeriesCategories.Indicator ? 0 : 1;
-                List<Point> visiblePoints = ChartHelper.GetVisiblePoints(Series?.Renderer.Points ?? null!);
+                List<Point> visiblePoints = ChartHelper.GetVisiblePoints(Series?.Renderer?.Points ?? null!);
                 foreach (Point point in visiblePoints)
                 {
                     if (point.SymbolLocations.Count == 0)
@@ -2088,7 +2088,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
         /// specified, returns a DateTime object; otherwise, returns the original value.</returns>
         internal virtual object GetPointXValue(object pointX, string dateFormat)
         {
-            return Series?.Renderer.Container is not null && Series.Renderer.Container.IsTrendLine && !string.IsNullOrEmpty(dateFormat) ? DateTime.Parse(Intl.GetDateFormat(ChartHelper.GetDate(Convert.ToDouble(pointX, Culture)), string.Empty), CultureInfo.CurrentCulture) : pointX;
+            return Series?.Renderer?.Container is not null && Series.Renderer.Container.IsTrendLine && !string.IsNullOrEmpty(dateFormat) ? DateTime.Parse(Intl.GetDateFormat(ChartHelper.GetDate(Convert.ToDouble(pointX, Culture)), string.Empty), CultureInfo.CurrentCulture) : pointX;
         }
 
         /// <summary>
@@ -2100,7 +2100,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
         /// series and its data points.</returns>
         internal string GetSeriesDescriptionFormatText(List<Point> points)
         {
-            return Series is not null && Series.AccessibilityDescription is not null ? Series.AccessibilityDescription : Series?.Name + (Series?.Renderer.Container is not null && Series.Renderer.Container.IsTrendLine ? ",Trendline " : ",") + Series?.Type + " series with " + points.Count + " data points";
+            return Series is not null && Series.AccessibilityDescription is not null ? Series.AccessibilityDescription : Series?.Name + (Series?.Renderer?.Container is not null && Series.Renderer.Container.IsTrendLine ? ",Trendline " : ",") + Series?.Type + " series with " + points.Count + " data points";
         }
 
         /// <summary>
@@ -2256,7 +2256,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
         {
             try
             {
-                _ = ChartData?.Append(JsonSerializer.Serialize(Series?.Renderer.ChartPoints?[point.Index], _jsonOptions));
+                _ = ChartData?.Append(JsonSerializer.Serialize(Series?.Renderer?.ChartPoints?[point.Index], _jsonOptions));
                 _ = ChartData?.Append(',');
             }
             catch (Exception exception)

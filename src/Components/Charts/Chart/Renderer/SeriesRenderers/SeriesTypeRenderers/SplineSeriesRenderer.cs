@@ -18,7 +18,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
         private void CalculateDirection()
         {
             bool isInverted = Owner is not null && Owner._requireInvertedAxis;
-            List<Point> points = Series?.Renderer.Points ?? null!;
+            List<Point> points = Series?.Renderer?.Points ?? null!;
             string startPoint = "M";
             Direction = new System.Text.StringBuilder();
             ChartData = new System.Text.StringBuilder();

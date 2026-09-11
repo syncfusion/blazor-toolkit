@@ -495,7 +495,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
         private void CreateLegendElements(RenderTreeBuilder builder, SvgRendering svgRenderer, ChartDefaultBorder legendBorder)
         {
             string clipPath = LegendID + "_clipPath";
-            RectOptions Option = new RectOptions(LegendID + "_element", LegendBounds.X, LegendBounds.Y, LegendBounds.Width, LegendBounds.Height, legendBorder.Width, legendBorder.Color, Legend?.Background ?? string.Empty, 0, 0, Legend?.Opacity ?? 1, string.Empty, "pointer-events: none; cursor: " + (Legend is not null && Legend.ToggleVisibility ? "default" : "pointer"));
+            RectOptions Option = new RectOptions(LegendID + "_element", LegendBounds.X, LegendBounds.Y, LegendBounds.Width, LegendBounds.Height, legendBorder.Width, legendBorder.Color ?? null!, Legend?.Background ?? string.Empty, 0, 0, Legend?.Opacity ?? 1, string.Empty, "pointer-events: none; cursor: " + (Legend is not null && Legend.ToggleVisibility ? "default" : "pointer"));
             svgRenderer.RenderRect(builder, Option);
             svgRenderer.OpenClipPath(builder, svgRenderer.Seq++, clipPath);
             Option.Id = clipPath + "_rect";
@@ -526,7 +526,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
         private string ResolveLegendMarkerFill(LegendOption legendOption, string defaultFill)
         {
             ChartSeries? series = Owner?._visibleSeriesRenderers?.ElementAtOrDefault((int)legendOption.SeriesIndex)?.Series;
-            if (ChartHelper.NeedsLegendHorizontalLineGradient(series))
+            if (ChartHelper.NeedsLegendHorizontalLineGradient(series ?? null!))
             {
                 return Owner?._visibleSeriesRenderers?.ElementAtOrDefault((int)legendOption.SeriesIndex)?.Interior ?? defaultFill;
             }
@@ -585,7 +585,6 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
         /// <returns>Computed start point for legend items.</returns>
         private ChartEventLocation SetupStartAndPagingMetrics(int firstLegend, out double textPadding, out string pointerValue)
         {
-            int count = 0;
             double x_Align = 0;
 
             if (!string.IsNullOrEmpty(Legend?.Width) && MaxRowWidth < LegendBounds.Width && !IsVertical)
@@ -1033,11 +1032,12 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
         {
             LegendCollectionRect = new List<Rect>();
             int firstLegend = FindFirstLegendPosition();
+            LegendOption firstLegendOption = LegendCollection[0];
 
-            MaxItemHeight = Math.Max(ChartHelper.MeasureText(LegendCollection[0].TextCollection?.Count != 0
-                ? (string.IsNullOrEmpty(LegendCollection[0].TextCollection[0]) ? "MeasureText" : LegendCollection[0].TextCollection?[0] ?? null!)
-                : (string.IsNullOrEmpty(LegendCollection[0].Text) ? "MeasureText" : LegendCollection[0].Text), LegendTextStyle ?? null!).Height,
-                (LegendCollection[0].LegendTemplate is null ? (Legend?.ShapeHeight ?? 0) : 0)
+            MaxItemHeight = Math.Max(ChartHelper.MeasureText(firstLegendOption.TextCollection is { Count: > 0 } textCollection
+                ? (string.IsNullOrEmpty(textCollection[0]) ? "MeasureText" : textCollection[0])
+                : (string.IsNullOrEmpty(firstLegendOption.Text) ? "MeasureText" : firstLegendOption.Text), LegendTextStyle ?? null!).Height,
+                firstLegendOption.LegendTemplate is null ? (Legend?.ShapeHeight ?? 0) : 0
             );
 
             ChartRowCount = 1;

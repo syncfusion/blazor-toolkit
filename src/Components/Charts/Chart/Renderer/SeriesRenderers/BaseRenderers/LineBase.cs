@@ -197,9 +197,9 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
                 (Owner is not null && Owner._zoomingModule is not null && Owner._zoomingModule.IsZoomed))
             {
                 point?.SymbolLocations.Add(location);
-                series.Renderer.ChartPoints?[point?.Index ?? 0]?.SymbolLocations.Add(new IChartInternalLocation(Math.Round(location.X, 2), Math.Round(location.Y, 2)));
+                series.Renderer?.ChartPoints?[point?.Index ?? 0]?.SymbolLocations.Add(new IChartInternalLocation(Math.Round(location.X, 2), Math.Round(location.Y, 2)));
                 point?.Regions.Add(new Rect(point.SymbolLocations[0].X - markerWidth, point.SymbolLocations[0].Y - markerHeight, 2 * markerWidth, 2 * markerHeight));
-                series.Renderer.ChartPoints?[point?.Index ?? 0]?.Regions.Add(new IRect(Math.Round(point?.SymbolLocations[0].X ?? 0, 2) - markerWidth, Math.Round(point?.SymbolLocations[0].Y ?? 0, 2) - markerHeight, 2 * markerWidth, 2 * markerHeight));
+                series.Renderer?.ChartPoints?[point?.Index ?? 0]?.Regions.Add(new IRect(Math.Round(point?.SymbolLocations[0].X ?? 0, 2) - markerWidth, Math.Round(point?.SymbolLocations[0].Y ?? 0, 2) - markerHeight, 2 * markerWidth, 2 * markerHeight));
             }
         }
 

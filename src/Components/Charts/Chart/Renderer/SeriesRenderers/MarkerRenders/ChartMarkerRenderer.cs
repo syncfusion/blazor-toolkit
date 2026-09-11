@@ -187,7 +187,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
         {
             string symbolId = BuildSymbolId(point, index);
 
-            PathOptions shapeOption = new(symbolId, string.Empty, string.Empty, argsData.Border.Width, argsData.Border.Color, argsData.Series?.Marker?.Opacity ?? 1, (argsData.Series?.Marker != null && !string.IsNullOrEmpty(argsData.Series.Marker.Fill)) ? argsData.Series.Marker.Fill : argsData.Fill, "", "", series.Renderer.GetPointDescriptionFormatText(point), "", "", SeriesRenderer?.GetDataPoints(point.XValue, point.YValue) ?? null!);
+            PathOptions shapeOption = new(symbolId, string.Empty, string.Empty, argsData.Border.Width, argsData.Border.Color, argsData.Series?.Marker?.Opacity ?? 1, (argsData.Series?.Marker != null && !string.IsNullOrEmpty(argsData.Series.Marker.Fill)) ? argsData.Series.Marker.Fill : argsData.Fill, "", "", series.Renderer?.GetPointDescriptionFormatText(point) ?? null!, "", "", SeriesRenderer?.GetDataPoints(point.XValue, point.YValue) ?? null!);
             _symbolOptions.Add(CalculateSymbol(location, argsData.Shape.ToString(), new Size(argsData.Width, argsData.Height), marker.ImageUrl?.ToString() ?? string.Empty, shapeOption, Owner ?? null!));
             point.Marker = new MarkerSettingModel() { Border = argsData.Border, Fill = argsData.Fill, Height = argsData.Height, Visible = true, Shape = argsData.Shape, Width = argsData.Width };
             if (Series?.Renderer?.ChartPoints is { })
@@ -257,7 +257,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
                     }
                     if (Owner?._tooltip is not null && Series?.Marker != null && Series.Marker.Visible && Owner._shouldRenderMarker)
                     {
-                        Series.Renderer.GetChartData(point);
+                        Series.Renderer?.GetChartData(point);
                     }
                 }
             }
@@ -542,7 +542,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
             if (RendererShouldRender && !(Series.Type != ChartSeriesType.Scatter && Owner is not null && !Owner._shouldRenderMarker))
             {
                 CalculateRenderTreeBuilderOptions();
-                SeriesRenderer.CalculateMarkerClipPath();
+                SeriesRenderer?.CalculateMarkerClipPath();
             }
         }
         #endregion
