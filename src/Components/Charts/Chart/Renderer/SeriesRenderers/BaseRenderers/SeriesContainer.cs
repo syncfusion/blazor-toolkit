@@ -381,7 +381,10 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
         {
             int seq = 0;
             ChartSeries series = element;
-            if (series.Marker?.RendererType is not null)
+
+            bool shouldOpenMarker = series.Marker?.RendererType is not null &&
+                        (series.Marker.Visible || series.Marker.DataLabel.Visible);
+            if (shouldOpenMarker)
             {
                 builder.OpenComponent(seq++, series.Marker.RendererType);
                 builder.AddAttribute(seq++, "Series", series);
@@ -978,13 +981,20 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
                 ProcessData();
                 Owner?._legendRenderer?.SetDefaultRendererValues();
                 Owner?._axisContainer?.SetDefaultRendererContainerValues();
-            }
-            catch
-            {
-                if (!IsDisposed)
+                if (Owner?.InitialRect is not null)
                 {
-                    throw;
+                    HandleChartSizeChange(Owner.InitialRect);
+                    foreach (var seriesRenderer in Renderers.OfType<ChartSeriesRenderer>())
+                    {
+                        seriesRenderer.Series?.Marker?.Renderer?.HandleChartSizeChange(Owner.InitialRect);
+                    }
+                    Owner?._striplineBehindContainer?.SetDefaultRendererValues();
+                    Owner?._striplineOverContainer?.SetDefaultRendererValues();
                 }
+            }
+            catch (Exception exception) when (IsDisposed)
+            {
+                System.Diagnostics.Debug.WriteLine($"Chart series renderer initialization failed during disposal: {exception}");
             }
         }
 
@@ -1104,6 +1114,19 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
             foreach (ChartRenderer renderer in Renderers.Cast<ChartRenderer>())
             {
                 renderer.HandleChartSizeChange(rect);
+            }
+
+            if (IsStaticSSR())
+            {
+                // Markers again if they were null during series pass
+                foreach (var seriesRenderer in Renderers.OfType<ChartSeriesRenderer>())
+                {
+                    seriesRenderer.Series?.Marker?.Renderer?.HandleChartSizeChange(rect);
+                }
+
+                // Striplines after axis + series clip are final
+                Owner?._striplineBehindContainer?.UpdateStriplineCollection();
+                Owner?._striplineOverContainer?.UpdateStriplineCollection();
             }
         }
 

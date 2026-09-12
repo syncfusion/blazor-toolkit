@@ -643,6 +643,18 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
             }
         }
 
+        /// <summary>
+        /// SSR entry point – calculates stripline geometry when OnAfterRenderAsync is unavailable.
+        /// </summary>
+        internal override void SetDefaultRendererValues()
+        {
+            if (Stripline != null)
+            {
+                InitStripline();   // this is the method that already exists and fills the path/rect collections
+            }
+            RendererShouldRender = true;
+        }
+
         #endregion
 
         #region Public Methods
