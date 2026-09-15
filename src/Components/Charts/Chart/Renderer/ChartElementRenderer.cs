@@ -128,6 +128,11 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
                 return;
             }
 
+            if (IsStaticSSR())
+            {
+                SetDefaultRendererValues();
+            }
+
             this.CreateCascadingValue(builder, 0, 1, this, 2,
                BuildRenderers);
             RendererShouldRender = false;
@@ -203,6 +208,13 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
         internal void Prerender()
         {
             ContainerUpdate = true;
+
+            if (IsStaticSSR())
+            {
+                ContainerPrerender = true;
+                RendererShouldRender = true;
+                SetDefaultRendererValues();
+            }
             _ = InvokeAsync(StateHasChanged);
         }
         #endregion

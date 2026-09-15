@@ -65,7 +65,9 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
             {
                 ClipRect = Owner._axisContainer.AxisLayout.SeriesClipRect ?? null!;
             }
+
             HandleChartSizeChange(Owner?.InitialRect ?? new Rect(0, 0, 0, 0));
+            RendererShouldRender = true;
         }
         #endregion
 
