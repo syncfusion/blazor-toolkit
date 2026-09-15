@@ -13,6 +13,8 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
         #region Fields
         private string? _seriesIndex;
         private List<SymbolOptions> _symbolOptions = [];
+        // Static SSR is allowed once; subsequent passes use the normal renderer gate.
+        private bool _staticSSRRenderPending = true;
         #endregion
 
         #region Properties
@@ -187,7 +189,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
         {
             string symbolId = BuildSymbolId(point, index);
 
-            PathOptions shapeOption = new(symbolId, string.Empty, string.Empty, argsData.Border.Width, argsData.Border.Color, argsData.Series?.Marker?.Opacity ?? 1, (argsData.Series?.Marker != null && !string.IsNullOrEmpty(argsData.Series.Marker.Fill)) ? argsData.Series.Marker.Fill : argsData.Fill, "", "", series.Renderer.GetPointDescriptionFormatText(point), "", "", SeriesRenderer?.GetDataPoints(point.XValue, point.YValue) ?? null!);
+            PathOptions shapeOption = new(symbolId, string.Empty, string.Empty, argsData.Border.Width, argsData.Border.Color, argsData.Series?.Marker?.Opacity ?? 1, (argsData.Series?.Marker != null && !string.IsNullOrEmpty(argsData.Series.Marker.Fill)) ? argsData.Series.Marker.Fill : argsData.Fill, "", "", series.Renderer?.GetPointDescriptionFormatText(point) ?? null!, "", "", SeriesRenderer?.GetDataPoints(point.XValue, point.YValue) ?? null!);
             _symbolOptions.Add(CalculateSymbol(location, argsData.Shape.ToString(), new Size(argsData.Width, argsData.Height), marker.ImageUrl?.ToString() ?? string.Empty, shapeOption, Owner ?? null!));
             point.Marker = new MarkerSettingModel() { Border = argsData.Border, Fill = argsData.Fill, Height = argsData.Height, Visible = true, Shape = argsData.Shape, Width = argsData.Width };
             if (Series?.Renderer?.ChartPoints is { })
@@ -257,7 +259,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
                     }
                     if (Owner?._tooltip is not null && Series?.Marker != null && Series.Marker.Visible && Owner._shouldRenderMarker)
                     {
-                        Series.Renderer.GetChartData(point);
+                        Series.Renderer?.GetChartData(point);
                     }
                 }
             }
@@ -359,6 +361,16 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
                 RenderMarkers(builder);
                 builder.CloseElement();
             }
+
+            if (IsStaticSSR())
+            {
+                _staticSSRRenderPending = false;
+            }
+        }
+
+        protected override bool ShouldRender()
+        {
+            return RendererShouldRender || (IsStaticSSR() && _staticSSRRenderPending);
         }
 
         #endregion
@@ -377,7 +389,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
         /// <returns>Calculated SymbolOptions instance.</returns>
         internal static SymbolOptions CalculateSymbol(ChartEventLocation location, string shape, Size size, string url, PathOptions option, SfChart chart)
         {
-            ChartEventLocation currentLocation = null!;
+            ChartEventLocation currentLocation = chart.IsStaticServerRendering() ? location : null!;
             if (chart is not null && shape == "Circle")
             {
                 string[] locations = ChartHelper.AppendTextElements(chart, option.Id, location.X, location.Y, "cx", "cy");
@@ -388,7 +400,10 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
 
             if (shapeoption.ShapeName == ShapeName.Path)
             {
-                shapeoption.PathOption.Direction = ChartHelper.AppendPathElements(chart ?? null!, shapeoption.PathOption.Direction, shapeoption.PathOption.Id);
+                if (chart != null)
+                {
+                    shapeoption.PathOption.Direction = ChartHelper.AppendPathElements(chart, shapeoption.PathOption.Direction, shapeoption.PathOption.Id);
+                }
                 shapeoption.PathOption.Visibility = option.Visibility;
             }
 
@@ -506,6 +521,20 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
             }
         }
 
+        /// <summary>
+        /// SSR entry point – computes marker symbols when OnAfterRenderAsync is unavailable.
+        /// </summary>
+        internal override void SetDefaultRendererValues()
+        {
+            SeriesRenderer = Series?.Renderer;
+            if (SeriesRenderer != null && (Series?.Marker?.Visible ?? false))
+            {
+                CalculateRenderTreeBuilderOptions();   // fills _symbolOptions
+                SeriesRenderer.CalculateMarkerClipPath();
+            }
+            RendererShouldRender = true;
+        }
+
         #endregion
 
         #region Public Methods
@@ -542,7 +571,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
             if (RendererShouldRender && !(Series.Type != ChartSeriesType.Scatter && Owner is not null && !Owner._shouldRenderMarker))
             {
                 CalculateRenderTreeBuilderOptions();
-                SeriesRenderer.CalculateMarkerClipPath();
+                SeriesRenderer?.CalculateMarkerClipPath();
             }
         }
         #endregion

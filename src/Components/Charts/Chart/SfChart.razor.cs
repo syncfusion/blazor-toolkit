@@ -588,7 +588,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts
         private void CalculateAvailableSize()
         {
             double height = Height != NullDimensionValue ? ChartHelper.StringToNumber(Height, _elementOffset.Height) : ChartDefaultHeight;
-            double width = Width != NullDimensionValue ? ChartHelper.StringToNumber(Width, _elementOffset.Width) : ChartDefaultHeight;
+            double width = Width != NullDimensionValue ? ChartHelper.StringToNumber(Width, _elementOffset.Width) : ChartDefaultWidth;
 
             AvailableSize = new Size(width > 0 ? width : AvailableSize.Width, height > 0 ? height : AvailableSize.Height);
             if (EnableAdaptiveRendering)
@@ -778,9 +778,16 @@ namespace Syncfusion.Blazor.Toolkit.Charts
                         _skipRendering = true;
                     }
                 }
-                catch (Exception ex)
+                catch (JSException ex)
                 {
-                    Console.Error.WriteLine($"Error getting element offset: {ex.Message}");
+                    await Console.Error.WriteLineAsync($"Error getting element offset: {ex.Message}")
+                    .ConfigureAwait(true);
+                    _skipRendering = true;
+                }
+                catch (ObjectDisposedException ex)
+                {
+                    await Console.Error.WriteLineAsync($"Error getting element offset: {ex.Message}")
+                    .ConfigureAwait(true);
                     _skipRendering = true;
                 }
             }
@@ -1123,25 +1130,24 @@ namespace Syncfusion.Blazor.Toolkit.Charts
 
             try
             {
-                FieldInfo field = GetType().BaseType?.BaseType?.BaseType?.BaseType?.BaseType?.GetField(RENDERHANDLE, BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.Static);
+                FieldInfo field = GetType().BaseType?.BaseType?.BaseType?.BaseType?.BaseType?.GetField(RENDERHANDLE, BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.Static) ?? null!;
                 if (field == null) return false;
 
-                object renderHandlerObj = field.GetValue(this);
+                object renderHandlerObj = field.GetValue(this) ?? null!;
                 if (renderHandlerObj == null) return false;
 
                 RenderHandle renderHandler = (RenderHandle)renderHandlerObj;
-                FieldInfo rendererInfo = renderHandler.GetType().GetField(RENDERER, BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.Static);
+                FieldInfo rendererInfo = renderHandler.GetType().GetField(RENDERER, BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.Static) ?? null!;
                 if (rendererInfo == null) return false;
 
-                object renderer = rendererInfo.GetValue(renderHandler);
+                object renderer = rendererInfo.GetValue(renderHandler) ?? null!;
                 if (renderer == null) return false;
 
-                FieldInfo disposedInfo = renderer.GetType().BaseType?.GetField(DISPOSED, BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.Static);
+                FieldInfo disposedInfo = renderer.GetType().BaseType?.GetField(DISPOSED, BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.Static) ?? null!;
                 return disposedInfo is not null && (bool)(disposedInfo.GetValue(renderer) ?? false);
             }
-            catch
+            catch (Exception ex) when (ex is TargetException or TargetInvocationException or FieldAccessException or InvalidOperationException)
             {
-                // In test environments (like BUnit), reflection might not work as expected
                 return false;
             }
         }
@@ -1461,7 +1467,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts
                             _seriesMarkers.Add(new IMarkerSettingModel
                             {
                                 Visible = marker.Visible && _shouldRenderMarker,
-                                Border = new IChartEventBorder() { Color = marker.Border.Color, Width = marker.Border.Width },
+                                Border = new IChartEventBorder() { Color = marker.Border.Color ?? null!, Width = marker.Border.Width },
                                 Fill = marker.Fill,
                                 Height = marker.Height,
                                 Width = marker.Width,
@@ -1718,16 +1724,26 @@ namespace Syncfusion.Blazor.Toolkit.Charts
             {
                 if (!_render.IsSizeSet)
                 {
+                    // Force defaults when no DOM measurement is possible
+                    if (_elementOffset.Width <= 0 || _elementOffset.Height <= 0)
+                    {
+                        _svgWidth  ??= ChartDefaultWidth.ToString(CultureInfo.InvariantCulture);
+                        _svgHeight ??= ChartDefaultHeight.ToString(CultureInfo.InvariantCulture);
+                    }
+
                     CalculateAvailableSize();
                     SetInitialRect();
+
+                    // Border initialization reaches this method before the normal layout pass;
+                    // process data first so the synchronous prerender sees populated renderers.
+                    // IsSizeSet keeps this SSR-only initialization from repeating.
+                    ProcessData();
+                    Prerender();
                 }
             }
-            catch
+            catch (Exception exception) when (IsDisposed)
             {
-                if (!IsDisposed)
-                {
-                    throw;
-                }
+                System.Diagnostics.Debug.WriteLine($"Static chart initialization failed during disposal: {exception}");
             }
         }
 

@@ -130,11 +130,11 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
             for (int j = pointsLength - 1; j >= startPoint; j--)
             {
                 ChartSeries previousSeries = GetPreviousSeries(Series!);
-                if (previousSeries.EmptyPointSettings.Mode != EmptyPointMode.Drop || (previousSeries.Renderer.Points != null && !previousSeries.Renderer.Points[j].IsEmpty))
+                if (previousSeries.EmptyPointSettings.Mode != EmptyPointMode.Drop || (previousSeries.Renderer?.Points != null && !previousSeries.Renderer.Points[j].IsEmpty))
                 {
                     double startValue = GetStackingStartValue(visiblePoints[j].Index, GetVisibleSeriesIndex());
-                    ChartEventLocation point2 = ChartHelper.GetPoint(XAxisRenderer.GetPointValue(visiblePoints[j].XValue), YAxisRenderer.GetPointValue((!Series.Visible && Series._isLegendClicked) ? startValue : stackedvalue.StartValues[j]), XAxisRenderer, YAxisRenderer, XLength, YLength, Owner is not null && Owner._requireInvertedAxis);
-                    double borderWidth = Series.Renderer.Index == 0 ? 0 : Series.Border.Width / 2;
+                    ChartEventLocation point2 = ChartHelper.GetPoint(XAxisRenderer.GetPointValue(visiblePoints[j].XValue), YAxisRenderer.GetPointValue((Series != null && !Series.Visible && Series._isLegendClicked) ? startValue : stackedvalue.StartValues[j]), XAxisRenderer, YAxisRenderer, XLength, YLength, Owner is not null && Owner._requireInvertedAxis);
+                    double borderWidth = Series?.Renderer?.Index == 0 ? 0 : (Series?.Border.Width ?? 1) / 2;
                     _ = Direction.Append("L" + SPACE + point2.X.ToString(Culture) + SPACE + (point2.Y - borderWidth).ToString(Culture) + SPACE);
                 }
             }
@@ -150,7 +150,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
             List<ChartSeries> seriesCollection = Owner?._seriesContainer?.Elements.Cast<ChartSeries>().ToList() ?? null!;
             for (int i = 0, length = seriesCollection.Count; i < length; i++)
             {
-                if (seriesCollection[i].Renderer is not null && series.Renderer is not null && series.Renderer.Index == seriesCollection[i].Renderer.Index && i != 0)
+                if (seriesCollection[i].Renderer is not null && series.Renderer is not null && series.Renderer.Index == seriesCollection[i].Renderer?.Index && i != 0)
                 {
                     return seriesCollection[i - 1];
                 }
@@ -278,7 +278,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
             List<Point> visiblePoints = EnableComplexProperty();
             Direction = new System.Text.StringBuilder();
             ChartData = new System.Text.StringBuilder();
-            if ((Series is not null && !Series.Visible && !Series._isLegendClicked) || Series?.Renderer.StackedValues is null || Series.Renderer.StackedValues.StartValues.Count == 0)
+            if ((Series is not null && !Series.Visible && !Series._isLegendClicked) || Series?.Renderer?.StackedValues is null || Series.Renderer.StackedValues.StartValues.Count == 0)
             {
                 return;
             }

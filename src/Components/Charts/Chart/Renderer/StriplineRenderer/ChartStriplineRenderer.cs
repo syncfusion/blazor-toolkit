@@ -281,10 +281,10 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
                 {
                     Id = id,
                     Direction = direction,
-                    StrokeDashArray = Stripline.DashArray,
-                    StrokeWidth = Stripline.Size != 0 ? Stripline.Size : 1,
-                    Stroke = Stripline.Color,
-                    Opacity = Stripline.Opacity
+                    StrokeDashArray = Stripline?.DashArray ?? null!,
+                    StrokeWidth = Stripline?.Size != 0 ? Stripline?.Size ?? 0 : 1,
+                    Stroke = Stripline?.Color ?? "#808080",
+                    Opacity = Stripline?.Opacity ?? 1
                 };
             }
             else if (_striplinePath is { })
@@ -641,6 +641,18 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
                 default:
                     break;
             }
+        }
+
+        /// <summary>
+        /// SSR entry point – calculates stripline geometry when OnAfterRenderAsync is unavailable.
+        /// </summary>
+        internal override void SetDefaultRendererValues()
+        {
+            if (Stripline != null)
+            {
+                InitStripline();   // this is the method that already exists and fills the path/rect collections
+            }
+            RendererShouldRender = true;
         }
 
         #endregion

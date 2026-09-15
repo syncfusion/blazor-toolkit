@@ -71,16 +71,19 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
                 if (data.Index != 0)
                 {
                     int previous = GetPreviousIndex(points, data.Index - 1, Series ?? null!);
-                    ControlPoints pointValue = GetControlPoints(points[previous], data, _splinePoints[previous], _splinePoints[data.Index], Series ?? null!);
+                    ControlPoints pointValue = GetControlPoints(points[previous], data, _splinePoints[previous], _splinePoints[data.Index], Series ?? null!) ?? null!;
                     if (pointValue is not null)
                     {
                         DrawPoints.Add(pointValue);
                     }
-                    if (data.YValue != 0 && !double.IsNaN(data.YValue) && pointValue?.ControlPoint1.Y != 0 && !double.IsNaN(pointValue.ControlPoint1.Y) && pointValue.ControlPoint2.Y != 0 && !double.IsNaN(pointValue.ControlPoint2.Y) && Series is not null && (Series.Renderer.YMax - Series.Renderer.YMin) > 1)
+                    if (data.YValue != 0 && !double.IsNaN(data.YValue) && pointValue?.ControlPoint1.Y != 0 && !double.IsNaN(pointValue?.ControlPoint1.Y ?? 0) && pointValue?.ControlPoint2.Y != 0 && !double.IsNaN(pointValue?.ControlPoint2.Y ?? 0) && Series is not null && ((Series.Renderer?.YMax ?? 0) - (Series.Renderer?.YMin ?? 0)) > 1)
                     {
-                        bool maxValue = Math.Abs(Series.Renderer.YMin - Math.Floor(Series.Renderer.YMin)) > double.Epsilon;
-                        Series.Renderer.YMin = maxValue ? Series.Renderer.YMin : Math.Floor(Math.Min(Math.Min(Series.Renderer.YMin, data.YValue), Math.Min(pointValue.ControlPoint1.Y, pointValue.ControlPoint2.Y)));
-                        Series.Renderer.YMax = Math.Ceiling(Math.Max(Math.Max(Series.Renderer.YMax, data.YValue), Math.Max(pointValue.ControlPoint1.Y, pointValue.ControlPoint2.Y)));
+                        bool maxValue = Math.Abs((Series.Renderer?.YMin ?? 0) - Math.Floor(Series.Renderer?.YMin ?? 0)) > double.Epsilon;
+                        if (Series.Renderer is not null)
+                        {
+                            Series.Renderer.YMin = maxValue ? Series.Renderer.YMin : Math.Floor(Math.Min(Math.Min(Series.Renderer.YMin, data.YValue), Math.Min(pointValue?.ControlPoint1.Y ?? 0, pointValue?.ControlPoint2.Y ?? 0)));
+                            Series.Renderer.YMax = Math.Ceiling(Math.Max(Math.Max(Series.Renderer.YMax, data.YValue), Math.Max(pointValue?.ControlPoint1.Y ?? 0, pointValue?.ControlPoint2.Y ?? 0)));
+                        }
                     }
                 }
             }
@@ -99,7 +102,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
 
             for (int i = 0; i < count - 1; i++)
             {
-                series.Renderer.GetSplineTypePoints(points, i, SplineType.Monotonic, isLow);
+                series.Renderer?.GetSplineTypePoints(points, i, SplineType.Monotonic, isLow);
                 dx[i] = !double.IsNaN(points[i + 1].XValue - points[i].XValue) ? points[i + 1].XValue - points[i].XValue : 0;
                 dy[i] = !double.IsNaN(points[i + 1].YValue - points[i].YValue) ? points[i + 1].YValue - points[i].YValue : 0;
                 slope[i] = dy[i] / dx[i];
@@ -156,7 +159,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
             {
                 for (int i = 1; i < count - 1; i++)
                 {
-                    series.Renderer.GetSplineTypePoints(points, i, SplineType.Clamped, isLow);
+                    series.Renderer?.GetSplineTypePoints(points, i, SplineType.Clamped, isLow);
                 }
 
                 double firstSegmentX = points[1].XValue - points[0].XValue;
@@ -199,7 +202,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
                     y_Spline[count - 1] = 0;
                 }
 
-                series.Renderer.GetDefaultSplineTypePoints(points, i, isLow);
+                series.Renderer?.GetDefaultSplineTypePoints(points, i, isLow);
                 double coefficient1 = points[i].XValue - points[i - 1].XValue;
                 double coefficient2 = points[i + 1].XValue - points[i - 1].XValue;
                 double coefficient3 = points[i + 1].XValue - points[i].XValue;
@@ -364,7 +367,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
                     deltaX2 *= deltaX2;
 
                     bool shouldUseAbs = Series is not null &&
-                        Math.Abs(Series.Renderer.YMin - Math.Floor(Series.Renderer.YMin)) > double.Epsilon &&
+                        Math.Abs((Series.Renderer?.YMin ?? 0) - Math.Floor(Series.Renderer?.YMin ?? 0)) > double.Epsilon &&
                         double.IsNegative(ONE_THIRD * ((2 * prevdata.YValue) + nextData.YValue - (ONE_THIRD * deltaX2 * (y_Spline1 + (0.5 * y_Spline2))))) &&
                         double.IsNegative(ONE_THIRD * (prevdata.YValue + (2 * nextData.YValue) - (ONE_THIRD * deltaX2 * ((0.5 * y_Spline1) + y_Spline2))));
 
@@ -394,7 +397,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
         /// <returns>Filtered list of points.</returns>
         internal static List<Point> FilterEmptyPoints(ChartSeries series, [Optional] List<Point> seriesPoints)
         {
-            List<Point> points = seriesPoints is not null ? seriesPoints : series.Renderer.Points ?? null!;
+            List<Point> points = seriesPoints is not null ? seriesPoints : series.Renderer?.Points ?? null!;
 
             if (series.EmptyPointSettings.Mode != EmptyPointMode.Drop)
             {
@@ -406,18 +409,18 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
                 points[i].Index = i;
                 if (points[i].IsEmpty)
                 {
-                    if (series.Renderer.ChartPoints is { })
+                    if (series.Renderer?.ChartPoints is { })
                     {
                         series.Renderer.ChartPoints[i].SymbolLocations = [];
                     }
                     points[i].SymbolLocations = [];
-                    if (series.Renderer.ChartPoints is { })
+                    if (series.Renderer?.ChartPoints is { })
                     {
                         series.Renderer.ChartPoints[i].Regions = [];
                     }
                     points[i].Regions = [];
                     points.RemoveRange(i, 1);
-                    series.Renderer.ChartPoints?.RemoveRange(i, 1);
+                    series.Renderer?.ChartPoints?.RemoveRange(i, 1);
                     i--;
                 }
             }
@@ -439,7 +442,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
                 DrawPoints = [];
                 CreateDrawPoints(points, ref isNegativePoint);
 
-                if (!isNegativePoint && Series?.Renderer.YMin < 0)
+                if (!isNegativePoint && Series?.Renderer?.YMin < 0)
                 {
                     Series.Renderer.YMin = 0;
                 }
@@ -456,7 +459,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
             ChartEventLocation bpt1 = ChartHelper.GetPoint(XAxisRenderer.GetPointValue(data.ControlPoint1.X), YAxisRenderer.GetPointValue(data.ControlPoint1.Y), XAxisRenderer, YAxisRenderer, XLength, YLength, isInverted);
             ChartEventLocation bpt2 = ChartHelper.GetPoint(XAxisRenderer.GetPointValue(data.ControlPoint2.X), YAxisRenderer.GetPointValue(data.ControlPoint2.Y), XAxisRenderer, YAxisRenderer, XLength, YLength, isInverted);
 
-            if (Series is not null && (Series.Renderer.YAxisRenderer is LogarithmicAxisRenderer) && Math.Abs(Series.Renderer.YMin - Math.Floor(Series.Renderer.YMin)) > double.Epsilon)
+            if (Series is not null && (Series.Renderer?.YAxisRenderer is LogarithmicAxisRenderer) && Math.Abs(Series.Renderer.YMin - Math.Floor(Series.Renderer.YMin)) > double.Epsilon)
             {
                 bpt1.Y = Math.Abs(bpt1.Y) > YLength ? 1 : bpt1.Y;
                 bpt2.Y = Math.Abs(bpt2.Y) > YLength ? 1 : bpt2.Y;

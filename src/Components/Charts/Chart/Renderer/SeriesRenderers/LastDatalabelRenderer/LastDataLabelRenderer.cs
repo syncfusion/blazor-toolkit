@@ -211,7 +211,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
             string direction = $"M {lineStartX.ToString(Culture)} {lineStartY.ToString(Culture)} L {lineEndX.ToString(Culture)} {lineEndY.ToString(Culture)}";
             string lineColor = !string.IsNullOrEmpty(lastDataLabel.LineColor) ? lastDataLabel.LineColor : Owner?._chartThemeStyle?.CrosshairLine ?? string.Empty;
 
-            PathOptions pathOption = new($"{ElementId}_LastDataLabelLine_{SeriesIndex()}", direction, lastDataLabel.DashArray, lastDataLabel.LineWidth, lineColor, 1, "none", "", "", series.Renderer.GetPointDescriptionFormatText(lastPoint), "", "", "");
+            PathOptions pathOption = new($"{ElementId}_LastDataLabelLine_{SeriesIndex()}", direction, lastDataLabel.DashArray, lastDataLabel.LineWidth, lineColor, 1, "none", "", "", series.Renderer?.GetPointDescriptionFormatText(lastPoint) ?? null!, "", "", "");
             _pathOptions.Add(pathOption);
         }
 
@@ -294,7 +294,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
 
             Point lastPoint = visiblePoints[^1];
             FinancialPoint fPoint = lastPoint as FinancialPoint ?? null!;
-            ChartAxis yAxis = series.Renderer.YAxisRenderer.Axis ?? null!;
+            ChartAxis yAxis = series.Renderer?.YAxisRenderer.Axis ?? null!;
 
             double rawValue = isHighLowOpenClose ? Convert.ToDouble(fPoint.Close, Culture) : isHighLow ? Convert.ToDouble(fPoint.Low, Culture) : lastPoint.YValue;
             if (!(isHighLowOpenClose ? (lastPoint.Regions is not null && lastPoint.Regions.Count > 0) : (lastPoint.SymbolLocations is not null && lastPoint.SymbolLocations.Count > 0)) || rawValue > yAxis.Renderer?.VisibleRange.End || rawValue < yAxis.Renderer?.VisibleRange.Start)

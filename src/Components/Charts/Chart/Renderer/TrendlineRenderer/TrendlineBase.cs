@@ -310,7 +310,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
                 xValues.Add(_points[index].XValue);
                 yValues.Add(_points[index].YValue);
             }
-            if (_trendLineSeries is { })
+            if (_trendLineSeries is { } && _trendLineSeries.Renderer is not null)
             {
                 _trendLineSeries.Renderer.Points = GetLinearPoints(xValues, FindSlopeIntercept(xValues, yValues));
             }
@@ -347,7 +347,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
                 x_Value.Add(_points[index].XValue);
                 y_Value.Add(_points[index].YValue != 0 ? Math.Log(_points[index].YValue) : 0);
             }
-            if (_trendLineSeries is { })
+            if (_trendLineSeries is { } && _trendLineSeries.Renderer is not null)
             {
                 _trendLineSeries.Renderer.Points = GetExponentialPoints(x_Value, FindSlopeIntercept(x_Value, y_Value));
             }
@@ -390,7 +390,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
                 yValues.Add(_points[index].YValue);
             }
 
-            if (_trendLineSeries is { })
+            if (_trendLineSeries is { } && _trendLineSeries.Renderer is not null)
             {
                 _trendLineSeries.Renderer.Points = GetMovingAveragePoints(xAvgValues, yValues);
             }
@@ -447,7 +447,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
                 yPolyValues.Add(_points[index].YValue);
             }
 
-            if (_trendLineSeries is { })
+            if (_trendLineSeries is { } && _trendLineSeries.Renderer is not null)
             {
                 _trendLineSeries.Renderer.Points = GetPolynomialPoints(xPolyValues, yPolyValues);
             }
@@ -474,7 +474,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
                 Visible = true
             };
 
-            if (_trendLineSeries is not null)
+            if (_trendLineSeries is not null && _trendLineSeries.Renderer is not null)
             {
                 _trendLineSeries.Renderer.XMin = Math.Min(_trendLineSeries.Renderer.XMin, trendPoint.XValue);
                 _trendLineSeries.Renderer.YMin = Math.Min(_trendLineSeries.Renderer.YMin, trendPoint.YValue);
@@ -739,7 +739,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
                 }
                 else
                 {
-                    double forecast = _trendLineSeries?.Renderer.XAxisRenderer is DateTimeAxisRenderer ? 0 : Trendline?.ForwardForecast ?? 0;
+                    double forecast = _trendLineSeries?.Renderer?.XAxisRenderer is DateTimeAxisRenderer ? 0 : Trendline?.ForwardForecast ?? 0;
                     xInterpolated += ((_points?.Count ?? 0) + forecast) / _polynomialSlopes.Length;
                     xValue = xValues[Convert.ToInt32(Math.Round(xInterpolated)) - 1];
                     yValue = GetPolynomialYValue(_polynomialSlopes, xValue);
@@ -766,7 +766,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
                 xValues.Add(_points[index].XValue != 0 && !double.IsNaN(_points[index].XValue) ? Math.Log(_points[index].XValue) : 0);
                 yValues.Add(_points[index].YValue != 0 && !double.IsNaN(_points[index].YValue) ? Math.Log(_points[index].YValue) : 0);
             }
-            if (_trendLineSeries is { })
+            if (_trendLineSeries is { } && _trendLineSeries.Renderer is not null)
             {
                 _trendLineSeries.Renderer.Points = GetPowerPoints(powerPoints, FindSlopeIntercept(xValues, yValues));
             }
@@ -811,7 +811,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
                 y_LogValue.Add(_points[index].YValue);
             }
 
-            if (_trendLineSeries is { })
+            if (_trendLineSeries is { } && _trendLineSeries.Renderer is not null)
             {
                 _trendLineSeries.Renderer.Points = GetLogarithmicPoints(x_PointsLgr, FindSlopeIntercept(x_LogValue, y_LogValue));
             }
@@ -897,8 +897,8 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
         /// </summary>
         internal void InitDataSource()
         {
-            _trendLineSeries?.Renderer.InitSeriesRendererFields();
-            _points = _series?.Renderer.Points;
+            _trendLineSeries?.Renderer?.InitSeriesRendererFields();
+            _points = _series?.Renderer?.Points;
 
             if (_points is not null && _points.Count > 0)
             {
@@ -929,7 +929,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
 
             if (Trendline?.Type is not TrendlineTypes.Linear and not TrendlineTypes.MovingAverage)
             {
-                _trendLineSeries?.Renderer.FindSplinePoint();
+                _trendLineSeries?.Renderer?.FindSplinePoint();
             }
         }
 
@@ -938,8 +938,8 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
         /// </summary>
         internal void InitiateAxis()
         {
-            ChartAxisRenderer x_AxisRender = _series?.Renderer.XAxisRenderer ?? null!;
-            ChartAxisRenderer y_AxisRender = _series?.Renderer.YAxisRenderer ?? null!;
+            ChartAxisRenderer x_AxisRender = _series?.Renderer?.XAxisRenderer ?? null!;
+            ChartAxisRenderer y_AxisRender = _series?.Renderer?.YAxisRenderer ?? null!;
             ChartSeriesRenderer trendlineSeriesRenderer = _trendLineSeries?.Renderer ?? null!;
 
             trendlineSeriesRenderer.XAxisRenderer = x_AxisRender;

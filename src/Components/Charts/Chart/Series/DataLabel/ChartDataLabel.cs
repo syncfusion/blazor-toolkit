@@ -563,7 +563,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts
         {
             _marker = null;
             _renderer = null;
-            ChildContent = null;
+            ChildContent = null!;
             _margin?.ComponentDispose();
             _margin = null;
             _border?.ComponentDispose();

@@ -24,7 +24,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
         private void CalculateDirection()
         {
             bool isInverted = Owner is not null && Owner._requireInvertedAxis;
-            List<Point> points = Series?.Renderer.Points ?? null!;
+            List<Point> points = Series?.Renderer?.Points ?? null!;
             Direction = new System.Text.StringBuilder();
             ChartData = new System.Text.StringBuilder();
             double origin = Math.Max(YAxisRenderer?.VisibleRange.Start ?? 0, 0);
@@ -147,7 +147,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
                 Stroke = Series?.Border.Color ?? string.Empty,
                 Opacity = Series?.Opacity ?? 1,
                 StrokeDashArray = Series?.DashArray ?? string.Empty,
-                Direction = Series?.Renderer.Points?.Count > 1 && Direction.Length != 0 ? Direction.ToString() : string.Empty,
+                Direction = Series?.Renderer?.Points?.Count > 1 && Direction.Length != 0 ? Direction.ToString() : string.Empty,
                 DataPoint = _dataPoints ?? string.Empty
             };
 

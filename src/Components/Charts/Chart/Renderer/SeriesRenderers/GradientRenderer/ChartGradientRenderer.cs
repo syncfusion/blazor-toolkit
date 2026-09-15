@@ -146,36 +146,36 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
             ChartLinearGradient? seriesLinear = Series?.LinearGradient;
             if (seriesLinear?.RendererType is not null)
             {
-                RenderLinearGradient(builder, seriesLinear, SvgRenderer);
+                RenderLinearGradient(builder, seriesLinear, SvgRenderer ?? null!);
             }
 
             ChartRadialGradient? seriesRadial = Series?.RadialGradient;
             if (seriesRadial?.RendererType is not null)
             {
-                RenderRadialGradient(builder, seriesRadial, SvgRenderer);
+                RenderRadialGradient(builder, seriesRadial, SvgRenderer ?? null!);
             }
 
             ChartLinearGradient? trendlineLinear = Trendline?.LinearGradient;
             if (trendlineLinear?.RendererType is not null)
             {
-                RenderLinearGradient(builder, trendlineLinear, SvgRenderer);
+                RenderLinearGradient(builder, trendlineLinear, SvgRenderer ?? null!);
             }
 
             ChartRadialGradient? trendlineRadial = Trendline?.RadialGradient;
             if (trendlineRadial?.RendererType is not null)
             {
-                RenderRadialGradient(builder, trendlineRadial, SvgRenderer, null);
+                RenderRadialGradient(builder, trendlineRadial, SvgRenderer ?? null!, null);
             }
 
-            if (ChartHelper.NeedsLegendHorizontalLineGradient(Series))
+            if (ChartHelper.NeedsLegendHorizontalLineGradient(Series ?? null!))
             {
                 if (seriesLinear?.RendererType is not null)
                 {
-                    RenderLinearGradient(builder, seriesLinear, SvgRenderer, $"{Series.Type}Legend");
+                    RenderLinearGradient(builder, seriesLinear, SvgRenderer ?? null!, $"{Series?.Type}Legend");
                 }
                 if (seriesRadial?.RendererType is not null)
                 {
-                    RenderRadialGradient(builder, seriesRadial, SvgRenderer, $"{Series.Type}Legend");
+                    RenderRadialGradient(builder, seriesRadial, SvgRenderer ?? null!, $"{Series?.Type}Legend");
                 }
             }
 
@@ -185,12 +185,12 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
 
                 if (trendlineLinear?.RendererType is not null)
                 {
-                    RenderLinearGradient(builder, trendlineLinear, SvgRenderer, suffix);
+                    RenderLinearGradient(builder, trendlineLinear, SvgRenderer ?? null!, suffix);
                 }
 
                 if (trendlineRadial?.RendererType is not null)
                 {
-                    RenderRadialGradient(builder, trendlineRadial, SvgRenderer, suffix);
+                    RenderRadialGradient(builder, trendlineRadial, SvgRenderer ?? null!, suffix);
                 }
             }
         }

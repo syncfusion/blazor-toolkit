@@ -47,7 +47,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
         /// <returns>A cursor style string (e.g., "ns-resize", "ew-resize", "null").</returns>
         private string UpdateCursorStyle(PointData pointData, ChartData data)
         {
-            if (pointData.Series is not null && pointData.Series.ChartDataEditSettings?.Enable == true && pointData.Point is not null && (data.InsideRegion || !pointData.Series.Renderer.IsRectSeries()))
+            if (pointData.Series is not null && pointData.Series.ChartDataEditSettings?.Enable == true && pointData.Point is not null && (data.InsideRegion || (pointData.Series.Renderer != null && !pointData.Series.Renderer.IsRectSeries())))
             {
                 return GetCursorStyle(pointData);
             }
@@ -248,9 +248,9 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
             string cursor = UpdateCursorStyle(pointData, data);
             _chart.SetSvgCursor(cursor);
 
-            if (pointData.Point is not null && (data.InsideRegion || (pointData.Series is not null && !pointData.Series.Renderer.IsRectSeries())))
+            if (pointData.Point is not null && (data.InsideRegion || (pointData.Series is not null && pointData.Series.Renderer is not null && !pointData.Series.Renderer.IsRectSeries())))
             {
-                _seriesIndex = pointData.Series?.Renderer.Index;
+                _seriesIndex = pointData.Series?.Renderer?.Index;
                 _pointIndex = pointData.Point.Index;
                 ChartSeriesRenderer seriesRenderer = (ChartSeriesRenderer)(_chart._seriesContainer?.Renderers[_seriesIndex ?? 0] ?? null!);
 

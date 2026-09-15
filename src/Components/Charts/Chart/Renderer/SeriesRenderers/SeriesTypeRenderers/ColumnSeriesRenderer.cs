@@ -19,9 +19,9 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
         private void CalculateColumnPathOption()
         {
             DoubleRange sideBySideInfo = GetSideBySideInfo();
-            string pointId = Series?.Container?.ID + "_Series_" + Index + "_Point_", id;
+            string pointId = Series?.Container?.ID + "_Series_" + Index + "_Point_";
             double origin = Math.Max(YAxisRenderer?.VisibleRange.Start ?? 0, 0);
-           
+
             string visibility = ShouldAnimate() ? "hidden" : "visible";
             int pointsCount = Points?.Count ?? 0;
 

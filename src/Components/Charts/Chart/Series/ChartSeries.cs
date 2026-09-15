@@ -137,7 +137,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts
                         if (Container._legendRenderer is not null)
                         {
                             Container._legendRenderer.RendererShouldRender = Visible;
-                            Container._legendRenderer.UpdateLegendShape(Renderer);
+                            Container._legendRenderer.UpdateLegendShape(Renderer ?? null!);
                             Container._legendRenderer.ProcessRenderQueue();
                         }
                     }
@@ -648,7 +648,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts
 
                     {
                         Container._legendRenderer.RendererShouldRender = Visible;
-                        Container._legendRenderer.UpdateLegendShape(Renderer);
+                        Container._legendRenderer.UpdateLegendShape(Renderer ?? null!);
                         Container._legendRenderer.ProcessRenderQueue();
                     }
                 }
@@ -1196,7 +1196,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts
                     if (Container?._legendRenderer is not null)
                     {
                         Container._legendRenderer.RendererShouldRender = Visible;
-                        Container._legendRenderer.UpdateLegendShape(Renderer);
+                        Container._legendRenderer.UpdateLegendShape(Renderer ?? null!);
                         Container._legendRenderer.ProcessRenderQueue();
                     }
                 }
@@ -1937,7 +1937,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts
             if (UpdateDataSource && NeedRendererUpdate)
             {
                 NeedRendererUpdate = UpdateDataSource = false;
-                await (Container?.ProcessOnLayoutChangeAsync()).ConfigureAwait(false);
+                await (Container?.ProcessOnLayoutChangeAsync() ?? null!).ConfigureAwait(false);
             }
 
             else if (UpdateDataSource && !NeedRendererRemove && Container is not null && !Container._isOnceRendered)
@@ -1949,7 +1949,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts
             {
                 _needLayoutUpdate = false;
                 await Task.Delay(10).ConfigureAwait(false);
-                await (Renderer?.Container?.Owner?.DelayLayoutChangeAsync()).ConfigureAwait(false);
+                await (Renderer?.Container?.Owner?.DelayLayoutChangeAsync() ?? null!).ConfigureAwait(false);
             }
 
             else if (_refreshRange && Renderer?.XAxisRenderer is not null && Renderer.YAxisRenderer is not null)
@@ -2191,13 +2191,14 @@ namespace Syncfusion.Blazor.Toolkit.Charts
             if (IsUpdateDataSource())
             {
                 Container?._svgRenderer?.RefreshElementList();
-
-                Renderer.IsSeriesRender = false;
-                _ = SetDataManager<object>((DataSource is not null) ? DataSource : Container?.DataSource);
-                Container?._seriesContainer?.AddToRenderQueue(Renderer);
+                if (Renderer != null)
+                    Renderer.IsSeriesRender = false;
+                _ = SetDataManager<object>((DataSource is not null) ? DataSource : Container?.DataSource ?? null!);
+                Container?._seriesContainer?.AddToRenderQueue(Renderer ?? null!);
                 UpdateDataSource = true;
 
-                await Renderer.UpdateSeriesDataAsync().ConfigureAwait(false);
+                if (Renderer != null)
+                    await Renderer.UpdateSeriesDataAsync().ConfigureAwait(false);
                 if (!IsDisposed && Container is not null && Container._seriesContainer is not null &&
                     (Container._seriesContainer._previousRequestTime == DateTime.MinValue
                      || (DateTime.Now - Container._seriesContainer._previousRequestTime).TotalMilliseconds > UPDATE_THRESHOLD))
@@ -2264,7 +2265,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts
         /// </summary>
         private void HandleLegendRangeChange()
         {
-            if (Renderer.IsCategoryAxis() &&
+            if (Renderer != null && Renderer.IsCategoryAxis() &&
                ((_labelPreviousCount > 0 && _labelCurrentCount == 0) || (_labelPreviousCount == 0 && _labelCurrentCount > 0)))
             {
                 _refreshRange = false;
@@ -2273,8 +2274,8 @@ namespace Syncfusion.Blazor.Toolkit.Charts
                 return;
             }
 
-            Renderer.XAxisRenderer.ChangeAxisRange(_refreshRange);
-            Renderer.YAxisRenderer.ChangeAxisRange(_refreshRange);
+            Renderer?.XAxisRenderer.ChangeAxisRange(_refreshRange);
+            Renderer?.YAxisRenderer.ChangeAxisRange(_refreshRange);
             _refreshRange = false;
 
             Container?.UpdateRenderers();
@@ -2336,7 +2337,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts
         {
             if (Container != null)
             {
-                Container._isLiveChart = Renderer.Series is null || !Renderer.Series._isSeriesChanged;
+                Container._isLiveChart = Renderer?.Series is null || !Renderer.Series._isSeriesChanged;
             }
 
             _ = RefreshSeriesAsync();

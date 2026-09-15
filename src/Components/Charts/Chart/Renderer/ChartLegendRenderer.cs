@@ -1284,7 +1284,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
         /// </summary>
         internal void RefreshSeriesPosition()
         {
-            Owner?._seriesContainer?.Renderers.ForEach(renderer => (renderer as ChartSeriesRenderer ?? null!).Position = (((renderer as ChartSeriesRenderer ?? null!).Series?.Visible ?? false) && (!(renderer as ChartSeriesRenderer ?? null!).Series?.Renderer.IsStackingSeries() ?? false)) ? double.NaN : (renderer as ChartSeriesRenderer ?? null!).Position);
+            Owner?._seriesContainer?.Renderers.ForEach(renderer => (renderer as ChartSeriesRenderer ?? null!).Position = (((renderer as ChartSeriesRenderer ?? null!).Series?.Visible ?? false) && (!(renderer as ChartSeriesRenderer ?? null!).Series?.Renderer?.IsStackingSeries() ?? false)) ? double.NaN : (renderer as ChartSeriesRenderer ?? null!).Position);
         }
 
         /// <summary>

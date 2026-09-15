@@ -1127,7 +1127,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
         /// <param name="series">The series whose Y range is applied.</param>
         private void YAxisRange(ChartSeries series)
         {
-            FindMinMax(series.Renderer.YMin, series.Renderer.YMax);
+            FindMinMax(series.Renderer?.YMin ?? 0, series.Renderer?.YMax ?? 0);
         }
 
         /// <summary>

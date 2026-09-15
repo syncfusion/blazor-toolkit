@@ -96,7 +96,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
                 if (SetPointColor(point, previous, Series ?? null!, Series?.SegmentAxis == Segment.X, _segments))
                 {
                     _options.Add(new PathOptions(
-                        Owner?.ID + "_Series_" + Series?.Renderer.Index + "_Point_" + previous.Index,
+                        Owner?.ID + "_Series_" + Series?.Renderer?.Index + "_Point_" + previous.Index,
                         Direction.ToString(),
                         Series?.DashArray ?? string.Empty,
                         Series?.Width ?? 0,
@@ -157,7 +157,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
             }
 
             _options.Add(new PathOptions(
-                Owner?.ID + "_Series_" + Series?.Renderer.Index,
+                Owner?.ID + "_Series_" + Series?.Renderer?.Index,
                 Direction.ToString(),
                 Series?.DashArray ?? string.Empty,
                 Series?.Width ?? 0,

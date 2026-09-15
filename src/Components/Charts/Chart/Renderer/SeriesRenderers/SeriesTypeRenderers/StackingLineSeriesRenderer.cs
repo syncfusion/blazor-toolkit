@@ -120,7 +120,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
                 return;
             }
 
-            StackValues stackedValue = Series?.Renderer.StackedValues ?? null!;
+            StackValues stackedValue = Series?.Renderer?.StackedValues ?? null!;
             int segmentIndex = 0;
             for (int i = 0; i < visiblePoints.Count; i++)
             {

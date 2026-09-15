@@ -29,7 +29,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
 
             (double minRadius, double radius, double maximumSize) = CalculateRadiusAndSize();
 
-            List<Point> points = Series?.Renderer.Points ?? null!;
+            List<Point> points = Series?.Renderer?.Points ?? null!;
             foreach (BubblePoint bubblePoint in points.Cast<BubblePoint>())
             {
                 ProcessBubblePoint(bubblePoint, minRadius, radius, maximumSize);
@@ -55,7 +55,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
                 {
                     if (series.Type == ChartSeriesType.Bubble && series.Visible && (double.IsNaN(series.MaxRadius) || double.IsNaN(series.MinRadius)))
                     {
-                        maximumSize = series.Renderer.MaxSize > maximumSize ? series.Renderer.MaxSize : maximumSize;
+                        maximumSize = series.Renderer?.MaxSize > maximumSize ? series.Renderer.MaxSize : maximumSize;
                     }
                 }
 
@@ -64,7 +64,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
             }
             else
             {
-                maximumSize = Series?.Renderer.MaxSize ?? 0;
+                maximumSize = Series?.Renderer?.MaxSize ?? 0;
                 radius = maxRadius - minRadius;
             }
             return (minRadius, radius, maximumSize);
@@ -88,7 +88,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
                 ChartPoints[bubblePoint.Index].Regions = [];
             }
 
-            bool isPointInRange = ChartHelper.WithInRange(bubblePoint.Index - 1 > -1 ? Series?.Renderer.Points?[bubblePoint.Index - 1] ?? null! : null!, bubblePoint, bubblePoint.Index + 1 < Series?.Renderer.Points?.Count ? Series.Renderer.Points[bubblePoint.Index + 1] : null!, XAxisRenderer);
+            bool isPointInRange = ChartHelper.WithInRange(bubblePoint.Index - 1 > -1 ? Series?.Renderer?.Points?[bubblePoint.Index - 1] ?? null! : null!, bubblePoint, bubblePoint.Index + 1 < Series?.Renderer?.Points?.Count ? Series.Renderer.Points[bubblePoint.Index + 1] : null!, XAxisRenderer);
 
             if (bubblePoint.Visible && isPointInRange)
             {
@@ -186,7 +186,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
 
             PathOptions shapeOption = new()
             {
-                Id = Owner?.ID + "_Series_" + Series?.Renderer.Index + "_Point_" + bubblePoint.Index,
+                Id = Owner?.ID + "_Series_" + Series?.Renderer?.Index + "_Point_" + bubblePoint.Index,
                 Fill = argsData.Fill,
                 StrokeWidth = argsData.Border.Width,
                 Stroke = argsData.Border.Color,
@@ -364,7 +364,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
             {
                 X = chartPoint.X = ReflectionExtension.GetValueFromDynamicObject(dynamicObject, xName) ?? 0,
                 Y = chartPoint.Y = ReflectionExtension.GetValueFromDynamicObject(dynamicObject, yName) ?? 0,
-                Size = chartPoint.Size = !string.IsNullOrEmpty(size) ? ReflectionExtension.GetValueFromDynamicObject(dynamicObject, size) : null!,
+                Size = chartPoint.Size = !string.IsNullOrEmpty(size) ? ReflectionExtension.GetValueFromDynamicObject(dynamicObject, size) ?? null! : null!,
                 Interior = chartPoint.Interior = ChartHelper.GetDynamicStringValue(dynamicObject ?? null!, pointColor),
                 Text = chartPoint.Text = ChartHelper.GetDynamicStringValue(dynamicObject ?? null!, GetTextMapping()),
                 Tooltip = chartPoint.Tooltip = ChartHelper.GetDynamicStringValue(dynamicObject ?? null!, Series?.TooltipMappingName ?? null!)
@@ -676,7 +676,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
         /// <param name="point">The point to serialize and append.</param>
         internal override void GetChartData(Point point)
         {
-            _ = ChartData?.Append(JsonSerializer.Serialize(Series?.Renderer.ChartPoints?[point.Index] as IBubblePoint, _jsonOptions));
+            _ = ChartData?.Append(JsonSerializer.Serialize(Series?.Renderer?.ChartPoints?[point.Index] as IBubblePoint, _jsonOptions));
             _ = ChartData?.Append(',');
         }
 

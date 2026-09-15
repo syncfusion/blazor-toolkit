@@ -41,7 +41,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts
         [Parameter]
         public override string Color
         {
-            get => _color ?? base.Color;
+            get => _color ?? base.Color ?? string.Empty;
             set
             {
                 if (_color != value)

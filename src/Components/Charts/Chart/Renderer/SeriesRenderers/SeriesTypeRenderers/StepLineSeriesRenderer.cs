@@ -22,7 +22,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
             string startPoint = "M";
             Point prevPoint = null!;
             double lineLength = GetLineLength();
-            List<Point> visiblePoints = Series?.Renderer.Points ?? null!;
+            List<Point> visiblePoints = Series?.Renderer?.Points ?? null!;
 
             Direction = new System.Text.StringBuilder();
             ChartData = new System.Text.StringBuilder();
