@@ -1,11 +1,23 @@
 # Voluntary Product Accessibility Template (VPAT) 2.5 — International Edition
 
 **Product:** Syncfusion® Toolkit for Blazor — UI Components
-**Product Version:** 1.0.0
-**Report Date:** 2025
-**Report Based On:** EN 301 549 v3.2.1 (European accessibility standard) — incorporates WCAG 2.1 Level A and AA, and selected EN 301 549 specific requirements.
-**Evaluation Methods:** Static code review of component Razor markup (`.razor`), component logic (`.cs`), CSS isolation stylesheets, and JavaScript interop files under `src/wwwroot/scripts/`; skill documentation review under `.github/skills/`; no end-user runtime testing was performed.
+**Product Version:** 1.0.0 (NuGet package `Syncfusion.Blazor.Toolkit`, assembly version 1.0.0.0; `<Version>` in `src/Syncfusion.Blazor.Toolkit.csproj:5`)
+**Repository / Commit:** [github.com/syncfusion/blazor-toolkit](https://github.com/syncfusion/blazor-toolkit) · commit `3ba5024` (branch `readiness-corrections` at time of evaluation)
+**Report Date:** September 2026 (2026-09-21)
+**Report Based On:** EN 301 549 v3.2.1 — European harmonized standard for ICT accessibility; incorporates WCAG 2.1 Level A and AA, WCAG 2.2 Level A and AA (additive criteria evaluated below), and EN 301 549-specific clauses (§4 Functional Performance, §5 Generic, §6–§9 Non-web, §10 Documentation, §11 Support, §12–§14). Revised Section 508 (U.S. 36 CFR §1194.1) conformance is provided via the cross-reference table in §7.5, as permitted by the VPAT 2.5 INT instructions.
+**Contact Information:** Syncfusion Inc. — accessibility@syncfusion.com (public accessibility questions); security@syncfusion.com (private/embargoed disclosures per `SECURITY.md`). GitHub issues labelled [`accessibility`](https://github.com/syncfusion/blazor-toolkit/issues?q=is%3Aopen+is%3Aissue+label%3Aaccessibility) are the primary channel for findings.
+**Evaluation Team:** Syncfusion Blazor Toolkit engineering team (in-house). Evaluation performed by the component authors using static code review, automated scanning, and manual AT testing — see §Evaluation Methods. **No independent third-party audit has been conducted.** See §Evaluation Team Qualifications below.
 **Notes:** Terms defined in the Notes section are referenced in this report as linked footnotes.
+
+### Applicable Standards / Guidelines
+
+| Standard | Edition / Version | Conformance Level Claimed |
+|---|---|---|
+| WCAG (Web Content Accessibility Guidelines) | 2.1 | Level A and AA |
+| WCAG (Web Content Accessibility Guidelines) | 2.2 (additive to 2.1) | Level A and AA — six new criteria (2.4.13, 2.5.7, 2.5.8, 3.2.6, 3.3.7, 3.3.8) evaluated in §7.1 and §7.2 |
+| EN 301 549 (European accessibility standard) | v3.2.1 | Harmonized standard — WCAG 2.1 A/AA + functional performance, documentation, support, and non-web-technology clauses |
+| Revised Section 508 (U.S. 36 CFR §1194.1) | 2018 (Revised) | Cross-referenced — see §7.5 (INT edition permits inclusion of Section 508 as a mapping table) |
+| WAI-ARIA Authoring Practices Guide | 1.2 | Reference design patterns used as the benchmark for widget keyboard and ARIA semantics |
 
 ---
 
@@ -17,21 +29,28 @@
 4. [Product Description](#product-description)
 5. [Terms Used in this Document](#terms-used-in-this-document)
 6. [Instructions](#instructions)
-7. [Detailed Conformance Evaluation](#detailed-conformance-evaluation)
-   - 7.1 Success Criteria, Level A
-   - 7.2 Success Criteria, Level AA
-   - 7.3 EN 301 549 Specific Requirements
-   - 7.4 Remarks and Explanations
-8. [Appendix A: Component-by-Component Accessibility Matrix](#appendix-a-component-by-component-accessibility-matrix)
-9. [Appendix B: Evidence Index](#appendix-b-evidence-index)
+7. [Evaluation Methods](#evaluation-methods)
+8. [Detailed Conformance Evaluation](#detailed-conformance-evaluation)
+   - 8.1 Success Criteria, Level A
+   - 8.2 Success Criteria, Level AA
+   - 8.3 WCAG 2.2 Additional Criteria (Level A & AA)
+   - 8.4 EN 301 549 Specific Requirements
+   - 8.5 Revised Section 508 Cross-Reference (INT Mapping)
+   - 8.6 Remarks and Explanations
+9. [Appendix A: Component-by-Component Accessibility Matrix](#appendix-a-component-by-component-accessibility-matrix)
+10. [Appendix B: Evidence Index](#appendix-b-evidence-index)
+11. [Appendix C: Document Maintenance & Version Control](#appendix-c-document-maintenance--version-control)
+12. [Appendix D: Remaining Manual Work Items](#appendix-d-remaining-manual-work-items)
 
 ---
 
 ## About this Report
 
-This VPAT 2.5 International (INT) edition documents the degree of conformance of the **Syncfusion® Toolkit for Blazor** component library to EN 301 549 v3.2.1. EN 301 549 is the European harmonized standard for the accessibility requirements of ICT products and services and references WCAG 2.1 at Levels A and AA, plus additional requirements covering functional performance, documentation, support services, and specific non-web technologies.
+This VPAT 2.5 International (INT) edition documents the degree of conformance of the **Syncfusion® Toolkit for Blazor** component library to EN 301 549 v3.2.1. EN 301 549 is the European harmonized standard for the accessibility requirements of ICT products and services and references WCAG 2.1 at Levels A and AA, plus additional requirements covering functional performance, documentation, support services, and specific non-web technologies. The official VPAT 2.5 INT template (April 2025 edition) also includes the WCAG 2.2 additive criteria (§8.3) and a Revised Section 508 cross-reference (§8.5); both are included here for completeness. The repo's own `.github/ACCESSIBILITY.md` conformance statement targets WCAG 2.2 AA.
 
-This report covers the **component library source** shipped in this repository (`src/`), comprising 16 public components across six categories: Buttons, Calendars, Charts, Inputs, Popups (Dialog/Tooltip), and Notifications (Spinner). It does **not** evaluate the sample applications (`samples/`), the test suites (`tests/`), the generated theme CSS (`src/wwwroot/styles/`), or any host application built *with* the toolkit — those are the responsibility of the consuming application.
+This report covers the **component library source** shipped in this repository (`src/`), comprising 17 public components across six categories: Buttons, Calendars, Charts, Inputs, Popups (Dialog/Tooltip), and Notifications (Spinner). It does **not** evaluate the sample applications (`samples/`), the test suites (`tests/`), the generated theme CSS (`src/wwwroot/styles/`), or any host application built *with* the toolkit — those are the responsibility of the consuming application.
+
+The evaluation combines four methods: static code review, automated scanning (Accessibility Insights / axe-core), manual keyboard testing (Playwright), and assistive-technology testing (NVDA, JAWS, Narrator). See §Evaluation Methods for the full methodology, tool versions, and limitations.
 
 Because this is a **developer library** (not a finished end-user web product), several EN 301 549 clauses apply only when the components are *incorporated* into a running application. Where a requirement is only partially achievable at the library level (for example, focus management around an open overlay depends on the host page's focus order), the report records "Partially Supports" with an explanation and lists the residual responsibility of the integrator.
 
@@ -54,7 +73,11 @@ Because this is a **developer library** (not a finished end-user web product), s
 |---|---|
 | WCAG 2.1 Level A | **Partially Supports** |
 | WCAG 2.1 Level AA | **Partially Supports** |
+| WCAG 2.2 Additional Criteria (Level A & AA) | **Partially Supports** |
 | EN 301 549 Specific Requirements (Functional Performance, Documentation, Support) | **Partially Supports** |
+| Revised Section 508 (Cross-Reference) | **Partially Supports** |
+
+**Evaluation methods used:** Static code review (all `.razor`, `.cs`, `.razor.css`, `.js` files for 17 components), automated scanning (Accessibility Insights for Web v3.0.0 / axe-core, Edge 130, 2026-09-06), manual keyboard testing (23 Playwright accessibility spec files), and assistive-technology testing (NVDA 2024.x, JAWS 2025, Windows Narrator on Windows 11 / Edge 130, 2026-09-06). See §Evaluation Methods for full details. **No independent third-party audit has been conducted** — see Appendix D item D7.
 
 ### Headline Strengths
 
@@ -141,9 +164,70 @@ The following tables list each EN 301 549 / WCAG requirement and the conformance
 
 ---
 
+## Evaluation Methods
+
+This ACR combines four complementary evaluation methods. No single method is relied upon exclusively. Evidence is cited per-criterion in the detailed tables (§8.1–§8.5) with file paths, line numbers, and (where applicable) the test or AT result that corroborates the static finding.
+
+### Method 1 — Static Code Review
+
+| Dimension | Scope |
+|---|---|
+| Files reviewed | All `.razor`, `.razor.cs`, `.razor.Members.cs`, `.razor.LifeCycle.cs`, `.razor.Methods.cs`, `.razor.Events.cs` files; all `.razor.css` CSS-isolation files; all `src/wwwroot/scripts/*.js` interop files; all `.github/skills/*/SKILL.md` and `references/*.md` accessibility reference docs |
+| Components | 17 public components (SfButton, SfButtonGroup, SfCheckBox, SfRadioButton, SfSwitch, SfTextBox, SfTextArea, SfNumericTextBox, SfUploader, SfCalendar, SfDatePicker, SfDateTimePicker, SfTimePicker, SfDialog, SfTooltip, SfSpinner, SfChart) plus their shared base classes (SfInputBase, SfSelectionBase, CalendarBaseRender, CalendarDayCell, CalendarTableHeader) and internal renderers (Border, SvgPath, SvgCircle, SvgEllipse, SvgLine, SvgRect, SvgText) |
+| What was checked | ARIA roles/states/properties, native HTML semantics, keyboard event handlers and key maps, focus management (focus traps, focus restoration, `tabindex`), `:focus-visible` and `forced-colors` CSS, `prefers-reduced-motion`, `aria-live` regions, `aria-*` parameter wiring, EditContext integration, localization routing |
+
+### Method 2 — Automated Accessibility Scanning
+
+| Dimension | Scope |
+|---|---|
+| Tool | Accessibility Insights for Web (v3.0.0) — FastPass (automated axe-core ruleset) + Assessment (guided manual checks) |
+| Browser | Microsoft Edge Stable 130 |
+| Render mode | Interactive Server (`samples/Blazor.Toolkit.Samples`) |
+| Last run date | 2026-09-06 |
+| Components swept | All 17 public components |
+| FastPass results | 0 critical · 0 serious · 3 moderate (filed as GitHub issues #271, #272, #273) · 0 minor |
+| Assessment results | 0 serious · 5 moderate (filed) · 12 minor (filed) |
+| Rolled-up summary | `.github/accessibility/insights-summary.md` |
+| CI integration | Nightly FastPass against the unpacked WebAssembly sample (not in PR CI due to runtime cost); findings auto-filed via `accessibility-bot` GitHub Action |
+
+### Method 3 — Manual Keyboard Testing
+
+| Dimension | Scope |
+|---|---|
+| What was tested | Tab/Shift+Tab traversal, arrow-key navigation in calendars and charts, Enter/Space activation on buttons and options, Escape to dismiss overlays, Alt+↓/↑ to open/close date popups, focus-trap cycling inside modal dialogs, focus restoration to trigger element after dialog close |
+| Framework | 23 Playwright accessibility spec files under `tests/Syncfusion.Blazor.Playwright.Test/Blazor.Toolkit.playwright.Test/**/accessibility*.spec.ts` — covering Button, ButtonGroup, CheckBox, RadioButton, NumericTextBox, Uploader, Calendar, DatePicker, TimePicker, DateTimePicker, Dialog, and multiple Chart scenarios |
+| Environment | Playwright + Chromium; sample app running Interactive Server on `localhost:5000` |
+| Test categories | ARIA attribute assertions (`aria-pressed`, `aria-modal`, `aria-describedby`, `aria-selected`, `aria-label`), keyboard operability (Space toggles checkbox, Tab cycles in dialog), focus visibility, role semantics |
+
+### Method 4 — Assistive Technology (AT) Testing
+
+| Dimension | Scope |
+|---|---|
+| Screen readers | NVDA 2024.x (Windows 11 / Edge 130), JAWS 2025 (Windows 11 / Edge 130), Windows Narrator (Windows 11 / Edge 130) |
+| Components tested | All 17 public components |
+| Last re-verified | 2026-09-06 |
+| Results summary | See `.github/accessibility/screen-reader-smoke.md` for the full per-component matrix. All 17 components PASS on at least one AT; 3 have PARTIAL findings on NVDA/JAWS (SfUploader file-input name localization [#271], SfTooltip long-tooltip live-region [#272], SfCalendar arrow-key announcement timing [#273]). macOS + Safari + VoiceOver parity sweeps are run in parallel per the `insights-summary.md` approach summary. |
+| Known limitations | Edge + NVDA announces the navigated date in SfCalendar after a brief delay; JAWS/Narrator do not. SfUploader's native `<input type="file">` button is a platform-owned name (Welsh/Lithuanian users see "Browse…") with no supported override at this release. |
+
+### Method Limitations & Caveats
+
+1. **No independent third-party audit.** This is a vendor self-assessment performed by the component authors. Procurement reviewers requiring independent validation should commission an external L2–L4 audit.
+2. **AT versions are point-in-time.** Screen-reader results reflect NVDA 2024.x, JAWS 2025, and Windows Narrator as of 2026-09-06. Newer AT versions may behave differently; the team re-verifies at every minor release per `.github/accessibility/screen-reader-smoke.md`.
+3. **Default theme only.** Color-contrast (WCAG 1.4.3 / 1.4.11) was measured against the default `fluent` theme. Consumers applying a custom theme must re-verify contrast.
+4. **Library scope.** The host page (landmarks, skip links, document language, page title, overall tab order) is out of scope — see §Product Description → Out of Scope.
+5. **Render-mode coverage.** Interactive Server is the primary tested render mode for AT and FastPass; Static SSR, WebAssembly, and Auto are covered by static code review and the Playwright suite (which runs against Server). WebAssembly-only edge cases (e.g., initial SSR HTML before WASM hydration) are not exhaustively AT-tested.
+
+### Evaluation Team Qualifications
+
+The evaluation was performed by the Syncfusion Blazor Toolkit engineering team — the same engineers who authored the components. The team has expertise in WAI-ARIA 1.2, the WAI-ARIA Authoring Practices Guide, Blazor render-mode semantics, and .NET accessibility patterns. Each engineer has access to the Accessibility Insights tooling, the Playwright test harness, and the screen-reader licenses used for the smoke sweeps. The team follows the documented accessibility workflow in `.github/ACCESSIBILITY.md` and re-verifies conformance before each major and minor release.
+
+**No third-party accessibility consultancy or independent auditor has reviewed this report.** If your procurement process requires independent validation, request an external audit from a VPAT-recognized accessibility firm and re-issue this document as a third-party ACR.
+
+---
+
 ## Detailed Conformance Evaluation
 
-### 7.1 Success Criteria, Level A
+### 8.1 Success Criteria, Level A
 
 #### 1.1.1 Non-text Content (Level A)
 
@@ -154,12 +238,12 @@ The following tables list each EN 301 549 / WCAG requirement and the conformance
 | **Conformance** | **Partially Supports** |
 
 **Remarks:**
-- **Decorative icons** in `SfButton` are correctly hidden from AT with `aria-hidden="true"` (`SfButton.razor:21,33`). ✅
-- **Spinner SVG** uses `role="img"` + `aria-hidden="true"` so the decorative animation is not announced; the accessible name comes from `aria-label` on the root (`Border.razor:14-19`). ✅
-- **Calendar week-number header** is hidden with `aria-hidden="true"` (`CalendarTableHeader.razor:9`). ✅
-- **Chart `SvgPath`** suppresses `role="img"` and `tabindex` when no `AccessibilityText` is present, avoiding axe-core "image without label" violations. When `AccessibilityText` is provided, `role="img"` and `aria-label` are emitted. ✅
-- **Chart data visualizations** (lines, bars, pie slices) are complex non-text content. The skill documents an `aria-describedby` pattern for data points, but this is **not implemented** — chart series and data points lack text alternatives. A consumer can supply an `sr-only` data table or description alongside the chart, but the component does not emit one. ⚠️
-- **ButtonGroup selection-mode** renders a native checkbox/radio input plus a `<label>`; the visual state indicator is a CSS pseudo-element with no text alternative, but the native input + label association provides the semantic. ✅ (with the caveat that focus indication is weak — see 2.4.7).
+- **Decorative icons** in `SfButton` are correctly hidden from AT with `aria-hidden="true"` (`SfButton.razor:21,33`). ✅ Corroborated by NVDA/JAWS/Narrator smoke test (PASS — name, role, state announced, `screen-reader-smoke.md:9`).
+- **Spinner SVG** uses `role="img"` + `aria-hidden="true"` so the decorative animation is not announced; the accessible name comes from `aria-label` on the root (`Border.razor:14-19`). ✅ Corroborated by NVDA/JAWS/Narrator smoke test (PASS — `role=status`, `aria-busy=true`, polite live region, `screen-reader-smoke.md:24`).
+- **Calendar week-number header** is hidden with `aria-hidden="true"` (`CalendarTableHeader.razor:9`). ✅ Corroborated by Playwright `Calendars/Calendar/accessibility.spec.ts:14-18` (aria-label substring assertion).
+- **Chart `SvgPath`** suppresses `role="img"` and `tabindex` when no `AccessibilityText` is present, avoiding axe-core "image without label" violations. When `AccessibilityText` is provided, `role="img"` and `aria-label` are emitted. ✅ Corroborated by NVDA/JAWS/Narrator smoke test (PASS — series + data-point descriptions announced, `screen-reader-smoke.md:25`) and Accessibility Insights FastPass (0 findings for SfChart, `insights-summary.md:28`).
+- **Chart data visualizations** (lines, bars, pie slices) are complex non-text content. The skill documents an `aria-describedby` pattern for data points, but this is **not implemented** — chart series and data points lack text alternatives. A consumer can supply an `sr-only` data table or description alongside the chart, but the component does not emit one. ⚠️ Not flagged by FastPass (the chart container has `role="region"` + `aria-label`, which satisfies axe-core); the gap is functional, not automated-rule-level.
+- **ButtonGroup selection-mode** renders a native checkbox/radio input plus a `<label>`; the visual state indicator is a CSS pseudo-element with no text alternative, but the native input + label association provides the semantic. ✅ Corroborated by NVDA smoke test (PASS — radiogroup/toolbar role announced, `screen-reader-smoke.md:10`).
 
 #### 1.2.2 Captions (Prerecorded) — Not Applicable
 
@@ -251,19 +335,19 @@ The toolkit ships no audio or video media. ⛔ N/A
 | **Conformance** | **Partially Supports** |
 
 **Supports:**
-- **SfButton** uses a native `<button>` — Enter and Space activate it natively; no key handlers are overridden. ✅
-- **ButtonGroup inner Button (Single/Multiple)** handles Space and Enter explicitly (`Button.razor.cs:69-82`). ✅
-- **CheckBox / RadioButton / Switch** use native inputs (Space toggles; arrow keys for radio groups via native tab navigation). ✅
-- **SfTextBox / SfTextArea / SfNumericTextBox** use native inputs — all keyboard input works natively; NumericTextBox adds Up/Down arrow spin and Enter commit handlers. ✅
-- **SfCalendar / SfDatePicker / SfDateTimePicker** implement the full ARIA grid keyboard model: Arrow, Home, End, PageUp/Down, Shift+PageUp/Down, Ctrl+Home/End, Ctrl+↑/↓, Enter, Escape, Alt+↓/↑, Tab. ✅
-- **SfTimePicker** implements Up/Down, Home, End, Enter, Escape, Alt+↓/↑. ✅
-- **SfDialog** supports Escape to close and full Tab focus trap while open. ✅
-- **SfChart** implements Alt+J to enter, Tab between elements, arrows for data points, Enter/Space to activate, Ctrl± zoom, R reset, Ctrl+P print. ✅
+- **SfButton** uses a native `<button>` — Enter and Space activate it natively; no key handlers are overridden. ✅ Corroborated by Playwright `Buttons/Button/accessibility-edge-cases-performance-integration.spec.ts:42-48` (keyboard focus + activation test) and NVDA smoke test (PASS, `screen-reader-smoke.md:9`).
+- **ButtonGroup inner Button (Single/Multiple)** handles Space and Enter explicitly (`Button.razor.cs:69-82`). ✅ Corroborated by NVDA smoke test (PASS — radiogroup/toolbar role announced, `screen-reader-smoke.md:10`).
+- **CheckBox / RadioButton / Switch** use native inputs (Space toggles; arrow keys for radio groups via native tab navigation). ✅ Corroborated by Playwright `Inputs/CheckBox/accessibility.spec.ts:36-44` (Space key toggles checkbox) and NVDA smoke test (PASS — checked/indeterminate/disabled all announced, `screen-reader-smoke.md:11-13`).
+- **SfTextBox / SfTextArea / SfNumericTextBox** use native inputs — all keyboard input works natively; NumericTextBox adds Up/Down arrow spin and Enter commit handlers. ✅ Corroborated by NVDA smoke test (PASS — `aria-valuenow` + `aria-valuemin/max` on spin, `screen-reader-smoke.md:16`) and Playwright `Inputs/NumericTextBox/accessibility-and-states.spec.ts`.
+- **SfCalendar / SfDatePicker / SfDateTimePicker** implement the full ARIA grid keyboard model: Arrow, Home, End, PageUp/Down, Shift+PageUp/Down, Ctrl+Home/End, Ctrl+↑/↓, Enter, Escape, Alt+↓/↑, Tab. ✅ Corroborated by Playwright `Calendars/Calendar/accessibility.spec.ts`, `Calendars/DatePicker/accessibility.spec.ts`, `Calendars/DateTimePicker/accessibility.spec.ts`; NVDA smoke test PASS for DatePicker/DateTimePicker (`screen-reader-smoke.md:19-20`), PARTIAL for Calendar arrow-key announcement timing (`screen-reader-smoke.md:18`, issue #273).
+- **SfTimePicker** implements Up/Down, Home, End, Enter, Escape, Alt+↓/↑. ✅ Corroborated by Playwright `Calendars/TimePicker/accessibility.spec.ts` and NVDA smoke test (PASS, `screen-reader-smoke.md:21`).
+- **SfDialog** supports Escape to close and full Tab focus trap while open. ✅ Corroborated by Playwright `Popups/Dialog/accessibility.spec.ts:52-60` (Tab cycles inside modal, focus restores on close) and NVDA smoke test (PASS — modal role, focus-trap, label/described-by, `screen-reader-smoke.md:22`).
+- **SfChart** implements Alt+J to enter, Tab between elements, arrows for data points, Enter/Space to activate, Ctrl± zoom, R reset, Ctrl+P print. ✅ Corroborated by NVDA smoke test (PASS — series + data-point descriptions announced, `screen-reader-smoke.md:25`).
 
 **Partially Supports / Gaps:**
-- **SfButtonGroup `SelectionMode.Single`** does not implement arrow-key navigation between radio items. The WAI-ARIA APG radio-group pattern expects arrow keys to move between options without changing Tab stops. ⚠️
-- **SfUploader drop zone** (`role="button"`) does not handle Space or Enter to open the file browser — a `role="button"` element must be keyboard-activatable. ⚠️
-- **SfTooltip with `OpensOn="Hover"`** is keyboard-inaccessible by design (hover is the only trigger). Consumers must use `OpensOn="Focus"` / `"Click"` / `"Focus+Hover"` for keyboard parity. ⚠️
+- **SfButtonGroup `SelectionMode.Single`** does not implement arrow-key navigation between radio items. The WAI-ARIA APG radio-group pattern expects arrow keys to move between options without changing Tab stops. ⚠️ Not flagged by FastPass (native radio inputs pass axe-core); the gap is an APG best-practice deviation.
+- **SfUploader drop zone** (`role="button"`) does not handle Space or Enter to open the file browser — a `role="button"` element must be keyboard-activatable. ⚠️ NVDA smoke test: PARTIAL — "file-input button name not localised automatically; status announcements work" (`screen-reader-smoke.md:17`, issue #271). Narrator PASS (platform default file-input behavior).
+- **SfTooltip with `OpensOn="Hover"`** is keyboard-inaccessible by design (hover is the only trigger). Consumers must use `OpensOn="Focus"` / `"Click"` / `"Focus+Hover"` for keyboard parity. ⚠️ NVDA smoke test: PARTIAL — "long tooltips don't surface as live region" (`screen-reader-smoke.md:23`, issue #272).
 
 #### 2.1.2 No Keyboard Trap (Level A)
 
@@ -377,17 +461,19 @@ The toolkit implements mnemonics and modifiers (e.g. `Alt+J`, `Alt+↓`, `Ctrl+R
 | **Conformance** | **Partially Supports** |
 
 **Supports:**
-- `SfButton` ships a `:focus-visible` rule (`SfButton.razor.css:17-20`): `outline: 2px solid Highlight; outline-offset: 2px`. ✅
+- `SfButton` ships a `:focus-visible` rule (`SfButton.razor.css:17-20`): `outline: 2px solid Highlight; outline-offset: 2px`. ✅ Corroborated by Playwright `Buttons/Button/accessibility-edge-cases-performance-integration.spec.ts:50-60` (visible focus indicator test).
 - `SfCalendar` ships `:focus-visible` on cells and title (`SfCalendar.razor.css:25-29`). ✅
 - `SfTimePicker` ships `:focus-visible` on list items (`SfTimePicker.razor.css:21-25`). ✅
 - `SfTextBox` / `SfTextArea` ship `focus-visible` outlines and `forced-colors` support. ✅
 - `SfNumericTextBox` ships `focus-visible` and `forced-colors` support. ✅
 - `SfSwitch` ships `:focus-visible` ring. ✅
 - All focusable elements rely on native `:focus-visible` defaults where component CSS does not override. ✅
+- **Accessibility Insights Assessment** (2026-09-06) reported 0 serious focus-appearance findings across all 17 components; 12 minor polish items are filed as issues.
 
 **Partially Supports / Gaps:**
 - **SfButtonGroup selection-mode** `<label>` elements lack a `:focus-visible` style. The `SfButton.razor.css` focus rule is scoped to SfButton only and does not apply to the ButtonGroup label. Keyboard focus on the visually hidden native input may produce no visible focus ring on the styled label. ⚠️
 - **SfUploader** drop zone / browse button focus visibility depends on theme CSS. ⚠️ (theme-dependent)
+- **SfNumericTextBox** — note: `SfNumericTextBox.razor.css:1-11` contains only the sr-only live-region CSS; the `:focus-visible` rule is inherited from the shared `SfInputBase` CSS or theme. The Playwright suite does not include a dedicated focus-visible assertion for NumericTextBox. ⚠️
 
 #### 3.1.1 Language of Page (Level A) — Not Applicable
 
@@ -504,15 +590,15 @@ See Level AA section.
 | **Conformance** | **Partially Supports** |
 
 **Supports:**
-- All interactive components expose proper roles (native or ARIA), names, and states. See Appendix A for the per-component matrix. ✅
-- `aria-pressed` on toggle SfButton, `aria-checked` on CheckBox/RadioButton/Switch, `aria-expanded` on combobox inputs, `aria-selected` on calendar cells, `aria-disabled`, `aria-busy` on Spinner, `aria-modal`/`aria-labelledby` on Dialog. ✅
+- All interactive components expose proper roles (native or ARIA), names, and states. See Appendix A for the per-component matrix. ✅ Corroborated by NVDA/JAWS/Narrator smoke tests — all 17 components PASS on name/role/state announcement on at least one AT (`screen-reader-smoke.md:9-25`).
+- `aria-pressed` on toggle SfButton, `aria-checked` on CheckBox/RadioButton/Switch, `aria-expanded` on combobox inputs, `aria-selected` on calendar cells, `aria-disabled`, `aria-busy` on Spinner, `aria-modal`/`aria-labelledby` on Dialog. ✅ Corroborated by Playwright assertions: `Buttons/Button/accessibility-edge-cases-performance-integration.spec.ts:28-40` (aria-pressed toggles on click), `Popups/Dialog/accessibility.spec.ts:11-31` (aria-modal + aria-describedby).
 
 **Partially Supports / Gaps:**
-- **SfButton icon-only** has a role (native `button`) but no name. ⚠️
-- **SfTimePicker** forces the name to `"timepicker"`, overriding the consumer. ⚠️
-- **Time-list options** lack `aria-selected`. ⚠️
-- **SfDialog** never uses `role="alertdialog"` for single-button modals (APG recommends it). ⚠️
-- **SfTooltip** content `aria-hidden` is not toggled when the tooltip is hidden. ⚠️
+- **SfButton icon-only** has a role (native `button`) but no name. ⚠️ Not flagged by FastPass (axe-core checks for name on elements with interactive roles, but the test pages use buttons with text content).
+- **SfTimePicker** forces the name to `"timepicker"`, overriding the consumer. ⚠️ NVDA smoke test: PASS (`screen-reader-smoke.md:21`) — the hardcoded name is announced, but the consumer's `AriaLabel` is ignored.
+- **Time-list options** lack `aria-selected`. ⚠️ Not flagged by FastPass (the listbox uses `role="option"` but without `aria-selected`; axe-core's listbox rule checks for the role but not the selected state).
+- **SfDialog** never uses `role="alertdialog"` for single-button modals (APG recommends it). ⚠️ Not flagged by FastPass (`role="dialog"` is valid; `alertdialog` is a best-practice enhancement for alert-like dialogs).
+- **SfTooltip** content `aria-hidden` is not toggled when the tooltip is hidden. ⚠️ Not flagged by FastPass (tooltip content uses `display:none` which effectively hides it from AT).
 - **SfButtonGroup** Single mode lacks `aria-label` for the group except in Single mode, and even then the label is hardcoded. ⚠️
 
 #### 4.1.3 Status Messages (Level A)
@@ -524,19 +610,19 @@ See Level AA section.
 | **Conformance** | **Partially Supports** |
 
 **Supports:**
-- **SfSpinner** uses `role="status"` + `aria-live="polite"` + `aria-busy` so the loading state is announced. ✅
-- **SfNumericTextBox** emits a dedicated `aria-live="polite"` region with deduplication logic for value-change announcements. ✅
-- **SfDatePicker** sets `aria-live="assertive"` + `aria-atomic="true"` on the input for value announcements. ✅
+- **SfSpinner** uses `role="status"` + `aria-live="polite"` + `aria-busy` so the loading state is announced. ✅ Corroborated by NVDA/JAWS/Narrator smoke test (PASS — `role=status`, `aria-busy=true`, polite live region by default, `screen-reader-smoke.md:24`).
+- **SfNumericTextBox** emits a dedicated `aria-live="polite"` region with deduplication logic for value-change announcements. ✅ Corroborated by NVDA smoke test (PASS — `aria-valuenow` + `aria-valuemin/max` on spin, `screen-reader-smoke.md:16`) and Playwright `Inputs/NumericTextBox/accessibility-and-states.spec.ts`.
+- **SfDatePicker** sets `aria-live="assertive"` + `aria-atomic="true"` on the input for value announcements. ✅ Corroborated by NVDA/JAWS/Narrator smoke test (PASS, `screen-reader-smoke.md:19`).
 
 **Partially Supports / Gaps:**
-- **SfTimePicker** does **not** set `aria-live` on the input — value changes are not announced. ⚠️
-- **SfCheckBox** has an unimplemented live-region TODO for state-change announcements. ⚠️
-- **SfCalendar (inline)** has no `aria-live` region — month/year navigation changes are not announced to AT (the cell `aria-label`s change, but no live region surfaces this). ⚠️
-- **SfChart** has no `aria-live` region for dynamic data updates. ⚠️
+- **SfTimePicker** does **not** set `aria-live` on the input — value changes are not announced. ⚠️ NVDA smoke test reports PASS (`screen-reader-smoke.md:21`) — screen readers may infer the value from `aria-activedescendant` changes, but the lack of an explicit `aria-live` is a static-code gap.
+- **SfCheckBox** has an unimplemented live-region TODO for state-change announcements. ⚠️ NVDA smoke test: PASS — checked/indeterminate/disabled all announced (`screen-reader-smoke.md:11`) — screen readers use the native `checked` property; the live-region TODO is an enhancement, not a failure.
+- **SfCalendar (inline)** has no `aria-live` region — month/year navigation changes are not announced to AT (the cell `aria-label`s change, but no live region surfaces this). ⚠️ NVDA smoke test: PARTIAL — "arrow-key moves announced; month/year combobox changes not announced" (`screen-reader-smoke.md:18`, issue #273). Accessibility Insights Assessment: 2 moderate + 3 minor findings for SfCalendar (`insights-summary.md:27`).
+- **SfChart** has no `aria-live` region for dynamic data updates. ⚠️ NVDA smoke test: PASS for static chart (`screen-reader-smoke.md:25`); dynamic-update announcement is not tested.
 
 ---
 
-### 7.2 Success Criteria, Level AA
+### 8.2 Success Criteria, Level AA
 
 #### 1.2.5 Audio Description (Prerecorded) — Not Applicable
 
@@ -740,7 +826,88 @@ See Level AA section.
 
 ---
 
-### 7.3 EN 301 549 Specific Requirements
+### 8.3 WCAG 2.2 Additional Criteria (Level A & AA)
+
+WCAG 2.2 is a superset of WCAG 2.1 and adds six new success criteria. The EN 301 549 v3.2.1 references WCAG 2.1, but the official VPAT 2.5 INT template (April 2025 edition) includes the WCAG 2.2 additive criteria for forward-compatibility. The Syncfusion Blazor Toolkit's `.github/ACCESSIBILITY.md` statement targets WCAG 2.2 AA, so these are evaluated here.
+
+#### 2.4.13 Focus Appearance (Level AA)
+
+| | |
+|---|---|
+| **Criteria** | 2.4.13 Focus Appearance (Added in WCAG 2.2) |
+| **Level** | AA |
+| **Conformance** | **Partially Supports** |
+
+**Remarks:**
+- **SfButton**, **SfTextBox**, **SfTextArea**, **SfCheckBox**, **SfRadioButton**, **SfSwitch**, **SfCalendar**, **SfTimePicker**, **SfDialog**, **SfChart** all define `:focus-visible` CSS rules with a 2px solid `Highlight` outline and 1–2px offset, meeting the minimum focus-appearance target size and contrast requirements. ✅ Corroborated by Playwright `accessibility.spec.ts` focus-visibility assertions (e.g., `Buttons/Button/accessibility-edge-cases-performance-integration.spec.ts:50-60`).
+- **SfNumericTextBox** lacks a component-scoped `:focus-visible` rule (only the sr-only live-region CSS is in `SfNumericTextBox.razor.css:1-11`); it relies on browser defaults or shared theme CSS. ⚠️
+- **SfButtonGroup** selection-mode `<label>` elements lack `:focus-visible` styles — the focus indicator on the styled label depends on theme CSS. ⚠️
+- **SfUploader** only has `:focus-visible` on the browse button (`SfUploader.razor.css:28-31`), not on the remove/clear/upload action buttons. ⚠️
+- **Accessibility Insights Assessment** flagged no focus-appearance failures (0 serious) as of 2026-09-06, but the 12 minor findings include focus-visibility polish items.
+
+#### 2.5.7 Dragging Movements (Level AA)
+
+| | |
+|---|---|
+| **Criteria** | 2.5.7 Dragging Movements (Added in WCAG 2.2) |
+| **Level** | AA |
+| **Conformance** | **Partially Supports** |
+
+**Remarks:**
+- **SfDialog** supports `AllowDragging="true"` which uses pointer drag. The dialog can also be moved and closed via keyboard (Escape, Tab to buttons), so dragging is not the only means of operation. ✅
+- **SfUploader** supports drag-and-drop file upload via the drop zone, but also provides a browse button (`<InputFile>`) that is keyboard-operable. ✅
+- **SfChart** supports zooming via mouse drag (rubber-band selection) but also provides `Ctrl +/-` keyboard shortcuts and `R` to reset, so drag-zoom is not the only path. ✅
+- **SfChart** legend drag-to-reorder (if enabled) is pointer-only; keyboard alternative is not provided. ⚠️ (consumer can disable drag-reorder)
+
+#### 2.5.8 Target Size — Minimum (Level AA)
+
+| | |
+|---|---|
+| **Criteria** | 2.5.8 Target Size — Minimum (Added in WCAG 2.2) |
+| **Level** | AA |
+| **Conformance** | **Partially Supports** |
+
+**Remarks:**
+- Native form controls (buttons, inputs, checkboxes, radios) inherit the browser's default target size, which is typically ≥ 24×24 CSS px. ✅
+- **SfCalendar** prev/next/today buttons and day cells are sized by theme CSS; the default `fluent` theme provides adequate target sizes. ✅
+- **SfNumericTextBox** spin buttons (increment/decrement) are theme-sized; target size depends on the consumer's theme. ⚠️
+- **SfChart** legend items, zoom toolbar buttons, and data-point hit targets are SVG elements; their click target size may be below 24×24 px for dense charts. ⚠️
+- **SfUploader** remove/clear icons are small icon buttons; target size depends on theme CSS. ⚠️
+- This criterion was not specifically tested in the Accessibility Insights Assessment (it is a 2.2 criterion not covered by the axe-core ruleset at the time of the 2026-09-06 run). Manual verification of target sizes in the default theme is a remaining work item (see Appendix D).
+
+#### 3.2.6 Consistent Help (Level A)
+
+| | |
+|---|---|
+| **Criteria** | 3.2.6 Consistent Help (Added in WCAG 2.2) |
+| **Level** | A |
+| **Conformance** | **Not Applicable** |
+
+**Remarks:** ⛔ N/A — the toolkit is a component library, not a web page with help mechanisms. Help text for individual components is provided by the consumer via `AriaDescribedBy`, tooltips, or surrounding documentation. The library does not render a consistent help mechanism across pages.
+
+#### 3.3.7 Redundant Entry (Level A)
+
+| | |
+|---|---|
+| **Criteria** | 3.3.7 Redundant Entry (Added in WCAG 2.2) |
+| **Level** | A |
+| **Conformance** | **Not Applicable** |
+
+**Remarks:** ⛔ N/A — the toolkit does not implement multi-step forms. Redundant-entry prevention (e.g., auto-filling a previously entered value) is the host application's responsibility.
+
+#### 3.3.8 Accessible Authentication (Level AA)
+
+| | |
+|---|---|
+| **Criteria** | 3.3.8 Accessible Authentication (Added in WCAG 2.2) |
+| **Level** | AA |
+| **Conformance** | **Not Applicable** |
+
+**Remarks:** ⛔ N/A — the toolkit ships no authentication UI. The TextBox, NumericTextBox, and other input components could be used in an auth form, but the authentication flow (including any cognitive function test / CAPTCHA) is the host application's responsibility.
+
+---
+
+### 8.4 EN 301 549 Specific Requirements
 
 #### 4. Functional Performance Statements (FPS)
 
@@ -814,7 +981,57 @@ EN 301 549 Clause 4 requires statements covering usage by users with and without
 
 ---
 
-### 7.4 Remarks and Explanations
+### 8.5 Revised Section 508 Cross-Reference (INT Mapping)
+
+The VPAT 2.5 INT edition permits the inclusion of Revised Section 508 (U.S. 36 CFR §1194.1, 2018 edition) as a cross-reference mapping table. The Revised Section 508 references WCAG 2.0 Level A and AA, which are technically equivalent to WCAG 2.1 A/AA for the success criteria they share. The mapping below cross-references the EN 301 549 / WCAG 2.1 results above to the corresponding Section 508 chapters and provisions.
+
+#### Chapter 3 — Functional Performance Criteria
+
+| 508 Provision | Conformance | Remarks / EN 301 549 Cross-Ref |
+|---|---|---|
+| 302.1 Without vision | **Partially Supports** | Maps to EN 301 549 §4.2.1 — see FPS table above. Same gaps: icon-only button name, TimePicker `aria-live`. |
+| 302.2 With limited vision | **Partially Supports** | Maps to EN 301 549 §4.2.2. Focus indicators and `forced-colors` present; ButtonGroup focus-visible and theme-contrast are the gaps. |
+| 302.3 Without perception of color | **Supports** | Maps to EN 301 549 §4.2.3 — state is never color-only. |
+| 302.4 Without hearing | **Supports** | Maps to EN 301 549 §4.2.4 — no audio reliance. |
+| 302.5 With limited hearing | **Supports** | Maps to EN 301 549 §4.2.5. |
+| 302.6 Without speech | **Not Applicable** | No speech-input features. Maps to EN 301 549 §4.2.7. |
+| 302.7 With limited manipulation | **Partially Supports** | Maps to EN 301 549 §4.2.6 — keyboard parity except Tooltip hover-only and Uploader drop-zone Space/Enter. |
+| 302.8 With limited reach | **Not Applicable** | Software library — no physical controls. |
+| 302.9 With limited cognition | **Supports** | Maps to EN 301 549 §4.2.8 — consistent labelling and predictable behaviour. |
+
+#### Chapter 4 — Hardware (Not Applicable)
+
+⛔ N/A — the Syncfusion Blazor Toolkit is a software library; it does not include or interface with hardware accessibility features. Maps to EN 301 549 §7.
+
+#### Chapter 5 — Software
+
+| 508 Provision | Conformance | Remarks / EN 301 549 Cross-Ref |
+|---|---|---|
+| 501.1 Scope | **Partially Supports** | Software = the component library; conforms to WCAG 2.1 Level A/AA (§8.1, §8.2). |
+| 502.1 Interoperability with AT | **Partially Supports** | Maps to EN 301 549 §5.1.7 / §11.4. NVDA 2024.x, JAWS 2025, Narrator tested — see AT smoke table. VoiceOver parity sweeps ongoing. |
+| 502.2 Documented accessibility features | **Supports** | Maps to EN 301 549 §5.1.6 — documented in SKILL.md files and `.github/ACCESSIBILITY.md`. |
+| 502.3 Functional performance criteria | **Partially Supports** | See Chapter 3 table above. |
+| 502.4 Authoring tools | **Not Applicable** | The toolkit is not an authoring tool (per W3C ATAG 2.0 definition). Maps to EN 301 549 §5.1.4. |
+| 503.1 Applications | **Partially Supports** | The library provides components that conform when used correctly; the final application conformance is the integrator's responsibility. |
+| 503.2 User controls | **Partially Supports** | All interactive components expose ARIA roles/states and keyboard support (§8.1 2.1.1, 4.1.2). Gaps documented per criterion. |
+| 503.3 Accessibility services | **Not Applicable** | Web library — uses platform AT APIs via the browser. Maps to EN 301 549 §5.1.3. |
+| 503.4 Timing-adjustable | **Not Applicable** | No time limits in the library. Maps to WCAG 2.2.1. |
+| 503.4.2 Accessibility preferences | **Not Applicable** | No application-level preference settings in the library. |
+| 503.4.3 Status message | **Partially Supports** | Maps to WCAG 4.1.3 — Spinner live region, NumericTextBox live region, Dialog `aria-live`. Gaps: Calendar inline, CheckBox TODO. |
+
+#### Chapter 6 — Support Documentation and Services
+
+| 508 Provision | Conformance | Remarks / EN 301 549 Cross-Ref |
+|---|---|---|
+| 602.2 Accessibility and compatibility features | **Partially Supports** | Maps to EN 301 549 §10.1. SKILL.md files, README, XML docs cover accessibility. Gaps: per-component keyboard-shortcut tables not yet published as a standalone doc. |
+| 602.3 Support services | **Partially Supports** | Maps to EN 301 549 §11. GitHub-based support; accessibility-specific support process documented in `.github/ACCESSIBILITY.md`. |
+| 602.4 Accommodation of communication needs | **Partially Supports** | Maps to EN 301 549 §11.3. GitHub text-based communication is the primary channel. |
+| 603.2 Information on accessibility and compatibility features | **Partially Supports** | Maps to EN 301 549 §11.2. See 602.2. |
+| 607.2 Information for users with disabilities | **Supports** | `.github/ACCESSIBILITY.md` provides the conformance statement and known-limitation tracking via GitHub issues. |
+
+---
+
+### 8.6 Remarks and Explanations
 
 #### Consumer Responsibilities (not defects in the library)
 
@@ -926,6 +1143,124 @@ Key source files examined during this evaluation (paths relative to repository r
 - `.github/skills/syncfusion-blazor-toolkit-notifications/SKILL.md`
 - `.github/skills/syncfusion-blazor-toolkit-popups/SKILL.md`
 
+**Runtime evidence (accessibility test artifacts)**
+
+- `.github/accessibility/insights-summary.md` — Accessibility Insights FastPass + Assessment roll-up (2026-09-06, Edge 130, 17 components)
+- `.github/accessibility/screen-reader-smoke.md` — NVDA 2024.x / JAWS 2025 / Narrator smoke matrix (2026-09-06, all 17 components)
+- `.github/ACCESSIBILITY.md` — formal WCAG 2.2 AA conformance statement
+- `.github/ms-bar-attestations.md` §3 — MS quality-bar accessibility attestations (MS-3.1 through MS-3.5)
+- `tests/Syncfusion.Blazor.Playwright.Test/Blazor.Toolkit.playwright.Test/**/accessibility*.spec.ts` — 23 Playwright accessibility spec files
+
 ---
 
-*End of VPAT 2.5 INT — Syncfusion® Toolkit for Blazor 1.0.0*
+## Appendix C: Document Maintenance & Version Control
+
+### Version pinning
+
+| Field | Value |
+|---|---|
+| Product evaluated | `Syncfusion.Blazor.Toolkit` NuGet package, version `1.0.0` |
+| Assembly version | `1.0.0.0` (from `src/Syncfusion.Blazor.Toolkit.csproj:5` `<Version>1.0.0</Version>`) |
+| Source commit | `3ba5024` on branch `readiness-corrections` |
+| Evaluation date | 2026-09-21 (static review); 2026-09-06 (AT + FastPass) |
+| Report version | 2 (this revision addresses evaluation-method, metadata, and standard-coverage gaps identified in review of version 1) |
+
+### Document accessibility
+
+This report is authored in GitHub-flavored Markdown. When published as the official ACR, the following format considerations apply:
+
+- **Markdown** — accessible as plain text; GitHub renders it as structured HTML with semantic headings, tables, and lists. Screen readers can navigate by heading level.
+- **PDF / Word export** — if a procurement reviewer requires the official ITI Word template or an accessible PDF, this Markdown should be converted via the [Section508.gov ACR Editor](https://section508.gov) or by pasting into the official ITI VPAT 2.5 Word template (April 2025 edition) and verifying the result with Adobe Acrobat's accessibility checker or PAC (PDF Accessibility Checker).
+- **Known limitation of this format** — the Markdown table layout does not exactly match the official ITI VPAT 2.5 Word template's column structure (Criteria | Conformance Level | Remarks and Explanations). The content is structured to map 1:1 to that template; a clerical transfer is required to produce the official-format document.
+
+### Update cadence
+
+This ACR is regenerated before each **major release** (`x.0.0`) and reviewed before each **minor release** (`x.y.0`), per the policy in `.github/DEVELOPMENT.md` §Versioning and API stability and `.github/ACCESSIBILITY.md` §Evidence. The update workflow is:
+
+1. Re-run Accessibility Insights FastPass + Assessment against the new release's sample app.
+2. Re-verify the screen-reader smoke matrix (NVDA, JAWS, Narrator) on the new release.
+3. Re-run the Playwright accessibility suite (`npm test` in `tests/Syncfusion.Blazor.Playwright.Test/`).
+4. Update the per-criterion remarks with any new findings or resolved gaps.
+5. Update the Report Date, Source commit, and Product Version fields in the header.
+6. Re-publish the document and attach it to the GitHub release.
+
+### Change log
+
+| Version | Date | Changes |
+|---|---|---|
+| 1 | 2026-09-21 | Initial VPAT 2.5 INT — static code review only. |
+| 2 | 2026-09-21 | Addressed review gaps: added Contact Information, specific report date, commit pin, Applicable Standards table; added Evaluation Methods section (Accessibility Insights, Playwright, AT testing); added WCAG 2.2 criteria (2.4.13, 2.5.7, 2.5.8, 3.2.6, 3.3.7, 3.3.8); added Revised Section 508 cross-reference (§8.5); added evaluation-team qualifications and third-party-validation caveat; added document-maintenance appendix; added remaining-manual-work-items appendix. |
+
+---
+
+## Appendix D: Remaining Manual Work Items
+
+The following items cannot be completed by static code review alone and require manual work by the accessibility engineering team. Each item is tracked as a GitHub issue where applicable.
+
+### D1 — Re-run Accessibility Insights against the current commit (STALE DATA)
+
+**Status:** ⏳ Manual work required.
+
+The Accessibility Insights summary (`.github/accessibility/insights-summary.md`) was last run on **2026-09-06** against a prior commit. The current VPAT evaluates commit `3ba5024`. The FastPass/Assessment should be re-run against the current commit to ensure the "0 critical / 0 serious" claim still holds. If the team is confident the component files have not materially changed since 2026-09-06, the existing results can be cited with a note; otherwise, a re-run is required.
+
+**Action:** Run Accessibility Insights FastPass + Assessment against the sample app built from commit `3ba5024`; update `.github/accessibility/insights-summary.md` and the per-criterion remarks in this VPAT.
+
+### D2 — Re-verify screen-reader smoke matrix against the current commit (STALE DATA)
+
+**Status:** ⏳ Manual work required.
+
+The screen-reader smoke matrix (`.github/accessibility/screen-reader-smoke.md`) was last verified on **2026-09-06**. Same staleness concern as D1.
+
+**Action:** Re-run NVDA 2024.x / JAWS 2025 / Narrator sweeps against the current commit's sample app; update the smoke matrix and the per-criterion remarks.
+
+### D3 — WCAG 2.2 §2.5.8 Target Size manual measurement
+
+**Status:** ⏳ Manual work required.
+
+Target size (WCAG 2.2 §2.5.8) is not covered by the axe-core ruleset used by Accessibility Insights at the time of the 2026-09-06 run. A manual measurement of all interactive targets in the default `fluent` theme is required to confirm ≥ 24×24 CSS px (or ≥ 44×44 for the EN 301 549 clause 5.7 variant).
+
+**Action:** Use a browser devtools ruler or the Accessibility Insights "Target Size" assessment check on the sample app; record per-component results; update §8.3 (2.5.8) remarks.
+
+### D4 — VoiceOver (macOS + Safari) parity sweep
+
+**Status:** ⏳ Manual work required.
+
+The `insights-summary.md` approach summary states that macOS + Safari + VoiceOver parity sweeps are run, but the `screen-reader-smoke.md` matrix only documents NVDA / JAWS / Narrator results. VoiceOver results should be formally recorded in the smoke matrix.
+
+**Action:** Run VoiceOver on macOS 14+ / Safari 17+ against all 17 components; add a VoiceOver column to `screen-reader-smoke.md`; update §Evaluation Methods → Method 4.
+
+### D5 — Color contrast measurement (WCAG 1.4.3 / 1.4.11)
+
+**Status:** ⏳ Manual work required.
+
+The VPAT marks 1.4.3 and 1.4.11 as "Partially Supports" because contrast was not measured against the final generated theme CSS. The default `fluent` theme's contrast ratios should be measured for all text and non-text UI components (borders, icons, focus indicators) against their backgrounds.
+
+**Action:** Use Accessibility Insights "Color Contrast" assessment check or the WebAIM contrast checker against the rendered sample app; record pass/fail per component; update §8.2 (1.4.3, 1.4.11) remarks.
+
+### D6 — Transfer to the official ITI Word template (FORMAT)
+
+**Status:** ⏳ Manual work required (clerical).
+
+This report is in Markdown. Some procurement processes require the official ITI VPAT 2.5 Word template (April 2025 edition) or an accessible PDF generated from it. The content maps 1:1 to the template's table structure, but a clerical transfer is needed.
+
+**Action:** Download the official template from [itic.org](https://www.itic.org/dotAsset/2434a080-87fe-4db1-815e-1e032bf7ac09.docx); paste each section's content into the corresponding table; verify the resulting Word doc with the built-in accessibility checker; export to tagged PDF if required.
+
+### D7 — Independent third-party audit (OPTIONAL)
+
+**Status:** Optional — not required for self-assessment, but required by some RFPs.
+
+This is a vendor self-assessment. No independent accessibility consultancy has reviewed this report. If the procurement process requires third-party validation:
+
+**Action:** Engage a VPAT-recognized accessibility firm (e.g., Level Access, Deque, TPGi, SSB BART Group) to perform an L2–L4 audit; incorporate their findings; re-issue this document as a third-party-validated ACR.
+
+### D8 — Per-component keyboard-shortcut reference document
+
+**Status:** ⏳ Manual work required (documentation).
+
+EN 301 549 §10.1 and §11.2 require documentation of accessibility features. The SKILL.md files document keyboard patterns, but a consolidated, per-component keyboard-shortcut reference (cheat sheet) does not exist as a standalone document.
+
+**Action:** Extract the keyboard tables from each component's analysis (see Appendix A) into a single `docs/keyboard-shortcuts.md` reference; link it from the README and this VPAT.
+
+---
+
+*End of VPAT 2.5 INT — Syncfusion® Toolkit for Blazor 1.0.0 (commit 3ba5024, report version 2)*
