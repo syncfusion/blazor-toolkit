@@ -1,8 +1,9 @@
-﻿using System.Text.Json;
+using System.Text.Json;
 using System.Text.Json.Serialization;
 using Microsoft.JSInterop;
 using System.ComponentModel;
 using Microsoft.AspNetCore.Components;
+using System.Diagnostics.CodeAnalysis;
 using System.Reflection;
 using System.Collections;
 using System.Security.Cryptography;
@@ -423,6 +424,8 @@ namespace Syncfusion.Blazor.Toolkit.Data
         /// <returns>Task.</returns>
         /// <exclude />
         [EditorBrowsable(EditorBrowsableState.Never)]
+        [RequiresUnreferencedCode("Calls ExecuteQuery(DataManagerRequest), which may perform dynamic query operations against the configured IAdaptor and is unsafe to trim.")]
+        [RequiresDynamicCode("Calls ExecuteQuery(DataManagerRequest), which may perform dynamic query operations against the configured IAdaptor and may need to generate new code at runtime.")]
         public async Task<object> ExecuteQuery<T>(Query query)
         {
             ArgumentNullException.ThrowIfNull(query);
@@ -435,6 +438,8 @@ namespace Syncfusion.Blazor.Toolkit.Data
         /// <typeparam name="T">Type of the model class.</typeparam>
         /// <param name="query">Query class which will be executed against data source.</param>
         /// <returns>Task.</returns>
+        [RequiresUnreferencedCode("Calls ExecuteQuery(DataManagerRequest), which may perform dynamic query operations against the configured IAdaptor and is unsafe to trim.")]
+        [RequiresDynamicCode("Calls ExecuteQuery(DataManagerRequest), which may perform dynamic query operations against the configured IAdaptor and may need to generate new code at runtime.")]
         public async Task<object> ExecuteQueryAsync<T>(Query query)
         {
             return await ExecuteQuery<T>(query).ConfigureAwait(false);
@@ -448,6 +453,8 @@ namespace Syncfusion.Blazor.Toolkit.Data
         /// <returns>Task</returns>
         /// <exclude />
         [EditorBrowsable(EditorBrowsableState.Never)]
+        [RequiresUnreferencedCode("Calls IAdaptor.PerformDataOperation, which implementations (such as BlazorAdaptor) may use to perform dynamic query operations that build closed generic methods via MethodInfo.MakeGenericMethod. Unsafe to trim.")]
+        [RequiresDynamicCode("Calls IAdaptor.PerformDataOperation, which implementations (such as BlazorAdaptor) may use to perform dynamic query operations that build closed generic methods via MethodInfo.MakeGenericMethod. May need to generate new code at runtime.")]
         public async Task<object> ExecuteQuery<T>(DataManagerRequest queries)
         {
             if (DataAdaptor != null && DataAdaptor.IsRemote())
@@ -479,6 +486,8 @@ namespace Syncfusion.Blazor.Toolkit.Data
         /// <typeparam name="T">Type of the model class</typeparam>
         /// <param name="queries">Query class which will be executed against data source.</param>
         /// <returns>Task</returns>
+        [RequiresUnreferencedCode("Calls IAdaptor.PerformDataOperation, which implementations (such as BlazorAdaptor) may use to perform dynamic query operations that build closed generic methods via MethodInfo.MakeGenericMethod. Unsafe to trim.")]
+        [RequiresDynamicCode("Calls IAdaptor.PerformDataOperation, which implementations (such as BlazorAdaptor) may use to perform dynamic query operations that build closed generic methods via MethodInfo.MakeGenericMethod. May need to generate new code at runtime.")]
         public async Task<object> ExecuteQueryAsync<T>(DataManagerRequest queries)
         {
             return await ExecuteQuery<T>(queries).ConfigureAwait(false);
@@ -489,6 +498,8 @@ namespace Syncfusion.Blazor.Toolkit.Data
         /// switches to a local <see cref="BlazorAdaptor"/>, then re-executes the query against the cached data.
         /// </summary>
         /// <exclude />
+        [RequiresUnreferencedCode("Calls IAdaptor.PerformDataOperation, which implementations (such as BlazorAdaptor) may use to perform dynamic query operations that build closed generic methods via MethodInfo.MakeGenericMethod. Unsafe to trim.")]
+        [RequiresDynamicCode("Calls IAdaptor.PerformDataOperation, which implementations (such as BlazorAdaptor) may use to perform dynamic query operations that build closed generic methods via MethodInfo.MakeGenericMethod. May need to generate new code at runtime.")]
         internal async Task<object> ProcessOfflineAsync<T>(DataManagerRequest queries)
         {
             // Fetch remote data

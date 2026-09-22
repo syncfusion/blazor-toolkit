@@ -1,4 +1,5 @@
-﻿using System.Collections;
+using System.Collections;
+using System.Diagnostics.CodeAnalysis;
 using System.Linq.Expressions;
 using System.Reflection;
 using Syncfusion.Blazor.Toolkit.Data;
@@ -10,6 +11,8 @@ namespace Syncfusion.Blazor.Toolkit.Data
     /// </summary>
     public static class EnumerableExtensions
     {
+        [RequiresUnreferencedCode("Builds a closed generic method via MethodInfo.MakeGenericMethod and invokes it through reflection, which requires the target method's dependencies to be preserved and is unsafe to trim.")]
+        [RequiresDynamicCode("Builds a closed generic method via MethodInfo.MakeGenericMethod, which may need to generate new code at runtime and is not supported when AOT compiling.")]
         internal static IEnumerable InvokeParallel(this IEnumerable source, Predicate<object> func, Type sourceType)
         {
             if (sourceType == null)
@@ -22,6 +25,8 @@ namespace Syncfusion.Blazor.Toolkit.Data
             return (genericWrapper?.Invoke(null, [source, func]) as ParallelQuery)!;
         }
 
+        [RequiresUnreferencedCode("Calls InvokeParallel(IEnumerable, Predicate<object>, Type), which builds a closed generic method via MethodInfo.MakeGenericMethod and is unsafe to trim.")]
+        [RequiresDynamicCode("Calls InvokeParallel(IEnumerable, Predicate<object>, Type), which builds a closed generic method via MethodInfo.MakeGenericMethod and may need to generate new code at runtime.")]
         internal static IEnumerable InvokeParallel(this IEnumerable source, Predicate<object> func)
         {
             Type sourceType = source.GetElementType();
@@ -54,6 +59,8 @@ namespace Syncfusion.Blazor.Toolkit.Data
         /// <param name="source">An <see cref="IQueryable{TSource}"/> whose elements to apply the selector to.</param>
         /// <param name="selector">An expression that projects each element to a <see cref="short"/> value to average.</param>
         /// <returns>The average of the projected values as a <see cref="double"/>.</returns>
+        [RequiresUnreferencedCode("Builds an Expression.Call to this generic method via MethodInfo.MakeGenericMethod, which requires the method's dependencies to be preserved and is unsafe to trim.")]
+        [RequiresDynamicCode("Builds an Expression.Call to this generic method via MethodInfo.MakeGenericMethod, which may need to generate new code at runtime and is not supported when AOT compiling.")]
         public static double Average<TSource>(this IQueryable<TSource> source, Expression<Func<TSource, short>> selector)
         {
             ArgumentNullException.ThrowIfNull(source);
@@ -107,6 +114,8 @@ namespace Syncfusion.Blazor.Toolkit.Data
         /// <param name="source">An <see cref="IQueryable{TSource}"/> whose elements to apply the selector to.</param>
         /// <param name="selector">An expression that projects each element to a nullable <see cref="short"/> value to average.</param>
         /// <returns>The average of the non-null projected values as a nullable <see cref="double"/>, or <c>null</c> if there are no non-null values.</returns>
+        [RequiresUnreferencedCode("Builds an Expression.Call to this generic method via MethodInfo.MakeGenericMethod, which requires the method's dependencies to be preserved and is unsafe to trim.")]
+        [RequiresDynamicCode("Builds an Expression.Call to this generic method via MethodInfo.MakeGenericMethod, which may need to generate new code at runtime and is not supported when AOT compiling.")]
         public static double? Average<TSource>(
             this IQueryable<TSource> source,
             Expression<Func<TSource, short?>> selector)
@@ -164,6 +173,8 @@ namespace Syncfusion.Blazor.Toolkit.Data
         /// <param name="source">An <see cref="IQueryable{TSource}"/> whose elements to apply the selector to.</param>
         /// <param name="selector">An expression that projects each element to a <see cref="short"/> value to sum.</param>
         /// <returns>The sum of the projected values as a <see cref="short"/>.</returns>
+        [RequiresUnreferencedCode("Builds an Expression.Call to this generic method via MethodInfo.MakeGenericMethod, which requires the method's dependencies to be preserved and is unsafe to trim.")]
+        [RequiresDynamicCode("Builds an Expression.Call to this generic method via MethodInfo.MakeGenericMethod, which may need to generate new code at runtime and is not supported when AOT compiling.")]
         public static short Sum<TSource>(this IQueryable<TSource> source, Expression<Func<TSource, short>> selector)
         {
             ArgumentNullException.ThrowIfNull(source);
@@ -212,6 +223,8 @@ namespace Syncfusion.Blazor.Toolkit.Data
         /// <param name="selector">An expression that projects each element to a nullable <see cref="short"/> value to sum.</param>
         /// <returns>The sum of the non-null projected values as a nullable <see cref="short"/>, or <c>null</c> if there are no non-null values.</returns>
         /// <exception cref="ArgumentNullException"></exception>
+        [RequiresUnreferencedCode("Builds an Expression.Call to this generic method via MethodInfo.MakeGenericMethod, which requires the method's dependencies to be preserved and is unsafe to trim.")]
+        [RequiresDynamicCode("Builds an Expression.Call to this generic method via MethodInfo.MakeGenericMethod, which may need to generate new code at runtime and is not supported when AOT compiling.")]
         public static short? Sum<TSource>(this IQueryable<TSource> source, Expression<Func<TSource, short?>> selector)
         {
             ArgumentNullException.ThrowIfNull(source);
@@ -265,6 +278,8 @@ namespace Syncfusion.Blazor.Toolkit.Data
         /// <param name="source">An <see cref="IQueryable{TSource}"/> whose elements to apply the selector to.</param>
         /// <param name="selector">An expression that projects each element to a <see cref="short"/> value.</param>
         /// <returns>The maximum projected value as a <see cref="short"/>.</returns>
+        [RequiresUnreferencedCode("Builds an Expression.Call to this generic method via MethodInfo.MakeGenericMethod, which requires the method's dependencies to be preserved and is unsafe to trim.")]
+        [RequiresDynamicCode("Builds an Expression.Call to this generic method via MethodInfo.MakeGenericMethod, which may need to generate new code at runtime and is not supported when AOT compiling.")]
         public static short Max<TSource>(this IQueryable<TSource> source, Expression<Func<TSource, short>> selector)
         {
             ArgumentNullException.ThrowIfNull(source);
@@ -325,6 +340,8 @@ namespace Syncfusion.Blazor.Toolkit.Data
         /// <param name="source">An <see cref="IQueryable{TSource}"/> whose elements to apply the selector to.</param>
         /// <param name="selector">An expression that projects each element to a nullable <see cref="short"/> value.</param>
         /// <returns>The maximum of the non-null projected values as a nullable <see cref="short"/>, or <c>null</c> if there are no non-null values.</returns>
+        [RequiresUnreferencedCode("Builds an Expression.Call to this generic method via MethodInfo.MakeGenericMethod, which requires the method's dependencies to be preserved and is unsafe to trim.")]
+        [RequiresDynamicCode("Builds an Expression.Call to this generic method via MethodInfo.MakeGenericMethod, which may need to generate new code at runtime and is not supported when AOT compiling.")]
         public static short? Max<TSource>(this IQueryable<TSource> source, Expression<Func<TSource, short?>> selector)
         {
             ArgumentNullException.ThrowIfNull(source);
@@ -388,6 +405,8 @@ namespace Syncfusion.Blazor.Toolkit.Data
         /// <param name="source">An <see cref="IQueryable{TSource}"/> whose elements to apply the selector to.</param>
         /// <param name="selector">An expression that projects each element to a <see cref="short"/> value.</param>
         /// <returns>The minimum projected value as a <see cref="short"/>.</returns>
+        [RequiresUnreferencedCode("Builds an Expression.Call to this generic method via MethodInfo.MakeGenericMethod, which requires the method's dependencies to be preserved and is unsafe to trim.")]
+        [RequiresDynamicCode("Builds an Expression.Call to this generic method via MethodInfo.MakeGenericMethod, which may need to generate new code at runtime and is not supported when AOT compiling.")]
         public static short Min<TSource>(this IQueryable<TSource> source, Expression<Func<TSource, short>> selector)
         {
             ArgumentNullException.ThrowIfNull(source);
@@ -448,6 +467,8 @@ namespace Syncfusion.Blazor.Toolkit.Data
         /// <param name="source">An <see cref="IQueryable{TSource}"/> whose elements to apply the selector to.</param>
         /// <param name="selector">An expression that projects each element to a nullable <see cref="short"/> value.</param>
         /// <returns>The minimum of the non-null projected values as a nullable <see cref="short"/>, or <c>null</c> if there are no non-null values.</returns>
+        [RequiresUnreferencedCode("Builds an Expression.Call to this generic method via MethodInfo.MakeGenericMethod, which requires the method's dependencies to be preserved and is unsafe to trim.")]
+        [RequiresDynamicCode("Builds an Expression.Call to this generic method via MethodInfo.MakeGenericMethod, which may need to generate new code at runtime and is not supported when AOT compiling.")]
         public static short? Min<TSource>(this IQueryable<TSource> source, Expression<Func<TSource, short?>> selector)
         {
             ArgumentNullException.ThrowIfNull(source);
@@ -742,6 +763,8 @@ namespace Syncfusion.Blazor.Toolkit.Data
         /// <param name="source"></param>
         /// <param name="sourceType"></param>
         /// <returns></returns>
+        [RequiresUnreferencedCode("Builds a closed generic method via MethodInfo.MakeGenericMethod and invokes it through reflection, which requires the target method's dependencies to be preserved and is unsafe to trim.")]
+        [RequiresDynamicCode("Builds a closed generic method via MethodInfo.MakeGenericMethod, which may need to generate new code at runtime and is not supported when AOT compiling.")]
         public static ParallelQuery GetParallelQuery(this IEnumerable source, Type? sourceType = null)
         {
             if (sourceType == null)

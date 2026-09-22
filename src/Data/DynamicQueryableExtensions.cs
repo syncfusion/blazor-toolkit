@@ -1,4 +1,5 @@
-﻿using System.Linq.Expressions;
+using System.Linq.Expressions;
+using System.Diagnostics.CodeAnalysis;
 using System.Reflection;
 using System.Globalization;
 using System.Dynamic;
@@ -41,6 +42,8 @@ namespace Syncfusion.Blazor.Toolkit.Data
         /// <param name="isCaseSensitive">Performs the case sensitive if true.</param>
         /// <param name="sourceType">Specifies the data source element type.</param>
         /// <param name="columnType">Specifies the current field type.</param>
+        [RequiresUnreferencedCode("Calls the private Predicate helper, which resolves dynamic properties via Expression.Property(Expression, string, Expression[]) and is unsafe to trim.")]
+        [RequiresDynamicCode("Calls the private Predicate helper, which resolves dynamic properties by name and may need to generate new code at runtime.")]
         public static Expression Predicate(this IQueryable source, ParameterExpression paramExpression,
                                            string propertyName, object constValue, FilterType filterType,
                                            FilterBehavior filterBehaviour, bool isCaseSensitive, Type sourceType, Type? columnType = null) // Predicate1
@@ -178,6 +181,8 @@ namespace Syncfusion.Blazor.Toolkit.Data
             return (memExp, bExp);
         }
 
+        [RequiresUnreferencedCode("Resolves dynamic properties via Expression.Property(Expression, string, Expression[]), which is unsafe to trim.")]
+        [RequiresDynamicCode("Resolves dynamic properties by name, which may need to generate new code at runtime.")]
         private static Expression Predicate(this IQueryable source, object constValue, FilterType filterType,
                                            FilterBehavior filterBehaviour, bool isCaseSensitive, Type sourceType, Type memberType, Expression memExp, ParameterExpression paramExpression, string propertyName, Type columnType = null!)
         {
