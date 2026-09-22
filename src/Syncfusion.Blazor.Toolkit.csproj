@@ -92,9 +92,12 @@
 		<PackageReference Include="Microsoft.SourceLink.GitHub" Version="10.0.303" PrivateAssets="All" />
 	</ItemGroup>
 
-  <Target Name="RunGulpOnceBeforeBuild" BeforeTargets="BeforeBuild" Condition="$(TargetFramework) == $(TargetFrameworks.Split(';')[0]) AND !Exists('wwwroot/styles/fluent.min.css')">
-	<Message Importance="high" Text="Installing npm packages and running blazor-toolkit-themes gulp task for the first time..." />
-	<Exec Command="npm install" />
-	<Exec Command="gulp blazor-toolkit-themes" />
-  </Target>
+	<Target Name="RunGulpOnceBeforeBuild"
+	        BeforeTargets="BeforeBuild"
+	        Condition="$(TargetFramework) == $(TargetFrameworks.Split(';')[0])
+	                   AND !Exists('wwwroot/styles/fluent.min.css')">
+	  <Message Importance="high"
+	           Text="Running blazor-toolkit-themes gulp task..." />
+	  <Exec Command="npx gulp blazor-toolkit-themes" />
+	</Target>
 </Project>
