@@ -1,6 +1,5 @@
 ﻿using Microsoft.JSInterop;
 using Syncfusion.Blazor.Toolkit.Internal;
-using System.Diagnostics.CodeAnalysis;
 using System.Globalization;
 using System.Reflection;
 
@@ -34,10 +33,20 @@ namespace Syncfusion.Blazor.Toolkit.Inputs
         /// <item><description>Establishes parent-child relationships for nested components.</description></item>
         /// <item><description>Applies initial CSS classes and styling.</description></item>
         /// </list>
+        /// <para>
+        /// The <c>TextBoxParent</c> lookup below (like the equivalent lookups in
+        /// <c>SfDatePicker</c>/<c>SfDateTimePicker</c>/<c>SfTimePicker</c>) is performed through a
+        /// <see langword="dynamic"/>-typed reference, so the <c>GetType()</c>/<c>GetProperty(string)</c>
+        /// calls are dispatched via the DLR rather than a statically-resolvable reflection call site.
+        /// The trimmer/AOT analyzers cannot see (and therefore do not flag) this pattern, so no
+        /// <c>Requires*</c> annotation is needed here — consistent with the sibling components. A
+        /// <c>RequiresUnreferencedCode</c> attribute was previously present on this override, but since
+        /// <see cref="Microsoft.AspNetCore.Components.ComponentBase.OnInitializedAsync"/> carries no such attribute, it only produced an
+        /// IL2046 attribute-mismatch warning without guarding any real trim-analysis finding, so it has
+        /// been removed.
+        /// </para>
         /// </remarks>
         /// <exclude/>
-        [RequiresUnreferencedCode("Reflection on TextBoxParent type and ComponentRef property which may be trimmed")]
-        [DynamicDependency(DynamicallyAccessedMemberTypes.NonPublicProperties, typeof(SfTextBox))]
         protected override async Task OnInitializedAsync()
         {
             try

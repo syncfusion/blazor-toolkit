@@ -1,4 +1,5 @@
 using Microsoft.AspNetCore.Components.Rendering;
+using System.Diagnostics.CodeAnalysis;
 using System.Text.Json;
 using System.Dynamic;
 
@@ -511,6 +512,8 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
         /// <param name="xName">The property name for X-axis values.</param>
         /// <param name="yName">The property name for Y-axis values.</param>
         /// <param name="currentViewData">The enumerable collection of data objects to process.</param>
+        [RequiresUnreferencedCode("Calls FastReflectionExtension.CreateAccessor(Type, string), which creates closed generic PropertyAccessor<,> instances via Type.MakeGenericType and looks up properties by name. Unsafe to trim.")]
+        [RequiresDynamicCode("Calls FastReflectionExtension.CreateAccessor(Type, string), which creates closed generic PropertyAccessor<,> instances via Type.MakeGenericType and may need to generate new code at runtime.")]
         protected override void ProcessObjectData(Type firstDataType, string xName, string yName, IEnumerable<object> currentViewData)
         {
             if (CurrentViewData is null || Series is null || Owner is null)
