@@ -1,7 +1,8 @@
 var fs = global.fs = global.fs || require('fs');
+var path = require('path');
 var shelljs = global.shelljs = global.shelljs || require('shelljs');
 var gulp = global.gulp = global.gulp || require('gulp');
-const glob = require('glob');
+const { globSync } = require('glob');
 const sass = require('gulp-sass')(require('sass'));
 const rename = require('gulp-rename');
 
@@ -60,36 +61,41 @@ function removeCustomUse(fileContent) {
 }
 
 // Task to generate single SCSS files for Blazor toolkit.
+function findComponentScss(componentFiles, themeOrder) {
+    const expected = themeOrder + '.scss';
+    return componentFiles.find((file) => path.basename(file) === expected);
+}
+
 gulp.task('combined-scss', function (done) {
-    // Get the all components scss files' path
-    var componentFiles = glob.sync(`./src/wwwroot/styles/*.scss`);
+    const componentFiles = globSync('./src/wwwroot/styles/*.scss');
     shelljs.mkdir('-p', './src/wwwroot/styles/combined-scss/');
-    var getFluentScss = '';
-    // Place component styles as per styles order
+
+    let getFluentScss = '';
     for (const themeOrder of componentThemeOrder) {
-        const paths = componentFiles.filter((value) =>
-            value.indexOf('styles/' + themeOrder) !== -1
-        );
-        if (paths.length) {
-            const content = stripBom(fs.readFileSync(paths[0], 'utf8'));
-            getFluentScss += `${content}\n`;
+        const filePath = findComponentScss(componentFiles, themeOrder);
+        if (filePath) {
+            const content = stripBom(fs.readFileSync(filePath, 'utf8'));
+            getFluentScss += content + '\n';
         }
     }
     getFluentScss = removeCustomUse(getFluentScss);
-    fs.writeFileSync('./src/wwwroot/styles/combined-scss/fluent.scss', reorderUseRules(getFluentScss), 'utf8');
-    var hcBody = '';
+    fs.writeFileSync(
+        './src/wwwroot/styles/combined-scss/fluent.scss',
+        reorderUseRules(getFluentScss),
+        'utf8'
+    );
+
+    let hcBody = '';
     for (const hcOrder of componentThemeOrder) {
-        const hcPaths = componentFiles.filter((value) =>
-            value.indexOf('styles/' + hcOrder) !== -1
-        );
-        if (!hcPaths.length) {
+        const filePath = findComponentScss(componentFiles, hcOrder);
+        if (!filePath) {
             continue;
         }
-        let content = stripBom(fs.readFileSync(hcPaths[0], 'utf8'));
+        let content = stripBom(fs.readFileSync(filePath, 'utf8'));
         if (hcOrder === 'base') {
             content = stripRootScopes(content);
         }
-        hcBody += `\n${content}\n`;
+        hcBody += '\n' + content + '\n';
     }
     hcBody = removeCustomUse(hcBody);
     hcBody = reorderUseRules(hcBody);
@@ -187,19 +193,17 @@ gulp.task('scss-to-css', function (done) {
             './src/wwwroot/styles/combined-scss/_highcontrast-tokens.scss'
         ] }
     )
-    .pipe(sass({ outputStyle: 'compressed' }).on('error', function (error) {
-        const message = error.formatted || error.messageFormatted || error.message || String(error);
-        console.error('Sass compilation failed:\n' + message);
-        try {
-            fs.appendFileSync('./gulp_error.log', `Failed scss-to-css task\n${message}\n`);
-        } catch (_) { /* ignore */ }
-        // Prefer failing the Gulp task so MSBuild gets exit code 1 with a clear signal
-        this.emit('error', error);
-    }))
+	.pipe(sass({ outputStyle: 'compressed' }).on('error', function (error) {
+		const message = error.formatted || error.messageFormatted || error.message || String(error);
+		console.error('Sass compilation failed:\n' + message);
+		try {
+			fs.appendFileSync('./gulp_error.log', 'Failed scss-to-css task\n' + message + '\n');
+		} catch (_) { /* ignore */ }
+		process.exit(1);
+	}))
     .pipe(rename({ suffix: '.min' }))
     .pipe(gulp.dest('./src/wwwroot/styles'))
     .on('end', cleanup)
-    .on('error', cleanup);
 });
 
 gulp.task('blazor-toolkit-themes', gulp.series('combined-scss', 'scss-to-css'));
@@ -257,7 +261,7 @@ function isXSSAllowlisted(file, line) {
 gulp.task('security-xss-scan', function (done) {
     let allFiles = [];
     for (const pattern of XSS_SCAN_GLOBS) {
-        allFiles = allFiles.concat(glob.sync(pattern, {
+        allFiles = allFiles.concat(globSync(pattern, {
             nodir: true,
             ignore: [
                 '**/bin/**',
