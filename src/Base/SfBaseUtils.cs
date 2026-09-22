@@ -3,8 +3,6 @@ using Microsoft.AspNetCore.Components.Forms;
 using System.Linq.Expressions;
 using System.Reflection;
 using System.Runtime.Serialization;
-using System.Text.Json;
-using System.Text.Json.Serialization;
 using System.Globalization;
 using System.Text.RegularExpressions;
 namespace Syncfusion.Blazor.Toolkit.Internal
@@ -24,16 +22,6 @@ namespace Syncfusion.Blazor.Toolkit.Internal
         [
             typeof(int[,]).Name, typeof(double[,]).Name, typeof(int?[,]).Name, typeof(decimal[,]).Name
         ];
-
-        /// <summary>
-        /// JSON serializer options configured to ignore cycles and read-only properties.
-        /// </summary>
-        /// <exclude />
-        private static readonly JsonSerializerOptions _jsonOptions = new()
-        {
-            ReferenceHandler = ReferenceHandler.IgnoreCycles,
-            IgnoreReadOnlyProperties = true
-        };
 
         /// <summary>
         /// Adds or updates a value in the specified dictionary based on the provided key.
@@ -67,17 +55,42 @@ namespace Syncfusion.Blazor.Toolkit.Internal
         {
             Type? valueType = oldValue?.GetType();
             bool isValueCollection = valueType != null && valueType.IsArray;
-            // Compare collection values using Json Serializer
+            // Compare array values element-by-element instead of round-tripping through
+            // JsonSerializer, so this comparison stays reflection-free and AOT/trim compatible.
             if (isValueCollection)
             {
                 if (!_multidimensionalArrayTypes.Contains(valueType?.Name ?? string.Empty))
                 {
-                    string oldString = JsonSerializer.Serialize(oldValue, _jsonOptions);
-                    string newString = JsonSerializer.Serialize(newValue, _jsonOptions);
-                    return string.Equals(oldString, newString, StringComparison.Ordinal);
+                    return ArraysEqual(oldValue as Array, newValue as Array);
                 }
             }
             return EqualityComparer<T>.Default.Equals(oldValue, newValue);
+        }
+
+        /// <summary>
+        /// Recursively compares two single-dimensional (including jagged) arrays element-by-element.
+        /// </summary>
+        /// <param name="oldArray">The original array.</param>
+        /// <param name="newArray">The new array.</param>
+        /// <returns><see langword="true"/> if both arrays contain equal elements in the same order; otherwise <see langword="false"/>.</returns>
+        private static bool ArraysEqual(Array? oldArray, Array? newArray)
+        {
+            if (ReferenceEquals(oldArray, newArray))
+            {
+                return true;
+            }
+            if (oldArray is null || newArray is null || oldArray.Length != newArray.Length)
+            {
+                return false;
+            }
+            for (int i = 0; i < oldArray.Length; i++)
+            {
+                if (!Equals<object?>(oldArray.GetValue(i), newArray.GetValue(i)))
+                {
+                    return false;
+                }
+            }
+            return true;
         }
 
         /// <summary>
@@ -183,8 +196,9 @@ namespace Syncfusion.Blazor.Toolkit.Internal
             }
             else if (conversionType.Name == "TimeSpan")
             {
-                string tempValue = JsonSerializer.Serialize(dataValue);
-                dataValue = JsonSerializer.Deserialize(tempValue, conversionType)!;
+                // Parse directly instead of round-tripping through JsonSerializer, keeping this
+                // conversion reflection-free and AOT/trim compatible.
+                dataValue = TimeSpan.Parse(dataValue.ToString() ?? string.Empty, CultureInfo.InvariantCulture);
             }
 
             CultureInfo currentCulture = isParseValue ? CultureInfo.InvariantCulture : CultureInfo.CurrentCulture;
