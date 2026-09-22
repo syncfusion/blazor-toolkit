@@ -70,6 +70,7 @@ jobs:
 
       - name: Build C# code for CodeQL
         if: matrix.build-mode == 'manual'
+        working-directory: ./src
         run: |
           dotnet restore ./Syncfusion.Blazor.Toolkit.slnx
           dotnet build ./Syncfusion.Blazor.Toolkit.slnx \
