@@ -66,23 +66,30 @@ gulp.task('combined-scss', function (done) {
     shelljs.mkdir('-p', './src/wwwroot/styles/combined-scss/');
     var getFluentScss = '';
     // Place component styles as per styles order
-    for (var themeOrder of componentThemeOrder) {
-        var paths = componentFiles.filter((value) => {
-            return value.indexOf('styles/' + themeOrder) !== -1;
-        });
+    for (const themeOrder of componentThemeOrder) {
+        const paths = componentFiles.filter((value) =>
+            value.indexOf('styles/' + themeOrder) !== -1
+        );
         if (paths.length) {
-            getFluentScss += stripBom(fs.readFileSync(paths[0], 'utf8'));
+            const content = stripBom(fs.readFileSync(paths[0], 'utf8'));
+            getFluentScss += `${content}\n`;
         }
     }
     getFluentScss = removeCustomUse(getFluentScss);
     fs.writeFileSync('./src/wwwroot/styles/combined-scss/fluent.scss', reorderUseRules(getFluentScss), 'utf8');
     var hcBody = '';
-    for (var hcOrder of componentThemeOrder) {
-        var hcPaths = componentFiles.filter((value) => { return value.indexOf('styles/' + hcOrder) !== -1; });
-        if (!hcPaths.length) continue;
-        var content = stripBom(fs.readFileSync(hcPaths[0], 'utf8'));
-        if (hcOrder === 'base') content = stripRootScopes(content);
-        hcBody += '\n' + content;
+    for (const hcOrder of componentThemeOrder) {
+        const hcPaths = componentFiles.filter((value) =>
+            value.indexOf('styles/' + hcOrder) !== -1
+        );
+        if (!hcPaths.length) {
+            continue;
+        }
+        let content = stripBom(fs.readFileSync(hcPaths[0], 'utf8'));
+        if (hcOrder === 'base') {
+            content = stripRootScopes(content);
+        }
+        hcBody += `\n${content}\n`;
     }
     hcBody = removeCustomUse(hcBody);
     hcBody = reorderUseRules(hcBody);
@@ -181,9 +188,13 @@ gulp.task('scss-to-css', function (done) {
         ] }
     )
     .pipe(sass({ outputStyle: 'compressed' }).on('error', function (error) {
-        fs.appendFileSync('./gulp_error.log', 'Failed scss-to-css task\n' + error.message + '\n');
-        console.error('Sass Compilation Error:', error.messageFormatted);
-        process.exit(1);
+        const message = error.formatted || error.messageFormatted || error.message || String(error);
+        console.error('Sass compilation failed:\n' + message);
+        try {
+            fs.appendFileSync('./gulp_error.log', `Failed scss-to-css task\n${message}\n`);
+        } catch (_) { /* ignore */ }
+        // Prefer failing the Gulp task so MSBuild gets exit code 1 with a clear signal
+        this.emit('error', error);
     }))
     .pipe(rename({ suffix: '.min' }))
     .pipe(gulp.dest('./src/wwwroot/styles'))
