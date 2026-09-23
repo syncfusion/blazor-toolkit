@@ -1,4 +1,4 @@
-﻿using System.Text.Json;
+using System.Text.Json;
 using System.Text.Json.Serialization;
 using Microsoft.JSInterop;
 using System.ComponentModel;
@@ -796,6 +796,12 @@ namespace Syncfusion.Blazor.Toolkit.Data
         };
 
         /// <summary>
+        /// JSON serializer context for AOT/trimming compatibility.
+        /// </summary>
+        /// <exclude />
+        internal static SyncfusionJsonContext _jsonContext = new();
+
+        /// <summary>
         /// Reference to the parent BaseComponent that owns this adaptor.
         /// </summary>
         /// <exclude />
@@ -864,6 +870,12 @@ namespace Syncfusion.Blazor.Toolkit.Data
             WriteIndented = true,
             ReferenceHandler = ReferenceHandler.Preserve
         };
+
+        /// <summary>
+        /// JSON serializer context for AOT/trimming compatibility.
+        /// </summary>
+        /// <exclude />
+        internal static SyncfusionJsonContext _jsonContext = new();
 
         /// <summary>
         /// Reference to the parent BaseComponent that owns this adaptor.
@@ -1860,6 +1872,7 @@ namespace Syncfusion.Blazor.Toolkit.Data
         /// <param name="type">The adaptor type to create.</param>
         /// <param name="parentComponent">The parent component associated with the adaptor.</param>
         /// <param name="dataManagerInstance">The owning data manager instance.</param>
+        [RequiresUnreferencedCode("This constructor uses reflection to create instances of arbitrary adaptor types which may be trimmed.")]
         public BaseAdaptor(Type type, object parentComponent, DataManager dataManagerInstance)
         {
             ParentComponent = parentComponent;

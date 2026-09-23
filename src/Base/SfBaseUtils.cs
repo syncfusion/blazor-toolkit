@@ -36,6 +36,12 @@ namespace Syncfusion.Blazor.Toolkit.Internal
         };
 
         /// <summary>
+        /// JSON serializer context for AOT/trimming compatibility.
+        /// </summary>
+        /// <exclude />
+        private static readonly SyncfusionJsonContext _jsonContext = new();
+
+        /// <summary>
         /// Adds or updates a value in the specified dictionary based on the provided key.
         /// If the dictionary is null, a new instance will be created.
         /// </summary>
@@ -183,8 +189,8 @@ namespace Syncfusion.Blazor.Toolkit.Internal
             }
             else if (conversionType.Name == "TimeSpan")
             {
-                string tempValue = JsonSerializer.Serialize(dataValue);
-                dataValue = JsonSerializer.Deserialize(tempValue, conversionType)!;
+                string tempValue = JsonSerializer.Serialize(dataValue, _jsonOptions);
+                dataValue = JsonSerializer.Deserialize(tempValue, conversionType, _jsonOptions)!;
             }
 
             CultureInfo currentCulture = isParseValue ? CultureInfo.InvariantCulture : CultureInfo.CurrentCulture;

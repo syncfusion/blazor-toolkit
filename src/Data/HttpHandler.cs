@@ -66,6 +66,12 @@ namespace Syncfusion.Blazor.Toolkit.Data
             WriteIndented = true,
         };
 
+        /// <summary>
+        /// JSON serializer context for AOT/trimming compatibility.
+        /// </summary>
+        /// <exclude />
+        private static readonly SyncfusionJsonContext _jsonContext = new();
+
         /// <exclude />
         public HttpClient? Client { get; set; }
 

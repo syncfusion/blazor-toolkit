@@ -1,4 +1,4 @@
-﻿using System.Text;
+using System.Text;
 using System.Text.Json;
 using System.Text.Json.Serialization;
 
@@ -104,6 +104,12 @@ namespace Syncfusion.Blazor.Toolkit.Data
                                 new ExpandoObjectConverter()
                             }
         };
+
+        /// <summary>
+        /// JSON serializer context for AOT/trimming compatibility.
+        /// </summary>
+        /// <exclude />
+        private static readonly SyncfusionJsonContext _jsonContext = new();
 
         /// <summary>
         /// Adds the table or resource name.
@@ -408,7 +414,7 @@ namespace Syncfusion.Blazor.Toolkit.Data
         {
             Query clone = new()
             {
-                Queries = JsonSerializer.Deserialize<DataManagerRequest>(JsonSerializer.Serialize(Queries), _cloneJsonSettings)!,
+                Queries = JsonSerializer.Deserialize<DataManagerRequest>(JsonSerializer.Serialize(Queries, _cloneJsonSettings), _cloneJsonSettings)!,
                 IsCountRequired = IsCountRequired
             };
             return clone;
@@ -422,7 +428,7 @@ namespace Syncfusion.Blazor.Toolkit.Data
         /// <returns></returns>
         public static bool IsEqual(Query source, Query destination)
         {
-            return JsonSerializer.Serialize(source?.Queries).Equals(JsonSerializer.Serialize(destination?.Queries), StringComparison.Ordinal);
+            return JsonSerializer.Serialize(source?.Queries, _jsonContext.Options).Equals(JsonSerializer.Serialize(destination?.Queries, _jsonContext.Options), StringComparison.Ordinal);
         }
     }
 

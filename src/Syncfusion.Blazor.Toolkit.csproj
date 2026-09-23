@@ -1,4 +1,4 @@
-﻿<Project Sdk="Microsoft.NET.Sdk.Razor">
+<Project Sdk="Microsoft.NET.Sdk.Razor">
 
   <PropertyGroup>
 	<!-- NuGet package metadata and assembly (DLL) properties -->
@@ -8,6 +8,9 @@
 	<Authors>Syncfusion Inc.</Authors>
 	<IsTrimmable>true</IsTrimmable>
     <IsAotCompatible>true</IsAotCompatible>
+    <EnableTrimAnalyzer>true</EnableTrimAnalyzer>
+    <EnableAotAnalyzer>true</EnableAotAnalyzer>
+    <TrimmerSingleWarn>false</TrimmerSingleWarn>
 	<TargetFrameworks>net8.0;net9.0;net10.0</TargetFrameworks>
 	<!-- Copyright year is derived from the build clock so the stamp advances automatically each year. -->
 	<Copyright>Copyright 2001 - $([System.DateTime]::UtcNow.Year) Syncfusion® Inc.</Copyright>

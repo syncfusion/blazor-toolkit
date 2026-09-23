@@ -1,4 +1,4 @@
-﻿using Microsoft.JSInterop;
+using Microsoft.JSInterop;
 using Microsoft.AspNetCore.Components;
 using System.Text.Json;
 using System.Text.Json.Serialization;
@@ -33,6 +33,12 @@ namespace Syncfusion.Blazor.Toolkit.Data
     /// Custom handler of JSInterop to invoke the JavaScript methods with DotNetObjectReference.
     /// </summary>
     public class JSInteropAdaptor : ComponentBase, IJSInteropAdaptor
+    {
+        /// <summary>
+        /// JSON serializer context for AOT/trimming compatibility.
+        /// </summary>
+        /// <exclude />
+        internal static readonly SyncfusionJsonContext _jsonContext = new();
     {
         /// <inheritdoc/>
         public void Init()
@@ -125,7 +131,7 @@ namespace Syncfusion.Blazor.Toolkit.Data
         internal static async ValueTask<T> InvokeMethodAsync<T>(IJSRuntime jsRuntime, string elementId, string methodName, string moduleName, object[] args, string nameSpace, ElementReference? element = null)
         {
             return await HandleInteropCallAsync(jsRuntime, () =>
-                jsRuntime.InvokeAsync<T>("sfBlazor.invokeMethod", elementId, methodName, moduleName, JsonSerializer.Serialize(args), element),
+                jsRuntime.InvokeAsync<T>("sfBlazor.invokeMethod", elementId, methodName, moduleName, JsonSerializer.Serialize(args, _jsonContext.Options), element),
                 nameSpace, elementId).ConfigureAwait(true);
         }
 

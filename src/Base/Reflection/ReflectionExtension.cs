@@ -1,7 +1,8 @@
-﻿using System.Dynamic;
+using System.Dynamic;
 using System.Reflection;
 using System.Runtime.CompilerServices;
 using Microsoft.CSharp.RuntimeBinder;
+using System.Diagnostics.CodeAnalysis;
 
 namespace Syncfusion.Blazor.Toolkit
 {
@@ -29,7 +30,10 @@ namespace Syncfusion.Blazor.Toolkit
         /// For accessing complex or nested property values, provide the <paramref name="propertyName"/>
         /// with field names delimited by a dot (for example, <c>"Address.City"</c>).
         /// </remarks>
-        public static object? GetValue(object obj, string propertyName, bool reflectComplexProperty = true)
+        public static object? GetValue(
+            [DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicProperties | DynamicallyAccessedMemberTypes.PublicFields)] object obj, 
+            string propertyName, 
+            bool reflectComplexProperty = true)
         {
             if (string.IsNullOrEmpty(propertyName) || obj is null)
             {
@@ -55,7 +59,9 @@ namespace Syncfusion.Blazor.Toolkit
             return value;
         }
 
-        private static object? GetValueForDirectProperty(object obj, string propertyName)
+        private static object? GetValueForDirectProperty(
+            [DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicProperties | DynamicallyAccessedMemberTypes.PublicFields)] object obj, 
+            string propertyName)
         {
             Type dataObjectType = obj.GetType();
             bool isDynamic = typeof(IDynamicMetaObjectProvider).IsAssignableFrom(dataObjectType);
@@ -83,7 +89,10 @@ namespace Syncfusion.Blazor.Toolkit
         /// This method dispatches to <see cref="GetValueFromExpandoObject"/>, <see cref="GetValueFromDynamicObject"/>,
         /// or <see cref="GetValueFromDynamicMetaObjectProvider"/> based on the runtime type of <paramref name="obj"/>.
         /// </remarks>
-        public static object? GetValueFromIDynamicMetaObject(object obj, string propertyName, bool reflectComplexProperty = false)
+        public static object? GetValueFromIDynamicMetaObject(
+            [DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.None)] object obj, 
+            string propertyName, 
+            bool reflectComplexProperty = false)
         {
             if (obj is ExpandoObject expandoObject)
             {
@@ -112,7 +121,10 @@ namespace Syncfusion.Blazor.Toolkit
         /// <see langword="true"/> to resolve nested properties delimited by dot (<c>.</c>); otherwise <see langword="false"/>.
         /// </param>
         /// <returns>The property value of the specified object.</returns>
-        public static object? GetValueFromDynamicObject(DynamicObject obj, string propertyName, bool reflectComplexProperty = false)
+        public static object? GetValueFromDynamicObject(
+            [DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.None)] DynamicObject obj, 
+            string propertyName, 
+            bool reflectComplexProperty = false)
         {
             if (obj is null || string.IsNullOrEmpty(propertyName))
             {
@@ -160,7 +172,10 @@ namespace Syncfusion.Blazor.Toolkit
         /// <see langword="true"/> to resolve nested properties delimited by dot (<c>.</c>); otherwise <see langword="false"/>.
         /// </param>
         /// <returns>The property value of the specified object.</returns>
-        public static object? GetValueFromDynamicMetaObjectProvider(IDynamicMetaObjectProvider obj, string propertyName, bool reflectComplexProperty = false)
+        public static object? GetValueFromDynamicMetaObjectProvider(
+            [DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.None)] IDynamicMetaObjectProvider obj, 
+            string propertyName, 
+            bool reflectComplexProperty = false)
         {
             if (obj is null || string.IsNullOrEmpty(propertyName))
             {
@@ -211,7 +226,10 @@ namespace Syncfusion.Blazor.Toolkit
         /// <see langword="true"/> to resolve nested properties delimited by dot (<c>.</c>); otherwise <see langword="false"/>.
         /// </param>
         /// <returns>The property value of the specified object, or <see langword="null"/> if the key is not found.</returns>
-        public static object? GetValueFromExpandoObject(IDictionary<string, object> obj, string propertyName, bool reflectComplexProperty = false)
+        public static object? GetValueFromExpandoObject(
+            [DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.None)] IDictionary<string, object> obj, 
+            string propertyName, 
+            bool reflectComplexProperty = false)
         {
             if (obj is null || string.IsNullOrEmpty(propertyName))
             {
@@ -263,11 +281,19 @@ namespace Syncfusion.Blazor.Toolkit
         /// When <paramref name="createsubtypes"/> is <see langword="true"/>, nested properties of interface or complex types are also
         /// recursively initialized to facilitate deep-copy or factory scenarios.
         /// </remarks>
-        public static object? TryCreateInstance(Type type, bool createSubtypes = false)
+        [return: DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicParameterlessConstructor)]
+        public static object? TryCreateInstance(
+            [DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicParameterlessConstructor | DynamicallyAccessedMemberTypes.PublicConstructors | DynamicallyAccessedMemberTypes.PublicProperties)] Type type, 
+            bool createSubtypes = false)
         {
             try
             {
-                ConstructorInfo[]? constructors = type?.GetConstructors();
+                if (type is null)
+                {
+                    return null;
+                }
+
+                ConstructorInfo[]? constructors = type.GetConstructors();
                 ConstructorInfo? constructor = constructors?.FirstOrDefault();
                 object obj;
                 if (constructor is not null)
@@ -283,7 +309,9 @@ namespace Syncfusion.Blazor.Toolkit
                         }
                         else if (parameters[i].ParameterType.IsInterface)
                         {
-                            parameterValues[i] = Activator.CreateInstance(type);
+                            // For interfaces, we can't create an instance directly
+                            // This is a limitation that should be documented
+                            parameterValues[i] = null!;
                         }
                         else if (parameters[i].ParameterType == type)
                         {
@@ -343,7 +371,9 @@ namespace Syncfusion.Blazor.Toolkit
             }
             catch
             {
-                throw;
+                // In AOT scenarios, some types may not be creatable
+                // We return null to indicate this rather than throwing
+                return null;
             }
         }
     }

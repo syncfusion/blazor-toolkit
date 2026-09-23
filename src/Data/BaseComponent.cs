@@ -12,6 +12,7 @@ using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Forms;
 using System.Globalization;
 using System.Security.Cryptography;
+using System.Diagnostics.CodeAnalysis;
 
 namespace Syncfusion.Blazor.Toolkit.Data
 {
@@ -1002,6 +1003,7 @@ namespace Syncfusion.Blazor.Toolkit.Data
             }
         }
 
+        [RequiresUnreferencedCode("This method uses reflection to create instances of arbitrary collection types which may be trimmed.")]
         internal object UpdateCollectionValue(object propertyValue, Type propertyType, int? sfIndex, object model)
         {
             object value;
@@ -1200,6 +1202,7 @@ namespace Syncfusion.Blazor.Toolkit.Data
             return dataAdaptor;
         }
 
+        [RequiresUnreferencedCode("This method uses reflection to create instances of arbitrary types which may be trimmed.")]
         internal static object GetObject(Dictionary<string, object> Data, Type ModelType)
         {
             // Handling Parameterless Constructor

@@ -1,4 +1,4 @@
-﻿using System.Diagnostics.CodeAnalysis;
+using System.Diagnostics.CodeAnalysis;
 using System.Reflection;
 
 namespace Syncfusion.Blazor.Toolkit
@@ -17,10 +17,17 @@ namespace Syncfusion.Blazor.Toolkit
         /// <returns>An <see cref="IPropertyAccessor"/> that can read the property value from an object.</returns>
         /// <exception cref="ArgumentNullException">Thrown when <paramref name="propertyInfo"/> is null.</exception>
         /// <remarks>This method throws <see cref="ArgumentNullException"/> if <paramref name="propertyInfo"/> is null.</remarks>
-        public static IPropertyAccessor CreateAccessor(PropertyInfo propertyInfo)
+        public static IPropertyAccessor CreateAccessor(
+            [DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicProperties)] PropertyInfo propertyInfo)
         {
             ArgumentNullException.ThrowIfNull(propertyInfo);
-            return (IPropertyAccessor)Activator.CreateInstance(typeof(PropertyAccessor<,>).MakeGenericType(propertyInfo?.DeclaringType, propertyInfo.PropertyType), propertyInfo);
+            // For AOT/trimming compatibility, we need to be more specific about the types we're creating
+            if (propertyInfo?.DeclaringType != null)
+            {
+                Type accessorType = typeof(PropertyAccessor<,>).MakeGenericType(propertyInfo.DeclaringType, propertyInfo.PropertyType);
+                return (IPropertyAccessor)Activator.CreateInstance(accessorType, propertyInfo)!;
+            }
+            return (IPropertyAccessor)Activator.CreateInstance(typeof(PropertyAccessor<,>).MakeGenericType(propertyInfo?.DeclaringType ?? typeof(object), propertyInfo?.PropertyType ?? typeof(object)), propertyInfo);
         }
 
         /// <summary>
@@ -33,7 +40,9 @@ namespace Syncfusion.Blazor.Toolkit
         /// If <paramref name="propertyName"/> is <c>null</c> or empty, a no-op accessor is returned.
         /// </remarks>
         /// this method returns a non-functional accessor of type <c>PropertyAccessor&lt;object, object&gt;</c> whose `GetValue` returns null.</remarks>
-        public static IPropertyAccessor CreateAccessor(Type objectType, string propertyName)
+        public static IPropertyAccessor CreateAccessor(
+            [DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicProperties)] Type objectType, 
+            string propertyName)
         {
             PropertyInfo? propertyInfo = null;
             if (!string.IsNullOrEmpty(propertyName))
@@ -43,7 +52,9 @@ namespace Syncfusion.Blazor.Toolkit
             //Adding null check and returning null setter for chart alone. Chart passes empty property names for reflection.
             if (propertyInfo is null)
             {
-                return (IPropertyAccessor)Activator.CreateInstance(typeof(PropertyAccessor<,>).MakeGenericType(typeof(object), typeof(object)), propertyInfo);
+                // For AOT/trimming compatibility, we're creating a specific accessor type
+                Type accessorType = typeof(PropertyAccessor<,>).MakeGenericType(typeof(object), typeof(object));
+                return (IPropertyAccessor)Activator.CreateInstance(accessorType, propertyInfo)!;
             }
             return CreateAccessor(propertyInfo);
         }
@@ -86,7 +97,8 @@ namespace Syncfusion.Blazor.Toolkit
         /// and compiles the getter delegate for the specified property.
         /// </summary>
         /// <param name="propertyInfo">The metadata of the property to reflect.</param>
-        public PropertyAccessor(PropertyInfo propertyInfo)
+        public PropertyAccessor(
+            [DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicProperties)] PropertyInfo propertyInfo)
         {
             PropertyInfo = propertyInfo;
             Init();

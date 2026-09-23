@@ -1,4 +1,4 @@
-﻿using System.Collections;
+using System.Collections;
 using System.Linq.Expressions;
 using System.Reflection;
 using System.Text;
@@ -6,6 +6,7 @@ using System.Globalization;
 using System.Dynamic;
 using Syncfusion.Blazor.Toolkit.Data;
 using System.Text.RegularExpressions;
+using System.Diagnostics.CodeAnalysis;
 
 namespace Syncfusion.Blazor.Toolkit.Data
 {
@@ -4316,6 +4317,7 @@ namespace Syncfusion.Blazor.Toolkit.Data
 
         #endregion
 
+        [RequiresUnreferencedCode("This method uses reflection to create instances of generic types which may be trimmed.")]
         private static IList CreateGeneric(Type generic, Type innerType, params object[] args)
         {
             Type specificType = generic.MakeGenericType([innerType]);

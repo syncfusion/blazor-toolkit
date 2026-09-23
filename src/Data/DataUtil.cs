@@ -1,4 +1,4 @@
-﻿using System.Collections;
+using System.Collections;
 using System.Reflection;
 using System.Globalization;
 using System.Dynamic;
@@ -575,7 +575,7 @@ namespace Syncfusion.Blazor.Toolkit.Data
                 if (!IsSimpleType(propertyValue!))
                 {
                     _ = CompareAndRemove(propertyValue!, originalValue!, IsComplex: true);
-                    if (IsFromBatch == null && (propertyValue == null || JsonSerializer.Serialize(propertyValue) == "{}"))
+                    if (IsFromBatch == null && (propertyValue == null || JsonSerializer.Serialize(propertyValue, SfBaseUtils._jsonOptions) == "{}"))
                     {
                         _ = propertiesToIgnore.Add(prop.Name);
                     }
