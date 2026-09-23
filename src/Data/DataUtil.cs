@@ -1,4 +1,5 @@
-﻿using System.Collections;
+using System.Collections;
+using System.Diagnostics.CodeAnalysis;
 using System.Reflection;
 using System.Globalization;
 using System.Dynamic;
@@ -334,6 +335,8 @@ namespace Syncfusion.Blazor.Toolkit.Data
         /// <param name="dataSource">Data source to be sorted.</param>
         /// <param name="sortedColumns">List of sort criteria.</param>
         /// <returns>IEnumerable - sorted records.</returns>
+        [RequiresUnreferencedCode("Calls PerformGroupSorting, which resolves properties by name via OrderBy/OrderByDescending and is unsafe to trim.")]
+        [RequiresDynamicCode("Calls PerformGroupSorting, which builds closed generic methods via MethodInfo.MakeGenericMethod and may need to generate new code at runtime.")]
         public static IEnumerable GroupSorting<T>(IEnumerable dataSource, List<Sort> sortedColumns)
         {
             if (dataSource != null && dataSource is Group<T>)
@@ -345,6 +348,8 @@ namespace Syncfusion.Blazor.Toolkit.Data
             return dataSource!;
         }
 
+        [RequiresUnreferencedCode("Calls OrderBy/OrderByDescending, which resolve properties by name and are unsafe to trim.")]
+        [RequiresDynamicCode("Calls OrderBy/OrderByDescending, which build closed generic methods via MethodInfo.MakeGenericMethod and may need to generate new code at runtime.")]
         internal static IEnumerable PerformGroupSorting<T>(IEnumerable dataSource, IEnumerable<Sort> sortedCol)
         {
             IQueryable data = dataSource.AsQueryable();
@@ -368,6 +373,8 @@ namespace Syncfusion.Blazor.Toolkit.Data
         /// <param name="jsonData">Input data source.</param>
         /// <param name="aggregates">List of aggregate to be calculated.</param>
         /// <returns>Dictionary of aggregate results.</returns>
+        [RequiresUnreferencedCode("Calls CastList, which builds a closed generic Enumerable.Cast<T> method via MethodInfo.MakeGenericMethod and is unsafe to trim.")]
+        [RequiresDynamicCode("Calls CastList, which builds a closed generic Enumerable.Cast<T> method via MethodInfo.MakeGenericMethod and may need to generate new code at runtime.")]
         public static IDictionary<string, object> PerformAggregation(IEnumerable jsonData, List<Aggregate> aggregates)
         {
             Dictionary<string, object> res = [];
@@ -394,6 +401,8 @@ namespace Syncfusion.Blazor.Toolkit.Data
             return res;
         }
 
+        [RequiresUnreferencedCode("Builds a closed generic Enumerable.Cast<T> method via MethodInfo.MakeGenericMethod and invokes it through reflection, which requires the method's dependencies to be preserved and is unsafe to trim.")]
+        [RequiresDynamicCode("Builds a closed generic Enumerable.Cast<T> method via MethodInfo.MakeGenericMethod, which may need to generate new code at runtime and is not supported when AOT compiling.")]
         internal static IEnumerable CastList(Type type, IEnumerable<object> items)
         {
             Type enumerableType = typeof(Enumerable);

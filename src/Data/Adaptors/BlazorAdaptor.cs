@@ -1,4 +1,5 @@
-﻿using System.Collections;
+using System.Collections;
+using System.Diagnostics.CodeAnalysis;
 using System.Dynamic;
 using Syncfusion.Blazor.Toolkit.Internal;
 
@@ -51,6 +52,8 @@ namespace Syncfusion.Blazor.Toolkit.Data
         /// <returns>A task that represents the asynchronous operation. The result contains either a DataResult object with the
         /// operation results and count information, or the operation result collection, depending on the query
         /// parameters.</returns>
+        [RequiresUnreferencedCode("Calls DataOperationInvoke, which in turn calls DynamicObjectOperation.PerformDataOperations and DataUtil.PerformAggregation, both of which build closed generic methods via MethodInfo.MakeGenericMethod and are unsafe to trim.")]
+        [RequiresDynamicCode("Calls DataOperationInvoke, which in turn calls DynamicObjectOperation.PerformDataOperations and DataUtil.PerformAggregation, both of which build closed generic methods via MethodInfo.MakeGenericMethod and may need to generate new code at runtime.")]
         public override async Task<object> PerformDataOperation<T>(object queries)
         {
             IEnumerable DataSource = DataManager.Json; //Component data source should be propagated here.            
@@ -80,6 +83,8 @@ namespace Syncfusion.Blazor.Toolkit.Data
         /// <param name="dataSource">Data source value.</param>
         /// <param name="queries">Query to be processed.</param>
         /// <returns>DataResult.</returns>
+        [RequiresUnreferencedCode("Calls DynamicObjectOperation.PerformDataOperations and DataUtil.PerformAggregation, both of which build closed generic methods via MethodInfo.MakeGenericMethod and are unsafe to trim.")]
+        [RequiresDynamicCode("Calls DynamicObjectOperation.PerformDataOperations and DataUtil.PerformAggregation, both of which build closed generic methods via MethodInfo.MakeGenericMethod and may need to generate new code at runtime.")]
         public static DataResult DataOperationInvoke<T>(
             IEnumerable dataSource, DataManagerRequest queries)
         {
@@ -228,6 +233,8 @@ namespace Syncfusion.Blazor.Toolkit.Data
         /// <param name="datasource">Data source value.</param>
         /// <param name="dm">Query to be processed.</param>
         /// <returns>IEnumerable.</returns>
+        [RequiresUnreferencedCode("May call DataOperations.PerformSorting, which builds a closed generic sort method via MethodInfo.MakeGenericMethod and is unsafe to trim.")]
+        [RequiresDynamicCode("May call DataOperations.PerformSorting, which builds a closed generic sort method via MethodInfo.MakeGenericMethod and may need to generate new code at runtime.")]
         public static IEnumerable CollectChildRecords(IEnumerable datasource, DataManagerRequest dm)
         {
             if (datasource == null || dm == null) { return null!; }

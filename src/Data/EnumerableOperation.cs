@@ -1,4 +1,5 @@
-﻿using System.Collections;
+using System.Collections;
+using System.Diagnostics.CodeAnalysis;
 using System.Linq.Expressions;
 using System.Reflection;
 using Syncfusion.Blazor.Toolkit.Internal;
@@ -18,6 +19,8 @@ namespace Syncfusion.Blazor.Toolkit.Data
         /// <param name="dataSource">Input data source against which the query to be executed.</param>
         /// <param name="manager">Query to be executed.</param>
         /// <returns>IEnumerable - resultant records.</returns>
+        [RequiresUnreferencedCode("May call PerformSorting(IEnumerable, List<Sort>), which builds a closed generic sort method via MethodInfo.MakeGenericMethod and is unsafe to trim.")]
+        [RequiresDynamicCode("May call PerformSorting(IEnumerable, List<Sort>), which builds a closed generic sort method via MethodInfo.MakeGenericMethod and may need to generate new code at runtime.")]
         public static IEnumerable Execute(IEnumerable dataSource, DataManagerRequest manager)
         {
             if (manager == null) { return dataSource; }
@@ -55,6 +58,8 @@ namespace Syncfusion.Blazor.Toolkit.Data
         /// <param name="dataSource">Input data source to be grouped.</param>
         /// <param name="grouped">List of column names by which rows will be grouped.</param>
         /// <returns>IEnumerable.</returns>
+        [RequiresUnreferencedCode("Calls GroupByMany, which resolves properties by name and builds closed generic methods via MethodInfo.MakeGenericMethod. Unsafe to trim.")]
+        [RequiresDynamicCode("Calls GroupByMany, which builds closed generic methods via MethodInfo.MakeGenericMethod and may need to generate new code at runtime.")]
         public static IEnumerable<GroupResult> PerformGrouping(IEnumerable dataSource, List<string> grouped)
         {
             if (dataSource == null || grouped == null)
@@ -85,6 +90,8 @@ namespace Syncfusion.Blazor.Toolkit.Data
         /// <param name="sortedColumns">List of sort criteria.</param>
         /// <param name="sourceType">Specifies the source type.</param>
         /// <returns>IEnumerable - sorted records.</returns>
+        [RequiresUnreferencedCode("Calls OrderBy/ThenBy/OrderByDescending/ThenByDescending overloads that resolve properties by name, which is unsafe to trim.")]
+        [RequiresDynamicCode("Calls OrderBy/ThenBy/OrderByDescending/ThenByDescending overloads that build closed generic methods via MethodInfo.MakeGenericMethod, which may need to generate new code at runtime.")]
         public static IEnumerable PerformSorting(IEnumerable dataSource, List<SortedColumn> sortedColumns, Type? sourceType = null)
         {
             IQueryable data = dataSource.AsQueryable();
@@ -154,6 +161,8 @@ namespace Syncfusion.Blazor.Toolkit.Data
         /// <param name="dataSource">Data source to be sorted.</param>
         /// <param name="sortedColumns">List of sort criteria.</param>
         /// <returns>IEnumerable - sorted records.</returns>
+        [RequiresUnreferencedCode("Builds a closed generic sort method via MethodInfo.MakeGenericMethod and invokes it through reflection, which requires the method's dependencies to be preserved and is unsafe to trim.")]
+        [RequiresDynamicCode("Builds a closed generic sort method via MethodInfo.MakeGenericMethod, which may need to generate new code at runtime and is not supported when AOT compiling.")]
         public static IEnumerable PerformSorting(IEnumerable dataSource, List<Sort> sortedColumns)
         {
             IEnumerable data = dataSource;
@@ -387,6 +396,8 @@ namespace Syncfusion.Blazor.Toolkit.Data
         /// <param name="paramExpression">Parameter expression.</param>
         /// <param name="type">Specifies the source type.</param>
         /// <returns>Expression.</returns>
+        [RequiresUnreferencedCode("Calls Predicate(IQueryable, ParameterExpression, string, object, FilterType, FilterBehavior, bool, Type, bool), which resolves properties by name and is unsafe to trim.")]
+        [RequiresDynamicCode("Calls Predicate(IQueryable, ParameterExpression, string, object, FilterType, FilterBehavior, bool, Type, bool), which resolves properties by name and may need to generate new code at runtime.")]
         public static Expression PredicateBuilder(IEnumerable dataSource, List<WhereFilter> whereFilter, string condition, ParameterExpression paramExpression, Type type)
         {
             Expression? predicate = null;
@@ -480,6 +491,8 @@ namespace Syncfusion.Blazor.Toolkit.Data
         /// <param name="whereFilter">List of filter criteria.</param>
         /// <param name="condition">Filter merge condition. Value can be either AND or OR.</param>
         /// <returns>IEnumerable - filtered records.</returns>
+        [RequiresUnreferencedCode("Calls PredicateBuilder/Where, which resolve properties by name and are unsafe to trim.")]
+        [RequiresDynamicCode("Calls PredicateBuilder/Where, which may need to generate new code at runtime.")]
         public static IEnumerable PerformFiltering(IEnumerable dataSource, List<WhereFilter> whereFilter, string condition)
         {
             Type? type = dataSource?.GetElementType();
@@ -500,6 +513,8 @@ namespace Syncfusion.Blazor.Toolkit.Data
         /// <param name="dataSource">Data source to be filtered.</param>
         /// <param name="searchFilter">List of search criteria.</param>
         /// <returns>IEnumerable - searched records.</returns>
+        [RequiresUnreferencedCode("Calls Predicate, which resolves properties by name and is unsafe to trim.")]
+        [RequiresDynamicCode("Calls Predicate, which may need to generate new code at runtime.")]
         public static IEnumerable PerformSearching(IEnumerable dataSource, List<SearchFilter> searchFilter)
         {
             Type? type = dataSource.GetElementType();

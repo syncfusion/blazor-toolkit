@@ -1,4 +1,6 @@
-﻿namespace Syncfusion.Blazor.Toolkit.Data
+using System.Diagnostics.CodeAnalysis;
+
+namespace Syncfusion.Blazor.Toolkit.Data
 {
     /// <summary>
     /// Provides the members for data adaptor class.
@@ -42,6 +44,13 @@
         /// <typeparam name="T">Specifies the data source model type.</typeparam>
         /// <param name="queries">Specifies the query.</param>
         /// <returns>Task.</returns>
+        /// <remarks>
+        /// Implementations (such as <see cref="BlazorAdaptor"/>) may perform in-memory dynamic query
+        /// operations that build closed generic reflection methods via <see cref="System.Reflection.MethodInfo.MakeGenericMethod(Type[])"/>,
+        /// which requires preserving members for trimming and may generate code at runtime for AOT scenarios.
+        /// </remarks>
+        [RequiresUnreferencedCode("Implementations may perform dynamic query operations that build closed generic methods via MethodInfo.MakeGenericMethod, which is unsafe to trim.")]
+        [RequiresDynamicCode("Implementations may perform dynamic query operations that build closed generic methods via MethodInfo.MakeGenericMethod, which may need to generate new code at runtime.")]
         Task<object> PerformDataOperation<T>(object queries);
 
         /// <summary>
@@ -156,6 +165,8 @@
         /// <typeparam name="T">Specifies the data source model type.</typeparam>
         /// <param name="queries">Specifies the query.</param>
         /// <returns>Task.</returns>
+        [RequiresUnreferencedCode("Implementations may perform dynamic query operations that build closed generic methods via MethodInfo.MakeGenericMethod, which is unsafe to trim.")]
+        [RequiresDynamicCode("Implementations may perform dynamic query operations that build closed generic methods via MethodInfo.MakeGenericMethod, which may need to generate new code at runtime.")]
         public virtual async Task<object> PerformDataOperation<T>(object queries)
         {
             return await Task.FromResult<object>(null!).ConfigureAwait(false);
