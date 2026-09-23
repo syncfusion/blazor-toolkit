@@ -2588,10 +2588,11 @@ namespace Syncfusion.Blazor.Toolkit.Data
         private static MethodInfo[]? _queryableSumMethod;
 
         /// <exclude />
-        [method: RequiresUnreferencedCode("Enumerates all methods of Queryable via Type.GetMethods(), which includes members (such as AsQueryable) annotated with RequiresUnreferencedCode and is unsafe to trim.")]
-        [method: RequiresDynamicCode("Enumerates all methods of Queryable via Type.GetMethods(), which includes members (such as AsQueryable) annotated with RequiresDynamicCode.")]
-        [UnconditionalSuppressMessage("Trimming", "IL2026", Justification = "Enclosing member already carries [RequiresUnreferencedCode]; analyzer does not suppress this specific cross-type generic-method discovery pattern.")]
-        [UnconditionalSuppressMessage("AOT", "IL3050", Justification = "Enclosing member already carries [RequiresDynamicCode]; analyzer does not suppress this specific cross-type generic-method discovery pattern.")]
+        // Note: [method: RequiresUnreferencedCode]/[RequiresDynamicCode] cannot be applied to an expression-bodied
+        // property (CS0657 - only the 'property' target is valid here), so the trim/AOT risk documented by the
+        // suppressions below is instead carried explicitly by GetQueryableSumMethod, the sole caller.
+        [UnconditionalSuppressMessage("Trimming", "IL2026", Justification = "Enumerates all methods of Queryable via Type.GetMethods(), which includes members (such as AsQueryable) annotated with RequiresUnreferencedCode; the risk is documented on the caller, GetQueryableSumMethod.")]
+        [UnconditionalSuppressMessage("AOT", "IL3050", Justification = "Enumerates all methods of Queryable via Type.GetMethods(), which includes members (such as AsQueryable) annotated with RequiresDynamicCode; the risk is documented on the caller, GetQueryableSumMethod.")]
         private static MethodInfo[] QueryableSummethod => _queryableSumMethod ??= [.. typeof(Queryable).GetMethods().Where(m => m.Name == "Sum" && m.GetParameters().Length == 2)];
 
         // MethodInfo[] collection for Queryable extensions and hold the average methods other than Int32.
@@ -2599,10 +2600,11 @@ namespace Syncfusion.Blazor.Toolkit.Data
         private static MethodInfo[]? _queryableaverageMethod;
 
         /// <exclude />
-        [method: RequiresUnreferencedCode("Enumerates all methods of Queryable via Type.GetMethods(), which includes members (such as AsQueryable) annotated with RequiresUnreferencedCode and is unsafe to trim.")]
-        [method: RequiresDynamicCode("Enumerates all methods of Queryable via Type.GetMethods(), which includes members (such as AsQueryable) annotated with RequiresDynamicCode.")]
-        [UnconditionalSuppressMessage("Trimming", "IL2026", Justification = "Enclosing member already carries [RequiresUnreferencedCode]; analyzer does not suppress this specific cross-type generic-method discovery pattern.")]
-        [UnconditionalSuppressMessage("AOT", "IL3050", Justification = "Enclosing member already carries [RequiresDynamicCode]; analyzer does not suppress this specific cross-type generic-method discovery pattern.")]
+        // Note: [method: RequiresUnreferencedCode]/[RequiresDynamicCode] cannot be applied to an expression-bodied
+        // property (CS0657 - only the 'property' target is valid here), so the trim/AOT risk documented by the
+        // suppressions below is instead carried explicitly by GetQueryableAverageMethod, the sole caller.
+        [UnconditionalSuppressMessage("Trimming", "IL2026", Justification = "Enumerates all methods of Queryable via Type.GetMethods(), which includes members (such as AsQueryable) annotated with RequiresUnreferencedCode; the risk is documented on the caller, GetQueryableAverageMethod.")]
+        [UnconditionalSuppressMessage("AOT", "IL3050", Justification = "Enumerates all methods of Queryable via Type.GetMethods(), which includes members (such as AsQueryable) annotated with RequiresDynamicCode; the risk is documented on the caller, GetQueryableAverageMethod.")]
         private static MethodInfo[] QueryableAverageMethod => _queryableaverageMethod ??= [.. typeof(Queryable).GetMethods().Where(m => m.Name == "Average" && m.GetParameters().Length == 2)];
 
         // MethodInfo[] collection is calculated frequently whenever the summary value changes.
@@ -2611,10 +2613,11 @@ namespace Syncfusion.Blazor.Toolkit.Data
         private static MethodInfo[]? _enumerablesummethods;
 
         /// <exclude />
-        [method: RequiresUnreferencedCode("Enumerates all methods of EnumerableExtensions via Type.GetMethods(), which includes members annotated with RequiresUnreferencedCode and is unsafe to trim.")]
-        [method: RequiresDynamicCode("Enumerates all methods of EnumerableExtensions via Type.GetMethods(), which includes members annotated with RequiresDynamicCode.")]
-        [UnconditionalSuppressMessage("Trimming", "IL2026", Justification = "Enclosing member already carries [RequiresUnreferencedCode]; analyzer does not suppress this specific cross-type generic-method discovery pattern.")]
-        [UnconditionalSuppressMessage("AOT", "IL3050", Justification = "Enclosing member already carries [RequiresDynamicCode]; analyzer does not suppress this specific cross-type generic-method discovery pattern.")]
+        // Note: [method: RequiresUnreferencedCode]/[RequiresDynamicCode] cannot be applied to an expression-bodied
+        // property (CS0657 - only the 'property' target is valid here); callers of this member already carry the
+        // corresponding Requires attributes (see the Sum(...) overloads below), so the risk remains documented.
+        [UnconditionalSuppressMessage("Trimming", "IL2026", Justification = "Enumerates all methods of EnumerableExtensions via Type.GetMethods(), which includes members annotated with RequiresUnreferencedCode; callers already carry the corresponding Requires attribute.")]
+        [UnconditionalSuppressMessage("AOT", "IL3050", Justification = "Enumerates all methods of EnumerableExtensions via Type.GetMethods(), which includes members annotated with RequiresDynamicCode; callers already carry the corresponding Requires attribute.")]
         private static MethodInfo[] EnumerableSumMethods => _enumerablesummethods ??=
                         [.. typeof(EnumerableExtensions).GetMethods().Where(static m => m.Name == "Sum" && m.GetParameters().Length == 2)];
 
@@ -2623,10 +2626,11 @@ namespace Syncfusion.Blazor.Toolkit.Data
         private static MethodInfo[]? _enumerableaverageMethods;
 
         /// <exclude />
-        [method: RequiresUnreferencedCode("Enumerates all methods of EnumerableExtensions via Type.GetMethods(), which includes members annotated with RequiresUnreferencedCode and is unsafe to trim.")]
-        [method: RequiresDynamicCode("Enumerates all methods of EnumerableExtensions via Type.GetMethods(), which includes members annotated with RequiresDynamicCode.")]
-        [UnconditionalSuppressMessage("Trimming", "IL2026", Justification = "Enclosing member already carries [RequiresUnreferencedCode]; analyzer does not suppress this specific cross-type generic-method discovery pattern.")]
-        [UnconditionalSuppressMessage("AOT", "IL3050", Justification = "Enclosing member already carries [RequiresDynamicCode]; analyzer does not suppress this specific cross-type generic-method discovery pattern.")]
+        // Note: [method: RequiresUnreferencedCode]/[RequiresDynamicCode] cannot be applied to an expression-bodied
+        // property (CS0657 - only the 'property' target is valid here); callers of this member already carry the
+        // corresponding Requires attributes (see the Average(...) overloads below), so the risk remains documented.
+        [UnconditionalSuppressMessage("Trimming", "IL2026", Justification = "Enumerates all methods of EnumerableExtensions via Type.GetMethods(), which includes members annotated with RequiresUnreferencedCode; callers already carry the corresponding Requires attribute.")]
+        [UnconditionalSuppressMessage("AOT", "IL3050", Justification = "Enumerates all methods of EnumerableExtensions via Type.GetMethods(), which includes members annotated with RequiresDynamicCode; callers already carry the corresponding Requires attribute.")]
         private static MethodInfo[] EnumerableAverageMethods => _enumerableaverageMethods ??= [.. typeof(EnumerableExtensions).GetMethods().Where(m => m.Name == "Average" && m.GetParameters().Length == 2)];
 
         /// <exclude />
