@@ -1,4 +1,5 @@
-﻿using Syncfusion.Blazor.Toolkit.Charts.Internal;
+using Syncfusion.Blazor.Toolkit.Charts.Internal;
+using System.Diagnostics.CodeAnalysis;
 
 namespace Syncfusion.Blazor.Toolkit.Charts
 {
@@ -32,6 +33,8 @@ namespace Syncfusion.Blazor.Toolkit.Charts
         /// Processes mouse move events over the chart and triggers associated handlers.
         /// </summary>
         /// <param name="args">The chart internal mouse event arguments containing position and target information</param>
+        [RequiresUnreferencedCode("May call MouseMoveHandlerAsync, which calls SfBaseComponent.InvokeAsync<T> and is unsafe to trim.")]
+        [RequiresDynamicCode("May call MouseMoveHandlerAsync, which calls SfBaseComponent.InvokeAsync<T> and may need to generate new code at runtime.")]
         private void ProcessChartMouseMove(ChartInternalMouseEventArgs args)
         {
             args.ID = ID;

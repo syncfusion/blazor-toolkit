@@ -1,4 +1,4 @@
-﻿using Microsoft.JSInterop;
+using Microsoft.JSInterop;
 using Syncfusion.Blazor.Toolkit.Charts.Internal;
 using System.ComponentModel;
 using System.Text.Json;
@@ -653,6 +653,8 @@ namespace Syncfusion.Blazor.Toolkit.Charts
         /// <exclude />
         [EditorBrowsable(EditorBrowsableState.Never)]
         [JSInvokable]
+        [RequiresUnreferencedCode("Calls ProcessChartMouseMove, which may call SfBaseComponent.InvokeAsync<T> and is unsafe to trim.")]
+        [RequiresDynamicCode("Calls ProcessChartMouseMove, which may call SfBaseComponent.InvokeAsync<T> and may need to generate new code at runtime.")]
         public void OnZoomingMouseMove(ChartInternalMouseEventArgs args)
         {
             if (args is null || _isLayoutChange)
