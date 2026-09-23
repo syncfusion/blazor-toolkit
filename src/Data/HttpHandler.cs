@@ -3,6 +3,7 @@ using System.Text.Json;
 using System.Text.Json.Serialization;
 using System.Collections;
 using System.Globalization;
+using System.Diagnostics.CodeAnalysis;
 
 namespace Syncfusion.Blazor.Toolkit.Data
 {
@@ -104,6 +105,8 @@ namespace Syncfusion.Blazor.Toolkit.Data
         }
 
         /// <exclude />
+        [RequiresUnreferencedCode("Calls JsonSerializer.Serialize(object, JsonSerializerOptions), which is unsafe to trim.")]
+        [RequiresDynamicCode("Calls JsonSerializer.Serialize(object, JsonSerializerOptions) and constructs a JsonStringEnumConverter, both of which may need to generate new code at runtime.")]
         public static HttpRequestMessage PrepareRequest(RequestOptions options)
         {
             if (!options.Url!.StartsWith("http", StringComparison.Ordinal))
@@ -135,6 +138,8 @@ namespace Syncfusion.Blazor.Toolkit.Data
         }
 
         /// <exclude />
+        [RequiresUnreferencedCode("Calls JsonSerializer.Serialize(object, JsonSerializerOptions), which is unsafe to trim.")]
+        [RequiresDynamicCode("Calls JsonSerializer.Serialize(object, JsonSerializerOptions) and constructs a JsonStringEnumConverter, both of which may need to generate new code at runtime.")]
         public static HttpRequestMessage PrepareBatchRequest(RequestOptions options, Type? ModelType = null)
         {
             if (!options.Url!.StartsWith("http", StringComparison.Ordinal))
