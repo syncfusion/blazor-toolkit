@@ -1,6 +1,7 @@
-﻿using Microsoft.AspNetCore.Components;
+using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Rendering;
 using Syncfusion.Blazor.Toolkit.Internal;
+using System.Diagnostics.CodeAnalysis;
 using System.Dynamic;
 using System.Globalization;
 using System.Reflection;
@@ -370,6 +371,17 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
         /// <summary>
         /// Routes data processing based on detected data type (JSON, ExpandoObject, DynamicObject, or standard CLR).
         /// </summary>
+        /// <remarks>
+        /// This is the deliberate stopping boundary for the <see cref="FastReflectionExtension.CreateAccessor(Type, string)"/>
+        /// property-mapping feature used by <see cref="ProcessObjectData"/>: <c>firstDataType</c> is always the developer's
+        /// own data-model type, which is already statically referenced (and therefore preserved) through the
+        /// <c>ChartSeries.DataSource</c>/generic series binding, so trimming cannot remove the members that are looked up
+        /// here by name. Propagating <c>Requires*</c> further up would only reach internal/framework-invoked rendering
+        /// plumbing (<see cref="ProcessData"/>, <c>SeriesContainer</c>, <c>SfChart</c> lifecycle overrides) with no
+        /// actionable benefit to consumers, so the warning is intentionally suppressed here instead of propagated.
+        /// </remarks>
+        [UnconditionalSuppressMessage("Trimming", "IL2026", Justification = "Sole in-assembly caller of ProcessObjectData, which resolves series property mappings (XName/YName/etc.) via FastReflectionExtension.CreateAccessor. The data-model type is always statically referenced through the chart's generic series binding, so its members are preserved under trimming. This is the intentional architectural boundary for this feature; see remarks.")]
+        [UnconditionalSuppressMessage("AOT", "IL3050", Justification = "Same rationale as IL2026 above: CreateAccessor's closed-generic construction only ever targets types that are already statically referenced via the chart's generic series binding, so no new code needs to be generated for previously-unseen types at trim/AOT time.")]
         private void ProcessDataByType(string dataType, Type firstDataType, string xName, string yName, IEnumerable<object> currentViewData)
         {
             switch (dataType)
@@ -750,6 +762,8 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
         /// <summary>
         /// Processes standard CLR object data using reflection for optimal performance.
         /// </summary>
+        [RequiresUnreferencedCode("Calls FastReflectionExtension.CreateAccessor(Type, string), which creates closed generic PropertyAccessor<,> instances via Type.MakeGenericType and looks up properties by name. Unsafe to trim.")]
+        [RequiresDynamicCode("Calls FastReflectionExtension.CreateAccessor(Type, string), which creates closed generic PropertyAccessor<,> instances via Type.MakeGenericType and may need to generate new code at runtime.")]
         protected virtual void ProcessObjectData(Type firstDataType, string xName, string yName, IEnumerable<object> currentViewData)
         {
             if (firstDataType is null || currentViewData is null || Series is null || Owner is null)

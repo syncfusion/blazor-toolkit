@@ -1,4 +1,4 @@
-﻿using System.Diagnostics.CodeAnalysis;
+using System.Diagnostics.CodeAnalysis;
 using System.Reflection;
 
 namespace Syncfusion.Blazor.Toolkit
@@ -17,6 +17,8 @@ namespace Syncfusion.Blazor.Toolkit
         /// <returns>An <see cref="IPropertyAccessor"/> that can read the property value from an object.</returns>
         /// <exception cref="ArgumentNullException">Thrown when <paramref name="propertyInfo"/> is null.</exception>
         /// <remarks>This method throws <see cref="ArgumentNullException"/> if <paramref name="propertyInfo"/> is null.</remarks>
+        [RequiresUnreferencedCode("Creates a closed generic PropertyAccessor<,> via Type.MakeGenericType, which requires the declaring/property types' members to be preserved and may need runtime code generation.")]
+        [RequiresDynamicCode("Creates a closed generic PropertyAccessor<,> via Type.MakeGenericType, which may need to generate new code at runtime and is not supported when AOT compiling.")]
         public static IPropertyAccessor CreateAccessor(PropertyInfo propertyInfo)
         {
             ArgumentNullException.ThrowIfNull(propertyInfo);
@@ -33,6 +35,8 @@ namespace Syncfusion.Blazor.Toolkit
         /// If <paramref name="propertyName"/> is <c>null</c> or empty, a no-op accessor is returned.
         /// </remarks>
         /// this method returns a non-functional accessor of type <c>PropertyAccessor&lt;object, object&gt;</c> whose `GetValue` returns null.</remarks>
+        [RequiresUnreferencedCode("Creates a closed generic PropertyAccessor<,> via Type.MakeGenericType and looks up the property by name, which requires the object type's members to be preserved and may need runtime code generation.")]
+        [RequiresDynamicCode("Creates a closed generic PropertyAccessor<,> via Type.MakeGenericType, which may need to generate new code at runtime and is not supported when AOT compiling.")]
         public static IPropertyAccessor CreateAccessor(Type objectType, string propertyName)
         {
             PropertyInfo? propertyInfo = null;
