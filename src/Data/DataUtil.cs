@@ -120,6 +120,8 @@ namespace Syncfusion.Blazor.Toolkit.Data
         /// <param name="dataSource">Collection of Data source.</param>
         /// <param name="propertyName">property name which is need to distincts </param>.
         /// <returns>IEnumerable Distinct collections</returns>
+        [RequiresUnreferencedCode("Calls GetObject, which may resolve members via the C# dynamic runtime binder and is unsafe to trim.")]
+        [RequiresDynamicCode("Calls GetObject, which may need to generate new code at runtime.")]
         internal static IEnumerable<T> GetDistinct<T>(IEnumerable<T> dataSource, string propertyName)
         {
             List<T> DistinctCollections = [];
@@ -434,6 +436,8 @@ namespace Syncfusion.Blazor.Toolkit.Data
         /// <param name="nameSpace">Property name to be accessed.</param>
         /// <param name="from">Source object.</param>
         /// <returns>object - property value.</returns>
+        [RequiresUnreferencedCode("Calls GetObject, which may resolve members via the C# dynamic runtime binder and is unsafe to trim.")]
+        [RequiresDynamicCode("Calls GetObject, which may need to generate new code at runtime.")]
         public static object GetGroupValue(string nameSpace, object from)
         {
             return nameSpace != null ? GetObject(nameSpace, from) : from;
@@ -446,6 +450,8 @@ namespace Syncfusion.Blazor.Toolkit.Data
         /// <param name="from">Source object.</param>
         /// <returns>object - property value.</returns>
         /// <remarks>For accessing complex/nested property value, given the nameSpace with field names delimited by dot(.).</remarks>
+        [RequiresUnreferencedCode("Calls ReflectionExtension.GetValue, which may resolve members via the C# dynamic runtime binder and is unsafe to trim.")]
+        [RequiresDynamicCode("Calls ReflectionExtension.GetValue, which may need to generate new code at runtime.")]
         public static object GetObject(string nameSpace, object from)
         {
             return ReflectionExtension.GetValue(from, nameSpace);
@@ -711,6 +717,8 @@ namespace Syncfusion.Blazor.Toolkit.Data
             return param;
         }
 
+        [RequiresUnreferencedCode("Calls GetObject, which may resolve members via the C# dynamic runtime binder and is unsafe to trim.")]
+        [RequiresDynamicCode("Calls GetObject, which may need to generate new code at runtime.")]
         internal static string GetODataUrlKey(object rowData, string keyField, object? value = null, Type? ModelType = null)
         {
             object? keyVal = value ?? GetObject(keyField, rowData);
@@ -755,6 +763,7 @@ namespace Syncfusion.Blazor.Toolkit.Data
         /// <param name="obj">Input dynamic object.</param>
         /// <param name="name">Property name to get.</param>
         /// <returns>object.</returns>
+        [RequiresDynamicCode("Constructs a DataMemberBinder call site, which may need to generate new code at runtime.")]
         public static object GetDynamicValue(DynamicObject obj, string name)
         {
             object? value = null;

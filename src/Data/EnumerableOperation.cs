@@ -202,6 +202,8 @@ namespace Syncfusion.Blazor.Toolkit.Data
 
             return (IEnumerable)method.Invoke(null, [list, sortColumns])!;
         }
+        [RequiresUnreferencedCode("Calls BuildPropertyChain, which may resolve members via the C# dynamic runtime binder and is unsafe to trim.")]
+        [RequiresDynamicCode("Calls BuildPropertyChain, which may need to generate new code at runtime.")]
         private static List<T> SortInternal<T>(List<object> source, List<SortedColumn> columns)
         {
             List<T> typedList = [.. source.Cast<T>()];
@@ -269,6 +271,8 @@ namespace Syncfusion.Blazor.Toolkit.Data
             _ = Parallel.For(0, indices.Length, i => sorted[i] = typedList[indices[i]]);
             return [.. sorted];
         }
+        [RequiresUnreferencedCode("Calls GetDynamicValue, which may resolve members via the C# dynamic runtime binder and is unsafe to trim.")]
+        [RequiresDynamicCode("Calls GetDynamicValue, which may need to generate new code at runtime.")]
         private static Expression BuildPropertyChain(Expression param, string propertyPath)
         {
             string[] properties = propertyPath.Split('.');
@@ -312,6 +316,8 @@ namespace Syncfusion.Blazor.Toolkit.Data
         /// <param name="obj"></param>
         /// <param name="key"></param>
         /// <returns></returns>
+        [RequiresUnreferencedCode("May call ReflectionExtension.GetValue, which may resolve members via the C# dynamic runtime binder and is unsafe to trim.")]
+        [RequiresDynamicCode("May call ReflectionExtension.GetValue, which may need to generate new code at runtime.")]
         public static object GetDynamicValue(object obj, string key)
         {
             if (obj is IDictionary<string, object> dict && dict.TryGetValue(key, out object? value))
@@ -329,6 +335,8 @@ namespace Syncfusion.Blazor.Toolkit.Data
         {
             private readonly (Func<T, object> Getter, IComparer<object> Comparer, bool Descending, bool isForeignKeyComparer)[] _accessors;
 
+            [RequiresUnreferencedCode("Calls BuildPropertyChain, which may resolve members via the C# dynamic runtime binder and is unsafe to trim.")]
+            [RequiresDynamicCode("Calls BuildPropertyChain, which may need to generate new code at runtime.")]
             public SortDataComparer(List<SortedColumn> columns)
             {
                 _accessors = new (Func<T, object>, IComparer<object>, bool, bool)[columns.Count];
@@ -641,6 +649,8 @@ namespace Syncfusion.Blazor.Toolkit.Data
             return propInfo?.PropertyType!;
         }
 
+        [RequiresUnreferencedCode("Calls DataUtil.GetObject, which may resolve members via the C# dynamic runtime binder and is unsafe to trim.")]
+        [RequiresDynamicCode("Calls DataUtil.GetObject, which may need to generate new code at runtime.")]
         private static Type UpdateType(IEnumerable dataSource, string filterString, object value, Type type)
         {
             bool isValue = false;

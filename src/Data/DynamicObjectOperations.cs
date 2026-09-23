@@ -161,6 +161,8 @@ namespace Syncfusion.Blazor.Toolkit.Data
             return data;
         }
 
+        [RequiresUnreferencedCode("Calls ReflectionExtension.GetValueFromIDynamicMetaObject, which may resolve members via the C# dynamic runtime binder and is unsafe to trim.")]
+        [RequiresDynamicCode("Calls ReflectionExtension.GetValueFromIDynamicMetaObject, which may need to generate new code at runtime.")]
         private static Type GetColumnType(IEnumerable dataSource, string filterString, bool nullable = true)
         {
             _ = nullable;
