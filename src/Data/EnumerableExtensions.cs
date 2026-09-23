@@ -531,6 +531,8 @@ namespace Syncfusion.Blazor.Toolkit.Data
         /// <param name="propertyName"></param>
         /// <param name="GetFunc"></param>
         /// <returns></returns>
+        [RequiresUnreferencedCode("Calls IEnumerable<T>.AsQueryable(), which is unsafe to trim because expressions referencing IQueryable extension methods can get rebound to IEnumerable extension methods that may be trimmed.")]
+        [RequiresDynamicCode("Calls IEnumerable<T>.AsQueryable(), which may need to generate new code at runtime.")]
         public static IEnumerable<T> OrderBy<T>(this IEnumerable<T> entities, string propertyName, Func<string, object, object> GetFunc)
         {
             if ((entities != null && !entities.AsQueryable().Any()) || string.IsNullOrEmpty(propertyName))
@@ -557,6 +559,8 @@ namespace Syncfusion.Blazor.Toolkit.Data
         /// <param name="propertyName"></param>
         /// <param name="GetFunc"></param>
         /// <returns></returns>
+        [RequiresUnreferencedCode("Calls IEnumerable<T>.AsQueryable(), which is unsafe to trim because expressions referencing IQueryable extension methods can get rebound to IEnumerable extension methods that may be trimmed.")]
+        [RequiresDynamicCode("Calls IEnumerable<T>.AsQueryable(), which may need to generate new code at runtime.")]
         public static IEnumerable<T> OrderByDescending<T>(this IEnumerable<T> entities, string propertyName, Func<string, object, object> GetFunc)
         {
             if ((entities != null && !entities.AsQueryable().Any()) || string.IsNullOrEmpty(propertyName))
@@ -584,6 +588,8 @@ namespace Syncfusion.Blazor.Toolkit.Data
         /// <param name="propertyName"></param>
         /// <param name="GetFunc"></param>
         /// <returns></returns>
+        [RequiresUnreferencedCode("Calls IOrderedEnumerable<T>.AsQueryable(), which is unsafe to trim because expressions referencing IQueryable extension methods can get rebound to IEnumerable extension methods that may be trimmed.")]
+        [RequiresDynamicCode("Calls IOrderedEnumerable<T>.AsQueryable(), which may need to generate new code at runtime.")]
         public static IEnumerable<T> ThenBy<T>(this IOrderedEnumerable<T> entities, string propertyName, Func<string, object, object> GetFunc)
         {
             if ((entities != null && !entities.AsQueryable().Any()) || string.IsNullOrEmpty(propertyName))
@@ -612,6 +618,8 @@ namespace Syncfusion.Blazor.Toolkit.Data
         /// <param name="propertyName"></param>
         /// <param name="GetFunc"></param>
         /// <returns></returns>
+        [RequiresUnreferencedCode("Calls IOrderedEnumerable<T>.AsQueryable(), which is unsafe to trim because expressions referencing IQueryable extension methods can get rebound to IEnumerable extension methods that may be trimmed.")]
+        [RequiresDynamicCode("Calls IOrderedEnumerable<T>.AsQueryable(), which may need to generate new code at runtime.")]
         public static IEnumerable<T> ThenByDescending<T>(this IOrderedEnumerable<T> entities, string propertyName, Func<string, object, object> GetFunc)
         {
 
@@ -640,6 +648,8 @@ namespace Syncfusion.Blazor.Toolkit.Data
         /// <param name="GetFunc"></param>
         /// <param name="comparer"></param>
         /// <returns></returns>
+        [RequiresUnreferencedCode("Calls IEnumerable<T>.AsQueryable(), which is unsafe to trim because expressions referencing IQueryable extension methods can get rebound to IEnumerable extension methods that may be trimmed.")]
+        [RequiresDynamicCode("Calls IEnumerable<T>.AsQueryable(), which may need to generate new code at runtime.")]
         public static IEnumerable<T> OrderBy<T>(this IEnumerable<T> entities, string propertyName, Func<string, object, object> GetFunc, IComparer<object> comparer)
         {
 
@@ -669,6 +679,8 @@ namespace Syncfusion.Blazor.Toolkit.Data
         /// <param name="GetFunc"></param>
         /// <param name="comparer"></param>
         /// <returns></returns>
+        [RequiresUnreferencedCode("Calls IEnumerable<T>.AsQueryable(), which is unsafe to trim because expressions referencing IQueryable extension methods can get rebound to IEnumerable extension methods that may be trimmed.")]
+        [RequiresDynamicCode("Calls IEnumerable<T>.AsQueryable(), which may need to generate new code at runtime.")]
         public static IEnumerable<T> OrderByDescending<T>(this IEnumerable<T> entities, string propertyName, Func<string, object, object> GetFunc, IComparer<object> comparer)
         {
 
@@ -697,6 +709,8 @@ namespace Syncfusion.Blazor.Toolkit.Data
         /// <param name="GetFunc"></param>
         /// <param name="comparer"></param>
         /// <returns></returns>
+        [RequiresUnreferencedCode("Calls IOrderedEnumerable<T>.AsQueryable(), which is unsafe to trim because expressions referencing IQueryable extension methods can get rebound to IEnumerable extension methods that may be trimmed.")]
+        [RequiresDynamicCode("Calls IOrderedEnumerable<T>.AsQueryable(), which may need to generate new code at runtime.")]
         public static IEnumerable<T> ThenBy<T>(this IOrderedEnumerable<T> entities, string propertyName, Func<string, object, object> GetFunc, IComparer<object> comparer)
         {
 
@@ -725,6 +739,8 @@ namespace Syncfusion.Blazor.Toolkit.Data
         /// <param name="GetFunc"></param>
         /// <param name="comparer"></param>
         /// <returns></returns>
+        [RequiresUnreferencedCode("Calls IOrderedEnumerable<T>.AsQueryable(), which is unsafe to trim because expressions referencing IQueryable extension methods can get rebound to IEnumerable extension methods that may be trimmed.")]
+        [RequiresDynamicCode("Calls IOrderedEnumerable<T>.AsQueryable(), which may need to generate new code at runtime.")]
         public static IEnumerable<T> ThenByDescending<T>(this IOrderedEnumerable<T> entities, string propertyName, Func<string, object, object> GetFunc, IComparer<object> comparer)
         {
             if ((entities != null && !entities.AsQueryable().Any()) || string.IsNullOrEmpty(propertyName))

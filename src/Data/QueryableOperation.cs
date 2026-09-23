@@ -137,6 +137,8 @@ namespace Syncfusion.Blazor.Toolkit.Data
         /// <param name="dataSource">Input data source.</param>
         /// <param name="skip">Number of records to be skipped.</param>
         /// <returns>IQueryable.</returns>
+        [RequiresUnreferencedCode("Calls IQueryable<T>.AsQueryable() and QueryableExtensions.Skip<T>(IQueryable<T>, int), both of which are unsafe to trim.")]
+        [RequiresDynamicCode("Calls IQueryable<T>.AsQueryable() and QueryableExtensions.Skip<T>(IQueryable<T>, int), both of which may need to generate new code at runtime.")]
         public static IQueryable<T> PerformSkip<T>(IQueryable<T> dataSource, int skip)
         {
             IQueryable<T> data = dataSource.AsQueryable();
@@ -149,6 +151,8 @@ namespace Syncfusion.Blazor.Toolkit.Data
         /// <param name="dataSource">Input data source.</param>
         /// <param name="take">Number of records to be taken.</param>
         /// <returns>IQueryable.</returns>
+        [RequiresUnreferencedCode("Calls IQueryable<T>.AsQueryable() and QueryableExtensions.Take<T>(IQueryable<T>, int), both of which are unsafe to trim.")]
+        [RequiresDynamicCode("Calls IQueryable<T>.AsQueryable() and QueryableExtensions.Take<T>(IQueryable<T>, int), both of which may need to generate new code at runtime.")]
         public static IQueryable<T> PerformTake<T>(IQueryable<T> dataSource, int take)
         {
             IQueryable<T> data = dataSource.AsQueryable();
@@ -166,6 +170,8 @@ namespace Syncfusion.Blazor.Toolkit.Data
             return type;
         }
 
+        [RequiresUnreferencedCode("Calls QueryableExtensions.ElementAt(IQueryable, int), which is unsafe to trim.")]
+        [RequiresDynamicCode("Calls QueryableExtensions.ElementAt(IQueryable, int), which may need to generate new code at runtime.")]
         private static Type GetColumnType<T>(IQueryable<T> dataSource, string filterString, Type? type)
         {
             string[] complexData = filterString.Split('.');

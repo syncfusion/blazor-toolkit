@@ -590,6 +590,8 @@ namespace Syncfusion.Blazor.Toolkit.Data
         /// Returns data type.
         /// </summary>
         /// <exclude />
+        [RequiresUnreferencedCode("Calls IEnumerable.AsQueryable(), which is unsafe to trim because expressions referencing IQueryable extension methods can get rebound to IEnumerable extension methods that may be trimmed.")]
+        [RequiresDynamicCode("Calls IEnumerable.AsQueryable(), which may need to generate new code at runtime.")]
         public static Type GetDataType(IEnumerable dataSource, Type type, string field)
         {
             string[] complexData = field != null ? field.Split('.') : [];
@@ -605,6 +607,8 @@ namespace Syncfusion.Blazor.Toolkit.Data
         /// Returns column type.
         /// </summary>
         /// <exclude />
+        [RequiresUnreferencedCode("Calls IEnumerable.AsQueryable() and QueryableExtensions.ElementAt(IQueryable, int), both of which are unsafe to trim.")]
+        [RequiresDynamicCode("Calls IEnumerable.AsQueryable() and QueryableExtensions.ElementAt(IQueryable, int), both of which may need to generate new code at runtime.")]
         public static Type GetColumnType(IEnumerable dataSource, string filterString, Type type)
         {
             string[] complexData = filterString != null ? filterString.Split('.') : []; ;
@@ -662,6 +666,8 @@ namespace Syncfusion.Blazor.Toolkit.Data
         /// <param name="dataSource">Input data source.</param>
         /// <param name="skip">Number of records to be skipped.</param>
         /// <returns>IEnumerable.</returns>
+        [RequiresUnreferencedCode("Calls IEnumerable.AsQueryable() and QueryableExtensions.Skip(IQueryable, int), both of which are unsafe to trim.")]
+        [RequiresDynamicCode("Calls IEnumerable.AsQueryable() and QueryableExtensions.Skip(IQueryable, int), both of which may need to generate new code at runtime.")]
         public static IEnumerable PerformSkip(IEnumerable dataSource, int skip)
         {
             IEnumerable data = dataSource;
@@ -674,6 +680,8 @@ namespace Syncfusion.Blazor.Toolkit.Data
         /// <param name="dataSource">Input data source.</param>
         /// <param name="take">Number of records to be taken.</param>
         /// <returns>IEnumerable.</returns>
+        [RequiresUnreferencedCode("Calls IEnumerable.AsQueryable() and QueryableExtensions.Take(IQueryable, int), both of which are unsafe to trim.")]
+        [RequiresDynamicCode("Calls IEnumerable.AsQueryable() and QueryableExtensions.Take(IQueryable, int), both of which may need to generate new code at runtime.")]
         public static IEnumerable PerformTake(IEnumerable dataSource, int take)
         {
             IEnumerable data = dataSource;

@@ -80,6 +80,8 @@ namespace Syncfusion.Blazor.Toolkit.Data
         /// <param name="dataSource">Input data source.</param>
         /// <param name="skip">Number of records to be skipped.</param>
         /// <returns>IEnumerable.</returns>
+        [RequiresUnreferencedCode("Calls EnumerableOperation.PerformSkip, which is unsafe to trim.")]
+        [RequiresDynamicCode("Calls EnumerableOperation.PerformSkip, which may need to generate new code at runtime.")]
         public static IEnumerable PerformSkip(IEnumerable dataSource, int skip)
         {
             return EnumerableOperation.PerformSkip(dataSource, skip);
@@ -91,6 +93,8 @@ namespace Syncfusion.Blazor.Toolkit.Data
         /// <param name="dataSource">Input data source.</param>
         /// <param name="take">Number of records to be taken.</param>
         /// <returns>IEnumerable.</returns>
+        [RequiresUnreferencedCode("Calls EnumerableOperation.PerformTake, which is unsafe to trim.")]
+        [RequiresDynamicCode("Calls EnumerableOperation.PerformTake, which may need to generate new code at runtime.")]
         public static IEnumerable PerformTake(IEnumerable dataSource, int take)
         {
             return EnumerableOperation.PerformTake(dataSource, take);
@@ -130,6 +134,8 @@ namespace Syncfusion.Blazor.Toolkit.Data
         /// <param name="skip">Number of records to be skipped.</param>
         /// <typeparam name="T">Type of the data source elements.</typeparam>
         /// <returns>IEnumerable.</returns>
+        [RequiresUnreferencedCode("Calls IEnumerable<T>.AsQueryable(), which is unsafe to trim because expressions referencing IQueryable extension methods can get rebound to IEnumerable extension methods that may be trimmed.")]
+        [RequiresDynamicCode("Calls IEnumerable<T>.AsQueryable(), which may need to generate new code at runtime.")]
         public static IEnumerable<T> PerformSkip<T>(IEnumerable<T> dataSource, int skip)
         {
             return QueryableOperation.PerformSkip(dataSource.AsQueryable(), skip);
@@ -142,6 +148,8 @@ namespace Syncfusion.Blazor.Toolkit.Data
         /// <param name="take">Number of records to be taken.</param>
         /// <typeparam name="T">Type of the data source elements.</typeparam>
         /// <returns>IEnumerable.</returns>
+        [RequiresUnreferencedCode("Calls IEnumerable<T>.AsQueryable(), which is unsafe to trim because expressions referencing IQueryable extension methods can get rebound to IEnumerable extension methods that may be trimmed.")]
+        [RequiresDynamicCode("Calls IEnumerable<T>.AsQueryable(), which may need to generate new code at runtime.")]
         public static IEnumerable<T> PerformTake<T>(IEnumerable<T> dataSource, int take)
         {
             return QueryableOperation.PerformTake(dataSource.AsQueryable(), take);
@@ -294,6 +302,8 @@ namespace Syncfusion.Blazor.Toolkit.Data
         /// <param name="skip">Number of records to be skipped.</param>
         /// <typeparam name="T">Type of the data source elements.</typeparam>
         /// <returns>IQueryable.</returns>
+        [RequiresUnreferencedCode("Calls QueryableOperation.PerformSkip, which is unsafe to trim.")]
+        [RequiresDynamicCode("Calls QueryableOperation.PerformSkip, which may need to generate new code at runtime.")]
         public static IQueryable<T> PerformSkip<T>(IQueryable<T> dataSource, int skip)
         {
             return QueryableOperation.PerformSkip(dataSource, skip);
@@ -306,6 +316,8 @@ namespace Syncfusion.Blazor.Toolkit.Data
         /// <param name="take">Number of records to be taken.</param>
         /// <typeparam name="T">Type of the data source elements.</typeparam>
         /// <returns>IEnumerable.</returns>
+        [RequiresUnreferencedCode("Calls QueryableOperation.PerformTake, which is unsafe to trim.")]
+        [RequiresDynamicCode("Calls QueryableOperation.PerformTake, which may need to generate new code at runtime.")]
         public static IQueryable<T> PerformTake<T>(IQueryable<T> dataSource, int take)
         {
             return QueryableOperation.PerformTake(dataSource, take);

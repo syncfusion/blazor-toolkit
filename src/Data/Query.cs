@@ -1,6 +1,7 @@
-﻿using System.Text;
+using System.Text;
 using System.Text.Json;
 using System.Text.Json.Serialization;
+using System.Diagnostics.CodeAnalysis;
 
 namespace Syncfusion.Blazor.Toolkit.Data
 {
@@ -94,6 +95,7 @@ namespace Syncfusion.Blazor.Toolkit.Data
         public string IdMapping { get; set; }
 
         //This variable is for Clone method json serialize options.
+        [UnconditionalSuppressMessage("AOT", "IL3050", Justification = "JsonStringEnumConverter() ctor requires dynamic code only when AOT compiling. This options instance is used for Clone(), which already requires unreferenced code/dynamic code via JsonSerializer.Serialize/Deserialize on the Query type.")]
         private readonly JsonSerializerOptions _cloneJsonSettings = new()
         {
             PropertyNameCaseInsensitive = true,
@@ -404,6 +406,8 @@ namespace Syncfusion.Blazor.Toolkit.Data
         /// Performs deep cloning of the given Query.
         /// </summary>
         /// <returns>Query.</returns>
+        [RequiresUnreferencedCode("Calls JsonSerializer.Serialize/Deserialize, which are unsafe to trim.")]
+        [RequiresDynamicCode("Calls JsonSerializer.Serialize/Deserialize, which may need to generate new code at runtime.")]
         public Query Clone()
         {
             Query clone = new()
@@ -420,6 +424,8 @@ namespace Syncfusion.Blazor.Toolkit.Data
         /// <param name="source">Source Query instance.</param>
         /// <param name="destination">Destination Query instance.</param>
         /// <returns></returns>
+        [RequiresUnreferencedCode("Calls JsonSerializer.Serialize, which is unsafe to trim.")]
+        [RequiresDynamicCode("Calls JsonSerializer.Serialize, which may need to generate new code at runtime.")]
         public static bool IsEqual(Query source, Query destination)
         {
             return JsonSerializer.Serialize(source?.Queries).Equals(JsonSerializer.Serialize(destination?.Queries), StringComparison.Ordinal);
@@ -440,6 +446,8 @@ namespace Syncfusion.Blazor.Toolkit.Data
         /// </summary>
         /// <param name="value">The value to serialize.</param>
         /// <returns>Serialized token string.</returns>
+        [RequiresUnreferencedCode("Calls JsonSerializer.Serialize, which is unsafe to trim.")]
+        [RequiresDynamicCode("Calls JsonSerializer.Serialize, which may need to generate new code at runtime.")]
         private static string SerializeToken(object? value)
         {
             return JsonSerializer.Serialize(value, _writeJsonSettings);
@@ -473,6 +481,12 @@ namespace Syncfusion.Blazor.Toolkit.Data
         /// <param name="writer">The JSON writer.</param>
         /// <param name="value">The query value to serialize.</param>
         /// <param name="options">The serializer options.</param>
+        // This overrides JsonConverter<Query>.Write, which is not annotated with [RequiresUnreferencedCode]/
+        // [RequiresDynamicCode], so the attributes cannot be repeated here. The trim/AOT risk is documented
+        // on SerializeToken below; callers reach this converter only through JsonSerializer.Serialize, which
+        // already carries the corresponding Requires attributes and surfaces the warning to the ultimate caller.
+        [UnconditionalSuppressMessage("Trimming", "IL2026", Justification = "Calls SerializeToken, which is annotated with [RequiresUnreferencedCode]; this override of JsonConverter<Query>.Write cannot itself carry the attribute.")]
+        [UnconditionalSuppressMessage("AOT", "IL3050", Justification = "Calls SerializeToken, which is annotated with [RequiresDynamicCode]; this override of JsonConverter<Query>.Write cannot itself carry the attribute.")]
         public override void Write(Utf8JsonWriter writer, Query value, JsonSerializerOptions options)
         {
             Query query = value;
