@@ -207,6 +207,8 @@ namespace Syncfusion.Blazor.Toolkit.Data
         /// <param name="DataSource">The collection of data to be grouped. Must implement IEnumerable.</param>
         /// <param name="DataObject">The DataResult object that will hold the grouped result and count. Cannot be null.</param>
         /// <returns>A DataResult object containing the grouped data and the total count after grouping.</returns>
+        [RequiresUnreferencedCode("Calls DataUtil.Group<T>, which calls CalculateAggregateFunc and returns a delegate that is unsafe to trim.")]
+        [RequiresDynamicCode("Calls DataUtil.Group<T>, which calls CalculateAggregateFunc and returns a delegate that may need to generate new code at runtime.")]
         public static DataResult GroupResult<T>(DataManagerRequest queries, IEnumerable DataSource, DataResult DataObject)
         {
             ArgumentNullException.ThrowIfNull(queries);

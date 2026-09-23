@@ -180,6 +180,8 @@ namespace Syncfusion.Blazor.Toolkit.Data
             return propertyValue?.GetType()!;
         }
 
+        [RequiresUnreferencedCode("Calls DataUtil.GetColumnType, which calls IEnumerable.AsQueryable() and is unsafe to trim.")]
+        [RequiresDynamicCode("Calls DataUtil.GetColumnType, which calls IEnumerable.AsQueryable() and may need to generate new code at runtime.")]
         private static Type ColumnType(IDictionary<string, Type> columns, string field, object data = null!)
         {
             Type? type = null;

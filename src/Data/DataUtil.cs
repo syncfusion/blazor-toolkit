@@ -227,6 +227,8 @@ namespace Syncfusion.Blazor.Toolkit.Data
         /// <param name="isLazyLoad">Specifies the isLazyLoad property as true to handle lazy load grouping.</param>
         /// <param name="isLazyGroupExpandAll">Specifies the isLazyGroupExpandAll as true to perform expand all for lazy load grouping.</param>
         /// <returns>IEnumerable - Grouped record.</returns>
+        [RequiresUnreferencedCode("Calls CalculateAggregateFunc, which returns a delegate that is unsafe to trim.")]
+        [RequiresDynamicCode("Calls CalculateAggregateFunc, which returns a delegate that may need to generate new code at runtime.")]
         public static IEnumerable Group<T>(IEnumerable jsonArray, string field, List<Aggregate> aggregates, int level, IDictionary<string, string> format, bool isLazyLoad = false, bool isLazyGroupExpandAll = false)
         {
             if (level == 0)
@@ -418,6 +420,8 @@ namespace Syncfusion.Blazor.Toolkit.Data
         /// <param name="index">Index of the item to be processed.</param>
         /// <param name="field">Property name to get value.</param>
         /// <returns>object.</returns>
+        [RequiresUnreferencedCode("Calls IEnumerable.AsQueryable(), which is unsafe to trim because expressions referencing IQueryable extension methods can get rebound to IEnumerable extension methods that may be trimmed.")]
+        [RequiresDynamicCode("Calls IEnumerable.AsQueryable(), which may need to generate new code at runtime.")]
         public static object GetVal(IEnumerable jsonData, int index, string field)
         {
             IQueryable<object> jsonDataCol = jsonData.AsQueryable().Cast<object>();
@@ -470,9 +474,13 @@ namespace Syncfusion.Blazor.Toolkit.Data
             }
         }
 
+        [RequiresUnreferencedCode("Returns a delegate that calls AsQueryable/Cast and dynamic LINQ Queryable extension methods (Count/Max/Min/Sum/Where) by property name, which are unsafe to trim.")]
+        [RequiresDynamicCode("Returns a delegate that calls AsQueryable/Cast and dynamic LINQ Queryable extension methods (Count/Max/Min/Sum/Where) by property name, which may need to generate new code at runtime.")]
         internal static Func<IEnumerable, string, string, Type, object> CalculateAggregateFunc()
         {
-            return (items, property, pd, dataType) =>
+            return [RequiresUnreferencedCode("Calls AsQueryable/Cast and dynamic LINQ Queryable extension methods (Count/Max/Min/Sum/Where) by property name, which are unsafe to trim.")]
+            [RequiresDynamicCode("Calls AsQueryable/Cast and dynamic LINQ Queryable extension methods (Count/Max/Min/Sum/Where) by property name, which may need to generate new code at runtime.")]
+            (items, property, pd, dataType) =>
             {
                 string aggregateType = pd;
                 bool isDynamicObjectType = dataType.BaseType == typeof(DynamicObject);
@@ -548,6 +556,8 @@ namespace Syncfusion.Blazor.Toolkit.Data
             return Equals(defaultValue, value);
         }
 
+        [RequiresUnreferencedCode("Calls JsonSerializer.Serialize, which is unsafe to trim.")]
+        [RequiresDynamicCode("Calls JsonSerializer.Serialize, which may need to generate new code at runtime.")]
         internal static object CompareAndRemove(object data, object original, string key = "", bool? IsComplex = null, bool? IsFromBatch = null)
         {
             _ignoredPropertiesPerType.Clear();
@@ -634,6 +644,8 @@ namespace Syncfusion.Blazor.Toolkit.Data
                     : value?.ToString()!;
         }
 
+        [RequiresUnreferencedCode("Calls IEnumerable.AsQueryable(), which is unsafe to trim because expressions referencing IQueryable extension methods can get rebound to IEnumerable extension methods that may be trimmed.")]
+        [RequiresDynamicCode("Calls IEnumerable.AsQueryable() and Type.MakeGenericType(params Type[]), both of which may need to generate new code at runtime.")]
         internal static IDictionary<string, Type> GetColumnType(IEnumerable dataSource, bool nullable = true, string? columnName = null)
         {
             _ = columnName;
@@ -763,6 +775,8 @@ namespace Syncfusion.Blazor.Toolkit.Data
             return value!;
         }
 
+        [RequiresUnreferencedCode("Calls IEnumerable<object>.AsQueryable(), which is unsafe to trim because expressions referencing IQueryable extension methods can get rebound to IEnumerable extension methods that may be trimmed.")]
+        [RequiresDynamicCode("Calls IEnumerable<object>.AsQueryable(), which may need to generate new code at runtime.")]
         internal static object UpdateDictionary(IEnumerable<object> ExpandData, string[] columns)
         {
             List<IDictionary<string, object>> DicData = [];
