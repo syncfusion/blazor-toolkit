@@ -1,7 +1,8 @@
-﻿using System.ComponentModel;
+using System.ComponentModel;
 using System.Reflection;
 using System.Globalization;
 using System.Collections;
+using System.Diagnostics.CodeAnalysis;
 using Hashtable = System.Collections.Generic.Dictionary<object, object>;
 
 namespace Syncfusion.Blazor.Toolkit.Data
@@ -68,6 +69,7 @@ namespace Syncfusion.Blazor.Toolkit.Data
         /// <param name="value"></param>
         /// <param name="type"></param>
         /// <returns></returns>
+        [RequiresUnreferencedCode("Calls TypeConverterHelper.ChangeType, which calls TypeDescriptor.GetConverter(Type) and is unsafe to trim.")]
         public static object ChangeType(object value, Type type)
         {
             Type? nullableUnderlyingType = Nullable.GetUnderlyingType(type);
@@ -94,6 +96,7 @@ namespace Syncfusion.Blazor.Toolkit.Data
         /// <param name="type"></param>
         /// <param name="provider"></param>
         /// <returns></returns>
+        [RequiresUnreferencedCode("Calls TypeConverterHelper.ChangeType, which calls TypeDescriptor.GetConverter(Type) and is unsafe to trim.")]
         public static object ChangeType(object value, Type type, IFormatProvider provider)
         {
             Type? nullableUnderlyingType = Nullable.GetUnderlyingType(type);
@@ -143,6 +146,7 @@ namespace Syncfusion.Blazor.Toolkit.Data
         /// A <see cref="Type"/> representing <c>Nullable&lt;T&gt;</c> for value types, or the original
         /// <paramref name="type"/> if it is already nullable or a reference type.
         /// </returns>
+        [RequiresDynamicCode("Calls Type.MakeGenericType(params Type[]) to build Nullable<T> for value types, which may need to generate new code at runtime.")]
         public static Type GetNullableType(Type type)
         {
             if (type == null)
@@ -212,11 +216,13 @@ namespace Syncfusion.Blazor.Toolkit.Data
         /// <exclude />
         private class TypeConverterHelper
         {
+            [RequiresUnreferencedCode("Calls TypeDescriptor.GetConverter(Type), which is unsafe to trim.")]
             public static object ChangeType(object value, Type type)
             {
                 return ChangeType(value, type, null!);
             }
 
+            [RequiresUnreferencedCode("Calls TypeDescriptor.GetConverter(Type), which is unsafe to trim.")]
             public static object ChangeType(object value, Type type, IFormatProvider provider)
             {
                 // Fix for defects: 13036, 13024, 12601  & 12716
@@ -249,6 +255,7 @@ namespace Syncfusion.Blazor.Toolkit.Data
         /// <param name="type">The target type.</param>
         /// <param name="provider">A <see cref="IFormatProvider"/> used to format or parse the value.</param>
         /// <returns>The new value in the target type.</returns>
+        [RequiresUnreferencedCode("Calls ChangeType(object, Type, IFormatProvider, string, bool), which calls TypeDescriptor.GetConverter(Type) and is unsafe to trim.")]
         public static object ChangeType(object value, Type type, IFormatProvider provider)
         {
             return ChangeType(value, type, provider, false);
@@ -263,6 +270,7 @@ namespace Syncfusion.Blazor.Toolkit.Data
         /// <param name="returnDbNUllIfNotValid">Indicates whether exceptions should be avoided or catched and return value should be DBNull if
         /// it cannot be converted to the target type.</param>
         /// <returns>The new value in the target type.</returns>
+        [RequiresUnreferencedCode("Calls ChangeType(object, Type, IFormatProvider, string, bool), which calls TypeDescriptor.GetConverter(Type) and is unsafe to trim.")]
         public static object ChangeType(object value, Type type, IFormatProvider provider, bool returnDbNUllIfNotValid)
         {
             return ChangeType(value, type, provider, string.Empty, returnDbNUllIfNotValid);
@@ -278,6 +286,7 @@ namespace Syncfusion.Blazor.Toolkit.Data
         /// <param name="returnDbNUllIfNotValid">Indicates whether exceptions should be avoided or catched and return value should be DBNull if
         /// it cannot be converted to the target type.</param>
         /// <returns>The new value in the target type.</returns>
+        [RequiresUnreferencedCode("Calls Parse and NullableHelperInternal.ChangeType, which call TypeDescriptor.GetConverter(Type) and are unsafe to trim.")]
         public static object ChangeType(object value, Type type, IFormatProvider provider, string format,
                                         bool returnDbNUllIfNotValid)
         {
@@ -349,6 +358,7 @@ namespace Syncfusion.Blazor.Toolkit.Data
         /// format is only interpreted to enable roundtripping for formatted dates.
         /// </param>
         /// <returns>The new value in the target type.</returns>
+        [RequiresUnreferencedCode("Calls ParseText, which calls TypeDescriptor.GetConverter(Type) and is unsafe to trim.")]
         public static object Parse(string s, Type resultType, IFormatProvider provider, string format)
         {
             return Parse(s, resultType, provider, format, false);
@@ -365,6 +375,7 @@ namespace Syncfusion.Blazor.Toolkit.Data
         /// </param>
         /// <param name="returnDbNUllIfNotValid">Indicates whether DbNull should be returned if value cannot be parsed. Otherwise an exception is thrown.</param>
         /// <returns>The new value in the target type.</returns>
+        [RequiresUnreferencedCode("Calls ParseText, which calls TypeDescriptor.GetConverter(Type) and is unsafe to trim.")]
         public static object Parse(string s, Type resultType, IFormatProvider provider, string format,
                                    bool returnDbNUllIfNotValid)
         {
@@ -383,6 +394,7 @@ namespace Syncfusion.Blazor.Toolkit.Data
         /// </param>
         /// <param name="returnDbNUllIfNotValid">Indicates whether DbNull should be returned if value cannot be parsed. Otherwise an exception is thrown.</param>
         /// <returns>The new value in the target type.</returns>
+        [RequiresUnreferencedCode("Calls ParseText, which calls TypeDescriptor.GetConverter(Type) and is unsafe to trim.")]
         public static object Parse(string s, Type resultType, IFormatProvider provider, string[] formats,
                                    bool returnDbNUllIfNotValid)
         {
@@ -390,6 +402,7 @@ namespace Syncfusion.Blazor.Toolkit.Data
             return NullableHelperInternal.FixDbNUllasNull(value, resultType);
         }
 
+        [RequiresUnreferencedCode("Calls ParseText(string, Type, IFormatProvider, string, string[], bool), which calls TypeDescriptor.GetConverter(Type) and is unsafe to trim.")]
         private static object ParseText(string s, Type resultType, IFormatProvider provider, string format,
                                      bool returnDbNUllIfNotValid)
         {
@@ -604,6 +617,7 @@ namespace Syncfusion.Blazor.Toolkit.Data
             return result!;
         }
 
+        [RequiresUnreferencedCode("Calls TypeDescriptor.GetConverter(Type), which is unsafe to trim.")]
         private static object ParseText(string s, Type resultType, IFormatProvider provider, string format,
                                      string[] formats, bool returnDbNUllIfNotValid)
         {
@@ -709,6 +723,7 @@ namespace Syncfusion.Blazor.Toolkit.Data
         /// <param name="ci">The <see cref="CultureInfo"/> for formatting the value.</param>
         /// <param name="nfi">The <see cref="NumberFormatInfo"/> for formatting the value.</param>
         /// <returns>The string with the formatted text for the value.</returns>
+        [RequiresUnreferencedCode("Calls ChangeType(object, Type, IFormatProvider, bool) and TypeDescriptor.GetConverter(Type), both of which are unsafe to trim.")]
         public static string FormatValue(object value, Type valueType, string format, CultureInfo ci,
                                          NumberFormatInfo nfi)
         {
@@ -844,6 +859,7 @@ namespace Syncfusion.Blazor.Toolkit.Data
         /// <param name="valueAsString"></param>
         /// <param name="retVal"></param>
         /// <returns></returns>
+        [RequiresUnreferencedCode("Calls ParseValueWithTypeInformation(string, object, bool), which is unsafe to trim.")]
         private static bool ParseValueWithTypeInformation(string valueAsString, out object retVal)
         {
             return ParseValueWithTypeInformation(valueAsString, out retVal);
@@ -857,6 +873,7 @@ namespace Syncfusion.Blazor.Toolkit.Data
         /// <param name="allowConvertFromBase64">Indicates whether TypeConverter should be checked whether the type to be
         /// parsed supports conversion to/from byte array (e.g. an Image).</param>
         /// <returns></returns>
+        [RequiresUnreferencedCode("Calls TryConvertFromBase64String and Parse, which call TypeDescriptor.GetConverter(Type) and are unsafe to trim.")]
         public static bool ParseValueWithTypeInformation(string valueAsString, object retVal,
                                                          bool allowConvertFromBase64)
         {
@@ -921,6 +938,7 @@ namespace Syncfusion.Blazor.Toolkit.Data
         /// <param name="valueAsString"></param>
         /// <param name="retVal"></param>
         /// <returns></returns>
+        [RequiresUnreferencedCode("Calls TypeDescriptor.GetConverter(Type), which is unsafe to trim.")]
         public static bool TryConvertFromBase64String(Type type, string valueAsString, out object retVal)
         {
             bool handled = false;
@@ -950,6 +968,7 @@ namespace Syncfusion.Blazor.Toolkit.Data
         /// </summary>
         /// <param name="value"></param>
         /// <returns></returns>
+        [RequiresUnreferencedCode("Calls FormatValue, which calls TypeDescriptor.GetConverter(Type) and is unsafe to trim.")]
         public static string FormatValueWithTypeInformation(object value)
         {
             if (value is string v)

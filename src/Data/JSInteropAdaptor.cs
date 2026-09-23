@@ -1,7 +1,8 @@
-﻿using Microsoft.JSInterop;
+using Microsoft.JSInterop;
 using Microsoft.AspNetCore.Components;
 using System.Text.Json;
 using System.Text.Json.Serialization;
+using System.Diagnostics.CodeAnalysis;
 
 namespace Syncfusion.Blazor.Toolkit.Data
 {
@@ -122,6 +123,8 @@ namespace Syncfusion.Blazor.Toolkit.Data
                 nameSpace, elementId).ConfigureAwait(true);
         }
 
+        [RequiresUnreferencedCode("Calls JsonSerializer.Serialize(object[]), which is unsafe to trim.")]
+        [RequiresDynamicCode("Calls JsonSerializer.Serialize(object[]), which may need to generate new code at runtime.")]
         internal static async ValueTask<T> InvokeMethodAsync<T>(IJSRuntime jsRuntime, string elementId, string methodName, string moduleName, object[] args, string nameSpace, ElementReference? element = null)
         {
             return await HandleInteropCallAsync(jsRuntime, () =>

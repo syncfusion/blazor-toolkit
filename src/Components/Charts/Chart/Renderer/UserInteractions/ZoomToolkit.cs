@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Rendering;
 using Microsoft.AspNetCore.Components.Web;
+using System.Diagnostics.CodeAnalysis;
 using System.Globalization;
 
 namespace Syncfusion.Blazor.Toolkit.Charts.Internal
@@ -75,6 +76,12 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
         /// Handles keyboard focus for accessibility when required.
         /// </summary>
         /// <param name="firstRender">Indicates whether this is the first render of the component.</param>
+        // SfBaseComponent.InvokeAsync<T> requires unreferenced code/dynamic code for its generic JSON deserialization
+        // of T. This lifecycle override cannot carry [RequiresUnreferencedCode]/[RequiresDynamicCode] itself because
+        // its signature is fixed by the ComponentBase.OnAfterRenderAsync contract, which does not carry the
+        // attribute. Suppressed here as a documented last resort at this architectural boundary; T is bool here.
+        [UnconditionalSuppressMessage("Trimming", "IL2026", Justification = "ComponentBase.OnAfterRenderAsync override cannot carry [RequiresUnreferencedCode]; T is bool, a simple non-reflection-sensitive type.")]
+        [UnconditionalSuppressMessage("AOT", "IL3050", Justification = "ComponentBase.OnAfterRenderAsync override cannot carry [RequiresDynamicCode]; T is bool, a simple non-reflection-sensitive type.")]
         protected override async Task OnAfterRenderAsync(bool firstRender)
         {
             if (!firstRender && !string.IsNullOrEmpty(Chart?._zoomingKeyboardFocusTarget))

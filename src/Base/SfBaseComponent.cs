@@ -1,6 +1,7 @@
-﻿using Microsoft.AspNetCore.Components;
+using Microsoft.AspNetCore.Components;
 using Microsoft.JSInterop;
 using Syncfusion.Blazor.Toolkit.Internal;
+using System.Diagnostics.CodeAnalysis;
 using System.Text.Json;
 
 namespace Syncfusion.Blazor.Toolkit
@@ -400,6 +401,8 @@ namespace Syncfusion.Blazor.Toolkit
         /// ]]></code>
         /// </example>
         /// <exclude />
+        [RequiresUnreferencedCode("Calls IJSObjectReference.InvokeAsync<T>/IJSInProcessObjectReference.Invoke<T>, whose JSON deserialization of T is unsafe to trim.")]
+        [RequiresDynamicCode("Calls IJSObjectReference.InvokeAsync<T>/IJSInProcessObjectReference.Invoke<T>, whose JSON deserialization of T may need to generate new code at runtime.")]
         internal static async Task<T> InvokeAsync<T>(IJSObjectReference jsObjectReference, IJSInProcessObjectReference jsInProcessObjectReference, string identifier, params object[] args)
         {
             return await InvokeAsync<T>(jsObjectReference, jsInProcessObjectReference, identifier, isSynchronous: false, args).ConfigureAwait(true);
@@ -486,6 +489,8 @@ namespace Syncfusion.Blazor.Toolkit
         ///     fontKeys);
         /// ]]></code>
         /// </example>
+        [RequiresUnreferencedCode("Calls IJSObjectReference.InvokeAsync<T>/IJSInProcessObjectReference.Invoke<T>, whose JSON deserialization of T is unsafe to trim.")]
+        [RequiresDynamicCode("Calls IJSObjectReference.InvokeAsync<T>/IJSInProcessObjectReference.Invoke<T>, whose JSON deserialization of T may need to generate new code at runtime.")]
         internal static async Task<T> InvokeAsync<T>(IJSObjectReference jsObjectReference, IJSInProcessObjectReference jsInProcessObjectReference, string identifier, bool isSynchronous, params object[] args)
         {
             try

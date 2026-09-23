@@ -1,4 +1,5 @@
-﻿using System.Collections;
+using System.Collections;
+using System.Diagnostics.CodeAnalysis;
 using System.Linq.Expressions;
 using System.Reflection;
 using System.Text;
@@ -30,6 +31,8 @@ namespace Syncfusion.Blazor.Toolkit.Data
         /// </summary>
         /// <param name="items">The source items.</param>
         /// <returns>A queryable sequence when a runtime element type can be determined; otherwise the original sequence.</returns>
+        [RequiresUnreferencedCode("Calls OfType(Type), which builds a dynamic LINQ Queryable.OfType<T> call by method name and is unsafe to trim.")]
+        [RequiresDynamicCode("Calls OfType(Type), which builds a dynamic LINQ Queryable.OfType<T> call by method name and may need to generate new code at runtime.")]
         public static IEnumerable OfQueryable(this IEnumerable items)
         {
             IEnumerator? enumerator = items?.GetEnumerator();
@@ -52,6 +55,8 @@ namespace Syncfusion.Blazor.Toolkit.Data
         /// <param name="items">The source items.</param>
         /// <param name="sourceType">The runtime source type.</param>
         /// <returns>A queryable sequence with the specified source type.</returns>
+        [RequiresUnreferencedCode("Calls OfType(Type), which builds a dynamic LINQ Queryable.OfType<T> call by method name and is unsafe to trim.")]
+        [RequiresDynamicCode("Calls OfType(Type), which builds a dynamic LINQ Queryable.OfType<T> call by method name and may need to generate new code at runtime.")]
         public static IEnumerable OfQueryable(this IEnumerable items, Type sourceType)
         {
             IQueryable queryable = items.AsQueryable();
@@ -96,6 +101,8 @@ namespace Syncfusion.Blazor.Toolkit.Data
         /// </summary>
         /// <param name="source">The queryable source.</param>
         /// <returns>The element count.</returns>
+        [RequiresUnreferencedCode("Builds a dynamic LINQ Queryable.Count call by method name via Expression.Call, which is unsafe to trim.")]
+        [RequiresDynamicCode("Builds a dynamic LINQ Queryable.Count call by method name via Expression.Call, which may need to generate new code at runtime.")]
         public static int Count(this IQueryable source)
         {
             Type? sourceType = source?.ElementType;
@@ -114,6 +121,8 @@ namespace Syncfusion.Blazor.Toolkit.Data
         /// <param name="index">Zero-based index of the element.</param>
         /// <param name="sourceType">The source element type.</param>
         /// <returns>The element at the specified index.</returns>
+        [RequiresUnreferencedCode("Builds a dynamic LINQ Queryable.ElementAt call by method name via Expression.Call, which is unsafe to trim.")]
+        [RequiresDynamicCode("Builds a dynamic LINQ Queryable.ElementAt call by method name via Expression.Call, which may need to generate new code at runtime.")]
         public static object ElementAt(this IQueryable source, int index, Type sourceType)
         {
             return source?.Provider.Execute(
@@ -130,6 +139,8 @@ namespace Syncfusion.Blazor.Toolkit.Data
         /// <param name="source">The queryable source.</param>
         /// <param name="index">Zero-based index of the element.</param>
         /// <returns>The element at the specified index.</returns>
+        [RequiresUnreferencedCode("Calls ElementAt(IQueryable, int, Type), which builds a dynamic LINQ call by method name and is unsafe to trim.")]
+        [RequiresDynamicCode("Calls ElementAt(IQueryable, int, Type), which builds a dynamic LINQ call by method name and may need to generate new code at runtime.")]
         public static object ElementAt(this IQueryable source, int index)
         {
             Type? sourceType = source?.ElementType;
@@ -143,6 +154,8 @@ namespace Syncfusion.Blazor.Toolkit.Data
         /// <param name="index">Zero-based index of the element.</param>
         /// <param name="sourceType">The source element type.</param>
         /// <returns>The element at the specified index or the default value.</returns>
+        [RequiresUnreferencedCode("Builds a dynamic LINQ Queryable.ElementAtOrDefault call by method name via Expression.Call, which is unsafe to trim.")]
+        [RequiresDynamicCode("Builds a dynamic LINQ Queryable.ElementAtOrDefault call by method name via Expression.Call, which may need to generate new code at runtime.")]
         public static object ElementAtOrDefault(this IQueryable source, int index, Type sourceType)
         {
             return source?.Provider.Execute(
@@ -159,6 +172,8 @@ namespace Syncfusion.Blazor.Toolkit.Data
         /// <param name="source">The queryable source.</param>
         /// <param name="index">Zero-based index of the element.</param>
         /// <returns>The element at the specified index or the default value.</returns>
+        [RequiresUnreferencedCode("Calls ElementAtOrDefault(IQueryable, int, Type), which builds a dynamic LINQ call by method name and is unsafe to trim.")]
+        [RequiresDynamicCode("Calls ElementAtOrDefault(IQueryable, int, Type), which builds a dynamic LINQ call by method name and may need to generate new code at runtime.")]
         public static object ElementAtOrDefault(this IQueryable source, int index)
         {
             Type? sourceType = source?.ElementType;
@@ -171,6 +186,8 @@ namespace Syncfusion.Blazor.Toolkit.Data
         /// <param name="source">The queryable source.</param>
         /// <param name="sourceType">The type to filter by.</param>
         /// <returns>A queryable sequence containing only the matching elements.</returns>
+        [RequiresUnreferencedCode("Builds a dynamic LINQ Queryable.OfType call by method name via Expression.Call, which is unsafe to trim.")]
+        [RequiresDynamicCode("Builds a dynamic LINQ Queryable.OfType call by method name via Expression.Call, which may need to generate new code at runtime.")]
         public static IQueryable OfType(this IQueryable source, Type sourceType)
         {
             return source?.Provider.CreateQuery(
@@ -193,6 +210,8 @@ namespace Syncfusion.Blazor.Toolkit.Data
         /// <param name="source"></param>
         /// <param name="propertyName"></param>
         /// <param name="sourceType"></param>
+        [RequiresUnreferencedCode("Resolves the property by name (GetValueExpression/PropertyOrField) and builds a dynamic LINQ Queryable.OrderBy call by method name, which is unsafe to trim.")]
+        [RequiresDynamicCode("Builds a dynamic LINQ Queryable.OrderBy call by method name via Expression.Call, which may need to generate new code at runtime.")]
         public static IQueryable OrderBy(this IQueryable source, string propertyName, Type sourceType)
         {
             ArgumentNullException.ThrowIfNull(source);
@@ -214,6 +233,8 @@ namespace Syncfusion.Blazor.Toolkit.Data
         /// <param name="paramExpression"></param>
         /// <param name="sourceType"></param>
         /// <returns></returns>
+        [RequiresUnreferencedCode("Calls GetValueExpression, which resolves properties by name via Expression.PropertyOrField/Expression.Property and is unsafe to trim.")]
+        [RequiresDynamicCode("Calls GetValueExpression, which resolves properties by name and may need to generate new code at runtime.")]
         private static LambdaExpression GetLambdaWithComplexPropertyNullCheck(IEnumerable source, string propertyName,
                                                                               ParameterExpression paramExpression, Type sourceType)
         {
@@ -269,6 +290,8 @@ namespace Syncfusion.Blazor.Toolkit.Data
         /// <param name="paramExpression">The lambda parameter.</param>
         /// <param name="sourceType">The source type.</param>
         /// <returns>A lambda expression for ordering or selection.</returns>
+        [RequiresUnreferencedCode("Calls GetValueExpression, which resolves properties by name via Expression.PropertyOrField/Expression.Property and is unsafe to trim.")]
+        [RequiresDynamicCode("Calls GetValueExpression, which resolves properties by name and may need to generate new code at runtime.")]
         private static LambdaExpression GetLambdaWithComplexPropertyNullCheck(IQueryable source, string propertyName,
                                                                               ParameterExpression paramExpression, Type sourceType)
         {
@@ -323,6 +346,8 @@ namespace Syncfusion.Blazor.Toolkit.Data
         /// <param name="source">The queryable source.</param>
         /// <param name="propertyName">The property name.</param>
         /// <returns>The ordered queryable.</returns>
+        [RequiresUnreferencedCode("Calls OrderBy(IQueryable, string, Type), which resolves properties by name and is unsafe to trim.")]
+        [RequiresDynamicCode("Calls OrderBy(IQueryable, string, Type), which builds a dynamic LINQ call by method name and may need to generate new code at runtime.")]
         public static IQueryable OrderBy(this IQueryable source, string propertyName)
         {
             ArgumentNullException.ThrowIfNull(source);
@@ -337,6 +362,8 @@ namespace Syncfusion.Blazor.Toolkit.Data
         /// <param name="propertyName">The property name.</param>
         /// <param name="expressionFunc">The expression factory.</param>
         /// <returns>The ordered queryable.</returns>
+        [RequiresUnreferencedCode("Calls OrderBy(IQueryable, ParameterExpression, Expression), which builds a dynamic LINQ call by method name and is unsafe to trim.")]
+        [RequiresDynamicCode("Calls OrderBy(IQueryable, ParameterExpression, Expression), which builds a dynamic LINQ call by method name and may need to generate new code at runtime.")]
         public static IQueryable OrderBy(this IQueryable source, string propertyName,
                                          Expression<Func<string, object, object>> expressionFunc)
         {
@@ -356,6 +383,8 @@ namespace Syncfusion.Blazor.Toolkit.Data
         /// <param name="comparer">The comparer to use.</param>
         /// <param name="expressionFunc">The expression factory.</param>
         /// <returns>The ordered queryable.</returns>
+        [RequiresUnreferencedCode("Builds a closed generic Queryable.OrderBy call via MethodInfo.MakeGenericMethod, which is unsafe to trim.")]
+        [RequiresDynamicCode("Builds a closed generic Queryable.OrderBy call via MethodInfo.MakeGenericMethod, which may need to generate new code at runtime.")]
         public static IQueryable OrderBy(this IQueryable source, string propertyName, IComparer<object> comparer,
                                          Expression<Func<string, object, object>> expressionFunc)
         {
@@ -383,6 +412,8 @@ namespace Syncfusion.Blazor.Toolkit.Data
         /// <param name="paramExpression">The parameter expression.</param>
         /// <param name="mExp">The member expression.</param>
         /// <returns>The ordered queryable.</returns>
+        [RequiresUnreferencedCode("Builds a dynamic LINQ Queryable.OrderBy call by method name via Expression.Call, which is unsafe to trim.")]
+        [RequiresDynamicCode("Builds a dynamic LINQ Queryable.OrderBy call by method name via Expression.Call, which may need to generate new code at runtime.")]
         public static IQueryable OrderBy(this IQueryable source, ParameterExpression paramExpression, Expression mExp)
         {
             ArgumentNullException.ThrowIfNull(source);
@@ -416,6 +447,8 @@ namespace Syncfusion.Blazor.Toolkit.Data
         /// <param name="source"></param>
         /// <param name="comparer"></param>
         /// <param name="sourceType"></param>
+        [RequiresUnreferencedCode("Builds a closed generic Queryable.OrderBy call via MethodInfo.MakeGenericMethod, which is unsafe to trim.")]
+        [RequiresDynamicCode("Builds a closed generic Queryable.OrderBy call via MethodInfo.MakeGenericMethod, which may need to generate new code at runtime.")]
         public static IQueryable OrderBy<T>(this IQueryable source, IComparer<T> comparer, Type sourceType)
         {
             ArgumentNullException.ThrowIfNull(source);
@@ -438,6 +471,8 @@ namespace Syncfusion.Blazor.Toolkit.Data
         /// <typeparam name="T"></typeparam>
         /// <param name="source"></param>
         /// <param name="comparer"></param>
+        [RequiresUnreferencedCode("Calls OrderBy(IQueryable, IComparer<T>, Type), which builds a closed generic method via MethodInfo.MakeGenericMethod and is unsafe to trim.")]
+        [RequiresDynamicCode("Calls OrderBy(IQueryable, IComparer<T>, Type), which builds a closed generic method via MethodInfo.MakeGenericMethod and may need to generate new code at runtime.")]
         public static IQueryable OrderBy<T>(this IQueryable source, IComparer<T> comparer)
         {
             ArgumentNullException.ThrowIfNull(source);
@@ -452,6 +487,8 @@ namespace Syncfusion.Blazor.Toolkit.Data
         /// <param name="propertyName"></param>
         /// <param name="comparer"></param>
         /// <param name="sourceType"></param>
+        [RequiresUnreferencedCode("Builds a closed generic Queryable.OrderBy call via MethodInfo.MakeGenericMethod, which is unsafe to trim.")]
+        [RequiresDynamicCode("Builds a closed generic Queryable.OrderBy call via MethodInfo.MakeGenericMethod, which may need to generate new code at runtime.")]
         public static IQueryable OrderBy(this IQueryable source, string propertyName, IComparer<object> comparer,
                                          Type sourceType)
         {
@@ -491,6 +528,8 @@ namespace Syncfusion.Blazor.Toolkit.Data
         /// <param name="source"></param>
         /// <param name="comparer"></param>
         /// <param name="sourceType"></param>
+        [RequiresUnreferencedCode("Builds a closed generic Queryable.OrderByDescending call via MethodInfo.MakeGenericMethod, which is unsafe to trim.")]
+        [RequiresDynamicCode("Builds a closed generic Queryable.OrderByDescending call via MethodInfo.MakeGenericMethod, which may need to generate new code at runtime.")]
         public static IQueryable OrderByDescending<T>(this IQueryable source, IComparer<T> comparer, Type sourceType)
         {
             ArgumentNullException.ThrowIfNull(source);
@@ -515,6 +554,8 @@ namespace Syncfusion.Blazor.Toolkit.Data
         /// <param name="propertyName"></param>
         /// <param name="comparer"></param>
         /// <param name="sourceType"></param>
+        [RequiresUnreferencedCode("Builds a closed generic Queryable.OrderByDescending call via MethodInfo.MakeGenericMethod, which is unsafe to trim.")]
+        [RequiresDynamicCode("Builds a closed generic Queryable.OrderByDescending call via MethodInfo.MakeGenericMethod, which may need to generate new code at runtime.")]
         public static IQueryable OrderByDescending(this IQueryable source, string propertyName,
                                                    IComparer<object> comparer, Type sourceType)
         {
@@ -540,6 +581,8 @@ namespace Syncfusion.Blazor.Toolkit.Data
         /// <typeparam name="T"></typeparam>
         /// <param name="source"></param>
         /// <param name="comparer"></param>
+        [RequiresUnreferencedCode("Calls OrderByDescending(IQueryable, IComparer<T>, Type), which builds a closed generic method via MethodInfo.MakeGenericMethod and is unsafe to trim.")]
+        [RequiresDynamicCode("Calls OrderByDescending(IQueryable, IComparer<T>, Type), which builds a closed generic method via MethodInfo.MakeGenericMethod and may need to generate new code at runtime.")]
         public static IQueryable OrderByDescending<T>(this IQueryable source, IComparer<T> comparer)
         {
             ArgumentNullException.ThrowIfNull(source);
@@ -561,6 +604,8 @@ namespace Syncfusion.Blazor.Toolkit.Data
         /// <param name="source"></param>
         /// <param name="propertyName"></param>
         /// <param name="sourceType"></param>
+        [RequiresUnreferencedCode("Resolves the property by name (GetLambdaWithComplexPropertyNullCheck/GetValueExpression) and builds a dynamic LINQ Queryable.OrderByDescending call by method name, which is unsafe to trim.")]
+        [RequiresDynamicCode("Builds a dynamic LINQ Queryable.OrderByDescending call by method name via Expression.Call, which may need to generate new code at runtime.")]
         public static IQueryable OrderByDescending(this IQueryable source, string propertyName, Type sourceType)
         {
             ArgumentNullException.ThrowIfNull(source);
@@ -585,6 +630,8 @@ namespace Syncfusion.Blazor.Toolkit.Data
         /// <param name="paramExpression">The lambda parameter.</param>
         /// <param name="propertyName">The property name.</param>
         /// <returns>The member-access expression.</returns>
+        [RequiresUnreferencedCode("Calls GetValueExpression, which resolves properties by name via Expression.PropertyOrField/Expression.Property and is unsafe to trim.")]
+        [RequiresDynamicCode("Calls GetValueExpression, which resolves properties by name and may need to generate new code at runtime.")]
         public static Expression GetExpression(this ParameterExpression paramExpression, string propertyName)
         {
             return paramExpression.GetValueExpression(propertyName, paramExpression?.Type!);
@@ -597,6 +644,8 @@ namespace Syncfusion.Blazor.Toolkit.Data
         /// <param name="sourceType"></param>
         /// <param name="paramExpression"></param>
         /// <returns></returns>
+        [RequiresUnreferencedCode("Resolves properties by name via Expression.PropertyOrField/Expression.Property, which is unsafe to trim.")]
+        [RequiresDynamicCode("Resolves properties by name, which may need to generate new code at runtime.")]
         public static Expression GetValueExpression(this ParameterExpression paramExpression, string propertyName,
                                                     Type sourceType)
         {
@@ -648,6 +697,8 @@ namespace Syncfusion.Blazor.Toolkit.Data
         /// </summary>
         /// <param name="source"></param>
         /// <param name="propertyName"></param>
+        [RequiresUnreferencedCode("Calls OrderByDescending(IQueryable, string, Type), which resolves properties by name and is unsafe to trim.")]
+        [RequiresDynamicCode("Calls OrderByDescending(IQueryable, string, Type), which builds a dynamic LINQ call by method name and may need to generate new code at runtime.")]
         public static IQueryable OrderByDescending(this IQueryable source, string propertyName)
         {
             ArgumentNullException.ThrowIfNull(source);
@@ -662,6 +713,8 @@ namespace Syncfusion.Blazor.Toolkit.Data
         /// <param name="propertyName"></param>
         /// <param name="comparer"></param>
         /// <param name="expressionFunc"></param>
+        [RequiresUnreferencedCode("Builds a closed generic Queryable.OrderByDescending call via MethodInfo.MakeGenericMethod, which is unsafe to trim.")]
+        [RequiresDynamicCode("Builds a closed generic Queryable.OrderByDescending call via MethodInfo.MakeGenericMethod, which may need to generate new code at runtime.")]
         public static IQueryable OrderByDescending(this IQueryable source, string propertyName,
                                                    IComparer<object> comparer,
                                                    Expression<Func<string, object, object>> expressionFunc)
@@ -690,6 +743,8 @@ namespace Syncfusion.Blazor.Toolkit.Data
         /// <param name="propertyName">The property name.</param>
         /// <param name="expressionFunc">The expression factory.</param>
         /// <returns>The ordered queryable.</returns>
+        [RequiresUnreferencedCode("Calls OrderByDescending(IQueryable, ParameterExpression, Expression), which builds a dynamic LINQ call by method name and is unsafe to trim.")]
+        [RequiresDynamicCode("Calls OrderByDescending(IQueryable, ParameterExpression, Expression), which builds a dynamic LINQ call by method name and may need to generate new code at runtime.")]
         public static IQueryable OrderByDescending(this IQueryable source, string propertyName,
                                                    Expression<Func<string, object, object>> expressionFunc)
         {
@@ -708,6 +763,8 @@ namespace Syncfusion.Blazor.Toolkit.Data
         /// <param name="paramExpression">The parameter expression.</param>
         /// <param name="mExp">The member expression.</param>
         /// <returns>The ordered queryable.</returns>
+        [RequiresUnreferencedCode("Builds a dynamic LINQ Queryable.OrderByDescending call by method name via Expression.Call, which is unsafe to trim.")]
+        [RequiresDynamicCode("Builds a dynamic LINQ Queryable.OrderByDescending call by method name via Expression.Call, which may need to generate new code at runtime.")]
         public static IQueryable OrderByDescending(this IQueryable source, ParameterExpression paramExpression,
                                                    Expression mExp)
         {
@@ -779,6 +836,8 @@ namespace Syncfusion.Blazor.Toolkit.Data
         /// <param name="propertyName">The property name.</param>
         /// <param name="value">The comparison value.</param>
         /// <returns>An equality expression.</returns>
+        [RequiresUnreferencedCode("Calls GetValueExpression, which resolves properties by name and is unsafe to trim.")]
+        [RequiresDynamicCode("Calls GetValueExpression, which resolves properties by name and may need to generate new code at runtime.")]
         public static Expression Equal(this ParameterExpression paramExpression, string propertyName, object value)
         {
             Expression memExp = paramExpression.GetValueExpression(propertyName, paramExpression?.Type!);
@@ -795,6 +854,8 @@ namespace Syncfusion.Blazor.Toolkit.Data
         /// <param name="propertyName">The property name.</param>
         /// <param name="propertyName2">The expression factory.</param>
         /// <returns>An equality expression.</returns>
+        [RequiresUnreferencedCode("Calls GetExpression, which resolves properties by name and is unsafe to trim.")]
+        [RequiresDynamicCode("Calls GetExpression, which resolves properties by name and may need to generate new code at runtime.")]
         public static BinaryExpression Equal(this ParameterExpression paramExpression, string propertyName,
                                              string propertyName2)
         {
@@ -813,6 +874,8 @@ namespace Syncfusion.Blazor.Toolkit.Data
         /// <param name="elementType">The target element type.</param>
         /// <param name="expressionFunc">The expression factory.</param>
         /// <returns>An equality expression.</returns>
+        [RequiresUnreferencedCode("Builds a closed generic method via MethodInfo.MakeGenericMethod and invokes it through reflection, which is unsafe to trim.")]
+        [RequiresDynamicCode("Builds a closed generic method via MethodInfo.MakeGenericMethod, which may need to generate new code at runtime.")]
         public static Expression Equal(this ParameterExpression paramExpression, string propertyName, object value,
                                        Type elementType, Expression<Func<string, object, object>> expressionFunc)
         {
@@ -844,6 +907,8 @@ namespace Syncfusion.Blazor.Toolkit.Data
         /// <param name="elementType">The second property name.</param>
         /// <param name="expressionFunc">The second property name.</param>
         /// <returns>A not-equal expression.</returns>
+        [RequiresUnreferencedCode("Builds a closed generic method via MethodInfo.MakeGenericMethod and invokes it through reflection, which is unsafe to trim.")]
+        [RequiresDynamicCode("Builds a closed generic method via MethodInfo.MakeGenericMethod, which may need to generate new code at runtime.")]
         public static Expression NotEqual(this ParameterExpression paramExpression, string propertyName, object value,
                                           Type elementType, Expression<Func<string, object, object>> expressionFunc)
         {
@@ -873,6 +938,8 @@ namespace Syncfusion.Blazor.Toolkit.Data
         /// <param name="propertyName">The first property name.</param>
         /// <param name="value">The second property name.</param>
         /// <returns>A not-equal expression.</returns>
+        [RequiresUnreferencedCode("Calls GetExpression, which resolves properties by name and is unsafe to trim.")]
+        [RequiresDynamicCode("Calls GetExpression, which resolves properties by name and may need to generate new code at runtime.")]
         public static BinaryExpression NotEqual(this ParameterExpression paramExpression, string propertyName, object value)
         {
             Expression memExp = paramExpression.GetExpression(propertyName);
@@ -889,6 +956,8 @@ namespace Syncfusion.Blazor.Toolkit.Data
         /// <param name="propertyName">The first property name.</param>
         /// <param name="propertyName2">The second property name.</param>
         /// <returns>A not-equal expression.</returns>
+        [RequiresUnreferencedCode("Calls GetExpression, which resolves properties by name and is unsafe to trim.")]
+        [RequiresDynamicCode("Calls GetExpression, which resolves properties by name and may need to generate new code at runtime.")]
         public static BinaryExpression NotEqual(this ParameterExpression paramExpression, string propertyName, string propertyName2)
         {
             Expression memExp = paramExpression.GetExpression(propertyName);
@@ -904,6 +973,8 @@ namespace Syncfusion.Blazor.Toolkit.Data
         /// <param name="propertyName">The first property name.</param>
         /// <param name="value">The value property name.</param>
         /// <returns>A greater-than-or-equal expression.</returns>
+        [RequiresUnreferencedCode("Calls GetValueExpression, which resolves properties by name and is unsafe to trim.")]
+        [RequiresDynamicCode("Calls GetValueExpression, which resolves properties by name and may need to generate new code at runtime.")]
         public static BinaryExpression GreaterThanOrEqual(this ParameterExpression paramExpression, string propertyName, object value)
         {
             Expression memExp = paramExpression.GetValueExpression(propertyName, paramExpression?.Type!);
@@ -920,6 +991,8 @@ namespace Syncfusion.Blazor.Toolkit.Data
         /// <param name="propertyName">The first property name.</param>
         /// <param name="propertyName2">The second property name.</param>
         /// <returns>A greater-than-or-equal expression.</returns>
+        [RequiresUnreferencedCode("Calls GetExpression, which resolves properties by name and is unsafe to trim.")]
+        [RequiresDynamicCode("Calls GetExpression, which resolves properties by name and may need to generate new code at runtime.")]
         public static BinaryExpression GreaterThanOrEqual(this ParameterExpression paramExpression, string propertyName, string propertyName2)
         {
             Expression memExp = paramExpression.GetExpression(propertyName);
@@ -937,6 +1010,8 @@ namespace Syncfusion.Blazor.Toolkit.Data
         /// <param name="elementType">The target element type.</param>
         /// <param name="expressionFunc">The expression factory.</param>
         /// <returns>A greater-than-or-equal expression.</returns>
+        [RequiresUnreferencedCode("Builds a closed generic method via MethodInfo.MakeGenericMethod and invokes it through reflection, which is unsafe to trim.")]
+        [RequiresDynamicCode("Builds a closed generic method via MethodInfo.MakeGenericMethod, which may need to generate new code at runtime.")]
         public static Expression GreaterThanOrEqual(this ParameterExpression paramExpression, string propertyName,
                                                     object value, Type elementType, Expression<Func<string, object, object>> expressionFunc)
         {
@@ -966,6 +1041,8 @@ namespace Syncfusion.Blazor.Toolkit.Data
         /// <param name="propertyName">The property name.</param>
         /// <param name="value">The comparison value.</param>
         /// <returns>A greater-than expression.</returns>
+        [RequiresUnreferencedCode("Calls GetValueExpression, which resolves properties by name and is unsafe to trim.")]
+        [RequiresDynamicCode("Calls GetValueExpression, which resolves properties by name and may need to generate new code at runtime.")]
         public static BinaryExpression GreaterThan(this ParameterExpression paramExpression, string propertyName, object value)
         {
             Expression memExp = paramExpression.GetValueExpression(propertyName, paramExpression?.Type!);
@@ -982,6 +1059,8 @@ namespace Syncfusion.Blazor.Toolkit.Data
         /// <param name="propertyName">The first property name.</param>
         /// <param name="propertyName2">The second property name.</param>
         /// <returns>A greater-than expression.</returns>
+        [RequiresUnreferencedCode("Calls GetExpression, which resolves properties by name and is unsafe to trim.")]
+        [RequiresDynamicCode("Calls GetExpression, which resolves properties by name and may need to generate new code at runtime.")]
         public static BinaryExpression GreaterThan(this ParameterExpression paramExpression, string propertyName, string propertyName2)
         {
             Expression memExp = paramExpression.GetExpression(propertyName);
@@ -999,6 +1078,8 @@ namespace Syncfusion.Blazor.Toolkit.Data
         /// <param name="elementType">The target element type.</param>
         /// <param name="expressionFunc">The expression factory.</param>
         /// <returns>A greater-than expression.</returns>
+        [RequiresUnreferencedCode("Builds a closed generic method via MethodInfo.MakeGenericMethod and invokes it through reflection, which is unsafe to trim.")]
+        [RequiresDynamicCode("Builds a closed generic method via MethodInfo.MakeGenericMethod, which may need to generate new code at runtime.")]
         public static Expression GreaterThan(this ParameterExpression paramExpression, string propertyName, object value,
                                              Type elementType, Expression<Func<string, object, object>> expressionFunc)
         {
@@ -1028,6 +1109,8 @@ namespace Syncfusion.Blazor.Toolkit.Data
         /// <param name="propertyName">The property name.</param>
         /// <param name="value">The comparison value.</param>
         /// <returns>A less-than expression.</returns>
+        [RequiresUnreferencedCode("Calls GetValueExpression, which resolves properties by name and is unsafe to trim.")]
+        [RequiresDynamicCode("Calls GetValueExpression, which resolves properties by name and may need to generate new code at runtime.")]
         public static BinaryExpression LessThan(this ParameterExpression paramExpression, string propertyName, object value)
         {
             Expression memExp = paramExpression.GetValueExpression(propertyName, paramExpression?.Type!);
@@ -1044,6 +1127,8 @@ namespace Syncfusion.Blazor.Toolkit.Data
         /// <param name="propertyName">The first property name.</param>
         /// <param name="propertyName2">The second property name.</param>
         /// <returns>A less-than expression.</returns>
+        [RequiresUnreferencedCode("Calls GetExpression, which resolves properties by name and is unsafe to trim.")]
+        [RequiresDynamicCode("Calls GetExpression, which resolves properties by name and may need to generate new code at runtime.")]
         public static BinaryExpression LessThan(this ParameterExpression paramExpression, string propertyName, string propertyName2)
         {
             Expression memExp = paramExpression.GetExpression(propertyName);
@@ -1061,6 +1146,8 @@ namespace Syncfusion.Blazor.Toolkit.Data
         /// <param name="elementType">The target element type.</param>
         /// <param name="expressionFunc">The expression factory.</param>
         /// <returns>A less-than expression.</returns>
+        [RequiresUnreferencedCode("Builds a closed generic method via MethodInfo.MakeGenericMethod and invokes it through reflection, which is unsafe to trim.")]
+        [RequiresDynamicCode("Builds a closed generic method via MethodInfo.MakeGenericMethod, which may need to generate new code at runtime.")]
         public static Expression LessThan(this ParameterExpression paramExpression, string propertyName, object value,
                                           Type elementType, Expression<Func<string, object, object>> expressionFunc)
         {
@@ -1090,6 +1177,8 @@ namespace Syncfusion.Blazor.Toolkit.Data
         /// <param name="propertyName">The property name.</param>
         /// <param name="value">The comparison value.</param>
         /// <returns>A less-than-or-equal expression.</returns>
+        [RequiresUnreferencedCode("Calls GetValueExpression, which resolves properties by name and is unsafe to trim.")]
+        [RequiresDynamicCode("Calls GetValueExpression, which resolves properties by name and may need to generate new code at runtime.")]
         public static BinaryExpression LessThanOrEqual(this ParameterExpression paramExpression, string propertyName, object value)
         {
             Expression memExp = paramExpression.GetValueExpression(propertyName, paramExpression?.Type!);
@@ -1106,6 +1195,8 @@ namespace Syncfusion.Blazor.Toolkit.Data
         /// <param name="propertyName">The first property name.</param>
         /// <param name="propertyName2">The second property name.</param>
         /// <returns>A less-than-or-equal expression.</returns>
+        [RequiresUnreferencedCode("Calls GetValueExpression/GetExpression, which resolve properties by name and are unsafe to trim.")]
+        [RequiresDynamicCode("Calls GetValueExpression/GetExpression, which resolve properties by name and may need to generate new code at runtime.")]
         public static BinaryExpression LessThanOrEqual(this ParameterExpression paramExpression, string propertyName, string propertyName2)
         {
             Expression memExp = paramExpression.GetValueExpression(propertyName, paramExpression?.Type!);
@@ -1123,6 +1214,8 @@ namespace Syncfusion.Blazor.Toolkit.Data
         /// <param name="elementType">The target element type.</param>
         /// <param name="expressionFunc">The expression factory.</param>
         /// <returns>A less-than-or-equal expression.</returns>
+        [RequiresUnreferencedCode("Builds a closed generic method via MethodInfo.MakeGenericMethod and invokes it through reflection, which is unsafe to trim.")]
+        [RequiresDynamicCode("Builds a closed generic method via MethodInfo.MakeGenericMethod, which may need to generate new code at runtime.")]
         public static Expression LessThanOrEqual(this ParameterExpression paramExpression, string propertyName,
                                                  object value, Type elementType,
                                                  Expression<Func<string, object, object>> expressionFunc)
@@ -1167,6 +1260,8 @@ namespace Syncfusion.Blazor.Toolkit.Data
         /// <param name="isCaseSensitive"></param>
         /// <param name="sourceType"></param>
         /// <param name="ignoreAccent"></param>
+        [RequiresUnreferencedCode("Calls GetValueExpression to resolve the property by name, which is unsafe to trim.")]
+        [RequiresDynamicCode("Calls GetValueExpression to resolve the property by name, which may need to generate new code at runtime.")]
         public static Expression Predicate(this IQueryable source, ParameterExpression paramExpression,
                                            string propertyName, object constValue, FilterType filterType,
                                            FilterBehavior filterBehaviour, bool isCaseSensitive, Type sourceType, bool ignoreAccent = false) // Predicate1
@@ -1188,6 +1283,8 @@ namespace Syncfusion.Blazor.Toolkit.Data
         /// <param name="sourceType"></param>
         /// <param name="ignoreAccent"></param>
         /// <param name="isDateTimeColumn"></param>
+        [RequiresUnreferencedCode("Calls GetValueExpression to resolve the property by name, which is unsafe to trim.")]
+        [RequiresDynamicCode("Calls GetValueExpression to resolve the property by name, which may need to generate new code at runtime.")]
         internal static Expression Predicate(this IQueryable source, ParameterExpression paramExpression,
                                           string propertyName, object constValue, FilterType filterType,
                                           FilterBehavior filterBehaviour, bool isCaseSensitive, Type sourceType, bool ignoreAccent = false, bool isDateTimeColumn = false) // internal predicate to handle datetime filter
@@ -1209,6 +1306,8 @@ namespace Syncfusion.Blazor.Toolkit.Data
         /// <param name="sourceType"></param>
         /// <param name="expressionFunc"></param>
         /// <param name="memberType"></param>
+        [RequiresUnreferencedCode("Calls GetValueExpression to resolve the property by name, which is unsafe to trim.")]
+        [RequiresDynamicCode("Calls GetValueExpression to resolve the property by name, which may need to generate new code at runtime.")]
         public static Expression Predicate(this IQueryable source, ParameterExpression paramExpression,
                                            string propertyName, object constValue, FilterType filterType,
                                            FilterBehavior filterBehaviour, bool isCaseSensitive, Type sourceType,
@@ -1271,6 +1370,8 @@ namespace Syncfusion.Blazor.Toolkit.Data
         /// <param name="sourceType">The source element type.</param>
         /// <param name="expressionFunc">The cached expression delegate.</param>
         /// <returns>A predicate expression.</returns>
+        [RequiresUnreferencedCode("Builds a closed generic method via MethodInfo.MakeGenericMethod and calls the private Predicate helper, which resolves properties by name. Unsafe to trim.")]
+        [RequiresDynamicCode("Builds a closed generic method via MethodInfo.MakeGenericMethod, which may need to generate new code at runtime.")]
         public static Expression Predicate(this IQueryable source, ParameterExpression paramExpression,
                            string propertyName, object constValue, Type memberType,
                            FilterType filterType, FilterBehavior filterBehaviour, bool isCaseSensitive,
@@ -1322,6 +1423,8 @@ namespace Syncfusion.Blazor.Toolkit.Data
         /// <param name="bExp">The current binary expression.</param>
         /// <param name="isDynamicDataObject">Whether the source is dynamic.</param>
         /// <returns>A tuple containing the transformed member expression, binary expression, and value.</returns>
+        [RequiresUnreferencedCode("Calls ValueConvert.ChangeType and NullableHelperInternal.GetNullableType, which are unsafe to trim.")]
+        [RequiresDynamicCode("Calls NullableHelperInternal.GetNullableType, which builds Nullable<T> via Type.MakeGenericType and may need to generate new code at runtime.")]
         private static ValueTuple<Expression, Expression, object?> GetPxExpression(
             FilterType filterType, Type memberType, object value,
             bool isCaseSensitive, Expression memExp, Expression bExp, bool isDynamicDataObject = false
@@ -1517,6 +1620,7 @@ namespace Syncfusion.Blazor.Toolkit.Data
         /// <param name="constValue">The original constant value.</param>
         /// <param name="isDynamicDataObject">Whether the source is dynamic.</param>
         /// <returns>A tuple containing the transformed member expression, binary expression, and value.</returns>
+        [RequiresDynamicCode("Calls NullableHelperInternal.GetNullableType, which builds Nullable<T> via Type.MakeGenericType and may need to generate new code at runtime.")]
         private static ValueTuple<Expression, Expression, object?> GetPxxExpression(FilterType filterType,
             Expression memExp, Expression bExp, object value, bool isCaseSensitive, Type memberType, object constValue, bool isDynamicDataObject = false)
         {
@@ -1742,6 +1846,8 @@ namespace Syncfusion.Blazor.Toolkit.Data
         /// <param name="ignoreAccent">Whether to ignore accents for string values.</param>
         /// <param name="isDateTimeColumn">Whether the property is a date-time column.</param>
         /// <returns>A predicate expression.</returns>
+        [RequiresUnreferencedCode("Calls ElementAtOrDefault/GetValueExpression/Expression.PropertyOrField to resolve properties by name, which is unsafe to trim.")]
+        [RequiresDynamicCode("Calls ElementAtOrDefault/GetValueExpression, which may need to generate new code at runtime.")]
         private static Expression Predicate(this IQueryable source, object constValue, FilterType filterType,
                                            FilterBehavior filterBehaviour, bool isCaseSensitive, Type sourceType, Type memberType, Expression memExp, ParameterExpression paramExpression, string propertyName, bool ignoreAccent = false, bool isDateTimeColumn = false)
         {
@@ -1932,6 +2038,8 @@ namespace Syncfusion.Blazor.Toolkit.Data
         /// <param name="sourceType">The source element type.</param>
         /// <param name="format">The format string.</param>
         /// <returns>A predicate expression.</returns>
+        [RequiresUnreferencedCode("Calls GetValueExpression to resolve the property by name, which is unsafe to trim.")]
+        [RequiresDynamicCode("Calls GetValueExpression to resolve the property by name, which may need to generate new code at runtime.")]
         public static Expression Predicate(this IQueryable source, ParameterExpression paramExpression,
                                            string propertyName, object constValue, FilterType filterType,
                                            FilterBehavior filteBehaviour, bool isCaseSensitive, Type sourceType,
@@ -2008,6 +2116,8 @@ namespace Syncfusion.Blazor.Toolkit.Data
         /// <param name="memberType">The member type.</param>
         /// <param name="isCaseSensitive">Whether comparison is case sensitive.</param>
         /// <returns>A tuple containing the binary expression and converted value.</returns>
+        [RequiresUnreferencedCode("Calls ValueConvert.ChangeType and GetFormatMethodCallExpression, which are unsafe to trim.")]
+        [RequiresDynamicCode("Calls GetFormatMethodCallExpression, which calls Expression.Call(Expression, string, Type[], params Expression[]) by method name and may need to generate new code at runtime.")]
         private static ValueTuple<Expression?, object?> GetPExpression(FilterType filterType,
             Type underlyingType, string format, Expression memExp, object value, Type memberType, bool isCaseSensitive)
         {
@@ -2219,6 +2329,8 @@ namespace Syncfusion.Blazor.Toolkit.Data
         /// <param name="memExp">The member expression.</param>
         /// <param name="format">The format string.</param>
         /// <returns>A method call expression.</returns>
+        [RequiresUnreferencedCode("Calls Expression.Call(Expression, string, Type[], params Expression[]) by method name, which is unsafe to trim.")]
+        [RequiresDynamicCode("Calls Expression.Call(Expression, string, Type[], params Expression[]) by method name, which may need to generate new code at runtime.")]
         private static MethodCallExpression GetFormatMethodCallExpression(Expression memExp, string format)
         {
             if (memExp.Type.GetTypeInfo().IsGenericType && memExp.Type.GetTypeInfo().GetGenericTypeDefinition() == typeof(Nullable<>))
@@ -2278,6 +2390,8 @@ namespace Syncfusion.Blazor.Toolkit.Data
         /// <param name="source"></param>
         /// <param name="propertyName"></param>
         /// <param name="sourceType">Type.</param>
+        [RequiresUnreferencedCode("Calls GetValueExpression and builds a dynamic LINQ Queryable.Select call by method name, which is unsafe to trim.")]
+        [RequiresDynamicCode("Builds a dynamic LINQ Queryable.Select call by method name via Expression.Call, which may need to generate new code at runtime.")]
         public static IQueryable Select(this IQueryable source, string propertyName, Type sourceType)
         {
             ArgumentNullException.ThrowIfNull(source);
@@ -2298,6 +2412,8 @@ namespace Syncfusion.Blazor.Toolkit.Data
         /// </summary>
         /// <param name="source"></param>
         /// <param name="propertyName"></param>
+        [RequiresUnreferencedCode("Calls Select(IQueryable, string, Type), which resolves properties by name and is unsafe to trim.")]
+        [RequiresDynamicCode("Calls Select(IQueryable, string, Type), which builds a dynamic LINQ call by method name and may need to generate new code at runtime.")]
         public static IQueryable Select(this IQueryable source, string propertyName)
         {
             ArgumentNullException.ThrowIfNull(source);
@@ -2312,6 +2428,8 @@ namespace Syncfusion.Blazor.Toolkit.Data
         /// <param name="source"></param>
         /// <param name="propertyName"></param>
         /// <param name="sourceType">Type.</param>
+        [RequiresUnreferencedCode("Builds a dynamic LINQ Queryable.Select call by method name via Expression.Call, which is unsafe to trim.")]
+        [RequiresDynamicCode("Builds a dynamic LINQ Queryable.Select call by method name via Expression.Call, which may need to generate new code at runtime.")]
         public static IQueryable Select<T>(this IQueryable source, string propertyName, Type sourceType)
         {
             ArgumentNullException.ThrowIfNull(source);
@@ -2341,6 +2459,8 @@ namespace Syncfusion.Blazor.Toolkit.Data
         /// <typeparam name="T">Type of the data source elements.</typeparam>
         /// <param name="source"></param>
         /// <param name="propertyName"></param>
+        [RequiresUnreferencedCode("Calls Select<T>(IQueryable, string, Type), which builds a dynamic LINQ call by method name and is unsafe to trim.")]
+        [RequiresDynamicCode("Calls Select<T>(IQueryable, string, Type), which builds a dynamic LINQ call by method name and may need to generate new code at runtime.")]
         public static IQueryable Select<T>(this IQueryable source, string propertyName)
         {
             ArgumentNullException.ThrowIfNull(source);
@@ -2355,6 +2475,8 @@ namespace Syncfusion.Blazor.Toolkit.Data
         /// <param name="constValue">The const value.</param>
         /// <param name="sourceType">Type.</param>
         /// <returns></returns>
+        [RequiresUnreferencedCode("Builds a dynamic LINQ Queryable.Skip call by method name via Expression.Call, which is unsafe to trim.")]
+        [RequiresDynamicCode("Builds a dynamic LINQ Queryable.Skip call by method name via Expression.Call, which may need to generate new code at runtime.")]
         public static IQueryable Skip(this IQueryable source, int constValue, Type sourceType)
         {
             ArgumentNullException.ThrowIfNull(source);
@@ -2373,6 +2495,8 @@ namespace Syncfusion.Blazor.Toolkit.Data
         /// <param name="source">The source.</param>
         /// <param name="constValue">The const value.</param>
         /// <returns></returns>
+        [RequiresUnreferencedCode("Calls Skip(IQueryable, int, Type), which builds a dynamic LINQ call by method name and is unsafe to trim.")]
+        [RequiresDynamicCode("Calls Skip(IQueryable, int, Type), which builds a dynamic LINQ call by method name and may need to generate new code at runtime.")]
         public static IQueryable Skip(this IQueryable source, int constValue)
         {
             ArgumentNullException.ThrowIfNull(source);
@@ -2383,6 +2507,7 @@ namespace Syncfusion.Blazor.Toolkit.Data
         #region Aggregate extensions
 
         // Func to calculate the summary aggregates when UseBindingValue is true.
+        [RequiresUnreferencedCode("Calls NullableHelperInternal.ChangeType, which calls TypeDescriptor.GetConverter(Type) and is unsafe to trim. Invoked reflectively via MethodInfo.MakeGenericMethod.")]
         private static InvocationExpression GetInvokeExpressionAggregateFuncSummaryCalculation<TResult>(ParameterExpression paramExp, string propertyName,
                                                                                                                 Expression<Func<string, object, object>> expressionFunc)
         {
@@ -2463,6 +2588,11 @@ namespace Syncfusion.Blazor.Toolkit.Data
         private static MethodInfo[]? _queryableSumMethod;
 
         /// <exclude />
+        // Note: [method: RequiresUnreferencedCode]/[RequiresDynamicCode] cannot be applied to an expression-bodied
+        // property (CS0657 - only the 'property' target is valid here), so the trim/AOT risk documented by the
+        // suppressions below is instead carried explicitly by GetQueryableSumMethod, the sole caller.
+        [UnconditionalSuppressMessage("Trimming", "IL2026", Justification = "Enumerates all methods of Queryable via Type.GetMethods(), which includes members (such as AsQueryable) annotated with RequiresUnreferencedCode; the risk is documented on the caller, GetQueryableSumMethod.")]
+        [UnconditionalSuppressMessage("AOT", "IL3050", Justification = "Enumerates all methods of Queryable via Type.GetMethods(), which includes members (such as AsQueryable) annotated with RequiresDynamicCode; the risk is documented on the caller, GetQueryableSumMethod.")]
         private static MethodInfo[] QueryableSummethod => _queryableSumMethod ??= [.. typeof(Queryable).GetMethods().Where(m => m.Name == "Sum" && m.GetParameters().Length == 2)];
 
         // MethodInfo[] collection for Queryable extensions and hold the average methods other than Int32.
@@ -2470,6 +2600,11 @@ namespace Syncfusion.Blazor.Toolkit.Data
         private static MethodInfo[]? _queryableaverageMethod;
 
         /// <exclude />
+        // Note: [method: RequiresUnreferencedCode]/[RequiresDynamicCode] cannot be applied to an expression-bodied
+        // property (CS0657 - only the 'property' target is valid here), so the trim/AOT risk documented by the
+        // suppressions below is instead carried explicitly by GetQueryableAverageMethod, the sole caller.
+        [UnconditionalSuppressMessage("Trimming", "IL2026", Justification = "Enumerates all methods of Queryable via Type.GetMethods(), which includes members (such as AsQueryable) annotated with RequiresUnreferencedCode; the risk is documented on the caller, GetQueryableAverageMethod.")]
+        [UnconditionalSuppressMessage("AOT", "IL3050", Justification = "Enumerates all methods of Queryable via Type.GetMethods(), which includes members (such as AsQueryable) annotated with RequiresDynamicCode; the risk is documented on the caller, GetQueryableAverageMethod.")]
         private static MethodInfo[] QueryableAverageMethod => _queryableaverageMethod ??= [.. typeof(Queryable).GetMethods().Where(m => m.Name == "Average" && m.GetParameters().Length == 2)];
 
         // MethodInfo[] collection is calculated frequently whenever the summary value changes.
@@ -2478,6 +2613,11 @@ namespace Syncfusion.Blazor.Toolkit.Data
         private static MethodInfo[]? _enumerablesummethods;
 
         /// <exclude />
+        // Note: [method: RequiresUnreferencedCode]/[RequiresDynamicCode] cannot be applied to an expression-bodied
+        // property (CS0657 - only the 'property' target is valid here); callers of this member already carry the
+        // corresponding Requires attributes (see the Sum(...) overloads below), so the risk remains documented.
+        [UnconditionalSuppressMessage("Trimming", "IL2026", Justification = "Enumerates all methods of EnumerableExtensions via Type.GetMethods(), which includes members annotated with RequiresUnreferencedCode; callers already carry the corresponding Requires attribute.")]
+        [UnconditionalSuppressMessage("AOT", "IL3050", Justification = "Enumerates all methods of EnumerableExtensions via Type.GetMethods(), which includes members annotated with RequiresDynamicCode; callers already carry the corresponding Requires attribute.")]
         private static MethodInfo[] EnumerableSumMethods => _enumerablesummethods ??=
                         [.. typeof(EnumerableExtensions).GetMethods().Where(static m => m.Name == "Sum" && m.GetParameters().Length == 2)];
 
@@ -2486,6 +2626,11 @@ namespace Syncfusion.Blazor.Toolkit.Data
         private static MethodInfo[]? _enumerableaverageMethods;
 
         /// <exclude />
+        // Note: [method: RequiresUnreferencedCode]/[RequiresDynamicCode] cannot be applied to an expression-bodied
+        // property (CS0657 - only the 'property' target is valid here); callers of this member already carry the
+        // corresponding Requires attributes (see the Average(...) overloads below), so the risk remains documented.
+        [UnconditionalSuppressMessage("Trimming", "IL2026", Justification = "Enumerates all methods of EnumerableExtensions via Type.GetMethods(), which includes members annotated with RequiresUnreferencedCode; callers already carry the corresponding Requires attribute.")]
+        [UnconditionalSuppressMessage("AOT", "IL3050", Justification = "Enumerates all methods of EnumerableExtensions via Type.GetMethods(), which includes members annotated with RequiresDynamicCode; callers already carry the corresponding Requires attribute.")]
         private static MethodInfo[] EnumerableAverageMethods => _enumerableaverageMethods ??= [.. typeof(EnumerableExtensions).GetMethods().Where(m => m.Name == "Average" && m.GetParameters().Length == 2)];
 
         /// <exclude />
@@ -2500,6 +2645,8 @@ namespace Syncfusion.Blazor.Toolkit.Data
         /// <param name="propertyName">The property to aggregate.</param>
         /// <param name="sourceType">The source element type.</param>
         /// <returns>The calculated sum value, or <see langword="null"/> when the query is empty or no sum method is available.</returns>
+        [RequiresUnreferencedCode("Calls GetValueExpression and builds a closed generic method via MethodInfo.MakeGenericMethod, which is unsafe to trim.")]
+        [RequiresDynamicCode("Builds a closed generic method via MethodInfo.MakeGenericMethod, which may need to generate new code at runtime.")]
         public static object Sum(this IQueryable source, string propertyName, Type sourceType)
         {
             ArgumentNullException.ThrowIfNull(source);
@@ -2537,6 +2684,8 @@ namespace Syncfusion.Blazor.Toolkit.Data
         /// <param name="source">The queryable source.</param>
         /// <param name="propertyName">The property to aggregate.</param>
         /// <returns>The calculated sum value, or <see langword="null"/> when the query is empty or no sum method is available.</returns>
+        [RequiresUnreferencedCode("Calls Sum(IQueryable, string, Type), which builds a closed generic method via MethodInfo.MakeGenericMethod and is unsafe to trim.")]
+        [RequiresDynamicCode("Calls Sum(IQueryable, string, Type), which builds a closed generic method via MethodInfo.MakeGenericMethod and may need to generate new code at runtime.")]
         public static object Sum(this IQueryable source, string propertyName)
         {
             ArgumentNullException.ThrowIfNull(source);
@@ -2551,6 +2700,8 @@ namespace Syncfusion.Blazor.Toolkit.Data
         /// <param name="expressionFunc">The value selector expression factory.</param>
         /// <param name="typeFunc">The type selector expression factory.</param>
         /// <returns>The calculated sum value, or <see langword="null"/> when the query is empty or no sum method is available.</returns>
+        [RequiresUnreferencedCode("Builds a closed generic method via MethodInfo.MakeGenericMethod and invokes it through reflection, which is unsafe to trim.")]
+        [RequiresDynamicCode("Builds a closed generic method via MethodInfo.MakeGenericMethod, which may need to generate new code at runtime.")]
         public static object Sum(this IQueryable source, string propertyName, Expression<Func<string, object, object>> expressionFunc, Expression<Func<string, object, object>> typeFunc)
         {
             ArgumentNullException.ThrowIfNull(source);
@@ -2615,6 +2766,8 @@ namespace Syncfusion.Blazor.Toolkit.Data
         /// </summary>
         /// <param name="bodyType"></param>
         /// <returns>exact method info.</returns>
+        [RequiresUnreferencedCode("Calls QueryableSummethod, which enumerates all methods of Queryable via Type.GetMethods() and is unsafe to trim.")]
+        [RequiresDynamicCode("Calls QueryableSummethod, which enumerates all methods of Queryable via Type.GetMethods() and may need to generate new code at runtime.")]
         private static MethodInfo GetQueryableSumMethod(Type bodyType)
         {
             MethodInfo? method = null;
@@ -2674,6 +2827,8 @@ namespace Syncfusion.Blazor.Toolkit.Data
         /// </summary>
         /// <param name="bodyType"></param>
         /// <returns>exact method info.</returns>
+        [RequiresUnreferencedCode("Calls QueryableAverageMethod, which enumerates all methods of Queryable via Type.GetMethods() and is unsafe to trim.")]
+        [RequiresDynamicCode("Calls QueryableAverageMethod, which enumerates all methods of Queryable via Type.GetMethods() and may need to generate new code at runtime.")]
         private static MethodInfo GetQueryableAverageMethod(Type bodyType)
         {
             MethodInfo? method = null;
@@ -2741,6 +2896,8 @@ namespace Syncfusion.Blazor.Toolkit.Data
         /// <param name="source">The queryable source.</param>
         /// <param name="propertyName">The property name.</param>
         /// <returns>The calculated average value.</returns>
+        [RequiresUnreferencedCode("Calls Average(IQueryable, string, Type), which builds a closed generic method via MethodInfo.MakeGenericMethod and is unsafe to trim.")]
+        [RequiresDynamicCode("Calls Average(IQueryable, string, Type), which builds a closed generic method via MethodInfo.MakeGenericMethod and may need to generate new code at runtime.")]
         public static object Average(this IQueryable source, string propertyName)
         {
             ArgumentNullException.ThrowIfNull(source);
@@ -2755,6 +2912,8 @@ namespace Syncfusion.Blazor.Toolkit.Data
         /// <param name="propertyName">The property name.</param>
         /// <param name="sourceType">The source element type.</param>
         /// <returns>The calculated average value.</returns>
+        [RequiresUnreferencedCode("Calls GetValueExpression and builds a closed generic method via MethodInfo.MakeGenericMethod, which is unsafe to trim.")]
+        [RequiresDynamicCode("Builds a closed generic method via MethodInfo.MakeGenericMethod, which may need to generate new code at runtime.")]
         public static object Average(this IQueryable source, string propertyName, Type sourceType)
         {
             ArgumentNullException.ThrowIfNull(source);
@@ -2794,6 +2953,8 @@ namespace Syncfusion.Blazor.Toolkit.Data
         /// <param name="expressionFunc">The expression factory.</param>
         /// <param name="typeFunc">The type resolver factory.</param>
         /// <returns>The calculated average value.</returns>
+        [RequiresUnreferencedCode("Builds a closed generic method via MethodInfo.MakeGenericMethod and invokes it through reflection, which is unsafe to trim.")]
+        [RequiresDynamicCode("Builds a closed generic method via MethodInfo.MakeGenericMethod, which may need to generate new code at runtime.")]
         public static object Average(this IQueryable source, string propertyName, Expression<Func<string, object, object>> expressionFunc, Expression<Func<string, object, object>> typeFunc)
         {
             ArgumentNullException.ThrowIfNull(source);
@@ -2859,6 +3020,8 @@ namespace Syncfusion.Blazor.Toolkit.Data
         /// <param name="source">The queryable source.</param>
         /// <param name="propertyName">The property name.</param>
         /// <returns>The maximum value.</returns>
+        [RequiresUnreferencedCode("Calls Max(IQueryable, string, Type), which builds a closed generic method via MethodInfo.MakeGenericMethod and is unsafe to trim.")]
+        [RequiresDynamicCode("Calls Max(IQueryable, string, Type), which builds a closed generic method via MethodInfo.MakeGenericMethod and may need to generate new code at runtime.")]
         public static object Max(this IQueryable source, string propertyName)
         {
             ArgumentNullException.ThrowIfNull(source);
@@ -2873,6 +3036,8 @@ namespace Syncfusion.Blazor.Toolkit.Data
         /// <param name="propertyName">The property name.</param>
         /// <param name="sourceType">The source element type.</param>
         /// <returns>The maximum value.</returns>
+        [RequiresUnreferencedCode("Calls GetValueExpression and builds a closed generic method via MethodInfo.MakeGenericMethod, which is unsafe to trim.")]
+        [RequiresDynamicCode("Builds a closed generic method via MethodInfo.MakeGenericMethod, which may need to generate new code at runtime.")]
         public static object Max(this IQueryable source, string propertyName, Type sourceType)
         {
             ArgumentNullException.ThrowIfNull(source);
@@ -2894,6 +3059,8 @@ namespace Syncfusion.Blazor.Toolkit.Data
         /// <param name="propertyName">The property name.</param>
         /// <param name="expressionFunc">The expression factory.</param>
         /// <returns>The maximum value.</returns>
+        [RequiresUnreferencedCode("Builds a closed generic method via MethodInfo.MakeGenericMethod and invokes it through reflection, which is unsafe to trim.")]
+        [RequiresDynamicCode("Builds a closed generic method via MethodInfo.MakeGenericMethod, which may need to generate new code at runtime.")]
         public static object Max(this IQueryable source, string propertyName,
                                  Expression<Func<string, object, object>> expressionFunc)
         {
@@ -2956,6 +3123,8 @@ namespace Syncfusion.Blazor.Toolkit.Data
         /// <param name="source">The queryable source.</param>
         /// <param name="propertyName">The property name.</param>
         /// <returns>The minimum value.</returns>
+        [RequiresUnreferencedCode("Calls Min(IQueryable, string, Type), which builds a closed generic method via MethodInfo.MakeGenericMethod and is unsafe to trim.")]
+        [RequiresDynamicCode("Calls Min(IQueryable, string, Type), which builds a closed generic method via MethodInfo.MakeGenericMethod and may need to generate new code at runtime.")]
         public static object Min(this IQueryable source, string propertyName)
         {
             ArgumentNullException.ThrowIfNull(source);
@@ -2970,6 +3139,8 @@ namespace Syncfusion.Blazor.Toolkit.Data
         /// <param name="propertyName">The property name.</param>
         /// <param name="sourceType">The source element type.</param>
         /// <returns>The minimum value.</returns>
+        [RequiresUnreferencedCode("Calls GetValueExpression and builds a closed generic method via MethodInfo.MakeGenericMethod, which is unsafe to trim.")]
+        [RequiresDynamicCode("Builds a closed generic method via MethodInfo.MakeGenericMethod, which may need to generate new code at runtime.")]
         public static object Min(this IQueryable source, string propertyName, Type sourceType)
         {
             ArgumentNullException.ThrowIfNull(source);
@@ -2989,6 +3160,8 @@ namespace Syncfusion.Blazor.Toolkit.Data
         /// <param name="propertyName">The property name.</param>
         /// <param name="expressionFunc">The expression factory.</param>
         /// <returns>The minimum value.</returns>
+        [RequiresUnreferencedCode("Builds a closed generic method via MethodInfo.MakeGenericMethod and invokes it through reflection, which is unsafe to trim.")]
+        [RequiresDynamicCode("Builds a closed generic method via MethodInfo.MakeGenericMethod, which may need to generate new code at runtime.")]
         public static object Min(this IQueryable source, string propertyName, Expression<Func<string, object, object>> expressionFunc)
         {
             ArgumentNullException.ThrowIfNull(source);
@@ -3048,6 +3221,8 @@ namespace Syncfusion.Blazor.Toolkit.Data
         /// <param name="constValue">The const value.</param>
         /// <param name="sourceType">Type.</param>
         /// <returns></returns>
+        [RequiresUnreferencedCode("Builds a dynamic LINQ Queryable.Take call by method name via Expression.Call, which is unsafe to trim.")]
+        [RequiresDynamicCode("Builds a dynamic LINQ Queryable.Take call by method name via Expression.Call, which may need to generate new code at runtime.")]
         public static IQueryable Take(this IQueryable source, int constValue, Type sourceType)
         {
             ArgumentNullException.ThrowIfNull(source);
@@ -3065,6 +3240,8 @@ namespace Syncfusion.Blazor.Toolkit.Data
         /// <param name="source">The source.</param>
         /// <param name="constValue">The const value.</param>
         /// <returns></returns>
+        [RequiresUnreferencedCode("Calls Take(IQueryable, int, Type), which builds a dynamic LINQ call by method name and is unsafe to trim.")]
+        [RequiresDynamicCode("Calls Take(IQueryable, int, Type), which builds a dynamic LINQ call by method name and may need to generate new code at runtime.")]
         public static IQueryable Take(this IQueryable source, int constValue)
         {
             ArgumentNullException.ThrowIfNull(source);
@@ -3085,6 +3262,8 @@ namespace Syncfusion.Blazor.Toolkit.Data
         /// <param name="source"></param>
         /// <param name="propertyName"></param>
         /// <param name="sourceType"></param>
+        [RequiresUnreferencedCode("Resolves the property by name and builds a dynamic LINQ Queryable.ThenBy call by method name, which is unsafe to trim.")]
+        [RequiresDynamicCode("Builds a dynamic LINQ Queryable.ThenBy call by method name via Expression.Call, which may need to generate new code at runtime.")]
         public static IQueryable ThenBy(this IQueryable source, string propertyName, Type sourceType)
         {
             ArgumentNullException.ThrowIfNull(source);
@@ -3103,6 +3282,8 @@ namespace Syncfusion.Blazor.Toolkit.Data
         /// </summary>
         /// <param name="source"></param>
         /// <param name="propertyName"></param>
+        [RequiresUnreferencedCode("Calls ThenBy(IQueryable, string, Type), which resolves properties by name and is unsafe to trim.")]
+        [RequiresDynamicCode("Calls ThenBy(IQueryable, string, Type), which builds a dynamic LINQ call by method name and may need to generate new code at runtime.")]
         public static IQueryable ThenBy(this IQueryable source, string propertyName)
         {
             ArgumentNullException.ThrowIfNull(source);
@@ -3117,6 +3298,8 @@ namespace Syncfusion.Blazor.Toolkit.Data
         /// <param name="propertyName"></param>
         /// <param name="comparer"></param>
         /// <param name="expressionFunc"></param>
+        [RequiresUnreferencedCode("Builds a closed generic Queryable.ThenBy call via MethodInfo.MakeGenericMethod, which is unsafe to trim.")]
+        [RequiresDynamicCode("Builds a closed generic Queryable.ThenBy call via MethodInfo.MakeGenericMethod, which may need to generate new code at runtime.")]
         public static IQueryable ThenBy(this IQueryable source, string propertyName, IComparer<object> comparer,
                                         Expression<Func<string, object, object>> expressionFunc)
         {
@@ -3142,6 +3325,8 @@ namespace Syncfusion.Blazor.Toolkit.Data
         /// <param name="source"></param>
         /// <param name="propertyName"></param>
         /// <param name="expressionFunc"></param>
+        [RequiresUnreferencedCode("Calls ThenBy(IQueryable, ParameterExpression, Expression), which builds a dynamic LINQ call by method name and is unsafe to trim.")]
+        [RequiresDynamicCode("Calls ThenBy(IQueryable, ParameterExpression, Expression), which builds a dynamic LINQ call by method name and may need to generate new code at runtime.")]
         public static IQueryable ThenBy(this IQueryable source, string propertyName,
                                         Expression<Func<string, object, object>> expressionFunc)
         {
@@ -3159,6 +3344,8 @@ namespace Syncfusion.Blazor.Toolkit.Data
         /// <param name="source"></param>
         /// <param name="paramExpression"></param>
         /// <param name="mExp"></param>
+        [RequiresUnreferencedCode("Builds a dynamic LINQ Queryable.ThenBy call by method name via Expression.Call, which is unsafe to trim.")]
+        [RequiresDynamicCode("Builds a dynamic LINQ Queryable.ThenBy call by method name via Expression.Call, which may need to generate new code at runtime.")]
         public static IQueryable ThenBy(this IQueryable source, ParameterExpression paramExpression, Expression mExp)
         {
             ArgumentNullException.ThrowIfNull(source);
@@ -3194,6 +3381,8 @@ namespace Syncfusion.Blazor.Toolkit.Data
         /// <param name="source"></param>
         /// <param name="comparer"></param>
         /// <param name="sourceType"></param>
+        [RequiresUnreferencedCode("Builds a closed generic Queryable.ThenBy call via MethodInfo.MakeGenericMethod, which is unsafe to trim.")]
+        [RequiresDynamicCode("Builds a closed generic Queryable.ThenBy call via MethodInfo.MakeGenericMethod, which may need to generate new code at runtime.")]
         public static IQueryable ThenBy<T>(this IQueryable source, IComparer<T> comparer, Type sourceType)
         {
             ArgumentNullException.ThrowIfNull(source);
@@ -3216,6 +3405,8 @@ namespace Syncfusion.Blazor.Toolkit.Data
         /// <param name="propertyName"></param>
         /// <param name="comparer"></param>
         /// <param name="sourceType"></param>
+        [RequiresUnreferencedCode("Builds a closed generic Queryable.ThenBy call via MethodInfo.MakeGenericMethod, which is unsafe to trim.")]
+        [RequiresDynamicCode("Builds a closed generic Queryable.ThenBy call via MethodInfo.MakeGenericMethod, which may need to generate new code at runtime.")]
         public static IQueryable ThenBy(this IQueryable source, string propertyName, IComparer<object> comparer,
                                         Type sourceType)
         {
@@ -3239,6 +3430,8 @@ namespace Syncfusion.Blazor.Toolkit.Data
         /// <typeparam name="T"></typeparam>
         /// <param name="source"></param>
         /// <param name="comparer"></param>
+        [RequiresUnreferencedCode("Calls ThenBy(IQueryable, IComparer<T>, Type), which builds a closed generic method via MethodInfo.MakeGenericMethod and is unsafe to trim.")]
+        [RequiresDynamicCode("Calls ThenBy(IQueryable, IComparer<T>, Type), which builds a closed generic method via MethodInfo.MakeGenericMethod and may need to generate new code at runtime.")]
         public static IQueryable ThenBy<T>(this IQueryable source, IComparer<T> comparer)
         {
             ArgumentNullException.ThrowIfNull(source);
@@ -3267,6 +3460,8 @@ namespace Syncfusion.Blazor.Toolkit.Data
         /// <param name="source"></param>
         /// <param name="comparer"></param>
         /// <param name="sourceType"></param>
+        [RequiresUnreferencedCode("Builds a closed generic Queryable.ThenByDescending call via MethodInfo.MakeGenericMethod, which is unsafe to trim.")]
+        [RequiresDynamicCode("Builds a closed generic Queryable.ThenByDescending call via MethodInfo.MakeGenericMethod, which may need to generate new code at runtime.")]
         public static IQueryable ThenByDescending<T>(this IQueryable source, IComparer<T> comparer, Type sourceType)
         {
             ArgumentNullException.ThrowIfNull(source);
@@ -3289,6 +3484,8 @@ namespace Syncfusion.Blazor.Toolkit.Data
         /// <param name="propertyName"></param>
         /// <param name="comparer"></param>
         /// <param name="sourceType"></param>
+        [RequiresUnreferencedCode("Builds a closed generic Queryable.ThenByDescending call via MethodInfo.MakeGenericMethod, which is unsafe to trim.")]
+        [RequiresDynamicCode("Builds a closed generic Queryable.ThenByDescending call via MethodInfo.MakeGenericMethod, which may need to generate new code at runtime.")]
         public static IQueryable ThenByDescending(this IQueryable source, string propertyName,
                                                   IComparer<object> comparer, Type sourceType)
         {
@@ -3311,6 +3508,8 @@ namespace Syncfusion.Blazor.Toolkit.Data
         /// </summary>
         /// <param name="source"></param>
         /// <param name="comparer"></param>
+        [RequiresUnreferencedCode("Calls ThenByDescending(IQueryable, IComparer<T>, Type), which builds a closed generic method via MethodInfo.MakeGenericMethod and is unsafe to trim.")]
+        [RequiresDynamicCode("Calls ThenByDescending(IQueryable, IComparer<T>, Type), which builds a closed generic method via MethodInfo.MakeGenericMethod and may need to generate new code at runtime.")]
         public static IQueryable ThenByDescending<T>(this IQueryable source, IComparer<T> comparer)
         {
             ArgumentNullException.ThrowIfNull(source);
@@ -3325,6 +3524,8 @@ namespace Syncfusion.Blazor.Toolkit.Data
         /// <param name="propertyName"></param>
         /// <param name="comparer"></param>
         /// <param name="expressionFunc"></param>
+        [RequiresUnreferencedCode("Builds a closed generic Queryable.ThenByDescending call via MethodInfo.MakeGenericMethod, which is unsafe to trim.")]
+        [RequiresDynamicCode("Builds a closed generic Queryable.ThenByDescending call via MethodInfo.MakeGenericMethod, which may need to generate new code at runtime.")]
         public static IQueryable ThenByDescending(this IQueryable source, string propertyName,
                                                   IComparer<object> comparer,
                                                   Expression<Func<string, object, object>> expressionFunc)
@@ -3351,6 +3552,8 @@ namespace Syncfusion.Blazor.Toolkit.Data
         /// <param name="source"></param>
         /// <param name="propertyName"></param>
         /// <param name="expressionFunc"></param>
+        [RequiresUnreferencedCode("Calls ThenByDescending(IQueryable, ParameterExpression, Expression), which builds a dynamic LINQ call by method name and is unsafe to trim.")]
+        [RequiresDynamicCode("Calls ThenByDescending(IQueryable, ParameterExpression, Expression), which builds a dynamic LINQ call by method name and may need to generate new code at runtime.")]
         public static IQueryable ThenByDescending(this IQueryable source, string propertyName,
                                                   Expression<Func<string, object, object>> expressionFunc)
         {
@@ -3368,6 +3571,8 @@ namespace Syncfusion.Blazor.Toolkit.Data
         /// <param name="source"></param>
         /// <param name="paramExpression"></param>
         /// <param name="mExp"></param>
+        [RequiresUnreferencedCode("Builds a dynamic LINQ Queryable.ThenByDescending call by method name via Expression.Call, which is unsafe to trim.")]
+        [RequiresDynamicCode("Builds a dynamic LINQ Queryable.ThenByDescending call by method name via Expression.Call, which may need to generate new code at runtime.")]
         public static IQueryable ThenByDescending(this IQueryable source, ParameterExpression paramExpression,
                                                   Expression mExp)
         {
@@ -3396,6 +3601,8 @@ namespace Syncfusion.Blazor.Toolkit.Data
         /// <param name="source"></param>
         /// <param name="propertyName"></param>
         /// <param name="sourceType"></param>
+        [RequiresUnreferencedCode("Resolves the property by name and builds a dynamic LINQ Queryable.ThenByDescending call by method name, which is unsafe to trim.")]
+        [RequiresDynamicCode("Builds a dynamic LINQ Queryable.ThenByDescending call by method name via Expression.Call, which may need to generate new code at runtime.")]
         public static IQueryable ThenByDescending(this IQueryable source, string propertyName, Type sourceType)
         {
             ArgumentNullException.ThrowIfNull(source);
@@ -3415,6 +3622,8 @@ namespace Syncfusion.Blazor.Toolkit.Data
         /// </summary>
         /// <param name="source"></param>
         /// <param name="propertyName"></param>
+        [RequiresUnreferencedCode("Calls ThenByDescending(IQueryable, string, Type), which resolves properties by name and is unsafe to trim.")]
+        [RequiresDynamicCode("Calls ThenByDescending(IQueryable, string, Type), which builds a dynamic LINQ call by method name and may need to generate new code at runtime.")]
         public static IQueryable ThenByDescending(this IQueryable source, string propertyName)
         {
             ArgumentNullException.ThrowIfNull(source);
@@ -3442,6 +3651,8 @@ namespace Syncfusion.Blazor.Toolkit.Data
         /// <param name="filterType"></param>
         /// <param name="isCaseSensitive"></param>
         /// <param name="sourceType"></param>
+        [RequiresUnreferencedCode("Calls GetValueExpression to resolve the property by name, which is unsafe to trim.")]
+        [RequiresDynamicCode("Calls GetValueExpression to resolve the property by name, which may need to generate new code at runtime.")]
         public static IQueryable Where(this IQueryable source, string propertyName, object value, FilterType filterType,
                                        bool isCaseSensitive, Type sourceType)
         {
@@ -3598,6 +3809,8 @@ namespace Syncfusion.Blazor.Toolkit.Data
         /// <param name="value"></param>
         /// <param name="filterType"></param>
         /// <param name="isCaseSensitive"></param>
+        [RequiresUnreferencedCode("Calls Where(IQueryable, string, object, FilterType, bool, Type), which resolves properties by name and is unsafe to trim.")]
+        [RequiresDynamicCode("Calls Where(IQueryable, string, object, FilterType, bool, Type), which may need to generate new code at runtime.")]
         public static IQueryable Where(this IQueryable source, string propertyName, object value, FilterType filterType,
                                        bool isCaseSensitive)
         {
@@ -3613,6 +3826,8 @@ namespace Syncfusion.Blazor.Toolkit.Data
         /// <param name="pageIndex">The zero-based page index.</param>
         /// <param name="pageSize">The number of items per page.</param>
         /// <returns>The paged queryable source.</returns>
+        [RequiresUnreferencedCode("Calls Skip/Take, which build dynamic LINQ calls by method name and are unsafe to trim.")]
+        [RequiresDynamicCode("Calls Skip/Take, which build dynamic LINQ calls by method name and may need to generate new code at runtime.")]
         public static IQueryable Page(this IQueryable source, int pageIndex, int pageSize)
         {
             ArgumentNullException.ThrowIfNull(source);
@@ -3672,6 +3887,8 @@ namespace Syncfusion.Blazor.Toolkit.Data
         /// <param name="source"></param>
         /// <param name="paramExpression"></param>
         /// <param name="predicateExpression"></param>
+        [RequiresUnreferencedCode("Builds a dynamic LINQ Queryable.Where call by method name via Expression.Call, which is unsafe to trim.")]
+        [RequiresDynamicCode("Builds a dynamic LINQ Queryable.Where call by method name via Expression.Call, which may need to generate new code at runtime.")]
         public static IQueryable Where(this IQueryable source, ParameterExpression paramExpression,
                                        Expression predicateExpression)
         {
@@ -3887,6 +4104,8 @@ namespace Syncfusion.Blazor.Toolkit.Data
         /// <param name="source">The queryable source.</param>
         /// <param name="properties">The property names to group by.</param>
         /// <returns>A sequence of grouped results.</returns>
+        [RequiresUnreferencedCode("Calls GroupByMany(IQueryable, string[]), which resolves properties by name and is unsafe to trim.")]
+        [RequiresDynamicCode("Calls GroupByMany(IQueryable, string[]), which builds a closed generic method via MethodInfo.MakeGenericMethod and may need to generate new code at runtime.")]
         public static IEnumerable<GroupResult> GroupByMany(this IQueryable source, IEnumerable<string> properties)
         {
             return GroupByMany(source, properties.ToArray());
@@ -3899,6 +4118,8 @@ namespace Syncfusion.Blazor.Toolkit.Data
         /// <param name="sourceType">The source element type.</param>
         /// <param name="properties">The property names to group by.</param>
         /// <returns>A sequence of grouped results.</returns>
+        [RequiresUnreferencedCode("Calls GroupByMany(IQueryable, Dictionary<string,string>, Type, string[]), which resolves properties by name and is unsafe to trim.")]
+        [RequiresDynamicCode("Calls GroupByMany(IQueryable, Dictionary<string,string>, Type, string[]), which builds a closed generic method via MethodInfo.MakeGenericMethod and may need to generate new code at runtime.")]
         public static IEnumerable<GroupResult> GroupByMany(this IQueryable source, Type sourceType,
                                                            params string[] properties)
         {
@@ -3913,6 +4134,8 @@ namespace Syncfusion.Blazor.Toolkit.Data
         /// <param name="sourceType">The source element type.</param>
         /// <param name="properties">The property names to group by.</param>
         /// <returns>A sequence of grouped results.</returns>
+        [RequiresUnreferencedCode("Calls GetValueExpression to resolve properties by name and builds a closed generic method via MethodInfo.MakeGenericMethod, which is unsafe to trim.")]
+        [RequiresDynamicCode("Builds a closed generic method via MethodInfo.MakeGenericMethod, which may need to generate new code at runtime.")]
         public static IEnumerable<GroupResult> GroupByMany(this IQueryable source, Dictionary<string, string> formatColl,
                                                            Type sourceType, params string[] properties)
         {
@@ -3981,6 +4204,8 @@ namespace Syncfusion.Blazor.Toolkit.Data
         /// <param name="sortFields">The sort fields to apply to grouped results.</param>
         /// <param name="properties">The property names to group by.</param>
         /// <returns>A sequence of grouped results.</returns>
+        [RequiresUnreferencedCode("Calls GetValueExpression to resolve properties by name and builds a closed generic method via MethodInfo.MakeGenericMethod, which is unsafe to trim.")]
+        [RequiresDynamicCode("Builds a closed generic method via MethodInfo.MakeGenericMethod, which may need to generate new code at runtime.")]
         public static IEnumerable<GroupResult> GroupByMany(this IQueryable source, Type sourceType,
                                    List<SortDescription> sortFields, params string[] properties)
         {
@@ -4024,6 +4249,8 @@ namespace Syncfusion.Blazor.Toolkit.Data
         /// <param name="GetExpressionFunc">A factory that creates a grouping expression for each property.</param>
         /// <param name="properties">The property names to group by.</param>
         /// <returns>A sequence of grouped results.</returns>
+        [RequiresUnreferencedCode("Calls GetValueExpression to resolve properties by name and builds a closed generic method via MethodInfo.MakeGenericMethod, which is unsafe to trim.")]
+        [RequiresDynamicCode("Builds a closed generic method via MethodInfo.MakeGenericMethod, which may need to generate new code at runtime.")]
         public static IEnumerable<GroupResult> GroupByMany(this IEnumerable source, Type sourceType,
                                    Func<string, Expression> GetExpressionFunc,
                                    params string[] properties)
@@ -4091,6 +4318,8 @@ namespace Syncfusion.Blazor.Toolkit.Data
         /// <param name="GetExpressionFunc">A factory that creates a grouping expression for each property.</param>
         /// <param name="properties">The property names to group by.</param>
         /// <returns>A sequence of grouped results.</returns>
+        [RequiresUnreferencedCode("Calls GetValueExpression to resolve properties by name and builds a closed generic method via MethodInfo.MakeGenericMethod, which is unsafe to trim.")]
+        [RequiresDynamicCode("Builds a closed generic method via MethodInfo.MakeGenericMethod, which may need to generate new code at runtime.")]
         public static IEnumerable<GroupResult> GroupByMany(this IEnumerable source, Type sourceType,
                                    List<SortDescription> sortFields,
                                    Dictionary<string, IComparer<object>> sortComparers,
@@ -4152,6 +4381,9 @@ namespace Syncfusion.Blazor.Toolkit.Data
         /// <param name="GetExpressionFunc">A factory that creates a grouping expression for each property.</param>
         /// <param name="properties">The property names to group by.</param>
         /// <returns>A sequence of grouped results.</returns>
+        /// <returns>A sequence of grouped results.</returns>
+        [RequiresUnreferencedCode("Calls GetValueExpression to resolve properties by name and builds a closed generic method via MethodInfo.MakeGenericMethod, which is unsafe to trim.")]
+        [RequiresDynamicCode("Builds a closed generic method via MethodInfo.MakeGenericMethod, which may need to generate new code at runtime.")]
         public static IEnumerable<GroupResult> GroupByMany(this IEnumerable source, Type sourceType,
                                    List<SortDescription> sortFields,
                                    Func<string, Expression> GetExpressionFunc,
@@ -4206,6 +4438,8 @@ namespace Syncfusion.Blazor.Toolkit.Data
         /// Gets the <see cref="MethodInfo"/> for the <c>GroupByMany</c> overload that accepts enumerable selectors.
         /// </summary>
         /// <returns>The matching <see cref="MethodInfo"/>.</returns>
+        [RequiresUnreferencedCode("Enumerates all methods of QueryableExtensions via Type.GetMethods(), which includes members annotated with RequiresUnreferencedCode and is unsafe to trim.")]
+        [RequiresDynamicCode("Enumerates all methods of QueryableExtensions via Type.GetMethods(), which includes members annotated with RequiresDynamicCode.")]
         private static MethodInfo GetGroupByManyMethod()
         {
             MethodInfo? method = null;
@@ -4232,6 +4466,8 @@ namespace Syncfusion.Blazor.Toolkit.Data
         /// Gets the <see cref="MethodInfo"/> for the <c>GroupByMany</c> overload that accepts sort fields and enumerable selectors.
         /// </summary>
         /// <returns>The matching <see cref="MethodInfo"/>.</returns>
+        [RequiresUnreferencedCode("Enumerates all methods of QueryableExtensions via Type.GetMethods(), which includes members annotated with RequiresUnreferencedCode and is unsafe to trim.")]
+        [RequiresDynamicCode("Enumerates all methods of QueryableExtensions via Type.GetMethods(), which includes members annotated with RequiresDynamicCode.")]
         private static MethodInfo GetGroupByManyMethod2()
         {
             MethodInfo? method = null;
@@ -4261,6 +4497,8 @@ namespace Syncfusion.Blazor.Toolkit.Data
         /// Gets the <see cref="MethodInfo"/> for the <c>GroupByMany</c> overload that accepts custom comparers.
         /// </summary>
         /// <returns>The matching <see cref="MethodInfo"/>.</returns>
+        [RequiresUnreferencedCode("Enumerates all methods of QueryableExtensions via Type.GetMethods(), which includes members annotated with RequiresUnreferencedCode and is unsafe to trim.")]
+        [RequiresDynamicCode("Enumerates all methods of QueryableExtensions via Type.GetMethods(), which includes members annotated with RequiresDynamicCode.")]
         private static MethodInfo GetGroupByManyMethod3()
         {
             MethodInfo? method = null;
@@ -4292,6 +4530,8 @@ namespace Syncfusion.Blazor.Toolkit.Data
         /// <param name="source">The queryable source.</param>
         /// <param name="properties">The property names to group by.</param>
         /// <returns>A sequence of grouped results.</returns>
+        [RequiresUnreferencedCode("Calls GroupByMany(IQueryable, Type, string[]), which resolves properties by name and is unsafe to trim.")]
+        [RequiresDynamicCode("Calls GroupByMany(IQueryable, Type, string[]), which builds a closed generic method via MethodInfo.MakeGenericMethod and may need to generate new code at runtime.")]
         public static IEnumerable<GroupResult> GroupByMany(this IQueryable source, params string[] properties)
         {
             ArgumentNullException.ThrowIfNull(source);
@@ -4306,6 +4546,8 @@ namespace Syncfusion.Blazor.Toolkit.Data
         /// <param name="formatcoll">The format strings keyed by property name.</param>
         /// <param name="properties">The property names to group by.</param>
         /// <returns>A sequence of grouped results.</returns>
+        [RequiresUnreferencedCode("Calls GroupByMany(IQueryable, Dictionary<string,string>, Type, string[]), which resolves properties by name and is unsafe to trim.")]
+        [RequiresDynamicCode("Calls GroupByMany(IQueryable, Dictionary<string,string>, Type, string[]), which builds a closed generic method via MethodInfo.MakeGenericMethod and may need to generate new code at runtime.")]
         public static IEnumerable<GroupResult> GroupByMany(this IQueryable source, Dictionary<string, string> formatcoll,
                                    params string[] properties)
         {
@@ -4316,6 +4558,8 @@ namespace Syncfusion.Blazor.Toolkit.Data
 
         #endregion
 
+        [RequiresUnreferencedCode("Builds a closed generic List<T> via Type.MakeGenericType and Activator.CreateInstance, which is unsafe to trim.")]
+        [RequiresDynamicCode("Builds a closed generic List<T> via Type.MakeGenericType, which may need to generate new code at runtime.")]
         private static IList CreateGeneric(Type generic, Type innerType, params object[] args)
         {
             Type specificType = generic.MakeGenericType([innerType]);

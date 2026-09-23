@@ -1,4 +1,5 @@
-﻿using System.Linq.Expressions;
+using System.Linq.Expressions;
+using System.Diagnostics.CodeAnalysis;
 using System.Reflection;
 using Syncfusion.Blazor.Toolkit.Data;
 using Syncfusion.Blazor.Toolkit.Internal;
@@ -41,6 +42,8 @@ namespace Syncfusion.Blazor.Toolkit.Data
         /// <param name="dataSource">Input data source against which the query to be executed.</param>
         /// <param name="manager">Query to be executed.</param>
         /// <returns>IQueryable - resultant records.</returns>
+        [RequiresUnreferencedCode("Calls PerformFiltering/PerformSearching/PerformSorting, which resolve properties by name and are unsafe to trim.")]
+        [RequiresDynamicCode("Calls PerformFiltering/PerformSearching/PerformSorting, which may need to generate new code at runtime.")]
         public static IQueryable<T> Execute<T>(IQueryable<T> dataSource, DataManagerRequest manager)
         {
             if (manager == null) { return dataSource; }
@@ -78,6 +81,8 @@ namespace Syncfusion.Blazor.Toolkit.Data
         /// <param name="dataSource">Input data source to be grouped.</param>
         /// <param name="grouped">List of column names by which rows will be grouped.</param>
         /// <returns>IQueryable.</returns>
+        [RequiresUnreferencedCode("Calls EnumerableOperation.PerformGrouping, which resolves properties by name and is unsafe to trim.")]
+        [RequiresDynamicCode("Calls EnumerableOperation.PerformGrouping, which may need to generate new code at runtime.")]
         public static IQueryable PerformGrouping<T>(IQueryable<T> dataSource, List<string> grouped)
         {
             return EnumerableOperation.PerformGrouping(dataSource, grouped).AsQueryable();
@@ -89,6 +94,8 @@ namespace Syncfusion.Blazor.Toolkit.Data
         /// <param name="dataSource">Data source to be sorted.</param>
         /// <param name="sortedColumns">List of sort criteria.</param>
         /// <returns>IQueryable - sorted records.</returns>
+        [RequiresUnreferencedCode("Calls EnumerableOperation.PerformSorting, which resolves properties by name and is unsafe to trim.")]
+        [RequiresDynamicCode("Calls EnumerableOperation.PerformSorting, which may need to generate new code at runtime.")]
         public static IQueryable<T> PerformSorting<T>(IQueryable<T> dataSource, List<SortedColumn> sortedColumns)
         {
             return (IOrderedQueryable<T>)EnumerableOperation.PerformSorting(dataSource, sortedColumns, typeof(T));
@@ -100,6 +107,8 @@ namespace Syncfusion.Blazor.Toolkit.Data
         /// <param name="dataSource">Data source to be sorted.</param>
         /// <param name="sortColumns">List of sort criteria.</param>
         /// <returns>IQueryable - sorted records.</returns>
+        [RequiresUnreferencedCode("Calls PerformSorting(IQueryable<T>, List<SortedColumn>), which resolves properties by name and is unsafe to trim.")]
+        [RequiresDynamicCode("Calls PerformSorting(IQueryable<T>, List<SortedColumn>), which may need to generate new code at runtime.")]
         public static IQueryable<T> PerformSorting<T>(IQueryable<T> dataSource, List<Sort> sortColumns)
         {
             sortColumns ??= [];
@@ -128,6 +137,8 @@ namespace Syncfusion.Blazor.Toolkit.Data
         /// <param name="dataSource">Input data source.</param>
         /// <param name="skip">Number of records to be skipped.</param>
         /// <returns>IQueryable.</returns>
+        [RequiresUnreferencedCode("Calls IQueryable<T>.AsQueryable() and QueryableExtensions.Skip<T>(IQueryable<T>, int), both of which are unsafe to trim.")]
+        [RequiresDynamicCode("Calls IQueryable<T>.AsQueryable() and QueryableExtensions.Skip<T>(IQueryable<T>, int), both of which may need to generate new code at runtime.")]
         public static IQueryable<T> PerformSkip<T>(IQueryable<T> dataSource, int skip)
         {
             IQueryable<T> data = dataSource.AsQueryable();
@@ -140,6 +151,8 @@ namespace Syncfusion.Blazor.Toolkit.Data
         /// <param name="dataSource">Input data source.</param>
         /// <param name="take">Number of records to be taken.</param>
         /// <returns>IQueryable.</returns>
+        [RequiresUnreferencedCode("Calls IQueryable<T>.AsQueryable() and QueryableExtensions.Take<T>(IQueryable<T>, int), both of which are unsafe to trim.")]
+        [RequiresDynamicCode("Calls IQueryable<T>.AsQueryable() and QueryableExtensions.Take<T>(IQueryable<T>, int), both of which may need to generate new code at runtime.")]
         public static IQueryable<T> PerformTake<T>(IQueryable<T> dataSource, int take)
         {
             IQueryable<T> data = dataSource.AsQueryable();
@@ -157,6 +170,8 @@ namespace Syncfusion.Blazor.Toolkit.Data
             return type;
         }
 
+        [RequiresUnreferencedCode("Calls QueryableExtensions.ElementAt(IQueryable, int), which is unsafe to trim.")]
+        [RequiresDynamicCode("Calls QueryableExtensions.ElementAt(IQueryable, int), which may need to generate new code at runtime.")]
         private static Type GetColumnType<T>(IQueryable<T> dataSource, string filterString, Type? type)
         {
             string[] complexData = filterString.Split('.');
@@ -195,6 +210,8 @@ namespace Syncfusion.Blazor.Toolkit.Data
         /// <param name="dataSource">Data source to be filtered.</param>
         /// <param name="searchFilter">List of search criteria.</param>
         /// <returns>IQueryable - searched records.</returns>
+        [RequiresUnreferencedCode("Calls Predicate, which resolves properties by name and is unsafe to trim.")]
+        [RequiresDynamicCode("Calls Predicate, which may need to generate new code at runtime.")]
         public static IQueryable<T> PerformSearching<T>(IQueryable<T> dataSource, List<SearchFilter> searchFilter)
         {
             Type? type = dataSource != null ? DataSourceType(dataSource) : null;
@@ -253,6 +270,8 @@ namespace Syncfusion.Blazor.Toolkit.Data
             return dataSource!;
         }
 
+        [RequiresUnreferencedCode("Calls Predicate, which resolves properties by name and is unsafe to trim.")]
+        [RequiresDynamicCode("Calls Predicate, which may need to generate new code at runtime.")]
         private static Expression PredicateBuilder<T>(IQueryable<T> dataSource, List<WhereFilter> whereFilter, string condition, ParameterExpression paramExpression, Type type)
         {
             _ = typeof(object);
@@ -332,6 +351,8 @@ namespace Syncfusion.Blazor.Toolkit.Data
         /// <param name="whereFilter">List of filter criteria.</param>
         /// <param name="condition">Filter merge condition. Value can be either AND or OR.</param>
         /// <returns>IQueryable - filtered records.</returns>
+        [RequiresUnreferencedCode("Calls PredicateBuilder, which resolves properties by name and is unsafe to trim.")]
+        [RequiresDynamicCode("Calls PredicateBuilder, which may need to generate new code at runtime.")]
         public static IQueryable<T> PerformFiltering<T>(IQueryable<T> dataSource, List<WhereFilter> whereFilter, string condition)
         {
             Type? type = dataSource != null ? DataSourceType(dataSource) : null;
@@ -346,6 +367,8 @@ namespace Syncfusion.Blazor.Toolkit.Data
         /// <param name="dataSource">Input data source.</param>
         /// <param name="select">Fields to select.</param>
         /// <returns></returns>
+        [RequiresUnreferencedCode("Calls Select(IQueryable, string), which resolves properties by name and is unsafe to trim.")]
+        [RequiresDynamicCode("Calls Select(IQueryable, string), which may need to generate new code at runtime.")]
         public static IQueryable PerformSelect(IQueryable dataSource, List<string> select)
         {
             IEnumerable<string> sel = select.Where(item => item != null);
@@ -375,6 +398,8 @@ namespace Syncfusion.Blazor.Toolkit.Data
         /// <param name="dataSource">Input data source.</param>
         /// <param name="select">Fields to select.</param>
         /// <returns></returns>
+        [RequiresUnreferencedCode("Calls Select<T>(IQueryable, string), which builds a dynamic LINQ call by method name and is unsafe to trim.")]
+        [RequiresDynamicCode("Calls Select<T>(IQueryable, string), which may need to generate new code at runtime.")]
         public static IQueryable PerformSelect<T>(IQueryable dataSource, List<string> select)
         {
             IEnumerable<string> sel = select.Where(item => item != null);

@@ -1,4 +1,5 @@
-﻿using System.Collections;
+using System.Collections;
+using System.Diagnostics.CodeAnalysis;
 using System.Linq.Expressions;
 using Syncfusion.Blazor.Toolkit.Data;
 using System.Dynamic;
@@ -17,6 +18,8 @@ namespace Syncfusion.Blazor.Toolkit.Data
         /// <param name="DataSource">Input data source.</param>
         /// <param name="queries">Query to be executed against data source.</param>
         /// <returns>IEnumerable - resultant records.</returns>
+        [RequiresUnreferencedCode("Builds a closed generic Enumerable.Cast<T> method via MethodInfo.MakeGenericMethod and invokes it through reflection, which requires the method's dependencies to be preserved and is unsafe to trim.")]
+        [RequiresDynamicCode("Builds a closed generic Enumerable.Cast<T> method via MethodInfo.MakeGenericMethod, which may need to generate new code at runtime and is not supported when AOT compiling.")]
         public static IEnumerable PerformDataOperations(IEnumerable DataSource, DataManagerRequest queries)
         {
             IDictionary<string, Type> columnTypes = DataUtil.GetColumnType(DataSource);
@@ -59,6 +62,8 @@ namespace Syncfusion.Blazor.Toolkit.Data
         /// <param name="dataSource">Input data source to be sorted.</param>
         /// <param name="sortedColumns">List of sort criteria.</param>
         /// <returns>IQuerable.</returns>
+        [RequiresUnreferencedCode("Calls OrderBy/ThenBy/OrderByDescending/ThenByDescending overloads that resolve properties by name, which is unsafe to trim.")]
+        [RequiresDynamicCode("Calls OrderBy/ThenBy/OrderByDescending/ThenByDescending overloads that build closed generic methods via MethodInfo.MakeGenericMethod, which may need to generate new code at runtime.")]
         public static IQueryable PerformSorting(IQueryable dataSource, List<Sort> sortedColumns)
         {
             bool firstTime = true;
@@ -139,6 +144,8 @@ namespace Syncfusion.Blazor.Toolkit.Data
         /// <param name="condition">Condition to merge two filter criteria.</param>
         /// <param name="columnTypes">Type collection of each property in data source.</param>
         /// <returns></returns>
+        [RequiresUnreferencedCode("Calls PredicateBuilder, which resolves dynamic properties by name and is unsafe to trim.")]
+        [RequiresDynamicCode("Calls PredicateBuilder, which resolves dynamic properties by name and may need to generate new code at runtime.")]
         public static IQueryable PerformFiltering(IEnumerable dataSource, List<WhereFilter> whereFilter, string condition, IDictionary<string, Type> columnTypes = null)
         {
             IQueryable<IDynamicMetaObjectProvider> data = dataSource.Cast<IDynamicMetaObjectProvider>().AsQueryable();
@@ -154,6 +161,8 @@ namespace Syncfusion.Blazor.Toolkit.Data
             return data;
         }
 
+        [RequiresUnreferencedCode("Calls ReflectionExtension.GetValueFromIDynamicMetaObject, which may resolve members via the C# dynamic runtime binder and is unsafe to trim.")]
+        [RequiresDynamicCode("Calls ReflectionExtension.GetValueFromIDynamicMetaObject, which may need to generate new code at runtime.")]
         private static Type GetColumnType(IEnumerable dataSource, string filterString, bool nullable = true)
         {
             _ = nullable;
@@ -173,6 +182,8 @@ namespace Syncfusion.Blazor.Toolkit.Data
             return propertyValue?.GetType()!;
         }
 
+        [RequiresUnreferencedCode("Calls DataUtil.GetColumnType, which calls IEnumerable.AsQueryable() and is unsafe to trim.")]
+        [RequiresDynamicCode("Calls DataUtil.GetColumnType, which calls IEnumerable.AsQueryable() and may need to generate new code at runtime.")]
         private static Type ColumnType(IDictionary<string, Type> columns, string field, object data = null!)
         {
             Type? type = null;
@@ -222,6 +233,8 @@ namespace Syncfusion.Blazor.Toolkit.Data
         /// <param name="searchFilter">List of search criteria.</param>
         /// <returns>IEnumerable - searched records.</returns>
         /// <param name="columnTypes">Type collection of each property in data source.</param>
+        [RequiresUnreferencedCode("Calls Predicate(IQueryable, ParameterExpression, string, object, FilterType, FilterBehavior, bool, Type, Type), which resolves dynamic properties by name and is unsafe to trim.")]
+        [RequiresDynamicCode("Calls Predicate(IQueryable, ParameterExpression, string, object, FilterType, FilterBehavior, bool, Type, Type), which resolves dynamic properties by name and may need to generate new code at runtime.")]
         public static IQueryable PerformSearching(IEnumerable dataSource, List<SearchFilter> searchFilter, IDictionary<string, Type>? columnTypes = null)
         {
             IQueryable<IDynamicMetaObjectProvider>? data = null;
@@ -283,6 +296,8 @@ namespace Syncfusion.Blazor.Toolkit.Data
         /// <param name="paramExpression">Parameter expression.</param>
         /// <param name="columnTypes">Type collection of each property in data source.</param>
         /// <returns>Expression.</returns>
+        [RequiresUnreferencedCode("Calls Predicate(IQueryable, ParameterExpression, string, object, FilterType, FilterBehavior, bool, Type, Type), which resolves dynamic properties by name and is unsafe to trim.")]
+        [RequiresDynamicCode("Calls Predicate(IQueryable, ParameterExpression, string, object, FilterType, FilterBehavior, bool, Type, Type), which resolves dynamic properties by name and may need to generate new code at runtime.")]
         public static Expression PredicateBuilder(IEnumerable dataSource, List<WhereFilter> whereFilter, string condition, ParameterExpression paramExpression, IDictionary<string, Type> columnTypes = null)
         {
             Type? type = dataSource.GetElementType();

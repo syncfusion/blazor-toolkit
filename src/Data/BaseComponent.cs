@@ -12,6 +12,7 @@ using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Forms;
 using System.Globalization;
 using System.Security.Cryptography;
+using System.Diagnostics.CodeAnalysis;
 
 namespace Syncfusion.Blazor.Toolkit.Data
 {
@@ -342,6 +343,12 @@ namespace Syncfusion.Blazor.Toolkit.Data
         }
         /// <exclude />
         /// <inheritdoc/>
+        // This overrides ComponentBase.OnAfterRenderAsync, which is not annotated with [RequiresUnreferencedCode]/
+        // [RequiresDynamicCode], so the attributes cannot be repeated here. The trim/AOT risk is documented on
+        // InitComponentAsync (called below), which callers reach only through this Blazor-framework-invoked
+        // lifecycle hook.
+        [UnconditionalSuppressMessage("Trimming", "IL2026", Justification = "Calls InitComponentAsync, which is annotated with [RequiresUnreferencedCode]; this override of ComponentBase.OnAfterRenderAsync cannot itself carry the attribute.")]
+        [UnconditionalSuppressMessage("AOT", "IL3050", Justification = "Calls InitComponentAsync, which is annotated with [RequiresDynamicCode]; this override of ComponentBase.OnAfterRenderAsync cannot itself carry the attribute.")]
         protected override async Task OnAfterRenderAsync(bool firstRender)
         {
             await base.OnAfterRenderAsync(firstRender).ConfigureAwait(false);
@@ -376,6 +383,8 @@ namespace Syncfusion.Blazor.Toolkit.Data
         }
         #endregion
 
+        [RequiresUnreferencedCode("Calls OnInitRenderAsync, which is unsafe to trim.")]
+        [RequiresDynamicCode("Calls OnInitRenderAsync, which may need to generate new code at runtime.")]
         internal async Task InitComponentAsync()
         {
             // The below condition avoid to reinitialize the already rendered component through ResourceManager.
@@ -391,6 +400,8 @@ namespace Syncfusion.Blazor.Toolkit.Data
 
         /// <exclude />
         [EditorBrowsable(EditorBrowsableState.Never)]
+        [RequiresUnreferencedCode("Calls GetUpdateModel, which is unsafe to trim.")]
+        [RequiresDynamicCode("Calls GetUpdateModel, which may need to generate new code at runtime.")]
         public async Task OnInitRenderAsync()
         {
             if (SyncfusionService!.IsFirstBaseResource)
@@ -482,6 +493,8 @@ namespace Syncfusion.Blazor.Toolkit.Data
         /// // No explicit call is needed in most scenarios.
         /// ]]></code>
         /// </example>
+        [RequiresUnreferencedCode("Calls SyncfusionInterop.InvokeMethodAsync, which is unsafe to trim.")]
+        [RequiresDynamicCode("Calls SyncfusionInterop.InvokeMethodAsync, which may need to generate new code at runtime.")]
         public virtual void Dispose()
         {
             CommonDispose();
@@ -502,6 +515,8 @@ namespace Syncfusion.Blazor.Toolkit.Data
         /// Calls the JavaScript <c>refresh</c> method for the component identified by <see cref="ID"/>.
         /// Has no effect if the component has not been rendered yet.
         /// </remarks>
+        [RequiresUnreferencedCode("Calls SyncfusionInterop.InvokeMethodAsync, which is unsafe to trim.")]
+        [RequiresDynamicCode("Calls SyncfusionInterop.InvokeMethodAsync, which may need to generate new code at runtime.")]
         public async void Refresh()
         {
             if (NameSpace != null && IsRendered)
@@ -511,6 +526,8 @@ namespace Syncfusion.Blazor.Toolkit.Data
         }
 
         /// <exclude />
+        [RequiresUnreferencedCode("Calls SerialiazeBindableProp, which is unsafe to trim.")]
+        [RequiresDynamicCode("Calls SerialiazeBindableProp, which may need to generate new code at runtime.")]
         public async Task DataBindAsync(bool hasStateChanged = false)
         {
             _ = hasStateChanged;
@@ -611,6 +628,8 @@ namespace Syncfusion.Blazor.Toolkit.Data
         }
 
         // Invoke void return type methods
+        [RequiresUnreferencedCode("Calls SyncfusionInterop.InvokeMethodAsync, which is unsafe to trim.")]
+        [RequiresDynamicCode("Calls SyncfusionInterop.InvokeMethodAsync, which may need to generate new code at runtime.")]
         internal async Task InvokeMethod(string methodName, string? moduleName = null, params object[]? methodParams)
         {
             _ = await IsScriptRenderedAsync().ConfigureAwait(false);
@@ -619,6 +638,8 @@ namespace Syncfusion.Blazor.Toolkit.Data
         }
 
         // Invoke object return type methods
+        [RequiresUnreferencedCode("Calls SyncfusionInterop.InvokeMethodAsync, which is unsafe to trim.")]
+        [RequiresDynamicCode("Calls SyncfusionInterop.InvokeMethodAsync, which may need to generate new code at runtime.")]
         internal virtual async Task<T> InvokeMethod<T>(string methodName, bool isObjectReturnType, string? moduleName = null, params object[]? methodParams)
         {
             _ = await IsScriptRenderedAsync().ConfigureAwait(false);
@@ -717,6 +738,8 @@ namespace Syncfusion.Blazor.Toolkit.Data
             }
         }
 
+        [RequiresUnreferencedCode("Calls SfBaseUtils.ChangeType and CompareValues<T>, which call JsonSerializer.Serialize and are unsafe to trim.")]
+        [RequiresDynamicCode("Calls SfBaseUtils.ChangeType and CompareValues<T>, which call JsonSerializer.Serialize and may need to generate new code at runtime.")]
         internal virtual async Task<T> UpdatePropertyAsync<T>(string key, T publicValue, T privateValue, object eventCallback = null!, Expression<Func<T>> expression = null!, bool isDataSource = false, bool isObservable = false)
         {
             string? propertyKey = !JsProperty!.StartsWith("sf.", StringComparison.Ordinal) ? $"{JsProperty}.{key}" : key;
@@ -849,6 +872,8 @@ namespace Syncfusion.Blazor.Toolkit.Data
             return directParam!;
         }
 
+        [RequiresUnreferencedCode("Calls JsonSerializer.Serialize, which is unsafe to trim.")]
+        [RequiresDynamicCode("Calls JsonSerializer.Serialize, which may need to generate new code at runtime.")]
         internal static bool CompareValues<T>(T oldValue, T newValue)
         {
             Type? valueType = oldValue?.GetType();
@@ -868,6 +893,8 @@ namespace Syncfusion.Blazor.Toolkit.Data
 
         // The below scenario is used to add a new child component, when its parent component is rerender in the page.
         // i.e. The parent is already rendered in the page and a new child will be added dynamically at the time of rerendering.
+        [RequiresUnreferencedCode("Calls JsonSerializer.Deserialize, which is unsafe to trim.")]
+        [RequiresDynamicCode("Calls JsonSerializer.Deserialize, which may need to generate new code at runtime.")]
         internal void RenderNewChild()
         {
             string childString = GetSerializedModel();
@@ -884,6 +911,8 @@ namespace Syncfusion.Blazor.Toolkit.Data
         /// <exclude />
         [JSInvokable]
         [EditorBrowsable(EditorBrowsableState.Never)]
+        [RequiresUnreferencedCode("Calls JsonSerializer.Deserialize/Serialize, which are unsafe to trim.")]
+        [RequiresDynamicCode("Calls JsonSerializer.Deserialize/Serialize, which may need to generate new code at runtime.")]
         public virtual async Task<object> Trigger(string eventName, string arg)
         {
             EventData data = _delegateList[eventName];
@@ -922,6 +951,8 @@ namespace Syncfusion.Blazor.Toolkit.Data
         /// <exclude />
         [JSInvokable]
         [EditorBrowsable(EditorBrowsableState.Never)]
+        [RequiresUnreferencedCode("Calls UpdateComponentModel, which is unsafe to trim.")]
+        [RequiresDynamicCode("Calls UpdateComponentModel, which may need to generate new code at runtime.")]
         public async Task UpdateModel(Dictionary<string, object> properties)
         {
             IsClientChanges = true;
@@ -930,6 +961,8 @@ namespace Syncfusion.Blazor.Toolkit.Data
             StateHasChanged();
         }
 
+        [RequiresUnreferencedCode("Calls JsonSerializer.Deserialize and SfBaseUtils.ChangeType, which are unsafe to trim.")]
+        [RequiresDynamicCode("Calls JsonSerializer.Deserialize and SfBaseUtils.ChangeType, which may need to generate new code at runtime.")]
         internal void UpdateComponentModel(Dictionary<string, object> properties, BaseComponent parentObject)
         {
             foreach (string key in properties.Keys)
@@ -1002,6 +1035,8 @@ namespace Syncfusion.Blazor.Toolkit.Data
             }
         }
 
+        [RequiresUnreferencedCode("Calls SfBaseUtils.ChangeType and JsonSerializer.Deserialize, which are unsafe to trim.")]
+        [RequiresDynamicCode("Calls SfBaseUtils.ChangeType and JsonSerializer.Deserialize, which may need to generate new code at runtime.")]
         internal object UpdateCollectionValue(object propertyValue, Type propertyType, int? sfIndex, object model)
         {
             object value;
@@ -1047,6 +1082,8 @@ namespace Syncfusion.Blazor.Toolkit.Data
             return SfBaseUtils.ChangeType(value!, propertyType, true)!;
         }
 
+        [RequiresUnreferencedCode("Calls JsonSerializer.Deserialize, which is unsafe to trim.")]
+        [RequiresDynamicCode("Calls JsonSerializer.Deserialize, which may need to generate new code at runtime.")]
         internal static object UpdateArrayValue(Type propertyType, object model)
         {
             return JsonSerializer.Deserialize(model?.ToString()!, propertyType)!;
@@ -1083,6 +1120,8 @@ namespace Syncfusion.Blazor.Toolkit.Data
             return settings;
         }
 
+        [RequiresUnreferencedCode("Calls JsonSerializer.Serialize, which is unsafe to trim.")]
+        [RequiresDynamicCode("Calls JsonSerializer.Serialize, which may need to generate new code at runtime.")]
         internal string SerialiazeBindableProp(Dictionary<string, object> bindableProp)
         {
             return JsonSerializer.Serialize(bindableProp, _serialiazeBindablePropJsonSettings);
@@ -1097,6 +1136,8 @@ namespace Syncfusion.Blazor.Toolkit.Data
         /// Used internally to capture the initial component model for JavaScript interop initialization.
         /// Subclasses can override to customize which properties are serialized.
         /// </remarks>
+        [RequiresUnreferencedCode("Calls JsonSerializer.Serialize, which is unsafe to trim.")]
+        [RequiresDynamicCode("Calls JsonSerializer.Serialize, which may need to generate new code at runtime.")]
         protected virtual string GetSerializedModel()
         {
             return JsonSerializer.Serialize(this, GetType(), GetJsonSerializerOptions());
@@ -1108,6 +1149,8 @@ namespace Syncfusion.Blazor.Toolkit.Data
         /// </summary>
         /// <param name="isInit">If <c>true</c>, returns the full model with defaults; if <c>false</c>, returns only bindable properties.</param>
         /// <returns>A JSON string representing the component state to sync with JavaScript.</returns>
+        [RequiresUnreferencedCode("Calls GetSerializedModel/JsonSerializer.Deserialize, which are unsafe to trim.")]
+        [RequiresDynamicCode("Calls GetSerializedModel/JsonSerializer.Deserialize, which may need to generate new code at runtime.")]
         protected virtual string GetUpdateModel(bool isInit = false)
         {
             if (isInit)
@@ -1200,6 +1243,8 @@ namespace Syncfusion.Blazor.Toolkit.Data
             return dataAdaptor;
         }
 
+        [RequiresUnreferencedCode("Calls JsonSerializer.Serialize/Deserialize, which are unsafe to trim.")]
+        [RequiresDynamicCode("Calls JsonSerializer.Serialize/Deserialize, which may need to generate new code at runtime.")]
         internal static object GetObject(Dictionary<string, object> Data, Type ModelType)
         {
             // Handling Parameterless Constructor
@@ -1375,6 +1420,8 @@ namespace Syncfusion.Blazor.Toolkit.Data
         /// </summary>
         /// <param name="cultureData">Specific culture information.</param>
         /// <returns>Json serialized globalize string.</returns>
+        [RequiresUnreferencedCode("Calls JsonSerializer.Serialize, which is unsafe to trim.")]
+        [RequiresDynamicCode("Calls JsonSerializer.Serialize, which may need to generate new code at runtime.")]
         public static string GetGlobalizeJsonString(CultureInfo cultureData)
         {
             return JsonSerializer.Serialize(GetGlobalizeContent(cultureData));

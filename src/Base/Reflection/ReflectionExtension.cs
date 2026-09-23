@@ -1,4 +1,5 @@
-﻿using System.Dynamic;
+using System.Diagnostics.CodeAnalysis;
+using System.Dynamic;
 using System.Reflection;
 using System.Runtime.CompilerServices;
 using Microsoft.CSharp.RuntimeBinder;
@@ -29,6 +30,8 @@ namespace Syncfusion.Blazor.Toolkit
         /// For accessing complex or nested property values, provide the <paramref name="propertyName"/>
         /// with field names delimited by a dot (for example, <c>"Address.City"</c>).
         /// </remarks>
+        [RequiresUnreferencedCode("May resolve members via the C# dynamic runtime binder for DynamicObject/ExpandoObject/IDynamicMetaObjectProvider instances, which is unsafe to trim.")]
+        [RequiresDynamicCode("May resolve members via the C# dynamic runtime binder for DynamicObject/ExpandoObject/IDynamicMetaObjectProvider instances, which may need to generate new code at runtime.")]
         public static object? GetValue(object obj, string propertyName, bool reflectComplexProperty = true)
         {
             if (string.IsNullOrEmpty(propertyName) || obj is null)
@@ -55,6 +58,8 @@ namespace Syncfusion.Blazor.Toolkit
             return value;
         }
 
+        [RequiresUnreferencedCode("May call GetValueFromIDynamicMetaObject, which resolves members via the C# dynamic runtime binder and is unsafe to trim.")]
+        [RequiresDynamicCode("May call GetValueFromIDynamicMetaObject, which may need to generate new code at runtime.")]
         private static object? GetValueForDirectProperty(object obj, string propertyName)
         {
             Type dataObjectType = obj.GetType();
@@ -83,6 +88,8 @@ namespace Syncfusion.Blazor.Toolkit
         /// This method dispatches to <see cref="GetValueFromExpandoObject"/>, <see cref="GetValueFromDynamicObject"/>,
         /// or <see cref="GetValueFromDynamicMetaObjectProvider"/> based on the runtime type of <paramref name="obj"/>.
         /// </remarks>
+        [RequiresUnreferencedCode("May resolve members via the C# dynamic runtime binder for DynamicObject/ExpandoObject/IDynamicMetaObjectProvider instances, which is unsafe to trim.")]
+        [RequiresDynamicCode("May resolve members via the C# dynamic runtime binder for DynamicObject/ExpandoObject/IDynamicMetaObjectProvider instances, which may need to generate new code at runtime.")]
         public static object? GetValueFromIDynamicMetaObject(object obj, string propertyName, bool reflectComplexProperty = false)
         {
             if (obj is ExpandoObject expandoObject)
@@ -112,6 +119,8 @@ namespace Syncfusion.Blazor.Toolkit
         /// <see langword="true"/> to resolve nested properties delimited by dot (<c>.</c>); otherwise <see langword="false"/>.
         /// </param>
         /// <returns>The property value of the specified object.</returns>
+        [RequiresUnreferencedCode("Constructs a DataMemberBinder call site to resolve members by name via IDynamicMetaObjectProvider.TryGetMember, which is unsafe to trim.")]
+        [RequiresDynamicCode("Constructs a DataMemberBinder call site, which may need to generate new code at runtime.")]
         public static object? GetValueFromDynamicObject(DynamicObject obj, string propertyName, bool reflectComplexProperty = false)
         {
             if (obj is null || string.IsNullOrEmpty(propertyName))
@@ -160,6 +169,8 @@ namespace Syncfusion.Blazor.Toolkit
         /// <see langword="true"/> to resolve nested properties delimited by dot (<c>.</c>); otherwise <see langword="false"/>.
         /// </param>
         /// <returns>The property value of the specified object.</returns>
+        [RequiresUnreferencedCode("Uses the C# dynamic runtime binder (Microsoft.CSharp.RuntimeBinder.Binder.GetMember) to resolve members by name, which is unsafe to trim.")]
+        [RequiresDynamicCode("Uses the C# dynamic runtime binder (Microsoft.CSharp.RuntimeBinder.Binder.GetMember) and CallSite<T>.Create, which may need to generate new code at runtime.")]
         public static object? GetValueFromDynamicMetaObjectProvider(IDynamicMetaObjectProvider obj, string propertyName, bool reflectComplexProperty = false)
         {
             if (obj is null || string.IsNullOrEmpty(propertyName))
@@ -211,6 +222,8 @@ namespace Syncfusion.Blazor.Toolkit
         /// <see langword="true"/> to resolve nested properties delimited by dot (<c>.</c>); otherwise <see langword="false"/>.
         /// </param>
         /// <returns>The property value of the specified object, or <see langword="null"/> if the key is not found.</returns>
+        [RequiresUnreferencedCode("May call GetValueForDirectProperty to resolve nested members, which is unsafe to trim.")]
+        [RequiresDynamicCode("May call GetValueForDirectProperty to resolve nested members, which may need to generate new code at runtime.")]
         public static object? GetValueFromExpandoObject(IDictionary<string, object> obj, string propertyName, bool reflectComplexProperty = false)
         {
             if (obj is null || string.IsNullOrEmpty(propertyName))
@@ -352,6 +365,7 @@ namespace Syncfusion.Blazor.Toolkit
     /// Provides a dynamic binder for retrieving member values from <see cref="DynamicObject"/> instances.
     /// </summary>
     /// <exclude/>
+    [RequiresDynamicCode("Constructs a GetMemberBinder-derived call site binder, which may need to generate new code at runtime.")]
     internal class DataMemberBinder(string name, bool ignoreCase) : GetMemberBinder(name, ignoreCase)
     {
         public override DynamicMetaObject FallbackGetMember(DynamicMetaObject target, DynamicMetaObject errorSuggestion)
@@ -364,6 +378,7 @@ namespace Syncfusion.Blazor.Toolkit
     /// Provides a dynamic binder for setting member values on <see cref="DynamicObject"/> instances.
     /// </summary>
     /// <exclude/>
+    [RequiresDynamicCode("Constructs a SetMemberBinder-derived call site binder, which may need to generate new code at runtime.")]
     internal class DataSetMemberBinder(string name, bool ignoreCase) : SetMemberBinder(name, ignoreCase)
     {
         public override DynamicMetaObject FallbackSetMember(DynamicMetaObject target, DynamicMetaObject value, DynamicMetaObject errorSuggestion)

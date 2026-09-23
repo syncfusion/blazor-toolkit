@@ -5,6 +5,7 @@ using System.Globalization;
 using System.Text;
 using System.Dynamic;
 using System.Reflection;
+using System.Diagnostics.CodeAnalysis;
 
 namespace Syncfusion.Blazor.Toolkit.Data
 {
@@ -280,6 +281,13 @@ namespace Syncfusion.Blazor.Toolkit.Data
         /// <param name="value">The <typeparamref name="T"/> value to write.</param>
         /// <param name="options">Serialization options (not used).</param>
 
+        // This overrides JsonConverter<T>.Write, which is not annotated with [RequiresUnreferencedCode]/
+        // [RequiresDynamicCode], so the attributes cannot be repeated here (override signatures must match
+        // the base member). The trim/AOT risk is documented on WriteProperties/WritePropertiesRecursive below;
+        // callers reach this converter only through JsonSerializer.Serialize, which already carries the
+        // corresponding Requires attributes and surfaces the warning to the ultimate caller.
+        [UnconditionalSuppressMessage("Trimming", "IL2026", Justification = "Calls WriteProperties, which is annotated with [RequiresUnreferencedCode]; this override of JsonConverter<T>.Write cannot itself carry the attribute.")]
+        [UnconditionalSuppressMessage("AOT", "IL3050", Justification = "Calls WriteProperties, which is annotated with [RequiresDynamicCode]; this override of JsonConverter<T>.Write cannot itself carry the attribute.")]
         public override void Write(Utf8JsonWriter writer, T value, JsonSerializerOptions options)
         {
             ArgumentNullException.ThrowIfNull(writer);
@@ -288,11 +296,15 @@ namespace Syncfusion.Blazor.Toolkit.Data
             writer.WriteEndObject();
         }
 
+        [RequiresUnreferencedCode("Calls JsonSerializer.Serialize(Utf8JsonWriter, object, Type, JsonSerializerOptions), which is unsafe to trim.")]
+        [RequiresDynamicCode("Calls JsonSerializer.Serialize(Utf8JsonWriter, object, Type, JsonSerializerOptions), which may need to generate new code at runtime.")]
         private void WriteProperties(Utf8JsonWriter writer, object value, JsonSerializerOptions options)
         {
             WritePropertiesRecursive(writer, value, options, []);
         }
 
+        [RequiresUnreferencedCode("Calls JsonSerializer.Serialize(Utf8JsonWriter, object, Type, JsonSerializerOptions), which is unsafe to trim.")]
+        [RequiresDynamicCode("Calls JsonSerializer.Serialize(Utf8JsonWriter, object, Type, JsonSerializerOptions), which may need to generate new code at runtime.")]
         private void WritePropertiesRecursive(Utf8JsonWriter writer, object value, JsonSerializerOptions options, List<string> contextPath)
         {
             Type type = value.GetType();

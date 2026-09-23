@@ -1,4 +1,4 @@
-﻿using System.Diagnostics.CodeAnalysis;
+using System.Diagnostics.CodeAnalysis;
 using System.Globalization;
 using System.Text;
 using Syncfusion.Blazor.Toolkit.Internal;
@@ -108,6 +108,8 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
         /// <summary>
         /// Renders or updates the stripline tooltip for the given axis/stripline.
         /// </summary>
+        [RequiresUnreferencedCode("Calls SfBaseComponent.InvokeAsync<T>, whose JSON deserialization of T is unsafe to trim.")]
+        [RequiresDynamicCode("Calls SfBaseComponent.InvokeAsync<T>, whose JSON deserialization of T may need to generate new code at runtime.")]
         private async Task RenderOrUpdateTooltipAsync(ChartAxis axis, ChartStripline stripline)
         {
             _settings = stripline.StriplineTooltip;
@@ -407,6 +409,8 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
         /// Handles mouse move over the chart to render or hide stripline tooltips.
         /// </summary>
         /// <param name="targetID">The DOM id of the target element under the cursor.</param>
+        [RequiresUnreferencedCode("Calls RenderOrUpdateTooltipAsync, which calls SfBaseComponent.InvokeAsync<T> and is unsafe to trim.")]
+        [RequiresDynamicCode("Calls RenderOrUpdateTooltipAsync, which calls SfBaseComponent.InvokeAsync<T> and may need to generate new code at runtime.")]
         internal async Task MouseMoveHandlerAsync(string targetID)
         {
             if (Chart is null ||

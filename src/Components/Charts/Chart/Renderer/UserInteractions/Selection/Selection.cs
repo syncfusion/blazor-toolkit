@@ -1,5 +1,6 @@
-﻿using System.Runtime.InteropServices;
+using System.Runtime.InteropServices;
 using Microsoft.JSInterop;
+using System.Diagnostics.CodeAnalysis;
 
 namespace Syncfusion.Blazor.Toolkit.Charts.Internal
 {
@@ -223,6 +224,8 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
         /// </summary>
         /// <param name="source">The event source.</param>
         /// <param name="args">The mouse event arguments.</param>
+        [RequiresUnreferencedCode("Calls DragSelectionProcess, which may call SfBaseComponent.InvokeAsync<T> and is unsafe to trim.")]
+        [RequiresDynamicCode("Calls DragSelectionProcess, which may call SfBaseComponent.InvokeAsync<T> and may need to generate new code at runtime.")]
         protected void MouseMoveHandler(object? source, ChartInternalMouseEventArgs args)
         {
             DragSelectionProcess(args);

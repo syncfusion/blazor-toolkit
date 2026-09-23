@@ -1,5 +1,6 @@
-﻿using System.Runtime.InteropServices;
+using System.Runtime.InteropServices;
 using Microsoft.JSInterop;
+using System.Diagnostics.CodeAnalysis;
 using System.Globalization;
 
 namespace Syncfusion.Blazor.Toolkit.Charts.Internal
@@ -23,6 +24,8 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
         /// This method handles different drag scenarios including rectangle grabbing, resizing, and lasso drawing
         /// based on the current selection mode and mouse position within the series clip rectangle.
         /// </remarks>
+        [RequiresUnreferencedCode("May call CompleteSelectionAsync, which calls SfBaseComponent.InvokeAsync<T> and is unsafe to trim.")]
+        [RequiresDynamicCode("May call CompleteSelectionAsync, which calls SfBaseComponent.InvokeAsync<T> and may need to generate new code at runtime.")]
         private void DragSelectionProcess(ChartInternalMouseEventArgs e)
         {
             if (_chartInstance is null)
@@ -977,6 +980,8 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
         /// Processes lasso completion operations including path closure and checking.
         /// </summary>
         /// <param name="e">The chart mouse event arguments.</param>
+        [RequiresUnreferencedCode("Calls LassoCheckingAsync, which calls SfBaseComponent.InvokeAsync<T> and is unsafe to trim.")]
+        [RequiresDynamicCode("Calls LassoCheckingAsync, which calls SfBaseComponent.InvokeAsync<T> and may need to generate new code at runtime.")]
         private async Task ProcessLassoCompletionAsync(ChartInternalMouseEventArgs e)
         {
             if (_chartInstance is not null && _chartInstance.SelectionMode == ChartSelectionMode.Lasso && _dragging && _lassoDownCompleted && _lassoPaths.Count > 0)
@@ -1017,6 +1022,8 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
         /// Uses browser APIs to check if data points fall within the lasso path polygon.
         /// Updates point selection state and maintains multi-selection tracking.
         /// </remarks>
+        [RequiresUnreferencedCode("Calls ProcessLassoSeriesPointsAsync, which calls SfBaseComponent.InvokeAsync<T> and is unsafe to trim.")]
+        [RequiresDynamicCode("Calls ProcessLassoSeriesPointsAsync, which calls SfBaseComponent.InvokeAsync<T> and may need to generate new code at runtime.")]
         private async Task LassoCheckingAsync(string lassoPathId)
         {
             if (_chartInstance is null || _chartInstance.JSRuntime is null || _chartInstance._seriesContainer is null)
@@ -1043,6 +1050,8 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
         /// <param name="lassoPathId">The lasso path ID.</param>
         /// <param name="offsetX">The X offset.</param>
         /// <param name="offsetY">The Y offset.</param>
+        [RequiresUnreferencedCode("Calls SfBaseComponent.InvokeAsync<T>, whose JSON deserialization of T is unsafe to trim.")]
+        [RequiresDynamicCode("Calls SfBaseComponent.InvokeAsync<T>, whose JSON deserialization of T may need to generate new code at runtime.")]
         private async Task ProcessLassoSeriesPointsAsync(ChartSeriesRenderer series, string lassoPathId, double offsetX, double offsetY)
         {
             if (series.Points is null)
