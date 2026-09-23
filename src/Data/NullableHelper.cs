@@ -358,6 +358,7 @@ namespace Syncfusion.Blazor.Toolkit.Data
         /// format is only interpreted to enable roundtripping for formatted dates.
         /// </param>
         /// <returns>The new value in the target type.</returns>
+        [RequiresUnreferencedCode("Calls ParseText, which calls TypeDescriptor.GetConverter(Type) and is unsafe to trim.")]
         public static object Parse(string s, Type resultType, IFormatProvider provider, string format)
         {
             return Parse(s, resultType, provider, format, false);
@@ -374,6 +375,7 @@ namespace Syncfusion.Blazor.Toolkit.Data
         /// </param>
         /// <param name="returnDbNUllIfNotValid">Indicates whether DbNull should be returned if value cannot be parsed. Otherwise an exception is thrown.</param>
         /// <returns>The new value in the target type.</returns>
+        [RequiresUnreferencedCode("Calls ParseText, which calls TypeDescriptor.GetConverter(Type) and is unsafe to trim.")]
         public static object Parse(string s, Type resultType, IFormatProvider provider, string format,
                                    bool returnDbNUllIfNotValid)
         {
@@ -392,6 +394,7 @@ namespace Syncfusion.Blazor.Toolkit.Data
         /// </param>
         /// <param name="returnDbNUllIfNotValid">Indicates whether DbNull should be returned if value cannot be parsed. Otherwise an exception is thrown.</param>
         /// <returns>The new value in the target type.</returns>
+        [RequiresUnreferencedCode("Calls ParseText, which calls TypeDescriptor.GetConverter(Type) and is unsafe to trim.")]
         public static object Parse(string s, Type resultType, IFormatProvider provider, string[] formats,
                                    bool returnDbNUllIfNotValid)
         {
@@ -399,6 +402,7 @@ namespace Syncfusion.Blazor.Toolkit.Data
             return NullableHelperInternal.FixDbNUllasNull(value, resultType);
         }
 
+        [RequiresUnreferencedCode("Calls ParseText(string, Type, IFormatProvider, string, string[], bool), which calls TypeDescriptor.GetConverter(Type) and is unsafe to trim.")]
         private static object ParseText(string s, Type resultType, IFormatProvider provider, string format,
                                      bool returnDbNUllIfNotValid)
         {
@@ -613,6 +617,7 @@ namespace Syncfusion.Blazor.Toolkit.Data
             return result!;
         }
 
+        [RequiresUnreferencedCode("Calls TypeDescriptor.GetConverter(Type), which is unsafe to trim.")]
         private static object ParseText(string s, Type resultType, IFormatProvider provider, string format,
                                      string[] formats, bool returnDbNUllIfNotValid)
         {
@@ -718,6 +723,7 @@ namespace Syncfusion.Blazor.Toolkit.Data
         /// <param name="ci">The <see cref="CultureInfo"/> for formatting the value.</param>
         /// <param name="nfi">The <see cref="NumberFormatInfo"/> for formatting the value.</param>
         /// <returns>The string with the formatted text for the value.</returns>
+        [RequiresUnreferencedCode("Calls ChangeType(object, Type, IFormatProvider, bool) and TypeDescriptor.GetConverter(Type), both of which are unsafe to trim.")]
         public static string FormatValue(object value, Type valueType, string format, CultureInfo ci,
                                          NumberFormatInfo nfi)
         {
@@ -853,6 +859,7 @@ namespace Syncfusion.Blazor.Toolkit.Data
         /// <param name="valueAsString"></param>
         /// <param name="retVal"></param>
         /// <returns></returns>
+        [RequiresUnreferencedCode("Calls ParseValueWithTypeInformation(string, object, bool), which is unsafe to trim.")]
         private static bool ParseValueWithTypeInformation(string valueAsString, out object retVal)
         {
             return ParseValueWithTypeInformation(valueAsString, out retVal);
@@ -866,6 +873,7 @@ namespace Syncfusion.Blazor.Toolkit.Data
         /// <param name="allowConvertFromBase64">Indicates whether TypeConverter should be checked whether the type to be
         /// parsed supports conversion to/from byte array (e.g. an Image).</param>
         /// <returns></returns>
+        [RequiresUnreferencedCode("Calls TryConvertFromBase64String and Parse, which call TypeDescriptor.GetConverter(Type) and are unsafe to trim.")]
         public static bool ParseValueWithTypeInformation(string valueAsString, object retVal,
                                                          bool allowConvertFromBase64)
         {
@@ -930,6 +938,7 @@ namespace Syncfusion.Blazor.Toolkit.Data
         /// <param name="valueAsString"></param>
         /// <param name="retVal"></param>
         /// <returns></returns>
+        [RequiresUnreferencedCode("Calls TypeDescriptor.GetConverter(Type), which is unsafe to trim.")]
         public static bool TryConvertFromBase64String(Type type, string valueAsString, out object retVal)
         {
             bool handled = false;
@@ -959,6 +968,7 @@ namespace Syncfusion.Blazor.Toolkit.Data
         /// </summary>
         /// <param name="value"></param>
         /// <returns></returns>
+        [RequiresUnreferencedCode("Calls FormatValue, which calls TypeDescriptor.GetConverter(Type) and is unsafe to trim.")]
         public static string FormatValueWithTypeInformation(object value)
         {
             if (value is string v)

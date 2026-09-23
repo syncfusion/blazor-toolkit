@@ -1423,6 +1423,8 @@ namespace Syncfusion.Blazor.Toolkit.Data
         /// <param name="bExp">The current binary expression.</param>
         /// <param name="isDynamicDataObject">Whether the source is dynamic.</param>
         /// <returns>A tuple containing the transformed member expression, binary expression, and value.</returns>
+        [RequiresUnreferencedCode("Calls ValueConvert.ChangeType and NullableHelperInternal.GetNullableType, which are unsafe to trim.")]
+        [RequiresDynamicCode("Calls NullableHelperInternal.GetNullableType, which builds Nullable<T> via Type.MakeGenericType and may need to generate new code at runtime.")]
         private static ValueTuple<Expression, Expression, object?> GetPxExpression(
             FilterType filterType, Type memberType, object value,
             bool isCaseSensitive, Expression memExp, Expression bExp, bool isDynamicDataObject = false
@@ -1618,6 +1620,7 @@ namespace Syncfusion.Blazor.Toolkit.Data
         /// <param name="constValue">The original constant value.</param>
         /// <param name="isDynamicDataObject">Whether the source is dynamic.</param>
         /// <returns>A tuple containing the transformed member expression, binary expression, and value.</returns>
+        [RequiresDynamicCode("Calls NullableHelperInternal.GetNullableType, which builds Nullable<T> via Type.MakeGenericType and may need to generate new code at runtime.")]
         private static ValueTuple<Expression, Expression, object?> GetPxxExpression(FilterType filterType,
             Expression memExp, Expression bExp, object value, bool isCaseSensitive, Type memberType, object constValue, bool isDynamicDataObject = false)
         {
@@ -2113,6 +2116,8 @@ namespace Syncfusion.Blazor.Toolkit.Data
         /// <param name="memberType">The member type.</param>
         /// <param name="isCaseSensitive">Whether comparison is case sensitive.</param>
         /// <returns>A tuple containing the binary expression and converted value.</returns>
+        [RequiresUnreferencedCode("Calls ValueConvert.ChangeType and GetFormatMethodCallExpression, which are unsafe to trim.")]
+        [RequiresDynamicCode("Calls GetFormatMethodCallExpression, which calls Expression.Call(Expression, string, Type[], params Expression[]) by method name and may need to generate new code at runtime.")]
         private static ValueTuple<Expression?, object?> GetPExpression(FilterType filterType,
             Type underlyingType, string format, Expression memExp, object value, Type memberType, bool isCaseSensitive)
         {
@@ -2324,6 +2329,8 @@ namespace Syncfusion.Blazor.Toolkit.Data
         /// <param name="memExp">The member expression.</param>
         /// <param name="format">The format string.</param>
         /// <returns>A method call expression.</returns>
+        [RequiresUnreferencedCode("Calls Expression.Call(Expression, string, Type[], params Expression[]) by method name, which is unsafe to trim.")]
+        [RequiresDynamicCode("Calls Expression.Call(Expression, string, Type[], params Expression[]) by method name, which may need to generate new code at runtime.")]
         private static MethodCallExpression GetFormatMethodCallExpression(Expression memExp, string format)
         {
             if (memExp.Type.GetTypeInfo().IsGenericType && memExp.Type.GetTypeInfo().GetGenericTypeDefinition() == typeof(Nullable<>))
@@ -2500,6 +2507,7 @@ namespace Syncfusion.Blazor.Toolkit.Data
         #region Aggregate extensions
 
         // Func to calculate the summary aggregates when UseBindingValue is true.
+        [RequiresUnreferencedCode("Calls NullableHelperInternal.ChangeType, which calls TypeDescriptor.GetConverter(Type) and is unsafe to trim. Invoked reflectively via MethodInfo.MakeGenericMethod.")]
         private static InvocationExpression GetInvokeExpressionAggregateFuncSummaryCalculation<TResult>(ParameterExpression paramExp, string propertyName,
                                                                                                                 Expression<Func<string, object, object>> expressionFunc)
         {
@@ -2580,6 +2588,10 @@ namespace Syncfusion.Blazor.Toolkit.Data
         private static MethodInfo[]? _queryableSumMethod;
 
         /// <exclude />
+        [method: RequiresUnreferencedCode("Enumerates all methods of Queryable via Type.GetMethods(), which includes members (such as AsQueryable) annotated with RequiresUnreferencedCode and is unsafe to trim.")]
+        [method: RequiresDynamicCode("Enumerates all methods of Queryable via Type.GetMethods(), which includes members (such as AsQueryable) annotated with RequiresDynamicCode.")]
+        [UnconditionalSuppressMessage("Trimming", "IL2026", Justification = "Enclosing member already carries [RequiresUnreferencedCode]; analyzer does not suppress this specific cross-type generic-method discovery pattern.")]
+        [UnconditionalSuppressMessage("AOT", "IL3050", Justification = "Enclosing member already carries [RequiresDynamicCode]; analyzer does not suppress this specific cross-type generic-method discovery pattern.")]
         private static MethodInfo[] QueryableSummethod => _queryableSumMethod ??= [.. typeof(Queryable).GetMethods().Where(m => m.Name == "Sum" && m.GetParameters().Length == 2)];
 
         // MethodInfo[] collection for Queryable extensions and hold the average methods other than Int32.
@@ -2587,6 +2599,10 @@ namespace Syncfusion.Blazor.Toolkit.Data
         private static MethodInfo[]? _queryableaverageMethod;
 
         /// <exclude />
+        [method: RequiresUnreferencedCode("Enumerates all methods of Queryable via Type.GetMethods(), which includes members (such as AsQueryable) annotated with RequiresUnreferencedCode and is unsafe to trim.")]
+        [method: RequiresDynamicCode("Enumerates all methods of Queryable via Type.GetMethods(), which includes members (such as AsQueryable) annotated with RequiresDynamicCode.")]
+        [UnconditionalSuppressMessage("Trimming", "IL2026", Justification = "Enclosing member already carries [RequiresUnreferencedCode]; analyzer does not suppress this specific cross-type generic-method discovery pattern.")]
+        [UnconditionalSuppressMessage("AOT", "IL3050", Justification = "Enclosing member already carries [RequiresDynamicCode]; analyzer does not suppress this specific cross-type generic-method discovery pattern.")]
         private static MethodInfo[] QueryableAverageMethod => _queryableaverageMethod ??= [.. typeof(Queryable).GetMethods().Where(m => m.Name == "Average" && m.GetParameters().Length == 2)];
 
         // MethodInfo[] collection is calculated frequently whenever the summary value changes.
@@ -2597,6 +2613,8 @@ namespace Syncfusion.Blazor.Toolkit.Data
         /// <exclude />
         [method: RequiresUnreferencedCode("Enumerates all methods of EnumerableExtensions via Type.GetMethods(), which includes members annotated with RequiresUnreferencedCode and is unsafe to trim.")]
         [method: RequiresDynamicCode("Enumerates all methods of EnumerableExtensions via Type.GetMethods(), which includes members annotated with RequiresDynamicCode.")]
+        [UnconditionalSuppressMessage("Trimming", "IL2026", Justification = "Enclosing member already carries [RequiresUnreferencedCode]; analyzer does not suppress this specific cross-type generic-method discovery pattern.")]
+        [UnconditionalSuppressMessage("AOT", "IL3050", Justification = "Enclosing member already carries [RequiresDynamicCode]; analyzer does not suppress this specific cross-type generic-method discovery pattern.")]
         private static MethodInfo[] EnumerableSumMethods => _enumerablesummethods ??=
                         [.. typeof(EnumerableExtensions).GetMethods().Where(static m => m.Name == "Sum" && m.GetParameters().Length == 2)];
 
@@ -2607,6 +2625,8 @@ namespace Syncfusion.Blazor.Toolkit.Data
         /// <exclude />
         [method: RequiresUnreferencedCode("Enumerates all methods of EnumerableExtensions via Type.GetMethods(), which includes members annotated with RequiresUnreferencedCode and is unsafe to trim.")]
         [method: RequiresDynamicCode("Enumerates all methods of EnumerableExtensions via Type.GetMethods(), which includes members annotated with RequiresDynamicCode.")]
+        [UnconditionalSuppressMessage("Trimming", "IL2026", Justification = "Enclosing member already carries [RequiresUnreferencedCode]; analyzer does not suppress this specific cross-type generic-method discovery pattern.")]
+        [UnconditionalSuppressMessage("AOT", "IL3050", Justification = "Enclosing member already carries [RequiresDynamicCode]; analyzer does not suppress this specific cross-type generic-method discovery pattern.")]
         private static MethodInfo[] EnumerableAverageMethods => _enumerableaverageMethods ??= [.. typeof(EnumerableExtensions).GetMethods().Where(m => m.Name == "Average" && m.GetParameters().Length == 2)];
 
         /// <exclude />
@@ -2742,6 +2762,8 @@ namespace Syncfusion.Blazor.Toolkit.Data
         /// </summary>
         /// <param name="bodyType"></param>
         /// <returns>exact method info.</returns>
+        [RequiresUnreferencedCode("Calls QueryableSummethod, which enumerates all methods of Queryable via Type.GetMethods() and is unsafe to trim.")]
+        [RequiresDynamicCode("Calls QueryableSummethod, which enumerates all methods of Queryable via Type.GetMethods() and may need to generate new code at runtime.")]
         private static MethodInfo GetQueryableSumMethod(Type bodyType)
         {
             MethodInfo? method = null;
@@ -2801,6 +2823,8 @@ namespace Syncfusion.Blazor.Toolkit.Data
         /// </summary>
         /// <param name="bodyType"></param>
         /// <returns>exact method info.</returns>
+        [RequiresUnreferencedCode("Calls QueryableAverageMethod, which enumerates all methods of Queryable via Type.GetMethods() and is unsafe to trim.")]
+        [RequiresDynamicCode("Calls QueryableAverageMethod, which enumerates all methods of Queryable via Type.GetMethods() and may need to generate new code at runtime.")]
         private static MethodInfo GetQueryableAverageMethod(Type bodyType)
         {
             MethodInfo? method = null;
@@ -4410,6 +4434,8 @@ namespace Syncfusion.Blazor.Toolkit.Data
         /// Gets the <see cref="MethodInfo"/> for the <c>GroupByMany</c> overload that accepts enumerable selectors.
         /// </summary>
         /// <returns>The matching <see cref="MethodInfo"/>.</returns>
+        [RequiresUnreferencedCode("Enumerates all methods of QueryableExtensions via Type.GetMethods(), which includes members annotated with RequiresUnreferencedCode and is unsafe to trim.")]
+        [RequiresDynamicCode("Enumerates all methods of QueryableExtensions via Type.GetMethods(), which includes members annotated with RequiresDynamicCode.")]
         private static MethodInfo GetGroupByManyMethod()
         {
             MethodInfo? method = null;
@@ -4436,6 +4462,8 @@ namespace Syncfusion.Blazor.Toolkit.Data
         /// Gets the <see cref="MethodInfo"/> for the <c>GroupByMany</c> overload that accepts sort fields and enumerable selectors.
         /// </summary>
         /// <returns>The matching <see cref="MethodInfo"/>.</returns>
+        [RequiresUnreferencedCode("Enumerates all methods of QueryableExtensions via Type.GetMethods(), which includes members annotated with RequiresUnreferencedCode and is unsafe to trim.")]
+        [RequiresDynamicCode("Enumerates all methods of QueryableExtensions via Type.GetMethods(), which includes members annotated with RequiresDynamicCode.")]
         private static MethodInfo GetGroupByManyMethod2()
         {
             MethodInfo? method = null;
@@ -4465,6 +4493,8 @@ namespace Syncfusion.Blazor.Toolkit.Data
         /// Gets the <see cref="MethodInfo"/> for the <c>GroupByMany</c> overload that accepts custom comparers.
         /// </summary>
         /// <returns>The matching <see cref="MethodInfo"/>.</returns>
+        [RequiresUnreferencedCode("Enumerates all methods of QueryableExtensions via Type.GetMethods(), which includes members annotated with RequiresUnreferencedCode and is unsafe to trim.")]
+        [RequiresDynamicCode("Enumerates all methods of QueryableExtensions via Type.GetMethods(), which includes members annotated with RequiresDynamicCode.")]
         private static MethodInfo GetGroupByManyMethod3()
         {
             MethodInfo? method = null;

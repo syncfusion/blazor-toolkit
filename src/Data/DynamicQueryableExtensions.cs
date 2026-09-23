@@ -53,6 +53,7 @@ namespace Syncfusion.Blazor.Toolkit.Data
             return Predicate(source, constValue, filterType, filterBehaviour, isCaseSensitive, sourceType, null!, null!, paramExpression, propertyName, columnType!);
         }
 
+        [RequiresDynamicCode("Calls NullableHelperInternal.GetNullableType, which builds Nullable<T> via Type.MakeGenericType and may need to generate new code at runtime.")]
         private static ValueTuple<Expression, Expression?> GetExpression(FilterType filterType,
             Type memberType, object value, Expression memExp,
             bool isCaseSensitive)
