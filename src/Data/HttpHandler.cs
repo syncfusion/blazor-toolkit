@@ -130,7 +130,7 @@ namespace Syncfusion.Blazor.Toolkit.Data
                 }
                 settings.DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingDefault;
             }
-            string serializedData = options.Data == null ? string.Empty : (options.Data.GetType() == typeof(string) ? (string)options.Data : JsonSerializer.Serialize(options.Data, settings));
+            string serializedData = options.Data == null ? string.Empty : (options.Data.GetType() == typeof(string) ? (string)options.Data : JsonSerializer.Serialize(options.Data, _jsonContext.Options));
             if (req.Method != HttpMethod.Get && req.Method != HttpMethod.Head)
             {
                 StringContent stringContent = new(serializedData, Encoding.UTF8, options.ContentType);
@@ -161,7 +161,7 @@ namespace Syncfusion.Blazor.Toolkit.Data
                 {
                     using MultipartContent changeSet = new("mixed", options.CSet!);
                     using HttpRequestMessage postRequest = new(HttpMethod.Post, options.BaseUrl);
-                    postRequest.Content = new StringContent(JsonSerializer.Serialize(data, settings), Encoding.UTF8, "application/json");
+                    postRequest.Content = new StringContent(JsonSerializer.Serialize(data, _jsonContext.Options), Encoding.UTF8, "application/json");
                     postRequest.Headers.Add("Accept", options.Accept);
                     postRequest.Headers.Add("Content-Id", count.ToString(CultureInfo.InvariantCulture));
                     count += 1;
@@ -190,7 +190,7 @@ namespace Syncfusion.Blazor.Toolkit.Data
                         return DataUtil.GetVal(batchRecords.Changed, i, options.KeyField!)?.ToString() == e?.GetType()?.GetProperty(options.KeyField!)?.GetValue(e)?.ToString();
                     }).ToList();
                     object changedData = DataUtil.CompareAndRemove(batchRecords.Changed[i], orgData?[0]!, options.KeyField!, IsFromBatch: true);
-                    putRequest.Content = new StringContent(JsonSerializer.Serialize(changedData, settings), Encoding.UTF8, "application/json");
+                    putRequest.Content = new StringContent(JsonSerializer.Serialize(changedData, _jsonContext.Options), Encoding.UTF8, "application/json");
                     putRequest.Headers.Add("Accept", options.Accept);
                     putRequest.Headers.Add("Content-Id", count.ToString(CultureInfo.InvariantCulture));
                     count += 1;
@@ -213,7 +213,7 @@ namespace Syncfusion.Blazor.Toolkit.Data
                     string urlKey = DataUtil.GetODataUrlKey(data, options.KeyField!, ModelType: ModelType);
                     string param = DataUtil.GetAdditionalParams(options);
                     using HttpRequestMessage deleteRequest = new(HttpMethod.Delete, $"{options.BaseUrl}{urlKey}{param}");
-                    deleteRequest.Content = new StringContent(JsonSerializer.Serialize(data, settings), Encoding.UTF8, "application/json");
+                    deleteRequest.Content = new StringContent(JsonSerializer.Serialize(data, _jsonContext.Options), Encoding.UTF8, "application/json");
                     deleteRequest.Headers.Add("Accept", "application/json;odata=light;q=1,application/json;odata=verbose;q=0.5");
                     deleteRequest.Headers.Add("Content-Id", count.ToString(CultureInfo.InvariantCulture));
                     count += 1;

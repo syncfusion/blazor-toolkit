@@ -78,8 +78,8 @@ namespace Syncfusion.Blazor.Toolkit.Internal
             {
                 if (!_multidimensionalArrayTypes.Contains(valueType?.Name ?? string.Empty))
                 {
-                    string oldString = JsonSerializer.Serialize(oldValue, _jsonOptions);
-                    string newString = JsonSerializer.Serialize(newValue, _jsonOptions);
+                    string oldString = JsonSerializer.Serialize(oldValue, _jsonContext.Options);
+                    string newString = JsonSerializer.Serialize(newValue, _jsonContext.Options);
                     return string.Equals(oldString, newString, StringComparison.Ordinal);
                 }
             }
@@ -189,8 +189,8 @@ namespace Syncfusion.Blazor.Toolkit.Internal
             }
             else if (conversionType.Name == "TimeSpan")
             {
-                string tempValue = JsonSerializer.Serialize(dataValue, _jsonOptions);
-                dataValue = JsonSerializer.Deserialize(tempValue, conversionType, _jsonOptions)!;
+                string tempValue = JsonSerializer.Serialize(dataValue, _jsonContext.Options);
+                dataValue = JsonSerializer.Deserialize(tempValue, conversionType, _jsonContext.Options)!;
             }
 
             CultureInfo currentCulture = isParseValue ? CultureInfo.InvariantCulture : CultureInfo.CurrentCulture;

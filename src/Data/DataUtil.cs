@@ -575,7 +575,7 @@ namespace Syncfusion.Blazor.Toolkit.Data
                 if (!IsSimpleType(propertyValue!))
                 {
                     _ = CompareAndRemove(propertyValue!, originalValue!, IsComplex: true);
-                    if (IsFromBatch == null && (propertyValue == null || JsonSerializer.Serialize(propertyValue, SfBaseUtils._jsonOptions) == "{}"))
+                    if (IsFromBatch == null && (propertyValue == null || JsonSerializer.Serialize(propertyValue, SfBaseUtils._jsonContext.Options) == "{}"))
                     {
                         _ = propertiesToIgnore.Add(prop.Name);
                     }

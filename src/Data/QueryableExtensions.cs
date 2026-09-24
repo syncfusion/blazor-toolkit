@@ -4318,6 +4318,7 @@ namespace Syncfusion.Blazor.Toolkit.Data
         #endregion
 
         [RequiresUnreferencedCode("This method uses reflection to create instances of generic types which may be trimmed.")]
+        [RequiresUnreferencedCode("This method uses reflection to create instances of generic types which may be trimmed.")]
         private static IList CreateGeneric(Type generic, Type innerType, params object[] args)
         {
             Type specificType = generic.MakeGenericType([innerType]);

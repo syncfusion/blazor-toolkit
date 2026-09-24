@@ -414,7 +414,7 @@ namespace Syncfusion.Blazor.Toolkit.Data
         {
             Query clone = new()
             {
-                Queries = JsonSerializer.Deserialize<DataManagerRequest>(JsonSerializer.Serialize(Queries, _cloneJsonSettings), _cloneJsonSettings)!,
+                Queries = JsonSerializer.Deserialize<DataManagerRequest>(JsonSerializer.Serialize(Queries, _jsonContext.Options), _jsonContext.Options)!,
                 IsCountRequired = IsCountRequired
             };
             return clone;
@@ -448,7 +448,7 @@ namespace Syncfusion.Blazor.Toolkit.Data
         /// <returns>Serialized token string.</returns>
         private static string SerializeToken(object? value)
         {
-            return JsonSerializer.Serialize(value, _writeJsonSettings);
+            return JsonSerializer.Serialize(value, _jsonContext.Options);
         }
 
         /// <summary>
