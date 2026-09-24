@@ -1,0 +1,86 @@
+<SfChart @key="@_currentTheme" Title="Global Smartphone Sales Trends by Brand (2021-2023)" Theme="@_currentTheme">
+    <!-- X Axis -->
+    <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Toolkit.ValueType.Category">
+    </ChartPrimaryXAxis>
+
+    <!-- Y Axis -->
+    <ChartPrimaryYAxis Format="{value}M" Title="Units Sold (in Millions)" Maximum="300">
+        <ChartAxisLineStyle Width="0" />
+    </ChartPrimaryYAxis>
+
+    <!-- Series Collection -->
+    <!-- Apple -->
+    <ChartSeries DataSource="@PaletteData"
+                 XName="Year"
+                 YName="Apple"
+                 Type="ChartSeriesType.Bar"
+                 Name="Apple"
+                 Fill="#8AA624"
+                 ColumnSpacing="0.3">
+        <ChartMarker>
+            <ChartDataLabel Visible="true" Format="{value}M" />
+        </ChartMarker>
+        <ChartCornerRadius BottomRight="8" TopRight="8" />
+    </ChartSeries>
+
+    <!-- Xiaomi -->
+    <ChartSeries DataSource="@PaletteData"
+                 XName="Year"
+                 YName="Xiaomi"
+                 Type="ChartSeriesType.Bar"
+                 Name="Xiaomi"
+                 Fill="#D25D5D"
+                 ColumnSpacing="0.3">
+        <ChartMarker>
+            <ChartDataLabel Visible="true" Format="{value}M" />
+        </ChartMarker>
+        <ChartCornerRadius BottomRight="8" TopRight="8" />
+    </ChartSeries>
+
+    <!-- Oppo -->
+    <ChartSeries DataSource="@PaletteData"
+                 XName="Year"
+                 YName="Oppo"
+                 Type="ChartSeriesType.Bar"
+                 Name="Oppo"
+                 Fill="#239BA7"
+                 ColumnSpacing="0.3">
+        <ChartMarker>
+            <ChartDataLabel Visible="true" Format="{value}M" />
+        </ChartMarker>
+        <ChartCornerRadius BottomRight="8" TopRight="8" />
+    </ChartSeries>
+
+    <!-- Tooltip -->
+    <ChartTooltipSettings Enable="true"
+                          Header="${series.name}"
+                          Format="${point.x} : <b>${point.y}</b>" />
+</SfChart>
+
+@code {
+    [CascadingParameter]
+    private Theme CurrentTheme { get; set; } = Theme.Fluent;
+
+    private Theme _currentTheme = Theme.Fluent;
+
+    protected override void OnParametersSet()
+    {
+        base.OnParametersSet();
+        _currentTheme = CurrentTheme;
+    }
+
+    public class PhonePalette
+    {
+        public string Year { get; set; } = string.Empty;
+        public double Apple { get; set; }
+        public double Xiaomi { get; set; }
+        public double Oppo { get; set; }
+    }
+
+    public List<PhonePalette> PaletteData = new()
+    {
+        new() { Year = "2021", Apple = 237, Xiaomi = 190, Oppo = 143 },
+        new() { Year = "2022", Apple = 226.4, Xiaomi = 153.1, Oppo = 103.3 },
+        new() { Year = "2023", Apple = 234.6, Xiaomi = 145.9, Oppo = 103.1 }
+    };
+}

@@ -1,0 +1,101 @@
+@using Syncfusion.Blazor.Toolkit.Buttons
+
+<div class="mb-3 text-center">
+    <label class="fw-bold d-block mb-2">Empty Point Mode</label>
+
+    <SfButtonGroup Mode="SelectionMode.Single">
+        <Button Selected="@IsEmptyModeSelected(EmptyPointMode.Gap)"
+                SelectedChanged="@(v => OnEmptyModeChanged(v, EmptyPointMode.Gap))">
+            Gap
+        </Button>
+
+        <Button Selected="@IsEmptyModeSelected(EmptyPointMode.Zero)"
+                SelectedChanged="@(v => OnEmptyModeChanged(v, EmptyPointMode.Zero))">
+            Zero
+        </Button>
+
+        <Button Selected="@IsEmptyModeSelected(EmptyPointMode.Average)"
+                SelectedChanged="@(v => OnEmptyModeChanged(v, EmptyPointMode.Average))">
+            Average
+        </Button>
+
+        <Button Selected="@IsEmptyModeSelected(EmptyPointMode.Drop)"
+                SelectedChanged="@(v => OnEmptyModeChanged(v, EmptyPointMode.Drop))">
+            Drop
+        </Button>
+    </SfButtonGroup>
+</div>
+
+<SfChart @key="@_currentTheme" Title="Sales Analysis" Theme="@_currentTheme">
+    <ChartArea><ChartAreaBorder Width="0"></ChartAreaBorder></ChartArea>
+
+    <ChartTooltipSettings Enable="true"
+                          Header="${point.x}"
+                          Format="Sales : <b>${point.y} Units</b>"
+                          EnableHighlight="true" />
+
+    <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Toolkit.ValueType.Category">
+        <ChartAxisMajorGridLines Width="0" />
+        <ChartAxisMajorTickLines Width="0" />
+        <ChartAxisMinorTickLines Width="0" />
+    </ChartPrimaryXAxis>
+
+    <ChartPrimaryYAxis>
+        <ChartAxisLineStyle Width="0" />
+        <ChartAxisMajorTickLines Width="0" />
+    </ChartPrimaryYAxis>
+
+    <ChartSeries DataSource="@SplineEmptyData"
+                 XName="X"
+                 YName="Y"
+                 Width="2"
+                 Fill="#009698"
+                 Type="ChartSeriesType.Spline">
+        <ChartEmptyPointSettings Mode="@CurrentEmptyPointMode" />
+        <ChartMarker Visible="true" IsFilled="true" />
+    </ChartSeries>
+</SfChart>
+
+@code {
+    [CascadingParameter]
+    private Theme CurrentTheme { get; set; } = Theme.Fluent;
+
+    private Theme _currentTheme = Theme.Fluent;
+
+    protected override void OnParametersSet()
+    {
+        base.OnParametersSet();
+        _currentTheme = CurrentTheme;
+    }
+
+    private EmptyPointMode CurrentEmptyPointMode { get; set; } = EmptyPointMode.Gap;
+
+    public class SplineEmptyPoint
+    {
+        public string X { get; set; } = string.Empty;
+        public double? Y { get; set; }
+    }
+
+    public List<SplineEmptyPoint> SplineEmptyData = new()
+    {
+        new() { X = "Jan",   Y = 200 },
+        new() { X = "Feb",   Y = 300 },
+        new() { X = "Mar",   Y = 170 },
+        new() { X = "April", Y = null },
+        new() { X = "May",   Y = 300 },
+        new() { X = "Jun",   Y = null },
+        new() { X = "July",  Y = 100 },
+        new() { X = "Aug",   Y = 200 },
+        new() { X = "Sep",   Y = 174 },
+        new() { X = "Oct",   Y = null },
+        new() { X = "Nov",   Y = null },
+        new() { X = "Dec",   Y = 160 }
+    };
+
+    private bool IsEmptyModeSelected(EmptyPointMode mode) => CurrentEmptyPointMode == mode;
+
+    private void OnEmptyModeChanged(bool selected, EmptyPointMode mode)
+    {
+        if (selected) CurrentEmptyPointMode = mode;
+    }
+}

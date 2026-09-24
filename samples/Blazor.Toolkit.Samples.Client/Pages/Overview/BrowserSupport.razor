@@ -1,8 +1,22 @@
-﻿@page "/browser-support"
+@page "/browser-support"
+@inherits TocPublishingComponentBase
 
 <PageTitle>Browser Compatibility | Syncfusion Blazor Toolkit</PageTitle>
 
 <style>
+    /* Match the Fluent 2 / Segoe UI Variable typography used on
+       the Getting Started page so every doc page reads the same. */
+    .page-content {
+        font-family: "Segoe UI Variable", "Segoe UI", "Inter", system-ui, -apple-system, sans-serif;
+        -webkit-font-smoothing: antialiased;
+        -moz-osx-font-smoothing: grayscale;
+    }
+    .page-content code,
+    .page-content pre {
+        font-family: "Cascadia Code", "JetBrains Mono", "Fira Code", Consolas, "SFMono-Regular", monospace;
+        font-size: 0.875em;
+    }
+
     :root {
         /* Table-specific variables (light defaults) */
         --table-bg: var(--panel-bg);
@@ -53,7 +67,7 @@
 
 <Description>
     <Header>
-        <h4>Browser Support</h4>
+        <h1 id="browser-support">Browser Support</h1>
     </Header>
     <Content>
         <p><a href="https://www.syncfusion.com/blazor-toolkit" target="_blank" rel="noreferrer noopener">Syncfusion<sup style="font-size:70%">&reg;</sup> Toolkit for Blazor</a> components are fully supported in modern browsers on both desktop and mobile devices running Windows, Linux, or macOS. The following table shows the specific browser versions required for optimal compatibility with Syncfusion Blazor Toolkit.</p>
@@ -62,7 +76,7 @@
 
 <Description>
     <Header>
-        <h5>Supported browsers</h5>
+        <h2 id="supported-browsers">Supported browsers</h2>
     </Header>
     <Content>
         <table class="table">
@@ -96,13 +110,23 @@
 
 <Description>
     <Header>
-        <h5>See also</h5>
+        <h2 id="see-also">See also</h2>
     </Header>
     <Content>
         <ul>
-            <li><a href="/system-requirements">System Requirements</a> — IDE and .NET SDK prerequisites</li>
-            <li><a href="https://learn.microsoft.com/en-us/aspnet/core/blazor/supported-platforms" target="_blank" rel="noreferrer noopener">ASP.NET Core Blazor Supported Platforms</a> — Microsoft official documentation</li>
-            <li><a href="https://blazor.syncfusion.com/demos/toolkit" target="_blank" rel="noreferrer noopener">Syncfusion Blazor Toolkit Live Demos</a> — Test components in supported browsers</li>
+            <li><a href="/system-requirements">System Requirements</a> - IDE and .NET SDK prerequisites</li>
+            <li><a href="https://learn.microsoft.com/en-us/aspnet/core/blazor/supported-platforms" target="_blank" rel="noreferrer noopener">ASP.NET Core Blazor Supported Platforms</a> - Microsoft official documentation</li>
+            <li><a href="https://blazor.syncfusion.com/demos/toolkit" target="_blank" rel="noreferrer noopener">Syncfusion Blazor Toolkit Live Demos</a> - Test components in supported browsers</li>
         </ul>
     </Content>
 </Description>
+
+@code {
+    private static readonly IReadOnlyList<RightToc.TocItem> TocItemsList = new RightToc.TocItem[]
+    {
+        new("supported-browsers", "Supported browsers"),
+        new("see-also", "See also"),
+    };
+
+    protected override IReadOnlyList<RightToc.TocItem> TocItems => TocItemsList;
+}

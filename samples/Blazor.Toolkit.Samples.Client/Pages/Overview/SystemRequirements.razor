@@ -1,10 +1,11 @@
 @page "/system-requirements"
+@inherits TocPublishingComponentBase
 
 <PageTitle>System Requirements | Syncfusion Blazor Toolkit</PageTitle>
 
 <Description>
     <Header>
-        <h4>System Requirements</h4>
+        <h1 id="system-requirements">System Requirements</h1>
     </Header>
     <Content>
         <p>This page summarises the system requirements for developing, building, and running the samples and components in this toolkit. The toolkit supports both <strong>Blazor Server</strong> and <strong>Blazor WebAssembly</strong> hosting models and can be developed on <strong>Windows</strong>, <strong>Linux</strong>, and <strong>macOS</strong>.</p>
@@ -13,7 +14,7 @@
 
 <Description>
     <Header>
-        <h5>Integrated Development Environment (IDEs)</h5>
+        <h2 id="integrated-development-environment-ides">Integrated Development Environment (IDEs)</h2>
     </Header>
     <Content>
         <p>Choose any of the following IDEs to develop and run Syncfusion Blazor Toolkit samples:</p>
@@ -29,7 +30,7 @@
 
 <Description>
     <Header>
-        <h5>.NET SDK (supported versions)</h5>
+        <h2 id="net-sdk-supported-versions">.NET SDK (supported versions)</h2>
     </Header>
     <Content>
         <p>Install one of the following <a href="https://dotnet.microsoft.com/en-us/download/dotnet" target="_blank" rel="noreferrer noopener">.NET SDKs</a> to develop with Syncfusion Blazor Toolkit:</p>
@@ -43,7 +44,7 @@
 
 <Description>
     <Header>
-        <h5>Compatibility &amp; Version Requirements</h5>
+        <h2 id="compatibility-and-version-requirements">Compatibility &amp; Version Requirements</h2>
     </Header>
     <Content>
         <ul>
@@ -51,7 +52,7 @@
             <li>When building or testing, ensure the installed SDK version matches the project's declared <code>TargetFramework</code> or <code>TargetFrameworks</code> to avoid build and runtime issues.</li>
         </ul>
 
-        <h6>Verifying the installed SDK</h6>
+        <h3>Verifying the installed SDK</h3>
         <p>Run the following command to list all installed .NET SDKs and their versions:</p>
         <CodePreview FileName="terminal" IsCodeAlone="true" CodeSection="@sdkCheck"></CodePreview>
         <p>Compare the output against the <code>TargetFramework</code> value in your <code>.csproj</code> file. If a required SDK is missing, download it from <a href="https://dotnet.microsoft.com/en-us/download/dotnet" target="_blank" rel="noreferrer noopener">dotnet.microsoft.com</a>.</p>
@@ -60,7 +61,7 @@
 
 <Description>
     <Header>
-        <h5>Next Steps</h5>
+        <h2 id="next-steps">Next Steps</h2>
     </Header>
     <Content>
         <p>After confirming your system meets the requirements:</p>
@@ -73,5 +74,15 @@
 </Description>
 
 @code {
+    private static readonly IReadOnlyList<RightToc.TocItem> TocItemsList = new RightToc.TocItem[]
+    {
+        new("integrated-development-environment-ides", "Integrated Development Environment (IDEs)"),
+        new("net-sdk-supported-versions", ".NET SDK (supported versions)"),
+        new("compatibility-and-version-requirements", "Compatibility & Version Requirements"),
+        new("next-steps", "Next Steps"),
+    };
+
+    protected override IReadOnlyList<RightToc.TocItem> TocItems => TocItemsList;
+
     private const string sdkCheck = @"dotnet --list-sdks";
 }

@@ -1,4 +1,4 @@
-﻿@page "/"
+@page "/"
 @page "/explore"
 @implements IAsyncDisposable
 
@@ -8,82 +8,182 @@
 
 <PageTitle>Explore Blazor Components | Syncfusion Toolkit</PageTitle>
 
-<div class="explore-page container">
-    <!-- Main heading: larger, consistent font size -->
-    <h2 class="h2-title">Explore Syncfusion</h2>
-    <p>
-        The Syncfusion Blazor Toolkit is a lightweight, open-source collection of high-performance UI components for building Server and WebAssembly Blazor applications. It delivers modern, accessible controls that accelerate development and integrate easily into existing projects.
-        Discover the sample components in this toolkit. Click any tile to open the component demo page.
-    </p>
+<div class="sf-explore">
+    <div class="sf-explore-shell">
 
-    @foreach (var category in Categories)
-    {
-        <section class="category-section">
-            <h4 class="mb-1">@category.Name</h4>
-            <p class="text-muted small mb-2">@category.Tagline</p>
+        @* ============================================================
+           INTRO
+           ============================================================ *@
+        <header class="sf-explore-intro">
+            <h1 class="sf-explore-title">Explore Syncfusion Components</h1>
+            <p class="sf-explore-lede">
+                Discover lightweight, open-source Blazor Toolkit components and sample
+                implementations. Browse each category to find the right control for
+                your next application.
+            </p>
 
-            <div class="component-grid @category.Name">
-                @foreach (var component in category.Components.Where(c => c.Available))
-                {
-                    <NavLink class="component-tile" href="@component.Href" Match="NavLinkMatch.All">
-                        <span class="component-icon-box @component.Name">
-                            <img class="component-icon-image" src="@GetIconPath(component.IconClass)" alt="@component.Name" loading="lazy" />
+            <ul class="sf-explore-stats" aria-label="Catalog statistics">
+                <li class="sf-stat">
+                    <span class="sf-stat-icon" aria-hidden="true">
+                        <svg viewBox="0 0 24 24" width="18" height="18" fill="none"
+                             stroke="currentColor" stroke-width="2"
+                             stroke-linecap="round" stroke-linejoin="round">
+                            <rect x="3" y="3" width="7" height="7" rx="1.5"></rect>
+                            <rect x="14" y="3" width="7" height="7" rx="1.5"></rect>
+                            <rect x="3" y="14" width="7" height="7" rx="1.5"></rect>
+                            <rect x="14" y="14" width="7" height="7" rx="1.5"></rect>
+                        </svg>
+                    </span>
+                    <span class="sf-stat-value">@TotalComponents</span>
+                    <span class="sf-stat-label">Components</span>
+                </li>
+                <li class="sf-stat">
+                    <span class="sf-stat-icon" aria-hidden="true">
+                        <svg viewBox="0 0 24 24" width="18" height="18" fill="none"
+                             stroke="currentColor" stroke-width="2"
+                             stroke-linecap="round" stroke-linejoin="round">
+                            <line x1="4" y1="6" x2="20" y2="6"></line>
+                            <line x1="4" y1="12" x2="20" y2="12"></line>
+                            <line x1="4" y1="18" x2="14" y2="18"></line>
+                        </svg>
+                    </span>
+                    <span class="sf-stat-value">@Categories.Count</span>
+                    <span class="sf-stat-label">Categories</span>
+                </li>
+                <li class="sf-stat">
+                    <span class="sf-stat-icon" aria-hidden="true">
+                        <svg viewBox="0 0 24 24" width="18" height="18" fill="none"
+                             stroke="currentColor" stroke-width="2"
+                             stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M12 2 4 6v6c0 5 3.5 9.4 8 10 4.5-.6 8-5 8-10V6l-8-4z"></path>
+                            <polyline points="9 12 11.5 14.5 16 10"></polyline>
+                        </svg>
+                    </span>
+                    <span class="sf-stat-value">Open Source</span>
+                    <span class="sf-stat-label">MIT Licensed</span>
+                </li>
+            </ul>
+        </header>
+
+        @* ============================================================
+           CATEGORY SECTIONS
+           ============================================================ *@
+        <div class="sf-categories">
+            @foreach (var category in Categories)
+            {
+                var sectionId = $"category-{category.Name.ToLowerInvariant().Replace(" ", "-")}";
+                <section class="sf-category"
+                         id="@sectionId"
+                         aria-labelledby="@($"{sectionId}-title")">
+                    <header class="sf-category-header">
+                        <span class="sf-category-icon" aria-hidden="true">
+                            <i class="e-toolkit-icons @category.ToolkitIconClass" title="@category.Name"></i>
                         </span>
-                        <span class="component-title">@component.Name</span>
-                    </NavLink>
-                }
-            </div>
-        </section>
-    }
+                        <div class="sf-category-meta">
+                            <h2 class="sf-category-title" id="@($"{sectionId}-title")">
+                                @category.Name
+                                <span class="sf-category-count">(@category.Components.Count(c => c.Available))</span>
+                            </h2>
+                            <p class="sf-category-tagline">@category.Tagline</p>
+                        </div>
+                    </header>
+
+                    @{
+                        var components = category.Components.Where(c => c.Available).ToList();
+                    }
+                    @if (string.Equals(category.Name, "Inputs", StringComparison.OrdinalIgnoreCase))
+                    {
+                        // Inputs: strict 2-row x 4-col balanced layout per spec.
+                        <div class="sf-card-grid sf-card-grid--inputs">
+                            @foreach (var component in components)
+                            {
+                                @RenderComponentCard(component)
+                            }
+                        </div>
+                    }
+                    else
+                    {
+                        <div class="sf-card-grid">
+                            @foreach (var component in components)
+                            {
+                                @RenderComponentCard(component)
+                            }
+                        </div>
+                    }
+                </section>
+            }
+        </div>
+    </div>
 </div>
 
 @code {
-    // Add Available flag to hide placeholders
-    record ComponentItem(string Name, string Href, string IconClass, bool Available = true);
-    record Category(string Name, string Tagline, List<ComponentItem> Components);
+    // ---------------------------------------------------------------
+    //  Data model
+    //  Each item carries two icon classes:
+    //    - IconClass         : Syncfusion `e-toolkit-icons` glyph (legacy, used in header)
+    //    - ToolkitIconClass  : `e-toolkit-icons` glyph from the new font (overlays)
+    // ---------------------------------------------------------------
+    private record ComponentItem(
+        string Name,
+        string Href,
+        string IconClass,
+        string ToolkitIconClass,
+        bool Available = true);
 
+    private record Category(
+        string Name,
+        string Tagline,
+        string IconClass,
+        string ToolkitIconClass,
+        List<ComponentItem> Components);
+
+    // ---------------------------------------------------------------
+    //  Catalog (sync'd with the NavMenu component set)
+    //  Every category uses a real Syncfusion `e-toolkit-icons` glyph so the
+    //  brand blue stays consistent across the page.
+    // ---------------------------------------------------------------
     private List<Category> Categories = new()
     {
-        new Category("Charts","Line, Area, Colum, Bar Charts…", new List<ComponentItem>
+        new("Charts",     "Line, Area, Column and Bar Charts",     "e-chart-2d-clustered-column", "e-chart",       new List<ComponentItem>
         {
-            new ComponentItem("Chart","charts/overview", "ci-chart"),
+            new("Chart", "charts/overview", "ci-chart",       "e-chart"),
         }),
 
-        new Category("Buttons","Regular, Icon, FAB…", new List<ComponentItem>
+        new("Buttons",    "Regular, Icon and FAB buttons",         "e-button-field",              "e-button",      new List<ComponentItem>
         {
-            new ComponentItem("Button","buttons/button", "ci-button"),
-            new ComponentItem("Button Group","buttons/button-group", "ci-buttongroup")
+            new("Button",       "buttons/button",       "ci-button",       "e-button"),
+            new("Button Group", "buttons/button-group", "ci-buttongroup",  "e-button"),
         }),
 
-        new Category("Calendars","Date & Time Pickers…", new List<ComponentItem>
+        new("Calendars",  "Date and Time Pickers",                "e-agenda-date-range",         "e-calendars",   new List<ComponentItem>
         {
-            new ComponentItem("Calendar","calendars/calendar", "ci-calendar"),
-            new ComponentItem("DatePicker","calendars/datepicker", "ci-datepicker"),
-            new ComponentItem("DateTime Picker","calendars/datetimepicker", "ci-datetime"),
-            new ComponentItem("TimePicker","calendars/timepicker", "ci-timepicker"),
+            new("Calendar",         "calendars/calendar",         "ci-calendar",     "e-calendars"),
+            new("DatePicker",       "calendars/datepicker",       "ci-datepicker",   "e-calendars"),
+            new("DateTime Picker",  "calendars/datetimepicker",   "ci-datetime",     "e-calendars"),
+            new("TimePicker",       "calendars/timepicker",       "ci-timepicker",   "e-calendars"),
         }),
 
-        new Category("Spinner","Loading Indicators…", new List<ComponentItem>
+        new("Spinner",    "Loading Indicators",                   "e-refresh",                   "e-spinner",     new List<ComponentItem>
         {
-            new ComponentItem("Spinner","spinner", "ci-spinner"),
+            new("Spinner", "spinner", "ci-spinner", "e-spinner"),
         }),
 
-        new Category("Inputs","Forms, Selections…", new List<ComponentItem>
+        new("Inputs",     "Forms and Selection Controls",         "e-form-field",                "e-input",       new List<ComponentItem>
         {
-            new ComponentItem("Checkbox","inputs/checkbox", "ci-checkbox"),
-            new ComponentItem("File Upload","inputs/uploader", "ci-upload"),
-            new ComponentItem("Numeric Textbox","inputs/numerictextbox", "ci-numeric"),
-            new ComponentItem("TextArea","inputs/textarea", "ci-textarea"),
-            new ComponentItem("TextBox","inputs/textbox", "ci-textbox"),
-            new ComponentItem("Radio Button","inputs/radio-button", "ci-radio"),
-            new ComponentItem("Switch","inputs/switch", "ci-switch"),
+            new("Checkbox",       "inputs/checkbox",        "ci-checkbox",    "e-check"),
+            new("File Upload",    "inputs/uploader",        "ci-upload",      "e-arrow-up"),
+            new("Numeric TextBox","inputs/numerictextbox",  "ci-numeric",     "e-input"),
+            new("TextArea",       "inputs/textarea",        "ci-textarea",    "e-input"),
+            new("TextBox",        "inputs/textbox",         "ci-textbox",     "e-input"),
+            new("Radio Button",   "inputs/radio-button",    "ci-radio",       "e-circle-remove"),
+            new("Switch",         "inputs/switch",          "ci-switch",      "e-intermediate-state-2"),
         }),
 
-        new Category("Popups","Dialogs, Tooltips…", new List<ComponentItem>
+        new("Popups",     "Dialogs and Tooltips",                 "e-box",                       "e-popups",      new List<ComponentItem>
         {
-            new ComponentItem("Dialog","popups/dialog", "ci-dialog"),
-            new ComponentItem("Tooltip","popups/tooltip", "ci-tooltip"),
-        })
+            new("Dialog",  "popups/dialog",  "ci-dialog",  "e-popups"),
+            new("Tooltip", "popups/tooltip", "ci-tooltip", "e-popups"),
+        }),
     };
 
     private static readonly Dictionary<string, string> IconSvgFiles = new(StringComparer.OrdinalIgnoreCase)
@@ -107,8 +207,14 @@
         ["ci-tooltip"] = "Tooltip.svg"
     };
 
+    private int TotalComponents => Categories.Sum(c => c.Components.Count(x => x.Available));
+
+    // ---------------------------------------------------------------
+    //  Theme state
+    // ---------------------------------------------------------------
     private bool _isDarkTheme;
     private DotNetObjectReference<Explore>? _themeRef;
+    private bool _revealInitialized;
 
     private string GetIconPath(string iconClass)
     {
@@ -119,7 +225,32 @@
             : $"{folder}/Charts.svg";
     }
 
-    private bool _revealInitialized;
+    private RenderFragment RenderComponentCard(ComponentItem component) => __builder =>
+    {
+        <NavLink class="sf-component-card"
+                 href="@component.Href"
+                 Match="NavLinkMatch.All">
+            <span class="sf-component-preview" aria-hidden="true">
+                <img class="sf-component-preview-img"
+                     src="@GetIconPath(component.IconClass)"
+                     alt="@($"{component.Name} preview")"
+                     loading="lazy" />
+            </span>
+            <span class="sf-component-meta">
+                <span class="sf-component-name">@component.Name</span>
+                <span class="sf-component-link">
+                    Explore
+                    <svg viewBox="0 0 24 24" width="12" height="12" fill="none"
+                         stroke="currentColor" stroke-width="2"
+                         stroke-linecap="round" stroke-linejoin="round"
+                         aria-hidden="true">
+                        <line x1="5" y1="12" x2="19" y2="12"></line>
+                        <polyline points="12 5 19 12 12 19"></polyline>
+                    </svg>
+                </span>
+            </span>
+        </NavLink>
+    };
 
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {
@@ -128,7 +259,7 @@
             _revealInitialized = true;
             try
             {
-                await JS.InvokeVoidAsync("scrollEffects.initReveal", ".component-tile");
+                await JS.InvokeVoidAsync("scrollEffects.initReveal", ".sf-component-card");
             }
             catch { /* fail silently if JS not available */ }
         }
@@ -175,161 +306,485 @@
 }
 
 <style>
-    :root {
-        --page-bg: #ffffff;
-        --text-color: #0f172a;
-        --muted-color: #6c757d;
-        --card-bg: #ffffff;
-        --card-border: #d5d0db;
-        --card-shadow: 0px 4px 14px 0px #251C3021, 0px 0px 20px 4px #6750A41F;
-        --card-hover-border: #592C8C;
-        --card-hover-shadow: 0 4px 10px rgba(16, 24, 40, .08), 0 16px 30px rgba(16, 24, 40, .08);
-        --icon-box-bg: #F7F4FA;
-        --icon-placeholder-border: rgba(122, 92, 196, .45);
-        --icon-placeholder-bg: rgba(255, 255, 255, .75);
-        --title-color: #0F172A;
-        --title-border: rgba(127, 96, 187, .12);
+    /* ===========================================================
+       Syncfusion Blazor Toolkit V2 — Explore page
+       Brand:  #2B357C (primary) / #3948A5 (hover) / #F5F7FC (surface)
+       Type:   Segoe UI Variable -> Inter
+       Spine:  1200px max-width, 48px section gap, 16px card gap
+       =========================================================== */
+
+    .sf-explore {
+        --sf-x-page: #FFFFFF;
+        --sf-x-soft: #F5F7FC;
+        --sf-x-soft-2: #F9FAFB;
+        --sf-x-border: #E5E7EB;
+        --sf-x-border-strong: #D1D5DB;
+        --sf-x-text: #111827;
+        --sf-x-text-muted: #6B7280;
+        --sf-x-accent: #2B357C;
+        --sf-x-accent-hover: #3948A5;
+        --sf-x-accent-soft: rgba(43, 53, 124, 0.10);
+        --sf-x-accent-tint: rgba(43, 53, 124, 0.06);
+        --sf-x-card-shadow: 0px 1px 2px rgba(15, 23, 42, 0.04);
+        --sf-x-card-hover-shadow: 0px 4px 12px rgba(15, 23, 42, 0.08);
+
+        font-family: "Segoe UI Variable", "Segoe UI", "Inter", Roboto, system-ui, -apple-system, sans-serif;
+        font-size: 16px;
+        line-height: 1.65;
+        color: var(--sf-x-text);
+        background: var(--sf-x-page);
+        transition: background-color .2s ease, color .2s ease;
+        -webkit-font-smoothing: antialiased;
+        -moz-osx-font-smoothing: grayscale;
     }
 
-    .dark {
-        --page-bg: #0b1220;
-        --text-color: #e5e7eb;
-        --muted-color: #9aa4b2;
-        --card-bg: #111827;
-        --card-border: #2a3346;
-        --card-shadow: 0 10px 24px rgba(0, 0, 0, .35);
-        --card-hover-border: #a78bfa;
-        --card-hover-shadow: 0 12px 28px rgba(0, 0, 0, .45);
-        --icon-box-bg: #162033;
-        --icon-placeholder-border: rgba(167, 139, 250, .55);
-        --icon-placeholder-bg: rgba(17, 24, 39, .85);
-        --title-color: #f3f4f6;
-        --title-border: rgba(167, 139, 250, .18);
+    .dark .sf-explore,
+    [data-theme="dark"] .sf-explore {
+        --sf-x-page: #0B1220;
+        --sf-x-soft: #0F172A;
+        --sf-x-soft-2: #111827;
+        --sf-x-border: #1F2937;
+        --sf-x-border-strong: #374151;
+        --sf-x-text: #E5E7EB;
+        --sf-x-text-muted: #9CA3AF;
+        --sf-x-accent: #8A93C4;
+        --sf-x-accent-hover: #A4ABE0;
+        --sf-x-accent-soft: rgba(138, 147, 196, 0.18);
+        --sf-x-accent-tint: rgba(138, 147, 196, 0.10);
+        --sf-x-card-shadow: 0px 1px 2px rgba(0, 0, 0, 0.35);
+        --sf-x-card-hover-shadow: 0 12px 28px rgba(0, 0, 0, 0.45);
     }
 
-    .explore-page {
-        font-family: "Inter", system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
-        font-size: 15px;
-        background: var(--page-bg);
-        color: var(--text-color);
-        transition: background 160ms ease, color 160ms ease;
-        box-sizing: border-box;
+    /* Let the explore shell own the page padding so the 1200px
+       max-width and 32px gutter are honoured exactly. */
+    .main-area-full-width:has(.sf-explore) {
+        padding: 0;
     }
 
-        .explore-page .text-muted {
-            color: var(--muted-color) !important;
-            transition: color 160ms ease;
-            font-size: 13px;
-        }
-
-        .explore-page h2 {
-            font-size: 20px;
-            margin-bottom: 6px;
-            color: var(--text-color);
-        }
-
-        .explore-page h4 {
-            font-size: 16px;
-            margin-bottom: 6px;
-            color: var(--text-color);
-        }
-
-    .category-section {
-        margin: 15px 0;
+    .sf-explore-shell {
+        padding: 20px 20px 20px 20px;
     }
 
-    .component-grid {
+    /* ===========================================================
+       INTRO  (title, lede, stats)
+       =========================================================== */
+    .sf-explore-intro {
+        padding: 0 0 16px;
+    }
+
+    .sf-explore-title {
+        margin: 0 0 10px;
+        font-family: "Segoe UI Variable", "Segoe UI", "Inter", sans-serif;
+        font-size: 42px;
+        font-weight: 600;
+        letter-spacing: -0.02em;
+        line-height: 1.15;
+        color: var(--sf-x-text);
+    }
+
+    .sf-explore-lede {
+        margin: 0 0 16px;
+        max-width: 760px;
+        font-size: 16px;
+        font-weight: 400;
+        line-height: 1.6;
+        color: var(--sf-x-text-muted);
+    }
+
+    .sf-explore-stats {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 6px 28px;
+        padding: 10px 0;
+        margin: 0 0 -40px 0 !important;
+        list-style: none;
+        border-top: 1px solid var(--sf-x-border);
+    }
+
+    .sf-stat {
         display: inline-flex;
-        gap: 1rem;
+        align-items: center;
+        gap: 10px;
+        font-family: "Segoe UI Variable", "Segoe UI", "Inter", sans-serif;
+        font-size: 15px;
+        font-weight: 500;
+        color: var(--sf-x-text);
     }
 
-        .component-grid.Inputs {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-        }
+    /* Every icon in the page uses the same brand-blue tint:
+       soft tinted background + #2B357C foreground.            */
+    .sf-stat-icon {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        width: 28px;
+        height: 28px;
+        border-radius: 6px;
+        background: var(--sf-x-accent-soft);
+        color: var(--sf-x-accent);
+        flex-shrink: 0;
+    }
+    .sf-stat-icon svg { display: block; }
 
-    .component-tile {
+    .sf-stat-value {
+        font-weight: 600;
+        letter-spacing: -0.01em;
+        font-size: 15px;
+        color: var(--sf-x-text);
+    }
+    .sf-stat-label {
+        font-size: 15px;
+        color: var(--sf-x-text-muted);
+        font-weight: 400;
+    }
+
+    /* ===========================================================
+       CATEGORY SECTIONS
+       Single visual group: [icon] | [title + description]
+       =========================================================== */
+    .sf-categories { display: block; }
+
+    .sf-category {
+        padding: 24px 0 0;
+        border-top: 1px solid var(--sf-x-border);
+        margin-top: 24px;
+    }
+    .sf-category:first-child {
+        margin-top: 16px;
+    }
+
+    /* Single horizontal row:
+       [ icon-box ]   [ title (with count) ]
+                      [ tagline             ]                              */
+    .sf-category-header {
+        display: flex;
+        flex-direction: row;
+        gap: 14px;
+    }
+
+    /* The global .page-content h2 rule adds a border-bottom and
+       padding that breaks the category header. Reset them here so
+       the title sits flush with the icon row and the tagline.      */
+    .sf-explore h1,
+    .sf-explore h2,
+    .sf-explore h3 {
+        margin: 0;
+        padding: 0;
+        border: 0;
+        letter-spacing: -0.01em;
+    }
+
+    .sf-category-icon {
+        flex: 0 0 auto;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        width: 40px;
+        height: 40px;
+        border-radius: 8px;
+        color: var(--sf-x-accent);
+        position: relative;
+    }
+    /* New e-toolkit-icons glyph: positioned as a top-right badge so
+       it does not collide with the legacy e-toolkit-icons glyph. */
+    .sf-category-icon .e-toolkit-icons {
+        position: absolute;
+        top: -4px;
+        right: -6px;
+        font-size: 40px;
+        font-weight: 600;
+        line-height: 1;
+        color: var(--sf-x-accent);
+        background: var(--sf-x-accent-soft);
+        border: 1px solid var(--sf-x-border);
+        border-radius: 4px;
+        padding: 2px 3px;
+        box-shadow: 0 1px 2px rgba(15, 23, 42, 0.08);
+    }
+
+    .sf-category-meta {
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 2px;
+        min-width: 0;
+        flex: 1 1 auto;
+    }
+
+    .sf-category-title {
+        margin: 0 !important;
+        font-family: "Segoe UI Variable", "Segoe UI", "Inter", sans-serif !important;
+        font-size: 22px !important;
+        font-weight: 600 !important;
+        letter-spacing: -0.01em !important;
+        line-height: 1.25 !important;
+        color: var(--sf-x-text) !important;
+        display: inline-flex !important;
+        align-items: baseline !important;
+        gap: 8px !important;
+        padding-bottom: 0 !important;
+        margin: 0 !important;
+        border-bottom: none !important;
+    }
+
+    .sf-category-count {
+        font-size: 25px;
+        font-weight: 500;
+        color: var(--sf-x-text-muted);
+        letter-spacing: 0;
+    }
+
+    .sf-category-tagline {
+        margin: 0 !important;
+        font-size: 14px !important;
+        color: var(--sf-x-text-muted) !important;
+        font-weight: 400 !important;
+        line-height: 1.5 !important;
+    }
+
+    /* ===========================================================
+       COMPONENT CARDS
+       Vertical layout: icon occupies the major area on top,
+       component name + "Explore" link sit below in a smaller row.
+       =========================================================== */
+    .sf-card-grid {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 16px;
+    }
+
+    /* Inputs: strict 2-row x 4-col balanced layout per spec. */
+    .sf-card-grid--inputs {
+        display: grid;
+        grid-template-columns: repeat(4, minmax(180px, 1fr));
+        gap: 16px;
+        max-width: 760px;
+    }
+
+    @@media (max-width: 900px) {
+        .sf-card-grid--inputs {
+            grid-template-columns: repeat(2, minmax(180px, 1fr));
+            max-width: none;
+        }
+    }
+
+    .sf-component-card {
+        position: relative;
         display: flex;
         flex-direction: column;
         align-items: stretch;
-        justify-content: space-between;
-        min-height: 150px;
-        border: 1px solid var(--card-border);
-        border-radius: 16px;
-        background: var(--card-bg);
-        box-shadow: var(--card-shadow);
-        text-decoration: none;
-        color: inherit;
-        overflow: hidden;
-        transition: transform .18s ease, box-shadow .18s ease, border-color .18s ease, background .18s ease;
         width: 200px;
+        min-width: 200px;
+        height: 180px;
+        border: 1px solid var(--sf-x-border);
+        border-radius: 10px;
+        background: var(--sf-x-page);
+        box-shadow: var(--sf-x-card-shadow);
+        text-decoration: none !important;
+        color: inherit !important;
+        overflow: hidden;
+        transition:
+            transform .18s ease,
+            box-shadow .18s ease,
+            border-color .18s ease,
+            background-color .18s ease !important;
+    }
+    .sf-component-card:hover {
+        transform: translateY(-2px) !important;
+        border-color: var(--sf-x-accent) !important;
+        box-shadow: var(--sf-x-card-hover-shadow) !important;
+        color: inherit !important;
+        text-decoration: none !important;
+    }
+    .sf-component-card:focus-visible {
+        outline: 2px solid var(--sf-x-accent) !important;
+        outline-offset: 2px !important;
     }
 
-        .component-tile:hover {
-            transform: translateY(-2px);
-            border-color: var(--card-hover-border);
-            box-shadow: var(--card-hover-shadow);
-        }
+    .sf-card-grid--inputs .sf-component-card { width: 100%; min-width: 0; }
 
-    .component-icon-box {
-        display: flex;
-        width: 100%;
-        flex: 1 1 auto;
+    /* Preview sits on TOP of the card and acts as the dominant
+       visual anchor (large e-toolkit-icons glyph). The bottom
+       row hosts the component title and the "Explore →" affordance. */
+    .sf-component-preview {
         position: relative;
-        background: var(--icon-box-bg);
+        flex: 1 1 auto;
+        display: flex;
         align-items: center;
         justify-content: center;
+        width: 100%;
+        min-height: 0;
+        padding: 0;
+        background: var(--sf-x-accent-soft);
+        border-bottom: 1px solid var(--sf-x-border);
+        overflow: hidden;
     }
-
-    .component-icon-image {
-        width: 180px;
-        height: 100px;
+    /* The e-toolkit-icons glyph is the primary visual on the card. */
+    .sf-component-preview .sf-component-iconfont {
+        font-size: 64px;
+        line-height: 1;
+        color: var(--sf-x-accent);
+        display: inline-block;
+        pointer-events: none;
+        transition: transform .18s ease, color .18s ease;
+    }
+    .sf-component-card:hover .sf-component-preview .sf-component-iconfont {
+        transform: scale(1.06);
+        color: var(--sf-x-accent-hover);
+    }
+    .sf-component-preview-img {
         max-width: 100%;
         max-height: 100%;
+        width: auto;
+        height: auto;
         object-fit: contain;
         display: block;
+        filter: saturate(1.05);
+        transition: transform .18s ease;
+    }
+    .sf-component-card:hover .sf-component-preview-img {
+        transform: scale(1.04);
     }
 
-    .component-title {
+    /* Compact bottom row: component name on the left, "Explore →"
+       affordance on the right. */
+    .sf-component-meta {
+        flex: 0 0 auto;
+        min-width: 0;
         display: flex;
+        flex-direction: row;
         align-items: center;
-        justify-content: center;
-        min-height: 48px;
-        padding: .75rem 1rem;
-        border-top: 1px solid var(--title-border);
+        justify-content: space-between;
+        gap: 8px;
+        padding: 8px 12px;
+        background: var(--sf-x-page);
+    }
+
+    .sf-component-name {
+        font-size: 13px;
         font-weight: 600;
-        line-height: 150%;
-        letter-spacing: 0%;
-        text-align: center;
-        vertical-align: middle;
-        color: var(--title-color);
+        letter-spacing: 0;
+        color: var(--sf-x-text);
+        line-height: 1.25;
+        min-width: 0;
+        max-width: 100%;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        text-align: left;
     }
 
-    .explore-page p.small {
-        margin-top: -6px;
+    .sf-component-link {
+        display: inline-flex;
+        align-items: center;
+        gap: 3px;
+        font-size: 11px;
+        font-weight: 600;
+        color: var(--sf-x-accent);
+        line-height: 1.25;
+        white-space: nowrap;
+        flex: 0 0 auto;
     }
-
-    .right-panel {
-        display: none;
+    .sf-component-card:hover .sf-component-link {
+        color: var(--sf-x-accent-hover);
     }
+    .sf-component-link svg { display: block; }
 
-    .explore-page .h2-title {
-        margin-bottom: 10px;
-    }
-
-    .explore-page .h4 {
-        font-size: 20px;
+    /* ===========================================================
+       RESPONSIVE
+       =========================================================== */
+    @@media (max-width: 1024px) {
+        .sf-explore-shell { padding: 28px 24px 56px 24px; }
+        .sf-explore-title { font-size: 34px; }
+        .sf-component-card { width: 180px; min-width: 180px; height: 160px; }
     }
 
     @@media (max-width: 640px) {
-        .component-grid {
+        .sf-explore-shell { padding: 20px 16px 40px 16px; }
+        .sf-explore-title { font-size: 28px; }
+        .sf-explore-stats {
+            flex-direction: column;
+            gap: 8px;
+            align-items: flex-start;
+        }
+        .sf-category { padding-top: 20px; margin-top: 20px; }
+        .sf-category-header { gap: 12px; margin-bottom: 12px; }
+        .sf-category-icon { width: 36px; height: 36px; }
+        .sf-category-icon .e-toolkit-icons { font-size: 40px; }
+
+        .sf-card-grid,
+        .sf-card-grid--inputs {
             display: grid;
             grid-template-columns: 1fr;
-            width: 100%;
+            gap: 12px;
         }
-
-        .component-tile {
+        .sf-component-card {
             width: 100%;
+            min-width: 0;
+            height: 150px;
         }
+        .sf-component-preview { padding: 14px 10px 10px; }
+        .sf-component-preview .sf-component-iconfont { font-size: 48px; }
+        .sf-component-meta { padding: 8px 10px; }
+        .sf-component-name { font-size: 13px; }
+        .sf-component-link { font-size: 11px; }
+        .sf-component-preview-img { max-height: 60px; }
     }
+
+    /* ===========================================================
+       RTL
+       =========================================================== */
+    [dir="rtl"] .sf-explore,
+    .sf-explore[dir="rtl"] {
+        text-align: right;
+    }
+    [dir="rtl"] .sf-component-name,
+    .sf-explore[dir="rtl"] .sf-component-name { text-align: right; }
+    [dir="rtl"] .sf-component-meta,
+    .sf-explore[dir="rtl"] .sf-component-meta { align-items: flex-end; }
+    [dir="rtl"] .sf-explore-stats,
+    .sf-explore[dir="rtl"] .sf-explore-stats {
+        align-items: flex-end;
+    }
+    [dir="rtl"] .sf-component-preview,
+    .sf-explore[dir="rtl"] .sf-component-preview {
+        border-bottom: 1px solid var(--sf-x-border);
+    }
+    [dir="rtl"] .sf-component-link svg,
+    .sf-explore[dir="rtl"] .sf-component-link svg { transform: scaleX(-1); }
+    @@font-face {
+    font-family: "e-toolkit-icons";
+    font-weight: 400;
+    font-style: normal;
+    src: url(data:application/x-font-ttf;charset=utf-8;base64,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BwYCAgEBAgIGBwoKBgYHAYAGBwYGCgoHBgICAQECAgYHCgoGBgcGBgcGBgoKBwYCAgEBAgIGBwoKBgYH/c8BAgIGBwoKBgYHBgJ2BgcGBgoKBwYCAgH9SwYHBgYKCgcGAgIBAvQBAgIGBwoKBgYHBv2KAnYNDAwMCwoKCQgHBwUEAwIBAQIDBAUHBwgJCgoLDAwMDf2KDQwMDAsKCgkIBwcFBAMCAQECAwQFBwcICQoKCwwMDAGCAQICBgcKCgYGBwYGBwYGCgoHBgICAQECAgYHCgoGBgcGBgcGBgoKBwYCAgEBAgIGBwoKBgYHBgYHBgYKCgcGAgIBAQICBgcKCgYGBwYGBwYGCgoHBgICAb0BAgIGBwoKBgYHBgYHBgYKCgcGAgIBAQICBgcKCgYGBwYGBwYGCgoHBgICAQECAgYHCgoGBgcGBgcGBgoKBwYCAgEBAgIGBwoKBgYHBgYHBgYKCgcGAgIBAQICBgcKCgYGBwYGBwYGCgoHBgICAQECAgYHCgoGBgcGBgcGBgoKBwYCAgF+/ggGBwYGCgoHBgICAQECAgYHCgoGBgcGAfi9AQICBgcKCgYGB0VFBwYGCgoHBgICAT8BAgMEBQcHCAkKCgsMDAwN/YoNDAwMCwoKCQgHBwUEAwIBAQIDBAUHBwgJCgoLDAwMDQJ2DQwMDAsKCgkIBwcFBAMCAAAABAAAAAAD1gPWACsAqwDFAREAAAEPBh0CHwYzPwcvBisBNS8HMx8dHQEPHSsBLx09AT8dAQ8LITUvCiUhMx8OES8DNSERHwo7AR8DIS8ONRE1Pw0CvAYGBQUEAwICAwQFBQYGfgYGBQUEAwEBAQEDBAUFBgZeAQIDBAQGBQcPDg4ODg0NDQ0MDAsLCwoKCQkICAgGBwUFBQQDAgIBAQICAwQFBQUHBggICAkJCgoLCwsMDA0NDQ0ODg4ODw4PDg4NDg0NDAwMDAsKCwkKCQgIBwcGBgUEBAMDAgEBAgMDBAQFBgYHBwgICQoJCwoLDAwMDA0NDg0ODg/9+QYHBgULCQgGAgEBAQLxAQICBgcKCgYGBgf9jQJzDQ0MCwsKCgkIBwcFBAMCAQ8PEBH9DwEBAQIGCAkLBQYHBuIJCgsL/vUNDAwMCwoKCQgHBgYEAwICAwQGBgcICQoKCwwMDAHhAQIDBAQGBQd9BgYGBAQDAgEBAgMEBAYG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AgMEBQUGBgYGBQW9BAMC/QECAwQFBQYGBgYFBf6GBAMCAQECAwQFBQYGBgYFBQF6BAMCATwBAgMEBQUGBgYGBQX9SwQDAgEBAgMEBQUGBgYGBQUCtQQDAgADAAAAAAN6Ak4APwB/AL8AAAEfDw8PLw8/DiUfDh0BDw4vDz8OJR8OHQEPDi8OPQE/DQIACAgHCAcGBgYFBAQEAgIBAQEBAgIEBAQFBgYHBggHCAgICAcIBwYGBgUEBAQCAgEBAQECAgQEBAUGBgYHCAcIATMICAgHBwYGBgUFAwQCAgICAgIEAwUFBgYGBwcICAgICAcHBwcGBgUEBAMDAgEBAQECAwMEBAYFBgcHBwcI/bIICAcHBwcGBQUFBAMDAgEBAgMDBAUFBQYHBwcHCAgICAgHBwYGBgUFAwQCAgICAgIEAwUFBgYGBwcICAJPAQECAgQEBAUGBgYHCAcICAgIBwgHBgYGBQQEBAICAQEBAQICBAQEBQYGBgcIBwgICAgHCAcGBgYFBAQEAgIBAQEBAgIEBAQFBgYGBwgHCAgICAcIBwYGBgUEBAQCAgEBAQECAgQEBAUGBgYHCAcICAgIBwgHBgYGBQQEBAICAQEBAQICBAQEBQYGBgcIBwgICAgHCAcGBgYFBAQEAgIBAQEBAgIEBAQFBgYGBwgHCAgICAcIBwYGBgUEBAQCAgEAAAAAAQAAAAACjQL7ACsAAAEfBw8EHwQPBy8IPwcCbgYGBgUEAgIBAQICBMfGBAMCAQECAwQEBgYGBgYFBd0EAgIBAQICBN0FBQYC/AEBAwQFBgYGBgUGBcbGBQYGBgYFBgUEAwEBAQEDBN0FBQYGBgYFBd0EAwEAAAAAAQAAAAACjQL8ACsAAAEfCA8ILwc/BC8EPwYBkgYGBQXdBAICAQECAgTdBQUGBgYGBgUEAgIBAQICBMfHBAICAQECAgQFBgYC/AEBAwTdBQUGBgYGBQXdBAMBAQEBAwQFBgUHBgUGBcbGBQYFBwYFBgUEAwEAAAAAAQAAAAADvwMiADIAAAEzHwYBHwQPCiEvCjU/AwE/BgIACgkJCggJCAcBYQkHBQIBAQMEBggJCgYMDQ79Ng8ODAwKCQQHBQQCAgMGCAFmBwgJCAoJCQMiAgIEBAUHB/54DAwNDQ0NDQwMCgoIBAYEAgEDBQcICgULDAwNDQ0NDQwBjgcHBQQE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BQUGBv2pAlcGBgUFBAMBAT8CAgMEBQYGBggHCQgJCgndAgIDBAUGBgYIBwkICQoK/AkKCQgJBwgGBgYFBAMCAgICAwQFBgYGCAcJCAkKCQF6CgoJCAkHCAYGBgUEAwICXwkKCQgJBwgGBgYFBAMCAgAIAAAAAANnA1oAPwBfAJ8AwAEAASEBSgFrAAABMx8NHQEPDSsBLw4/DiUzHwYPBy8GPQE/BSUfDh0BDw4vDj0BPw0lMx8HDwcvBz8GJTMfDg8PLw49AT8NJTMfBw8HLwc/BiUzHwkPCS8JPwgnMx8HDwcvBz8GAg0ICAgHBwcGBgUFBAMDAgEBAgMDBAUFBgYHBwcICAgICAcIBwYHBQUFBAMDAgEBAQECAwMEBQUFBwYHCAcI/u8GBgYGBAMCAQECAwQGBgYGBwYGBQUDAgIDBQUGBgIABwcHBwcGBgYFBQMDAwIBAQIDAwMFBQYGBgcHBwcHBwcHBwcGBgYFBAQDAgIBAQICAwQEBQYGBgcHBwf92gQECAcFBQQCAQECBAUFBwgICAcHBgUEAgEBAgQFBgcHAmAICAgHBwcGBQYEBAQCAgEBAQECAgQEBAYFBgcHBwgICAgICAcHBwYGBQQEBAMBAgIBAwQEBAUGBgcHBwgI/hgFBAkICAYEAwEBAwQGCAgJCQkJCAcGBQIBAQIFBgcICQGOBgYLCwUEBQMGAwEBAwYDBQQFCwsMCwwKBQUEBAUEAQEEBQQEBQUKDK8FBQoJCAcFAwEBAwUHCAkKCgsKCQgHBAQBAQQEBwgJCgFFAQIDAwQFBQYGBgcIBwgJCAgHCAcGBgYFBQQDAwIBAQIDAwQFBQYGBgcIBwgICQgHCAcGBgYFBQQDAwIBLwIDBQUGBgcGBwUGBAMCAQECAwQGBQcGBwYGBQUDAiMBAQEDAwQEBQYGBgcHBwcHBwcHBwcGBgYFBAQDAwEBAQEBAQMDBAQFBgYGBwcHBwcHBwcHBwYGBgUEBAMDAQGfAQIEBAYHCAgIBwcGBQQCAQECBAUGBwcICAgHBgQEAlEBAgMDBAUFBgYHBwcICAgICAcIBwYHBQUFBAMDAgEBAQECAwMEBQUFBwYHCAcICAgICAcHBwYGBQUEAwMCAXoBAwQGCAgJCQkJCAcGBQIBAQIFBgcICQkJCQgIBgQDIAEEBQQEBQUKDAsMCwsFBAUDBgMBAQMGAwUEBQsLDAsMCgUFBAQFBD0BAwUGCAkKCwsKCQcHBQMBAQMFBwcJCgsLCgkIBgUDAAcAAAAAA3oDegAhAEMAZwCJAKsAzwETAAABMx8GHQEPBiMvBj0BPwUlMx8GHQEPBiMvBj0BPwUlHQEfDTMhMz8NPQElITMfBR0BDwUjISMvBT0BPwY7AR8FHQEPBSsCLwU9AT8FJyMPDRURIRE1Lw0jJSEfDxEPDyEvDxE/DgFDfgYGBgQEAwICAwQEBgYGfgYGBgQEAwICAwQEBgYBAn4GBgYEBAMCAgMEBAYGBn4GBgYEBAMCAgMEBAYG/owCAgMEBQYGBggHCQgJCgoBuAoKCQgJBwgGBgYFBAMCAv4IAXoGBgYEBAMCAgMEBAYGBv6GBgYGBAQDAgIDBAQGBgb8BgYGBAQDAgIDBAQGBgb8BgYGBAQDAgIDBAQGBhkKCgkICQcIBgYGBQQDAgICdgICAwQFBgYGCAcJCAkKCv5IAbgRDw8PDg0MCwoJCAcFBAECAQIEBQcICQoLDA0ODw8ID/4/EQ8PDw4NDAsKCQgHBQQBAgECBAUHCAkKCwwNDg8PDwFDAQEDBAUFBgYHBgUFBAMBAQEBAwQFBQYHBgYFBQQDAQEBAQMEBQUGBgcGBQUEAwEBAQEDBAUFBgcGBgUFBAMBQF4KCgkICQcIBgYGBQQDAgICAgMEBQYGBggHCQgJCgpe3AIDBAQGBgYGBgYEBAMCAgMEBAYGBgYGBgQEAwJ+AgMEBAYGBgYGBgQEAwICAwQEBgYGBgYGBAQDAl8CAgMEBQYGBggHCQgJCgr+5QEbCgoJCAkHCAYGBgUEAwICPwECBAUHCAkKCwwNDg8PCA/+PxEPDw8ODQwLCgkIBwUEAQIBAgQFBwgJCgsMDQ4PDwgPAcERDw8PDg0MCwoJCAcFBAIAAAMAAAAAA5kCvQAhAGUAqQAAASEfBh0BDwYhLwY9AT8FJyMPDR0CHw0zITM/DT0CLw0jJSEfEA8PIS8QPw4BQwF6BgYGBAQDAgIDBAQGBgb+hgYGBgQEAwICAwQEBgY5CgkJCQgIBwcGBQUEAwMBAQMDBAUFBgcHCAgJCQkKAfgKCQkJCAgHBwYFBQQDAwEBAwMEBQUGBwcICAkJCQr+CAH4EBAPDg4NDAsLCQcHBQQCAQEBAwQFBwcJCwsMDQ4ODwgQ/gAQEA8ODg0MCwsJBwcFBAIBAQEDBAUHBwkLCwwNDg4PEAIgAQIDBAQGBgYGBgYEBAMCAQECAwQEBgYGBgYGBAQDAl8CAgMEBQYGBggHCQgJCglACQoJCAkHCAYGBgUEAwICAgIDBAUGBgYIBwkICQoJQAkKCQgJBwgGBgYFBAMCAj8BAgQFBwgJCgsMDQ4PDwgPSBAPDw8ODQwLCgkIBwUEAQIBAgQFBwgJCgsMDQ4PDwgPSBAPDw8ODQwLCgkIBwUEAgAACAAAAAADWgNaACMARwCLAM8A8wEXAVsBnwAAAQ8HFR8HMz8HNS8HMw8HFR8HMz8HNS8HJTsBHw0dAg8NKwIvDT0CPw0hOwEfDR0CDw0rAi8NPQI/DRMPBxUfBzM/BzUvByEPBxUfBzM/BzUvBzc7AR8NHQIPDSsCLw09Aj8NITsBHw0dAg8NKwIvDT0CPw0BBAYGBgQEAwIBAQIDBAQGBgZ+BgYGBAQDAgEBAgMEBAYGBvwGBgYEBAMCAQECAwQEBgYGfgYGBgQEAwIBAQIDBAQGBgb+CH4KCQkJCAgHBwYFBQQDAwEBAwMEBQUGBwcICAkJCQp+CgkJCQgIBwcGBQUEAwMBAQMDBAUFBgcHCAgJCQkBhH4KCQkJCAgHBwYFBQQDAwEBAwMEBQUGBwcICAkJCQp+CgkJCQgIBwcGBQUEAwMBAQMDBAUFBgcHCAgJCQkKBgYGBAQDAgEBAgMEBAYGBn4GBgYEBAMCAQECAwQEBgYG/ggGBgYEBAMCAQECAwQEBgYGfgYGBgQEAwIBAQIDBAQGBgb8fgoJCQkICAcHBgUFBAMDAQEDAwQFBQYHBwgICQkJCn4KCQkJCAgHBwYFBQQDAwEBAwMEBQUGBwcICAkJCf6QfgoJCQkICAcHBgUFBAMDAQEDAwQFBQYHBwgICQkJCn4KCQkJCAgHBwYFBQQDAwEBAwMEBQUGBwcICAkJCQGiAQIDBAQGBgZ+BgYGBAQDAgEBAgMEBAYGBn4GBgYEBAMCAQECAwQEBgYGfgYGBgQEAwIBAQIDBAQGBgZ+BgYGBAQDAgE+AQMDBAUFBgcHCAgJCQkKfgoJCQkICAcHBgUFBAMDAQEDAwQFBQYHBwgICQkJCn4KCQkJCAgHBwYFBQQDAwEBAwMEBQUGBwcICAkJCQp+CgkJCQgIBwcGBQUEAwMBAQMDBAUFBgcHCAgJCQkK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AAEECQAAAAIAiQADAAEECQABABwAiwADAAEECQACAA4ApwADAAEECQADABwAtQADAAEECQAEABwA0QADAAEECQAFABYA7QADAAEECQAGABwBAwADAAEECQAKAFgBHwADAAEECQALACQBdyBCbGF6b3IgVG9vbGtpdFJlZ3VsYXJCbGF6b3IgVG9vbGtpdEJsYXpvciBUb29sa2l0VmVyc2lvbiAxLjBCbGF6b3IgVG9vbGtpdEZvbnQgZ2VuZXJhdGVkIHVzaW5nIFN5bmNmdXNpb24gTWV0cm8gU3R1ZGlvd3d3LnN5bmNmdXNpb24uY29tACAAQgBsAGEAegBvAHIAIABUAG8AbwBsAGsAaQB0AFIAZQBnAHUAbABhAHIAQgBsAGEAegBvAHIAIABUAG8AbwBsAGsAaQB0AEIAbABhAHoAbwByACAAVABvAG8AbABrAGkAdABWAGUAcgBzAGkAbwBuACAAMQAuADAAQgBsAGEAegBvAHIAIABUAG8AbwBsAGsAaQB0AEYAbwBuAHQAIABnAGUAbgBlAHIAYQB0AGUAZAAgAHUAcwBpAG4AZwAgAFMAeQBuAGMAZgB1AHMAaQBvAG4AIABNAGUAdAByAG8AIABTAHQAdQBkAGkAbwB3AHcAdwAuAHMAeQBuAGMAZgB1AHMAaQBvAG4ALgBjAG8AbQAAAAACAAAAAAAAAAoAAAAAAAAAAAAAAAAAAAAAAAAAAAAAADABAgEDAQQBBQEGAQcBCAEJAQoBCwEMAQ0BDgEPARABEQESARMBFAEVARYBFwEYARkBGgEbARwBHQEeAR8BIAEhASIBIwEkASUBJgEnASgBKQEqASsBLAEtAS4BLwEwATEACmNoZXZyb24tdXAMY2hldnJvbi1kb3duDGNoZXZyb24tbGVmdA1jaGV2cm9uLXJpZ2h0CGFycm93LXVwCmFycm93LWRvd24LYXJyb3ctcmlnaHQFY2hlY2sUaW50ZXJtZWRpYXRlLXN0YXRlLTIFY2xvc2UOdGltZWxpbmUtdG9kYXkMdGltZWxpbmUtZGF5BWNsb2NrBXBhdXNlBHBsYXkHcmVmcmVzaAV0cmFzaA1jaXJjbGUtcmVtb3ZlDXJlc2l6ZXItcmlnaHQRbW9yZS1ob3Jpem9udGFsLTESY2hldnJvbi1sZWZ0LXNtYWxsE2NoZXZyb24tcmlnaHQtc21hbGwPY2hldnJvbi11cC1maWxsEWNoZXZyb24tZG93bi1maWxsEWNoZXZyb24tbGVmdC1maWxsEmNoZXZyb24tcmlnaHQtZmlsbAVyZXNldAtzdGFyLWZpbGxlZBJjaGV2cm9uLWRvd24tc21hbGwQY2hldnJvbi11cC1zbWFsbAtyZXNpemVyLXJ0bAVpbnB1dAVjaGFydAdzcGlubmVyBnBvcHVwcwZidXR0b24HZXhwbG9yZRJzeXN0ZW0tcmVxdWlyZW1lbnQPYnJvd3Nlci1zdXBwb3J0CnJpZ2h0LWxlZnQRc3RhdGUtcGVyc2lzdGVuY2UNZ2xvYmFsaXphdGlvbgt0ZXh0LW1hdHJpeA1yZWxlYXNlLW5vdGVzDWFwaS1yZWZlcmVuY2UPZ2V0dGluZy1zdGFydGVkCWNhbGVuZGFycwAA) format('truetype');
+}
+
+.e-toolkit-icons {
+    font-family: "e-toolkit-icons";
+    font-style: normal;
+    font-variant: normal;
+    font-weight: 400;
+    line-height: 1;
+    font-size: 40px;
+    text-transform: none;
+    display: inline-block;
+}
+
+.e-toolkit-icons.e-explore::before           { content: "\e724"; }
+.e-toolkit-icons.e-getting-started::before   { content: "\e72d"; }
+.e-toolkit-icons.e-system-requirement::before{ content: "\e725"; }
+.e-toolkit-icons.e-browser-support::before   { content: "\e726"; }
+.e-toolkit-icons.e-right-left::before        { content: "\e727"; }
+.e-toolkit-icons.e-state-persistence::before { content: "\e728"; }
+.e-toolkit-icons.e-globalization::before     { content: "\e729"; }
+.e-toolkit-icons.e-text-matrix::before       { content: "\e72a"; }
+.e-toolkit-icons.e-chart::before             { content: "\e720"; }
+.e-toolkit-icons.e-button::before            { content: "\e723"; }
+.e-toolkit-icons.e-calendars::before         { content: "\e72e"; }
+.e-toolkit-icons.e-spinner::before           { content: "\e721"; }
+.e-toolkit-icons.e-input::before             { content: "\e71f"; }
+.e-toolkit-icons.e-popups::before            { content: "\e722"; }
+.e-toolkit-icons.e-api-reference::before     { content: "\e72c"; }
+.e-toolkit-icons.e-release-notes::before     { content: "\e72b"; }
+.e-toolkit-icons.e-chevron-left::before      { content: "\e702"; }
 </style>

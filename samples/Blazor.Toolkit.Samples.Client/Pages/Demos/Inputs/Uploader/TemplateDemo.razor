@@ -1,0 +1,18 @@
+﻿<SfUploader CssClass="e-custom-uploader" ID="UploadFiles" AutoUpload="false">
+    <UploaderAsyncSettings SaveUrl="https://blazor.syncfusion.com/services/production/api/FileUploader/Save"
+                           RemoveUrl="https://blazor.syncfusion.com/services/production/api/FileUploader/Remove"></UploaderAsyncSettings>
+    <UploaderTemplates>
+        <Template Context="context">
+            <div style="padding: 10px;">
+                <div class="name file-name" title="@context.Name">File Name : @context.Name</div>
+                <div class="file-size">File Size : @context.Size</div>
+                <div class="e-file-status">File Status : @context.Status</div>
+            </div>
+        </Template>
+    </UploaderTemplates>
+</SfUploader>
+<style>
+    .e-custom-uploader {
+        width: 500px;
+    }
+</style>

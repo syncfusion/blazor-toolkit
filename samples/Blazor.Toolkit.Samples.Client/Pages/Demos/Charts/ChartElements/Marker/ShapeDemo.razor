@@ -1,0 +1,100 @@
+@using Syncfusion.Blazor.Toolkit.Buttons
+
+<div>
+    <label>Shape: </label>
+    <SfButtonGroup Mode="Syncfusion.Blazor.Toolkit.SelectionMode.Single">
+        <Button Selected="IsSelected(ChartShape.Circle)" SelectedChanged="@(v => OnMarkerShapeSelected(v, ChartShape.Circle))">Circle</Button>
+        <Button Selected="IsSelected(ChartShape.Diamond)" SelectedChanged="@(v => OnMarkerShapeSelected(v, ChartShape.Diamond))">Diamond</Button>
+        <Button Selected="IsSelected(ChartShape.Rectangle)" SelectedChanged="@(v => OnMarkerShapeSelected(v, ChartShape.Rectangle))">Rectangle</Button>
+        <Button Selected="IsSelected(ChartShape.Triangle)" SelectedChanged="@(v => OnMarkerShapeSelected(v, ChartShape.Triangle))">Triangle</Button>
+    </SfButtonGroup>
+</div>
+<SfChart Title="Marker Shape Example" Theme="@_currentTheme" @key="@_currentTheme">
+    <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Toolkit.ValueType.Double"
+                       Title="Year">
+        <ChartAxisLineStyle Width="0" />
+        <ChartAxisMajorGridLines Width="0" />
+    </ChartPrimaryXAxis>
+
+    <ChartPrimaryYAxis Title="Percentage (%)"
+                       Minimum="75"
+                       Maximum="100">
+        <ChartAxisLineStyle Width="0" />
+    </ChartPrimaryYAxis>
+
+
+    <ChartSeries DataSource="@MarkerShapeData"
+                 XName="Year"
+                 YName="Value"
+                 Name="Growth"
+                 Type="ChartSeriesType.Line">
+        <ChartMarker Visible="true"
+                     Shape="@chartShape"
+                     Width="10"
+                     Height="10">
+        </ChartMarker>
+    </ChartSeries>
+
+
+    <!-- Tooltip -->
+    <ChartTooltipSettings Enable="true"
+                          Header="${point.x}"
+                          Format="World : <b>${point.y}% of population</b>" />
+</SfChart>
+
+@code {
+    [CascadingParameter]
+    private Theme CurrentTheme { get; set; } = Theme.Fluent;
+
+    private Theme _currentTheme = Theme.Fluent;
+
+    protected override void OnParametersSet()
+    {
+        base.OnParametersSet();
+        _currentTheme = CurrentTheme;
+    }
+
+    public ChartShape chartShape = ChartShape.Diamond;
+    bool IsSelected(ChartShape shape)
+    {
+        return chartShape == shape;
+    }
+    public void OnMarkerShapeSelected(bool selected, ChartShape shape)
+    {
+        if (selected)
+        {
+            chartShape = shape;
+        }
+    }
+
+    public class MarkerShapeInfo
+    {
+        public int Year { get; set; }
+        public double Value { get; set; }
+    }
+
+    public List<MarkerShapeInfo> MarkerShapeData = new()
+    {
+        new MarkerShapeInfo { Year = 2004, Value = 81.4 },
+        new MarkerShapeInfo { Year = 2005, Value = 79.1 },
+        new MarkerShapeInfo { Year = 2006, Value = 79.4 },
+        new MarkerShapeInfo { Year = 2007, Value = 87.5 },
+        new MarkerShapeInfo { Year = 2008, Value = 92.9 },
+        new MarkerShapeInfo { Year = 2009, Value = 93.8 },
+        new MarkerShapeInfo { Year = 2010, Value = 93.1 },
+        new MarkerShapeInfo { Year = 2011, Value = 93.6 },
+        new MarkerShapeInfo { Year = 2012, Value = 95.1 },
+        new MarkerShapeInfo { Year = 2013, Value = 96.1 },
+        new MarkerShapeInfo { Year = 2014, Value = 95.8 },
+        new MarkerShapeInfo { Year = 2015, Value = 93.6 },
+        new MarkerShapeInfo { Year = 2016, Value = 94.1 },
+        new MarkerShapeInfo { Year = 2017, Value = 94.5 },
+        new MarkerShapeInfo { Year = 2018, Value = 95.8 },
+        new MarkerShapeInfo { Year = 2019, Value = 95.1 },
+        new MarkerShapeInfo { Year = 2020, Value = 95.4 },
+        new MarkerShapeInfo { Year = 2021, Value = 95.7 },
+        new MarkerShapeInfo { Year = 2022, Value = 95.7 },
+        new MarkerShapeInfo { Year = 2023, Value = 97.1 },
+        new MarkerShapeInfo { Year = 2024, Value = 98.2 }
+    };
+}

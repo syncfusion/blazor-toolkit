@@ -1,0 +1,74 @@
+
+<SfChart @key="@_currentTheme" Title="Apple Quartely Revenue by Product Category" Theme="@_currentTheme">
+
+        <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Toolkit.ValueType.Category" LabelRotation="-45">
+        </ChartPrimaryXAxis>
+
+    <ChartPrimaryYAxis Format="${value}B">
+        <ChartAxisLineStyle Width="0" />
+    </ChartPrimaryYAxis>
+
+
+    <ChartSeries DataSource="@ToggleData"
+                 XName="Product"
+                 YName="Revenue2024"
+                 Name="Jun 29, 2024"
+                 Type="ChartSeriesType.Column"
+                 Fill="#A2C579"
+                 ColumnWidth="0.6"
+                 CornerRadius="new ChartCornerRadius { TopRight = 15, TopLeft = 15 }"
+                 ColumnSpacing="0.1"
+                 LegendShape="LegendShape.Rectangle">
+    </ChartSeries>
+
+    <ChartSeries DataSource="@ToggleData"
+                 XName="Product"
+                 YName="Revenue2025"
+                 Name="Jun 29, 2025"
+                 Type="ChartSeriesType.Column"
+                 Fill="#8E7AB5"
+                 ColumnWidth="0.6"
+                 CornerRadius="new ChartCornerRadius { TopRight = 15, TopLeft = 15 }"
+                 ColumnSpacing="0.1"
+                 LegendShape="LegendShape.Rectangle">
+    </ChartSeries>
+
+
+    <ChartTooltipSettings Enable="true"
+                          Header="${point.x}"
+                          Format="${series.name} : <b>${point.y}</b>" />
+
+    <ChartLegendSettings Visible="true" ToggleVisibility="true" >
+        <ChartLegendTextStyle ></ChartLegendTextStyle>
+    </ChartLegendSettings>
+
+</SfChart>
+
+@code {
+    [CascadingParameter]
+    private Theme CurrentTheme { get; set; } = Theme.Fluent;
+
+    private Theme _currentTheme = Theme.Fluent;
+
+    protected override void OnParametersSet()
+    {
+        base.OnParametersSet();
+        _currentTheme = CurrentTheme;
+    }
+
+    public class AppleRevenueData
+    {
+        public string Product { get; set; }
+        public double Revenue2024 { get; set; }
+        public double Revenue2025 { get; set; }
+    }
+
+    public List<AppleRevenueData> ToggleData = new()
+    {
+        new() { Product = "Iphone", Revenue2024 = 39.3, Revenue2025 = 44.6 },
+        new() { Product = "Services", Revenue2024 = 24.2, Revenue2025 = 27.4 },
+        new() { Product = "Mac", Revenue2024 = 7, Revenue2025 = 8 },
+        new() { Product = "Wearable Accessories", Revenue2024 = 8.1, Revenue2025 = 7.4 },
+        new() { Product = "Ipad", Revenue2024 = 7.2, Revenue2025 = 6.6 }
+    };
+}

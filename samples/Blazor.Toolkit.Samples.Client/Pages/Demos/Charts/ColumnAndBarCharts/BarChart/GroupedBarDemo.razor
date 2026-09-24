@@ -1,0 +1,124 @@
+<SfChart @key="@_currentTheme" Title="Olympic Medal Trends by Country and Year" Theme="@_currentTheme">
+    <!-- Tooltip -->
+    <ChartTooltipSettings Enable="true"
+                          Header="${point.x}"
+                          Format="${series.name} : <b>${point.y} Gold</b>">
+    </ChartTooltipSettings>
+
+    <!-- X Axis -->
+    <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Toolkit.ValueType.Category"
+                       Interval="1">
+    </ChartPrimaryXAxis>
+
+    <!-- Y Axis -->
+    <ChartPrimaryYAxis Title="Number of Medals Won">
+        <ChartAxisLineStyle Width="0"></ChartAxisLineStyle>
+    </ChartPrimaryYAxis>
+
+    <!-- Series -->
+    <!-- USA -->
+    <ChartSeries DataSource="@CombinedData" XName="X" YName="Y1"
+                 Name="USA Total Medals"
+                 Type="ChartSeriesType.Bar"
+                 GroupName="USA"
+                 Fill="#748DAE"
+                 Width="0.7"
+                 ColumnSpacing="0.2">
+        <ChartMarker>
+            <ChartDataLabel Visible="true" Position="ChartLabelPosition.Top" />
+        </ChartMarker>
+    </ChartSeries>
+
+    <ChartSeries DataSource="@CombinedData" XName="X" YName="Y2"
+                 Name="USA Gold Medals"
+                 Type="ChartSeriesType.Bar"
+                 GroupName="USA"
+                 Fill="#8DB6ED"
+                 Width="0.5"
+                 ColumnSpacing="0.2">
+        <ChartMarker>
+            <ChartDataLabel Visible="true" Position="ChartLabelPosition.Top"></ChartDataLabel>
+        </ChartMarker>
+    </ChartSeries>
+
+    <!-- UK -->
+    <ChartSeries DataSource="@CombinedData" XName="X" YName="Y3"
+                 Name="UK Total Medals"
+                 Type="ChartSeriesType.Bar"
+                 GroupName="UK"
+                 Fill="#8D8D87"
+                 Width="0.7"
+                 ColumnSpacing="0.2">
+        <ChartMarker>
+            <ChartDataLabel Visible="true" Position="ChartLabelPosition.Top" />
+        </ChartMarker>
+    </ChartSeries>
+
+    <ChartSeries DataSource="@CombinedData" XName="X" YName="Y4"
+                 Name="UK Gold Medals"
+                 Type="ChartSeriesType.Bar"
+                 GroupName="UK"
+                 Fill="#DDDAD0"
+                 Width="0.5"
+                 ColumnSpacing="0.2">
+        <ChartMarker>
+            <ChartDataLabel Visible="true" Position="ChartLabelPosition.Top" />
+        </ChartMarker>
+    </ChartSeries>
+
+    <!-- China -->
+    <ChartSeries DataSource="@CombinedData" XName="X" YName="Y5"
+                 Name="China Total Medals"
+                 Type="ChartSeriesType.Bar"
+                 GroupName="China"
+                 Fill="#689B8A"
+                 Width="0.7"
+                 ColumnSpacing="0.2">
+        <ChartMarker>
+            <ChartDataLabel Visible="true" Position="ChartLabelPosition.Top" />
+        </ChartMarker>
+    </ChartSeries>
+
+    <ChartSeries DataSource="@CombinedData" XName="X" YName="Y6"
+                 Name="China Gold Medals"
+                 Type="ChartSeriesType.Bar"
+                 GroupName="China"
+                 Fill="#B2CD9C"
+                 Width="0.5"
+                 ColumnSpacing="0.2">
+        <ChartMarker>
+            <ChartDataLabel Visible="true" Position="ChartLabelPosition.Top" />
+        </ChartMarker>
+    </ChartSeries>
+</SfChart>
+
+@code {
+    [CascadingParameter]
+    private Theme CurrentTheme { get; set; } = Theme.Fluent;
+
+    private Theme _currentTheme = Theme.Fluent;
+
+    protected override void OnParametersSet()
+    {
+        base.OnParametersSet();
+        _currentTheme = CurrentTheme;
+    }
+
+    public class OlympicData
+    {
+        public string X { get; set; } = string.Empty;
+        public double Y1 { get; set; }
+        public double Y2 { get; set; }
+        public double Y3 { get; set; }
+        public double Y4 { get; set; }
+        public double Y5 { get; set; }
+        public double Y6 { get; set; }
+    }
+
+    public List<OlympicData> CombinedData = new()
+    {
+        new() { X = "2016", Y1 = 104, Y2 = 46, Y3 = 65, Y4 = 29, Y5 = 91, Y6 = 38 },
+        new() { X = "2020", Y1 = 121, Y2 = 46, Y3 = 67, Y4 = 27, Y5 = 70, Y6 = 26 },
+        new() { X = "2024", Y1 = 113, Y2 = 39, Y3 = 65, Y4 = 22, Y5 = 88, Y6 = 38 }
+    };
+}

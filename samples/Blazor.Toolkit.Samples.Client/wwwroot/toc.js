@@ -1,106 +1,141 @@
-window.toc = window.toc || {};
-(function(ns){
-    ns.getHeadings = function(containerSelector){
-        try {
-            setTimeout( function() {
+// Minimal scroll-spy and smooth-scroll for the right-sidebar TOC treeview.
+// Pure behavior shim: receives heading IDs from .NET and observes them with
+// an IntersectionObserver. Does NOT parse DOM or mutate heading IDs.
+//
+// Layout note: the page uses a fixed-height flex layout (see
+// Layout/MainLayout.razor.css) where .page { height: 100vh; overflow: hidden }
+// and .main-area { overflow: auto }. Scroll position lives on the .main-area
+// element, NOT on window. All scroll helpers below therefore target whichever
+// element is the actual scroll container, falling back to window for pages
+// that scroll normally.
+
+(function (ns) {
+    if (!ns) return;
+
+    function getHeadings(ids) {
+        if (!Array.isArray(ids)) return [];
+        var found = [];
+        for (var i = 0; i < ids.length; i++) {
+            var el = document.getElementById(ids[i]);
+            if (el) found.push(el);
+        }
+        return found;
+    }
+
+    function pickVisible(entries) {
+        var best = null;
+        for (var i = 0; i < entries.length; i++) {
+            var e = entries[i];
+            if (e && e.isIntersecting) {
+                if (!best || e.intersectionRatio > best.ratio) {
+                    best = e;
+                }
+            }
+        }
+        return best;
+    }
+
+    // Identify the element that actually owns the scroll for the main
+    // page content. The .main-area container is the scroll container in
+    // the default layout. If it can't be found we fall back to window.
+    function getScrollContainer() {
+        var el = document.querySelector('.main-area');
+        return el || window;
+    }
+
+    // Small page-level helpers. Lives in the same file to avoid
+    // adding a new static asset for a one-line call.
+    ns.scrollHelpers = {
+        initialize: function () {
+            try {
+                if (history && 'scrollRestoration' in history) {
+                    history.scrollRestoration = 'manual';
+                }
                 var loaderElement = document.querySelector('.loader-class');
                 if (loaderElement) {
                     loaderElement.classList.remove("loader-class");
                 }
-            }, 100)
-            var container = document.querySelector(containerSelector) || document;
-            var nodes = container.querySelectorAll('h5,h6');
-            var arr = [];
-            nodes.forEach(function(n){
-                var id = n.id;
-                if (!id || id.trim() === ''){
-                    var base = n.textContent.trim().toLowerCase().replace(/[^a-z0-9]+/g,'-').replace(/^\-+|\-+$/g,'');
-                    if (!base) base = 'heading';
-                    id = base;
-                    var i = 1;
-                    while(document.getElementById(id)){
-                        id = base + '-' + (i++);
-                    }
-                    n.id = id;
+            } catch (e) { }
+        },
+        // Reset scroll on the actual container that owns it. The Blazor
+        // side triggers this from OnAfterRenderAsync once the new page
+        // is mounted, so the scroll lands on the new page. The container
+        // is resolved each call because the router may swap DOM nodes
+        // between navigations.
+        scrollToTop: function () {
+            try {
+                var container = getScrollContainer();
+                if (container === window) {
+                    window.scrollTo(0, 0);
                 }
-                arr.push({ id: n.id, text: n.textContent.trim(), tag: n.tagName, level: parseInt(n.tagName.substring(1)) });
-            });
-            const el = document.querySelector('main');
-            if (el) el.scrollTop = 0;
-            return arr;
-        } catch(e){
-            return [];
+                else {
+                    container.scrollTop = 0;
+                }
+            } catch (e) { }
         }
     };
 
-    ns.scrollToId = function(id){
-        try {
-            var el = document.getElementById(id);
-            if (el){
-                el.scrollIntoView({ behavior: 'smooth', block: 'start' });
-                const url = location.pathname + location.search + '#' + id;
-                if(history && history.replaceState){
-                    history.replaceState(null, '', url);
-                }
-            }
-        } catch(e){}
-    };
+    ns.tocScrollspy = {
+        _observer: null,
+        _dotNetRef: null,
 
-    // Return the id of the heading currently visible in the viewport (or null)
-    ns.getVisibleHeading = function(containerSelector){
-        try {
-            var container = document.querySelector(containerSelector) || document;
-            var nodes = container.querySelectorAll('h5,h6');
-            if (!nodes || nodes.length === 0) return null;
-            var winH = window.innerHeight || document.documentElement.clientHeight;
-            var best = null;
-            var bestDist = Infinity;
-            nodes.forEach(function(n){
-                var rect = n.getBoundingClientRect();
-                // consider headings that are at or near the top of viewport
-                var dist = Math.abs(rect.top);
-                if (rect.top >= 0 && rect.top < winH) {
-                    if (dist < bestDist) { bestDist = dist; best = n; }
+        observe: function (ids, dotNetRef) {
+            try {
+                if (this._observer) {
+                    try { this._observer.disconnect(); } catch (e) { }
+                    this._observer = null;
                 }
-            });
-            if (best) return best.id || null;
-            // fallback: return first heading whose top is below viewport top
-            for (var i=0;i<nodes.length;i++){
-                var r = nodes[i].getBoundingClientRect();
-                if (r.top > 0) return nodes[i].id || null;
-            }
-            return nodes[0] ? (nodes[0].id || null) : null;
-        } catch(e){ return null; }
-    };
+                this._dotNetRef = dotNetRef || null;
 
-    // Observe headings visibility and notify .NET via DotNetObjectReference
-    ns.observeVisibleHeading = function(containerSelector, dotNetRef){
-        try {
-            var container = document.querySelector(containerSelector) || document;
-            var nodes = container.querySelectorAll('h5,h6');
-            if (!nodes || nodes.length === 0) return;
-            if (ns._observer) ns._observer.disconnect();
-            var options = { root: null, rootMargin: '0px 0px -60% 0px', threshold: [0,0.1,0.25,0.5,0.75,1] };
-            ns._observer = new IntersectionObserver(function(entries){
-                var visible = null;
-                entries.forEach(function(e){
-                    if (e.isIntersecting) {
-                        if (!visible || e.intersectionRatio > visible.ratio) {
-                            visible = { id: e.target.id, ratio: e.intersectionRatio };
+                var headings = getHeadings(ids || []);
+                if (headings.length === 0) return;
+
+                var self = this;
+                // Observe against the scroll container so headings that
+                // scroll inside .main-area are picked up correctly.
+                this._observer = new IntersectionObserver(function (entries) {
+                    try {
+                        var visible = pickVisible(entries);
+                        if (visible && self._dotNetRef) {
+                            self._dotNetRef.invokeMethodAsync('NotifyActiveId', visible.target.id);
                         }
-                    }
-                });
-                if (visible && dotNetRef) {
-                    try { dotNetRef.invokeMethodAsync('NotifyVisibleHeading', visible.id); } catch(e){}
-                } else if (dotNetRef) {
-                    // fallback: compute visible heading synchronously
-                    var vid = ns.getVisibleHeading(containerSelector);
-                    if (vid) { try { dotNetRef.invokeMethodAsync('NotifyVisibleHeading', vid); } catch(e){} }
-                }
-            }, options);
-            nodes.forEach(function(n){ if (n.id) ns._observer.observe(n); });
-        } catch(e){}
-    };
+                    } catch (e) { }
+                }, { root: null, rootMargin: '0px 0px -60% 0px', threshold: [0, 0.1, 0.25, 0.5, 0.75, 1] });
 
-    ns.disconnectObserver = function(){ if (ns._observer){ ns._observer.disconnect(); ns._observer = null; } };
-})(window.toc);
+                for (var i = 0; i < headings.length; i++) {
+                    this._observer.observe(headings[i]);
+                }
+            } catch (e) { }
+        },
+
+        // Scroll smoothly to a heading inside the .main-area container.
+        // Uses container.scrollTop so the scroll stays in sync with the
+        // page layout's actual scrollable element.
+        scrollToId: function (id) {
+            try {
+                var el = document.getElementById(id);
+                if (!el) return;
+                var container = getScrollContainer();
+                if (container === window) {
+                    el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                }
+                else {
+                    // Compute the heading's offset relative to the
+                    // scroll container and animate to it.
+                    var top = el.getBoundingClientRect().top - container.getBoundingClientRect().top + container.scrollTop;
+                    container.scrollTo({ top: top, behavior: 'smooth' });
+                }
+                if (history && history.replaceState) {
+                    var path = (location.pathname || '') + (location.search || '');
+                    history.replaceState(null, '', path + '#' + id);
+                }
+            } catch (e) { }
+        },
+
+        disconnect: function () {
+            try { if (this._observer) { this._observer.disconnect(); } } catch (e) { }
+            this._observer = null;
+            this._dotNetRef = null;
+        }
+    };
+})(window);

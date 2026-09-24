@@ -1,0 +1,5 @@
+﻿<SfNumericTextBox TValue="double?" @bind-Value="PercentValue" Min="0" Max="1" Step="0.01" Format="P2" Placeholder="Percentage" Width="220px" />
+<div class="mt-2 example-label"><b>Raw value:</b> @PercentValue</div>
+@code {
+    private double? PercentValue { get; set; } = 0.5;
+}

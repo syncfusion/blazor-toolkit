@@ -1,0 +1,90 @@
+
+<SfChart @key="@_currentTheme" Title="S&P 500 Index Performance (2014-2023)" SubTitle="Source: S&P Dow Jones Indices" Theme="@_currentTheme">
+
+    <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Toolkit.ValueType.Category" Title="Year">
+        <ChartAxisMajorGridLines Width="0" />
+        <ChartAxisMajorTickLines Width="0" />
+    </ChartPrimaryXAxis>
+
+    <ChartPrimaryYAxis Minimum="2000"
+                       Maximum="5000"
+                       Interval="500"
+                       Title="Index Value">
+        <ChartAxisMajorTickLines Width="0" />
+        <ChartAxisLineStyle Width="0" />
+    </ChartPrimaryYAxis>
+
+    <ChartTooltipSettings Enable="true"
+                  Shared="true"
+                  ShowNearestTooltip="true"
+                  Format="Index Value: <b>${point.y}</b>">
+    </ChartTooltipSettings>
+
+    <ChartLegendSettings Visible="true"
+                         ShapeHeight="15"
+                         ShapeWidth="15">
+    </ChartLegendSettings>
+
+
+    <ChartSeries DataSource="@TrendlineLinearData"
+                 XName="Year"
+                 YName="Value"
+                 Name="S&P 500"
+                 Type="ChartSeriesType.Line"
+                 Width="2"
+                 Fill="#2E7D32"
+                 Animation="new ChartSeriesAnimation { Enable = false }">
+
+        <ChartMarker Visible="true"
+                     Width="8"
+                     Height="8"
+                     Shape="ChartShape.Diamond">
+        </ChartMarker>
+
+        <ChartTrendlines>
+            <ChartTrendline Type="TrendlineTypes.Linear"
+                            Name="Market Trend"
+                            Width="3"
+                            DashArray="5,5"
+                            Fill="#FF6F00"
+                            EnableTooltip="false"
+                            Animation="new ChartTrendlineAnimation { Enable = false }">
+            </ChartTrendline>
+        </ChartTrendlines>
+
+    </ChartSeries>
+
+</SfChart>
+
+@code {
+    [CascadingParameter]
+    private Theme CurrentTheme { get; set; } = Theme.Fluent;
+
+    private Theme _currentTheme = Theme.Fluent;
+
+    protected override void OnParametersSet()
+    {
+        base.OnParametersSet();
+        _currentTheme = CurrentTheme;
+    }
+
+    public class TrendlinePoint
+    {
+        public string Year { get; set; }
+        public double Value { get; set; }
+    }
+
+    public List<TrendlinePoint> TrendlineLinearData = new()
+    {
+        new() { Year = "2014", Value = 2059 },
+        new() { Year = "2015", Value = 2044 },
+        new() { Year = "2016", Value = 2239 },
+        new() { Year = "2017", Value = 2674 },
+        new() { Year = "2018", Value = 2507 },
+        new() { Year = "2019", Value = 3231 },
+        new() { Year = "2020", Value = 3756 },
+        new() { Year = "2021", Value = 4766 },
+        new() { Year = "2022", Value = 3840 },
+        new() { Year = "2023", Value = 4770 }
+    };
+}

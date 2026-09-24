@@ -1,0 +1,92 @@
+
+<SfChart @key="@_currentTheme" Title="Paris 2024 Olympics: Medal Count by Country" Theme="@_currentTheme">
+
+<ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Toolkit.ValueType.Category"
+                   LabelIntersectAction="LabelIntersectAction.Rotate45">
+</ChartPrimaryXAxis>
+
+
+    <ChartPrimaryYAxis Interval="10"
+                       Format="{value}">
+        <ChartAxisLineStyle Width="0" />
+    </ChartPrimaryYAxis>
+
+
+    <ChartSeries DataSource="@LegendCustomPositionData"
+                 XName="Country"
+                 YName="Gold"
+                 Name="Gold"
+                 Type="ChartSeriesType.Column"
+                 Fill="#83A2FF"
+                 ColumnSpacing="0.1"
+                 ColumnWidth="0.6"
+                 CornerRadius="new ChartCornerRadius { TopLeft = 15, TopRight = 15 }"
+                 LegendShape="LegendShape.Rectangle">
+    </ChartSeries>
+
+    <ChartSeries DataSource="@LegendCustomPositionData"
+                 XName="Country"
+                 YName="Silver"
+                 Name="Silver"
+                 Type="ChartSeriesType.Column"
+                 Fill="#FFB823"
+                 ColumnSpacing="0.1"
+                 ColumnWidth="0.6"
+                 CornerRadius="new ChartCornerRadius { TopLeft = 15, TopRight = 15 }"
+                 LegendShape="LegendShape.Rectangle">
+    </ChartSeries>
+
+    <ChartSeries DataSource="@LegendCustomPositionData"
+                 XName="Country"
+                 YName="Bronze"
+                 Name="Bronze"
+                 Type="ChartSeriesType.Column"
+                 Fill="#B6F500"
+                 ColumnSpacing="0.1"
+                 ColumnWidth="0.6"
+                 CornerRadius="new ChartCornerRadius { TopLeft = 15, TopRight = 15 }"
+                 LegendShape="LegendShape.Rectangle">
+    </ChartSeries>
+
+
+    <ChartTooltipSettings Enable="true"
+                          Header="${point.x}"
+                          Format="${series.name} : <b>${point.y}</b>" />
+
+    <ChartLegendSettings Visible="true"
+                         Position="LegendPosition.Custom"
+                         Location="new ChartLocation { X = 400, Y = 80 }">
+    </ChartLegendSettings>
+
+</SfChart>
+
+@code {
+    [CascadingParameter]
+    private Theme CurrentTheme { get; set; } = Theme.Fluent;
+
+    private Theme _currentTheme = Theme.Fluent;
+
+    protected override void OnParametersSet()
+    {
+        base.OnParametersSet();
+        _currentTheme = CurrentTheme;
+    }
+
+    public class OlympicMedalData
+    {
+        public string Country { get; set; }
+        public int Gold { get; set; }
+        public int Silver { get; set; }
+        public int Bronze { get; set; }
+    }
+
+    public List<OlympicMedalData> LegendCustomPositionData = new()
+    {
+        new() { Country = "USA",         Gold = 40, Silver = 44, Bronze = 42 },
+        new() { Country = "China",       Gold = 40, Silver = 27, Bronze = 24 },
+        new() { Country = "Japan",       Gold = 20, Silver = 12, Bronze = 13 },
+        new() { Country = "Australia",   Gold = 18, Silver = 19, Bronze = 16 },
+        new() { Country = "France",      Gold = 16, Silver = 26, Bronze = 22 },
+        new() { Country = "Netherlands", Gold = 15, Silver = 7,  Bronze = 12 }
+    };
+}

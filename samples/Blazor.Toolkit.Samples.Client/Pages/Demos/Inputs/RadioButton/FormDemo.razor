@@ -1,0 +1,40 @@
+﻿@using System.ComponentModel.DataAnnotations
+
+<EditForm Model="@formModel" OnValidSubmit="@OnSubmit">
+    <DataAnnotationsValidator />
+    <div class="mb-2">
+        <label class="fw-semibold mb-1 d-block">Gender</label>
+        <div class="d-flex gap-4 align-items-center flex-wrap">
+            <SfRadioButton Name="form-gender" Label="Male" Value="male" @bind-Checked="formModel.Gender" />
+            <SfRadioButton Name="form-gender" Label="Female" Value="female" @bind-Checked="formModel.Gender" />
+        </div>
+        <ValidationMessage For="@(() => formModel.Gender)" />
+    </div>
+    <div class="d-flex gap-2">
+        <SfButton CssClass="e-primary" IsPrimary="true" Type="ButtonType.Submit" Disabled="@string.IsNullOrEmpty(formModel.Gender)">Submit</SfButton>
+        <SfButton CssClass="e-outline" Type="ButtonType.Button" OnClick="@OnReset">Reset</SfButton>
+    </div>
+</EditForm>
+
+@if (!string.IsNullOrEmpty(formSubmitted))
+{
+    <div class="alert alert-success mt-3">
+        <strong>Submitted:</strong> @formSubmitted
+    </div>
+}
+@code {
+    private FormModel formModel = new();
+    private string formSubmitted = "";
+    private void OnSubmit() => formSubmitted = $"Gender: {formModel.Gender}";
+    private void OnReset()
+    {
+        formModel = new();
+        formSubmitted = "";
+        StateHasChanged();
+    }
+    public class FormModel
+    {
+        [Required(ErrorMessage = "Please select gender.")]
+        public string? Gender { get; set; }
+    }
+}

@@ -1,0 +1,5 @@
+﻿<SfNumericTextBox TValue="int?" @bind-Value="TwoWayValue" Min="0" Max="100" Step="1" Width="220px" />
+<div class="mt-2 example-label"><b>Value:</b> @TwoWayValue</div>
+@code {
+    private int? TwoWayValue { get; set; } = 10;
+}

@@ -1,5 +1,7 @@
 @page "/charts/axis-position"
-@using Syncfusion.Blazor.Toolkit.Charts
+@inherits TocPublishingComponentBase
+
+@using Blazor.Toolkit.Samples.Client.Pages.Demos.Charts.AxisConfiguration.AxisPosition
 
 <PageTitle>Blazor Chart Axis Position Demo | Syncfusion Toolkit</PageTitle>
 
@@ -8,7 +10,7 @@
      ───────────────────────────────────────────── -->
 <Description>
     <Header>
-        <h5><b>Axis Position</b></h5>
+        <h1 id="axis-position">Axis Position</h1>
     </Header>
     <Content>
         This sample demonstrates controlling axis positioning and orientation using
@@ -21,58 +23,14 @@
     </Content>
 </Description>
 
-<VirtualizeSection MinHeightPx="600px">
-    <CodePreview IsFullWidth="true" CodeSection="@AxisPositionCode">
-    <PreviewSection>
-        <SfChart @key="@_currentTheme" Title="Population by Country 2024" Theme="@_currentTheme">
-            <ChartArea>
-                <ChartAreaBorder Width="0" />
-            </ChartArea>
-
-            <!-- TOOLTIP -->
-            <ChartTooltipSettings Enable="true"
-                                  Header="<b>${point.x}</b>"
-                                  Format="Population : <b>${point.y}</b>" 
-                                  EnableHighlight="true" />
-
-            <!-- X AXIS (INVERTED CATEGORY AXIS) -->
-            <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Toolkit.ValueType.Category"
-                               IsInversed="true">
-                <ChartAxisMajorGridLines Width="0" />
-                <ChartAxisMajorTickLines Width="0" />
-                <ChartAxisMinorTickLines Width="0" />
-            </ChartPrimaryXAxis>
-
-            <!-- Y AXIS (OPPOSED POSITION) -->
-            <ChartPrimaryYAxis OpposedPosition="true"
-                               Interval="0.3"
-                               LabelFormat="{value}B">
-                <ChartAxisLineStyle Width="0" />
-                <ChartAxisMajorTickLines Width="0" />
-            </ChartPrimaryYAxis>
-
-            <!-- SERIES -->
-            
-                <ChartSeries DataSource="@PopulationData"
-                             XName="X"
-                             YName="Y"
-                             Type="ChartSeriesType.Column"
-                             Fill="#82C100"
-                             ColumnWidth="0.4">
-                    <ChartCornerRadius TopLeft="5" TopRight="5" />
-                </ChartSeries>
-            
-        </SfChart>
-    </PreviewSection>
-</CodePreview>
-</VirtualizeSection>
+<CodePreview IsFullWidth="true" PreviewComponent="typeof(AxisPositionDemo)" SourceFile="Pages/Demos/Charts/AxisConfiguration/AxisPosition/AxisPositionDemo.razor" />
 
 <!-- ─────────────────────────────────────────────
      AXIS CROSSING
      ───────────────────────────────────────────── -->
 <Description>
     <Header>
-        <h5><b>Axis Crossing</b></h5>
+        <h2 id="axis-crossing">Axis Crossing</h2>
     </Header>
     <Content>
         Axis crossing allows the horizontal and vertical axes to intersect at a
@@ -85,236 +43,14 @@
     </Content>
 </Description>
 
-<VirtualizeSection MinHeightPx="600px">
-    <CodePreview CodeSection="@AxisCrossingCode" IsFullWidth="true">
-    <PreviewSection>
-        <SfChart @key="@_currentTheme" Title="Hyperbola Graph with Axis Crossing at Origin" Theme="@_currentTheme">
-            <ChartArea>
-                <ChartAreaBorder Width="0" />
-            </ChartArea>
+<CodePreview IsFullWidth="true" PreviewComponent="typeof(AxisCrossingDemo)" SourceFile="Pages/Demos/Charts/AxisConfiguration/AxisPosition/AxisCrossingDemo.razor" />
 
-            <!-- TOOLTIP -->
-            <ChartTooltipSettings Enable="true"
-                                  EnableMarker="false"
-                                  EnableHighlight="true"
-                                  Format="x = <b>${point.x}</b><br />y = <b>${point.y}</b>" />
-
-            <!-- X AXIS -->
-            <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Toolkit.ValueType.Double"
-                               Minimum="-6"
-                               Maximum="6"
-                               CrossesAt="0">
-                <ChartAxisLineStyle Width="2" />
-                <ChartAxisMajorTickLines Width="3" Height="6" />
-            </ChartPrimaryXAxis>
-
-            <!-- Y AXIS -->
-            <ChartPrimaryYAxis Minimum="-6"
-                               Maximum="6"
-                               Interval="2"
-                               CrossesAt="0"
-                               OpposedPosition="false">
-                <ChartAxisLineStyle Width="2" />
-            </ChartPrimaryYAxis>
-
-            <!-- SERIES -->
-            
-                <ChartSeries DataSource="@AxisCrossingData"
-                             XName="X"
-                             YName="Y"
-                             Type="ChartSeriesType.Spline"
-                Width="2">
-                    <ChartSeriesAnimation Enable="false" />
-                </ChartSeries>
-            
-        </SfChart>
-    </PreviewSection>
-</CodePreview>
-</VirtualizeSection>
 @code {
-    [CascadingParameter]
-    private Theme CurrentTheme { get; set; } = Theme.Fluent;
-
-    private Theme _currentTheme = Theme.Fluent;
-
-    protected override void OnInitialized()
+    private static readonly IReadOnlyList<RightToc.TocItem> TocItemsList = new[]
     {
-        _currentTheme = CurrentTheme;
-    }
-
-    protected override void OnParametersSet()
-    {
-        _currentTheme = CurrentTheme;
-    }
-
-    private bool IsDarkTheme => _currentTheme.ToString().Contains("Dark") || _currentTheme.ToString().Contains("HighContrast");
-    private string TextColor => IsDarkTheme ? "#E6EEF8" : "#0B1F3B";
-    // DATA MODEL
-    public class PopulationPoint
-    {
-        public string X { get; set; } = string.Empty;
-        public double Y { get; set; }
-    }
-
-    // DATASOURCE (1:1 WITH REACT)
-    private readonly List<PopulationPoint> PopulationData = new()
-    {
-        new() { X = "India",       Y = 1.42 },
-        new() { X = "China",       Y = 1.41 },
-        new() { X = "USA",         Y = 0.33 },
-        new() { X = "Indonesia",   Y = 0.27 },
-        new() { X = "Pakistan",    Y = 0.24 },
-        new() { X = "Nigeria",     Y = 0.22 },
-        new() { X = "Brazil",      Y = 0.21 },
-        new() { X = "Bangladesh",  Y = 0.17 }
+        new RightToc.TocItem("axis-position", "Axis Position", 4),
+        new RightToc.TocItem("axis-crossing", "Axis Crossing", 4)
     };
-    
-    // DATA MODEL
-    public class AxisCrossingPoint
-    {
-        public double X { get; set; }
-        public double? Y { get; set; }
-    }
 
-    // DATASOURCE (MATCHES REACT LOGIC)
-    private readonly List<AxisCrossingPoint> AxisCrossingData =
-        Enumerable.Range(0, 1201)
-            .Select(i =>
-            {
-                double x = -6 + (i * 0.01);
-                return new AxisCrossingPoint
-                {
-                    X = Math.Round(x, 2),
-                    Y = Math.Round(x * 100) != 0 ? 1 / x : null
-                };
-            })
-            .ToList();
-
-    // CODE SNIPPET (MATCHES PREVIEW EXACTLY)
-    private string AxisPositionCode => @"@using Syncfusion.Blazor.Toolkit.Charts
-    <SfChart @key=""@_currentTheme"" Title=""Population by Country 2024"" Theme=""@_currentTheme"">
-            <ChartArea>
-                <ChartAreaBorder Width=""0"" />
-            </ChartArea>
-
-            <!-- TOOLTIP -->
-            <ChartTooltipSettings Enable=""true""
-                                  Header=""<b>${point.x}</b>""
-                                  Format=""Population : <b>${point.y}</b>"" 
-                                  EnableHighlight=""true"" />
-
-            <!-- X AXIS (INVERTED CATEGORY AXIS) -->
-            <ChartPrimaryXAxis ValueType=""Syncfusion.Blazor.Toolkit.ValueType.Category""
-                               IsInversed=""true"">
-                <ChartAxisMajorGridLines Width=""0"" />
-                <ChartAxisMajorTickLines Width=""0"" />
-                <ChartAxisMinorTickLines Width=""0"" />
-            </ChartPrimaryXAxis>
-
-            <!-- Y AXIS (OPPOSED POSITION) -->
-            <ChartPrimaryYAxis OpposedPosition=""true""
-                               Interval=""0.3""
-                               LabelFormat=""{value}B"">
-                <ChartAxisLineStyle Width=""0"" />
-                <ChartAxisMajorTickLines Width=""0"" />
-            </ChartPrimaryYAxis>
-
-            <!-- SERIES -->
-            
-                <ChartSeries DataSource=""@PopulationData""
-                             XName=""X""
-                             YName=""Y""
-                             Type=""ChartSeriesType.Column""
-                             Fill=""#82C100""
-                             ColumnWidth=""0.4"">
-                    <ChartCornerRadius TopLeft=""5"" TopRight=""5"" />
-                </ChartSeries>
-            
-        </SfChart>
-
-@code {
-    public class PopulationPoint
-        {
-            public string X { get; set; } = string.Empty;
-            public double Y { get; set; }
-        }
-     List<PopulationPoint> PopulationData = new()
-        {
-            new() { X = ""India"",       Y = 1.42 },
-            new() { X = ""China"",       Y = 1.41 },
-            new() { X = ""USA"",         Y = 0.33 },
-            new() { X = ""Indonesia"",   Y = 0.27 },
-            new() { X = ""Pakistan"",    Y = 0.24 },
-            new() { X = ""Nigeria"",     Y = 0.22 },
-            new() { X = ""Brazil"",      Y = 0.21 },
-            new() { X = ""Bangladesh"",  Y = 0.17 }
-        };
-}";
-
-    private string AxisCrossingCode => @"@using Syncfusion.Blazor.Toolkit.Charts
-    <SfChart @key=""@_currentTheme"" Title=""Hyperbola Graph with Axis Crossing at Origin"" Theme=""@_currentTheme"">
-            <ChartArea>
-                <ChartAreaBorder Width=""0"" />
-            </ChartArea>
-
-            <!-- TOOLTIP -->
-            <ChartTooltipSettings Enable=""true""
-                                  EnableMarker=""false""
-                                  EnableHighlight=""true""
-                                  Format=""x = <b>${point.x}</b><br />y = <b>${point.y}</b>"" />
-
-            <!-- X AXIS -->
-            <ChartPrimaryXAxis ValueType=""Syncfusion.Blazor.Toolkit.ValueType.Double""
-                               Minimum=""-6""
-                               Maximum=""6""
-                               CrossesAt=""0"">
-                <ChartAxisLineStyle Width=""2"" />
-                <ChartAxisMajorTickLines Width=""3"" Height=""6"" />
-            </ChartPrimaryXAxis>
-
-            <!-- Y AXIS -->
-            <ChartPrimaryYAxis Minimum=""-6""
-                               Maximum=""6""
-                               Interval=""2""
-                               CrossesAt=""0""
-                               OpposedPosition=""false"">
-                <ChartAxisLineStyle Width=""2"" />
-            </ChartPrimaryYAxis>
-
-            <!-- SERIES -->
-            
-                <ChartSeries DataSource=""@AxisCrossingData""
-                             XName=""X""
-                             YName=""Y""
-                             Type=""ChartSeriesType.Spline""
-                Width=""2"">
-                    <ChartSeriesAnimation Enable=""false"" />
-                </ChartSeries>
-            
-        </SfChart>
-
-
-
-@code {
-     private Theme _currentTheme = Theme.Fluent;
-     public class AxisCrossingPoint
-    {
-        public double X { get; set; }
-        public double? Y { get; set; }
-    }
-
-    // DATASOURCE (MATCHES REACT LOGIC)
-    private readonly List<AxisCrossingPoint> AxisCrossingData =
-        Enumerable.Range(0, 1201)
-            .Select(i =>
-            {
-                double x = -6 + (i * 0.01);
-                return new AxisCrossingPoint
-                {
-                    X = Math.Round(x, 2),
-                    Y = Math.Round(x * 100) != 0 ? 1 / x : null
-                };
-            })
-            .ToList();
-}";
+    protected override IReadOnlyList<RightToc.TocItem> TocItems => TocItemsList;
 }

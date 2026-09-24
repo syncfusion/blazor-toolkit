@@ -1,282 +1,110 @@
 ﻿@page "/calendars/calendar"
-
-@using Syncfusion.Blazor.Toolkit.Calendars
+@inherits TocPublishingComponentBase
+@using Blazor.Toolkit.Samples.Client.Pages.Demos.Calendars.Calendar
 
 <PageTitle>Blazor Calendar Demo | Syncfusion Toolkit</PageTitle>
 
 <Description>
     <Header>
-        <h4>Blazor Toolkit Calendar Component</h4>
+        <h1 id="blazor-toolkit-calendar-component">Blazor Toolkit Calendar Component</h1>
     </Header>
     <Content>
         The Blazor <code><a href="https://help.syncfusion.com/cr/blazor-toolkit/Syncfusion.Blazor.Toolkit.Calendars.SfCalendar-1.html" target="_blank" rel="noreferrer noopener">Calendar</a></code> component provides an intuitive interface for date selection and navigation. It offers a comprehensive set of features including multiple view modes, multi-selection, week number and accessibility support for building robust date-picking experiences.
     </Content>
 </Description>
 
-<CodePreview CodeSection="@DefaultCode">
-    <PreviewSection>
-        <SfCalendar TValue="DateTime"></SfCalendar>
-    </PreviewSection>
-</CodePreview>
+<CodePreview PreviewComponent="typeof(DefaultDemo)" SourceFile="/Pages/Demos/Calendars/Calendar/DefaultDemo.razor" />
 
 <Description>
     <Header>
-        <h5>Year And Decade Views</h5>
+        <h2 id="year-and-decade-views">Year And Decade Views</h2>
     </Header>
     <Content>
         The Calendar component supports multiple view modes including month, year, and decade views. Users can switch between different views using the <code><a href="https://help.syncfusion.com/cr/blazor-toolkit/Syncfusion.Blazor.Toolkit.Calendars.CalendarBase-1.html#Syncfusion_Blazor_Toolkit_Calendars_CalendarBase_1_Start" target="_blank" rel="noreferrer noopener">Start</a></code> and <code><a href="https://help.syncfusion.com/cr/blazor-toolkit/Syncfusion.Blazor.Toolkit.Calendars.CalendarBase-1.html#Syncfusion_Blazor_Toolkit_Calendars_CalendarBase_1_Depth" target="_blank" rel="noreferrer noopener">Depth</a></code> properties to control the initial view and navigation depth.
     </Content>
 </Description>
 
-<CodePreview CodeSection="@ViewsCode">
-    <PreviewSection>
-        <div class="view-wrapper">
-            <div class="view-div">
-                <label class="sb-label">Year View</label>
-                <SfCalendar TValue="DateTime?" Start="CalendarView.Year"></SfCalendar>
-            </div>
-            <div class="view-div">
-                <label class="sb-label">Decade View</label>
-                <SfCalendar TValue="DateTime?" Start="CalendarView.Decade" Depth="CalendarView.Year"></SfCalendar>
-            </div>
-        </div>
-    </PreviewSection>
-</CodePreview>
+<CodePreview PreviewComponent="typeof(ViewsDemo)" SourceFile="/Pages/Demos/Calendars/Calendar/ViewsDemo.razor" />
 
 <Description>
     <Header>
-        <h5>Date Range</h5>
+        <h2 id="date-range">Date Range</h2>
     </Header>
     <Content>
         The <code><a href="https://help.syncfusion.com/cr/blazor-toolkit/Syncfusion.Blazor.Toolkit.Calendars.CalendarBase-1.html#Syncfusion_Blazor_Toolkit_Calendars_CalendarBase_1_Min" target="_blank" rel="noreferrer noopener">Min</a></code> and <code><a href="https://help.syncfusion.com/cr/blazor-toolkit/Syncfusion.Blazor.Toolkit.Calendars.CalendarBase-1.html#Syncfusion_Blazor_Toolkit_Calendars_CalendarBase_1_Max" target="_blank" rel="noreferrer noopener">Max</a></code> properties used to control date selection by setting minimum and maximum selectable dates. This ensures users can only select dates within the specified range, making it ideal for booking systems and date-restricted scenarios.
     </Content>
 </Description>
 
-<CodePreview CodeSection="@RangeCode">
-    <PreviewSection>
-        <SfCalendar TValue="DateTime?" Min='@MinDate' Max='@MaxDate' Value='@DateValue'></SfCalendar>
-    </PreviewSection>
-</CodePreview>
+<CodePreview PreviewComponent="typeof(RangeDemo)" SourceFile="/Pages/Demos/Calendars/Calendar/RangeDemo.razor" />
 
 <Description>
     <Header>
-        <h5>Multi Selection</h5>
+        <h2 id="multi-selection">Multi Selection</h2>
     </Header>
     <Content>
         The <code><a href="https://help.syncfusion.com/cr/blazor-toolkit/Syncfusion.Blazor.Toolkit.Calendars.SfCalendar-1.html#Syncfusion_Blazor_Toolkit_Calendars_SfCalendar_1_IsMultiSelection" target="_blank" rel="noreferrer noopener">IsMultiSelection</a></code> property enable users to select multiple non-consecutive dates. This is useful for scheduling events, selecting date ranges, or marking multiple important dates.
     </Content>
 </Description>
 
-<CodePreview CodeSection="@MultiSelectionCode">
-    <PreviewSection>
-        <SfCalendar TValue="DateTime" IsMultiSelection="true" Values="@MultipleValues"></SfCalendar>
-    </PreviewSection>
-</CodePreview>
+<CodePreview PreviewComponent="typeof(MultiSelectionDemo)" SourceFile="/Pages/Demos/Calendars/Calendar/MultiSelectionDemo.razor" />
 
 <Description>
     <Header>
-        <h5>Special Dates</h5>
+        <h2 id="special-dates">Special Dates</h2>
     </Header>
     <Content>
         Customize specific dates in a Blazor Calendar by handling the <code><a href="https://help.syncfusion.com/cr/blazor-toolkit/Syncfusion.Blazor.Toolkit.Calendars.SfCalendar-1.html#Syncfusion_Blazor_Toolkit_Calendars_SfCalendar_1_DayCellRendering" target="_blank" rel="noreferrer noopener">DayCellRendering</a></code> event. This event fires for each day cell as it is created, allowing the addition of CSS classes and, if needed, disabling particular dates. The following example highlights two sets of days in the current month with custom styles using the personal-appointment and official-appointment classes, and updates a label on selection via <code><a href="https://help.syncfusion.com/cr/blazor-toolkit/Syncfusion.Blazor.Toolkit.Calendars.SfCalendar-1.html#Syncfusion_Blazor_Toolkit_Calendars_SfCalendar_1_ValueChange" target="_blank" rel="noreferrer noopener">ValueChange</a></code> event.
     </Content>
 </Description>
 
-<CodePreview CodeSection="@SpecialDatesCode">
-    <PreviewSection>
-        <div class="control-wrapper">
-            <SfCalendar TValue="DateTime?" @bind-Value="@SelectedDate" DayCellRendering="CustomDates" ValueChange="OnChange"></SfCalendar>
-        </div>
-        <div id="display-date">
-            <span>Selected Day : @SelectedValue</span>
-        </div>
-    </PreviewSection>
-</CodePreview>
+<CodePreview PreviewComponent="typeof(SpecialDatesDemo)" SourceFile="/Pages/Demos/Calendars/Calendar/SpecialDatesDemo.razor" />
 
 <Description>
     <Header>
-        <h5>Islamic Calendar</h5>
+        <h2 id="islamic-calendar">Islamic Calendar</h2>
     </Header>
     <Content>
         The Blazor Calendar component supports displaying the Islamic (Hijri) Calendar. The Hijri Calendar is a lunar Calendar with 12 months and 354 or 355 days per year. To render the Islamic Calendar, set the <code><a href="https://help.syncfusion.com/cr/blazor-toolkit/Syncfusion.Blazor.Toolkit.Calendars.CalendarBase-1.html#Syncfusion_Blazor_Toolkit_Calendars_CalendarBase_1_CalendarMode" target="_blank" rel="noreferrer noopener">CalendarMode</a></code> property to CalendarType.Islamic. This switches the Calendar system used for display and selection.
     </Content>
 </Description>
 
-<CodePreview CodeSection="@IslamicCode">
-    <PreviewSection>
-        <SfCalendar TValue="DateTime?" CalendarMode="CalendarType.Islamic"></SfCalendar>
-    </PreviewSection>
-</CodePreview>
+<CodePreview PreviewComponent="typeof(IslamicDemo)" SourceFile="/Pages/Demos/Calendars/Calendar/IslamicDemo.razor" />
 
 <Description>
     <Header>
-        <h5>Week Number</h5>
+        <h2 id="week-number">Week Number</h2>
     </Header>
     <Content>
         The <code><a href="https://help.syncfusion.com/cr/blazor-toolkit/Syncfusion.Blazor.Toolkit.Calendars.CalendarBase-1.html#Syncfusion_Blazor_Toolkit_Calendars_CalendarBase_1_WeekNumber" target="_blank" rel="noreferrer noopener">WeekNumber</a></code> property is used to display week numbers alongside the Calendar dates. This feature is particularly useful for business applications that reference ISO week numbers for planning and reporting purposes. Configure how the first week of the year is determined by using the <code><a href="https://help.syncfusion.com/cr/blazor-toolkit/Syncfusion.Blazor.Toolkit.Calendars.CalendarBase-1.html#Syncfusion_Blazor_Toolkit_Calendars_CalendarBase_1_WeekRule" target="_blank" rel="noreferrer noopener">WeekRule</a></code> property (aligned with .NET CalendarWeekRule semantics).
     </Content>
 </Description>
 
-<CodePreview CodeSection="@WeekNumberCode">
-    <PreviewSection>
-        <SfCalendar TValue="DateTime" WeekNumber="true"></SfCalendar>
-    </PreviewSection>
-</CodePreview>
+<CodePreview PreviewComponent="typeof(WeekNumberDemo)" SourceFile="/Pages/Demos/Calendars/Calendar/WeekNumberDemo.razor" />
 
 <Description>
     <Header>
-        <h5>First Day Of Week</h5>
+        <h2 id="first-day-of-week">First Day Of Week</h2>
     </Header>
     <Content>
         The Calendar provides an option to change the first day of the week by using the <code><a href="https://help.syncfusion.com/cr/blazor-toolkit/Syncfusion.Blazor.Toolkit.Calendars.CalendarBase-1.html#Syncfusion_Blazor_Toolkit_Calendars_CalendarBase_1_FirstDayOfWeek" target="_blank" rel="noreferrer noopener">FirstDayOfWeek</a></code> property. Generally, the day of the week starts from 0 (Sunday) and ends with 6 (Saturday).
     </Content>
 </Description>
 
-<CodePreview CodeSection="@FirstDayCode">
-    <PreviewSection>
-        <SfCalendar TValue="DateTime?" FirstDayOfWeek="2" WeekNumber="true"></SfCalendar>
-    </PreviewSection>
-</CodePreview>
+<CodePreview PreviewComponent="typeof(FirstDayDemo)" SourceFile="/Pages/Demos/Calendars/Calendar/FirstDayDemo.razor" />
 
 @code {
-    private string DefaultCode => @"<SfCalendar TValue=""DateTime""></SfCalendar>";
-    private string MultiSelectionCode => @"<SfCalendar TValue=""DateTime"" IsMultiSelection=""true"" Values=""@MultipleValues""></SfCalendar>
-
-@code {
-    public DateTime[] MultipleValues { get; set; } = new DateTime[] { 
-        new DateTime(DateTime.Now.Year, DateTime.Now.Month, 10),
-        new DateTime(DateTime.Now.Year, DateTime.Now.Month, 15),
-        new DateTime(DateTime.Now.Year, DateTime.Now.Month, 25)
-    };
-}";
-    private string WeekNumberCode => @"<SfCalendar TValue=""DateTime"" WeekNumber=""true""></SfCalendar>";
-    private string ViewsCode => @"<div class=""view-wrapper"">
-    <div class=""view-div"">
-        <label><b>Year View</b></label>
-        <SfCalendar TValue=""DateTime?"" Start=""CalendarView.Year""></SfCalendar>
-    </div>
-    <div class=""view-div"">
-        <label><b>Decade View</b></label>
-        <SfCalendar TValue=""DateTime?"" Start=""CalendarView.Decade"" Depth=""CalendarView.Year""></SfCalendar>
-    </div>
-</div>";
-    private string RangeCode => @"<SfCalendar TValue=""DateTime?"" Min=""@MinDate"" Max=""@MaxDate"" Value=""@DateValue""></SfCalendar>
-
-@code {
-    public DateTime MinDate { get; set; } = new DateTime(DateTime.Now.Year, DateTime.Now.Month, 07);
-    public DateTime MaxDate { get; set; } = new DateTime(DateTime.Now.Year, DateTime.Now.Month, 27);
-    public DateTime? DateValue { get; set; } = new DateTime(DateTime.Now.Year, DateTime.Now.Month, 14);
-}";
-    private string SpecialDatesCode => @"<div class=""control-wrapper"">
-    <SfCalendar TValue=""DateTime?"" @bind-Value=""@SelectedDate"" DayCellRendering=""CustomDates"" ValueChange=""OnChange""></SfCalendar>
-</div>
-<div id=""display-date"">
-    <span>Selected Day : @SelectedValue</span>
-</div>
-
-@code {
-    public DateTime? SelectedDate { get; set; }
-    public string SelectedValue { get; set; } = DateTime.Now.ToString(""M/d/yyyy"");
-    public DateTime? CurrentDate { get; set; } = DateTime.Now;
-
-    public void CustomDates(RenderDayCellEventArgs args)
+    private static readonly IReadOnlyList<RightToc.TocItem> TocItemsList = new RightToc.TocItem[]
     {
-        if (args.CurrentView == ""Month"") {
-            var CurrentMonth = CurrentDate.Value.Month;
-            if (args.Date.Month == CurrentMonth && (args.Date.Day == 7 || args.Date.Day == 14 || args.Date.Day == 24 || args.Date.Day == 29)) {
-                args.CellData.ClassList += "" personal-appointment"";
-            }
-            if (args.Date.Month == CurrentMonth && (args.Date.Day == 3 || args.Date.Day == 11 || args.Date.Day == 17 || args.Date.Day == 22))
-            {
-                args.CellData.ClassList += "" official-appointment"";
-            }
-        }
-    }
-
-    public void OnChange(ChangedEventArgs<DateTime?> args)
-    {
-        var Count = 0;
-        var CurrentMonth = CurrentDate.Value.Month;
-        if (args.Value.Value.Month == CurrentMonth && (args.Value.Value.Day == 7 || args.Value.Value.Day == 14 || args.Value.Value.Day == 24 || args.Value.Value.Day == 29))
-        {
-            this.SelectedValue = this.SelectedDate?.ToString(""M/d/yyyy"") + "" (Personal appointment)"";
-            Count++;
-        }
-        if (args.Value.Value.Month == CurrentMonth && (args.Value.Value.Day == 3 || args.Value.Value.Day == 11 || args.Value.Value.Day == 17 || args.Value.Value.Day == 22))
-        {
-            this.SelectedValue = this.SelectedDate?.ToString(""M/d/yyyy"") + "" (Official appointment)"";
-            Count++;
-        }
-        if (Count == 0)
-        {
-            this.SelectedValue = this.SelectedDate?.ToString(""M/d/yyyy"");
-        }
-    }
-}
-
-<style>
-    .control-wrapper {
-        margin: 0 auto;
-    }
-    .e-calendar .e-content .e-cell.personal-appointment span.e-day {
-        color: #28a745;
-        font-weight: 800;
-    }
-    .e-calendar .e-content .e-cell.official-appointment span.e-day {
-        color: #dc3545;
-        font-weight: 800;
-    }
-</style>";
-    private string IslamicCode => @"<SfCalendar TValue=""DateTime?"" CalendarMode=""CalendarType.Islamic""></SfCalendar>";
-    private string FirstDayCode => @"<SfCalendar TValue=""DateTime?"" FirstDayOfWeek=""2"" WeekNumber=""true""></SfCalendar>";
-
-    public DateTime[] MultipleValues { get; set; } = new DateTime[] {
-        new DateTime(DateTime.Now.Year, DateTime.Now.Month, 10),
-        new DateTime(DateTime.Now.Year, DateTime.Now.Month, 15),
-        new DateTime(DateTime.Now.Year, DateTime.Now.Month, 25)
+        new("year-and-decade-views", "Year And Decade Views"),
+        new("date-range", "Date Range"),
+        new("multi-selection", "Multi Selection"),
+        new("special-dates", "Special Dates"),
+        new("islamic-calendar", "Islamic Calendar"),
+        new("week-number", "Week Number"),
+        new("first-day-of-week", "First Day Of Week"),
     };
 
-    public DateTime? SelectedDate { get; set; }
-    public string? SelectedValue { get; set; } = DateTime.Now.ToString("M/d/yyyy");
-    public DateTime? CurrentDate { get; set; } = DateTime.Now;
-    public void CustomDates(RenderDayCellEventArgs args)
-    {
-        if (args.CurrentView == "Month" && CurrentDate is not null)
-        {
-            var CurrentMonth = CurrentDate.Value.Month;
-            if (args.Date.Month == CurrentMonth && (args.Date.Day == 7 || args.Date.Day == 14 || args.Date.Day == 24 || args.Date.Day == 29))
-            {
-                args.CellData.ClassList += " personal-appointment";
-            }
-            if (args.Date.Month == CurrentMonth && (args.Date.Day == 3 || args.Date.Day == 11 || args.Date.Day == 17 || args.Date.Day == 22))
-            {
-                args.CellData.ClassList += " official-appointment";
-            }
-        }
-    }
-    public void OnChange(ChangedEventArgs<DateTime?> args)
-    {
-        var Count = 0;
-        var CurrentMonth = CurrentDate?.Month;
-        if (CurrentMonth.HasValue && args.Value is not null && args.Value.Value.Month == CurrentMonth.Value && (args.Value.Value.Day == 7 || args.Value.Value.Day == 14 || args.Value.Value.Day == 24 || args.Value.Value.Day == 29))
-        {
-            this.SelectedValue = this.SelectedDate?.ToString("M/d/yyyy") + " (Personal appointment)";
-            Count++;
-        }
-        if (CurrentMonth.HasValue && args.Value is not null && args.Value.Value.Month == CurrentMonth.Value && (args.Value.Value.Day == 3 || args.Value.Value.Day == 11 || args.Value.Value.Day == 17 || args.Value.Value.Day == 22))
-        {
-            this.SelectedValue = this.SelectedDate?.ToString("M/d/yyyy") + " (Official appointment)";
-            Count++;
-        }
-        if (Count == 0 && this.SelectedDate is not null)
-        {
-            this.SelectedValue = this.SelectedDate?.ToString("M/d/yyyy");
-        }
-    }
-
-    public DateTime MinDate { get; set; } = new DateTime(DateTime.Now.Year, DateTime.Now.Month, 07);
-    public DateTime MaxDate { get; set; } = new DateTime(DateTime.Now.Year, DateTime.Now.Month, 27);
-    public DateTime? DateValue { get; set; } = new DateTime(DateTime.Now.Year, DateTime.Now.Month, 14);
+    protected override IReadOnlyList<RightToc.TocItem> TocItems => TocItemsList;
 }
 
 <style>

@@ -58,3 +58,422 @@ h1:focus {
 .form-floating > .form-control-plaintext:focus::placeholder, .form-floating > .form-control:focus::placeholder {
     text-align: start;
 }
+/* ===========================================================
+   Shared doc-page typography & heading styles
+   ---------------------------------------------------------------
+   Mirrors the Fluent 2 / Segoe UI Variable typography used on
+   the Getting Started page so every doc page (Overview, Common
+   and Components demo pages) reads the same way.
+
+   These styles live in this global stylesheet (loaded once in
+   App.razor via `<link>`) so they apply to every Razor page that
+   uses the `Description` component � no per-page <style> block
+   needed.
+   =========================================================== */
+
+/* ---------- Theme tokens (mirror GettingStarted.razor) ---------- */
+.page-content {
+    --sf-bg: #FFFFFF;
+    --sf-surface: #FFFFFF;
+    --sf-surface-2: #F6F8FB;
+    --sf-border: #E5E7EB;
+    --sf-text: #111827;
+    --sf-text-2: #4B5563;
+    --sf-text-3: #6B7280;
+    --sf-link: #2B357C;
+    --sf-link-hover: #3B4693;
+    --sf-purple: #2B357C;
+    --sf-purple-50: #ECEEF7;
+    --sf-purple-700: #3B4693;
+}
+.dark .page-content {
+    --sf-bg: #0B1020;
+    --sf-surface: #111827;
+    --sf-surface-2: #0F172A;
+    --sf-border: #1F2937;
+    --sf-text: #F1F5F9;
+    --sf-text-2: #CBD5E1;
+    --sf-text-3: #94A3B8;
+    --sf-link: #A4ABE0;
+    --sf-link-hover: #C4CCEC;
+    --sf-purple: #8A93C4;
+    --sf-purple-50: rgba(43, 53, 124, 0.20);
+    --sf-purple-700: #A4ABE0;
+}
+
+/* ---------- Page container / base typography (GettingStarted) ---------- */
+.page-content {
+    font-family: "Segoe UI Variable", "Segoe UI", "Inter", system-ui, -apple-system, sans-serif;
+    font-size: 16px;
+    line-height: 1.6;
+    color: var(--sf-text);
+    background: var(--sf-bg);
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+.page-content * { box-sizing: border-box; }
+
+.page-content p {
+    margin: 0 0 16px 0;
+    color: var(--sf-text-2);
+    font-size: 16px;
+    line-height: 1.65;
+}
+.page-content a {
+    color: var(--sf-link);
+    text-decoration: none;
+    transition: color .15s ease;
+}
+.page-content a:hover {
+    color: var(--sf-link-hover);
+    text-decoration: underline;
+}
+.page-content code:not(pre code) {
+    background: var(--sf-purple-50);
+    color: var(--sf-purple-700);
+    padding: 2px 6px;
+    border-radius: 4px;
+    font-weight: 500;
+}
+.dark .page-content code:not(pre code) { color: #C4CCEC; }
+.page-content kbd {
+    display: inline-block;
+    background: var(--sf-surface-2);
+    border: 1px solid var(--sf-border);
+    border-bottom-width: 2px;
+    border-radius: 4px;
+    padding: 1px 6px;
+    font-size: 12px;
+    color: var(--sf-text-2);
+}
+.page-content ul {
+    margin: 0 0 16px 0;
+    padding-left: 22px;
+    color: var(--sf-text-2);
+}
+.page-content ul li {
+    padding: 5px 10px;
+    line-height: 1.65;
+    font-size: 16px;
+}
+.page-content ul li strong { color: var(--sf-text); }
+
+/* ---------- Headings inside <Description> ----------
+   The `Description` component renders Header content into a
+   `.header-class` wrapper and Content into a `.content-class`
+   wrapper. These rules re-style those headings so the page
+   matches the heading scale used on the Getting Started page:
+     h4 (page title)     ? matches .sf-section h2 in GettingStarted
+     h5 (sub-topic)      ? matches the step-row heading scale
+     h6 (sub-sub topic)  ? smaller, semibold
+   Letter-spacing, line-height, weight, and color come straight
+   from GettingStarted.razor. */
+.page-content .description-wrapper .header-class h4,
+.page-content .description-wrapper .header-class h5,
+.page-content .description-wrapper .header-class h6 {
+    font-family: "Segoe UI Variable", "Segoe UI", "Inter", system-ui, -apple-system, sans-serif;
+    color: var(--sf-text);
+    line-height: 1.25;
+    letter-spacing: -0.015em;
+    margin: 0 0 14px 0;
+    padding: 0;
+    border: 0;
+    text-wrap-mode: wrap;
+    white-space: normal;
+    word-break: break-word;
+}
+/* h4 � Page title (e.g. "System Requirements", "Browser Support").
+   Sized like GettingStarted's .sf-section h2 (32px / 600 / -0.015em). */
+.page-content .description-wrapper .header-class h4 {
+    font-size: 32px;
+    font-weight: 600;
+}
+/* h5 � Sub-topic heading ("IDEs", ".NET SDK", "Compatibility",
+   "Next Steps", "Supported browsers", "See also"). */
+.page-content .description-wrapper .header-class h5 {
+    font-size: 22px;
+    font-weight: 600;
+    margin: 0 0 10px 0;
+}
+/* h6 � Sub-sub heading ("Verifying the installed SDK", etc.). */
+.page-content .description-wrapper .header-class h6 {
+    font-size: 17px;
+    font-weight: 600;
+    margin: 4px 0 8px 0;
+}
+/* The Description component nests the Content fragment inside a
+   <p> by default. Reset global p margins so heading + body spacing
+   matches GettingStarted's .sf-section-lede (16px / 1.65). */
+.page-content .description-wrapper .content-class p {
+    letter-spacing: 0;
+    text-wrap-mode: wrap;
+    margin: 0 0 16px 0;
+    font-size: 16px;
+    line-height: 1.65;
+    color: var(--sf-text-2);
+}
+/* Native h6 inside the Content slot (e.g. "Verifying the
+   installed SDK") � match GettingStarted's smaller heading. */
+.page-content .description-wrapper .content-class h6 {
+    margin: 12px 0 8px 0;
+    font-size: 16px;
+    font-weight: 600;
+    color: var(--sf-text);
+    letter-spacing: -0.005em;
+}
+/* Spacing between consecutive Description blocks � visible rhythm
+   that matches GettingStarted's .sf-section gap. */
+.page-content .description-wrapper + .description-wrapper {
+    margin-top: 32px;
+}
+.page-content .description-wrapper:first-of-type {
+    padding-top: 4px;
+}
+
+/* ---------- Responsive (mirror GettingStarted) ---------- */
+@media (max-width: 640px) {
+    .page-content .description-wrapper .header-class h4 {
+        font-size: 26px;
+    }
+    .page-content .description-wrapper .header-class h5 {
+        font-size: 19px;
+    }
+}
+
+/* ===========================================================
+   Shared doc-page typography & heading styles
+   ---------------------------------------------------------------
+   Mirrors the Fluent 2 / Segoe UI Variable typography used on
+   the Getting Started page so every doc page (Overview, Common
+   and Components demo pages) reads the same way.
+
+   These styles live in this global stylesheet (loaded once in
+   App.razor via `<link>`) so they apply to every Razor page that
+   uses the `Description` component - no per-page <style> block
+   needed.
+   =========================================================== */
+
+/* ---------- Theme tokens (mirror GettingStarted.razor) ---------- */
+.page-content {
+    --sf-bg: #FFFFFF;
+    --sf-surface: #FFFFFF;
+    --sf-surface-2: #F6F8FB;
+    --sf-border: #E5E7EB;
+    --sf-text: #111827;
+    --sf-text-2: #4B5563;
+    --sf-text-3: #6B7280;
+    --sf-link: #2B357C;
+    --sf-link-hover: #3B4693;
+    --sf-purple: #2B357C;
+    --sf-purple-50: #ECEEF7;
+    --sf-purple-700: #3B4693;
+}
+.dark .page-content {
+    --sf-bg: #0B1020;
+    --sf-surface: #111827;
+    --sf-surface-2: #0F172A;
+    --sf-border: #1F2937;
+    --sf-text: #F1F5F9;
+    --sf-text-2: #CBD5E1;
+    --sf-text-3: #94A3B8;
+    --sf-link: #A4ABE0;
+    --sf-link-hover: #C4CCEC;
+    --sf-purple: #8A93C4;
+    --sf-purple-50: rgba(43, 53, 124, 0.20);
+    --sf-purple-700: #A4ABE0;
+}
+
+/* ---------- Page container / base typography (GettingStarted) ---------- */
+.page-content {
+    font-family: "Segoe UI Variable", "Segoe UI", "Inter", system-ui, -apple-system, sans-serif;
+    font-size: 16px;
+    line-height: 1.6;
+    color: var(--sf-text);
+    background: var(--sf-bg);
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+.page-content * { box-sizing: border-box; }
+
+.page-content p {
+    margin: 0 0 16px 0;
+    color: var(--sf-text-2);
+    font-size: 16px;
+    line-height: 1.65;
+}
+.page-content a {
+    color: var(--sf-link);
+    text-decoration: none;
+    transition: color .15s ease;
+}
+.page-content a:hover {
+    color: var(--sf-link-hover);
+    text-decoration: underline;
+}
+.page-content code:not(pre code) {
+    background: var(--sf-purple-50);
+    color: var(--sf-purple-700);
+    padding: 2px 6px;
+    border-radius: 4px;
+    font-weight: 500;
+}
+.dark .page-content code:not(pre code) { color: #C4CCEC; }
+.page-content kbd {
+    display: inline-block;
+    background: var(--sf-surface-2);
+    border: 1px solid var(--sf-border);
+    border-bottom-width: 2px;
+    border-radius: 4px;
+    padding: 1px 6px;
+    font-size: 12px;
+    color: var(--sf-text-2);
+}
+.page-content ul {
+    margin: 0 0 16px 0;
+    padding-left: 22px;
+    color: var(--sf-text-2);
+}
+.page-content ul li {
+    padding: 5px 10px;
+    line-height: 1.65;
+    font-size: 16px;
+}
+.page-content ul li strong { color: var(--sf-text); }
+
+/* ---------- Headings inside <Description> ----------
+   The Description component renders Header content into a
+   .header-class wrapper and Content into a .content-class
+   wrapper. These rules re-style those headings so the page
+   matches the heading scale used on the Getting Started page:
+     h4 (page title)     -> matches .sf-section h2 in GettingStarted
+     h5 (sub-topic)      -> matches the step-row heading scale
+     h6 (sub-sub topic)  -> smaller, semibold
+   Letter-spacing, line-height, weight, and color come straight
+   from GettingStarted.razor. */
+.page-content .description-wrapper .header-class h4,
+.page-content .description-wrapper .header-class h5,
+.page-content .description-wrapper .header-class h6 {
+    font-family: "Segoe UI Variable", "Segoe UI", "Inter", system-ui, -apple-system, sans-serif;
+    color: var(--sf-text);
+    line-height: 1.25;
+    letter-spacing: -0.015em;
+    margin: 0 0 14px 0;
+    padding: 0;
+    border: 0;
+    text-wrap-mode: wrap;
+    white-space: normal;
+    word-break: break-word;
+}
+/* h4 - Page title (e.g. "System Requirements", "Browser Support").
+   Sized like GettingStarted's .sf-section h2 (32px / 600 / -0.015em). */
+.page-content .description-wrapper .header-class h4 {
+    font-size: 32px;
+    font-weight: 600;
+}
+/* h5 - Sub-topic heading ("IDEs", ".NET SDK", "Compatibility",
+   "Next Steps", "Supported browsers", "See also"). */
+.page-content .description-wrapper .header-class h5 {
+    font-size: 22px;
+    font-weight: 600;
+    margin: 0 0 10px 0;
+}
+/* h6 - Sub-sub heading ("Verifying the installed SDK", etc.). */
+.page-content .description-wrapper .header-class h6 {
+    font-size: 17px;
+    font-weight: 600;
+    margin: 4px 0 8px 0;
+}
+/* The Description component nests the Content fragment inside a
+   <p> by default. Reset global p margins so heading + body spacing
+   matches GettingStarted's .sf-section-lede (16px / 1.65). */
+.page-content .description-wrapper .content-class p {
+    letter-spacing: 0;
+    text-wrap-mode: wrap;
+    margin: 0 0 16px 0;
+    font-size: 16px;
+    line-height: 1.65;
+    color: var(--sf-text-2);
+}
+/* Native h6 inside the Content slot (e.g. "Verifying the
+   installed SDK") - match GettingStarted's smaller heading. */
+.page-content .description-wrapper .content-class h6 {
+    margin: 12px 0 8px 0;
+    font-size: 16px;
+    font-weight: 600;
+    color: var(--sf-text);
+    letter-spacing: -0.005em;
+}
+/* Spacing between consecutive Description blocks - visible rhythm
+   that matches GettingStarted's .sf-section gap. */
+.page-content .description-wrapper + .description-wrapper {
+    margin-top: 32px;
+}
+.page-content .description-wrapper:first-of-type {
+    padding-top: 4px;
+}
+
+/* ---------- Responsive (mirror GettingStarted) ---------- */
+@media (max-width: 640px) {
+    .page-content .description-wrapper .header-class h4 {
+        font-size: 26px;
+    }
+    .page-content .description-wrapper .header-class h5 {
+        font-size: 19px;
+    }
+}
+
+/* ===========================================================
+   h1 / h2 / h3 heading scale (Description + bare)
+   ---------------------------------------------------------------
+   Document pages (Chart demos, Overview, Getting Started, etc.)
+   use the standard h1 / h2 / h3 hierarchy:
+     h1 = page title (largest)
+     h2 = major section heading
+     h3 = sub-section heading
+   These rules style all three levels for BOTH:
+     - headings inside <Description> (the .header-class wrapper)
+     - bare headings (e.g. <h1> rendered directly in the page body)
+   Scale:  h1 = 32px  h2 = 22px  h3 = 17px
+   =========================================================== */
+.page-content .description-wrapper .header-class h1,
+.page-content .description-wrapper .header-class h2,
+.page-content .description-wrapper .header-class h3,
+.page-content h1,
+.page-content h2,
+.page-content h3 {
+    font-family: "Segoe UI Variable", "Segoe UI", "Inter", system-ui, -apple-system, sans-serif;
+    color: var(--sf-text);
+    line-height: 1.25;
+    letter-spacing: -0.015em;
+    margin: 0 0 14px 0;
+    padding: 0;
+    border: 0;
+    text-wrap-mode: wrap;
+    white-space: normal;
+    word-break: break-word;
+}
+
+
+/* Native h1 / h2 / h3 inside the Content slot of <Description>
+   (e.g. when a heading is embedded inside the description body). */
+.page-content .description-wrapper .content-class h1,
+.page-content .description-wrapper .content-class h2,
+.page-content .description-wrapper .content-class h3 {
+    margin: 12px 0 8px 0;
+    color: var(--sf-text);
+    font-weight: 600;
+    letter-spacing: -0.005em;
+}
+.page-content .description-wrapper .content-class h1 { font-size: 22px; }
+.page-content .description-wrapper .content-class h2 { font-size: 18px; }
+.page-content .description-wrapper .content-class h3 { font-size: 16px; }
+
+/* ---------- Responsive (mirror GettingStarted) ---------- */
+@media (max-width: 640px) {
+    .page-content .description-wrapper .header-class h1,
+    .page-content h1 { font-size: 26px; }
+    .page-content .description-wrapper .header-class h2,
+    .page-content h2 { font-size: 19px; }
+    .page-content .description-wrapper .header-class h3,
+    .page-content h3 { font-size: 15px; }
+}

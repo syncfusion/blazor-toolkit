@@ -1,0 +1,8 @@
+@using Syncfusion.Blazor.Toolkit;
+
+var builder = WebApplication.CreateBuilder(args);
+builder.Services.AddRazorComponents().AddInteractiveServerComponents();
+
+// Register Syncfusion Toolkit services
+builder.Services.AddSyncfusionBlazorToolkit();
+var app = builder.Build();

@@ -1,0 +1,72 @@
+.sf-page-footer {
+    margin-top: 32px;
+    padding-top: 24px;
+    border-top: 1px solid rgba(15, 23, 42, 0.08);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 16px;
+    color: var(--text-color, #1f2937);
+}
+
+.dark .sf-page-footer {
+    border-top-color: rgba(255, 255, 255, 0.08);
+}
+
+.sf-feedback {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.sf-feedback-q {
+    font-size: 14.5px;
+    font-weight: 600;
+    color: var(--text-color, #1f2937);
+}
+
+.sf-feedback-btn {
+    width: 36px;
+    height: 36px;
+    border-radius: 8px;
+    border: 1px solid rgba(15, 23, 42, 0.08);
+    background: var(--bg-color, #ffffff);
+    color: var(--text-color-secondary, #6b7280);
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    transition: background .15s ease, color .15s ease, border-color .15s ease;
+}
+
+.sf-feedback-btn:hover {
+    background: rgba(43, 53, 124, 0.10);
+    color: var(--accent, #2B357C);
+    border-color: rgba(43, 53, 124, 0.35);
+}
+
+.sf-footer-meta {
+    font-size: 13.5px;
+    color: var(--text-color-secondary, #6b7280);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.sf-footer-meta a {
+    color: var(--text-color, #1f2937);
+    text-decoration: none;
+    transition: color .15s ease;
+}
+
+.sf-footer-meta a:hover {
+    color: var(--accent, #2B357C);
+    text-decoration: underline;
+}
+
+.sf-footer-sep {
+    color: var(--text-color-secondary, #6b7280);
+    opacity: .6;
+    user-select: none;
+}

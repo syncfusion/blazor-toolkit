@@ -1,0 +1,64 @@
+<SfChart @key="@_currentTheme" Title="Population by Country 2024" Theme="@_currentTheme">
+    <ChartArea>
+        <ChartAreaBorder Width="0" />
+    </ChartArea>
+
+    <ChartTooltipSettings Enable="true"
+                          Header="${point.x}"
+                          Format="Population : <b>${point.y}</b>"
+                          EnableHighlight="true" />
+
+    <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Toolkit.ValueType.Category"
+                       IsInversed="true">
+        <ChartAxisMajorGridLines Width="0" />
+        <ChartAxisMajorTickLines Width="0" />
+        <ChartAxisMinorTickLines Width="0" />
+    </ChartPrimaryXAxis>
+
+    <ChartPrimaryYAxis LabelFormat="{value}B" Interval="0.3"
+                       IsInversed="true">
+        <ChartAxisLineStyle Width="0" />
+        <ChartAxisMajorTickLines Width="0" />
+    </ChartPrimaryYAxis>
+
+    <ChartSeries DataSource="@PopulationData"
+                 XName="X"
+                 YName="Y"
+                 Type="ChartSeriesType.Column"
+                 Fill="#6DD7AC"
+                 ColumnWidth="0.4">
+        <ChartCornerRadius BottomLeft="5"
+                           BottomRight="5" />
+    </ChartSeries>
+</SfChart>
+
+@code {
+    [CascadingParameter]
+    private Theme CurrentTheme { get; set; } = Theme.Fluent;
+
+    private Theme _currentTheme = Theme.Fluent;
+
+    protected override void OnParametersSet()
+    {
+        base.OnParametersSet();
+        _currentTheme = CurrentTheme;
+    }
+
+    public class PopulationPoint
+    {
+        public string X { get; set; } = string.Empty;
+        public double Y { get; set; }
+    }
+
+    public List<PopulationPoint> PopulationData = new()
+    {
+        new() { X = "India",       Y = 1.42 },
+        new() { X = "China",       Y = 1.41 },
+        new() { X = "USA",         Y = 0.33 },
+        new() { X = "Indonesia",   Y = 0.27 },
+        new() { X = "Pakistan",    Y = 0.24 },
+        new() { X = "Nigeria",     Y = 0.22 },
+        new() { X = "Brazil",      Y = 0.21 },
+        new() { X = "Bangladesh",  Y = 0.17 }
+    };
+}

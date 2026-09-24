@@ -1,0 +1,13 @@
+﻿<div class="switch-container d-inline-flex align-items-center gap-2">
+    <label for="wifi-switch" class="mb-0">Wi-Fi Hotspot:</label>
+    <SfSwitch id="wifi-switch" @bind-Checked="wifiEnabled" />
+</div>
+<br />
+<div class="switch-container mt-3 d-inline-flex align-items-center gap-2">
+    <span class="status-text">Bluetooth: </span>
+    <SfSwitch @bind-Checked="Bluetooth" OnLabel="ON" OffLabel="OFF" />
+</div>
+@code {
+    private bool wifiEnabled = true;
+    private bool Bluetooth = false;
+}

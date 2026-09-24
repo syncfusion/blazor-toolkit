@@ -1,0 +1,37 @@
+<SfChart @key="@_currentTheme" Title="Walnuts and Almonds Estimated Production for 2023" Theme="@_currentTheme">
+    <ChartPrimaryXAxis LabelIntersectAction="LabelIntersectAction.Trim" ValueType="Syncfusion.Blazor.Toolkit.ValueType.Category" Interval="1"></ChartPrimaryXAxis>
+    <ChartPrimaryYAxis Title="Metric Tons"><ChartAxisLineStyle Width="0"></ChartAxisLineStyle></ChartPrimaryYAxis>
+    <ChartTooltipSettings Enable="true" Header="${point.x}" Format="${series.name}: <b>${point.y}K</b>" />
+
+    <ChartSeries DataSource="@ProductionData1" XName="Country" YName="Walnuts" Type="ChartSeriesType.Column" Name="Walnuts" Fill="#00C5BC" Opacity="0.8" ColumnSpacing="0.15" ColumnWidth="0.5"><ChartCornerRadius TopLeft="14" TopRight="14"></ChartCornerRadius></ChartSeries>
+    <ChartSeries DataSource="@ProductionData1" XName="Country" YName="Almonds" Type="ChartSeriesType.Column" Name="Almonds" Fill="#BA7DDA" Opacity="1" ColumnSpacing="0.15" ColumnWidth="0.5"><ChartCornerRadius TopLeft="14" TopRight="14"></ChartCornerRadius></ChartSeries>
+</SfChart>
+
+@code {
+    [CascadingParameter]
+    private Theme CurrentTheme { get; set; } = Theme.Fluent;
+
+    private Theme _currentTheme = Theme.Fluent;
+
+    protected override void OnParametersSet()
+    {
+        base.OnParametersSet();
+        _currentTheme = CurrentTheme;
+    }
+
+    public class ProductionDataModel
+    {
+        public string Country { get; set; } = string.Empty;
+        public double Walnuts { get; set; }
+        public double Almonds { get; set; }
+    }
+
+    public List<ProductionDataModel> ProductionData1 = new()
+    {
+        new() { Country = "Chile", Walnuts = 175, Almonds = 11.3 },
+        new() { Country = "European Union", Walnuts = 140, Almonds = 135 },
+        new() { Country = "Turkey", Walnuts = 67, Almonds = 24 },
+        new() { Country = "India", Walnuts = 33, Almonds = 42 },
+        new() { Country = "Australia", Walnuts = 12, Almonds = 154 }
+    };
+}

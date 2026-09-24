@@ -1,0 +1,112 @@
+
+<SfChart @key="@_currentTheme" Title="Global Internet Users Growth (1995-2023)"
+         SubTitle="Source: International Telecommunication Union (ITU)" Theme="@_currentTheme">
+
+    <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Toolkit.ValueType.Category"
+                       Title="Year">
+        <ChartAxisMajorGridLines Width="0" />
+        <ChartAxisMajorTickLines Width="0" />
+    </ChartPrimaryXAxis>
+
+    <ChartPrimaryYAxis Minimum="0"
+                       Maximum="6000"
+                       Interval="1000"
+                       Title="Users (Millions)">
+        <ChartAxisMajorTickLines Width="0" />
+        <ChartAxisLineStyle Width="0" />
+    </ChartPrimaryYAxis>
+
+    <ChartTooltipSettings Enable="true"
+                          Shared="true"
+                          ShowNearestTooltip="true"
+                          Format="Internet Users: <b>${point.y}M</b>">
+    </ChartTooltipSettings>
+
+    <ChartLegendSettings Visible="true"
+                         ShapeHeight="15"
+                         ShapeWidth="15">
+    </ChartLegendSettings>
+
+
+    <ChartSeries DataSource="@TrendlineExponentialData"
+                 XName="Year"
+                 YName="Users"
+                 Name="Internet Users"
+                 Type="ChartSeriesType.Spline"
+                 Width="2.5"
+                 Fill="#1976D2">
+
+        <ChartSeriesAnimation Enable="false"></ChartSeriesAnimation>
+
+        <ChartMarker Visible="true"
+                     Width="7"
+                     Height="7"
+                     Shape="ChartShape.Circle">
+        </ChartMarker>
+
+        <ChartTrendlines>
+            <ChartTrendline Type="TrendlineTypes.Exponential"
+                            Name="Exponential Trend"
+                            Width="3"
+                            DashArray="5,5"
+                            Fill="#D32F2F"
+                            EnableTooltip="false">
+                <ChartTrendlineAnimation Enable="false"></ChartTrendlineAnimation>
+            </ChartTrendline>
+        </ChartTrendlines>
+
+    </ChartSeries>
+
+</SfChart>
+
+@code {
+    [CascadingParameter]
+    private Theme CurrentTheme { get; set; } = Theme.Fluent;
+
+    private Theme _currentTheme = Theme.Fluent;
+
+    protected override void OnParametersSet()
+    {
+        base.OnParametersSet();
+        _currentTheme = CurrentTheme;
+    }
+
+    public class InternetUserPoint
+    {
+        public string Year { get; set; }
+        public double Users { get; set; }
+    }
+
+    public List<InternetUserPoint> TrendlineExponentialData = new()
+    {
+        new() { Year = "1995", Users = 16 },
+        new() { Year = "1996", Users = 36 },
+        new() { Year = "1997", Users = 70 },
+        new() { Year = "1998", Users = 147 },
+        new() { Year = "1999", Users = 248 },
+        new() { Year = "2000", Users = 361 },
+        new() { Year = "2001", Users = 495 },
+        new() { Year = "2002", Users = 665 },
+        new() { Year = "2003", Users = 778 },
+        new() { Year = "2004", Users = 910 },
+        new() { Year = "2005", Users = 1024 },
+        new() { Year = "2006", Users = 1162 },
+        new() { Year = "2007", Users = 1373 },
+        new() { Year = "2008", Users = 1575 },
+        new() { Year = "2009", Users = 1802 },
+        new() { Year = "2010", Users = 2023 },
+        new() { Year = "2011", Users = 2267 },
+        new() { Year = "2012", Users = 2497 },
+        new() { Year = "2013", Users = 2712 },
+        new() { Year = "2014", Users = 2956 },
+        new() { Year = "2015", Users = 3185 },
+        new() { Year = "2016", Users = 3424 },
+        new() { Year = "2017", Users = 3696 },
+        new() { Year = "2018", Users = 3923 },
+        new() { Year = "2019", Users = 4130 },
+        new() { Year = "2020", Users = 4540 },
+        new() { Year = "2021", Users = 4900 },
+        new() { Year = "2022", Users = 5160 },
+        new() { Year = "2023", Users = 5350 }
+    };
+}

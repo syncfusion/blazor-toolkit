@@ -1,0 +1,68 @@
+<SfChart @key="@_currentTheme" Title="Annual Renewable Energy Generation in China (2020-2023) by Source" Theme="@_currentTheme">
+    <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Toolkit.ValueType.Category" />
+
+    <ChartPrimaryYAxis Interval="1000" Format="{value}TWh">
+    </ChartPrimaryYAxis>
+
+    <!-- Wind -->
+    <ChartSeries DataSource="@StackingBarData"
+                 XName="X"
+                 YName="Y1"
+                 Type="ChartSeriesType.StackingBar"
+                 Name="Wind"
+                 Fill="#689B8A"
+                 Width="0.6">
+    </ChartSeries>
+
+    <!-- Solar -->
+    <ChartSeries DataSource="@StackingBarData"
+                 XName="X"
+                 YName="Y2"
+                 Type="ChartSeriesType.StackingBar"
+                 Name="Solar"
+                 Fill="#B2CD9C"
+                 Width="0.6">
+    </ChartSeries>
+
+    <!-- Hydro -->
+    <ChartSeries DataSource="@StackingBarData"
+                 XName="X"
+                 YName="Y3"
+                 Type="ChartSeriesType.StackingBar"
+                 Name="Hydro"
+                 Fill="#8D8D87"
+                 Width="0.6">
+    </ChartSeries>
+
+    <ChartTooltipSettings Enable="true"
+                          Header="Renewable Energy Generation" Format="${point.x}: ${point.y}TWh" />
+</SfChart>
+
+@code {
+    [CascadingParameter]
+    private Theme CurrentTheme { get; set; } = Theme.Fluent;
+
+    private Theme _currentTheme = Theme.Fluent;
+
+    protected override void OnParametersSet()
+    {
+        base.OnParametersSet();
+        _currentTheme = CurrentTheme;
+    }
+
+    public class AnnualEnergyData
+    {
+        public string X { get; set; } = string.Empty;
+        public double Y1 { get; set; }
+        public double Y2 { get; set; }
+        public double Y3 { get; set; }
+    }
+
+    public List<AnnualEnergyData> StackingBarData = new()
+    {
+        new() { X = "2020", Y1 = 466, Y2 = 261, Y3 = 1355 },
+        new() { X = "2021", Y1 = 656, Y2 = 327, Y3 = 1340 },
+        new() { X = "2022", Y1 = 763, Y2 = 427, Y3 = 1352 },
+        new() { X = "2023", Y1 = 886, Y2 = 584, Y3 = 1286 }
+    };
+}

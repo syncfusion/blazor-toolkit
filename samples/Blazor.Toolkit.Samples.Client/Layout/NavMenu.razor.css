@@ -1,278 +1,995 @@
+﻿/* ===============================================================
+   LEFT SIDEBAR - Syncfusion Blazor Toolkit Documentation V2
+   Tree-view navigation: peer rows, strict grid alignment, one
+   consistent child indent, strong active state. Not a list of
+   hyperlinks.
+   =============================================================== */
 
 .nav-scrollable {
     height: 100%;
-    overflow: auto;
-    padding-bottom: 12px;
+    overflow-x: hidden;
+    padding: 0;
     scrollbar-width: thin;
+    scrollbar-color: rgba(15, 23, 42, 0.18) transparent;
 }
-
-.sidebar.list-unstyled.px-3 {
-    padding: .5rem .75rem;
+.nav-scrollable::-webkit-scrollbar { width: 8px; }
+.nav-scrollable::-webkit-scrollbar-thumb {
+    background: rgba(15, 23, 42, 0.15);
+    border-radius: 8px;
 }
+.nav-scrollable::-webkit-scrollbar-track { background: transparent; }
 
-.sidebar {
-    --text-color: #1f2937;
-    --li-hover: rgba(103, 80, 164, 0.08);
-    --accent: #6750a4;
-    --accent-foreground: #ffffff;
-    --selected-bg: rgba(103, 80, 164, 0.1);
-    --selected-fg: #1f2937;
-    --selected-border: #6750a4;
-    --sidebar-border: rgba(28, 27, 31, 0.09);
-    --sidebar-surface: #ffffff;
-    --sidebar-caret: #64748b;
-    --sidebar-list-text: #1f2937;
-    --item-padding-y: 10px;
-    --item-padding-x: 12px;
+.sf-sidebar {
+    --sf-sidebar-fg: #1F2937;
+    --sf-sidebar-fg-muted: #6B7280;
+    --sf-sidebar-hover-bg: rgba(43, 53, 124, 0.05);
+    --sf-sidebar-hover-fg: #1F2937;
+    --sf-sidebar-active-bg: rgba(43, 53, 124, 0.10);
+    --sf-sidebar-active-fg: #2B357C;
+    --sf-sidebar-border: #2B357C;
+    --sf-sidebar-section-fg: #6B7280;
+    --sf-sidebar-divider: rgba(15, 23, 42, 0.06);
+    --sf-sidebar-card-bg: #FFFFFF;
+    --sf-sidebar-card-border: rgba(15, 23, 42, 0.08);
+    --sf-sidebar-card-glow: rgba(43, 53, 124, 0.18);
+
+    /* ---- Strict grid ---- */
+    --sf-sidebar-pad-x: 12px;            /* gutter from sidebar edge */
+    --sf-sidebar-row-height: 32px;       /* consistent row height */
+    --sf-sidebar-l1-indent: 16px;        /* level-1 text x */
+    --sf-sidebar-l2-indent: 36px;        /* level-2 text x (children) */
+    --sf-sidebar-l2-delta: 20px;         /* extra indent for level-2 (l2 - l1) */
+    --sf-sidebar-chevron-w: 20px;        /* reserved right column */
+    --sf-sidebar-accent-w: 3px;          /* left active border */
+    --sf-sidebar-icon-w: 18px;           /* reserved icon column */
+
     display: flex;
     flex-direction: column;
-    font-family: var(--font-family, "Inter", "Segoe UI", Roboto, system-ui, -apple-system, sans-serif);
-    font-size: 14px;
-    font-weight: 400;
-    white-space: normal;
-    word-break: break-word;
-    color: var(--text-color);
-}
-
-/* Base list item styling */
-.sidebar ul {
-    list-style: none;
-    padding: 0;
-    margin: 0;
-}
-
-.sidebar li {
-    padding: 0;
-    margin: 0;
-}
-
-/* Dropdown parent items (details > summary) */
-.menu-summary {
-    display: flex;
-    align-items: center;
-    justify-content: flex-start;
-    gap: 8px;
-    position: relative;
-    width: 100%;
-    min-height: 40px;
-    padding: var(--item-padding-y) var(--item-padding-x);
-    font-weight: 400;
-    font-size: 14px;
-    list-style: none;
+    min-height: 100%;
+    color: var(--sf-sidebar-fg);
+    font-family: "Segoe UI Variable", "Segoe UI", "Inter", Roboto, system-ui, -apple-system, sans-serif;
+    font-size: 16px;
     line-height: 1.4;
-    color: var(--text-color);
-    cursor: pointer;
+}
+
+.dark .sf-sidebar,
+[data-theme="dark"] .sf-sidebar {
+    --sf-sidebar-fg: #E5E7EB;
+    --sf-sidebar-fg-muted: #9CA3AF;
+    --sf-sidebar-hover-bg: rgba(43, 53, 124, 0.10);
+    --sf-sidebar-hover-fg: #F1F5F9;
+    --sf-sidebar-active-bg: rgba(43, 53, 124, 0.20);
+    --sf-sidebar-active-fg: #A4ABE0;
+    --sf-sidebar-border: #8A93C4;
+    --sf-sidebar-section-fg: #94A3B8;
+    --sf-sidebar-divider: rgba(255, 255, 255, 0.08);
+    --sf-sidebar-card-bg: #0F172A;
+    --sf-sidebar-card-border: rgba(255, 255, 255, 0.08);
+    --sf-sidebar-card-glow: rgba(43, 53, 124, 0.28);
+}
+
+/* ---------- List reset ---------- */
+.sf-sidebar-list,
+.sf-sub-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+.sf-sidebar-list {
+    padding: 8px 0 16px 0;
+    flex: 1 1 auto;
+    display: block;
+}
+.sf-sub-list {
+    display: block;
+    width: 100%;
+    padding: 0px 50px;
+    margin: 0;
+    list-style: none;
+}
+
+/* ---------- Group label (eyebrow) ---------- */
+.sf-sidebar-group-label {
+    padding: 8px var(--sf-sidebar-pad-x) 8px var(--sf-sidebar-l1-indent);
+    margin: 0;
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--sf-sidebar-section-fg);
     user-select: none;
-    outline: none;
+    pointer-events: none;
+    line-height: 32px;
+    min-height: 32px;
+    box-sizing: border-box;
+}
+.sf-sidebar-group-label:first-child { padding-top: 18px; }
+
+/* ---------- Expandable group label (e.g. "Components") ---------- */
+.sf-sidebar-group-wrapper {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+.sf-sidebar-group-summary {
+    display: grid;
+    grid-template-columns: var(--sf-sidebar-accent-w) 1fr var(--sf-sidebar-chevron-w);
+    align-items: center;
+    column-gap: 0;
+    padding: 16px var(--sf-sidebar-pad-x) 8px var(--sf-sidebar-l1-indent);
+    margin: 0;
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--sf-sidebar-section-fg);
+    user-select: none;
+    cursor: pointer;
+    list-style: none;
+    line-height: 32px;
+    min-height: 32px;
+    box-sizing: border-box;
     background: transparent;
-    text-align: start;
-    transition: background-color .15s ease, color .15s ease;
-    border-inline-start: 3px solid transparent;
+    border: 0;
+    width: 100%;
+    text-align: left;
+    font-family: inherit;
+    transition: color .12s ease, background-color .12s ease;
+}
+.sf-sidebar-group-summary:hover {
+    color: var(--sf-sidebar-hover-fg);
+    background: var(--sf-sidebar-hover-bg);
+}
+.sf-sidebar-group-summary:focus-visible {
+    outline: 2px solid var(--sf-sidebar-border);
+    outline-offset: -2px;
+}
+.sf-sidebar-group-label-text {
+    grid-column: 2;
+    text-align: left;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    min-width: 0;
+}
+.sf-sidebar-group-summary > .sf-caret {
+    grid-column: 3;
+    justify-self: end;
+    align-self: center;
+    width: 7px;
+    height: 7px;
+    border-right: 1.5px solid currentColor;
+    border-bottom: 1.5px solid currentColor;
+    transform: rotate(45deg);
+    transition: transform .15s ease, color .12s ease;
+    color: var(--sf-sidebar-fg-muted);
+    margin-right: 2px;
+    margin-top: -8px;
+}
+.sf-sidebar-group-summary > .sf-caret.is-open {
+    transform: rotate(-135deg);
+    margin-top: 0;
 }
 
-.menu-summary:hover,
-.menu-summary:focus-visible {
-    background: var(--li-hover);
+.sf-nav-item {
+    list-style: none;
+    margin: 0;
+    position: relative;
+    padding: 5px 20px;
+    min-height: var(--sf-sidebar-row-height);
+    box-sizing: border-box;
+    font-size: 16px;
+    transition: background-color .12s ease, color .12s ease;
+    cursor: pointer;
 }
 
-/* Chevron indicator using pseudo-element */
-.menu-summary::before {
+.sf-nav-item.sf-nav-item-tight,
+.sf-nav-item.sf-nav-item-tight .sf-sub-list > .sf-nav-item {
+    padding: 5px 5px;
+}
+
+.sf-nav-item:hover {
+    background: var(--sf-sidebar-hover-bg);
+    color: var(--sf-sidebar-hover-fg);
+    text-decoration: none;
+}
+
+/* Active state - applied to the <li> only, scoped per item. */
+.sf-nav-item.is-active {
+    background: var(--sf-sidebar-active-bg);
+    color: var(--sf-sidebar-active-fg);
+    font-weight: 600;
+}
+/* Accent strip on the active <li> */
+.sf-nav-item.is-active::before {
     content: "";
     position: absolute;
-    inset-inline-end: 12px;
-    inset-block-start: 50%;
-    width: 5px;
-    height: 5px;
-    border-inline-end: 1.5px solid var(--sidebar-caret, #64748b);
-    border-block-end: 1.5px solid var(--sidebar-caret, #64748b);
-    transform: translateY(-70%) rotate(45deg);
-    transition: transform .15s ease;
+    left: 0;
+    top: 50%;
+    transform: translateY(-50%);
+    width: var(--sf-sidebar-accent-w);
+    height: 60%;
+    background: var(--sf-sidebar-border);
+    border-radius: 0 2px 2px 0;
+}
+/* When the <li> is active, paint the inner link with the active
+   foreground colour so the text matches. */
+.sf-nav-item.is-active .sf-nav-link,
+.sf-nav-item.is-active .sf-menu-summary {
+    color: var(--sf-sidebar-active-fg);
+    font-weight: 600;
+    background: transparent;
+}
+.sf-nav-item.is-active .sf-caret { color: var(--sf-sidebar-border); }
+
+/* ====================================================================
+   UNIFIED ROW LAYOUT
+   ==================================================================== */
+.sf-nav-link,
+.sf-menu-summary {
+    display: grid;
+    grid-template-columns: var(--sf-sidebar-accent-w) var(--sf-sidebar-icon-w) 1fr var(--sf-sidebar-chevron-w);
+    align-items: center;
+    column-gap: 0;
+
+    min-height: var(--sf-sidebar-row-height);
+
+    border-radius: 0;
+    color: var(--sf-sidebar-fg);
+    background: transparent;
+    text-decoration: none;
+    font-weight: 400;
+    font-size: 16px;
+    line-height: 1.4;
+    text-align: left;
+    user-select: none;
+    cursor: pointer;
+    font-family: inherit;
+    gap: 12px;
+    transition: background-color .12s ease, color .12s ease;
 }
 
-details[open] > .menu-summary::before {
-    transform: translateY(-70%) rotate(-135deg);
+.sf-nav-link > span:first-child:not(.sf-menu-icon),
+.sf-nav-link > span:nth-child(2):not(.sf-menu-icon),
+.sf-menu-summary > .sf-menu-summary-label {
+    grid-column: 3;
+    text-align: left;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    min-width: 0;
+    padding-right: 4px;
 }
 
-.menu-summary::-webkit-details-marker,
-.menu-summary::marker {
+/* Accent column indicator (col 1) */
+.sf-nav-link::before,
+.sf-menu-summary::before {
+    content: "";
+    grid-column: 1;
+    width: var(--sf-sidebar-accent-w);
+    height: 60%;
+    border-radius: 0 2px 2px 0;
+    background: transparent;
+    justify-self: start;
+    align-self: center;
+    transition: background-color .12s ease;
+}
+
+/* ====================================================================
+   ROW ICONS (col 2)
+   ==================================================================== */
+.sf-menu-icon {
+    grid-column: 2;
+    width: var(--sf-sidebar-icon-w);
+    min-width: var(--sf-sidebar-icon-w);
+    max-width: var(--sf-sidebar-icon-w);
+    font-size: 20px;
+    line-height: 1;
+    color: var(--sf-sidebar-fg-muted);
+    justify-self: center;
+    align-self: center;
+    flex-shrink: 0;
+    transition: color .12s ease;
+    /* e-icons font glyphs render slightly above the line baseline;
+       nudge them down so they sit on the same vertical center as
+       the text. 1px works for the Fluent 16px glyph cap height. */
+    padding-top: 1px;
+}
+/* Active state - icon follows the active foreground */
+.sf-nav-item.is-active .sf-menu-icon,
+.sf-menu-summary.is-active .sf-menu-icon {
+    color: var(--sf-sidebar-active-fg);
+}
+/* Hover state - icon follows the hover foreground */
+.sf-nav-item:hover .sf-menu-icon {
+    color: var(--sf-sidebar-hover-fg);
+}
+
+/* Chevron column (col 4) - always at the far right */
+.sf-caret {
+    grid-column: 4;
+    justify-self: end;
+    align-self: center;
+    width: 7px;
+    height: 7px;
+    border-right: 1.5px solid currentColor;
+    border-bottom: 1.5px solid currentColor;
+    transform: rotate(45deg);
+    transition: transform .15s ease, color .12s ease;
+    color: var(--sf-sidebar-fg-muted);
+    margin-right: 10px;
+}
+.sf-menu-group[open] > .sf-menu-summary .sf-caret { transform: rotate(-135deg); }
+
+/* External-link icon (col 4) */
+.sf-nav-external {
+    grid-column: 4;
+    justify-self: end;
+    color: var(--sf-sidebar-fg-muted);
+}
+
+/* Reset <details>/<summary> UA styles so they match <a> rows exactly */
+.sf-menu-group {
+    display: block;
+    margin: 0;
+    padding: 0;
+    border: 0;
+    width: 100%;
+}
+.sf-menu-summary {
+    list-style: none;
+    display: grid;            /* override UA display:list-item */
+    margin: 0;
+    border: 0;
+    outline: none;
+    /* Inherit font/weight from unified rule above */
+    font-weight: inherit;
+    font-size: inherit;
+    line-height: inherit;
+    text-align: inherit;
+    color: inherit;
+}
+.sf-menu-summary::-webkit-details-marker,
+.sf-menu-summary::marker {
     display: none;
     content: "";
 }
 
-.dark .sidebar,
-[data-theme="dark"] .sidebar {
-    --text-color: #e6eef8;
-    --sidebar-list-text: #f1f5f9;
-    --li-hover: rgba(167, 139, 250, 0.12);
-    --accent: #a78bfa;
-    --accent-foreground: #ffffff;
-    --selected-bg: rgba(167, 139, 250, 0.15);
-    --selected-fg: #f1f5f9;
-    --selected-border: #a78bfa;
-    --sidebar-border: rgba(255, 255, 255, 0.1);
-    --sidebar-surface: rgba(10, 14, 24, 0.9);
-    --sidebar-caret: #94a3b8;
-}
-
-/* Dropdown content container */
-.menu-group > ul {
-    margin: 0;
-    padding: 0;
-}
-
-/* Nested list items - consistent indentation */
-.sidebar .menu-group > ul > li {
-    padding: 0;
-}
-
-.sidebar .menu-group > ul > li + li {
-    margin-top: 1px;
-}
-
-/* NAVIGATION LINKS - Uniform styling for all items */
-.sidebar .nav-link {
-    display: flex;
-    align-items: center;
-    width: 100%;
-    min-height: 40px;
-    padding: var(--item-padding-y) var(--item-padding-x);
-    font-weight: 400;
-    font-size: 14px;
-    line-height: 1.4;
-    color: var(--text-color);
-    white-space: normal;
-    overflow-wrap: anywhere;
+.sf-nav-link:hover,
+.sf-menu-summary:hover {
+    background: transparent;
+    color: var(--sf-sidebar-hover-fg);
     text-decoration: none;
+}
+.sf-nav-link:hover .sf-caret,
+.sf-menu-summary:hover .sf-caret { color: var(--sf-sidebar-hover-fg); }
+.sf-nav-link:hover::before,
+.sf-menu-summary:hover::before { background: transparent; }
+
+/* Focus ring */
+.sf-nav-link:focus-visible,
+.sf-menu-summary:focus-visible {
+    outline: 2px solid var(--sf-sidebar-border);
+    outline-offset: -2px;
+}
+
+/* ====================================================================
+   CHILD ITEMS - one consistent indent, tree-view feel, no centering,
+   no staggering.
+   ==================================================================== */
+.sf-sub-item {
+    position: relative;
+    display: list-item;
+    list-style: none;
+    margin: 0;
+    padding: 5px 20px;
+    min-height: 0;
+}
+.sf-sub-item .sf-nav-link {
+    display: grid;
+    grid-template-columns: var(--sf-sidebar-accent-w) var(--sf-sidebar-icon-w) var(--sf-sidebar-l2-delta) 1fr;
+    align-items: center;
+    min-height: var(--sf-sidebar-row-height);
+    padding: 0 var(--sf-sidebar-pad-x) 0 var(--sf-sidebar-l1-indent);
     border-radius: 0;
-    border-left: 3px solid transparent;
-    border-inline-start: none;
-    transition: background-color .15s ease, color .15s ease, border-color .15s ease;
-}
-
-/* HOVER - Level 3 items (last-li-child) - must be very specific */
-li.last-li-child .nav-link:hover,
-.sidebar ::deep li a.nav-link:hover {
-    background: rgba(103, 80, 164, 0.08) !important;
-}
-
-.sidebar .nav-link:hover {
-    background: rgba(103, 80, 164, 0.08) !important;
-}
-
-/* ACTIVE - Level 3 items - must be very specific */
-li.last-li-child .nav-link.active,
-.sidebar ::deep li a.nav-link.active {
-    background: rgba(103, 80, 164, 0.1) !important;
-    color: #6750a4 !important;
+    font-size: 16px;
     font-weight: 400;
-    border-inline-start: 3px solid #6750a4 !important;
+    color: var(--sf-sidebar-fg);
+    text-align: left;
+    background: transparent;
+    text-decoration: none;
+    gap: 12px;
 }
-
-/* ACTIVE - other nav items */
-.sidebar .nav-link.active {
-    background: rgba(103, 80, 164, 0.1) !important;
-    color: #6750a4 !important;
-    font-weight: 400;
-    border-inline-start: 3px solid #6750a4 !important;
+.sf-sub-item .sf-nav-link > span:first-child:not(.sf-menu-icon),
+.sf-sub-item .sf-nav-link > span:nth-child(2):not(.sf-menu-icon) {
+    grid-column: 4;
+    text-align: left;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    min-width: 0;
+    padding-right: 4px;
 }
-
-.open-page {
-    margin: 0;
-}
-
-.open-page ::deep a.nav-link {
-    padding: var(--item-padding-y) var(--item-padding-x);
-    color: var(--text-color);
-    font-weight: 400;
-}
-
-.open-page ::deep a.nav-link:hover {
-    background: rgba(103, 80, 164, 0.08) !important;
-}
-
-.open-page ::deep a.nav-link.active {
-    background: rgba(103, 80, 164, 0.1) !important;
-    color: #6750a4 !important;
-    font-weight: 400;
-    border-inline-start: 3px solid #6750a4 !important;
-}
-
-::deep .sidebar .nav-link.active::before {
-    content: none;
-}
-
-::deep .sidebar .all-comp-class {
-    padding: 0;
-}
-
-::deep .sidebar .all-comp-class a {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    padding: var(--item-padding-y) var(--item-padding-x);
-    font-weight: 400;
-    font-size: 14px;
-    letter-spacing: .1px;
-    color: var(--text-color);
+/* Child-item hover is handled by the parent <li> via .sf-nav-item:hover */
+.sf-sub-item .sf-nav-link:hover {
+    background: transparent;
+    color: var(--sf-sidebar-hover-fg);
     text-decoration: none;
 }
 
-::deep .sidebar .all-comp-class a .e-chevron-left {
-    margin-top: 0;
-    font-weight: 600;
-    flex: 0 0 auto;
+/* ---------- "View All Components" link ---------- */
+.sf-nav-view-all { margin-top: 6px; }
+.sf-view-all {
+    color: var(--sf-sidebar-border) !important;
+    font-weight: 500 !important;
+    font-size: 16px;
+}
+.sf-view-all > span:first-child { color: inherit; }
+.sf-view-all > svg {
+    grid-column: 4;
+    justify-self: end;
+    color: currentColor;
+    transition: transform .12s ease;
+    margin-right: 2px;
+}
+.sf-view-all:hover > svg { transform: translateX(2px); }
+.sf-view-all:hover {
+    background: var(--sf-sidebar-hover-bg) !important;
+    color: var(--sf-sidebar-border) !important;
 }
 
-::deep .li-line {
-    border: none;
-    border-top: 1px solid var(--sidebar-border, rgba(28, 27, 31, 0.09));
-    margin: 8px 0;
+/* ---------- Footer / Playground card ---------- */
+.sf-sidebar-footer {
+    padding: 12px 14px 16px 14px;
+    border-top: 1px solid var(--sf-sidebar-divider);
+    margin-top: 8px;
+    flex-shrink: 0;
+    background: transparent;
 }
-
-::deep .li-heading {
-    font-weight: 600;
-    font-size: 11px;
-    text-transform: uppercase;
-    letter-spacing: 0.8px;
+.sf-playground-card {
+    position: relative;
+    background: var(--sf-sidebar-card-bg);
+    border: 1px solid var(--sf-sidebar-card-border);
+    border-radius: 10px;
+    padding: 14px 14px 12px 14px;
+    box-shadow: 0 1px 2px rgba(15, 23, 42, 0.04);
+    overflow: hidden;
+}
+.sf-playground-glow {
+    position: absolute;
+    top: -40px;
+    right: -40px;
+    width: 120px;
+    height: 120px;
+    background: radial-gradient(circle, var(--sf-sidebar-card-glow) 0%, transparent 70%);
     pointer-events: none;
-    padding: 16px var(--item-padding-x) 8px;
-    color: var(--text-color-secondary, #6b7280);
+}
+.sf-playground-title {
+    font-size: 16px;
+    font-weight: 600;
+    color: var(--sf-sidebar-fg);
+    line-height: 1.3;
+    margin-bottom: 2px;
+    font-family: "Segoe UI Variable", "Segoe UI", "Inter", system-ui, sans-serif;
+}
+.sf-playground-sub {
+    font-size: 16px;
+    color: var(--sf-sidebar-fg-muted);
+    line-height: 1.4;
+    margin-bottom: 12px;
+}
+.sf-playground-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    width: 100%;
+    padding: 7px 12px;
+    border-radius: 6px;
+    background: var(--sf-sidebar-border);
+    color: #FFFFFF;
+    font-size: 16px;
+    font-weight: 600;
+    text-decoration: none;
+    transition: filter .15s ease, transform .05s ease;
+    box-shadow: 0 2px 4px rgba(43, 53, 124, 0.30);
+    font-family: inherit;
+}
+.sf-playground-btn:hover {
+    filter: brightness(0.95);
+    color: #FFFFFF;
+    text-decoration: none;
+}
+.sf-playground-btn:active { transform: translateY(1px); }
+.sf-playground-btn svg { color: currentColor; }
+
+/* ---------- RTL ---------- */
+[dir="rtl"] .sf-nav-link,
+.page-rtl .sf-nav-link,
+[dir="rtl"] .sf-menu-summary,
+.page-rtl .sf-menu-summary { text-align: right; }
+[dir="rtl"] .sf-nav-link > span:not(.sf-menu-icon),
+.page-rtl .sf-nav-link > span:not(.sf-menu-icon),
+[dir="rtl"] .sf-menu-summary > .sf-menu-summary-label,
+.page-rtl .sf-menu-summary > .sf-menu-summary-label { text-align: right; }
+[dir="rtl"] .sf-nav-link,
+[dir="rtl"] .sf-menu-summary,
+[dir="rtl"] .sf-sub-item .sf-nav-link {
+    padding: 0 var(--sf-sidebar-l1-indent) 0 var(--sf-sidebar-pad-x);
+}
+[dir="rtl"] .sf-sub-item .sf-nav-link {
+    padding: 0 var(--sf-sidebar-l2-indent) 0 var(--sf-sidebar-pad-x);
+}
+[dir="rtl"] .sf-nav-link::before,
+[dir="rtl"] .sf-menu-summary::before,
+[dir="rtl"] .sf-sub-item .sf-nav-link::before {
+    border-radius: 2px 0 0 2px;
+    justify-self: end;
+}
+[dir="rtl"] .sf-caret,
+[dir="rtl"] .sf-nav-external,
+[dir="rtl"] .sf-view-all > svg {
+    margin-right: 0;
 }
 
-::deep .sidebar .open-comp-list {
-    padding: 0;
-}
-
-::deep .sidebar .open-comp-list a {
-    color: var(--text-color);
-    padding: var(--item-padding-y) var(--item-padding-x);
+/* ===============================================================
+   e-toolkit-icons ::before content values for sidebar items
+   =============================================================== */
+@font-face {
+    font-family: "e-toolkit-icons";
     font-weight: 400;
+    font-style: normal;
+    src: url(data:application/x-font-ttf;charset=utf-8;base64,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BwYCAgEBAgIGBwoKBgYHAYAGBwYGCgoHBgICAQECAgYHCgoGBgcGBgcGBgoKBwYCAgEBAgIGBwoKBgYH/c8BAgIGBwoKBgYHBgJ2BgcGBgoKBwYCAgH9SwYHBgYKCgcGAgIBAvQBAgIGBwoKBgYHBv2KAnYNDAwMCwoKCQgHBwUEAwIBAQIDBAUHBwgJCgoLDAwMDf2KDQwMDAsKCgkIBwcFBAMCAQECAwQFBwcICQoKCwwMDAGCAQICBgcKCgYGBwYGBwYGCgoHBgICAQECAgYHCgoGBgcGBgcGBgoKBwYCAgEBAgIGBwoKBgYHBgYHBgYKCgcGAgIBAQICBgcKCgYGBwYGBwYGCgoHBgICAb0BAgIGBwoKBgYHBgYHBgYKCgcGAgIBAQICBgcKCgYGBwYGBwYGCgoHBgICAQECAgYHCgoGBgcGBgcGBgoKBwYCAgEBAgIGBwoKBgYHBgYHBgYKCgcGAgIBAQICBgcKCgYGBwYGBwYGCgoHBgICAQECAgYHCgoGBgcGBgcGBgoKBwYCAgF+/ggGBwYGCgoHBgICAQECAgYHCgoGBgcGAfi9AQICBgcKCgYGB0VFBwYGCgoHBgICAT8BAgMEBQcHCAkKCgsMDAwN/YoNDAwMCwoKCQgHBwUEAwIBAQIDBAUHBwgJCgoLDAwMDQJ2DQwMDAsKCgkIBwcFBAMCAAAABAAAAAAD1gPWACsAqwDFAREAAAEPBh0CHwYzPwcvBisBNS8HMx8dHQEPHSsBLx09AT8dAQ8LITUvCiUhMx8OES8DNSERHwo7AR8DIS8ONRE1Pw0CvAYGBQUEAwICAwQFBQYGfgYGBQUEAwEBAQEDBAUFBgZeAQIDBAQGBQcPDg4ODg0NDQ0MDAsLCwoKCQkICAgGBwUFBQQDAgIBAQICAwQFBQUHBggICAkJCgoLCwsMDA0NDQ0ODg4ODw4PDg4NDg0NDAwMDAsKCwkKCQgIBwcGBgUEBAMDAgEBAgMDBAQFBgYHBwgICQoJCwoLDAwMDA0NDg0ODg/9+QYHBgULCQgGAgEBAQLxAQICBgcKCgYGBgf9jQJzDQ0MCwsKCgkIBwcFBAMCAQ8PEBH9DwEBAQIGCAkLBQYHBuIJCgsL/vUNDAwMCwoKCQgHBgYEAwICAwQGBgcICQoKCwwMDAHhAQIDBAQGBQd9BgYGBAQDAgEBAgMEBAYG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AgMEBQUGBgYGBQW9BAMC/QECAwQFBQYGBgYFBf6GBAMCAQECAwQFBQYGBgYFBQF6BAMCATwBAgMEBQUGBgYGBQX9SwQDAgEBAgMEBQUGBgYGBQUCtQQDAgADAAAAAAN6Ak4APwB/AL8AAAEfDw8PLw8/DiUfDh0BDw4vDz8OJR8OHQEPDi8OPQE/DQIACAgHCAcGBgYFBAQEAgIBAQEBAgIEBAQFBgYHBggHCAgICAcIBwYGBgUEBAQCAgEBAQECAgQEBAUGBgYHCAcIATMICAgHBwYGBgUFAwQCAgICAgIEAwUFBgYGBwcICAgICAcHBwcGBgUEBAMDAgEBAQECAwMEBAYFBgcHBwcI/bIICAcHBwcGBQUFBAMDAgEBAgMDBAUFBQYHBwcHCAgICAgHBwYGBgUFAwQCAgICAgIEAwUFBgYGBwcICAJPAQECAgQEBAUGBgYHCAcICAgIBwgHBgYGBQQEBAICAQEBAQICBAQEBQYGBgcIBwgICAgHCAcGBgYFBAQEAgIBAQEBAgIEBAQFBgYGBwgHCAgICAcIBwYGBgUEBAQCAgEBAQECAgQEBAUGBgYHCAcICAgIBwgHBgYGBQQEBAICAQEBAQICBAQEBQYGBgcIBwgICAgHCAcGBgYFBAQEAgIBAQEBAgIEBAQFBgYGBwgHCAgICAcIBwYGBgUEBAQCAgEAAAAAAQAAAAACjQL7ACsAAAEfBw8EHwQPBy8IPwcCbgYGBgUEAgIBAQICBMfGBAMCAQECAwQEBgYGBgYFBd0EAgIBAQICBN0FBQYC/AEBAwQFBgYGBgUGBcbGBQYGBgYFBgUEAwEBAQEDBN0FBQYGBgYFBd0EAwEAAAAAAQAAAAACjQL8ACsAAAEfCA8ILwc/BC8EPwYBkgYGBQXdBAICAQECAgTdBQUGBgYGBgUEAgIBAQICBMfHBAICAQECAgQFBgYC/AEBAwTdBQUGBgYGBQXdBAMBAQEBAwQFBgUHBgUGBcbGBQYFBwYFBgUEAwEAAAAAAQAAAAADvwMiADIAAAEzHwYBHwQPCiEvCjU/AwE/BgIACgkJCggJCAcBYQkHBQIBAQMEBggJCgYMDQ79Ng8ODAwKCQQHBQQCAgMGCAFmBwgJCAoJCQMiAgIEBAUHB/54DAwNDQ0NDQwMCgoIBAYEAgEDBQcICgULDAwNDQ0NDQwBjgcHBQQE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BQUGBv2pAlcGBgUFBAMBAT8CAgMEBQYGBggHCQgJCgndAgIDBAUGBgYIBwkICQoK/AkKCQgJBwgGBgYFBAMCAgICAwQFBgYGCAcJCAkKCQF6CgoJCAkHCAYGBgUEAwICXwkKCQgJBwgGBgYFBAMCAgAIAAAAAANnA1oAPwBfAJ8AwAEAASEBSgFrAAABMx8NHQEPDSsBLw4/DiUzHwYPBy8GPQE/BSUfDh0BDw4vDj0BPw0lMx8HDwcvBz8GJTMfDg8PLw49AT8NJTMfBw8HLwc/BiUzHwkPCS8JPwgnMx8HDwcvBz8GAg0ICAgHBwcGBgUFBAMDAgEBAgMDBAUFBgYHBwcICAgICAcIBwYHBQUFBAMDAgEBAQECAwMEBQUFBwYHCAcI/u8GBgYGBAMCAQECAwQGBgYGBwYGBQUDAgIDBQUGBgIABwcHBwcGBgYFBQMDAwIBAQIDAwMFBQYGBgcHBwcHBwcHBwcGBgYFBAQDAgIBAQICAwQEBQYGBgcHBwf92gQECAcFBQQCAQECBAUFBwgICAcHBgUEAgEBAgQFBgcHAmAICAgHBwcGBQYEBAQCAgEBAQECAgQEBAYFBgcHBwgICAgICAcHBwYGBQQEBAMBAgIBAwQEBAUGBgcHBwgI/hgFBAkICAYEAwEBAwQGCAgJCQkJCAcGBQIBAQIFBgcICQGOBgYLCwUEBQMGAwEBAwYDBQQFCwsMCwwKBQUEBAUEAQEEBQQEBQUKDK8FBQoJCAcFAwEBAwUHCAkKCgsKCQgHBAQBAQQEBwgJCgFFAQIDAwQFBQYGBgcIBwgJCAgHCAcGBgYFBQQDAwIBAQIDAwQFBQYGBgcIBwgICQgHCAcGBgYFBQQDAwIBLwIDBQUGBgcGBwUGBAMCAQECAwQGBQcGBwYGBQUDAiMBAQEDAwQEBQYGBgcHBwcHBwcHBwcGBgYFBAQDAwEBAQEBAQMDBAQFBgYGBwcHBwcHBwcHBwYGBgUEBAMDAQGfAQIEBAYHCAgIBwcGBQQCAQECBAUGBwcICAgHBgQEAlEBAgMDBAUFBgYHBwcICAgICAcIBwYHBQUFBAMDAgEBAQECAwMEBQUFBwYHCAcICAgICAcHBwYGBQUEAwMCAXoBAwQGCAgJCQkJCAcGBQIBAQIFBgcICQkJCQgIBgQDIAEEBQQEBQUKDAsMCwsFBAUDBgMBAQMGAwUEBQsLDAsMCgUFBAQFBD0BAwUGCAkKCwsKCQcHBQMBAQMFBwcJCgsLCgkIBgUDAAcAAAAAA3oDegAhAEMAZwCJAKsAzwETAAABMx8GHQEPBiMvBj0BPwUlMx8GHQEPBiMvBj0BPwUlHQEfDTMhMz8NPQElITMfBR0BDwUjISMvBT0BPwY7AR8FHQEPBSsCLwU9AT8FJyMPDRURIRE1Lw0jJSEfDxEPDyEvDxE/DgFDfgYGBgQEAwICAwQEBgYGfgYGBgQEAwICAwQEBgYBAn4GBgYEBAMCAgMEBAYGBn4GBgYEBAMCAgMEBAYG/owCAgMEBQYGBggHCQgJCgoBuAoKCQgJBwgGBgYFBAMCAv4IAXoGBgYEBAMCAgMEBAYGBv6GBgYGBAQDAgIDBAQGBgb8BgYGBAQDAgIDBAQGBgb8BgYGBAQDAgIDBAQGBhkKCgkICQcIBgYGBQQDAgICdgICAwQFBgYGCAcJCAkKCv5IAbgRDw8PDg0MCwoJCAcFBAECAQIEBQcICQoLDA0ODw8ID/4/EQ8PDw4NDAsKCQgHBQQBAgECBAUHCAkKCwwNDg8PDwFDAQEDBAUFBgYHBgUFBAMBAQEBAwQFBQYHBgYFBQQDAQEBAQMEBQUGBgcGBQUEAwEBAQEDBAUFBgcGBgUFBAMBQF4KCgkICQcIBgYGBQQDAgICAgMEBQYGBggHCQgJCgpe3AIDBAQGBgYGBgYEBAMCAgMEBAYGBgYGBgQEAwJ+AgMEBAYGBgYGBgQEAwICAwQEBgYGBgYGBAQDAl8CAgMEBQYGBggHCQgJCgr+5QEbCgoJCAkHCAYGBgUEAwICPwECBAUHCAkKCwwNDg8PCA/+PxEPDw8ODQwLCgkIBwUEAQIBAgQFBwgJCgsMDQ4PDwgPAcERDw8PDg0MCwoJCAcFBAIAAAMAAAAAA5kCvQAhAGUAqQAAASEfBh0BDwYhLwY9AT8FJyMPDR0CHw0zITM/DT0CLw0jJSEfEA8PIS8QPw4BQwF6BgYGBAQDAgIDBAQGBgb+hgYGBgQEAwICAwQEBgY5CgkJCQgIBwcGBQUEAwMBAQMDBAUFBgcHCAgJCQkKAfgKCQkJCAgHBwYFBQQDAwEBAwMEBQUGBwcICAkJCQr+CAH4EBAPDg4NDAsLCQcHBQQCAQEBAwQFBwcJCwsMDQ4ODwgQ/gAQEA8ODg0MCwsJBwcFBAIBAQEDBAUHBwkLCwwNDg4PEAIgAQIDBAQGBgYGBgYEBAMCAQECAwQEBgYGBgYGBAQDAl8CAgMEBQYGBggHCQgJCglACQoJCAkHCAYGBgUEAwICAgIDBAUGBgYIBwkICQoJQAkKCQgJBwgGBgYFBAMCAj8BAgQFBwgJCgsMDQ4PDwgPSBAPDw8ODQwLCgkIBwUEAQIBAgQFBwgJCgsMDQ4PDwgPSBAPDw8ODQwLCgkIBwUEAgAACAAAAAADWgNaACMARwCLAM8A8wEXAVsBnwAAAQ8HFR8HMz8HNS8HMw8HFR8HMz8HNS8HJTsBHw0dAg8NKwIvDT0CPw0hOwEfDR0CDw0rAi8NPQI/DRMPBxUfBzM/BzUvByEPBxUfBzM/BzUvBzc7AR8NHQIPDSsCLw09Aj8NITsBHw0dAg8NKwIvDT0CPw0BBAYGBgQEAwIBAQIDBAQGBgZ+BgYGBAQDAgEBAgMEBAYGBvwGBgYEBAMCAQECAwQEBgYGfgYGBgQEAwIBAQIDBAQGBgb+CH4KCQkJCAgHBwYFBQQDAwEBAwMEBQUGBwcICAkJCQp+CgkJCQgIBwcGBQUEAwMBAQMDBAUFBgcHCAgJCQkBhH4KCQkJCAgHBwYFBQQDAwEBAwMEBQUGBwcICAkJCQp+CgkJCQgIBwcGBQUEAwMBAQMDBAUFBgcHCAgJCQkKBgYGBAQDAgEBAgMEBAYGBn4GBgYEBAMCAQECAwQEBgYG/ggGBgYEBAMCAQECAwQEBgYGfgYGBgQEAwIBAQIDBAQGBgb8fgoJCQkICAcHBgUFBAMDAQEDAwQFBQYHBwgICQkJCn4KCQkJCAgHBwYFBQQDAwEBAwMEBQUGBwcICAkJCf6QfgoJCQkICAcHBgUFBAMDAQEDAwQFBQYHBwgICQkJCn4KCQkJCAgHBwYFBQQDAwEBAwMEBQUGBwcICAkJCQGiAQIDBAQGBgZ+BgYGBAQDAgEBAgMEBAYGBn4GBgYEBAMCAQECAwQEBgYGfgYGBgQEAwIBAQIDBAQGBgZ+BgYGBAQDAgE+AQMDBAUFBgcHCAgJCQkKfgoJCQkICAcHBgUFBAMDAQEDAwQFBQYHBwgICQkJCn4KCQkJCAgHBwYFBQQDAwEBAwMEBQUGBwcICAkJCQp+CgkJCQgIBwcGBQUEAwMBAQMDBAUFBgcHCAgJCQkK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AAEECQAAAAIAiQADAAEECQABABwAiwADAAEECQACAA4ApwADAAEECQADABwAtQADAAEECQAEABwA0QADAAEECQAFABYA7QADAAEECQAGABwBAwADAAEECQAKAFgBHwADAAEECQALACQBdyBCbGF6b3IgVG9vbGtpdFJlZ3VsYXJCbGF6b3IgVG9vbGtpdEJsYXpvciBUb29sa2l0VmVyc2lvbiAxLjBCbGF6b3IgVG9vbGtpdEZvbnQgZ2VuZXJhdGVkIHVzaW5nIFN5bmNmdXNpb24gTWV0cm8gU3R1ZGlvd3d3LnN5bmNmdXNpb24uY29tACAAQgBsAGEAegBvAHIAIABUAG8AbwBsAGsAaQB0AFIAZQBnAHUAbABhAHIAQgBsAGEAegBvAHIAIABUAG8AbwBsAGsAaQB0AEIAbABhAHoAbwByACAAVABvAG8AbABrAGkAdABWAGUAcgBzAGkAbwBuACAAMQAuADAAQgBsAGEAegBvAHIAIABUAG8AbwBsAGsAaQB0AEYAbwBuAHQAIABnAGUAbgBlAHIAYQB0AGUAZAAgAHUAcwBpAG4AZwAgAFMAeQBuAGMAZgB1AHMAaQBvAG4AIABNAGUAdAByAG8AIABTAHQAdQBkAGkAbwB3AHcAdwAuAHMAeQBuAGMAZgB1AHMAaQBvAG4ALgBjAG8AbQAAAAACAAAAAAAAAAoAAAAAAAAAAAAAAAAAAAAAAAAAAAAAADABAgEDAQQBBQEGAQcBCAEJAQoBCwEMAQ0BDgEPARABEQESARMBFAEVARYBFwEYARkBGgEbARwBHQEeAR8BIAEhASIBIwEkASUBJgEnASgBKQEqASsBLAEtAS4BLwEwATEACmNoZXZyb24tdXAMY2hldnJvbi1kb3duDGNoZXZyb24tbGVmdA1jaGV2cm9uLXJpZ2h0CGFycm93LXVwCmFycm93LWRvd24LYXJyb3ctcmlnaHQFY2hlY2sUaW50ZXJtZWRpYXRlLXN0YXRlLTIFY2xvc2UOdGltZWxpbmUtdG9kYXkMdGltZWxpbmUtZGF5BWNsb2NrBXBhdXNlBHBsYXkHcmVmcmVzaAV0cmFzaA1jaXJjbGUtcmVtb3ZlDXJlc2l6ZXItcmlnaHQRbW9yZS1ob3Jpem9udGFsLTESY2hldnJvbi1sZWZ0LXNtYWxsE2NoZXZyb24tcmlnaHQtc21hbGwPY2hldnJvbi11cC1maWxsEWNoZXZyb24tZG93bi1maWxsEWNoZXZyb24tbGVmdC1maWxsEmNoZXZyb24tcmlnaHQtZmlsbAVyZXNldAtzdGFyLWZpbGxlZBJjaGV2cm9uLWRvd24tc21hbGwQY2hldnJvbi11cC1zbWFsbAtyZXNpemVyLXJ0bAVpbnB1dAVjaGFydAdzcGlubmVyBnBvcHVwcwZidXR0b24HZXhwbG9yZRJzeXN0ZW0tcmVxdWlyZW1lbnQPYnJvd3Nlci1zdXBwb3J0CnJpZ2h0LWxlZnQRc3RhdGUtcGVyc2lzdGVuY2UNZ2xvYmFsaXphdGlvbgt0ZXh0LW1hdHJpeA1yZWxlYXNlLW5vdGVzDWFwaS1yZWZlcmVuY2UPZ2V0dGluZy1zdGFydGVkCWNhbGVuZGFycwAA) format('truetype');
 }
 
-::deep .sidebar .menu-group > ul > li {
-    padding-inline: 0;
+span.me-2.e-toolkit-icons.e-chevron-left {
+    font-size: 12px;
 }
 
-::deep .sidebar .menu-group > ul > li + li {
-    margin-top: 1px;
+.e-toolkit-icons {
+    font-family: "e-toolkit-icons";
+    font-style: normal;
+    font-variant: normal;
+    font-weight: 400;
+    line-height: 1;
+    font-size: 23px;
+    text-transform: none;
+    display: inline-block;
 }
 
-::deep .sidebar .menu-group > ul > li:last-child {
-    padding-bottom: 0;
+.e-toolkit-icons.e-explore::before           { content: "\e724"; }
+.e-toolkit-icons.e-getting-started::before   { content: "\e72d"; }
+.e-toolkit-icons.e-system-requirement::before{ content: "\e725"; }
+.e-toolkit-icons.e-browser-support::before   { content: "\e726"; }
+.e-toolkit-icons.e-right-left::before        { content: "\e727"; }
+.e-toolkit-icons.e-state-persistence::before { content: "\e728"; }
+.e-toolkit-icons.e-globalization::before     { content: "\e729"; }
+.e-toolkit-icons.e-text-matrix::before       { content: "\e72a"; }
+.e-toolkit-icons.e-chart::before             { content: "\e720"; }
+.e-toolkit-icons.e-button::before            { content: "\e723"; }
+.e-toolkit-icons.e-calendars::before         { content: "\e72e"; }
+.e-toolkit-icons.e-spinner::before           { content: "\e721"; }
+.e-toolkit-icons.e-input::before             { content: "\e71f"; }
+.e-toolkit-icons.e-popups::before            { content: "\e722"; }
+.e-toolkit-icons.e-api-reference::before     { content: "\e72c"; }
+.e-toolkit-icons.e-release-notes::before     { content: "\e72b"; }
+.e-toolkit-icons.e-chevron-left::before      { content: "\e702"; }
+
+/* ---------- 2. Forced-colors (Windows HCM) ---------- */
+@media (forced-colors: active) {
+    .sf-sidebar {
+        --sf-contrast-fg: CanvasText;
+        --sf-contrast-fg-muted: CanvasText;
+        --sf-contrast-hover-bg: Highlight;
+        --sf-contrast-hover-fg: HighlightText;
+        --sf-contrast-focus-ring: Highlight;
+        background-color: Canvas !important;
+        border-right: 1px solid ButtonText !important;
+        forced-color-adjust: none;
+    }
+    .sf-sidebar-footer { border-top: 1px solid ButtonText !important; }
 }
 
-/* RTL support */
-.page-rtl .sidebar .menu-summary,
-[dir="rtl"] .sidebar .menu-summary {
-    text-align: start;
+@media (forced-colors: active) {
+
+    .sf-sidebar-footer {
+        border-top: 1px solid ButtonText !important;
+        background: transparent !important;
+    }
+
+    .sf-playground-card {
+        background-color: Canvas !important;
+        border: 1px solid ButtonText !important;
+        box-shadow: none !important;
+        color: CanvasText !important;
+    }
+
+    .sf-playground-glow {
+        display: none !important;          /* decorative glow not needed in HCM */
+    }
+
+    .sf-playground-title,
+    .sf-playground-sub {
+        color: CanvasText !important;
+        -webkit-text-fill-color: CanvasText !important;
+    }
+
+    .sf-playground-btn {
+        background-color: ButtonFace !important;
+        color: ButtonText !important;
+        border: 1px solid ButtonText !important;
+        box-shadow: none !important;
+        forced-color-adjust: none;
+    }
+
+    .sf-playground-btn:hover,
+    .sf-playground-btn:focus-visible {
+        forced-color-adjust: none;
+        color: Highlight !important;
+        background-color: HighlightText !important;
+        border-color: Highlight !important;
+    }
 }
 
-.page-rtl .sidebar .nav-link,
-[dir="rtl"] .sidebar .nav-link {
-    text-align: start;
+/* ---------- 3. LEFT SIDEBAR – DEFAULT TEXT & ICONS ---------- */
+/* This is the critical fix: force every text-bearing element
+   and every icon to use the contrast foreground. */
+
+.sf-sidebar .sf-nav-link,
+.sf-sidebar .sf-menu-summary,
+.sf-sidebar .sf-sub-item .sf-nav-link,
+.sf-sidebar .sf-nav-link > span,
+.sf-sidebar .sf-menu-summary > span,
+.sf-sidebar .sf-menu-summary-label,
+.sf-sidebar .sf-view-all,
+.sf-sidebar .sf-view-all > span,
+.sf-sidebar .sf-menu-icon,
+.sf-sidebar .sf-caret,
+.sf-sidebar .sf-nav-external,
+.sf-sidebar .e-toolkit-icons {
+    /* No brand fallback: in normal theme --sf-contrast-fg is undefined,
+       the declaration is dropped, and the structural brand cascade wins.
+       Inside any contrast scope --sf-contrast-fg is defined so this fires. */
+    color: var(--sf-contrast-fg) !important;
+    -webkit-text-fill-color: var(--sf-contrast-fg) !important;
+    fill: var(--sf-contrast-fg) !important;
 }
 
-.page-rtl .sidebar .all-comp-class a,
-[dir="rtl"] .sidebar .all-comp-class a {
-    flex-direction: row-reverse;
+/* Muted / section labels */
+.sf-sidebar .sf-sidebar-group-label,
+.sf-sidebar .sf-sidebar-group-summary {
+    color: var(--sf-contrast-fg-muted) !important;
+    -webkit-text-fill-color: var(--sf-contrast-fg-muted) !important;
+}
+
+/* ---------- 4. HOVER / ACTIVE / FOCUS – FULL-WIDTH BAR ---------- */
+
+/* Group summary (Components header) */
+.sf-sidebar .sf-sidebar-group-summary:hover,
+.sf-sidebar .sf-sidebar-group-summary:focus-visible {
+    background-color: var(--sf-contrast-hover-bg) !important;
+    color: var(--sf-contrast-hover-fg) !important;
+}
+.sf-sidebar .sf-sidebar-group-summary:hover > *,
+.sf-sidebar .sf-sidebar-group-summary:focus-visible > * {
+    color: var(--sf-contrast-hover-fg) !important;
+    -webkit-text-fill-color: var(--sf-contrast-hover-fg) !important;
+    background-color: transparent !important;
+}
+
+/* Accordion <summary> - hover/focus only.
+   IMPORTANT: an open parent whose child is the active page must NOT
+   inherit the hover bar. Otherwise the user sees two selected items
+   stacked vertically (parent + selected child). The "expanded but
+   containing active child" case is handled separately below. */
+.sf-sidebar details.sf-menu-group > summary.sf-menu-summary:hover,
+.sf-sidebar details.sf-menu-group > summary.sf-menu-summary:focus-visible {
+    background-color: var(--sf-contrast-hover-bg) !important;
+    color: var(--sf-contrast-hover-fg) !important;
+}
+
+.sf-sidebar details.sf-menu-group > summary.sf-menu-summary:hover > *,
+.sf-sidebar details.sf-menu-group > summary.sf-menu-summary:focus-visible > *,
+.sf-sidebar details.sf-menu-group > summary.sf-menu-summary:hover .sf-menu-icon,
+.sf-sidebar details.sf-menu-group > summary.sf-menu-summary:focus-visible .sf-menu-icon,
+.sf-sidebar details.sf-menu-group > summary.sf-menu-summary:hover .sf-caret,
+.sf-sidebar details.sf-menu-group > summary.sf-menu-summary:focus-visible .sf-caret {
+    color: var(--sf-contrast-hover-fg) !important;
+    -webkit-text-fill-color: var(--sf-contrast-hover-fg) !important;
+    background-color: transparent !important;
+}
+
+/* Parent-group expanded because a child is active. The summary
+   keeps its default (non-hover) text colour but becomes bold and
+   uses the active accent foreground. No background bar. */
+.sf-sidebar details.sf-menu-group[open]:has(.sf-nav-item.is-active) > summary.sf-menu-summary,
+.sf-sidebar details.sf-menu-group[open]:has(.sf-nav-item.is-active) > summary.sf-menu-summary > *,
+.sf-sidebar details.sf-menu-group[open]:has(.sf-nav-item.is-active) > summary.sf-menu-summary .sf-menu-icon,
+.sf-sidebar details.sf-menu-group[open]:has(.sf-nav-item.is-active) > summary.sf-menu-summary .sf-caret {
+    color: var(--sf-contrast-hover-fg) !important;
+    -webkit-text-fill-color: var(--sf-contrast-hover-fg) !important;
+    background-color: transparent !important;
+    font-weight: 700;
+}
+
+.sf-sidebar li.sf-nav-item:not(:has(> details)):hover > .sf-nav-link,
+.sf-sidebar li.sf-nav-item:not(:has(> details)).is-active > .sf-nav-link,
+.sf-sidebar li.sf-nav-item.sf-sub-item:hover > .sf-nav-link,
+.sf-sidebar li.sf-nav-item.sf-sub-item.is-active > .sf-nav-link,
+.sf-sidebar li.sf-nav-item:not(:has(> details)):focus-within > .sf-nav-link,
+.sf-sidebar li.sf-nav-item.sf-sub-item:focus-within > .sf-nav-link,
+.sf-sidebar li.sf-nav-item:not(:has(> details)):hover > .sf-nav-link > *,
+.sf-sidebar li.sf-nav-item:not(:has(> details)).is-active > .sf-nav-link > *,
+.sf-sidebar li.sf-nav-item.sf-sub-item:hover > .sf-nav-link > *,
+.sf-sidebar li.sf-nav-item.sf-sub-item.is-active > .sf-nav-link > *,
+.sf-sidebar li.sf-nav-item:not(:has(> details)):hover .sf-menu-icon,
+.sf-sidebar li.sf-nav-item:not(:has(> details)).is-active .sf-menu-icon,
+.sf-sidebar li.sf-nav-item.sf-sub-item:hover .sf-menu-icon,
+.sf-sidebar li.sf-nav-item.sf-sub-item.is-active .sf-menu-icon,
+.sf-sidebar li.sf-nav-item:not(:has(> details)):hover .sf-caret,
+.sf-sidebar li.sf-nav-item:not(:has(> details)).is-active .sf-caret,
+.sf-sidebar li.sf-nav-item.sf-sub-item:hover .sf-caret,
+.sf-sidebar li.sf-nav-item.sf-sub-item.is-active .sf-caret {
+    color: var(--sf-contrast-hover-fg) !important;
+    -webkit-text-fill-color: var(--sf-contrast-hover-fg) !important;
+    background-color: transparent !important;
+    fill: var(--sf-contrast-hover-fg) !important;
+}
+
+/* Nested children (any depth) stay default until hovered/active */
+.sf-sidebar .sf-sub-list li.sf-nav-item > .sf-nav-link,
+.sf-sidebar .sf-sub-list li.sf-nav-item > .sf-nav-link > *,
+.sf-sidebar .sf-sub-list li.sf-nav-item > .sf-nav-link .sf-menu-icon,
+.sf-sidebar .sf-sub-list li.sf-nav-item > .sf-nav-link .sf-caret,
+.sf-sidebar .sf-sub-list li.sf-nav-item > .sf-nav-link .sf-nav-external {
+    color: var(--sf-contrast-fg) !important;
+    -webkit-text-fill-color: var(--sf-contrast-fg) !important;
+    fill: var(--sf-contrast-fg) !important;
+}
+
+.sf-sidebar .sf-sub-list li.sf-nav-item.sf-sub-item:hover > .sf-nav-link,
+.sf-sidebar .sf-sub-list li.sf-nav-item.sf-sub-item.is-active > .sf-nav-link,
+.sf-sidebar .sf-sub-list li.sf-nav-item.sf-sub-item:focus-within > .sf-nav-link,
+.sf-sidebar .sf-sub-list li.sf-nav-item:not(:has(> details)):hover > .sf-nav-link,
+.sf-sidebar .sf-sub-list li.sf-nav-item:not(:has(> details)).is-active > .sf-nav-link,
+.sf-sidebar .sf-sub-list li.sf-nav-item:not(:has(> details)):focus-within > .sf-nav-link,
+.sf-sidebar .sf-sub-list li.sf-nav-item.sf-sub-item:hover > .sf-nav-link > *,
+.sf-sidebar .sf-sub-list li.sf-nav-item.sf-sub-item.is-active > .sf-nav-link > *,
+.sf-sidebar .sf-sub-list li.sf-nav-item.sf-sub-item:focus-within > .sf-nav-link > *,
+.sf-sidebar .sf-sub-list li.sf-nav-item:not(:has(> details)):hover > .sf-nav-link > *,
+.sf-sidebar .sf-sub-list li.sf-nav-item:not(:has(> details)).is-active > .sf-nav-link > *,
+.sf-sidebar .sf-sub-list li.sf-nav-item:not(:has(> details)):focus-within > .sf-nav-link > *,
+.sf-sidebar .sf-sub-list li.sf-nav-item.sf-sub-item:hover .sf-menu-icon,
+.sf-sidebar .sf-sub-list li.sf-nav-item.sf-sub-item.is-active .sf-menu-icon,
+.sf-sidebar .sf-sub-list li.sf-nav-item.sf-sub-item:focus-within .sf-menu-icon,
+.sf-sidebar .sf-sub-list li.sf-nav-item.sf-sub-item:hover .sf-caret,
+.sf-sidebar .sf-sub-list li.sf-nav-item.sf-sub-item.is-active .sf-caret,
+.sf-sidebar .sf-sub-list li.sf-nav-item.sf-sub-item:focus-within .sf-caret {
+    color: var(--sf-contrast-hover-fg) !important;
+    -webkit-text-fill-color: var(--sf-contrast-hover-fg) !important;
+    background-color: transparent !important;
+    fill: var(--sf-contrast-hover-fg) !important;
+}
+
+/* ---------- 4b. HELP / "Need help?" / Playground EXCLUSION ---------- */
+/* These elements must NEVER receive the contrast hover/active bar or
+   inverted text in normal/dark/highcontrast CSS-themes (Aquatic, Desert,
+   Dusk, Night sky). They keep their neutral styling there.
+
+   The rule is wrapped in a NOT-forced-colors guard so the dedicated
+   `@media (forced-colors: active)` block above can repaint the
+   Playground card and button with OS system-colours (CanvasText /
+   ButtonFace / ButtonText / Highlight). Without this guard the forced-
+   colors declarations lose the `!important` specificity war and the
+   title + subtitle + button disappear. */
+@media not (forced-colors: active) {
+    .sf-sidebar .sf-sidebar-footer,
+    .sf-sidebar .sf-playground-card,
+    .sf-sidebar .sf-playground-card *,
+    .sf-sidebar .sf-playground-btn {
+        /* background-color: transparent !important;
+        color: inherit !important; */
+        -webkit-text-fill-color: inherit !important;
+        fill: inherit !important;
+    }
+    .sf-sidebar .sf-sidebar-footer:hover,
+    .sf-sidebar .sf-sidebar-footer:focus,
+    .sf-sidebar .sf-sidebar-footer:focus-within,
+    .sf-sidebar .sf-playground-card:hover,
+    .sf-sidebar .sf-playground-card:focus,
+    .sf-sidebar .sf-playground-card:focus-within,
+    .sf-sidebar .sf-playground-btn:hover,
+    .sf-sidebar .sf-playground-btn:focus,
+    .sf-sidebar .sf-playground-btn:focus-visible,
+    .sf-sidebar .sf-playground-btn:active,
+    .sf-sidebar .sf-playground-card .sf-playground-title,
+    .sf-sidebar .sf-playground-card .sf-playground-sub {
+        background-color: transparent !important;
+        color: inherit !important;
+        -webkit-text-fill-color: inherit !important;
+        fill: inherit !important;
+    }
+}
+
+/* ---------- 5. Focus ring (sidebar links only - playground excluded) ---------- */
+.sf-sidebar .sf-nav-link:focus-visible,
+.sf-sidebar .sf-menu-summary:focus-visible,
+.sf-sidebar .sf-sidebar-group-summary:focus-visible,
+.sf-sidebar .sf-view-all:focus-visible {
+    outline: 2px solid var(--sf-contrast-focus-ring, var(--sf-sidebar-border)) !important;
+    outline-offset: -2px !important;
+}
+
+/* ---------- 6. "All Components" chip ---------- */
+.sf-sidebar li.all-comp-class > a {
+    color: var(--sf-contrast-fg) !important;
+    background-color: var(--sf-contrast-hover-bg) !important;
+    border: 1px solid var(--sf-contrast-fg) !important;
+    border-radius: 4px !important;
+    padding: 4px 10px !important;
+    font-weight: 700 !important;
+    -webkit-text-fill-color: var(--sf-contrast-fg) !important;
+}
+.sf-sidebar li.all-comp-class > a:hover,
+.sf-sidebar li.all-comp-class > a:focus-visible {
+    background-color: var(--sf-contrast-hover-bg) !important;
+    color: var(--sf-contrast-hover-fg) !important;
+    border-color: var(--sf-contrast-hover-fg) !important;
+    -webkit-text-fill-color: var(--sf-contrast-hover-fg) !important;
+}
+
+/* ===============================================================
+   FORCED-COLORS – LEFT SIDEBAR (unfocused baseline only)
+   ---------------------------------------------------------------
+   Windows Contrast themes (Aquatic, Desert, Dusk, Night sky) are
+   detected ONLY via `@media (forced-colors: active)`. The OS picks
+   the right palette (yellow, dark brown, teal, periwinkle) – we
+   must NOT hard-code #FFFF00 / #5C4033 / etc.
+
+   Block matches the unfocused baseline only. NO :hover / .is-active
+   / :focus-within / :focus-visible selectors are included, so the
+   existing Highlight / HighlightText bar stays intact.
+   =============================================================== */
+@media (forced-colors: active) {
+
+  /* Unfocused text & icons – let the OS choose the colour */
+  .sf-sidebar .sf-nav-link,
+  .sf-sidebar .sf-menu-summary,
+  .sf-sidebar .sf-sub-item .sf-nav-link,
+  .sf-sidebar .sf-nav-link > span,
+  .sf-sidebar .sf-menu-summary > span,
+  .sf-sidebar .sf-menu-icon,
+  .sf-sidebar .sf-caret,
+  .sf-sidebar .e-toolkit-icons,
+  .sf-sidebar .sf-view-all,
+  .sf-sidebar .sf-sidebar-group-summary,
+  .sf-sidebar .sf-nav-external {
+    color: ButtonText !important;
+    -webkit-text-fill-color: ButtonText !important;
+    fill: CanvasText !important;
+    background-color: transparent !important;
+  }
+
+  /* Right sidebar TOC – unfocused links */
+  .on-this-page a,
+  .toc a,
+  .right-sidebar a {
+    color: CanvasText !important;
+    -webkit-text-fill-color: CanvasText !important;
+  }
+
+    .sf-sidebar li.sf-nav-item:not(:has(> details)):hover,
+    .sf-sidebar li.sf-nav-item:not(:has(> details)).is-active,
+    .sf-sidebar li.sf-nav-item.sf-sub-item:hover,
+    .sf-sidebar li.sf-nav-item.sf-sub-item.is-active,
+    .sf-sidebar li.sf-nav-item:not(:has(> details)):focus-within,
+    .sf-sidebar li.sf-nav-item.sf-sub-item:focus-within {
+        background-color: var(--sf-contrast-hover-bg) !important;
+    }
+
+    /* Selected item gets its left accent bar matching the active fill.
+       This is the secondary "shape" cue required by WCAG 1.4.1 -
+       not colour alone. */
+    .sf-sidebar li.sf-nav-item.is-active::before {
+        background-color: Highlight !important;
+    }
+
+    /* Parent-of-selected (the accordion header that contains an
+       active child) - no background, but force underline-style
+       accent on the inner icon/caret via font-weight so the
+       association is obvious without adding a second coloured bar. */
+    .sf-sidebar details.sf-menu-group[open]:has(.sf-nav-item.is-active) > summary.sf-menu-summary,
+    .sf-sidebar details.sf-menu-group[open]:has(.sf-nav-item.is-active) > summary.sf-menu-summary > *,
+    .sf-sidebar details.sf-menu-group[open]:has(.sf-nav-item.is-active) > summary.sf-menu-summary .sf-menu-icon,
+    .sf-sidebar details.sf-menu-group[open]:has(.sf-nav-item.is-active) > summary.sf-menu-summary {
+        background-color: transparent !important;
+        font-weight: 700;
+        color: ButtonText !important;
+        -webkit-text-fill-color: ButtonText !important;
+    }
+}
+
+/* ===============================================================
+   FORCED-COLORS – Left sidebar unfocused text → ButtonText
+   Highest specificity + placed last so it overrides
+   any remaining var(--sf-contrast-fg) rules.
+   =============================================================== */
+@media (forced-colors: active) {
+
+    .sf-sidebar .sf-nav-link,
+    .sf-sidebar .sf-menu-summary,
+    .sf-sidebar .sf-sub-item .sf-nav-link,
+    .sf-sidebar .sf-sub-list .sf-nav-link,
+    .sf-sidebar .sf-sub-list li.sf-nav-item > .sf-nav-link,
+    .sf-sidebar .sf-sub-list li.sf-nav-item > .sf-nav-link > span,
+    .sf-sidebar .sf-nav-link > span,
+    .sf-sidebar .sf-menu-summary > span,
+    .sf-sidebar .sf-menu-summary-label,
+    .sf-sidebar .sf-menu-icon,
+    .sf-sidebar .sf-caret,
+    .sf-sidebar .e-toolkit-icons,
+    .sf-sidebar .sf-view-all,
+    .sf-sidebar .sf-sidebar-group-summary,
+    .sf-sidebar .sf-nav-external {
+        color: ButtonText !important;
+        -webkit-text-fill-color: ButtonText !important;
+        fill: ButtonText !important;
+        background-color: transparent !important;
+    }
+
+    /* Explicitly kill the old contrast variable on these elements */
+    .sf-sidebar {
+        --sf-contrast-fg: HighlightText;
+        --sf-contrast-fg-muted: HighlightText;
+    }
+}
+
+/* ===============================================================
+   FORCED-COLORS – “ALL COMPONENTS” chip
+   =============================================================== */
+@media (forced-colors: active) {
+
+    .sf-sidebar li.all-comp-class > a {
+        background-color: transparent !important;
+        color: ButtonText !important;
+        -webkit-text-fill-color: ButtonText !important;
+        border: 1px solid ButtonText !important;
+        border-radius: 4px !important;
+        padding: 4px 10px !important;
+        font-weight: 700 !important;
+        forced-color-adjust: none;
+    }
+
+    .sf-sidebar .sf-sidebar-group-label {
+        color: CanvasText !important;
+        -webkit-text-fill-color: CanvasText !important;
+    }
+
+    .sf-sidebar li.all-comp-class > a:hover,
+    .sf-sidebar li.all-comp-class > a:focus-visible {
+        background-color: Highlight !important;
+        color: HighlightText !important;
+        -webkit-text-fill-color: HighlightText !important;
+        border-color: HighlightText !important;
+    }
+
+    /* Icon inside the chip (chevron) */
+    .sf-sidebar li.all-comp-class > a .e-toolkit-icons,
+    .sf-sidebar li.all-comp-class > a svg {
+        color: HighlightText !important;
+        fill: HighlightText !important;
+    }
+
+    .sf-sidebar li.all-comp-class > a:hover .e-toolkit-icons.e-chevron-left::before {
+        color: HighlightText !important;
+        fill: HighlightText !important;
+        -webkit-text-fill-color: HighlightText !important;
+    }
+
+    .e-toolkit-icons.e-chevron-left::before {
+        color: ButtonText !important;
+        fill: ButtonText !important;
+        -webkit-text-fill-color: ButtonText !important;
+    }
+    
 }

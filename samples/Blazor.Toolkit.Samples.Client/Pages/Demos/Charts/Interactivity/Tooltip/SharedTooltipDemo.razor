@@ -1,0 +1,70 @@
+<SfChart @key="@_currentTheme" Theme="@_currentTheme" Background="Transparent" Title="Population Distribution of the Top 5 Most Populous Countries (2024)" EnableSideBySidePlacement="false">
+    <ChartPrimaryXAxis LabelRotation="0" ValueType="Syncfusion.Blazor.Toolkit.ValueType.Category">
+    </ChartPrimaryXAxis>
+    <ChartPrimaryYAxis Format="{value}M" Title="Inhabitants (Millions)" Interval="300">
+        <ChartAxisLineStyle Width="0" />
+    </ChartPrimaryYAxis>
+
+    <ChartSeries DataSource="@populationData"
+                 XName="Country"
+                 YName="Population"
+                 Name="Total"
+                 Type="ChartSeriesType.Column"
+                 Fill="#7A4BFD"
+                 Width="0.4"
+                 ColumnSpacing="0.4">
+        <ChartCornerRadius TopLeft="4" TopRight="4" />
+    </ChartSeries>
+    <ChartSeries DataSource="@populationData"
+                 XName="Country"
+                 YName="Male"
+                 Name="Male"
+                 Type="ChartSeriesType.Column"
+                 Fill="#FE825C"
+                 Width="0.3"
+                 ColumnSpacing="0.4">
+        <ChartCornerRadius TopLeft="4" TopRight="4" />
+    </ChartSeries>
+    <ChartSeries DataSource="@populationData"
+                 XName="Country"
+                 YName="Female"
+                 Name="Female"
+                 Type="ChartSeriesType.Column"
+                 Fill="#FFDE63"
+                 Width="0.2"
+                 ColumnSpacing="0.4">
+        <ChartCornerRadius TopLeft="4" TopRight="4" />
+    </ChartSeries>
+
+    <ChartTooltipSettings Enable="true" Shared="true" />
+</SfChart>
+
+@code {
+    [CascadingParameter]
+    private Theme CurrentTheme { get; set; } = Theme.Fluent;
+
+    private Theme _currentTheme = Theme.Fluent;
+
+    protected override void OnParametersSet()
+    {
+        base.OnParametersSet();
+        _currentTheme = CurrentTheme;
+    }
+
+    public class PopulationData
+    {
+        public string Country { get; set; } = string.Empty;
+        public double Population { get; set; }
+        public double Male { get; set; }
+        public double Female { get; set; }
+    }
+
+    public List<PopulationData> populationData = new()
+    {
+        new PopulationData { Country = "India", Population = 1450.935791, Male = 748.323427, Female = 702.612364 },
+        new PopulationData { Country = "China", Population = 1419.321278, Male = 723.023723, Female = 696.297555 },
+        new PopulationData { Country = "USA", Population = 345.426571, Male = 173.551527, Female = 171.875044 },
+        new PopulationData { Country = "Indonesia", Population = 283.487931, Male = 142.407931, Female = 141.080014 },
+        new PopulationData { Country = "Pakistan", Population = 251.269164, Male = 127.433405, Female = 123.835758 }
+    };
+}

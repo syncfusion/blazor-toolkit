@@ -1,0 +1,114 @@
+@using Syncfusion.Blazor.Toolkit.Buttons
+<div class="property-pane" style="width: 100%;">
+    <div class="row">
+        <div class="col">
+            <label class="fw-bold">Highlight Mode</label>
+            <SfButtonGroup Mode="SelectionMode.Single">
+                <Button Selected="SelectedHighlightMode == HighlightMode.Series" SelectedChanged="@(v => { if (v) SelectedHighlightMode = HighlightMode.Series; })">Series</Button>
+                <Button Selected="SelectedHighlightMode == HighlightMode.Point" SelectedChanged="@(v => { if (v) SelectedHighlightMode = HighlightMode.Point; })">Point</Button>
+                <Button Selected="SelectedHighlightMode == HighlightMode.Cluster" SelectedChanged="@(v => { if (v) SelectedHighlightMode = HighlightMode.Cluster; })">Cluster</Button>
+            </SfButtonGroup>
+        </div>
+
+        <div class="col">
+            <label class="fw-bold">Highlight Pattern</label>
+            <SfButtonGroup Mode="SelectionMode.Single">
+                <Button Selected="SelectedHighlightPattern == SelectionPattern.None" SelectedChanged="@(v => { if (v) SelectedHighlightPattern = SelectionPattern.None; })">None</Button>
+                <Button Selected="SelectedHighlightPattern == SelectionPattern.Chessboard" SelectedChanged="@(v => { if (v) SelectedHighlightPattern = SelectionPattern.Chessboard; })">Chessboard</Button>
+                <Button Selected="SelectedHighlightPattern == SelectionPattern.DiagonalForward" SelectedChanged="@(v => { if (v) SelectedHighlightPattern = SelectionPattern.DiagonalForward; })">DiagonalForward</Button>
+                <Button Selected="SelectedHighlightPattern == SelectionPattern.DiagonalBackward" SelectedChanged="@(v => { if (v) SelectedHighlightPattern = SelectionPattern.DiagonalBackward; })">DiagonalBackward</Button>
+            </SfButtonGroup>
+        </div>
+    </div>
+</div>
+
+<SfChart @key="@_currentTheme" Title="Global Electric Vehicle (EV) Sales by Brand (2021-2025)" Theme="@_currentTheme"
+         SubTitle="Source: gartner.com"
+         HighlightMode="SelectedHighlightMode"
+         HighlightPattern="SelectedHighlightPattern">
+
+    <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Toolkit.ValueType.Category" />
+
+    <ChartPrimaryYAxis Title="Units Sold (in Millions)"
+                       LabelFormat="{value}M">
+    </ChartPrimaryYAxis>
+
+    <ChartSeries DataSource="@TeslaSales"
+                 XName="Year"
+                 YName="Count"
+                 Type="ChartSeriesType.Column"
+                 Name="Tesla"
+                 Fill="#05B3DA"
+                 ColumnSpacing="0.1"
+                 CornerRadius="new ChartCornerRadius { TopLeft = 6, TopRight = 6 }">
+    </ChartSeries>
+
+    <ChartSeries DataSource="@BydSales"
+                 XName="Year"
+                 YName="Count"
+                 Type="ChartSeriesType.Column"
+                 Name="BYD"
+                 Fill="#E77A16"
+                 ColumnSpacing="0.1"
+                 CornerRadius="new ChartCornerRadius { TopLeft = 6, TopRight = 6 }">
+    </ChartSeries>
+
+    <ChartSeries DataSource="@VolkswagenSales"
+                 XName="Year"
+                 YName="Count"
+                 Type="ChartSeriesType.Column"
+                 Name="Volkswagen"
+                 Fill="#6200EE"
+                 ColumnSpacing="0.1"
+                 CornerRadius="new ChartCornerRadius { TopLeft = 6, TopRight = 6 }">
+    </ChartSeries>
+</SfChart>
+
+@code {
+    [CascadingParameter]
+    private Theme CurrentTheme { get; set; } = Theme.Fluent;
+
+    private Theme _currentTheme = Theme.Fluent;
+
+    protected override void OnParametersSet()
+    {
+        base.OnParametersSet();
+        _currentTheme = CurrentTheme;
+    }
+
+    private HighlightMode SelectedHighlightMode { get; set; } = HighlightMode.Series;
+    private SelectionPattern SelectedHighlightPattern { get; set; } = SelectionPattern.None;
+
+    public class SalesData
+    {
+        public string Year { get; set; } = string.Empty;
+        public double Count { get; set; }
+    }
+
+    public List<SalesData> TeslaSales = new()
+    {
+        new() { Year = "2021", Count = 0.936 },
+        new() { Year = "2022", Count = 1.31 },
+        new() { Year = "2023", Count = 1.80 },
+        new() { Year = "2024", Count = 1.79 },
+        new() { Year = "2025", Count = 1.65 }
+    };
+
+    public List<SalesData> BydSales = new()
+    {
+        new() { Year = "2021", Count = 0.32 },
+        new() { Year = "2022", Count = 0.91 },
+        new() { Year = "2023", Count = 1.57 },
+        new() { Year = "2024", Count = 1.77 },
+        new() { Year = "2025", Count = 2.10 }
+    };
+
+    public List<SalesData> VolkswagenSales = new()
+    {
+        new() { Year = "2021", Count = 0.45 },
+        new() { Year = "2022", Count = 0.57 },
+        new() { Year = "2023", Count = 0.77 },
+        new() { Year = "2024", Count = 0.85 },
+        new() { Year = "2025", Count = 1.00 }
+    };
+}

@@ -1,0 +1,91 @@
+<SfChart @key="@_currentTheme" Title="C & F Temperature Overview Across Cities" Theme="@_currentTheme">
+    <ChartArea>
+        <ChartAreaBorder Width="0" />
+    </ChartArea>
+
+    <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Toolkit.ValueType.Category"
+                       Interval="1"
+                       LabelIntersectAction="LabelIntersectAction.Rotate90">
+        <ChartAxisMajorGridLines Width="0" />
+        <ChartAxisMajorTickLines Width="0" />
+        <ChartAxisMinorTickLines Width="0" />
+    </ChartPrimaryXAxis>
+
+    <ChartPrimaryYAxis Minimum="0"
+                       Maximum="100"
+                       Interval="20"
+                       LabelFormat="{value}°F">
+        <ChartAxisLineStyle Width="0" />
+        <ChartAxisMajorTickLines Width="0" />
+    </ChartPrimaryYAxis>
+
+    <ChartAxis Name="yAxis2"
+               Minimum="24"
+               Maximum="36"
+               Interval="2"
+               OpposedPosition="true"
+               RowIndex="0"
+               LabelFormat="{value}°C">
+        <ChartAxisMajorGridLines Width="0" />
+        <ChartAxisLineStyle Width="0" />
+        <ChartAxisMajorTickLines Width="0" />
+    </ChartAxis>
+
+    <ChartSeries DataSource="@MultipleAxisData"
+                 XName="X"
+                 YName="Y1"
+                 Type="ChartSeriesType.Column"
+                 Name="Temperature in °F"
+                 Fill="#856EEBE5"
+                 ColumnWidth="0.4">
+        <ChartCornerRadius TopLeft="6"
+                           TopRight="6" />
+    </ChartSeries>
+
+    <ChartSeries DataSource="@MultipleAxisData"
+                 XName="X"
+                 YName="Y2"
+                 YAxisName="yAxis2"
+                 Type="ChartSeriesType.Spline"
+                 Name="Temperature in °C"
+                 Width="2"
+                 Fill="#DF4E6D">
+        <ChartMarker Visible="true" IsFilled="true" />
+    </ChartSeries>
+
+    <ChartTooltipSettings Enable="true"
+                          Header="${point.x}"
+                          Format="Temperature : <b>${point.y}</b>"
+                          EnableHighlight="true" />
+</SfChart>
+
+@code {
+    [CascadingParameter]
+    private Theme CurrentTheme { get; set; } = Theme.Fluent;
+
+    private Theme _currentTheme = Theme.Fluent;
+
+    protected override void OnParametersSet()
+    {
+        base.OnParametersSet();
+        _currentTheme = CurrentTheme;
+    }
+
+    public class TemperatureAxisPoint
+    {
+        public string X { get; set; } = string.Empty;
+        public double Y1 { get; set; }
+        public double Y2 { get; set; }
+    }
+
+    public List<TemperatureAxisPoint> MultipleAxisData = new()
+    {
+        new() { X = "Sun", Y1 = 35, Y2 = 30 },
+        new() { X = "Mon", Y1 = 40, Y2 = 28 },
+        new() { X = "Tue", Y1 = 80, Y2 = 29 },
+        new() { X = "Wed", Y1 = 70, Y2 = 30 },
+        new() { X = "Thu", Y1 = 65, Y2 = 33 },
+        new() { X = "Fri", Y1 = 55, Y2 = 32 },
+        new() { X = "Sat", Y1 = 50, Y2 = 34 }
+    };
+}

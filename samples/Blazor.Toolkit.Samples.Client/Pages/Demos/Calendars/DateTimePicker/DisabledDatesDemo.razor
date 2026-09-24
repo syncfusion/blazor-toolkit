@@ -1,0 +1,15 @@
+﻿<SfDateTimePicker TValue="DateTime?" Width="300px" @ref="@DateTimePickerObj" ShowClearButton="true" DayCellRendering="@DisableDate" Placeholder="Select a date and time" />
+@code {
+    private SfDateTimePicker<DateTime?>? DateTimePickerObj { get; set; }
+    private void DisableDate(RenderDayCellEventArgs args)
+    {
+        if (DateTimePickerObj != null)
+        {
+            var view = DateTimePickerObj.CurrentView();
+            if (view == "Month" && ((int)args.Date.DayOfWeek == 0 || (int)args.Date.DayOfWeek == 6))
+            {
+                args.IsDisabled = true;
+            }
+        }
+    }
+}

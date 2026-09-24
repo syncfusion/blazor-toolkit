@@ -1,0 +1,101 @@
+<div style="padding:15px; display:flex; gap:25px; margin-bottom:20px;">
+    <!-- Column Spacing -->
+    <div>
+        <label>
+            <b>Column Spacing:</b> @ColumnSpacing.ToString("0.00")
+        </label><br />
+        <input type="range"
+               min="0.1"
+               max="1"
+               step="0.01"
+               @bind="ColumnSpacing" />
+    </div>
+
+    <!-- Column Width -->
+    <div>
+        <label>
+            <b>Column Width:</b> @ColumnWidth.ToString("0.00")
+        </label><br />
+        <input type="range"
+               min="0.1"
+               max="1"
+               step="0.01"
+               @bind="ColumnWidth" />
+    </div>
+</div>
+
+<SfChart @key="@_currentTheme" Title="Global Smartphone Sales Trends by Brand (2021-2023)" Theme="@_currentTheme">
+    <!-- Tooltip -->
+    <ChartTooltipSettings Enable="true"
+                          Format="${point.x} : <b>${point.y}M</b>" />
+
+    <!-- X Axis -->
+    <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Toolkit.ValueType.Category">
+    </ChartPrimaryXAxis>
+
+    <!-- Y Axis -->
+    <ChartPrimaryYAxis Maximum="300" Title="Units Sold (in Millions)" Format="{value}M">
+    </ChartPrimaryYAxis>
+
+    <!-- Series -->
+    <ChartSeries DataSource="@PaletteData"
+                 XName="Year"
+                 YName="Apple"
+                 Type="ChartSeriesType.Bar"
+                 Fill="#8AA624"
+                 ColumnSpacing="@ColumnSpacing"
+                 ColumnWidth="@ColumnWidth"
+                 Name="Apple">
+    </ChartSeries>
+
+    <ChartSeries DataSource="@PaletteData"
+                 XName="Year"
+                 YName="Xiaomi"
+                 Type="ChartSeriesType.Bar"
+                 Fill="#D25D5D"
+                 ColumnSpacing="@ColumnSpacing"
+                 ColumnWidth="@ColumnWidth"
+                 Name="Xiaomi">
+    </ChartSeries>
+
+    <ChartSeries DataSource="@PaletteData"
+                 XName="Year"
+                 YName="Oppo"
+                 Type="ChartSeriesType.Bar"
+                 Fill="#239BA7"
+                 ColumnSpacing="@ColumnSpacing"
+                 ColumnWidth="@ColumnWidth"
+                 Name="Oppo">
+    </ChartSeries>
+</SfChart>
+
+@code {
+    [CascadingParameter]
+    private Theme CurrentTheme { get; set; } = Theme.Fluent;
+
+    private Theme _currentTheme = Theme.Fluent;
+
+    protected override void OnParametersSet()
+    {
+        base.OnParametersSet();
+        _currentTheme = CurrentTheme;
+    }
+
+    private double ColumnSpacing = 0.15;
+    private double ColumnWidth = 0.5;
+
+    public class PhonePalette
+    {
+        public string Year { get; set; } = string.Empty;
+        public double Apple { get; set; }
+        public double Xiaomi { get; set; }
+        public double Oppo { get; set; }
+    }
+
+    public List<PhonePalette> PaletteData = new()
+    {
+        new() { Year = "2021", Apple = 237, Xiaomi = 190, Oppo = 143 },
+        new() { Year = "2022", Apple = 226.4, Xiaomi = 153.1, Oppo = 103.3 },
+        new() { Year = "2023", Apple = 234.6, Xiaomi = 145.9, Oppo = 103.1 }
+    };
+}

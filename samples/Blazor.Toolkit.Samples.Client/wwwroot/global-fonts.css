@@ -1,4 +1,4 @@
-﻿/* ============================================================
+/* ============================================================
    GLOBAL TYPOGRAPHY SYSTEM - MODERN DOCUMENTATION UI
    ============================================================
    A unified typography system designed for:
@@ -64,7 +64,7 @@ body, html {
 
 h1, .h1 {
     font-size: var(--font-size-3xl);
-    font-weight: var(--font-weight-semibold);
+    font-weight: var(--font-weight-bold);
     line-height: var(--line-height-tight);
     letter-spacing: var(--letter-spacing-tight);
     color: var(--text-color);
@@ -92,8 +92,8 @@ h3, .h3 {
 }
 
 h4, .h4 {
-    font-size: var(--font-size-lg);
-    font-weight: var(--font-weight-semibold);
+    font-size: 34px;
+    font-weight: var(--font-weight-bold);
     line-height: var(--line-height-tight);
     color: var(--text-color);
     margin-bottom: 0.5rem;
@@ -101,7 +101,7 @@ h4, .h4 {
 }
 
 h5, .h5 {
-    font-size: var(--font-size-md);
+    font-size: 24px;
     font-weight: var(--font-weight-semibold);
     line-height: var(--line-height-normal);
     color: var(--text-color);
@@ -110,7 +110,7 @@ h5, .h5 {
 }
 
 h6, .h6 {
-    font-size: var(--font-size-base);
+    font-size: 20px;
     font-weight: var(--font-weight-semibold);
     line-height: var(--line-height-normal);
     color: var(--text-color);
@@ -148,13 +148,26 @@ p + p {
    ============================================================ */
 
 a {
-    color: #6750a4;
+    color: var(--sf-text);
     text-decoration: none;
     transition: color .2s ease, text-decoration .2s ease;
+    padding-left: 3px;
 }
 
 a:hover {
-    color: #5a4190;
+    color: var(--sf-text);
+}
+
+a.sf-nav-link {
+    inset: 0 !important;
+    display: flex !important;
+    /* First column = <li> left padding (20px) + accent strip (3px),
+    so the text in column 2 starts at the same x as before. */
+    grid-template-columns: calc(20px + var(--sf-sidebar-accent-w)) 1fr 20px;
+    align-items: center;
+    column-gap: 0;
+    gap: 12px;
+    color: var(--text-color);
 }
 
 a:focus-visible {
@@ -200,7 +213,7 @@ pre code {
 }
 
 .dark pre {
-    background-color: rgba(255, 255, 255, 0.05);
+    background-color: rgba(0,0,0,0.06);
 }
 
 /* ============================================================

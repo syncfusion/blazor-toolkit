@@ -1,0 +1,26 @@
+﻿<div style="width:100%;max-width:600px;margin:20px auto;text-align:center;">
+    <SfTooltip Content="Move your mouse around this element" MouseTrail="true" OpensOn="Hover">
+        <div class="tooltip-demo-target">
+            <p><strong>Hover and Move Your Mouse</strong></p>
+            <p style="margin:12px 0 0 0;">Tooltip follows your cursor position</p>
+        </div>
+    </SfTooltip>
+</div>
+
+<style>
+    .tooltip-demo-target {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        color: white;
+        padding: 60px 40px;
+        border-radius: 8px;
+        cursor: pointer;
+    }
+
+    @@media (forced-colors: active) {
+        .tooltip-demo-target {
+            background: Canvas !important;
+            color: CanvasText !important;
+            border: 1px solid CanvasText;
+        }
+    }
+</style>

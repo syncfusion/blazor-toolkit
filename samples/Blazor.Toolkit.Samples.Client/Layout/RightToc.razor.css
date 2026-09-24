@@ -1,0 +1,311 @@
+/* ===============================================================
+   RIGHT SIDEBAR - "On this page" sticky navigation (SB V2)
+   Simple, document-style list with subtle purple active state.
+
+   SCROLL STRATEGY
+   ----------------
+   The OUTER `.right-panel` (defined in MainLayout.razor.css) owns the
+   single scroll context for the entire right rail. This component
+   itself renders as a normal block-flow column - heading, list, then
+   "Need help?" card stacked top-to-bottom - so the card sits BELOW the
+   list and scrolls with it (matching how the left sidebar's
+   `.sf-playground-card` sits below the navigation list).
+   =============================================================== */
+
+.right-toc {
+    font-family: "Segoe UI Variable", "Segoe UI", "Inter", Roboto, system-ui, -apple-system, sans-serif;
+    font-size: 16px;
+    color: var(--text-color-secondary, #6B7280);
+    /* Stick to the top of the scroll container so the rail stays put
+        while the page scrolls. Uses normal flow inside the panel. */
+    position: sticky;
+    top: 0;
+    /* Soft padding so content does not sit flush against the panel's
+       scroll edge on either side. */
+    padding: 4px 4px 20px 0;
+}
+
+.toc-inner {
+    padding: 0;
+    max-width: 220px;
+}
+
+.toc-heading {
+    text-transform: uppercase;
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    line-height: 1.4;
+    padding: 0 0 12px 0;
+    margin: 0 0 6px 0;
+    color: var(--text-color-secondary, #6B7280);
+    border-bottom: 1px solid var(--toc-divider, rgba(15, 23, 42, 0.08));
+}
+
+/* Tree root */
+.toc-tree {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+/* Subgroup (nested <ul> for level-3 children) */
+.toc-tree .toc-tree-subgroup {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.toc-tree-item {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+.toc-tree-item.level-3 { padding-left: 12px; }
+.toc-tree-item.level-5 { padding-left: 0; }
+.toc-tree-item.level-6 { padding-left: 20px; font-size: 15px; }
+
+/* Link styling - simple, clean */
+a.toc-tree-link {
+    display: block;
+    width: 100%;
+    padding: 6px 0 6px 12px;
+    margin: 1px 0;
+    font-size: 16px;
+    font-weight: 400;
+    line-height: 1.45;
+    color: var(--text-color-secondary, #6B7280);
+    text-decoration: none;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    transition: color .12s ease, border-color .12s ease;
+    border-left: 2px solid transparent;
+}
+
+a.toc-tree-link:hover {
+    color: var(--text-color, #1F2937);
+    text-decoration: none;
+    border-left-color: rgba(123, 63, 242, 0.30);
+}
+
+a.toc-tree-link.visible {
+    color: var(--accent, #2B357C);
+    font-weight: 600;
+    border-left-color: var(--accent, #2B357C);
+}
+
+/* RTL support */
+.page-rtl a.toc-tree-link { text-align: start; }
+.page-rtl a.toc-tree-link.visible,
+.page-rtl a.toc-tree-link:hover {
+    border-left-color: transparent;
+    border-right: 2px solid var(--accent, #2B357C);
+}
+
+/* ===============================================================
+   "NEED HELP?" CARD
+    Sits in normal block flow directly AFTER the list, separated by
+   `margin-top`. The whole right rail (`.right-panel`) scrolls as one,
+   so the card scrolls out of view together with the list - mirroring
+   how the left sidebar's `.sf-playground-card` sits below its list.
+
+   Geometry is preserved from the original (positioning fix only):
+   same `padding`, same `border`, same `border-radius`, same
+   `box-shadow`. Width is unchanged because the card lives inside the
+   `.right-panel` (full 220px rail width), not the narrower
+   `.toc-inner`.
+   =============================================================== */
+.sf-help-card {
+    margin-top: 20px;
+    padding: 20px;
+    background: var(--bg-color, #ffffff);
+    border: 1px solid rgba(15, 23, 42, 0.08);
+    border-radius: 12px;
+    box-shadow: 0 1px 2px rgba(15, 23, 42, 0.04);
+    color: var(--text-color, #1f2937);
+}
+
+.dark .sf-help-card {
+    background: var(--bg-color, #0b1020);
+    border-color: rgba(255, 255, 255, 0.08);
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.4);
+}
+
+.sf-help-title {
+    margin: 0 0 10px 0;
+    padding: 0;
+    font-size: 16px;
+    font-weight: 600;
+    line-height: 1.3;
+    color: var(--text-color, #1f2937);
+    text-transform: none;
+    letter-spacing: 0;
+    border-bottom: 0;
+}
+
+.sf-help-desc {
+    margin: 0 0 14px 0;
+    font-size: 14.5px;
+    line-height: 1.55;
+    color: var(--text-color-secondary, #6b7280);
+}
+
+.sf-help-links {
+    list-style: none;
+    padding: 0;
+    margin: 0 0 16px 0;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.sf-help-links li {
+    margin: 0;
+    padding: 0;
+}
+
+.sf-help-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 2px 0;
+    font-size: 14px;
+    font-weight: 500;
+    line-height: 1.4;
+    color: var(--accent, #2B357C);
+    text-decoration: none;
+    transition: color .12s ease, transform .12s ease;
+}
+
+.sf-help-link:hover {
+    color: var(--accent, #2B357C);
+    text-decoration: underline;
+}
+
+.sf-help-link:hover .sf-help-link-icon {
+    transform: translate(1px, -1px);
+}
+
+.sf-help-link-icon {
+    flex-shrink: 0;
+    color: currentColor;
+    transition: transform .12s ease;
+}
+
+.sf-help-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    width: 100%;
+    padding: 9px 14px;
+    border-radius: 8px;
+    background: var(--accent, #2B357C);
+    color: #ffffff;
+    font-size: 14.5px;
+    font-weight: 600;
+    line-height: 1;
+    text-decoration: none;
+    box-shadow: 0 2px 4px rgba(123, 63, 242, 0.30);
+    transition: filter .15s ease, transform .05s ease;
+}
+
+.sf-help-btn:hover {
+    color: #ffffff;
+    text-decoration: none;
+    filter: brightness(0.95);
+}
+
+/* ===============================================================
+   FORCED-COLORS (Windows Contrast themes)
+   ---------------------------------------------------------------
+   Uses system colours only. Windows supplies the correct palette
+   for Aquatic / Desert / Dusk / Night sky automatically.
+   No hard-coded colours. No .highcontrast class dependency.
+   =============================================================== */
+@media (forced-colors: active) {
+
+    /* ----- TOC container ----- */
+    .right-toc,
+    .toc-inner {
+        color: CanvasText !important;
+        background-color: Canvas !important;
+        forced-color-adjust: none;
+    }
+
+    .toc-heading {
+        color: CanvasText !important;
+        border-bottom: 1px solid ButtonText !important;
+    }
+
+    /* ----- TOC links (unfocused) ----- */
+    a.toc-tree-link {
+        color: LinkText !important;
+        forced-color-adjust: none;
+    }
+
+    /* ----- TOC links (hover / active) ----- */
+    a.toc-tree-link:hover,
+    a.toc-tree-link.visible {
+        color: Highlight !important;
+        font-weight: 600 !important;
+        border-left: 2px solid Highlight !important;
+    }
+
+    a.toc-tree-link:focus-visible {
+        outline: 2px solid Highlight !important;
+        outline-offset: 2px !important;
+    }
+
+    /* ----- Need Help? card ----- */
+    .sf-help-card {
+        background-color: Canvas !important;
+        border: 1px solid ButtonText !important;
+        box-shadow: none !important;
+        color: CanvasText !important;
+    }
+
+    .sf-help-title,
+    .sf-help-desc {
+        color: CanvasText !important;
+        -webkit-text-fill-color: CanvasText !important;
+    }
+
+    .sf-help-link {
+        color: LinkText !important;
+    }
+
+
+    .sf-help-link:hover {
+        text-decoration: underline !important;
+        color: Highlight !important;
+    }
+
+    .sf-help-link:focus-visible {
+        outline: 2px solid Highlight !important;
+        outline-offset: 2px !important;
+    }
+
+    .sf-help-link-icon {
+        color: currentColor !important;
+        fill: currentColor !important;
+    }
+
+    .sf-help-btn {
+        background-color: ButtonFace !important;
+        color: ButtonText !important;
+        border: 1px solid ButtonText !important;
+        box-shadow: none !important;
+        forced-color-adjust: none;
+    }
+
+    .sf-help-btn:hover,
+    .sf-help-btn:focus-visible {
+        forced-color-adjust: none;
+        color: Highlight !important;
+        background-color: HighlightText !important;
+        border-color: Highlight !important;
+    }
+}

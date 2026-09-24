@@ -1,0 +1,91 @@
+
+<SfChart @key="@_currentTheme" Title="Filled Marker Example" Theme="@_currentTheme">
+    <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Toolkit.ValueType.Double"
+                       Title="Year">
+        <ChartAxisLineStyle Width="0" />
+        <ChartAxisMajorGridLines Width="0" />
+    </ChartPrimaryXAxis>
+
+    <ChartPrimaryYAxis Title="Value">
+        <ChartAxisLineStyle Width="0" />
+    </ChartPrimaryYAxis>
+
+
+    <ChartSeries DataSource="@MarkerOverviewData"
+                 XName="Year"
+                 YName="China"
+                 Name="China"
+                 Type="ChartSeriesType.Line">
+        <ChartMarker Visible="true"
+                     Shape="ChartShape.Circle"
+                     Width="10"
+                     Height="10"
+                     IsFilled="true">
+        </ChartMarker>
+    </ChartSeries>
+
+    <ChartSeries DataSource="@MarkerOverviewData"
+                 XName="Year"
+                 YName="UnitedStates"
+                 Name="United States"
+                 Type="ChartSeriesType.Line">
+        <ChartMarker Visible="true"
+                     Shape="ChartShape.Circle"
+                     Width="10"
+                     Height="10"
+                     IsFilled="true">
+        </ChartMarker>
+    </ChartSeries>
+
+
+    <!-- Tooltip -->
+    <ChartTooltipSettings Enable="true" Shared="true"
+                          Header="${point.x}"
+                          Format="${series.name} : <b>${point.y}°C</b>" />
+</SfChart>
+
+@code {
+    [CascadingParameter]
+    private Theme CurrentTheme { get; set; } = Theme.Fluent;
+
+    private Theme _currentTheme = Theme.Fluent;
+
+    protected override void OnParametersSet()
+    {
+        base.OnParametersSet();
+        _currentTheme = CurrentTheme;
+    }
+
+    public class MarkerOverviewInfo
+    {
+        public double Year { get; set; }
+        public double China { get; set; }
+        public double UnitedStates { get; set; }
+    }
+
+    public List<MarkerOverviewInfo> MarkerOverviewData = new()
+    {
+        new MarkerOverviewInfo { Year = 2001, China = -19.9, UnitedStates = -15.9 },
+        new MarkerOverviewInfo { Year = 2002, China = -19.1, UnitedStates = -16.6 },
+        new MarkerOverviewInfo { Year = 2003, China = -19.5, UnitedStates = -17.1 },
+        new MarkerOverviewInfo { Year = 2004, China = -19.3, UnitedStates = -19.7 },
+        new MarkerOverviewInfo { Year = 2005, China = -18.9, UnitedStates = -18.2 },
+        new MarkerOverviewInfo { Year = 2006, China = -18.6, UnitedStates = -18.0 },
+        new MarkerOverviewInfo { Year = 2007, China = -17.3, UnitedStates = -18.6 },
+        new MarkerOverviewInfo { Year = 2008, China = -20.3, UnitedStates = -19.0 },
+        new MarkerOverviewInfo { Year = 2009, China = -18.3, UnitedStates = -19.9 },
+        new MarkerOverviewInfo { Year = 2010, China = -19.0, UnitedStates = -18.5 },
+        new MarkerOverviewInfo { Year = 2011, China = -21.1, UnitedStates = -19.9 },
+        new MarkerOverviewInfo { Year = 2012, China = -19.9, UnitedStates = -16.9 },
+        new MarkerOverviewInfo { Year = 2013, China = -20.0, UnitedStates = -18.8 },
+        new MarkerOverviewInfo { Year = 2014, China = -18.4, UnitedStates = -18.3 },
+        new MarkerOverviewInfo { Year = 2015, China = -17.6, UnitedStates = -18.3 },
+        new MarkerOverviewInfo { Year = 2016, China = -20.8, UnitedStates = -18.2 },
+        new MarkerOverviewInfo { Year = 2017, China = -17.0, UnitedStates = -19.4 },
+        new MarkerOverviewInfo { Year = 2018, China = -19.9, UnitedStates = -18.6 },
+        new MarkerOverviewInfo { Year = 2019, China = -18.1, UnitedStates = -18.3 },
+        new MarkerOverviewInfo { Year = 2020, China = -18.0, UnitedStates = -16.1 },
+        new MarkerOverviewInfo { Year = 2021, China = -20.3, UnitedStates = -19.7 },
+        new MarkerOverviewInfo { Year = 2022, China = -17.3, UnitedStates = -19.9 }
+    };
+}

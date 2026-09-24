@@ -1,0 +1,57 @@
+<SfChart @key="@_currentTheme" Theme="@_currentTheme">
+    <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Toolkit.ValueType.Category" Interval="1"></ChartPrimaryXAxis>
+    <ChartPrimaryYAxis Title="Metric Tons">
+        <ChartAxisLineStyle Width="0"></ChartAxisLineStyle>
+    </ChartPrimaryYAxis>
+
+    <ChartSeries DataSource="@columnData" XName="Country" YName="Walnuts" Type="ChartSeriesType.Column" Name="Walnuts" Fill="#00C5BC" ColumnWidth="0.5" ColumnSpacing="0.15">
+        <ChartMarker>
+            <ChartDataLabel Visible="true" EnableRotation="true" Format="{value}K">
+                <ChartDataLabelFont Color="@TextColor"></ChartDataLabelFont>
+            </ChartDataLabel>
+        </ChartMarker>
+        <ChartCornerRadius TopLeft="11" TopRight="11"></ChartCornerRadius>
+    </ChartSeries>
+    <ChartSeries DataSource="@columnData" XName="Country" YName="Almonds" Type="ChartSeriesType.Column" Name="Almonds" Fill="#BA7DDA" ColumnWidth="0.5" ColumnSpacing="0.15">
+        <ChartMarker>
+            <ChartDataLabel Visible="true" EnableRotation="true" Format="{value}K">
+                <ChartDataLabelFont Color="@TextColor"></ChartDataLabelFont>
+            </ChartDataLabel>
+        </ChartMarker>
+        <ChartCornerRadius TopLeft="11" TopRight="11"></ChartCornerRadius>
+    </ChartSeries>
+
+    <ChartTooltipSettings Enable="true" Header="${point.x}" Format="${series.name}: <b>${point.y}K</b>"></ChartTooltipSettings>
+</SfChart>
+
+@code {
+    [CascadingParameter]
+    private Theme CurrentTheme { get; set; } = Theme.Fluent;
+
+    private Theme _currentTheme = Theme.Fluent;
+
+    protected override void OnParametersSet()
+    {
+        base.OnParametersSet();
+        _currentTheme = CurrentTheme;
+    }
+
+    private bool IsDarkTheme => _currentTheme.ToString().Contains("Dark") || _currentTheme.ToString().Contains("HighContrast");
+    private string TextColor => IsDarkTheme ? "#E6EEF8" : "#0B1F3B";
+
+    public class ProductionData
+    {
+        public string Country { get; set; } = string.Empty;
+        public double Walnuts { get; set; }
+        public double Almonds { get; set; }
+    }
+
+    public List<ProductionData> columnData = new()
+    {
+        new() { Country = "Chile", Walnuts = 175, Almonds = 11.3 },
+        new() { Country = "European Union", Walnuts = 140, Almonds = 135 },
+        new() { Country = "Turkey", Walnuts = 67, Almonds = 24 },
+        new() { Country = "India", Walnuts = 33, Almonds = 42 },
+        new() { Country = "Australia", Walnuts = 12, Almonds = 154 }
+    };
+}

@@ -1,0 +1,106 @@
+@using Syncfusion.Blazor.Toolkit.Buttons
+
+<div class="mb-3">
+    <label class="fw-bold d-block mb-2">Empty Point Mode</label>
+
+    <SfButtonGroup Mode="SelectionMode.Single">
+        <Button Selected="@IsSelected(EmptyPointMode.Gap)"
+                SelectedChanged="@(v => OnModeChanged(v, EmptyPointMode.Gap))">
+            Gap
+        </Button>
+
+        <Button Selected="@IsSelected(EmptyPointMode.Zero)"
+                SelectedChanged="@(v => OnModeChanged(v, EmptyPointMode.Zero))">
+            Zero
+        </Button>
+
+        <Button Selected="@IsSelected(EmptyPointMode.Average)"
+                SelectedChanged="@(v => OnModeChanged(v, EmptyPointMode.Average))">
+            Average
+        </Button>
+
+        <Button Selected="@IsSelected(EmptyPointMode.Drop)"
+                SelectedChanged="@(v => OnModeChanged(v, EmptyPointMode.Drop))">
+            Drop
+        </Button>
+    </SfButtonGroup>
+</div>
+
+<SfChart @key="@_currentTheme" Title="Sales Analysis" Theme="@_currentTheme">
+    <ChartArea><ChartAreaBorder Width="0"></ChartAreaBorder></ChartArea>
+
+    <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Toolkit.ValueType.Category">
+        <ChartAxisMajorGridLines Width="0" />
+        <ChartAxisMajorTickLines Width="0" />
+        <ChartAxisMinorTickLines Width="0" />
+    </ChartPrimaryXAxis>
+
+    <ChartPrimaryYAxis>
+        <ChartAxisLineStyle Width="0" />
+        <ChartAxisMajorTickLines Width="0" />
+    </ChartPrimaryYAxis>
+
+    <ChartSeries DataSource="@SalesData"
+                 XName="X"
+                 YName="Y"
+                 Type="ChartSeriesType.Line"
+                 Fill="@SeriesColor">
+        <ChartEmptyPointSettings Mode="@Mode" />
+        <ChartMarker Visible="true" IsFilled="true" />
+    </ChartSeries>
+
+    <ChartTooltipSettings Enable="true"
+                          Header="${point.x}"
+                          Format="Sales : <b>${point.y} Units</b>"
+                          EnableHighlight="true" />
+</SfChart>
+
+@code {
+    [CascadingParameter]
+    private Theme CurrentTheme { get; set; } = Theme.Fluent;
+
+    private Theme _currentTheme = Theme.Fluent;
+
+    protected override void OnParametersSet()
+    {
+        base.OnParametersSet();
+        _currentTheme = CurrentTheme;
+    }
+
+    private bool IsDarkTheme => _currentTheme.ToString().Contains("Dark") || _currentTheme.ToString().Contains("HighContrast");
+    private string SeriesColor => IsDarkTheme ? "#77E4D4" : "#0A97B0";
+
+    public EmptyPointMode Mode { get; set; } = EmptyPointMode.Gap;
+
+    public class SalesPoint
+    {
+        public string X { get; set; } = string.Empty;
+        public double? Y { get; set; }
+    }
+
+    public List<SalesPoint> SalesData = new()
+    {
+        new() { X = "Jan", Y = 200 },
+        new() { X = "Feb", Y = 300 },
+        new() { X = "Mar", Y = 170 },
+        new() { X = "Apr", Y = null },
+        new() { X = "May", Y = 300 },
+        new() { X = "Jun", Y = null },
+        new() { X = "Jul", Y = 100 },
+        new() { X = "Aug", Y = 200 },
+        new() { X = "Sep", Y = 174 },
+        new() { X = "Oct", Y = null },
+        new() { X = "Nov", Y = null },
+        new() { X = "Dec", Y = 160 }
+    };
+
+    private bool IsSelected(EmptyPointMode mode) => Mode == mode;
+
+    private void OnModeChanged(bool selected, EmptyPointMode mode)
+    {
+        if (selected)
+        {
+            Mode = mode;
+        }
+    }
+}

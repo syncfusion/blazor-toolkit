@@ -1,0 +1,80 @@
+<SfChart @key="@_currentTheme" Title="Global Primary Energy Consumption by Source" Width="100%" Height="400px" Theme="@_currentTheme">
+    <ChartTitleStyle Color="@TextColor" />
+
+    <ChartTooltipSettings Enable="true"
+                          Header="${series.name}"
+                          Format="${point.x} : <b>${point.y}</b>" />
+
+    <ChartLegendSettings Visible="true" Position="LegendPosition.Bottom" />
+
+    <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Toolkit.ValueType.Category"
+                       Interval="1">
+        <ChartAxisLabelStyle Color="@TextColor" />
+    </ChartPrimaryXAxis>
+
+    <ChartPrimaryYAxis Maximum="3200"
+                       Interval="800"
+                       LabelFormat="{value}TWh">
+        <ChartAxisLabelStyle Color="@TextColor" />
+        <ChartAxisLineStyle Width="0" />
+    </ChartPrimaryYAxis>
+
+    <ChartSeries DataSource="@EnergyData"
+                 XName="X"
+                 YName="Y1"
+                 Name="Other Renewable"
+                 Type="ChartSeriesType.Area"
+                 Opacity="0.5"
+                 Fill="#3CFFD2"
+                 Border="@(new ChartSeriesBorder
+                         {
+                             Width = 2,
+                             Color = "#008264"
+                         })" />
+
+    <ChartSeries DataSource="@EnergyData"
+                 XName="X"
+                 YName="Y2"
+                 Name="Modern biofuels"
+                 Type="ChartSeriesType.Area"
+                 Opacity="0.5"
+                 Fill="#DCFF89"
+                 Border="@(new ChartSeriesBorder
+                         {
+                             Width = 2,
+                             Color = "#5A8100"
+                         })" />
+</SfChart>
+
+@code {
+    [CascadingParameter]
+    private Theme CurrentTheme { get; set; } = Theme.Fluent;
+
+    private Theme _currentTheme = Theme.Fluent;
+
+    protected override void OnParametersSet()
+    {
+        base.OnParametersSet();
+        _currentTheme = CurrentTheme;
+    }
+
+    private bool IsDarkTheme => _currentTheme.ToString().Contains("Dark") || _currentTheme.ToString().Contains("HighContrast");
+    private string TextColor => IsDarkTheme ? "#ffffff" : "#000000";
+
+    public class EnergyConsumption
+    {
+        public string X { get; set; } = "";
+        public double Y1 { get; set; }
+        public double Y2 { get; set; }
+    }
+
+    public List<EnergyConsumption> EnergyData = new()
+    {
+        new() { X = "1994", Y1 = 400, Y2 = 100 },
+        new() { X = "2000", Y1 = 600, Y2 = 150 },
+        new() { X = "2006", Y1 = 800, Y2 = 200 },
+        new() { X = "2012", Y1 = 1400, Y2 = 800 },
+        new() { X = "2018", Y1 = 1800, Y2 = 1000 },
+        new() { X = "2024", Y1 = 2500, Y2 = 1400 }
+    };
+}

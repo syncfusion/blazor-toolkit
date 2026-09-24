@@ -1,0 +1,93 @@
+@using System.Collections.ObjectModel
+@implements IDisposable
+
+<SfChart @key="@_currentTheme" Title="Live Update" Width="100%" Height="400px" Theme="@_currentTheme">
+    <ChartArea><ChartAreaBorder Width="0"></ChartAreaBorder></ChartArea>
+
+    <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Toolkit.ValueType.DateTime"
+                       LabelFormat="mm:ss"
+                       Title="Time (s)">
+        <ChartAxisMajorGridLines Width="0"></ChartAxisMajorGridLines>
+        <ChartAxisMajorTickLines Width="0" />
+        <ChartAxisMinorTickLines Width="0" />
+    </ChartPrimaryXAxis>
+
+    <ChartPrimaryYAxis Minimum="0" Maximum="70">
+        <ChartAxisLineStyle Width="0" />
+        <ChartAxisMajorTickLines Width="0"></ChartAxisMajorTickLines>
+    </ChartPrimaryYAxis>
+
+    <ChartSeries Type="ChartSeriesType.Area"
+                 DataSource="@LiveData"
+                 XName="@nameof(LivePoint.X)"
+                 YName="@nameof(LivePoint.Y)"
+                 Opacity="0.4"
+                 Fill="#3CFFD2"
+                 Border="@(new ChartSeriesBorder { Width = 2, Color = "#008264" })">
+        <ChartSeriesAnimation Enable="true" Duration="500" />
+        <ChartMarker Visible="true"
+                     Fill="#008264"
+                     Border="@(new ChartMarkerBorder { Width = 2, Color = "#008264" })" />
+    </ChartSeries>
+</SfChart>
+
+@code {
+    [CascadingParameter]
+    private Theme CurrentTheme { get; set; } = Theme.Fluent;
+
+    private Theme _currentTheme = Theme.Fluent;
+
+    protected override void OnParametersSet()
+    {
+        base.OnParametersSet();
+        _currentTheme = CurrentTheme;
+    }
+
+    public class LivePoint
+    {
+        public DateTime X { get; set; }
+        public double Y { get; set; }
+    }
+
+    public ObservableCollection<LivePoint> LiveData = new();
+    private System.Timers.Timer? updateLivePointTimer;
+
+    protected override void OnInitialized()
+    {
+        LiveData = new ObservableCollection<LivePoint>(
+            Enumerable.Range(0, 20)
+                .Select(i => new LivePoint
+                {
+                    X = DateTime.Now.AddSeconds(i),
+                    Y = Random.Shared.Next(30, 60)
+                })
+        );
+
+        updateLivePointTimer = new System.Timers.Timer(400);
+        updateLivePointTimer.Elapsed += async (_, _) =>
+        {
+            await InvokeAsync(UpdateLivePointData);
+        };
+        updateLivePointTimer.Start();
+    }
+
+    private void UpdateLivePointData()
+    {
+        if (LiveData.Count == 0)
+            return;
+
+        var lastTime = LiveData[^1].X;
+        LiveData.RemoveAt(0);
+        LiveData.Add(new LivePoint
+        {
+            X = lastTime.AddSeconds(1),
+            Y = Random.Shared.Next(30, 60)
+        });
+    }
+
+    public void Dispose()
+    {
+        updateLivePointTimer?.Stop();
+        updateLivePointTimer?.Dispose();
+    }
+}

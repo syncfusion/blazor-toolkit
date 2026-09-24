@@ -1,0 +1,72 @@
+<SfChart @key="@_currentTheme" Theme="@_currentTheme" Background="Transparent" Title="Sales - Yearly Performance">
+    <ChartTooltipSettings Enable="true"
+                          Fill="white"
+                          Format="${point.x} : <b>${point.y}</b>">
+        <ChartTooltipBorder Width="3" Color="#1E88E5" />
+        <ChartTooltipTextStyle Color="black"
+                               FontFamily="Arial, Helvetica, sans-serif"
+                               FontWeight="Bold"
+                               Opacity="0.7">
+        </ChartTooltipTextStyle>
+    </ChartTooltipSettings>
+
+    <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Toolkit.ValueType.Category">
+        <ChartAxisLabelStyle Size="11px" />
+    </ChartPrimaryXAxis>
+
+    <ChartPrimaryYAxis Format="{value}%" Minimum="0" Maximum="100">
+        <ChartAxisLineStyle Width="0" />
+        <ChartAxisLabelStyle Size="11px" />
+    </ChartPrimaryYAxis>
+
+    <ChartSeries DataSource="@appearanceTooltipData"
+                 XName="Period"
+                 YName="Percentage1"
+                 Type="ChartSeriesType.Column"
+                 Name="Online"
+                 Fill="#799EFF"
+                 ColumnWidth="0.45"
+                 ColumnSpacing="0.1">
+        <ChartCornerRadius TopLeft="4" TopRight="4" />
+    </ChartSeries>
+
+    <ChartSeries DataSource="@appearanceTooltipData"
+                 XName="Period"
+                 YName="Percentage2"
+                 Type="ChartSeriesType.Column"
+                 Name="Retail"
+                 Fill="#FF79C3"
+                 ColumnWidth="0.45"
+                 ColumnSpacing="0.1">
+        <ChartCornerRadius TopLeft="4" TopRight="4" />
+    </ChartSeries>
+</SfChart>
+
+@code {
+    [CascadingParameter]
+    private Theme CurrentTheme { get; set; } = Theme.Fluent;
+
+    private Theme _currentTheme = Theme.Fluent;
+
+    protected override void OnParametersSet()
+    {
+        base.OnParametersSet();
+        _currentTheme = CurrentTheme;
+    }
+
+    public class SalesData
+    {
+        public string Period { get; set; } = string.Empty;
+        public double Percentage1 { get; set; }
+        public double Percentage2 { get; set; }
+    }
+
+    public List<SalesData> appearanceTooltipData = new()
+    {
+        new SalesData { Period = "2020", Percentage1 = 60, Percentage2 = 40 },
+        new SalesData { Period = "2021", Percentage1 = 56, Percentage2 = 44 },
+        new SalesData { Period = "2022", Percentage1 = 71, Percentage2 = 29 },
+        new SalesData { Period = "2023", Percentage1 = 85, Percentage2 = 15 },
+        new SalesData { Period = "2024", Percentage1 = 73, Percentage2 = 27 }
+    };
+}

@@ -1,0 +1,5 @@
+﻿<SfNumericTextBox TValue="decimal?" @bind-Value="CurrencyValue" Min="0" Max="100000" Step="100" Format="C2" Placeholder="Currency" Width="220px" />
+<div class="mt-2 example-label"><b>Raw value:</b> @CurrencyValue</div>
+@code {
+    private decimal? CurrencyValue { get; set; } = 12500.50m;
+}

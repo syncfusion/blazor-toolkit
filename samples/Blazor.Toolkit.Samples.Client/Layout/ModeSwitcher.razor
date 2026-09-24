@@ -191,4 +191,42 @@
     .dark .dynamic-mode-switcher .mode-icon.localization {
         color: #fff;
     }
+
+    /* ------------------------------------------------------------------
+    Windows High Contrast – Night-Sky style dropdown
+    (yellow border/text/arrow → violet on hover)
+    ------------------------------------------------------------------ */
+    @@media (forced-colors: active) {
+
+        .dynamic-mode-switcher select.form-select,
+        .dynamic-mode-switcher select {
+            /* Closed state – yellow everything */
+            background-color: Canvas !important;
+            color: ButtonText !important;               /* yellow text */
+            border: 1.5px solid ButtonText !important;  /* yellow outline */
+            forced-color-adjust: none;
+
+        }
+
+        /* The opened option list */
+        .dynamic-mode-switcher select option {
+            background-color: Canvas !important;
+            color: ButtonText !important;               /* yellow text */
+        }
+
+        /* Hover / selected option → violet */
+        .dynamic-mode-switcher select option:hover,
+        .dynamic-mode-switcher select option:checked,
+        .dynamic-mode-switcher select option:focus {
+            background-color: Highlight !important;     /* violet background */
+            color: HighlightText !important;            /* contrasting text on violet */
+            forced-color-adjust: none;
+        }
+
+        /* Icons next to the label */
+        .dynamic-mode-switcher .mode-icon.interactive,
+        .dynamic-mode-switcher .mode-icon.localization {
+            color: ButtonText !important;               /* yellow icons */
+        }
+    }
 </style>

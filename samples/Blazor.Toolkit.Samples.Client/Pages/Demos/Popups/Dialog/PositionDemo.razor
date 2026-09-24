@@ -1,0 +1,22 @@
+﻿<div id="target-Position">
+    <div>
+        <SfButton Content="Open Position Dialog" @onclick="@OpenDialogPosition"></SfButton>
+    </div>
+    <SfDialog ID="defaultDialog" Target="#target-Position" Width="300px" ShowCloseIcon="true" @bind-Visible="@Visibility" Header="Dialog Position" Content="Dialog positioned on top and Right">
+        <DialogPositionData X="right" Y="top"></DialogPositionData>
+    </SfDialog>
+</div>
+@code {
+    private bool Visibility { get; set; } = false;
+
+    private void OpenDialogPosition()
+    {
+        this.Visibility = true;
+    }
+}
+<style>
+    #target-Position {
+        height: 200px;
+        width: 700px;
+    }
+</style>

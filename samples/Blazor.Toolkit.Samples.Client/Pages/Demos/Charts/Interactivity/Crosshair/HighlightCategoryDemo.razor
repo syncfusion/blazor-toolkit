@@ -1,0 +1,74 @@
+<SfChart @key="@_currentTheme" Title="Corn vs Wheat Estimated Production, 2023" Width="100%" Height="400px" Theme="@_currentTheme">
+    <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Toolkit.ValueType.Category"
+                       RangePadding="ChartRangePadding.Normal" LabelIntersectAction="LabelIntersectAction.Rotate90">
+    </ChartPrimaryXAxis>
+
+    <ChartPrimaryYAxis Interval="100000" Title="Production (metric tons)">
+    </ChartPrimaryYAxis>
+
+    <ChartSeries DataSource="@CrosshairData.CornData"
+                 XName="X"
+                 YName="Y"
+                 Name="Corn"
+                 Type="ChartSeriesType.Column"
+                 Fill="#82C100"
+                 LegendShape="LegendShape.Circle">
+    </ChartSeries>
+
+    <ChartSeries DataSource="@CrosshairData.WheatData"
+                 XName="X"
+                 YName="Y"
+                 Name="Wheat"
+                 Type="ChartSeriesType.Column"
+                 Fill="#E77A16"
+                 LegendShape="LegendShape.Circle">
+    </ChartSeries>
+
+    <ChartCrosshairSettings Enable="true"
+                            LineType="LineType.Vertical"
+                            HighlightCategory="true">
+        <ChartCrosshairLine Color="#EADDFF" />
+    </ChartCrosshairSettings>
+
+    <ChartTooltipSettings Enable="true"
+                          Shared="true"
+                          Header="<b>${point.x}</b>"
+                          Format="${series.name}: <b>${point.y} MT</b>">
+    </ChartTooltipSettings>
+</SfChart>
+
+@code {
+    [CascadingParameter]
+    private Theme CurrentTheme { get; set; } = Theme.Fluent;
+
+    private Theme _currentTheme = Theme.Fluent;
+
+    protected override void OnParametersSet()
+    {
+        base.OnParametersSet();
+        _currentTheme = CurrentTheme;
+    }
+
+    public class HighlightChartData
+    {
+        public string X { get; set; } = string.Empty;
+        public double Y { get; set; }
+    }
+
+    public static class CrosshairData
+    {
+        public static List<HighlightChartData> CornData = new()
+        {
+            new HighlightChartData { X = "USA", Y = 390000 },
+            new HighlightChartData { X = "China", Y = 280000 },
+            new HighlightChartData { X = "Brazil", Y = 210000 }
+        };
+
+        public static List<HighlightChartData> WheatData = new()
+        {
+            new HighlightChartData { X = "USA", Y = 170000 },
+            new HighlightChartData { X = "China", Y = 140000 },
+            new HighlightChartData { X = "Brazil", Y = 100000 }
+        };
+    }
+}

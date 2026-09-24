@@ -1,0 +1,43 @@
+﻿<div style="display:flex;align-items:center;width:100%;gap:200px;justify-content:space-around">
+    <div class="col-lg-8 control-section" style="flex:0;text-align:center;min-width:220px;">
+        <SfTooltip Position="Position.TopCenter" IsSticky="@_propIsSticky" OpensOn="@_propOpensOn" Content="@_tooltipContent">
+            <SfButton Content="Show Tooltip"></SfButton>
+        </SfTooltip>
+    </div>
+    <div style="flex:0 0 auto;min-width:50px;">
+        <label style="display:block;font-weight:600;">Open Mode</label>
+        <select @bind="_propOpensOn" class="tooltip-select">
+            @foreach (var val in OpensOnOptions)
+            {
+                <option value="@val">@val</option>
+            }
+        </select>
+
+        <label style="display:block;font-weight:600;padding:3px;">Tooltip Text</label>
+        <SfTextBox @bind-Value="_tooltipContent" Width="130px" Placeholder="Enter tooltip text" />
+
+        <label style="display:block;align-items:center;gap:8px;margin-top:8px;">
+            <input type="checkbox" @bind="_propIsSticky" /> Sticky Mode
+        </label>
+    </div>
+</div>
+
+@code {
+    private string _tooltipContent = "This is a tooltip";
+    private string _propOpensOn = "Auto";
+    private bool _propIsSticky = false;
+    private static readonly string[] OpensOnOptions = { "Auto", "Hover", "Click", "Focus" };
+
+}
+<style>
+    .tooltip-select {
+        width: 130px;
+        padding: 3px;
+        max-height: 250px;
+        overflow-y: scroll;
+        border: 1px solid var(--bs-border-color, lightgrey);
+        background-color: var(--bs-body-bg);
+        color: var(--bs-body-color);
+        color-scheme: light dark;
+    }
+</style>

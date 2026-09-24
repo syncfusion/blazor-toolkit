@@ -1,0 +1,69 @@
+<SfChart @key="@_currentTheme" Title="Annual Sales Revenue (in Billions USD)" Theme="@_currentTheme">
+    <ChartArea>
+        <ChartAreaBorder Width="0"></ChartAreaBorder>
+    </ChartArea>
+
+    <ChartPrimaryYAxis Title="Sales in Dollars" Minimum="7"
+                       Maximum="8.2"
+                       Interval="0.2"
+                       LabelFormat="${value}">
+        <ChartAxisLineStyle Width="0" />
+        <ChartAxisMajorTickLines Width="0" />
+    </ChartPrimaryYAxis>
+
+    <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Toolkit.ValueType.Double"
+                       Interval="1">
+        <ChartAxisMajorGridLines Width="0" />
+        <ChartAxisMajorTickLines Width="0" />
+        <ChartAxisMinorTickLines Width="0" />
+    </ChartPrimaryXAxis>
+
+    <ChartSeries DataSource="@NumericLabelData"
+                 XName="X"
+                 YName="Y1"
+                 Type="ChartSeriesType.Column"
+                 PointColorMapping="Color"
+                 ColumnWidth="0.5">
+        <ChartCornerRadius TopLeft="5" TopRight="5"></ChartCornerRadius>
+    </ChartSeries>
+
+    <ChartTooltipSettings Enable="true"
+                          Header="${point.x}"
+                          Format="Sales : <b>${point.y}B</b>"
+                          EnableHighlight="true">
+    </ChartTooltipSettings>
+</SfChart>
+
+@code {
+    [CascadingParameter]
+    private Theme CurrentTheme { get; set; } = Theme.Fluent;
+
+    private Theme _currentTheme = Theme.Fluent;
+
+    protected override void OnParametersSet()
+    {
+        base.OnParametersSet();
+        _currentTheme = CurrentTheme;
+    }
+
+    public class NumericLabelPoint
+    {
+        public double X { get; set; }
+        public double Y1 { get; set; }
+        public string Color { get; set; } = string.Empty;
+    }
+
+    public List<NumericLabelPoint> NumericLabelData = new()
+    {
+        new() { X = 2016, Y1 = 7.5,  Color = "#E433F6" },
+        new() { X = 2017, Y1 = 7.6,  Color = "#D833F3" },
+        new() { X = 2018, Y1 = 7.7,  Color = "#C931EE" },
+        new() { X = 2019, Y1 = 7.81, Color = "#BB30EA" },
+        new() { X = 2020, Y1 = 7.88, Color = "#B030E7" },
+        new() { X = 2021, Y1 = 7.95, Color = "#A92FE5" },
+        new() { X = 2022, Y1 = 8.02, Color = "#972DDE" },
+        new() { X = 2023, Y1 = 8.09, Color = "#8D2CDC" },
+        new() { X = 2024, Y1 = 8.1,  Color = "#7F2BD7" },
+        new() { X = 2025, Y1 = 8.2,  Color = "#6829D0" }
+    };
+}

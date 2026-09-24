@@ -1,0 +1,43 @@
+<SfChart @key="@_currentTheme" Title="Global Cotton Production by Country (2021-2024)" Theme="@_currentTheme">
+    <ChartArea><ChartAreaBorder Width="0" /></ChartArea>
+    <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Toolkit.ValueType.Category" Interval="1"><ChartAxisLineStyle Width="0" /></ChartPrimaryXAxis>
+    <ChartPrimaryYAxis Minimum="0" Maximum="100" Interval="20"><ChartAxisLineStyle Width="0" /></ChartPrimaryYAxis>
+
+    <ChartSeries DataSource="@StackingColumn100DataStore.DesktopData["India"]" XName="X" YName="Y" Type="ChartSeriesType.StackingColumn100" Name="India" Fill="#05B3DA" ColumnWidth="0.4"></ChartSeries>
+    <ChartSeries DataSource="@StackingColumn100DataStore.DesktopData["China"]" XName="X" YName="Y" Type="ChartSeriesType.StackingColumn100" Name="China" Fill="#B1212D" ColumnWidth="0.4"></ChartSeries>
+    <ChartSeries DataSource="@StackingColumn100DataStore.DesktopData["US"]" XName="X" YName="Y" Type="ChartSeriesType.StackingColumn100" Name="United States" Fill="#6200EE" ColumnWidth="0.4"></ChartSeries>
+    <ChartSeries DataSource="@StackingColumn100DataStore.DesktopData["Brazil"]" XName="X" YName="Y" Type="ChartSeriesType.StackingColumn100" Name="Brazil" Fill="#38BE09" ColumnWidth="0.4"></ChartSeries>
+
+    <ChartLegendSettings ShapeHeight="9" ShapeWidth="9"></ChartLegendSettings>
+    <ChartTooltipSettings Enable="true" Header="<b>Cotton Production</b>" Format="Year: <b>${point.x}</b><br/>${series.name}: <b>${point.y}M</b>"></ChartTooltipSettings>
+</SfChart>
+
+@code {
+    [CascadingParameter]
+    private Theme CurrentTheme { get; set; } = Theme.Fluent;
+
+    private Theme _currentTheme = Theme.Fluent;
+
+    protected override void OnParametersSet()
+    {
+        base.OnParametersSet();
+        _currentTheme = CurrentTheme;
+    }
+
+    public class ChartDataModel
+    {
+        public string X { get; set; } = string.Empty;
+        public double Y { get; set; }
+    }
+
+    public static class StackingColumn100DataStore
+    {
+        public static Dictionary<string, List<ChartDataModel>> DesktopData = new()
+        {
+            ["India"] = new() { new() { X = "2019", Y = 28.5 }, new() { X = "2020", Y = 27.5 }, new() { X = "2021", Y = 24.3 }, new() { X = "2022", Y = 26.3 }, new() { X = "2023", Y = 25.4 }, new() { X = "2024", Y = 25.0 } },
+            ["China"] = new() { new() { X = "2019", Y = 26.9 }, new() { X = "2020", Y = 29.3 }, new() { X = "2021", Y = 26.7 }, new() { X = "2022", Y = 30.8 }, new() { X = "2023", Y = 27.4 }, new() { X = "2024", Y = 31.0 } },
+            ["US"] = new() { new() { X = "2019", Y = 19.9 }, new() { X = "2020", Y = 14.6 }, new() { X = "2021", Y = 17.5 }, new() { X = "2022", Y = 14.5 }, new() { X = "2023", Y = 12.1 }, new() { X = "2024", Y = 14.4 } },
+            ["Brazil"] = new() { new() { X = "2019", Y = 13.0 }, new() { X = "2020", Y = 13.5 }, new() { X = "2021", Y = 12.4 }, new() { X = "2022", Y = 13.6 }, new() { X = "2023", Y = 14.2 }, new() { X = "2024", Y = 14.0 } }
+        };
+    }
+}

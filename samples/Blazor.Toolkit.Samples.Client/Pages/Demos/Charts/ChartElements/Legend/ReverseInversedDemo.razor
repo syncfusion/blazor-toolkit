@@ -1,0 +1,87 @@
+
+<SfChart @key="@_currentTheme" Title="Change in Energy Sources" Theme="@_currentTheme">
+
+    <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Toolkit.ValueType.Category">
+    </ChartPrimaryXAxis>
+
+    <ChartPrimaryYAxis Title="Measure in Tons">
+        <ChartAxisLineStyle Width="0" />
+    </ChartPrimaryYAxis>
+
+
+    <ChartSeries DataSource="@EnergySourceData"
+                 XName="Quarter"
+                 YName="Coal"
+                 Name="Coal"
+                 Type="ChartSeriesType.Column"
+                 Fill="#B4E50D"
+                 ColumnWidth="0.6"
+                 ColumnSpacing="0.1"
+                 CornerRadius="new ChartCornerRadius { TopLeft = 10, TopRight = 10 }"
+                 LegendShape="LegendShape.Rectangle">
+    </ChartSeries>
+
+    <ChartSeries DataSource="@EnergySourceData"
+                 XName="Quarter"
+                 YName="Petroleum"
+                 Name="Petroleum"
+                 Type="ChartSeriesType.Column"
+                 Fill="#FF90BB"
+                 ColumnWidth="0.6"
+                 ColumnSpacing="0.1"
+                 CornerRadius="new ChartCornerRadius { TopLeft = 10, TopRight = 10 }"
+                 LegendShape="LegendShape.Rectangle">
+    </ChartSeries>
+
+    <ChartSeries DataSource="@EnergySourceData"
+                 XName="Quarter"
+                 YName="NaturalGas"
+                 Name="Natural Gas"
+                 Type="ChartSeriesType.Column"
+                 Fill="#60B5FF"
+                 ColumnWidth="0.6"
+                 ColumnSpacing="0.1"
+                 CornerRadius="new ChartCornerRadius { TopLeft = 10, TopRight = 10 }"
+                 LegendShape="LegendShape.Rectangle">
+    </ChartSeries>
+
+
+    <ChartTooltipSettings Enable="true"
+                          Header="${point.x}"
+                          Format="${series.name} : <b>${point.y}</b>" />
+
+    <ChartLegendSettings Visible="true" Reverse="true">
+    </ChartLegendSettings>
+
+</SfChart>
+
+@code {
+    [CascadingParameter]
+    private Theme CurrentTheme { get; set; } = Theme.Fluent;
+
+    private Theme _currentTheme = Theme.Fluent;
+
+    protected override void OnParametersSet()
+    {
+        base.OnParametersSet();
+        _currentTheme = CurrentTheme;
+    }
+
+    public class EnergyChangeData
+    {
+        public string Quarter { get; set; }
+        public double Coal { get; set; }
+        public double ManufacturedFuels { get; set; }
+        public double PrimaryOil { get; set; }
+        public double Petroleum { get; set; }
+        public double NaturalGas { get; set; }
+    }
+
+    public List<EnergyChangeData> EnergySourceData = new()
+    {
+        new() { Quarter = "Q1", Coal = -666, ManufacturedFuels = -14, PrimaryOil = -261, Petroleum = -124, NaturalGas = -1197 },
+        new() { Quarter = "Q2", Coal = 208,  ManufacturedFuels = 71,  PrimaryOil = 950,  Petroleum = -318, NaturalGas = 906 },
+        new() { Quarter = "Q3", Coal = 426,  ManufacturedFuels = 19,  PrimaryOil = -845, Petroleum = 166,  NaturalGas = 276 },
+        new() { Quarter = "Q4", Coal = 158,  ManufacturedFuels = -29, PrimaryOil = -156, Petroleum = -19,  NaturalGas = 672 }
+    };
+}

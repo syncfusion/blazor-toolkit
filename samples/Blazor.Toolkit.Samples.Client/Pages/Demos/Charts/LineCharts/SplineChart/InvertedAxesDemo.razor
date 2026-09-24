@@ -1,0 +1,75 @@
+<SfChart @key="@_currentTheme" Title="Climate Graph in 2024" Theme="@_currentTheme" IsTransposed="true">
+    <ChartArea><ChartAreaBorder Width="0"></ChartAreaBorder></ChartArea>
+
+    <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Toolkit.ValueType.Category">
+        <ChartAxisMajorGridLines Width="0" />
+        <ChartAxisMajorTickLines Width="0" />
+        <ChartAxisMinorTickLines Width="0" />
+    </ChartPrimaryXAxis>
+
+    <ChartPrimaryYAxis LabelFormat="{value}°C">
+        <ChartAxisLineStyle Width="0" />
+        <ChartAxisMajorTickLines Width="0" />
+    </ChartPrimaryYAxis>
+
+    <ChartSeries DataSource="@SplineTransposedData"
+                 XName="X"
+                 YName="Y1"
+                 Name="London"
+                 Width="2"
+                 Fill="#66CCFF"
+                 Type="ChartSeriesType.Spline">
+        <ChartMarker Visible="true"
+                     Shape="ChartShape.Circle"
+                     IsFilled="true" />
+    </ChartSeries>
+
+    <ChartSeries DataSource="@SplineTransposedData"
+                 XName="X"
+                 YName="Y2"
+                 Name="France"
+                 Width="2"
+                 Fill="#99CC00"
+                 Type="ChartSeriesType.Spline">
+        <ChartMarker Visible="true"
+                     Shape="ChartShape.Circle"
+                     IsFilled="true" />
+    </ChartSeries>
+
+    <ChartLegendSettings EnableHighlight="true" />
+
+    <ChartTooltipSettings Enable="true"
+                          Header="${series.name}"
+                          EnableHighlight="true" />
+</SfChart>
+
+@code {
+    [CascadingParameter]
+    private Theme CurrentTheme { get; set; } = Theme.Fluent;
+
+    private Theme _currentTheme = Theme.Fluent;
+
+    protected override void OnParametersSet()
+    {
+        base.OnParametersSet();
+        _currentTheme = CurrentTheme;
+    }
+
+    public class SplineTransposedPoint
+    {
+        public string X { get; set; } = string.Empty;
+        public double Y1 { get; set; }
+        public double Y2 { get; set; }
+    }
+
+    public List<SplineTransposedPoint> SplineTransposedData = new()
+    {
+        new() { X = "Jan", Y1 = 2,  Y2 = 8  },
+        new() { X = "Mar", Y1 = 14, Y2 = 4  },
+        new() { X = "Apr", Y1 = 27, Y2 = 15 },
+        new() { X = "Jun", Y1 = 33, Y2 = 23 },
+        new() { X = "Aug", Y1 = 28, Y2 = 28 },
+        new() { X = "Oct", Y1 = 16, Y2 = 12 },
+        new() { X = "Dec", Y1 = 10, Y2 = 2  }
+    };
+}

@@ -1,0 +1,30 @@
+﻿<SfTextArea ID="Events" Placeholder="Enter your comments" FloatLabelType="FloatLabelType.Auto" Width="300px"
+            OnBlur="@BlurHandler" ValueChange="@ChangeHandler" Created="@CreatedHandler" OnInput="@InputHandler"
+            OnFocus="@FocusHandler"></SfTextArea>
+<div class="mt-3">
+    <p><b>Event:</b> @_eventMessage</p>
+</div>
+
+@code {
+    private string _eventMessage = string.Empty;
+    private void CreatedHandler()
+    {
+        _eventMessage = "Created event triggered";
+    }
+    private void InputHandler(TextAreaInputEventArgs args)
+    {
+        _eventMessage = "Input event triggered";
+    }
+    private void ChangeHandler(TextAreaValueChangeEventArgs args)
+    {
+        _eventMessage = "Changed event triggered";
+    }
+    private void BlurHandler(TextAreaFocusOutEventArgs args)
+    {
+        _eventMessage = "FocusOut event triggered";
+    }
+    private void FocusHandler(TextAreaFocusInEventArgs args)
+    {
+        _eventMessage = "FocusIn event triggered";
+    }
+}

@@ -1,0 +1,94 @@
+
+<SfChart @key="@_currentTheme" Title="Wind Speed and Gust (km/h)" Theme="@_currentTheme">
+    <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Toolkit.ValueType.DateTime"
+                       LabelFormat="ddd dd/MM" LabelRotation="-90">
+        <ChartAxisMajorTickLines Width="0" />
+        <ChartAxisMajorGridLines Width="0" />
+    </ChartPrimaryXAxis>
+
+    <ChartPrimaryYAxis Minimum="0" Maximum="35" Interval="5"
+                       Title="Wind Speed and Gust (km/h)">
+        <ChartAxisMajorTickLines Width="0" />
+        <ChartAxisLineStyle Width="0"/>
+        <ChartAxisLabelStyle Color="@AxisLabelColor" />
+        <ChartStriplines>
+            <ChartStripline Start="0" End="2" Text="Calm" Color="@CalmStriplineColor" Opacity="0.6" HorizontalAlignment="Anchor.Start"/>
+            <ChartStripline Start="2" End="6" Text="Light Air" Color="@LightAirStriplineColor" Opacity="0.6" HorizontalAlignment="Anchor.Start" />
+            <ChartStripline Start="6" End="10" Text="Light Breeze" Color="@LightBreezeStriplineColor" Opacity="0.6" HorizontalAlignment="Anchor.Start" />
+            <ChartStripline Start="10" End="15" Text="Gentle Breeze" Color="@GentleBreezeStriplineColor" Opacity="0.6" HorizontalAlignment="Anchor.Start" />
+            <ChartStripline Start="15" End="25" Text="Moderate Breeze" Color="@ModerateBreezeStriplineColor" Opacity="0.6" HorizontalAlignment="Anchor.Start" />
+            <ChartStripline Start="25" End="35" Text="Fresh Breeze" Color="@FreshBreezeStriplineColor" Opacity="0.6" HorizontalAlignment="Anchor.Start" />
+        </ChartStriplines>
+    </ChartPrimaryYAxis>
+
+
+    <ChartSeries DataSource="@WindSeriesData"
+                 XName="Date"
+                 YName="Gust"
+                 Name="Wind Gust (km/h)"
+                 Type="ChartSeriesType.Spline">
+    </ChartSeries>
+
+    <ChartSeries DataSource="@WindSeriesData"
+                 XName="Date"
+                 YName="Wind"
+                 Name="Wind Speed (km/h)"
+                 Type="ChartSeriesType.Spline">
+    </ChartSeries>
+
+
+    <ChartTooltipSettings Enable="true" EnableHighlight="true"
+                          EnableMarker="true"
+                          ShowNearestTooltip="true"
+                          Format="${point.x}<br/>${series.name}: <b>${point.y}</b>" />
+</SfChart>
+
+@code {
+    [CascadingParameter]
+    private Theme CurrentTheme { get; set; } = Theme.Fluent;
+
+    private Theme _currentTheme = Theme.Fluent;
+
+    protected override void OnParametersSet()
+    {
+        base.OnParametersSet();
+        _currentTheme = CurrentTheme;
+    }
+
+    private bool IsDarkTheme => _currentTheme.ToString().Contains("Dark") || _currentTheme.ToString().Contains("HighContrast");
+
+    // Stripline palette (light and dark alternatives)
+    private string CalmStriplineColor => IsDarkTheme ? "rgba(255,255,255,0.03)" : "#E3F2FD";
+    private string LightAirStriplineColor => IsDarkTheme ? "rgba(255,255,255,0.04)" : "#E1F5FE";
+    private string LightBreezeStriplineColor => IsDarkTheme ? "rgba(255,255,255,0.05)" : "#E8F5E9";
+    private string GentleBreezeStriplineColor => IsDarkTheme ? "rgba(255,255,255,0.06)" : "#FFFDE7";
+    private string ModerateBreezeStriplineColor => IsDarkTheme ? "rgba(255,255,255,0.07)" : "#FFF3E0";
+    private string FreshBreezeStriplineColor => IsDarkTheme ? "rgba(255,255,255,0.08)" : "#FBE9E7";
+
+    private string AxisLabelColor => IsDarkTheme ? "#BDBDBD" : "#333333";
+
+    public class WindData
+    {
+        public DateTime Date { get; set; }
+        public double Wind { get; set; }
+        public double Gust { get; set; }
+    }
+
+    public List<WindData> WindSeriesData = new()
+    {
+        new WindData { Date = new DateTime(2000, 5, 1),  Wind = 17, Gust = 30 },
+        new WindData { Date = new DateTime(2000, 5, 2),  Wind = 14, Gust = 28 },
+        new WindData { Date = new DateTime(2000, 5, 3),  Wind = 12, Gust = 22 },
+        new WindData { Date = new DateTime(2000, 5, 4),  Wind = 9,  Gust = 19 },
+        new WindData { Date = new DateTime(2000, 5, 5),  Wind = 10, Gust = 21 },
+        new WindData { Date = new DateTime(2000, 5, 6),  Wind = 7,  Gust = 15 },
+        new WindData { Date = new DateTime(2000, 5, 7),  Wind = 11, Gust = 20 },
+        new WindData { Date = new DateTime(2000, 5, 8),  Wind = 16, Gust = 30 },
+        new WindData { Date = new DateTime(2000, 5, 9),  Wind = 9,  Gust = 18 },
+        new WindData { Date = new DateTime(2000, 5,10),  Wind = 13, Gust = 20 },
+        new WindData { Date = new DateTime(2000, 5,11),  Wind = 7,  Gust = 14 },
+        new WindData { Date = new DateTime(2000, 5,12),  Wind = 12, Gust = 26 },
+        new WindData { Date = new DateTime(2000, 5,13),  Wind = 6,  Gust = 12 },
+        new WindData { Date = new DateTime(2000, 5,14),  Wind = 8,  Gust = 16 }
+    };
+}

@@ -1,0 +1,109 @@
+﻿<div class="d-flex gap-4 align-items-center flex-wrap">
+    <SfRadioButton Name="colors" CssClass="e-success" Label="Success" Value="Success" @bind-Checked="colorPick" />
+    <SfRadioButton Name="colors" CssClass="e-info" Label="Info" Value="Info" @bind-Checked="colorPick" />
+    <SfRadioButton Name="colors" CssClass="e-warning" Label="Warning" Value="Warning" @bind-Checked="colorPick" />
+    <SfRadioButton Name="colors" CssClass="e-danger" Label="Danger" Value="Danger" @bind-Checked="colorPick" />
+</div>
+
+@code {
+    private string colorPick = "Success";
+}
+
+<style>
+    .e-radio-wrapper.e-success .e-radio:checked + label::after { /* csslint allow: adjoining-classes */
+        background-color: #689f38;
+        color: #689f38;
+    }
+
+    .e-radio-wrapper.e-success .e-radio:checked:focus + label::after,
+    .e-radio-wrapper.e-success .e-radio:checked + label:hover::after { /* csslint allow: adjoining-classes */
+        background-color: #449d44;
+    }
+
+    /* FIXED: + label::before (not + ::before) */
+    .e-radio-wrapper.e-success .e-radio:checked + label::before {
+        border-color: #689f38;
+        background-color: #fff;
+    }
+
+    .e-radio-wrapper.e-success .e-radio:checked:focus + label::before,
+    .e-radio-wrapper.e-success .e-radio:checked + label:hover::before { /* csslint allow: adjoining-classes */
+        border-color: #449d44;
+    }
+
+    .e-radio-wrapper.e-success .e-radio + label:hover::before {
+        border-color: #b1afaf;
+    }
+
+    .e-radio-wrapper.e-info .e-radio:checked + label::after { /* csslint allow: adjoining-classes */
+        background-color: #2196f3;
+        color: #2196f3;
+    }
+
+    .e-radio-wrapper.e-info .e-radio:checked:focus + label::after,
+    .e-radio-wrapper.e-info .e-radio:checked + label:hover::after { /* csslint allow: adjoining-classes */
+        background-color: #0b7dda;
+    }
+
+    .e-radio-wrapper.e-info .e-radio:checked + label::before {
+        border-color: #2196f3;
+        background-color: #fff;
+    }
+
+    .e-radio-wrapper.e-info .e-radio:checked:focus + label::before,
+    .e-radio-wrapper.e-info .e-radio:checked + label:hover::before {
+        border-color: #0b7dda;
+    }
+
+    .e-radio-wrapper.e-info .e-radio + label:hover::before {
+        border-color: #b1afaf;
+    }
+
+    .e-radio-wrapper.e-warning .e-radio:checked + label::after { /* csslint allow: adjoining-classes */
+        background-color: #ef6c00;
+        color: #ef6c00;
+    }
+
+    .e-radio-wrapper.e-warning .e-radio:checked:focus + label::after,
+    .e-radio-wrapper.e-warning .e-radio:checked + label:hover::after { /* csslint allow: adjoining-classes */
+        background-color: #cc5c00;
+    }
+
+    .e-radio-wrapper.e-warning .e-radio:checked + label::before {
+        border-color: #ef6c00;
+        background-color: #fff;
+    }
+
+    .e-radio-wrapper.e-warning .e-radio:checked:focus + label::before,
+    .e-radio-wrapper.e-warning .e-radio:checked + label:hover::before {
+        border-color: #cc5c00;
+    }
+
+    .e-radio-wrapper.e-warning .e-radio + label:hover::before {
+        border-color: #b1afaf;
+    }
+
+    .e-radio-wrapper.e-danger .e-radio:checked + label::after { /* csslint allow: adjoining-classes */
+        background-color: #d84315;
+        color: #d84315;
+    }
+
+    .e-radio-wrapper.e-danger .e-radio:checked:focus + label::after,
+    .e-radio-wrapper.e-danger .e-radio:checked + label:hover::after { /* csslint allow: adjoining-classes */
+        background-color: #ba330a;
+    }
+
+    .e-radio-wrapper.e-danger .e-radio:checked + label::before {
+        border-color: #d84315;
+        background-color: #fff;
+    }
+
+    .e-radio-wrapper.e-danger .e-radio:checked:focus + label::before,
+    .e-radio-wrapper.e-danger .e-radio:checked + label:hover::before {
+        border-color: #ba330a;
+    }
+
+    .e-radio-wrapper.e-danger .e-radio + label:hover::before {
+        border-color: #b1afaf
+    }
+</style>

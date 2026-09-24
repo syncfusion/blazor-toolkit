@@ -6,34 +6,165 @@
     overflow: hidden;
 }
 
+/* ============================================================
+   TOPBAR / HEADER (Syncfusion Blazor Toolkit Documentation V2)
+   ============================================================ */
 .top-layout-custom {
     position: sticky;
     top: 0;
     z-index: 40;
-    border-bottom: 1px solid rgba(0,0,0,0.06);
+    background-color: var(--top-bg);
+    border-bottom: 1px solid var(--topbar-border, rgba(15, 23, 42, 0.08));
 }
 
 .top-layout-inner {
     display: flex;
-    justify-content: space-between;
     align-items: center;
-    padding: 0.5rem 1rem;
+    justify-content: space-between;
+    gap: 20px;
+    height: 72px;
+    min-height: 72px;
+    padding: 0 20px;
+    max-width: 100%;
 }
+
+/* Left side: brand */
+.top-left {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    flex-shrink: 0;
+    height: 100%;
+}
+.top-left.tablet { display: contents; }
+
+.brand-section {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    text-decoration: none;
+    color: var(--top-text);
+    height: 100%;
+}
+.brand-section .brand-link {
+    text-decoration: none;
+    color: var(--top-text);
+    display: inline-flex;
+    align-items: center;
+    transition: opacity 0.2s ease;
+    height: 100%;
+}
+.brand-section .brand-link:hover { opacity: 0.85; }
+.brand-section .brand-link:focus-visible {
+    outline: 2px solid var(--accent);
+    outline-offset: 2px;
+    border-radius: 4px;
+}
+
+.brand-section .syncfusion-logo,
+.top-layout-title .syncfusion-logo {
+    width: 130px;
+    height: 28px;
+    background: url(https://cdn.syncfusion.com/blazor/images/demos/syncfusion-logo.svg) left center / contain no-repeat;
+    flex-shrink: 0;
+    display: inline-block;
+}
+
+/* Subtle vertical divider between the Syncfusion logo and the product name */
+.brand-divider {
+    display: inline-block;
+    width: 1px;
+    height: 22px;
+    background-color: var(--topbar-border, rgba(15, 23, 42, 0.16));
+    flex-shrink: 0;
+    align-self: center;
+}
+.dark .brand-divider {
+    background-color: rgba(255, 255, 255, 0.16);
+}
+
+/* Product name (Blazor Toolkit) shown next to the divider on a single baseline */
+.brand-section .brand-product,
+.top-layout-title .brand-product {
+    display: inline-flex;
+    align-items: center;
+    height: 100%;
+    text-decoration: none;
+    color: var(--top-text);
+    font-family: "Segoe UI Variable", "Segoe UI", "Inter", system-ui, sans-serif;
+    transition: color .15s ease, opacity .15s ease;
+}
+.brand-section .brand-product:hover,
+.top-layout-title .brand-product:hover { opacity: 0.85; text-decoration: none; }
+.brand-section .brand-product:focus-visible,
+.top-layout-title .brand-product:focus-visible {
+    outline: 2px solid var(--accent);
+    outline-offset: 2px;
+    border-radius: 4px;
+}
+.brand-product-name {
+    font-size: 20px;
+    font-weight: 700;
+    color: #2B357C;
+    letter-spacing: -0.005em;
+    line-height: 1;
+    white-space: nowrap;
+}
+
+/* Right side: search + actions */
+.top-right {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    flex: 1 1 auto;
+    justify-content: flex-end;
+}
+
+.topbar-search-text {
+    flex: 1 1 auto;
+    color: var(--text-color-secondary, #6B7280);
+    font-weight: 400;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+.topbar-search-kbd {
+    display: inline-flex;
+    align-items: center;
+    gap: 2px;
+    font-size: 11px;
+    font-weight: 600;
+    color: var(--text-color-secondary, #6B7280);
+    background: var(--top-bg, #FFFFFF);
+    border: 1px solid var(--topbar-border, rgba(15, 23, 42, 0.08));
+    border-radius: 4px;
+    padding: 1px 6px;
+    font-family: "Cascadia Code", "JetBrains Mono", Consolas, monospace;
+    flex-shrink: 0;
+}
+
+
+.action-buttons { padding-left: 0; padding-right: 0; }
+.search { height: stretch; }
 
 /* Content row fills remaining height */
 .content-row {
     flex: 1 1 auto;
     display: flex;
     min-height: 0; /* important to allow children to scroll */
+    background-color: var(--bg-color);
 }
 
-/* Sidebar: fixed percentage width, full available height, internal scroll only */
+/* Sidebar: fixed width 260px, full available height, internal scroll only */
 .sidebar {
-    flex: 0 0 18%;
+    flex: 0 0 16%;
+    width: 260px;
     box-sizing: border-box;
     border-right: 1px solid rgba(0,0,0,0.04);
     overflow: auto; /* scroll appears only inside sidebar */
+    scrollbar-width: none;
 }
+.sidebar::-webkit-scrollbar { display: none; }
 
 /* Main area: takes remaining width and scrolls if needed */
 .main-area {
@@ -44,17 +175,25 @@
     scrollbar-width: none;
 }
 
-/* Right-side panel: table of contents */
+/* Right-side panel: table of contents.
+   Single scroll context (the whole rail scrolls together), mirroring
+   the left `.sidebar` panel. This keeps the "Need help?" card sitting
+   BELOW the list in normal flow - never overlapping it - and lets the
+   user scroll the entire sidebar as one piece. */
 .right-panel {
-    flex: 0 0 15%;
+    flex: 0 0 14%;
+    width: 220px;
     box-sizing: border-box;
     overflow: auto;
+    scrollbar-width: thin;
+    scrollbar-color: rgba(15, 23, 42, 0.18) transparent;
 }
-
-.right-toc .toc-inner {
-    position: sticky;
-    top: 80px;
+.right-panel::-webkit-scrollbar { width: 8px; }
+.right-panel::-webkit-scrollbar-thumb {
+    background: rgba(15, 23, 42, 0.15);
+    border-radius: 8px;
 }
+.right-panel::-webkit-scrollbar-track { background: transparent; }
 
 .toc-list {
     list-style: none;
@@ -64,6 +203,130 @@
 .toc-item {
     margin: 0.25rem 0;
 }
+
+
+/* ===============================================================
+   FORCED COLORS (Windows High Contrast)
+   The layout-level sidebar / right-panel / topbar / content-row
+   columns must show explicit borders so they remain visible against
+   the content area background. All colours rely on OS system
+   colours so Aquatic / Desert / Dusk / Night sky all receive the
+   correct OS palette.
+   =============================================================== */
+@media (forced-colors: active) {
+    .sidebar {
+        background-color: Canvas !important;
+        color: CanvasText !important;
+        border-right: 1px solid ButtonText !important;
+        forced-color-adjust: none;
+    }
+
+    .right-panel {
+        background-color: Canvas !important;
+        color: CanvasText !important;
+        border-left: 1px solid ButtonText !important;
+        forced-color-adjust: none;
+    }
+
+    .content-row {
+        background-color: Canvas !important;
+    }
+
+    .top-layout-custom {
+        background-color: Canvas !important;
+        color: CanvasText !important;
+        border-bottom: 1px solid ButtonText !important;
+    }
+
+    .brand-product-name {
+        color: CanvasText !important;
+        forced-color-adjust: auto;
+    }
+
+    .brand-divider {
+        background-color: ButtonText !important;
+    }
+
+    .topbar-search-kbd {
+        background-color: Canvas !important;
+        color: CanvasText !important;
+        border: 1px solid ButtonText !important;
+    }
+}
+
+
+@media (forced-colors: active) {
+    /* Unfocused layout-column links – let the OS choose the colour */
+    .toc-item a,
+    .sidebar a,
+    .right-panel a,
+    .toc a,
+    .on-this-page a,
+    .right-sidebar a,
+    .left-sidebar a,
+    .sb-nav-link,
+    .sb-menu-item {
+        color: CanvasText !important;
+        background-color: transparent !important;
+        forced-color-adjust: none;
+    }
+
+    /* Hover / active – full-width system highlight bar */
+    .toc-item a:hover,
+    .toc-item a:focus,
+    .toc-item a.active,
+    .sidebar a:hover,
+    .sidebar a.active,
+    .toc a:hover,
+    .toc a.active,
+    .on-this-page a:hover,
+    .on-this-page a.active {
+        background-color: Highlight !important;
+        color: HighlightText !important;
+        forced-color-adjust: none;
+    }
+}
+
+/* ------------------------------------------------------------------
+   Windows High Contrast (forced-colors) – Brand product link
+   ------------------------------------------------------------------ */
+@media (forced-colors: active) {
+
+    /* Default / unvisited → system link colour (yellow in Night Sky) */
+    a.brand-link.brand-product,
+    a.brand-link.brand-product .brand-product-name {
+        color: LinkText !important;
+        forced-color-adjust: none;
+    }
+
+    /* Hover + keyboard focus → system highlight (violet in Night Sky) */
+    a.brand-link.brand-product:hover,
+    a.brand-link.brand-product:hover .brand-product-name,
+    a.brand-link.brand-product:focus-visible,
+    a.brand-link.brand-product:focus-visible .brand-product-name {
+        color: Highlight !important;
+        text-decoration: underline;          /* optional but recommended */
+    }
+
+    /* Active / pressed */
+    a.brand-link.brand-product:active,
+    a.brand-link.brand-product:active .brand-product-name {
+        color: Highlight !important;
+    }
+
+    /* Visited (optional) */
+    a.brand-link.brand-product:visited,
+    a.brand-link.brand-product:visited .brand-product-name {
+        color: VisitedText !important;
+    }
+
+    /* Clear focus ring for keyboard users */
+    a.brand-link.brand-product:focus-visible {
+        outline: 2px solid Highlight !important;
+        outline-offset: 2px;
+    }
+}
+
 .toc-item a {
     color: inherit;
     text-decoration: none;
@@ -88,41 +351,25 @@
     padding: 0.5rem;
 }
 
-/* Responsive: stack sidebar above content on small screens */
+@media (max-width: 1024px) {
+    .topbar-search-text { display: none; }
+    .topbar-search-kbd { display: none; }
+    .brand-product-name { font-size: 15px; }
+    .top-layout-inner { padding: 0 16px; gap: 10px; }
+    .top-right { gap: 12px; }
+}
 @media (max-width: 767.98px) {
     .content-row {
         flex-direction: column;
     }
 
     .sidebar {
-        flex: 0 0 auto;
+        flex: 0 0 16%;
         max-width: 100%;
         height: auto;
     }
     .right-panel { display: none; }
-}
-.brand-section, .top-right {
-    display: flex;
-}
-.action-buttons {
-    padding-left:10px;
-    padding-right:10px;
-}
-.github {
-    padding: 3px 10px;
-    border: 1px solid #e7e0ec;
-    border-radius: 5px;
-    margin-left: 5px;
-    margin-right: 5px;
-}
-
-.search {
-    height: stretch;
-}
-
-.brand-name {
-    line-height: 35px;
-    font-size: 1em;
+    .top-right { gap: 10px; }
 }
 
 /* ----- Loading Spinner styles ----- */

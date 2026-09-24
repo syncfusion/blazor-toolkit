@@ -1,0 +1,107 @@
+
+<SfChart @key="@_currentTheme" Title="World Pollution Report" Theme="@_currentTheme">
+    <ChartArea><ChartAreaBorder Width="0"></ChartAreaBorder></ChartArea>
+    <ChartTooltipSettings Enable="true" EnableHighlight="true"
+                          Format="Year: ${point.x}<br/>Tons Per Day: <b>${point.y}</b>" />
+    <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Toolkit.ValueType.DateTime"
+                       IntervalType="IntervalType.Years" EdgeLabelPlacement="EdgeLabelPlacement.Shift"
+                       Minimum="@(new DateTime(1965, 1, 1))" LabelFormat="yyyy"
+                       Maximum="@(new DateTime(2010, 1, 1))" >
+                                <ChartAxisMinorTickLines Width="0" />
+        <ChartAxisMajorTickLines Width="0" />
+        <ChartAxisMajorGridLines Width="0" />
+
+        <ChartStriplines>
+            <ChartStripline Start="@(new DateTime(1965, 1, 1))"
+                            Size="5"
+                            SizeType="SizeType.Years"
+                            IsRepeat="true"
+                            RepeatEvery="10"
+                            Color="rgba(167,169,171,0.1)"
+                            Visible="true" />
+        </ChartStriplines>
+    </ChartPrimaryXAxis>
+    <ChartPrimaryYAxis Minimum="0"
+                       Maximum="18000"
+                       Interval="2000">
+        <ChartAxisMajorGridLines Color="rgba(167,169,171,0.3)" />
+        <ChartAxisLabelStyle Color="transparent" />
+        <ChartAxisMajorTickLines Width="0" />
+
+        <ChartStriplines>
+            <ChartStripline Start="0"
+                            Size="2000"
+                            IsRepeat="true"
+                            RepeatEvery="4000"
+                            Color="rgba(167,169,171,0.1)"
+                            Visible="true" />
+        </ChartStriplines>
+    </ChartPrimaryYAxis>
+
+
+    <ChartSeries DataSource="@AllSourcesData"
+                 XName="Year"
+                 YName="Value"
+                 Name="All sources"
+                 Type="ChartSeriesType.Column"
+                 Fill="#00C58D"
+                 ColumnWidth="0.8"
+                 ColumnSpacing="0.2"
+                 CornerRadius="new ChartCornerRadius {TopLeft = 5, TopRight = 5}">
+    </ChartSeries>
+
+    <ChartSeries DataSource="@AutosData"
+                 XName="Year"
+                 YName="Value"
+                 Name="Autos & Light Trucks"
+                 Type="ChartSeriesType.Column"
+                 Fill="#DA7DD4"
+                 ColumnWidth="0.8"
+                 ColumnSpacing="0.2"
+                 CornerRadius="new ChartCornerRadius {TopLeft = 5, TopRight = 5}">
+    </ChartSeries>
+
+</SfChart>
+
+@code {
+    [CascadingParameter]
+    private Theme CurrentTheme { get; set; } = Theme.Fluent;
+
+    private Theme _currentTheme = Theme.Fluent;
+
+    protected override void OnParametersSet()
+    {
+        base.OnParametersSet();
+        _currentTheme = CurrentTheme;
+    }
+
+    public class PollutionData
+    {
+        public double Value { get; set; }
+        public DateTime Year { get; set; }
+    }
+
+    public List<PollutionData> AllSourcesData = new()
+    {
+        new() { Year = new DateTime(1970, 1, 1), Value = 16500 },
+        new() { Year = new DateTime(1975, 1, 1), Value = 16000 },
+        new() { Year = new DateTime(1980, 1, 1), Value = 15400 },
+        new() { Year = new DateTime(1985, 1, 1), Value = 15800 },
+        new() { Year = new DateTime(1990, 1, 1), Value = 14000 },
+        new() { Year = new DateTime(1995, 1, 1), Value = 10500 },
+        new() { Year = new DateTime(2000, 1, 1), Value = 13300 },
+        new() { Year = new DateTime(2005, 1, 1), Value = 12800 }
+    };
+
+    public List<PollutionData> AutosData = new()
+    {
+        new() { Year = new DateTime(1970, 1, 1), Value = 8000 },
+        new() { Year = new DateTime(1975, 1, 1), Value = 7600 },
+        new() { Year = new DateTime(1980, 1, 1), Value = 6400 },
+        new() { Year = new DateTime(1985, 1, 1), Value = 3700 },
+        new() { Year = new DateTime(1990, 1, 1), Value = 7200 },
+        new() { Year = new DateTime(1995, 1, 1), Value = 2300 },
+        new() { Year = new DateTime(2000, 1, 1), Value = 4000 },
+        new() { Year = new DateTime(2005, 1, 1), Value = 4800 }
+    };
+}

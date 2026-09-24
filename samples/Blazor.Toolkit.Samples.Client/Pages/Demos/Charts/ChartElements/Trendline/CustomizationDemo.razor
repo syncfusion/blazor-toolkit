@@ -1,0 +1,99 @@
+
+<SfChart @key="@_currentTheme" Title="Global Forest Area Decline (1990-2020)"
+         SubTitle="Source: FAO (Food and Agriculture Organization)" Theme="@_currentTheme">
+
+    <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Toolkit.ValueType.Category"
+                       Title="Year">
+        <ChartAxisMajorGridLines Width="0" />
+        <ChartAxisMajorTickLines Width="0" />
+    </ChartPrimaryXAxis>
+
+    <ChartPrimaryYAxis Minimum="3900"
+                       Maximum="4200"
+                       Interval="50"
+                       Title="Forest Area (Million Hectares)">
+        <ChartAxisMajorTickLines Width="0" />
+        <ChartAxisLineStyle Width="0" />
+    </ChartPrimaryYAxis>
+
+    <ChartTooltipSettings Enable="true"
+                          Shared="true"
+                          ShowNearestTooltip="true"
+                          Format="Forest Area: <b>${point.y} MH</b>" />
+
+    <ChartLegendSettings Visible="true"
+                         ShapeHeight="15"
+                         ShapeWidth="15" />
+
+
+    <ChartSeries DataSource="@TrendlineCustomizationData"
+                 XName="Year"
+                 YName="Area"
+                 Name="Forest Coverage"
+                 Type="ChartSeriesType.Line"
+                 Width="2.5"
+                 Fill="#2E7D32">
+
+        <ChartSeriesAnimation Enable="false" />
+
+        <ChartMarker Visible="true"
+                     Width="8"
+                     Height="8"
+                     Shape="ChartShape.Diamond"
+                     Fill="#2E7D32">
+        </ChartMarker>
+
+        <ChartTrendlines>
+            <ChartTrendline Type="TrendlineTypes.Linear"
+                            Name="Deforestation Trend"
+                            Width="6"
+                            DashArray="8,4,2,4"
+                            Intercept="4150"
+                            Fill="#FFB300"
+                            EnableTooltip="false">
+                <ChartTrendlineAnimation Enable="false" />
+            </ChartTrendline>
+        </ChartTrendlines>
+
+    </ChartSeries>
+
+</SfChart>
+
+@code {
+    [CascadingParameter]
+    private Theme CurrentTheme { get; set; } = Theme.Fluent;
+
+    private Theme _currentTheme = Theme.Fluent;
+
+    protected override void OnParametersSet()
+    {
+        base.OnParametersSet();
+        _currentTheme = CurrentTheme;
+    }
+
+    public class ForestAreaPoint
+    {
+        public string Year { get; set; }
+        public double Area { get; set; }
+
+    }
+
+    public List<ForestAreaPoint> TrendlineCustomizationData = new()
+    {
+        new() { Year = "1990", Area = 4128 },
+        new() { Year = "1992", Area = 4113 },
+        new() { Year = "1994", Area = 4098 },
+        new() { Year = "1996", Area = 4084 },
+        new() { Year = "1998", Area = 4069 },
+        new() { Year = "2000", Area = 4055 },
+        new() { Year = "2002", Area = 4041 },
+        new() { Year = "2004", Area = 4028 },
+        new() { Year = "2006", Area = 4015 },
+        new() { Year = "2008", Area = 4003 },
+        new() { Year = "2012", Area = 3989 },
+        new() { Year = "2014", Area = 3978 },
+        new() { Year = "2016", Area = 3968 },
+        new() { Year = "2018", Area = 3958 },
+        new() { Year = "2020", Area = 3952 },
+    };
+}

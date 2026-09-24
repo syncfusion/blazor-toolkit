@@ -1,0 +1,14 @@
+﻿<div class="d-flex align-items-center gap-3 flex-wrap">
+    <div>
+        <SfNumericTextBox TValue="double?" @bind-Value="CustomFormatHash" Format="###.##" Width="220px" Placeholder="Format - ###.##" FloatLabelType="FloatLabelType.Always" />
+        <div class="mt-2 example-label"><b>Values:</b> @CustomFormatHash</div>
+    </div>
+    <div>
+        <SfNumericTextBox TValue="double?" @bind-Value="CustomFormatZero" Format="000.00" Width="220px" Placeholder="Format - 000.00" FloatLabelType="FloatLabelType.Always" />
+        <div class="mt-2 example-label"><b>Values:</b> @CustomFormatZero</div>
+    </div>
+</div>
+@code {
+    private double? CustomFormatHash { get; set; } = 10.5;
+    private double? CustomFormatZero { get; set; } = 10.5;
+}

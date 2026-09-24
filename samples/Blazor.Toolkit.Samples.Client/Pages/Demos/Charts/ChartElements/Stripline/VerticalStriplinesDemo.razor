@@ -1,0 +1,136 @@
+
+<SfChart @key="@_currentTheme" Title="Wind Speed and Gust (km/h)" Theme="@_currentTheme">
+
+    <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Toolkit.ValueType.DateTime"
+                       LabelFormat="ddd dd/MM" LabelRotation="-90">
+
+
+        <!-- Vertical Striplines -->
+        <ChartStriplines>
+            <ChartStripline Start="@(new DateTime(2023, 5, 1))"
+                            End="@(new DateTime(2023, 5, 5))"
+                            Text="Week 1"
+                            HorizontalAlignment="Anchor.Middle"
+                            Color="rgba(68,170,213,0.1)">
+            </ChartStripline>
+
+            <ChartStripline Start="@(new DateTime(2023, 5, 5))"
+                            End="@(new DateTime(2023, 5, 10))"
+                            Text="Week 2"
+                            HorizontalAlignment="Anchor.Middle"
+                            Color="rgba(0,0,0,0)">
+            </ChartStripline>
+
+            <ChartStripline Start="@(new DateTime(2023, 5, 10))"
+                            End="@(new DateTime(2023, 5, 15))"
+                            Text="Week 3"
+                            HorizontalAlignment="Anchor.Middle"
+                            Color="rgba(68,170,213,0.1)">
+            </ChartStripline>
+
+        </ChartStriplines>
+    </ChartPrimaryXAxis>
+
+    <ChartPrimaryYAxis Minimum="0"
+                       Maximum="30"
+                       Interval="10"
+                       Title="Wind Speed and Gust (km/h)">
+        <ChartAxisLineStyle Width="0" />
+    </ChartPrimaryYAxis>
+
+
+    <ChartSeries DataSource="@WindSpeedData"
+                 XName="Date"
+                 YName="Wind"
+                 Name="Wind Speed (km/h)"
+                 Type="ChartSeriesType.Spline"
+                 Width="2"
+                 Fill="#01A725"
+                 LegendShape="LegendShape.HorizontalLine">
+    </ChartSeries>
+
+    <ChartSeries DataSource="@WindGustData"
+                 XName="Date"
+                 YName="Gust"
+                 Name="Wind Gust (km/h)"
+                 Type="ChartSeriesType.Spline"
+                 Width="2"
+                 Fill="#FF8225"
+                 LegendShape="LegendShape.HorizontalLine">
+    </ChartSeries>
+
+
+    <ChartTooltipSettings Enable="true"
+                          ShowNearestTooltip="true"
+                          EnableHighlight="true" EnableMarker="true"
+                          Format="${point.x}<br/>${series.name} : <b>${point.y}</b>" />
+
+    <ChartLegendSettings Visible="true"
+                         ShapeHeight="6"
+                         ShapeWidth="15">
+    </ChartLegendSettings>
+
+</SfChart>
+
+@code {
+    [CascadingParameter]
+    private Theme CurrentTheme { get; set; } = Theme.Fluent;
+
+    private Theme _currentTheme = Theme.Fluent;
+
+    protected override void OnParametersSet()
+    {
+        base.OnParametersSet();
+        _currentTheme = CurrentTheme;
+    }
+
+    public class WindGustInfo
+    {
+        public DateTime Date { get; set; }
+        public double Gust { get; set; }
+    }
+
+    public class WindSpeedInfo
+    {
+        public DateTime Date { get; set; }
+        public double Wind { get; set; }
+    }
+
+    public List<WindGustInfo> WindGustData = new()
+    {
+        new() { Date = new DateTime(2023, 5, 1), Gust = 30 },
+        new() { Date = new DateTime(2023, 5, 2), Gust = 28 },
+        new() { Date = new DateTime(2023, 5, 3), Gust = 26 },
+        new() { Date = new DateTime(2023, 5, 4), Gust = 19 },
+        new() { Date = new DateTime(2023, 5, 5), Gust = 21 },
+        new() { Date = new DateTime(2023, 5, 6), Gust = 14 },
+        new() { Date = new DateTime(2023, 5, 7), Gust = 13 },
+        new() { Date = new DateTime(2023, 5, 8), Gust = 29 },
+        new() { Date = new DateTime(2023, 5, 9), Gust = 19 },
+        new() { Date = new DateTime(2023, 5, 10), Gust = 20 },
+        new() { Date = new DateTime(2023, 5, 11), Gust = 15 },
+        new() { Date = new DateTime(2023, 5, 12), Gust = 25 },
+        new() { Date = new DateTime(2023, 5, 13), Gust = 20 },
+        new() { Date = new DateTime(2023, 5, 14), Gust = 10 },
+        new() { Date = new DateTime(2023, 5, 15), Gust = 15 }
+    };
+
+    public List<WindSpeedInfo> WindSpeedData = new()
+    {
+        new() { Date = new DateTime(2023, 5, 1), Wind = 19 },
+        new() { Date = new DateTime(2023, 5, 2), Wind = 17 },
+        new() { Date = new DateTime(2023, 5, 3), Wind = 14 },
+        new() { Date = new DateTime(2023, 5, 4), Wind = 9 },
+        new() { Date = new DateTime(2023, 5, 5), Wind = 10 },
+        new() { Date = new DateTime(2023, 5, 6), Wind = 8 },
+        new() { Date = new DateTime(2023, 5, 7), Wind = 8 },
+        new() { Date = new DateTime(2023, 5, 8), Wind = 16 },
+        new() { Date = new DateTime(2023, 5, 9), Wind = 9 },
+        new() { Date = new DateTime(2023, 5, 10), Wind = 13 },
+        new() { Date = new DateTime(2023, 5, 11), Wind = 7 },
+        new() { Date = new DateTime(2023, 5, 12), Wind = 12 },
+        new() { Date = new DateTime(2023, 5, 13), Wind = 10 },
+        new() { Date = new DateTime(2023, 5, 14), Wind = 5 },
+        new() { Date = new DateTime(2023, 5, 15), Wind = 8 }
+    };
+}

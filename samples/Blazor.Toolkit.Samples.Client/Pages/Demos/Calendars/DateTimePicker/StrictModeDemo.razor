@@ -1,0 +1,6 @@
+﻿<SfDateTimePicker TValue="DateTime?" Width="300px" Min="@StrictModeMinDate" Max="@StrictModeMaxDate" StrictMode=true Value="@StrictModeDateValue" Placeholder="Select a date and time" />
+@code {
+    public DateTime StrictModeMinDate { get; set; } = new DateTime(DateTime.Now.Year, DateTime.Now.Month, 5, 02, 00, 00);
+    public DateTime StrictModeMaxDate { get; set; } = new DateTime(DateTime.Now.Year, DateTime.Now.Month, 25, 02, 00, 00);
+    public DateTime? StrictModeDateValue { get; set; } = new DateTime(DateTime.Now.Year, DateTime.Now.Month, 28, 02, 00, 00);
+}

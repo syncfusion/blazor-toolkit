@@ -1,0 +1,84 @@
+@using Syncfusion.Blazor.Toolkit.Buttons
+<div class="property-pane">
+    <div style="display:flex; align-items:center; gap:10px;">
+        <label style="font-weight:700;">Crosshair Line Type:</label>
+        <SfButtonGroup Mode="SelectionMode.Single">
+            <Button Selected="IsSelected(LineType.None)" SelectedChanged="@(v => OnModeChanged(v, LineType.None))">None</Button>
+            <Button Selected="IsSelected(LineType.Vertical)" SelectedChanged="@(v => OnModeChanged(v, LineType.Vertical))">Vertical</Button>
+            <Button Selected="IsSelected(LineType.Horizontal)" SelectedChanged="@(v => OnModeChanged(v, LineType.Horizontal))">Horizontal</Button>
+            <Button Selected="IsSelected(LineType.Both)" SelectedChanged="@(v => OnModeChanged(v, LineType.Both))">Both</Button>
+        </SfButtonGroup>
+    </div>
+</div>
+
+<SfChart @key="@_currentTheme" Title="India - Top Export Products (USD Billions, OEC 2022)" Theme="@_currentTheme">
+    <ChartLegendSettings Visible="false" />
+
+    <ChartCrosshairSettings Enable="true"
+                            LineType="@Mode"
+                            DashArray="2,3">
+        <ChartCrosshairLine Width="1.5" />
+    </ChartCrosshairSettings>
+
+    <ChartPrimaryXAxis Title="Export Value (USD Billions)" Format="${value}B" LabelIntersectAction="LabelIntersectAction.Rotate90" Minimum="0" ValueType="Syncfusion.Blazor.Toolkit.ValueType.Category">
+    </ChartPrimaryXAxis>
+
+    <ChartSeries DataSource="@ProductsData.Items"
+                 XName="X"
+                 YName="Y"
+                 Type="ChartSeriesType.Column"
+                 Fill="#05B3DA"
+                 ColumnSpacing="0.2">
+        <ChartCornerRadius TopLeft="6" TopRight="6" />
+    </ChartSeries>
+
+    <ChartTooltipSettings Enable="true"
+                          Shared="true"
+                          Header="Product: <b>${point.x}</b>"
+                          Format="Export value: <b>$${point.y} Billion</b>" />
+</SfChart>
+
+@code {
+    [CascadingParameter]
+    private Theme CurrentTheme { get; set; } = Theme.Fluent;
+
+    private Theme _currentTheme = Theme.Fluent;
+
+    protected override void OnParametersSet()
+    {
+        base.OnParametersSet();
+        _currentTheme = CurrentTheme;
+    }
+
+    public LineType Mode { get; set; } = LineType.None;
+
+    private bool IsSelected(LineType mode) => Mode == mode;
+    private void OnModeChanged(bool selected, LineType mode)
+    {
+        if (selected)
+        {
+            Mode = mode;
+        }
+    }
+
+    public class ProductDatum
+    {
+        public string X { get; set; } = string.Empty;
+        public double Y { get; set; }
+    }
+
+    public static class ProductsData
+    {
+        public static List<ProductDatum> Items = new()
+        {
+            new() { X = "Petroleum", Y = 86.6 },
+            new() { X = "Medicines", Y = 23.3 },
+            new() { X = "Diamonds", Y = 23.0 },
+            new() { X = "Cars", Y = 9.7 },
+            new() { X = "Rice", Y = 9.6 },
+            new() { X = "Aluminium", Y = 7.7 },
+            new() { X = "Cotton", Y = 8.4 },
+            new() { X = "Sugar", Y = 5.9 }
+        };
+    }
+}

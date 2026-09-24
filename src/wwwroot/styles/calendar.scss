@@ -370,8 +370,8 @@ $calendar-content-td-border-radius: $radius-2 !default;
           width: initial;
         }
       }
-      #{if(&, '&', '*')} td:hover {
-        border-radius: $calendar-td-hover-border-radius;
+      #{if(&, '&', '*')} .e-content.e-month td:hover {
+        border-radius: $radius-full;
         background: $calendar-hover-border-color;
       }
 
@@ -693,6 +693,7 @@ $calendar-content-td-border-radius: $radius-2 !default;
         #{if(&, '&', '*')}.e-decade td:hover span.e-day {
           background-color: $calendar-hover-color;
           background: $calendar-hover-color;
+          border-radius: $radius-full;
         }
         #{if(&, '&', '*')}.e-year td.e-selected:hover span.e-day,
         #{if(&, '&', '*')}.e-decade td.e-selected:hover span.e-day {
@@ -712,14 +713,14 @@ $calendar-content-td-border-radius: $radius-2 !default;
         #{if(&, '&', '*')} td.e-focused-date:hover span.e-day,
         #{if(&, '&', '*')} td.e-focused-date:focus span.e-day {
           border: $calendar-focus-border-color;
-          border-radius: $calendar-border-radius;
+          border-radius: $radius-full;
           box-shadow: $calendar-focus-box-shadow;
           font-weight: 600;
         }
         #{if(&, '&', '*')} td.e-focused-date:hover span.e-day {
           background: $calendar-hover-color;
           border: $calendar-hover-border-color;
-          border-radius: $calendar-border-radius;
+          border-radius: $radius-full;
           color: $calendar-text-color;
         }
         #{if(&, '&', '*')} td.e-today span.e-day,
@@ -790,14 +791,14 @@ $calendar-content-td-border-radius: $radius-2 !default;
         #{if(&, '&', '*')} td:focus span.e-day {
           background: $calendar-hover-color;
           border: $calendar-hover-border-color;
-          border-radius: $calendar-border-radius;
+          border-radius: $radius-full;
           color: $calendar-hover-text;
         }
         #{if(&, '&', '*')} td:focus span.e-day {
           background: $calendar-focus-bg-color;
           color: $calendar-text-color-focus;
           border: $calendar-focus-border-color;
-          border-radius: $calendar-border-radius;
+          border-radius: $radius-full;
         }
         #{if(&, '&', '*')} td.e-disabled span.e-day,
         #{if(&, '&', '*')} td.e-disabled:hover span.e-day,
@@ -810,7 +811,7 @@ $calendar-content-td-border-radius: $radius-2 !default;
           background: $calendar-active-bg-color;
           color: $calendar-active-font-colour;
           border: $calendar-selected-border-color;
-          border-radius: $calendar-border-radius;
+          border-radius: $radius-full;
         }
         #{if(&, '&', '*')} td.e-selected:not(.e-focused-date) span.e-day {
           box-shadow: $calendar-selected-box-shadow;
@@ -822,29 +823,29 @@ $calendar-content-td-border-radius: $radius-2 !default;
         #{if(&, '&', '*')} td.e-today.e-selected:hover span.e-day,
         #{if(&, '&', '*')} td.e-today.e-selected span.e-day {
           background-color: $calendar-focused-today-bg-style;
-          border-radius: $calendar-border-selected-radius;
+          border-radius: $radius-full;
           color: $calendar-today-color;
         }
         #{if(&, '&', '*')} td.e-today.e-selected.e-focused-date {
           background-color: $calendar-active-bg-color;
-          border-radius: $calendar-focused-state-border-radius;
+          border-radius: $radius-full;
           box-shadow: $calendar-focused-state-box-shadow;
         }
         #{if(&, '&', '*')} td.e-today.e-selected {
           background-color: $calendar-active-bg-color;
-          border-radius: $calendar-wrapper-border-radius;
+          border-radius: $radius-full;
           box-shadow: $calendar-selected-box-shadow;
         }
         #{if(&, '&', '*')} td.e-selected:hover span.e-day {
           background-color: $calendar-active-bg-color;
           border: $calendar-selected-border-color;
-          border-radius: $calendar-border-radius;
+          border-radius: $radius-full;
           color: $calendar-active-font-colour;
         }
         #{if(&, '&', '*')} td.e-selected.e-focused-date span.e-day {
           background-color: $calendar-active-bg-color;
           border: $calendar-selected-border-color;
-          border-radius: $calendar-focused-state-border-radius;
+          border-radius: $radius-full;
           color: $calendar-active-font-colour;
         }
         #{if(&, '&', '*')}.e-month td.e-today span.e-day {
@@ -854,7 +855,10 @@ $calendar-content-td-border-radius: $radius-2 !default;
           color: $calendar-today-disabled-color;
         }
         #{if(&, '&', '*')}.e-year td.e-selected > span.e-day,
-        #{if(&, '&', '*')}.e-decade td.e-selected > span.e-day,
+        #{if(&, '&', '*')}.e-decade td.e-selected > span.e-day {
+          background-color: $calendar-active-bg-color;
+          color: $calendar-selected-month-font-color;
+        }
         #{if(&, '&', '*')}.e-year td.e-selected:hover > span.e-day,
         #{if(&, '&', '*')}.e-decade td.e-selected:hover > span.e-day {
           background-color: $calendar-selected-month-bg-color;
@@ -863,20 +867,20 @@ $calendar-content-td-border-radius: $radius-2 !default;
         #{if(&, '&', '*')}.e-year td.e-focused-date > span.e-day,
         #{if(&, '&', '*')}.e-decade td.e-focused-date > span.e-day {
           background: $calendar-none-style;
-          border-radius: 0;
+          border-radius: $radius-full;
           box-shadow: $calendar-focused-state-month-box-shadow;
         }
         #{if(&, '&', '*')} td.e-focused-date.e-today {
-          border-radius: $calendar-focused-state-border-radius;
+          border-radius: $radius-full;
           box-shadow: $calendar-focused-state-box-shadow;
         }
         #{if(&, '&', '*')} td.e-focused-date:hover span.e-day {
-          border-radius: $calendar-focused-state-border-radius;
+          border-radius: $radius-full;
         }
         #{if(&, '&', '*')}.e-year td.e-focused-date:hover > span.e-day,
         #{if(&, '&', '*')}.e-decade td.e-focused-date:hover > span.e-day {
           background: $calendar-hover-color;
-          border-radius: 0;
+          border-radius: $radius-full;
           box-shadow: $calendar-focused-state-month-box-shadow;
         }
       }
@@ -954,5 +958,9 @@ $calendar-content-td-border-radius: $radius-2 !default;
   .e-calendar .e-calendar-content-table .e-cell.e-focused-cell span.e-day {
     box-shadow: $calendar-focused-cell-box-shadow;
     border-radius: $calendar-border-radius;
+  }
+  .e-calendar .e-content td.e-focused-date:not(.e-today):not(.e-selected) span.e-day {
+    outline: 2px solid $content-text-color-selected;
+    outline-offset: 0;
   }
 }

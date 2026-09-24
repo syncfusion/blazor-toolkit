@@ -1,0 +1,66 @@
+<SfChart @key="@_currentTheme" Title="Population by Age and Gender (Percent)" Width="100%" Height="400px" IsTransposed="true" Theme="@_currentTheme">
+    <ChartArea Border="new ChartAreaBorder { Width = 0 }" />
+    <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Toolkit.ValueType.Category" />
+    <ChartPrimaryYAxis Minimum="-6" Maximum="6" Interval="1">
+        <ChartAxisMajorGridLines Width="1" />
+    </ChartPrimaryYAxis>
+
+    <ChartSeries DataSource="@PopulationData"
+                 XName="Age"
+                 YName="MalePercentValue"
+                 Type="ChartSeriesType.StepArea"
+                 Name="Male"
+                 Opacity="0.6"
+                 LegendShape="LegendShape.Rectangle">
+        <ChartSeriesBorder Width="2" Color="#0765e0ff" />
+    </ChartSeries>
+
+    <ChartSeries DataSource="@PopulationData"
+                 XName="Age"
+                 YName="FemalePercentValue"
+                 Type="ChartSeriesType.StepArea"
+                 Name="Female"
+                 Opacity="0.6"
+                 LegendShape="LegendShape.Rectangle">
+        <ChartSeriesBorder Width="2" Color="#e007a6ff" />
+    </ChartSeries>
+
+    <ChartTooltipSettings Enable="true"
+                          Header="Age: <b>${point.x}</b>"
+                          Format="Gender Share: <b>${point.y}</b>" />
+</SfChart>
+
+@code {
+    [CascadingParameter]
+    private Theme CurrentTheme { get; set; } = Theme.Fluent;
+
+    private Theme _currentTheme = Theme.Fluent;
+
+    protected override void OnParametersSet()
+    {
+        base.OnParametersSet();
+        _currentTheme = CurrentTheme;
+    }
+
+    public class PopulationModel
+    {
+        public string Age { get; set; } = string.Empty;
+        public double MalePercentValue { get; set; }
+        public double FemalePercentValue { get; set; }
+    }
+
+    public List<PopulationModel> PopulationData = new()
+    {
+        new() { Age = "70 - 74", MalePercentValue = 0.66,  FemalePercentValue = -0.72 },
+        new() { Age = "65 - 69", MalePercentValue = 1.02,  FemalePercentValue = -1.08 },
+        new() { Age = "60 - 64", MalePercentValue = 1.48,  FemalePercentValue = -1.53 },
+        new() { Age = "55 - 59", MalePercentValue = 1.86,  FemalePercentValue = -1.91 },
+        new() { Age = "50 - 54", MalePercentValue = 2.31,  FemalePercentValue = -2.42 },
+        new() { Age = "45 - 49", MalePercentValue = 2.72,  FemalePercentValue = -2.78 },
+        new() { Age = "40 - 44", MalePercentValue = 3.25,  FemalePercentValue = -3.29 },
+        new() { Age = "35 - 39", MalePercentValue = 3.91,  FemalePercentValue = -3.84 },
+        new() { Age = "30 - 34", MalePercentValue = 4.51,  FemalePercentValue = -4.32 },
+        new() { Age = "25 - 29", MalePercentValue = 4.80,  FemalePercentValue = -4.61 },
+        new() { Age = "20 - 24", MalePercentValue = 4.90,  FemalePercentValue = -4.72 }
+    };
+}

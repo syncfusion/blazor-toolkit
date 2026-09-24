@@ -10,11 +10,6 @@
   @return var(#{'--e-'+  $pallete-name});
 }
 
-// Layer priority declaration. Must match the order in highcontrast-tokens.scss
-@layer fluent, themes;
-
-@layer fluent {
-
 :root {
   --color-sf-primary: #0f6cbd;
   --color-sf-primary-text-color: #fff;
@@ -223,11 +218,25 @@
   --color-sf-skeleton-bg-color: #e6e6e6;
 }
 
-}
-
 @media (forced-colors: active) {
   :root {
     color-scheme: light dark;
+  }
+
+  .e-calendar .e-content td.e-cell a,
+  .e-calendar .e-content td.e-cell a:link,
+  .e-calendar .e-content td.e-cell a:visited,
+  .e-calendar .e-content td.e-cell a:hover,
+  .e-calendar .e-content td.e-cell a:focus,
+  .e-calendar .e-content td.e-cell a:focus-within,
+  .e-calendar .e-content td.e-cell a:active,
+  .e-calendar .e-content td.e-cell a:hover span.e-day,
+  .e-calendar .e-content td.e-cell a:focus span.e-day,
+  .e-calendar .e-content td.e-cell a:focus-within span.e-day,
+  .e-calendar .e-content td.e-cell a:visited span.e-day,
+  .e-calendar .e-content td.e-cell a:active span.e-day {
+    color: Highlight !important;
+    forced-color-adjust: none !important;
   }
 
   .e-btn,
@@ -263,9 +272,12 @@
   }
 
   .e-btn:disabled,
-  .e-checkbox-wrapper.e-disabled,
-  .e-radio-wrapper.e-disabled,
-  .e-switch-wrapper.e-disabled,
+  .e-checkbox-wrapper.e-checkbox-disabled,
+  .e-checkbox-wrapper.e-checkbox-disabled label .e-frame.e-check,
+  .e-checkbox-wrapper.e-checkbox-disabled label .e-label,
+  .e-radio-wrapper input:disabled + label .e-label,
+  .e-radio-wrapper .e-radio:disabled + label::before,
+  .e-switch-wrapper.e-switch-disabled,
   .e-input:disabled,
   .e-textbox:disabled,
   .e-textarea:disabled,
@@ -280,8 +292,6 @@
 
   .e-btn:focus,
   .e-btn:focus-visible,
-  .e-checkbox-wrapper:focus-within,
-  .e-radio-wrapper:focus-within,
   .e-switch-wrapper:focus-within,
   .e-textbox:focus,
   .e-textarea:focus,
@@ -299,6 +309,991 @@
   .e-calendar {
     box-shadow: none;
   }
+
+  // ------------------------------------------------------------------
+  // Chart (SfChart) -- Step 2 final.
+  //
+  // Verified DOM id patterns from svgbase.js / chart.js:
+  //   * Outer chart background    -> <rect id="{ID}_ChartBorder">
+  //   * Tooltip wrapper <svg>     -> <svg id="{ID}_svg">
+  //   * Tooltip body <path>       -> <path id="{ID}_path">
+  //   * Tooltip connector <path>  -> <path id="{ID}_tooltip_connector_{i}">
+  //   * Tooltip shadow <filter>   -> <filter id="{ID}_shadow">
+  //   * Tooltip wrapper <div>     -> <div id="{ID}_tooltip" class="eJSVGTooltip">
+  // ------------------------------------------------------------------
+
+  .e-chart {
+    rect[id$='_ChartBorder'][fill='#FFFFFF'],
+    rect[id$='_ChartBorder'][fill='#1c1b1f'],
+    rect[id$='_ChartBorder'][fill='#000000'] {
+      fill: Canvas;
+      stroke: CanvasText;
+    }
+
+    path[id$='_path'] {
+      fill: Canvas;
+      stroke: CanvasText;
+      filter: none !important;
+    }
+    filter[id$='_shadow'] {
+      display: none;
+    }
+
+    div[id*='_tooltip'][style*='visibility: hidden'],
+    div[id*='_tooltip'][style*='visibility:hidden'],
+    svg[id*='_tooltip_svg'][style*='visibility: hidden'],
+    svg[id*='_tooltip_svg'][style*='visibility:hidden'] {
+      display: none !important;
+    }
+
+    svg[id*='_tooltip_svg'] > g[opacity='0'],
+    svg[id*='_tooltip_svg'] > g[style*='opacity: 0'],
+    svg[id*='_tooltip_svg'] > g[style*='opacity:0'],
+    svg[id*='_tooltip_svg'] [opacity='0'],
+    svg[id*='_tooltip_svg'] [style*='opacity: 0'],
+    svg[id*='_tooltip_svg'] [style*='opacity:0'] {
+      display: none !important;
+    }
+
+    svg[id*='_tooltip_svg']:has(g[opacity='0']),
+    svg[id*='_tooltip_svg']:has(g[style*='opacity: 0']),
+    svg[id*='_tooltip_svg']:has(g[style*='opacity:0']) {
+      display: none !important;
+    }
+
+    svg[id*='_tooltip_svg'] {
+      background-color: transparent !important;
+    }
+
+    path[id*='_tooltip_connector_'] {
+      stroke: CanvasText;
+      opacity: 0.9;
+    }
+
+    .eJSVGTooltip text,
+    .eJSVGTooltip tspan {
+      fill: CanvasText;
+    }
+
+    text,
+    tspan {
+      fill: CanvasText !important;
+    }
+
+    text[id$='_chart_legend_text_'][fill='#242424'],
+    text[id$='_chart_legend_text_'][fill='#ADADAD'],
+    text[id$='_chart_legend_text_'][fill='#FFFFFF'] {
+      fill: CanvasText;
+    }
+
+    rect[id$='_chart_legend_shape_'][fill='#6200EE'],
+    rect[id$='_chart_legend_shape_'][fill='#09AF74'],
+    rect[id$='_chart_legend_shape_'][fill='#0076E5'],
+    rect[id$='_chart_legend_shape_'][fill='#CB3587'],
+    rect[id$='_chart_legend_shape_'][fill='#E7910F'],
+    rect[id$='_chart_legend_shape_'][fill='#0364DE'],
+    rect[id$='_chart_legend_shape_'][fill='#66CD15'],
+    rect[id$='_chart_legend_shape_'][fill='#F3A93C'],
+    rect[id$='_chart_legend_shape_'][fill='#107C10'],
+    rect[id$='_chart_legend_shape_'][fill='#C19C00'],
+    rect[id$='_chart_legend_shape_'][fill='#9BB449'],
+    rect[id$='_chart_legend_shape_'][fill='#2A72D5'],
+    rect[id$='_chart_legend_shape_'][fill='#43B786'],
+    rect[id$='_chart_legend_shape_'][fill='#3F579A'],
+    rect[id$='_chart_legend_shape_'][fill='#584EC6'],
+    rect[id$='_chart_legend_shape_'][fill='#E85F9C'],
+    rect[id$='_chart_legend_shape_'][fill='#6E7A89'],
+    rect[id$='_chart_legend_shape_'][fill='#EA6266'],
+    rect[id$='_chart_legend_shape_'][fill='#0B6A0B'],
+    rect[id$='_chart_legend_shape_'][fill='#79ECE4'],
+    rect[id$='_chart_legend_shape_'][fill='#E98272'],
+    rect[id$='_chart_legend_shape_'][fill='#DFE6B6'],
+    rect[id$='_chart_legend_shape_'][fill='#C6E773'],
+    rect[id$='_chart_legend_shape_'][fill='#BA98FF'],
+    rect[id$='_chart_legend_shape_'][fill='#FA83C3'],
+    rect[id$='_chart_legend_shape_'][fill='#00C27A'],
+    rect[id$='_chart_legend_shape_'][fill='#43ACEF'],
+    rect[id$='_chart_legend_shape_'][fill='#D681EF'],
+    rect[id$='_chart_legend_shape_'][fill='#D8BC6E'] {
+      fill: CanvasText;
+      stroke: CanvasText;
+    }
+
+    text[fill='#242424'],
+    text[fill='#616161'],
+    text[fill='#FFFFFF'],
+    text[fill='#ADADAD'],
+    text[fill='#969696'] {
+      fill: CanvasText;
+    }
+    tspan[fill='#242424'],
+    tspan[fill='#616161'],
+    tspan[fill='#FFFFFF'],
+    tspan[fill='#ADADAD'],
+    tspan[fill='#969696'] {
+      fill: CanvasText;
+    }
+
+    [class~='EJ2-TrackBall'],
+    [class~='EJ2-Trackball'] {
+      opacity: 0;
+      pointer-events: none;
+    }
+
+  }
+
+  .e-checkbox-wrapper .e-frame {
+    border-color: ButtonText !important;
+  }
+
+  .e-checkbox-wrapper:hover .e-frame {
+    border-color: Highlight !important;
+  }
+
+  .e-checkbox-wrapper:hover .e-frame.e-check,
+  .e-checkbox-wrapper:hover .e-frame.e-stop {
+    background-color: ButtonText !important;
+    border-color: ButtonText !important;
+  }
+
+  .e-checkbox-wrapper:hover .e-frame.e-stop {
+    color: ButtonText !important;
+  }
+
+  .e-checkbox-wrapper .e-frame.e-stop,
+  .e-css.e-checkbox-wrapper .e-frame.e-stop {
+    border-color: Highlight !important;
+    color: Highlight !important;
+  }
+
+  .e-checkbox-wrapper .e-frame.e-check {
+    background-color: Highlight !important;
+    border-color: Highlight !important;
+    color: HighlightText !important;
+    forced-color-adjust: none;
+  }
+
+  .e-checkbox-wrapper, .e-css.e-checkbox-wrapper,
+  .e-checkbox-wrapper label,
+  .e-css.e-checkbox-wrapper label,
+  .e-checkbox-wrapper label:focus,
+  .e-css.e-checkbox-wrapper label:focus {
+    border: none !important;
+  }
+
+  .e-checkbox-wrapper.e-checkbox-disabled label .e-frame {
+    border-color: GrayText !important;
+  }
+
+  .e-checkbox-wrapper.e-checkbox-disabled label .e-frame.e-check,
+  .e-checkbox-wrapper.e-checkbox-disabled label .e-frame.e-stop {
+    background-color: GrayText !important;
+  }
+
+  .e-checkbox-wrapper.e-checkbox-disabled label .e-frame.e-stop {
+    color: GrayText !important;
+  }
+
+  .e-checkbox-wrapper:hover .e-frame:not(.e-check),
+  .e-css.e-checkbox-wrapper:hover .e-frame:not(.e-check),
+  .e-checkbox-wrapper .e-frame:not(.e-check):hover,
+  .e-css.e-checkbox-wrapper .e-frame:not(.e-check):hover {
+    background-color: HighlightText!important;
+    border-color: Highlight !important;
+    color: Highlight !important;
+    forced-color-adjust: none;
+  }
+
+  .e-checkbox-wrapper:hover .e-frame.e-stop:not(.e-check),
+  .e-css.e-checkbox-wrapper:hover .e-frame.e-stop:not(.e-check),
+  .e-checkbox-wrapper .e-frame.e-stop:not(.e-check):hover,
+  .e-css.e-checkbox-wrapper .e-frame.e-stop:not(.e-check):hover {
+    background-color: HighlightText!important;
+    border-color: ButtonText !important;
+    color: ButtonText !important;
+    forced-color-adjust: none;
+  }
+
+  .e-btn.e-control:not(:disabled),
+  .e-btn-group .e-btn.e-control.e-outline:not(:disabled) {
+    border-color: ButtonText !important;
+    color: ButtonText !important;
+  }
+
+  .e-btn.e-control:not(:disabled):hover,
+  .e-btn.e-control:not(:disabled):focus,
+  .e-btn.e-control:not(:disabled).e-active, .e-btn.e-control:not(:disabled):active {
+    border-color: Highlight !important;
+    color: Highlight !important;
+    background-color: HighlightText !important;
+    forced-color-adjust: none;
+  }
+
+  .e-btn.e-control.e-outline:not(:disabled):hover,
+  .e-btn.e-control.e-outline:not(:disabled):focus {
+    border-color: Highlight !important;
+    color: Highlight !important;
+  }
+
+  .e-btn.e-danger.e-btn-icon:not(:disabled):is(:hover, :focus, :active) .e-close {
+      color: Highlight !important;
+  }
+
+  .e-btn.e-primary.e-filled.toggle-btn.e-active:not(:hover),
+  .e-btn.e-info.e-filled.toggle-btn[aria-pressed="true"]:not(:hover),
+  .e-btn.e-warning.e-filled.toggle-btn[aria-pressed="true"]:not(:hover),
+  .e-btn.e-danger.e-filled.toggle-btn[aria-pressed="true"]:not(:hover) {
+    border-color: Highlight !important;
+    color: HighlightText !important;
+    background-color: Highlight !important;
+    forced-color-adjust: none;
+  }  
+
+  .e-btn.toggle-btn.e-outline[aria-pressed="false"]:not(:hover):focus {
+    border-color: ButtonText !important;
+    color: ButtonText !important;
+    background-color: HighlightText !important;
+    forced-color-adjust: none;
+  }
+
+  .e-btn.e-primary.toggle-icon-only.e-filled[aria-pressed="true"]:not(:hover),
+  .e-btn.e-info.toggle-icon-only.e-filled[aria-pressed="true"]:not(:hover),
+  .e-btn.e-success.toggle-icon-only.e-filled[aria-pressed="true"]:not(:hover),
+  .e-btn.e-danger.toggle-icon-only.e-filled[aria-pressed="true"]:not(:hover) {
+      border-color: Highlight !important;
+      color: HighlightText !important;
+      background-color: Highlight !important;
+      forced-color-adjust: none;
+  }
+
+  .e-btn.toggle-icon-only.e-outline[aria-pressed="false"]:not(:hover):focus {
+      border-color: ButtonText !important;
+      color: ButtonText !important;
+      background-color: HighlightText !important;
+      forced-color-adjust: none;
+  }
+
+  .e-btn.e-control.e-lib:focus-visible,
+  .e-btn.e-control.e-lib.toggle-btn.e-outline[aria-pressed="false"]:focus-visible,
+  .e-btn.toggle-icon-only.e-outline[aria-pressed="false"]:not(:hover):focus-visible {
+      border-color: ButtonText !important;
+      color: ButtonText !important;
+      outline: 2px solid CanvasText !important;
+      outline-offset: 2px !important;
+      box-shadow: 0 0 0 1px ButtonText !important;
+      forced-color-adjust: none;
+  }
+
+  .e-btn.e-control.e-lib:focus-visible:hover,
+  .e-btn.e-control.e-lib:focus-visible:active,
+  .e-btn.e-control.e-lib.toggle-btn.e-outline:focus-visible:is(:hover, :active),
+  .e-btn.toggle-icon-only.e-outline:is(:hover, :active):focus-visible {
+      border-color: Highlight !important;
+      color: Highlight !important;
+      outline: 2px solid CanvasText !important;
+      outline-offset: 2px !important;
+      box-shadow: 0 0 0 1px Highlight !important;
+      forced-color-adjust: none;
+  }
+
+  .e-btn.e-danger.toggle-icon-only.e-filled[aria-pressed=true]:not(:hover):focus-visible, 
+  .e-btn.e-info.toggle-icon-only.e-filled[aria-pressed=true]:not(:hover):focus-visible, 
+  .e-btn.e-primary.toggle-icon-only.e-filled[aria-pressed=true]:not(:hover):focus-visible, 
+  .e-btn.e-success.toggle-icon-only.e-filled[aria-pressed=true]:not(:hover):focus-visible,
+  .e-btn.e-primary.e-filled.toggle-btn[aria-pressed="true"]:not(:hover):focus-visible,
+  .e-btn.e-info.e-filled.toggle-btn[aria-pressed="true"]:not(:hover):focus-visible,
+  .e-btn.e-warning.e-filled.toggle-btn[aria-pressed="true"]:not(:hover):focus-visible,
+  .e-btn.e-danger.e-filled.toggle-btn[aria-pressed="true"]:not(:hover):focus-visible {
+    border-color: Highlight !important;
+    outline: 2px solid CanvasText !important;
+    outline-offset: 2px !important;
+    box-shadow: 0 0 0 1px Highlight !important;
+    forced-color-adjust: none;
+  }
+
+  .e-btn.e-danger.toggle-icon-only.e-filled[aria-pressed=true]:is(:hover, :active):focus-visible, 
+  .e-btn.e-info.toggle-icon-only.e-filled[aria-pressed=true]:is(:hover, :active):focus-visible, 
+  .e-btn.e-primary.toggle-icon-only.e-filled[aria-pressed=true]:is(:hover, :active):focus-visible, 
+  .e-btn.e-success.toggle-icon-only.e-filled[aria-pressed=true]:is(:hover, :active):focus-visible,
+  .e-btn.e-primary.e-filled.toggle-btn[aria-pressed="true"]:is(:hover, :active):focus-visible,
+  .e-btn.e-info.e-filled.toggle-btn[aria-pressed="true"]:is(:hover, :active):focus-visible,
+  .e-btn.e-warning.e-filled.toggle-btn[aria-pressed="true"]:is(:hover, :active):focus-visible,
+  .e-btn.e-danger.e-filled.toggle-btn[aria-pressed="true"]:is(:hover, :active):focus-visible {
+    border-color: Highlight !important;
+    background-color: HighlightText !important;
+    color: Highlight !important;
+    outline: 2px solid CanvasText !important;
+    outline-offset: 2px !important;
+    box-shadow: 0 0 0 1px Highlight !important;
+    forced-color-adjust: none;
+  }
+
+  .e-btn.e-control.e-outline:not(:disabled).e-active,
+  .e-btn.e-control.e-outline:not(:disabled):active,
+  .e-btn.e-control.e-outline.e-info:not(:disabled):active,
+  .e-btn.e-control.e-outline.e-success:not(:disabled):active,
+  .e-btn.e-control.e-outline.e-warning:not(:disabled):active,
+  .e-btn.e-control.e-outline.e-danger:not(:disabled):active {
+    border-color: Highlight !important;
+    color: Highlight !important;
+    outline: 2px solid Highlight !important;
+  }
+
+  .e-btn.e-control.e-outline:not(:disabled):focus-visible,
+  .e-btn.e-control.e-outline.e-info:not(:disabled):focus-visible,
+  .e-btn.e-control.e-outline.e-success:not(:disabled):focus-visible,
+  .e-btn.e-control.e-outline.e-warning:not(:disabled):focus-visible,
+  .e-btn.e-control.e-outline.e-danger:not(:disabled):focus-visible {
+    border-color: ButtonText !important;
+    color: ButtonText !important;
+    outline: 2px solid Highlight !important;
+  }
+
+  .e-btn.e-control.e-info:not(:disabled):hover,
+  .e-btn.e-control.e-info:not(:disabled).e-active, .e-btn.e-info:not(:disabled):active,
+  .e-btn.e-control.e-success:not(:disabled):hover,
+  .e-btn.e-control.e-success:not(:disabled).e-active,
+  .e-btn.e-control.e-warning:not(:disabled):hover,
+  .e-btn.e-control.e-warning:not(:disabled).e-active,
+  .e-btn.e-control.e-danger:not(:disabled):hover,
+  .e-btn.e-control.e-danger:not(:disabled).e-active
+  {
+    border-color: Highlight !important;
+    color: Highlight !important;
+  }
+
+  .e-btn.e-control:not(:disabled):active,
+  .e-btn.e-control.e-info:not(:disabled):active,
+  .e-btn.e-control.e-success:not(:disabled):active,
+  .e-btn.e-control.e-warning:not(:disabled):active,
+  .e-btn.e-control.e-danger:not(:disabled):active {
+    color: Highlight !important;
+    border-color: transparent !important;
+    background-color: HighlightText !important;
+    forced-color-adjust: none;
+  }
+
+  .e-btn.e-control.e-info.e-active, .e-css.e-btn.e-control.e-info.e-active,
+  .e-btn.e-control.e-success.e-active, .e-css.e-btn.e-control.e-success.e-active,
+  .e-btn.e-control.e-warning.e-active, .e-css.e-btn.e-control.e-warning.e-active,
+  .e-btn.e-control.e-danger.e-active, .e-css.e-btn.e-control.e-danger.e-active {
+    border-color: Highlight !important;
+    color: Highlight !important;
+  }
+
+  .e-btn-group input + label.e-btn {
+    border-color: ButtonText !important;
+    color: ButtonText !important;
+  }
+
+  .e-btn-group input:focus-visible + label.e-btn {
+    border-color: ButtonText !important;
+    color: ButtonText !important;
+    outline: 2px solid Highlight !important;
+  }
+
+  .e-btn-group .e-control.e-btn.e-outline:not(:disabled),
+  .e-btn-group .e-control.e-btn.e-outline.e-primary:not(:disabled),
+  .e-btn-group .e-control.e-btn.e-outline.e-success:not(:disabled),
+  .e-btn-group .e-control.e-btn.e-outline.e-info:not(:disabled),
+  .e-btn-group .e-control.e-btn.e-outline.e-warning:not(:disabled),
+  .e-btn-group .e-control.e-btn.e-outline.e-danger:not(:disabled) {
+    border-color: ButtonText !important;
+    color: ButtonText !important;
+  }
+
+  .e-btn-group .e-control.e-btn:not(:disabled):focus-visible {
+    border-color: ButtonText !important;
+    color: ButtonText !important;
+    outline: 2px solid Highlight !important;
+    z-index: 1 !important;
+  }
+
+  .e-btn-group .e-control.e-btn:not(:disabled):hover,
+  .e-btn-group input:focus + label.e-btn {
+    z-index: 1 !important;
+  }
+
+  .e-btn-group .e-control.e-btn.e-outline:not(:disabled):hover {
+    color: Highlight !important;
+    background-color: HighlightText !important;
+    border-color: Highlight !important;
+    forced-color-adjust: none;
+  }
+
+  .e-btn-group .e-control.e-btn:not(:disabled):active,
+  .e-btn-group .e-control.e-btn.e-primary:not(:disabled):active,
+  .e-btn-group .e-control.e-btn.e-info:not(:disabled):active,
+  .e-btn-group .e-control.e-btn.e-success:not(:disabled):active,
+  .e-btn-group .e-control.e-btn.e-warning:not(:disabled):active,
+  .e-btn-group .e-control.e-btn.e-danger:not(:disabled):active {
+    border-color: Highlight !important;
+    color: Highlight !important;
+    background-color: HighlightText !important;
+    outline: none !important;
+    z-index: 1 !important;
+  }
+
+  .e-btn-group .e-control.e-btn.e-outline:not(:disabled):focus-visible {
+    border-color: ButtonText !important;
+    color: ButtonText !important;
+    outline: 2px solid Highlight !important;
+  }
+
+  .e-btn-group .e-control.e-btn.e-outline:not(:disabled):active,
+  .e-btn-group .e-control.e-btn.e-outline.e-primary:not(:disabled):active,
+  .e-btn-group .e-control.e-btn.e-outline.e-info:not(:disabled):active,
+  .e-btn-group .e-control.e-btn.e-outline.e-success:not(:disabled):active,
+  .e-btn-group .e-control.e-btn.e-outline.e-warning:not(:disabled):active,
+  .e-btn-group .e-control.e-btn.e-outline.e-danger:not(:disabled):active {
+    border-color: Highlight !important;
+    color: Highlight !important;
+    outline: 2px solid Highlight !important;
+  }
+
+  .e-btn-group .e-control.e-btn.e-outline:not(:disabled):focus-visible:active {
+    color: Highlight !important;
+    border-color: Highlight !important;
+    box-shadow: none !important;
+    outline: 2px solid Highlight !important;
+  }
+
+  .e-btn-group input:hover + label.e-btn,
+  .e-btn-group label.e-btn.e-active {
+    border-color: Highlight !important;
+    color: Highlight !important;
+    z-index: 1 !important;
+  }
+
+  .e-btn-group input:focus + label.e-btn.e-outline:not(:disabled),
+  .e-btn-group input:focus-visible + label.e-btn.e-outline:not(:disabled),
+  .e-btn-group input:focus + label.e-btn.e-outline.e-primary:not(:disabled),
+  .e-btn-group input:focus-visible + label.e-btn.e-outline.e-primary:not(:disabled),
+  .e-btn-group input:focus + label.e-btn.e-outline.e-info:not(:disabled),
+  .e-btn-group input:focus-visible + label.e-btn.e-outline.e-info:not(:disabled),
+  .e-btn-group input:focus + label.e-btn.e-outline.e-warning:not(:disabled),
+  .e-btn-group input:focus-visible + label.e-btn.e-outline.e-warning:not(:disabled),
+  .e-btn-group input:focus + label.e-btn.e-outline.e-success:not(:disabled),
+  .e-btn-group input:focus-visible + label.e-btn.e-outline.e-success:not(:disabled),
+  .e-btn-group input:focus + label.e-btn.e-outline.e-danger:not(:disabled),
+  .e-btn-group input:focus-visible + label.e-btn.e-outline.e-danger:not(:disabled) {
+    border-color: ButtonText !important;
+    color: ButtonText !important;
+  }
+
+  .e-btn-group input:disabled+label.e-btn {
+    border-color: GrayText !important;
+    color: GrayText !important;
+  }
+
+  .e-btn-group input:active+label.e-btn:not(.e-disabled):not(.e-outline),
+  .e-btn-group input:checked+label.e-btn:not(.e-disabled):not(.e-outline) {
+    background-color: Highlight !important;
+    border-color: Highlight !important;
+    color: HighlightText !important;
+    box-shadow: none !important;
+    forced-color-adjust: none;
+  }
+
+  .e-btn-group input:active+label.e-btn.e-outline:not(.e-disabled),
+  .e-btn-group input:checked+label.e-btn.e-outline:not(.e-disabled),
+  .e-btn-group input:active+label.e-btn.e-outline.e-primary:not(.e-disabled),
+  .e-btn-group input:checked+label.e-btn.e-outline.e-primary:not(.e-disabled),
+  .e-btn-group input:active+label.e-btn.e-outline.e-success:not(.e-disabled),
+  .e-btn-group input:checked+label.e-btn.e-outline.e-success:not(.e-disabled),
+  .e-btn-group input:active+label.e-btn.e-outline.e-info:not(.e-disabled),
+  .e-btn-group input:checked+label.e-btn.e-outline.e-info:not(.e-disabled),
+  .e-btn-group input:active+label.e-btn.e-outline.e-warning:not(.e-disabled),
+  .e-btn-group input:checked+label.e-btn.e-outline.e-warning:not(.e-disabled),
+  .e-btn-group input:active+label.e-btn.e-outline.e-danger:not(.e-disabled),
+  .e-btn-group input:checked+label.e-btn.e-outline.e-danger:not(.e-disabled) {
+    background-color: HighlightText !important;
+    border-color: Highlight !important;
+    color: Highlight !important;
+    outline: 2px solid Highlight !important;
+    box-shadow: none !important;
+    forced-color-adjust: none;
+  }
+
+  .e-switch-wrapper .e-switch-inner.e-switch-active {
+    border-color: Highlight !important;
+  }
+
+  .e-switch-wrapper .e-switch-handle {
+    background-color: ButtonText !important;
+    forced-color-adjust: none !important;
+  }
+  .e-switch-wrapper .e-switch-handle.e-switch-active {
+    background-color: Highlight !important;
+  }
+    
+  .e-switch-wrapper:hover .e-switch-inner,
+  .e-switch-wrapper.e-hover .e-switch-inner {
+      background-color: HighlightText !important;
+      border-color: Highlight !important;
+  }
+
+  .e-switch-wrapper:hover .e-switch-handle,
+  .e-switch-wrapper.e-hover .e-switch-handle {
+      background-color: Highlight !important;
+      border-color: Highlight !important;
+  }
+
+  .e-switch-wrapper:hover .e-switch-handle.e-switch-active,
+  .e-switch-wrapper.e-hover .e-switch-handle.e-switch-active {
+      background-color: ButtonText !important;
+      border-color: ButtonText !important;
+  }
+
+  .e-switch-wrapper:hover .e-switch-inner.e-switch-active,
+  .e-switch-wrapper.e-hover .e-switch-inner.e-switch-active {
+      background-color: ButtonText !important;
+      border-color: ButtonText !important;
+  }
+
+  .e-switch-wrapper:focus-within,
+  .e-switch-wrapper.e-focus {
+    outline: 2px solid Highlight !important;
+    outline-offset: 2px !important;
+  }
+  .e-switch-wrapper .e-switch-inner.e-switch-active {
+      background-color: Highlight !important;
+      border-color: Highlight !important;
+      forced-color-adjust: none !important;
+  }
+  .e-switch-wrapper:hover .e-switch-handle:not(.e-switch-active),
+  .e-switch-wrapper.e-hover .e-switch-handle:not(.e-switch-active) {
+      background-color: Highlight !important;
+      border-color: Highlight !important;
+  }
+  .e-switch-wrapper .e-switch-handle.e-switch-active {
+      background-color: Canvas !important;
+      border-color: Canvas !important;
+      forced-color-adjust: none !important;
+  }
+  .e-css.e-switch-wrapper .e-switch-on, .e-switch-wrapper .e-switch-on {
+    background-color: Highlight !important;
+  }
+  
+  .e-switch-wrapper:hover .e-switch-on {
+        background-color: HighlightText !important;
+        color: Highlight !important;
+  }  
+
+  .e-switch-wrapper.e-switch-disabled .e-switch-handle {
+    background-color: GrayText !important;
+  }
+
+  .e-switch-wrapper.e-switch-disabled .e-switch-inner {
+    background-color: transparent !important;
+  }
+
+  .e-radio+label::before,
+  .e-radio:checked+label:hover::before {
+    border-color: ButtonText !important;
+  }
+
+   .e-radio+label:hover::before {
+     border-color: Highlight !important;
+   }
+
+  .e-radio:checked+label:hover::after {
+    background-color: ButtonText !important;
+    border-color: ButtonText !important;
+  }
+
+  .e-radio:checked + label::after {
+    background-color: Highlight !important;
+    border-color: Highlight !important;
+  }
+
+  .e-radio:checked+label::before {
+    border-color: Highlight !important;
+  }
+
+  .e-radio-wrapper .e-radio:disabled + label .e-label,
+  .e-radio-wrapper .e-radio:disabled + label::before {
+      color: GrayText !important;
+      border-color: GrayText !important;
+  }
+
+  .e-radio-wrapper .e-radio:disabled + label::after {
+      background-color: GrayText !important;
+  }
+
+  .e-spinner-pane .e-spinner-inner .e-spin-fluent .e-path-arc {
+    stroke: HighlightText !important;
+  }
+  .e-spinner-pane .e-spinner-inner .e-spin-fluent .e-path-circle {
+    stroke: Highlight !important;
+  }
+
+  .e-timepicker.e-popup .e-list-parent.e-ul .e-list-item.e-active,
+  .e-timepicker.e-popup .e-list-parent.e-ul .e-list-item.e-active.e-hover,
+  .e-timepicker.e-popup .e-list-parent.e-ul .e-list-item.e-active.e-focus,
+  .e-timepicker.e-popup .e-list-parent.e-ul .e-list-item.e-active:hover,
+  .e-timepicker.e-popup .e-list-parent.e-ul .e-list-item.e-active:focus,
+  .e-timepicker.e-popup .e-list-parent.e-ul .e-list-item.e-navigation {
+    background-color: Highlight !important;
+    color: HighlightText !important;
+    forced-color-adjust: none;
+  }
+
+  .e-timepicker.e-popup .e-list-parent.e-ul .e-list-item.e-hover,
+  .e-timepicker.e-popup .e-list-parent.e-ul .e-list-item.e-focus,
+  .e-timepicker.e-popup .e-list-parent.e-ul .e-list-item:hover,
+  .e-timepicker.e-popup .e-list-parent.e-ul .e-list-item:focus {
+    background-color: Highlight !important;
+    color: HighlightText !important;
+    forced-color-adjust: none;
+    outline: 2px solid Highlight;
+  }
+
+  .e-calendar .e-content span.e-day.e-today,
+  .e-calendar .e-content span.e-day.e-today:hover,
+  .e-calendar .e-content span.e-day.e-today:focus,
+  .e-calendar .e-content td.e-today span.e-day,
+  .e-calendar .e-content td.e-today.e-selected span.e-day {
+    background-color: Highlight !important;
+    color: HighlightText !important;
+    forced-color-adjust: none;
+  }
+
+  .e-calendar .e-content td.e-selected span.e-day {
+    background-color: transparent !important;
+    color: Highlight !important;
+    outline: 1px solid Highlight !important;
+    box-sizing: border-box;
+    width: 30px;
+    height: 30px;
+    line-height: 30px;
+    margin: 1px;
+  }
+
+  .e-calendar .e-header .e-title {
+    color: ButtonText !important;
+  }
+
+  .e-calendar .e-header .e-title:hover,
+  .e-calendar .e-header .e-title:active,
+  .e-calendar .e-header .e-next:hover, .e-calendar .e-header .e-prev:hover,
+  .e-calendar .e-header .e-prev:active, .e-calendar .e-header .e-next:active {
+    background-color: Highlight !important;
+    color: HighlightText !important;
+    box-shadow: none !important;
+    forced-color-adjust: none;
+  }
+
+  .e-calendar .e-header .e-title:focus-visible,
+  .e-calendar .e-header .e-prev:focus-visible,
+  .e-calendar .e-header .e-next:focus-visible {
+    outline: 2px solid CanvasText !important;
+  }
+
+  .e-calendar .e-header button.e-next:active span, .e-calendar .e-header button.e-prev:active span,
+  .e-calendar .e-header button.e-next:hover span, .e-calendar .e-header button.e-prev:hover span {
+    color: HighlightText !important;
+  }
+
+  .e-calendar .e-content td.e-disabled span.e-day,
+  .e-calendar .e-header .e-next.e-disabled span, .e-calendar .e-header .e-prev.e-disabled span {
+    color: GrayText !important;
+  }
+
+  .e-calendar .e-content td.e-other-month span.e-day,
+  .e-calendar .e-content td.e-other-month span.e-day:hover,
+  .e-calendar .e-content td.e-other-month span.e-day:focus,
+  .e-calendar .e-content td.e-other-month,
+  .e-calendar .e-content td.e-other-year span.e-day,
+  .e-calendar .e-content td.e-other-year span.e-day:hover,
+  .e-calendar .e-content td.e-other-year span.e-day:focus,
+  .e-calendar .e-content td.e-other-year,
+  .e-calendar .e-content td[aria-disabled="true"] span.e-day,
+  .e-calendar .e-content td.e-out-of-range span.e-day {
+    color: GrayText !important;
+  }
+
+  .e-calendar .e-week-header,
+  .e-calendar .e-week-header th,
+  .e-calendar table.e-content tr.e-week-header th,
+  .e-calendar .e-content th.e-week-day,
+  .e-calendar th.e-week-day {
+    color: ButtonText !important;
+    background-color: Canvas !important;
+    forced-color-adjust: none;
+  }
+
+  .e-calendar .e-content td.e-cell:not(.e-other-month):not(.e-other-year):not(.e-disabled):not(.e-today):not(.e-selected) span.e-day,
+  .e-calendar .e-content td.e-cell:not(.e-other-month):not(.e-other-year):not(.e-disabled):not(.e-today):not(.e-selected) a span.e-day,
+  .e-calendar .e-content td.e-cell:not(.e-other-month):not(.e-other-year):not(.e-disabled):not(.e-today):not(.e-selected) > span.e-day {
+    color: ButtonText !important;
+    forced-color-adjust: none;
+  }
+
+  .e-calendar .e-content td.e-cell:not(.e-selected):not(.e-disabled):not(.e-other-month):not(.e-today):hover span.e-day,
+  .e-calendar .e-content td.e-cell:not(.e-selected):not(.e-disabled):not(.e-other-month):not(.e-today):focus span.e-day,
+  .e-calendar .e-content td.e-cell:not(.e-selected):not(.e-disabled):not(.e-other-month):not(.e-today):focus-within span.e-day {
+    outline: 1px solid Highlight !important;
+    background-color: transparent !important;
+  }
+
+  .e-calendar .e-content td.e-cell.e-other-month:not(.e-selected):not(.e-disabled):not(.e-today):hover span.e-day,
+  .e-calendar .e-content td.e-cell.e-other-month:not(.e-selected):not(.e-disabled):not(.e-today):focus span.e-day,
+  .e-calendar .e-content td.e-cell.e-other-month:not(.e-selected):not(.e-disabled):not(.e-today):focus-within span.e-day {
+    color: Highlight !important;
+    outline: 1px solid Highlight !important;
+    background-color: transparent !important;
+    forced-color-adjust: none;
+  }
+
+  .e-calendar .e-content td.e-cell.e-selected.e-focused-date:not(.e-today) span.e-day, 
+  .e-calendar .e-content.e-year td.e-cell.e-selected.e-focused-date:not(.e-today) span.e-day {
+    background-color: transparent !important;
+    color: Highlight !important;
+    outline: 1px solid Highlight !important;
+    forced-color-adjust: none;
+  }
+
+  .e-calendar .e-content td.e-today.e-selected.e-focused-date span.e-day {
+    outline: 1px solid Highlight !important;
+    outline-offset: 0 !important;
+    forced-color-adjust: none;
+  }
+
+  .e-calendar .e-content.e-decade td.e-cell:not(.e-other-year):not(.e-disabled):not(.e-today).e-selected:not(.e-focused-date) span.e-day,
+  .e-calendar .e-content.e-decade td.e-cell:not(.e-other-year):not(.e-disabled):not(.e-today).e-selected:not(.e-focused-date) a span.e-day,
+  .e-calendar .e-content.e-decade td.e-cell:not(.e-other-year):not(.e-disabled):not(.e-today).e-selected:not(.e-focused-date) > span.e-day,
+  .e-calendar .e-content.e-year td.e-cell:not(.e-other-month):not(.e-disabled):not(.e-today).e-selected:not(.e-focused-date) span.e-day,
+  .e-calendar .e-content.e-year td.e-cell:not(.e-other-month):not(.e-disabled):not(.e-today).e-selected:not(.e-focused-date) a span.e-day,
+  .e-calendar .e-content.e-year td.e-cell:not(.e-other-month):not(.e-disabled):not(.e-today).e-selected:not(.e-focused-date) > span.e-day {
+    background-color: Highlight !important;
+    color: HighlightText !important;
+    forced-color-adjust: none;
+  }
+
+  .e-calendar .e-btn.e-today.e-flat.e-primary:hover,
+  .e-calendar .e-css.e-btn.e-today.e-flat.e-primary:hover,
+  .e-calendar .e-btn.e-today.e-flat.e-primary:focus,
+  .e-calendar .e-css.e-btn.e-today.e-flat.e-primary:focus {
+      border-color: Highlight !important;
+      color: Highlight !important;
+      background-color: HighlightText !important;
+      box-shadow: none !important;
+      forced-color-adjust: none;
+    }
+
+  .e-calendar .e-content .e-week-number span {
+    color: ButtonText !important;
+  }
+
+  .e-calendar .e-content td.e-week-number:hover {
+    border-radius: 0 !important;
+  }
+
+  .e-calendar .e-content td.e-week-number {
+    border-right: 1px solid CanvasText !important;
+  }
+
+  .e-calendar .e-content td.e-focused-date:not(.e-today) span.e-day {
+    outline: 2px solid CanvasText !important;
+    outline-offset: 0 !important;
+    forced-color-adjust: none;
+  }
+
+  .e-upload .e-upload-files .e-upload-file-list .e-file-container .e-progress-inner-wrap .e-upload-progress-bar.e-upload-progress {
+    background: Highlight !important;
+  }
+
+  .e-upload .e-refresh::before,
+  .e-upload .e-refresh::before,
+  .e-upload .e-close::before,
+  .e-upload .e-close::before,
+  .e-upload .e-trash,
+  .e-upload .e-trash {
+      color: ButtonText !important;
+  }
+
+  .e-upload .e-refresh:hover::before,
+  .e-upload .e-refresh:focus::before,
+  .e-upload .e-close:hover::before,
+  .e-upload .e-close:focus::before,
+  .e-upload .e-trash:hover,
+  .e-upload .e-trash:focus {
+      color: Highlight !important;
+  }
+
+  .e-upload-browse-btn,
+  .e-file-clear-btn,
+  .e-file-upload-btn {
+    color: ButtonText !important;
+    border-color: ButtonText !important;
+    background-color: Canvas !important;
+    forced-color-adjust: none;
+  }
+
+  .e-upload-browse-btn:hover,
+  .e-file-clear-btn:hover,
+  .e-file-upload-btn:hover {
+    color: Highlight !important;
+    border-color: Highlight !important;
+  }
+
+  .e-upload-browse-btn:focus-visible,
+  .e-file-clear-btn:focus-visible,
+  .e-file-upload-btn:focus-visible {
+    color: Highlight !important;
+    border-color: Highlight !important;
+  }
+
+  .e-input-base-wrapper .e-input-group.e-control-wrapper {
+    border-color: ButtonText !important;
+  }
+
+  .e-input-base-wrapper .e-input-group.e-control-wrapper.e-input-focus:not(.e-filled) {
+    border: 1px solid Highlight !important;
+  }     
+
+  .e-input-base-wrapper .e-input-group .e-close:hover,
+  .e-input-base-wrapper .e-input-group .e-close:focus {
+      color: ButtonText !important;
+      forced-color-adjust: none;  
+  }
+
+  .e-input-base-wrapper .e-input-group .e-close:hover::before,
+  .e-input-base-wrapper .e-input-group .e-close:focus::before {
+      color: ButtonText !important;
+   }
+
+  .e-input-base-wrapper .e-input-group .e-chevron-down:hover::before,
+  .e-input-base-wrapper .e-input-group .e-chevron-up:hover::before {
+      color: ButtonText !important;
+  }
+
+  .e-input-base-wrapper .e-input-group.e-control-wrapper.e-input-focus::before,
+  .e-input-base-wrapper .e-input-group.e-control-wrapper.e-input-focus::after,
+  .e-input-base-wrapper .e-input-group.e-control-wrapper::before,
+  .e-input-base-wrapper .e-input-group.e-control-wrapper::after,
+  .e-input-base-wrapper .e-input-group::before,
+  .e-input-base-wrapper .e-input-group::after {
+    background-color: Highlight !important;
+    forced-color-adjust: none;
+  }
+
+  .e-input-base-wrapper .e-input-group.e-input-focus::before,
+  .e-input-base-wrapper .e-input-group.e-input-focus::after {
+    z-index: 1 !important;
+  }
+
+  .e-input-base-wrapper .e-input-group.e-input-focus::before,
+  .e-input-base-wrapper .e-input-group.e-input-focus::after,
+  .e-input-base-wrapper .e-input-group.e-control-wrapper.e-input-focus::before,
+  .e-input-base-wrapper .e-input-group.e-control-wrapper.e-input-focus::after {
+    width: 50% !important;
+    background: Highlight !important;
+    z-index: 1 !important;
+    transition: none !important;
+    animation-duration: 0s !important;
+    forced-color-adjust: none;
+  }
+
+  .e-input-base-wrapper .e-input:focus:not(.e-success):not(.e-warning):not(.e-error) {
+    border-bottom-width: 0 !important;
+  }
+
+  .e-input-group.e-disabled,
+  .e-control-wrapper.e-disabled,
+  .e-input-group.e-disabled .e-input,
+  .e-control-wrapper.e-disabled .e-input,
+  .e-input-group.e-disabled input,
+  .e-control-wrapper.e-disabled input,
+  .e-input-group.e-disabled textarea,
+  .e-control-wrapper.e-disabled textarea,
+  .e-input-group.e-disabled .e-float-text,
+  .e-control-wrapper.e-disabled .e-float-text,
+  .e-input:disabled,
+  .e-textbox:disabled,
+  .e-textarea:disabled,
+  .e-textbox:disabled input,
+  .e-input[disabled],
+  .e-input[aria-disabled="true"],
+  textarea[disabled],
+  textarea[aria-disabled="true"] {
+    color: GrayText !important;
+    background-color: Canvas !important;
+    opacity: 1 !important;
+    forced-color-adjust: none;
+  }
+
+  .e-input-base-wrapper .e-input-group.e-control-wrapper.e-disabled,
+  .e-input-base-wrapper .e-control-wrapper.e-disabled {
+    border-color: GrayText !important;
+  }
+
+  .e-input-group.e-disabled input::placeholder,
+  .e-control-wrapper.e-disabled input::placeholder,
+  .e-input-group.e-disabled textarea::placeholder,
+  .e-control-wrapper.e-disabled textarea::placeholder,
+  .e-input:disabled::placeholder {
+    color: GrayText !important;
+    opacity: 1 !important;
+  }
+
+  .e-input-group.e-disabled:focus-within input:focus,
+  .e-control-wrapper.e-disabled:focus-within input:focus,
+  .e-input:disabled:focus,
+  .e-textbox:disabled:focus,
+  .e-textarea:disabled:focus,
+  .e-input[disabled]:focus,
+  .e-input[aria-disabled="true"]:focus {
+    outline: 0 !important;
+    forced-color-adjust: none;
+  }
+
+  .e-tooltip-wrap .e-close:hover,
+    .e-tooltip-wrap .e-close:focus,
+    .e-tooltip-wrap .e-close:focus-visible {
+      border-color: Highlight !important;
+      color: Highlight !important;
+    }
+  
+    .e-tooltip-wrap .e-close:hover::before,
+    .e-tooltip-wrap .e-close:focus::before,
+    .e-tooltip-wrap .e-close:focus-visible::before {
+      color: Highlight !important;
+    }
+  
+    .e-tooltip-wrap .e-close:active {
+      background-color: Highlight !important;
+      border-color: Highlight !important;
+      color: HighlightText !important;
+    }
+  
+    .e-tooltip-wrap .e-close:active::before {
+      color: HighlightText !important;
+    }
+
+  .e-dlg-container .e-dlg-overlay {
+    backdrop-filter: none !important;
+  }
+
+  .e-prompt-dialog .e-input-group,
+  .e-prompt-dialog .e-input {
+    border-color: ButtonText !important;
+  }
+
+  .e-prompt-dialog .e-input-group:focus-within,
+  .e-prompt-dialog .e-input:focus {
+    border-color: Highlight !important;
+  }
+
+  .e-dialog .e-btn.e-dlg-closeicon-btn:focus span {
+    color: ButtonText !important;
+  }
+
+  .e-dialog .e-btn.e-dlg-closeicon-btn:hover span {
+    color: Highlight !important;
+  }
+
 }
 
 :root,
@@ -711,7 +1706,7 @@ $progress-btn-spinner-color: #ebf3fc !default;
   --color-sf-secondary-bg-color-focus: #383838;
   --color-sf-secondary-border-color-focus: #fff;
   --color-sf-secondary-text-color-focus: var(--color-sf-content-text-color);
-  --color-sf-secondary-bg-color-disabled: -var(-color-sf-primary-bg-color-disabled);
+  --color-sf-secondary-bg-color-disabled: var(--color-sf-primary-bg-color-disabled);
   --color-sf-secondary-border-color-disabled: var(--color-sf-secondary-bg-color-disabled);
   --color-sf-secondary-text-color-disabled: var(--color-sf-content-text-color-disabled);
   --color-sf-secondary-bg-color-selected: #383838;
@@ -921,6 +1916,12 @@ $imported-modules: () !default;
     white-space: nowrap !important;
     border: 0 !important;
   }
+}
+
+.e-calendar .e-content table.e-calendar-content-table {
+  border-collapse: separate;
+  border-spacing: 2px;
+  padding: 0 6px 8px;
 }
 
 // WCAG 2.3.3 Animation from Interactions (Level AAA) / 2.2.2 Pause, Stop, Hide

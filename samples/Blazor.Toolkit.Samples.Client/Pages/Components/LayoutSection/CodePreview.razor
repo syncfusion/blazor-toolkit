@@ -6,30 +6,64 @@
         @{
             Tab = IsCodeAlone ? TabSection.Code : Tab;
         }
-        <div class="code-preview-title"> @(Tab == TabSection.Output ? string.Empty : FileName)</div>
+
+        <div class="code-preview-title">
+            @(Tab == TabSection.Output ? string.Empty : FileName)
+        </div>
+
         @if (!IsCodeAlone)
         {
             <div class="code-preview-buttons">
+
                 @if (Tab == TabSection.Output)
                 {
-                    <button class="icon-btn" title="Code" @onclick="() => SetTab(TabSection.Code)">
-                        <!-- code icon -->
-                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-                            <polyline points="16 18 22 12 16 6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
-                            <polyline points="8 6 2 12 8 18" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+                    <SfButton CssClass="icon-btn e-flat"
+                              title="Code"
+                              OnClick="@(() => SetTab(TabSection.Code))">
+                        <svg width="16"
+                             height="16"
+                             viewBox="0 0 24 24"
+                             fill="none"
+                             xmlns="http://www.w3.org/2000/svg">
+                            <polyline points="16 18 22 12 16 6"
+                                      stroke="currentColor"
+                                      stroke-width="1.5"
+                                      stroke-linecap="round"
+                                      stroke-linejoin="round" />
+                            <polyline points="8 6 2 12 8 18"
+                                      stroke="currentColor"
+                                      stroke-width="1.5"
+                                      stroke-linecap="round"
+                                      stroke-linejoin="round" />
                         </svg>
-                    </button>
+                    </SfButton>
                 }
                 else
                 {
-                    <button class="icon-btn" title="Preview" @onclick="() => SetTab(TabSection.Output)">
-                        <!-- eye icon -->
-                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-                            <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8S1 12 1 12z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
-                            <circle cx="12" cy="12" r="3" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+                    <SfButton CssClass="icon-btn e-flat"
+                              title="Preview"
+                              OnClick="@(() => SetTab(TabSection.Output))">
+                        <svg width="16"
+                             height="16"
+                             viewBox="0 0 24 24"
+                             fill="none"
+                             xmlns="http://www.w3.org/2000/svg">
+                            <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8S1 12 1 12z"
+                                  stroke="currentColor"
+                                  stroke-width="1.5"
+                                  stroke-linecap="round"
+                                  stroke-linejoin="round" />
+                            <circle cx="12"
+                                    cy="12"
+                                    r="3"
+                                    stroke="currentColor"
+                                    stroke-width="1.5"
+                                    stroke-linecap="round"
+                                    stroke-linejoin="round" />
                         </svg>
-                    </button>
+                    </SfButton>
                 }
+
             </div>
         }
     </div>
@@ -38,40 +72,61 @@
     {
         <div>
             <div class="mb-2 preview-section">
-                <div style="@GetWidthStyle()">
-                    @PreviewSection
+                <div class="preview-host" style="@GetWidthStyle()">
+                    @if (PreviewComponent is not null)
+                    {
+                        <DynamicComponent Type="PreviewComponent" />
+                    }
                 </div>
             </div>
         </div>
-
     }
     else
     {
         <div class="code-wrapper">
-            <SfButton IconCss="sb-icons e-copy" CssClass="copy-btn e-flat" OnClick="@CopyCodeAsync"></SfButton>
-            <pre class="code-section" @ref="_codeElement">@CodeSection</pre>
+            <SfButton IconCss="sb-icons e-copy"
+                      CssClass="copy-btn e-flat"
+                      OnClick="@CopyCodeAsync">
+            </SfButton>
+
+            <pre class="code-section">
+                <code @ref="_codeElement">@SourceCode</code>
+            </pre>
         </div>
     }
 </div>
 
 
+
 @code {
+    [Parameter]
+    public Type PreviewComponent { get; set; } = default!;
+
+    [Parameter]
+    public string SourceFile { get; set; } = default!;
+
     enum TabSection { Output, Code }
 
     private TabSection Tab { get; set; } = TabSection.Output;
     private void SetTab(TabSection tab) => Tab = tab;
 
     [Parameter]
-    public RenderFragment PreviewSection { get; set; } = default!;
+    public string CodeSection { get; set; }
 
-    [Parameter]
-    public string CodeSection { get; set; } = default!;
+    private string SourceCode = string.Empty;
 
     [Parameter]
     public string FileName { get; set; } = "Razor";
 
     [Parameter]
     public bool IsCodeAlone { get; set; }
+
+    // When true, the snippet is rendered as plain text only (no
+    // syntax highlighting via hljs). Useful for descriptions,
+    // narrative paragraphs, and prose that would otherwise pick up
+    // spurious colours from keywords/URLs/etc.
+    [Parameter]
+    public bool IsPlainText { get; set; }
 
     [Parameter]
     public bool IsFullWidth { get; set; }
@@ -80,7 +135,7 @@
 
     private async Task CopyCodeAsync()
     {
-        await JSRuntime.InvokeVoidAsync("copyCode", CodeSection);
+        await JSRuntime.InvokeVoidAsync("copyCode", SourceCode);
     }
 
     private string GetWidthStyle()
@@ -92,8 +147,70 @@
     {
         if (TabSection.Code == Tab)
         {
-            var sourceCode = ExtractSampleCode(CodeSection);
-            await JSRuntime.InvokeVoidAsync("refreshTab", sourceCode, _codeElement);
+            if (IsPlainText)
+            {
+                // Plain-text snippets skip highlight.js entirely. Set
+                // textContent directly so the code element renders the
+                // snippet without any syntax-coloured spans.
+                await JSRuntime.InvokeVoidAsync("setPlainText", _codeElement, SourceCode);
+            }
+            else
+            {
+                var formattedCode = ExtractSampleCode(SourceCode);
+                await JSRuntime.InvokeVoidAsync("refreshTab", formattedCode, _codeElement);
+            }
+        }
+    }
+
+    protected override async Task OnParametersSetAsync()
+    {
+        if (!string.IsNullOrWhiteSpace(CodeSection))
+        {
+            SourceCode = CodeSection;
+        }
+        else
+        {
+            SourceCode = await LoadSourceCodeAsync();
+        }
+    }
+
+    private async Task<string> LoadSourceCodeAsync()
+    {
+        if (string.IsNullOrWhiteSpace(SourceFile))
+        {
+            return string.Empty;
+        }
+
+        try
+        {
+            var assembly = typeof(CodePreview).Assembly;
+
+            var resourceName = assembly
+                .GetManifestResourceNames()
+                .FirstOrDefault(x =>
+                    x.EndsWith(
+                        SourceFile.Replace("/", ".").Replace("\\", "."),
+                        StringComparison.OrdinalIgnoreCase));
+
+            if (resourceName is null)
+            {
+                return $"// Source file not found: {SourceFile}";
+            }
+
+            using var stream = assembly.GetManifestResourceStream(resourceName);
+
+            if (stream is null)
+            {
+                return $"// Unable to load source file: {SourceFile}";
+            }
+
+            using var reader = new StreamReader(stream);
+
+            return await reader.ReadToEndAsync();
+        }
+        catch (Exception ex)
+        {
+            return $"// Error loading source: {ex.Message}";
         }
     }
 
@@ -105,7 +222,7 @@
         }
         string code = rawSourceCode;
         // 6️⃣ Encode for HTML rendering
-        code = code.Replace("<", "&lt;").Replace(">", "&gt;");
+        //code = code.Replace("<", "&lt;").Replace(">", "&gt;");
         return code;
     }
 }
@@ -154,6 +271,18 @@
             align-items: center;
             overflow: auto;
             color: var(--text-color);
+        }
+
+        /* Establishes a containing block so absolutely-positioned descendants
+           (e.g. SfSpinner's .e-spinner-pane) stay inside this CodePreview
+           instead of overlaying other CodePreviews further down the page. */
+        .code-preview-wrapper .preview-host {
+            position: relative;
+            min-height: 80px;
+            min-width: 80px;
+            display: inline-block;
+            align-items: center;
+            justify-content: center;
         }
 
     .code-preview-title {
@@ -212,5 +341,24 @@
         font-size: 16px;
         font-weight: 600;
         margin-bottom: 8px;
+    }
+    @@media (forced-colors: active) {
+        .code-preview-header {
+            background: Canvas !important;
+            color: CanvasText !important;
+        }
+        .code-preview-wrapper {
+            background: Canvas !important;
+        }
+        .copy-btn {
+            background: transparent !important;
+            color: ButtonText !important;
+            border: 1px solid transparent !important;
+        }
+        .copy-btn:hover {
+            border: 1px solid Highlight !important;
+            background: Highlight !important;
+            color: HighlightText !important;
+        }
     }
 </style>

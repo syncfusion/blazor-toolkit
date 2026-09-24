@@ -1,0 +1,66 @@
+@*
+    This demo reads its monthly temperature-anomaly series from the shared
+    static helper:
+
+        ZoomDataSource.cs  (same folder)
+
+    `ZoomDataSource.Values` is a pre-populated `double[]` of 1500 anomaly
+    readings. The demo converts that array into chart points at runtime in
+    `OnInitialized`. To run this demo standalone, copy `ZoomDataSource.cs`
+    into the same folder as this .razor file.
+
+    Unlike the rest of the chart demos (which embed their data inline), the
+    ZoomingAndPanning samples all share the same source series so the
+    zoom/pan/selection interactions look consistent across the section.
+*@
+<SfChart @key="@_currentTheme" Title="Global Warming: Monthly Temperature Anomalies" Theme="@_currentTheme">
+    <ChartZoomSettings EnablePinchZooming="true" Mode="ZoomMode.X" />
+
+    <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Toolkit.ValueType.DateTime">
+    </ChartPrimaryXAxis>
+
+    <ChartPrimaryYAxis Interval="0.3" Format="{value}°C" Title="Temperature Anomaly (°C)">
+        <ChartAxisLineStyle Width="0" />
+    </ChartPrimaryYAxis>
+
+    <ChartSeries DataSource="@PinchData"
+                 XName="X"
+                 YName="Y"
+                 Type="ChartSeriesType.Line"
+                 Fill="#2B95C9">
+    </ChartSeries>
+</SfChart>
+
+@code {
+    [CascadingParameter]
+    private Theme CurrentTheme { get; set; } = Theme.Fluent;
+
+    private Theme _currentTheme = Theme.Fluent;
+
+    protected override void OnParametersSet()
+    {
+        base.OnParametersSet();
+        _currentTheme = CurrentTheme;
+    }
+
+    private List<ChartPoint> PinchData = new();
+
+    protected override void OnInitialized()
+    {
+        DateTime pinchStartDate = new DateTime(1941, 1, 1);
+        for (int i = 1; i < ZoomDataSource.Values.Length; i++)
+        {
+            PinchData.Add(new ChartPoint
+            {
+                X = pinchStartDate.AddMonths(i),
+                Y = ZoomDataSource.Values[i] / 1000 - 0.5
+            });
+        }
+    }
+
+    public class ChartPoint
+    {
+        public DateTime X { get; set; }
+        public double Y { get; set; }
+    }
+}

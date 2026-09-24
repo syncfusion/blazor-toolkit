@@ -1,0 +1,211 @@
+<SfChart @key="@_currentTheme" Title="U.S. Historical Temperature Trends (1895-2025)" Theme="@_currentTheme">
+    <ChartArea><ChartAreaBorder Width="0"></ChartAreaBorder></ChartArea>
+
+    <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Toolkit.ValueType.DateTime"
+                       Minimum="new DateTime(1895, 1, 1)"
+                       Maximum="new DateTime(2025, 1, 1)"
+                       Interval="20"
+                       RangePadding="ChartRangePadding.Normal"
+                       Format="yyyy"
+                       EdgeLabelPlacement="EdgeLabelPlacement.None">
+        <ChartAxisMajorGridLines Width="0" />
+        <ChartAxisMajorTickLines Width="0" />
+        <ChartAxisMinorTickLines Width="0" />
+    </ChartPrimaryXAxis>
+
+    <ChartPrimaryYAxis Minimum="20"
+                       Maximum="40"
+                       Interval="4"
+                       Title="Mean Temperature (°F)"
+                       LabelFormat="{value}°F"
+                       EdgeLabelPlacement="EdgeLabelPlacement.Shift">
+        <ChartAxisLineStyle Width="0" />
+        <ChartAxisMajorTickLines Width="0" />
+    </ChartPrimaryYAxis>
+
+    <ChartSeries DataSource="@AverageTemperatureData"
+                 XName="Date"
+                 YName="Value"
+                 Type="ChartSeriesType.MultiColoredLine"
+                 PointColorMapping="Color"
+                 Width="2">
+        <ChartMarker AllowHighlight="false" />
+    </ChartSeries>
+
+    <ChartTooltipSettings Enable="true"
+                          Header="Year: ${point.x}"
+                          ShowHeaderLine="true"
+                          Format="Average Temperature : ${point.y}" />
+</SfChart>
+
+@code {
+    [CascadingParameter]
+    private Theme CurrentTheme { get; set; } = Theme.Fluent;
+
+    private Theme _currentTheme = Theme.Fluent;
+
+    protected override void OnParametersSet()
+    {
+        base.OnParametersSet();
+        _currentTheme = CurrentTheme;
+    }
+
+    public class TemperaturePoint
+    {
+        public DateTime Date { get; set; }
+        public double Value { get; set; }
+        public string Color { get; set; } = string.Empty;
+    }
+
+    private readonly string[] SegmentColors = new[]
+    {
+        "#828486", "#B1212D", "#05B3DA", "#7107DC",
+        "#6200EE", "#82C100", "#05B3DA", "#6200EE",
+        "#E77A16", "#82C100", "#828486", "#B1212D", "#05B3DA"
+    };
+
+    private static readonly List<(DateTime Date, double Value)> RawTemperatureData = new()
+    {
+        (new DateTime(1895, 1, 1), 26.69),
+        (new DateTime(1896, 1, 1), 31.48),
+        (new DateTime(1897, 1, 1), 28.17),
+        (new DateTime(1898, 1, 1), 30.67),
+        (new DateTime(1899, 1, 1), 29.68),
+        (new DateTime(1900, 1, 1), 34.11),
+        (new DateTime(1901, 1, 1), 31.62),
+        (new DateTime(1902, 1, 1), 30.06),
+        (new DateTime(1903, 1, 1), 30.88),
+        (new DateTime(1904, 1, 1), 27.55),
+        (new DateTime(1905, 1, 1), 27.12),
+        (new DateTime(1906, 1, 1), 32.88),
+        (new DateTime(1907, 1, 1), 30.70),
+        (new DateTime(1908, 1, 1), 32.45),
+        (new DateTime(1909, 1, 1), 32.31),
+        (new DateTime(1910, 1, 1), 29.61),
+        (new DateTime(1911, 1, 1), 32.90),
+        (new DateTime(1912, 1, 1), 24.76),
+        (new DateTime(1913, 1, 1), 30.47),
+        (new DateTime(1914, 1, 1), 34.50),
+        (new DateTime(1915, 1, 1), 28.44),
+        (new DateTime(1916, 1, 1), 28.22),
+        (new DateTime(1917, 1, 1), 28.27),
+        (new DateTime(1918, 1, 1), 23.88),
+        (new DateTime(1919, 1, 1), 31.82),
+        (new DateTime(1920, 1, 1), 29.23),
+        (new DateTime(1921, 1, 1), 34.36),
+        (new DateTime(1922, 1, 1), 26.80),
+        (new DateTime(1923, 1, 1), 34.59),
+        (new DateTime(1924, 1, 1), 26.26),
+        (new DateTime(1925, 1, 1), 29.10),
+        (new DateTime(1926, 1, 1), 30.33),
+        (new DateTime(1927, 1, 1), 31.55),
+        (new DateTime(1928, 1, 1), 31.98),
+        (new DateTime(1929, 1, 1), 26.33),
+        (new DateTime(1930, 1, 1), 23.56),
+        (new DateTime(1931, 1, 1), 32.99),
+        (new DateTime(1932, 1, 1), 31.55),
+        (new DateTime(1933, 1, 1), 34.30),
+        (new DateTime(1934, 1, 1), 35.08),
+        (new DateTime(1935, 1, 1), 31.51),
+        (new DateTime(1936, 1, 1), 27.36),
+        (new DateTime(1937, 1, 1), 24.84),
+        (new DateTime(1938, 1, 1), 32.14),
+        (new DateTime(1939, 1, 1), 33.91),
+        (new DateTime(1940, 1, 1), 23.83),
+        (new DateTime(1941, 1, 1), 32.20),
+        (new DateTime(1942, 1, 1), 29.84),
+        (new DateTime(1943, 1, 1), 29.41),
+        (new DateTime(1944, 1, 1), 32.02),
+        (new DateTime(1945, 1, 1), 30.49),
+        (new DateTime(1946, 1, 1), 31.39),
+        (new DateTime(1947, 1, 1), 31.78),
+        (new DateTime(1948, 1, 1), 27.88),
+        (new DateTime(1949, 1, 1), 25.92),
+        (new DateTime(1950, 1, 1), 30.43),
+        (new DateTime(1951, 1, 1), 30.20),
+        (new DateTime(1952, 1, 1), 32.00),
+        (new DateTime(1953, 1, 1), 36.43),
+        (new DateTime(1954, 1, 1), 30.90),
+        (new DateTime(1955, 1, 1), 29.35),
+        (new DateTime(1956, 1, 1), 31.01),
+        (new DateTime(1957, 1, 1), 27.07),
+        (new DateTime(1958, 1, 1), 31.60),
+        (new DateTime(1959, 1, 1), 29.50),
+        (new DateTime(1960, 1, 1), 29.46),
+        (new DateTime(1961, 1, 1), 29.71),
+        (new DateTime(1962, 1, 1), 26.96),
+        (new DateTime(1963, 1, 1), 24.44),
+        (new DateTime(1964, 1, 1), 31.53),
+        (new DateTime(1965, 1, 1), 31.80),
+        (new DateTime(1966, 1, 1), 26.38),
+        (new DateTime(1967, 1, 1), 33.10),
+        (new DateTime(1968, 1, 1), 28.94),
+        (new DateTime(1969, 1, 1), 29.37),
+        (new DateTime(1970, 1, 1), 27.16),
+        (new DateTime(1971, 1, 1), 29.41),
+        (new DateTime(1972, 1, 1), 29.93),
+        (new DateTime(1973, 1, 1), 29.59),
+        (new DateTime(1974, 1, 1), 31.01),
+        (new DateTime(1975, 1, 1), 32.34),
+        (new DateTime(1976, 1, 1), 29.93),
+        (new DateTime(1977, 1, 1), 23.09),
+        (new DateTime(1978, 1, 1), 25.86),
+        (new DateTime(1979, 1, 1), 21.92),
+        (new DateTime(1980, 1, 1), 31.12),
+        (new DateTime(1981, 1, 1), 32.41),
+        (new DateTime(1982, 1, 1), 26.22),
+        (new DateTime(1983, 1, 1), 33.12),
+        (new DateTime(1984, 1, 1), 28.83),
+        (new DateTime(1985, 1, 1), 26.31),
+        (new DateTime(1986, 1, 1), 34.68),
+        (new DateTime(1987, 1, 1), 31.44),
+        (new DateTime(1988, 1, 1), 27.79),
+        (new DateTime(1989, 1, 1), 34.09),
+        (new DateTime(1990, 1, 1), 36.48),
+        (new DateTime(1991, 1, 1), 29.50),
+        (new DateTime(1992, 1, 1), 33.62),
+        (new DateTime(1993, 1, 1), 30.47),
+        (new DateTime(1994, 1, 1), 29.34),
+        (new DateTime(1995, 1, 1), 33.08),
+        (new DateTime(1996, 1, 1), 29.70),
+        (new DateTime(1997, 1, 1), 29.97),
+        (new DateTime(1998, 1, 1), 34.99),
+        (new DateTime(1999, 1, 1), 33.78),
+        (new DateTime(2000, 1, 1), 33.57),
+        (new DateTime(2001, 1, 1), 31.37),
+        (new DateTime(2002, 1, 1), 34.48),
+        (new DateTime(2003, 1, 1), 32.81),
+        (new DateTime(2004, 1, 1), 30.36),
+        (new DateTime(2005, 1, 1), 33.39),
+        (new DateTime(2006, 1, 1), 38.93),
+        (new DateTime(2007, 1, 1), 31.35),
+        (new DateTime(2008, 1, 1), 30.27),
+        (new DateTime(2009, 1, 1), 31.05),
+        (new DateTime(2010, 1, 1), 30.67),
+        (new DateTime(2011, 1, 1), 29.71),
+        (new DateTime(2012, 1, 1), 36.12),
+        (new DateTime(2013, 1, 1), 32.25),
+        (new DateTime(2014, 1, 1), 30.56),
+        (new DateTime(2015, 1, 1), 33.08),
+        (new DateTime(2016, 1, 1), 32.22),
+        (new DateTime(2017, 1, 1), 33.57),
+        (new DateTime(2018, 1, 1), 32.16),
+        (new DateTime(2019, 1, 1), 32.56),
+        (new DateTime(2020, 1, 1), 35.53),
+        (new DateTime(2021, 1, 1), 34.59),
+        (new DateTime(2022, 1, 1), 31.17),
+        (new DateTime(2023, 1, 1), 35.08),
+        (new DateTime(2024, 1, 1), 31.89),
+        (new DateTime(2025, 1, 1), 29.23)
+    };
+
+    private List<TemperaturePoint> AverageTemperatureData =>
+        RawTemperatureData
+            .Select((item, index) => new TemperaturePoint
+            {
+                Date = item.Date,
+                Value = item.Value,
+                Color = SegmentColors[Math.Min(index / 10, SegmentColors.Length - 1)]
+            })
+            .ToList();
+}

@@ -1,0 +1,94 @@
+@using System.Collections.ObjectModel
+@implements IDisposable
+
+<div style="width: 100%;">
+    <SfChart @key="@_currentTheme" Title="Auto-Updating SplineArea Chart" Width="100%" Height="400px" Theme="@_currentTheme">
+
+        <ChartPrimaryXAxis Minimum="1" Maximum="7" Interval="1" />
+
+        <ChartPrimaryYAxis Minimum="0" Maximum="100" Interval="20">
+            <ChartAxisMajorGridLines Width="1" />
+            <ChartAxisLineStyle Width="0" />
+        </ChartPrimaryYAxis>
+
+        <ChartSeries DataSource="@AutoUpdateData"
+                     Type="ChartSeriesType.SplineArea"
+                     XName="X"
+                     YName="Y"
+                     Opacity="0.4"
+                     Fill="#D6FF89"
+                     Width="2"
+                     Animation="@AnimationOptions">
+            <ChartSeriesBorder Width="2" Color="@BorderColor" />
+            <ChartMarker Visible="true" Fill="@BorderColor">
+                <ChartMarkerBorder Width="2" Color="@BorderColor" />
+            </ChartMarker>
+        </ChartSeries>
+    </SfChart>
+</div>
+
+@code {
+    [CascadingParameter]
+    private Theme CurrentTheme { get; set; } = Theme.Fluent;
+
+    private Theme _currentTheme = Theme.Fluent;
+
+    protected override void OnParametersSet()
+    {
+        base.OnParametersSet();
+        _currentTheme = CurrentTheme;
+    }
+
+    private System.Threading.Timer? Timer;
+    private Random rnd = new();
+
+    private readonly ChartSeriesAnimation AnimationOptions = new()
+    {
+        Enable = true,
+        Duration = 1500
+    };
+
+    private string BorderColor = "#71AD01";
+
+    public class AutoUpdatePoint
+    {
+        public double X { get; set; }
+        public double Y { get; set; }
+    }
+
+    public ObservableCollection<AutoUpdatePoint> AutoUpdateData = new();
+
+    protected override void OnInitialized()
+    {
+        AutoUpdateData = new ObservableCollection<AutoUpdatePoint>(GenerateInitialData());
+
+        Timer = new System.Threading.Timer(UpdateData, null, TimeSpan.FromSeconds(2), TimeSpan.FromSeconds(2));
+    }
+
+    private List<AutoUpdatePoint> GenerateInitialData()
+    {
+        var list = new List<AutoUpdatePoint>();
+        for (int i = 1; i <= 7; i++)
+        {
+            list.Add(new AutoUpdatePoint { X = i, Y = Math.Floor(rnd.NextDouble() * 75 + 15) });
+        }
+        return list;
+    }
+
+    private void UpdateData(object? state)
+    {
+        InvokeAsync(() =>
+        {
+            for (int i = 0; i < AutoUpdateData.Count; i++)
+            {
+                AutoUpdateData[i] = new AutoUpdatePoint
+                {
+                    X = AutoUpdateData[i].X,
+                    Y = 10 + rnd.NextDouble() * 85
+                };
+            }
+        });
+    }
+
+    public void Dispose() => Timer?.Dispose();
+}

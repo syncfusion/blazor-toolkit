@@ -1,0 +1,90 @@
+<SfChart @key="@_currentTheme" Theme="@_currentTheme" Background="Transparent" Title="U.S. Agricultural Trade">
+    <ChartArea Border="@(new ChartAreaBorder { Width = 0 })" />
+
+    <ChartTooltipSettings Enable="true"
+                          EnableMarker="false"
+                          Format="Trade Type : <b>${series.name}</b><br/>
+                      Calendar Year : <b>${point.x}</b><br/>
+                      Amount : <b>$${point.y}</b>">
+    </ChartTooltipSettings>
+
+    <ChartPrimaryXAxis Minimum="1990" Maximum="2020" />
+    <ChartPrimaryYAxis Title="USD" Format="{value}B" Minimum="0" Maximum="180" Interval="30" />
+
+    <ChartSeries DataSource="@ExportData"
+                 XName="X"
+                 YName="Y"
+                 Type="ChartSeriesType.Line"
+                 Width="3"
+                 Fill="#FF8225"
+                 Name="Exports">
+    </ChartSeries>
+
+    <ChartSeries DataSource="@ImportData"
+                 XName="X"
+                 YName="Y"
+                 Type="ChartSeriesType.Line"
+                 Width="3"
+                 Fill="#0A97B080"
+                 Name="Imports">
+    </ChartSeries>
+</SfChart>
+
+@code {
+    [CascadingParameter]
+    private Theme CurrentTheme { get; set; } = Theme.Fluent;
+
+    private Theme _currentTheme = Theme.Fluent;
+
+    protected override void OnParametersSet()
+    {
+        base.OnParametersSet();
+        _currentTheme = CurrentTheme;
+    }
+
+    public class TradeData
+    {
+        public int X { get; set; }
+        public double Y { get; set; }
+    }
+
+    public List<TradeData> ExportData = new()
+    {
+        new() { X = 1990, Y = 45.06 }, new() { X = 1991, Y = 44.43 },
+        new() { X = 1992, Y = 48.16 }, new() { X = 1993, Y = 47.71 },
+        new() { X = 1994, Y = 52.25 }, new() { X = 1995, Y = 62.31 },
+        new() { X = 1996, Y = 66.45 }, new() { X = 1997, Y = 62.85 },
+        new() { X = 1998, Y = 57.30 }, new() { X = 1999, Y = 52.92 },
+        new() { X = 2000, Y = 55.92 }, new() { X = 2001, Y = 57.08 },
+        new() { X = 2002, Y = 55.78 }, new() { X = 2003, Y = 62.02 },
+        new() { X = 2004, Y = 63.89 }, new() { X = 2005, Y = 65.55 },
+        new() { X = 2006, Y = 73.62 }, new() { X = 2007, Y = 93.10 },
+        new() { X = 2008, Y = 117.71 }, new() { X = 2009, Y = 100.76 },
+        new() { X = 2010, Y = 118.72 }, new() { X = 2011, Y = 142.13 },
+        new() { X = 2012, Y = 145.92 }, new() { X = 2013, Y = 148.48 },
+        new() { X = 2014, Y = 154.54 }, new() { X = 2015, Y = 137.22 },
+        new() { X = 2016, Y = 138.90 }, new() { X = 2017, Y = 142.87 },
+        new() { X = 2018, Y = 144.73 }, new() { X = 2019, Y = 141.09 },
+        new() { X = 2020, Y = 149.73 }, new() { X = 2021, Y = 177.04 }
+    };
+
+    public List<TradeData> ImportData = new()
+    {
+        new() { X = 1990, Y = 24.05 }, new() { X = 1991, Y = 23.97 },
+        new() { X = 1992, Y = 26.13 }, new() { X = 1993, Y = 26.51 },
+        new() { X = 1994, Y = 28.27 }, new() { X = 1995, Y = 30.84 },
+        new() { X = 1996, Y = 34.60 }, new() { X = 1997, Y = 37.87 },
+        new() { X = 1998, Y = 38.99 }, new() { X = 1999, Y = 40.28 },
+        new() { X = 2000, Y = 41.88 }, new() { X = 2001, Y = 42.61 },
+        new() { X = 2002, Y = 45.35 }, new() { X = 2003, Y = 50.91 },
+        new() { X = 2004, Y = 57.51 }, new() { X = 2005, Y = 63.27 },
+        new() { X = 2006, Y = 70.45 }, new() { X = 2007, Y = 76.93 },
+        new() { X = 2008, Y = 85.19 }, new() { X = 2009, Y = 76.72 },
+        new() { X = 2010, Y = 85.58 }, new() { X = 2011, Y = 102.03 },
+        new() { X = 2012, Y = 108.76 }, new() { X = 2013, Y = 111.00 },
+        new() { X = 2014, Y = 118.73 }, new() { X = 2015, Y = 121.12 },
+        new() { X = 2016, Y = 122.57 }, new() { X = 2017, Y = 129.21 },
+        new() { X = 2018, Y = 137.99 }, new() { X = 2019, Y = 141.57 },
+        new() { X = 2020, Y = 146.28 }, new() { X = 2021, Y = 170.55 }
+    };
+}

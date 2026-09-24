@@ -146,12 +146,27 @@
         function highlightSource() {
             var tabs = element;
             if (tabs) {
-                tabs.innerHTML = code;
+                tabs.textContent = code;
                 tabs.classList.add('blazor');
                 hljs.highlightBlock(tabs);
                 clearInterval(highlightCodeInterval);
             }
         }
+    };
+
+    // Plain-text variant of refreshTab. Renders the snippet without
+    // applying any syntax highlighting (no hljs spans, no colour
+    // classes). Used for descriptive prose inside a code block.
+    window.setPlainText = (element, code) => {
+        if (!element) return;
+        element.textContent = code;
+        // Strip any hljs-added classes/attributes from a previous
+        // render so the element is fully unstyled.
+        element.removeAttribute('class');
+        while (element.firstChild) {
+            element.removeChild(element.firstChild);
+        }
+        element.appendChild(document.createTextNode(code));
     };
 
 })(window);

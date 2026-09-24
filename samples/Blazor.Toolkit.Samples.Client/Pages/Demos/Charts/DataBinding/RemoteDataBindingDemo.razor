@@ -1,0 +1,43 @@
+@using System.Net.Http.Json
+@inject HttpClient Http
+
+@if (SalesData.Any())
+{
+    <SfChart @key="@_currentTheme" Theme="@_currentTheme">
+        <ChartPrimaryXAxis Title="Orders" ValueType="Syncfusion.Blazor.Toolkit.ValueType.Category"></ChartPrimaryXAxis>
+
+        <ChartSeries DataSource="@SalesData" XName="OrderID" YName="Freight" Type="ChartSeriesType.Column">
+        </ChartSeries>
+
+    </SfChart>
+}
+else
+{
+    <p>Loading...</p>
+}
+
+@code {
+    [CascadingParameter]
+    private Theme CurrentTheme { get; set; } = Theme.Fluent;
+
+    private Theme _currentTheme = Theme.Fluent;
+
+    protected override void OnParametersSet()
+    {
+        base.OnParametersSet();
+        _currentTheme = CurrentTheme;
+    }
+
+    public class ChartData
+    {
+        public int OrderID { get; set; }
+        public double Freight { get; set; }
+    }
+
+    private List<ChartData> SalesData = new List<ChartData>();
+
+    protected override async Task OnInitializedAsync()
+    {
+        SalesData = await Http.GetFromJsonAsync<List<ChartData>>("https://blazor.syncfusion.com/services/production/api/Orders") ?? new List<ChartData>();
+    }
+}

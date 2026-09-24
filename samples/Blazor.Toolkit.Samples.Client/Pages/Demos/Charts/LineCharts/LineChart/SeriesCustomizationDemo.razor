@@ -1,0 +1,169 @@
+<SfChart @key="@_currentTheme" Title="GDP Growth rate (1960 - 2020)" Theme="@_currentTheme">
+    <ChartArea><ChartAreaBorder Width="0"></ChartAreaBorder></ChartArea>
+
+    <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Toolkit.ValueType.Double">
+        <ChartAxisMajorGridLines Width="0" />
+        <ChartAxisMajorTickLines Width="0" />
+        <ChartAxisMinorTickLines Width="0" />
+    </ChartPrimaryXAxis>
+
+    <ChartPrimaryYAxis Minimum="-10" Maximum="15" Interval="5">
+        <ChartAxisLineStyle Width="0" />
+        <ChartAxisMajorTickLines Width="0" />
+    </ChartPrimaryYAxis>
+
+    <ChartSeries DataSource="@IndiaGDPData"
+                 XName="Year"
+                 YName="Value"
+                 Name="India"
+                 Width="3"
+                 Type="ChartSeriesType.Line" />
+
+    <ChartSeries DataSource="@JapanGDPData"
+                 XName="Year"
+                 YName="Value"
+                 Name="Japan"
+                 Width="1"
+                 Type="ChartSeriesType.Line" />
+
+    <ChartSeries DataSource="@USAGDPData"
+                 XName="Year"
+                 YName="Value"
+                 Name="USA"
+                 Width="1"
+                 Type="ChartSeriesType.Line" />
+
+    <ChartLegendSettings EnableHighlight="true" />
+    <ChartTooltipSettings Enable="true"
+                          Shared="true"
+                          Header="<b>${point.x}</b>"
+                          Format="${series.name} : <b>${point.y}%</b>"
+                          EnableHighlight="true" />
+</SfChart>
+
+@code {
+    [CascadingParameter]
+    private Theme CurrentTheme { get; set; } = Theme.Fluent;
+
+    private Theme _currentTheme = Theme.Fluent;
+
+    protected override void OnParametersSet()
+    {
+        base.OnParametersSet();
+        _currentTheme = CurrentTheme;
+    }
+
+    public class GDPPoint
+    {
+        public double Year { get; set; }
+        public double Value { get; set; }
+    }
+
+    public List<GDPPoint> IndiaGDPData = new()
+    {
+        new() { Year = 1960, Value = 3.72 }, new() { Year = 1961, Value = 2.93 },
+        new() { Year = 1962, Value = 5.99 }, new() { Year = 1963, Value = 7.45 },
+        new() { Year = 1964, Value = -2.64 }, new() { Year = 1965, Value = -0.06 },
+        new() { Year = 1966, Value = 7.83 }, new() { Year = 1967, Value = 3.39 },
+        new() { Year = 1968, Value = 6.54 }, new() { Year = 1969, Value = 5.16 },
+        new() { Year = 1970, Value = 1.64 }, new() { Year = 1971, Value = -0.55 },
+        new() { Year = 1972, Value = 3.30 }, new() { Year = 1973, Value = 1.19 },
+        new() { Year = 1974, Value = 9.15 }, new() { Year = 1975, Value = 1.66 },
+        new() { Year = 1976, Value = 7.25 }, new() { Year = 1977, Value = 5.71 },
+        new() { Year = 1978, Value = -5.24 }, new() { Year = 1979, Value = 6.74 },
+        new() { Year = 1980, Value = 6.01 }, new() { Year = 1981, Value = 3.48 },
+        new() { Year = 1982, Value = 7.29 }, new() { Year = 1983, Value = 3.82 },
+        new() { Year = 1984, Value = 5.25 }, new() { Year = 1985, Value = 4.78 },
+        new() { Year = 1986, Value = 3.97 }, new() { Year = 1987, Value = 9.63 },
+        new() { Year = 1988, Value = 5.95 }, new() { Year = 1989, Value = 5.53 },
+        new() { Year = 1990, Value = 1.06 }, new() { Year = 1991, Value = 5.48 },
+        new() { Year = 1992, Value = 4.75 }, new() { Year = 1993, Value = 6.66 },
+        new() { Year = 1994, Value = 7.57 }, new() { Year = 1995, Value = 7.55 },
+        new() { Year = 1996, Value = 4.05 }, new() { Year = 1997, Value = 6.18 },
+        new() { Year = 1998, Value = 8.85 }, new() { Year = 1999, Value = 3.84 },
+        new() { Year = 2000, Value = 4.82 }, new() { Year = 2001, Value = 3.80 },
+        new() { Year = 2002, Value = 7.86 }, new() { Year = 2003, Value = 7.92 },
+        new() { Year = 2004, Value = 7.92 }, new() { Year = 2005, Value = 8.06 },
+        new() { Year = 2006, Value = 7.66 }, new() { Year = 2007, Value = 3.09 },
+        new() { Year = 2008, Value = 7.86 }, new() { Year = 2009, Value = 8.50 },
+        new() { Year = 2010, Value = 5.24 }, new() { Year = 2011, Value = 5.46 },
+        new() { Year = 2012, Value = 6.39 }, new() { Year = 2013, Value = 7.41 },
+        new() { Year = 2014, Value = 8.00 }, new() { Year = 2015, Value = 8.26 },
+        new() { Year = 2016, Value = 6.80 }, new() { Year = 2017, Value = 6.45 },
+        new() { Year = 2018, Value = 3.87 }, new() { Year = 2019, Value = -5.78 },
+        new() { Year = 2020, Value = 9.69 }, new() { Year = 2021, Value = 7.61 },
+        new() { Year = 2022, Value = 9.19 }, new() { Year = 2023, Value = 6.48 }
+    };
+
+    public List<GDPPoint> JapanGDPData = new()
+    {
+        new() { Year = 1960, Value = 12.04 }, new() { Year = 1961, Value = 8.91 },
+        new() { Year = 1962, Value = 8.47 }, new() { Year = 1963, Value = 11.68 },
+        new() { Year = 1964, Value = 5.82 }, new() { Year = 1965, Value = 10.64 },
+        new() { Year = 1966, Value = 11.08 }, new() { Year = 1967, Value = 12.88 },
+        new() { Year = 1968, Value = 12.48 }, new() { Year = 1969, Value = 0.40 },
+        new() { Year = 1970, Value = 4.70 }, new() { Year = 1971, Value = 8.41 },
+        new() { Year = 1972, Value = 8.03 }, new() { Year = 1973, Value = -1.23 },
+        new() { Year = 1974, Value = 3.09 }, new() { Year = 1975, Value = 3.97 },
+        new() { Year = 1976, Value = 4.39 }, new() { Year = 1977, Value = 5.27 },
+        new() { Year = 1978, Value = 5.48 }, new() { Year = 1979, Value = 2.82 },
+        new() { Year = 1980, Value = 4.26 }, new() { Year = 1981, Value = 3.28 },
+        new() { Year = 1982, Value = 3.63 }, new() { Year = 1983, Value = 4.41 },
+        new() { Year = 1984, Value = 5.16 }, new() { Year = 1985, Value = 3.29 },
+        new() { Year = 1986, Value = 4.65 }, new() { Year = 1987, Value = 6.66 },
+        new() { Year = 1988, Value = 4.93 }, new() { Year = 1989, Value = 4.84 },
+        new() { Year = 1990, Value = 3.52 }, new() { Year = 1991, Value = 0.90 },
+        new() { Year = 1992, Value = -0.46 }, new() { Year = 1993, Value = 1.08 },
+        new() { Year = 1994, Value = 2.63 }, new() { Year = 1995, Value = 3.13 },
+        new() { Year = 1996, Value = 0.98 }, new() { Year = 1997, Value = -1.27 },
+        new() { Year = 1998, Value = -0.33 }, new() { Year = 1999, Value = 2.76 },
+        new() { Year = 2000, Value = 0.39 }, new() { Year = 2001, Value = 0.04 },
+        new() { Year = 2002, Value = 1.54 }, new() { Year = 2003, Value = 2.19 },
+        new() { Year = 2004, Value = 1.80 }, new() { Year = 2005, Value = 1.37 },
+        new() { Year = 2006, Value = 1.48 }, new() { Year = 2007, Value = -1.22 },
+        new() { Year = 2008, Value = -5.69 }, new() { Year = 2009, Value = 4.10 },
+        new() { Year = 2010, Value = 0.02 }, new() { Year = 2011, Value = 1.37 },
+        new() { Year = 2012, Value = 2.01 }, new() { Year = 2013, Value = 0.30 },
+        new() { Year = 2014, Value = 1.56 }, new() { Year = 2015, Value = 0.75 },
+        new() { Year = 2016, Value = 1.68 }, new() { Year = 2017, Value = 0.64 },
+        new() { Year = 2018, Value = -0.40 }, new() { Year = 2019, Value = -4.17 },
+        new() { Year = 2020, Value = 2.70 }, new() { Year = 2021, Value = 0.94 },
+        new() { Year = 2022, Value = 1.48 }, new() { Year = 2023, Value = 0.08 }
+    };
+
+    public List<GDPPoint> USAGDPData = new()
+    {
+        new() { Year = 1960, Value = 2.57 }, new() { Year = 1961, Value = 6.13 },
+        new() { Year = 1962, Value = 4.36 }, new() { Year = 1963, Value = 5.76 },
+        new() { Year = 1964, Value = 6.50 }, new() { Year = 1965, Value = 6.60 },
+        new() { Year = 1966, Value = 2.74 }, new() { Year = 1967, Value = 4.91 },
+        new() { Year = 1968, Value = 3.12 }, new() { Year = 1969, Value = 0.18 },
+        new() { Year = 1970, Value = 3.29 }, new() { Year = 1971, Value = 5.26 },
+        new() { Year = 1972, Value = 5.65 }, new() { Year = 1973, Value = -0.54 },
+        new() { Year = 1974, Value = -0.21 }, new() { Year = 1975, Value = 5.39 },
+        new() { Year = 1976, Value = 4.62 }, new() { Year = 1977, Value = 5.54 },
+        new() { Year = 1978, Value = 3.17 }, new() { Year = 1979, Value = -0.26 },
+        new() { Year = 1980, Value = 2.54 }, new() { Year = 1981, Value = -1.80 },
+        new() { Year = 1982, Value = 4.58 }, new() { Year = 1983, Value = 7.24 },
+        new() { Year = 1984, Value = 4.17 }, new() { Year = 1985, Value = 3.46 },
+        new() { Year = 1986, Value = 3.45 }, new() { Year = 1987, Value = 4.18 },
+        new() { Year = 1988, Value = 3.67 }, new() { Year = 1989, Value = 1.89 },
+        new() { Year = 1990, Value = -0.11 }, new() { Year = 1991, Value = 3.52 },
+        new() { Year = 1992, Value = 2.75 }, new() { Year = 1993, Value = 4.03 },
+        new() { Year = 1994, Value = 2.68 }, new() { Year = 1995, Value = 3.77 },
+        new() { Year = 1996, Value = 4.45 }, new() { Year = 1997, Value = 4.48 },
+        new() { Year = 1998, Value = 4.79 }, new() { Year = 1999, Value = 4.08 },
+        new() { Year = 2000, Value = 0.96 }, new() { Year = 2001, Value = 1.70 },
+        new() { Year = 2002, Value = 2.80 }, new() { Year = 2003, Value = 3.85 },
+        new() { Year = 2004, Value = 3.48 }, new() { Year = 2005, Value = 2.78 },
+        new() { Year = 2006, Value = 2.00 }, new() { Year = 2007, Value = 0.11 },
+        new() { Year = 2008, Value = -2.58 }, new() { Year = 2009, Value = 2.70 },
+        new() { Year = 2010, Value = 1.56 }, new() { Year = 2011, Value = 2.29 },
+        new() { Year = 2012, Value = 2.12 }, new() { Year = 2013, Value = 2.52 },
+        new() { Year = 2014, Value = 2.95 }, new() { Year = 2015, Value = 1.82 },
+        new() { Year = 2016, Value = 2.46 }, new() { Year = 2017, Value = 2.97 },
+        new() { Year = 2018, Value = 2.58 }, new() { Year = 2019, Value = -2.16 },
+        new() { Year = 2020, Value = 6.06 }, new() { Year = 2021, Value = 2.51 },
+        new() { Year = 2022, Value = 2.89 }, new() { Year = 2023, Value = 2.80 }
+    };
+}

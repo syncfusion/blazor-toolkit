@@ -1,0 +1,104 @@
+﻿<div class="control-section">
+    <div class="control_wrapper">
+        @*Form Elements Initialization*@
+        <form id="details" role="form">
+            <table class="demotable">
+                <tr>
+                    <th colspan="2" class="custom-align">
+                        <h3>Sign in to continue</h3>
+                    </th>
+                </tr>
+                <tr>
+                    <td class="info">User Name</td>
+                    <td>
+                        @*Initialize user name Textbox component*@
+                        <SfTextBox @ref="_userNameTextBox" ID="@InputId" Type="InputType.Text" @bind-Value="@UserName"
+                                   title="Please enter your name"></SfTextBox>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="info">Password</td>
+                    <td>
+                        @*Initialize password Textbox component*@
+                        <SfTextBox @ref="_passwordTextBox" ID=@PassId Type="InputType.Password" @bind-Value="@Password"
+                                   title="Password must contain at least 8 or more characters"></SfTextBox>
+                    </td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td class="custom-align">
+                        @*Initialize submit Button component*@
+                        <SfTooltip Target="#details .e-textbox" OpensOn="Focus" TargetContainer="#details">
+                            <SfButton Content="Submit" Type="ButtonType.Button" OnClick="@OnClick"></SfButton>
+                        </SfTooltip>
+                    </td>
+                </tr>
+            </table>
+        </form>
+        @*Initialize Tooltip component*@
+    </div>
+</div>
+@code {
+    //Specifies the Id of the user name Textbox.
+    private string InputId = "userName";
+    //Specifies the Id of the password Textbox.
+    private string PassId = "passwordId";
+    //Specifies the value of user name Textbox.
+    private string UserName = "";
+    //Specifies the value of password Textbox.
+    private string Password = "";
+    // Component references for focusing without JS interop
+    private SfTextBox? _userNameTextBox;
+    private SfTextBox? _passwordTextBox;
+    // Specifies the click event handler for the submit button to showcase the Tooltip.
+    public async Task OnClick()
+    {
+        if (string.IsNullOrEmpty(UserName))
+        {
+            if (_userNameTextBox is not null)
+                await _userNameTextBox.FocusAsync();
+        }
+        else if (Password?.Length < 8)
+        {
+            if (_passwordTextBox is not null)
+                await _passwordTextBox.FocusAsync();
+        }
+    }
+}
+<style>
+    /* Sample specific styles */
+    .control_wrapper {
+        max-width: 500px;
+        border: 1px solid #dddddd;
+        border-radius: 3px;
+    }
+
+    .demotable,
+    .control_wrapper {
+        margin: auto;
+    }
+
+    #details table th,
+    #details table td {
+        padding: 20px 10px;
+    }
+
+    #details .info {
+        font-size: 14px;
+        text-align: left;
+        font-weight: 500;
+    }
+
+    .custom-align .e-btn {
+        float: right;
+    }
+
+    #details .custom-align {
+        text-align: center;
+    }
+
+    .key-class {
+        display: inline-block;
+        width: 70px;
+    }
+</style>

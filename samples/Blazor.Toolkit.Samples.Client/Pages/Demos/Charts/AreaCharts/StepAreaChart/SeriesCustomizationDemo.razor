@@ -1,0 +1,91 @@
+<SfChart @key="@_currentTheme" Title="Monthly Active Users (Web vs Mobile)" Width="100%" Height="400px" Theme="@_currentTheme">
+    <ChartArea>
+        <ChartAreaBorder Width="0" />
+    </ChartArea>
+
+    <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Toolkit.ValueType.Category" />
+
+    <ChartPrimaryYAxis>
+        <ChartPrimaryYAxis Format="{value}k" />
+    </ChartPrimaryYAxis>
+
+    <ChartSeries DataSource="@WebUsers"
+                 XName="X"
+                 YName="Y"
+                 Type="ChartSeriesType.StepArea"
+                 Name="Web"
+                 Opacity="0.6"
+                 Fill="#05B3DA"
+                 StepPosition="StepPosition.Center"
+                 LegendShape="LegendShape.Rectangle">
+        <ChartSeriesBorder Width="2" Color="#05B3DA" />
+    </ChartSeries>
+
+    <ChartSeries DataSource="@MobileUsers"
+                 XName="X"
+                 YName="Y"
+                 Type="ChartSeriesType.StepArea"
+                 Name="Mobile"
+                 Opacity="0.6"
+                 Fill="#82C100"
+                 StepPosition="StepPosition.Center"
+                 LegendShape="LegendShape.Rectangle">
+        <ChartSeriesBorder Width="2" Color="#82C100" />
+    </ChartSeries>
+
+    <ChartTooltipSettings Enable="true"
+                          ShowNearestTooltip="true"
+                          Header="<b>${series.name}</b>"
+                          Format="${point.x}: <b>${point.y}</b>" />
+</SfChart>
+
+@code {
+    [CascadingParameter]
+    private Theme CurrentTheme { get; set; } = Theme.Fluent;
+
+    private Theme _currentTheme = Theme.Fluent;
+
+    protected override void OnParametersSet()
+    {
+        base.OnParametersSet();
+        _currentTheme = CurrentTheme;
+    }
+
+    public class MonthlyUsers
+    {
+        public string X { get; set; } = string.Empty;
+        public double Y { get; set; }
+    }
+
+    public List<MonthlyUsers> WebUsers = new()
+    {
+        new() { X = "Jan", Y = 120 },
+        new() { X = "Feb", Y = 135 },
+        new() { X = "Mar", Y = 150 },
+        new() { X = "Apr", Y = 170 },
+        new() { X = "May", Y = 160 },
+        new() { X = "Jun", Y = 175 },
+        new() { X = "Jul", Y = 190 },
+        new() { X = "Aug", Y = 205 },
+        new() { X = "Sep", Y = 198 },
+        new() { X = "Oct", Y = 210 },
+        new() { X = "Nov", Y = 220 },
+        new() { X = "Dec", Y = 230 }
+    };
+
+    public List<MonthlyUsers> MobileUsers = new()
+    {
+        new() { X = "Jan", Y = 80 },
+        new() { X = "Feb", Y = 95 },
+        new() { X = "Mar", Y = 110 },
+        new() { X = "Apr", Y = 130 },
+        new() { X = "May", Y = 140 },
+        new() { X = "Jun", Y = 155 },
+        new() { X = "Jul", Y = 165 },
+        new() { X = "Aug", Y = 178 },
+        new() { X = "Sep", Y = 185 },
+        new() { X = "Oct", Y = 195 },
+        new() { X = "Nov", Y = 205 },
+        new() { X = "Dec", Y = 215 }
+    };
+}

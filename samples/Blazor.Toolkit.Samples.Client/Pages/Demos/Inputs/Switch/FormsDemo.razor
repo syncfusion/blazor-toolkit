@@ -1,0 +1,83 @@
+﻿@using System.ComponentModel.DataAnnotations
+
+<EditForm Model="contactModel" OnValidSubmit="OnSubmit" class="form-example">
+    <DataAnnotationsValidator />
+    <div class="form-group">
+        <label>Name</label>
+        <SfTextBox @bind-Value="@contactModel.Name" Placeholder="Enter your name"></SfTextBox>
+        <ValidationMessage For="() => contactModel.Name" class="text-danger" />
+    </div>
+    <div class="form-group mt-3">
+        <label>Email</label>
+        <SfTextBox @bind-Value="contactModel.Email" Placeholder="Enter your email"></SfTextBox>
+        <ValidationMessage For="() => contactModel.Email" class="text-danger" />
+    </div>
+    @* Clean label + switch layout (no Bootstrap form-switch here) *@
+    <div class="form-group mt-3 d-flex align-items-center gap-2">
+        <label for="newsletter-switch" class="mb-0">Subscribe to newsletter</label>
+        <SfSwitch id="newsletter-switch"
+                    Checked="@contactModel.Newsletter"
+                    CheckedChanged="@(EventCallback.Factory.Create<bool>(this, (bool v) => OnNewsletterChanged(v)))"
+                    Disabled="@newsletterDisabled" />
+    </div>
+
+    @if (showWarning)
+    {
+        <div class="text-danger mt-2">Please enable newsletter to submit.</div>
+    }
+
+    <div class="form-group mt-3 d-flex align-items-center gap-2">
+        <SfButton CssClass="e-primary" Type="ButtonType.Submit">Submit</SfButton>
+
+        @if (submitted && contactModel.Newsletter)
+        {
+            <span class="status-text text-success">✓ Submitted</span>
+        }
+    </div>
+</EditForm>
+@code {
+    private ContactFormModel contactModel = new();
+    private bool submitted = false;
+
+    private void OnSubmit()
+    {
+        // If newsletter is not selected and the switch is not disabled, show warning instead of submitting.
+        if (!contactModel.Newsletter && !newsletterDisabled)
+        {
+            showWarning = true;
+            submitted = false;
+            return;
+        }
+
+        // Proceed with submit and clear any warning
+        submitted = true;
+        showWarning = false;
+    }
+
+    public sealed class ContactFormModel
+    {
+        [Required]
+        public string? Name { get; set; }
+
+        [Required]
+        [EmailAddress]
+        public string? Email { get; set; }
+
+        public bool Newsletter { get; set; }
+    }
+
+    // UI state for validation/warning behavior
+    private bool showWarning = false;
+    // If set true, the newsletter switch is disabled and warnings are suppressed
+    private bool newsletterDisabled = false;
+
+    private void OnNewsletterChanged(bool value)
+    {
+        contactModel.Newsletter = value;
+        // Clear warning as soon as user enables the newsletter
+        if (value)
+        {
+            showWarning = false;
+        }
+    }
+}

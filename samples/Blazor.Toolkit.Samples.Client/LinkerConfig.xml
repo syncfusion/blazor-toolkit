@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<linker>
+  <assembly fullname="Syncfusion.Blazor.Toolkit">
+    <type fullname="Syncfusion.Blazor.Toolkit.Charts.Internal*" preserve="all" />
+    <type fullname="Syncfusion.Blazor.Toolkit.Charts.*" preserve="all" />
+  </assembly>
+</linker>

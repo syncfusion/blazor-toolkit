@@ -1,0 +1,83 @@
+
+<SfChart @key="@_currentTheme" Title="Global CO2 Emissions: India vs China" Theme="@_currentTheme">
+
+    <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Toolkit.ValueType.Category">
+    </ChartPrimaryXAxis>
+
+    <ChartPrimaryYAxis Interval="5" Format="{value}">
+        <ChartAxisLineStyle Width = "0" />
+    </ChartPrimaryYAxis>
+
+
+    <ChartSeries DataSource="@IndiaLegendData"
+                 XName="Year"
+                 YName="Value"
+                 Name="India"
+                 Type="ChartSeriesType.SplineArea"
+                 Width="2"
+                 Opacity="0.5"
+                 Fill="#F57BB8"
+                 LegendShape="LegendShape.SeriesType">
+    </ChartSeries>
+
+    <ChartSeries DataSource="@ChinaLegendData"
+                 XName="Year"
+                 YName="Value"
+                 Name="China"
+                 Type="ChartSeriesType.SplineArea"
+                 Width="2"
+                 Opacity="0.5"
+                 Fill="#9DACFF"
+                     LegendShape="LegendShape.SeriesType">
+    </ChartSeries>
+
+
+    <ChartTooltipSettings Enable="true"
+                          Header="${point.x}"
+                          Format="${series.name} : <b>${point.y}%</b>" />
+
+    <ChartLegendSettings Visible="true"></ChartLegendSettings>
+</SfChart>
+
+@code {
+    [CascadingParameter]
+    private Theme CurrentTheme { get; set; } = Theme.Fluent;
+
+    private Theme _currentTheme = Theme.Fluent;
+
+    protected override void OnParametersSet()
+    {
+        base.OnParametersSet();
+        _currentTheme = CurrentTheme;
+    }
+
+    public class EmissionData
+    {
+        public int Year { get; set; }
+        public double Value { get; set; }
+    }
+
+    public List<EmissionData> IndiaLegendData = new()
+    {
+        new() { Year = 2008, Value = 4.6437244 }, new() { Year = 2009, Value = 5.111345 },
+        new() { Year = 2010, Value = 5.028607 }, new() { Year = 2011, Value = 5.1144357 },
+        new() { Year = 2012, Value = 5.5019956 }, new() { Year = 2013, Value = 5.651571 },
+        new() { Year = 2014, Value = 6.060192 }, new() { Year = 2015, Value = 6.3104815 },
+        new() { Year = 2016, Value = 6.648448 }, new() { Year = 2017, Value = 6.742467 },
+        new() { Year = 2018, Value = 7.0597 }, new() { Year = 2019, Value = 7.042013 },
+        new() { Year = 2020, Value = 6.893799 }, new() { Year = 2021, Value = 7.229242 },
+        new() { Year = 2022, Value = 7.591513 }, new() { Year = 2023, Value = 8.103194 }
+    };
+
+    public List<EmissionData> ChinaLegendData = new()
+    {
+        new() { Year = 2008, Value = 23.38795 }, new() { Year = 2009, Value = 25.017748 },
+        new() { Year = 2010, Value = 25.844229 }, new() { Year = 2011, Value = 27.626312 },
+        new() { Year = 2012, Value = 27.940819 }, new() { Year = 2013, Value = 28.203577 },
+        new() { Year = 2014, Value = 28.181187 }, new() { Year = 2015, Value = 27.859018 },
+        new() { Year = 2016, Value = 27.565317 }, new() { Year = 2017, Value = 27.803198 },
+        new() { Year = 2018, Value = 28.13197 }, new() { Year = 2019, Value = 28.875336 },
+        new() { Year = 2020, Value = 31.046888 }, new() { Year = 2021, Value = 30.947222 },
+        new() { Year = 2022, Value = 30.435427 }, new() { Year = 2023, Value = 31.495125 }
+    };
+}

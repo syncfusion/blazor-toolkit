@@ -1,0 +1,6 @@
+﻿<SfDatePicker TValue="DateTime?" Width="270px" Min='@MinDate' Max='@MaxDate' Value='@DateRangeValue' StrictMode="true" ShowClearButton="true"></SfDatePicker>
+@code {
+    public DateTime MinDate { get; set; } = new DateTime(DateTime.Now.Year, DateTime.Now.Month, 07);
+    public DateTime MaxDate { get; set; } = new DateTime(DateTime.Now.Year, DateTime.Now.Month, 27);
+    public DateTime? DateRangeValue { get; set; } = new DateTime(DateTime.Now.Year, DateTime.Now.Month, 15);
+}

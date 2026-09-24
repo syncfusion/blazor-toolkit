@@ -1,0 +1,64 @@
+<SfChart @key="@_currentTheme" Title="Population by Country 2024" Theme="@_currentTheme">
+    <ChartArea><ChartAreaBorder Width="0"></ChartAreaBorder></ChartArea>
+
+    <ChartTooltipSettings Enable="true"
+                          Header="${point.x}"
+                          Format="Population : <b>${point.y}B</b>"
+                          EnableHighlight="true" />
+
+    <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Toolkit.ValueType.Category"
+                       Minimum="2"
+                       Maximum="6"
+                       Interval="1"
+                       LabelRotation="-45">
+        <ChartAxisMajorGridLines Width="0" />
+        <ChartAxisMajorTickLines Width="0" />
+        <ChartAxisMinorTickLines Width="0" />
+    </ChartPrimaryXAxis>
+
+    <ChartPrimaryYAxis Title="Population in Billions" Interval="0.1"
+                       Maximum="0.4">
+        <ChartAxisLineStyle Width="0" />
+        <ChartAxisMajorTickLines Width="0" />
+    </ChartPrimaryYAxis>
+
+    <ChartSeries DataSource="@CategoryAxisData"
+                 XName="Country"
+                 YName="Population"
+                 Type="ChartSeriesType.Column"
+                 Fill="#179BAE"
+                 ColumnWidth="0.4">
+        <ChartCornerRadius TopLeft="5" TopRight="5" />
+    </ChartSeries>
+</SfChart>
+
+@code {
+    [CascadingParameter]
+    private Theme CurrentTheme { get; set; } = Theme.Fluent;
+
+    private Theme _currentTheme = Theme.Fluent;
+
+    protected override void OnParametersSet()
+    {
+        base.OnParametersSet();
+        _currentTheme = CurrentTheme;
+    }
+
+    public class PopulationData
+    {
+        public string Country { get; set; } = string.Empty;
+        public double Population { get; set; }
+    }
+
+    public List<PopulationData> CategoryAxisData = new()
+    {
+        new() { Country = "India",        Population = 1.42 },
+        new() { Country = "China",        Population = 1.41 },
+        new() { Country = "USA",          Population = 0.33 },
+        new() { Country = "Indonesia",    Population = 0.27 },
+        new() { Country = "Pakistan",     Population = 0.24 },
+        new() { Country = "Nigeria",      Population = 0.22 },
+        new() { Country = "Brazil",       Population = 0.21 },
+        new() { Country = "Bangladesh",   Population = 0.17 }
+    };
+}

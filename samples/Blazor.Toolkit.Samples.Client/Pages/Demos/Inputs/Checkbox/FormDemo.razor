@@ -1,0 +1,46 @@
+﻿@using System.ComponentModel.DataAnnotations
+
+<EditForm Model="formModel" OnValidSubmit="OnSubmit">
+    <DataAnnotationsValidator />
+    <div class="mb-2">
+        @* Explicit pattern so we can clear the submitted message when unchecked *@
+        <SfCheckBox TChecked="bool"
+                    Checked="@formModel.Accept"
+                    CheckedChanged="OnAcceptChanged"
+                    Label="I accept the terms" />
+        <ValidationMessage For="() => formModel.Accept" />
+    </div>
+    <SfButton CssClass="e-primary" Disabled="@(!formModel.Accept)" Type="ButtonType.Submit">Submit</SfButton>
+
+    @if (formSubmitted)
+    {
+        <p class="text-success mt-2">Form submitted successfully.</p>
+    }
+</EditForm>
+
+@code{
+    private FormModel formModel = new();
+    private bool formSubmitted = false;
+
+    private void OnAcceptChanged(bool v)
+    {
+        formModel.Accept = v;
+        if (!v)
+        {
+            // Clear the submitted banner when user unchecks the consent
+            formSubmitted = false;
+        }
+    }
+
+    private void OnSubmit()
+    {
+        formSubmitted = true;
+    }
+
+    // Backing type used by the live Form preview
+    private class FormModel
+    {
+        [Range(typeof(bool), "true", "true", ErrorMessage = "You must accept the terms")]
+        public bool Accept { get; set; }
+    }
+}

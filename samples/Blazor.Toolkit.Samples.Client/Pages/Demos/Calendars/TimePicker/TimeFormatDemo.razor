@@ -1,0 +1,12 @@
+﻿<div>
+	<SfTimePicker TValue="DateTime?" Width="300px" Value='@FormatTimeValue' Format="hh:mm tt" Placeholder="Format in 12 hours" FloatLabelType="@FloatLabelType.Always" ShowClearButton="true" />
+	<div class="mt-3"></div>
+
+	<SfTimePicker TValue="DateTime?" Width="300px" Value='@FormatTimeValue' Format="HH:mm" Placeholder="Format in 24 hours" FloatLabelType="@FloatLabelType.Always" ShowClearButton="true" />
+	<div class="mt-3"></div>
+
+	<SfTimePicker TValue="DateTime?" Width="300px" Value='@FormatTimeValue' Format="HH:mm:ss" Placeholder="Format with seconds" FloatLabelType="@FloatLabelType.Always" ShowClearButton="true" />
+</div>
+@code {
+	public DateTime? FormatTimeValue { get; set; } = DateTime.Now;
+}

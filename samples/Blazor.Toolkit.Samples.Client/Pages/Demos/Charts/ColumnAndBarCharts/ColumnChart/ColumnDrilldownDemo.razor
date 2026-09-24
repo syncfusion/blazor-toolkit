@@ -1,0 +1,90 @@
+<div>
+    @if (IsDrilled)
+    {
+        <a style="color:#EDA9ED;cursor:pointer;text-decoration:underline" @onclick="ResetChart">Population >> @SelectedCategory</a>
+    }
+    <SfChart @key="@_currentTheme" Title="@ChartTitle" OnPointClick="OnPointClick" Theme="@_currentTheme" OnAxisLabelClick="OnAxisLabelClick">
+        <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Toolkit.ValueType.Category" />
+        <ChartPrimaryYAxis Title="Population (in Millions)" Interval="@YAxisInterval"></ChartPrimaryYAxis>
+
+        <ChartSeries DataSource="@CurrentData" XName="X" YName="Y" Type="ChartSeriesType.Column" ColumnSpacing="0.3" PointColorMapping="Color">
+            <ChartCornerRadius TopLeft="5" TopRight="5"></ChartCornerRadius>
+        </ChartSeries>
+
+        <ChartTooltipSettings Enable="true" Format="${point.x} : <b>${point.y} Millions</b>" />
+    </SfChart>
+</div>
+
+@code {
+    [CascadingParameter]
+    private Theme CurrentTheme { get; set; } = Theme.Fluent;
+
+    private Theme _currentTheme = Theme.Fluent;
+
+    protected override void OnParametersSet()
+    {
+        base.OnParametersSet();
+        _currentTheme = CurrentTheme;
+    }
+
+    public class ChartDataValueModel
+    {
+        public string X { get; set; } = string.Empty;
+        public double Y { get; set; }
+        public string Color { get; set; } = string.Empty;
+    }
+
+    public static class DrillDownDataStore
+    {
+        public static List<ChartDataValueModel> Continents = new()
+        {
+            new() { X = "Asia", Y = 4778, Color = "#EDA9ED" },
+            new() { X = "Africa", Y = 1481, Color = "#D0ABEB" },
+            new() { X = "Europe", Y = 746, Color = "#B39EF2" },
+            new() { X = "North America", Y = 379, Color = "#98A1EA" },
+            new() { X = "Oceania", Y = 46, Color = "#81C6F2" }
+        };
+
+        public static List<List<ChartDataValueModel>> Countries = new()
+        {
+            new() { new() { X = "China", Y = 1422, Color = "#EDA9ED" }, new() { X = "India", Y = 1438, Color = "#EDA9ED" }, new() { X = "Indonesia", Y = 277, Color = "#EDA9ED" }, new() { X = "Pakistan", Y = 240, Color = "#EDA9ED" }, new() { X = "Bangladesh", Y = 173, Color = "#EDA9ED" } },
+            new() { new() { X = "Nigeria", Y = 223, Color = "#EDA9ED" }, new() { X = "Ethiopia", Y = 126, Color = "#EDA9ED" }, new() { X = "Egypt", Y = 112, Color = "#EDA9ED" }, new() { X = "DR Congo", Y = 102, Color = "#EDA9ED" }, new() { X = "Tanzania", Y = 67, Color = "#EDA9ED" } },
+            new() { new() { X = "Russia", Y = 143, Color = "#EDA9ED" }, new() { X = "Germany", Y = 84, Color = "#EDA9ED" }, new() { X = "United Kingdom", Y = 67, Color = "#EDA9ED" }, new() { X = "France", Y = 65, Color = "#EDA9ED" }, new() { X = "Italy", Y = 59, Color = "#EDA9ED" } },
+            new() { new() { X = "United States", Y = 339, Color = "#EDA9ED" }, new() { X = "Mexico", Y = 128, Color = "#EDA9ED" }, new() { X = "Canada", Y = 40, Color = "#EDA9ED" }, new() { X = "Guatemala", Y = 18, Color = "#EDA9ED" }, new() { X = "Cuba", Y = 11, Color = "#EDA9ED" } },
+            new() { new() { X = "Australia", Y = 26, Color = "#EDA9ED" }, new() { X = "Papua New Guinea", Y = 10, Color = "#EDA9ED" }, new() { X = "New Zealand", Y = 5, Color = "#EDA9ED" }, new() { X = "Fiji", Y = 0.9, Color = "#EDA9ED" }, new() { X = "Solomon Islands", Y = 0.7, Color = "#EDA9ED" } }
+        };
+    }
+
+    List<ChartDataValueModel> CurrentData = DrillDownDataStore.Continents;
+    string ChartTitle = "Top Populated Continents - 2023";
+    double YAxisInterval = 1000;
+    bool IsDrilled = false;
+    string SelectedCategory = string.Empty;
+
+    void OnPointClick(PointEventArgs args)
+    {
+        if (IsDrilled) return;
+        IsDrilled = true;
+        SelectedCategory = DrillDownDataStore.Continents[(int)args.PointIndex].X;
+        ChartTitle = $"Top Populated Countries of {SelectedCategory} - 2023";
+        CurrentData = DrillDownDataStore.Countries[(int)args.PointIndex];
+        YAxisInterval = SelectedCategory == "Asia" ? 200 : 50;
+    }
+
+    void OnAxisLabelClick(AxisLabelClickEventArgs args)
+    {
+        if (IsDrilled) return;
+        IsDrilled = true;
+        SelectedCategory = args.Text;
+        ChartTitle = $"Top Populated Countries of {SelectedCategory} - 2023";
+        CurrentData = DrillDownDataStore.Countries[args.Index];
+    }
+
+    void ResetChart()
+    {
+        IsDrilled = false;
+        YAxisInterval = 1000;
+        ChartTitle = "Top Populated Continents - 2023";
+        CurrentData = DrillDownDataStore.Continents;
+    }
+}

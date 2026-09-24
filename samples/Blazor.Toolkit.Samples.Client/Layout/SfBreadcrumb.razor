@@ -1,0 +1,127 @@
+@implements IDisposable
+
+@inject NavigationManager NavigationManager
+
+@if (_crumbs.Count > 1)
+{
+    <nav class="sf-breadcrumb" aria-label="Breadcrumb">
+        <ol>
+            @for (var i = 0; i < _crumbs.Count; i++)
+            {
+                var crumb = _crumbs[i];
+                var isLast = i == _crumbs.Count - 1;
+                // Home is the only crumb rendered as a link. Every
+                // other segment (intermediate section labels and the
+                // current page) is shown as plain text, so the
+                // breadcrumb can never produce a broken link to a
+                // non-existent parent page such as /common or /button.
+                var isHome = i == 0;
+
+                @if (i > 0)
+                {
+                    <li class="sf-breadcrumb-sep" aria-hidden="true">/</li>
+                }
+
+                @if (isHome && !isLast)
+                {
+                    <li>
+                        <a href="@crumb.Href" aria-label="@crumb.Label">@crumb.Label</a>
+                    </li>
+                }
+                else
+                {
+                    <li class="sf-breadcrumb-current" aria-current="@(isLast ? "page" : "false")">@crumb.Label</li>
+                }
+            }
+        </ol>
+    </nav>
+}
+
+@code {
+    private readonly List<Crumb> _crumbs = new();
+
+    protected override void OnInitialized()
+    {
+        BuildCrumbs(NavigationManager.Uri);
+        NavigationManager.LocationChanged += OnLocationChanged;
+    }
+
+    public void Dispose()
+    {
+        NavigationManager.LocationChanged -= OnLocationChanged;
+    }
+
+    private void OnLocationChanged(object? sender, Microsoft.AspNetCore.Components.Routing.LocationChangedEventArgs e)
+    {
+        BuildCrumbs(e.Location);
+        InvokeAsync(StateHasChanged);
+    }
+
+    private void BuildCrumbs(string? uri)
+    {
+        _crumbs.Clear();
+
+        if (string.IsNullOrEmpty(uri))
+        {
+            return;
+        }
+
+        // Strip the base path so we work with the in-app route
+        // (matches the pattern used by NavMenu).
+        var relative = NavigationManager.ToBaseRelativePath(uri).Trim('/');
+
+        // Every breadcrumb starts with Home. The href is empty so the
+        // rendered <a> points at the application root.
+        _crumbs.Add(new Crumb("Home", ""));
+
+        if (string.IsNullOrEmpty(relative))
+        {
+            // User is on the root page - just show Home.
+            return;
+        }
+
+        // Each segment becomes one crumb. The href is the cumulative
+        // path up to and including that segment. The Home crumb
+        // (first one) is the only one rendered as a link in the
+        // template; all other segments are plain text labels, so the
+        // Href field is only meaningful for the first crumb.
+        var segments = relative.Split('/', StringSplitOptions.RemoveEmptyEntries);
+        var cumulative = string.Empty;
+
+        for (var i = 0; i < segments.Length; i++)
+        {
+            var segment = segments[i];
+            cumulative = string.IsNullOrEmpty(cumulative) ? segment : $"{cumulative}/{segment}";
+
+            // The "Documentation" group label is a non-clickable
+            // header in the sidebar (see NavMenu). Skip it here too
+            // so we don't render a dead link in the breadcrumb.
+            if (string.Equals(segment, "documentation", StringComparison.OrdinalIgnoreCase))
+            {
+                continue;
+            }
+
+            _crumbs.Add(new Crumb(ResolveLabel(segment), cumulative));
+        }
+    }
+
+    private static string ResolveLabel(string segment)
+    {
+        // Humanise the slug. Replaces hyphens with spaces and inserts
+        // a space before an uppercase letter that follows a lowercase
+        // letter (camelCase -> camel Case). Then title-cases the
+        // result. Examples: "file-upload" -> "File Upload",
+        // "lineChart" -> "Line Chart", "right-to-left" -> "Right To
+        // Left".
+        var humanised = segment.Replace('-', ' ');
+        humanised = System.Text.RegularExpressions.Regex.Replace(
+            humanised,
+            "(?<=[a-z])([A-Z])",
+            " $1");
+        return System.Globalization.CultureInfo.InvariantCulture
+            .TextInfo
+            .ToTitleCase(humanised.ToLowerInvariant());
+    }
+
+    private readonly record struct Crumb(string Label, string Href);
+}

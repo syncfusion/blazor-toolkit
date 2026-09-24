@@ -1,0 +1,119 @@
+﻿@using System.ComponentModel.DataAnnotations
+
+<div class="form-wrapper">
+    <div class="form-content">
+        <h3>Registration Form</h3>
+        <EditForm Model="@validationModel" OnValidSubmit="@OnValidSubmit" FormName="TextBoxValidationForm">
+            <DataAnnotationsValidator></DataAnnotationsValidator>
+            <div class="form-group">
+                <SfTextBox @bind-Value="@validationModel.FullName" Placeholder="Full Name (Required)" FloatLabelType="FloatLabelType.Auto"></SfTextBox>
+                <ValidationMessage For="@(() => validationModel.FullName)"></ValidationMessage>
+            </div>
+            <div class="form-group">
+                <SfTextBox @bind-Value="@validationModel.Email" Type="InputType.Email" Placeholder="Email Address" FloatLabelType="FloatLabelType.Auto"></SfTextBox>
+                <ValidationMessage For="@(() => validationModel.Email)"></ValidationMessage>
+            </div>
+            <div class="form-group">
+                <SfTextBox @bind-Value="@validationModel.Phone" Type="InputType.Tel" Placeholder="Phone Number" FloatLabelType="FloatLabelType.Auto"></SfTextBox>
+                <ValidationMessage For="@(() => validationModel.Phone)"></ValidationMessage>
+            </div>
+            <div class="form-buttons">
+                <SfButton CssClass="e-primary" IsPrimary="true" Type="ButtonType.Submit">Submit</SfButton>
+                <SfButton CssClass="e-outline" Type="ButtonType.Button" OnClick="@ClearForm">Clear</SfButton>
+            </div>
+            @if (!string.IsNullOrEmpty(validationMessage))
+            {
+                <p class="validation-success">@validationMessage</p>
+            }
+        </EditForm>
+    </div>
+</div>
+@code {
+    private ValidationFormModel validationModel = new();
+    private Dictionary<string, object> validationAttrs => new() { { "rows", "3" }, { "maxlength", "200" } };
+    private string validationMessage = "";
+
+    private async Task OnValidSubmit(EditContext context)
+    {
+        validationMessage = "Form submitted successfully!";
+        await Task.Delay(0);
+    }
+
+    private void ClearForm()
+    {
+        validationModel = new();
+        validationMessage = "";
+    }
+
+    #region Validation Model
+
+    public class ValidationFormModel
+    {
+        [Required(ErrorMessage = "Full Name is required")]
+        [StringLength(50, ErrorMessage = "Name cannot exceed 50 characters")]
+        public string FullName { get; set; } = "";
+
+        [EmailAddress(ErrorMessage = "Invalid email address")]
+        public string Email { get; set; } = "";
+
+        [Phone(ErrorMessage = "Invalid phone number")]
+        public string Phone { get; set; } = "";
+
+        [StringLength(200, ErrorMessage = "Comments cannot exceed 200 characters")]
+        public string Comments { get; set; } = "";
+    }
+
+    #endregion
+}
+
+<style>
+    .form-wrapper {
+        display: flex;
+        justify-content: center;
+        padding: 20px;
+    }
+
+    .form-content {
+        border: 1px solid #e0e0e0;
+        border-radius: 8px;
+        padding: 40px;
+        width: 100%;
+        max-width: 450px;
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
+    }
+
+        .form-content h3 {
+            text-align: center;
+            margin: 0 0 32px 0;
+            font-size: 20px;
+            font-weight: 600;
+        }
+
+    .form-group {
+        display: flex;
+        flex-direction: column;
+        gap: 4px;
+        margin-bottom: 24px;
+    }
+
+        .form-group .e-float-input {
+            margin-bottom: 12px;
+        }
+
+    .form-buttons {
+        display: flex;
+        gap: 12px;
+        justify-content: center;
+        margin-top: 32px;
+    }
+
+        .form-buttons button {
+            flex: 0 1 auto;
+            min-width: 100px;
+        }
+
+        .form-buttons .e-outline {
+            background-color: transparent;
+            border: 1px solid;
+        }
+</style>

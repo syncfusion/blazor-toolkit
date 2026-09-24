@@ -1,0 +1,96 @@
+@using Syncfusion.Blazor.Toolkit.Buttons
+
+<div class="mb-3">
+    <label class="fw-bold d-block mb-2">Tick Placement</label>
+
+    <SfButtonGroup Mode="SelectionMode.Single">
+        <Button Selected="@IsOnTicks"
+                SelectedChanged="@(v => OnPlacementChanged(v, LabelPlacement.OnTicks))">
+            On Ticks
+        </Button>
+
+        <Button Selected="@IsBetweenTicks"
+                SelectedChanged="@(v => OnPlacementChanged(v, LabelPlacement.BetweenTicks))">
+            Between Ticks
+        </Button>
+    </SfButtonGroup>
+</div>
+
+<SfChart @key="@_currentTheme" Title="Stock Market Capitalization as a Percentage of GDP by Country" Theme="@_currentTheme">
+    <ChartArea><ChartAreaBorder Width="0"></ChartAreaBorder></ChartArea>
+    <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Toolkit.ValueType.Category" LabelPlacement="@TickPlacement" LabelRotation="-45">
+        <ChartAxisMajorGridLines Width="0" />
+    </ChartPrimaryXAxis>
+
+    <ChartPrimaryYAxis Title="Capitalization Ratio (% of GDP)" LabelFormat="{value}" LabelPlacement="@TickPlacement" Interval="50">
+        <ChartAxisLineStyle Width="0" />
+        <ChartAxisMajorTickLines Width="0" />
+    </ChartPrimaryYAxis>
+
+    <ChartSeries DataSource="@LabelPlacementData"
+                 XName="Country"
+                 YName="Value"
+                 Type="ChartSeriesType.SplineArea"
+                 Width="2"
+                 Opacity="0.4"
+                 Fill="#D6FF89">
+        <ChartSeriesBorder Width="2" Color="#71AD01" />
+        <ChartMarker Visible="true"
+                     Shape="ChartShape.Circle"
+                     Fill="#71AD01"
+                     IsFilled="true">
+            <ChartMarkerBorder Width="2" Color="#71AD01" />
+        </ChartMarker>
+    </ChartSeries>
+
+    <ChartTooltipSettings Enable="true"
+                          Header="Stock Market Cap"
+                          Format="${point.x} : <b>${point.y}B</b>"
+                          EnableHighlight="true" />
+</SfChart>
+
+@code {
+    [CascadingParameter]
+    private Theme CurrentTheme { get; set; } = Theme.Fluent;
+
+    private Theme _currentTheme = Theme.Fluent;
+
+    protected override void OnParametersSet()
+    {
+        base.OnParametersSet();
+        _currentTheme = CurrentTheme;
+    }
+
+    public class PlacementData
+    {
+        public string Country { get; set; } = string.Empty;
+        public double Value { get; set; }
+    }
+
+    public List<PlacementData> LabelPlacementData = new()
+    {
+        new() { Country = "USA",        Value = 194.55 },
+        new() { Country = "Japan",      Value = 146.20 },
+        new() { Country = "China",      Value = 65.10 },
+        new() { Country = "France",     Value = 84.90 },
+        new() { Country = "India",      Value = 140.10 },
+        new() { Country = "Canada",     Value = 160.70 },
+        new() { Country = "Brazil",     Value = 68.40 },
+        new() { Country = "UK",         Value = 100.20 },
+        new() { Country = "Sweden",     Value = 162.00 },
+        new() { Country = "Bangladesh", Value = 27.70 }
+    };
+
+    public LabelPlacement TickPlacement { get; set; } = LabelPlacement.OnTicks;
+
+    public bool IsOnTicks => TickPlacement == LabelPlacement.OnTicks;
+    public bool IsBetweenTicks => TickPlacement == LabelPlacement.BetweenTicks;
+
+    public void OnPlacementChanged(bool selected, LabelPlacement placement)
+    {
+        if (selected)
+        {
+            TickPlacement = placement;
+        }
+    }
+}

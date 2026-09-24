@@ -1,0 +1,104 @@
+@using Syncfusion.Blazor.Toolkit.Buttons
+
+<div class="mb-3">
+    <label class="fw-bold d-block mb-2">Empty Point Mode</label>
+
+    <SfButtonGroup Mode="SelectionMode.Single">
+        <Button Selected="@IsEmptyModeSelected(EmptyPointMode.Gap)"
+                SelectedChanged="@(v => OnEmptyModeChanged(v, EmptyPointMode.Gap))">
+            Gap
+        </Button>
+
+        <Button Selected="@IsEmptyModeSelected(EmptyPointMode.Zero)"
+                SelectedChanged="@(v => OnEmptyModeChanged(v, EmptyPointMode.Zero))">
+            Zero
+        </Button>
+
+        <Button Selected="@IsEmptyModeSelected(EmptyPointMode.Average)"
+                SelectedChanged="@(v => OnEmptyModeChanged(v, EmptyPointMode.Average))">
+            Average
+        </Button>
+
+        <Button Selected="@IsEmptyModeSelected(EmptyPointMode.Drop)"
+                SelectedChanged="@(v => OnEmptyModeChanged(v, EmptyPointMode.Drop))">
+            Drop
+        </Button>
+    </SfButtonGroup>
+</div>
+
+<SfChart @key="@_currentTheme" Title="Skip Missing Points" Width="100%" Height="400px" Theme="@_currentTheme">
+
+    <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Toolkit.ValueType.Category" />
+
+    <ChartPrimaryYAxis Interval="100">
+        <ChartAxisLineStyle Width="0" />
+    </ChartPrimaryYAxis>
+
+    <ChartSeries DataSource="@AreaData"
+                 XName="X"
+                 YName="Y"
+                 Type="ChartSeriesType.Area"
+                 Width="2"
+                 Opacity="0.5"
+                 Fill="#3CFFD2"
+                 Border="@(new ChartSeriesBorder { Width = 2, Color = "#008264" })">
+
+        <ChartEmptyPointSettings Mode="@SelectedEmptyPointMode" />
+
+        <ChartMarker Visible="true"
+                     Fill="#008264"
+                     Border="@(new ChartMarkerBorder { Width = 2, Color = "#008264" })" />
+    </ChartSeries>
+
+    <ChartTooltipSettings Enable="true"
+                          Header="${point.x}"
+                          Format="Sales : <b>${point.y} Units</b>" />
+</SfChart>
+
+@code {
+    [CascadingParameter]
+    private Theme CurrentTheme { get; set; } = Theme.Fluent;
+
+    private Theme _currentTheme = Theme.Fluent;
+
+    protected override void OnParametersSet()
+    {
+        base.OnParametersSet();
+        _currentTheme = CurrentTheme;
+    }
+
+    public EmptyPointMode SelectedEmptyPointMode { get; set; } = EmptyPointMode.Gap;
+
+    public class AreaDataItem
+    {
+        public string X { get; set; } = "";
+        public double? Y { get; set; }
+    }
+
+    public List<AreaDataItem> AreaData = new()
+    {
+        new() { X = "Jan", Y = 200 },
+        new() { X = "Feb", Y = 300 },
+        new() { X = "Mar", Y = 170 },
+        new() { X = "April", Y = null },
+        new() { X = "May", Y = 300 },
+        new() { X = "Jun", Y = null },
+        new() { X = "July", Y = 100 },
+        new() { X = "Aug", Y = 200 },
+        new() { X = "Sep", Y = 174 },
+        new() { X = "Oct", Y = null },
+        new() { X = "Nov", Y = null },
+        new() { X = "Dec", Y = 160 }
+    };
+
+    private bool IsEmptyModeSelected(EmptyPointMode mode)
+        => SelectedEmptyPointMode == mode;
+
+    private void OnEmptyModeChanged(bool selected, EmptyPointMode mode)
+    {
+        if (selected)
+        {
+            SelectedEmptyPointMode = mode;
+        }
+    }
+}

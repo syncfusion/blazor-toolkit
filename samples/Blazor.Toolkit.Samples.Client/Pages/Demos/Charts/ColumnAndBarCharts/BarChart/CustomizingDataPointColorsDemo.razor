@@ -1,0 +1,61 @@
+<SfChart @key="@_currentTheme" Palettes="@color" Title="U.S Trade with India in 2024" Theme="@_currentTheme">
+    <!-- X Axis -->
+    <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Toolkit.ValueType.Category">
+    </ChartPrimaryXAxis>
+
+    <!-- Y Axis -->
+    <ChartPrimaryYAxis Interval="0.3" Format="{value}B" Title="Billion USD">
+        <ChartAxisLineStyle Width="0"></ChartAxisLineStyle>
+    </ChartPrimaryYAxis>
+
+    <!-- Series -->
+    <ChartSeries DataSource="@TradeDataSource"
+                 XName="X"
+                 YName="Y"
+                 Type="ChartSeriesType.Bar"
+                 PointColorMapping="BarColor"
+                 ColumnSpacing="0.2"
+                 CornerRadius="@(new ChartCornerRadius { BottomRight = 8, TopRight = 8 })">
+    </ChartSeries>
+
+    <!-- Tooltip -->
+    <ChartTooltipSettings Enable="true"
+                          Header="Export to India"
+                          Format="${point.x} : <b>${point.y}</b>">
+    </ChartTooltipSettings>
+</SfChart>
+
+@code {
+    [CascadingParameter]
+    private Theme CurrentTheme { get; set; } = Theme.Fluent;
+
+    private Theme _currentTheme = Theme.Fluent;
+
+    protected override void OnParametersSet()
+    {
+        base.OnParametersSet();
+        _currentTheme = CurrentTheme;
+    }
+    string[] color = new string[] { "#87CEEB", "#F6B53F", "#6FAAB0", "#C4C24A" };
+
+    public class TradeData
+    {
+        public string X { get; set; } = string.Empty;
+        public double Y { get; set; }
+        public string BarColor { get; set; } = string.Empty;
+    }
+
+    public List<TradeData> TradeDataSource = new()
+    {
+        new() { X = "Cotton", Y = 0.20, BarColor = "#A4B465" },
+        new() { X = "Soybean Oil", Y = 0.37, BarColor = "#C4C24A" },
+        new() { X = "Fresh Fruit", Y = 0.40, BarColor = "#6FAAB0" },
+        new() { X = "Ethanol", Y = 0.42, BarColor = "#FF8080" },
+        new() { X = "Other Feeds, Meals & Fodders", Y = 0.43, BarColor = "#F6B53F" },
+        new() { X = "Other Intermediate Products", Y = 0.51, BarColor = "#578FCA" },
+        new() { X = "Dairy Products", Y = 0.52, BarColor = "#F2C078" },
+        new() { X = "Essential Oils", Y = 0.67, BarColor = "#73946B" },
+        new() { X = "Pulses", Y = 0.73, BarColor = "#86A7FC" },
+        new() { X = "Tree Nuts", Y = 1.12, BarColor = "#D8B4F8" }
+    };
+}

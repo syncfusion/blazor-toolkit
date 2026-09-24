@@ -1,0 +1,90 @@
+<SfChart @key="@_currentTheme" Title="Annual Renewable Energy Generation in China (2020-2023) by Source" Theme="@_currentTheme">
+    <ChartArea>
+        <ChartAreaBorder Width="0" />
+        <ChartDefaultMargin Bottom="12"></ChartDefaultMargin>
+    </ChartArea>
+
+    <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Toolkit.ValueType.Category" />
+
+    <ChartPrimaryYAxis Format="{value}%" Minimum="0" Maximum="100" Interval="20">
+    </ChartPrimaryYAxis>
+
+    <ChartSeries DataSource="@Wind"
+                 XName="X"
+                 YName="Y"
+                 Name="Wind"
+                 Type="ChartSeriesType.StackingBar100"
+                 Fill="#689B8A"
+                 ColumnWidth="0.6"
+                 LegendShape="LegendShape.Rectangle">
+        <ChartMarker Shape="ChartShape.Rectangle" />
+    </ChartSeries>
+
+    <ChartSeries DataSource="@Solar"
+                 XName="X"
+                 YName="Y"
+                 Name="Solar"
+                 Type="ChartSeriesType.StackingBar100"
+                 Fill="#B2CD9C"
+                 ColumnWidth="0.6"
+                 LegendShape="LegendShape.Rectangle">
+        <ChartMarker Shape="ChartShape.Rectangle" />
+    </ChartSeries>
+
+    <ChartSeries DataSource="@Hydro"
+                 XName="X"
+                 YName="Y"
+                 Name="Hydro"
+                 Type="ChartSeriesType.StackingBar100"
+                 Fill="#8D8D87"
+                 ColumnWidth="0.6"
+                 LegendShape="LegendShape.Rectangle">
+        <ChartMarker Shape="ChartShape.Rectangle" />
+    </ChartSeries>
+
+    <ChartLegendSettings ShapePadding="9" ShapeHeight="9"></ChartLegendSettings>
+    <ChartTooltipSettings Enable="true" Header="<b>Renewable Energy Generation</b>" Format="${series.name}: <b>${point.y} TWh</b>"></ChartTooltipSettings>
+</SfChart>
+
+@code {
+    [CascadingParameter]
+    private Theme CurrentTheme { get; set; } = Theme.Fluent;
+
+    private Theme _currentTheme = Theme.Fluent;
+
+    protected override void OnParametersSet()
+    {
+        base.OnParametersSet();
+        _currentTheme = CurrentTheme;
+    }
+
+    public class EnergyData
+    {
+        public string X { get; set; } = string.Empty;
+        public double Y { get; set; }
+    }
+
+    public List<EnergyData> Wind = new()
+    {
+        new() { X = "2020", Y = 35 },
+        new() { X = "2021", Y = 38 },
+        new() { X = "2022", Y = 40 },
+        new() { X = "2023", Y = 42 }
+    };
+
+    public List<EnergyData> Solar = new()
+    {
+        new() { X = "2020", Y = 25 },
+        new() { X = "2021", Y = 28 },
+        new() { X = "2022", Y = 30 },
+        new() { X = "2023", Y = 33 }
+    };
+
+    public List<EnergyData> Hydro = new()
+    {
+        new() { X = "2020", Y = 40 },
+        new() { X = "2021", Y = 34 },
+        new() { X = "2022", Y = 30 },
+        new() { X = "2023", Y = 25 }
+    };
+}

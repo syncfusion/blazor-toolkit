@@ -1,0 +1,97 @@
+<SfChart @key="@_currentTheme" Title="2024 Temperature Trends with Average Records" Theme="@_currentTheme">
+    <ChartArea><ChartAreaBorder Width="0"></ChartAreaBorder></ChartArea>
+
+    <ChartTooltipSettings Enable="true"
+                          Shared="true"
+                          Header="Temperature"
+                          Format="${series.name} : <b>${point.y}</b>"
+                          EnableHighlight="true" />
+
+    <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Toolkit.ValueType.Category">
+        <ChartAxisMajorGridLines Width="0" />
+        <ChartAxisMajorTickLines Width="0" />
+        <ChartAxisMinorTickLines Width="0" />
+    </ChartPrimaryXAxis>
+
+    <ChartPrimaryYAxis Minimum="-10"
+                       Interval="10"
+                       LabelFormat="{value}°F">
+        <ChartAxisLineStyle Width="0" />
+        <ChartAxisMajorTickLines Width="0" />
+    </ChartPrimaryYAxis>
+
+    <ChartSeries DataSource="@SplineMinimumData"
+                 XName="X"
+                 YName="Y"
+                 Name="Reggane"
+                 Width="2"
+                 Fill="#FF7F50"
+                 Type="ChartSeriesType.Spline">
+        <ChartMarker Visible="true" IsFilled="true">
+            <ChartDataLabel Visible="true" />
+        </ChartMarker>
+    </ChartSeries>
+
+    <ChartSeries DataSource="@SplineData"
+                 XName="X"
+                 YName="Y"
+                 Name="Tallinn"
+                 Width="2"
+                 Fill="#19DA00"
+                 Type="ChartSeriesType.Spline">
+        <ChartMarker Visible="true" IsFilled="true">
+            <ChartDataLabel Visible="true" />
+        </ChartMarker>
+    </ChartSeries>
+</SfChart>
+
+@code {
+    [CascadingParameter]
+    private Theme CurrentTheme { get; set; } = Theme.Fluent;
+
+    private Theme _currentTheme = Theme.Fluent;
+
+    protected override void OnParametersSet()
+    {
+        base.OnParametersSet();
+        _currentTheme = CurrentTheme;
+    }
+
+    public class SplinePoint
+    {
+        public string X { get; set; } = string.Empty;
+        public double Y { get; set; }
+    }
+
+    public List<SplinePoint> SplineMinimumData = new()
+    {
+        new() { X = "Jan", Y = 16 },
+        new() { X = "Feb", Y = 18.2 },
+        new() { X = "Mar", Y = 23.1 },
+        new() { X = "Apr", Y = 27.9 },
+        new() { X = "May", Y = 32.2 },
+        new() { X = "Jun", Y = 36.4 },
+        new() { X = "Jul", Y = 39.8 },
+        new() { X = "Aug", Y = 38.4 },
+        new() { X = "Sep", Y = 35.5 },
+        new() { X = "Oct", Y = 29.2 },
+        new() { X = "Nov", Y = 22 },
+        new() { X = "Dec", Y = 17.8 }
+    };
+
+    public List<SplinePoint> SplineData = new()
+    {
+        new() { X = "Jan", Y = -2.9 },
+        new() { X = "Feb", Y = -3.6 },
+        new() { X = "Mar", Y = -0.6 },
+        new() { X = "Apr", Y = 4.8 },
+        new() { X = "May", Y = 10.2 },
+        new() { X = "Jun", Y = 14.5 },
+        new() { X = "Jul", Y = 17.6 },
+        new() { X = "Aug", Y = 16.5 },
+        new() { X = "Sep", Y = 12 },
+        new() { X = "Oct", Y = 6.5 },
+        new() { X = "Nov", Y = 2 },
+        new() { X = "Dec", Y = -0.9 }
+    };
+}

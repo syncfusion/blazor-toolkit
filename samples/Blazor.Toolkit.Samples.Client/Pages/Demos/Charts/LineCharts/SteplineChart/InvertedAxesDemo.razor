@@ -1,0 +1,77 @@
+<SfChart @key="@_currentTheme" Title="Unemployment rate 1975 - 2010" Theme="@_currentTheme" IsTransposed="true">
+    <ChartArea><ChartAreaBorder Width="0"></ChartAreaBorder></ChartArea>
+
+    <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Toolkit.ValueType.Category">
+        <ChartAxisMajorTickLines Width="0" />
+        <ChartAxisMinorTickLines Width="0" />
+    </ChartPrimaryXAxis>
+
+    <ChartPrimaryYAxis LabelFormat="{value}%">
+        <ChartAxisMajorTickLines Width="0" />
+    </ChartPrimaryYAxis>
+
+    <ChartSeries DataSource="@StepLineTransposedData"
+                 XName="X"
+                 YName="Y1"
+                 Name="China"
+                 Width="2"
+                 Type="ChartSeriesType.StepLine"
+                 Fill="@ChinaColor">
+        <ChartMarker Visible="true"
+                     Shape="ChartShape.Circle"
+                     IsFilled="true" />
+    </ChartSeries>
+
+    <ChartSeries DataSource="@StepLineTransposedData"
+                 XName="X"
+                 YName="Y2"
+                 Name="Australia"
+                 Width="2"
+                 Type="ChartSeriesType.StepLine"
+                 Fill="@AustraliaColor">
+        <ChartMarker Visible="true"
+                     Shape="ChartShape.Circle"
+                     IsFilled="true" />
+    </ChartSeries>
+
+    <ChartTooltipSettings Enable="true"
+                          Header="${series.name}"
+                          EnableHighlight="true" />
+    <ChartLegendSettings EnableHighlight="true" />
+</SfChart>
+
+@code {
+    [CascadingParameter]
+    private Theme CurrentTheme { get; set; } = Theme.Fluent;
+
+    private Theme _currentTheme = Theme.Fluent;
+
+    protected override void OnParametersSet()
+    {
+        base.OnParametersSet();
+        _currentTheme = CurrentTheme;
+    }
+
+    private bool IsDarkTheme => _currentTheme.ToString().Contains("Dark") || _currentTheme.ToString().Contains("HighContrast");
+    private string ChinaColor => IsDarkTheme ? "#7F9CFE" : "#0A30AE";
+    private string AustraliaColor => IsDarkTheme ? "#EE884E" : "#E3651D";
+
+    public class StepLineTransposedPoint
+    {
+        public int X { get; set; }
+        public double Y1 { get; set; }
+        public double Y2 { get; set; }
+    }
+
+    public List<StepLineTransposedPoint> StepLineTransposedData = new()
+    {
+        new() { X = 1975, Y1 = 16,   Y2 = 10   },
+        new() { X = 1980, Y1 = 12.5, Y2 = 7.5  },
+        new() { X = 1985, Y1 = 19,   Y2 = 11   },
+        new() { X = 1990, Y1 = 14.4, Y2 = 7    },
+        new() { X = 1995, Y1 = 11.5, Y2 = 8    },
+        new() { X = 2000, Y1 = 14,   Y2 = 6    },
+        new() { X = 2005, Y1 = 10,   Y2 = 3.5  },
+        new() { X = 2010, Y1 = 16,   Y2 = 7    }
+    };
+}

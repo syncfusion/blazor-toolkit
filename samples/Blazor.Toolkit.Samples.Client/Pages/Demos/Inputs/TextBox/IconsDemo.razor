@@ -1,0 +1,21 @@
+﻿<div class="preview-container">
+    <SfTextBox @ref="@TextBoxSearchObj" Placeholder="Search" FloatLabelType="FloatLabelType.Auto" Created="@OnCreateSearch"></SfTextBox>
+    <SfTextBox @ref="@TextBoxDateObj" Placeholder="Select date" FloatLabelType="FloatLabelType.Auto" Created="@OnCreateDate"></SfTextBox>
+</div>
+
+@code {
+    private SfTextBox? TextBoxSearchObj;
+    private SfTextBox? TextBoxDateObj;
+
+    private async Task OnCreateSearch()
+    {
+        if (TextBoxSearchObj is not null)
+            await TextBoxSearchObj.AddIconAsync("append", "sb-icons e-search");
+    }
+
+    private async Task OnCreateDate()
+    {
+        if (TextBoxDateObj is not null)
+            await TextBoxDateObj.AddIconAsync("prepend", "e-toolkit-icons e-timeline-today");
+    }
+}

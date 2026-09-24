@@ -1,0 +1,35 @@
+﻿<div class="control-wrapper">
+    <SfDateTimePicker TValue="DateTime?" Width="300px" Placeholder="Select a date and time" ShowClearButton="true" OnBlur="BlurHandler" ValueChange="ValueChangeHandler" OnFocus="FocusHandler"></SfDateTimePicker>
+</div>
+<div class="mt-3">
+    <span class="example-label"><b>Triggered Event:</b> @_triggeredEvent</span>
+</div>
+@code {
+    private string _triggeredEvent = string.Empty;
+    public void BlurHandler(Syncfusion.Blazor.Toolkit.Calendars.BlurEventArgs args)
+    {
+        _triggeredEvent = "Blur event is triggered";
+    }
+
+    public void ValueChangeHandler(ChangedEventArgs<DateTime?> args)
+    {
+        _triggeredEvent = "ValueChange event is triggered";
+    }
+
+    public void FocusHandler(Syncfusion.Blazor.Toolkit.Calendars.FocusEventArgs args)
+    {
+        _triggeredEvent = "Focus event is triggered";
+    }
+}
+<style>
+    .control-wrapper {
+        max-width: 275px;
+        margin: 0 auto;
+        padding: 50px 0px 0px;
+    }
+
+    .example-label {
+        font-size: 14px;
+        margin-bottom: 6px;
+    }
+</style>

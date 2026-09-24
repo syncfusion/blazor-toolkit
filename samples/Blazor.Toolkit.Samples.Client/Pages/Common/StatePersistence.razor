@@ -1,10 +1,11 @@
 @page "/common/state-persistence"
+@inherits TocPublishingComponentBase
 
 <PageTitle>Blazor State Persistence Demo | Syncfusion Toolkit</PageTitle>
 
 <Description>
     <Header>
-        <h4>State persistence</h4>
+        <h1 id="state-persistence">State persistence</h1>
     </Header>
     <Content>
         <p>
@@ -18,7 +19,7 @@
 
 <Description>
     <Header>
-        <h5>How It Works</h5>
+        <h2 id="how-it-works">How It Works</h2>
     </Header>
     <Content>
         <p>
@@ -31,17 +32,17 @@
 
 <Description>
     <Header>
-        <h5>TextBox Example</h5>
+        <h2 id="textbox-example">TextBox Example</h2>
     </Header>
     <Content>
         <p>The following sample demonstrates persisting the TextBox value across page reloads using <code>EnablePersistence</code>:</p>
-        <CodePreview FileName="Example.razor" IsCodeAlone="true" CodeSection="@persistenceExample"></CodePreview>
+        <CodePreview FileName="Example.razor" IsCodeAlone="true" SourceFile="/Pages/Demos/Common/StatePersistence/Example.razor"></CodePreview>
     </Content>
 </Description>
 
 <Description>
     <Header>
-        <h5>Storage, Security, And Best Practices</h5>
+        <h2 id="storage-security-and-best-practices">Storage, Security, And Best Practices</h2>
     </Header>
     <Content>
         <ul>
@@ -55,7 +56,12 @@
 </Description>
 
 @code {
-    private const string persistenceExample = @"@using Syncfusion.Blazor.Toolkit.Inputs
+    private static readonly IReadOnlyList<RightToc.TocItem> TocItemsList = new RightToc.TocItem[]
+    {
+        new("how-it-works", "How It Works"),
+        new("textbox-example", "TextBox Example"),
+        new("storage-security-and-best-practices", "Storage, Security, And Best Practices"),
+    };
 
-<SfTextBox ID=""defaultTextBox"" Placeholder=""Enter text"" EnablePersistence=""true""></SfTextBox>";
+    protected override IReadOnlyList<RightToc.TocItem> TocItems => TocItemsList;
 }

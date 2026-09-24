@@ -1,0 +1,102 @@
+﻿<div class="e-section">
+    <label class="e-label">Single selection</label>
+
+    <!-- Single selection via Selected + SelectedChanged -->
+    <SfButtonGroup Mode="SelectionMode.Single">
+        <Button Selected="@isLeft"
+                SelectedChanged='@(v => OnAlignmentChanged(v, "Left"))'
+                CssClass='@GetActive("Left")'
+                aria-pressed="@isLeft">
+            Left
+        </Button>
+
+        <Button Selected="@isCenter"
+                SelectedChanged='@(v => OnAlignmentChanged(v, "Center"))'
+                CssClass='@GetActive("Center")'
+                aria-pressed="@isCenter">
+            Center
+        </Button>
+
+        <Button Selected="@isRight"
+                SelectedChanged='@(v => OnAlignmentChanged(v, "Right"))'
+                CssClass='@GetActive("Right")'
+                aria-pressed="@isRight">
+            Right
+        </Button>
+    </SfButtonGroup>
+
+    <div class="e-note">Selected: @alignment</div>
+</div>
+
+<div class="e-section" style="margin-top:12px">
+    <label class="e-label">Multiple selection</label>
+
+    <!-- Multiple selection via Selected + SelectedChanged -->
+    <SfButtonGroup Mode="SelectionMode.Multiple">
+        <Button Selected='@tags.Contains("News")'
+                SelectedChanged='@(v => OnTagChanged("News", v))'
+                CssClass='@GetTagClass("News")'
+                aria-pressed='@tags.Contains("News")'>
+            News
+        </Button>
+
+        <Button Selected='@tags.Contains("Blog")'
+                SelectedChanged='@(v => OnTagChanged("Blog", v))'
+                CssClass='@GetTagClass("Blog")'
+                aria-pressed='@tags.Contains("Blog")'>
+            Blog
+        </Button>
+
+        <Button Selected='@tags.Contains("Updates")'
+                SelectedChanged='@(v => OnTagChanged("Updates", v))'
+                CssClass='@GetTagClass("Updates")'
+                aria-pressed='@tags.Contains("Updates")'>
+            Updates
+        </Button>
+    </SfButtonGroup>
+
+    <div class="e-note">Tags: @string.Join(", ", tags)</div>
+</div>
+@code
+{
+    // ---------- Selection Type ----------
+    // Single-selection backing state
+    private bool isLeft = true, isCenter = false, isRight = false;
+    private string alignment = "Left";
+    private HashSet<string> textStyles = new();
+    // Multiple-selection backing state
+    private HashSet<string> tags = new(new[] { "News" });
+
+            private string GetActive(string key)
+                => (alignment == key || textStyles.Contains(key) || tags.Contains(key)) ? "e - primary" : string.Empty;
+
+            private void OnAlignmentChanged(bool curr, string which)
+    {
+        if (!curr) return; // ignore deselect in Single mode
+        isLeft = which == "Left";
+        isCenter = which == "Center";
+        isRight = which == "Right";
+        alignment = which;
+    }
+
+    private void OnTagChanged(string key, bool selected)
+    {
+        if (selected) tags.Add(key); else tags.Remove(key);
+        StateHasChanged();
+    }
+
+    private string GetTagClass(string key) => tags.Contains(key) ? "e - primary" : string.Empty;
+}
+<style>
+    .e-section .e-label {
+        display: block;
+        font-weight: 600;
+        margin-bottom: 6px;
+    }
+
+    .e-section .e-note {
+        margin-top: 8px;
+        color: var(--e-info-foreground, #6b7280);
+        font-size: .9rem;
+    }
+</style>

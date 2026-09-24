@@ -1,0 +1,109 @@
+
+<SfChart @key="@_currentTheme" Title="Number of Boys and Girls Participating in Different Sports" Theme="@_currentTheme">
+
+    <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Toolkit.ValueType.Category"
+                       LabelRotation="45">
+        <ChartAxisMajorGridLines Width="0" />
+        <ChartAxisMajorTickLines Width="0" />
+    </ChartPrimaryXAxis>
+
+    <ChartPrimaryYAxis Minimum="0"
+                       Maximum="70">
+        <ChartAxisLineStyle Width="0" />
+        <ChartAxisMajorTickLines Width="0" />
+    </ChartPrimaryYAxis>
+
+
+    <ChartSeries DataSource="@LabelTemplateData"
+                 XName="Sports"
+                 YName="Boys"
+                 Name="Boys"
+                 Type="ChartSeriesType.Column"
+                 Fill="#05B3DA"
+                 ColumnSpacing="0.5"
+                 ColumnWidth="0.75"
+                 CornerRadius="@(new ChartCornerRadius { TopLeft = 5, TopRight = 5 })">
+        <ChartMarker>
+            <ChartDataLabel Visible="true"
+                            Position="ChartLabelPosition.Outer"
+                            Template="@BoysTemplate" />
+        </ChartMarker>
+    </ChartSeries>
+
+    <ChartSeries DataSource="@LabelTemplateData"
+                 XName="Sports"
+                 YName="Girls"
+                 Name="Girls"
+                 Type="ChartSeriesType.Column"
+                 Fill="#E77A16"
+                 ColumnSpacing="0.5"
+                 ColumnWidth="0.75"
+                 CornerRadius="@(new ChartCornerRadius { TopLeft = 5, TopRight = 5 })">
+        <ChartMarker>
+            <ChartDataLabel Visible="true"
+                            Position="ChartLabelPosition.Outer"
+                            Template="@GirlsTemplate" />
+        </ChartMarker>
+    </ChartSeries>
+    <ChartTooltipSettings Enable="true" Format="<b>Price : ${point.y}</b>"></ChartTooltipSettings>
+
+
+</SfChart>
+
+@code {
+    [CascadingParameter]
+    private Theme CurrentTheme { get; set; } = Theme.Fluent;
+
+    private Theme _currentTheme = Theme.Fluent;
+
+    protected override void OnParametersSet()
+    {
+        base.OnParametersSet();
+        _currentTheme = CurrentTheme;
+    }
+
+    private bool IsDarkTheme => _currentTheme.ToString().Contains("Dark") || _currentTheme.ToString().Contains("HighContrast");
+    private string DataLabelTextColor => IsDarkTheme ? "#FFFFFF" : "#000000";
+
+    RenderFragment<ChartDataPointInfo> BoysTemplate => context => @<div style="
+        display:inline-flex;
+        padding:4px 8px;
+        background:#05B3DA;
+        border-radius:4px;
+        color:@DataLabelTextColor;
+        font-size:12px;
+        align-items:center;">
+        <img src="https://react.syncfusion.com/react-ui/images/Chart/male.png"
+             style="width:16px;height:16px;margin-right:4px" />
+        <span>@context.Y</span>
+    </div>;
+
+    RenderFragment<ChartDataPointInfo> GirlsTemplate => context => @<div style="
+        display:inline-flex;
+        padding:4px 8px;
+        background:#E77A16;
+        border-radius:4px;
+        color:@DataLabelTextColor;
+        font-size:12px;
+        align-items:center;">
+        <img src="https://react.syncfusion.com/react-ui/images/Chart/female.png"
+             style="width:16px;height:16px;margin-right:4px" />
+        <span>@context.Y</span>
+    </div>;
+
+    public class SportsData
+    {
+        public string Sports { get; set; }
+        public double Boys { get; set; }
+        public double Girls { get; set; }
+    }
+
+    public List<SportsData> LabelTemplateData = new()
+    {
+        new() { Sports = "Tennis",     Boys = 50, Girls = 38 },
+        new() { Sports = "Badminton",  Boys = 30, Girls = 40 },
+        new() { Sports = "Cycling",    Boys = 37, Girls = 20 },
+        new() { Sports = "Football",   Boys = 60, Girls = 21 },
+        new() { Sports = "Hockey",     Boys = 15, Girls = 8 }
+    };
+}

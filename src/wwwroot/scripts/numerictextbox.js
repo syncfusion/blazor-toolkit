@@ -377,11 +377,13 @@ var SfNumericTextBox = /** @class */ (function () {
     SfNumericTextBox.prototype.mouseDownOnSpinner = function (event) {
         var _this = this;
         if (!this.options.disabled && !this.options.readonly) {
+            if (event.cancelable) {
+                event.preventDefault();
+            }
             if (this.isFocused) {
                 this.isPrevFocused = true;
-                if (event.cancelable) {
-                    event.preventDefault();
-                }
+            } else {
+                this.element.focus();
             }
             var target = event.currentTarget;
             var action_1 = (target.classList.contains(CLASSES.SPIN_UP)) ? ACTIONS.INCREMENT : ACTIONS.DECREMENT;

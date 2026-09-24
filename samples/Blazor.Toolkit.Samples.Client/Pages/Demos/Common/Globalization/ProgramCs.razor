@@ -1,0 +1,12 @@
+// Blazor Server — Program.cs (top of file)
+using System.Globalization;
+// Recommended: set defaults for the whole application thread
+CultureInfo.DefaultThreadCurrentCulture   = CultureInfo.GetCultureInfo("en-GB");
+CultureInfo.DefaultThreadCurrentUICulture = CultureInfo.GetCultureInfo("en-GB");
+
+// Blazor WebAssembly — Program.cs
+using System.Globalization;
+var builder = WebAssemblyHostBuilder.CreateDefault(args);
+builder.Services.AddCultureLocalization(
+    options => options.ResourcesPath = "Resources");
+await builder.Build().RunAsync();

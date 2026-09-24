@@ -1,0 +1,20 @@
+﻿<div id="target-draggable">
+    <div>
+        <SfButton Content="Open Dialog" @onclick="@OpenDraggableDialog"></SfButton>
+    </div>
+    <SfDialog Target="#target-draggable" Width="300px" ShowCloseIcon="true" AllowDragging="true" @bind-Visible="@IsDraggableVisible" Header="Draggable Dialog" Content="This is a Dialog with drag enabled">
+    </SfDialog>
+</div>
+@code {
+    private bool IsDraggableVisible { get; set; } = false;
+    private async Task OpenDraggableDialog()
+    {
+        this.IsDraggableVisible = true;
+    }
+}
+<style>
+    #target-draggable {
+        height: 400px;
+        width: 900px;
+    }
+</style>

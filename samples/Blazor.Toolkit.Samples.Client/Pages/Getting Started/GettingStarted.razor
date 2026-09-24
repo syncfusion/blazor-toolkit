@@ -1,101 +1,1745 @@
-﻿@page "/getting-started"
+@page "/getting-started"
+@inherits TocPublishingComponentBase
+@using Blazor.Toolkit.Samples.Client.Pages.Components.LayoutSection
 
-<PageTitle>Blazor Quick Start | Syncfusion Toolkit</PageTitle>
+<PageTitle>Getting Started | Syncfusion Blazor Toolkit</PageTitle>
 
-<Description>
-    <Header>
-        <h4>Getting Started</h4>
-    </Header>
-    <Content>
-        The Syncfusion Blazor Toolkit provides a collection of lightweight, high-performance UI components for building modern Blazor Server and WebAssembly applications. This guide gives a quick setup and minimal usage example to get you producing UI quickly.
-    </Content>
-</Description>
+<div class="sf-doc-page">
+    @* The site-wide <SfBreadcrumb /> is rendered by MainLayout.razor
+       above @Body, so this page no longer needs its own breadcrumb. *@
 
-<Description>
-    <Header>
-        <h5>Prerequisites</h5>
-    </Header>
-    <Content>
-        <ul>
-            <li>.NET 8.0 or later</li>
-            <li>Developer tooling such as Visual Studio or Visual Studio Code</li>
+    @* ============================================================
+       HERO
+       ============================================================ *@
+    <header class="sf-hero">
+        <div class="sf-hero-content">
+            <div class="sf-hero-text">
+                <h1>Getting Started with Syncfusion Blazor Toolkit</h1>
+                <p class="sf-hero-subtitle">
+                    Build your first application using Syncfusion Blazor Toolkit
+                    components in just a few simple steps. Pick a host model
+                    and ship in minutes.
+                </p>
+                <div class="sf-hero-badges">
+                    <span class="sf-badge sf-badge-time">
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                            <circle cx="12" cy="12" r="10"></circle>
+                            <polyline points="12 6 12 12 16 14"></polyline>
+                        </svg>
+                        5 min
+                    </span>
+                    <span class="sf-badge sf-badge-level">
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                            <polyline points="13 17 18 12 13 7"></polyline>
+                            <polyline points="6 17 11 12 6 7"></polyline>
+                        </svg>
+                        Beginner
+                    </span>
+                    <span class="sf-badge sf-badge-stack">
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                            <rect x="3" y="3" width="18" height="18" rx="2"></rect>
+                            <path d="M3 9h18"></path>
+                        </svg>
+                        .NET 8 / 9 / 10
+                    </span>
+                </div>
+            </div>
+
+            <div class="sf-hero-illustration" aria-hidden="true">
+                <div class="sf-illust-glow"></div>
+                <div class="sf-illust-card sf-illust-card-1">
+                    <div class="sf-illust-card-header">
+                        <span class="sf-illust-dot sf-illust-dot-r"></span>
+                        <span class="sf-illust-dot sf-illust-dot-y"></span>
+                        <span class="sf-illust-dot sf-illust-dot-g"></span>
+                    </div>
+                    <div class="sf-illust-card-body">
+                        <div class="sf-illust-row sf-illust-row-head"></div>
+                        <div class="sf-illust-row"></div>
+                        <div class="sf-illust-row"></div>
+                        <div class="sf-illust-row"></div>
+                    </div>
+                </div>
+                <div class="sf-illust-card sf-illust-card-2">
+                    <div class="sf-illust-card-body sf-illust-pie">
+                        <div class="sf-illust-pie-ring"></div>
+                        <div class="sf-illust-pie-core"></div>
+                    </div>
+                </div>
+                <div class="sf-illust-icon sf-illust-icon-blazor" aria-hidden="true">
+                    <svg viewBox="0 0 24 24" width="32" height="32" fill="currentColor" aria-hidden="true">
+                        <path d="M12.504 0c-.155 0-.315.008-.48.021-4.226.333-3.105 4.807-3.17 6.298-.076 1.092-.3 1.953-1.05 3.02-.885 1.051-2.127 2.75-2.716 4.521-.278.832-.41 1.684-.287 2.489a.424.424 0 0 0-.11.135c-.26.268-.45.6-.663.839-.199.199-.485.267-.797.4-.313.136-.658.269-.864.68-.09.189-.136.394-.132.602 0 .199.027.4.055.6.058.4.116.834.022 1.296-.246 1.264-.785 2.107-1.308 2.756-.524.65-1.027 1.105-1.198 1.736-.176.642-.066 1.298.317 1.795.385.5.998.832 1.716.945.717.115 1.525.025 2.34-.2.815-.225 1.62-.572 2.27-1.062.65-.49 1.143-1.114 1.262-1.81.121-.7-.13-1.418-.708-1.99-.583-.572-1.477-.95-2.5-1.115l.62-1.156c.5-.937 1.108-1.984 1.612-2.928.504-.945.91-1.778 1.04-2.279.13-.5.04-.842-.19-1.045-.236-.205-.578-.245-.93-.225-.354.02-.715.087-1.022.034a.954.954 0 0 1-.6-.345c-.142-.184-.236-.42-.124-.728.135-.357.46-.706.86-1.022.4-.318.866-.595 1.292-.78.852-.378 1.642-.504 2.288-.292.643.213 1.07.708 1.07 1.481 0 .782-.46 1.659-1.146 2.443-.686.785-1.594 1.46-2.518 1.847-.927.388-1.876.49-2.66.115-.784-.376-1.367-1.2-1.535-2.226-.084-.513-.05-1.062.094-1.612.144-.55.388-1.099.708-1.598.638-.998 1.59-1.79 2.65-2.16 1.062-.37 2.225-.314 3.21.155.985.47 1.776 1.281 2.193 2.231.418.95.504 2.01.255 2.97-.25.96-.79 1.812-1.523 2.408-.732.595-1.626.876-2.5.78-.875-.097-1.706-.51-2.244-1.166-.538-.658-.776-1.548-.555-2.395.222-.847.835-1.554 1.61-1.91.776-.358 1.66-.36 2.336-.005.677.357 1.128 1.063 1.1 1.815-.027.752-.515 1.4-1.193 1.66-.677.26-1.44.1-1.943-.357-.503-.456-.708-1.13-.5-1.74.207-.61.736-1.062 1.36-1.166.62-.103 1.243.13 1.62.563.378.43.46 1.052.215 1.572-.246.52-.766.86-1.323.86-.557 0-1.07-.34-1.317-.86z"/>
+                    </svg>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    @* ============================================================
+       USING TEMPLATES (Featured Card)
+       ============================================================ *@
+    <section class="sf-templates" id="using-templates" aria-labelledby="using-templates-heading">
+        <div class="sf-templates-grid">
+            <div class="sf-templates-left">
+                <div class="sf-templates-icon" aria-hidden="true">🚀</div>
+                <h2 id="using-templates-heading">Using Templates</h2>
+                <p>
+                    The fastest way to get started is by using our
+                    pre-built project templates. Pick the host model
+                    that fits your application and ship in minutes.
+                </p>
+                <SfButton CssClass="sf-btn sf-btn-primary">
+                    <a style="color: var(--sf-accent);" href="https://www.nuget.org/packages/Syncfusion.Blazor.Toolkit.Templates" target="_blank"><span>View &amp; Download Templates</span></a>
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                        <line x1="5" y1="12" x2="19" y2="12"></line>
+                        <polyline points="12 5 19 12 12 19"></polyline>
+                    </svg>
+                </SfButton>
+            </div>
+            <div class="sf-templates-right" aria-label="Available templates">
+                <div class="sf-template-mini-preview sf-template-mini-preview-1" aria-hidden="true">
+                    <span class="sf-template-mini-chip">.NET 8+</span>
+                </div>
+                <div class="sf-template-mini-meta">
+                    <div class="sf-template-mini-title">Blazor Web App</div>
+                    <div class="sf-template-mini-sub">Auto / Server / WASM</div>
+                </div>
+                <div class="sf-template-mini-preview sf-template-mini-preview-2" aria-hidden="true">
+                    <span class="sf-template-mini-chip">Client</span>
+                </div>
+                <div class="sf-template-mini-meta">
+                    <div class="sf-template-mini-title">Blazor WASM App</div>
+                    <div class="sf-template-mini-sub">Standalone client</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    @* ============================================================
+       HOST MODEL PICKER (top-level radio group)
+       ============================================================ *@
+    <div class="sf-host-bar" role="radiogroup" aria-label="Blazor host model">
+        <label class="sf-host-option @(_activeHost == "webapp" ? "is-active" : "")">
+            <SfRadioButton Name="blazorHost"
+                           Label="Blazor Web App"
+                           Value="webapp"
+                           LabelPosition="LabelPosition.After"
+                           @bind-Checked="_activeHost" />
+            <span class="sf-host-sub">Auto / Server / WASM</span>
+        </label>
+        <label class="sf-host-option @(_activeHost == "wasm" ? "is-active" : "")">
+            <SfRadioButton Name="blazorHost"
+                           Label="Blazor WebAssembly App"
+                           Value="wasm"
+                           LabelPosition="LabelPosition.After"
+                           @bind-Checked="_activeHost" />
+            <span class="sf-host-sub">Standalone client</span>
+        </label>
+    </div>
+
+    @* ============================================================
+       SECTION 1: Prerequisites
+       ============================================================ *@
+    <section class="sf-section" id="prerequisites" aria-labelledby="prereq-heading">
+        <div class="sf-step-head">
+            <span class="sf-step-num">1</span>
+            <h2 id="prereq-heading">Prerequisites</h2>
+        </div>
+        <p class="sf-section-lede">
+            Make sure the following tools are installed before you start.
+        </p>
+        <ul class="sf-prereq-list">
+            <li>
+                <span class="sf-prereq-icon" aria-hidden="true">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <polyline points="20 6 9 17 4 12"></polyline>
+                    </svg>
+                </span>
+                <div>
+                    <div class="sf-prereq-title">.NET SDK 8.0 or later</div>
+                    <div class="sf-prereq-sub">Download from <a href="https://dotnet.microsoft.com/download" target="_blank" rel="noreferrer noopener">dotnet.microsoft.com</a></div>
+                </div>
+            </li>
+            <li>
+                <span class="sf-prereq-icon" aria-hidden="true">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <polyline points="20 6 9 17 4 12"></polyline>
+                    </svg>
+                </span>
+                <div>
+                    <div class="sf-prereq-title">An IDE of your choice</div>
+                    <div class="sf-prereq-sub">Visual Studio 2022 17.8+ or Visual Studio Code with the C# Dev Kit</div>
+                </div>
+            </li>
+            <li>
+                <span class="sf-prereq-icon" aria-hidden="true">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <polyline points="20 6 9 17 4 12"></polyline>
+                    </svg>
+                </span>
+                <div>
+                    <div class="sf-prereq-title">Windows, macOS, or Linux</div>
+                    <div class="sf-prereq-sub">All Blazor host models are cross-platform</div>
+                </div>
+            </li>
         </ul>
-    </Content>
-</Description>
+    </section>
 
-<Description>
-    <Header>
-        <h5>Install</h5>
-    </Header>
-    <Content>
-        <p>Install the NuGet package into your project:</p>
-        <CodePreview FileName="terminal" IsCodeAlone="true" CodeSection="dotnet add package Syncfusion.Blazor.Toolkit"></CodePreview>
-    </Content>
-</Description>
+    @* ============================================================
+       SECTION 2: Create a New Project (host-specific)
+       ============================================================ *@
+    <section class="sf-section" id="create-a-new-blazor-app" aria-labelledby="create-heading">
+        <div class="sf-step-head">
+            <span class="sf-step-num">2</span>
+            <h2 id="create-heading">Create a New @_hostTitle Project</h2>
+        </div>
+        <p class="sf-section-lede">
+            @_createLede
+        </p>
 
-<Description>
-    <Header>
-        <h5>Register services (Program.cs)</h5>
-    </Header>
-    <Content>
-        <p>Add the toolkit services to your application's program file. Example for a Server-hosted app:</p>
-        <CodePreview FileName="Program.cs" IsCodeAlone="true" CodeSection="@ProgamCode"></CodePreview>
-        <p>For WebAssembly projects, register the corresponding interactive/webassembly services in the client project's Program.cs.</p>
-    </Content>
-</Description>
+        <div class="sf-tabs-card">
+            <div class="sf-tabs-bar" role="tablist" aria-label="Create project options">
+                <SfButton CssClass='@($"sf-tab {(_activeCreateIde == 0 ? "is-active" : "")}")' role="tab" aria-selected="@(_activeCreateIde == 0)" OnClick="@(() => _activeCreateIde = 0)">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                        <polyline points="4 17 10 11 4 5"></polyline>
+                        <line x1="0" y1="0" x2="0" y2="0"></line>
+                    </svg>
+                    .NET CLI
+                </SfButton>
+                <SfButton CssClass='@($"sf-tab {(_activeCreateIde == 1 ? "is-active" : "")}")' role="tab" aria-selected="@(_activeCreateIde == 1)" OnClick="@(() => _activeCreateIde = 1)">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                        <rect x="3" y="3" width="18" height="18" rx="2"></rect>
+                        <path d="M3 9h18"></path>
+                    </svg>
+                    Visual Studio
+                </SfButton>
+                <SfButton CssClass='@($"sf-tab {(_activeCreateIde == 2 ? "is-active" : "")}")' role="tab" aria-selected="@(_activeCreateIde == 2)" OnClick="@(() => _activeCreateIde = 2)">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                        <polyline points="16 18 22 12 16 6"></polyline>
+                        <polyline points="8 6 2 12 8 18"></polyline>
+                    </svg>
+                    Visual Studio Code
+                </SfButton>
+            </div>
+            <div class="sf-tabs-body">
+                @* The Visual Studio tab is narrative guidance, not a
+                   terminal/code snippet. Render it inline so the user
+                   sees a clean sentence (with inline links) rather
+                   than a monospaced code block. The .NET CLI and VS
+                   Code tabs continue to use <CodePreview> because
+                   those options really do need a terminal block. *@
+                @if (_activeCreateIde == 1)
+                {
+                    <div class="sf-vs-callout">
+                        @if (_activeHost == "wasm")
+                        {
+                            <p>
+                                Create a <strong>Blazor Toolkit WebAssembly App</strong> using 
+                                Visual Studio via
+                                <a href="https://www.nuget.org/packages/" target="_blank" rel="noreferrer noopener">Toolkit Templates</a>.
+                            </p>
+                        }
+                        else
+                        {
+                            <p>
+                                Create a <strong>Blazor Toolkit Web App</strong> using 
+                                Visual Studio via
+                                <a href="https://www.nuget.org/packages/" target="_blank" rel="noreferrer noopener">Toolkit Templates</a>.
+                            </p>
+                        }
+                    </div>
+                }
+                else
+                {
+                    <CodePreview FileName="@_createFileName"
+                                 IsCodeAlone="true"
+                                 SourceFile="@_createSourceFile" />
+                }
+            </div>
+        </div>
 
-<Description>
-    <Header>
-        <h5>Include assets</h5>
-    </Header>
-    <Content>
-        If your app requires theme CSS or initialization scripts, include them in your layout or host page. Refer to the component docs for theme names and required files.
-    </Content>
-</Description>
+        <div class="sf-tip" role="note">
+            <span class="sf-tip-icon" aria-hidden="true">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <circle cx="12" cy="12" r="10"></circle>
+                    <line x1="12" y1="16" x2="12" y2="12"></line>
+                    <line x1="12" y1="8" x2="12.01" y2="8"></line>
+                </svg>
+            </span>
+            <div>
+                <div class="sf-tip-title">Tip</div>
+                <div class="sf-tip-body">@_createTip</div>
+            </div>
+        </div>
+    </section>
 
-<Description>
-    <Header>
-        <h5>Usage example</h5>
-    </Header>
-    <Content>
-        <p>Use components directly in Razor files. Example button usage:</p>
-        <CodePreview FileName="Button.razor" IsCodeAlone="true" CodeSection="@UsageExample"></CodePreview>
-    </Content>
-</Description>
+    @* ============================================================
+       SECTION 3: Install Syncfusion Blazor Toolkit Package
+       ============================================================ *@
+    <section class="sf-section" id="install-syncfusion-blazor-toolkit-package" aria-labelledby="install-heading">
+        <div class="sf-step-head">
+            <span class="sf-step-num">3</span>
+            <h2 id="install-heading">Install Syncfusion Blazor Toolkit Package</h2>
+        </div>
+        <p class="sf-section-lede">
+            Add the <a href="https://www.nuget.org/packages/Syncfusion.Blazor.Toolkit" target="_blank"><code>Syncfusion.Blazor.Toolkit</code></a> NuGet package
+            to your project. Use the option that matches your workflow.
+        </p>
 
-<Description>
-    <Header>
-        <h5>Next steps</h5>
-    </Header>
-    <Content>
-        <ul>
-            <li>Explore the controls list in the repository README for available components.</li>
-            <li>Open component-specific pages for detailed API, events, and samples.</li>
-            <li>Run the sample app included in this repo to see components in action.</li>
+        <div class="sf-tabs-card">
+            <div class="sf-tabs-bar" role="tablist" aria-label="Install package options">
+                <SfButton CssClass='@($"sf-tab {(_activeInstallTab == 0 ? "is-active" : "")}")' role="tab" aria-selected="@(_activeInstallTab == 0)" OnClick="@(() => _activeInstallTab = 0)">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                        <polyline points="4 17 10 11 4 5"></polyline>
+                        <line x1="0" y1="0" x2="0" y2="0"></line>
+                    </svg>
+                    .NET CLI
+                </SfButton>
+                <SfButton CssClass='@($"sf-tab {(_activeInstallTab == 1 ? "is-active" : "")}")' role="tab" aria-selected="@(_activeInstallTab == 1)" OnClick="@(() => _activeInstallTab = 1)">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                        <rect x="3" y="3" width="18" height="18" rx="2"></rect>
+                        <path d="M3 9h18"></path>
+                    </svg>
+                    Visual Studio
+                </SfButton>
+                <SfButton CssClass='@($"sf-tab {(_activeInstallTab == 2 ? "is-active" : "")}")' role="tab" aria-selected="@(_activeInstallTab == 2)" OnClick="@(() => _activeInstallTab = 2)">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                        <polyline points="16 18 22 12 16 6"></polyline>
+                        <polyline points="8 6 2 12 8 18"></polyline>
+                    </svg>
+                    Visual Studio Code
+                </SfButton>
+            </div>
+            <div class="sf-tabs-body">
+                @* The Visual Studio tab is narrative guidance, not a
+                   terminal/code snippet. Render it inline so the user
+                   sees a clean sentence (with an inline link) rather
+                   than a monospaced code block. The .NET CLI and VS
+                   Code tabs continue to use <CodePreview> because
+                   those options really do need a terminal block. *@
+                @if (_activeInstallTab == 1)
+                {
+                    <div class="sf-vs-callout">
+                        <p>
+                            Install the <strong>Syncfusion.Blazor.Toolkit</strong> package
+                            from the
+                            <a href="https://www.nuget.org/packages/Syncfusion.Blazor.Toolkit" target="_blank" rel="noreferrer noopener">NuGet Gallery</a>.
+                        </p>
+                    </div>
+                }
+                else
+                {
+                    <CodePreview FileName="@_installFileName"
+                                 IsCodeAlone="true"
+                                 SourceFile="@_installSourceFile" />
+                }
+            </div>
+        </div>
+
+        <div class="sf-banner sf-banner-success" role="status">
+            <span class="sf-banner-icon" aria-hidden="true">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                    <polyline points="20 6 9 17 4 12"></polyline>
+                </svg>
+            </span>
+            <div class="sf-banner-body">
+                <div class="sf-banner-title">Package installed successfully</div>
+                <div class="sf-banner-sub">
+                    <code>Syncfusion.Blazor.Toolkit</code> &middot; v1.0.1 added to your project.
+                </div>
+            </div>
+        </div>
+    </section>
+
+    @* ============================================================
+       SECTION 4: Add Import Namespaces (shared)
+       ============================================================ *@
+    <section class="sf-section" id="add-import-namespaces" aria-labelledby="imports-heading">
+        <div class="sf-step-head">
+            <span class="sf-step-num">4</span>
+            <h2 id="imports-heading">Add Import Namespaces</h2>
+        </div>
+        <p class="sf-section-lede">
+            Open <code>~/_Imports.razor</code> and add the namespace below
+            to make Syncfusion components available app-wide.
+        </p>
+        <div class="sf-code-card">
+            <CodePreview FileName="_Imports.razor"
+                         IsCodeAlone="true"
+                         SourceFile="/Pages/Demos/GettingStarted/BlazorWebApp/ImportsSnippet.razor" />
+        </div>
+    </section>
+
+    @* ============================================================
+       SECTION 5: Register Service (host-specific)
+       ============================================================ *@
+    <section class="sf-section" id="register-syncfusion-blazor-toolkit-service" aria-labelledby="register-heading">
+        <div class="sf-step-head">
+            <span class="sf-step-num">5</span>
+            <h2 id="register-heading">Register Syncfusion Blazor Toolkit Service</h2>
+        </div>
+        <p class="sf-section-lede">
+            Register the toolkit in <code>Program.cs</code> so the runtime
+            can resolve services and theme assets. The exact registration
+            depends on your host model.
+        </p>
+        <div class="sf-code-card">
+            <CodePreview FileName="@_programFileName"
+                         IsCodeAlone="true"
+                         SourceFile="@_programSourceFile" />
+        </div>
+    </section>
+
+    @* ============================================================
+       SECTION 6: Add Stylesheet (host-specific file)
+       ============================================================ *@
+    <section class="sf-section" id="add-stylesheet-reference" aria-labelledby="styles-heading">
+        <div class="sf-step-head">
+            <span class="sf-step-num">6</span>
+            <h2 id="styles-heading">Add Stylesheet Reference</h2>
+        </div>
+        <p class="sf-section-lede">
+            Add the Syncfusion Blazor Toolkit theme stylesheet to
+            @_stylesheetTarget.
+        </p>
+        <div class="sf-code-card">
+            <CodePreview FileName="@_stylesheetFileName"
+                         IsCodeAlone="true"
+                         SourceFile="@_stylesheetSourceFile" />
+        </div>
+    </section>
+
+    @* ============================================================
+       SECTION 7: Add Component (host-specific render mode)
+       ============================================================ *@
+    <section class="sf-section" id="add-syncfusion-blazor-component" aria-labelledby="add-heading">
+        <div class="sf-step-head">
+            <span class="sf-step-num">7</span>
+            <h2 id="add-heading">Add a Syncfusion Component</h2>
+        </div>
+        <p class="sf-section-lede">
+            Add the render mode declaration at the top of your <code>.razor</code> page
+            and the markup below to render a toolkit Button.
+        </p>
+        <div class="sf-code-card">
+            <CodePreview FileName="Home.razor"
+                         IsCodeAlone="true"
+                         SourceFile="@_homeRenderModeSourceFile" />
+        </div>
+        <div class="sf-code-card">
+            <CodePreview FileName="Home.razor"
+                         IsCodeAlone="true"
+                         SourceFile="@_usageSourceFile" />
+        </div>
+
+        <div class="sf-preview-card" aria-label="Button component preview">
+            <div class="sf-preview-head">
+                <span class="sf-preview-label">Preview</span>
+                <span class="sf-preview-meta">Home.razor</span>
+            </div>
+            <div class="sf-preview-body">
+                @* Live preview: use SfButtonGroup with semantic color
+                   variants so the user can see ButtonGroup + Button
+                   styling side-by-side. *@
+                <SfButtonGroup CssClass="sf-btn-group-preview">
+                    <Button CssClass="e-outline">Default</Button>
+                    <Button CssClass="e-primary">Primary</Button>
+                    <Button CssClass="e-success">Success</Button>
+                    <Button CssClass="e-info">Info</Button>
+                    <Button CssClass="e-warning">Warning</Button>
+                    <Button CssClass="e-danger">Danger</Button>
+                </SfButtonGroup>
+            </div>
+        </div>
+    </section>
+
+    @* ============================================================
+       SECTION 8: Run Application (host-specific)
+       ============================================================ *@
+    <section class="sf-section" id="run-the-application" aria-labelledby="run-heading">
+        <div class="sf-step-head">
+            <span class="sf-step-num">8</span>
+            <h2 id="run-heading">Run the Application</h2>
+        </div>
+        <p class="sf-section-lede">
+            Launch the app from your IDE or terminal. @_runLede
+        </p>
+        <ul class="sf-run-list">
+            <li>
+                <span class="sf-run-ide">Visual Studio</span>
+                <span class="sf-run-desc">Press <kbd>F5</kbd> to run with debugging or <kbd>Ctrl</kbd>+<kbd>F5</kbd> without.</span>
+            </li>
+            <li>
+                <span class="sf-run-ide">VS Code / .NET CLI</span>
+                <span class="sf-run-desc">Run <code>dotnet run</code> from the project root.</span>
+            </li>
         </ul>
-    </Content>
-</Description>
+    </section>
 
-<Description>
-    <Header>
-        <h5>Support & Contributing</h5>
-    </Header>
-    <Content>
-        For issues or questions, see the repository README. Contributions are welcome — check CONTRIBUTING.md for guidelines.
-    </Content>
-</Description>
+    @* ============================================================
+       NEXT STEPS
+       ============================================================ *@
+    <section class="sf-next-steps" id="next-steps" aria-labelledby="next-heading">
+        <h2 id="next-heading">Next Steps</h2>
+        <div class="sf-next-grid">
+            <a class="sf-next-card" href="charts/overview">
+                <span class="sf-next-icon sf-next-icon-purple" aria-hidden="true">
+                    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <line x1="18" y1="20" x2="18" y2="10"></line>
+                        <line x1="12" y1="20" x2="12" y2="4"></line>
+                        <line x1="6" y1="20" x2="6" y2="14"></line>
+                    </svg>
+                </span>
+                <div>
+                    <div class="sf-next-title">Explore Charts</div>
+                    <div class="sf-next-desc">Build interactive data visualizations.</div>
+                </div>
+                <svg class="sf-next-arrow" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                    <line x1="5" y1="12" x2="19" y2="12"></line>
+                    <polyline points="12 5 19 12 12 19"></polyline>
+                </svg>
+            </a>
+            <a class="sf-next-card" href="calendars/calendar">
+                <span class="sf-next-icon sf-next-icon-blue" aria-hidden="true">
+                    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <rect x="3" y="4" width="18" height="18" rx="2"></rect>
+                        <line x1="16" y1="2" x2="16" y2="6"></line>
+                        <line x1="8" y1="2" x2="8" y2="6"></line>
+                        <line x1="3" y1="10" x2="21" y2="10"></line>
+                    </svg>
+                </span>
+                <div>
+                    <div class="sf-next-title">Try Calendar</div>
+                    <div class="sf-next-desc">Add rich date &amp; time pickers.</div>
+                </div>
+                <svg class="sf-next-arrow" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                    <line x1="5" y1="12" x2="19" y2="12"></line>
+                    <polyline points="12 5 19 12 12 19"></polyline>
+                </svg>
+            </a>
+            <a class="sf-next-card" href="popups/dialog">
+                <span class="sf-next-icon sf-next-icon-pink" aria-hidden="true">
+                    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path>
+                    </svg>
+                </span>
+                <div>
+                    <div class="sf-next-title">Use Dialogs</div>
+                    <div class="sf-next-desc">Show modals, prompts &amp; forms.</div>
+                </div>
+                <svg class="sf-next-arrow" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                    <line x1="5" y1="12" x2="19" y2="12"></line>
+                    <polyline points="12 5 19 12 12 19"></polyline>
+                </svg>
+            </a>
+        </div>
+    </section>
+</div>
+
+@* ===================================================================
+   STYLES
+   =================================================================== *@
+<style>
+    /* ---------- Theme tokens (Microsoft Learn / Fluent 2 inspired) ---------- */
+    .sf-doc-page {
+        --sf-bg: #FFFFFF;
+        --sf-bg-subtle: #FAFBFC;
+        --sf-surface: #FFFFFF;
+        --sf-surface-2: #F6F8FB;
+        --sf-border: #E5E7EB;
+        --sf-border-strong: #D1D5DB;
+        --sf-text: #111827;
+        --sf-text-2: #4B5563;
+        --sf-text-3: #6B7280;
+        --sf-text-muted: #9CA3AF;
+        --sf-link: #2B357C;
+        --sf-link-hover: #3B4693;
+        --sf-purple: #2B357C;
+        --sf-purple-50: #ECEEF7;
+        --sf-purple-100: #D6DBED;
+        --sf-purple-200: #A8B0D5;
+        --sf-purple-700: #3B4693;
+        --sf-success-bg: #ECFDF3;
+        --sf-success-border: #ABEFC6;
+        --sf-success-text: #067647;
+        --sf-tip-bg: #EEF4FF;
+        --sf-tip-border: #C7D7FE;
+        --sf-tip-text: #1E40AF;
+        --sf-code-bg: #0B1020;
+        --sf-shadow-sm: 0 1px 2px rgba(15,23,42,.04);
+        --sf-shadow-md: 0 2px 6px rgba(15,23,42,.06), 0 1px 2px rgba(15,23,42,.04);
+        --sf-shadow-lg: 0 10px 24px -8px rgba(15,23,42,.10), 0 4px 8px -2px rgba(15,23,42,.04);
+        --sf-radius-sm: 6px;
+        --sf-radius-md: 10px;
+        --sf-radius-lg: 14px;
+        --sf-radius-xl: 18px;
+    }
+
+    .dark .sf-doc-page {
+        --sf-bg: #0B1020;
+        --sf-bg-subtle: #0F172A;
+        --sf-surface: #111827;
+        --sf-surface-2: #0F172A;
+        --sf-border: #1F2937;
+        --sf-border-strong: #374151;
+        --sf-text: #F1F5F9;
+        --sf-text-2: #CBD5E1;
+        --sf-text-3: #94A3B8;
+        --sf-text-muted: #64748B;
+        --sf-link: #A4ABE0;
+        --sf-link-hover: #C4CCEC;
+        --sf-purple: #8A93C4;
+        --sf-purple-50: rgba(43, 53, 124, 0.20);
+        --sf-purple-100: rgba(43, 53, 124, 0.30);
+        --sf-purple-200: rgba(43, 53, 124, 0.30);
+        --sf-purple-700: #A4ABE0;
+        --sf-success-bg: rgba(16, 185, 129, 0.10);
+        --sf-success-border: rgba(16, 185, 129, 0.30);
+        --sf-success-text: #6EE7B7;
+        --sf-tip-bg: rgba(59, 130, 246, 0.10);
+        --sf-tip-border: rgba(59, 130, 246, 0.30);
+        --sf-tip-text: #93C5FD;
+        --sf-code-bg: #0A0E1C;
+        --sf-shadow-sm: 0 1px 2px rgba(0,0,0,.4);
+        --sf-shadow-md: 0 2px 6px rgba(0,0,0,.4), 0 1px 2px rgba(0,0,0,.3);
+        --sf-shadow-lg: 0 10px 24px -8px rgba(0,0,0,.5), 0 4px 8px -2px rgba(0,0,0,.3);
+    }
+
+    /* ---------- Page container ---------- */
+    .sf-doc-page {
+        font-family: "Segoe UI Variable", "Segoe UI", "Inter", system-ui, -apple-system, sans-serif;
+        color: var(--sf-text);
+        background: var(--sf-bg);
+        font-size: 16px;
+        line-height: 1.6;
+        -webkit-font-smoothing: antialiased;
+        -moz-osx-font-smoothing: grayscale;
+    }
+    .sf-doc-page * { box-sizing: border-box; }
+
+    .sf-doc-page p { margin: 0 0 16px 0; color: var(--sf-text-2); }
+    .sf-doc-page a { color: var(--sf-link); text-decoration: none; transition: color .15s ease; }
+    .sf-doc-page a:hover { color: var(--sf-link-hover); text-decoration: underline; }
+    .sf-doc-page code:not(pre code) {
+        background: var(--sf-purple-50);
+        color: var(--sf-purple-700);
+        padding: 2px 6px;
+        border-radius: 4px;
+        font-weight: 500;
+    }
+    .dark .sf-doc-page code:not(pre code) { color: #C4CCEC; }
+    .sf-doc-page kbd {
+        display: inline-block;
+        background: var(--sf-surface-2);
+        border: 1px solid var(--sf-border);
+        border-bottom-width: 2px;
+        border-radius: 4px;
+        padding: 1px 6px;
+        font-size: 12px;
+        color: var(--sf-text-2);
+    }
+
+    /* The site-wide breadcrumb CSS lives in MainLayout.razor so it
+       applies to every page, not just GettingStarted. */
+
+    /* ---------- Hero ---------- */
+    .sf-hero {
+        background: linear-gradient(180deg, var(--sf-bg) 0%, var(--sf-bg-subtle) 100%);
+        border: 1px solid var(--sf-border);
+        border-radius: var(--sf-radius-xl);
+        padding: 0px 20px;
+        margin-bottom: 24px;
+        position: relative;
+        overflow: hidden;
+    }
+    .sf-hero::before {
+        content: "";
+        position: absolute; top: -120px; right: -80px;
+        width: 380px; height: 380px;
+        background: radial-gradient(circle, var(--sf-purple-100) 0%, transparent 70%);
+        pointer-events: none;
+    }
+    .sf-hero-content {
+        position: relative;
+        display: grid;
+        grid-template-columns: minmax(0, 1fr) 260px;
+        gap: 32px; align-items: center;
+    }
+    .sf-hero h1 {
+        font-family: "Segoe UI Variable", "Segoe UI", "Inter", system-ui, sans-serif;
+        font-size: 42px; line-height: 1.15; font-weight: 600;
+        letter-spacing: -0.02em; margin: 0 0 16px 0; color: var(--sf-text);
+    }
+    .sf-hero-subtitle {
+        font-size: 16px; line-height: 1.6; color: var(--sf-text-2);
+        max-width: 640px; margin: 0 0 24px 0;
+    }
+    .sf-hero-badges { display: flex; flex-wrap: wrap; gap: 8px; }
+    .sf-badge {
+        display: inline-flex; align-items: center; gap: 6px;
+        padding: 5px 12px; border-radius: 999px;
+        font-size: 13px; font-weight: 600;
+        border: 1px solid var(--sf-border);
+        background: var(--sf-surface); color: var(--sf-text-2);
+    }
+    .sf-badge svg { color: var(--sf-text-3); }
+    .sf-badge-time svg { color: #D97706; }
+    .sf-badge-level svg { color: #2563EB; }
+    .sf-badge-stack svg { color: var(--sf-purple); }
+
+    /* Hero illustration */
+    .sf-hero-illustration { position: relative; width: 100%; height: 220px; }
+    .sf-illust-glow {
+        position: absolute; inset: 10% 0;
+        background: radial-gradient(circle, var(--sf-purple-100) 0%, transparent 65%);
+        filter: blur(2px);
+    }
+    .sf-illust-card {
+        position: absolute;
+        background: var(--sf-surface);
+        border: 1px solid var(--sf-border);
+        border-radius: var(--sf-radius-md);
+        box-shadow: var(--sf-shadow-lg);
+        overflow: hidden;
+    }
+    .sf-illust-card-1 { top: 10px; left: 0; width: 160px; height: 110px; transform: rotate(-6deg); }
+    .sf-illust-card-2 {
+        bottom: 4px; right: 8px; width: 120px; height: 120px;
+        transform: rotate(6deg);
+        background: linear-gradient(135deg, var(--sf-purple) 0%, #5A63A8 100%);
+        border-color: transparent;
+    }
+    .sf-illust-card-header {
+        display: flex; gap: 4px; padding: 6px 8px;
+        background: var(--sf-surface-2); border-bottom: 1px solid var(--sf-border);
+    }
+    .sf-illust-dot { width: 8px; height: 8px; border-radius: 50%; }
+    .sf-illust-dot-r { background: #FCA5A5; }
+    .sf-illust-dot-y { background: #FCD34D; }
+    .sf-illust-dot-g { background: #86EFAC; }
+    .sf-illust-card-body { padding: 10px; display: flex; flex-direction: column; gap: 6px; }
+    .sf-illust-row { height: 8px; border-radius: 4px; background: var(--sf-surface-2); }
+    .sf-illust-row-head { background: var(--sf-purple-200); height: 10px; width: 60%; }
+    .sf-illust-row:nth-child(2) { width: 90%; }
+    .sf-illust-row:nth-child(3) { width: 75%; }
+    .sf-illust-row:nth-child(4) { width: 85%; }
+    .sf-illust-pie { padding: 0; height: 100%; position: relative; }
+    .sf-illust-pie-ring {
+        position: absolute; inset: 14px;
+        border: 14px solid rgba(255,255,255,0.25);
+        border-top-color: #FFFFFF; border-radius: 50%;
+    }
+    .sf-illust-pie-core {
+        position: absolute; top: 50%; left: 50%;
+        transform: translate(-50%, -50%);
+        width: 22px; height: 22px;
+        border-radius: 50%; background: #FFFFFF;
+    }
+    .sf-illust-icon {
+        position: absolute; top: 50%; left: 50%;
+        transform: translate(-50%, -50%);
+        width: 64px; height: 64px;
+        border-radius: 16px; background: var(--sf-surface);
+        color: var(--sf-purple);
+        display: flex; align-items: center; justify-content: center;
+        box-shadow: 0 12px 30px -6px rgba(43, 53, 124, 0.45);
+        border: 1px solid rgba(255,255,255,0.6);
+    }
+    .sf-illust-icon svg { display: block; }
+
+    /* ---------- Host model picker ----------
+       A 2-column row of SfRadioButton options (string-typed group).
+       Each option is rendered as a card: border + surface + radius.
+       The card is the label that wraps the radio, so clicking anywhere
+       in the card toggles the radio (the native label + input
+       association). The selected option shows a navy fill, a coloured
+       border, and a strong glow to make the active choice obvious. */
+    .sf-host-bar {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 12px;
+        margin: 0 0 32px 0;
+    }
+    .sf-host-option {
+        display: flex; flex-direction: column; gap: 4px;
+        background: var(--sf-surface);
+        border: 1px solid var(--sf-border);
+        border-radius: var(--sf-radius-lg);
+        padding: 14px 18px;
+        cursor: pointer;
+        transition: border-color .18s ease, box-shadow .18s ease, background .18s ease, transform .18s ease;
+    }
+    .sf-host-option:hover {
+        border-color: var(--sf-purple-200);
+        box-shadow: 0 4px 12px -4px rgba(43, 53, 124, 0.12);
+    }
+    /* Active state: navy-tinted background, bold navy border, strong
+       accent glow, and a small check-style accent strip on the left
+       so the user can immediately see which option is selected. */
+    .sf-host-option.is-active {
+        position: relative;
+        background: linear-gradient(180deg, var(--sf-purple-50) 0%, var(--sf-surface) 100%);
+    }
+    /* Left-edge accent strip — a thin navy rail that visually anchors
+       the selected state. Hidden on the inactive options. */
+    .sf-host-option.is-active::before {
+        content: "";
+        position: absolute;
+        left: 0; top: 12px; bottom: 12px;
+        width: 4px;
+        border-radius: 0 3px 3px 0;
+    }
+    /* Tint the radio label so it picks up the card foreground colour
+       and matches the rest of the design system typography. When the
+       option is active, push the label colour to the navy primary. */
+    .sf-host-option .e-radio-wrapper {
+        font-size: 14.5px;
+        font-weight: 600;
+        color: var(--sf-text);
+    }
+    .sf-host-option .e-radio-wrapper .e-label {
+        color: var(--sf-text);
+    }
+    .sf-host-sub {
+        font-size: 12.5px;
+        color: var(--sf-text-3);
+        margin-top: 2px;
+        /* Indent the subtitle so it lines up under the radio label
+           text rather than the radio circle. */
+        padding-left: 32px;
+    }
+    /* Active state colour overrides — declared *after* the base
+       .sf-host-sub rule above so the cascade picks them up. */
+    .sf-host-option.is-active .e-radio-wrapper,
+    .sf-host-option.is-active .e-radio-wrapper .e-label {
+        color: var(--sf-purple);
+    }
+    /* The subtitle should also reflect the active state so the
+       whole card "lights up" together. */
+    .sf-host-option.is-active .sf-host-sub {
+        color: var(--sf-purple);
+        opacity: 0.85;
+    }
+
+    /* ---------- Templates section ---------- */
+    /* Featured/elevated card. The thin accent bar on the top edge
+       + the elevated shadow + the subtle gradient background make
+       it stand out from the regular doc-page sections. */
+    .sf-templates {
+        position: relative;
+        background: linear-gradient(180deg, var(--sf-purple-50) 0%, var(--sf-surface) 60%);
+        border: 1px solid var(--sf-purple-200);
+        border-radius: var(--sf-radius-xl);
+        padding: 32px;
+        margin-bottom: 40px;
+        box-shadow:
+            0 1px 0 rgba(255, 255, 255, 0.6) inset,
+            0 12px 28px -10px rgba(43, 53, 124, 0.18),
+            0 4px 10px -4px rgba(43, 53, 124, 0.08);
+        overflow: hidden;
+    }
+    /* Decorative glow in the top-right corner reinforces the
+       "featured" feel without competing with the content. */
+    .sf-templates::before {
+        content: ""; position: absolute; top: 0; right: 0;
+        width: 320px; height: 320px;
+        background: radial-gradient(circle at top right, var(--sf-purple-100) 0%, transparent 65%);
+        pointer-events: none;
+        opacity: .9;
+    }
+    .sf-templates-grid {
+        position: relative;
+        display: grid;
+        grid-template-columns: minmax(0, 1fr) minmax(0, 1.05fr);
+        gap: 36px; align-items: center;
+    }
+    .sf-templates-left { padding-right: 12px; }
+    .sf-templates-icon {
+        width: 48px; height: 48px;
+        border-radius: 12px;
+        background: var(--sf-purple);
+        color: #FFFFFF;
+        display: inline-flex; align-items: center; justify-content: center;
+        font-size: 24px; margin-bottom: 16px;
+        box-shadow: 0 6px 14px -4px rgba(43, 53, 124, 0.45);
+    }
+    .sf-templates-left h2 {
+        font-size: 32px; font-weight: 600; margin: 0 0 10px 0;
+        color: var(--sf-text); letter-spacing: -0.015em; line-height: 1.25;
+    }
+    .sf-templates-left p {
+        color: var(--sf-text-2); font-size: 16px; line-height: 1.6;
+        margin: 0 0 22px 0; max-width: 480px;
+    }
+    .sf-templates-right {
+        display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px;
+    }
+    .sf-template-mini {
+        display: flex; flex-direction: column;
+        background: var(--sf-surface);
+        border: 1px solid var(--sf-border);
+        border-radius: var(--sf-radius-md);
+        padding: 10px; gap: 10px;
+        text-decoration: none; color: inherit;
+        box-shadow: 0 1px 2px rgba(15, 23, 42, 0.04);
+        transition: transform .15s ease, box-shadow .15s ease, border-color .15s ease;
+    }
+    .sf-template-mini:hover {
+        transform: translateY(-2px);
+        box-shadow: var(--sf-shadow-md), 0 8px 20px -8px rgba(43, 53, 124, 0.20);
+        border-color: var(--sf-purple);
+        text-decoration: none;
+    }
+    .sf-template-mini-preview {
+        height: 90px; border-radius: var(--sf-radius-sm);
+        position: relative; overflow: hidden;
+        background-size: cover; background-position: center;
+    }
+    .sf-template-mini-preview-1 { background: linear-gradient(135deg, #2B357C 0%, #5A63A8 50%, #A8B0D5 100%); }
+    .sf-template-mini-preview-2 { background: linear-gradient(135deg, #3B82F6 0%, #60A5FA 50%, #BFDBFE 100%); }
+    .sf-template-mini-preview-3 { background: linear-gradient(135deg, #10B981 0%, #34D399 50%, #A7F3D0 100%); }
+    .sf-template-mini-preview::after {
+        content: ""; position: absolute; inset: 14px;
+        background:
+            linear-gradient(var(--sf-surface) 1px, transparent 1px) 0 0/100% 8px,
+            linear-gradient(90deg, var(--sf-surface) 1px, transparent 1px) 0 0/8px 100%;
+        background-blend-mode: lighten; opacity: 0.55; border-radius: 4px;
+    }
+    .sf-template-mini-chip {
+        position: absolute; top: 8px; left: 8px; z-index: 1;
+        background: rgba(255,255,255,0.92); color: #111827;
+        font-size: 11px; font-weight: 600;
+        padding: 2px 8px; border-radius: 999px;
+    }
+    .sf-template-mini-title { font-size: 13.5px; font-weight: 600; color: var(--sf-text); }
+    .sf-template-mini-sub { font-size: 12px; color: var(--sf-text-3); margin-top: 2px; }
+
+    /* ---------- Buttons ---------- */
+    .sf-btn {
+        display: inline-flex; align-items: center; justify-content: center; gap: 8px;
+        padding: 10px 18px; border-radius: 8px;
+        font-size: 14.5px; font-weight: 600; line-height: 1;
+        border: 1px solid transparent; cursor: pointer;
+        text-decoration: none;
+        transition: background .15s ease, color .15s ease, border-color .15s ease, box-shadow .15s ease, transform .05s ease;
+        font-family: inherit;
+    }
+    .sf-btn:hover { text-decoration: none; }
+    .sf-btn:active { transform: translateY(1px); }
+    .sf-btn-primary {
+        background: var(--sf-purple); color: #FFFFFF;
+        box-shadow: 0 1px 0 rgba(255,255,255,0.1) inset, 0 6px 14px -4px rgba(43, 53, 124, 0.45);
+    }
+    .sf-btn-primary:hover {
+        background: var(--sf-purple-700); color: #FFFFFF;
+        box-shadow: 0 1px 0 rgba(255,255,255,0.1) inset, 0 8px 18px -4px rgba(43, 53, 124, 0.55);
+    }
+    .sf-btn-preview {
+        padding: 8px 16px; font-size: 14px; border-radius: 6px;
+        cursor: default; box-shadow: var(--sf-shadow-sm);
+    }
+    .sf-btn-default { background: #FFFFFF; color: #1F2937; border-color: #D1D5DB; }
+    .sf-btn-success { background: #10B981; color: #FFFFFF; border-color: #10B981; }
+    .sf-btn-info    { background: #3B82F6; color: #FFFFFF; border-color: #3B82F6; }
+    .sf-btn-warning { background: #F59E0B; color: #FFFFFF; border-color: #F59E0B; }
+    .sf-btn-danger  { background: #EF4444; color: #FFFFFF; border-color: #EF4444; }
+    .dark .sf-btn-default { background: #1F2937; color: #F1F5F9; border-color: #374151; }
+
+    /* ---------- Section ---------- */
+    .sf-section { margin: 0 0 48px 0; scroll-margin-top: 96px; }
+    .sf-step-head { display: flex; align-items: center; gap: 14px; margin-bottom: 14px; }
+    .sf-step-num {
+        display: inline-flex; align-items: center; justify-content: center;
+        width: 32px; height: 32px; border-radius: 50%;
+        background: var(--sf-purple); color: #FFFFFF;
+        font-weight: 700; font-size: 14px; flex-shrink: 0;
+        box-shadow: 0 4px 10px -2px rgba(43, 53, 124, 0.45);
+    }
+    .sf-section h2 {
+        font-size: 32px; font-weight: 600; margin: 0;
+        color: var(--sf-text); letter-spacing: -0.015em; line-height: 1.25;
+    }
+    .sf-section-lede {
+        font-size: 16px; color: var(--sf-text-2); line-height: 1.65;
+        margin: 0 0 22px 0; max-width: 760px;
+    }
+
+    /* ---------- Prereq list ---------- */
+    .sf-prereq-list {
+        list-style: none; padding: 0; margin: 0;
+        display: grid; gap: 10px;
+    }
+    .sf-prereq-list li {
+        display: flex; gap: 12px; align-items: center;
+        padding: 14px 16px;
+        background: var(--sf-surface);
+        border: 1px solid var(--sf-border);
+        border-radius: var(--sf-radius-md);
+    }
+    .sf-prereq-icon {
+        width: 32px; height: 32px;
+        border-radius: 50%;
+        background: var(--sf-success-bg);
+        color: var(--sf-success-text);
+        display: inline-flex; align-items: center; justify-content: center;
+        flex-shrink: 0;
+    }
+    .sf-prereq-title { font-weight: 600; color: var(--sf-text); font-size: 14.5px; }
+    .sf-prereq-sub { font-size: 13.5px; color: var(--sf-text-3); margin-top: 2px; }
+    .sf-prereq-sub a { color: var(--sf-link); }
+
+    /* ---------- Tabs Card ---------- */
+    .sf-tabs-card {
+        background: var(--sf-surface);
+        border: 1px solid var(--sf-border);
+        border-radius: var(--sf-radius-lg);
+        overflow: hidden; box-shadow: var(--sf-shadow-sm);
+        margin-bottom: 18px;
+    }
+    .sf-tabs-bar {
+        display: flex;
+        background: var(--sf-surface-2);
+        border-bottom: 1px solid var(--sf-border);
+        padding: 0 8px; gap: 2px;
+        overflow-x: auto; scrollbar-width: none;
+    }
+    .sf-tabs-bar::-webkit-scrollbar { display: none; }
+    .sf-tab,
+    .sf-tabs-bar > .sf-tab,
+    .sf-tabs-bar .e-btn.sf-tab {
+        display: inline-flex; align-items: center; gap: 8px;
+        padding: 12px 18px;
+        background: transparent !important;
+        border: 0;
+        border-bottom: 4px solid transparent;
+        color: var(--sf-text-3);
+        font-size: 13.5px; font-weight: 600; font-family: inherit;
+        cursor: pointer; white-space: nowrap;
+        transition: color .15s ease, border-color .15s ease, background .15s ease;
+        margin-bottom: -1px;
+        border-radius: 0;
+        box-shadow: none;
+        min-height: 0;
+        line-height: 1.2;
+    }
+    .sf-tab:hover { color: var(--sf-text); }
+    .sf-tab.is-active,
+    .sf-tabs-bar > .sf-tab.is-active,
+    .sf-tabs-bar .e-btn.sf-tab.is-active {
+        color: var(--sf-purple);
+        border-bottom-color: var(--sf-purple);
+        background: var(--sf-surface) !important;
+    }
+    .sf-tab svg { color: currentColor; }
+    .sf-tab.is-active svg { color: var(--sf-purple); }
+
+    /* ---------- Code Card ---------- */
+    .sf-code-card {
+        background: var(--sf-surface);
+        border: 1px solid var(--sf-border);
+        border-radius: var(--sf-radius-lg);
+        overflow: hidden; box-shadow: var(--sf-shadow-sm);
+        margin-bottom: 18px;
+    }
+
+    /* ---------- VS callout (Create Project -> Visual Studio tab) ----------
+       A clean, prose-style block that sits inside the tabs card
+       instead of a monospaced code block. The card chrome (border +
+       surface + padding) is provided by the parent .sf-tabs-card. */
+    .sf-vs-callout {
+        background: var(--sf-surface);
+        padding: 20px 24px;
+        font-size: 15px;
+        line-height: 1.65;
+        color: var(--sf-text-2);
+    }
+    .sf-vs-callout p {
+        margin: 0;
+        color: var(--sf-text-2);
+    }
+    .sf-vs-callout strong {
+        color: var(--sf-text);
+        font-weight: 600;
+    }
+
+    /* ---------- Tip / Info banner ---------- */
+    .sf-tip {
+        display: flex; gap: 12px;
+        background: var(--sf-tip-bg);
+        border: 1px solid var(--sf-tip-border);
+        border-left: 3px solid var(--sf-tip-text);
+        border-radius: var(--sf-radius-md);
+        padding: 14px 16px; color: var(--sf-tip-text);
+    }
+    .sf-tip-icon { display: inline-flex; flex-shrink: 0; padding-top: 2px; }
+    .sf-tip-title {
+        font-size: 11.5px; font-weight: 700; letter-spacing: 0.08em;
+        text-transform: uppercase; color: var(--sf-tip-text); margin-bottom: 2px;
+    }
+    .sf-tip-body { font-size: 14.5px; line-height: 1.55; color: var(--sf-text); }
+    .sf-tip-body code { color: var(--sf-tip-text); }
+
+    /* ---------- Success banner ---------- */
+    .sf-banner { display: flex; gap: 12px; padding: 14px 16px; border-radius: var(--sf-radius-md); align-items: flex-start; }
+    .sf-banner-success {
+        background: var(--sf-success-bg);
+        border: 1px solid var(--sf-success-border);
+        border-left: 3px solid var(--sf-success-text);
+        color: var(--sf-success-text);
+    }
+    .sf-banner-icon { display: inline-flex; flex-shrink: 0; padding-top: 1px; }
+    .sf-banner-title { font-weight: 600; font-size: 14.5px; }
+    .sf-banner-sub { font-size: 13.5px; color: var(--sf-text-2); margin-top: 2px; }
+    .sf-banner-sub code { background: rgba(0,0,0,0.04); color: var(--sf-text); }
+    .dark .sf-banner-sub code { background: rgba(255,255,255,0.08); color: var(--sf-text); }
+
+    /* ---------- Preview Card ---------- */
+    .sf-preview-card {
+        background: var(--sf-surface);
+        border: 1px solid var(--sf-border);
+        border-radius: var(--sf-radius-lg);
+        overflow: hidden; box-shadow: var(--sf-shadow-sm);
+        margin-top: 8px;
+    }
+    .sf-preview-head {
+        display: flex; align-items: center; justify-content: space-between;
+        padding: 10px 16px;
+        background: var(--sf-surface-2);
+        border-bottom: 1px solid var(--sf-border);
+    }
+    .sf-preview-label {
+        font-size: 12px; font-weight: 700;
+        text-transform: uppercase; letter-spacing: 0.08em;
+        color: var(--sf-text-3);
+    }
+    .sf-preview-meta {
+        font-size: 12.5px; color: var(--sf-text-3);
+        font-family: "Cascadia Code", "JetBrains Mono", Consolas, monospace;
+    }
+    .sf-preview-body {
+        display: flex; flex-wrap: wrap; gap: 10px;
+        padding: 24px; background: var(--sf-surface);
+        align-items: center; justify-content: center;
+    }
+    /* SfButtonGroup inside the preview body should keep the
+       outline/colour demo buttons on a single line but still
+       wrap gracefully on small screens. */
+    .sf-preview-body .sf-btn-group-preview {
+        flex-wrap: wrap;
+        row-gap: 8px;
+    }
+
+    /* ---------- Run list ---------- */
+    .sf-run-list { list-style: none; padding: 0; margin: 0; display: grid; gap: 10px; }
+    .sf-run-list li {
+        display: grid; grid-template-columns: 180px 1fr; gap: 16px; align-items: start;
+        padding: 14px 16px;
+        background: var(--sf-surface);
+        border: 1px solid var(--sf-border);
+        border-radius: var(--sf-radius-md);
+    }
+    .sf-run-ide { font-weight: 700; color: var(--sf-text); font-size: 14px; }
+    .sf-run-desc { color: var(--sf-text-2); font-size: 14.5px; line-height: 1.55; }
+
+    /* ---------- Next steps ---------- */
+    .sf-next-steps { margin: 16px 0 40px 0; scroll-margin-top: 96px; }
+    .sf-next-steps h2 {
+        font-size: 32px; font-weight: 600; letter-spacing: -0.015em;
+        margin: 0 0 18px 0; color: var(--sf-text); line-height: 1.25;
+    }
+    .sf-next-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 14px; }
+    .sf-next-card {
+        display: flex; align-items: center; gap: 12px;
+        padding: 16px;
+        background: var(--sf-surface);
+        border: 1px solid var(--sf-border);
+        border-radius: var(--sf-radius-lg);
+        text-decoration: none; color: inherit;
+        transition: transform .15s ease, box-shadow .15s ease, border-color .15s ease;
+    }
+    .sf-next-card:hover {
+        transform: translateY(-2px);
+        box-shadow: var(--sf-shadow-md);
+        border-color: var(--sf-purple-200);
+        text-decoration: none;
+    }
+    .sf-next-icon {
+        width: 40px; height: 40px; border-radius: 10px;
+        display: inline-flex; align-items: center; justify-content: center;
+        flex-shrink: 0;
+    }
+    .sf-next-icon-purple { background: var(--sf-purple-50); color: var(--sf-purple); }
+    .sf-next-icon-blue   { background: #DBEAFE; color: #2563EB; }
+    .sf-next-icon-pink   { background: #FCE7F3; color: #DB2777; }
+    .sf-next-title { font-weight: 600; font-size: 14.5px; color: var(--sf-text); }
+    .sf-next-desc  { font-size: 13px; color: var(--sf-text-3); margin-top: 2px; }
+    .sf-next-arrow { color: var(--sf-text-muted); flex-shrink: 0; }
+    .sf-next-card:hover .sf-next-arrow { color: var(--sf-purple); }
+
+    /* ---------- Responsive ---------- */
+    @@media (max-width: 960px) {
+        .sf-hero-content { grid-template-columns: 1fr; }
+        .sf-hero-illustration { display: none; }
+        .sf-templates-grid { grid-template-columns: 1fr; }
+        .sf-templates-right { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+        .sf-next-grid { grid-template-columns: 1fr; }
+        .sf-run-list li { grid-template-columns: 1fr; gap: 4px; }
+        .sf-host-bar { grid-template-columns: 1fr; }
+    }
+    @@media (max-width: 640px) {
+        .sf-hero { padding: 28px 22px; }
+        .sf-hero h1 { font-size: 36px; }
+        .sf-section h2, .sf-next-steps h2 { font-size: 26px; }
+        .sf-templates-right { grid-template-columns: 1fr; }
+    }
+
+    /* ===============================================================
+       FORCED-COLORS — main content (.sf-doc-page)
+       ---------------------------------------------------------------
+       Uses system colours only so Aquatic / Desert / Dusk / Night sky
+       all receive the correct OS palette. No hard-coded yellow/violet.
+       Scoped to .sf-doc-page so left-nav / right-TOC are not affected.
+       =============================================================== */
+    @@media (forced-colors: active) {
+
+        .sf-doc-page {
+            background: Canvas !important;
+            color: CanvasText !important;
+            forced-color-adjust: none;
+        }
+
+        .sf-doc-page a {
+            color: LinkText !important;
+            -webkit-text-fill-color: LinkText !important;
+        }
+
+        .sf-doc-page a:hover {
+            text-decoration: underline !important;
+            border-color: Highlight !important;
+            color: Highlight !important;
+            -webkit-text-fill-color: Highlight !important;
+        }
+        .sf-doc-page a:focus-visible {
+            outline: 2px solid Highlight !important;
+            outline-offset: 2px !important;
+        }
+
+        .sf-doc-page strong,
+        .sf-doc-page b {
+            color: CanvasText !important;
+        }
+
+        .sf-doc-page code,
+        .sf-doc-page kbd,
+        .sf-doc-page samp {
+            color: CanvasText !important;
+            background-color: Canvas !important;
+            border: 1px solid CanvasText !important;
+            forced-color-adjust: none;
+        }
+
+        /* 1. Header / title area */
+        .sf-doc-page .sf-hero {
+            background: Canvas !important;
+            border: 1px solid CanvasText !important;
+            box-shadow: none !important;
+            color: CanvasText !important;
+        }
+        .sf-doc-page .sf-hero h1 {
+            color: CanvasText !important;
+        }
+        .sf-doc-page .sf-hero-subtitle {
+            color: CanvasText !important;
+        }
+        .sf-doc-page .sf-badge {
+            background: Canvas !important;
+            color: CanvasText !important;
+            border: 1px solid CanvasText !important;
+        }
+        .sf-doc-page .sf-badge svg {
+            color: CanvasText !important;
+        }
+        .sf-doc-page .sf-illust-dot,
+        .sf-doc-page .sf-illust-row,
+        .sf-doc-page .sf-illust-row-head {
+            background: Canvas !important;
+        }
+
+        /* 2. Section headings + step number markers */
+        .sf-doc-page .sf-section h2,
+        .sf-doc-page .sf-next-steps h2,
+        .sf-doc-page .sf-templates-left h2 {
+            color: CanvasText !important;
+        }
+        .sf-doc-page .sf-step-num {
+            background: Canvas !important;
+            color: CanvasText !important;
+            border: 2px solid CanvasText !important;
+            box-shadow: none !important;
+        }
+
+        /* 3. Body paragraphs, lists, checkmark icons */
+        .sf-doc-page .sf-section-lede,
+        .sf-doc-page .sf-templates-left p,
+        .sf-doc-page .sf-prereq-sub,
+        .sf-doc-page .sf-next-desc {
+            color: CanvasText !important;
+        }
+        .sf-doc-page p,
+        .sf-doc-page li {
+            background-color: Canvas !important;
+            color: ButtonText !important;
+        }
+        .sf-run-desc {
+            color: CanvasText !important;
+        }
+        .sf-doc-page .sf-prereq-icon {
+            color: CanvasText !important;
+            background: transparent !important;
+            border: 2px solid CanvasText !important;
+        }
+
+        /* =========================================================
+           FORCED-COLORS — TAB STRIP (.sf-tab / role="tab")
+           ------------------------------------------------------
+           State matrix (single source of truth):
+           · Rest              : Canvas      + ButtonText
+           · Hover             : Canvas      + Highlight  (foreground shift only)
+           · Selected          : Highlight   + HighlightText + 4 px Highlight underline
+           · Focused           : + 2 px CanvasText outline (independent layer)
+           · Sel + Hover       : Highlight   + HighlightText
+           · Sel + Focus       : Highlight   + HighlightText + CanvasText outline
+           · Hover + Focus     : Canvas      + Highlight     + CanvasText outline
+           · Sel + Hover + Focus: Highlight   + HighlightText + CanvasText outline
+
+           No rule below hard-codes yellow/black/white; every colour is
+           one of: Canvas, CanvasText, ButtonText, Highlight, HighlightText,
+           GrayText, LinkText. Works in all four HCM themes (Aquatic,
+           Desert, Dusk, Night sky). */
+        .sf-doc-page .sf-tab,
+        .sf-doc-page .sf-tabs-bar > .sf-tab,
+        .sf-doc-page .sf-tabs-bar .e-btn.sf-tab {
+            background: transparent !important;
+            color: ButtonText !important;
+            border: 0 !important;
+            forced-color-adjust: none;
+        }
+
+        /* Hover: foreground-only tilt (Highlight), no background swap.
+           Selection must never be replaced by hover. */
+        .sf-doc-page .sf-tab:hover,
+        .sf-doc-page .sf-tabs-bar > .sf-tab:hover,
+        .sf-doc-page .sf-tabs-bar .e-btn.sf-tab:hover {
+            color: Highlight !important;
+            background: transparent !important;
+        }
+
+        /* Selected — Highlight bar + HighlightText text + 4 px underline,
+           matching the Windows Properties dialog tab pattern. */
+        .sf-doc-page .sf-tab.is-active,
+        .sf-doc-page .sf-tabs-bar > .sf-tab.is-active,
+        .sf-doc-page .sf-tabs-bar .e-btn.sf-tab.is-active {
+            background: Highlight !important;
+            color: HighlightText !important;
+            border-bottom: 4px solid Highlight !important;
+            forced-color-adjust: none;
+        }
+
+        /* Selected + Hover: keep the Highlight chrome intact. The hover
+           rule does not paint over selection. */
+        .sf-doc-page .sf-tab.is-active:hover,
+        .sf-doc-page .sf-tabs-bar > .sf-tab.is-active:hover,
+        .sf-doc-page .sf-tabs-bar .e-btn.sf-tab.is-active:hover {
+            color: HighlightText !important;
+            background: Highlight !important;
+        }
+
+        /* Keyboard focus — 2 px CanvasText outline, drawn AROUND the
+           tab's bounding box, offset by 2 px so it doesn't crash into
+           the 4 px Highlight underline of selected tabs. Applied to
+           both focused-unselected and focused-selected tabs so the
+           outline position never shifts when selection toggles.
+           Color is reset to ButtonText in case focus follows hover. */
+        .sf-doc-page .sf-tab:focus-visible,
+        .sf-doc-page .sf-tabs-bar > .sf-tab:focus-visible,
+        .sf-doc-page .sf-tabs-bar .e-btn.sf-tab:focus-visible {
+            outline: 2px solid CanvasText !important;
+            outline-offset: 2px !important;
+            color: ButtonText !important;
+            forced-color-adjust: none;
+        }
+
+        /* Selected + Focused — Highlight chrome + CanvasText outline.
+           The outline is the ONLY paint difference between Selected+Focus
+           and Selected+Focused-Out, satisfying the accessibility brief. */
+        .sf-doc-page .sf-tab.is-active:focus-visible,
+        .sf-doc-page .sf-tabs-bar > .sf-tab.is-active:focus-visible,
+        .sf-doc-page .sf-tabs-bar .e-btn.sf-tab.is-active:focus-visible {
+            color: HighlightText !important;
+            background: Highlight !important;
+            border-bottom: 4px solid Highlight !important;
+            outline: 2px solid CanvasText !important;
+            outline-offset: 2px !important;
+        }
+
+        /* Suppress stale focus ring on a focus-out selected tab. */
+        .sf-doc-page .sf-tab:not(:focus-visible):focus {
+            outline: none !important;
+        }
+
+        /* 4. Tabs */
+        .sf-doc-page .sf-tabs-card {
+            background: Canvas !important;
+            border: 1px solid CanvasText !important;
+            box-shadow: none !important;
+        }
+        .sf-doc-page .sf-tabs-bar {
+            background: Canvas !important;
+            border-bottom: 1px solid CanvasText !important;
+        }
+        .sf-doc-page .sf-tab svg,
+        .sf-doc-page .sf-tab.is-active svg {
+            color: currentColor !important;
+        }
+
+        /* 5. Notes / callouts / alerts */
+        .sf-doc-page .sf-tip {
+            background: Canvas !important;
+            border: 1px solid CanvasText !important;
+            border-left: 6px solid CanvasText !important;
+            color: CanvasText !important;
+        }
+        .sf-doc-page .sf-tip-icon,
+        .sf-doc-page .sf-tip-title {
+            color: CanvasText !important;
+            background: transparent !important;
+        }
+        .sf-doc-page .sf-tip-body {
+            color: CanvasText !important;
+        }
+        .sf-doc-page .sf-tip-body code {
+            color: CanvasText !important;
+        }
+        .sf-doc-page .sf-banner,
+        .sf-doc-page .sf-banner-success {
+            background: Canvas !important;
+            border: 1px solid CanvasText !important;
+            border-left: 6px solid CanvasText !important;
+            color: CanvasText !important;
+        }
+        .sf-doc-page .sf-banner-icon,
+        .sf-doc-page .sf-banner-title {
+            color: CanvasText !important;
+        }
+        .sf-doc-page .sf-banner-sub {
+            color: CanvasText !important;
+        }
+        .sf-doc-page .sf-banner-sub code {
+            background: transparent !important;
+            color: CanvasText !important;
+            border: 0 !important;
+        }
+        .sf-doc-page .sf-vs-callout {
+            background: Canvas !important;
+            color: CanvasText !important;
+            border-top: 1px solid ButtonText !important;
+        }
+        .sf-doc-page .sf-vs-callout p {
+            color: CanvasText !important;
+        }
+        .sf-doc-page .sf-vs-callout strong {
+            color: ButtonText !important;
+        }
+
+        /* 6. Cards & panels */
+        .sf-doc-page .sf-templates {
+            background: Canvas !important;
+            border: 1px solid CanvasText !important;
+            box-shadow: none !important;
+        }
+        .sf-doc-page .sf-templates::before {
+            display: none !important;
+        }
+        .sf-doc-page .sf-templates-icon {
+            background: Canvas !important;
+            color: CanvasText !important;
+            border: 1px solid CanvasText !important;
+            box-shadow: none !important;
+        }
+        .sf-doc-page .sf-host-option {
+            background: Canvas !important;
+            border: 1px solid ButtonText !important;
+            color: CanvasText !important;
+        }
+        .sf-doc-page .sf-host-option:hover {
+            border-color: Highlight !important;
+        }
+        .sf-doc-page .sf-host-option.is-active::before {
+            display: none !important;
+        }
+
+        .e-radio+label::before {
+            background-color: Canvas !important;
+            border-color: ButtonText !important;
+        }
+
+        .e-radio:checked+label::after {
+            background-color: ButtonText !important;
+            color: ButtonText !important;
+        }
+
+        .sf-doc-page .sf-host-option .e-radio-wrapper,
+        .sf-doc-page .sf-host-option .e-radio-wrapper .e-label,
+        .sf-doc-page .sf-host-option .sf-host-sub {
+            color: CanvasText !important;
+            outline: none !important;
+        }
+        .sf-doc-page .sf-template-mini,
+        .sf-doc-page .sf-prereq-list li,
+        .sf-doc-page .sf-next-card {
+            background: Canvas !important;
+            border: 1px solid CanvasText !important;
+            color: CanvasText !important;
+        }
+
+        .sf-doc-page .sf-next-card {
+            border: 1px solid ButtonText !important;
+        }
+
+        .sf-doc-page .sf-next-title, .sf-doc-page .sf-next-desc  {
+            color: ButtonText !important;
+        }
+
+        .sf-doc-page .sf-host-option:hover .e-radio+label::before,
+        .sf-doc-page .sf-host-option:hover .e-radio:checked+label::after
+        {
+            background-color: Canvas !important;
+            border-color: Highlight !important;
+        }
+
+        .sf-doc-page .sf-host-option:focus-within {
+            outline: 2px solid CanvasText !important;
+            outline-offset: 2px !important;
+        }
+
+        .sf-next-card:hover .sf-next-title,
+        .sf-next-card:hover .sf-next-desc,
+        .sf-next-card:hover .sf-next-icon,
+        .sf-next-card:hover .sf-next-arrow 
+        {
+            color: Highlight !important;
+            border-color: Highlight !important;
+            box-shadow: none !important;
+            forced-color-adjust: none;
+        }
+        
+        .sf-doc-page .sf-template-mini::after {
+            display: none !important;
+        }
+        .sf-doc-page .sf-template-mini-chip {
+            background: Canvas !important;
+            color: CanvasText !important;
+        }
+        .sf-doc-page .sf-template-mini-title,
+        .sf-doc-page .sf-prereq-title,
+        .sf-doc-page .sf-run-ide {
+            color: CanvasText !important;
+        }
+        .sf-template-mini-sub {
+            color: CanvasText !important;
+        }
+        .sf-doc-page .sf-next-icon,
+        .sf-doc-page .sf-next-icon-purple,
+        .sf-doc-page .sf-next-icon-blue,
+        .sf-doc-page .sf-next-icon-pink {
+            background: Canvas !important;
+            color: ButtonText !important;
+            border: 1px solid ButtonText !important;
+        }
+        .sf-doc-page .sf-next-arrow {
+            color: ButtonText !important;
+        }
+        .sf-doc-page .sf-prereq-sub a {
+            color: LinkText !important;
+        }
+
+        /* 7. Code blocks */
+        .sf-doc-page .sf-code-card,
+        .sf-doc-page .sf-preview-card {
+            background: Canvas !important;
+            border: 1px solid CanvasText !important;
+            box-shadow: none !important;
+        }
+        .sf-doc-page .sf-preview-head {
+            background: Canvas !important;
+            border-bottom: 1px solid CanvasText !important;
+            color: CanvasText !important;
+        }
+        .sf-doc-page .sf-preview-label,
+        .sf-doc-page .sf-preview-meta {
+            color: GrayText !important;
+        }
+        .sf-doc-page .sf-preview-body {
+            background: Canvas !important;
+        }
+        .sf-doc-page pre,
+        .sf-doc-page pre *,
+        .sf-doc-page .hljs {
+            color: CanvasText !important;
+            background: Canvas !important;
+        }
+
+        /* 8. Buttons (main content) */
+        .sf-doc-page .sf-btn {
+            background: ButtonFace !important;
+            color: ButtonText !important;
+            border: 1px solid ButtonText !important;
+            box-shadow: none !important;
+            forced-color-adjust: none;
+        }
+        .sf-doc-page .sf-btn:hover,
+        .sf-doc-page .sf-btn:focus-visible {
+            forced-color-adjust: none;
+            color: Highlight !important;
+            background-color: HighlightText !important;
+            border-color: Highlight !important;
+        }
+        
+        .sf-doc-page .sf-btn-default {
+            color: ButtonText !important;
+        }
+        .sf-doc-page .sf-btn-success,
+        .sf-doc-page .sf-btn-info,
+        .sf-doc-page .sf-btn-warning,
+        .sf-doc-page .sf-btn-danger {
+            background: ButtonFace !important;
+            color: ButtonText !important;
+            border: 1px solid ButtonText !important;
+        }
+    }
+</style>
 
 @code {
-    private string ProgamCode = @"@using Syncfusion.Blazor.Toolkit;
+    // Active host model. Bound to the SfRadioButton<string> group above.
+    // Allowed values: "webapp" (Blazor Web App) or "wasm" (Blazor WebAssembly).
+    // Exposed as a property so switching hosts can also reset the
+    // per-host "create project IDE" tab (mimics the old SwitchHost
+    // helper, but driven by the radio's @bind-Checked two-way binding).
+    private string _activeHostBacking = "webapp";
+    private string _activeHost
+    {
+        get => _activeHostBacking;
+        set
+        {
+            if (string.Equals(_activeHostBacking, value, StringComparison.Ordinal))
+            {
+                return;
+            }
+            _activeHostBacking = value;
+            _activeCreateIde = 0;
+        }
+    }
+    private int _activeCreateIde = 0;
+    private int _activeInstallTab = 0;
 
-var builder = WebApplication.CreateBuilder(args);
-builder.Services.AddRazorComponents().AddInteractiveServerComponents();
+    // Right-sidebar TOC.
+    private static readonly IReadOnlyList<RightToc.TocItem> TocItemsList = new RightToc.TocItem[]
+    {
+        new("using-templates", "Using Templates"),
+        new("prerequisites", "Prerequisites"),
+        new("create-a-new-blazor-app", "Create a New Project"),
+        new("install-syncfusion-blazor-toolkit-package", "Install Syncfusion Blazor Toolkit Package"),
+        new("add-import-namespaces", "Add Import Namespaces"),
+        new("register-syncfusion-blazor-toolkit-service", "Register Syncfusion Blazor Toolkit Service"),
+        new("add-stylesheet-reference", "Add Stylesheet Reference"),
+        new("add-syncfusion-blazor-component", "Add Syncfusion Component"),
+        new("run-the-application", "Run the Application"),
+        new("next-steps", "Next Steps"),
+    };
 
-// Register Syncfusion Toolkit services
-builder.Services.AddSyncfusionBlazorToolkit();
-var app = builder.Build(); ";
+    protected override IReadOnlyList<RightToc.TocItem> TocItems => TocItemsList;
 
-    private string UsageExample = @"@using Syncfusion.Blazor.Toolkit
+    // ----- Host-specific text -----
+    private string _hostTitle => _activeHost switch
+    {
+        "wasm" => "Blazor WebAssembly",
+        _ => "Blazor Web App",
+    };
 
-<SfButton CssClass=""e-primary"">Primary Button></SfButton>";
+    private string _createLede => _activeHost switch
+    {
+        "wasm" => "Create a new Blazor WebAssembly standalone project using the blazortoolkitwasm template, or use your favorite IDE.",
+        _ => "Create a new Blazor Web App project with the Auto interactivity mode using the blazortoolkitweb template, or use your favorite IDE.",
+    };
+
+    private string _createTip => _activeHost switch
+    {
+        "wasm" => "Use --pwa to add Progressive Web App support, including a service worker and web manifest.",
+        _ => "Use the --interactivity flag to pick Auto, Server, or WebAssembly rendering modes, and -ai to enable global interactivity.",
+    };
+
+    // ----- Create: dotnet new command per host model -----
+    // The CLI and VS Code tabs render a terminal snippet via
+    // <CodePreview> (fileName + source file below). The Visual
+    // Studio tab is rendered inline directly in the markup above,
+    // so it does not appear in these lookups.
+    private string _createFileName => _activeCreateIde switch
+    {
+        2 => "VS Code Terminal",
+        _ => "terminal",
+    };
+
+    private string _createSourceFile => _activeHost == "wasm"
+        ? "/Pages/Demos/GettingStarted/BlazorWebAssemblyApp/CreateProjectCli.razor"
+        : "/Pages/Demos/GettingStarted/BlazorWebApp/CreateProjectCli.razor";
+
+    // ----- Install package (shared across hosts) -----
+    // The CLI and VS Code tabs render a terminal snippet via
+    // <CodePreview> (fileName + source file below). The Visual
+    // Studio tab is rendered inline directly in the markup above,
+    // so it does not appear in these lookups.
+    private string _installFileName => _activeInstallTab switch
+    {
+        2 => "VS Code Terminal",
+        _ => "terminal",
+    };
+
+    private string _installSourceFile =>
+        "/Pages/Demos/GettingStarted/BlazorWebApp/InstallDotnetCli.razor";
+
+    // ----- Program.cs per host model -----
+    private string _programFileName => "Program.cs";
+
+    private string _programSourceFile => _activeHost == "wasm"
+        ? "/Pages/Demos/GettingStarted/BlazorWebAssemblyApp/ProgramCs.razor"
+        : "/Pages/Demos/GettingStarted/BlazorWebApp/ProgramCs.razor";
+
+    // ----- Stylesheet per host model -----
+    private string _stylesheetTarget => _activeHost switch
+    {
+        "wasm" => "the <head> of your <code>index.html</code> file",
+        _ => "the <code>Head</code> section of your <code>App.razor</code> file",
+    };
+
+    private string _stylesheetFileName => _activeHost == "wasm" ? "index.html" : "App.razor";
+
+    private string _stylesheetSourceFile => _activeHost == "wasm"
+        ? "/Pages/Demos/GettingStarted/BlazorWebAssemblyApp/IndexHeadCommon.razor"
+        : "/Pages/Demos/GettingStarted/BlazorWebApp/AppHeadCommon.razor";
+
+    // ----- Add component: Home.razor render mode + usage -----
+    private string _homeRenderModeSourceFile => _activeHost == "wasm"
+        ? "/Pages/Demos/GettingStarted/BlazorWebAssemblyApp/HomeRendermode.razor"
+        : "/Pages/Demos/GettingStarted/BlazorWebApp/HomeRendermodeAuto.razor";
+
+    private string _usageSourceFile => _activeHost == "wasm"
+        ? "/Pages/Demos/GettingStarted/BlazorWebAssemblyApp/UsageExample.razor"
+        : "/Pages/Demos/GettingStarted/BlazorWebApp/UsageExample.razor";
+
+    // ----- Run-time description -----
+    private string _runLede => _activeHost switch
+    {
+        "wasm" => "The Blazor WebAssembly app will compile and launch in your default browser. The Syncfusion component renders once the WebAssembly runtime has loaded.",
+        _ => "The app will launch in your default web browser, displaying the Syncfusion Blazor Toolkit Button component.",
+    };
 }

@@ -1,0 +1,21 @@
+﻿<div id="target-resize">
+    <div>
+        <SfButton Content="Open Resize Dialog" @onclick="@OpenResizeDialog"></SfButton>
+    </div>
+    <SfDialog Target="#target-resize" Width="300px" ShowCloseIcon="true" EnableResize="true" ResizeHandles="@dialogResizeDirections" @bind-Visible="@IsResizeVisible" Header="Resize Dialog" Content="This is a resizing Dialog">
+    </SfDialog>
+</div>
+@code {
+    private bool IsResizeVisible { get; set; } = false;
+    private ResizeDirection[] dialogResizeDirections { get; set; } = new ResizeDirection[] { ResizeDirection.All };
+    private void OpenResizeDialog()
+    {
+        this.IsResizeVisible = true;
+    }
+}
+<style>
+    #target-resize {
+        height: 400px;
+        width: 700px;
+    }
+</style>

@@ -1,0 +1,110 @@
+
+<SfChart @key="@_currentTheme" Title="Annual Change in Hydropower Generation" Theme="@_currentTheme">
+
+    <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Toolkit.ValueType.Category">
+    </ChartPrimaryXAxis>
+
+    <ChartPrimaryYAxis Interval="200"
+                       Format="{value}TWh">
+        <ChartAxisLineStyle Width="0" />
+    </ChartPrimaryYAxis>
+
+
+    <ChartSeries DataSource="@ChinaLegendAlignData"
+                 XName="Year"
+                 YName="Value"
+                 Name="China"
+                 Type="ChartSeriesType.Line"
+                 LegendShape="LegendShape.Circle"
+                 Fill="#5DB996">
+        <ChartMarker Visible="true" Height="7" Width="7" />
+    </ChartSeries>
+
+    <ChartSeries DataSource="@FranceLegendAlignData"
+                 XName="Year"
+                 YName="Value"
+                 Name="France"
+                 Type="ChartSeriesType.Line"
+                 LegendShape="LegendShape.Circle"
+                 Fill="#FF748B">
+        <ChartMarker Visible="true" Height="7" Width="7" />
+    </ChartSeries>
+
+    <ChartSeries DataSource="@GermanyLegendAlignData"
+                 XName="Year"
+                 YName="Value"
+                 Name="Germany"
+                 Type="ChartSeriesType.Line"
+                 LegendShape="LegendShape.Circle"
+                 Fill="#60B5FF">
+        <ChartMarker Visible="true" Height="7" Width="7" />
+    </ChartSeries>
+
+
+    <ChartTooltipSettings Enable="true"
+                          Header="${point.x}"
+                          Format="${series.name} : <b>${point.y}</b>" />
+
+    <ChartLegendSettings Visible="true"
+                         Alignment="Alignment.Far">
+    </ChartLegendSettings>
+
+</SfChart>
+
+@code {
+    [CascadingParameter]
+    private Theme CurrentTheme { get; set; } = Theme.Fluent;
+
+    private Theme _currentTheme = Theme.Fluent;
+
+    protected override void OnParametersSet()
+    {
+        base.OnParametersSet();
+        _currentTheme = CurrentTheme;
+    }
+
+    public class HydroPowerData
+    {
+        public int Year { get; set; }
+        public double Value { get; set; }
+    }
+
+    public List<HydroPowerData> ChinaLegendAlignData = new()
+    {
+        new() { Year = 2008, Value = 390.03748 }, new() { Year = 2009, Value = -64.7699 },
+        new() { Year = 2010, Value = 236.69678 }, new() { Year = 2011, Value = -70.0603 },
+        new() { Year = 2012, Value = 441.19617 }, new() { Year = 2013, Value = 102.67798 },
+        new() { Year = 2014, Value = 370.04224 }, new() { Year = 2015, Value = 125.1416 },
+        new() { Year = 2016, Value = 76.09912 }, new() { Year = 2017, Value = 15.005371 },
+        new() { Year = 2018, Value = 69.643555 }, new() { Year = 2019, Value = 167.54053 },
+        new() { Year = 2020, Value = 113.63257 }, new() { Year = 2021, Value = -61.508545 },
+        new() { Year = 2022, Value = -12.481445 }, new() { Year = 2023, Value = -199.2561 },
+        new() { Year = 2024, Value = 312.82642 }
+    };
+
+    public List<HydroPowerData> FranceLegendAlignData = new()
+    {
+        new() { Year = 2008, Value = 14.750366 }, new() { Year = 2009, Value = -18.361954 },
+        new() { Year = 2010, Value = 13.727158 }, new() { Year = 2011, Value = -47.129738 },
+        new() { Year = 2012, Value = 35.310112 }, new() { Year = 2013, Value = 29.68428 },
+        new() { Year = 2014, Value = -21.312805 }, new() { Year = 2015, Value = -21.750671 },
+        new() { Year = 2016, Value = 12.44249 }, new() { Year = 2017, Value = -28.150238 },
+        new() { Year = 2018, Value = 36.583313 }, new() { Year = 2019, Value = -20.311996 },
+        new() { Year = 2020, Value = 13.672607 }, new() { Year = 2021, Value = -7.8893585 },
+        new() { Year = 2022, Value = -35.693787 }, new() { Year = 2023, Value = 27.132172 },
+        new() { Year = 2024, Value = 37.042023 }
+    };
+
+    public List<HydroPowerData> GermanyLegendAlignData = new()
+    {
+        new() { Year = 2008, Value = -2.3638763 }, new() { Year = 2009, Value = -3.9891853 },
+        new() { Year = 2010, Value = 4.614971 }, new() { Year = 2011, Value = -8.785313 },
+        new() { Year = 2012, Value = 10.289795 }, new() { Year = 2013, Value = 2.748829 },
+        new() { Year = 2014, Value = -8.978718 }, new() { Year = 2015, Value = -1.7966614 },
+        new() { Year = 2016, Value = 3.580082 }, new() { Year = 2017, Value = -1.2481155 },
+        new() { Year = 2018, Value = -6.3625603 }, new() { Year = 2019, Value = 4.8266716 },
+        new() { Year = 2020, Value = -3.5996056 }, new() { Year = 2021, Value = 3.1777763 },
+        new() { Year = 2022, Value = -5.8821435 }, new() { Year = 2023, Value = -0.56994116 },
+        new() { Year = 2024, Value = 1.0028775 }
+    };
+}

@@ -1,0 +1,141 @@
+﻿<div class="tooltip-sample-container">
+
+    <div class="position-selector">
+
+        <label class="fw-bold d-block mb-2">
+            Tooltip Position
+        </label>
+
+        <div class="mb-3">
+            <label class="d-block mb-1">Top Positions</label>
+
+            <SfButtonGroup Mode="SelectionMode.Single">
+                <Button Selected="@IsSelected(Position.TopLeft)"
+                        SelectedChanged="@(v => SetPosition(v, Position.TopLeft))">
+                    Top Left
+                </Button>
+
+                <Button Selected="@IsSelected(Position.TopCenter)"
+                        SelectedChanged="@(v => SetPosition(v, Position.TopCenter))">
+                    Top Center
+                </Button>
+
+                <Button Selected="@IsSelected(Position.TopRight)"
+                        SelectedChanged="@(v => SetPosition(v, Position.TopRight))">
+                    Top Right
+                </Button>
+            </SfButtonGroup>
+        </div>
+
+        <div class="mb-3">
+            <label class="d-block mb-1">Bottom Positions</label>
+
+            <SfButtonGroup Mode="SelectionMode.Single">
+                <Button Selected="@IsSelected(Position.BottomLeft)"
+                        SelectedChanged="@(v => SetPosition(v, Position.BottomLeft))">
+                    Bottom Left
+                </Button>
+
+                <Button Selected="@IsSelected(Position.BottomCenter)"
+                        SelectedChanged="@(v => SetPosition(v, Position.BottomCenter))">
+                    Bottom Center
+                </Button>
+
+                <Button Selected="@IsSelected(Position.BottomRight)"
+                        SelectedChanged="@(v => SetPosition(v, Position.BottomRight))">
+                    Bottom Right
+                </Button>
+            </SfButtonGroup>
+        </div>
+
+        <div class="mb-3">
+            <label class="d-block mb-1">Left Positions</label>
+
+            <SfButtonGroup Mode="SelectionMode.Single">
+                <Button Selected="@IsSelected(Position.LeftTop)"
+                        SelectedChanged="@(v => SetPosition(v, Position.LeftTop))">
+                    Left Top
+                </Button>
+
+                <Button Selected="@IsSelected(Position.LeftCenter)"
+                        SelectedChanged="@(v => SetPosition(v, Position.LeftCenter))">
+                    Left Center
+                </Button>
+
+                <Button Selected="@IsSelected(Position.LeftBottom)"
+                        SelectedChanged="@(v => SetPosition(v, Position.LeftBottom))">
+                    Left Bottom
+                </Button>
+            </SfButtonGroup>
+        </div>
+
+        <div class="mb-3">
+            <label class="d-block mb-1">Right Positions</label>
+
+            <SfButtonGroup Mode="SelectionMode.Single">
+                <Button Selected="@IsSelected(Position.RightTop)"
+                        SelectedChanged="@(v => SetPosition(v, Position.RightTop))">
+                    Right Top
+                </Button>
+
+                <Button Selected="@IsSelected(Position.RightCenter)"
+                        SelectedChanged="@(v => SetPosition(v, Position.RightCenter))">
+                    Right Center
+                </Button>
+
+                <Button Selected="@IsSelected(Position.RightBottom)"
+                        SelectedChanged="@(v => SetPosition(v, Position.RightBottom))">
+                    Right Bottom
+                </Button>
+            </SfButtonGroup>
+        </div>
+
+    </div>
+
+    <div class="tooltip-target-section">
+        <SfTooltip Position="@CurrentPosition"
+                   Content="@TooltipContent">
+            <SfButton Content="Show Tooltip"></SfButton>
+        </SfTooltip>
+    </div>
+
+</div>
+
+<style>
+    .tooltip-sample-container {
+        display: flex;
+        flex-direction: column;
+        gap: 24px;
+    }
+
+    .position-selector {
+        width: 100%;
+    }
+
+    .tooltip-target-section {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        min-height: 180px;
+    }
+</style>
+
+@code {
+
+    private Position CurrentPosition = Position.TopCenter;
+
+    private string TooltipContent = "This is a tooltip";
+
+    private bool IsSelected(Position position)
+    {
+        return CurrentPosition == position;
+    }
+
+    private void SetPosition(bool selected, Position position)
+    {
+        if (selected)
+        {
+            CurrentPosition = position;
+        }
+    }
+}

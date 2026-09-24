@@ -1,0 +1,126 @@
+@*
+    This demo reads its monthly temperature-anomaly series from the shared
+    static helper:
+
+        ZoomDataSource.cs  (same folder)
+
+    `ZoomDataSource.Values` is a pre-populated `double[]` of 1500 anomaly
+    readings. The demo converts that array into chart points at runtime in
+    `OnInitialized`. To run this demo standalone, copy `ZoomDataSource.cs`
+    into the same folder as this .razor file.
+
+    Unlike the rest of the chart demos (which embed their data inline), the
+    ZoomingAndPanning samples all share the same source series so the
+    zoom/pan/selection interactions look consistent across the section.
+*@
+@using Syncfusion.Blazor.Toolkit.Buttons
+<div class="property-pane" style="margin-bottom:20px;">
+    <div style="display:flex; gap:20px; align-items:center;">
+        <div>
+            <label>
+                <b>Horizontal Alignment:</b>
+            </label><br />
+            <SfButtonGroup Mode="SelectionMode.Single">
+                <Button SelectedChanged="@(v => SelectedChangeHorizontalAlign(v, HorizontalAlign.Left))" Selected="IsChangedHorizontalAlign(HorizontalAlign.Left)">Left</Button>
+                <Button SelectedChanged="@(v => SelectedChangeHorizontalAlign(v, HorizontalAlign.Center))" Selected="IsChangedHorizontalAlign(HorizontalAlign.Center)">Center</Button>
+                <Button SelectedChanged="@(v => SelectedChangeHorizontalAlign(v, HorizontalAlign.Right))" Selected="IsChangedHorizontalAlign(HorizontalAlign.Right)">Right</Button>
+            </SfButtonGroup>
+        </div>
+
+        <div>
+            <label>
+                <b>Vertical Alignment:</b>
+            </label><br />
+            <SfButtonGroup Mode="SelectionMode.Single">
+                <Button SelectedChanged="@(v => SelectedChangeVerticalAlign(v, VerticalAlign.Top))" Selected="IsChangedVerticalAlign(VerticalAlign.Top)">Top</Button>
+                <Button SelectedChanged="@(v => SelectedChangeVerticalAlign(v, VerticalAlign.Middle))" Selected="IsChangedVerticalAlign(VerticalAlign.Middle)">Middle</Button>
+                <Button SelectedChanged="@(v => SelectedChangeVerticalAlign(v, VerticalAlign.Bottom))" Selected="IsChangedVerticalAlign(VerticalAlign.Bottom)">Bottom</Button>
+            </SfButtonGroup>
+        </div>
+    </div>
+</div>
+
+<SfChart @key="@_currentTheme" Title="Global Warming: Monthly Temperature Anomalies" Theme="@_currentTheme">
+    <ChartZoomSettings EnableSelectionZooming="true"
+                       EnablePan="true"
+                       ToolbarDisplayMode="ToolbarMode.Always">
+        <ChartZoomToolbarPosition
+            HorizontalAlign="@ToolbarHorizontalAlign"
+            VerticalAlign="@ToolbarVerticalAlign"
+            X="5"
+            Y="20" />
+    </ChartZoomSettings>
+
+    <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Toolkit.ValueType.DateTime" />
+
+    <ChartPrimaryYAxis Format="{value}°C" Title="Temperature Anomaly (°C)" Interval="0.3">
+    </ChartPrimaryYAxis>
+
+    <ChartTooltipSettings Enable="true"
+                          Format="Temperature: <b>${point.y}</b>" />
+
+    <ChartSeries DataSource="@temperatureSeriesUnique"
+                 XName="TimeStamp"
+                 YName="TemperatureValue"
+                 Type="ChartSeriesType.Area"
+                 Fill="#2B95C9"
+                 Opacity="0.8">
+    </ChartSeries>
+</SfChart>
+
+@code {
+    [CascadingParameter]
+    private Theme CurrentTheme { get; set; } = Theme.Fluent;
+
+    private Theme _currentTheme = Theme.Fluent;
+
+    protected override void OnParametersSet()
+    {
+        base.OnParametersSet();
+        _currentTheme = CurrentTheme;
+    }
+
+    private HorizontalAlign ToolbarHorizontalAlign = HorizontalAlign.Left;
+    private VerticalAlign ToolbarVerticalAlign = VerticalAlign.Middle;
+
+    private List<TemperaturePointUnique> temperatureSeriesUnique = new();
+
+    protected override void OnInitialized()
+    {
+        DateTime toolbarStartDate = new DateTime(1941, 1, 1);
+        for (int i = 1; i < ZoomDataSource.Values.Length; i++)
+        {
+            temperatureSeriesUnique.Add(new TemperaturePointUnique
+            {
+                TimeStamp = toolbarStartDate.AddMonths(i),
+                TemperatureValue = (ZoomDataSource.Values[i] / 1000.0) - 0.5
+            });
+        }
+    }
+
+    private void SelectedChangeHorizontalAlign(bool isSelected, HorizontalAlign horizontalAlign)
+    {
+        if (isSelected) ToolbarHorizontalAlign = horizontalAlign;
+    }
+
+    private bool IsChangedHorizontalAlign(HorizontalAlign horizontalAlign)
+    {
+        return ToolbarHorizontalAlign == horizontalAlign;
+    }
+
+    private void SelectedChangeVerticalAlign(bool isSelected, VerticalAlign verticalAlign)
+    {
+        if (isSelected) ToolbarVerticalAlign = verticalAlign;
+    }
+
+    private bool IsChangedVerticalAlign(VerticalAlign verticalAlign)
+    {
+        return ToolbarVerticalAlign == verticalAlign;
+    }
+
+    public class TemperaturePointUnique
+    {
+        public DateTime TimeStamp { get; set; }
+        public double TemperatureValue { get; set; }
+    }
+}

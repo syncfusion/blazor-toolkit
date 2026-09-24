@@ -1,0 +1,65 @@
+<SfChart @key="@_currentTheme" Title="France's Inflation Rate (%) Over Time" Width="100%" Height="400px" Theme="@_currentTheme">
+    <ChartTooltipSettings Enable="true"
+                          Header="<b>France</b>" />
+
+    <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Toolkit.ValueType.DateTime"
+                       IntervalType="IntervalType.Years"
+                       Minimum="@MinDate"
+                       Maximum="@MaxDate"
+                       LabelFormat="yyyy"
+                       EdgeLabelPlacement="EdgeLabelPlacement.Shift">
+    </ChartPrimaryXAxis>
+
+    <ChartPrimaryYAxis Format="{value}%" Maximum="4" Interval="1">
+        <ChartAxisLineStyle Width="0" />
+        <ChartAxisLabelStyle />
+    </ChartPrimaryYAxis>
+
+    <ChartSeries DataSource="@SplineAreaData"
+                 XName="X"
+                 YName="Y1"
+                 Type="ChartSeriesType.SplineArea"
+                 Opacity="0.4"
+                 Width="2"
+                 Fill="#D6FF89" DashArray="5,5">
+        <ChartSeriesBorder Width="2"
+                           Color="@BorderColor" />
+    </ChartSeries>
+</SfChart>
+
+@code {
+    [CascadingParameter]
+    private Theme CurrentTheme { get; set; } = Theme.Fluent;
+
+    private Theme _currentTheme = Theme.Fluent;
+
+    protected override void OnParametersSet()
+    {
+        base.OnParametersSet();
+        _currentTheme = CurrentTheme;
+    }
+
+    private DateTime MinDate = new DateTime(2002, 1, 1);
+    private DateTime MaxDate = new DateTime(2011, 1, 1);
+    private string BorderColor = "#71AD01";
+
+    public class InflationData
+    {
+        public DateTime X { get; set; }
+        public double Y1 { get; set; }
+    }
+
+    public List<InflationData> SplineAreaData = new()
+    {
+        new() { X = new DateTime(2002, 1, 1), Y1 = 2.2 },
+        new() { X = new DateTime(2003, 1, 1), Y1 = 3.4 },
+        new() { X = new DateTime(2004, 1, 1), Y1 = 2.8 },
+        new() { X = new DateTime(2005, 1, 1), Y1 = 1.6 },
+        new() { X = new DateTime(2006, 1, 1), Y1 = 2.3 },
+        new() { X = new DateTime(2007, 1, 1), Y1 = 2.5 },
+        new() { X = new DateTime(2008, 1, 1), Y1 = 2.9 },
+        new() { X = new DateTime(2009, 1, 1), Y1 = 1.1 },
+        new() { X = new DateTime(2010, 1, 1), Y1 = 1.4 },
+        new() { X = new DateTime(2011, 1, 1), Y1 = 1.1 }
+    };
+}

@@ -1,6 +1,7 @@
 @page "/charts/axis-labels"
-@using Syncfusion.Blazor.Toolkit.Buttons
-@using Syncfusion.Blazor.Toolkit.Charts
+@inherits TocPublishingComponentBase
+
+@using Blazor.Toolkit.Samples.Client.Pages.Demos.Charts.AxisConfiguration.AxisLabels
 
 <PageTitle>Blazor Chart Axis Labels Demo | Syncfusion Toolkit</PageTitle>
 
@@ -9,7 +10,7 @@
      ───────────────────────────────────────────── -->
 <Description>
     <Header>
-        <h5><b>Smart Axis Label</b></h5>
+        <h1 id="smart-axis-label">Smart Axis Label</h1>
     </Header>
     <Content>
         Smart axis labels automatically handle overlapping labels on the categorical
@@ -24,105 +25,14 @@
     </Content>
 </Description>
 
-<VirtualizeSection MinHeightPx="600px">
-    <CodePreview IsFullWidth="true" CodeSection="@SmartAxisLabelCode">
-    <PreviewSection>
-        <!-- PROPERTY PANEL --> 
-        <div class="mb-4">
-            <label class="fw-bold d-block mb-2">Intersect Mode</label>
-
-            <SfButtonGroup Mode="SelectionMode.Single">
-                <Button Selected="@IsSelected(LabelIntersectAction.None)"
-                                   SelectedChanged="@(v => OnModeChanged(v, LabelIntersectAction.None))">
-                    None
-                </Button>
-
-                <Button Selected="@IsSelected(LabelIntersectAction.Hide)"
-                                   SelectedChanged="@(v => OnModeChanged(v, LabelIntersectAction.Hide))">
-                    Hide
-                </Button>
-
-                <Button Selected="@IsSelected(LabelIntersectAction.Trim)"
-                                   SelectedChanged="@(v => OnModeChanged(v, LabelIntersectAction.Trim))">
-                    Trim
-                </Button>
-
-                <Button Selected="@IsSelected(LabelIntersectAction.Wrap)"
-                                   SelectedChanged="@(v => OnModeChanged(v, LabelIntersectAction.Wrap))">
-                    Wrap
-                </Button>
-
-                <Button Selected="@IsSelected(LabelIntersectAction.MultipleRows)"
-                                   SelectedChanged="@(v => OnModeChanged(v, LabelIntersectAction.MultipleRows))">
-                    Multiple Rows
-                </Button>
-
-                <Button Selected="@IsSelected(LabelIntersectAction.Rotate45)"
-                                   SelectedChanged="@(v => OnModeChanged(v, LabelIntersectAction.Rotate45))">
-                    Rotate 45
-                </Button>
-
-                <Button Selected="@IsSelected(LabelIntersectAction.Rotate90)"
-                                   SelectedChanged="@(v => OnModeChanged(v, LabelIntersectAction.Rotate90))">
-                    Rotate 90
-                </Button>
-            </SfButtonGroup>
-        </div>
-
-        <!-- CHART -->
-        <SfChart @key="@_currentTheme" Title="Internet Users in Millions" Theme="@_currentTheme">
-            <ChartArea>
-                <ChartAreaBorder Width="0" />
-            </ChartArea>
-
-            <!-- TOOLTIP -->
-            <ChartTooltipSettings Enable="true"
-                                  Header="${point.x}"
-                                  Format="Internet Users : <b>${point.y}</b>"
-                                  EnableHighlight="true" />
-
-            <!-- X AXIS -->
-            <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Toolkit.ValueType.Category"
-                               LabelIntersectAction="@IntersectMode">
-                <ChartAxisMajorGridLines Width="0" />
-                <ChartAxisMajorTickLines Width="0" />
-                <ChartAxisMinorTickLines Width="0" />
-            </ChartPrimaryXAxis>
-
-
-            <!-- Y AXIS -->
-            <ChartPrimaryYAxis>
-                <ChartAxisLineStyle Width="0" />
-                <ChartAxisMajorTickLines Width="0" />
-            </ChartPrimaryYAxis>
-
-            <!-- SERIES -->
-            
-                <ChartSeries DataSource="@SmartLabelData"
-                             XName="X"
-                             YName="Y"
-                             Type="ChartSeriesType.Column"
-                             Fill="#43CDFF"
-                             Width="0.6"
-                             CornerRadius="@(new ChartCornerRadius { TopLeft = 5, TopRight = 5 })">
-                    <ChartMarker>
-                        <ChartDataLabel Visible="true"
-                                        Format="{value}M"
-                                        Position="ChartLabelPosition.Top"/>
-                    </ChartMarker>
-                </ChartSeries>
-            
-        </SfChart>
-    </PreviewSection>
-</CodePreview>
-</VirtualizeSection>
+<CodePreview IsFullWidth="true" PreviewComponent="typeof(SmartAxisLabelDemo)" SourceFile="Pages/Demos/Charts/AxisConfiguration/AxisLabels/SmartAxisLabelDemo.razor" />
 
 <!-- ─────────────────────────────────────────────
      AXIS LABEL ROTATION
      ───────────────────────────────────────────── -->
 <Description>
     <Header>
-        <h5><b>Axis Label Rotation</b></h5>
+        <h2 id="axis-label-rotation">Axis Label Rotation</h2>
     </Header>
     <Content>
         Axis label rotation improves readability when category labels are long or
@@ -136,58 +46,14 @@
     </Content>
 </Description>
 
-<VirtualizeSection MinHeightPx="600px">
-    <CodePreview IsFullWidth="true" CodeSection="@AxisLabelRotationCode">
-    <PreviewSection>
-        <SfChart @key="@_currentTheme" Title="U.S Trade with India in 2024" Theme="@_currentTheme">
-            <ChartArea>
-                <ChartAreaBorder Width="0" />
-            </ChartArea>
-
-            <!-- X AXIS -->
-            <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Toolkit.ValueType.Category"
-                               LabelRotation="-45">
-                <ChartAxisMajorGridLines Width="0" />
-                <ChartAxisMajorTickLines Width="0" />
-                <ChartAxisMinorTickLines Width="0" />
-            </ChartPrimaryXAxis>
-
-            <!-- Y AXIS -->
-            <ChartPrimaryYAxis Interval="0.3"
-                               Title="Billion USD"
-                               LabelFormat="{value}B">
-                <ChartAxisLineStyle Width="0" />
-                <ChartAxisMajorTickLines Width="0" />
-            </ChartPrimaryYAxis>
-
-            <!-- SERIES -->
-            
-                <ChartSeries DataSource="@TradeData"
-                             XName="X"
-                             YName="Y"
-                             Type="ChartSeriesType.Column"
-                             Fill="@SeriesColor"
-                             Width="0.5"
-                             CornerRadius="@(new ChartCornerRadius { TopLeft = 8, TopRight = 8 })">
-                </ChartSeries>
-            
-
-            <!-- TOOLTIP -->
-            <ChartTooltipSettings Enable="true"
-                                  Header="Export to India"
-                                  Format="${point.x} : <b>${point.y}</b>"
-                                  EnableHighlight="true" />
-        </SfChart>
-    </PreviewSection>
-</CodePreview>
-</VirtualizeSection>
+<CodePreview IsFullWidth="true" PreviewComponent="typeof(AxisLabelRotationDemo)" SourceFile="Pages/Demos/Charts/AxisConfiguration/AxisLabels/AxisLabelRotationDemo.razor" />
 
 <!-- ─────────────────────────────────────────────
-     AXIS LABEL POSITION
+     AXIS LABEL POSITIONING
      ───────────────────────────────────────────── -->
 <Description>
     <Header>
-        <h5><b>Axis Label Positioning</b></h5>
+        <h2 id="axis-label-position">Axis Label Positioning</h2>
     </Header>
     <Content>
         Axis label positioning controls whether category labels are rendered inside
@@ -201,76 +67,14 @@
     </Content>
 </Description>
 
-<VirtualizeSection MinHeightPx="600px">
-    <CodePreview IsFullWidth="true" CodeSection="@AxisLabelPositionCode">
-    <PreviewSection>
-        <!-- PROPERTY PANEL -->
-        <div class="mb-4">
-            <label class="fw-bold d-block mb-2">Label Position</label>
-
-            <SfButtonGroup Mode="SelectionMode.Single">
-                <Button Selected="@IsSelected(Syncfusion.Blazor.Toolkit.AxisPosition.Inside)"
-                                   SelectedChanged="@(v => OnPositionChanged(v, Syncfusion.Blazor.Toolkit.AxisPosition.Inside))">
-                    Inside
-                </Button>
-
-                <Button Selected="@IsSelected(Syncfusion.Blazor.Toolkit.AxisPosition.Outside)"
-                                       SelectedChanged="@(v => OnPositionChanged(v, Syncfusion.Blazor.Toolkit.AxisPosition.Outside))">
-                    Outside
-                </Button>
-            </SfButtonGroup>
-        </div>
-
-        <!-- CHART -->
-        <SfChart @key="@_currentTheme" Title="Population by Country 2024" Theme="@_currentTheme">
-            <ChartArea>
-                <ChartAreaBorder Width="0" />
-            </ChartArea>
-
-            <!-- TOOLTIP -->
-            <ChartTooltipSettings Enable="true"
-                                  Header="${point.x}"
-                                  Format="Population : <b>${point.y}</b>"
-                                  EnableHighlight="true" />
-
-            <!-- X AXIS -->
-            <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Toolkit.ValueType.Category"
-                               LabelFormat="{value}B"
-                               LabelPosition="@CurrentLabelPosition"
-                               LabelIntersectAction="LabelIntersectAction.Rotate90">
-                <ChartAxisLabelStyle Color="@LabelColor" />
-                <ChartAxisMajorGridLines Width="0" />
-                <ChartAxisMajorTickLines Width="0" />
-                <ChartAxisMinorTickLines Width="0" />
-            </ChartPrimaryXAxis>
-
-            <ChartPrimaryYAxis>
-                <ChartAxisLineStyle Width="0" />
-                <ChartAxisMajorTickLines Width="0" />
-            </ChartPrimaryYAxis>
-
-            <!-- SERIES -->
-            
-                <ChartSeries DataSource="@PopulationData"
-                             XName="X"
-                             YName="Y"
-                             Type="ChartSeriesType.Column"
-                             Fill="#43CDFF"
-                             Width="0.5"
-                             CornerRadius="@(new ChartCornerRadius { TopLeft = 5, TopRight = 5 })">
-                </ChartSeries>
-            
-        </SfChart>
-    </PreviewSection>
-</CodePreview>
-</VirtualizeSection>
+<CodePreview IsFullWidth="true" PreviewComponent="typeof(AxisLabelPositionDemo)" SourceFile="Pages/Demos/Charts/AxisConfiguration/AxisLabels/AxisLabelPositionDemo.razor" />
 
 <!-- ─────────────────────────────────────────────
      MANAGING EDGE LABELS
      ───────────────────────────────────────────── -->
 <Description>
     <Header>
-        <h5><b>Managing Edge Labels</b></h5>
+        <h2 id="managing-edge-labels">Managing Edge Labels</h2>
     </Header>
     <Content>
         Edge labels appear at the beginning and end positions of an axis, where they
@@ -283,80 +87,14 @@
     </Content>
 </Description>
 
-<VirtualizeSection MinHeightPx="600px">
-    <CodePreview IsFullWidth="true" CodeSection="@ManagingEdgeLabelsCode">
-    <PreviewSection>
-        <!-- PROPERTY PANEL -->
-        <div class="mb-4">
-            <label class="fw-bold d-block mb-2">Edge Label Placement</label>
-
-            <SfButtonGroup Mode="SelectionMode.Single">
-                <Button Selected="@IsSelected(EdgeLabelPlacement.Hide)"
-                                   SelectedChanged="@(v => OnEdgePlacementChanged(v, EdgeLabelPlacement.Hide))">
-                    Hide
-                </Button>
-
-                <Button Selected="@IsSelected(EdgeLabelPlacement.None)"
-                                   SelectedChanged="@(v => OnEdgePlacementChanged(v, EdgeLabelPlacement.None))">
-                    None
-                </Button>
-
-                <Button Selected="@IsSelected(EdgeLabelPlacement.Shift)"
-                                   SelectedChanged="@(v => OnEdgePlacementChanged(v, EdgeLabelPlacement.Shift))">
-                    Shift
-                </Button>
-            </SfButtonGroup>
-        </div>
-
-        <!-- CHART -->
-        <SfChart @key="@_currentTheme" Title="Population by Country 2024" Theme="@_currentTheme">
-            <ChartArea>
-                <ChartAreaBorder Width="0" />
-            </ChartArea>
-
-            <!-- TOOLTIP -->
-            <ChartTooltipSettings Enable="true"
-                                  Header="${point.x}"
-                                  Format="Population : <b>${point.y}</b>"
-                                  EnableHighlight="true" />
-
-            <!-- X AXIS -->
-            <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Toolkit.ValueType.Category"
-                               EdgeLabelPlacement="@CurrentEdgePlacement"
-                               LabelPlacement="LabelPlacement.OnTicks">
-                <ChartAxisMajorGridLines Width="0" />
-                <ChartAxisMajorTickLines Width="0" />
-                <ChartAxisMinorTickLines Width="0" />
-            </ChartPrimaryXAxis>
-
-            <!-- Y AXIS -->
-            <ChartPrimaryYAxis Interval="0.3"
-                               LabelFormat="{value}B">
-                <ChartAxisLineStyle Width="0" />
-                <ChartAxisMajorTickLines Width="0" />
-            </ChartPrimaryYAxis>
-
-            <!-- SERIES -->
-            
-                <ChartSeries DataSource="@PopulationData"
-                             XName="X"
-                             YName="Y"
-                             Type="ChartSeriesType.Line"
-                             Fill="@SeriesColor">
-                    <ChartMarker Visible="true" IsFilled="false" />
-                </ChartSeries>
-            
-        </SfChart>
-    </PreviewSection>
-</CodePreview>
-</VirtualizeSection>
+<CodePreview IsFullWidth="true" PreviewComponent="typeof(ManagingEdgeLabelsDemo)" SourceFile="Pages/Demos/Charts/AxisConfiguration/AxisLabels/ManagingEdgeLabelsDemo.razor" />
 
 <!-- ─────────────────────────────────────────────
      LABEL CUSTOMIZATION
      ───────────────────────────────────────────── -->
 <Description>
     <Header>
-        <h5><b>Label Customization</b></h5>
+        <h2 id="label-customization">Label Customization</h2>
     </Header>
     <Content>
         Axis label customization improves Chart readability and visual clarity by
@@ -370,61 +108,14 @@
     </Content>
 </Description>
 
-<VirtualizeSection MinHeightPx="600px">
-    <CodePreview IsFullWidth="true" CodeSection="@LabelCustomizationCode">
-    <PreviewSection>
-        <SfChart @key="@_currentTheme" Title="Population by Country 2024" Theme="@_currentTheme">
-            <ChartArea>
-                <ChartAreaBorder Width="0" />
-            </ChartArea>
-
-            <!-- TOOLTIP -->
-            <ChartTooltipSettings Enable="true"
-                                  Header="${point.x}"
-                                  Format="Population : <b>${point.y}</b>"
-                                  EnableHighlight="true" />
-
-            <!-- X AXIS -->
-            <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Toolkit.ValueType.Category">
-                <ChartAxisMajorGridLines Width="0" />
-                <ChartAxisMajorTickLines Width="0" />
-                <ChartAxisMinorTickLines Width="0" />
-                <ChartAxisLabelStyle Color="Red"
-                                     FontWeight="400"
-                                     Size="12px" />
-            </ChartPrimaryXAxis>
-
-            <!-- Y AXIS -->
-            <ChartPrimaryYAxis Interval="0.3"
-                               LabelFormat="{value}B">
-                <ChartAxisLineStyle Width="0" />
-                <ChartAxisMajorTickLines Width="0" />
-                <ChartAxisLabelStyle FontWeight="400"
-                                     Size="12px" />
-            </ChartPrimaryYAxis>
-
-            <!-- SERIES -->
-            
-                <ChartSeries DataSource="@PopulationData"
-                             XName="X"
-                             YName="Y"
-                             Type="ChartSeriesType.Column"
-                             Fill="#43CDFF"
-                             Width="0.4"
-                             CornerRadius="@(new ChartCornerRadius { TopLeft = 5, TopRight = 5 })">
-                </ChartSeries>
-            
-        </SfChart>
-    </PreviewSection>
-</CodePreview>
-</VirtualizeSection>
+<CodePreview IsFullWidth="true" PreviewComponent="typeof(LabelCustomizationDemo)" SourceFile="Pages/Demos/Charts/AxisConfiguration/AxisLabels/LabelCustomizationDemo.razor" />
 
 <!-- ─────────────────────────────────────────────
-     LABEL TRIMMING
+     LABEL TRIM
      ───────────────────────────────────────────── -->
 <Description>
     <Header>
-        <h5><b>Label Trim</b></h5>
+        <h2 id="label-trim">Label Trim</h2>
     </Header>
     <Content>
         Label trimming is used to prevent long axis labels from overflowing or
@@ -438,58 +129,14 @@
     </Content>
 </Description>
 
-<VirtualizeSection MinHeightPx="600px">
-    <CodePreview IsFullWidth="true" CodeSection="@LabelTrimCode">
-    <PreviewSection>
-        <SfChart @key="@_currentTheme" Title="Population by Country 2024" Theme="@_currentTheme">
-            <ChartArea>
-                <ChartAreaBorder Width="0" />
-            </ChartArea>
-
-            <!-- TOOLTIP -->
-            <ChartTooltipSettings Enable="true"
-                                  Header="${point.x}"
-                                  Format="Population : <b>${point.y}</b>"
-                                  EnableHighlight="true" />
-
-            <!-- X AXIS -->
-            <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Toolkit.ValueType.Category"
-                               EnableTrim="true"
-                               MaximumLabelWidth="34">
-                <ChartAxisMajorGridLines Width="0" />
-                <ChartAxisMajorTickLines Width="0" />
-                <ChartAxisMinorTickLines Width="0" />
-            </ChartPrimaryXAxis>
-
-            <!-- Y AXIS -->
-            <ChartPrimaryYAxis Interval="0.3"
-                               LabelFormat="{value}B">
-                <ChartAxisLineStyle Width="0" />
-                <ChartAxisMajorTickLines Width="0" />
-            </ChartPrimaryYAxis>
-
-            <!-- SERIES -->
-            
-                <ChartSeries DataSource="@PopulationData"
-                             XName="X"
-                             YName="Y"
-                             Type="ChartSeriesType.Column"
-                             Fill="#43CDFF"
-                             Width="0.4"
-                             CornerRadius="@(new ChartCornerRadius { TopLeft = 5, TopRight = 5 })">
-                </ChartSeries>
-            
-        </SfChart>
-    </PreviewSection>
-</CodePreview>
-</VirtualizeSection>
+<CodePreview IsFullWidth="true" PreviewComponent="typeof(LabelTrimDemo)" SourceFile="Pages/Demos/Charts/AxisConfiguration/AxisLabels/LabelTrimDemo.razor" />
 
 <!-- ─────────────────────────────────────────────
      CONTROLLING MAXIMUM NUMBER OF AXIS LABELS
      ───────────────────────────────────────────── -->
 <Description>
     <Header>
-        <h5><b>Controlling Maximum Number of Axis Labels</b></h5>
+        <h2 id="max-axis-labels">Controlling Maximum Number of Axis Labels</h2>
     </Header>
     <Content>
         Limiting the number of axis labels helps prevent visual clutter when Charts
@@ -503,757 +150,19 @@
     </Content>
 </Description>
 
-<VirtualizeSection MinHeightPx="600px">
-    <CodePreview IsFullWidth="true" CodeSection="@MaxAxisLabelsCode">
-    <PreviewSection>
-        <SfChart @key="@_currentTheme" Title="Total Sales by Product" Theme="@_currentTheme">
-            <ChartArea>
-                <ChartAreaBorder Width="0" />
-            </ChartArea>
-
-            <!-- X AXIS -->
-            <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Toolkit.ValueType.Category">
-                <ChartAxisMajorGridLines Width="0" />
-                <ChartAxisMajorTickLines Width="0" />
-                <ChartAxisMinorTickLines Width="0" />
-            </ChartPrimaryXAxis>
-
-            <!-- Y AXIS -->
-            <ChartPrimaryYAxis Maximum="800"
-                MaximumLabelWidth="3">
-                <ChartAxisLineStyle Width="0" />
-                <ChartAxisMajorTickLines Width="0" />
-            </ChartPrimaryYAxis>
-
-            <!-- SERIES -->
-            
-                <ChartSeries DataSource="@SmartPhoneData"
-                             XName="X"
-                             YName="Y"
-                             Type="ChartSeriesType.Column"
-                             Fill="#43CDFF"
-                             Width="0.4"
-                             CornerRadius="@(new ChartCornerRadius { TopLeft = 10, TopRight = 10 })">
-                </ChartSeries>
-            
-
-            <!-- TOOLTIP -->
-            <ChartTooltipSettings Enable="true"
-                                  Header="${point.x}"
-                                  Format="Sales : <b>${point.y} units</b>"
-                                  EnableHighlight="true" />
-        </SfChart>
-    </PreviewSection>
-</CodePreview>
-</VirtualizeSection>
+<CodePreview IsFullWidth="true" PreviewComponent="typeof(MaxAxisLabelsDemo)" SourceFile="Pages/Demos/Charts/AxisConfiguration/AxisLabels/MaxAxisLabelsDemo.razor" />
 
 @code {
-    [CascadingParameter]
-    private Theme CurrentTheme { get; set; } = Theme.Fluent;
-
-    private Theme _currentTheme = Theme.Fluent;
-
-    protected override void OnInitialized()
+    private static readonly IReadOnlyList<RightToc.TocItem> TocItemsList = new[]
     {
-        _currentTheme = CurrentTheme;
-    }
-
-    protected override void OnParametersSet()
-    {
-        _currentTheme = CurrentTheme;
-    }
-
-    private bool IsDarkTheme => _currentTheme.ToString().Contains("Dark") || _currentTheme.ToString().Contains("HighContrast");
-    private string TextColor => IsDarkTheme ? "#E6EEF8" : "#0B1F3B";
-    private string SeriesColor => IsDarkTheme ? "#BA7DDA" : "#87CEEB";
-    // DATA MODEL
-    public class InternetUserPoint
-    {
-        public string X { get; set; } = string.Empty;
-        public double Y { get; set; }
-    }
-
-    // DATASOURCE
-    private List<InternetUserPoint> SmartLabelData = new()
-    {
-        new() { X = "South Korea", Y = 39 },
-        new() { X = "India", Y = 61 },
-        new() { X = "Pakistan", Y = 20 },
-        new() { X = "Germany", Y = 65 },
-        new() { X = "Australia", Y = 16 },
-        new() { X = "Italy", Y = 29 },
-        new() { X = "France", Y = 45 },
-        new() { X = "United Arab Emirates", Y = 10 },
-        new() { X = "Russia", Y = 41 },
-        new() { X = "Mexico", Y = 31 },
-        new() { X = "Brazil", Y = 76 },
-        new() { X = "China", Y = 51 }
+        new RightToc.TocItem("smart-axis-label", "Smart Axis Label", 4),
+        new RightToc.TocItem("axis-label-rotation", "Axis Label Rotation", 4),
+        new RightToc.TocItem("axis-label-position", "Axis Label Positioning", 4),
+        new RightToc.TocItem("managing-edge-labels", "Managing Edge Labels", 4),
+        new RightToc.TocItem("label-customization", "Label Customization", 4),
+        new RightToc.TocItem("label-trim", "Label Trim", 4),
+        new RightToc.TocItem("max-axis-labels", "Controlling Maximum Number of Axis Labels", 4)
     };
 
-    // SMART LABEL STATE
-    private LabelIntersectAction IntersectMode { get; set; }
-        = LabelIntersectAction.Hide;
-
-    private bool IsSelected(LabelIntersectAction mode)
-        => IntersectMode == mode;
-
-    private void OnModeChanged(bool selected, LabelIntersectAction mode)
-    {
-        if (selected)
-        {
-            IntersectMode = mode;
-        }
-    }
-
-    // DATA MODEL
-    public class TradePoint
-    {
-        public string X { get; set; } = string.Empty;
-        public double Y { get; set; }
-    }
-
-    // DATASOURCE
-    private List<TradePoint> TradeData = new()
-    {
-        new() { X = "Tree Nuts", Y = 1.12 },
-        new() { X = "Pulses", Y = 0.73 },
-        new() { X = "Essential Oils", Y = 0.67 },
-        new() { X = "Dairy Products", Y = 0.52 },
-        new() { X = "Other Intermediate Products", Y = 0.51 },
-        new() { X = "Other Feeds, Meals & Fodders", Y = 0.43 },
-        new() { X = "Ethanol", Y = 0.42 },
-        new() { X = "Fresh Fruit", Y = 0.40 },
-        new() { X = "Soybean Oil", Y = 0.37 },
-        new() { X = "Cotton", Y = 0.20 }
-    };
-
-  
-
-    // DATA MODEL
-    public class PopulationPoint
-    {
-        public string X { get; set; } = string.Empty;
-        public double Y { get; set; }
-    }
-
-    // DATASOURCE
-    private List<PopulationPoint> PopulationData = new()
-    {
-        new() { X = "India",        Y = 1.42 },
-        new() { X = "China",        Y = 1.41 },
-        new() { X = "USA",          Y = 0.33 },
-        new() { X = "Indonesia",    Y = 0.27 },
-        new() { X = "Pakistan",     Y = 0.24 },
-        new() { X = "Nigeria",      Y = 0.22 },
-        new() { X = "Brazil",       Y = 0.21 },
-        new() { X = "Bangladesh",   Y = 0.17 }
-    };
-    
-    public class ProductSalesPoint
-    {
-        public string X { get; set; } = string.Empty;
-        public double Y { get; set; }
-    }
-
-    // DATASOURCE
-    private List<ProductSalesPoint> SmartPhoneData = new()
-    {
-        new() { X = "Laptop",  Y = 300 },
-        new() { X = "Tablet",  Y = 400 },
-        new() { X = "Mobile",  Y = 450 },
-        new() { X = "Screen",  Y = 500 },
-        new() { X = "Router",  Y = 550 },
-        new() { X = "Camera",  Y = 600 }
-    };
-    
-    // LABEL POSITION STATE
-    private Syncfusion.Blazor.Toolkit.AxisPosition CurrentLabelPosition { get; set; }
-        = Syncfusion.Blazor.Toolkit.AxisPosition.Outside;
-
-    private bool IsSelected(Syncfusion.Blazor.Toolkit.AxisPosition position)
-        => CurrentLabelPosition == position;
-
-    private void OnPositionChanged(bool selected, Syncfusion.Blazor.Toolkit.AxisPosition position)
-    {
-        if (selected)
-        {
-            CurrentLabelPosition = position;
-        }
-    }
-
-    private string LabelColor =>
-        CurrentLabelPosition == Syncfusion.Blazor.Toolkit.AxisPosition.Inside
-            ? "black"
-            : null;
-    
-    // EDGE LABEL STATE
-    private EdgeLabelPlacement CurrentEdgePlacement { get; set; }
-        = EdgeLabelPlacement.Shift;
-
-    private bool IsSelected(EdgeLabelPlacement placement)
-        => CurrentEdgePlacement == placement;
-
-    private void OnEdgePlacementChanged(bool selected, EdgeLabelPlacement placement)
-    {
-        if (selected)
-        {
-            CurrentEdgePlacement = placement;
-        }
-    }
-
-    // CODE SNIPPET (IN SYNC WITH PREVIEW)    
-    private string MaxAxisLabelsCode => @"
-<SfChart @key=""@_currentTheme"" Title=""Total Sales by Product"" Theme=""@_currentTheme"">
-    <ChartArea>
-        <ChartAreaBorder Width=""0"" />
-    </ChartArea>
-
-    <ChartPrimaryXAxis ValueType=""Syncfusion.Blazor.Toolkit.ValueType.Category"">
-        <ChartAxisMajorGridLines Width=""0"" />
-        <ChartAxisMajorTickLines Width=""0"" />
-        <ChartAxisMinorTickLines Width=""0"" />
-    </ChartPrimaryXAxis>
-
-    <ChartPrimaryYAxis Maximum=""800""
-                       MaximumLabelWidth=""3"">
-        <ChartAxisLineStyle Width=""0"" />
-        <ChartAxisMajorTickLines Width=""0"" />
-    </ChartPrimaryYAxis>
-
-    
-        <ChartSeries DataSource=""SmartPhoneData""
-                     XName=""X""
-                     YName=""Y""
-                     Type=""ChartSeriesType.Column""
-                     Fill=""#43CDFF""
-                     Width=""0.4""
-                     CornerRadius=""@(new ChartCornerRadius { TopLeft = 10, TopRight = 10 })"" />
-    
-
-    <ChartTooltipSettings Enable=""true""
-                          Header=""${point.x}""
-                          Format=""Sales : <b>${point.y} units</b>""
-                          EnableHighlight=""true"" />
-</SfChart>
-@code 
-{
-    public class ProductSalesPoint
-    {
-        public string X { get; set; } = string.Empty;
-        public double Y { get; set; }
-    }
-
-    // DATASOURCE
-    private List<ProductSalesPoint> SmartPhoneData = new()
-    {
-        new() { X = ""Laptop"",  Y = 300 },
-        new() { X = ""Tablet"",  Y = 400 },
-        new() { X = ""Mobile"",  Y = 450 },
-        new() { X = ""Screen"",  Y = 500 },
-        new() { X = ""Router"",  Y = 550 },
-        new() { X = ""Camera"",  Y = 600 }
-    };
-}";
-    private string SmartAxisLabelCode => @"@using Syncfusion.Blazor.Toolkit.Charts
-         <div class=""mb-4"">
-            <label class=""fw-bold d-block mb-2"">Intersect Mode</label>
-
-            <SfButtonGroup Mode=""SelectionMode.Single"">
-                <Button Selected=""@IsSelected(LabelIntersectAction.None)""
-                                   SelectedChanged=""@(v => OnModeChanged(v, LabelIntersectAction.None))"">
-                    None
-                </Button>
-
-                <Button Selected=""@IsSelected(LabelIntersectAction.Hide)""
-                                   SelectedChanged=""@(v => OnModeChanged(v, LabelIntersectAction.Hide))"">
-                    Hide
-                </Button>
-
-                <Button Selected=""@IsSelected(LabelIntersectAction.Trim)""
-                                   SelectedChanged=""@(v => OnModeChanged(v, LabelIntersectAction.Trim))"">
-                    Trim
-                </Button>
-
-                <Button Selected=""@IsSelected(LabelIntersectAction.Wrap)""
-                                   SelectedChanged=""@(v => OnModeChanged(v, LabelIntersectAction.Wrap))"">
-                    Wrap
-                </Button>
-
-                <Button Selected=""@IsSelected(LabelIntersectAction.MultipleRows)""
-                                   SelectedChanged=""@(v => OnModeChanged(v, LabelIntersectAction.MultipleRows))"">
-                    Multiple Rows
-                </Button>
-
-                <Button Selected=""@IsSelected(LabelIntersectAction.Rotate45)""
-                                   SelectedChanged=""@(v => OnModeChanged(v, LabelIntersectAction.Rotate45))"">
-                    Rotate 45
-                </Button>
-
-                <Button Selected=""@IsSelected(LabelIntersectAction.Rotate90)""
-                                   SelectedChanged=""@(v => OnModeChanged(v, LabelIntersectAction.Rotate90))"">
-                    Rotate 90
-                </Button>
-            </SfButtonGroup>
-        </div>       
-        <SfChart @key=""@_currentTheme"" Title=""Internet Users in Millions"" Theme=""@_currentTheme"">
-            <ChartArea>
-                <ChartAreaBorder Width=""0"" />
-            </ChartArea>
-
-            <!-- TOOLTIP -->
-            <ChartTooltipSettings Enable=""true""
-                                  Header=""${point.x}""
-                                  Format=""Internet Users : <b>${point.y}</b>""
-                                  EnableHighlight=""true"" />
-
-            <!-- X AXIS -->
-            <ChartPrimaryXAxis ValueType=""Syncfusion.Blazor.Toolkit.ValueType.Category""
-                               LabelIntersectAction=""@IntersectMode"">
-                <ChartAxisMajorGridLines Width=""0"" />
-                <ChartAxisMajorTickLines Width=""0"" />
-                <ChartAxisMinorTickLines Width=""0"" />
-            </ChartPrimaryXAxis>
-
-
-            <!-- Y AXIS -->
-            <ChartPrimaryYAxis>
-                <ChartAxisLineStyle Width=""0"" />
-                <ChartAxisMajorTickLines Width=""0"" />
-            </ChartPrimaryYAxis>
-
-            <!-- SERIES -->
-            
-                <ChartSeries DataSource=""@SmartLabelData""
-                             XName=""X""
-                             YName=""Y""
-                             Type=""ChartSeriesType.Column""
-                             Fill=""#43CDFF""
-                             Width=""0.6""
-                             CornerRadius=""@(new ChartCornerRadius { TopLeft = 5, TopRight = 5 })"">
-                    <ChartMarker>
-                        <ChartDataLabel Visible=""true""
-                                        Format=""{value}M""
-                                        Position=""ChartLabelPosition.Top""/>
-                    </ChartMarker>
-                </ChartSeries>
-            
-        </SfChart>
-
-@code {
-    private Theme _currentTheme = Theme.Fluent2;
-        private LabelIntersectAction IntersectMode { get; set; }
-        = LabelIntersectAction.Hide;
-
-    private bool IsSelected(LabelIntersectAction mode)
-        => IntersectMode == mode;
-
-    private void OnModeChanged(bool selected, LabelIntersectAction mode)
-    {
-        if (selected)
-        {
-            IntersectMode = mode;
-        }
-    }
-    public class InternetUserPoint
-    {
-        public string X { get; set; } = string.Empty;
-        public double Y { get; set; }
-    }
-    private List<InternetUserPoint> SmartLabelData = new()
-    {
-        new() { X = ""South Korea"", Y = 39 },
-        new() { X = ""India"", Y = 61 },
-        new() { X = ""Pakistan"", Y = 20 },
-        new() { X = ""Germany"", Y = 65 },
-        new() { X = ""Australia"", Y = 16 },
-        new() { X = ""Italy"", Y = 29 },
-        new() { X = ""France"", Y = 45 },
-        new() { X = ""United Arab Emirates"", Y = 10 },
-        new() { X = ""Russia"", Y = 41 },
-        new() { X = ""Mexico"", Y = 31 },
-        new() { X = ""Brazil"", Y = 76 },
-        new() { X = ""China"", Y = 51 }
-    };
-}";
-
-    private string AxisLabelRotationCode => @"@using Syncfusion.Blazor.Toolkit.Charts
-
-<SfChart @key=""@_currentTheme"" Title=""U.S Trade with India in 2024"" Theme=""@_currentTheme"">
-    <ChartArea>
-        <ChartAreaBorder Width=""0"" />
-    </ChartArea>
-
-    <ChartPrimaryXAxis ValueType=""Syncfusion.Blazor.Toolkit.ValueType.Category""
-                       LabelRotation=""-45"">
-        <ChartAxisMajorGridLines Width=""0"" />
-        <ChartAxisMajorTickLines Width=""0"" />
-        <ChartAxisMinorTickLines Width=""0"" />
-    </ChartPrimaryXAxis>
-
-    <ChartPrimaryYAxis Interval=""0.3""
-                       Title=""Billion USD""
-                       LabelFormat=""{value}B"">
-        <ChartAxisLineStyle Width=""0"" />
-        <ChartAxisMajorTickLines Width=""0"" />
-    </ChartPrimaryYAxis>
-
-    
-        <ChartSeries DataSource=""TradeData""
-                     XName=""X""
-                     YName=""Y""
-                     Type=""ChartSeriesType.Column""
-                     Fill=""@SeriesColor""
-                     Width=""0.5""
-                     CornerRadius=""@(new ChartCornerRadius { TopLeft = 8, TopRight = 8 })"" />
-    
-
-    <ChartTooltipSettings Enable=""true""
-                          Header=""Export to India""
-                          Format=""${point.x} : <b>${point.y}</b>""
-                          EnableHighlight=""true"" />
-</SfChart>
-
-@code {
-    private Theme _currentTheme = Theme.Fluent;
-    private string SeriesColor = ""#87CEEB"";
-    public class TradePoint
-    {
-        public string X { get; set; } = string.Empty;
-        public double Y { get; set; }
-    }
-    private List<TradePoint> TradeData = new()
-    {
-        new() { X = ""Tree Nuts"", Y = 1.12 },
-        new() { X = ""Pulses"", Y = 0.73 },
-        new() { X = ""Essential Oils"", Y = 0.67 },
-        new() { X = ""Dairy Products"", Y = 0.52 },
-        new() { X = ""Other Intermediate Products"", Y = 0.51 },
-        new() { X = ""Other Feeds, Meals & Fodders"", Y = 0.43 },
-        new() { X = ""Ethanol"", Y = 0.42 },
-        new() { X = ""Fresh Fruit"", Y = 0.40 },
-        new() { X = ""Soybean Oil"", Y = 0.37 },
-        new() { X = ""Cotton"", Y = 0.20 }
-    };
-}";
-
-    private string AxisLabelPositionCode => @"@using Syncfusion.Blazor.Toolkit.Charts
-    <div class=""mb-4"">
-            <label class=""fw-bold d-block mb-2"">Label Position</label>
-
-            <SfButtonGroup Mode=""SelectionMode.Single"">
-                <Button Selected=""@IsSelected(Syncfusion.Blazor.Toolkit.AxisPosition.Inside)""
-                                   SelectedChanged=""@(v => OnPositionChanged(v, Syncfusion.Blazor.Toolkit.AxisPosition.Inside))"">
-                    Inside
-                </Button>
-
-                <Button Selected=""@IsSelected(Syncfusion.Blazor.Toolkit.AxisPosition.Outside)""
-                                       SelectedChanged=""@(v => OnPositionChanged(v, Syncfusion.Blazor.Toolkit.AxisPosition.Outside))"">
-                    Outside
-                </Button>
-            </SfButtonGroup>
-        </div>
-
-        <!-- CHART -->
-        <SfChart @key=""@_currentTheme"" Title=""Population by Country 2024"" Theme=""@_currentTheme"">
-            <ChartArea>
-                <ChartAreaBorder Width=""0"" />
-            </ChartArea>
-
-            <!-- TOOLTIP -->
-            <ChartTooltipSettings Enable=""true""
-                                  Header=""${point.x}""
-                                  Format=""Population : <b>${point.y}</b>""
-                                  EnableHighlight=""true"" />
-
-            <!-- X AXIS -->
-            <ChartPrimaryXAxis ValueType=""Syncfusion.Blazor.Toolkit.ValueType.Category""
-                               LabelFormat=""{value}B""
-                               LabelPosition=""@CurrentLabelPosition""
-                               LabelIntersectAction=""LabelIntersectAction.Rotate90"">
-                <ChartAxisLabelStyle Color=""@LabelColor"" />
-                <ChartAxisMajorGridLines Width=""0"" />
-                <ChartAxisMajorTickLines Width=""0"" />
-                <ChartAxisMinorTickLines Width=""0"" />
-            </ChartPrimaryXAxis>
-
-            <ChartPrimaryYAxis>
-                <ChartAxisLineStyle Width=""0"" />
-                <ChartAxisMajorTickLines Width=""0"" />
-            </ChartPrimaryYAxis>
-
-            <!-- SERIES -->
-            
-                <ChartSeries DataSource=""@PopulationData""
-                             XName=""X""
-                             YName=""Y""
-                             Type=""ChartSeriesType.Column""
-                             Fill=""#43CDFF""
-                             Width=""0.5""
-                             CornerRadius=""@(new ChartCornerRadius { TopLeft = 5, TopRight = 5 })"">
-                </ChartSeries>
-            
-        </SfChart>
-        @code 
-        {
-          private Theme _currentTheme = Theme.Fluent;
-          public class PopulationPoint
-          {
-            public string X { get; set; } = string.Empty;
-            public double Y { get; set; }
-          }
-           private Syncfusion.Blazor.Toolkit.AxisPosition CurrentLabelPosition { get; set; }
-        = Syncfusion.Blazor.Toolkit.AxisPosition.Outside;
-
-          private bool IsSelected(Syncfusion.Blazor.Toolkit.AxisPosition position)
-         => CurrentLabelPosition == position;
-          private void OnPositionChanged(bool selected, Syncfusion.Blazor.Toolkit.AxisPosition position)
-            {
-                if (selected)
-                {
-                    CurrentLabelPosition = position;
-                }
-            }
-
-            private string LabelColor =>
-                CurrentLabelPosition == Syncfusion.Blazor.Toolkit.AxisPosition.Inside
-                    ? ""black""
-                    : null;
-   
-          private List<PopulationPoint> PopulationData = new()
-          {
-            new() { X = ""India"",        Y = 1.42 },
-            new() { X = ""China"",        Y = 1.41 },
-            new() { X = ""USA"",          Y = 0.33 },
-            new() { X = ""Indonesia"",    Y = 0.27 },
-            new() { X = ""Pakistan"",     Y = 0.24 },
-            new() { X = ""Nigeria"",      Y = 0.22 },
-            new() { X = ""Brazil"",       Y = 0.21 },
-            new() { X = ""Bangladesh"",   Y = 0.17 }
-          };
-        }";
-
-
-        private string LabelCustomizationCode => @"
- <SfChart @key=""@_currentTheme"" Title=""Population by Country 2024"" Theme=""@_currentTheme"">
-            <ChartArea>
-                <ChartAreaBorder Width=""0"" />
-            </ChartArea>
-
-            <!-- TOOLTIP -->
-            <ChartTooltipSettings Enable=""true""
-                                  Header=""${point.x}""
-                                  Format=""Population : <b>${point.y}</b>""
-                                  EnableHighlight=""true"" />
-
-            <!-- X AXIS -->
-            <ChartPrimaryXAxis ValueType=""Syncfusion.Blazor.Toolkit.ValueType.Category"">
-                <ChartAxisMajorGridLines Width=""0"" />
-                <ChartAxisMajorTickLines Width=""0"" />
-                <ChartAxisMinorTickLines Width=""0"" />
-                <ChartAxisLabelStyle Color=""Red""
-                                     FontWeight=""400""
-                                     Size=""12px"" />
-            </ChartPrimaryXAxis>
-
-            <!-- Y AXIS -->
-            <ChartPrimaryYAxis Interval=""0.3""
-                               LabelFormat=""{value}B"">
-                <ChartAxisLineStyle Width=""0"" />
-                <ChartAxisMajorTickLines Width=""0"" />
-                <ChartAxisLabelStyle FontWeight=""400""
-                                     Size=""12px"" />
-            </ChartPrimaryYAxis>
-
-            <!-- SERIES -->
-            
-                <ChartSeries DataSource=""@PopulationData""
-                             XName=""X""
-                             YName=""Y""
-                             Type=""ChartSeriesType.Column""
-                             Fill=""#43CDFF""
-                             Width=""0.4""
-                             CornerRadius=""@(new ChartCornerRadius { TopLeft = 5, TopRight = 5 })"">
-                </ChartSeries>
-            
-        </SfChart>
-
-@code {
-    private Theme _currentTheme = Theme.Fluent;
-    public class PopulationPoint
-    {
-        public string X { get; set; } = string.Empty;
-        public double Y { get; set; }
-    }
-    private List<PopulationPoint> PopulationData = new()
-    {
-        new() { X = ""India"",        Y = 1.42 },
-        new() { X = ""China"",        Y = 1.41 },
-        new() { X = ""USA"",          Y = 0.33 },
-        new() { X = ""Indonesia"",    Y = 0.27 },
-        new() { X = ""Pakistan"",     Y = 0.24 },
-        new() { X = ""Nigeria"",      Y = 0.22 },
-        new() { X = ""Brazil"",       Y = 0.21 },
-        new() { X = ""Bangladesh"",   Y = 0.17 }
-    };
-}";
-
-        private string ManagingEdgeLabelsCode => @"@using Syncfusion.Blazor.Toolkit.Charts
-
- <div class=""mb-4"">
-            <label class=""fw-bold d-block mb-2"">Edge Label Placement</label>
-
-            <SfButtonGroup Mode=""SelectionMode.Single"">
-                <Button Selected=""@IsSelected(EdgeLabelPlacement.Hide)""
-                                   SelectedChanged=""@(v => OnEdgePlacementChanged(v, EdgeLabelPlacement.Hide))"">
-                    Hide
-                </Button>
-
-                <Button Selected=""@IsSelected(EdgeLabelPlacement.None)""
-                                   SelectedChanged=""@(v => OnEdgePlacementChanged(v, EdgeLabelPlacement.None))"">
-                    None
-                </Button>
-
-                <Button Selected=""@IsSelected(EdgeLabelPlacement.Shift)""
-                                   SelectedChanged=""@(v => OnEdgePlacementChanged(v, EdgeLabelPlacement.Shift))"">
-                    Shift
-                </Button>
-            </SfButtonGroup>
-        </div>
-
-        <!-- CHART -->
-        <SfChart @key=""@_currentTheme"" Title=""Population by Country 2024"" Theme=""@_currentTheme"">
-            <ChartArea>
-                <ChartAreaBorder Width=""0"" />
-            </ChartArea>
-
-            <!-- TOOLTIP -->
-            <ChartTooltipSettings Enable=""true""
-                                  Header=""${point.x}""
-                                  Format=""Population : <b>${point.y}</b>""
-                                  EnableHighlight=""true"" />
-
-            <!-- X AXIS -->
-            <ChartPrimaryXAxis ValueType=""Syncfusion.Blazor.Toolkit.ValueType.Category""
-                               EdgeLabelPlacement=""@CurrentEdgePlacement""
-                               LabelPlacement=""LabelPlacement.OnTicks"">
-                <ChartAxisMajorGridLines Width=""0"" />
-                <ChartAxisMajorTickLines Width=""0"" />
-                <ChartAxisMinorTickLines Width=""0"" />
-            </ChartPrimaryXAxis>
-
-            <!-- Y AXIS -->
-            <ChartPrimaryYAxis Interval=""0.3""
-                               LabelFormat=""{value}B"">
-                <ChartAxisLineStyle Width=""0"" />
-                <ChartAxisMajorTickLines Width=""0"" />
-            </ChartPrimaryYAxis>
-
-            <!-- SERIES -->
-            
-                <ChartSeries DataSource=""@PopulationData""
-                             XName=""X""
-                             YName=""Y""
-                             Type=""ChartSeriesType.Line""
-                             Fill=""@SeriesColor"">
-                    <ChartMarker Visible=""true"" IsFilled=""false"" />
-                </ChartSeries>
-            
-        </SfChart>
-
-@code {
-    private Theme _currentTheme = Theme.Fluent2;
-    private string SeriesColor => IsDarkTheme ? ""#BA7DDA"" : ""#87CEEB"";
-       private EdgeLabelPlacement CurrentEdgePlacement { get; set; }
-        = EdgeLabelPlacement.Shift;
-
-    private bool IsSelected(EdgeLabelPlacement placement)
-        => CurrentEdgePlacement == placement;
-
-    private void OnEdgePlacementChanged(bool selected, EdgeLabelPlacement placement)
-    {
-        if (selected)
-        {
-            CurrentEdgePlacement = placement;
-        }
-    }
-
-    public class PopulationPoint
-    {
-        public string X { get; set; } = string.Empty;
-        public double Y { get; set; }
-    }
-    private List<PopulationPoint> PopulationData = new()
-    {
-        new() { X = ""India"",        Y = 1.42 },
-        new() { X = ""China"",        Y = 1.41 },
-        new() { X = ""USA"",          Y = 0.33 },
-        new() { X = ""Indonesia"",    Y = 0.27 },
-        new() { X = ""Pakistan"",     Y = 0.24 },
-        new() { X = ""Nigeria"",      Y = 0.22 },
-        new() { X = ""Brazil"",       Y = 0.21 },
-        new() { X = ""Bangladesh"",   Y = 0.17 }
-    };
-}";
-
-        private string LabelTrimCode => @"@using Syncfusion.Blazor.Toolkit.Charts
-      <SfChart @key=""@_currentTheme"" Title=""Population by Country 2024"" Theme=""@_currentTheme"">
-            <ChartArea>
-                <ChartAreaBorder Width=""0"" />
-            </ChartArea>
-
-            <!-- TOOLTIP -->
-            <ChartTooltipSettings Enable=""true""
-                                  Header=""${point.x}""
-                                  Format=""Population : <b>${point.y}</b>""
-                                  EnableHighlight=""true"" />
-
-            <!-- X AXIS -->
-            <ChartPrimaryXAxis ValueType=""Syncfusion.Blazor.Toolkit.ValueType.Category""
-                               EnableTrim=""true""
-                               MaximumLabelWidth=""34"">
-                <ChartAxisMajorGridLines Width=""0"" />
-                <ChartAxisMajorTickLines Width=""0"" />
-                <ChartAxisMinorTickLines Width=""0"" />
-            </ChartPrimaryXAxis>
-
-            <!-- Y AXIS -->
-            <ChartPrimaryYAxis Interval=""0.3""
-                               LabelFormat=""{value}B"">
-                <ChartAxisLineStyle Width=""0"" />
-                <ChartAxisMajorTickLines Width=""0"" />
-            </ChartPrimaryYAxis>
-
-            <!-- SERIES -->
-            
-                <ChartSeries DataSource=""@PopulationData""
-                             XName=""X""
-                             YName=""Y""
-                             Type=""ChartSeriesType.Column""
-                             Fill=""#43CDFF""
-                             Width=""0.4""
-                             CornerRadius=""@(new ChartCornerRadius { TopLeft = 5, TopRight = 5 })"">
-                </ChartSeries>
-            
-        </SfChart>
-
-@code {
-    private Theme _currentTheme = Theme.Fluent;
-        public class PopulationPoint
-    {
-        public string X { get; set; } = string.Empty;
-        public double Y { get; set; }
-    }
-
-   private List<PopulationPoint> PopulationData = new()
-    {
-        new() { X = ""India"",        Y = 1.42 },
-        new() { X = ""China"",        Y = 1.41 },
-        new() { X = ""USA"",          Y = 0.33 },
-        new() { X = ""Indonesia"",    Y = 0.27 },
-        new() { X = ""Pakistan"",     Y = 0.24 },
-        new() { X = ""Nigeria"",      Y = 0.22 },
-        new() { X = ""Brazil"",       Y = 0.21 },
-        new() { X = ""Bangladesh"",   Y = 0.17 }
-    };
-}";
+    protected override IReadOnlyList<RightToc.TocItem> TocItems => TocItemsList;
 }

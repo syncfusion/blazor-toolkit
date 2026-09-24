@@ -1,4 +1,5 @@
 @page "/common/test-case-count"
+@inherits TocPublishingComponentBase
 
 <PageTitle>Testing and Automation | Syncfusion Blazor Toolkit</PageTitle>
 
@@ -95,7 +96,7 @@
 
 <Description>
     <Header>
-        <h4>Component Test Matrix</h4>
+        <h1 id="component-test-matrix">Component Test Matrix</h1>
     </Header>
     <Content>
         <p>
@@ -119,7 +120,7 @@
 
 <Description>
     <Header>
-        <h5>Total Test Case Summary</h5>
+        <h2 id="total-test-case-summary">Total Test Case Summary</h2>
     </Header>
     <Content>
         <div class="summary-grid">
@@ -141,7 +142,7 @@
 
 <Description>
     <Header>
-        <h5>Component Test Case Matrix</h5>
+        <h2 id="component-test-case-matrix">Component Test Case Matrix</h2>
     </Header>
     <Content>
         <div class="table-responsive">
@@ -191,3 +192,13 @@
     </Content>
 </Description>
 
+
+@code {
+    private static readonly IReadOnlyList<RightToc.TocItem> TocItemsList = new RightToc.TocItem[]
+    {
+        new("total-test-case-summary", "Total Test Case Summary"),
+        new("component-test-case-matrix", "Component Test Case Matrix"),
+    };
+
+    protected override IReadOnlyList<RightToc.TocItem> TocItems => TocItemsList;
+}

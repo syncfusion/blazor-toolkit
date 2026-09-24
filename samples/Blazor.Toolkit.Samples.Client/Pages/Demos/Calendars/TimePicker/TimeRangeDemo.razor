@@ -1,0 +1,6 @@
+﻿<SfTimePicker TValue="DateTime?" Width="300px" Value='@TimeValue' Min='@MinVal' Max='@MaxVal' PlaceHolder="Select a time" ShowClearButton="true"></SfTimePicker>
+@code {
+    public DateTime MinVal { get; set; } = new DateTime(DateTime.Now.Year, DateTime.Now.Month, 15, 09, 00, 00);
+    public DateTime MaxVal { get; set; } = new DateTime(DateTime.Now.Year, DateTime.Now.Month, 15, 11, 30, 00);
+    public DateTime? TimeValue { get; set; } = new DateTime(DateTime.Now.Year, DateTime.Now.Month, 15, 11, 00, 00);
+}

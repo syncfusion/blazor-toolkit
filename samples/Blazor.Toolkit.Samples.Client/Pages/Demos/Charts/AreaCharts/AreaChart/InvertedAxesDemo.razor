@@ -1,0 +1,97 @@
+<SfChart @key="@_currentTheme" Title="Inverted Axes" Width="100%" Height="400px" IsTransposed="true" Theme="@_currentTheme">
+
+    <ChartTooltipSettings Enable="true"
+                          Header="${point.x}"
+                          Format="${series.name} : <b>${point.y}</b>" />
+
+    <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Toolkit.ValueType.Category"
+                       Interval="3">
+        <ChartAxisMajorGridLines Width="1" DashArray="10,10" />
+    </ChartPrimaryXAxis>
+
+    <ChartPrimaryYAxis LabelFormat="${value}M">
+        <ChartAxisLineStyle Width="0" />
+    </ChartPrimaryYAxis>
+
+    <ChartSeries DataSource="@AmazonData"
+                 XName="X"
+                 YName="Y"
+                 Name="Amazon"
+                 Type="ChartSeriesType.Area"
+                 Opacity="0.5"
+                 Fill="#3CFFD2"
+                 Border="@(new ChartSeriesBorder { Width = 2, Color = "#008264" })">
+        <ChartMarker Visible="true"
+                     Shape="ChartShape.Circle" />
+    </ChartSeries>
+
+    <ChartSeries DataSource="@TencentData"
+                 XName="X"
+                 YName="Y"
+                 Name="Tencent"
+                 Type="ChartSeriesType.Area"
+                 Opacity="0.5"
+                 Fill="#DCFF89"
+                 Border="@(new ChartSeriesBorder { Width = 2, Color = "#5A8100" })">
+        <ChartMarker Visible="true"
+                     Shape="ChartShape.Circle" />
+    </ChartSeries>
+</SfChart>
+
+@code {
+    [CascadingParameter]
+    private Theme CurrentTheme { get; set; } = Theme.Fluent;
+
+    private Theme _currentTheme = Theme.Fluent;
+
+    protected override void OnParametersSet()
+    {
+        base.OnParametersSet();
+        _currentTheme = CurrentTheme;
+    }
+
+    public class RevenueData
+    {
+        public int X { get; set; }
+        public double Y { get; set; }
+    }
+
+    public List<RevenueData> AmazonData = new()
+    {
+        new() { X = 2024, Y = 638 },
+        new() { X = 2023, Y = 575 },
+        new() { X = 2022, Y = 514 },
+        new() { X = 2021, Y = 470 },
+        new() { X = 2020, Y = 386 },
+        new() { X = 2019, Y = 281 },
+        new() { X = 2018, Y = 233 },
+        new() { X = 2017, Y = 178 },
+        new() { X = 2016, Y = 136 },
+        new() { X = 2015, Y = 107 },
+        new() { X = 2014, Y = 89 },
+        new() { X = 2013, Y = 74 },
+        new() { X = 2012, Y = 61 },
+        new() { X = 2011, Y = 48 },
+        new() { X = 2010, Y = 34 },
+        new() { X = 2009, Y = 25 }
+    };
+
+    public List<RevenueData> TencentData = new()
+    {
+        new() { X = 2024, Y = 92 },
+        new() { X = 2023, Y = 86 },
+        new() { X = 2022, Y = 82 },
+        new() { X = 2021, Y = 87 },
+        new() { X = 2020, Y = 70 },
+        new() { X = 2019, Y = 55 },
+        new() { X = 2018, Y = 47 },
+        new() { X = 2017, Y = 35 },
+        new() { X = 2016, Y = 23 },
+        new() { X = 2015, Y = 17 },
+        new() { X = 2014, Y = 13 },
+        new() { X = 2013, Y = 10 },
+        new() { X = 2012, Y = 7 },
+        new() { X = 2011, Y = 4 },
+        new() { X = 2010, Y = 3 }
+    };
+}

@@ -1,0 +1,49 @@
+﻿<div class="uploader-grid">
+    <div class="uploader-card">
+        <p><strong>Default:</strong></p>
+        <SfUploader CssClass="e-dropeffect-uploader" ID="UploadFilesDefault" AutoUpload="false" DropEffect="DropEffect.Default" />
+    </div>
+
+    <div class="uploader-card">
+        <p><strong>Copy:</strong></p>
+        <SfUploader CssClass="e-dropeffect-uploader" ID="UploadFilesCopy" AutoUpload="false" DropEffect="DropEffect.Copy" />
+    </div>
+
+    <div class="uploader-card">
+        <p><strong>Move:</strong></p>
+        <SfUploader CssClass="e-dropeffect-uploader" ID="UploadFilesMove" AutoUpload="false" DropEffect="DropEffect.Move" />
+    </div>
+
+    <div class="uploader-card">
+        <p><strong>Link:</strong></p>
+        <SfUploader CssClass="e-dropeffect-uploader" ID="UploadFilesLink" AutoUpload="false" DropEffect="DropEffect.Link" />
+    </div>
+
+    <div class="uploader-card">
+        <p><strong>None:</strong></p>
+        <SfUploader CssClass="e-dropeffect-uploader" ID="UploadFilesNone" AutoUpload="false" DropEffect="DropEffect.None" />
+    </div>
+
+</div>
+<style>
+    .uploader-grid {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 1rem;
+        align-items: start;
+    }
+
+    .uploader-card {
+        padding: 1rem;
+        border: 1px solid #e6e6e6;
+        border-radius: 6px;
+        min-height: 120px;
+        display: flex;
+        flex-direction: column;
+        gap: 0.5rem;
+    }
+
+    .e-dropeffect-uploader {
+        width: 250px;
+    }
+</style>

@@ -1,0 +1,93 @@
+﻿<div class="mb-2">
+    @* Parent tri-state visual but click behavior coerced to two-state *@
+    <SfCheckBox TChecked="bool?"
+                Checked="@notifParentState"
+                CheckedChanged="OnNotifParentClicked"
+                EnableTriState="true"
+                Label="All notifications" />
+</div>
+
+@* Children *@
+<ul class="list-unstyled ms-3">
+    @for (int i = 0; i < notifItems.Count; i++)
+    {
+        var idx = i;
+        <li class="mb-1" @key="notifItems[idx]">
+            <SfCheckBox TChecked="bool"
+                        Checked="@notifItems[idx].Selected"
+                        CheckedChanged="@((bool v) => { notifItems[idx].Selected = v; OnNotifChildChanged(); })"
+                        Label="@notifItems[idx].Name" />
+        </li>
+    }
+</ul>
+
+@* Summary *@
+<p class="mt-2">
+    <small>
+        Selected: <b>@notifSelectedCount</b> of <b>@notifItems.Count</b>
+    </small>
+</p>
+
+@code {
+    private bool indeterminateWhenAllSelected = false; // set true to show Indeterminate even when all are selected
+    private bool? notifParentState = false;
+
+    private class Pick { public string Name { get; set; } = ""; public bool Selected { get; set; } }
+
+    private List<Pick> notifItems = new()
+    {
+        new Pick { Name = "Product updates", Selected = true },
+        new Pick { Name = "Security alerts", Selected = true },
+        new Pick { Name = "Promotions",      Selected = false },
+        new Pick { Name = "Surveys",         Selected = false },
+    };
+
+    private int notifSelectedCount => notifItems.Count(i => i.Selected);
+
+    protected override void OnInitialized()
+    {
+        // Ensure the parent reflects initial children
+        UpdateNotifParentState();
+    }
+
+    private void UpdateNotifParentState()
+    {
+        int total = notifItems.Count;
+        int selected = notifItems.Count(i => i.Selected);
+
+        if (selected == 0)
+        {
+            notifParentState = false;
+        }
+        else if (selected == total)
+        {
+            notifParentState = indeterminateWhenAllSelected ? null : true;
+        }
+        else
+        {
+            notifParentState = null; // some selected Indeterminate
+        }
+    }
+
+    private void OnNotifChildChanged()
+    {
+        // Called after a child changes recompute parents tri-state
+        UpdateNotifParentState();
+    }
+
+    private void OnNotifParentClicked(bool? valueFromUI)
+    {
+        // Coerce parent click into a 2-state action check all / uncheck all
+        bool target = notifItems.Any(i => !i.Selected); // if any unchecked -> check all else uncheck all
+
+        if (valueFromUI == true) target = true;
+        else if (valueFromUI == false) target = false;
+        // if null: keep computed target
+
+        foreach (var it in notifItems)
+            it.Selected = target;
+
+        // Recompute parent state to honor the indeterminateWhenAllSelected switch
+        UpdateNotifParentState();
+    }
+}

@@ -1,0 +1,84 @@
+<SfChart @key="@_currentTheme" Title="Samsung Smartphone Shipments (2013-2024)" SubTitle="Trend Analysis: From Peak Sales to Recent Market Share" Width="100%" Height="400px" Theme="@_currentTheme">
+
+    <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Toolkit.ValueType.Category"
+                       Interval="1"
+                       LabelIntersectAction="LabelIntersectAction.Rotate45"
+                       EdgeLabelPlacement="EdgeLabelPlacement.Shift">
+    </ChartPrimaryXAxis>
+
+    <ChartPrimaryYAxis Title="Shipments (Million Units)" Minimum="0"
+                       Maximum="500"
+                       Interval="100"
+                       LabelFormat="{value}M">
+        <ChartAxisLineStyle Width="0" />
+    </ChartPrimaryYAxis>
+
+    <ChartSeries DataSource="@SalesData"
+                 XName="Year"
+                 YName="Sales"
+                 Type="ChartSeriesType.MultiColoredArea"
+                 PointColorMapping="Color">
+    </ChartSeries>
+
+    <ChartAnnotations>
+        <ChartAnnotation X="@("2013")" Y="460" CoordinateUnits="Units.Point">
+            <ContentTemplate>
+                <div style="color:#0B4F4F;font-weight:bold;font-size:14px;">Peak</div>
+            </ContentTemplate>
+        </ChartAnnotation>
+
+        <ChartAnnotation X="@("2017")" Y="345" CoordinateUnits="Units.Point">
+            <ContentTemplate>
+                <div style="color:#26A69A;font-weight:bold;font-size:14px;">Moderate</div>
+            </ContentTemplate>
+        </ChartAnnotation>
+
+        <ChartAnnotation X="@("2021")" Y="290" CoordinateUnits="Units.Point">
+            <ContentTemplate>
+                <div style="color:#B2DFDB;font-weight:bold;font-size:14px;">Low</div>
+            </ContentTemplate>
+        </ChartAnnotation>
+
+        <ChartAnnotation X="@("2024")" Y="245" CoordinateUnits="Units.Point">
+            <ContentTemplate>
+                <div style="color:#1F77B4;font-weight:bold;font-size:14px;">Current</div>
+            </ContentTemplate>
+        </ChartAnnotation>
+    </ChartAnnotations>
+</SfChart>
+
+@code {
+    [CascadingParameter]
+    private Theme CurrentTheme { get; set; } = Theme.Fluent;
+
+    private Theme _currentTheme = Theme.Fluent;
+
+    protected override void OnParametersSet()
+    {
+        base.OnParametersSet();
+        _currentTheme = CurrentTheme;
+    }
+
+    public class SamsungSales
+    {
+        public string Year { get; set; } = "";
+        public double Sales { get; set; }
+        public string Color { get; set; } = "";
+    }
+
+    private List<SamsungSales> SalesData = new()
+    {
+        new() { Year = "2013", Sales = 444.4442, Color = "#0B4F4F" },
+        new() { Year = "2014", Sales = 392.546, Color = "#0B4F4F" },
+        new() { Year = "2015", Sales = 320.4, Color = "#0B4F4F" },
+        new() { Year = "2016", Sales = 306.4466, Color = "#0B4F4F" },
+        new() { Year = "2017", Sales = 321.2633, Color = "#26A69A" },
+        new() { Year = "2018", Sales = 295.0437, Color = "#26A69A" },
+        new() { Year = "2019", Sales = 296.194, Color = "#26A69A" },
+        new() { Year = "2020", Sales = 253, Color = "#26A69A" },
+        new() { Year = "2021", Sales = 272, Color = "#B2DFDB" },
+        new() { Year = "2022", Sales = 260.9, Color = "#B2DFDB" },
+        new() { Year = "2023", Sales = 226.6, Color = "#B2DFDB" },
+        new() { Year = "2024", Sales = 223.4, Color = "#B2DFDB" }
+    };
+}

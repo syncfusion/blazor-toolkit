@@ -1,0 +1,70 @@
+<SfChart @key="@_currentTheme" Title="Global Electricity Production" Width="100%" Height="400px" Theme="@_currentTheme">
+
+    <ChartArea>
+        <ChartAreaBorder Width="0" />
+    </ChartArea>
+
+    <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Toolkit.ValueType.Double" />
+
+    <ChartPrimaryYAxis ValueType="Syncfusion.Blazor.Toolkit.ValueType.Double">
+        <ChartPrimaryYAxis Format="{value}B" />
+    </ChartPrimaryYAxis>
+
+    <ChartSeries Type="ChartSeriesType.StepArea"
+                 DataSource="@Renewable"
+                 XName="X"
+                 YName="Y"
+                 Name="Renewable"
+                 Opacity="0.7"
+                 Width="2"
+                 Fill="#38BE09"
+                 LegendShape="LegendShape.Rectangle">
+        <ChartSeriesBorder Width="2" Color="#38BE09" />
+    </ChartSeries>
+
+    <ChartSeries Type="ChartSeriesType.StepArea"
+                 DataSource="@NonRenewable"
+                 XName="X"
+                 YName="Y"
+                 Name="Non-Renewable"
+                 Opacity="0.7"
+                 Width="2"
+                 Fill="#E77A16"
+                 LegendShape="LegendShape.Rectangle">
+        <ChartSeriesBorder Width="2" Color="#E77A16" />
+    </ChartSeries>
+
+    <ChartTooltipSettings Enable="true"
+                          ShowNearestTooltip="true"
+                          Header="<b>${series.name}</b>"
+                          Format="${point.x}: <b>${point.y}</b>" />
+</SfChart>
+
+@code {
+    [CascadingParameter]
+    private Theme CurrentTheme { get; set; } = Theme.Fluent;
+
+    private Theme _currentTheme = Theme.Fluent;
+
+    protected override void OnParametersSet()
+    {
+        base.OnParametersSet();
+        _currentTheme = CurrentTheme;
+    }
+
+    public record EnergyData(double X, double Y);
+
+    public List<EnergyData> Renewable = new()
+    {
+        new(2000, 416), new(2001, 490), new(2002, 470), new(2003, 500),
+        new(2004, 449), new(2005, 470), new(2006, 437), new(2007, 458),
+        new(2008, 500), new(2009, 473), new(2010, 520), new(2011, 520)
+    };
+
+    public List<EnergyData> NonRenewable = new()
+    {
+        new(2000, 180), new(2001, 240), new(2002, 370), new(2003, 200),
+        new(2004, 229), new(2005, 210), new(2006, 337), new(2007, 258),
+        new(2008, 300), new(2009, 173), new(2010, 220), new(2011, 220)
+    };
+}

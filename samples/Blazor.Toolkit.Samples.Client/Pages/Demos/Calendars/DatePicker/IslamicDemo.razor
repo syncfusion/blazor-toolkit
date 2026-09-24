@@ -1,0 +1,4 @@
+﻿<SfDatePicker TValue="DateTime?" Width="270px" Placeholder="Choose a Date" Value='@DateRangeValue' CalendarMode="CalendarType.Islamic" ShowClearButton="true"></SfDatePicker>
+@code {
+    public DateTime? DateRangeValue { get; set; } = new DateTime(DateTime.Now.Year, DateTime.Now.Month, 15);
+}

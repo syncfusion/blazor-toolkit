@@ -1,0 +1,39 @@
+﻿<div id="btn-target">
+    <SfButton @onclick="@OpenButtonDialog">Open Dialog Buttons Dialog</SfButton>
+
+    <SfDialog Target="#btn-target" Width="250px" ShowCloseIcon="true" @bind-Visible="@IsButtonVisible">
+        <DialogTemplates>
+            <Header> Dialog </Header>
+            <Content>This is a standard Dialog with footer buttons</Content>
+        </DialogTemplates>
+        <DialogButtons>
+            <DialogButton Content="OK" IsPrimary="true" OnClick="@OnOkClick" />
+            <DialogButton Content="Cancel" OnClick="@OnCancelClick" />
+        </DialogButtons>
+    </SfDialog>
+</div>
+@code {
+    private bool IsButtonVisible { get; set; } = false;
+
+    private void OpenButtonDialog()
+    {
+        this.IsButtonVisible = true;
+    }
+
+    private void OnOkClick()
+    {
+        this.IsButtonVisible = false;
+    }
+
+    private void OnCancelClick()
+    {
+        this.IsButtonVisible = false;
+    }
+}
+<style>
+    #btn-target {
+        min-height: 400px;
+        height: 100%;
+        position: relative;
+    }
+</style>

@@ -1,0 +1,76 @@
+<SfChart @key="@_currentTheme" Title="Climate Graph in 2024" IsTransposed="true" Theme="@_currentTheme">
+    <ChartArea><ChartAreaBorder Width="0"></ChartAreaBorder></ChartArea>
+
+    <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Toolkit.ValueType.Category">
+        <ChartAxisLineStyle Width="0" />
+        <ChartAxisMajorGridLines Width="0" />
+        <ChartAxisMajorTickLines Width="0" />
+        <ChartAxisMinorTickLines Width="0" />
+    </ChartPrimaryXAxis>
+
+    <ChartPrimaryYAxis LabelFormat="{value}°C">
+        <ChartAxisLineStyle Width="0" />
+        <ChartAxisMajorTickLines Width="0" />
+    </ChartPrimaryYAxis>
+
+    <ChartSeries DataSource="@ClimateData"
+                 XName="Month"
+                 YName="London"
+                 Name="London"
+                 Type="ChartSeriesType.Line"
+                 Fill="@TwoSeriesColors[0]">
+        <ChartMarker Visible="true" Shape="ChartShape.Circle" IsFilled="true" />
+    </ChartSeries>
+
+    <ChartSeries DataSource="@ClimateData"
+                 XName="Month"
+                 YName="France"
+                 Name="France"
+                 Type="ChartSeriesType.Line"
+                 Fill="@TwoSeriesColors[1]">
+        <ChartMarker Visible="true" Shape="ChartShape.Circle" IsFilled="true" />
+    </ChartSeries>
+
+    <ChartTooltipSettings Enable="true"
+                          Header="${series.name}"
+                          EnableHighlight="true" />
+    <ChartLegendSettings EnableHighlight="true" />
+</SfChart>
+
+@code {
+    [CascadingParameter]
+    private Theme CurrentTheme { get; set; } = Theme.Fluent;
+
+    private Theme _currentTheme = Theme.Fluent;
+
+    protected override void OnParametersSet()
+    {
+        base.OnParametersSet();
+        _currentTheme = CurrentTheme;
+    }
+
+    private bool IsDarkTheme => _currentTheme.ToString().Contains("Dark") || _currentTheme.ToString().Contains("HighContrast");
+
+    private string[] TwoSeriesColors =>
+        IsDarkTheme
+            ? new[] { "#7F9CFE", "#FD963B" }
+            : new[] { "#0A30AE", "#E3651D" };
+
+    public class ClimatePoint
+    {
+        public string Month { get; set; } = string.Empty;
+        public double London { get; set; }
+        public double France { get; set; }
+    }
+
+    public List<ClimatePoint> ClimateData = new()
+    {
+        new() { Month = "Jan", London = 2,  France = 8  },
+        new() { Month = "Mar", London = 14, France = 4  },
+        new() { Month = "Apr", London = 27, France = 15 },
+        new() { Month = "Jun", London = 33, France = 23 },
+        new() { Month = "Aug", London = 28, France = 28 },
+        new() { Month = "Oct", London = 16, France = 12 },
+        new() { Month = "Dec", London = 10, France = 2  }
+    };
+}

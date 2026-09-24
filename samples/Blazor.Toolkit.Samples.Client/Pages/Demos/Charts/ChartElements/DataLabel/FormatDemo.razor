@@ -1,0 +1,74 @@
+
+<SfChart @key="@_currentTheme" Title="Day-wise Units Sold" Theme="@_currentTheme">
+
+    <ChartTooltipSettings Enable="true"
+                          Header="${point.x}"
+                          Format="Sales: <b>${point.y} Units</b>" />
+
+    <!-- Primary X Axis -->
+    <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Toolkit.ValueType.Category">
+        <ChartAxisMajorGridLines Width="0" />
+        <ChartAxisMajorTickLines Width="0" />
+    </ChartPrimaryXAxis>
+
+    <!-- Primary Y Axis -->
+    <ChartPrimaryYAxis Interval="20" Title="Units Sold">
+        <ChartAxisLineStyle Width="0" />
+        <ChartAxisMajorTickLines Width="0" />
+    </ChartPrimaryYAxis>
+
+
+    <ChartSeries DataSource="@LabelCustomData"
+                 XName="Country"
+                 YName="Gold"
+                 Type="ChartSeriesType.Column"
+                 Fill="#A0D683"
+                 ColumnWidth="0.4"
+                 CornerRadius="@(new ChartCornerRadius { TopLeft = 5, TopRight = 5 })">
+
+        <ChartMarker>
+            <ChartDataLabel Visible="true"
+                            Format="n2"
+                            EnableRotation="true"
+                            Angle="-90"
+                            Font="@(new ChartDataLabelFont { Color = DataLabelTextColor })" />
+        </ChartMarker>
+
+    </ChartSeries>
+
+
+</SfChart>
+
+@code {
+    [CascadingParameter]
+    private Theme CurrentTheme { get; set; } = Theme.Fluent;
+
+    private Theme _currentTheme = Theme.Fluent;
+
+    protected override void OnParametersSet()
+    {
+        base.OnParametersSet();
+        _currentTheme = CurrentTheme;
+    }
+
+    private bool IsDarkTheme => _currentTheme.ToString().Contains("Dark") || _currentTheme.ToString().Contains("HighContrast");
+    private string DataLabelTextColor => IsDarkTheme ? "#FFFFFF" : "#000000";
+
+    public class SalesData
+    {
+        public string Country { get; set; }
+        public double Gold { get; set; }
+        public string Text { get; set; }
+    }
+
+    public List<SalesData> LabelCustomData = new()
+    {
+        new() { Country = "Monday",    Gold = 50, Text = "Monday: 50" },
+        new() { Country = "Tuesday",   Gold = 40, Text = "Tuesday: 40" },
+        new() { Country = "Wednesday", Gold = 70, Text = "Wednesday: 70" },
+        new() { Country = "Thursday",  Gold = 60, Text = "Thursday: 60" },
+        new() { Country = "Friday",    Gold = 50, Text = "Friday: 50" },
+        new() { Country = "Saturday",  Gold = 40, Text = "Saturday: 40" },
+        new() { Country = "Sunday",    Gold = 40, Text = "Sunday: 40" }
+    };
+}

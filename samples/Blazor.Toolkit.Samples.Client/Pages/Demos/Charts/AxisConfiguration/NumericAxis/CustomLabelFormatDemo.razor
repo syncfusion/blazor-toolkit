@@ -1,0 +1,66 @@
+<SfChart @key="@_currentTheme" Title="Yearly Temperature Readings (°F)" Theme="@_currentTheme">
+    <ChartArea>
+        <ChartAreaBorder Width="0"></ChartAreaBorder>
+    </ChartArea>
+
+    <ChartPrimaryYAxis Minimum="50"
+                       Maximum="57"
+                       LabelFormat="{value}°F">
+        <ChartAxisLineStyle Width="0" />
+        <ChartAxisMajorTickLines Width="0" />
+    </ChartPrimaryYAxis>
+
+    <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Toolkit.ValueType.Double"
+                       Interval="1">
+        <ChartAxisMajorGridLines Width="0" />
+        <ChartAxisMajorTickLines Width="0" />
+        <ChartAxisMinorTickLines Width="0" />
+    </ChartPrimaryXAxis>
+
+    <ChartSeries DataSource="@NumericFormatData"
+                 XName="X"
+                 YName="Y"
+                 Type="ChartSeriesType.Column"
+                 Fill="#7D8D86"
+                 ColumnWidth="0.5">
+        <ChartCornerRadius TopLeft="5" TopRight="5"></ChartCornerRadius>
+    </ChartSeries>
+
+    <ChartTooltipSettings Enable="true"
+                          Header="${point.x}"
+                          Format="Temperature : <b>${point.y}</b>"
+                          EnableHighlight="true">
+    </ChartTooltipSettings>
+</SfChart>
+
+@code {
+    [CascadingParameter]
+    private Theme CurrentTheme { get; set; } = Theme.Fluent;
+
+    private Theme _currentTheme = Theme.Fluent;
+
+    protected override void OnParametersSet()
+    {
+        base.OnParametersSet();
+        _currentTheme = CurrentTheme;
+    }
+
+    public class NumericFormatPoint
+    {
+        public double X { get; set; }
+        public double Y { get; set; }
+    }
+
+    public List<NumericFormatPoint> NumericFormatData = new()
+    {
+        new() { X = 2010, Y = 52.7 },
+        new() { X = 2011, Y = 51.8 },
+        new() { X = 2012, Y = 56.6 },
+        new() { X = 2013, Y = 53.3 },
+        new() { X = 2014, Y = 55.6 },
+        new() { X = 2015, Y = 54.3 },
+        new() { X = 2016, Y = 53.2 },
+        new() { X = 2017, Y = 52.1 },
+        new() { X = 2018, Y = 55.2 }
+    };
+}

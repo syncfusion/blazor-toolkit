@@ -1,0 +1,15 @@
+﻿<SfButton @onclick="@ShowModalSpinner" CssClass="e-primary">Show Modal Spinner</SfButton>
+<div id="modalContainer" style="position: relative; height: 200px; margin-top: 20px; border: 2px solid ; padding: 20px;">
+    <p>This is sample content. Spinner will overlay this area.</p>
+    <SfSpinner @bind-Visible="@showModalSpinner" CssClass="e-spin-overlay"></SfSpinner>
+</div>
+@code {
+    private bool showModalSpinner = false;
+
+    private async Task ShowModalSpinner()
+    {
+        showModalSpinner = true;
+        await Task.Delay(3000);
+        showModalSpinner = false;
+    }
+}

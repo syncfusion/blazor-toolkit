@@ -1,0 +1,93 @@
+
+<SfChart @key="@_currentTheme" Title="Bitcoin Price Volatility (2023)"
+         SubTitle="Source: Cryptocurrency Market Data" Theme="@_currentTheme">
+
+    <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Toolkit.ValueType.Category"
+                       Title="Month">
+        <ChartAxisMajorGridLines Width="0" />
+        <ChartAxisMajorTickLines Width="0" />
+    </ChartPrimaryXAxis>
+
+    <ChartPrimaryYAxis Minimum="15000"
+                       Maximum="45000"
+                       Interval="5000"
+                       Title="Price (USD)">
+        <ChartAxisMajorTickLines Width="0" />
+        <ChartAxisLineStyle Width="0" />
+    </ChartPrimaryYAxis>
+
+    <ChartTooltipSettings Enable="true"
+                          Shared="true"
+                          ShowNearestTooltip="true"
+                          Format="Price: <b>$${point.y}</b>" />
+
+    <ChartLegendSettings Visible="true"
+                         ShapeHeight="15"
+                         ShapeWidth="15" />
+
+
+    <ChartSeries DataSource="@TrendlineMovingAverageData"
+                 XName="Month"
+                 YName="Price"
+                 Name="Bitcoin Price"
+                 Type="ChartSeriesType.Line"
+                 Width="2"
+                 Fill="#F7931A">
+
+        <ChartSeriesAnimation Enable="false" />
+
+        <ChartMarker Visible="true"
+                     Width="7"
+                     Height="7"
+                     Shape="ChartShape.Circle"
+                     Fill="#F7931A" />
+
+        <ChartTrendlines>
+            <ChartTrendline Type="TrendlineTypes.MovingAverage"
+                            Name="3-Month Moving Average"
+                            Width="3"
+                            Period="3"
+                            Fill="#00ACC1"
+                            EnableTooltip="false">
+                <ChartTrendlineAnimation Enable="false" />
+            </ChartTrendline>
+        </ChartTrendlines>
+
+    </ChartSeries>
+
+</SfChart>
+
+@code {
+    [CascadingParameter]
+    private Theme CurrentTheme { get; set; } = Theme.Fluent;
+
+    private Theme _currentTheme = Theme.Fluent;
+
+    protected override void OnParametersSet()
+    {
+        base.OnParametersSet();
+        _currentTheme = CurrentTheme;
+    }
+
+    public class MovingAveragePoint
+    {
+        public string Month { get; set; }
+        public double Price { get; set; }
+    }
+
+    public List<MovingAveragePoint> TrendlineMovingAverageData = new()
+    {
+        new() { Month = "Jan", Price = 16547 },
+        new() { Month = "Feb", Price = 23145 },
+        new() { Month = "Mar", Price = 28470 },
+        new() { Month = "Apr", Price = 29235 },
+        new() { Month = "May", Price = 27180 },
+        new() { Month = "Jun", Price = 30468 },
+        new() { Month = "Jul", Price = 29856 },
+        new() { Month = "Aug", Price = 26123 },
+        new() { Month = "Sep", Price = 26945 },
+        new() { Month = "Oct", Price = 34580 },
+        new() { Month = "Nov", Price = 37245 },
+        new() { Month = "Dec", Price = 42158 }
+    };
+}

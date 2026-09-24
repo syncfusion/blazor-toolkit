@@ -1,0 +1,8 @@
+﻿<div class="d-flex gap-4 align-items-center flex-wrap">
+    <SfRadioButton Name="types" Label="Checked" Value="Checked" @bind-Checked="typesPick" />
+    <SfRadioButton Name="types" Label="Unchecked" Value="Unchecked" @bind-Checked="typesPick" />
+    <SfRadioButton Name="types" Label="Disabled" Value="Disabled" Disabled="true" @bind-Checked="typesPick" />
+</div>
+@code {
+    private string typesPick = "Checked";
+}
