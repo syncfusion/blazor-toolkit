@@ -1,0 +1,42 @@
+﻿<div class="event-item">
+    <SfTextBox Placeholder="Type here" OnInput="@OnInput" ValueChange="@OnValueChange" OnFocus="@OnFocus" OnBlur="@OnBlur" FloatLabelType="FloatLabelType.Auto"></SfTextBox>
+    <div class="mt-3">
+        <p><b>Event:</b> @_eventMessage</p>
+    </div>
+</div>
+
+@code {
+    private string? _eventMessage;
+
+    private void OnInput(InputEventArgs args)
+    {
+        _eventMessage = "Input event triggered";
+    }
+
+    private void OnValueChange(ChangedEventArgs args)
+    {
+        _eventMessage = "Changed event triggered";
+    }
+
+    private void OnFocus(FocusInEventArgs args)
+    {
+        _eventMessage = "FocusIn event triggered";
+    }
+
+    private void OnBlur(FocusOutEventArgs args)
+    {
+        _eventMessage = "FocusOut event triggered";
+    }
+}
+<style>
+    .event-item {
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+    }
+
+    .event-item p {
+        margin: 0;
+        font-size: 14px;
+    }
+</style>

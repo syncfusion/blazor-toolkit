@@ -1,0 +1,126 @@
+@using Syncfusion.Blazor.Toolkit.Buttons
+
+<div class="mb-4">
+    <label class="fw-bold d-block mb-2">Intersect Mode</label>
+
+    <SfButtonGroup Mode="SelectionMode.Single">
+        <Button Selected="@IsSelected(LabelIntersectAction.None)"
+                SelectedChanged="@(v => OnModeChanged(v, LabelIntersectAction.None))">
+            None
+        </Button>
+
+        <Button Selected="@IsSelected(LabelIntersectAction.Hide)"
+                SelectedChanged="@(v => OnModeChanged(v, LabelIntersectAction.Hide))">
+            Hide
+        </Button>
+
+        <Button Selected="@IsSelected(LabelIntersectAction.Trim)"
+                SelectedChanged="@(v => OnModeChanged(v, LabelIntersectAction.Trim))">
+            Trim
+        </Button>
+
+        <Button Selected="@IsSelected(LabelIntersectAction.Wrap)"
+                SelectedChanged="@(v => OnModeChanged(v, LabelIntersectAction.Wrap))">
+            Wrap
+        </Button>
+
+        <Button Selected="@IsSelected(LabelIntersectAction.MultipleRows)"
+                SelectedChanged="@(v => OnModeChanged(v, LabelIntersectAction.MultipleRows))">
+            Multiple Rows
+        </Button>
+
+        <Button Selected="@IsSelected(LabelIntersectAction.Rotate45)"
+                SelectedChanged="@(v => OnModeChanged(v, LabelIntersectAction.Rotate45))">
+            Rotate 45
+        </Button>
+
+        <Button Selected="@IsSelected(LabelIntersectAction.Rotate90)"
+                SelectedChanged="@(v => OnModeChanged(v, LabelIntersectAction.Rotate90))">
+            Rotate 90
+        </Button>
+    </SfButtonGroup>
+</div>
+
+<SfChart @key="@_currentTheme" Title="Internet Users in Millions" Theme="@_currentTheme">
+    <ChartArea>
+        <ChartAreaBorder Width="0" />
+    </ChartArea>
+
+    <ChartTooltipSettings Enable="true"
+                          Header="${point.x}"
+                          Format="Internet Users : <b>${point.y}</b>"
+                          EnableHighlight="true" />
+
+    <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Toolkit.ValueType.Category"
+                       LabelIntersectAction="@IntersectMode">
+        <ChartAxisMajorGridLines Width="0" />
+        <ChartAxisMajorTickLines Width="0" />
+        <ChartAxisMinorTickLines Width="0" />
+    </ChartPrimaryXAxis>
+
+    <ChartPrimaryYAxis>
+        <ChartAxisLineStyle Width="0" />
+        <ChartAxisMajorTickLines Width="0" />
+    </ChartPrimaryYAxis>
+
+    <ChartSeries DataSource="@SmartLabelData"
+                 XName="X"
+                 YName="Y"
+                 Type="ChartSeriesType.Column"
+                 Fill="#43CDFF"
+                 Width="0.6"
+                 CornerRadius="@(new ChartCornerRadius { TopLeft = 5, TopRight = 5 })">
+        <ChartMarker>
+            <ChartDataLabel Visible="true"
+                            Format="{value}M"
+                            Position="ChartLabelPosition.Top" />
+        </ChartMarker>
+    </ChartSeries>
+</SfChart>
+
+@code {
+    [CascadingParameter]
+    private Theme CurrentTheme { get; set; } = Theme.Fluent;
+
+    private Theme _currentTheme = Theme.Fluent;
+
+    protected override void OnParametersSet()
+    {
+        base.OnParametersSet();
+        _currentTheme = CurrentTheme;
+    }
+
+    public class InternetUserPoint
+    {
+        public string X { get; set; } = string.Empty;
+        public double Y { get; set; }
+    }
+
+    public List<InternetUserPoint> SmartLabelData = new()
+    {
+        new() { X = "South Korea", Y = 39 },
+        new() { X = "India", Y = 61 },
+        new() { X = "Pakistan", Y = 20 },
+        new() { X = "Germany", Y = 65 },
+        new() { X = "Australia", Y = 16 },
+        new() { X = "Italy", Y = 29 },
+        new() { X = "France", Y = 45 },
+        new() { X = "United Arab Emirates", Y = 10 },
+        new() { X = "Russia", Y = 41 },
+        new() { X = "Mexico", Y = 31 },
+        new() { X = "Brazil", Y = 76 },
+        new() { X = "China", Y = 51 }
+    };
+
+    public LabelIntersectAction IntersectMode { get; set; } = LabelIntersectAction.Hide;
+
+    public bool IsSelected(LabelIntersectAction mode) => IntersectMode == mode;
+
+    public void OnModeChanged(bool selected, LabelIntersectAction mode)
+    {
+        if (selected)
+        {
+            IntersectMode = mode;
+        }
+    }
+}

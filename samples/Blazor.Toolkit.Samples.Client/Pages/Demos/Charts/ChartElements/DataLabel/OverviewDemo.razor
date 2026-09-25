@@ -1,0 +1,97 @@
+
+<SfChart @key="@_currentTheme" Title="Real Household Income Per Capita and Real GDP Per Capita" Theme="@_currentTheme">
+
+    <!-- Primary X Axis -->
+    <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Toolkit.ValueType.Category">
+        <ChartAxisMajorGridLines Width="0" />
+        <ChartAxisMajorTickLines Width="0" />
+    </ChartPrimaryXAxis>
+
+    <!-- Primary Y Axis -->
+    <ChartPrimaryYAxis Format="n1">
+        <ChartAxisLineStyle Width="0" />
+        <ChartAxisMajorTickLines Width="0" />
+    </ChartPrimaryYAxis>
+
+    <!-- Series -->
+
+
+    <!-- Household Income -->
+    <ChartSeries DataSource="@DataLabelOverviewData"
+                 XName="X"
+                 YName="Y1"
+                 Type="ChartSeriesType.Column"
+                 Name="Household Income - Q1 2025"
+                 Fill="#BA7DDA"
+                 ColumnSpacing="0.2"
+                 CornerRadius="@(new ChartCornerRadius { TopLeft = 5, TopRight = 5 })">
+
+        <ChartMarker>
+
+            <ChartDataLabel Visible="true"
+                            Format="n1"
+                            Position="ChartLabelPosition.Outer"
+                            Font="@(new ChartDataLabelFont { Color = DataLabelTextColor })" />
+        </ChartMarker>
+    </ChartSeries>
+
+    <!-- GDP -->
+    <ChartSeries DataSource="@DataLabelOverviewData"
+                 XName="X"
+                 YName="Y2"
+                 Type="ChartSeriesType.Column"
+                 Name="GDP - Q1 2025"
+                 Fill="#00C5BC"
+                 ColumnSpacing="0.2"
+                 CornerRadius="@(new ChartCornerRadius { TopLeft = 5, TopRight = 5 })">
+
+        <ChartMarker>
+            <ChartDataLabel Visible="true"
+                            Format="n1"
+                            Position="ChartLabelPosition.Outer"
+                            LabelIntersectAction="None"
+                            Font="@(new ChartDataLabelFont { Color = DataLabelTextColor })" />
+        </ChartMarker>
+    </ChartSeries>
+
+
+    <!-- Tooltip -->
+    <ChartTooltipSettings Enable="true"
+                          Header="${point.x}"
+                          Format="${series.name} : <b>${point.y}%</b>" />
+
+</SfChart>
+
+@code {
+    [CascadingParameter]
+    private Theme CurrentTheme { get; set; } = Theme.Fluent;
+
+    private Theme _currentTheme = Theme.Fluent;
+
+    protected override void OnParametersSet()
+    {
+        base.OnParametersSet();
+        _currentTheme = CurrentTheme;
+    }
+
+    private bool IsDarkTheme => _currentTheme.ToString().Contains("Dark") || _currentTheme.ToString().Contains("HighContrast");
+    private string DataLabelTextColor => IsDarkTheme ? "#FFFFFF" : "#000000";
+
+    public class IncomeData
+    {
+        public string X { get; set; }
+        public double Y1 { get; set; }
+        public double Y2 { get; set; }
+    }
+
+    public List<IncomeData> DataLabelOverviewData = new()
+    {
+        new() { X = "Italy",   Y1 = 1.0,  Y2 = 0.4 },
+        new() { X = "USA",     Y1 = 0.5,  Y2 = -0.3 },
+        new() { X = "G7",      Y1 = 0.3,  Y2 = 0.0 },
+        new() { X = "France",  Y1 = 0.2,  Y2 = 0.1 },
+        new() { X = "Canada",  Y1 = 0.1,  Y2 = 0.4 },
+        new() { X = "Germany", Y1 = -0.4, Y2 = 0.3 },
+        new() { X = "UK",      Y1 = -1.3, Y2 = 0.5 }
+    };
+}

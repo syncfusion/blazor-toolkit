@@ -47,6 +47,7 @@ namespace Syncfusion.Blazor.Toolkit.Calendars
         internal bool IsTodayClick { get; set; }
         internal bool IsRenderDayCellEvent { get; set; }
         internal ElementReference Element { get; set; }
+        internal bool IsKeyboardInteraction { get; set; }
 
         private static readonly char[] _separatorArray = [',', ' ', '/', '-', ':'];
         private List<string> DirectParamKeys { get; set; } = [];
@@ -862,6 +863,7 @@ namespace Syncfusion.Blazor.Toolkit.Calendars
             // Release parameter-tracking state and cascading context owned by this base.
             DirectParamKeys.Clear();
             CalendarEditContext = null;
+            IsKeyboardInteraction = false;
             return base.DisposeAsyncCore();
         }
     }

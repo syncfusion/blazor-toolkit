@@ -1,0 +1,6 @@
+﻿<SfSwitch @bind-Checked="basicChecked"></SfSwitch>
+<span class="status-text">Status: @(basicChecked ? "ON" : "OFF")</span>
+
+@code {
+    private bool basicChecked = false;
+}

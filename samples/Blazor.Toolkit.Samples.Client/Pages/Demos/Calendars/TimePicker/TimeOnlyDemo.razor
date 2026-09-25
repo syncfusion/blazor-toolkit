@@ -1,0 +1,4 @@
+﻿<SfTimePicker TValue="TimeOnly?" Width="300px" @bind-Value="@Value" PlaceHolder="Select a time" ShowClearButton="true"></SfTimePicker>
+@code{
+    public TimeOnly? Value { get; set; } = new TimeOnly(12, 00, 00);
+}

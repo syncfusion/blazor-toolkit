@@ -1,0 +1,68 @@
+<SfChart @key="@_currentTheme" Title="U.S Trade with India in 2024" Theme="@_currentTheme">
+    <ChartArea>
+        <ChartAreaBorder Width="0" />
+    </ChartArea>
+
+    <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Toolkit.ValueType.Category"
+                       LabelRotation="-45">
+        <ChartAxisMajorGridLines Width="0" />
+        <ChartAxisMajorTickLines Width="0" />
+        <ChartAxisMinorTickLines Width="0" />
+    </ChartPrimaryXAxis>
+
+    <ChartPrimaryYAxis Interval="0.3"
+                       Title="Billion USD"
+                       LabelFormat="{value}B">
+        <ChartAxisLineStyle Width="0" />
+        <ChartAxisMajorTickLines Width="0" />
+    </ChartPrimaryYAxis>
+
+    <ChartSeries DataSource="@TradeData"
+                 XName="X"
+                 YName="Y"
+                 Type="ChartSeriesType.Column"
+                 Fill="@SeriesColor"
+                 Width="0.5"
+                 CornerRadius="@(new ChartCornerRadius { TopLeft = 8, TopRight = 8 })" />
+
+    <ChartTooltipSettings Enable="true"
+                          Header="Export to India"
+                          Format="${point.x} : <b>${point.y}</b>"
+                          EnableHighlight="true" />
+</SfChart>
+
+@code {
+    [CascadingParameter]
+    private Theme CurrentTheme { get; set; } = Theme.Fluent;
+
+    private Theme _currentTheme = Theme.Fluent;
+
+    protected override void OnParametersSet()
+    {
+        base.OnParametersSet();
+        _currentTheme = CurrentTheme;
+    }
+
+    private bool IsDarkTheme => _currentTheme.ToString().Contains("Dark") || _currentTheme.ToString().Contains("HighContrast");
+    private string SeriesColor => IsDarkTheme ? "#BA7DDA" : "#87CEEB";
+
+    public class TradePoint
+    {
+        public string X { get; set; } = string.Empty;
+        public double Y { get; set; }
+    }
+
+    public List<TradePoint> TradeData = new()
+    {
+        new() { X = "Tree Nuts", Y = 1.12 },
+        new() { X = "Pulses", Y = 0.73 },
+        new() { X = "Essential Oils", Y = 0.67 },
+        new() { X = "Dairy Products", Y = 0.52 },
+        new() { X = "Other Intermediate Products", Y = 0.51 },
+        new() { X = "Other Feeds, Meals & Fodders", Y = 0.43 },
+        new() { X = "Ethanol", Y = 0.42 },
+        new() { X = "Fresh Fruit", Y = 0.40 },
+        new() { X = "Soybean Oil", Y = 0.37 },
+        new() { X = "Cotton", Y = 0.20 }
+    };
+}

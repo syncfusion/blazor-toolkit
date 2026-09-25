@@ -1,0 +1,14 @@
+﻿<div class="mb-2 fw-semibold">Select a payment method</div>
+
+<div class="d-flex flex-column gap-2">
+    <SfRadioButton Name="pay" Label="Credit/Debit Card" Value="Card" @bind-Checked="paymentPick"></SfRadioButton>
+    <SfRadioButton Name="pay" Label="Net Banking" Value="Net" @bind-Checked="paymentPick"></SfRadioButton>
+    <SfRadioButton Name="pay" Label="Cash on Delivery" Value="COD" @bind-Checked="paymentPick"></SfRadioButton>
+    <SfRadioButton Name="pay" Label="Other Wallets" Value="Wallets" @bind-Checked="paymentPick"></SfRadioButton>
+</div>
+<small class="text-muted mt-2 d-inline-block">Selected: <b>@paymentPick</b></small>
+@code
+{
+    // Intro (payment)
+    private string paymentPick = "Card";
+}

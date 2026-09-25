@@ -1,0 +1,109 @@
+<div class="property-pane">
+    <div class="row">
+        <div class="col">
+            <label class="fw-bold">Highlight Color</label>
+            <input type="color" style="display: inline; width: 50px;"
+                   class="form-control"
+                   value="@SelectionColor"
+                   @onchange="ChangeSelectionColor" />
+        </div>
+    </div>
+</div>
+
+<SfChart @key="@_currentTheme" Title="Global Smartphone Sales Trends by Brand (2021-2025)" Theme="@_currentTheme"
+         SubTitle="Source: gartner.com"
+         HighlightColor="@SelectionColor" HighlightMode="HighlightMode.Series">
+
+    <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Toolkit.ValueType.Category" />
+
+    <ChartPrimaryYAxis Maximum="300"
+                       Format="{value}M"
+                       Title="Units Sold (in Millions)">
+    </ChartPrimaryYAxis>
+
+    <ChartSeries DataSource="@MobileData.AppleData"
+                 XName="Year"
+                 YName="Count"
+                 Type="ChartSeriesType.Column"
+                 Name="Apple"
+                 Fill="#82C100"
+                 ColumnSpacing="0.1"
+                 CornerRadius="@(new ChartCornerRadius { TopLeft = 6, TopRight = 6 })">
+    </ChartSeries>
+
+    <ChartSeries DataSource="@MobileData.XiaomiData"
+                 XName="Year"
+                 YName="Count"
+                 Type="ChartSeriesType.Column"
+                 Name="Xiaomi"
+                 Fill="#E77A16"
+                 ColumnSpacing="0.1"
+                 CornerRadius="@(new ChartCornerRadius { TopLeft = 6, TopRight = 6 })">
+    </ChartSeries>
+
+    <ChartSeries DataSource="@MobileData.OppoData"
+                 XName="Year"
+                 YName="Count"
+                 Type="ChartSeriesType.Column"
+                 Name="Oppo"
+                 Fill="#B1212D"
+                 ColumnSpacing="0.1"
+                 CornerRadius="@(new ChartCornerRadius { TopLeft = 6, TopRight = 6 })">
+    </ChartSeries>
+</SfChart>
+
+@code {
+    [CascadingParameter]
+    private Theme CurrentTheme { get; set; } = Theme.Fluent;
+
+    private Theme _currentTheme = Theme.Fluent;
+
+    protected override void OnParametersSet()
+    {
+        base.OnParametersSet();
+        _currentTheme = CurrentTheme;
+    }
+
+    private string SelectionColor { get; set; } = "#800000";
+
+    private void ChangeSelectionColor(ChangeEventArgs args)
+    {
+        SelectionColor = args.Value?.ToString() ?? "#800000";
+    }
+
+    public class MobileSalesData
+    {
+        public string Year { get; set; } = string.Empty;
+        public double Count { get; set; }
+    }
+
+    public static class MobileData
+    {
+        public static List<MobileSalesData> AppleData = new()
+        {
+            new() { Year = "2021", Count = 237 },
+            new() { Year = "2022", Count = 226.4 },
+            new() { Year = "2023", Count = 234.6 },
+            new() { Year = "2024", Count = 232.5 },
+            new() { Year = "2025", Count = 245 }
+        };
+
+        public static List<MobileSalesData> XiaomiData = new()
+        {
+            new() { Year = "2021", Count = 190 },
+            new() { Year = "2022", Count = 154.7 },
+            new() { Year = "2023", Count = 145.6 },
+            new() { Year = "2024", Count = 152.1 },
+            new() { Year = "2025", Count = 168 }
+        };
+
+        public static List<MobileSalesData> OppoData = new()
+        {
+            new() { Year = "2021", Count = 115 },
+            new() { Year = "2022", Count = 105 },
+            new() { Year = "2023", Count = 100 },
+            new() { Year = "2024", Count = 98 },
+            new() { Year = "2025", Count = 102 }
+        };
+    }
+}

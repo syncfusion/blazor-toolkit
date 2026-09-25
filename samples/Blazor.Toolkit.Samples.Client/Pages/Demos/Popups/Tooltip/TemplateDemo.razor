@@ -1,0 +1,72 @@
+﻿<div id="targetContainer" class="col-lg-12 control-section">
+    @* Native toolbar with SfTooltip targeting buttons *@
+    <SfTooltip Width="200px" ID="Tooltip" ShowTipPointer="true" Position="Position.TopCenter" Target="#nativeToolbar .e-btn">
+        <ChildContent>
+            <div id="nativeToolbar" class="toolbarContainer">
+                <div class="native-toolbar">
+                    <SfButton CssClass="toolbar-btn" aria-label="Cut" title="Cut - Remove the selection (Ctrl+X)">✂️</SfButton>
+                    <SfButton CssClass="toolbar-btn" aria-label="Copy" title="Copy - Copy selection (Ctrl+C)">📋</SfButton>
+                    <SfButton CssClass="toolbar-btn" aria-label="Paste" title="Paste - Paste from clipboard (Ctrl+V)">📥</SfButton>
+                    <span class="toolbar-separator" aria-hidden="true"></span>
+                    <SfButton CssClass="toolbar-btn" aria-label="Bold" title="Bold - Make text bold (Ctrl+B)"><strong>B</strong></SfButton>
+                    <SfButton CssClass="toolbar-btn" aria-label="Underline" title="Underline - Underline text (Ctrl+U)"><u>U</u></SfButton>
+                    <SfButton CssClass="toolbar-btn" aria-label="Italic" title="Italic - Italicize text (Ctrl+I)"><em>I</em></SfButton>
+                </div>
+            </div>
+        </ChildContent>
+    </SfTooltip>
+</div>
+
+<style type="text/css">
+    /* Sample specific styles for native toolbar */
+    .toolbarContainer {
+        margin: 18px auto;
+        text-align: center;
+        padding-top: 50px;
+        padding-bottom: 50px;
+    }
+
+    .native-toolbar {
+        display: inline-flex;
+        gap: 8px;
+        align-items: center;
+        padding-top: 8px;
+    }
+
+    .toolbar-btn {
+        min-width: 34px;
+        height: 34px;
+        border-radius: 4px;
+        border: 1px solid #ccc;
+        cursor: pointer;
+    }
+
+    .toolbar-separator {
+        width: 1px;
+        height: 24px;
+        background: #ddd;
+        display: inline-block;
+        margin: 0 8px;
+    }
+
+    .e-tooltip-wrap p {
+        margin: 0;
+    }
+
+    .e-tooltip-wrap h6 {
+        margin: 3px 0 6px 0;
+        font-size: 12px;
+        font-weight: 500;
+    }
+
+    @@media screen and (max-width: 420px) {
+        .native-toolbar {
+            gap: 6px;
+        }
+
+        .toolbar-btn {
+            min-width: 30px;
+            height: 30px;
+        }
+    }
+</style>

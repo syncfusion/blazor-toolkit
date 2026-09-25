@@ -1,0 +1,138 @@
+
+<SfChart @key="@_currentTheme" Title="Bitcoin (BTC) vs USD - Monthly Close (Jun 2022-Oct 2024)" Theme="@_currentTheme">
+
+    <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Toolkit.ValueType.DateTime"
+                       IntervalType="IntervalType.Months" LabelFormat="MMM yy"
+                       Interval="4">
+        <ChartAxisMajorGridLines Width="0" />
+        <ChartAxisMajorTickLines Width="0" />
+    </ChartPrimaryXAxis>
+
+    <ChartPrimaryYAxis Interval="20000" Title="Price in USD">
+        <ChartAxisLineStyle Width="0" />
+        <ChartAxisMajorTickLines Width="0" />
+    </ChartPrimaryYAxis>
+
+    <ChartAnnotations>
+        <ChartAnnotation X="@Stats.MaxPoint.X"
+                            Y="@(Stats.MaxPoint.Y.ToString())"
+                            CoordinateUnits="Units.Point">
+            <ContentTemplate>
+                @((MarkupString)GlassBox($"📈 Max ${FmtUSD(Stats.MaxVal)}"))
+            </ContentTemplate>
+        </ChartAnnotation>
+
+        <ChartAnnotation X="@Stats.MinPoint.X"
+                            Y="@(Stats.MinPoint.Y.ToString())"
+                            CoordinateUnits="Units.Point">
+            <ContentTemplate>
+                @((MarkupString)GlassBox($"📉 Min ${FmtUSD(Stats.MinVal)}"))
+            </ContentTemplate>
+        </ChartAnnotation>
+
+        <ChartAnnotation X="@Stats.MidPoint.X"
+                            Y="@(Stats.AvgVal.ToString())"
+                            CoordinateUnits="Units.Point">
+            <ContentTemplate>
+                @((MarkupString)GlassBox($"⚖ Avg ${FmtUSD(Stats.AvgVal)}"))
+            </ContentTemplate>
+        </ChartAnnotation>
+    </ChartAnnotations>
+
+
+    <ChartSeries DataSource="@Data"
+                 XName="X"
+                 YName="Y"
+                 Type="ChartSeriesType.Area"
+                 Fill="rgba(250, 8, 8, 0.26)"
+                 Border="@(new ChartSeriesBorder { Color = "red", Width = 2 })">
+    </ChartSeries>
+
+
+
+    <ChartLegendSettings Visible="false"></ChartLegendSettings>
+</SfChart>
+
+@code {
+    [CascadingParameter]
+    private Theme CurrentTheme { get; set; } = Theme.Fluent;
+
+    private Theme _currentTheme = Theme.Fluent;
+
+    protected override void OnParametersSet()
+    {
+        base.OnParametersSet();
+        _currentTheme = CurrentTheme;
+    }
+
+    public class PricePoint
+    {
+        public DateTime X { get; set; }
+        public double Y { get; set; }
+    }
+
+    public record StatsInfo(
+        double MaxVal, double MinVal, PricePoint MaxPoint, PricePoint MinPoint, double AvgVal, PricePoint MidPoint
+    );
+
+    public List<PricePoint> Data = new()
+    {
+        new() { X = new DateTime(2022, 6, 1),  Y = 21000 },
+        new() { X = new DateTime(2022, 7, 1),  Y = 23000 },
+        new() { X = new DateTime(2022, 8, 1),  Y = 20000 },
+        new() { X = new DateTime(2022, 9, 1),  Y = 19500 },
+        new() { X = new DateTime(2022,10, 1),  Y = 20500 },
+        new() { X = new DateTime(2022,11, 1),  Y = 18000 },
+        new() { X = new DateTime(2022,12, 1),  Y = 16500 },
+        new() { X = new DateTime(2023, 1, 1),  Y = 23000 },
+        new() { X = new DateTime(2023, 2, 1),  Y = 23500 },
+        new() { X = new DateTime(2023, 3, 1),  Y = 28000 },
+        new() { X = new DateTime(2023, 4, 1),  Y = 29000 },
+        new() { X = new DateTime(2023, 5, 1),  Y = 27000 },
+        new() { X = new DateTime(2023, 6, 1),  Y = 30000 },
+        new() { X = new DateTime(2023, 7, 1),  Y = 30500 },
+        new() { X = new DateTime(2023, 8, 1),  Y = 29000 },
+        new() { X = new DateTime(2023, 9, 1),  Y = 26000 },
+        new() { X = new DateTime(2023,10, 1),  Y = 34000 },
+        new() { X = new DateTime(2023,11, 1),  Y = 37000 },
+        new() { X = new DateTime(2023,12, 1),  Y = 42000 },
+        new() { X = new DateTime(2024, 1, 1),  Y = 44000 },
+        new() { X = new DateTime(2024, 2, 1),  Y = 43000 },
+        new() { X = new DateTime(2024, 3, 1),  Y = 62000 },
+        new() { X = new DateTime(2024, 4, 1),  Y = 70000 },
+        new() { X = new DateTime(2024, 5, 1),  Y = 57000 },
+        new() { X = new DateTime(2024, 6, 1),  Y = 68000 },
+        new() { X = new DateTime(2024, 7, 1),  Y = 63000 },
+        new() { X = new DateTime(2024, 8, 1),  Y = 61000 },
+        new() { X = new DateTime(2024, 9, 1),  Y = 59000 },
+        new() { X = new DateTime(2024,10, 1),  Y = 61000 }
+    };
+
+    public StatsInfo Stats => ComputeStats(Data);
+
+    StatsInfo ComputeStats(List<PricePoint> ds)
+    {
+        var values = ds.Select(d => d.Y).ToList();
+        var maxVal = values.Max();
+        var minVal = values.Min();
+        var maxPoint = ds[values.IndexOf(maxVal)];
+        var minPoint = ds[values.IndexOf(minVal)];
+        var avgVal = Math.Round(values.Average());
+        var midPoint = ds[ds.Count / 2];
+        return new StatsInfo(maxVal, minVal, maxPoint, minPoint, avgVal, midPoint);
+    }
+
+    string FmtUSD(double v) => v.ToString("N0");
+
+    string GlassBox(string text) => $@"
+    <div style='
+        padding:4px 8px;
+        border-radius:8px;
+        background:rgba(30,143,255,0.26);
+        border:1px solid rgba(30,144,255,0.45);
+        color:#0b64c0;
+        font-size:12px;
+        font-weight:600;'>
+        {text}
+    </div>";
+}

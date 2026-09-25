@@ -1,3 +1,12 @@
+/*
+ * MS-4.10 / LPS-13 — CSS isolation for the Spinner Border.
+ *
+ * `style="@SvgStyle"` on the host emits only `--spinner-size` /
+ * `--spinner-thickness` declarations. Those are CSS custom properties
+ * computed at runtime from the parent `SfSpinner.Size` /
+ * `SfSpinner.Thickness` parameters. All other visual rules live here.
+ */
+
 .e-spin-fluent {
     width: var(--spinner-size, 30px);
     height: var(--spinner-size, 30px);
@@ -7,4 +16,12 @@
 .e-path-circle,
 .e-path-arc {
     stroke-width: var(--spinner-thickness, 4px);
+}
+
+.e-spin-fluent .e-path-circle {
+    fill: none;
+}
+
+.e-spin-fluent .e-path-arc {
+    fill: none;
 }

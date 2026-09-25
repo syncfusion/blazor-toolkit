@@ -1,0 +1,61 @@
+<SfChart @key="@_currentTheme" Title="Angular Major Versions by Release Date" Theme="@_currentTheme">
+    <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Toolkit.ValueType.DateTime"
+                       IntervalType="IntervalType.Years"
+                       LabelFormat="dd MMM yyyy">
+        <ChartAxisMajorGridLines Width="0.5" />
+    </ChartPrimaryXAxis>
+
+    <ChartPrimaryYAxis Title="Major Version" Interval="5">
+        <ChartAxisMajorGridLines Width="0.5" />
+    </ChartPrimaryYAxis>
+
+    <ChartSeries DataSource="@ChartData.Releases"
+                 XName="X"
+                 YName="Y"
+                 Type="ChartSeriesType.Area"
+                 Opacity="0.6"
+                 Fill="rgba(98, 0, 238, 1)">
+        <ChartMarker Visible="true" IsFilled="false">
+            <ChartMarkerBorder Width="2" Color="#6200EE" />
+        </ChartMarker>
+    </ChartSeries>
+
+    <ChartTooltipSettings Enable="true"
+                          Header="<b>${point.x}</b>"
+                          Format="Version: <b>${point.y}</b>" />
+
+    <ChartCrosshairSettings Enable="true" />
+
+    <ChartLegendSettings Visible="false" />
+</SfChart>
+
+@code {
+    [CascadingParameter]
+    private Theme CurrentTheme { get; set; } = Theme.Fluent;
+
+    private Theme _currentTheme = Theme.Fluent;
+
+    protected override void OnParametersSet()
+    {
+        base.OnParametersSet();
+        _currentTheme = CurrentTheme;
+    }
+
+    public class ReleaseData
+    {
+        public DateTime X { get; set; }
+        public double Y { get; set; }
+    }
+
+    public static class ChartData
+    {
+        public static List<ReleaseData> Releases = new()
+        {
+            new ReleaseData { X = new DateTime(2016, 9, 14), Y = 2 },
+            new ReleaseData { X = new DateTime(2017, 3, 22), Y = 4 },
+            new ReleaseData { X = new DateTime(2018, 11, 7), Y = 7 },
+            new ReleaseData { X = new DateTime(2020, 2, 6), Y = 9 },
+            new ReleaseData { X = new DateTime(2022, 6, 2), Y = 14 }
+        };
+    }
+}

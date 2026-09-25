@@ -1,0 +1,99 @@
+﻿@using System.ComponentModel.DataAnnotations;
+
+<div id="validation" class="control-section col-lg-12">
+    <div class="control-wrapper">
+        @if (string.IsNullOrEmpty(_message))
+        {
+            <EditForm Model="@_annotation" OnValidSubmit="@OnValidSubmit" OnInvalidSubmit="@OnInvalidSubmit">
+                <DataAnnotationsValidator />
+                <div class="form-group">
+                    <SfTextBox @bind-Value="@_annotation.Name" FloatLabelType="FloatLabelType.Auto"
+                               Placeholder="Enter a Name"></SfTextBox>
+                    <ValidationMessage For="@(() => _annotation.Name)" />
+                    <div class="example-content">
+                        <SfTextArea @bind-Value="@_annotation.Comments" RowCount="5"
+                                    FloatLabelType="FloatLabelType.Auto" Placeholder="Enter your Comments"
+                                    ColumnCount="250"></SfTextArea>
+                        <ValidationMessage For="@(() => _annotation.Comments)" />
+                    </div>
+                </div>
+                <div class="d-flex justify-content-center gap-3 mt-4">
+                    <SfButton Type="ButtonType.Submit" CssClass="e-primary" IsPrimary="true">Submit</SfButton>
+                    <SfButton CssClass="e-secondary" OnClick="@OnReset">Reset</SfButton>
+                </div>
+            </EditForm>
+        }
+        else
+        {
+            <div class="alert alert-success">
+                @_message
+            </div>
+        }
+    </div>
+</div>
+
+@code {
+    private string _message = string.Empty;
+    private Annotation _annotation = new Annotation();
+    async void OnValidSubmit()
+    {
+        _message = "Form Submitted Successfully!";
+        await Task.Delay(2000);
+        _message = string.Empty;
+        _annotation.Name = null;
+        StateHasChanged();
+    }
+    private void OnInvalidSubmit()
+    {
+        _message = string.Empty;
+    }
+
+    private void OnReset()
+    {
+        _annotation = new Annotation();
+        _message = string.Empty;
+        StateHasChanged();
+    }
+
+    public class Annotation
+    {
+        [Required(ErrorMessage = "The name field is required.")]
+        [MaxLength(10, ErrorMessage = "The name field should not contain more than 10 characters.")]
+        [MinLength(3, ErrorMessage = "The name field must contain at least 3 characters.")]
+        public string? Name { get; set; }
+        [Required(ErrorMessage = "The name field is required.")]
+        [MaxLength(20, ErrorMessage = "The comments field should not contain more than 20 characters.")]
+        [MinLength(10, ErrorMessage = "The comments field must contain at least 10 characters.")]
+        public string? Comments { get; set; }
+    }
+}
+
+<style>
+    .control-wrapper {
+        width: 70%;
+        margin: 0 auto;
+        min-width: 85px;
+    }
+
+    .example-label {
+        font-size: 14px;
+        margin-bottom: 6px;
+    }
+
+    .example-content {
+        padding: 15px 0px;
+    }
+
+        .example-content:last-child {
+            padding: 15px 0px;
+        }
+
+    .validation-message {
+        color: red;
+        padding: 5px 0px 0px;
+    }
+
+    #validation .e-multi-line-input {
+        max-width: 100%;
+    }
+</style>

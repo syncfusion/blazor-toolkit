@@ -1,0 +1,9 @@
+﻿<div class="d-flex gap-4 align-items-center flex-wrap">
+    <SfCheckBox TChecked="bool" Checked="true" Label="Checked" />
+    <SfCheckBox TChecked="bool" Label="Unchecked" />
+    <SfCheckBox TChecked="bool" Checked="true" Label="Disabled" Disabled="true" />
+    <SfCheckBox TChecked="bool?" @bind-Checked="tIndeterminate" EnableTriState="true" Label="Indeterminate" />
+</div>
+@code{
+    private bool? tIndeterminate = null;
+}

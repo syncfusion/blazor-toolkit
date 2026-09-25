@@ -2,372 +2,677 @@
 @implements IDisposable
 
 <div class="nav-scrollable">
-    <nav class="nav flex-column">
-        <ul class="sidebar list-unstyled px-3">
+    <nav class="nav flex-column sf-sidebar" aria-label="Documentation navigation">
+        <ul class="sf-sidebar-list list-unstyled">
             @if (string.IsNullOrEmpty(_singleCategory))
             {
-                <li class="mb-2 open-page">
-                    <NavLink class="nav-link" href="" Match="NavLinkMatch.All">Explore</NavLink>
+                @* ============================================================
+                EXPLORE
+                ============================================================ *@
+                <li class="sf-nav-item @(IsActive("explore") || IsActive("") ? "is-active" : "")">
+                    <NavLink class="sf-nav-link" href="explore" Match="NavLinkMatch.All">
+                        <span class="sb-icons e-home sf-menu-icon" aria-hidden="true"></span>
+                        <span>Explore</span>
+                    </NavLink>
                 </li>
-                <li class="mb-2 open-page">
-                    <NavLink class="nav-link" href="system-requirements" >System Requirements</NavLink>
+
+                @* ============================================================
+                DOCUMENTATION
+                ============================================================ *@
+                <li class="sf-sidebar-group-label" aria-hidden="true">Documentation</li>
+
+                <li class="sf-nav-item @(IsActive("getting-started") ? "is-active" : "")">
+                    <NavLink class="sf-nav-link" href="getting-started" Match="NavLinkMatch.All">
+                        <span class="sb-icons e-play sf-menu-icon" aria-hidden="true"></span>
+                        <span>Getting Started</span>
+                    </NavLink>
                 </li>
-                <li class="mb-2 open-page">
-                    <NavLink class="nav-link" href="browser-support">Browser Support</NavLink>
+                <li class="sf-nav-item @(IsActive("system-requirements") ? "is-active" : "")">
+                    <NavLink class="sf-nav-link" href="system-requirements" Match="NavLinkMatch.All">
+                        <span class="e-toolkit-icons e-system-requirement sf-menu-icon" aria-hidden="true"></span>
+                        <span>System Requirements</span>
+                    </NavLink>
                 </li>
-                <li class="mb-2">
-                    <details class="menu-group" open='@(IsAnyGroupOpen("blazor-web-app", "blazor-webassembly-app"))'>
-                        <summary class="menu-summary">Getting Started</summary>
-                        <ul class="ms-3 list-unstyled">
-                             <li class="last-li-child">
-                                <NavLink class="nav-link" href="blazor-web-app">Blazor Web App</NavLink>
+                <li class="sf-nav-item @(IsActive("browser-support") ? "is-active" : "")">
+                    <NavLink class="sf-nav-link" href="browser-support" Match="NavLinkMatch.All">
+                        <span class="e-toolkit-icons e-browser-support sf-menu-icon" aria-hidden="true"></span>
+                        <span>Browser Support</span>
+                    </NavLink>
+                </li>
+
+                @* ============================================================
+                COMMON  (section label + plain child items, no chevron)
+                ============================================================ *@
+                <li class="sf-sidebar-group-label" aria-hidden="true">Common</li>
+
+                <li class="sf-nav-item sf-sub-item @(IsActive("common/right-to-left") ? "is-active" : "")">
+                    <NavLink class="sf-nav-link" href="common/right-to-left" Match="NavLinkMatch.All">
+                        <span class="e-toolkit-icons e-right-left sf-menu-icon" aria-hidden="true"></span>
+                        <span>Right-To-Left</span>
+                    </NavLink>
+                </li>
+                <li class="sf-nav-item sf-sub-item @(IsActive("common/state-persistence") ? "is-active" : "")">
+                    <NavLink class="sf-nav-link" href="common/state-persistence" Match="NavLinkMatch.All">
+                        <span class="e-toolkit-icons e-state-persistence sf-menu-icon" aria-hidden="true"></span>
+                        <span>State Persistence</span>
+                    </NavLink>
+                </li>
+                <li class="sf-nav-item sf-sub-item @(IsActive("common/globalization") ? "is-active" : "")">
+                    <NavLink class="sf-nav-link" href="common/globalization" Match="NavLinkMatch.All">
+                        <span class="e-toolkit-icons e-globalization sf-menu-icon" aria-hidden="true"></span>
+                        <span>Globalization</span>
+                    </NavLink>
+                </li>
+                <li class="sf-nav-item sf-sub-item @(IsActive("common/test-case-count") ? "is-active" : "")">
+                    <NavLink class="sf-nav-link" href="common/test-case-count" Match="NavLinkMatch.All">
+                        <span class="e-toolkit-icons e-text-matrix sf-menu-icon" aria-hidden="true"></span>
+                        <span>Component Test Matrix</span>
+                    </NavLink>
+                </li>
+
+                @* ============================================================
+                COMPONENTS (expandable group label)
+                ============================================================ *@
+                <li class="sf-sidebar-group-wrapper">
+                    <button type="button"
+                            class="sf-sidebar-group-summary"
+                            aria-expanded="@_componentsExpanded.ToString().ToLowerInvariant()"
+                            @onclick="ToggleComponents">
+                        <span class="sf-sidebar-group-label-text">Components</span>
+                        <span class="sf-caret @( _componentsExpanded ? "is-open" : string.Empty)" aria-hidden="true"></span>
+                    </button>
+                </li>
+
+                @if (_componentsExpanded)
+                {
+                <li class="sf-nav-item sf-nav-item-tight @(IsChartsRoute(_relativeUri) ? "is-active" : "")">
+                    <a type="button"
+                    class="sf-nav-link"
+                    @onclick='() => ShowCategory("charts")'>
+                        <span class="e-toolkit-icons e-chart sf-menu-icon" aria-hidden="true"></span>
+                        <span>Charts</span>
+                    </a>
+                </li>
+
+                <li class="sf-nav-item sf-nav-item-tight">
+                    <details class="sf-menu-group" open='@IsGroupOpen("buttons")'>
+                        <summary class="sf-menu-summary">
+                            <span class="e-toolkit-icons e-button sf-menu-icon" aria-hidden="true"></span>
+                            <span class="sf-menu-summary-label">Buttons</span>
+                            <span class="sf-caret" aria-hidden="true"></span>
+                        </summary>
+                        <ul class="sf-sub-list">
+                            <li class="sf-nav-item sf-sub-item @(IsActive("buttons/button") ? "is-active" : "")">
+                                <NavLink class="sf-nav-link" href="buttons/button" Match="NavLinkMatch.All">
+                                    <span>Button</span>
+                                </NavLink>
                             </li>
-                            <li class="last-li-child">
-                                <NavLink class="nav-link" href="blazor-webassembly-app">Blazor WebAssembly App</NavLink>
+                            <li class="sf-nav-item sf-sub-item @(IsActive("buttons/button-group") ? "is-active" : "")">
+                                <NavLink class="sf-nav-link" href="buttons/button-group" Match="NavLinkMatch.All">
+                                    <span>Button Group</span>
+                                </NavLink>
                             </li>
                         </ul>
                     </details>
                 </li>
-                <li class="mb-2">
-                    <details class="menu-group" open='@(IsGroupOpenPrefix("common"))'>
-                        <summary class="menu-summary">Common</summary>
-                        <ul class="ms-3 list-unstyled">
-                            <li class="last-li-child">
-                                <NavLink class="nav-link" href="common/right-to-left">Right-To-Left</NavLink>
+
+                <li class="sf-nav-item sf-nav-item-tight">
+                    <details class="sf-menu-group" open='@IsGroupOpen("calendars")'>
+                        <summary class="sf-menu-summary">
+                            <span class="e-toolkit-icons e-calendars sf-menu-icon" aria-hidden="true"></span>
+                            <span class="sf-menu-summary-label">Calendars</span>
+                            <span class="sf-caret" aria-hidden="true"></span>
+                        </summary>
+                        <ul class="sf-sub-list">
+                            <li class="sf-nav-item sf-sub-item @(IsActive("calendars/calendar") ? "is-active" : "")">
+                                <NavLink class="sf-nav-link" href="calendars/calendar" Match="NavLinkMatch.All">
+                                    <span>Calendar</span>
+                                </NavLink>
                             </li>
-                            <li class="last-li-child">
-                                <NavLink class="nav-link" href="common/state-persistence">State Persistence</NavLink>
+                            <li class="sf-nav-item sf-sub-item @(IsActive("calendars/datepicker") ? "is-active" : "")">
+                                <NavLink class="sf-nav-link" href="calendars/datepicker" Match="NavLinkMatch.All">
+                                    <span>DatePicker</span>
+                                </NavLink>
                             </li>
-                            <li class="last-li-child">
-                                <NavLink class="nav-link" href="common/globalization">Globalization</NavLink>
+                            <li class="sf-nav-item sf-sub-item @(IsActive("calendars/datetimepicker") ? "is-active" : "")">
+                                <NavLink class="sf-nav-link" href="calendars/datetimepicker" Match="NavLinkMatch.All">
+                                    <span>DateTime Picker</span>
+                                </NavLink>
                             </li>
-                             <li class="last-li-child">
-                                <NavLink class="nav-link" href="common/test-case-count">Component Test Matrix</NavLink>
+                            <li class="sf-nav-item sf-sub-item @(IsActive("calendars/timepicker") ? "is-active" : "")">
+                                <NavLink class="sf-nav-link" href="calendars/timepicker" Match="NavLinkMatch.All">
+                                    <span>TimePicker</span>
+                                </NavLink>
                             </li>
                         </ul>
                     </details>
                 </li>
-                <li class="mb-2">
-                    <details class="menu-group" open='@(_firstRender || IsAnyGroupOpen("buttons", "calendars", "inputs", "popups"))'>
-                        <summary class="menu-summary comp-option">Components</summary>
-                        <ul class="ms-3 list-unstyled">
-                            <li class="open-comp-list">
-                                <a class="@GetChartsLinkClass()" href="#" @onclick='() => ShowCategory("charts")' @onclick:preventDefault="true">Charts</a>
-                            </li>
-                            <li class="mb-2">
-                                <details class="menu-group" open='@(_firstRender || IsGroupOpenPrefix("buttons"))'>
-                                    <summary class="menu-summary">Buttons</summary>
-                                    <ul class="ms-3 list-unstyled">
-                                        <li class="last-li-child">
-                                            <NavLink class="nav-link" href="buttons/button">Button</NavLink>
-                                        </li>
-                                        <li class="last-li-child">
-                                            <NavLink class="nav-link" href="buttons/button-group">Button Group</NavLink>
-                                        </li>
-                                    </ul>
-                                </details>
-                            </li>
 
-                            <li class="mb-2">
-                                <details class="menu-group" open='@(_firstRender || IsGroupOpenPrefix("calendars"))'>
-                                    <summary class="menu-summary">Calendars</summary>
-                                    <ul class="ms-3 list-unstyled">
-                                        <li class="last-li-child">
-                                            <NavLink class="nav-link" href="calendars/calendar">Calendar</NavLink>
-                                        </li>
-                                        <li class="last-li-child">
-                                            <NavLink class="nav-link" href="calendars/datepicker">DatePicker</NavLink>
-                                        </li>
-                                        <li class="last-li-child">
-                                            <NavLink class="nav-link" href="calendars/datetimepicker">DateTime Picker</NavLink>
-                                        </li>
-                                        <li class="last-li-child">
-                                            <NavLink class="nav-link" href="calendars/timepicker">TimePicker</NavLink>
-                                        </li>
-                                    </ul>
-                                </details>
-                            </li>
+                <li class="sf-nav-item sf-nav-item-tight @(IsActive("spinner") ? "is-active" : "")">
+                    <a type="button" class="sf-nav-link" href="spinner" Match="NavLinkMatch.All">
+                        <span class="e-toolkit-icons e-spinner sf-menu-icon" aria-hidden="true"></span>
+                        <span>Spinner</span>
+                    </a>
+                </li>
 
-                            
-                            <li class="mb-2">
-                                <NavLink class="nav-link" href="spinner">Spinner</NavLink>
+                <li class="sf-nav-item sf-nav-item-tight">
+                    <details class="sf-menu-group" open='@IsGroupOpen("inputs")'>
+                        <summary class="sf-menu-summary">
+                            <span class="e-toolkit-icons e-input sf-menu-icon" aria-hidden="true"></span>
+                            <span class="sf-menu-summary-label">Inputs</span>
+                            <span class="sf-caret" aria-hidden="true"></span>
+                        </summary>
+                        <ul class="sf-sub-list">
+                            <li class="sf-nav-item sf-sub-item @(IsActive("inputs/checkbox") ? "is-active" : "")">
+                                <NavLink class="sf-nav-link" href="inputs/checkbox" Match="NavLinkMatch.All">
+                                    <span>Checkbox</span>
+                                </NavLink>
                             </li>
-
-                            <li class="mb-2">
-                                <details class="menu-group" open='@(_firstRender || IsGroupOpenPrefix("inputs"))'>
-                                    <summary class="menu-summary">Inputs</summary>
-                                    <ul class="ms-3 list-unstyled">
-                                        <li class="last-li-child">
-                                            <NavLink class="nav-link" href="inputs/checkbox">Checkbox</NavLink>
-                                        </li>
-                                        <li class="last-li-child">
-                                            <NavLink class="nav-link" href="inputs/uploader">File Upload</NavLink>
-                                        </li>
-                                        <li class="last-li-child">
-                                            <NavLink class="nav-link" href="inputs/numerictextbox">Numeric Textbox</NavLink>
-                                        </li>
-                                        <li class="last-li-child">
-                                            <NavLink class="nav-link" href="inputs/textarea">TextArea</NavLink>
-                                        </li>
-                                        <li class="last-li-child">
-                                            <NavLink class="nav-link" href="inputs/textbox">TextBox</NavLink>
-                                        </li>
-                                        <li class="last-li-child">
-                                            <NavLink class="nav-link" href="inputs/radio-button">Radio Button</NavLink>
-                                        </li>
-                                        <li class="last-li-child">
-                                            <NavLink class="nav-link" href="inputs/switch">Switch</NavLink>
-                                        </li>
-                                    </ul>
-                                </details>
+                            <li class="sf-nav-item sf-sub-item @(IsActive("inputs/uploader") ? "is-active" : "")">
+                                <NavLink class="sf-nav-link" href="inputs/uploader" Match="NavLinkMatch.All">
+                                    <span>File Upload</span>
+                                </NavLink>
                             </li>
-                            <li class="mb-2">
-                                <details class="menu-group" open='@(_firstRender || IsGroupOpenPrefix("popups"))'>
-                                    <summary class="menu-summary">Popups</summary>
-                                    <ul class="ms-3 list-unstyled">
-                                        <li class="last-li-child">
-                                            <NavLink class="nav-link" href="popups/dialog">Dialog</NavLink>
-                                        </li>
-                                        <li class="last-li-child">
-                                            <NavLink class="nav-link" href="popups/tooltip">Tooltip</NavLink>
-                                        </li>
-                                    </ul>
-                                </details>
+                            <li class="sf-nav-item sf-sub-item @(IsActive("inputs/numerictextbox") ? "is-active" : "")">
+                                <NavLink class="sf-nav-link" href="inputs/numerictextbox" Match="NavLinkMatch.All">
+                                    <span>Numeric TextBox</span>
+                                </NavLink>
+                            </li>
+                            <li class="sf-nav-item sf-sub-item @(IsActive("inputs/textarea") ? "is-active" : "")">
+                                <NavLink class="sf-nav-link" href="inputs/textarea" Match="NavLinkMatch.All">
+                                    <span>TextArea</span>
+                                </NavLink>
+                            </li>
+                            <li class="sf-nav-item sf-sub-item @(IsActive("inputs/textbox") ? "is-active" : "")">
+                                <NavLink class="sf-nav-link" href="inputs/textbox" Match="NavLinkMatch.All">
+                                    <span>TextBox</span>
+                                </NavLink>
+                            </li>
+                            <li class="sf-nav-item sf-sub-item @(IsActive("inputs/radio-button") ? "is-active" : "")">
+                                <NavLink class="sf-nav-link" href="inputs/radio-button" Match="NavLinkMatch.All">
+                                    <span>Radio Button</span>
+                                </NavLink>
+                            </li>
+                            <li class="sf-nav-item sf-sub-item @(IsActive("inputs/switch") ? "is-active" : "")">
+                                <NavLink class="sf-nav-link" href="inputs/switch" Match="NavLinkMatch.All">
+                                    <span>Switch</span>
+                                </NavLink>
                             </li>
                         </ul>
                     </details>
                 </li>
+
+                <li class="sf-nav-item sf-nav-item-tight">
+                    <details class="sf-menu-group" open='@IsGroupOpen("popups")'>
+                        <summary class="sf-menu-summary">
+                            <span class="e-toolkit-icons e-popups sf-menu-icon" aria-hidden="true"></span>
+                            <span class="sf-menu-summary-label">Popups</span>
+                            <span class="sf-caret" aria-hidden="true"></span>
+                        </summary>
+                        <ul class="sf-sub-list">
+                            <li class="sf-nav-item sf-sub-item @(IsActive("popups/dialog") ? "is-active" : "")">
+                                <NavLink class="sf-nav-link" href="popups/dialog" Match="NavLinkMatch.All">
+                                    <span>Dialog</span>
+                                </NavLink>
+                            </li>
+                            <li class="sf-nav-item sf-sub-item @(IsActive("popups/tooltip") ? "is-active" : "")">
+                                <NavLink class="sf-nav-link" href="popups/tooltip" Match="NavLinkMatch.All">
+                                    <span>Tooltip</span>
+                                </NavLink>
+                            </li>
+                        </ul>
+                    </details>
+                </li>
+                }
+
+                @* ============================================================
+                API
+                ============================================================ *@
+                <li class="sf-sidebar-group-label" aria-hidden="true">API</li>
+
+                <li class="sf-nav-item sf-nav-item-tight">
+                    <a class="sf-nav-link" href="https://help.syncfusion.com/cr/blazor-toolkit/Syncfusion.Blazor.Toolkit.html" target="_blank" rel="noreferrer noopener">
+                        <span class="e-toolkit-icons e-api-reference sf-menu-icon" aria-hidden="true"></span>
+                        <span>API Reference</span>
+                        
+                    </a>
+                </li>
+
             }
             else if (_singleCategory == "charts")
             {
                 <li class="all-comp-class">
-                    <a href="#" @onclick="ShowAll" @onclick:preventDefault="true"><span class="me-2 sb-icons e-chevron-left"></span>ALL COMPONENTS</a>
+                    <a href="#" @onclick="ShowAll" @onclick:preventDefault="true"><span class="me-2 e-toolkit-icons e-chevron-left"></span>ALL COMPONENTS</a>
                 </li>
                 <li class="li-line" />
-                <li class="li-heading open-page">Charts</li>
-                <li class="charts-list mb-2 open-page">
-                    <NavLink class="nav-link" href="charts/overview">Overview</NavLink>
-                </li>
-              
-                <li class="charts-list mb-2 open-page">
-                    <NavLink href="charts/getting-started" class="nav-link">Getting Started</NavLink>
-                </li>
-          
-                 <li class="charts-list mb-2 open-page">
-                    <NavLink class="nav-link" href="charts/databinding">Data Binding</NavLink>
+                <li class="sf-sidebar-group-label">Charts</li>
+
+                <li class="sf-nav-item @(IsActive("charts/overview") ? "is-active" : "")">
+                        <NavLink class="sf-nav-link" href="charts/overview">
+                            <span class="sb-icons e-home sf-menu-icon" aria-hidden="true"></span>
+                            <span>Overview</span>
+                        </NavLink>
                 </li>
 
-                <li class="mb-2">
-                    <details class="menu-group" open='@(_firstRender || _chartsSectionsExpanded || IsAnyGroupOpen("charts/line-chart", "charts/spline-chart", "charts/stepline-chart"))'>
-                        <summary class="menu-summary">Line Charts</summary>
-                        <ul class="ms-3 list-unstyled">
-                            <li class="last-li-child">
-                                <NavLink class="nav-link" href="charts/line-chart">Line Chart</NavLink>
-                            </li>
-                            <li class="last-li-child">
-                                <NavLink class="nav-link" href="charts/spline-chart">Spline Chart</NavLink>
-                            </li>
-                            <li class="last-li-child">
-                                <NavLink class="nav-link" href="charts/stepline-chart">Stepline Chart</NavLink>
-                            </li>
-                        </ul>                        
-                    </details>
+                <li class="sf-nav-item @(IsActive("charts/getting-started") ? "is-active" : "")">
+                    <NavLink class="sf-nav-link" href="charts/getting-started">
+                        <span class="sb-icons e-home sf-menu-icon" aria-hidden="true"></span>
+                        <span>Getting Started</span>
+                    </NavLink>
                 </li>
-                <li class="mb-2">
-                    <details class="menu-group" open='@(_firstRender || _chartsSectionsExpanded || IsAnyGroupOpen("charts/area/area-chart", "charts/area/spline-area-chart", "charts/area/step-area-chart"))'>
-                        <summary class="menu-summary">Area Charts</summary>
-                        <ul class="ms-3 list-unstyled">
-                            <li class="last-li-child">
-                                <NavLink class="nav-link" href="charts/area/area-chart">Area Chart</NavLink>
+
+                <li class="sf-nav-item @(IsActive("charts/databinding") ? "is-active" : "")">
+                    <NavLink class="sf-nav-link" href="charts/databinding">
+                        <span class="sb-icons e-link sf-menu-icon" aria-hidden="true"></span>
+                        <span>Data Binding</span>
+                    </NavLink>
+                </li>
+
+                <li class="sf-nav-item">
+                    <details class="sf-menu-group"
+                            open="@(_firstRender || _chartsSectionsExpanded || IsAnyGroupOpen("charts/line-chart", "charts/spline-chart", "charts/stepline-chart"))">
+                        <summary class="sf-menu-summary">
+                            <span class="sb-icons e-line sf-menu-icon" aria-hidden="true"></span>
+                            <span class="sf-menu-summary-label">Line Charts</span>
+                            <span class="sf-caret"></span>
+                        </summary>
+
+                        <ul class="sf-sub-list">
+                            <li class="sf-nav-item sf-sub-item @(IsActive("charts/line-chart") ? "is-active" : "")">
+                                <NavLink class="sf-nav-link" href="charts/line-chart">
+                                    <span>Line Chart</span>
+                                </NavLink>
                             </li>
-                            <li class="last-li-child">
-                                <NavLink class="nav-link" href="charts/area/spline-area-chart">Spline Area Chart</NavLink>
+
+                            <li class="sf-nav-item sf-sub-item @(IsActive("charts/spline-chart") ? "is-active" : "")">
+                                <NavLink class="sf-nav-link" href="charts/spline-chart">
+                                    <span>Spline Chart</span>
+                                </NavLink>
                             </li>
-                            <li class="last-li-child">
-                                <NavLink class="nav-link" href="charts/area/step-area-chart">Step Area Chart</NavLink>
+
+                            <li class="sf-nav-item sf-sub-item @(IsActive("charts/stepline-chart") ? "is-active" : "")">
+                                <NavLink class="sf-nav-link" href="charts/stepline-chart">
+                                    <span>Stepline Chart</span>
+                                </NavLink>
                             </li>
                         </ul>
                     </details>
                 </li>
-				
-                <li class="mb-2">
-                    <details class="menu-group" open='@(_firstRender || _chartsSectionsExpanded || IsAnyGroupOpen("charts/bubble-chart", "charts/scatter-chart"))'>
-                        <summary class="menu-summary">Bubble and Scatter Charts</summary>
-                        <ul class="ms-3 list-unstyled">
-                            <li class="last-li-child">
-                                <NavLink class="nav-link" href="charts/bubble-chart">Bubble Chart</NavLink>
+
+                <li class="sf-nav-item">
+                    <details class="sf-menu-group"
+                            open="@(_firstRender || _chartsSectionsExpanded || IsAnyGroupOpen("charts/area/area-chart", "charts/area/spline-area-chart", "charts/area/step-area-chart"))">
+                        <summary class="sf-menu-summary">
+                            <span class="sb-icons e-area sf-menu-icon" aria-hidden="true"></span>
+                            <span class="sf-menu-summary-label">Area Charts</span>
+                            <span class="sf-caret"></span>
+                        </summary>
+
+                        <ul class="sf-sub-list">
+                            <li class="sf-nav-item sf-sub-item @(IsActive("charts/area/area-chart") ? "is-active" : "")">
+                                <NavLink class="sf-nav-link" href="charts/area/area-chart">
+                                    <span>Area Chart</span>
+                                </NavLink>
                             </li>
-                            <li class="last-li-child">
-                                <NavLink class="nav-link" href="charts/scatter-chart">Scatter Chart</NavLink>
+
+                            <li class="sf-nav-item sf-sub-item @(IsActive("charts/area/spline-area-chart") ? "is-active" : "")">
+                                <NavLink class="sf-nav-link" href="charts/area/spline-area-chart">
+                                    <span>Spline Area Chart</span>
+                                </NavLink>
                             </li>
-                        </ul>
-                    </details>
-                </li>
-                <li class="mb-2">
-                    <details class="menu-group" open='@(_firstRender || _chartsSectionsExpanded || IsAnyGroupOpen("charts/column-chart", "charts/bar-chart"))'>
-                        <summary class="menu-summary">Column and Bar Charts</summary>
-                        <ul class="ms-3 list-unstyled">
-                            <li class="last-li-child">
-                                <NavLink class="nav-link" href="charts/column-chart">Column Chart</NavLink>
-                            </li>
-                            <li class="last-li-child">
-                                <NavLink class="nav-link" href="charts/bar-chart">Bar Chart</NavLink>
-                            </li>
-                        </ul>
-                    </details>
-                </li>
-                <li class="mb-2">
-                    <details class="menu-group" open='@(_firstRender || _chartsSectionsExpanded || IsAnyGroupOpen("charts/stripline", "charts/datalabel", "charts/marker", "charts/annotation", "charts/trendline", "charts/legend"))'>
-                        <summary class="menu-summary">Chart Elements</summary>
-                        <ul class="ms-3 list-unstyled">
-                            <li class="last-li-child">
-                                <NavLink class="nav-link" href="charts/stripline">Stripline</NavLink>
-                            </li>
-                            <li class="last-li-child">
-                                <NavLink class="nav-link" href="charts/datalabel">DataLabel</NavLink>
-                            </li>
-                            <li class="last-li-child">
-                                <NavLink class="nav-link" href="charts/marker">Marker</NavLink>
-                            </li>
-                            <li class="last-li-child">
-                                <NavLink class="nav-link" href="charts/annotation">Annotation</NavLink>
-                            </li>
-                            <li class="last-li-child">
-                                <NavLink class="nav-link" href="charts/trendline">Trendline</NavLink>
-                            </li>
-                            <li class="last-li-child">
-                                <NavLink class="nav-link" href="charts/legend">Legend</NavLink>
+
+                            <li class="sf-nav-item sf-sub-item @(IsActive("charts/area/step-area-chart") ? "is-active" : "")">
+                                <NavLink class="sf-nav-link" href="charts/area/step-area-chart">
+                                    <span>Step Area Chart</span>
+                                </NavLink>
                             </li>
                         </ul>
                     </details>
                 </li>
-                <li class="mb-2">
-                    <details class="menu-group" open='@(_firstRender || _chartsSectionsExpanded || IsAnyGroupOpen("charts/category-axis", "charts/numeric-axis", "charts/datetime-axis", "charts/log-axis", "charts/axis-labels", "charts/axis-customization", "charts/axis-position", "charts/multiple-axes", "charts/multiple-panes"))'>
-                        <summary class="menu-summary">Axis Configuration</summary>
-                        <ul class="ms-3 list-unstyled">
-                            <li class="last-li-child">
-                                <NavLink class="nav-link" href="charts/category-axis">Category Axis</NavLink>
+
+                <li class="sf-nav-item">
+                    <details class="sf-menu-group"
+                            open="@(_firstRender || _chartsSectionsExpanded || IsAnyGroupOpen("charts/bubble-chart", "charts/scatter-chart"))">
+                        <summary class="sf-menu-summary">
+                            <span class="sb-icons e-chart-scatter sf-menu-icon" aria-hidden="true"></span>
+                            <span class="sf-menu-summary-label">Bubble and Scatter Charts</span>
+                            <span class="sf-caret"></span>
+                        </summary>
+
+                        <ul class="sf-sub-list">
+                            <li class="sf-nav-item sf-sub-item @(IsActive("charts/bubble-chart") ? "is-active" : "")">
+                                <NavLink class="sf-nav-link" href="charts/bubble-chart">
+                                    <span>Bubble Chart</span>
+                                </NavLink>
                             </li>
-                            <li class="last-li-child">
-                                <NavLink class="nav-link" href="charts/numeric-axis">Numeric Axis</NavLink>
+
+                            <li class="sf-nav-item sf-sub-item @(IsActive("charts/scatter-chart") ? "is-active" : "")">
+                                <NavLink class="sf-nav-link" href="charts/scatter-chart">
+                                    <span>Scatter Chart</span>
+                                </NavLink>
                             </li>
-                            <li class="last-li-child">
-                                <NavLink class="nav-link" href="charts/datetime-axis">DateTime Axis</NavLink>
-                            </li>
-                            <li class="last-li-child">
-                                <NavLink class="nav-link" href="charts/log-axis">Log Axis</NavLink>
-                            </li>
-                            <li class="last-li-child">
-                                <NavLink class="nav-link" href="charts/axis-labels">Axis Labels</NavLink>
-                            </li>
-                            <li class="last-li-child">
-                                <NavLink class="nav-link" href="charts/axis-customization">Axis Customization</NavLink>
-                            </li>
-                            <li class="last-li-child">
-                                <NavLink class="nav-link" href="charts/axis-position">Axis Position</NavLink>
-                            </li>
-                            <li class="last-li-child">
-                                <NavLink class="nav-link" href="charts/multiple-axes">Multiple Axes</NavLink>
-                            </li>
-                            <li class="last-li-child">
-                                <NavLink class="nav-link" href="charts/multiple-panes">Multiple Panes</NavLink>
-                            </li>
-                             </ul>
+                        </ul>
                     </details>
-                 </li>      
-                <li class="mb-2">
-                    <details class="menu-group" open='@(_firstRender || _chartsSectionsExpanded || IsAnyGroupOpen("charts/interactivity/tooltip", "charts/interactivity/crosshair", "charts/interactivity/zooming-and-panning", "charts/interactivity/selection-and-highlight", "charts/interactivity/animation"))'>
-                        <summary class="menu-summary">Interactivity</summary>
-                        <ul class="ms-3 list-unstyled">
-                            <li class="last-li-child">
-                                <NavLink class="nav-link" href="charts/interactivity/tooltip">Tooltip</NavLink>
+                </li>
+
+                <li class="sf-nav-item">
+                    <details class="sf-menu-group"
+                            open="@(_firstRender || _chartsSectionsExpanded || IsAnyGroupOpen("charts/column-chart", "charts/bar-chart"))">
+                        <summary class="sf-menu-summary">
+                            <span class="sb-icons e-chart-2d-clustered-column sf-menu-icon" aria-hidden="true"></span>
+                            <span class="sf-menu-summary-label">Column and Bar Charts</span>
+                            <span class="sf-caret"></span>
+                        </summary>
+
+                        <ul class="sf-sub-list">
+                            <li class="sf-nav-item sf-sub-item @(IsActive("charts/column-chart") ? "is-active" : "")">
+                                <NavLink class="sf-nav-link" href="charts/column-chart">
+                                    <span>Column Chart</span>
+                                </NavLink>
                             </li>
-                            <li class="last-li-child">
-                                <NavLink class="nav-link" href="charts/interactivity/crosshair">Crosshair</NavLink>
+
+                            <li class="sf-nav-item sf-sub-item @(IsActive("charts/bar-chart") ? "is-active" : "")">
+                                <NavLink class="sf-nav-link" href="charts/bar-chart">
+                                    <span>Bar Chart</span>
+                                </NavLink>
                             </li>
-                            <li class="last-li-child">
-                                <NavLink class="nav-link" href="charts/interactivity/zooming-and-panning">Zooming and Panning</NavLink>
+                        </ul>
+                    </details>
+                </li>
+
+                <li class="sf-nav-item">
+                    <details class="sf-menu-group"
+                            open="@(_firstRender || _chartsSectionsExpanded || IsAnyGroupOpen("charts/stripline", "charts/datalabel", "charts/marker", "charts/annotation", "charts/trendline", "charts/legend"))">
+                        <summary class="sf-menu-summary">
+                            <span class="sb-icons e-layers sf-menu-icon" aria-hidden="true"></span>
+                            <span class="sf-menu-summary-label">Chart Elements</span>
+                            <span class="sf-caret"></span>
+                        </summary>
+
+                        <ul class="sf-sub-list">
+                            <li class="sf-nav-item sf-sub-item @(IsActive("charts/stripline") ? "is-active" : "")">
+                                <NavLink class="sf-nav-link" href="charts/stripline">
+                                    <span>Stripline</span>
+                                </NavLink>
                             </li>
-                            <li class="last-li-child">
-                                <NavLink class="nav-link" href="charts/interactivity/selection-and-highlight">Selection and Highlight</NavLink>
-                            </li> 
-                            <li class="last-li-child">
-                                <NavLink class="nav-link" href="charts/interactivity/animation">Animation</NavLink>
+
+                            <li class="sf-nav-item sf-sub-item @(IsActive("charts/datalabel") ? "is-active" : "")">
+                                <NavLink class="sf-nav-link" href="charts/datalabel">
+                                    <span>DataLabel</span>
+                                </NavLink>
+                            </li>
+
+                            <li class="sf-nav-item sf-sub-item @(IsActive("charts/marker") ? "is-active" : "")">
+                                <NavLink class="sf-nav-link" href="charts/marker">
+                                    <span>Marker</span>
+                                </NavLink>
+                            </li>
+
+                            <li class="sf-nav-item sf-sub-item @(IsActive("charts/annotation") ? "is-active" : "")">
+                                <NavLink class="sf-nav-link" href="charts/annotation">
+                                    <span>Annotation</span>
+                                </NavLink>
+                            </li>
+
+                            <li class="sf-nav-item sf-sub-item @(IsActive("charts/trendline") ? "is-active" : "")">
+                                <NavLink class="sf-nav-link" href="charts/trendline">
+                                    <span>Trendline</span>
+                                </NavLink>
+                            </li>
+
+                            <li class="sf-nav-item sf-sub-item @(IsActive("charts/legend") ? "is-active" : "")">
+                                <NavLink class="sf-nav-link" href="charts/legend">
+                                    <span>Legend</span>
+                                </NavLink>
+                            </li>
+                        </ul>
+                    </details>
+                </li>
+
+                <li class="sf-nav-item">
+                    <details class="sf-menu-group" open="@(_firstRender || _chartsSectionsExpanded || IsAnyGroupOpen("charts/category-axis", "charts/numeric-axis", "charts/datetime-axis", "charts/log-axis", "charts/axis-labels", "charts/axis-customization", "charts/axis-position", "charts/multiple-axes", "charts/multiple-panes"))">
+                        <summary class="sf-menu-summary">
+                            <span class="sb-icons e-chart-axes sf-menu-icon" aria-hidden="true"></span>
+                            <span class="sf-menu-summary-label">Axis Configuration</span>
+                            <span class="sf-caret"></span>
+                        </summary>
+
+                        <ul class="sf-sub-list">
+                            <li class="sf-nav-item sf-sub-item @(IsActive("charts/category-axis") ? "is-active" : "")">
+                                <NavLink class="sf-nav-link" href="charts/category-axis">
+                                    <span>Category Axis</span>
+                                </NavLink>
+                            </li>
+
+                            <li class="sf-nav-item sf-sub-item @(IsActive("charts/numeric-axis") ? "is-active" : "")">
+                                <NavLink class="sf-nav-link" href="charts/numeric-axis">
+                                    <span>Numeric Axis</span>
+                                </NavLink>
+                            </li>
+
+                            <li class="sf-nav-item sf-sub-item @(IsActive("charts/datetime-axis") ? "is-active" : "")">
+                                <NavLink class="sf-nav-link" href="charts/datetime-axis">
+                                    <span>DateTime Axis</span>
+                                </NavLink>
+                            </li>
+
+                            <li class="sf-nav-item sf-sub-item @(IsActive("charts/log-axis") ? "is-active" : "")">
+                                <NavLink class="sf-nav-link" href="charts/log-axis">
+                                    <span>Log Axis</span>
+                                </NavLink>
+                            </li>
+
+                            <li class="sf-nav-item sf-sub-item @(IsActive("charts/axis-labels") ? "is-active" : "")">
+                                <NavLink class="sf-nav-link" href="charts/axis-labels">
+                                    <span>Axis Labels</span>
+                                </NavLink>
+                            </li>
+
+                            <li class="sf-nav-item sf-sub-item @(IsActive("charts/axis-customization") ? "is-active" : "")">
+                                <NavLink class="sf-nav-link" href="charts/axis-customization">
+                                    <span>Axis Customization</span>
+                                </NavLink>
+                            </li>
+
+                            <li class="sf-nav-item sf-sub-item @(IsActive("charts/axis-position") ? "is-active" : "")">
+                                <NavLink class="sf-nav-link" href="charts/axis-position">
+                                    <span>Axis Position</span>
+                                </NavLink>
+                            </li>
+
+                            <li class="sf-nav-item sf-sub-item @(IsActive("charts/multiple-axes") ? "is-active" : "")">
+                                <NavLink class="sf-nav-link" href="charts/multiple-axes">
+                                    <span>Multiple Axes</span>
+                                </NavLink>
+                            </li>
+
+                            <li class="sf-nav-item sf-sub-item @(IsActive("charts/multiple-panes") ? "is-active" : "")">
+                                <NavLink class="sf-nav-link" href="charts/multiple-panes">
+                                    <span>Multiple Panes</span>
+                                </NavLink>
+                            </li>
+                        </ul>
+                    </details>
+                </li>
+
+                <li class="sf-nav-item">
+                    <details class="sf-menu-group"
+                            open="@(_firstRender || _chartsSectionsExpanded || IsAnyGroupOpen("charts/interactivity/tooltip", "charts/interactivity/crosshair", "charts/interactivity/zooming-and-panning", "charts/interactivity/selection-and-highlight", "charts/interactivity/animation"))">
+                        <summary class="sf-menu-summary">
+                            <span class="sb-icons e-mouse-pointer sf-menu-icon" aria-hidden="true"></span>
+                            <span class="sf-menu-summary-label">Interactivity</span>
+                            <span class="sf-caret"></span>
+                        </summary>
+
+                        <ul class="sf-sub-list">
+                            <li class="sf-nav-item sf-sub-item @(IsActive("charts/interactivity/tooltip") ? "is-active" : "")">
+                                <NavLink class="sf-nav-link" href="charts/interactivity/tooltip">
+                                    <span>Tooltip</span>
+                                </NavLink>
+                            </li>
+
+                            <li class="sf-nav-item sf-sub-item @(IsActive("charts/interactivity/crosshair") ? "is-active" : "")">
+                                <NavLink class="sf-nav-link" href="charts/interactivity/crosshair">
+                                    <span>Crosshair</span>
+                                </NavLink>
+                            </li>
+
+                            <li class="sf-nav-item sf-sub-item @(IsActive("charts/interactivity/zooming-and-panning") ? "is-active" : "")">
+                                <NavLink class="sf-nav-link" href="charts/interactivity/zooming-and-panning">
+                                    <span>Zooming and Panning</span>
+                                </NavLink>
+                            </li>
+
+                            <li class="sf-nav-item sf-sub-item @(IsActive("charts/interactivity/selection-and-highlight") ? "is-active" : "")">
+                                <NavLink class="sf-nav-link" href="charts/interactivity/selection-and-highlight">
+                                    <span>Selection and Highlight</span>
+                                </NavLink>
+                            </li>
+
+                            <li class="sf-nav-item sf-sub-item @(IsActive("charts/interactivity/animation") ? "is-active" : "")">
+                                <NavLink class="sf-nav-link" href="charts/interactivity/animation">
+                                    <span>Animation</span>
+                                </NavLink>
                             </li>
                         </ul>
                     </details>
                 </li>
             }
-            <li class="mb-2 open-page">
-                <NavLink class="nav-link" href="https://help.syncfusion.com/cr/blazor-toolkit/Syncfusion.Blazor.Toolkit.html" target="_blank">API Reference</NavLink>
-            </li>
         </ul>
+
+        @* ============================================================
+           PLAYGROUND CARD
+           ============================================================ *@
+        <div class="sf-sidebar-footer">
+            <div class="sf-playground-card" role="region" aria-label="Try toolkit components">
+                <div class="sf-playground-glow" aria-hidden="true"></div>
+                <div class="sf-playground-title">Try Toolkit Components Instantly</div>
+                <div class="sf-playground-sub">Experiment in Playground</div>
+                <a class="sf-playground-btn" href="https://blazorplayground.syncfusion.com/" target="_blank" rel="noreferrer noopener">
+                    <span>Open Playground</span>
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                        <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path>
+                        <polyline points="15 3 21 3 21 9"></polyline>
+                        <line x1="10" y1="14" x2="21" y2="3"></line>
+                    </svg>
+                </a>
+            </div>
+        </div>
     </nav>
 </div>
 
 @code {
-    // Track the current relative URI so we can compute which menu items/groups are active.
     private string _relativeUri = string.Empty;
-    // True only for the very first render so we can show all component sections opened on initial load
     private bool _firstRender = true;
-    // Keeps Chart detail groups expanded whenever charts are the active menu view.
+
     private bool _chartsSectionsExpanded = false;
-    // Currently selected single-category view (empty = show full menu)
     private string _singleCategory = string.Empty;
 
-    // Subscribe to location changes so that clicks, programmatic navigations, and router-based changes
-    // all update the active state and cause the sidebar to re-render.
+    private bool _componentsExpanded = false;
+
     protected override void OnInitialized()
     {
-        _relativeUri = NavigationManager.ToBaseRelativePath(NavigationManager.Uri).Trim('/');
-        // If the initial URL is inside the charts section, show charts view on first render.
+        _relativeUri = NavigationManager
+            .ToBaseRelativePath(NavigationManager.Uri)
+            .Trim('/');
+
         if (string.IsNullOrEmpty(_singleCategory) &&
-            (_relativeUri.Equals("charts", StringComparison.OrdinalIgnoreCase) || _relativeUri.StartsWith("charts/", StringComparison.OrdinalIgnoreCase)))
+            (_relativeUri.Equals("charts", StringComparison.OrdinalIgnoreCase) ||
+            _relativeUri.StartsWith("charts/", StringComparison.OrdinalIgnoreCase)))
         {
             _singleCategory = "charts";
         }
-        _chartsSectionsExpanded = IsChartsRoute(_relativeUri) || string.Equals(_singleCategory, "charts", StringComparison.OrdinalIgnoreCase);
+
+        _chartsSectionsExpanded =
+            IsChartsRoute(_relativeUri) ||
+            string.Equals(_singleCategory, "charts",
+                StringComparison.OrdinalIgnoreCase);
+
+        // Auto-expand the Components group when a route inside it is active
+        _componentsExpanded = IsComponentsRoute(_relativeUri) || _componentsExpanded;
+
         NavigationManager.LocationChanged += OnLocationChanged;
     }
 
     protected override void OnAfterRender(bool firstRender)
     {
-        if (firstRender)
-        {
-            _firstRender = false;
-        }
+        if (firstRender) { _firstRender = false; }
     }
 
-    private void OnLocationChanged(object? sender, Microsoft.AspNetCore.Components.Routing.LocationChangedEventArgs e)
+    public void Dispose()
     {
-        // Update cached relative URI and re-render component on the UI thread.
-        _relativeUri = NavigationManager.ToBaseRelativePath(e.Location).Trim('/');
+        NavigationManager.LocationChanged -= OnLocationChanged;
+    }
+
+    private void OnLocationChanged(
+    object? sender,
+    Microsoft.AspNetCore.Components.Routing.LocationChangedEventArgs e)
+    {
+        _relativeUri = NavigationManager
+            .ToBaseRelativePath(e.Location)
+            .Trim('/');
+
         if (string.IsNullOrEmpty(_singleCategory))
         {
-            if (_relativeUri.Equals("charts", StringComparison.OrdinalIgnoreCase) || _relativeUri.StartsWith("charts/", StringComparison.OrdinalIgnoreCase))
+            if (_relativeUri.Equals("charts", StringComparison.OrdinalIgnoreCase) ||
+                _relativeUri.StartsWith("charts/", StringComparison.OrdinalIgnoreCase))
             {
                 _singleCategory = "charts";
             }
         }
         else
         {
-            if (!(_relativeUri.Equals(_singleCategory, StringComparison.OrdinalIgnoreCase) || _relativeUri.StartsWith(_singleCategory + "/", StringComparison.OrdinalIgnoreCase)))
+            if (!(_relativeUri.Equals(_singleCategory, StringComparison.OrdinalIgnoreCase) ||
+                _relativeUri.StartsWith(_singleCategory + "/", StringComparison.OrdinalIgnoreCase)))
             {
                 _singleCategory = string.Empty;
             }
         }
-        _chartsSectionsExpanded = IsChartsRoute(_relativeUri) || string.Equals(_singleCategory, "charts", StringComparison.OrdinalIgnoreCase);
+
+        _chartsSectionsExpanded =
+            IsChartsRoute(_relativeUri) ||
+            string.Equals(_singleCategory, "charts",
+                StringComparison.OrdinalIgnoreCase);
+
+        // Keep the Components group expanded when a route inside it is active
+        if (IsComponentsRoute(_relativeUri))
+        {
+            _componentsExpanded = true;
+        }
+
         InvokeAsync(StateHasChanged);
+    }
+
+    private bool IsGroupOpen(params string[] prefixes)
+    {
+        if (prefixes is null || prefixes.Length == 0) return false;
+        foreach (var prefix in prefixes)
+        {
+            var p = prefix?.Trim('/') ?? string.Empty;
+            if (string.IsNullOrEmpty(p)) continue;
+            if (_relativeUri.Equals(p, StringComparison.OrdinalIgnoreCase)) return true;
+            if (_relativeUri.StartsWith(p + "/", StringComparison.OrdinalIgnoreCase)) return true;
+        }
+        return false;
     }
 
     private void ShowCategory(string category)
     {
+        // Ensure the parent Components group is open when entering a category
+        _componentsExpanded = true;
+
         _singleCategory = category ?? string.Empty;
-        _chartsSectionsExpanded = string.Equals(category, "charts", StringComparison.OrdinalIgnoreCase);
-        if (string.Equals(category, "charts", StringComparison.OrdinalIgnoreCase))
+
+        _chartsSectionsExpanded =
+            string.Equals(category, "charts",
+                StringComparison.OrdinalIgnoreCase);
+
+        if (string.Equals(category, "charts",
+                StringComparison.OrdinalIgnoreCase))
         {
             NavigationManager.NavigateTo("charts/overview");
         }
+
         InvokeAsync(StateHasChanged);
     }
 
@@ -375,14 +680,24 @@
     {
         _singleCategory = string.Empty;
         _chartsSectionsExpanded = false;
+
         InvokeAsync(StateHasChanged);
+    }
+
+    // Toggles the expand/collapse state of the "Components" group
+    // in the sidebar. The <button> click handler flips the bound
+    // field; the @if below reads the same field to render the items.
+    private void ToggleComponents()
+    {
+        _componentsExpanded = !_componentsExpanded;
     }
 
     private string GetChartsLinkClass()
     {
-        return string.Equals(_singleCategory, "charts", StringComparison.OrdinalIgnoreCase)
-            ? "nav-link active"
-            : "nav-link";
+        return string.Equals(_singleCategory, "charts",
+            StringComparison.OrdinalIgnoreCase)
+                ? "sf-nav-link active"
+                : "sf-nav-link";
     }
 
     private static bool IsChartsRoute(string relativeUri)
@@ -392,28 +707,35 @@
             return false;
         }
 
+        return relativeUri.Equals(
+                "charts",
+                StringComparison.OrdinalIgnoreCase)
+            || relativeUri.StartsWith(
+                "charts/",
+                StringComparison.OrdinalIgnoreCase);
+    }
+
+    // Returns true when the current route is one of the entries shown
+    // inside the "Components" group. Used to auto-expand the group
+    // when a deep link lands on a child page.
+    private static bool IsComponentsRoute(string relativeUri)
+    {
+        if (string.IsNullOrWhiteSpace(relativeUri))
+        {
+            return false;
+        }
+
         return relativeUri.Equals("charts", StringComparison.OrdinalIgnoreCase)
-            || relativeUri.StartsWith("charts/", StringComparison.OrdinalIgnoreCase);
-    }
-
-    // Helper to determine if a navlink href (relative path) matches the current URL.
-    // We treat exact match and prefix match (so /buttons matches /buttons/button etc.).
-    private bool IsActive(string href)
-    {
-        if (string.IsNullOrEmpty(href)) return false;
-        var normalized = href.Trim('/');
-        if (string.Equals(_relativeUri, normalized, StringComparison.OrdinalIgnoreCase)) return true;
-        return _relativeUri.StartsWith(normalized + "/", StringComparison.OrdinalIgnoreCase);
-    }
-
-    // Group open detection by looking for the URL prefix belonging to that section.
-    // Using simple prefix checks keeps separation of UI and logic simple and reliable.
-    private bool IsGroupOpenPrefix(string prefix)
-    {
-        if (string.IsNullOrEmpty(prefix)) return false;
-        var p = prefix.Trim('/');
-        return _relativeUri.Equals(p, StringComparison.OrdinalIgnoreCase)
-            || _relativeUri.StartsWith(p + "/", StringComparison.OrdinalIgnoreCase);
+            || relativeUri.StartsWith("charts/", StringComparison.OrdinalIgnoreCase)
+            || relativeUri.Equals("buttons", StringComparison.OrdinalIgnoreCase)
+            || relativeUri.StartsWith("buttons/", StringComparison.OrdinalIgnoreCase)
+            || relativeUri.Equals("calendars", StringComparison.OrdinalIgnoreCase)
+            || relativeUri.StartsWith("calendars/", StringComparison.OrdinalIgnoreCase)
+            || relativeUri.Equals("spinner", StringComparison.OrdinalIgnoreCase)
+            || relativeUri.Equals("inputs", StringComparison.OrdinalIgnoreCase)
+            || relativeUri.StartsWith("inputs/", StringComparison.OrdinalIgnoreCase)
+            || relativeUri.Equals("popups", StringComparison.OrdinalIgnoreCase)
+            || relativeUri.StartsWith("popups/", StringComparison.OrdinalIgnoreCase);
     }
 
     private bool IsAnyGroupOpen(params string[] prefixes)
@@ -425,7 +747,7 @@
 
         foreach (var prefix in prefixes)
         {
-            if (IsGroupOpenPrefix(prefix))
+            if (IsGroupOpen(prefix))
             {
                 return true;
             }
@@ -434,8 +756,12 @@
         return false;
     }
 
-    public void Dispose()
+    // Returns true when the current URL exactly matches the given href
+    // (case-insensitive). Used to highlight a single <li> independently
+    // rather than the whole parent group.
+    private bool IsActive(string? href)
     {
-        NavigationManager.LocationChanged -= OnLocationChanged;
+        if (string.IsNullOrEmpty(href)) return false;
+        return string.Equals(_relativeUri, href.Trim('/'), StringComparison.OrdinalIgnoreCase);
     }
 }

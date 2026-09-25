@@ -57,3 +57,412 @@ text[id*='_ChartTitle']:focus-visible {
     pointer-events: bounding-box;
     cursor: pointer;
 }
+
+// ==================================================================
+// Windows High Contrast (WHCM) support for SfChart.
+//
+// Goal: adapt the chart visuals to any active Windows Contrast theme
+// (Aquatic / Desert / Dusk / Night sky / custom) when the browser
+// reports `(forced-colors: active)`. Use CSS system color keywords so
+// the OS resolves whichever token applies to the active contrast theme
+// -- no per-theme hex table required.
+//
+// Verified DOM id patterns from svgbase.js / chart.js:
+//   * Outer chart background    -> <rect id="{ID}_ChartBorder">
+//   * Tooltip wrapper <svg>     -> <svg id="{ID}_svg">
+//   * Tooltip body <path>       -> <path id="{ID}_path">
+//   * Tooltip connector <path>  -> <path id="{ID}_tooltip_connector_{i}">
+//   * Tooltip shadow <filter>   -> <filter id="{ID}_shadow">
+//   * Tooltip wrapper <div>     -> <div id="{ID}_tooltip" class="eJSVGTooltip">
+//
+// In non-(forced-colors) modes every selector below either does not
+// match the emitted hex literal, or its declared value is the same as
+// the existing inline attribute, so visuals are byte-identical.
+// ==================================================================
+
+@media (forced-colors: active) {
+
+    // Keep all contrast overrides within the chart component so tooltip,
+    // text, and SVG rules cannot affect other toolkit components.
+    .e-chart {
+
+        // Chart background.
+        rect[id$='_ChartBorder'][fill='#FFFFFF'],
+        rect[id$='_ChartBorder'][fill='#1c1b1f'],
+        rect[id$='_ChartBorder'][fill='#000000'] {
+            fill: Canvas;
+            stroke: CanvasText;
+        }
+
+        div[id*='_tooltip'].ejSVGTooltip,
+        div[id*='_tooltip'].e-tooltip {
+            background-color: transparent !important;
+            background: none !important;
+            forced-color-adjust: none !important;
+        }
+
+        // Hidden-after-mouseleave tooltip wrapper.
+        // JS toggles inline `style="...; visibility: hidden ..."` on the
+        // Blazor ChartTooltipComponent root div. Override visibility:hidden
+        // with display:none so the chart surface is fully restored.
+        div[id*='_tooltip'][style*='visibility:hidden'],
+        div[id*='_tooltip'][style*='visibility: hidden'],
+        svg[id*='_tooltip_svg'][style*='visibility:hidden'],
+        svg[id*='_tooltip_svg'][style*='visibility: hidden'] {
+            display: none !important;
+        }
+
+        // Tooltip fade-out leaves the SVG group in the DOM with opacity=0.
+        // Remove that group so it cannot retain a blank hit area or surface.
+        svg[id*='_tooltip_svg'] > g[opacity='0'],
+        svg[id*='_tooltip_svg'] > g[style*='opacity: 0'],
+        svg[id*='_tooltip_svg'] > g[style*='opacity:0'],
+        svg[id*='_tooltip_svg'] [opacity='0'],
+        svg[id*='_tooltip_svg'] [style*='opacity: 0'],
+        svg[id*='_tooltip_svg'] [style*='opacity:0'] {
+            display: none !important;
+        }
+
+        // The tooltip fade animation can leave an otherwise empty SVG whose
+        // child opacity is zero. Hide the wrapper as well; this prevents its
+        // Canvas-colored path from masking chart gridlines or data points.
+        svg[id*='_tooltip_svg']:has(g[opacity='0']),
+        svg[id*='_tooltip_svg']:has(g[style*='opacity: 0']),
+        svg[id*='_tooltip_svg']:has(g[style*='opacity:0']) {
+            display: none !important;
+        }
+
+        // Forced-colors can paint the unused SVG viewport. Keep the viewport
+        // transparent so only the tooltip path and arrow occupy visual space.
+        //
+        // Width / height attributes set by svgbase.js wrap the body+arrow
+        // tightly; combined with the default `overflow: hidden` on inline
+        // SVG, half of `stroke-width` gets clipped at the outer edge. The
+        // first round of this fix added `padding` to give the stroke room,
+        // but the padding pushes the rendered artwork inward and exposes
+        // the canvas-coloured svg backdrop as a faint halo behind the
+        // rounded body (the user-visible "sides extended beyond the
+        // border"). `padding: 0` keeps the artwork flush with the
+        // bounding box while `overflow: visible` still lets the half-stroke
+        // render beyond it without clipping.
+        svg[id*='_tooltip_svg'] {
+            background-color: transparent !important;
+            background: none !important;
+            overflow: visible !important;
+            padding: 0 !important;
+            margin: 0 !important;
+            /* prevent any forced back-plate from the browser */
+            forced-color-adjust: none !important;
+        }
+        // Inner <g> inherits overflow so the body+arrow <path> is also
+        // never clipped inside the wrapper, but it must NOT carry
+        // `background` (SVGs render fills via children's `fill`, not the
+        // group's `background-color`).
+        svg[id*='_tooltip_svg'] > g {
+            overflow: visible !important;
+            filter: none !important;
+            forced-color-adjust: none !important;
+        }
+
+        // Split-tooltip connector line.
+        path[id*='_tooltip_connector_'] {
+            stroke: CanvasText;
+            opacity: 0.9;
+        }
+
+        // Header separator line (the thin horizontal path)
+        path[id$='_tooltip_header_path'] {
+            stroke: CanvasText !important;
+            fill: none !important;
+            stroke-width: 1 !important;
+            filter: none !important;
+        }
+
+        // Tooltip text colour (header, body, bold, light).
+        .eJSVGTooltip text,
+        .eJSVGTooltip tspan {
+            fill: CanvasText;
+        }
+
+        // Keep chart data labels, axis labels, and annotation text readable
+        // under forced colors, including labels whose renderer uses a style
+        // or inherited color instead of a canonical fill attribute.
+        text,
+        tspan {
+            fill: CanvasText !important;
+        }
+
+        // ---------------------------------------------------------------
+        // Legend – interactive colours under forced-colors
+        // ---------------------------------------------------------------
+
+        // 1. Default / enabled state → interactive (yellow in Night Sky)
+        text[id*='_chart_legend_text_'] {
+            fill: ButtonText !important;
+        }
+
+        // 2. Hovered legend → highlight colour (violet in Night Sky)
+        g[id*='_chart_legend_g_']:hover text[id*='_chart_legend_text_'],
+        g[id*='_chart_legend_g_']:focus text[id*='_chart_legend_text_'],
+        g[id*='_chart_legend_g_']:focus-visible text[id*='_chart_legend_text_'],
+        g[id*='_chart_legend_g_']:focus-within text[id*='_chart_legend_text_'],
+        text[id*='_chart_legend_text_']:hover,
+        text[id*='_chart_legend_text_']:focus,
+        text[id*='_chart_legend_text_']:focus-visible {
+            fill: Highlight !important;
+        }
+
+        // 3. Disabled / toggled-off legend
+        //    The chart does NOT add _ej2_deselected.
+        //    It changes the fill attribute to a muted grey (#D3D3D3 etc.)
+        //    and/or sets aria-pressed="false".
+        text[id*='_chart_legend_text_'][fill='#D3D3D3'],
+        text[id*='_chart_legend_text_'][fill='#d3d3d3'],
+        text[id*='_chart_legend_text_'][fill='#A9A9A9'],
+        text[id*='_chart_legend_text_'][fill='#808080'],
+        text[id*='_chart_legend_text_'][fill='#C0C0C0'],
+        text[id*='_chart_legend_text_'][fill='#BEBEBE'] {
+            fill: GrayText !important;
+        }
+
+        // Also catch via aria-pressed on the parent <g>
+        g[id*='_chart_legend_g_'][aria-pressed='false'] text[id*='_chart_legend_text_'] {
+            fill: GrayText !important;
+        }
+
+        // Matching swatch when disabled (same muted fill)
+        rect[id*='_chart_legend_shape_'][fill='#D3D3D3'],
+        rect[id*='_chart_legend_shape_'][fill='#d3d3d3'],
+        rect[id*='_chart_legend_shape_'][fill='#A9A9A9'],
+        rect[id*='_chart_legend_shape_'][fill='#808080'],
+        g[id*='_chart_legend_g_'][aria-pressed='false'] rect[id*='_chart_legend_shape_'] {
+            fill: GrayText !important;
+            stroke: GrayText !important;
+        }
+
+        // Enabled swatch outline
+        rect[id*='_chart_legend_shape_']:not([fill='none']) {
+            stroke: CanvasText !important;
+            stroke-width: 1 !important;
+        }
+
+        g[id*='_chart_legend_g_']:focus,
+        g[id*='_chart_legend_g_']:focus-visible {
+            outline: 2px solid Highlight !important;
+            outline-offset: 2px !important;
+        }
+
+        g[id*='_chart_legend_g_']:hover rect[id*='_chart_legend_shape_'],
+        g[id*='_chart_legend_g_']:focus rect[id*='_chart_legend_shape_'],
+        g[id*='_chart_legend_g_']:focus-visible rect[id*='_chart_legend_shape_'] {
+            stroke: Highlight !important;
+            stroke-width: 2 !important;
+        }
+
+        // ---------------------------------------------------------------
+        // Legend pagination arrows (prev / next)
+        // Night Sky expectations:
+        //   - Enabled / interactive  → yellow   (ButtonText)
+        //   - Hover                  → violet   (Highlight)
+        //   - Disabled (no more pages) → GrayText
+        // ---------------------------------------------------------------
+
+        // 1. Default / enabled state → interactive yellow
+        path[id*='_chart_legend_page'],
+        path[id*='_legend_page'],
+        polygon[id*='_chart_legend_page'],
+        polygon[id*='_legend_page'],
+        g[id*='_chart_legend_page'] path,
+        g[id*='_chart_legend_page'] polygon,
+        g[id*='_legend_page'] path,
+        g[id*='_legend_page'] polygon {
+            fill: ButtonText !important;
+            stroke: ButtonText !important;
+        }
+
+        // Also catch the clickable hit-area / background rect if present
+        rect[id*='_chart_legend_page'],
+        rect[id*='_legend_page'] {
+            fill: transparent !important;          // keep transparent so only the arrow shows
+            stroke: ButtonText !important;
+        }
+
+        // 2. Hover → violet (Highlight)
+        path[id*='_chart_legend_page']:hover,
+        path[id*='_legend_page']:hover,
+        polygon[id*='_chart_legend_page']:hover,
+        polygon[id*='_legend_page']:hover,
+        g[id*='_chart_legend_page']:hover path,
+        g[id*='_chart_legend_page']:hover polygon,
+        g[id*='_legend_page']:hover path,
+        g[id*='_legend_page']:hover polygon {
+            fill: Highlight !important;
+            stroke: Highlight !important;
+        }
+    
+        // Universal text fallback (title / subtitle / axis label / data label /
+        // stripline label / crosshair label). Renderer emits bare <text>/<tspan>
+        // with one of these five canonical hex colours.
+        text[fill='#242424'],
+        text[fill='#616161'],
+        text[fill='#FFFFFF'],
+        text[fill='#ADADAD'],
+        text[fill='#969696'] {
+            fill: CanvasText;
+        }
+        tspan[fill='#242424'],
+        tspan[fill='#616161'],
+        tspan[fill='#FFFFFF'],
+        tspan[fill='#ADADAD'],
+        tspan[fill='#969696'] {
+            fill: CanvasText;
+        }
+    
+        // Trackball / persistent hover marker (mouseleave-residue overlay).
+        [class~='EJ2-TrackBall'],
+        [class~='EJ2-Trackball'] {
+            opacity: 0;
+            pointer-events: none;
+        }
+    
+        // ---------------------------------------------------------------
+        // Zoom toolbar
+        // ---------------------------------------------------------------
+        [id$='_Zooming_KitCollection'] {
+            forced-color-adjust: none;
+        }
+        // 1. Strong interactive appearance from the start
+        //    Full yellow background + yellow border (clearly interactive)
+        rect[id$='_Zooming_Rect'] {
+            fill: ButtonText !important;          // solid yellow background
+            stroke: ButtonText !important;
+            stroke-width: 2 !important;           // thicker border so it is obvious
+        }
+        // Icons on the yellow background → use Canvas (dark) so they stay visible
+        [id$='_Zooming_KitCollection'] path,
+        [id$='_Zooming_KitCollection'] polygon {
+            fill: Canvas !important;
+        }
+        // Remove the white gaps between icons
+        [id$='_Zooming_KitCollection'] rect[id$='_Zooming_Rect'] + rect,
+        [id$='_Zooming_KitCollection'] > rect {
+            fill: ButtonText !important;
+        }
+        // 2. Hover – light-gray background + violet icon
+        [id$='_Zooming_Pan']:hover > rect,
+        [id$='_Zooming_Zoom']:hover > rect,
+        [id$='_Zooming_ZoomIn']:hover > rect,
+        [id$='_Zooming_ZoomOut']:hover > rect,
+        [id$='_Zooming_Reset']:hover > rect,
+        [id$='_Zooming_Pan']:focus > rect,
+        [id$='_Zooming_Zoom']:focus > rect,
+        [id$='_Zooming_ZoomIn']:focus > rect,
+        [id$='_Zooming_ZoomOut']:focus > rect,
+        [id$='_Zooming_Reset']:focus > rect,
+        [id$='_Zooming_Pan']:focus-visible > rect,
+        [id$='_Zooming_Zoom']:focus-visible > rect,
+        [id$='_Zooming_ZoomIn']:focus-visible > rect,
+        [id$='_Zooming_ZoomOut']:focus-visible > rect,
+        [id$='_Zooming_Reset']:focus-visible > rect {
+            fill: GrayText !important;
+            stroke: ButtonText !important;
+        }
+
+        [id$='_Zooming_Pan']:hover path,
+        [id$='_Zooming_Pan']:hover polygon,
+        [id$='_Zooming_Zoom']:hover path,
+        [id$='_Zooming_Zoom']:hover polygon,
+        [id$='_Zooming_ZoomIn']:hover path,
+        [id$='_Zooming_ZoomIn']:hover polygon,
+        [id$='_Zooming_ZoomOut']:hover path,
+        [id$='_Zooming_ZoomOut']:hover polygon,
+        [id$='_Zooming_Reset']:hover path,
+        [id$='_Zooming_Reset']:hover polygon,
+        [id$='_Zooming_Pan']:focus path,
+        [id$='_Zooming_Pan']:focus polygon,
+        [id$='_Zooming_Zoom']:focus path,
+        [id$='_Zooming_Zoom']:focus polygon,
+        [id$='_Zooming_ZoomIn']:focus path,
+        [id$='_Zooming_ZoomIn']:focus polygon,
+        [id$='_Zooming_ZoomOut']:focus path,
+        [id$='_Zooming_ZoomOut']:focus polygon,
+        [id$='_Zooming_Reset']:focus path,
+        [id$='_Zooming_Reset']:focus polygon,
+        [id$='_Zooming_Pan']:focus-visible path,
+        [id$='_Zooming_Pan']:focus-visible polygon,
+        [id$='_Zooming_Zoom']:focus-visible path,
+        [id$='_Zooming_Zoom']:focus-visible polygon,
+        [id$='_Zooming_ZoomIn']:focus-visible path,
+        [id$='_Zooming_ZoomIn']:focus-visible polygon,
+        [id$='_Zooming_ZoomOut']:focus-visible path,
+        [id$='_Zooming_ZoomOut']:focus-visible polygon,
+        [id$='_Zooming_Reset']:focus-visible path,
+        [id$='_Zooming_Reset']:focus-visible polygon {
+            fill: Highlight !important;
+        }
+        // 3. Focus ring (keyboard)
+        [id$='_Zooming_Pan']:focus-visible,
+        [id$='_Zooming_Zoom']:focus-visible,
+        [id$='_Zooming_ZoomIn']:focus-visible,
+        [id$='_Zooming_ZoomOut']:focus-visible,
+        [id$='_Zooming_Reset']:focus-visible {
+            outline: 2px solid Highlight !important;
+            outline-offset: 2px !important;
+        }
+        // 4. Disabled state
+        [id$='_Zooming_Pan'][opacity='0.2'] path,
+        [id$='_Zooming_Zoom'][opacity='0.2'] path,
+        [id$='_Zooming_ZoomIn'][opacity='0.2'] path,
+        [id$='_Zooming_ZoomOut'][opacity='0.2'] path,
+        [id$='_Zooming_Reset'][opacity='0.2'] path {
+            fill: GrayText !important;
+        }
+
+        // ---------------------------------------------------------------
+        // Crosshair tooltips (axis labels that appear with the crosshair)
+        // ---------------------------------------------------------------
+
+        // Crosshair tooltip background / shape
+        path[id*='_Crosshair_'],
+        path[id*='_crosshair_'],
+        rect[id*='_Crosshair_'],
+        rect[id*='_crosshair_'],
+        g[id*='_Crosshair_'] path,
+        g[id*='_Crosshair_'] rect,
+        g[id*='_crosshair_'] path,
+        g[id*='_crosshair_'] rect {
+            fill: Canvas !important;                 // system background
+            stroke: CanvasText !important;           // system border
+            stroke-width: 1 !important;
+        }
+
+        // Crosshair tooltip text
+        text[id*='_Crosshair_'],
+        text[id*='_crosshair_'],
+        tspan[id*='_Crosshair_'],
+        tspan[id*='_crosshair_'],
+        g[id*='_Crosshair_'] text,
+        g[id*='_Crosshair_'] tspan,
+        g[id*='_crosshair_'] text,
+        g[id*='_crosshair_'] tspan {
+            fill: CanvasText !important;
+        }
+
+        // Extra safety – catch any remaining tooltip-like elements created by the crosshair
+        .e-chart [id*='Crosshair'] text,
+        .e-chart [id*='crosshair'] text,
+        .e-chart [id*='Crosshair'] tspan,
+        .e-chart [id*='crosshair'] tspan {
+            fill: CanvasText !important;
+        }
+
+        .e-chart [id*='Crosshair'] path,
+        .e-chart [id*='crosshair'] path,
+        .e-chart [id*='Crosshair'] rect,
+        .e-chart [id*='crosshair'] rect {
+            fill: Canvas !important;
+            stroke: CanvasText !important;
+        }
+
+    }
+}

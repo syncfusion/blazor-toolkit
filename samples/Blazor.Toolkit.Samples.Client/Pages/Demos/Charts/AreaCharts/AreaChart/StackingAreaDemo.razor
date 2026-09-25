@@ -1,0 +1,116 @@
+<SfChart @key="@_currentTheme" Title="U.S. Agricultural Export Values (2008-2024)" Width="100%" Height="400px" Theme="@_currentTheme">
+
+    <ChartTooltipSettings Enable="true"
+                          Format="<b>${series.name}</b><br />Year: <b>${point.x}</b><br />Share: <b>${point.y}B</b>" />
+
+    <ChartLegendSettings Visible="true" Position="LegendPosition.Bottom" />
+
+    <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Toolkit.ValueType.DateTime"
+                       RangePadding="ChartRangePadding.Normal"
+                       Interval="2"
+                       IntervalType="IntervalType.Years"
+                       LabelFormat="yyyy">
+    </ChartPrimaryXAxis>
+
+    <ChartPrimaryYAxis Minimum="0"
+                       Maximum="70"
+                       Interval="10"
+                       LabelFormat="${value}B">
+        <ChartAxisLineStyle Width="0" />
+    </ChartPrimaryYAxis>
+
+    <ChartSeries DataSource="@WheatData"
+                 XName="X"
+                 YName="Y"
+                 Name="Wheat"
+                 Type="ChartSeriesType.StackingArea"
+                 Fill="#38BE09"
+                 Opacity="0.9"
+                 Border="@(new ChartSeriesBorder { Width = 2 })"
+                 LegendShape="LegendShape.Circle" />
+
+    <ChartSeries DataSource="@CornAreaData"
+                 XName="X"
+                 YName="Y"
+                 Name="Corn"
+                 Type="ChartSeriesType.StackingArea"
+                 Fill="#B1212D"
+                 Opacity="0.9"
+                 Border="@(new ChartSeriesBorder { Width = 2 })"
+                 LegendShape="LegendShape.Circle" />
+
+    <ChartSeries DataSource="@TreeNutsData"
+                 XName="X"
+                 YName="Y"
+                 Name="Tree Nuts"
+                 Type="ChartSeriesType.StackingArea"
+                 Fill="#E77A16"
+                 Opacity="0.9"
+                 Border="@(new ChartSeriesBorder { Width = 2 })"
+                 LegendShape="LegendShape.Circle" />
+
+    <ChartSeries DataSource="@SoybeansData"
+                 XName="X"
+                 YName="Y"
+                 Name="Soybeans"
+                 Type="ChartSeriesType.StackingArea"
+                 Fill="#82C100"
+                 Opacity="0.9"
+                 Border="@(new ChartSeriesBorder { Width = 2 })"
+                 LegendShape="LegendShape.Circle" />
+</SfChart>
+
+@code {
+    [CascadingParameter]
+    private Theme CurrentTheme { get; set; } = Theme.Fluent;
+
+    private Theme _currentTheme = Theme.Fluent;
+
+    protected override void OnParametersSet()
+    {
+        base.OnParametersSet();
+        _currentTheme = CurrentTheme;
+    }
+
+    public class AgriExportData
+    {
+        public DateTime X { get; set; }
+        public double Y { get; set; }
+    }
+
+    List<AgriExportData> WheatData = new()
+    {
+        new() { X = new DateTime(2008, 1, 1), Y = 10 },
+        new() { X = new DateTime(2012, 1, 1), Y = 12 },
+        new() { X = new DateTime(2016, 1, 1), Y = 14 },
+        new() { X = new DateTime(2020, 1, 1), Y = 11 },
+        new() { X = new DateTime(2024, 1, 1), Y = 13 }
+    };
+
+    List<AgriExportData> CornAreaData = new()
+    {
+        new() { X = new DateTime(2008, 1, 1), Y = 15 },
+        new() { X = new DateTime(2012, 1, 1), Y = 18 },
+        new() { X = new DateTime(2016, 1, 1), Y = 22 },
+        new() { X = new DateTime(2020, 1, 1), Y = 19 },
+        new() { X = new DateTime(2024, 1, 1), Y = 21 }
+    };
+
+    List<AgriExportData> TreeNutsData = new()
+    {
+        new() { X = new DateTime(2008, 1, 1), Y = 5 },
+        new() { X = new DateTime(2012, 1, 1), Y = 7 },
+        new() { X = new DateTime(2016, 1, 1), Y = 9 },
+        new() { X = new DateTime(2020, 1, 1), Y = 8 },
+        new() { X = new DateTime(2024, 1, 1), Y = 10 }
+    };
+
+    List<AgriExportData> SoybeansData = new()
+    {
+        new() { X = new DateTime(2008, 1, 1), Y = 20 },
+        new() { X = new DateTime(2012, 1, 1), Y = 23 },
+        new() { X = new DateTime(2016, 1, 1), Y = 25 },
+        new() { X = new DateTime(2020, 1, 1), Y = 22 },
+        new() { X = new DateTime(2024, 1, 1), Y = 24 }
+    };
+}

@@ -1,0 +1,98 @@
+
+<SfChart @key="@_currentTheme" Title="Global Mobile Subscriptions per 100 People (1995-2023)"
+         SubTitle="Source: International Telecommunication Union (ITU)" Theme="@_currentTheme">
+
+    <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Toolkit.ValueType.Double"
+                       Minimum="1995"
+                       Maximum="2023"
+                       Interval="2"
+                       Title="Year">
+        <ChartAxisMajorGridLines Width="0" />
+        <ChartAxisMajorTickLines Width="0" />
+    </ChartPrimaryXAxis>
+
+    <ChartPrimaryYAxis Minimum="0"
+                       Maximum="120"
+                       Interval="20"
+                       Title="Subscriptions per 100 People">
+        <ChartAxisMajorTickLines Width="0" />
+        <ChartAxisLineStyle Width="0" />
+    </ChartPrimaryYAxis>
+
+    <ChartTooltipSettings Enable="true"
+                          Shared="true"
+                          ShowNearestTooltip="true"
+                          Format="Subscriptions: <b>${point.y}</b>" />
+
+    <ChartLegendSettings Visible="true"
+                         ShapeHeight="15"
+                         ShapeWidth="15" />
+
+
+    <ChartSeries DataSource="@TrendlineLogarithmicData"
+                 XName="Year"
+                 YName="Value"
+                 Name="Mobile Subscriptions"
+                 Type="ChartSeriesType.Line"
+                 Width="2"
+                 Fill="#00796B">
+
+        <ChartSeriesAnimation Enable="false" />
+
+        <ChartMarker Visible="true"
+                     Width="8"
+                     Height="8"
+                     Shape="ChartShape.Circle" />
+
+        <ChartTrendlines>
+            <ChartTrendline Type="TrendlineTypes.Logarithmic"
+                            Name="Logarithmic Trend"
+                            Width="3"
+                            DashArray="5,5"
+                            Fill="#8E24AA"
+                            EnableTooltip="false">
+                <ChartTrendlineAnimation Enable="false" />
+            </ChartTrendline>
+        </ChartTrendlines>
+
+    </ChartSeries>
+
+</SfChart>
+
+@code {
+    [CascadingParameter]
+    private Theme CurrentTheme { get; set; } = Theme.Fluent;
+
+    private Theme _currentTheme = Theme.Fluent;
+
+    protected override void OnParametersSet()
+    {
+        base.OnParametersSet();
+        _currentTheme = CurrentTheme;
+    }
+
+    public class LogarithmicPoint
+    {
+        public int Year { get; set; }
+        public double Value { get; set; }
+    }
+
+    public List<LogarithmicPoint> TrendlineLogarithmicData = new()
+    {
+        new() { Year = 1995, Value = 1.3 },
+        new() { Year = 1997, Value = 22.8 },
+        new() { Year = 1997, Value = 4.1 },
+        new() { Year = 1999, Value = 12.5 },
+        new() { Year = 2003, Value = 34.8 },
+        new() { Year = 2005, Value = 49.1 },
+        new() { Year = 2007, Value = 60.5 },
+        new() { Year = 2009, Value = 68.7 },
+        new() { Year = 2011, Value = 84.3 },
+        new() { Year = 2013, Value = 96.0 },
+        new() { Year = 2015, Value = 101.5 },
+        new() { Year = 2017, Value = 104.5 },
+        new() { Year = 2019, Value = 107.0 },
+        new() { Year = 2021, Value = 109.2 },
+        new() { Year = 2023, Value = 110.0 }
+    };
+}

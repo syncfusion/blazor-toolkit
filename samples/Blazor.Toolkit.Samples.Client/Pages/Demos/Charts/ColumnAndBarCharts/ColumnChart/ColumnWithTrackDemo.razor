@@ -1,0 +1,53 @@
+<SfChart @key="@_currentTheme" Theme="@_currentTheme" EnableSideBySidePlacement="false" Title="Which Milk Is the Most Sustainable?">
+    <ChartPrimaryXAxis LabelIntersectAction="LabelIntersectAction.Trim" ValueType="Syncfusion.Blazor.Toolkit.ValueType.Category" Interval="1"></ChartPrimaryXAxis>
+    <ChartPrimaryYAxis Minimum="0" Maximum="1050" Interval="200" Title="Water use [liters]">
+        <ChartAxisLineStyle Width="0"></ChartAxisLineStyle>
+        <ChartAxisMajorGridLines Width="1"></ChartAxisMajorGridLines>
+    </ChartPrimaryYAxis>
+
+    <ChartSeries DataSource="@ColumnWithTrackData" XName="MilkType" YName="BottleEffect" Type="ChartSeriesType.Column" Name="Bottle Effect" Fill="#f0f0fd" Opacity="0.9" ColumnWidth="0.45" ColumnSpacing="0.6">
+        <ChartCornerRadius TopLeft="6" TopRight="6" />
+    </ChartSeries>
+    <ChartSeries DataSource="@ColumnWithTrackData" XName="MilkType" YName="BottleNeck" Type="ChartSeriesType.Column" Name="Bottle Neck" Fill="#f0f0fd" Opacity="0.9" ColumnWidth="0.55" ColumnSpacing="0.6">
+        <ChartCornerRadius TopLeft="10" TopRight="10" />
+    </ChartSeries>
+    <ChartSeries DataSource="@ColumnWithTrackData" XName="MilkType" YName="WaterUsage" Type="ChartSeriesType.Column" Name="Water Usage" Fill="url(#gradient-fill-track)" ColumnWidth="0.55" ColumnSpacing="0.6">
+        <ChartCornerRadius TopLeft="6" TopRight="6" />
+    </ChartSeries>
+
+    <ChartTooltipSettings Enable="true" Header="${point.x}" Format="${series.name}: <b>${point.y}</b>" />
+    <ChartLegendSettings Visible="false" />
+</SfChart>
+<svg style="height:0"><defs><linearGradient id="gradient-fill-track" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#8F94FB" /><stop offset="100%" stop-color="#4E54C8" /></linearGradient></defs></svg>
+
+@code {
+    [CascadingParameter]
+    private Theme CurrentTheme { get; set; } = Theme.Fluent;
+
+    private Theme _currentTheme = Theme.Fluent;
+
+    protected override void OnParametersSet()
+    {
+        base.OnParametersSet();
+        _currentTheme = CurrentTheme;
+    }
+
+    private bool IsDarkTheme => _currentTheme.ToString().Contains("Dark") || _currentTheme.ToString().Contains("HighContrast");
+
+    public class TrackDataModel
+    {
+        public string MilkType { get; set; } = string.Empty;
+        public double WaterUsage { get; set; }
+        public double BottleNeck { get; set; }
+        public double BottleEffect { get; set; }
+    }
+
+    public List<TrackDataModel> ColumnWithTrackData { get; set; } = new()
+    {
+        new() { MilkType = "Cow", WaterUsage = 628, BottleNeck = 1000, BottleEffect = 1050 },
+        new() { MilkType = "Almond", WaterUsage = 371, BottleNeck = 1000, BottleEffect = 1050 },
+        new() { MilkType = "Rice", WaterUsage = 270, BottleNeck = 1000, BottleEffect = 1050 },
+        new() { MilkType = "Oat", WaterUsage = 48, BottleNeck = 1000, BottleEffect = 1050 },
+        new() { MilkType = "Soy", WaterUsage = 28, BottleNeck = 1000, BottleEffect = 1050 }
+    };
+}

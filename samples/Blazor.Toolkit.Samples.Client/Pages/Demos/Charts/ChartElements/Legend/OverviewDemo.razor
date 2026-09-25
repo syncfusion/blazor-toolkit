@@ -1,0 +1,110 @@
+
+<SfChart @key="@_currentTheme" Title="GDP Growth (2015 - 2024)" Theme="@_currentTheme">
+
+    <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Toolkit.ValueType.Category">
+    </ChartPrimaryXAxis>
+
+    <ChartPrimaryYAxis Interval="5"
+                       LineStyle="new ChartAxisLineStyle { Width = 0 }">
+    </ChartPrimaryYAxis>
+
+
+    <ChartSeries DataSource="@LegendOverviewData"
+                 XName="Year"
+                 YName="USA"
+                 Name="USA"
+                 Type="ChartSeriesType.Column"
+                 Fill="#689B8A"
+                 ColumnSpacing="0.1"
+                 LegendShape="LegendShape.Circle"
+                 CornerRadius="new ChartCornerRadius { TopLeft = 2, TopRight = 2 }">
+    </ChartSeries>
+
+    <ChartSeries DataSource="@LegendOverviewData"
+                 XName="Year"
+                 YName="India"
+                 Name="India"
+                 Type="ChartSeriesType.Column"
+                 Fill="#8E7AB5"
+                 ColumnSpacing="0.1"
+                 LegendShape="LegendShape.Circle"
+                 CornerRadius="new ChartCornerRadius { TopLeft = 2, TopRight = 2 }">
+    </ChartSeries>
+
+    <ChartSeries DataSource="@LegendOverviewData"
+                 XName="Year"
+                 YName="Japan"
+                 Name="Japan"
+                 Type="ChartSeriesType.Column"
+                 Fill="#FF6868"
+                 ColumnSpacing="0.1"
+                 LegendShape="LegendShape.Circle"
+                 CornerRadius="new ChartCornerRadius { TopLeft = 2, TopRight = 2 }">
+    </ChartSeries>
+
+    <ChartSeries DataSource="@LegendOverviewData"
+                 XName="Year"
+                 YName="Russia"
+                 Name="Russia"
+                 Type="ChartSeriesType.Column"
+                 Fill="#6897D4"
+                 ColumnSpacing="0.1"
+                 LegendShape="LegendShape.Circle"
+                 CornerRadius="new ChartCornerRadius { TopLeft = 2, TopRight = 2 }">
+    </ChartSeries>
+
+    <ChartSeries DataSource="@LegendOverviewData"
+                 XName="Year"
+                 YName="France"
+                 Name="France"
+                 Type="ChartSeriesType.Column"
+                 Fill="#D2A953"
+                 ColumnSpacing="0.1"
+                 LegendShape="LegendShape.Circle"
+                 CornerRadius="new ChartCornerRadius { TopLeft = 2, TopRight = 2 }">
+    </ChartSeries>
+
+
+    <ChartTooltipSettings Enable="true"
+                          Header="<b>${point.x}</b>"
+                          Format="${series.name} : <b>${point.y}%</b>" />
+
+    <ChartLegendSettings Visible="true"></ChartLegendSettings>
+</SfChart>
+
+@code {
+    [CascadingParameter]
+    private Theme CurrentTheme { get; set; } = Theme.Fluent;
+
+    private Theme _currentTheme = Theme.Fluent;
+
+    protected override void OnParametersSet()
+    {
+        base.OnParametersSet();
+        _currentTheme = CurrentTheme;
+    }
+
+    public class GdpGrowthData
+    {
+        public int Year { get; set; }
+        public double USA { get; set; }
+        public double India { get; set; }
+        public double Japan { get; set; }
+        public double Russia { get; set; }
+        public double France { get; set; }
+    }
+
+    public List<GdpGrowthData> LegendOverviewData = new()
+    {
+        new() { Year = 2015, USA = 2.95, India = 7.41, Japan = 1.56, Russia = -1.97, France = 1.07 },
+        new() { Year = 2016, USA = 1.82, India = 8.00, Japan = 0.75, Russia = 0.19,  France = 0.86 },
+        new() { Year = 2017, USA = 2.46, India = 8.26, Japan = 1.68, Russia = 1.83,  France = 2.08 },
+        new() { Year = 2018, USA = 2.97, India = 6.80, Japan = 0.64, Russia = 2.81,  France = 1.65 },
+        new() { Year = 2019, USA = 2.58, India = 6.45, Japan = -0.40, Russia = 2.20, France = 2.03 },
+        new() { Year = 2020, USA = -2.16,India = -5.78,Japan = -4.17,Russia = -2.65,France = -7.44 },
+        new() { Year = 2021, USA = 6.06, India = 9.69, Japan = 2.70, Russia = 5.87,  France = 6.88 },
+        new() { Year = 2022, USA = 2.51, India = 7.61, Japan = 0.94, Russia = -1.44, France = 2.57 },
+        new() { Year = 2023, USA = 2.89, India = 9.19, Japan = 1.48, Russia = 4.08,  France = 0.94 },
+        new() { Year = 2024, USA = 2.80, India = 6.48, Japan = 0.08, Russia = 4.34,  France = 1.17 }
+    };
+}

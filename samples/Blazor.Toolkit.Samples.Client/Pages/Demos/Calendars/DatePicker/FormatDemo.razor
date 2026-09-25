@@ -1,0 +1,5 @@
+﻿<SfDatePicker TValue="DateTime?" Width="270px" Format="yyyy-MM-dd" InputFormats='new string[] { "dd/MM/yyyy", "MM-dd-yyyy", "yyyy/MM/dd" }' @bind-Value="@FormatValue" ShowClearButton="true"></SfDatePicker>
+
+@code {
+    public DateTime? FormatValue { get; set; } = new DateTime(2022, 12, 11, 11, 30, 00);
+}

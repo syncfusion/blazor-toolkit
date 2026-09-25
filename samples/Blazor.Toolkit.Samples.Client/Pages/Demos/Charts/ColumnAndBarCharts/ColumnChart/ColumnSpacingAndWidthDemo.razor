@@ -1,0 +1,48 @@
+<div style="display:flex; gap:20px; ">
+    <div><label><b>Column Spacing:</b> @columnSpacing.ToString("0.00")</label><br /><input type="range" min="0.1" max="1" step="0.01" value="@columnSpacing" @oninput="OnSpacingChanged" /></div>
+    <div><label><b>Column Width:</b> @columnWidth.ToString("0.00")</label><br /><input type="range" min="0.1" max="1" step="0.01" value="@columnWidth" @oninput="OnWidthChanged" /></div>
+</div>
+<SfChart @key="@_currentTheme" Title="Walnuts and Almonds Estimated Production for 2023" Theme="@_currentTheme">
+    <ChartPrimaryXAxis LabelIntersectAction="LabelIntersectAction.Trim" ValueType="Syncfusion.Blazor.Toolkit.ValueType.Category" Interval="1"></ChartPrimaryXAxis>
+    <ChartPrimaryYAxis></ChartPrimaryYAxis>
+
+    <ChartSeries DataSource="@productionData" XName="Country" YName="Walnuts" Type="ChartSeriesType.Column" Name="Walnuts" Fill="#00C5BC" ColumnSpacing="@columnSpacing" ColumnWidth="@columnWidth"><ChartCornerRadius TopLeft="10" TopRight="10" /></ChartSeries>
+    <ChartSeries DataSource="@productionData" XName="Country" YName="Almonds" Type="ChartSeriesType.Column" Name="Almonds" Fill="#BA7DDA" ColumnSpacing="@columnSpacing" ColumnWidth="@columnWidth"><ChartCornerRadius TopLeft="10" TopRight="10" /></ChartSeries>
+
+    <ChartTooltipSettings Enable="true" Header="${point.x}" Format="${series.name}: <b>${point.y}K</b>" />
+</SfChart>
+
+@code {
+    [CascadingParameter]
+    private Theme CurrentTheme { get; set; } = Theme.Fluent;
+
+    private Theme _currentTheme = Theme.Fluent;
+
+    protected override void OnParametersSet()
+    {
+        base.OnParametersSet();
+        _currentTheme = CurrentTheme;
+    }
+
+    double columnSpacing = 0.15;
+    double columnWidth = 0.49;
+
+    void OnSpacingChanged(ChangeEventArgs e) { columnSpacing = Convert.ToDouble(e.Value); }
+    void OnWidthChanged(ChangeEventArgs e) { columnWidth = Convert.ToDouble(e.Value); }
+
+    public class ProductionDataModel
+    {
+        public string Country { get; set; } = string.Empty;
+        public double Walnuts { get; set; }
+        public double Almonds { get; set; }
+    }
+
+    public List<ProductionDataModel> productionData = new()
+    {
+        new() { Country = "Chile", Walnuts = 175, Almonds = 11.3 },
+        new() { Country = "European Union", Walnuts = 140, Almonds = 135 },
+        new() { Country = "Turkey", Walnuts = 67, Almonds = 24 },
+        new() { Country = "India", Walnuts = 33, Almonds = 42 },
+        new() { Country = "Australia", Walnuts = 12, Almonds = 154 }
+    };
+}

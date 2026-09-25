@@ -113,12 +113,22 @@ $tooltip-nrml-close-width: 16px !default;
       right: $tooltip-close-right;
       top: $tooltip-close-top;
       z-index: inherit;
-      border-radius: $tooltip-nrml-close-border-radius;
-      border-width: $tooltip-nrml-close-border;
-      box-shadow: $shadow-sm;
+
+      /* size & shape */
+      height: $tooltip-nrml-close-height;   /* 16px */
+      width: $tooltip-nrml-close-width;     /* 16px */
+      border-radius: 50%;                   /* force perfect circle */
+      border-width: 1px;
+      border-style: solid;
       box-sizing: border-box;
-      height: $tooltip-nrml-close-height;
-      width: $tooltip-nrml-close-width;
+
+      /* remove the soft shadow that causes the diagonal split */
+      box-shadow: none;                     /* ← key change */
+
+      /* centering helpers (already present) */
+      display: flex;
+      align-items: center;
+      justify-content: center;
     }
 
     .e-tip-content {
@@ -223,11 +233,31 @@ $tooltip-nrml-close-width: 16px !default;
     .e-close {
       background-color: $tooltip-icon-bg-normal;
       border-color: $tooltip-icon-border-color;
-      border-radius: 8px;
+      border-radius: 50%;                 /* ← change from 8px to 50% */
       color: $tooltip-default-icon-color;
+
+      outline: none;
+      -webkit-tap-highlight-color: transparent;
+
+      /* kill every possible rectangular outline / ring */
+      &:focus,
+      &:focus-visible,
+      &:active {
+        outline: none !important;
+        box-shadow: none !important;
+        border-radius: 50%;               /* force circle even on active */
+      }
+
       &:hover {
-          background-color: $tooltip-icon-bg-hover;
-          color: $tooltip-hover-icon-color;
+        background-color: $tooltip-icon-bg-hover;
+        color: $tooltip-hover-icon-color;
+      }
+
+      /* nice circular focus ring only for keyboard */
+      &:focus-visible {
+        outline: 2px solid currentColor;
+        outline-offset: 1px;
+        border-radius: 50%;
       }
     }
 
@@ -246,9 +276,13 @@ $tooltip-nrml-close-width: 16px !default;
         content: '\e709';
         font-family: 'e-toolkit-icons';
         font-size: 12px;
-        left: 2px;
+        line-height: 1;
+
+        /* perfect centering */
         position: absolute;
-        top: 2px;
+        left: 50%;
+        top: 50%;
+        transform: translate(-50%, -50%);
     }
 
     .e-arrow-tip-inner.e-chevron-right-fill::before {
@@ -270,4 +304,24 @@ $tooltip-nrml-close-width: 16px !default;
         content: '\e718';
         font-family: 'e-toolkit-icons';
     }
+}
+
+@media (forced-colors: active) {
+  .e-tooltip-wrap .e-close {
+    forced-color-adjust: none;
+    border-color: ButtonText;
+    background-color: ButtonFace;
+    color: ButtonText;
+  }
+
+  .e-tooltip-wrap .e-close:hover,
+  .e-tooltip-wrap .e-close:focus-visible {
+    background-color: Canvas !important;
+    color: Highlight;
+    border-color: Highlight;
+  }
+
+  .e-tooltip-wrap .e-close::before {
+    color: inherit;
+  }
 }

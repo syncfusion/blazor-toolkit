@@ -1,0 +1,19 @@
+﻿<div id="target">
+    <div>
+        <SfButton @onclick="@OpenDialog">Open Dialog</SfButton>
+    </div>
+    <SfDialog Target="#target" Width="250px" @bind-Visible="@IsVisible" Header="Dialog Header" Content="Here Dialog with Content property." ShowCloseIcon="true"></SfDialog>
+</div>
+@code {
+    private bool IsVisible { get; set; } = false;
+
+    private void OpenDialog()
+    {
+        this.IsVisible = true;
+    }
+}
+<style>
+    #target {
+        height: 200px;
+    }
+</style>

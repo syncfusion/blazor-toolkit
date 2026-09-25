@@ -1,0 +1,93 @@
+<SfChart @key="@_currentTheme" Title="Capital Investment as a Share of Exports" Theme="@_currentTheme">
+    <ChartArea><ChartAreaBorder Width="0"></ChartAreaBorder></ChartArea>
+
+    <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Toolkit.ValueType.Double" Interval="1">
+        <ChartAxisMajorGridLines Width="0" />
+        <ChartAxisMajorTickLines Width="0" />
+        <ChartAxisMinorTickLines Width="0" />
+    </ChartPrimaryXAxis>
+
+    <ChartPrimaryYAxis Minimum="3"
+                       Maximum="21"
+                       Interval="3"
+                       LabelFormat="{value}%">
+        <ChartAxisLineStyle Width="0" />
+        <ChartAxisMajorTickLines Width="0" />
+    </ChartPrimaryYAxis>
+
+    <ChartTooltipSettings Enable="true"
+                          Header="${series.name}"
+                          Format="${point.x} : <b>${point.y}</b>"
+                          EnableHighlight="true" />
+
+    <ChartSeries DataSource="@InvestmentData"
+                 XName="X"
+                 YName="Y"
+                 Name="Singapore"
+                 Type="ChartSeriesType.Line"
+                 DashArray="4,4">
+        <ChartMarker Visible="true" IsFilled="true" />
+    </ChartSeries>
+
+    <ChartSeries DataSource="@InvestmentData"
+                 XName="X"
+                 YName="Y1"
+                 Name="Saudi Arabia"
+                 Type="ChartSeriesType.Line"
+                 DashArray="4,4">
+        <ChartMarker Visible="true" IsFilled="true" />
+    </ChartSeries>
+
+    <ChartSeries DataSource="@InvestmentData"
+                 XName="X"
+                 YName="Y2"
+                 Name="Spain"
+                 Type="ChartSeriesType.Line"
+                 DashArray="4,4">
+        <ChartMarker Visible="true" IsFilled="true" />
+    </ChartSeries>
+
+    <ChartSeries DataSource="@InvestmentData"
+                 XName="X"
+                 YName="Y3"
+                 Name="Portugal"
+                 Type="ChartSeriesType.Line"
+                 DashArray="4,4">
+        <ChartMarker Visible="true" IsFilled="true" />
+    </ChartSeries>
+
+    <ChartLegendSettings EnableHighlight="true" />
+</SfChart>
+
+@code {
+    [CascadingParameter]
+    private Theme CurrentTheme { get; set; } = Theme.Fluent;
+
+    private Theme _currentTheme = Theme.Fluent;
+
+    protected override void OnParametersSet()
+    {
+        base.OnParametersSet();
+        _currentTheme = CurrentTheme;
+    }
+
+    public class InvestmentDataModel
+    {
+        public double X { get; set; }
+        public double Y { get; set; }
+        public double Y1 { get; set; }
+        public double Y2 { get; set; }
+        public double Y3 { get; set; }
+    }
+
+    public List<InvestmentDataModel> InvestmentData = new()
+    {
+        new() { X = 2010, Y = 6.6, Y1 = 9.0, Y2 = 15.1, Y3 = 18.8 },
+        new() { X = 2011, Y = 6.3, Y1 = 9.3, Y2 = 15.5, Y3 = 18.5 },
+        new() { X = 2012, Y = 6.7, Y1 = 10.2, Y2 = 14.5, Y3 = 17.6 },
+        new() { X = 2013, Y = 6.7, Y1 = 10.2, Y2 = 13.9, Y3 = 16.1 },
+        new() { X = 2014, Y = 6.4, Y1 = 10.9, Y2 = 13.0, Y3 = 17.2 },
+        new() { X = 2015, Y = 6.8, Y1 = 9.3,  Y2 = 13.4, Y3 = 18.9 },
+        new() { X = 2016, Y = 7.7, Y1 = 10.1, Y2 = 14.2, Y3 = 19.4 }
+    };
+}

@@ -1,0 +1,75 @@
+<SfChart @key="@_currentTheme" Theme="@_currentTheme" Background="Transparent">
+    <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Toolkit.ValueType.Category">
+        <ChartAxisLineStyle Width="1" Color="black" />
+    </ChartPrimaryXAxis>
+    <ChartPrimaryYAxis Title="kW of public charging per electric LDV" Minimum="0" Maximum="5.4" Interval="0.9">
+        <ChartAxisLineStyle Width="0" />
+    </ChartPrimaryYAxis>
+    <ChartAxis Title="Number of Electric LDVs per charging point" Name="secondaryAxis"
+               OpposedPosition="true"
+               Minimum="0"
+               Maximum="90"
+               Interval="15">
+        <ChartAxisLineStyle Width="0" />
+    </ChartAxis>
+
+    <ChartSeries DataSource="@evChargingData"
+                 Type="ChartSeriesType.Bar"
+                 XName="Country"
+                 YName="PublicChargingPerEV"
+                 Fill="#799EFF">
+    </ChartSeries>
+    <ChartSeries DataSource="@evChargingData"
+                 Type="ChartSeriesType.Scatter"
+                 XName="Country"
+                 YName="EvPerChargingPoint"
+                 YAxisName="secondaryAxis"
+                 Fill="#FF5850">
+        <ChartMarker Visible="true"
+                     Shape="ChartShape.Circle"
+                     Width="10"
+                     Height="10">
+        </ChartMarker>
+    </ChartSeries>
+
+    <ChartTooltipSettings Enable="true" />
+</SfChart>
+
+@code {
+    [CascadingParameter]
+    private Theme CurrentTheme { get; set; } = Theme.Fluent;
+
+    private Theme _currentTheme = Theme.Fluent;
+
+    protected override void OnParametersSet()
+    {
+        base.OnParametersSet();
+        _currentTheme = CurrentTheme;
+    }
+
+    public class EvChargingData
+    {
+        public string Country { get; set; } = string.Empty;
+        public double EvPerChargingPoint { get; set; }
+        public double PublicChargingPerEV { get; set; }
+        public double KwPerElectricLDV { get; set; }
+        public double KwPerEV { get; set; }
+    }
+
+    List<EvChargingData> evChargingData = new()
+    {
+        new() { Country = "New Zealand", EvPerChargingPoint = 81.9, PublicChargingPerEV = 0.7 },
+        new() { Country = "Australia", EvPerChargingPoint = 45.0, PublicChargingPerEV = 1.1 },
+        new() { Country = "Mexico", EvPerChargingPoint = 40.6, PublicChargingPerEV = 0.6 },
+        new() { Country = "United States", EvPerChargingPoint = 32.6, PublicChargingPerEV = 1.3 },
+        new() { Country = "Norway", EvPerChargingPoint = 32.1, PublicChargingPerEV = 2.0 },
+        new() { Country = "China", EvPerChargingPoint = 8.0, PublicChargingPerEV = 3.0 },
+        new() { Country = "Netherlands", EvPerChargingPoint = 12.0, PublicChargingPerEV = 4.8 },
+        new() { Country = "Germany", EvPerChargingPoint = 20.0, PublicChargingPerEV = 2.5 },
+        new() { Country = "France", EvPerChargingPoint = 18.0, PublicChargingPerEV = 2.0 },
+        new() { Country = "Japan", EvPerChargingPoint = 25.0, PublicChargingPerEV = 1.5 },
+        new() { Country = "United Kingdom", EvPerChargingPoint = 28.0, PublicChargingPerEV = 1.8 },
+        new() { Country = "Spain", EvPerChargingPoint = 22.0, PublicChargingPerEV = 1.2 },
+        new() { Country = "India", EvPerChargingPoint = 55.0, PublicChargingPerEV = 0.8 }
+    };
+}

@@ -1,0 +1,79 @@
+<SfChart @key="@_currentTheme" Title="Global Corn Exports (Billions of Tons)" Width="100%" Height="400px" Theme="@_currentTheme">
+
+    <ChartArea>
+        <ChartAreaBorder Width="0" />
+    </ChartArea>
+
+    <ChartTooltipSettings Enable="true"
+                          Header=""
+                          Format="Year: <b>${point.x}</b><br/>Exports: <b>${point.y}</b>" />
+
+    <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Toolkit.ValueType.Category">
+        <ChartAxisLabelStyle />
+    </ChartPrimaryXAxis>
+
+    <ChartPrimaryYAxis Maximum="24" Interval="6">
+        <ChartAxisLineStyle Width="0" />
+        <ChartPrimaryYAxis Format="{value}B" />
+    </ChartPrimaryYAxis>
+
+    <ChartSeries DataSource="@ExportData"
+                 XName="X"
+                 YName="Y"
+                 Type="ChartSeriesType.StepArea"
+                 StepPosition="StepPosition.Center"
+                 Opacity="0.6"
+                 Fill="#6200EE"
+                 Width="2">
+
+        <ChartSeriesBorder Width="2" Color="#6200EE" />
+
+        <ChartMarker Visible="true"
+                     Width="8"
+                     Height="8"
+                     Fill="#6200EE">
+
+            <ChartMarkerBorder Width="1" Color="#6200EE" />
+
+            <ChartDataLabel Visible="true"
+                            Position="ChartLabelPosition.Outer" >
+                <ChartDataLabelBorder Width="1" Color="#6200EE" />
+                <ChartDataLabelFont FontWeight="600" Color="@TextColor" />
+            </ChartDataLabel>
+
+        </ChartMarker>
+
+    </ChartSeries>
+</SfChart>
+
+@code {
+    [CascadingParameter]
+    private Theme CurrentTheme { get; set; } = Theme.Fluent;
+
+    private Theme _currentTheme = Theme.Fluent;
+
+    private bool IsDarkTheme => _currentTheme.ToString().Contains("Dark") || _currentTheme.ToString().Contains("HighContrast");
+    private string TextColor => IsDarkTheme ? "#E6EEF8" : "#0B1F3B";
+
+    protected override void OnParametersSet()
+    {
+        base.OnParametersSet();
+        _currentTheme = CurrentTheme;
+    }
+
+    public record ExportPoint(int X, double Y);
+
+    public List<ExportPoint> ExportData = new()
+    {
+        new(2015, 8.27),
+        new(2016, 9.88),
+        new(2017, 9.13),
+        new(2018, 12.47),
+        new(2019, 7.67),
+        new(2020, 9.25),
+        new(2021, 18.63),
+        new(2022, 18.57),
+        new(2023, 13.02),
+        new(2024, 13.70)
+    };
+}

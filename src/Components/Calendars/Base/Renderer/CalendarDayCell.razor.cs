@@ -493,22 +493,36 @@ namespace Syncfusion.Blazor.Toolkit.Calendars.Internal
         {
             dateValue = (dateValue is not null) ? dateValue : GenericValue(values[0]);
             DateTime getValue = ConvertDate(dateValue!);
+            bool isSelected = false;
             for (int tempValue = 0; tempValue < values.Length; tempValue++)
             {
                 string localDateString = Intl.GetDateFormat(LocalDates, FORMATSHORTDATE);
                 string tempDateString = Intl.GetDateFormat(values[tempValue], FORMATSHORTDATE);
                 if ((localDateString == tempDateString && GetDateVal(LocalDates, values[tempValue])) || GetDateVal(LocalDates, getValue))
                 {
-                    if (TdEleClass is not null)
-                    {
-                        TdEleClass = TdEleClass.Contains(FOCUSEDDATE, StringComparison.Ordinal) ? SfBaseUtils.RemoveClass(TdEleClass, FOCUSEDDATE) : TdEleClass;
-                        TdEleClass = SfBaseUtils.AddClass(TdEleClass, SELECTED);
-                    }
+                    isSelected = true;
+                    break;
                 }
                 else
                 {
                     UpdateFocus(otherMnthBool, disabledCls, LocalDates, CurrentCellDate);
                 }
+            }
+
+            if (isSelected)
+            {
+                if (TdEleClass is not null)
+                {
+                    TdEleClass = TdEleClass.Contains(FOCUSEDDATE, StringComparison.Ordinal)
+                        ? SfBaseUtils.RemoveClass(TdEleClass, FOCUSEDDATE)
+                        : TdEleClass;
+                    TdEleClass = SfBaseUtils.AddClass(TdEleClass, SELECTED);
+                }
+            }
+            else
+            {
+                // Only apply focus for the current focused date
+                UpdateFocus(otherMnthBool, disabledCls, LocalDates, CurrentCellDate);
             }
 
             if (values.Length <= 0)
@@ -523,6 +537,7 @@ namespace Syncfusion.Blazor.Toolkit.Calendars.Internal
         private async Task RenderDayCellAsync(DateTime currentDate, TCalendarCell dateValue, bool multiSelection, DateTime[] values, CalendarView calendarView)
         {
             DateTime date = LocalDates;
+            TdEleClass = CELL;
             string dateString = date.ToString("dd/MM/yyyy", CultureInfo.InvariantCulture);
             if ((IsSelect || (Parent is not null && Parent.IsTodayClick)) && !string.IsNullOrEmpty(TdEleClass))
             {
@@ -530,6 +545,7 @@ namespace Syncfusion.Blazor.Toolkit.Calendars.Internal
                 TdEleClass = TdEleClass.Replace(SELECTED, string.Empty, StringComparison.Ordinal);
                 TdEleClass = TdEleClass.Replace(FOCUSEDDATE, string.Empty, StringComparison.Ordinal);
                 TdEleClass = TdEleClass.Replace(OTHERMONTH, string.Empty, StringComparison.Ordinal);
+                TdEleClass = TdEleClass.Replace(OTHERDECADE, string.Empty, StringComparison.Ordinal);
                 if ((Parent is not null) && Parent.IsTodayClick)
                 {
                     TdEleClass = TdEleClass.Replace(DISABLED, string.Empty, StringComparison.Ordinal);
@@ -749,7 +765,8 @@ namespace Syncfusion.Blazor.Toolkit.Calendars.Internal
                 TdEleClass = SfBaseUtils.AddClass(TdEleClass, DISABLED);
                 TdEleClass = SfBaseUtils.AddClass(TdEleClass, OVERLAY);
             }
-            else if (dateValue is not null && select)
+            else if ((dateValue is not null && !IsNoValue(dateValue) && select) ||
+                    (IsNoValue(dateValue) && LocalDates.Month == DateTime.Now.Month && LocalDates.Year == DateTime.Now.Year))
             {
                 TdEleClass = SfBaseUtils.AddClass(TdEleClass, SELECTED);
             }
@@ -849,14 +866,25 @@ namespace Syncfusion.Blazor.Toolkit.Calendars.Internal
                     }
                 }
                 bool isLocalyear = localDate.Year == currentDate.Year && !TdEleClass.Contains(DISABLED, StringComparison.Ordinal);
-                TdEleClass = (localDate.Year == dateTimeVal.Year) ? SfBaseUtils.AddClass(TdEleClass, SELECTED) : isLocalyear ? SfBaseUtils.AddClass(TdEleClass, FOCUSEDDATE) : TdEleClass;
+                if (localDate.Year == dateTimeVal.Year && !IsNoValue(dateValue))
+                {
+                    TdEleClass = SfBaseUtils.AddClass(TdEleClass, SELECTED);
+                }
+                else if (isLocalyear && IsNoValue(dateValue) && localDate.Year == DateTime.Now.Year)
+                {
+                    TdEleClass = SfBaseUtils.AddClass(TdEleClass, SELECTED);
+                }
+                else if (isLocalyear)
+                {
+                    TdEleClass = SfBaseUtils.AddClass(TdEleClass, FOCUSEDDATE);
+                }
             }
             else if (localDate.Year == currentDate.Year && !TdEleClass.Contains(DISABLED, StringComparison.Ordinal))
             {
                 if ((IsFocusTodayDate && Parent?.Start == CalendarView.Decade) || IsFocusTodayDate || (Parent?.Start != CalendarView.Decade))
                 {
                     RemoveFocusedDate();
-                    TdEleClass = SfBaseUtils.AddClass(TdEleClass, FOCUSEDDATE);
+                    TdEleClass = SfBaseUtils.AddClass(TdEleClass, SELECTED);
                 }
             }
             RenderDayCellEventArgs eventArgs = await TriggerDayCellEventAsync().ConfigureAwait(false);
@@ -880,6 +908,21 @@ namespace Syncfusion.Blazor.Toolkit.Calendars.Internal
         }
 
         /// <summary>
+        /// Detects whether the calendar cell has no real user-supplied value.
+        /// Covers both <c>null</c> (when TValue is <c>DateTime?</c>) and <c>default(DateTime)</c>
+        /// (which equals 0001-01-01 and is what Blazor passes when no Value is bound).
+        /// </summary>
+        private bool IsNoValue(TCalendarCell? dateValue)
+        {
+            if (dateValue is null)
+            {
+                return true;
+            }
+            DateTime converted = ConvertDate(dateValue);
+            return converted == default(DateTime) || converted.Year < 1900;
+        }
+
+        /// <summary>
         /// Updates the focused visual state of the cell depending on navigation, selection, and cell status.
         /// Adds or removes the "focused date" class as needed, ensuring visual focus for accessibility and navigation logic.
         /// </summary>
@@ -894,7 +937,11 @@ namespace Syncfusion.Blazor.Toolkit.Calendars.Internal
         {
             if (currentDate.Day == localDate.Day && !otherMonth && !disabled && IsFocusTodayDate)
             {
-                TdEleClass = SfBaseUtils.AddClass(TdEleClass, FOCUSEDDATE);
+                bool suppressFocusOutline = IsMultiSelect && !(Parent?.IsKeyboardInteraction ?? false);
+                if (!suppressFocusOutline)
+                {
+                    TdEleClass = SfBaseUtils.AddClass(TdEleClass, FOCUSEDDATE);
+                }
                 CellDetails? previousListData = Parent?.PreviousCellListData is not null ? Parent.PreviousCellListData.Where(item => item.CellID == localDate.Ticks + "_" + Cells)?.FirstOrDefault() : null;
                 if (previousListData is not null && previousListData.ClassList is not null && !previousListData.ClassList.Contains(FOCUSEDDATE, StringComparison.Ordinal))
                 {

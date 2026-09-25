@@ -1,0 +1,7 @@
+﻿<div class="d-flex gap-4 align-items-center flex-wrap">
+    <SfRadioButton Name="labelpos" Label="Label First" Value="Before" LabelPosition="LabelPosition.Before" @bind-Checked="labelPosPick" />
+    <SfRadioButton Name="labelpos" Label="Label Last" Value="After" LabelPosition="LabelPosition.After" @bind-Checked="labelPosPick" />
+</div>
+@code {
+    private string labelPosPick = "Before";
+}

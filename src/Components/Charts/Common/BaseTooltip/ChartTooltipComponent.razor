@@ -1,5 +1,14 @@
 ﻿@namespace Syncfusion.Blazor.Toolkit.Charts.Internal
 
+@*
+    MS-4.10 — The `style="@Style"` attribute is intentionally retained.
+    `Style` is a `[Parameter]` that the chart fills at runtime with
+    computed positioning (`top:Xpx;left:Ypx;pointer-events:none;...`),
+    see `ChartTooltipComponent.ChangeContent(...)`. Such runtime data
+    cannot be expressed statically in `ChartTooltipComponent.razor.css`.
+    Static / theme rules that apply on every render live in the
+    colocated `ChartTooltipComponent.razor.css` file.
+*@
 <div id="@ID" class="@Class" style="@Style">
     @TemplateElements()
 </div>

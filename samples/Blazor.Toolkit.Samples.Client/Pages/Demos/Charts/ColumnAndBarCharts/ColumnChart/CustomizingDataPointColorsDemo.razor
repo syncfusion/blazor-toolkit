@@ -1,0 +1,44 @@
+<SfChart @key="@_currentTheme" Title="Walnuts and Almonds Estimated Production for 2023" Theme="@_currentTheme">
+    <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Toolkit.ValueType.Category" Interval="1" LabelIntersectAction="LabelIntersectAction.Trim"></ChartPrimaryXAxis>
+    <ChartPrimaryYAxis></ChartPrimaryYAxis>
+
+    <ChartSeries DataSource="@PointColorData" XName="X" YName="Y" Type="ChartSeriesType.Column" PointColorMapping="Color" ColumnSpacing="0.2">
+        <ChartCornerRadius TopLeft="8" TopRight="8"></ChartCornerRadius>
+    </ChartSeries>
+
+    <ChartTooltipSettings Enable="true" Header="" Format="${point.x} : <b>${point.y}</b>" />
+</SfChart>
+
+@code {
+    [CascadingParameter]
+    private Theme CurrentTheme { get; set; } = Theme.Fluent;
+
+    private Theme _currentTheme = Theme.Fluent;
+
+    protected override void OnParametersSet()
+    {
+        base.OnParametersSet();
+        _currentTheme = CurrentTheme;
+    }
+
+    public class TradeDataModel
+    {
+        public string X { get; set; } = string.Empty;
+        public double Y { get; set; }
+        public string Color { get; set; } = string.Empty;
+    }
+
+    public List<TradeDataModel> PointColorData = new()
+    {
+        new() { X = "Tree Nuts", Y = 1.12, Color = "#578FCA" },
+        new() { X = "Pulses", Y = 0.73, Color = "#98A1EA" },
+        new() { X = "Essential Oils", Y = 0.67, Color = "#FF8080" },
+        new() { X = "Dairy Products", Y = 0.52, Color = "#D3DE32" },
+        new() { X = "Other Intermediate Products", Y = 0.51, Color = "#5FDDE5" },
+        new() { X = "Other Feeds, Meals & Fodders", Y = 0.43, Color = "#F6B53F" },
+        new() { X = "Ethanol", Y = 0.42, Color = "#F2C078" },
+        new() { X = "Fresh Fruit", Y = 0.40, Color = "#6FAAB0" },
+        new() { X = "Soybean Oil", Y = 0.37, Color = "#C4C24A" },
+        new() { X = "Cotton", Y = 0.20, Color = "#73946B" }
+    };
+}

@@ -1,0 +1,66 @@
+<SfChart @key="@_currentTheme" Title="Hyperbola Graph with Axis Crossing at Origin" Theme="@_currentTheme">
+    <ChartArea>
+        <ChartAreaBorder Width="0" />
+    </ChartArea>
+
+    <ChartTooltipSettings Enable="true"
+                          EnableMarker="false"
+                          EnableHighlight="true"
+                          Format="x = <b>${point.x}</b><br />y = <b>${point.y}</b>" />
+
+    <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Toolkit.ValueType.Double"
+                       Minimum="-6"
+                       Maximum="6"
+                       CrossesAt="0">
+        <ChartAxisLineStyle Width="2" />
+        <ChartAxisMajorTickLines Width="3" Height="6" />
+    </ChartPrimaryXAxis>
+
+    <ChartPrimaryYAxis Minimum="-6"
+                       Maximum="6"
+                       Interval="2"
+                       CrossesAt="0"
+                       OpposedPosition="false">
+        <ChartAxisLineStyle Width="2" />
+    </ChartPrimaryYAxis>
+
+    <ChartSeries DataSource="@AxisCrossingData"
+                 XName="X"
+                 YName="Y"
+                 Type="ChartSeriesType.Spline"
+                 Width="2">
+        <ChartSeriesAnimation Enable="false" />
+    </ChartSeries>
+</SfChart>
+
+@code {
+    [CascadingParameter]
+    private Theme CurrentTheme { get; set; } = Theme.Fluent;
+
+    private Theme _currentTheme = Theme.Fluent;
+
+    protected override void OnParametersSet()
+    {
+        base.OnParametersSet();
+        _currentTheme = CurrentTheme;
+    }
+
+    public class AxisCrossingPoint
+    {
+        public double X { get; set; }
+        public double? Y { get; set; }
+    }
+
+    public List<AxisCrossingPoint> AxisCrossingData =
+        Enumerable.Range(0, 1201)
+            .Select(i =>
+            {
+                double x = -6 + (i * 0.01);
+                return new AxisCrossingPoint
+                {
+                    X = Math.Round(x, 2),
+                    Y = Math.Round(x * 100) != 0 ? 1 / x : null
+                };
+            })
+            .ToList();
+}

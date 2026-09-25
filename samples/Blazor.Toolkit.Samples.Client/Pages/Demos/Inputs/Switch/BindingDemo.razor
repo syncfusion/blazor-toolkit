@@ -1,0 +1,19 @@
+﻿<div class="switch-container d-inline-flex align-items-center gap-2">
+    <SfSwitch Checked="@manualChecked"
+                CheckedChanged="@(EventCallback.Factory.Create<bool>(this, (bool v) => manualChecked = v))" />
+    <span class="status-text">Manual Binding: @manualChecked</span>
+
+</div>
+<br />
+<div class="switch-container mt-3 d-inline-flex align-items-center gap-2">
+
+    <SfSwitch Checked="@inlineChecked"
+                CheckedChanged="@(EventCallback.Factory.Create<bool>(this, (bool v) => { inlineChecked = v; changeCount++; }))" />
+    <span class="status-text">Inline Handler: @inlineChecked (Changed @changeCount times)</span>
+
+</div>
+@code {
+    private bool manualChecked = true;
+    private bool inlineChecked = false;
+    private int changeCount = 0;
+}

@@ -1,0 +1,80 @@
+<svg style="height:0">
+    <defs>
+        <linearGradient id="gradient-fill-range" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="10%" stop-color="#5433FF40" />
+            <stop offset="100%" stop-color="#5433FF" />
+        </linearGradient>
+    </defs>
+</svg>
+
+<SfChart @key="@_currentTheme" Title="World Population by Year" Width="100%" Theme="@_currentTheme">
+    <ChartArea>
+        <ChartAreaBorder Width="0"></ChartAreaBorder>
+    </ChartArea>
+
+    <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Toolkit.ValueType.Double"
+                       Minimum="2018"
+                       Maximum="2023"
+                       Interval="1">
+        <ChartAxisMajorGridLines Width="0" />
+        <ChartAxisMajorTickLines Width="0" />
+        <ChartAxisMinorTickLines Width="0" />
+    </ChartPrimaryXAxis>
+
+    <ChartPrimaryYAxis Title="Population in Billions" Minimum="7.6"
+                       Maximum="8.1"
+                       Interval="0.1">
+        <ChartAxisLineStyle Width="0" />
+        <ChartAxisMajorTickLines Width="0" />
+    </ChartPrimaryYAxis>
+
+    <ChartSeries DataSource="@NumericRangeData"
+                 XName="X"
+                 YName="Y1"
+                 Type="ChartSeriesType.SplineArea"
+                 Width="2"
+                 Opacity="0.6"
+                 Fill="url(#gradient-fill-range)">
+        <ChartSeriesBorder Width="2" Color="#0066cc"></ChartSeriesBorder>
+        <ChartMarker Visible="true" IsFilled="true"></ChartMarker>
+    </ChartSeries>
+
+    <ChartTooltipSettings Enable="true"
+                          Header="${point.x}"
+                          Format="Population : <b>${point.y}B</b>"
+                          EnableHighlight="true">
+    </ChartTooltipSettings>
+</SfChart>
+
+@code {
+    [CascadingParameter]
+    private Theme CurrentTheme { get; set; } = Theme.Fluent;
+
+    private Theme _currentTheme = Theme.Fluent;
+
+    protected override void OnParametersSet()
+    {
+        base.OnParametersSet();
+        _currentTheme = CurrentTheme;
+    }
+
+    public class NumericRangePoint
+    {
+        public double X { get; set; }
+        public double Y1 { get; set; }
+    }
+
+    public List<NumericRangePoint> NumericRangeData = new()
+    {
+        new() { X = 2016, Y1 = 7.5 },
+        new() { X = 2017, Y1 = 7.6 },
+        new() { X = 2018, Y1 = 7.7 },
+        new() { X = 2019, Y1 = 7.81 },
+        new() { X = 2020, Y1 = 7.88 },
+        new() { X = 2021, Y1 = 7.95 },
+        new() { X = 2022, Y1 = 8.02 },
+        new() { X = 2023, Y1 = 8.09 },
+        new() { X = 2024, Y1 = 8.1 },
+        new() { X = 2025, Y1 = 8.2 }
+    };
+}

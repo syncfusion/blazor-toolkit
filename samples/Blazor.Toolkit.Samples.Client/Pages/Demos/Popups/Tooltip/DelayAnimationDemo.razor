@@ -1,0 +1,85 @@
+﻿<div class="delay-animation-demo">
+    <div class="demo-section">
+        <h6 id="animation-effects">Animation Effects (Same Delay: 300ms)</h6>
+        <p class="demo-hint">Hover and notice how each tooltip appears differently</p>
+        <div class="button-group">
+            <SfTooltip Content="Fade In effect - smooth opacity transition" OpenDelay="300" CloseDelay="200" Animation="@FadeAnimation">
+                <SfButton Content="Fade In"></SfButton>
+            </SfTooltip>
+            <SfTooltip Content="Zoom In effect - scales from center" OpenDelay="300" CloseDelay="200" Animation="@ZoomAnimation">
+                <SfButton Content="Zoom In"></SfButton>
+            </SfTooltip>
+            <SfTooltip Content="No Animation - instantaneous appearance" OpenDelay="300" CloseDelay="200" Animation="@NoAnimation">
+                <SfButton Content="No Animation"></SfButton>
+            </SfTooltip>
+        </div>
+    </div>
+    <div class="demo-section">
+        <h6 id="delay-variations">Delay Variations (Same Animation: Zoom In)</h6>
+        <p class="demo-hint">Hover and notice how long it takes before each tooltip appears</p>
+        <div class="button-group">
+            <SfTooltip Content="Short delay: 100ms - appears almost immediately" OpenDelay="100" CloseDelay="100" Animation="@ZoomAnimation">
+                <SfButton Content="100ms Delay"></SfButton>
+            </SfTooltip>
+            <SfTooltip Content="Medium delay: 500ms - noticeable pause" OpenDelay="500" CloseDelay="300" Animation="@ZoomAnimation">
+                <SfButton Content="500ms Delay"></SfButton>
+            </SfTooltip>
+            <SfTooltip Content="Long delay: 1500ms - clearly shows the wait time" OpenDelay="1500" CloseDelay="500" Animation="@ZoomAnimation">
+                <SfButton Content="1500ms Delay"></SfButton>
+            </SfTooltip>
+        </div>
+    </div>
+</div>
+@code {
+    public AnimationModel FadeAnimation { get; set; } = new AnimationModel
+    {
+        Open = new TooltipAnimationSettings { Delay = 0, Duration = 300, Effect = Effect.FadeIn },
+        Close = new TooltipAnimationSettings { Delay = 0, Duration = 200, Effect = Effect.FadeOut }
+    };
+
+    public AnimationModel ZoomAnimation { get; set; } = new AnimationModel
+    {
+        Open = new TooltipAnimationSettings { Delay = 0, Duration = 300, Effect = Effect.ZoomIn },
+        Close = new TooltipAnimationSettings { Delay = 0, Duration = 200, Effect = Effect.ZoomOut }
+    };
+
+    public AnimationModel NoAnimation { get; set; } = new AnimationModel
+    {
+        Open = new TooltipAnimationSettings { Delay = 0, Duration = 0, Effect = Effect.None },
+        Close = new TooltipAnimationSettings { Delay = 0, Duration = 0, Effect = Effect.None }
+    };
+}
+<style>
+    .delay-animation-demo {
+        padding: 20px;
+        max-width: 800px;
+        margin: 0 auto;
+    }
+
+    .demo-section {
+        margin-bottom: 30px;
+        padding: 20px;
+        background: #f8f9fa;
+        border-radius: 8px;
+    }
+
+        .demo-section h6 {
+            margin: 0 0 8px 0;
+            color: #333;
+            font-size: 14px;
+        }
+
+    .demo-hint {
+        margin: 0 0 16px 0;
+        color: #666;
+        font-size: 13px;
+        font-style: italic;
+    }
+
+    .delay-animation-demo .button-group {
+        display: flex;
+        gap: 20px;
+        flex-wrap: wrap;
+        justify-content: center;
+    }
+</style>

@@ -1,0 +1,72 @@
+
+<SfChart @key="@_currentTheme" Title="Annual percentage change in fossil fuel consumption (2023 - 2024)" Theme="@_currentTheme">
+
+    <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Toolkit.ValueType.Category" LabelIntersectAction="LabelIntersectAction.Rotate45">
+    </ChartPrimaryXAxis>
+
+    <ChartPrimaryYAxis Interval="2" Format="{value}%">
+        <ChartAxisLineStyle Width="0" />
+    </ChartPrimaryYAxis>
+
+
+    <ChartSeries DataSource="@LegendPositionData"
+                 XName="Country"
+                 YName="Value2024"
+                 Name="2024"
+                 Type="ChartSeriesType.Bar"
+                 Fill="#FF6868"
+                 ColumnSpacing="0.1"
+                 CornerRadius="new ChartCornerRadius { TopRight = 6, BottomRight = 6 }">
+    </ChartSeries>
+
+    <ChartSeries DataSource="@LegendPositionData"
+                 XName="Country"
+                 YName="Value2023"
+                 Name="2023"
+                 Type="ChartSeriesType.Bar"
+                 Fill="#689B8A"
+                 ColumnSpacing="0.1"
+                 CornerRadius="new ChartCornerRadius { TopRight = 6, BottomRight = 6 }">
+    </ChartSeries>
+
+
+    <ChartTooltipSettings Enable="true"
+                          Header="${point.x}"
+                          Format="${series.name} : <b>${point.y}</b>" />
+
+    <ChartLegendSettings Visible="true"
+                         Position="LegendPosition.Top">
+    </ChartLegendSettings>
+
+</SfChart>
+
+@code {
+    [CascadingParameter]
+    private Theme CurrentTheme { get; set; } = Theme.Fluent;
+
+    private Theme _currentTheme = Theme.Fluent;
+
+    protected override void OnParametersSet()
+    {
+        base.OnParametersSet();
+        _currentTheme = CurrentTheme;
+    }
+
+    public class FossilFuelData
+    {
+        public string Country { get; set; }
+        public double Value2024 { get; set; }
+        public double Value2023 { get; set; }
+    }
+
+    public List<FossilFuelData> LegendPositionData = new()
+    {
+        new() { Country = "India",   Value2024 = 4.28,  Value2023 = 4.50 },
+        new() { Country = "Spain",   Value2024 = 2.90,  Value2023 = 3.10 },
+        new() { Country = "China",   Value2024 = 1.53,  Value2023 = 1.60 },
+        new() { Country = "World",   Value2024 = 1.52,  Value2023 = 1.50 },
+        new() { Country = "Germany", Value2024 = 0.82,  Value2023 = 0.90 },
+        new() { Country = "USA",     Value2024 = 0.18,  Value2023 = 0.20 },
+        new() { Country = "UK",      Value2024 = -1.33, Value2023 = -1.50 }
+    };
+}

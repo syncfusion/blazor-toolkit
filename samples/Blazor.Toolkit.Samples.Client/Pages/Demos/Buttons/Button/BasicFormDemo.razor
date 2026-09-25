@@ -1,0 +1,47 @@
+﻿@using System.ComponentModel.DataAnnotations
+
+<EditForm Model="@basicFormModel"
+          OnValidSubmit="@HandleBasicSubmit"
+          @onreset="OnBasicFormReset">
+    <DataAnnotationsValidator />
+    <div class="mb-2">
+        <label class="form-label">Name:</label>
+        <SfTextBox @bind-Value="basicFormModel.Name" Placeholder="Enter your name"></SfTextBox>
+        <ValidationMessage For="@(() => basicFormModel.Name)" />
+    </div>
+    <div class="d-flex gap-2">
+        <SfButton CssClass="e-primary" IconCss="sb-icons e-check" IconPosition="IconPosition.Left" Type="ButtonType.Submit">Submit</SfButton>
+        <SfButton CssClass="e-outline" IconCss="sb-icons e-refresh" IconPosition="IconPosition.Left" Type="ButtonType.Reset">Reset</SfButton>
+    </div>
+</EditForm>
+@if (!string.IsNullOrEmpty(basicSubmitted))
+{
+    <div class="alert alert-success mt-3">
+        <strong>Submitted:</strong> @basicSubmitted
+    </div>
+}
+@code
+{
+    private BasicFormModel basicFormModel = new();
+    private string basicSubmitted = "";
+    private void HandleBasicSubmit()
+    {
+        basicSubmitted = $"Name: { basicFormModel.Name}";
+    }
+
+    private void OnBasicFormReset()
+    {
+        basicSubmitted = string.Empty;
+        basicFormModel = new();
+        StateHasChanged();
+    }
+
+    // ─────────────────────────────────────────────────────────
+    // MODEL CLASSES
+    // ─────────────────────────────────────────────────────────
+    public class BasicFormModel
+    {
+        [Required(ErrorMessage = "Name is required")]
+        public string Name { get; set; } = "";
+    }
+}

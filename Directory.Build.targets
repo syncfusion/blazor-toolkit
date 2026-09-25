@@ -1,0 +1,127 @@
+<Project>
+
+  <!--
+    Directory.Build.targets (public repo) - SBOM generation (D6 / PI-06).
+
+    Runs during every `dotnet pack` for the library project:
+
+      [1] _GenerateCycloneDxSbom      runs `dotnet CycloneDX` after Build,
+                                      writes a CycloneDX JSON next to the
+                                      compiled assembly AND mirrors a copy
+                                      under
+                                        <repo>/artifacts/sbom/<id>/<version>/<tfm>/
+                                      so it can be inspected and signed
+                                      alongside the .nupkg.
+
+      [2] _PackCycloneDxSbomIntoNupkg adds the same file as a packaged None
+                                      item under `_sbom/cyclonedx/<tfm>/`,
+                                      so the CycloneDX SBOM ships inside
+                                      the published .nupkg.
+
+      [3] _MirrorCycloneDxSbomToOutputDirectory
+                                      copies the SBOM next to the build
+                                      output for maintainers who run
+                                      `dotnet build` without Pack.
+
+    Tests, sample apps, and non-packable projects are skipped
+    (Condition guards). The maintainer must install the CycloneDX .NET
+    tool once on the release workstation:
+
+        dotnet tool install -g CycloneDX
+        dotnet tool update  -g CycloneDX   # per major release
+
+    To opt out for a specific build, pass -p:CycloneDxEnabled=false.
+  -->
+
+  <PropertyGroup>
+    <CycloneDxEnabled          Condition="'$(CycloneDxEnabled)' == ''">true</CycloneDxEnabled>
+    <CycloneDxRelativeDir      Condition="'$(CycloneDxRelativeDir)' == ''">artifacts/sbom</CycloneDxRelativeDir>
+    <CycloneDxOutputFormat     Condition="'$(CycloneDxOutputFormat)' == ''">Json</CycloneDxOutputFormat>
+    <CycloneDxNupkgPackagePath Condition="'$(CycloneDxNupkgPackagePath)' == ''">_sbom\cyclonedx\$(TargetFramework)</CycloneDxNupkgPackagePath>
+
+    <_CycloneDxMirrorDir>$(MSBuildThisFileDirectory)$(CycloneDxRelativeDir)\$(PackageId)\$(Version)\$(TargetFramework)</_CycloneDxMirrorDir>
+    <_CycloneDxMirrorPath>$(_CycloneDxMirrorDir)\$(AssemblyName).cdx.json</_CycloneDxMirrorPath>
+  </PropertyGroup>
+
+  <!--
+    [1] Generate the CycloneDX SBOM after the kernel is built, before
+        the .nuspec is generated. The CycloneDX tool is auto-restored
+        from a local dotnet-tools.json manifest if present, otherwise
+        the global tool applies.
+  -->
+  <Target Name="_GenerateCycloneDxSbom"
+          AfterTargets="Build"
+          BeforeTargets="GenerateNuspec"
+          Condition="'$(CycloneDxEnabled)' == 'true'
+                    AND '$(IsPackable)' == 'true'
+                    AND '$(IsTestProject)' != 'true'
+                    AND '$(TargetFramework)' != ''">
+
+    <Exec Command="dotnet tool restore"
+          Condition="Exists('$(MSBuildThisFileDirectory).config\dotnet-tools.json')" />
+
+    <MakeDir Directories="$(_CycloneDxMirrorDir)" />
+
+    <WriteLinesToFile File="$(_CycloneDxMirrorDir)\.toolversion.json"
+                      Lines="[ { &quot;sbomFormat&quot;: &quot;cyclonedx-1.5/json&quot;, &quot;packageId&quot;: &quot;$(PackageId)&quot;, &quot;version&quot;: &quot;$(Version)&quot; } ]"
+                      Overwrite="true" />
+
+    <!--
+      Use the real tool name + explicit working directory.
+      Prefer the global-tools path so MSBuild does not depend on PATH.
+      -F Json / -fn set format and expected filename for later targets.
+    -->
+    <PropertyGroup>
+      <_CycloneDxTool Condition="'$(OS)' == 'Windows_NT'">$(USERPROFILE)\.dotnet\tools\dotnet-CycloneDX.exe</_CycloneDxTool>
+      <_CycloneDxTool Condition="'$(OS)' != 'Windows_NT'">$(HOME)/.dotnet/tools/dotnet-CycloneDX</_CycloneDxTool>
+    </PropertyGroup>
+
+    <Exec Command="&quot;$(_CycloneDxTool)&quot; &quot;$(MSBuildProjectFullPath)&quot; -o &quot;$(_CycloneDxMirrorDir)&quot; -F $(CycloneDxOutputFormat) -fn &quot;$(AssemblyName).cdx.json&quot; --framework &quot;$(TargetFramework)&quot; -dpr"
+          WorkingDirectory="$(MSBuildProjectDirectory)"
+          StandardOutputImportance="Low"
+          StandardErrorImportance="High"
+          ConsoleToMSBuild="true"
+          LogStandardErrorAsError="false" />
+  </Target>
+
+  <!--
+    [2] Promote the CycloneDX mirror into the .nupkg so it ships with
+        the package output. The target attaches to the None items
+        collection during Pack, which is the supported entry-point for
+        adding files to .nupkg layout.
+  -->
+  <Target Name="_PackCycloneDxSbomIntoNupkg"
+          AfterTargets="_GenerateCycloneDxSbom"
+          BeforeTargets="Pack"
+          Condition="'$(CycloneDxEnabled)' == 'true'
+                     AND '$(IsPackable)' == 'true'
+                     AND '$(IsTestProject)' != 'true'
+                     AND Exists('$(_CycloneDxMirrorPath)')">
+
+    <ItemGroup>
+      <None Include="$(_CycloneDxMirrorPath)">
+        <Pack>true</Pack>
+        <PackagePath>$(CycloneDxNupkgPackagePath)</PackagePath>
+        <Visible>false</Visible>
+        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      </None>
+    </ItemGroup>
+  </Target>
+
+  <!--
+    [3] Guarantee the CycloneDX mirror is reachable from the build
+        output directory even without Pack, so `dotnet build` produces
+        the SBOM for downstream consumers of that build.
+  -->
+  <Target Name="_MirrorCycloneDxSbomToOutputDirectory"
+          AfterTargets="_GenerateCycloneDxSbom"
+          Condition="'$(CycloneDxEnabled)' == 'true'
+                     AND '$(SkipCycloneDxMirrorCopy)' != 'true'
+                     AND Exists('$(_CycloneDxMirrorPath)')">
+
+    <Copy SourceFiles="$(_CycloneDxMirrorPath)"
+          DestinationFolder="$(OutputPath.TrimEnd('\\'))\\"
+          SkipUnchangedFiles="true" />
+  </Target>
+
+</Project>

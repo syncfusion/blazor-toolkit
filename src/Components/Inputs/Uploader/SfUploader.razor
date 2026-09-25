@@ -28,11 +28,12 @@
             <ul class="@LIST_PARENT" @ref="@UlElementRef" aria-live="polite" aria-relevant="additions text">
                 @foreach (var filedata in this.FileData)
                 {
+                    @* MS-5.2: stable @key so Blazor reuses <li> elements when the file list updates. *@
                     @if (this.Template == null)
                     {
                         listIndex++;
                         this.FileListStatusName = filedata.Status;
-                        <li class="@this.FileListClass" data-file-name="@filedata.Name" data-files-count="1">
+                        <li @key="@(filedata.Name + ":" + listIndex)" class="@this.FileListClass" data-file-name="@filedata.Name" data-files-count="1">
                             <span class="e-file-container">
                                 @if (SyncfusionService is null || !SyncfusionService._options.EnableRtl)
                                 {

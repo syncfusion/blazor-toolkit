@@ -70,7 +70,7 @@
                         {
                             DialogButton model = (DialogButton)ButtonsValue[i];
                             string? btnCssClass = ButtonsValue[i].IsFlat ? "e-flat " + model.CssClass : model.CssClass;
-                            <SfButton CssClass="@(btnCssClass + " " + CssClass)" Disabled="@model.Disabled" IsPrimary="@model.IsPrimary" IconCss="@model.IconCss" IconPosition="@model.IconPosition" IsToggle="@model.IsToggle" Type=@model.Type @attributes=@model.HtmlAttributes OnClick="@ButtonsValue[i].OnClick">
+                            <SfButton CssClass="@(btnCssClass + " " + CssClass)" @key="@i" Disabled="@model.Disabled" IsPrimary="@model.IsPrimary" IconCss="@model.IconCss" IconPosition="@model.IconPosition" IsToggle="@model.IsToggle" Type=@model.Type @attributes=@model.HtmlAttributes OnClick="@ButtonsValue[i].OnClick">
                                 @if (model.ChildContent is not null)
                                 {
                                     @model.ChildContent

@@ -152,7 +152,6 @@
             new("TextBox Color", "inputs/textbox#color"),
             new("TextBox Float Label", "inputs/textbox#float-label"),
             new("TextBox Clear Button", "inputs/textbox#clear-button"),
-            new("Multiline TextArea", "inputs/textbox#multiline-textarea"),
             new("TextBox Form Support", "inputs/textbox#form-support"),
             new("TextBox Events", "inputs/textbox#events"),
             new("TextBox Accessibility", "inputs/textbox#accessibility"),

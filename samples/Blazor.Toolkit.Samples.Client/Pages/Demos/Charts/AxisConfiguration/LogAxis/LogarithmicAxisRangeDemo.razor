@@ -1,0 +1,67 @@
+<SfChart @key="@_currentTheme" Title="Product X Growth (1995-2005)" Theme="@_currentTheme">
+    <ChartArea>
+        <ChartAreaBorder Width="0" />
+    </ChartArea>
+
+    <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Toolkit.ValueType.DateTime" LabelFormat="yyyy">
+        <ChartAxisMajorGridLines Width="0" />
+        <ChartAxisMajorTickLines Width="0" />
+        <ChartAxisMinorTickLines Width="0" />
+    </ChartPrimaryXAxis>
+
+    <ChartPrimaryYAxis ValueType="Syncfusion.Blazor.Toolkit.ValueType.Logarithmic"
+                       Minimum="100"
+                       Maximum="100000"
+                       LabelFormat=" ${value}">
+        <ChartAxisLineStyle Width="0" />
+        <ChartAxisMajorTickLines Width="0" />
+    </ChartPrimaryYAxis>
+
+    <ChartSeries DataSource="@LogRangeData"
+                 XName="X"
+                 YName="Y"
+                 Type="ChartSeriesType.Line"
+                 Width="2"
+                 Fill="#ED3500">
+        <ChartMarker Visible="true" IsFilled="true" />
+    </ChartSeries>
+
+    <ChartTooltipSettings Enable="true"
+                          Header="${point.x}"
+                          Format="Growth : <b>${point.y}</b>"
+                          EnableHighlight="true" />
+</SfChart>
+
+@code {
+    [CascadingParameter]
+    private Theme CurrentTheme { get; set; } = Theme.Fluent;
+
+    private Theme _currentTheme = Theme.Fluent;
+
+    protected override void OnParametersSet()
+    {
+        base.OnParametersSet();
+        _currentTheme = CurrentTheme;
+    }
+
+    public class LogRangePoint
+    {
+        public DateTime X { get; set; }
+        public double Y { get; set; }
+    }
+
+    public List<LogRangePoint> LogRangeData = new()
+    {
+        new() { X = new DateTime(1995, 1, 1), Y = 100 },
+        new() { X = new DateTime(1996, 1, 1), Y = 200 },
+        new() { X = new DateTime(1997, 1, 1), Y = 400 },
+        new() { X = new DateTime(1998, 1, 1), Y = 600 },
+        new() { X = new DateTime(1999, 1, 1), Y = 700 },
+        new() { X = new DateTime(2000, 1, 1), Y = 1400 },
+        new() { X = new DateTime(2001, 1, 1), Y = 2000 },
+        new() { X = new DateTime(2002, 1, 1), Y = 4000 },
+        new() { X = new DateTime(2003, 1, 1), Y = 6000 },
+        new() { X = new DateTime(2004, 1, 1), Y = 8000 },
+        new() { X = new DateTime(2005, 1, 1), Y = 11000 }
+    };
+}

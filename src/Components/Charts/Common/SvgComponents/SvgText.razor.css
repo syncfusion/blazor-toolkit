@@ -1,0 +1,12 @@
+/*
+ * MS-4.10 / LPS-13 — CSS isolation for SvgText.
+ *
+ * `style="@Style"` is preserved on the host because `Style` is a public
+ * `[Parameter]`; chart axes / data labels pass runtime CSS that cannot
+ * be expressed statically. Only the static / theme-invariant defaults
+ * live here.
+ */
+
+svg text {
+    user-select: none;
+}

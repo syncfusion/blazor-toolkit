@@ -1,0 +1,21 @@
+﻿<div class="mb-3">
+    <div class="d-flex gap-5 flex-wrap">
+        <SfButton CssClass="e-primary">Default (Enabled)</SfButton>
+        <SfButton CssClass="e-primary" Disabled="true">Disabled</SfButton>
+    </div>
+</div>
+
+<div>
+    <p class="fw-bold mb-2">Interactive state toggle</p>
+    <div class="mb-2">
+        <SfButton OnClick="@(() => isButtonEnabled = !isButtonEnabled)" CssClass="e-outline">
+            @(isButtonEnabled ? "Disable Button" : "Enable Button")
+        </SfButton>
+    </div>
+    <SfButton CssClass="e-primary" Disabled="@(!isButtonEnabled)">
+        Action Button (@(isButtonEnabled ? "Enabled" : "Disabled"))
+    </SfButton>
+</div>
+@code {
+    private bool isButtonEnabled = true;
+}

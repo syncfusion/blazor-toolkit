@@ -1,0 +1,76 @@
+<SfChart @key="@_currentTheme" Height="450px" Title="Gross Revenue by Region" Width="100%" EnableSideBySidePlacement="false" Theme="@_currentTheme">
+    <!-- X Axis -->
+    <ChartPrimaryXAxis Title="Region" ValueType="Syncfusion.Blazor.Toolkit.ValueType.Category">
+        <ChartAxisMajorTickLines Width="1"></ChartAxisMajorTickLines>
+    </ChartPrimaryXAxis>
+
+    <!-- Y Axis -->
+    <ChartPrimaryYAxis Format="$ {value}" Minimum="0" Maximum="12000000" Interval="2000000">
+    </ChartPrimaryYAxis>
+
+    <!-- Series -->
+    <!-- Track / Target Revenue -->
+    <ChartSeries DataSource="@BarWithTrackData"
+                 XName="Region"
+                 YName="TargetRevenue"
+                 Type="ChartSeriesType.Bar"
+                 Fill="#B2CD9C"
+                 Opacity="0.9"
+                 ColumnWidth="0.4">
+        <ChartSeriesBorder Width="1" Color="#689B8A"></ChartSeriesBorder>
+        <ChartCornerRadius TopRight="20" BottomRight="20"></ChartCornerRadius>
+    </ChartSeries>
+
+    <!-- Actual Revenue -->
+    <ChartSeries DataSource="@BarWithTrackData"
+                 XName="Region"
+                 YName="Revenue"
+                 Type="ChartSeriesType.Bar"
+                 Fill="#689B8A"
+                 ColumnWidth="0.4">
+        <ChartSeriesBorder Width="1" Color="#B2CD9C"></ChartSeriesBorder>
+
+        <!-- Data Labels -->
+        <ChartMarker>
+            <ChartDataLabel Visible="true"
+                            Position="ChartLabelPosition.Bottom"
+                            Format="{value}%">
+                <ChartDataLabelFont Color="#ffffff"></ChartDataLabelFont>
+            </ChartDataLabel>
+        </ChartMarker>
+    </ChartSeries>
+
+    <!-- Tooltip -->
+    <ChartTooltipSettings Enable="true"
+                          Header="${point.x}"
+                          Format="Revenue: <b>${point.y}</b>">
+    </ChartTooltipSettings>
+</SfChart>
+
+@code {
+    [CascadingParameter]
+    private Theme CurrentTheme { get; set; } = Theme.Fluent;
+
+    private Theme _currentTheme = Theme.Fluent;
+
+    protected override void OnParametersSet()
+    {
+        base.OnParametersSet();
+        _currentTheme = CurrentTheme;
+    }
+
+    public class RevenueData
+    {
+        public string Region { get; set; } = string.Empty;
+        public double Revenue { get; set; }
+        public double TargetRevenue { get; set; }
+    }
+
+    public List<RevenueData> BarWithTrackData = new()
+    {
+        new() { Region = "Europe", Revenue = 5300000, TargetRevenue = 10050000 },
+        new() { Region = "Americas", Revenue = 8700000, TargetRevenue = 11500000 },
+        new() { Region = "Asia", Revenue = 5800000, TargetRevenue = 8000000 },
+        new() { Region = "Africa", Revenue = 7700000, TargetRevenue = 10000000 }
+    };
+}

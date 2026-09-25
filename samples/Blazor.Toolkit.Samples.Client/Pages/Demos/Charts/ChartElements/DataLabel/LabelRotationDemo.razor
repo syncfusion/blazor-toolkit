@@ -1,0 +1,75 @@
+
+<SfChart @key="@_currentTheme" Title="Total Renewable Surface Water" Theme="@_currentTheme">
+
+    <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Toolkit.ValueType.Category"
+                       LabelRotation="-45">
+        <ChartAxisMajorGridLines Width="0" />
+        <ChartAxisMajorTickLines Width="0" />
+    </ChartPrimaryXAxis>
+
+    <ChartPrimaryYAxis>
+        <ChartAxisLineStyle Width="0" />
+        <ChartAxisMajorTickLines Width="0" />
+    </ChartPrimaryYAxis>
+
+
+    <ChartSeries DataSource="@DataLabelRotationData"
+                 XName="X"
+                 YName="Y"
+                 Type="ChartSeriesType.Column"
+                 Fill="#A0D683"
+                 CornerRadius="@(new ChartCornerRadius { TopLeft = 5, TopRight = 5 })">
+
+        <ChartMarker>
+            <ChartDataLabel Visible="true"
+                            Format="{value}k"
+                            Position="ChartLabelPosition.Top"
+                            EnableRotation="true"
+                            Angle="270"
+                            LabelIntersectAction="None"
+                            Font="@(new ChartDataLabelFont { Color = DataLabelTextColor })" />
+        </ChartMarker>
+        <ChartDataLabel Visible="true" Format="<b>${point.y}k</b> Billion cubic meter per year"></ChartDataLabel>
+    </ChartSeries>
+
+
+    <ChartTooltipSettings Enable="true" ShowHeaderLine="true"
+                          Format="<b>${point.y}k</b> Billion cubic meter per year" />
+</SfChart>
+
+@code {
+    [CascadingParameter]
+    private Theme CurrentTheme { get; set; } = Theme.Fluent;
+
+    private Theme _currentTheme = Theme.Fluent;
+
+    protected override void OnParametersSet()
+    {
+        base.OnParametersSet();
+        _currentTheme = CurrentTheme;
+    }
+
+    private bool IsDarkTheme => _currentTheme.ToString().Contains("Dark") || _currentTheme.ToString().Contains("HighContrast");
+    private string DataLabelTextColor => IsDarkTheme ? "#FFFFFF" : "#000000";
+
+    public class WaterData
+    {
+        public string X { get; set; }
+        public double Y { get; set; }
+    }
+
+    public List<WaterData> DataLabelRotationData = new()
+    {
+        new() { X = "Brazil",             Y = 8.6 },
+        new() { X = "Russian Federation", Y = 4.2 },
+        new() { X = "United States",      Y = 2.9 },
+        new() { X = "Canada",             Y = 2.9 },
+        new() { X = "China",              Y = 2.7 },
+        new() { X = "Columbia",           Y = 2.4 },
+        new() { X = "Indonesia",          Y = 2.0 },
+        new() { X = "Peru",               Y = 1.9 },
+        new() { X = "India",              Y = 1.9 },
+        new() { X = "Venezuela",          Y = 1.3 },
+        new() { X = "Congo",              Y = 1.3 }
+    };
+}

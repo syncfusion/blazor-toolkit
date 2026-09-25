@@ -1173,6 +1173,10 @@ namespace Syncfusion.Blazor.Toolkit.Calendars.Internal
         {
             if (!Disabled)
             {
+                if (Parent is not null)
+                {
+                    Parent.IsKeyboardInteraction = false;   // ← add
+                }
                 if (IsDeviceMode)
                 {
                     IsCellClicked = true;
@@ -1207,6 +1211,10 @@ namespace Syncfusion.Blazor.Toolkit.Calendars.Internal
             else if (IsCurrentMonthCell(classList, view))
             {
                 await SelectDateAsync(args.EventArgs, args.CellID, MultiSelection, MultiValues, args, true).ConfigureAwait(false);
+                if (Parent is not null)
+                {
+                    Parent.IsKeyboardInteraction = false;
+                }
             }
             else
             {
@@ -1371,6 +1379,10 @@ namespace Syncfusion.Blazor.Toolkit.Calendars.Internal
             if (isDepthView)
             {
                 await SelectDateAsync(args.EventArgs, args.CellID, MultiSelection, MultiValues, args, true).ConfigureAwait(false);
+                if (Parent is not null)
+                {
+                    Parent.IsKeyboardInteraction = false;
+                }
             }
             else
             {
@@ -1871,6 +1883,10 @@ namespace Syncfusion.Blazor.Toolkit.Calendars.Internal
         {
             IsSelect = false;
             IsKeyboardSelect = true;
+            if (Parent is not null)
+            {
+                Parent.IsKeyboardInteraction = true;   // ← add
+            }
         }
 
         private CellDetails CreateCellDetails(KeyActions args)
@@ -1946,6 +1962,10 @@ namespace Syncfusion.Blazor.Toolkit.Calendars.Internal
             if (eventArgs.CellID is not null)
             {
                 await SelectKeyActionAsync(args, eventArgs, levelRestrict, view).ConfigureAwait(false);
+                if (Parent is not null)
+                {
+                    Parent.IsKeyboardInteraction = false;
+                }
             }
         }
 
@@ -2130,6 +2150,10 @@ namespace Syncfusion.Blazor.Toolkit.Calendars.Internal
                     if (levelRestrict)
                     {
                         await SelectDateAsync(args.Events, args.ID, MultiSelection, MultiValues).ConfigureAwait(false);
+                        if (Parent is not null)
+                        {
+                            Parent.IsKeyboardInteraction = false;
+                        }
                     }
                     else
                     {

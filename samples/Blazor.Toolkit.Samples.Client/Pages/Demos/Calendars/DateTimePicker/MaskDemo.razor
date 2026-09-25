@@ -1,0 +1,6 @@
+﻿<SfDateTimePicker TValue="DateTime?" Width="300px" Format="yyyy-MM-dd, dddd, hh:mm:ss" EnableMask="true" @bind-Value="@MaskDateValue" ShowClearButton="true" Placeholder="Select a date and time">
+    <DateTimePickerMaskPlaceholder Day="day" Month="month" Year="year" Hour="hour" Minute="minute" Second="second" DayOfWeek="weekday"></DateTimePickerMaskPlaceholder>
+</SfDateTimePicker>
+@code {
+    public DateTime? MaskDateValue { get; set; } = new DateTime(2026, 12, 11, 11, 30, 00);
+}

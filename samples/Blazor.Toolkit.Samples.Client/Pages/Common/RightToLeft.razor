@@ -1,10 +1,11 @@
 @page "/common/right-to-left"
+@inherits TocPublishingComponentBase
 
 <PageTitle>Right-to-left (RTL) | Syncfusion Blazor Toolkit</PageTitle>
 
 <Description>
     <Header>
-        <h4>Right-to-left (RTL) support</h4>
+        <h1 id="right-to-left-rtl-support">Right-to-left (RTL) support</h1>
     </Header>
     <Content>
         <p>Right-to-left (RTL) layout can be enabled for Syncfusion<sup style="font-size:70%">&reg;</sup> Blazor Toolkit components by setting the <strong>EnableRtl</strong> option to <code>true</code> when configuring Syncfusion services in <code>Program.cs</code>. This sets the default RTL behavior for all Toolkit components.</p>
@@ -13,33 +14,22 @@
 
 <Description>
     <Header>
-        <h5>Enable RTL For All Components</h5>
+        <h2 id="enable-rtl-for-all-components">Enable RTL For All Components</h2>
     </Header>
     <Content>
         <p>For a Blazor Server or Server-Side Blazor app, configure RTL globally in <code>Program.cs</code> as shown below:</p>
-        <CodePreview FileName="Program.cs" IsCodeAlone="true" CodeSection="@serverRTL"></CodePreview>
+        <CodePreview FileName="Program.cs" IsCodeAlone="true" SourceFile="/Pages/Demos/Common/RTL/ServerRtl.razor"></CodePreview>
 
         <p>For a Blazor WebAssembly standalone app, enable RTL during host builder setup in <code>Program.cs</code> as shown below:</p>
-        <CodePreview FileName="Program.cs" IsCodeAlone="true" CodeSection="@wasmRTL"></CodePreview>
+        <CodePreview FileName="Program.cs" IsCodeAlone="true" SourceFile="/Pages/Demos/Common/RTL/WasmRtl.razor"></CodePreview>
     </Content>
 </Description>
 
 @code {
-    private const string serverRTL = @"
-using Syncfusion.Blazor.Toolkit;
+    private static readonly IReadOnlyList<RightToc.TocItem> TocItemsList = new RightToc.TocItem[]
+    {
+        new("enable-rtl-for-all-components", "Enable RTL For All Components"),
+    };
 
-builder.Services.AddSyncfusionBlazorToolkit(options =>
-{
-	options.EnableRtl = true;
-});";
-
-    private const string wasmRTL = @"
-var builder = WebAssemblyHostBuilder.CreateDefault(args);
-// register Toolkit services with RTL enabled
-builder.Services.AddSyncfusionBlazorToolkit(options =>
-{
-	options.EnableRtl = true;
-});
-await builder.Build().RunAsync();";
-
+    protected override IReadOnlyList<RightToc.TocItem> TocItems => TocItemsList;
 }

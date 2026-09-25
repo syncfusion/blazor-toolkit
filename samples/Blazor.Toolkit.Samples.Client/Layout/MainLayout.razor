@@ -1,4 +1,4 @@
-﻿@inherits LayoutComponentBase
+@inherits LayoutComponentBase
 @implements IAsyncDisposable
 
 @using Microsoft.AspNetCore.Components.Web
@@ -15,12 +15,11 @@
         {
             <div class="top-layout-title">
                 <a href="https://www.syncfusion.com" target="_blank" rel="noreferrer noopener" class="brand-link" aria-label="Syncfusion home">
-                    <div class="brand-icon">
-                        <div class="syncfusion-logo"></div>
-                    </div>
+                    <div class="syncfusion-logo" aria-hidden="true"></div>
                 </a>
-                <a href="https://www.syncfusion.com/blazor-toolkit" target="_blank" rel="noreferrer noopener" class="brand-link" aria-label="Blazor Toolkit product page">
-                    <div class="brand-name">Blazor Toolkit</div>
+                <span class="brand-divider" aria-hidden="true"></span>
+                <a href="https://www.syncfusion.com/blazor-toolkit" target="_blank" rel="noreferrer noopener" class="brand-link brand-product" aria-label="Blazor Toolkit product page">
+                    <span class="brand-product-name">Blazor Toolkit</span>
                 </a>
             </div>
         }
@@ -39,20 +38,33 @@
                     @if (!IsMobile)
                     {
                         <a href="https://www.syncfusion.com" target="_blank" rel="noreferrer noopener" class="brand-link" aria-label="Syncfusion home">
-                            <div class="brand-icon">
-                                <div class="syncfusion-logo"></div>
-                            </div>
+                            <div class="syncfusion-logo" aria-hidden="true"></div>
                         </a>
-                        <a href="https://www.syncfusion.com/blazor-toolkit" target="_blank" rel="noreferrer noopener" class="brand-link" aria-label="Blazor Toolkit product page">
-                            <div class="brand-name">Blazor Toolkit</div>
+                        <span class="brand-divider" aria-hidden="true"></span>
+                        <a href="https://www.syncfusion.com/blazor-toolkit" target="_blank" rel="noreferrer noopener" class="brand-link brand-product" aria-label="Blazor Toolkit product page">
+                            <span class="brand-product-name">Blazor Toolkit</span>
                         </a>
                     }
                 </div>
             </div>
             <div class="top-right">
-                <div class="action-buttons">
-                    <SfButton CssClass="e-outline search icon-button theme-toggle" IconCss="sb-icons e-search" aria-label="Search Components" OnClick="@ToggleSearchPopup"></SfButton>
-                </div>
+                @* Large, prominent search box in the header. *@
+                @if (!IsMobile)
+                {
+                    <SfButton CssClass="e-flat topbar-search" aria-label="Search docs" OnClick="@ToggleSearchPopup">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                            <circle cx="11" cy="11" r="7"></circle>
+                            <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+                        </svg>
+                        <span class="topbar-search-text">Search docs, components, API…</span>
+                    </SfButton>
+                }
+                else
+                {
+                    <div class="action-buttons">
+                        <SfButton CssClass="e-outline search icon-button theme-toggle" IconCss="sb-icons e-search" aria-label="Search Components" OnClick="@ToggleSearchPopup"></SfButton>
+                    </div>
+                }
                 
                 <SfDialog @ref="@DialogObj" Width="750px" IsModal="true" @bind-Visible="@isSearchVisible" CssClass="search-popup" OnOverlayModalClick="@OnOverlayClick" OnClose="OnDialogClose">
                     <DialogTemplates>
@@ -60,7 +72,7 @@
                             <SfTextBox Width="100%" Placeholder="Search" ShowClearButton="true" OnInput="@OnInput"></SfTextBox>
                             <hr/>
                             <div>
-                                <h6><b>Search docs</b></h6>
+                                <h6>Search docs</h6>
                                 <div class="search-list-wrapper">
                                     @if (isPredefinedList)
                                     {
@@ -88,10 +100,6 @@
                 </SfDialog>
 
                 <div class="action-buttons preferences-wrapper">
-                    <button type="button" class="icon-button theme-toggle preferences-button" aria-label="Preferences" aria-haspopup="dialog" aria-expanded="@PreferencesPopupOpen" aria-controls="preferences-popup" @onclick="TogglePreferencesPopup">
-                        <span class="sb-icons e-settings" aria-hidden="true"></span>
-                    </button>
-
                     @if (PreferencesPopupOpen)
                     {
                         <div class="preferences-popup-backdrop" @onclick="ClosePreferencesPopup"></div>
@@ -123,23 +131,11 @@
 
                 @if (!IsMobile && !IsTablet)
                 {
-                    <div class="action-buttons github">
-                        <NavLink class="icon-button theme-toggle source-icon-button" href="https://github.com/syncfusion/blazor-toolkit" target="_blank">
-                            <svg width="23" height="23" aria-hidden="true" viewBox="0 0 24 24" fill="currentColor"><path d="M12 1C5.923 1 1 5.923 1 12c0 4.867 3.149 8.979 7.521 10.436.55.096.756-.233.756-.522 0-.262-.013-1.128-.013-2.049-2.764.509-3.479-.674-3.699-1.292-.124-.317-.66-1.293-1.127-1.554-.385-.207-.936-.715-.014-.729.866-.014 1.485.797 1.691 1.128.99 1.663 2.571 1.196 3.204.907.096-.715.385-1.196.701-1.471-2.448-.275-5.005-1.224-5.005-5.432 0-1.196.426-2.186 1.128-2.956-.111-.275-.496-1.402.11-2.915 0 0 .921-.288 3.024 1.128a10.193 10.193 0 0 1 2.75-.371c.936 0 1.871.123 2.75.371 2.104-1.43 3.025-1.128 3.025-1.128.605 1.513.221 2.64.111 2.915.701.77 1.127 1.747 1.127 2.956 0 4.222-2.571 5.157-5.019 5.432.399.344.743 1.004.743 2.035 0 1.471-.014 2.654-.014 3.025 0 .289.206.632.756.522C19.851 20.979 23 16.854 23 12c0-6.077-4.922-11-11-11Z"></path></svg>
-                        </NavLink>
-                    </div>
-                    <div class="action-buttons">
-                        <SfButton CssClass="e-outline" class="icon-button theme-toggle" aria-label="Toggle theme" OnClick="@ToggleTheme">
-                            @if (IsDarkTheme)
-                            {
-                                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" role="presentation"><circle cx="12" cy="12" r="4"></circle><line x1="12" y1="2" x2="12" y2="6"></line><line x1="12" y1="18" x2="12" y2="22"></line><line x1="4.93" y1="4.93" x2="7.76" y2="7.76"></line><line x1="16.24" y1="16.24" x2="19.07" y2="19.07"></line><line x1="2" y1="12" x2="6" y2="12"></line><line x1="18" y1="12" x2="22" y2="12"></line><line x1="4.93" y1="19.07" x2="7.76" y2="16.24"></line><line x1="16.24" y1="7.76" x2="19.07" y2="4.93"></line></svg>
-                            }
-                            else
-                            {
-                                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" role="presentation"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg>
-                            }
-                        </SfButton>
-                    </div>
+                    <LayoutActionButtons SourceUrl="https://github.com/syncfusion/blazor-toolkit"
+                                          IsDarkTheme="IsDarkTheme"
+                                          OnToggleTheme="@(v => ToggleTheme(v))"
+                                          ShowSettings="true"
+                                          OnSettingsClick="@(_ => TogglePreferencesPopup())" />
                 }
             </div>
         </div>
@@ -158,20 +154,32 @@
             </aside>
         }
 
-        <main class="main-area">
+        @* Wide Layout: Apply full-width layout class for pages that opt out of the right TOC. *@
+        <main class="main-area @(IsWideLayoutPage ? "main-area-full-width" : "")">
             <article class="page-content">
                 <CascadingValue Value="CurrentChartTheme">
-                    @Body
+                    @* Cascade the TOC holder to @Body so the rendered page can publish its section list
+                       into the same instance the right sidebar reads from. *@
+                    <CascadingValue Value="@_tocHolder">
+                        <SfBreadcrumb />
+                        @Body
+                        <PageFooter />
+                    </CascadingValue>
                 </CascadingValue>
             </article>
         </main>
 
-        @* Right panel is visible only on desktop. On tablet/mobile it's hidden for better space usage. *@
-        @if (!IsMobile && !IsTablet)
+        @* Release Notes: Right panel is visible only on desktop and tablet, and hidden on release-notes page.
+           RightToc pulls the holder via [CascadingParameter] and subscribes to its Changed event directly,
+           so no wrapper component is needed. The same holder instance is shared with @Body above. *@
+        @* Wide Layout: Right panel is visible only on desktop and tablet, and hidden on wide-layout pages. *@
+        @if (!IsMobile && !IsTablet && !IsWideLayoutPage)
         {
-            <aside class="right-panel">
-                <RightToc />
-            </aside>
+            <CascadingValue Value="@_tocHolder">
+                <aside class="right-panel">
+                    <RightToc />
+                </aside>
+            </CascadingValue>
         }
     </div>
 </div>
@@ -182,23 +190,7 @@
     <aside id="leftSidebar" class="mobile-sidebar @(OverlayLeftIsOpen ? "open" : string.Empty) @(IsRtl ? "rtl" : string.Empty)" aria-hidden="@(!OverlayLeftIsOpen).ToString().ToLower()">
         <div class="e-top-sidebar">
             <div style="display: flex;">
-                <div class="action-buttons github">
-                    <NavLink class="icon-button theme-toggle source-icon-button" href="https://gitea.syncfusion.com/essential-studio/blazor-toolkit" target="_blank">
-                        <svg width="23" height="23" aria-hidden="true" viewBox="0 0 24 24" fill="currentColor"><path d="M12 1C5.923 1 1 5.923 1 12c0 4.867 3.149 8.979 7.521 10.436.55.096.756-.233.756-.522 0-.262-.013-1.128-.013-2.049-2.764.509-3.479-.674-3.699-1.292-.124-.317-.66-1.293-1.127-1.554-.385-.207-.936-.715-.014-.729.866-.014 1.485.797 1.691 1.128.99 1.663 2.571 1.196 3.204.907.096-.715.385-1.196.701-1.471-2.448-.275-5.005-1.224-5.005-5.432 0-1.196.426-2.186 1.128-2.956-.111-.275-.496-1.402.11-2.915 0 0 .921-.288 3.024 1.128a10.193 10.193 0 0 1 2.75-.371c.936 0 1.871.123 2.75.371 2.104-1.43 3.025-1.128 3.025-1.128.605 1.513.221 2.64.111 2.915.701.77 1.127 1.747 1.127 2.956 0 4.222-2.571 5.157-5.019 5.432.399.344.743 1.004.743 2.035 0 1.471-.014 2.654-.014 3.025 0 .289.206.632.756.522C19.851 20.979 23 16.854 23 12c0-6.077-4.922-11-11-11Z"></path></svg>
-                    </NavLink>
-                </div>
-                <div class="action-buttons">
-                    <SfButton CssClass="e-outline" class="icon-button theme-toggle" aria-label="Toggle theme" OnClick="@ToggleTheme">
-                        @if (IsDarkTheme)
-                        {
-                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" role="presentation"><circle cx="12" cy="12" r="4"></circle><line x1="12" y1="2" x2="12" y2="6"></line><line x1="12" y1="18" x2="12" y2="22"></line><line x1="4.93" y1="4.93" x2="7.76" y2="7.76"></line><line x1="16.24" y1="16.24" x2="19.07" y2="19.07"></line><line x1="2" y1="12" x2="6" y2="12"></line><line x1="18" y1="12" x2="22" y2="12"></line><line x1="4.93" y1="19.07" x2="7.76" y2="16.24"></line><line x1="16.24" y1="7.76" x2="19.07" y2="4.93"></line></svg>
-                        }
-                        else
-                        {
-                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" role="presentation"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg>
-                        }
-                    </SfButton>
-                </div>
+                <LayoutActionButtons SourceUrl="https://gitea.syncfusion.com/essential-studio/blazor-toolkit" IsDarkTheme="IsDarkTheme" OnToggleTheme="@(v => ToggleTheme(v))" />
             </div>
             <SfButton IconCss="e-toolkit-icons e-close" CssClass="close-btn" aria-label="Close navigation" @onclick="OnLeftSidebarClose"></SfButton>
         </div>
@@ -242,6 +234,24 @@
     // Keep a DotNetObjectReference for JS callbacks and ensure we dispose it
     private DotNetObjectReference<MainLayout>? _dotNetRef;
 
+    // Wide Layout: Track pages that should use full-width layout without the right TOC (e.g. Explore, Release Notes)
+    private bool IsWideLayoutPage =>
+        Nav.Uri.Contains("/explore", StringComparison.OrdinalIgnoreCase) ||
+        Nav.Uri.Contains("/charts/overview", StringComparison.OrdinalIgnoreCase) ||
+        Nav.Uri.EndsWith("/", StringComparison.OrdinalIgnoreCase);
+
+    // Shared holder for TOC items supplied by the current page via `[CascadingParameter] TocItemsHolder`.
+    private readonly TocItemsHolder _tocHolder = new();
+
+    private sealed class TocHeadingInfo
+    {
+        public string Id { get; set; } = string.Empty;
+
+        public string Text { get; set; } = string.Empty;
+
+        public int Level { get; set; }
+    }
+
     // Search page lists
     public List<SearchItem> PredefinedPages { get; set; } = new()
     {
@@ -255,6 +265,29 @@
 
     public List<SearchItem> FilteredPages { get; set; } = new();
 
+    // Set to true on every route change. OnAfterRenderAsync consumes
+    // the flag and resets the scroll position of the .main-area
+    // container AFTER the new page has rendered. Calling the JS
+    // scrollToTop from LocationChanged itself is too early – the new
+    // page's DOM has not been mounted yet at that point.
+    private bool _pendingScrollToTop;
+
+    // Lifecycle: subscribe to route changes.
+    protected override void OnInitialized()
+    {
+        Nav.LocationChanged += OnLocationChanged;
+    }
+
+    private void OnLocationChanged(object? sender, Microsoft.AspNetCore.Components.Routing.LocationChangedEventArgs e)
+    {
+        // Set the flag and force a re-render of the layout. Without the
+        // StateHasChanged call, the layout does not re-render on page
+        // navigation (its parameters are unchanged) and therefore
+        // OnAfterRenderAsync would not run again to consume the flag.
+        _pendingScrollToTop = true;
+        InvokeAsync(StateHasChanged);
+    }
+
     // Lifecycle: register resize callback once after first render and initialize theme
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {
@@ -262,6 +295,17 @@
         {
             // Create a DotNetObjectReference so JS can call back into this instance
             _dotNetRef = DotNetObjectReference.Create(this);
+
+            // Disable browser's automatic scroll restoration across SPA
+            // navigations. We control the scroll position ourselves.
+            try
+            {
+                await JS.InvokeVoidAsync("scrollHelpers.initialize");
+            }
+            catch
+            {
+                // ignore - initialize is best-effort
+            }
 
             // Ensure mainlayout.js is loaded and the responsive helper is available
             await JS.InvokeVoidAsync("mainLayout.ensureResponsive");
@@ -285,6 +329,56 @@
                 await InvokeAsync(StateHasChanged);
             }
             catch { }
+        }
+
+        // Consume the scroll-to-top request queued by OnLocationChanged.
+        // By waiting until OnAfterRenderAsync we are guaranteed that the
+        // new page's DOM has been mounted, so resetting the scroll lands
+        // on the new page rather than mid-content of the previous one.
+        if (_pendingScrollToTop)
+        {
+            _pendingScrollToTop = false;
+            try
+            {
+                await JS.InvokeVoidAsync("scrollHelpers.scrollToTop");
+            }
+            catch
+            {
+                // renderer may be tearing down
+            }
+        }
+
+        await PopulateChartTocAsync();
+    }
+
+    private async Task PopulateChartTocAsync()
+    {
+        if (_tocHolder.Items is not null && _tocHolder.Items.Count > 0)
+        {
+            return;
+        }
+
+        var relativePath = Nav.ToBaseRelativePath(Nav.Uri);
+        if (!relativePath.StartsWith("charts/", StringComparison.OrdinalIgnoreCase))
+        {
+            return;
+        }
+
+        try
+        {
+            var headings = await JS.InvokeAsync<TocHeadingInfo[]>("tocScrollspy.collectHeadings", ".page-content");
+            if (headings is null || headings.Length == 0)
+            {
+                return;
+            }
+
+            _tocHolder.Items = headings
+                .Select(item => new RightToc.TocItem(item.Id, item.Text, item.Level))
+                .ToArray();
+        }
+        catch
+        {
+            // Best-effort only. Pages that publish their own TOC still work.
         }
     }
 
@@ -406,10 +500,20 @@
         catch { }
     }
 
-    // Toggle dark/light theme: update localStorage, document class and Syncfusion theme link
-    private async Task ToggleTheme()
+    // Toggle dark/light theme: update localStorage, document class and Syncfusion theme link.
+    // Accepts the desired new state from the caller (typically the SfButton's
+    // OnClick handler in LayoutActionButtons) and uses it directly instead of
+    // flipping the local copy. The caller (the toggle button) has already
+    // computed the new value (current XOR true), so flipping again would
+    // cancel the user interaction and leave the UI desynced.
+    private async Task ToggleTheme(bool newValue)
     {
-        IsDarkTheme = !IsDarkTheme;
+        // Normalize: avoid no-op work when nothing actually changes.
+        if (IsDarkTheme == newValue)
+        {
+            return;
+        }
+        IsDarkTheme = newValue;
         var theme = IsDarkTheme ? "dark" : "light";
         try
         {
@@ -427,6 +531,8 @@
     // Ensure we clean up the JS listeners and DotNetObjectReference
     public async ValueTask DisposeAsync()
     {
+        Nav.LocationChanged -= OnLocationChanged;
+
         try
         {
             await JS.InvokeVoidAsync("responsiveBlazor.dispose");
@@ -442,7 +548,8 @@
 
 <style>
     :root {
-        /* Core Colors */
+        /* Core Colors - tuned to match the Syncfusion wordmark navy
+           (the deep indigo/blue used in the "Syncfusion" logotype). */
         --bg-color: #ffffff;
         --text-color: #1f2937;
         --text-color-secondary: #6b7280;
@@ -451,11 +558,17 @@
         --sidebar-bg: #ffffff;
         --panel-bg: #f9fafb;
         --scroll-bg: #ffffff;
-        --accent: #6750a4;
+        --accent: #2B357C;
+        --accent-hover: #3B4693;
         --accent-foreground: #ffffff;
-        --li-hover: #f1f5f9;
+        --accent-50: #ECEEF7;
+        --accent-100: #D6DBED;
+        --li-hover: rgba(43, 53, 124, 0.06);
         --topsidebar-color: rgba(245,245,245,1);
-        
+        --topbar-border: rgba(15, 23, 42, 0.08);
+        --topbar-search-bg: #F4F6FA;
+        --topbar-search-bg-hover: #EEF1F6;
+
         /* Typography Scale */
         --font-family: "Inter", "Segoe UI", Roboto, system-ui, -apple-system, sans-serif;
         --font-right-sidebar: 13px;
@@ -469,20 +582,58 @@
         --bg-color: #0b1020;
         --text-color: #e5e7eb;
         --text-color-secondary: #9ca3af;
-        --top-bg: #071028;
+        --top-bg: #0a0f1d;
         --top-text: #e5e7eb;
-        --sidebar-bg: #071028;
+        --sidebar-bg: #0a0f1d;
         --panel-bg: #0f172a;
-        --scroll-bg: #071028;
-        --accent: #a78bfa;
+        --scroll-bg: #0a0f1d;
+        --accent: #8A93C4;
+        --accent-hover: #A4ABE0;
         --accent-foreground: #001223;
-        --li-hover: #1e293b;
+        --accent-50: rgba(43, 53, 124, 0.20);
+        --accent-100: rgba(43, 53, 124, 0.30);
+        --li-hover: rgba(138, 147, 196, 0.18);
         --topsidebar-color: rgba(21,21,33,1);
+        --topbar-border: rgba(255, 255, 255, 0.08);
+        --topbar-search-bg: #0F172A;
+        --topbar-search-bg-hover: #131c2f;
     }
 
     /* RTL helper: document root will receive `dir=rtl` and `.rtl` class */
     .rtl {
         direction: rtl;
+    }
+
+    .sf-breadcrumb ol {
+        list-style: none; display: flex; flex-wrap: wrap;
+        align-items: center; gap: 8px; padding: 0; margin: 0;
+        font-size: 14px; color: var(--text-color-secondary);
+    }
+    .sf-breadcrumb li { display: inline-flex; align-items: center; gap: 6px; margin: unset; }
+    .sf-breadcrumb a {
+        display: inline-flex; align-items: center; gap: 6px;
+        color: var(--text-color-secondary); text-decoration: none;
+        padding: 4px 6px; border-radius: 4px;
+        transition: color .15s ease, background-color .15s ease;
+    }
+    .sf-breadcrumb a:hover {
+        color: var(--text-color);
+        background: var(--li-hover);
+        text-decoration: none;
+    }
+    .sf-breadcrumb a:focus-visible {
+        outline: 2px solid var(--accent);
+        outline-offset: 2px;
+    }
+    .sf-breadcrumb-sep {
+        color: var(--text-color-secondary);
+        opacity: .55;
+        user-select: none;
+    }
+    .sf-breadcrumb-current {
+        color: var(--text-color);
+        font-weight: 600;
+        padding: 4px 6px;
     }
 
     /* Page-level colors */
@@ -499,22 +650,12 @@
         color: var(--top-text);
         transition: background-color .2s ease, color .2s ease;
     }
-    .top-layout-custom .brand-name,
     .top-layout-custom .github a,
     .e-sidebar .github a,
     .e-top-sidebar .github a {
         color: var(--top-text);
         font-weight: bold;
         margin-top: 7px;
-    }
-    /* Ensure brand-icon SVG follows the current color (light/dark) */
-    .brand-icon svg,
-    .brand-icon svg rect,
-    .brand-icon svg path,
-    .brand-icon svg circle,
-    .brand-icon svg polyline,
-    .brand-icon svg line {
-        fill: currentColor;
     }
 
     /* Sidebars */
@@ -585,75 +726,97 @@
 
     .main-area {
         flex: 1;
+        width: 100%;
         max-width: 100%;
-        padding: 32px 48px;
+        padding: 36px 48px;
         background-color: var(--bg-color);
     }
 
+    @@media (min-width: 1025px) {
+        .main-area {
+            max-width: calc(100% - 500px);
+        }
+    }
+
+    /* Release notes / wide pages */
+    .main-area-full-width {
+        max-width: 100%;
+        padding: 36px 48px;
+    }
+
     .page-content {
-        margin: 0 auto;
+        width: 100%;
     }
 
     .page-content h1 {
-        font-size: var(--font-size-3xl, 26px);
-        font-weight: var(--font-weight-semibold, 600);
-        line-height: var(--line-height-tight, 1.35);
-        margin: 0 0 24px 0;
+        font-family: "Segoe UI Variable", "Segoe UI", "Inter", system-ui, sans-serif;
+        font-size: 42px;
+        font-weight: 600;
+        line-height: 1.2;
+        letter-spacing: -0.02em;
+        margin: unset;
         color: var(--text-color);
     }
-    
+
+    h2#using-templates-heading {
+        padding-left: 5px;
+    }
+
     .page-content h2 {
-        font-size: var(--font-size-2xl, 22px);
-        font-weight: var(--font-weight-semibold, 600);
-        line-height: var(--line-height-tight, 1.35);
-        margin: 32px 0 16px 0;
+        font-family: "Segoe UI Variable", "Segoe UI", "Inter", system-ui, sans-serif;
+        font-size: 32px;
+        font-weight: 600;
+        line-height: 1.25;
+        letter-spacing: -0.015em;
+        margin: unset;
+        display: inline-flex;
         padding-bottom: 8px;
         border-bottom: 1px solid rgba(0, 0, 0, 0.06);
         color: var(--text-color);
     }
-    
+
     .page-content h3 {
-        font-size: var(--font-size-xl, 20px);
-        font-weight: var(--font-weight-semibold, 600);
-        line-height: var(--line-height-tight, 1.4);
-        margin: 24px 0 12px 0;
+        font-family: "Segoe UI Variable", "Segoe UI", "Inter", system-ui, sans-serif;
+        font-size: 24px;
+        font-weight: 600;
+        line-height: 1.3;
+        letter-spacing: -0.01em;
+        margin: 32px 0 12px 0;
         color: var(--text-color);
     }
-    
+
     .page-content p {
-        font-size: var(--font-size-base, 15px);
-        line-height: var(--line-height-relaxed, 1.7);
-        margin: 0 0 16px 0;
+        font-size: 16px;
+        line-height: 1.65;
+        margin: 20px 0 16px 3px;
         color: var(--text-color);
     }
-    
-    .page-content ul,
-    .page-content ol {
+
+    .page-content ul {
         margin: 0 0 16px 0;
         padding-left: 24px;
     }
-    
-    .page-content li {
-        margin: 0 0 8px 0;
-        line-height: 1.6;
-    }
-    
+
     .page-content a {
         color: var(--accent);
         text-decoration: none;
         transition: color .15s ease;
     }
-    
+
     .page-content a:hover {
-        color: #5a4190;
+        color: var(--accent-hover);
         text-decoration: underline;
     }
 
+    a.sf-btn.sf-btn-primary {
+        color: white;
+    }
+
     .right-panel {
-        width: 240px;
-        min-width: 240px;
+        width: 220px;
+        min-width: 220px;
         flex-shrink: 0;
-        padding: 24px 16px;
+        padding: 28px 18px 24px 18px;
         background-color: var(--panel-bg);
         border-inline-start: 1px solid rgba(0, 0, 0, 0.04);
     }
@@ -699,16 +862,17 @@
     .search-list-wrapper {
         scrollbar-color: #a5a7ab var(--scroll-bg);
     }
-    .top-layout-title .brand-name {
-        padding-top: 5px;
-        font-size: 1em;
-        line-height: 20px;
-        font-weight: bold;
-    }
     .top-layout-title {
         display: flex;
-        padding: 10px 10px 0px 10px;
-        justify-content: center;
+        align-items: center;
+        gap: 12px;
+        height: 100%;
+        padding: 0 4px;
+    }
+    .top-layout-title .brand-link {
+        display: inline-flex;
+        align-items: center;
+        height: 100%;
     }
     .top-layout-inner .top-left.tablet {
         display: contents;
@@ -748,8 +912,9 @@
     .brand-section .brand-link {
         text-decoration: none;
         color: var(--top-text);
-        display: flex;
+        display: inline-flex;
         align-items: center;
+        height: 100%;
         transition: opacity 0.2s ease;
     }
 
@@ -767,41 +932,20 @@
     .page-rtl .sidebar {
         direction: ltr;
     }
-    .top-layout-title .syncfusion-logo {
-        width: 155px;
-    }
     .preferences-wrapper {
         position: relative;
         display: inline-flex;
         align-items: center;
         z-index: 1001;
     }
-    .preferences-button {
-        appearance: none;
-        -webkit-appearance: none;
-        background: transparent;
+    .github {
+        padding: 3px 10px;
         border: 1px solid #e7e0ec;
-        border-radius: 4px;
-        color: var(--top-text);
-        cursor: pointer;
-        display: inline-flex;
-        align-items: center;
-        justify-content: center;
-        height: 100%;
-        width: 40px;
-        padding: 0;
+        border-radius: 5px;
+        margin-left: 5px;
+        margin-right: 5px;
     }
-    .preferences-button:hover {
-        background: rgba(127, 127, 127, 0.12);
-    }
-    .preferences-button:focus-visible {
-        outline: 2px solid var(--accent);
-        outline-offset: 2px;
-    }
-    .preferences-button .e-settings {
-        font-size: 17px;
-        line-height: 1;
-    }
+
     .preferences-popup-backdrop {
         position: fixed;
         inset: 0;
@@ -810,8 +954,8 @@
     }
     .preferences-popup {
         position: absolute;
-        inset-block-start: calc(100% + 10px);
-        inset-inline-end: 0;
+        inset-block-start: calc(100% + 20px);
+        inset-inline-end: calc(100% + -45px);
         z-index: 1000;
         background-color: var(--panel-bg);
         color: var(--text-color);

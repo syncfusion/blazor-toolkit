@@ -1,0 +1,69 @@
+<div class="property-pane">
+    <div style="display:flex; align-items:center; gap:20px; padding:15px; border-radius:8px; margin-bottom:20px">
+        <div style="min-width:160px">
+            <label style="display:block; margin-bottom:5px; font-weight:500">
+                Column Width (Pixels): @ColumnWidthInPixel
+            </label>
+
+            <input type="range"
+                   min="5"
+                   max="100"
+                   step="1"
+                   value="@ColumnWidthInPixel"
+                   @oninput="OnColumnWidthChange"
+                   style="width:150px; height:6px" />
+        </div>
+    </div>
+</div>
+
+<SfChart @key="@_currentTheme" Title="Global Smartphone Sales Trends by Apple (2021-2023)" Theme="@_currentTheme">
+    <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Toolkit.ValueType.Category" />
+    <ChartPrimaryYAxis Maximum="300" Title="Units Sold (in Millions)" Format="{value}M">
+    </ChartPrimaryYAxis>
+
+    <ChartSeries DataSource="@PaletteData"
+                 XName="Year"
+                 YName="Apple"
+                 Type="ChartSeriesType.Bar"
+                 Fill="#239BA7"
+                 ColumnWidthInPixel="@ColumnWidthInPixel"
+                 CornerRadius="@(new ChartCornerRadius { BottomRight = 4, TopRight = 4 })">
+    </ChartSeries>
+
+    <ChartTooltipSettings Enable="true"
+                          Header="Apple"
+                          Format="${point.x} : <b>${point.y}M</b>" />
+</SfChart>
+
+@code {
+    [CascadingParameter]
+    private Theme CurrentTheme { get; set; } = Theme.Fluent;
+
+    private Theme _currentTheme = Theme.Fluent;
+
+    protected override void OnParametersSet()
+    {
+        base.OnParametersSet();
+        _currentTheme = CurrentTheme;
+    }
+
+    private double ColumnWidthInPixel = 45;
+
+    private void OnColumnWidthChange(ChangeEventArgs e)
+    {
+        ColumnWidthInPixel = Convert.ToDouble(e.Value);
+    }
+
+    public class PhonePalette
+    {
+        public string Year { get; set; } = string.Empty;
+        public double Apple { get; set; }
+    }
+
+    public List<PhonePalette> PaletteData = new()
+    {
+        new() { Year = "2021", Apple = 237 },
+        new() { Year = "2022", Apple = 226.4 },
+        new() { Year = "2023", Apple = 234.6 }
+    };
+}

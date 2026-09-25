@@ -9,12 +9,19 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
     public partial class SvgSelectionRect
     {
         #region Fields
-        private string _cursorStyle = "cursor:move";
 
         /// <summary>
-        /// Inline style applied to the close-icon &lt;g&gt;. Pointer cursor is fixed for a dismiss button.
+        /// CSS class prefix applied to the lasso &lt;rect&gt;. The suffix is the runtime cursor
+        /// value so the inline-style attribute is replaced by a CSS-isolation class swap.
+        /// Default value: <c>"move"</c>.
         /// </summary>
-        private const string _closeCursorStyle = "cursor:pointer";
+        private string _cursorClass = "svg-sel-rect-move";
+
+        /// <summary>
+        /// CSS class applied to the close-icon &lt;g&gt;. Pointer cursor is fixed for a dismiss button.
+        /// Style rule lives in <c>SvgSelectionRect.razor.css</c>.
+        /// </summary>
+        private const string _closeCursorClass = "svg-sel-rect-close";
         private CultureInfo _culture = CultureInfo.InvariantCulture;
         internal bool _isDrawCloseIcon;
         #endregion
@@ -123,14 +130,15 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
         }
 
         /// <summary>
-        /// Updates the computed cursor style and requests a UI refresh.
+        /// Updates the computed cursor class and requests a UI refresh.
         /// </summary>
-        /// <param name="cursor">CSS cursor value (e.g., "move", "pointer").</param>
+        /// <param name="cursor">CSS cursor value (e.g., "move", "pointer"). The value is sanitised
+        /// into a CSS-isolation class selector so no inline <c>style</c> attribute is required.</param>
         internal async Task ChangeCursorAsync(string cursor)
         {
             if (Parent is not null)
             {
-                _cursorStyle = "cursor:" + cursor;
+                _cursorClass = "svg-sel-rect-" + cursor.Replace('-', '_');
                 await InvokeAsync(StateHasChanged).ConfigureAwait(true);
             }
         }

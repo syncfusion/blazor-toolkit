@@ -1,0 +1,66 @@
+<SfChart @key="@_currentTheme" Title="Employee Performance" Width="100%" Height="420px" Theme="@_currentTheme">
+
+    <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Toolkit.ValueType.Category"></ChartPrimaryXAxis>
+    <ChartPrimaryYAxis Title="Performance" Minimum="0" Maximum="100" Interval="20"></ChartPrimaryYAxis>
+
+    <ChartSeries Type="ChartSeriesType.Column" DataSource="@EmployeeDetails" XName="FirstName" YName="PerformanceScore" ColumnWidth="0.4" Name="Employees">
+    </ChartSeries>
+
+    <ChartTooltipSettings Enable="true"></ChartTooltipSettings>
+</SfChart>
+
+@code {
+    [CascadingParameter]
+    private Theme CurrentTheme { get; set; } = Theme.Fluent;
+
+    private Theme _currentTheme = Theme.Fluent;
+
+    protected override void OnParametersSet()
+    {
+        base.OnParametersSet();
+        _currentTheme = CurrentTheme;
+    }
+
+    public class EmployeeDetail
+    {
+        public string FirstName { get; set; } = string.Empty;
+        public string LastName { get; set; } = string.Empty;
+        public string Email { get; set; } = string.Empty;
+        public string Phone { get; set; } = string.Empty;
+        public string Department { get; set; } = string.Empty;
+        public string Role { get; set; } = string.Empty;
+        public string Location { get; set; } = string.Empty;
+        public DateTime HireDate { get; set; }
+        public bool IsActive { get; set; }
+        public string ProfileImage { get; set; } = string.Empty;
+        public List<string> Skills { get; set; } = new List<string>();
+        public int PerformanceScore { get; set; }
+        public DateTime LastReviewDate { get; set; }
+        public string ManagerId { get; set; } = string.Empty;
+        public string LinkedIn { get; set; } = string.Empty;
+        public double Experience { get; set; }
+        public int EmployeeID { get; set; }
+    }
+
+    private List<EmployeeDetail> EmployeeDetails = new List<EmployeeDetail>
+    {
+        new EmployeeDetail {
+            FirstName = "David", LastName = "Jones", Email = "david.jones@company.com", Phone = "+1-334-902-3993", Department = "Marketing", Role = "Manager", Location = "San Francisco, USA", HireDate = DateTimeOffset.FromUnixTimeMilliseconds(1449889901523).DateTime, IsActive = false, ProfileImage = "https://company.com/images/emp10000.jpg", Skills = new List<string> { "Communication", "Leadership", "SEO" }, PerformanceScore = 86, LastReviewDate = DateTimeOffset.FromUnixTimeMilliseconds(1723950701523).DateTime, ManagerId = "EMP191", LinkedIn = "linkedin.com/in/david0", Experience = 9.6, EmployeeID = 10000
+        },
+        new EmployeeDetail {
+            FirstName = "Emma", LastName = "Brown", Email = "emma.brown@company.com", Phone = "+1-742-204-5269", Department = "Sales", Role = "QA Analyst", Location = "Chicago, USA", HireDate = DateTimeOffset.FromUnixTimeMilliseconds(1521169901523).DateTime, IsActive = true, ProfileImage = "https://company.com/images/emp10001.jpg", Skills = new List<string> { "Node.js", "Python", "React" }, PerformanceScore = 82, LastReviewDate = DateTimeOffset.FromUnixTimeMilliseconds(1744168301523).DateTime, ManagerId = "EMP180", LinkedIn = "linkedin.com/in/emma1", Experience = 7.4, EmployeeID = 10001
+        },
+        new EmployeeDetail {
+            FirstName = "Emily", LastName = "Brown", Email = "emily.brown@company.com", Phone = "+1-179-707-9780", Department = "Finance", Role = "DevOps Engineer", Location = "Chicago, USA", HireDate = DateTimeOffset.FromUnixTimeMilliseconds(1524453101523).DateTime, IsActive = false, ProfileImage = "https://company.com/images/emp10003.jpg", Skills = new List<string> { "SEO", "Java", "Leadership" }, PerformanceScore = 91, LastReviewDate = DateTimeOffset.FromUnixTimeMilliseconds(1734318701523).DateTime, ManagerId = "EMP145", LinkedIn = "linkedin.com/in/emily3", Experience = 7.3, EmployeeID = 10003
+        },
+        new EmployeeDetail {
+            FirstName = "Michael", LastName = "Martinez", Email = "michael.martinez@company.com", Phone = "+1-512-334-6660", Department = "Sales", Role = "Developer", Location = "Chicago, USA", HireDate = DateTimeOffset.FromUnixTimeMilliseconds(1439694701523).DateTime, IsActive = true, ProfileImage = "https://company.com/images/emp10004.jpg", Skills = new List<string> { "React", "Node.js", "Communication" }, PerformanceScore = 52, LastReviewDate = DateTimeOffset.FromUnixTimeMilliseconds(1727147501523).DateTime, ManagerId = "EMP146", LinkedIn = "linkedin.com/in/michael4", Experience = 9.9, EmployeeID = 10004
+        },
+        new EmployeeDetail {
+            FirstName = "James", LastName = "Williams", Email = "james.williams@company.com", Phone = "+1-745-257-1661", Department = "Sales", Role = "Recruiter", Location = "San Francisco, USA", HireDate = DateTimeOffset.FromUnixTimeMilliseconds(1693192301524).DateTime, IsActive = true, ProfileImage = "https://company.com/images/emp10006.jpg", Skills = new List<string> { "Node.js", "React", "Java" }, PerformanceScore = 78, LastReviewDate = DateTimeOffset.FromUnixTimeMilliseconds(1739934701524).DateTime, ManagerId = "EMP127", LinkedIn = "linkedin.com/in/james6", Experience = 1.9, EmployeeID = 10006
+        },
+        new EmployeeDetail {
+            FirstName = "Sarah", LastName = "Smith", Email = "sarah.smith@company.com", Phone = "+1-384-933-1262", Department = "Sales", Role = "Accountant", Location = "New York, USA", HireDate = DateTimeOffset.FromUnixTimeMilliseconds(1490411501524).DateTime, IsActive = true, ProfileImage = "https://company.com/images/emp10007.jpg", Skills = new List<string> { "Python", "React", "Java" }, PerformanceScore = 88, LastReviewDate = DateTimeOffset.FromUnixTimeMilliseconds(1736219501524).DateTime, ManagerId = "EMP129", LinkedIn = "linkedin.com/in/sarah7", Experience = 8.3, EmployeeID = 10007
+        }
+    };
+}

@@ -1,0 +1,59 @@
+<SfChart @key="@_currentTheme" Title="United States GDP (Current US$)" SubTitle="Manual Data (Example)" Theme="@_currentTheme">
+    <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Toolkit.ValueType.DateTime"
+                       IntervalType="IntervalType.Years"
+                       LabelFormat="yyyy">
+    </ChartPrimaryXAxis>
+
+    <ChartPrimaryYAxis Title="GDP (US$, trillions)" Minimum="0" Format="$ {value}B">
+        <ChartAxisMajorGridLines Width="0.5" />
+    </ChartPrimaryYAxis>
+
+    <ChartSeries DataSource="@GdpData"
+                 XName="X"
+                 YName="Y"
+                 Type="ChartSeriesType.Area"
+                 Fill="#38BE09"
+                 Opacity="0.6"
+                 Name="GDP">
+        <ChartMarker Visible="true">
+            <ChartMarkerBorder Width="2" Color="#38BE09" />
+        </ChartMarker>
+    </ChartSeries>
+
+    <ChartTooltipSettings Enable="true" Shared="true"
+                          Header="<b>${point.x}</b>"
+                          Format="GDP: <b>${point.y}</b>" />
+
+    <ChartCrosshairSettings Enable="true" SnapToData="false" />
+
+    <ChartLegendSettings Visible="false" />
+</SfChart>
+
+@code {
+    [CascadingParameter]
+    private Theme CurrentTheme { get; set; } = Theme.Fluent;
+
+    private Theme _currentTheme = Theme.Fluent;
+
+    protected override void OnParametersSet()
+    {
+        base.OnParametersSet();
+        _currentTheme = CurrentTheme;
+    }
+
+    public record GdpPoint(DateTime X, double Y);
+
+    public List<GdpPoint> GdpData = new()
+    {
+        new GdpPoint(new DateTime(2014, 1, 1), 17500000000000),
+        new GdpPoint(new DateTime(2015, 1, 1), 18200000000000),
+        new GdpPoint(new DateTime(2016, 1, 1), 18700000000000),
+        new GdpPoint(new DateTime(2017, 1, 1), 19500000000000),
+        new GdpPoint(new DateTime(2018, 1, 1), 20600000000000),
+        new GdpPoint(new DateTime(2019, 1, 1), 21400000000000),
+        new GdpPoint(new DateTime(2020, 1, 1), 20900000000000),
+        new GdpPoint(new DateTime(2021, 1, 1), 23300000000000),
+        new GdpPoint(new DateTime(2022, 1, 1), 25500000000000),
+        new GdpPoint(new DateTime(2023, 1, 1), 27000000000000),
+    };
+}

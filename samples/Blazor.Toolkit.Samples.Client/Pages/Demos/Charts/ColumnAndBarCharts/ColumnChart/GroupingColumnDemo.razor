@@ -1,0 +1,56 @@
+<SfChart @key="@_currentTheme" Theme="@_currentTheme">
+    <ChartTooltipSettings Enable="true" />
+    <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Toolkit.ValueType.Category" Interval="1"></ChartPrimaryXAxis>
+    <ChartPrimaryYAxis></ChartPrimaryYAxis>
+
+    <ChartSeries DataSource="@CombinedDataDetails" XName="X" YName="Y1" Name="USA Total Medals" GroupName="USA" Type="ChartSeriesType.Column" Fill="#689B8A" ColumnWidth="0.7" ColumnSpacing="0.2">
+        <ChartMarker><ChartDataLabel Visible="true" Position="ChartLabelPosition.Top"></ChartDataLabel></ChartMarker>
+        <ChartCornerRadius TopLeft="8" TopRight="8"></ChartCornerRadius>
+    </ChartSeries>
+    <ChartSeries DataSource="@CombinedDataDetails" XName="X" YName="Y2" Name="USA Gold Medals" GroupName="USA" Type="ChartSeriesType.Column" Fill="#F9CB99" ColumnWidth="0.5" ColumnSpacing="0.2">
+        <ChartMarker><ChartDataLabel Visible="true" Position="ChartLabelPosition.Top"></ChartDataLabel></ChartMarker>
+    </ChartSeries>
+    <ChartSeries DataSource="@CombinedDataDetails" XName="X" YName="Y3" Name="UK Total Medals" GroupName="UK" Type="ChartSeriesType.Column" Fill="#8E7AB5" ColumnWidth="0.7" ColumnSpacing="0.2">
+        <ChartMarker><ChartDataLabel Visible="true" Position="ChartLabelPosition.Top"></ChartDataLabel></ChartMarker>
+    </ChartSeries>
+    <ChartSeries DataSource="@CombinedDataDetails" XName="X" YName="Y4" Name="UK Gold Medals" GroupName="UK" Type="ChartSeriesType.Column" Fill="#EEA5A6" ColumnWidth="0.5" ColumnSpacing="0.2">
+        <ChartMarker><ChartDataLabel Visible="true" Position="ChartLabelPosition.Top"></ChartDataLabel></ChartMarker>
+    </ChartSeries>
+    <ChartSeries DataSource="@CombinedDataDetails" XName="X" YName="Y5" Name="China Total Medals" GroupName="China" Type="ChartSeriesType.Column" Fill="#FF6868" ColumnWidth="0.7" ColumnSpacing="0.2">
+        <ChartMarker><ChartDataLabel Visible="true" Position="ChartLabelPosition.Top"></ChartDataLabel></ChartMarker>
+    </ChartSeries>
+    <ChartSeries DataSource="@CombinedDataDetails" XName="X" YName="Y6" Name="China Gold Medals" GroupName="China" Type="ChartSeriesType.Column" Fill="#9BCDD2" ColumnWidth="0.5" ColumnSpacing="0.2">
+        <ChartMarker><ChartDataLabel Visible="true" Position="ChartLabelPosition.Top"></ChartDataLabel></ChartMarker>
+    </ChartSeries>
+</SfChart>
+
+@code {
+    [CascadingParameter]
+    private Theme CurrentTheme { get; set; } = Theme.Fluent;
+
+    private Theme _currentTheme = Theme.Fluent;
+
+    protected override void OnParametersSet()
+    {
+        base.OnParametersSet();
+        _currentTheme = CurrentTheme;
+    }
+
+    public class OlympicDataModel
+    {
+        public string X { get; set; } = string.Empty;
+        public double Y1 { get; set; }
+        public double Y2 { get; set; }
+        public double Y3 { get; set; }
+        public double Y4 { get; set; }
+        public double Y5 { get; set; }
+        public double Y6 { get; set; }
+    }
+
+    public static List<OlympicDataModel> CombinedDataDetails = new()
+    {
+        new() { X = "2016", Y1 = 104, Y2 = 46, Y3 = 65, Y4 = 29, Y5 = 91, Y6 = 38 },
+        new() { X = "2020", Y1 = 121, Y2 = 46, Y3 = 67, Y4 = 27, Y5 = 70, Y6 = 26 },
+        new() { X = "2024", Y1 = 113, Y2 = 39, Y3 = 65, Y4 = 22, Y5 = 88, Y6 = 38 }
+    };
+}

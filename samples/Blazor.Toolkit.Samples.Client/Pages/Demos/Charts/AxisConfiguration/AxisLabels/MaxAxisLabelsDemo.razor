@@ -1,0 +1,59 @@
+<SfChart @key="@_currentTheme" Title="Total Sales by Product" Theme="@_currentTheme">
+    <ChartArea>
+        <ChartAreaBorder Width="0" />
+    </ChartArea>
+
+    <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Toolkit.ValueType.Category">
+        <ChartAxisMajorGridLines Width="0" />
+        <ChartAxisMajorTickLines Width="0" />
+        <ChartAxisMinorTickLines Width="0" />
+    </ChartPrimaryXAxis>
+
+    <ChartPrimaryYAxis Maximum="800"
+                       MaximumLabelWidth="3">
+        <ChartAxisLineStyle Width="0" />
+        <ChartAxisMajorTickLines Width="0" />
+    </ChartPrimaryYAxis>
+
+    <ChartSeries DataSource="@SmartPhoneData"
+                 XName="X"
+                 YName="Y"
+                 Type="ChartSeriesType.Column"
+                 Fill="#43CDFF"
+                 Width="0.4"
+                 CornerRadius="@(new ChartCornerRadius { TopLeft = 10, TopRight = 10 })" />
+
+    <ChartTooltipSettings Enable="true"
+                          Header="${point.x}"
+                          Format="Sales : <b>${point.y} units</b>"
+                          EnableHighlight="true" />
+</SfChart>
+
+@code {
+    [CascadingParameter]
+    private Theme CurrentTheme { get; set; } = Theme.Fluent;
+
+    private Theme _currentTheme = Theme.Fluent;
+
+    protected override void OnParametersSet()
+    {
+        base.OnParametersSet();
+        _currentTheme = CurrentTheme;
+    }
+
+    public class ProductSalesPoint
+    {
+        public string X { get; set; } = string.Empty;
+        public double Y { get; set; }
+    }
+
+    public List<ProductSalesPoint> SmartPhoneData = new()
+    {
+        new() { X = "Laptop",  Y = 300 },
+        new() { X = "Tablet",  Y = 400 },
+        new() { X = "Mobile",  Y = 450 },
+        new() { X = "Screen",  Y = 500 },
+        new() { X = "Router",  Y = 550 },
+        new() { X = "Camera",  Y = 600 }
+    };
+}

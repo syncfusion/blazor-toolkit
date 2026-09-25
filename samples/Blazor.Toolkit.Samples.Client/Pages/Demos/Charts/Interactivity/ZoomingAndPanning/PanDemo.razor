@@ -1,0 +1,59 @@
+<SfChart @key="@_currentTheme" Theme="@_currentTheme">
+    <ChartZoomSettings EnableSelectionZooming="true"
+                       EnablePan="true"
+                       Mode="ZoomMode.X">
+    </ChartZoomSettings>
+
+    <ChartTooltipSettings Enable="false" />
+
+    <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Toolkit.ValueType.DateTime"
+                       IntervalType="IntervalType.Months"
+                       ZoomFactor="0.2"
+                       ZoomPosition="0.5">
+    </ChartPrimaryXAxis>
+
+    <ChartPrimaryYAxis Interval="20">
+        <ChartAxisLineStyle Width="0" />
+    </ChartPrimaryYAxis>
+
+    <ChartSeries DataSource="@columnChartDataSet"
+                 XName="TimeStamp"
+                 YName="MetricValue"
+                 Type="ChartSeriesType.Column"
+                 Fill="#2B95C9">
+    </ChartSeries>
+</SfChart>
+
+@code {
+    [CascadingParameter]
+    private Theme CurrentTheme { get; set; } = Theme.Fluent;
+
+    private Theme _currentTheme = Theme.Fluent;
+
+    protected override void OnParametersSet()
+    {
+        base.OnParametersSet();
+        _currentTheme = CurrentTheme;
+    }
+
+    private List<TimeSeriesColumnPoint> columnChartDataSet = new();
+
+    protected override void OnInitialized()
+    {
+        Random numericGenerator = new Random();
+        for (int dataIndex = 0; dataIndex < 500; dataIndex++)
+        {
+            columnChartDataSet.Add(new TimeSeriesColumnPoint
+            {
+                TimeStamp = new DateTime(2000, 1, 1).AddDays(dataIndex),
+                MetricValue = numericGenerator.Next(1, 101)
+            });
+        }
+    }
+
+    public class TimeSeriesColumnPoint
+    {
+        public DateTime TimeStamp { get; set; }
+        public double MetricValue { get; set; }
+    }
+}

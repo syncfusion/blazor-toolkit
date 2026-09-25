@@ -1,0 +1,8 @@
+﻿<SfDateTimePicker TValue="DateTime?" Width="300px" Value="@DateTimeValue" Min="@MinDate" Max="@MaxDate" MinTime="@MinTime" MaxTime="@MaxTime" ShowClearButton="true" Placeholder="Select a date and time" />
+@code {
+    public DateTime DateTimeValue { get; set; } = new DateTime(DateTime.Now.Year, DateTime.Now.Month, 9, 11, 0, 0);
+    public DateTime MinDate { get; set; } = new DateTime(DateTime.Now.Year, DateTime.Now.Month, 7, 10, 0, 0);
+    public DateTime MaxDate { get; set; } = new DateTime(DateTime.Now.Year, DateTime.Now.Month, 27, 22, 30, 0);
+    public DateTime MinTime { get; set; } = new DateTime(DateTime.Now.Year, DateTime.Now.Month, 7, 10, 0, 0);
+    public DateTime MaxTime { get; set; } = new DateTime(DateTime.Now.Year, DateTime.Now.Month, 27, 20, 30, 0);
+}

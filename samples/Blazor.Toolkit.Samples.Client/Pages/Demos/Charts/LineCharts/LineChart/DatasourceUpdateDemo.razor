@@ -1,0 +1,92 @@
+@using System.Collections.ObjectModel
+@implements IDisposable
+
+<SfChart @key="@_currentTheme" Title="Auto-Updating Line Chart" Theme="@_currentTheme">
+    <ChartArea><ChartAreaBorder Width="0"></ChartAreaBorder></ChartArea>
+
+    <ChartPrimaryXAxis Minimum="1" Maximum="7" Interval="1">
+        <ChartAxisMajorGridLines Width="0" />
+        <ChartAxisMajorTickLines Width="0" />
+        <ChartAxisMinorTickLines Width="0" />
+    </ChartPrimaryXAxis>
+
+    <ChartPrimaryYAxis Minimum="0" Maximum="100" Interval="20">
+        <ChartAxisMajorGridLines Width="1" />
+        <ChartAxisMajorTickLines Width="0" />
+        <ChartAxisLineStyle Width="0" />
+    </ChartPrimaryYAxis>
+
+    <ChartSeries DataSource="@ChartData"
+                 XName="X"
+                 YName="Y"
+                 Type="ChartSeriesType.Line">
+        <ChartSeriesAnimation Enable="true" Duration="1500" />
+        <ChartMarker Visible="true" IsFilled="false" />
+    </ChartSeries>
+</SfChart>
+
+@code {
+    [CascadingParameter]
+    private Theme CurrentTheme { get; set; } = Theme.Fluent;
+
+    private Theme _currentTheme = Theme.Fluent;
+
+    protected override void OnParametersSet()
+    {
+        base.OnParametersSet();
+        _currentTheme = CurrentTheme;
+    }
+
+    public class ChartPoint
+    {
+        public int X { get; set; }
+        public double Y { get; set; }
+    }
+
+    public ObservableCollection<ChartPoint> ChartData = new(GenerateDatasource());
+    private System.Timers.Timer? updateTimer;
+
+    protected override void OnInitialized()
+    {
+        updateTimer = new System.Timers.Timer(2000);
+        updateTimer.Elapsed += (_, _) =>
+        {
+            InvokeAsync(UpdateChartData);
+        };
+        updateTimer.Start();
+    }
+
+    private void UpdateChartData()
+    {
+        if (ChartData == null || ChartData.Count == 0) return;
+
+        for (int i = 0; i < ChartData.Count; i++)
+        {
+            ChartData[i] = new ChartPoint
+            {
+                X = ChartData[i].X,
+                Y = 10 + Random.Shared.NextDouble() * 85
+            };
+        }
+    }
+
+    public void Dispose()
+    {
+        updateTimer?.Stop();
+        updateTimer?.Dispose();
+    }
+
+    private static List<ChartPoint> GenerateDatasource()
+    {
+        var data = new List<ChartPoint>();
+        for (int i = 1; i <= 7; i++)
+        {
+            data.Add(new ChartPoint
+            {
+                X = i,
+                Y = Random.Shared.Next(15, 90)
+            });
+        }
+        return data;
+    }
+}

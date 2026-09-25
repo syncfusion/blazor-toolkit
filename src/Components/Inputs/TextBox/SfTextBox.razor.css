@@ -1,0 +1,29 @@
+/* SfTextBox.razor.css — CSS isolation for SfTextBox. */
+.e-input-group {
+    display: inline-flex;
+    align-items: stretch;
+    width: 100%;
+    position: relative;
+}
+
+.e-input-group input.e-control.e-textbox {
+    border: 1px solid var(--e-border, #999);
+    border-radius: var(--e-corner, 4px);
+    padding: 0.5rem 0.75rem;
+    background: var(--e-bg, transparent);
+    color: var(--e-fg, inherit);
+}
+
+.e-input-group input.e-control.e-textbox:focus-visible {
+    outline: 2px solid Highlight;
+    outline-offset: 1px;
+}
+
+@media (forced-colors: active) {
+    .e-input-group input.e-control.e-textbox {
+        forced-color-adjust: none;
+        border: 1px solid ButtonText;
+        background: Field;
+        color: FieldText;
+    }
+}

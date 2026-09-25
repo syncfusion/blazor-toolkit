@@ -1,0 +1,179 @@
+﻿<div class="spinner-item">
+    <SfSpinner Visible="true">
+        <SpinnerTemplates>
+            <Template>
+                <div class="sf-spin-custom">
+                    <div class="bars">
+                        <span></span><span></span><span></span><span></span><span></span>
+                    </div>
+                    <div class="label-bar">Loading</div>
+                </div>
+                <style>
+                    .sf-spin-custom {
+                        display: flex;
+                        flex-direction: column;
+                        align-items: center;
+                        gap: 10px;
+                        color: #0F6CBD;
+                        transform: scale(.75);
+                        transform-origin: center center;
+                    }
+
+                    .bars {
+                        display: flex;
+                        gap: 4px;
+                        height: 26px;
+                        align-items: flex-end;
+                    }
+
+                    .bars span {
+                        width: 4px;
+                        background: #0F6CBD;
+                        border-radius: 2px;
+                        height: 8px;
+                        animation: barGrow 1s infinite ease-in-out;
+                    }
+
+                    .bars span:nth-child(1) {
+                        animation-delay: 0.00s;
+                    }
+
+                    .bars span:nth-child(2) {
+                        animation-delay: 0.10s;
+                    }
+
+                    .bars span:nth-child(3) {
+                        animation-delay: 0.20s;
+                    }
+
+                    .bars span:nth-child(4) {
+                        animation-delay: 0.30s;
+                    }
+
+                    .bars span:nth-child(5) {
+                        animation-delay: 0.40s;
+                    }
+
+                    @@keyframes barGrow {
+                        0%, 100% {
+                            height: 8px;
+                            opacity: .6;
+                        }
+
+                        50% {
+                            height: 26px;
+                            opacity: 1;
+                        }
+                    }
+
+                    .label-bar {
+                        font-size: 16px;
+                        color: #0F6CBD;
+                        margin-top: 8px;
+                    }
+
+                    @@media (forced-colors: active) {
+                        .sf-spin-custom {
+                            color: CanvasText;
+                        }
+
+                        .bars span,
+                        .dots span {
+                            background-color: CanvasText;
+                            /* keep original size / animation – do not override width/height */
+                        }
+
+                        .label-bar,
+                        .label-dot {
+                            color: CanvasText;
+                        }
+                    }
+                </style>
+            </Template>
+        </SpinnerTemplates>
+    </SfSpinner>
+</div>
+<div class="spinner-item">
+    <SfSpinner Visible="true">
+        <SpinnerTemplates>
+            <Template>
+                <div class="sf-spin-custom">
+                    <div class="dots">
+                        <span></span><span></span><span></span>
+                    </div>
+                    <div class="label-dot">Loading</div>
+                </div>
+                <style>
+                    .sf-spin-custom {
+                        display: flex;
+                        flex-direction: column;
+                        align-items: center;
+                        gap: 10px;
+                        color: #0F6CBD;
+                        transform: scale(.75);
+                        transform-origin: center center;
+                    }
+
+                    .dots {
+                        display: flex;
+                        gap: 8px;
+                        align-items: center;
+                        margin-top: 20px;
+                    }
+
+                    .dots span {
+                        width: 8px;
+                        height: 8px;
+                        border-radius: 50%;
+                        background: #0F6CBD;
+                        opacity: 0.35;
+                        animation: dotPulse 1.2s infinite ease-in-out;
+                    }
+
+                    .dots span:nth-child(2) {
+                        animation-delay: 0.15s;
+                    }
+
+                    .dots span:nth-child(3) {
+                        animation-delay: 0.30s;
+                    }
+
+                    @@keyframes dotPulse {
+                        0%, 80%, 100% {
+                            transform: scale(0.75);
+                            opacity: 0.35;
+                        }
+
+                        40% {
+                            transform: scale(1.15);
+                            opacity: 1;
+                        }
+                    }
+
+                    .label-dot {
+                        font-size: 16px;
+                        color: #0F6CBD;
+                        margin-top: 8px;
+                    }
+
+                    @@media (forced-colors: active) {
+                        .sf-spin-custom {
+                            color: CanvasText;
+                        }
+
+                        .bars span,
+                        .dots span {
+                            background-color: CanvasText;
+                            /* keep original size / animation – do not override width/height */
+                        }
+
+                        .label-bar,
+                        .label-dot {
+                            color: CanvasText;
+                        }
+                    }
+                </style>
+            </Template>
+        </SpinnerTemplates>
+    </SfSpinner>
+</div>

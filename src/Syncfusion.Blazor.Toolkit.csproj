@@ -20,7 +20,14 @@
 	<PackageProjectUrl>https://www.syncfusion.com/blazor-toolkit</PackageProjectUrl>
 	<RepositoryUrl>https://github.com/syncfusion/blazor-toolkit.git</RepositoryUrl>
 	<RepositoryType>git</RepositoryType>
-	<RepositoryCommit>$(SourceRevisionId)</RepositoryCommit>
+	<!--
+	  D1 / LP-10: RepositoryCommit and RepositoryBranch are NOT pinned
+	  here; they are inherited from Directory.Build.props and resolved
+	  from the local .git/HEAD by SourceLink + the
+	  _ResolveRepositoryBranch target during a normal `dotnet pack`.
+	  Result: the produced .nuspec always reflects the public commit
+	  and branch the pack was run from.
+	-->
 	<PublishRepositoryUrl>true</PublishRepositoryUrl>
 	<EmbedUntrackedSources>true</EmbedUntrackedSources>
 	<!-- Release notes point to the GitHub release page; see DEVELOPMENT.md §Versioning and API stability. -->

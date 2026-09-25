@@ -1,0 +1,95 @@
+<Project>
+
+  <!--
+    Directory.Build.props (public repo)
+
+    Centralised repository-metadata defaults for every SDK-style .NET
+    project under src/, samples/, and tests/. Every packable project
+    inherits these so a normal `dotnet pack` run performed on a public
+    commit embeds the correct commit + branch in the .nuspec.
+
+    Required for:
+      - D1 / LP-10 - RepositoryCommit must point at a public commit
+                     automatically (no manual placeholder substitution).
+      - D6 / PI-06 - CycloneDX SBOM defaults (controlled here).
+  -->
+
+  <PropertyGroup>
+
+    <!--
+      1) Resolve the path of the repo root .git/HEAD so the
+         _ResolveRepositoryBranch target below can branch-name from it.
+         <MSBuildThisFileDirectory> is the directory containing this
+         Directory.Build.props file.
+    -->
+    <_RepoGitHead>$(MSBuildThisFileDirectory).git/HEAD</_RepoGitHead>
+
+    <!--
+      2) SourceRevision wire-up.
+
+         Honour an explicit -p:SourceRevision= override (useful for hotfix
+         packaging from a detached HEAD that SourceLink misreads).
+
+         Otherwise, fall back to SourceRevisionId, which SourceLink
+         populates from the local .git/HEAD SHA when running from a
+         public commit.
+
+         The SDK, when PublishRepositoryUrl=true, then reproduces that
+         commit in the .nuspec <repository> element, satisfying LP-10.
+    -->
+    <SourceRevision Condition="'$(SourceRevision)' == ''">$(SourceRevisionId)</SourceRevision>
+    <RepositoryCommit Condition="'$(RepositoryCommit)' == ''">$(SourceRevision)</RepositoryCommit>
+
+    <!--
+      3) RepositoryBranch default.
+
+         Honours an explicit -p:RepositoryBranch= override (hotfix
+         branches). When unset, the _ResolveRepositoryBranch target
+         fills it from .git/HEAD before the .nuspec is generated.
+    -->
+    <RepositoryBranch Condition="'$(RepositoryBranch)' == ''">main</RepositoryBranch>
+
+    <!--
+      4) Continuous-integration toggle.
+
+         Required by SourceLink + the SDK to embed deterministic
+         commit metadata in the assembly PDBs and the .nuspec.
+    -->
+    <ContinuousIntegrationBuild>true</ContinuousIntegrationBuild>
+
+    <!--
+      5) CycloneDX SBOM defaults (D6 / PI-06).
+
+         Toggle off with -p:CycloneDxEnabled=false.
+         The output mirror directory is relative to the repo root.
+    -->
+    <CycloneDxEnabled Condition="'$(CycloneDxEnabled)' == ''">true</CycloneDxEnabled>
+    <CycloneDxRelativeDir Condition="'$(CycloneDxRelativeDir)' == ''">artifacts/sbom</CycloneDxRelativeDir>
+
+  </PropertyGroup>
+
+  <!--
+    _ResolveRepositoryBranch: executed by the SDK before GenerateNuspec.
+
+    Reads .git/HEAD; if the file starts with "ref: " (the normal in-worktree
+    case), the in-tree branch name is parsed and assigned to
+    <RepositoryBranch>. If the file is instead a commahex git object
+    "4b..." (detached HEAD = release-pack scenario), the existing
+    <RepositoryBranch> value is preserved as-is; LP-10 in the detached
+    case is satisfied by <RepositoryCommit> populated above.
+
+    To opt out per-project, set -p:RepositoryBranchRepositoryBranchOverride=true.
+  -->
+  <Target Name="_ResolveRepositoryBranch"
+          BeforeTargets="GenerateNuspec"
+          Condition="'$(RepositoryBranchRepositoryBranchOverride)' != 'true'
+                     AND '$(DisableImplicitRepositoryBranch)' != 'true'">
+    <PropertyGroup Condition="Exists('$(_RepoGitHead)')">
+      <_RepoBranchContent>$([System.IO.File]::ReadAllText('$(_RepoGitHead)'))</_RepoBranchContent>
+    </PropertyGroup>
+    <PropertyGroup Condition="$(_RepoBranchContent.Contains('ref:'))">
+      <RepositoryBranch>$(_RepoBranchContent.Replace('ref: ','').Replace('refs/heads/','').Trim())</RepositoryBranch>
+    </PropertyGroup>
+  </Target>
+
+</Project>

@@ -1,0 +1,44 @@
+<SfChart @key="@_currentTheme" Title="Global Cotton Production by Country (2019-2024)" Theme="@_currentTheme">
+    <ChartTooltipSettings Enable="true" Header="" />
+    <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Toolkit.ValueType.Category" Interval="1"></ChartPrimaryXAxis>
+    <ChartPrimaryYAxis Interval="20"><ChartAxisLineStyle Width="0" /></ChartPrimaryYAxis>
+    <ChartStackLabelSettings Visible="true"></ChartStackLabelSettings>
+
+    <ChartStackLabelSettings Visible="true"></ChartStackLabelSettings>
+    <ChartSeries DataSource="@Data" XName="X" YName="Y1" Name="India" Type="ChartSeriesType.StackingColumn" Fill="#5C6BC0" ColumnWidth="0.4"></ChartSeries>
+    <ChartSeries DataSource="@Data" XName="X" YName="Y2" Name="China" Type="ChartSeriesType.StackingColumn" Fill="#00796B" ColumnWidth="0.4"></ChartSeries>
+    <ChartSeries DataSource="@Data" XName="X" YName="Y3" Name="United States" Type="ChartSeriesType.StackingColumn" Fill="#B71C1C" ColumnWidth="0.4">
+        <ChartCornerRadius TopLeft="5" TopRight="5"></ChartCornerRadius>
+    </ChartSeries>
+</SfChart>
+
+@code {
+    [CascadingParameter]
+    private Theme CurrentTheme { get; set; } = Theme.Fluent;
+
+    private Theme _currentTheme = Theme.Fluent;
+
+    protected override void OnParametersSet()
+    {
+        base.OnParametersSet();
+        _currentTheme = CurrentTheme;
+    }
+
+    public class StackingColumnData
+    {
+        public string X { get; set; } = string.Empty;
+        public double Y1 { get; set; }
+        public double Y2 { get; set; }
+        public double Y3 { get; set; }
+    }
+
+    public List<StackingColumnData> Data = new()
+    {
+        new() { X = "2019", Y1 = 28.5, Y2 = 26.9, Y3 = 19.9 },
+        new() { X = "2020", Y1 = 27.5, Y2 = 29.3, Y3 = 14.6 },
+        new() { X = "2021", Y1 = 24.3, Y2 = 26.7, Y3 = 17.5 },
+        new() { X = "2022", Y1 = 26.3, Y2 = 30.8, Y3 = 14.5 },
+        new() { X = "2023", Y1 = 25.4, Y2 = 27.4, Y3 = 12.1 },
+        new() { X = "2024", Y1 = 25.0, Y2 = 31.0, Y3 = 14.4 }
+    };
+}

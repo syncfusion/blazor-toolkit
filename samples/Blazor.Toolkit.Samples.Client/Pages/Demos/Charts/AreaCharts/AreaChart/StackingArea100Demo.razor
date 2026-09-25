@@ -1,0 +1,134 @@
+<SfChart @key="@_currentTheme" Title="Payment Shares by Mode (2015-2024)" Width="100%" Height="400px" Theme="@_currentTheme">
+
+    <ChartTooltipSettings Enable="true"
+                          Format="<b>${series.name}</b><br />Year: <b>${point.x}</b><br />Share: <b>${point.y}%</b>" />
+
+    <ChartLegendSettings Visible="true" Position="LegendPosition.Bottom" />
+
+    <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Toolkit.ValueType.DateTime"
+                       RangePadding="ChartRangePadding.Normal"
+                       LabelFormat="yyyy">
+    </ChartPrimaryXAxis>
+
+    <ChartPrimaryYAxis Minimum="0"
+                       Maximum="100"
+                       Interval="20"
+                       LabelFormat="{value}%">
+        <ChartAxisLineStyle Width="0" />
+    </ChartPrimaryYAxis>
+
+    <ChartSeries DataSource="@BankTransfer"
+                 XName="X"
+                 YName="Y"
+                 Name="Bank-Transfer"
+                 Type="ChartSeriesType.StackingArea100"
+                 Fill="#B1212D"
+                 Opacity="1"
+                 Border="@(new ChartSeriesBorder { Width = 0.5, Color = "#ffffff" })"
+                 LegendShape="LegendShape.Circle" />
+
+    <ChartSeries DataSource="@CreditCard"
+                 XName="X"
+                 YName="Y"
+                 Name="Credit Card"
+                 Type="ChartSeriesType.StackingArea100"
+                 Fill="#E77A16"
+                 Opacity="1"
+                 Border="@(new ChartSeriesBorder { Width = 0.5, Color = "#ffffff" })"
+                 LegendShape="LegendShape.Circle" />
+
+    <ChartSeries DataSource="@DebitCard"
+                 XName="X"
+                 YName="Y"
+                 Name="Debit Card"
+                 Type="ChartSeriesType.StackingArea100"
+                 Fill="#6200EE"
+                 Opacity="1"
+                 Border="@(new ChartSeriesBorder { Width = 0.5, Color = "#ffffff" })"
+                 LegendShape="LegendShape.Circle" />
+
+    <ChartSeries DataSource="@Cash"
+                 XName="X"
+                 YName="Y"
+                 Name="Cash"
+                 Type="ChartSeriesType.StackingArea100"
+                 Fill="#05B3DA"
+                 Opacity="1"
+                 Border="@(new ChartSeriesBorder { Width = 0.5, Color = "#ffffff" })"
+                 LegendShape="LegendShape.Circle" />
+</SfChart>
+
+@code {
+    [CascadingParameter]
+    private Theme CurrentTheme { get; set; } = Theme.Fluent;
+
+    private Theme _currentTheme = Theme.Fluent;
+
+    protected override void OnParametersSet()
+    {
+        base.OnParametersSet();
+        _currentTheme = CurrentTheme;
+    }
+
+    public class PaymentData
+    {
+        public DateTime X { get; set; }
+        public double Y { get; set; }
+    }
+
+    List<PaymentData> BankTransfer = new()
+    {
+        new() { X = new DateTime(2015,1,1), Y = 22 },
+        new() { X = new DateTime(2016,1,1), Y = 21 },
+        new() { X = new DateTime(2017,1,1), Y = 20 },
+        new() { X = new DateTime(2018,1,1), Y = 19 },
+        new() { X = new DateTime(2019,1,1), Y = 18 },
+        new() { X = new DateTime(2020,1,1), Y = 17 },
+        new() { X = new DateTime(2021,1,1), Y = 16 },
+        new() { X = new DateTime(2022,1,1), Y = 15 },
+        new() { X = new DateTime(2023,1,1), Y = 27 },
+        new() { X = new DateTime(2024,1,1), Y = 28 }
+    };
+
+    List<PaymentData> CreditCard = new()
+    {
+        new() { X = new DateTime(2015,1,1), Y = 10 },
+        new() { X = new DateTime(2016,1,1), Y = 11 },
+        new() { X = new DateTime(2017,1,1), Y = 12 },
+        new() { X = new DateTime(2018,1,1), Y = 13 },
+        new() { X = new DateTime(2019,1,1), Y = 14 },
+        new() { X = new DateTime(2020,1,1), Y = 15 },
+        new() { X = new DateTime(2021,1,1), Y = 16 },
+        new() { X = new DateTime(2022,1,1), Y = 17 },
+        new() { X = new DateTime(2023,1,1), Y = 10 },
+        new() { X = new DateTime(2024,1,1), Y = 11 }
+    };
+
+    List<PaymentData> DebitCard = new()
+    {
+        new() { X = new DateTime(2015,1,1), Y = 40 },
+        new() { X = new DateTime(2016,1,1), Y = 42 },
+        new() { X = new DateTime(2017,1,1), Y = 44 },
+        new() { X = new DateTime(2018,1,1), Y = 46 },
+        new() { X = new DateTime(2019,1,1), Y = 48 },
+        new() { X = new DateTime(2020,1,1), Y = 50 },
+        new() { X = new DateTime(2021,1,1), Y = 52 },
+        new() { X = new DateTime(2022,1,1), Y = 54 },
+        new() { X = new DateTime(2023,1,1), Y = 51 },
+        new() { X = new DateTime(2024,1,1), Y = 52 }
+    };
+
+    List<PaymentData> Cash = new()
+    {
+        new() { X = new DateTime(2015,1,1), Y = 28 },
+        new() { X = new DateTime(2016,1,1), Y = 26 },
+        new() { X = new DateTime(2017,1,1), Y = 24 },
+        new() { X = new DateTime(2018,1,1), Y = 22 },
+        new() { X = new DateTime(2019,1,1), Y = 20 },
+        new() { X = new DateTime(2020,1,1), Y = 18 },
+        new() { X = new DateTime(2021,1,1), Y = 16 },
+        new() { X = new DateTime(2022,1,1), Y = 14 },
+        new() { X = new DateTime(2023,1,1), Y = 12 },
+        new() { X = new DateTime(2024,1,1), Y = 9 }
+    };
+}

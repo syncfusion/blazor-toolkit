@@ -6,11 +6,11 @@
         {
             @if (!item.IsLasso)
             {
-                <SvgSelectionRect @bind-DragRect="@item.DragRect" @bind-Close="@item.Close" Id="@item.Id" Fill="@item.Fill" Stroke="@item.Stroke" StrokeWidth="@item.StrokeWidth" />
+                <SvgSelectionRect @key="@item.Id" @bind-DragRect="@item.DragRect" @bind-Close="@item.Close" Id="@item.Id" Fill="@item.Fill" Stroke="@item.Stroke" StrokeWidth="@item.StrokeWidth" />
             }
             else
             {
-                <SvgSelectionPath @bind-Path="@item.Path" @bind-Close="@item.Close" Id="@item.Id" Fill="@item.Fill" Stroke="@item.Stroke" StrokeWidth="@item.StrokeWidth" />
+                <SvgSelectionPath @key="@item.Id" @bind-Path="@item.Path" @bind-Close="@item.Close" Id="@item.Id" Fill="@item.Fill" Stroke="@item.Stroke" StrokeWidth="@item.StrokeWidth" />
             }
         }
     </g>

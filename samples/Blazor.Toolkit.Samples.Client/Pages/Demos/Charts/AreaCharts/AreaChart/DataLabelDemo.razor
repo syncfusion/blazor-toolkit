@@ -1,0 +1,70 @@
+<SfChart @key="@_currentTheme" Title="Annual Corn Exports 2015 - 2024" Width="100%" Height="400px" Theme="@_currentTheme">
+
+    <ChartTooltipSettings Enable="true"
+                          Header="Export of Corn"
+                          Format="${point.x} : <b>${point.y}</b>" />
+
+    <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Toolkit.ValueType.Category"
+                       Interval="3">
+        <ChartAxisLabelStyle />
+    </ChartPrimaryXAxis>
+
+    <ChartPrimaryYAxis Maximum="24"
+                       Interval="8"
+                       LabelFormat="{value}B">
+        <ChartAxisLineStyle Width="0" />
+    </ChartPrimaryYAxis>
+
+    <ChartSeries DataSource="@CornExports"
+                 XName="X"
+                 YName="Y"
+                 Type="ChartSeriesType.Area"
+                 Opacity="0.5"
+                 Fill="#3CFFD2"
+                 Border="@(new ChartSeriesBorder { Width = 2, Color = "#008264" })">
+
+        <ChartMarker Visible="false">
+            <ChartDataLabel Visible="true"
+                            Position="ChartLabelPosition.Top"
+                            Format="{value}B"
+                            Font="@(new ChartDataLabelFont { Color = TextColor })" />
+        </ChartMarker>
+
+    </ChartSeries>
+</SfChart>
+
+@code {
+    [CascadingParameter]
+    private Theme CurrentTheme { get; set; } = Theme.Fluent;
+
+    private Theme _currentTheme = Theme.Fluent;
+
+    protected override void OnParametersSet()
+    {
+        base.OnParametersSet();
+        _currentTheme = CurrentTheme;
+    }
+
+    private bool IsDarkTheme => _currentTheme.ToString().Contains("Dark") || _currentTheme.ToString().Contains("HighContrast");
+    private string TextColor => IsDarkTheme ? "#ffffff" : "#000000";
+
+    public class CornData
+    {
+        public int X { get; set; }
+        public double Y { get; set; }
+    }
+
+    public List<CornData> CornExports = new()
+    {
+        new CornData { X = 2015, Y = 8.27 },
+        new CornData { X = 2016, Y = 9.88 },
+        new CornData { X = 2017, Y = 9.13 },
+        new CornData { X = 2018, Y = 12.47 },
+        new CornData { X = 2019, Y = 7.67 },
+        new CornData { X = 2020, Y = 9.25 },
+        new CornData { X = 2021, Y = 18.63 },
+        new CornData { X = 2022, Y = 18.57 },
+        new CornData { X = 2023, Y = 13.02 },
+        new CornData { X = 2024, Y = 13.70 }
+    };
+}

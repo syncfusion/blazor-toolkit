@@ -1,0 +1,103 @@
+@using System.Collections.ObjectModel
+@implements IDisposable
+
+<SfChart @key="@_currentTheme" Title="Auto-Updating Area Chart" Width="100%" Height="400px" Theme="@_currentTheme">
+
+    <ChartPrimaryXAxis Minimum="1"
+                       Maximum="7"
+                       Interval="1" />
+
+    <ChartPrimaryYAxis Minimum="0"
+                       Maximum="100"
+                       Interval="20">
+        <ChartAxisLineStyle Width="0" />
+        <ChartAxisMajorGridLines Width="1" />
+    </ChartPrimaryYAxis>
+
+    <ChartSeries DataSource="@ChartData"
+                 XName="X"
+                 YName="Y"
+                 Type="ChartSeriesType.Area"
+                 Opacity="0.4"
+                 Fill="#3CFFD2"
+                 Border="@(new ChartSeriesBorder
+                         {
+                             Width = 2,
+                             Color = "#008264"
+                         })"
+                 Animation="@(new ChartSeriesAnimation
+                         {
+                             Enable = true,
+                             Duration = 1500
+                         })" />
+</SfChart>
+
+@code {
+    [CascadingParameter]
+    private Theme CurrentTheme { get; set; } = Theme.Fluent;
+
+    private Theme _currentTheme = Theme.Fluent;
+
+    protected override void OnParametersSet()
+    {
+        base.OnParametersSet();
+        _currentTheme = CurrentTheme;
+    }
+
+    public class ChartPoint
+    {
+        public int X { get; set; }
+        public double Y { get; set; }
+    }
+
+    public ObservableCollection<ChartPoint> ChartData = new();
+    private System.Timers.Timer? timer;
+    private readonly Random random = new();
+
+    protected override void OnInitialized()
+    {
+        ChartData = new ObservableCollection<ChartPoint>(GenerateInitialData());
+
+        timer = new System.Timers.Timer(2000);
+        timer.Elapsed += (_, _) =>
+        {
+            InvokeAsync(() =>
+            {
+                UpdateDataSource();
+            });
+        };
+        timer.Start();
+    }
+
+    private List<ChartPoint> GenerateInitialData()
+    {
+        var data = new List<ChartPoint>();
+        for (int i = 1; i <= 7; i++)
+        {
+            data.Add(new ChartPoint
+            {
+                X = i,
+                Y = random.Next(15, 90)
+            });
+        }
+        return data;
+    }
+
+    private void UpdateDataSource()
+    {
+        for (int i = 0; i < ChartData.Count; i++)
+        {
+            ChartData[i] = new ChartPoint
+            {
+                X = ChartData[i].X,
+                Y = 10 + random.NextDouble() * 85
+            };
+        }
+    }
+
+    public void Dispose()
+    {
+        timer?.Stop();
+        timer?.Dispose();
+    }
+}

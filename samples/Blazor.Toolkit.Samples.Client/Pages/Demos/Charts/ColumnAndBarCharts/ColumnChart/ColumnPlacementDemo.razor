@@ -1,0 +1,46 @@
+<SfChart @key="@_currentTheme" EnableSideBySidePlacement="false" Title="Population Distribution (2024)" Theme="@_currentTheme">
+    <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Toolkit.ValueType.Category"></ChartPrimaryXAxis>
+    <ChartPrimaryYAxis Title="Inhabitants (Millions)" Interval="300"></ChartPrimaryYAxis>
+
+    <ChartSeries DataSource="@PopulationDatas" XName="Country" YName="Population" Name="Total" Type="ChartSeriesType.Column" ColumnWidth="0.5" ColumnSpacing="0.4" Fill="#7E30E1">
+        <ChartCornerRadius TopLeft="4" TopRight="4"></ChartCornerRadius>
+    </ChartSeries>
+    <ChartSeries DataSource="@PopulationDatas" XName="Country" YName="Male" Name="Male" Type="ChartSeriesType.Column" ColumnWidth="0.4" ColumnSpacing="0.4" Fill="#E26EE5">
+        <ChartCornerRadius TopLeft="4" TopRight="4"></ChartCornerRadius>
+    </ChartSeries>
+    <ChartSeries DataSource="@PopulationDatas" XName="Country" YName="Female" Name="Female" Type="ChartSeriesType.Column" ColumnWidth="0.25" ColumnSpacing="0.4" Fill="#FFEC80">
+        <ChartCornerRadius TopLeft="4" TopRight="4"></ChartCornerRadius>
+    </ChartSeries>
+
+    <ChartTooltipSettings Enable="true" Shared="true" />
+</SfChart>
+
+@code {
+    [CascadingParameter]
+    private Theme CurrentTheme { get; set; } = Theme.Fluent;
+
+    private Theme _currentTheme = Theme.Fluent;
+
+    protected override void OnParametersSet()
+    {
+        base.OnParametersSet();
+        _currentTheme = CurrentTheme;
+    }
+
+    public class PopulationDataModel
+    {
+        public string Country { get; set; } = string.Empty;
+        public double Population { get; set; }
+        public double Male { get; set; }
+        public double Female { get; set; }
+    }
+
+    public List<PopulationDataModel> PopulationDatas = new()
+    {
+        new() { Country = "India", Population = 1450.9, Male = 748.3, Female = 702.6 },
+        new() { Country = "China", Population = 1419.3, Male = 723.0, Female = 696.2 },
+        new() { Country = "USA", Population = 345.4, Male = 173.5, Female = 171.8 },
+        new() { Country = "Indonesia", Population = 283.4, Male = 142.4, Female = 141.0 },
+        new() { Country = "Pakistan", Population = 251.2, Male = 127.4, Female = 123.8 }
+    };
+}

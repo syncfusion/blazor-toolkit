@@ -1,0 +1,124 @@
+@using Syncfusion.Blazor.Toolkit.Inputs
+
+<div class="mb-3">
+    <label class="fw-bold d-block mb-2">Indexed</label>
+    <SfCheckBox Checked="@IsIndexed"
+                CheckedChanged="@((bool value) => OnIndexedChanged(value))" />
+</div>
+
+<svg style="height:0">
+    <defs>
+        <linearGradient id="gradient-fill" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%" stop-color="#8C3BC8" />
+            <stop offset="100%" stop-color="#CE59FF" />
+        </linearGradient>
+    </defs>
+</svg>
+
+<svg style="height:0">
+    <defs>
+        <linearGradient id="gradient-fill-index" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%" stop-color="#45AF20" />
+            <stop offset="100%" stop-color="#80C76D" />
+        </linearGradient>
+    </defs>
+</svg>
+
+<SfChart @key="@_currentTheme" Title="Indexed Category Comparison of GDP Growth Rate (%)" Theme="@_currentTheme">
+    <ChartArea><ChartAreaBorder Width="0"></ChartAreaBorder></ChartArea>
+    <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Toolkit.ValueType.Category"
+                       IsIndexed="@IsIndexed"
+                       LabelRotation=-45
+                       LabelIntersectAction="LabelIntersectAction.Rotate45">
+        <ChartAxisMajorGridLines Width="0" />
+        <ChartAxisMajorTickLines Width="0" />
+        <ChartAxisMinorTickLines Width="0" />
+    </ChartPrimaryXAxis>
+
+    <ChartPrimaryYAxis Title="GDP Growth Rate" LabelFormat="{value}%" Interval="2">
+        <ChartAxisLineStyle Width="0" />
+        <ChartAxisMajorTickLines Width="0" />
+    </ChartPrimaryYAxis>
+
+    <ChartSeries DataSource="@AsiaGrowthData"
+                 XName="Country"
+                 YName="Growth"
+                 Width="2"
+                 Type="@SeriesType"
+                 Fill="url(#gradient-fill)"
+                 ColumnWidth="0.5"
+                 ColumnSpacing="0.2">
+        <ChartCornerRadius TopLeft="15" TopRight="15" />
+        <ChartMarker Visible="@(!IsIndexed)">
+            <ChartDataLabel Visible="@(!IsIndexed)"
+                            Position="ChartLabelPosition.Top" />
+        </ChartMarker>
+    </ChartSeries>
+
+    <ChartSeries DataSource="@GlobalGrowthData"
+                 XName="Country"
+                 YName="Growth"
+                 Width="2"
+                 Type="@SeriesType"
+                 Fill="url(#gradient-fill-index)"
+                 ColumnWidth="0.5"
+                 ColumnSpacing="0.2">
+        <ChartCornerRadius TopLeft="15" TopRight="15" />
+        <ChartMarker Visible="@(!IsIndexed)">
+            <ChartDataLabel Visible="@(!IsIndexed)"
+                            Position="ChartLabelPosition.Top" />
+        </ChartMarker>
+    </ChartSeries>
+
+    <ChartTooltipSettings Enable="true"
+                          Header="${point.x}"
+                          Format="Growth : <b>${point.y}</b>"
+                          EnableHighlight="true" />
+</SfChart>
+
+@code {
+    [CascadingParameter]
+    private Theme CurrentTheme { get; set; } = Theme.Fluent;
+
+    private Theme _currentTheme = Theme.Fluent;
+
+    protected override void OnParametersSet()
+    {
+        base.OnParametersSet();
+        _currentTheme = CurrentTheme;
+    }
+
+    public bool IsIndexed { get; set; } = true;
+
+    public ChartSeriesType SeriesType =>
+        IsIndexed ? ChartSeriesType.Column : ChartSeriesType.Line;
+
+    public void OnIndexedChanged(bool value)
+    {
+        IsIndexed = value;
+    }
+
+    public class GrowthData
+    {
+        public string Country { get; set; } = string.Empty;
+        public double Growth { get; set; }
+    }
+
+    public List<GrowthData> AsiaGrowthData = new()
+    {
+        new() { Country = "Myanmar",    Growth = 7.3 },
+        new() { Country = "India",      Growth = 7.9 },
+        new() { Country = "Bangladesh", Growth = 6.8 },
+        new() { Country = "Cambodia",   Growth = 7.0 },
+        new() { Country = "China",      Growth = 6.9 }
+    };
+
+    public List<GrowthData> GlobalGrowthData = new()
+    {
+        new() { Country = "Poland",    Growth = 2.7 },
+        new() { Country = "Australia", Growth = 2.5 },
+        new() { Country = "Singapore", Growth = 2.0 },
+        new() { Country = "Canada",    Growth = 1.4 },
+        new() { Country = "Germany",   Growth = 1.8 }
+    };
+}

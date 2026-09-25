@@ -1,0 +1,68 @@
+
+<SfChart @key="@_currentTheme" Title="Coal Production Per Capita, 2024" Theme="@_currentTheme">
+
+    <!-- Primary X Axis -->
+    <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Toolkit.ValueType.Category">
+        <ChartAxisMajorGridLines Width="0" />
+        <ChartAxisMajorTickLines Width="0" />
+    </ChartPrimaryXAxis>
+
+    <!-- Primary Y Axis -->
+    <ChartPrimaryYAxis Visible="false"
+                       Maximum="160000">
+        <ChartAxisLineStyle Width="0" />
+        <ChartAxisMajorTickLines Width="0" />
+    </ChartPrimaryYAxis>
+
+
+    <ChartSeries DataSource="@DataLabelTextMappingData"
+                 XName="X"
+                 YName="Y"
+                 Type="ChartSeriesType.Bar"
+                 Fill="#A0D683"
+                 CornerRadius="@(new ChartCornerRadius { TopRight = 5, BottomRight = 5 })">
+
+        <ChartMarker>
+            <ChartDataLabel Visible="true" Name="Text" Font="@(new ChartDataLabelFont { Color = DataLabelTextColor })" />
+        </ChartMarker>
+
+    </ChartSeries>
+
+
+    <ChartTooltipSettings Enable="true"
+                          Header="Coal Production"
+                          Format="${point.x} : <b>${point.y} kWh</b>" />
+
+</SfChart>
+
+@code {
+    [CascadingParameter]
+    private Theme CurrentTheme { get; set; } = Theme.Fluent;
+
+    private Theme _currentTheme = Theme.Fluent;
+
+    protected override void OnParametersSet()
+    {
+        base.OnParametersSet();
+        _currentTheme = CurrentTheme;
+    }
+
+    private bool IsDarkTheme => _currentTheme.ToString().Contains("Dark") || _currentTheme.ToString().Contains("HighContrast");
+    private string DataLabelTextColor => IsDarkTheme ? "#FFFFFF" : "#000000";
+
+    public class EnergyData
+    {
+        public string X { get; set; }
+        public double Y { get; set; }
+        public string Text { get; set; }
+    }
+
+    public List<EnergyData> DataLabelTextMappingData = new()
+    {
+        new() { X = "India",         Y = 3456,   Text = "3,456 kWh" },
+        new() { X = "United States", Y = 8534,   Text = "8,534 kWh" },
+        new() { X = "China",         Y = 18491,  Text = "18,491 kWh" },
+        new() { X = "South Africa",  Y = 24141,  Text = "24,141 kWh" },
+        new() { X = "Australia",     Y = 122882, Text = "122,882 kWh" }
+    };
+}

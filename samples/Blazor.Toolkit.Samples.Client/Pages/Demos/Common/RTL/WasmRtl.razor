@@ -1,0 +1,7 @@
+var builder = WebAssemblyHostBuilder.CreateDefault(args);
+// register Toolkit services with RTL enabled
+builder.Services.AddSyncfusionBlazorToolkit(options =>
+{
+    options.EnableRtl = true;
+});
+await builder.Build().RunAsync();

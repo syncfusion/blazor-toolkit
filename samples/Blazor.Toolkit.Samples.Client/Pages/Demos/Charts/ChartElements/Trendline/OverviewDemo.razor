@@ -1,0 +1,80 @@
+
+<SfChart @key="@_currentTheme" Title="S&P 500 Index - Global Market Benchmark Growth" SubTitle="S&P 500 Index - Global Market Benchmark Growth" Theme="@_currentTheme">
+    <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Toolkit.ValueType.Double"  Interval="1" Title="Year" >
+        <ChartAxisMajorGridLines Width="0"/>
+        <ChartAxisMajorTickLines Width="0"/>
+    </ChartPrimaryXAxis>
+
+    <ChartPrimaryYAxis Interval="2000" Title="S&P 500 Index (Points)" LabelFormat="{value}">
+        <ChartAxisMajorTickLines Width="0" />
+        <ChartAxisLineStyle Width="0" />
+    </ChartPrimaryYAxis>
+
+    <ChartTooltipSettings Enable="true"
+                  ShowNearestTooltip="true" Header=""
+                  Format="S&P 500: <b>${point.y} Points</b>">
+    </ChartTooltipSettings>
+
+    <ChartLegendSettings Visible="true"
+                         ShapeHeight="15"
+                         ShapeWidth="15">
+    </ChartLegendSettings>
+
+
+    <ChartSeries DataSource="@Sp500Data"
+                 XName="Year"
+                 YName="Value"
+                 Name="S&P 500"
+                 Type="ChartSeriesType.Column"
+                 ColumnWidth="0.6"
+                 Fill="#7bd5d1"
+                 Animation="new ChartSeriesAnimation { Enable = false }">
+
+        <ChartTrendlines>
+            <ChartTrendline Type="TrendlineTypes.Exponential"
+                            Name="Trend"
+                            Width="3"
+                            Fill="#ff6961"
+                            EnableTooltip="false"
+                            Animation="new ChartTrendlineAnimation { Enable = false }">
+            </ChartTrendline>
+        </ChartTrendlines>
+
+    </ChartSeries>
+
+</SfChart>
+
+@code {
+    [CascadingParameter]
+    private Theme CurrentTheme { get; set; } = Theme.Fluent;
+
+    private Theme _currentTheme = Theme.Fluent;
+
+    protected override void OnParametersSet()
+    {
+        base.OnParametersSet();
+        _currentTheme = CurrentTheme;
+    }
+
+    public class Sp500Point
+    {
+        public int Year { get; set; }
+        public double Value { get; set; }
+    }
+
+    public List<Sp500Point> Sp500Data = new()
+    {
+        new() { Year = 2015, Value = 2043 },
+        new() { Year = 2016, Value = 2239 },
+        new() { Year = 2017, Value = 2674 },
+        new() { Year = 2018, Value = 2507 },
+        new() { Year = 2019, Value = 3231 },
+        new() { Year = 2020, Value = 3756 },
+        new() { Year = 2021, Value = 4766 },
+        new() { Year = 2022, Value = 3839 },
+        new() { Year = 2023, Value = 4769 },
+        new() { Year = 2024, Value = 5967 },
+        new() { Year = 2025, Value = 6845 },
+        new() { Year = 2026, Value = 6881 }
+    };
+}

@@ -1,0 +1,87 @@
+
+<SfChart @key="@_currentTheme" Title="Global Life Expectancy at Birth (1960-2020)"
+         SubTitle="Source: World Bank & Our World in Data" Theme="@_currentTheme">
+
+    <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Toolkit.ValueType.Category"
+                       Title="Year">
+        <ChartAxisMajorGridLines Width="0" />
+        <ChartAxisMajorTickLines Width="0" />
+    </ChartPrimaryXAxis>
+
+    <ChartPrimaryYAxis Minimum="45"
+                       Maximum="75"
+                       Interval="5"
+                       Title="Life Expectancy (Years)">
+        <ChartAxisMajorTickLines Width="0" />
+        <ChartAxisLineStyle Width="0" />
+    </ChartPrimaryYAxis>
+
+    <ChartTooltipSettings Enable="true"
+                          Shared="true"
+                          ShowNearestTooltip="true"
+                          Format="Life Expectancy: <b>${point.y} yrs</b>" />
+
+    <ChartLegendSettings Visible="true"
+                         ShapeHeight="15"
+                         ShapeWidth="15" />
+
+
+    <ChartSeries DataSource="@TrendlinePolynomialData"
+                 XName="Year"
+                 YName="Value"
+                 Name="Life Expectancy"
+                 Type="ChartSeriesType.Column"
+                 Fill="#6A1B9A">
+
+        <ChartSeriesAnimation Enable="false" />
+
+        <ChartTrendlines>
+            <ChartTrendline Type="TrendlineTypes.Polynomial"
+                            Name="Polynomial Trend"
+                            Width="3"
+                            PolynomialOrder="3"
+                            Fill="#FFD700"
+                            EnableTooltip="false">
+                <ChartTrendlineAnimation Enable="false" />
+            </ChartTrendline>
+        </ChartTrendlines>
+
+    </ChartSeries>
+
+</SfChart>
+
+@code {
+    [CascadingParameter]
+    private Theme CurrentTheme { get; set; } = Theme.Fluent;
+
+    private Theme _currentTheme = Theme.Fluent;
+
+    protected override void OnParametersSet()
+    {
+        base.OnParametersSet();
+        _currentTheme = CurrentTheme;
+    }
+
+    public class LifeExpectancyPoint
+    {
+        public string Year { get; set; }
+        public double Value { get; set; }
+    }
+
+    public List<LifeExpectancyPoint> TrendlinePolynomialData = new()
+    {
+        new() { Year = "1960", Value = 52.6 },
+        new() { Year = "1965", Value = 55.2 },
+        new() { Year = "1970", Value = 58.4 },
+        new() { Year = "1975", Value = 60.8 },
+        new() { Year = "1980", Value = 62.5 },
+        new() { Year = "1985", Value = 63.9 },
+        new() { Year = "1990", Value = 64.8 },
+        new() { Year = "1995", Value = 65.2 },
+        new() { Year = "2000", Value = 66.8 },
+        new() { Year = "2005", Value = 68.5 },
+        new() { Year = "2010", Value = 70.2 },
+        new() { Year = "2015", Value = 71.8 },
+        new() { Year = "2020", Value = 72.8 }
+    };
+}

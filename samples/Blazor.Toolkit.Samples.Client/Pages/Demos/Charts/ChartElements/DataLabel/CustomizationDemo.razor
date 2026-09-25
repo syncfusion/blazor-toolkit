@@ -1,0 +1,71 @@
+
+<SfChart @key="@_currentTheme" Title="Average Monthly Egg Prices in 2022" Theme="@_currentTheme">
+
+    <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Toolkit.ValueType.Category"
+                       LabelRotation="45">
+        <ChartAxisMajorGridLines Width="0" />
+        <ChartAxisMajorTickLines Width="0" />
+    </ChartPrimaryXAxis>
+
+    <ChartPrimaryYAxis Minimum="1.5">
+        <ChartAxisLineStyle Width="0" />
+        <ChartAxisMajorTickLines Width="0" />
+    </ChartPrimaryYAxis>
+
+
+    <ChartSeries DataSource="@LineLabelData"
+                 XName="X"
+                 YName="Y"
+                 Type="ChartSeriesType.Line"
+                 Fill="#0A97B0">
+        <ChartMarker Visible="true" IsFilled="false">
+            <ChartDataLabel Visible="true"
+                            Fill="#0A97B0"
+                            Border="@(new ChartDataLabelBorder { Width = 2, Color = "#005F6A", })"
+                            Font="@(new ChartDataLabelFont { Color = DataLabelTextColor, FontFamily = "Roboto", FontWeight = "600", Size = "12px" })" />
+        </ChartMarker>
+    </ChartSeries>
+
+
+    <!-- Tooltip -->
+    <ChartTooltipSettings Enable="true" Header="${point.x}"
+                          Format="<b>Price : ${point.y}</b>" />
+</SfChart>
+
+@code {
+    [CascadingParameter]
+    private Theme CurrentTheme { get; set; } = Theme.Fluent;
+
+    private Theme _currentTheme = Theme.Fluent;
+
+    protected override void OnParametersSet()
+    {
+        base.OnParametersSet();
+        _currentTheme = CurrentTheme;
+    }
+
+    private bool IsDarkTheme => _currentTheme.ToString().Contains("Dark") || _currentTheme.ToString().Contains("HighContrast");
+    private string DataLabelTextColor => IsDarkTheme ? "#FFFFFF" : "#000000";
+
+    public class EggPriceData
+    {
+        public string X { get; set; }
+        public double Y { get; set; }
+    }
+
+    public List<EggPriceData> LineLabelData = new()
+    {
+        new() { X = "Jan",   Y = 1.93 },
+        new() { X = "Feb",   Y = 2.01 },
+        new() { X = "Mar",   Y = 2.05 },
+        new() { X = "April", Y = 2.52 },
+        new() { X = "May",   Y = 2.86 },
+        new() { X = "Jun",   Y = 2.71 },
+        new() { X = "Jul",   Y = 2.94 },
+        new() { X = "Aug",   Y = 3.12 },
+        new() { X = "Sep",   Y = 2.90 },
+        new() { X = "Oct",   Y = 3.42 },
+        new() { X = "Nov",   Y = 3.59 },
+        new() { X = "Dec",   Y = 4.25 }
+    };
+}

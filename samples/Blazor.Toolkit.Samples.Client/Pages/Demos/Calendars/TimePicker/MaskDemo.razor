@@ -1,0 +1,6 @@
+﻿<SfTimePicker TValue="DateTime?" Width="300px" Format="hh:mm:ss tt" EnableMask="true" @bind-Value="@MaskTimeValue" ShowClearButton="true" Placeholder="Select a time">
+	<TimePickerMaskPlaceholder Hour="hour" Minute="minute" Second="second"></TimePickerMaskPlaceholder>
+</SfTimePicker>
+@code {
+	public DateTime? MaskTimeValue { get; set; } = new DateTime(DateTime.Now.Year, DateTime.Now.Month, 11, 11, 30, 00);
+}

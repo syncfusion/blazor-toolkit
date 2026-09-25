@@ -1,0 +1,87 @@
+
+<SfChart @key="@_currentTheme" Height="420px" Width="100%" Title="Brent Crude Oil Price Trends (2015-2023)"
+         SubTitle="Source: U.S. EIA-Europe Brent Spot Price FOB (Annual Averages)" Theme="@_currentTheme">
+    <ChartLegendSettings Visible="false"></ChartLegendSettings>
+
+    <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Toolkit.ValueType.DateTime" Format="yyyy">
+        <ChartAxisMajorGridLines Width="0" />
+        <ChartAxisMajorTickLines Width="0" />
+    </ChartPrimaryXAxis>
+
+    <ChartPrimaryYAxis Interval="20" Title="Price (USD per Barrel)">
+        <ChartAxisLineStyle Width="0" />
+        <ChartAxisMajorTickLines Width="0" />
+    </ChartPrimaryYAxis>
+
+    <ChartAnnotations>
+        <ChartAnnotation X="@("60%")" Y="@("60%")"
+                         CoordinateUnits="Units.Pixel">
+            <ContentTemplate>
+                @((MarkupString)WatermarkHtml("Annual Averages (2015-2023)"))
+            </ContentTemplate>
+        </ChartAnnotation>
+    </ChartAnnotations>
+
+
+    <ChartSeries DataSource="@BrentAnnual"
+                 XName="Year"
+                 YName="Price"
+                 Name="Price"
+                 Type="ChartSeriesType.Spline"
+                 Width="3"
+                 Fill="#82C100">
+    </ChartSeries>
+
+
+    <ChartTooltipSettings Enable="true" EnableHighlight="true"
+                          EnableMarker="true" ShowNearestPoint="true"
+                          Format="${point.x}<br/>${series.name}: <b>${point.y}</b>" />
+</SfChart>
+
+@code {
+    [CascadingParameter]
+    private Theme CurrentTheme { get; set; } = Theme.Fluent;
+
+    private Theme _currentTheme = Theme.Fluent;
+
+    protected override void OnParametersSet()
+    {
+        base.OnParametersSet();
+        _currentTheme = CurrentTheme;
+    }
+
+    string WatermarkHtml(string text)
+    {
+        return $@"
+        <div style='
+            font-size:40px;
+            font-weight:500;
+            opacity:0.08;
+            transform:rotate(-20deg);
+            white-space:nowrap;
+            user-select:none;
+            pointer-events:none;
+            font-family:Inter, system-ui;'>
+            {text}
+        </div>";
+    }
+
+    public class BrentInfo
+    {
+        public DateTime Year { get; set; }
+        public double Price { get; set; }
+    }
+
+    public List<BrentInfo> BrentAnnual = new()
+    {
+        new() { Year = new DateTime(2015, 1, 1), Price = 52.32 },
+        new() { Year = new DateTime(2016, 1, 1), Price = 43.64 },
+        new() { Year = new DateTime(2017, 1, 1), Price = 54.25 },
+        new() { Year = new DateTime(2018, 1, 1), Price = 71.19 },
+        new() { Year = new DateTime(2019, 1, 1), Price = 64.21 },
+        new() { Year = new DateTime(2020, 1, 1), Price = 41.69 },
+        new() { Year = new DateTime(2021, 1, 1), Price = 70.68 },
+        new() { Year = new DateTime(2022, 1, 1), Price = 100.94 },
+        new() { Year = new DateTime(2023, 1, 1), Price = 82.49 }
+    };
+}

@@ -103,5 +103,62 @@
         &.e-star-filled::before {
             content: "\e71b";
         }
+        &.e-chevron-down-small::before {
+            content: "\e71c";
+        }
+        &.e-chevron-up-small::before {
+            content: "\e71d";
+        }
+        &.e-resizer-rtl::before {
+            content: "\e71e";
+        }
+        &.e-input::before {
+            content: "\e71f";
+        }
+        &.e-chart::before {
+            content: "\e720";
+        }
+        &.e-spinner::before {
+            content: "\e721";
+        }
+        &.e-popups::before {
+            content: "\e722";
+        }
+        &.e-button::before {
+            content: "\e723";
+        }
+        &.e-explore::before {
+            content: "\e724";
+        }
+        &.e-system-requirement::before {
+            content: "\e725";
+        }
+        &.e-browser-support::before {
+            content: "\e726";
+        }
+        &.e-right-left::before {
+            content: "\e727";
+        }
+        &.e-state-persistence::before {
+            content: "\e728";
+        }
+        &.e-globalization::before {
+            content: "\e729";
+        }
+        &.e-text-matrix::before {
+            content: "\e72a";
+        }
+        &.e-release-notes::before {
+            content: "\e72b";
+        }
+        &.e-api-reference::before {
+            content: "\e72c";
+        }
+        &.e-getting-started::before {
+            content: "\e72d";
+        }
+        &.e-calendars::before {
+            content: "\e72e";
+        }
     }
 }

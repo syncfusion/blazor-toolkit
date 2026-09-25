@@ -1,0 +1,186 @@
+<SfChart @key="@_currentTheme" Theme="@_currentTheme" Background="Transparent" Title="Top 5 Countries by Population in 2025">
+    <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Toolkit.ValueType.Category" />
+    <ChartPrimaryYAxis LabelFormat="{value}M"
+                       Title="Population (Millions)" />
+    <ChartTooltipSettings Enable="true">
+        <Template>
+            @{
+                var data = context as ChartTooltipInfo;
+                CountryMap.TryGetValue(data?.X?.ToString() ?? string.Empty, out var country);
+
+                if (country != null)
+                {
+                    <div style="
+                    width:260px;
+                    padding:12px;
+                    border-radius:12px;
+                    background:linear-gradient(135deg,#ff9ad5,#e8ddff);
+                    box-shadow:0 4px 8px rgba(0,0,0,0.2);">
+
+                        <div style="font-size:18px;font-weight:bold;margin-bottom:8px;">
+                            @country.Country
+                        </div>
+
+                        <table style="width:100%;font-size:14px;">
+                            <tr>
+                                <td>
+                                    <b>Capital</b>
+                                </td>
+                                <td>: @country.Capital</td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <b>Population</b>
+                                </td>
+                                <td>: @country.Population.ToString("N0")</td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <b>Area</b>
+                                </td>
+                                <td>: @country.Area</td>
+                            </tr>
+                        </table>
+                    </div>
+                }
+            }
+        </Template>
+    </ChartTooltipSettings>
+
+    <ChartSeries DataSource="@Countries"
+                 XName="Country"
+                 YName="Population"
+                 Type="ChartSeriesType.Column">
+    </ChartSeries>
+</SfChart>
+<style>
+    .custom-tooltip {
+        background: linear-gradient(135deg, #ff80cf, #e6d8ff);
+        color: #000;
+        padding: 12px;
+        border-radius: 12px;
+        width: 260px;
+    }
+
+    .tooltip-header {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        font-size: 16px;
+        margin-bottom: 8px;
+    }
+
+    .tooltip-body p {
+        margin: 2px 0;
+        font-size: 14px;
+    }
+</style>
+
+@code {
+    [CascadingParameter]
+    private Theme CurrentTheme { get; set; } = Theme.Fluent;
+
+    private Theme _currentTheme = Theme.Fluent;
+
+    protected override void OnParametersSet()
+    {
+        base.OnParametersSet();
+        _currentTheme = CurrentTheme;
+    }
+
+    public class CountryPopulation
+    {
+        public string Country { get; set; } = string.Empty;
+        public double Population { get; set; }
+        public string Capital { get; set; } = string.Empty;
+        public string Area { get; set; } = string.Empty;
+    }
+
+    public List<CountryPopulation> Countries = new()
+    {
+        new CountryPopulation
+        {
+            Country = "India",
+            Population = 1429,
+            Capital = "New Delhi",
+            Area = "3,287,263 km²"
+        },
+        new CountryPopulation
+        {
+            Country = "China",
+            Population = 1416,
+            Capital = "Beijing",
+            Area = "9,596,961 km²"
+        },
+        new CountryPopulation
+        {
+            Country = "United States",
+            Population = 339,
+            Capital = "Washington, D.C.",
+            Area = "9,525,067 km²"
+        },
+        new CountryPopulation
+        {
+            Country = "Indonesia",
+            Population = 277,
+            Capital = "Jakarta",
+            Area = "1,904,569 km²"
+        },
+        new CountryPopulation
+        {
+            Country = "Pakistan",
+            Population = 241,
+            Capital = "Islamabad",
+            Area = "881,913 km²"
+        }
+    };
+
+    Dictionary<string, CountryPopulation> CountryMap = new()
+    {
+        {
+            "India", new CountryPopulation
+            {
+                Country = "India",
+                Capital = "New Delhi",
+                Population = 1429000000,
+                Area = "3,287,263 km²"
+            }
+        },
+        {
+            "China", new CountryPopulation
+            {
+                Country = "China",
+                Capital = "Beijing",
+                Population = 1416000000,
+                Area = "9,596,961 km²"
+            }
+        },
+        {
+            "United States", new CountryPopulation
+            {
+                Country = "United States",
+                Capital = "Washington, D.C.",
+                Population = 339000000,
+                Area = "9,525,067 km²"
+            }
+        },
+        {
+            "Indonesia", new CountryPopulation
+            {
+                Country = "Indonesia",
+                Capital = "Jakarta",
+                Population = 277000000,
+                Area = "1,904,569 km²"
+            }
+        },
+        {
+            "Pakistan", new CountryPopulation
+            {
+                Country = "Pakistan",
+                Capital = "Islamabad",
+                Population = 241000000,
+                Area = "881,913 km²"
+            }
+        }
+    };
+}

@@ -1,0 +1,97 @@
+<SfChart @key="@_currentTheme" Height="300px" Theme="@_currentTheme">
+    <ChartZoomSettings EnableSelectionZooming="true" EnablePan="true" Mode="ZoomMode.X" />
+
+    <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Toolkit.ValueType.Category"
+                       ZoomPosition="@AxisZoomPositionValue"
+                       ZoomFactor="@AxisZoomFactorValue" />
+
+    <ChartPrimaryYAxis Visible="false" Maximum="20" />
+
+    <ChartSeries DataSource="@WeatherPagingData"
+                 XName="TimeLabel"
+                 YName="TempValue"
+                 Type="ChartSeriesType.SplineArea"
+                 Opacity="0.3"
+                 Fill="#2B95C9"
+                 Width="2">
+        <ChartMarker Visible="true">
+            <ChartDataLabel Visible="true"
+                            Name="@ChartDataLabelField"
+                            Format="@ChartDataLabelFormat"
+                            Position="ChartLabelPosition.Top" />
+        </ChartMarker>
+    </ChartSeries>
+</SfChart>
+
+<div class="Chart-button-container">
+    <button class="e-btn @(ActiveDayButton == "friday" ? "active" : "")"
+            @onclick="@(() => UpdateDayChart("friday", 0, 0.175))">
+        Friday <br />
+        @DayButtonTemperatures?[0]
+    </button>
+    <button class="e-btn @(ActiveDayButton == "saturday" ? "active" : "")"
+            @onclick="@(() => UpdateDayChart("saturday", 0.206, 0.175))">
+        Saturday <br />
+        @DayButtonTemperatures?[1]
+    </button>
+    <button class="e-btn @(ActiveDayButton == "sunday" ? "active" : "")"
+            @onclick="@(() => UpdateDayChart("sunday", 0.413, 0.175))">
+        Sunday <br />
+        @DayButtonTemperatures?[2]
+    </button>
+    <button class="e-btn @(ActiveDayButton == "monday" ? "active" : "")"
+            @onclick="@(() => UpdateDayChart(" monday", 0.620, 0.175))">
+        Monday <br />
+        @DayButtonTemperatures?[3]
+    </button>
+    <button class="e-btn @(ActiveDayButton == "tuesday" ? "active" : "")"
+            @onclick="@(() => UpdateDayChart(" tuesday", 0.827, 0.175))">
+        Tuesday <br />
+        @DayButtonTemperatures?[4]
+    </button>
+</div>
+
+@code {
+    [CascadingParameter]
+    private Theme CurrentTheme { get; set; } = Theme.Fluent;
+
+    private Theme _currentTheme = Theme.Fluent;
+
+    protected override void OnParametersSet()
+    {
+        base.OnParametersSet();
+        _currentTheme = CurrentTheme;
+    }
+
+    private string ActiveDayButton = "friday";
+    private double AxisZoomPositionValue = 0;
+    private double AxisZoomFactorValue = 0.175;
+    private string ChartDataLabelField = "CelsiusLabel";
+    private string ChartDataLabelFormat = "{value}°C";
+    private List<string>? DayButtonTemperatures;
+    private List<WeatherChartPoint> WeatherPagingData = new()
+    {
+        new() { AxisX = 1, TimeLabel = "1 AM", TempValue = 6, CelsiusLabel = "6", FahrenheitLabel = "43" },
+        new() { AxisX = 2, TimeLabel = "4 AM", TempValue = 4, CelsiusLabel = "4", FahrenheitLabel = "39" },
+        new() { AxisX = 3, TimeLabel = "7 AM", TempValue = 2, CelsiusLabel = "2", FahrenheitLabel = "36" },
+        new() { AxisX = 4, TimeLabel = "10 AM", TempValue = 8, CelsiusLabel = "8", FahrenheitLabel = "46" },
+        new() { AxisX = 5, TimeLabel = "1 PM", TempValue = 12, CelsiusLabel = "12", FahrenheitLabel = "54" },
+        new() { AxisX = 6, TimeLabel = "4 PM", TempValue = 11, CelsiusLabel = "11", FahrenheitLabel = "52" }
+    };
+
+    private void UpdateDayChart(string buttonKey, double zoomPos, double zoomFactor)
+    {
+        ActiveDayButton = buttonKey;
+        AxisZoomPositionValue = zoomPos;
+        AxisZoomFactorValue = zoomFactor;
+    }
+
+    public class WeatherChartPoint
+    {
+        public int AxisX { get; set; }
+        public string TimeLabel { get; set; } = string.Empty;
+        public int TempValue { get; set; }
+        public string CelsiusLabel { get; set; } = string.Empty;
+        public string FahrenheitLabel { get; set; } = string.Empty;
+    }
+}

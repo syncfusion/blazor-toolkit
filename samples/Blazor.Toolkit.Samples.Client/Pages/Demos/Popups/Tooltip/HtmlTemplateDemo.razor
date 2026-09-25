@@ -1,0 +1,47 @@
+﻿<div id="custom" class="col-lg-12 control-section customization" style="width:100%;max-width:740px;height:260px;position:relative;overflow:hidden;">
+    @* Initializes the Button component *@
+    <SfButton CssClass="e-outline" IsPrimary="true" Content="HTML Template" id="btn" aria-label="Open HTML Template Tooltip"></SfButton>
+</div>
+@* Initializes the Tooltip component *@
+<SfTooltip Position="Position.BottomCenter" Target="#btn" WindowCollision=true TargetContainer="#custom">
+    <ContentTemplate>
+        <div class='content'>
+            <h3 style='margin-top: 10px;'>Eastern Bluebird</h3><hr>
+            <div>
+                <div style='float: left; width: 58%'>
+                    The <a href='https://en.wikipedia.org/wiki/Eastern_bluebird' target='blank'>Eastern Bluebird</a>
+                    can be easily found in open fields and sparse woodland areas, including along woodland edges.
+                </div>
+                <div style='float: right; padding-top: 4px;'><img src='https://cdn.syncfusion.com/blazor/images/tooltip/bird.png' width='125' height='125' alt='Eastern Bluebird' /></div>
+            </div>
+        </div>
+    </ContentTemplate>
+</SfTooltip>
+<style>
+    /* Specifies styles for the HTML content */
+    .customization {
+        position: static;
+        margin: 24px auto 0;
+        text-align: left;
+    }
+
+    @@media only screen and (max-width: 500px) {
+        .customization {
+            display: table;
+            margin: 0 auto;
+        }
+    }
+
+    .content {
+        padding: 0 10px;
+    }
+
+        .content hr {
+            margin: 10px 0;
+            border-color: grey;
+        }
+
+        .content a {
+            color: #2FA1E3;
+        }
+</style>

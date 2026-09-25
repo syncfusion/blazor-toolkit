@@ -1,0 +1,83 @@
+<SfChart @key="@_currentTheme" Title="Inflation Rate in Percentage" Width="100%" Height="400px" Theme="@_currentTheme">
+
+    <ChartTooltipSettings Enable="true" />
+
+    <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Toolkit.ValueType.DateTime"
+                       IntervalType="IntervalType.Years"
+                       LabelFormat="yyyy"
+                       Minimum="@(new DateTime(2001, 1, 1))"
+                       Maximum="@(new DateTime(2012, 1, 1))"
+                       EdgeLabelPlacement="EdgeLabelPlacement.Shift" />
+
+    <ChartPrimaryYAxis Maximum="4"
+                       Interval="1"
+                       LabelFormat="{value}%">
+        <ChartAxisLineStyle Width="0" />
+    </ChartPrimaryYAxis>
+
+    <ChartSeries DataSource="@SplineAreaData"
+                 XName="X"
+                 YName="Y1"
+                 Name="US"
+                 Type="ChartSeriesType.SplineArea"
+                 Opacity="0.4"
+                 Width="2"
+                 Fill="#D6FF89">
+        <ChartSeriesBorder Width="2" Color="#71AD01" />
+        <ChartMarker Visible="true"
+                     Shape="ChartShape.Circle"
+                     Fill="#71AD01">
+            <ChartMarkerBorder Width="2" Color="#71AD01" />
+        </ChartMarker>
+    </ChartSeries>
+
+    <ChartSeries DataSource="@SplineAreaData"
+                 XName="X"
+                 YName="Y2"
+                 Name="France"
+                 Type="ChartSeriesType.SplineArea"
+                 Opacity="0.4"
+                 Width="2"
+                 Fill="#71C8EE">
+        <ChartSeriesBorder Width="2" Color="#0085BF" />
+        <ChartMarker Visible="true"
+                     Shape="ChartShape.Circle"
+                     Fill="#0085BF">
+            <ChartMarkerBorder Width="2" Color="#0085BF" />
+        </ChartMarker>
+    </ChartSeries>
+</SfChart>
+
+@code {
+    [CascadingParameter]
+    private Theme CurrentTheme { get; set; } = Theme.Fluent;
+
+    private Theme _currentTheme = Theme.Fluent;
+
+    protected override void OnParametersSet()
+    {
+        base.OnParametersSet();
+        _currentTheme = CurrentTheme;
+    }
+
+    public class InflationData
+    {
+        public DateTime X { get; set; }
+        public double Y1 { get; set; }
+        public double Y2 { get; set; }
+    }
+
+    public List<InflationData> SplineAreaData = new()
+    {
+        new() { X = new DateTime(2002, 1, 1), Y1 = 2.2, Y2 = 2.0 },
+        new() { X = new DateTime(2003, 1, 1), Y1 = 3.4, Y2 = 1.7 },
+        new() { X = new DateTime(2004, 1, 1), Y1 = 2.8, Y2 = 1.8 },
+        new() { X = new DateTime(2005, 1, 1), Y1 = 1.6, Y2 = 2.1 },
+        new() { X = new DateTime(2006, 1, 1), Y1 = 2.3, Y2 = 2.3 },
+        new() { X = new DateTime(2007, 1, 1), Y1 = 2.5, Y2 = 1.7 },
+        new() { X = new DateTime(2008, 1, 1), Y1 = 2.9, Y2 = 1.5 },
+        new() { X = new DateTime(2009, 1, 1), Y1 = 1.1, Y2 = 0.5 },
+        new() { X = new DateTime(2010, 1, 1), Y1 = 1.4, Y2 = 1.5 },
+        new() { X = new DateTime(2011, 1, 1), Y1 = 1.1, Y2 = 1.3 }
+    };
+}

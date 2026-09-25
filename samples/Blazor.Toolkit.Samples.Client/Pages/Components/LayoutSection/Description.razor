@@ -26,25 +26,45 @@
         transition: color .18s ease, background-color .18s ease;
     }
 
+    /* Heading typography inside the description header.
+       Sizes mirror the right sidebar TOC hierarchy:
+         h4 = page title        (34px, bold)
+         h5 = section heading   (24px, semibold)
+         h6 = sub-section       (20px, semibold)
+       Letter spacing and line height are tightened to match
+       the global-fonts.css values. */
     .header-class h3,
     .header-class h4,
-    .header-class h5 {
+    .header-class h5,
+    .header-class h6 {
         letter-spacing: 0;
-        font-weight: 500;
-        line-height: 26px;
+        line-height: 1.5;
         color: var(--text-color);
+    }
+
+    .header-class h4 {
+        font-size: 34px;
+        font-weight: var(--font-weight-bold, 700);
+    }
+
+    .page-content .description-wrapper:not(:first-of-type) .header-class h4 {
+        font-size: 24px;
+        font-weight: var(--font-weight-semibold, 600);
+    }
+
+    .header-class h5 {
+        font-size: 24px;
+        font-weight: var(--font-weight-semibold, 600);
+    }
+
+    .header-class h6 {
+        font-size: 20px;
+        font-weight: var(--font-weight-semibold, 600);
     }
 
     .header-class h3 {
         font-size: 1.25rem;
-    }
-
-    .header-class h4 {
-        font-size: 1.125rem;
-    }
-
-    .header-class h5 {
-        font-size: 1rem;
+        font-weight: var(--font-weight-semibold, 600);
     }
 
     .content-class p {

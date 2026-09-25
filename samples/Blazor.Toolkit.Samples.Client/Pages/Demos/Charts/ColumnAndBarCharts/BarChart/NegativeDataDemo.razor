@@ -1,0 +1,100 @@
+<SfChart @key="@_currentTheme" Title="Global Ocean Temperature Anomalies" Theme="@_currentTheme">
+    <!-- X Axis -->
+    <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Toolkit.ValueType.Double"
+                       Minimum="1880"
+                       Maximum="2022"
+                       Interval="20" Title="Year" LabelIntersectAction="LabelIntersectAction.Trim">
+    </ChartPrimaryXAxis>
+
+    <!-- Y Axis -->
+    <ChartPrimaryYAxis Minimum="-0.5"
+                       Maximum="0.8"
+                       Interval="0.2" Title="Temperature Anomaly (°C)" Format="{value}°C">
+    </ChartPrimaryYAxis>
+
+    <!-- Series -->
+    <ChartSeries DataSource="@rectSeriesNegativeData"
+                 XName="Year"
+                 YName="Anomaly"
+                 Type="ChartSeriesType.Bar"
+                 PointColorMapping="Color">
+        <ChartCornerRadius BottomRight="5" TopRight="5" />
+    </ChartSeries>
+
+    <!-- Tooltip -->
+    <ChartTooltipSettings Enable="true"
+                          Header="${point.x}"
+                          Format="Anomaly: <b>${point.y}</b>" />
+</SfChart>
+
+@code {
+    [CascadingParameter]
+    private Theme CurrentTheme { get; set; } = Theme.Fluent;
+
+    private Theme _currentTheme = Theme.Fluent;
+
+    protected override void OnParametersSet()
+    {
+        base.OnParametersSet();
+        _currentTheme = CurrentTheme;
+    }
+
+    public class OceanTemperature
+    {
+        public double Year { get; set; }
+        public double Anomaly { get; set; }
+        public string Color { get; set; }
+    }
+
+    public List<OceanTemperature> rectSeriesNegativeData = new()
+    {
+        new() { Year = 1880, Anomaly = -0.02, Color = "#FF8080" }, new() { Year = 1881, Anomaly = 0.04, Color = "#52D681" }, new() { Year = 1882, Anomaly = 0.03, Color = "#52D681" },
+        new() { Year = 1883, Anomaly = -0.03, Color = "#FF8080" }, new() { Year = 1884, Anomaly = -0.12, Color = "#FF8080" }, new() { Year = 1885, Anomaly = -0.16, Color = "#FF8080" },
+        new() { Year = 1886, Anomaly = -0.16, Color = "#FF8080" }, new() { Year = 1887, Anomaly = -0.2, Color = "#FF8080" }, new() { Year = 1888, Anomaly = -0.01, Color = "#FF8080" },
+        new() { Year = 1889, Anomaly = 0, Color = "#FF8080" }, new() { Year = 1890, Anomaly = -0.24, Color = "#FF8080" }, new() { Year = 1891, Anomaly = -0.09, Color = "#FF8080" },
+        new() { Year = 1892, Anomaly = -0.13, Color = "#FF8080" }, new() { Year = 1893, Anomaly = -0.19, Color = "#FF8080" }, new() { Year = 1894, Anomaly = -0.21, Color = "#FF8080" },
+        new() { Year = 1895, Anomaly = -0.1, Color = "#FF8080" }, new() { Year = 1896, Anomaly = 0.03, Color = "#52D681" }, new() { Year = 1897, Anomaly = -0.01, Color = "#FF8080" },
+        new() { Year = 1898, Anomaly = -0.17, Color = "#FF8080" }, new() { Year = 1899, Anomaly = -0.1, Color = "#FF8080" }, new() { Year = 1900, Anomaly = -0.02, Color = "#FF8080" },
+        new() { Year = 1901, Anomaly = -0.12, Color = "#FF8080" }, new() { Year = 1902, Anomaly = -0.19, Color = "#FF8080" }, new() { Year = 1903, Anomaly = -0.34, Color = "#FF8080" },
+        new() { Year = 1904, Anomaly = -0.43, Color = "#FF8080" }, new() { Year = 1905, Anomaly = -0.22, Color = "#FF8080" }, new() { Year = 1906, Anomaly = -0.19, Color = "#FF8080" },
+        new() { Year = 1907, Anomaly = -0.27, Color = "#FF8080" }, new() { Year = 1908, Anomaly = -0.4, Color = "#FF8080" }, new() { Year = 1909, Anomaly = -0.44, Color = "#FF8080" },
+        new() { Year = 1910, Anomaly = -0.41, Color = "#FF8080" }, new() { Year = 1911, Anomaly = -0.4, Color = "#FF8080" }, new() { Year = 1912, Anomaly = -0.25, Color = "#FF8080" },
+        new() { Year = 1913, Anomaly = -0.3, Color = "#FF8080" }, new() { Year = 1914, Anomaly = -0.15, Color = "#FF8080" }, new() { Year = 1915, Anomaly = -0.08, Color = "#FF8080" },
+        new() { Year = 1916, Anomaly = -0.26, Color = "#FF8080" }, new() { Year = 1917, Anomaly = -0.32, Color = "#FF8080" }, new() { Year = 1918, Anomaly = -0.18, Color = "#FF8080" },
+        new() { Year = 1919, Anomaly = -0.2, Color = "#FF8080" }, new() { Year = 1920, Anomaly = -0.21, Color = "#FF8080" }, new() { Year = 1921, Anomaly = -0.18, Color = "#FF8080" },
+        new() { Year = 1922, Anomaly = -0.24, Color = "#FF8080" }, new() { Year = 1923, Anomaly = -0.23, Color = "#FF8080" }, new() { Year = 1924, Anomaly = -0.24, Color = "#FF8080" },
+        new() { Year = 1925, Anomaly = -0.21, Color = "#FF8080" }, new() { Year = 1926, Anomaly = -0.11, Color = "#FF8080" }, new() { Year = 1927, Anomaly = -0.17, Color = "#FF8080" },
+        new() { Year = 1928, Anomaly = -0.21, Color = "#FF8080" }, new() { Year = 1929, Anomaly = -0.27, Color = "#FF8080" }, new() { Year = 1930, Anomaly = -0.14, Color = "#FF8080" },
+        new() { Year = 1931, Anomaly = -0.1, Color = "#FF8080" }, new() { Year = 1932, Anomaly = -0.18, Color = "#FF8080" }, new() { Year = 1933, Anomaly = -0.23, Color = "#FF8080" },
+        new() { Year = 1934, Anomaly = -0.16, Color = "#FF8080" }, new() { Year = 1935, Anomaly = -0.17, Color = "#FF8080" }, new() { Year = 1936, Anomaly = -0.13, Color = "#FF8080" },
+        new() { Year = 1937, Anomaly = -0.04, Color = "#FF8080" }, new() { Year = 1938, Anomaly = -0.11, Color = "#FF8080" }, new() { Year = 1939, Anomaly = -0.04, Color = "#FF8080" },
+        new() { Year = 1940, Anomaly = 0.15, Color = "#52D681" }, new() { Year = 1941, Anomaly = 0.28, Color = "#52D681" }, new() { Year = 1942, Anomaly = 0.1, Color = "#52D681" },
+        new() { Year = 1943, Anomaly = 0.07, Color = "#52D681" }, new() { Year = 1944, Anomaly = 0.23, Color = "#52D681" }, new() { Year = 1945, Anomaly = 0.21, Color = "#52D681" },
+        new() { Year = 1946, Anomaly = -0.05, Color = "#FF8080" }, new() { Year = 1947, Anomaly = -0.07, Color = "#FF8080" }, new() { Year = 1948, Anomaly = -0.11, Color = "#FF8080" },
+        new() { Year = 1949, Anomaly = -0.07, Color = "#FF8080" }, new() { Year = 1950, Anomaly = -0.09, Color = "#FF8080" }, new() { Year = 1951, Anomaly = 0, Color = "#FF8080" },
+        new() { Year = 1952, Anomaly = 0.07, Color = "#52D681" }, new() { Year = 1953, Anomaly = 0.05, Color = "#52D681" }, new() { Year = 1954, Anomaly = -0.11, Color = "#FF8080" },
+        new() { Year = 1955, Anomaly = -0.13, Color = "#FF8080" }, new() { Year = 1956, Anomaly = -0.09, Color = "#FF8080" }, new() { Year = 1957, Anomaly = 0.1, Color = "#52D681" },
+        new() { Year = 1958, Anomaly = 0.12, Color = "#52D681" }, new() { Year = 1959, Anomaly = 0.06, Color = "#52D681" }, new() { Year = 1960, Anomaly = 0.05, Color = "#52D681" },
+        new() { Year = 1961, Anomaly = 0.08, Color = "#52D681" }, new() { Year = 1962, Anomaly = 0.06, Color = "#52D681" }, new() { Year = 1963, Anomaly = 0.08, Color = "#52D681" },
+        new() { Year = 1964, Anomaly = -0.08, Color = "#FF8080" }, new() { Year = 1965, Anomaly = -0.04, Color = "#FF8080" }, new() { Year = 1966, Anomaly = 0.02, Color = "#52D681" },
+        new() { Year = 1967, Anomaly = 0, Color = "#FF8080" }, new() { Year = 1968, Anomaly = 0.02, Color = "#52D681" }, new() { Year = 1969, Anomaly = 0.19, Color = "#52D681" },
+        new() { Year = 1970, Anomaly = 0.08, Color = "#52D681" }, new() { Year = 1971, Anomaly = -0.06, Color = "#FF8080" }, new() { Year = 1972, Anomaly = 0.12, Color = "#52D681" },
+        new() { Year = 1973, Anomaly = 0.15, Color = "#52D681" }, new() { Year = 1974, Anomaly = -0.01, Color = "#FF8080" }, new() { Year = 1975, Anomaly = -0.02, Color = "#FF8080" },
+        new() { Year = 1976, Anomaly = 0.02, Color = "#52D681" }, new() { Year = 1977, Anomaly = 0.2, Color = "#52D681" }, new() { Year = 1978, Anomaly = 0.14, Color = "#52D681" },
+        new() { Year = 1979, Anomaly = 0.27, Color = "#52D681" }, new() { Year = 1980, Anomaly = 0.28, Color = "#52D681" }, new() { Year = 1981, Anomaly = 0.25, Color = "#52D681" },
+        new() { Year = 1982, Anomaly = 0.24, Color = "#52D681" }, new() { Year = 1983, Anomaly = 0.32, Color = "#52D681" }, new() { Year = 1984, Anomaly = 0.21, Color = "#52D681" },
+        new() { Year = 1985, Anomaly = 0.18, Color = "#52D681" }, new() { Year = 1986, Anomaly = 0.23, Color = "#52D681" }, new() { Year = 1987, Anomaly = 0.38, Color = "#52D681" },
+        new() { Year = 1988, Anomaly = 0.33, Color = "#52D681" }, new() { Year = 1989, Anomaly = 0.28, Color = "#52D681" }, new() { Year = 1990, Anomaly = 0.37, Color = "#52D681" },
+        new() { Year = 1991, Anomaly = 0.34, Color = "#52D681" }, new() { Year = 1992, Anomaly = 0.25, Color = "#52D681" }, new() { Year = 1993, Anomaly = 0.26, Color = "#52D681" },
+        new() { Year = 1994, Anomaly = 0.3, Color = "#52D681" }, new() { Year = 1995, Anomaly = 0.34, Color = "#52D681" }, new() { Year = 1996, Anomaly = 0.31, Color = "#52D681" },
+        new() { Year = 1997, Anomaly = 0.47, Color = "#52D681" }, new() { Year = 1998, Anomaly = 0.52, Color = "#52D681" }, new() { Year = 1999, Anomaly = 0.31, Color = "#52D681" },
+        new() { Year = 2000, Anomaly = 0.33, Color = "#52D681" }, new() { Year = 2001, Anomaly = 0.45, Color = "#52D681" }, new() { Year = 2002, Anomaly = 0.48, Color = "#52D681" },
+        new() { Year = 2003, Anomaly = 0.5, Color = "#52D681" }, new() { Year = 2004, Anomaly = 0.49, Color = "#52D681" }, new() { Year = 2005, Anomaly = 0.49, Color = "#52D681" },
+        new() { Year = 2006, Anomaly = 0.48, Color = "#52D681" }, new() { Year = 2007, Anomaly = 0.4, Color = "#52D681" }, new() { Year = 2008, Anomaly = 0.39, Color = "#52D681" },
+        new() { Year = 2009, Anomaly = 0.52, Color = "#52D681" }, new() { Year = 2010, Anomaly = 0.53, Color = "#52D681" }, new() { Year = 2011, Anomaly = 0.41, Color = "#52D681" },
+        new() { Year = 2012, Anomaly = 0.48, Color = "#52D681" }, new() { Year = 2013, Anomaly = 0.51, Color = "#52D681" }, new() { Year = 2014, Anomaly = 0.6, Color = "#52D681" },
+        new() { Year = 2015, Anomaly = 0.72, Color = "#52D681" }, new() { Year = 2016, Anomaly = 0.75, Color = "#52D681" }, new() { Year = 2017, Anomaly = 0.7, Color = "#52D681" },
+        new() { Year = 2018, Anomaly = 0.66, Color = "#52D681" }, new() { Year = 2019, Anomaly = 0.74, Color = "#52D681" }, new() { Year = 2020, Anomaly = 0.73, Color = "#52D681" },
+        new() { Year = 2021, Anomaly = 0.63, Color = "#52D681" }, new() { Year = 2022, Anomaly = 0.67, Color = "#52D681" }
+    };
+}

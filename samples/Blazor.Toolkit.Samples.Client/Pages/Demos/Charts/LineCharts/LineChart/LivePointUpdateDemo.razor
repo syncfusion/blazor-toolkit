@@ -1,0 +1,89 @@
+@using System.Collections.ObjectModel
+@implements IDisposable
+
+<SfChart @key="@_currentTheme" Title="Live Line Chart" Theme="@_currentTheme">
+    <ChartArea><ChartAreaBorder Width="0"></ChartAreaBorder></ChartArea>
+
+    <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Toolkit.ValueType.DateTime" LabelFormat="mm:ss" Title="Time (s)">
+        <ChartAxisMajorGridLines Width="0" />
+        <ChartAxisMajorTickLines Width="0" />
+        <ChartAxisMinorTickLines Width="0" />
+    </ChartPrimaryXAxis>
+
+    <ChartArea>
+        <ChartAreaBorder Width="0" />
+    </ChartArea>
+
+    <ChartPrimaryYAxis Minimum="0" Maximum="70">
+        <ChartAxisLineStyle Width="0" />
+        <ChartAxisMajorTickLines Width="0" />
+    </ChartPrimaryYAxis>
+
+    <ChartSeries Type="ChartSeriesType.Line" DataSource="@DataPoints"
+                 XName="@nameof(ChartDataPointLive.Time)" YName="@nameof(ChartDataPointLive.CPU_Usage)">
+        <ChartSeriesAnimation Enable="true" Duration="500" />
+        <ChartMarker Visible="true" />
+    </ChartSeries>
+</SfChart>
+
+@code {
+    [CascadingParameter]
+    private Theme CurrentTheme { get; set; } = Theme.Fluent;
+
+    private Theme _currentTheme = Theme.Fluent;
+
+    protected override void OnParametersSet()
+    {
+        base.OnParametersSet();
+        _currentTheme = CurrentTheme;
+    }
+
+    public class ChartDataPointLive
+    {
+        public DateTime Time { get; set; }
+        public double CPU_Usage { get; set; }
+    }
+
+    public ObservableCollection<ChartDataPointLive> DataPoints = new();
+    private System.Timers.Timer? timer;
+
+    protected override void OnInitialized()
+    {
+        DataPoints = new ObservableCollection<ChartDataPointLive>(
+            Enumerable.Range(0, 20)
+                .Select(i => new ChartDataPointLive
+                {
+                    Time = DateTime.Now.AddSeconds(i),
+                    CPU_Usage = Random.Shared.Next(30, 80)
+                })
+        );
+
+        timer = new System.Timers.Timer(400);
+        timer.Elapsed += async (_, _) =>
+        {
+            await InvokeAsync(UpdateLiveData);
+        };
+        timer.Start();
+    }
+
+    private void UpdateLiveData()
+    {
+        if (DataPoints.Count == 0) return;
+
+        var lastTime = DataPoints[^1].Time;
+
+        DataPoints.RemoveAt(0);
+
+        DataPoints.Add(new ChartDataPointLive
+        {
+            Time = lastTime.AddSeconds(1),
+            CPU_Usage = Random.Shared.Next(30, 60)
+        });
+    }
+
+    public void Dispose()
+    {
+        timer?.Stop();
+        timer?.Dispose();
+    }
+}

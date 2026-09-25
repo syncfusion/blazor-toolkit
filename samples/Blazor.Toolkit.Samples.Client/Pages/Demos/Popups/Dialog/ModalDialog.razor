@@ -1,0 +1,23 @@
+﻿<div id="modaltarget">
+    <div>
+        <SfButton @onclick="@OpenModalDialog">Open Modal Dialog</SfButton>
+    </div>
+    <SfDialog Target="#modaltarget" Width="250px" IsModal="true" @bind-Visible="@IsModalVisible" Header="Modal Dialog" Content="This is a modal Dialog" ShowCloseIcon="true"></SfDialog>
+</div>
+@code {
+    private bool IsModalVisible { get; set; } = false;
+
+    private void OpenModalDialog()
+    {
+        this.IsModalVisible = true;
+    }
+}
+<style>
+    #modaltarget {
+        height: 200px;
+    }
+
+    .code-preview-wrapper .preview-host:has(#modaltarget) {
+        position: static;
+    }
+</style>

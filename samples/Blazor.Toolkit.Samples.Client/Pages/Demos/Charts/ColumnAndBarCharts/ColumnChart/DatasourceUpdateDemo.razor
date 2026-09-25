@@ -1,0 +1,84 @@
+@using System.Collections.ObjectModel
+@implements IDisposable
+
+<SfChart @key="@_currentTheme" Title="Sales by Product" Theme="@_currentTheme">
+    <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Toolkit.ValueType.Category"></ChartPrimaryXAxis>
+    <ChartPrimaryYAxis Minimum="0" Maximum="100" Interval="20" Format="{value}%"></ChartPrimaryYAxis>
+
+    <ChartSeries DataSource="@ProductSaleData" XName="X" YName="Y" Type="ChartSeriesType.Column" PointColorMapping="Color" ColumnWidth="0.5">
+        <ChartMarker><ChartDataLabel Visible="false" /></ChartMarker>
+        <ChartSeriesAnimation Enable="true" Duration="1000" />
+    </ChartSeries>
+</SfChart>
+
+@code {
+    [CascadingParameter]
+    private Theme CurrentTheme { get; set; } = Theme.Fluent;
+
+    private Theme _currentTheme = Theme.Fluent;
+
+    protected override void OnParametersSet()
+    {
+        base.OnParametersSet();
+        _currentTheme = CurrentTheme;
+    }
+
+    public class ProductSaleDataModel
+    {
+        public string X { get; set; } = string.Empty;
+        public int Y { get; set; }
+        public string Color { get; set; } = string.Empty;
+    }
+
+    public ObservableCollection<ProductSaleDataModel> ProductSaleData = new();
+    private System.Timers.Timer? updateTimer;
+    private readonly Random random = new();
+    private static readonly string[] Categories = new[] { "Jewellery", "Shoes", "Footwear", "Cosmetics", "Bags", "Watches" };
+    private static readonly string[] Colors = new[] { "#578FCA", "#F2C078", "#7BC9A1", "#C7A3D9", "#F28B82", "#82B1FF" };
+
+    protected override void OnInitialized()
+    {
+        ProductSaleData = new ObservableCollection<ProductSaleDataModel>(GenerateInitialData());
+
+        updateTimer = new System.Timers.Timer(2000);
+        updateTimer.Elapsed += (_, _) =>
+        {
+            InvokeAsync(UpdateDataSource);
+        };
+        updateTimer.Start();
+    }
+
+    private List<ProductSaleDataModel> GenerateInitialData()
+    {
+        var data = new List<ProductSaleDataModel>();
+        for (int i = 0; i < Categories.Length; i++)
+        {
+            data.Add(new ProductSaleDataModel
+            {
+                X = Categories[i],
+                Y = random.Next(15, 90),
+                Color = Colors[i]
+            });
+        }
+        return data;
+    }
+
+    private void UpdateDataSource()
+    {
+        for (int i = 0; i < ProductSaleData.Count; i++)
+        {
+            ProductSaleData[i] = new ProductSaleDataModel
+            {
+                X = ProductSaleData[i].X,
+                Y = random.Next(15, 90),
+                Color = ProductSaleData[i].Color
+            };
+        }
+    }
+
+    public void Dispose()
+    {
+        updateTimer?.Stop();
+        updateTimer?.Dispose();
+    }
+}

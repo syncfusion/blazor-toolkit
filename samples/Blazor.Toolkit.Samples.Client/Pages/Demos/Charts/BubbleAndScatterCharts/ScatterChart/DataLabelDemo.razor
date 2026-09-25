@@ -1,0 +1,63 @@
+<SfChart @key="@_currentTheme" Theme="@_currentTheme" Title="Weight by Height">
+    <ChartTitleStyle Color="@TextColor" />
+    <ChartTooltipSettings Enable="true" Header="${point.tooltip}" Format="Height: <b>${point.x} in</b><br/>Weight: <b>${point.y} kg</b>" />
+
+    <ChartPrimaryXAxis Title="Height (inches)" Minimum="50" Maximum="75" Interval="5" ValueType="Syncfusion.Blazor.Toolkit.ValueType.Double">
+        <ChartAxisLabelStyle Color="@TextColor" />
+    </ChartPrimaryXAxis>
+    <ChartPrimaryYAxis Title="Weight (kg)" Minimum="50" Maximum="160" Interval="20" RangePadding="ChartRangePadding.None">
+        <ChartAxisLabelStyle Color="@TextColor" />
+    </ChartPrimaryYAxis>
+
+    <ChartSeries DataSource="@ScatterLabelData" Name="18-20 Years" LegendShape="LegendShape.Circle" Fill="#807BFF" EnableTooltip="true" Opacity="0.5" XName="Height" YName="Weight" Type="ChartSeriesType.Scatter">
+        <ChartMarker Visible="true" Shape="ChartShape.Diamond" Height="15" Width="15">
+            <ChartDataLabel Name="Name" Visible="true" />
+        </ChartMarker>
+    </ChartSeries>
+</SfChart>
+
+@code {
+    [CascadingParameter]
+    private Theme CurrentTheme { get; set; } = Theme.Fluent;
+
+    private Theme _currentTheme = Theme.Fluent;
+
+    protected override void OnParametersSet()
+    {
+        base.OnParametersSet();
+        _currentTheme = CurrentTheme;
+    }
+
+    private bool IsDarkTheme => _currentTheme.ToString().Contains("Dark") || _currentTheme.ToString().Contains("HighContrast");
+    private string TextColor => IsDarkTheme ? "#E6EEF8" : "#0B1F3B";
+
+    public class LabelData
+    {
+        public double Height { get; set; }
+        public double Weight { get; set; }
+        public string Name { get; set; }
+    }
+
+    public List<LabelData> ScatterLabelData = new()
+    {
+        new() { Height = 57, Weight = 105, Name = "John" },
+        new() { Height = 63, Weight = 127, Name = "Robert" },
+        new() { Height = 54, Weight = 70, Name = "James" },
+        new() { Height = 64, Weight = 110, Name = "Henry" },
+        new() { Height = 68, Weight = 120, Name = "William" },
+        new() { Height = 70, Weight = 112, Name = "Alfred" },
+        new() { Height = 58, Weight = 88, Name = "Thomas" },
+        new() { Height = 72, Weight = 150, Name = "Philip" },
+        new() { Height = 68, Weight = 137, Name = "Ronald" },
+        new() { Height = 60, Weight = 84, Name = "Jeffrey" },
+        new() { Height = 54, Weight = 85, Name = "Alice" },
+        new() { Height = 58, Weight = 55, Name = "Jane" },
+        new() { Height = 70, Weight = 84, Name = "Louise" },
+        new() { Height = 61, Weight = 101, Name = "Janet" },
+        new() { Height = 66, Weight = 98, Name = "Carol" },
+        new() { Height = 66, Weight = 112, Name = "Mary" },
+        new() { Height = 65, Weight = 78, Name = "Barbara" },
+        new() { Height = 64, Weight = 90, Name = "Judy" },
+        new() { Height = 51, Weight = 59, Name = "Joyce" }
+    };
+}

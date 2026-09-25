@@ -1,0 +1,142 @@
+<SfChart @key="@_currentTheme" Title="Annual Crude Steel Production by Country (2019-2025)" Theme="@_currentTheme">
+    <ChartArea><ChartAreaBorder Width="0"></ChartAreaBorder></ChartArea>
+
+    <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Toolkit.ValueType.Double"
+                       Minimum="2019"
+                       Maximum="2025"
+                       Interval="1">
+        <ChartAxisMajorGridLines Width="0" />
+        <ChartAxisMajorTickLines Width="0" />
+        <ChartAxisMinorTickLines Width="0" />
+    </ChartPrimaryXAxis>
+
+    <ChartPrimaryYAxis Title="Volume in million metric tons"
+                       Minimum="0"
+                       Maximum="25"
+                       Interval="5"
+                       RangePadding="ChartRangePadding.None">
+        <ChartAxisLineStyle Width="0" />
+        <ChartAxisMajorTickLines Width="0" />
+    </ChartPrimaryYAxis>
+
+    <ChartTooltipSettings Enable="true"
+                          Header="${point.x}"
+                          Format="${series.name} : <b>${point.y}M</b>"
+                          EnableHighlight="true" />
+
+    <ChartSeries DataSource="@VietnamData"
+                 XName="X"
+                 YName="Y"
+                 Type="ChartSeriesType.Line"
+                 Name="Vietnam">
+        <ChartMarker Visible="true" IsFilled="true" />
+    </ChartSeries>
+
+    <ChartSeries DataSource="@IndonesiaData"
+                 XName="X"
+                 YName="Y"
+                 Type="ChartSeriesType.Line"
+                 Name="Indonesia">
+        <ChartMarker Visible="true" IsFilled="true" />
+    </ChartSeries>
+
+    <ChartSeries DataSource="@FranceData"
+                 XName="X"
+                 YName="Y"
+                 Type="ChartSeriesType.Line"
+                 Name="France">
+        <ChartMarker Visible="true" IsFilled="true" />
+    </ChartSeries>
+
+    <ChartSeries DataSource="@PolandData"
+                 XName="X"
+                 YName="Y"
+                 Type="ChartSeriesType.Line"
+                 Name="Poland">
+        <ChartMarker Visible="true" IsFilled="true" />
+    </ChartSeries>
+
+    <ChartSeries DataSource="@MexicoData"
+                 XName="X"
+                 YName="Y"
+                 Type="ChartSeriesType.Line"
+                 Name="Mexico">
+        <ChartMarker Visible="true" IsFilled="true" />
+    </ChartSeries>
+
+    <ChartLegendSettings EnableHighlight="true" />
+</SfChart>
+
+@code {
+    [CascadingParameter]
+    private Theme CurrentTheme { get; set; } = Theme.Fluent;
+
+    private Theme _currentTheme = Theme.Fluent;
+
+    protected override void OnParametersSet()
+    {
+        base.OnParametersSet();
+        _currentTheme = CurrentTheme;
+    }
+
+    public class SteelProduction
+    {
+        public double X { get; set; }
+        public double Y { get; set; }
+    }
+
+    public List<SteelProduction> VietnamData = new()
+    {
+        new() { X = 2019, Y = 18.4 },
+        new() { X = 2020, Y = 19.5 },
+        new() { X = 2021, Y = 23.0 },
+        new() { X = 2022, Y = 20.0 },
+        new() { X = 2023, Y = 19.2 },
+        new() { X = 2024, Y = 21.8 },
+        new() { X = 2025, Y = 23.4 }
+    };
+
+    public List<SteelProduction> IndonesiaData = new()
+    {
+        new() { X = 2019, Y = 8.8 },
+        new() { X = 2020, Y = 9.3 },
+        new() { X = 2021, Y = 14.3 },
+        new() { X = 2022, Y = 15.6 },
+        new() { X = 2023, Y = 16.1 },
+        new() { X = 2024, Y = 17.2 },
+        new() { X = 2025, Y = 18.0 }
+    };
+
+    public List<SteelProduction> FranceData = new()
+    {
+        new() { X = 2019, Y = 11.9 },
+        new() { X = 2020, Y = 11.6 },
+        new() { X = 2021, Y = 12.9 },
+        new() { X = 2022, Y = 12.1 },
+        new() { X = 2023, Y = 10.2 },
+        new() { X = 2024, Y = 10.9 },
+        new() { X = 2025, Y = 11.3 }
+    };
+
+    public List<SteelProduction> PolandData = new()
+    {
+        new() { X = 2019, Y = 7.4 },
+        new() { X = 2020, Y = 7.9 },
+        new() { X = 2021, Y = 8.5 },
+        new() { X = 2022, Y = 7.4 },
+        new() { X = 2023, Y = 6.5 },
+        new() { X = 2024, Y = 7.2 },
+        new() { X = 2025, Y = 7.8 }
+    };
+
+    public List<SteelProduction> MexicoData = new()
+    {
+        new() { X = 2019, Y = 15.9 },
+        new() { X = 2020, Y = 16.8 },
+        new() { X = 2021, Y = 18.5 },
+        new() { X = 2022, Y = 18.4 },
+        new() { X = 2023, Y = 14.5 },
+        new() { X = 2024, Y = 14.2 },
+        new() { X = 2025, Y = 15.0 }
+    };
+}

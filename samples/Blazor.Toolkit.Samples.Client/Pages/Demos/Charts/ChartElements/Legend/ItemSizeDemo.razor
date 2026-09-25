@@ -1,0 +1,147 @@
+
+<div class="legend-controls" style="@LegendControlsStyle">
+    <div style="display: flex; align-items: center; gap: 10px;">
+        <label style="font-weight: 500;">Shape Height:</label>
+        <input type="range" min="10" max="50" @bind="shapeHeight" @bind:event="oninput" style="cursor: pointer;" />
+        <span style="min-width: 25px">@shapeHeight</span>
+    </div>
+    <div style="display: flex; align-items: center; gap: 10px;">
+        <label style="font-weight: 500;">Shape Width:</label>
+        <input type="range" min="10" max="50" @bind="shapeWidth" @bind:event="oninput" style="cursor: pointer;" />
+        <span style="min-width: 25px">@shapeWidth</span>
+    </div>
+    <div style="display: flex; align-items: center; gap: 10px;">
+        <label style="font-weight: 500;">Shape Padding:</label>
+        <input type="range" min="0" max="50" @bind="shapePadding" @bind:event="oninput" style="cursor: pointer;" />
+        <span style="min-width: 25px">@shapePadding</span>
+    </div>
+</div>
+ <SfChart @key="@_currentTheme" Title="Renewable Sources Used to Generate Electricity for Transport Fuels" Theme="@_currentTheme">
+
+    <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Toolkit.ValueType.Category" />
+
+    <ChartPrimaryYAxis>
+        <ChartAxisLineStyle Width="0" />
+    </ChartPrimaryYAxis>
+
+
+    <ChartSeries DataSource="@PagingData"
+                 XName="Year"
+                 YName="LargeScaleHydro"
+                 Name="Large scale Hydro"
+                 Type="ChartSeriesType.Line"
+                 Fill="#6A9C89">
+        <ChartMarker Visible="true" Shape="ChartShape.Circle" />
+    </ChartSeries>
+
+    <ChartSeries DataSource="@PagingData"
+                 XName="Year"
+                 YName="AnimalBiomass"
+                 Name="Animal biomass"
+                 Type="ChartSeriesType.Line"
+                 Fill="#D7B26D">
+        <ChartMarker Visible="true" Shape="ChartShape.Circle" />
+    </ChartSeries>
+
+    <ChartSeries DataSource="@PagingData"
+                 XName="Year"
+                 YName="LandfillGas"
+                 Name="Landfill gas"
+                 Type="ChartSeriesType.Line"
+                 Fill="#B3C890">
+        <ChartMarker Visible="true" Shape="ChartShape.Circle" />
+    </ChartSeries>
+
+    <ChartSeries DataSource="@PagingData"
+                 XName="Year"
+                 YName="SewageGas"
+                 Name="Sewage gas"
+                 Type="ChartSeriesType.Line"
+                 Fill="#7695FF">
+        <ChartMarker Visible="true" Shape="ChartShape.Circle" />
+    </ChartSeries>
+
+
+    <ChartTooltipSettings Enable="true"
+                          Header="${point.x}"
+                          Format="${series.name} : <b>${point.y}</b>" />
+
+    <ChartLegendSettings Visible="true"
+                         ShapeHeight="@shapeHeight"
+                         ShapeWidth="@shapeWidth"
+                         ShapePadding="@shapePadding">
+    </ChartLegendSettings>
+
+</SfChart>
+
+@code {
+    [CascadingParameter]
+    private Theme CurrentTheme { get; set; } = Theme.Fluent;
+
+    private Theme _currentTheme = Theme.Fluent;
+
+    protected override void OnParametersSet()
+    {
+        base.OnParametersSet();
+        _currentTheme = CurrentTheme;
+    }
+
+    private bool IsDarkTheme => _currentTheme.ToString().Contains("Dark") || _currentTheme.ToString().Contains("HighContrast");
+
+    private double shapeHeight = 25;
+    private double shapeWidth = 25;
+    private double shapePadding = 30;
+
+    private string LegendControlsStyle => $"--legend-bg: {(IsDarkTheme ? "#0b1220" : "#f8f9fa")}; --legend-text: {(IsDarkTheme ? "#e5e7eb" : "inherit")}; --legend-accent: {(IsDarkTheme ? "#60b5ff" : "#1e90ff")}; --legend-track-bg: {(IsDarkTheme ? "rgba(255,255,255,0.06)" : "rgba(0,0,0,0.06)")}; display: flex; align-items: center; justify-content: center; gap: 30px; padding: 20px; background: var(--legend-bg); border-radius: 8px; margin-bottom: 20px; flex-wrap: wrap; color: var(--legend-text);";
+
+    public class RenewableEnergyData
+    {
+        public int Year { get; set; }
+        public double OnshoreWind { get; set; }
+        public double OffshoreWind { get; set; }
+        public double MarineEnergy { get; set; }
+        public double SolarPV { get; set; }
+        public double SmallScaleHydro { get; set; }
+        public double LargeScaleHydro { get; set; }
+        public double PlantBiomass { get; set; }
+        public double AnimalBiomass { get; set; }
+        public double LandfillGas { get; set; }
+        public double SewageGas { get; set; }
+    }
+
+    public List<RenewableEnergyData> PagingData = new()
+    {
+        new() { Year = 1990, OnshoreWind = 1, OffshoreWind = 0, MarineEnergy = 0, SolarPV = 0, SmallScaleHydro = 11, LargeScaleHydro = 437, PlantBiomass = 0, AnimalBiomass = 0, LandfillGas = 46, SewageGas = 104 },
+        new() { Year = 1991, OnshoreWind = 1, OffshoreWind = 0, MarineEnergy = 0, SolarPV = 0, SmallScaleHydro = 12, LargeScaleHydro = 385, PlantBiomass = 0, AnimalBiomass = 0, LandfillGas = 68, SewageGas = 108 },
+        new() { Year = 1992, OnshoreWind = 3, OffshoreWind = 0, MarineEnergy = 0, SolarPV = 0, SmallScaleHydro = 13, LargeScaleHydro = 454, PlantBiomass = 0, AnimalBiomass = 17, LandfillGas = 124, SewageGas = 108 },
+        new() { Year = 1993, OnshoreWind = 19, OffshoreWind = 0, MarineEnergy = 0, SolarPV = 0, SmallScaleHydro = 14, LargeScaleHydro = 356, PlantBiomass = 0, AnimalBiomass = 52, LandfillGas = 147, SewageGas = 124 },
+        new() { Year = 1994, OnshoreWind = 30, OffshoreWind = 0, MarineEnergy = 0, SolarPV = 0, SmallScaleHydro = 14, LargeScaleHydro = 424, PlantBiomass = 0, AnimalBiomass = 71, LandfillGas = 170, SewageGas = 118 },
+        new() { Year = 1995, OnshoreWind = 34, OffshoreWind = 0, MarineEnergy = 0, SolarPV = 0, SmallScaleHydro = 14, LargeScaleHydro = 402, PlantBiomass = 0, AnimalBiomass = 71, LandfillGas = 184, SewageGas = 135 },
+        new() { Year = 1996, OnshoreWind = 42, OffshoreWind = 0, MarineEnergy = 0, SolarPV = 0, SmallScaleHydro = 10, LargeScaleHydro = 282, PlantBiomass = 0, AnimalBiomass = 67, LandfillGas = 232, SewageGas = 135 },
+        new() { Year = 1997, OnshoreWind = 57, OffshoreWind = 0, MarineEnergy = 0, SolarPV = 0, SmallScaleHydro = 14, LargeScaleHydro = 344, PlantBiomass = 0, AnimalBiomass = 68, LandfillGas = 301, SewageGas = 134 },
+        new() { Year = 1998, OnshoreWind = 75, OffshoreWind = 0, MarineEnergy = 0, SolarPV = 0, SmallScaleHydro = 18, LargeScaleHydro = 422, PlantBiomass = 0, AnimalBiomass = 76, LandfillGas = 389, SewageGas = 126 },
+        new() { Year = 1999, OnshoreWind = 73, OffshoreWind = 0, MarineEnergy = 0, SolarPV = 0, SmallScaleHydro = 18, LargeScaleHydro = 441, PlantBiomass = 0, AnimalBiomass = 157, LandfillGas = 558, SewageGas = 135 },
+        new() { Year = 2000, OnshoreWind = 81, OffshoreWind = 0, MarineEnergy = 0, SolarPV = 0, SmallScaleHydro = 18, LargeScaleHydro = 419, PlantBiomass = 11, AnimalBiomass = 183, LandfillGas = 718, SewageGas = 120 },
+        new() { Year = 2001, OnshoreWind = 83, OffshoreWind = 0, MarineEnergy = 0, SolarPV = 0, SmallScaleHydro = 18, LargeScaleHydro = 331, PlantBiomass = 81, AnimalBiomass = 205, LandfillGas = 822, SewageGas = 119 },
+        new() { Year = 2002, OnshoreWind = 108, OffshoreWind = 0, MarineEnergy = 0, SolarPV = 0, SmallScaleHydro = 18, LargeScaleHydro = 394, PlantBiomass = 92, AnimalBiomass = 184, LandfillGas = 879, SewageGas = 121 },
+        new() { Year = 2003, OnshoreWind = 110, OffshoreWind = 1, MarineEnergy = 0, SolarPV = 0, SmallScaleHydro = 13, LargeScaleHydro = 257, PlantBiomass = 137, AnimalBiomass = 169, LandfillGas = 1075, SewageGas = 129 },
+        new() { Year = 2004, OnshoreWind = 149, OffshoreWind = 17, MarineEnergy = 0, SolarPV = 0, SmallScaleHydro = 24, LargeScaleHydro = 392, PlantBiomass = 123, AnimalBiomass = 179, LandfillGas = 1313, SewageGas = 144 },
+        new() { Year = 2005, OnshoreWind = 215, OffshoreWind = 35, MarineEnergy = 0, SolarPV = 1, SmallScaleHydro = 38, LargeScaleHydro = 385, PlantBiomass = 129, AnimalBiomass = 159, LandfillGas = 1407, SewageGas = 153 },
+        new() { Year = 2006, OnshoreWind = 307, OffshoreWind = 56, MarineEnergy = 0, SolarPV = 1, SmallScaleHydro = 41, LargeScaleHydro = 354, PlantBiomass = 123, AnimalBiomass = 145, LandfillGas = 1451, SewageGas = 146 },
+        new() { Year = 2007, OnshoreWind = 386, OffshoreWind = 67, MarineEnergy = 0, SolarPV = 1, SmallScaleHydro = 45, LargeScaleHydro = 392, PlantBiomass = 138, AnimalBiomass = 218, LandfillGas = 1534, SewageGas = 162 },
+        new() { Year = 2008, OnshoreWind = 498, OffshoreWind = 115, MarineEnergy = 0, SolarPV = 1, SmallScaleHydro = 47, LargeScaleHydro = 396, PlantBiomass = 242, AnimalBiomass = 260, LandfillGas = 1540, SewageGas = 180 },
+        new() { Year = 2009, OnshoreWind = 647, OffshoreWind = 151, MarineEnergy = 0, SolarPV = 2, SmallScaleHydro = 49, LargeScaleHydro = 401, PlantBiomass = 387, AnimalBiomass = 232, LandfillGas = 1613, SewageGas = 198 },
+        new() { Year = 2010, OnshoreWind = 621, OffshoreWind = 263, MarineEnergy = 0, SolarPV = 3, SmallScaleHydro = 43, LargeScaleHydro = 266, PlantBiomass = 461, AnimalBiomass = 239, LandfillGas = 1711, SewageGas = 237 },
+        new() { Year = 2011, OnshoreWind = 930, OffshoreWind = 443, MarineEnergy = 0, SolarPV = 21, SmallScaleHydro = 61, LargeScaleHydro = 429, PlantBiomass = 554, AnimalBiomass = 224, LandfillGas = 1744, SewageGas = 254 },
+        new() { Year = 2012, OnshoreWind = 1053, OffshoreWind = 654, MarineEnergy = 0, SolarPV = 116, SmallScaleHydro = 58, LargeScaleHydro = 398, PlantBiomass = 1062, AnimalBiomass = 225, LandfillGas = 1708, SewageGas = 242 },
+        new() { Year = 2013, OnshoreWind = 1455, OffshoreWind = 986, MarineEnergy = 0, SolarPV = 173, SmallScaleHydro = 58, LargeScaleHydro = 346, PlantBiomass = 2008, AnimalBiomass = 226, LandfillGas = 1697, SewageGas = 251 },
+        new() { Year = 2014, OnshoreWind = 1595, OffshoreWind = 1153, MarineEnergy = 0, SolarPV = 349, SmallScaleHydro = 72, LargeScaleHydro = 435, PlantBiomass = 2913, AnimalBiomass = 225, LandfillGas = 1651, SewageGas = 276 },
+        new() { Year = 2015, OnshoreWind = 1965, OffshoreWind = 1498, MarineEnergy = 0, SolarPV = 648, SmallScaleHydro = 85, LargeScaleHydro = 457, PlantBiomass = 3850, AnimalBiomass = 235, LandfillGas = 1598, SewageGas = 293 },
+        new() { Year = 2016, OnshoreWind = 1785, OffshoreWind = 1411, MarineEnergy = 0, SolarPV = 894, SmallScaleHydro = 87, LargeScaleHydro = 374, PlantBiomass = 3855, AnimalBiomass = 230, LandfillGas = 1542, SewageGas = 312 },
+        new() { Year = 2017, OnshoreWind = 2470, OffshoreWind = 1798, MarineEnergy = 0, SolarPV = 985, SmallScaleHydro = 112, LargeScaleHydro = 394, PlantBiomass = 4206, AnimalBiomass = 226, LandfillGas = 1405, SewageGas = 317 },
+        new() { Year = 2018, OnshoreWind = 2612, OffshoreWind = 2281, MarineEnergy = 1, SolarPV = 1089, SmallScaleHydro = 111, LargeScaleHydro = 357, PlantBiomass = 4898, AnimalBiomass = 219, LandfillGas = 1284, SewageGas = 325 },
+        new() { Year = 2019, OnshoreWind = 2739, OffshoreWind = 2749, MarineEnergy = 1, SolarPV = 1068, SmallScaleHydro = 120, LargeScaleHydro = 390, PlantBiomass = 5400, AnimalBiomass = 243, LandfillGas = 866, SewageGas = 233 },
+        new() { Year = 2020, OnshoreWind = 3004, OffshoreWind = 3498, MarineEnergy = 1, SolarPV = 1109, SmallScaleHydro = 134, LargeScaleHydro = 456, PlantBiomass = 5637, AnimalBiomass = 241, LandfillGas = 835, SewageGas = 237 },
+        new() { Year = 2021, OnshoreWind = 2507, OffshoreWind = 3053, MarineEnergy = 0, SolarPV = 1044, SmallScaleHydro = 119, LargeScaleHydro = 353, PlantBiomass = 5990, AnimalBiomass = 240, LandfillGas = 791, SewageGas = 233 }
+    };
+}

@@ -1,0 +1,71 @@
+﻿<div class="mb-3">
+    <p class="fw-bold mb-2">Color</p>
+    <div class="d-flex gap-2 flex-wrap">
+        <SfCheckBox TChecked="bool" Checked="true" Label="Primary" CssClass="e-primary"></SfCheckBox>
+        <SfCheckBox TChecked="bool" Checked="true" Label="Success" CssClass="e-success"></SfCheckBox>
+        <SfCheckBox TChecked="bool" Checked="true" Label="Info" CssClass="e-info"></SfCheckBox>
+        <SfCheckBox TChecked="bool" Checked="true" Label="Warning" CssClass="e-warning"></SfCheckBox>
+        <SfCheckBox TChecked="bool" Checked="true" Label="Danger" CssClass="e-danger"></SfCheckBox>
+    </div>
+</div>
+
+<div class="mb-3">
+    <p class="fw-bold mb-2">Frame</p>
+    <div class="d-flex gap-2 flex-wrap">
+        <SfCheckBox TChecked="bool" Checked="true" Label="Default" />
+        <SfCheckBox TChecked="bool" Checked="true" Label="Custom" CssClass="e-custom"></SfCheckBox>
+    </div>
+</div>
+
+@* Styling for the "Color" customization *@
+<style>
+
+    .e-checkbox-wrapper.e-primary .e-frame.e-check,
+    .e-checkbox-wrapper.e-primary:hover .e-frame.e-check,
+    .e-checkbox-wrapper.e-primary .e-checkbox:focus + .e-frame.e-check {
+        background-color: #e03872;
+    }
+
+    .e-checkbox-wrapper.e-success .e-frame.e-check,
+    .e-checkbox-wrapper.e-success .e-checkbox:focus + .e-frame.e-check {
+        background-color: #689f38;
+    }
+
+    .e-checkbox-wrapper.e-success:hover .e-frame.e-check {
+        background-color: #449d44;
+    }
+
+    .e-checkbox-wrapper.e-info .e-frame.e-check,
+    .e-checkbox-wrapper.e-info .e-checkbox:focus + .e-frame.e-check {
+        background-color: #2196f3;
+    }
+
+    .e-checkbox-wrapper.e-info:hover .e-frame.e-check {
+        background-color: #0b7dda;
+    }
+
+    .e-checkbox-wrapper.e-warning .e-frame.e-check,
+    .e-checkbox-wrapper.e-warning .e-checkbox:focus + .e-frame.e-check {
+        background-color: #ef6c00;
+    }
+
+    .e-checkbox-wrapper.e-warning:hover .e-frame.e-check {
+        background-color: #cc5c00;
+    }
+
+    .e-checkbox-wrapper.e-danger .e-frame.e-check,
+    .e-checkbox-wrapper.e-danger .e-checkbox:focus + .e-frame.e-check {
+        background-color: #d84315;
+    }
+
+    .e-checkbox-wrapper.e-danger:hover .e-frame.e-check {
+        background-color: #ba3912;
+    }
+</style>
+
+@* Styling for the "Frame" customization *@
+<style>
+    .e-checkbox-wrapper.e-custom .e-frame {
+        border-radius: 100%;
+    }
+</style>

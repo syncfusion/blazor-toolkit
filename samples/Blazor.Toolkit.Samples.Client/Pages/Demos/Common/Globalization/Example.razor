@@ -1,0 +1,17 @@
+@using System.Globalization
+
+<ul>
+    <li><b>CurrentCulture</b>: @CultureInfo.CurrentCulture</li>
+    <li><b>CurrentUICulture</b>: @CultureInfo.CurrentUICulture</li>
+</ul>
+
+<h2>Rendered values</h2>
+<ul>
+    <li><b>Date</b>: @dt.ToLongDateString()</li>
+    <li><b>Number</b>: @number.ToString("N2")</li>
+</ul>
+
+@code {
+    private DateTime dt = DateTime.Now;
+    private double number = 1999.69;
+}

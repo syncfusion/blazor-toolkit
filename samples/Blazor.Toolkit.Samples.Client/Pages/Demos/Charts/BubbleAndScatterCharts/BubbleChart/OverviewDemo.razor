@@ -1,0 +1,104 @@
+<SfChart @key="@_currentTheme" Title="World Countries Details" Theme="@_currentTheme">
+    <ChartTitleStyle Color="@TextColor" />
+    <ChartTooltipSettings Enable="true"
+                          Header="${point.tooltip}"
+                          Format="Literacy Rate : <b>${point.x}%</b><br/>
+            GDP Annual Growth Rate : <b>${point.y}</b><br/>
+            Population : <b>${point.size} Billion</b>" />
+    <ChartPrimaryXAxis Title="Literacy Rate" Minimum="65" Maximum="102" Interval="5">
+        <ChartAxisLabelStyle Color="@TextColor" />
+        <ChartStriplines>
+            <ChartStripline Visible="true"
+                            Start="70"
+                            End="70.1"
+                            Color="Gray"
+                            DashArray="3,10"
+                            Opacity="0.8">
+                <ChartStriplineBorder></ChartStriplineBorder>
+            </ChartStripline>
+        </ChartStriplines>
+    </ChartPrimaryXAxis>
+    <ChartPrimaryYAxis Title="GDP Annual Growth Rate" Format="n1" Minimum="-1" Maximum="10" Interval="2.5">
+        <ChartAxisLabelStyle Color="@TextColor" />
+        <ChartStriplines>
+            <ChartStripline Visible="true"
+                            Start="1.5"
+                            End="1.6"
+                            Color="Gray"
+                            DashArray="3,10"
+                            Opacity="0.8" />
+        </ChartStriplines>
+    </ChartPrimaryYAxis>
+
+    <ChartSeries DataSource="@BubbleChartData.Data"
+                 Type="ChartSeriesType.Bubble"
+                 XName="X"
+                 YName="Y"
+                 Size="Size"
+                 Fill="#7F3FBF80"
+                 Opacity="0.6"
+                 MinRadius="3"
+                 MaxRadius="6"
+                 TooltipMappingName="ToolTipMappingName">
+
+        <ChartMarker>
+            <ChartDataLabel Visible="true"
+                            Name="Text"
+                            Position="ChartLabelPosition.Middle" />
+        </ChartMarker>
+        <ChartSeriesBorder Width="2" Color="rgba(127, 63, 192, 0.2)"></ChartSeriesBorder>
+    </ChartSeries>
+
+</SfChart>
+
+@code {
+    [CascadingParameter]
+    private Theme CurrentTheme { get; set; } = Theme.Fluent;
+
+    private Theme _currentTheme = Theme.Fluent;
+
+    protected override void OnParametersSet()
+    {
+        base.OnParametersSet();
+        _currentTheme = CurrentTheme;
+    }
+
+    private bool IsDarkTheme => _currentTheme.ToString().Contains("Dark") || _currentTheme.ToString().Contains("HighContrast");
+
+    private string TextColor => IsDarkTheme ? "#E6EEF8" : "#0B1F3B";
+
+    public class BubbleData
+    {
+        public double X { get; set; }
+        public double Y { get; set; }
+        public double Size { get; set; }
+        public string ToolTipMappingName { get; set; }
+        public string Text { get; set; }
+        public string Color { get; set; }
+    }
+
+    public static class BubbleChartData
+    {
+        public static List<BubbleData> Data = new()
+        {
+            new() { X = 92.2, Y = 7.8, Size = 1.347, ToolTipMappingName = "China", Text = "China", Color = "#FFC75F80" },
+            new() { X = 74, Y = 6.5, Size = 1.241, ToolTipMappingName = "India", Text = "India", Color = "#FFD93D80" },
+            new() { X = 90.4, Y = 6.0, Size = 0.238, ToolTipMappingName = "Indonesia", Text = "Indonesia", Color = "#F9F87180" },
+            new() { X = 99.4, Y = 2.2, Size = 0.312, ToolTipMappingName = "United States", Text = "US", Color = "#F76E1180" },
+            new() { X = 88.6, Y = 1.3, Size = 0.197, ToolTipMappingName = "Brazil", Text = "Brazil", Color = "#FF5E7880" },
+            new() { X = 99, Y = 0.7, Size = 0.0818, ToolTipMappingName = "Germany", Text = "Germany", Color = "#A0E7E580" },
+            new() { X = 72, Y = 2.0, Size = 0.0826, ToolTipMappingName = "Egypt", Text = "Egypt", Color = "#6BCB7780" },
+            new() { X = 99.6, Y = 3.4, Size = 0.143, ToolTipMappingName = "Russia", Text = "Russia", Color = "#2C73D280" },
+            new() { X = 96.5, Y = 0.2, Size = 0.128, ToolTipMappingName = "Japan", Text = "Japan", Color = "#FFB7B280" },
+            new() { X = 86.1, Y = 4.0, Size = 0.115, ToolTipMappingName = "MeLiteracy Ion", Text = "MLI", Color = "#0081CF80" },
+            new() { X = 92.6, Y = 5.2, Size = 0.096, ToolTipMappingName = "Philippines", Text = "PH", Color = "#B39CD080" },
+            new() { X = 61.3, Y = 1.45, Size = 0.162, ToolTipMappingName = "Nigeria", Text = "Nigeria", Color = "#FFF176" },
+            new() { X = 82.2, Y = 3.97, Size = 0.7, ToolTipMappingName = "Hong Kong", Text = "Hong Kong", Color = "#00C9A780" },
+            new() { X = 79.2, Y = 4.9, Size = 0.162, ToolTipMappingName = "Netherland", Text = "NL", Color = "#845EC280" },
+            new() { X = 72.5, Y = 4.5, Size = 0.7, ToolTipMappingName = "Jordan", Text = "Jordan", Color = "#4D96FF80" },
+            new() { X = 81, Y = 2.5, Size = 0.21, ToolTipMappingName = "Australia", Text = "Australia", Color = "#C34A3680" },
+            new() { X = 66.8, Y = 3.9, Size = 0.028, ToolTipMappingName = "Mongolia", Text = "MN", Color = "#90A4AE" },
+            new() { X = 78.4, Y = 2.9, Size = 0.231, ToolTipMappingName = "Taiwan", Text = "Taiwan", Color = "#FF967180" }
+        };
+    }
+}

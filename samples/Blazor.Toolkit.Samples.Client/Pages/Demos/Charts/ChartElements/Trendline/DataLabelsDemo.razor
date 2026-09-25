@@ -1,0 +1,95 @@
+
+<SfChart @key="@_currentTheme" Title="Global Electric Vehicle Sales (2015-2023)"
+         SubTitle="Source: International Energy Agency (IEA)" Theme="@_currentTheme">
+
+    <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Toolkit.ValueType.Category"
+                       Title="Year">
+        <ChartAxisMajorGridLines Width="0" />
+        <ChartAxisMajorTickLines Width="0" />
+    </ChartPrimaryXAxis>
+
+    <ChartPrimaryYAxis Minimum="0"
+                       Maximum="15"
+                       Interval="3"
+                       Title="Sales (Million Units)">
+        <ChartAxisMajorTickLines Width="0" />
+        <ChartAxisLineStyle Width="0" />
+    </ChartPrimaryYAxis>
+
+    <ChartTooltipSettings Enable="true"
+                          Shared="true"
+                          ShowNearestTooltip="true"
+                          Format="EV Sales: <b>${point.y}M</b>" />
+
+    <ChartLegendSettings Visible="true"
+                         ShapeHeight="15"
+                         ShapeWidth="15" />
+
+
+    <ChartSeries DataSource="@DataLabelData"
+                 XName="Year"
+                 YName="Sales"
+                 Name="EV Sales"
+                 Type="ChartSeriesType.Area"
+                 Fill="rgba(124, 77, 255, 0.6)"
+                 Border="@(new ChartSeriesBorder { Width = 2, Color = "#7C4DFF" })">
+            <ChartSeriesAnimation Enable="false" />
+
+            <ChartMarker Visible="true"
+                         Width="7"
+                         Height="7"
+                         Shape="ChartShape.Circle"
+                         Fill="#7C4DFF">
+                <ChartDataLabel Visible="true"></ChartDataLabel>
+            </ChartMarker>
+
+            <ChartTrendlines>
+                <ChartTrendline Type="TrendlineTypes.Exponential"
+                                Name="Exponential Growth"
+                                Width="2"
+                                Fill="#00E676"
+                                EnableTooltip="false" >
+
+                    <ChartTrendlineAnimation Enable="false" />
+                    <ChartTrendlineMarker Visible="true" Height="10" Width="10" Shape="ChartShape.Triangle" Fill="#00E676"></ChartTrendlineMarker>
+
+
+
+
+                </ChartTrendline>
+            </ChartTrendlines>
+    </ChartSeries>
+
+</SfChart>
+
+@code {
+    [CascadingParameter]
+    private Theme CurrentTheme { get; set; } = Theme.Fluent;
+
+    private Theme _currentTheme = Theme.Fluent;
+
+    protected override void OnParametersSet()
+    {
+        base.OnParametersSet();
+        _currentTheme = CurrentTheme;
+    }
+
+    public List<EvSalesPoint> DataLabelData = new ()
+    {
+        new () { Year = "2015", Sales = 0.55 },
+        new () { Year = "2016", Sales = 0.78 },
+        new() { Year = "2017", Sales = 1.22 },
+        new() { Year = "2018", Sales = 2.11 },
+        new() { Year = "2019", Sales = 2.26 },
+        new() { Year = "2020", Sales = 3.24 },
+        new() { Year = "2021", Sales = 6.75 },
+        new() { Year = "2022", Sales = 10.5 },
+        new() { Year = "2023", Sales = 13.9 }
+    };
+
+    public class EvSalesPoint
+    {
+        public string Year { get; set; }
+        public double Sales { get; set; }
+    }
+}

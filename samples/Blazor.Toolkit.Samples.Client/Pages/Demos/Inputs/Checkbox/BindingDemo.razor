@@ -1,0 +1,17 @@
+﻿<div class="d-flex gap-4 align-items-center flex-wrap">
+    @* Two-way binding *@
+    <SfCheckBox TChecked="bool" @bind-Checked="agreed" Label="I agree" />
+    <span>Agreed: <b>@agreed</b></span>
+
+    @* Explicit Checked + CheckedChanged *@
+    <SfCheckBox TChecked="bool"
+                Checked="@explicitBind"
+                CheckedChanged="(bool v) => explicitBind = v"
+                Label="Explicit bind" />
+    <span>Explicit: <b>@explicitBind</b></span>
+</div>
+@code
+{
+  private bool agreed = true;
+  private bool explicitBind;
+}

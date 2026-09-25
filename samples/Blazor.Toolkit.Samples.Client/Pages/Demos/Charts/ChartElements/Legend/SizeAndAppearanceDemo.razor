@@ -1,0 +1,143 @@
+
+<SfChart @key="@_currentTheme" Title="Annual Percentage Change in Fossil Fuel Consumption" Theme="@_currentTheme">
+
+    <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Toolkit.ValueType.Category">
+        <ChartPrimaryXAxis LabelRotation="-45" />
+    </ChartPrimaryXAxis>
+
+    <ChartPrimaryYAxis Interval="10"
+                       Format="{value}%">
+        <ChartAxisLineStyle Width="0" />
+    </ChartPrimaryYAxis>
+
+
+    <ChartSeries DataSource="@ChinaSizeData"
+                 XName="Year"
+                 YName="Value"
+                 Name="China"
+                 Type="ChartSeriesType.Line"
+                 Fill="#898AC4">
+        <ChartMarker Visible="true" Shape="ChartShape.Circle" />
+    </ChartSeries>
+
+    <ChartSeries DataSource="@GermanySizeData"
+                 XName="Year"
+                 YName="Value"
+                 Name="Germany"
+                 Type="ChartSeriesType.Line"
+                 Fill="#B3C890">
+        <ChartMarker Visible="true" Shape="ChartShape.Circle" />
+    </ChartSeries>
+
+    <ChartSeries DataSource="@SpainSizeData"
+                 XName="Year"
+                 YName="Value"
+                 Name="Spain"
+                 Type="ChartSeriesType.Line"
+                 Fill="#CD8D7A">
+        <ChartMarker Visible="true" Shape="ChartShape.Circle" />
+    </ChartSeries>
+
+    <ChartSeries DataSource="@UKSizeData"
+                 XName="Year"
+                 YName="Value"
+                 Name="U.K"
+                 Type="ChartSeriesType.Line"
+                 Fill="#D7B26D">
+        <ChartMarker Visible="true" Shape="ChartShape.Circle" />
+    </ChartSeries>
+
+    <ChartSeries DataSource="@USASizeData"
+                 XName="Year"
+                 YName="Value"
+                 Name="USA"
+                 Type="ChartSeriesType.Line"
+                 Fill="#6A9C89">
+        <ChartMarker Visible="true" Shape="ChartShape.Circle" />
+    </ChartSeries>
+
+
+    <ChartTooltipSettings Enable="true"
+                          Header="${point.x}"
+                          Format="${series.name} : <b>${point.y}</b>" />
+
+    <ChartLegendSettings Visible="true"
+                         Background="#e6a112">
+        <ChartLegendBorder Width="2" Color="#865b01" />
+    </ChartLegendSettings>
+
+</SfChart>
+
+@code {
+    [CascadingParameter]
+    private Theme CurrentTheme { get; set; } = Theme.Fluent;
+
+    private Theme _currentTheme = Theme.Fluent;
+
+    protected override void OnParametersSet()
+    {
+        base.OnParametersSet();
+        _currentTheme = CurrentTheme;
+    }
+
+    public class FossilFuelConsumptionData
+    {
+        public int Year { get; set; }
+        public double Value { get; set; }
+    }
+
+    public List<FossilFuelConsumptionData> ChinaSizeData = new()
+    {
+        new() { Year = 2012, Value = 3.9141755 }, new() { Year = 2013, Value = 3.6593583 },
+        new() { Year = 2014, Value = 2.2238302 }, new() { Year = 2015, Value = -0.06528751 },
+        new() { Year = 2016, Value = -0.32014525 }, new() { Year = 2017, Value = 2.8797305 },
+        new() { Year = 2018, Value = 3.1904576 }, new() { Year = 2019, Value = 4.3828387 },
+        new() { Year = 2020, Value = 2.0526013 }, new() { Year = 2021, Value = 4.542263 },
+        new() { Year = 2022, Value = 0.93297124 }, new() { Year = 2023, Value = 5.922115 },
+        new() { Year = 2024, Value = 1.5348873 }
+    };
+
+    public List<FossilFuelConsumptionData> GermanySizeData = new()
+    {
+        new() { Year = 2012, Value = 0.6560194 }, new() { Year = 2013, Value = 3.1069093 },
+        new() { Year = 2014, Value = -5.853749 }, new() { Year = 2015, Value = 0.60647434 },
+        new() { Year = 2016, Value = 2.6676753 }, new() { Year = 2017, Value = 2.012044 },
+        new() { Year = 2018, Value = -3.8458169 }, new() { Year = 2019, Value = -4.46649 },
+        new() { Year = 2020, Value = -9.026834 }, new() { Year = 2021, Value = 5.361363 },
+        new() { Year = 2022, Value = -3.983767 }, new() { Year = 2023, Value = -9.798819 },
+        new() { Year = 2024, Value = 0.82265115 }
+    };
+
+    public List<FossilFuelConsumptionData> SpainSizeData = new()
+    {
+        new() { Year = 2012, Value = -2.4186563 }, new() { Year = 2013, Value = -8.309622 },
+        new() { Year = 2014, Value = -2.0009587 }, new() { Year = 2015, Value = 5.18584 },
+        new() { Year = 2016, Value = -1.1721327 }, new() { Year = 2017, Value = 5.7110085 },
+        new() { Year = 2018, Value = -1.214902 }, new() { Year = 2019, Value = -2.3932867 },
+        new() { Year = 2020, Value = -17.604729 }, new() { Year = 2021, Value = 8.793011 },
+        new() { Year = 2022, Value = 6.266217 }, new() { Year = 2023, Value = -7.0316525 },
+        new() { Year = 2024, Value = 2.8967035 }
+    };
+
+    public List<FossilFuelConsumptionData> UKSizeData = new()
+    {
+        new() { Year = 2012, Value = 1.1497142 }, new() { Year = 2013, Value = -1.4915984 },
+        new() { Year = 2014, Value = -7.248566 }, new() { Year = 2015, Value = -2.27227 },
+        new() { Year = 2016, Value = -1.8265706 }, new() { Year = 2017, Value = -1.8465825 },
+        new() { Year = 2018, Value = -1.409581 }, new() { Year = 2019, Value = -3.4915404 },
+        new() { Year = 2020, Value = -13.557806 }, new() { Year = 2021, Value = 3.4425383 },
+        new() { Year = 2022, Value = -1.3518904 }, new() { Year = 2023, Value = -4.398203 },
+        new() { Year = 2024, Value = -1.3263665 }
+    };
+
+    public List<FossilFuelConsumptionData> USASizeData = new()
+    {
+        new() { Year = 2012, Value = -2.579147 }, new() { Year = 2013, Value = 2.4972367 },
+        new() { Year = 2014, Value = 0.9460448 }, new() { Year = 2015, Value = -1.2333843 },
+        new() { Year = 2016, Value = -1.1025952 }, new() { Year = 2017, Value = -0.4846117 },
+        new() { Year = 2018, Value = 4.220058 }, new() { Year = 2019, Value = -1.1917049 },
+        new() { Year = 2020, Value = -9.127873 }, new() { Year = 2021, Value = 6.143898 },
+        new() { Year = 2022, Value = 1.4998055 }, new() { Year = 2023, Value = -1.6757863 },
+        new() { Year = 2024, Value = 0.18467744 }
+    };
+}

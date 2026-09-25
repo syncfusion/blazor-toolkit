@@ -1,0 +1,59 @@
+﻿<SfButton @onclick="@OpenFullScreenDialog">Open FullScreen Dialog</SfButton>
+
+<SfDialog @ref="DialogRef" Width="250px" CssClass="custom-full-screen" ShowCloseIcon="true" Visible="false">
+    <DialogTemplates>
+        <Header>
+            <div class="full-screen-dialog-header">Everyday Knowledge in a Full-Screen View</div>
+        </Header>
+        <Content>
+            <div style="padding:16px; line-height:1.7;">
+                <p>General knowledge helps people connect ideas across science, history, geography, technology, and daily life. It is the kind of information that makes conversations easier, decision-making clearer, and learning more enjoyable. For example, knowing how weather changes, why oceans influence climate, or how the internet connects devices gives a broader view of the world around us. Small facts often lead to bigger understanding, and that is why general knowledge remains useful in school, work, and everyday situations.</p>
+                <p>In a full-screen Dialog, this kind of descriptive content works well because it creates room for comfortable reading and smooth scrolling. Users can focus on the message without feeling constrained by a small panel, and the larger layout gives the demo a more polished presentation. A clear header, readable spacing, and meaningful text together improve the visual balance of the component and make the experience feel more complete, modern, and practical.</p>
+            </div>
+        </Content>
+    </DialogTemplates>
+    <DialogButtons>
+        <DialogButton Content="OK" IsPrimary="true" OnClick="@CloseDialog" />
+        <DialogButton Content="Cancel" OnClick="@CloseDialog" />
+    </DialogButtons>
+</SfDialog>
+@code {
+    private SfDialog DialogRef;
+
+    private async Task OpenFullScreenDialog()
+    {
+        await this.DialogRef.ShowAsync(true);
+    }
+
+    private async Task CloseDialog()
+    {
+        await this.DialogRef.HideAsync();
+    }
+}
+<style>
+    .full-screen-dialog-header {
+        font-size: 1.15rem;
+        font-weight: 600;
+        color: #0f172a;
+        padding: 4px 0;
+        letter-spacing: 0.2px;
+    }
+
+        .full-screen-dialog-header::after {
+            content: '';
+            display: block;
+            width: 72px;
+            height: 3px;
+            margin-top: 8px;
+            border-radius: 999px;
+            background: linear-gradient(90deg, #2563eb, #38bdf8);
+        }
+
+    .custom-full-screen .e-dlg-closeicon-btn {
+        margin: 9px;
+    }
+
+    .dark .full-screen-dialog-header {
+        color: #fff;
+    }
+</style>

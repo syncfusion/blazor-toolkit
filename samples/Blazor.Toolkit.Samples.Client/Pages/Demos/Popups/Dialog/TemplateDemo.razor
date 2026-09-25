@@ -1,0 +1,64 @@
+﻿<div id="template-target">
+    <SfButton @onclick="@OpenTemplateDialog">Open Template Dialog</SfButton>
+
+    <SfDialog Target="#template-target" Width="400px" ShowCloseIcon="true" @bind-Visible="@IsTemplateVisible">
+        <DialogTemplates>
+            <Header>
+                <div class="custom-header">
+                    <span class="sb-icons e-settings"></span> User Profile Settings
+                </div>
+            </Header>
+            <Content>
+                <div class="custom-content">
+                    <p>Customize your account preferences and security settings here.</p>
+                    <label>Display Name:</label>
+                    <SfTextBox Placeholder="Enter youe name"></SfTextBox>
+                </div>
+            </Content>
+            <FooterTemplate>
+                <div class="custom-footer">
+                    <SfButton Content="Save Changes" IsPrimary="true" @onclick="@(() => IsTemplateVisible = false)" />
+                    <SfButton Content="Dismiss" @onclick="@(() => IsTemplateVisible = false)" />
+                </div>
+            </FooterTemplate>
+        </DialogTemplates>
+    </SfDialog>
+</div>
+@code {
+    private bool IsTemplateVisible { get; set; } = false;
+
+    private void OpenTemplateDialog()
+    {
+        this.IsTemplateVisible = true;
+    }
+}
+<style>
+    #template-target {
+        height: 350px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .custom-header {
+        font-size: 17px;
+        color: #0078d4;
+    }
+
+    .custom-content {
+        padding: 10px;
+    }
+
+    .custom-footer {
+        padding: 10px;
+        text-align: right;
+    }
+
+    .custom-header .sb-icons.e-settings {
+        vertical-align: sub;
+    }
+
+    .code-preview-wrapper .preview-host:has(#template-target) {
+        position: static;
+    }
+</style>

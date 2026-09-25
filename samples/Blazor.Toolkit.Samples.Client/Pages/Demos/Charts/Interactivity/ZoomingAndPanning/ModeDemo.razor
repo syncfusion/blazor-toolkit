@@ -1,0 +1,92 @@
+@*
+    This demo reads its monthly temperature-anomaly series from the shared
+    static helper:
+
+        ZoomDataSource.cs  (same folder)
+
+    `ZoomDataSource.Values` is a pre-populated `double[]` of 1500 anomaly
+    readings. The demo converts that array into chart points at runtime in
+    `OnInitialized`. To run this demo standalone, copy `ZoomDataSource.cs`
+    into the same folder as this .razor file.
+
+    Unlike the rest of the chart demos (which embed their data inline), the
+    ZoomingAndPanning samples all share the same source series so the
+    zoom/pan/selection interactions look consistent across the section.
+*@
+@using Syncfusion.Blazor.Toolkit.Buttons
+<div class="property-pane">
+    <label style="font-weight:700">Mode</label>
+    <SfButtonGroup Mode="SelectionMode.Single">
+        <Button SelectedChanged="@(v=>SelectedChangeMode(v,ZoomMode.X))" Selected="IsChanged(ZoomMode.X)">X</Button>
+        <Button SelectedChanged="@(v=>SelectedChangeMode(v,ZoomMode.Y))" Selected="IsChanged(ZoomMode.Y)">Y</Button>
+        <Button SelectedChanged="@(v=>SelectedChangeMode(v,ZoomMode.XY))" Selected="IsChanged(ZoomMode.XY)">XY</Button>
+    </SfButtonGroup>
+</div>
+
+<SfChart @key="@_currentTheme" Title="Global Warming: Monthly Temperature Anomalies" Theme="@_currentTheme">
+    <ChartZoomSettings EnableSelectionZooming="true"
+                       Mode="@CurrentZoomMode" />
+
+    <ChartTooltipSettings Enable="true"
+                          Header="${point.x}"
+                          Format="Temperature: <b>${point.y}</b>" />
+
+    <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Toolkit.ValueType.DateTime"
+                       IntervalType="IntervalType.Months" />
+
+    <ChartPrimaryYAxis Interval="0.3" Format="{value}°C" Title="Temperature Anomaly (°C)">
+    </ChartPrimaryYAxis>
+
+    <ChartSeries DataSource="@TemperatureSeriesData"
+                 XName="XValue"
+                 YName="YValue"
+                 Type="ChartSeriesType.Area"
+                 Opacity="0.5"
+                 Fill="#2B95C9">
+    </ChartSeries>
+</SfChart>
+
+@code {
+    [CascadingParameter]
+    private Theme CurrentTheme { get; set; } = Theme.Fluent;
+
+    private Theme _currentTheme = Theme.Fluent;
+
+    protected override void OnParametersSet()
+    {
+        base.OnParametersSet();
+        _currentTheme = CurrentTheme;
+    }
+
+    private ZoomMode CurrentZoomMode = ZoomMode.X;
+    private List<TemperaturePointModel> TemperatureSeriesData = new();
+
+    protected override void OnInitialized()
+    {
+        DateTime modeStartDate = new DateTime(1941, 1, 1);
+        for (int i = 1; i < ZoomDataSource.Values.Length; i++)
+        {
+            TemperatureSeriesData.Add(new TemperaturePointModel
+            {
+                XValue = modeStartDate.AddMonths(i),
+                YValue = ZoomDataSource.Values[i] / 1000 - 0.5
+            });
+        }
+    }
+
+    private void SelectedChangeMode(bool isSelected, ZoomMode zoomMode)
+    {
+        if (isSelected) CurrentZoomMode = zoomMode;
+    }
+
+    private bool IsChanged(ZoomMode mode)
+    {
+        return CurrentZoomMode == mode;
+    }
+
+    public class TemperaturePointModel
+    {
+        public DateTime XValue { get; set; }
+        public double YValue { get; set; }
+    }
+}

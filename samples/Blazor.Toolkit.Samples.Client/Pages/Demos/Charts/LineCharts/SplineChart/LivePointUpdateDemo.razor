@@ -1,0 +1,85 @@
+@using System.Collections.ObjectModel
+@implements IDisposable
+
+<SfChart @key="@_currentTheme" Title="Live Spline Chart" Theme="@_currentTheme">
+
+    <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Toolkit.ValueType.DateTime"
+                       Interval="1"
+                       IntervalType="IntervalType.Minutes"
+                       LabelIntersectAction="LabelIntersectAction.Hide">
+        <ChartAxisMajorGridLines Width="1" />
+    </ChartPrimaryXAxis>
+
+    <ChartPrimaryYAxis Minimum="0" Maximum="70">
+        <ChartAxisMajorGridLines Width="1" />
+    </ChartPrimaryYAxis>
+
+    <ChartSeries DataSource="@LiveData"
+                 XName="X"
+                 YName="Y"
+                 Width="2"
+                 Fill="#E377C2"
+                 Type="ChartSeriesType.Spline">
+        <ChartMarker Visible="true" />
+        <ChartSeriesAnimation Enable="true" Duration="500" />
+    </ChartSeries>
+</SfChart>
+
+@code {
+    [CascadingParameter]
+    private Theme CurrentTheme { get; set; } = Theme.Fluent;
+
+    private Theme _currentTheme = Theme.Fluent;
+
+    protected override void OnParametersSet()
+    {
+        base.OnParametersSet();
+        _currentTheme = CurrentTheme;
+    }
+
+    public class LivePoint
+    {
+        public DateTime X { get; set; }
+        public double Y { get; set; }
+    }
+
+    public ObservableCollection<LivePoint> LiveData = new()
+    {
+        new() { X = new DateTime(2020, 1, 1, 10, 0, 0), Y = 21.5 },
+        new() { X = new DateTime(2020, 1, 1, 10, 1, 0), Y = 24.0 },
+        new() { X = new DateTime(2020, 1, 1, 10, 2, 0), Y = 41.3 },
+        new() { X = new DateTime(2020, 1, 1, 10, 3, 0), Y = 49.5 },
+        new() { X = new DateTime(2020, 1, 1, 10, 4, 0), Y = 61.0 },
+        new() { X = new DateTime(2020, 1, 1, 10, 5, 0), Y = 48.6 },
+        new() { X = new DateTime(2020, 1, 1, 10, 6, 0), Y = 39.5 },
+        new() { X = new DateTime(2020, 1, 1, 10, 7, 0), Y = 42.1 }
+    };
+
+    private System.Timers.Timer? liveTimer;
+    private readonly Random Randomizer = new();
+
+    protected override void OnInitialized()
+    {
+        liveTimer = new System.Timers.Timer(2000);
+        liveTimer.Elapsed += async (_, _) => { await InvokeAsync(UpdateLiveData); };
+        liveTimer.Start();
+    }
+
+    private void UpdateLiveData()
+    {
+        if (LiveData.Count == 0) return;
+        var lastPoint = LiveData[^1];
+        LiveData.RemoveAt(0);
+        LiveData.Add(new LivePoint
+        {
+            X = lastPoint.X.AddMinutes(1),
+            Y = Math.Clamp(lastPoint.Y + Randomizer.Next(-15, 16), 5, 60)
+        });
+    }
+
+    public void Dispose()
+    {
+        liveTimer?.Stop();
+        liveTimer?.Dispose();
+    }
+}

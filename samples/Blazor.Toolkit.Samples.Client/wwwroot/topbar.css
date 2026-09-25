@@ -1,0 +1,243 @@
+/*
+ * topbar.css
+ * ----------
+ * Unscoped overrides for the Syncfusion Blazor Toolkit components used
+ * inside the top header.
+ *
+ */
+
+/* =====================================================================
+   Responsive overrides
+   ===================================================================== */
+@media (max-width: 1024px) {
+    .topbar-search.e-btn.e-control.e-lib {
+        width: 240px;
+        max-width: 240px;
+    }
+    .topbar-icon-group { gap: 10px; }
+}
+
+/* Mobile (≤ 767px): hide the search box entirely, the gap between
+   controls tightens further to 8px. */
+@media (max-width: 767.98px) {
+    .topbar-search.e-btn.e-control.e-lib {
+        display: none;
+    }
+    .topbar-icon-group { gap: 8px; }
+}
+
+/* =====================================================================
+   Topbar action row: search box + Settings + GitHub + theme switch
+   ===================================================================== */
+.top-right {
+    align-items: center;
+    gap: 8px;
+}
+
+/* Equal spacing between every control in the right-hand group.
+   12px matches Microsoft Learn / Fluent UI action-button rhythm. */
+.topbar-icon-group {
+    align-items: center;
+    gap: 12px;
+    display: inline-flex;
+}
+
+/* ---- Search box ----------------------------------------------------.*/
+.topbar-search.e-btn.e-control.e-lib {
+    box-sizing: border-box !important;
+    width: 360px !important;
+    max-width: 360px !important;
+    height: 36px !important;
+    min-height: 36px !important;
+    min-width: 360px !important;
+    padding: 0 12px !important;
+    margin: 0 !important;
+    border: 1px solid transparent !important;
+    border-radius: 8px !important;
+    background: var(--topbar-search-bg, #F4F6FA);
+    color: var(--text-color-secondary, #6B7280);
+    font-family: inherit !important;
+    font-size: 14px !important;
+    line-height: 1.2 !important;
+    text-align: left !important;
+    text-transform: none !important;
+    letter-spacing: normal !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    gap: 10px;
+    flex-shrink: 0;
+    transition: background .15s ease, border-color .15s ease, box-shadow .15s ease;
+}
+.topbar-search.e-btn.e-control.e-lib:hover {
+    background: var(--topbar-search-bg-hover, #EEF1F6);
+    border-color: var(--topbar-border, rgba(15, 23, 42, 0.08));
+}
+.topbar-search.e-btn.e-control.e-lib:focus-visible {
+    outline: none;
+    background: var(--top-bg, #FFFFFF);
+    border-color: var(--accent, #2B357C);
+    box-shadow: 0 0 0 3px rgba(43, 53, 124, 0.18);
+}
+
+/* ---- Settings (preferences) button ---------------------------------*/
+.preferences-wrapper .e-btn.preferences-button {
+    box-sizing: border-box !important;
+    width: 36px !important;
+    height: 36px !important;
+    min-width: 36px !important;
+    min-height: 36px !important;
+    max-width: 36px !important;
+    max-height: 36px !important;
+    padding: 0 !important;
+    margin: 0 !important;
+    border: 1px solid transparent !important;
+    border-radius: 8px !important;
+    background: transparent !important;
+    color: var(--top-text);
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    flex-shrink: 0;
+    cursor: pointer;
+    text-transform: none !important;
+    letter-spacing: normal !important;
+    line-height: 1 !important;
+    transition: background .15s ease, color .15s ease, border-color .15s ease;
+}
+.preferences-wrapper .e-btn.preferences-button:hover {
+    background: var(--li-hover, rgba(43, 53, 124, 0.08));
+    color: var(--accent, #2B357C);
+}
+.preferences-wrapper .e-btn.preferences-button:focus-visible {
+    outline: 2px solid var(--accent);
+    outline-offset: 2px;
+}
+
+/* ---- Mobile search button (icon-only) ------------------------------*/
+.top-right .e-btn.search.icon-button {
+    box-sizing: border-box !important;
+    width: 36px !important;
+    height: 36px !important;
+    min-width: 36px !important;
+    min-height: 36px !important;
+    max-width: 36px !important;
+    max-height: 36px !important;
+    padding: 0 !important;
+    margin: 0 !important;
+    border-radius: 8px !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    flex-shrink: 0;
+}
+
+/* ---- GitHub anchor -------------------------------------------------*/
+.topbar-icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 36px;
+    height: 36px;
+    border-radius: 8px;
+    background: transparent;
+    border: 1px solid transparent;
+    color: var(--top-text);
+    cursor: pointer;
+    font-family: inherit;
+    text-decoration: none;
+    transition: background .15s ease, color .15s ease, border-color .15s ease, transform .05s ease;
+    padding: 0;
+    flex-shrink: 0;
+    box-sizing: border-box;
+}
+.topbar-icon:hover {
+    background: var(--li-hover, rgba(43, 53, 124, 0.08));
+    color: var(--accent, #2B357C);
+    text-decoration: none;
+}
+.topbar-icon:focus-visible {
+    outline: 2px solid var(--accent);
+    outline-offset: 2px;
+}
+
+/* =====================================================================
+   Topbar action buttons (round e-outline icons)
+   =====================================================================*/
+
+/* ---- Outer button (SfButton's inner <button>) ---------------------*/
+.topbar-icon-group .e-btn.topbar-icon {
+    box-sizing: border-box !important;
+    width: 36px !important;
+    height: 36px !important;
+    min-width: 36px !important;
+    min-height: 36px !important;
+    max-width: 36px !important;
+    max-height: 36px !important;
+    padding: 0 !important;
+    margin: 0 !important;
+    border: 1px solid var(--topbar-border, rgba(15, 23, 42, 0.08)) !important;
+    border-radius: 50% !important;
+    background: transparent !important;
+    color: var(--top-text, #1f2937) !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    flex-shrink: 0;
+    cursor: pointer;
+    text-transform: none !important;
+    letter-spacing: normal !important;
+    line-height: 1 !important;
+    font-family: inherit !important;
+    transition:
+        background .15s ease,
+        color .15s ease,
+        border-color .15s ease,
+        transform .05s ease;
+}
+.topbar-icon-group .e-btn.topbar-icon:hover {
+    background: var(--li-hover, rgba(43, 53, 124, 0.08)) !important;
+    color: var(--accent, #2B357C) !important;
+    border-color: var(--topbar-border, rgba(15, 23, 42, 0.08)) !important;
+}
+.topbar-icon-group .e-btn.topbar-icon:active {
+    transform: translateY(1px);
+}
+.topbar-icon-group .e-btn.topbar-icon:focus-visible {
+    outline: 2px solid var(--accent, #2B357C);
+    outline-offset: 2px;
+}
+
+/* ---- Theme toggle active state ------------------------------------*/
+.topbar-icon-group .e-btn.topbar-icon.topbar-theme.is-active {
+    background: var(--accent, #2B357C) !important;
+    color: #ffffff !important;
+    border-color: var(--accent, #2B357C) !important;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.08);
+}
+.topbar-icon-group .e-btn.topbar-icon.topbar-theme.is-active:hover {
+    background: var(--accent, #2B357C) !important;
+    color: #ffffff !important;
+    border-color: var(--accent, #2B357C) !important;
+    filter: brightness(0.92);
+}
+
+/* ---- Icon sizing inside the round button --------------------------*/
+.topbar-icon-group .e-btn.topbar-icon .sb-icons,
+.topbar-icon-group .e-btn.topbar-icon .e-icons {
+    font-size: 16px !important;
+    line-height: 1 !important;
+}
+
+/* ---- Inline SVG icons inside the round button ---------------------*/
+.topbar-icon-group .e-btn.topbar-icon .topbar-svg {
+    width: 18px !important;
+    height: 18px !important;
+    min-width: 18px;
+    min-height: 18px;
+    max-width: 18px;
+    max-height: 18px;
+    display: block;
+    flex-shrink: 0;
+    color: inherit;
+    fill: currentColor;
+}

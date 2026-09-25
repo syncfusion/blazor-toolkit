@@ -1,0 +1,8 @@
+﻿<SfCalendar TValue="DateTime" IsMultiSelection="true" Values="@MultipleValues"></SfCalendar>
+@code {
+    public DateTime[] MultipleValues { get; set; } = new DateTime[] {
+        new DateTime(DateTime.Now.Year, DateTime.Now.Month, 10),
+        new DateTime(DateTime.Now.Year, DateTime.Now.Month, 15),
+        new DateTime(DateTime.Now.Year, DateTime.Now.Month, 25)
+    };
+}

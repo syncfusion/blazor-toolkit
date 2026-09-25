@@ -1,0 +1,69 @@
+﻿<div class="mb-3">
+    <p class="fw-bold mb-2">Toggle with icons</p>
+    <div class="d-flex gap-3 flex-wrap">
+        <SfButton IsToggle="true"
+                  OnClick="@ToggleBold"
+                  CssClass="@($"toggle-btn {(isBold ? "e-filled e-primary" : "e-outline")}")"
+                  IconCss="sb-icons e-bold"
+                  IconPosition="IconPosition.Left"
+                  title="Toggle bold">
+            @(isBold ? "Bold on" : "Bold off")
+        </SfButton>
+
+        <SfButton IsToggle="true"
+                  OnClick="@ToggleAutoDownload"
+                  CssClass="@($"toggle-btn {(autoDownloadOn ? "e-filled e-info" : "e-outline")}")"
+                  IconCss="sb-icons e-download"
+                  IconPosition="IconPosition.Left"
+                  title="Toggle auto-download">
+            @(autoDownloadOn ? "Auto-download on" : "Auto-download off")
+        </SfButton>
+    </div>
+</div>
+
+<div>
+    <p class="fw-bold mb-2">Icon-only toggle</p>
+    <div class="d-flex gap-2 flex-wrap">
+        <SfButton IsToggle="true"
+                  OnClick="@ToggleSettingsIconOnly"
+                  CssClass="@($"toggle-icon-only {(settingsIconOn ? "e-filled e-primary" : "e-outline")}")"
+                  IconCss="sb-icons e-settings"
+                  title="Settings">
+        </SfButton>
+
+        <SfButton IsToggle="true"
+                  OnClick="@ToggleBookmarkIconOnly"
+                  CssClass="@($"toggle-icon-only {(bookmarkIconOn ? "e-filled e-success" : "e-outline")}")"
+                  IconCss="sb-icons e-bookmark"
+                  title="Bookmark">
+        </SfButton>
+
+        <SfButton IsToggle="true"
+                  OnClick="@TogglePin"
+                  CssClass="@($"toggle-icon-only {(isPinned ? "e-filled e-info" : "e-outline")}")"
+                  IconCss="sb-icons e-pin"
+                  title="Pin">
+        </SfButton>
+    </div>
+
+    <p class="mt-2">
+        <small>
+            Settings: @(settingsIconOn ? "On" : "Off") |
+            Bookmark: @(bookmarkIconOn ? "On" : "Off") |
+            Pinned: @(isPinned ? "Yes" : "No")
+        </small>
+    </p>
+</div>
+@code {
+    private bool isBold;
+    private bool autoDownloadOn;
+    private bool settingsIconOn;
+    private bool bookmarkIconOn;
+    private bool isPinned;
+
+    private void ToggleBold(MouseEventArgs _) => isBold = !isBold;
+    private void ToggleAutoDownload(MouseEventArgs _) => autoDownloadOn = !autoDownloadOn;
+    private void ToggleSettingsIconOnly(MouseEventArgs _) => settingsIconOn = !settingsIconOn;
+    private void ToggleBookmarkIconOnly(MouseEventArgs _) => bookmarkIconOn = !bookmarkIconOn;
+    private void TogglePin(MouseEventArgs _) => isPinned = !isPinned;
+}

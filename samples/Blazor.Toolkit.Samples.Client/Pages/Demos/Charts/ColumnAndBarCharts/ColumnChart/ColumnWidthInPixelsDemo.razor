@@ -1,0 +1,45 @@
+<div style="padding:15px; margin-bottom:20px;"><label style="font-weight:500;">Walnut Column Width (px): @WalnutColumnWidthPx</label><br /><input type="range" min="5" max="100" step="1" value="@WalnutColumnWidthPx" @oninput="OnWalnutColumnWidthChanged" style="width:150px; height:6px;" /></div>
+<SfChart @key="@_currentTheme" Title="@WalnutChartTitle" Theme="@_currentTheme">
+    <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Toolkit.ValueType.Category" Interval="1" />
+    <ChartPrimaryYAxis Title="Metric Tons" Interval="40"></ChartPrimaryYAxis>
+
+    <ChartSeries DataSource="@WalnutChartDataStore.WalnutColumnChartData" XName="Country" YName="Walnuts" Type="ChartSeriesType.Column" Fill="#00C5BC" ColumnWidthInPixel="@WalnutColumnWidthPx"></ChartSeries>
+
+    <ChartTooltipSettings Enable="true" Format="${point.x} : <b>${point.y}K</b>" />
+</SfChart>
+
+@code {
+    [CascadingParameter]
+    private Theme CurrentTheme { get; set; } = Theme.Fluent;
+
+    private Theme _currentTheme = Theme.Fluent;
+
+    protected override void OnParametersSet()
+    {
+        base.OnParametersSet();
+        _currentTheme = CurrentTheme;
+    }
+
+    private int WalnutColumnWidthPx = 60;
+    private string WalnutChartTitle => $"Walnuts Production (Column Width: {WalnutColumnWidthPx}px)";
+    private void OnWalnutColumnWidthChanged(ChangeEventArgs args) { WalnutColumnWidthPx = int.Parse(args.Value!.ToString()!); }
+
+    public class WalnutProductionModel
+    {
+        public string Country { get; set; } = string.Empty;
+        public double Walnuts { get; set; }
+        public double Almonds { get; set; }
+    }
+
+    public static class WalnutChartDataStore
+    {
+        public static List<WalnutProductionModel> WalnutColumnChartData = new()
+        {
+            new() { Country = "Chile", Walnuts = 175, Almonds = 11.3 },
+            new() { Country = "European Union", Walnuts = 140, Almonds = 135 },
+            new() { Country = "Turkey", Walnuts = 67, Almonds = 24 },
+            new() { Country = "India", Walnuts = 33, Almonds = 42 },
+            new() { Country = "Australia", Walnuts = 12, Almonds = 154 }
+        };
+    }
+}

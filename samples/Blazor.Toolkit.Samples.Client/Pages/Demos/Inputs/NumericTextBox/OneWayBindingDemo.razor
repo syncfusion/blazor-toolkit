@@ -1,0 +1,9 @@
+﻿<div class="d-flex align-items-center gap-2">
+    <SfNumericTextBox TValue="int?" Value="@OneWayValue" Min="0" Max="100" Step="5" Width="220px" />
+    <SfButton CssClass="e-primary" IsPrimary="true" OnClick="@UpdateOneWay">Set 75</SfButton>
+</div>
+<div class="mt-2 example-label"><b>Value:</b> @OneWayValue</div>
+@code {
+    private int? OneWayValue { get; set; } = 25;
+    private void UpdateOneWay() => OneWayValue = 75;
+}

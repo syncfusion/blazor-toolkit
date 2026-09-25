@@ -1,0 +1,65 @@
+﻿<div class="e-section">
+    <label class="e-label">Disabled group</label>
+    <SfButtonGroup>
+        <Button Disabled="true">One</Button>
+        <Button Disabled="true">Two</Button>
+        <Button Disabled="true">Three</Button>
+    </SfButtonGroup>
+</div>
+
+<div class="e-section" style="margin-top:12px">
+    <label class="e-label">Active (Selected) state</label>
+
+    <SfButtonGroup Mode="SelectionMode.Multiple">
+        <Button Selected='@textStyles.Contains("Bold")'
+                SelectedChanged='@(v => ToggleStyle("Bold", v))'
+                CssClass='@GetActive("Bold")'
+                aria-pressed='@textStyles.Contains("Bold")'>
+            Bold
+        </Button>
+
+        <Button Selected='@textStyles.Contains("Italic")'
+                SelectedChanged='@(v => ToggleStyle("Italic", v))'
+                CssClass='@GetActive("Italic")'
+                aria-pressed='@textStyles.Contains("Italic")'>
+            Italic
+        </Button>
+
+        <Button Selected='@textStyles.Contains("Underline")'
+                SelectedChanged='@(v => ToggleStyle("Underline", v))'
+                CssClass='@GetActive("Underline")'
+                aria-pressed='@textStyles.Contains("Underline")'>
+            Underline
+        </Button>
+    </SfButtonGroup>
+
+    <div class="e-note">Active: @string.Join(", ", textStyles)</div>
+</div>
+@code
+{
+    private HashSet<string> tags = new(new[] { "News" });
+    private string alignment = "Left";
+    private string GetActive(string key)
+                    => (alignment == key || textStyles.Contains(key) || tags.Contains(key)) ? "e - primary" : string.Empty;
+            private HashSet<string> textStyles = new();
+
+    private void ToggleStyle(string key, bool selected)
+    {
+        if (selected) textStyles.Add(key); else textStyles.Remove(key);
+        StateHasChanged();
+    }
+}
+<style>
+    /* --- Minor UI polish for your previews --- */
+    .e-section .e-label {
+        display: block;
+        font-weight: 600;
+        margin-bottom: 6px;
+    }
+
+    .e-section .e-note {
+        margin-top: 8px;
+        color: var(--e-info-foreground, #6b7280);
+        font-size: .9rem;
+    }
+</style>

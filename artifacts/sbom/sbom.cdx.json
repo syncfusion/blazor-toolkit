@@ -1,0 +1,161 @@
+{
+  "bomFormat": "CycloneDX",
+  "specVersion": "1.5",
+  "serialNumber": "urn:uuid:69c0e8b6-3c6a-4fb2-9e1d-4a8a3a7e2c14",
+  "version": 1,
+  "metadata": {
+    "timestamp": "2026-09-06T00:00:00Z",
+    "tools": [
+      {
+        "vendor": "Microsoft.SourceLink",
+        "name": "Microsoft.Sbom.Targets",
+        "version": "8.0.0"
+      },
+      {
+        "vendor": "CycloneDX",
+        "name": "CycloneDX .NET module",
+        "version": "3.0.0"
+      }
+    ],
+    "authors": [
+      {
+        "name": "Syncfusion Inc.",
+        "email": "toolkit-maintainers@syncfusion.com"
+      }
+    ],
+    "component": {
+      "type": "library",
+      "bom-ref": "pkg:nuget/Syncfusion.Blazor.Toolkit@1.0.0",
+      "name": "Syncfusion.Blazor.Toolkit",
+      "version": "1.0.0",
+      "purl": "pkg:nuget/Syncfusion.Blazor.Toolkit@1.0.0",
+      "licenses": [
+        {
+          "expression": "MIT"
+        }
+      ],
+      "supplier": {
+        "name": "Syncfusion Inc.",
+        "url": "https://github.com/syncfusion/blazor-toolkit"
+      },
+      "externalReferences": [
+        {
+          "type": "website",
+          "url": "https://github.com/syncfusion/blazor-toolkit"
+        },
+        {
+          "type": "documentation",
+          "url": "https://blazor.syncfusion.com/documentation/toolkit/overview"
+        },
+        {
+          "type": "vcs",
+          "url": "https://github.com/syncfusion/blazor-toolkit.git"
+        },
+        {
+          "type": "issue-tracker",
+          "url": "https://github.com/syncfusion/blazor-toolkit/issues"
+        },
+        {
+          "type": "security-contact",
+          "url": "mailto:security@syncfusion.com"
+        }
+      ]
+    },
+    "manufacture": {
+      "name": "Syncfusion Inc."
+    }
+  },
+  "components": [
+    {
+      "type": "library",
+      "bom-ref": "pkg:nuget/Microsoft.AspNetCore.Components.Web@8.0.23",
+      "name": "Microsoft.AspNetCore.Components.Web",
+      "version": "8.0.23",
+      "purl": "pkg:nuget/Microsoft.AspNetCore.Components.Web@8.0.23",
+      "licenses": [{ "expression": "MIT" }],
+      "externalReferences": [
+        { "type": "website", "url": "https://dot.net/" }
+      ]
+    },
+    {
+      "type": "library",
+      "bom-ref": "pkg:nuget/Microsoft.AspNetCore.Components.Web@9.0.12",
+      "name": "Microsoft.AspNetCore.Components.Web",
+      "version": "9.0.12",
+      "purl": "pkg:nuget/Microsoft.AspNetCore.Components.Web@9.0.12",
+      "licenses": [{ "expression": "MIT" }],
+      "externalReferences": [
+        { "type": "website", "url": "https://dot.net/" }
+      ]
+    },
+    {
+      "type": "library",
+      "bom-ref": "pkg:nuget/Microsoft.AspNetCore.Components.Web@10.0.2",
+      "name": "Microsoft.AspNetCore.Components.Web",
+      "version": "10.0.2",
+      "purl": "pkg:nuget/Microsoft.AspNetCore.Components.Web@10.0.2",
+      "licenses": [{ "expression": "MIT" }],
+      "externalReferences": [
+        { "type": "website", "url": "https://dot.net/" }
+      ]
+    },
+    {
+      "type": "library",
+      "bom-ref": "pkg:nuget/Microsoft.Extensions.Localization@8.0.23",
+      "name": "Microsoft.Extensions.Localization",
+      "version": "8.0.23",
+      "purl": "pkg:nuget/Microsoft.Extensions.Localization@8.0.23",
+      "licenses": [{ "expression": "MIT" }],
+      "externalReferences": [
+        { "type": "website", "url": "https://dot.net/" }
+      ]
+    },
+    {
+      "type": "library",
+      "bom-ref": "pkg:nuget/Microsoft.Extensions.Localization@9.0.12",
+      "name": "Microsoft.Extensions.Localization",
+      "version": "9.0.12",
+      "purl": "pkg:nuget/Microsoft.Extensions.Localization@9.0.12",
+      "licenses": [{ "expression": "MIT" }],
+      "externalReferences": [
+        { "type": "website", "url": "https://dot.net/" }
+      ]
+    },
+    {
+      "type": "library",
+      "bom-ref": "pkg:nuget/Microsoft.Extensions.Localization@10.0.2",
+      "name": "Microsoft.Extensions.Localization",
+      "version": "10.0.2",
+      "purl": "pkg:nuget/Microsoft.Extensions.Localization@10.0.2",
+      "licenses": [{ "expression": "MIT" }],
+      "externalReferences": [
+        { "type": "website", "url": "https://dot.net/" }
+      ]
+    },
+    {
+      "type": "library",
+      "bom-ref": "pkg:nuget/Microsoft.SourceLink.GitHub@8.0.0",
+      "name": "Microsoft.SourceLink.GitHub",
+      "version": "8.0.0",
+      "purl": "pkg:nuget/Microsoft.SourceLink.GitHub@8.0.0",
+      "licenses": [{ "expression": "MIT" }],
+      "externalReferences": [
+        { "type": "website", "url": "https://dot.net/" }
+      ]
+    }
+  ],
+  "dependencies": [
+    {
+      "ref": "pkg:nuget/Syncfusion.Blazor.Toolkit@1.0.0",
+      "dependsOn": [
+        "pkg:nuget/Microsoft.AspNetCore.Components.Web@8.0.23",
+        "pkg:nuget/Microsoft.AspNetCore.Components.Web@9.0.12",
+        "pkg:nuget/Microsoft.AspNetCore.Components.Web@10.0.2",
+        "pkg:nuget/Microsoft.Extensions.Localization@8.0.23",
+        "pkg:nuget/Microsoft.Extensions.Localization@9.0.12",
+        "pkg:nuget/Microsoft.Extensions.Localization@10.0.2",
+        "pkg:nuget/Microsoft.SourceLink.GitHub@8.0.0"
+      ]
+    }
+  ]
+}

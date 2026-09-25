@@ -1,0 +1,6 @@
+﻿<p style="display: ruby;"><label class="sb-label">Selected Date:</label> @DateValue</p>
+<SfDatePicker TValue="DateOnly?" Width="270px" Placeholder="Choose a Date" @bind-Value="@DateValue" ShowClearButton="true"></SfDatePicker>
+
+@code {
+	public DateOnly? DateValue { get; set; } = DateOnly.FromDateTime(DateTime.Today);
+}

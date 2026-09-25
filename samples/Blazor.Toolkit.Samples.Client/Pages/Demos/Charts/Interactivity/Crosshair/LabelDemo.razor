@@ -1,0 +1,67 @@
+<SfChart @key="@_currentTheme" Title="Global Market Capitalization (Current US$)" Theme="@_currentTheme">
+    <ChartLegendSettings Visible="false" />
+
+    <ChartCrosshairSettings Enable="true" DashArray="2,3" LineType="LineType.Both">
+        <ChartCrosshairLine Width="1.5" />
+    </ChartCrosshairSettings>
+
+    <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Toolkit.ValueType.Category">
+        <ChartAxisLineStyle Width="0" />
+        <ChartAxisCrosshairTooltip Enable="true" />
+    </ChartPrimaryXAxis>
+
+    <ChartPrimaryYAxis Title="Market Cap (Billions of US$)" Interval="40000">
+        <ChartAxisLineStyle Width="0" />
+        <ChartAxisCrosshairTooltip Enable="true" />
+    </ChartPrimaryYAxis>
+
+    <ChartSeries DataSource="@Data"
+                 XName="Year"
+                 YName="ValueB"
+                 Type="ChartSeriesType.SplineArea"
+                 Name="Market Cap"
+                 Width="2"
+                 Opacity="0.6"
+                 Fill="#38BE09">
+        <ChartSeriesBorder Width="2" Color="#38BE09" />
+    </ChartSeries>
+
+    <ChartTooltipSettings Enable="true"
+                          Header="<b>${point.x}</b>"
+                          Format="${series.name}: <b>${point.y} B US$</b>">
+    </ChartTooltipSettings>
+</SfChart>
+
+@code {
+    [CascadingParameter]
+    private Theme CurrentTheme { get; set; } = Theme.Fluent;
+
+    private Theme _currentTheme = Theme.Fluent;
+
+    protected override void OnParametersSet()
+    {
+        base.OnParametersSet();
+        _currentTheme = CurrentTheme;
+    }
+
+    public class MarketCapPoint
+    {
+        public string Year { get; set; } = string.Empty;
+        public double ValueB { get; set; }
+    }
+
+    private List<MarketCapPoint> Data = new()
+    {
+        new MarketCapPoint { Year = "1975", ValueB = 1500 },
+        new MarketCapPoint { Year = "1980", ValueB = 2100 },
+        new MarketCapPoint { Year = "1985", ValueB = 3200 },
+        new MarketCapPoint { Year = "1990", ValueB = 4500 },
+        new MarketCapPoint { Year = "1995", ValueB = 7200 },
+        new MarketCapPoint { Year = "2000", ValueB = 30000 },
+        new MarketCapPoint { Year = "2005", ValueB = 35000 },
+        new MarketCapPoint { Year = "2010", ValueB = 54000 },
+        new MarketCapPoint { Year = "2015", ValueB = 68000 },
+        new MarketCapPoint { Year = "2020", ValueB = 95000 },
+        new MarketCapPoint { Year = "2024", ValueB = 110000 }
+    };
+}

@@ -1,0 +1,123 @@
+@using Syncfusion.Blazor.Toolkit.Buttons
+@using Syncfusion.Blazor.Toolkit.Inputs
+
+<div class="property-pane">
+    <div class="row">
+        <div class="col">
+            <label class="fw-bold">Selection Mode</label>
+            <SfButtonGroup Mode="SelectionMode.Single">
+                <Button Selected="IsSelected(ChartSelectionMode.Series)" SelectedChanged="@(v => SelectionModeChanged(v, ChartSelectionMode.Series))">Series</Button>
+                <Button Selected="IsSelected(ChartSelectionMode.Point)" SelectedChanged="@(v => SelectionModeChanged(v, ChartSelectionMode.Point))">Point</Button>
+                <Button Selected="IsSelected(ChartSelectionMode.Cluster)" SelectedChanged="@(v => SelectionModeChanged(v, ChartSelectionMode.Cluster))">Cluster</Button>
+            </SfButtonGroup>
+        </div>
+
+        <div class="col">
+            <label class="fw-bold">Selection Pattern</label>
+            <SfButtonGroup Mode="SelectionMode.Single">
+                <Button Selected="SelectedPattern == SelectionPattern.None" SelectedChanged="@(v => { if (v) SelectedPattern = SelectionPattern.None; })">None</Button>
+                <Button Selected="SelectedPattern == SelectionPattern.Chessboard" SelectedChanged="@(v => { if (v) SelectedPattern = SelectionPattern.Chessboard; })">Chessboard</Button>
+                <Button Selected="SelectedPattern == SelectionPattern.DiagonalForward" SelectedChanged="@(v => { if (v) SelectedPattern = SelectionPattern.DiagonalForward; })">DiagonalForward</Button>
+                <Button Selected="SelectedPattern == SelectionPattern.DiagonalBackward" SelectedChanged="@(v => { if (v) SelectedPattern = SelectionPattern.DiagonalBackward; })">DiagonalBackward</Button>
+            </SfButtonGroup>
+        </div>
+
+        <div class="col mt-4">
+            <SfCheckBox Label="MultiSelection"
+                        @bind-Checked="IsMultiSelectionEnabled" />
+        </div>
+    </div>
+</div>
+
+<SfChart @key="@_currentTheme" Title="Global PC Shipments by Brand (2021-2025)" SubTitle="Source: gartner.com" SelectionMode="SelectedMode" SelectionPattern="SelectedPattern" AllowMultiSelection="IsMultiSelectionEnabled" Theme="@_currentTheme">
+    <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Toolkit.ValueType.Category"></ChartPrimaryXAxis>
+
+    <ChartPrimaryYAxis Interval="20" Format="{value}M" Title="Units Shipped (in Millions)">
+    </ChartPrimaryYAxis>
+
+    <ChartSeries DataSource="@HpShipmentData"
+                 XName="Year"
+                 YName="Count"
+                 Type="ChartSeriesType.Column"
+                 Name="HP"
+                 Fill="#7107DC"
+                 ColumnSpacing="0.2">
+    </ChartSeries>
+
+    <ChartSeries DataSource="@LenovoShipmentData"
+                 XName="Year"
+                 YName="Count"
+                 Type="ChartSeriesType.Column"
+                 Name="Lenovo"
+                 Fill="#38BE09"
+                 ColumnSpacing="0.2">
+    </ChartSeries>
+
+    <ChartSeries DataSource="@DellShipmentData"
+                 XName="Year"
+                 YName="Count"
+                 Type="ChartSeriesType.Column"
+                 Name="Dell"
+                 Fill="#B1212D"
+                 ColumnSpacing="0.2">
+    </ChartSeries>
+</SfChart>
+
+@code {
+    [CascadingParameter]
+    private Theme CurrentTheme { get; set; } = Theme.Fluent;
+
+    private Theme _currentTheme = Theme.Fluent;
+
+    protected override void OnParametersSet()
+    {
+        base.OnParametersSet();
+        _currentTheme = CurrentTheme;
+    }
+
+    private ChartSelectionMode SelectedMode = ChartSelectionMode.Series;
+    private SelectionPattern SelectedPattern = SelectionPattern.None;
+    private bool IsMultiSelectionEnabled = false;
+
+    private bool IsSelected(ChartSelectionMode mode)
+    {
+        return mode == SelectedMode;
+    }
+
+    private void SelectionModeChanged(bool selected, ChartSelectionMode mode)
+    {
+        if (selected)
+        {
+            SelectedMode = mode;
+        }
+    }
+
+    public record ShipmentInfo(string Year, double Count);
+
+    public List<ShipmentInfo> HpShipmentData = new()
+    {
+        new ShipmentInfo("2021", 72.8),
+        new ShipmentInfo("2022", 63.6),
+        new ShipmentInfo("2023", 53.0),
+        new ShipmentInfo("2024", 52.8),
+        new ShipmentInfo("2025", 57)
+    };
+
+    public List<ShipmentInfo> LenovoShipmentData = new()
+    {
+        new ShipmentInfo("2021", 82.1),
+        new ShipmentInfo("2022", 79.1),
+        new ShipmentInfo("2023", 62.5),
+        new ShipmentInfo("2024", 61.8),
+        new ShipmentInfo("2025", 68)
+    };
+
+    public List<ShipmentInfo> DellShipmentData = new()
+    {
+        new ShipmentInfo("2021", 58.3),
+        new ShipmentInfo("2022", 57.5),
+        new ShipmentInfo("2023", 42.5),
+        new ShipmentInfo("2024", 39.5),
+        new ShipmentInfo("2025", 42)
+    };
+}

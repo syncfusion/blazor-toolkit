@@ -1,0 +1,131 @@
+
+<SfChart @key="@_currentTheme" Title="Life Expectancy for People of Different Ages, France" Theme="@_currentTheme">
+
+    <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Toolkit.ValueType.Category" />
+
+    <ChartPrimaryYAxis Minimum="25"
+                       Maximum="90"
+                       Format="{value} Years">
+        <ChartAxisLineStyle Width="0" />
+    </ChartPrimaryYAxis>
+
+
+    <ChartSeries DataSource="@FranceBirthData" XName="Year" YName="AtBirth" Name="At Birth" Type="ChartSeriesType.Line" LegendShape="LegendShape.SeriesType" Fill="#0A97B0"></ChartSeries>
+    <ChartSeries DataSource="@FranceBirthData" XName="Year" YName="Age10" Name="10 Year old" Type="ChartSeriesType.Line" LegendShape="LegendShape.SeriesType" Fill="#FF8225"></ChartSeries>
+    <ChartSeries DataSource="@FranceBirthData" XName="Year" YName="Age25" Name="25 Year old" Type="ChartSeriesType.Line" LegendShape="LegendShape.SeriesType" Fill="#006A71"></ChartSeries>
+    <ChartSeries DataSource="@FranceBirthData" XName="Year" YName="Age45" Name="45 Year old" Type="ChartSeriesType.Line" LegendShape="LegendShape.SeriesType" Fill="#AC1754"></ChartSeries>
+    <ChartSeries DataSource="@FranceBirthData" XName="Year" YName="Age65" Name="65 Year old" Type="ChartSeriesType.Line" LegendShape="LegendShape.SeriesType" Fill="#37AFE1"></ChartSeries>
+    <ChartSeries DataSource="@FranceBirthData" XName="Year" YName="Age80" Name="80 Year old" Type="ChartSeriesType.Line" LegendShape="LegendShape.SeriesType" Fill="#6A9C89"></ChartSeries>
+
+
+    <ChartTooltipSettings Enable="true"
+                          Header="${point.x}"
+                          Format="${series.name} : <b>${point.y}</b>" />
+
+    <ChartLegendSettings Visible="true"
+                         MaximumLabelWidth="130">
+        <ChartLegendTextStyle Size="20px"
+                               FontWeight="bold"
+                               Color="#1993c4ff" />
+    </ChartLegendSettings>
+
+</SfChart>
+
+@code {
+    [CascadingParameter]
+    private Theme CurrentTheme { get; set; } = Theme.Fluent;
+
+    private Theme _currentTheme = Theme.Fluent;
+
+    protected override void OnParametersSet()
+    {
+        base.OnParametersSet();
+        _currentTheme = CurrentTheme;
+    }
+
+    public class LifeExpectancyAgeData
+    {
+        public int Year { get; set; }
+        public double AtBirth { get; set; }
+        public double Age10 { get; set; }
+        public double Age25 { get; set; }
+        public double Age45 { get; set; }
+        public double Age65 { get; set; }
+        public double Age80 { get; set; }
+    }
+
+    public List<LifeExpectancyAgeData> FranceBirthData = new()
+    {
+        new() { Year = 1816, AtBirth = 40, Age10 = 57, Age25 = 62, Age45 = 68, Age65 = 76, Age80 = 85 },
+        new() { Year = 1817, AtBirth = 39, Age10 = 57, Age25 = 61, Age45 = 68, Age65 = 76, Age80 = 85 },
+        new() { Year = 1818, AtBirth = 39, Age10 = 57, Age25 = 62, Age45 = 68, Age65 = 76, Age80 = 85 },
+        new() { Year = 1819, AtBirth = 37, Age10 = 57, Age25 = 62, Age45 = 68, Age65 = 76, Age80 = 85 },
+        new() { Year = 1820, AtBirth = 39, Age10 = 57, Age25 = 62, Age45 = 68, Age65 = 76, Age80 = 85 },
+        new() { Year = 1821, AtBirth = 40, Age10 = 58, Age25 = 63, Age45 = 69, Age65 = 77, Age80 = 85 },
+        new() { Year = 1822, AtBirth = 38, Age10 = 58, Age25 = 63, Age45 = 69, Age65 = 76, Age80 = 85 },
+        new() { Year = 1823, AtBirth = 40, Age10 = 59, Age25 = 63, Age45 = 69, Age65 = 76, Age80 = 85 },
+        new() { Year = 1824, AtBirth = 39, Age10 = 59, Age25 = 63, Age45 = 69, Age65 = 77, Age80 = 85 },
+        new() { Year = 1825, AtBirth = 39, Age10 = 58, Age25 = 63, Age45 = 69, Age65 = 76, Age80 = 85 },
+        new() { Year = 1826, AtBirth = 38, Age10 = 57, Age25 = 62, Age45 = 68, Age65 = 76, Age80 = 85 },
+        new() { Year = 1827, AtBirth = 39, Age10 = 57, Age25 = 62, Age45 = 68, Age65 = 76, Age80 = 85 },
+        new() { Year = 1828, AtBirth = 38, Age10 = 57, Age25 = 62, Age45 = 68, Age65 = 76, Age80 = 85 },
+        new() { Year = 1829, AtBirth = 39, Age10 = 57, Age25 = 62, Age45 = 68, Age65 = 76, Age80 = 85 },
+        new() { Year = 1830, AtBirth = 40, Age10 = 57, Age25 = 62, Age45 = 68, Age65 = 76, Age80 = 85 },
+        new() { Year = 1831, AtBirth = 40, Age10 = 58, Age25 = 62, Age45 = 69, Age65 = 76, Age80 = 85 },
+        new() { Year = 1832, AtBirth = 36, Age10 = 54, Age25 = 59, Age45 = 66, Age65 = 75, Age80 = 85 },
+        new() { Year = 1833, AtBirth = 39, Age10 = 57, Age25 = 62, Age45 = 68, Age65 = 76, Age80 = 85 },
+        new() { Year = 1834, AtBirth = 35, Age10 = 56, Age25 = 61, Age45 = 68, Age65 = 76, Age80 = 85 },
+        new() { Year = 1835, AtBirth = 40, Age10 = 57, Age25 = 62, Age45 = 68, Age65 = 76, Age80 = 85 },
+        new() { Year = 1836, AtBirth = 42, Age10 = 59, Age25 = 63, Age45 = 69, Age65 = 76, Age80 = 85 },
+        new() { Year = 1837, AtBirth = 39, Age10 = 56, Age25 = 61, Age45 = 67, Age65 = 75, Age80 = 84 },
+        new() { Year = 1838, AtBirth = 39, Age10 = 57, Age25 = 62, Age45 = 68, Age65 = 76, Age80 = 85 },
+        new() { Year = 1839, AtBirth = 41, Age10 = 58, Age25 = 63, Age45 = 69, Age65 = 76, Age80 = 85 },
+        new() { Year = 1840, AtBirth = 40, Age10 = 57, Age25 = 62, Age45 = 69, Age65 = 76, Age80 = 85 },
+        new() { Year = 1841, AtBirth = 41, Age10 = 57, Age25 = 63, Age45 = 69, Age65 = 76, Age80 = 85 },
+        new() { Year = 1842, AtBirth = 40, Age10 = 57, Age25 = 62, Age45 = 69, Age65 = 76, Age80 = 85 },
+        new() { Year = 1843, AtBirth = 41, Age10 = 58, Age25 = 63, Age45 = 69, Age65 = 76, Age80 = 85 },
+        new() { Year = 1844, AtBirth = 42, Age10 = 58, Age25 = 63, Age45 = 69, Age65 = 76, Age80 = 85 },
+        new() { Year = 1845, AtBirth = 44, Age10 = 59, Age25 = 64, Age45 = 70, Age65 = 76, Age80 = 85 },
+        new() { Year = 1846, AtBirth = 41, Age10 = 58, Age25 = 63, Age45 = 69, Age65 = 76, Age80 = 85 },
+        new() { Year = 1847, AtBirth = 40, Age10 = 56, Age25 = 61, Age45 = 68, Age65 = 75, Age80 = 84 },
+        new() { Year = 1848, AtBirth = 40, Age10 = 57, Age25 = 62, Age45 = 68, Age65 = 76, Age80 = 85 },
+        new() { Year = 1849, AtBirth = 36, Age10 = 54, Age25 = 59, Age45 = 67, Age65 = 75, Age80 = 84 },
+        new() { Year = 1850, AtBirth = 43, Age10 = 59, Age25 = 63, Age45 = 69, Age65 = 76, Age80 = 85 },
+        new() { Year = 1851, AtBirth = 42, Age10 = 59, Age25 = 63, Age45 = 69, Age65 = 76, Age80 = 85 },
+        new() { Year = 1852, AtBirth = 41, Age10 = 58, Age25 = 63, Age45 = 69, Age65 = 76, Age80 = 85 },
+        new() { Year = 1853, AtBirth = 43, Age10 = 58, Age25 = 63, Age45 = 69, Age65 = 76, Age80 = 84 },
+        new() { Year = 1854, AtBirth = 36, Age10 = 53, Age25 = 59, Age45 = 67, Age65 = 75, Age80 = 84 },
+        new() { Year = 1855, AtBirth = 38, Age10 = 54, Age25 = 60, Age45 = 68, Age65 = 75, Age80 = 84 },
+        new() { Year = 1856, AtBirth = 40, Age10 = 57, Age25 = 63, Age45 = 69, Age65 = 76, Age80 = 85 },
+        new() { Year = 1857, AtBirth = 40, Age10 = 57, Age25 = 62, Age45 = 69, Age65 = 76, Age80 = 85 },
+        new() { Year = 1858, AtBirth = 40, Age10 = 57, Age25 = 62, Age45 = 68, Age65 = 75, Age80 = 84 },
+        new() { Year = 1859, AtBirth = 35, Age10 = 56, Age25 = 62, Age45 = 68, Age65 = 76, Age80 = 84 },
+        new() { Year = 1860, AtBirth = 43, Age10 = 59, Age25 = 63, Age45 = 69, Age65 = 76, Age80 = 85 },
+        new() { Year = 1861, AtBirth = 41, Age10 = 59, Age25 = 63, Age45 = 69, Age65 = 76, Age80 = 85 },
+        new() { Year = 1862, AtBirth = 43, Age10 = 59, Age25 = 64, Age45 = 69, Age65 = 76, Age80 = 85 },
+        new() { Year = 1863, AtBirth = 42, Age10 = 59, Age25 = 63, Age45 = 69, Age65 = 76, Age80 = 85 },
+        new() { Year = 1864, AtBirth = 42, Age10 = 59, Age25 = 63, Age45 = 69, Age65 = 76, Age80 = 85 },
+        new() { Year = 1865, AtBirth = 40, Age10 = 57, Age25 = 62, Age45 = 68, Age65 = 76, Age80 = 85 },
+        new() { Year = 1866, AtBirth = 42, Age10 = 58, Age25 = 63, Age45 = 68, Age65 = 76, Age80 = 85 },
+        new() { Year = 1867, AtBirth = 42, Age10 = 59, Age25 = 63, Age45 = 69, Age65 = 76, Age80 = 85 },
+        new() { Year = 1868, AtBirth = 40, Age10 = 58, Age25 = 62, Age45 = 68, Age65 = 76, Age80 = 85 },
+        new() { Year = 1869, AtBirth = 41, Age10 = 58, Age25 = 62, Age45 = 69, Age65 = 76, Age80 = 85 },
+        new() { Year = 1870, AtBirth = 37, Age10 = 54, Age25 = 59, Age45 = 67, Age65 = 75, Age80 = 84 },
+        new() { Year = 1871, AtBirth = 30, Age10 = 47, Age25 = 55, Age45 = 66, Age65 = 75, Age80 = 84 },
+        new() { Year = 1872, AtBirth = 43, Age10 = 59, Age25 = 63, Age45 = 70, Age65 = 76, Age80 = 85 },
+        new() { Year = 1873, AtBirth = 42, Age10 = 58, Age25 = 63, Age45 = 69, Age65 = 76, Age80 = 85 },
+        new() { Year = 1874, AtBirth = 44, Age10 = 60, Age25 = 64, Age45 = 70, Age65 = 76, Age80 = 85 },
+        new() { Year = 1875, AtBirth = 43, Age10 = 58, Age25 = 63, Age45 = 69, Age65 = 76, Age80 = 85 },
+        new() { Year = 1876, AtBirth = 44, Age10 = 59, Age25 = 63, Age45 = 69, Age65 = 76, Age80 = 85 },
+        new() { Year = 1877, AtBirth = 44, Age10 = 59, Age25 = 63, Age45 = 69, Age65 = 76, Age80 = 85 },
+        new() { Year = 1878, AtBirth = 43, Age10 = 59, Age25 = 63, Age45 = 69, Age65 = 76, Age80 = 85 },
+        new() { Year = 1879, AtBirth = 44, Age10 = 59, Age25 = 63, Age45 = 69, Age65 = 76, Age80 = 84 },
+        new() { Year = 1880, AtBirth = 43, Age10 = 59, Age25 = 63, Age45 = 69, Age65 = 76, Age80 = 84 },
+        new() { Year = 1881, AtBirth = 43, Age10 = 59, Age25 = 63, Age45 = 69, Age65 = 76, Age80 = 85 },
+        new() { Year = 1882, AtBirth = 43, Age10 = 59, Age25 = 63, Age45 = 69, Age65 = 76, Age80 = 85 },
+        new() { Year = 1883, AtBirth = 43, Age10 = 59, Age25 = 63, Age45 = 69, Age65 = 76, Age80 = 85 },
+        new() { Year = 1884, AtBirth = 42, Age10 = 59, Age25 = 63, Age45 = 69, Age65 = 76, Age80 = 85 },
+        new() { Year = 1885, AtBirth = 44, Age10 = 59, Age25 = 63, Age45 = 69, Age65 = 76, Age80 = 85 },
+        new() { Year = 1886, AtBirth = 43, Age10 = 59, Age25 = 63, Age45 = 69, Age65 = 76, Age80 = 85 }
+    };
+}

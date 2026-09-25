@@ -1,0 +1,99 @@
+
+<SfChart @key="@_currentTheme" Height="440px" Title="All-India Monthly Rainfall (mm, 1901-2000 normals)"
+         SubTitle="Source: India Meteorological Department" Theme="@_currentTheme">
+
+    <ChartLegendSettings Visible="false"></ChartLegendSettings>
+
+    <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Toolkit.ValueType.Category" Interval="1">
+        <ChartAxisMajorGridLines Width="0" />
+        <ChartAxisMajorTickLines Width="0" />
+    </ChartPrimaryXAxis>
+
+    <ChartPrimaryYAxis Minimum="0" Maximum="340" Title="Precipitation (mm)" Interval="100">
+        <ChartAxisLineStyle Width="0" />
+        <ChartAxisMajorTickLines Width="0" />
+    </ChartPrimaryYAxis>
+
+    <ChartAnnotations>
+        <ChartAnnotation X="@("Jun")" Y="195"
+                         CoordinateUnits="Units.Point">
+            <ContentTemplate>
+                @((MarkupString)RainfallCallout("SW monsoon onset month nationally (~167 mm)", "#0f766e", "#eafff6"))
+            </ContentTemplate>
+        </ChartAnnotation>
+
+        <ChartAnnotation X="@("Jul")" Y="317"
+                         CoordinateUnits="Units.Point">
+            <ContentTemplate>
+                @((MarkupString)RainfallCallout("Peak monsoon - July averages ~289 mm", "#1e3a8a", "#ffffff"))
+            </ContentTemplate>
+        </ChartAnnotation>
+
+        <ChartAnnotation X="@("Oct")" Y="115"
+                         CoordinateUnits="Units.Point">
+            <ContentTemplate>
+                @((MarkupString)RainfallCallout("Retreating monsoon - October (~85 mm)", "#7c2d12", "#fff7ed"))
+            </ContentTemplate>
+        </ChartAnnotation>
+    </ChartAnnotations>
+
+
+    <ChartSeries DataSource="@RainfallIndia"
+                 XName="Month"
+                 YName="Rainfall"
+                 Type="ChartSeriesType.Column"
+                 Fill="#3b82f6"
+                 Width="2">
+    </ChartSeries>
+
+</SfChart>
+
+@code {
+    [CascadingParameter]
+    private Theme CurrentTheme { get; set; } = Theme.Fluent;
+
+    private Theme _currentTheme = Theme.Fluent;
+
+    protected override void OnParametersSet()
+    {
+        base.OnParametersSet();
+        _currentTheme = CurrentTheme;
+    }
+
+    string RainfallCallout(string text, string bg, string fg = "")
+    {
+        return $@"
+        <div style='
+            padding:8px 10px;
+            border-radius:10px;
+            background:{bg};
+            color:{fg};
+            font-family:Inter, system-ui;
+            font-weight:800;
+            font-size:12px;'>
+            {text}
+        </div>";
+    }
+
+    public class RainfallInfo
+    {
+        public string Month { get; set; }
+        public double Rainfall { get; set; }
+    }
+
+    public List<RainfallInfo> RainfallIndia = new()
+    {
+        new() { Month = "Jan", Rainfall = 13 },
+        new() { Month = "Feb", Rainfall = 16 },
+        new() { Month = "Mar", Rainfall = 30 },
+        new() { Month = "Apr", Rainfall = 41 },
+        new() { Month = "May", Rainfall = 61 },
+        new() { Month = "Jun", Rainfall = 167 },
+        new() { Month = "Jul", Rainfall = 289 },
+        new() { Month = "Aug", Rainfall = 262 },
+        new() { Month = "Sep", Rainfall = 173 },
+        new() { Month = "Oct", Rainfall = 85 },
+        new() { Month = "Nov", Rainfall = 31 },
+        new() { Month = "Dec", Rainfall = 14 }
+    };
+}

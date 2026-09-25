@@ -1,0 +1,72 @@
+<SfChart @key="@_currentTheme" Title="2024 US Temperature Trends with Minimum Records" Theme="@_currentTheme">
+    <ChartArea><ChartAreaBorder Width="0"></ChartAreaBorder></ChartArea>
+
+    <ChartTooltipSettings Enable="true"
+                          Header="${point.x}"
+                          Format="Temperature : <b>${point.y}</b>"
+                          EnableHighlight="true" />
+
+    <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Toolkit.ValueType.Category">
+        <ChartAxisMajorGridLines Width="0" />
+        <ChartAxisMajorTickLines Width="0" />
+        <ChartAxisMinorTickLines Width="0" />
+    </ChartPrimaryXAxis>
+
+    <ChartPrimaryYAxis Minimum="20"
+                       Maximum="90"
+                       LabelFormat="{value}°F">
+        <ChartAxisLineStyle Width="0" />
+        <ChartAxisMajorTickLines Width="0" />
+    </ChartPrimaryYAxis>
+
+    <ChartSeries DataSource="@TemperatureData"
+                 XName="X"
+                 YName="Min"
+                 Width="2"
+                 Opacity="0.4"
+                 DashArray="5,5"
+                 Fill="#ED5707"
+                 Type="ChartSeriesType.Spline">
+
+        <ChartSeriesBorder Color="#71AD01" Width="2" />
+
+        <ChartMarker Visible="true" IsFilled="true" />
+    </ChartSeries>
+</SfChart>
+
+@code {
+    [CascadingParameter]
+    private Theme CurrentTheme { get; set; } = Theme.Fluent;
+
+    private Theme _currentTheme = Theme.Fluent;
+
+    protected override void OnParametersSet()
+    {
+        base.OnParametersSet();
+        _currentTheme = CurrentTheme;
+    }
+
+    public class TemperaturePoint
+    {
+        public string X { get; set; } = string.Empty;
+        public double Min { get; set; }
+        public double Avg { get; set; }
+        public double Max { get; set; }
+    }
+
+    public List<TemperaturePoint> TemperatureData = new()
+    {
+        new() { X = "Jan", Min = 22.75, Avg = 31.89, Max = 41.02 },
+        new() { X = "Feb", Min = 29.71, Avg = 40.82, Max = 51.93 },
+        new() { X = "Mar", Min = 33.53, Avg = 44.96, Max = 56.39 },
+        new() { X = "Apr", Min = 41.22, Avg = 53.64, Max = 66.06 },
+        new() { X = "May", Min = 49.87, Avg = 62.28, Max = 74.64 },
+        new() { X = "Jun", Min = 59.02, Avg = 71.80, Max = 84.58 },
+        new() { X = "Jul", Min = 62.94, Avg = 75.69, Max = 88.43 },
+        new() { X = "Aug", Min = 61.27, Avg = 73.99, Max = 86.72 },
+        new() { X = "Sep", Min = 55.36, Avg = 68.61, Max = 81.86 },
+        new() { X = "Oct", Min = 44.76, Avg = 58.95, Max = 73.13 },
+        new() { X = "Nov", Min = 34.79, Avg = 45.18, Max = 55.54 },
+        new() { X = "Dec", Min = 28.04, Avg = 38.21, Max = 48.36 }
+    };
+}

@@ -1,0 +1,29 @@
+/* SfChart.razor.css — CSS isolation for SfChart. */
+.e-chart {
+    display: block;
+    position: relative;
+    width: 100%;
+}
+
+.e-chart svg {
+    display: block;
+    width: 100%;
+    height: auto;
+}
+
+.e-chart:focus-visible,
+.e-chart svg:focus-visible {
+    outline: 2px solid Highlight;
+    outline-offset: 2px;
+}
+
+/* High-contrast: ensure chart data series are border-outlined. */
+@media (forced-colors: active) {
+    .e-chart svg path,
+    .e-chart svg rect,
+    .e-chart svg circle,
+    .e-chart svg ellipse,
+    .e-chart svg line {
+        forced-color-adjust: none;
+    }
+}

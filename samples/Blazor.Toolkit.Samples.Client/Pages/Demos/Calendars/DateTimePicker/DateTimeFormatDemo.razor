@@ -1,0 +1,4 @@
+﻿<SfDateTimePicker TValue="DateTime?" Width="300px" Format="yyyy-MM-dd hh:mm:ss" @bind-Value="@FormattedDateValue" ShowClearButton="true" Placeholder="Select a date and time" />
+@code {
+    public DateTime? FormattedDateValue { get; set; } = new DateTime(2026, 12, 11, 11, 30, 00);
+}

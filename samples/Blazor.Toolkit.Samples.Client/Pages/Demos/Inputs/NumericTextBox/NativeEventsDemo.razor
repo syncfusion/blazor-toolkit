@@ -1,0 +1,11 @@
+﻿<SfNumericTextBox TValue="int?" @bind-Value="NativeValue" @onkeypress="@OnKeyPress" Placeholder="Type and press keys" Width="220px" />
+<div class="mt-2 example-label"><b>Last key:</b> @LastKey</div>
+@code {
+    private int? NativeValue { get; set; } = 42;
+    private string LastKey { get; set; } = "—";
+
+    private void OnKeyPress(KeyboardEventArgs e)
+    {
+        LastKey = e?.Key ?? "—";
+    }
+}
