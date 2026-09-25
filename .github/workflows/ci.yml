@@ -46,6 +46,11 @@ jobs:
         with:
           dotnet-version: ${{ matrix.dotnet-version }}
 
+      - name: Install CycloneDX (SBOM)
+        run: |
+          dotnet tool install --global CycloneDX
+          echo "$HOME/.dotnet/tools" >> $GITHUB_PATH
+
       - name: Cache NuGet packages
         uses: actions/cache@v6
         with:
@@ -143,6 +148,11 @@ jobs:
             8.x
             9.x
             10.x
+
+      - name: Install CycloneDX (SBOM)
+        run: |
+          dotnet tool install --global CycloneDX
+          echo "$HOME/.dotnet/tools" >> $GITHUB_PATH
 
       - name: Cache NuGet packages
         uses: actions/cache@v6
@@ -371,6 +381,11 @@ jobs:
         uses: actions/setup-dotnet@v4
         with:
           dotnet-version: ${{ matrix.dotnet-version }}
+
+      - name: Install CycloneDX (SBOM)
+        run: |
+          dotnet tool install --global CycloneDX
+          echo "$HOME/.dotnet/tools" >> $GITHUB_PATH
 
       - name: Cache NuGet packages
         uses: actions/cache@v6

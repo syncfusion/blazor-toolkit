@@ -522,99 +522,101 @@
 
   .e-btn.e-control:not(:disabled):hover,
   .e-btn.e-control:not(:disabled):focus,
-  .e-btn.e-control:not(:disabled).e-active, .e-btn.e-control:not(:disabled):active {
+  .e-btn.e-control.e-btn-icon:not(:disabled):focus:hover {
     border-color: Highlight !important;
     color: Highlight !important;
     background-color: HighlightText !important;
+    -webkit-text-fill-color: Highlight;
     forced-color-adjust: none;
   }
 
+  .e-btn.e-control:not(:disabled):active,
+  .e-btn.e-control.e-btn-icon:not(:disabled):focus:active,
+  .e-btn.e-control.e-info:not(:disabled):focus:active,
+    .e-btn.e-control.e-success:not(:disabled):focus:active,
+    .e-btn.e-control.e-warning:not(:disabled):focus:active,
+    .e-btn.e-control.e-danger:not(:disabled):focus:active {
+    border-color: transparent !important;
+    forced-color-adjust: none;
+  }
+  
   .e-btn.e-control.e-outline:not(:disabled):hover,
   .e-btn.e-control.e-outline:not(:disabled):focus {
     border-color: Highlight !important;
     color: Highlight !important;
   }
 
-  .e-btn.e-danger.e-btn-icon:not(:disabled):is(:hover, :focus, :active) .e-close {
-      color: Highlight !important;
-  }
-
   .e-btn.e-primary.e-filled.toggle-btn.e-active:not(:hover),
   .e-btn.e-info.e-filled.toggle-btn[aria-pressed="true"]:not(:hover),
   .e-btn.e-warning.e-filled.toggle-btn[aria-pressed="true"]:not(:hover),
-  .e-btn.e-danger.e-filled.toggle-btn[aria-pressed="true"]:not(:hover) {
+  .e-btn.e-danger.e-filled.toggle-btn[aria-pressed="true"]:not(:hover),
+  .e-btn.e-primary.toggle-icon-only.e-filled[aria-pressed="true"]:not(:hover),
+  .e-btn.e-info.toggle-icon-only.e-filled[aria-pressed="true"]:not(:hover),
+  .e-btn.e-success.toggle-icon-only.e-filled[aria-pressed="true"]:not(:hover),
+  .e-btn.e-danger.toggle-icon-only.e-filled[aria-pressed="true"]:not(:hover) {
     border-color: Highlight !important;
     color: HighlightText !important;
     background-color: Highlight !important;
     forced-color-adjust: none;
   }  
 
-  .e-btn.toggle-btn.e-outline[aria-pressed="false"]:not(:hover):focus {
+  .e-btn.toggle-btn.e-outline[aria-pressed="false"]:not(:hover):focus,
+  .e-btn.toggle-icon-only.e-outline[aria-pressed="false"]:not(:hover):focus {
     border-color: ButtonText !important;
     color: ButtonText !important;
     background-color: HighlightText !important;
     forced-color-adjust: none;
   }
 
-  .e-btn.e-primary.toggle-icon-only.e-filled[aria-pressed="true"]:not(:hover),
-  .e-btn.e-info.toggle-icon-only.e-filled[aria-pressed="true"]:not(:hover),
-  .e-btn.e-success.toggle-icon-only.e-filled[aria-pressed="true"]:not(:hover),
-  .e-btn.e-danger.toggle-icon-only.e-filled[aria-pressed="true"]:not(:hover) {
-      border-color: Highlight !important;
-      color: HighlightText !important;
-      background-color: Highlight !important;
-      forced-color-adjust: none;
-  }
-
-  .e-btn.toggle-icon-only.e-outline[aria-pressed="false"]:not(:hover):focus {
-      border-color: ButtonText !important;
-      color: ButtonText !important;
-      background-color: HighlightText !important;
-      forced-color-adjust: none;
-  }
-
   .e-btn.e-control.e-lib:focus-visible,
+  .e-btn.e-control.e-outline:not(:disabled):focus-visible,
+  .e-btn.e-control.e-btn-icon:not(:disabled):focus-visible,
   .e-btn.e-control.e-lib.toggle-btn.e-outline[aria-pressed="false"]:focus-visible,
   .e-btn.toggle-icon-only.e-outline[aria-pressed="false"]:not(:hover):focus-visible {
-      border-color: ButtonText !important;
-      color: ButtonText !important;
-      outline: 2px solid CanvasText !important;
-      outline-offset: 2px !important;
-      box-shadow: 0 0 0 1px ButtonText !important;
-      forced-color-adjust: none;
+    border-color: ButtonText !important;
+    color: ButtonText !important;
+    outline: 2px solid CanvasText !important;
+    outline-offset: 2px !important;
+    box-shadow: 0 0 0 1px ButtonText !important;
+    -webkit-text-fill-color: ButtonText;
+    forced-color-adjust: none;
   }
 
-  .e-btn.e-control.e-lib:focus-visible:hover,
-  .e-btn.e-control.e-lib:focus-visible:active,
+  .e-btn.e-control.e-lib:focus-visible:is(:hover, :active),
+  .e-btn.e-control.e-btn-icon:not(:disabled):is(:hover, :active):focus-visible,
+  .e-btn.e-control.e-outline:not(:disabled):is(:hover, :active):focus-visible,
   .e-btn.e-control.e-lib.toggle-btn.e-outline:focus-visible:is(:hover, :active),
   .e-btn.toggle-icon-only.e-outline:is(:hover, :active):focus-visible {
-      border-color: Highlight !important;
-      color: Highlight !important;
-      outline: 2px solid CanvasText !important;
-      outline-offset: 2px !important;
-      box-shadow: 0 0 0 1px Highlight !important;
-      forced-color-adjust: none;
+    border-color: Highlight !important;
+    color: Highlight !important;
+    outline: 2px solid CanvasText !important;
+    outline-offset: 2px !important;
+    box-shadow: 0 0 0 1px Highlight !important;
+    -webkit-text-fill-color: Highlight;
+    forced-color-adjust: none;
   }
 
-  .e-btn.e-danger.toggle-icon-only.e-filled[aria-pressed=true]:not(:hover):focus-visible, 
-  .e-btn.e-info.toggle-icon-only.e-filled[aria-pressed=true]:not(:hover):focus-visible, 
-  .e-btn.e-primary.toggle-icon-only.e-filled[aria-pressed=true]:not(:hover):focus-visible, 
-  .e-btn.e-success.toggle-icon-only.e-filled[aria-pressed=true]:not(:hover):focus-visible,
+  .e-btn.e-danger.toggle-icon-only.e-filled[aria-pressed="true"]:not(:hover):focus-visible, 
+  .e-btn.e-info.toggle-icon-only.e-filled[aria-pressed="true"]:not(:hover):focus-visible, 
+  .e-btn.e-primary.toggle-icon-only.e-filled[aria-pressed="true"]:not(:hover):focus-visible, 
+  .e-btn.e-success.toggle-icon-only.e-filled[aria-pressed="true"]:not(:hover):focus-visible,
   .e-btn.e-primary.e-filled.toggle-btn[aria-pressed="true"]:not(:hover):focus-visible,
   .e-btn.e-info.e-filled.toggle-btn[aria-pressed="true"]:not(:hover):focus-visible,
   .e-btn.e-warning.e-filled.toggle-btn[aria-pressed="true"]:not(:hover):focus-visible,
   .e-btn.e-danger.e-filled.toggle-btn[aria-pressed="true"]:not(:hover):focus-visible {
+    color: HighlightText !important;
     border-color: Highlight !important;
     outline: 2px solid CanvasText !important;
     outline-offset: 2px !important;
     box-shadow: 0 0 0 1px Highlight !important;
+    -webkit-text-fill-color: HighlightText;
     forced-color-adjust: none;
   }
 
-  .e-btn.e-danger.toggle-icon-only.e-filled[aria-pressed=true]:is(:hover, :active):focus-visible, 
-  .e-btn.e-info.toggle-icon-only.e-filled[aria-pressed=true]:is(:hover, :active):focus-visible, 
-  .e-btn.e-primary.toggle-icon-only.e-filled[aria-pressed=true]:is(:hover, :active):focus-visible, 
-  .e-btn.e-success.toggle-icon-only.e-filled[aria-pressed=true]:is(:hover, :active):focus-visible,
+  .e-btn.e-danger.toggle-icon-only.e-filled[aria-pressed="true"]:is(:hover, :active):focus-visible, 
+  .e-btn.e-info.toggle-icon-only.e-filled[aria-pressed="true"]:is(:hover, :active):focus-visible, 
+  .e-btn.e-primary.toggle-icon-only.e-filled[aria-pressed="true"]:is(:hover, :active):focus-visible, 
+  .e-btn.e-success.toggle-icon-only.e-filled[aria-pressed="true"]:is(:hover, :active):focus-visible,
   .e-btn.e-primary.e-filled.toggle-btn[aria-pressed="true"]:is(:hover, :active):focus-visible,
   .e-btn.e-info.e-filled.toggle-btn[aria-pressed="true"]:is(:hover, :active):focus-visible,
   .e-btn.e-warning.e-filled.toggle-btn[aria-pressed="true"]:is(:hover, :active):focus-visible,
@@ -625,60 +627,12 @@
     outline: 2px solid CanvasText !important;
     outline-offset: 2px !important;
     box-shadow: 0 0 0 1px Highlight !important;
+    -webkit-text-fill-color: Highlight;
     forced-color-adjust: none;
   }
 
-  .e-btn.e-control.e-outline:not(:disabled).e-active,
-  .e-btn.e-control.e-outline:not(:disabled):active,
-  .e-btn.e-control.e-outline.e-info:not(:disabled):active,
-  .e-btn.e-control.e-outline.e-success:not(:disabled):active,
-  .e-btn.e-control.e-outline.e-warning:not(:disabled):active,
-  .e-btn.e-control.e-outline.e-danger:not(:disabled):active {
-    border-color: Highlight !important;
-    color: Highlight !important;
+  .e-btn.e-control.e-outline:not(:disabled):active {
     outline: 2px solid Highlight !important;
-  }
-
-  .e-btn.e-control.e-outline:not(:disabled):focus-visible,
-  .e-btn.e-control.e-outline.e-info:not(:disabled):focus-visible,
-  .e-btn.e-control.e-outline.e-success:not(:disabled):focus-visible,
-  .e-btn.e-control.e-outline.e-warning:not(:disabled):focus-visible,
-  .e-btn.e-control.e-outline.e-danger:not(:disabled):focus-visible {
-    border-color: ButtonText !important;
-    color: ButtonText !important;
-    outline: 2px solid Highlight !important;
-  }
-
-  .e-btn.e-control.e-info:not(:disabled):hover,
-  .e-btn.e-control.e-info:not(:disabled).e-active, .e-btn.e-info:not(:disabled):active,
-  .e-btn.e-control.e-success:not(:disabled):hover,
-  .e-btn.e-control.e-success:not(:disabled).e-active,
-  .e-btn.e-control.e-warning:not(:disabled):hover,
-  .e-btn.e-control.e-warning:not(:disabled).e-active,
-  .e-btn.e-control.e-danger:not(:disabled):hover,
-  .e-btn.e-control.e-danger:not(:disabled).e-active
-  {
-    border-color: Highlight !important;
-    color: Highlight !important;
-  }
-
-  .e-btn.e-control:not(:disabled):active,
-  .e-btn.e-control.e-info:not(:disabled):active,
-  .e-btn.e-control.e-success:not(:disabled):active,
-  .e-btn.e-control.e-warning:not(:disabled):active,
-  .e-btn.e-control.e-danger:not(:disabled):active {
-    color: Highlight !important;
-    border-color: transparent !important;
-    background-color: HighlightText !important;
-    forced-color-adjust: none;
-  }
-
-  .e-btn.e-control.e-info.e-active, .e-css.e-btn.e-control.e-info.e-active,
-  .e-btn.e-control.e-success.e-active, .e-css.e-btn.e-control.e-success.e-active,
-  .e-btn.e-control.e-warning.e-active, .e-css.e-btn.e-control.e-warning.e-active,
-  .e-btn.e-control.e-danger.e-active, .e-css.e-btn.e-control.e-danger.e-active {
-    border-color: Highlight !important;
-    color: Highlight !important;
   }
 
   .e-btn-group input + label.e-btn {
@@ -714,7 +668,8 @@
     z-index: 1 !important;
   }
 
-  .e-btn-group .e-control.e-btn.e-outline:not(:disabled):hover {
+  .e-btn-group .e-control.e-btn.e-outline:not(:disabled):hover,
+  .e-btn-group .e-control.e-btn.e-outline:not(:disabled):focus {
     color: Highlight !important;
     background-color: HighlightText !important;
     border-color: Highlight !important;
