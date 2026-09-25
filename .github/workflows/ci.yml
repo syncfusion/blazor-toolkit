@@ -46,11 +46,6 @@ jobs:
         with:
           dotnet-version: ${{ matrix.dotnet-version }}
 
-      - name: Install CycloneDX (SBOM)
-        run: |
-          dotnet tool install --global CycloneDX
-          echo "$HOME/.dotnet/tools" >> $GITHUB_PATH
-
       - name: Cache NuGet packages
         uses: actions/cache@v6
         with:
@@ -84,7 +79,7 @@ jobs:
         run: dotnet restore src/Syncfusion.Blazor.Toolkit.csproj
 
       - name: Build
-        run: dotnet build src/Syncfusion.Blazor.Toolkit.csproj -c Release --no-restore
+        run: dotnet build src/Syncfusion.Blazor.Toolkit.csproj -c Release --no-restore -p:CycloneDxEnabled=false
 
       - name: Set timezone and locale for deterministic tests
         run: |
@@ -105,7 +100,8 @@ jobs:
             --logger "html;LogFileName=bunit-${{ matrix.dotnet-version }}.html" \
             --results-directory TestResults \
             --collect:"XPlat Code Coverage" \
-            --verbosity normal
+            --verbosity normal \
+            -p:CycloneDxEnabled=false
 
       - name: Upload bUnit results
         if: always()
@@ -148,11 +144,6 @@ jobs:
             8.x
             9.x
             10.x
-
-      - name: Install CycloneDX (SBOM)
-        run: |
-          dotnet tool install --global CycloneDX
-          echo "$HOME/.dotnet/tools" >> $GITHUB_PATH
 
       - name: Cache NuGet packages
         uses: actions/cache@v6
@@ -200,7 +191,7 @@ jobs:
         run: dotnet restore src/Syncfusion.Blazor.Toolkit.csproj
 
       - name: Build
-        run: dotnet build src/Syncfusion.Blazor.Toolkit.csproj -c Release --no-restore
+        run: dotnet build src/Syncfusion.Blazor.Toolkit.csproj -c Release --no-restore -p:CycloneDxEnabled=false
 
       - name: Run Playwright tests
         run: npx playwright test --reporter=html,line
@@ -382,11 +373,6 @@ jobs:
         with:
           dotnet-version: ${{ matrix.dotnet-version }}
 
-      - name: Install CycloneDX (SBOM)
-        run: |
-          dotnet tool install --global CycloneDX
-          echo "$HOME/.dotnet/tools" >> $GITHUB_PATH
-
       - name: Cache NuGet packages
         uses: actions/cache@v6
         with:
@@ -400,7 +386,7 @@ jobs:
         run: dotnet restore src/Syncfusion.Blazor.Toolkit.csproj
 
       - name: Build
-        run: dotnet build src/Syncfusion.Blazor.Toolkit.csproj -c Release --no-restore
+        run: dotnet build src/Syncfusion.Blazor.Toolkit.csproj -c Release --no-restore -p:CycloneDxEnabled=false
 
       - name: Pack (D1 / LP-10 smoke, unsigned)
         env:
@@ -410,7 +396,8 @@ jobs:
             -c Release --no-build \
             -o ./unsigned-pkg \
             -p:RepositoryCommit=${PACK_REPO_COMMIT} \
-            -p:ContinuousIntegrationBuild=true
+            -p:ContinuousIntegrationBuild=true \
+            -p:CycloneDxEnabled=false
             # Strong-name signing is NOT applied. DLLs inside this .nupkg
             # are intentionally unsigned. Strong-name + Authenticode signing
             # are performed manually on the maintainer's machine in
