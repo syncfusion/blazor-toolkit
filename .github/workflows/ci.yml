@@ -337,8 +337,8 @@ jobs:
         with:
           name: xss-scan-report
           path: xss-scan-report.txt
-        if-no-files-found: ignore
-        retention-days: 14
+          if-no-files-found: ignore
+          retention-days: 14
 
   # =========================================================
   # Job 6: Pack — D7 / CI-01
