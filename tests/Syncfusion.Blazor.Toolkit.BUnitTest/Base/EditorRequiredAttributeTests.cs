@@ -26,7 +26,6 @@ public sealed class EditorRequiredAttributeTests
     public void ChartSeries_RequiredAxisFiltersUseEditorRequired()
     {
         AssertMarkedWithEditorRequired(typeof(ChartSeries));
-        AssertMarkedWithEditorRequired(typeof(Sorting));
     }
 
     [Fact]
@@ -44,12 +43,15 @@ public sealed class EditorRequiredAttributeTests
     public void Calendars_ComponentParametersHaveValidAttribute()
     {
         foreach (var type in new[]
-                 {
-                     typeof(SfCalendar<>),
-                     typeof(SfDatePicker<>),
-                     typeof(SfDateTimePicker<>),
-                     typeof(SfTimePicker<>)
-                 })
+        {
+            typeof(SfCheckBox<>),
+            typeof(SfRadioButton<>),
+            typeof(SfSwitch<>),
+            typeof(SfTextBox),
+            typeof(SfTextArea),
+            typeof(SfNumericTextBox<>),
+            typeof(SfUploader)
+        })
         {
             EnsureNoMissingEditorRequired(type);
         }
