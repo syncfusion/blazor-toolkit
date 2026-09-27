@@ -79,7 +79,7 @@ jobs:
         run: dotnet restore src/Syncfusion.Blazor.Toolkit.csproj
 
       - name: Build
-        run: dotnet build src/Syncfusion.Blazor.Toolkit.csproj -c Release --no-restore -p:CycloneDxEnabled=false
+        run: dotnet build src/Syncfusion.Blazor.Toolkit.csproj -c Release --no-restore
 
       - name: Set timezone and locale for deterministic tests
         run: |
@@ -100,8 +100,7 @@ jobs:
             --logger "html;LogFileName=bunit-${{ matrix.dotnet-version }}.html" \
             --results-directory TestResults \
             --collect:"XPlat Code Coverage" \
-            --verbosity normal \
-            -p:CycloneDxEnabled=false
+            --verbosity normal
 
       - name: Upload bUnit results
         if: always()
@@ -191,7 +190,7 @@ jobs:
         run: dotnet restore src/Syncfusion.Blazor.Toolkit.csproj
 
       - name: Build
-        run: dotnet build src/Syncfusion.Blazor.Toolkit.csproj -c Release --no-restore -p:CycloneDxEnabled=false
+        run: dotnet build src/Syncfusion.Blazor.Toolkit.csproj -c Release --no-restore
 
       - name: Run Playwright tests
         run: npx playwright test --reporter=html,line
@@ -386,7 +385,7 @@ jobs:
         run: dotnet restore src/Syncfusion.Blazor.Toolkit.csproj
 
       - name: Build
-        run: dotnet build src/Syncfusion.Blazor.Toolkit.csproj -c Release --no-restore -p:CycloneDxEnabled=false
+        run: dotnet build src/Syncfusion.Blazor.Toolkit.csproj -c Release --no-restore
 
       - name: Pack (D1 / LP-10 smoke, unsigned)
         env:
@@ -396,8 +395,7 @@ jobs:
             -c Release --no-build \
             -o ./unsigned-pkg \
             -p:RepositoryCommit=${PACK_REPO_COMMIT} \
-            -p:ContinuousIntegrationBuild=true \
-            -p:CycloneDxEnabled=false
+            -p:ContinuousIntegrationBuild=true
             # Strong-name signing is NOT applied. DLLs inside this .nupkg
             # are intentionally unsigned. Strong-name + Authenticode signing
             # are performed manually on the maintainer's machine in

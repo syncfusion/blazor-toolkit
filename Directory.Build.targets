@@ -53,6 +53,7 @@
           AfterTargets="Build"
           BeforeTargets="GenerateNuspec"
           Condition="'$(CycloneDxEnabled)' == 'true'
+                    AND '$(CI)' != 'true'
                     AND '$(IsPackable)' == 'true'
                     AND '$(IsTestProject)' != 'true'
                     AND '$(TargetFramework)' != ''">
