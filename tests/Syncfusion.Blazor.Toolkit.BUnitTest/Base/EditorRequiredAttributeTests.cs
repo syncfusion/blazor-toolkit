@@ -61,15 +61,15 @@ public sealed class EditorRequiredAttributeTests
     public void Inputs_ComponentParametersHaveValidAttribute()
     {
         foreach (var type in new[]
-                 {
-                     typeof(SfCheckBox),
-                     typeof(SfRadioButton),
-                     typeof(SfSwitch),
-                     typeof(SfTextBox),
-                     typeof(SfTextArea),
-                     typeof(SfNumericTextBox<>),
-                     typeof(SfUploader)
-                 })
+        {
+            typeof(SfCheckBox<>),
+            typeof(SfRadioButton<>),
+            typeof(SfSwitch<>),
+            typeof(SfTextBox),
+            typeof(SfTextArea),
+            typeof(SfNumericTextBox<>),
+            typeof(SfUploader)
+        })
         {
             EnsureNoMissingEditorRequired(type);
         }
