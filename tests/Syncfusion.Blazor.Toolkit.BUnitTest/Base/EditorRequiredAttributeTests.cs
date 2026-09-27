@@ -31,12 +31,8 @@ public sealed class EditorRequiredAttributeTests
     [Fact]
     public void Buttons_ComponentParametersHaveValidAttribute()
     {
-        // Regression guard: a future author may not quietly drop [EditorRequired]
-        // from a `[Parameter]` that is documented as required.
         foreach (var type in new[] { typeof(SfButton), typeof(SfButtonGroup) })
-        {
             EnsureNoMissingEditorRequired(type);
-        }
     }
 
     [Fact]
@@ -44,17 +40,12 @@ public sealed class EditorRequiredAttributeTests
     {
         foreach (var type in new[]
         {
-            typeof(SfCheckBox<>),
-            typeof(SfRadioButton<>),
-            typeof(SfSwitch<>),
-            typeof(SfTextBox),
-            typeof(SfTextArea),
-            typeof(SfNumericTextBox<>),
-            typeof(SfUploader)
+            typeof(SfCalendar<>),
+            typeof(SfDatePicker<>),
+            typeof(SfDateTimePicker<>),
+            typeof(SfTimePicker<>)
         })
-        {
-            EnsureNoMissingEditorRequired(type);
-        }
+        EnsureNoMissingEditorRequired(type);
     }
 
     [Fact]
@@ -70,9 +61,7 @@ public sealed class EditorRequiredAttributeTests
             typeof(SfNumericTextBox<>),
             typeof(SfUploader)
         })
-        {
-            EnsureNoMissingEditorRequired(type);
-        }
+        EnsureNoMissingEditorRequired(type);
     }
 
     [Fact]
