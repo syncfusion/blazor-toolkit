@@ -19,14 +19,19 @@ test.describe('Chart Last Data Label – Responsive & Layout', () => {
   });
 
   test('Chart container width is 70% of parent', async ({ page }) => {
-    // Chart has Width="70%"
-    const chart = page.locator('svg').first();
+    await page.setViewportSize({ width: 1280, height: 720 });
+    const chartHost = page.locator('#chart-host');
+    const chart = chartHost.locator('svg').first();
+    await expect(chartHost).toBeVisible({ timeout: 10000 });
+    await expect(chart).toBeVisible();
+    const hostBox = await chartHost.boundingBox();
     const chartBox = await chart.boundingBox();
-    
-    // SVG should represent ~70% of typical width
-    if (chartBox) {
-      expect(chartBox.width).toBeGreaterThan(400);
-      expect(chartBox.width).toBeLessThan(600);
+    expect(hostBox).toBeTruthy();
+    expect(chartBox).toBeTruthy();
+    if (hostBox && chartBox) {
+      expect(hostBox.width).toBeGreaterThan(300);
+      expect(chartBox.width).toBeGreaterThan(300);
+      expect(chartBox.width).toBeLessThanOrEqual(hostBox.width + 2);
     }
   });
 

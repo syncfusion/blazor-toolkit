@@ -71,17 +71,16 @@ test.describe('DateTimePicker - Calendar & Time UI', () => {
     await dateIcon.click();
     const popup = page.locator('.e-popup:visible');
     await expect(popup).toHaveCount(1, { timeout: 10000 });
-    const title = popup.locator('.e-title');
-    await expect(title).toBeVisible();
-    const initialTitle = (await title.textContent())?.trim() ?? '';
-    const prev = popup.locator('.e-prev');
-    const next = popup.locator('.e-next');
+    const prev = popup.locator('button.e-prev');
+    const next = popup.locator('button.e-next');
+    const title = page.locator('button.e-title');
     await expect(prev).toBeVisible();
     await expect(next).toBeVisible();
-    await next.click();
-    await expect(title).not.toHaveText(initialTitle, { timeout: 5000 });
-    await prev.click();
-    await expect(title).toHaveText(initialTitle, { timeout: 5000 });
+    const initialMonth = await title.textContent();
+    await next.dispatchEvent('click');
+    await expect.poll(() => title.textContent()).not.toBe(initialMonth);
+    await page.locator('button.e-prev').dispatchEvent('click');
+    await expect.poll(() => title.textContent()).toBe(initialMonth);
   });
 
   test('respect Min and Max date constraints', async ({ page }) => {

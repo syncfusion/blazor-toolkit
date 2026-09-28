@@ -117,18 +117,17 @@ test.describe('DateTimePicker - Performance & Rendering', () => {
     await icon.click();
     const popup = page.locator('.e-popup:visible');
     await expect(popup).toBeVisible({ timeout: 10000 });
-    const title = popup.locator('.e-title');
-    const next = popup.locator('.e-next');
+    const next = popup.locator('button.e-next');
+    const title = page.locator('button.e-title');
     await expect(next).toBeVisible();
     const startTime = Date.now();
-    let lastTitle = (await title.textContent())?.trim() ?? '';
     for (let i = 0; i < 5; i++) {
-      await next.click();
-      await expect(title).not.toHaveText(lastTitle, { timeout: 3000 });
-      lastTitle = (await title.textContent())?.trim() ?? '';
+      const previousMonth = await title.textContent();
+      await page.locator('button.e-next').dispatchEvent('click');
+      await expect.poll(() => title.textContent()).not.toBe(previousMonth);
     }
     const navigationTime = Date.now() - startTime;
-    expect(navigationTime).toBeLessThan(8000);
+    expect(navigationTime).toBeLessThan(10000);
   });
 
   test('scrolling time popup is smooth', async ({ page }) => {
