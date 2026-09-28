@@ -43,7 +43,7 @@ public sealed class StyleContractTests
     [Fact]
     public void RequiredPublicSelectors_AreDeclaredInStyleContract()
     {
-        var contractFile = LocateRepoFile(@"src\wwwroot\styles\STYLE-CONTRACT.md");
+        var contractFile = LocateRepoFile(Path.Combine("src", "wwwroot", "styles", "STYLE-CONTRACT.md"));
         Assert.True(File.Exists(contractFile), $"Style contract file not found: {contractFile}");
 
         var contractText = File.ReadAllText(contractFile);

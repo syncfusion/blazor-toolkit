@@ -25,14 +25,18 @@ test.describe('DatePicker - Calendar UI & Selection', () => {
   test('navigate months via prev/next', async ({ page }) => {
     const icon = page.locator('#wrapper-dp-basic .e-timeline-today');
     await icon.click();
-    // wait for the popup to be visible and query buttons from that visible popup
     const popup = page.locator('.e-popup:visible');
-    await expect(popup).toHaveCount(1, { timeout: 5000 });
-    const prev = popup.locator('.e-prev');
+    await expect(popup).toHaveCount(1, { timeout: 10000 });
+    const title = popup.locator('.e-title');
+    await expect(title).toBeVisible();
+    const initialTitle = (await title.textContent())?.trim() ?? '';
     const next = popup.locator('.e-next');
-    await expect(prev).toBeVisible();
+    const prev = popup.locator('.e-prev');
     await expect(next).toBeVisible();
+    await expect(prev).toBeVisible();
     await next.click();
+    await expect(title).not.toHaveText(initialTitle, { timeout: 5000 });
     await prev.click();
+    await expect(title).toHaveText(initialTitle, { timeout: 5000 });
   });
 });

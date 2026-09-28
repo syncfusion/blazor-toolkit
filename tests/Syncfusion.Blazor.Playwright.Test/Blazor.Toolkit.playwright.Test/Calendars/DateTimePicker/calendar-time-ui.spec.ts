@@ -69,18 +69,19 @@ test.describe('DateTimePicker - Calendar & Time UI', () => {
   test('navigate months in calendar via prev/next', async ({ page }) => {
     const dateIcon = page.locator('#wrapper-dtp-basic .e-timeline-today');
     await dateIcon.click();
-    
     const popup = page.locator('.e-popup:visible');
-    await expect(popup).toHaveCount(1, { timeout: 5000 });
-    
+    await expect(popup).toHaveCount(1, { timeout: 10000 });
+    const title = popup.locator('.e-title');
+    await expect(title).toBeVisible();
+    const initialTitle = (await title.textContent())?.trim() ?? '';
     const prev = popup.locator('.e-prev');
     const next = popup.locator('.e-next');
     await expect(prev).toBeVisible();
     await expect(next).toBeVisible();
-    
     await next.click();
-    await page.waitForTimeout(300);
+    await expect(title).not.toHaveText(initialTitle, { timeout: 5000 });
     await prev.click();
+    await expect(title).toHaveText(initialTitle, { timeout: 5000 });
   });
 
   test('respect Min and Max date constraints', async ({ page }) => {
