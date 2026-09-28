@@ -605,8 +605,8 @@ namespace Syncfusion.Blazor.Toolkit.Tests.Calendars.Calendar
             Assert.Equal("Year", Calendar.Instance.CurrentView());
             Assert.Contains(DateTime.Now.ToString("yyyy"), parentContainer?.QuerySelector(".e-title")?.TextContent);
             Assert.Equal(12, tableElement?.QuerySelectorAll("td").Length);
-            Assert.Equal(1, tableElement?.QuerySelectorAll("td.e-focused-date").Length);
-            Assert.Equal(DateTime.Now.ToString("MMM"), tableElement?.QuerySelectorAll("td.e-focused-date")?[0].FirstElementChild?.TextContent);
+            Assert.Equal(1, tableElement?.QuerySelectorAll("td.e-selected").Length);
+            Assert.Equal(DateTime.Now.ToString("MMM"), tableElement?.QuerySelectorAll("td.e-selected")?[0].FirstElementChild?.TextContent);
         }
 
         [Fact(Timeout = 10000, DisplayName = "View: start and depth set to Decade")]
@@ -638,10 +638,10 @@ namespace Syncfusion.Blazor.Toolkit.Tests.Calendars.Calendar
             Assert.Equal(CalendarView.Decade, Calendar.Instance.Start);
             Assert.Equal(CalendarView.Decade, Calendar.Instance.Depth);
             Assert.Equal("Decade", Calendar.Instance.CurrentView());
-            Assert.Contains(this.GetDecade(DateTime.Now.Year)+" - "+ (this.GetDecade(DateTime.Now.Year)+9), parentContainer?.QuerySelector(".e-title")?.TextContent);
+            Assert.Contains(this.GetDecade(DateTime.Now.Year) + " - " + (this.GetDecade(DateTime.Now.Year) + 9), parentContainer?.QuerySelector(".e-title")?.TextContent);
             Assert.Equal(12, tableElement?.QuerySelectorAll("td").Length);
-            Assert.Equal(1, tableElement?.QuerySelectorAll("td.e-focused-date").Length);
-            Assert.Equal(DateTime.Now.Year.ToString() , tableElement?.QuerySelectorAll("td.e-focused-date")?[0].FirstElementChild?.TextContent);
+            Assert.Equal(1, tableElement?.QuerySelectorAll("td.e-selected").Length);
+            Assert.Equal(DateTime.Now.Year.ToString(), tableElement?.QuerySelectorAll("td.e-selected")?[0].FirstElementChild?.TextContent);
         }
 
         [Fact(Timeout = 10000, DisplayName = "Persistence: get and remove persisted dates")]

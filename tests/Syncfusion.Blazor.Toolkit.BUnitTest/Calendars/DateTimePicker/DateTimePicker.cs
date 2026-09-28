@@ -642,8 +642,8 @@ namespace Syncfusion.Blazor.Toolkit.Tests.Calendars.DateTimePicker
             Assert.Equal("Year", Calendar.Instance.CurrentView());
             Assert.Contains(DateTime.Now.ToString("yyyy"), parentContainer.QuerySelector(".e-title").TextContent);
             Assert.Equal(12, tableElement.QuerySelectorAll("td").Length);
-            Assert.Equal(1, tableElement.QuerySelectorAll("td.e-focused-date").Length);
-            Assert.Equal(DateTime.Now.ToString("MMM"), tableElement.QuerySelectorAll("td.e-focused-date")[0].FirstElementChild.TextContent);
+            Assert.Equal(1, tableElement.QuerySelectorAll("td.e-selected").Length);
+            Assert.Equal(DateTime.Now.ToString("MMM"), tableElement.QuerySelectorAll("td.e-selected")[0].FirstElementChild.TextContent);
         }
         [Fact(Timeout = 10000)]
         public async Task StartAndDepthAsDecade()
@@ -679,8 +679,8 @@ namespace Syncfusion.Blazor.Toolkit.Tests.Calendars.DateTimePicker
             Assert.Equal("Decade", Calendar.Instance.CurrentView());
             Assert.Contains(this.getDecadeTitle(DateTime.Now), parentContainer.QuerySelector(".e-title").TextContent);
             Assert.Equal(12, tableElement.QuerySelectorAll("td").Length);
-            Assert.Equal(1, tableElement.QuerySelectorAll("td.e-focused-date").Length);
-            Assert.Equal(DateTime.Now.Year.ToString(), tableElement.QuerySelectorAll("td.e-focused-date")[0].FirstElementChild.TextContent);
+            Assert.Equal(1, tableElement.QuerySelectorAll("td.e-selected").Length);
+            Assert.Equal(DateTime.Now.Year.ToString(), tableElement.QuerySelectorAll("td.e-selected")[0].FirstElementChild.TextContent);
         }
         [Fact(Timeout = 10000)]
         public async Task SelectDays()
@@ -944,11 +944,9 @@ namespace Syncfusion.Blazor.Toolkit.Tests.Calendars.DateTimePicker
             await Calendar.Instance.ShowPopupAsync();
             var popupEle = Calendar.Find(".e-popup");
             var tableElement = popupEle.QuerySelector("table");
-            var parentContainer = tableElement.ParentElement.ParentElement;
-            Assert.Equal(0, tableElement.QuerySelectorAll("td.e-selected").Length);
-            Assert.Equal(1, tableElement.QuerySelectorAll("td.e-focused-date").Length);
-            var selectedDate = Calendar.Find("table").QuerySelector("td.e-selected");
-            Assert.Null(selectedDate);
+            Assert.Equal(1, tableElement.QuerySelectorAll("td.e-selected").Length);
+            Assert.Equal(0, tableElement.QuerySelectorAll("td.e-focused-date").Length);
+            Assert.Equal(DateTime.Now.ToString("MMM"), tableElement.QuerySelector("td.e-selected").FirstElementChild.TextContent);
             Assert.Equal("Year", Calendar.Instance.CurrentView());
             var buttonList = Calendar.FindAll("button");
             buttonList[5].Click();
@@ -969,11 +967,9 @@ namespace Syncfusion.Blazor.Toolkit.Tests.Calendars.DateTimePicker
             await Calendar.Instance.ShowPopupAsync();
             var popupEle = Calendar.Find(".e-popup");
             var tableElement = popupEle.QuerySelector("table");
-            var parentContainer = tableElement.ParentElement.ParentElement;
-            Assert.Equal(0, tableElement.QuerySelectorAll("td.e-selected").Length);
-            Assert.Equal(1, tableElement.QuerySelectorAll("td.e-focused-date").Length);
-            var selectedDate = Calendar.Find("table").QuerySelector("td.e-selected");
-            Assert.Null(selectedDate);
+            Assert.Equal(1, tableElement.QuerySelectorAll("td.e-selected").Length);
+            Assert.Equal(0, tableElement.QuerySelectorAll("td.e-focused-date").Length);
+            Assert.Equal(DateTime.Now.ToString("yyyy"), tableElement.QuerySelector("td.e-selected").FirstElementChild.TextContent);
             Assert.Equal("Decade", Calendar.Instance.CurrentView());
             var buttonList = Calendar.FindAll("button");
             buttonList[5].Click();

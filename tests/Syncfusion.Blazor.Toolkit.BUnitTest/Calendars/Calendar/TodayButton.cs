@@ -94,15 +94,14 @@ namespace Syncfusion.Blazor.Toolkit.Tests.Calendars.Calendar
             Add(Cal => Cal.Depth, CalendarView.Year));
             Assert.Equal(default(DateTime), component.Instance.Value);
             var tableElement = component.Find("table");
-            var parentContainer = tableElement?.ParentElement?.ParentElement;
-            Assert.Equal(0, tableElement?.QuerySelectorAll("td.e-selected").Length);
-            Assert.Equal(1, tableElement?.QuerySelectorAll("td.e-focused-date").Length);
-            var selectedDate = component.Find("table").QuerySelector("td.e-selected");
-            Assert.Null(selectedDate);
+            Assert.Equal(1, tableElement?.QuerySelectorAll("td.e-selected").Length);
+            Assert.Equal(0, tableElement?.QuerySelectorAll("td.e-focused-date").Length);
+            Assert.Equal(DateTime.Now.ToString("MMM"), tableElement?.QuerySelector("td.e-selected")?.FirstElementChild?.TextContent);
             Assert.Equal("Year", component.Instance.CurrentView());
             var buttonList = component.FindAll("button");
             // buttonList[0]=title, buttonList[1]=prev, buttonList[2]=next, buttonList[3]=today
             buttonList[3].Click();
+            tableElement = component.Find("table");
             Assert.Equal("Year", component.Instance.CurrentView());
             Assert.Equal(1, tableElement?.QuerySelectorAll("td.e-selected").Length);
             Assert.Equal(DateTime.Now.ToString("MMM"), tableElement?.QuerySelector("td.e-selected")?.FirstElementChild?.TextContent);
@@ -117,15 +116,14 @@ namespace Syncfusion.Blazor.Toolkit.Tests.Calendars.Calendar
             Add(Cal => Cal.Depth, CalendarView.Decade));
             Assert.Equal(default(DateTime), component.Instance.Value);
             var tableElement = component.Find("table");
-            var parentContainer = tableElement?.ParentElement?.ParentElement;
-            Assert.Equal(0, tableElement?.QuerySelectorAll("td.e-selected").Length);
-            Assert.Equal(1, tableElement?.QuerySelectorAll("td.e-focused-date").Length);
-            var selectedDate = component.Find("table").QuerySelector("td.e-selected");
-            Assert.Null(selectedDate);
+            Assert.Equal(1, tableElement?.QuerySelectorAll("td.e-selected").Length);
+            Assert.Equal(0, tableElement?.QuerySelectorAll("td.e-focused-date").Length);
+            Assert.Equal(DateTime.Now.ToString("yyyy"), tableElement?.QuerySelector("td.e-selected")?.FirstElementChild?.TextContent);
             Assert.Equal("Decade", component.Instance.CurrentView());
             var buttonList = component.FindAll("button");
             // buttonList[0]=title, buttonList[1]=prev, buttonList[2]=next, buttonList[3]=today
             buttonList[3].Click();
+            tableElement = component.Find("table");
             Assert.Equal("Decade", component.Instance.CurrentView());
             Assert.Equal(1, tableElement?.QuerySelectorAll("td.e-selected").Length);
             Assert.Equal(DateTime.Now.ToString("yyyy"), tableElement?.QuerySelector("td.e-selected")?.FirstElementChild?.TextContent);

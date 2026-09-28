@@ -225,7 +225,7 @@ namespace Syncfusion.Blazor.Toolkit.Tests.Calendars.DatePicker
             Assert.DoesNotContain("e-disabled", buttonList[2].ClassName);
             Assert.Contains("e-next", buttonList[3].ClassName);
             Assert.DoesNotContain("e-disabled", buttonList[3].ClassName);
-            Assert.Equal(DateTime.Now.ToString("MMM"), tableElement?.QuerySelector(".e-focused-date")?.FirstElementChild?.TextContent);
+            Assert.Equal(DateTime.Now.ToString("MMM"), tableElement?.QuerySelector(".e-selected")?.FirstElementChild?.TextContent);
             buttonList[3].Click();
             tableElement = calendar.Find("table");
             parentContainer = tableElement?.ParentElement?.ParentElement;
@@ -294,7 +294,7 @@ namespace Syncfusion.Blazor.Toolkit.Tests.Calendars.DatePicker
             Assert.DoesNotContain("e-disabled", buttonList[2].ClassName);
             Assert.Contains("e-next", buttonList[3].ClassName);
             Assert.DoesNotContain("e-disabled", buttonList[3].ClassName);
-            Assert.Equal(DateTime.Now.ToString("MMM"), tableElement?.QuerySelector(".e-focused-date")?.FirstElementChild?.TextContent);
+            Assert.Equal(DateTime.Now.ToString("MMM"), tableElement?.QuerySelector(".e-selected")?.FirstElementChild?.TextContent);
             buttonList[3].Click();
             tableElement = calendar.Find("table");
             parentContainer = tableElement?.ParentElement?.ParentElement;
@@ -311,7 +311,7 @@ namespace Syncfusion.Blazor.Toolkit.Tests.Calendars.DatePicker
             Assert.DoesNotContain("e-disabled", buttonList[2].ClassName);
             Assert.Contains("e-next", buttonList[3].ClassName);
             Assert.DoesNotContain("e-disabled", buttonList[3].ClassName);
-            Assert.Equal(DateTime.Now.ToString("MMM"), tableElement?.QuerySelector(".e-focused-date")?.FirstElementChild?.TextContent);
+            Assert.Equal(DateTime.Now.ToString("MMM"), tableElement?.QuerySelector(".e-selected")?.FirstElementChild?.TextContent);
         }
 
         [Fact(Timeout = 10000, DisplayName = "Navigation: Current Decade To Next Decade")]
@@ -359,14 +359,14 @@ namespace Syncfusion.Blazor.Toolkit.Tests.Calendars.DatePicker
             Assert.DoesNotContain("e-disabled", buttonList[2].ClassName);
             Assert.Contains("e-next", buttonList[3].ClassName);
             Assert.DoesNotContain("e-disabled", buttonList[3].ClassName);
-            Assert.Equal(DateTime.Now.ToString("yyyy"), tableElement?.QuerySelector(".e-focused-date")?.FirstElementChild?.TextContent);
+            Assert.Equal(DateTime.Now.ToString("yyyy"), tableElement?.QuerySelector(".e-selected")?.FirstElementChild?.TextContent);
             buttonList[3].Click();
             tableElement = calendar.Find("table");
             parentContainer = tableElement?.ParentElement?.ParentElement;
             buttonList = calendar.FindAll("button");
             Assert.DoesNotContain("e-disabled", buttonList[2].ClassName);
             Assert.Equal(this.GetDecadeTitle(DateTime.Now.AddYears(10)), parentContainer?.QuerySelector(".e-title")?.TextContent);
-            Assert.Equal(DateTime.Now.AddYears(10).ToString("yyyy"), tableElement?.QuerySelector(".e-focused-date")?.FirstElementChild?.TextContent);
+            Assert.Equal(DateTime.Now.AddYears(10).ToString("yyyy"), tableElement?.QuerySelector(".e-selected")?.FirstElementChild?.TextContent);
         }
 
         [Fact(Timeout = 10000, DisplayName = "Navigation: Month To Year Navigation Title Header")]
@@ -417,7 +417,7 @@ namespace Syncfusion.Blazor.Toolkit.Tests.Calendars.DatePicker
             Assert.Contains("e-year", tableContent?.ClassName);
             Assert.Equal(DateTime.Now.ToString("yyyy"), parentContainer?.QuerySelector(".e-title")?.TextContent);
             Assert.Equal(12, parentContainer?.QuerySelectorAll("td").Length);
-            Assert.Equal(DateTime.Now.ToString("MMM"), parentContainer?.QuerySelector(".e-focused-date")?.FirstElementChild?.TextContent);
+            Assert.Equal(DateTime.Now.ToString("MMM"), parentContainer?.QuerySelector(".e-selected")?.FirstElementChild?.TextContent);
         }
     }
 }

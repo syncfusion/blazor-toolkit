@@ -168,7 +168,7 @@ namespace Syncfusion.Blazor.Toolkit.Tests.Calendars.Calendar
             Assert.DoesNotContain("e-disabled", buttonList[1].ClassName);
             Assert.Contains("e-next", buttonList[2].ClassName);
             Assert.DoesNotContain("e-disabled", buttonList[2].ClassName);
-            Assert.Equal(DateTime.Now.ToString("MMM"), tableElement?.QuerySelector(".e-focused-date")?.FirstElementChild?.TextContent);
+            Assert.Equal(DateTime.Now.ToString("MMM"), tableElement?.QuerySelector(".e-selected")?.FirstElementChild?.TextContent);
             buttonList[2].Click();
             tableElement = Calendar.Find("table");
             parentContainer = tableElement?.ParentElement?.ParentElement;
@@ -233,7 +233,7 @@ namespace Syncfusion.Blazor.Toolkit.Tests.Calendars.Calendar
             Assert.DoesNotContain("e-disabled", buttonList[1].ClassName);
             Assert.Contains("e-next", buttonList[2].ClassName);
             Assert.DoesNotContain("e-disabled", buttonList[2].ClassName);
-            Assert.Equal(DateTime.Now.ToString("MMM"), tableElement?.QuerySelector(".e-focused-date")?.FirstElementChild?.TextContent);
+            Assert.Equal(DateTime.Now.ToString("MMM"), tableElement?.QuerySelector(".e-selected")?.FirstElementChild?.TextContent);
             buttonList[2].Click();
             tableElement = Calendar.Find("table");
             parentContainer = tableElement?.ParentElement?.ParentElement;
@@ -250,7 +250,7 @@ namespace Syncfusion.Blazor.Toolkit.Tests.Calendars.Calendar
             Assert.DoesNotContain("e-disabled", buttonList[1].ClassName);
             Assert.Contains("e-next", buttonList[2].ClassName);
             Assert.DoesNotContain("e-disabled", buttonList[2].ClassName);
-            Assert.Equal(DateTime.Now.ToString("MMM"), tableElement?.QuerySelector(".e-focused-date")?.FirstElementChild?.TextContent);
+            Assert.Equal(DateTime.Now.ToString("MMM"), tableElement?.QuerySelector(".e-selected")?.FirstElementChild?.TextContent);
         }
 
         [Fact(Timeout = 10000, DisplayName = "Navigation: current decade to next decade")]
@@ -291,19 +291,18 @@ namespace Syncfusion.Blazor.Toolkit.Tests.Calendars.Calendar
             var buttonList = Calendar.FindAll("button");
             var parentContainer = tableElement?.ParentElement?.ParentElement;
             Assert.Equal(this.GetDecade(DateTime.Now.Year) + " - " + (this.GetDecade(DateTime.Now.Year) + 9), parentContainer?.QuerySelector(".e-title")?.TextContent);
-            // buttonList[0] = title, buttonList[1] = prev, buttonList[2] = next
             Assert.Contains("e-prev", buttonList[1].ClassName);
             Assert.DoesNotContain("e-disabled", buttonList[1].ClassName);
             Assert.Contains("e-next", buttonList[2].ClassName);
             Assert.DoesNotContain("e-disabled", buttonList[2].ClassName);
-            Assert.Equal(DateTime.Now.ToString("yyyy"), tableElement?.QuerySelector(".e-focused-date")?.FirstElementChild?.TextContent);
+            Assert.Equal(DateTime.Now.ToString("yyyy"), tableElement?.QuerySelector(".e-selected")?.FirstElementChild?.TextContent);
             buttonList[2].Click();
             tableElement = Calendar.Find("table");
             parentContainer = tableElement?.ParentElement?.ParentElement;
             buttonList = Calendar.FindAll("button");
             Assert.DoesNotContain("e-disabled", buttonList[1].ClassName);
-            Assert.Equal(this.GetDecade(DateTime.Now.AddYears(10).Year) + " - " + (this.GetDecade(DateTime.Now.AddYears(10).Year)+9), parentContainer?.QuerySelector(".e-title")?.TextContent);
-            Assert.Equal(DateTime.Now.AddYears(10).ToString("yyyy"), tableElement?.QuerySelector(".e-focused-date")?.FirstElementChild?.TextContent);
+            Assert.Equal(this.GetDecade(DateTime.Now.AddYears(10).Year) + " - " + (this.GetDecade(DateTime.Now.AddYears(10).Year) + 9), parentContainer?.QuerySelector(".e-title")?.TextContent);
+            Assert.Equal(DateTime.Now.AddYears(10).ToString("yyyy"), tableElement?.QuerySelector(".e-selected")?.FirstElementChild?.TextContent);
         }
 
         [Fact(Timeout = 10000, DisplayName = "Navigation: month to year view via title header")]
@@ -346,7 +345,7 @@ namespace Syncfusion.Blazor.Toolkit.Tests.Calendars.Calendar
             Assert.Equal("Year", Calendar.Instance.CurrentView());
             Assert.Equal(DateTime.Now.ToString("yyyy"), parentContainer?.QuerySelector(".e-title")?.TextContent);
             Assert.Equal(12, parentContainer?.QuerySelectorAll("td").Length);
-            Assert.Equal(new DateTime(DateTime.Now.Year, DateTime.Now.Month, 1).ToString("MMM"), parentContainer?.QuerySelector(".e-focused-date")?.FirstElementChild?.TextContent);
+            Assert.Equal(new DateTime(DateTime.Now.Year, DateTime.Now.Month, 1).ToString("MMM"), parentContainer?.QuerySelector(".e-selected")?.FirstElementChild?.TextContent);
         }
     }
 }
