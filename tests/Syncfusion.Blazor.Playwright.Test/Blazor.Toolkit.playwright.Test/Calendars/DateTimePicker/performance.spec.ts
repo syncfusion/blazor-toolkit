@@ -127,7 +127,7 @@ test.describe('DateTimePicker - Performance & Rendering', () => {
       await expect.poll(() => title.textContent()).not.toBe(previousMonth);
     }
     const navigationTime = Date.now() - startTime;
-    expect(navigationTime).toBeLessThan(10000);
+    expect(navigationTime).toBeLessThan(2000);
   });
 
   test('scrolling time popup is smooth', async ({ page }) => {
