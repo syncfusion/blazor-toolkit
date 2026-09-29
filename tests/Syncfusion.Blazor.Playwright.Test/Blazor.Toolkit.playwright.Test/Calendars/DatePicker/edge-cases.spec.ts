@@ -8,25 +8,18 @@ test.describe('DatePicker - Edge Cases & Special Scenarios', () => {
 
   test('rapid open/close cycles do not leak', async ({ page }) => {
     const icon = page.locator('#wrapper-dp-basic .e-timeline-today');
+    const input = page.locator('#wrapper-dp-basic input');
+    const popup = page.locator('#dp-basic_popup');
     for (let i = 0; i < 10; i++) {
       await icon.click();
-      // Wait briefly for popup to appear (non-fatal if it doesn't)
-      try {
-        await expect(page.locator('.e-popup')).toBeVisible({ timeout: 1000 });
-      } catch (e) {
-        // popup did not appear quickly; continue to next iteration
-      }
-      // Use Escape to reliably dismiss the popup, then wait for it to be hidden
-      await page.keyboard.press('Escape');
-      try {
-        await expect(page.locator('.e-popup:visible')).toHaveCount(0, { timeout: 1000 });
-      } catch (e) {
-        // if still present, continue and check final condition below
-      }
-      await page.waitForTimeout(50);
+      await expect(input).toHaveAttribute('aria-expanded', 'true');
+      await expect(popup).toBeVisible();
+      await expect(page.locator('.e-popup')).toHaveCount(1);
+      await icon.click();
+      await expect(input).toHaveAttribute('aria-expanded', 'false');
+      await expect(popup).toBeHidden();
     }
-    // finally ensure no visible popups remain
-    await expect(page.locator('.e-popup:visible')).toHaveCount(0, { timeout: 5000 });
+    await expect(page.locator('.e-popup:visible')).toHaveCount(0);
   });
 
   test('invalid typed input does not crash component', async ({ page }) => {

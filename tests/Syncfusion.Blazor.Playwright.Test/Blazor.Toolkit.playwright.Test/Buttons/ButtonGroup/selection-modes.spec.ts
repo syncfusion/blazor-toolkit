@@ -72,13 +72,15 @@ test.describe('ButtonGroup - Selection Modes', () => {
     // Initial state - checkbox should not be checked
     await expect(firstCheckbox).not.toBeChecked();
 
-    // Press Space to check. Use the auto-retrying matcher so the test waits
-    // for Blazor's two-way binding to apply the change.
-    await page.keyboard.press('Space');
+      // Dispatch Space to the component handler without also applying the browser's native checkbox toggle.
+      await firstCheckbox.evaluate((element) => {
+        element.dispatchEvent(new KeyboardEvent('keydown', { key: ' ', code: 'Space', bubbles: true, cancelable: true }));
+      });
     await expect(firstCheckbox).toBeChecked({ timeout: 5000 });
 
-    // Press Space again to uncheck. Same auto-retrying behaviour.
-    await page.keyboard.press('Space');
+      await firstCheckbox.evaluate((element) => {
+        element.dispatchEvent(new KeyboardEvent('keydown', { key: ' ', code: 'Space', bubbles: true, cancelable: true }));
+      });
     await expect(firstCheckbox).not.toBeChecked({ timeout: 5000 });
   });
 });
