@@ -105,6 +105,7 @@
 	                   AND !Exists('wwwroot/styles/fluent.min.css')">
 	  <Message Importance="high"
 	           Text="Running blazor-toolkit-themes gulp task..." />
+	  <Exec Command="npm install" />
 	  <Exec Command="npx gulp blazor-toolkit-themes" />
 	</Target>
 </Project>
