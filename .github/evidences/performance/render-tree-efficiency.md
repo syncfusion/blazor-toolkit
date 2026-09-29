@@ -1,10 +1,4 @@
-# Render tree efficiency — evidence report  
-
-**MS rule:** Minimize render work. Override `ShouldRender` where appropriate; avoid unnecessary `StateHasChanged` calls; keep render trees small. Don’t trigger re-renders from every parameter change if the result is unchanged.
-
-**Microsoft guidance:** [ASP.NET Core Blazor rendering](https://learn.microsoft.com/en-us/aspnet/core/blazor/components/rendering)
-
----
+# Render tree efficiency — evidence report
 
 ## Summary
 

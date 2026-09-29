@@ -1,9 +1,5 @@
 # `@key` usage — evidence report  
 
-**Microsoft guidance:** [Use `@key` to preserve elements and components](https://learn.microsoft.com/en-us/aspnet/core/blazor/components/rendering#use-key-to-control-the-preservation-of-elements-and-components)
-
----
-
 ## Summary
 
 Every toolkit-owned Razor collection that emits repeated elements uses `@key`. Single-instance controls correctly omit it. Chart points are not Razor-looped (SVG builder model).

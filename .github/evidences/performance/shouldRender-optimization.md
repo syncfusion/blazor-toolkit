@@ -1,12 +1,8 @@
 # ShouldRender optimization — evidence report
 
-**Microsoft guidance:** [Suppress UI refreshing with `ShouldRender`](https://learn.microsoft.com/en-us/aspnet/core/blazor/components/rendering)
-
----
-
 ## Summary
 
-Formal `ShouldRender` overrides are used where render cost is highest (chart renderer stack). Other components use default `ShouldRender` or equivalent gates (conditional markup / adaptive flags / change tracking). That matches Microsoft guidance: gate expensive updates; keep simple controls simple.
+Formal `ShouldRender` overrides are used where render cost is highest (chart renderer stack). Other components use default `ShouldRender` or equivalent gates (conditional markup / adaptive flags / change tracking).
 
 | Component | `ShouldRender` override? | Equivalent gate | Assessment |
 |-----------|--------------------------|-----------------|------------|

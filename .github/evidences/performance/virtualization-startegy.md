@@ -1,11 +1,5 @@
 # Virtualization strategy — evidence report
 
-**Microsoft guidance:** [ASP.NET Core Blazor virtualization](https://learn.microsoft.com/en-us/aspnet/core/blazor/components/virtualization)
-
-**Partner attestation:** [ms-bar-attestations.md — MS-5.4](https://github.com/syncfusion/blazor-toolkit/blob/readiness-corrections/.github/ms-bar-attestations.md)
-
----
-
 ## Summary
 
 | Finding | Detail |
