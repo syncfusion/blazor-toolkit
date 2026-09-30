@@ -1088,12 +1088,12 @@ namespace Syncfusion.Blazor.Toolkit.Calendars
 
         private bool ShouldClearInput()
         {
-            dynamic? disbleCellDetail = GetDisabledCellDetail();
+            CellDetails? disbleCellDetail = GetDisabledCellDetail();
             return (Value is null && StrictMode && (FloatLabelType != FloatLabelType.Always) && !string.IsNullOrEmpty(Placeholder) && EnableMask) ||
                    (StrictMode && IsKeyBoardAction && disbleCellDetail is not null) || (!EnableMask && Value is null && StrictMode);
         }
 
-        private dynamic? GetDisabledCellDetail()
+        private CellDetails? GetDisabledCellDetail()
         {
             if (Value is null || DisabledDayCellData is null || DisabledDayCellData.Count == 0)
             {
@@ -1613,7 +1613,7 @@ namespace Syncfusion.Blazor.Toolkit.Calendars
 
         private bool HasValidationError()
         {
-            dynamic? disbleCellDetail = GetDisabledCellDetail();
+            CellDetails? disbleCellDetail = GetDisabledCellDetail();
             return (Value is not null && !(ConvertDateValue(Value) >= Min && ConvertDateValue(Value) <= Max)) || ((!StrictMode || (IsFocused && ValidateOnInput))
                 && !string.IsNullOrEmpty(CurrentValueAsString) && Value is null && (CurrentMaskFormat != CurrentValueAsString)) || (IsKeyBoardAction && disbleCellDetail is not null);
         }

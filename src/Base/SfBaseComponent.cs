@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Components;
 using Microsoft.JSInterop;
 using Syncfusion.Blazor.Toolkit.Internal;
+using System.Diagnostics.CodeAnalysis;
 using System.Text.Json;
 
 namespace Syncfusion.Blazor.Toolkit
@@ -400,7 +401,7 @@ namespace Syncfusion.Blazor.Toolkit
         /// ]]></code>
         /// </example>
         /// <exclude />
-        internal static async Task<T> InvokeAsync<T>(IJSObjectReference jsObjectReference, IJSInProcessObjectReference jsInProcessObjectReference, string identifier, params object[] args)
+        internal static async Task<T> InvokeAsync<[DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicConstructors | DynamicallyAccessedMemberTypes.PublicFields | DynamicallyAccessedMemberTypes.PublicProperties)] T>(IJSObjectReference jsObjectReference, IJSInProcessObjectReference jsInProcessObjectReference, string identifier, params object[] args)
         {
             return await InvokeAsync<T>(jsObjectReference, jsInProcessObjectReference, identifier, isSynchronous: false, args).ConfigureAwait(true);
         }
@@ -486,7 +487,13 @@ namespace Syncfusion.Blazor.Toolkit
         ///     fontKeys);
         /// ]]></code>
         /// </example>
-        internal static async Task<T> InvokeAsync<T>(IJSObjectReference jsObjectReference, IJSInProcessObjectReference jsInProcessObjectReference, string identifier, bool isSynchronous, params object[] args)
+        // The synchronous IJSInProcessObjectReference.Invoke<T> overload serializes its arguments with
+        // reflection-based System.Text.Json (IL2026). This is a low-level interop primitive invoked from
+        // framework lifecycle overrides across the library that cannot themselves declare
+        // [RequiresUnreferencedCode] (IL2046). The return type is preserved via the DynamicallyAccessedMembers
+        // annotation on T; the argument values are simple interop-friendly types, so the finding is suppressed.
+        [UnconditionalSuppressMessage("Trimming", "IL2026", Justification = "JS interop argument serialization uses reflection-based System.Text.Json; interop arguments are simple types and the return type is preserved via DynamicallyAccessedMembers on T.")]
+        internal static async Task<T> InvokeAsync<[DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicConstructors | DynamicallyAccessedMemberTypes.PublicFields | DynamicallyAccessedMemberTypes.PublicProperties)] T>(IJSObjectReference jsObjectReference, IJSInProcessObjectReference jsInProcessObjectReference, string identifier, bool isSynchronous, params object[] args)
         {
             try
             {

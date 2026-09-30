@@ -14,14 +14,14 @@ namespace Syncfusion.Blazor.Toolkit.Charts
     public class ChartLastDataLabelFont : ChartSubComponent
     {
         #region Fields
-        ChartLastDataLabel? _lastDataLabel;
+        private ChartLastDataLabel? _lastDataLabel;
 
         // Cached values to minimize redundant renderer updates.
-        string _prevSize = string.Empty;
-        string _prevColor = string.Empty;
-        string _prevFontFamily = string.Empty;
-        string _prevFontWeight = string.Empty;
-        string _prevFontStyle = string.Empty;
+        private string _prevSize = string.Empty;
+        private string _prevColor = string.Empty;
+        private string _prevFontFamily = string.Empty;
+        private string _prevFontWeight = string.Empty;
+        private string _prevFontStyle = string.Empty;
         #endregion
 
         #region Properties
@@ -31,7 +31,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts
         /// </summary>
         /// <value>The parent <see cref="SfChart"/> if available; otherwise, <see langword="null"/>.</value>
         [CascadingParameter]
-        SfChart? Chart { get; set; }
+        private SfChart? Chart { get; set; }
 
         /// <summary>
         /// Gets or sets the font size of the last value label text.
@@ -243,7 +243,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts
         /// <param name="chartThemeStyle">The theme style object from the chart.</param>
         /// <returns>A fully resolved <see cref="ChartFontOptions"/> value object.</returns>
         internal ChartFontOptions GetFontOptions(ChartThemeStyle chartThemeStyle)
-            => new ChartFontOptions
+            => new()
             {
                 Color = GetFontColor(chartThemeStyle),
                 Size = GetFontSize(chartThemeStyle),

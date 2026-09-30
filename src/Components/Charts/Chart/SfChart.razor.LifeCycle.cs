@@ -1,5 +1,6 @@
 ﻿using System.Collections.Specialized;
 using System.ComponentModel;
+using System.Diagnostics.CodeAnalysis;
 using Microsoft.JSInterop;
 using Syncfusion.Blazor.Toolkit.Charts.Internal;
 
@@ -41,6 +42,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts
         protected override async Task OnParametersSetAsync()
         {
             await base.OnParametersSetAsync();
+            DataVizCommonHelper.AriaRoleValidator.EnsureValidRole(AccessibilityRole, nameof(AccessibilityRole));
             ChartThemeStyle themeStyle = ChartHelper.GetChartThemeStyle(Theme.ToString());
             if (_chartThemeStyle != themeStyle)
             {
@@ -322,6 +324,10 @@ namespace Syncfusion.Blazor.Toolkit.Charts
         /// </summary>
         /// <param name="firstRender">Indicates whether this is the first render of the component.</param>
         /// <returns>A task that represents the asynchronous operation.</returns>
+        [UnconditionalSuppressMessage("Trimming", "IL2026",
+            Justification = "Lifecycle helper invoked only from the OnAfterRenderAsync framework override, which cannot carry [RequiresUnreferencedCode]. It drives the data-binding pipeline (GetRemoteDataAsync, PerformLayoutAsync); that requirement is honestly surfaced on the public data APIs (RefreshAsync, AddSeriesAsync).")]
+        [UnconditionalSuppressMessage("AOT", "IL3050",
+            Justification = "Lifecycle helper invoked only from the OnAfterRenderAsync framework override, which cannot carry [RequiresDynamicCode]. It drives the data-binding pipeline (GetRemoteDataAsync, PerformLayoutAsync); that requirement is honestly surfaced on the public data APIs (RefreshAsync, AddSeriesAsync).")]
         private async Task HandleInitialRenderAsync(bool firstRender)
         {
             await SetCharSizeAsync().ConfigureAwait(true);
@@ -380,7 +386,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts
             }
             if (_legendRenderer is not null && !string.IsNullOrEmpty(_legendRenderer.KeyboardFocusTarget))
             {
-                await InvokeVoidAsync(_chartJsModule!, _chartJsInProcessModule!, Constants.FocusTarget, [_legendRenderer.KeyboardFocusTarget]).ConfigureAwait(true);
+                await InvokeVoidAsync(_chartJsModule, _chartJsInProcessModule, Constants.FocusTarget, [_legendRenderer.KeyboardFocusTarget]).ConfigureAwait(true);
             }
             await base.OnAfterRenderAsync(firstRender).ConfigureAwait(true);
             await ImportComponentModuleAsync().ConfigureAwait(true);
@@ -415,9 +421,9 @@ namespace Syncfusion.Blazor.Toolkit.Charts
             ).ConfigureAwait(true);
             _interop.SvgJsModule = svgJsModuleReference.AsyncRef;
             _interop.SvgJsInProcessModule = svgJsModuleReference.InProcessRef;
-			
+
             await LoadAnimationScriptAsync().ConfigureAwait(true);
-			
+
             JsModuleReference chartJsModuleReference = await ImportModuleAsync(
                 "./_content/Syncfusion.Blazor.Toolkit/scripts/chart.js",
                 _chartJsModule,

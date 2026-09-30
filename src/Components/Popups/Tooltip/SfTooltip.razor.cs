@@ -156,12 +156,12 @@ namespace Syncfusion.Blazor.Toolkit.Popups
         protected IDictionary<string, object> GetEventsList()
         {
             Dictionary<string, object> eventList = [];
-            SfBaseUtils.UpdateDictionary("beforeRender", OnRender.HasDelegate, eventList);
-            SfBaseUtils.UpdateDictionary("beforeCollision", Colliding.HasDelegate, eventList);
-            SfBaseUtils.UpdateDictionary("beforeOpen", OnOpen.HasDelegate, eventList);
-            SfBaseUtils.UpdateDictionary("opened", Opened.HasDelegate, eventList);
-            SfBaseUtils.UpdateDictionary("beforeClose", OnClose.HasDelegate, eventList);
-            SfBaseUtils.UpdateDictionary("closed", Closed.HasDelegate, eventList);
+            _ = SfBaseUtils.UpdateDictionary("beforeRender", OnRender.HasDelegate, eventList);
+            _ = SfBaseUtils.UpdateDictionary("beforeCollision", Colliding.HasDelegate, eventList);
+            _ = SfBaseUtils.UpdateDictionary("beforeOpen", OnOpen.HasDelegate, eventList);
+            _ = SfBaseUtils.UpdateDictionary("opened", Opened.HasDelegate, eventList);
+            _ = SfBaseUtils.UpdateDictionary("beforeClose", OnClose.HasDelegate, eventList);
+            _ = SfBaseUtils.UpdateDictionary("closed", Closed.HasDelegate, eventList);
             return eventList;
         }
 
@@ -207,7 +207,7 @@ namespace Syncfusion.Blazor.Toolkit.Popups
             bool hasChanges = changeKeys is { Count: > 0 };
             if (!hasChanges && (PropertyChanges == null || PropertyChanges.Count == 0))
             {
-                SfBaseUtils.UpdateDictionary("content", !string.IsNullOrEmpty(Content) || ContentTemplate != null, properties);
+                _ = SfBaseUtils.UpdateDictionary("content", !string.IsNullOrEmpty(Content) || ContentTemplate != null, properties);
                 return properties;
             }
 
@@ -244,7 +244,7 @@ namespace Syncfusion.Blazor.Toolkit.Popups
                 }
             }
 
-            SfBaseUtils.UpdateDictionary("content", !string.IsNullOrEmpty(Content) || ContentTemplate != null, properties);
+            _ = SfBaseUtils.UpdateDictionary("content", !string.IsNullOrEmpty(Content) || ContentTemplate != null, properties);
             return properties;
         }
 
@@ -282,7 +282,7 @@ namespace Syncfusion.Blazor.Toolkit.Popups
             {
                 return;
             }
-            if (args.Key == "Enter" || args.Key == " " || args.Key == "Spacebar")
+            if (args.Key is "Enter" or " " or "Spacebar")
             {
                 await StickyCloseAsync().ConfigureAwait(true);
             }
@@ -438,10 +438,7 @@ namespace Syncfusion.Blazor.Toolkit.Popups
                     // path is best-effort: we log and report through the Destroyed callback, but never
                     // throw out of DisposeAsyncCore. Exceptions from the Destroyed callback are
                     // intentionally swallowed so they cannot mask the original failure.
-                    if (Logger != null)
-                    {
-                        Logger.LogError(ex, "Unexpected error during SfTooltip disposal.");
-                    }
+                    Logger?.LogError(ex, "Unexpected error during SfTooltip disposal.");
 
                     if (Destroyed.HasDelegate)
                     {
@@ -451,10 +448,7 @@ namespace Syncfusion.Blazor.Toolkit.Popups
                         }
                         catch (Exception callbackEx)
                         {
-                            if (Logger != null)
-                            {
-                                Logger.LogError(callbackEx, "SfTooltip.Destroyed callback threw during disposal.");
-                            }
+                            Logger?.LogError(callbackEx, "SfTooltip.Destroyed callback threw during disposal.");
                         }
                     }
                 }
@@ -690,10 +684,10 @@ namespace Syncfusion.Blazor.Toolkit.Popups
         /// <param name="properties">The dictionary to update with targeting properties.</param>
         private void AddTargetingProperties(Dictionary<string, object> properties)
         {
-            SfBaseUtils.UpdateDictionary("target", Target, properties);
-            SfBaseUtils.UpdateDictionary("container", Container, properties);
-            SfBaseUtils.UpdateDictionary("targetContainer", TargetContainer, properties);
-            SfBaseUtils.UpdateDictionary("opensOn", OpensOn, properties);
+            _ = SfBaseUtils.UpdateDictionary("target", Target, properties);
+            _ = SfBaseUtils.UpdateDictionary("container", Container, properties);
+            _ = SfBaseUtils.UpdateDictionary("targetContainer", TargetContainer, properties);
+            _ = SfBaseUtils.UpdateDictionary("opensOn", OpensOn, properties);
         }
 
         /// <summary>
@@ -702,11 +696,11 @@ namespace Syncfusion.Blazor.Toolkit.Popups
         /// <param name="properties">The dictionary to update with positioning properties.</param>
         private void AddPositioningProperties(Dictionary<string, object> properties)
         {
-            SfBaseUtils.UpdateDictionary("position", SfBaseUtils.ChangeType(Position, typeof(string))!, properties);
-            SfBaseUtils.UpdateDictionary("offsetX", OffsetX, properties);
-            SfBaseUtils.UpdateDictionary("offsetY", OffsetY, properties);
-            SfBaseUtils.UpdateDictionary("tipPointerPosition", SfBaseUtils.ChangeType(TipPointerPosition, typeof(string))!, properties);
-            SfBaseUtils.UpdateDictionary("windowCollision", WindowCollision, properties);
+            _ = SfBaseUtils.UpdateDictionary("position", SfBaseUtils.ChangeType(Position, typeof(string))!, properties);
+            _ = SfBaseUtils.UpdateDictionary("offsetX", OffsetX, properties);
+            _ = SfBaseUtils.UpdateDictionary("offsetY", OffsetY, properties);
+            _ = SfBaseUtils.UpdateDictionary("tipPointerPosition", SfBaseUtils.ChangeType(TipPointerPosition, typeof(string))!, properties);
+            _ = SfBaseUtils.UpdateDictionary("windowCollision", WindowCollision, properties);
         }
 
         /// <summary>
@@ -715,9 +709,9 @@ namespace Syncfusion.Blazor.Toolkit.Popups
         /// <param name="properties">The dictionary to update with behavior properties.</param>
         private void AddBehaviorProperties(Dictionary<string, object> properties)
         {
-            SfBaseUtils.UpdateDictionary("isSticky", IsSticky, properties);
-            SfBaseUtils.UpdateDictionary("mouseTrail", MouseTrail, properties);
-            SfBaseUtils.UpdateDictionary("showTipPointer", ShowTipPointer, properties);
+            _ = SfBaseUtils.UpdateDictionary("isSticky", IsSticky, properties);
+            _ = SfBaseUtils.UpdateDictionary("mouseTrail", MouseTrail, properties);
+            _ = SfBaseUtils.UpdateDictionary("showTipPointer", ShowTipPointer, properties);
         }
 
         /// <summary>
@@ -726,9 +720,9 @@ namespace Syncfusion.Blazor.Toolkit.Popups
         /// <param name="properties">The dictionary to update with timing properties.</param>
         private void AddTimingProperties(Dictionary<string, object> properties)
         {
-            SfBaseUtils.UpdateDictionary("animation", GetAnimationValue(), properties);
-            SfBaseUtils.UpdateDictionary("closeDelay", CloseDelay, properties);
-            SfBaseUtils.UpdateDictionary("openDelay", OpenDelay, properties);
+            _ = SfBaseUtils.UpdateDictionary("animation", GetAnimationValue(), properties);
+            _ = SfBaseUtils.UpdateDictionary("closeDelay", CloseDelay, properties);
+            _ = SfBaseUtils.UpdateDictionary("openDelay", OpenDelay, properties);
         }
 
         /// <summary>
@@ -737,10 +731,10 @@ namespace Syncfusion.Blazor.Toolkit.Popups
         /// <param name="properties">The dictionary to update with appearance properties.</param>
         private void AddAppearanceProperties(Dictionary<string, object> properties)
         {
-            SfBaseUtils.UpdateDictionary("width", Width, properties);
-            SfBaseUtils.UpdateDictionary("height", Height, properties);
-            SfBaseUtils.UpdateDictionary("enableRtl", SyncfusionService != null && SyncfusionService._options.EnableRtl, properties);
-            SfBaseUtils.UpdateDictionary("content", !string.IsNullOrEmpty(Content) || ContentTemplate != null, properties);
+            _ = SfBaseUtils.UpdateDictionary("width", Width, properties);
+            _ = SfBaseUtils.UpdateDictionary("height", Height, properties);
+            _ = SfBaseUtils.UpdateDictionary("enableRtl", SyncfusionService != null && SyncfusionService._options.EnableRtl, properties);
+            _ = SfBaseUtils.UpdateDictionary("content", !string.IsNullOrEmpty(Content) || ContentTemplate != null, properties);
         }
 
         /// <summary>
@@ -751,16 +745,16 @@ namespace Syncfusion.Blazor.Toolkit.Popups
             switch (key)
             {
                 case "Target":
-                    SfBaseUtils.UpdateDictionary("target", Target, properties);
+                    _ = SfBaseUtils.UpdateDictionary("target", Target, properties);
                     return true;
                 case "Container":
-                    SfBaseUtils.UpdateDictionary("container", Container, properties);
+                    _ = SfBaseUtils.UpdateDictionary("container", Container, properties);
                     return true;
                 case "OpensOn":
-                    SfBaseUtils.UpdateDictionary("opensOn", OpensOn, properties);
+                    _ = SfBaseUtils.UpdateDictionary("opensOn", OpensOn, properties);
                     return true;
                 case "TargetContainer":
-                    SfBaseUtils.UpdateDictionary("targetContainer", TargetContainer, properties);
+                    _ = SfBaseUtils.UpdateDictionary("targetContainer", TargetContainer, properties);
                     return true;
                 default:
                     return false;
@@ -775,19 +769,19 @@ namespace Syncfusion.Blazor.Toolkit.Popups
             switch (key)
             {
                 case "Position":
-                    SfBaseUtils.UpdateDictionary("position", Position.ToString(), properties);
+                    _ = SfBaseUtils.UpdateDictionary("position", Position.ToString(), properties);
                     return true;
                 case "OffsetX":
-                    SfBaseUtils.UpdateDictionary("offsetX", OffsetX, properties);
+                    _ = SfBaseUtils.UpdateDictionary("offsetX", OffsetX, properties);
                     return true;
                 case "OffsetY":
-                    SfBaseUtils.UpdateDictionary("offsetY", OffsetY, properties);
+                    _ = SfBaseUtils.UpdateDictionary("offsetY", OffsetY, properties);
                     return true;
                 case "TipPointerPosition":
-                    SfBaseUtils.UpdateDictionary("tipPointerPosition", TipPointerPosition.ToString(), properties);
+                    _ = SfBaseUtils.UpdateDictionary("tipPointerPosition", TipPointerPosition.ToString(), properties);
                     return true;
                 case "windowCollision":
-                    SfBaseUtils.UpdateDictionary("windowCollision", WindowCollision, properties);
+                    _ = SfBaseUtils.UpdateDictionary("windowCollision", WindowCollision, properties);
                     return true;
                 default:
                     return false;
@@ -802,13 +796,13 @@ namespace Syncfusion.Blazor.Toolkit.Popups
             switch (key)
             {
                 case "IsSticky":
-                    SfBaseUtils.UpdateDictionary("isSticky", IsSticky, properties);
+                    _ = SfBaseUtils.UpdateDictionary("isSticky", IsSticky, properties);
                     return true;
                 case "MouseTrail":
-                    SfBaseUtils.UpdateDictionary("mouseTrail", MouseTrail, properties);
+                    _ = SfBaseUtils.UpdateDictionary("mouseTrail", MouseTrail, properties);
                     return true;
                 case "ShowTipPointer":
-                    SfBaseUtils.UpdateDictionary("showTipPointer", ShowTipPointer, properties);
+                    _ = SfBaseUtils.UpdateDictionary("showTipPointer", ShowTipPointer, properties);
                     return true;
                 default:
                     return false;
@@ -823,13 +817,13 @@ namespace Syncfusion.Blazor.Toolkit.Popups
             switch (key)
             {
                 case "Animation":
-                    SfBaseUtils.UpdateDictionary("animation", GetAnimationValue(), properties);
+                    _ = SfBaseUtils.UpdateDictionary("animation", GetAnimationValue(), properties);
                     return true;
                 case "CloseDelay":
-                    SfBaseUtils.UpdateDictionary("closeDelay", CloseDelay, properties);
+                    _ = SfBaseUtils.UpdateDictionary("closeDelay", CloseDelay, properties);
                     return true;
                 case "OpenDelay":
-                    SfBaseUtils.UpdateDictionary("openDelay", OpenDelay, properties);
+                    _ = SfBaseUtils.UpdateDictionary("openDelay", OpenDelay, properties);
                     return true;
                 default:
                     return false;
@@ -844,13 +838,13 @@ namespace Syncfusion.Blazor.Toolkit.Popups
             switch (key)
             {
                 case "Width":
-                    SfBaseUtils.UpdateDictionary("width", Width, properties);
+                    _ = SfBaseUtils.UpdateDictionary("width", Width, properties);
                     return true;
                 case "Height":
-                    SfBaseUtils.UpdateDictionary("height", Height, properties);
+                    _ = SfBaseUtils.UpdateDictionary("height", Height, properties);
                     return true;
                 case "EnableRtl":
-                    SfBaseUtils.UpdateDictionary("enableRtl", SyncfusionService != null && SyncfusionService._options.EnableRtl, properties);
+                    _ = SfBaseUtils.UpdateDictionary("enableRtl", SyncfusionService != null && SyncfusionService._options.EnableRtl, properties);
                     return true;
                 default:
                     return false;

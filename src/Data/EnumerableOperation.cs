@@ -1,4 +1,5 @@
 ﻿using System.Collections;
+using System.Diagnostics.CodeAnalysis;
 using System.Linq.Expressions;
 using System.Reflection;
 using Syncfusion.Blazor.Toolkit.Internal;
@@ -10,6 +11,8 @@ namespace Syncfusion.Blazor.Toolkit.Data
     /// <summary>
     /// Provides enumerable-based data operation implementations such as filtering, sorting, searching, grouping, and pagination for in-memory collections.
     /// </summary>
+    [RequiresUnreferencedCode("The Syncfusion data query engine builds LINQ expressions and reflects over the queried model type at runtime; members it depends on may be removed by the trimmer.")]
+    [RequiresDynamicCode("The Syncfusion data query engine constructs generic methods and compiles expression trees at runtime, which is not supported by Native AOT.")]
     public static class EnumerableOperation
     {
         /// <summary>
@@ -85,7 +88,7 @@ namespace Syncfusion.Blazor.Toolkit.Data
         /// <param name="sortedColumns">List of sort criteria.</param>
         /// <param name="sourceType">Specifies the source type.</param>
         /// <returns>IEnumerable - sorted records.</returns>
-        public static IEnumerable PerformSorting(IEnumerable dataSource, List<SortedColumn> sortedColumns, Type? sourceType = null)
+        public static IEnumerable PerformSorting(IEnumerable dataSource, IList<SortedColumn> sortedColumns, Type? sourceType = null)
         {
             IQueryable data = dataSource.AsQueryable();
             sourceType ??= data.GetObjectType();
@@ -154,7 +157,7 @@ namespace Syncfusion.Blazor.Toolkit.Data
         /// <param name="dataSource">Data source to be sorted.</param>
         /// <param name="sortedColumns">List of sort criteria.</param>
         /// <returns>IEnumerable - sorted records.</returns>
-        public static IEnumerable PerformSorting(IEnumerable dataSource, List<Sort> sortedColumns)
+        public static IEnumerable PerformSorting(IEnumerable dataSource, IList<Sort> sortedColumns)
         {
             IEnumerable data = dataSource;
             if (dataSource != null && !dataSource.GetEnumerator().MoveNext())
@@ -164,7 +167,10 @@ namespace Syncfusion.Blazor.Toolkit.Data
             List<SortedColumn> sortColumns = [];
             if (sortedColumns != null && sortedColumns.Count > 1)
             {
-                sortedColumns.Reverse();
+                for (int i = 0, j = sortedColumns.Count - 1; i < j; i++, j--)
+                {
+                    (sortedColumns[j], sortedColumns[i]) = (sortedColumns[i], sortedColumns[j]);
+                }
             }
 
             foreach (Sort column in sortedColumns ?? [])
@@ -193,7 +199,7 @@ namespace Syncfusion.Blazor.Toolkit.Data
 
             return (IEnumerable)method.Invoke(null, [list, sortColumns])!;
         }
-        private static List<T> SortInternal<T>(List<object> source, List<SortedColumn> columns)
+        private static List<T> SortInternal<T>(List<object> source, IList<SortedColumn> columns)
         {
             List<T> typedList = [.. source.Cast<T>()];
             if (typedList.Count <= 1)
@@ -320,7 +326,9 @@ namespace Syncfusion.Blazor.Toolkit.Data
         {
             private readonly (Func<T, object> Getter, IComparer<object> Comparer, bool Descending, bool isForeignKeyComparer)[] _accessors;
 
-            public SortDataComparer(List<SortedColumn> columns)
+            [RequiresUnreferencedCode("Builds and compiles property-accessor expressions over the runtime element type; the accessed members may be removed by the trimmer.")]
+            [RequiresDynamicCode("Compiles property-accessor expression trees at runtime, which is not supported by Native AOT.")]
+            public SortDataComparer(IList<SortedColumn> columns)
             {
                 _accessors = new (Func<T, object>, IComparer<object>, bool, bool)[columns.Count];
                 ParameterExpression param = Expression.Parameter(typeof(T), "x");
@@ -387,7 +395,7 @@ namespace Syncfusion.Blazor.Toolkit.Data
         /// <param name="paramExpression">Parameter expression.</param>
         /// <param name="type">Specifies the source type.</param>
         /// <returns>Expression.</returns>
-        public static Expression PredicateBuilder(IEnumerable dataSource, List<WhereFilter> whereFilter, string condition, ParameterExpression paramExpression, Type type)
+        public static Expression PredicateBuilder(IEnumerable dataSource, IList<WhereFilter> whereFilter, string condition, ParameterExpression paramExpression, Type type)
         {
             Expression? predicate = null;
             foreach (WhereFilter? filter in whereFilter ?? [])
@@ -480,7 +488,7 @@ namespace Syncfusion.Blazor.Toolkit.Data
         /// <param name="whereFilter">List of filter criteria.</param>
         /// <param name="condition">Filter merge condition. Value can be either AND or OR.</param>
         /// <returns>IEnumerable - filtered records.</returns>
-        public static IEnumerable PerformFiltering(IEnumerable dataSource, List<WhereFilter> whereFilter, string condition)
+        public static IEnumerable PerformFiltering(IEnumerable dataSource, IList<WhereFilter> whereFilter, string condition)
         {
             Type? type = dataSource?.GetElementType();
             if (type == null)
@@ -500,7 +508,7 @@ namespace Syncfusion.Blazor.Toolkit.Data
         /// <param name="dataSource">Data source to be filtered.</param>
         /// <param name="searchFilter">List of search criteria.</param>
         /// <returns>IEnumerable - searched records.</returns>
-        public static IEnumerable PerformSearching(IEnumerable dataSource, List<SearchFilter> searchFilter)
+        public static IEnumerable PerformSearching(IEnumerable dataSource, IList<SearchFilter> searchFilter)
         {
             Type? type = dataSource.GetElementType();
             Type t = typeof(object);

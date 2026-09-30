@@ -1,4 +1,5 @@
-﻿﻿using System.ComponentModel;
+﻿using System.ComponentModel;
+using System.Diagnostics.CodeAnalysis;
 using Microsoft.AspNetCore.Components;
 
 namespace Syncfusion.Blazor.Toolkit.Charts
@@ -155,6 +156,10 @@ namespace Syncfusion.Blazor.Toolkit.Charts
         /// </summary>
         [EditorBrowsable(EditorBrowsableState.Never)]
         [Browsable(false)]
+        [UnconditionalSuppressMessage("Trimming", "IL2026",
+            Justification = "The reachable ChartSeriesRenderer.UpdateEmptyPoint()/UpdateDirection() paths only touch the library's own strongly-typed chart model and renderer members, which are statically referenced and therefore preserved by the trimmer.")]
+        [UnconditionalSuppressMessage("AOT", "IL3050",
+            Justification = "The reachable ChartSeriesRenderer.UpdateEmptyPoint()/UpdateDirection() paths do not require runtime code generation; they operate over the library's own strongly-typed chart model.")]
         protected override void OnParametersSet()
         {
             base.OnParametersSet();
@@ -163,10 +168,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts
                 if (_mode != Mode)
                 {
                     _mode = Mode;
-                    if (Series is not null)
-                    {
-                        Series.Renderer?.UpdateEmptyPoint();
-                    }
+                    Series?.Renderer?.UpdateEmptyPoint();
                 }
 
                 if (_fill != Fill)

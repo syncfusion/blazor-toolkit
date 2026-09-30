@@ -113,10 +113,7 @@ namespace Syncfusion.Blazor.Toolkit.Inputs
 
             if (!string.IsNullOrWhiteSpace(AriaLabel))
             {
-                if (_inputAttributes is null)
-                {
-                    _inputAttributes = [];
-                }
+                _inputAttributes ??= [];
                 _inputAttributes["aria-label"] = AriaLabel;
             }
         }

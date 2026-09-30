@@ -1,4 +1,6 @@
-﻿namespace Syncfusion.Blazor.Toolkit.Data
+﻿using System.Diagnostics.CodeAnalysis;
+
+namespace Syncfusion.Blazor.Toolkit.Data
 {
     /// <summary>
     /// Provides the members for data adaptor class.
@@ -33,6 +35,8 @@
         /// <param name="data">Specifies the data manager instance.</param>
         /// <param name="queries">Specifies the query.</param>
         /// <returns>Task.</returns>
+        [RequiresUnreferencedCode(AdaptorBase.AdaptorTrimWarning)]
+        [RequiresDynamicCode(AdaptorBase.AdaptorAotWarning)]
         Task<object> ProcessResponse<T>(object data, DataManagerRequest queries);
 
 
@@ -42,6 +46,8 @@
         /// <typeparam name="T">Specifies the data source model type.</typeparam>
         /// <param name="queries">Specifies the query.</param>
         /// <returns>Task.</returns>
+        [RequiresUnreferencedCode(AdaptorBase.AdaptorTrimWarning)]
+        [RequiresDynamicCode(AdaptorBase.AdaptorAotWarning)]
         Task<object> PerformDataOperation<T>(object queries);
 
         /// <summary>
@@ -80,6 +86,8 @@
         /// <param name="data">Specifies the data.</param>
         /// <param name="queries">Specifies the query.</param>
         /// <returns>Task.</returns>
+        [RequiresUnreferencedCode(AdaptorBase.AdaptorTrimWarning)]
+        [RequiresDynamicCode(AdaptorBase.AdaptorAotWarning)]
         Task<object> ProcessBatchResponse<T>(object data, DataManagerRequest queries);
     }
 
@@ -88,6 +96,19 @@
     /// </summary>
     public class AdaptorBase(DataManager dataManager) : IAdaptor
     {
+        /// <summary>
+        /// Shared trim-analyzer justification for adaptor data operations: the Syncfusion data query engine
+        /// builds LINQ expressions and reflects over the queried model type at runtime, so members it depends
+        /// on may be removed by the trimmer.
+        /// </summary>
+        internal const string AdaptorTrimWarning = "The Syncfusion data query engine builds LINQ expressions and reflects over the queried model type at runtime; members it depends on may be removed by the trimmer.";
+
+        /// <summary>
+        /// Shared AOT-analyzer justification for adaptor data operations: the engine constructs generic methods
+        /// and compiles expression trees at runtime, which is not supported by Native AOT.
+        /// </summary>
+        internal const string AdaptorAotWarning = "The Syncfusion data query engine constructs generic methods and compiles expression trees at runtime, which is not supported by Native AOT.";
+
         /// <summary>
         /// Specifies the data manager instance.
         /// </summary>
@@ -156,6 +177,8 @@
         /// <typeparam name="T">Specifies the data source model type.</typeparam>
         /// <param name="queries">Specifies the query.</param>
         /// <returns>Task.</returns>
+        [RequiresUnreferencedCode(AdaptorTrimWarning)]
+        [RequiresDynamicCode(AdaptorAotWarning)]
         public virtual async Task<object> PerformDataOperation<T>(object queries)
         {
             return await Task.FromResult<object>(null!).ConfigureAwait(false);
@@ -168,11 +191,13 @@
         /// <param name="data">Specifies the data manager instance.</param>
         /// <param name="queries">Specifies the query.</param>
         /// <returns>Task.</returns>
+        [RequiresUnreferencedCode(AdaptorTrimWarning)]
+        [RequiresDynamicCode(AdaptorAotWarning)]
         public virtual async Task<object> ProcessResponse<T>(object data, DataManagerRequest queries)
         {
             return await Task.FromResult(data).ConfigureAwait(false);
         }
-                
+
         /// <summary>
         /// Adds additional paramerters from Query instance to server request.
         /// </summary>
@@ -197,6 +222,8 @@
         /// <param name="data">Specifies the data.</param>
         /// <param name="queries">Specifies the query.</param>
         /// <returns>Task.</returns>
+        [RequiresUnreferencedCode(AdaptorTrimWarning)]
+        [RequiresDynamicCode(AdaptorAotWarning)]
         public virtual async Task<object> ProcessBatchResponse<T>(object data, DataManagerRequest queries)
         {
             return await Task.FromResult(data).ConfigureAwait(false);
@@ -259,19 +286,19 @@
         /// Specifies the list of added records while batch editing.
         /// </summary>
         /// <remarks>The Added property will holds values on batch editing only.</remarks>
-        public List<T> Added { get; set; }
+        public List<T>? Added { get; set; }
 
         /// <summary>
         /// Specifies the list of updated records while batch editing.
         /// </summary>
         /// <remarks>The Changed property will holds values on batch editing only.</remarks>
-        public List<T> Changed { get; set; }
+        public List<T>? Changed { get; set; }
 
         /// <summary>
         /// Specifies the list of deleted records while batch editing.
         /// </summary>
         /// <remarks>The Deleted property will holds values on batch editing only.</remarks>
-        public List<T> Deleted { get; set; }
+        public List<T>? Deleted { get; set; }
     }
 
     /// <summary>

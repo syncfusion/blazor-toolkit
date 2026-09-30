@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Components.Forms;
 using Microsoft.AspNetCore.Components.Web;
 using Microsoft.JSInterop;
 using Syncfusion.Blazor.Toolkit.Internal;
+using System.Diagnostics.CodeAnalysis;
 using System.Globalization;
 using System.Text;
 using Microsoft.Extensions.Logging;
@@ -137,7 +138,7 @@ namespace Syncfusion.Blazor.Toolkit.Inputs
         /// </summary>
         /// <exclude/>
         [Inject]
-        protected ILogger<SfNumericTextBox<TValue>> Logger { get; set; }
+        protected ILogger<SfNumericTextBox<TValue>> Logger { get; set; } = default!;
 
         private IJSInProcessObjectReference? _numericTextBoxJsInProcessModule;
         private DotNetObjectReference<SfNumericTextBox<TValue>>? _selectRangeDotNetRef;
@@ -187,7 +188,7 @@ namespace Syncfusion.Blazor.Toolkit.Inputs
                         {
                             return;
                         }
-                        PropertyChanges?.Remove(nameof(Value));
+                        _ = (PropertyChanges?.Remove(nameof(Value)));
                         await ChangeValueAsync(value: (Value is null) ? default : StrictMode ? TrimValue(Value) : Value).ConfigureAwait(true);
                         if (prop.Key == "Value")
                         {
@@ -437,7 +438,7 @@ namespace Syncfusion.Blazor.Toolkit.Inputs
         {
             PreviousStep = NotifyPropertyChanges(STEP, Step, PreviousStep);
             PreviousDecimals = NotifyPropertyChanges(DECIMALS, Decimals, PreviousDecimals);
-            NotifyPropertyChanges(nameof(CssClass), CssClass, ContainerCssClass);
+            _ = NotifyPropertyChanges(nameof(CssClass), CssClass, ContainerCssClass);
             PreviousMax = NotifyPropertyChanges(MAX, Max, PreviousMax);
             PreviousMin = NotifyPropertyChanges(MIN, Min, PreviousMin);
             PreviousFormat = NotifyPropertyChanges(nameof(Format), Format, PreviousFormat);
@@ -619,7 +620,7 @@ namespace Syncfusion.Blazor.Toolkit.Inputs
             ContainerClass = IsValidState
                 ? ContainerClass.Replace(ERROR_CLASS, string.Empty, StringComparison.Ordinal)
                 : ContainerClass.Contains(ERROR_CLASS, StringComparison.Ordinal) ? ContainerClass : ContainerClass + " " + ERROR_CLASS;
-            SfBaseUtils.UpdateDictionary(ARIA_INVALID, IsValidState ? FALSE : TRUE, InputHtmlAttributes);
+            _ = SfBaseUtils.UpdateDictionary(ARIA_INVALID, IsValidState ? FALSE : TRUE, InputHtmlAttributes);
         }
 
         /// <summary>
@@ -672,7 +673,7 @@ namespace Syncfusion.Blazor.Toolkit.Inputs
             {
 
                 await SetValueAsync(null, FloatLabelType, ShowClearButton).ConfigureAwait(true);
-                InputHtmlAttributes.Remove(ARIA_VALUE_NOW);
+                _ = InputHtmlAttributes.Remove(ARIA_VALUE_NOW);
             }
         }
 
@@ -784,7 +785,7 @@ namespace Syncfusion.Blazor.Toolkit.Inputs
             }
             else
             {
-                InputHtmlAttributes.Remove(ARIA_VALUE_MAX);
+                _ = InputHtmlAttributes.Remove(ARIA_VALUE_MAX);
             }
             if (isMin)
             {
@@ -792,7 +793,7 @@ namespace Syncfusion.Blazor.Toolkit.Inputs
             }
             else
             {
-                InputHtmlAttributes.Remove(ARIA_VALUE_MIN);
+                _ = InputHtmlAttributes.Remove(ARIA_VALUE_MIN);
             }
         }
 
@@ -1264,7 +1265,7 @@ namespace Syncfusion.Blazor.Toolkit.Inputs
                     if (tempVal.StartsWith(negativeSign, StringComparison.Ordinal))
                     {
                         hasNegative = true;
-                        tempVal = tempVal.Substring(tempVal.StartsWith(negativeSign, StringComparison.Ordinal) ? 1 : negativeSign.Length);
+                        tempVal = tempVal[(tempVal.StartsWith(negativeSign, StringComparison.Ordinal) ? 1 : negativeSign.Length)..];
                     }
                 }
                 string pattern = $"[^0-9{Regex.Escape(dropDecimalSeparator)}]";
@@ -1291,20 +1292,20 @@ namespace Syncfusion.Blazor.Toolkit.Inputs
                 {
                     if (c is >= '０' and <= '９')
                     {
-                        sb.Append((char)(c - '０' + '0'));
+                        _ = sb.Append((char)(c - '０' + '0'));
                     }
                     else if ((c == '-' || (negativeSignStr.Length == 1 && c.ToString() == negativeSignStr)) && isFirstChar && !hasNegativeProcessed)
                     {
-                        sb.Append(negativeSignStr);
+                        _ = sb.Append(negativeSignStr);
                         hasNegativeProcessed = true;
                     }
                     else if (char.IsDigit(c))
                     {
-                        sb.Append(c);
+                        _ = sb.Append(c);
                     }
                     else if (c.ToString() == decimalSeparator)
                     {
-                        sb.Append(decimalSeparator);
+                        _ = sb.Append(decimalSeparator);
                     }
                     else if (c.ToString() == thousandSeparator)
                     {
@@ -1754,6 +1755,10 @@ namespace Syncfusion.Blazor.Toolkit.Inputs
         /// <remarks>
         /// This method completes the precision rounding process by rounding the multiplied value and then dividing it back to the original scale. The rounding step eliminates floating-point precision artifacts.
         /// </remarks>
+        [UnconditionalSuppressMessage("Trimming", "IL2026",
+            Justification = "The dynamic arithmetic operates only on the closed set of built-in numeric primitives permitted for TValue (byte, int, double, decimal, etc.); their operator members are intrinsic to the runtime and cannot be trimmed away.")]
+        [UnconditionalSuppressMessage("AOT", "IL3050",
+            Justification = "The dynamic arithmetic operates only on built-in numeric primitives whose operators the runtime resolves without generating new code; converting to static generic math would require changing the public TValue constraint, which the API contract forbids.")]
         private TValue DivideValue(TValue value, double divide)
         {
             dynamic? result = value;

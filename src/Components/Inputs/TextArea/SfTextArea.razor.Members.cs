@@ -219,9 +219,9 @@ namespace Syncfusion.Blazor.Toolkit.Inputs
         /// ]]></code>
         /// </example>
         [Parameter(CaptureUnmatchedValues = true)]
-        public Dictionary<string, object> InputAttributes
+        public Dictionary<string, object>? InputAttributes
         {
-            get => BaseInputAttributes ?? [];
+            get => BaseInputAttributes;
             set => BaseInputAttributes = value;
         }
 

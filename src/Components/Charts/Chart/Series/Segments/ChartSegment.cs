@@ -11,6 +11,9 @@ namespace Syncfusion.Blazor.Toolkit.Charts
         #region Fields
 
         private bool _isPropertyChanged;
+        private object? _previousValue;
+        private string? _previousColor;
+        private string? _previousDashArray;
 
         #endregion
 
@@ -54,20 +57,8 @@ namespace Syncfusion.Blazor.Toolkit.Charts
         /// ]]>
         /// </code>
         /// </example>
-        private object _value = null!;
         [Parameter]
-        public object Value
-        {
-            get => _value;
-            set
-            {
-                if (_value != value)
-                {
-                    _value = value;
-                    _isPropertyChanged = Series is not null;
-                }
-            }
-        }
+        public object Value { get; set; } = null!;
 
         /// <summary>
         /// Gets or sets the color of the segment series.
@@ -93,20 +84,8 @@ namespace Syncfusion.Blazor.Toolkit.Charts
         /// ]]>
         /// </code>
         /// </example>
-        private string _color = null!;
         [Parameter]
-        public string Color
-        {
-            get => _color;
-            set
-            {
-                if (_color != value)
-                {
-                    _color = value;
-                    _isPropertyChanged = Series is not null;
-                }
-            }
-        }
+        public string Color { get; set; } = null!;
 
         /// <summary>
         /// Gets or sets the dash array of the segment series.
@@ -132,20 +111,8 @@ namespace Syncfusion.Blazor.Toolkit.Charts
         /// ]]>
         /// </code>
         /// </example>
-        private string _dashArray = null!;
         [Parameter]
-        public string DashArray
-        {
-            get => _dashArray;
-            set
-            {
-                if (_dashArray != value)
-                {
-                    _dashArray = value;
-                    _isPropertyChanged = Series is not null;
-                }
-            }
-        }
+        public string DashArray { get; set; } = null!;
 
         #endregion
 
@@ -179,6 +146,20 @@ namespace Syncfusion.Blazor.Toolkit.Charts
         protected override void OnParametersSet()
         {
             base.OnParametersSet();
+
+            // Preserve the historical setter behavior: a change to any segment parameter marks the
+            // segment dirty only when it is attached to a series (cascading Series is available).
+            if (!Equals(_previousValue, Value) || !string.Equals(_previousColor, Color, StringComparison.Ordinal) || !string.Equals(_previousDashArray, DashArray, StringComparison.Ordinal))
+            {
+                if (Series is not null)
+                {
+                    _isPropertyChanged = true;
+                }
+
+                _previousValue = Value;
+                _previousColor = Color;
+                _previousDashArray = DashArray;
+            }
 
             if (_isPropertyChanged)
             {

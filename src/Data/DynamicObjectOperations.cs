@@ -1,4 +1,5 @@
 ﻿using System.Collections;
+using System.Diagnostics.CodeAnalysis;
 using System.Linq.Expressions;
 using Syncfusion.Blazor.Toolkit.Data;
 using System.Dynamic;
@@ -9,6 +10,8 @@ namespace Syncfusion.Blazor.Toolkit.Data
     /// <summary>
     /// DataOperation class that performs data operation in DynamicObject type data sources.
     /// </summary>
+    [RequiresUnreferencedCode("The Syncfusion data query engine builds LINQ expressions and reflects over the queried model type at runtime; members it depends on may be removed by the trimmer.")]
+    [RequiresDynamicCode("The Syncfusion data query engine constructs generic methods and compiles expression trees at runtime, which is not supported by Native AOT.")]
     public static class DynamicObjectOperation
     {
         /// <summary>
@@ -59,7 +62,7 @@ namespace Syncfusion.Blazor.Toolkit.Data
         /// <param name="dataSource">Input data source to be sorted.</param>
         /// <param name="sortedColumns">List of sort criteria.</param>
         /// <returns>IQuerable.</returns>
-        public static IQueryable PerformSorting(IQueryable dataSource, List<Sort> sortedColumns)
+        public static IQueryable PerformSorting(IQueryable dataSource, IList<Sort> sortedColumns)
         {
             bool firstTime = true;
             IQueryable<IDynamicMetaObjectProvider> dt = dataSource.Cast<IDynamicMetaObjectProvider>().AsQueryable();
@@ -68,7 +71,10 @@ namespace Syncfusion.Blazor.Toolkit.Data
             List<SortedColumn> sortedColumn = [];
             if (sortedColumns != null && sortedColumns.Count > 1)
             {
-                sortedColumns.Reverse();
+                for (int i = 0, j = sortedColumns.Count - 1; i < j; i++, j--)
+                {
+                    (sortedColumns[j], sortedColumns[i]) = (sortedColumns[i], sortedColumns[j]);
+                }
             }
 
             foreach (Sort column in sortedColumns ?? [])
@@ -139,7 +145,7 @@ namespace Syncfusion.Blazor.Toolkit.Data
         /// <param name="condition">Condition to merge two filter criteria.</param>
         /// <param name="columnTypes">Type collection of each property in data source.</param>
         /// <returns></returns>
-        public static IQueryable PerformFiltering(IEnumerable dataSource, List<WhereFilter> whereFilter, string condition, IDictionary<string, Type> columnTypes = null)
+        public static IQueryable PerformFiltering(IEnumerable dataSource, IList<WhereFilter> whereFilter, string condition, IDictionary<string, Type> columnTypes = null)
         {
             IQueryable<IDynamicMetaObjectProvider> data = dataSource.Cast<IDynamicMetaObjectProvider>().AsQueryable();
             ParameterExpression paramExpression = Expression.Parameter(typeof(object));
@@ -222,7 +228,7 @@ namespace Syncfusion.Blazor.Toolkit.Data
         /// <param name="searchFilter">List of search criteria.</param>
         /// <returns>IEnumerable - searched records.</returns>
         /// <param name="columnTypes">Type collection of each property in data source.</param>
-        public static IQueryable PerformSearching(IEnumerable dataSource, List<SearchFilter> searchFilter, IDictionary<string, Type>? columnTypes = null)
+        public static IQueryable PerformSearching(IEnumerable dataSource, IList<SearchFilter> searchFilter, IDictionary<string, Type>? columnTypes = null)
         {
             IQueryable<IDynamicMetaObjectProvider>? data = null;
             Type? type = dataSource.GetElementType();
@@ -283,7 +289,7 @@ namespace Syncfusion.Blazor.Toolkit.Data
         /// <param name="paramExpression">Parameter expression.</param>
         /// <param name="columnTypes">Type collection of each property in data source.</param>
         /// <returns>Expression.</returns>
-        public static Expression PredicateBuilder(IEnumerable dataSource, List<WhereFilter> whereFilter, string condition, ParameterExpression paramExpression, IDictionary<string, Type> columnTypes = null)
+        public static Expression PredicateBuilder(IEnumerable dataSource, IList<WhereFilter> whereFilter, string condition, ParameterExpression paramExpression, IDictionary<string, Type> columnTypes = null)
         {
             Type? type = dataSource.GetElementType();
             if (type == null)

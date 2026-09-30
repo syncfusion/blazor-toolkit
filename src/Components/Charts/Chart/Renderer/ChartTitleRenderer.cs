@@ -15,7 +15,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
         #region Fields
         private Rect? _availableRect;
         private double _maxWidth;
-        private CultureInfo _culture = CultureInfo.InvariantCulture;
+        private readonly CultureInfo _culture = CultureInfo.InvariantCulture;
         #endregion
 
         #region Properties

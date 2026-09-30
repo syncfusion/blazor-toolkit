@@ -8,13 +8,6 @@ namespace Syncfusion.Blazor.Toolkit.Charts
     /// </summary>
     public class ChartCrosshairLine : ChartDefaultBorder
     {
-        #region Fields
-
-        private string? _color;
-        private double _width;
-
-        #endregion
-
         #region Properties
 
         [CascadingParameter]
@@ -39,18 +32,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts
         /// </code>
         /// </example>
         [Parameter]
-        public override string Color
-        {
-            get => _color ?? base.Color ?? string.Empty;
-            set
-            {
-                if (_color != value)
-                {
-                    _color = value;
-                    _isPropertyChanged = true;
-                }
-            }
-        }
+        public override string Color { get; set; } = string.Empty;
 
         /// <summary>
         /// Gets or sets the width of the crosshair line in pixels.
@@ -71,18 +53,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts
         /// </code>
         /// </example>
         [Parameter]
-        public override double Width
-        {
-            get => _width > 0 ? _width : base.Width;
-            set
-            {
-                if (_width != value)
-                {
-                    _width = value;
-                    _isPropertyChanged = true;
-                }
-            }
-        }
+        public override double Width { get; set; } = 1;
 
         #endregion
 
@@ -120,6 +91,12 @@ namespace Syncfusion.Blazor.Toolkit.Charts
         protected override async Task OnParametersSetAsync()
         {
             await base.OnParametersSetAsync().ConfigureAwait(false);
+
+            // Preserve the historical fallback where a non-positive width resolves to the inherited default (1).
+            if (Width <= 0)
+            {
+                Width = 1;
+            }
 
             if (Parent?.Chart is not null && Parent.Chart._isChartFirstRender)
             {

@@ -447,7 +447,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
             if (Chart is not null && Chart._isScriptLoaded && _isTooltipRendered)
             {
                 await SfBaseComponent.InvokeVoidAsync(
-                    Chart._chartJsModule!, Chart._chartJsInProcessModule!,
+                    Chart._chartJsModule, Chart._chartJsInProcessModule,
                     "removeStriplineTooltip",
                     [_striplineId, Chart._tooltip.FadeOutDuration]
                 ).ConfigureAwait(false);

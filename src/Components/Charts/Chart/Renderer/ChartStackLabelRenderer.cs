@@ -16,7 +16,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
     public class ChartStackLabelRenderer : ChartRenderer, IChartElementRenderer
     {
         #region Fields
-        private List<TextOptions> _chartStackLabels = [];
+        private readonly List<TextOptions> _chartStackLabels = [];
         private CultureInfo _cultureInfo = CultureInfo.InvariantCulture;
         private bool _shouldAnimate = true;
         internal List<RectOptions> _rectOptions = [];

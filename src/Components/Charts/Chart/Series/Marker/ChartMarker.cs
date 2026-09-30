@@ -115,10 +115,10 @@ namespace Syncfusion.Blazor.Toolkit.Charts
             Series.Container._seriesContainer?.Prerender();
 
             // Recalculate symbols when the marker renderer component already exists.
-            var markerRenderer = Series.Marker?.Renderer;
+            ChartMarkerRenderer? markerRenderer = Series.Marker?.Renderer;
             if (markerRenderer != null)
             {
-                var rect = Series.Container.InitialRect ?? new Rect(0, 0, 0, 0);
+                Rect rect = Series.Container.InitialRect ?? new Rect(0, 0, 0, 0);
                 markerRenderer.HandleChartSizeChange(rect);
             }
         }

@@ -97,11 +97,11 @@ namespace Syncfusion.Blazor.Toolkit.Calendars
             {
                 if (!string.IsNullOrWhiteSpace(AriaLabelledBy) && !_containerAttr.ContainsKey("aria-labelledby"))
                 {
-                    _containerAttr = SfBaseUtils.UpdateDictionary("aria-labelledby", AriaLabelledBy!, _containerAttr);
+                    _containerAttr = SfBaseUtils.UpdateDictionary("aria-labelledby", AriaLabelledBy, _containerAttr);
                 }
                 if (!string.IsNullOrWhiteSpace(AriaDescribedBy) && !_containerAttr.ContainsKey("aria-describedby"))
                 {
-                    _containerAttr = SfBaseUtils.UpdateDictionary("aria-describedby", AriaDescribedBy!, _containerAttr);
+                    _containerAttr = SfBaseUtils.UpdateDictionary("aria-describedby", AriaDescribedBy, _containerAttr);
                 }
             }
         }

@@ -24,18 +24,18 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
 
         #region Fields
 
-        private SfChart? _chartInstance;
-        private StringComparison _stringCulture = StringComparison.InvariantCulture;
+        private readonly SfChart? _chartInstance;
+        private readonly StringComparison _stringCulture = StringComparison.InvariantCulture;
         private string _closeIconId = string.Empty;
         private string? _draggedRect;
-        private List<SvgClass> _previousSelectedElements = [];
+        private readonly List<SvgClass> _previousSelectedElements = [];
         private bool _dragging;
         private bool _lassoDownCompleted;
         private Rect _rectPoints = new();
-        private Dictionary<string, Rect> _dragRectArray = [];
-        private Dictionary<string, Rect> _filterArray = [];
-        private Dictionary<string, string> _lassoPaths = [];
-        private Dictionary<string, CircleOptions> _closeCircleArray = [];
+        private readonly Dictionary<string, Rect> _dragRectArray = [];
+        private readonly Dictionary<string, Rect> _filterArray = [];
+        private readonly Dictionary<string, string> _lassoPaths = [];
+        private readonly Dictionary<string, CircleOptions> _closeCircleArray = [];
         private int _targetIndex;
         private bool _rectGrabbing;
         private bool _isdrawRect = true;

@@ -385,11 +385,9 @@ namespace Syncfusion.Blazor.Toolkit.Calendars
             {
                 return ConvertDateOnlyToDateTime(dateValue, propertyType);
             }
-            if (IsDateTimeOffsetType(dateValue, propertyType, isNullable))
-            {
-                return ConvertDateTimeOffsetToDateTime(dateValue, propertyType);
-            }
-            return DateTime.Now;
+            return IsDateTimeOffsetType(dateValue, propertyType, isNullable)
+                ? ConvertDateTimeOffsetToDateTime(dateValue, propertyType)
+                : DateTime.Now;
         }
 
         private static bool IsDateTimeType(T dateValue, Type propertyType, bool isNullable)

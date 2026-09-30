@@ -227,7 +227,7 @@ namespace Syncfusion.Blazor.Toolkit.Calendars
         [Parameter]
         public string Placeholder
         {
-            get => BasePlaceholder ?? default!; set => BasePlaceholder = value;
+            get => BasePlaceholder; set => BasePlaceholder = value;
         }
         /// <summary>
         /// Backing storage for the public <see cref="Placeholder"/> parameter.
@@ -339,9 +339,9 @@ namespace Syncfusion.Blazor.Toolkit.Calendars
         /// ]]></code>
         /// </example>
         [Parameter]
-        public string Width
+        public string? Width
         {
-            get => BaseWidth ?? default!; set => BaseWidth = value;
+            get => BaseWidth; set => BaseWidth = value;
         }
 
         /// <summary>
@@ -412,7 +412,7 @@ namespace Syncfusion.Blazor.Toolkit.Calendars
         /// </remarks>
         /// <exclude/>
         [CascadingParameter(Name = "InPlaceEditor")]
-        protected dynamic? DatePickerParent { get; set; }
+        protected object? DatePickerParent { get; set; }
     }
 
     /// <summary>

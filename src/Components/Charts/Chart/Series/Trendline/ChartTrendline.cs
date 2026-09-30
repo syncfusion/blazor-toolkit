@@ -39,6 +39,10 @@ namespace Syncfusion.Blazor.Toolkit.Charts
 
         private SfChart? _chart;
 
+        private string _prevName = string.Empty;
+        private bool _prevVisible = true;
+        private TrendlineTypes _prevType;
+
         #endregion
 
         #region Properties
@@ -62,26 +66,8 @@ namespace Syncfusion.Blazor.Toolkit.Charts
         /// ]]>
         /// </code>
         /// </example>
-        private string _name = string.Empty;
         [Parameter]
-        public string Name
-        {
-            get => _name;
-            set
-            {
-                if (_name == value)
-                {
-                    return;
-                }
-
-                _name = value;
-                if (Renderer is not null)
-                {
-                    Renderer.Series?.SetName(_name);
-                    _chart?.OnLayoutChange();
-                }
-            }
-        }
+        public string Name { get; set; } = string.Empty;
 
         /// <summary>
         /// Gets or sets the dash array pattern for the trendline stroke.
@@ -102,21 +88,8 @@ namespace Syncfusion.Blazor.Toolkit.Charts
         /// ]]>
         /// </code>
         /// </example>
-        private string _dashArray = "0";
         [Parameter]
-        public string DashArray
-        {
-            get => _dashArray;
-            set
-            {
-                if (_dashArray == value)
-                {
-                    return;
-                }
-
-                _dashArray = value;
-            }
-        }
+        public string DashArray { get; set; } = "0";
 
         /// <summary>
         /// Gets or sets a value indicating whether the trendline is visible.
@@ -137,34 +110,8 @@ namespace Syncfusion.Blazor.Toolkit.Charts
         /// ]]>
         /// </code>
         /// </example>
-        private bool _visible = true;
         [Parameter]
-        public bool Visible
-        {
-            get => _visible;
-            set
-            {
-                if (_visible != value)
-                {
-                    _visible = value;
-
-                    if (TargetSeries?.Renderer is not null)
-                    {
-
-                        TargetSeries.Renderer.RendererShouldRender = true;
-                        TargetSeries.Renderer.TrendLineLegendVisibility = _visible;
-                        TargetSeries.Renderer.ProcessRenderQueue();
-
-                        if (_chart?._legendRenderer is not null)
-                        {
-                            _chart._legendRenderer.RendererShouldRender = true;
-                            _chart._legendRenderer.UpdateLegendFill(TargetSeries.Renderer);
-                            _chart._legendRenderer.ProcessRenderQueue();
-                        }
-                    }
-                }
-            }
-        }
+        public bool Visible { get; set; } = true;
 
         /// <summary>
         /// Gets or sets the type of the trendline.
@@ -185,32 +132,8 @@ namespace Syncfusion.Blazor.Toolkit.Charts
         /// ]]>
         /// </code>
         /// </example>
-        private TrendlineTypes _type;
         [Parameter]
-        public TrendlineTypes Type
-        {
-            get => _type;
-            set
-            {
-                if (_type != value)
-                {
-
-                    _type = value;
-                    if (_chart is not null)
-                    {
-
-                        _chart._trendlineContainer?.RemoveRenderer(TargetSeries?.Renderer ?? null!);
-                        TrendlineInitiator?.InitSeriesCollection();
-
-                        if (_chart._trendlineContainer is not null)
-                        {
-                            _chart._trendlineContainer.RendererShouldRender = true;
-                            _chart._trendlineContainer.Prerender();
-                        }
-                    }
-                }
-            }
-        }
+        public TrendlineTypes Type { get; set; }
 
         /// <summary>
         /// Gets or sets the accessibility description for the <see cref="ChartTrendline"/>.
@@ -280,17 +203,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts
         /// </code>
         /// </example>
         [Parameter]
-        public string AccessibilityRole
-        {
-            get => _accessibilityRole;
-            set
-            {
-                DataVizCommonHelper.AriaRoleValidator.EnsureValidRole(value, nameof(AccessibilityRole));
-                _accessibilityRole = value;
-            }
-        }
-
-        private string _accessibilityRole = string.Empty;
+        public string AccessibilityRole { get; set; } = string.Empty;
 
         /// <summary>
         /// Gets or sets whether the trendline is focusable via keyboard navigation.
@@ -334,21 +247,8 @@ namespace Syncfusion.Blazor.Toolkit.Charts
         /// ]]>
         /// </code>
         /// </example>
-        private double _period = Constants.TrendlinePeriod;
         [Parameter]
-        public double Period
-        {
-            get => _period;
-            set
-            {
-                if (Math.Abs(_period - value) < double.Epsilon)
-                {
-                    return;
-                }
-
-                _period = value;
-            }
-        }
+        public double Period { get; set; } = Constants.TrendlinePeriod;
 
         /// <summary>
         /// Gets or sets the order for polynomial trendline fitting.
@@ -368,21 +268,8 @@ namespace Syncfusion.Blazor.Toolkit.Charts
         /// ]]>
         /// </code>
         /// </example>
-        private double _polynomialOrder = Constants.TrendlinePolynomialOrder;
         [Parameter]
-        public double PolynomialOrder
-        {
-            get => _polynomialOrder;
-            set
-            {
-                if (Math.Abs(_polynomialOrder - value) < double.Epsilon)
-                {
-                    return;
-                }
-
-                _polynomialOrder = value;
-            }
-        }
+        public double PolynomialOrder { get; set; } = Constants.TrendlinePolynomialOrder;
 
         /// <summary>
         /// Gets or sets the backward forecast period for the trendline.
@@ -402,21 +289,8 @@ namespace Syncfusion.Blazor.Toolkit.Charts
         /// ]]>
         /// </code>
         /// </example>
-        private double _backwardForecast;
         [Parameter]
-        public double BackwardForecast
-        {
-            get => _backwardForecast;
-            set
-            {
-                if (Math.Abs(_backwardForecast - value) < double.Epsilon)
-                {
-                    return;
-                }
-
-                _backwardForecast = value;
-            }
-        }
+        public double BackwardForecast { get; set; }
 
         /// <summary>
         /// Gets or sets the forward forecast period for the trendline.
@@ -436,21 +310,8 @@ namespace Syncfusion.Blazor.Toolkit.Charts
         /// ]]>
         /// </code>
         /// </example>
-        private double _forwardForecast;
         [Parameter]
-        public double ForwardForecast
-        {
-            get => _forwardForecast;
-            set
-            {
-                if (Math.Abs(_forwardForecast - value) < double.Epsilon)
-                {
-                    return;
-                }
-
-                _forwardForecast = value;
-            }
-        }
+        public double ForwardForecast { get; set; }
 
         /// <summary>
         /// Gets or sets a value indicating whether tooltips are enabled for the trendline.
@@ -473,21 +334,8 @@ namespace Syncfusion.Blazor.Toolkit.Charts
         /// ]]>
         /// </code>
         /// </example>
-        private bool _enableTooltip = true;
         [Parameter]
-        public bool EnableTooltip
-        {
-            get => _enableTooltip;
-            set
-            {
-                if (_enableTooltip == value)
-                {
-                    return;
-                }
-
-                _enableTooltip = value;
-            }
-        }
+        public bool EnableTooltip { get; set; } = true;
 
         /// <summary>
         /// Gets or sets the Y-intercept of the trendline.
@@ -507,21 +355,8 @@ namespace Syncfusion.Blazor.Toolkit.Charts
         /// ]]>
         /// </code>
         /// </example>
-        private double _intercept = double.NaN;
         [Parameter]
-        public double Intercept
-        {
-            get => _intercept;
-            set
-            {
-                if (Math.Abs(_intercept - value) < double.Epsilon)
-                {
-                    return;
-                }
-
-                _intercept = value;
-            }
-        }
+        public double Intercept { get; set; } = double.NaN;
 
         /// <summary>
         /// Gets or sets the stroke color of the trendline.
@@ -541,21 +376,8 @@ namespace Syncfusion.Blazor.Toolkit.Charts
         /// ]]>
         /// </code>
         /// </example>
-        private string _fill = string.Empty;
         [Parameter]
-        public string Fill
-        {
-            get => _fill;
-            set
-            {
-                if (_fill == value)
-                {
-                    return;
-                }
-
-                _fill = value;
-            }
-        }
+        public string Fill { get; set; } = string.Empty;
 
         /// <summary>
         /// Gets or sets the stroke width of the trendline.
@@ -575,21 +397,8 @@ namespace Syncfusion.Blazor.Toolkit.Charts
         /// ]]>
         /// </code>
         /// </example>
-        private double _widthProperty = Constants.TrendlineWidth;
         [Parameter]
-        public double Width
-        {
-            get => _widthProperty;
-            set
-            {
-                if (Math.Abs(_widthProperty - value) < double.Epsilon)
-                {
-                    return;
-                }
-
-                _widthProperty = value;
-            }
-        }
+        public double Width { get; set; } = Constants.TrendlineWidth;
 
         /// <summary>
         /// Gets or sets the legend marker shape associated with the trendline.
@@ -611,21 +420,8 @@ namespace Syncfusion.Blazor.Toolkit.Charts
         /// ]]>
         /// </code>
         /// </example>
-        private LegendShape _legendShape = LegendShape.SeriesType;
         [Parameter]
-        public LegendShape LegendShape
-        {
-            get => _legendShape;
-            set
-            {
-                if (_legendShape == value)
-                {
-                    return;
-                }
-
-                _legendShape = value;
-            }
-        }
+        public LegendShape LegendShape { get; set; } = LegendShape.SeriesType;
 
         /// <summary>
         /// Gets or sets the marker settings for the trendline.
@@ -765,6 +561,93 @@ namespace Syncfusion.Blazor.Toolkit.Charts
             _chart = Parent?.Series?.Container;
             Parent?.Trendlines.Add(this);
             InitTrendline();
+
+            DataVizCommonHelper.AriaRoleValidator.EnsureValidRole(AccessibilityRole, nameof(AccessibilityRole));
+
+            _prevName = Name;
+            _prevVisible = Visible;
+            _prevType = Type;
+        }
+
+        /// <summary>
+        /// Applies parameter-driven property changes and propagates them to the renderer and chart.
+        /// </summary>
+        /// <exclude />
+        [EditorBrowsable(EditorBrowsableState.Never)]
+        [Browsable(false)]
+        protected override void OnParametersSet()
+        {
+            base.OnParametersSet();
+
+            DataVizCommonHelper.AriaRoleValidator.EnsureValidRole(AccessibilityRole, nameof(AccessibilityRole));
+
+            if (_prevName != Name)
+            {
+                _prevName = Name;
+                ApplyNameChange();
+            }
+
+            if (_prevType != Type)
+            {
+                _prevType = Type;
+                ApplyTypeChange();
+            }
+
+            if (_prevVisible != Visible)
+            {
+                _prevVisible = Visible;
+                ApplyVisibleChange();
+            }
+        }
+
+        /// <summary>
+        /// Propagates a <see cref="Name"/> change to the associated renderer and chart layout.
+        /// </summary>
+        private void ApplyNameChange()
+        {
+            if (Renderer is not null)
+            {
+                Renderer.Series?.SetName(Name);
+                _chart?.OnLayoutChange();
+            }
+        }
+
+        /// <summary>
+        /// Propagates a <see cref="Type"/> change by rebuilding the trendline renderer.
+        /// </summary>
+        private void ApplyTypeChange()
+        {
+            if (_chart is not null)
+            {
+                _chart._trendlineContainer?.RemoveRenderer(TargetSeries?.Renderer ?? null!);
+                TrendlineInitiator?.InitSeriesCollection();
+
+                if (_chart._trendlineContainer is not null)
+                {
+                    _chart._trendlineContainer.RendererShouldRender = true;
+                    _chart._trendlineContainer.Prerender();
+                }
+            }
+        }
+
+        /// <summary>
+        /// Propagates a <see cref="Visible"/> change to the series renderer and legend.
+        /// </summary>
+        private void ApplyVisibleChange()
+        {
+            if (TargetSeries?.Renderer is not null)
+            {
+                TargetSeries.Renderer.RendererShouldRender = true;
+                TargetSeries.Renderer.TrendLineLegendVisibility = Visible;
+                TargetSeries.Renderer.ProcessRenderQueue();
+
+                if (_chart?._legendRenderer is not null)
+                {
+                    _chart._legendRenderer.RendererShouldRender = true;
+                    _chart._legendRenderer.UpdateLegendFill(TargetSeries.Renderer);
+                    _chart._legendRenderer.ProcessRenderQueue();
+                }
+            }
         }
 
         /// <summary>
@@ -850,7 +733,14 @@ namespace Syncfusion.Blazor.Toolkit.Charts
         /// <param name="value">A value indicating whether the trendline should be visible.</param>
         internal void SetVisibility(bool value)
         {
+            if (Visible == value)
+            {
+                return;
+            }
+
             Visible = value;
+            _prevVisible = value;
+            ApplyVisibleChange();
         }
 
         #endregion

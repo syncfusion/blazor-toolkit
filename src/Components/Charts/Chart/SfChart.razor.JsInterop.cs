@@ -197,11 +197,11 @@ namespace Syncfusion.Blazor.Toolkit.Charts
                         }
                         if (!string.IsNullOrEmpty(_zoomingKeyboardFocusTarget))
                         {
-                            await InvokeVoidAsync(_chartJsModule!, _chartJsInProcessModule!, Constants.FocusTarget, [_zoomingKeyboardFocusTarget]).ConfigureAwait(false);
+                            await InvokeVoidAsync(_chartJsModule, _chartJsInProcessModule, Constants.FocusTarget, [_zoomingKeyboardFocusTarget]).ConfigureAwait(false);
                         }
                         if (!string.IsNullOrEmpty(_legendRenderer?.KeyboardFocusTarget))
                         {
-                            await InvokeVoidAsync(_chartJsModule!, _chartJsInProcessModule!, Constants.FocusTarget, [_legendRenderer.KeyboardFocusTarget]).ConfigureAwait(false);
+                            await InvokeVoidAsync(_chartJsModule, _chartJsInProcessModule, Constants.FocusTarget, [_legendRenderer.KeyboardFocusTarget]).ConfigureAwait(false);
                         }
                         break;
                     case "Equal":
@@ -329,7 +329,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts
         [JSInvokable]
         public void OnChartResize(string size)
         {
-            Size availabelSize = JsonSerializer.Deserialize<Size>(size) ?? null!;
+            Size availabelSize = JsonSerializer.Deserialize(size, ChartInteropJsonContext.Default.Size) ?? null!;
             _isResize = true;
             _ = ResizeChartAsync(availabelSize);
         }
@@ -827,7 +827,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts
                 {
                     totalYValue = GetStackedTotalValue(series.Renderer, (int)args.Data.PointIndex);
                 }
-                TooltipRenderEventArgs argsData = new TooltipRenderEventArgs(
+                TooltipRenderEventArgs argsData = new(
                 "TooltipRender",
                 false,
                 new PointInfo()
@@ -884,7 +884,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts
                 });
                 SharedTooltipRenderEventArgs argument = new("SharedTooltipRender", false, args.Text, _tooltip.TextStyle, args.HeaderText, argsData);
                 SharedTooltipRender?.Invoke(argument);
-                await InvokeVoidAsync(_chartJsModule!, _chartJsInProcessModule!, "setSharedTooltipArgsData", [_dataId, argument.HeaderText, argument.Text, argument.Data.ToArray()]).ConfigureAwait(false);
+                await InvokeVoidAsync(_chartJsModule, _chartJsInProcessModule, "setSharedTooltipArgsData", [_dataId, argument.HeaderText, argument.Text, argument.Data.ToArray()]).ConfigureAwait(false);
             }
         }
 

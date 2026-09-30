@@ -19,85 +19,85 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
         /// Gets or sets the width of the legend in pixels or percentage.
         /// </summary>
         /// <value>A string representing the legend width (e.g., "100px", "50%").</value>
-        public string Width { get; set; }
+        string Width { get; set; }
 
         /// <summary>
         /// Gets or sets the height of the legend in pixels or percentage.
         /// </summary>
         /// <value>A string representing the legend height (e.g., "100px", "50%").</value>
-        public string Height { get; set; }
+        string Height { get; set; }
 
         /// <summary>
         /// Gets or sets the padding around the entire legend element in pixels.
         /// </summary>
         /// <value>The padding value in pixels. Default is 0.</value>
-        public double Padding { get; set; }
+        double Padding { get; set; }
 
         /// <summary>
         /// Gets or sets the padding between individual legend items in pixels.
         /// </summary>
         /// <value>The item padding value in pixels. Default is 0.</value>
-        public double ItemPadding { get; set; }
+        double ItemPadding { get; set; }
 
         /// <summary>
         /// Gets or sets the height of the legend symbol shape in pixels.
         /// </summary>
         /// <value>The shape height in pixels.</value>
-        public double ShapeHeight { get; set; }
+        double ShapeHeight { get; set; }
 
         /// <summary>
         /// Gets or sets the width of the legend symbol shape in pixels.
         /// </summary>
         /// <value>The shape width in pixels.</value>
-        public double ShapeWidth { get; set; }
+        double ShapeWidth { get; set; }
 
         /// <summary>
         /// Gets or sets the padding between the legend symbol and its associated text in pixels.
         /// </summary>
         /// <value>The shape padding value in pixels.</value>
-        public double ShapePadding { get; set; }
+        double ShapePadding { get; set; }
 
         /// <summary>
         /// Gets or sets the position of the legend relative to the chart.
         /// </summary>
         /// <value>A <see cref="LegendPosition"/> enumeration value indicating the legend position.</value>
-        public LegendPosition Position { get; set; }
+        LegendPosition Position { get; set; }
 
         /// <summary>
         /// Gets or sets the horizontal or vertical alignment of legend items.
         /// </summary>
         /// <value>An <see cref="Alignment"/> enumeration value.</value>
-        public Alignment Alignment { get; set; }
+        Alignment Alignment { get; set; }
 
         /// <summary>
         /// Gets or sets the background color of the legend.
         /// </summary>
         /// <value>A string representing a color value (e.g., "#FF5733", "rgba(255, 87, 51, 0.8)").</value>
-        public string Background { get; set; }
+        string Background { get; set; }
 
         /// <summary>
         /// Gets or sets the tab index for keyboard navigation.
         /// </summary>
         /// <value>The tab index value. Default is 0.</value>
-        public double TabIndex { get; set; }
+        double TabIndex { get; set; }
 
         /// <summary>
         /// Gets or sets a value indicating whether the legend allows toggling series visibility on item click.
         /// </summary>
         /// <value><c>true</c> if toggle visibility is enabled; otherwise, <c>false</c>. Default is <c>false</c>.</value>
-        public bool ToggleVisibility { get; set; }
+        bool ToggleVisibility { get; set; }
 
         /// <summary>
         /// Gets or sets the opacity of the legend element.
         /// </summary>
         /// <value>A value between 0 and 1, where 0 is fully transparent and 1 is fully opaque. Default is 1.</value>
-        public double Opacity { get; set; }
+        double Opacity { get; set; }
 
         /// <summary>
         /// Gets or sets a value indicating whether legend items should be highlighted on hover.
         /// </summary>
         /// <value><c>true</c> if highlight on hover is enabled; otherwise, <c>false</c>. Default is <c>false</c>.</value>
-        public bool EnableHighlight { get; set; }
+        bool EnableHighlight { get; set; }
     }
 
     /// <summary>
@@ -118,7 +118,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
         /// <param name="prevLegend">The previous legend item's configuration for sequential positioning.</param>
         /// <param name="count">The index of the current legend item.</param>
         /// <param name="firstLegend">The index of the first legend item in the current row or column.</param>
-        public void GetRenderPoint(LegendOption legendOption, ChartEventLocation start, double textPadding, LegendOption prevLegend, int count, int firstLegend);
+        void GetRenderPoint(LegendOption legendOption, ChartEventLocation start, double textPadding, LegendOption prevLegend, int count, int firstLegend);
 
         /// <summary>
         /// Calculates the overall bounds of the legend container based on available space and content dimensions.
@@ -126,7 +126,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
         /// <param name="availableSize">The available space for the legend.</param>
         /// <param name="rect">The rectangle defining the legend container bounds.</param>
         /// <param name="maxLabelSize">The maximum size of a legend label text element.</param>
-        public void GetLegendBounds(Size availableSize, Rect rect, Size maxLabelSize);
+        void GetLegendBounds(Size availableSize, Rect rect, Size maxLabelSize);
     }
 
     /// <summary>

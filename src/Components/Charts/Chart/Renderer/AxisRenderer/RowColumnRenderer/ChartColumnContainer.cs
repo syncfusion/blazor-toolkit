@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Components.Rendering;
+﻿using System.Diagnostics.CodeAnalysis;
+using Microsoft.AspNetCore.Components.Rendering;
 
 namespace Syncfusion.Blazor.Toolkit.Charts.Internal
 {
@@ -107,6 +108,8 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
         /// Builds the render tree for default renderers when container update is requested.
         /// </summary>
         /// <param name="builder">Render tree builder.</param>
+        [UnconditionalSuppressMessage("Trimming", "IL2072",
+            Justification = "DefaultRendererType only ever contains the library's own internal chart renderer component types, assigned via typeof(...); those component types are statically referenced and therefore preserved by the trimmer.")]
         protected override void BuildRenderTree(RenderTreeBuilder builder)
         {
             if (builder is null)

@@ -291,7 +291,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts
         /// <remarks>
         /// Use this property to specify and retrieve the coordinates where the chart point's symbols are rendered on the chart.
         /// </remarks>
-        public List<ChartEventLocation> SymbolLocations { get; set; } = new List<ChartEventLocation>();
+        public List<ChartEventLocation> SymbolLocations { get; set; } = [];
 
         /// <summary>
         /// Gets or sets the visual regions associated with the chart point.
@@ -302,7 +302,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts
         /// <remarks>
         /// Regions define the visual area representing the chart point, often used for hit testing and rendering purposes.
         /// </remarks>
-        public List<Rect> Regions { get; set; } = new List<Rect>();
+        public List<Rect> Regions { get; set; } = [];
 
         /// <summary>
         /// Gets or sets the X-Value for the chart point in the chart's coordinate system.
@@ -425,9 +425,9 @@ namespace Syncfusion.Blazor.Toolkit.Charts
         /// </remarks>
         public MarkerSettingModel Marker { get; set; } = null!;
 
-        internal List<string> TemplateID { get; set; } = new List<string>();
+        internal List<string> TemplateID { get; set; } = [];
 
-        internal List<Size> TemplateSize { get; set; } = new List<Size>();
+        internal List<Size> TemplateSize { get; set; } = [];
 
         // To hold the sum of sorting key values in the same point index.
         internal double SumOfSameIndex { get; set; }
@@ -675,12 +675,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts
         /// </returns>
         public static Size operator -(Size a, Size b)
         {
-            if (a is not null && b is not null)
-            {
-                return new Size() { Width = a.Width - b.Width, Height = a.Height - b.Height };
-            }
-
-            return new Size();
+            return a is not null && b is not null ? new Size() { Width = a.Width - b.Width, Height = a.Height - b.Height } : new Size();
         }
 
         /// <exclude />
@@ -692,12 +687,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts
                 return true;
             }
 
-            if (ReferenceEquals(obj, null))
-            {
-                return false;
-            }
-
-            return Equals(obj);
+            return obj is null ? false : Equals(obj);
         }
 
         /// <exclude />
@@ -711,12 +701,9 @@ namespace Syncfusion.Blazor.Toolkit.Charts
         [EditorBrowsable(EditorBrowsableState.Never)]
         public static Size Subtract(Size left, Size right)
         {
-            if (left is not null && right is not null)
-            {
-                return new Size() { Width = left.Width - right.Width, Height = left.Height - right.Height };
-            }
-
-            return new Size();
+            return left is not null && right is not null
+                ? new Size() { Width = left.Width - right.Width, Height = left.Height - right.Height }
+                : new Size();
         }
     }
 
@@ -2226,7 +2213,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts
         /// <remarks>
         /// Use this property to access or modify the axis information during the crosshair move event.
         /// </remarks>
-        public List<CrosshairAxisInfo> AxisInfo { get; set; } = new List<CrosshairAxisInfo>();
+        public List<CrosshairAxisInfo> AxisInfo { get; set; } = [];
     }
 
     /// <summary>

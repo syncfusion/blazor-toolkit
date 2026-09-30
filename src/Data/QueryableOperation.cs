@@ -1,4 +1,5 @@
-﻿using System.Linq.Expressions;
+﻿using System.Diagnostics.CodeAnalysis;
+using System.Linq.Expressions;
 using System.Reflection;
 using Syncfusion.Blazor.Toolkit.Data;
 using Syncfusion.Blazor.Toolkit.Internal;
@@ -11,6 +12,8 @@ namespace Syncfusion.Blazor.Toolkit.Data
     /// <summary>
     /// DataOperation class that performs data operation in IQueryable type data sources.
     /// </summary>
+    [RequiresUnreferencedCode("The Syncfusion data query engine builds LINQ expressions and reflects over the queried model type at runtime; members it depends on may be removed by the trimmer.")]
+    [RequiresDynamicCode("The Syncfusion data query engine constructs generic methods and compiles expression trees at runtime, which is not supported by Native AOT.")]
     public static class QueryableOperation
     {
         private static Type DataSourceType<T>(IQueryable<T> dataSource)
@@ -89,7 +92,7 @@ namespace Syncfusion.Blazor.Toolkit.Data
         /// <param name="dataSource">Data source to be sorted.</param>
         /// <param name="sortedColumns">List of sort criteria.</param>
         /// <returns>IQueryable - sorted records.</returns>
-        public static IQueryable<T> PerformSorting<T>(IQueryable<T> dataSource, List<SortedColumn> sortedColumns)
+        public static IQueryable<T> PerformSorting<T>(IQueryable<T> dataSource, IList<SortedColumn> sortedColumns)
         {
             return (IOrderedQueryable<T>)EnumerableOperation.PerformSorting(dataSource, sortedColumns, typeof(T));
         }
@@ -100,12 +103,15 @@ namespace Syncfusion.Blazor.Toolkit.Data
         /// <param name="dataSource">Data source to be sorted.</param>
         /// <param name="sortColumns">List of sort criteria.</param>
         /// <returns>IQueryable - sorted records.</returns>
-        public static IQueryable<T> PerformSorting<T>(IQueryable<T> dataSource, List<Sort> sortColumns)
+        public static IQueryable<T> PerformSorting<T>(IQueryable<T> dataSource, IList<Sort> sortColumns)
         {
             sortColumns ??= [];
             if (sortColumns.Count != 0)
             {
-                sortColumns.Reverse();
+                for (int i = 0, j = sortColumns.Count - 1; i < j; i++, j--)
+                {
+                    (sortColumns[j], sortColumns[i]) = (sortColumns[i], sortColumns[j]);
+                }
             }
             else
             {
@@ -195,7 +201,7 @@ namespace Syncfusion.Blazor.Toolkit.Data
         /// <param name="dataSource">Data source to be filtered.</param>
         /// <param name="searchFilter">List of search criteria.</param>
         /// <returns>IQueryable - searched records.</returns>
-        public static IQueryable<T> PerformSearching<T>(IQueryable<T> dataSource, List<SearchFilter> searchFilter)
+        public static IQueryable<T> PerformSearching<T>(IQueryable<T> dataSource, IList<SearchFilter> searchFilter)
         {
             Type? type = dataSource != null ? DataSourceType(dataSource) : null;
             foreach (SearchFilter? filter in searchFilter ?? [])
@@ -253,7 +259,7 @@ namespace Syncfusion.Blazor.Toolkit.Data
             return dataSource!;
         }
 
-        private static Expression PredicateBuilder<T>(IQueryable<T> dataSource, List<WhereFilter> whereFilter, string condition, ParameterExpression paramExpression, Type type)
+        private static Expression PredicateBuilder<T>(IQueryable<T> dataSource, IList<WhereFilter> whereFilter, string condition, ParameterExpression paramExpression, Type type)
         {
             _ = typeof(object);
             Expression? predicate = null;
@@ -332,7 +338,7 @@ namespace Syncfusion.Blazor.Toolkit.Data
         /// <param name="whereFilter">List of filter criteria.</param>
         /// <param name="condition">Filter merge condition. Value can be either AND or OR.</param>
         /// <returns>IQueryable - filtered records.</returns>
-        public static IQueryable<T> PerformFiltering<T>(IQueryable<T> dataSource, List<WhereFilter> whereFilter, string condition)
+        public static IQueryable<T> PerformFiltering<T>(IQueryable<T> dataSource, IList<WhereFilter> whereFilter, string condition)
         {
             Type? type = dataSource != null ? DataSourceType(dataSource) : null;
             ParameterExpression paramExpression = type!.Parameter();

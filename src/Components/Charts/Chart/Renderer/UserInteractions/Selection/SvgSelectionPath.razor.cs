@@ -26,7 +26,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
         /// Style rule lives in <c>SvgSelectionPath.razor.css</c>.
         /// </summary>
         private const string _closeCursorClass = "svg-sel-path-close";
-        private CultureInfo _culture = CultureInfo.InvariantCulture;
+        private readonly CultureInfo _culture = CultureInfo.InvariantCulture;
         internal bool _isDrawCloseIcon;
         #endregion
 

@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Components.Web;
 using Microsoft.JSInterop;
 using Syncfusion.Blazor.Toolkit.Calendars.Interfaces;
 using Syncfusion.Blazor.Toolkit.Internal;
+using System.Diagnostics.CodeAnalysis;
 using System.Globalization;
 using System.Reflection;
 
@@ -39,7 +40,7 @@ namespace Syncfusion.Blazor.Toolkit.Calendars
             await base.OnInitializedAsync().ConfigureAwait(false);
             PropertyInitialized();
             IsValideValue = true;
-            SfBaseUtils.UpdateDictionary(ARIAEXPANDED, FALSE, InputHtmlAttributes);
+            _ = SfBaseUtils.UpdateDictionary(ARIAEXPANDED, FALSE, InputHtmlAttributes);
             InitializeComponentId();
             await InitializeValueAsync().ConfigureAwait(false);
             InitializeEventHandlers();
@@ -86,11 +87,19 @@ namespace Syncfusion.Blazor.Toolkit.Calendars
             }
         }
 
+        [UnconditionalSuppressMessage("Trimming", "IL2075",
+            Justification = "DatePickerParent is the library's own InPlaceEditor component supplied via cascading parameter; its 'Type' and 'ComponentRef' members are statically referenced by the editor type and therefore preserved by the trimmer.")]
         private void InitializeParentReference()
         {
-            if (DatePickerParent is not null && Convert.ToString(DatePickerParent.Type, CultureInfo.CurrentCulture) == "Date")
+            if (DatePickerParent is null)
             {
-                PropertyInfo? componentRefProperty = DatePickerParent?.GetType().GetProperty("ComponentRef", BindingFlags.NonPublic | BindingFlags.Instance);
+                return;
+            }
+            Type parentType = DatePickerParent.GetType();
+            object? parentTypeValue = parentType.GetProperty("Type", BindingFlags.Public | BindingFlags.Instance)?.GetValue(DatePickerParent);
+            if (Convert.ToString(parentTypeValue, CultureInfo.CurrentCulture) == "Date")
+            {
+                PropertyInfo? componentRefProperty = parentType.GetProperty("ComponentRef", BindingFlags.NonPublic | BindingFlags.Instance);
                 componentRefProperty?.SetValue(DatePickerParent, this);
             }
         }

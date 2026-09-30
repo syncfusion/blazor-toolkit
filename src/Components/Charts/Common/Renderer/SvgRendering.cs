@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Rendering;
+using System.Diagnostics.CodeAnalysis;
 using System.Reflection;
 
 namespace Syncfusion.Blazor.Toolkit.Charts.Internal
@@ -80,13 +81,13 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
         internal void RefreshElementList()
         {
             Seq = 0;
-            TextElementList = new List<SvgText>();
-            PathElementList = new List<SvgPath>();
-            EllipseElementList = new List<SvgEllipse>();
-            RectElementList = new List<SvgRect>();
-            ImageCollection = new List<SvgImage>();
-            CircleCollection = new List<SvgCircle>();
-            GroupCollection = new List<ElementReference>();
+            TextElementList = [];
+            PathElementList = [];
+            EllipseElementList = [];
+            RectElementList = [];
+            ImageCollection = [];
+            CircleCollection = [];
+            GroupCollection = [];
         }
 
         /// <summary>
@@ -266,12 +267,13 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
         /// Uses reflection with caching to minimize performance overhead on repeated calls 
         /// with the same object type.
         /// </remarks>
+        /// <typeparam name="T">The concrete options type whose public properties are read via reflection.</typeparam>
         /// <param name="obj">The options object to extract properties from.</param>
         /// <returns>A dictionary mapping property names to their values.</returns>
-        internal Dictionary<string, object> GetOptions(object obj)
+        internal Dictionary<string, object> GetOptions<[DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicProperties)] T>(T obj)
         {
-            PropertyInfo[] _propertyInfos = obj.GetType().GetProperties();
-            Dictionary<string, object> attributes = new Dictionary<string, object> { };
+            PropertyInfo[] _propertyInfos = typeof(T).GetProperties();
+            Dictionary<string, object> attributes = [];
             foreach (PropertyInfo property in _propertyInfos)
             {
                 attributes.Add(property.Name, property.GetValue(obj) ?? null!);

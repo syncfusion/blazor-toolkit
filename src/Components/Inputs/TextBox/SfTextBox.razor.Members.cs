@@ -367,7 +367,7 @@ namespace Syncfusion.Blazor.Toolkit.Inputs
         /// </remarks>
         /// <exclude/>
         [CascadingParameter(Name = "InPlaceEditor")]
-        protected dynamic? TextBoxParent { get; set; }
+        protected object? TextBoxParent { get; set; }
 
         #endregion
     }

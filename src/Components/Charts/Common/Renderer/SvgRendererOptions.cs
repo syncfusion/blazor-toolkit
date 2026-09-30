@@ -71,12 +71,12 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
         /// <summary>
         /// Gets or sets the collection of text content strings.
         /// </summary>
-        public List<string> TextCollection { get; set; } = new List<string>();
+        public List<string> TextCollection { get; set; } = [];
 
         /// <summary>
         /// Gets or sets the collection of text locations for multi-line text.
         /// </summary>
-        public List<TextLocation> TextLocationCollection { get; set; } = new List<TextLocation>();
+        public List<TextLocation> TextLocationCollection { get; set; } = [];
 
         /// <summary>
         /// Gets or sets the X coordinate.
@@ -742,7 +742,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
             Visibility = visibility;
             AccessibilityText = accessText;
         }
-        
+
         /// <summary>
         /// Initializes a new instance of the <see cref="CircleOptions"/> class with default values.
         /// </summary>
@@ -825,7 +825,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
             Visibility = visibility;
             PreserveAspectRatio = preserveAspectRatio;
         }
-        
+
         /// <summary>
         /// Initializes a new instance of the <see cref="ImageOptions"/> class with default values.
         /// </summary>
@@ -864,7 +864,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
     /// <summary>
     /// Represents the rectangular dimensions of a region in two-dimensional space.
     /// </summary>
-    public class Rect 
+    public class Rect
     {
         #region Properties
 
@@ -899,7 +899,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
         /// <param name="y">The Y coordinate of the region.</param>
         /// <param name="width">The width of the region.</param>
         /// <param name="height">The height of the region.</param>
-        public Rect(double x, double y, double width, double height )
+        public Rect(double x, double y, double width, double height)
         {
             X = x;
             Y = y;

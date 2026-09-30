@@ -26,7 +26,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
         protected CultureInfo culture { get; set; } = CultureInfo.InvariantCulture;
 
         // Gets the collection of pattern options required for rendering.
-        internal List<PatternOptions> ReqPatterns { get; set; } = new List<PatternOptions>();
+        internal List<PatternOptions> ReqPatterns { get; set; } = [];
 
         // Gets the selection style component responsible for rendering patterns.
         internal SelectionStyleComponent StyleRender { get; set; } = new SelectionStyleComponent();

@@ -91,11 +91,9 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
 
             if (axis.ValueType == ValueType.DateTime)
             {
-                if (segmentValue is double val)
-                {
-                    return val;
-                }
-                return ChartHelper.GetTime(segmentValue is not null ? Convert.ToDateTime(segmentValue, Culture) : new DateTime(1970, 1, 1).AddMilliseconds(Math.Max(axis.Renderer?.VisibleRange.End ?? 0, _maxSegmentValue)));
+                return segmentValue is double val
+                    ? val
+                    : ChartHelper.GetTime(segmentValue is not null ? Convert.ToDateTime(segmentValue, Culture) : new DateTime(1970, 1, 1).AddMilliseconds(Math.Max(axis.Renderer?.VisibleRange.End ?? 0, _maxSegmentValue)));
             }
             else if (axis.AxisValueType is not null && axis.AxisValueType.Contains("Category", StringComparison.InvariantCulture))
             {

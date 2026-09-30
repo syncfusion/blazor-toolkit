@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Components.Rendering;
+﻿using System.Diagnostics.CodeAnalysis;
+using Microsoft.AspNetCore.Components.Rendering;
 
 namespace Syncfusion.Blazor.Toolkit.Charts.Internal
 {
@@ -26,7 +27,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
     public class ChartRendererContainer : ChartRenderer
     {
         #region Fields
-        private Queue<IChartElementRenderer> _rendererQueue = new();
+        private readonly Queue<IChartElementRenderer> _rendererQueue = new();
         private bool _firstRender = true;
         #endregion
 
@@ -142,6 +143,8 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
         /// Builds renderer components for each element using their RendererType.
         /// </summary>
         /// <param name="builder">The render tree builder to use.</param>
+        [UnconditionalSuppressMessage("Trimming", "IL2072",
+            Justification = "element.RendererType is always one of the library's own internal chart renderer component types, assigned via typeof(...) from GetRendererType; those component types are statically referenced and therefore preserved by the trimmer.")]
         protected virtual void BuildRenderers(RenderTreeBuilder builder)
         {
             if (builder is null)

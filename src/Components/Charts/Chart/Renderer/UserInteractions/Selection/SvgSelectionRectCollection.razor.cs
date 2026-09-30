@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Components;
+﻿using System.Diagnostics.CodeAnalysis;
+using Microsoft.AspNetCore.Components;
 
 namespace Syncfusion.Blazor.Toolkit.Charts.Internal
 {
@@ -8,8 +9,8 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
     public partial class SvgSelectionRectCollection
     {
         #region Fields
-        private List<SvgSelectionRect> _tempRectsReference = [];
-        private List<SvgSelectionPath> _tempPathsReference = [];
+        private readonly List<SvgSelectionRect> _tempRectsReference = [];
+        private readonly List<SvgSelectionPath> _tempPathsReference = [];
         #endregion
 
         #region Properties
@@ -135,6 +136,8 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
         /// Adds a rectangle component reference and stores a shallow clone for change detection.
         /// </summary>
         /// <param name="rect">The rectangle component reference.</param>
+        [SuppressMessage("Usage", "BL0005:Component parameter should not be set outside of its component",
+            Justification = "The cloned SvgSelectionRect is an internal change-detection snapshot, not a rendered child component. Its parameters are copied programmatically to compare against the live instance and are never bound declaratively in markup, so the BL0005 constraint does not apply.")]
         internal void AddRectReference(SvgSelectionRect rect)
         {
             if (rect is not null)
@@ -169,6 +172,8 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
         /// Adds a path component reference and stores a shallow clone for change detection.
         /// </summary>
         /// <param name="path">The path component reference.</param>
+        [SuppressMessage("Usage", "BL0005:Component parameter should not be set outside of its component",
+            Justification = "The cloned SvgSelectionPath is an internal change-detection snapshot, not a rendered child component. Its parameters are copied programmatically to compare against the live instance and are never bound declaratively in markup, so the BL0005 constraint does not apply.")]
         internal void AddPathReference(SvgSelectionPath path)
         {
             if (path is not null)

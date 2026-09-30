@@ -1135,10 +1135,7 @@ namespace Syncfusion.Blazor.Toolkit.Inputs
         /// <para>Supported types include all standard .NET numeric types (Int32, Int64, Single, Double, Decimal, etc.) including their nullable versions.</para>
         /// </remarks>
         [EditorBrowsable(EditorBrowsableState.Never)]
-        // T is a well-known primitive numeric value type (int, decimal, double, ...) accessed via reflection only in the fallback arm
-        // for type names that do not match the explicit cases above. In practice, T is always one of those explicit cases,
-        // and the MinValue/MaxValue public fields of BCL primitive types are never trimmed.
-        internal static T GetNumericValue<[DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicFields)] T>(string property)
+        internal static T GetNumericValue<T>(string property)
         {
             Type? propertyType = typeof(T);
             bool isNullable = propertyType.IsGenericType && propertyType.GetGenericTypeDefinition() == typeof(Nullable<>);
@@ -1156,8 +1153,21 @@ namespace Syncfusion.Blazor.Toolkit.Inputs
                     nameof(UInt16) => (property == "MinValue") ? (T)SfBaseUtils.ChangeType(ushort.MinValue, propertyType)! : (T)SfBaseUtils.ChangeType(ushort.MaxValue, propertyType)!,
                     nameof(UInt32) => (property == "MinValue") ? (T)SfBaseUtils.ChangeType(uint.MinValue, propertyType)! : (T)SfBaseUtils.ChangeType(uint.MaxValue, propertyType)!,
                     nameof(UInt64) => (property == "MinValue") ? (T)SfBaseUtils.ChangeType(ulong.MinValue, propertyType)! : (T)SfBaseUtils.ChangeType(ulong.MaxValue, propertyType)!,
-                    _ => (property == "MinValue") ? (T)SfBaseUtils.ChangeType(propertyType?.GetField("MinValue")?.GetValue(null)!, propertyType!)! : (T)SfBaseUtils.ChangeType(propertyType?.GetField("MaxValue")?.GetValue(null)!, propertyType!)!,
+                    _ => (T)SfBaseUtils.ChangeType(GetLimitFieldValue(propertyType!, property == "MinValue" ? "MinValue" : "MaxValue")!, propertyType!)!,
                 };
+        }
+
+        /// <summary>
+        /// Reads the public static <c>MinValue</c>/<c>MaxValue</c> field of an unrecognized numeric type via reflection.
+        /// </summary>
+        /// <param name="numericType">The numeric value type to inspect.</param>
+        /// <param name="fieldName">The limit field to read, either <c>MinValue</c> or <c>MaxValue</c>.</param>
+        /// <returns>The boxed value of the requested limit field, or <see langword="null"/> when absent.</returns>
+        [UnconditionalSuppressMessage("Trimming", "IL2070",
+            Justification = "This fallback is reached only for numeric value types that are not among the explicitly handled BCL primitives. The MinValue/MaxValue static fields it reads are intrinsic public fields of framework numeric types that the trimmer preserves; user code cannot supply a custom TValue that reaches this arm without those fields.")]
+        private static object? GetLimitFieldValue(Type numericType, string fieldName)
+        {
+            return numericType.GetField(fieldName)?.GetValue(null);
         }
 
         #endregion

@@ -1,4 +1,5 @@
-﻿using System.Linq.Expressions;
+﻿using System.Diagnostics.CodeAnalysis;
+using System.Linq.Expressions;
 using System.Reflection;
 using System.Globalization;
 using System.Dynamic;
@@ -16,6 +17,8 @@ namespace Syncfusion.Blazor.Toolkit.Data
     /// grouping, and aggregation. They support <see cref="DynamicObject"/> and <see cref="ExpandoObject"/> types,
     /// allowing dynamic query construction without compile-time type information.
     /// </remarks>
+    [RequiresUnreferencedCode("The Syncfusion data query engine builds LINQ expressions and reflects over the queried model type at runtime; members it depends on may be removed by the trimmer.")]
+    [RequiresDynamicCode("The Syncfusion data query engine constructs generic methods and compiles expression trees at runtime, which is not supported by Native AOT.")]
     public static class DynamicQueryableExtensions
     {
         /// <exclude />
@@ -63,7 +66,7 @@ namespace Syncfusion.Blazor.Toolkit.Data
                     {
                         if (value != null)
                         {
-                            var exp = Expression.Constant(value, memberType);
+                            ConstantExpression exp = Expression.Constant(value, memberType);
                             if ((nullablememberType == memberType && memberType != typeof(object)) || memberType.GetTypeInfo().IsEnum)
                             {
                                 memExp = Expression.Convert(memExp, nullablememberType);
@@ -71,7 +74,7 @@ namespace Syncfusion.Blazor.Toolkit.Data
                             }
                             else
                             {
-                                bExp = Expression.Call(exp, exp?.Type?.GetMethod("Equals", new[] { memExp.Type })!, memExp);
+                                bExp = Expression.Call(exp, exp?.Type?.GetMethod("Equals", [memExp.Type])!, memExp);
                             }
                         }
                         else
@@ -83,7 +86,7 @@ namespace Syncfusion.Blazor.Toolkit.Data
                     else
                     {
                         memExp = Expression.Coalesce(memExp, Expression.Constant(value == null ? "blanks" : string.Empty));
-                        var toLowerMethodCall = memExp.ToLowerMethodCallExpression();
+                        MethodCallExpression toLowerMethodCall = memExp.ToLowerMethodCallExpression();
                         bExp = Expression.Equal(toLowerMethodCall,
                                                 Expression.Constant(
                                                     value == null ? "blanks" : value.ToString()?.ToLowerInvariant(),
@@ -108,7 +111,7 @@ namespace Syncfusion.Blazor.Toolkit.Data
                     else
                     {
                         memExp = Expression.Coalesce(memExp, Expression.Constant(value == null ? "blanks" : string.Empty));
-                        var toLowerMethodCall = memExp.ToLowerMethodCallExpression();
+                        MethodCallExpression toLowerMethodCall = memExp.ToLowerMethodCallExpression();
                         bExp = Expression.NotEqual(toLowerMethodCall,
                                                    Expression.Constant(
                                                        value == null ? "blanks" : value.ToString()?.ToLowerInvariant(),

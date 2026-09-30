@@ -61,14 +61,14 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
                 Id = Content = string.Empty;
                 Style = null!;
                 updateStyleAttributes(Style);
-                InvokeAsync(StateHasChanged);
+                _ = InvokeAsync(StateHasChanged);
             }
             else if (id == Id)
             {
                 Style = null!;
                 Content = string.Empty;
                 updateStyleAttributes(Style);
-                InvokeAsync(StateHasChanged);
+                _ = InvokeAsync(StateHasChanged);
             }
         }
 
@@ -90,11 +90,11 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
                 FontStyle = "Normal",
                 FontWeight = "Regular"
             });
-            
+
             double width = textSize.Width + 5;
             x = (x + width > areaWidth) ? x - (width + 15) : x + 15;
             y = (y + textSize.Height > areaHeight) ? y - (textSize.Height / 2) : y;
-            
+
             Id = id;
             Content = text;
             x = x < 0 ? 0 : x;
@@ -103,7 +103,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
             Style = "top:" + (y - 10).ToString(_culture) + "px;left:" + x.ToString(_culture) + "px;background-color: rgb(255, 255, 255) !important; color:black !important; " +
                     "position:absolute;border:1px solid rgb(112, 112, 112); padding-left : 3px; padding-right : 2px;" + "padding-bottom : 2px; padding-top : 2px; font-size:12px; font-family: 'Segoe UI';pointer-events: none;";
             updateStyleAttributes(Style);
-            InvokeAsync(StateHasChanged);
+            _ = InvokeAsync(StateHasChanged);
         }
         #endregion
 

@@ -18,7 +18,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
         private ChartEventLocation? _location;
         private object? _xCoordinate;
         private string? _yCoordinate;
-        private CultureInfo _culture = CultureInfo.InvariantCulture;
+        private readonly CultureInfo _culture = CultureInfo.InvariantCulture;
         private bool _annotationVisibility = true;
         private string? _annotationId;
         private bool _shouldUpdateAnnotationStyle;

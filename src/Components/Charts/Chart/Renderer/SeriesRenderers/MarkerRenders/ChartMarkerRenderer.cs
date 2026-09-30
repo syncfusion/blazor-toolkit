@@ -292,7 +292,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
             }
 
             string fill = ComputeMarkerFill(series, point, marker);
-          ;
+            ;
             string borderColor = marker.Border?.Color ?? string.Empty;
             ChartEventBorder border = BuildInitialBorder(marker, borderColor, series, point);
 

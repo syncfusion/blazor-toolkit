@@ -40,7 +40,7 @@ namespace Syncfusion.Blazor.Toolkit.Data
         private bool _contentConsumed;
 
         /// <exclude />
-        private Lazy<Task<Stream>> _streamTask;
+        private Lazy<Task<Stream>> _streamTask = null!;
 
         /// <exclude />
         private long? _cachedLength;
@@ -77,12 +77,12 @@ namespace Syncfusion.Blazor.Toolkit.Data
         /// <summary>
         /// Gets the wrapped HTTP request message, if this instance was created from a request.
         /// </summary>
-        public HttpRequestMessage HttpRequestMessage { get; private set; }
+        public HttpRequestMessage HttpRequestMessage { get; private set; } = null!;
 
         /// <summary>
         /// Gets the wrapped HTTP response message, if this instance was created from a response.
         /// </summary>
-        public HttpResponseMessage HttpResponseMessage { get; private set; }
+        public HttpResponseMessage HttpResponseMessage { get; private set; } = null!;
 
         /// <exclude />
         private void InitializeStreamTask()

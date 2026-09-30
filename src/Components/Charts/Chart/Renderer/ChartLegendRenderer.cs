@@ -716,7 +716,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
 
             RowHeights?.Insert(len, Math.Max(len >= 0 && len < RowHeights.Count ? RowHeights[len] : 0, MaxItemHeight));
 
-            double columnHeightsValue = ComputeColumnHeightValue(legendOption!, columnCount, padding, firstLegend);
+            double columnHeightsValue = ComputeColumnHeightValue(legendOption, columnCount, padding, firstLegend);
             ColumnHeights?.Insert((int)columnCount, columnHeightsValue);
         }
 
@@ -765,7 +765,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
             double padding = Legend?.Padding ?? 0;
             double columnHeight = (ColumnHeights?.Count > 0 ? ColumnHeights.Max() : 0) + padding;
 
-            columnHeight = Math.Max(columnHeight + (wrapTextCount > 1 ? padding : 0), (MaxItemHeight + padding) + padding);
+            columnHeight = Math.Max(columnHeight + (wrapTextCount > 1 ? padding : 0), MaxItemHeight + padding + padding);
             IsPaging = LegendBounds.Height < columnHeight && rowCount > 0;
             rowCount = IsPaging ? rowCount : 1;
 

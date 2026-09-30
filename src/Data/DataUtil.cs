@@ -1,4 +1,5 @@
 ﻿using System.Collections;
+using System.Diagnostics.CodeAnalysis;
 using System.Reflection;
 using System.Globalization;
 using System.Dynamic;
@@ -12,6 +13,8 @@ namespace Syncfusion.Blazor.Toolkit.Data
     /// <summary>
     /// Provides utility method used by data manager.
     /// </summary>
+    [RequiresUnreferencedCode("The Syncfusion data query engine builds LINQ expressions and reflects over the queried model type at runtime; members it depends on may be removed by the trimmer.")]
+    [RequiresDynamicCode("The Syncfusion data query engine constructs generic methods and compiles expression trees at runtime, which is not supported by Native AOT.")]
     public static class DataUtil
     {
         /// <summary>
@@ -226,7 +229,7 @@ namespace Syncfusion.Blazor.Toolkit.Data
         /// <param name="isLazyLoad">Specifies the isLazyLoad property as true to handle lazy load grouping.</param>
         /// <param name="isLazyGroupExpandAll">Specifies the isLazyGroupExpandAll as true to perform expand all for lazy load grouping.</param>
         /// <returns>IEnumerable - Grouped record.</returns>
-        public static IEnumerable Group<T>(IEnumerable jsonArray, string field, List<Aggregate> aggregates, int level, IDictionary<string, string> format, bool isLazyLoad = false, bool isLazyGroupExpandAll = false)
+        public static IEnumerable Group<T>(IEnumerable jsonArray, string field, IList<Aggregate> aggregates, int level, IDictionary<string, string> format, bool isLazyLoad = false, bool isLazyGroupExpandAll = false)
         {
             if (level == 0)
             {
@@ -334,7 +337,7 @@ namespace Syncfusion.Blazor.Toolkit.Data
         /// <param name="dataSource">Data source to be sorted.</param>
         /// <param name="sortedColumns">List of sort criteria.</param>
         /// <returns>IEnumerable - sorted records.</returns>
-        public static IEnumerable GroupSorting<T>(IEnumerable dataSource, List<Sort> sortedColumns)
+        public static IEnumerable GroupSorting<T>(IEnumerable dataSource, IList<Sort> sortedColumns)
         {
             if (dataSource != null && dataSource is Group<T>)
             {
@@ -368,7 +371,7 @@ namespace Syncfusion.Blazor.Toolkit.Data
         /// <param name="jsonData">Input data source.</param>
         /// <param name="aggregates">List of aggregate to be calculated.</param>
         /// <returns>Dictionary of aggregate results.</returns>
-        public static IDictionary<string, object> PerformAggregation(IEnumerable jsonData, List<Aggregate> aggregates)
+        public static IDictionary<string, object> PerformAggregation(IEnumerable jsonData, IList<Aggregate> aggregates)
         {
             Dictionary<string, object> res = [];
             Func<IEnumerable, string, string, Type, object> fn;

@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Forms;
+using System.Diagnostics.CodeAnalysis;
 using System.Linq.Expressions;
 using System.Reflection;
 using System.Runtime.Serialization;
@@ -63,6 +64,8 @@ namespace Syncfusion.Blazor.Toolkit.Internal
         /// Array and collection types are serialized to JSON and compared as strings. Primitive types
         /// use <see cref="EqualityComparer{T}.Default"/>.
         /// </remarks>
+        [UnconditionalSuppressMessage("Trimming", "IL2026", Justification = "Serializes array/collection component-parameter values purely to produce a string for equality comparison; the parameter type T is rooted as a Blazor component parameter, and only the JSON shape (not trimmed members) affects the comparison result.")]
+        [UnconditionalSuppressMessage("AOT", "IL3050", Justification = "The reflection-based JSON serialization is used only for string-based equality comparison of component-parameter values; it degrades gracefully and does not affect functional correctness under AOT.")]
         internal static bool Equals<T>(T oldValue, T newValue)
         {
             Type? valueType = oldValue?.GetType();
@@ -136,6 +139,8 @@ namespace Syncfusion.Blazor.Toolkit.Internal
         /// any parse-specific handling should be applied; otherwise, normal conversion behavior is used.
         /// </param>
         /// <returns>The converted value as an <see cref="object"/>, or <c>null</c> if conversion is not possible.</returns>
+        [UnconditionalSuppressMessage("Trimming", "IL2026", Justification = "The TimeSpan branch round-trips the value through System.Text.Json; TimeSpan is a well-known framework type whose members are preserved, so the trimmer cannot remove the members required for this conversion.")]
+        [UnconditionalSuppressMessage("AOT", "IL3050", Justification = "The TimeSpan branch round-trips the value through System.Text.Json for a well-known framework type; no user-defined types requiring runtime code generation are serialized here.")]
         internal static object? ChangeType(object? dataValue, Type conversionType, bool isParseValue = false)
         {
             // Returns null value
@@ -320,7 +325,7 @@ namespace Syncfusion.Blazor.Toolkit.Internal
         /// The string value defined in <see cref="EnumMemberAttribute.Value"/> for the specified enum member,
         /// or <c>null</c> if no such attribute is defined.
         /// </returns>
-        internal static string? GetEnumValue<T>(T enumValue)
+        internal static string? GetEnumValue<[DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.All)] T>(T enumValue)
             where T : struct, IConvertible
         {
             return typeof(T).GetTypeInfo().DeclaredMembers.SingleOrDefault(x => x.Name == enumValue.ToString())?.GetCustomAttribute<EnumMemberAttribute>(false)?.Value;

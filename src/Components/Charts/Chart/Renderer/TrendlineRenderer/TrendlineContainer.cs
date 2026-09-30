@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Components.Rendering;
+﻿using System.Diagnostics.CodeAnalysis;
+using Microsoft.AspNetCore.Components.Rendering;
 
 namespace Syncfusion.Blazor.Toolkit.Charts.Internal
 {
@@ -155,6 +156,8 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
         /// Renders child components for trendlines: trendline series, markers and gradients.
         /// </summary>
         /// <param name="builder">RenderTreeBuilder used to emit components.</param>
+        [UnconditionalSuppressMessage("Trimming", "IL2072",
+            Justification = "TargetSeries.RendererType is always one of the library's own internal chart renderer component types, assigned via typeof(...) from GetRendererType; those component types are statically referenced and therefore preserved by the trimmer.")]
         protected override void BuildRenderers(RenderTreeBuilder builder)
         {
             if (builder is null)

@@ -39,7 +39,6 @@ namespace Syncfusion.Blazor.Toolkit.Calendars
         private int InternalStep { get; set; }
         private string? InternalWidth { get; set; }
         private int InternalZIndex { get; set; }
-        private int _step = 30;
 
         #endregion
 
@@ -151,7 +150,7 @@ namespace Syncfusion.Blazor.Toolkit.Calendars
         [Parameter]
         public string Placeholder
         {
-            get => BasePlaceholder ?? default!; set => BasePlaceholder = value;
+            get => BasePlaceholder; set => BasePlaceholder = value;
         }
 
         /// <summary>
@@ -322,9 +321,9 @@ namespace Syncfusion.Blazor.Toolkit.Calendars
         /// ]]></code>
         /// </example>
         [Parameter]
-        public string Width
+        public string? Width
         {
-            get => BaseWidth ?? default!; set => BaseWidth = value;
+            get => BaseWidth; set => BaseWidth = value;
         }
 
         /// <summary>
@@ -535,28 +534,7 @@ namespace Syncfusion.Blazor.Toolkit.Calendars
         /// ]]></code>
         /// </example>
         [Parameter]
-        public int Step
-        {
-            get => _step;
-            set
-            {
-                // Guard: non-positive values are invalid
-                if (value <= 0)
-                {
-                    _step = 30;
-                    return;
-                }
-
-                // Ensure step evenly divides a full day (1440 minutes)
-                if (1440 % value != 0)
-                {
-                    _step = GetNearestValidStep(value);
-                    return;
-                }
-
-                _step = value;
-            }
-        }
+        public int Step { get; set; } = 30;
 
         /// <summary>
         /// Gets or sets a value indicating whether the <see cref="SfTimePicker{TValue}"/> operates in strict mode for input validation.
@@ -610,7 +588,7 @@ namespace Syncfusion.Blazor.Toolkit.Calendars
         /// </remarks>
         /// <exclude />
         [CascadingParameter(Name = "InPlaceEditor")]
-        protected dynamic? TimePickerParent { get; set; }
+        protected object? TimePickerParent { get; set; }
     }
 
     /// <summary>

@@ -1,5 +1,6 @@
 using System.Collections.Concurrent;
 using System.Collections.ObjectModel;
+using System.Diagnostics.CodeAnalysis;
 using System.Drawing;
 using System.Dynamic;
 using System.Globalization;
@@ -70,15 +71,101 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
         /// </remarks>
         internal static readonly IReadOnlyDictionary<char, double> FontWidthLookup = new ReadOnlyDictionary<char, double>(new Dictionary<char, double>()
         {
-            ['0'] = 8.0, ['1'] = 8.0, ['2'] = 8.0, ['3'] = 8.0, ['4'] = 8.0, ['5'] = 8.0, ['6'] = 8.0, ['7'] = 8.0, ['8'] = 8.0, ['9'] = 8.0,
-            ['!'] = 5.0, ['"'] = 7.0, ['#'] = 8.0, ['$'] = 8.0, ['%'] = 14.0, ['&'] = 10.0, ['\''] = 4.0, ['('] = 5.0, [')'] = 5.0, ['*'] = 7.0, ['+'] = 8.0,
-            [','] = 4.0, ['-'] = 5.0, ['.'] = 4.0, ['/'] = 6.0, [':'] = 4.0, [';'] = 4.0, ['<'] = 8.0, ['='] = 8.0, ['>'] = 8.0, ['?'] = 7.0, ['@'] = 14.0,
-            ['A'] = 9.0, ['B'] = 10.0, ['C'] = 10.0, ['D'] = 10.0, ['E'] = 9.0, ['F'] = 8.0, ['G'] = 10.0, ['H'] = 11.0, ['I'] = 5.0, ['J'] = 8.0, ['K'] = 10.0, ['L'] = 8.0, ['M'] = 12.0,
-            ['N'] = 11.0, ['O'] = 11.0, ['P'] = 10.0, ['Q'] = 11.0, ['R'] = 10.0, ['S'] = 9.0, ['T'] = 9.0, ['U'] = 11.0, ['V'] = 9.0, ['W'] = 13.0, ['X'] = 9.0, ['Y'] = 8.0, ['Z'] = 9.0,
-            ['['] = 5.0, ['\\'] = 6.0, [']'] = 5.0, ['^'] = 8.0, ['_'] = 8.0, ['`'] = 9.0,
-            ['a'] = 9.0, ['b'] = 9.0, ['c'] = 8.0, ['d'] = 9.0, ['e'] = 8.0, ['f'] = 5.0, ['g'] = 9.0, ['h'] = 9.0, ['i'] = 4.0, ['j'] = 4.0, ['k'] = 8.0, ['l'] = 5.0, ['m'] = 14.0,
-            ['n'] = 9.0, ['o'] = 9.0, ['p'] = 9.0, ['q'] = 9.0, ['r'] = 6.0, ['s'] = 7.0, ['t'] = 6.0, ['u'] = 9.0, ['v'] = 8.0, ['w'] = 12.0, ['x'] = 8.0, ['y'] = 8.0, ['z'] = 7.0,
-            ['{'] = 5.0, ['|'] = 4.0, ['}'] = 5.0, ['~'] = 8.0, [' '] = 5.0
+            ['0'] = 8.0,
+            ['1'] = 8.0,
+            ['2'] = 8.0,
+            ['3'] = 8.0,
+            ['4'] = 8.0,
+            ['5'] = 8.0,
+            ['6'] = 8.0,
+            ['7'] = 8.0,
+            ['8'] = 8.0,
+            ['9'] = 8.0,
+            ['!'] = 5.0,
+            ['"'] = 7.0,
+            ['#'] = 8.0,
+            ['$'] = 8.0,
+            ['%'] = 14.0,
+            ['&'] = 10.0,
+            ['\''] = 4.0,
+            ['('] = 5.0,
+            [')'] = 5.0,
+            ['*'] = 7.0,
+            ['+'] = 8.0,
+            [','] = 4.0,
+            ['-'] = 5.0,
+            ['.'] = 4.0,
+            ['/'] = 6.0,
+            [':'] = 4.0,
+            [';'] = 4.0,
+            ['<'] = 8.0,
+            ['='] = 8.0,
+            ['>'] = 8.0,
+            ['?'] = 7.0,
+            ['@'] = 14.0,
+            ['A'] = 9.0,
+            ['B'] = 10.0,
+            ['C'] = 10.0,
+            ['D'] = 10.0,
+            ['E'] = 9.0,
+            ['F'] = 8.0,
+            ['G'] = 10.0,
+            ['H'] = 11.0,
+            ['I'] = 5.0,
+            ['J'] = 8.0,
+            ['K'] = 10.0,
+            ['L'] = 8.0,
+            ['M'] = 12.0,
+            ['N'] = 11.0,
+            ['O'] = 11.0,
+            ['P'] = 10.0,
+            ['Q'] = 11.0,
+            ['R'] = 10.0,
+            ['S'] = 9.0,
+            ['T'] = 9.0,
+            ['U'] = 11.0,
+            ['V'] = 9.0,
+            ['W'] = 13.0,
+            ['X'] = 9.0,
+            ['Y'] = 8.0,
+            ['Z'] = 9.0,
+            ['['] = 5.0,
+            ['\\'] = 6.0,
+            [']'] = 5.0,
+            ['^'] = 8.0,
+            ['_'] = 8.0,
+            ['`'] = 9.0,
+            ['a'] = 9.0,
+            ['b'] = 9.0,
+            ['c'] = 8.0,
+            ['d'] = 9.0,
+            ['e'] = 8.0,
+            ['f'] = 5.0,
+            ['g'] = 9.0,
+            ['h'] = 9.0,
+            ['i'] = 4.0,
+            ['j'] = 4.0,
+            ['k'] = 8.0,
+            ['l'] = 5.0,
+            ['m'] = 14.0,
+            ['n'] = 9.0,
+            ['o'] = 9.0,
+            ['p'] = 9.0,
+            ['q'] = 9.0,
+            ['r'] = 6.0,
+            ['s'] = 7.0,
+            ['t'] = 6.0,
+            ['u'] = 9.0,
+            ['v'] = 8.0,
+            ['w'] = 12.0,
+            ['x'] = 8.0,
+            ['y'] = 8.0,
+            ['z'] = 7.0,
+            ['{'] = 5.0,
+            ['|'] = 4.0,
+            ['}'] = 5.0,
+            ['~'] = 8.0,
+            [' '] = 5.0
         });
         #endregion
 
@@ -147,12 +234,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
         /// <returns><see langword="true"/> if the cache already holds a measurement for that font key.</returns>
         internal static bool IsSizePerCharacterEntryPresent(string fontKey)
         {
-            if (string.IsNullOrEmpty(fontKey))
-            {
-                return false;
-            }
-
-            return SizePerCharacter.ContainsKey((char)33 + Constants.Underscore + fontKey);
+            return string.IsNullOrEmpty(fontKey) ? false : SizePerCharacter.ContainsKey((char)33 + Constants.Underscore + fontKey);
         }
 
         /// <summary>
@@ -164,7 +246,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
         private static Size MeasureBreakText(string originalText, ChartFontOptions font)
         {
             originalText = originalText.Replace("<br/>", "<br>", StringComparison.InvariantCulture);
-            List<string> textCollection = originalText.Split("<br>").ToList();
+            List<string> textCollection = [.. originalText.Split("<br>")];
             double width = 0;
             double height = 0;
 
@@ -191,7 +273,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
         private static Size MeasureBreakText(string originalText, ChartFontOptions font, object chart)
         {
             originalText = originalText.Replace("<br/>", "<br>", StringComparison.InvariantCulture);
-            List<string> textCollection = originalText.Split("<br>").ToList();
+            List<string> textCollection = [.. originalText.Split("<br>")];
             double width = 0;
             double height = 0;
 
@@ -262,11 +344,12 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
         /// <returns>The measured character size.</returns>
         private static Size GetCharSize(object chart, char character, ChartFontOptions font)
         {
-            var sfChart = chart as Charts.SfChart;
-            if (sfChart is null)
+            if (chart is not Charts.SfChart sfChart)
+            {
                 return GetCharSize(character, font);
+            }
 
-            var fontCache = sfChart._fontSizeCache;
+            ConcurrentDictionary<string, Size> fontCache = sfChart._fontSizeCache;
             string key = character + Constants.Underscore + font.FontWeight + Constants.Underscore + font.FontStyle + Constants.Underscore + font.FontFamily;
             try
             {
@@ -274,16 +357,15 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
                 {
                     return charSize ?? null!;
                 }
-                double charWidth;
-                if (FontWidthLookup.TryGetValue(character, out charWidth))
+                if (FontWidthLookup.TryGetValue(character, out double charWidth))
                 {
-                    Size newSize = new Size { Width = charWidth * 6.25, Height = 130 };
+                    Size newSize = new() { Width = charWidth * 6.25, Height = 130 };
                     Size result = fontCache.GetOrAdd(key, newSize);
                     return result ?? null!;
                 }
                 else
                 {
-                    Size defaultSize = new Size { Width = 50, Height = 130 };
+                    Size defaultSize = new() { Width = 50, Height = 130 };
                     Size result = fontCache.GetOrAdd(key, defaultSize);
                     return result ?? null!;
                 }
@@ -498,7 +580,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
 
             for (int index = 0; index < label.Length; index++)
             {
-                string segment = label.Substring(startIndex, (index - startIndex) + 1);
+                string segment = label.Substring(startIndex, index - startIndex + 1);
                 double segmentWidth = MeasureText(segment, font).Width;
 
                 if (segmentWidth <= maximumWidth)
@@ -550,38 +632,38 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
                 case "Line":
                 case "StackingLine":
                 case "StackingLine100":
-                    SetLineLegend(culture, options, width, height, locationX, locationY);
+                    _ = SetLineLegend(culture, options, width, height, locationX, locationY);
                     break;
                 case "StepLine":
-                    SetStepLineLegend(culture, options, width, height, locationX, locationY);
+                    _ = SetStepLineLegend(culture, options, width, height, locationX, locationY);
                     break;
                 case "RightArrow":
-                    SetRightArrowLegend(culture, options, width, height, locationX, locationY);
+                    _ = SetRightArrowLegend(culture, options, width, height, locationX, locationY);
                     break;
                 case "LeftArrow":
-                    SetLeftArrowLegend(culture, options, width, height, locationX, locationY);
+                    _ = SetLeftArrowLegend(culture, options, width, height, locationX, locationY);
                     break;
                 case "Column":
                 case "StackingColumn":
                 case "StackingColumn100":
-                    SetColumnLegend(culture, options, width, height, locationX, locationY);
+                    _ = SetColumnLegend(culture, options, width, height, locationX, locationY);
                     break;
                 case "Bar":
                 case "StackingBar":
                 case "StackingBar100":
-                    SetBarLegend(culture, options, width, height, locationX, locationY);
+                    _ = SetBarLegend(culture, options, width, height, locationX, locationY);
                     break;
                 case "Spline":
-                    SetSplineLegend(culture, options, width, height, locationX, locationY);
+                    _ = SetSplineLegend(culture, options, width, height, locationX, locationY);
                     break;
                 case "Area":
                 case "MultiColoredArea":
                 case "StackingArea":
                 case "StackingArea100":
-                    SetAreaLegend(culture, options, width, height, locationX, locationY);
+                    _ = SetAreaLegend(culture, options, width, height, locationX, locationY);
                     break;
                 case "SplineArea":
-                    SetSplineAreaLegend(culture, options, width, height, locationX, locationY);
+                    _ = SetSplineAreaLegend(culture, options, width, height, locationX, locationY);
                     break;
                 case "Pie":
                 case "Doughnut":
@@ -606,10 +688,10 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
         private static PathOptions SetLineLegend(CultureInfo culture, PathOptions options, double width, double height, double locationX, double locationY)
         {
             double offset = width / 4;
-            double startX = (locationX + (-width + (offset)));
-            double endX = (locationX + (width - (offset)));
+            double startX = locationX + (-width + offset);
+            double endX = locationX + (width - offset);
 
-            options.Direction = "M" + SPACE + (startX.ToString(culture) + SPACE + locationY.ToString(culture) + SPACE + 'L' + SPACE + endX.ToString(culture) + SPACE + locationY.ToString(culture));
+            options.Direction = "M" + SPACE + startX.ToString(culture) + SPACE + locationY.ToString(culture) + SPACE + 'L' + SPACE + endX.ToString(culture) + SPACE + locationY.ToString(culture);
             return options;
         }
 
@@ -690,12 +772,12 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
         /// <returns>Updated path options.</returns>
         private static PathOptions SetColumnLegend(CultureInfo culture, PathOptions options, double width, double height, double locationX, double locationY)
         {
-            options.Direction = "M" + SPACE + (locationX - 3 * (width / 5)).ToString(culture) + SPACE + (locationY - (height / 5)).ToString(culture) + SPACE + 'L' + SPACE + (locationX + 3 * (-width / 10)).ToString(culture) + SPACE + (locationY - (height / 5)).ToString(culture) + SPACE + 'L'
-                + SPACE + (locationX + 3 * (-width / 10)).ToString(culture) + SPACE + (locationY + (height / 2)).ToString(culture) + SPACE + 'L' + SPACE + (locationX - 3 * (width / 5)).ToString(culture) + SPACE + (locationY + (height / 2)).ToString(culture) + SPACE + 'Z' + SPACE + 'M'
+            options.Direction = "M" + SPACE + (locationX - (3 * (width / 5))).ToString(culture) + SPACE + (locationY - (height / 5)).ToString(culture) + SPACE + 'L' + SPACE + (locationX + (3 * (-width / 10))).ToString(culture) + SPACE + (locationY - (height / 5)).ToString(culture) + SPACE + 'L'
+                + SPACE + (locationX + (3 * (-width / 10))).ToString(culture) + SPACE + (locationY + (height / 2)).ToString(culture) + SPACE + 'L' + SPACE + (locationX - (3 * (width / 5))).ToString(culture) + SPACE + (locationY + (height / 2)).ToString(culture) + SPACE + 'Z' + SPACE + 'M'
                 + SPACE + (locationX + (-width / 10) - (width / 20)).ToString(culture) + SPACE + (locationY - (height / 4) - 5).ToString(culture) + SPACE + 'L' + SPACE + (locationX + (width / 10) + (width / 20)).ToString(culture) + SPACE + (locationY - (height / 4) - 5).ToString(culture)
                 + SPACE + 'L' + SPACE + (locationX + (width / 10) + (width / 20)).ToString(culture) + SPACE + (locationY + (height / 2)).ToString(culture) + SPACE + 'L' + SPACE + (locationX + (-width / 10) - (width / 20)).ToString(culture) + SPACE + (locationY + (height / 2)).ToString(culture)
-                + SPACE + 'Z' + SPACE + 'M' + SPACE + (locationX + 3 * (width / 10)).ToString(culture) + SPACE + locationY.ToString(culture) + SPACE + 'L' + SPACE + (locationX + 3 * (width / 5)).ToString(culture) + SPACE + locationY.ToString(culture) + SPACE + 'L'
-                + SPACE + (locationX + 3 * (width / 5)).ToString(culture) + SPACE + (locationY + (height / 2)).ToString(culture) + SPACE + 'L' + SPACE + (locationX + 3 * (width / 10)).ToString(culture) + SPACE + (locationY + (height / 2)).ToString(culture) + SPACE + 'Z';
+                + SPACE + 'Z' + SPACE + 'M' + SPACE + (locationX + (3 * (width / 10))).ToString(culture) + SPACE + locationY.ToString(culture) + SPACE + 'L' + SPACE + (locationX + (3 * (width / 5))).ToString(culture) + SPACE + locationY.ToString(culture) + SPACE + 'L'
+                + SPACE + (locationX + (3 * (width / 5))).ToString(culture) + SPACE + (locationY + (height / 2)).ToString(culture) + SPACE + 'L' + SPACE + (locationX + (3 * (width / 10))).ToString(culture) + SPACE + (locationY + (height / 2)).ToString(culture) + SPACE + 'Z';
 
             return options;
         }
@@ -712,8 +794,8 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
         /// <returns>Updated path options.</returns>
         private static PathOptions SetBarLegend(CultureInfo culture, PathOptions options, double width, double height, double locationX, double locationY)
         {
-            options.Direction = "M" + SPACE + (locationX + (-width / 2) + (-2.5)).ToString(culture) + SPACE + (locationY - 3 * (height / 5)).ToString(culture) + SPACE + 'L' + SPACE + (locationX + 3 * (width / 10)).ToString(culture) + SPACE + (locationY - 3 * (height / 5)).ToString(culture)
-                + SPACE + 'L' + SPACE + (locationX + 3 * (width / 10)).ToString(culture) + SPACE + (locationY - 3 * (height / 10)).ToString(culture) + SPACE + 'L' + SPACE + (locationX - (width / 2) + (-2.5)).ToString(culture) + SPACE + (locationY - 3 * (height / 10)).ToString(culture)
+            options.Direction = "M" + SPACE + (locationX + (-width / 2) + (-2.5)).ToString(culture) + SPACE + (locationY - (3 * (height / 5))).ToString(culture) + SPACE + 'L' + SPACE + (locationX + (3 * (width / 10))).ToString(culture) + SPACE + (locationY - (3 * (height / 5))).ToString(culture)
+                + SPACE + 'L' + SPACE + (locationX + (3 * (width / 10))).ToString(culture) + SPACE + (locationY - (3 * (height / 10))).ToString(culture) + SPACE + 'L' + SPACE + (locationX - (width / 2) + (-2.5)).ToString(culture) + SPACE + (locationY - (3 * (height / 10))).ToString(culture)
                 + SPACE + 'Z' + SPACE + 'M' + SPACE + (locationX + (-width / 2) + (-2.5)).ToString(culture) + SPACE + (locationY - (height / 5) + 0.5).ToString(culture) + SPACE + 'L' + SPACE + (locationX + (width / 2) + 2.5).ToString(culture) + SPACE + (locationY - (height / 5) + 0.5).ToString(culture)
                 + SPACE + 'L' + SPACE + (locationX + (width / 2) + 2.5).ToString(culture) + SPACE + (locationY + (height / 10) + 0.5).ToString(culture) + SPACE + 'L' + SPACE + (locationX - (width / 2) + (-2.5)).ToString(culture) + SPACE + (locationY + (height / 10) + 0.5).ToString(culture)
                 + SPACE + 'Z' + SPACE + 'M' + SPACE + (locationX - (width / 2) + (-2.5)).ToString(culture) + SPACE + (locationY + (height / 5) + 1).ToString(culture) + SPACE + 'L' + SPACE + (locationX + (-width / 4)).ToString(culture) + SPACE + (locationY + (height / 5) + 1).ToString(culture)
@@ -799,7 +881,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
             return "M" + SPACE + locX.ToString(culture) + SPACE + locY.ToString(culture) + SPACE + 'L' + SPACE + (locX + radius).ToString(culture) + SPACE + locY.ToString(culture)
                 + SPACE + 'A' + SPACE + radius.ToString(culture) + SPACE + radius.ToString(culture) + SPACE + 0 + SPACE + 1 + SPACE + 1 + SPACE + cartesianlarge.X.ToString(culture)
                 + SPACE + cartesianlarge.Y.ToString(culture) + SPACE + 'Z' + SPACE + 'M' + SPACE + (locX + (width / 10)).ToString(culture) + SPACE + (locY - (height / 10)).ToString(culture)
-                + SPACE + 'L' + (locX + radius).ToString(culture) + SPACE + (locY - height / 10).ToString(culture) + SPACE + 'A' + SPACE + radius.ToString(culture) + SPACE + radius.ToString(culture)
+                + SPACE + 'L' + (locX + radius).ToString(culture) + SPACE + (locY - (height / 10)).ToString(culture) + SPACE + 'A' + SPACE + radius.ToString(culture) + SPACE + radius.ToString(culture)
                 + SPACE + 0 + SPACE + 0 + SPACE + 0 + SPACE + cartesiansmall.X.ToString(culture) + SPACE + cartesiansmall.Y.ToString(culture) + SPACE + 'Z';
         }
 
@@ -808,7 +890,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
         /// </summary>
         /// <param name="cssColor">RGBA or hex color string.</param>
         /// <returns>A hexadecimal color string.</returns>
-        private static string rgbaToHex (string cssColor)
+        private static string rgbaToHex(string cssColor)
         {
             cssColor = cssColor.Trim();
             int left = cssColor.IndexOf('(', StringComparison.InvariantCulture);
@@ -862,15 +944,15 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
                 s = l > 0.5 ? d / (2.0 - max - min) : d / (max + min);
                 if (max == r)
                 {
-                    h = (g - b) / d + (g < b ? 6 : 0);
+                    h = ((g - b) / d) + (g < b ? 6 : 0);
                 }
                 else if (max == g)
                 {
-                    h = (b - r) / d + 2;
+                    h = ((b - r) / d) + 2;
                 }
                 else if (max == b)
                 {
-                    h = (r - g) / d + 4;
+                    h = ((r - g) / d) + 4;
                 }
                 h /= 6.0;
             }
@@ -894,11 +976,11 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
             }
             else
             {
-                double q = l < 0.5 ? l * (1 + s) : l + s - l * s;
-                double p = 2 * l - q;
-                rd = HueToRgb(p, q, h + 1.0 / 3.0);
+                double q = l < 0.5 ? l * (1 + s) : l + s - (l * s);
+                double p = (2 * l) - q;
+                rd = HueToRgb(p, q, h + (1.0 / 3.0));
                 gd = HueToRgb(p, q, h);
-                bd = HueToRgb(p, q, h - 1.0 / 3.0);
+                bd = HueToRgb(p, q, h - (1.0 / 3.0));
             }
 
             r = (int)Math.Round(rd * 255);
@@ -928,17 +1010,13 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
             }
             if (t < 1.0 / 6.0)
             {
-                return p + (q - p) * 6 * t;
+                return p + ((q - p) * 6 * t);
             }
             if (t < 1.0 / 2.0)
             {
                 return q;
             }
-            if (t < 2.0 / 3.0)
-            {
-                return p + (q - p) * (2.0 / 3.0 - t) * 6;
-            }
-            return p;
+            return t < 2.0 / 3.0 ? p + ((q - p) * ((2.0 / 3.0) - t) * 6) : p;
         }
 
         /// <summary>
@@ -956,7 +1034,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
                 for (int i = 0; i < textLocationCollection.Count; i++)
                 {
                     builder.OpenElement(svgRenderer.Seq++, "tspan");
-                    Dictionary<string, object> svgattributes = new Dictionary<string, object>
+                    Dictionary<string, object> svgattributes = new()
                     {
                         { "id", id },
                         { "x", locationX },
@@ -1073,8 +1151,8 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
         /// <returns>SVG path for actual rect.</returns>
         private static string BuildActualRectDirection(CultureInfo culture, double locationX, double locationY, double height, double width, double x)
         {
-            return "M" + SPACE + x.ToString(culture) + SPACE + (locationY + (-height / 8)).ToString(culture) + SPACE + 'L' + SPACE + (locationX).ToString(culture)
-                + SPACE + (locationY + (-height / 8)).ToString(culture) + SPACE + 'L' + SPACE + (locationX).ToString(culture) + SPACE + (locationY + (height / 8)).ToString(culture)
+            return "M" + SPACE + x.ToString(culture) + SPACE + (locationY + (-height / 8)).ToString(culture) + SPACE + 'L' + SPACE + locationX.ToString(culture)
+                + SPACE + (locationY + (-height / 8)).ToString(culture) + SPACE + 'L' + SPACE + locationX.ToString(culture) + SPACE + (locationY + (height / 8)).ToString(culture)
                 + SPACE + 'L' + SPACE + x.ToString(culture) + SPACE + (locationY + (height / 8)).ToString(culture) + SPACE + 'L' + SPACE + x.ToString(culture) + SPACE + (locationY + (-height / 8)).ToString(culture) + " z";
         }
 
@@ -1131,8 +1209,8 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
             string dir = string.Empty;
             for (int i = 0; i <= 5; i++)
             {
-                double xVal = (width / 2) * Math.Cos((Math.PI / 180) * (i * 72)),
-                yVal = (height / 2) * Math.Sin((Math.PI / 180) * (i * 72));
+                double xVal = width / 2 * Math.Cos(Math.PI / 180 * (i * 72)),
+                yVal = height / 2 * Math.Sin(Math.PI / 180 * (i * 72));
                 if (i == 0)
                 {
                     dir = "M" + SPACE + (locationX + xVal).ToString(culture) + SPACE + (locationY + yVal).ToString(culture) + SPACE;
@@ -1143,7 +1221,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
                 }
             }
 
-            return dir = dir + 'Z';
+            return dir += 'Z';
         }
 
         #endregion
@@ -1181,7 +1259,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
         internal static string AppendPathElements(SfChart chart, string direction, string id, string parentId = "")
         {
             bool redraw = chart._redraw;
-            chart._pathAnimationElements.TryGetValue(id, out DynamicPathAnimationOptions? pathOption);
+            _ = chart._pathAnimationElements.TryGetValue(id, out DynamicPathAnimationOptions? pathOption);
             DynamicPathAnimationOptions existElement = redraw ? pathOption ?? null! : null!;
             string previous = string.Empty;
 
@@ -1194,7 +1272,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
             }
             else
             {
-                DynamicPathAnimationOptions dynamicPath = new DynamicPathAnimationOptions { ParentId = parentId, Id = id, CurrentDir = direction, PreviousDir = previous };
+                DynamicPathAnimationOptions dynamicPath = new() { ParentId = parentId, Id = id, CurrentDir = direction, PreviousDir = previous };
                 if (!chart._pathAnimationElements.TryAdd(id, dynamicPath))
                 {
                     chart._pathAnimationElements[id] = dynamicPath;
@@ -1217,11 +1295,11 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
         {
             if (chart == null && chart.IsStaticServerRendering())
             {
-                return new string[]
-                {
+                return
+                [
                     locationX.ToString(CultureInfo.InvariantCulture),
                     locationY.ToString(CultureInfo.InvariantCulture)
-                };
+                ];
             }
             bool redraw = chart._redraw;
 
@@ -1246,7 +1324,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
                 chart._textAnimationElements[id] = existElement;
             }
 
-            return new string[] { locationX.ToString(CultureInfo.InvariantCulture), locationY.ToString(CultureInfo.InvariantCulture) };
+            return [locationX.ToString(CultureInfo.InvariantCulture), locationY.ToString(CultureInfo.InvariantCulture)];
         }
 
         /// <summary>
@@ -1319,7 +1397,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
                 }
             }
 
-            return new Size((width * fontSize) / 100, (height * fontSize) / 100);
+            return new Size(width * fontSize / 100, height * fontSize / 100);
         }
 
         /// <summary>
@@ -1363,7 +1441,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
                 }
             }
 
-            return new Size((width * fontSize) / 100, (height * fontSize) / 100);
+            return new Size(width * fontSize / 100, height * fontSize / 100);
         }
 
         /// <summary>
@@ -1373,7 +1451,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
         /// <returns><c>true</c> if the text contains RTL characters; otherwise, <c>false</c>.</returns>
         internal static bool IsRTLText(string text)
         {
-            return text.Any(c => c >= 0x600 && c <= 0x6ff);
+            return text.Any(c => c is >= (char)0x600 and <= (char)0x6ff);
         }
 
         /// <summary>
@@ -1384,7 +1462,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
         /// <returns>The processed label string.</returns>
         internal static string SplitLabelFormat(string label, string splitText)
         {
-            return string.Join(string.Empty, label.Split(splitText).Where(s => !string.IsNullOrEmpty(s)).ToArray());
+            return string.Join(string.Empty, [.. label.Split(splitText).Where(s => !string.IsNullOrEmpty(s))]);
         }
 
         /// <summary>
@@ -1432,12 +1510,12 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
         /// <returns>The theme style configuration.</returns>
         internal static ChartThemeStyle GetChartThemeStyle(string theme)
         {
-            if(theme == "FluentDark")
+            if (theme == "FluentDark")
             {
                 return GetThemeStyle("#ADADAD", "#FFFFFF", "#3B3A39", "#292827", "#292827", "#3B3A39", "#3B3A39", "#FFFFFF", "#FFFFFF", "#1c1b1f", "#292827", "#8A8886", "#8A8886", "rgba(138, 136, 134, 0.1)", "#292929", "#FFFFFF", "#292929", "#FFFFFF", "#FFFFFF", "#3B3A39", null!, "rgba(14, 71, 117, 0.1)", "#115EA3", "#115EA3", "#D6D6D6", "#8A8886",
                 "14px", "600", "Segoe UI", "12px", "400", "Segoe UI", "12px", "Segoe UI", "400", "12px", "Segoe UI", "700", "12px", "Segoe UI", "400", "12px", "Segoe UI", "600", "#ADADAD", "12px", "Segoe UI", "600", "#ADADAD", "Segoe UI", "12px", "400", "#584EC6", "#43B786", "12px", "Segoe UI", "600");
             }
-            if (theme == "HighContrast" || theme == "HighContrastLight")
+            if (theme is "HighContrast" or "HighContrastLight")
             {
                 // High Contrast theme: black background, light-gray axis labels, white chart title.
                 // Yellow (#FFD939) is used for focus/selection accents to remain visible on black.
@@ -1456,14 +1534,14 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
         {
             if (theme == "FluentDark")
             {
-                return new string[] { "#9BB449", "#2A72D5", "#43B786", "#3F579A", "#584EC6", "#E85F9C", "#6E7A89", "#EA6266", "#0B6A0B", "#C19C00" };
+                return ["#9BB449", "#2A72D5", "#43B786", "#3F579A", "#584EC6", "#E85F9C", "#6E7A89", "#EA6266", "#0B6A0B", "#C19C00"];
             }
-            if (theme == "HighContrast" || theme == "HighContrastLight")
+            if (theme is "HighContrast" or "HighContrastLight")
             {
-                return new string[] { "#79ECE4", "#E98272", "#DFE6B6", "#C6E773", "#BA98FF", "#FA83C3", "#00C27A", "#43ACEF", "#D681EF", "#D8BC6E" };
+                return ["#79ECE4", "#E98272", "#DFE6B6", "#C6E773", "#BA98FF", "#FA83C3", "#00C27A", "#43ACEF", "#D681EF", "#D8BC6E"];
             }
             // Fluent (light) — default.
-            return new string[] { "#6200EE", "#09AF74", "#0076E5", "#CB3587", "#E7910F", "#0364DE", "#66CD15", "#F3A93C", "#107C10", "#C19C00" };
+            return ["#6200EE", "#09AF74", "#0076E5", "#CB3587", "#E7910F", "#0364DE", "#66CD15", "#F3A93C", "#107C10", "#C19C00"];
         }
 
         /// <summary>
@@ -1484,11 +1562,9 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
         /// <returns>The logarithmic value.</returns>
         internal static double LogBase(double point, double baseValue)
         {
-            if (point <= 0 || double.IsNaN(point))
-            {
-                return double.NaN;
-            }
-            return (baseValue is <= 0 or 1 || double.IsNaN(baseValue)) ? double.NaN : Math.Log(point, baseValue);
+            return point <= 0 || double.IsNaN(point)
+                ? double.NaN
+                : (baseValue is <= 0 or 1 || double.IsNaN(baseValue)) ? double.NaN : Math.Log(point, baseValue);
         }
 
         /// <summary>
@@ -1629,7 +1705,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
         /// <returns>A list of title text lines.</returns>
         internal static List<string> GetTitle(string title, ChartFontOptions style, double width)
         {
-            List<string> titleCollection = new List<string>();
+            List<string> titleCollection = [];
             switch (style.TextOverflow)
             {
                 case TextOverflow.Wrap:
@@ -1663,7 +1739,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
             }
 
             string label = string.Empty, text;
-            List<string> labelCollection = new List<string>();
+            List<string> labelCollection = [];
             string[] textCollection = currentLabel.Split(SPACE);
 
             for (int i = 0, len = textCollection.Length; i < len; i++)
@@ -1718,7 +1794,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
             double locationX = location.X, locationY = location.Y;
             double y = location.Y + (-height / 2), x = location.X + (-width / 2);
 
-            SymbolOptions symbolOption = new SymbolOptions { ShapeName = ShapeName.Path };
+            SymbolOptions symbolOption = new() { ShapeName = ShapeName.Path };
 
             switch (shape)
             {
@@ -1806,7 +1882,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
             }
             else
             {
-                delta = visibleLables.Count == 1 ? 1 : (visibleLables[visibleLables.Count - 1].Value - visibleLables[0].Value);
+                delta = visibleLables.Count == 1 ? 1 : (visibleLables[^1].Value - visibleLables[0].Value);
                 length = visibleLables.Count;
             }
 
@@ -1833,7 +1909,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
             {
                 ChartSeriesRenderer seriesRenderer = seriesCollection[index];
                 ChartSeries series = seriesRenderer.Series ?? null!;
-                List<double> xValues = new List<double>();
+                List<double> xValues = [];
 
                 if (series.Visible && (axisName == series.XAxisName || (axisName == Constants.PrimaryXAxis && series.XAxisName is null)))
                 {
@@ -1958,14 +2034,14 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
         /// <returns>The list of rotated coordinates.</returns>
         internal static List<ChartEventLocation> GetRotatedRectangleCoordinates(List<ChartEventLocation> actualPoints, double centerX, double centerY, double angle)
         {
-            List<ChartEventLocation> coordinatesAfterRotation = new List<ChartEventLocation>();
+            List<ChartEventLocation> coordinatesAfterRotation = [];
             for (int i = 0; i < 4; i++)
             {
                 ChartEventLocation point = actualPoints[i];
                 double tempX = point.X - centerX;
                 double tempY = point.Y - centerY;
-                point.X = (tempX * Math.Cos(DegreeToRadian(angle)) - tempY * Math.Sin(DegreeToRadian(angle))) + centerX;
-                point.Y = (tempX * Math.Sin(DegreeToRadian(angle)) + tempY * Math.Cos(DegreeToRadian(angle))) + centerY;
+                point.X = (tempX * Math.Cos(DegreeToRadian(angle))) - (tempY * Math.Sin(DegreeToRadian(angle))) + centerX;
+                point.Y = (tempX * Math.Sin(DegreeToRadian(angle))) + (tempY * Math.Cos(DegreeToRadian(angle))) + centerY;
                 coordinatesAfterRotation.Add(new ChartEventLocation(point.X, point.Y));
             }
 
@@ -1979,12 +2055,12 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
         /// <returns>The resolved color.</returns>
         internal static Color GetRBGValue(string color)
         {
-            Color rbgValue = new Color();
+            Color rbgValue = new();
             char[] getChar;
             color = (string.IsNullOrEmpty(color) || color == Constants.Transparent) && string.IsNullOrEmpty(color) ? string.Empty : color;
             if (color.StartsWith("rgb", StringComparison.InvariantCulture) || color.StartsWith("rgba", StringComparison.InvariantCulture))
             {
-               color = rgbaToHex(color);
+                color = rgbaToHex(color);
             }
 
             if (color.Contains('#', StringComparison.InvariantCulture) && !color.Contains("url", StringComparison.InvariantCulture))
@@ -2001,7 +2077,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
                     }
                 }
 
-                rbgValue = Color.FromArgb(int.Parse(color.AsSpan(0, 2), NumberStyles.AllowHexSpecifier, null), int.Parse(color.AsSpan(2, 2), NumberStyles.AllowHexSpecifier, null), int.Parse(color.AsSpan(4, 2), NumberStyles.AllowHexSpecifier, null));           
+                rbgValue = Color.FromArgb(int.Parse(color.AsSpan(0, 2), NumberStyles.AllowHexSpecifier, null), int.Parse(color.AsSpan(2, 2), NumberStyles.AllowHexSpecifier, null), int.Parse(color.AsSpan(4, 2), NumberStyles.AllowHexSpecifier, null));
             }
             else
             {
@@ -2052,9 +2128,9 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
             brightenFactor = Math.Max(-1, Math.Min(1, brightenFactor));
             Color initialColor = GetRBGValue(color);
 
-            int newR = (int)Math.Round(Math.Min(255, Math.Max(0, initialColor.R + brightenFactor * initialColor.R)));
-            int newG = (int)Math.Round(Math.Min(255, Math.Max(0, initialColor.G + brightenFactor * initialColor.G)));
-            int newB = (int)Math.Round(Math.Min(255, Math.Max(0, initialColor.B + brightenFactor * initialColor.B)));
+            int newR = (int)Math.Round(Math.Min(255, Math.Max(0, initialColor.R + (brightenFactor * initialColor.R))));
+            int newG = (int)Math.Round(Math.Min(255, Math.Max(0, initialColor.G + (brightenFactor * initialColor.G))));
+            int newB = (int)Math.Round(Math.Min(255, Math.Max(0, initialColor.B + (brightenFactor * initialColor.B))));
 
             string finalRgbaString = $"rgba({newR},{newG},{newB},1)";
             return rgbaToHex(finalRgbaString);
@@ -2073,7 +2149,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
         {
             int count = option.TextCollection.Count;
             double width = 0;
-            option.TextLocationCollection = new List<TextLocation>();
+            option.TextLocationCollection = [];
             option.Text = count == 0 ? option.Text : option.IsMinus ? option.TextCollection[count - 1] : option.TextCollection[0];
 
             if (count > 0)
@@ -2085,7 +2161,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
                     option.TextLocationCollection.Add(new TextLocation(option.IsMinus ? option.TextCollection[count - (i + 1)] : option.TextCollection[i], Convert.ToDouble(option.Y, CultureInfo.InvariantCulture) + (option.IsMinus ? -(i * height) : (i * height))));
                 }
             }
-            double X = (Convert.ToDouble(option.X, CultureInfo.InvariantCulture) + (textWidth / 2)) - (isChartDatalabel ? 0 : (width / 2));
+            double X = Convert.ToDouble(option.X, CultureInfo.InvariantCulture) + (textWidth / 2) - (isChartDatalabel ? 0 : (width / 2));
             string optionX = isDatalabelWrap ? X.ToString(CultureInfo.InvariantCulture) : option.X;
             option.ChildContent = RenderTSpan(option.Id, optionX, option.TextLocationCollection, svgRenderer);
 
@@ -2113,7 +2189,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
 
             double adjacentTop, oppositeTop, adjacentBottom, oppositeBottom;
 
-            if ((theta >= 0.0 && theta < Math.PI / 2.0) || (theta >= Math.PI && theta < (Math.PI + (Math.PI / 2.0))))
+            if (theta is >= 0.0 and < (Math.PI / 2.0) or >= Math.PI and < (Math.PI + (Math.PI / 2.0)))
             {
                 adjacentTop = Math.Abs(Math.Cos(theta)) * size.Width;
                 oppositeTop = Math.Abs(Math.Sin(theta)) * size.Width;
@@ -2152,11 +2228,11 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
         /// <returns>The scrollbar theme style.</returns>
         internal static ScrollbarThemeStyle GetScrollbarThemeColor(string theme)
         {
-            if(theme == "FluentDark")
+            if (theme == "FluentDark")
             {
                 return GetScrollbarStyle("#0A0A0A", "#141414", "#1F1F1F", "#1F1F1F", "#D6D6D6", "#D6D6D6");
             }
-            if (theme == "HighContrast" || theme == "HighContrastLight")
+            if (theme is "HighContrast" or "HighContrastLight")
             {
                 return GetScrollbarStyle("#000000", "#000000", "#000000", "#000000", "#FFFF00", "#FFFF00");
             }
@@ -2172,14 +2248,11 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
         /// <returns>The numeric value or <see cref="double.NaN"/>.</returns>
         internal static double StringToNumber(string size, double containerSize)
         {
-            if (!string.IsNullOrEmpty(size) && size != "auto")
-            {
-               return size.Contains('%', StringComparison.InvariantCulture)
-                    ? (containerSize / 100) * double.Parse(size.Replace("%", SPACE, StringComparison.InvariantCulture), null)
-                    : double.Parse(size.ToLower(CultureInfo.CurrentCulture).Replace("px", string.Empty, StringComparison.InvariantCulture), provider: CultureInfo.InvariantCulture);
-            }
-
-            return double.NaN;
+            return !string.IsNullOrEmpty(size) && size != "auto"
+                ? size.Contains('%', StringComparison.InvariantCulture)
+                     ? containerSize / 100 * double.Parse(size.Replace("%", SPACE, StringComparison.InvariantCulture), null)
+                     : double.Parse(size.ToLower(CultureInfo.CurrentCulture).Replace("px", string.Empty, StringComparison.InvariantCulture), provider: CultureInfo.InvariantCulture)
+                : double.NaN;
         }
 
         /// <summary>
@@ -2223,13 +2296,9 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
             {
                 return rect.X;
             }
-            else if (textAlignment == Alignment.Center)
-            {
-                return rect.X + (rect.Width / 2);
-            }
             else
             {
-                return rect.X + rect.Width;
+                return textAlignment == Alignment.Center ? rect.X + (rect.Width / 2) : rect.X + rect.Width;
             }
         }
 
@@ -2245,12 +2314,12 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
             string title = Regex.Replace(text, pattern, SPACE), convertedText = SPACE;
             MatchCollection digit = regExp.Matches(text);
 
-            Dictionary<char, string> UnicodeSub = new Dictionary<char, string>()
+            Dictionary<char, string> UnicodeSub = new()
             {
                 { '0', "\u2080" }, { '1', "\u2081" }, { '2', "\u2082" }, { '3', "\u2083" }, { '4',"\u2084"},
                 { '5',"\u2085"}, { '6',"\u2086"}, {'7',"\u2087"}, {'8',"\u2088"}, {'9',"\u2089"}
             };
-            Dictionary<char, string> UnicodeSup = new Dictionary<char, string>()
+            Dictionary<char, string> UnicodeSup = new()
             {
                 { '0', "\u2070" }, { '1', "\u00B9" }, { '2', "\u00B2" }, { '3', "\u00B3" }, { '4',"\u2074"},
                 { '5',"\u2075"}, {'6',"\u2076"}, {'7',"\u2077"}, {'8',"\u2078"}, {'9',"\u2079"}
@@ -2288,12 +2357,9 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
         /// <returns>The actual desired intervals count.</returns>
         internal static double GetActualDesiredIntervalsCount(Size availableSize, double desiredIntervals, Orientation orientation, double maximumLabels)
         {
-            if (double.IsNaN(desiredIntervals))
-            {
-                return Math.Max((orientation == Orientation.Horizontal ? availableSize.Width : availableSize.Height) * (((orientation == Orientation.Horizontal ? 0.533 : 1) * maximumLabels) / 100), 1);
-            }
-
-            return desiredIntervals;
+            return double.IsNaN(desiredIntervals)
+                ? Math.Max((orientation == Orientation.Horizontal ? availableSize.Width : availableSize.Height) * ((orientation == Orientation.Horizontal ? 0.533 : 1) * maximumLabels / 100), 1)
+                : desiredIntervals;
         }
 
         /// <summary>
@@ -2305,8 +2371,8 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
         /// <returns>The computed location.</returns>
         internal static ChartEventLocation DegreeToLocation(double degree, double radius, ChartEventLocation center)
         {
-            double radian = (degree * Math.PI) / 180;
-            return new ChartEventLocation(Math.Cos(radian) * radius + center.X, Math.Sin(radian) * radius + center.Y);
+            double radian = degree * Math.PI / 180;
+            return new ChartEventLocation((Math.Cos(radian) * radius) + center.X, (Math.Sin(radian) * radius) + center.Y);
         }
 
         /// <summary>
@@ -2316,7 +2382,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
         /// <returns>The visible points list.</returns>
         internal static List<Point> GetVisiblePoints(List<Point> points)
         {
-            List<Point> tempPoints = new List<Point>();
+            List<Point> tempPoints = [];
             int pointIndex = 0;
             for (int i = 0; i < points.Count; i++)
             {
@@ -2337,11 +2403,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
         /// <returns>The formatted string.</returns>
         internal static string FormatValue(object formatValue, bool isCustom, string format)
         {
-            if (formatValue.GetType().Equals(typeof(double[])))
-            {
-                return "NAN";
-            }
-            return Intl.GetNumericFormat(formatValue, isCustom ? string.Empty : format);
+            return formatValue.GetType().Equals(typeof(double[])) ? "NAN" : Intl.GetNumericFormat(formatValue, isCustom ? string.Empty : format);
         }
 
         /// <summary>
@@ -2352,7 +2414,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
         /// <returns>The label text collection.</returns>
         internal static List<string> GetLabelText(Point currentPoint, ChartSeriesRenderer seriesRenderer)
         {
-            string labelFormat = (seriesRenderer.Series?.Marker.DataLabel.Format is not null) ? (seriesRenderer.Series.Marker.DataLabel.Format) : (seriesRenderer.YAxisRenderer.Axis?.LabelFormat ?? string.Empty);
+            string labelFormat = (seriesRenderer.Series?.Marker.DataLabel.Format is not null) ? seriesRenderer.Series.Marker.DataLabel.Format : (seriesRenderer.YAxisRenderer.Axis?.LabelFormat ?? string.Empty);
             bool customLabelFormat = labelFormat.Contains("{value}", StringComparison.InvariantCulture);
             List<string> text = seriesRenderer.GetLabelText(currentPoint, seriesRenderer);
 
@@ -2389,9 +2451,9 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
         /// <returns><c>true</c> if colliding; otherwise <c>false</c>.</returns>
         internal static bool IsCollide(Rect rect, List<Rect> collections, Rect clipRect)
         {
-            Rect currentRect = new Rect(rect.X + clipRect.X, rect.Y + clipRect.Y, rect.Width, rect.Height);
-            return (collections.Count != 0 && collections.ToArray().Any(rect => currentRect.X < (rect.X + rect.Width) && (currentRect.X + currentRect.Width) > rect.X &&
-                     currentRect.Y < (rect.Y + rect.Height) && (currentRect.Height + currentRect.Y) > rect.Y));
+            Rect currentRect = new(rect.X + clipRect.X, rect.Y + clipRect.Y, rect.Width, rect.Height);
+            return collections.Count != 0 && collections.ToArray().Any(rect => currentRect.X < (rect.X + rect.Width) && (currentRect.X + currentRect.Width) > rect.X &&
+                     currentRect.Y < (rect.Y + rect.Height) && (currentRect.Height + currentRect.Y) > rect.Y);
         }
 
         /// <summary>
@@ -2402,7 +2464,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
         /// <returns><c>true</c> if intersecting; otherwise <c>false</c>.</returns>
         internal static bool IsRotatedRectIntersect(List<ChartEventLocation> a, List<ChartEventLocation> b)
         {
-            List<List<ChartEventLocation>> polygons = new List<List<ChartEventLocation>>() { a, b };
+            List<List<ChartEventLocation>> polygons = [a, b];
             double minA, maxA, projected, minB, maxB;
             for (int i = 0; i < polygons.Count; i++)
             {
@@ -2410,7 +2472,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
                 for (int k = 0; k < polygon.Count; k++)
                 {
                     int i2 = (k + 1) % polygon.Count;
-                    ChartEventLocation normal = new ChartEventLocation(polygon[i2].Y - polygon[k].Y, polygon[k].X - polygon[i2].X);
+                    ChartEventLocation normal = new(polygon[i2].Y - polygon[k].Y, polygon[k].X - polygon[i2].X);
                     minA = maxA = 0;
                     for (int j = 0; j < a.Count; j++)
                     {
@@ -2503,6 +2565,8 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
         /// <param name="dynamicObject">The dynamic object.</param>
         /// <param name="propertyName">The property name.</param>
         /// <returns>The value as a string.</returns>
+        [RequiresUnreferencedCode("Reads a member from a DynamicObject via reflection; the reflected members may be removed by the trimmer.")]
+        [RequiresDynamicCode("Uses a DynamicObject member binder to read members, which requires runtime code generation not supported by Native AOT.")]
         internal static string GetDynamicStringValue(DynamicObject dynamicObject, string propertyName)
         {
             return !string.IsNullOrEmpty(propertyName)

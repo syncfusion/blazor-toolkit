@@ -11,7 +11,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
         #region Fields
         private bool _hasValidData;
         private string _noDataStyle = string.Empty;
-        private CultureInfo _culture = CultureInfo.InvariantCulture;
+        private readonly CultureInfo _culture = CultureInfo.InvariantCulture;
         #endregion
 
         #region Lifecycle Methods

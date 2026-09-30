@@ -55,16 +55,16 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
         private bool _isRotationEnabled;
         private double _borderWidth;
         private double _markerHeight;
-        private double _errorHeight;
+        private readonly double _errorHeight;
         private double _locationX;
         private double _locationY;
         private double _labelAngle;
         private List<Size> _prevPointSize = [];
         private ChartEventMargin _margin = new();
-        private CultureInfo _culture = CultureInfo.InvariantCulture;
-        private List<RectOptions> _rectOptions = [];
-        private List<TextOptions> _textOptions = [];
-        private List<Rect> _dataLabelActualRectOptions = [];
+        private readonly CultureInfo _culture = CultureInfo.InvariantCulture;
+        private readonly List<RectOptions> _rectOptions = [];
+        private readonly List<TextOptions> _textOptions = [];
+        private readonly List<Rect> _dataLabelActualRectOptions = [];
         #endregion
 
         #region Properties

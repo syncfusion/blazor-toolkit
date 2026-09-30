@@ -188,7 +188,7 @@ namespace Syncfusion.Blazor.Toolkit.Calendars.Internal
         {
             if (Parent as SfCalendar<TValue> is not null && Parent.PropertyChanges is not null)
             {
-                Parent.PropertyChanges.Remove(key);
+                _ = Parent.PropertyChanges.Remove(key);
             }
         }
 
@@ -2495,11 +2495,11 @@ namespace Syncfusion.Blazor.Toolkit.Calendars.Internal
                     if (character is >= '\u0660' and <= '\u0669')
                     {
                         char westernDigit = (char)(character - '\u0660' + '0');
-                        result.Append(westernDigit);
+                        _ = result.Append(westernDigit);
                     }
                     else
                     {
-                        result.Append(character);
+                        _ = result.Append(character);
                     }
                 }
                 return result.ToString();

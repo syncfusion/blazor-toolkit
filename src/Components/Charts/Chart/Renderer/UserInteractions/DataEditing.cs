@@ -47,12 +47,9 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
         /// <returns>A cursor style string (e.g., "ns-resize", "ew-resize", "null").</returns>
         private string UpdateCursorStyle(PointData pointData, ChartData data)
         {
-            if (pointData.Series is not null && pointData.Series.ChartDataEditSettings?.Enable == true && pointData.Point is not null && (data.InsideRegion || (pointData.Series.Renderer != null && !pointData.Series.Renderer.IsRectSeries())))
-            {
-                return GetCursorStyle(pointData);
-            }
-
-            return "null";
+            return pointData.Series is not null && pointData.Series.ChartDataEditSettings?.Enable == true && pointData.Point is not null && (data.InsideRegion || (pointData.Series.Renderer != null && !pointData.Series.Renderer.IsRectSeries()))
+                ? GetCursorStyle(pointData)
+                : "null";
         }
 
         /// <summary>

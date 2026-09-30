@@ -1,5 +1,6 @@
 using System.Text.Json;
 using System.Text.Json.Serialization;
+using System.Diagnostics.CodeAnalysis;
 using System.Reflection;
 using System.Collections;
 using Microsoft.JSInterop;
@@ -33,6 +34,20 @@ namespace Syncfusion.Blazor.Toolkit.Data
     public abstract class BaseComponent : ComponentBase
     {
         #region properties
+
+        /// <summary>
+        /// Justification for trim (IL2026/IL2067/IL2070/IL2075/IL2091) analyzer suppressions and annotations:
+        /// this base component serializes and deserializes arbitrary component model types with
+        /// <see cref="System.Text.Json.JsonSerializer"/> and reflects over their properties for JavaScript
+        /// interop, so members of those types may be removed by the trimmer.
+        /// </summary>
+        private const string SerializationTrimWarning = "This Syncfusion base component serializes arbitrary component model types with reflection-based System.Text.Json and reflects over their members for JavaScript interop; those members may be removed by the trimmer.";
+
+        /// <summary>
+        /// Justification for AOT (IL3050) analyzer suppressions and annotations: reflection-based
+        /// <see cref="System.Text.Json.JsonSerializer"/> and runtime type creation are not supported by Native AOT.
+        /// </summary>
+        private const string SerializationAotWarning = "This Syncfusion base component uses reflection-based System.Text.Json serialization and runtime type creation, which are not supported by Native AOT.";
 
         /// <summary>
         /// Gets or sets the unique identifier for the instance.
@@ -342,6 +357,12 @@ namespace Syncfusion.Blazor.Toolkit.Data
         }
         /// <exclude />
         /// <inheritdoc/>
+        // Framework lifecycle override cannot declare [RequiresUnreferencedCode]/[RequiresDynamicCode]
+        // (IL2046). It reflects over this component's own public properties and delegates to the
+        // reflection/serialization helpers, so the trim/AOT findings are suppressed with justification.
+        [UnconditionalSuppressMessage("Trimming", "IL2026", Justification = SerializationTrimWarning)]
+        [UnconditionalSuppressMessage("Trimming", "IL2075", Justification = SerializationTrimWarning)]
+        [UnconditionalSuppressMessage("AOT", "IL3050", Justification = SerializationAotWarning)]
         protected override async Task OnAfterRenderAsync(bool firstRender)
         {
             await base.OnAfterRenderAsync(firstRender).ConfigureAwait(false);
@@ -376,6 +397,8 @@ namespace Syncfusion.Blazor.Toolkit.Data
         }
         #endregion
 
+        [RequiresUnreferencedCode(SerializationTrimWarning)]
+        [RequiresDynamicCode(SerializationAotWarning)]
         internal async Task InitComponentAsync()
         {
             // The below condition avoid to reinitialize the already rendered component through ResourceManager.
@@ -391,6 +414,8 @@ namespace Syncfusion.Blazor.Toolkit.Data
 
         /// <exclude />
         [EditorBrowsable(EditorBrowsableState.Never)]
+        [RequiresUnreferencedCode(SerializationTrimWarning)]
+        [RequiresDynamicCode(SerializationAotWarning)]
         public async Task OnInitRenderAsync()
         {
             if (SyncfusionService!.IsFirstBaseResource)
@@ -482,6 +507,8 @@ namespace Syncfusion.Blazor.Toolkit.Data
         /// // No explicit call is needed in most scenarios.
         /// ]]></code>
         /// </example>
+        [UnconditionalSuppressMessage("Trimming", "IL2026", Justification = "Invokes the JavaScript 'destroy' method with no serialized model arguments (args is null); no user model types are serialized here.")]
+        [UnconditionalSuppressMessage("AOT", "IL3050", Justification = "Invokes the JavaScript 'destroy' method with no serialized model arguments (args is null); no reflection-based serialization of user models occurs here.")]
         public virtual void Dispose()
         {
             CommonDispose();
@@ -502,6 +529,8 @@ namespace Syncfusion.Blazor.Toolkit.Data
         /// Calls the JavaScript <c>refresh</c> method for the component identified by <see cref="ID"/>.
         /// Has no effect if the component has not been rendered yet.
         /// </remarks>
+        [UnconditionalSuppressMessage("Trimming", "IL2026", Justification = "Invokes the JavaScript 'refresh' method with no serialized model arguments (args is null); no user model types are serialized here.")]
+        [UnconditionalSuppressMessage("AOT", "IL3050", Justification = "Invokes the JavaScript 'refresh' method with no serialized model arguments (args is null); no reflection-based serialization of user models occurs here.")]
         public async void Refresh()
         {
             if (NameSpace != null && IsRendered)
@@ -511,6 +540,8 @@ namespace Syncfusion.Blazor.Toolkit.Data
         }
 
         /// <exclude />
+        [RequiresUnreferencedCode(SerializationTrimWarning)]
+        [RequiresDynamicCode(SerializationAotWarning)]
         public async Task DataBindAsync(bool hasStateChanged = false)
         {
             _ = hasStateChanged;
@@ -611,6 +642,8 @@ namespace Syncfusion.Blazor.Toolkit.Data
         }
 
         // Invoke void return type methods
+        [RequiresUnreferencedCode(SerializationTrimWarning)]
+        [RequiresDynamicCode(SerializationAotWarning)]
         internal async Task InvokeMethod(string methodName, string? moduleName = null, params object[]? methodParams)
         {
             _ = await IsScriptRenderedAsync().ConfigureAwait(false);
@@ -619,6 +652,8 @@ namespace Syncfusion.Blazor.Toolkit.Data
         }
 
         // Invoke object return type methods
+        [RequiresUnreferencedCode(SerializationTrimWarning)]
+        [RequiresDynamicCode(SerializationAotWarning)]
         internal virtual async Task<T> InvokeMethod<T>(string methodName, bool isObjectReturnType, string? moduleName = null, params object[]? methodParams)
         {
             _ = await IsScriptRenderedAsync().ConfigureAwait(false);
@@ -717,6 +752,8 @@ namespace Syncfusion.Blazor.Toolkit.Data
             }
         }
 
+        [RequiresUnreferencedCode(SerializationTrimWarning)]
+        [RequiresDynamicCode(SerializationAotWarning)]
         internal virtual async Task<T> UpdatePropertyAsync<T>(string key, T publicValue, T privateValue, object eventCallback = null!, Expression<Func<T>> expression = null!, bool isDataSource = false, bool isObservable = false)
         {
             string? propertyKey = !JsProperty!.StartsWith("sf.", StringComparison.Ordinal) ? $"{JsProperty}.{key}" : key;
@@ -849,6 +886,8 @@ namespace Syncfusion.Blazor.Toolkit.Data
             return directParam!;
         }
 
+        [RequiresUnreferencedCode(SerializationTrimWarning)]
+        [RequiresDynamicCode(SerializationAotWarning)]
         internal static bool CompareValues<T>(T oldValue, T newValue)
         {
             Type? valueType = oldValue?.GetType();
@@ -868,6 +907,8 @@ namespace Syncfusion.Blazor.Toolkit.Data
 
         // The below scenario is used to add a new child component, when its parent component is rerender in the page.
         // i.e. The parent is already rendered in the page and a new child will be added dynamically at the time of rerendering.
+        [RequiresUnreferencedCode(SerializationTrimWarning)]
+        [RequiresDynamicCode(SerializationAotWarning)]
         internal void RenderNewChild()
         {
             string childString = GetSerializedModel();
@@ -882,6 +923,12 @@ namespace Syncfusion.Blazor.Toolkit.Data
         }
 
         /// <exclude />
+        // [JSInvokable] entry point invoked by the JavaScript runtime; it cannot expose
+        // [RequiresUnreferencedCode]/[RequiresDynamicCode] to callers, so the reflection/serialization
+        // trim and AOT findings are suppressed with justification.
+        [UnconditionalSuppressMessage("Trimming", "IL2026", Justification = SerializationTrimWarning)]
+        [UnconditionalSuppressMessage("Trimming", "IL2075", Justification = SerializationTrimWarning)]
+        [UnconditionalSuppressMessage("AOT", "IL3050", Justification = SerializationAotWarning)]
         [JSInvokable]
         [EditorBrowsable(EditorBrowsableState.Never)]
         public virtual async Task<object> Trigger(string eventName, string arg)
@@ -920,6 +967,11 @@ namespace Syncfusion.Blazor.Toolkit.Data
         }
 
         /// <exclude />
+        // [JSInvokable] entry point invoked by the JavaScript runtime; it cannot expose
+        // [RequiresUnreferencedCode]/[RequiresDynamicCode] to callers, so the reflection/serialization
+        // trim and AOT findings are suppressed with justification.
+        [UnconditionalSuppressMessage("Trimming", "IL2026", Justification = SerializationTrimWarning)]
+        [UnconditionalSuppressMessage("AOT", "IL3050", Justification = SerializationAotWarning)]
         [JSInvokable]
         [EditorBrowsable(EditorBrowsableState.Never)]
         public async Task UpdateModel(Dictionary<string, object> properties)
@@ -930,6 +982,8 @@ namespace Syncfusion.Blazor.Toolkit.Data
             StateHasChanged();
         }
 
+        [RequiresUnreferencedCode(SerializationTrimWarning)]
+        [RequiresDynamicCode(SerializationAotWarning)]
         internal void UpdateComponentModel(Dictionary<string, object> properties, BaseComponent parentObject)
         {
             foreach (string key in properties.Keys)
@@ -1002,6 +1056,8 @@ namespace Syncfusion.Blazor.Toolkit.Data
             }
         }
 
+        [RequiresUnreferencedCode(SerializationTrimWarning)]
+        [RequiresDynamicCode(SerializationAotWarning)]
         internal object UpdateCollectionValue(object propertyValue, Type propertyType, int? sfIndex, object model)
         {
             object value;
@@ -1047,6 +1103,8 @@ namespace Syncfusion.Blazor.Toolkit.Data
             return SfBaseUtils.ChangeType(value!, propertyType, true)!;
         }
 
+        [RequiresUnreferencedCode(SerializationTrimWarning)]
+        [RequiresDynamicCode(SerializationAotWarning)]
         internal static object UpdateArrayValue(Type propertyType, object model)
         {
             return JsonSerializer.Deserialize(model?.ToString()!, propertyType)!;
@@ -1083,6 +1141,8 @@ namespace Syncfusion.Blazor.Toolkit.Data
             return settings;
         }
 
+        [RequiresUnreferencedCode(SerializationTrimWarning)]
+        [RequiresDynamicCode(SerializationAotWarning)]
         internal string SerialiazeBindableProp(Dictionary<string, object> bindableProp)
         {
             return JsonSerializer.Serialize(bindableProp, _serialiazeBindablePropJsonSettings);
@@ -1097,6 +1157,8 @@ namespace Syncfusion.Blazor.Toolkit.Data
         /// Used internally to capture the initial component model for JavaScript interop initialization.
         /// Subclasses can override to customize which properties are serialized.
         /// </remarks>
+        [RequiresUnreferencedCode(SerializationTrimWarning)]
+        [RequiresDynamicCode(SerializationAotWarning)]
         protected virtual string GetSerializedModel()
         {
             return JsonSerializer.Serialize(this, GetType(), GetJsonSerializerOptions());
@@ -1108,6 +1170,8 @@ namespace Syncfusion.Blazor.Toolkit.Data
         /// </summary>
         /// <param name="isInit">If <c>true</c>, returns the full model with defaults; if <c>false</c>, returns only bindable properties.</param>
         /// <returns>A JSON string representing the component state to sync with JavaScript.</returns>
+        [RequiresUnreferencedCode(SerializationTrimWarning)]
+        [RequiresDynamicCode(SerializationAotWarning)]
         protected virtual string GetUpdateModel(bool isInit = false)
         {
             if (isInit)
@@ -1165,6 +1229,10 @@ namespace Syncfusion.Blazor.Toolkit.Data
         /// <para>If a <see cref="MainParent"/> exists, the created <see cref="DataManager"/> is also stored
         /// in <see cref="MainParent"/>'s <see cref="DataManagerContainer"/> for later retrieval.</para>
         /// </remarks>
+        [RequiresUnreferencedCode(SerializationTrimWarning)]
+        [RequiresDynamicCode(SerializationAotWarning)]
+        [SuppressMessage("Usage", "BL0005:Component parameter should not be set outside of its component",
+            Justification = "DataManager is used here as a data-access model rather than a rendered child component. Its Json parameter is populated programmatically to wrap the caller's data source; it is never assigned declaratively in markup for this instance, so the BL0005 constraint does not apply.")]
         protected object GetDataManager(object dataSource, string? key = null)
         {
             if (dataSource is SfDataManager or Data.DataManager)
@@ -1200,6 +1268,8 @@ namespace Syncfusion.Blazor.Toolkit.Data
             return dataAdaptor;
         }
 
+        [RequiresUnreferencedCode(SerializationTrimWarning)]
+        [RequiresDynamicCode(SerializationAotWarning)]
         internal static object GetObject(Dictionary<string, object> Data, Type ModelType)
         {
             // Handling Parameterless Constructor
@@ -1375,6 +1445,8 @@ namespace Syncfusion.Blazor.Toolkit.Data
         /// </summary>
         /// <param name="cultureData">Specific culture information.</param>
         /// <returns>Json serialized globalize string.</returns>
+        [RequiresUnreferencedCode("Serializes the globalize content dictionary with reflection-based System.Text.Json; the referenced value types may be removed by the trimmer.")]
+        [RequiresDynamicCode("Serializes the globalize content dictionary with reflection-based System.Text.Json, which requires runtime code generation not supported by Native AOT.")]
         public static string GetGlobalizeJsonString(CultureInfo cultureData)
         {
             return JsonSerializer.Serialize(GetGlobalizeContent(cultureData));

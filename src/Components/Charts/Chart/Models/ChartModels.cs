@@ -1434,17 +1434,17 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
         /// <summary>
         /// Gets or sets the collection of point Y coordinates.
         /// </summary>
-        public List<double> PointY { get; set; } = new List<double>();
+        public List<double> PointY { get; set; } = [];
 
         /// <summary>
         /// Gets or sets the collection of low point X coordinates.
         /// </summary>
-        public List<double> LowPointX { get; set; } = new List<double>();
+        public List<double> LowPointX { get; set; } = [];
 
         /// <summary>
         /// Gets or sets the collection of low point Y coordinates.
         /// </summary>
-        public List<double> LowPointY { get; set; } = new List<double>();
+        public List<double> LowPointY { get; set; } = [];
     }
 
     /// <summary>
@@ -1487,7 +1487,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
         /// <summary>
         /// Gets or sets the collection of template identifiers.
         /// </summary>
-        public List<string> TemplateId { get; set; } = new List<string>();
+        public List<string> TemplateId { get; set; } = [];
     }
 
     /// <summary>
@@ -1516,27 +1516,27 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
         /// <summary>
         /// Gets or sets the collection of point indices.
         /// </summary>
-        public List<double> PointIndex { get; set; } = new List<double>();
+        public List<double> PointIndex { get; set; } = [];
 
         /// <summary>
         /// Gets or sets the collection of point X coordinates.
         /// </summary>
-        public List<double> PointX { get; set; } = new List<double>();
+        public List<double> PointX { get; set; } = [];
 
         /// <summary>
         /// Gets or sets the collection of point Y coordinates.
         /// </summary>
-        public List<double> PointY { get; set; } = new List<double>();
+        public List<double> PointY { get; set; } = [];
 
         /// <summary>
         /// Gets or sets the collection of point widths.
         /// </summary>
-        public List<double> PointWidth { get; set; } = new List<double>();
+        public List<double> PointWidth { get; set; } = [];
 
         /// <summary>
         /// Gets or sets the collection of point heights.
         /// </summary>
-        public List<double> PointHeight { get; set; } = new List<double>();
+        public List<double> PointHeight { get; set; } = [];
 
         /// <summary>
         /// Gets or sets the animation duration in milliseconds.
@@ -1934,13 +1934,13 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
         /// Gets or sets the symbol locations for the point.
         /// </summary>
         [JsonPropertyName("s")]
-        public List<IChartInternalLocation> SymbolLocations { get; set; } = new List<IChartInternalLocation>();
+        public List<IChartInternalLocation> SymbolLocations { get; set; } = [];
 
         /// <summary>
         /// Gets or sets the regions for the point.
         /// </summary>
         [JsonPropertyName("r")]
-        public List<IRect> Regions { get; set; } = new List<IRect>();
+        public List<IRect> Regions { get; set; } = [];
 
         /// <summary>
         /// Gets or sets the X value of the point.

@@ -42,3 +42,112 @@ using System.Diagnostics.CodeAnalysis;
     "Naming",
     "CA1716:Identifiers should not conflict with keywords",
     Justification = "The Data namespace mirrors .NET design-time naming conventions (e.g. Dynamic, Value) as required by the public API style guide. Restricted to that namespace. Audited 2026-09-06.")]
+
+// ---------------------------------------------------------------------------
+// CA2227 — Collection properties on serialization DTOs / Blazor parameters.
+//
+// The following collection properties MUST keep their public setters. They are
+// data-transfer objects that System.Text.Json deserializes into (Query.Clone()
+// round-trips DataManagerRequest through JsonSerializer.Deserialize) and that
+// the fluent Query builder reassigns (e.g. `Queries.Select = Queries.Select ?? []`).
+// Removing the setter would break serialization round-tripping and the builder.
+// The declared type has already been narrowed from List<T> to IList<T> to satisfy
+// CA1002. Audited 2026-10-01. See DEVELOPMENT.md §Known analyzer / trim / AOT findings.
+// ---------------------------------------------------------------------------
+[assembly: SuppressMessage(
+    "Usage",
+    "CA2227:Collection properties should be read only",
+    Justification = "Blazor sets [Parameter] values through the public setter at runtime; removing it breaks parameter binding. Audited 2026-10-01.",
+    Scope = "member",
+    Target = "~P:Syncfusion.Blazor.Toolkit.Data.DataManager.Headers")]
+
+[assembly: SuppressMessage(
+    "Usage",
+    "CA2227:Collection properties should be read only",
+    Justification = "Serialization DTO: deserialized by System.Text.Json and reassigned by the fluent Query builder. Setter is required. Audited 2026-10-01.",
+    Scope = "member",
+    Target = "~P:Syncfusion.Blazor.Toolkit.Data.DataManagerRequest.Group")]
+
+[assembly: SuppressMessage(
+    "Usage",
+    "CA2227:Collection properties should be read only",
+    Justification = "Serialization DTO: deserialized by System.Text.Json and reassigned by the fluent Query builder. Setter is required. Audited 2026-10-01.",
+    Scope = "member",
+    Target = "~P:Syncfusion.Blazor.Toolkit.Data.DataManagerRequest.Select")]
+
+[assembly: SuppressMessage(
+    "Usage",
+    "CA2227:Collection properties should be read only",
+    Justification = "Serialization DTO: deserialized by System.Text.Json and reassigned by the fluent Query builder. Setter is required. Audited 2026-10-01.",
+    Scope = "member",
+    Target = "~P:Syncfusion.Blazor.Toolkit.Data.DataManagerRequest.Expand")]
+
+[assembly: SuppressMessage(
+    "Usage",
+    "CA2227:Collection properties should be read only",
+    Justification = "Serialization DTO: deserialized by System.Text.Json and reassigned by the fluent Query builder. Setter is required. Audited 2026-10-01.",
+    Scope = "member",
+    Target = "~P:Syncfusion.Blazor.Toolkit.Data.DataManagerRequest.Sorted")]
+
+[assembly: SuppressMessage(
+    "Usage",
+    "CA2227:Collection properties should be read only",
+    Justification = "Serialization DTO: deserialized by System.Text.Json and reassigned by the fluent Query builder. Setter is required. Audited 2026-10-01.",
+    Scope = "member",
+    Target = "~P:Syncfusion.Blazor.Toolkit.Data.DataManagerRequest.Search")]
+
+[assembly: SuppressMessage(
+    "Usage",
+    "CA2227:Collection properties should be read only",
+    Justification = "Serialization DTO: deserialized by System.Text.Json and reassigned by the fluent Query builder. Setter is required. Audited 2026-10-01.",
+    Scope = "member",
+    Target = "~P:Syncfusion.Blazor.Toolkit.Data.DataManagerRequest.Where")]
+
+[assembly: SuppressMessage(
+    "Usage",
+    "CA2227:Collection properties should be read only",
+    Justification = "Serialization DTO: deserialized by System.Text.Json and reassigned by the fluent Query builder. Setter is required. Audited 2026-10-01.",
+    Scope = "member",
+    Target = "~P:Syncfusion.Blazor.Toolkit.Data.DataManagerRequest.Aggregates")]
+
+[assembly: SuppressMessage(
+    "Usage",
+    "CA2227:Collection properties should be read only",
+    Justification = "Serialization DTO: deserialized by System.Text.Json and reassigned by the fluent Query builder. Setter is required. Audited 2026-10-01.",
+    Scope = "member",
+    Target = "~P:Syncfusion.Blazor.Toolkit.Data.DataManagerRequest.Params")]
+
+[assembly: SuppressMessage(
+    "Usage",
+    "CA2227:Collection properties should be read only",
+    Justification = "Serialization DTO: deserialized by System.Text.Json and reassigned by the fluent Query builder. Setter is required. Audited 2026-10-01.",
+    Scope = "member",
+    Target = "~P:Syncfusion.Blazor.Toolkit.Data.DataManagerRequest.Distinct")]
+
+[assembly: SuppressMessage(
+    "Usage",
+    "CA2227:Collection properties should be read only",
+    Justification = "Serialization DTO: deserialized by System.Text.Json and reassigned by the fluent Query builder. Setter is required. Audited 2026-10-01.",
+    Scope = "member",
+    Target = "~P:Syncfusion.Blazor.Toolkit.Data.DataManagerRequest.GroupByFormatter")]
+
+[assembly: SuppressMessage(
+    "Usage",
+    "CA2227:Collection properties should be read only",
+    Justification = "Serialization DTO: deserialized by System.Text.Json. Setter is required for round-tripping. Audited 2026-10-01.",
+    Scope = "member",
+    Target = "~P:Syncfusion.Blazor.Toolkit.Data.SearchFilter.Fields")]
+
+[assembly: SuppressMessage(
+    "Usage",
+    "CA2227:Collection properties should be read only",
+    Justification = "Serialization DTO: deserialized by System.Text.Json and populated via object initializers. Setter is required. Audited 2026-10-01.",
+    Scope = "member",
+    Target = "~P:Syncfusion.Blazor.Toolkit.Data.WhereFilter.Predicates")]
+
+[assembly: SuppressMessage(
+    "Usage",
+    "CA2227:Collection properties should be read only",
+    Justification = "Result DTO: assigned by the adaptor pipeline after aggregation. Setter is required. Audited 2026-10-01.",
+    Scope = "member",
+    Target = "~P:Syncfusion.Blazor.Toolkit.Data.DataResult`1.Aggregates")]

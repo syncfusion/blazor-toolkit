@@ -35,13 +35,9 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
             {
                 return "ExpandoObject";
             }
-            else if (dataType.BaseType is not null && dataType.BaseType.Equals(typeof(DynamicObject)))
-            {
-                return "DynamicObject";
-            }
             else
             {
-                return string.Empty;
+                return dataType.BaseType is not null && dataType.BaseType.Equals(typeof(DynamicObject)) ? "DynamicObject" : string.Empty;
             }
         }
 
@@ -113,7 +109,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
             // Sourced from
             // https://www.w3.org/TR/wai-aria-1.2/#role_definitions — the same
             // set used by the audit's Full Assessment spec.
-            private static readonly HashSet<string> ValidRoles = new HashSet<string>(StringComparer.OrdinalIgnoreCase)
+            private static readonly HashSet<string> ValidRoles = new(StringComparer.OrdinalIgnoreCase)
             {
                 "alert", "alertdialog", "application", "article", "banner",
                 "button", "cell", "checkbox", "columnheader", "combobox",

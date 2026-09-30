@@ -12,7 +12,6 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
     {
         #region Fields
         private double _opacity { get; set; } = 1;
-        private Dictionary<string, object>? _htmlAttributes { get; set; }
         #endregion
 
         #region Properties
@@ -151,7 +150,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
         public string Title { get; set; } = "Text Element";
 
         [Parameter(CaptureUnmatchedValues = true)]
-        public Dictionary<string, object> HtmlAttributes { get { return _htmlAttributes ?? null!; } set { _htmlAttributes = value; } }
+        public Dictionary<string, object> HtmlAttributes { get; set; } = null!;
 
         #endregion
 

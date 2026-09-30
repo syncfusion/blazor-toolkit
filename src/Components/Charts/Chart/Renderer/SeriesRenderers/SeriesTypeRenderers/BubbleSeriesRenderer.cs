@@ -1,4 +1,5 @@
 using Microsoft.AspNetCore.Components.Rendering;
+using System.Diagnostics.CodeAnalysis;
 using System.Text.Json;
 using System.Dynamic;
 
@@ -14,7 +15,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
     internal class BubbleSeriesRenderer : ChartSeriesRenderer
     {
         #region Fields
-        private List<SymbolOptions> _symbolOptions = [];
+        private readonly List<SymbolOptions> _symbolOptions = [];
         #endregion
 
         #region Private Methods
@@ -326,6 +327,8 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
         /// <summary>
         /// Extracts and processes bubble point data from an ExpandoObject.
         /// </summary>
+        [RequiresUnreferencedCode(DataBindingTrimWarning)]
+        [RequiresDynamicCode(DataBindingAotWarning)]
         private void ExtractAndProcessExpandoPointData(IDictionary<string, object> expandoData, Type firstDataType, string xName, string yName, string tempSize, string pointColor, string tooltipText, int index, bool isSortingEnabled)
         {
             _ = expandoData.TryGetValue(xName, out object? x);
@@ -357,6 +360,8 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
         /// <summary>
         /// Extracts and processes bubble point data from a DynamicObject.
         /// </summary>
+        [RequiresUnreferencedCode(DataBindingTrimWarning)]
+        [RequiresDynamicCode(DataBindingAotWarning)]
         private void ExtractAndProcessDynamicPointData(DynamicObject dynamicObject, Type firstDataType, string xName, string yName, string size, string pointColor, int index, bool isSortingEnabled)
         {
             IBubblePoint chartPoint = new();
@@ -382,6 +387,8 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
         /// <summary>
         /// Extracts and processes bubble point data from a JsonElement.
         /// </summary>
+        [RequiresUnreferencedCode(DataBindingTrimWarning)]
+        [RequiresDynamicCode(DataBindingAotWarning)]
         private void ExtractAndProcessJsonPointData(JsonElement jsonObject, Type firstDataType, string xName, string yName, string size, string pointColor, int index, bool isSortingEnabled)
         {
             IBubblePoint chartPoint = new();
@@ -429,6 +436,8 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
         /// <param name="xName">The property name for X-axis values.</param>
         /// <param name="yName">The property name for Y-axis values.</param>
         /// <param name="currentViewData">The enumerable collection of data objects to process.</param>
+        [RequiresUnreferencedCode(DataBindingTrimWarning)]
+        [RequiresDynamicCode(DataBindingAotWarning)]
         protected override void ProcessExpandoObjectData(Type firstDataType, string xName, string yName, IEnumerable<object> currentViewData)
         {
             if (CurrentViewData is null)
@@ -457,6 +466,8 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
         /// <param name="xName">The property name for X-axis values.</param>
         /// <param name="yName">The property name for Y-axis values.</param>
         /// <param name="currentViewData">The enumerable collection of data objects to process.</param>
+        [RequiresUnreferencedCode(DataBindingTrimWarning)]
+        [RequiresDynamicCode(DataBindingAotWarning)]
         protected override void ProcessDynamicObjectData(Type firstDataType, string xName, string yName, IEnumerable<object> currentViewData)
         {
             if (CurrentViewData is null)
@@ -484,6 +495,8 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
         /// <param name="xName">The property name for X-axis values.</param>
         /// <param name="yName">The property name for Y-axis values.</param>
         /// <param name="currentViewData">The enumerable collection of data objects to process.</param>
+        [RequiresUnreferencedCode(DataBindingTrimWarning)]
+        [RequiresDynamicCode(DataBindingAotWarning)]
         protected override void ProcessJObjectData(Type firstDataType, string xName, string yName, IEnumerable<object> currentViewData)
         {
             if (CurrentViewData is null)
@@ -511,6 +524,8 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
         /// <param name="xName">The property name for X-axis values.</param>
         /// <param name="yName">The property name for Y-axis values.</param>
         /// <param name="currentViewData">The enumerable collection of data objects to process.</param>
+        [RequiresUnreferencedCode(DataBindingTrimWarning)]
+        [RequiresDynamicCode(DataBindingAotWarning)]
         protected override void ProcessObjectData(Type firstDataType, string xName, string yName, IEnumerable<object> currentViewData)
         {
             if (CurrentViewData is null || Series is null || Owner is null)
@@ -674,6 +689,8 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
         /// Retrieves and appends chart data for a specific point to the data collection.
         /// </summary>
         /// <param name="point">The point to serialize and append.</param>
+        [UnconditionalSuppressMessage("Trimming", "IL2026", Justification = "Serializes an internal IBubblePoint DTO whose members are statically referenced throughout the chart renderer and are therefore preserved by the trimmer; no user-supplied data type is serialized here.")]
+        [UnconditionalSuppressMessage("AOT", "IL3050", Justification = "Serializes an internal IBubblePoint DTO with well-known custom converters; no user-supplied type requiring runtime code generation is serialized here.")]
         internal override void GetChartData(Point point)
         {
             _ = ChartData?.Append(JsonSerializer.Serialize(Series?.Renderer?.ChartPoints?[point.Index] as IBubblePoint, _jsonOptions));

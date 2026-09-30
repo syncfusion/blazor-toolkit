@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Components.Rendering;
+﻿using System.Diagnostics.CodeAnalysis;
+using Microsoft.AspNetCore.Components.Rendering;
 
 namespace Syncfusion.Blazor.Toolkit.Charts.Internal
 {
@@ -145,6 +146,10 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
         /// <summary>
         /// Initializes default values for this renderer and aligns with the owner's initial size.
         /// </summary>
+        [UnconditionalSuppressMessage("Trimming", "IL2026",
+            Justification = "SetDefaultRendererValues is an internal render-lifecycle override invoked during the render pass and cannot carry [RequiresUnreferencedCode] without cascading IL2046 across the renderer hierarchy. It drives the chart data pipeline via InitializeStaticChart; that requirement is honestly surfaced on the public data APIs (RefreshAsync, AddSeriesAsync).")]
+        [UnconditionalSuppressMessage("AOT", "IL3050",
+            Justification = "SetDefaultRendererValues is an internal render-lifecycle override invoked during the render pass and cannot carry [RequiresDynamicCode] without cascading IL2046 across the renderer hierarchy. It drives the chart data pipeline via InitializeStaticChart; that requirement is honestly surfaced on the public data APIs (RefreshAsync, AddSeriesAsync).")]
         internal override void SetDefaultRendererValues()
         {
             Owner?.InitializeStaticChart();

@@ -157,14 +157,14 @@ namespace Syncfusion.Blazor.Toolkit.Popups
         /// This method clears the dialog state, completes the pending task with the provided result,
         /// and triggers a UI refresh to hide the dialog.
         /// </remarks>
-        private Task CloseAsync(dynamic? result = null)
+        private Task CloseAsync(object? result = null)
         {
             InputValue = string.Empty;
             DialogOptions = null;
             TaskCompletionSource<dynamic>? task = CompleteTask?.LastOrDefault();
             if (task is not null && task.Task is not null && !task.Task.IsCompleted)
             {
-                CompleteTask?.Remove(task);
+                _ = (CompleteTask?.Remove(task));
                 task.SetResult(result);
             }
             return Task.CompletedTask;

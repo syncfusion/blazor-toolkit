@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Components.Web;
 using Microsoft.JSInterop;
 using Syncfusion.Blazor.Toolkit.Inputs;
 using Syncfusion.Blazor.Toolkit.Internal;
+using System.Diagnostics.CodeAnalysis;
 using System.Globalization;
 using System.Reflection;
 
@@ -39,6 +40,7 @@ namespace Syncfusion.Blazor.Toolkit.Calendars
 
             TimeIcon = TIME_ICON;
             await base.OnInitializedAsync().ConfigureAwait(false);
+            NormalizeStep();
             PropertyInitialized();
             CurrentCulture = GetDefaultCulture();
             PreviousDateTime = Value;
@@ -54,9 +56,22 @@ namespace Syncfusion.Blazor.Toolkit.Calendars
                 EventCallback<ClipboardEventArgs> createPasteEvent = EventCallback.Factory.Create<ClipboardEventArgs>(this, OnPasteHandlerAsync);
                 InputHtmlAttributes = SfBaseUtils.UpdateDictionary("onpaste", createPasteEvent, InputHtmlAttributes);
             }
-            if (TimePickerParent is not null && Convert.ToString(TimePickerParent.Type, CultureInfo.CurrentCulture) == "Time")
+            InitializeTimeParentReference();
+        }
+
+        [UnconditionalSuppressMessage("Trimming", "IL2075",
+            Justification = "TimePickerParent is the library's own InPlaceEditor component supplied via cascading parameter; its 'Type' and 'ComponentRef' members are statically referenced by the editor type and therefore preserved by the trimmer.")]
+        private void InitializeTimeParentReference()
+        {
+            if (TimePickerParent is null)
             {
-                PropertyInfo? componentRefProperty = TimePickerParent?.GetType().GetProperty("ComponentRef", BindingFlags.NonPublic | BindingFlags.Instance);
+                return;
+            }
+            Type parentType = TimePickerParent.GetType();
+            object? parentTypeValue = parentType.GetProperty("Type", BindingFlags.Public | BindingFlags.Instance)?.GetValue(TimePickerParent);
+            if (Convert.ToString(parentTypeValue, CultureInfo.CurrentCulture) == "Time")
+            {
+                PropertyInfo? componentRefProperty = parentType.GetProperty("ComponentRef", BindingFlags.NonPublic | BindingFlags.Instance);
                 componentRefProperty?.SetValue(TimePickerParent, this);
             }
         }
@@ -81,11 +96,13 @@ namespace Syncfusion.Blazor.Toolkit.Calendars
         protected override async Task OnParametersSetAsync()
         {
             await base.OnParametersSetAsync().ConfigureAwait(false);
+            NormalizeStep();
             PropertyParametersSet();
             SetRTL();
             SetTimeAllowEdit();
             UpdateAriaAttributes();
             await SetHtmlAttributesAsync().ConfigureAwait(false);
+            NormalizeStep();
             if (PropertyChanges is not null && PropertyChanges.Count > 0)
             {
                 await OnPropertyChangeAsync(PropertyChanges).ConfigureAwait(false);

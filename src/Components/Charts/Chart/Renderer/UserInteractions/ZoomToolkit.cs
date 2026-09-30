@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Rendering;
 using Microsoft.AspNetCore.Components.Web;
+using System.Diagnostics.CodeAnalysis;
 using System.Globalization;
 
 namespace Syncfusion.Blazor.Toolkit.Charts.Internal
@@ -29,10 +30,10 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
         private string? _elementOpacity;
         private string? _elementId;
         private Rect? _iconRect;
-        private string? _hoveredID;
+        private readonly string? _hoveredID;
         private string _iconRectOverFill = Constants.Transparent;
         private string _iconRectSelectionFill = Constants.Transparent;
-        private CultureInfo _culture = CultureInfo.InvariantCulture;
+        private readonly CultureInfo _culture = CultureInfo.InvariantCulture;
         private string? _zoomingKitCollection;
         private double _zoomkitOpacity;
 
@@ -60,7 +61,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
             _elementId = Chart?.ID;
             // Resolve theme-aware color tokens for the zoom toolkit. High Contrast is treated as a third branch.
             // The soft accessibility yellow (#FFD939) matches the selectionCircleStroke / tabColor tokens in ChartHelper.GetThemeStyle("HighContrast").
-            bool isHighContrast = Chart?.Theme == Theme.HighContrast || Chart?.Theme == Theme.HighContrastLight;
+            bool isHighContrast = Chart?.Theme is Theme.HighContrast or Theme.HighContrastLight;
             bool isDark = Chart?.Theme == Theme.FluentDark;
             _selectionColor = isHighContrast ? "#FFD939" : (isDark ? "#D6D6D6" : "#424242");
             _fillColor = isHighContrast ? "#FFD939" : (isDark ? "#D6D6D6" : "#424242");
@@ -128,7 +129,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
             }
 
             toolboxItems = IsDevice() ? [ToolbarItems.Reset] : toolboxItems;
-            RectOptions rectOptions = new(_elementId + "_Zooming_Rect", 0, 0, width, height + (SPACING * 2), 1, Constants.Transparent, Chart?.Theme == Theme.HighContrast || Chart?.Theme == Theme.HighContrastLight ? "#000000" : (Chart?.Theme != Theme.FluentDark ? "#fafafa" : "#1C1B1F"), 4, 4, 1);
+            RectOptions rectOptions = new(_elementId + "_Zooming_Rect", 0, 0, width, height + (SPACING * 2), 1, Constants.Transparent, Chart?.Theme is Theme.HighContrast or Theme.HighContrastLight ? "#000000" : (Chart?.Theme != Theme.FluentDark ? "#fafafa" : "#1C1B1F"), 4, 4, 1);
             RenderZoomKit(builder, transX, transY, rectOptions, length, toolboxItems, iconSize);
         }
 
@@ -365,7 +366,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
                 Transform = "rotate(0," + 0 + ',' + 0 + ')',
                 DominantBaseline = "middle",
                 FontSize = "12px",
-                Fill = (Chart?.Theme == Theme.HighContrast || Chart?.Theme == Theme.HighContrastLight) ? "#FFD939" : (Chart?.Theme != Theme.FluentDark ? "black" : "white")
+                Fill = (Chart?.Theme is Theme.HighContrast or Theme.HighContrastLight) ? "#FFD939" : (Chart?.Theme != Theme.FluentDark ? "black" : "white")
             });
         }
 
@@ -657,6 +658,10 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
         /// <summary>
         /// Resets the zoom state and refreshes the chart layout.
         /// </summary>
+        [UnconditionalSuppressMessage("Trimming", "IL2026",
+            Justification = "ChartSeriesRendererContainer.ProcessData() only touches the library's own strongly-typed chart series model and renderer members, which are statically referenced and therefore preserved by the trimmer.")]
+        [UnconditionalSuppressMessage("AOT", "IL3050",
+            Justification = "ChartSeriesRendererContainer.ProcessData() does not require runtime code generation; it operates over the library's own strongly-typed chart series model.")]
         internal async Task SetDeferredZoomAsync(SfChart chart)
         {
             chart._disableTrackTooltip = false;

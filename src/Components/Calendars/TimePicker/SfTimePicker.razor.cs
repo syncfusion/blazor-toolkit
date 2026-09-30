@@ -631,7 +631,7 @@ namespace Syncfusion.Blazor.Toolkit.Calendars
             InternalStep = NotifyPropertyChanges(nameof(Step), Step, InternalStep);
             InternalWidth = NotifyPropertyChanges(nameof(Width), Width, InternalWidth);
             InternalZIndex = NotifyPropertyChanges(nameof(ZIndex), ZIndex, InternalZIndex);
-            NotifyPropertyChanges(nameof(CssClass), CssClass, InternalCssClass);
+            _ = NotifyPropertyChanges(nameof(CssClass), CssClass, InternalCssClass);
             InternalValue = NotifyPropertyChanges(nameof(Value), Value, InternalValue);
             InternalReadonly = NotifyPropertyChanges(nameof(READ_ONLY), Readonly, InternalReadonly);
         }
@@ -891,6 +891,26 @@ namespace Syncfusion.Blazor.Toolkit.Calendars
         }
 
         /// <summary>
+        /// Coerces the <see cref="Step"/> parameter to a value that evenly divides a full day (1440 minutes).
+        /// </summary>
+        /// <remarks>
+        /// Non-positive values fall back to the default of 30, and values that do not divide 1440 are
+        /// coerced to the nearest lower valid divisor. This preserves the historical setter behavior now
+        /// that <see cref="Step"/> is a simple auto-property.
+        /// </remarks>
+        private void NormalizeStep()
+        {
+            if (Step <= 0)
+            {
+                Step = 30;
+            }
+            else if (1440 % Step != 0)
+            {
+                Step = GetNearestValidStep(Step);
+            }
+        }
+
+        /// <summary>
         /// Generates the list of time options for the popup based on Step, Min, and Max properties.
         /// </summary>
         /// <returns>A <see cref="Task"/> representing the asynchronous list generation operation.</returns>
@@ -994,11 +1014,7 @@ namespace Syncfusion.Blazor.Toolkit.Calendars
         /// </remarks>
         private CultureInfo GetDefaultCulture()
         {
-            if (!string.IsNullOrEmpty(TimePickerLocale))
-            {
-                return new CultureInfo(TimePickerLocale);
-            }
-            return Intl.GetCulture();
+            return !string.IsNullOrEmpty(TimePickerLocale) ? new CultureInfo(TimePickerLocale) : Intl.GetCulture();
         }
 
         /// <summary>

@@ -1,3 +1,4 @@
+using System.Diagnostics.CodeAnalysis;
 using System.Text.Json;
 using System.Text.Json.Serialization;
 using System.Text.RegularExpressions;
@@ -280,6 +281,9 @@ namespace Syncfusion.Blazor.Toolkit.Data
         /// <param name="value">The <typeparamref name="T"/> value to write.</param>
         /// <param name="options">Serialization options (not used).</param>
 
+        [UnconditionalSuppressMessage("Trimming", "IL2026", Justification = "Serializes an arbitrary patch-request model with reflection-based System.Text.Json; the model's members are preserved by the calling data-manager code, which is itself annotated with RequiresUnreferencedCode.")]
+        [UnconditionalSuppressMessage("Trimming", "IL2075", Justification = "Reflects over the arbitrary patch-request model's public properties; those members are preserved by the calling data-manager code, which is itself annotated with RequiresUnreferencedCode.")]
+        [UnconditionalSuppressMessage("AOT", "IL3050", Justification = "Serializes an arbitrary patch-request model with reflection-based System.Text.Json; this converter is only reachable from data-manager code annotated with RequiresDynamicCode.")]
         public override void Write(Utf8JsonWriter writer, T value, JsonSerializerOptions options)
         {
             ArgumentNullException.ThrowIfNull(writer);
@@ -288,11 +292,16 @@ namespace Syncfusion.Blazor.Toolkit.Data
             writer.WriteEndObject();
         }
 
+        [UnconditionalSuppressMessage("Trimming", "IL2026", Justification = "Serializes an arbitrary patch-request model with reflection-based System.Text.Json; the model's members are preserved by the calling data-manager code, which is itself annotated with RequiresUnreferencedCode.")]
+        [UnconditionalSuppressMessage("AOT", "IL3050", Justification = "Serializes an arbitrary patch-request model with reflection-based System.Text.Json; this converter is only reachable from data-manager code annotated with RequiresDynamicCode.")]
         private void WriteProperties(Utf8JsonWriter writer, object value, JsonSerializerOptions options)
         {
             WritePropertiesRecursive(writer, value, options, []);
         }
 
+        [UnconditionalSuppressMessage("Trimming", "IL2026", Justification = "Serializes an arbitrary patch-request model with reflection-based System.Text.Json; the model's members are preserved by the calling data-manager code, which is itself annotated with RequiresUnreferencedCode.")]
+        [UnconditionalSuppressMessage("Trimming", "IL2075", Justification = "Reflects over the arbitrary patch-request model's public properties; those members are preserved by the calling data-manager code, which is itself annotated with RequiresUnreferencedCode.")]
+        [UnconditionalSuppressMessage("AOT", "IL3050", Justification = "Serializes an arbitrary patch-request model with reflection-based System.Text.Json; this converter is only reachable from data-manager code annotated with RequiresDynamicCode.")]
         private void WritePropertiesRecursive(Utf8JsonWriter writer, object value, JsonSerializerOptions options, List<string> contextPath)
         {
             Type type = value.GetType();

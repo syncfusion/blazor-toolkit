@@ -20,9 +20,9 @@ namespace Syncfusion.Blazor.Toolkit.Inputs
     /// <item><description>Built-in clear button with customizable behavior through <see cref="ShowClearButton"/>.</description></item>
     /// <item><description>Input validation with visual feedback integrated with Blazor's <see cref="Microsoft.AspNetCore.Components.Forms.EditContext"/>.</description></item>
     /// <item><description>Accessibility features with ARIA support. The native <c>textbox</c> role
-/// is announced by screen readers; the component forwards the public <see cref="SfInputBase{TValue}.AriaLabel"/>
-/// parameter to <c>aria-label</c> only when the caller supplies one. No generic fallback string is emitted
-/// to avoid redundant announcements such as "textbox, edit".</description></item>
+    /// is announced by screen readers; the component forwards the public <see cref="SfInputBase{TValue}.AriaLabel"/>
+    /// parameter to <c>aria-label</c> only when the caller supplies one. No generic fallback string is emitted
+    /// to avoid redundant announcements such as "textbox, edit".</description></item>
     /// <item><description>State persistence across browser sessions when <see cref="SfInputBase{TValue}.EnablePersistence"/> is enabled.</description></item>
     /// <item><description>Customizable styling and theming through <see cref="SfInputBase{TValue}.CssClass"/> and supported themes.</description></item>
     /// </list>

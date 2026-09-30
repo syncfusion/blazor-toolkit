@@ -1,4 +1,4 @@
-﻿﻿using Microsoft.AspNetCore.Components.Rendering;
+﻿using Microsoft.AspNetCore.Components.Rendering;
 using System.Text;
 
 namespace Syncfusion.Blazor.Toolkit.Charts.Internal

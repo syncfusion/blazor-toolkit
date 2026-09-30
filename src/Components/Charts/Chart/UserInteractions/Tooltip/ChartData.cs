@@ -106,7 +106,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
         /// <returns><c>true</c> if hit; otherwise <c>false</c>.</returns>
         private bool IsPolarColumnHit(Point point, ChartSeriesRenderer seriesRenderer, double x, double y)
         {
-            _ = seriesRenderer.Series ?? null!;
+            _ = seriesRenderer.Series ?? null;
             if (point.RegionData is null)
             {
                 return false;
