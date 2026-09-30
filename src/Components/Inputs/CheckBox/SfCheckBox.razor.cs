@@ -1,7 +1,6 @@
 using System.Globalization;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Web;
-using Microsoft.Extensions.Localization;
 using Microsoft.Extensions.Logging;
 using Microsoft.JSInterop;
 
@@ -56,15 +55,6 @@ namespace Syncfusion.Blazor.Toolkit.Inputs
     public partial class SfCheckBox<TChecked> : SfSelectionBase<TChecked>
     {
         #region Injected services
-
-        /// <summary>
-        /// Localizer used to source the cached announcement strings (Checked / Unchecked /
-        /// Indeterminate) that appear in the visually hidden live region when the checkbox
-        /// crosses the indeterminate boundary. <see cref="SfSelectionBase{TChecked}"/> does
-        /// not inherit a Localizer, so the dependency is injected directly on the CheckBox.
-        /// </summary>
-        [Inject]
-        private IStringLocalizer Localizer { get; set; } = default!;
 
         #endregion
 

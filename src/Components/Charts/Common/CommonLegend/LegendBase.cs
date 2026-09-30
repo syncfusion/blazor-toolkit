@@ -802,7 +802,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
         /// </summary>
         /// <param name="legendOption">The legend option.</param>
         /// <returns>Symbol color.</returns>
-        private string DetermineSymbolColor(LegendOption legendOption)
+        private static string DetermineSymbolColor(LegendOption legendOption)
         {
             return legendOption.Visible ? legendOption.Fill : "#D3D3D3";
         }
@@ -848,7 +848,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
         /// </summary>
         /// <param name="legendOption">The legend option.</param>
         /// <returns>True when custom border needed.</returns>
-        private bool IsCustomBorderSeries(LegendOption legendOption)
+        private static bool IsCustomBorderSeries(LegendOption legendOption)
         {
             return legendOption.Type == ChartSeriesType.Scatter.ToString() || legendOption.Type == ChartSeriesType.Bubble.ToString();
         }
@@ -859,7 +859,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
         /// <param name="isStrokeWidth">Indicates whether stroke width is needed.</param>
         /// <param name="seriesWidth">Series stroke width value.</param>
         /// <returns>Stroke width value.</returns>
-        private double GetBaseStrokeWidth(bool isStrokeWidth, double seriesWidth)
+        private static double GetBaseStrokeWidth(bool isStrokeWidth, double seriesWidth)
         {
             return isStrokeWidth ? seriesWidth : 1;
         }
@@ -869,7 +869,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
         /// </summary>
         /// <param name="legendOption">The legend option.</param>
         /// <returns>Dash array or empty string.</returns>
-        private string GetDashArray(LegendOption legendOption)
+        private static string GetDashArray(LegendOption legendOption)
         {
             bool needsDashArray = legendOption.Shape == LegendShape.SeriesType &&
                 (legendOption.Type == ChartSeriesType.Line.ToString() ||
@@ -888,7 +888,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
         /// <param name="legendOption">Legend option.</param>
         /// <param name="symbolColor">Symbol color fallback.</param>
         /// <returns>Tuple stroke width and border color.</returns>
-        private (double StrokeWidth, string BorderColor) ApplyCustomBorder(bool isCustomBorder, double strokeWidth, LegendOption legendOption, string symbolColor)
+        private static (double StrokeWidth, string BorderColor) ApplyCustomBorder(bool isCustomBorder, double strokeWidth, LegendOption legendOption, string symbolColor)
         {
             string borderColor = string.Empty;
             double width = strokeWidth;
@@ -1260,7 +1260,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
         /// Returns the range navigator height.
         /// </summary>
         /// <returns>The range navigator height.</returns>
-        internal double RangeNavigatorHeight()
+        internal static double RangeNavigatorHeight()
         {
             return 0;
         }

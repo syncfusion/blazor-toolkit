@@ -168,7 +168,6 @@ namespace Syncfusion.Blazor.Toolkit.Calendars
 
         private string? ValidClass { get; set; }
         private bool IsFormValidation { get; set; }
-        private bool IsCleared { get; set; }
         private string? StrictValue { get; set; }
         private bool IsValideValue { get; set; }
         private bool IsKeyBoardAction { get; set; }
@@ -942,7 +941,6 @@ namespace Syncfusion.Blazor.Toolkit.Calendars
             {
                 CurrentValueAsString = null;
             }
-            IsCleared = false;
             await Task.CompletedTask.ConfigureAwait(false);
         }
 
@@ -1159,7 +1157,6 @@ namespace Syncfusion.Blazor.Toolkit.Calendars
             {
                 ClearBtnStopPropagation = true;
             }
-            IsCleared = true;
         }
 
         private async Task ClearInputValueAsync()
@@ -1204,10 +1201,6 @@ namespace Syncfusion.Blazor.Toolkit.Calendars
             if (IsCalendarRender)
             {
                 await HidePopupAsync(args).ConfigureAwait(false);
-            }
-            if (EnableMask)
-            {
-                IsCleared = false;
             }
         }
 

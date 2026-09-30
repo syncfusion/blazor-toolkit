@@ -14,7 +14,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts
         private double _right = double.NaN;
         private double _left = double.NaN;
 
-        internal bool _isPropertyChanged;
+        internal new bool _isPropertyChanged;
         #endregion
 
         #region Properties

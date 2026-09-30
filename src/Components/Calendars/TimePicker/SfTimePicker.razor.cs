@@ -58,8 +58,6 @@ namespace Syncfusion.Blazor.Toolkit.Calendars
         private const string LIST = "list";
         private const string AUTO_CAPITAL = "autocapitalize";
         private const string ARIA_EXPANDED = "aria-expanded";
-        private const string ARIA_LABELLEDBY = "aria-labelledby";
-        private const string ARIA_DESCRIBEDBY = "aria-describedby";
         private const string POPUP_CONTENT = "e-content";
         private const string DISABLED = "e-disabled";
         private const string RTL = "e-rtl";
@@ -146,12 +144,6 @@ namespace Syncfusion.Blazor.Toolkit.Calendars
         private bool Navigated { get; set; }
 
         /// <summary>
-        /// Gets or sets a value indicating whether to stop propagation of clear button events.
-        /// </summary>
-        /// <exclude />
-        private bool ClearBtnStopPropagation { get; set; }
-
-        /// <summary>
         /// Gets or sets a value indicating whether the input value was cleared.
         /// </summary>
         /// <exclude />
@@ -192,12 +184,6 @@ namespace Syncfusion.Blazor.Toolkit.Calendars
         /// </summary>
         /// <exclude />
         private CultureInfo CurrentCulture { get; set; } = default!;
-
-        /// <summary>
-        /// Gets or sets a value indicating whether the time list has been updated.
-        /// </summary>
-        /// <exclude />
-        private bool ListUpdated { get; set; }
 
         /// <summary>
         /// Gets or sets the date part used for time calculations.
@@ -783,11 +769,6 @@ namespace Syncfusion.Blazor.Toolkit.Calendars
         /// </remarks>
         private async Task InvokeClearBtnEventAsync(EventArgs args)
         {
-            if (!IsDevice)
-            {
-                ClearBtnStopPropagation = true;
-            }
-
             IsCleared = true;
             CurrentInputValue = null;
             UpdateValue(null);
@@ -985,8 +966,6 @@ namespace Syncfusion.Blazor.Toolkit.Calendars
                     ListData.Add(listItem);
                     start = start.Add(interval);
                 }
-
-                ListUpdated = true;
             }
         }
 
@@ -1689,44 +1668,6 @@ namespace Syncfusion.Blazor.Toolkit.Calendars
                 return new string('\\', 2 * slashCount);
             });
             return modifiedInput;
-        }
-
-        /// <summary>
-        /// Parses a time value string using exact format matching for validation purposes.
-        /// </summary>
-        /// <param name="timeValue">The time string to parse.</param>
-        /// <param name="format">The exact format to use for parsing.</param>
-        /// <returns>A parsed TValue object if successful, or default if parsing fails.</returns>
-        /// <remarks>
-        /// This method provides strict parsing using exact format matching for different TValue types,
-        /// used primarily for validation scenarios where exact format compliance is required.
-        /// </remarks>
-        private static TValue? ParseDateTimeVal(string timeValue, string format)
-        {
-            Type propertyType = typeof(TValue);
-            if (IsDateTimeType())
-            {
-                if (DateTime.TryParseExact(timeValue, format, CultureInfo.CurrentCulture, DateTimeStyles.AssumeUniversal, out DateTime dateTimeVal))
-                {
-                    return (TValue?)SfBaseUtils.ChangeType(dateTimeVal, propertyType);
-                }
-            }
-            else if (IsTimeOnlyType())
-            {
-                if (TimeOnly.TryParseExact(timeValue, format, CultureInfo.CurrentCulture, DateTimeStyles.AssumeUniversal, out TimeOnly timeOnlyVal))
-                {
-                    return (TValue?)SfBaseUtils.ChangeType(timeOnlyVal, propertyType);
-                }
-            }
-            else
-            {
-                if (DateTimeOffset.TryParseExact(timeValue, format, CultureInfo.CurrentCulture, DateTimeStyles.AssumeUniversal, out DateTimeOffset dateTimeOffsetVal))
-                {
-                    return (TValue?)SfBaseUtils.ChangeType(dateTimeOffsetVal, propertyType);
-                }
-            }
-
-            return default;
         }
 
         /// <summary>

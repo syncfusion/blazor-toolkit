@@ -22,7 +22,7 @@ namespace Syncfusion.Blazor.Toolkit.Inputs
         /// <remarks>
         /// This method does NOT use ConfigureAwait(false) because event callbacks require the synchronization context.
         /// </remarks>
-        private async Task<T> InvokeEventIfHasDelegateAsync<T>(EventCallback<T> eventCallback, T args)
+        private static async Task<T> InvokeEventIfHasDelegateAsync<T>(EventCallback<T> eventCallback, T args)
         {
             if (eventCallback.HasDelegate)
             {

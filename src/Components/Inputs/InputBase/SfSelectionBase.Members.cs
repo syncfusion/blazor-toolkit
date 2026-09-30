@@ -133,7 +133,7 @@ namespace Syncfusion.Blazor.Toolkit.Inputs
         }
 
         /// <summary>
-        /// Gets or sets the accessible name for the component when no visible <see cref="Label"/> is supplied.
+        /// Gets or sets the accessible name for the component when no visible <c>Label</c> is supplied.
         /// </summary>
         /// <value>
         /// A <see cref="string"/> that is announced by screen readers in place of (or in addition to) the visible label.
@@ -141,7 +141,7 @@ namespace Syncfusion.Blazor.Toolkit.Inputs
         /// </value>
         /// <remarks>
         /// Use this property to provide a meaningful accessible name for assistive technologies when the
-        /// component is not accompanied by visible label text. When both <see cref="Label"/> and
+        /// component is not accompanied by visible label text. When both <c>Label</c> and
         /// <see cref="AriaLabel"/> are supplied, the visible label takes precedence for sighted users and the
         /// component continues to use the visible label as its accessible name.
         /// </remarks>

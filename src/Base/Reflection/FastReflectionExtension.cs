@@ -36,8 +36,8 @@ namespace Syncfusion.Blazor.Toolkit
         /// <returns>An <see cref="IPropertyAccessor"/> that can read the property value from an object.</returns>
         /// <remarks>
         /// If <paramref name="propertyName"/> is <c>null</c> or empty, a no-op accessor is returned.
+        /// This method returns a non-functional accessor of type <c>PropertyAccessor&lt;object, object&gt;</c> whose <c>GetValue</c> returns null.
         /// </remarks>
-        /// this method returns a non-functional accessor of type <c>PropertyAccessor&lt;object, object&gt;</c> whose `GetValue` returns null.</remarks>
         [RequiresUnreferencedCode(FastReflectionTrimWarning)]
         [RequiresDynamicCode(FastReflectionAotWarning)]
         public static IPropertyAccessor CreateAccessor([DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicProperties)] Type objectType, string propertyName)

@@ -1333,7 +1333,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts
         public string SeriesName { get; set; } = string.Empty;
 
         /// <summary>
-        /// Gets the total y value of a data point in the stacking series types chart. This property allows for the inclusion of the cumulative sum of the data points in the chart. It can be used to customize the <see cref="Syncfusion.Blazor.Toolkit.Charts.TooltipRender"/> event to display the total value alongside other data points information.
+        /// Gets the total y value of a data point in the stacking series types chart. This property allows for the inclusion of the cumulative sum of the data points in the chart. It can be used to customize the <see cref="SfChart.TooltipRender"/> event to display the total value alongside other data points information.
         /// </summary>
         /// <value>
         /// The sum of the same point indexed y values for the stacking series type chart. The default value is <b>null</b>.

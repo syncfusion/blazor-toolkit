@@ -63,13 +63,9 @@ namespace Syncfusion.Blazor.Toolkit.Inputs
 
         private bool IsClearAll { get; set; }
 
-        private bool IsShowRemoveIcon { get; set; }
-
         private string? BrowseBtnContent { get; set; }
 
         private string? InputContainer { get; set; }
-
-        private string? DropAreaContainer { get; set; }
 
         private string? FileDropAreaContent { get; set; }
 
@@ -82,8 +78,6 @@ namespace Syncfusion.Blazor.Toolkit.Inputs
 
         [Inject]
         private IStringLocalizer Localizer { get; set; } = default!;
-
-        private string BtnTabIndex { get; set; } = "0";
 
         internal List<UploadFileDetails> FileData { get; set; } = [];
 
@@ -246,8 +240,6 @@ namespace Syncfusion.Blazor.Toolkit.Inputs
 
         private bool IsForm { get; set; }
 
-        private bool IsDevice { get; set; }
-
         private string DataId { get; set; } = string.Empty;
 
         /// <summary>
@@ -280,7 +272,6 @@ namespace Syncfusion.Blazor.Toolkit.Inputs
                 Dictionary<string, object> options = GetProperty();
                 await UpdateIsDeviceModeAsync().ConfigureAwait(true);
                 await InvokeVoidAsync(_uploaderJsModule!, _uploaderJsInProcessModule!, "initialize", [DataId, FileElement!, DotnetObjectReference!, options]).ConfigureAwait(true);
-                IsDevice = SyncfusionService != null && SyncfusionService.IsDeviceMode;
                 await RenderPreloadFilesAsync().ConfigureAwait(true);
             }
             catch (Exception ex)
@@ -583,7 +574,6 @@ namespace Syncfusion.Blazor.Toolkit.Inputs
         {
             _inputAttr = SfBaseUtils.UpdateDictionary("tabindex", "-1", _inputAttr);
             InputContainer = INPUT_CONTAINER;
-            DropAreaContainer = DROP_CONTAINER;
             FileDropAreaContent = Localizer[DROP_FILE_KEY];
         }
 
@@ -739,7 +729,6 @@ namespace Syncfusion.Blazor.Toolkit.Inputs
         {
             FileIndex = 0;
             ProgressValue = 0;
-            IsShowRemoveIcon = false;
             _progressBarAttr = new Dictionary<string, object>
             {
                 {"style", "width: 0%;" }
@@ -1032,7 +1021,6 @@ namespace Syncfusion.Blazor.Toolkit.Inputs
             FileData[FileIndex - 1].Status = fileInfo.Status;
             FileData[FileIndex - 1].StatusCode = fileInfo.StatusCode;
             FileListStatusName = fileInfo.Status;
-            IsShowRemoveIcon = true;
 
             if (!AutoUpload && !EnableUploadButton)
             {
@@ -1163,7 +1151,7 @@ namespace Syncfusion.Blazor.Toolkit.Inputs
         /// <param name="eventArgs">The event arguments to update.</param>
         /// <param name="fileInfo">The file information.</param>
         /// <param name="currentFile">The browser file reference.</param>
-        private void UpdateEventArgsWithFile(UploadChangeEventArgs eventArgs, FileInfo fileInfo, IBrowserFile? currentFile)
+        private static void UpdateEventArgsWithFile(UploadChangeEventArgs eventArgs, FileInfo fileInfo, IBrowserFile? currentFile)
         {
             eventArgs.Files =
             [
@@ -1252,7 +1240,7 @@ namespace Syncfusion.Blazor.Toolkit.Inputs
         /// Creates a new UploadChangeEventArgs instance with an empty file list.
         /// </summary>
         /// <returns>A new UploadChangeEventArgs instance.</returns>
-        private UploadChangeEventArgs CreateUploadChangeEventArgs()
+        private static UploadChangeEventArgs CreateUploadChangeEventArgs()
         {
             return new UploadChangeEventArgs { Files = [] };
         }
@@ -1568,7 +1556,6 @@ namespace Syncfusion.Blazor.Toolkit.Inputs
             FileListClass = FILE_LIST_CLASS;
             FileListStatus = STATUS;
             IsClearAll = false;
-            IsShowRemoveIcon = false;
             IsShowProgressBar = false;
         }
 

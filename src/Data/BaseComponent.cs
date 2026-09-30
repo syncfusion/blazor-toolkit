@@ -90,70 +90,6 @@ namespace Syncfusion.Blazor.Toolkit.Data
                 }
         };
 
-        //This property is used for Insert method json serializer option
-        private readonly JsonSerializerOptions _insert1JsonSettings = new()
-        {
-            Converters = {
-                                new DateTimeZoneHandlingConverter()
-                        }
-        };
-
-        /// <summary>
-        /// JSON serialization options for the Insert method with preserved references.
-        /// </summary>
-        private readonly JsonSerializerOptions _insert2JsonSettings = new()
-        {
-            WriteIndented = true,
-            ReferenceHandler = ReferenceHandler.Preserve
-        };
-
-        /// <summary>
-        /// JSON serialization options for Update method record serialization.
-        /// </summary>
-        private readonly JsonSerializerOptions _update1JsonSettings = new()
-        {
-            Converters = {
-                                new DateTimeZoneHandlingConverter()
-                            }
-        };
-
-        /// <summary>
-        /// JSON serialization options for Update method result serialization with preserved references.
-        /// </summary>
-        private readonly JsonSerializerOptions _update2JsonSettings = new()
-        {
-            WriteIndented = true,
-            ReferenceHandler = ReferenceHandler.Preserve
-        };
-
-        /// <summary>
-        /// JSON serialization options for Remove method with preserved references.
-        /// </summary>
-        private readonly JsonSerializerOptions _removeJsonSettings = new()
-        {
-            WriteIndented = true,
-            ReferenceHandler = ReferenceHandler.Preserve
-        };
-
-        /// <summary>
-        /// JSON serialization options for BatchUpdate method with date conversion.
-        /// </summary>
-        private readonly JsonSerializerOptions _batchUpdateJsonSettings = new()
-        {
-            Converters = {
-                                new DateTimeZoneHandlingConverter()
-                            }
-        };
-
-        /// <summary>
-        /// JSON serialization options for BatchUpdate save action with preserved references.
-        /// </summary>
-        private readonly JsonSerializerOptions _batchUpdateSaveJsonSettings = new()
-        {
-            WriteIndented = true,
-            ReferenceHandler = ReferenceHandler.Preserve
-        };
-
         #endregion
 
         #region protected properties
@@ -1436,9 +1372,6 @@ namespace Syncfusion.Blazor.Toolkit.Data
             { 10, "% -n" },
             { 11, "n- %" }
         };
-
-        /// <exclude />
-        private static readonly Dictionary<string, CultureInfo> _cultureCache = [];
 
         /// <summary>
         /// Returns the globalized JSON string.

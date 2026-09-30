@@ -47,15 +47,6 @@ namespace Syncfusion.Blazor.Toolkit.Calendars
             InitializeParentReference();
         }
 
-        private async Task InitializeBasePropertiesAsync()
-        {
-            PropertyInit();
-            await base.OnInitializedAsync().ConfigureAwait(false);
-            PropertyInitialized();
-            IsValideValue = true;
-            _ = SfBaseUtils.UpdateDictionary(ARIAEXPANDED, FALSE, InputHtmlAttributes);
-        }
-
         private void InitializeComponentId()
         {
             if (string.IsNullOrEmpty(ID))

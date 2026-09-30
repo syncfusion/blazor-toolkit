@@ -2,7 +2,6 @@
 using Microsoft.JSInterop;
 using Syncfusion.Blazor.Toolkit.Internal;
 using System.Diagnostics.CodeAnalysis;
-using System.Text.Json;
 
 namespace Syncfusion.Blazor.Toolkit
 {
@@ -91,7 +90,7 @@ namespace Syncfusion.Blazor.Toolkit
         /// Gets or sets a value indicating whether the component has been rendered at least once.
         /// </summary>
         /// <value>
-        /// <see langword="true"/> after <see cref="OnAfterRenderAsync(bool)"/> is called with <paramref name="firstRender"/> as <see langword="true"/>;
+        /// <see langword="true"/> after <see cref="OnAfterRenderAsync(bool)"/> is called with its <c>firstRender</c> argument as <see langword="true"/>;
         /// otherwise <see langword="false"/>.
         /// </value>
         /// <exclude />
@@ -118,7 +117,7 @@ namespace Syncfusion.Blazor.Toolkit
         /// A dictionary mapping property names to their latest values. Cleared at the end of every render cycle in <see cref="OnAfterRenderAsync(bool)"/>.
         /// </value>
         /// <remarks>
-        /// <para>Derived components record property changes during <see cref="OnParametersSetAsync"/> by calling <see cref="NotifyPropertyChanges{T}(string, T, T)"/>. The count of entries can be used to determine whether a UI refresh is required.</para>
+        /// <para>Derived components record property changes during <see cref="ComponentBase.OnParametersSetAsync"/> by calling <see cref="NotifyPropertyChanges{T}(string, T, T)"/>. The count of entries can be used to determine whether a UI refresh is required.</para>
         /// <para>This dictionary is instantiated in <see cref="OnInitializedAsync"/> and cleared after every render so that each parameter cycle starts fresh.</para>
         /// </remarks>
         /// <exclude />
@@ -184,7 +183,7 @@ namespace Syncfusion.Blazor.Toolkit
         /// Releases unmanaged resources, JavaScript module references, and DotNet object references for this component.
         /// </summary>
         /// <remarks>
-        /// <para>The base implementation clears <see cref="PropertyChanges"/>, disposes each imported JS module (<see cref="_baseJsModule"/>, <see cref="_animationJsModule"/>, <see cref="_draggableJsModule"/>, <see cref="_popupJsModule"/>, <see cref="_touchJsModule"/>), and disposes the <see cref="DotnetObjectReference"/> bridge.</para>
+        /// <para>The base implementation clears <see cref="PropertyChanges"/>, disposes each imported JS module (<see cref="_baseJsModule"/>, <see cref="_animationJsModule"/>, <see cref="_popupJsModule"/>, <see cref="_touchJsModule"/>), and disposes the <see cref="DotnetObjectReference"/> bridge.</para>
         /// <para>A <see cref="JSDisconnectedException"/> is caught and ignored because the circuit may disconnect (page reload) before JS disposal completes.</para>
         /// <para>Derived components that hold additional disposable resources should override <see cref="DisposeAsyncCore"/> rather than replacing this method.</para>
         /// </remarks>
@@ -262,7 +261,7 @@ namespace Syncfusion.Blazor.Toolkit
         /// In Blazor WebAssembly, <see cref="IJSInProcessRuntime"/> allows synchronous calls, which avoids
         /// serialization overhead and is more efficient. In Blazor Server, only asynchronous interop
         /// (<see cref="IJSObjectReference"/>) is available. The result is cached in
-        /// <see cref="SyncfusionService.IsJsInProcess"/> during component initialization for performance.
+        /// <see cref="SyncfusionBlazorToolkitService.IsJsInProcess"/> during component initialization for performance.
         /// </remarks>
         internal bool IsJsInProcess()
         {
@@ -552,7 +551,7 @@ namespace Syncfusion.Blazor.Toolkit
         /// </summary>
         /// <remarks>
         /// This virtual method is invoked during the component's first render. The base
-        /// implementation sets <see cref="SyncfusionService.IsJsInProcess"/> by calling
+        /// implementation sets <see cref="SyncfusionBlazorToolkitService.IsJsInProcess"/> by calling
         /// <see cref="IsJsInProcess"/>, then imports the shared base script via
         /// <see cref="ImportModuleAsync(string, IJSObjectReference?, IJSInProcessObjectReference?)"/>.
         /// The imported references are assigned to the internal fields `_baseJsModule` and
@@ -584,8 +583,8 @@ namespace Syncfusion.Blazor.Toolkit
         /// Detects whether the current client is a touch-capable device and caches the result on <see cref="SyncfusionService"/>.
         /// </summary>
         /// <remarks>
-        /// <para>The check runs only once per application lifetime by checking <see cref="SyncfusionBlazorService.IsFirstResource"/>.</para>
-        /// <para>It invokes the <c>isDevice</c> JavaScript interop method through <see cref="InvokeAsync{T}(IJSObjectReference, IJSInProcessObjectReference, string, object[])"/> and stores the result in <see cref="SyncfusionBlazorService.IsDeviceMode"/>.</para>
+        /// <para>The check runs only once per application lifetime by checking <see cref="SyncfusionBlazorToolkitService.IsFirstResource"/>.</para>
+        /// <para>It invokes the <c>isDevice</c> JavaScript interop method through <see cref="InvokeAsync{T}(IJSObjectReference, IJSInProcessObjectReference, string, object[])"/> and stores the result in <see cref="SyncfusionBlazorToolkitService.IsDeviceMode"/>.</para>
         /// </remarks>
         /// <returns>A task representing the asynchronous device-detection operation.</returns>
         /// <exclude />

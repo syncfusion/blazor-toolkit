@@ -151,7 +151,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
         /// <summary>
         /// Calculates the interval value for a specific X-axis point.
         /// </summary>
-        private double CalculateXAxisInterval(ChartAxis axis, List<VisibleLabels> visibleLabels, int index, double ticksBetweenLabel)
+        private static double CalculateXAxisInterval(ChartAxis axis, List<VisibleLabels> visibleLabels, int index, double ticksBetweenLabel)
         {
             return axis.ValueType != ValueType.DateTimeCategory
                 ? index < visibleLabels.Count

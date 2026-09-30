@@ -40,11 +40,7 @@ namespace Syncfusion.Blazor.Toolkit.Inputs
         private const string ROOT_CLASS = "e-control e-numerictextbox e-lib";
         private const string ROLE = "role";
         private const string SPIN_BUTTON = "spinbutton";
-        private const string ARIA_LIVE = "aria-live";
-        private const string ASSERTIVE = "assertive";
         private const string ARIA_LABEL = "aria-label";
-        private const string ARIA_LABELLEDBY = "aria-labelledby";
-        private const string ARIA_DESCRIBEDBY = "aria-describedby";
         private const string INCREMENT_CONTENT = "increment";
         private const string ADD = "add";
         private const string SUB = "sub";

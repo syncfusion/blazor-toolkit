@@ -183,7 +183,7 @@ namespace Syncfusion.Blazor.Toolkit.Inputs
         /// Gets or sets the cursor displayed while dragging the file into the <see cref="SfUploader"/> component. It indicates which type of operation will occur.
         /// </summary>
         /// <value>
-        /// One of the <see cref="Inputs.DropEffect" /> enumeration that specifies the drag operation for the component. The default value is <see cref="DropEffect.Default" />.
+        /// One of the <see cref="DropEffect" /> enumeration that specifies the drag operation for the component. The default value is <see cref="DropEffect.Default" />.
         /// </value>
         /// <remarks>
         ///  The <c>DropEffect</c> property can be set to one of the following values:

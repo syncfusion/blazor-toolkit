@@ -31,7 +31,6 @@ namespace Syncfusion.Blazor.Toolkit.Calendars
         private string InternalCssClass { get; set; } = default!;
         private bool InternalEnableRtl { get; set; }
         private bool InternalReadonly { get; set; }
-        private bool InternalEnableMask { get; set; }
         private string? InternalFormat { get; set; }
         private string[]? InternalInputFormats { get; set; }
         private Dictionary<string, object>? InternalKeyConfigs { get; set; }

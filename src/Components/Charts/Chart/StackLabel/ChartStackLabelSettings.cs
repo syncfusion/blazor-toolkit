@@ -343,7 +343,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts
 
         /// <exclude />
         /// <summary>
-        /// Applies parameter updates and keeps the parent chart's <see cref="SfChart.StackLabelSettings"/> reference synchronized.
+        /// Applies parameter updates and keeps the parent chart's <c>StackLabelSettings</c> reference synchronized.
         /// </summary>
         /// <remarks>
         /// This method does not trigger rendering directly; instead, property setters request redraws when values change.

@@ -2,7 +2,6 @@ using System.ComponentModel;
 using Microsoft.JSInterop;
 using Syncfusion.Blazor.Toolkit.Calendars.Internal;
 using Syncfusion.Blazor.Toolkit.Internal;
-using System.ComponentModel;
 
 namespace Syncfusion.Blazor.Toolkit.Calendars
 {

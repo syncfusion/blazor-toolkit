@@ -443,7 +443,7 @@ namespace Syncfusion.Blazor.Toolkit.Calendars.Internal
             return Parent is not null && value.Date != Parent.Max.Date && value >= Parent.Max && Parent.Min <= Parent.Max;
         }
 
-        private bool HasValidValue(TValue value)
+        private static bool HasValidValue(TValue value)
         {
             return value is not null && !SfBaseUtils.Equals(value, default);
         }
@@ -1048,7 +1048,7 @@ namespace Syncfusion.Blazor.Toolkit.Calendars.Internal
         /// </summary>
         /// <param name="dateValue">The date value string to parse.</param>
         /// <returns>The parsed day value, or 1 if parsing fails.</returns>
-        private int ParseHijriDay(string? dateValue)
+        private static int ParseHijriDay(string? dateValue)
         {
             return int.TryParse(dateValue, out int hijriDayFromValue) && hijriDayFromValue > 0 ? hijriDayFromValue : 1;
         }
@@ -1227,7 +1227,7 @@ namespace Syncfusion.Blazor.Toolkit.Calendars.Internal
             PreviousCellListData = UpdatePreviousCell ?? PreviousCellListData;
         }
 
-        private bool IsOtherMonthCell(string? classList)
+        private static bool IsOtherMonthCell(string? classList)
         {
             return classList is not null && classList.Contains(OTHER_MONTH, StringComparison.Ordinal);
         }
@@ -1243,7 +1243,7 @@ namespace Syncfusion.Blazor.Toolkit.Calendars.Internal
             return view == depthView && startView >= depthView;
         }
 
-        private bool IsCurrentMonthCell(string? classList, int view)
+        private static bool IsCurrentMonthCell(string? classList, int view)
         {
             return classList is not null && !classList.Contains(OTHER_MONTH, StringComparison.Ordinal) && view == MONTH_VIEW_VAL;
         }
@@ -1324,7 +1324,7 @@ namespace Syncfusion.Blazor.Toolkit.Calendars.Internal
             return MultiSelection && MultiValues is not null && MultiValues.Length > 0 && Parent is not null && CheckPresentDate(curDate, MultiValues);
         }
 
-        private void RemoveFromSelection(DateTime curDate, List<DateTime> copyValues)
+        private static void RemoveFromSelection(DateTime curDate, List<DateTime> copyValues)
         {
             for (int tempIndex = 0; tempIndex < copyValues.Count; tempIndex++)
             {
@@ -1579,7 +1579,7 @@ namespace Syncfusion.Blazor.Toolkit.Calendars.Internal
             await Parent.UpdateCalendarPropertyAsync(VALUE, selectValues).ConfigureAwait(false);
         }
 
-        private bool ShouldRemoveFromMultiSelection(bool multiSelection, DateTime[]? values, DateTime date)
+        private static bool ShouldRemoveFromMultiSelection(bool multiSelection, DateTime[]? values, DateTime date)
         {
             return multiSelection && values is not null && values.Length > 0 && values.Any(d => d.Date == date.Date);
         }
@@ -1649,7 +1649,7 @@ namespace Syncfusion.Blazor.Toolkit.Calendars.Internal
             return DateValue is null;
         }
 
-        private DateTime GetIdValue(CellDetails args)
+        private static DateTime GetIdValue(CellDetails args)
         {
             long id = long.Parse(args.CellID.Split(_separatorChar)[0], CultureInfo.CurrentCulture);
             string dateString = Intl.GetDateFormat(new DateTime(id), FORMAT_FULL_DATE);
@@ -2246,7 +2246,7 @@ namespace Syncfusion.Blazor.Toolkit.Calendars.Internal
             await NavigateToAsync(viewToNavigate, (TValue)SfBaseUtils.ChangeType(CurrentDate, PropertyType)).ConfigureAwait(false);
         }
 
-        private int ParseHijriDay(string? dateValue, HijriDate hijriDate)
+        private static int ParseHijriDay(string? dateValue, HijriDate hijriDate)
         {
             return int.TryParse(dateValue, out int hijriDayFromValue) && hijriDayFromValue > 0 ? hijriDayFromValue : hijriDate.Date;
         }
@@ -2272,7 +2272,7 @@ namespace Syncfusion.Blazor.Toolkit.Calendars.Internal
             return Parent is not null && Parent.Start == CalendarView.Decade && Parent.Depth == CalendarView.Decade;
         }
 
-        private (int year, int month) CalculateIslamicMonthNavigation(string action, int currentYear, int currentMonth)
+        private static (int year, int month) CalculateIslamicMonthNavigation(string action, int currentYear, int currentMonth)
         {
             if (action == PAGE_DOWN)
             {
@@ -2281,7 +2281,7 @@ namespace Syncfusion.Blazor.Toolkit.Calendars.Internal
             return currentMonth == 1 ? (currentYear - 1, 12) : (currentYear, currentMonth - 1);
         }
 
-        private DateTime CreateIslamicNavigationDate(int year, int month, int preferredDay)
+        private static DateTime CreateIslamicNavigationDate(int year, int month, int preferredDay)
         {
             HijriCalendar hijriCalendar = new();
             int daysInMonth = hijriCalendar.GetDaysInMonth(year, month);
@@ -2478,7 +2478,7 @@ namespace Syncfusion.Blazor.Toolkit.Calendars.Internal
         }
 
         // Format the start and end Hijri years into a string header
-        private string FormatHijriHeader(int startYear, int endYear)
+        private static string FormatHijriHeader(int startYear, int endYear)
         {
             string startYearFormatted = Intl.GetDateFormat(new DateTime(startYear, 1, 1), FORMAT_YEAR);
             string endYearFormatted = Intl.GetDateFormat(new DateTime(endYear, 1, 1), FORMAT_YEAR);

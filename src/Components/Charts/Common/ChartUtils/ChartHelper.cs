@@ -1506,7 +1506,6 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
         /// Gets the chart theme style configuration based on the theme name.
         /// </summary>
         /// <param name="theme">The theme name.</param>
-        /// <param name="isAccChart">Indicates whether it's an accessibility chart.</param>
         /// <returns>The theme style configuration.</returns>
         internal static ChartThemeStyle GetChartThemeStyle(string theme)
         {
@@ -2093,6 +2092,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
         /// </summary>
         /// <param name="color">The input color.</param>
         /// <param name="lightenFactor">The factor to lighten by.</param>
+        /// <param name="isFluentDark">Indicates whether the Fluent dark theme is applied.</param>
         /// <returns>The lightened color as hex.</returns>
         internal static string LightenColor(string color, double lightenFactor, bool isFluentDark = false)
         {
@@ -2117,6 +2117,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
         /// </summary>
         /// <param name="color">The input color.</param>
         /// <param name="brightenFactor">The factor to brighten by.</param>
+        /// <param name="isFluentDark">Indicates whether the Fluent dark theme is applied.</param>
         /// <returns>The brightened color as hex.</returns>
         internal static string BrightenColor(string color, double brightenFactor, bool isFluentDark = false)
         {
@@ -2447,7 +2448,6 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
         /// <param name="rect">The current rectangle.</param>
         /// <param name="collections">The rectangle collection.</param>
         /// <param name="clipRect">The clip rectangle.</param>
-        /// <param name="isCartesianAxes">Whether cartesian axes are used.</param>
         /// <returns><c>true</c> if colliding; otherwise <c>false</c>.</returns>
         internal static bool IsCollide(Rect rect, List<Rect> collections, Rect clipRect)
         {

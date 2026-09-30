@@ -17,7 +17,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
     {
         #region Fields
 
-        private readonly SfChart? _chart;
+        private readonly SfChart? _chart = null;
         private string _striplineId = string.Empty;
         private ChartStriplineTooltip? _settings;
         private bool _isTooltipRendered;

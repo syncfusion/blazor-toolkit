@@ -263,14 +263,14 @@ namespace Syncfusion.Blazor.Toolkit
         /// Parameter values are initialized with default instances using recursion where necessary.
         /// </summary>
         /// <param name="type">The type of object to create.</param>
-        /// <param name="createsubtypes">
+        /// <param name="createSubtypes">
         /// <see langword="true"/> to also initialize writable, non-primitive nested properties with new instances; otherwise <see langword="false"/>.
         /// </param>
         /// <returns>
         /// A reference to the newly created object, or <see langword="null"/> if creation fails due to an exception.
         /// </returns>
         /// <remarks>
-        /// When <paramref name="createsubtypes"/> is <see langword="true"/>, nested properties of interface or complex types are also
+        /// When <paramref name="createSubtypes"/> is <see langword="true"/>, nested properties of interface or complex types are also
         /// recursively initialized to facilitate deep-copy or factory scenarios.
         /// </remarks>
         [RequiresUnreferencedCode("Reflects over the type's constructors and properties to construct and populate an instance; those members may be removed by the trimmer.")]

@@ -30,7 +30,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
         private string? _elementOpacity;
         private string? _elementId;
         private Rect? _iconRect;
-        private readonly string? _hoveredID;
+        private readonly string? _hoveredID = null;
         private string _iconRectOverFill = Constants.Transparent;
         private string _iconRectSelectionFill = Constants.Transparent;
         private readonly CultureInfo _culture = CultureInfo.InvariantCulture;

@@ -145,11 +145,11 @@ namespace Syncfusion.Blazor.Toolkit.Calendars
                 if (key == nameof(Value))
                 {
                     TValue? tempValue = (TValue?)SfBaseUtils.ChangeType(dateValue!, typeof(TValue));
-                    Value = CalendarBase_Value = await SfBaseUtils.UpdatePropertyAsync(tempValue!, CalendarBase_Value!, ValueChanged, CalendarEditContext!, ValueExpression);
+                    Value = CalendarBase_Value = await SfBaseUtils.UpdatePropertyAsync(tempValue!, CalendarBase_Value!, ValueChanged, CalendarEditContext!, ValueExpression).ConfigureAwait(false);
                 }
                 else
                 {
-                    Values = Calendar_Values = await SfBaseUtils.UpdatePropertyAsync((DateTime[])dateValue!, Calendar_Values!, ValuesChanged, CalendarEditContext!, ValuesExpression);
+                    Values = Calendar_Values = await SfBaseUtils.UpdatePropertyAsync((DateTime[])dateValue!, Calendar_Values!, ValuesChanged, CalendarEditContext!, ValuesExpression).ConfigureAwait(false);
                 }
             }
         }

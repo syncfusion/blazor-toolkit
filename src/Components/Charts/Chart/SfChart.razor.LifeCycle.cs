@@ -41,7 +41,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts
         [Browsable(false)]
         protected override async Task OnParametersSetAsync()
         {
-            await base.OnParametersSetAsync();
+            await base.OnParametersSetAsync().ConfigureAwait(true);
             DataVizCommonHelper.AriaRoleValidator.EnsureValidRole(AccessibilityRole, nameof(AccessibilityRole));
             ChartThemeStyle themeStyle = ChartHelper.GetChartThemeStyle(Theme.ToString());
             if (_chartThemeStyle != themeStyle)
@@ -51,13 +51,13 @@ namespace Syncfusion.Blazor.Toolkit.Charts
             if (_layout.UpdateLayout)
             {
                 _layout.UpdateLayout = false;
-                await OnDimensionChangedAsync();
+                await OnDimensionChangedAsync().ConfigureAwait(true);
             }
 
             if (_selection.IsMultiSelect != AllowMultiSelection)
             {
                 _selection.IsMultiSelect = AllowMultiSelection;
-                await CallJSInteropForSelectionHighlightOptionAsync(_selectionModule is not null && _isScriptLoaded);
+                await CallJSInteropForSelectionHighlightOptionAsync(_selectionModule is not null && _isScriptLoaded).ConfigureAwait(true);
                 if (_selectionModule is not null)
                 {
                     _selectionModule.ClearDraggedRects();
@@ -69,7 +69,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts
             if (_selection.HighlightPattern != HighlightPattern)
             {
                 _selection.HighlightPattern = HighlightPattern;
-                await CallJSInteropForSelectionHighlightOptionAsync();
+                await CallJSInteropForSelectionHighlightOptionAsync().ConfigureAwait(true);
                 if (_highlightModule is not null)
                 {
                     _highlightModule.CallSeriesStyles(false);
@@ -80,7 +80,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts
             if (_selection.SelectionPattern != SelectionPattern)
             {
                 _selection.SelectionPattern = SelectionPattern;
-                await CallJSInteropForSelectionHighlightOptionAsync();
+                await CallJSInteropForSelectionHighlightOptionAsync().ConfigureAwait(true);
                 if (_selectionModule is not null)
                 {
                     _selectionModule.CallSeriesStyles();
@@ -91,7 +91,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts
             if (_selection.HighlightMode != HighlightMode)
             {
                 _selection.HighlightMode = HighlightMode;
-                await CallJSInteropForSelectionHighlightOptionAsync(_selectionModule is not null && _isScriptLoaded);
+                await CallJSInteropForSelectionHighlightOptionAsync(_selectionModule is not null && _isScriptLoaded).ConfigureAwait(true);
                 if (_highlightModule is null && _isScriptLoaded)
                 {
                     _highlightModule = new Highlight(this)
@@ -109,7 +109,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts
             if (_selection.SelectionMode != SelectionMode)
             {
                 _selection.SelectionMode = SelectionMode;
-                await CallJSInteropForSelectionHighlightOptionAsync(_selectionModule is null && _isScriptLoaded);
+                await CallJSInteropForSelectionHighlightOptionAsync(_selectionModule is null && _isScriptLoaded).ConfigureAwait(true);
                 if (_selectionModule is null && _isScriptLoaded)
                 {
                     _selectionModule = new Selection(this)
@@ -184,7 +184,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts
             if (_appearance.HighlightColor != HighlightColor)
             {
                 _appearance.HighlightColor = HighlightColor;
-                await CallJSInteropForSelectionHighlightOptionAsync();
+                await CallJSInteropForSelectionHighlightOptionAsync().ConfigureAwait(true);
                 _highlightModule?.CallSeriesStyles(false);
             }
 
@@ -291,7 +291,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts
         {
             if (IsRendered)
             {
-                await UnWireEventsAsync();
+                await UnWireEventsAsync().ConfigureAwait(true);
                 _svgRenderer?.Dispose();
                 _pathAnimationElements?.Clear();
                 _textAnimationElements?.Clear();
@@ -394,7 +394,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts
             UpdateClientSideScrollbar();
             if (!firstRender && _isLegendRendered)
             {
-                await UpdateLegendTemplateAsync();
+                await UpdateLegendTemplateAsync().ConfigureAwait(true);
             }
             if (_zoomingModule is not null && !string.IsNullOrEmpty(_zoomingKeyboardFocusTarget))
             {
@@ -481,7 +481,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts
 
             if (_isLegendRendered)
             {
-                await UpdateLegendTemplateAsync();
+                await UpdateLegendTemplateAsync().ConfigureAwait(true);
             }
 
             if (_tooltip.Enable || _crosshair.Enable || _markerExplode is not null)

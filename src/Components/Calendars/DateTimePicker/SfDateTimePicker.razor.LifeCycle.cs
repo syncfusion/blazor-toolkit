@@ -12,7 +12,7 @@ namespace Syncfusion.Blazor.Toolkit.Calendars
         /// </summary>
         /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
         /// <remarks>
-        /// Invoked by the framework during the first render. The method assigns the time-icon class, registers the component reference with the parent composite control when the parent is a <c>DateTime</c> type, and adjusts <see cref="SfCalendar{TValue}.Min"/> and <see cref="SfCalendar{TValue}.Max"/> to the supported Islamic (Hijri) range when <see cref="SfCalendar{TValue}.CalendarMode"/> is <see cref="CalendarType.Islamic"/>.
+        /// Invoked by the framework during the first render. The method assigns the time-icon class, registers the component reference with the parent composite control when the parent is a <c>DateTime</c> type, and adjusts <see cref="CalendarBase{TValue}.Min"/> and <see cref="CalendarBase{TValue}.Max"/> to the supported Islamic (Hijri) range when <see cref="CalendarBase{TValue}.CalendarMode"/> is <see cref="CalendarType.Islamic"/>.
         /// </remarks>
         /// <exclude/>
         protected override async Task OnInitializedAsync()

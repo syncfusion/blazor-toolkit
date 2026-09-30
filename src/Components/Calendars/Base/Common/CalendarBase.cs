@@ -424,7 +424,7 @@ namespace Syncfusion.Blazor.Toolkit.Calendars
 
         internal virtual async Task BindNavigateEventAsync(NavigatedEventArgs eventArgs)
         {
-            await Task.CompletedTask;
+            await Task.CompletedTask.ConfigureAwait(false);
         }
 
         internal virtual async Task UpdateAriaActiveDescendantAsync(string? cellId)
@@ -450,7 +450,7 @@ namespace Syncfusion.Blazor.Toolkit.Calendars
         /// <exclude />
         protected virtual async Task ChangeEventAsync(EventArgs? args, bool isSelection = false)
         {
-            await Task.CompletedTask;
+            await Task.CompletedTask.ConfigureAwait(false);
         }
 
         internal virtual bool IsMultipleDatesSetProgrammatically()

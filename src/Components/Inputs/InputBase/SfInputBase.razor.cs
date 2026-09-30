@@ -613,9 +613,7 @@ namespace Syncfusion.Blazor.Toolkit.Inputs
         private const string RTL = "e-rtl";
         private const string VALIDINPUT = "e-valid-input";
         private const string CLASS = "class";
-        private const string ROLE = "role";
         private const string NAME = "name";
-        private const string TEXTBOX = "textbox";
         private const string TAB_INDEX = "tabindex";
         private const string STYLE = "style";
         private const string PLACE_HOLDER = "placeholder";

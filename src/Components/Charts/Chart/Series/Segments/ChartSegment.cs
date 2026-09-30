@@ -10,7 +10,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts
     {
         #region Fields
 
-        private bool _isPropertyChanged;
+        private new bool _isPropertyChanged;
         private object? _previousValue;
         private string? _previousColor;
         private string? _previousDashArray;

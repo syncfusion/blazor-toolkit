@@ -416,7 +416,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts
         [JSInvokable]
         public void OnChartLongPress()
         {
-            _startMove = _startMove;
+            // Intentionally no-op: invoked from JS on long-press to suppress stock chart panning.
         }
 
         /// <summary>

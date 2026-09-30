@@ -55,7 +55,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
         private bool _isRotationEnabled;
         private double _borderWidth;
         private double _markerHeight;
-        private readonly double _errorHeight;
+        private readonly double _errorHeight = 0;
         private double _locationX;
         private double _locationY;
         private double _labelAngle;

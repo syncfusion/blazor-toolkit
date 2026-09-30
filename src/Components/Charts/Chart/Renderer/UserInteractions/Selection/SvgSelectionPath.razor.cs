@@ -16,7 +16,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
 
         /// <summary>
         /// CSS class applied to the lasso &lt;path&gt;. The path cursor is fixed at "move" and is
-        /// not re-themed at runtime (unlike the rect side, which has <see cref="ChangeCursorAsync"/>).
+        /// not re-themed at runtime (unlike the rect side, which has <see cref="SvgSelectionRect.ChangeCursorAsync"/>).
         /// Style rule lives in <c>SvgSelectionPath.razor.css</c>.
         /// </summary>
         private const string _cursorClass = "svg-sel-path-move";

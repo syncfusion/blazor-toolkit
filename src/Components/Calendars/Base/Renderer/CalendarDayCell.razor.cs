@@ -912,7 +912,7 @@ namespace Syncfusion.Blazor.Toolkit.Calendars.Internal
         /// Covers both <c>null</c> (when TValue is <c>DateTime?</c>) and <c>default(DateTime)</c>
         /// (which equals 0001-01-01 and is what Blazor passes when no Value is bound).
         /// </summary>
-        private bool IsNoValue(TCalendarCell? dateValue)
+        private static bool IsNoValue(TCalendarCell? dateValue)
         {
             if (dateValue is null)
             {
