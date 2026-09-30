@@ -302,7 +302,7 @@ namespace Syncfusion.Blazor.Toolkit.Inputs
             {
                 foreach (KeyValuePair<string, IEnumerable<string>> header in headers)
                 {
-                    dynamic customObject = new ExpandoObject();
+                    ExpandoObject customObject = new ExpandoObject();
                     ((IDictionary<string, object>)customObject)[header.Key] = header.Value;
                     customHeaders.Add(customObject);
                 }

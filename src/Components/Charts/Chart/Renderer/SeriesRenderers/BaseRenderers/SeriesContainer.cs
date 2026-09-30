@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Components.Rendering;
+using System.Diagnostics.CodeAnalysis;
 using System.Globalization;
 using Syncfusion.Blazor.Toolkit.Data;
 using System.Text.RegularExpressions;
@@ -364,6 +365,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
         /// <summary>
         /// Creates the main series renderer component for a given chart element, assigning it a unique key and renderer index based on its position in the Elements collection and any special handling for Pareto line series. This method is responsible for instantiating the appropriate renderer type for each series element and ensuring it is properly keyed for Blazor's rendering system to track component instances across updates.
         /// </summary>
+        [UnconditionalSuppressMessage("Trimming", "IL2072", Justification = "element.RendererType is always one of the library's own internal chart renderer component types, assigned via typeof(...) from GetRendererType; those component types are statically referenced and therefore preserved by the trimmer.")]
         private void CreateSeriesElements(RenderTreeBuilder builder, IChartElement element)
         {
             int seq = 0;
@@ -377,6 +379,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
         /// <summary>
         /// Creates nested renderer components for a given series element, such as marker renderer, data label renderer, error bar renderer, and gradient renderers, based on the presence of their respective RendererType properties. Each nested renderer is also assigned a unique key for Blazor's rendering system. This method ensures that all auxiliary renderers associated with a series are instantiated and linked to the series for proper rendering of markers, labels, error bars, and gradients as needed.
         /// </summary>
+        [UnconditionalSuppressMessage("Trimming", "IL2072", Justification = "The marker, data-label, last-data-label and gradient RendererType values are always the library's own internal renderer component types, assigned via typeof(...); those component types are statically referenced and therefore preserved by the trimmer.")]
         private static void CreateSeriesNestedElements(RenderTreeBuilder builder, ChartSeries element)
         {
             int seq = 0;
@@ -689,6 +692,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
         /// <summary>
         /// Orders elements by Z-order so that renderers are created in correct stacking order.
         /// </summary>
+        [UnconditionalSuppressMessage("Trimming", "IL2026", Justification = "This render-tree build path instantiates the library's own DefaultSeriesRenderer component; the reachable data-binding members reflect over the user-supplied DataSource element type. This is a Blazor render override where RequiresUnreferencedCode cannot be applied (it would produce IL2046); the trim requirement is surfaced honestly on the public chart data APIs.")]
         protected override void BuildRenderers(RenderTreeBuilder builder)
         {
             if (builder is null)
@@ -836,6 +840,8 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
         /// <summary>
         /// Processes raw data for each renderer, updates totals and triggers stacking/sorting.
         /// </summary>
+        [UnconditionalSuppressMessage("Trimming", "IL2026", Justification = "This container is instantiated by the chart's render tree via RenderTreeBuilder.OpenComponent<T>, which roots all of the component's members and therefore cannot tolerate a [RequiresUnreferencedCode] method here (the generated render code cannot be annotated). The data-binding trim requirement is surfaced honestly on the public SfChart data APIs; this method only fans out to the series renderers' ProcessData().")]
+        [UnconditionalSuppressMessage("AOT", "IL3050", Justification = "This container is instantiated by the chart's render tree via RenderTreeBuilder.OpenComponent<T>, which roots all of the component's members and therefore cannot tolerate a [RequiresDynamicCode] method here. The data-binding AOT requirement is surfaced honestly on the public SfChart data APIs; this method only fans out to the series renderers' ProcessData().")]
         internal void ProcessData()
         {
             _seriesType.Clear();
@@ -973,6 +979,8 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
         /// <summary>
         /// Sets default renderer values and triggers axis / legend defaults in a safe manner.
         /// </summary>
+        [UnconditionalSuppressMessage("Trimming", "IL2026", Justification = "Calls the data-binding ProcessData() hub which reflects over the user-supplied DataSource element type. This is a render-lifecycle virtual override (SetDefaultRendererValues) where RequiresUnreferencedCode cannot be applied without producing IL2046 across the renderer hierarchy; the trim requirement is surfaced honestly on the public chart data APIs.")]
+        [UnconditionalSuppressMessage("AOT", "IL3050", Justification = "Calls the data-binding ProcessData() hub which uses reflection-based property access over the user-supplied DataSource element type. This is a render-lifecycle virtual override where RequiresDynamicCode cannot be applied without producing IL2046 across the renderer hierarchy; the AOT requirement is surfaced honestly on the public chart data APIs.")]
         internal override void SetDefaultRendererValues()
         {
             try

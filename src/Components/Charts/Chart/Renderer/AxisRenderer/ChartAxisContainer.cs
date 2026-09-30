@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Components.Rendering;
+﻿using System.Diagnostics.CodeAnalysis;
+using Microsoft.AspNetCore.Components.Rendering;
 
 namespace Syncfusion.Blazor.Toolkit.Charts.Internal
 {
@@ -323,6 +324,8 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
         /// Creates and initializes a secondary axis with default settings.
         /// </summary>
         /// <returns>A new <see cref="ChartAxis"/> configured for secondary use.</returns>
+        [SuppressMessage("Usage", "BL0005:Component parameter should not be set outside of its component",
+            Justification = "This secondary ChartAxis is constructed programmatically as an internal model to satisfy the layout engine; it is never rendered from markup. Its parameters are initialized once here and not bound declaratively, so the BL0005 constraint does not apply.")]
         private static ChartAxis InitAxis()
         {
             ChartAxis newAxis = new()
@@ -455,6 +458,8 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
         /// Renders child renderer components inside the render tree.
         /// </summary>
         /// <param name="builder">RenderTreeBuilder instance used to build content.</param>
+        [UnconditionalSuppressMessage("Trimming", "IL2072",
+            Justification = "element.RendererType is always one of the library's own internal chart renderer component types, assigned via typeof(...) from GetRendererType; those component types are statically referenced and therefore preserved by the trimmer.")]
         protected override void BuildRenderers(RenderTreeBuilder builder)
         {
             if (builder is null)
