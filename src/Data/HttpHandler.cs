@@ -2,6 +2,7 @@ using System.Text;
 using System.Text.Json;
 using System.Text.Json.Serialization;
 using System.Collections;
+using System.Diagnostics.CodeAnalysis;
 using System.Globalization;
 
 namespace Syncfusion.Blazor.Toolkit.Data
@@ -104,6 +105,8 @@ namespace Syncfusion.Blazor.Toolkit.Data
         }
 
         /// <exclude />
+        [RequiresUnreferencedCode(DataManager.QueryTrimWarning)]
+        [RequiresDynamicCode(DataManager.QueryAotWarning)]
         public static HttpRequestMessage PrepareRequest(RequestOptions options)
         {
             if (!options.Url!.StartsWith("http", StringComparison.Ordinal))
@@ -135,6 +138,8 @@ namespace Syncfusion.Blazor.Toolkit.Data
         }
 
         /// <exclude />
+        [RequiresUnreferencedCode(DataManager.QueryTrimWarning)]
+        [RequiresDynamicCode(DataManager.QueryAotWarning)]
         public static HttpRequestMessage PrepareBatchRequest(RequestOptions options, Type? ModelType = null)
         {
             if (!options.Url!.StartsWith("http", StringComparison.Ordinal))

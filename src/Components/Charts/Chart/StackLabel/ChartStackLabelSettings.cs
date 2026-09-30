@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Components;
 using Syncfusion.Blazor.Toolkit.Charts.Internal;
 using System.ComponentModel;
+using System.Diagnostics.CodeAnalysis;
 
 namespace Syncfusion.Blazor.Toolkit.Charts
 {
@@ -12,6 +13,8 @@ namespace Syncfusion.Blazor.Toolkit.Charts
     /// This sub-component wires to the parent <see cref="SfChart"/> and delegates render changes to a dedicated renderer.
     /// It uses change detection to minimize re-renders.
     /// </remarks>
+    [SuppressMessage("Usage", "BL0007:Component parameter should be auto property",
+        Justification = "These [Parameter] properties intentionally use explicit setters that compare against a backing field and dispatch incremental renderer updates (stack-label re-render) the moment a value changes. Converting them to auto-properties would require moving that reactive logic into OnParametersSet, changing when updates fire and thus the component's rendering behavior. The reactive-setter pattern is a deliberate part of the chart update pipeline.")]
     public class ChartStackLabelSettings : ChartSubComponent
     {
         #region Fields

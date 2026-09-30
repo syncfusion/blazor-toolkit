@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel;
+using System.Diagnostics.CodeAnalysis;
 using Microsoft.AspNetCore.Components;
 using Syncfusion.Blazor.Toolkit.Charts.Internal;
 using Syncfusion.Blazor.Toolkit.Internal;
@@ -8,6 +9,8 @@ namespace Syncfusion.Blazor.Toolkit.Charts
     /// <summary>
     /// Represents an axis within a chart, providing customization options for the axis's appearance and behavior.
     /// </summary>
+    [SuppressMessage("Usage", "BL0007:Component parameter should be auto property",
+        Justification = "These [Parameter] properties intentionally use explicit setters that compare against a backing field and dispatch incremental renderer updates (axis re-render / layout change) the moment a value changes. Converting them to auto-properties would require moving that reactive logic into OnParametersSet, changing when updates fire and thus the component's rendering behavior. The reactive-setter pattern is a deliberate part of the chart update pipeline.")]
     public class ChartAxis : ChartSubComponent, IChartElement
     {
         #region Private Fields
@@ -145,6 +148,8 @@ namespace Syncfusion.Blazor.Toolkit.Charts
         {
             get => _isIndexed;
 
+            [RequiresUnreferencedCode(ChartSeriesRenderer.DataBindingTrimWarning)]
+            [RequiresDynamicCode(ChartSeriesRenderer.DataBindingAotWarning)]
             set
             {
                 if (_isIndexed != value)

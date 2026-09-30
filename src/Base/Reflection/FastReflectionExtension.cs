@@ -10,6 +10,9 @@ namespace Syncfusion.Blazor.Toolkit
     /// <exclude/>
     public static class FastReflectionExtension
     {
+        internal const string FastReflectionTrimWarning = "Creates a property accessor by reflecting over the declaring type's members; those members may be removed by the trimmer.";
+        internal const string FastReflectionAotWarning = "Instantiates a generic PropertyAccessor<,> via Type.MakeGenericType, which requires runtime code generation not supported by Native AOT.";
+
         /// <summary>
         /// Creates and returns an <see cref="IPropertyAccessor"/> that stores the property accessor of a specified property.
         /// </summary>
@@ -17,6 +20,8 @@ namespace Syncfusion.Blazor.Toolkit
         /// <returns>An <see cref="IPropertyAccessor"/> that can read the property value from an object.</returns>
         /// <exception cref="ArgumentNullException">Thrown when <paramref name="propertyInfo"/> is null.</exception>
         /// <remarks>This method throws <see cref="ArgumentNullException"/> if <paramref name="propertyInfo"/> is null.</remarks>
+        [RequiresUnreferencedCode(FastReflectionTrimWarning)]
+        [RequiresDynamicCode(FastReflectionAotWarning)]
         public static IPropertyAccessor CreateAccessor(PropertyInfo propertyInfo)
         {
             ArgumentNullException.ThrowIfNull(propertyInfo);
@@ -33,7 +38,9 @@ namespace Syncfusion.Blazor.Toolkit
         /// If <paramref name="propertyName"/> is <c>null</c> or empty, a no-op accessor is returned.
         /// </remarks>
         /// this method returns a non-functional accessor of type <c>PropertyAccessor&lt;object, object&gt;</c> whose `GetValue` returns null.</remarks>
-        public static IPropertyAccessor CreateAccessor(Type objectType, string propertyName)
+        [RequiresUnreferencedCode(FastReflectionTrimWarning)]
+        [RequiresDynamicCode(FastReflectionAotWarning)]
+        public static IPropertyAccessor CreateAccessor([DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicProperties)] Type objectType, string propertyName)
         {
             PropertyInfo? propertyInfo = null;
             if (!string.IsNullOrEmpty(propertyName))

@@ -1,4 +1,5 @@
 using System;
+using System.Diagnostics.CodeAnalysis;
 using Microsoft.AspNetCore.Components;
 using System.ComponentModel;
 using Syncfusion.Blazor.Toolkit.Charts.Internal;
@@ -32,6 +33,8 @@ namespace Syncfusion.Blazor.Toolkit.Charts
     /// ]]>
     /// </code>
     /// </example>
+    [SuppressMessage("Usage", "BL0007:Component parameter should be auto property",
+        Justification = "These [Parameter] properties intentionally use explicit setters that compare against a backing field and dispatch incremental renderer updates (marker re-render) the moment a value changes. Converting them to auto-properties would require moving that reactive logic into OnParametersSet, changing when updates fire and thus the component's rendering behavior. The reactive-setter pattern is a deliberate part of the chart update pipeline.")]
     public class ChartCommonMarker : ChartSubComponent, IChartElement
     {
         #region Fields

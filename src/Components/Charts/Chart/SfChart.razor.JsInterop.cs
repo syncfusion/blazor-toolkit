@@ -173,6 +173,8 @@ namespace Syncfusion.Blazor.Toolkit.Charts
         /// <exclude />
         [EditorBrowsable(EditorBrowsableState.Never)]
         [JSInvokable]
+        [UnconditionalSuppressMessage("Trimming", "IL2026", Justification = "Keyboard navigation may toggle legend/series visibility, which reflects over the user-supplied DataSource element type. This is a [JSInvokable] interop entry point where Requires* annotations cannot be applied; the data-binding trim requirement is surfaced honestly on the public SfChart/ChartSeries data APIs.")]
+        [UnconditionalSuppressMessage("AOT", "IL3050", Justification = "Keyboard navigation may toggle legend/series visibility using reflection-based data binding over the user-supplied DataSource element type. This is a [JSInvokable] interop entry point where Requires* annotations cannot be applied; the AOT requirement is surfaced honestly on the public SfChart/ChartSeries data APIs.")]
         public async Task OnChartKeyboardNavigationsAsync(string actionKey, string targetId)
         {
             if (!string.IsNullOrEmpty(targetId))

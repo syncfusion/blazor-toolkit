@@ -1,4 +1,5 @@
 ﻿using System.Collections;
+using System.Diagnostics.CodeAnalysis;
 using System.Linq.Expressions;
 using System.Reflection;
 using System.Text;
@@ -17,6 +18,8 @@ namespace Syncfusion.Blazor.Toolkit.Data
     /// grouping, and aggregation. They generate expressions based on supplied values, allowing dynamic query construction
     /// without compile-time type information.
     /// </remarks>
+    [RequiresUnreferencedCode("The Syncfusion data query engine builds LINQ expressions and reflects over the queried model type at runtime; members it depends on may be removed by the trimmer.")]
+    [RequiresDynamicCode("The Syncfusion data query engine constructs generic methods and compiles expression trees at runtime, which is not supported by Native AOT.")]
     public static class QueryableExtensions
     {
         /// <exclude />

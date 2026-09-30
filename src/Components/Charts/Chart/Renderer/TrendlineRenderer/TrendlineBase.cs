@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Components;
+﻿using System.Diagnostics.CodeAnalysis;
+using Microsoft.AspNetCore.Components;
 
 namespace Syncfusion.Blazor.Toolkit.Charts.Internal
 {
@@ -262,6 +263,8 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
         /// <summary>
         /// Applies visual and accessibility properties from Trendline configuration to the internal trend series.
         /// </summary>
+        [RequiresUnreferencedCode(ChartSeriesRenderer.DataBindingTrimWarning)]
+        [RequiresDynamicCode(ChartSeriesRenderer.DataBindingAotWarning)]
         private void SetSeriesProperties()
         {
             if (_trendLineSeries is null)
@@ -853,6 +856,8 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
         /// Initializes a <see cref="ChartSeries"/> and assigns the appropriate renderer type
         /// (Line for Linear/MovingAverage, Spline for others).
         /// </remarks>
+        [RequiresUnreferencedCode(ChartSeriesRenderer.DataBindingTrimWarning)]
+        [RequiresDynamicCode(ChartSeriesRenderer.DataBindingAotWarning)]
         internal void InitSeriesCollection()
         {
             InitPriavteInstances();

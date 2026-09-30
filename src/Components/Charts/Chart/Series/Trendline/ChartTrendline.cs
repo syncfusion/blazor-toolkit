@@ -1,4 +1,5 @@
 using System.ComponentModel;
+using System.Diagnostics.CodeAnalysis;
 using Microsoft.AspNetCore.Components;
 using Syncfusion.Blazor.Toolkit.Internal;
 using Syncfusion.Blazor.Toolkit.Charts.Internal;
@@ -549,6 +550,8 @@ namespace Syncfusion.Blazor.Toolkit.Charts
         /// <summary>
         /// Initializes the trendline, associates it with the parent collection, and registers with the chart container.
         /// </summary>
+        [UnconditionalSuppressMessage("Trimming", "IL2026", Justification = "Initializes the internal trendline series, which reflects over the user-supplied DataSource element type. This is a Blazor lifecycle override where Requires* annotations are not permitted (IL2046); the data-binding trim requirement is surfaced honestly on the public SfChart/ChartSeries data APIs.")]
+        [UnconditionalSuppressMessage("AOT", "IL3050", Justification = "Initializes the internal trendline series using reflection-based data binding over the user-supplied DataSource element type. This is a Blazor lifecycle override where Requires* annotations are not permitted (IL2046); the AOT requirement is surfaced honestly on the public SfChart/ChartSeries data APIs.")]
         protected override void OnInitialized()
         {
             base.OnInitialized();
@@ -575,6 +578,8 @@ namespace Syncfusion.Blazor.Toolkit.Charts
         /// <exclude />
         [EditorBrowsable(EditorBrowsableState.Never)]
         [Browsable(false)]
+        [UnconditionalSuppressMessage("Trimming", "IL2026", Justification = "Propagates a trendline name change into the data-bound series, which reflects over the user-supplied DataSource element type. This is a Blazor lifecycle override where Requires* annotations are not permitted (IL2046); the data-binding trim requirement is surfaced honestly on the public SfChart/ChartSeries data APIs.")]
+        [UnconditionalSuppressMessage("AOT", "IL3050", Justification = "Propagates a trendline name change into the data-bound series, which uses reflection-based data binding over the user-supplied DataSource element type. This is a Blazor lifecycle override where Requires* annotations are not permitted (IL2046); the AOT requirement is surfaced honestly on the public SfChart/ChartSeries data APIs.")]
         protected override void OnParametersSet()
         {
             base.OnParametersSet();
@@ -603,6 +608,8 @@ namespace Syncfusion.Blazor.Toolkit.Charts
         /// <summary>
         /// Propagates a <see cref="Name"/> change to the associated renderer and chart layout.
         /// </summary>
+        [RequiresUnreferencedCode(ChartSeriesRenderer.DataBindingTrimWarning)]
+        [RequiresDynamicCode(ChartSeriesRenderer.DataBindingAotWarning)]
         private void ApplyNameChange()
         {
             if (Renderer is not null)
@@ -615,6 +622,8 @@ namespace Syncfusion.Blazor.Toolkit.Charts
         /// <summary>
         /// Propagates a <see cref="Type"/> change by rebuilding the trendline renderer.
         /// </summary>
+        [RequiresUnreferencedCode(ChartSeriesRenderer.DataBindingTrimWarning)]
+        [RequiresDynamicCode(ChartSeriesRenderer.DataBindingAotWarning)]
         private void ApplyTypeChange()
         {
             if (_chart is not null)
@@ -675,6 +684,8 @@ namespace Syncfusion.Blazor.Toolkit.Charts
         /// Creates the <see cref="TrendlineBase"/> initiator, binds this instance, initializes series collection,
         /// and invokes <c>AddTrendline</c> on the owning chart container.
         /// </remarks>
+        [RequiresUnreferencedCode(ChartSeriesRenderer.DataBindingTrimWarning)]
+        [RequiresDynamicCode(ChartSeriesRenderer.DataBindingAotWarning)]
         internal void InitTrendline()
         {
             TrendlineInitiator = new TrendlineBase

@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.ComponentModel;
+using System.Diagnostics.CodeAnalysis;
 using System.Globalization;
 using Microsoft.AspNetCore.Components;
 using Syncfusion.Blazor.Toolkit.Charts.Internal;
@@ -25,6 +26,8 @@ namespace Syncfusion.Blazor.Toolkit.Charts
     /// ]]>
     /// </code>
     /// </example>
+    [SuppressMessage("Usage", "BL0007:Component parameter should be auto property",
+        Justification = "These [Parameter] properties intentionally use explicit setters that compare against a backing field and dispatch incremental renderer updates (series re-render / data refresh) the moment a value changes. Converting them to auto-properties would require moving that reactive logic into OnParametersSet, changing when updates fire and thus the component's rendering behavior. The reactive-setter pattern is a deliberate part of the chart update pipeline.")]
     public class ChartSeries : ChartDataBoundComponent, IChartElement
     {
         #region Constants
@@ -164,6 +167,8 @@ namespace Syncfusion.Blazor.Toolkit.Charts
         public bool Visible
         {
             get => _visible;
+            [RequiresUnreferencedCode(ChartSeriesRenderer.DataBindingTrimWarning)]
+            [RequiresDynamicCode(ChartSeriesRenderer.DataBindingAotWarning)]
             set
             {
                 if (_visible != value)
@@ -635,6 +640,8 @@ namespace Syncfusion.Blazor.Toolkit.Charts
         public string Name
         {
             get => _name;
+            [RequiresUnreferencedCode(ChartSeriesRenderer.DataBindingTrimWarning)]
+            [RequiresDynamicCode(ChartSeriesRenderer.DataBindingAotWarning)]
             set
             {
                 if (_name != value)
@@ -841,6 +848,8 @@ namespace Syncfusion.Blazor.Toolkit.Charts
         public Query Query
         {
             get => _query;
+            [RequiresUnreferencedCode(ChartSeriesRenderer.DataBindingTrimWarning)]
+            [RequiresDynamicCode(ChartSeriesRenderer.DataBindingAotWarning)]
             set
             {
                 if (_query != value)
@@ -1027,6 +1036,8 @@ namespace Syncfusion.Blazor.Toolkit.Charts
         public string PointColorMapping
         {
             get => _pointColorMapping;
+            [RequiresUnreferencedCode(ChartSeriesRenderer.DataBindingTrimWarning)]
+            [RequiresDynamicCode(ChartSeriesRenderer.DataBindingAotWarning)]
             set
             {
                 if (_pointColorMapping != value)
@@ -1497,6 +1508,8 @@ namespace Syncfusion.Blazor.Toolkit.Charts
         public double CardinalSplineTension
         {
             get => _cardinalSplineTension;
+            [RequiresUnreferencedCode(ChartSeriesRenderer.DataBindingTrimWarning)]
+            [RequiresDynamicCode(ChartSeriesRenderer.DataBindingAotWarning)]
             set
             {
                 if (Math.Abs(_cardinalSplineTension - value) > double.Epsilon)
@@ -1530,6 +1543,8 @@ namespace Syncfusion.Blazor.Toolkit.Charts
         public SplineType SplineType
         {
             get => _splineType;
+            [RequiresUnreferencedCode(ChartSeriesRenderer.DataBindingTrimWarning)]
+            [RequiresDynamicCode(ChartSeriesRenderer.DataBindingAotWarning)]
             set
             {
                 if (_splineType != value)
@@ -1908,6 +1923,8 @@ namespace Syncfusion.Blazor.Toolkit.Charts
         /// </summary>
         [EditorBrowsable(EditorBrowsableState.Never)]
         [Browsable(false)]
+        [UnconditionalSuppressMessage("Trimming", "IL2026", Justification = "Primes the initial data query by reflecting over the user-supplied DataSource element type. This is a Blazor lifecycle override where Requires* annotations are not permitted (IL2046); the data-binding trim requirement is surfaced honestly on the public SfChart/ChartSeries data APIs.")]
+        [UnconditionalSuppressMessage("AOT", "IL3050", Justification = "Primes the initial data query using reflection-based data binding over the user-supplied DataSource element type. This is a Blazor lifecycle override where Requires* annotations are not permitted (IL2046); the AOT requirement is surfaced honestly on the public SfChart/ChartSeries data APIs.")]
         protected override async Task OnInitializedAsync()
         {
             await base.OnInitializedAsync().ConfigureAwait(false);
@@ -1924,6 +1941,8 @@ namespace Syncfusion.Blazor.Toolkit.Charts
         /// </summary>
         [EditorBrowsable(EditorBrowsableState.Never)]
         [Browsable(false)]
+        [UnconditionalSuppressMessage("Trimming", "IL2026", Justification = "Reprocesses data-source changes by reflecting over the user-supplied DataSource element type. This is a Blazor lifecycle override where Requires* annotations are not permitted (IL2046); the data-binding trim requirement is surfaced honestly on the public SfChart/ChartSeries data APIs.")]
+        [UnconditionalSuppressMessage("AOT", "IL3050", Justification = "Reprocesses data-source changes using reflection-based data binding over the user-supplied DataSource element type. This is a Blazor lifecycle override where Requires* annotations are not permitted (IL2046); the AOT requirement is surfaced honestly on the public SfChart/ChartSeries data APIs.")]
         protected override async Task OnParametersSetAsync()
         {
             _shouldProcess = true;
@@ -2081,6 +2100,8 @@ namespace Syncfusion.Blazor.Toolkit.Charts
             return Task.CompletedTask;
         }
 
+        [RequiresUnreferencedCode(ChartSeriesRenderer.DataBindingTrimWarning)]
+        [RequiresDynamicCode(ChartSeriesRenderer.DataBindingAotWarning)]
         private async Task<object> GenerateAndExecuteQueryAsync(Query query)
         {
             return await DataManager.ExecuteQuery<object>(query).ConfigureAwait(false);
@@ -2114,6 +2135,8 @@ namespace Syncfusion.Blazor.Toolkit.Charts
         /// and possibly the legend or data label templates.
         /// </summary>
         /// <returns>An awaitable task.</returns>
+        [RequiresUnreferencedCode(ChartSeriesRenderer.DataBindingTrimWarning)]
+        [RequiresDynamicCode(ChartSeriesRenderer.DataBindingAotWarning)]
         private async Task ProcessUpdateWithoutLayoutChangeAsync()
         {
             _ = Renderer?.UpdateSeriesDataAsync();
@@ -2184,6 +2207,8 @@ namespace Syncfusion.Blazor.Toolkit.Charts
         /// Refreshes the series when datasource or item properties change, with throttling.
         /// </summary>
         /// <returns>A task that completes when refresh is processed or deferred.</returns>
+        [RequiresUnreferencedCode(ChartSeriesRenderer.DataBindingTrimWarning)]
+        [RequiresDynamicCode(ChartSeriesRenderer.DataBindingAotWarning)]
         private async Task RefreshSeriesAsync()
         {
             if (Container is not null && Container._isRefreshed) { return; }
@@ -2333,6 +2358,8 @@ namespace Syncfusion.Blazor.Toolkit.Charts
         /// </summary>
         /// <param name="source">The notifying collection.</param>
         /// <param name="e">Change details.</param>
+        [UnconditionalSuppressMessage("Trimming", "IL2026", Justification = "Live-data refresh reflects over the user-supplied DataSource element type. This method matches the INotifyCollectionChanged event-handler delegate signature and cannot carry Requires* annotations; the data-binding trim requirement is surfaced honestly on the public SfChart/ChartSeries data APIs.")]
+        [UnconditionalSuppressMessage("AOT", "IL3050", Justification = "Live-data refresh uses reflection-based data binding over the user-supplied DataSource element type. This method matches the INotifyCollectionChanged event-handler delegate signature and cannot carry Requires* annotations; the AOT requirement is surfaced honestly on the public SfChart/ChartSeries data APIs.")]
         internal void DataCollectionChanged(object? source, NotifyCollectionChangedEventArgs e)
         {
             if (Container != null)
@@ -2349,6 +2376,8 @@ namespace Syncfusion.Blazor.Toolkit.Charts
         /// </summary>
         /// <param name="sender">The changed data item.</param>
         /// <param name="e">Change details.</param>
+        [UnconditionalSuppressMessage("Trimming", "IL2026", Justification = "Live-data refresh reflects over the user-supplied DataSource element type. This method matches the INotifyPropertyChanged event-handler delegate signature and cannot carry Requires* annotations; the data-binding trim requirement is surfaced honestly on the public SfChart/ChartSeries data APIs.")]
+        [UnconditionalSuppressMessage("AOT", "IL3050", Justification = "Live-data refresh uses reflection-based data binding over the user-supplied DataSource element type. This method matches the INotifyPropertyChanged event-handler delegate signature and cannot carry Requires* annotations; the AOT requirement is surfaced honestly on the public SfChart/ChartSeries data APIs.")]
         internal void PropertyChanged(object? sender, PropertyChangedEventArgs e)
         {
             _ = RefreshSeriesAsync();
@@ -2358,6 +2387,8 @@ namespace Syncfusion.Blazor.Toolkit.Charts
         /// Handles legend click toggling for this series.
         /// </summary>
         /// <param name="value">A boolean indicating desired visibility.</param>
+        [RequiresUnreferencedCode(ChartSeriesRenderer.DataBindingTrimWarning)]
+        [RequiresDynamicCode(ChartSeriesRenderer.DataBindingAotWarning)]
         internal void OnLegendClick(bool value)
         {
             PrepareForLegendToggle();
@@ -2457,6 +2488,8 @@ namespace Syncfusion.Blazor.Toolkit.Charts
         /// Ensures the component has a data manager (from DataSource or parent) and retrieves current page of data.
         /// </summary>
         /// <returns>The current view data set.</returns>
+        [RequiresUnreferencedCode(ChartSeriesRenderer.DataBindingTrimWarning)]
+        [RequiresDynamicCode(ChartSeriesRenderer.DataBindingAotWarning)]
         internal async Task<IEnumerable<object>> UpdateSeriesDataAsync()
         {
             await EnsureDataManagerAsync().ConfigureAwait(false);
@@ -2528,6 +2561,8 @@ namespace Syncfusion.Blazor.Toolkit.Charts
         /// <param name="accessibilityDescriptionFormat">Accessibility format for points.</param>
         /// <param name="accessibilityRole">ARIA role.</param>
         /// <param name="focusable">Focusable flag.</param>
+        [RequiresUnreferencedCode(ChartSeriesRenderer.DataBindingTrimWarning)]
+        [RequiresDynamicCode(ChartSeriesRenderer.DataBindingAotWarning)]
         internal void SetTrendlineValues(
             string name, string xname, string yname, string dashArray, double width, string fill, LegendShape legendShape,
             bool tooltip, ChartSeriesBorder border,
@@ -2552,6 +2587,8 @@ namespace Syncfusion.Blazor.Toolkit.Charts
         /// Sets the display name of the series.
         /// </summary>
         /// <param name="name">The series name to use.</param>
+        [RequiresUnreferencedCode(ChartSeriesRenderer.DataBindingTrimWarning)]
+        [RequiresDynamicCode(ChartSeriesRenderer.DataBindingAotWarning)]
         internal void SetName(string name)
         {
             Name = name;
