@@ -13,7 +13,7 @@ namespace Syncfusion.Blazor.Toolkit.Calendars.Internal
     public partial class CalendarDayCell<TCalendarCell> : CalendarBase<TCalendarCell>
     {
         [Inject]
-        protected IStringLocalizer Localizer { get; set; } = default!;
+        protected new IStringLocalizer Localizer { get; set; } = default!;
 
         internal const string OTHERMONTH = "e-other-month";
         internal const string OTHERDECADE = "e-other-year";
