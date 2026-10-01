@@ -1291,3 +1291,395 @@ using System.Diagnostics.CodeAnalysis;
     Justification = "2026-10-01: The 'EventArgs' suffix is the idiomatic Blazor convention for component event payload types.",
     Scope = "type",
     Target = "~T:Syncfusion.Blazor.Toolkit.Spinner.SpinnerEventArgs")]
+
+
+// -------------------------------------------------------------------------
+// CA1822 — Mark members as static.
+//
+// This [JSInvokable] member is invoked from JavaScript against the
+// component's DotNetObjectReference instance (chart.js calls
+// dotnetref.invokeMethodAsync('OnChartLongPress')). JS interop can only
+// dispatch to instance methods on an object reference, so the member
+// MUST remain an instance method even though it accesses no instance
+// state.
+// -------------------------------------------------------------------------
+[assembly: SuppressMessage(
+    "Performance",
+    "CA1822:Mark members as static",
+    Justification = "2026-10-01: [JSInvokable] member dispatched from JavaScript via DotNetObjectReference.invokeMethodAsync; JS interop requires an instance method.",
+    Scope = "member",
+    Target = "~M:Syncfusion.Blazor.Toolkit.Charts.SfChart.OnChartLongPress")]
+
+
+// -------------------------------------------------------------------------
+// CA2213 — Disposable fields should be disposed.
+//
+// These fields hold Blazor child components (types deriving from
+// SfBaseComponent / ChartSubComponent, which implement IAsyncDisposable).
+// They are declarative [Parameter] / nested-component references whose
+// lifecycle is owned by the Blazor renderer: the child registers itself
+// on its parent during OnInitialized (e.g. ChartMargin sets
+// Owner._margin = this) and the renderer disposes it when the component
+// tree is torn down. Disposing them again from the parent would be a
+// double-dispose. Where additional eager cleanup is required the owning
+// type already nulls / resets these fields via its own ComponentDispose
+// helper (not recognized by the analyzer). The setter / field therefore
+// MUST NOT call Dispose on these members.
+// -------------------------------------------------------------------------
+[assembly: SuppressMessage(
+    "Usage",
+    "CA2213:Disposable fields should be disposed",
+    Justification = "2026-10-01: Blazor child component owned by the renderer; disposed via the component tree, not the parent. Field is reset in ComponentDispose.",
+    Scope = "member",
+    Target = "~F:Syncfusion.Blazor.Toolkit.Charts.ChartDataLabel._border")]
+
+[assembly: SuppressMessage(
+    "Usage",
+    "CA2213:Disposable fields should be disposed",
+    Justification = "2026-10-01: Blazor child component owned by the renderer; disposed via the component tree, not the parent. Field is reset in ComponentDispose.",
+    Scope = "member",
+    Target = "~F:Syncfusion.Blazor.Toolkit.Charts.ChartDataLabel._margin")]
+
+[assembly: SuppressMessage(
+    "Usage",
+    "CA2213:Disposable fields should be disposed",
+    Justification = "2026-10-01: Blazor child component owned by the renderer; disposed via the component tree, not the parent. Field is reset in ComponentDispose.",
+    Scope = "member",
+    Target = "~F:Syncfusion.Blazor.Toolkit.Charts.ChartDataLabel._font")]
+
+[assembly: SuppressMessage(
+    "Usage",
+    "CA2213:Disposable fields should be disposed",
+    Justification = "2026-10-01: Blazor child component owned by the renderer; disposed via the component tree, not the parent.",
+    Scope = "member",
+    Target = "~F:Syncfusion.Blazor.Toolkit.Charts.ChartEmptyPointSettings._border")]
+
+[assembly: SuppressMessage(
+    "Usage",
+    "CA2213:Disposable fields should be disposed",
+    Justification = "2026-10-01: Blazor child component owned by the renderer; disposed via the component tree, not the parent. Field is reset in ComponentDispose.",
+    Scope = "member",
+    Target = "~F:Syncfusion.Blazor.Toolkit.Charts.ChartStackLabelSettings._border")]
+
+[assembly: SuppressMessage(
+    "Usage",
+    "CA2213:Disposable fields should be disposed",
+    Justification = "2026-10-01: Blazor child component owned by the renderer; disposed via the component tree, not the parent. Field is reset in ComponentDispose.",
+    Scope = "member",
+    Target = "~F:Syncfusion.Blazor.Toolkit.Charts.ChartStackLabelSettings._font")]
+
+[assembly: SuppressMessage(
+    "Usage",
+    "CA2213:Disposable fields should be disposed",
+    Justification = "2026-10-01: Blazor child component owned by the renderer; disposed via the component tree, not the parent. Field is reset in ComponentDispose.",
+    Scope = "member",
+    Target = "~F:Syncfusion.Blazor.Toolkit.Charts.ChartStackLabelSettings._margin")]
+
+[assembly: SuppressMessage(
+    "Usage",
+    "CA2213:Disposable fields should be disposed",
+    Justification = "2026-10-01: Blazor child component owned by the renderer; registered via Owner._margin = this and disposed via the component tree.",
+    Scope = "member",
+    Target = "~F:Syncfusion.Blazor.Toolkit.Charts.SfChart._margin")]
+
+[assembly: SuppressMessage(
+    "Usage",
+    "CA2213:Disposable fields should be disposed",
+    Justification = "2026-10-01: Blazor child component owned by the renderer; registered via Chart._zoomSettings = this and disposed via the component tree.",
+    Scope = "member",
+    Target = "~F:Syncfusion.Blazor.Toolkit.Charts.SfChart._zoomSettings")]
+
+[assembly: SuppressMessage(
+    "Usage",
+    "CA2213:Disposable fields should be disposed",
+    Justification = "2026-10-01: Blazor child component owned by the renderer; registered via Chart._annotations = this and disposed via the component tree.",
+    Scope = "member",
+    Target = "~F:Syncfusion.Blazor.Toolkit.Charts.SfChart._annotations")]
+
+[assembly: SuppressMessage(
+    "Usage",
+    "CA2213:Disposable fields should be disposed",
+    Justification = "2026-10-01: Blazor child component owned by the renderer; registered via Parent._tooltip = this and disposed via the component tree.",
+    Scope = "member",
+    Target = "~F:Syncfusion.Blazor.Toolkit.Charts.SfChart._tooltip")]
+
+[assembly: SuppressMessage(
+    "Usage",
+    "CA2213:Disposable fields should be disposed",
+    Justification = "2026-10-01: Blazor child component owned by the renderer; registered via Parent._sorting = this and disposed via the component tree.",
+    Scope = "member",
+    Target = "~F:Syncfusion.Blazor.Toolkit.Charts.SfChart._sorting")]
+
+[assembly: SuppressMessage(
+    "Usage",
+    "CA2213:Disposable fields should be disposed",
+    Justification = "2026-10-01: Blazor child component owned by the renderer; registered via Chart._crosshair = this and disposed via the component tree.",
+    Scope = "member",
+    Target = "~F:Syncfusion.Blazor.Toolkit.Charts.SfChart._crosshair")]
+
+[assembly: SuppressMessage(
+    "Usage",
+    "CA2213:Disposable fields should be disposed",
+    Justification = "2026-10-01: Blazor child component owned by the renderer; disposed via the component tree, not the parent.",
+    Scope = "member",
+    Target = "~F:Syncfusion.Blazor.Toolkit.Charts.SfChart._annotationsContainer")]
+
+[assembly: SuppressMessage(
+    "Usage",
+    "CA2213:Disposable fields should be disposed",
+    Justification = "2026-10-01: Blazor child component owned by the renderer; assigned via UpdateChildProperties and disposed via the component tree.",
+    Scope = "member",
+    Target = "~F:Syncfusion.Blazor.Toolkit.Inputs.SfUploader._asyncSettings")]
+
+[assembly: SuppressMessage(
+    "Usage",
+    "CA2213:Disposable fields should be disposed",
+    Justification = "2026-10-01: Blazor child component owned by the renderer; assigned via UpdateChildProperties and disposed via the component tree.",
+    Scope = "member",
+    Target = "~F:Syncfusion.Blazor.Toolkit.Inputs.SfUploader._buttons")]
+
+
+// -------------------------------------------------------------------------
+// CA2000 — Dispose objects before losing scope.
+//
+// Each flagged `new()` here constructs a chart *model* object whose type
+// derives from ComponentBase (SfBaseComponent / ChartSubComponent, which
+// implement IAsyncDisposable). The analyzer therefore treats every such
+// instance as an owned IDisposable that must be disposed before the local
+// goes out of scope. That is a false positive in this code base:
+//
+//   * These model objects are created programmatically and are NEVER
+//     rendered by the Blazor renderer. The only disposable resources
+//     SfBaseComponent holds (imported JS modules and the
+//     DotNetObjectReference bridge) are acquired exclusively during
+//     rendering (OnAfterRenderAsync). A non-rendered instance owns no
+//     unmanaged / JS resources, so DisposeAsync would be a no-op.
+//   * In every case ownership of the object is transferred out of the
+//     method: it is added to a container collection (Elements / Axes),
+//     wrapped into an event-args object handed to a user callback, or
+//     serialized across JS interop. Disposing it inside the creating
+//     method would be incorrect.
+//
+// The ChartStriplineTooltipSettings entry additionally covers `out`
+// locals that merely alias already-rendered, renderer-owned child
+// components (resolved from existing collections) — disposing them would
+// be a double-dispose. Suppressing at method scope is the correct action.
+// -------------------------------------------------------------------------
+[assembly: SuppressMessage(
+    "Reliability",
+    "CA2000:Dispose objects before losing scope",
+    Justification = "2026-10-01: Default axis models (ChartPrimaryXAxis / ChartPrimaryYAxis / InitAxis) are never rendered and ownership is transferred to the Axes/Elements collections. DisposeAsync would be a no-op and disposing here would be incorrect.",
+    Scope = "member",
+    Target = "~M:Syncfusion.Blazor.Toolkit.Charts.Internal.ChartAxisRendererContainer.AddRenderer(Syncfusion.Blazor.Toolkit.Charts.Internal.IChartElementRenderer)")]
+
+[assembly: SuppressMessage(
+    "Reliability",
+    "CA2000:Dispose objects before losing scope",
+    Justification = "2026-10-01: ChartSeriesBorder is a non-rendered model object passed by value into SetTrendlineValues; it owns no JS/unmanaged resources so DisposeAsync is a no-op.",
+    Scope = "member",
+    Target = "~M:Syncfusion.Blazor.Toolkit.Charts.Internal.TrendlineBase.SetSeriesProperties")]
+
+[assembly: SuppressMessage(
+    "Reliability",
+    "CA2000:Dispose objects before losing scope",
+    Justification = "2026-10-01: ChartTrendline is a non-rendered model object used only for a local polynomial-order calculation; it owns no JS/unmanaged resources so DisposeAsync is a no-op.",
+    Scope = "member",
+    Target = "~M:Syncfusion.Blazor.Toolkit.Charts.Internal.TrendlineBase.GetPolynomialPoints(System.Collections.Generic.List{System.Double},System.Collections.Generic.List{System.Double})")]
+
+[assembly: SuppressMessage(
+    "Reliability",
+    "CA2000:Dispose objects before losing scope",
+    Justification = "2026-10-01: ChartMarker is a non-rendered model object handed to UpdateSeriesProperties; it owns no JS/unmanaged resources so DisposeAsync is a no-op.",
+    Scope = "member",
+    Target = "~M:Syncfusion.Blazor.Toolkit.Charts.Internal.TrendlineBase.UpdateTrendlineMarker")]
+
+[assembly: SuppressMessage(
+    "Reliability",
+    "CA2000:Dispose objects before losing scope",
+    Justification = "2026-10-01: ChartDefaultAnimation is a non-rendered model object used only to compute animation settings; it owns no JS/unmanaged resources so DisposeAsync is a no-op.",
+    Scope = "member",
+    Target = "~M:Syncfusion.Blazor.Toolkit.Charts.Internal.TrendlineBase.UpdateTrendlineAnimation")]
+
+[assembly: SuppressMessage(
+    "Reliability",
+    "CA2000:Dispose objects before losing scope",
+    Justification = "2026-10-01: ChartSelectedDataIndex is a non-rendered model object; CreateSelectedData hands it to SelectionChartAsync which serializes it across JS interop (ownership transferred). It owns no JS/unmanaged resources.",
+    Scope = "member",
+    Target = "~M:Syncfusion.Blazor.Toolkit.Charts.Internal.Selection.SelectPointAndAddToValues(Syncfusion.Blazor.Toolkit.Charts.Point,Syncfusion.Blazor.Toolkit.Charts.Internal.ChartSeriesRenderer,System.Collections.Generic.List{Syncfusion.Blazor.Toolkit.Charts.PointXY})")]
+
+[assembly: SuppressMessage(
+    "Reliability",
+    "CA2000:Dispose objects before losing scope",
+    Justification = "2026-10-01: ChartAxis / ChartAxisScrollbarSettingsRange models built here are non-rendered and are handed into the user's OnScrollChanged event args (ownership transferred). They own no JS/unmanaged resources.",
+    Scope = "member",
+    Target = "~M:Syncfusion.Blazor.Toolkit.Charts.SfChart.TriggerScrollEvents(Syncfusion.Blazor.Toolkit.Charts.Internal.IScrollEventsArgs)")]
+
+[assembly: SuppressMessage(
+    "Reliability",
+    "CA2000:Dispose objects before losing scope",
+    Justification = "2026-10-01: ChartAxisScrollbarSettingsRange is a non-rendered model object returned to the caller (ownership transferred); it owns no JS/unmanaged resources so DisposeAsync is a no-op.",
+    Scope = "member",
+    Target = "~M:Syncfusion.Blazor.Toolkit.Charts.SfChart.GetStartEnd(System.Object,System.Object,Syncfusion.Blazor.Toolkit.ValueType)")]
+
+[assembly: SuppressMessage(
+    "Reliability",
+    "CA2000:Dispose objects before losing scope",
+    Justification = "2026-10-01: ChartAxisScrollbarSettingsRange / ChartAxis models built here are non-rendered and are wrapped into the returned ScrollEventArgs (ownership transferred). They own no JS/unmanaged resources.",
+    Scope = "member",
+    Target = "~M:Syncfusion.Blazor.Toolkit.Charts.SfChart.GetScrollArguments(System.String,Syncfusion.Blazor.Toolkit.Charts.ChartAxis,Syncfusion.Blazor.Toolkit.Charts.Internal.DoubleRange,System.Double,System.Double,Syncfusion.Blazor.Toolkit.Charts.ChartAxisScrollbarSettingsRange,System.Double)")]
+
+[assembly: SuppressMessage(
+    "Reliability",
+    "CA2000:Dispose objects before losing scope",
+    Justification = "2026-10-01: The flagged out-locals alias already-rendered, renderer-owned ChartAxis / ChartStripline components resolved from existing collections; disposing them here would be a double-dispose.",
+    Scope = "member",
+    Target = "~M:Syncfusion.Blazor.Toolkit.Charts.Internal.ChartStriplineTooltipSettings.MouseMoveHandlerAsync(System.String)")]
+
+
+// -------------------------------------------------------------------------
+// CA1308 — Normalize strings to uppercase.
+//
+// CA1308 recommends ToUpperInvariant over ToLowerInvariant because
+// uppercasing is round-trip safe for a small set of locale edge cases.
+// Every flagged call here, however, requires lowercase output as a
+// semantic contract and is already culture-invariant, so the rule's
+// suggested fix would break behaviour rather than improve correctness.
+// CA1308 is a Globalization rule, not a security rule.
+//
+//   * SfButton.ApplyIconClasses — the lowercased value becomes a CSS
+//     class name (e-icon-left, e-top-icon-btn, ...). CSS class names are
+//     lowercase by convention and are emitted into the element's `class`
+//     attribute; uppercasing would produce invalid, non-matching classes.
+//   * DataUtil.PerformAggregation — the lowercased value forms the
+//     user-facing aggregate dictionary key ("Field - sum"). The lowercase
+//     key is part of the published result contract; uppercasing changes it.
+//   * The DynamicQueryableExtensions / QueryableExtensions filter methods
+//     build case-insensitive filter expression trees. The constant side
+//     is lowered with ToLowerInvariant to match the column side, which is
+//     lowered by the shared ToLowerMethodCallExpression helper (string
+//     .ToLower, provider-translatable). Both sides MUST use the same
+//     lowercase casing for the comparison to work; switching the constant
+//     to uppercase without the matching column-side change would silently
+//     break every case-insensitive filter. All calls are invariant-culture
+//     (no Turkish-I / locale defect), so the correctness concern CA1308
+//     guards against does not apply.
+// -------------------------------------------------------------------------
+[assembly: SuppressMessage(
+    "Globalization",
+    "CA1308:Normalize strings to uppercase",
+    Justification = "2026-10-01: Produces a lowercase CSS class name (e-icon-left / e-top-icon-btn) emitted into the element class attribute; lowercase is required by CSS convention and the call is already culture-invariant.",
+    Scope = "member",
+    Target = "~M:Syncfusion.Blazor.Toolkit.Buttons.SfButton.ApplyIconClasses(System.Text.StringBuilder)")]
+
+[assembly: SuppressMessage(
+    "Globalization",
+    "CA1308:Normalize strings to uppercase",
+    Justification = "2026-10-01: Builds the user-facing aggregate dictionary key ('Field - sum'); the lowercase key is part of the published result contract and the call is already culture-invariant.",
+    Scope = "member",
+    Target = "~M:Syncfusion.Blazor.Toolkit.Data.DataUtil.PerformAggregation(System.Collections.IEnumerable,System.Collections.Generic.IList{Syncfusion.Blazor.Toolkit.Data.Aggregate})")]
+
+[assembly: SuppressMessage(
+    "Globalization",
+    "CA1308:Normalize strings to uppercase",
+    Justification = "2026-10-01: Case-insensitive filter: the constant side is lowered to match the column side lowered by ToLowerMethodCallExpression (string.ToLower). Both sides must share lowercase casing; uppercasing would break the filter. Call is invariant-culture.",
+    Scope = "member",
+    Target = "~M:Syncfusion.Blazor.Toolkit.Data.DynamicQueryableExtensions.GetExpression(Syncfusion.Blazor.Toolkit.Data.FilterType,System.Type,System.Object,System.Linq.Expressions.Expression,System.Boolean)")]
+
+[assembly: SuppressMessage(
+    "Globalization",
+    "CA1308:Normalize strings to uppercase",
+    Justification = "2026-10-01: Case-insensitive filter: the constant side is lowered to match the column side lowered by ToLowerMethodCallExpression (string.ToLower). Both sides must share lowercase casing; uppercasing would break the filter. Call is invariant-culture.",
+    Scope = "member",
+    Target = "~M:Syncfusion.Blazor.Toolkit.Data.DynamicQueryableExtensions.GetPExpression(Syncfusion.Blazor.Toolkit.Data.FilterType,System.Boolean,System.Object,System.Linq.Expressions.Expression,System.Type)")]
+
+[assembly: SuppressMessage(
+    "Globalization",
+    "CA1308:Normalize strings to uppercase",
+    Justification = "2026-10-01: Case-insensitive filter: the constant side is lowered to match the column side lowered by ToLowerMethodCallExpression (string.ToLower). Both sides must share lowercase casing; uppercasing would break the filter. Call is invariant-culture.",
+    Scope = "member",
+    Target = "~M:Syncfusion.Blazor.Toolkit.Data.QueryableExtensions.GetPxExpression(Syncfusion.Blazor.Toolkit.Data.FilterType,System.Type,System.Object,System.Boolean,System.Linq.Expressions.Expression,System.Linq.Expressions.Expression,System.Boolean)")]
+
+[assembly: SuppressMessage(
+    "Globalization",
+    "CA1308:Normalize strings to uppercase",
+    Justification = "2026-10-01: Case-insensitive filter: the constant side is lowered to match the column side lowered by ToLowerMethodCallExpression (string.ToLower). Both sides must share lowercase casing; uppercasing would break the filter. Call is invariant-culture.",
+    Scope = "member",
+    Target = "~M:Syncfusion.Blazor.Toolkit.Data.QueryableExtensions.Predicate(System.Linq.IQueryable,System.Linq.Expressions.ParameterExpression,System.String,System.Object,Syncfusion.Blazor.Toolkit.Data.FilterType,Syncfusion.Blazor.Toolkit.Data.FilterBehavior,System.Boolean,System.Type,System.String)")]
+
+[assembly: SuppressMessage(
+    "Globalization",
+    "CA1308:Normalize strings to uppercase",
+    Justification = "2026-10-01: Case-insensitive filter: the constant side is lowered to match the column side lowered by ToLowerMethodCallExpression (string.ToLower). Both sides must share lowercase casing; uppercasing would break the filter. Call is invariant-culture.",
+    Scope = "member",
+    Target = "~M:Syncfusion.Blazor.Toolkit.Data.QueryableExtensions.GetPExpression(Syncfusion.Blazor.Toolkit.Data.FilterType,System.Type,System.String,System.Linq.Expressions.Expression,System.Object,System.Type,System.Boolean)")]
+
+[assembly: SuppressMessage(
+    "Globalization",
+    "CA1308:Normalize strings to uppercase",
+    Justification = "2026-10-01: Case-insensitive filter: the constant side is lowered to match the column side lowered by ToLowerMethodCallExpression (string.ToLower). Both sides must share lowercase casing; uppercasing would break the filter. Call is invariant-culture.",
+    Scope = "member",
+    Target = "~M:Syncfusion.Blazor.Toolkit.Data.QueryableExtensions.Where(System.Linq.IQueryable,System.String,System.Object,Syncfusion.Blazor.Toolkit.Data.FilterType,System.Boolean,System.Type)")]
+
+// ---------------------------------------------------------------------------
+// CA1031: Do not catch general exception types
+// ---------------------------------------------------------------------------
+// The suppressions below cover intentional broad catches on Blazor component
+// lifecycle (OnParametersSetAsync / OnAfterRenderAsync / OnAfterScriptRenderedAsync)
+// and asynchronous disposal (DisposeAsyncCore) / best-effort I/O paths. In these
+// paths a thrown exception propagates to the renderer SynchronizationContext and
+// can terminate the Blazor Server circuit (or crash a WASM app). The code
+// deliberately catches all exceptions, logs them, and keeps the renderer alive so
+// subsequent updates still work. These catches cannot be safely narrowed because
+// user-supplied EventCallbacks, templates and JS interop may throw arbitrary
+// exception types. The two computational catches that COULD be narrowed
+// (SfTimePicker list generation and SfSwitch accessible-name) were fixed in code
+// with exception filters instead of being suppressed here.
+
+[assembly: SuppressMessage(
+    "Design",
+    "CA1031:Do not catch general exception types",
+    Justification = "2026-10-01: Component lifecycle must not re-throw. An exception escaping OnParametersSetAsync propagates to the renderer SynchronizationContext and can terminate the Blazor Server circuit. User parameters/templates may throw arbitrary types, so the catch is intentionally broad; it is logged and the renderer kept alive.",
+    Scope = "member",
+    Target = "~M:Syncfusion.Blazor.Toolkit.Inputs.SfNumericTextBox`1.OnParametersSetAsync~System.Threading.Tasks.Task")]
+
+[assembly: SuppressMessage(
+    "Design",
+    "CA1031:Do not catch general exception types",
+    Justification = "2026-10-01: Component lifecycle must not re-throw. An exception escaping OnAfterRenderAsync propagates to the renderer SynchronizationContext and can terminate the Blazor Server circuit. JS interop and user callbacks may throw arbitrary types, so the catch is intentionally broad; it is logged and the renderer kept alive.",
+    Scope = "member",
+    Target = "~M:Syncfusion.Blazor.Toolkit.Inputs.SfNumericTextBox`1.OnAfterRenderAsync(System.Boolean)~System.Threading.Tasks.Task")]
+
+[assembly: SuppressMessage(
+    "Design",
+    "CA1031:Do not catch general exception types",
+    Justification = "2026-10-01: Component lifecycle must not re-throw. An exception escaping OnAfterRenderAsync propagates to the renderer SynchronizationContext and can terminate the Blazor Server circuit. JS interop and user callbacks may throw arbitrary types, so the catch is intentionally broad; it is logged and the renderer kept alive.",
+    Scope = "member",
+    Target = "~M:Syncfusion.Blazor.Toolkit.Popups.SfDialog.OnAfterRenderAsync(System.Boolean)~System.Threading.Tasks.Task")]
+
+[assembly: SuppressMessage(
+    "Design",
+    "CA1031:Do not catch general exception types",
+    Justification = "2026-10-01: First-render JS bootstrap must not crash the Blazor Server circuit. An exception escaping OnAfterScriptRenderedAsync propagates to the renderer SynchronizationContext. JS interop and the Created callback may throw arbitrary types, so the catch is intentionally broad; it is logged and the component kept usable.",
+    Scope = "member",
+    Target = "~M:Syncfusion.Blazor.Toolkit.Popups.SfDialog.OnAfterScriptRenderedAsync~System.Threading.Tasks.Task")]
+
+[assembly: SuppressMessage(
+    "Design",
+    "CA1031:Do not catch general exception types",
+    Justification = "2026-10-01: Async disposal must not re-throw. An unhandled exception out of DisposeAsyncCore propagates to the SynchronizationContext and terminates the Blazor Server circuit (or crashes WASM). More specific types are caught first (InvalidOperationException); the general catch is a best-effort fallback that logs and reports via the Destroyed callback.",
+    Scope = "member",
+    Target = "~M:Syncfusion.Blazor.Toolkit.Popups.SfTooltip.DisposeAsyncCore~System.Threading.Tasks.ValueTask")]
+
+[assembly: SuppressMessage(
+    "Design",
+    "CA1031:Do not catch general exception types",
+    Justification = "2026-10-01: Disposal must not re-throw. The specific types (ObjectDisposedException, InvalidOperationException) are handled first; this general catch is a logged best-effort fallback so a stray exception cannot terminate the Blazor Server circuit during teardown.",
+    Scope = "member",
+    Target = "~M:Syncfusion.Blazor.Toolkit.Spinner.SfSpinner.DisposeAsyncCore~System.Threading.Tasks.ValueTask")]
+
+[assembly: SuppressMessage(
+    "Design",
+    "CA1031:Do not catch general exception types",
+    Justification = "2026-10-01: Best-effort per-file caching. If reading a single selected file's stream fails (I/O, browser quirk, size mismatch), the broad catch lets the remaining files continue caching rather than aborting the whole upload. Nothing is re-thrown; the file is simply skipped.",
+    Scope = "member",
+    Target = "~M:Syncfusion.Blazor.Toolkit.Inputs.SfUploader.CacheFilesAsync(Microsoft.AspNetCore.Components.Forms.InputFileChangeEventArgs)~System.Threading.Tasks.Task")]

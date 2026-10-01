@@ -110,6 +110,12 @@ namespace Syncfusion.Blazor.Toolkit.Popups
         private static readonly Action<ILogger, Exception?> _jsRuntimeDisconnectedDuringDisposal =
             LoggerMessage.Define(LogLevel.Warning, new EventId(0, nameof(_jsRuntimeDisconnectedDuringDisposal)),
                 "JS runtime was disconnected during tooltip disposal.");
+        private static readonly Action<ILogger, Exception?> _logUnexpectedDisposalError =
+            LoggerMessage.Define(LogLevel.Error, new EventId(0, nameof(_logUnexpectedDisposalError)),
+                "Unexpected error during SfTooltip disposal.");
+        private static readonly Action<ILogger, Exception?> _logDestroyedCallbackError =
+            LoggerMessage.Define(LogLevel.Error, new EventId(0, nameof(_logDestroyedCallbackError)),
+                "SfTooltip.Destroyed callback threw during disposal.");
         #endregion
 
         #region Internal Fields
@@ -438,7 +444,10 @@ namespace Syncfusion.Blazor.Toolkit.Popups
                     // path is best-effort: we log and report through the Destroyed callback, but never
                     // throw out of DisposeAsyncCore. Exceptions from the Destroyed callback are
                     // intentionally swallowed so they cannot mask the original failure.
-                    Logger?.LogError(ex, "Unexpected error during SfTooltip disposal.");
+                    if (Logger is not null)
+                    {
+                        _logUnexpectedDisposalError(Logger, ex);
+                    }
 
                     if (Destroyed.HasDelegate)
                     {
@@ -448,7 +457,10 @@ namespace Syncfusion.Blazor.Toolkit.Popups
                         }
                         catch (Exception callbackEx)
                         {
-                            Logger?.LogError(callbackEx, "SfTooltip.Destroyed callback threw during disposal.");
+                            if (Logger is not null)
+                            {
+                                _logDestroyedCallbackError(Logger, callbackEx);
+                            }
                         }
                     }
                 }

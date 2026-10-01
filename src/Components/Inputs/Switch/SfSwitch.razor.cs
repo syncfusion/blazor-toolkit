@@ -274,9 +274,9 @@ namespace Syncfusion.Blazor.Toolkit.Inputs
             {
                 isChecked = Checked is not null && Convert.ToBoolean(Checked, CultureInfo.InvariantCulture);
             }
-            catch (Exception)
+            catch (Exception ex) when (ex is FormatException or InvalidCastException)
             {
-                // Falls through to the off-state label below.
+                // Checked value is not convertible to a bool. Falls through to the off-state label below.
             }
 
             string? active = isChecked ? OnLabel : OffLabel;

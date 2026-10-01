@@ -312,6 +312,11 @@ namespace Syncfusion.Blazor.Toolkit.Charts
             _fontSizeCache?.Clear();
             _requestedFontKeys?.Clear();
 
+            // Release the DotNetObjectReference bridge handed to the chart's JS interop
+            // layer. It is recreated on each render but must be disposed by its owner here.
+            _chartDotNetReference?.Dispose();
+            _chartDotNetReference = null;
+
             await base.DisposeAsyncCore().ConfigureAwait(true);
         }
 

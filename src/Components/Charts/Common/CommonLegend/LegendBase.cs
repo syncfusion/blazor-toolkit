@@ -502,7 +502,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
             string clipPath = LegendID + "_clipPath";
             RectOptions Option = new RectOptions(LegendID + "_element", LegendBounds.X, LegendBounds.Y, LegendBounds.Width, LegendBounds.Height, legendBorder.Width, legendBorder.Color ?? null!, Legend?.Background ?? string.Empty, 0, 0, Legend?.Opacity ?? 1, string.Empty, "pointer-events: none; cursor: " + (Legend is not null && Legend.ToggleVisibility ? "default" : "pointer"));
             svgRenderer.RenderRect(builder, Option);
-            svgRenderer.OpenClipPath(builder, svgRenderer.Seq++, clipPath);
+            SvgRendering.OpenClipPath(builder, svgRenderer.Seq++, clipPath);
             Option.Id = clipPath + "_rect";
             Option.Width = LegendBounds.Width;
 

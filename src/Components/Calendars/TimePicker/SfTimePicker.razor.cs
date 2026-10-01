@@ -925,9 +925,9 @@ namespace Syncfusion.Blazor.Toolkit.Calendars
                                 DatePart = source.Date;
                             }
                         }
-                        catch
+                        catch (Exception ex) when (ex is InvalidCastException or FormatException or OverflowException or ArgumentException)
                         {
-                            // Fall through to today's date
+                            // Value could not be converted to a DateTime (type/format/overflow). Fall through to today's date.
                         }
                     }
                     if (DatePart == default)

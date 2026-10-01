@@ -57,7 +57,11 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
 
             if ((endPointLocation.X - startPointLocation.X > 0) && (endPointLocation.Y - startPointLocation.Y > 0))
             {
-                Owner?._svgRenderer?.OpenClipPath(builder, Owner._svgRenderer.Seq++, clipPathId);
+                if (Owner?._svgRenderer is not null)
+                {
+                    SvgRendering.OpenClipPath(builder, Owner._svgRenderer.Seq++, clipPathId);
+                }
+
                 Owner?._svgRenderer?.RenderRect(builder, new RectOptions(
                     clipPathId + "_Rect",
                     startPointLocation.X,

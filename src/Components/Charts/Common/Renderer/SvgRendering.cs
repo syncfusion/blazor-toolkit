@@ -270,7 +270,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
         /// <typeparam name="T">The concrete options type whose public properties are read via reflection.</typeparam>
         /// <param name="obj">The options object to extract properties from.</param>
         /// <returns>A dictionary mapping property names to their values.</returns>
-        internal Dictionary<string, object> GetOptions<[DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicProperties)] T>(T obj)
+        internal static Dictionary<string, object> GetOptions<[DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicProperties)] T>(T obj)
         {
             PropertyInfo[] _propertyInfos = typeof(T).GetProperties();
             Dictionary<string, object> attributes = [];
@@ -289,7 +289,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
         /// <param name="id">The unique identifier for the polygon.</param>
         /// <param name="fill">The fill color.</param>
         /// <param name="points">The polygon points string (e.g., "0,0 10,0 5,10").</param>
-        internal void RenderPolygon(RenderTreeBuilder renderTreeBuilder, int seq, string id, string fill, string points)
+        internal static void RenderPolygon(RenderTreeBuilder renderTreeBuilder, int seq, string id, string fill, string points)
         {
             renderTreeBuilder.OpenComponent<SvgPolygon>(seq);
             renderTreeBuilder.AddMultipleAttributes(seq + 1, new Dictionary<string, object>() { { "Id", id }, { "Fill", fill }, { "points", points } });
@@ -302,7 +302,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
         /// <param name="renderTreeBuilder">The RenderTreeBuilder used to construct the render tree.</param>
         /// <param name="seq">The sequence number for RenderTreeBuilder operations.</param>
         /// <param name="id">The unique identifier for the clip path.</param>
-        internal void OpenClipPath(RenderTreeBuilder renderTreeBuilder, int seq, string id)
+        internal static void OpenClipPath(RenderTreeBuilder renderTreeBuilder, int seq, string id)
         {
             renderTreeBuilder.OpenElement(seq, ELEMENT_CLIP_PATH);
             renderTreeBuilder.AddAttribute(seq + 1, "id", id);

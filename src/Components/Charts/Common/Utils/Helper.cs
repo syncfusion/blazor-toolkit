@@ -7,7 +7,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
     /// <summary>
     /// Helper utilities used across DataVizCommon components.
     /// </summary>
-    public class DataVizCommonHelper
+    public static class DataVizCommonHelper
     {
         #region Constants
         private const string SPACE = " ";

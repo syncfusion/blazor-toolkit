@@ -36,6 +36,9 @@ namespace Syncfusion.Blazor.Toolkit.Popups
     /// </example>
     public partial class SfDialogProvider : ComponentBase, IDisposable
     {
+        private static readonly Action<ILogger, Exception?> _logOnOpenError =
+            LoggerMessage.Define(LogLevel.Error, new EventId(0, nameof(_logOnOpenError)), "Error in OnOpen");
+
         /// <summary>
         /// Gets or sets the logger instance for diagnostic and error logging purposes.
         /// </summary>
@@ -271,7 +274,7 @@ namespace Syncfusion.Blazor.Toolkit.Popups
             }
             catch (Exception ex) when (Logger is not null)
             {
-                Logger.LogError(ex, "Error in OnOpen");
+                _logOnOpenError(Logger, ex);
             }
             catch (Exception)
             {

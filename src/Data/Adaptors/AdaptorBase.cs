@@ -266,6 +266,28 @@ namespace Syncfusion.Blazor.Toolkit.Data
             return base.GetHashCode();
         }
 
+        /// <summary>
+        /// Determines whether two <see cref="RemoteOptions"/> instances are equal.
+        /// </summary>
+        /// <param name="left">The first instance to compare.</param>
+        /// <param name="right">The second instance to compare.</param>
+        /// <returns>true.</returns>
+        public static bool operator ==(RemoteOptions left, RemoteOptions right)
+        {
+            return left.Equals(right);
+        }
+
+        /// <summary>
+        /// Determines whether two <see cref="RemoteOptions"/> instances are not equal.
+        /// </summary>
+        /// <param name="left">The first instance to compare.</param>
+        /// <param name="right">The second instance to compare.</param>
+        /// <returns>false.</returns>
+        public static bool operator !=(RemoteOptions left, RemoteOptions right)
+        {
+            return !left.Equals(right);
+        }
+
     }
 
     /// <summary>

@@ -177,7 +177,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
             builder.OpenElement(Sequence++, "clipPath");
             builder.AddAttribute(Sequence++, "id", id + "ClipRect");
             builder.OpenComponent<SvgRect>(Sequence++);
-            builder.AddMultipleAttributes(Sequence++, Owner?._svgRenderer?.GetOptions(rectOption));
+            builder.AddMultipleAttributes(Sequence++, SvgRendering.GetOptions(rectOption));
             builder.CloseComponent();
             builder.CloseElement();
             builder.CloseElement();
@@ -251,7 +251,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
             builder.OpenElement(Sequence++, "clipPath");
             builder.AddAttribute(Sequence++, "id", id + "ClipRect");
             builder.OpenComponent<SvgRect>(Sequence++);
-            builder.AddMultipleAttributes(Sequence++, Owner?._svgRenderer?.GetOptions(rectOption));
+            builder.AddMultipleAttributes(Sequence++, SvgRendering.GetOptions(rectOption));
             builder.CloseComponent();
             builder.CloseElement();
             builder.CloseElement();

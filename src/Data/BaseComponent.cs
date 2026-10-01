@@ -912,6 +912,7 @@ namespace Syncfusion.Blazor.Toolkit.Data
         [EditorBrowsable(EditorBrowsableState.Never)]
         public async Task UpdateModel(Dictionary<string, object> properties)
         {
+            ArgumentNullException.ThrowIfNull(properties);
             IsClientChanges = true;
             UpdateComponentModel(properties, this);
             await OnParametersSetAsync().ConfigureAwait(false);

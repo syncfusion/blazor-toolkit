@@ -30,7 +30,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
         private string? _elementOpacity;
         private string? _elementId;
         private Rect? _iconRect;
-        private readonly string? _hoveredID = null;
+        private readonly string? _hoveredID;
         private string _iconRectOverFill = Constants.Transparent;
         private string _iconRectSelectionFill = Constants.Transparent;
         private readonly CultureInfo _culture = CultureInfo.InvariantCulture;
@@ -578,7 +578,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
 
             render.RenderRect(builder, new RectOptions(zoomingZoomIn + "_1", _iconRect?.X ?? 0, _iconRect?.Y ?? 0, _iconRect?.Width ?? 0, _iconRect?.Height ?? 0, 0, Constants.Transparent, _selectedIconId == zoomingZoomIn && _isIconSelected ? _iconRectOverFill : Constants.Transparent, 4, 4, 1));
             _ = render.RenderPath(builder, new PathOptions(zoomingZoomIn + "_2", direction, null!, 0, Constants.Transparent, 1, _selectedIconId == zoomingZoomIn && _isIconSelected ? _selectionColor ?? string.Empty : _fillColor ?? string.Empty));
-            render.RenderPolygon(builder, render.Seq++, zoomingZoomIn + "_3", _selectedIconId == zoomingZoomIn && _isIconSelected ? _selectionColor ?? string.Empty : _fillColor ?? string.Empty, polygonDirection);
+            SvgRendering.RenderPolygon(builder, render.Seq++, zoomingZoomIn + "_3", _selectedIconId == zoomingZoomIn && _isIconSelected ? _selectionColor ?? string.Empty : _fillColor ?? string.Empty, polygonDirection);
         }
 
         /// <summary>

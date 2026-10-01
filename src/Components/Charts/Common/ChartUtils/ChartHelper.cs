@@ -19,7 +19,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
     /// This class contains only static helpers. Methods validate critical inputs and try to avoid
     /// unsafe string concatenation where possible. XML documentation preserves and augments existing tags.
     /// </remarks>
-    public class ChartHelper
+    public static class ChartHelper
     {
         #region Constants
         private const int RGB_HEX_CODE = 6;
@@ -573,7 +573,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
         /// <param name="maximumWidth">The maximum width allowed per line in pixels.</param>
         /// <param name="font">The font options used for measurement.</param>
         /// <param name="labelCollection">The output collection to append wrapped segments to.</param>
-        private static void WrapLabelSegments(string label, double maximumWidth, ChartFontOptions font, ICollection<string> labelCollection)
+        private static void WrapLabelSegments(string label, double maximumWidth, ChartFontOptions font, List<string> labelCollection)
         {
             string wrapLabel = string.Empty;
             int startIndex = 0;
@@ -1896,7 +1896,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
         /// <returns>The minimum delta value.</returns>
         internal static double GetMinPointsDelta(ChartAxis axis, List<ChartSeriesRenderer> seriesCollection)
         {
-            if (axis == null || seriesCollection == null || !seriesCollection.Any())
+            if (axis == null || seriesCollection == null || seriesCollection.Count == 0)
             {
                 return 1; // Return a safe default
             }

@@ -63,6 +63,7 @@ namespace Syncfusion.Blazor.Toolkit.Data
         public void Dispose()
         {
             Dispose(true);
+            GC.SuppressFinalize(this);
         }
 
         /// <summary>
