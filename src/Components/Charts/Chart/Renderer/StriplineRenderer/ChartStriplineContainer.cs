@@ -10,7 +10,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
     /// This container coordinates initialization, sizing updates and rendering
     /// for stripline elements associated with chart axes.
     /// </remarks>
-    public class ChartStriplineContainer : ChartRendererContainer
+    internal class ChartStriplineContainer : ChartRendererContainer
     {
         #region Properties
         /// <summary>
@@ -126,7 +126,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
     /// <summary>
     /// Container that renders striplines behind series visuals.
     /// </summary>
-    public class ChartStriplineBehindContainer : ChartStriplineContainer
+    internal class ChartStriplineBehindContainer : ChartStriplineContainer
     {
         #region Lifecycle Methods
 
@@ -199,7 +199,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
     /// <summary>
     /// Container that renders striplines over series visuals (foreground).
     /// </summary>
-    public class ChartStriplineOverContainer : ChartStriplineContainer
+    internal class ChartStriplineOverContainer : ChartStriplineContainer
     {
         #region Lifecycle Methods
 

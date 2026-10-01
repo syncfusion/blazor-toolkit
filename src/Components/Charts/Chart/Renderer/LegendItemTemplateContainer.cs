@@ -6,7 +6,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
     /// <summary>
     /// Hosts legend item templates rendered outside the SVG layer to allow arbitrary Blazor content.
     /// </summary>
-    public class LegendItemTemplateContainer : SfBaseComponent
+    internal class LegendItemTemplateContainer : SfBaseComponent
     {
         #region Properties
 

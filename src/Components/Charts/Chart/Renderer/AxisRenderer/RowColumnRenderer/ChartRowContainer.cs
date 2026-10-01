@@ -6,7 +6,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
     /// <summary>
     /// Manages and coordinates row renderers for chart layout and axis assignment.
     /// </summary>
-    public class ChartRowRendererContainer : ChartRendererContainer
+    internal class ChartRowRendererContainer : ChartRendererContainer
     {
         #region Properties
 

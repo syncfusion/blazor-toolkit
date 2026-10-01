@@ -96,7 +96,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
     /// <summary>
     /// Represents the thickness of padding or spacing on all four sides.
     /// </summary>
-    public class Thickness : DomRect
+    internal class Thickness : DomRect
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="Thickness"/> class with specified values.
@@ -209,7 +209,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
     /// <summary>
     /// Represents a DOM rectangle with position and size information.
     /// </summary>
-    public class DomRect : Size
+    internal class DomRect : Size
     {
         /// <summary>
         /// Gets or sets the left position of the rectangle.
@@ -960,7 +960,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
     /// <summary>
     /// Represents options for chart element animations.
     /// </summary>
-    public class AnimationOptions
+    internal class AnimationOptions
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="AnimationOptions"/> class.
@@ -993,7 +993,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
     /// <remarks>
     /// NOTE: Need to pass all these members to JS so they are declared as public
     /// </remarks>
-    public class DynamicPathAnimationOptions
+    internal class DynamicPathAnimationOptions
     {
         /// <summary>
         /// Gets or sets the parent element identifier.
@@ -1022,7 +1022,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
     /// <remarks>
     /// NOTE: Need to pass all these members to JS so they are declared as public
     /// </remarks>
-    public class DynamicRectAnimationOptions
+    internal class DynamicRectAnimationOptions
     {
         /// <summary>
         /// Gets or sets the element identifier.
@@ -1043,7 +1043,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
     /// <summary>
     /// Represents options for dynamic last label animations.
     /// </summary>
-    public class DynamicLastLabelOptions
+    internal class DynamicLastLabelOptions
     {
         /// <summary>
         /// Gets or sets the element identifier.
@@ -1077,7 +1077,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
     /// <remarks>
     /// NOTE: Need to pass all these members to JS so they are declared as public
     /// </remarks>
-    public class DynamicTextAnimationOptions
+    internal class DynamicTextAnimationOptions
     {
         /// <summary>
         /// Gets or sets the element identifier.
@@ -1121,7 +1121,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
     /// <remarks>
     /// NOTE: Need to pass all these members to JS so they are declared as public
     /// </remarks>
-    public class DynamicAccTextAnimationOptions : DynamicTextAnimationOptions
+    internal class DynamicAccTextAnimationOptions : DynamicTextAnimationOptions
     {
         /// <summary>
         /// Gets or sets the previous X location as NaN by default.
@@ -1404,7 +1404,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
     /// <remarks>
     /// NOTE: Need to pass all these members to JS so they are declared as public
     /// </remarks>
-    public class MarkerAnimationInfo
+    internal class MarkerAnimationInfo
     {
         /// <summary>
         /// Gets or sets the marker element identifier.
@@ -1453,7 +1453,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
     /// <remarks>
     /// NOTE: Need to pass all these members to JS so they are declared as public
     /// </remarks>
-    public class ErrorBarAnimationInfo
+    internal class ErrorBarAnimationInfo
     {
         /// <summary>
         /// Gets or sets the error bar element identifier.
@@ -1472,7 +1472,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
     /// <remarks>
     /// NOTE: Need to pass all these members to JS so they are declared as public
     /// </remarks>
-    public class DataLabelAnimatioInfo
+    internal class DataLabelAnimatioInfo
     {
         /// <summary>
         /// Gets or sets the shape group element identifier.
@@ -1496,7 +1496,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
     /// <remarks>
     /// NOTE: Need to pass all these members to JS so they are declared as public
     /// </remarks>
-    public class InitialAnimationInfo
+    internal class InitialAnimationInfo
     {
         /// <summary>
         /// Gets or sets the type of animation.
@@ -1928,7 +1928,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
     /// <summary>
     /// Represents options for chart point.
     /// </summary>
-    public class IChartPoint
+    internal class IChartPoint
     {
         /// <summary>
         /// Gets or sets the symbol locations for the point.
@@ -2017,7 +2017,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
     /// <summary>
     /// Represents options for financial point.
     /// </summary>
-    public class IFinancialPoint : IChartPoint
+    internal class IFinancialPoint : IChartPoint
     {
         /// <summary>
         /// Gets or sets the high value of the financial point.
@@ -2053,7 +2053,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
     /// <summary>
     /// Represents options for bubble point.
     /// </summary>
-    public class IBubblePoint : IChartPoint
+    internal class IBubblePoint : IChartPoint
     {
         /// <summary>
         /// Gets or sets the size value of the bubble point.
@@ -2115,7 +2115,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
     /// <summary>
     /// Represents options for chart internal location.
     /// </summary>
-    public class IChartInternalLocation
+    internal class IChartInternalLocation
     {
         /// <summary>
         /// Gets or sets the X coordinate of the location.
@@ -2142,7 +2142,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
     /// <summary>
     /// Represents options for chart event border.
     /// </summary>
-    public class IChartEventBorder
+    internal class IChartEventBorder
     {
         /// <summary>
         /// Gets or sets the border color.
@@ -2160,7 +2160,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
     /// <summary>
     /// Represents options for marker setting model.
     /// </summary>
-    public class IMarkerSettingModel
+    internal class IMarkerSettingModel
     {
         /// <summary>
         /// Gets or sets a value indicating whether the marker is visible.
@@ -2598,7 +2598,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
     /// <summary>
     /// Represents options for zoom settings.
     /// </summary>
-    public class IChartZoomSettings
+    internal class IChartZoomSettings
     {
         /// <summary>
         /// Gets or sets a value indicating whether deferred zooming is enabled.

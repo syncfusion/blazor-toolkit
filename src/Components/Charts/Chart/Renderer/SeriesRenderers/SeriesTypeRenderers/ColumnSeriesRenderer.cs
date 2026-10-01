@@ -9,7 +9,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
     /// This renderer computes column geometry, prepares path options and renders SVG paths.
     /// It preserves animation visibility behaviour and triggers point render events.
     /// </remarks>
-    public class ColumnSeriesRenderer : ColumnBaseRenderer
+    internal class ColumnSeriesRenderer : ColumnBaseRenderer
     {
         #region Private Methods
 

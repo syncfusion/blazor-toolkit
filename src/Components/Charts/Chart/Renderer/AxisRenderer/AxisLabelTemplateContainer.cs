@@ -11,7 +11,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
     /// The component is intended to be internally cascaded from <see cref="SfChart"/>
     /// and should not be used directly by consumers.
     /// </remarks>
-    public class AxisLabelTemplateContainer : SfBaseComponent
+    internal class AxisLabelTemplateContainer : SfBaseComponent
     {
         #region Fields
         private bool _disposed;

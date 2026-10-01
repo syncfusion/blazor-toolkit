@@ -5,7 +5,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
     /// Base renderer for column/bar style series. Contains shared geometry and layout helpers
     /// used by concrete column/bar renderers.
     /// </summary>
-    public abstract class ColumnBaseRenderer : ChartSeriesRenderer
+    internal abstract class ColumnBaseRenderer : ChartSeriesRenderer
     {
         #region Constants
         /// <summary>

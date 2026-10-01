@@ -11,7 +11,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
     /// their rendering through the Blazor RenderTreeBuilder API. It caches property reflection data for 
     /// performance optimization and maintains element collections for later reference and cleanup.
     /// </remarks>
-    public class SvgRendering
+    internal class SvgRendering
     {
         #region Constants
         private const string ELEMENT_GROUP = "g";

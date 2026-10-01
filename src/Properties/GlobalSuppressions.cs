@@ -295,13 +295,6 @@ using System.Diagnostics.CodeAnalysis;
     "CA2227:Collection properties should be read only",
     Justification = "2026-10-01: Internal rendering-pipeline model; the chart layout/render stage reassigns this collection, so the public setter must remain.",
     Scope = "member",
-    Target = "~P:Syncfusion.Blazor.Toolkit.Charts.Internal.ColumnBaseRenderer.ColumnPathOptions")]
-
-[assembly: SuppressMessage(
-    "Usage",
-    "CA2227:Collection properties should be read only",
-    Justification = "2026-10-01: Internal rendering-pipeline model; the chart layout/render stage reassigns this collection, so the public setter must remain.",
-    Scope = "member",
     Target = "~P:Syncfusion.Blazor.Toolkit.Charts.Internal.DataLabelAnimatioInfo.TemplateId")]
 
 [assembly: SuppressMessage(
@@ -324,20 +317,6 @@ using System.Diagnostics.CodeAnalysis;
     Justification = "2026-10-01: Internal rendering-pipeline model; the chart layout/render stage reassigns this collection, so the public setter must remain.",
     Scope = "member",
     Target = "~P:Syncfusion.Blazor.Toolkit.Charts.Internal.IChartPoint.SymbolLocations")]
-
-[assembly: SuppressMessage(
-    "Usage",
-    "CA2227:Collection properties should be read only",
-    Justification = "2026-10-01: Internal rendering-pipeline model; the chart layout/render stage reassigns this collection, so the public setter must remain.",
-    Scope = "member",
-    Target = "~P:Syncfusion.Blazor.Toolkit.Charts.Internal.IRequireAxis.XData")]
-
-[assembly: SuppressMessage(
-    "Usage",
-    "CA2227:Collection properties should be read only",
-    Justification = "2026-10-01: Internal rendering-pipeline model; the chart layout/render stage reassigns this collection, so the public setter must remain.",
-    Scope = "member",
-    Target = "~P:Syncfusion.Blazor.Toolkit.Charts.Internal.IRequireAxis.YData")]
 
 [assembly: SuppressMessage(
     "Usage",
@@ -387,48 +366,6 @@ using System.Diagnostics.CodeAnalysis;
     Justification = "2026-10-01: Internal rendering-pipeline model; the chart layout/render stage reassigns this collection, so the public setter must remain.",
     Scope = "member",
     Target = "~P:Syncfusion.Blazor.Toolkit.Charts.Internal.InitialAnimationInfo.PointY")]
-
-[assembly: SuppressMessage(
-    "Usage",
-    "CA2227:Collection properties should be read only",
-    Justification = "2026-10-01: Internal rendering-pipeline model; the chart layout/render stage reassigns this collection, so the public setter must remain.",
-    Scope = "member",
-    Target = "~P:Syncfusion.Blazor.Toolkit.Charts.Internal.LegendBase.ColumnHeights")]
-
-[assembly: SuppressMessage(
-    "Usage",
-    "CA2227:Collection properties should be read only",
-    Justification = "2026-10-01: Internal rendering-pipeline model; the chart layout/render stage reassigns this collection, so the public setter must remain.",
-    Scope = "member",
-    Target = "~P:Syncfusion.Blazor.Toolkit.Charts.Internal.LegendBase.PageHeights")]
-
-[assembly: SuppressMessage(
-    "Usage",
-    "CA2227:Collection properties should be read only",
-    Justification = "2026-10-01: Internal rendering-pipeline model; the chart layout/render stage reassigns this collection, so the public setter must remain.",
-    Scope = "member",
-    Target = "~P:Syncfusion.Blazor.Toolkit.Charts.Internal.LegendBase.PageXCollections")]
-
-[assembly: SuppressMessage(
-    "Usage",
-    "CA2227:Collection properties should be read only",
-    Justification = "2026-10-01: Internal rendering-pipeline model; the chart layout/render stage reassigns this collection, so the public setter must remain.",
-    Scope = "member",
-    Target = "~P:Syncfusion.Blazor.Toolkit.Charts.Internal.LegendBase.PagingOptions")]
-
-[assembly: SuppressMessage(
-    "Usage",
-    "CA2227:Collection properties should be read only",
-    Justification = "2026-10-01: Internal rendering-pipeline model; the chart layout/render stage reassigns this collection, so the public setter must remain.",
-    Scope = "member",
-    Target = "~P:Syncfusion.Blazor.Toolkit.Charts.Internal.LegendBase.PagingRegions")]
-
-[assembly: SuppressMessage(
-    "Usage",
-    "CA2227:Collection properties should be read only",
-    Justification = "2026-10-01: Internal rendering-pipeline model; the chart layout/render stage reassigns this collection, so the public setter must remain.",
-    Scope = "member",
-    Target = "~P:Syncfusion.Blazor.Toolkit.Charts.Internal.LegendBase.RowHeights")]
 
 [assembly: SuppressMessage(
     "Usage",
@@ -499,20 +436,6 @@ using System.Diagnostics.CodeAnalysis;
     Justification = "2026-10-01: Attribute-splat dictionary rendered onto the element; Blazor assigns it through the public setter, so the setter must remain.",
     Scope = "member",
     Target = "~P:Syncfusion.Blazor.Toolkit.Charts.Internal.SvgText.HtmlAttributes")]
-
-[assembly: SuppressMessage(
-    "Usage",
-    "CA2227:Collection properties should be read only",
-    Justification = "2026-10-01: Internal rendering-pipeline model; the chart layout/render stage reassigns this collection, so the public setter must remain.",
-    Scope = "member",
-    Target = "~P:Syncfusion.Blazor.Toolkit.Charts.Internal.TextOptions.TextCollection")]
-
-[assembly: SuppressMessage(
-    "Usage",
-    "CA2227:Collection properties should be read only",
-    Justification = "2026-10-01: Internal rendering-pipeline model; the chart layout/render stage reassigns this collection, so the public setter must remain.",
-    Scope = "member",
-    Target = "~P:Syncfusion.Blazor.Toolkit.Charts.Internal.TextOptions.TextLocationCollection")]
 
 [assembly: SuppressMessage(
     "Usage",

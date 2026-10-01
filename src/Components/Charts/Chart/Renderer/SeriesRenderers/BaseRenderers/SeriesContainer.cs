@@ -9,7 +9,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
     /// <summary>
     /// Container responsible for series renderers lifecycle, data processing and stacking calculations.
     /// </summary>
-    public class ChartSeriesRendererContainer : ChartRendererContainer
+    internal class ChartSeriesRendererContainer : ChartRendererContainer
     {
         #region Constants
         /// <summary>

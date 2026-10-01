@@ -11,7 +11,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
     /// rendered as separate series renderers. It delegates size change, animation and render queue
     /// processing to contained renderers.
     /// </remarks>
-    public class ChartTrendlineContainer : ChartRendererContainer
+    internal class ChartTrendlineContainer : ChartRendererContainer
     {
         #region Lifecycle Methods
 

@@ -10,7 +10,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
     /// This renderer is responsible for drawing the chart background rectangle and
     /// an optional background image. It minimizes re-renders by tracking available rect changes.
     /// </remarks>
-    public class ChartBorderRenderer : ChartRenderer
+    internal class ChartBorderRenderer : ChartRenderer
     {
         #region Fields
         private Rect? _availableRect;

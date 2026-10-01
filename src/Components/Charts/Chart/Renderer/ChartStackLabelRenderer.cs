@@ -13,7 +13,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
     /// stack values and applies theme-specific styling. Uses internal caching and
     /// collection-based rendering for performance.
     /// </remarks>
-    public class ChartStackLabelRenderer : ChartRenderer, IChartElementRenderer
+    internal class ChartStackLabelRenderer : ChartRenderer, IChartElementRenderer
     {
         #region Fields
         private readonly List<TextOptions> _chartStackLabels = [];

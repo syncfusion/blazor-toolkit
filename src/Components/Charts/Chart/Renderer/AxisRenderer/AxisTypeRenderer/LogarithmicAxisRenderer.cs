@@ -7,7 +7,7 @@
     /// This renderer transforms data values using logarithmic scale, supports custom log base,
     /// and automatically calculates appropriate intervals for the logarithmic scale.
     /// </remarks>
-    public class LogarithmicAxisRenderer : ChartAxisRenderer
+    internal class LogarithmicAxisRenderer : ChartAxisRenderer
     {
         #region Internal Methods
 

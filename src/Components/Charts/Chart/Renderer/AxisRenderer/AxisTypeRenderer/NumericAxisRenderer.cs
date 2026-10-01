@@ -9,7 +9,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
     /// This renderer handles standard numeric axes with support for various range padding modes
     /// and automatic interval calculation based on the data range.
     /// </remarks>
-    public class NumericAxisRenderer : ChartAxisRenderer
+    internal class NumericAxisRenderer : ChartAxisRenderer
     {
         #region Private Methods
 
@@ -400,7 +400,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
     /// <summary>
     /// Default primary X axis renderer for numeric axes.
     /// </summary>
-    public class PrimaryXAxisRenderer : NumericAxisRenderer
+    internal class PrimaryXAxisRenderer : NumericAxisRenderer
     {
         /// <summary>
         /// Determines whether this is the default renderer.
@@ -415,7 +415,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
     /// <summary>
     /// Default primary Y axis renderer for numeric axes.
     /// </summary>
-    public class PrimaryYAxisRenderer : NumericAxisRenderer
+    internal class PrimaryYAxisRenderer : NumericAxisRenderer
     {
         /// <summary>
         /// Determines whether this is the default renderer.
@@ -433,7 +433,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
     /// <remarks>
     /// Applies numeric axis rendering logic to Pareto charts, inheriting interval calculation and label generation from the numeric renderer.
     /// </remarks>
-    public class ParetoAxisRenderer : NumericAxisRenderer
+    internal class ParetoAxisRenderer : NumericAxisRenderer
     {
         /// <summary>
         /// Determines whether this renderer is the default for Pareto chart axes.

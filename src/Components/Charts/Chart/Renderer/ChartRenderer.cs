@@ -8,7 +8,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
     /// <summary>
     /// Defines a renderer contract for chart child elements.
     /// </summary>
-    public interface IChartElementRenderer
+    internal interface IChartElementRenderer
     {
         /// <exclude />
         /// <summary>
@@ -35,7 +35,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts
     /// This component manages render queue integration with the owning <see cref="SfChart"/> and
     /// exposes lifecycle hooks for size/layout changes.
     /// </remarks>
-    public class ChartRenderer : SfBaseComponent
+    internal class ChartRenderer : SfBaseComponent
     {
         #region Properties
 

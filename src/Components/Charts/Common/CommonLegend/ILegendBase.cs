@@ -13,7 +13,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
     /// <exclude />
     [EditorBrowsable(EditorBrowsableState.Never)]
     [Browsable(false)]
-    public interface ILegendBase
+    internal interface ILegendBase
     {
         /// <summary>
         /// Gets or sets the width of the legend in pixels or percentage.
@@ -107,7 +107,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
     /// This interface is internal and not intended for direct use in user code.
     /// It provides methods for calculating legend bounds and render points based on available space and content.
     /// </remarks>
-    public interface ILegendMethods
+    internal interface ILegendMethods
     {
         /// <summary>
         /// Calculates and updates the render point for a legend item based on available space and previous item positioning.
@@ -136,7 +136,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
     /// This class encapsulates a legend item's symbol shapes, associated text, optional custom template, and index.
     /// It is used internally for rendering and managing individual legend items within the legend container.
     /// </remarks>
-    public class LegendSymbols
+    internal class LegendSymbols
     {
         /// <summary>
         /// Gets or sets the primary symbol (shape) for the legend item.

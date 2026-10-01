@@ -6,7 +6,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
     /// <summary>
     /// Hosts data label templates for series so they can be rendered as Blazor content.
     /// </summary>
-    public class DataLabelTemplateContainer : ComponentBase
+    internal class DataLabelTemplateContainer : ComponentBase
     {
         #region Properties
 

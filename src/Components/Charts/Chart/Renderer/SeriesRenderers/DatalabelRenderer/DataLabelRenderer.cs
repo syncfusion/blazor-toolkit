@@ -37,7 +37,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
     /// <summary>
     /// Handles data label measurement, layout and rendering for a ChartSeries.
     /// </summary>
-    public class ChartDataLabelRenderer : ChartRenderer, IChartElementRenderer
+    internal class ChartDataLabelRenderer : ChartRenderer, IChartElementRenderer
     {
         #region Constants
         private const int MAX_LABEL_POSITION_ATTEMPTS = 4;

@@ -5,6 +5,20 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
     /// <summary>
     /// Specifies the font styling options, such as color, size, family, weight, and style, used when rendering SVG text elements.
     /// </summary>
+    /// <example>
+    /// <code>
+    /// <![CDATA[
+    /// var font = new FontOptions
+    /// {
+    ///     Color = "#333333",
+    ///     Size = "14px",
+    ///     FontFamily = "Segoe UI",
+    ///     FontWeight = "600",
+    ///     FontStyle = "normal"
+    /// };
+    /// ]]>
+    /// </code>
+    /// </example>
     public class FontOptions
     {
         /// <summary>
@@ -67,7 +81,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
     /// <summary>
     /// Specifies SVG text element rendering options.
     /// </summary>
-    public class TextOptions
+    internal class TextOptions
     {
         #region Properties
 
@@ -241,7 +255,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
     /// <summary>
     /// Specifies SVG rectangle element rendering options.
     /// </summary>
-    public class RectOptions
+    internal class RectOptions
     {
         #region Properties
 
@@ -531,7 +545,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
     /// <summary>
     /// Specifies SVG ellipse element rendering options.
     /// </summary>
-    public class EllipseOptions
+    internal class EllipseOptions
     {
         #region Properties
 
@@ -758,7 +772,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
     /// <summary>
     /// Specifies SVG image element rendering options.
     /// </summary>
-    public class ImageOptions
+    internal class ImageOptions
     {
         #region Properties
 
@@ -841,7 +855,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
     /// <summary>
     /// Specifies combined symbol rendering options for different shape types.
     /// </summary>
-    public class SymbolOptions
+    internal class SymbolOptions
     {
         /// <summary>
         /// Gets or sets the path rendering options.
@@ -922,7 +936,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
     /// <summary>
     /// Represents a single text location with Y-coordinate for multi-line text rendering.
     /// </summary>
-    public class TextLocation
+    internal class TextLocation
     {
         /// <summary>
         /// Gets or sets the text content at this location.

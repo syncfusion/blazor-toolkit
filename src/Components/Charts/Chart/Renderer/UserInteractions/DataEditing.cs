@@ -9,7 +9,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
     /// Handles mouse events to enable users to drag chart data points and update their values.
     /// Supports min/max range constraints and axis-specific calculations.
     /// </remarks>
-    public class DataEditing
+    internal class DataEditing
     {
         #region Fields
 

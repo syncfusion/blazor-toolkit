@@ -10,7 +10,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
     /// Handles creation, sizing and axis assignment for <see cref="ChartColumnRenderer"/>.
     /// Keeps rendering lifecycle coordinated with the owning chart.
     /// </remarks>
-    public class ChartColumnRendererContainer : ChartRendererContainer
+    internal class ChartColumnRendererContainer : ChartRendererContainer
     {
         #region Properties
 

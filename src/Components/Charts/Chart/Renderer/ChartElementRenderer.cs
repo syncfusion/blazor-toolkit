@@ -6,7 +6,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
     /// <summary>
     /// Represents a chart element descriptor used by renderers.
     /// </summary>
-    public interface IChartElement
+    internal interface IChartElement
     {
         /// <summary>
         /// Gets or sets the renderer key used to identify the renderer instance.
@@ -24,7 +24,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
     /// <summary>
     /// Container renderer that manages a collection of chart element renderers and their lifecycle.
     /// </summary>
-    public class ChartRendererContainer : ChartRenderer
+    internal class ChartRendererContainer : ChartRenderer
     {
         #region Fields
         private readonly Queue<IChartElementRenderer> _rendererQueue = new();

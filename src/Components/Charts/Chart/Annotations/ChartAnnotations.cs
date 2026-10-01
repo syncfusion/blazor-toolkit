@@ -136,7 +136,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
     /// Initializes the annotation renderer container and sets up initial configurations.
     /// Handles annotation lifecycle, rendering updates, and size change notifications.
     /// </remarks>
-    public class ChartAnnotationRendererContainer : ChartRendererContainer
+    internal class ChartAnnotationRendererContainer : ChartRendererContainer
     {
         #region Lifecycle Methods
 

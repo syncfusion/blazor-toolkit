@@ -17,7 +17,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
     /// <exclude />
     [EditorBrowsable(EditorBrowsableState.Never)]
     [Browsable(false)]
-    public class LegendBase : ChartRenderer
+    internal class LegendBase : ChartRenderer
     {
         #region Constants
         private const double PAGE_BUTTON_SIZE = 8;

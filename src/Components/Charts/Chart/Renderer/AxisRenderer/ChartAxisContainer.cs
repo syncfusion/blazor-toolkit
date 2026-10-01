@@ -6,7 +6,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
     /// <summary>
     /// Defines the contract for chart elements that require associated series data.
     /// </summary>
-    public interface IRequireSeries
+    internal interface IRequireSeries
     {
         /// <summary>
         /// Gets or sets the chart series renderer associated with this element.
@@ -23,7 +23,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
     /// <see cref="ChartAxisRendererContainer"/> manages axis renderers, axis elements and coordinates layout
     /// and rendering passes for chart axes.
     /// </summary>
-    public class ChartAxisRendererContainer : ChartRendererContainer
+    internal class ChartAxisRendererContainer : ChartRendererContainer
     {
         #region Fields
         private int _axisIndex;

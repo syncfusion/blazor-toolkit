@@ -6,7 +6,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
     /// <summary>
     /// Renders and manages a single row of the chart, including its associated axes and computed dimensions.
     /// </summary>
-    public class ChartRowRenderer : ChartRenderer, IChartElementRenderer
+    internal class ChartRowRenderer : ChartRenderer, IChartElementRenderer
     {
         #region Properties
 

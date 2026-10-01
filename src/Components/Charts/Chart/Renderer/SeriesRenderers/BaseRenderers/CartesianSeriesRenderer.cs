@@ -9,7 +9,7 @@
     /// update consumers by invoking <see cref="OnAxisChanged"/> when any axis
     /// related property changes.
     /// </remarks>
-    public interface IRequireAxis
+    internal interface IRequireAxis
     {
         #region Properties
 

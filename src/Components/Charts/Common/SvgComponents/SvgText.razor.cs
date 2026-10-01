@@ -153,6 +153,15 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
         /// Gets or sets a collection of additional HTML attributes that are not explicitly declared and are applied to the rendered text element.
         /// </summary>
         /// <value>A dictionary of attribute names and values captured from unmatched parameters.</value>
+        /// <example>
+        /// Any attribute that is not an explicit parameter is captured and splatted onto the rendered text element:
+        /// <code>
+        /// <![CDATA[
+        /// <SvgText X="10" Y="20" class="axis-label" data-index="3" aria-hidden="true" />
+        /// ]]>
+        /// </code>
+        /// Here <c>class</c>, <c>data-index</c>, and <c>aria-hidden</c> are collected into <see cref="HtmlAttributes"/>.
+        /// </example>
         [Parameter(CaptureUnmatchedValues = true)]
         public Dictionary<string, object> HtmlAttributes { get; set; } = null!;
 

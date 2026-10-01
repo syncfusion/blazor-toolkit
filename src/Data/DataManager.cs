@@ -15,6 +15,20 @@ namespace Syncfusion.Blazor.Toolkit.Data
     /// The DataManager is a data management component used for performing data operations in applications.
     /// It acts as an abstraction for using local data source - IEnumerable and remote data source - web services returning JSON or oData.
     /// </summary>
+    /// <example>
+    /// Bind to an in-memory collection using the <see cref="Json"/> property:
+    /// <code>
+    /// <![CDATA[
+    /// <SfDataManager Json="@Orders" Adaptor="Adaptors.BlazorAdaptor" />
+    /// ]]>
+    /// </code>
+    /// Or point to a remote service by setting the <see cref="Url"/> and an appropriate adaptor:
+    /// <code>
+    /// <![CDATA[
+    /// <SfDataManager Url="https://services.example.com/api/Orders" Adaptor="Adaptors.WebApiAdaptor" />
+    /// ]]>
+    /// </code>
+    /// </example>
     public class DataManager : SfBaseComponent
     {
         /// <summary>

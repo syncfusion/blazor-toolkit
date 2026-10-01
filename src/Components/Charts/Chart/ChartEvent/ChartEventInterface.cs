@@ -525,6 +525,14 @@ namespace Syncfusion.Blazor.Toolkit.Charts
         /// </summary>
         /// <param name="locationX">The X-coordinate of the location, in pixels.</param>
         /// <param name="locationY">The Y-coordinate of the location, in pixels.</param>
+        /// <example>
+        /// <code>
+        /// <![CDATA[
+        /// var location = new ChartEventLocation(120, 80);
+        /// // location.X == 120, location.Y == 80
+        /// ]]>
+        /// </code>
+        /// </example>
         public ChartEventLocation(double locationX, double locationY)
         {
             X = locationX;
@@ -614,6 +622,14 @@ namespace Syncfusion.Blazor.Toolkit.Charts
         /// </summary>
         /// <param name="width">The width of the element, in pixels.</param>
         /// <param name="height">The height of the element, in pixels.</param>
+        /// <example>
+        /// <code>
+        /// <![CDATA[
+        /// var size = new Size(200, 100);
+        /// // size.Width == 200, size.Height == 100
+        /// ]]>
+        /// </code>
+        /// </example>
         public Size(double width, double height)
         {
             Width = width;

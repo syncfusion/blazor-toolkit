@@ -21,7 +21,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
     /// It manages data binding, point calculations, animation orchestration, and SVG rendering coordination.
     /// Derived classes override virtual members to implement specific series visualization logic.
     /// </remarks>
-    public abstract class ChartSeriesRenderer : ChartRenderer, IChartElementRenderer, IRequireAxis
+    internal abstract class ChartSeriesRenderer : ChartRenderer, IChartElementRenderer, IRequireAxis
     {
         #region Constants
         private const StringComparison INVARIANT_COMPARISON = StringComparison.InvariantCulture;

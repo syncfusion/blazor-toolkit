@@ -16,7 +16,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
     /// - Managing legend paging and templates
     /// - Handling legend click and hover interactions
     /// </remarks>
-    public class ChartLegendRenderer : LegendBase, ILegendMethods
+    internal class ChartLegendRenderer : LegendBase, ILegendMethods
     {
         #region Fields
         private int _seriesIndex;

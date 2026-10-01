@@ -6,7 +6,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
     /// <summary>
     /// Renders and manages chart annotations, including positioning and visibility.
     /// </summary>
-    public class ChartAnnotationRenderer : ChartRenderer, IChartElementRenderer
+    internal class ChartAnnotationRenderer : ChartRenderer, IChartElementRenderer
     {
         #region Constants
         private const string ADAPTIVE_SMALL_ANNOTATION = "e-chart-small-annotation";

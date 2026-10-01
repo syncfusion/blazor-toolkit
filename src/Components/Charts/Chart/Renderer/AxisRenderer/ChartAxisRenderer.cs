@@ -57,7 +57,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
     /// <summary>
     /// Renderer responsible for axis layout and drawing.
     /// </summary>
-    public class ChartAxisRenderer : ChartRenderer, IChartElementRenderer
+    internal class ChartAxisRenderer : ChartRenderer, IChartElementRenderer
     {
         #region Constants
         private const double DEFAULT_LABEL_HEIGHT = 15.96;
