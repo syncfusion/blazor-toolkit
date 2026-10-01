@@ -511,7 +511,7 @@ namespace Syncfusion.Blazor.Toolkit.Data
         public static IEnumerable PerformSearching(IEnumerable dataSource, IList<SearchFilter> searchFilter)
         {
             Type? type = dataSource.GetElementType();
-            Type t = typeof(object);
+            Type t;
             if (type == null)
             {
                 Type? type1 = dataSource?.GetType();

@@ -415,7 +415,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts
                 Width = _axisContainer?.AxisLayout.SeriesClipRect?.Width ?? 0,
                 Height = _axisContainer?.AxisLayout.SeriesClipRect?.Height ?? 0,
                 IsScrollExist = true,
-                isScrollEventCalled = OnScrollChanged is not null,
+                IsScrollEventCalled = OnScrollChanged is not null,
                 ChartTitleHeight = (_chartTitleRenderer?.TitleSize.Height ?? 0) * (_chartTitleRenderer?.TitleCollection.Count ?? 0),
                 ChartTitlePosition = Enum.GetName(_chartTitleRenderer?.TitleStyle?.Position ?? ChartTitlePosition.Top) ?? null!,
                 ChartSubTitleHeight = (_chartTitleRenderer?.SubTitleSize.Height ?? 0) * (_chartTitleRenderer?.SubTitleCollection.Count ?? 0),
@@ -1109,7 +1109,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts
         {
             if (_crosshair.Enable)
             {
-                _crosshairModule = new Crosshair(this);
+                _crosshairModule = new Crosshair();
             }
             else if (_crosshair.Enable && _crosshairModule is not null)
             {
@@ -1701,8 +1701,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts
         /// Updates axis zoom values based on provided axis data.
         /// </summary>
         /// <param name="axisCollections">Collection of axis data containing zoom factor and position.</param>
-        /// <param name="isChartPanning">Whether the update is triggered by chart panning.</param>
-        internal void UpdateAxisZoomValues(IList<AxisData> axisCollections, bool isChartPanning = false)
+        internal void UpdateAxisZoomValues(IList<AxisData> axisCollections)
         {
             foreach (AxisData axisData in axisCollections)
             {
@@ -2008,26 +2007,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts
 
             if (_seriesContainer?.Elements.Count > 0 && !_seriesContainer.Elements.Contains(series))
             {
-                bool isBar = series.Type is ChartSeriesType.Bar or ChartSeriesType.StackingBar or ChartSeriesType.StackingBar100;
-                switch (series.Type)
-                {
-                    case ChartSeriesType.Bar:
-                    case ChartSeriesType.StackingBar:
-                    case ChartSeriesType.StackingBar100:
-                        if (isBar)
-                        {
-                            _seriesContainer.AddElement(series);
-                        }
-
-                        break;
-                    default:
-                        if (!isBar)
-                        {
-                            _seriesContainer.AddElement(series);
-                        }
-
-                        break;
-                }
+                _seriesContainer.AddElement(series);
             }
             else if (_seriesContainer is not null && !_seriesContainer.Elements.Contains(series))
             {

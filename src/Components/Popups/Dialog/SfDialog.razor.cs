@@ -263,12 +263,9 @@ namespace Syncfusion.Blazor.Toolkit.Popups
         /// <returns>The labelling element id, or <see langword="null"/> when none applies.</returns>
         private string? GetAriaLabelledBy()
         {
-            if (!string.IsNullOrWhiteSpace(AriaLabelledBy))
-            {
-                return AriaLabelledBy;
-            }
-
-            return !string.IsNullOrEmpty(Header) || HeaderTemplate is not null ? $"{ID}_title" : null;
+            return !string.IsNullOrWhiteSpace(AriaLabelledBy)
+                ? AriaLabelledBy
+                : !string.IsNullOrEmpty(Header) || HeaderTemplate is not null ? $"{ID}_title" : null;
         }
 
         /// <summary>

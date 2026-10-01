@@ -2115,28 +2115,19 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
     /// <summary>
     /// Represents options for chart internal location.
     /// </summary>
-    internal class IChartInternalLocation
+    /// <param name="locationX">The X coordinate of the location.</param>
+    /// <param name="locationY">The Y coordinate of the location.</param>
+    internal class IChartInternalLocation(double locationX, double locationY)
     {
         /// <summary>
         /// Gets or sets the X coordinate of the location.
         /// </summary>
-        public double x { get; set; }
+        public double x { get; set; } = locationX;
 
         /// <summary>
         /// Gets or sets the Y coordinate of the location.
         /// </summary>
-        public double y { get; set; }
-
-        /// <summary>
-        /// Initializes a new instance of the <see cref="IChartInternalLocation"/> class with specified coordinates.
-        /// </summary>
-        /// <param name="locationX">The X coordinate of the location.</param>
-        /// <param name="locationY">The Y coordinate of the location.</param>
-        public IChartInternalLocation(double locationX, double locationY)
-        {
-            x = locationX;
-            y = locationY;
-        }
+        public double y { get; set; } = locationY;
     }
 
     /// <summary>
@@ -2784,7 +2775,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
         /// Gets or sets a value indicating whether scroll event was called.
         /// </summary>
         [JsonPropertyName("isScrollEventCalled")]
-        public bool isScrollEventCalled { get; set; }
+        public bool IsScrollEventCalled { get; set; }
 
         /// <summary>
         /// Gets or sets the chart title position.

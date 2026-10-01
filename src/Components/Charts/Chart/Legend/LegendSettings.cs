@@ -15,8 +15,6 @@ namespace Syncfusion.Blazor.Toolkit.Charts
         #region Fields
 
         private bool _visible = true;
-        private bool _toggleVisibility = true;
-        private bool _enableHighlight;
         private bool _reverse;
         private bool _isInversed;
         private string _width = null!;
@@ -131,18 +129,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts
         /// </code>
         /// </example>
         [Parameter]
-        public bool EnableHighlight
-        {
-            get => _enableHighlight;
-
-            set
-            {
-                if (_enableHighlight != value)
-                {
-                    _enableHighlight = value;
-                }
-            }
-        }
+        public bool EnableHighlight { get; set; }
 
         /// <summary> 
         /// Gets or sets the width for the legend. 
@@ -832,18 +819,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts
         /// </code>
         /// </example>
         [Parameter]
-        public bool ToggleVisibility
-        {
-            get => _toggleVisibility;
-
-            set
-            {
-                if (_toggleVisibility != value)
-                {
-                    _toggleVisibility = value;
-                }
-            }
-        }
+        public bool ToggleVisibility { get; set; } = true;
 
         /// <summary> 
         /// Gets or sets the tabindex value of the legend for accessibility purposes. 

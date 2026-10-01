@@ -120,8 +120,6 @@ namespace Syncfusion.Blazor.Toolkit.Charts
             }
         }
 
-        private bool _isFilled;
-
         /// <summary>
         /// Gets or sets a value indicating whether the marker is filled for the series.
         /// </summary>
@@ -139,19 +137,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts
         /// </code>
         /// </example>
         [Parameter]
-        public bool IsFilled
-        {
-            get => _isFilled;
-            set
-            {
-                if (_isFilled == value)
-                {
-                    return;
-                }
-
-                _isFilled = value;
-            }
-        }
+        public bool IsFilled { get; set; }
 
         private ChartShape _shape = ChartShape.Auto;
         private ChartMarkerBorder? _border;
@@ -192,7 +178,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts
         /// <summary>
         /// Gets or sets the URL path for the image.
         /// </summary>
-        /// <value>A <see cref="System.Uri"/> for the image used when <see cref="Shape"/> is <see cref="ChartShape.Image"/>.</value>
+        /// <value>A <see cref="Uri"/> for the image used when <see cref="Shape"/> is <see cref="ChartShape.Image"/>.</value>
         /// <remarks>
         /// Use a fully qualified URL or application-relative path to render custom image markers.
         /// </remarks>
@@ -302,7 +288,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts
         [Parameter]
         public ChartMarkerBorder Border
         {
-          
+
             get => _border ??= new ChartMarkerBorder();
             set
             {
@@ -339,7 +325,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts
         [Parameter]
         public ChartMarkerOffset Offset
         {
-          
+
             get => _offset ??= new ChartMarkerOffset();
             set
             {

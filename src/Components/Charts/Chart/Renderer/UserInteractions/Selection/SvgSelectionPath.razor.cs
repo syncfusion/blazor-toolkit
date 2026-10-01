@@ -19,13 +19,13 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
         /// not re-themed at runtime (unlike the rect side, which has <see cref="SvgSelectionRect.ChangeCursorAsync"/>).
         /// Style rule lives in <c>SvgSelectionPath.razor.css</c>.
         /// </summary>
-        private const string _cursorClass = "svg-sel-path-move";
+        private const string CursorClass = "svg-sel-path-move";
 
         /// <summary>
         /// CSS class applied to the close-icon &lt;g&gt;. Pointer cursor is fixed for a dismiss button.
         /// Style rule lives in <c>SvgSelectionPath.razor.css</c>.
         /// </summary>
-        private const string _closeCursorClass = "svg-sel-path-close";
+        private const string CloseCursorClass = "svg-sel-path-close";
         private readonly CultureInfo _culture = CultureInfo.InvariantCulture;
         internal bool _isDrawCloseIcon;
         #endregion

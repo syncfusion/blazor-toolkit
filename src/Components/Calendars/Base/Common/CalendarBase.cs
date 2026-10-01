@@ -377,15 +377,11 @@ namespace Syncfusion.Blazor.Toolkit.Calendars
         {
             Type propertyType = typeof(T);
             bool isNullable = Nullable.GetUnderlyingType(propertyType) is not null;
-            if (IsDateTimeType(dateValue, propertyType, isNullable))
-            {
-                return ConvertToDateTime(dateValue, propertyType);
-            }
-            if (IsDateOnlyType(dateValue, propertyType, isNullable))
-            {
-                return ConvertDateOnlyToDateTime(dateValue, propertyType);
-            }
-            return IsDateTimeOffsetType(dateValue, propertyType, isNullable)
+            return IsDateTimeType(dateValue, propertyType, isNullable)
+                ? ConvertToDateTime(dateValue, propertyType)
+                : IsDateOnlyType(dateValue, propertyType, isNullable)
+                ? ConvertDateOnlyToDateTime(dateValue, propertyType)
+                : IsDateTimeOffsetType(dateValue, propertyType, isNullable)
                 ? ConvertDateTimeOffsetToDateTime(dateValue, propertyType)
                 : DateTime.Now;
         }

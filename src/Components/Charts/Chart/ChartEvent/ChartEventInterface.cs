@@ -711,12 +711,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts
         [EditorBrowsable(EditorBrowsableState.Never)]
         public override bool Equals(object obj)
         {
-            if (ReferenceEquals(this, obj))
-            {
-                return true;
-            }
-
-            return obj is null ? false : Equals(obj);
+            return ReferenceEquals(this, obj) || (obj is not null && Equals(obj));
         }
 
         /// <exclude />
@@ -996,7 +991,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts
         /// Defines the current point.
         /// </summary>
         /// <value>
-        /// A <see cref="Syncfusion.Blazor.Toolkit.Charts.Point"/> object that represents the current point.
+        /// A <see cref="Point"/> object that represents the current point.
         /// </value>
         /// <remarks>
         /// This read-only property provides detailed information about the specific data point involved in rendering.
@@ -1134,7 +1129,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts
         /// Defines the current size of the chart.
         /// </summary>
         /// <value>
-        /// A <see cref="Syncfusion.Blazor.Toolkit.Charts.Size"/> object representing the current size of the chart.
+        /// A <see cref="Size"/> object representing the current size of the chart.
         /// </value>
         /// <remarks>
         /// This read-only property provides the updated size of the chart following a resize event.
@@ -1145,7 +1140,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts
         /// Defines the previous size of the chart.
         /// </summary>
         /// <value>
-        /// A <see cref="Syncfusion.Blazor.Toolkit.Charts.Size"/> object representing the previous size of the chart.
+        /// A <see cref="Size"/> object representing the previous size of the chart.
         /// </value>
         /// <remarks>
         /// This read-only property provides the chart's size prior to the occurrence of a resize event.
@@ -1213,7 +1208,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts
         /// Gets the point that was clicked.
         /// </summary>
         /// <value>
-        /// A <see cref="Syncfusion.Blazor.Toolkit.Charts.Point"/> object representing the clicked data point.
+        /// A <see cref="Point"/> object representing the clicked data point.
         /// </value>
         /// <remarks>
         /// This read-only property identifies the specific chart data point that was subjected to a click event.
@@ -2566,19 +2561,12 @@ namespace Syncfusion.Blazor.Toolkit.Charts
             {
                 JsonElement jsonElement = (JsonElement)value;
 
-                if (jsonElement.ValueKind == JsonValueKind.Number)
-                {
-                    Value = jsonElement.GetDouble();
-                }
-                else if (jsonElement.ValueKind == JsonValueKind.String &&
-                         DateTime.TryParse(jsonElement.GetString(), out DateTime dateTime))
-                {
-                    Value = dateTime;
-                }
-                else
-                {
-                    Value = jsonElement.GetString() ?? string.Empty;
-                }
+                Value = jsonElement.ValueKind == JsonValueKind.Number
+                    ? jsonElement.GetDouble()
+                    : jsonElement.ValueKind == JsonValueKind.String &&
+                        DateTime.TryParse(jsonElement.GetString(), out DateTime dateTime)
+                    ? dateTime
+                    : jsonElement.GetString() ?? string.Empty;
             }
         }
 

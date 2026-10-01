@@ -1340,20 +1340,15 @@ namespace Syncfusion.Blazor.Toolkit.Data
             {
                 try
                 {
-                    if (underlyingType == typeof(DateTimeOffset))
-                    {
-                        value = value switch
+                    value = underlyingType == typeof(DateTimeOffset)
+                        ? value switch
                         {
                             DateTime dateTimeValue => new DateTimeOffset(dateTimeValue),
                             TimeOnly timeOnlyValue => new DateTimeOffset(DateTime.Today.Add(timeOnlyValue.ToTimeSpan())),
                             DateOnly dateOnlyValue => new DateTimeOffset(dateOnlyValue.ToDateTime(TimeOnly.MinValue)),
                             _ => value
-                        };
-                    }
-                    else
-                    {
-                        value = ValueConvert.ChangeType(underlyingType.Name.Equals("DateTimeOffset", StringComparison.Ordinal) ? ((DateTimeOffset)value).ToString("o", CultureInfo.InvariantCulture) : value, underlyingType, CultureInfo.CurrentCulture);
-                    }
+                        }
+                        : ValueConvert.ChangeType(underlyingType.Name.Equals("DateTimeOffset", StringComparison.Ordinal) ? ((DateTimeOffset)value).ToString("o", CultureInfo.InvariantCulture) : value, underlyingType, CultureInfo.CurrentCulture);
                 }
                 catch (InvalidCastException e)
                 {
@@ -2780,13 +2775,10 @@ namespace Syncfusion.Blazor.Toolkit.Data
                 method = NullableHelperInternal.IsNullableType(bodyType) ? EnumerableAverageMethods[2] : EnumerableAverageMethods[0];
             }
 
-            if (method != null)
-            {
-                return source.Provider.Execute(Expression.Call(null, method.MakeGenericMethod([sourceType!]),
-                            [source.Expression, Expression.Quote(lambda)]))!;
-            }
-
-            return null!;
+            return method != null
+                ? source.Provider.Execute(Expression.Call(null, method.MakeGenericMethod([sourceType!]),
+                            [source.Expression, Expression.Quote(lambda)]))!
+                : null!;
         }
 
         /// <summary>

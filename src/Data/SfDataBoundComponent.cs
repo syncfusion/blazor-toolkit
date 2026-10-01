@@ -69,7 +69,7 @@ namespace Syncfusion.Blazor.Toolkit.Data
             Justification = "DataManager is used here as a data-access model rather than a rendered child component. Its Json parameter is populated programmatically to wrap the caller's data source; it is never assigned declaratively in markup for this instance, so the BL0005 constraint does not apply.")]
         protected object SetDataManager<T>(object dataSource)
         {
-            if (dataSource is Data.SfDataManager || dataSource is DataManager)
+            if (dataSource is SfDataManager || dataSource is DataManager)
             {
                 return dataSource;
             }
@@ -78,16 +78,11 @@ namespace Syncfusion.Blazor.Toolkit.Data
             if (dataSource != null)
             {
                 Type type = dataSource.GetType();
-                if (typeof(IEnumerable).IsAssignableFrom(type) ^ typeof(IEnumerable<object>).IsAssignableFrom(type))
-                {
-                    DataManager = new DataManager() { Json = ((IEnumerable)dataSource).Cast<object>() };
-                }
-                else
-                {
-                    DataManager = dataSource is IQueryable
+                DataManager = typeof(IEnumerable).IsAssignableFrom(type) ^ typeof(IEnumerable<object>).IsAssignableFrom(type)
+                    ? new DataManager() { Json = ((IEnumerable)dataSource).Cast<object>() }
+                    : dataSource is IQueryable
                         ? new DataManager() { Json = [.. (IEnumerable<object>)dataSource] }
                         : new DataManager() { Json = (IEnumerable<object>)dataSource };
-                }
             }
             else
             {

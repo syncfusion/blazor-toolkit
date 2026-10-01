@@ -428,7 +428,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
                 double availWidth = CalculateAvailableWidth(legendOption, textPadding);
                 if (legendOption is { })
                 {
-                    legendOption.Text = ChartHelper.TextTrim(Convert.ToDouble(availWidth.ToString("F4", culture), culture), legendOption.Text, LegendTextStyle ?? null!);
+                    legendOption.Text = ChartHelper.TextTrim(Convert.ToDouble(availWidth.ToString("F4", Culture), Culture), legendOption.Text, LegendTextStyle ?? null!);
                 }
             }
         }
@@ -774,9 +774,6 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
             {
                 SetBounds(Math.Max(rowWidth + padding, maximumWidth), columnHeight);
 
-                double rowsPerPageDenom = Math.Max(1.0, (double)RowCountPerPage - 1.0);
-                double linesPerPageDenom = Math.Max(0.0, Math.Ceiling((LegendBounds.Height - (Legend?.Padding ?? 0)) / _textHeight) + 1.0);
-
                 TotalPageCount = Math.Ceiling((rowCount / Math.Max(1, RowCountPerPage - 1)) + (wrapTextCount / Math.Max(0, Math.Ceiling((LegendBounds.Height - (Legend?.Padding ?? 0)) / _textHeight) + 1)));
             }
             else
@@ -1017,7 +1014,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
 
             if (currentTextOption is { })
             {
-                currentTextOption.Y = yValue.ToString(culture);
+                currentTextOption.Y = yValue.ToString(Culture);
             }
 
             string id = Owner?.ID + "_chart_legend_template_" + Convert.ToString(legendOption.SeriesIndex, null);
@@ -1033,7 +1030,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
             TemplateOptions.Add(new LegendItemTemplateOptions()
             {
                 Id = id,
-                style = style,
+                Style = style,
                 LegendTemplate = legendOption.LegendTemplate
             });
         }
@@ -1106,7 +1103,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
         /// <param name="pageNumberElement">The page number text element.</param>
         protected async Task TranslatePageAsync(double page, double pageNumber, SvgText pageNumberElement = null!)
         {
-            Transform = "translate(0,-" + (ClipPathHeight * page).ToString(culture) + ")";
+            Transform = "translate(0,-" + (ClipPathHeight * page).ToString(Culture) + ")";
             CurrentPageNumber = pageNumber;
 
             if (Owner is not null)

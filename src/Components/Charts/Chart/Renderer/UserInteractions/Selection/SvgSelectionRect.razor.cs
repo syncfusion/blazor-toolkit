@@ -21,7 +21,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
         /// CSS class applied to the close-icon &lt;g&gt;. Pointer cursor is fixed for a dismiss button.
         /// Style rule lives in <c>SvgSelectionRect.razor.css</c>.
         /// </summary>
-        private const string _closeCursorClass = "svg-sel-rect-close";
+        private const string CloseCursorClass = "svg-sel-rect-close";
         private readonly CultureInfo _culture = CultureInfo.InvariantCulture;
         internal bool _isDrawCloseIcon;
         #endregion

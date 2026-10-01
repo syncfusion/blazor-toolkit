@@ -48,11 +48,9 @@ namespace Syncfusion.Blazor.Toolkit
                 propertyInfo = objectType?.GetProperty(propertyName);
             }
             //Adding null check and returning null setter for chart alone. Chart passes empty property names for reflection.
-            if (propertyInfo is null)
-            {
-                return (IPropertyAccessor)Activator.CreateInstance(typeof(PropertyAccessor<,>).MakeGenericType(typeof(object), typeof(object)), propertyInfo);
-            }
-            return CreateAccessor(propertyInfo);
+            return propertyInfo is null
+                ? (IPropertyAccessor)Activator.CreateInstance(typeof(PropertyAccessor<,>).MakeGenericType(typeof(object), typeof(object)), propertyInfo)
+                : CreateAccessor(propertyInfo);
         }
     }
 
@@ -123,7 +121,7 @@ namespace Syncfusion.Blazor.Toolkit
             return _getMethod is null ? null : _getMethod((TObject)source);
         }
 
-         /// <summary>
+        /// <summary>
         /// Releases references to the compiled delegate and property metadata.
         /// </summary>
         public void Dispose()

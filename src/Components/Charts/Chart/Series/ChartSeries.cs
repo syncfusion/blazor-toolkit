@@ -651,17 +651,17 @@ namespace Syncfusion.Blazor.Toolkit.Charts
                 {
                     _name = value;
 
-                if (Container is not null && Container._isChartFirstRender)
-                {
-                    Renderer?.UpdateSeriesDataAsync();
-                    if (Container._legendRenderer is not null && !Container._isLayoutChange)
-
+                    if (Container is not null && Container._isChartFirstRender)
                     {
-                        Container._legendRenderer.RendererShouldRender = Visible;
-                        Container._legendRenderer.UpdateLegendShape(Renderer ?? null!);
-                        Container._legendRenderer.ProcessRenderQueue();
+                        _ = Renderer?.UpdateSeriesDataAsync();
+                        if (Container._legendRenderer is not null && !Container._isLayoutChange)
+
+                        {
+                            Container._legendRenderer.RendererShouldRender = Visible;
+                            Container._legendRenderer.UpdateLegendShape(Renderer ?? null!);
+                            Container._legendRenderer.ProcessRenderQueue();
+                        }
                     }
-                }
 
                 }
             }
@@ -808,7 +808,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts
 
                             if (_dataSource.Any() && _dataSource.First() is INotifyPropertyChanged)
                             {
-                                foreach (INotifyPropertyChanged item in (_dataSource).Cast<INotifyPropertyChanged>())
+                                foreach (INotifyPropertyChanged item in _dataSource.Cast<INotifyPropertyChanged>())
                                 {
                                     item.PropertyChanged += PropertyChanged;
                                 }
@@ -1273,12 +1273,12 @@ namespace Syncfusion.Blazor.Toolkit.Charts
         /// When nested under <see cref="ChartSeries"/>, <c>ChartIndicator</c>, or <c>ChartTrendline</c>, the gradient is applied
         /// automatically to the owning element. 
         /// </remarks>
-  
+
         internal ChartLinearGradient? LinearGradient
         {
             get; set;
         } = new();
-     
+
 
         /// <summary>
         /// Provides options to configure a radial gradient for a chart element owned by this series.
@@ -1296,12 +1296,12 @@ namespace Syncfusion.Blazor.Toolkit.Charts
         /// When placed under <see cref="ChartSeries"/>, <c>ChartIndicator</c>, or <see cref="ChartTrendline"/>, the gradient is applied
         /// automatically. 
         /// </remarks>
-       
+
         internal ChartRadialGradient? RadialGradient
         {
             get; set;
         } = new();
-       
+
 
         /// <summary>
         /// Specifies the customization of the empty point settings for the series.
@@ -1699,7 +1699,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts
         /// </code>
         /// </example>
         [Parameter]
-        public IList<ChartTrendline> Trendlines { get; set; } = new List<ChartTrendline>();
+        public IList<ChartTrendline> Trendlines { get; set; } = [];
 
         /// <summary>
         /// Specifies the segments of the multicolor series.
@@ -2237,13 +2237,19 @@ namespace Syncfusion.Blazor.Toolkit.Charts
             {
                 Container?._svgRenderer?.RefreshElementList();
                 if (Renderer != null)
+                {
                     Renderer.IsSeriesRender = false;
+                }
+
                 _ = SetDataManager<object>((DataSource is not null) ? DataSource : Container?.DataSource ?? null!);
                 Container?._seriesContainer?.AddToRenderQueue(Renderer ?? null!);
                 UpdateDataSource = true;
 
                 if (Renderer != null)
+                {
                     await Renderer.UpdateSeriesDataAsync().ConfigureAwait(false);
+                }
+
                 if (!IsDisposed && Container is not null && Container._seriesContainer is not null &&
                     (Container._seriesContainer._previousRequestTime == DateTime.MinValue
                      || (DateTime.Now - Container._seriesContainer._previousRequestTime).TotalMilliseconds > UPDATE_THRESHOLD))

@@ -14,7 +14,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
     public partial class TrimTooltipBase
     {
         #region Fields
-        private CultureInfo _culture { get; set; } = CultureInfo.InvariantCulture;
+        private CultureInfo Culture { get; set; } = CultureInfo.InvariantCulture;
         private Dictionary<string, object> _trimTooltipAttribute = [];
         #endregion
 
@@ -48,7 +48,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
         /// <returns>A <see cref="Task"/> that represents the asynchronous initialization operation.</returns>
         protected override async Task OnInitializedAsync()
         {
-            updateStyleAttributes(Style);
+            UpdateStyleAttributes(Style);
         }
 
         #region Internal Methods
@@ -64,14 +64,14 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
             {
                 Id = Content = string.Empty;
                 Style = null!;
-                updateStyleAttributes(Style);
+                UpdateStyleAttributes(Style);
                 _ = InvokeAsync(StateHasChanged);
             }
             else if (id == Id)
             {
                 Style = null!;
                 Content = string.Empty;
-                updateStyleAttributes(Style);
+                UpdateStyleAttributes(Style);
                 _ = InvokeAsync(StateHasChanged);
             }
         }
@@ -104,16 +104,16 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
             x = x < 0 ? 0 : x;
             y = y < 0 ? 0 : y;
 
-            Style = "top:" + (y - 10).ToString(_culture) + "px;left:" + x.ToString(_culture) + "px;background-color: rgb(255, 255, 255) !important; color:black !important; " +
+            Style = "top:" + (y - 10).ToString(Culture) + "px;left:" + x.ToString(Culture) + "px;background-color: rgb(255, 255, 255) !important; color:black !important; " +
                     "position:absolute;border:1px solid rgb(112, 112, 112); padding-left : 3px; padding-right : 2px;" + "padding-bottom : 2px; padding-top : 2px; font-size:12px; font-family: 'Segoe UI';pointer-events: none;";
-            updateStyleAttributes(Style);
+            UpdateStyleAttributes(Style);
             _ = InvokeAsync(StateHasChanged);
         }
         #endregion
 
         #region Private Methods
 
-        private void updateStyleAttributes(string style)
+        private void UpdateStyleAttributes(string style)
         {
             _trimTooltipAttribute.Clear();
             _trimTooltipAttribute = [];

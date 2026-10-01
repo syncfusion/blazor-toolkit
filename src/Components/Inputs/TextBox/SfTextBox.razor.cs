@@ -18,7 +18,7 @@ namespace Syncfusion.Blazor.Toolkit.Inputs
     /// <list type="bullet">
     /// <item><description>Support for floating labels (<see cref="FloatLabelType.Auto"/>, <see cref="FloatLabelType.Always"/>, <see cref="FloatLabelType.Never"/>).</description></item>
     /// <item><description>Built-in clear button with customizable behavior through <see cref="ShowClearButton"/>.</description></item>
-    /// <item><description>Input validation with visual feedback integrated with Blazor's <see cref="Microsoft.AspNetCore.Components.Forms.EditContext"/>.</description></item>
+    /// <item><description>Input validation with visual feedback integrated with Blazor's <see cref="EditContext"/>.</description></item>
     /// <item><description>Accessibility features with ARIA support. The native <c>textbox</c> role
     /// is announced by screen readers; the component forwards the public <see cref="SfInputBase{TValue}.AriaLabel"/>
     /// parameter to <c>aria-label</c> only when the caller supplies one. No generic fallback string is emitted
@@ -309,7 +309,7 @@ namespace Syncfusion.Blazor.Toolkit.Inputs
         /// <item><description>Updates previous value tracking for subsequent change detection.</description></item>
         /// <item><description>Restores focus to the input element for continued interaction.</description></item>
         /// </list>
-        /// <para>The delay is necessary to ensure proper sequencing in Blazor's rendering pipeline. Setting <c>CurrentValueAsString</c> to <see langword="null"/> triggers a re-render that updates the DOM with an empty input field; the delay allows the browser to complete the DOM update and visual refresh cycle. Without it, <c>SetValueAsync</c> may execute before the DOM update completes, leading to state inconsistencies in <see cref="Microsoft.AspNetCore.Components.Forms.EditContext"/> validation, floating labels, and CSS classes.</para>
+        /// <para>The delay is necessary to ensure proper sequencing in Blazor's rendering pipeline. Setting <c>CurrentValueAsString</c> to <see langword="null"/> triggers a re-render that updates the DOM with an empty input field; the delay allows the browser to complete the DOM update and visual refresh cycle. Without it, <c>SetValueAsync</c> may execute before the DOM update completes, leading to state inconsistencies in <see cref="EditContext"/> validation, floating labels, and CSS classes.</para>
         /// </remarks>
         private async Task InvokeClearBtnEventAsync(EventArgs args)
         {

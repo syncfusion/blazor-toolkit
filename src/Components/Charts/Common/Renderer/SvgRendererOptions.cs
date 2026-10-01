@@ -936,27 +936,18 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
     /// <summary>
     /// Represents a single text location with Y-coordinate for multi-line text rendering.
     /// </summary>
-    internal class TextLocation
+    /// <param name="text">The text content.</param>
+    /// <param name="y">The Y-coordinate position.</param>
+    internal class TextLocation(string text, double y)
     {
         /// <summary>
         /// Gets or sets the text content at this location.
         /// </summary>
-        public string Text { get; set; }
+        public string Text { get; set; } = text;
 
         /// <summary>
         /// Gets or sets the Y-coordinate offset for this text line.
         /// </summary>
-        public double Y { get; set; }
-
-        /// <summary>
-        /// Initializes a new instance of the <see cref="TextLocation"/> class with specified text and Y coordinate.
-        /// </summary>
-        /// <param name="text">The text content.</param>
-        /// <param name="y">The Y-coordinate position.</param>
-        public TextLocation(string text, double y)
-        {
-            Text = text;
-            Y = y;
-        }
+        public double Y { get; set; } = y;
     }
 }

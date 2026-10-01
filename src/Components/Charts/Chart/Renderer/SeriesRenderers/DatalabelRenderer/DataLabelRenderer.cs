@@ -452,6 +452,8 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
                 case ChartLabelPosition.Auto:
                     labelLocation = CalculateRectActualPosition(labelLocation, rect, isNegative, series, textSize, labelIndex, point, extraSpace);
                     break;
+                case ChartLabelPosition.Outer:
+                case ChartLabelPosition.Top:
                 default:
                     extraSpace += _errorHeight;
                     labelLocation = CalculateTopAndOuterPosition(labelLocation, position, series, extraSpace, isNegative);

@@ -31,7 +31,7 @@ namespace Syncfusion.Blazor.Toolkit.Calendars.Internal
             nameof(FirstDayOfWeek),
             nameof(Min),
             nameof(Max),
-            nameof(SfCalendar<TValue>.Values)
+            CALENDAR_BASE_VALUES
         ];
 
         private async Task OnCalendarKeyDownAsync(KeyboardEventArgs e)
@@ -1916,7 +1916,7 @@ namespace Syncfusion.Blazor.Toolkit.Calendars.Internal
                     await ControlDownKeyActionAsync(args, levelRestrict, eventArgs, view).ConfigureAwait(false);
                     break;
                 case HOME:
-                    await HandleHomeKeyAsync(view, args.DateValue).ConfigureAwait(false);
+                    await HandleHomeKeyAsync(view).ConfigureAwait(false);
                     break;
                 case END:
                     await HandleEndKeyAsync(view).ConfigureAwait(false);
@@ -1969,11 +1969,11 @@ namespace Syncfusion.Blazor.Toolkit.Calendars.Internal
             }
         }
 
-        private async Task HandleHomeKeyAsync(int view, string dateValue)
+        private async Task HandleHomeKeyAsync(int view)
         {
             if (CalendarMode == CalendarType.Islamic)
             {
-                await IslamicHomeKeyActionAsync(view, dateValue).ConfigureAwait(false);
+                await IslamicHomeKeyActionAsync(view).ConfigureAwait(false);
             }
             else
             {
@@ -2072,7 +2072,7 @@ namespace Syncfusion.Blazor.Toolkit.Calendars.Internal
             await SwitchViewAsync(view).ConfigureAwait(false);
         }
 
-        private async Task IslamicHomeKeyActionAsync(int view, string? dateValue)
+        private async Task IslamicHomeKeyActionAsync(int view)
         {
             DateTime homeDate = GetHijriStartDate(view);
             CurrentDate = homeDate;

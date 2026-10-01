@@ -92,17 +92,11 @@ namespace Syncfusion.Blazor.Toolkit
         [RequiresDynamicCode("May dispatch to a late-bound dynamic call site to read a member, which requires runtime code generation not supported by Native AOT.")]
         public static object? GetValueFromIDynamicMetaObject(object obj, string propertyName, bool reflectComplexProperty = false)
         {
-            if (obj is ExpandoObject expandoObject)
-            {
-                return GetValueFromExpandoObject(expandoObject!, propertyName, reflectComplexProperty);
-            }
-
-            if (obj is DynamicObject dynamicObject)
-            {
-                return GetValueFromDynamicObject(dynamicObject, propertyName, reflectComplexProperty);
-            }
-
-            return obj is IDynamicMetaObjectProvider dynamicMetaObjectProvider
+            return obj is ExpandoObject expandoObject
+                ? GetValueFromExpandoObject(expandoObject!, propertyName, reflectComplexProperty)
+                : obj is DynamicObject dynamicObject
+                ? GetValueFromDynamicObject(dynamicObject, propertyName, reflectComplexProperty)
+                : obj is IDynamicMetaObjectProvider dynamicMetaObjectProvider
                 ? GetValueFromDynamicMetaObjectProvider(dynamicMetaObjectProvider, propertyName, reflectComplexProperty)
                 : throw new NotImplementedException(obj?.GetType().Name ?? "obj is null");
         }

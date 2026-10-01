@@ -844,6 +844,11 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
                         Angle = (Axis.Renderer.LabelIntersectAction == LabelIntersectAction.Rotate45) ? 45 : 90;
                     }
                     break;
+                case LabelIntersectAction.None:
+                case LabelIntersectAction.Hide:
+                case LabelIntersectAction.Trim:
+                case LabelIntersectAction.Wrap:
+                case null:
                 default:
                     if (isAxisLabelBreak)
                     {
@@ -1058,6 +1063,8 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
                     return !float.Parse(crossValue, null).Equals(float.NaN) ? float.Parse(crossValue, null) : Labels.IndexOf(crossValue);
                 case ValueType.Logarithmic:
                     return ChartHelper.LogBase(Convert.ToDouble(crossAt, null), axis.LogBase);
+                case ValueType.Double:
+                case ValueType.DateTimeCategory:
                 default:
                     return Convert.ToDouble(crossAt, Culture);
             }

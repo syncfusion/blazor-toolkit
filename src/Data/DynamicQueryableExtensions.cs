@@ -411,6 +411,16 @@ namespace Syncfusion.Blazor.Toolkit.Data
 
                     }
                     break;
+                case FilterType.IsNull:
+                case FilterType.IsNotNull:
+                case FilterType.LessThan:
+                case FilterType.LessThanOrEqual:
+                case FilterType.GreaterThanOrEqual:
+                case FilterType.GreaterThan:
+                case FilterType.Undefined:
+                case FilterType.Between:
+                default:
+                    break;
             }
 
             return (memExp, bExp);

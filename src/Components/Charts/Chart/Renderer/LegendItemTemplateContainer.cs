@@ -77,7 +77,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
                 {
                     builder.OpenElement(seq++, "div");
                     builder.AddAttribute(seq++, "id", option.Id);
-                    builder.AddAttribute(seq++, "style", option.style);
+                    builder.AddAttribute(seq++, "style", option.Style);
                     builder.AddContent(seq++, option.LegendTemplate);
                     builder.CloseElement();
                 }

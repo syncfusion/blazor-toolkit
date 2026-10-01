@@ -140,7 +140,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts
         {
             if (_seriesContainer is not null)
             {
-                foreach (ChartSeries series in _seriesContainer.Elements.ToList())
+                foreach (ChartSeries series in _seriesContainer.Elements.ToList().Cast<ChartSeries>())
                 {
                     _seriesContainer.RemoveElement(series);
                 }
@@ -180,7 +180,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts
         {
             if (_isChartFirstRender && _isScriptLoaded)
             {
-                await InvokeVoidAsync(_chartJsModule, _chartJsInProcessModule, "showTooltip", [x, y, isPoint, this._dataId]).ConfigureAwait(false);
+                await InvokeVoidAsync(_chartJsModule, _chartJsInProcessModule, "showTooltip", [x, y, isPoint, _dataId]).ConfigureAwait(false);
             }
         }
 
@@ -209,7 +209,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts
         {
             if (_isChartFirstRender && _isScriptLoaded)
             {
-                await InvokeVoidAsync(_chartJsModule, _chartJsInProcessModule, "hideTooltip", [this._dataId]).ConfigureAwait(false);
+                await InvokeVoidAsync(_chartJsModule, _chartJsInProcessModule, "hideTooltip", [_dataId]).ConfigureAwait(false);
             }
         }
 
@@ -243,7 +243,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts
         {
             if (_isChartFirstRender && _isScriptLoaded)
             {
-                await InvokeVoidAsync(_chartJsModule, _chartJsInProcessModule, "showCrosshair", [x, y, this._dataId]).ConfigureAwait(false);
+                await InvokeVoidAsync(_chartJsModule, _chartJsInProcessModule, "showCrosshair", [x, y, _dataId]).ConfigureAwait(false);
             }
         }
 
@@ -273,7 +273,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts
         {
             if (_isChartFirstRender && _isScriptLoaded)
             {
-                await InvokeVoidAsync(_chartJsModule, _chartJsInProcessModule, "hideCrosshair", [this._dataId]).ConfigureAwait(false);
+                await InvokeVoidAsync(_chartJsModule, _chartJsInProcessModule, "hideCrosshair", [_dataId]).ConfigureAwait(false);
             }
         }
 
@@ -391,7 +391,10 @@ namespace Syncfusion.Blazor.Toolkit.Charts
         /// Prevents the Chart render. This method will internally sets value to be returned from ShouldRender method.
         /// </summary>
         /// <param name="preventRender">Default value is true. Once PreventRender(true) called, component won't re-render until PreventRender(false) called.</param>
-        public void PreventRender(bool preventRender = true) => _render.ShouldChartRender = !preventRender;
+        public void PreventRender(bool preventRender = true)
+        {
+            _render.ShouldChartRender = !preventRender;
+        }
 
         #endregion
     }

@@ -879,7 +879,7 @@ namespace Syncfusion.Blazor.Toolkit.Data
             if (string.IsNullOrEmpty(valueAsString)) { valueAsString = string.Empty; }
             if (valueAsString.Length > 1 && valueAsString[0] == '\'' && valueAsString[^1] == '\'')
             {
-                retVal = valueAsString[1..^1];
+                _ = valueAsString[1..^1];
                 return true;
             }
             else if (valueAsString.Length > 0 && valueAsString[0] == '<')
@@ -892,11 +892,7 @@ namespace Syncfusion.Blazor.Toolkit.Data
                     {
                         return true;
                     }
-                    else if (typeName == "System.DBNull")
-                    {
-                        retVal = DBNull.Value;
-                    }
-                    else
+                    else if (typeName != "System.DBNull")
                     {
                         valueAsString = valueAsString[(closeBracket + 1)..].Trim();
                         if (valueAsString.Length > 1 && valueAsString[0] == '\'' && valueAsString[^1] == '\'')
@@ -909,13 +905,13 @@ namespace Syncfusion.Blazor.Toolkit.Data
 
                                 if (allowConvertFromBase64)
                                 {
-                                    handled = TryConvertFromBase64String(type, valueAsString, out retVal);
+                                    handled = TryConvertFromBase64String(type, valueAsString, out _);
                                 }
 
                                 if (!handled)
                                 {
-                                    retVal = Parse(valueAsString, type,
-                                                                CultureInfo.InvariantCulture, string.Empty);
+                                    _ = Parse(valueAsString, type,
+                                              CultureInfo.InvariantCulture, string.Empty);
                                 }
 
                                 return true;
@@ -925,7 +921,6 @@ namespace Syncfusion.Blazor.Toolkit.Data
                 }
             }
 
-            retVal = valueAsString;
             return false;
         }
 

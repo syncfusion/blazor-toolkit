@@ -22,8 +22,8 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
         private int _paretoLineSeriesRendererCount;
         private int _paretoLineSeriesRendererIndex;
 
-        private List<string> _seriesType = [];
-        private List<string> _drawTypes = [];
+        private readonly List<string> _seriesType = [];
+        private readonly List<string> _drawTypes = [];
         private ChartSeries ParetoSeries { get; set; } = null!;
         private ChartSeries DefaultSeries { get; set; } = null!;
 
@@ -189,7 +189,10 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
                 if (series.SeriesType is not null && series.SeriesType.Contains("Stacking", StringComparison.InvariantCulture))
                 {
                     if (series.Renderer is not null)
+                    {
                         series.Renderer.StackedPointValues = [];
+                    }
+
                     string stackingGroup = GetStackingGroup(series);
 
                     EnsureStackingDictionaries(lastPositive, lastNegative, stackingGroup);
@@ -324,7 +327,10 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
             foreach (ChartSeries series in seriesCollection)
             {
                 if (series.Renderer != null)
+                {
                     series.Renderer.YAxisRenderer.IsStack100 = series.SeriesType is not null && series.SeriesType.Contains("100", StringComparison.InvariantCulture);
+                }
+
                 List<Point> visiblePoints = ChartHelper.GetVisiblePoints(series.Renderer?.Points ?? null!);
                 if (series.SeriesType is not null && series.SeriesType.Contains("Stacking", StringComparison.InvariantCulture))
                 {
@@ -992,7 +998,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
                 if (Owner?.InitialRect is not null)
                 {
                     HandleChartSizeChange(Owner.InitialRect);
-                    foreach (var seriesRenderer in Renderers.OfType<ChartSeriesRenderer>())
+                    foreach (ChartSeriesRenderer seriesRenderer in Renderers.OfType<ChartSeriesRenderer>())
                     {
                         seriesRenderer.Series?.Marker?.Renderer?.HandleChartSizeChange(Owner.InitialRect);
                     }
@@ -1127,7 +1133,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
             if (IsStaticSSR())
             {
                 // Markers again if they were null during series pass
-                foreach (var seriesRenderer in Renderers.OfType<ChartSeriesRenderer>())
+                foreach (ChartSeriesRenderer seriesRenderer in Renderers.OfType<ChartSeriesRenderer>())
                 {
                     seriesRenderer.Series?.Marker?.Renderer?.HandleChartSizeChange(rect);
                 }

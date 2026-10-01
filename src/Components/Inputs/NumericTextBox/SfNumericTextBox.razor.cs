@@ -325,7 +325,7 @@ namespace Syncfusion.Blazor.Toolkit.Inputs
                             TValue? inputValue = string.IsNullOrEmpty(inputTextValue) || IsDecimalSeparator ? default : ChangeType(double.Parse(inputTextValue, CultureInfo.CurrentCulture));
                             int? numberOfDecimals = GetNumberOfDecimals(Value, inputTextValue);
                             string maximumFraction = (numberOfDecimals is not null) ? numberOfDecimals.Value.ToString(CultureInfo.InvariantCulture) : string.Empty;
-                            inputTextValue = (inputValue is null) ? inputTextValue : Intl.GetNumericFormat<TValue>(inputValue, GetFormatString(inputValue, maximumFraction), Currency);
+                            inputTextValue = (inputValue is null) ? inputTextValue : Intl.GetNumericFormat(inputValue, GetFormatString(inputValue, maximumFraction), Currency);
                             inputTextValue = IsNumberCulture ? RemoveCultureDigits(inputTextValue) : inputTextValue;
                             if (IsIgnoreDecimal())
                             {
@@ -347,7 +347,7 @@ namespace Syncfusion.Blazor.Toolkit.Inputs
                             TValue? inputValue = string.IsNullOrEmpty(inputTextValue) || IsDecimalSeparator ? default : ChangeType(decimal.Parse(inputTextValue, CultureInfo.CurrentCulture));
                             int? numberOfDecimals = GetNumberOfDecimals(Value, inputTextValue);
                             string maximumFraction = (numberOfDecimals is not null) ? numberOfDecimals.Value.ToString(CultureInfo.InvariantCulture) : string.Empty;
-                            inputTextValue = (inputValue is null) ? inputTextValue : Intl.GetNumericFormat<TValue>(inputValue, GetFormatString(inputValue, maximumFraction), Currency);
+                            inputTextValue = (inputValue is null) ? inputTextValue : Intl.GetNumericFormat(inputValue, GetFormatString(inputValue, maximumFraction), Currency);
                             inputTextValue = IsNumberCulture ? RemoveCultureDigits(inputTextValue) : inputTextValue;
                             if (IsIgnoreDecimal())
                             {
@@ -830,7 +830,7 @@ namespace Syncfusion.Blazor.Toolkit.Inputs
             try
             {
                 string maximumFraction = decimals is not null ? decimals.Value.ToString(CultureInfo.InvariantCulture) : string.Empty;
-                return Intl.GetNumericFormat<TValue>(value, "n" + maximumFraction, Currency);
+                return Intl.GetNumericFormat(value, "n" + maximumFraction, Currency);
             }
             catch (FormatException ex)
             {

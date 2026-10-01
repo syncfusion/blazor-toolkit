@@ -27,7 +27,7 @@ namespace Syncfusion.Blazor.Toolkit.Inputs
         private IJSObjectReference? _ajaxJsModule;
         private IJSInProcessObjectReference? _ajaxJsInProcessModule;
 
-        private List<string> _containerAttributes = ["title", "style", "class"];
+        private readonly List<string> _containerAttributes = ["title", "style", "class"];
 
         private Dictionary<string, object> _containerAttr = [];
 
@@ -41,7 +41,7 @@ namespace Syncfusion.Blazor.Toolkit.Inputs
 
         private SemaphoreSlim FileSemaphore { get; } = new SemaphoreSlim(1);
 
-        private List<InputFileChangeEventArgs> _inputFiles = [];
+        private readonly List<InputFileChangeEventArgs> _inputFiles = [];
 
         private bool EnableUploadButton { get; set; }
 
@@ -102,7 +102,7 @@ namespace Syncfusion.Blazor.Toolkit.Inputs
         /// Each entry maps a file name to its cached byte data for reliable access during upload.
         /// This is the PRIMARY fix for "There is no file with ID" errors.
         /// </summary>
-        private Dictionary<string, byte[]> _cachedFileData = new();
+        private readonly Dictionary<string, byte[]> _cachedFileData = [];
 
         /// <summary>
         /// Gets the current input file change event arguments for file access.
@@ -143,7 +143,7 @@ namespace Syncfusion.Blazor.Toolkit.Inputs
             {
                 try
                 {
-                    var eventArgs = _inputFiles[i];
+                    InputFileChangeEventArgs eventArgs = _inputFiles[i];
                     return eventArgs.FileCount > 0 ? eventArgs : null;
                 }
                 catch (ObjectDisposedException)
@@ -163,7 +163,7 @@ namespace Syncfusion.Blazor.Toolkit.Inputs
         /// <returns>The cached byte array for the file, or null if not found.</returns>
         private byte[]? GetCachedFileData(string fileName)
         {
-            return _cachedFileData.TryGetValue(fileName, out var data) ? data : null;
+            return _cachedFileData.TryGetValue(fileName, out byte[]? data) ? data : null;
         }
 
         /// <summary>
@@ -176,13 +176,13 @@ namespace Syncfusion.Blazor.Toolkit.Inputs
         {
             try
             {
-                var files = args.GetMultipleFiles(args.FileCount);
+                IReadOnlyList<IBrowserFile> files = args.GetMultipleFiles(args.FileCount);
                 if (files == null || files.Count == 0)
                 {
                     return;
                 }
 
-                foreach (var file in files)
+                foreach (IBrowserFile file in files)
                 {
                     if (_cachedFileData.ContainsKey(file.Name) || file.Size == 0 || file.Size >= MaxFileSize)
                     {
@@ -191,8 +191,8 @@ namespace Syncfusion.Blazor.Toolkit.Inputs
 
                     try
                     {
-                        using var stream = file.OpenReadStream(file.Size);
-                        using var memoryStream = new MemoryStream();
+                        using Stream stream = file.OpenReadStream(file.Size);
+                        using MemoryStream memoryStream = new();
                         await stream.CopyToAsync(memoryStream).ConfigureAwait(true);
                         _cachedFileData[file.Name] = memoryStream.ToArray();
                     }
@@ -293,7 +293,7 @@ namespace Syncfusion.Blazor.Toolkit.Inputs
             {
                 foreach (KeyValuePair<string, IEnumerable<string>> header in headers)
                 {
-                    ExpandoObject customObject = new ExpandoObject();
+                    ExpandoObject customObject = new();
                     ((IDictionary<string, object>)customObject)[header.Key] = header.Value;
                     customHeaders.Add(customObject);
                 }
@@ -328,7 +328,7 @@ namespace Syncfusion.Blazor.Toolkit.Inputs
             {
                 foreach (KeyValuePair<string, object> attr in InputAttributes)
                 {
-                    SfBaseUtils.UpdateDictionary(attr.Key, attr.Value, _inputAttr);
+                    _ = SfBaseUtils.UpdateDictionary(attr.Key, attr.Value, _inputAttr);
                 }
             }
         }
@@ -348,7 +348,7 @@ namespace Syncfusion.Blazor.Toolkit.Inputs
         internal Dictionary<string, object> GetProperty()
         {
             // Pre-allocate capacity: ~15 basic props + ~18 event flags + ~2 locale/headers
-            Dictionary<string, object> properties = new Dictionary<string, object>(capacity: 40);
+            Dictionary<string, object> properties = new(capacity: 40);
             AddBasicProperties(properties);
             AddEventHandlerFlags(properties);
             AddLocalizationAndHeaders(properties);
@@ -507,8 +507,8 @@ namespace Syncfusion.Blazor.Toolkit.Inputs
             else
             {
                 ContainerClass = SfBaseUtils.RemoveClass(ContainerClass, DISABLED_CLASS);
-                _inputAttr.Remove("disabled");
-                _inputAttr.Remove("aria-disabled");
+                _ = _inputAttr.Remove("disabled");
+                _ = _inputAttr.Remove("aria-disabled");
             }
         }
 
@@ -526,8 +526,8 @@ namespace Syncfusion.Blazor.Toolkit.Inputs
             }
             else
             {
-                _inputAttr.Remove("directory");
-                _inputAttr.Remove("webkitdirectory");
+                _ = _inputAttr.Remove("directory");
+                _ = _inputAttr.Remove("webkitdirectory");
             }
         }
 
@@ -590,7 +590,7 @@ namespace Syncfusion.Blazor.Toolkit.Inputs
             }
             else
             {
-                _inputAttr.Remove("multiple");
+                _ = _inputAttr.Remove("multiple");
             }
         }
 
@@ -607,7 +607,7 @@ namespace Syncfusion.Blazor.Toolkit.Inputs
             }
             else
             {
-                _inputAttr.Remove("accept");
+                _ = _inputAttr.Remove("accept");
             }
         }
 
@@ -771,10 +771,7 @@ namespace Syncfusion.Blazor.Toolkit.Inputs
             IBrowserFile? currentFile = TryGetFileFromCurrentEvent(fileInfo, index, emptyFileCount);
 
             // If not found, search in all accumulated input files
-            if (currentFile == null)
-            {
-                currentFile = FindFileInInputCollection(fileInfo);
-            }
+            currentFile ??= FindFileInInputCollection(fileInfo);
 
             return currentFile;
         }
@@ -888,7 +885,7 @@ namespace Syncfusion.Blazor.Toolkit.Inputs
             }
             finally
             {
-                FileSemaphore.Release();
+                _ = FileSemaphore.Release();
             }
         }
 
@@ -937,16 +934,15 @@ namespace Syncfusion.Blazor.Toolkit.Inputs
             using (fileStream)
             {
                 byte[] bufferSize = new byte[BufferSize];
-                int totalLength;
 
-                while ((totalLength = await fileStream.ReadAsync(bufferSize).ConfigureAwait(true)) != 0)
+                while (await fileStream.ReadAsync(bufferSize).ConfigureAwait(true) != 0)
                 {
                     if (!ShouldContinueUpload(uploadingFile))
                     {
                         break;
                     }
 
-                    await UpdateUploadProgressAsync(fileStream, index).ConfigureAwait(true);
+                    await UpdateUploadProgressAsync(fileStream).ConfigureAwait(true);
                 }
             }
         }
@@ -966,9 +962,8 @@ namespace Syncfusion.Blazor.Toolkit.Inputs
         /// Updates the upload progress for the current file.
         /// </summary>
         /// <param name="fileStream">The file stream being uploaded.</param>
-        /// <param name="index">The current file index.</param>
         /// <returns>A task representing the asynchronous operation.</returns>
-        private async Task UpdateUploadProgressAsync(Stream fileStream, int index)
+        private async Task UpdateUploadProgressAsync(Stream fileStream)
         {
             RemoveIconDisable = DISABLED_CLASS;
             ChunkIndex = fileStream.Position / Convert.ToInt64(BufferSize);
@@ -1190,11 +1185,10 @@ namespace Syncfusion.Blazor.Toolkit.Inputs
         }
 
         /// <summary>
-        /// Handles failures during file upload by logging and raising failure events.
+        /// Handles failures during file upload by updating status and raising failure events.
         /// </summary>
-        /// <param name="exception">The exception that occurred during upload.</param>
         /// <returns>A task representing the asynchronous operation.</returns>
-        private async Task HandleFileUploadFailureAsync(Exception exception)
+        private async Task HandleFileUploadFailureAsync()
         {
             LocalizedString failureMessage = Localizer[UPLOAD_FAILED_KEY];
 
@@ -1230,7 +1224,7 @@ namespace Syncfusion.Blazor.Toolkit.Inputs
         {
             InitializeUploadSession();
             UploadChangeEventArgs eventArgs = CreateUploadChangeEventArgs();
-            await ProcessAllFilesAsync(files, eventArgs).ConfigureAwait(true);
+            _ = await ProcessAllFilesAsync(files, eventArgs).ConfigureAwait(true);
 
             await HandleEmptyFileListAsync(files, eventArgs).ConfigureAwait(true);
             await FinalizeUploadSessionAsync().ConfigureAwait(true);
@@ -1268,7 +1262,7 @@ namespace Syncfusion.Blazor.Toolkit.Inputs
                 }
                 catch (Exception e)
                 {
-                    await HandleFileUploadFailureAsync(e).ConfigureAwait(true);
+                    await HandleFileUploadFailureAsync().ConfigureAwait(true);
                     throw new InvalidOperationException("Unhandled exception occurred while processing files.", e);
                 }
             }
@@ -1496,7 +1490,7 @@ namespace Syncfusion.Blazor.Toolkit.Inputs
             }
             else
             {
-                _actionBtnAttr.Remove("disabled");
+                _ = _actionBtnAttr.Remove("disabled");
                 EnableUploadButton = true;
             }
         }
@@ -1574,7 +1568,7 @@ namespace Syncfusion.Blazor.Toolkit.Inputs
                 }
                 else
                 {
-                    _actionBtnAttr.Remove("disabled");
+                    _ = _actionBtnAttr.Remove("disabled");
                 }
             }
         }
@@ -1592,7 +1586,7 @@ namespace Syncfusion.Blazor.Toolkit.Inputs
             }
             else
             {
-                _actionBtnAttr.Remove("disabled");
+                _ = _actionBtnAttr.Remove("disabled");
                 EnableUploadButton = true;
             }
 
@@ -1721,7 +1715,7 @@ namespace Syncfusion.Blazor.Toolkit.Inputs
             {
                 if (_actionBtnAttr.ContainsKey(DISABLED_CLASS) && !AutoUpload)
                 {
-                    _actionBtnAttr.Remove("disabled");
+                    _ = _actionBtnAttr.Remove("disabled");
                 }
 
                 UploadStatus = string.Empty;
@@ -1920,11 +1914,11 @@ namespace Syncfusion.Blazor.Toolkit.Inputs
         /// Creates and invokes the Removing event.
         /// </summary>
         /// <param name="removeFiles">The files to remove.</param>
-        /// <param name="eventArgs">The mouse event arguments.</param>
+        /// <param name="_">Unused mouse event arguments retained for the removal event signature.</param>
         /// <returns>The RemovingEventArgs after event invocation.</returns>
         private async Task<RemovingEventArgs> CreateAndInvokeRemovingEventAsync(
             List<FileInfo> removeFiles,
-            MouseEventArgs? eventArgs)
+            MouseEventArgs? _)
         {
             RemovingEventArgs removingEventArgs = new()
             {
@@ -1994,7 +1988,7 @@ namespace Syncfusion.Blazor.Toolkit.Inputs
         /// <param name="file">The file to remove.</param>
         private void RemoveFromUploadedFileData(UploadFileDetails file)
         {
-            RemoveFileByName(UploadedFileData, file.Name, (UploadFileDetails f) => f.Name);
+            RemoveFileByName(UploadedFileData, file.Name, f => f.Name);
         }
 
         /// <summary>
@@ -2003,7 +1997,7 @@ namespace Syncfusion.Blazor.Toolkit.Inputs
         /// <param name="file">The file to remove.</param>
         private void RemoveFromUploadedFilesInfo(UploadFileDetails file)
         {
-            RemoveFileByName(UploadedFilesInfo, file.Name, (FileInfo f) => f.Name);
+            RemoveFileByName(UploadedFilesInfo, file.Name, f => f.Name);
         }
 
         /// <summary>

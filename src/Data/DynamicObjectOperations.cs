@@ -232,7 +232,6 @@ namespace Syncfusion.Blazor.Toolkit.Data
         {
             IQueryable<IDynamicMetaObjectProvider>? data = null;
             Type? type = dataSource.GetElementType();
-            Type t = typeof(object);
             if (type == null)
             {
                 Type? type1 = dataSource?.GetType();

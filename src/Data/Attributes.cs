@@ -204,9 +204,6 @@ namespace Syncfusion.Blazor.Toolkit.Data
                         {
                             switch (reader.TokenType)
                             {
-                                default:
-                                    list.Add(Read(ref reader, typeof(object), options)!);
-                                    break;
                                 case JsonTokenType.EndArray:
                                     return list;
                                 case JsonTokenType.None:
@@ -231,10 +228,19 @@ namespace Syncfusion.Blazor.Toolkit.Data
                                     break;
                                 case JsonTokenType.Null:
                                     break;
+                                default:
+                                    list.Add(Read(ref reader, typeof(object), options)!);
+                                    break;
                             }
                         }
                         throw new JsonException();
                     }
+                case JsonTokenType.None:
+                case JsonTokenType.StartObject:
+                case JsonTokenType.EndObject:
+                case JsonTokenType.EndArray:
+                case JsonTokenType.PropertyName:
+                case JsonTokenType.Comment:
                 default:
                     using (JsonDocument document = JsonDocument.ParseValue(ref reader))
                     {

@@ -300,7 +300,6 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
         internal PointData GetData()
         {
             Point point = null!;
-            ChartSeries series = null!;
             double mouseX;
             double mouseY;
             InsideRegion = false;
@@ -308,7 +307,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
             for (int len = Chart?._visibleSeriesRenderers.Count ?? 0, i = len - 1; i >= 0; i--)
             {
                 ChartSeriesRenderer seriesRenderer = Chart?._visibleSeriesRenderers[i] ?? null!;
-                series = seriesRenderer?.Series ?? null!;
+                ChartSeries series = seriesRenderer?.Series ?? null!;
 
                 if (seriesRenderer is null || series is null)
                 {

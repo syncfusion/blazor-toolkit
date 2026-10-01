@@ -23,14 +23,12 @@ namespace Syncfusion.Blazor.Toolkit.Charts
 
         private bool _prevVisible;
         private string _fill = Constants.Transparent;
-        double _angle;
-        double _stackLabelCornerRadiusX = 5;
-        double _stackLabelCornerRadiusY = 5;
-        string _format = null!;
+        private double _angle;
+        private double _stackLabelCornerRadiusX = 5;
+        private double _stackLabelCornerRadiusY = 5;
+        private string _format = null!;
 
-        ChartStackLabelBorder _border = new();
-        ChartStackLabelFont _font = new();
-        ChartStackLabelMargin _margin = new();
+        private ChartStackLabelBorder _border = new();
 
         #endregion
 
@@ -41,7 +39,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts
         /// </summary>
         /// <value>The parent <see cref="SfChart"/> instance when present; otherwise, <c>null</c>.</value>
         [CascadingParameter]
-        SfChart? chart { get; set; }
+        private SfChart? Chart { get; set; }
 
         /// <summary>
         /// Gets or sets a value that determines whether the stack labels are visible.
@@ -288,33 +286,13 @@ namespace Syncfusion.Blazor.Toolkit.Charts
         /// Gets or sets the font configuration for the stack labels.
         /// </summary>
         /// <value>The <see cref="ChartStackLabelFont"/> instance.</value>
-        internal ChartStackLabelFont Font
-        {
-            get => _font;
-            set
-            {
-                if (_font != value)
-                {
-                    _font = value;
-                }
-            }
-        }
+        internal ChartStackLabelFont Font { get; set; } = new();
 
         /// <summary>
         /// Gets or sets the margin configuration for the stack labels.
         /// </summary>
         /// <value>The <see cref="ChartStackLabelMargin"/> instance.</value>
-        internal ChartStackLabelMargin Margin
-        {
-            get => _margin;
-            set
-            {
-                if (_margin != value)
-                {
-                    _margin = value;
-                }
-            }
-        }
+        internal ChartStackLabelMargin Margin { get; set; } = new();
 
         #endregion
 
@@ -333,12 +311,12 @@ namespace Syncfusion.Blazor.Toolkit.Charts
         {
             base.OnInitialized();
 
-            if (chart is not null)
+            if (Chart is not null)
             {
-                chart._stackLabelSettings = this;
+                Chart._stackLabelSettings = this;
             }
 
-            Renderer = chart?._stackLabelRenderer ?? null!;
+            Renderer = Chart?._stackLabelRenderer ?? null!;
         }
 
         /// <exclude />
@@ -354,7 +332,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts
         {
             base.OnParametersSet();
 
-            if (chart is null)
+            if (Chart is null)
             {
                 return;
             }
@@ -364,7 +342,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts
                 _renderer?.ToggleVisibility();
             }
 
-            chart._stackLabelSettings = this;
+            Chart._stackLabelSettings = this;
             _prevVisible = Visible;
         }
 
@@ -379,7 +357,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts
         [Browsable(false)]
         protected override ValueTask DisposeAsyncCore()
         {
-            chart = null;
+            Chart = null;
             ChildContent = null!;
             _renderer = null;
 
@@ -412,6 +390,9 @@ namespace Syncfusion.Blazor.Toolkit.Charts
 
                 case nameof(Margin):
                     Margin = (ChartStackLabelMargin)keyValue;
+                    break;
+
+                default:
                     break;
             }
         }

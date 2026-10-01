@@ -38,14 +38,14 @@ namespace Syncfusion.Blazor.Toolkit.Data
         /// <summary>
         /// Justification for trim (IL2026/IL2067/IL2070/IL2075/IL2091) analyzer suppressions and annotations:
         /// this base component serializes and deserializes arbitrary component model types with
-        /// <see cref="System.Text.Json.JsonSerializer"/> and reflects over their properties for JavaScript
+        /// <see cref="JsonSerializer"/> and reflects over their properties for JavaScript
         /// interop, so members of those types may be removed by the trimmer.
         /// </summary>
         private const string SerializationTrimWarning = "This Syncfusion base component serializes arbitrary component model types with reflection-based System.Text.Json and reflects over their members for JavaScript interop; those members may be removed by the trimmer.";
 
         /// <summary>
         /// Justification for AOT (IL3050) analyzer suppressions and annotations: reflection-based
-        /// <see cref="System.Text.Json.JsonSerializer"/> and runtime type creation are not supported by Native AOT.
+        /// <see cref="JsonSerializer"/> and runtime type creation are not supported by Native AOT.
         /// </summary>
         private const string SerializationAotWarning = "This Syncfusion base component uses reflection-based System.Text.Json serialization and runtime type creation, which are not supported by Native AOT.";
 
@@ -60,7 +60,7 @@ namespace Syncfusion.Blazor.Toolkit.Data
         private readonly List<string> _directParamKeys = [];
 
         /// <summary>
-        /// JSON serialization options for <see cref="InvokeMethod"/> return values.
+        /// JSON serialization options for <see cref="InvokeMethodAsync"/> return values.
         /// </summary>
         private readonly JsonSerializerOptions _invokeMethodJsonSettings = new()
         {
@@ -451,7 +451,7 @@ namespace Syncfusion.Blazor.Toolkit.Data
             ComponentDispose();
             if (NameSpace != null && IsRendered)
             {
-                ValueTask<object> valueTask = SyncfusionInterop.InvokeMethodAsync<object>(JsRuntime!, ID!, "destroy", null!, null!, NameSpace);
+                _ = SyncfusionInterop.InvokeMethodAsync<object>(JsRuntime!, ID!, "destroy", null!, null!, NameSpace).AsTask();
             }
 
             JsAdaptor?.Dispose();
@@ -580,7 +580,7 @@ namespace Syncfusion.Blazor.Toolkit.Data
         // Invoke void return type methods
         [RequiresUnreferencedCode(SerializationTrimWarning)]
         [RequiresDynamicCode(SerializationAotWarning)]
-        internal async Task InvokeMethod(string methodName, string? moduleName = null, params object[]? methodParams)
+        internal async Task InvokeMethodAsync(string methodName, string? moduleName = null, params object[]? methodParams)
         {
             _ = await IsScriptRenderedAsync().ConfigureAwait(false);
             methodParams = (methodParams != null && methodParams.Length > 0) ? methodParams : null;
@@ -590,7 +590,7 @@ namespace Syncfusion.Blazor.Toolkit.Data
         // Invoke object return type methods
         [RequiresUnreferencedCode(SerializationTrimWarning)]
         [RequiresDynamicCode(SerializationAotWarning)]
-        internal virtual async Task<T> InvokeMethod<T>(string methodName, bool isObjectReturnType, string? moduleName = null, params object[]? methodParams)
+        internal virtual async Task<T> InvokeMethodAsync<T>(string methodName, bool isObjectReturnType, string? moduleName = null, params object[]? methodParams)
         {
             _ = await IsScriptRenderedAsync().ConfigureAwait(false);
             methodParams = (methodParams != null && methodParams.Length > 0) ? methodParams : null;

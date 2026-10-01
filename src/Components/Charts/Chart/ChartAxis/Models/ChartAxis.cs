@@ -243,8 +243,8 @@ namespace Syncfusion.Blazor.Toolkit.Charts
                 {
                     if (Renderer is not null && Container?._axisContainer is not null && Container._axisContainer.Axes.ContainsKey(_name))
                     {
-                        Container._axisContainer.Axes.Remove(_name);
-                        Container._axisContainer.Axes.TryAdd(value, this);
+                        _ = Container._axisContainer.Axes.Remove(_name);
+                        _ = Container._axisContainer.Axes.TryAdd(value, this);
                         _name = value;
                     }
                     else
@@ -390,7 +390,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts
 
                     if (Container is not null && Container._axisContainer is not null)
                     {
-                        ChartAxisRenderer renderer = Container._axisContainer.Renderers.Find(renderer => renderer.GetType().Equals(ChartAxisRenderer.GetRendererType(_valueType)) && (renderer as ChartAxisRenderer)?.Axis?.Name == this.Name) as ChartAxisRenderer ?? null!;
+                        ChartAxisRenderer renderer = Container._axisContainer.Renderers.Find(renderer => renderer.GetType().Equals(ChartAxisRenderer.GetRendererType(_valueType)) && (renderer as ChartAxisRenderer)?.Axis?.Name == Name) as ChartAxisRenderer ?? null!;
                         Container._axisContainer.RemoveRenderer(renderer);
                         _valueType = value;
                         RendererType = ChartAxisRenderer.GetRendererType(_valueType);
@@ -2004,7 +2004,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts
                     {
                         if (Container?._axisContainer is not null)
                         {
-                            foreach (ChartAxisRenderer renderer in Container._axisContainer.Renderers)
+                            foreach (ChartAxisRenderer renderer in Container._axisContainer.Renderers.Cast<ChartAxisRenderer>())
                             {
                                 renderer.ClearAxisInfo();
                                 renderer.UpdateAxisRendering();
@@ -2138,7 +2138,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts
         /// </code>
         /// </example> 
         [Parameter]
-        public IList<ChartStripline> StripLines { get; set; } = new List<ChartStripline>();
+        public IList<ChartStripline> StripLines { get; set; } = [];
 
         /// <summary> 
         /// Gets or sets a collection of <see cref="ChartMultiLevelLabel"/> representing the multilevel labels for the axis. 
@@ -2172,7 +2172,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts
         /// </code>
         /// </example>
         [Parameter]
-        public IList<ChartMultiLevelLabel> MultiLevelLabels { get; set; } = new List<ChartMultiLevelLabel>();
+        public IList<ChartMultiLevelLabel> MultiLevelLabels { get; set; } = [];
 
         /// <summary> 
         /// Gets or sets an instance of <see cref="ChartAxisLabelBorder"/> that specifies the border for the axis labels. 
@@ -2421,7 +2421,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts
         /// <param name="isInversed">A boolean indicating whether the axis should be inverted.</param>
         internal void SetIsInversed(bool isInversed)
         {
-            this._isInversed = isInversed;
+            _isInversed = isInversed;
         }
 
         /// <summary>

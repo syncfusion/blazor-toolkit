@@ -23,7 +23,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
         protected string? InnerHTML { get; set; }
 
         // Gets the culture information used for formatting.
-        protected CultureInfo culture { get; set; } = CultureInfo.InvariantCulture;
+        protected CultureInfo Culture { get; set; } = CultureInfo.InvariantCulture;
 
         // Gets the collection of pattern options required for rendering.
         internal List<PatternOptions> ReqPatterns { get; set; } = [];

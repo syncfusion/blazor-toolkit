@@ -950,11 +950,11 @@ namespace Syncfusion.Blazor.Toolkit.Charts
 
             if ((_onZoomStartArgs is not null && !_onZoomStartArgs.Cancel) || (_onZoomingArgs is not null && !_onZoomingArgs.Cancel))
             {
-                UpdateAxisZoomValues(zoomingEventArgs?.AxisCollection ?? null!, zoomingStates?.IsChartPanning ?? false);
+                UpdateAxisZoomValues(zoomingEventArgs?.AxisCollection ?? null!);
             }
             else if (_onZoomingArgs is null && _onZoomStartArgs is null)
             {
-                UpdateAxisZoomValues(zoomingEventArgs?.AxisCollection ?? null!, zoomingStates?.IsChartPanning ?? false);
+                UpdateAxisZoomValues(zoomingEventArgs?.AxisCollection ?? null!);
             }
             OnLayoutChange(_zoomingModule?.IsWheelZoom ?? false);
             if (_zoomingModule is not null)

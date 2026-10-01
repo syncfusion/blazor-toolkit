@@ -188,20 +188,14 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
             {
                 if (a.Value != null)
                 {
-                    double currentSegmentValue;
-                    if (axis.ValueType == ValueType.DateTime)
-                    {
-                        currentSegmentValue = a.Value switch
+                    double currentSegmentValue = axis.ValueType == ValueType.DateTime
+                        ? a.Value switch
                         {
                             DateTime dt => ChartHelper.GetTime(dt),
                             double d => d,
                             _ => ChartHelper.GetTime(Convert.ToDateTime(a.Value, Culture))
-                        };
-                    }
-                    else
-                    {
-                        currentSegmentValue = Convert.ToDouble(a.Value, Culture);
-                    }
+                        }
+                        : Convert.ToDouble(a.Value, Culture);
                     _maxSegmentValue = Math.Max(_maxSegmentValue, currentSegmentValue);
                 }
             });
@@ -282,7 +276,6 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
 
             ChartAxis axis = series.SegmentAxis == Segment.X ? XAxisRenderer.Axis ?? null! : YAxisRenderer.Axis ?? null!;
             IncludeSegment(segments, axis, segments.Count);
-            PathOptions attributeOptions = null!;
 
             for (int index = 0; index < segments.Count; index++)
             {
@@ -301,7 +294,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
                 {
                     foreach (PathOptions option in options)
                     {
-                        attributeOptions = BuildAttributeOptions(option, series!, segment, index, clipPath);
+                        PathOptions attributeOptions = BuildAttributeOptions(option, series!, segment, index, clipPath);
                         attributeOptions.Direction = ChartHelper.AppendPathElements(Owner ?? null!, attributeOptions.Direction, attributeOptions.Id);
                         _ = Owner?._svgRenderer?.RenderPath(builder, attributeOptions);
                     }

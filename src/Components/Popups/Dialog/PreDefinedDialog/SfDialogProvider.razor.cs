@@ -201,7 +201,7 @@ namespace Syncfusion.Blazor.Toolkit.Popups
                 {
                     if (Service is not null)
                     {
-                        Service.OnOpen -= OnOpen;
+                        Service.OnOpen -= OnOpenAsync;
                     }
                     if (DialogOptions is not null)
                     {
@@ -239,7 +239,7 @@ namespace Syncfusion.Blazor.Toolkit.Popups
         {
             if (Service is not null)
             {
-                Service.OnOpen += OnOpen;
+                Service.OnOpen += OnOpenAsync;
             }
             else
             {
@@ -262,7 +262,7 @@ namespace Syncfusion.Blazor.Toolkit.Popups
         /// which requires void return. Exceptions are logged via ILogger when available, otherwise
         /// they propagate to prevent silent failures that could mask runtime issues.
         /// </remarks>
-        private async void OnOpen(string type, DialogOptions options, string content, string? title, List<TaskCompletionSource<dynamic>> tasks)
+        private async void OnOpenAsync(string type, DialogOptions options, string content, string? title, List<TaskCompletionSource<dynamic>> tasks)
         {
             CompleteTask = tasks;
             DialogType = type;

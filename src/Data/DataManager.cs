@@ -1086,17 +1086,11 @@ namespace Syncfusion.Blazor.Toolkit.Data
         {
             object? xDisplayValue = GetDisplayName(x);
             object? yDisplayValue = GetDisplayName(y);
-            if (xDisplayValue == null && yDisplayValue == null)
-            {
-                return 0;
-            }
-
-            if (xDisplayValue == null)
-            {
-                return -1;
-            }
-
-            return yDisplayValue == null
+            return xDisplayValue == null && yDisplayValue == null
+                ? 0
+                : xDisplayValue == null
+                ? -1
+                : yDisplayValue == null
                 ? 1
                 : xDisplayValue is string xs && yDisplayValue is string ys
                 ? StringComparer.OrdinalIgnoreCase.Compare(xs, ys)
@@ -1914,14 +1908,9 @@ namespace Syncfusion.Blazor.Toolkit.Data
             }
 
             GenericType = ParentComponent.GetType();
-            if (GenericType.IsGenericType && GenericType.GetGenericArguments().Length > 0)
-            {
-                GenericType = GenericType.GetGenericArguments()[0];
-            }
-            else
-            {
-                GenericType = null!;
-            }
+            GenericType = GenericType.IsGenericType && GenericType.GetGenericArguments().Length > 0
+                ? GenericType.GetGenericArguments()[0]
+                : null!;
         }
     }
 

@@ -1364,20 +1364,6 @@ using System.Diagnostics.CodeAnalysis;
 [assembly: SuppressMessage(
     "Usage",
     "CA2213:Disposable fields should be disposed",
-    Justification = "2026-10-01: Blazor child component owned by the renderer; disposed via the component tree, not the parent. Field is reset in ComponentDispose.",
-    Scope = "member",
-    Target = "~F:Syncfusion.Blazor.Toolkit.Charts.ChartStackLabelSettings._font")]
-
-[assembly: SuppressMessage(
-    "Usage",
-    "CA2213:Disposable fields should be disposed",
-    Justification = "2026-10-01: Blazor child component owned by the renderer; disposed via the component tree, not the parent. Field is reset in ComponentDispose.",
-    Scope = "member",
-    Target = "~F:Syncfusion.Blazor.Toolkit.Charts.ChartStackLabelSettings._margin")]
-
-[assembly: SuppressMessage(
-    "Usage",
-    "CA2213:Disposable fields should be disposed",
     Justification = "2026-10-01: Blazor child component owned by the renderer; registered via Owner._margin = this and disposed via the component tree.",
     Scope = "member",
     Target = "~F:Syncfusion.Blazor.Toolkit.Charts.SfChart._margin")]
@@ -2096,3 +2082,998 @@ using System.Diagnostics.CodeAnalysis;
     Justification = "2026-10-01: Public API. Query.GroupedColumns is part of the documented fluent query / remote-adaptor contract, populated through object initializers and the chainable query builder. Changing the type is a binary/source breaking change.",
     Scope = "member",
     Target = "~P:Syncfusion.Blazor.Toolkit.Data.Query.GroupedColumns")]
+
+
+// -------------------------------------------------------------------------
+// IDE0031 — Use null propagation.
+//
+// 2026-10-02 audit: 27 null-conditional ASSIGNMENT suggestions in 22 methods,
+// including event unsubscription. The C# 14 assignment syntax is unavailable
+// to shared net8.0/C# 12 and net9.0/C# 13 source; retain the explicit guards.
+// Each entry covers only the containing method, never the containing type.
+// -------------------------------------------------------------------------
+[assembly: SuppressMessage(
+    "Style",
+    "IDE0031:Use null propagation",
+    Justification = "2026-10-02: Retain the guarded assignment; null-conditional assignment requires C# 14 and cannot compile in shared net8.0/C# 12 or net9.0/C# 13 source.",
+    Scope = "member",
+    Target = "~M:Syncfusion.Blazor.Toolkit.Calendars.Internal.CalendarBaseRender`1.CellClickAsync(Syncfusion.Blazor.Toolkit.Calendars.CellDetails)")]
+
+[assembly: SuppressMessage(
+    "Style",
+    "IDE0031:Use null propagation",
+    Justification = "2026-10-02: Retain the guarded assignment; null-conditional assignment requires C# 14 and cannot compile in shared net8.0/C# 12 or net9.0/C# 13 source.",
+    Scope = "member",
+    Target = "~M:Syncfusion.Blazor.Toolkit.Calendars.Internal.CalendarBaseRender`1.ClickHandlerAsync(Syncfusion.Blazor.Toolkit.Calendars.CellDetails)")]
+
+[assembly: SuppressMessage(
+    "Style",
+    "IDE0031:Use null propagation",
+    Justification = "2026-10-02: Retain the guarded assignment; null-conditional assignment requires C# 14 and cannot compile in shared net8.0/C# 12 or net9.0/C# 13 source.",
+    Scope = "member",
+    Target = "~M:Syncfusion.Blazor.Toolkit.Calendars.Internal.CalendarBaseRender`1.HandleSelectKeyAsync(Syncfusion.Blazor.Toolkit.Calendars.Internal.KeyActions,Syncfusion.Blazor.Toolkit.Calendars.CellDetails,System.Boolean,System.Int32)")]
+
+[assembly: SuppressMessage(
+    "Style",
+    "IDE0031:Use null propagation",
+    Justification = "2026-10-02: Retain the guarded assignment; null-conditional assignment requires C# 14 and cannot compile in shared net8.0/C# 12 or net9.0/C# 13 source.",
+    Scope = "member",
+    Target = "~M:Syncfusion.Blazor.Toolkit.Calendars.Internal.CalendarBaseRender`1.HandleYearViewClickAsync(Syncfusion.Blazor.Toolkit.Calendars.CellDetails,System.DateTime,System.Boolean)")]
+
+[assembly: SuppressMessage(
+    "Style",
+    "IDE0031:Use null propagation",
+    Justification = "2026-10-02: Retain the guarded assignment; null-conditional assignment requires C# 14 and cannot compile in shared net8.0/C# 12 or net9.0/C# 13 source.",
+    Scope = "member",
+    Target = "~M:Syncfusion.Blazor.Toolkit.Calendars.Internal.CalendarBaseRender`1.PrepareKeyboardNavigation")]
+
+[assembly: SuppressMessage(
+    "Style",
+    "IDE0031:Use null propagation",
+    Justification = "2026-10-02: Retain the guarded assignment; null-conditional assignment requires C# 14 and cannot compile in shared net8.0/C# 12 or net9.0/C# 13 source.",
+    Scope = "member",
+    Target = "~M:Syncfusion.Blazor.Toolkit.Calendars.Internal.CalendarBaseRender`1.SelectKeyActionAsync(Syncfusion.Blazor.Toolkit.Calendars.Internal.KeyActions,Syncfusion.Blazor.Toolkit.Calendars.CellDetails,System.Boolean,System.Int32)")]
+
+[assembly: SuppressMessage(
+    "Style",
+    "IDE0031:Use null propagation",
+    Justification = "2026-10-02: Retain the guarded assignment; null-conditional assignment requires C# 14 and cannot compile in shared net8.0/C# 12 or net9.0/C# 13 source.",
+    Scope = "member",
+    Target = "~M:Syncfusion.Blazor.Toolkit.Calendars.SfDateTimePicker`1.IsValidTimeAsync")]
+
+[assembly: SuppressMessage(
+    "Style",
+    "IDE0031:Use null propagation",
+    Justification = "2026-10-02: Retain the guarded assignment; null-conditional assignment requires C# 14 and cannot compile in shared net8.0/C# 12 or net9.0/C# 13 source.",
+    Scope = "member",
+    Target = "~M:Syncfusion.Blazor.Toolkit.Charts.ChartMargin.OnInitialized")]
+
+[assembly: SuppressMessage(
+    "Style",
+    "IDE0031:Use null propagation",
+    Justification = "2026-10-02: Retain the guarded assignment; null-conditional assignment requires C# 14 and cannot compile in shared net8.0/C# 12 or net9.0/C# 13 source.",
+    Scope = "member",
+    Target = "~M:Syncfusion.Blazor.Toolkit.Charts.ChartSeries.DataCollectionChanged(System.Object,System.Collections.Specialized.NotifyCollectionChangedEventArgs)")]
+
+[assembly: SuppressMessage(
+    "Style",
+    "IDE0031:Use null propagation",
+    Justification = "2026-10-02: Retain the guarded assignment; null-conditional assignment requires C# 14 and cannot compile in shared net8.0/C# 12 or net9.0/C# 13 source.",
+    Scope = "member",
+    Target = "~M:Syncfusion.Blazor.Toolkit.Charts.ChartSeries.OnAfterRender(System.Boolean)")]
+
+[assembly: SuppressMessage(
+    "Style",
+    "IDE0031:Use null propagation",
+    Justification = "2026-10-02: Retain the guarded assignment; null-conditional assignment requires C# 14 and cannot compile in shared net8.0/C# 12 or net9.0/C# 13 source.",
+    Scope = "member",
+    Target = "~M:Syncfusion.Blazor.Toolkit.Charts.ChartSeries.PrepareForLegendToggle")]
+
+[assembly: SuppressMessage(
+    "Style",
+    "IDE0031:Use null propagation",
+    Justification = "2026-10-02: Retain the guarded assignment; null-conditional assignment requires C# 14 and cannot compile in shared net8.0/C# 12 or net9.0/C# 13 source.",
+    Scope = "member",
+    Target = "~M:Syncfusion.Blazor.Toolkit.Charts.ChartSeries.RefreshSeriesAsync")]
+
+[assembly: SuppressMessage(
+    "Style",
+    "IDE0031:Use null propagation",
+    Justification = "2026-10-02: Retain the guarded assignment; null-conditional assignment requires C# 14 and cannot compile in shared net8.0/C# 12 or net9.0/C# 13 source.",
+    Scope = "member",
+    Target = "~M:Syncfusion.Blazor.Toolkit.Charts.ChartSeries.UpdateSeriesDataAsync")]
+
+[assembly: SuppressMessage(
+    "Style",
+    "IDE0031:Use null propagation",
+    Justification = "2026-10-02: Retain the guarded assignment; null-conditional assignment requires C# 14 and cannot compile in shared net8.0/C# 12 or net9.0/C# 13 source.",
+    Scope = "member",
+    Target = "~M:Syncfusion.Blazor.Toolkit.Charts.ChartStackLabelSettings.OnInitialized")]
+
+[assembly: SuppressMessage(
+    "Style",
+    "IDE0031:Use null propagation",
+    Justification = "2026-10-02: Retain the guarded assignment; null-conditional assignment requires C# 14 and cannot compile in shared net8.0/C# 12 or net9.0/C# 13 source.",
+    Scope = "member",
+    Target = "~M:Syncfusion.Blazor.Toolkit.Charts.Internal.ChartSeriesRendererContainer.CalculateStackingValues(System.Collections.Generic.List{Syncfusion.Blazor.Toolkit.Charts.ChartSeries},System.Boolean)")]
+
+[assembly: SuppressMessage(
+    "Style",
+    "IDE0031:Use null propagation",
+    Justification = "2026-10-02: Retain the guarded assignment; null-conditional assignment requires C# 14 and cannot compile in shared net8.0/C# 12 or net9.0/C# 13 source.",
+    Scope = "member",
+    Target = "~M:Syncfusion.Blazor.Toolkit.Charts.Internal.ChartSeriesRendererContainer.FindFrequencies(System.Collections.Generic.List{Syncfusion.Blazor.Toolkit.Charts.ChartSeries})")]
+
+[assembly: SuppressMessage(
+    "Style",
+    "IDE0031:Use null propagation",
+    Justification = "2026-10-02: Retain all three guarded assignments; null-conditional assignment requires C# 14 and cannot compile in shared net8.0/C# 12 or net9.0/C# 13 source.",
+    Scope = "member",
+    Target = "~M:Syncfusion.Blazor.Toolkit.Charts.Internal.LegendBase.HandlePaging(System.String)")]
+
+[assembly: SuppressMessage(
+    "Style",
+    "IDE0031:Use null propagation",
+    Justification = "2026-10-02: Retain the guarded assignment; null-conditional assignment requires C# 14 and cannot compile in shared net8.0/C# 12 or net9.0/C# 13 source.",
+    Scope = "member",
+    Target = "~M:Syncfusion.Blazor.Toolkit.Charts.SfChart.AddSeriesAsync(System.Collections.Generic.IList{Syncfusion.Blazor.Toolkit.Charts.ChartSeries})")]
+
+[assembly: SuppressMessage(
+    "Style",
+    "IDE0031:Use null propagation",
+    Justification = "2026-10-02: Retain both guarded assignments; null-conditional assignment requires C# 14 and cannot compile in shared net8.0/C# 12 or net9.0/C# 13 source.",
+    Scope = "member",
+    Target = "~M:Syncfusion.Blazor.Toolkit.Charts.SfChart.OnChartKeyboardNavigationsAsync(System.String,System.String)")]
+
+[assembly: SuppressMessage(
+    "Style",
+    "IDE0031:Use null propagation",
+    Justification = "2026-10-02: Retain the guarded assignment; null-conditional assignment requires C# 14 and cannot compile in shared net8.0/C# 12 or net9.0/C# 13 source.",
+    Scope = "member",
+    Target = "~M:Syncfusion.Blazor.Toolkit.Charts.SfChart.ZoomToolkitSetDeferredZoom(Syncfusion.Blazor.Toolkit.Charts.ZoomingEventArgs)")]
+
+[assembly: SuppressMessage(
+    "Style",
+    "IDE0031:Use null propagation",
+    Justification = "2026-10-02: Retain all three guarded assignments; null-conditional assignment requires C# 14 and cannot compile in shared net8.0/C# 12 or net9.0/C# 13 source.",
+    Scope = "member",
+    Target = "~M:Syncfusion.Blazor.Toolkit.Charts.SfChart.ZoomingComplete(Syncfusion.Blazor.Toolkit.Charts.ZoomingEventArgs,Syncfusion.Blazor.Toolkit.Charts.Internal.IZoomingStates)")]
+
+[assembly: SuppressMessage(
+    "Style",
+    "IDE0031:Use null propagation",
+    Justification = "2026-10-02: Retain the guarded Service.OnOpen -= OnOpenAsync event unsubscription; null-conditional assignment requires C# 14, unavailable in shared net8.0/C# 12 and net9.0/C# 13 source.",
+    Scope = "member",
+    Target = "~M:Syncfusion.Blazor.Toolkit.Popups.SfDialogProvider.Dispose(System.Boolean)")]
+
+
+// -------------------------------------------------------------------------
+// IDE0032 — Use auto property.
+//
+// 2026-10-02 audit: 96 diagnostics on backing FIELD declarations, so every
+// target below is ~F, not the associated ~P. Six trivial properties have
+// already been converted and are not suppressed. Remaining custom accessors
+// preserve reactive renderer updates, lazy initialization or guarded reads.
+// Ordinary auto-properties lose those semantics; C# 14 field-backed property
+// syntax preserves them but cannot compile on net8.0/C# 12 or net9.0/C# 13.
+// Existing BL0007 decisions and the BL0007 report are unchanged.
+// -------------------------------------------------------------------------
+[assembly: SuppressMessage(
+    "Style",
+    "IDE0032:Use auto property",
+    Justification = "2026-10-02: Retain reactive axis accessors and their renderer/layout side effects; ordinary auto-properties lose them, and C# 14 field syntax is unavailable on net8.0/C# 12 and net9.0/C# 13.",
+    Scope = "member",
+    Target = "~F:Syncfusion.Blazor.Toolkit.Charts.ChartAxis._crossesAt")]
+
+[assembly: SuppressMessage(
+    "Style",
+    "IDE0032:Use auto property",
+    Justification = "2026-10-02: Retain reactive axis accessors and their renderer/layout side effects; ordinary auto-properties lose them, and C# 14 field syntax is unavailable on net8.0/C# 12 and net9.0/C# 13.",
+    Scope = "member",
+    Target = "~F:Syncfusion.Blazor.Toolkit.Charts.ChartAxis._desiredIntervals")]
+
+[assembly: SuppressMessage(
+    "Style",
+    "IDE0032:Use auto property",
+    Justification = "2026-10-02: Retain reactive axis accessors and their renderer/layout side effects; ordinary auto-properties lose them, and C# 14 field syntax is unavailable on net8.0/C# 12 and net9.0/C# 13.",
+    Scope = "member",
+    Target = "~F:Syncfusion.Blazor.Toolkit.Charts.ChartAxis._edgeLabelPlacement")]
+
+[assembly: SuppressMessage(
+    "Style",
+    "IDE0032:Use auto property",
+    Justification = "2026-10-02: Retain reactive axis accessors and their renderer/layout side effects; ordinary auto-properties lose them, and C# 14 field syntax is unavailable on net8.0/C# 12 and net9.0/C# 13.",
+    Scope = "member",
+    Target = "~F:Syncfusion.Blazor.Toolkit.Charts.ChartAxis._enableTrim")]
+
+[assembly: SuppressMessage(
+    "Style",
+    "IDE0032:Use auto property",
+    Justification = "2026-10-02: Retain reactive axis accessors and their renderer/layout side effects; ordinary auto-properties lose them, and C# 14 field syntax is unavailable on net8.0/C# 12 and net9.0/C# 13.",
+    Scope = "member",
+    Target = "~F:Syncfusion.Blazor.Toolkit.Charts.ChartAxis._format")]
+
+[assembly: SuppressMessage(
+    "Style",
+    "IDE0032:Use auto property",
+    Justification = "2026-10-02: Retain reactive axis accessors and their renderer/layout side effects; ordinary auto-properties lose them, and C# 14 field syntax is unavailable on net8.0/C# 12 and net9.0/C# 13.",
+    Scope = "member",
+    Target = "~F:Syncfusion.Blazor.Toolkit.Charts.ChartAxis._interval")]
+
+[assembly: SuppressMessage(
+    "Style",
+    "IDE0032:Use auto property",
+    Justification = "2026-10-02: Retain reactive axis accessors and their renderer/layout side effects; ordinary auto-properties lose them, and C# 14 field syntax is unavailable on net8.0/C# 12 and net9.0/C# 13.",
+    Scope = "member",
+    Target = "~F:Syncfusion.Blazor.Toolkit.Charts.ChartAxis._intervalType")]
+
+[assembly: SuppressMessage(
+    "Style",
+    "IDE0032:Use auto property",
+    Justification = "2026-10-02: Retain reactive axis accessors and their renderer/layout side effects; ordinary auto-properties lose them, and C# 14 field syntax is unavailable on net8.0/C# 12 and net9.0/C# 13.",
+    Scope = "member",
+    Target = "~F:Syncfusion.Blazor.Toolkit.Charts.ChartAxis._isIndexed")]
+
+[assembly: SuppressMessage(
+    "Style",
+    "IDE0032:Use auto property",
+    Justification = "2026-10-02: Retain reactive axis accessors and their renderer/layout side effects; ordinary auto-properties lose them, and C# 14 field syntax is unavailable on net8.0/C# 12 and net9.0/C# 13.",
+    Scope = "member",
+    Target = "~F:Syncfusion.Blazor.Toolkit.Charts.ChartAxis._labelFormat")]
+
+[assembly: SuppressMessage(
+    "Style",
+    "IDE0032:Use auto property",
+    Justification = "2026-10-02: Retain reactive axis accessors and their renderer/layout side effects; ordinary auto-properties lose them, and C# 14 field syntax is unavailable on net8.0/C# 12 and net9.0/C# 13.",
+    Scope = "member",
+    Target = "~F:Syncfusion.Blazor.Toolkit.Charts.ChartAxis._labelIntersectAction")]
+
+[assembly: SuppressMessage(
+    "Style",
+    "IDE0032:Use auto property",
+    Justification = "2026-10-02: Retain reactive axis accessors and their renderer/layout side effects; ordinary auto-properties lose them, and C# 14 field syntax is unavailable on net8.0/C# 12 and net9.0/C# 13.",
+    Scope = "member",
+    Target = "~F:Syncfusion.Blazor.Toolkit.Charts.ChartAxis._labelPlacement")]
+
+[assembly: SuppressMessage(
+    "Style",
+    "IDE0032:Use auto property",
+    Justification = "2026-10-02: Retain reactive axis accessors and their renderer/layout side effects; ordinary auto-properties lose them, and C# 14 field syntax is unavailable on net8.0/C# 12 and net9.0/C# 13.",
+    Scope = "member",
+    Target = "~F:Syncfusion.Blazor.Toolkit.Charts.ChartAxis._labelPosition")]
+
+[assembly: SuppressMessage(
+    "Style",
+    "IDE0032:Use auto property",
+    Justification = "2026-10-02: Retain reactive axis accessors and their renderer/layout side effects; ordinary auto-properties lose them, and C# 14 field syntax is unavailable on net8.0/C# 12 and net9.0/C# 13.",
+    Scope = "member",
+    Target = "~F:Syncfusion.Blazor.Toolkit.Charts.ChartAxis._labelRotation")]
+
+[assembly: SuppressMessage(
+    "Style",
+    "IDE0032:Use auto property",
+    Justification = "2026-10-02: Retain reactive axis accessors and their renderer/layout side effects; ordinary auto-properties lose them, and C# 14 field syntax is unavailable on net8.0/C# 12 and net9.0/C# 13.",
+    Scope = "member",
+    Target = "~F:Syncfusion.Blazor.Toolkit.Charts.ChartAxis._maximum")]
+
+[assembly: SuppressMessage(
+    "Style",
+    "IDE0032:Use auto property",
+    Justification = "2026-10-02: Retain reactive axis accessors and their renderer/layout side effects; ordinary auto-properties lose them, and C# 14 field syntax is unavailable on net8.0/C# 12 and net9.0/C# 13.",
+    Scope = "member",
+    Target = "~F:Syncfusion.Blazor.Toolkit.Charts.ChartAxis._maximumLabelWidth")]
+
+[assembly: SuppressMessage(
+    "Style",
+    "IDE0032:Use auto property",
+    Justification = "2026-10-02: Retain reactive axis accessors and their renderer/layout side effects; ordinary auto-properties lose them, and C# 14 field syntax is unavailable on net8.0/C# 12 and net9.0/C# 13.",
+    Scope = "member",
+    Target = "~F:Syncfusion.Blazor.Toolkit.Charts.ChartAxis._minimum")]
+
+[assembly: SuppressMessage(
+    "Style",
+    "IDE0032:Use auto property",
+    Justification = "2026-10-02: Retain reactive axis accessors and their renderer/layout side effects; ordinary auto-properties lose them, and C# 14 field syntax is unavailable on net8.0/C# 12 and net9.0/C# 13.",
+    Scope = "member",
+    Target = "~F:Syncfusion.Blazor.Toolkit.Charts.ChartAxis._name")]
+
+[assembly: SuppressMessage(
+    "Style",
+    "IDE0032:Use auto property",
+    Justification = "2026-10-02: Retain reactive axis accessors and their renderer/layout side effects; ordinary auto-properties lose them, and C# 14 field syntax is unavailable on net8.0/C# 12 and net9.0/C# 13.",
+    Scope = "member",
+    Target = "~F:Syncfusion.Blazor.Toolkit.Charts.ChartAxis._opposedPosition")]
+
+[assembly: SuppressMessage(
+    "Style",
+    "IDE0032:Use auto property",
+    Justification = "2026-10-02: Retain reactive axis accessors and their renderer/layout side effects; ordinary auto-properties lose them, and C# 14 field syntax is unavailable on net8.0/C# 12 and net9.0/C# 13.",
+    Scope = "member",
+    Target = "~F:Syncfusion.Blazor.Toolkit.Charts.ChartAxis._placeNextToAxisLine")]
+
+[assembly: SuppressMessage(
+    "Style",
+    "IDE0032:Use auto property",
+    Justification = "2026-10-02: Retain reactive axis accessors and their renderer/layout side effects; ordinary auto-properties lose them, and C# 14 field syntax is unavailable on net8.0/C# 12 and net9.0/C# 13.",
+    Scope = "member",
+    Target = "~F:Syncfusion.Blazor.Toolkit.Charts.ChartAxis._rangePadding")]
+
+[assembly: SuppressMessage(
+    "Style",
+    "IDE0032:Use auto property",
+    Justification = "2026-10-02: Retain reactive axis accessors and their renderer/layout side effects; ordinary auto-properties lose them, and C# 14 field syntax is unavailable on net8.0/C# 12 and net9.0/C# 13.",
+    Scope = "member",
+    Target = "~F:Syncfusion.Blazor.Toolkit.Charts.ChartAxis._startAngle")]
+
+[assembly: SuppressMessage(
+    "Style",
+    "IDE0032:Use auto property",
+    Justification = "2026-10-02: Retain reactive axis accessors and their renderer/layout side effects; ordinary auto-properties lose them, and C# 14 field syntax is unavailable on net8.0/C# 12 and net9.0/C# 13.",
+    Scope = "member",
+    Target = "~F:Syncfusion.Blazor.Toolkit.Charts.ChartAxis._tickPosition")]
+
+[assembly: SuppressMessage(
+    "Style",
+    "IDE0032:Use auto property",
+    Justification = "2026-10-02: Retain reactive axis accessors and their renderer/layout side effects; ordinary auto-properties lose them, and C# 14 field syntax is unavailable on net8.0/C# 12 and net9.0/C# 13.",
+    Scope = "member",
+    Target = "~F:Syncfusion.Blazor.Toolkit.Charts.ChartAxis._title")]
+
+[assembly: SuppressMessage(
+    "Style",
+    "IDE0032:Use auto property",
+    Justification = "2026-10-02: Retain reactive axis accessors and their renderer/layout side effects; ordinary auto-properties lose them, and C# 14 field syntax is unavailable on net8.0/C# 12 and net9.0/C# 13.",
+    Scope = "member",
+    Target = "~F:Syncfusion.Blazor.Toolkit.Charts.ChartAxis._valueType")]
+
+[assembly: SuppressMessage(
+    "Style",
+    "IDE0032:Use auto property",
+    Justification = "2026-10-02: Retain custom marker accessors and their guard/update semantics; ordinary auto-properties lose them, and C# 14 field syntax is unavailable on net8.0/C# 12 and net9.0/C# 13.",
+    Scope = "member",
+    Target = "~F:Syncfusion.Blazor.Toolkit.Charts.ChartCommonMarker._border")]
+
+[assembly: SuppressMessage(
+    "Style",
+    "IDE0032:Use auto property",
+    Justification = "2026-10-02: Retain custom marker accessors and their guard/update semantics; ordinary auto-properties lose them, and C# 14 field syntax is unavailable on net8.0/C# 12 and net9.0/C# 13.",
+    Scope = "member",
+    Target = "~F:Syncfusion.Blazor.Toolkit.Charts.ChartCommonMarker._dataLabel")]
+
+[assembly: SuppressMessage(
+    "Style",
+    "IDE0032:Use auto property",
+    Justification = "2026-10-02: Retain custom marker accessors and their guard/update semantics; ordinary auto-properties lose them, and C# 14 field syntax is unavailable on net8.0/C# 12 and net9.0/C# 13.",
+    Scope = "member",
+    Target = "~F:Syncfusion.Blazor.Toolkit.Charts.ChartCommonMarker._fill")]
+
+[assembly: SuppressMessage(
+    "Style",
+    "IDE0032:Use auto property",
+    Justification = "2026-10-02: Retain custom marker accessors and their guard/update semantics; ordinary auto-properties lose them, and C# 14 field syntax is unavailable on net8.0/C# 12 and net9.0/C# 13.",
+    Scope = "member",
+    Target = "~F:Syncfusion.Blazor.Toolkit.Charts.ChartCommonMarker._height")]
+
+[assembly: SuppressMessage(
+    "Style",
+    "IDE0032:Use auto property",
+    Justification = "2026-10-02: Retain custom marker accessors and their guard/update semantics; ordinary auto-properties lose them, and C# 14 field syntax is unavailable on net8.0/C# 12 and net9.0/C# 13.",
+    Scope = "member",
+    Target = "~F:Syncfusion.Blazor.Toolkit.Charts.ChartCommonMarker._imageUrl")]
+
+[assembly: SuppressMessage(
+    "Style",
+    "IDE0032:Use auto property",
+    Justification = "2026-10-02: Retain custom marker accessors and their guard/update semantics; ordinary auto-properties lose them, and C# 14 field syntax is unavailable on net8.0/C# 12 and net9.0/C# 13.",
+    Scope = "member",
+    Target = "~F:Syncfusion.Blazor.Toolkit.Charts.ChartCommonMarker._offset")]
+
+[assembly: SuppressMessage(
+    "Style",
+    "IDE0032:Use auto property",
+    Justification = "2026-10-02: Retain custom marker accessors and their guard/update semantics; ordinary auto-properties lose them, and C# 14 field syntax is unavailable on net8.0/C# 12 and net9.0/C# 13.",
+    Scope = "member",
+    Target = "~F:Syncfusion.Blazor.Toolkit.Charts.ChartCommonMarker._opacity")]
+
+[assembly: SuppressMessage(
+    "Style",
+    "IDE0032:Use auto property",
+    Justification = "2026-10-02: Retain custom marker accessors and their guard/update semantics; ordinary auto-properties lose them, and C# 14 field syntax is unavailable on net8.0/C# 12 and net9.0/C# 13.",
+    Scope = "member",
+    Target = "~F:Syncfusion.Blazor.Toolkit.Charts.ChartCommonMarker._renderer")]
+
+[assembly: SuppressMessage(
+    "Style",
+    "IDE0032:Use auto property",
+    Justification = "2026-10-02: Retain custom marker accessors and their guard/update semantics; ordinary auto-properties lose them, and C# 14 field syntax is unavailable on net8.0/C# 12 and net9.0/C# 13.",
+    Scope = "member",
+    Target = "~F:Syncfusion.Blazor.Toolkit.Charts.ChartCommonMarker._shape")]
+
+[assembly: SuppressMessage(
+    "Style",
+    "IDE0032:Use auto property",
+    Justification = "2026-10-02: Retain custom marker accessors and their guard/update semantics; ordinary auto-properties lose them, and C# 14 field syntax is unavailable on net8.0/C# 12 and net9.0/C# 13.",
+    Scope = "member",
+    Target = "~F:Syncfusion.Blazor.Toolkit.Charts.ChartCommonMarker._visible")]
+
+[assembly: SuppressMessage(
+    "Style",
+    "IDE0032:Use auto property",
+    Justification = "2026-10-02: Retain custom marker accessors and their guard/update semantics; ordinary auto-properties lose them, and C# 14 field syntax is unavailable on net8.0/C# 12 and net9.0/C# 13.",
+    Scope = "member",
+    Target = "~F:Syncfusion.Blazor.Toolkit.Charts.ChartCommonMarker._widthProperty")]
+
+[assembly: SuppressMessage(
+    "Style",
+    "IDE0032:Use auto property",
+    Justification = "2026-10-02: Retain reactive last-label accessors and their renderer side effects; ordinary auto-properties lose them, and C# 14 field syntax is unavailable on net8.0/C# 12 and net9.0/C# 13.",
+    Scope = "member",
+    Target = "~F:Syncfusion.Blazor.Toolkit.Charts.ChartLastDataLabel._background")]
+
+[assembly: SuppressMessage(
+    "Style",
+    "IDE0032:Use auto property",
+    Justification = "2026-10-02: Retain reactive last-label accessors and their renderer side effects; ordinary auto-properties lose them, and C# 14 field syntax is unavailable on net8.0/C# 12 and net9.0/C# 13.",
+    Scope = "member",
+    Target = "~F:Syncfusion.Blazor.Toolkit.Charts.ChartLastDataLabel._cornerRadiusX")]
+
+[assembly: SuppressMessage(
+    "Style",
+    "IDE0032:Use auto property",
+    Justification = "2026-10-02: Retain reactive last-label accessors and their renderer side effects; ordinary auto-properties lose them, and C# 14 field syntax is unavailable on net8.0/C# 12 and net9.0/C# 13.",
+    Scope = "member",
+    Target = "~F:Syncfusion.Blazor.Toolkit.Charts.ChartLastDataLabel._cornerRadiusY")]
+
+[assembly: SuppressMessage(
+    "Style",
+    "IDE0032:Use auto property",
+    Justification = "2026-10-02: Retain reactive last-label accessors and their renderer side effects; ordinary auto-properties lose them, and C# 14 field syntax is unavailable on net8.0/C# 12 and net9.0/C# 13.",
+    Scope = "member",
+    Target = "~F:Syncfusion.Blazor.Toolkit.Charts.ChartLastDataLabel._dashArray")]
+
+[assembly: SuppressMessage(
+    "Style",
+    "IDE0032:Use auto property",
+    Justification = "2026-10-02: Retain reactive last-label accessors and their renderer side effects; ordinary auto-properties lose them, and C# 14 field syntax is unavailable on net8.0/C# 12 and net9.0/C# 13.",
+    Scope = "member",
+    Target = "~F:Syncfusion.Blazor.Toolkit.Charts.ChartLastDataLabel._lineColor")]
+
+[assembly: SuppressMessage(
+    "Style",
+    "IDE0032:Use auto property",
+    Justification = "2026-10-02: Retain reactive last-label accessors and their renderer side effects; ordinary auto-properties lose them, and C# 14 field syntax is unavailable on net8.0/C# 12 and net9.0/C# 13.",
+    Scope = "member",
+    Target = "~F:Syncfusion.Blazor.Toolkit.Charts.ChartLastDataLabel._lineWidth")]
+
+[assembly: SuppressMessage(
+    "Style",
+    "IDE0032:Use auto property",
+    Justification = "2026-10-02: Retain reactive last-label accessors and their renderer side effects; ordinary auto-properties lose them, and C# 14 field syntax is unavailable on net8.0/C# 12 and net9.0/C# 13.",
+    Scope = "member",
+    Target = "~F:Syncfusion.Blazor.Toolkit.Charts.ChartLastDataLabel._renderer")]
+
+[assembly: SuppressMessage(
+    "Style",
+    "IDE0032:Use auto property",
+    Justification = "2026-10-02: Retain reactive last-label accessors and their renderer side effects; ordinary auto-properties lose them, and C# 14 field syntax is unavailable on net8.0/C# 12 and net9.0/C# 13.",
+    Scope = "member",
+    Target = "~F:Syncfusion.Blazor.Toolkit.Charts.ChartLastDataLabel._showLabel")]
+
+[assembly: SuppressMessage(
+    "Style",
+    "IDE0032:Use auto property",
+    Justification = "2026-10-02: Retain reactive legend accessors and their renderer/layout side effects; ordinary auto-properties lose them, and C# 14 field syntax is unavailable on net8.0/C# 12 and net9.0/C# 13.",
+    Scope = "member",
+    Target = "~F:Syncfusion.Blazor.Toolkit.Charts.ChartLegendSettings._accessibilityRole")]
+
+[assembly: SuppressMessage(
+    "Style",
+    "IDE0032:Use auto property",
+    Justification = "2026-10-02: Retain reactive legend accessors and their renderer/layout side effects; ordinary auto-properties lose them, and C# 14 field syntax is unavailable on net8.0/C# 12 and net9.0/C# 13.",
+    Scope = "member",
+    Target = "~F:Syncfusion.Blazor.Toolkit.Charts.ChartLegendSettings._alignment")]
+
+[assembly: SuppressMessage(
+    "Style",
+    "IDE0032:Use auto property",
+    Justification = "2026-10-02: Retain reactive legend accessors and their renderer/layout side effects; ordinary auto-properties lose them, and C# 14 field syntax is unavailable on net8.0/C# 12 and net9.0/C# 13.",
+    Scope = "member",
+    Target = "~F:Syncfusion.Blazor.Toolkit.Charts.ChartLegendSettings._background")]
+
+[assembly: SuppressMessage(
+    "Style",
+    "IDE0032:Use auto property",
+    Justification = "2026-10-02: Retain reactive legend accessors and their renderer/layout side effects; ordinary auto-properties lose them, and C# 14 field syntax is unavailable on net8.0/C# 12 and net9.0/C# 13.",
+    Scope = "member",
+    Target = "~F:Syncfusion.Blazor.Toolkit.Charts.ChartLegendSettings._height")]
+
+[assembly: SuppressMessage(
+    "Style",
+    "IDE0032:Use auto property",
+    Justification = "2026-10-02: Retain reactive legend accessors and their renderer/layout side effects; ordinary auto-properties lose them, and C# 14 field syntax is unavailable on net8.0/C# 12 and net9.0/C# 13.",
+    Scope = "member",
+    Target = "~F:Syncfusion.Blazor.Toolkit.Charts.ChartLegendSettings._isInversed")]
+
+[assembly: SuppressMessage(
+    "Style",
+    "IDE0032:Use auto property",
+    Justification = "2026-10-02: Retain reactive legend accessors and their renderer/layout side effects; ordinary auto-properties lose them, and C# 14 field syntax is unavailable on net8.0/C# 12 and net9.0/C# 13.",
+    Scope = "member",
+    Target = "~F:Syncfusion.Blazor.Toolkit.Charts.ChartLegendSettings._itemPadding")]
+
+[assembly: SuppressMessage(
+    "Style",
+    "IDE0032:Use auto property",
+    Justification = "2026-10-02: Retain reactive legend accessors and their renderer/layout side effects; ordinary auto-properties lose them, and C# 14 field syntax is unavailable on net8.0/C# 12 and net9.0/C# 13.",
+    Scope = "member",
+    Target = "~F:Syncfusion.Blazor.Toolkit.Charts.ChartLegendSettings._maximumLabelWidth")]
+
+[assembly: SuppressMessage(
+    "Style",
+    "IDE0032:Use auto property",
+    Justification = "2026-10-02: Retain reactive legend accessors and their renderer/layout side effects; ordinary auto-properties lose them, and C# 14 field syntax is unavailable on net8.0/C# 12 and net9.0/C# 13.",
+    Scope = "member",
+    Target = "~F:Syncfusion.Blazor.Toolkit.Charts.ChartLegendSettings._opacity")]
+
+[assembly: SuppressMessage(
+    "Style",
+    "IDE0032:Use auto property",
+    Justification = "2026-10-02: Retain reactive legend accessors and their renderer/layout side effects; ordinary auto-properties lose them, and C# 14 field syntax is unavailable on net8.0/C# 12 and net9.0/C# 13.",
+    Scope = "member",
+    Target = "~F:Syncfusion.Blazor.Toolkit.Charts.ChartLegendSettings._padding")]
+
+[assembly: SuppressMessage(
+    "Style",
+    "IDE0032:Use auto property",
+    Justification = "2026-10-02: Retain reactive legend accessors and their renderer/layout side effects; ordinary auto-properties lose them, and C# 14 field syntax is unavailable on net8.0/C# 12 and net9.0/C# 13.",
+    Scope = "member",
+    Target = "~F:Syncfusion.Blazor.Toolkit.Charts.ChartLegendSettings._position")]
+
+[assembly: SuppressMessage(
+    "Style",
+    "IDE0032:Use auto property",
+    Justification = "2026-10-02: Retain reactive legend accessors and their renderer/layout side effects; ordinary auto-properties lose them, and C# 14 field syntax is unavailable on net8.0/C# 12 and net9.0/C# 13.",
+    Scope = "member",
+    Target = "~F:Syncfusion.Blazor.Toolkit.Charts.ChartLegendSettings._reverse")]
+
+[assembly: SuppressMessage(
+    "Style",
+    "IDE0032:Use auto property",
+    Justification = "2026-10-02: Retain reactive legend accessors and their renderer/layout side effects; ordinary auto-properties lose them, and C# 14 field syntax is unavailable on net8.0/C# 12 and net9.0/C# 13.",
+    Scope = "member",
+    Target = "~F:Syncfusion.Blazor.Toolkit.Charts.ChartLegendSettings._shapeHeight")]
+
+[assembly: SuppressMessage(
+    "Style",
+    "IDE0032:Use auto property",
+    Justification = "2026-10-02: Retain reactive legend accessors and their renderer/layout side effects; ordinary auto-properties lose them, and C# 14 field syntax is unavailable on net8.0/C# 12 and net9.0/C# 13.",
+    Scope = "member",
+    Target = "~F:Syncfusion.Blazor.Toolkit.Charts.ChartLegendSettings._shapePadding")]
+
+[assembly: SuppressMessage(
+    "Style",
+    "IDE0032:Use auto property",
+    Justification = "2026-10-02: Retain reactive legend accessors and their renderer/layout side effects; ordinary auto-properties lose them, and C# 14 field syntax is unavailable on net8.0/C# 12 and net9.0/C# 13.",
+    Scope = "member",
+    Target = "~F:Syncfusion.Blazor.Toolkit.Charts.ChartLegendSettings._shapeWidth")]
+
+[assembly: SuppressMessage(
+    "Style",
+    "IDE0032:Use auto property",
+    Justification = "2026-10-02: Retain reactive legend accessors and their renderer/layout side effects; ordinary auto-properties lose them, and C# 14 field syntax is unavailable on net8.0/C# 12 and net9.0/C# 13.",
+    Scope = "member",
+    Target = "~F:Syncfusion.Blazor.Toolkit.Charts.ChartLegendSettings._tabIndex")]
+
+[assembly: SuppressMessage(
+    "Style",
+    "IDE0032:Use auto property",
+    Justification = "2026-10-02: Retain reactive legend accessors and their renderer/layout side effects; ordinary auto-properties lose them, and C# 14 field syntax is unavailable on net8.0/C# 12 and net9.0/C# 13.",
+    Scope = "member",
+    Target = "~F:Syncfusion.Blazor.Toolkit.Charts.ChartLegendSettings._textWrap")]
+
+[assembly: SuppressMessage(
+    "Style",
+    "IDE0032:Use auto property",
+    Justification = "2026-10-02: Retain reactive legend accessors and their renderer/layout side effects; ordinary auto-properties lose them, and C# 14 field syntax is unavailable on net8.0/C# 12 and net9.0/C# 13.",
+    Scope = "member",
+    Target = "~F:Syncfusion.Blazor.Toolkit.Charts.ChartLegendSettings._visible")]
+
+[assembly: SuppressMessage(
+    "Style",
+    "IDE0032:Use auto property",
+    Justification = "2026-10-02: Retain reactive legend accessors and their renderer/layout side effects; ordinary auto-properties lose them, and C# 14 field syntax is unavailable on net8.0/C# 12 and net9.0/C# 13.",
+    Scope = "member",
+    Target = "~F:Syncfusion.Blazor.Toolkit.Charts.ChartLegendSettings._width")]
+
+[assembly: SuppressMessage(
+    "Style",
+    "IDE0032:Use auto property",
+    Justification = "2026-10-02: Retain custom series accessors and their guarded renderer/data updates; ordinary auto-properties lose them, and C# 14 field syntax is unavailable on net8.0/C# 12 and net9.0/C# 13.",
+    Scope = "member",
+    Target = "~F:Syncfusion.Blazor.Toolkit.Charts.ChartSeries._accessibilityRole")]
+
+[assembly: SuppressMessage(
+    "Style",
+    "IDE0032:Use auto property",
+    Justification = "2026-10-02: Retain custom series accessors and their guarded renderer/data updates; ordinary auto-properties lose them, and C# 14 field syntax is unavailable on net8.0/C# 12 and net9.0/C# 13.",
+    Scope = "member",
+    Target = "~F:Syncfusion.Blazor.Toolkit.Charts.ChartSeries._cardinalSplineTension")]
+
+[assembly: SuppressMessage(
+    "Style",
+    "IDE0032:Use auto property",
+    Justification = "2026-10-02: Retain custom series accessors and their guarded renderer/data updates; ordinary auto-properties lose them, and C# 14 field syntax is unavailable on net8.0/C# 12 and net9.0/C# 13.",
+    Scope = "member",
+    Target = "~F:Syncfusion.Blazor.Toolkit.Charts.ChartSeries._columnSpacing")]
+
+[assembly: SuppressMessage(
+    "Style",
+    "IDE0032:Use auto property",
+    Justification = "2026-10-02: Retain custom series accessors and their guarded renderer/data updates; ordinary auto-properties lose them, and C# 14 field syntax is unavailable on net8.0/C# 12 and net9.0/C# 13.",
+    Scope = "member",
+    Target = "~F:Syncfusion.Blazor.Toolkit.Charts.ChartSeries._columnWidth")]
+
+[assembly: SuppressMessage(
+    "Style",
+    "IDE0032:Use auto property",
+    Justification = "2026-10-02: Retain custom series accessors and their guarded renderer/data updates; ordinary auto-properties lose them, and C# 14 field syntax is unavailable on net8.0/C# 12 and net9.0/C# 13.",
+    Scope = "member",
+    Target = "~F:Syncfusion.Blazor.Toolkit.Charts.ChartSeries._columnWidthInPixel")]
+
+[assembly: SuppressMessage(
+    "Style",
+    "IDE0032:Use auto property",
+    Justification = "2026-10-02: Retain custom series accessors and their guarded renderer/data updates; ordinary auto-properties lose them, and C# 14 field syntax is unavailable on net8.0/C# 12 and net9.0/C# 13.",
+    Scope = "member",
+    Target = "~F:Syncfusion.Blazor.Toolkit.Charts.ChartSeries._dashArrayProperty")]
+
+[assembly: SuppressMessage(
+    "Style",
+    "IDE0032:Use auto property",
+    Justification = "2026-10-02: Retain custom series accessors and their guarded renderer/data updates; ordinary auto-properties lose them, and C# 14 field syntax is unavailable on net8.0/C# 12 and net9.0/C# 13.",
+    Scope = "member",
+    Target = "~F:Syncfusion.Blazor.Toolkit.Charts.ChartSeries._dataSource")]
+
+[assembly: SuppressMessage(
+    "Style",
+    "IDE0032:Use auto property",
+    Justification = "2026-10-02: Retain custom series accessors and their guarded renderer/data updates; ordinary auto-properties lose them, and C# 14 field syntax is unavailable on net8.0/C# 12 and net9.0/C# 13.",
+    Scope = "member",
+    Target = "~F:Syncfusion.Blazor.Toolkit.Charts.ChartSeries._enableComplexProperty")]
+
+[assembly: SuppressMessage(
+    "Style",
+    "IDE0032:Use auto property",
+    Justification = "2026-10-02: Retain custom series accessors and their guarded renderer/data updates; ordinary auto-properties lose them, and C# 14 field syntax is unavailable on net8.0/C# 12 and net9.0/C# 13.",
+    Scope = "member",
+    Target = "~F:Syncfusion.Blazor.Toolkit.Charts.ChartSeries._enableTooltip")]
+
+[assembly: SuppressMessage(
+    "Style",
+    "IDE0032:Use auto property",
+    Justification = "2026-10-02: Retain custom series accessors and their guarded renderer/data updates; ordinary auto-properties lose them, and C# 14 field syntax is unavailable on net8.0/C# 12 and net9.0/C# 13.",
+    Scope = "member",
+    Target = "~F:Syncfusion.Blazor.Toolkit.Charts.ChartSeries._fill")]
+
+[assembly: SuppressMessage(
+    "Style",
+    "IDE0032:Use auto property",
+    Justification = "2026-10-02: Retain custom series accessors and their guarded renderer/data updates; ordinary auto-properties lose them, and C# 14 field syntax is unavailable on net8.0/C# 12 and net9.0/C# 13.",
+    Scope = "member",
+    Target = "~F:Syncfusion.Blazor.Toolkit.Charts.ChartSeries._legendShape")]
+
+[assembly: SuppressMessage(
+    "Style",
+    "IDE0032:Use auto property",
+    Justification = "2026-10-02: Retain custom series accessors and their guarded renderer/data updates; ordinary auto-properties lose them, and C# 14 field syntax is unavailable on net8.0/C# 12 and net9.0/C# 13.",
+    Scope = "member",
+    Target = "~F:Syncfusion.Blazor.Toolkit.Charts.ChartSeries._name")]
+
+[assembly: SuppressMessage(
+    "Style",
+    "IDE0032:Use auto property",
+    Justification = "2026-10-02: Retain custom series accessors and their guarded renderer/data updates; ordinary auto-properties lose them, and C# 14 field syntax is unavailable on net8.0/C# 12 and net9.0/C# 13.",
+    Scope = "member",
+    Target = "~F:Syncfusion.Blazor.Toolkit.Charts.ChartSeries._opacityProperty")]
+
+[assembly: SuppressMessage(
+    "Style",
+    "IDE0032:Use auto property",
+    Justification = "2026-10-02: Retain custom series accessors and their guarded renderer/data updates; ordinary auto-properties lose them, and C# 14 field syntax is unavailable on net8.0/C# 12 and net9.0/C# 13.",
+    Scope = "member",
+    Target = "~F:Syncfusion.Blazor.Toolkit.Charts.ChartSeries._pointColorMapping")]
+
+[assembly: SuppressMessage(
+    "Style",
+    "IDE0032:Use auto property",
+    Justification = "2026-10-02: Retain custom series accessors and their guarded renderer/data updates; ordinary auto-properties lose them, and C# 14 field syntax is unavailable on net8.0/C# 12 and net9.0/C# 13.",
+    Scope = "member",
+    Target = "~F:Syncfusion.Blazor.Toolkit.Charts.ChartSeries._query")]
+
+[assembly: SuppressMessage(
+    "Style",
+    "IDE0032:Use auto property",
+    Justification = "2026-10-02: Retain custom series accessors and their guarded renderer/data updates; ordinary auto-properties lose them, and C# 14 field syntax is unavailable on net8.0/C# 12 and net9.0/C# 13.",
+    Scope = "member",
+    Target = "~F:Syncfusion.Blazor.Toolkit.Charts.ChartSeries._rendererProperty")]
+
+[assembly: SuppressMessage(
+    "Style",
+    "IDE0032:Use auto property",
+    Justification = "2026-10-02: Retain custom series accessors and their guarded renderer/data updates; ordinary auto-properties lose them, and C# 14 field syntax is unavailable on net8.0/C# 12 and net9.0/C# 13.",
+    Scope = "member",
+    Target = "~F:Syncfusion.Blazor.Toolkit.Charts.ChartSeries._showNearestTooltip")]
+
+[assembly: SuppressMessage(
+    "Style",
+    "IDE0032:Use auto property",
+    Justification = "2026-10-02: Retain custom series accessors and their guarded renderer/data updates; ordinary auto-properties lose them, and C# 14 field syntax is unavailable on net8.0/C# 12 and net9.0/C# 13.",
+    Scope = "member",
+    Target = "~F:Syncfusion.Blazor.Toolkit.Charts.ChartSeries._splineType")]
+
+[assembly: SuppressMessage(
+    "Style",
+    "IDE0032:Use auto property",
+    Justification = "2026-10-02: Retain custom series accessors and their guarded renderer/data updates; ordinary auto-properties lose them, and C# 14 field syntax is unavailable on net8.0/C# 12 and net9.0/C# 13.",
+    Scope = "member",
+    Target = "~F:Syncfusion.Blazor.Toolkit.Charts.ChartSeries._stepPosition")]
+
+[assembly: SuppressMessage(
+    "Style",
+    "IDE0032:Use auto property",
+    Justification = "2026-10-02: Retain custom series accessors and their guarded renderer/data updates; ordinary auto-properties lose them, and C# 14 field syntax is unavailable on net8.0/C# 12 and net9.0/C# 13.",
+    Scope = "member",
+    Target = "~F:Syncfusion.Blazor.Toolkit.Charts.ChartSeries._tooltipFormat")]
+
+[assembly: SuppressMessage(
+    "Style",
+    "IDE0032:Use auto property",
+    Justification = "2026-10-02: Retain custom series accessors and their guarded renderer/data updates; ordinary auto-properties lose them, and C# 14 field syntax is unavailable on net8.0/C# 12 and net9.0/C# 13.",
+    Scope = "member",
+    Target = "~F:Syncfusion.Blazor.Toolkit.Charts.ChartSeries._type")]
+
+[assembly: SuppressMessage(
+    "Style",
+    "IDE0032:Use auto property",
+    Justification = "2026-10-02: Retain custom series accessors and their guarded renderer/data updates; ordinary auto-properties lose them, and C# 14 field syntax is unavailable on net8.0/C# 12 and net9.0/C# 13.",
+    Scope = "member",
+    Target = "~F:Syncfusion.Blazor.Toolkit.Charts.ChartSeries._visible")]
+
+[assembly: SuppressMessage(
+    "Style",
+    "IDE0032:Use auto property",
+    Justification = "2026-10-02: Retain custom series accessors and their guarded renderer/data updates; ordinary auto-properties lose them, and C# 14 field syntax is unavailable on net8.0/C# 12 and net9.0/C# 13.",
+    Scope = "member",
+    Target = "~F:Syncfusion.Blazor.Toolkit.Charts.ChartSeries._widthProperty")]
+
+[assembly: SuppressMessage(
+    "Style",
+    "IDE0032:Use auto property",
+    Justification = "2026-10-02: Retain reactive stack-label accessors and their guarded renderer updates; ordinary auto-properties lose them, and C# 14 field syntax is unavailable on net8.0/C# 12 and net9.0/C# 13.",
+    Scope = "member",
+    Target = "~F:Syncfusion.Blazor.Toolkit.Charts.ChartStackLabelSettings._angle")]
+
+[assembly: SuppressMessage(
+    "Style",
+    "IDE0032:Use auto property",
+    Justification = "2026-10-02: Retain reactive stack-label accessors and their guarded renderer updates; ordinary auto-properties lose them, and C# 14 field syntax is unavailable on net8.0/C# 12 and net9.0/C# 13.",
+    Scope = "member",
+    Target = "~F:Syncfusion.Blazor.Toolkit.Charts.ChartStackLabelSettings._border")]
+
+[assembly: SuppressMessage(
+    "Style",
+    "IDE0032:Use auto property",
+    Justification = "2026-10-02: Retain reactive stack-label accessors and their guarded renderer updates; ordinary auto-properties lose them, and C# 14 field syntax is unavailable on net8.0/C# 12 and net9.0/C# 13.",
+    Scope = "member",
+    Target = "~F:Syncfusion.Blazor.Toolkit.Charts.ChartStackLabelSettings._fill")]
+
+[assembly: SuppressMessage(
+    "Style",
+    "IDE0032:Use auto property",
+    Justification = "2026-10-02: Retain reactive stack-label accessors and their guarded renderer updates; ordinary auto-properties lose them, and C# 14 field syntax is unavailable on net8.0/C# 12 and net9.0/C# 13.",
+    Scope = "member",
+    Target = "~F:Syncfusion.Blazor.Toolkit.Charts.ChartStackLabelSettings._format")]
+
+[assembly: SuppressMessage(
+    "Style",
+    "IDE0032:Use auto property",
+    Justification = "2026-10-02: Retain reactive stack-label accessors and their guarded renderer updates; ordinary auto-properties lose them, and C# 14 field syntax is unavailable on net8.0/C# 12 and net9.0/C# 13.",
+    Scope = "member",
+    Target = "~F:Syncfusion.Blazor.Toolkit.Charts.ChartStackLabelSettings._stackLabelCornerRadiusX")]
+
+[assembly: SuppressMessage(
+    "Style",
+    "IDE0032:Use auto property",
+    Justification = "2026-10-02: Retain reactive stack-label accessors and their guarded renderer updates; ordinary auto-properties lose them, and C# 14 field syntax is unavailable on net8.0/C# 12 and net9.0/C# 13.",
+    Scope = "member",
+    Target = "~F:Syncfusion.Blazor.Toolkit.Charts.ChartStackLabelSettings._stackLabelCornerRadiusY")]
+
+[assembly: SuppressMessage(
+    "Style",
+    "IDE0032:Use auto property",
+    Justification = "2026-10-02: AxisLayout changes clear/re-register axes and invalidate layout; an ordinary auto-property loses these side effects, and C# 14 field syntax is unavailable on net8.0/C# 12 and net9.0/C# 13.",
+    Scope = "member",
+    Target = "~F:Syncfusion.Blazor.Toolkit.Charts.Internal.ChartAxisRendererContainer._axisLayout")]
+
+[assembly: SuppressMessage(
+    "Style",
+    "IDE0032:Use auto property",
+    Justification = "2026-10-02: Preserve lazy reflection-method caching; an ordinary auto-property loses lazy initialization, and C# 14 field syntax is unavailable on net8.0/C# 12 and net9.0/C# 13.",
+    Scope = "member",
+    Target = "~F:Syncfusion.Blazor.Toolkit.Data.QueryableExtensions._enumerableaverageMethods")]
+
+[assembly: SuppressMessage(
+    "Style",
+    "IDE0032:Use auto property",
+    Justification = "2026-10-02: Preserve lazy reflection-method caching; an ordinary auto-property loses lazy initialization, and C# 14 field syntax is unavailable on net8.0/C# 12 and net9.0/C# 13.",
+    Scope = "member",
+    Target = "~F:Syncfusion.Blazor.Toolkit.Data.QueryableExtensions._enumerablesummethods")]
+
+[assembly: SuppressMessage(
+    "Style",
+    "IDE0032:Use auto property",
+    Justification = "2026-10-02: Preserve lazy reflection-method caching; an ordinary auto-property loses lazy initialization, and C# 14 field syntax is unavailable on net8.0/C# 12 and net9.0/C# 13.",
+    Scope = "member",
+    Target = "~F:Syncfusion.Blazor.Toolkit.Data.QueryableExtensions._queryableSumMethod")]
+
+[assembly: SuppressMessage(
+    "Style",
+    "IDE0032:Use auto property",
+    Justification = "2026-10-02: Preserve lazy reflection-method caching; an ordinary auto-property loses lazy initialization, and C# 14 field syntax is unavailable on net8.0/C# 12 and net9.0/C# 13.",
+    Scope = "member",
+    Target = "~F:Syncfusion.Blazor.Toolkit.Data.QueryableExtensions._queryableaverageMethod")]
+
+[assembly: SuppressMessage(
+    "Style",
+    "IDE0032:Use auto property",
+    Justification = "2026-10-02: Preserve guarded InputFile event reads and fallback to the latest valid event; an ordinary auto-property loses those semantics, and C# 14 field syntax is unavailable on net8.0/C# 12 and net9.0/C# 13.",
+    Scope = "member",
+    Target = "~F:Syncfusion.Blazor.Toolkit.Inputs.SfUploader._inputFileChangeEvent")]
+
+
+// -------------------------------------------------------------------------
+// IDE0060 — Remove unused parameter.
+//
+// Preserve these public/protected signatures, including parameter names used
+// by named-argument callers and the positional JS-invokable zoom contract.
+// -------------------------------------------------------------------------
+[assembly: SuppressMessage(
+    "Style",
+    "IDE0060:Remove unused parameter",
+    Justification = "2026-10-02: Preserve the protected SelectCalendarAsync(bool isSelection = false) signature for derived components and named-argument callers; removing or renaming the parameter breaks source/binary compatibility.",
+    Scope = "member",
+    Target = "~M:Syncfusion.Blazor.Toolkit.Calendars.SfDatePicker`1.SelectCalendarAsync(System.Boolean)")]
+
+[assembly: SuppressMessage(
+    "Style",
+    "IDE0060:Remove unused parameter",
+    Justification = "2026-10-02: Preserve the public JSInvokable TriggerZoomingEvents signature and isZoomStart parameter name for JavaScript dispatch, binary compatibility and named-argument callers.",
+    Scope = "member",
+    Target = "~M:Syncfusion.Blazor.Toolkit.Charts.SfChart.TriggerZoomingEvents(System.String,System.Boolean)")]
+
+[assembly: SuppressMessage(
+    "Style",
+    "IDE0060:Remove unused parameter",
+    Justification = "2026-10-02: Preserve the public ParseValueWithTypeInformation(string, object, bool) overload and retVal parameter name for binary compatibility and named-argument callers.",
+    Scope = "member",
+    Target = "~M:Syncfusion.Blazor.Toolkit.Data.ValueConvert.ParseValueWithTypeInformation(System.String,System.Object,System.Boolean)")]
+
+
+// -------------------------------------------------------------------------
+// IDE0340 — Use unbound generic type.
+//
+// Four nameof expressions in this precise Predicate overload require bound
+// Nullable<DateTime>/Nullable<DateTimeOffset> types on C# 12/13.
+// -------------------------------------------------------------------------
+[assembly: SuppressMessage(
+    "Style",
+    "IDE0340:Use unbound generic type",
+    Justification = "2026-10-02: Retain the four bound Nullable<T> nameof expressions; unbound generic nameof requires C# 14 and cannot compile in shared net8.0/C# 12 or net9.0/C# 13 source.",
+    Scope = "member",
+    Target = "~M:Syncfusion.Blazor.Toolkit.Data.QueryableExtensions.Predicate(System.Linq.IQueryable,System.Object,Syncfusion.Blazor.Toolkit.Data.FilterType,Syncfusion.Blazor.Toolkit.Data.FilterBehavior,System.Boolean,System.Type,System.Type,System.Linq.Expressions.Expression,System.Linq.Expressions.ParameterExpression,System.String,System.Boolean,System.Boolean)")]
+
+
+// -------------------------------------------------------------------------
+// IDE0390 — Make method synchronous.
+// -------------------------------------------------------------------------
+[assembly: SuppressMessage(
+    "Style",
+    "IDE0390:Make method synchronous",
+    Justification = "2026-10-02: Keep this awaited Task-returning renderer helper async even without await; renderer failures are delivered through a faulted Task rather than thrown synchronously, preserving caller error delivery.",
+    Scope = "member",
+    Target = "~M:Syncfusion.Blazor.Toolkit.Charts.SfChart.UpdateNeededRenderersAsync")]
+
+
+// -------------------------------------------------------------------------
+// IDE0391 — Make method synchronous.
+// -------------------------------------------------------------------------
+[assembly: SuppressMessage(
+    "Style",
+    "IDE0391:Make method synchronous",
+    Justification = "2026-10-02: Keep initialization in OnInitializedAsync rather than moving it to OnInitialized; preserve Blazor lifecycle ordering, the async override/base-call contract for subclasses and faulted-Task error delivery.",
+    Scope = "member",
+    Target = "~M:Syncfusion.Blazor.Toolkit.Charts.Internal.TrimTooltipBase.OnInitializedAsync")]
+
+
+// -------------------------------------------------------------------------
+// IDE1006 — Naming Styles.
+//
+// These exact names are ABI/source, JS dispatch or JSON wire contracts.
+// Internal IChartInternalLocation.x/y are wire names, not a public API claim.
+// -------------------------------------------------------------------------
+[assembly: SuppressMessage(
+    "Naming",
+    "IDE1006:Naming Styles",
+    Justification = "2026-10-02: Preserve the public JSInvokable HidePopup name used by JavaScript and existing consumers; adding an Async suffix would break dispatch and source/binary compatibility.",
+    Scope = "member",
+    Target = "~M:Syncfusion.Blazor.Toolkit.Calendars.SfTimePicker`1.HidePopup(System.EventArgs)")]
+
+[assembly: SuppressMessage(
+    "Naming",
+    "IDE1006:Naming Styles",
+    Justification = "2026-10-02: Preserve the public JSInvokable ShowPopup name used by JavaScript and existing consumers; adding an Async suffix would break dispatch and source/binary compatibility.",
+    Scope = "member",
+    Target = "~M:Syncfusion.Blazor.Toolkit.Calendars.SfTimePicker`1.ShowPopup(System.EventArgs)")]
+
+[assembly: SuppressMessage(
+    "Naming",
+    "IDE1006:Naming Styles",
+    Justification = "2026-10-02: Internal location model uses lowercase x as a JS/JSON wire name; renaming to satisfy CLR naming style would change serialization compatibility.",
+    Scope = "member",
+    Target = "~P:Syncfusion.Blazor.Toolkit.Charts.Internal.IChartInternalLocation.x")]
+
+[assembly: SuppressMessage(
+    "Naming",
+    "IDE1006:Naming Styles",
+    Justification = "2026-10-02: Internal location model uses lowercase y as a JS/JSON wire name; renaming to satisfy CLR naming style would change serialization compatibility.",
+    Scope = "member",
+    Target = "~P:Syncfusion.Blazor.Toolkit.Charts.Internal.IChartInternalLocation.y")]
+
+[assembly: SuppressMessage(
+    "Naming",
+    "IDE1006:Naming Styles",
+    Justification = "2026-10-02: Preserve the public Refresh method name for existing consumers; adding an Async suffix would break source/binary compatibility.",
+    Scope = "member",
+    Target = "~M:Syncfusion.Blazor.Toolkit.Data.BaseComponent.Refresh")]
+
+[assembly: SuppressMessage(
+    "Naming",
+    "IDE1006:Naming Styles",
+    Justification = "2026-10-02: Preserve the public virtual JSInvokable Trigger name for JavaScript dispatch, overrides and existing consumers; an Async suffix would break those contracts.",
+    Scope = "member",
+    Target = "~M:Syncfusion.Blazor.Toolkit.Data.BaseComponent.Trigger(System.String,System.String)")]
+
+[assembly: SuppressMessage(
+    "Naming",
+    "IDE1006:Naming Styles",
+    Justification = "2026-10-02: Preserve the public JSInvokable UpdateModel name for JavaScript dispatch and source/binary compatibility; an Async suffix would break those contracts.",
+    Scope = "member",
+    Target = "~M:Syncfusion.Blazor.Toolkit.Data.BaseComponent.UpdateModel(System.Collections.Generic.Dictionary{System.String,System.Object})")]
+
+[assembly: SuppressMessage(
+    "Naming",
+    "IDE1006:Naming Styles",
+    Justification = "2026-10-02: _uniqueId is a protected property on the public abstract BaseComponent; renaming it would break source/binary compatibility for derived components.",
+    Scope = "member",
+    Target = "~P:Syncfusion.Blazor.Toolkit.Data.BaseComponent._uniqueId")]
+
+[assembly: SuppressMessage(
+    "Naming",
+    "IDE1006:Naming Styles",
+    Justification = "2026-10-02: Preserve the public generic ExecuteQuery<T>(DataManagerRequest) overload name; adding an Async suffix would break source/binary compatibility for consumers.",
+    Scope = "member",
+    Target = "~M:Syncfusion.Blazor.Toolkit.Data.DataManager.ExecuteQuery``1(Syncfusion.Blazor.Toolkit.Data.DataManagerRequest)")]
+
+[assembly: SuppressMessage(
+    "Naming",
+    "IDE1006:Naming Styles",
+    Justification = "2026-10-02: Preserve the public generic ExecuteQuery<T>(Query) overload name; adding an Async suffix would break source/binary compatibility for consumers.",
+    Scope = "member",
+    Target = "~M:Syncfusion.Blazor.Toolkit.Data.DataManager.ExecuteQuery``1(Syncfusion.Blazor.Toolkit.Data.Query)")]
+
+[assembly: SuppressMessage(
+    "Naming",
+    "IDE1006:Naming Styles",
+    Justification = "2026-10-02: Preserve the public lowercase value property and its value JSON contract; a CLR rename would break source/binary compatibility even if JsonPropertyName kept the wire spelling.",
+    Scope = "member",
+    Target = "~P:Syncfusion.Blazor.Toolkit.Data.WhereFilter.value")]

@@ -258,7 +258,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
             {
                 unSelectOpacity = 1;
             }
-            InnerHTML += "." + Unselected + (_chartInstance._legendRenderer?.Legend is not null && _chartInstance._legendRenderer.Legend.EnableHighlight && _chartInstance._legendRenderer.Legend.ToggleVisibility ? ":not([id*=_chart_legend_shape_])" : "") + " { opacity:" + unSelectOpacity.ToString(culture) + ";} ";
+            InnerHTML += "." + Unselected + (_chartInstance._legendRenderer?.Legend is not null && _chartInstance._legendRenderer.Legend.EnableHighlight && _chartInstance._legendRenderer.Legend.ToggleVisibility ? ":not([id*=_chart_legend_shape_])" : "") + " { opacity:" + unSelectOpacity.ToString(Culture) + ";} ";
 
             if (isHighlight || (_chartInstance._legendRenderer?.Legend is not null && _chartInstance._legendRenderer.Legend.EnableHighlight))
             {
@@ -267,7 +267,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
                     if (seriesRenderer.IsPathSeries())
                     {
                         double width = Math.Max(seriesRenderer.Series?.Width ?? 0, seriesRenderer.Series?.Border.Width ?? 0) + 1;
-                        InnerHTML += "." + _chartInstance.ID + "_ej2_chart_highlight_series" + seriesRenderer.Index + (_chartInstance._legendRenderer?.Legend is not null && _chartInstance._legendRenderer.Legend.EnableHighlight && _chartInstance._legendRenderer.Legend.ToggleVisibility ? ":not([id*=_chart_legend_shape_])" : "") + "{ stroke-width: " + width.ToString(culture) + "px;}";
+                        InnerHTML += "." + _chartInstance.ID + "_ej2_chart_highlight_series" + seriesRenderer.Index + (_chartInstance._legendRenderer?.Legend is not null && _chartInstance._legendRenderer.Legend.EnableHighlight && _chartInstance._legendRenderer.Legend.ToggleVisibility ? ":not([id*=_chart_legend_shape_])" : "") + "{ stroke-width: " + width.ToString(Culture) + "px;}";
                     }
                 }
             }
