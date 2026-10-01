@@ -86,6 +86,8 @@ namespace Syncfusion.Blazor.Toolkit.Charts
             set => _rendererType = value;
         }
 
+        private bool _visible;
+
         /// <summary>
         /// Gets or sets a value indicating whether the marker is visible for the series.
         /// </summary>
@@ -102,7 +104,6 @@ namespace Syncfusion.Blazor.Toolkit.Charts
         /// ]]>
         /// </code>
         /// </example>
-        private bool _visible;
         [Parameter]
         public bool Visible
         {
@@ -118,6 +119,8 @@ namespace Syncfusion.Blazor.Toolkit.Charts
                 Renderer?.ToggleVisibility();
             }
         }
+
+        private bool _isFilled;
 
         /// <summary>
         /// Gets or sets a value indicating whether the marker is filled for the series.
@@ -135,7 +138,6 @@ namespace Syncfusion.Blazor.Toolkit.Charts
         /// ]]>
         /// </code>
         /// </example>
-        private bool _isFilled;
         [Parameter]
         public bool IsFilled
         {
@@ -151,6 +153,8 @@ namespace Syncfusion.Blazor.Toolkit.Charts
             }
         }
 
+        private ChartShape _shape = ChartShape.Auto;
+        private ChartMarkerBorder? _border;
         /// <summary>
         /// Gets or sets the shape of the marker.
         /// </summary>
@@ -167,7 +171,6 @@ namespace Syncfusion.Blazor.Toolkit.Charts
         /// ]]>
         /// </code>
         /// </example>
-        private ChartShape _shape = ChartShape.Auto;
         [Parameter]
         public ChartShape Shape
         {
@@ -183,6 +186,8 @@ namespace Syncfusion.Blazor.Toolkit.Charts
                 Renderer?.UpdateDirection();
             }
         }
+
+        private Uri? _imageUrl;
 
         /// <summary>
         /// Gets or sets the URL path for the image.
@@ -200,7 +205,6 @@ namespace Syncfusion.Blazor.Toolkit.Charts
         /// ]]>
         /// </code>
         /// </example>
-        private Uri? _imageUrl;
         [Parameter]
         public Uri? ImageUrl
         {
@@ -217,6 +221,8 @@ namespace Syncfusion.Blazor.Toolkit.Charts
             }
         }
 
+        private double _height = Constants.MarkerSize;
+
         /// <summary>
         /// Gets or sets the height of the marker.
         /// </summary>
@@ -229,7 +235,6 @@ namespace Syncfusion.Blazor.Toolkit.Charts
         /// ]]>
         /// </code>
         /// </example>
-        private double _height = Constants.MarkerSize;
         [Parameter]
         public double Height
         {
@@ -246,6 +251,8 @@ namespace Syncfusion.Blazor.Toolkit.Charts
             }
         }
 
+        private double _widthProperty = Constants.MarkerSize;
+
         /// <summary>
         /// Gets or sets the width of the marker.
         /// </summary>
@@ -258,7 +265,6 @@ namespace Syncfusion.Blazor.Toolkit.Charts
         /// ]]>
         /// </code>
         /// </example>
-        private double _widthProperty = Constants.MarkerSize;
         [Parameter]
         public double Width
         {
@@ -293,7 +299,6 @@ namespace Syncfusion.Blazor.Toolkit.Charts
         /// ]]>
         /// </code>
         /// </example>
-        private ChartMarkerBorder? _border;
         [Parameter]
         public ChartMarkerBorder Border
         {
@@ -310,6 +315,8 @@ namespace Syncfusion.Blazor.Toolkit.Charts
                 }
             }
         }
+
+        private ChartMarkerOffset? _offset;
 
         /// <summary>
         /// Gets or sets the options to customize the offset of the marker.
@@ -329,7 +336,6 @@ namespace Syncfusion.Blazor.Toolkit.Charts
         /// ]]>
         /// </code>
         /// </example>
-        private ChartMarkerOffset? _offset;
         [Parameter]
         public ChartMarkerOffset Offset
         {
@@ -346,6 +352,8 @@ namespace Syncfusion.Blazor.Toolkit.Charts
             }
         }
 
+        private string _fill = string.Empty;
+
         /// <summary>
         /// Gets or sets the fill color of the marker.
         /// </summary>
@@ -358,7 +366,6 @@ namespace Syncfusion.Blazor.Toolkit.Charts
         /// ]]>
         /// </code>
         /// </example>
-        private string _fill = string.Empty;
         [Parameter]
         public string Fill
         {
@@ -375,6 +382,8 @@ namespace Syncfusion.Blazor.Toolkit.Charts
             }
         }
 
+        private double _opacity = Constants.DefaultOpacity;
+
         /// <summary>
         /// Gets or sets the opacity of the marker shape.
         /// </summary>
@@ -389,7 +398,6 @@ namespace Syncfusion.Blazor.Toolkit.Charts
         /// ]]>
         /// </code>
         /// </example>
-        private double _opacity = Constants.DefaultOpacity;
         [Parameter]
         public double Opacity
         {
@@ -406,6 +414,8 @@ namespace Syncfusion.Blazor.Toolkit.Charts
             }
         }
 
+        private ChartDataLabel? _dataLabel;
+
         /// <summary>
         /// Gets or sets the options to customize the data label for the series.
         /// </summary>
@@ -420,7 +430,6 @@ namespace Syncfusion.Blazor.Toolkit.Charts
         /// ]]>
         /// </code>
         /// </example>
-        private ChartDataLabel? _dataLabel;
         [Parameter]
         public ChartDataLabel DataLabel
         {

@@ -366,6 +366,9 @@ namespace Syncfusion.Blazor.Toolkit.Data
         [JsonIgnore]
         internal HttpHandler _httpHandler;
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="DataManager"/> class, setting up the default data adaptor and the internal HTTP handler.
+        /// </summary>
         public DataManager()
         {
             InitDataManagerAdaptor();

@@ -520,6 +520,11 @@ namespace Syncfusion.Blazor.Toolkit.Charts
     /// </remarks>
     public class ChartEventLocation : SymbolLocation
     {
+        /// <summary>
+        /// Initializes a new instance of the <see cref="ChartEventLocation"/> class with the specified coordinates.
+        /// </summary>
+        /// <param name="locationX">The X-coordinate of the location, in pixels.</param>
+        /// <param name="locationY">The Y-coordinate of the location, in pixels.</param>
         public ChartEventLocation(double locationX, double locationY)
         {
             X = locationX;
@@ -604,12 +609,20 @@ namespace Syncfusion.Blazor.Toolkit.Charts
     /// </summary>
     public class Size
     {
+        /// <summary>
+        /// Initializes a new instance of the <see cref="Size"/> class with the specified width and height.
+        /// </summary>
+        /// <param name="width">The width of the element, in pixels.</param>
+        /// <param name="height">The height of the element, in pixels.</param>
         public Size(double width, double height)
         {
             Width = width;
             Height = height;
         }
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="Size"/> class with zero width and height.
+        /// </summary>
         public Size()
         {
         }

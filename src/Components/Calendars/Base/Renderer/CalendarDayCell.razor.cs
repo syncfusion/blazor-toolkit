@@ -12,6 +12,10 @@ namespace Syncfusion.Blazor.Toolkit.Calendars.Internal
     /// <typeparam name="TCalendarCell">Specifies the type of CalendarDayCell.</typeparam>
     public partial class CalendarDayCell<TCalendarCell> : CalendarBase<TCalendarCell>
     {
+        /// <summary>
+        /// Gets or sets the string localizer used to resolve localized text for the calendar day cells.
+        /// </summary>
+        /// <value>An <see cref="IStringLocalizer"/> instance resolved from dependency injection.</value>
         [Inject]
         protected new IStringLocalizer Localizer { get; set; } = default!;
 

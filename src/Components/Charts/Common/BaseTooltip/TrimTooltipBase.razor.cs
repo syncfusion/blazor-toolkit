@@ -42,6 +42,10 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
         public string Content { get; set; } = string.Empty;
         #endregion
 
+        /// <summary>
+        /// Initializes the component by applying the configured style attributes before the first render.
+        /// </summary>
+        /// <returns>A <see cref="Task"/> that represents the asynchronous initialization operation.</returns>
         protected override async Task OnInitializedAsync()
         {
             updateStyleAttributes(Style);

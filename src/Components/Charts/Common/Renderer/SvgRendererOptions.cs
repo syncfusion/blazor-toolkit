@@ -2,6 +2,9 @@
 
 namespace Syncfusion.Blazor.Toolkit.Charts.Internal
 {
+    /// <summary>
+    /// Specifies the font styling options, such as color, size, family, weight, and style, used when rendering SVG text elements.
+    /// </summary>
     public class FontOptions
     {
         /// <summary>

@@ -26,6 +26,11 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
         #region Fields
         private string _baseControl { get; set; } = string.Empty;
         private string _pagingTransform { get; set; } = string.Empty;
+
+        /// <summary>
+        /// Gets or sets the culture used to format legend text, such as numeric and date values.
+        /// </summary>
+        /// <value>A <see cref="CultureInfo"/> instance. Defaults to <see cref="CultureInfo.InvariantCulture"/>.</value>
         protected CultureInfo culture { get; set; } = CultureInfo.InvariantCulture;
         #endregion
 

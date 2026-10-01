@@ -149,6 +149,10 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
         [Parameter]
         public string Title { get; set; } = "Text Element";
 
+        /// <summary>
+        /// Gets or sets a collection of additional HTML attributes that are not explicitly declared and are applied to the rendered text element.
+        /// </summary>
+        /// <value>A dictionary of attribute names and values captured from unmatched parameters.</value>
         [Parameter(CaptureUnmatchedValues = true)]
         public Dictionary<string, object> HtmlAttributes { get; set; } = null!;
 
