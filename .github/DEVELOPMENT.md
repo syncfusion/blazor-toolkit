@@ -470,6 +470,57 @@ each major release. The file's per-rule rationale is duplicated in
 `Justification` comments so each audit can be completed without
 referring back to this table.
 
+#### Standing IDE compatibility rationale (2026-10-02)
+
+The audit found 291 unique warning-level IDE diagnostic locations:
+267 in the clean library build and 24 additional simplifications in
+`dotnet format style --verify-no-changes --no-restore --severity warn`.
+Of these, 148 were fixed in source. The remaining 143 compatibility
+findings are covered by 135 central `Scope = "member"` entries in
+`src/Properties/GlobalSuppressions.cs`.
+Entries are grouped by rule, use exact `~F` / `~M` / `~P` targets and
+carry a `2026-10-02:` justification. Counts differ where several
+locations belong to one method. Documented IDs were checked against
+the generated XML documentation; undocumented private-member IDs
+were derived from source declarations.
+
+| Rule | Diagnostics | Entries | Standing rationale |
+|---|---:|---:|---|
+| `IDE0032` | 96 | 96 | Target the backing **field** at each diagnostic, not its property. Retain custom/reactive chart accessors, lazy query-method caches and guarded uploader event reads. Ordinary auto-properties lose side effects, lazy initialization or guard semantics; C# 14 `field` syntax cannot compile on .NET 8/C# 12 or .NET 9/C# 13. Six trivial properties were already converted and are excluded. |
+| `IDE0031` | 27 | 22 | All suggestions are null-conditional **assignments**, including event `-=`. Retain explicit guards in shared older-target source because this assignment syntax requires C# 14. |
+| `IDE0340` | 4 | 1 | Keep bound `Nullable<DateTime>` / `Nullable<DateTimeOffset>` `nameof` expressions in the exact private `QueryableExtensions.Predicate` overload. Unbound generic `nameof` requires C# 14, unavailable in C# 12/13. |
+| `IDE1006` | 11 | 11 | Preserve ABI/source and JS/JSON names: protected `BaseComponent._uniqueId`; public `Refresh`, `Trigger`, `UpdateModel`; both `DataManager.ExecuteQuery<T>` overloads; `WhereFilter.value`; `SfTimePicker<T>.ShowPopup`/`HidePopup`; and internal `IChartInternalLocation.x`/`y` wire names. |
+| `IDE0060` | 3 | 3 | Preserve public `SfChart.TriggerZoomingEvents(string, bool)`, protected `SfDatePicker<T>.SelectCalendarAsync(bool)` and public `ValueConvert.ParseValueWithTypeInformation(string, object, bool)` signatures, including parameter names for named arguments and JS dispatch compatibility. |
+| `IDE0390` | 1 | 1 | Keep `SfChart.UpdateNeededRenderersAsync` as an awaited async helper so errors remain faulted-Task results rather than synchronous throws. |
+| `IDE0391` | 1 | 1 | Keep `TrimTooltipBase.OnInitializedAsync` in the async lifecycle hook to preserve initialization ordering, subclass/base-call contracts and faulted-Task error delivery. |
+| **Total** | **143** | **135** | No new type-, namespace- or assembly-wide suppression. |
+
+Only the stale `CA2213` entries for `ChartStackLabelSettings._font`
+and `ChartStackLabelSettings._margin` were removed: their explicit
+fields were removed by the safe auto-property conversion. The
+`_border` entry and every other pre-existing suppression remain unchanged.
+Analyzer settings and security policy/suppressions are unchanged.
+**BL0007 suppressions and `docs/BL0007-analysis.md` are unchanged.**
+Re-attest these entries at each major release, especially if supported
+language versions or member contracts change.
+
+Verification on 2026-10-02:
+
+- Clean library build across .NET 8/9/10: **0 IDE diagnostics, 0 errors**;
+  total warnings decreased from 940 to 405. The remaining 135 unique
+  non-IDE locations (reported once per target) were unchanged.
+- Warning-level style verification: **0 findings** in the library;
+  all five other C# projects also reported no warning-level style fixes.
+- Sample solution and Playwright sample-host solution builds passed.
+- bUnit could not execute: the parent test project's default compile
+  glob includes `Buttons/ButtonGroup/obj` assembly attributes, causing
+  duplicate attributes. A temporary external build target excluding
+  only those nested generated inputs exposed five existing `CS0266`
+  `IList<T>`-to-`List<T>` assignment errors in `SfDialogTest.cs`,
+  `SharedTooltip.razor`, `Crosshair.razor`, and `Events.razor`.
+  Test source and project configuration were not changed; no passing
+  regression-test result is claimed.
+
 ### Trim and AOT residual warnings
 
 Residual `ILLink` warnings from `-p:PublishTrimmed=true` against
