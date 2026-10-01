@@ -9,7 +9,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
     /// <summary>
     /// Represents a double precision numeric range with helper operations.
     /// </summary>
-    public struct DoubleRange
+    public readonly struct DoubleRange : IEquatable<DoubleRange>
     {
 
         #region Properties
@@ -27,7 +27,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
         /// <summary>
         /// Gets the delta (End - Start).
         /// </summary>
-        public readonly double Delta => End - Start;
+        public double Delta => End - Start;
 
         #endregion
 
@@ -51,6 +51,61 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
                 End = end;
             }
         }
+        #endregion
+
+        #region Equality
+
+        /// <summary>
+        /// Determines whether the specified <see cref="DoubleRange"/> is equal to the current instance.
+        /// </summary>
+        /// <param name="other">The range to compare with the current instance.</param>
+        /// <returns><c>true</c> if the ranges have the same start and end; otherwise, <c>false</c>.</returns>
+        public bool Equals(DoubleRange other)
+        {
+            return Start.Equals(other.Start) && End.Equals(other.End);
+        }
+
+        /// <summary>
+        /// Determines whether the specified object is equal to the current instance.
+        /// </summary>
+        /// <param name="obj">The object to compare with the current instance.</param>
+        /// <returns><c>true</c> if <paramref name="obj"/> is a <see cref="DoubleRange"/> with the same start and end; otherwise, <c>false</c>.</returns>
+        public override bool Equals(object? obj)
+        {
+            return obj is DoubleRange other && Equals(other);
+        }
+
+        /// <summary>
+        /// Returns the hash code for this instance.
+        /// </summary>
+        /// <returns>A hash code derived from the start and end values.</returns>
+        public override int GetHashCode()
+        {
+            return HashCode.Combine(Start, End);
+        }
+
+        /// <summary>
+        /// Determines whether two <see cref="DoubleRange"/> instances are equal.
+        /// </summary>
+        /// <param name="left">The first range to compare.</param>
+        /// <param name="right">The second range to compare.</param>
+        /// <returns><c>true</c> if the ranges are equal; otherwise, <c>false</c>.</returns>
+        public static bool operator ==(DoubleRange left, DoubleRange right)
+        {
+            return left.Equals(right);
+        }
+
+        /// <summary>
+        /// Determines whether two <see cref="DoubleRange"/> instances are not equal.
+        /// </summary>
+        /// <param name="left">The first range to compare.</param>
+        /// <param name="right">The second range to compare.</param>
+        /// <returns><c>true</c> if the ranges are not equal; otherwise, <c>false</c>.</returns>
+        public static bool operator !=(DoubleRange left, DoubleRange right)
+        {
+            return !left.Equals(right);
+        }
+
         #endregion
     }
 

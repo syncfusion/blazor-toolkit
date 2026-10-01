@@ -1683,3 +1683,74 @@ using System.Diagnostics.CodeAnalysis;
     Justification = "2026-10-01: Best-effort per-file caching. If reading a single selected file's stream fails (I/O, browser quirk, size mismatch), the broad catch lets the remaining files continue caching rather than aborting the whole upload. Nothing is re-thrown; the file is simply skipped.",
     Scope = "member",
     Target = "~M:Syncfusion.Blazor.Toolkit.Inputs.SfUploader.CacheFilesAsync(Microsoft.AspNetCore.Components.Forms.InputFileChangeEventArgs)~System.Threading.Tasks.Task")]
+
+
+// -------------------------------------------------------------------------
+// CA1720: Identifier contains type name.
+//
+// Each target is a PUBLIC enum member whose name is a domain term that
+// happens to collide with a BCL type name. Renaming would be a binary-
+// and source-breaking change to the public API (and, for DayHeaderFormats,
+// would also break the fixed [EnumMember(Value = "Short")] JSON contract).
+// The names are the clearest domain vocabulary for consumers, so the
+// collision is accepted.
+// -------------------------------------------------------------------------
+
+[assembly: SuppressMessage(
+    "Naming",
+    "CA1720:Identifier contains type name",
+    Justification = "2026-10-01: Public API. 'Single' is the clearest name for single-item selection in SelectionMode; renaming is a binary/source breaking change for consumers. The collision with System.Single is cosmetic.",
+    Scope = "member",
+    Target = "~F:Syncfusion.Blazor.Toolkit.SelectionMode.Single")]
+
+[assembly: SuppressMessage(
+    "Naming",
+    "CA1720:Identifier contains type name",
+    Justification = "2026-10-01: Public API. 'Short' names the short day-name display format in DayHeaderFormats and is pinned to the serialized contract [EnumMember(Value = \"Short\")]; renaming would break both the public API and the JSON wire format. The collision with System.Int16's alias is cosmetic.",
+    Scope = "member",
+    Target = "~F:Syncfusion.Blazor.Toolkit.DayHeaderFormats.Short")]
+
+[assembly: SuppressMessage(
+    "Naming",
+    "CA1720:Identifier contains type name",
+    Justification = "2026-10-01: Public API. 'Double' names the numeric axis kind in the chart ValueType enum and matches the long-standing Syncfusion chart vocabulary; renaming is a binary/source breaking change for consumers. The collision with System.Double is cosmetic.",
+    Scope = "member",
+    Target = "~F:Syncfusion.Blazor.Toolkit.ValueType.Double")]
+
+
+// -------------------------------------------------------------------------
+// CA1024: Use properties where appropriate.
+//
+// SfDialog.GetButtonItems() is a long-standing PUBLIC API method with
+// documented usage examples. Converting it to a property would be a
+// binary- and source-breaking change for consumers, and the Get* method
+// shape is the established convention for the Syncfusion component API
+// (mirrors GetButtonItems across the suite). The method is retained.
+// -------------------------------------------------------------------------
+
+[assembly: SuppressMessage(
+    "Design",
+    "CA1024:Use properties where appropriate",
+    Justification = "2026-10-01: Public API. GetButtonItems() is a documented method on SfDialog; converting it to a property is a binary/source breaking change for consumers and departs from the established Get* method convention across the component suite.",
+    Scope = "member",
+    Target = "~M:Syncfusion.Blazor.Toolkit.Popups.SfDialog.GetButtonItems~System.Collections.Generic.IList{Syncfusion.Blazor.Toolkit.Popups.DialogButton}")]
+
+
+// -------------------------------------------------------------------------
+// CA1003: Use generic event handler instances.
+//
+// SfDialogService.OnOpen is an internal-wiring event between the injected
+// service and SfDialogProvider. It is technically public but hidden from
+// the public surface ([EditorBrowsable(Never)] + <exclude/>). Its multi-
+// parameter Action<...> signature is the established contract that the
+// provider subscribes to; replacing it with EventHandler<T> would require
+// a bespoke EventArgs type and is a binary/source-breaking change to the
+// (hidden) public API for no consumer-visible benefit.
+// -------------------------------------------------------------------------
+
+[assembly: SuppressMessage(
+    "Design",
+    "CA1003:Use generic event handler instances",
+    Justification = "2026-10-01: Internal-wiring event hidden from the public surface ([EditorBrowsable(Never)] + <exclude/>). The multi-parameter Action<...> signature is the established contract between SfDialogService and SfDialogProvider; converting to EventHandler<T> would need a bespoke EventArgs and is a breaking change for no consumer-visible benefit.",
+    Scope = "member",
+    Target = "~E:Syncfusion.Blazor.Toolkit.Popups.SfDialogService.OnOpen")]

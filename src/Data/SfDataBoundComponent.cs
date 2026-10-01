@@ -184,11 +184,14 @@ namespace Syncfusion.Blazor.Toolkit.Data
         /// Releases component resources and clears tracked data.
         /// </summary>
         /// <returns>A task that represents the asynchronous dispose operation.</returns>
-        protected override ValueTask DisposeAsyncCore()
+        protected override async ValueTask DisposeAsyncCore()
         {
             DirectParameters?.Clear();
-            DataManager?.Dispose();
-            return base.DisposeAsyncCore();
+            if (DataManager is not null)
+            {
+                await DataManager.DisposeAsync().ConfigureAwait(false);
+            }
+            await base.DisposeAsyncCore().ConfigureAwait(false);
         }
     }
 }
