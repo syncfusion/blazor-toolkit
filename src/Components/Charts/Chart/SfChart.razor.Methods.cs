@@ -68,7 +68,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts
         [EditorBrowsable(EditorBrowsableState.Never)]
         [RequiresUnreferencedCode(ChartSeriesRenderer.DataBindingTrimWarning)]
         [RequiresDynamicCode(ChartSeriesRenderer.DataBindingAotWarning)]
-        public async Task AddSeriesAsync(List<ChartSeries> seriesCollection)
+        public async Task AddSeriesAsync(IList<ChartSeries> seriesCollection)
         {
             if (seriesCollection is null)
             {

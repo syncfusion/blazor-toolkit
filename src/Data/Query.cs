@@ -42,7 +42,12 @@ namespace Syncfusion.Blazor.Toolkit.Data
         /// <summary>
         /// Specifies the relation table/resource names.
         /// </summary>
-        public List<object> Expands { get; set; } = null!;
+        /// <remarks>
+        /// This property keeps a public setter because it is populated through object
+        /// initializers and reassigned by the fluent query builder; the declared type is
+        /// <see cref="IList{T}"/> to keep the public surface free of concrete collection types.
+        /// </remarks>
+        public IList<object> Expands { get; set; } = null!;
 
         /// <summary>
         /// Gets the sort column details.
@@ -87,7 +92,12 @@ namespace Syncfusion.Blazor.Toolkit.Data
         /// <summary>
         /// Gets the list of distinct values.
         /// </summary>
-        public List<string> Distincts { get; set; } = null!;
+        /// <remarks>
+        /// This property keeps a public setter because it is populated through object
+        /// initializers and reassigned by the fluent query builder; the declared type is
+        /// <see cref="IList{T}"/> to keep the public surface free of concrete collection types.
+        /// </remarks>
+        public IList<string> Distincts { get; set; } = null!;
 
         /// <summary>
         /// Gets the id mapping value used for child data source process.
@@ -192,10 +202,17 @@ namespace Syncfusion.Blazor.Toolkit.Data
         /// </summary>
         /// <param name="fieldNames">List of fields to select.</param>
         /// <returns>Query.</returns>
-        public Query Select(List<string> fieldNames)
+        public Query Select(IList<string> fieldNames)
         {
             Queries.Select = Queries.Select ?? [];
-            fieldNames?.ForEach((select) => Queries.Select.Add(select));
+            if (fieldNames is not null)
+            {
+                foreach (string select in fieldNames)
+                {
+                    Queries.Select.Add(select);
+                }
+            }
+
             return this;
         }
 
@@ -235,11 +252,15 @@ namespace Syncfusion.Blazor.Toolkit.Data
         /// <param name="predicates">Specifies the list of predicates to be used.</param>
         /// <returns>Query</returns>
         /// <remarks>Multiple Where method can be chained to create complex filter criteria.</remarks>
-        public Query Where(List<WhereFilter> predicates)
+        public Query Where(IList<WhereFilter> predicates)
         {
             ArgumentNullException.ThrowIfNull(predicates);
             Queries.Where = Queries.Where ?? [];
-            predicates.ForEach(Queries.Where.Add);
+            foreach (WhereFilter predicate in predicates)
+            {
+                Queries.Where.Add(predicate);
+            }
+
             return this;
         }
 
@@ -253,7 +274,7 @@ namespace Syncfusion.Blazor.Toolkit.Data
         /// <param name="ignoreAccent">Ignore accents/diacritic words during searching.</param>
         /// <returns></returns>
         /// <remarks>Multiple Search method can be chained to create complex search criteria.</remarks>
-        public Query Search(string searchKey, List<string> fieldNames, string? @operator = null, bool ignoreCase = false, bool ignoreAccent = false)
+        public Query Search(string searchKey, IList<string> fieldNames, string? @operator = null, bool ignoreCase = false, bool ignoreAccent = false)
         {
             @operator = @operator is not null and not "none" ? @operator.ToString() : "contains"; _ = ignoreCase; _ = ignoreAccent;
             Queries.Search = Queries.Search ?? [];
@@ -307,7 +328,7 @@ namespace Syncfusion.Blazor.Toolkit.Data
         /// <param name="fieldNames">Specifies the column names to group.</param>
         /// <param name="groupFormat">Specifies the group format.</param>
         /// <returns>Query.</returns>
-        public Query Group(List<string> fieldNames, IDictionary<string, string>? groupFormat = null)
+        public Query Group(IList<string> fieldNames, IDictionary<string, string>? groupFormat = null)
         {
             Queries.Group = Queries.Group ?? [];
             foreach (string fieldName in fieldNames ?? [])
@@ -400,10 +421,17 @@ namespace Syncfusion.Blazor.Toolkit.Data
         /// <param name="fieldNames">List of relational table names.</param>
         /// <returns>Query.</returns>
         /// <remarks>Given table names should be eager loaded. Lazy loading is not supported.</remarks>
-        public Query Expand(List<string> fieldNames)
+        public Query Expand(IList<string> fieldNames)
         {
             Queries.Expand = Queries.Expand ?? [];
-            fieldNames?.ForEach((expand) => Queries.Expand.Add(expand));
+            if (fieldNames is not null)
+            {
+                foreach (string expand in fieldNames)
+                {
+                    Queries.Expand.Add(expand);
+                }
+            }
+
             return this;
         }
 

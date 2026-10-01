@@ -3705,7 +3705,7 @@ namespace Syncfusion.Blazor.Toolkit.Data
         /// <returns>A sequence of grouped results.</returns>
         public static IEnumerable<GroupResult> GroupByMany<TElement>(
             this IEnumerable<TElement> elements,
-            List<SortDescription> sortFields,
+            IList<SortDescription> sortFields,
             IEnumerable<Func<TElement, object>> groupSelectors)
         {
             return GroupByMany(elements, sortFields, [.. groupSelectors]);
@@ -3723,12 +3723,13 @@ namespace Syncfusion.Blazor.Toolkit.Data
         /// <returns>A sequence of grouped results.</returns>
         public static IEnumerable<GroupResult> GroupByMany<TElement>(
             this IEnumerable<TElement> elements,
-            List<SortDescription> sortFields,
+            IList<SortDescription> sortFields,
             Dictionary<string, IComparer<object>> sortComparers,
             string[] properties,
             IEnumerable<Func<TElement, object>> groupSelectors)
         {
-            return GroupByMany(elements, sortFields, sortComparers, [.. properties], [.. groupSelectors]);
+            IList<string> propertyNames = [.. properties];
+            return GroupByMany(elements, sortFields, sortComparers, propertyNames, [.. groupSelectors]);
         }
 
         /// <summary>
@@ -3743,9 +3744,9 @@ namespace Syncfusion.Blazor.Toolkit.Data
         /// <returns>A sequence of grouped results.</returns>
         public static IEnumerable<GroupResult> GroupByMany<TElement>(
             this IEnumerable<TElement> elements,
-            List<SortDescription> sortFields,
+            IList<SortDescription> sortFields,
             Dictionary<string, IComparer<object>> sortComparers,
-            List<string> properties,
+            IList<string> properties,
             params Func<TElement, object>[] groupSelectors)
         {
             if (groupSelectors != null && groupSelectors.Length > 0)
@@ -3800,7 +3801,7 @@ namespace Syncfusion.Blazor.Toolkit.Data
         /// <returns>A sequence of grouped results.</returns>
         public static IEnumerable<GroupResult> GroupByMany<TElement>(
             this IEnumerable<TElement> elements,
-            List<SortDescription> sortFields,
+            IList<SortDescription> sortFields,
             params Func<TElement, object>[] groupSelectors)
         {
             if (groupSelectors != null && groupSelectors.Length > 0)
@@ -3985,7 +3986,7 @@ namespace Syncfusion.Blazor.Toolkit.Data
         /// <param name="properties">The property names to group by.</param>
         /// <returns>A sequence of grouped results.</returns>
         public static IEnumerable<GroupResult> GroupByMany(this IQueryable source, Type sourceType,
-                                   List<SortDescription> sortFields, params string[] properties)
+                                   IList<SortDescription> sortFields, params string[] properties)
         {
             ArgumentNullException.ThrowIfNull(source);
             if (properties != null && properties.Length == 0)
@@ -4095,7 +4096,7 @@ namespace Syncfusion.Blazor.Toolkit.Data
         /// <param name="properties">The property names to group by.</param>
         /// <returns>A sequence of grouped results.</returns>
         public static IEnumerable<GroupResult> GroupByMany(this IEnumerable source, Type sourceType,
-                                   List<SortDescription> sortFields,
+                                   IList<SortDescription> sortFields,
                                    Dictionary<string, IComparer<object>> sortComparers,
                                    Func<string, Expression> GetExpressionFunc,
                                    params string[] properties)
@@ -4156,7 +4157,7 @@ namespace Syncfusion.Blazor.Toolkit.Data
         /// <param name="properties">The property names to group by.</param>
         /// <returns>A sequence of grouped results.</returns>
         public static IEnumerable<GroupResult> GroupByMany(this IEnumerable source, Type sourceType,
-                                   List<SortDescription> sortFields,
+                                   IList<SortDescription> sortFields,
                                    Func<string, Expression> GetExpressionFunc,
                                    params string[] properties)
         {

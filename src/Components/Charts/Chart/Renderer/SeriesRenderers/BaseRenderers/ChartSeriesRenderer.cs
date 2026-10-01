@@ -228,12 +228,12 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
         /// <summary>
         /// Gets or sets the collection of X-axis data values for this series.
         /// </summary>
-        public List<double> XData { get; set; } = null!;
+        public IList<double> XData { get; set; } = null!;
 
         /// <summary>
         /// Gets or sets the collection of Y-axis data values for this series.
         /// </summary>
-        public List<double> YData { get; set; } = null!;
+        public IList<double> YData { get; set; } = null!;
 
         /// <summary>
         /// Gets or sets the minimum X-axis value in the series data.
@@ -2341,7 +2341,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
         /// <param name="rectY">A list of rectangles whose Y values may influence the data point calculation. If null, an empty list is
         /// used.</param>
         /// <returns>A string representing the calculated data point value based on the provided coordinates and rectangle list.</returns>
-        internal string GetDataPoints(double x = 0, double y = 0, List<Rect> rectY = null!)
+        internal string GetDataPoints(double x = 0, double y = 0, IList<Rect> rectY = null!)
         {
             double rectYvalue = 0;
             rectY ??= [];

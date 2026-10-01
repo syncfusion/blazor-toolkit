@@ -71,9 +71,9 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
         /// Orders the elements list with the provided ordering.
         /// </summary>
         /// <param name="chartElements">The ordered list of elements to apply.</param>
-        protected void OrderTheElements(List<IChartElement> chartElements)
+        protected void OrderTheElements(IList<IChartElement> chartElements)
         {
-            Elements = chartElements;
+            Elements = chartElements as List<IChartElement> ?? [.. chartElements];
         }
 
         /// <summary>

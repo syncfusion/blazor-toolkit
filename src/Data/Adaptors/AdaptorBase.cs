@@ -285,20 +285,35 @@ namespace Syncfusion.Blazor.Toolkit.Data
         /// <summary>
         /// Specifies the list of added records while batch editing.
         /// </summary>
-        /// <remarks>The Added property will holds values on batch editing only.</remarks>
-        public List<T>? Added { get; set; }
+        /// <remarks>
+        /// The Added property will holds values on batch editing only. The setter is retained
+        /// because this type is a request DTO that is model-bound / deserialized by the server
+        /// adaptor pipeline; the declared type is <see cref="IList{T}"/> to keep the public
+        /// surface free of concrete collection types.
+        /// </remarks>
+        public IList<T>? Added { get; set; }
 
         /// <summary>
         /// Specifies the list of updated records while batch editing.
         /// </summary>
-        /// <remarks>The Changed property will holds values on batch editing only.</remarks>
-        public List<T>? Changed { get; set; }
+        /// <remarks>
+        /// The Changed property will holds values on batch editing only. The setter is retained
+        /// because this type is a request DTO that is model-bound / deserialized by the server
+        /// adaptor pipeline; the declared type is <see cref="IList{T}"/> to keep the public
+        /// surface free of concrete collection types.
+        /// </remarks>
+        public IList<T>? Changed { get; set; }
 
         /// <summary>
         /// Specifies the list of deleted records while batch editing.
         /// </summary>
-        /// <remarks>The Deleted property will holds values on batch editing only.</remarks>
-        public List<T>? Deleted { get; set; }
+        /// <remarks>
+        /// The Deleted property will holds values on batch editing only. The setter is retained
+        /// because this type is a request DTO that is model-bound / deserialized by the server
+        /// adaptor pipeline; the declared type is <see cref="IList{T}"/> to keep the public
+        /// surface free of concrete collection types.
+        /// </remarks>
+        public IList<T>? Deleted { get; set; }
     }
 
     /// <summary>

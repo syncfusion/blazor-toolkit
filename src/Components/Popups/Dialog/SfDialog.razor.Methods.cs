@@ -54,9 +54,9 @@ namespace Syncfusion.Blazor.Toolkit.Popups
         /// }
         /// ]]></code>
         /// </example>
-        public List<DialogButton>? GetButtonItems()
+        public IList<DialogButton>? GetButtonItems()
         {
-            List<DialogButton>? button = ButtonsValue;
+            IList<DialogButton>? button = ButtonsValue;
             return button;
         }
 

@@ -101,19 +101,19 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
         /// Gets or sets the row heights collection.
         /// </summary>
         /// <value>The row heights collection.</value>
-        protected List<double>? RowHeights { get; set; }
+        protected IList<double>? RowHeights { get; set; }
 
         /// <summary>
         /// Gets or sets the page heights collection.
         /// </summary>
         /// <value>The page heights collection.</value>
-        protected List<double>? PageHeights { get; set; }
+        protected IList<double>? PageHeights { get; set; }
 
         /// <summary>
         /// Gets or sets the column heights collection.
         /// </summary>
         /// <value>The column heights collection.</value>
-        protected List<double>? ColumnHeights { get; set; }
+        protected IList<double>? ColumnHeights { get; set; }
 
         /// <summary>
         /// Gets or sets the chart row count.
@@ -143,13 +143,13 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
         /// Gets or sets the page X collections.
         /// </summary>
         /// <value>The page X collections.</value>
-        protected List<double> PageXCollections { get; set; } = new List<double>();
+        protected IList<double> PageXCollections { get; set; } = new List<double>();
 
         /// <summary>
         /// Gets or sets the paging regions.
         /// </summary>
         /// <value>The paging regions.</value>
-        protected List<Rect> PagingRegions { get; set; } = new List<Rect>();
+        protected IList<Rect> PagingRegions { get; set; } = new List<Rect>();
 
         /// <summary>
         /// Gets or sets the legend element identifier.
@@ -247,7 +247,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
         /// Gets or sets the paging options.
         /// </summary>
         /// <value>The paging options.</value>
-        protected List<LegendSymbols> PagingOptions { get; set; } = new List<LegendSymbols>();
+        protected IList<LegendSymbols> PagingOptions { get; set; } = new List<LegendSymbols>();
 
         /// <summary>
         /// Gets or sets the legend instance.

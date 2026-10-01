@@ -2138,7 +2138,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts
         /// </code>
         /// </example> 
         [Parameter]
-        public List<ChartStripline> StripLines { get; set; } = new List<ChartStripline>();
+        public IList<ChartStripline> StripLines { get; set; } = new List<ChartStripline>();
 
         /// <summary> 
         /// Gets or sets a collection of <see cref="ChartMultiLevelLabel"/> representing the multilevel labels for the axis. 
@@ -2172,7 +2172,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts
         /// </code>
         /// </example>
         [Parameter]
-        public List<ChartMultiLevelLabel> MultiLevelLabels { get; set; } = new List<ChartMultiLevelLabel>();
+        public IList<ChartMultiLevelLabel> MultiLevelLabels { get; set; } = new List<ChartMultiLevelLabel>();
 
         /// <summary> 
         /// Gets or sets an instance of <see cref="ChartAxisLabelBorder"/> that specifies the border for the axis labels. 
@@ -2483,7 +2483,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts
                     MinorTickLines = (ChartAxisMinorTickLines)keyValue;
                     break;
                 case nameof(MultiLevelLabels):
-                    MultiLevelLabels = (List<ChartMultiLevelLabel>)keyValue;
+                    MultiLevelLabels = (IList<ChartMultiLevelLabel>)keyValue;
                     break;
                 case nameof(Border):
                     Border = (ChartAxisLabelBorder)keyValue;

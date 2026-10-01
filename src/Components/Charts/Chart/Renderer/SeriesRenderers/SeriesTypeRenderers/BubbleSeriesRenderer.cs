@@ -179,10 +179,11 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
         private void RenderBubbleSymbol(BubblePoint bubblePoint, double segmentRadius, PointRenderEventArgs argsData)
         {
             bubblePoint.SymbolLocations.Add(ChartHelper.GetPoint(XAxisRenderer.GetPointValue(bubblePoint.XValue), YAxisRenderer.GetPointValue(bubblePoint.YValue), XAxisRenderer, YAxisRenderer, XLength, YLength, Owner is not null && Owner._requireInvertedAxis));
-            bubblePoint.SymbolLocations.ForEach(loc =>
+            foreach (ChartEventLocation loc in bubblePoint.SymbolLocations)
             {
                 ChartPoints?[bubblePoint.Index]?.SymbolLocations.Add(new IChartInternalLocation(Math.Round(loc.X, 2), Math.Round(loc.Y, 2)));
-            });
+            }
+
             bubblePoint.Interior = argsData.Fill;
 
             PathOptions shapeOption = new()
@@ -218,10 +219,10 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
                 )
             );
 
-            bubblePoint.Regions.ForEach(rect =>
+            foreach (Rect rect in bubblePoint.Regions)
             {
                 ChartPoints?[bubblePoint.Index]?.Regions.Add(new IRect(Math.Round(rect.X, 2), Math.Round(rect.Y, 2), rect.Width, rect.Height));
-            });
+            }
 
             UpdateMarkerSettings(bubblePoint, argsData);
             _symbolOptions.Add(symbol);

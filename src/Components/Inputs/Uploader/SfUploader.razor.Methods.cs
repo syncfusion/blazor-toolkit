@@ -186,7 +186,7 @@ namespace Syncfusion.Blazor.Toolkit.Inputs
         /// await uploaderInstance.PauseAsync();
         /// ]]></code>
         /// </example>
-        public async Task PauseAsync(List<FileInfo>? fileData = null, bool? custom = null)
+        public async Task PauseAsync(IList<FileInfo>? fileData = null, bool? custom = null)
         {
             await InvokeVoidAsync(_uploaderJsModule!, _uploaderJsInProcessModule!, "pause", [DataId, fileData!, custom!]).ConfigureAwait(true);
         }

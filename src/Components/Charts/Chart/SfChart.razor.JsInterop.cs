@@ -490,7 +490,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts
         {
             int textElement = int.TryParse(labelIndex.AsSpan(7), out int element) ? element : 0;
             ChartAxis axis = (_axisContainer?.Renderers[axisIndex] as ChartAxisRenderer ?? null!).Axis ?? null!;
-            List<ChartCategory> categories = axis.MultiLevelLabels[int.TryParse(labelIndex.AsSpan(0, 1), out int index) ? index : 0].Categories;
+            IList<ChartCategory> categories = axis.MultiLevelLabels[int.TryParse(labelIndex.AsSpan(0, 1), out int index) ? index : 0].Categories;
             MultiLevelLabelClickEventArgs multilevelclickArgs = new("OnMultiLevelLabelClick", false, categories[textElement].Text, axis, categories[textElement].CustomAttributes, categories[textElement].End ?? null!, int.TryParse(labelIndex.AsSpan(0, 1), out int length) ? length : 0, categories[textElement].Start ?? null!);
             OnMultiLevelLabelClick.Invoke(multilevelclickArgs);
         }
@@ -872,7 +872,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts
             List<PointInfo> argsData = [];
             if (args is not null)
             {
-                args.Data.ForEach(point =>
+                foreach (IPointInfo point in args.Data)
                 {
                     argsData.Add(new PointInfo()
                     {
@@ -883,7 +883,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts
                         PointIndex = point.PointIndex,
                         PointText = point.PointText,
                     });
-                });
+                }
                 SharedTooltipRenderEventArgs argument = new("SharedTooltipRender", false, args.Text, _tooltip.TextStyle, args.HeaderText, argsData);
                 SharedTooltipRender?.Invoke(argument);
                 await InvokeVoidAsync(_chartJsModule, _chartJsInProcessModule, "setSharedTooltipArgsData", [_dataId, argument.HeaderText, argument.Text, argument.Data.ToArray()]).ConfigureAwait(false);

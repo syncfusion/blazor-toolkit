@@ -94,7 +94,7 @@ namespace Syncfusion.Blazor.Toolkit.Data
         /// <param name="dataSource">Input data source to be grouped.</param>
         /// <param name="grouped">List of column names by which rows will be grouped.</param>
         /// <returns>IEnumerable.</returns>
-        public static IEnumerable PerformGrouping(IEnumerable dataSource, List<string> grouped)
+        public static IEnumerable PerformGrouping(IEnumerable dataSource, IList<string> grouped)
         {
             return EnumerableOperation.PerformGrouping(dataSource, grouped);
         }
@@ -142,7 +142,7 @@ namespace Syncfusion.Blazor.Toolkit.Data
         /// <param name="grouped">List of column names by which rows will be grouped.</param>
         /// <typeparam name="T">Type of the data source elements.</typeparam>
         /// <returns>IEnumerable.</returns>
-        public static IEnumerable PerformGrouping<T>(IEnumerable<T> dataSource, List<string> grouped)
+        public static IEnumerable PerformGrouping<T>(IEnumerable<T> dataSource, IList<string> grouped)
         {
             return QueryableOperation.PerformGrouping(dataSource.AsQueryable(), grouped);
         }
@@ -177,7 +177,7 @@ namespace Syncfusion.Blazor.Toolkit.Data
         /// <param name="dataSource">Input data source.</param>
         /// <param name="select">List of fields to select.</param>
         /// <returns>IEnumerable containing only the selected fields from each record.</returns>
-        public static IEnumerable PerformSelect(IEnumerable dataSource, List<string> select)
+        public static IEnumerable PerformSelect(IEnumerable dataSource, IList<string> select)
         {
             return QueryableOperation.PerformSelect(dataSource.AsQueryable(), select);
         }
@@ -226,7 +226,7 @@ namespace Syncfusion.Blazor.Toolkit.Data
         /// <param name="grouped">List of column names by which rows will be grouped.</param>
         /// <typeparam name="T">Type of the data source elements.</typeparam>
         /// <returns>IQueryable.</returns>
-        public static IQueryable PerformGrouping<T>(IQueryable<T> dataSource, List<string> grouped)
+        public static IQueryable PerformGrouping<T>(IQueryable<T> dataSource, IList<string> grouped)
         {
             return QueryableOperation.PerformGrouping(dataSource, grouped);
         }
@@ -311,7 +311,7 @@ namespace Syncfusion.Blazor.Toolkit.Data
         /// <param name="select">List of fields to select.</param>
         /// <returns>IQueryable.</returns>
         /// <typeparam name="T">Type of the data source elements.</typeparam>
-        public static IQueryable PerformSelect<T>(IQueryable<T> dataSource, List<string> select)
+        public static IQueryable PerformSelect<T>(IQueryable<T> dataSource, IList<string> select)
         {
             return QueryableOperation.PerformSelect<T>(dataSource, select);
         }

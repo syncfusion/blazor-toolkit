@@ -132,7 +132,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts
         /// </code>
         /// </example>
         [Parameter]
-        public List<ChartCategory> Categories { get; set; } = [];
+        public IList<ChartCategory> Categories { get; set; } = [];
 
         /// <summary> 
         /// Gets or sets the text overflow behavior for multi-level labels. 
@@ -284,7 +284,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts
             }
             else if (key == nameof(Categories))
             {
-                Categories = (List<ChartCategory>)keyValue;
+                Categories = (IList<ChartCategory>)keyValue;
             }
         }
         #endregion

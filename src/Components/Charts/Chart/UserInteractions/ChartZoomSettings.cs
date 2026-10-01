@@ -22,7 +22,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts
         private bool _enableSelectionZooming;
         private ZoomMode _mode = ZoomMode.XY;
         private ToolbarMode _toolbarDisplayMode = ToolbarMode.OnDemand;
-        private List<ToolbarItems> _toolbarItems =
+        private IList<ToolbarItems> _toolbarItems =
         [
             Toolkit.ToolbarItems.Zoom,
             Toolkit.ToolbarItems.ZoomIn,
@@ -291,7 +291,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts
         /// </code>
         /// </example>
         [Parameter]
-        public List<ToolbarItems> ToolbarItems { get; set; } =
+        public IList<ToolbarItems> ToolbarItems { get; set; } =
         [
             Toolkit.ToolbarItems.Zoom,
             Toolkit.ToolbarItems.ZoomIn,

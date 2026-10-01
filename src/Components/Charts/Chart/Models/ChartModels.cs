@@ -803,7 +803,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
         /// <summary>
         /// Gets or sets the collection of touch points.
         /// </summary>
-        public List<Touches> Touches { get; set; } = null!;
+        public IList<Touches> Touches { get; set; } = null!;
 
         /// <summary>
         /// Gets or sets the type of event.
@@ -1419,32 +1419,32 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
         /// <summary>
         /// Gets or sets the collection of point indices.
         /// </summary>
-        public List<double> PointIndex { get; set; } = [];
+        public IList<double> PointIndex { get; set; } = [];
 
         /// <summary>
         /// Gets or sets the collection of low point indices.
         /// </summary>
-        public List<double> LowPointIndex { get; set; } = [];
+        public IList<double> LowPointIndex { get; set; } = [];
 
         /// <summary>
         /// Gets or sets the collection of point X coordinates.
         /// </summary>
-        public List<double> PointX { get; set; } = [];
+        public IList<double> PointX { get; set; } = [];
 
         /// <summary>
         /// Gets or sets the collection of point Y coordinates.
         /// </summary>
-        public List<double> PointY { get; set; } = [];
+        public IList<double> PointY { get; set; } = [];
 
         /// <summary>
         /// Gets or sets the collection of low point X coordinates.
         /// </summary>
-        public List<double> LowPointX { get; set; } = [];
+        public IList<double> LowPointX { get; set; } = [];
 
         /// <summary>
         /// Gets or sets the collection of low point Y coordinates.
         /// </summary>
-        public List<double> LowPointY { get; set; } = [];
+        public IList<double> LowPointY { get; set; } = [];
     }
 
     /// <summary>
@@ -1487,7 +1487,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
         /// <summary>
         /// Gets or sets the collection of template identifiers.
         /// </summary>
-        public List<string> TemplateId { get; set; } = [];
+        public IList<string> TemplateId { get; set; } = [];
     }
 
     /// <summary>
@@ -1516,27 +1516,27 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
         /// <summary>
         /// Gets or sets the collection of point indices.
         /// </summary>
-        public List<double> PointIndex { get; set; } = [];
+        public IList<double> PointIndex { get; set; } = [];
 
         /// <summary>
         /// Gets or sets the collection of point X coordinates.
         /// </summary>
-        public List<double> PointX { get; set; } = [];
+        public IList<double> PointX { get; set; } = [];
 
         /// <summary>
         /// Gets or sets the collection of point Y coordinates.
         /// </summary>
-        public List<double> PointY { get; set; } = [];
+        public IList<double> PointY { get; set; } = [];
 
         /// <summary>
         /// Gets or sets the collection of point widths.
         /// </summary>
-        public List<double> PointWidth { get; set; } = [];
+        public IList<double> PointWidth { get; set; } = [];
 
         /// <summary>
         /// Gets or sets the collection of point heights.
         /// </summary>
-        public List<double> PointHeight { get; set; } = [];
+        public IList<double> PointHeight { get; set; } = [];
 
         /// <summary>
         /// Gets or sets the animation duration in milliseconds.
@@ -1934,13 +1934,13 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
         /// Gets or sets the symbol locations for the point.
         /// </summary>
         [JsonPropertyName("s")]
-        public List<IChartInternalLocation> SymbolLocations { get; set; } = [];
+        public IList<IChartInternalLocation> SymbolLocations { get; set; } = [];
 
         /// <summary>
         /// Gets or sets the regions for the point.
         /// </summary>
         [JsonPropertyName("r")]
-        public List<IRect> Regions { get; set; } = [];
+        public IList<IRect> Regions { get; set; } = [];
 
         /// <summary>
         /// Gets or sets the X value of the point.
@@ -2316,7 +2316,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
         /// Gets or sets the collection of label texts for the axis.
         /// </summary>
         [JsonPropertyName("labels")]
-        public List<string> Labels { get; set; } = null!;
+        public IList<string> Labels { get; set; } = null!;
 
         /// <summary>
         /// Gets or sets a value indicating whether scrollbar settings are enabled.
@@ -2526,7 +2526,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
         /// Defines the tooltip text collection.
         /// </summary>
         [JsonPropertyName("text")]
-        public List<string> Text { get; set; } = null!;
+        public IList<string> Text { get; set; } = null!;
 
         /// <summary>
         /// Defines the text of the header.
@@ -2538,7 +2538,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
         /// Defines the information of the points.
         /// </summary>
         [JsonPropertyName("data")]
-        public List<IPointInfo> Data { get; set; } = null!;
+        public IList<IPointInfo> Data { get; set; } = null!;
     }
 
     /// <summary>

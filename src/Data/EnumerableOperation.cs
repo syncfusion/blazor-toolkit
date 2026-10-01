@@ -58,7 +58,7 @@ namespace Syncfusion.Blazor.Toolkit.Data
         /// <param name="dataSource">Input data source to be grouped.</param>
         /// <param name="grouped">List of column names by which rows will be grouped.</param>
         /// <returns>IEnumerable.</returns>
-        public static IEnumerable<GroupResult> PerformGrouping(IEnumerable dataSource, List<string> grouped)
+        public static IEnumerable<GroupResult> PerformGrouping(IEnumerable dataSource, IList<string> grouped)
         {
             if (dataSource == null || grouped == null)
             {

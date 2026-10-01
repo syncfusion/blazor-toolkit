@@ -22,7 +22,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts
         /// </summary>
         /// <value>A list of <see cref="PatternOptions"/> representing patterns. Default: an empty list.</value>
         [Parameter]
-        public List<PatternOptions> GivenPattern { get; set; } = [];
+        public IList<PatternOptions> GivenPattern { get; set; } = [];
         #endregion
 
         #region Internal Methods

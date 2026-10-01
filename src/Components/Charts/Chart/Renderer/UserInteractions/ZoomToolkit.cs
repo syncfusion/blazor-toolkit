@@ -112,7 +112,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
         /// <param name="builder">The <see cref="RenderTreeBuilder"/> used to render the component.</param>
         private void ShowZoomingToolkit(RenderTreeBuilder builder)
         {
-            List<ToolbarItems> toolboxItems = Chart?._zoomSettings.ToolbarItems ?? null!;
+            IList<ToolbarItems> toolboxItems = Chart?._zoomSettings.ToolbarItems ?? null!;
             Rect areaBounds = Chart?._axisContainer?.AxisLayout.SeriesClipRect ?? null!;
             Size size = MeasureResetText();
             int length = IsDevice() ? 1 : toolboxItems.Count;
@@ -200,7 +200,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
         /// <summary>
         /// Renders the complete zoom kit toolbar.
         /// </summary>
-        private void RenderZoomKit(RenderTreeBuilder builder, double transX, double transY, RectOptions rectOptions, int length, List<ToolbarItems> toolboxItems, double iconSize)
+        private void RenderZoomKit(RenderTreeBuilder builder, double transX, double transY, RectOptions rectOptions, int length, IList<ToolbarItems> toolboxItems, double iconSize)
         {
             SvgRendering renderer = Chart?._svgRenderer ?? null!;
 
@@ -293,7 +293,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
         /// <param name="toolboxItems">Items to render.</param>
         /// <param name="length">Count of items.</param>
         /// <param name="iconSize">Icon size for spacing.</param>
-        private void RenderToolbarItems(RenderTreeBuilder builder, List<ToolbarItems> toolboxItems, int length, double iconSize)
+        private void RenderToolbarItems(RenderTreeBuilder builder, IList<ToolbarItems> toolboxItems, int length, double iconSize)
         {
             SvgRendering renderer = Chart?._svgRenderer ?? null!;
             double xPosition = SPACING;

@@ -36,7 +36,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
         /// <summary>
         /// Holds the current hit points processed in the last interaction.
         /// </summary>
-        protected List<PointData> CurrentPoints { get; set; } = [];
+        protected IList<PointData> CurrentPoints { get; } = [];
 
         /// <summary>
         /// Indicates whether the mouse is inside a particular region (used by editing/dragging).
@@ -146,9 +146,9 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
         /// <param name="x">Mouse X.</param>
         /// <param name="y">Mouse Y.</param>
         /// <returns><c>true</c> if the location is within any region; otherwise <c>false</c>.</returns>
-        private bool CheckRegionContainsPoint(List<Rect> regionRect, Rect rect, double x, double y)
+        private bool CheckRegionContainsPoint(IList<Rect> regionRect, Rect rect, double x, double y)
         {
-            Rect result = regionRect.Find(region =>
+            Rect result = regionRect.FirstOrDefault(region =>
             {
                 double originX = rect.X + region.X;
                 double originY = rect.Y + region.Y;

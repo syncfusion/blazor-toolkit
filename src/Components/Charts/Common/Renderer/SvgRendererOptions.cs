@@ -58,7 +58,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
         /// <summary>
         /// Gets or sets the list of shape options within the pattern.
         /// </summary>
-        public List<object> ShapeOptions { get; set; } = null!;
+        public IList<object> ShapeOptions { get; set; } = null!;
     }
 
     /// <summary>
@@ -71,12 +71,12 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
         /// <summary>
         /// Gets or sets the collection of text content strings.
         /// </summary>
-        public List<string> TextCollection { get; set; } = [];
+        public IList<string> TextCollection { get; set; } = [];
 
         /// <summary>
         /// Gets or sets the collection of text locations for multi-line text.
         /// </summary>
-        public List<TextLocation> TextLocationCollection { get; set; } = [];
+        public IList<TextLocation> TextLocationCollection { get; set; } = [];
 
         /// <summary>
         /// Gets or sets the X coordinate.

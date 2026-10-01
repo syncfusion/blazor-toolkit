@@ -1027,7 +1027,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
         /// <param name="textLocationCollection">Text and Y coordinate collection.</param>
         /// <param name="svgRenderer">The SVG renderer for sequence numbers.</param>
         /// <returns>A render fragment containing the tspans.</returns>
-        private static RenderFragment RenderTSpan(string id, string locationX, List<TextLocation> textLocationCollection, SvgRendering svgRenderer)
+        private static RenderFragment RenderTSpan(string id, string locationX, IList<TextLocation> textLocationCollection, SvgRendering svgRenderer)
         {
             return builder =>
             {

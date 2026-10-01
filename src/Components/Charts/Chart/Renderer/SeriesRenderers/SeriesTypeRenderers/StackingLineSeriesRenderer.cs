@@ -46,15 +46,17 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
             ChartEventLocation point1 = ChartHelper.GetPoint(XAxisRenderer.GetPointValue(point.XValue), YAxisRenderer.GetPointValue(stackedValue.EndValues[index]), XAxisRenderer, YAxisRenderer, XLength, YLength, Owner is not null && Owner._requireInvertedAxis);
             _ = Direction.Append((segmentIndex != 0 ? "L" : "M") + SPACE + point1.X.ToString(Culture) + SPACE + point1.Y.ToString(Culture) + SPACE);
             point.SymbolLocations.Add(point1);
-            point.SymbolLocations.ForEach(loc =>
+            foreach (ChartEventLocation loc in point.SymbolLocations)
             {
                 ChartPoints?[point.Index]?.SymbolLocations.Add(new IChartInternalLocation(Math.Round(loc.X, 2), Math.Round(loc.Y, 2)));
-            });
+            }
+
             point.Regions.Add(new Rect(point.SymbolLocations[0].X - (Series?.Marker.Width ?? 0), point.SymbolLocations[0].Y - (Series?.Marker.Height ?? 0), 2 * (Series?.Marker.Width ?? 0), 2 * (Series?.Marker.Height ?? 0)));
-            point.Regions.ForEach(rect =>
+            foreach (Rect rect in point.Regions)
             {
                 ChartPoints?[point.Index]?.Regions.Add(new IRect(Math.Round(rect.X, 2), Math.Round(rect.Y, 2), rect.Width, rect.Height));
-            });
+            }
+
             segmentIndex++;
         }
 

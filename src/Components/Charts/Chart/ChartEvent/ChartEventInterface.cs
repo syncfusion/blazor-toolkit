@@ -291,7 +291,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts
         /// <remarks>
         /// Use this property to specify and retrieve the coordinates where the chart point's symbols are rendered on the chart.
         /// </remarks>
-        public List<ChartEventLocation> SymbolLocations { get; set; } = [];
+        public IList<ChartEventLocation> SymbolLocations { get; set; } = [];
 
         /// <summary>
         /// Gets or sets the visual regions associated with the chart point.
@@ -302,7 +302,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts
         /// <remarks>
         /// Regions define the visual area representing the chart point, often used for hit testing and rendering purposes.
         /// </remarks>
-        public List<Rect> Regions { get; set; } = [];
+        public IList<Rect> Regions { get; set; } = [];
 
         /// <summary>
         /// Gets or sets the X-Value for the chart point in the chart's coordinate system.
@@ -2073,7 +2073,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts
         /// This property provides details about each axis.
         /// </remarks>
         [JsonPropertyName("axisCollection")]
-        public List<AxisData> AxisCollection { get; set; } = null!;
+        public IList<AxisData> AxisCollection { get; set; } = null!;
     }
 
     /// <summary>
@@ -2144,7 +2144,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts
         /// <param name="textStyle">The font style for the tooltip text.</param>
         /// <param name="headerText">The tooltip header text.</param>
         /// <param name="data">The data points associated with the tooltip.</param>
-        internal SharedTooltipRenderEventArgs(string name, bool cancel, List<string> text, ChartDefaultFont textStyle, string headerText, List<PointInfo> data)
+        internal SharedTooltipRenderEventArgs(string name, bool cancel, IList<string> text, ChartDefaultFont textStyle, string headerText, IList<PointInfo> data)
         {
             Name = name;
             Cancel = cancel;
@@ -2163,7 +2163,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts
         /// <remarks>
         /// Use this property to define or access the text content displayed in the shared tooltip.
         /// </remarks>
-        public List<string> Text { get; set; }
+        public IList<string> Text { get; set; }
 
         /// <summary>
         /// Gets the text style for the shared tooltip.
@@ -2196,7 +2196,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts
         /// <remarks>
         /// This read-only property provides comprehensive information about the data points that are currently highlighted by the shared tooltip.
         /// </remarks>
-        public List<PointInfo> Data { get; private set; }
+        public IList<PointInfo> Data { get; private set; }
     }
 
     /// <summary>
@@ -2213,7 +2213,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts
         /// <remarks>
         /// Use this property to access or modify the axis information during the crosshair move event.
         /// </remarks>
-        public List<CrosshairAxisInfo> AxisInfo { get; set; } = [];
+        public IList<CrosshairAxisInfo> AxisInfo { get; set; } = [];
     }
 
     /// <summary>
@@ -2230,7 +2230,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts
         /// <remarks>
         /// Use this property to access the details of data points selected by the user.
         /// </remarks>
-        public List<PointXY> SelectedDataValues { get; set; } = null!;
+        public IList<PointXY> SelectedDataValues { get; set; } = null!;
     }
 
     /// <summary>

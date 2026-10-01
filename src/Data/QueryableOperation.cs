@@ -81,7 +81,7 @@ namespace Syncfusion.Blazor.Toolkit.Data
         /// <param name="dataSource">Input data source to be grouped.</param>
         /// <param name="grouped">List of column names by which rows will be grouped.</param>
         /// <returns>IQueryable.</returns>
-        public static IQueryable PerformGrouping<T>(IQueryable<T> dataSource, List<string> grouped)
+        public static IQueryable PerformGrouping<T>(IQueryable<T> dataSource, IList<string> grouped)
         {
             return EnumerableOperation.PerformGrouping(dataSource, grouped).AsQueryable();
         }
@@ -352,7 +352,7 @@ namespace Syncfusion.Blazor.Toolkit.Data
         /// <param name="dataSource">Input data source.</param>
         /// <param name="select">Fields to select.</param>
         /// <returns></returns>
-        public static IQueryable PerformSelect(IQueryable dataSource, List<string> select)
+        public static IQueryable PerformSelect(IQueryable dataSource, IList<string> select)
         {
             IEnumerable<string> sel = select.Where(item => item != null);
             Type type = dataSource.AsQueryable().GetObjectType();
@@ -381,7 +381,7 @@ namespace Syncfusion.Blazor.Toolkit.Data
         /// <param name="dataSource">Input data source.</param>
         /// <param name="select">Fields to select.</param>
         /// <returns></returns>
-        public static IQueryable PerformSelect<T>(IQueryable dataSource, List<string> select)
+        public static IQueryable PerformSelect<T>(IQueryable dataSource, IList<string> select)
         {
             IEnumerable<string> sel = select.Where(item => item != null);
             Type type = dataSource.AsQueryable().GetObjectType();

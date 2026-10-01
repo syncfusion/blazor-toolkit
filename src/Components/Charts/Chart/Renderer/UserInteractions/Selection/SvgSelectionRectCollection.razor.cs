@@ -20,7 +20,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
         /// </summary>
         /// <value>Collection of <see cref="SelectionOptions"/>. Default: empty list.</value>
         [Parameter]
-        public List<SelectionOptions> SelectedRectangles { get; set; } = [];
+        public IList<SelectionOptions> SelectedRectangles { get; set; } = [];
 
         /// <summary>
         /// Runtime references to active rectangle components keyed by Id.
@@ -220,7 +220,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
         /// <param name="currentRect">The rectangle component instance to remove.</param>
         internal void RemoveCurrentElement(SvgSelectionRect currentRect)
         {
-            SelectionOptions selectedRect = SelectedRectangles.Find(x => x.Id == currentRect.Id) ?? null!;
+            SelectionOptions selectedRect = SelectedRectangles.FirstOrDefault(x => x.Id == currentRect.Id) ?? null!;
             if (selectedRect is not null)
             {
                 _ = SelectedRectangles.Remove(selectedRect);
@@ -239,7 +239,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
         /// <param name="currentPath">The path component instance to remove.</param>
         internal void RemoveCurrentElement(SvgSelectionPath currentPath)
         {
-            SelectionOptions selectedRect = SelectedRectangles.Find(x => x.Id == currentPath.Id) ?? null!;
+            SelectionOptions selectedRect = SelectedRectangles.FirstOrDefault(x => x.Id == currentPath.Id) ?? null!;
             if (selectedRect is not null)
             {
                 _ = SelectedRectangles.Remove(selectedRect);

@@ -236,7 +236,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
                 ? currentPoint.IsSelected
                 : _chartInstance is not null && _chartInstance.AllowMultiSelection
                 ? IsPointSelect(currentPoint, xAxisOffset, yAxisOffset, [.. _filterArray.Values])
-                : currentPoint.SymbolLocations.Exists(location =>
+                : currentPoint.SymbolLocations.Any(location =>
                 location is not null &&
                 ChartHelper.WithInBounds(location.X + xAxisOffset, location.Y + yAxisOffset, selectionRect));
         }

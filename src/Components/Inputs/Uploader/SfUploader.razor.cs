@@ -1226,7 +1226,7 @@ namespace Syncfusion.Blazor.Toolkit.Inputs
         /// </summary>
         /// <param name="files">The list of files to process.</param>
         /// <returns>A task representing the asynchronous operation.</returns>
-        internal async Task GetFilesDetailsAsync(List<FileInfo> files)
+        internal async Task GetFilesDetailsAsync(IList<FileInfo> files)
         {
             InitializeUploadSession();
             UploadChangeEventArgs eventArgs = CreateUploadChangeEventArgs();
@@ -1251,7 +1251,7 @@ namespace Syncfusion.Blazor.Toolkit.Inputs
         /// <param name="files">The list of files to process.</param>
         /// <param name="eventArgs">The event arguments to populate with file information.</param>
         /// <returns>The count of empty or invalid files encountered during processing.</returns>
-        private async Task<int> ProcessAllFilesAsync(List<FileInfo> files, UploadChangeEventArgs eventArgs)
+        private async Task<int> ProcessAllFilesAsync(IList<FileInfo> files, UploadChangeEventArgs eventArgs)
         {
             int emptyFileCount = 0;
 
@@ -1282,7 +1282,7 @@ namespace Syncfusion.Blazor.Toolkit.Inputs
         /// <param name="files">The list of files being processed.</param>
         /// <param name="eventArgs">The event arguments to invoke with empty file information.</param>
         /// <returns>A task representing the asynchronous operation.</returns>
-        private async Task HandleEmptyFileListAsync(List<FileInfo> files, UploadChangeEventArgs eventArgs)
+        private async Task HandleEmptyFileListAsync(IList<FileInfo> files, UploadChangeEventArgs eventArgs)
         {
             if (files.Count == 0 && FileInfo != null)
             {

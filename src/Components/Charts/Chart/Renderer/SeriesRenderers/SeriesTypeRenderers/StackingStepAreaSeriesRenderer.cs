@@ -218,16 +218,16 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
             int pointIndex = point.Index;
             ChartEventLocation location = ChartHelper.GetPoint(XAxisRenderer.GetPointValue(point.XValue), YAxisRenderer.GetPointValue(stackedvalue.EndValues[pointIndex]), XAxisRenderer, YAxisRenderer, XLength, YLength, isInverted);
             point.SymbolLocations.Add(location);
-            point.SymbolLocations.ForEach(loc =>
+            foreach (ChartEventLocation loc in point.SymbolLocations)
             {
                 ChartPoints?[point.Index]?.SymbolLocations.Add(new IChartInternalLocation(Math.Round(loc.X, 2), Math.Round(loc.Y, 2)));
-            });
+            }
 
             point.Regions.Add(new Rect(location.X - Series!.Marker.Width, location.Y - Series.Marker.Height, 2 * Series.Marker.Width, 2 * Series.Marker.Height));
-            point.Regions.ForEach(rect =>
+            foreach (Rect rect in point.Regions)
             {
                 ChartPoints?[point.Index]?.Regions.Add(new IRect(Math.Round(rect.X, 2), Math.Round(rect.Y, 2), rect.Width, rect.Height));
-            });
+            }
         }
 
         /// <summary>

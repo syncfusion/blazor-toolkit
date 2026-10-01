@@ -748,7 +748,10 @@ namespace Syncfusion.Blazor.Toolkit.Charts
                     keys.Add(axis.TitleStyle.GetFontKey(_chartThemeStyle?.AxisTitleFontWeight ?? string.Empty, _chartThemeStyle?.AxisTitleFontFamily ?? string.Empty));
                     keys.Add(axis.CrosshairTooltip.TextStyle.GetFontKey(_chartThemeStyle?.CrosshairFontWeight ?? string.Empty, _chartThemeStyle?.CrosshairFontFamily ?? string.Empty));
                     keys.Add(axis.LabelStyle.GetFontKey(_chartThemeStyle?.AxisLabelFontWeight ?? string.Empty, _chartThemeStyle?.AxisLabelFontFamily ?? string.Empty));
-                    axis.StripLines.ForEach(x => keys.Add(x.TextStyle.GetFontKey(_chartThemeStyle?.StriplineFontWeight ?? string.Empty, _chartThemeStyle?.StriplineFontFamily ?? string.Empty)));
+                    foreach (ChartStripline stripline in axis.StripLines)
+                    {
+                        keys.Add(stripline.TextStyle.GetFontKey(_chartThemeStyle?.StriplineFontWeight ?? string.Empty, _chartThemeStyle?.StriplineFontFamily ?? string.Empty));
+                    }
                 }
             }
 
@@ -1214,7 +1217,10 @@ namespace Syncfusion.Blazor.Toolkit.Charts
                     {
                         ChartAxis axis = keyValue.Value;
                         GetDistinctCharacter(axis.Title, axis.TitleStyle.GetChartFontOptions(_chartThemeStyle ?? null!), distinctKeys);
-                        axis.StripLines.ForEach(x => GetDistinctCharacter(x.Text, x.TextStyle.GetFontOptions(_chartThemeStyle ?? null!), distinctKeys));
+                        foreach (ChartStripline stripline in axis.StripLines)
+                        {
+                            GetDistinctCharacter(stripline.Text, stripline.TextStyle.GetFontOptions(_chartThemeStyle ?? null!), distinctKeys);
+                        }
                     }
                 }
 
@@ -1696,7 +1702,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts
         /// </summary>
         /// <param name="axisCollections">Collection of axis data containing zoom factor and position.</param>
         /// <param name="isChartPanning">Whether the update is triggered by chart panning.</param>
-        internal void UpdateAxisZoomValues(List<AxisData> axisCollections, bool isChartPanning = false)
+        internal void UpdateAxisZoomValues(IList<AxisData> axisCollections, bool isChartPanning = false)
         {
             foreach (AxisData axisData in axisCollections)
             {
