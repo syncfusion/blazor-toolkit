@@ -1754,3 +1754,345 @@ using System.Diagnostics.CodeAnalysis;
     Justification = "2026-10-01: Internal-wiring event hidden from the public surface ([EditorBrowsable(Never)] + <exclude/>). The multi-parameter Action<...> signature is the established contract between SfDialogService and SfDialogProvider; converting to EventHandler<T> would need a bespoke EventArgs and is a breaking change for no consumer-visible benefit.",
     Scope = "member",
     Target = "~E:Syncfusion.Blazor.Toolkit.Popups.SfDialogService.OnOpen")]
+
+
+// -------------------------------------------------------------------------
+// CA1721: Property names should not match get methods.
+//
+// Both targets are PUBLIC API where the property and the Get* method are
+// intentionally distinct, long-standing members:
+//   * ChartAxis.Name is a [Parameter] (the axis identifier bound in markup)
+//     while GetName() is a public virtual method overridden by the
+//     primary axes to return their reserved names. Renaming either breaks
+//     the component markup contract or the inheritance override surface.
+//   * BaseComponent.DataManager is the public data-manager property while
+//     GetDataManager(...) is a protected helper that resolves a data
+//     manager from a data source. Both are part of the public/protected
+//     API of an abstract base class consumed by derived components.
+// Renaming any of these is a binary/source breaking change.
+// -------------------------------------------------------------------------
+
+[assembly: SuppressMessage(
+    "Naming",
+    "CA1721:Property names should not match get methods",
+    Justification = "2026-10-01: Public API. ChartAxis.Name is a [Parameter] bound in chart markup; GetName() is a public virtual method overridden by PrimaryXAxis/PrimaryYAxis to supply their reserved names. The two members are intentionally distinct and renaming either is a binary/source breaking change.",
+    Scope = "member",
+    Target = "~P:Syncfusion.Blazor.Toolkit.Charts.ChartAxis.Name")]
+
+[assembly: SuppressMessage(
+    "Naming",
+    "CA1721:Property names should not match get methods",
+    Justification = "2026-10-01: Public API. BaseComponent.DataManager is the public data-manager property; GetDataManager(object, string) is a protected helper that resolves a data manager from a data source. Both belong to the public/protected surface of an abstract base class and renaming either is a binary/source breaking change for derived components.",
+    Scope = "member",
+    Target = "~P:Syncfusion.Blazor.Toolkit.Data.BaseComponent.DataManager")]
+
+
+// -------------------------------------------------------------------------
+// CA1707: Identifiers should not contain underscores.
+//
+// All targets are protected members of PUBLIC types (an externally-
+// derivable surface), so renaming is a binary/source breaking change for
+// subclasses:
+//   * SfDatePicker<TValue>.ARIA_LABELLEDBY / ARIA_DESCRIBEDBY are protected
+//     const ARIA attribute-name strings. The SCREAMING_SNAKE_CASE spelling
+//     is the long-standing convention for these constants across the suite.
+//   * BaseComponent._uniqueId is a protected auto-property on an abstract
+//     base class consumed by derived data components.
+// -------------------------------------------------------------------------
+
+[assembly: SuppressMessage(
+    "Naming",
+    "CA1707:Identifiers should not contain underscores",
+    Justification = "2026-10-01: Protected const on the public type SfDatePicker<TValue> (externally-derivable surface). ARIA_LABELLEDBY is a long-standing ARIA attribute-name constant; renaming is a binary/source breaking change for subclasses.",
+    Scope = "member",
+    Target = "~F:Syncfusion.Blazor.Toolkit.Calendars.SfDatePicker`1.ARIA_LABELLEDBY")]
+
+[assembly: SuppressMessage(
+    "Naming",
+    "CA1707:Identifiers should not contain underscores",
+    Justification = "2026-10-01: Protected const on the public type SfDatePicker<TValue> (externally-derivable surface). ARIA_DESCRIBEDBY is a long-standing ARIA attribute-name constant; renaming is a binary/source breaking change for subclasses.",
+    Scope = "member",
+    Target = "~F:Syncfusion.Blazor.Toolkit.Calendars.SfDatePicker`1.ARIA_DESCRIBEDBY")]
+
+[assembly: SuppressMessage(
+    "Naming",
+    "CA1707:Identifiers should not contain underscores",
+    Justification = "2026-10-01: Protected auto-property on the public abstract base class BaseComponent (externally-derivable surface). _uniqueId is consumed by derived data components; renaming is a binary/source breaking change.",
+    Scope = "member",
+    Target = "~P:Syncfusion.Blazor.Toolkit.Data.BaseComponent._uniqueId")]
+
+
+// -------------------------------------------------------------------------
+// CA1055: URI return values should not be strings.
+//
+// DataUtil.GetUrl is a public static helper that composes a base URL, a
+// (possibly relative) path and an optional query string into a single
+// string. The result is intentionally a string: it may be a relative URL
+// and is assigned directly to the string DataManagerRequest/HttpHandler
+// Url property. Returning System.Uri would be both a binary/source
+// breaking change and semantically wrong (System.Uri cannot represent the
+// relative/partial results this helper produces).
+// -------------------------------------------------------------------------
+
+[assembly: SuppressMessage(
+    "Design",
+    "CA1055:URI return values should not be strings",
+    Justification = "2026-10-01: Public API. DataUtil.GetUrl composes a base URL, a possibly-relative path and an optional query string into a string that is assigned to the string HttpHandler/DataManager Url. The result may be relative, so System.Uri is semantically unsuitable and changing the return type is a binary/source breaking change.",
+    Scope = "member",
+    Target = "~M:Syncfusion.Blazor.Toolkit.Data.DataUtil.GetUrl(System.String,System.String,System.String)~System.String")]
+
+
+// -------------------------------------------------------------------------
+// CA1054: URI parameters should not be strings.
+//
+// The baseUrl and relativeUrl parameters of the public helper
+// DataUtil.GetUrl are intentionally strings. The method accepts
+// (possibly relative) URL fragments, concatenates them with slash
+// normalization and appends a query string. System.Uri cannot represent
+// the relative/partial inputs this helper is designed to combine, and the
+// values flow from the string DataManagerRequest/HttpHandler Url property.
+// Changing the parameter types (or adding Uri overloads) would be a
+// binary/source breaking change for a public API with no behavioral gain.
+// -------------------------------------------------------------------------
+
+[assembly: SuppressMessage(
+    "Design",
+    "CA1054:URI parameters should not be strings",
+    Justification = "2026-10-01: Public API. DataUtil.GetUrl accepts possibly-relative URL fragments (baseUrl, relativeUrl) that originate from the string HttpHandler/DataManager Url and are concatenated with slash normalization. System.Uri cannot represent these relative/partial inputs, so changing the parameter types is both semantically wrong and a binary/source breaking change.",
+    Scope = "member",
+    Target = "~M:Syncfusion.Blazor.Toolkit.Data.DataUtil.GetUrl(System.String,System.String,System.String)~System.String")]
+
+
+// -------------------------------------------------------------------------
+// CA1056: URI properties should not be strings.
+//
+// All flagged members are public string URL properties on public types.
+// They are intentionally strings for three reasons:
+//   1. Blazor data binding: [Parameter] URL properties (DataManager.Url,
+//      UploaderAsyncSettings.SaveUrl/RemoveUrl) are bound from Razor markup
+//      as HTML attribute strings and commonly carry RELATIVE URLs
+//      ("/api/upload"), which System.Uri cannot represent as an absolute.
+//   2. JSON serialization contracts: the adaptor/model DTOs
+//      (AsyncSettingsModel, DefaultAdaptor, RequestOptions, Utils) are
+//      serialized to/from JavaScript with [JsonPropertyName] string
+//      contracts; switching to System.Uri would change the wire format.
+//   3. Relative-URL composition: DataManager.BaseUri and the adaptor Url
+//      values are concatenated by DataUtil.GetUrl (see CA1054/CA1055) to
+//      produce possibly-relative absolute URLs.
+// Changing any of these to System.Uri is a binary/source breaking change
+// across the public data and uploader APIs with no behavioral benefit.
+// -------------------------------------------------------------------------
+
+[assembly: SuppressMessage(
+    "Design",
+    "CA1056:URI properties should not be strings",
+    Justification = "2026-10-01: Public API. [Parameter] URL property bound from Razor markup as an HTML attribute string; commonly carries a relative URL that System.Uri cannot represent. Changing the type is a binary/source breaking change.",
+    Scope = "member",
+    Target = "~P:Syncfusion.Blazor.Toolkit.Inputs.UploaderAsyncSettings.RemoveUrl")]
+
+[assembly: SuppressMessage(
+    "Design",
+    "CA1056:URI properties should not be strings",
+    Justification = "2026-10-01: Public API. [Parameter] URL property bound from Razor markup as an HTML attribute string; commonly carries a relative URL that System.Uri cannot represent. Changing the type is a binary/source breaking change.",
+    Scope = "member",
+    Target = "~P:Syncfusion.Blazor.Toolkit.Inputs.UploaderAsyncSettings.SaveUrl")]
+
+[assembly: SuppressMessage(
+    "Design",
+    "CA1056:URI properties should not be strings",
+    Justification = "2026-10-01: Public API. JSON-serialized uploader DTO property with a [JsonPropertyName] string contract; carries a possibly-relative URL. Changing the type to System.Uri would alter the wire format and is a binary/source breaking change.",
+    Scope = "member",
+    Target = "~P:Syncfusion.Blazor.Toolkit.Inputs.AsyncSettingsModel.RemoveUrl")]
+
+[assembly: SuppressMessage(
+    "Design",
+    "CA1056:URI properties should not be strings",
+    Justification = "2026-10-01: Public API. JSON-serialized uploader DTO property with a [JsonPropertyName] string contract; carries a possibly-relative URL. Changing the type to System.Uri would alter the wire format and is a binary/source breaking change.",
+    Scope = "member",
+    Target = "~P:Syncfusion.Blazor.Toolkit.Inputs.AsyncSettingsModel.SaveUrl")]
+
+[assembly: SuppressMessage(
+    "Design",
+    "CA1056:URI properties should not be strings",
+    Justification = "2026-10-01: Public API. Request DTO (Utils) property holding a possibly-relative batch URL that is composed via DataUtil.GetUrl. Changing the type to System.Uri is semantically unsuitable for relative URLs and is a binary/source breaking change.",
+    Scope = "member",
+    Target = "~P:Syncfusion.Blazor.Toolkit.Data.Utils.Url")]
+
+[assembly: SuppressMessage(
+    "Design",
+    "CA1056:URI properties should not be strings",
+    Justification = "2026-10-01: Public API. Request DTO (RequestOptions) property holding a possibly-relative service URL. Changing the type to System.Uri is semantically unsuitable for relative URLs and is a binary/source breaking change.",
+    Scope = "member",
+    Target = "~P:Syncfusion.Blazor.Toolkit.Data.RequestOptions.Url")]
+
+[assembly: SuppressMessage(
+    "Design",
+    "CA1056:URI properties should not be strings",
+    Justification = "2026-10-01: Public API. Request DTO (RequestOptions) property holding a possibly-relative application base URL that is composed with service URLs via DataUtil.GetUrl. Changing the type to System.Uri is semantically unsuitable for relative URLs and is a binary/source breaking change.",
+    Scope = "member",
+    Target = "~P:Syncfusion.Blazor.Toolkit.Data.RequestOptions.BaseUrl")]
+
+[assembly: SuppressMessage(
+    "Design",
+    "CA1056:URI properties should not be strings",
+    Justification = "2026-10-01: Public API. JSON-serialized adaptor DTO (DefaultAdaptor) property with a [JsonPropertyName] string contract; carries a possibly-relative service URL. Changing the type to System.Uri would alter the wire format and is a binary/source breaking change.",
+    Scope = "member",
+    Target = "~P:Syncfusion.Blazor.Toolkit.Data.DefaultAdaptor.Url")]
+
+[assembly: SuppressMessage(
+    "Design",
+    "CA1056:URI properties should not be strings",
+    Justification = "2026-10-01: Public API. [Parameter] endpoint URL property bound from Razor markup as an HTML attribute string with a [JsonPropertyName] contract; commonly carries a relative URL that System.Uri cannot represent. Changing the type is a binary/source breaking change.",
+    Scope = "member",
+    Target = "~P:Syncfusion.Blazor.Toolkit.Data.DataManager.Url")]
+
+[assembly: SuppressMessage(
+    "Design",
+    "CA1056:URI properties should not be strings",
+    Justification = "2026-10-01: Public API. DataManager.BaseUri holds the application base URL used to resolve the relative Url/InsertUrl/UpdateUrl/RemoveUrl values via DataUtil.GetUrl. It is derived from NavigationManager and may itself be relative, so System.Uri is semantically unsuitable and changing the type is a binary/source breaking change.",
+    Scope = "member",
+    Target = "~P:Syncfusion.Blazor.Toolkit.Data.DataManager.BaseUri")]
+
+
+// -------------------------------------------------------------------------
+// CA1819: Properties should not return arrays.
+//
+// All flagged members are public array properties on public types. They
+// are intentionally arrays for three reasons:
+//   1. Blazor two-way binding: [Parameter] array properties (SfCalendar
+//      Values, SfDatePicker/SfTimePicker InputFormats, SfChart.Palettes,
+//      SfDialog.ResizeHandles, and the internal calendar renderer
+//      MultiValues/MultiselectValues) are bound with @bind-* against
+//      user-supplied T[] fields; arrays are the idiomatic, documented
+//      binding type and the examples in the public XML docs assign arrays.
+//   2. JSON / JS-interop contracts: the serialization models
+//      (ChangedEventArgs<T>.Values, SVGTooltip Content/Palette/Shapes,
+//      BoxPoint Outliers/YValueCollection, FailureEventArgs.RetryFiles)
+//      are serialized to/from JavaScript; arrays map directly to JS arrays
+//      and the [JsonPropertyName] wire format depends on the array shape.
+//   3. Public fluent query API: Query.Lookups/SortedColumns/GroupedColumns
+//      are populated through object initializers and the chainable query
+//      builder and are part of the documented remote-adaptor contract.
+// Returning a read-only collection instead would be a binary/source
+// breaking change across the public component, data and charting APIs with
+// no behavioral benefit, so the array shape is retained by design.
+// -------------------------------------------------------------------------
+
+[assembly: SuppressMessage(
+    "Performance",
+    "CA1819:Properties should not return arrays",
+    Justification = "2026-10-01: Public API. JSON/JS-interop serialization model; Values maps to a JavaScript array and is part of the event-args wire contract. Changing to a read-only collection is a binary/source breaking change.",
+    Scope = "member",
+    Target = "~P:Syncfusion.Blazor.Toolkit.Calendars.ChangedEventArgs`1.Values")]
+
+[assembly: SuppressMessage(
+    "Performance",
+    "CA1819:Properties should not return arrays",
+    Justification = "2026-10-01: Public API. [Parameter] DateTime[] bound via @bind against user-supplied arrays in multi-selection mode (see documented examples). Changing the type is a binary/source breaking change.",
+    Scope = "member",
+    Target = "~P:Syncfusion.Blazor.Toolkit.Calendars.Internal.CalendarBaseRender`1.MultiValues")]
+
+[assembly: SuppressMessage(
+    "Performance",
+    "CA1819:Properties should not return arrays",
+    Justification = "2026-10-01: Public API. [Parameter] DateTime[] on the public calendar cell renderer, bound against user-supplied arrays in multi-selection mode. Changing the type is a binary/source breaking change.",
+    Scope = "member",
+    Target = "~P:Syncfusion.Blazor.Toolkit.Calendars.Internal.CalendarDayCell`1.MultiselectValues")]
+
+[assembly: SuppressMessage(
+    "Performance",
+    "CA1819:Properties should not return arrays",
+    Justification = "2026-10-01: Public API. [Parameter] DateTime[] bound via @bind-Values against user-supplied arrays in multi-selection mode (see documented examples). Changing the type is a binary/source breaking change.",
+    Scope = "member",
+    Target = "~P:Syncfusion.Blazor.Toolkit.Calendars.SfCalendar`1.Values")]
+
+[assembly: SuppressMessage(
+    "Performance",
+    "CA1819:Properties should not return arrays",
+    Justification = "2026-10-01: Public API. [Parameter] string[] of input format patterns assigned from user-supplied arrays (see documented examples). Changing the type is a binary/source breaking change.",
+    Scope = "member",
+    Target = "~P:Syncfusion.Blazor.Toolkit.Calendars.SfDatePicker`1.InputFormats")]
+
+[assembly: SuppressMessage(
+    "Performance",
+    "CA1819:Properties should not return arrays",
+    Justification = "2026-10-01: Public API. [Parameter] string[] of input format patterns assigned from user-supplied arrays (see documented examples). Changing the type is a binary/source breaking change.",
+    Scope = "member",
+    Target = "~P:Syncfusion.Blazor.Toolkit.Calendars.SfTimePicker`1.InputFormats")]
+
+[assembly: SuppressMessage(
+    "Performance",
+    "CA1819:Properties should not return arrays",
+    Justification = "2026-10-01: Public API. JSON/JS-interop box-plot model; Outliers maps to a JavaScript array in the chart tooltip/series wire contract. Changing to a read-only collection is a binary/source breaking change.",
+    Scope = "member",
+    Target = "~P:Syncfusion.Blazor.Toolkit.Charts.Internal.BoxPoint.Outliers")]
+
+[assembly: SuppressMessage(
+    "Performance",
+    "CA1819:Properties should not return arrays",
+    Justification = "2026-10-01: Public API. JSON/JS-interop box-plot model; YValueCollection maps to a JavaScript array in the chart tooltip/series wire contract. Changing to a read-only collection is a binary/source breaking change.",
+    Scope = "member",
+    Target = "~P:Syncfusion.Blazor.Toolkit.Charts.Internal.BoxPoint.YValueCollection")]
+
+[assembly: SuppressMessage(
+    "Performance",
+    "CA1819:Properties should not return arrays",
+    Justification = "2026-10-01: Public API. [Parameter] string[] color palette assigned from user-supplied arrays (see documented examples). Changing the type is a binary/source breaking change.",
+    Scope = "member",
+    Target = "~P:Syncfusion.Blazor.Toolkit.Charts.SfChart.Palettes")]
+
+[assembly: SuppressMessage(
+    "Performance",
+    "CA1819:Properties should not return arrays",
+    Justification = "2026-10-01: Public API. JSON/JS-interop tooltip model; Content maps to a JavaScript array of content strings in the wire contract. Changing to a read-only collection is a binary/source breaking change.",
+    Scope = "member",
+    Target = "~P:Syncfusion.Blazor.Toolkit.Charts.Internal.SVGTooltip.Content")]
+
+[assembly: SuppressMessage(
+    "Performance",
+    "CA1819:Properties should not return arrays",
+    Justification = "2026-10-01: Public API. JSON/JS-interop tooltip model; Palette maps to a JavaScript array of color strings in the wire contract. Changing to a read-only collection is a binary/source breaking change.",
+    Scope = "member",
+    Target = "~P:Syncfusion.Blazor.Toolkit.Charts.Internal.SVGTooltip.Palette")]
+
+[assembly: SuppressMessage(
+    "Performance",
+    "CA1819:Properties should not return arrays",
+    Justification = "2026-10-01: Public API. JSON/JS-interop tooltip model; Shapes maps to a JavaScript array of legend-marker shapes in the wire contract. Changing to a read-only collection is a binary/source breaking change.",
+    Scope = "member",
+    Target = "~P:Syncfusion.Blazor.Toolkit.Charts.Internal.SVGTooltip.Shapes")]
+
+[assembly: SuppressMessage(
+    "Performance",
+    "CA1819:Properties should not return arrays",
+    Justification = "2026-10-01: Public API. JSON-serialized uploader event-args; RetryFiles maps to a JavaScript array in the [JsonPropertyName] wire contract. Changing to a read-only collection is a binary/source breaking change.",
+    Scope = "member",
+    Target = "~P:Syncfusion.Blazor.Toolkit.Inputs.FailureEventArgs.RetryFiles")]
+
+[assembly: SuppressMessage(
+    "Performance",
+    "CA1819:Properties should not return arrays",
+    Justification = "2026-10-01: Public API. [Parameter] ResizeDirection[] assigned from user-supplied arrays (see documented examples). Changing the type is a binary/source breaking change.",
+    Scope = "member",
+    Target = "~P:Syncfusion.Blazor.Toolkit.Popups.SfDialog.ResizeHandles")]
+
+[assembly: SuppressMessage(
+    "Performance",
+    "CA1819:Properties should not return arrays",
+    Justification = "2026-10-01: Public API. Query.Lookups is part of the documented fluent query / remote-adaptor contract, populated through object initializers and the chainable query builder. Changing the type is a binary/source breaking change.",
+    Scope = "member",
+    Target = "~P:Syncfusion.Blazor.Toolkit.Data.Query.Lookups")]
+
+[assembly: SuppressMessage(
+    "Performance",
+    "CA1819:Properties should not return arrays",
+    Justification = "2026-10-01: Public API. Query.SortedColumns is part of the documented fluent query / remote-adaptor contract, populated through object initializers and the chainable query builder. Changing the type is a binary/source breaking change.",
+    Scope = "member",
+    Target = "~P:Syncfusion.Blazor.Toolkit.Data.Query.SortedColumns")]
+
+[assembly: SuppressMessage(
+    "Performance",
+    "CA1819:Properties should not return arrays",
+    Justification = "2026-10-01: Public API. Query.GroupedColumns is part of the documented fluent query / remote-adaptor contract, populated through object initializers and the chainable query builder. Changing the type is a binary/source breaking change.",
+    Scope = "member",
+    Target = "~P:Syncfusion.Blazor.Toolkit.Data.Query.GroupedColumns")]
