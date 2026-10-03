@@ -423,7 +423,7 @@
     public void SharedTooltipRender(SharedTooltipRenderEventArgs args)
     {
         eventName = args.Name;
-        List<string> text = args.Text;
+        IList<string> text = args.Text;
         string headertext = args.HeaderText;
         var data = args.Data;
         var textStyle = args.TextStyle;

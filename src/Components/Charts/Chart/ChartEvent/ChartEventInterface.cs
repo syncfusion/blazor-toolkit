@@ -91,7 +91,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts
         /// <remarks>
         /// The text serves to annotate a data point, providing additional context or labels.
         /// </remarks>
-        public string Text { get; set; } = string.Empty;
+        public string? Text { get; set; } = string.Empty;
 
         /// <summary>
         /// Gets or sets the volume value for the point.
@@ -113,7 +113,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts
         /// <remarks>
         /// Establishes the horizontal position of the data point on a chart.
         /// </remarks>
-        public object X { get; set; } = null!;
+        public object? X { get; set; }
 
         /// <summary>
         /// Gets or sets the y value for the point.
@@ -124,7 +124,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts
         /// <remarks>
         /// Determines the vertical position of the data point in a Cartesian chart.
         /// </remarks>
-        public object Y { get; set; } = null!;
+        public object? Y { get; set; }
     }
 
     /// <summary>
@@ -169,7 +169,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts
         /// <remarks>
         /// This property defines the horizontal position of the chart point within the chart.
         /// </remarks>
-        public object X { get; set; } = null!;
+        public object? X { get; set; }
 
         /// <summary>
         /// Gets or sets the y value for the chart point.
@@ -180,7 +180,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts
         /// <remarks>
         /// This property defines the vertical position of the chart point within the chart.
         /// </remarks>
-        public object Y { get; set; } = null!;
+        public object? Y { get; set; }
 
         /// <summary>
         /// Gets or sets the text associated with the chart point.
@@ -191,7 +191,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts
         /// <remarks>
         /// This property is used to display additional information for the chart point.
         /// </remarks>
-        public string Text { get; set; } = string.Empty;
+        public string? Text { get; set; } = string.Empty;
     }
 
     /// <summary> 
@@ -280,7 +280,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts
         /// <remarks>
         /// This property allows you to define a specific tooltip format for the chart point, enhancing data presentation when hovering over the point.
         /// </remarks>
-        public string Tooltip { get; set; } = string.Empty;
+        public string? Tooltip { get; set; } = string.Empty;
 
         /// <summary>
         /// Gets or sets the location coordinates of the chart point.
@@ -709,7 +709,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts
 
         /// <exclude />
         [EditorBrowsable(EditorBrowsableState.Never)]
-        public override bool Equals(object obj)
+        public override bool Equals(object? obj)
         {
             return ReferenceEquals(this, obj) || (obj is not null && Equals(obj));
         }
@@ -763,7 +763,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts
         /// <remarks>
         /// This property specifies the horizontal position of a data point within the chart's coordinate system.
         /// </remarks>
-        public object X { get; set; } = null!;
+        public object? X { get; set; }
 
         /// <summary>
         /// Gets or sets the Y value of the point.
@@ -1310,7 +1310,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts
         /// <remarks>
         /// The text can be used for labeling the point in a tooltip or legend.
         /// </remarks>
-        public string PointText { get; set; } = string.Empty;
+        public string? PointText { get; set; } = string.Empty;
 
         /// <summary>
         /// Gets or sets the x-coordinate value of the point.
@@ -1321,7 +1321,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts
         /// <remarks>
         /// This property is crucial for positioning the point on the chart's X-axis.
         /// </remarks>
-        public object PointX { get; set; } = null!;
+        public object? PointX { get; set; }
 
         /// <summary>
         /// Gets or sets the y-coordinate value of the point.
@@ -1332,7 +1332,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts
         /// <remarks>
         /// This property is crucial for positioning the point on the chart's Y-axis.
         /// </remarks>
-        public object PointY { get; set; } = null!;
+        public object? PointY { get; set; }
 
         /// <summary>
         /// Gets or sets the chart series index.

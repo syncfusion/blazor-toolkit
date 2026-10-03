@@ -154,7 +154,7 @@ namespace Syncfusion.Blazor.Toolkit.Inputs
         /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
         protected async Task SetLocalStorageAsync(string persistId, TChecked checkedValue)
         {
-            await InvokeVoidAsync(_baseJsModule, _baseJsInProcessModule, "setLocalStorageItem", [persistId, checkedValue!]).ConfigureAwait(true);
+            await InvokeVoidAsync(_baseJsModule, _baseJsInProcessModule, "setLocalStorageItem", [persistId, checkedValue]).ConfigureAwait(true);
         }
 
         #endregion

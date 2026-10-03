@@ -93,7 +93,7 @@ namespace Syncfusion.Blazor.Toolkit.Data
             IQueryable data = dataSource.AsQueryable();
             sourceType ??= data.GetObjectType();
             bool isDynamic = typeof(IDynamicMetaObjectProvider).IsAssignableFrom(sourceType);
-            Expression<Func<string, object, object>>? valueExpressionFunc = isDynamic ? (propertyName, obj) => ReflectionExtension.GetValue(obj, propertyName, true)! : null;
+            Expression<Func<string, object, object?>>? valueExpressionFunc = isDynamic ? (propertyName, obj) => ReflectionExtension.GetValue(obj, propertyName, true) : null;
 
             bool firstTime = true;
             foreach (SortedColumn column in sortedColumns ?? [])
@@ -104,22 +104,18 @@ namespace Syncfusion.Blazor.Toolkit.Data
                     {
                         data = !isDynamic
                             ? column.Comparer != null
-                                ? data.OrderBy(column.Field, (column.Comparer as IComparer<object>)!, sourceType)
-                                : data.OrderBy(column.Field, sourceType)
-                            : column.Comparer != null
-                                ? data.OrderBy(column.Field, (column.Comparer as IComparer<object>)!, valueExpressionFunc!)
-                                : data.OrderBy(column.Field, valueExpressionFunc!);
+                                ? data.OrderBy((column.Comparer as IComparer<object>)!, sourceType)
+                                : data.OrderBy(column.Field ?? string.Empty, sourceType)
+                            : SortDynamic(data, column, valueExpressionFunc!, nameof(Queryable.OrderBy));
                         firstTime = false;
                     }
                     else
                     {
                         data = !isDynamic
                             ? column.Comparer != null
-                                ? data.ThenBy(column.Field, (column.Comparer as IComparer<object>)!, sourceType)
-                                : data.ThenBy(column.Field, sourceType)
-                            : column.Comparer != null
-                                ? data.ThenBy(column.Field, (column.Comparer as IComparer<object>)!, valueExpressionFunc!)
-                                : data.ThenBy(column.Field, valueExpressionFunc!);
+                                ? data.ThenBy((column.Comparer as IComparer<object>)!, sourceType)
+                                : data.ThenBy(column.Field ?? string.Empty, sourceType)
+                            : SortDynamic(data, column, valueExpressionFunc!, nameof(Queryable.ThenBy));
                     }
                 }
                 else
@@ -128,27 +124,39 @@ namespace Syncfusion.Blazor.Toolkit.Data
                     {
                         data = !isDynamic
                             ? column.Comparer != null
-                                ? data.OrderByDescending(column.Field, (column.Comparer as IComparer<object>)!, sourceType)
-                                : data.OrderByDescending(column.Field, sourceType)
-                            : column.Comparer != null
-                                ? data.OrderByDescending(column.Field, (column.Comparer as IComparer<object>)!, valueExpressionFunc!)
-                                : data.OrderByDescending(column.Field, valueExpressionFunc!);
+                                ? data.OrderByDescending((column.Comparer as IComparer<object>)!, sourceType)
+                                : data.OrderByDescending(column.Field ?? string.Empty, sourceType)
+                            : SortDynamic(data, column, valueExpressionFunc!, nameof(Queryable.OrderByDescending));
                         firstTime = false;
                     }
                     else
                     {
                         data = !isDynamic
                             ? column.Comparer != null
-                                ? data.ThenByDescending(column.Field, (column.Comparer as IComparer<object>)!, sourceType)
-                                : data.ThenByDescending(column.Field, sourceType)
-                            : column.Comparer != null
-                                ? data.ThenByDescending(column.Field, (column.Comparer as IComparer<object>)!, valueExpressionFunc!)
-                                : data.ThenByDescending(column.Field, valueExpressionFunc!);
+                                ? data.ThenByDescending((column.Comparer as IComparer<object>)!, sourceType)
+                                : data.ThenByDescending(column.Field ?? string.Empty, sourceType)
+                            : SortDynamic(data, column, valueExpressionFunc!, nameof(Queryable.ThenByDescending));
                     }
                 }
             }
 
             return data;
+        }
+
+        private static IQueryable SortDynamic(IQueryable source, SortedColumn column,
+            Expression<Func<string, object, object?>> expressionFunc, string methodName)
+        {
+            // Match the expression-factory overloads, including their untyped null constant.
+            // Normalizing Field here would turn a construction-time failure into an accepted sort.
+            Type sourceType = source.ElementType;
+            ParameterExpression parameter = Expression.Parameter(sourceType, sourceType?.Name);
+            InvocationExpression key = Expression.Invoke(expressionFunc, Expression.Constant(column.Field), parameter);
+            LambdaExpression selector = Expression.Lambda(key, parameter);
+            Expression[] arguments = column.Comparer != null
+                ? [source.Expression, selector, Expression.Constant(column.Comparer as IComparer<object>, typeof(IComparer<object>))]
+                : [source.Expression, selector];
+            return source.Provider.CreateQuery(Expression.Call(typeof(Queryable), methodName,
+                [source.ElementType, selector.Body.Type], arguments));
         }
 
         /// <summary>
@@ -207,7 +215,7 @@ namespace Syncfusion.Blazor.Toolkit.Data
                 return typedList;
             }
 
-            Func<T, object>[] getters = new Func<T, object>[columns.Count];
+            Func<T, object?>[] getters = new Func<T, object?>[columns.Count];
             IComparer<object>[] comparers = new IComparer<object>[columns.Count];
             bool[] directions = new bool[columns.Count];
             for (int i = 0; i < columns.Count; i++)
@@ -215,17 +223,17 @@ namespace Syncfusion.Blazor.Toolkit.Data
                 SortedColumn column = columns[i];
                 ParameterExpression param = Expression.Parameter(typeof(T), "x");
                 Expression propExpr = BuildPropertyChain(param, column.Field ?? "");
-                getters[i] = Expression.Lambda<Func<T, object>>(
+                getters[i] = Expression.Lambda<Func<T, object?>>(
                     Expression.Convert(propExpr, typeof(object)), param).Compile();
 
                 comparers[i] = column.Comparer as IComparer<object> ?? Comparer<object>.Default;
                 directions[i] = column.Direction == SortOrder.Descending;
             }
 
-            object[][] keyArrays = new object[columns.Count][];
+            object?[][] keyArrays = new object?[columns.Count][];
             _ = Parallel.For(0, columns.Count, colIdx =>
             {
-                object[] keys = new object[typedList.Count];
+                object?[] keys = new object?[typedList.Count];
                 _ = Parallel.For(0, typedList.Count, idx =>
                 {
                     keys[idx] = getters[colIdx](typedList[idx]);
@@ -250,8 +258,8 @@ namespace Syncfusion.Blazor.Toolkit.Data
                     }
                     else
                     {
-                        object v1 = keyArrays[c][i1];
-                        object v2 = keyArrays[c][i2];
+                        object? v1 = keyArrays[c][i1];
+                        object? v2 = keyArrays[c][i2];
                         int comparer = comparers[c].Compare(v1, v2);
                         if (comparer != 0)
                         {
@@ -304,12 +312,12 @@ namespace Syncfusion.Blazor.Toolkit.Data
         }
 
         /// <summary>
-        /// 
+        /// Reads a field from a dictionary or dynamic record.
         /// </summary>
-        /// <param name="obj"></param>
-        /// <param name="key"></param>
-        /// <returns></returns>
-        public static object GetDynamicValue(object obj, string key)
+        /// <param name="obj">The record, which may be null.</param>
+        /// <param name="key">The field to read.</param>
+        /// <returns>The field value, or null for a null record, an unresolved field, or a null field value.</returns>
+        public static object? GetDynamicValue(object? obj, string key)
         {
             if (obj is IDictionary<string, object> dict && dict.TryGetValue(key, out object? value))
             {
@@ -317,27 +325,27 @@ namespace Syncfusion.Blazor.Toolkit.Data
             }
             else if (obj != null && obj.GetType().BaseType == typeof(DynamicObject))
             {
-                return ReflectionExtension.GetValue(obj, key, true)!;
+                return ReflectionExtension.GetValue(obj, key, true);
             }
 
-            return null!;
+            return null;
         }
         private readonly struct SortDataComparer<T> : IComparer<T>
         {
-            private readonly (Func<T, object> Getter, IComparer<object> Comparer, bool Descending, bool isForeignKeyComparer)[] _accessors;
+            private readonly (Func<T?, object?> Getter, IComparer<object> Comparer, bool Descending, bool isForeignKeyComparer)[] _accessors;
 
             [RequiresUnreferencedCode("Builds and compiles property-accessor expressions over the runtime element type; the accessed members may be removed by the trimmer.")]
             [RequiresDynamicCode("Compiles property-accessor expression trees at runtime, which is not supported by Native AOT.")]
             public SortDataComparer(IList<SortedColumn> columns)
             {
-                _accessors = new (Func<T, object>, IComparer<object>, bool, bool)[columns.Count];
+                _accessors = new (Func<T?, object?>, IComparer<object>, bool, bool)[columns.Count];
                 ParameterExpression param = Expression.Parameter(typeof(T), "x");
 
                 for (int i = 0; i < columns.Count; i++)
                 {
                     SortedColumn column = columns[i];
                     Expression propExpr = BuildPropertyChain(param, column.Field ?? "");
-                    Func<T, object> getter = Expression.Lambda<Func<T, object>>(
+                    Func<T?, object?> getter = Expression.Lambda<Func<T?, object?>>(
                         Expression.Convert(propExpr, typeof(object)), param).Compile();
 
                     IComparer<object> comparer = column.Comparer as IComparer<object> ?? Comparer<object>.Default;
@@ -349,18 +357,18 @@ namespace Syncfusion.Blazor.Toolkit.Data
 
             public int Compare(T? x, T? y)
             {
-                foreach ((Func<T, object>? getter, IComparer<object>? comparer, bool descending, bool isForeignKeyComparer) in _accessors)
+                foreach ((Func<T?, object?> getter, IComparer<object> comparer, bool descending, bool isForeignKeyComparer) in _accessors)
                 {
                     int comparerObject;
 
                     if (isForeignKeyComparer || comparer is not Comparer<object>)
                     {
-                        comparerObject = comparer.Compare(x!, y!);
+                        comparerObject = comparer.Compare(x, y);
                     }
                     else
                     {
-                        object value1 = getter(x!);
-                        object value2 = getter(y!);
+                        object? value1 = getter(x);
+                        object? value2 = getter(y);
                         comparerObject = SafeCompare(value1, value2);
                     }
 
@@ -630,7 +638,7 @@ namespace Syncfusion.Blazor.Toolkit.Data
             return propInfo?.PropertyType!;
         }
 
-        private static Type UpdateType(IEnumerable dataSource, string filterString, object value, Type type)
+        private static Type UpdateType(IEnumerable dataSource, string filterString, object? value, Type type)
         {
             bool isValue = false;
             foreach (object? item in dataSource)

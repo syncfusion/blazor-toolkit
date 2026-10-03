@@ -30,7 +30,7 @@
 
 @code {
     SfFixture fixture { get; set; }
-    List<CrosshairAxisInfo> axisInfo;
+    IList<CrosshairAxisInfo> axisInfo;
     async Task CheckingBasicCrosshair(Fixture fixture)
     {
         var cut = fixture.GetComponentUnderTest<SfChart>();

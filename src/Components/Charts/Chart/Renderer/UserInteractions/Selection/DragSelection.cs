@@ -249,7 +249,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
         /// <param name="selectedPointValues">The collection to add the point values to.</param>
         private void SelectPointAndAddToValues(Point currentPoint, ChartSeriesRenderer seriesRenderer, List<PointXY> selectedPointValues)
         {
-            object selectedPointX = GetFormattedXValue(currentPoint);
+            object? selectedPointX = GetFormattedXValue(currentPoint);
 
             _ = SelectionChartAsync(ChartSelectedDataIndex.CreateSelectedData(currentPoint.Index, seriesRenderer.Index));
             selectedPointValues.Add(new PointXY
@@ -266,10 +266,10 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
         /// </summary>
         /// <param name="currentPoint">The data point.</param>
         /// <returns>The formatted X value as an object.</returns>
-        private object GetFormattedXValue(Point currentPoint)
+        private object? GetFormattedXValue(Point currentPoint)
         {
             return _chartInstance?._axisContainer?.Axes["PrimaryXAxis"].ValueType == ValueType.Category
-                ? currentPoint.X.ToString() ?? string.Empty
+                ? currentPoint.X?.ToString()
                 : _chartInstance?._axisContainer?.Axes["PrimaryXAxis"].ValueType == ValueType.DateTime
                 ? Convert.ToDateTime(currentPoint.X, null)
                 : currentPoint.XValue;

@@ -521,6 +521,69 @@ Verification on 2026-10-02:
   Test source and project configuration were not changed; no passing
   regression-test result is claimed.
 
+#### Nullable and Razor follow-up (2026-10-03)
+
+This follow-up supersedes the remaining-warning and blocked-test results above:
+
+- Clean library build across .NET 8/9/10: **3 warnings, 0 errors**, down
+  from 405 warnings. All three are the same `CS8714` location on
+  `DataAdaptor<T>` in `src/Data/DataManager.cs`, reported once per target.
+- All 19 unique `RZ10012` findings were fixed by rendering the internal
+  chart components through typed fragments while retaining their accessibility,
+  ordering, SVG nesting, and cascading context.
+- Accurate nullable annotations were explicitly approved for existing null
+  inputs/results. CLR signatures and collection types were retained. Null
+  reflection values, grouping sentinels, and prompt cancellation remain null;
+  no replacement empty values or required public properties were introduced.
+- Null/missing first-record `DynamicObject` values cannot establish a query
+  field's type. Filtering/searching now report `InvalidOperationException`
+  with the field name rather than an incidental null dereference; later
+  records are not substituted for inference. This exception clarification is
+  documented on the public methods and in `CHANGELOG.md`.
+- Chart axis-overlap tracking was made instance-scoped after parallel tests
+  exposed a shared-static-state race. A deterministic two-layout regression
+  failed before the fix and passed afterward; reset timing/values are retained.
+- bUnit now compiles: nested `obj`/`bin` C# is excluded and the five test
+  assignments consume the existing `IList<T>` contracts. Chart fixtures mock
+  real module boundaries and wait for initialization rather than treating
+  initial markup as completed initialization. **2,735 tests passed, 0 failed,
+  0 skipped**, including 142 new regression cases. The test project targets
+  .NET 8; this is not a claim of running tests on .NET 9/10.
+- Warning-level library style verification reports **0 findings**. No new
+  warnings were reported in the added regression-test files or shared chart
+  fixture. Existing warnings elsewhere in the test project are outside this
+  library-warning cleanup; the entire repository is not warning-free.
+- Library analyzer/security settings, `GlobalSuppressions.cs`, and BL0007
+  policy remain unchanged. This pass added no suppressions and disabled no
+  analyzer rules. Browser end-to-end, trimming publication, and Native AOT
+  publication were not run as part of this follow-up.
+
+#### Approved generic adaptor constraint (2026-10-03)
+
+The initially deferred `CS8714` is now addressed with explicit approval:
+`DataAdaptor<T>` declares `where T : notnull`, matching the service-type
+requirement of `OwningComponentBase<T>`. This supersedes the three-warning
+status above. The existing `DataAdaptor<object>` test subclass already satisfies
+this requirement; no repository generic subclasses required changes.
+
+Consumer migration: propagate `where T : notnull` on generic subclasses and
+use non-nullable service type arguments. Nullable arguments and unconstrained
+type parameters may produce new compiler diagnostics when consumers rebuild,
+including errors where warnings are treated as errors. `notnull` is a
+compiler-level nullability contract, not a new CLR-enforced runtime constraint.
+Existing binaries, service resolution, owned scopes, and disposal behavior are
+unchanged. No broader `class` or `new()` restriction was introduced, and no
+analyzer setting or suppression was changed.
+
+Verification after the approved constraint change:
+
+- Non-incremental library build across .NET 8/9/10: **0 warnings, 0 errors**.
+- bUnit on .NET 8: **2,735 passed, 0 failed, 0 skipped**.
+- Warning-level library style verification: **0 findings**.
+- Sample solution and Playwright sample-host solution builds: **passed**.
+- These results apply to the library build and stated checks; existing warnings
+  in test/sample projects and editor-only suggestions are not claimed resolved.
+
 ### Trim and AOT residual warnings
 
 Residual `ILLink` warnings from `-p:PublishTrimmed=true` against

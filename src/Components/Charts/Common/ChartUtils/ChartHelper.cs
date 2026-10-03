@@ -1271,9 +1271,9 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
         /// <param name="x">The X attribute name (default: "x").</param>
         /// <param name="y">The Y attribute name (default: "y").</param>
         /// <returns>An array containing the string representation of X and Y coordinates.</returns>
-        internal static string[] AppendTextElements(SfChart chart, string id, double locationX, double locationY, string x = "x", string y = "y")
+        internal static string[] AppendTextElements(SfChart? chart, string id, double locationX, double locationY, string x = "x", string y = "y")
         {
-            if (chart == null && chart.IsStaticServerRendering())
+            if (chart is null)
             {
                 return
                 [
@@ -2220,7 +2220,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
         /// <param name="size">The size string.</param>
         /// <param name="containerSize">The container size.</param>
         /// <returns>The numeric value or <see cref="double.NaN"/>.</returns>
-        internal static double StringToNumber(string size, double containerSize)
+        internal static double StringToNumber(string? size, double containerSize)
         {
             return !string.IsNullOrEmpty(size) && size != "auto"
                 ? size.Contains('%', StringComparison.InvariantCulture)
@@ -2482,12 +2482,14 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
         }
 
         /// <summary>
-        /// Builds a CSS font style string.
+        /// Builds a CSS font style string from the configured label font.
         /// </summary>
-        /// <param name="font">The font options.</param>
+        /// <param name="font">The non-null font configuration. Empty properties retain their existing CSS inheritance behavior.</param>
         /// <returns>The CSS style string.</returns>
+        /// <exception cref="ArgumentNullException">The font configuration is null.</exception>
         internal static string GetFontStyle(ChartDefaultFont font)
         {
+            ArgumentNullException.ThrowIfNull(font);
             return "font-size:" + font.Size + "; font-style:" + font.FontStyle + "; font-weight:" + font.FontWeight + "; font-family:" + font.FontFamily + ";opacity:" + font.Opacity + "; color:" + font.Color + ";";
         }
 
@@ -2544,12 +2546,12 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
         /// Gets the CLR value from a JSON element.
         /// </summary>
         /// <param name="jsonElement">The JSON element.</param>
-        /// <returns>The value as a number or string.</returns>
-        internal static object GetObjectValue(JsonElement jsonElement)
+        /// <returns>The value as a number, string, or null.</returns>
+        internal static object? GetObjectValue(JsonElement jsonElement)
         {
             return jsonElement.ValueKind == JsonValueKind.Number
                 ? jsonElement.GetDouble()
-                : jsonElement.GetString() ?? null!;
+                : jsonElement.GetString();
         }
 
         /// <summary>

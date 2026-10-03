@@ -223,7 +223,7 @@ namespace Syncfusion.Blazor.Toolkit.Inputs
         /// ]]></code>
         /// </example>
         [Parameter(CaptureUnmatchedValues = true)]
-        public Dictionary<string, object> InputAttributes
+        public Dictionary<string, object>? InputAttributes
         {
             get => BaseInputAttributes; set => BaseInputAttributes = value;
         }
@@ -232,7 +232,7 @@ namespace Syncfusion.Blazor.Toolkit.Inputs
         /// Overrides the base input attributes for the <see cref="SfNumericTextBox{TValue}"/>.
         /// </summary>
         /// <exclude/>
-        protected override Dictionary<string, object> BaseInputAttributes { get; set; } = [];
+        protected override Dictionary<string, object>? BaseInputAttributes { get; set; } = [];
 
         /// <summary>
         /// Gets or sets the number of decimal places to display for numeric values.

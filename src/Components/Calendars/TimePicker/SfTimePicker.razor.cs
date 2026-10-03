@@ -754,7 +754,7 @@ namespace Syncfusion.Blazor.Toolkit.Calendars
             if (StrictMode && EnableMask && IsRendered)
             {
                 await CreateMaskAsync().ConfigureAwait(false);
-                await InvokeVoidAsync(_timePickerJsModule!, _timePickerJsInProcessModule!, "updateCurrentValue", [DataId, CurrentValueAsString!]).ConfigureAwait(true);
+                await InvokeVoidAsync(_timePickerJsModule, _timePickerJsInProcessModule, "updateCurrentValue", [DataId, CurrentValueAsString]).ConfigureAwait(true);
             }
         }
 

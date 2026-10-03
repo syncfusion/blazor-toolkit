@@ -180,7 +180,7 @@ namespace Syncfusion.Blazor.Toolkit.Data
                 for (int i = 0; i < batchRecords.Changed.Count; i++)
                 {
                     using MultipartContent changeSet = new("mixed", options.CSet!);
-                    object value = DataUtil.GetVal(batchRecords.Changed, i, options.KeyField!);
+                    object? value = DataUtil.GetVal(batchRecords.Changed, i, options.KeyField!);
                     string urlKey = DataUtil.GetODataUrlKey(null!, options.KeyField!, value, ModelType);
                     string param = DataUtil.GetAdditionalParams(options);
                     using HttpRequestMessage putRequest = new(options.UpdateType!, $"{options.BaseUrl}{urlKey}{param}");

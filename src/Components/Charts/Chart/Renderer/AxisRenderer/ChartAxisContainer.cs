@@ -150,14 +150,15 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
 
             AxisLayout.ComputePlotAreaBounds(newRect);
 
-            CartesianAxisLayout._previousAxisEnd = 0;
-            CartesianAxisLayout._previousStartX = 0;
-            CartesianAxisLayout._previousAxis = null;
+            CartesianAxisLayout axisLayout = (CartesianAxisLayout)AxisLayout;
+            axisLayout._previousAxisEnd = 0;
+            axisLayout._previousStartX = 0;
+            axisLayout._previousAxis = null;
 
             PerformAxisRenderingCalculations();
 
-            CartesianAxisLayout._previousAxisEnd = 0;
-            CartesianAxisLayout._previousAxis = null;
+            axisLayout._previousAxisEnd = 0;
+            axisLayout._previousAxis = null;
         }
 
         /// <summary>

@@ -16,7 +16,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts
         #region Fields
         private ChartLastDataLabel? _lastDataLabel;
         private double _prevWidth;
-        private string _prevColor = string.Empty;
+        private string? _prevColor = string.Empty;
         #endregion
 
         #region Properties
@@ -69,7 +69,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts
         /// ]]>
         /// </code>
         /// </example>
-        public override string Color { get; set; } = string.Empty;
+        public override string? Color { get; set; } = string.Empty;
 
         #endregion
 

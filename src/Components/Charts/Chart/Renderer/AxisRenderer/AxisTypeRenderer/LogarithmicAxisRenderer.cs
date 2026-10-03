@@ -122,7 +122,7 @@
         /// </summary>
         /// <param name="pointValue">The point value to format.</param>
         /// <returns>The formatted text representation.</returns>
-        internal override object GetFormatText(object pointValue)
+        internal override object GetFormatText(object? pointValue)
         {
             return FormatValue(Convert.ToDouble(pointValue, Culture));
         }

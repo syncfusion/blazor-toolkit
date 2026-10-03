@@ -338,7 +338,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
         /// <summary>
         /// Gets or sets the size value of the bubble.
         /// </summary>
-        public object Size { get; set; } = null!;
+        public object? Size { get; set; }
     }
 
     /// <summary>
@@ -1958,25 +1958,25 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
         /// Gets or sets the X coordinate of the point.
         /// </summary>
         [JsonPropertyName("x")]
-        public object X { get; set; } = null!;
+        public object? X { get; set; }
 
         /// <summary>
         /// Gets or sets the Y coordinate of the point.
         /// </summary>
         [JsonPropertyName("y")]
-        public object Y { get; set; } = null!;
+        public object? Y { get; set; }
 
         /// <summary>
         /// Gets or sets the text for the point.
         /// </summary>
         [JsonPropertyName("t")]
-        public string Text { get; set; } = string.Empty;
+        public string? Text { get; set; } = string.Empty;
 
         /// <summary>
         /// Gets or sets the tooltip for the point.
         /// </summary>
         [JsonPropertyName("tT")]
-        public string Tooltip { get; set; } = string.Empty;
+        public string? Tooltip { get; set; } = string.Empty;
 
         /// <summary>
         /// Gets or sets the interior color for the point.
@@ -2059,7 +2059,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
         /// Gets or sets the size value of the bubble point.
         /// </summary>
         [JsonPropertyName("sI")]
-        public object Size { get; set; } = null!;
+        public object? Size { get; set; }
     }
 
     /// <summary>

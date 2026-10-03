@@ -51,7 +51,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts
 
         internal bool _isSeriesChanged;
         internal bool _isLegendClicked;
-        internal ChartDataEditSettings _chartDataEditSettings;
+        internal ChartDataEditSettings? _chartDataEditSettings;
         #endregion
 
         #region Properties
@@ -1879,7 +1879,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts
         /// </code>
         /// </example>
         [Parameter]
-        public ChartDataEditSettings ChartDataEditSettings
+        public ChartDataEditSettings? ChartDataEditSettings
         {
             get => _chartDataEditSettings;
             set
@@ -1887,7 +1887,10 @@ namespace Syncfusion.Blazor.Toolkit.Charts
                 if (_chartDataEditSettings != value)
                 {
                     _chartDataEditSettings = value;
-                    _chartDataEditSettings._isPropertyChanged = false;
+                    if (_chartDataEditSettings is { } editSettings)
+                    {
+                        editSettings._isPropertyChanged = false;
+                    }
                 }
             }
         }
@@ -2294,8 +2297,11 @@ namespace Syncfusion.Blazor.Toolkit.Charts
                 Container._needAxisRendering = true;
             }
 
-            CartesianAxisLayout._previousAxisEnd = 0;
-            CartesianAxisLayout._previousAxis = null;
+            if (Container?._axisContainer?.AxisLayout is CartesianAxisLayout axisLayout)
+            {
+                axisLayout._previousAxisEnd = 0;
+                axisLayout._previousAxis = null;
+            }
         }
 
         /// <summary>

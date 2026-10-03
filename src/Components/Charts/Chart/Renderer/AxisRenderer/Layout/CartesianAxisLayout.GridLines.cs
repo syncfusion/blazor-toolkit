@@ -1535,7 +1535,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
         /// <param name="intervalHeight">The spacing between labels.</param>
         private void FinalizeYAxisLabelOptions(ChartAxis axis, TextOptions options, ChartFontOptions labelStyle, int index, int labelIndex, VisibleLabels label, double intervalHeight)
         {
-            string[] locations = ChartHelper.AppendTextElements(axis.Renderer?.Owner ?? null!, options.Id, Convert.ToDouble(options.X, Culture), Convert.ToDouble(options.Y, Culture));
+            string[] locations = ChartHelper.AppendTextElements(axis.Renderer?.Owner, options.Id, Convert.ToDouble(options.X, Culture), Convert.ToDouble(options.Y, Culture));
 
             options.X = locations[0];
             options.Y = locations[1];

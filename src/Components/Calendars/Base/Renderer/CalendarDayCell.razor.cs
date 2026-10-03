@@ -496,7 +496,7 @@ namespace Syncfusion.Blazor.Toolkit.Calendars.Internal
         private void UpdateMultiValues(DateTime[] values, TCalendarCell? dateValue, bool otherMnthBool, bool disabledCls)
         {
             dateValue = (dateValue is not null) ? dateValue : GenericValue(values[0]);
-            DateTime getValue = ConvertDate(dateValue!);
+            DateTime getValue = ConvertDate(dateValue);
             bool isSelected = false;
             for (int tempValue = 0; tempValue < values.Length; tempValue++)
             {
@@ -534,7 +534,7 @@ namespace Syncfusion.Blazor.Toolkit.Calendars.Internal
                 UpdateFocus(otherMnthBool, disabledCls, LocalDates, CurrentCellDate);
                 if (Parent is not null && dateValue is not null)
                 {
-                    Parent.Value = default!;
+                    Parent.Value = default;
                 }
             }
         }

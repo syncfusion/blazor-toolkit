@@ -1626,7 +1626,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts
             {
                 foreach (ChartSeriesRenderer chartSeries in axisRenderer.SeriesRenderer)
                 {
-                    if (chartSeries is not null && chartSeries.Points?.Count > 0 && DateTime.TryParse(chartSeries.Points[0].X.ToString(), out DateTime temp))
+                    if (chartSeries is not null && chartSeries.Points?.Count > 0 && DateTime.TryParse(chartSeries.Points[0].X?.ToString(), out DateTime temp))
                     {
                         isUniversal = chartSeries.XAxisRenderer.IsDateOnly || chartSeries.XAxisRenderer.IsTimeOnly || chartSeries.IsDateTimeOffset
                             ? Convert.ToDateTime(Convert.ToString(chartSeries.Points[0].X, CultureInfo.InvariantCulture), CultureInfo.InvariantCulture).Kind == DateTimeKind.Utc
@@ -1668,7 +1668,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts
         internal async Task SetTooltipDataAsync()
         {
             RemoveTemplateTooltip();
-            await InvokeVoidAsync(_chartJsModule!, _chartJsInProcessModule!, "setTooltipData", [_dataId, _seriesClipRects.ToArray(), _seriesMarkers.ToArray(), _seriesBorders.ToArray(), _axes.ToArray(), _tooltip.Template is not null ? null! : _tooltip ?? null!, _seriesContainer?._dateValuePairs as object ?? null!, _seriesContainer?._numberValuePairs as object ?? null!, _axisContainer?.AxisLayout.SeriesClipRect ?? null!, _template is not null ? "tooltip_template" : null!, Theme.ToString()]).ConfigureAwait(true);
+            await InvokeVoidAsync(_chartJsModule, _chartJsInProcessModule, "setTooltipData", [_dataId, _seriesClipRects.ToArray(), _seriesMarkers.ToArray(), _seriesBorders.ToArray(), _axes.ToArray(), _tooltip.Template is not null ? null : _tooltip ?? null, _seriesContainer?._dateValuePairs as object ?? null, _seriesContainer?._numberValuePairs as object ?? null, _axisContainer?.AxisLayout.SeriesClipRect ?? null, _template is not null ? "tooltip_template" : null, Theme.ToString()]).ConfigureAwait(true);
         }
 
         internal async Task SetTooltipStyleAsync(string tooltipDataId)
@@ -2201,7 +2201,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts
             _ = CalculateSecondaryElementPositionAsync();
             if (_tooltip.Enable || _crosshair.Enable || _markerExplode is not null)
             {
-                _ = InvokeVoidAsync(_chartJsModule!, _chartJsInProcessModule!, Constants.SetTooltipOptions, [_dataId, _tooltip.GetTooltipForScript(), GetTooltipOptions(), _seriesClipRects.ToArray(), _seriesMarkers.ToArray(), _seriesBorders.ToArray(), _axes.ToArray(), _seriesContainer?._dateValuePairs as object ?? null!, _seriesContainer?._numberValuePairs as object ?? null!]);
+                _ = InvokeVoidAsync(_chartJsModule, _chartJsInProcessModule, Constants.SetTooltipOptions, [_dataId, _tooltip.GetTooltipForScript(), GetTooltipOptions(), _seriesClipRects.ToArray(), _seriesMarkers.ToArray(), _seriesBorders.ToArray(), _axes.ToArray(), _seriesContainer?._dateValuePairs as object ?? null, _seriesContainer?._numberValuePairs as object ?? null]);
                 if (_seriesContainer is not null && !IsDisposed && (_seriesContainer._previousRequestTime == DateTime.MinValue || (DateTime.Now - _seriesContainer._previousRequestTime).TotalMilliseconds > UpdateThresholdMs))
                 {
                     _seriesContainer._previousRequestTime = DateTime.Now;

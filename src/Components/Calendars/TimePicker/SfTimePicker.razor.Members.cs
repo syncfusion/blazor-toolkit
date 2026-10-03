@@ -147,7 +147,7 @@ namespace Syncfusion.Blazor.Toolkit.Calendars
         /// ]]></code>
         /// </example>
         [Parameter]
-        public string Placeholder
+        public string? Placeholder
         {
             get => BasePlaceholder; set => BasePlaceholder = value;
         }
@@ -156,7 +156,7 @@ namespace Syncfusion.Blazor.Toolkit.Calendars
         /// Backing field for the public <see cref="Placeholder"/> parameter.
         /// </summary>
         /// <exclude/>
-        protected override string BasePlaceholder { get; set; } = default!;
+        protected override string? BasePlaceholder { get; set; }
 
         /// <summary>
         /// Gets or sets a value indicating whether the <see cref="SfTimePicker{TValue}"/> is in read-only mode, preventing user interaction.
@@ -638,7 +638,7 @@ namespace Syncfusion.Blazor.Toolkit.Calendars
         /// Gets or sets the <see cref="Width"/> of the <see cref="SfTimePicker{TValue}"/> component.
         /// </summary>
         /// <exclude/>
-        public string Width { get; set; } = default!;
+        public string? Width { get; set; }
 
         /// <summary>
         /// Gets or sets the scroll bar position.
@@ -746,7 +746,7 @@ namespace Syncfusion.Blazor.Toolkit.Calendars
         /// Gets or sets the text that is shown as a hint or <see cref="Placeholder"/> until the user focuses or enter a value in TimePicker.
         /// </summary>
         /// <exclude/>
-        public string Placeholder { get; set; } = default!;
+        public string? Placeholder { get; set; }
 
         /// <summary>
         /// Gets or sets the <see cref="ValueString"/> of the <see cref="SfTimePicker{TValue}"/> in string type. The value is parsed based on the culture specific time format.

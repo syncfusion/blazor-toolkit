@@ -40,15 +40,15 @@ namespace Syncfusion.Blazor.Toolkit.Popups
         /// </remarks>
         /// <exclude/>
         [EditorBrowsable(EditorBrowsableState.Never)]
-        public event Action<string, DialogOptions, string, string?, List<TaskCompletionSource<dynamic>>>? OnOpen;
+        public event Action<string, DialogOptions, string, string?, List<TaskCompletionSource<dynamic?>>>? OnOpen;
 
-        internal List<TaskCompletionSource<dynamic>> _tasks = [];
+        internal List<TaskCompletionSource<dynamic?>> _tasks = [];
 
-        private Task<dynamic> OpenAsync(string type, DialogOptions? options, string content, string? title)
+        private Task<dynamic?> OpenAsync(string type, DialogOptions? options, string content, string? title)
         {
             string? dialogTitle = title;
             string dialogContent = content ?? string.Empty;
-            TaskCompletionSource<dynamic> task = new();
+            TaskCompletionSource<dynamic?> task = new();
             _tasks.Add(task);
             OnOpen?.Invoke(type, GetDialogOptions(type, options), dialogContent, dialogTitle, _tasks);
             return task.Task;
@@ -146,7 +146,7 @@ namespace Syncfusion.Blazor.Toolkit.Popups
         /// <example>
         /// Code example to show prompt dialog:
         /// <code><![CDATA[
-        /// string promptText = await DialogService.PromptAsync("Enter your name:", "Join Chat Group", new DialogOptions()
+        /// string? promptText = await DialogService.PromptAsync("Enter your name:", "Join Chat Group", new DialogOptions()
         /// {
         ///     PrimaryButtonOptions = new DialogButtonOptions { Content = "Okay" },
         ///     CancelButtonOptions = new DialogButtonOptions { Content = "Cancel" }, 
@@ -161,7 +161,7 @@ namespace Syncfusion.Blazor.Toolkit.Popups
         /// }
         /// ]]></code>
         /// </example>
-        public async Task<string> PromptAsync(string content, string? title = null, DialogOptions? options = null)
+        public async Task<string?> PromptAsync(string content, string? title = null, DialogOptions? options = null)
         {
             return await OpenAsync("Prompt", options, content, title).ConfigureAwait(false);
         }

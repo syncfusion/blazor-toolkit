@@ -273,7 +273,7 @@ namespace Syncfusion.Blazor.Toolkit.Popups
             bool isClick = true;
             if (_isScriptRendered && await IsTooltipJsAvailableAsync().ConfigureAwait(true))
             {
-                await InvokeVoidAsync(_tooltipJsModule, _tooltipInProcessModule, HIDETOOLTIP, _dataId, Animation.Close!, isClick).ConfigureAwait(true);
+                await InvokeVoidAsync(_tooltipJsModule, _tooltipInProcessModule, HIDETOOLTIP, _dataId, Animation.Close, isClick).ConfigureAwait(true);
             }
         }
 

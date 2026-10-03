@@ -419,10 +419,15 @@ namespace Syncfusion.Blazor.Toolkit.Data
                     // Dynamic SfDataManager insertion
                     if (Parent is SfDataBoundComponent _comp)
                     {
-                        if (_comp.IsRendered && !_comp.PropertyChanges.ContainsKey("DataSource"))
+                        if (_comp.IsRendered)
                         {
-                            _comp.PropertyChanges.Add("DataSource", this);
-                            await _comp.OnPropertyChangedAsync().ConfigureAwait(false);
+                            Dictionary<string, object> propertyChanges = _comp.PropertyChanges
+                                ?? throw new InvalidOperationException("A rendered data-bound component must have initialized PropertyChanges.");
+                            if (!propertyChanges.ContainsKey("DataSource"))
+                            {
+                                propertyChanges.Add("DataSource", this);
+                                await _comp.OnPropertyChangedAsync().ConfigureAwait(false);
+                            }
                         }
                     }
 
@@ -488,7 +493,7 @@ namespace Syncfusion.Blazor.Toolkit.Data
         [RequiresDynamicCode(QueryAotWarning)]
         public async Task<object> ExecuteQuery<T>(DataManagerRequest queries)
         {
-            if (DataAdaptor != null && DataAdaptor.IsRemote())
+            if (DataAdaptor.IsRemote())
             {
                 if (Offline && queries != null)
                 {
@@ -498,15 +503,16 @@ namespace Syncfusion.Blazor.Toolkit.Data
                 object request = DataAdaptor.ProcessQuery(queries!);
                 using HttpRequestMessage queryRequest = HttpHandler.PrepareRequest((request as RequestOptions)!);
                 BeforeSend(queryRequest);
-                object dataResult = await (DataAdaptor?.PerformDataOperation<T>(queryRequest)).ConfigureAwait(false)!;
-                object finalData = await (DataAdaptor?.ProcessResponse<T>(dataResult, queries!)).ConfigureAwait(false)!;
+                // Re-read the adaptor after callbacks and awaits: custom adaptors can replace it.
+                object dataResult = await DataAdaptor.PerformDataOperation<T>(queryRequest).ConfigureAwait(false);
+                object finalData = await DataAdaptor.ProcessResponse<T>(dataResult, queries!).ConfigureAwait(false);
                 return finalData;
             }
             else
             {
-                DataManagerRequest request = (DataManagerRequest)DataAdaptor?.ProcessQuery(queries)!;
-                object dataResult = await (DataAdaptor?.PerformDataOperation<T>(request)).ConfigureAwait(false)!;
-                object finalData = await (DataAdaptor?.ProcessResponse<T>(dataResult, request)).ConfigureAwait(false)!;
+                DataManagerRequest request = (DataManagerRequest)DataAdaptor.ProcessQuery(queries);
+                object dataResult = await DataAdaptor.PerformDataOperation<T>(request).ConfigureAwait(false);
+                object finalData = await DataAdaptor.ProcessResponse<T>(dataResult, request).ConfigureAwait(false);
                 return finalData;
             }
         }
@@ -846,8 +852,8 @@ namespace Syncfusion.Blazor.Toolkit.Data
         /// <summary>
         /// Sets the parent component reference used by the data adaptor.
         /// </summary>
-        /// <param name="parent">The parent component that owns or provides context to this adaptor.</param>
-        public void SetParent(BaseComponent parent)
+        /// <param name="parent">The parent component that owns or provides context to this adaptor, or null to clear it.</param>
+        public void SetParent(BaseComponent? parent)
         {
             _parent = parent;
         }
@@ -868,7 +874,7 @@ namespace Syncfusion.Blazor.Toolkit.Data
             if (DataManager!.AdaptorInstance == null)
             {
                 DataManager.BaseAdaptor.Instance = this;
-                DataManager.BaseAdaptor.Instance.SetParent((DataManager.BaseAdaptor.ParentComponent as BaseComponent)!);
+                DataManager.BaseAdaptor.Instance.SetParent(DataManager.BaseAdaptor.ParentComponent as BaseComponent);
             }
 
             await base.OnInitializedAsync().ConfigureAwait(false);
@@ -879,23 +885,26 @@ namespace Syncfusion.Blazor.Toolkit.Data
         /// </summary>
         /// <param name="dataManagerRequest">DataManagerRequest containes the information regarding paging, grouping, filtering, searching which is handled on the DataGrid component side</param>
         /// <param name="additionalParam">An optional parameter that can be used to perform additional data operations.</param>
-        /// <returns>The data collection's type is determined by how this method has been implemented.</returns>
-        public virtual Task<object> ReadAsync(DataManagerRequest dataManagerRequest, string? additionalParam = null)
+        /// <returns>The implementation-defined data collection, or null when no result is supplied.</returns>
+        public virtual Task<object?> ReadAsync(DataManagerRequest dataManagerRequest, string? additionalParam = null)
         {
-            return Task.FromResult<object>(null!);
+            return Task.FromResult<object?>(null);
         }
     }
 
     /// <summary>
     /// Abstract class for Data adaptors.
     /// </summary>
+    /// <typeparam name="T">The non-nullable service type resolved from the component's owned service scope.</typeparam>
     /// <remarks>
     /// Extend DataAdaptor{T} component while creating custom adaptor component. DataAdaptor{T} component is extended from
     /// <see cref="OwningComponentBase{TService}"></see> so that
     /// services can be accessed from <see cref="OwningComponentBase{TService}.Service"/> property.
+    /// Generic subclasses must propagate the <c>where T : notnull</c> constraint required by the base component.
     /// </remarks>
     /// <exclude />
     public abstract class DataAdaptor<T> : OwningComponentBase<T>, IDataAdaptor
+        where T : notnull
     {
         /// <summary>
         /// JSON serializer options used for serializing adaptor data.
@@ -923,8 +932,8 @@ namespace Syncfusion.Blazor.Toolkit.Data
         /// <summary>
         /// Sets the parent component reference used by the data adaptor.
         /// </summary>
-        /// <param name="parent">The parent component that owns or provides context to this adaptor.</param>
-        public void SetParent(BaseComponent parent)
+        /// <param name="parent">The parent component that owns or provides context to this adaptor, or null to clear it.</param>
+        public void SetParent(BaseComponent? parent)
         {
             Parent = parent;
         }
@@ -936,16 +945,17 @@ namespace Syncfusion.Blazor.Toolkit.Data
         protected override async Task OnInitializedAsync()
         {
             await base.OnInitializedAsync().ConfigureAwait(false);
-            DataManager!.BaseAdaptor.Instance = this;
-            DataManager.BaseAdaptor.Instance.SetParent((DataManager.BaseAdaptor.ParentComponent as BaseComponent)!);
+            DataManager.BaseAdaptor.Instance = this;
+            DataManager.BaseAdaptor.Instance.SetParent(DataManager.BaseAdaptor.ParentComponent as BaseComponent);
         }
 
         /// <summary>
         /// Performs data Read operation asynchronously.
         /// </summary>
-        public virtual Task<object> ReadAsync(DataManagerRequest dataManagerRequest, string? additionalParam = null)
+        /// <returns>The implementation-defined data collection, or null when no result is supplied.</returns>
+        public virtual Task<object?> ReadAsync(DataManagerRequest dataManagerRequest, string? additionalParam = null)
         {
-            return Task.FromResult<object>(null!);
+            return Task.FromResult<object?>(null);
         }
     }
     internal class ForeignKeySortManager : IComparer<object>
@@ -963,16 +973,16 @@ namespace Syncfusion.Blazor.Toolkit.Data
         internal IEnumerable<object> ForeignKeyDataSource { get; }
 
         /// <exclude />
-        private readonly Dictionary<string, ConcurrentDictionary<object?, object?>> _lookups = [];
+        private readonly Dictionary<string, ConcurrentDictionary<object, object?>> _lookups = [];
 
         /// <exclude />
-        private readonly Dictionary<string, Func<object, object?>> _fieldGetters = [];
+        private readonly Dictionary<string, Func<object?, object?>> _fieldGetters = [];
 
         /// <exclude />
-        private readonly Dictionary<string, Func<object, object?>> _valueGetters = [];
+        private readonly Dictionary<string, Func<object?, object?>> _valueGetters = [];
 
         /// <exclude />
-        private Func<object, object?>? _displayGetter;
+        private Func<object?, object?>? _displayGetter;
 
         /// <exclude />
         private static readonly ConcurrentDictionary<string, Func<object?, object?>> _getterCache = new();
@@ -983,13 +993,13 @@ namespace Syncfusion.Blazor.Toolkit.Data
             ForeignKeyField = foreignKeyField;
             ForeignKeyValue = foreignKeyValue;
             ForeignKeyDataSource = foreignKeyDataSource;
-            Func<object, object?> fieldGetter = GetOrCompileGetter(foreignKeyField);
-            Func<object, object?> valueGetter = GetOrCompileGetter(foreignKeyValue);
+            Func<object?, object?> fieldGetter = GetOrCompileGetter(foreignKeyField);
+            Func<object?, object?> valueGetter = GetOrCompileGetter(foreignKeyValue);
 
             _fieldGetters[foreignKeyField] = fieldGetter;
             _valueGetters[foreignKeyField] = valueGetter;
 
-            ConcurrentDictionary<object?, object?> lookup = new();
+            ConcurrentDictionary<object, object?> lookup = new();
 
             _ = Parallel.ForEach(foreignKeyDataSource, item =>
             {
@@ -1016,7 +1026,7 @@ namespace Syncfusion.Blazor.Toolkit.Data
             }
         }
         [RequiresUnreferencedCode("Compiles a property-path accessor that reflects over the runtime record type; the accessed properties may be removed by the trimmer.")]
-        private static Func<object, object?> GetOrCompileGetter(string path)
+        private static Func<object?, object?> GetOrCompileGetter(string path)
         {
             return _getterCache.GetOrAdd(path, propertyPath =>
             {
@@ -1047,11 +1057,11 @@ namespace Syncfusion.Blazor.Toolkit.Data
             });
         }
 
-        private object? GetDisplayName(object record)
+        private object? GetDisplayName(object? record)
         {
             if (_displayGetter == null)
             {
-                if (_fieldGetters.TryGetValue(ForeignKeyField, out Func<object, object?>? fkGetter))
+                if (_fieldGetters.TryGetValue(ForeignKeyField, out Func<object?, object?>? fkGetter))
                 {
                     object? foreignkeyValue = fkGetter(record);
                     if (foreignkeyValue == null)
@@ -1059,7 +1069,7 @@ namespace Syncfusion.Blazor.Toolkit.Data
                         return null;
                     }
 
-                    if (_lookups.TryGetValue(ForeignKeyField, out ConcurrentDictionary<object?, object?>? lookup) && lookup.TryGetValue(foreignkeyValue, out object? displayValue))
+                    if (_lookups.TryGetValue(ForeignKeyField, out ConcurrentDictionary<object, object?>? lookup) && lookup.TryGetValue(foreignkeyValue, out object? displayValue))
                     {
                         return displayValue;
                     }
@@ -1072,7 +1082,7 @@ namespace Syncfusion.Blazor.Toolkit.Data
                 return null;
             }
 
-            foreach (ConcurrentDictionary<object?, object?> lookup in _lookups.Values)
+            foreach (ConcurrentDictionary<object, object?> lookup in _lookups.Values)
             {
                 if (lookup.TryGetValue(fkValueFromDisplay, out object? displayValue))
                 {
@@ -1082,7 +1092,7 @@ namespace Syncfusion.Blazor.Toolkit.Data
 
             return null;
         }
-        public int Compare(object x, object y)
+        public int Compare(object? x, object? y)
         {
             object? xDisplayValue = GetDisplayName(x);
             object? yDisplayValue = GetDisplayName(y);
@@ -1904,7 +1914,7 @@ namespace Syncfusion.Blazor.Toolkit.Data
             {
                 Instance = (DataAdaptor)DataManagerInstance.ServiceProvider.GetService(type)!;
                 Instance ??= (DataAdaptor)Activator.CreateInstance(type)!;
-                Instance.SetParent((parentComponent as BaseComponent)!);
+                Instance.SetParent(parentComponent as BaseComponent);
             }
 
             GenericType = ParentComponent.GetType();
@@ -2014,15 +2024,15 @@ namespace Syncfusion.Blazor.Toolkit.Data
         /// <summary>
         /// Sets the parent component reference used by the adaptor.
         /// </summary>
-        /// <param name="parent">The parent component that owns or provides context to the adaptor.</param>
-        void SetParent(BaseComponent parent);
+        /// <param name="parent">The parent component that owns or provides context to the adaptor, or null to clear it.</param>
+        void SetParent(BaseComponent? parent);
 
         /// <summary>
         /// Returns the data collection after performing data operations based on request from <see cref="DataManagerRequest"/>
         /// </summary>
         /// <param name="dataManagerRequest">DataManagerRequest containes the information regarding paging, grouping, filtering, searching which is handled on the DataGrid component side</param>
         /// <param name="additionalParam">An optional parameter that can be used to perform additional data operations.</param>
-        /// <returns>The data collection's type is determined by how this method has been implemented.</returns>
-        Task<object> ReadAsync(DataManagerRequest dataManagerRequest, string? additionalParam = null);
+        /// <returns>The implementation-defined data collection, or null when no result is supplied.</returns>
+        Task<object?> ReadAsync(DataManagerRequest dataManagerRequest, string? additionalParam = null);
     }
 }

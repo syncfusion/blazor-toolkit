@@ -354,7 +354,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
 
             if (isSortingEnabled)
             {
-                FindExpandoObjectDataSortingValue(Owner?._sorting.SortKey ?? string.Empty, expandoData, point.X.ToString() ?? string.Empty, point);
+                FindExpandoObjectDataSortingValue(Owner?._sorting.SortKey ?? string.Empty, expandoData, point.X?.ToString(), point);
             }
         }
 
@@ -381,7 +381,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
 
             if (isSortingEnabled)
             {
-                FindDynamicObjectDataSortingValue(Owner?._sorting.SortKey ?? string.Empty, dynamicObject ?? null!, point.X?.ToString() ?? null!, point);
+                FindDynamicObjectDataSortingValue(Owner?._sorting.SortKey ?? string.Empty, dynamicObject ?? null!, point.X?.ToString(), point);
             }
         }
 
@@ -408,7 +408,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
 
             if (isSortingEnabled)
             {
-                FindJObjectDataSortingValue(Owner?._sorting.SortKey ?? string.Empty, jsonObject, point.X.ToString() ?? string.Empty, point);
+                FindJObjectDataSortingValue(Owner?._sorting.SortKey ?? string.Empty, jsonObject, point.X?.ToString(), point);
             }
         }
 
@@ -562,7 +562,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
 
                 if (isSortingEnabled)
                 {
-                    FindObjectDataSortingValue(sortingInfo, data, point.X.ToString() ?? string.Empty, point);
+                    FindObjectDataSortingValue(sortingInfo, data, point.X?.ToString(), point);
                 }
                 index++;
             }
@@ -674,7 +674,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
             YData.Add(point.YValue);
             MaxSize = Math.Max(MaxSize, bubblePoint.Size is null || double.IsNaN((double)bubblePoint.Size) ? MaxSize : (double)bubblePoint.Size);
 
-            return bubblePoint.X.Equals(null) || bubblePoint.Y is null || double.IsNaN(Convert.ToDouble(bubblePoint.Y, Culture));
+            return bubblePoint.X is null || bubblePoint.Y is null || double.IsNaN(Convert.ToDouble(bubblePoint.Y, Culture));
         }
 
         /// <summary>

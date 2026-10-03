@@ -111,7 +111,7 @@ namespace Syncfusion.Blazor.Toolkit.Inputs
         /// This text is automatically hidden when the input receives focus or contains a value.
         /// </remarks>
         /// <exclude/>
-        protected virtual string BasePlaceholder { get; set; } = default!;
+        protected virtual string? BasePlaceholder { get; set; }
 
         /// <summary>
         /// Gets or sets a value indicating whether the input component is in read-only mode.
@@ -1226,7 +1226,8 @@ namespace Syncfusion.Blazor.Toolkit.Inputs
             {
                 InputHtmlAttributes = SfBaseUtils.UpdateDictionary("autocomplete", BaseAutocomplete, InputHtmlAttributes);
             }
-            InputHtmlAttributes = SfBaseUtils.UpdateDictionary(PLACE_HOLDER, BasePlaceholder, InputHtmlAttributes);
+            // Keep the legacy dictionary type and its null placeholder value (no attribute).
+            ((System.Collections.IDictionary)InputHtmlAttributes)[PLACE_HOLDER] = BasePlaceholder;
             SetReadOnly();
             SetEnabled();
             SetRtl();

@@ -18,14 +18,17 @@ namespace Syncfusion.Blazor.Toolkit
         /// </summary>
         /// <param name="propertyInfo">The metadata that provides access to the property.</param>
         /// <returns>An <see cref="IPropertyAccessor"/> that can read the property value from an object.</returns>
-        /// <exception cref="ArgumentNullException">Thrown when <paramref name="propertyInfo"/> is null.</exception>
-        /// <remarks>This method throws <see cref="ArgumentNullException"/> if <paramref name="propertyInfo"/> is null.</remarks>
+        /// <exception cref="ArgumentNullException">Thrown when <paramref name="propertyInfo"/> or its declaring type is null.</exception>
+        /// <exception cref="InvalidOperationException">Thrown if property accessor activation returns null.</exception>
         [RequiresUnreferencedCode(FastReflectionTrimWarning)]
         [RequiresDynamicCode(FastReflectionAotWarning)]
         public static IPropertyAccessor CreateAccessor(PropertyInfo propertyInfo)
         {
             ArgumentNullException.ThrowIfNull(propertyInfo);
-            return (IPropertyAccessor)Activator.CreateInstance(typeof(PropertyAccessor<,>).MakeGenericType(propertyInfo?.DeclaringType, propertyInfo.PropertyType), propertyInfo);
+            Type declaringType = propertyInfo.DeclaringType
+                ?? throw new ArgumentNullException(nameof(propertyInfo), "The property must have a declaring type.");
+            return (IPropertyAccessor)(Activator.CreateInstance(typeof(PropertyAccessor<,>).MakeGenericType(declaringType, propertyInfo.PropertyType), propertyInfo)
+                ?? throw new InvalidOperationException("Property accessor activation returned null."));
         }
 
         /// <summary>
@@ -35,12 +38,13 @@ namespace Syncfusion.Blazor.Toolkit
         /// <param name="propertyName">The name of the public property to access.</param>
         /// <returns>An <see cref="IPropertyAccessor"/> that can read the property value from an object.</returns>
         /// <remarks>
-        /// If <paramref name="propertyName"/> is <c>null</c> or empty, a no-op accessor is returned.
-        /// This method returns a non-functional accessor of type <c>PropertyAccessor&lt;object, object&gt;</c> whose <c>GetValue</c> returns null.
+        /// If <paramref name="objectType"/> is <see langword="null"/>, <paramref name="propertyName"/> is null or empty,
+        /// or the property cannot be found, a no-op accessor is returned.
+        /// This accessor has null property metadata and its <c>GetValue</c> returns null.
         /// </remarks>
         [RequiresUnreferencedCode(FastReflectionTrimWarning)]
         [RequiresDynamicCode(FastReflectionAotWarning)]
-        public static IPropertyAccessor CreateAccessor([DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicProperties)] Type objectType, string propertyName)
+        public static IPropertyAccessor CreateAccessor([DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicProperties)] Type? objectType, string? propertyName)
         {
             PropertyInfo? propertyInfo = null;
             if (!string.IsNullOrEmpty(propertyName))
@@ -49,7 +53,8 @@ namespace Syncfusion.Blazor.Toolkit
             }
             //Adding null check and returning null setter for chart alone. Chart passes empty property names for reflection.
             return propertyInfo is null
-                ? (IPropertyAccessor)Activator.CreateInstance(typeof(PropertyAccessor<,>).MakeGenericType(typeof(object), typeof(object)), propertyInfo)
+                ? (IPropertyAccessor)(Activator.CreateInstance(typeof(PropertyAccessor<,>).MakeGenericType(typeof(object), typeof(object)), propertyInfo)
+                    ?? throw new InvalidOperationException("Property accessor activation returned null."))
                 : CreateAccessor(propertyInfo);
         }
     }
@@ -61,16 +66,16 @@ namespace Syncfusion.Blazor.Toolkit
     public interface IPropertyAccessor : IDisposable
     {
         /// <summary>
-        /// Gets the metadata that provides access to the reflected property.
+        /// Gets the property metadata, or null for a no-op or disposed accessor.
         /// </summary>
-        PropertyInfo PropertyInfo { get; }
+        PropertyInfo? PropertyInfo { get; }
 
         /// <summary>
         /// Returns the property value of the specified object.
         /// </summary>
         /// <param name="obj">The object whose property value will be returned.</param>
-        /// <returns>The property value of the specified object.</returns>
-        object GetValue(object obj);
+        /// <returns>The property value, or null when the value is null or the getter is unavailable.</returns>
+        object? GetValue(object obj);
     }
 
     /// <summary>
@@ -90,8 +95,8 @@ namespace Syncfusion.Blazor.Toolkit
         /// Initializes a new instance of the <see cref="PropertyAccessor{TObject, TValue}"/> class
         /// and compiles the getter delegate for the specified property.
         /// </summary>
-        /// <param name="propertyInfo">The metadata of the property to reflect.</param>
-        public PropertyAccessor(PropertyInfo propertyInfo)
+        /// <param name="propertyInfo">The metadata of the property to reflect, or null for a no-op accessor.</param>
+        public PropertyAccessor(PropertyInfo? propertyInfo)
         {
             PropertyInfo = propertyInfo;
             Init();
@@ -115,8 +120,8 @@ namespace Syncfusion.Blazor.Toolkit
         /// Returns the property value from the specified source object.
         /// </summary>
         /// <param name="source">The instance to read the property from.</param>
-        /// <returns>The property value, or <see langword="null"/> if the getter is unavailable.</returns>
-        public object GetValue(object source)
+        /// <returns>The property value, or <see langword="null"/> if the value is null or the getter is unavailable.</returns>
+        public object? GetValue(object source)
         {
             return _getMethod is null ? null : _getMethod((TObject)source);
         }
@@ -131,9 +136,8 @@ namespace Syncfusion.Blazor.Toolkit
         }
 
         /// <summary>
-        /// Gets the metadata that provides access to the reflected property.
+        /// Gets the property metadata, or null for a no-op or disposed accessor.
         /// </summary>
-        [AllowNull]
-        public PropertyInfo PropertyInfo { get; private set; }
+        public PropertyInfo? PropertyInfo { get; private set; }
     }
 }

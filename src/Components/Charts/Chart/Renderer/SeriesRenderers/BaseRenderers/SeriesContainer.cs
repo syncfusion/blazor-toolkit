@@ -134,13 +134,13 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
             {
                 if (Owner?._sorting.SortDirection == ListSortDirection.Descending)
                 {
-                    sortedPoints = (!Owner._sorting.SortKey.Equals("X", StringComparison.OrdinalIgnoreCase)) ? seriesRenderer.Points?.OrderByDescending(y => y.SumOfSameIndex).ToList() : seriesRenderer.Points?.OrderByDescending(y => y.X.ToString()).ToList();
-                    seriesRenderer.ChartPoints = (!Owner._sorting.SortKey.Equals("X", StringComparison.OrdinalIgnoreCase)) ? seriesRenderer.ChartPoints?.OrderByDescending(y => y.SumOfSameIndex).ToList() : seriesRenderer.ChartPoints?.OrderByDescending(y => y.X.ToString()).ToList();
+                    sortedPoints = (!Owner._sorting.SortKey.Equals("X", StringComparison.OrdinalIgnoreCase)) ? seriesRenderer.Points?.OrderByDescending(y => y.SumOfSameIndex).ToList() : seriesRenderer.Points?.OrderByDescending(y => y.X?.ToString()).ToList();
+                    seriesRenderer.ChartPoints = (!Owner._sorting.SortKey.Equals("X", StringComparison.OrdinalIgnoreCase)) ? seriesRenderer.ChartPoints?.OrderByDescending(y => y.SumOfSameIndex).ToList() : seriesRenderer.ChartPoints?.OrderByDescending(y => y.X?.ToString()).ToList();
                 }
                 else
                 {
-                    sortedPoints = (Owner is not null && !Owner._sorting.SortKey.Equals("X", StringComparison.OrdinalIgnoreCase)) ? seriesRenderer.Points?.OrderBy(y => y.SumOfSameIndex).ToList() : seriesRenderer.Points?.OrderBy(y => y.X.ToString()).ToList();
-                    seriesRenderer.ChartPoints = (Owner is not null && !Owner._sorting.SortKey.Equals("X", StringComparison.OrdinalIgnoreCase)) ? seriesRenderer.ChartPoints?.OrderBy(y => y.SumOfSameIndex).ToList() : seriesRenderer.ChartPoints?.OrderBy(y => y.X.ToString()).ToList();
+                    sortedPoints = (Owner is not null && !Owner._sorting.SortKey.Equals("X", StringComparison.OrdinalIgnoreCase)) ? seriesRenderer.Points?.OrderBy(y => y.SumOfSameIndex).ToList() : seriesRenderer.Points?.OrderBy(y => y.X?.ToString()).ToList();
+                    seriesRenderer.ChartPoints = (Owner is not null && !Owner._sorting.SortKey.Equals("X", StringComparison.OrdinalIgnoreCase)) ? seriesRenderer.ChartPoints?.OrderBy(y => y.SumOfSameIndex).ToList() : seriesRenderer.ChartPoints?.OrderBy(y => y.X?.ToString()).ToList();
                 }
             }
 
@@ -391,11 +391,10 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
             int seq = 0;
             ChartSeries series = element;
 
-            bool shouldOpenMarker = series.Marker?.RendererType is not null &&
-                        (series.Marker.Visible || series.Marker.DataLabel.Visible);
-            if (shouldOpenMarker)
+            if (series.Marker is { RendererType: not null } marker &&
+                (marker.Visible || marker.DataLabel.Visible))
             {
-                builder.OpenComponent(seq++, series.Marker.RendererType);
+                builder.OpenComponent(seq++, marker.RendererType);
                 builder.AddAttribute(seq++, "Series", series);
                 builder.SetKey(element.RendererKey + "_MarkerRenderer");
                 builder.CloseComponent();
@@ -502,40 +501,42 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
         private static void UpdateSortedPoints(ChartSeriesRenderer seriesRenderer, List<Point> sortedPoints)
         {
             List<string> sortingLabels = [];
-            for (int i = 0; i < seriesRenderer?.Points?.Count; i++)
+            for (int i = 0; i < sortedPoints.Count; i++)
             {
                 Point sortedPoint = sortedPoints[i];
+                sortedPoint.Index = i;
+
+                // Missing X values retain their processed empty-point coordinate and do not
+                // consume a category label. Point indexes still follow the sorted collection.
+                if (sortedPoint.X is not null)
+                {
+                    sortedPoint.XValue = i;
+                    if (seriesRenderer.XAxisRenderer.Axis?.ValueType == ValueType.Category)
+                    {
+                        string labelText = sortedPoint.X.ToString() ?? string.Empty;
+                        if (sortingLabels.IndexOf(labelText) == -1)
+                        {
+                            sortingLabels.Add(labelText);
+                        }
+                        sortedPoint.XValue = sortingLabels.IndexOf(labelText);
+                    }
+                    else if (seriesRenderer.XAxisRenderer.Axis?.ValueType == ValueType.DateTimeCategory)
+                    {
+                        // Preserve one label per date point (including duplicates), but use
+                        // the compact label position rather than an index containing null gaps.
+                        sortedPoint.XValue = sortingLabels.Count;
+                        sortingLabels.Add(ChartHelper.GetTime(Convert.ToDateTime(sortedPoint.X, CultureInfo.CurrentCulture)).ToString(CultureInfo.InvariantCulture));
+                    }
+                }
+
                 if (seriesRenderer.ChartPoints is not null)
                 {
-                    sortedPoint.XValue = seriesRenderer.ChartPoints[i].XValue = sortedPoint.Index = seriesRenderer.ChartPoints[i].Index = i;
-                }
-
-                if (seriesRenderer.XAxisRenderer.Axis?.ValueType == ValueType.Category)
-                {
-                    string labelText = sortedPoint.X.ToString() ?? string.Empty;
-                    if (sortingLabels.IndexOf(labelText) == -1)
-                    {
-                        sortingLabels.Add(labelText);
-                    }
-                    if (seriesRenderer.ChartPoints is not null)
-                    {
-                        sortedPoints[i].XValue = seriesRenderer.ChartPoints[i].XValue = sortingLabels.IndexOf(labelText);
-                    }
-                }
-
-                if (seriesRenderer.XAxisRenderer.Axis?.ValueType == ValueType.DateTimeCategory)
-                {
-                    if (sortingLabels.IndexOf(sortedPoint.X.ToString() ?? string.Empty) == -1)
-                    {
-                        sortingLabels.Insert(i, ChartHelper.GetTime(Convert.ToDateTime(sortedPoint.X, CultureInfo.CurrentCulture)).ToString(CultureInfo.InvariantCulture));
-                    }
+                    seriesRenderer.ChartPoints[i].Index = sortedPoint.Index;
+                    seriesRenderer.ChartPoints[i].XValue = sortedPoint.XValue;
                 }
             }
-            if (seriesRenderer is not null)
-            {
-                seriesRenderer.XAxisRenderer.Labels = sortingLabels;
-                seriesRenderer.Points = sortedPoints;
-            }
+            seriesRenderer.XAxisRenderer.Labels = sortingLabels;
+            seriesRenderer.Points = sortedPoints;
         }
 
         /// <summary>

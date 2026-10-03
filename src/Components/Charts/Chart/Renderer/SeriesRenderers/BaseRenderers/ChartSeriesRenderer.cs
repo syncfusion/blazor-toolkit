@@ -422,7 +422,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
             else
             {
                 point.Visible = false;
-                point.X = null!;
+                point.X = null;
                 point.XValue = double.NaN;
             }
         }
@@ -785,9 +785,9 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
             using IPropertyAccessor sortingInfo = FastReflectionExtension.CreateAccessor(firstDataType, Owner._sorting.SortKey);
 
             int index = 0;
-            XAxisRenderer.IsDateOnly = x.PropertyInfo.PropertyType.Name == "DateOnly";
-            XAxisRenderer.IsTimeOnly = x.PropertyInfo.PropertyType.Name == "TimeOnly";
-            IsDateTimeOffset = x.PropertyInfo.PropertyType.Name == "DateTimeOffset";
+            XAxisRenderer.IsDateOnly = x.PropertyInfo?.PropertyType.Name == "DateOnly";
+            XAxisRenderer.IsTimeOnly = x.PropertyInfo?.PropertyType.Name == "TimeOnly";
+            IsDateTimeOffset = x.PropertyInfo?.PropertyType.Name == "DateTimeOffset";
 
             bool isSortingEnabled = !string.IsNullOrEmpty(Owner?._sorting.SortKey) && !Owner._sorting.SortKey.Equals("X", StringComparison.OrdinalIgnoreCase);
             object[] tempArray = [.. currentViewData];
@@ -796,13 +796,13 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
             foreach (object data in tempArray)
             {
                 IChartPoint chartPoint = new();
-                object text = textMapping.PropertyInfo is not null ? textMapping.GetValue(data) : string.Empty;
+                object? text = textMapping.PropertyInfo is not null ? textMapping.GetValue(data) : string.Empty;
                 Point point = new()
                 {
                     X = chartPoint.X = x.GetValue(data),
                     Y = chartPoint.Y = y.PropertyInfo is not null ? y.GetValue(data) : GetPropertyValue(data, yName),
                     Interior = chartPoint.Interior = Convert.ToString(pointColor.GetValue(data), CultureInfo.InvariantCulture) ?? string.Empty,
-                    Text = chartPoint.Text = text is not null ? Convert.ToString(text, CultureInfo.InvariantCulture) ?? string.Empty : null!,
+                    Text = chartPoint.Text = text is not null ? Convert.ToString(text, CultureInfo.InvariantCulture) ?? string.Empty : null,
                     Tooltip = chartPoint.Tooltip = Convert.ToString(tooltipMapping.GetValue(data), CultureInfo.InvariantCulture) ?? string.Empty
                 };
 
@@ -874,7 +874,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
         /// Extracts sorting value from a standard CLR object.
         /// </summary>
         [RequiresUnreferencedCode(DataBindingTrimWarning)]
-        protected void FindObjectDataSortingValue<T>(IPropertyAccessor sortingInfo, object data, string x, T point)
+        protected void FindObjectDataSortingValue<T>(IPropertyAccessor sortingInfo, object data, string? x, T point)
         {
             if (IsPointValueMapped(point, out double pointSortValue))
             {
@@ -882,7 +882,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
             }
             else
             {
-                object sortObject = sortingInfo?.PropertyInfo is not null ? sortingInfo.GetValue(data) : GetPropertyValue(data, Owner?._sorting.SortKey ?? string.Empty);
+                object? sortObject = sortingInfo?.PropertyInfo is not null ? sortingInfo.GetValue(data) : GetPropertyValue(data, Owner?._sorting.SortKey ?? string.Empty);
                 double sortValue = (sortObject is not null) ? Convert.ToDouble(sortObject, null) : 0;
                 FindSumOfSameIndex(FindSeriesAxisKey() + x, sortValue, false);
             }
@@ -891,7 +891,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
         /// <summary>
         /// Extracts sorting value from an ExpandoObject.
         /// </summary>
-        protected void FindExpandoObjectDataSortingValue<T>(string sortkey, IDictionary<string, object> expandoData, string x, T point)
+        protected void FindExpandoObjectDataSortingValue<T>(string sortkey, IDictionary<string, object> expandoData, string? x, T point)
         {
             if (IsPointValueMapped(point, out double pointSortValue))
             {
@@ -911,7 +911,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
         /// </summary>
         [RequiresUnreferencedCode(DataBindingTrimWarning)]
         [RequiresDynamicCode(DataBindingAotWarning)]
-        protected void FindDynamicObjectDataSortingValue<T>(string sortkey, DynamicObject data, string x, T point)
+        protected void FindDynamicObjectDataSortingValue<T>(string sortkey, DynamicObject data, string? x, T point)
         {
             if (IsPointValueMapped(point, out double pointSortValue))
             {
@@ -927,7 +927,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
         /// <summary>
         /// Extracts sorting value from a JsonElement.
         /// </summary>
-        protected void FindJObjectDataSortingValue<T>(string sortkey, JsonElement jsonObject, string x, T point)
+        protected void FindJObjectDataSortingValue<T>(string sortkey, JsonElement jsonObject, string? x, T point)
         {
             if (IsPointValueMapped(point, out double pointSortValue))
             {
@@ -935,7 +935,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
             }
             else
             {
-                object sortValue = jsonObject.GetProperty(sortkey).ValueKind == JsonValueKind.Null ? 0.0 : ChartHelper.GetObjectValue(jsonObject.GetProperty(sortkey));
+                object? sortValue = jsonObject.GetProperty(sortkey).ValueKind == JsonValueKind.Null ? 0.0 : ChartHelper.GetObjectValue(jsonObject.GetProperty(sortkey));
                 FindSumOfSameIndex(FindSeriesAxisKey() + x, Convert.ToDouble(sortValue, Culture), false);
             }
         }
@@ -1201,7 +1201,10 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
         {
             if (XAxisRenderer.Axis?.ValueType == ValueType.Category)
             {
-                PushCategoryData(point, index, point.X.ToString() ?? string.Empty);
+                if (point.X is not null)
+                {
+                    PushCategoryData(point, index, point.X.ToString() ?? string.Empty);
+                }
             }
             else if (XAxisRenderer.Axis?.ValueType is ValueType.DateTime or ValueType.DateTimeCategory)
             {
@@ -1247,11 +1250,11 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
         /// Uses reflection to locate properties. Searches nested objects if the direct property is not found.
         /// </remarks>
         [RequiresUnreferencedCode(DataBindingTrimWarning)]
-        internal static object GetPropertyValue(object src, string propName)
+        internal static object? GetPropertyValue(object? src, string? propName)
         {
             if (src is null || propName is null)
             {
-                return null!;
+                return null;
             }
             if (propName.Contains('.', StringComparison.OrdinalIgnoreCase))
             {
@@ -1260,10 +1263,10 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
             }
             else
             {
-                PropertyInfo prop = src.GetType().GetProperty(propName) ?? null!;
+                PropertyInfo? prop = src.GetType().GetProperty(propName);
                 if (prop is not null)
                 {
-                    return prop.GetValue(src, null) ?? null!;
+                    return prop.GetValue(src, null);
                 }
                 else
                 {
@@ -1272,7 +1275,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
                     {
                         if (property.PropertyType != typeof(string) && property.PropertyType.IsClass)
                         {
-                            object value = src.GetType().GetProperty(property.Name)?.GetValue(src, null) ?? null!;
+                            object? value = src.GetType().GetProperty(property.Name)?.GetValue(src, null);
                             if (value is not null)
                             {
                                 return GetPropertyValue(value, propName);
@@ -1281,7 +1284,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
                     }
                 }
 
-                return null!;
+                return null;
             }
         }
 
@@ -2075,7 +2078,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
         /// </summary>
         /// <param name="point">The data point.</param>
         /// <returns>The Y value to use for marker rendering.</returns>
-        internal virtual object GetMarkerY(Point point)
+        internal virtual object? GetMarkerY(Point point)
         {
             return point.Y;
         }
@@ -2119,7 +2122,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
         /// formatted as a date.</param>
         /// <returns>An object representing the X value of the chart point. If a trend line is present and a date format is
         /// specified, returns a DateTime object; otherwise, returns the original value.</returns>
-        internal virtual object GetPointXValue(object pointX, string dateFormat)
+        internal virtual object? GetPointXValue(object? pointX, string dateFormat)
         {
             return Series?.Renderer?.Container is not null && Series.Renderer.Container.IsTrendLine && !string.IsNullOrEmpty(dateFormat) ? DateTime.Parse(Intl.GetDateFormat(ChartHelper.GetDate(Convert.ToDouble(pointX, Culture)), string.Empty), CultureInfo.CurrentCulture) : pointX;
         }

@@ -175,14 +175,14 @@ namespace Syncfusion.Blazor.Toolkit.Data
                 }
                 else if (string.Equals(type?.Name, "ExpandoObject", StringComparison.Ordinal))
                 {
-                    object value = DataUtil.GetObject(filterString, dataSource.AsQueryable().ElementAt(0));
+                    object? value = DataUtil.GetObject(filterString, dataSource.AsQueryable().ElementAt(0));
                     type = value?.GetType();
                     return type!;
                 }
                 else if (type!.IsSubclassOf(typeof(DynamicObject)))
                 {
-                    object value = DataUtil.GetObject(filterString, dataSource.AsQueryable().ElementAt(0));
-                    type = value.GetType();
+                    object? value = DataUtil.GetObject(filterString, dataSource.AsQueryable().ElementAt(0));
+                    type = value?.GetType() ?? throw new InvalidOperationException($"Cannot infer the type of dynamic field '{filterString}' from a null or missing value in the first record.");
                     return type;
                 }
                 else
@@ -201,6 +201,10 @@ namespace Syncfusion.Blazor.Toolkit.Data
         /// <param name="dataSource">Data source to be filtered.</param>
         /// <param name="searchFilter">List of search criteria.</param>
         /// <returns>IQueryable - searched records.</returns>
+        /// <exception cref="InvalidOperationException">
+        /// The source contains <see cref="DynamicObject"/> records and a searched field is null or missing
+        /// in the first record, so its type cannot be inferred. Later records are not used for type inference.
+        /// </exception>
         public static IQueryable<T> PerformSearching<T>(IQueryable<T> dataSource, IList<SearchFilter> searchFilter)
         {
             Type? type = dataSource != null ? DataSourceType(dataSource) : null;
@@ -334,6 +338,10 @@ namespace Syncfusion.Blazor.Toolkit.Data
         /// <summary>
         /// Apply the given filter criteria against the data source and returns the filtered records.
         /// </summary>
+        /// <exception cref="InvalidOperationException">
+        /// The source contains <see cref="DynamicObject"/> records and a filtered field is null or missing
+        /// in the first record, so its type cannot be inferred. Later records are not used for type inference.
+        /// </exception>
         /// <param name="dataSource">Data source to be filtered.</param>
         /// <param name="whereFilter">List of filter criteria.</param>
         /// <param name="condition">Filter merge condition. Value can be either AND or OR.</param>

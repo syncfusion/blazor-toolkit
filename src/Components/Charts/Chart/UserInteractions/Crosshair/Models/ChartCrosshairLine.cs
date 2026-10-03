@@ -32,7 +32,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts
         /// </code>
         /// </example>
         [Parameter]
-        public override string Color { get; set; } = string.Empty;
+        public override string? Color { get; set; } = string.Empty;
 
         /// <summary>
         /// Gets or sets the width of the crosshair line in pixels.

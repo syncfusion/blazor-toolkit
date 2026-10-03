@@ -271,7 +271,7 @@ namespace Syncfusion.Blazor.Toolkit.Inputs
             {
                 Dictionary<string, object> options = GetProperty();
                 await UpdateIsDeviceModeAsync().ConfigureAwait(true);
-                await InvokeVoidAsync(_uploaderJsModule!, _uploaderJsInProcessModule!, "initialize", [DataId, FileElement!, DotnetObjectReference!, options]).ConfigureAwait(true);
+                await InvokeVoidAsync(_uploaderJsModule, _uploaderJsInProcessModule, "initialize", [DataId, FileElement, DotnetObjectReference, options]).ConfigureAwait(true);
                 await RenderPreloadFilesAsync().ConfigureAwait(true);
             }
             catch (Exception ex)
@@ -294,7 +294,7 @@ namespace Syncfusion.Blazor.Toolkit.Inputs
                 foreach (KeyValuePair<string, IEnumerable<string>> header in headers)
                 {
                     ExpandoObject customObject = new();
-                    ((IDictionary<string, object>)customObject)[header.Key] = header.Value;
+                    ((IDictionary<string, object?>)customObject)[header.Key] = header.Value;
                     customHeaders.Add(customObject);
                 }
             }
@@ -710,7 +710,7 @@ namespace Syncfusion.Blazor.Toolkit.Inputs
         {
             Dictionary<string, object> options = GetProperty();
             await InvokeVoidAsync(_uploaderJsModule, _uploaderJsInProcessModule, "propertyChanges",
-                [DataId, options, PropertyChanges!]).ConfigureAwait(true);
+                [DataId, options, PropertyChanges]).ConfigureAwait(true);
         }
 
         /// <summary>
@@ -1605,8 +1605,8 @@ namespace Syncfusion.Blazor.Toolkit.Inputs
         private async Task HandleServerSideUploadAsync()
         {
             await CallStateHasChangedAsync().ConfigureAwait(true);
-            await InvokeVoidAsync(_uploaderJsModule!, _uploaderJsInProcessModule!, "serverFileListElement",
-                [DataId, UlElementRef!, ActionButtonRef!, AutoUpload]).ConfigureAwait(true);
+            await InvokeVoidAsync(_uploaderJsModule, _uploaderJsInProcessModule, "serverFileListElement",
+                [DataId, UlElementRef, ActionButtonRef, AutoUpload]).ConfigureAwait(true);
         }
 
         /// <summary>

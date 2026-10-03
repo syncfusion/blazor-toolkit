@@ -30,7 +30,6 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
         private string? _elementOpacity;
         private string? _elementId;
         private Rect? _iconRect;
-        private readonly string? _hoveredID;
         private string _iconRectOverFill = Constants.Transparent;
         private string _iconRectSelectionFill = Constants.Transparent;
         private readonly CultureInfo _culture = CultureInfo.InvariantCulture;
@@ -639,19 +638,6 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
         /// </summary>
         internal void RemoveTooltip()
         {
-            if (!string.IsNullOrEmpty(_hoveredID))
-            {
-                bool isPanning = Chart?._zoomingModule is not null && Chart._zoomingModule.IsPanning;
-                bool isZoom = _hoveredID.Contains("_Zoom_", StringComparison.InvariantCulture);
-
-                string rectFill = isPanning ? _hoveredID.Contains("_Pan_", StringComparison.InvariantCulture) ? _iconRectSelectionFill : Constants.Transparent : isZoom ? _iconRectSelectionFill : Constants.Transparent;
-                string pathFill = isPanning ? _hoveredID.Contains("_Pan_", StringComparison.InvariantCulture) ? _selectionColor ?? string.Empty : _fillColor ?? string.Empty : isZoom ? _selectionColor ?? string.Empty : _fillColor ?? string.Empty;
-
-                SetAttribute(_hoveredID, "fill", rectFill);
-                SetAttribute(_hoveredID.Replace("_1", "_2", StringComparison.InvariantCulture), "fill", pathFill);
-                SetAttribute(_hoveredID.Replace("_1", "_3", StringComparison.InvariantCulture), "fill", isPanning ? _fillColor ?? string.Empty : isZoom ? _selectionColor ?? string.Empty : _fillColor ?? string.Empty);
-            }
-
             _ = RemoveElementAsync("EJ2_Chart_ZoomTip");
         }
 

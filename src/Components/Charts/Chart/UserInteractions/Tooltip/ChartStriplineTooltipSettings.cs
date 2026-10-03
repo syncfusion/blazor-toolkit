@@ -17,7 +17,6 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
     {
         #region Fields
 
-        private readonly SfChart? _chart;
         private string _striplineId = string.Empty;
         private ChartStriplineTooltip? _settings;
         private bool _isTooltipRendered;
@@ -200,7 +199,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
                 Palette = [stripline.Color ?? string.Empty],
                 Template = null!,
                 Data = null!,
-                Theme = _chart?.Theme.ToString() ?? string.Empty,
+                Theme = Chart?.Theme.ToString() ?? string.Empty,
                 Offset = 0,
                 TextStyle = textStyle,
                 IsNegative = false,

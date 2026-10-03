@@ -141,7 +141,7 @@ namespace Syncfusion.Blazor.Toolkit.Data
                     }
                 }
 
-                object propertyValue = GetObject(propertyName, value!);
+                object? propertyValue = GetObject(propertyName, value!);
                 string? key = propertyValue == null ? "null" : propertyValue.ToString();
 
                 if (!DistinctData.ContainsKey(key!))
@@ -410,21 +410,21 @@ namespace Syncfusion.Blazor.Toolkit.Data
         /// </summary>
         /// <param name="jsonData">List of object.</param>
         /// <param name="index">Index of the item to be processed.</param>
-        /// <param name="field">Property name to get value.</param>
-        /// <returns>object.</returns>
-        public static object GetVal(IEnumerable jsonData, int index, string field)
+        /// <param name="field">Property name to get value, or null to return the item itself.</param>
+        /// <returns>The item or property value, or null when the source is empty or the value is missing or null.</returns>
+        public static object? GetVal(IEnumerable jsonData, int index, string? field)
         {
             IQueryable<object> jsonDataCol = jsonData.AsQueryable().Cast<object>();
-            return jsonDataCol.Any() ? field != null ? GetObject(field, jsonDataCol.ToArray()[index]) : jsonDataCol.ToArray()[index] : null!;
+            return jsonDataCol.Any() ? field != null ? GetObject(field, jsonDataCol.ToArray()[index]) : jsonDataCol.ToArray()[index] : null;
         }
 
         /// <summary>
         /// Gets the property value from object.
         /// </summary>
-        /// <param name="nameSpace">Property name to be accessed.</param>
-        /// <param name="from">Source object.</param>
-        /// <returns>object - property value.</returns>
-        public static object GetGroupValue(string nameSpace, object from)
+        /// <param name="nameSpace">Property name to be accessed, or null to return the source object itself.</param>
+        /// <param name="from">Source object, which may be null.</param>
+        /// <returns>The source object or property value, or null when the source or value is missing or null.</returns>
+        public static object? GetGroupValue(string? nameSpace, object? from)
         {
             return nameSpace != null ? GetObject(nameSpace, from) : from;
         }
@@ -433,12 +433,12 @@ namespace Syncfusion.Blazor.Toolkit.Data
         /// Gets the property value from object.
         /// </summary>
         /// <param name="nameSpace">Property name to be accessed.</param>
-        /// <param name="from">Source object.</param>
-        /// <returns>object - property value.</returns>
+        /// <param name="from">Source object, which may be null.</param>
+        /// <returns>The property value, or <see langword="null"/> when the source is null, the property is missing or its value is null.</returns>
         /// <remarks>For accessing complex/nested property value, given the nameSpace with field names delimited by dot(.).</remarks>
-        public static object GetObject(string nameSpace, object from)
+        public static object? GetObject(string nameSpace, object? from)
         {
-            return ReflectionExtension.GetValue(from, nameSpace);
+            return from == null ? null : ReflectionExtension.GetValue(from, nameSpace);
         }
 
         /// <summary>

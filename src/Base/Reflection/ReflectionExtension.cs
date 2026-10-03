@@ -261,8 +261,10 @@ namespace Syncfusion.Blazor.Toolkit
         /// <see langword="true"/> to also initialize writable, non-primitive nested properties with new instances; otherwise <see langword="false"/>.
         /// </param>
         /// <returns>
-        /// A reference to the newly created object, or <see langword="null"/> if creation fails due to an exception.
+        /// A reference to the newly created object, or <see langword="null"/> if activation returns null.
+        /// Exceptions raised during creation are propagated to the caller.
         /// </returns>
+        /// <exception cref="ArgumentNullException">Thrown when <paramref name="type"/> is null.</exception>
         /// <remarks>
         /// When <paramref name="createSubtypes"/> is <see langword="true"/>, nested properties of interface or complex types are also
         /// recursively initialized to facilitate deep-copy or factory scenarios.
@@ -273,13 +275,14 @@ namespace Syncfusion.Blazor.Toolkit
         {
             try
             {
-                ConstructorInfo[]? constructors = type?.GetConstructors();
-                ConstructorInfo? constructor = constructors?.FirstOrDefault();
-                object obj;
+                ArgumentNullException.ThrowIfNull(type);
+                ConstructorInfo[] constructors = type.GetConstructors();
+                ConstructorInfo? constructor = constructors.FirstOrDefault();
+                object? obj;
                 if (constructor is not null)
                 {
                     ParameterInfo[] parameters = constructor.GetParameters();
-                    object[] parameterValues = new object[parameters.Length];
+                    object?[] parameterValues = new object?[parameters.Length];
 
                     for (int i = 0; i < parameters.Length; i++)
                     {
@@ -294,7 +297,7 @@ namespace Syncfusion.Blazor.Toolkit
                         else if (parameters[i].ParameterType == type)
                         {
                             // Use LINQ to find the first suitable non-recursive parameter type from any constructor.
-                            ParameterInfo validConstructorParameter = constructors
+                            ParameterInfo? validConstructorParameter = constructors
                                 .SelectMany(c => c.GetParameters()) // Flatten all parameters from all constructors
                                 .FirstOrDefault(p =>
                                 {
@@ -361,7 +364,7 @@ namespace Syncfusion.Blazor.Toolkit
     [method: RequiresDynamicCode("Creating a dynamic GetMemberBinder call site may require runtime code generation not supported by Native AOT.")]
     internal class DataMemberBinder(string name, bool ignoreCase) : GetMemberBinder(name, ignoreCase)
     {
-        public override DynamicMetaObject FallbackGetMember(DynamicMetaObject target, DynamicMetaObject errorSuggestion)
+        public override DynamicMetaObject FallbackGetMember(DynamicMetaObject target, DynamicMetaObject? errorSuggestion)
         {
             throw new NotImplementedException();
         }
@@ -374,7 +377,7 @@ namespace Syncfusion.Blazor.Toolkit
     [method: RequiresDynamicCode("Creating a dynamic SetMemberBinder call site may require runtime code generation not supported by Native AOT.")]
     internal class DataSetMemberBinder(string name, bool ignoreCase) : SetMemberBinder(name, ignoreCase)
     {
-        public override DynamicMetaObject FallbackSetMember(DynamicMetaObject target, DynamicMetaObject value, DynamicMetaObject errorSuggestion)
+        public override DynamicMetaObject FallbackSetMember(DynamicMetaObject target, DynamicMetaObject value, DynamicMetaObject? errorSuggestion)
         {
             throw new NotImplementedException();
         }

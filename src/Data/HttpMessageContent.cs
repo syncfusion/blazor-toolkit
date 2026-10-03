@@ -96,7 +96,7 @@ namespace Syncfusion.Blazor.Toolkit.Data
         /// <param name="stream">The destination stream.</param>
         /// <param name="context">The transport context.</param>
         /// <returns>A task that represents the asynchronous write operation.</returns>
-        protected override async Task SerializeToStreamAsync(Stream stream, TransportContext context)
+        protected override async Task SerializeToStreamAsync(Stream stream, TransportContext? context)
         {
             byte[] header = SerializeHeader();
             if (stream != null)

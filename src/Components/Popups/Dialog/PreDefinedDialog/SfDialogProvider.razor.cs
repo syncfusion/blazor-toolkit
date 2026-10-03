@@ -91,7 +91,7 @@ namespace Syncfusion.Blazor.Toolkit.Popups
         /// This collection manages the pending tasks that are waiting for dialog completion.
         /// Each task corresponds to a dialog service method call that returns a result asynchronously.
         /// </remarks>
-        private List<TaskCompletionSource<dynamic>>? CompleteTask { get; set; }
+        private List<TaskCompletionSource<dynamic?>>? CompleteTask { get; set; }
 
         /// <summary>
         /// Gets or sets the type of the current dialog (Alert, Confirm, or Prompt).
@@ -163,7 +163,7 @@ namespace Syncfusion.Blazor.Toolkit.Popups
         {
             InputValue = string.Empty;
             DialogOptions = null;
-            TaskCompletionSource<dynamic>? task = CompleteTask?.LastOrDefault();
+            TaskCompletionSource<dynamic?>? task = CompleteTask?.LastOrDefault();
             if (task is not null && task.Task is not null && !task.Task.IsCompleted)
             {
                 _ = (CompleteTask?.Remove(task));
@@ -262,7 +262,7 @@ namespace Syncfusion.Blazor.Toolkit.Popups
         /// which requires void return. Exceptions are logged via ILogger when available, otherwise
         /// they propagate to prevent silent failures that could mask runtime issues.
         /// </remarks>
-        private async void OnOpenAsync(string type, DialogOptions options, string content, string? title, List<TaskCompletionSource<dynamic>> tasks)
+        private async void OnOpenAsync(string type, DialogOptions options, string content, string? title, List<TaskCompletionSource<dynamic?>> tasks)
         {
             CompleteTask = tasks;
             DialogType = type;

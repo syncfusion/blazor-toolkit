@@ -381,7 +381,7 @@ namespace Syncfusion.Blazor.Toolkit.Calendars
             }
             try
             {
-                object[] destroyArgs = [DataId, null, null, new PopupEventArgs() { Cancel = false }, GetClientProperties()];
+                object?[] destroyArgs = [DataId, null, null, new PopupEventArgs() { Cancel = false }, GetClientProperties()];
                 await InvokeVoidAsync(_datePickerJsModule!, _datePickerJsInProcessModule!, "destroy", destroyArgs).ConfigureAwait(false);
             }
             catch (JSDisconnectedException)

@@ -284,14 +284,29 @@ namespace Syncfusion.Blazor.Toolkit.Tests.Buttons
             Assert.False(buttonElements[2].IsDisabled());
         }
 
-        // Placeholder test for component initialization binding scenario.
+        // Verify the binding after the sample's asynchronous initialization completes.
         [Trait("SfCheckBox", "InitializationBinding")]
         [Fact(DisplayName = "Disabled property binding works when set in OnInitializedAsync")]
-        public void InitializationBinding()
+        public async Task InitializationBinding()
         {
-            var renderedComponent = RenderComponent<Regression>();
-            var buttonElements = renderedComponent.FindAll(".d-inline");
-            Assert.True(buttonElements[0].IsDisabled());
+            var initialization = new TaskCompletionSource<bool>();
+            var renderedComponent = RenderComponent<Regression>(parameters => parameters
+                .Add(component => component.InitializationTask, initialization.Task));
+            var button = renderedComponent.FindComponent<SfButton>();
+            Assert.False(button.Find(".d-inline").IsDisabled());
+
+            await renderedComponent.InvokeAsync(() => initialization.SetResult(true));
+
+            // The child can finish its parameter lifecycle after the parent's render notification.
+            button.WaitForAssertion(() =>
+            {
+                Assert.True(renderedComponent.Instance.Disabled);
+                Assert.True(button.Instance.Disabled);
+                // Check the rendered boolean attribute: this DOM adapter can retain a stale IsDisabled value.
+                var element = button.Find("button.d-inline");
+                Assert.True(element.HasAttribute("disabled"));
+                Assert.Equal("true", element.GetAttribute("aria-disabled"));
+            });
         }
         #endregion
 

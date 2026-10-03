@@ -2076,7 +2076,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
         /// A date-formatted string when <see cref="DateFormat"/> is set; otherwise, the original
         /// <paramref name="pointValue"/> object.
         /// </returns>
-        internal virtual object GetFormatText(object pointValue)
+        internal virtual object? GetFormatText(object? pointValue)
         {
             return !string.IsNullOrEmpty(DateFormat) ? Intl.GetDateFormat(Convert.ToDateTime(Convert.ToString(pointValue, Culture), Culture), DateFormat) : pointValue;
         }

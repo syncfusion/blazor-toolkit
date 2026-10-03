@@ -95,7 +95,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts
             }
             if (_tooltip.Enable || _crosshair.Enable || _markerExplode is not null)
             {
-                _ = InvokeVoidAsync(_chartJsModule!, _chartJsInProcessModule!, Constants.SetTooltipOptions, [_dataId, _tooltip.GetTooltipForScript(), GetTooltipOptions(), _seriesClipRects.ToArray(), _seriesMarkers.ToArray(), _seriesBorders.ToArray(), _axes.ToArray(), _seriesContainer?._dateValuePairs as object ?? null!, _seriesContainer?._numberValuePairs as object ?? null!]);
+                _ = InvokeVoidAsync(_chartJsModule, _chartJsInProcessModule, Constants.SetTooltipOptions, [_dataId, _tooltip.GetTooltipForScript(), GetTooltipOptions(), _seriesClipRects.ToArray(), _seriesMarkers.ToArray(), _seriesBorders.ToArray(), _axes.ToArray(), _seriesContainer?._dateValuePairs as object ?? null, _seriesContainer?._numberValuePairs as object ?? null]);
                 const int UPDATETHRESHOLD = 100;
                 if (!IsDisposed && _seriesContainer is not null && (_seriesContainer._previousRequestTime == DateTime.MinValue || (DateTime.Now - _seriesContainer._previousRequestTime).TotalMilliseconds > UPDATETHRESHOLD))
                 {
@@ -378,7 +378,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts
                     if ((_tooltip.Enable || _crosshair.Enable || _markerExplode is not null) && _isScriptCalled)
                     {
                         _seriesContainer?.SetGlobalizationValues();
-                        await InvokeVoidAsync(_chartJsModule, _chartJsInProcessModule, Constants.SetTooltipOptions, [_dataId, _tooltip.GetTooltipForScript(), GetTooltipOptions(), _seriesClipRects.ToArray(), _seriesMarkers.ToArray(), _seriesBorders.ToArray(), _axes.ToArray(), _seriesContainer?._dateValuePairs as object ?? null!, _seriesContainer?._numberValuePairs as object ?? null!]).ConfigureAwait(false);
+                        await InvokeVoidAsync(_chartJsModule, _chartJsInProcessModule, Constants.SetTooltipOptions, [_dataId, _tooltip.GetTooltipForScript(), GetTooltipOptions(), _seriesClipRects.ToArray(), _seriesMarkers.ToArray(), _seriesBorders.ToArray(), _axes.ToArray(), _seriesContainer?._dateValuePairs as object ?? null, _seriesContainer?._numberValuePairs as object ?? null]).ConfigureAwait(false);
                     }
                 }
             }

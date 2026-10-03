@@ -368,7 +368,7 @@ namespace Syncfusion.Blazor.Toolkit.Data
             ConstantExpression cExp = Expression.Constant(propertyName);
             InvocationExpression iExp = Expression.Invoke(expressionFunc, [cExp, paramExpression]);
             LambdaExpression lambda = Expression.Lambda(iExp, paramExpression);
-            MethodInfo method = typeof(Queryable).GetMethods().FirstOrDefault(m => m.Name == "OrderBy" && m.GetParameters().Length == 3);
+            MethodInfo? method = typeof(Queryable).GetMethods().FirstOrDefault(m => m.Name == "OrderBy" && m.GetParameters().Length == 3);
             ConstantExpression conExp = Expression.Constant(comparer, typeof(IComparer<object>));
             Expression methodExp = Expression.Call(null,
                                                              method!.MakeGenericMethod(
@@ -3716,9 +3716,9 @@ namespace Syncfusion.Blazor.Toolkit.Data
         public static IEnumerable<GroupResult> GroupByMany<TElement>(
             this IEnumerable<TElement> elements,
             IList<SortDescription> sortFields,
-            Dictionary<string, IComparer<object>> sortComparers,
+            Dictionary<string, IComparer<object?>> sortComparers,
             string[] properties,
-            IEnumerable<Func<TElement, object>> groupSelectors)
+            IEnumerable<Func<TElement, object?>> groupSelectors)
         {
             IList<string> propertyNames = [.. properties];
             return GroupByMany(elements, sortFields, sortComparers, propertyNames, [.. groupSelectors]);
@@ -3737,14 +3737,14 @@ namespace Syncfusion.Blazor.Toolkit.Data
         public static IEnumerable<GroupResult> GroupByMany<TElement>(
             this IEnumerable<TElement> elements,
             IList<SortDescription> sortFields,
-            Dictionary<string, IComparer<object>> sortComparers,
+            Dictionary<string, IComparer<object?>> sortComparers,
             IList<string> properties,
-            params Func<TElement, object>[] groupSelectors)
+            params Func<TElement, object?>[] groupSelectors)
         {
             if (groupSelectors != null && groupSelectors.Length > 0)
             {
-                Func<TElement, object> selector = groupSelectors.First();
-                Func<TElement, object>[] nextSelectors = [.. groupSelectors.Skip(1)];
+                Func<TElement, object?> selector = groupSelectors.First();
+                Func<TElement, object?>[] nextSelectors = [.. groupSelectors.Skip(1)];
 
                 IEnumerable<GroupResult> groupBy =
                     elements.GroupBy(selector).Select(
@@ -3765,7 +3765,7 @@ namespace Syncfusion.Blazor.Toolkit.Data
                     SortDescription sortKey = sortFields.FirstOrDefault(d => d.PropertyName == properties[0]);
                     if (sortKey.PropertyName != null && sortKey != default) // && sortKey.Index == 0)
                     {
-                        IComparer<object>? customComparer = null;
+                        IComparer<object?>? customComparer = null;
                         _ = (sortComparers?.TryGetValue(sortKey.PropertyName, out customComparer));
 
                         groupBy = sortKey.Direction == ListSortDirection.Ascending
@@ -4089,7 +4089,7 @@ namespace Syncfusion.Blazor.Toolkit.Data
         /// <returns>A sequence of grouped results.</returns>
         public static IEnumerable<GroupResult> GroupByMany(this IEnumerable source, Type sourceType,
                                    IList<SortDescription> sortFields,
-                                   Dictionary<string, IComparer<object>> sortComparers,
+                                   Dictionary<string, IComparer<object?>> sortComparers,
                                    Func<string, Expression> GetExpressionFunc,
                                    params string[] properties)
         {
@@ -4346,9 +4346,9 @@ namespace Syncfusion.Blazor.Toolkit.Data
     public class GroupResult
     {
         /// <summary>
-        /// Gets or sets the grouping key.
+        /// Gets or sets the grouping key, which may be null.
         /// </summary>
-        public object Key { get; set; }
+        public object? Key { get; set; }
 
         /// <summary>
         /// Gets or sets the number of items in the group.
@@ -4356,14 +4356,14 @@ namespace Syncfusion.Blazor.Toolkit.Data
         public int Count { get; set; }
 
         /// <summary>
-        /// Gets or sets the items contained in the group.
+        /// Gets or sets the items contained in the group, or null when not populated.
         /// </summary>
-        public IEnumerable Items { get; set; }
+        public IEnumerable? Items { get; set; }
 
         /// <summary>
-        /// Gets or sets the nested subgroups.
+        /// Gets or sets the nested subgroups, or null when there is no further grouping level.
         /// </summary>
-        public IEnumerable<GroupResult> SubGroups { get; set; }
+        public IEnumerable<GroupResult>? SubGroups { get; set; }
 
         /// <summary>
         /// Returns a string representation of the group result.

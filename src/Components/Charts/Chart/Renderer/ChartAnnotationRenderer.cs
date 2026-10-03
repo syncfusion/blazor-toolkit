@@ -89,8 +89,8 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
                 Rect? result = Annotation?.Region == Regions.Chart ? new Rect(0, 0, Owner.InitialRect.Width, Owner.InitialRect.Height) : Owner._axisContainer.AxisLayout.SeriesClipRect;
                 if (result is not null)
                 {
-                    finalLocation.X = ChartHelper.StringToNumber(_xCoordinate?.ToString() ?? null!, result.Width) + result.X;
-                    finalLocation.Y = ChartHelper.StringToNumber(_yCoordinate ?? null!, result.Height) + result.Y;
+                    finalLocation.X = ChartHelper.StringToNumber(_xCoordinate?.ToString(), result.Width) + result.X;
+                    finalLocation.Y = ChartHelper.StringToNumber(_yCoordinate, result.Height) + result.Y;
                 }
             }
             return finalLocation;

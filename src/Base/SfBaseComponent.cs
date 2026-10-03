@@ -307,7 +307,7 @@ namespace Syncfusion.Blazor.Toolkit
         /// ]]></code>
         /// </example>
         /// <exclude />
-        internal static async Task InvokeVoidAsync(IJSObjectReference? jsObjectReference, IJSInProcessObjectReference? jsInProcessObjectReference, string identifier, params object[] args)
+        internal static async Task InvokeVoidAsync(IJSObjectReference? jsObjectReference, IJSInProcessObjectReference? jsInProcessObjectReference, string identifier, params object?[] args)
         {
             try
             {

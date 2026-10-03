@@ -57,7 +57,7 @@ namespace Syncfusion.Blazor.Toolkit.Inputs
         /// ]]></code> 
         /// </example>
         [Parameter]
-        public string Placeholder
+        public string? Placeholder
         {
             get => BasePlaceholder;
             set => BasePlaceholder = value;
@@ -65,7 +65,7 @@ namespace Syncfusion.Blazor.Toolkit.Inputs
 
         /// <inheritdoc/>
         /// <exclude />
-        protected override string BasePlaceholder { get; set; } = default!;
+        protected override string? BasePlaceholder { get; set; }
 
         /// <summary> 
         /// Gets or sets a value indicating whether the <see cref="SfTextArea"/> is read-only. 

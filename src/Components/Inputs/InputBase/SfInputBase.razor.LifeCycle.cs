@@ -110,7 +110,7 @@ namespace Syncfusion.Blazor.Toolkit.Inputs
             await base.OnAfterScriptRenderedAsync().ConfigureAwait(true);
             if (_textBoxJsModule is not null || _textBoxJsInProcessModule is not null)
             {
-                await InvokeVoidAsync(_textBoxJsModule!, _textBoxJsInProcessModule!, "initialize", InputElement, DotnetObjectReference!, ContainerElement).ConfigureAwait(true);
+                await InvokeVoidAsync(_textBoxJsModule, _textBoxJsInProcessModule, "initialize", InputElement, DotnetObjectReference, ContainerElement).ConfigureAwait(true);
             }
         }
 

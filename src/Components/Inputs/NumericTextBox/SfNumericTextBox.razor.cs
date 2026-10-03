@@ -556,7 +556,7 @@ namespace Syncfusion.Blazor.Toolkit.Inputs
             }
             if (IsInValidNumber && StrictMode)
             {
-                await InvokeVoidAsync(_numericTextBoxJsModule, _numericTextBoxJsInProcessModule, "clearInvalid", [DataId, default!]).ConfigureAwait(true);
+                await InvokeVoidAsync(_numericTextBoxJsModule, _numericTextBoxJsInProcessModule, "clearInvalid", [DataId, default]).ConfigureAwait(true);
 
             }
         }
@@ -645,8 +645,8 @@ namespace Syncfusion.Blazor.Toolkit.Inputs
                 decimal value2 = decimal.Round(Convert.ToDecimal(result, CultureInfo.CurrentCulture), decimals);
                 double value1 = Math.Round(Convert.ToDouble(result, CultureInfo.CurrentCulture), decimals);
                 result = valueString.Contains('E', StringComparison.Ordinal) ? result :
-                    (propertyType == typeof(double) || Nullable.GetUnderlyingType(propertyType) == typeof(double)) ? (TValue)SfBaseUtils.ChangeType(value1, propertyType, true) :
-                        (TValue)SfBaseUtils.ChangeType(value2, propertyType, true);
+                    (propertyType == typeof(double) || Nullable.GetUnderlyingType(propertyType) == typeof(double)) ? (TValue?)SfBaseUtils.ChangeType(value1, propertyType, true) :
+                        (TValue?)SfBaseUtils.ChangeType(value2, propertyType, true);
             }
             return result;
         }
@@ -894,7 +894,7 @@ namespace Syncfusion.Blazor.Toolkit.Inputs
         internal override async Task OnAfterScriptRenderedAsync()
         {
             await UpdateIsDeviceModeAsync().ConfigureAwait(true);
-            await InvokeVoidAsync(_numericTextBoxJsModule, _numericTextBoxJsInProcessModule, "initialize", [DataId, ContainerElement, InputElement, DotnetObjectReference!, new NumericClientProps { Readonly = Readonly, Disabled = Disabled, Locale = CultureInfo.CurrentCulture.Name, ValidateDecimalOnType = ValidateDecimalOnType, Decimals = Decimals, DecimalSeparator = CultureInfo.CurrentCulture.NumberFormat.NumberDecimalSeparator, AllowMouseWheel = AllowMouseWheel }]).ConfigureAwait(true);
+            await InvokeVoidAsync(_numericTextBoxJsModule, _numericTextBoxJsInProcessModule, "initialize", [DataId, ContainerElement, InputElement, DotnetObjectReference, new NumericClientProps { Readonly = Readonly, Disabled = Disabled, Locale = CultureInfo.CurrentCulture.Name, ValidateDecimalOnType = ValidateDecimalOnType, Decimals = Decimals, DecimalSeparator = CultureInfo.CurrentCulture.NumberFormat.NumberDecimalSeparator, AllowMouseWheel = AllowMouseWheel }]).ConfigureAwait(true);
             if (SyncfusionService is not null)
             {
                 IsDevice = SyncfusionService.IsDeviceMode;
