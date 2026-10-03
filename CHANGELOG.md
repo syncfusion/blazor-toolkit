@@ -7,6 +7,18 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Fixed
+- Render internal chart components through typed render fragments instead of unresolved Razor tags, without exposing the renderer classes publicly.
+- Correct nullable data, reflection, calendar, input, and dialog flows; retain null grouping keys, no-op reflection accessors, and null prompt-cancellation results.
+- Preserve label/index alignment when sorting date-category chart points with null X values, and use the owning chart's theme for stripline tooltips.
+- Isolate axis-overlap state per chart layout, preventing concurrent charts from clearing each other's previous-axis references and coordinates.
+- Restore bUnit compilation, configure chart-only browser interop fixtures, and synchronize asynchronous rendering assertions.
+
+### Changed
+- Correct public nullable annotations to describe existing null inputs/results. CLR signatures and collection types are unchanged, but consumers may see more accurate nullable-analysis diagnostics.
+- `DataAdaptor<T>` now declares `where T : notnull`, matching `OwningComponentBase<T>`. Generic subclasses must propagate this constraint; nullable type arguments or unconstrained type parameters may produce nullable-analysis warnings when consumers rebuild (errors under warnings-as-errors policies). This compiler-level contract does not add a CLR-enforced runtime constraint or change service scope/disposal behavior.
+- `QueryableOperation` filtering/searching over `DynamicObject` records now throws a descriptive `InvalidOperationException` when a requested field is null or missing in the first record, rather than dereferencing the missing value. It does not infer types from later records; the existing `ExpandoObject` path is unchanged.
+
 ### Planned
 See [ROADMAP.md](ROADMAP.md) for upcoming components (Data Grid, Select/DropDownList, Autocomplete, Navigation, and more).
 
