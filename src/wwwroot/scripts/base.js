@@ -98,11 +98,18 @@ function disposeWindowsInstance(id) {
 const isNullOrUndefined = (value) => value === undefined || value === null;
 
 /**
- * Return device flag object for compatibility.
- * @returns {{ IsDevice: boolean }}
+ * Return the device flag.
+ * Blazor interop calls this with no arguments and deserializes a primitive bool,
+ * which stays valid after trimming and WASM AOT. In-page scripts pass true to
+ * keep the historical { IsDevice } object.
+ * @param {boolean} [asObject]
+ * @returns {boolean|{ IsDevice: boolean }}
  */
-function isDevice() {
-    return { IsDevice: Browser.isDevice };
+function isDevice(asObject) {
+    if (asObject) {
+        return { IsDevice: Browser.isDevice };
+    }
+    return Browser.isDevice;
 }
 
 /**

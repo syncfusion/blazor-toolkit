@@ -584,7 +584,7 @@ namespace Syncfusion.Blazor.Toolkit
         /// </summary>
         /// <remarks>
         /// <para>The check runs only once per application lifetime by checking <see cref="SyncfusionBlazorToolkitService.IsFirstResource"/>.</para>
-        /// <para>It invokes the <c>isDevice</c> JavaScript interop method through <see cref="InvokeAsync{T}(IJSObjectReference, IJSInProcessObjectReference, string, object[])"/> and stores the result in <see cref="SyncfusionBlazorToolkitService.IsDeviceMode"/>.</para>
+        /// <para>It invokes the <c>isDevice</c> JavaScript interop method through <see cref="InvokeAsync{T}(IJSObjectReference, IJSInProcessObjectReference, string, object[])"/> and stores the primitive <see cref="bool"/> result in <see cref="SyncfusionBlazorToolkitService.IsDeviceMode"/>. A primitive result is used so trimmed and AOT-published WebAssembly apps do not need to deserialize <see cref="DeviceMode"/>.</para>
         /// </remarks>
         /// <returns>A task representing the asynchronous device-detection operation.</returns>
         /// <exclude />
@@ -593,11 +593,9 @@ namespace Syncfusion.Blazor.Toolkit
             if (SyncfusionService is not null && SyncfusionService.IsFirstResource)
             {
                 SyncfusionService.IsFirstResource = false;
-                DeviceMode deviceMode = await InvokeAsync<DeviceMode>(_baseJsModule!, _baseJsInProcessModule!, "isDevice").ConfigureAwait(false);
-                if (deviceMode is not null)
-                {
-                    SyncfusionService.IsDeviceMode = deviceMode.IsDevice;
-                }
+                // isDevice() returns a bool unless a JS caller explicitly asks for the legacy object.
+                // Deserializing that object fails in trimmed/AOT WASM with DeserializeNoConstructor.
+                SyncfusionService.IsDeviceMode = await InvokeAsync<bool>(_baseJsModule!, _baseJsInProcessModule!, "isDevice").ConfigureAwait(false);
             }
         }
 

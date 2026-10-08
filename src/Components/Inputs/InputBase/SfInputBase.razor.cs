@@ -1081,7 +1081,7 @@ namespace Syncfusion.Blazor.Toolkit.Inputs
 
             if (clearButton)
             {
-                ClearIconClass = !string.IsNullOrEmpty(value) && ContainerClass.Contains(INPUTFOCUS, StringComparison.Ordinal)
+                ClearIconClass = !string.IsNullOrEmpty(value) && (IsFocused || ContainerClass.Contains(INPUTFOCUS, StringComparison.Ordinal))
                     ? ClearIconClass.Replace(CLEARICONHIDE, string.Empty, StringComparison.Ordinal)
                     : SfBaseUtils.AddClass(ClearIconClass, CLEARICONHIDE);
             }

@@ -96,6 +96,18 @@ namespace Syncfusion.Blazor.Toolkit.Inputs
 
         private bool IsSpinButtonChanged { get; set; }
 
+        /// <summary>
+        /// True while the clear button has a value and should accept keyboard focus.
+        /// Do not also require <see cref="SfInputBase{TValue}.IsFocused"/>: Tab blurs
+        /// the input before Blazor can repaint a focus-only tabindex, so the button
+        /// would stay at -1 and Tab would skip it.
+        /// </summary>
+        private bool IsClearButtonTabbable =>
+            ShowClearButton &&
+            !Readonly &&
+            !Disabled &&
+            !string.IsNullOrEmpty(FormatValueAsString(InputTextValue));
+
         private bool IsNumberCulture { get; set; }
 
         private string? ValidClass { get; set; }
@@ -1101,6 +1113,10 @@ namespace Syncfusion.Blazor.Toolkit.Inputs
             Dictionary<string, object> returnValue = new() { { "isRendered", false }, { "formatValue", string.Empty } };
             if (!Disabled && !Readonly)
             {
+                // Browser focus arrives through this JS callback, not @onfocus.
+                // Mark focused before revealing the clear button so it is a tab stop
+                // before the pending Tab key moves focus.
+                IsFocused = true;
                 IsFocus = true;
                 if (ValueExpression is not null)
                 {
