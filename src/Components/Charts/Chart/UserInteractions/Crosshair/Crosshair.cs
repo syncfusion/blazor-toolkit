@@ -13,8 +13,7 @@
         /// <summary>
         /// Initializes a new instance of the <see cref="Crosshair"/> class.
         /// </summary>
-        /// <param name="sfChart">The owning <see cref="SfChart"/> instance.</param>
-        internal Crosshair(SfChart sfChart)
+        internal Crosshair()
         {
             // Intentionally no-op to avoid retaining references and to remove unused field allocations.
         }

@@ -95,7 +95,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts
             }
             if (_tooltip.Enable || _crosshair.Enable || _markerExplode is not null)
             {
-                _ = InvokeVoidAsync(_chartJsModule!, _chartJsInProcessModule!, Constants.SetTooltipOptions, [_dataId, _tooltip.GetTooltipForScript(), GetTooltipOptions(), _seriesClipRects.ToArray(), _seriesMarkers.ToArray(), _seriesBorders.ToArray(), _axes.ToArray(), _seriesContainer?._dateValuePairs as object ?? null!, _seriesContainer?._numberValuePairs as object ?? null!]);
+                _ = InvokeVoidAsync(_chartJsModule, _chartJsInProcessModule, Constants.SetTooltipOptions, [_dataId, _tooltip.GetTooltipForScript(), GetTooltipOptions(), _seriesClipRects.ToArray(), _seriesMarkers.ToArray(), _seriesBorders.ToArray(), _axes.ToArray(), _seriesContainer?._dateValuePairs as object ?? null, _seriesContainer?._numberValuePairs as object ?? null]);
                 const int UPDATETHRESHOLD = 100;
                 if (!IsDisposed && _seriesContainer is not null && (_seriesContainer._previousRequestTime == DateTime.MinValue || (DateTime.Now - _seriesContainer._previousRequestTime).TotalMilliseconds > UPDATETHRESHOLD))
                 {
@@ -173,6 +173,8 @@ namespace Syncfusion.Blazor.Toolkit.Charts
         /// <exclude />
         [EditorBrowsable(EditorBrowsableState.Never)]
         [JSInvokable]
+        [UnconditionalSuppressMessage("Trimming", "IL2026", Justification = "Keyboard navigation may toggle legend/series visibility, which reflects over the user-supplied DataSource element type. This is a [JSInvokable] interop entry point where Requires* annotations cannot be applied; the data-binding trim requirement is surfaced honestly on the public SfChart/ChartSeries data APIs.")]
+        [UnconditionalSuppressMessage("AOT", "IL3050", Justification = "Keyboard navigation may toggle legend/series visibility using reflection-based data binding over the user-supplied DataSource element type. This is a [JSInvokable] interop entry point where Requires* annotations cannot be applied; the AOT requirement is surfaced honestly on the public SfChart/ChartSeries data APIs.")]
         public async Task OnChartKeyboardNavigationsAsync(string actionKey, string targetId)
         {
             if (!string.IsNullOrEmpty(targetId))
@@ -197,11 +199,11 @@ namespace Syncfusion.Blazor.Toolkit.Charts
                         }
                         if (!string.IsNullOrEmpty(_zoomingKeyboardFocusTarget))
                         {
-                            await InvokeVoidAsync(_chartJsModule!, _chartJsInProcessModule!, Constants.FocusTarget, [_zoomingKeyboardFocusTarget]).ConfigureAwait(false);
+                            await InvokeVoidAsync(_chartJsModule, _chartJsInProcessModule, Constants.FocusTarget, [_zoomingKeyboardFocusTarget]).ConfigureAwait(false);
                         }
                         if (!string.IsNullOrEmpty(_legendRenderer?.KeyboardFocusTarget))
                         {
-                            await InvokeVoidAsync(_chartJsModule!, _chartJsInProcessModule!, Constants.FocusTarget, [_legendRenderer.KeyboardFocusTarget]).ConfigureAwait(false);
+                            await InvokeVoidAsync(_chartJsModule, _chartJsInProcessModule, Constants.FocusTarget, [_legendRenderer.KeyboardFocusTarget]).ConfigureAwait(false);
                         }
                         break;
                     case "Equal":
@@ -329,7 +331,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts
         [JSInvokable]
         public void OnChartResize(string size)
         {
-            Size availabelSize = JsonSerializer.Deserialize<Size>(size) ?? null!;
+            Size availabelSize = JsonSerializer.Deserialize(size, ChartInteropJsonContext.Default.Size) ?? null!;
             _isResize = true;
             _ = ResizeChartAsync(availabelSize);
         }
@@ -376,7 +378,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts
                     if ((_tooltip.Enable || _crosshair.Enable || _markerExplode is not null) && _isScriptCalled)
                     {
                         _seriesContainer?.SetGlobalizationValues();
-                        await InvokeVoidAsync(_chartJsModule, _chartJsInProcessModule, Constants.SetTooltipOptions, [_dataId, _tooltip.GetTooltipForScript(), GetTooltipOptions(), _seriesClipRects.ToArray(), _seriesMarkers.ToArray(), _seriesBorders.ToArray(), _axes.ToArray(), _seriesContainer?._dateValuePairs as object ?? null!, _seriesContainer?._numberValuePairs as object ?? null!]).ConfigureAwait(false);
+                        await InvokeVoidAsync(_chartJsModule, _chartJsInProcessModule, Constants.SetTooltipOptions, [_dataId, _tooltip.GetTooltipForScript(), GetTooltipOptions(), _seriesClipRects.ToArray(), _seriesMarkers.ToArray(), _seriesBorders.ToArray(), _axes.ToArray(), _seriesContainer?._dateValuePairs as object ?? null, _seriesContainer?._numberValuePairs as object ?? null]).ConfigureAwait(false);
                     }
                 }
             }
@@ -414,7 +416,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts
         [JSInvokable]
         public void OnChartLongPress()
         {
-            _startMove = _startMove;
+            // Intentionally no-op: invoked from JS on long-press to suppress stock chart panning.
         }
 
         /// <summary>
@@ -488,7 +490,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts
         {
             int textElement = int.TryParse(labelIndex.AsSpan(7), out int element) ? element : 0;
             ChartAxis axis = (_axisContainer?.Renderers[axisIndex] as ChartAxisRenderer ?? null!).Axis ?? null!;
-            List<ChartCategory> categories = axis.MultiLevelLabels[int.TryParse(labelIndex.AsSpan(0, 1), out int index) ? index : 0].Categories;
+            IList<ChartCategory> categories = axis.MultiLevelLabels[int.TryParse(labelIndex.AsSpan(0, 1), out int index) ? index : 0].Categories;
             MultiLevelLabelClickEventArgs multilevelclickArgs = new("OnMultiLevelLabelClick", false, categories[textElement].Text, axis, categories[textElement].CustomAttributes, categories[textElement].End ?? null!, int.TryParse(labelIndex.AsSpan(0, 1), out int length) ? length : 0, categories[textElement].Start ?? null!);
             OnMultiLevelLabelClick.Invoke(multilevelclickArgs);
         }
@@ -827,7 +829,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts
                 {
                     totalYValue = GetStackedTotalValue(series.Renderer, (int)args.Data.PointIndex);
                 }
-                TooltipRenderEventArgs argsData = new TooltipRenderEventArgs(
+                TooltipRenderEventArgs argsData = new(
                 "TooltipRender",
                 false,
                 new PointInfo()
@@ -870,7 +872,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts
             List<PointInfo> argsData = [];
             if (args is not null)
             {
-                args.Data.ForEach(point =>
+                foreach (IPointInfo point in args.Data)
                 {
                     argsData.Add(new PointInfo()
                     {
@@ -881,10 +883,10 @@ namespace Syncfusion.Blazor.Toolkit.Charts
                         PointIndex = point.PointIndex,
                         PointText = point.PointText,
                     });
-                });
+                }
                 SharedTooltipRenderEventArgs argument = new("SharedTooltipRender", false, args.Text, _tooltip.TextStyle, args.HeaderText, argsData);
                 SharedTooltipRender?.Invoke(argument);
-                await InvokeVoidAsync(_chartJsModule!, _chartJsInProcessModule!, "setSharedTooltipArgsData", [_dataId, argument.HeaderText, argument.Text, argument.Data.ToArray()]).ConfigureAwait(false);
+                await InvokeVoidAsync(_chartJsModule, _chartJsInProcessModule, "setSharedTooltipArgsData", [_dataId, argument.HeaderText, argument.Text, argument.Data.ToArray()]).ConfigureAwait(false);
             }
         }
 
@@ -948,11 +950,11 @@ namespace Syncfusion.Blazor.Toolkit.Charts
 
             if ((_onZoomStartArgs is not null && !_onZoomStartArgs.Cancel) || (_onZoomingArgs is not null && !_onZoomingArgs.Cancel))
             {
-                UpdateAxisZoomValues(zoomingEventArgs?.AxisCollection ?? null!, zoomingStates?.IsChartPanning ?? false);
+                UpdateAxisZoomValues(zoomingEventArgs?.AxisCollection ?? null!);
             }
             else if (_onZoomingArgs is null && _onZoomStartArgs is null)
             {
-                UpdateAxisZoomValues(zoomingEventArgs?.AxisCollection ?? null!, zoomingStates?.IsChartPanning ?? false);
+                UpdateAxisZoomValues(zoomingEventArgs?.AxisCollection ?? null!);
             }
             OnLayoutChange(_zoomingModule?.IsWheelZoom ?? false);
             if (_zoomingModule is not null)

@@ -170,15 +170,49 @@
 
     async Task CheckingChartPropertiesAndMethods(Fixture fixture2)
     {
+        var initialized = new TaskCompletionSource<bool>(TaskCreationOptions.RunContinuationsAsynchronously);
+        ((SfFixture)fixture2).ChartModule.SetupVoid("initialize", _ =>
+        {
+            initialized.TrySetResult(true);
+            return true;
+        }).SetVoidResult();
+
         var cut = fixture2.GetComponentUnderTest<SfChart>();
-        await Task.Delay(200);
-        var svg = cut.Find("#container_svg");
-        Assert.True(svg.GetAttribute("height") == "400px");
-        Assert.True(svg.GetAttribute("width") == "900px");
+        // Initial SVG markup precedes completion of the chart's asynchronous lifecycle.
+        await initialized.Task.WaitAsync(TimeSpan.FromSeconds(5));
+        cut.WaitForAssertion(() =>
+        {
+            Assert.Equal(900d, cut.Instance.AvailableSize.Width);
+            Assert.Equal(400d, cut.Instance.AvailableSize.Height);
+            var svg = cut.Find("#container_svg");
+            // bUnit records JS interop but does not apply setSvgDimensions' DOM mutations.
+            var resizeCalls = ((SfFixture)fixture2).ChartModule.Invocations["setSvgDimensions"];
+            Assert.NotEmpty(resizeCalls);
+            Assert.All(resizeCalls, invocation =>
+            {
+                // This bUnit version lowercases the SVG reference attribute in its DOM.
+                var reference = Assert.IsType<Microsoft.AspNetCore.Components.ElementReference>(invocation.Arguments[0]);
+                Assert.Equal(reference.Id, svg.GetAttribute("blazor:elementreference"));
+                Assert.Equal("900px", invocation.Arguments[1]);
+                Assert.Equal("400px", invocation.Arguments[2]);
+            });
+            var border = cut.Find("#container_ChartBorder");
+            Assert.Equal("0", border.GetAttribute("x"));
+            Assert.Equal("0", border.GetAttribute("y"));
+            Assert.Equal("900", border.GetAttribute("width"));
+            Assert.Equal("400", border.GetAttribute("height"));
+            Assert.Equal("Medal Details", cut.Find("#container_ChartTitle").TextContent.Trim());
+        });
         cut.SetParametersAndRender(parameters =>
         {
             parameters.Add(p => p.Title, "Chart Title");
             parameters.Add(p => p.IsTransposed, true);
+        });
+        cut.WaitForAssertion(() =>
+        {
+            Assert.Equal("Chart Title", cut.Instance.Title);
+            Assert.True(cut.Instance.IsTransposed);
+            Assert.Equal("Chart Title", cut.Find("#container_ChartTitle").TextContent.Trim());
         });
         Assert.True(chartObj._chartRender == null);
         Assert.True(chartObj._isDoubleTap == false);

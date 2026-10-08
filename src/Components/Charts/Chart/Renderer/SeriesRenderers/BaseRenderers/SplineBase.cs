@@ -253,6 +253,8 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
                 case SplineType.Cardinal:
                     ComputeCardinalCoefficients(points, series, y_Spline);
                     break;
+                case SplineType.Natural:
+                case SplineType.Clamped:
                 default:
                     ComputeNaturalOrClampedCoefficients(points, series, isLow, y_Spline);
                     break;
@@ -362,6 +364,8 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
                     double pointValue = (nextData.XValue - prevdata.XValue) / 3;
                     point = new ControlPoints(new ChartEventLocation(prevdata.XValue + pointValue, prevdata.YValue + (y_Spline1 * pointValue)), new ChartEventLocation(nextData.XValue - pointValue, nextData.YValue - (y_Spline2 * pointValue)));
                     break;
+                case SplineType.Natural:
+                case SplineType.Clamped:
                 default:
                     double deltaX2 = nextData.XValue - prevdata.XValue;
                     deltaX2 *= deltaX2;

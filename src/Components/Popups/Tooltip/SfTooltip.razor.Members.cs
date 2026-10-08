@@ -519,7 +519,7 @@ namespace Syncfusion.Blazor.Toolkit.Popups
         /// </example>
         [Parameter(CaptureUnmatchedValues = true)]
         [JsonPropertyName("htmlAttributes")]
-        public Dictionary<string, object> HtmlAttributes { get; set; }
+        public Dictionary<string, object> HtmlAttributes { get; set; } = default!;
 
         /// <summary>
         /// Gets or sets an accessible name for the tooltip's target element.

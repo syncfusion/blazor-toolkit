@@ -6,12 +6,12 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
     /// <summary>
     /// Renderer responsible for displaying the "no data" template inside the chart.
     /// </summary>
-    public class NoDataTemplateContainer : ChartRenderer
+    internal class NoDataTemplateContainer : ChartRenderer
     {
         #region Fields
         private bool _hasValidData;
         private string _noDataStyle = string.Empty;
-        private CultureInfo _culture = CultureInfo.InvariantCulture;
+        private readonly CultureInfo _culture = CultureInfo.InvariantCulture;
         #endregion
 
         #region Lifecycle Methods

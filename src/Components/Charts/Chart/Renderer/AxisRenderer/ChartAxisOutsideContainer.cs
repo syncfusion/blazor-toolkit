@@ -10,7 +10,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
     /// This container registers itself with the owner chart on initialization and coordinates
     /// rendering of child axis outside renderers.
     /// </remarks>
-    public class ChartAxisOutsideContainer : ChartRendererContainer
+    internal class ChartAxisOutsideContainer : ChartRendererContainer
     {
         #region Lifecycle Methods
 
@@ -62,7 +62,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
     /// <summary>
     /// Renderer for a single axis outside layout. Implements lightweight rendering responsibilities.
     /// </summary>
-    public class ChartAxisOutsideRenderer : ChartRenderer, IChartElementRenderer
+    internal class ChartAxisOutsideRenderer : ChartRenderer, IChartElementRenderer
     {
         #region Properties
 

@@ -35,7 +35,7 @@ namespace Syncfusion.Blazor.Toolkit.Calendars.Internal
         /// Gets or sets the localization service used for retrieving localized strings.
         /// </summary>
         [Inject]
-        private IStringLocalizer Localizer { get; set; } = default!;
+        private new IStringLocalizer Localizer { get; set; } = default!;
 
         /// <summary>
         /// Gets or sets the root CSS class name for the calendar base UI element.

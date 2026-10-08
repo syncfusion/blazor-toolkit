@@ -1,4 +1,5 @@
-﻿using System.Reflection;
+﻿using System.Diagnostics.CodeAnalysis;
+using System.Reflection;
 using System.Runtime.Serialization;
 
 namespace Syncfusion.Blazor.Toolkit.Data
@@ -132,7 +133,7 @@ namespace Syncfusion.Blazor.Toolkit.Data
     internal class EnumerationValue
     {
         /// <exclude />
-        internal static object GetValueFromEnumMember(string description, Type EnumType)
+        internal static object GetValueFromEnumMember(string description, [DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicFields)] Type EnumType)
         {
             Type type = EnumType;
             Type? underlyingType = Nullable.GetUnderlyingType(type);

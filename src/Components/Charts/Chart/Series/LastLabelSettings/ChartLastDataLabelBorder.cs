@@ -14,9 +14,9 @@ namespace Syncfusion.Blazor.Toolkit.Charts
     {
 
         #region Fields
-        ChartLastDataLabel? _lastDataLabel;
-        double _prevWidth;
-        string _prevColor = string.Empty;
+        private ChartLastDataLabel? _lastDataLabel;
+        private double _prevWidth;
+        private string? _prevColor = string.Empty;
         #endregion
 
         #region Properties
@@ -26,7 +26,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts
         /// </summary>
         /// <value>The parent <see cref="SfChart"/> if available; otherwise, <see langword="null"/>.</value>
         [CascadingParameter]
-        SfChart? Chart { get; set; }
+        private SfChart? Chart { get; set; }
 
         /// <summary>
         /// Gets or sets the border width of the last value label.
@@ -69,7 +69,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts
         /// ]]>
         /// </code>
         /// </example>
-        public override string Color { get; set; } = string.Empty;
+        public override string? Color { get; set; } = string.Empty;
 
         #endregion
 
@@ -90,11 +90,8 @@ namespace Syncfusion.Blazor.Toolkit.Charts
                 _lastDataLabel = lastLabel;
             }
 
-            if (_lastDataLabel is not null)
-            {
-                _lastDataLabel.UpdateLastlabelProperties("Border", this);
-            }
-        
+            _lastDataLabel?.UpdateLastlabelProperties("Border", this);
+
         }
 
         /// <exclude />

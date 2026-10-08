@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Components.Rendering;
+﻿using System.Diagnostics.CodeAnalysis;
+using Microsoft.AspNetCore.Components.Rendering;
 
 namespace Syncfusion.Blazor.Toolkit.Charts.Internal
 {
@@ -9,7 +10,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
     /// This container coordinates initialization, sizing updates and rendering
     /// for stripline elements associated with chart axes.
     /// </remarks>
-    public class ChartStriplineContainer : ChartRendererContainer
+    internal class ChartStriplineContainer : ChartRendererContainer
     {
         #region Properties
         /// <summary>
@@ -125,7 +126,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
     /// <summary>
     /// Container that renders striplines behind series visuals.
     /// </summary>
-    public class ChartStriplineBehindContainer : ChartStriplineContainer
+    internal class ChartStriplineBehindContainer : ChartStriplineContainer
     {
         #region Lifecycle Methods
 
@@ -149,6 +150,8 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
         /// Builds render tree for behind-stripline renderers with an SVG clip path.
         /// </summary>
         /// <param name="builder">RenderTreeBuilder instance.</param>
+        [UnconditionalSuppressMessage("Trimming", "IL2072",
+            Justification = "element.RendererType is always one of the library's own internal chart renderer component types, assigned via typeof(...) from GetRendererType; those component types are statically referenced and therefore preserved by the trimmer.")]
         protected override void BuildRenderers(RenderTreeBuilder builder)
         {
             if (builder is null)
@@ -174,7 +177,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
             builder.OpenElement(Sequence++, "clipPath");
             builder.AddAttribute(Sequence++, "id", id + "ClipRect");
             builder.OpenComponent<SvgRect>(Sequence++);
-            builder.AddMultipleAttributes(Sequence++, Owner?._svgRenderer?.GetOptions(rectOption));
+            builder.AddMultipleAttributes(Sequence++, SvgRendering.GetOptions(rectOption));
             builder.CloseComponent();
             builder.CloseElement();
             builder.CloseElement();
@@ -196,7 +199,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
     /// <summary>
     /// Container that renders striplines over series visuals (foreground).
     /// </summary>
-    public class ChartStriplineOverContainer : ChartStriplineContainer
+    internal class ChartStriplineOverContainer : ChartStriplineContainer
     {
         #region Lifecycle Methods
 
@@ -221,6 +224,8 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
         /// Builds render tree for over-stripline renderers with an SVG clip path.
         /// </summary>
         /// <param name="builder">RenderTreeBuilder instance.</param>
+        [UnconditionalSuppressMessage("Trimming", "IL2072",
+            Justification = "element.RendererType is always one of the library's own internal chart renderer component types, assigned via typeof(...) from GetRendererType; those component types are statically referenced and therefore preserved by the trimmer.")]
         protected override void BuildRenderers(RenderTreeBuilder builder)
         {
             if (builder is null)
@@ -246,7 +251,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
             builder.OpenElement(Sequence++, "clipPath");
             builder.AddAttribute(Sequence++, "id", id + "ClipRect");
             builder.OpenComponent<SvgRect>(Sequence++);
-            builder.AddMultipleAttributes(Sequence++, Owner?._svgRenderer?.GetOptions(rectOption));
+            builder.AddMultipleAttributes(Sequence++, SvgRendering.GetOptions(rectOption));
             builder.CloseComponent();
             builder.CloseElement();
             builder.CloseElement();

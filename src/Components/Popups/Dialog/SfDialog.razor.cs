@@ -124,8 +124,8 @@ namespace Syncfusion.Blazor.Toolkit.Popups
             {
                 return;
             }
-            _dialogAttribute.Remove("aria-labelledby");
-            _dialogAttribute.Remove("aria-label");
+            _ = _dialogAttribute.Remove("aria-labelledby");
+            _ = _dialogAttribute.Remove("aria-label");
             string? labelledById = GetAriaLabelledBy();
             if (!string.IsNullOrWhiteSpace(labelledById))
             {
@@ -263,17 +263,9 @@ namespace Syncfusion.Blazor.Toolkit.Popups
         /// <returns>The labelling element id, or <see langword="null"/> when none applies.</returns>
         private string? GetAriaLabelledBy()
         {
-            if (!string.IsNullOrWhiteSpace(AriaLabelledBy))
-            {
-                return AriaLabelledBy;
-            }
-
-            if (!string.IsNullOrEmpty(Header) || HeaderTemplate is not null)
-            {
-                return $"{ID}_title";
-            }
-
-            return null;
+            return !string.IsNullOrWhiteSpace(AriaLabelledBy)
+                ? AriaLabelledBy
+                : !string.IsNullOrEmpty(Header) || HeaderTemplate is not null ? $"{ID}_title" : null;
         }
 
         /// <summary>

@@ -12,7 +12,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
     public partial class SvgLine
     {
         #region Fields
-        private CultureInfo _culture { get; set; } = CultureInfo.InvariantCulture;
+        private CultureInfo Culture { get; set; } = CultureInfo.InvariantCulture;
         #endregion
 
         #region Properties

@@ -80,7 +80,7 @@ namespace Syncfusion.Blazor.Toolkit.Inputs
         /// <remarks>
         /// This event is triggered when the user selects a new file in the input file element.
         /// This event can be bound using <c>@bind-Value</c> for two-way binding with a property of type <see cref="UploadChangeEventArgs"/>.
-        /// To read the contents of the uploaded file, call the <c>OpenReadStream()</c> method of the <see cref="IBrowserFile"/> interface,
+        /// To read the contents of the uploaded file, call the <c>OpenReadStream()</c> method of the <see cref="Microsoft.AspNetCore.Components.Forms.IBrowserFile"/> interface,
         /// which returns a stream that you can use to read the file data.
         /// </remarks>
         /// <example>

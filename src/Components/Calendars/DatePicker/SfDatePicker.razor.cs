@@ -168,7 +168,6 @@ namespace Syncfusion.Blazor.Toolkit.Calendars
 
         private string? ValidClass { get; set; }
         private bool IsFormValidation { get; set; }
-        private bool IsCleared { get; set; }
         private string? StrictValue { get; set; }
         private bool IsValideValue { get; set; }
         private bool IsKeyBoardAction { get; set; }
@@ -942,7 +941,6 @@ namespace Syncfusion.Blazor.Toolkit.Calendars
             {
                 CurrentValueAsString = null;
             }
-            IsCleared = false;
             await Task.CompletedTask.ConfigureAwait(false);
         }
 
@@ -1088,12 +1086,12 @@ namespace Syncfusion.Blazor.Toolkit.Calendars
 
         private bool ShouldClearInput()
         {
-            dynamic? disbleCellDetail = GetDisabledCellDetail();
+            CellDetails? disbleCellDetail = GetDisabledCellDetail();
             return (Value is null && StrictMode && (FloatLabelType != FloatLabelType.Always) && !string.IsNullOrEmpty(Placeholder) && EnableMask) ||
                    (StrictMode && IsKeyBoardAction && disbleCellDetail is not null) || (!EnableMask && Value is null && StrictMode);
         }
 
-        private dynamic? GetDisabledCellDetail()
+        private CellDetails? GetDisabledCellDetail()
         {
             if (Value is null || DisabledDayCellData is null || DisabledDayCellData.Count == 0)
             {
@@ -1159,7 +1157,6 @@ namespace Syncfusion.Blazor.Toolkit.Calendars
             {
                 ClearBtnStopPropagation = true;
             }
-            IsCleared = true;
         }
 
         private async Task ClearInputValueAsync()
@@ -1204,10 +1201,6 @@ namespace Syncfusion.Blazor.Toolkit.Calendars
             if (IsCalendarRender)
             {
                 await HidePopupAsync(args).ConfigureAwait(false);
-            }
-            if (EnableMask)
-            {
-                IsCleared = false;
             }
         }
 
@@ -1613,7 +1606,7 @@ namespace Syncfusion.Blazor.Toolkit.Calendars
 
         private bool HasValidationError()
         {
-            dynamic? disbleCellDetail = GetDisabledCellDetail();
+            CellDetails? disbleCellDetail = GetDisabledCellDetail();
             return (Value is not null && !(ConvertDateValue(Value) >= Min && ConvertDateValue(Value) <= Max)) || ((!StrictMode || (IsFocused && ValidateOnInput))
                 && !string.IsNullOrEmpty(CurrentValueAsString) && Value is null && (CurrentMaskFormat != CurrentValueAsString)) || (IsKeyBoardAction && disbleCellDetail is not null);
         }

@@ -1,4 +1,5 @@
 ﻿using System.Collections;
+using System.Diagnostics.CodeAnalysis;
 using System.Dynamic;
 using Syncfusion.Blazor.Toolkit.Internal;
 
@@ -51,6 +52,8 @@ namespace Syncfusion.Blazor.Toolkit.Data
         /// <returns>A task that represents the asynchronous operation. The result contains either a DataResult object with the
         /// operation results and count information, or the operation result collection, depending on the query
         /// parameters.</returns>
+        [RequiresUnreferencedCode(AdaptorTrimWarning)]
+        [RequiresDynamicCode(AdaptorAotWarning)]
         public override async Task<object> PerformDataOperation<T>(object queries)
         {
             IEnumerable DataSource = DataManager.Json; //Component data source should be propagated here.            
@@ -80,6 +83,8 @@ namespace Syncfusion.Blazor.Toolkit.Data
         /// <param name="dataSource">Data source value.</param>
         /// <param name="queries">Query to be processed.</param>
         /// <returns>DataResult.</returns>
+        [RequiresUnreferencedCode(AdaptorTrimWarning)]
+        [RequiresDynamicCode(AdaptorAotWarning)]
         public static DataResult DataOperationInvoke<T>(
             IEnumerable dataSource, DataManagerRequest queries)
         {
@@ -202,6 +207,8 @@ namespace Syncfusion.Blazor.Toolkit.Data
         /// <param name="DataSource">The collection of data to be grouped. Must implement IEnumerable.</param>
         /// <param name="DataObject">The DataResult object that will hold the grouped result and count. Cannot be null.</param>
         /// <returns>A DataResult object containing the grouped data and the total count after grouping.</returns>
+        [RequiresUnreferencedCode(AdaptorTrimWarning)]
+        [RequiresDynamicCode(AdaptorAotWarning)]
         public static DataResult GroupResult<T>(DataManagerRequest queries, IEnumerable DataSource, DataResult DataObject)
         {
             ArgumentNullException.ThrowIfNull(queries);
@@ -228,6 +235,8 @@ namespace Syncfusion.Blazor.Toolkit.Data
         /// <param name="datasource">Data source value.</param>
         /// <param name="dm">Query to be processed.</param>
         /// <returns>IEnumerable.</returns>
+        [RequiresUnreferencedCode(AdaptorTrimWarning)]
+        [RequiresDynamicCode(AdaptorAotWarning)]
         public static IEnumerable CollectChildRecords(IEnumerable datasource, DataManagerRequest dm)
         {
             if (datasource == null || dm == null) { return null!; }
@@ -282,6 +291,8 @@ namespace Syncfusion.Blazor.Toolkit.Data
         }
 
         /// <inheritdoc/>
+        [RequiresUnreferencedCode(AdaptorTrimWarning)]
+        [RequiresDynamicCode(AdaptorAotWarning)]
         public override async Task<object> ProcessResponse<T>(object data, DataManagerRequest queries)
         {
             if (queries != null && queries.RequiresCounts)
@@ -302,6 +313,6 @@ namespace Syncfusion.Blazor.Toolkit.Data
 
                 return await Task.FromResult(((IEnumerable)data).Cast<T>().ToList()).ConfigureAwait(false);
             }
-        }        
+        }
     }
 }

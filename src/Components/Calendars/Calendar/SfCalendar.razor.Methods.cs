@@ -136,7 +136,7 @@ namespace Syncfusion.Blazor.Toolkit.Calendars
         /// <exclude />
         private async Task ApplyMultiSelectionChangesAsync(List<DateTime> updatedValues)
         {
-            NotifyPropertyChanges(nameof(Value), GenericValue(updatedValues.LastOrDefault()), CalendarBase_Value);
+            _ = NotifyPropertyChanges(nameof(Value), GenericValue(updatedValues.LastOrDefault()), CalendarBase_Value);
             await UpdateDateValuesAsync([.. updatedValues]).ConfigureAwait(false);
         }
 

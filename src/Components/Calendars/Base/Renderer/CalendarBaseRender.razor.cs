@@ -31,7 +31,7 @@ namespace Syncfusion.Blazor.Toolkit.Calendars.Internal
             nameof(FirstDayOfWeek),
             nameof(Min),
             nameof(Max),
-            nameof(SfCalendar<TValue>.Values)
+            CALENDAR_BASE_VALUES
         ];
 
         private async Task OnCalendarKeyDownAsync(KeyboardEventArgs e)
@@ -188,7 +188,7 @@ namespace Syncfusion.Blazor.Toolkit.Calendars.Internal
         {
             if (Parent as SfCalendar<TValue> is not null && Parent.PropertyChanges is not null)
             {
-                Parent.PropertyChanges.Remove(key);
+                _ = Parent.PropertyChanges.Remove(key);
             }
         }
 
@@ -272,7 +272,7 @@ namespace Syncfusion.Blazor.Toolkit.Calendars.Internal
         {
             DateTime defaultDate = DateTime.Now.Date;
             CurrentDate = Parent is not null && HasValidParentValue()
-                ? ConvertDate(Parent.Value!)
+                ? ConvertDate(Parent.Value)
                 : CurrentDateValue is not null ? ConvertDate(CurrentDateValue) : defaultDate;
         }
 
@@ -443,7 +443,7 @@ namespace Syncfusion.Blazor.Toolkit.Calendars.Internal
             return Parent is not null && value.Date != Parent.Max.Date && value >= Parent.Max && Parent.Min <= Parent.Max;
         }
 
-        private bool HasValidValue(TValue value)
+        private static bool HasValidValue(TValue value)
         {
             return value is not null && !SfBaseUtils.Equals(value, default);
         }
@@ -499,9 +499,9 @@ namespace Syncfusion.Blazor.Toolkit.Calendars.Internal
         {
             bool isDateTimeOffset = type == typeof(DateTimeOffset) || (isNullable && Nullable.GetUnderlyingType(type) == typeof(DateTimeOffset));
             bool isDateOnly = type == typeof(DateOnly) || (isNullable && Nullable.GetUnderlyingType(type) == typeof(DateOnly));
-            TValue? val = isDateTimeOffset ? (TValue)SfBaseUtils.ChangeType(new DateTimeOffset(dateValue), type)
-                : isDateOnly ? (TValue)SfBaseUtils.ChangeType(new DateOnly(dateValue.Year, dateValue.Month, dateValue.Day), type)
-                : (TValue)SfBaseUtils.ChangeType(dateValue, type);
+            TValue? val = isDateTimeOffset ? (TValue?)SfBaseUtils.ChangeType(new DateTimeOffset(dateValue), type)
+                : isDateOnly ? (TValue?)SfBaseUtils.ChangeType(new DateOnly(dateValue.Year, dateValue.Month, dateValue.Day), type)
+                : (TValue?)SfBaseUtils.ChangeType(dateValue, type);
             UpdateMinMax(val);
         }
 
@@ -775,7 +775,7 @@ namespace Syncfusion.Blazor.Toolkit.Calendars.Internal
             {
                 return;
             }
-            TValue? tempValue = Parent.Value is null ? default : (TValue)SfBaseUtils.ChangeType(Parent!.Value!, PropertyType!);
+            TValue? tempValue = Parent.Value is null ? default : (TValue?)SfBaseUtils.ChangeType(Parent!.Value!, PropertyType!);
             Parent.ChangedArgs = new ChangedEventArgs<TValue> { Value = tempValue!, Values = MultiValues };
             await Parent.ChangeHandlerAsync(args, MultiValues, MultiSelection).ConfigureAwait(false);
         }
@@ -1048,7 +1048,7 @@ namespace Syncfusion.Blazor.Toolkit.Calendars.Internal
         /// </summary>
         /// <param name="dateValue">The date value string to parse.</param>
         /// <returns>The parsed day value, or 1 if parsing fails.</returns>
-        private int ParseHijriDay(string? dateValue)
+        private static int ParseHijriDay(string? dateValue)
         {
             return int.TryParse(dateValue, out int hijriDayFromValue) && hijriDayFromValue > 0 ? hijriDayFromValue : 1;
         }
@@ -1227,7 +1227,7 @@ namespace Syncfusion.Blazor.Toolkit.Calendars.Internal
             PreviousCellListData = UpdatePreviousCell ?? PreviousCellListData;
         }
 
-        private bool IsOtherMonthCell(string? classList)
+        private static bool IsOtherMonthCell(string? classList)
         {
             return classList is not null && classList.Contains(OTHER_MONTH, StringComparison.Ordinal);
         }
@@ -1243,7 +1243,7 @@ namespace Syncfusion.Blazor.Toolkit.Calendars.Internal
             return view == depthView && startView >= depthView;
         }
 
-        private bool IsCurrentMonthCell(string? classList, int view)
+        private static bool IsCurrentMonthCell(string? classList, int view)
         {
             return classList is not null && !classList.Contains(OTHER_MONTH, StringComparison.Ordinal) && view == MONTH_VIEW_VAL;
         }
@@ -1310,7 +1310,8 @@ namespace Syncfusion.Blazor.Toolkit.Calendars.Internal
             bool isDefaultValue = Parent is not null && Parent.Value is not null && !SfBaseUtils.Equals(Parent.Value, default);
             if (isDefaultValue && Parent is not null)
             {
-                DateTime changeValue = (DateTime)SfBaseUtils.ChangeType(Parent.Value!, typeof(TValue));
+                // Unbox the conversion result directly to preserve null and wrong-boxed-type exceptions.
+                DateTime changeValue = (DateTime)SfBaseUtils.ChangeType(Parent.Value, typeof(TValue))!;
                 if (!copyValues.Contains(changeValue))
                 {
                     copyValues.Add(changeValue);
@@ -1324,7 +1325,7 @@ namespace Syncfusion.Blazor.Toolkit.Calendars.Internal
             return MultiSelection && MultiValues is not null && MultiValues.Length > 0 && Parent is not null && CheckPresentDate(curDate, MultiValues);
         }
 
-        private void RemoveFromSelection(DateTime curDate, List<DateTime> copyValues)
+        private static void RemoveFromSelection(DateTime curDate, List<DateTime> copyValues)
         {
             for (int tempIndex = 0; tempIndex < copyValues.Count; tempIndex++)
             {
@@ -1523,7 +1524,8 @@ namespace Syncfusion.Blazor.Toolkit.Calendars.Internal
             bool isDefaultValue = Parent.Value is not null && !SfBaseUtils.Equals(Parent.Value, default);
             if (isDefaultValue)
             {
-                DateTime changeValue = (DateTime)SfBaseUtils.ChangeType(Parent.Value!, typeof(TValue));
+                // Unbox the conversion result directly to preserve null and wrong-boxed-type exceptions.
+                DateTime changeValue = (DateTime)SfBaseUtils.ChangeType(Parent.Value, typeof(TValue))!;
                 if (!copyValues.Contains(changeValue))
                 {
                     copyValues.Add(changeValue);
@@ -1560,7 +1562,7 @@ namespace Syncfusion.Blazor.Toolkit.Calendars.Internal
             {
                 return;
             }
-            DateTime parentDate = ConvertDate(Parent.Value!);
+            DateTime parentDate = ConvertDate(Parent.Value);
             DateTime adjustedDate = date.AddHours(parentDate.TimeOfDay.TotalHours);
             await Parent.UpdateCalendarPropertyAsync(VALUE, GenericValue(adjustedDate)).ConfigureAwait(false);
         }
@@ -1579,7 +1581,7 @@ namespace Syncfusion.Blazor.Toolkit.Calendars.Internal
             await Parent.UpdateCalendarPropertyAsync(VALUE, selectValues).ConfigureAwait(false);
         }
 
-        private bool ShouldRemoveFromMultiSelection(bool multiSelection, DateTime[]? values, DateTime date)
+        private static bool ShouldRemoveFromMultiSelection(bool multiSelection, DateTime[]? values, DateTime date)
         {
             return multiSelection && values is not null && values.Length > 0 && values.Any(d => d.Date == date.Date);
         }
@@ -1639,7 +1641,7 @@ namespace Syncfusion.Blazor.Toolkit.Calendars.Internal
             {
                 return;
             }
-            TValue? tempValue = IsNullValue(Parent.Value!) ? default! : (TValue)SfBaseUtils.ChangeType(Parent.Value!, PropertyType);
+            TValue? tempValue = IsNullValue(Parent.Value!) ? default! : (TValue?)SfBaseUtils.ChangeType(Parent.Value!, PropertyType);
             Parent.ChangedArgs = new ChangedEventArgs<TValue> { Value = tempValue!, Values = MultiValues };
             await Parent.ChangeHandlerAsync(events, MultiValues, multiSelection, isSelection).ConfigureAwait(false);
         }
@@ -1649,7 +1651,7 @@ namespace Syncfusion.Blazor.Toolkit.Calendars.Internal
             return DateValue is null;
         }
 
-        private DateTime GetIdValue(CellDetails args)
+        private static DateTime GetIdValue(CellDetails args)
         {
             long id = long.Parse(args.CellID.Split(_separatorChar)[0], CultureInfo.CurrentCulture);
             string dateString = Intl.GetDateFormat(new DateTime(id), FORMAT_FULL_DATE);
@@ -1742,13 +1744,13 @@ namespace Syncfusion.Blazor.Toolkit.Calendars.Internal
             TValue? dateVal = GenericValue(dateValue);
             if (Parent is not null && GetViewNumber(Parent.Start.ToString()) >= GetViewNumber(Parent.Depth.ToString()))
             {
-                await NavigateToAsync(Parent.Depth, dateVal!, args).ConfigureAwait(false);
+                await NavigateToAsync(Parent.Depth, dateVal, args).ConfigureAwait(false);
             }
             else
             {
                 if (Parent is not null)
                 {
-                    await NavigateToAsync(Parent.Depth, dateVal!, args).ConfigureAwait(false);
+                    await NavigateToAsync(Parent.Depth, dateVal, args).ConfigureAwait(false);
                 }
             }
         }
@@ -1756,7 +1758,7 @@ namespace Syncfusion.Blazor.Toolkit.Calendars.Internal
         /// <summary>
         /// This method is used to navigate to the month/year/decade view of the Calendar.
         /// </summary>
-        internal async Task NavigateToAsync(CalendarView view, TValue dateValue, MouseEventArgs? args = null)
+        internal async Task NavigateToAsync(CalendarView view, TValue? dateValue, MouseEventArgs? args = null)
         {
             if (Parent is null)
             {
@@ -1916,7 +1918,7 @@ namespace Syncfusion.Blazor.Toolkit.Calendars.Internal
                     await ControlDownKeyActionAsync(args, levelRestrict, eventArgs, view).ConfigureAwait(false);
                     break;
                 case HOME:
-                    await HandleHomeKeyAsync(view, args.DateValue).ConfigureAwait(false);
+                    await HandleHomeKeyAsync(view).ConfigureAwait(false);
                     break;
                 case END:
                     await HandleEndKeyAsync(view).ConfigureAwait(false);
@@ -1969,11 +1971,11 @@ namespace Syncfusion.Blazor.Toolkit.Calendars.Internal
             }
         }
 
-        private async Task HandleHomeKeyAsync(int view, string dateValue)
+        private async Task HandleHomeKeyAsync(int view)
         {
             if (CalendarMode == CalendarType.Islamic)
             {
-                await IslamicHomeKeyActionAsync(view, dateValue).ConfigureAwait(false);
+                await IslamicHomeKeyActionAsync(view).ConfigureAwait(false);
             }
             else
             {
@@ -2013,7 +2015,7 @@ namespace Syncfusion.Blazor.Toolkit.Calendars.Internal
             }
             int shiftPageValue = args.Action == SHIFT_PAGE_UP ? -1 : 1;
             AddYears(CurrentDate, shiftPageValue, args.DateValue);
-            await NavigateToAsync(Parent.Depth, (TValue)SfBaseUtils.ChangeType(CurrentDate, PropertyType)).ConfigureAwait(false);
+            await NavigateToAsync(Parent.Depth, (TValue?)SfBaseUtils.ChangeType(CurrentDate, PropertyType)).ConfigureAwait(false);
         }
 
         private async Task HandleControlHomeEndKeysAsync(KeyActions args)
@@ -2023,7 +2025,7 @@ namespace Syncfusion.Blazor.Toolkit.Calendars.Internal
                 return;
             }
             DateTime homeEndDate = CalculateControlHomeEndDate(args.Action);
-            await NavigateToAsync(Parent.Depth, (TValue)SfBaseUtils.ChangeType(homeEndDate, PropertyType)).ConfigureAwait(false);
+            await NavigateToAsync(Parent.Depth, (TValue?)SfBaseUtils.ChangeType(homeEndDate, PropertyType)).ConfigureAwait(false);
         }
 
         private DateTime CalculateControlHomeEndDate(string action)
@@ -2072,7 +2074,7 @@ namespace Syncfusion.Blazor.Toolkit.Calendars.Internal
             await SwitchViewAsync(view).ConfigureAwait(false);
         }
 
-        private async Task IslamicHomeKeyActionAsync(int view, string? dateValue)
+        private async Task IslamicHomeKeyActionAsync(int view)
         {
             DateTime homeDate = GetHijriStartDate(view);
             CurrentDate = homeDate;
@@ -2212,7 +2214,7 @@ namespace Syncfusion.Blazor.Toolkit.Calendars.Internal
         {
             int monthOffset = action == PAGE_DOWN ? SINGLE_MONTH_OFFSET : -SINGLE_MONTH_OFFSET;
             AddMonths(CurrentDate, monthOffset);
-            await NavigateToAsync(CalendarView.Year, (TValue)SfBaseUtils.ChangeType(CurrentDate, PropertyType)).ConfigureAwait(false);
+            await NavigateToAsync(CalendarView.Year, (TValue?)SfBaseUtils.ChangeType(CurrentDate, PropertyType)).ConfigureAwait(false);
         }
 
         /// <summary>
@@ -2222,7 +2224,7 @@ namespace Syncfusion.Blazor.Toolkit.Calendars.Internal
         {
             int yearOffset = action == PAGE_DOWN ? DECADE_YEAR_OFFSET : -DECADE_YEAR_OFFSET;
             AddYears(CurrentDate, yearOffset);
-            await NavigateToAsync(CalendarView.Decade, (TValue)SfBaseUtils.ChangeType(CurrentDate, PropertyType)).ConfigureAwait(false);
+            await NavigateToAsync(CalendarView.Decade, (TValue?)SfBaseUtils.ChangeType(CurrentDate, PropertyType)).ConfigureAwait(false);
         }
 
         /// <summary>
@@ -2232,7 +2234,7 @@ namespace Syncfusion.Blazor.Toolkit.Calendars.Internal
         {
             int monthOffset = action == PAGE_DOWN ? SINGLE_MONTH_OFFSET : -SINGLE_MONTH_OFFSET;
             AddMonths(CurrentDate, monthOffset);
-            await NavigateToAsync(CalendarView.Month, (TValue)SfBaseUtils.ChangeType(CurrentDate, PropertyType)).ConfigureAwait(false);
+            await NavigateToAsync(CalendarView.Month, (TValue?)SfBaseUtils.ChangeType(CurrentDate, PropertyType)).ConfigureAwait(false);
         }
 
         private async Task IslamicPageKeyActionAsync(string action, string? dateValue)
@@ -2243,10 +2245,10 @@ namespace Syncfusion.Blazor.Toolkit.Calendars.Internal
             DateTime newDate = CreateIslamicNavigationDate(newYear, newMonth, currentHijriDay);
             CurrentDate = newDate;
             CalendarView viewToNavigate = DetermineNavigationView();
-            await NavigateToAsync(viewToNavigate, (TValue)SfBaseUtils.ChangeType(CurrentDate, PropertyType)).ConfigureAwait(false);
+            await NavigateToAsync(viewToNavigate, (TValue?)SfBaseUtils.ChangeType(CurrentDate, PropertyType)).ConfigureAwait(false);
         }
 
-        private int ParseHijriDay(string? dateValue, HijriDate hijriDate)
+        private static int ParseHijriDay(string? dateValue, HijriDate hijriDate)
         {
             return int.TryParse(dateValue, out int hijriDayFromValue) && hijriDayFromValue > 0 ? hijriDayFromValue : hijriDate.Date;
         }
@@ -2272,7 +2274,7 @@ namespace Syncfusion.Blazor.Toolkit.Calendars.Internal
             return Parent is not null && Parent.Start == CalendarView.Decade && Parent.Depth == CalendarView.Decade;
         }
 
-        private (int year, int month) CalculateIslamicMonthNavigation(string action, int currentYear, int currentMonth)
+        private static (int year, int month) CalculateIslamicMonthNavigation(string action, int currentYear, int currentMonth)
         {
             if (action == PAGE_DOWN)
             {
@@ -2281,7 +2283,7 @@ namespace Syncfusion.Blazor.Toolkit.Calendars.Internal
             return currentMonth == 1 ? (currentYear - 1, 12) : (currentYear, currentMonth - 1);
         }
 
-        private DateTime CreateIslamicNavigationDate(int year, int month, int preferredDay)
+        private static DateTime CreateIslamicNavigationDate(int year, int month, int preferredDay)
         {
             HijriCalendar hijriCalendar = new();
             int daysInMonth = hijriCalendar.GetDaysInMonth(year, month);
@@ -2478,7 +2480,7 @@ namespace Syncfusion.Blazor.Toolkit.Calendars.Internal
         }
 
         // Format the start and end Hijri years into a string header
-        private string FormatHijriHeader(int startYear, int endYear)
+        private static string FormatHijriHeader(int startYear, int endYear)
         {
             string startYearFormatted = Intl.GetDateFormat(new DateTime(startYear, 1, 1), FORMAT_YEAR);
             string endYearFormatted = Intl.GetDateFormat(new DateTime(endYear, 1, 1), FORMAT_YEAR);
@@ -2495,11 +2497,11 @@ namespace Syncfusion.Blazor.Toolkit.Calendars.Internal
                     if (character is >= '\u0660' and <= '\u0669')
                     {
                         char westernDigit = (char)(character - '\u0660' + '0');
-                        result.Append(westernDigit);
+                        _ = result.Append(westernDigit);
                     }
                     else
                     {
-                        result.Append(character);
+                        _ = result.Append(character);
                     }
                 }
                 return result.ToString();

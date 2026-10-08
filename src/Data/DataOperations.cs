@@ -1,10 +1,13 @@
 ﻿using System.Collections;
+using System.Diagnostics.CodeAnalysis;
 
 namespace Syncfusion.Blazor.Toolkit.Data
 {
     /// <summary>
     /// DataOperation class that performs data operation in IEnumerable and IQueryable type data sources.
     /// </summary>
+    [RequiresUnreferencedCode("The Syncfusion data query engine builds LINQ expressions and reflects over the queried model type at runtime; members it depends on may be removed by the trimmer.")]
+    [RequiresDynamicCode("The Syncfusion data query engine constructs generic methods and compiles expression trees at runtime, which is not supported by Native AOT.")]
     public static class DataOperations
     {
         /// <summary>
@@ -24,7 +27,7 @@ namespace Syncfusion.Blazor.Toolkit.Data
         /// <param name="dataSource">Data source to be sorted.</param>
         /// <param name="sortedColumns">List of sort criteria.</param>
         /// <returns>IEnumerable - sorted records.</returns>
-        public static IEnumerable PerformSorting(IEnumerable dataSource, List<SortedColumn> sortedColumns)
+        public static IEnumerable PerformSorting(IEnumerable dataSource, IList<SortedColumn> sortedColumns)
         {
             return EnumerableOperation.PerformSorting(dataSource, sortedColumns);
         }
@@ -35,7 +38,7 @@ namespace Syncfusion.Blazor.Toolkit.Data
         /// <param name="dataSource">Data source to be sorted.</param>
         /// <param name="sortedColumns">List of sort criteria.</param>
         /// <returns>IEnumerable - sorted records.</returns>
-        public static IEnumerable PerformSorting(IEnumerable dataSource, List<Sort> sortedColumns)
+        public static IEnumerable PerformSorting(IEnumerable dataSource, IList<Sort> sortedColumns)
         {
             return EnumerableOperation.PerformSorting(dataSource, sortedColumns);
         }
@@ -47,7 +50,7 @@ namespace Syncfusion.Blazor.Toolkit.Data
         /// <param name="whereFilter">List of filter criteria.</param>
         /// <param name="condition">Filter merge condition. Value can be either AND or OR.</param>
         /// <returns>IEnumerable - filtered records.</returns>
-        public static IEnumerable PerformFiltering(IEnumerable dataSource, List<WhereFilter> whereFilter, string condition)
+        public static IEnumerable PerformFiltering(IEnumerable dataSource, IList<WhereFilter> whereFilter, string condition)
         {
             return EnumerableOperation.PerformFiltering(dataSource, whereFilter, condition);
         }
@@ -58,7 +61,7 @@ namespace Syncfusion.Blazor.Toolkit.Data
         /// <param name="dataSource">Data source to be filtered.</param>
         /// <param name="searchFilter">List of search criteria.</param>
         /// <returns>IEnumerable - searched records.</returns>
-        public static IEnumerable PerformSearching(IEnumerable dataSource, List<SearchFilter> searchFilter)
+        public static IEnumerable PerformSearching(IEnumerable dataSource, IList<SearchFilter> searchFilter)
         {
             return EnumerableOperation.PerformSearching(dataSource, searchFilter);
         }
@@ -91,7 +94,7 @@ namespace Syncfusion.Blazor.Toolkit.Data
         /// <param name="dataSource">Input data source to be grouped.</param>
         /// <param name="grouped">List of column names by which rows will be grouped.</param>
         /// <returns>IEnumerable.</returns>
-        public static IEnumerable PerformGrouping(IEnumerable dataSource, List<string> grouped)
+        public static IEnumerable PerformGrouping(IEnumerable dataSource, IList<string> grouped)
         {
             return EnumerableOperation.PerformGrouping(dataSource, grouped);
         }
@@ -139,7 +142,7 @@ namespace Syncfusion.Blazor.Toolkit.Data
         /// <param name="grouped">List of column names by which rows will be grouped.</param>
         /// <typeparam name="T">Type of the data source elements.</typeparam>
         /// <returns>IEnumerable.</returns>
-        public static IEnumerable PerformGrouping<T>(IEnumerable<T> dataSource, List<string> grouped)
+        public static IEnumerable PerformGrouping<T>(IEnumerable<T> dataSource, IList<string> grouped)
         {
             return QueryableOperation.PerformGrouping(dataSource.AsQueryable(), grouped);
         }
@@ -151,7 +154,7 @@ namespace Syncfusion.Blazor.Toolkit.Data
         /// <param name="sortedColumns">List of sort criteria.</param>
         /// <typeparam name="T">Type of the data source elements.</typeparam>
         /// <returns>IEnumerable - sorted records.</returns>
-        public static IEnumerable<T> PerformSorting<T>(IEnumerable<T> dataSource, List<SortedColumn> sortedColumns)
+        public static IEnumerable<T> PerformSorting<T>(IEnumerable<T> dataSource, IList<SortedColumn> sortedColumns)
         {
             return QueryableOperation.PerformSorting(dataSource.AsQueryable(), sortedColumns);
         }
@@ -163,7 +166,7 @@ namespace Syncfusion.Blazor.Toolkit.Data
         /// <param name="sortedColumns">List of sort criteria.</param>
         /// <typeparam name="T">Type of the data source elements.</typeparam>
         /// <returns>IEnumerable - sorted records.</returns>
-        public static IEnumerable<T> PerformSorting<T>(IEnumerable<T> dataSource, List<Sort> sortedColumns)
+        public static IEnumerable<T> PerformSorting<T>(IEnumerable<T> dataSource, IList<Sort> sortedColumns)
         {
             return QueryableOperation.PerformSorting(dataSource.AsQueryable(), sortedColumns);
         }
@@ -174,7 +177,7 @@ namespace Syncfusion.Blazor.Toolkit.Data
         /// <param name="dataSource">Input data source.</param>
         /// <param name="select">List of fields to select.</param>
         /// <returns>IEnumerable containing only the selected fields from each record.</returns>
-        public static IEnumerable PerformSelect(IEnumerable dataSource, List<string> select)
+        public static IEnumerable PerformSelect(IEnumerable dataSource, IList<string> select)
         {
             return QueryableOperation.PerformSelect(dataSource.AsQueryable(), select);
         }
@@ -186,7 +189,7 @@ namespace Syncfusion.Blazor.Toolkit.Data
         /// <param name="searchFilter">List of search criteria.</param>
         /// <returns>IEnumerable - searched records.</returns>
         /// <typeparam name="T">Type of the data source elements.</typeparam>
-        public static IEnumerable<T> PerformSearching<T>(IEnumerable<T> dataSource, List<SearchFilter> searchFilter)
+        public static IEnumerable<T> PerformSearching<T>(IEnumerable<T> dataSource, IList<SearchFilter> searchFilter)
         {
             return QueryableOperation.PerformSearching(dataSource.AsQueryable(), searchFilter);
         }
@@ -199,7 +202,7 @@ namespace Syncfusion.Blazor.Toolkit.Data
         /// <param name="condition">Filter merge condition. Value can be either AND or OR.</param>
         /// <returns>IEnumerable - filtered records.</returns>
         /// <typeparam name="T">Type of the data source elements.</typeparam>
-        public static IEnumerable<T> PerformFiltering<T>(IEnumerable<T> dataSource, List<WhereFilter> whereFilter, string condition)
+        public static IEnumerable<T> PerformFiltering<T>(IEnumerable<T> dataSource, IList<WhereFilter> whereFilter, string condition)
         {
             return QueryableOperation.PerformFiltering(dataSource.AsQueryable(), whereFilter, condition);
         }
@@ -223,7 +226,7 @@ namespace Syncfusion.Blazor.Toolkit.Data
         /// <param name="grouped">List of column names by which rows will be grouped.</param>
         /// <typeparam name="T">Type of the data source elements.</typeparam>
         /// <returns>IQueryable.</returns>
-        public static IQueryable PerformGrouping<T>(IQueryable<T> dataSource, List<string> grouped)
+        public static IQueryable PerformGrouping<T>(IQueryable<T> dataSource, IList<string> grouped)
         {
             return QueryableOperation.PerformGrouping(dataSource, grouped);
         }
@@ -235,7 +238,7 @@ namespace Syncfusion.Blazor.Toolkit.Data
         /// <param name="sortedColumns">List of sort criteria.</param>
         /// <typeparam name="T">Type of the data source elements.</typeparam>
         /// <returns>IQueryable - sorted records.</returns>
-        public static IQueryable<T> PerformSorting<T>(IQueryable<T> dataSource, List<SortedColumn> sortedColumns)
+        public static IQueryable<T> PerformSorting<T>(IQueryable<T> dataSource, IList<SortedColumn> sortedColumns)
         {
             return QueryableOperation.PerformSorting(dataSource, sortedColumns);
         }
@@ -247,7 +250,7 @@ namespace Syncfusion.Blazor.Toolkit.Data
         /// <param name="sortedColumns">List of sort criteria.</param>
         /// <typeparam name="T">Type of the data source elements.</typeparam>
         /// <returns>IQueryable - sorted records.</returns>
-        public static IQueryable<T> PerformSorting<T>(IQueryable<T> dataSource, List<Sort> sortedColumns)
+        public static IQueryable<T> PerformSorting<T>(IQueryable<T> dataSource, IList<Sort> sortedColumns)
         {
             return QueryableOperation.PerformSorting(dataSource, sortedColumns);
         }
@@ -283,7 +286,7 @@ namespace Syncfusion.Blazor.Toolkit.Data
         /// <param name="searchFilter">List of search criteria.</param>
         /// <returns>IQueryable - searched records.</returns>
         /// <typeparam name="T">Type of the data source elements.</typeparam>
-        public static IQueryable<T> PerformSearching<T>(IQueryable<T> dataSource, List<SearchFilter> searchFilter)
+        public static IQueryable<T> PerformSearching<T>(IQueryable<T> dataSource, IList<SearchFilter> searchFilter)
         {
             return QueryableOperation.PerformSearching(dataSource, searchFilter);
         }
@@ -296,7 +299,7 @@ namespace Syncfusion.Blazor.Toolkit.Data
         /// <param name="condition">Filter merge condition. Value can be either AND or OR.</param>
         /// <returns>IQueryable - filtered records.</returns>
         /// <typeparam name="T">Type of the data source elements.</typeparam>
-        public static IQueryable<T> PerformFiltering<T>(IQueryable<T> dataSource, List<WhereFilter> whereFilter, string condition)
+        public static IQueryable<T> PerformFiltering<T>(IQueryable<T> dataSource, IList<WhereFilter> whereFilter, string condition)
         {
             return QueryableOperation.PerformFiltering(dataSource, whereFilter, condition);
         }
@@ -308,7 +311,7 @@ namespace Syncfusion.Blazor.Toolkit.Data
         /// <param name="select">List of fields to select.</param>
         /// <returns>IQueryable.</returns>
         /// <typeparam name="T">Type of the data source elements.</typeparam>
-        public static IQueryable PerformSelect<T>(IQueryable<T> dataSource, List<string> select)
+        public static IQueryable PerformSelect<T>(IQueryable<T> dataSource, IList<string> select)
         {
             return QueryableOperation.PerformSelect<T>(dataSource, select);
         }

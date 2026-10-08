@@ -58,8 +58,6 @@ namespace Syncfusion.Blazor.Toolkit.Calendars
         private const string LIST = "list";
         private const string AUTO_CAPITAL = "autocapitalize";
         private const string ARIA_EXPANDED = "aria-expanded";
-        private const string ARIA_LABELLEDBY = "aria-labelledby";
-        private const string ARIA_DESCRIBEDBY = "aria-describedby";
         private const string POPUP_CONTENT = "e-content";
         private const string DISABLED = "e-disabled";
         private const string RTL = "e-rtl";
@@ -146,12 +144,6 @@ namespace Syncfusion.Blazor.Toolkit.Calendars
         private bool Navigated { get; set; }
 
         /// <summary>
-        /// Gets or sets a value indicating whether to stop propagation of clear button events.
-        /// </summary>
-        /// <exclude />
-        private bool ClearBtnStopPropagation { get; set; }
-
-        /// <summary>
         /// Gets or sets a value indicating whether the input value was cleared.
         /// </summary>
         /// <exclude />
@@ -192,12 +184,6 @@ namespace Syncfusion.Blazor.Toolkit.Calendars
         /// </summary>
         /// <exclude />
         private CultureInfo CurrentCulture { get; set; } = default!;
-
-        /// <summary>
-        /// Gets or sets a value indicating whether the time list has been updated.
-        /// </summary>
-        /// <exclude />
-        private bool ListUpdated { get; set; }
 
         /// <summary>
         /// Gets or sets the date part used for time calculations.
@@ -631,7 +617,7 @@ namespace Syncfusion.Blazor.Toolkit.Calendars
             InternalStep = NotifyPropertyChanges(nameof(Step), Step, InternalStep);
             InternalWidth = NotifyPropertyChanges(nameof(Width), Width, InternalWidth);
             InternalZIndex = NotifyPropertyChanges(nameof(ZIndex), ZIndex, InternalZIndex);
-            NotifyPropertyChanges(nameof(CssClass), CssClass, InternalCssClass);
+            _ = NotifyPropertyChanges(nameof(CssClass), CssClass, InternalCssClass);
             InternalValue = NotifyPropertyChanges(nameof(Value), Value, InternalValue);
             InternalReadonly = NotifyPropertyChanges(nameof(READ_ONLY), Readonly, InternalReadonly);
         }
@@ -768,7 +754,7 @@ namespace Syncfusion.Blazor.Toolkit.Calendars
             if (StrictMode && EnableMask && IsRendered)
             {
                 await CreateMaskAsync().ConfigureAwait(false);
-                await InvokeVoidAsync(_timePickerJsModule!, _timePickerJsInProcessModule!, "updateCurrentValue", [DataId, CurrentValueAsString!]).ConfigureAwait(true);
+                await InvokeVoidAsync(_timePickerJsModule, _timePickerJsInProcessModule, "updateCurrentValue", [DataId, CurrentValueAsString]).ConfigureAwait(true);
             }
         }
 
@@ -783,11 +769,6 @@ namespace Syncfusion.Blazor.Toolkit.Calendars
         /// </remarks>
         private async Task InvokeClearBtnEventAsync(EventArgs args)
         {
-            if (!IsDevice)
-            {
-                ClearBtnStopPropagation = true;
-            }
-
             IsCleared = true;
             CurrentInputValue = null;
             UpdateValue(null);
@@ -891,6 +872,26 @@ namespace Syncfusion.Blazor.Toolkit.Calendars
         }
 
         /// <summary>
+        /// Coerces the <see cref="Step"/> parameter to a value that evenly divides a full day (1440 minutes).
+        /// </summary>
+        /// <remarks>
+        /// Non-positive values fall back to the default of 30, and values that do not divide 1440 are
+        /// coerced to the nearest lower valid divisor. This preserves the historical setter behavior now
+        /// that <see cref="Step"/> is a simple auto-property.
+        /// </remarks>
+        private void NormalizeStep()
+        {
+            if (Step <= 0)
+            {
+                Step = 30;
+            }
+            else if (1440 % Step != 0)
+            {
+                Step = GetNearestValidStep(Step);
+            }
+        }
+
+        /// <summary>
         /// Generates the list of time options for the popup based on Step, Min, and Max properties.
         /// </summary>
         /// <returns>A <see cref="Task"/> representing the asynchronous list generation operation.</returns>
@@ -924,9 +925,9 @@ namespace Syncfusion.Blazor.Toolkit.Calendars
                                 DatePart = source.Date;
                             }
                         }
-                        catch
+                        catch (Exception ex) when (ex is InvalidCastException or FormatException or OverflowException or ArgumentException)
                         {
-                            // Fall through to today's date
+                            // Value could not be converted to a DateTime (type/format/overflow). Fall through to today's date.
                         }
                     }
                     if (DatePart == default)
@@ -965,8 +966,6 @@ namespace Syncfusion.Blazor.Toolkit.Calendars
                     ListData.Add(listItem);
                     start = start.Add(interval);
                 }
-
-                ListUpdated = true;
             }
         }
 
@@ -994,11 +993,7 @@ namespace Syncfusion.Blazor.Toolkit.Calendars
         /// </remarks>
         private CultureInfo GetDefaultCulture()
         {
-            if (!string.IsNullOrEmpty(TimePickerLocale))
-            {
-                return new CultureInfo(TimePickerLocale);
-            }
-            return Intl.GetCulture();
+            return !string.IsNullOrEmpty(TimePickerLocale) ? new CultureInfo(TimePickerLocale) : Intl.GetCulture();
         }
 
         /// <summary>
@@ -1673,44 +1668,6 @@ namespace Syncfusion.Blazor.Toolkit.Calendars
                 return new string('\\', 2 * slashCount);
             });
             return modifiedInput;
-        }
-
-        /// <summary>
-        /// Parses a time value string using exact format matching for validation purposes.
-        /// </summary>
-        /// <param name="timeValue">The time string to parse.</param>
-        /// <param name="format">The exact format to use for parsing.</param>
-        /// <returns>A parsed TValue object if successful, or default if parsing fails.</returns>
-        /// <remarks>
-        /// This method provides strict parsing using exact format matching for different TValue types,
-        /// used primarily for validation scenarios where exact format compliance is required.
-        /// </remarks>
-        private static TValue? ParseDateTimeVal(string timeValue, string format)
-        {
-            Type propertyType = typeof(TValue);
-            if (IsDateTimeType())
-            {
-                if (DateTime.TryParseExact(timeValue, format, CultureInfo.CurrentCulture, DateTimeStyles.AssumeUniversal, out DateTime dateTimeVal))
-                {
-                    return (TValue?)SfBaseUtils.ChangeType(dateTimeVal, propertyType);
-                }
-            }
-            else if (IsTimeOnlyType())
-            {
-                if (TimeOnly.TryParseExact(timeValue, format, CultureInfo.CurrentCulture, DateTimeStyles.AssumeUniversal, out TimeOnly timeOnlyVal))
-                {
-                    return (TValue?)SfBaseUtils.ChangeType(timeOnlyVal, propertyType);
-                }
-            }
-            else
-            {
-                if (DateTimeOffset.TryParseExact(timeValue, format, CultureInfo.CurrentCulture, DateTimeStyles.AssumeUniversal, out DateTimeOffset dateTimeOffsetVal))
-                {
-                    return (TValue?)SfBaseUtils.ChangeType(dateTimeOffsetVal, propertyType);
-                }
-            }
-
-            return default;
         }
 
         /// <summary>

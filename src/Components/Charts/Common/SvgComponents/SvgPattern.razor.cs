@@ -59,7 +59,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
         /// <see cref="RectOptions"/>, <see cref="PathOptions"/>, and <see cref="EllipseOptions"/>.
         /// </remarks>
         [Parameter]
-        public List<object>? ShapeOptions { get; set; }
+        public IList<object>? ShapeOptions { get; set; }
 
         #endregion
     }

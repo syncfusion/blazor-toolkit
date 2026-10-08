@@ -13,12 +13,12 @@ namespace Syncfusion.Blazor.Toolkit.Charts
         #region Fields
 
         private string _horizontalAxisName = null!;
-        private string _yCoordinate = "0";
+        private string? _yCoordinate = "0";
         private string _verticalAxisName = null!;
-        private bool _isPropertyChanged;
+        private new bool _isPropertyChanged;
         private Units _coordinateUnits;
         private Regions _region;
-        private object _xCoordinate = "0";
+        private object? _xCoordinate = "0";
         private RenderFragment _contentTemplate = null!;
         #endregion
 
@@ -263,7 +263,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts
         /// </code>
         /// </example>
         [Parameter]
-        public string Y { get; set; } = "0";
+        public string? Y { get; set; } = "0";
 
         /// <summary> 
         /// Gets or sets the name of the vertical axis associated with the annotation. 
@@ -370,7 +370,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts
 
             if (!Equals(_xCoordinate, X))
             {
-                _xCoordinate = X ?? "0";
+                _xCoordinate = X;
                 _isPropertyChanged = Parent is not null;
             }
 

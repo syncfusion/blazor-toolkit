@@ -425,7 +425,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts
 
                 if (Parent is not null)
                 {
-                    _ = InvokeVoidAsync(Parent._chartJsModule!, Parent._chartJsInProcessModule!, "setEnableHighlight", [_enableHighlight, Parent._dataId]);
+                    _ = InvokeVoidAsync(Parent._chartJsModule, Parent._chartJsInProcessModule, "setEnableHighlight", [_enableHighlight, Parent._dataId]);
                 }
             }
 

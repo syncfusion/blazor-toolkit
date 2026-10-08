@@ -75,7 +75,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts
         /// </example>
         [Parameter]
         public override double Y { get; set; }
-		
+
         #endregion
 
         #region Lifecycle Methods

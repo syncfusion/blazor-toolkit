@@ -4,14 +4,14 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
     /// <summary>
     /// Base renderer for date/time axes. Provides helpers to compute time intervals and skeleton formats.
     /// </summary>
-    public class DateTimeBase : ChartAxisRenderer
+    internal class DateTimeBase : ChartAxisRenderer
     {
         #region Constants
         private const double MILLIS_PER_DAY = 86400000;
         #endregion
 
         #region Fields
-        private DateTime _startDate = new(1970, 1, 1);
+        private readonly DateTime _startDate = new(1970, 1, 1);
         #endregion
 
         #region Private Methods

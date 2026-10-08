@@ -1,4 +1,4 @@
-﻿﻿using Microsoft.AspNetCore.Components.Rendering;
+﻿using Microsoft.AspNetCore.Components.Rendering;
 
 namespace Syncfusion.Blazor.Toolkit.Charts.Internal
 {
@@ -69,16 +69,16 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
             _ = Direction.Append("L" + SPACE + point1.X.ToString(Culture) + SPACE + point1.Y.ToString(Culture) + SPACE);
 
             point.SymbolLocations.Add(point1);
-            point.SymbolLocations.ForEach(loc =>
+            foreach (ChartEventLocation loc in point.SymbolLocations)
             {
                 ChartPoints?[point.Index]?.SymbolLocations.Add(new IChartInternalLocation(Math.Round(loc.X, 2), Math.Round(loc.Y, 2)));
-            });
+            }
 
             point.Regions.Add(new Rect(point.SymbolLocations[0].X - Series.Marker.Width, point.SymbolLocations[0].Y - Series.Marker.Height, 2 * Series.Marker.Width, 2 * Series.Marker.Height));
-            point.Regions.ForEach(rect =>
+            foreach (Rect rect in point.Regions)
             {
                 ChartPoints?[point.Index]?.Regions.Add(new IRect(Math.Round(rect.X, 2), Math.Round(rect.Y, 2), rect.Width, rect.Height));
-            });
+            }
         }
 
         /// <summary>

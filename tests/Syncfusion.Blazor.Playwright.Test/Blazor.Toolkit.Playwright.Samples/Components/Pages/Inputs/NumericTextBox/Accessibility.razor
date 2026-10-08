@@ -4,13 +4,15 @@
 <h1>NumericTextBox — Accessibility</h1>
 
 <div style="max-width:480px">
-    <SfNumericTextBox Id="accessNumeric" TValue="double?" @bind-Value="AccValue" Min="0" Max="10" Step="1" ShowClearButton="true"></SfNumericTextBox>
+    <SfNumericTextBox Id="accessNumeric" TValue="double?" @bind-Value="AccValue" Min="0" Max="10" Step="1" ShowClearButton="true" ShowSpinButton="true"></SfNumericTextBox>
     <div style="margin-top:8px">
         <p id="aria-status">role: <span id="role"></span></p>
+        <p id="access-value">value: @(AccValue?.ToString() ?? "(empty)")</p>
         <p>Use keyboard to increment/decrement; ARIA attrs should update.</p>
     </div>
 </div>
 
 @code {
-    private double? AccValue { get; set; }
+    // Non-empty so the clear button is revealed on focus and can receive Tab.
+    private double? AccValue { get; set; } = 5;
 }

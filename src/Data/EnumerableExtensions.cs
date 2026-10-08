@@ -1,4 +1,5 @@
 ﻿using System.Collections;
+using System.Diagnostics.CodeAnalysis;
 using System.Linq.Expressions;
 using System.Reflection;
 using Syncfusion.Blazor.Toolkit.Data;
@@ -8,6 +9,8 @@ namespace Syncfusion.Blazor.Toolkit.Data
     /// <summary>
     /// Provides extension methods for enumerable collections to support parallel invocation and data operations.
     /// </summary>
+    [RequiresUnreferencedCode("The Syncfusion data query engine builds LINQ expressions and reflects over the queried model type at runtime; members it depends on may be removed by the trimmer.")]
+    [RequiresDynamicCode("The Syncfusion data query engine constructs generic methods and compiles expression trees at runtime, which is not supported by Native AOT.")]
     public static class EnumerableExtensions
     {
         internal static IEnumerable InvokeParallel(this IEnumerable source, Predicate<object> func, Type sourceType)
@@ -59,7 +62,7 @@ namespace Syncfusion.Blazor.Toolkit.Data
             ArgumentNullException.ThrowIfNull(source);
 
             ArgumentNullException.ThrowIfNull(selector);
-            return source.Provider.Execute<short>(Expression.Call(null, ((MethodInfo)MethodBase.GetMethodFromHandle(new RuntimeMethodHandle())!).MakeGenericMethod(new Type[] { typeof(TSource) }), new Expression[] { source.Expression, Expression.Quote(selector) }));
+            return source.Provider.Execute<short>(Expression.Call(null, ((MethodInfo)MethodBase.GetMethodFromHandle(new RuntimeMethodHandle())!).MakeGenericMethod([typeof(TSource)]), [source.Expression, Expression.Quote(selector)]));
         }
 
         /// <summary>
@@ -114,7 +117,7 @@ namespace Syncfusion.Blazor.Toolkit.Data
             ArgumentNullException.ThrowIfNull(source);
 
             ArgumentNullException.ThrowIfNull(selector);
-            return source.Provider.Execute<short?>(Expression.Call(null, ((MethodInfo)MethodBase.GetMethodFromHandle(new RuntimeMethodHandle())!).MakeGenericMethod(new Type[] { typeof(TSource) }), new Expression[] { source.Expression, Expression.Quote(selector) }));
+            return source.Provider.Execute<short?>(Expression.Call(null, ((MethodInfo)MethodBase.GetMethodFromHandle(new RuntimeMethodHandle())!).MakeGenericMethod([typeof(TSource)]), [source.Expression, Expression.Quote(selector)]));
         }
 
         /// <summary>

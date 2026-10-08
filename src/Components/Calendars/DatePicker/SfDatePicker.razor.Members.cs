@@ -225,9 +225,9 @@ namespace Syncfusion.Blazor.Toolkit.Calendars
         /// ]]></code>
         /// </example>
         [Parameter]
-        public string Placeholder
+        public string? Placeholder
         {
-            get => BasePlaceholder ?? default!; set => BasePlaceholder = value;
+            get => BasePlaceholder; set => BasePlaceholder = value;
         }
         /// <summary>
         /// Backing storage for the public <see cref="Placeholder"/> parameter.
@@ -237,7 +237,7 @@ namespace Syncfusion.Blazor.Toolkit.Calendars
         /// the <see cref="FloatLabelType"/> setting which can change how and when the placeholder is shown.
         /// </value>
         /// <exclude />
-        protected override string BasePlaceholder { get; set; } = default!;
+        protected override string? BasePlaceholder { get; set; }
 
         /// <summary>
         /// Gets or sets a boolean value indicating whether text entry is read-only in the <see cref="SfDatePicker{TValue}"/> component.
@@ -339,9 +339,9 @@ namespace Syncfusion.Blazor.Toolkit.Calendars
         /// ]]></code>
         /// </example>
         [Parameter]
-        public string Width
+        public string? Width
         {
-            get => BaseWidth ?? default!; set => BaseWidth = value;
+            get => BaseWidth; set => BaseWidth = value;
         }
 
         /// <summary>
@@ -412,7 +412,7 @@ namespace Syncfusion.Blazor.Toolkit.Calendars
         /// </remarks>
         /// <exclude/>
         [CascadingParameter(Name = "InPlaceEditor")]
-        protected dynamic? DatePickerParent { get; set; }
+        protected object? DatePickerParent { get; set; }
     }
 
     /// <summary>
@@ -493,7 +493,7 @@ namespace Syncfusion.Blazor.Toolkit.Calendars
         /// Gets or sets the <see cref="Width"/> of the <see cref="SfDatePicker{TValue}"/> component.
         /// </summary>
         /// <exclude/>
-        public string Width { get; set; } = string.Empty;
+        public string? Width { get; set; } = string.Empty;
 
         /// <summary>
         /// Gets or sets the <see cref="IsDatePopup"/> value to open and close the date popup.
@@ -590,7 +590,7 @@ namespace Syncfusion.Blazor.Toolkit.Calendars
         /// Gets or sets the text that is shown as a hint or <see cref="Placeholder"/> until the user focuses or enter a value in DatePicker.
         /// </summary>
         /// <exclude/>
-        public string Placeholder { get; set; } = string.Empty;
+        public string? Placeholder { get; set; } = string.Empty;
 
         /// <summary>
         /// Gets or sets the <see cref="ValueString"/> of the DatePicker in string type. The value is parsed based on the culture specific time format.

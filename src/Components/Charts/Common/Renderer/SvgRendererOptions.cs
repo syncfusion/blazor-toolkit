@@ -2,6 +2,23 @@
 
 namespace Syncfusion.Blazor.Toolkit.Charts.Internal
 {
+    /// <summary>
+    /// Specifies the font styling options, such as color, size, family, weight, and style, used when rendering SVG text elements.
+    /// </summary>
+    /// <example>
+    /// <code>
+    /// <![CDATA[
+    /// var font = new FontOptions
+    /// {
+    ///     Color = "#333333",
+    ///     Size = "14px",
+    ///     FontFamily = "Segoe UI",
+    ///     FontWeight = "600",
+    ///     FontStyle = "normal"
+    /// };
+    /// ]]>
+    /// </code>
+    /// </example>
     public class FontOptions
     {
         /// <summary>
@@ -58,25 +75,25 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
         /// <summary>
         /// Gets or sets the list of shape options within the pattern.
         /// </summary>
-        public List<object> ShapeOptions { get; set; } = null!;
+        public IList<object> ShapeOptions { get; set; } = null!;
     }
 
     /// <summary>
     /// Specifies SVG text element rendering options.
     /// </summary>
-    public class TextOptions
+    internal class TextOptions
     {
         #region Properties
 
         /// <summary>
         /// Gets or sets the collection of text content strings.
         /// </summary>
-        public List<string> TextCollection { get; set; } = new List<string>();
+        public IList<string> TextCollection { get; set; } = [];
 
         /// <summary>
         /// Gets or sets the collection of text locations for multi-line text.
         /// </summary>
-        public List<TextLocation> TextLocationCollection { get; set; } = new List<TextLocation>();
+        public IList<TextLocation> TextLocationCollection { get; set; } = [];
 
         /// <summary>
         /// Gets or sets the X coordinate.
@@ -238,7 +255,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
     /// <summary>
     /// Specifies SVG rectangle element rendering options.
     /// </summary>
-    public class RectOptions
+    internal class RectOptions
     {
         #region Properties
 
@@ -528,7 +545,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
     /// <summary>
     /// Specifies SVG ellipse element rendering options.
     /// </summary>
-    public class EllipseOptions
+    internal class EllipseOptions
     {
         #region Properties
 
@@ -742,7 +759,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
             Visibility = visibility;
             AccessibilityText = accessText;
         }
-        
+
         /// <summary>
         /// Initializes a new instance of the <see cref="CircleOptions"/> class with default values.
         /// </summary>
@@ -755,7 +772,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
     /// <summary>
     /// Specifies SVG image element rendering options.
     /// </summary>
-    public class ImageOptions
+    internal class ImageOptions
     {
         #region Properties
 
@@ -825,7 +842,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
             Visibility = visibility;
             PreserveAspectRatio = preserveAspectRatio;
         }
-        
+
         /// <summary>
         /// Initializes a new instance of the <see cref="ImageOptions"/> class with default values.
         /// </summary>
@@ -838,7 +855,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
     /// <summary>
     /// Specifies combined symbol rendering options for different shape types.
     /// </summary>
-    public class SymbolOptions
+    internal class SymbolOptions
     {
         /// <summary>
         /// Gets or sets the path rendering options.
@@ -864,7 +881,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
     /// <summary>
     /// Represents the rectangular dimensions of a region in two-dimensional space.
     /// </summary>
-    public class Rect 
+    public class Rect
     {
         #region Properties
 
@@ -899,7 +916,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
         /// <param name="y">The Y coordinate of the region.</param>
         /// <param name="width">The width of the region.</param>
         /// <param name="height">The height of the region.</param>
-        public Rect(double x, double y, double width, double height )
+        public Rect(double x, double y, double width, double height)
         {
             X = x;
             Y = y;
@@ -919,27 +936,18 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
     /// <summary>
     /// Represents a single text location with Y-coordinate for multi-line text rendering.
     /// </summary>
-    public class TextLocation
+    /// <param name="text">The text content.</param>
+    /// <param name="y">The Y-coordinate position.</param>
+    internal class TextLocation(string text, double y)
     {
         /// <summary>
         /// Gets or sets the text content at this location.
         /// </summary>
-        public string Text { get; set; }
+        public string Text { get; set; } = text;
 
         /// <summary>
         /// Gets or sets the Y-coordinate offset for this text line.
         /// </summary>
-        public double Y { get; set; }
-
-        /// <summary>
-        /// Initializes a new instance of the <see cref="TextLocation"/> class with specified text and Y coordinate.
-        /// </summary>
-        /// <param name="text">The text content.</param>
-        /// <param name="y">The Y-coordinate position.</param>
-        public TextLocation(string text, double y)
-        {
-            Text = text;
-            Y = y;
-        }
+        public double Y { get; set; } = y;
     }
 }

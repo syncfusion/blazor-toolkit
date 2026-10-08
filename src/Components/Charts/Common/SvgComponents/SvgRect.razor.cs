@@ -12,7 +12,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
     public partial class SvgRect
     {
         #region Fields
-        private CultureInfo _culture { get; set; } = CultureInfo.InvariantCulture;
+        private CultureInfo Culture { get; set; } = CultureInfo.InvariantCulture;
         #endregion
 
         #region Properties
@@ -162,7 +162,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
         /// suppressed so the node is not pulled into the keyboard tab order with no accessible name.
         /// </summary>
         private string EffectiveTabIndex =>
-            string.Equals(AriaHidden, "true", System.StringComparison.OrdinalIgnoreCase) ? string.Empty : TabIndex;
+            string.Equals(AriaHidden, "true", StringComparison.OrdinalIgnoreCase) ? string.Empty : TabIndex;
 
         /// <summary>
         /// Gets the effective ARIA role to emit on the element. When the rectangle is hidden
@@ -171,7 +171,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
         /// is contradictory and trips the axe <c>aria-allowed-attr</c> rule.
         /// </summary>
         private string EffectiveRole =>
-            string.Equals(AriaHidden, "true", System.StringComparison.OrdinalIgnoreCase) ? string.Empty : "img";
+            string.Equals(AriaHidden, "true", StringComparison.OrdinalIgnoreCase) ? string.Empty : "img";
         #endregion
     }
 }

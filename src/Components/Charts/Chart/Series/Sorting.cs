@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Components;
+﻿using System.Diagnostics.CodeAnalysis;
+using Microsoft.AspNetCore.Components;
 using Syncfusion.Blazor.Toolkit.Data;
 
 namespace Syncfusion.Blazor.Toolkit.Charts
@@ -26,8 +27,6 @@ namespace Syncfusion.Blazor.Toolkit.Charts
     {
         #region Fields
 
-        private string _propertyName = string.Empty;
-        private ListSortDirection _direction;
 
         #endregion
 
@@ -91,14 +90,14 @@ namespace Syncfusion.Blazor.Toolkit.Charts
         /// or <see cref="ClearSortKey"/> are visible to renderers without mutating the
         /// <see cref="PropertyName"/> parameter.
         /// </summary>
-        internal string SortKey => _propertyName;
+        internal string SortKey { get; private set; } = string.Empty;
 
         /// <summary>
         /// Gets the effective sort direction currently in use by the chart.
         /// Reads from the backing field so imperative updates via <see cref="SetSortKeyAndDirection"/>
         /// are visible to renderers without mutating the <see cref="Direction"/> parameter.
         /// </summary>
-        internal ListSortDirection SortDirection => _direction;
+        internal ListSortDirection SortDirection { get; private set; }
 
         #endregion
 
@@ -119,8 +118,8 @@ namespace Syncfusion.Blazor.Toolkit.Charts
                 return;
             }
             Parent._sorting = this;
-            _propertyName = PropertyName;
-            _direction = Direction;
+            SortKey = PropertyName;
+            SortDirection = Direction;
         }
 
         /// <exclude />
@@ -129,14 +128,18 @@ namespace Syncfusion.Blazor.Toolkit.Charts
         /// </summary>
         [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
         [System.ComponentModel.Browsable(false)]
+        [UnconditionalSuppressMessage("Trimming", "IL2026",
+            Justification = "OnParametersSet is a Blazor framework lifecycle override and cannot carry [RequiresUnreferencedCode]. It re-runs the chart data pipeline via RefreshChartAsync; that requirement is honestly surfaced on the public data APIs (RefreshAsync, Sort, ClearSort).")]
+        [UnconditionalSuppressMessage("AOT", "IL3050",
+            Justification = "OnParametersSet is a Blazor framework lifecycle override and cannot carry [RequiresDynamicCode]. It re-runs the chart data pipeline via RefreshChartAsync; that requirement is honestly surfaced on the public data APIs (RefreshAsync, Sort, ClearSort).")]
         protected override void OnParametersSet()
         {
             base.OnParametersSet();
 
-            if (_propertyName != PropertyName || _direction != Direction)
+            if (SortKey != PropertyName || SortDirection != Direction)
             {
-                _propertyName = PropertyName;
-                _direction = Direction;
+                SortKey = PropertyName;
+                SortDirection = Direction;
                 if (Parent is not null && Parent.IsRendered)
                 {
                     _ = Parent.RefreshChartAsync();
@@ -157,8 +160,8 @@ namespace Syncfusion.Blazor.Toolkit.Charts
         /// <param name="sortDirection">The desired <see cref="ListSortDirection"/>.</param>
         internal void SetSortKeyAndDirection(string sortKey, ListSortDirection sortDirection)
         {
-            _propertyName = sortKey;
-            _direction = sortDirection;
+            SortKey = sortKey;
+            SortDirection = sortDirection;
         }
 
         /// <summary>
@@ -168,7 +171,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts
         /// </summary>
         internal void ClearSortKey()
         {
-            _propertyName = string.Empty;
+            SortKey = string.Empty;
         }
 
         #endregion

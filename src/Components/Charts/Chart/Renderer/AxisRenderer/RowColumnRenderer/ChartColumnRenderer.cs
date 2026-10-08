@@ -6,7 +6,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
     /// <summary>
     /// Renders and manages column layout, sizing, and axis positioning for chart components.
     /// </summary>
-    public class ChartColumnRenderer : ChartRenderer, IChartElementRenderer
+    internal class ChartColumnRenderer : ChartRenderer, IChartElementRenderer
     {
         #region Properties
 

@@ -9,7 +9,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
     /// <summary>
     /// Represents a double precision numeric range with helper operations.
     /// </summary>
-    public struct DoubleRange
+    public readonly struct DoubleRange : IEquatable<DoubleRange>
     {
 
         #region Properties
@@ -27,7 +27,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
         /// <summary>
         /// Gets the delta (End - Start).
         /// </summary>
-        public readonly double Delta => End - Start;
+        public double Delta => End - Start;
 
         #endregion
 
@@ -52,12 +52,67 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
             }
         }
         #endregion
+
+        #region Equality
+
+        /// <summary>
+        /// Determines whether the specified <see cref="DoubleRange"/> is equal to the current instance.
+        /// </summary>
+        /// <param name="other">The range to compare with the current instance.</param>
+        /// <returns><c>true</c> if the ranges have the same start and end; otherwise, <c>false</c>.</returns>
+        public bool Equals(DoubleRange other)
+        {
+            return Start.Equals(other.Start) && End.Equals(other.End);
+        }
+
+        /// <summary>
+        /// Determines whether the specified object is equal to the current instance.
+        /// </summary>
+        /// <param name="obj">The object to compare with the current instance.</param>
+        /// <returns><c>true</c> if <paramref name="obj"/> is a <see cref="DoubleRange"/> with the same start and end; otherwise, <c>false</c>.</returns>
+        public override bool Equals(object? obj)
+        {
+            return obj is DoubleRange other && Equals(other);
+        }
+
+        /// <summary>
+        /// Returns the hash code for this instance.
+        /// </summary>
+        /// <returns>A hash code derived from the start and end values.</returns>
+        public override int GetHashCode()
+        {
+            return HashCode.Combine(Start, End);
+        }
+
+        /// <summary>
+        /// Determines whether two <see cref="DoubleRange"/> instances are equal.
+        /// </summary>
+        /// <param name="left">The first range to compare.</param>
+        /// <param name="right">The second range to compare.</param>
+        /// <returns><c>true</c> if the ranges are equal; otherwise, <c>false</c>.</returns>
+        public static bool operator ==(DoubleRange left, DoubleRange right)
+        {
+            return left.Equals(right);
+        }
+
+        /// <summary>
+        /// Determines whether two <see cref="DoubleRange"/> instances are not equal.
+        /// </summary>
+        /// <param name="left">The first range to compare.</param>
+        /// <param name="right">The second range to compare.</param>
+        /// <returns><c>true</c> if the ranges are not equal; otherwise, <c>false</c>.</returns>
+        public static bool operator !=(DoubleRange left, DoubleRange right)
+        {
+            return !left.Equals(right);
+        }
+
+        #endregion
     }
 
     /// <summary>
     /// Renderer responsible for axis layout and drawing.
     /// </summary>
-    public class ChartAxisRenderer : ChartRenderer, IChartElementRenderer
+    internal class ChartAxisRenderer : ChartRenderer, IChartElementRenderer
     {
         #region Constants
         private const double DEFAULT_LABEL_HEIGHT = 15.96;
@@ -789,6 +844,11 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
                         Angle = (Axis.Renderer.LabelIntersectAction == LabelIntersectAction.Rotate45) ? 45 : 90;
                     }
                     break;
+                case LabelIntersectAction.None:
+                case LabelIntersectAction.Hide:
+                case LabelIntersectAction.Trim:
+                case LabelIntersectAction.Wrap:
+                case null:
                 default:
                     if (isAxisLabelBreak)
                     {
@@ -1003,6 +1063,8 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
                     return !float.Parse(crossValue, null).Equals(float.NaN) ? float.Parse(crossValue, null) : Labels.IndexOf(crossValue);
                 case ValueType.Logarithmic:
                     return ChartHelper.LogBase(Convert.ToDouble(crossAt, null), axis.LogBase);
+                case ValueType.Double:
+                case ValueType.DateTimeCategory:
                 default:
                     return Convert.ToDouble(crossAt, Culture);
             }
@@ -1719,7 +1781,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
         /// <returns>A <see cref="DoubleRange"/> representing the final visible range.</returns>
         internal virtual DoubleRange CalculateVisibleRange(DoubleRange actualRange)
         {
-            if ((Axis?.ZoomFactor < 1 || Axis?.ZoomPosition > 0))
+            if (Axis?.ZoomFactor < 1 || Axis?.ZoomPosition > 0)
             {
                 actualRange = CalculateVisibleRangeOnZooming();
                 if (Axis.EnableAutoIntervalOnZooming && Axis.ValueType != ValueType.Category)
@@ -2014,7 +2076,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
         /// A date-formatted string when <see cref="DateFormat"/> is set; otherwise, the original
         /// <paramref name="pointValue"/> object.
         /// </returns>
-        internal virtual object GetFormatText(object pointValue)
+        internal virtual object? GetFormatText(object? pointValue)
         {
             return !string.IsNullOrEmpty(DateFormat) ? Intl.GetDateFormat(Convert.ToDateTime(Convert.ToString(pointValue, Culture), Culture), DateFormat) : pointValue;
         }

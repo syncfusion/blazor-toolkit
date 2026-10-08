@@ -121,7 +121,7 @@ var SfNumericTextBox = /** @class */ (function () {
         sfBlazorToolkit.base.EventHandler.add(this.element, EVENTS.DROP, this.dropHandler, this);
         sfBlazorToolkit.base.EventHandler.add(this.element, EVENTS.PASTE, this.pasteHandler, this);
 
-        if (sfBlazorToolkit.base.isDevice().IsDevice) {
+        if (sfBlazorToolkit.base.isDevice(true).IsDevice) {
             sfBlazorToolkit.base.EventHandler.add(document, EVENTS.SCROLL, this.scrollHandler);
         }
         sfBlazorToolkit.base.EventHandler.add(window, EVENTS.RESIZE, this.updateFloatLabelSize, this);
@@ -299,16 +299,16 @@ var SfNumericTextBox = /** @class */ (function () {
     SfNumericTextBox.prototype.keyDownHandler = function (event) {
         var iOS = /ipad|iphone|ipod|mac/.test(navigator.userAgent.toLowerCase());
         if (!this.options.readonly) {
-            if (sfBlazorToolkit.base.isDevice().IsDevice && !(event.keyCode === KEY_CODES.ARROW_UP || event.keyCode === KEY_CODES.ARROW_DOWN) && !(event.keyCode === KEY_CODES.BACK_SPACE)) {
+            if (sfBlazorToolkit.base.isDevice(true).IsDevice && !(event.keyCode === KEY_CODES.ARROW_UP || event.keyCode === KEY_CODES.ARROW_DOWN) && !(event.keyCode === KEY_CODES.BACK_SPACE)) {
                 if (!(this.numericRegex().test(this.keyCharCodeHelper(event)) || this.numericRegex().test(this.keyHelper(event)))) {
-                    if (iOS && sfBlazorToolkit.base.isDevice().IsDevice) {
+                    if (iOS && sfBlazorToolkit.base.isDevice(true).IsDevice) {
                         this.preventHandler();
                     } else {
                         event.preventDefault();
                     }
                 }
             }
-            if (!iOS && sfBlazorToolkit.base.isDevice().IsDevice) {
+            if (!iOS && sfBlazorToolkit.base.isDevice(true).IsDevice) {
                 this.preventHandler();
             }
             if (event.keyCode === KEY_CODES.ARROW_UP) {
@@ -365,9 +365,10 @@ var SfNumericTextBox = /** @class */ (function () {
      * Handles blur/focus out events.
      * @param {FocusEvent} event 
      */
-    SfNumericTextBox.prototype.focusOutHandler = function (event) {
+    SfNumericTextBox.prototype.focusOutHandler = function () {
+        // Do not cancel the blur. preventDefault() here aborts the pending Tab
+        // focus move, so the next control (clear/spin button) never receives focus.
         this.isFocused = false;
-        event.preventDefault();
     };
 
     /**
@@ -405,11 +406,11 @@ var SfNumericTextBox = /** @class */ (function () {
         if (!this.options.disabled && !this.options.readonly) {
             if (this.isPrevFocused) {
                 this.element.focus();
-                if (!sfBlazorToolkit.base.isDevice().IsDevice && event.cancelable) {
+                if (!sfBlazorToolkit.base.isDevice(true).IsDevice && event.cancelable) {
                     this.isPrevFocused = false;
                 }
             }
-            if (!sfBlazorToolkit.base.isDevice().IsDevice) {
+            if (!sfBlazorToolkit.base.isDevice(true).IsDevice) {
                 event.preventDefault();
             }
             if (!this.getElementData(event)) {
@@ -465,10 +466,10 @@ var SfNumericTextBox = /** @class */ (function () {
     SfNumericTextBox.prototype.selectRange = function (formatValue) {
         var _this = this;
         clearTimeout(selectionTimeOut);
-        if (!sfBlazorToolkit.base.isDevice().IsDevice && sfBlazorToolkit.base.Browser.info.version === CONFIG.IE_VERSION) {
+        if (!sfBlazorToolkit.base.isDevice(true).IsDevice && sfBlazorToolkit.base.Browser.info.version === CONFIG.IE_VERSION) {
             this.element.setSelectionRange(0, formatValue.length);
         } else {
-            var delay = (sfBlazorToolkit.base.isDevice().IsDevice && sfBlazorToolkit.base.Browser.isIos) ? CONFIG.MOBILE_INTERVAL_TIME : CONFIG.INTERVAL_TIME;
+            var delay = (sfBlazorToolkit.base.isDevice(true).IsDevice && sfBlazorToolkit.base.Browser.isIos) ? CONFIG.MOBILE_INTERVAL_TIME : CONFIG.INTERVAL_TIME;
             selectionTimeOut = setTimeout(function () {
                 if (!sfBlazorToolkit.base.isNullOrUndefined(_this.element) && _this.element.type !== 'number') {
                     _this.element.setSelectionRange(0, formatValue.length);
@@ -478,7 +479,7 @@ var SfNumericTextBox = /** @class */ (function () {
     };
 
     SfNumericTextBox.prototype.isDevice = function () {
-        return sfBlazorToolkit.base.isDevice().IsDevice;
+        return sfBlazorToolkit.base.isDevice(true).IsDevice;
     };
 
     SfNumericTextBox.prototype.spinButtonEvents = function () {
@@ -515,7 +516,7 @@ var SfNumericTextBox = /** @class */ (function () {
         sfBlazorToolkit.base.EventHandler.remove(this.element, EVENTS.KEY_DOWN, this.keyDownHandler);
         sfBlazorToolkit.base.EventHandler.remove(this.element, EVENTS.DROP, this.dropHandler);
         sfBlazorToolkit.base.EventHandler.remove(this.element, EVENTS.PASTE, this.pasteHandler);
-        if (sfBlazorToolkit.base.isDevice().IsDevice) {
+        if (sfBlazorToolkit.base.isDevice(true).IsDevice) {
             sfBlazorToolkit.base.EventHandler.remove(document, EVENTS.SCROLL, this.scrollHandler);
         }
         this.spinDown = null;

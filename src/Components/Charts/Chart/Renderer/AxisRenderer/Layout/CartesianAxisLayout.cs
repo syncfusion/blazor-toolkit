@@ -38,17 +38,17 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
         /// <summary>
         /// Gets the end position of the previously rendered axis, used for label overlap detection.
         /// </summary>
-        internal static double _previousAxisEnd;
+        internal double _previousAxisEnd;
 
         /// <summary>
         /// Gets the starting X coordinate of the previously rendered axis.
         /// </summary>
-        internal static double _previousStartX;
+        internal double _previousStartX;
 
         /// <summary>
         /// Gets a reference to the previously rendered axis for inter-axis label collision handling.
         /// </summary>
-        internal static ChartAxis? _previousAxis;
+        internal ChartAxis? _previousAxis;
 
         #endregion
 

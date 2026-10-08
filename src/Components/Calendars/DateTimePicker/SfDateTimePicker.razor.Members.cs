@@ -223,6 +223,6 @@ namespace Syncfusion.Blazor.Toolkit.Calendars
         /// </summary>
         /// <exclude />
         [CascadingParameter(Name = "InPlaceEditor")]
-        protected dynamic? DateTimePickerParent { get; set; }
+        protected object? DateTimePickerParent { get; set; }
     }
 }

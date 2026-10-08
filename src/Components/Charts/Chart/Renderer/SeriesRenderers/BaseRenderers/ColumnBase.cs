@@ -5,7 +5,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
     /// Base renderer for column/bar style series. Contains shared geometry and layout helpers
     /// used by concrete column/bar renderers.
     /// </summary>
-    public abstract class ColumnBaseRenderer : ChartSeriesRenderer
+    internal abstract class ColumnBaseRenderer : ChartSeriesRenderer
     {
         #region Constants
         /// <summary>
@@ -20,7 +20,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
         /// Collection of path rendering options produced by the renderer.
         /// </summary>
         /// <value>List of <see cref="PathOptions"/> used for drawing column shapes.</value>
-        protected List<PathOptions> ColumnPathOptions { get; set; } = [];
+        protected IList<PathOptions> ColumnPathOptions { get; set; } = [];
 
         /// <summary>
         /// Accessibility text for the last-calculated point during path generation.
@@ -416,14 +416,15 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
                     UpdateYRegion(point, rect);
                 }
 
-                point.SymbolLocations.ForEach(loc =>
+                foreach (ChartEventLocation loc in point.SymbolLocations)
                 {
                     ChartPoints?[point.Index]?.SymbolLocations.Add(new IChartInternalLocation(Math.Round(loc.X, 2), Math.Round(loc.Y, 2)));
-                });
-                point.Regions.ForEach(rect =>
+                }
+
+                foreach (Rect region in point.Regions)
                 {
-                    ChartPoints?[point.Index]?.Regions.Add(new IRect(Math.Round(rect.X, 2), Math.Round(rect.Y, 2), rect.Width, rect.Height));
-                });
+                    ChartPoints?[point.Index]?.Regions.Add(new IRect(Math.Round(region.X, 2), Math.Round(region.Y, 2), region.Width, region.Height));
+                }
             }
         }
 
@@ -574,24 +575,47 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
         {
             base.UpdateCustomization(property);
             string visibility = ((Series is not null && Series.Animation.Enable && SyncfusionService?._options.Animation == GlobalAnimationMode.Default) || (SyncfusionService?._options.Animation == GlobalAnimationMode.Enable)) && Owner is not null && Owner._shouldAnimateSeries ? "hidden" : "visible";
-            ColumnPathOptions.ForEach(option => option.Visibility = visibility);
+            foreach (PathOptions option in ColumnPathOptions)
+            {
+                option.Visibility = visibility;
+            }
 
             switch (property)
             {
                 case "Fill":
-                    ColumnPathOptions.ForEach(option => option.Fill = Interior ?? string.Empty);
+                    foreach (PathOptions option in ColumnPathOptions)
+                    {
+                        option.Fill = Interior ?? string.Empty;
+                    }
+
                     break;
                 case "DashArray":
-                    ColumnPathOptions.ForEach(option => option.StrokeDashArray = Series?.DashArray ?? string.Empty);
+                    foreach (PathOptions option in ColumnPathOptions)
+                    {
+                        option.StrokeDashArray = Series?.DashArray ?? string.Empty;
+                    }
+
                     break;
                 case "Width":
-                    ColumnPathOptions.ForEach(option => option.StrokeWidth = Series?.Border.Width ?? 0);
+                    foreach (PathOptions option in ColumnPathOptions)
+                    {
+                        option.StrokeWidth = Series?.Border.Width ?? 0;
+                    }
+
                     break;
                 case "Color":
-                    ColumnPathOptions.ForEach(option => option.Stroke = Series?.Border.Color ?? string.Empty);
+                    foreach (PathOptions option in ColumnPathOptions)
+                    {
+                        option.Stroke = Series?.Border.Color ?? string.Empty;
+                    }
+
                     break;
                 case "Opacity":
-                    ColumnPathOptions.ForEach(option => option.Opacity = Series?.Opacity ?? 1);
+                    foreach (PathOptions option in ColumnPathOptions)
+                    {
+                        option.Opacity = Series?.Opacity ?? 1;
+                    }
+
                     break;
                 default:
                     break;

@@ -8,6 +8,16 @@
 	<Authors>Syncfusion Inc.</Authors>
 	<IsTrimmable>true</IsTrimmable>
     <IsAotCompatible>true</IsAotCompatible>
+	<!--
+	  Trim / AOT analyzers are implied by IsAotCompatible on net8.0+, but we
+	  set them explicitly so the trim (IL2xxx) and AOT (IL3xxx) analyzers are
+	  always on regardless of how the project is consumed. TrimmerSingleWarn=false
+	  makes the analyzer report every individual trim/AOT finding instead of
+	  collapsing them into a single per-assembly warning.
+	-->
+	<EnableTrimAnalyzer>true</EnableTrimAnalyzer>
+	<EnableAotAnalyzer>true</EnableAotAnalyzer>
+	<TrimmerSingleWarn>false</TrimmerSingleWarn>
 	<TargetFrameworks>net8.0;net9.0;net10.0</TargetFrameworks>
 	<!-- Copyright year is derived from the build clock so the stamp advances automatically each year. -->
 	<Copyright>Copyright 2001 - $([System.DateTime]::UtcNow.Year) Syncfusion® Inc.</Copyright>

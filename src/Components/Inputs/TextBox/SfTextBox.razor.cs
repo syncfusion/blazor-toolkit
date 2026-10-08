@@ -18,11 +18,11 @@ namespace Syncfusion.Blazor.Toolkit.Inputs
     /// <list type="bullet">
     /// <item><description>Support for floating labels (<see cref="FloatLabelType.Auto"/>, <see cref="FloatLabelType.Always"/>, <see cref="FloatLabelType.Never"/>).</description></item>
     /// <item><description>Built-in clear button with customizable behavior through <see cref="ShowClearButton"/>.</description></item>
-    /// <item><description>Input validation with visual feedback integrated with Blazor's <see cref="Microsoft.AspNetCore.Components.Forms.EditContext"/>.</description></item>
+    /// <item><description>Input validation with visual feedback integrated with Blazor's <see cref="EditContext"/>.</description></item>
     /// <item><description>Accessibility features with ARIA support. The native <c>textbox</c> role
-/// is announced by screen readers; the component forwards the public <see cref="SfInputBase{TValue}.AriaLabel"/>
-/// parameter to <c>aria-label</c> only when the caller supplies one. No generic fallback string is emitted
-/// to avoid redundant announcements such as "textbox, edit".</description></item>
+    /// is announced by screen readers; the component forwards the public <see cref="SfInputBase{TValue}.AriaLabel"/>
+    /// parameter to <c>aria-label</c> only when the caller supplies one. No generic fallback string is emitted
+    /// to avoid redundant announcements such as "textbox, edit".</description></item>
     /// <item><description>State persistence across browser sessions when <see cref="SfInputBase{TValue}.EnablePersistence"/> is enabled.</description></item>
     /// <item><description>Customizable styling and theming through <see cref="SfInputBase{TValue}.CssClass"/> and supported themes.</description></item>
     /// </list>
@@ -41,7 +41,6 @@ namespace Syncfusion.Blazor.Toolkit.Inputs
         private const string AUTOCOMPLETE = "autocomplete";
         private const string OUTLINE = "e-outline";
         private const string ARIA_LABEL = "aria-label";
-        private const string ARIA_LABELLEDBY = "aria-labelledby";
         private const string ARIA_DESCRIBEDBY = "aria-describedby";
         private const string ARIA_INVALID = "aria-invalid";
         private const string TRUE = "true";
@@ -310,7 +309,7 @@ namespace Syncfusion.Blazor.Toolkit.Inputs
         /// <item><description>Updates previous value tracking for subsequent change detection.</description></item>
         /// <item><description>Restores focus to the input element for continued interaction.</description></item>
         /// </list>
-        /// <para>The delay is necessary to ensure proper sequencing in Blazor's rendering pipeline. Setting <c>CurrentValueAsString</c> to <see langword="null"/> triggers a re-render that updates the DOM with an empty input field; the delay allows the browser to complete the DOM update and visual refresh cycle. Without it, <c>SetValueAsync</c> may execute before the DOM update completes, leading to state inconsistencies in <see cref="Microsoft.AspNetCore.Components.Forms.EditContext"/> validation, floating labels, and CSS classes.</para>
+        /// <para>The delay is necessary to ensure proper sequencing in Blazor's rendering pipeline. Setting <c>CurrentValueAsString</c> to <see langword="null"/> triggers a re-render that updates the DOM with an empty input field; the delay allows the browser to complete the DOM update and visual refresh cycle. Without it, <c>SetValueAsync</c> may execute before the DOM update completes, leading to state inconsistencies in <see cref="EditContext"/> validation, floating labels, and CSS classes.</para>
         /// </remarks>
         private async Task InvokeClearBtnEventAsync(EventArgs args)
         {
@@ -462,7 +461,7 @@ namespace Syncfusion.Blazor.Toolkit.Inputs
         /// Implements WCAG 3.3.1 (Error Identification) and 4.1.2 (Name, Role, Value).
         /// When the field becomes valid, <c>aria-invalid</c> is removed entirely and any
         /// <c>err_</c> token previously appended to <c>aria-describedby</c> is left in place
-        /// only if it was the sole value (a user-supplied <see cref="AriaDescribedBy"/> is
+        /// only if it was the sole value (a user-supplied <see cref="SfInputBase{TValue}.AriaDescribedBy"/> is
         /// never overwritten).
         /// </remarks>
         private void SyncInvalidAriaState()

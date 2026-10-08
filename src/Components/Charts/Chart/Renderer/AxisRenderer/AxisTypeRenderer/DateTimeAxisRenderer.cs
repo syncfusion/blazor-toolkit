@@ -5,7 +5,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
     /// <summary>
     /// Renders a datetime axis with proper start/end alignment, interval calculations, and label generation.
     /// </summary>
-    public class DateTimeAxisRenderer : DateTimeBase
+    internal class DateTimeAxisRenderer : DateTimeBase
     {
         #region Private Methods
 

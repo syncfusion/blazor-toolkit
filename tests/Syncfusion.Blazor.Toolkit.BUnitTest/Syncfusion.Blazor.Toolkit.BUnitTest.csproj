@@ -10,6 +10,11 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <!-- Exclude nested project build artifacts while retaining their test sources. -->
+    <Compile Remove="**/obj/**/*.cs;**/bin/**/*.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
 	<PackageReference Include="bunit" Version="1.10.14" />
 	<PackageReference Include="bunit.web.testcomponents" Version="1.10.14" />
 	<PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.1.0" />

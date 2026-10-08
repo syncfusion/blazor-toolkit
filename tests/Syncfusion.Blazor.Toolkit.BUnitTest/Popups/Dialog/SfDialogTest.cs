@@ -913,7 +913,7 @@ namespace Syncfusion.Blazor.Toolkit.Tests.Dialog
         {
             var component = RenderComponent<SfDialog>(options => options.AddChildContent<DialogButtons>(p =>
                 p.AddChildContent<DialogButton>(a => a.Add(i => i.Content, "My Content1").Add(i => i.IsPrimary, true))));
-            List<DialogButton>? buttonItems = component.Instance.GetButtonItems();
+            IList<DialogButton>? buttonItems = component.Instance.GetButtonItems();
             Assert.Single(buttonItems!);
         }
 
@@ -923,7 +923,7 @@ namespace Syncfusion.Blazor.Toolkit.Tests.Dialog
             var component = RenderComponent<SfDialog>(options => options.AddChildContent<DialogButtons>(p =>
                 p.AddChildContent<DialogButton>(a => a.Add(i => i.Content, "My Content1").Add(i => i.IsPrimary, true)).AddChildContent<DialogButton>(a =>
                 a.Add(i => i.Content, "My Content2"))));
-            List<DialogButton>? buttonItems = component.Instance.GetButtonItems();
+            IList<DialogButton>? buttonItems = component.Instance.GetButtonItems();
             Assert.Equal(2, buttonItems!.Count);
         }
 
